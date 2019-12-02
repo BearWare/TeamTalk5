@@ -1574,12 +1574,15 @@ jbyteArray setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock
     {
         int size = audblock.nSamples * sizeof(short) * audblock.nChannels;
         jbyteArray buf = env->NewByteArray(size);
-        jbyte* bufptr = env->GetByteArrayElements(buf, 0);
-        if(!bufptr)
-            return nullptr;
-        memcpy(bufptr, audblock.lpRawAudio, size);
-        env->ReleaseByteArrayElements(buf, bufptr, 0);
-
+        if (size > 0)
+        {
+            jbyte* bufptr = env->GetByteArrayElements(buf, 0);
+            if(!bufptr)
+                return nullptr;
+            memcpy(bufptr, audblock.lpRawAudio, size);
+            env->ReleaseByteArrayElements(buf, bufptr, 0);
+        }
+        
         env->SetIntField(lpAudioBlock, fid_sid, audblock.nStreamID);
         env->SetIntField(lpAudioBlock, fid_sr, audblock.nSampleRate);
         env->SetIntField(lpAudioBlock, fid_ch, audblock.nChannels);
@@ -1595,7 +1598,8 @@ jbyteArray setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock
         audblock.nSamples = env->GetIntField(lpAudioBlock, fid_sn);
         audblock.uSampleIndex = env->GetIntField(lpAudioBlock, fid_si);
         jbyteArray byteArr = jbyteArray(env->GetObjectField(lpAudioBlock, fid_audbuf));
-        audblock.lpRawAudio = env->GetByteArrayElements(byteArr, nullptr);
+        if (byteArr)
+            audblock.lpRawAudio = env->GetByteArrayElements(byteArr, nullptr);
         return byteArr;
     }
     return nullptr;

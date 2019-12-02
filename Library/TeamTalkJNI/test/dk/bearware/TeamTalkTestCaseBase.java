@@ -26,6 +26,7 @@ package dk.bearware;
 import java.util.Vector;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import junit.framework.TestCase;
 
@@ -515,4 +516,14 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         }
         return buffer;
     }
+
+    static byte[] generateToneAsByte(int freq, int samplerate, int channels, int durationMSec) {
+        short[] tone = generateTone(freq, samplerate, channels, durationMSec);
+        ByteBuffer buf = ByteBuffer.allocate(tone.length * 2);
+        for(int i = 0; i<tone.length; ++i) {
+            buf.putShort(tone[i]);    
+        }
+        return buf.array();
+    }
+
 }

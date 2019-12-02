@@ -3138,6 +3138,18 @@ extern "C" {
          CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070,
 
         /**
+         * @brief Progress is audio being injected as
+         * #STREAMTYPE_VOICE.
+         *
+         * @c nStreamID of #AudioInputProgress is the stream ID
+         * provided in the #AudioBlock when calling
+         * TT_InsertAudioBlock().
+         *
+         * When @c uElapsedMSec and @c uQueueMSec of
+         * #AudioInputProgress are zero then the stream ID (session)
+         * has ended. An audio input session has ended when an empty
+         * #AudioBlock has been inserted using TT_InsertAudioBlock().
+         *
          * @param nSource Stream ID used for sending audio input.
          * The stream ID will appear in #AudioBlock's @c nStreamID
          * on the receiving side.

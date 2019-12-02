@@ -374,7 +374,8 @@ extern "C" {
         AudioBlock ab = {};
         auto byteArr = setAudioBlock(env, ab, lpAudioBlock, J2N);
         jboolean b = TT_InsertAudioBlock(reinterpret_cast<TTInstance*>(lpTTInstance), &ab);
-        env->ReleaseByteArrayElements(byteArr, reinterpret_cast<jbyte*>(ab.lpRawAudio), JNI_ABORT);
+        if (byteArr)
+            env->ReleaseByteArrayElements(byteArr, reinterpret_cast<jbyte*>(ab.lpRawAudio), JNI_ABORT);
         return b;
     }
     
