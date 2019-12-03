@@ -42,6 +42,7 @@
 #include <avstream/MediaPlayback.h>
 
 #include <avstream/MediaStreamer.h>
+#include <avstream/AudioInputStreamer.h>
 
 // ACE
 #include <ace/Reactor.h>
@@ -93,6 +94,7 @@ enum ClientTimer
     TIMER_DESKTOPNAKPACKET_TIMEOUT_ID       = 9,
     TIMER_BUILD_DESKTOPPACKETS_ID           = 10,
     TIMER_QUERY_MTU_ID                      = 11,
+    TIMER_STOP_AUDIOINPUT                   = 12,
 
     //User instance timers (termination not handled by ClientNode::StopTimer())
     USER_TIMER_MASK                         = 0x8000,
@@ -253,7 +255,6 @@ namespace teamtalk {
         , public TimerListener
         , public soundsystem::StreamCapture
         , public soundsystem::StreamDuplex
-        , public MediaStreamListener
         , public FileTransferListener
         , public EventSuspender
     {
@@ -307,11 +308,11 @@ namespace teamtalk {
         bool SetSoundOutputVolume(int volume);
         int GetSoundOutputVolume();
 
-        void EnableVoiceTransmission(bool enable);
+        bool EnableVoiceTransmission(bool enable);
         int GetCurrentVoiceLevel();
         void SetVoiceActivationLevel(int voicelevel);
         int GetVoiceActivationLevel();
-        void EnableVoiceActivation(bool enable);
+        bool EnableVoiceActivation(bool enable);
         void SetVoiceActivationStoppedDelay(int msec);
         int GetVoiceActivationStoppedDelay();
 
@@ -320,7 +321,9 @@ namespace teamtalk {
 
         void EnableAudioBlockCallback(int userid, StreamType stream_type,
                                       bool enable);
-
+        
+        bool QueueAudioInput(const media::AudioFrame& frm, int streamid);
+        
         bool MuteAll(bool muteall);
 
         void SetVoiceGainLevel(int gainlevel);
@@ -449,15 +452,17 @@ namespace teamtalk {
                                       ACE_Message_Block* mb_video);
 
         //Media stream listener - separate thread
-        bool MediaStreamVideoCallback(MediaStreamer* streamer,
-                                      media::VideoFrame& video_frame,
+        bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                       ACE_Message_Block* mb_video);
-        bool MediaStreamAudioCallback(MediaStreamer* streamer,
-                                      media::AudioFrame& audio_frame,
+        bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
                                       ACE_Message_Block* mb_audio);
-        void MediaStreamStatusCallback(MediaStreamer* streamer,
-                                       const MediaFileProp& mfp,
+        void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                        MediaStreamStatus status);
+
+        // AudioInputStreamer listener - separate thread
+        bool AudioInputCallback(media::AudioFrame& audio_frame,
+                                ACE_Message_Block* mb_audio);
+        void AudioInputStatusCallback(const AudioInputStatus& ais);
 
         void OnFileTransferStatus(const teamtalk::FileTransfer& transfer);
 
@@ -663,7 +668,7 @@ namespace teamtalk {
         uint8_t m_vidcap_stream_id; //0 means not used
 
         //media streamer to channels
-        media_streamer_t m_media_streamer;
+        mediafile_streamer_t m_mediafile_streamer;
         uint8_t m_mediafile_stream_id; //0 means not used
 
         //encode audio of media file
@@ -676,6 +681,9 @@ namespace teamtalk {
         // local playback of media files
         std::map<int, mediaplayback_t> m_mediaplayback_streams;
         uint16_t m_mediaplayback_counter = 0;
+
+        // audio input streamer (replaces voice stream)
+        audioinput_streamer_t m_audioinput_voice;
 
         //desktop session
         desktop_initiator_t m_desktop;
@@ -775,6 +783,8 @@ namespace teamtalk {
 
         virtual void OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mfp,
                                               MediaFileStatus status) = 0;
+
+        virtual void OnAudioInputStatus(int voicestreamid, const AudioInputStatus& progress) = 0;
 
         virtual void OnUserAudioBlock(int userid, StreamType stream_type) = 0;
 

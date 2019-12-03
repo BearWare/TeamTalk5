@@ -190,10 +190,11 @@ bool SetWaveMediaType(SampleFormat sampleFmt, int channels,
     return true;
 }
 
-DMOResampler::DMOResampler()
-    : m_pDMO(NULL)
-    , m_mt_input()
-    , m_mt_output()
+DMOResampler::DMOResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
+                           int fixed_input_samples)
+: AudioResampler(informat, outformat, fixed_input_samples)
+, m_mt_input()
+, m_mt_output()
 {
 }
 
@@ -202,9 +203,7 @@ DMOResampler::~DMOResampler()
     Close();
 }
 
-bool DMOResampler::Init(SampleFormat inputSampleFmt, int input_channels,
-                       int input_samplerate, SampleFormat outputSampleFmt,
-                       int output_channels, int output_samplerate)
+bool DMOResampler::Init(SampleFormat inputSampleFmt, SampleFormat outputSampleFmt)
 {
     if(m_pDMO)
         return false;
@@ -231,9 +230,9 @@ bool DMOResampler::Init(SampleFormat inputSampleFmt, int input_channels,
     if (FAILED(hr))
         goto fail;
 
-    if(!SetWaveMediaType(inputSampleFmt, input_channels, input_samplerate, m_mt_input))
+    if(!SetWaveMediaType(inputSampleFmt, GetInputFormat().channels, GetInputFormat().samplerate, m_mt_input))
         goto fail;
-    if(!SetWaveMediaType(outputSampleFmt, output_channels, output_samplerate, m_mt_output))
+    if(!SetWaveMediaType(outputSampleFmt, GetOutputFormat().channels, GetOutputFormat().samplerate, m_mt_output))
         goto fail;
 
     hr = m_pDMO->SetInputType(0, &m_mt_input, 0);

@@ -68,10 +68,14 @@ namespace media
             width = height = fps_numerator = fps_denominator = 0;
             fourcc = FOURCC_NONE;
         }
-        bool operator==(const VideoFormat& fmt)
-            {
-                return memcmp(&fmt, this, sizeof(*this)) == 0;
-            }
+        bool operator==(const VideoFormat& fmt) const
+        {
+            return memcmp(&fmt, this, sizeof(*this)) == 0;
+        }
+        bool operator!=(const VideoFormat& fmt) const
+        {
+            return memcmp(&fmt, this, sizeof(*this)) != 0;
+        }
 
         bool IsValid() const { return width > 0 && height > 0; }
     };
@@ -85,6 +89,15 @@ namespace media
 
         AudioFormat(int sr, int chans) : samplerate(sr), channels(chans) {}
         AudioFormat() {}
+
+        bool operator==(const AudioFormat& fmt) const
+        {
+            return memcmp(&fmt, this, sizeof(*this)) == 0;
+        }
+        bool operator!=(const AudioFormat& fmt) const
+        {
+            return memcmp(&fmt, this, sizeof(*this)) != 0;
+        }
     };
 
     struct AudioFrame
@@ -121,8 +134,15 @@ namespace media
 
         AudioFrame(ACE_Message_Block* mb)
         {
-            AudioFrame* frm = reinterpret_cast<AudioFrame*>(mb->rd_ptr());
+            AudioFrame* frm = reinterpret_cast<AudioFrame*>(mb->base());
             *this = *frm;
+        }
+
+        uint32_t InputDurationMSec() const
+        {
+            if (!inputfmt.IsValid())
+                return 0;
+            return (input_samples * 1000) / inputfmt.samplerate;
         }
     };
 
@@ -185,6 +205,7 @@ ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
 media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb);
 
 ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame);
+media::AudioFrame* AudioFrameFromMsgBlock(ACE_Message_Block* mb);
 
 void SplitStereo(const short* input_buffer, int input_samples,
                  std::vector<short>& left_chan, std::vector<short>& right_chan);

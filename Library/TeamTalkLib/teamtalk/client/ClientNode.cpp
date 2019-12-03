@@ -600,6 +600,10 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
     case TIMER_QUERY_MTU_ID :
         ret = Timer_QueryMTU(userdata);
         break;
+    case TIMER_STOP_AUDIOINPUT :
+        m_audioinput_voice.reset();
+        ret = -1;
+        break;
     case USER_TIMER_VOICE_PLAYBACK_ID :
     {
         clientuser_t user = GetUser(userid);
@@ -1009,11 +1013,9 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
         //get callback size for new samplerate
         input_samples = CalcSamples(codec_samplerate, codec_samples,
                                     input_samplerate);
-
-        m_capture_resampler = MakeAudioResampler(input_channels,
-                                                 input_samplerate,
-                                                 codec_channels,
-                                                 codec_samplerate);
+        media::AudioFormat infmt(input_samplerate, input_channels),
+            outfmt(codec_samplerate, codec_channels);
+        m_capture_resampler = MakeAudioResampler(infmt, outfmt);
 
         if (!m_capture_resampler)
         {
@@ -1039,11 +1041,10 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
         assert(dev.SupportsOutputFormat(output_channels, input_samplerate));
         if(!dev.SupportsOutputFormat(output_channels, input_samplerate))
         {
-            m_playback_resampler = MakeAudioResampler(output_channels,
-                                                      input_samplerate, //sample rate shared in dpx mode
-                                                      codec_channels,
-                                                      codec_samplerate);
-
+            media::AudioFormat infmt(input_samplerate, output_channels),
+                outfmt(codec_samplerate, codec_channels);
+            m_playback_resampler = MakeAudioResampler(infmt, //sample rate shared in dpx mode
+                                                      outfmt);
             if (!m_playback_resampler)
             {
                 m_playback_resampler.reset();
@@ -1443,8 +1444,7 @@ bool ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
     }
 }
 
-bool ClientNode::MediaStreamVideoCallback(MediaStreamer* streamer,
-                                          media::VideoFrame& video_frame,
+bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                           ACE_Message_Block* mb_video)
 {
     TTASSERT(m_flags & CLIENT_STREAM_VIDEOFILE);
@@ -1463,8 +1463,7 @@ bool ClientNode::MediaStreamVideoCallback(MediaStreamer* streamer,
     return true; //m_video_thread always takes ownership
 }
 
-bool ClientNode::MediaStreamAudioCallback(MediaStreamer* streamer,
-                                          AudioFrame& audio_frame,
+bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
                                           ACE_Message_Block* mb_audio)
 {
     TTASSERT(m_flags & CLIENT_STREAM_AUDIOFILE);
@@ -1492,8 +1491,7 @@ bool ClientNode::MediaStreamAudioCallback(MediaStreamer* streamer,
     return true;  //m_video_thread always takes ownership
 }
 
-void ClientNode::MediaStreamStatusCallback(MediaStreamer* streamer,
-                                           const MediaFileProp& mfp,
+void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
                                            MediaStreamStatus status)
 {
     TTASSERT(m_flags & (CLIENT_STREAM_AUDIOFILE | CLIENT_STREAM_VIDEOFILE));
@@ -1527,6 +1525,29 @@ void ClientNode::MediaStreamStatusCallback(MediaStreamer* streamer,
     }
 
     m_listener->OnChannelStreamMediaFile(mfp, mfs);
+}
+
+bool ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
+                                    ACE_Message_Block* mb_audio)
+{
+    assert(mb_audio);
+    audio_frame.force_enc = true;
+    audio_frame.userdata = STREAMTYPE_VOICE;
+
+    m_voice_thread.QueueAudio(mb_audio);
+    return true;
+}
+
+void ClientNode::AudioInputStatusCallback(const AudioInputStatus& ais)
+{
+    if (ais.elapsed_msec == 0 && ais.queueduration_msec == 0)
+    {
+        //schedule timer to kill 'm_audioinput_voice'
+        long ret = StartTimer(TIMER_STOP_AUDIOINPUT, ais.streamid, ACE_Time_Value::zero);
+        assert(ret >= 0);
+    }
+
+    m_listener->OnAudioInputStatus(m_voice_stream_id, ais);
 }
 
 void ClientNode::OnFileTransferStatus(const teamtalk::FileTransfer& transfer)
@@ -2807,10 +2828,13 @@ int ClientNode::GetSoundOutputVolume()
     return m_soundsystem->GetMasterVolume(m_soundprop.soundgroupid);
 }
 
-void ClientNode::EnableVoiceTransmission(bool enable)
+bool ClientNode::EnableVoiceTransmission(bool enable)
 {
     ASSERT_REACTOR_LOCKED(this);
 
+    if (m_audioinput_voice)
+        return false;
+    
     if(enable)
     {
         m_flags |= CLIENT_TX_VOICE;
@@ -2826,16 +2850,22 @@ void ClientNode::EnableVoiceTransmission(bool enable)
         m_voice_tx_closed = (m_flags & CLIENT_TX_VOICE);
         m_flags &= ~CLIENT_TX_VOICE;
     }
+    
+    return true;
 }
 
 int ClientNode::GetCurrentVoiceLevel()
 {
     return m_voice_thread.m_voicelevel;
 }
-void ClientNode::EnableVoiceActivation(bool enable)
+
+bool ClientNode::EnableVoiceActivation(bool enable)
 {
     ASSERT_REACTOR_LOCKED(this);
 
+    if (m_audioinput_voice)
+        return false;
+    
     if(enable)
         m_flags |= CLIENT_SNDINPUT_VOICEACTIVATED;
     else
@@ -2843,6 +2873,8 @@ void ClientNode::EnableVoiceActivation(bool enable)
         m_flags &= ~CLIENT_SNDINPUT_VOICEACTIVATED;
         m_flags &= ~CLIENT_SNDINPUT_VOICEACTIVE;
     }
+
+    return true;
 }
 void ClientNode::SetVoiceActivationLevel(int voicelevel)
 {
@@ -2895,6 +2927,56 @@ void ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
         AUDIOCONTAINER::instance()->RemoveSoundSource(m_soundprop.soundgroupid,
                                                       userid, stream_type);
 }
+
+bool ClientNode::QueueAudioInput(const media::AudioFrame& frm, int streamid)
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    if (GetFlags() & (CLIENT_TX_VOICE | CLIENT_SNDINPUT_VOICEACTIVATED))
+        return false;
+
+    if (!m_mychannel)
+        return false;
+
+    if (TimerExists(TIMER_STOP_AUDIOINPUT))
+    {
+        StopTimer(TIMER_STOP_AUDIOINPUT);
+        m_audioinput_voice.reset();
+    }
+
+    if (frm.input_samples == 0)
+    {
+        if (m_audioinput_voice)
+            m_audioinput_voice->Flush();
+
+        return true;
+    }
+
+    if (m_audioinput_voice && streamid != m_audioinput_voice->GetStreamID())
+        m_audioinput_voice.reset();
+
+    if (!m_audioinput_voice)
+    {
+        m_audioinput_voice.reset(new AudioInputStreamer(streamid));
+
+        m_audioinput_voice->RegisterAudioCallback(std::bind(&ClientNode::AudioInputCallback, this, _1, _2), true);
+        m_audioinput_voice->RegisterAudioInputStatusCallback(std::bind(&ClientNode::AudioInputStatusCallback, this, _1), true);
+
+        media::AudioFormat infmt = GetAudioCodecAudioFormat(m_mychannel->GetAudioCodec());
+        int cbsamples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());
+        if (!m_audioinput_voice->Open(MediaStreamOutput(infmt, cbsamples)) ||
+            !m_audioinput_voice->StartStream())
+        {
+            m_audioinput_voice.reset();
+            return false;
+        }
+
+        GEN_NEXT_ID(m_voice_stream_id);
+    }
+
+    return m_audioinput_voice->InsertAudio(frm);
+}
+
 bool ClientNode::MuteAll(bool muteall)
 {
     ASSERT_REACTOR_LOCKED(this);
@@ -2989,9 +3071,16 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     if ((m_flags & CLIENT_STREAM_VIDEOFILE) || (m_flags & CLIENT_STREAM_AUDIOFILE))
         return false;
 
-    m_media_streamer = MakeMediaStreamer(this);
-    if (!m_media_streamer)
+    m_mediafile_streamer = MakeMediaFileStreamer();
+    if (!m_mediafile_streamer)
         return false;
+
+    m_mediafile_streamer->RegisterVideoCallback(std::bind(&ClientNode::MediaStreamVideoCallback,
+                                                      this, _1, _2), true);
+    m_mediafile_streamer->RegisterAudioCallback(std::bind(&ClientNode::MediaStreamAudioCallback,
+                                                      this, _1, _2), true);
+    m_mediafile_streamer->RegisterStatusCallback(std::bind(&ClientNode::MediaStreamStatusCallback,
+                                                       this, _1, _2), true);
 
     MediaStreamOutput media_out;
     media_out.video.fourcc = media::FOURCC_I420; // TODO: this is not enforced. FFmpeg will output RGB32
@@ -2999,14 +3088,13 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     media_out.audio.samplerate = GetAudioCodecSampleRate(m_mychannel->GetAudioCodec());
     media_out.audio_samples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());
 
-    MediaFileProp file_in(filename);
-    if (!m_media_streamer->OpenFile(file_in, media_out))
+    if (!m_mediafile_streamer->OpenFile(filename, media_out))
     {
         StopStreamingMediaFile();
         return false;
     }
 
-    file_in = m_media_streamer->GetMediaInput();
+    MediaFileProp file_in = m_mediafile_streamer->GetMediaFile();
 
     //initiate audio part of media file
     if(file_in.audio.IsValid())
@@ -3028,7 +3116,7 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
 
         m_videofile_thread.reset(new VideoThread());
         auto cbfunc = std::bind(&ClientNode::EncodedVideoFileFrame, this, _1, _2, _3, _4, _5);
-        if (!m_videofile_thread->StartEncoder(cbfunc, m_media_streamer->GetMediaOutput().video,
+        if (!m_videofile_thread->StartEncoder(cbfunc, m_mediafile_streamer->GetMediaOutput().video,
                                               vid_codec, VIDEOFILE_ENCODER_FRAMES_MAX))
         {
             StopStreamingMediaFile();
@@ -3059,7 +3147,7 @@ bool ClientNode::UpdateStreamingMediaFile(uint32_t offset, bool paused,
                                           const AudioPreprocessor& preprocessor,
                                           const VideoCodec& vid_codec)
 {
-    if (!m_media_streamer)
+    if (!m_mediafile_streamer)
         return false;
 
     if (m_videofile_thread)
@@ -3067,7 +3155,7 @@ bool ClientNode::UpdateStreamingMediaFile(uint32_t offset, bool paused,
         if (!m_videofile_thread->UpdateEncoder(vid_codec))
         {
             MYTRACE(ACE_TEXT("Failed to update video encoder on %s\n"),
-                    m_media_streamer->GetMediaInput().filename.c_str());
+                    m_mediafile_streamer->GetMediaFile().filename.c_str());
             return false;
         }
     }
@@ -3088,13 +3176,13 @@ bool ClientNode::UpdateStreamingMediaFile(uint32_t offset, bool paused,
     }
 
     if (offset != MEDIASTREAMER_OFFSET_IGNORE)
-        m_media_streamer->SetOffset(offset);
+        m_mediafile_streamer->SetOffset(offset);
 
     if (paused)
-        return m_media_streamer->Pause();
+        return m_mediafile_streamer->Pause();
     else
     {
-        return m_media_streamer->StartStream();
+        return m_mediafile_streamer->StartStream();
     }
 }
 
@@ -3104,12 +3192,12 @@ void ClientNode::StopStreamingMediaFile()
 
     bool clear_video = false, clear_audio = false;
 
-    if (m_media_streamer)
+    if (m_mediafile_streamer)
     {
-        clear_video = m_media_streamer->GetMediaOutput().HasVideo();
-        clear_audio = m_media_streamer->GetMediaOutput().HasAudio();
-        m_media_streamer->Close();
-        m_media_streamer.reset();
+        clear_video = m_mediafile_streamer->GetMediaOutput().HasVideo();
+        clear_audio = m_mediafile_streamer->GetMediaOutput().HasAudio();
+        m_mediafile_streamer->Close();
+        m_mediafile_streamer.reset();
     }
 
     if(clear_video)
@@ -3942,11 +4030,13 @@ void ClientNode::LeftChannel(ClientChannel& chan)
     //stop streaming media file
     if(m_flags & (CLIENT_STREAM_AUDIOFILE | CLIENT_STREAM_VIDEOFILE))
     {
-        bool notify = m_media_streamer.get() != nullptr;
+        bool notify = m_mediafile_streamer.get() != nullptr;
         MediaFileProp mfp;
-        if (m_media_streamer)
-            mfp = m_media_streamer->GetMediaInput();
+        if (m_mediafile_streamer)
+            mfp = m_mediafile_streamer->GetMediaFile();
+        
         StopStreamingMediaFile();
+        
         if(notify)
             m_listener->OnChannelStreamMediaFile(mfp, MFS_ABORTED);
     }

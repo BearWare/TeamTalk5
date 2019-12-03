@@ -26,12 +26,13 @@ package dk.bearware;
 import junit.framework.TestCase;
 import java.util.Vector;
 import java.util.List;
-import java.io.FileOutputStream;
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.File;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 
 import dk.bearware.AudioBlock;
 import dk.bearware.AudioFileFormat;
@@ -1535,7 +1536,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(ttclient.setSoundInputPreprocess(new SpeexDSP()));
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
 
-        int WRITE_BYTES = 512000, v, CHANNELS = 2, SAMPLERATE = 16000;
+        int WRITE_BYTES = 512000, CHANNELS = 2, SAMPLERATE = 16000;
 
         Channel chan = buildDefaultChannel(ttclient, "Speex", Codec.SPEEX_CODEC);
         chan.audiocodec.speex.nBandmode = SpeexConstants.SPEEX_BANDMODE_WIDE; //16000
@@ -1556,25 +1557,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 440));
         assertTrue(ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
 
-        FileOutputStream fs = new FileOutputStream("MyWaveFile.wav");
-
-        fs.write(new String("RIFF").getBytes());
-        v = WRITE_BYTES + 36 - 8;
-        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //WRITE_BYTES - 36 - 8
-        fs.write(new String("WAVEfmt ").getBytes());
-        fs.write(new byte[] {0x10, 0x0, 0x0, 0x0}); //hdr size
-        fs.write(new byte[] {0x1, 0x0}); //type
-        fs.write(new byte[] {(byte)CHANNELS, 0x0}); //channels
-        v = SAMPLERATE;
-        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //sample rate
-        v = (SAMPLERATE * 16 * CHANNELS) / 8;
-        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //bytes/sec
-        v = (16 * CHANNELS) / 8;
-        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF)}); //block align
-        fs.write(new byte[] {0x10, 0x0}); //bit depth
-        fs.write(new String("data").getBytes());
-        v = WRITE_BYTES - 44;
-        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //WRITE_BYTES - 44
+        FileOutputStream fs = newWaveFile("MyWaveFile.wav", SAMPLERATE, CHANNELS, WRITE_BYTES);
 
         while(WRITE_BYTES > 0) {
             assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
@@ -2680,4 +2663,111 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("streaming finished", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
     }
 
+    public void test_AudioInput() throws IOException {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TTMessage msg = new TTMessage();
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        initSound(ttclient);
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        assertTrue("enable voice tx", ttclient.enableVoiceTransmission(true));
+   
+        int STREAMID = 57;
+
+        byte[] tone = generateToneAsByte(800, 16000, 1, 1000);
+
+        assertEquals("one second of 16000 rate", 16000, tone.length / 2);
+        
+        AudioBlock ab = new AudioBlock();
+        ab.nStreamID = STREAMID;
+        ab.nSampleRate = 16000;
+        ab.nChannels = 1;
+        ab.lpRawAudio = tone; //PCM16 mono
+        ab.nSamples = tone.length / 2;
+        ab.uSampleIndex = 0;
+
+        assertFalse("Reject audio input during voicetx", ttclient.insertAudioBlock(ab));
+
+        assertTrue("disable voice tx", ttclient.enableVoiceTransmission(false));
+
+        assertTrue("enable voice act", ttclient.enableVoiceActivation(true));
+
+        assertFalse("Reject audio input during voiceact", ttclient.insertAudioBlock(ab));
+
+        assertTrue("disable voice act", ttclient.enableVoiceActivation(false));
+        
+        assertTrue("Send audio block", ttclient.insertAudioBlock(ab));
+
+        int frames = 0;        
+        assertTrue("Audio input "+STREAMID+" started", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, DEF_WAIT, msg));
+        frames++;
+        
+        assertEquals("Stream ID match", STREAMID, msg.audioinputprogress.nStreamID);
+
+        assertFalse("Reject voice tx", ttclient.enableVoiceTransmission(true));
+
+        assertFalse("Reject voice act", ttclient.enableVoiceActivation(true));
+
+        do {
+            assertTrue("Audio input in progress " + STREAMID, waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, DEF_WAIT, msg));
+            if (msg.audioinputprogress.uElapsedMSec > 0)
+                frames++;
+        } while(msg.audioinputprogress.nStreamID == STREAMID &&
+                msg.audioinputprogress.uElapsedMSec != 0 &&
+                msg.audioinputprogress.uQueueMSec != 0);
+
+        
+        // now send audio block whose nSamples doesn't match the
+        // transmit interval, i.e. we need to flush to send
+        // everything.
+        STREAMID = 55;
+        ab.nStreamID = STREAMID;
+
+        ab.nSamples -= 43;
+        assertTrue("Send audio block which needs to be flushed "+ STREAMID, ttclient.insertAudioBlock(ab));
+
+        assertTrue("Audio input "+STREAMID+" started", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, DEF_WAIT, msg));
+        frames--;
+        
+        assertEquals("Stream ID match", STREAMID, msg.audioinputprogress.nStreamID);
+
+        for (int i=0;i<frames-1;i++) {
+            assertTrue("Audio input in progress " + STREAMID, waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, DEF_WAIT, msg));
+            assertTrue("stream id match", msg.audioinputprogress.nStreamID == STREAMID);
+            assertTrue("elapsed increasing", msg.audioinputprogress.uElapsedMSec != 0);
+            assertTrue("queue holding", msg.audioinputprogress.uQueueMSec != 0);
+        }
+
+        assertFalse("Last frame will not appear until we flush", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, 100, msg));
+        
+        assertTrue("Flush queued audio "+ STREAMID, ttclient.insertAudioBlock(new AudioBlock()));
+
+        assertTrue("Audio input last frame "+STREAMID, waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, DEF_WAIT, msg));
+        assertTrue("stream id match", msg.audioinputprogress.nStreamID == STREAMID);
+        assertTrue("elapsed increasing", msg.audioinputprogress.uElapsedMSec != 0);
+        assertTrue("queue zero", msg.audioinputprogress.uQueueMSec == 0);
+
+        assertTrue("Audio input ending "+STREAMID, waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, DEF_WAIT, msg));
+        assertTrue("stream id ended", msg.audioinputprogress.nStreamID == STREAMID);
+        assertTrue("elapsed done", msg.audioinputprogress.uElapsedMSec == 0);
+        assertTrue("queue done", msg.audioinputprogress.uQueueMSec == 0);
+
+        
+        // test audio input queue limits
+        STREAMID = 77;
+        ab.nStreamID = STREAMID;
+        ab.lpRawAudio = generateToneAsByte(800, 16000, 1, 4000); // PCM16 mono
+        ab.nSamples = ab.lpRawAudio.length / 2;
+        
+        // assertFalse("Maximum queue size for audio input is 3 sec", ttclient.insertAudioBlock(ab));
+    }
+    
 }

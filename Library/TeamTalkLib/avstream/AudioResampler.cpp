@@ -45,6 +45,15 @@ int CalcSamples(int src_samplerate, int src_samples, int dest_samplerate)
     return (int)samples;
 }
 
+AudioResampler::AudioResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
+                               int fixed_input_samples/* = 0*/)
+: m_infmt(informat)
+, m_outfmt(outformat)
+{
+    if (fixed_input_samples > 0)
+        SetupFixedFrameSize(informat, outformat, fixed_input_samples);
+}
+
 void AudioResampler::FillOutput(int channels, short* output_samples,
                                 int output_samples_written,
                                 int output_samples_total)
@@ -99,42 +108,32 @@ int AudioResampler::Resample(const short* input_samples, short* output_samples)
     return outsamples;
 }
 
-audio_resampler_t MakeAudioResampler(int input_channels, int input_samplerate, 
-                                     int output_channels, int output_samplerate)
+audio_resampler_t MakeAudioResampler(const media::AudioFormat& informat,
+                                     const media::AudioFormat& outformat,
+                                     int input_samples_size/* = 0*/)
 {
+    assert(informat.IsValid());
+    assert(outformat.IsValid());
+
+    if(!informat.IsValid() || !outformat.IsValid())
+        return audio_resampler_t();
+
     audio_resampler_t resampler;
     bool ret = false;
 #if defined(ENABLE_DMORESAMPLER)
-    DMOResampler* tmp_resample;
-    ACE_NEW_RETURN(tmp_resample, DMOResampler(), audio_resampler_t());
-    resampler = audio_resampler_t(tmp_resample);
-
-    ret = tmp_resample->Init(SAMPLEFORMAT_INT16,
-                             input_channels,
-                             input_samplerate,
-                             SAMPLEFORMAT_INT16,
-                             output_channels,
-                             output_samplerate);
+    auto dmo = new DMOResampler(informat, outformat, input_samples_size);
+    resampler.reset(dmo);
+    ret = dmo->Init(SAMPLEFORMAT_INT16, SAMPLEFORMAT_INT16);
     MYTRACE(ACE_TEXT("Launched DMOResampler\n"));
 #elif defined(ENABLE_FFMPEG3)
-    FFMPEGResampler* tmp_resample;
-    ACE_NEW_RETURN(tmp_resample, FFMPEGResampler(), audio_resampler_t());
-    resampler = audio_resampler_t(tmp_resample);
-
-    ret = tmp_resample->Init(input_samplerate,
-                             input_channels,
-                             output_samplerate,
-                             output_channels);
+    auto ffmpeg = new FFMPEGResampler(informat, outformat, input_samples_size);
+    resampler.reset(ffmpeg);
+    ret = ffmpeg->Init();
     MYTRACE(ACE_TEXT("Launched FFMPEGResampler\n"));
 #elif defined(ENABLE_SPEEXDSP)
-    SpeexResampler* tmp_resample;
-    ACE_NEW_RETURN(tmp_resample, SpeexResampler(), audio_resampler_t());
-    resampler = audio_resampler_t(tmp_resample);
-
-    ret = tmp_resample->Init(5, input_samplerate,
-                             input_channels,
-                             output_samplerate,
-                             output_channels);
+    auto spx = new SpeexResampler(informat, outformat, input_samples_size);
+    resampler.reset(spx);
+    ret = spx->Init(5);
     MYTRACE(ACE_TEXT("Launched SpeexResampler\n"));
 #else
 #pragma message("No resampler available")
@@ -142,21 +141,5 @@ audio_resampler_t MakeAudioResampler(int input_channels, int input_samplerate,
     if(!ret)
         resampler.reset();
 
-    return resampler;
-}
-
-audio_resampler_t MakeAudioResampler(const media::AudioFormat& informat,
-                                     const media::AudioFormat& outformat,
-                                     int input_samples_size)
-{
-    assert(informat.IsValid());
-    assert(outformat.IsValid());
-
-    if (!informat.IsValid() || !outformat.IsValid())
-        return audio_resampler_t();
-
-    auto resampler = MakeAudioResampler(informat.channels, informat.samplerate,
-                                        outformat.channels, outformat.samplerate);
-    resampler->SetupFixedFrameSize(informat, outformat, input_samples_size);
     return resampler;
 }

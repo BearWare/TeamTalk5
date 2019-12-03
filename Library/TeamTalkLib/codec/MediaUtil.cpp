@@ -116,7 +116,7 @@ ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
 
 media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb)
 {
-    media::VideoFrame* frm = reinterpret_cast<media::VideoFrame*>(mb->rd_ptr());
+    media::VideoFrame* frm = reinterpret_cast<media::VideoFrame*>(mb->base());
     return frm;
 }
 
@@ -127,14 +127,15 @@ ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame)
     int input_bytes = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
     int output_bytes = PCM16_BYTES(frame.output_samples, frame.outputfmt.channels);
 
-    assert(frame.input_buffer && frame.input_samples || !frame.input_buffer && frame.input_samples == 0);
-    assert(frame.output_buffer && frame.output_samples || !frame.output_buffer && frame.output_samples == 0);
+    //assert(frame.input_buffer && frame.input_samples || !frame.input_buffer && frame.input_samples == 0);
+    //assert(frame.output_buffer && frame.output_samples || !frame.output_buffer && frame.output_samples == 0);
 
     ACE_NEW_RETURN(mb, ACE_Message_Block(frame_bytes + input_bytes + output_bytes), nullptr);
 
     //assign pointers to inside ACE_Message_Block
     media::AudioFrame copy_frame = frame;
-    copy_frame.input_buffer = reinterpret_cast<short*>(mb->rd_ptr() + frame_bytes);
+    if (input_bytes)
+        copy_frame.input_buffer = reinterpret_cast<short*>(mb->rd_ptr() + frame_bytes);
     if (output_bytes)
         copy_frame.output_buffer = reinterpret_cast<short*>(mb->rd_ptr() + (frame_bytes + input_bytes));
 
@@ -143,14 +144,23 @@ ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame)
     ret = mb->copy(reinterpret_cast<const char*>(&copy_frame), frame_bytes);
     assert(ret >= 0);
 
-    ret = mb->copy(reinterpret_cast<const char*>(frame.input_buffer), input_bytes);
-    assert(ret >= 0);
+    if (input_bytes > 0)
+    {
+        ret = mb->copy(reinterpret_cast<const char*>(frame.input_buffer), input_bytes);
+        assert(ret >= 0);
+    }
 
-    if(output_bytes)
+    if (output_bytes > 0)
         ret = mb->copy(reinterpret_cast<const char*>(frame.output_buffer), output_bytes);
     assert(ret >= 0);
 
     return mb;
+}
+
+media::AudioFrame* AudioFrameFromMsgBlock(ACE_Message_Block* mb)
+{
+    media::AudioFrame* frm = reinterpret_cast<media::AudioFrame*>(mb->base());
+    return frm;
 }
 
 int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq)

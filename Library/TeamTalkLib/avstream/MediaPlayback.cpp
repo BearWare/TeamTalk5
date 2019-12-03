@@ -26,6 +26,8 @@
 #include <cstring>
 #include <algorithm>
 
+using namespace std::placeholders;
+
 #define PB_FRAMEDURATION_MSEC 40
 #define PB_FRAMESIZE(samplerate) (samplerate * (PB_FRAMEDURATION_MSEC / 1000.0))
 
@@ -64,7 +66,7 @@ MediaPlayback::~MediaPlayback()
 
 bool MediaPlayback::OpenFile(const ACE_TString& filename)
 {
-    if (m_streamer && m_streamer->GetMediaInput().IsValid())
+    if (m_streamer && m_streamer->GetMediaFile().IsValid())
         return false;
 
     MediaFileProp inprop;
@@ -74,9 +76,17 @@ bool MediaPlayback::OpenFile(const ACE_TString& filename)
     MediaStreamOutput outprop(inprop.audio, int(PB_FRAMESIZE(inprop.audio.samplerate)),
                               inprop.video);
 
-    m_streamer = MakeMediaStreamer(this);
-    if (m_streamer && m_streamer->OpenFile(inprop, outprop))
+    m_streamer = MakeMediaFileStreamer();
+    if (m_streamer && m_streamer->OpenFile(filename, outprop))
+    {
+        m_streamer->RegisterVideoCallback(std::bind(&MediaPlayback::MediaStreamVideoCallback,
+                                                    this, _1, _2), true);
+        m_streamer->RegisterAudioCallback(std::bind(&MediaPlayback::MediaStreamAudioCallback,
+                                                    this, _1, _2), true);
+        m_streamer->RegisterStatusCallback(std::bind(&MediaPlayback::MediaStreamStatusCallback,
+                                                     this, _1, _2), true);
         return true;
+    }
 
     m_streamer.reset();
     return false;
@@ -87,7 +97,7 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speex
     if (!m_streamer)
         return false;
 
-    MediaFileProp inprop = m_streamer->GetMediaInput();
+    auto inprop = m_streamer->GetMediaFile();
     if (!inprop.HasAudio())
         return false;
 
@@ -185,15 +195,13 @@ bool MediaPlayback::SetupSpeexPreprocess(bool enableagc, const SpeexAGC& agc,
 }
 #endif
 
-bool MediaPlayback::MediaStreamVideoCallback(MediaStreamer* streamer,
-                                             media::VideoFrame& video_frame,
+bool MediaPlayback::MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                              ACE_Message_Block* mb_video)
 {
     return false;
 }
 
-bool MediaPlayback::MediaStreamAudioCallback(MediaStreamer* streamer,
-                                             media::AudioFrame& audio_frame,
+bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame& audio_frame,
                                              ACE_Message_Block* mb_audio)
 {
     std::lock_guard<std::mutex> g(m_mutex);
@@ -208,8 +216,7 @@ bool MediaPlayback::MediaStreamAudioCallback(MediaStreamer* streamer,
     return true;
 }
 
-void MediaPlayback::MediaStreamStatusCallback(MediaStreamer* streamer,
-                                              const MediaFileProp& mfp,
+void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,
                                               MediaStreamStatus status)
 {
     switch (status)

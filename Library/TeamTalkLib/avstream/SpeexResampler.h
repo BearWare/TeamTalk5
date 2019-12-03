@@ -33,11 +33,11 @@ class SpeexResampler : public AudioResampler
 {
 public:
     SpeexResampler(const SpeexResampler&) = delete;
-    SpeexResampler();
+    SpeexResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
+                   int fixed_input_samples = 0);
     virtual ~SpeexResampler();
     
-    bool Init(int quality, int input_samplerate, int input_channels, 
-             int output_samplerate, int output_channels);
+    bool Init(int quality);
     void Close();
 
     //return number of samples written to 'output_samples'
@@ -47,7 +47,6 @@ public:
 
 private:
     SpeexResamplerState* m_state;
-    int m_input_channels, m_output_channels;
     std::vector<short> m_tmp_buffer;
 };
 

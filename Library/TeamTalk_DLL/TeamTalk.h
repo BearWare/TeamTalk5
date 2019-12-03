@@ -1248,6 +1248,20 @@ extern "C" {
         AudioPreprocessor audioPreprocessor;
     } MediaFilePlayback;
 
+    /** @brief The progress of the audio currently being processed as
+     * audio input.  @see TT_InsertAudioBlock() */
+    typedef struct AudioInputProgress
+    {
+        /** @brief The stream ID provided in the #AudioBlock. */
+        INT32 nStreamID;
+        /** @brief The duration of the audio currently queued for
+         * transmission. */
+        UINT32 uQueueMSec;
+        /** @brief The duration of the audio that has been
+         * transmitted. */
+        UINT32 uElapsedMSec;
+    } AudioInputProgress;
+
     /** @} */
     
     /** @addtogroup transmission
@@ -3134,6 +3148,29 @@ extern "C" {
          * being played.
          */
          CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070,
+
+        /**
+         * @brief Progress is audio being injected as
+         * #STREAMTYPE_VOICE.
+         *
+         * @c nStreamID of #AudioInputProgress is the stream ID
+         * provided in the #AudioBlock when calling
+         * TT_InsertAudioBlock().
+         *
+         * When @c uElapsedMSec and @c uQueueMSec of
+         * #AudioInputProgress are zero then the stream ID (session)
+         * has ended. An audio input session has ended when an empty
+         * #AudioBlock has been inserted using TT_InsertAudioBlock().
+         *
+         * @param nSource Stream ID used for sending audio input.
+         * The stream ID will appear in #AudioBlock's @c nStreamID
+         * on the receiving side.
+         * @param ttType #__AUDIOINPUTPROGRESS
+         * @param audioinputprogress Placed in union of #TTMessage.
+         * Tells how much audio remains in queue. The queue should 
+         * be refilled as long as the audio input should remain active.
+         */
+        CLIENTEVENT_AUDIOINPUT = CLIENTEVENT_NONE + 1080,
     } ClientEvent;
 
     /* List of structures used internally by TeamTalk. */
@@ -3178,6 +3215,8 @@ extern "C" {
         __TTAUDIOPREPROCESSOR     = 36,
         __MEDIAFILEPLAYBACK       = 37,
         __CLIENTKEEPALIVE         = 38,
+        __UINT32                  = 39,
+        __AUDIOINPUTPROGRESS      = 40
     } TTType;
 
     /**
@@ -3236,6 +3275,8 @@ extern "C" {
             INT32 nPayloadSize;
             /** @brief Valid if @c ttType is #__STREAMTYPE. */
             StreamType nStreamType;
+            /** @brief Valid if @c ttType is #__AUDIOINPUTPROGRESS. */
+            AudioInputProgress audioinputprogress;
             /* brief First byte in union. */
             char data[1];
         };
@@ -3898,6 +3939,40 @@ extern "C" {
                                                     IN INT32 nUserID,
                                                     IN StreamType nStreamType,
                                                     IN TTBOOL bEnable);
+
+    /**
+     * @brief Transmit application provided raw audio in
+     * #AudioBlock-structs as #STREAMTYPE_VOICE, i.e. microphone
+     * input.
+     *
+     * Since #STREAMTYPE_VOICE is being replaced by audio input this
+     * means that while audio input is active then subsequent calls to
+     * TT_EnableVoiceTransmission() or TT_EnableVoiceActivation() will
+     * fail until the audio input has ended.
+     *
+     * If the flags #CLIENT_TX_VOICE or
+     * #CLIENT_SNDINPUT_VOICEACTIVATED are active then calling
+     * TT_InputAudioBlock() will fail because #STREAMTYPE_VOICE is
+     * already in use.
+     *
+     * TT_InsertAudioBlock() can be called multiple times until the
+     * client instance's internal queue is full. When the queue has
+     * been filled then monitor #CLIENTEVENT_AUDIOINPUT to see when
+     * more data can be queued.
+     *
+     * The member @c nStreamID of #AudioBlock is used to identify the
+     * audio input session which is currently in progress and is
+     * posted as the @c nSource of #CLIENTEVENT_AUDIOINPUT.
+     *
+     * The member @c uSampleIndex of #AudioBlock is ignored.
+     *
+     * To end raw audio input set @c lpAudioBlock to NULL and then
+     * TT_EnableVoiceTransmission() or
+     * TT_StartStreamingMediaFileToChannel() will be available again.
+     */
+    TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
+                                               IN const AudioBlock* lpAudioBlock);
+    
     /** @} */
 
     /** @addtogroup transmission
@@ -3914,9 +3989,14 @@ extern "C" {
      * User rights required:
      * - #USERRIGHT_TRANSMIT_VOICE
      *
+     * Note that voice activation cannot be enabled when
+     * TT_InsertAudioBlock() is active.
+     *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
-     * @param bEnable Enable/disable transmission. */
+     * @param bEnable Enable/disable transmission.
+     * @return TRUE on success. FALSE if voice transmission could
+     * not be activated on the client instance. */
     TEAMTALKDLL_API TTBOOL TT_EnableVoiceTransmission(IN TTInstance* lpTTInstance,
                                                       IN TTBOOL bEnable);
 
@@ -3925,7 +4005,7 @@ extern "C" {
      *
      * The client instance will start transmitting audio if the
      * recorded audio level is above or equal to the voice activation
-     * level set by #TT_SetVoiceActivationLevel. Once the voice
+     * level set by TT_SetVoiceActivationLevel(). Once the voice
      * activation level is reached the event
      * #CLIENTEVENT_VOICE_ACTIVATION is posted.
      *
@@ -3937,9 +4017,15 @@ extern "C" {
      * User rights required:
      * - #USERRIGHT_TRANSMIT_VOICE
      *
+     * Note that voice activation cannot be enabled when
+     * TT_InsertAudioBlock() is active.
+     *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
      * @param bEnable TRUE to enable, otherwise FALSE.
+     * @return TRUE on success. FALSE if voice activation cannot 
+     * be enabled on the client instance.
+     *
      * @see CLIENT_SNDINPUT_VOICEACTIVATION
      * @see TT_SetVoiceActivationStopDelay */
     TEAMTALKDLL_API TTBOOL TT_EnableVoiceActivation(IN TTInstance* lpTTInstance, 

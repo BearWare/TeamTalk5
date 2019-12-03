@@ -21,16 +21,18 @@
  *
  */
 
-#include "AVFCapture.h"
+#include "FFMpeg3Capture.h"
 
 #include <memory>
 #include <sstream>
 #include <assert.h>
 
+using namespace std::placeholders;
 using namespace vidcap;
 
 FFMpeg3Capture::FFMpeg3Capture()
 {
+    InitAVConv();
 }
 
 FFMpeg3Capture::~FFMpeg3Capture()
@@ -49,17 +51,17 @@ bool FFMpeg3Capture::InitVideoCapture(const ACE_TString& deviceid,
             dev = devs[i];
     }
 
-    ffmpegvideoinput_t streamer = createStreamer(this, dev, vidfmt);
+    ffmpegvideoinput_t streamer = createStreamer(dev, vidfmt);
     assert(streamer.get());
-
-    MediaFileProp in_prop;
-    in_prop.video = vidfmt;
-    in_prop.filename = deviceid;
+    streamer->RegisterVideoCallback(std::bind(&FFMpeg3Capture::MediaStreamVideoCallback,
+                                              this, _1, _2), true);
+    streamer->RegisterStatusCallback(std::bind(&FFMpeg3Capture::MediaStreamStatusCallback,
+                                               this, _1, _2), true);
 
     MediaStreamOutput out_prop;
     out_prop.video = vidfmt;
 
-    if(!streamer->OpenFile(in_prop, out_prop))
+    if(!streamer->OpenFile(deviceid, out_prop))
         return false;
 
     m_videoinput.swap(streamer);
@@ -112,8 +114,7 @@ void FFMpeg3Capture::UnregisterVideoFormat(media::FourCC fcc)
     }
 }
 
-bool FFMpeg3Capture::MediaStreamVideoCallback(MediaStreamer* streamer,
-                                              media::VideoFrame& video_frame,
+bool FFMpeg3Capture::MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                               ACE_Message_Block* mb_video)
 {
     assert(m_videoinput.get());
@@ -124,15 +125,7 @@ bool FFMpeg3Capture::MediaStreamVideoCallback(MediaStreamer* streamer,
     return false;
 }
 
-bool FFMpeg3Capture::MediaStreamAudioCallback(MediaStreamer* streamer,
-                                              media::AudioFrame& audio_frame,
-                                              ACE_Message_Block* mb_audio)
-{
-    return false;
-}
-
-void FFMpeg3Capture::MediaStreamStatusCallback(MediaStreamer* streamer,
-                                               const MediaFileProp& mfp,
+void FFMpeg3Capture::MediaStreamStatusCallback(const MediaFileProp& mfp,
                                                MediaStreamStatus status)
 {
 }

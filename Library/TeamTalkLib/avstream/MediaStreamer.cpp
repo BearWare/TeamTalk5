@@ -51,40 +51,59 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
     return false;
 }
 
-media_streamer_t MakeMediaStreamer(MediaStreamListener* listener)
+mediafile_streamer_t MakeMediaFileStreamer()
 {
-    media_streamer_t streamer;
-    MediaStreamer* tmp_streamer = NULL;
+    mediafile_streamer_t streamer;
 
 #if defined(ENABLE_MEDIAFOUNDATION)
-    ACE_NEW_RETURN(tmp_streamer, MFStreamer(listener), media_streamer_t());
+    streamer.reset(new MFStreamer());
 #elif defined(ENABLE_DSHOW)
-    ACE_NEW_RETURN(tmp_streamer, DSWrapperThread(listener), media_streamer_t());
+    streamer.reset(new DSWrapperThread());
 #elif defined(ENABLE_FFMPEG3)
-    ACE_NEW_RETURN(tmp_streamer, FFMpegStreamer(listener), media_streamer_t());
+    streamer.reset(new FFMpegStreamer());
 #endif
-    streamer = media_streamer_t(tmp_streamer);
 
     return streamer;
 }
 
 MediaStreamer::~MediaStreamer()
 {
-    Close();
+    // subclasses must call ::Close() manually to finish their ::Run() method
+    assert(!m_thread);
+    MYTRACE(ACE_TEXT("~MediaStreamer()\n"));
 }
 
-bool MediaStreamer::OpenFile(const MediaFileProp& in_prop,
-                             const MediaStreamOutput& out_prop)
+void MediaStreamer::RegisterVideoCallback(mediastream_videocallback_t cb, bool enable)
 {
-    Close();
+    if (enable)
+        m_videocallback = cb;
+    else
+        m_videocallback = {};
+}
 
-    m_media_in = in_prop;
+void MediaStreamer::RegisterAudioCallback(mediastream_audiocallback_t cb, bool enable)
+{
+    if (enable)
+        m_audiocallback = cb;
+    else
+        m_audiocallback = {};
+}
+
+bool MediaStreamer::Open(const MediaStreamOutput& out_prop)
+{
+    if (GetMediaOutput().IsValid())
+        return false;
+
     m_media_out = out_prop;
 
     m_thread.reset(new std::thread(&MediaStreamer::Run, this));
 
     bool ret = false;
     m_open.get(ret);
+
+    if (!ret)
+        Close();
+    
     return ret;
 }
 
@@ -130,29 +149,55 @@ bool MediaStreamer::Pause()
     return true;
 }
 
-ACE_UINT32 MediaStreamer::SetOffset(ACE_UINT32 offset)
-{
-    std::lock_guard<std::mutex> g(m_mutex);
-    auto prev = m_offset;
-    m_offset = offset;
-    return prev;
-}
-
 void MediaStreamer::Reset()
 {
-    m_media_in = MediaFileProp();
     m_media_out = MediaStreamOutput();
-    m_stop = false;
+    m_stop = m_pause = false;
 
     m_audio_frames.close();
     m_video_frames.close();
 }
 
+bool MediaStreamer::QueueAudio(const media::AudioFrame& frame)
+{
+    assert(frame.inputfmt == GetMediaOutput().audio);
+    ACE_Message_Block* mb = AudioFrameToMsgBlock(frame);
+    assert(mb);
+
+    if (!mb)
+        return false;
+    
+    ACE_Time_Value zero;
+    if (m_audio_frames.enqueue(mb, &zero) >= 0)
+        return true;
+    
+    MYTRACE(ACE_TEXT("Dropped audio frame %u\n"), frame.timestamp);
+    
+    mb->release();
+    return false;
+}
+
+bool MediaStreamer::QueueVideo(const media::VideoFrame& frame)
+{
+    ACE_Message_Block* mb = VideoFrameToMsgBlock(frame);
+    assert(mb);
+
+    if (!mb)
+        return false;
+    
+    ACE_Time_Value zero;
+    if (m_video_frames.enqueue(mb, &zero) >= 0)
+        return true;
+    
+    MYTRACE(ACE_TEXT("Dropped video frame %u\n"), frame.timestamp);
+    
+    mb->release();
+    return false;
+}
+
 void MediaStreamer::InitBuffers()
 {
     assert(m_media_out.HasAudio() || m_media_out.HasVideo());
-
-    const int BUF_SECS = 3;
 
     if (m_media_out.HasAudio())
     {
@@ -165,9 +210,9 @@ void MediaStreamer::InitBuffers()
 
     if (m_media_out.HasVideo())
     {
-        int bmp_size = RGB32_BYTES(m_media_in.video.width, m_media_in.video.height);
+        int bmp_size = RGB32_BYTES(m_media_out.video.width, m_media_out.video.height);
         int media_frame_size = bmp_size + sizeof(media::VideoFrame);
-        size_t fps = m_media_in.video.fps_numerator / std::max(1, m_media_in.video.fps_denominator);
+        size_t fps = m_media_out.video.fps_numerator / std::max(1, m_media_out.video.fps_denominator);
 
         size_t buffer_size = fps * BUF_SECS * media_frame_size;
         m_video_frames.low_water_mark(buffer_size);
@@ -204,7 +249,7 @@ ACE_UINT32 MediaStreamer::GetMinimumFrameDurationMSec() const
 
     if(m_media_out.HasVideo())
     {
-        double fps = std::max(1, m_media_in.video.fps_numerator) / std::max(1, m_media_in.video.fps_denominator);
+        double fps = std::max(1, m_media_out.video.fps_numerator) / std::max(1, m_media_out.video.fps_denominator);
         wait_ms = ACE_UINT32(std::min(1000. / fps, double(wait_ms)));
     }
     return wait_ms;
@@ -291,8 +336,7 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, 
         return true;
     }
 
-    uint32_t queue_duration = PCM16_BYTES(m_media_out.audio.samplerate, m_media_out.audio.channels);
-    queue_duration = queued_audio_bytes * 1000 / queue_duration;
+    uint32_t queue_duration = PCM16_DURATION(queued_audio_bytes, m_media_out.audio.channels, m_media_out.audio.samplerate);
 
     // check if head is already ahead of time
     AudioFrame* first_frame = reinterpret_cast<AudioFrame*>(mb->base());
@@ -386,7 +430,11 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, 
             timestamp - starttime, int((curtime - starttime) - (timestamp - starttime)),
             int(need_more));
     //MYTRACE(ACE_TEXT("Ejecting audio frame %u\n"), media_frame.timestamp);
-    if (!m_listener->MediaStreamAudioCallback(this, *media_frame, out_mb))
+    
+    uint32_t newduration = PCM16_DURATION(GetQueuedAudioDataSize(), m_media_out.audio.channels, m_media_out.audio.samplerate);
+    AudioProgress(newduration, timestamp - starttime + media_frame->InputDurationMSec());
+
+    if (!m_audiocallback || !m_audiocallback(*media_frame, out_mb))
     {
         out_mb->release();
         out_mb = NULL;
@@ -447,7 +495,7 @@ bool MediaStreamer::ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime)
                     media_frame->timestamp - starttime, curtime - media_frame->timestamp,
                     unsigned(m_video_frames.message_count()));
 
-            if(!m_listener->MediaStreamVideoCallback(this, *media_frame, mb))
+            if (!m_videocallback || !m_videocallback(*media_frame, mb))
             {
                 mb->release();
                 mb = NULL;
@@ -468,3 +516,45 @@ bool MediaStreamer::ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime)
 
     return m_video_frames.message_count() == 0;
 }
+
+
+void MediaFileStreamer::Reset()
+{
+    MediaStreamer::Reset();
+
+    m_media_in = MediaFileProp();
+    m_offset = MEDIASTREAMER_OFFSET_IGNORE;
+}
+
+bool MediaFileStreamer::OpenFile(const ACE_TString& filename,
+                                 const MediaStreamOutput& out_prop)
+{
+    Close();
+
+    m_media_in.filename = filename;
+
+    if (!Open(out_prop))
+    {
+        Close();
+        return false;
+    }
+    
+    return true;
+}
+
+void MediaFileStreamer::RegisterStatusCallback(mediastream_statuscallback_t cb, bool enable)
+{
+    if (enable)
+        m_statuscallback = cb;
+    else
+        m_statuscallback = {};
+}
+
+ACE_UINT32 MediaFileStreamer::SetOffset(ACE_UINT32 offset)
+{
+    std::lock_guard<std::mutex> g(m_mutex);
+    auto prev = m_offset;
+    m_offset = offset;
+    return prev;
+}
+

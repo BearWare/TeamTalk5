@@ -39,10 +39,9 @@ namespace vidcap {
         media::VideoFormat m_vidfmt;
 
     public:
-        FFMpegVideoInput(MediaStreamListener* listener,
-                         const VidCapDevice& viddevice,
+        FFMpegVideoInput(const VidCapDevice& viddevice,
                          const media::VideoFormat& fmt)
-            : FFMpegStreamer(listener), m_dev(viddevice), m_vidfmt(fmt) { }
+            : m_dev(viddevice), m_vidfmt(fmt) { }
         virtual media::VideoFormat GetVideoFormat() = 0;
 
         bool AddStartTime() const { return false; }
@@ -50,12 +49,10 @@ namespace vidcap {
 
     typedef std::unique_ptr<FFMpegVideoInput> ffmpegvideoinput_t;
     
-    class FFMpeg3Capture : public VideoCapture,
-                           public MediaStreamListener
+    class FFMpeg3Capture : public VideoCapture
     {
     protected:
-        virtual ffmpegvideoinput_t createStreamer(MediaStreamListener* listener,
-                                                  const VidCapDevice& viddevice,
+        virtual ffmpegvideoinput_t createStreamer(const VidCapDevice& viddevice,
                                                   const media::VideoFormat& fmt) = 0;
         ffmpegvideoinput_t m_videoinput;
         VideoCaptureCallback m_callback;
@@ -78,16 +75,10 @@ namespace vidcap {
         void UnregisterVideoFormat(media::FourCC fcc);
         
         // MediaStreamListener interface
-        bool MediaStreamVideoCallback(MediaStreamer* streamer,
-                                      media::VideoFrame& video_frame,
+        bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                       ACE_Message_Block* mb_video);
 
-        bool MediaStreamAudioCallback(MediaStreamer* streamer,
-                                      media::AudioFrame& audio_frame,
-                                      ACE_Message_Block* mb_audio);
-
-        void MediaStreamStatusCallback(MediaStreamer* streamer,
-                                       const MediaFileProp& mfp,
+        void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                        MediaStreamStatus status);
     };
 

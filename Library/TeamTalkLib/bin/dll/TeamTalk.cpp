@@ -714,8 +714,7 @@ TEAMTALKDLL_API TTBOOL TT_EnableVoiceTransmission(IN TTInstance* lpTTInstance,
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
-    clientnode->EnableVoiceTransmission(bEnable);
-    return TRUE;
+    return clientnode->EnableVoiceTransmission(bEnable);
 }
 
 TEAMTALKDLL_API TTBOOL TT_EnableVoiceActivation(IN TTInstance* lpTTInstance,
@@ -723,8 +722,7 @@ TEAMTALKDLL_API TTBOOL TT_EnableVoiceActivation(IN TTInstance* lpTTInstance,
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
-    clientnode->EnableVoiceActivation(bEnable);
-    return TRUE;
+    return clientnode->EnableVoiceActivation(bEnable);
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetVoiceActivationLevel(IN TTInstance* lpTTInstance, 
@@ -789,6 +787,17 @@ TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEvent(IN TTInstance* lpTTInstance,
     
     clientnode->EnableAudioBlockCallback(nUserID, (teamtalk::StreamType)nStreamType, bEnable);
     return TRUE;
+}
+
+TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
+                                           IN const AudioBlock* lpAudioBlock)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    media::AudioFrame frm(media::AudioFormat(lpAudioBlock->nSampleRate, lpAudioBlock->nChannels),
+                          reinterpret_cast<short*>(lpAudioBlock->lpRawAudio), lpAudioBlock->nSamples);
+    return clientnode->QueueAudioInput(frm, lpAudioBlock->nStreamID);
 }
 
 TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,
@@ -3151,6 +3160,8 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(TTBOOL);
     case __INT32 :
         return sizeof(INT32);
+    case __UINT32 :
+        return sizeof(UINT32);
     case __MEDIAFILESTATUS :
         return sizeof(MediaFileStatus);
     case __SPEEXDSP :
@@ -3167,6 +3178,8 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(MediaFilePlayback);
     case __CLIENTKEEPALIVE :
         return sizeof(ClientKeepAlive);
+    case __AUDIOINPUTPROGRESS :
+        return sizeof(AudioInputProgress);
     }
     return 0;
 }

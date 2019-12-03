@@ -194,14 +194,14 @@ bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop)
 }
 
 
-FFMpegStreamer::FFMpegStreamer(MediaStreamListener* listener)
-  : MediaStreamer(listener)
+FFMpegStreamer::FFMpegStreamer()
 {
     InitAVConv();
 }
 
 FFMpegStreamer::~FFMpegStreamer()
 {
+    Close();
     MYTRACE(ACE_TEXT("~FFMpegStreamer()\n"));
 }
 
@@ -239,6 +239,7 @@ void FFMpegStreamer::Run()
     if(!SetupInput(in_fmt, options, fmt_ctx, aud_dec_ctx, vid_dec_ctx, 
                    audio_stream_index, video_stream_index))
     {
+        MYTRACE("Failed to setup input: %s\n", m_media_in.filename.c_str());
         m_open.set(false);
         goto end;
     }
@@ -329,7 +330,8 @@ void FFMpegStreamer::Run()
         // check if we should pause
         if (m_pause)
         {
-            m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_PAUSED);
+            if (m_statuscallback)
+                m_statuscallback(m_media_in, MEDIASTREAM_PAUSED);
 
             ACE_UINT32 pausetime = GETTIMESTAMP();
             if ((m_run.get(start) >= 0 && !start) || m_stop)
@@ -342,7 +344,7 @@ void FFMpegStreamer::Run()
             status = MEDIASTREAM_STARTED;
 
             pausetime = GETTIMESTAMP() - pausetime;
-            MYTRACE_COND(pausetime > 0, ACE_TEXT("Paused %s for %u msec\n"), GetMediaInput().filename.c_str(), pausetime);
+            MYTRACE_COND(pausetime > 0, ACE_TEXT("Paused %s for %u msec\n"), m_media_in.filename.c_str(), pausetime);
             totalpausetime += pausetime;
         }
 
@@ -364,12 +366,12 @@ void FFMpegStreamer::Run()
                 if (av_seek_frame(fmt_ctx, audio_stream_index, difftime_sec / av_q2d(aud_stream->time_base),
                                   (offset_sec > curaudio_sec? 0 : AVSEEK_FLAG_BACKWARD)) < 0)
                 {
-                    MYTRACE(ACE_TEXT("Failed to seek to audio position %u in %s\n"), ACE_UINT32(offset_sec * 1000), GetMediaInput().filename.c_str());
+                    MYTRACE(ACE_TEXT("Failed to seek to audio position %u in %s\n"), ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
                     success = false;
                 }
                 else
                 {
-                    MYTRACE("Seeked to audio position %u in %s\n", ACE_UINT32(offset_sec * 1000), GetMediaInput().filename.c_str());
+                    MYTRACE("Seeked to audio position %u in %s\n", ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
                 }
             }
 
@@ -382,12 +384,12 @@ void FFMpegStreamer::Run()
                 if (av_seek_frame(fmt_ctx, video_stream_index, difftime_sec / av_q2d(vid_stream->time_base),
                                   (offset_sec > curvideo_sec? 0 : AVSEEK_FLAG_BACKWARD)) < 0)
                 {
-                    MYTRACE(ACE_TEXT("Failed to seek to video position %u in %s\n"), ACE_UINT32(offset_sec * 1000), GetMediaInput().filename.c_str());
+                    MYTRACE(ACE_TEXT("Failed to seek to video position %u in %s\n"), ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
                     success = false;
                 }
                 else
                 {
-                    MYTRACE("Seeked to video position %u in %s\n", ACE_UINT32(offset_sec * 1000), GetMediaInput().filename.c_str());
+                    MYTRACE("Seeked to video position %u in %s\n", ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
                 }
 
             }
@@ -407,8 +409,8 @@ void FFMpegStreamer::Run()
         
         if (status != MEDIASTREAM_NONE)
         {
-            if(m_listener)
-                m_listener->MediaStreamStatusCallback(this, m_media_in, status);
+            if (m_statuscallback)
+                m_statuscallback(m_media_in, status);
 
             status = MEDIASTREAM_NONE;
         }
@@ -477,7 +479,8 @@ void FFMpegStreamer::Run()
         } // stream index
         av_packet_unref(&packet);
 
-        m_listener->MediaStreamStatusCallback(this, this->GetMediaInput(), MEDIASTREAM_PLAYING);
+        if (m_statuscallback)
+            m_statuscallback(m_media_in, MEDIASTREAM_PLAYING);
 
         while(!m_stop && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, false));
 
@@ -486,16 +489,16 @@ void FFMpegStreamer::Run()
     while(!m_stop && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, true));
 
     //don't do callback if thread is asked to quit
-    if(m_listener && !m_stop)
-        m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_FINISHED);
+    if (m_statuscallback && !m_stop)
+        m_statuscallback(m_media_in, MEDIASTREAM_FINISHED);
 
     MYTRACE(ACE_TEXT("FFMpeg3 finished streaming: %s\n"), m_media_in.filename.c_str());
     goto end;
 
 fail:
     //don't do callback if thread is asked to quit
-    if(m_listener && !m_stop)
-        m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_ERROR);
+    if (m_statuscallback && !m_stop)
+        m_statuscallback(m_media_in, MEDIASTREAM_ERROR);
 
 end:
     if(audio_filter_graph)
@@ -547,30 +550,12 @@ int64_t FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
     int n_channels = av_get_channel_layout_nb_channels(filt_frame->channel_layout);
     short* audio_data = reinterpret_cast<short*>(filt_frame->data[0]);
 
-    ACE_Message_Block* mb;
-    ACE_NEW_NORETURN(mb, 
-                     ACE_Message_Block(sizeof(AudioFrame) +
-                                       PCM16_BYTES(filt_frame->nb_samples, n_channels)));
-    if(mb)
-    {
-        AudioFrame media_frame;
-        media_frame.timestamp = frame_timestamp;
-        media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
-        media_frame.input_samples = filt_frame->nb_samples;
-        media_frame.inputfmt = m_media_out.audio;
-
-        mb->copy(reinterpret_cast<const char*>(&media_frame), 
-                 sizeof(media_frame));
-        mb->copy(reinterpret_cast<const char*>(audio_data), 
-                 PCM16_BYTES(filt_frame->nb_samples, n_channels));
-
-        ACE_Time_Value tm;
-        if (m_audio_frames.enqueue(mb, &tm) < 0)
-        {
-            mb->release();
-            MYTRACE(ACE_TEXT("Dropped audio frame %u\n"), media_frame.timestamp);
-        }
-    } // mb
+    AudioFrame media_frame;
+    media_frame.timestamp = frame_timestamp;
+    media_frame.input_buffer = audio_data;
+    media_frame.input_samples = filt_frame->nb_samples;
+    media_frame.inputfmt = m_media_out.audio;
+    QueueAudio(media_frame);
         
     av_frame_unref(filt_frame);
 
@@ -637,19 +622,10 @@ int64_t FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
                            m_media_out.video.fourcc, true);
     media_frame.timestamp = frame_timestamp;
 
-    ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
     assert(filt_frame->width == m_media_in.video.width);
     assert(filt_frame->height == m_media_in.video.height);
-    if(mb)
-    {
-        ACE_Time_Value tm;
-        if (m_video_frames.enqueue(mb, &tm) < 0)
-        {
-            MYTRACE(ACE_TEXT("Dropped video frame %u\n"), media_frame.timestamp);
-            mb->release();
-        }
-            
-    }
+    
+    QueueVideo(media_frame);
 
     av_frame_unref(filt_frame);
 

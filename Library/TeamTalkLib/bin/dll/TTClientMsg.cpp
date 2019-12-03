@@ -54,6 +54,7 @@ struct IntTTMessage
         INT32* payload_size;
         MediaFileInfo* mediafileinfo;
         StreamType* streamtype;
+        AudioInputProgress* audioinputprogress;
     };
 };
 
@@ -512,6 +513,15 @@ void TTMsgQueue::OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mf
         sessionid, __MEDIAFILEINFO);
     Convert(mfp, *msg->mediafileinfo);
     msg->mediafileinfo->nStatus = (MediaFileStatus)status;
+    EnqueueMsg(mb);
+}
+
+void TTMsgQueue::OnAudioInputStatus(int voicestreamid, const AudioInputStatus& ais)
+{
+    ACE_Message_Block* mb;
+    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_AUDIOINPUT,
+                                     voicestreamid, __AUDIOINPUTPROGRESS);
+    Convert(ais, *msg->audioinputprogress);
     EnqueueMsg(mb);
 }
 

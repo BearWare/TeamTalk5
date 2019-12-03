@@ -11,6 +11,8 @@
 #endif
 
 #include <avstream/MediaPlayback.h>
+#include <avstream/AudioInputStreamer.h>
+
 #include <codec/WaveFile.h>
 #include <codec/BmpFile.h>
 #include <codec/VpxEncoder.h>
@@ -48,33 +50,37 @@ namespace UnitTest
 
     TEST_CLASS(UnitTest1)
     {
+        TEST_CLASS_INITIALIZE(InitClass)
+        {
+#if defined(ENABLE_MEDIAFOUNDATION)
+            TTInstance* ttInit = TT_InitTeamTalkPoll(); //MF_Startup()
+            TT_CloseTeamTalk(ttInit);
+#endif
+        }
+
+        TEST_CLASS_CLEANUP(TearDownClass)
+        {
+        }
 
     public:
 
         TEST_METHOD(TestAudioStream)
         {
-            class : public MediaStreamListener
+
+            class MediaStreamListener
             {
                 WavePCMFile wavfile;
                 MediaStreamOutput out_prop;
             public:
                 void setOutput(const MediaStreamOutput& o) { out_prop = o; }
-                bool MediaStreamVideoCallback(MediaStreamer* streamer,
-                    media::VideoFrame& video_frame,
-                    ACE_Message_Block* mb_video)
-                {
-                    return false;
-                }
-                bool MediaStreamAudioCallback(MediaStreamer* streamer,
-                    media::AudioFrame& audio_frame,
-                    ACE_Message_Block* mb_audio)
+                bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
+                                              ACE_Message_Block* mb_audio)
                 {
                     wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
                     return false;
                 }
-                void MediaStreamStatusCallback(MediaStreamer* streamer,
-                    const MediaFileProp& mfp,
-                    MediaStreamStatus status)
+                void MediaStreamStatusCallback(const MediaFileProp& mfp,
+                                               MediaStreamStatus status)
                 {
                     switch (status)
                     {
@@ -105,10 +111,12 @@ namespace UnitTest
             DSWrapperThread streamer(&listener);
 #endif
 #if defined(ENABLE_MEDIAFOUNDATION)
-            MFStreamer streamer(&listener);
+            MFStreamer streamer;
+            streamer.RegisterAudioCallback(std::bind(&MediaStreamListener::MediaStreamAudioCallback, &listener, _1, _2), true);
+            streamer.RegisterStatusCallback(std::bind(&MediaStreamListener::MediaStreamStatusCallback, &listener, _1, _2), true);
 #endif
 
-            Assert::IsTrue(streamer.OpenFile(in_prop, out_prop));
+            Assert::IsTrue(streamer.OpenFile(in_prop.filename, out_prop));
 
             Assert::IsTrue(streamer.StartStream());
 
@@ -118,9 +126,7 @@ namespace UnitTest
 
         TEST_METHOD(TestVideoStream)
         {
-            TT_InitTeamTalkPoll(); // Call MFStartup()
-
-            class : public MediaStreamListener
+            class MediaStreamListener
             {
                 WavePCMFile wavfile;
                 MediaStreamOutput out_prop;
@@ -129,8 +135,7 @@ namespace UnitTest
 #endif
             public:
                 void setOutput(const MediaStreamOutput& o) { out_prop = o; }
-                bool MediaStreamVideoCallback(MediaStreamer* streamer,
-                    media::VideoFrame& video_frame,
+                bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
                     ACE_Message_Block* mb_video)
                 {
                     static int n_bmp = 0;
@@ -168,15 +173,13 @@ namespace UnitTest
 
                     return false;
                 }
-                bool MediaStreamAudioCallback(MediaStreamer* streamer,
-                    media::AudioFrame& audio_frame,
+                bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
                     ACE_Message_Block* mb_audio)
                 {
                     wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
                     return false;
                 }
-                void MediaStreamStatusCallback(MediaStreamer* streamer,
-                    const MediaFileProp& mfp,
+                void MediaStreamStatusCallback(const MediaFileProp& mfp,
                     MediaStreamStatus status)
                 {
                     switch(status)
@@ -213,12 +216,15 @@ namespace UnitTest
             listener.setOutput(out_prop);
 
 #if defined(ENABLE_MEDIAFOUNDATION)
-            MFStreamer streamer(&listener);
+            MFStreamer streamer;
+            streamer.RegisterAudioCallback(std::bind(&MediaStreamListener::MediaStreamAudioCallback, &listener, _1, _2), true);
+            streamer.RegisterVideoCallback(std::bind(&MediaStreamListener::MediaStreamVideoCallback, &listener, _1, _2), true);
+            streamer.RegisterStatusCallback(std::bind(&MediaStreamListener::MediaStreamStatusCallback, &listener, _1, _2), true);
 #endif
 #if defined(ENABLE_DSHOW)
             DSWrapperThread streamer(&listener);
 #endif
-            Assert::IsTrue(streamer.OpenFile(in_prop, out_prop));
+            Assert::IsTrue(streamer.OpenFile(in_prop.filename, out_prop));
 
             Assert::IsTrue(streamer.StartStream());
 
@@ -1392,6 +1398,7 @@ namespace UnitTest
             MediaFileInfo mfi = {};
             wcsncpy(mfi.szFileName, filename3, TT_STRLEN);
             mfi.uDurationMSec = 60 * 1000;
+            mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
             mfi.audioFmt.nChannels = 2;
             mfi.audioFmt.nSampleRate = 44100;
             Assert::IsTrue(TT_DBG_WriteAudioFileTone(&mfi, 700));
@@ -1504,6 +1511,152 @@ namespace UnitTest
             aud.QueueAudio(frame);
             ACE_Time_Value tm;
             aud.ProcessQueue(&tm);
+        }
+
+        TEST_METHOD(TestAudioInputNoResample)
+        {
+            WavePCMFile wavfile;
+            Assert::IsTrue(wavfile.NewFile(L"myfile.wav", 16000, 1));
+
+            audioinput_streamer_t ais(new AudioInputStreamer(1));
+            std::vector<ACE_UINT32> timestamps;
+            auto acb = [&](media::AudioFrame& audio_frame,
+                ACE_Message_Block* mb_audio)
+            {
+                wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
+                timestamps.push_back(audio_frame.timestamp);
+                cv.notify_all();
+                return false;
+            };
+
+            ais->RegisterAudioCallback(acb, true);
+
+            auto scb = [&](const AudioInputStatus& stat)
+            {
+                std::wostringstream oss;
+                oss << L"Elapsed: " << stat.elapsed_msec << ". Queued: " << stat.queueduration_msec << std::endl;
+                Logger::WriteMessage(oss.str().c_str());
+            };
+            ais->RegisterAudioInputStatusCallback(scb, true);
+
+            media::AudioFormat infmt(16000, 1);
+
+            const int ASAMPLES = 300;
+
+            MediaStreamOutput mso(infmt, ASAMPLES);
+            ACE_UINT32 outframeduration = ACE_UINT32((ASAMPLES * 1000) / mso.audio.samplerate);
+            Assert::IsTrue(ais->Open(mso));
+            Assert::IsTrue(ais->StartStream());
+
+            short val = 1;
+            std::vector<short> buff(ASAMPLES, val);
+            media::AudioFrame frame(infmt, &buff[0], ASAMPLES);
+            Assert::IsTrue(ais->InsertAudio(frame));
+
+            std::unique_lock<std::mutex> lk(done);
+            cv.wait(lk);
+
+            Assert::AreEqual(ASAMPLES, wavfile.GetSamplesCount());
+
+            buff.assign(ASAMPLES, ++val);
+            Assert::IsTrue(ais->InsertAudio(frame));
+            cv.wait(lk);
+            Assert::AreEqual(ASAMPLES * 2, wavfile.GetSamplesCount());
+
+            Assert::AreEqual(outframeduration + timestamps[0], timestamps[1]);
+            Assert::AreEqual(size_t(2), timestamps.size());
+
+            buff.resize(16000);
+            for (auto i=0;i<buff.size();++i)
+            {
+                if ((i % ASAMPLES) == 0)
+                    ++val;
+                buff[i] = val;
+            }
+            frame = media::AudioFrame(infmt, &buff[0], 16000);
+            Assert::IsTrue(ais->InsertAudio(frame));
+
+            size_t expect_frames = 2 + (16000 / ASAMPLES);
+            while (expect_frames != timestamps.size())
+            {
+                cv.wait(lk);
+            }
+            Assert::AreEqual(expect_frames, timestamps.size());
+
+            ais->Flush();
+            cv.wait(lk);
+
+            Assert::AreEqual(expect_frames + 1, timestamps.size());
+            Assert::AreEqual(timestamps[timestamps.size()-1], timestamps[timestamps.size() - 2] + outframeduration);
+
+            Assert::IsTrue(wavfile.SeekSamplesBegin());
+            short lastval = val;
+            val = 1;
+            buff.resize(300);
+            int c = 0;
+            do
+            {
+                Assert::AreEqual(ASAMPLES, wavfile.ReadSamples(&buff[0], ASAMPLES));
+                for(int i=0;i<ASAMPLES;++i)
+                {
+                    Assert::AreEqual(buff[i], val);
+                }
+                val++;
+            }
+            while (val < lastval);
+
+            int remain = (16000 + 2 * ASAMPLES) % ASAMPLES, s;
+            Assert::AreEqual(ASAMPLES, wavfile.ReadSamples(&buff[0], ASAMPLES));
+            for(s = 0; s<remain; ++s)
+            {
+                Assert::AreEqual(val, buff[s]);
+            }
+            for(s = remain; s<ASAMPLES; ++s)
+            {
+                Assert::AreEqual(short(0), buff[s]);
+            }
+        }
+
+        TEST_METHOD(TestAudioInputResample)
+        {
+            WavePCMFile wavfile;
+            Assert::IsTrue(wavfile.NewFile(L"myfile.wav", 48000, 2));
+
+            audioinput_streamer_t ais(new AudioInputStreamer(2));
+            std::vector<ACE_UINT32> timestamps;
+            auto cb = [&](media::AudioFrame& audio_frame,
+                ACE_Message_Block* mb_audio)
+            {
+                wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
+                timestamps.push_back(audio_frame.timestamp);
+                cv.notify_all();
+                return false;
+            };
+
+            ais->RegisterAudioCallback(cb, true);
+
+            media::AudioFormat infmt(44100, 1);
+
+            MediaStreamOutput mso(media::AudioFormat(48000, 2), 48000 * .05);
+            ACE_UINT32 outframeduration = ACE_UINT32((48000 * .05 * 1000) / mso.audio.samplerate);
+            Assert::IsTrue(ais->Open(mso));
+            Assert::IsTrue(ais->StartStream());
+
+            std::vector<short> buff(44100 * .05);
+            media::AudioFrame frame(infmt, &buff[0], 44100 * .05);
+            Assert::IsTrue(ais->InsertAudio(frame));
+
+            std::unique_lock<std::mutex> lk(done);
+            cv.wait(lk);
+
+            Assert::AreEqual(int(48000 * .05), wavfile.GetSamplesCount());
+
+            Assert::IsTrue(ais->InsertAudio(frame));
+            cv.wait(lk);
+            Assert::AreEqual(int(48000 * .05) * 2, wavfile.GetSamplesCount());
+
+            Assert::AreEqual(outframeduration + timestamps[0], timestamps[1]);
+            Assert::AreEqual(size_t(2), timestamps.size());
         }
 
         bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)

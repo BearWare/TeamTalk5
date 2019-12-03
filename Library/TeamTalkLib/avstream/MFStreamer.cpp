@@ -32,21 +32,24 @@
 
 bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
-    MediaFileProp prop;
-    prop.filename = filename;
-    MFStreamer s(NULL);
-    if (s.OpenFile(prop, MediaStreamOutput()))
+    MFStreamer s;
+    if (s.OpenFile(filename, MediaStreamOutput()))
     {
-        fileprop = s.GetMediaInput();
+        fileprop = s.GetMediaFile();
         return true;
     }
     return false;
 }
 
-MFStreamer::MFStreamer(MediaStreamListener* listener)
-    : MediaStreamer(listener)
+MFStreamer::MFStreamer()
 {
 }
+
+MFStreamer::~MFStreamer()
+{
+    Close();
+}
+
 
 LONGLONG SeekInStream(CComPtr<IMFSourceReader>& pSourceReader, DWORD dwStreamIndex, 
                       LONGLONG llOffset, const MediaFileProp& prop)
@@ -289,9 +292,6 @@ void MFStreamer::Run()
 
     InitBuffers(); // requires m_media_out is specified
 
-    assert(m_audio_frames.state() == msg_queue_t::ACTIVATED);
-    assert(m_video_frames.state() == msg_queue_t::ACTIVATED);
-
     if (m_media_in.HasAudio() && m_media_out.HasAudio())
     {
         dwAudioStreamIndex = MF_SOURCE_READER_FIRST_AUDIO_STREAM;
@@ -329,7 +329,8 @@ void MFStreamer::Run()
         // check if we should pause
         if (m_pause)
         {
-            m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_PAUSED);
+            if (m_statuscallback)
+                m_statuscallback(m_media_in, MEDIASTREAM_PAUSED);
 
             ACE_UINT32 pausetime = GETTIMESTAMP();
             if ((m_run.get(start) >= 0 && !start) || m_stop)
@@ -342,7 +343,7 @@ void MFStreamer::Run()
             status = MEDIASTREAM_STARTED;
 
             pausetime = GETTIMESTAMP() - pausetime;
-            MYTRACE_COND(pausetime > 0, ACE_TEXT("Pause %s for %u msec\n"), GetMediaInput().filename.c_str(), pausetime);
+            MYTRACE_COND(pausetime > 0, ACE_TEXT("Pause %s for %u msec\n"), GetMediaFile().filename.c_str(), pausetime);
             totalpausetime += pausetime;
         }
 
@@ -353,7 +354,7 @@ void MFStreamer::Run()
         {
             // There's a weird bug in Windows Media Foundation. If you seek to 0 in a very short audio file (<500 msec)
             // then it actually seeks a few milliseconds into the file.
-            MYTRACE(ACE_TEXT("Skipping seek to 0 in %s because already at 0 msec\n"), GetMediaInput().filename.c_str());
+            MYTRACE(ACE_TEXT("Skipping seek to 0 in %s because already at 0 msec\n"), GetMediaFile().filename.c_str());
         }
         else if (newoffset != MEDIASTREAMER_OFFSET_IGNORE)
         {
@@ -366,9 +367,9 @@ void MFStreamer::Run()
             {
                 // advance to the new offset (apparently we have to do this manually)
                 if (llAudioTimestamp >= 0)
-                    SeekInStream(pSourceReader, dwAudioStreamIndex, LONGLONG(newoffset) * 10000, GetMediaInput());
+                    SeekInStream(pSourceReader, dwAudioStreamIndex, LONGLONG(newoffset) * 10000, GetMediaFile());
                 if (llVideoTimestamp >= 0)
-                    SeekInStream(pSourceReader, dwVideoStreamIndex, LONGLONG(newoffset) * 10000, GetMediaInput());
+                    SeekInStream(pSourceReader, dwVideoStreamIndex, LONGLONG(newoffset) * 10000, GetMediaFile());
 
                 m_media_in.elapsed_ms = newoffset;
                 start_time = GETTIMESTAMP();
@@ -383,13 +384,13 @@ void MFStreamer::Run()
             if(SUCCEEDED(hrprop))
                 PropVariantClear(&var);
 
-            MYTRACE(ACE_TEXT("Media file %s starting from %u\n"), GetMediaInput().filename.c_str(), newoffset);
+            MYTRACE(ACE_TEXT("Media file %s starting from %u\n"), GetMediaFile().filename.c_str(), newoffset);
         }
 
         if (status != MEDIASTREAM_NONE)
         {
-            if(m_listener)
-                m_listener->MediaStreamStatusCallback(this, m_media_in, status);
+            if(m_statuscallback)
+                m_statuscallback(m_media_in, status);
 
             status = MEDIASTREAM_NONE;
         }
@@ -460,7 +461,8 @@ void MFStreamer::Run()
             }
         }
 
-        m_listener->MediaStreamStatusCallback(this, this->GetMediaInput(), MEDIASTREAM_PLAYING);
+        if (m_statuscallback)
+            m_statuscallback(this->GetMediaFile(), MEDIASTREAM_PLAYING);
 
         while(!m_stop && !error && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime + offset, false));
     }
@@ -469,13 +471,13 @@ void MFStreamer::Run()
 
     if (!error && !m_stop)
     {
-        assert(m_audio_frames.message_count() == 0);
+        assert(GetQueuedAudioDataSize() == 0);
     }
 
-    assert(m_stop || m_audio_frames.message_length() == 0);
+    assert(m_stop || GetQueuedAudioDataSize() == 0);
 
-    if(m_listener && !m_stop)
-        m_listener->MediaStreamStatusCallback(this, m_media_in, error? MEDIASTREAM_ERROR : MEDIASTREAM_FINISHED);
+    if (m_statuscallback && !m_stop)
+        m_statuscallback(m_media_in, error? MEDIASTREAM_ERROR : MEDIASTREAM_FINISHED);
 
     return;
 
@@ -505,26 +507,14 @@ int MFStreamer::QueueAudioSample(CComPtr<IMFSample>& pSample, int64_t sampletime
         assert(SUCCEEDED(hr));
         if(SUCCEEDED(hr))
         {
-            ACE_Message_Block* mb;
-            ACE_NEW_NORETURN(mb, ACE_Message_Block(dwCurLen + sizeof(media::AudioFrame)));
-
             media::AudioFrame media_frame;
             media_frame.timestamp = ACE_UINT32(sampletime / 10000);
-            media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
+            media_frame.input_buffer = reinterpret_cast<short*>(pBuffer);
             assert(m_media_out.audio.channels > 0);
             media_frame.input_samples = dwCurLen / sizeof(uint16_t) / m_media_out.audio.channels;
             media_frame.inputfmt = m_media_out.audio;
-            int ret = mb->copy(reinterpret_cast<const char*>(&media_frame), sizeof(media_frame));
-            assert(ret >= 0);
-            ret = mb->copy(reinterpret_cast<const char*>(pBuffer), dwCurLen);
-            assert(ret >= 0);
-            ACE_Time_Value tv;
-            ret = m_audio_frames.enqueue(mb, &tv);
-            MYTRACE_COND(ret < 0, ACE_TEXT("Skipped audio frame. Buffer full\n"));
-            if(ret < 0)
-            {
-                mb->release();
-            }
+
+            QueueAudio(media_frame);
             aframes++;
         }
         hr = pMediaBuffer->Unlock();
@@ -561,14 +551,7 @@ int MFStreamer::QueueVideoSample(CComPtr<IMFSample>& pSample, int64_t sampletime
             media::VideoFrame media_frame(m_media_out.video,
                 reinterpret_cast<char*>(pBuffer), dwCurLen);
             media_frame.timestamp = ACE_UINT32(llSampleTimeStamp / 10000);
-            ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
-            ACE_Time_Value tv;
-            int ret = m_video_frames.enqueue(mb, &tv);
-            MYTRACE_COND(ret < 0, ACE_TEXT("Skipped video frame. Buffer full\n"));
-            if(ret < 0)
-            {
-                mb->release();
-            }
+            QueueVideo(media_frame);
             vframes++;
         }
         hr = pMediaBuffer->Unlock();

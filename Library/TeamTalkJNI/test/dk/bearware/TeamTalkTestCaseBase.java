@@ -24,6 +24,9 @@
 package dk.bearware;
 
 import java.util.Vector;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import junit.framework.TestCase;
 
@@ -316,15 +319,11 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             msg.ttType = tmp.ttType;
             msg.nSource = tmp.nSource;
 
-            msg.bActive = tmp.bActive;
             msg.channel = tmp.channel;
             msg.clienterrormsg = tmp.clienterrormsg;
             msg.desktopinput = tmp.desktopinput;
             msg.filetransfer = tmp.filetransfer;
             msg.mediafileinfo = tmp.mediafileinfo;
-            msg.nBytesRemain = tmp.nBytesRemain;
-            msg.nPayloadSize = tmp.nPayloadSize;
-            msg.nStreamID = tmp.nStreamID;
             msg.remotefile = tmp.remotefile;
             msg.serverproperties = tmp.serverproperties;
             msg.serverstatistics = tmp.serverstatistics;
@@ -332,9 +331,14 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             msg.user = tmp.user;
             msg.useraccount = tmp.useraccount;
             msg.banneduser = tmp.banneduser;
+            msg.bActive = tmp.bActive;
+            msg.nBytesRemain = tmp.nBytesRemain;
+            msg.nStreamID = tmp.nStreamID;
+            msg.nPayloadSize = tmp.nPayloadSize;
             msg.nStreamType = tmp.nStreamType;
+            msg.audioinputprogress = tmp.audioinputprogress;
             //if assert fails it's because the TTType isn't handled here
-            assertTrue("TTType unhandled: " + tmp.ttType, tmp.ttType <= TTType.__STREAMTYPE);
+            assertTrue("TTType unhandled: " + tmp.ttType, tmp.ttType <= TTType.__AUDIOINPUTPROGRESS);
         }
         else
         {
@@ -463,4 +467,63 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         System.out.println("");
         System.out.println("\tDefault sample rate: " + Integer.toString(dev.nDefaultSampleRate));
     }
+
+    static FileOutputStream newWaveFile(String filename, int samplerate, int channels, int bytesize) throws IOException {
+        FileOutputStream fs = new FileOutputStream(filename);
+
+        fs.write(new String("RIFF").getBytes());
+        int v = bytesize + 36 - 8;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //WRITE_BYTES - 36 - 8
+        fs.write(new String("WAVEfmt ").getBytes());
+        fs.write(new byte[] {0x10, 0x0, 0x0, 0x0}); //hdr size
+        fs.write(new byte[] {0x1, 0x0}); //type
+        fs.write(new byte[] {(byte)channels, 0x0}); //channels
+        v = samplerate;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //sample rate
+        v = (samplerate * 16 * channels) / 8;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //bytes/sec
+        v = (16 * channels) / 8;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF)}); //block align
+        fs.write(new byte[] {0x10, 0x0}); //bit depth
+        fs.write(new String("data").getBytes());
+        v = bytesize - 44;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //WRITE_BYTES - 44
+        return fs;
+    }
+
+    static short[] generateTone(int freq, int samplerate, int channels, int durationMSec) {
+        double volume = 8000;
+        double duration = durationMSec;
+        duration /= 1000;
+        int samples = (int)(duration * samplerate);
+        short[] buffer = new short[samples*channels];
+        
+        for (int i=0; i < samples; i++) {
+            double t = (double)i / samplerate;
+            double v = volume * Math.sin((double)freq * t * 2. * Math.PI);
+            
+            if (v > 32767)
+                v = 32767;
+            else if(v < -32768)
+                v = -32768;
+
+            if (channels == 1)
+                buffer[i] = (short)v;
+            else {
+                buffer[2 * i] = (short)v;
+                buffer[2 * i + 1] = (short)v;
+            }
+        }
+        return buffer;
+    }
+
+    static byte[] generateToneAsByte(int freq, int samplerate, int channels, int durationMSec) {
+        short[] tone = generateTone(freq, samplerate, channels, durationMSec);
+        ByteBuffer buf = ByteBuffer.allocate(tone.length * 2);
+        for(int i = 0; i<tone.length; ++i) {
+            buf.putShort(tone[i]);    
+        }
+        return buf.array();
+    }
+
 }

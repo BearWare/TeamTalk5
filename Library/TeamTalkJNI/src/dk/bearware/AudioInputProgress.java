@@ -21,28 +21,10 @@
  *
  */
 
-#if !defined(AVFCAPTURE_H)
-#define AVFCAPTURE_H
+package dk.bearware;
 
-#include "AVFVideoInput.h"
-
-namespace vidcap {
-
-    class AVFCapture : public FFMpeg3Capture
-    {
-    protected:
-        ffmpegvideoinput_t createStreamer(const VidCapDevice& viddevice,
-                                          const media::VideoFormat& fmt);
-
-    public:
-        AVFCapture();
-        virtual ~AVFCapture();
-
-        // VideoCapture interface
-        vidcap_devices_t GetDevices();
-    };
-
+public class AudioInputProgress {
+    public int nStreamID;
+    public int uQueueMSec;
+    public int uElapsedMSec;
 }
-
-#endif
-

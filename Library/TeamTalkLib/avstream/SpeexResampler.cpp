@@ -26,10 +26,10 @@
 #include <assert.h>
 #include <math.h>
 
-SpeexResampler::SpeexResampler()
-: m_state(NULL)
-, m_input_channels(1)
-, m_output_channels(1)
+SpeexResampler::SpeexResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
+                               int fixed_input_samples)
+: AudioResampler(informat, outformat, fixed_input_samples)
+, m_state(NULL)
 {
 }
 
@@ -38,21 +38,17 @@ SpeexResampler::~SpeexResampler()
     Close();
 }
 
-bool SpeexResampler::Init(int quality, int input_samplerate, int input_channels, 
-                         int output_samplerate, int output_channels)
+bool SpeexResampler::Init(int quality)
 {
-    if( input_channels > 2 || output_channels>2)
+    if (GetInputFormat().channels > 2 || GetOutputFormat().channels > 2)
         return false;
 
     int err = 0;
-    m_state = speex_resampler_init(output_channels, input_samplerate, 
-                                   output_samplerate, quality, &err);
+    m_state = speex_resampler_init(GetOutputFormat().channels, GetInputFormat().samplerate, 
+                                   GetOutputFormat().samplerate, quality, &err);
     assert(m_state);
     if(!m_state)
         return false;
-
-    m_input_channels = input_channels;
-    m_output_channels = output_channels;
 
     return true;
 }
@@ -65,17 +61,18 @@ void SpeexResampler::Close()
     {
         speex_resampler_destroy(m_state);
         m_state = NULL;
-        m_input_channels = m_output_channels = 0;
     }
 }
 
 int SpeexResampler::Resample(const short* input_samples, int input_samples_size, 
                              short* output_samples, int output_samples_size)
 {
+    int inchans = GetInputFormat().channels, outchans = GetOutputFormat().channels;
+
     //setup buffer for mono vs. stereo conversion
-    if(m_input_channels != m_output_channels)
+    if (inchans != outchans)
     {
-        int max_channels = (m_input_channels > m_output_channels)?m_input_channels:m_output_channels;
+        int max_channels = (inchans > outchans)? inchans : outchans;
         int samples_total = input_samples_size * max_channels;
         if(m_tmp_buffer.size() < (size_t)samples_total)
             m_tmp_buffer.resize(samples_total);
@@ -83,7 +80,7 @@ int SpeexResampler::Resample(const short* input_samples, int input_samples_size,
 
     int err = -1;
     spx_uint32_t output_size = (spx_uint32_t)output_samples_size;
-    if(m_input_channels == 2 && m_output_channels == 1)//convert stereo to mono
+    if (inchans == 2 && outchans == 1)//convert stereo to mono
     {
         const size_t mono_sample_count = (size_t)input_samples_size;
         for(size_t i=0;i<mono_sample_count;i++)
@@ -96,7 +93,7 @@ int SpeexResampler::Resample(const short* input_samples, int input_samples_size,
         assert(err == 0);
         assert(mono_sample_count == input_size);
     }
-    else if(m_input_channels == m_output_channels)
+    else if(inchans == outchans)
     {
         /* use speex_resampler_process_interleaved_int for multichannel */
         spx_uint32_t input_size = input_samples_size;
@@ -108,7 +105,7 @@ int SpeexResampler::Resample(const short* input_samples, int input_samples_size,
         assert(err == 0);
         assert((size_t)input_samples_size == input_size);
     }
-    else if(m_input_channels == 1 && m_output_channels == 2) //convert mono to stereo
+    else if(inchans == 1 && outchans == 2) //convert mono to stereo
     {
         for(int i=0;i<input_samples_size;i++)
         {
@@ -131,7 +128,7 @@ int SpeexResampler::Resample(const short* input_samples, int input_samples_size,
     assert((int)output_size <= output_samples_size);
     if((int)output_size < output_samples_size)
     {
-        FillOutput(m_output_channels, output_samples, output_size, output_samples_size);
+        FillOutput(outchans, output_samples, output_size, output_samples_size);
     }
     return err == 0? output_size : 0;
 }

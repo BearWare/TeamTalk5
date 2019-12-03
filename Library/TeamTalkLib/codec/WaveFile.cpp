@@ -85,6 +85,7 @@ bool UpdateWaveFileHeader(ACE_FILE_IO& file)
             file.seek(4, SEEK_CUR) >= 0 /* past 'data' */)
         {
             wavedatasize = int(end - file.tell());
+            wavedatasize -= 4; // don't include size-field as part of data size
             if (file.send_n(&wavedatasize, 4) >= 0)
             {
                 success = true;
@@ -319,16 +320,19 @@ int WavePCMFile::GetSamplesCount()
         return 0;
 
     ACE_OFF_T oldPos = m_wavfile.tell();
-    int nBitsPerSample = 0, nBytesCount = 0;
+    uint16_t wBitsPerSample = 0, nChannels = 0;
+    uint32_t nBytesCount = 0;
+    m_wavfile.seek(22, SEEK_SET);
+    m_wavfile.recv((char*)&nChannels, 2);
     m_wavfile.seek(34, SEEK_SET);
-    m_wavfile.recv((char*)&nBitsPerSample, 2);
+    m_wavfile.recv((char*)&wBitsPerSample, 2);
     m_wavfile.seek(40, SEEK_SET);
     m_wavfile.recv((char*)&nBytesCount, 4);
 
     m_wavfile.seek(oldPos, SEEK_SET);
 
-    if(nBitsPerSample>0)
-        return nBytesCount / (nBitsPerSample / 8);
+    if (wBitsPerSample >= 8 && nChannels > 0)
+        return nBytesCount / (wBitsPerSample / 8) / nChannels;
 
     return 0;
 }

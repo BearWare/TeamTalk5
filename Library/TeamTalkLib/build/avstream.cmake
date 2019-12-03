@@ -10,6 +10,9 @@ set (AVSTREAM_HEADERS ${TEAMTALKLIB_ROOT}/avstream/MediaStreamer.h)
 list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/MediaPlayback.cpp)
 list (APPEND AVSTREAM_HEADERS ${TEAMTALKLIB_ROOT}/avstream/MediaPlayback.h)
 
+list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/AudioInputStreamer.cpp)
+list (APPEND AVSTREAM_HEADERS ${TEAMTALKLIB_ROOT}/avstream/AudioInputStreamer.h)
+
 option (SPEEXDSP "Build SpeexDSP codec classes" ON)
 
 if (SPEEXDSP)
