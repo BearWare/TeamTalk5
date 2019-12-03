@@ -23,6 +23,25 @@
 
 #include "catch.hpp"
 
+#if defined(WIN32)
+#include <ace/Init_ACE.h>
+#include <assert.h>
+static class WinInit
+{
+public:
+    WinInit()
+    {
+        int ret = ACE::init();
+        assert(ret >= 0);
+    }
+    ~WinInit()
+    {
+        int ret = ACE::fini();
+        assert(ret >= 0);
+    }
+} wininit;
+#endif
+
 #include <TeamTalk.h>
 
 TEST_CASE( "Init TT", "" ) {

@@ -182,6 +182,22 @@ struct ClientInstance
 
     ClientInstance(TTMsgQueue* eh)
     {
+#if defined(ENABLE_MEDIAFOUNDATION)
+        static class MFInit {
+        public:
+            MFInit()
+            {
+                HRESULT hr = MFStartup(MF_VERSION, MFSTARTUP_FULL);
+                assert(SUCCEEDED(hr));
+            }
+            ~MFInit()
+            {
+                //HRESULT hr = MFShutdown();
+                //assert(SUCCEEDED(hr));
+            }
+        } mfinit;
+#endif
+
         eventhandler.reset(eh);
         clientnode.reset(new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), eh));
         
@@ -200,22 +216,6 @@ struct ClientInstance
         ACE_SSL_Context *context = ACE_SSL_Context::instance();
         if(context->get_mode() != ACE_SSL_Context::SSLv23)
             context->set_mode(ACE_SSL_Context::SSLv23);
-#endif
-
-#if defined(ENABLE_MEDIAFOUNDATION)
-        static class MFInit {
-        public:
-            MFInit()
-            {
-                HRESULT hr = MFStartup(MF_VERSION, MFSTARTUP_FULL);
-                assert(SUCCEEDED(hr));
-            }
-            ~MFInit()
-            {
-                //HRESULT hr = MFShutdown();
-                //assert(SUCCEEDED(hr));
-            }
-        } init;
 #endif
     }
 
@@ -265,8 +265,6 @@ BOOL APIENTRY DllMain(HANDLE hModule,
         }
     case DLL_PROCESS_DETACH:
         {
-            //while(clients.size())
-            //    TT_CloseTeamTalk(*clients.begin());
             ret = ACE::fini();
             TTASSERT(ret>=0);
             break;

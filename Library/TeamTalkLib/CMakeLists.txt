@@ -303,6 +303,10 @@ endif()
 if (CATCH_UNITTEST)
   add_executable (catchtt ${CATCH_UNITTEST_SOURCES} ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
 
+  if (MSVC AND BUILD_TEAMTALK_STATIC)
+    list (APPEND TTCLIENTDLL_INCLUDE_DIR ${TTLIBS_ROOT}/Catch2/include)
+  endif()
+  
   target_include_directories (catchtt PUBLIC
     ${TTCLIENTDLL_INCLUDE_DIR})
 
