@@ -2769,5 +2769,31 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         
         // assertFalse("Maximum queue size for audio input is 3 sec", ttclient.insertAudioBlock(ab));
     }
+
+    public void test_VoiceTransmitOpenCloseAudioInput() {
+        
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase[] ttclients = new TeamTalkBase[4];
+        for (int i=0;i<ttclients.length;++i) {
+            ttclients[i] = newClientInstance();
+            assertTrue(ttclients[i].initSoundOutputDevice(OUTPUTDEVICEID));
+            connect(ttclients[i]);
+            login(ttclients[i], NICKNAME + "_" + i, USERNAME, PASSWORD);
+            joinRoot(ttclients[i]);
+        }
+
+        for (int i=0;i<4;i++) {
+            for (TeamTalkBase ttclient : ttclients) {
+                assertTrue("client init sndinput", ttclient.initSoundInputDevice(INPUTDEVICEID));
+                assertTrue("client enable voice tx", ttclient.enableVoiceActivation(true));
+                waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 500);
+                assertTrue("client close sndinput", ttclient.closeSoundInputDevice());
+                assertTrue("client disable voice tx", ttclient.enableVoiceActivation(false));
+            }
+        }
+    }
     
 }
