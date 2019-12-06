@@ -179,18 +179,18 @@ soundgroup_t OpenSLESWrapper::NewSoundGroup()
         return soundgroup_t();
     }
 
-    soundgroup_t sg(new SLSoundGroup());
-    sg->outputMixObject = outputMixObject;
-
+    soundgroup_t sg(new SLSoundGroup(outputMixObject));
     return sg;
 }
 
 void OpenSLESWrapper::RemoveSoundGroup(soundgroup_t grp)
 {
+    assert(grp->outputMixObject);
     if(grp->outputMixObject)
     {
         (*grp->outputMixObject)->Destroy(grp->outputMixObject);
     }
+    grp->outputMixObject = nullptr;
 }
 
 bool OpenSLESWrapper::GetDefaultDevices(int& inputdeviceid,

@@ -74,7 +74,7 @@ namespace soundsystem {
     struct SLSoundGroup : SoundGroup
     {
         SLObjectItf outputMixObject;
-        SLSoundGroup() : outputMixObject(NULL) { }
+        SLSoundGroup(SLObjectItf omo) : outputMixObject(omo) { }
     };
 
     typedef SoundSystemBase< SLSoundGroup, SLInputStreamer, SLOutputStreamer, DuplexStreamer > SSB;

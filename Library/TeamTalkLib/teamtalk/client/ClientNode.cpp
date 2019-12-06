@@ -433,6 +433,7 @@ void ClientNode::UpdateKeepAlive(const ClientKeepAlive& keepalive)
     // restart keep alive timer
     if (restartudp)
     {
+        TTASSERT(!TimerExists(TIMER_UDPKEEPALIVE_ID));
         StartTimer(TIMER_UDPKEEPALIVE_ID, 0, m_keepalive.udp_keepalive_interval,
                    m_keepalive.udp_keepalive_rtx);
     }
@@ -794,8 +795,6 @@ int ClientNode::Timer_UdpKeepAlive()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    assert(GetFlags() & (CLIENT_CONNECTED));
-
     // try reconnecting on UDP
     if (ACE_Time_Value(m_clientstats.udp_silence_sec, 0) >= m_keepalive.udp_keepalive_interval * 2)
     {
@@ -986,6 +985,8 @@ void ClientNode::RecreateUdpSocket()
 
 void ClientNode::OpenAudioCapture(const AudioCodec& codec)
 {
+    ASSERT_REACTOR_LOCKED(this);
+
     int codec_samplerate = GetAudioCodecSampleRate(codec);
     int codec_samples = GetAudioCodecCbSamples(codec);
     int codec_channels = GetAudioCodecChannels(codec);
@@ -1098,6 +1099,7 @@ void ClientNode::CloseAudioCapture()
     m_playback_buffer.clear();
 }
 
+// Separate thread
 void ClientNode::QueueAudioFrame(const media::AudioFrame& audframe)
 {
     TTASSERT(audframe.userdata == STREAMTYPE_VOICE);
@@ -1932,6 +1934,8 @@ void ClientNode::ReceivedHelloAckPacket(const HelloPacket& packet,
         if(TimerExists(TIMER_UDPCONNECT_ID))
             StopTimer(TIMER_UDPCONNECT_ID);
 
+        TTASSERT(!TimerExists(TIMER_UDPKEEPALIVE_ID));
+
         StartTimer(TIMER_UDPKEEPALIVE_ID, 0, m_keepalive.udp_keepalive_interval,
                    m_keepalive.udp_keepalive_rtx);
         
@@ -2241,6 +2245,15 @@ void ClientNode::SendPackets()
     int ret;
     while( (p = m_tx_queue.GetNextPacket()) )
     {
+        // encoders in separate threads calls ACE_Reactor::notify() to
+        // trigger send but they don't check if connection has been
+        // dropped.
+        MYTRACE_COND(!m_def_stream && !m_crypt_stream,
+                     ACE_TEXT("Cannot send packet type %d on closed connection.\n"), int(p->GetKind()));
+
+        if (!m_def_stream && !m_crypt_stream)
+            continue;
+        
         switch(p->GetKind())
         {
         case PACKET_KIND_VOICE :
@@ -3914,6 +3927,8 @@ void ClientNode::Disconnect()
 
     ASSERT_NOT_REACTOR_THREAD(m_reactor);
 
+    MYTRACE(ACE_TEXT("Disconnecting #%d.\n"), GetUserID());
+
     while(m_timers.size())
     {
         m_reactor.cancel_timer(m_timers.begin()->second, 0);
@@ -3973,6 +3988,8 @@ void ClientNode::Disconnect()
     m_serverinfo = ServerInfo();
     m_clientstats = ClientStats();
     m_localTcpAddr = m_localUdpAddr = ACE_INET_Addr();
+
+    MYTRACE(ACE_TEXT("Disconnected #%d.\n"), GetUserID());
 }
 
 void ClientNode::JoinChannel(clientchannel_t& chan)

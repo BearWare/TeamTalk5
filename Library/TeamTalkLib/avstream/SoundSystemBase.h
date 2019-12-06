@@ -527,6 +527,11 @@ namespace soundsystem {
         virtual ~SoundSystemBase()
         {
             assert(m_nodev_streams.empty());
+            assert(m_sndgrps.empty());
+            assert(m_input_streamers.empty());
+            assert(m_output_streamers.empty());
+            assert(m_duplex_streamers.empty());
+            assert(m_shared_streamcaptures.empty());
         }
 
         virtual bool Init() = 0;
