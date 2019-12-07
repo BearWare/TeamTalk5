@@ -69,16 +69,24 @@ bool OpenSLESWrapper::Init()
 
     // create engine
     result = slCreateEngine(&m_engineObject, 1, engineOption, n_ids, ids, req);
-    assert(SL_RESULT_SUCCESS == result);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result,
+                 ACE_TEXT("Failed to create OpenSL ES engine object\n"));
+    if (SL_RESULT_SUCCESS != result)
+        return false;
 
     // realize the engine
     result = (*m_engineObject)->Realize(m_engineObject, SL_BOOLEAN_FALSE);
-    assert(SL_RESULT_SUCCESS == result);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result,
+                 ACE_TEXT("Failed to realize OpenSL ES engine object\n"));
+    if (SL_RESULT_SUCCESS != result)
+        return false;
 
     // get the engine interface, which is needed in order to create other objects
     result = (*m_engineObject)->GetInterface(m_engineObject, SL_IID_ENGINE, &m_engineEngine);
-    assert(SL_RESULT_SUCCESS == result);
-
+    MYTRACE_COND(SL_RESULT_SUCCESS != result,
+                 ACE_TEXT("Failed to get OpenSL ES engine interface\n"));
+    if (SL_RESULT_SUCCESS != result)
+        return false;
 
     // go through effect capabilities interfaces
     SLAndroidEffectCapabilitiesItf effectLibItf;
@@ -180,12 +188,15 @@ soundgroup_t OpenSLESWrapper::NewSoundGroup()
     }
 
     soundgroup_t sg(new SLSoundGroup(outputMixObject));
+    MYTRACE("Create sound group %p\n", outputMixObject);
     return sg;
 }
 
 void OpenSLESWrapper::RemoveSoundGroup(soundgroup_t grp)
 {
+    assert(grp);
     assert(grp->outputMixObject);
+    MYTRACE("Removing sound group %p\n", grp->outputMixObject);
     if(grp->outputMixObject)
     {
         (*grp->outputMixObject)->Destroy(grp->outputMixObject);
@@ -223,6 +234,8 @@ void bqRecorderCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
     
     SLresult result = (*bq)->GetState(bq, &state);
     assert(result == SL_RESULT_SUCCESS);
+    if (result != SL_RESULT_SUCCESS)
+        return;
 
     ACE_UINT32 buf_index = streamer->buf_index++ % ANDROID_INPUT_BUFFERS;
     assert(streamer->channels);
@@ -274,8 +287,11 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
 
     // create audio recorder
     // (requires the RECORD_AUDIO permission)
-    SLObjectItf recorderObject = NULL;
-    SLRecordItf recorderRecord = NULL;
+    SLObjectItf recorderObject = nullptr;
+    SLRecordItf recorderRecord = nullptr;
+    SLAndroidSimpleBufferQueueItf recorderBufferQueue = nullptr;
+    inputstreamer_t streamer;
+    int frames_per_callback = 0;
 
     const SLInterfaceID id[1] = {SL_IID_ANDROIDSIMPLEBUFFERQUEUE};
     const SLboolean req[1] = {SL_BOOLEAN_TRUE};
@@ -292,28 +308,31 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     result = (*recorderObject)->Realize(recorderObject, SL_BOOLEAN_FALSE);
     if (SL_RESULT_SUCCESS != result) {
         MYTRACE(ACE_TEXT("Failed to realize OpenSL audio recorder\n"));
-        return inputstreamer_t();
+        goto failure;
     }
 
     // get the record interface
     result = (*recorderObject)->GetInterface(recorderObject, SL_IID_RECORD, 
                                              &recorderRecord);
     assert(SL_RESULT_SUCCESS == result);
+    if (result != SL_RESULT_SUCCESS)
+        goto failure;
 
     // get the buffer queue interface
-    SLAndroidSimpleBufferQueueItf recorderBufferQueue = NULL;
     result = (*recorderObject)->GetInterface(recorderObject, SL_IID_ANDROIDSIMPLEBUFFERQUEUE,
                                              &recorderBufferQueue);
     assert(SL_RESULT_SUCCESS == result);
+    if (result != SL_RESULT_SUCCESS)
+        goto failure;
 
     // store input stream properties for callback
-    inputstreamer_t streamer(new SLInputStreamer(capture,
-                                                 sndgrpid,
-                                                 framesize,
-                                                 samplerate,
-                                                 channels,
-                                                 SOUND_API_OPENSLES_ANDROID,
-                                                 inputdeviceid));
+    streamer.reset(new SLInputStreamer(capture,
+                                       sndgrpid,
+                                       framesize,
+                                       samplerate,
+                                       channels,
+                                       SOUND_API_OPENSLES_ANDROID,
+                                       inputdeviceid));
 
     streamer->recorderObject = recorderObject;
     streamer->recorderRecord = recorderRecord;
@@ -324,18 +343,20 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
                                                       bqRecorderCallback,
                                                       streamer.get());
     assert(SL_RESULT_SUCCESS == result);
+    if (result != SL_RESULT_SUCCESS)
+        goto failure;
 
     //figure out how many 'framesize' we need in each callback
-    int frames_per_callback = detectMinumumBuffer(recorderBufferQueue,
-                                                  streamer->buffers[0],
-                                                  samplerate, framesize, 
-                                                  channels);
-    if(frames_per_callback == 0)
+    frames_per_callback = detectMinumumBuffer(recorderBufferQueue,
+                                              streamer->buffers[0],
+                                              samplerate, framesize, 
+                                              channels);
+    if (frames_per_callback == 0)
         goto failure;
 
     MYTRACE(ACE_TEXT("Minimum samples for recording is %d\n"), frames_per_callback * framesize);
     
-    for(size_t i=1;i<ANDROID_INPUT_BUFFERS;i++)
+    for (size_t i=1;i<ANDROID_INPUT_BUFFERS;i++)
     {
         streamer->buffers[i].resize(frames_per_callback*framesize*channels);
         // enqueue an empty buffer to be filled by the recorder
@@ -435,7 +456,7 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
                             streamer->buffers[buf_index].size()*sizeof(short));
     assert(SL_RESULT_SUCCESS == result);
 
-    if(!more)
+    if (!more)
     {
         SLPlayItf playerPlay = streamer->playerPlay;
 
@@ -477,8 +498,11 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
     SLDataLocator_OutputMix loc_outmix = {SL_DATALOCATOR_OUTPUTMIX, outputMixObject};
     SLDataSink audioSnk = {&loc_outmix, NULL};
 
-    SLObjectItf playerObject = NULL;
-    SLPlayItf playerPlay = NULL;
+    SLObjectItf playerObject = nullptr;
+    SLPlayItf playerPlay = nullptr;
+    SLAndroidSimpleBufferQueueItf playerBufferQueue = nullptr;
+    outputstreamer_t streamer;
+    int frames_per_callback = 0;
 
     // create audio player
     const SLInterfaceID ids[3] = {SL_IID_BUFFERQUEUE, SL_IID_EFFECTSEND,
@@ -488,28 +512,41 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
     result = (*m_engineEngine)->CreateAudioPlayer(m_engineEngine, &playerObject, 
                                                   &audioSrc, &audioSnk,
                                                   3, ids, req);
-    assert(SL_RESULT_SUCCESS == result);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result,
+                 ACE_TEXT("Failed to create OpenSL ES player object\n"));
+    if (result != SL_RESULT_SUCCESS)
+        return outputstreamer_t();
 
     // realize the player
     result = (*playerObject)->Realize(playerObject, SL_BOOLEAN_FALSE);
-    assert(SL_RESULT_SUCCESS == result);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result,
+                 ACE_TEXT("Failed to realize OpenSL ES player object\n"));
+    if (result != SL_RESULT_SUCCESS)
+        goto failure;
 
     // get the play interface
     result = (*playerObject)->GetInterface(playerObject, SL_IID_PLAY, &playerPlay);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result,
+                 ACE_TEXT("Failed to get OpenSL ES play interface\n"));
     assert(SL_RESULT_SUCCESS == result);
+    if (result != SL_RESULT_SUCCESS)
+        goto failure;
 
     // get the buffer queue interface
-    SLAndroidSimpleBufferQueueItf playerBufferQueue = NULL;
     result = (*playerObject)->GetInterface(playerObject, 
                                            SL_IID_BUFFERQUEUE,
                                            &playerBufferQueue);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result,
+                 ACE_TEXT("Failed to get OpenSL ES buffer interface\n"));
     assert(SL_RESULT_SUCCESS == result);
+    if (result != SL_RESULT_SUCCESS)
+        goto failure;
 
-    outputstreamer_t streamer(new SLOutputStreamer(player, sndgrpid, 
-                                                   framesize, samplerate,
-                                                   channels, 
-                                                   SOUND_API_OPENSLES_ANDROID,
-                                                   outputdeviceid));
+    streamer.reset(new SLOutputStreamer(player, sndgrpid, 
+                                        framesize, samplerate,
+                                        channels, 
+                                        SOUND_API_OPENSLES_ANDROID,
+                                        outputdeviceid));
   
     streamer->playerObject = playerObject;
     streamer->playerPlay = playerPlay;
@@ -520,18 +557,21 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
                                                     bqPlayerCallback,
                                                     streamer.get());
     assert(SL_RESULT_SUCCESS == result);
+    if (result != SL_RESULT_SUCCESS)
+        goto failure;
 
     //figure out how many 'framesize' we need in each callback
-    int frames_per_callback = detectMinumumBuffer(playerBufferQueue,
-                                                  streamer->buffers[0],
-                                                  samplerate, framesize, 
-                                                  channels);
+    frames_per_callback = detectMinumumBuffer(playerBufferQueue,
+                                              streamer->buffers[0],
+                                              samplerate, framesize, 
+                                              channels);
+    
     MYTRACE(ACE_TEXT("Minimum samples for playback is %d\n"), frames_per_callback * framesize);
 
     if(frames_per_callback == 0)
         goto failure;
     
-    for(size_t i=1;i<ANDROID_OUTPUT_BUFFERS;i++)
+    for (size_t i=1;i<ANDROID_OUTPUT_BUFFERS;i++)
     {
         streamer->buffers[i].resize(frames_per_callback*framesize*channels);
         // here we only enqueue one buffer because it is a long clip,
