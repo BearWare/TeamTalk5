@@ -23,6 +23,8 @@
 
 #include "catch.hpp"
 
+#include <codec/OggOutput.h>
+
 #if defined(WIN32)
 #include <ace/Init_ACE.h>
 #include <assert.h>
@@ -48,4 +50,9 @@ TEST_CASE( "Init TT", "" ) {
     TTInstance* ttinst;
     REQUIRE( (ttinst = TT_InitTeamTalkPoll()) );
     REQUIRE( TT_CloseTeamTalk(ttinst) );
+}
+
+TEST_CASE( "Ogg Write", "" ) {
+    SpeexEncFile spxfile;
+    REQUIRE( spxfile.Open("/foo.spx", 1, DEFAULT_SPEEX_COMPLEXITY, 7, 32000, 48000, false) == false);
 }
