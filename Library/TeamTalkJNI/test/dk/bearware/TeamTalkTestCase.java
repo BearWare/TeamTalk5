@@ -2022,7 +2022,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
 
         TTMessage msg = new TTMessage();
-        this.INPUTDEVICEID = this.OUTPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
 
         TeamTalkBase ttclient1 = newClientInstance();
 
@@ -2770,7 +2769,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         // assertFalse("Maximum queue size for audio input is 3 sec", ttclient.insertAudioBlock(ab));
     }
 
-    public void test_VoiceTransmitOpenCloseAudioInput() {
+    public void test_VoiceTransmitOpenCloseAudioInput() throws InterruptedException {
         
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE;
@@ -2785,14 +2784,20 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             joinRoot(ttclients[i]);
         }
 
-        for (int i=0;i<4;i++) {
+        for (int i=0;i < 5; i++) {
             for (TeamTalkBase ttclient : ttclients) {
                 assertTrue("client init sndinput", ttclient.initSoundInputDevice(INPUTDEVICEID));
-                assertTrue("client enable voice tx", ttclient.enableVoiceActivation(true));
-                waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 500);
-                assertTrue("client close sndinput", ttclient.closeSoundInputDevice());
-                assertTrue("client disable voice tx", ttclient.enableVoiceActivation(false));
+                assertTrue("client enable voice tx", ttclient.enableVoiceTransmission(true));
             }
+
+            waitForEvent(ttclients[0], ClientEvent.CLIENTEVENT_NONE, 1500);
+        
+            for (TeamTalkBase ttclient : ttclients) {
+                assertTrue("client close sndinput", ttclient.closeSoundInputDevice());
+                assertTrue("client disable voice tx", ttclient.enableVoiceTransmission(false));
+            }
+
+            waitForEvent(ttclients[0], ClientEvent.CLIENTEVENT_NONE, 1000);
         }
     }
     
