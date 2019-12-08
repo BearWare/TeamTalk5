@@ -799,6 +799,7 @@ namespace soundsystem {
                 return 0;
 
             m_sndgrps[sndgrpid] = sg;
+            MYTRACE(ACE_TEXT("Active sound groups %d\n"), int(m_sndgrps.size()));
             return sndgrpid;
         }
 
