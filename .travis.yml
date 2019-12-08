@@ -34,6 +34,7 @@ addons:
       - libqt5webkit5-dev
 #      - qtwebengine5-dev (ubuntu 18)
       - junit4
+      - catch
 
 # Library/TeamTalkLib/toolchain has many submodules
 git:
@@ -52,7 +53,7 @@ script:
 # Build libraries, server binaries and examples
   - mkdir build
   - cd build
-  - cmake -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_STATIC=OFF -DBUILD_TEAMTALK_ACE=OFF -DSPEEXDSP_STATIC=OFF -DFFMPEG_STATIC=OFF -DAVF=OFF -DMSDMO=OFF -DDSHOW=OFF -DVIDCAP=OFF -DMEDIAFOUNDATION=OFF -DOPUS_STATIC=OFF -DLIBVPX_STATIC=OFF -DSPEEX_STATIC=OFF -DOGG_STATIC=OFF -DOPUSTOOLS=OFF -DLAMEMP3=OFF -DMSVS_UNITTEST=OFF -DACE_STATIC=OFF -DTINYXML_STATIC=OFF -DPORTAUDIO=OFF -DZLIB_STATIC=OFF ..
+  - cmake -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_STATIC=OFF -DBUILD_TEAMTALK_ACE=OFF -DSPEEXDSP_STATIC=OFF -DFFMPEG_STATIC=OFF -DAVF=OFF -DMSDMO=OFF -DDSHOW=OFF -DVIDCAP=OFF -DMEDIAFOUNDATION=OFF -DOPUS_STATIC=OFF -DLIBVPX_STATIC=OFF -DSPEEX_STATIC=OFF -DOGG_STATIC=OFF -DOPUSTOOLS=OFF -DLAMEMP3=OFF -DMSVS_UNITTEST=OFF -DACE_STATIC=OFF -DTINYXML_STATIC=OFF -DPORTAUDIO=OFF -DZLIB_STATIC=OFF -DCATCH_UNITTEST=ON ..
   - make -j4
 # Run JUnit suite TeamTalkServerTestSuite.java
   - cd $TRAVIS_BUILD_DIR
@@ -89,6 +90,9 @@ script:
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
   - make runjunitsrv
+# Run Catch unit tests (disabled, don't work with linked shared objects)
+#  - cd $TRAVIS_BUILD_DIR
+#  - Library/TeamTalkLib/test/catchtt
 
 # Build Qt clients
 #  - cd $TRAVIS_BUILD_DIR

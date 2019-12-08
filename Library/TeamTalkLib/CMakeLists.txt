@@ -31,6 +31,7 @@ list (APPEND CMAKE_MODULE_PATH "${TEAMTALKLIB_ROOT}/build")
 
 include (ttsrv)
 include (ttdll)
+include (unittest)
 
 set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
 set (CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
@@ -87,6 +88,12 @@ endfunction()
 option (BUILD_TEAMTALK5DLL "Build TeamTalk library" ON)
 
 if (BUILD_TEAMTALK5DLL)
+
+  if (MSVS_UNITTEST)
+    list (APPEND TTCLIENTDLL_SOURCES ${MSVS_UNITTEST_SOURCES})
+    set_target_properties (TeamTalk5DLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
+    set_target_properties (TeamTalk5DLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
+  endif()
   
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android" OR ${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     add_library (TeamTalk5DLL STATIC
@@ -116,11 +123,6 @@ if (BUILD_TEAMTALK5DLL)
 
   set_target_properties (TeamTalk5DLL PROPERTIES OUTPUT_NAME TeamTalk5)
 
-  if (MSVS_UNITTEST)
-    set_target_properties (TeamTalk5DLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
-    set_target_properties (TeamTalk5DLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
-  endif()
-
 endif()
 
 ######################
@@ -130,6 +132,12 @@ endif()
 option (BUILD_TEAMTALK5PRODLL "Build TeamTalk shared library" ON)
 
 if (BUILD_TEAMTALK5PRODLL)
+
+  if (MSVS_UNITTEST)
+    list (APPEND TTCLIENTPRODLL_SOURCES ${MSVS_UNITTEST_SOURCES})
+    set_target_properties (TeamTalk5ProDLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
+    set_target_properties (TeamTalk5ProDLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
+  endif()
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android" OR ${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     add_library (TeamTalk5ProDLL STATIC
@@ -158,11 +166,6 @@ if (BUILD_TEAMTALK5PRODLL)
   endif()
 
   set_target_properties (TeamTalk5ProDLL PROPERTIES OUTPUT_NAME TeamTalk5Pro)
-
-  if (MSVS_UNITTEST)
-    set_target_properties (TeamTalk5ProDLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
-    set_target_properties (TeamTalk5ProDLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
-  endif()
 
 endif()
 
@@ -291,4 +294,29 @@ if (MSVC)
     endif()
     
   endif()
+endif()
+
+####################
+# Catch unit-tests #
+####################
+
+if (CATCH_UNITTEST)
+  add_executable (catchtt ${CATCH_UNITTEST_SOURCES} ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
+
+  if (MSVC AND BUILD_TEAMTALK_STATIC)
+    list (APPEND TTCLIENTDLL_INCLUDE_DIR ${TTLIBS_ROOT}/Catch2/include)
+  endif()
+  
+  target_include_directories (catchtt PUBLIC
+    ${TTCLIENTDLL_INCLUDE_DIR})
+
+  target_compile_options (catchtt PUBLIC
+    ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
+
+  target_link_libraries (catchtt
+    ${TTCLIENTDLL_LINK_FLAGS}
+    ${LINK_LIBS})
+
+  set_output_dir(catchtt ${TEAMTALK_ROOT}/Library/TeamTalkLib/test)
+
 endif()
