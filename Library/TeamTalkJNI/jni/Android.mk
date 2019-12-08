@@ -159,7 +159,7 @@ include $(PREBUILT_STATIC_LIBRARY)
 LOCAL_PATH := ./
 
 include $(CLEAR_VARS)
-LOCAL_CPPFLAGS := -I$(TEAMTALK_ROOT)/Library/TeamTalk_DLL -DPIC -fPIC
+LOCAL_CPPFLAGS := -I$(TEAMTALK_ROOT)/Library/TeamTalk_DLL -DPIC -fPIC -g
 LOCAL_MODULE    := TeamTalk5-jni
 LOCAL_SRC_FILES := teamtalk-jni.cpp ttconvert-jni.cpp
 
@@ -178,7 +178,7 @@ include $(BUILD_SHARED_LIBRARY)
 #TeamTalk Pro JNI shared library
 
 include $(CLEAR_VARS)
-LOCAL_CPPFLAGS := -I$(TEAMTALK_ROOT)/Library/TeamTalk_DLL -DPIC -fPIC
+LOCAL_CPPFLAGS := -I$(TEAMTALK_ROOT)/Library/TeamTalk_DLL -DPIC -fPIC -g
 LOCAL_MODULE    := TeamTalk5Pro-jni
 LOCAL_SRC_FILES := teamtalk-jni.cpp ttconvert-jni.cpp teamtalksrv-jni.cpp
 
