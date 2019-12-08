@@ -467,7 +467,7 @@ void AudioMuxer::WriteAudioToFile(int cb_samples)
     int samplerate = GetAudioCodecSampleRate(m_codec);
     TTASSERT(cb_samples == GetAudioCodecFramesPerPacket(m_codec)*framesize);
 #if ENABLE_SPEEXFILE
-    if(m_speexfile.get() && framesize)
+    if(m_speexfile && framesize)
     {
         int ret = 0;
         for(int i=0;i<cb_samples/framesize && ret >= 0;i++)
@@ -478,7 +478,7 @@ void AudioMuxer::WriteAudioToFile(int cb_samples)
 #endif
 
 #if defined(ENABLE_OPUSFILE)
-    if(m_opusfile.get() && framesize)
+    if(m_opusfile && framesize)
     {
         int ret = 0;
         for(int i=0;i<cb_samples/framesize && ret >= 0;i++)
@@ -505,28 +505,37 @@ bool AudioMuxer::SetupFileEncode(const ACE_TString& filename,
     bool dtx = false;
     switch(codec.codec)
     {
-#if ENABLE_SPEEXFILE
     case CODEC_SPEEX_VBR :
         bitrate = codec.speex_vbr.bitrate;
         maxbitrate = codec.speex_vbr.max_bitrate;
         dtx = codec.speex_vbr.dtx;
     case CODEC_SPEEX :
+#if ENABLE_SPEEXFILE
         m_speexfile.reset(new SpeexEncFile());
-        return m_speexfile->Open(filename,
-                                 GetSpeexBandMode(codec),
-                                 DEFAULT_SPEEX_COMPLEXITY,
-                                 (float)GetSpeexQuality(codec),
-                                 bitrate, maxbitrate, dtx);
+        if (m_speexfile->Open(filename,
+                              GetSpeexBandMode(codec),
+                              DEFAULT_SPEEX_COMPLEXITY,
+                              (float)GetSpeexQuality(codec),
+                              bitrate, maxbitrate, dtx))
+            return true;
+        else
+            m_speexfile.reset();
 #endif
+        break;
     case CODEC_OPUS :
 #if defined(ENABLE_OPUSFILE)
         m_opusfile.reset(new OpusEncFile());
-        return m_opusfile->Open(filename, GetAudioCodecChannels(codec),
-                                GetAudioCodecSampleRate(codec),
-                                GetAudioCodecFrameSize(m_codec),
-                                codec.opus.application);
+        if (m_opusfile->Open(filename, GetAudioCodecChannels(codec),
+                             GetAudioCodecSampleRate(codec),
+                             GetAudioCodecFrameSize(m_codec),
+                             codec.opus.application))
+            return true;
+        else
+            m_opusfile.reset();
 #endif
+        break;
     default :
-        return false;
+        break;
     }
+    return false;
 }

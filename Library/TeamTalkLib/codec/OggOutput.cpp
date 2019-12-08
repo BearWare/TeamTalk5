@@ -321,7 +321,7 @@ bool SpeexFile::Open(const ACE_TString& filename,
 
 void SpeexFile::Close()
 {
-    //write remaining audio
+    // write remaining audio
     int ret;
     while(m_speex.FlushPageOut(m_aud_page)>0)
     {
