@@ -555,6 +555,16 @@ namespace soundsystem {
             return soundgroup_t();
         }
 
+        std::vector<soundgroup_t> GetSoundGroups()
+        {
+            std::vector<soundgroup_t> result;
+            
+            wguard_t g(sndgrp_lock());
+            for (auto grp : m_sndgrps)
+                result.push_back(grp.second);
+            return result;
+        }
+
         virtual inputstreamer_t NewStream(StreamCapture* capture, 
                                           int inputdeviceid, int sndgrpid, 
                                           int samplerate, int channels,

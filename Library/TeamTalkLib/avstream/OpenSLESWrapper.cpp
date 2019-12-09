@@ -88,6 +88,11 @@ bool OpenSLESWrapper::Init()
     if (SL_RESULT_SUCCESS != result)
         return false;
 
+    // reinitialize sound groups so they can use the new m_engineEngine
+    std::vector<soundgroup_t> grps = GetSoundGroups();
+    for (auto sndgrp : grps)
+        InitOutputMixObject(sndgrp);
+
     // go through effect capabilities interfaces
     SLAndroidEffectCapabilitiesItf effectLibItf;
     result = (*m_engineObject)->GetInterface(m_engineObject, SL_IID_ANDROIDEFFECTCAPABILITIES, &effectLibItf);
@@ -150,6 +155,10 @@ void OpenSLESWrapper::Close()
 {
     if(m_engineObject)
     {
+        std::vector<soundgroup_t> grps = GetSoundGroups();
+        for (auto sndgrp : grps)
+            CloseOutputMixObject(sndgrp);
+        
         (*m_engineObject)->Destroy(m_engineObject);
         m_engineObject = NULL;
         m_engineEngine = NULL;
