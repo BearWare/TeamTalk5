@@ -44,7 +44,7 @@ namespace soundsystem {
         SLObjectItf recorderObject;
         SLRecordItf recorderRecord;
         SLAndroidSimpleBufferQueueItf recorderBufferQueue;
-        ACE_Recursive_Thread_Mutex mutex;
+        std::mutex mutex;
 
         std::vector<short> buffers[ANDROID_INPUT_BUFFERS];
         ACE_UINT32 buf_index;
@@ -60,7 +60,7 @@ namespace soundsystem {
         SLObjectItf playerObject;
         SLPlayItf playerPlay;
         SLAndroidSimpleBufferQueueItf playerBufferQueue;
-        ACE_Recursive_Thread_Mutex mutex;
+        std::mutex mutex;
 
         std::vector<short> buffers[ANDROID_OUTPUT_BUFFERS];
         ACE_UINT32 buf_index;

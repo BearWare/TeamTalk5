@@ -65,8 +65,8 @@ std::shared_ptr<PortAudio> PortAudio::getInstance()
     static std::shared_ptr<PortAudio> p(new PortAudio());
 
 #if defined(ACE_WIN32) //COM must be initialize for all threads which uses this class
-    static ACE_Recursive_Thread_Mutex mtx;
-    wguard_t g(mtx);
+    static std::mutex mtx;
+    std::lock_guard<std::mutex> g(mtx);
 
     static set<ACE_thread_t> com_threads;
     if(com_threads.find(ACE_Thread::self()) == com_threads.end())

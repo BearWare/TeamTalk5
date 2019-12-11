@@ -281,7 +281,7 @@ void bqRecorderCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
     SLInputStreamer* streamer = static_cast<SLInputStreamer*>(context);
     SLAndroidSimpleBufferQueueState state;
 
-    wguard_t g(streamer->mutex);
+    std::lock_guard<std::mutex> g(streamer->mutex);
     
     SLresult result = (*bq)->GetState(bq, &state);
     assert(result == SL_RESULT_SUCCESS);
@@ -467,7 +467,7 @@ void OpenSLESWrapper::CloseStream(inputstreamer_t streamer)
     {
         //wait for recorder callback to complete, otherwise OpenSLES
         //may hang
-        wguard_t g(streamer->mutex);
+        std::lock_guard<std::mutex> g(streamer->mutex);
     }
 
     result = (*streamer->recorderBufferQueue)->Clear(streamer->recorderBufferQueue);
@@ -485,7 +485,7 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
 
     SLOutputStreamer* streamer = static_cast<SLOutputStreamer*>(context);
     bool more = true;
-    wguard_t g(streamer->mutex);
+    std::lock_guard<std::mutex> g(streamer->mutex);
 
     ACE_UINT32 buf_index = streamer->buf_index++ % ANDROID_OUTPUT_BUFFERS;
     assert(streamer->channels);
@@ -709,7 +709,7 @@ bool OpenSLESWrapper::StopStream(outputstreamer_t streamer)
     assert(SL_RESULT_SUCCESS == result);
 
     //wait for player callback to complete
-    wguard_t g2(streamer->mutex);
+    std::lock_guard<std::mutex> g2(streamer->mutex);
 
     return SL_RESULT_SUCCESS == result;
 }

@@ -28,6 +28,7 @@
 
 #include <map>
 #include <memory>
+#include <mutex>
 #include <assert.h>
 
 namespace soundsystem {
@@ -235,8 +236,8 @@ namespace soundsystem {
     struct DuplexStreamer : public SoundStreamer
     {
         StreamDuplex* duplex;
-        std::vector<OutputStreamer*> players;
-        ACE_Recursive_Thread_Mutex players_mtx;
+        std::vector<OutputStreamer*> players; // only modify if holding 'players_mtx'
+        std::mutex players_mtx;
         int input_channels;
         int output_channels;
         SoundAPI output_soundsystem;
