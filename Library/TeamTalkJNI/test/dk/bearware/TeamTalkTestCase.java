@@ -802,15 +802,15 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         Channel chan = new Channel();
         ttclient.getChannel(ttclient.getMyChannelID(), chan);
-        assertTrue(ttclient.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
+        assertTrue("Record muxed audio file", ttclient.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
 
-        assertTrue(ttclient.enableVoiceTransmission(true));
+        assertTrue("enable voice tx", ttclient.enableVoiceTransmission(true));
 
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 10000);
 
-        assertTrue(ttclient.stopRecordingMuxedAudioFile());
+        assertTrue("Stop recording muxed audio file", ttclient.stopRecordingMuxedAudioFile());
 
-        assertFalse(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, 100));
+        assertFalse("Not record event should happen", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, 100));
 
         ttclient.enableVoiceTransmission(false);
     }
@@ -854,13 +854,13 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         Channel chan = new Channel();
         ttclient1.getChannel(ttclient1.getMyChannelID(), chan);
 
-        assertTrue(waitCmdSuccess(ttclient1, ttclient1.doSubscribe(ttclient1.getMyUserID(),
-                                                                   Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+        assertTrue("do subscribe", waitCmdSuccess(ttclient1, ttclient1.doSubscribe(ttclient1.getMyUserID(),
+                                                                                   Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
         assertEquals("OPUS codec running", Codec.OPUS_CODEC, chan.audiocodec.nCodec);
         assertTrue("Mux to Opus file", ttclient1.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE_OPUS, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
 
-        assertTrue(ttclient1.enableVoiceTransmission(true));
+        assertTrue("enable voice tx 1", ttclient1.enableVoiceTransmission(true));
 
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 10000);
 
@@ -868,7 +868,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
 
-        assertTrue(ttclient2.enableVoiceTransmission(true));
+        assertTrue("enable voice tx 2", ttclient2.enableVoiceTransmission(true));
 
         waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 10000);
 
@@ -878,7 +878,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
 
-        assertTrue(ttclient1.stopRecordingMuxedAudioFile());
+        assertTrue("Stop recording", ttclient1.stopRecordingMuxedAudioFile());
 
         assertFalse(waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, 100));
     }
