@@ -54,5 +54,5 @@ TEST_CASE( "Init TT", "" ) {
 
 TEST_CASE( "Ogg Write", "" ) {
     SpeexEncFile spxfile;
-    REQUIRE( spxfile.Open("/foo.spx", 1, DEFAULT_SPEEX_COMPLEXITY, 7, 32000, 48000, false) == false);
+    REQUIRE( spxfile.Open(ACE_TEXT("/foo.spx"), 1, DEFAULT_SPEEX_COMPLEXITY, 7, 32000, 48000, false) == false);
 }
