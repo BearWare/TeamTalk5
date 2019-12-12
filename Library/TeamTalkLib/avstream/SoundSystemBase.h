@@ -1132,8 +1132,10 @@ namespace soundsystem {
             newstreamer->duplex = true;
 #endif
             {
-                std::lock_guard<std::recursive_mutex> g1(players_lock());
-                m_output_streamers[player] = newstreamer;
+                {
+                    std::lock_guard<std::recursive_mutex> g1(players_lock());
+                    m_output_streamers[player] = newstreamer;
+                }
 
                 std::lock_guard<std::recursive_mutex> g2(streamer->players_mtx);
                 //store in list of duplex players which will receive output-callback
@@ -1153,18 +1155,22 @@ namespace soundsystem {
             if (!streamer)
                 return false;
 
+            {
+                std::lock_guard<std::recursive_mutex> g2(streamer->players_mtx);
+                for(size_t i = 0; i<streamer->players.size();)
+                {
+                    if(streamer->players[i]->player == player)
+                    {
+                        streamer->players.erase(streamer->players.begin() + i);
+                    }
+                    else i++;
+                }
+            }
+
+            // player must be erased after it is removed from streamer->players
             std::lock_guard<std::recursive_mutex> g1(players_lock());
             m_output_streamers.erase(player);
-            
-            std::lock_guard<std::recursive_mutex> g2(streamer->players_mtx);
-            for (size_t i=0;i<streamer->players.size();)
-            {
-                if(streamer->players[i]->player == player)
-                {
-                    streamer->players.erase(streamer->players.begin()+i);
-                }
-                else i++;
-            }
+
             return true;
         }
 
