@@ -2778,7 +2778,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase[] ttclients = new TeamTalkBase[4];
         for (int i=0;i<ttclients.length;++i) {
             ttclients[i] = newClientInstance();
-            assertTrue(ttclients[i].initSoundOutputDevice(OUTPUTDEVICEID));
+            IntPtr indev = new IntPtr(), outdev = new IntPtr();
+            assertTrue("get default sound devices", ttclients[i].getDefaultSoundDevices(indev, outdev));
+            assertTrue("init output device", ttclients[i].initSoundOutputDevice(outdev.value));
             connect(ttclients[i]);
             login(ttclients[i], NICKNAME + "_" + i, USERNAME, PASSWORD);
             joinRoot(ttclients[i]);
@@ -2786,7 +2788,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         for (int i=0;i < 5; i++) {
             for (TeamTalkBase ttclient : ttclients) {
-                assertTrue("client init sndinput", ttclient.initSoundInputDevice(INPUTDEVICEID));
+                IntPtr indev = new IntPtr(), outdev = new IntPtr();
+                assertTrue("get default sound devices", ttclient.getDefaultSoundDevices(indev, outdev));
+                assertTrue("client init sndinput", ttclient.initSoundInputDevice(indev.value));
                 assertTrue("client enable voice tx", ttclient.enableVoiceTransmission(true));
             }
 
