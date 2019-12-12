@@ -37,7 +37,7 @@ void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream,
     memset(playback, 0, PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels));
     {
         //lock 'players' so they're not removed during callback
-        std::lock_guard<std::mutex> g(dpxStream.players_mtx);
+        std::lock_guard<std::recursive_mutex> g(dpxStream.players_mtx);
         assert(dpxStream.tmpOutputBuffer.size());
         MuxPlayers(sndsys, dpxStream.players, &dpxStream.tmpOutputBuffer[0], playback);
     }

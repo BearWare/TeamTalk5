@@ -87,7 +87,7 @@ namespace soundsystem {
         msg_queue_t samples_queue;
 
         std::vector<AudUnitBase::outputstreamer_t> streamers;
-        std::mutex streamers_mtx;
+        std::recursive_mutex streamers_mtx;
 
         AUOutputStreamer(StreamPlayer* p, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
             : OutputStreamer(p, sg, fs, sr, chs, sndsys, devid)
@@ -180,7 +180,7 @@ bool EnableSpeakerOutput(bool enable)
     {
         typedef std::vector<outputstreamer_t> muxed_streamers_t;
         muxed_streamers_t m_muxed_streamers;
-        std::mutex m_mux_lock;
+        std::recursive_mutex m_mux_lock;
 
     public:
         AudUnit()
@@ -582,11 +582,11 @@ assert(status == noErr);
         bool NewMuxedStreamer(outputstreamer_t streamer)
         {
             // retrieve shared player among all streams
-            std::lock_guard<std::mutex> g(m_mux_lock);
+            std::lock_guard<std::recursive_mutex> g(m_mux_lock);
             outputstreamer_t muxed = GetMuxedStreamer(streamer);
             if (muxed)
             {
-                std::lock_guard<std::mutex> g(muxed->streamers_mtx);
+                std::lock_guard<std::recursive_mutex> g(muxed->streamers_mtx);
                 // add to muxed playback
                 muxed->streamers.push_back(streamer);
 
@@ -704,11 +704,11 @@ assert(status == noErr);
             AudioUnit audunit = nil;
 
             // remove from shared streamers
-            std::lock_guard<std::mutex> g(m_mux_lock);
+            std::lock_guard<std::recursive_mutex> g(m_mux_lock);
             outputstreamer_t muxed = GetMuxedStreamer(streamer);
             if (muxed)
             {
-                std::lock_guard<std::mutex> g2(muxed->streamers_mtx);
+                std::lock_guard<std::recursive_mutex> g2(muxed->streamers_mtx);
                 auto i = std::find(muxed->streamers.begin(), muxed->streamers.end(), streamer);
                 if (i != muxed->streamers.end())
                     muxed->streamers.erase(i);
@@ -902,7 +902,7 @@ static OSStatus AudioMuxedCallback(void *userData, AudioUnitRenderActionFlags *a
 {
     AUOutputStreamer* streamer = reinterpret_cast<AUOutputStreamer*>(userData);
 
-    std::lock_guard<std::mutex> g(streamer->streamers_mtx);
+    std::lock_guard<std::recursive_mutex> g(streamer->streamers_mtx);
     if(streamer->streamers.empty())
         return noErr;
 

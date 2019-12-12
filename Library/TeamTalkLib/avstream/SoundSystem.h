@@ -237,7 +237,7 @@ namespace soundsystem {
     {
         StreamDuplex* duplex;
         std::vector<OutputStreamer*> players; // only modify if holding 'players_mtx'
-        std::mutex players_mtx;
+        std::recursive_mutex players_mtx;
         int input_channels;
         int output_channels;
         SoundAPI output_soundsystem;

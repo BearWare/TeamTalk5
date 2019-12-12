@@ -44,7 +44,7 @@ namespace soundsystem {
         SLObjectItf recorderObject;
         SLRecordItf recorderRecord;
         SLAndroidSimpleBufferQueueItf recorderBufferQueue;
-        std::mutex mutex;
+        std::recursive_mutex mutex;
 
         std::vector<short> buffers[ANDROID_INPUT_BUFFERS];
         ACE_UINT32 buf_index;
@@ -60,7 +60,7 @@ namespace soundsystem {
         SLObjectItf playerObject;
         SLPlayItf playerPlay;
         SLAndroidSimpleBufferQueueItf playerBufferQueue;
-        std::mutex mutex;
+        std::recursive_mutex mutex;
 
         std::vector<short> buffers[ANDROID_OUTPUT_BUFFERS];
         ACE_UINT32 buf_index;
@@ -75,7 +75,7 @@ namespace soundsystem {
     struct SLSoundGroup : SoundGroup
     {
         SLObjectItf outputMixObject = nullptr;
-        std::mutex mutex;
+        std::recursive_mutex mutex;
         int refCount = 0;
         SLSoundGroup() { }
         ~SLSoundGroup() { assert(!outputMixObject); assert(refCount == 0);}
