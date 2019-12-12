@@ -2657,9 +2657,7 @@ namespace TeamTalkTest.NET
                 clients.Add(ttclient);
 
                 Connect(ttclient);
-                //InitSound(ttclient);
-                InitSound(ttclient, SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
-                    SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, true);
+                InitSound(ttclient);
                 Login(ttclient, NICKNAME, USERNAME, PASSWORD);
                 JoinRoot(ttclient);
 
