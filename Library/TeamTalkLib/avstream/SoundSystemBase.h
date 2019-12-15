@@ -235,6 +235,8 @@ namespace soundsystem {
             m_samples_queue.close();
             if (m_resample_thread)
                 m_resample_thread->join();
+
+            MYTRACE(ACE_TEXT("~SharedCaptureStream()\n"));
         }
 
         // Set the source input stream which feeds the shared input streams
@@ -719,10 +721,6 @@ namespace soundsystem {
             sharedstreamcapture_t sharedstream;
             sharedstream.reset(new SharedStreamCapture<INPUTSTREAMER>());
             
-            // insert into container so others will try to create a
-            // new original stream as well
-            m_shared_streamcaptures[inputdeviceid] = sharedstream;
-            
             inputstreamer_t streamer = inputstreamer_t(new INPUTSTREAMER(capture,
                                                                          sndgrpid,
                                                                          framesize,
@@ -730,7 +728,6 @@ namespace soundsystem {
                                                                          channels,
                                                                          snddev.soundsystem,
                                                                          inputdeviceid));
-            g.unlock(); // cannot hold lock while creating stream
 
             // create new sound group. We cannot use 'sndgrpid' since
             // that instance might be deleted and the shared stream
@@ -756,8 +753,6 @@ namespace soundsystem {
 
             if (!orgstream)
             {
-                g.lock();
-                m_shared_streamcaptures.erase(inputdeviceid);
                 return inputstreamer_t();
             }
 
@@ -766,12 +761,19 @@ namespace soundsystem {
             // add input stream to set of listeners
             sharedstream->AddInputStreamer(streamer);
 
+            // insert into container of shared input devices
+            m_shared_streamcaptures[inputdeviceid] = sharedstream;
+
+            // don't hold lock during callback
+            g.unlock();
+
             if (snddev.id == SOUND_DEVICEID_VIRTUAL)
             {
                 StartVirtualStream(orgstream);
             }
             else if (!StartStream(orgstream))
             {
+                // failure, erase again
                 g.lock();
                 sharedstream->RemoveInputStreamer(streamer);
                 m_shared_streamcaptures.erase(inputdeviceid);
@@ -896,9 +898,10 @@ namespace soundsystem {
             }
             else if (streamer->IsShared())
             {
+                std::lock_guard<std::recursive_mutex> g(capture_lock());
+                
                 sharedstreamcapture_t sharedstream = m_shared_streamcaptures[inputdeviceid];
                 assert(sharedstream);
-
                 sharedstream->ActivateInputStreamer(streamer, true);
                 
                 return true;
