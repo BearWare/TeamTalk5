@@ -364,6 +364,8 @@ void PortAudio::CloseStream(inputstreamer_t streamer)
 
     err = Pa_CloseStream(stream);
     assert(err == paNoError);
+
+    streamer->stream = nullptr;
 }
 
 int OutputStreamCallback(const void *inputBuffer, void *outputBuffer,
@@ -431,6 +433,8 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
     //set master volume so it's relative to master volume
     SetVolume(player, VOLUME_DEFAULT);
 
+    MYTRACE(ACE_TEXT("Created PortAudio output stream %p\n"), streamer->stream);
+
     return streamer;
 }
 
@@ -448,10 +452,12 @@ void PortAudio::CloseStream(outputstreamer_t streamer)
         err = Pa_AbortStream(paStream);
     assert(err == paNoError);
 
+    MYTRACE(ACE_TEXT("Closing PortAudio output stream %p\n"), streamer->stream);
     //close the stream
     err = Pa_CloseStream(paStream);
     assert(err == paNoError);
-
+    MYTRACE(ACE_TEXT("Closed PortAudio output stream %p\n"), streamer->stream);
+    streamer->stream = nullptr;
     MYTRACE_COND(err != paNoError, ACE_TEXT("PORTAUDIO: Failed to close stream\n"));
 }
 
@@ -648,6 +654,8 @@ void PortAudio::CloseStream(duplexstreamer_t streamer)
     PaStream* stream = streamer->stream;
     PaError err = Pa_CloseStream(streamer->stream);
     assert(err == paNoError);
+    
+    streamer->stream = nullptr;
 }
 
 } //namespace

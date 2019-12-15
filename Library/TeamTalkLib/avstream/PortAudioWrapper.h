@@ -46,7 +46,11 @@ namespace soundsystem
         PaStream* stream;
         PaStreamer()
         {
-            stream = NULL;
+            stream = nullptr;
+        }
+        virtual ~PaStreamer()
+        {
+            MYTRACE(ACE_TEXT("~PaStreamer()\n"));
         }
     };
 
@@ -72,7 +76,6 @@ namespace soundsystem
         { }
         ~PaDuplexStreamer()
         {
-            assert(players.empty());
         }
     };
 

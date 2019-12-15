@@ -259,6 +259,7 @@ namespace soundsystem {
 
         virtual ~DuplexStreamer()
         {
+            assert(players.empty());
             MYTRACE(ACE_TEXT("~DuplexStreamer() - %p for StreamDuplex %p\n"), this, duplex);
         }
 
