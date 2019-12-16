@@ -27,6 +27,45 @@
 
 #include <myace/MyACE.h>
 
+bool InitSound(TTInstance* ttClient, TTBOOL duplex/* = false*/, INT32 indev/* = -1*/, INT32 outdev/* = -1*/)
+{
+    int selindev = indev, seloutdev = outdev;
+    if (indev == -1 || outdev == -1)
+    {
+        if (!TT_GetDefaultSoundDevices(&indev, &outdev))
+            return false;
+    }
+
+    if (selindev == -1)
+        selindev = indev;
+    if (seloutdev == -1)
+        seloutdev = outdev;
+
+    if (duplex)
+        return TT_InitSoundDuplexDevices(ttClient, selindev, seloutdev);
+    TTBOOL success = TT_InitSoundInputDevice(ttClient, selindev);
+    success &= TT_InitSoundOutputDevice(ttClient, seloutdev);
+    return success;
+}
+
+bool Connect(TTInstance* ttClient, const TTCHAR hostname[TT_STRLEN], INT32 tcpport, INT32 udpport)
+{
+    if (!TT_Connect(ttClient, hostname, tcpport, udpport, 0, 0, FALSE))
+        return false;
+    return WaitForEvent(ttClient, CLIENTEVENT_CON_SUCCESS);
+}
+
+bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR username[TT_STRLEN], const TTCHAR passwd[TT_STRLEN])
+{
+    return WaitForCmdSuccess(ttClient, TT_DoLogin(ttClient, nickname, username, passwd));
+}
+
+bool JoinRoot(TTInstance* ttClient)
+{
+    auto chanid = TT_GetRootChannelID(ttClient);
+    return WaitForCmdSuccess(ttClient, TT_DoJoinChannelByID(ttClient, chanid, ACE_TEXT("")));
+}
+
 bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg /*= TTMessage()*/, int timeout /*= DEFWAIT*/)
 {
     auto start = GETTIMESTAMP();

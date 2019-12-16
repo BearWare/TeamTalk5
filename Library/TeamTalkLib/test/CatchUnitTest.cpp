@@ -23,6 +23,10 @@
 
 #include "catch.hpp"
 
+#include <ace/ACE.h>
+
+#include "TTUnitTest.h"
+
 #include <codec/OggOutput.h>
 
 #if defined(WIN32)
@@ -44,8 +48,6 @@ public:
 } wininit;
 #endif
 
-#include <TeamTalk.h>
-
 TEST_CASE( "Init TT", "" ) {
     TTInstance* ttinst;
     REQUIRE( (ttinst = TT_InitTeamTalkPoll()) );
@@ -55,4 +57,28 @@ TEST_CASE( "Init TT", "" ) {
 TEST_CASE( "Ogg Write", "" ) {
     SpeexEncFile spxfile;
     REQUIRE( spxfile.Open(ACE_TEXT("/foo.spx"), 1, DEFAULT_SPEEX_COMPLEXITY, 7, 32000, 48000, false) == false);
+}
+
+TEST_CASE( "Record mux") {
+    std::vector<TTInstance*> clients(2);
+    for (auto i=0;i<clients.size();++i)
+    {
+        REQUIRE((clients[i] = TT_InitTeamTalkPoll()));
+        REQUIRE(InitSound(clients[i]));
+        REQUIRE(Connect(clients[i], ACE_TEXT("127.0.0.1"), 10333, 10333));
+        REQUIRE(Login(clients[i], ACE_TEXT("MyNickname"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+        REQUIRE(JoinRoot(clients[i]));
+    }
+
+    Channel rootchan;
+    REQUIRE(TT_GetChannel(clients[1], TT_GetMyChannelID(clients[1]), &rootchan));
+    REQUIRE(TT_StartRecordingMuxedAudioFile(clients[1], &rootchan.audiocodec, ACE_TEXT("MyMuxFile.wav"), AFF_WAVE_FORMAT));
+    
+    REQUIRE(TT_DBG_SetSoundInputTone(clients[0], STREAMTYPE_VOICE, 500));
+    REQUIRE(TT_EnableVoiceActivation(clients[0], true));
+    WaitForEvent(clients[1], CLIENTEVENT_NONE, TTMessage(), 5000);
+    REQUIRE(TT_StopRecordingMuxedAudioFile(clients[1]));
+
+    for(auto c : clients)
+        REQUIRE(TT_CloseTeamTalk(c));
 }

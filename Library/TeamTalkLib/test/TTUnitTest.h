@@ -30,6 +30,10 @@
 
 #define DEFWAIT 5000
 
+bool InitSound(TTInstance* ttClient, TTBOOL duplex = false, INT32 indev = -1, INT32 outdev = -1);
+bool Connect(TTInstance* ttClient, const TTCHAR hostname[TT_STRLEN], INT32 tcpport, INT32 udpport);
+bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR username[TT_STRLEN], const TTCHAR passwd[TT_STRLEN]);
+bool JoinRoot(TTInstance* ttClient);
 bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT);
 bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT);
 bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT);
