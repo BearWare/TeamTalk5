@@ -91,10 +91,8 @@ if (BUILD_TEAMTALK5DLL)
 
   if (MSVS_UNITTEST)
     list (APPEND TTCLIENTDLL_SOURCES ${MSVS_UNITTEST_SOURCES})
-    set_target_properties (TeamTalk5DLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
-    set_target_properties (TeamTalk5DLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
   endif()
-  
+
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android" OR ${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     add_library (TeamTalk5DLL STATIC
                  ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
@@ -123,6 +121,11 @@ if (BUILD_TEAMTALK5DLL)
 
   set_target_properties (TeamTalk5DLL PROPERTIES OUTPUT_NAME TeamTalk5)
 
+  if (MSVS_UNITTEST)
+    set_target_properties (TeamTalk5DLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
+    set_target_properties (TeamTalk5DLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
+  endif()
+
 endif()
 
 ######################
@@ -135,8 +138,6 @@ if (BUILD_TEAMTALK5PRODLL)
 
   if (MSVS_UNITTEST)
     list (APPEND TTCLIENTPRODLL_SOURCES ${MSVS_UNITTEST_SOURCES})
-    set_target_properties (TeamTalk5ProDLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
-    set_target_properties (TeamTalk5ProDLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
   endif()
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android" OR ${CMAKE_SYSTEM_NAME} MATCHES "iOS")
@@ -166,6 +167,11 @@ if (BUILD_TEAMTALK5PRODLL)
   endif()
 
   set_target_properties (TeamTalk5ProDLL PROPERTIES OUTPUT_NAME TeamTalk5Pro)
+  
+  if (MSVS_UNITTEST)
+    set_target_properties (TeamTalk5ProDLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
+    set_target_properties (TeamTalk5ProDLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
+  endif()
 
 endif()
 

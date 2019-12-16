@@ -33,6 +33,8 @@
 
 #include <bin/dll/Convert.h>
 
+#include "TTUnitTest.h"
+
 #include <mutex>
 #include <thread>
 #include <condition_variable>
@@ -1166,7 +1168,6 @@ namespace UnitTest
             serverthread.join();
         }
 #endif
-#define DEFWAIT 5000
 
         TEST_METHOD(TestMediaPlayback)
         {
@@ -1659,38 +1660,6 @@ namespace UnitTest
             Assert::AreEqual(size_t(2), timestamps.size());
         }
 
-        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
-        {
-            auto start = GETTIMESTAMP();
-            while(GETTIMESTAMP() < start + timeout)
-            {
-                INT32 waitMsec = 10;
-                if(TT_GetMessage(ttClient, &outmsg, &waitMsec) &&
-                    outmsg.nClientEvent == ttevent &&
-                    pred(outmsg))
-                    return true;
-            }
-            return false;
-        }
-
-        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
-        {
-            return WaitForEvent(ttClient, ttevent, [](TTMessage) { return true; }, outmsg, timeout);
-        }
-
-        bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
-        {
-            return WaitForEvent(ttClient, CLIENTEVENT_CMD_SUCCESS, [cmdid](TTMessage msg) {
-                return msg.nSource == cmdid;
-            }, outmsg, timeout);
-        }
-
-        bool WaitForCmdComplete(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
-        {
-            return WaitForEvent(ttClient, CLIENTEVENT_CMD_PROCESSING, [cmdid](TTMessage msg) {
-                return msg.nSource == cmdid && !msg.bActive;
-            }, outmsg, timeout);
-        }
 
     };
 }
