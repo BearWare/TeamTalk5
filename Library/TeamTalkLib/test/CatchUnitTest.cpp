@@ -76,7 +76,7 @@ TEST_CASE( "Record mux") {
     
     REQUIRE(TT_DBG_SetSoundInputTone(clients[0], STREAMTYPE_VOICE, 500));
     REQUIRE(TT_EnableVoiceActivation(clients[0], true));
-    WaitForEvent(clients[1], CLIENTEVENT_NONE, TTMessage(), 5000);
+    WaitForEvent(clients[1], CLIENTEVENT_NONE, nullptr, 5000);
     REQUIRE(TT_StopRecordingMuxedAudioFile(clients[1]));
 
     for(auto c : clients)

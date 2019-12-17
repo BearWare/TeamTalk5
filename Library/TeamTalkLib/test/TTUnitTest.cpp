@@ -66,33 +66,39 @@ bool JoinRoot(TTInstance* ttClient)
     return WaitForCmdSuccess(ttClient, TT_DoJoinChannelByID(ttClient, chanid, ACE_TEXT("")));
 }
 
-bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg /*= TTMessage()*/, int timeout /*= DEFWAIT*/)
+bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage* outmsg, int timeout /*= DEFWAIT*/)
 {
+    TTMessage msg = {};
     auto start = GETTIMESTAMP();
     while(GETTIMESTAMP() < start + timeout)
     {
         INT32 waitMsec = 10;
-        if(TT_GetMessage(ttClient, &outmsg, &waitMsec) &&
-            outmsg.nClientEvent == ttevent &&
-            pred(outmsg))
+        if(TT_GetMessage(ttClient, &msg, &waitMsec) &&
+            msg.nClientEvent == ttevent &&
+            pred(msg))
+        {
+            if (outmsg)
+                *outmsg = msg;
+            
             return true;
+        }
     }
     return false;
 }
 
-bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg /*= TTMessage()*/, int timeout /*= DEFWAIT*/)
+bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage* outmsg, int timeout /*= DEFWAIT*/)
 {
     return WaitForEvent(ttClient, ttevent, [](TTMessage) { return true; }, outmsg, timeout);
 }
 
-bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage& outmsg /*= TTMessage()*/, int timeout /*= DEFWAIT*/)
+bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage* outmsg, int timeout /*= DEFWAIT*/)
 {
     return WaitForEvent(ttClient, CLIENTEVENT_CMD_SUCCESS, [cmdid](TTMessage msg) {
         return msg.nSource == cmdid;
     }, outmsg, timeout);
 }
 
-bool WaitForCmdComplete(TTInstance* ttClient, int cmdid, TTMessage& outmsg /*= TTMessage()*/, int timeout /*= DEFWAIT*/)
+bool WaitForCmdComplete(TTInstance* ttClient, int cmdid, TTMessage* outmsg, int timeout /*= DEFWAIT*/)
 {
     return WaitForEvent(ttClient, CLIENTEVENT_CMD_PROCESSING, [cmdid](TTMessage msg) {
         return msg.nSource == cmdid && !msg.bActive;
