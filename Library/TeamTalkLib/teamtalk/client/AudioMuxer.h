@@ -73,8 +73,9 @@ private:
 
     int handle_timeout(const ACE_Time_Value &current_time, const void *act=0);
 
-    void ProcessAudioQueues();
+    void ProcessAudioQueues(bool flush);
     bool CanMuxUserAudio();
+    void RemoveEmptyMuxUsers(); // should only be used during flush
     bool MuxUserAudio();
     void WriteAudioToFile(int cb_samples);
 

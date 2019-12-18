@@ -27,7 +27,7 @@
 
 #include <myace/MyACE.h>
 
-bool InitSound(TTInstance* ttClient, TTBOOL duplex/* = false*/, INT32 indev/* = -1*/, INT32 outdev/* = -1*/)
+bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev/* = -1*/, INT32 outdev/* = -1*/)
 {
     int selindev = indev, seloutdev = outdev;
     if (indev == -1 || outdev == -1)
@@ -41,8 +41,17 @@ bool InitSound(TTInstance* ttClient, TTBOOL duplex/* = false*/, INT32 indev/* = 
     if (seloutdev == -1)
         seloutdev = outdev;
 
-    if (duplex)
+    switch (mode)
+    {
+    case DUPLEX :
         return TT_InitSoundDuplexDevices(ttClient, selindev, seloutdev);
+    case SHARED_INPUT :
+        selindev |= TT_SOUNDDEVICE_SHARED_FLAG;
+        break;
+    case DEFAULT :
+        break;
+    }
+
     TTBOOL success = TT_InitSoundInputDevice(ttClient, selindev);
     success &= TT_InitSoundOutputDevice(ttClient, seloutdev);
     return success;
@@ -64,6 +73,15 @@ bool JoinRoot(TTInstance* ttClient)
 {
     auto chanid = TT_GetRootChannelID(ttClient);
     return WaitForCmdSuccess(ttClient, TT_DoJoinChannelByID(ttClient, chanid, ACE_TEXT("")));
+}
+
+Channel MakeChannel(TTInstance* ttClient, const TTCHAR* name, int parentid, const AudioCodec& codec)
+{
+    Channel chan = {};
+    chan.nParentID = parentid;
+    ACE_OS::strsncpy(chan.szName, name, TT_STRLEN);
+    chan.audiocodec = codec;
+    return chan;
 }
 
 bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage* outmsg, int timeout /*= DEFWAIT*/)

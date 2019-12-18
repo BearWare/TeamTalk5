@@ -64,19 +64,56 @@ TEST_CASE( "Record mux") {
     for (auto i=0;i<clients.size();++i)
     {
         REQUIRE((clients[i] = TT_InitTeamTalkPoll()));
-        REQUIRE(InitSound(clients[i]));
+        REQUIRE(InitSound(clients[i], SHARED_INPUT));
         REQUIRE(Connect(clients[i], ACE_TEXT("127.0.0.1"), 10333, 10333));
         REQUIRE(Login(clients[i], ACE_TEXT("MyNickname"), ACE_TEXT("guest"), ACE_TEXT("guest")));
-        REQUIRE(JoinRoot(clients[i]));
+
+        if (i == 0)
+        {
+            AudioCodec audiocodec = {};
+            audiocodec.nCodec = OPUS_CODEC;
+            audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
+            audiocodec.opus.nTxIntervalMSec = 240;
+            audiocodec.opus.nFrameSizeMSec = 120;
+            audiocodec.opus.nBitRate = OPUS_MIN_BITRATE;
+            audiocodec.opus.nChannels = 2;
+            audiocodec.opus.nComplexity = 10;
+            audiocodec.opus.nSampleRate= 48000;
+            audiocodec.opus.bDTX = true;
+            audiocodec.opus.bFEC = true;
+            audiocodec.opus.bVBR = false;
+            audiocodec.opus.bVBRConstraint = false;
+
+            Channel chan = MakeChannel(clients[i], ACE_TEXT("foo"), TT_GetRootChannelID(clients[i]), audiocodec);
+            REQUIRE(WaitForCmdSuccess(clients[i], TT_DoJoinChannel(clients[i], &chan)));
+        }
+        else
+        {
+            REQUIRE(WaitForCmdSuccess(clients[i], TT_DoJoinChannelByID(clients[i], TT_GetMyChannelID(clients[0]), ACE_TEXT(""))));
+        }
     }
 
-    Channel rootchan;
-    REQUIRE(TT_GetChannel(clients[1], TT_GetMyChannelID(clients[1]), &rootchan));
-    REQUIRE(TT_StartRecordingMuxedAudioFile(clients[1], &rootchan.audiocodec, ACE_TEXT("MyMuxFile.wav"), AFF_WAVE_FORMAT));
+    Channel chan;
+    REQUIRE(TT_GetChannel(clients[1], TT_GetMyChannelID(clients[1]), &chan));
+
+    REQUIRE(TT_EnableVoiceTransmission(clients[0], true));
+    WaitForEvent(clients[0], CLIENTEVENT_NONE, nullptr, 100);
+    REQUIRE(TT_EnableVoiceTransmission(clients[0], false));
+
+    REQUIRE(TT_StartRecordingMuxedAudioFile(clients[1], &chan.audiocodec, ACE_TEXT("MyMuxFile.wav"), AFF_WAVE_FORMAT));
     
     REQUIRE(TT_DBG_SetSoundInputTone(clients[0], STREAMTYPE_VOICE, 500));
-    REQUIRE(TT_EnableVoiceActivation(clients[0], true));
-    WaitForEvent(clients[1], CLIENTEVENT_NONE, nullptr, 5000);
+    REQUIRE(TT_EnableVoiceTransmission(clients[0], true));
+    WaitForEvent(clients[0], CLIENTEVENT_NONE, nullptr, 2500);
+    REQUIRE(TT_EnableVoiceTransmission(clients[0], false));
+
+    REQUIRE(TT_DBG_SetSoundInputTone(clients[1], STREAMTYPE_VOICE, 600));
+    REQUIRE(TT_EnableVoiceTransmission(clients[1], true));
+    WaitForEvent(clients[1], CLIENTEVENT_NONE, nullptr, 2500);
+    REQUIRE(TT_EnableVoiceTransmission(clients[1], false));
+    
+    WaitForEvent(clients[1], CLIENTEVENT_NONE, nullptr, 10000);
+    
     REQUIRE(TT_StopRecordingMuxedAudioFile(clients[1]));
 
     for(auto c : clients)

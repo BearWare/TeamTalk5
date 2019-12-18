@@ -1117,11 +1117,13 @@ void ClientNode::QueueAudioFrame(const media::AudioFrame& audframe)
 
         m_soundprop.samples_transmitted += audframe.input_samples;
     }
-    else if(m_flags & CLIENT_MUX_AUDIOFILE)
+    else if (m_flags & CLIENT_MUX_AUDIOFILE)
+    {
         audiomuxer().QueueUserAudio(MUX_MYSELF_USERID, NULL, 
                                     m_soundprop.samples_transmitted, true,
                                     0, 0);
-
+    }
+    
     if(AUDIOCONTAINER::instance()->AddAudio(m_soundprop.soundgroupid,
                                             0, STREAMTYPE_VOICE,
                                             m_voice_stream_id, 
