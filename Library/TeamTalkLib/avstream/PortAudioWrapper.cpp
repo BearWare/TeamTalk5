@@ -151,7 +151,7 @@ bool PortAudio::GetDefaultDevices(int& inputdeviceid, int& outputdeviceid)
         }
     }
 #endif
-    return inputdeviceid != paNoDevice && outputdeviceid != paNoDevice;
+    return inputdeviceid != paNoDevice || outputdeviceid != paNoDevice;
 }
 
 bool PortAudio::GetDefaultDevices(SoundAPI sndsys, int& inputdeviceid,
