@@ -113,7 +113,7 @@ implements ConnectionListener, CommandListener {
             username = getInput("Type username", "guest");
         passwd = System.getProperty("dk.bearware.password");
         if (passwd == null)
-            passwd = getInput("Type password", passwd);
+            passwd = getInput("Type password", "");
         
         while (true) {
             TeamTalkClient inst = new TeamTalkClient();
