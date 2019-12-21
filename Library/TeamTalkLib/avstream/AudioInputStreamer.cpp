@@ -188,7 +188,7 @@ bool AudioInputStreamer::Submit(ACE_Message_Block* mb)
 
     media::AudioFrame* frame = AudioFrameFromMsgBlock(mb);
     UpdateTimeStamp(*frame);
-    return QueueAudio(*frame);
+    return QueueAudio(mb);
 }
 
 void AudioInputStreamer::UpdateTimeStamp(media::AudioFrame& frame)

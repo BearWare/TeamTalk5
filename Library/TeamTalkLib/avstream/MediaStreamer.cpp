@@ -166,13 +166,23 @@ bool MediaStreamer::QueueAudio(const media::AudioFrame& frame)
 
     if (!mb)
         return false;
-    
+
+    if (!QueueAudio(mb))
+    {
+        mb->release();
+        return false;
+    }
+    return true;
+}
+
+bool MediaStreamer::QueueAudio(ACE_Message_Block* mb)
+{
     ACE_Time_Value zero;
-    if (m_audio_frames.enqueue(mb, &zero) >= 0)
+    if(m_audio_frames.enqueue(mb, &zero) >= 0)
         return true;
-    
-    MYTRACE(ACE_TEXT("Dropped audio frame %u\n"), frame.timestamp);
-    
+
+    MYTRACE(ACE_TEXT("Dropped audio frame %u\n"), media::AudioFrame(mb).timestamp);
+
     mb->release();
     return false;
 }

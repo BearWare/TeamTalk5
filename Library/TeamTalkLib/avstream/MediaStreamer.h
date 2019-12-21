@@ -125,6 +125,7 @@ protected:
     virtual void AudioProgress(uint32_t queuedmsec, uint32_t elapsedmsec) {}
 
     bool QueueAudio(const media::AudioFrame& frame);
+    bool QueueAudio(ACE_Message_Block* mb);
     bool QueueVideo(const media::VideoFrame& frame);
     
     void InitBuffers();
