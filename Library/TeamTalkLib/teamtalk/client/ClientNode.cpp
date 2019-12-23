@@ -3841,7 +3841,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
     ASSERT_NOT_REACTOR_THREAD(m_reactor);
 
     // can't double connect
-    if(m_flags & CLIENT_CONNECTION)
+    if ((m_flags & CLIENT_CONNECTION) || m_serverinfo.hostaddrs.size())
         return false;
 
     if (localaddr.length() || local_tcpport || local_udpport)
