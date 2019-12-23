@@ -3970,6 +3970,7 @@ void ClientNode::Disconnect()
     TTASSERT(m_reactor.find_handler(h) == NULL);
 
     m_recvbuffer.clear();
+    m_sendbuffer.clear();
 
     m_packethandler.RemoveListener(this);
 
