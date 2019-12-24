@@ -42,7 +42,7 @@ bool Connect(TTInstance* ttClient, const TTCHAR hostname[TT_STRLEN], INT32 tcppo
 bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR username[TT_STRLEN], const TTCHAR passwd[TT_STRLEN]);
 bool JoinRoot(TTInstance* ttClient);
 Channel MakeChannel(TTInstance* ttClient, const TTCHAR* name, int parentid, const AudioCodec& codec);
-bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage* outmsg, int timeout = DEFWAIT);
+bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage* outmsg = nullptr, int timeout = DEFWAIT);
 bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage* outmsg = nullptr, int timeout = DEFWAIT);
 bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage* outmsg = nullptr, int timeout = DEFWAIT);
 bool WaitForCmdComplete(TTInstance* ttClient, int cmdid, TTMessage* outmsg = nullptr, int timeout = DEFWAIT);

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -101,7 +101,7 @@ TEST_CASE( "Record mux") {
     REQUIRE(TT_EnableVoiceTransmission(clients[0], false));
 
     REQUIRE(TT_StartRecordingMuxedAudioFile(clients[1], &chan.audiocodec, ACE_TEXT("MyMuxFile.wav"), AFF_WAVE_FORMAT));
-    
+
     REQUIRE(TT_DBG_SetSoundInputTone(clients[0], STREAMTYPE_VOICE, 500));
     REQUIRE(TT_EnableVoiceTransmission(clients[0], true));
     WaitForEvent(clients[0], CLIENTEVENT_NONE, nullptr, 2500);
@@ -111,11 +111,80 @@ TEST_CASE( "Record mux") {
     REQUIRE(TT_EnableVoiceTransmission(clients[1], true));
     WaitForEvent(clients[1], CLIENTEVENT_NONE, nullptr, 2500);
     REQUIRE(TT_EnableVoiceTransmission(clients[1], false));
-    
+
     WaitForEvent(clients[1], CLIENTEVENT_NONE, nullptr, 10000);
-    
+
     REQUIRE(TT_StopRecordingMuxedAudioFile(clients[1]));
 
+    for(auto c : clients)
+        REQUIRE(TT_CloseTeamTalk(c));
+}
+
+TEST_CASE( "Last voice packet" )
+{
+    std::vector<TTInstance*> clients;
+    auto txclient = TT_InitTeamTalkPoll();
+    auto rxclient = TT_InitTeamTalkPoll();
+    clients.push_back(txclient);
+    clients.push_back(rxclient);
+
+    REQUIRE(InitSound(txclient, SHARED_INPUT));
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+
+    REQUIRE(InitSound(rxclient, SHARED_INPUT));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+
+    AudioCodec audiocodec = {};
+    audiocodec.nCodec = OPUS_CODEC;
+    audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
+    audiocodec.opus.nTxIntervalMSec = 240;
+    audiocodec.opus.nFrameSizeMSec = 120;
+    audiocodec.opus.nBitRate = OPUS_MIN_BITRATE;
+    audiocodec.opus.nChannels = 2;
+    audiocodec.opus.nComplexity = 10;
+    audiocodec.opus.nSampleRate= 48000;
+    audiocodec.opus.bDTX = true;
+    audiocodec.opus.bFEC = true;
+    audiocodec.opus.bVBR = false;
+    audiocodec.opus.bVBRConstraint = false;
+
+    Channel chan = MakeChannel(txclient, ACE_TEXT("foo"), TT_GetRootChannelID(txclient), audiocodec);
+    REQUIRE(WaitForCmdSuccess(txclient, TT_DoJoinChannel(txclient, &chan)));
+
+    REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannelByID(rxclient, TT_GetMyChannelID(txclient), ACE_TEXT(""))));
+
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 600));
+
+    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, audiocodec.opus.nTxIntervalMSec * 5 + audiocodec.opus.nTxIntervalMSec * .5);
+    REQUIRE(TT_EnableVoiceTransmission(txclient, false));
+
+    auto voicestop = [&](TTMessage msg)
+    {
+        if (msg.nSource == TT_GetMyUserID(txclient) &&
+            msg.nClientEvent == CLIENTEVENT_USER_STATECHANGE &&
+            (msg.user.uUserState & USERSTATE_VOICE) == 0)
+        {
+            return true;
+        }
+        
+        return false;
+    };
+
+    WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop);
+    //WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, audiocodec.opus.nTxIntervalMSec * 2);
+
+    TTCHAR curdir[1024] = {};
+    ACE_OS::getcwd(curdir, 1024);
+    REQUIRE(TT_SetUserMediaStorageDir(rxclient, TT_GetMyUserID(txclient), curdir, ACE_TEXT(""), AFF_WAVE_FORMAT));
+
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 0));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 1000);
+    REQUIRE(TT_EnableVoiceTransmission(txclient, false));
+    
     for(auto c : clients)
         REQUIRE(TT_CloseTeamTalk(c));
 }

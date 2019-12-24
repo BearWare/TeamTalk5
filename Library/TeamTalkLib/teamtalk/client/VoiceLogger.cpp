@@ -62,7 +62,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
 {
     int samplerate = GetAudioCodecSampleRate(m_codec);
     int channels = GetAudioCodecChannels(m_codec);
-    int framesize = GetAudioCodecCbSamples(m_codec);
+    int cbsamples = GetAudioCodecCbSamples(m_codec);
 
     switch(aff)
     {
@@ -97,6 +97,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
             OpusFile* opus_file;
             ACE_NEW(opus_file, OpusFile());
             m_opusfile = opusfile_t(opus_file);
+            int framesize = GetAudioCodecFrameSize(m_codec);
             if(!m_opusfile->Open(filename, channels, samplerate, framesize))
             {
                 ACE_TString error = ACE_TEXT("Failed to open OPUS file ") + filename;
@@ -179,9 +180,9 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         break;
     }
 
-    if(framesize>0)
+    if (cbsamples > 0)
     {
-        m_samples_buf.resize(framesize*channels);
+        m_samples_buf.resize(cbsamples * channels);
         m_active = true;
     }
     MYTRACE(ACE_TEXT("VoiceLog started: %s\n"), this->GetFileName().c_str());
@@ -411,13 +412,18 @@ void VoiceLog::WriteAudio(int packet_no)
                 int sum_dec = 0;
                 int cb_samples = GetAudioCodecCbSamples(m_codec);
                 int channels = GetAudioCodecChannels(m_codec);
+                int framesize = GetAudioCodecFrameSize(m_codec);
+                int decsamples = 0, ret;
                 for(size_t i=0;i<frame_sizes.size();i++)
                 {
-                    m_opus->Decode(&enc_data[sum_dec], frame_sizes[i],
-                                   &m_samples_buf[cb_samples*channels*i],
-                                   cb_samples);
+                    ret = m_opus->Decode(&enc_data[sum_dec], frame_sizes[i],
+                                         &m_samples_buf[framesize * channels * i],
+                                         cb_samples);
+                    assert(ret > 0);
+                    decsamples += ret;
                     sum_dec += frame_sizes[i];
                 }
+                assert(decsamples == cb_samples);
             }
 #endif
             break;
@@ -549,6 +555,8 @@ VoiceLogger::~VoiceLogger()
         m_reactor.cancel_timer(m_timerid, 0, 0);
     m_reactor.end_reactor_event_loop();
     this->wait();
+
+    MYTRACE(ACE_TEXT("VoiceLogger\n"));
 }
 
 int VoiceLogger::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
