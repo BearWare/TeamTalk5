@@ -463,6 +463,10 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
             if(m_speex)
                 m_speex->Reset();
 #endif
+#if defined(ENABLE_OPUS)
+            if (m_opus)
+                m_opus->Reset();
+#endif
             m_enc_cleared = true;
         }
 
@@ -610,4 +614,3 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
     return &m_encbuf[0];
 }
 #endif
-

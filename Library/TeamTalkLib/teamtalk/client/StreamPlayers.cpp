@@ -447,10 +447,10 @@ SpeexPlayer::SpeexPlayer(int sndgrpid, int userid, StreamType stream_type,
     switch(codec.codec)
     {
     case CODEC_SPEEX :
-        b = m_Decoder.Initialize(codec.speex.bandmode);
+        b = m_decoder.Initialize(codec.speex.bandmode);
         break;
     case CODEC_SPEEX_VBR :
-        b = m_Decoder.Initialize(codec.speex_vbr.bandmode);
+        b = m_decoder.Initialize(codec.speex_vbr.bandmode);
         break;
     case CODEC_NO_CODEC :
     case CODEC_OPUS :
@@ -463,21 +463,24 @@ SpeexPlayer::SpeexPlayer(int sndgrpid, int userid, StreamType stream_type,
 
 SpeexPlayer::~SpeexPlayer()
 {
-    m_Decoder.Close();
+    m_decoder.Close();
 }
 
 void SpeexPlayer::Reset()
 {
     AudioPlayer::Reset();
-    m_Decoder.Reset();
+    m_decoder.Reset();
 }
 
 bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
                               short* output_buffer, int n_samples)
 {
+    if (enc_frame.stream_id != m_stream_id)
+        m_decoder.Reset();
+    
     if(enc_frame.enc_frames.size()) //packet available
     {
-        m_Decoder.DecodeMultiple(&enc_frame.enc_frames[0], 
+        m_decoder.DecodeMultiple(&enc_frame.enc_frames[0], 
                                  ConvertFrameSizes(enc_frame.enc_frame_sizes),
                                  output_buffer);
         return true;
@@ -487,7 +490,7 @@ bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
         MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), 
                 m_userid, m_play_pkt_no);
         std::vector<int> frm_sizes(GetAudioCodecFramesPerPacket(m_codec), 0);
-        m_Decoder.DecodeMultiple(NULL, frm_sizes, output_buffer);
+        m_decoder.DecodeMultiple(NULL, frm_sizes, output_buffer);
         //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
         return false;
     }
@@ -526,11 +529,18 @@ OpusPlayer::~OpusPlayer()
 void OpusPlayer::Reset()
 {
     AudioPlayer::Reset();
+    m_decoder.Reset();
 }
 
 bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
                               short* output_buffer, int n_samples)
 {
+    MYTRACE_COND(enc_frame.stream_id != m_stream_id,
+                 ACE_TEXT("New stream id %d\n"), enc_frame.stream_id);
+    
+    if (enc_frame.stream_id != m_stream_id)
+        m_decoder.Reset();
+    
     int framesize = GetAudioCodecFrameSize(m_codec);
     int samples = GetAudioCodecCbSamples(m_codec);
     int channels = GetAudioCodecChannels(m_codec);

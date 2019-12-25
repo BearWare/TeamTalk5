@@ -171,7 +171,7 @@ namespace teamtalk {
 
     protected:
         void Reset();
-        SpeexDecoder m_Decoder;
+        SpeexDecoder m_decoder;
     };
 #endif
 

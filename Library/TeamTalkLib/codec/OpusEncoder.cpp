@@ -90,6 +90,12 @@ void OpusEncode::Close()
     m_encoder = NULL;
 }
 
+void OpusEncode::Reset()
+{
+   int err = opus_encoder_ctl(m_encoder, OPUS_RESET_STATE);
+    assert(err == OPUS_OK);
+ }
+
 bool OpusEncode::SetComplexity(int complex)
 {
     assert(m_encoder);
