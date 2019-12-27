@@ -49,17 +49,28 @@
 
 #define MUX_MYSELF_USERID 0
 
+enum
+{
+    AUDIOMUX_NONE = 0x0,
+    AUDIOMUX_FILE = 0x1,
+};
+
+typedef std::function< void (const media::AudioFrame& frm) > audiomuxer_callback_t;
+
 class AudioMuxer : private ACE_Task_Base
 {
 public:
     AudioMuxer();
     virtual ~AudioMuxer();
-    
-    bool StartThread(const ACE_TString& filename,
-                     teamtalk::AudioFileFormat aff,
-                     const teamtalk::AudioCodec& codec);
-    void StopThread();
 
+    bool RegisterMuxCallback(audiomuxer_callback_t cb,
+                             const teamtalk::AudioCodec& codec);
+    void UnregisterMuxCallback();
+    bool SaveFile(const teamtalk::AudioCodec& codec,
+                  const ACE_TString& filename,
+                  teamtalk::AudioFileFormat aff);
+    void CloseFile();
+    
     void QueueUserAudio(int userid, const short* rawAudio,
                         ACE_UINT32 sample_no, bool last,
                         const teamtalk::AudioCodec& codec);
@@ -68,6 +79,10 @@ public:
                         int n_samples, int n_channels);
 
 private:
+    bool Init(const teamtalk::AudioCodec& codec);
+    bool StartThread(const teamtalk::AudioCodec& codec);
+    void StopThread();
+
     //ACE Task
     int svc (void);
 
@@ -78,9 +93,7 @@ private:
     void RemoveEmptyMuxUsers(); // should only be used during flush
     bool MuxUserAudio();
     void WriteAudioToFile(int cb_samples);
-
-    bool SetupFileEncode(const ACE_TString& filename, 
-                         const teamtalk::AudioCodec& codec);
+    bool FileActive();
 
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;
 
@@ -99,13 +112,15 @@ private:
     mftransform_t m_mp3encoder;
 #endif
 
-#if defined(ENABLE_SPEEX) && defined(ENABLE_OGG)
+#if defined(ENABLE_SPEEXFILE)
     speexencfile_t m_speexfile;
 #endif
 
-#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS) && defined(ENABLE_OGG)
+#if defined(ENABLE_OPUSFILE)
     opusencfile_t m_opusfile;
 #endif
+
+    audiomuxer_callback_t m_muxcallback = {};
 };
 
 typedef std::shared_ptr< AudioMuxer > audiomuxer_t;

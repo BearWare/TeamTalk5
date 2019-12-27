@@ -398,6 +398,10 @@ namespace teamtalk {
         {
             return memcmp(this, &ch, sizeof(ch)) == 0;
         }
+        inline bool operator!=(const AudioCodec& ch) const
+        {
+            return memcmp(this, &ch, sizeof(ch));
+        }
     };
 
     struct AudioConfig

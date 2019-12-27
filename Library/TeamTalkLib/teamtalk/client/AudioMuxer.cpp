@@ -49,59 +49,30 @@ AudioMuxer::~AudioMuxer()
     StopThread();
 }
 
-bool AudioMuxer::StartThread(const ACE_TString& filename,
-                             teamtalk::AudioFileFormat aff,
-                             const teamtalk::AudioCodec& codec)
+bool AudioMuxer::Init(const teamtalk::AudioCodec& codec)
+{
+    if (m_codec == codec)
+        return true;
+
+    return StartThread(codec);
+}
+
+bool AudioMuxer::StartThread(const teamtalk::AudioCodec& codec)
 {
     TTASSERT(this->thr_count() == 0);
     if(this->thr_count())
         return false;
 
-    TTASSERT(m_audio_queue.empty());
-
     //mux interval
-    const time_t MUX_INTERVAL_MSEC = AUDIOBLOCK_QUEUE_MSEC / 3;
     int samples = GetAudioCodecCbTotalSamples(codec);
     TTASSERT(samples>0);
     if(samples <= 0)
-        goto error;
+        return false;
+
+    const time_t MUX_INTERVAL_MSEC = AUDIOBLOCK_QUEUE_MSEC / 3;
+    auto tv = ACE_Time_Value(MUX_INTERVAL_MSEC/1000, (MUX_INTERVAL_MSEC % 1000) * 1000);
 
     m_codec = codec;
-
-    switch(aff)
-    {
-    case AFF_WAVE_FORMAT :
-        m_wavefile.reset(new WavePCMFile());
-        if(!m_wavefile->NewFile(filename,
-            GetAudioCodecSampleRate(codec),
-            GetAudioCodecChannels(codec)))
-            goto error;
-        break;
-    case AFF_MP3_16KBIT_FORMAT :
-    case AFF_MP3_32KBIT_FORMAT :
-    case AFF_MP3_64KBIT_FORMAT :
-    case AFF_MP3_128KBIT_FORMAT :
-    case AFF_MP3_256KBIT_FORMAT :
-    {
-#if defined(ENABLE_MEDIAFOUNDATION)
-        int mp3bitrate = AFFToMP3Bitrate(aff);
-        media::AudioFormat fmt(GetAudioCodecSampleRate(codec),
-            GetAudioCodecChannels(codec));
-        m_mp3encoder = MFTransform::CreateMP3(fmt, mp3bitrate, filename.c_str());
-        if(!m_mp3encoder)
-            goto error;
-#else
-        goto error;
-#endif
-    }
-    break;
-    case AFF_CHANNELCODEC_FORMAT :
-        if(!SetupFileEncode(filename, codec))
-            goto error;
-        break;
-    default :
-        goto error; //TODO: native formatm_mp3encoder
-    }
 
     m_muxed_audio.resize(samples);
 
@@ -110,11 +81,7 @@ bool AudioMuxer::StartThread(const ACE_TString& filename,
     if(this->activate() < 0)
         goto error;
 
-    if(m_reactor.schedule_timer(this, 0,
-                                ACE_Time_Value(MUX_INTERVAL_MSEC/1000,
-                                               (MUX_INTERVAL_MSEC % 1000) * 1000),
-                                ACE_Time_Value(MUX_INTERVAL_MSEC/1000,
-                                               (MUX_INTERVAL_MSEC % 1000) * 1000))<0)
+    if(m_reactor.schedule_timer(this, 0, tv, tv) < 0)
         goto error;
 
     return true;
@@ -126,6 +93,9 @@ error:
 
 void AudioMuxer::StopThread()
 {
+    assert(!m_muxcallback);
+    assert(!FileActive());
+
     if(this->thr_count())
     {
         int ret = m_reactor.cancel_timer(this);
@@ -138,6 +108,133 @@ void AudioMuxer::StopThread()
         ProcessAudioQueues(true);
     }
 
+    m_codec = AudioCodec();
+    m_audio_queue.clear();
+    m_user_queue.clear();
+}
+
+bool AudioMuxer::RegisterMuxCallback(audiomuxer_callback_t cb,
+                                     const teamtalk::AudioCodec& codec)
+{
+    if (m_muxcallback)
+        return false;
+
+    m_muxcallback = cb;
+
+    if (!Init(codec))
+    {
+        m_muxcallback = {};
+        return false;
+    }
+    return true;
+}
+
+void AudioMuxer::UnregisterMuxCallback()
+{
+    m_muxcallback = {};
+
+    if (!FileActive())
+        StopThread();
+}
+
+bool AudioMuxer::FileActive()
+{
+    bool fileactive = false;
+
+    fileactive |= bool(m_wavefile);
+
+#if defined(ENABLE_MEDIAFOUNDATION)
+    fileactive |= bool(m_mp3encoder);
+#endif
+
+#if defined(ENABLE_SPEEXFILE)
+    fileactive |= bool(m_speexfile);
+#endif
+
+#if defined(ENABLE_OPUSFILE)
+    fileactive |= bool(m_opusfile);
+#endif
+
+    return fileactive;
+}
+
+bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
+                          const ACE_TString& filename,
+                          teamtalk::AudioFileFormat aff)
+{
+    if (FileActive() || !Init(codec))
+        return false;
+
+    int samplerate = GetAudioCodecSampleRate(m_codec);
+    int channels = GetAudioCodecChannels(m_codec);
+
+    bool success = false;
+    switch(aff)
+    {
+    case AFF_WAVE_FORMAT :
+        m_wavefile.reset(new WavePCMFile());
+        success = m_wavefile->NewFile(filename, samplerate, channels);
+        break;
+    case AFF_MP3_16KBIT_FORMAT :
+    case AFF_MP3_32KBIT_FORMAT :
+    case AFF_MP3_64KBIT_FORMAT :
+    case AFF_MP3_128KBIT_FORMAT :
+    case AFF_MP3_256KBIT_FORMAT :
+    {
+#if defined(ENABLE_MEDIAFOUNDATION)
+        int mp3bitrate = AFFToMP3Bitrate(aff);
+        media::AudioFormat fmt(samplerate, channels);
+        m_mp3encoder = MFTransform::CreateMP3(fmt, mp3bitrate, filename.c_str());
+        success = bool(m_mp3encoder);
+#endif
+    }
+    break;
+    case AFF_CHANNELCODEC_FORMAT :
+    {
+        int bitrate = 0, maxbitrate = 0;
+        bool dtx = false;
+        switch(m_codec.codec)
+        {
+        case CODEC_SPEEX_VBR :
+            bitrate = m_codec.speex_vbr.bitrate;
+            maxbitrate = m_codec.speex_vbr.max_bitrate;
+            dtx = m_codec.speex_vbr.dtx;
+        case CODEC_SPEEX :
+#if ENABLE_SPEEXFILE
+            m_speexfile.reset(new SpeexEncFile());
+            success = m_speexfile->Open(filename,
+                                        GetSpeexBandMode(m_codec),
+                                        DEFAULT_SPEEX_COMPLEXITY,
+                                        (float)GetSpeexQuality(m_codec),
+                                        bitrate, maxbitrate, dtx);
+#endif
+            break;
+        case CODEC_OPUS :
+#if defined(ENABLE_OPUSFILE)
+            m_opusfile.reset(new OpusEncFile());
+            success = m_opusfile->Open(filename, channels, samplerate,
+                                       GetAudioCodecFrameSize(m_codec),
+                                       m_codec.opus.application);
+#endif
+            break;
+        default : // unsupported codec
+            break;
+        }
+    }
+    break; // AFF_CHANNELCODEC_FORMAT
+
+    default : // unsupported AFF format
+        break;
+    }
+
+    if (!success)
+        CloseFile();
+
+    return success;
+}
+
+void AudioMuxer::CloseFile()
+{
     // write a silence block as the ending.
     std::vector<short> ending(GetAudioCodecCbTotalSamples(m_codec));
 
@@ -147,8 +244,8 @@ void AudioMuxer::StopThread()
         m_opusfile->Encode(&ending[0], GetAudioCodecCbSamples(m_codec),
                            true);
         m_opusfile->Close();
+        m_opusfile.reset();
     }
-    m_opusfile.reset();
 #endif
 
 #if defined(ENABLE_SPEEXFILE)
@@ -160,17 +257,18 @@ void AudioMuxer::StopThread()
     }
 #endif
 
-    if(m_wavefile)
+    if (m_wavefile)
+    {
         m_wavefile->Close();
-    m_wavefile.reset();
+        m_wavefile.reset();
+    }
 
 #if defined(ENABLE_MEDIAFOUNDATION)
     m_mp3encoder.reset();
 #endif
 
-    m_codec = AudioCodec();
-    m_audio_queue.clear();
-    m_user_queue.clear();
+    if (!m_muxcallback)
+        StopThread();
 }
 
 void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
@@ -529,46 +627,4 @@ void AudioMuxer::WriteAudioToFile(int cb_samples)
 
     if(m_wavefile)
         m_wavefile->AppendSamples(&m_muxed_audio[0], cb_samples);
-}
-
-bool AudioMuxer::SetupFileEncode(const ACE_TString& filename,
-                                 const teamtalk::AudioCodec& codec)
-{
-    int bitrate = 0, maxbitrate = 0;
-    bool dtx = false;
-    switch(codec.codec)
-    {
-    case CODEC_SPEEX_VBR :
-        bitrate = codec.speex_vbr.bitrate;
-        maxbitrate = codec.speex_vbr.max_bitrate;
-        dtx = codec.speex_vbr.dtx;
-    case CODEC_SPEEX :
-#if ENABLE_SPEEXFILE
-        m_speexfile.reset(new SpeexEncFile());
-        if (m_speexfile->Open(filename,
-                              GetSpeexBandMode(codec),
-                              DEFAULT_SPEEX_COMPLEXITY,
-                              (float)GetSpeexQuality(codec),
-                              bitrate, maxbitrate, dtx))
-            return true;
-        else
-            m_speexfile.reset();
-#endif
-        break;
-    case CODEC_OPUS :
-#if defined(ENABLE_OPUSFILE)
-        m_opusfile.reset(new OpusEncFile());
-        if (m_opusfile->Open(filename, GetAudioCodecChannels(codec),
-                             GetAudioCodecSampleRate(codec),
-                             GetAudioCodecFrameSize(m_codec),
-                             codec.opus.application))
-            return true;
-        else
-            m_opusfile.reset();
-#endif
-        break;
-    default :
-        break;
-    }
-    return false;
 }

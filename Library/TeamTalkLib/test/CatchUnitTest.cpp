@@ -188,3 +188,43 @@ TEST_CASE( "Last voice packet" )
     for(auto c : clients)
         REQUIRE(TT_CloseTeamTalk(c));
 }
+
+TEST_CASE( "MuxedAudio" )
+{
+    std::vector<TTInstance*> clients;
+    auto txclient = TT_InitTeamTalkPoll();
+    auto rxclient = TT_InitTeamTalkPoll();
+    clients.push_back(txclient);
+    clients.push_back(rxclient);
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(txclient));
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    Channel chan;
+    REQUIRE(TT_GetChannel(rxclient, TT_GetMyChannelID(rxclient), &chan));
+    REQUIRE(TT_StartRecordingMuxedAudioFile(rxclient, &chan.audiocodec, ACE_TEXT("MyMuxFile.wav"), AFF_WAVE_FORMAT));
+
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 2500);
+    REQUIRE(TT_EnableVoiceTransmission(txclient, false));
+
+    REQUIRE(TT_DBG_SetSoundInputTone(rxclient, STREAMTYPE_VOICE, 600));
+    REQUIRE(TT_EnableVoiceTransmission(rxclient, true));
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, nullptr, 2500);
+    REQUIRE(TT_EnableVoiceTransmission(rxclient, false));
+
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, nullptr, 10000);
+
+    REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
+
+    for(auto c : clients)
+        REQUIRE(TT_CloseTeamTalk(c));
+}

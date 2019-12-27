@@ -556,7 +556,7 @@ VoiceLogger::~VoiceLogger()
     m_reactor.end_reactor_event_loop();
     this->wait();
 
-    MYTRACE(ACE_TEXT("VoiceLogger\n"));
+    MYTRACE(ACE_TEXT("~VoiceLogger()\n"));
 }
 
 int VoiceLogger::TimerEvent(ACE_UINT32 timer_event_id, long userdata)

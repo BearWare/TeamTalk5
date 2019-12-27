@@ -120,16 +120,17 @@ ClientNode::~ClientNode()
     {
         //guard needed for disconnect since Logout and LeaveChannel are called
         GUARD_REACTOR(this);
+        
         Disconnect();
         StopStreamingMediaFile();
+        audiomuxer().UnregisterMuxCallback();
+        audiomuxer().CloseFile();
         CloseVideoCapture();
         CloseSoundInputDevice();
         CloseSoundOutputDevice();
         CloseSoundDuplexDevices();
         m_mediaplayback_streams.clear(); //clear all players before removing sound group
     }
-
-    audiomuxer().StopThread();
 
     AUDIOCONTAINER::instance()->ReleaseAllAudio(m_soundprop.soundgroupid);
     m_soundsystem->RemoveSoundGroup(m_soundprop.soundgroupid);
@@ -3044,7 +3045,7 @@ bool ClientNode::StartRecordingMuxedAudioFile(const AudioCodec& codec,
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if(audiomuxer().StartThread(filename, aff, codec))
+    if (audiomuxer().SaveFile(codec, filename, aff))
     {
         m_flags |= CLIENT_MUX_AUDIOFILE;
         return true;
@@ -3056,7 +3057,7 @@ void ClientNode::StopRecordingMuxedAudioFile()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    audiomuxer().StopThread();
+    audiomuxer().CloseFile();
     m_flags &= ~CLIENT_MUX_AUDIOFILE;
 }
 
