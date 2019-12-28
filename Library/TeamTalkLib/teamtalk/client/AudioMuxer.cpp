@@ -95,9 +95,6 @@ error:
 
 void AudioMuxer::StopThread()
 {
-    assert(!m_muxcallback);
-    assert(!FileActive());
-
     if(this->thr_count())
     {
         int ret = m_reactor.cancel_timer(this);
@@ -237,17 +234,17 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
 
 void AudioMuxer::CloseFile()
 {
-    if (!m_muxcallback)
-        StopThread();
-
     // write a silence block as the ending.
     std::vector<short> ending(GetAudioCodecCbTotalSamples(m_codec));
+    int samples = GetAudioCodecCbSamples(m_codec);
+        
+    if (!m_muxcallback)
+        StopThread();
 
 #if defined(ENABLE_OPUSFILE)
     if (m_opusfile)
     {
-        m_opusfile->Encode(&ending[0], GetAudioCodecCbSamples(m_codec),
-                           true);
+        m_opusfile->Encode(&ending[0], samples, true);
         m_opusfile->Close();
         m_opusfile.reset();
     }
