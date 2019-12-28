@@ -21,35 +21,28 @@
  *
  */
 
-#include <ace/Reactor.h>
-#include <ace/TP_Reactor.h>
+#include "ServerGuard.h"
+#include "AppInfo.h"
+
+#include <TeamTalkDefs.h>
+#include <teamtalk/Log.h>
+#include <mystd/MyStd.h>
+
 #include <ace/streams.h>
 #include <ace/NT_Service.h>
 #include <ace/Init_ACE.h>
-
-#include <teamtalk/ttassert.h>
-#include <teamtalk/Log.h>
-#include <TeamTalkDefs.h>
-
-#include "ServerGuard.h"
-
-#include <mystd/MyStd.h>
+#include <ace/Select_Reactor.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <signal.h>
 #include <iostream>
+#include <map>
+#include <sstream>
 
 #if !defined(WIN32)
 #include <unistd.h>
 #endif
-
-#include <teamtalk/server/ServerNode.h>
-#include <iostream>
-#include <map>
-#include <sstream>
-
-#include "AppInfo.h"
 
 using namespace std;
 using namespace teamtalk;
