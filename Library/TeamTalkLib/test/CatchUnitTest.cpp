@@ -24,6 +24,7 @@
 #include "catch.hpp"
 
 #include <ace/ACE.h>
+#include <ace/OS.h>
 
 #include "TTUnitTest.h"
 
