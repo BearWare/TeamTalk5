@@ -59,6 +59,8 @@ bool AudioMuxer::Init(const teamtalk::AudioCodec& codec)
 
 bool AudioMuxer::StartThread(const teamtalk::AudioCodec& codec)
 {
+    TTASSERT(m_codec == AudioCodec());
+
     TTASSERT(this->thr_count() == 0);
     if(this->thr_count())
         return false;
@@ -235,6 +237,9 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
 
 void AudioMuxer::CloseFile()
 {
+    if (!m_muxcallback)
+        StopThread();
+
     // write a silence block as the ending.
     std::vector<short> ending(GetAudioCodecCbTotalSamples(m_codec));
 
@@ -266,9 +271,6 @@ void AudioMuxer::CloseFile()
 #if defined(ENABLE_MEDIAFOUNDATION)
     m_mp3encoder.reset();
 #endif
-
-    if (!m_muxcallback)
-        StopThread();
 }
 
 void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
