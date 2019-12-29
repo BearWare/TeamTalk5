@@ -217,12 +217,14 @@ TEST_CASE( "MuxedAudio" )
     WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 2500);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
 
+    // This tone is not being stored in 'MyMuxFile.wav' because the
+    // audio block will bypass the audio encoder.
     REQUIRE(TT_DBG_SetSoundInputTone(rxclient, STREAMTYPE_VOICE, 600));
     REQUIRE(TT_EnableVoiceTransmission(rxclient, true));
     WaitForEvent(rxclient, CLIENTEVENT_NONE, nullptr, 2500);
     REQUIRE(TT_EnableVoiceTransmission(rxclient, false));
 
-    WaitForEvent(rxclient, CLIENTEVENT_NONE, nullptr, 10000);
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, nullptr, 5000);
 
     REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
 

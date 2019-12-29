@@ -22,10 +22,7 @@
  */
 
 #include "AudioMuxer.h"
-#include <myace/MyACE.h>
 #include <teamtalk/ttassert.h>
-#include <teamtalk/CodecCommon.h>
-#include <teamtalk/Common.h>
 
 #define AUDIOBLOCK_QUEUE_MSEC 1000
 
@@ -45,8 +42,8 @@ AudioMuxer::AudioMuxer()
 
 AudioMuxer::~AudioMuxer()
 {
-    TTASSERT(this->thr_count() == 0);
     StopThread();
+    MYTRACE(ACE_TEXT("~AudioMuxer()\n"));
 }
 
 bool AudioMuxer::Init(const teamtalk::AudioCodec& codec)
@@ -61,8 +58,8 @@ bool AudioMuxer::StartThread(const teamtalk::AudioCodec& codec)
 {
     TTASSERT(m_codec == AudioCodec());
 
-    TTASSERT(this->thr_count() == 0);
-    if(this->thr_count())
+    TTASSERT(!m_thread);
+    if (m_thread)
         return false;
 
     //mux interval
@@ -71,38 +68,29 @@ bool AudioMuxer::StartThread(const teamtalk::AudioCodec& codec)
     if(samples <= 0)
         return false;
 
-    const time_t MUX_INTERVAL_MSEC = AUDIOBLOCK_QUEUE_MSEC / 3;
-    auto tv = ACE_Time_Value(MUX_INTERVAL_MSEC/1000, (MUX_INTERVAL_MSEC % 1000) * 1000);
+    m_muxed_audio.resize(samples);
 
     m_codec = codec;
 
-    m_muxed_audio.resize(samples);
-
     m_last_flush_time = GETTIMESTAMP();
 
-    if(this->activate() < 0)
-        goto error;
-
-    if(m_reactor.schedule_timer(this, 0, tv, tv) < 0)
-        goto error;
-
+    m_thread.reset(new std::thread(&AudioMuxer::Run, this));
     return true;
-
-error:
-    StopThread();
-    return false;
 }
 
 void AudioMuxer::StopThread()
 {
-    if(this->thr_count())
+    if (m_thread)
     {
-        int ret = m_reactor.cancel_timer(this);
-        TTASSERT(ret >= 0);
+        int ret;
         ret = m_reactor.end_reactor_event_loop();
         TTASSERT(ret >= 0);
-        this->wait();
+        
+        m_thread->join();
+        m_thread.reset();
+        
         m_reactor.reset_reactor_event_loop();
+        
         //flush remaining data
         ProcessAudioQueues(true);
     }
@@ -284,9 +272,11 @@ void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
                                 int n_samples, int n_channels)
 {
     //if thread isn't running just ignore
-    if(this->thr_count() == 0)
+    if (!m_thread)
         return;
 
+    MYTRACE("Queuing audio for #%d, samples %d\n", userid, n_samples);
+    
     //audio must be same format as 'm_codec' but allow 'n_samples' and
     //'n_channels' to be 0 to terminate a stream
     if(GetAudioCodecCbSamples(m_codec) != n_samples && n_samples != 0)
@@ -294,7 +284,7 @@ void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
     if(GetAudioCodecChannels(m_codec) != n_channels && n_channels != 0)
         return;
 
-    wguard_t g(m_mutex);
+    std::unique_lock<std::recursive_mutex> g(m_mutex);
 
     ACE_Message_Queue<ACE_MT_SYNCH>* q;
     user_audio_queue_t::iterator ii = m_audio_queue.find(userid);
@@ -352,22 +342,30 @@ void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
         //clear sample no tracker
         m_user_queue.erase(userid);
     }
-
 }
 
-int AudioMuxer::svc(void)
+void AudioMuxer::Run()
 {
     m_reactor.owner (ACE_OS::thr_self ());
 
+    const time_t MUX_INTERVAL_MSEC = AUDIOBLOCK_QUEUE_MSEC / 3;
+    auto tv = ACE_Time_Value(MUX_INTERVAL_MSEC/1000, (MUX_INTERVAL_MSEC % 1000) * 1000);
+
+    TimerHandler th(*this, 577);
+    long timerid = m_reactor.schedule_timer(&th, 0, tv, tv);
+    TTASSERT(timerid >= 0);
     m_reactor.run_reactor_event_loop ();
 
-    return 0;
+    if (timerid >= 0)
+    {
+        int ret = m_reactor.cancel_timer(timerid);
+        TTASSERT(ret >= 0);
+    }
 }
 
-int AudioMuxer::handle_timeout(const ACE_Time_Value &current_time, const void *act/*=0*/)
+int AudioMuxer::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
 {
     ProcessAudioQueues(false);
-
     return 0;
 }
 
@@ -396,7 +394,7 @@ void AudioMuxer::ProcessAudioQueues(bool flush)
             MuxUserAudio(); //write muxed audio
         else
         {
-            wguard_t g(m_mutex);
+            std::unique_lock<std::recursive_mutex> g(m_mutex);
             if(m_audio_queue.empty())
             {
                 //write silence
@@ -431,7 +429,7 @@ void AudioMuxer::ProcessAudioQueues(bool flush)
 
 bool AudioMuxer::CanMuxUserAudio()
 {
-    wguard_t g(m_mutex);
+    std::unique_lock<std::recursive_mutex> g(m_mutex);
 
     user_audio_queue_t::iterator ii = m_audio_queue.begin();
     while(ii != m_audio_queue.end())
@@ -445,7 +443,7 @@ bool AudioMuxer::CanMuxUserAudio()
 
 void AudioMuxer::RemoveEmptyMuxUsers()
 {
-    wguard_t g(m_mutex);
+    std::unique_lock<std::recursive_mutex> g(m_mutex);
 
     // get rid of users who haven't supplied data in time for
     // flush
@@ -467,7 +465,7 @@ void AudioMuxer::RemoveEmptyMuxUsers()
 
 bool AudioMuxer::MuxUserAudio()
 {
-    wguard_t g(m_mutex);
+    std::unique_lock<std::recursive_mutex> g(m_mutex);
 
     TTASSERT(m_audio_queue.size());
     TTASSERT(m_muxed_audio.size());
@@ -544,7 +542,7 @@ bool AudioMuxer::MuxUserAudio()
         }
     }
 
-    g.release(); //don't touch 'm_audio_queue' after this!
+    g.unlock(); //don't touch 'm_audio_queue' after this!
 
     if(audio_blocks.empty())
     {

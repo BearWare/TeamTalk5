@@ -24,18 +24,18 @@
 #ifndef AUDIOMUXER_H
 #define AUDIOMUXER_H
 
-#include <ace/Task.h>
-#include <ace/Singleton.h>
-#include <ace/Message_Queue.h>
-#include <ace/Recursive_Thread_Mutex.h>
+#include <myace/MyACE.h>
+#include <myace/TimerHandler.h>
 #include <codec/WaveFile.h>
 #if defined(ENABLE_MEDIAFOUNDATION)
 #include <avstream/MFTransform.h>
 #endif
+#include <teamtalk/CodecCommon.h>
 
 #include <map>
+#include <mutex>
+#include <thread>
 
-#include <teamtalk/CodecCommon.h>
 
 #if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS) && defined(ENABLE_OGG)
 #include <codec/OggOutput.h>
@@ -49,15 +49,9 @@
 
 #define MUX_MYSELF_USERID 0
 
-enum
-{
-    AUDIOMUX_NONE = 0x0,
-    AUDIOMUX_FILE = 0x1,
-};
-
 typedef std::function< void (const media::AudioFrame& frm) > audiomuxer_callback_t;
 
-class AudioMuxer : private ACE_Task_Base
+class AudioMuxer : private TimerListener
 {
 public:
     AudioMuxer();
@@ -82,11 +76,8 @@ private:
     bool Init(const teamtalk::AudioCodec& codec);
     bool StartThread(const teamtalk::AudioCodec& codec);
     void StopThread();
-
-    //ACE Task
-    int svc (void);
-
-    int handle_timeout(const ACE_Time_Value &current_time, const void *act=0);
+    void Run();
+    int TimerEvent(ACE_UINT32 timer_event_id, long userdata);
 
     void ProcessAudioQueues(bool flush);
     bool CanMuxUserAudio();
@@ -102,8 +93,11 @@ private:
     typedef std::map<int, ACE_UINT32> user_queued_audio_t;
     user_queued_audio_t m_user_queue;
     std::vector<short> m_muxed_audio;
+    
     ACE_Reactor m_reactor;
-    ACE_Recursive_Thread_Mutex m_mutex;
+    std::recursive_mutex m_mutex;
+    std::shared_ptr< std::thread > m_thread;
+
     ACE_UINT32 m_last_flush_time;
     teamtalk::AudioCodec m_codec;
 
