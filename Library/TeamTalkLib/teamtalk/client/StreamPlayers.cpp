@@ -418,7 +418,7 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
     if(!m_no_recording || !played)
     {
         //store in muxer (if enabled) - before turning it to stereo!
-        m_audiomuxer.QueueUserAudio(m_userid, played?output_buffer:NULL, 
+        m_audiomuxer.QueueUserAudio(m_userid, played ? output_buffer : NULL,
                                     m_samples_played, false, m_codec);
     }
     //stereo simulation

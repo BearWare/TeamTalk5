@@ -47,8 +47,6 @@
 #define ENABLE_SPEEXFILE 1
 #endif
 
-#define MUX_MYSELF_USERID 0
-
 typedef std::function< void (const media::AudioFrame& frm) > audiomuxer_callback_t;
 
 class AudioMuxer : private TimerListener

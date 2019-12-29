@@ -1086,7 +1086,7 @@ void ClientNode::CloseAudioCapture()
     else
         m_soundsystem->CloseInputStream(this);
 
-    audiomuxer().QueueUserAudio(MUX_MYSELF_USERID, NULL, 
+    audiomuxer().QueueUserAudio(LOCAL_USERID, NULL,
                                 m_soundprop.samples_transmitted, true,
                                 0, 0);
     m_soundprop.samples_transmitted = 0;
@@ -1111,7 +1111,7 @@ void ClientNode::QueueAudioFrame(const media::AudioFrame& audframe)
        ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) && 
         (m_flags & CLIENT_SNDINPUT_VOICEACTIVE)))
     {
-        audiomuxer().QueueUserAudio(MUX_MYSELF_USERID, audframe.input_buffer, 
+        audiomuxer().QueueUserAudio(LOCAL_USERID, audframe.input_buffer,
                                     m_soundprop.samples_transmitted, 
                                     false, audframe.input_samples,
                                     audframe.inputfmt.channels);
@@ -1120,7 +1120,7 @@ void ClientNode::QueueAudioFrame(const media::AudioFrame& audframe)
     }
     else if (m_flags & CLIENT_MUX_AUDIOFILE)
     {
-        audiomuxer().QueueUserAudio(MUX_MYSELF_USERID, NULL, 
+        audiomuxer().QueueUserAudio(LOCAL_USERID, NULL,
                                     m_soundprop.samples_transmitted, true,
                                     0, 0);
     }
