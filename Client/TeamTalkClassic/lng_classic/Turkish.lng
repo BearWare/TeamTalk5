@@ -175,6 +175,12 @@
     <item id="312">Dosya Olayları</item>
     <item id="313">Dosya Eklendi</item>
     <item id="314">Dosya Kaldırıldı</item>
+    <item id="315">Sıfırla</item>
+    <item id="316">BearWare.dk web girişi</item>
+    <item id="317">Kimlik doğrulama başarısız</item>
+    <item id="318">Bearware.dk web girişi başarısız</item>
+    <item id="319">%s, kullanıcı adınız &quot;&quot;%s&quot;&quot; başarıyla etkinleştirildi.</item>
+    <item id="320">Mesaj yayını</item>
     <item id="1009">Kök Kanal&apos;a Otomatik Olarak Giriş Yap</item>
     <item id="1012">Host TCP Bağlantı Noktası</item>
     <item id="1016">Host UDP Bağlantı Noktası</item>
@@ -452,6 +458,15 @@
     <item id="1547">Taşma Koruması</item>
     <item id="1548">Belirli bir süre içinde komut sınırlayarak Kullanıcının spam mesajlar ve aktiviteler gerçekleştirmesini engelle.</item>
     <item id="1550">verilen komut sınırı</item>
+    <item id="1553">Profil</item>
+    <item id="1554">Kullanıcı takma adını değiştirebilir</item>
+    <item id="1558">Kullanıcı tüm kanallarda ses kaydedebilir</item>
+    <item id="1561">&amp;Etkinleştir</item>
+    <item id="1562">BearWare.dk Web girişi</item>
+    <item id="1563">BearWare.dk web girişi, kullanıcının BearWare.dk web girişi etkinleştirilmiş sunucular üzerinde kimlik doğrulaması için kullanılır. Söz konusu hesap bearware.dk adresi üzerinden oluşturulabilir.</item>
+    <item id="1564">Kimlik doğrulama</item>
+    <item id="1565">&amp;Oluştur</item>
+    <item id="1566">&amp;Bağlı olmayan kullanıcıları göster</item>
     <item id="32791">&amp;IP adresim Nedir?</item>
     <item id="32798">&amp;Operatör yetkisi ver\tCtrl+o</item>
     <item id="32801">&amp;Kanal Mesajlarını gör\tF10</item>
@@ -559,4 +574,5 @@
     <item id="32951">&amp;Kanaldan at ve yasakla\tCtrl+B</item>
     <item id="32952">&amp;Kanaldan Yasaklanmış Kullanıcılar\tCtrl+Alt+Shift+B</item>
     <item id="32953">&amp;Yeni Istemci\tCtrl+N</item>
+    <item id="32954">&amp;Taşıma için kopyala</item>
 </language>
