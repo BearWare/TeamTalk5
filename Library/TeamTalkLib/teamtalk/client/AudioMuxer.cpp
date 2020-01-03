@@ -275,8 +275,6 @@ void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
     if (!m_thread)
         return;
 
-    MYTRACE("Queuing audio for #%d, samples %d\n", userid, n_samples);
-    
     //audio must be same format as 'm_codec' but allow 'n_samples' and
     //'n_channels' to be 0 to terminate a stream
     if(GetAudioCodecCbSamples(m_codec) != n_samples && n_samples != 0)

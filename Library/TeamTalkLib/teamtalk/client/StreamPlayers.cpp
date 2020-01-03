@@ -34,7 +34,7 @@ using namespace media;
 namespace teamtalk {
 
 AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
-                         AudioMuxer& audiomuxer, const AudioCodec& codec,
+                         useraudio_callback_t audio_cb, const AudioCodec& codec,
                          audio_resampler_t& resampler)
 : m_sndgrpid(sndgrpid)
 , m_userid(userid)
@@ -44,7 +44,7 @@ AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
 , m_last_playback(0)
 , m_play_stopped_delay(STOPPED_TALKING_DELAY)
 , m_played_packet_time(0)
-, m_audiomuxer(audiomuxer)
+, m_audio_callback(audio_cb)
 , m_samples_played(0)
 , m_current_samples_played(0)
 , m_resampler(resampler)
@@ -72,8 +72,9 @@ AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
 AudioPlayer::~AudioPlayer()
 {
     //store in muxer (if enabled)
-    m_audiomuxer.QueueUserAudio(m_userid, nullptr, m_samples_played,
-                                true, m_codec);
+    media::AudioFrame frm(GetAudioCodecAudioFormat(m_codec), nullptr, 0);
+    frm.sample_no = m_samples_played;
+    m_audio_callback(m_userid, m_streamtype, frm);
     MYTRACE(ACE_TEXT("~AudioPlayer() - %p - #%d\n"), this, m_userid);
 }
 
@@ -418,8 +419,10 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
     if(!m_no_recording || !played)
     {
         //store in muxer (if enabled) - before turning it to stereo!
-        m_audiomuxer.QueueUserAudio(m_userid, played ? output_buffer : NULL,
-                                    m_samples_played, false, m_codec);
+        media::AudioFrame frm(GetAudioCodecAudioFormat(m_codec), output_buffer,
+                              GetAudioCodecCbSamples(m_codec));
+        frm.sample_no = m_samples_played;
+        m_audio_callback(m_userid, m_streamtype, frm);
     }
     //stereo simulation
     if(GetAudioCodecSimulateStereo(m_codec))
@@ -438,9 +441,9 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
 
 #if defined(ENABLE_SPEEX)
 SpeexPlayer::SpeexPlayer(int sndgrpid, int userid, StreamType stream_type,
-                         AudioMuxer& audiomuxer, const AudioCodec& codec,
+                         useraudio_callback_t audio_cb, const AudioCodec& codec,
                          audio_resampler_t resampler)
-: AudioPlayer(sndgrpid, userid, stream_type, audiomuxer, codec, resampler)
+: AudioPlayer(sndgrpid, userid, stream_type, audio_cb, codec, resampler)
 {
     TTASSERT(codec.codec == CODEC_SPEEX || codec.codec == CODEC_SPEEX_VBR);
     bool b = false;
@@ -500,9 +503,9 @@ bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
 #if defined(ENABLE_OPUS)
 
 OpusPlayer::OpusPlayer(int sndgrpid, int userid, StreamType stream_type,
-                       AudioMuxer& audiomuxer, const AudioCodec& codec,
+                       useraudio_callback_t audio_cb, const AudioCodec& codec,
                        audio_resampler_t resampler)
-: AudioPlayer(sndgrpid, userid, stream_type, audiomuxer, codec, resampler)
+: AudioPlayer(sndgrpid, userid, stream_type, audio_cb, codec, resampler)
 {
     TTASSERT(codec.codec == CODEC_OPUS);
     bool b = false;

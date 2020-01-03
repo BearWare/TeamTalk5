@@ -58,6 +58,7 @@ public:
     bool RegisterMuxCallback(audiomuxer_callback_t cb,
                              const teamtalk::AudioCodec& codec);
     void UnregisterMuxCallback();
+    
     bool SaveFile(const teamtalk::AudioCodec& codec,
                   const ACE_TString& filename,
                   teamtalk::AudioFileFormat aff);

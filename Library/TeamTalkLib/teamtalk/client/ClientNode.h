@@ -321,7 +321,7 @@ namespace teamtalk {
 
         void EnableAudioBlockCallback(int userid, StreamType stream_type,
                                       bool enable);
-        
+        // user provided audio stream that replaces voice input stream
         bool QueueAudioInput(const media::AudioFrame& frm, int streamid);
         
         bool MuteAll(bool muteall);
@@ -435,7 +435,7 @@ namespace teamtalk {
                                    ACE_UINT32 packet_no,
                                    ACE_UINT32 timestamp);
 
-        //PortAudio listener - separate thread
+        // SoundSystem listener - separate thread
         void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                              const short* buffer, int n_samples);
         void StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
@@ -464,6 +464,11 @@ namespace teamtalk {
                                 ACE_Message_Block* mb_audio);
         void AudioInputStatusCallback(const AudioInputStatus& ais);
 
+        // AudioMuxer listener - separate thread
+        void AudioMuxCallback(int userid, StreamType st,
+                              const media::AudioFrame& audio_frame);
+
+        // FileNode listener - reactor thread
         void OnFileTransferStatus(const teamtalk::FileTransfer& transfer);
 
         bool GetTransferInfo(int transferid, FileTransfer& transfer);

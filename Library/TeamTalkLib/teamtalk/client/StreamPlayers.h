@@ -71,12 +71,14 @@ namespace teamtalk {
         }
     };
 
+    typedef std::function< void (int userid, StreamType stream_type, const media::AudioFrame& frm) > useraudio_callback_t;
+
     class AudioPlayer
         : public soundsystem::StreamPlayer
     {
     public:
         AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
-                    AudioMuxer& audiomuxer, const AudioCodec& codec,
+                    useraudio_callback_t audio_cb, const AudioCodec& codec,
                     audio_resampler_t& resampler);
         virtual ~AudioPlayer();
 
@@ -118,7 +120,7 @@ namespace teamtalk {
         int m_sndgrpid;
         int m_userid;
         StreamType m_streamtype;
-        AudioMuxer& m_audiomuxer;
+        useraudio_callback_t m_audio_callback;
         bool m_talking;
         AudioCodec m_codec;
         //start/stop playback attributes
@@ -162,7 +164,7 @@ namespace teamtalk {
     {
     public:
         SpeexPlayer(int sndgrpid, int userid, StreamType stream_type,
-                    AudioMuxer& audiomuxer, const AudioCodec& codec,
+                    useraudio_callback_t audio_cb, const AudioCodec& codec,
                     audio_resampler_t resampler);
         virtual ~SpeexPlayer();
 
@@ -180,8 +182,8 @@ namespace teamtalk {
     {
     public:
         OpusPlayer(int sndgrpid, int userid, StreamType stream_type,
-                    AudioMuxer& audiomuxer, const AudioCodec& codec,
-                    audio_resampler_t resampler);
+                   useraudio_callback_t audio_cb, const AudioCodec& codec,
+                   audio_resampler_t resampler);
         virtual ~OpusPlayer();
 
         bool DecodeFrame(const encframe& enc_frame,

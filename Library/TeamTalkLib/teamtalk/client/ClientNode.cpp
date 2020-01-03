@@ -55,6 +55,7 @@ using namespace std::placeholders;
 #define UDP_SOCKET_SEND_BUF_SIZE 0x20000
 
 #define LOCAL_USERID 0
+#define MUX_USERID   0x8000
 
 #define SIMULATE_RX_PACKETLOSS 0
 #define SIMULATE_TX_PACKETLOSS 0
@@ -1111,18 +1112,17 @@ void ClientNode::QueueAudioFrame(const media::AudioFrame& audframe)
        ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) && 
         (m_flags & CLIENT_SNDINPUT_VOICEACTIVE)))
     {
-        audiomuxer().QueueUserAudio(LOCAL_USERID, audframe.input_buffer,
-                                    m_soundprop.samples_transmitted, 
-                                    false, audframe.input_samples,
-                                    audframe.inputfmt.channels);
+        media::AudioFrame copy = audframe;
+        copy.sample_no = m_soundprop.samples_transmitted;
+        AudioMuxCallback(LOCAL_USERID, STREAMTYPE_VOICE, copy);
 
         m_soundprop.samples_transmitted += audframe.input_samples;
     }
     else if (m_flags & CLIENT_MUX_AUDIOFILE)
     {
-        audiomuxer().QueueUserAudio(LOCAL_USERID, NULL,
-                                    m_soundprop.samples_transmitted, true,
-                                    0, 0);
+        media::AudioFrame frm;
+        frm.sample_no = m_soundprop.samples_transmitted;
+        AudioMuxCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
     }
     
     if(AUDIOCONTAINER::instance()->AddAudio(m_soundprop.soundgroupid,
@@ -1553,6 +1553,21 @@ void ClientNode::AudioInputStatusCallback(const AudioInputStatus& ais)
     }
 
     m_listener->OnAudioInputStatus(m_voice_stream_id, ais);
+}
+
+void ClientNode::AudioMuxCallback(int userid, StreamType st,
+                                  const media::AudioFrame& audio_frame)
+{
+    switch (st)
+    {
+    case STREAMTYPE_VOICE :
+        audiomuxer().QueueUserAudio(userid, audio_frame.input_buffer,
+                                    audio_frame.sample_no, audio_frame.input_buffer == nullptr,
+                                    audio_frame.input_samples, audio_frame.inputfmt.channels);
+        break;
+    default :
+        break;
+    }
 }
 
 void ClientNode::OnFileTransferStatus(const teamtalk::FileTransfer& transfer)
@@ -2923,6 +2938,7 @@ bool ClientNode::EnableAutoPositioning(bool enable)
         m_flags &= ~CLIENT_SNDOUTPUT_AUTO3DPOSITION;
     return m_soundsystem->SetAutoPositioning(m_soundprop.soundgroupid, enable);
 }
+
 bool ClientNode::AutoPositionUsers()
 {
     ASSERT_REACTOR_LOCKED(this);
@@ -2931,6 +2947,7 @@ bool ClientNode::AutoPositionUsers()
         return false;
     return m_soundsystem->AutoPositionPlayers(m_soundprop.soundgroupid, true);
 }
+
 void ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
                                           bool enable)
 {
@@ -4010,7 +4027,7 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
     /* Sanity check */
     if(ValidAudioCodec(codec))
     {
-        //set encoder properties
+        //set audio encoder properties for voice stream
         auto cbenc = std::bind(&ClientNode::EncodedAudioVoiceFrame, this, _1, _2, _3, _4, _5);
         if(m_voice_thread.StartEncoder(cbenc, codec, true))
         {

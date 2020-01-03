@@ -30,6 +30,7 @@
 
 using namespace std;
 using namespace teamtalk;
+using namespace std::placeholders;
 
 #define TIMEOUT_STOP_AUDIO_PLAYBACK          30000    //msec for timeout of when to stop stream
 #define TIMEOUT_STOP_VIDEOFILE_PLAYBACK      5000
@@ -1123,6 +1124,8 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
         output_samples = codec_samples;
     }
 
+    auto audiofunc = std::bind(&ClientNode::AudioMuxCallback, m_clientnode, _1, _2, _3);
+
     AudioPlayer* audio_player = NULL;
     switch(codec.codec)
     {
@@ -1130,8 +1133,8 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     case teamtalk::CODEC_SPEEX :
         ACE_NEW_RETURN(audio_player,
                        SpeexPlayer(sndprop.soundgroupid, GetUserID(),
-                                   stream_type, m_clientnode->audiomuxer(),
-                                    codec, resampler),
+                                   stream_type, audiofunc,
+                                   codec, resampler),
                         audio_player_t());
         break;
 #endif
@@ -1139,7 +1142,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     case teamtalk::CODEC_SPEEX_VBR :
         ACE_NEW_RETURN(audio_player,
                        SpeexPlayer(sndprop.soundgroupid, GetUserID(),
-                                   stream_type, m_clientnode->audiomuxer(),
+                                   stream_type, audiofunc,
                                    codec, resampler), audio_player_t());
         break;
 #endif
@@ -1147,7 +1150,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     case teamtalk::CODEC_OPUS :
         ACE_NEW_RETURN(audio_player,
                        OpusPlayer(sndprop.soundgroupid, GetUserID(),
-                                  stream_type, m_clientnode->audiomuxer(),
+                                  stream_type, audiofunc,
                                   codec, resampler),
                        audio_player_t());
         break;
