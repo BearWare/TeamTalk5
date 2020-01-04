@@ -276,7 +276,6 @@ namespace teamtalk {
         ACE_Recursive_Thread_Mutex& lock_sndprop() { return m_sndgrp_lock; }
         ACE_Recursive_Thread_Mutex& lock_timers() { return m_timers_lock; }
         VoiceLogger& voicelogger();
-        AudioMuxer& audiomuxer();
 
         //server properties
         bool GetServerInfo(ServerInfo& info);
@@ -617,7 +616,7 @@ namespace teamtalk {
         //log voice to files
         voicelogger_t m_voicelogger;
         //muxed audio
-        audiomuxer_t m_audiomuxer;
+        audiomuxer_t m_audiomuxer_file;
         //TCP connector
         connector_t m_connector;
         DefaultStreamHandler::StreamHandler_t* m_def_stream;

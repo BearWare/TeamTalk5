@@ -233,16 +233,20 @@ TEST_CASE( "MuxedAudio" )
     REQUIRE(TT_EnableVoiceTransmission(rxclient, false));
 
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 1000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 2000);
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoUnsubscribe(rxclient, TT_GetMyUserID(txclient), SUBSCRIBE_VOICE)));
     
-    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 1000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 2000);
     
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoSubscribe(rxclient, TT_GetMyUserID(txclient), SUBSCRIBE_VOICE)));
 
     REQUIRE(TT_EnableVoiceTransmission(rxclient, true));
-    
-    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 1000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 2000);
+
+    REQUIRE(TT_CloseSoundInputDevice(rxclient));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 2000);
+    REQUIRE(TT_EnableVoiceTransmission(txclient, false));
     
     REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
 
