@@ -74,6 +74,7 @@ AudioPlayer::~AudioPlayer()
     //store in muxer (if enabled)
     media::AudioFrame frm(GetAudioCodecAudioFormat(m_codec), nullptr, 0);
     frm.sample_no = m_samples_played;
+    frm.streamid = m_stream_id;
     m_audio_callback(m_userid, m_streamtype, frm);
     MYTRACE(ACE_TEXT("~AudioPlayer() - %p - #%d\n"), this, m_userid);
 }
@@ -422,6 +423,7 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
         media::AudioFrame frm(GetAudioCodecAudioFormat(m_codec), output_buffer,
                               GetAudioCodecCbSamples(m_codec));
         frm.sample_no = m_samples_played;
+        frm.streamid = m_stream_id;
         m_audio_callback(m_userid, m_streamtype, frm);
     }
     //stereo simulation

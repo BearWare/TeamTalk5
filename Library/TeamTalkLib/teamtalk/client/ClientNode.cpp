@@ -1073,6 +1073,7 @@ void ClientNode::CloseAudioCapture()
     // if sending to AudioMuxer then submit 'end' frame
     media::AudioFrame frm;
     frm.sample_no = m_soundprop.samples_transmitted;
+    frm.streamid = m_voice_stream_id;
     AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
     
     m_soundprop.samples_transmitted = 0;
@@ -1094,6 +1095,7 @@ void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe)
     audframe.soundgrpid = m_soundprop.soundgroupid;
     audframe.userdata = STREAMTYPE_VOICE;
     audframe.sample_no = m_soundprop.samples_recorded;
+    audframe.streamid = m_voice_stream_id;
 
     m_voice_thread.QueueAudio(audframe);
     
@@ -1199,6 +1201,7 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
         // submit 'end' frame to audio muxer
         media::AudioFrame frm;
         frm.sample_no = m_soundprop.samples_transmitted;
+        frm.streamid = m_voice_stream_id;
         AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
         
         return;
@@ -1216,6 +1219,7 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
     // submit to audio muxer with sample index matching transmitted
     // (not recorded)
     media::AudioFrame cpyframe = org_frame;
+    cpyframe.streamid = m_voice_stream_id;
     cpyframe.sample_no = m_soundprop.samples_transmitted;
     AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, cpyframe);
     
@@ -1463,6 +1467,7 @@ bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
 
     audio_frame.force_enc = true;
     audio_frame.userdata = STREAMTYPE_MEDIAFILE_AUDIO;
+    audio_frame.streamid = m_mediafile_stream_id;
     m_audiofile_thread.QueueAudio(mb_audio);
 
     return true;  //m_video_thread always takes ownership
@@ -1510,6 +1515,7 @@ bool ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
     assert(mb_audio);
     audio_frame.force_enc = true;
     audio_frame.userdata = STREAMTYPE_VOICE;
+    audio_frame.streamid = m_voice_stream_id;
 
     m_voice_thread.QueueAudio(mb_audio);
     return true;
@@ -1531,7 +1537,7 @@ void ClientNode::AudioMuxCallback(const media::AudioFrame& audio_frame)
 {
     if (AUDIOCONTAINER::instance()->AddAudio(m_soundprop.soundgroupid,
                                              MUX_USERID, STREAMTYPE_VOICE,
-                                             0/* streamid */,
+                                             audio_frame.streamid,
                                              audio_frame.inputfmt.samplerate,
                                              audio_frame.inputfmt.channels,
                                              audio_frame.input_buffer,

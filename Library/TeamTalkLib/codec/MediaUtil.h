@@ -108,6 +108,7 @@ namespace media
         int output_samples;
         AudioFormat inputfmt;
         AudioFormat outputfmt;
+        int streamid = 0;
         int soundgrpid;
         ACE_UINT32 userdata;
         bool force_enc; //force encoding of frame
