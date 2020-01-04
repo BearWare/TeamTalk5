@@ -583,7 +583,7 @@ namespace teamtalk {
         //audio start/stop/update
         void OpenAudioCapture(const AudioCodec& codec);
         void CloseAudioCapture();
-        void QueueVoiceFrame(const media::AudioFrame& audframe);
+        void QueueVoiceFrame(media::AudioFrame& audframe);
 
         void SendVoicePacket(const VoicePacket& packet);
         void SendAudioFilePacket(const AudioFilePacket& packet);

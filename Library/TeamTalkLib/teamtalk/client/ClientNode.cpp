@@ -1087,9 +1087,13 @@ void ClientNode::CloseAudioCapture()
 }
 
 // Separate thread
-void ClientNode::QueueVoiceFrame(const media::AudioFrame& audframe)
+void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe)
 {
-    TTASSERT(audframe.userdata == STREAMTYPE_VOICE);
+    audframe.force_enc = ((m_flags & CLIENT_TX_VOICE) || m_voice_tx_closed.exchange(false));
+    audframe.voiceact_enc = (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED);
+    audframe.soundgrpid = m_soundprop.soundgroupid;
+    audframe.userdata = STREAMTYPE_VOICE;
+    audframe.sample_no = m_soundprop.samples_recorded;
 
     m_voice_thread.QueueAudio(audframe);
 
@@ -1304,15 +1308,8 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     else
         capture_buffer = buffer;
 
-    AudioFrame audframe;
-    audframe.force_enc = ((m_flags & CLIENT_TX_VOICE) || m_voice_tx_closed.exchange(false));
-    audframe.voiceact_enc = (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED);
-    audframe.soundgrpid = m_soundprop.soundgroupid;
-    audframe.inputfmt.channels = codec_channels;
-    audframe.input_buffer = const_cast<short*>(capture_buffer);
-    audframe.input_samples = codec_samples;
-    audframe.inputfmt.samplerate = codec_samplerate;
-    audframe.userdata = STREAMTYPE_VOICE;
+    AudioFrame audframe(AudioFormat(codec_samplerate, codec_channels),
+                        const_cast<short*>(capture_buffer), codec_samples);
     
     QueueVoiceFrame(audframe);
 }
@@ -1363,19 +1360,12 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
     else
         playback_buffer = prev_output_buffer;
 
-    AudioFrame audframe;
-    audframe.force_enc = (m_flags & CLIENT_TX_VOICE);
-    audframe.voiceact_enc = (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED);
-    audframe.soundgrpid = m_soundprop.soundgroupid;
-    audframe.inputfmt.channels = codec_channels;
-    audframe.input_buffer = const_cast<short*>(capture_buffer);
-    audframe.input_samples = codec_samples;
-    audframe.inputfmt.samplerate = codec_samplerate;
-    audframe.outputfmt.channels = codec_channels;
+    AudioFrame audframe(AudioFormat(codec_samplerate, codec_channels),
+                        const_cast<short*>(capture_buffer), codec_samples);
+    
+    audframe.outputfmt = AudioFormat(codec_samplerate, codec_channels);
     audframe.output_buffer = playback_buffer;
     audframe.output_samples = codec_samples;
-    audframe.outputfmt.samplerate = codec_samplerate;
-    audframe.userdata = STREAMTYPE_VOICE;
 
     QueueVoiceFrame(audframe);
 }
