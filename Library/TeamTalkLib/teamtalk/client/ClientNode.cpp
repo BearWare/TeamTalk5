@@ -1096,24 +1096,6 @@ void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe)
     audframe.sample_no = m_soundprop.samples_recorded;
 
     m_voice_thread.QueueAudio(audframe);
-
-    if((m_flags & CLIENT_TX_VOICE) ||
-       ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) && 
-        (m_flags & CLIENT_SNDINPUT_VOICEACTIVE)))
-    {
-        media::AudioFrame copy = audframe;
-        copy.sample_no = m_soundprop.samples_transmitted;
-        AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, copy);
-
-        m_soundprop.samples_transmitted += audframe.input_samples;
-    }
-    else if (m_flags & CLIENT_MUX_AUDIOFILE)
-    {
-        // submit 'end' frame to audio muxer
-        media::AudioFrame frm;
-        frm.sample_no = m_soundprop.samples_transmitted;
-        AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
-    }
     
     if(AUDIOCONTAINER::instance()->AddAudio(m_soundprop.soundgroupid,
                                             LOCAL_USERID, STREAMTYPE_VOICE,
@@ -1213,6 +1195,12 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
             m_flags &= ~CLIENT_SNDINPUT_VOICEACTIVE;
             m_listener->OnVoiceActivated(false);
         }
+
+        // submit 'end' frame to audio muxer
+        media::AudioFrame frm;
+        frm.sample_no = m_soundprop.samples_transmitted;
+        AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
+        
         return;
     }
     else if((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) == 0 &&
@@ -1224,6 +1212,14 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
         if((m_flags & CLIENT_TX_VOICE) == 0)
             GEN_NEXT_ID(m_voice_stream_id);
     }
+
+    // submit to audio muxer with sample index matching transmitted
+    // (not recorded)
+    media::AudioFrame cpyframe = org_frame;
+    cpyframe.sample_no = m_soundprop.samples_transmitted;
+    AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, cpyframe);
+    
+    m_soundprop.samples_transmitted += org_frame.input_samples;
 
     MYTRACE_COND(enc_length > MAX_ENC_FRAMESIZE,
                  ACE_TEXT("Queue voice packet #%d at TS: %u, pkt time: %u, size: %d\n"),
