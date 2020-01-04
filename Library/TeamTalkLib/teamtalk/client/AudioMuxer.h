@@ -55,8 +55,8 @@ public:
     AudioMuxer();
     virtual ~AudioMuxer();
 
-    bool RegisterMuxCallback(audiomuxer_callback_t cb,
-                             const teamtalk::AudioCodec& codec);
+    bool RegisterMuxCallback(const teamtalk::AudioCodec& codec,
+                             audiomuxer_callback_t cb);
     void UnregisterMuxCallback();
     
     bool SaveFile(const teamtalk::AudioCodec& codec,
@@ -82,7 +82,7 @@ private:
     bool CanMuxUserAudio();
     void RemoveEmptyMuxUsers(); // should only be used during flush
     bool MuxUserAudio();
-    void WriteAudioToFile(int cb_samples);
+    void WriteAudio(int cb_samples);
     bool FileActive();
 
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;

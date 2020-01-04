@@ -783,8 +783,7 @@ TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEvent(IN TTInstance* lpTTInstance,
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     
-    clientnode->EnableAudioBlockCallback(nUserID, (teamtalk::StreamType)nStreamType, bEnable);
-    return TRUE;
+    return clientnode->EnableAudioBlockCallback(nUserID, (teamtalk::StreamType)nStreamType, bEnable);
 }
 
 TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,

@@ -190,7 +190,7 @@ TEST_CASE( "Last voice packet" )
         REQUIRE(TT_CloseTeamTalk(c));
 }
 
-TEST_CASE( "MuxedAudio" )
+TEST_CASE( "MuxedAudioToFile" )
 {
     std::vector<TTInstance*> clients;
     auto txclient = TT_InitTeamTalkPoll();
@@ -249,6 +249,33 @@ TEST_CASE( "MuxedAudio" )
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
     
     REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
+
+    for(auto c : clients)
+        REQUIRE(TT_CloseTeamTalk(c));
+}
+
+TEST_CASE( "MuxedAudioBlock" )
+{
+    std::vector<TTInstance*> clients;
+    auto txclient = TT_InitTeamTalkPoll();
+    auto rxclient = TT_InitTeamTalkPoll();
+    clients.push_back(txclient);
+    clients.push_back(rxclient);
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(txclient));
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
+
+    TTMessage msg;
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, &msg));
 
     for(auto c : clients)
         REQUIRE(TT_CloseTeamTalk(c));

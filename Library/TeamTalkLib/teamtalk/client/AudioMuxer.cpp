@@ -85,12 +85,12 @@ void AudioMuxer::StopThread()
         int ret;
         ret = m_reactor.end_reactor_event_loop();
         TTASSERT(ret >= 0);
-        
+
         m_thread->join();
         m_thread.reset();
-        
+
         m_reactor.reset_reactor_event_loop();
-        
+
         //flush remaining data
         ProcessAudioQueues(true);
     }
@@ -100,8 +100,8 @@ void AudioMuxer::StopThread()
     m_user_queue.clear();
 }
 
-bool AudioMuxer::RegisterMuxCallback(audiomuxer_callback_t cb,
-                                     const teamtalk::AudioCodec& codec)
+bool AudioMuxer::RegisterMuxCallback(const teamtalk::AudioCodec& codec,
+                                     audiomuxer_callback_t cb)
 {
     if (m_muxcallback)
         return false;
@@ -225,7 +225,7 @@ void AudioMuxer::CloseFile()
     // write a silence block as the ending.
     std::vector<short> ending(GetAudioCodecCbTotalSamples(m_codec));
     int samples = GetAudioCodecCbSamples(m_codec);
-        
+
     if (!m_muxcallback)
         StopThread();
 
@@ -405,7 +405,7 @@ void AudioMuxer::ProcessAudioQueues(bool flush)
                 break;
         }
 
-        WriteAudioToFile(cb_samples);
+        WriteAudio(cb_samples);
         cb_count--;
     }
 
@@ -416,7 +416,7 @@ void AudioMuxer::ProcessAudioQueues(bool flush)
         while (CanMuxUserAudio())
         {
             MuxUserAudio();
-            WriteAudioToFile(cb_samples);
+            WriteAudio(cb_samples);
             RemoveEmptyMuxUsers();
         }
     }
@@ -584,7 +584,7 @@ bool AudioMuxer::MuxUserAudio()
     return false;
 }
 
-void AudioMuxer::WriteAudioToFile(int cb_samples)
+void AudioMuxer::WriteAudio(int cb_samples)
 {
     int channels = GetAudioCodecChannels(m_codec);
     if(GetAudioCodecSimulateStereo(m_codec))
@@ -592,6 +592,14 @@ void AudioMuxer::WriteAudioToFile(int cb_samples)
     int framesize = GetAudioCodecFrameSize(m_codec);
     int samplerate = GetAudioCodecSampleRate(m_codec);
     TTASSERT(cb_samples == GetAudioCodecFramesPerPacket(m_codec)*framesize);
+
+    media::AudioFrame frame(media::AudioFormat(samplerate, channels),
+                            &m_muxed_audio[0], cb_samples);
+    if (m_muxcallback)
+    {
+        m_muxcallback(frame);
+    }
+
 #if ENABLE_SPEEXFILE
     if(m_speexfile && framesize)
     {
@@ -615,7 +623,6 @@ void AudioMuxer::WriteAudioToFile(int cb_samples)
 #if defined(ENABLE_MEDIAFOUNDATION)
     if(m_mp3encoder && framesize)
     {
-        media::AudioFrame frame(media::AudioFormat(samplerate, channels), &m_muxed_audio[0], cb_samples);
         m_mp3encoder->ProcessAudioEncoder(frame, true);
     }
 #endif

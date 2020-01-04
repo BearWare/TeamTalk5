@@ -1124,7 +1124,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
         output_samples = codec_samples;
     }
 
-    auto audiofunc = std::bind(&ClientNode::AudioMuxCallback, m_clientnode, _1, _2, _3);
+    auto audiofunc = std::bind(&ClientNode::AudioUserCallback, m_clientnode, _1, _2, _3);
 
     AudioPlayer* audio_player = NULL;
     switch(codec.codec)

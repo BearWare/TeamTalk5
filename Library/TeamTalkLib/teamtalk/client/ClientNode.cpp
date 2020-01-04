@@ -23,6 +23,7 @@
 
 #include "ClientNode.h"
 
+#include "AudioContainer.h"
 #include <codec/BmpFile.h>
 #include <teamtalk/CodecCommon.h>
 #include <teamtalk/ttassert.h>
@@ -31,12 +32,7 @@
 #include <teamtalk/PacketHelper.h>
 #include <myace/MyACE.h>
 
-#include <ace/Reactor.h>
-#include <ace/INET_Addr.h>
-#include <ace/Event_Handler.h>
 #include <ace/Synch_Options.h>
-
-#include "AudioContainer.h"
 
 using namespace teamtalk;
 using namespace std;
@@ -1077,7 +1073,7 @@ void ClientNode::CloseAudioCapture()
     // if sending to AudioMuxer then submit 'end' frame
     media::AudioFrame frm;
     frm.sample_no = m_soundprop.samples_transmitted;
-    AudioMuxCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
+    AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
     
     m_soundprop.samples_transmitted = 0;
     m_soundprop.samples_recorded = 0;
@@ -1091,7 +1087,7 @@ void ClientNode::CloseAudioCapture()
 }
 
 // Separate thread
-void ClientNode::QueueAudioFrame(const media::AudioFrame& audframe)
+void ClientNode::QueueVoiceFrame(const media::AudioFrame& audframe)
 {
     TTASSERT(audframe.userdata == STREAMTYPE_VOICE);
 
@@ -1103,7 +1099,7 @@ void ClientNode::QueueAudioFrame(const media::AudioFrame& audframe)
     {
         media::AudioFrame copy = audframe;
         copy.sample_no = m_soundprop.samples_transmitted;
-        AudioMuxCallback(LOCAL_USERID, STREAMTYPE_VOICE, copy);
+        AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, copy);
 
         m_soundprop.samples_transmitted += audframe.input_samples;
     }
@@ -1112,7 +1108,7 @@ void ClientNode::QueueAudioFrame(const media::AudioFrame& audframe)
         // submit 'end' frame to audio muxer
         media::AudioFrame frm;
         frm.sample_no = m_soundprop.samples_transmitted;
-        AudioMuxCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
+        AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
     }
     
     if(AUDIOCONTAINER::instance()->AddAudio(m_soundprop.soundgroupid,
@@ -1124,7 +1120,7 @@ void ClientNode::QueueAudioFrame(const media::AudioFrame& audframe)
                                             audframe.input_samples,
                                             m_soundprop.samples_recorded))
     {
-        m_listener->OnUserAudioBlock(0, STREAMTYPE_VOICE);
+        m_listener->OnUserAudioBlock(LOCAL_USERID, STREAMTYPE_VOICE);
     }
 
     m_soundprop.samples_recorded += audframe.input_samples;
@@ -1318,7 +1314,7 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     audframe.inputfmt.samplerate = codec_samplerate;
     audframe.userdata = STREAMTYPE_VOICE;
     
-    QueueAudioFrame(audframe);
+    QueueVoiceFrame(audframe);
 }
 
 void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
@@ -1381,7 +1377,7 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
     audframe.outputfmt.samplerate = codec_samplerate;
     audframe.userdata = STREAMTYPE_VOICE;
 
-    QueueAudioFrame(audframe);
+    QueueVoiceFrame(audframe);
 }
 
 bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
@@ -1545,21 +1541,44 @@ void ClientNode::AudioInputStatusCallback(const AudioInputStatus& ais)
     m_listener->OnAudioInputStatus(m_voice_stream_id, ais);
 }
 
-void ClientNode::AudioMuxCallback(int userid, StreamType st,
-                                  const media::AudioFrame& audio_frame)
+void ClientNode::AudioMuxCallback(const media::AudioFrame& audio_frame)
+{
+    if (AUDIOCONTAINER::instance()->AddAudio(m_soundprop.soundgroupid,
+                                             MUX_USERID, STREAMTYPE_VOICE,
+                                             0/* streamid */,
+                                             audio_frame.inputfmt.samplerate,
+                                             audio_frame.inputfmt.channels,
+                                             audio_frame.input_buffer,
+                                             audio_frame.input_samples,
+                                             audio_frame.sample_no))
+    {
+        m_listener->OnUserAudioBlock(MUX_USERID, STREAMTYPE_VOICE);
+    }
+}
+
+void ClientNode::AudioUserCallback(int userid, StreamType st,
+                                   const media::AudioFrame& audio_frame)
 {
     switch (st)
     {
     case STREAMTYPE_VOICE :
     {
         // make copy since we're in a separate thread
-        auto muxer = m_audiomuxer_file;
-        if (muxer)
-            muxer->QueueUserAudio(userid, audio_frame.input_buffer,
-                                  audio_frame.sample_no,
-                                  audio_frame.input_buffer == nullptr,
-                                  audio_frame.input_samples,
-                                  audio_frame.inputfmt.channels);
+        auto filemuxer = m_audiomuxer_file;
+        if (filemuxer)
+            filemuxer->QueueUserAudio(userid, audio_frame.input_buffer,
+                                      audio_frame.sample_no,
+                                      audio_frame.input_buffer == nullptr,
+                                      audio_frame.input_samples,
+                                      audio_frame.inputfmt.channels);
+        
+        auto streammuxer = m_audiomuxer_stream;
+        if (streammuxer)
+            streammuxer->QueueUserAudio(userid, audio_frame.input_buffer,
+                                        audio_frame.sample_no,
+                                        audio_frame.input_buffer == nullptr,
+                                        audio_frame.input_samples,
+                                        audio_frame.inputfmt.channels);
     }
     break;
     default :
@@ -2945,7 +2964,7 @@ bool ClientNode::AutoPositionUsers()
     return m_soundsystem->AutoPositionPlayers(m_soundprop.soundgroupid, true);
 }
 
-void ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
+bool ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
                                           bool enable)
 {
     ASSERT_REACTOR_LOCKED(this);
@@ -2956,6 +2975,27 @@ void ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
     else
         AUDIOCONTAINER::instance()->RemoveSoundSource(m_soundprop.soundgroupid,
                                                       userid, stream_type);
+
+    if (userid == MUX_USERID)
+    {
+        if (enable)
+        {
+            m_audiomuxer_stream.reset(new AudioMuxer());
+            // start muxer if already in channel
+            if (m_mychannel)
+            {
+                auto codec = m_mychannel->GetAudioCodec();
+                bool startmux = m_audiomuxer_stream->RegisterMuxCallback(codec, std::bind(&ClientNode::AudioMuxCallback, this, _1));
+                MYTRACE_COND(!startmux, ACE_TEXT("Failed to start audio muxer\n"));
+            }
+        }
+        else
+        {
+            m_audiomuxer_stream.reset();
+        }
+    }
+
+    return true;
 }
 
 bool ClientNode::QueueAudioInput(const media::AudioFrame& frm, int streamid)
@@ -4044,8 +4084,15 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
             m_listener->OnInternalError(TT_INTERR_AUDIOCODEC_INIT_FAILED,
                                         GetErrorDescription(TT_INTERR_AUDIOCODEC_INIT_FAILED));
         }
-        //start recorder
+        //start recorder for voice stream
         OpenAudioCapture(codec);
+
+        // enable audio muxer callback
+        if (m_audiomuxer_stream)
+        {
+            bool startmux = m_audiomuxer_stream->RegisterMuxCallback(codec, std::bind(&ClientNode::AudioMuxCallback, this, _1));
+            MYTRACE_COND(!startmux, ACE_TEXT("Failed to start audio muxer\n"));
+        }
     }
     else
     {
@@ -4090,6 +4137,10 @@ void ClientNode::LeftChannel(ClientChannel& chan)
         CloseAudioCapture();
 
     m_voice_thread.StopEncoder();
+
+    // leaving channel so put AudioMuxer into clean state
+    if (m_audiomuxer_stream)
+        m_audiomuxer_stream->UnregisterMuxCallback();
 
     CloseDesktopSession(true);
 
