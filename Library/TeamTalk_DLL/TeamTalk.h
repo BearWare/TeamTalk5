@@ -3041,7 +3041,8 @@ extern "C" {
          *
          * Call TT_AcquireUserAudioBlock() to extract the #AudioBlock.
          *
-         * @param nSource The user ID.
+         * @param nSource The user ID. @see TT_LOCAL_USERID
+         * @see TT_MUTEX_USERID
          * @param ttType #__STREAMTYPE */
         CLIENTEVENT_USER_AUDIOBLOCK = CLIENTEVENT_NONE + 570,
         /** 
@@ -3939,8 +3940,8 @@ extern "C" {
      * 
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @param nUserID The user ID to monitor for audio callback. Pass 0
-     * to monitor local audio.
+     * @param nUserID The user ID to monitor for audio callback. Pass #TT_LOCAL_USERID
+     * to monitor local recorded audio prior to encoding/processing.
      * @param nStreamType Either #STREAMTYPE_VOICE or 
      * #STREAMTYPE_MEDIAFILE_AUDIO.
      * @param bEnable Whether to enable the #CLIENTEVENT_USER_AUDIOBLOCK event.

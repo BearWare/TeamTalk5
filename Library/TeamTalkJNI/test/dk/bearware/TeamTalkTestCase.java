@@ -1184,7 +1184,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertFalse("no voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000));
 
-        assertTrue("enable aud cb", ttclient.enableAudioBlockEvent(0, StreamType.STREAMTYPE_VOICE, true));
+        assertTrue("enable aud cb", ttclient.enableAudioBlockEvent(Constants.TT_LOCAL_USERID, StreamType.STREAMTYPE_VOICE, true));
 
         assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
 
@@ -1199,15 +1199,21 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         int receiveSamples = block.nSampleRate * 3;
         while (receiveSamples > 0) {
             assertTrue("gimme 3 secs of voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            assertEquals("local userid", Constants.TT_LOCAL_USERID, msg.nSource);
             block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
             assertEquals("Still first stream", 1, block.nStreamID);
             receiveSamples -= block.nSamples;
         }
+
+        // ensure voice stream id changes
         assertTrue("disable vox", ttclient.enableVoiceTransmission(false));
-
-        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 0, msg);
-
         assertTrue("vox again", ttclient.enableVoiceTransmission(true));
+
+        // drain remaining frames
+        do {
+            assertTrue("wait for next audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+        } while (block.nStreamID == 1);
 
         receiveSamples = block.nSampleRate * 2;
         while (receiveSamples > 0) {
