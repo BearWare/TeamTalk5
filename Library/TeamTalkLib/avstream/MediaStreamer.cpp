@@ -183,7 +183,6 @@ bool MediaStreamer::QueueAudio(ACE_Message_Block* mb)
 
     MYTRACE(ACE_TEXT("Dropped audio frame %u\n"), media::AudioFrame(mb).timestamp);
 
-    mb->release();
     return false;
 }
 
