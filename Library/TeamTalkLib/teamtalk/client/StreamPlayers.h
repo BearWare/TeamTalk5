@@ -27,6 +27,7 @@
 #include <myace/MyACE.h>
 
 #include <avstream/SoundSystem.h>
+#include <avstream/AudioResampler.h>
 
 #include <teamtalk/Common.h>
 #include <teamtalk/PacketLayout.h>
@@ -43,14 +44,11 @@
 #if defined(ENABLE_VPX)
 #include <codec/VpxDecoder.h>
 #endif
-#include <avstream/AudioResampler.h>
 #include "VideoThread.h"
 
 #include <memory>
 
 #define STOPPED_TALKING_DELAY 500 //msec
-
-class AudioMuxer;
 
 namespace teamtalk {
 
@@ -77,7 +75,7 @@ namespace teamtalk {
         : public soundsystem::StreamPlayer
     {
     public:
-        AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
+        AudioPlayer(int userid, StreamType stream_type,
                     useraudio_callback_t audio_cb, const AudioCodec& codec,
                     audio_resampler_t& resampler);
         virtual ~AudioPlayer();
@@ -105,7 +103,6 @@ namespace teamtalk {
 
         void SetAudioBufferSize(int msec);
 
-        int GetNumAudioBlocks(bool reset);
         int GetNumAudioPacketsRecv(bool reset);
         int GetNumAudioPacketsLost(bool reset);
 
@@ -117,7 +114,6 @@ namespace teamtalk {
         void AddPacket(const AudioPacket& packet);
         virtual void Reset();
 
-        int m_sndgrpid;
         int m_userid;
         StreamType m_streamtype;
         useraudio_callback_t m_audio_callback;
@@ -129,7 +125,6 @@ namespace teamtalk {
         uint32_t m_played_packet_time; //time of last packet to be send to audio buffer
         //AudioMuxer attributes
         ACE_UINT32 m_samples_played;
-        ACE_UINT32 m_current_samples_played; //for AudioMuxer
         //Resample buffer
         audio_resampler_t m_resampler;
         std::vector<short> m_resample_buffer;
@@ -139,7 +134,6 @@ namespace teamtalk {
         int m_stream_id;
 
         //stats
-        int m_new_audio_blocks;
         int m_audiopackets_recv;
         int m_audiopacket_lost;
 
@@ -163,7 +157,7 @@ namespace teamtalk {
     class SpeexPlayer : public AudioPlayer
     {
     public:
-        SpeexPlayer(int sndgrpid, int userid, StreamType stream_type,
+        SpeexPlayer(int userid, StreamType stream_type,
                     useraudio_callback_t audio_cb, const AudioCodec& codec,
                     audio_resampler_t resampler);
         virtual ~SpeexPlayer();
@@ -181,7 +175,7 @@ namespace teamtalk {
     class OpusPlayer : public AudioPlayer
     {
     public:
-        OpusPlayer(int sndgrpid, int userid, StreamType stream_type,
+        OpusPlayer(int userid, StreamType stream_type,
                    useraudio_callback_t audio_cb, const AudioCodec& codec,
                    audio_resampler_t resampler);
         virtual ~OpusPlayer();

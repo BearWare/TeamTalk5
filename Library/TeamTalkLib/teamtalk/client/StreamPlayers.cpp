@@ -26,18 +26,15 @@
 #include <teamtalk/PacketHelper.h>
 #include <teamtalk/ttassert.h>
 #include <codec/MediaUtil.h>
-#include "AudioMuxer.h"
-#include "AudioContainer.h"
 
 using namespace media;
 
 namespace teamtalk {
 
-AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
+AudioPlayer::AudioPlayer(int userid, StreamType stream_type,
                          useraudio_callback_t audio_cb, const AudioCodec& codec,
                          audio_resampler_t& resampler)
-: m_sndgrpid(sndgrpid)
-, m_userid(userid)
+: m_userid(userid)
 , m_streamtype(stream_type)
 , m_talking(false)
 , m_codec(codec)
@@ -46,12 +43,10 @@ AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
 , m_played_packet_time(0)
 , m_audio_callback(audio_cb)
 , m_samples_played(0)
-, m_current_samples_played(0)
 , m_resampler(resampler)
 , m_stereo(STEREO_BOTH)
 , m_no_recording(false)
 , m_stream_id(0)
-, m_new_audio_blocks(0)
 , m_audiopackets_recv(0)
 , m_audiopacket_lost(0)
 {
@@ -181,8 +176,6 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         tmp_output_buffer = output_buffer;
 
     played = PlayBuffer(tmp_output_buffer, input_samples);
-    //increment samples played (used by AudioMuxer)
-    m_samples_played += input_samples;
 
     if(played)
     {
@@ -207,19 +200,19 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         Reset();
     }
 
-    if(m_talking)
+    // store in muxer before resampling
+    if (!m_no_recording || !played)
     {
-        if(!m_no_recording &&
-            AUDIOCONTAINER::instance()->AddAudio(m_sndgrpid, m_userid, m_streamtype,
-                                                 m_stream_id, input_samplerate, 
-                                                 input_channels, tmp_output_buffer, 
-                                                 input_samples, m_current_samples_played))
-        {
-            m_new_audio_blocks++;
-        }
-        m_current_samples_played += input_samples;
+        //store in muxer (if enabled)
+        media::AudioFormat fmt = GetAudioCodecAudioFormat(m_codec);
+        media::AudioFrame frm(fmt, tmp_output_buffer, GetAudioCodecCbSamples(m_codec));
+        frm.sample_no = m_samples_played;
+        frm.streamid = m_stream_id;
+        m_audio_callback(m_userid, m_streamtype, frm);
     }
-    else m_current_samples_played = 0;
+
+    //increment samples played (used by AudioMuxer)
+    m_samples_played += input_samples;
 
     if (m_resampler)
     {
@@ -232,14 +225,6 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                      output_samples, ret);
     }
     return true;
-}
-
-int AudioPlayer::GetNumAudioBlocks(bool reset)
-{
-    int n = m_new_audio_blocks;
-    if(reset)
-        m_new_audio_blocks = 0;
-    return n;
 }
 
 int AudioPlayer::GetNumAudioPacketsRecv(bool reset)
@@ -417,17 +402,8 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
         played = false;
     }
 
-    if(!m_no_recording || !played)
-    {
-        //store in muxer (if enabled) - before turning it to stereo!
-        media::AudioFrame frm(GetAudioCodecAudioFormat(m_codec), output_buffer,
-                              GetAudioCodecCbSamples(m_codec));
-        frm.sample_no = m_samples_played;
-        frm.streamid = m_stream_id;
-        m_audio_callback(m_userid, m_streamtype, frm);
-    }
     //stereo simulation
-    if(GetAudioCodecSimulateStereo(m_codec))
+    if (GetAudioCodecSimulateStereo(m_codec))
     {
         //Speex doesn't support stereo so simulate
         //If in stereo then choose which channels to output audio to
@@ -442,10 +418,10 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
 }
 
 #if defined(ENABLE_SPEEX)
-SpeexPlayer::SpeexPlayer(int sndgrpid, int userid, StreamType stream_type,
+SpeexPlayer::SpeexPlayer(int userid, StreamType stream_type,
                          useraudio_callback_t audio_cb, const AudioCodec& codec,
                          audio_resampler_t resampler)
-: AudioPlayer(sndgrpid, userid, stream_type, audio_cb, codec, resampler)
+: AudioPlayer(userid, stream_type, audio_cb, codec, resampler)
 {
     TTASSERT(codec.codec == CODEC_SPEEX || codec.codec == CODEC_SPEEX_VBR);
     bool b = false;
@@ -504,10 +480,10 @@ bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
 
 #if defined(ENABLE_OPUS)
 
-OpusPlayer::OpusPlayer(int sndgrpid, int userid, StreamType stream_type,
+OpusPlayer::OpusPlayer(int userid, StreamType stream_type,
                        useraudio_callback_t audio_cb, const AudioCodec& codec,
                        audio_resampler_t resampler)
-: AudioPlayer(sndgrpid, userid, stream_type, audio_cb, codec, resampler)
+: AudioPlayer(userid, stream_type, audio_cb, codec, resampler)
 {
     TTASSERT(codec.codec == CODEC_OPUS);
     bool b = false;

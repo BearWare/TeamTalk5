@@ -1100,6 +1100,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         // drain audio blocks completely
         assertFalse(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000));
         while(ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID()) != null);
+        assertFalse("message queue has no audio block", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 0));
 
         //now test that mute stereo mode having effect
         chan.audiocodec = new AudioCodec();
@@ -1117,9 +1118,10 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         while (n_voice_blocks++ < 10)
         {
             assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
-            assertEquals(StreamType.STREAMTYPE_VOICE, msg.nStreamType);
+            assertEquals("stream is voice for right mute", StreamType.STREAMTYPE_VOICE, msg.nStreamType);
 
             block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+            assertTrue("got audio block for right mute", block != null);
             assertEquals("stereo", 2, block.nChannels);
 
             for(int i=0;i<block.lpRawAudio.length;i+=4) {
@@ -1133,6 +1135,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         // drain audio blocks completely
         assertFalse(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000));
         while(ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID()) != null);
+        assertFalse("message queue has no audio block", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 0));
 
         // test left channel is mute
         assertTrue("set left mute", ttclient.setUserStereo(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, false, true));
@@ -1142,10 +1145,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         n_voice_blocks = 0;
         while (n_voice_blocks++ < 10)
         {
-            assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
-            assertEquals(StreamType.STREAMTYPE_VOICE, msg.nStreamType);
+            assertTrue("got audio block", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            assertEquals("stream is voice for left mute", StreamType.STREAMTYPE_VOICE, msg.nStreamType);
 
             block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+            assertTrue("got audio block for left mute", block != null);
             assertEquals("stereo", 2, block.nChannels);
 
             for(int i=0;i<block.lpRawAudio.length;i+=4) {

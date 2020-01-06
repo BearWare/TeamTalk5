@@ -154,6 +154,8 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
 
     int samplerate = GetAudioCodecSampleRate(m_codec);
     int channels = GetAudioCodecChannels(m_codec);
+    if (GetAudioCodecSimulateStereo(m_codec))
+        channels = 2;
 
     bool success = false;
     switch(aff)

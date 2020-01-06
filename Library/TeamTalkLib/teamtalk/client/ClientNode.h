@@ -32,6 +32,7 @@
 #include "VideoThread.h"
 #include "VoiceLogger.h"
 #include "AudioMuxer.h"
+#include "AudioContainer.h"
 #include "DesktopShare.h"
 #include <myace/TimerHandler.h>
 #include <myace/MyACE.h>
@@ -276,6 +277,7 @@ namespace teamtalk {
         ACE_Recursive_Thread_Mutex& lock_sndprop() { return m_sndgrp_lock; }
         ACE_Recursive_Thread_Mutex& lock_timers() { return m_timers_lock; }
         VoiceLogger& voicelogger();
+        AudioContainer& audiocontainer();
 
         //server properties
         bool GetServerInfo(ServerInfo& info);
@@ -617,6 +619,8 @@ namespace teamtalk {
         SoundProperties m_soundprop;
         //log voice to files
         voicelogger_t m_voicelogger;
+        // audio container for getting raw audio from users
+        AudioContainer m_audiocontainer;
         //muxed audio
         audiomuxer_t m_audiomuxer_file;
         audiomuxer_t m_audiomuxer_stream;

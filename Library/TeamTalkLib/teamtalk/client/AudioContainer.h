@@ -24,67 +24,50 @@
 #ifndef AUDIOCONTAINER_H
 #define AUDIOCONTAINER_H
 
-#include <ace/Singleton.h>
-#include <ace/Message_Queue.h>
+#include <codec/MediaUtil.h>
 
-#include <ace/Recursive_Thread_Mutex.h>
+#include <ace/Message_Queue.h>
 
 #include <set>
 #include <map>
 #include <memory>
-
-struct RawAudio
-{
-    int stream_id;
-    int samplerate;
-    int channels;
-    short* rawAudio;
-    int samples;
-    ACE_UINT32 create_time;
-    ACE_UINT32 start_sample_no;
-    RawAudio();
-};
+#include <mutex>
 
 typedef union audioentry
 {
     struct
     {
-        ACE_UINT16 sndgrpid;
         ACE_UINT16 userid;
         ACE_UINT16 streamtype;
-        ACE_UINT16 none;
+        ACE_UINT32 none;
     };
     ACE_UINT64 entryid;
     audioentry() : entryid(0) {}
-    audioentry(ACE_UINT16 sndgrp_id, ACE_UINT16 user_id, ACE_UINT16 stream_type)
-        : userid(user_id), sndgrpid(sndgrp_id), streamtype(stream_type), none(0) { }
+    audioentry(ACE_UINT16 user_id, ACE_UINT16 stream_type)
+        : userid(user_id), streamtype(stream_type), none(0) { }
 } audioentry_t;
 
 class AudioContainer
 {
-    friend class ACE_Singleton<AudioContainer, ACE_Null_Mutex>;
-    AudioContainer();
 public:
-    void AddSoundSource(int sndgrp_id, int userid, int stream_type);
-    void RemoveSoundSource(int sndgrp_id, int userid, int stream_type);
+    AudioContainer(const AudioContainer&) = delete;
+    AudioContainer();
+    
+    void AddSoundSource(int userid, int stream_type);
+    void RemoveSoundSource(int userid, int stream_type);
 
-    bool AddAudio(int sndgrpid, int userid, int stream_type, int stream_id, 
-                  int samplerate, int channels, const short* rawaudio, int samples, 
-                  ACE_UINT32 sample_index);
+    bool AddAudio(int userid, int stream_type, const media::AudioFrame& frame);
 
-    ACE_Message_Block* AcquireRawAudio(int sndgrpid, int userid, int stream_type, RawAudio& aud);
-
-    void ReleaseAllAudio(int sndgrpid);
+    ACE_Message_Block* AcquireAudioFrame(int userid, int stream_type);
+    void ReleaseAllAudio();
 
 private:
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > msg_queue_t;
     typedef std::map<ACE_UINT64, msg_queue_t> audiostore_t;
     audiostore_t m_container;
-    ACE_Recursive_Thread_Mutex m_store_mtx;
+    std::recursive_mutex m_store_mtx;
     std::set<ACE_UINT64> m_active_srcs;
 };
-
-typedef ACE_Singleton<AudioContainer, ACE_Null_Mutex> AUDIOCONTAINER;
 
 #endif
 

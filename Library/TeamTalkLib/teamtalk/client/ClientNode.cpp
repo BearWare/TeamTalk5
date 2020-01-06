@@ -23,7 +23,6 @@
 
 #include "ClientNode.h"
 
-#include "AudioContainer.h"
 #include <codec/BmpFile.h>
 #include <teamtalk/CodecCommon.h>
 #include <teamtalk/ttassert.h>
@@ -127,7 +126,6 @@ ClientNode::~ClientNode()
         m_mediaplayback_streams.clear(); //clear all players before removing sound group
     }
 
-    AUDIOCONTAINER::instance()->ReleaseAllAudio(m_soundprop.soundgroupid);
     m_soundsystem->RemoveSoundGroup(m_soundprop.soundgroupid);
 
     MYTRACE( (ACE_TEXT("~ClientNode\n")) );
@@ -197,6 +195,13 @@ VoiceLogger& ClientNode::voicelogger()
         m_voicelogger.reset(new VoiceLogger(m_listener));
 
     return *m_voicelogger;
+}
+
+AudioContainer& ClientNode::audiocontainer()
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    return m_audiocontainer;
 }
 
 bool ClientNode::GetServerInfo(ServerInfo& info)
@@ -1099,14 +1104,7 @@ void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe)
 
     m_voice_thread.QueueAudio(audframe);
     
-    if(AUDIOCONTAINER::instance()->AddAudio(m_soundprop.soundgroupid,
-                                            LOCAL_USERID, STREAMTYPE_VOICE,
-                                            m_voice_stream_id, 
-                                            audframe.inputfmt.samplerate,
-                                            audframe.inputfmt.channels,
-                                            audframe.input_buffer,
-                                            audframe.input_samples,
-                                            m_soundprop.samples_recorded))
+    if (m_audiocontainer.AddAudio(LOCAL_USERID, STREAMTYPE_VOICE, audframe))
     {
         m_listener->OnUserAudioBlock(LOCAL_USERID, STREAMTYPE_VOICE);
     }
@@ -1535,14 +1533,7 @@ void ClientNode::AudioInputStatusCallback(const AudioInputStatus& ais)
 
 void ClientNode::AudioMuxCallback(const media::AudioFrame& audio_frame)
 {
-    if (AUDIOCONTAINER::instance()->AddAudio(m_soundprop.soundgroupid,
-                                             MUX_USERID, STREAMTYPE_VOICE,
-                                             audio_frame.streamid,
-                                             audio_frame.inputfmt.samplerate,
-                                             audio_frame.inputfmt.channels,
-                                             audio_frame.input_buffer,
-                                             audio_frame.input_samples,
-                                             audio_frame.sample_no))
+    if (m_audiocontainer.AddAudio(MUX_USERID, STREAMTYPE_VOICE, audio_frame))
     {
         m_listener->OnUserAudioBlock(MUX_USERID, STREAMTYPE_VOICE);
     }
@@ -1571,10 +1562,23 @@ void ClientNode::AudioUserCallback(int userid, StreamType st,
                                         audio_frame.input_buffer == nullptr,
                                         audio_frame.input_samples,
                                         audio_frame.inputfmt.channels);
+
     }
     break;
     default :
         break;
+    }
+
+    // ignore "terminate" audio frames (i.e. null buffers) and "not
+    // talking" audio frames (i.e. streamid=0)
+    if (audio_frame.input_buffer && audio_frame.streamid != 0)
+    {
+        if (m_audiocontainer.AddAudio(userid, st, audio_frame))
+        {
+            // MYTRACE("Reporting #%d has stream %d type %d at %u\n",
+            //         userid, audio_frame.streamid, st, audio_frame.sample_no);
+            m_listener->OnUserAudioBlock(userid, st);
+        }
     }
 }
 
@@ -2962,11 +2966,9 @@ bool ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
     ASSERT_REACTOR_LOCKED(this);
 
     if(enable)
-        AUDIOCONTAINER::instance()->AddSoundSource(m_soundprop.soundgroupid,
-                                                   userid, stream_type);
+        m_audiocontainer.AddSoundSource(userid, stream_type);
     else
-        AUDIOCONTAINER::instance()->RemoveSoundSource(m_soundprop.soundgroupid,
-                                                      userid, stream_type);
+        m_audiocontainer.RemoveSoundSource(userid, stream_type);
 
     if (userid == MUX_USERID)
     {
@@ -4037,6 +4039,10 @@ void ClientNode::Disconnect()
 
     //clear channels and login status
     LoggedOut();
+
+    // remove all queued audio so a new connection will not be
+    // retrieving audio from a previous session
+    m_audiocontainer.ReleaseAllAudio();
 
     m_flags &= ~(CLIENT_CONNECTING | CLIENT_CONNECTED);
 
