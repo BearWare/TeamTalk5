@@ -1243,8 +1243,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         initSound(rxclient);
         login(rxclient, NICKNAME, USERNAME, PASSWORD);
 
-        Channel chan = buildDefaultChannel(rxclient, "Opus");
-        assertEquals(chan.audiocodec.nCodec, Codec.OPUS_CODEC);
+        Channel chan = buildDefaultChannel(rxclient, "Opus", Codec.OPUS_CODEC);
         chan.audiocodec.opus.nChannels = 2;
         chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_AUDIO;
         chan.audiocodec.opus.bDTX = false;
@@ -1278,7 +1277,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("enable aud mux file", rxclient.startRecordingMuxedAudioFile(chan.audiocodec, "muxfileoutput.wav", AudioFileFormat.AFF_WAVE_FORMAT));
 
         int bytelen = chan.audiocodec.opus.nSampleRate * chan.audiocodec.opus.nChannels * 12/*seconds*/ * 2 /*short*/;
-        FileOutputStream fs = newWaveFile("muxoutput.wav", chan.audiocodec.opus.nSampleRate, chan.audiocodec.opus.nChannels, bytelen);
+        FileOutputStream fs = newWaveFile("muxoutput_opus.wav", chan.audiocodec.opus.nSampleRate, chan.audiocodec.opus.nChannels, bytelen);
 
         int receiveSamples = chan.audiocodec.opus.nSampleRate;
         do {
@@ -1324,7 +1323,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         for (TeamTalkBase ttclient : txclients) {
             assertTrue("enable tx", ttclient.enableVoiceTransmission(true));
         }
-        
+
         receiveSamples = chan.audiocodec.opus.nSampleRate;
         do {
             assertTrue("gimme 1 sec tone of voice audioblock", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
@@ -1337,6 +1336,85 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         // 12 sec
 
         assertTrue("disable aud cb", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, false));
+
+        assertTrue("leave opus", waitCmdSuccess(rxclient, rxclient.doLeaveChannel(), DEF_WAIT));
+
+        assertTrue("enable aud cb again", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, true));
+
+        assertFalse("no audio mux when out of channel", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 500));
+
+        chan = buildDefaultChannel(rxclient, "Speex VBR", Codec.SPEEX_VBR_CODEC);
+
+        assertTrue("join", waitCmdSuccess(rxclient, rxclient.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue("get new chan", rxclient.getChannel(rxclient.getMyChannelID(), chan));
+
+        int samplerate;
+        switch (chan.audiocodec.speex_vbr.nBandmode) {
+        case SpeexConstants.SPEEX_BANDMODE_NARROW :
+            samplerate = 8000; break;
+        case SpeexConstants.SPEEX_BANDMODE_WIDE :
+            samplerate = 16000; break;
+        case SpeexConstants.SPEEX_BANDMODE_UWIDE :
+            samplerate = 32000; break;
+        default :
+            assertTrue("invalid samplerate", false);
+            samplerate = 0;
+            break;
+        }
+
+        bytelen = samplerate * 5;
+        fs = newWaveFile("muxoutput_speexvbr.wav", samplerate, 1, bytelen);
+        receiveSamples = samplerate;
+        do {
+            assertTrue("gimme 1 sec tone of voice speex vbr audioblock", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            assertEquals("muxed userid", Constants.TT_MUXED_USERID, msg.nSource);
+            AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+            assertTrue("block valid", block != null);
+            assertEquals("correct sample rate", samplerate, block.nSampleRate);
+            assertEquals("correct channels", 1, block.nChannels);
+            receiveSamples -= block.nSamples;
+            fs.write(block.lpRawAudio);
+        } while (receiveSamples > 0);
+
+        for (TeamTalkBase ttclient : txclients) {
+            assertTrue("join spx vbr", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+        }
+
+        receiveSamples = samplerate * 4;
+        do {
+            assertTrue("gimme 4 sec tones of voice speex vbr audioblock", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            assertEquals("muxed userid", Constants.TT_MUXED_USERID, msg.nSource);
+            AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+            assertTrue("block valid", block != null);
+            assertEquals("correct sample rate", samplerate, block.nSampleRate);
+            assertEquals("correct channels", 1, block.nChannels);
+            receiveSamples -= block.nSamples;
+            fs.write(block.lpRawAudio);
+        } while (receiveSamples > 0);
+
+        assertTrue("leave spx", waitCmdSuccess(rxclient, rxclient.doLeaveChannel(), DEF_WAIT));
+
+        assertFalse("no audio mux when out of channel", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 500));
+
+        // ensure 'muxfileoutput.wav' will continue writing again
+        chan = buildDefaultChannel(rxclient, "Opus", Codec.OPUS_CODEC);
+        chan.audiocodec.opus.nChannels = 2;
+        chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_AUDIO;
+        chan.audiocodec.opus.bDTX = false;
+
+        assertTrue("join", waitCmdSuccess(rxclient, rxclient.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue("get new chan", rxclient.getChannel(rxclient.getMyChannelID(), chan));
+        receiveSamples = chan.audiocodec.opus.nSampleRate;
+        do {
+            assertTrue("gimme 1 secs of opus voice audioblock again", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            assertEquals("muxed userid", Constants.TT_MUXED_USERID, msg.nSource);
+            AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+            assertTrue("block valid", block != null);
+            assertTrue("aud block has samples", block.nSamples > 0);
+            receiveSamples -= block.nSamples;
+        } while (receiveSamples > 0);
     }
 
     public void testOpusFrameSizeMSec() {
