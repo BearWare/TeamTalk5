@@ -1266,6 +1266,14 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             assertTrue("join", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
         }
 
+        // limit number of active streams (we only care about the muxer)
+        for (TeamTalkBase outerclient : txclients) {
+            for (TeamTalkBase innerclient : txclients) {
+                if (innerclient != outerclient)
+                    assertTrue("unsubscribe", waitCmdSuccess(innerclient, innerclient.doUnsubscribe(outerclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+            }
+        }
+
         assertTrue("enable aud cb", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, true));
         assertTrue("enable aud mux file", rxclient.startRecordingMuxedAudioFile(chan.audiocodec, "muxfileoutput.wav", AudioFileFormat.AFF_WAVE_FORMAT));
 
