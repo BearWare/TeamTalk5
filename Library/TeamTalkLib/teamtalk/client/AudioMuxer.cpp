@@ -163,6 +163,8 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
     case AFF_WAVE_FORMAT :
         m_wavefile.reset(new WavePCMFile());
         success = m_wavefile->NewFile(filename, samplerate, channels);
+        if (!success)
+            m_wavefile.reset();
         break;
     case AFF_MP3_16KBIT_FORMAT :
     case AFF_MP3_32KBIT_FORMAT :
@@ -196,6 +198,8 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
                                         DEFAULT_SPEEX_COMPLEXITY,
                                         (float)GetSpeexQuality(m_codec),
                                         bitrate, maxbitrate, dtx);
+            if (!success)
+                m_speexfile.reset();
 #endif
             break;
         case CODEC_OPUS :
@@ -204,6 +208,8 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
             success = m_opusfile->Open(filename, channels, samplerate,
                                        GetAudioCodecFrameSize(m_codec),
                                        m_codec.opus.application);
+            if (!success)
+                m_opusfile.reset();
 #endif
             break;
         default : // unsupported codec
