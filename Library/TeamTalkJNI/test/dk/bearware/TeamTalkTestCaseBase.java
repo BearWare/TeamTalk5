@@ -126,6 +126,11 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             }
             ttclient.closeVideoCaptureDevice();
             ttclient.stopStreamingMediaFileToChannel();
+            // close TeamTalk instance since we don't know when GC
+            // will do it. On Android we can only create few TT
+            // instances, so we need to ensure the previous test-cases
+            // have released their resources.
+            ttclient.closeTeamTalk();
         }
         ttclients.clear();
     }
