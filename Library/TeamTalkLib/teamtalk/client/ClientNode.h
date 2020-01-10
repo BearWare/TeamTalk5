@@ -32,6 +32,7 @@
 #include "VideoThread.h"
 #include "VoiceLogger.h"
 #include "AudioMuxer.h"
+#include "AudioContainer.h"
 #include "DesktopShare.h"
 #include <myace/TimerHandler.h>
 #include <myace/MyACE.h>
@@ -276,7 +277,7 @@ namespace teamtalk {
         ACE_Recursive_Thread_Mutex& lock_sndprop() { return m_sndgrp_lock; }
         ACE_Recursive_Thread_Mutex& lock_timers() { return m_timers_lock; }
         VoiceLogger& voicelogger();
-        AudioMuxer& audiomuxer();
+        AudioContainer& audiocontainer();
 
         //server properties
         bool GetServerInfo(ServerInfo& info);
@@ -319,9 +320,9 @@ namespace teamtalk {
         bool EnableAutoPositioning(bool enable);
         bool AutoPositionUsers();    //position users in 3D
 
-        void EnableAudioBlockCallback(int userid, StreamType stream_type,
+        bool EnableAudioBlockCallback(int userid, StreamType stream_type,
                                       bool enable);
-        
+        // user provided audio stream that replaces voice input stream
         bool QueueAudioInput(const media::AudioFrame& frm, int streamid);
         
         bool MuteAll(bool muteall);
@@ -435,7 +436,7 @@ namespace teamtalk {
                                    ACE_UINT32 packet_no,
                                    ACE_UINT32 timestamp);
 
-        //PortAudio listener - separate thread
+        // SoundSystem listener - separate thread
         void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                              const short* buffer, int n_samples);
         void StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
@@ -464,6 +465,13 @@ namespace teamtalk {
                                 ACE_Message_Block* mb_audio);
         void AudioInputStatusCallback(const AudioInputStatus& ais);
 
+        // AudioMuxer callback - separate thread
+        void AudioMuxCallback(const media::AudioFrame& audio_frame);
+        // AudioPlayer listener - separate thread
+        void AudioUserCallback(int userid, StreamType st,
+                               const media::AudioFrame& audio_frame);
+
+        // FileNode listener - reactor thread
         void OnFileTransferStatus(const teamtalk::FileTransfer& transfer);
 
         bool GetTransferInfo(int transferid, FileTransfer& transfer);
@@ -577,7 +585,7 @@ namespace teamtalk {
         //audio start/stop/update
         void OpenAudioCapture(const AudioCodec& codec);
         void CloseAudioCapture();
-        void QueueAudioFrame(const media::AudioFrame& audframe);
+        void QueueVoiceFrame(media::AudioFrame& audframe);
 
         void SendVoicePacket(const VoicePacket& packet);
         void SendAudioFilePacket(const AudioFilePacket& packet);
@@ -611,8 +619,11 @@ namespace teamtalk {
         SoundProperties m_soundprop;
         //log voice to files
         voicelogger_t m_voicelogger;
+        // audio container for getting raw audio from users
+        AudioContainer m_audiocontainer;
         //muxed audio
-        audiomuxer_t m_audiomuxer;
+        audiomuxer_t m_audiomuxer_file;
+        audiomuxer_t m_audiomuxer_stream;
         //TCP connector
         connector_t m_connector;
         DefaultStreamHandler::StreamHandler_t* m_def_stream;

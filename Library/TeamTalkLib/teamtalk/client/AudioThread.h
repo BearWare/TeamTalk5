@@ -25,7 +25,6 @@
 #define AUDIOTHREAD_H
 
 #include <ace/Task.h>
-#include <ace/Thread_Semaphore.h> 
 
 #if defined(ENABLE_SPEEX)
 #include <codec/SpeexEncoder.h>

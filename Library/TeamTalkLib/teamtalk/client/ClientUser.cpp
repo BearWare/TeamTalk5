@@ -30,6 +30,7 @@
 
 using namespace std;
 using namespace teamtalk;
+using namespace std::placeholders;
 
 #define TIMEOUT_STOP_AUDIO_PLAYBACK          30000    //msec for timeout of when to stop stream
 #define TIMEOUT_STOP_VIDEOFILE_PLAYBACK      5000
@@ -127,15 +128,10 @@ int ClientUser::TimerMonitorVoicePlayback()
     if(changed)
         m_listener->OnUserStateChange(*this);
 
-    int n_blocks = m_voice_player->GetNumAudioBlocks(true);
     m_stats.voicepackets_recv += m_voice_player->GetNumAudioPacketsRecv(true);
     m_stats.voicepackets_lost += m_voice_player->GetNumAudioPacketsLost(true);
 
     //MYTRACE_COND(n_blocks, ACE_TEXT("User #%d has %d new voice block at %u\n"), GetUserID(), n_blocks, GETTIMESTAMP());
-    while(n_blocks--)
-    {
-        m_listener->OnUserAudioBlock(GetUserID(), STREAMTYPE_VOICE);
-    }
 
     //check if player should be reset
     if(m_voice_player->GetLastPlaytime() &&
@@ -160,12 +156,8 @@ int ClientUser::TimerMonitorAudioFilePlayback()
     if(changed)
         m_listener->OnUserStateChange(*this);
 
-    int n_blocks = m_audiofile_player->GetNumAudioBlocks(true);
     m_stats.mediafile_audiopackets_recv += m_audiofile_player->GetNumAudioPacketsRecv(true);
     m_stats.mediafile_audiopackets_lost += m_audiofile_player->GetNumAudioPacketsLost(true);
-
-    while(n_blocks--)
-        m_listener->OnUserAudioBlock(GetUserID(), STREAMTYPE_MEDIAFILE_AUDIO);
 
     //check if player should be reset
     if(m_audiofile_player->GetLastPlaytime() &&
@@ -1123,31 +1115,30 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
         output_samples = codec_samples;
     }
 
+    auto audiofunc = std::bind(&ClientNode::AudioUserCallback, m_clientnode, _1, _2, _3);
+
     AudioPlayer* audio_player = NULL;
     switch(codec.codec)
     {
 #if defined(ENABLE_SPEEX)
     case teamtalk::CODEC_SPEEX :
         ACE_NEW_RETURN(audio_player,
-                       SpeexPlayer(sndprop.soundgroupid, GetUserID(),
-                                   stream_type, m_clientnode->audiomuxer(),
-                                    codec, resampler),
+                       SpeexPlayer(GetUserID(), stream_type, audiofunc,
+                                   codec, resampler),
                         audio_player_t());
         break;
 #endif
 #if defined(ENABLE_SPEEX)
     case teamtalk::CODEC_SPEEX_VBR :
         ACE_NEW_RETURN(audio_player,
-                       SpeexPlayer(sndprop.soundgroupid, GetUserID(),
-                                   stream_type, m_clientnode->audiomuxer(),
+                       SpeexPlayer(GetUserID(), stream_type, audiofunc,
                                    codec, resampler), audio_player_t());
         break;
 #endif
 #if defined(ENABLE_OPUS)
     case teamtalk::CODEC_OPUS :
         ACE_NEW_RETURN(audio_player,
-                       OpusPlayer(sndprop.soundgroupid, GetUserID(),
-                                  stream_type, m_clientnode->audiomuxer(),
+                       OpusPlayer(GetUserID(), stream_type, audiofunc,
                                   codec, resampler),
                        audio_player_t());
         break;

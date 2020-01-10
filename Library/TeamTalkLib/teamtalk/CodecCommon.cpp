@@ -326,7 +326,10 @@ namespace teamtalk
 
     media::AudioFormat GetAudioCodecAudioFormat(const AudioCodec& codec)
     {
-        return media::AudioFormat(GetAudioCodecSampleRate(codec), GetAudioCodecChannels(codec));
+        int channels = GetAudioCodecChannels(codec);
+        if (GetAudioCodecSimulateStereo(codec))
+            channels = 2;
+        return media::AudioFormat(GetAudioCodecSampleRate(codec), channels);
     }
 
     int GetSpeexBandMode(const AudioCodec& codec)

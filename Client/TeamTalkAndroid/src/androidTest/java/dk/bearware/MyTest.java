@@ -213,6 +213,7 @@ public class MyTest extends TeamTalkTestCase {
         Channel chan3 = buildDefaultChannel(ttclient1, "Opus Stereo - 20 msec");
         assertEquals("opus default", chan3.audiocodec.nCodec, Codec.OPUS_CODEC);
         chan3.audiocodec.opus.nChannels = 1;
+        chan3.audiocodec.opus.nFrameSizeMSec = 20;
         chan3.audiocodec.opus.nTxIntervalMSec = 20;
         assertTrue("ttclient1 create channel", waitCmdSuccess(ttclient1, ttclient1.doJoinChannel(chan3), DEF_WAIT));
         assertTrue("ttclient2 join ttclient1's channel", waitCmdSuccess(ttclient2, ttclient2.doJoinChannelByID(ttclient1.getMyChannelID(), chan3.szPassword), DEF_WAIT));

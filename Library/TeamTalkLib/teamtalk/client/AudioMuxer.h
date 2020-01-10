@@ -24,18 +24,18 @@
 #ifndef AUDIOMUXER_H
 #define AUDIOMUXER_H
 
-#include <ace/Task.h>
-#include <ace/Singleton.h>
-#include <ace/Message_Queue.h>
-#include <ace/Recursive_Thread_Mutex.h>
+#include <myace/MyACE.h>
+#include <myace/TimerHandler.h>
 #include <codec/WaveFile.h>
 #if defined(ENABLE_MEDIAFOUNDATION)
 #include <avstream/MFTransform.h>
 #endif
+#include <teamtalk/CodecCommon.h>
 
 #include <map>
+#include <mutex>
+#include <thread>
 
-#include <teamtalk/CodecCommon.h>
 
 #if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS) && defined(ENABLE_OGG)
 #include <codec/OggOutput.h>
@@ -47,19 +47,23 @@
 #define ENABLE_SPEEXFILE 1
 #endif
 
-#define MUX_MYSELF_USERID 0
+typedef std::function< void (const media::AudioFrame& frm) > audiomuxer_callback_t;
 
-class AudioMuxer : private ACE_Task_Base
+class AudioMuxer : private TimerListener
 {
 public:
     AudioMuxer();
     virtual ~AudioMuxer();
-    
-    bool StartThread(const ACE_TString& filename,
-                     teamtalk::AudioFileFormat aff,
-                     const teamtalk::AudioCodec& codec);
-    void StopThread();
 
+    bool RegisterMuxCallback(const teamtalk::AudioCodec& codec,
+                             audiomuxer_callback_t cb);
+    void UnregisterMuxCallback();
+    
+    bool SaveFile(const teamtalk::AudioCodec& codec,
+                  const ACE_TString& filename,
+                  teamtalk::AudioFileFormat aff);
+    void CloseFile();
+    
     void QueueUserAudio(int userid, const short* rawAudio,
                         ACE_UINT32 sample_no, bool last,
                         const teamtalk::AudioCodec& codec);
@@ -68,19 +72,18 @@ public:
                         int n_samples, int n_channels);
 
 private:
-    //ACE Task
-    int svc (void);
-
-    int handle_timeout(const ACE_Time_Value &current_time, const void *act=0);
+    bool Init(const teamtalk::AudioCodec& codec);
+    bool StartThread(const teamtalk::AudioCodec& codec);
+    void StopThread();
+    void Run();
+    int TimerEvent(ACE_UINT32 timer_event_id, long userdata);
 
     void ProcessAudioQueues(bool flush);
     bool CanMuxUserAudio();
     void RemoveEmptyMuxUsers(); // should only be used during flush
     bool MuxUserAudio();
-    void WriteAudioToFile(int cb_samples);
-
-    bool SetupFileEncode(const ACE_TString& filename, 
-                         const teamtalk::AudioCodec& codec);
+    void WriteAudio(int cb_samples);
+    bool FileActive();
 
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;
 
@@ -89,8 +92,11 @@ private:
     typedef std::map<int, ACE_UINT32> user_queued_audio_t;
     user_queued_audio_t m_user_queue;
     std::vector<short> m_muxed_audio;
+    
     ACE_Reactor m_reactor;
-    ACE_Recursive_Thread_Mutex m_mutex;
+    std::recursive_mutex m_mutex;
+    std::shared_ptr< std::thread > m_thread;
+
     ACE_UINT32 m_last_flush_time;
     teamtalk::AudioCodec m_codec;
 
@@ -99,13 +105,15 @@ private:
     mftransform_t m_mp3encoder;
 #endif
 
-#if defined(ENABLE_SPEEX) && defined(ENABLE_OGG)
+#if defined(ENABLE_SPEEXFILE)
     speexencfile_t m_speexfile;
 #endif
 
-#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS) && defined(ENABLE_OGG)
+#if defined(ENABLE_OPUSFILE)
     opusencfile_t m_opusfile;
 #endif
+
+    audiomuxer_callback_t m_muxcallback = {};
 };
 
 typedef std::shared_ptr< AudioMuxer > audiomuxer_t;

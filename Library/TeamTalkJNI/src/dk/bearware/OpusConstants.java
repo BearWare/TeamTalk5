@@ -35,10 +35,10 @@ public class OpusConstants
     public static final int DEFAULT_OPUS_CHANNELS = 1;
     public static final int DEFAULT_OPUS_COMPLEXITY = 10;
     public static final boolean DEFAULT_OPUS_FEC = true;
-    public static final boolean DEFAULT_OPUS_DTX = false;
+    public static final boolean DEFAULT_OPUS_DTX = true;
     public static final boolean DEFAULT_OPUS_VBR = true;
     public static final boolean DEFAULT_OPUS_VBRCONSTRAINT = false;
     public static final int DEFAULT_OPUS_BITRATE = 32000;
-    public static final int DEFAULT_OPUS_DELAY = 20;
+    public static final int DEFAULT_OPUS_DELAY = 40;
 
 }

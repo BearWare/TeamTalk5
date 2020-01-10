@@ -783,8 +783,7 @@ TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEvent(IN TTInstance* lpTTInstance,
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     
-    clientnode->EnableAudioBlockCallback(nUserID, (teamtalk::StreamType)nStreamType, bEnable);
-    return TRUE;
+    return clientnode->EnableAudioBlockCallback(nUserID, (teamtalk::StreamType)nStreamType, bEnable);
 }
 
 TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
@@ -1576,24 +1575,21 @@ TEAMTALKDLL_API AudioBlock* TT_AcquireUserAudioBlock(IN TTInstance* lpTTInstance
     auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
-        return NULL;
+        return nullptr;
 
-    const SoundProperties& prop = clientnode->GetSoundProperties();
+    ACE_Message_Block* mb = clientnode->audiocontainer().AcquireAudioFrame(nUserID, nStreamType);
+    if (!mb)
+        return nullptr;
 
-    RawAudio aud;
-    ACE_Message_Block* mb = AUDIOCONTAINER::instance()->AcquireRawAudio(prop.soundgroupid,
-                                                                        nUserID, 
-                                                                        nStreamType, aud);
-    if(!mb)
-        return NULL;
-
+    media::AudioFrame frm(mb);
+    
     AudioBlock* lpAudioBlock = inst->PushAudioBlock(mb);
-    lpAudioBlock->nStreamID = aud.stream_id;
-    lpAudioBlock->nSampleRate = aud.samplerate;
-    lpAudioBlock->nChannels = aud.channels;
-    lpAudioBlock->lpRawAudio = aud.rawAudio;
-    lpAudioBlock->nSamples = aud.samples;
-    lpAudioBlock->uSampleIndex = aud.start_sample_no;
+    lpAudioBlock->nStreamID = frm.streamid;
+    lpAudioBlock->nSampleRate = frm.inputfmt.samplerate;
+    lpAudioBlock->nChannels = frm.inputfmt.channels;
+    lpAudioBlock->lpRawAudio = frm.input_buffer;
+    lpAudioBlock->nSamples = frm.input_samples;
+    lpAudioBlock->uSampleIndex = frm.sample_no;
 
     return lpAudioBlock;
 }

@@ -55,7 +55,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
     public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
     public static final String MUXEDMEDIAFILE_OPUS = "muxwavefile_opus.ogg";
-    
+
 
     public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
 
@@ -99,7 +99,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         prop = System.getProperty("dk.bearware.opustools");
         if(prop != null && !prop.isEmpty())
             this.OPUSTOOLS = Integer.parseInt(prop) != 0;
-        
+
         if(TCPPORT == 0 && UDPPORT == 0) {
             if(this.ENCRYPTED) {
                 TCPPORT = Constants.DEFAULT_TCP_PORT_ENCRYPTED;
@@ -126,6 +126,11 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             }
             ttclient.closeVideoCaptureDevice();
             ttclient.stopStreamingMediaFileToChannel();
+            // close TeamTalk instance since we don't know when GC
+            // will do it. On Android we can only create few TT
+            // instances, so we need to ensure the previous test-cases
+            // have released their resources.
+            ttclient.closeTeamTalk();
         }
         ttclients.clear();
     }
@@ -274,7 +279,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
                                           int waittimeout, TeamTalkEventHandler eventhandler,
                                           ServerInterleave interleave) {
-        
+
         long start = System.currentTimeMillis();
         TTMessage tmp = new TTMessage();
         boolean gotmsg;
@@ -423,16 +428,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         chan.audiocodec.nCodec = codec;
         switch(codec) {
             case Codec.OPUS_CODEC :
-                chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_AUDIO;
-                chan.audiocodec.opus.nChannels = 1;
-                chan.audiocodec.opus.nBitRate = 64000;
-                chan.audiocodec.opus.nComplexity = 5;
-                chan.audiocodec.opus.nTxIntervalMSec = 20;
-                chan.audiocodec.opus.nSampleRate = 48000;
-                chan.audiocodec.opus.bDTX = true;
-                chan.audiocodec.opus.bFEC = true;
-                chan.audiocodec.opus.bVBR = true;
-                chan.audiocodec.opus.bVBRConstraint = false;
+                chan.audiocodec.opus = new OpusCodec(true);
                 break;
             case Codec.SPEEX_CODEC :
                 chan.audiocodec.speex = new SpeexCodec(true);
@@ -491,17 +487,25 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         return fs;
     }
 
+    static byte[] audioToByteArray(short[] audio) {
+        ByteBuffer buf = ByteBuffer.allocate(audio.length * 2);
+        for(int i = 0; i<audio.length; ++i) {
+            buf.putShort(audio[i]);
+        }
+        return buf.array();
+    }
+
     static short[] generateTone(int freq, int samplerate, int channels, int durationMSec) {
         double volume = 8000;
         double duration = durationMSec;
         duration /= 1000;
         int samples = (int)(duration * samplerate);
         short[] buffer = new short[samples*channels];
-        
+
         for (int i=0; i < samples; i++) {
             double t = (double)i / samplerate;
             double v = volume * Math.sin((double)freq * t * 2. * Math.PI);
-            
+
             if (v > 32767)
                 v = 32767;
             else if(v < -32768)
@@ -519,11 +523,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
 
     static byte[] generateToneAsByte(int freq, int samplerate, int channels, int durationMSec) {
         short[] tone = generateTone(freq, samplerate, channels, durationMSec);
-        ByteBuffer buf = ByteBuffer.allocate(tone.length * 2);
-        for(int i = 0; i<tone.length; ++i) {
-            buf.putShort(tone[i]);    
-        }
-        return buf.array();
+        return audioToByteArray(tone);
     }
 
 }
