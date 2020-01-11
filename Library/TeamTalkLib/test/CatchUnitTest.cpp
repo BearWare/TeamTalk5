@@ -79,7 +79,7 @@ TEST_CASE( "Record mux") {
 #if defined(OPUS_FRAMESIZE_120_MS)
             audiocodec.opus.nFrameSizeMSec = 120;
 #else
-            audiocodec.opus.nFrameSizeMSec = 120;
+            audiocodec.opus.nFrameSizeMSec = 40;
 #endif
             audiocodec.opus.nBitRate = OPUS_MIN_BITRATE;
             audiocodec.opus.nChannels = 2;
