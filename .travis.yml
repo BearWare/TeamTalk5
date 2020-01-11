@@ -61,7 +61,7 @@ script:
   - make runjunitsrv
 # Run Catch unit-tests
   - cd $TRAVIS_BUILD_DIR
-  - Library/TeamTalkLib/catchtt
+  - Library/TeamTalkLib/test/catchtt
 # Start TeamTalk Standard Server non-encrypted mode for JUnit suite TeamTalkStdTestSuite.java
   - cd $TRAVIS_BUILD_DIR
   - cp Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
