@@ -1029,7 +1029,6 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
     {
         DeviceInfo dev;
         m_soundsystem->GetDevice(m_soundprop.outputdeviceid, dev);
-        assert(dev.SupportsOutputFormat(output_channels, input_samplerate));
         if(!dev.SupportsOutputFormat(output_channels, input_samplerate))
         {
             media::AudioFormat infmt(input_samplerate, output_channels),
