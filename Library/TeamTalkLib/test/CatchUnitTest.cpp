@@ -159,7 +159,7 @@ TEST_CASE( "Last voice packet" )
     REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 600));
 
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, audiocodec.opus.nTxIntervalMSec * 5 + audiocodec.opus.nTxIntervalMSec * .5);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, int(audiocodec.opus.nTxIntervalMSec * 5 + audiocodec.opus.nTxIntervalMSec * .5));
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
 
     auto voicestop = [&](TTMessage msg)

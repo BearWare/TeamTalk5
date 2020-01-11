@@ -56,8 +56,6 @@ bool AudioContainer::AddAudio(int userid, int stream_type,
         return false;
 
     // MYTRACE(ACE_TEXT("Adding audio #%d of channels %d\n"), userid, channels);
-    int ret;
-
     ACE_Message_Block* mb = AudioFrameToMsgBlock(frame);
 
     audiostore_t::iterator ii = m_container.find(entry.entryid);
