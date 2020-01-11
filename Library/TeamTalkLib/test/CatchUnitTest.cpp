@@ -29,6 +29,7 @@
 #include "TTUnitTest.h"
 
 #include <codec/OggOutput.h>
+#include <codec/OpusEncoder.h>
 
 #if defined(WIN32)
 #include <ace/Init_ACE.h>
@@ -75,7 +76,11 @@ TEST_CASE( "Record mux") {
             audiocodec.nCodec = OPUS_CODEC;
             audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
             audiocodec.opus.nTxIntervalMSec = 240;
+#if defined(OPUS_FRAMESIZE_120_MS)
             audiocodec.opus.nFrameSizeMSec = 120;
+#else
+            audiocodec.opus.nFrameSizeMSec = 120;
+#endif
             audiocodec.opus.nBitRate = OPUS_MIN_BITRATE;
             audiocodec.opus.nChannels = 2;
             audiocodec.opus.nComplexity = 10;
