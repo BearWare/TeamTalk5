@@ -46,6 +46,8 @@ win32 {
     DEFINES += _CRT_SECURE_NO_WARNINGS
     RC_FILE = mainwindow.rc
     QT += axcontainer
+    # Prevent linking to api-ms-win-core-winrt-l1-1-0.dll (doesn't exist on Windows 7)
+    QTPLUGIN.audio=qtaudio_windows
 }
 
 x11 {
