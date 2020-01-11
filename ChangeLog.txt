@@ -10,7 +10,7 @@ Default Qt client
 - Control media file offset before streaming to channel
 - Pause media file while streaming to channel
 - Test media file playback before streaming to channel
-- Restored compatibility with Windows 7
+- Restored compatibility with Windows 7 (api-ms-win-core-winrt-l1-1-0.dll)
 Accessible Windows client
 - VBR/CBR selection for OPUS codec 
 - Frame size selection for OPUS codec
