@@ -59,16 +59,17 @@ script:
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
   - make runjunitsrv
-# Run Catch unit-tests
-  - cd $TRAVIS_BUILD_DIR
-  - Library/TeamTalkLib/test/catchtt
-# Start TeamTalk Standard Server non-encrypted mode for JUnit suite TeamTalkStdTestSuite.java
+# Start TeamTalk Standard Server non-encrypted mode for JUnit suite TeamTalkStdTestSuite.java and Catch
   - cd $TRAVIS_BUILD_DIR
   - cp Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
   - Server/tt5srv -d -c Server/tt5srv.xml
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
   - make runjunit
+# Run Catch unit-tests
+  - cd $TRAVIS_BUILD_DIR
+  - Library/TeamTalkLib/test/catchtt
+# Kill TeamTalk Standard Server non-encrypted mode
   - killall tt5srv
 # Start TeamTalk Pro Server non-encrypted mode for JUnit suite TeamTalkProTestSuite.java
   - cd $TRAVIS_BUILD_DIR
