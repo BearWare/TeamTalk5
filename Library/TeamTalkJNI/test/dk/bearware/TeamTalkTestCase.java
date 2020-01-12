@@ -1243,7 +1243,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         initSound(rxclient);
         login(rxclient, NICKNAME, USERNAME, PASSWORD);
 
-        Channel chan = buildDefaultChannel(rxclient, "Opus", Codec.OPUS_CODEC);
+        Channel chan = buildDefaultChannel(rxclient, "Opus - Mux initial", Codec.OPUS_CODEC);
         chan.audiocodec.opus.nChannels = 2;
         chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_AUDIO;
         chan.audiocodec.opus.bDTX = false;
@@ -1335,9 +1335,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         } while (receiveSamples > 0);
         // 12 sec
 
-        assertTrue("disable aud cb", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, false));
-
         assertTrue("leave opus", waitCmdSuccess(rxclient, rxclient.doLeaveChannel(), DEF_WAIT));
+
+        assertTrue("disable aud cb and remove pending audio blocks", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, false));
+
+        assertTrue("cleared audio blocks", rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_MUXED_USERID) == null);
 
         assertTrue("enable aud cb again", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, true));
 
@@ -1397,8 +1399,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertFalse("no audio mux when out of channel", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 500));
 
+        // drain any remaining audio blocks
+        while(rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_MUXED_USERID) != null);
+
         // ensure 'muxfileoutput.wav' will continue writing again
-        chan = buildDefaultChannel(rxclient, "Opus", Codec.OPUS_CODEC);
+        chan = buildDefaultChannel(rxclient, "Opus - Muxed secondary", Codec.OPUS_CODEC);
         chan.audiocodec.opus.nChannels = 2;
         chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_AUDIO;
         chan.audiocodec.opus.bDTX = false;
