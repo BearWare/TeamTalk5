@@ -146,7 +146,11 @@ TEST_CASE( "Last voice packet" )
     audiocodec.nCodec = OPUS_CODEC;
     audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
     audiocodec.opus.nTxIntervalMSec = 240;
+#if defined(OPUS_FRAMESIZE_120_MS)
     audiocodec.opus.nFrameSizeMSec = 120;
+#else
+    audiocodec.opus.nFrameSizeMSec = 60;
+#endif
     audiocodec.opus.nBitRate = OPUS_MIN_BITRATE;
     audiocodec.opus.nChannels = 2;
     audiocodec.opus.nComplexity = 10;
