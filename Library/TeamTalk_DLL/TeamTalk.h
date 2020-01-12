@@ -498,17 +498,29 @@ extern "C" {
         UINT32 uSampleIndex;
     } AudioBlock;
 
-/** @brief User ID used to identify recorded audio from sound input
- * device, i.e. TT_InitSoundInputDevice(). This user ID is passed to
- * TT_EnableAudioBlockEvent() in order to receive #AudioBlock of audio
- * that is transmitted to the #TTInstance's channel. */
+/**
+ * @brief User ID passed to TT_EnableAudioBlockEvent() in order to
+ * receive #AudioBlock directly from sound input device after joining
+ * a channel.
+ *
+ * When this user ID is passed then the #AudioBlock received will be
+ * prior to audio preprocessing (#AudioPreprocessor).
+ *
+ * Note, however, that #CLIENTEVENT_USER_AUDIOBLOCK will not be
+ * triggered until the #TTInstance is in a channel. This is because
+ * the sound input device is not started until it knows the
+ * #AudioCodec's sample rate, number of channels and transmit
+ * interval. */
 #define TT_LOCAL_USERID 0
 
-/** @brief User ID used to identify muxed audio that has been mixed
- * into a single stream. This user ID is passed to
- * TT_EnableAudioBlockEvent() in order to receive #AudioBlock of audio
- * that is played in the #TTInstance's channel.*/
-#define TT_MUXED_USERID 0x8000
+/**
+ * @brief User ID used to identify muxed audio that has been mixed
+ * into a single stream.
+ *
+ * This user ID is passed to TT_EnableAudioBlockEvent() in order to
+ * receive #AudioBlock of audio that is played in the #TTInstance's
+ * channel. */
+#define TT_MUXED_USERID 0x1001 /* TT_USERID_MAX + 1 */
 
     /** @} */
 

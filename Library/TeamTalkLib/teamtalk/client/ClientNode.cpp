@@ -50,7 +50,7 @@ using namespace std::placeholders;
 #define UDP_SOCKET_SEND_BUF_SIZE 0x20000
 
 #define LOCAL_USERID 0
-#define MUX_USERID   0x8000
+#define MUX_USERID   0x1001
 
 #define SIMULATE_RX_PACKETLOSS 0
 #define SIMULATE_TX_PACKETLOSS 0

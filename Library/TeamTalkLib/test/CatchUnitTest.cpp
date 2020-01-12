@@ -31,6 +31,8 @@
 #include <codec/OggOutput.h>
 #include <codec/OpusEncoder.h>
 
+#include <myace/MyACE.h>
+
 #if defined(WIN32)
 #include <ace/Init_ACE.h>
 #include <assert.h>
