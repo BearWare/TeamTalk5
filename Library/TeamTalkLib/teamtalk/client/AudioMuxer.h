@@ -97,7 +97,8 @@ private:
     std::recursive_mutex m_mutex;
     std::shared_ptr< std::thread > m_thread;
 
-    ACE_UINT32 m_last_flush_time;
+    ACE_UINT32 m_sample_no = 0;
+    ACE_UINT32 m_last_flush_time = 0;
     teamtalk::AudioCodec m_codec;
 
     wavepcmfile_t m_wavefile;

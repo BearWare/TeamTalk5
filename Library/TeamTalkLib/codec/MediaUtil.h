@@ -126,12 +126,13 @@ namespace media
             timestamp = GETTIMESTAMP();
         }
 
-        AudioFrame(const AudioFormat& infmt, short* input_buf, int insamples)
+        AudioFrame(const AudioFormat& infmt, short* input_buf, int insamples, ACE_UINT32 sampleindex = 0)
         : AudioFrame()
         {
             inputfmt = infmt;
             input_buffer = input_buf;
             input_samples = insamples;
+            sample_no = sampleindex;
         }
 
         AudioFrame(ACE_Message_Block* mb)

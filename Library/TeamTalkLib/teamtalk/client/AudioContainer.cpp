@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -55,6 +55,9 @@ bool AudioContainer::AddAudio(int userid, int stream_type,
     if(m_active_srcs.find(entry.entryid) == m_active_srcs.end())
         return false;
 
+    // MYTRACE(ACE_TEXT("Add audio from #%d to container %p. Offset %u. Samples: %u. Timestamp: %u\n"),
+    //         userid, this, frame.sample_no, frame.input_samples, frame.timestamp);
+
     // MYTRACE(ACE_TEXT("Adding audio #%d of channels %d\n"), userid, channels);
     ACE_Message_Block* mb = AudioFrameToMsgBlock(frame);
 
@@ -81,7 +84,7 @@ bool AudioContainer::AddAudio(int userid, int stream_type,
             mb->release();
             return false;
         }
-        
+
         q->high_water_mark(1024*128);
         q->low_water_mark(1024*128);
 
@@ -126,7 +129,7 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, int stream_type
 void AudioContainer::ReleaseAllAudio()
 {
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
-    
+
     audiostore_t::iterator ii = m_container.begin();
     while(ii != m_container.end())
     {

@@ -68,10 +68,14 @@ bool AudioMuxer::StartThread(const teamtalk::AudioCodec& codec)
     if(samples <= 0)
         return false;
 
+    MYTRACE(ACE_TEXT("Starting AudioMuxer with sample rate %d and callback %d\n"),
+            GetAudioCodecSampleRate(codec), GetAudioCodecCbSamples(codec));
+
     m_muxed_audio.resize(samples);
 
     m_codec = codec;
 
+    m_sample_no = 0;
     m_last_flush_time = GETTIMESTAMP();
 
     m_thread.reset(new std::thread(&AudioMuxer::Run, this));
@@ -291,6 +295,9 @@ void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
         return;
 
     std::unique_lock<std::recursive_mutex> g(m_mutex);
+
+    // MYTRACE(ACE_TEXT("Add audio from #%d to audiomuxer %p. Offset %u. Samples %d\n"),
+    //         userid, this, sample_no, n_samples);
 
     ACE_Message_Queue<ACE_MT_SYNCH>* q;
     user_audio_queue_t::iterator ii = m_audio_queue.find(userid);
@@ -602,7 +609,8 @@ void AudioMuxer::WriteAudio(int cb_samples)
     TTASSERT(cb_samples == GetAudioCodecFramesPerPacket(m_codec)*framesize);
 
     media::AudioFrame frame(media::AudioFormat(samplerate, channels),
-                            &m_muxed_audio[0], cb_samples);
+                            &m_muxed_audio[0], cb_samples, m_sample_no);
+
     if (m_muxcallback)
     {
         m_muxcallback(frame);
@@ -637,4 +645,6 @@ void AudioMuxer::WriteAudio(int cb_samples)
 
     if(m_wavefile)
         m_wavefile->AppendSamples(&m_muxed_audio[0], cb_samples);
+
+    m_sample_no += cb_samples;
 }
