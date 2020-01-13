@@ -6,4 +6,5 @@ local.properties
 src/main/jniLibs/arm64-v8a/*.so
 src/main/jniLibs/armeabi-v7a/*.so
 src/main/jniLibs/x86/*.so
+src/main/jniLibs/x86_64/*.so
 *.iml
