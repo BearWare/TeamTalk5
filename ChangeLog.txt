@@ -22,6 +22,8 @@ Accessible Windows client
 - Test media file playback before streaming to channel
 - Fixed bug where audio recording to single file contained audio from media files
 - Fixed bug in .ogg file header for OPUS codec
+Android client
+- Portuguese translation
 iOS client
 - Support for Dark Theme
 
