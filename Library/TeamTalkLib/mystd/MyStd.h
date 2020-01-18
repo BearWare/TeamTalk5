@@ -46,5 +46,7 @@ std::string str2lower(const std::string& str);
 bool strcmpnocase(const std::string& str1, const std::string& str2);
 stdstrings_t stdtokenize(const std::string& source, const std::string& delimeters);
 
+uint32_t GETTIMESTAMP();
+
 #endif
 

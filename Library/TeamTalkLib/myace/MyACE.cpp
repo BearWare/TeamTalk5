@@ -526,47 +526,6 @@ Profiler::~Profiler()
             m_name, (ACE_UINT32)tm.msec(), m_filename, m_line, (unsigned)h);
 }
 
-#ifndef WIN32
-
-#if defined(__APPLE__)
-#include <mach/mach_time.h>
-
-#if defined(ACE_HAS_IPHONE)
-#define ORWL_NANO (+1.0E-9)
-#define ORWL_GIGA UINT64_C(1000000000)
-static double orwl_timebase = 0.0;
-static uint64_t orwl_timestart = 0;
-#endif /* ACE_HAS_IPHONE */
-
-#endif
-
-uint32_t GETTIMESTAMP()
-{
-#if defined(ACE_HAS_IPHONE)
-    if (!orwl_timestart) {
-        mach_timebase_info_data_t tb = {};
-        mach_timebase_info(&tb);
-        orwl_timebase = tb.numer;
-        orwl_timebase /= tb.denom;
-        orwl_timestart = mach_absolute_time();
-    }
-    struct timespec tm;
-    double diff = (mach_absolute_time() - orwl_timestart) * orwl_timebase;
-    tm.tv_sec = diff * ORWL_NANO;
-    tm.tv_nsec = diff - (tm.tv_sec * ORWL_GIGA);
-    return (tm.tv_sec * 1000) + (tm.tv_nsec/1000000);
-
-#elif defined(__APPLE__)
-    return mach_absolute_time() / 1000000;
-#else
-    struct timespec tm;
-    int ret = clock_gettime(CLOCK_MONOTONIC, &tm);
-    assert(ret == 0);
-    return (tm.tv_sec * 1000) + (tm.tv_nsec/1000000);
-#endif
-}
-#endif
-
 std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port)
 {
     std::vector<ACE_INET_Addr> result;

@@ -34,6 +34,7 @@
 #include <ace/INET_Addr.h>
 #include <vector>
 #include <set>
+#include <mystd/MyStd.h>
 
 //reactor event task
 ACE_THR_FUNC_RETURN event_loop (void *arg);
@@ -142,12 +143,6 @@ private:
 #define PROFILER_ST(name)   Profiler d1d(name, ACE_TEXT( __FILE__ ), __LINE__, true)
 
 bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against);
-
-#ifdef WIN32
-#define GETTIMESTAMP ::GetTickCount
-#else
-uint32_t GETTIMESTAMP();
-#endif
 
 #define DUP_TIMESTAMP_DELAY(tm)          \
     do {                                 \
