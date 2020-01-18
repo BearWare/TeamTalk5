@@ -12,6 +12,7 @@ Default Qt client
 - Test media file playback before streaming to channel
 - Restored compatibility with Windows 7 (api-ms-win-core-winrt-l1-1-0.dll)
 - Fixed bug where audio recording to single file contained audio from media files
+- Fixed bug in .ogg file header for OPUS codec
 Accessible Windows client
 - VBR/CBR selection for OPUS codec 
 - Frame size selection for OPUS codec
@@ -20,6 +21,7 @@ Accessible Windows client
 - Control media file offset before streaming to channel
 - Test media file playback before streaming to channel
 - Fixed bug where audio recording to single file contained audio from media files
+- Fixed bug in .ogg file header for OPUS codec
 iOS client
 - Support for Dark Theme
 

@@ -436,13 +436,27 @@ bool OpusFile::Open(const ACE_TString& filename,
 
     unsigned char header_data[276];
     int packet_size = opus_header_to_packet(&header, header_data, sizeof(header_data));
-    ogg_packet op;
+    ogg_packet op = {};
     op.packet = header_data;
     op.bytes = packet_size;
     op.b_o_s = 1;
     op.e_o_s = 0;
     op.granulepos = 0;
     op.packetno = 0;
+
+    m_ogg.PutPacket(op);
+
+    unsigned char comment_data[] = {'O', 'p', 'u', 's', 'T', 'a', 'g', 's',
+                                    /* Vendor String Length */
+                                    0x0, 0x0, 0x0, 0x0,
+                                    /* User Comment List Length */
+                                    0x0, 0x0, 0x0, 0x0};
+    op = {};
+    op.packet = comment_data;
+    op.bytes = sizeof(comment_data);
+    op.b_o_s = op.e_o_s = 0;
+    op.granulepos = 0;
+    op.packetno = 1;
 
     m_ogg.PutPacket(op);
 
@@ -466,7 +480,7 @@ void OpusFile::Close()
 
 int OpusFile::WriteEncoded(const char* enc_data, int enc_len, bool last)
 {
-    ogg_packet op;
+    ogg_packet op = {};
     op.packet = reinterpret_cast<unsigned char*>(const_cast<char*>(enc_data));
     op.bytes = enc_len;
     op.b_o_s = 0;
