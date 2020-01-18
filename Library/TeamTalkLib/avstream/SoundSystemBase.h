@@ -45,7 +45,7 @@ namespace soundsystem {
     class StreamCaller : public ACE_Task_Base
     {
         std::vector<short> m_buffer;
-        ACE_Time_Value m_start, m_interval;
+        uint32_t m_start, m_interval;
         ACE_Reactor m_reactor;
 
     protected:
@@ -54,7 +54,7 @@ namespace soundsystem {
         // on a destroyed object
         void Stop()
         {
-            m_interval = ACE_Time_Value::zero;
+            m_interval = 0;
             int ret = m_reactor.end_reactor_event_loop();
             assert(ret >= 0);
             ret = wait();
@@ -64,10 +64,8 @@ namespace soundsystem {
         StreamCaller(const SoundStreamer& streamer, int channels)
         {
             m_buffer.resize(channels * streamer.framesize, 0);
-
-            int msec = streamer.framesize * 1000 / streamer.samplerate;
-            m_interval = ACE_Time_Value(msec / 1000, (msec % 1000) * 1000);
-            m_start = ACE_OS::gettimeofday();
+            m_interval = streamer.framesize * 1000 / streamer.samplerate;
+            m_start = GETTIMESTAMP();
         }
 
         virtual ~StreamCaller()
@@ -76,7 +74,7 @@ namespace soundsystem {
 
         int handle_timeout(const ACE_Time_Value& tv, const void* arg)
         {
-            while(m_start <= ACE_OS::gettimeofday() && m_interval != ACE_Time_Value::zero)
+            while (W32_LEQ(m_start, GETTIMESTAMP()) && m_interval != 0)
             {
                 StreamCallback(&m_buffer[0]);
                 m_start += m_interval;
@@ -87,7 +85,8 @@ namespace soundsystem {
         int svc()
         {
             m_reactor.owner (ACE_OS::thr_self ());
-            int ret = m_reactor.schedule_timer(this, 0, m_interval, m_interval);
+            auto tv = ToTimeValue(m_interval);
+            int ret = m_reactor.schedule_timer(this, 0, tv, tv);
             MYTRACE_COND(ret < 0, ACE_TEXT("Failed to schedule timer in StreamCaller\n"));
             m_reactor.run_reactor_event_loop();
             return 0;
