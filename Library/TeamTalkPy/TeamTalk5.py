@@ -10,6 +10,13 @@ if sys.platform == "win32":
     TTCHAR = c_wchar
     TTCHAR_P = c_wchar_p
     from ctypes.wintypes import BOOL
+elif sys.platform == "darwin":
+    # Darwin is not supported. Seems SIP is preventing this from
+    # working. Setting DYLD_LIBRARY_PATH doesn't help.
+    dll = cdll.LoadLibrary("libTeamTalk5.dylib")
+    TTCHAR = c_char
+    TTCHAR_P = c_char_p
+    BOOL = c_int
 else:
     dll = cdll.LoadLibrary("libTeamTalk5.so")
     TTCHAR = c_char
