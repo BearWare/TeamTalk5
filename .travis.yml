@@ -42,15 +42,13 @@ git:
 
 env:
   global:
-# Setup shared libraries
-    - LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/Library/TeamTalk_DLL:$TRAVIS_BUILD_DIR/Library/TeamTalkJNI/libs:
 # TeamTalkJNI JUnit environment variables
     - INPUTDEVICEID=1978
     - OUTPUTDEVICEID=1978
     - OPUSTOOLS=0
 
 script:
-# Source env
+# Source env (LD_LIBRARY_PATH, PYTHONPATH, etc)
   - cd $TRAVIS_BUILD_DIR
   - source env.sh
 # Build libraries, server binaries and examples
