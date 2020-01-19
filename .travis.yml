@@ -35,6 +35,7 @@ addons:
 #      - qtwebengine5-dev (ubuntu 18)
       - junit4
       - catch
+      - python3-minimal
 
 # Library/TeamTalkLib/toolchain has many submodules
 git:
@@ -42,14 +43,15 @@ git:
 
 env:
   global:
-# Setup shared libraries
-    - LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/Library/TeamTalk_DLL:$TRAVIS_BUILD_DIR/Library/TeamTalkJNI/libs:
 # TeamTalkJNI JUnit environment variables
     - INPUTDEVICEID=1978
     - OUTPUTDEVICEID=1978
     - OPUSTOOLS=0
 
 script:
+# Source env (LD_LIBRARY_PATH, PYTHONPATH, etc)
+  - cd $TRAVIS_BUILD_DIR
+  - source env.sh
 # Build libraries, server binaries and examples
   - mkdir build
   - cd build
@@ -89,6 +91,9 @@ script:
   - cd Library/TeamTalkJNI
   - export ENCRYPTED=1
   - make runjunitpro
+# Start Python client example and ensure it connects
+  - cd $TRAVIS_BUILD_DIR
+  - make -C Client/ttserverlogpy
   - killall tt5prosrv
 # Run JUnit suite TeamTalkServerTestSuite.java in encrypted mode
   - cd $TRAVIS_BUILD_DIR
