@@ -43,7 +43,7 @@ Projects wrapping the client DLL file in the TeamTalk SDK.
 * **TeamTalkJNI** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 JNI project with Java wrapper classes
     * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.3.4935/docs/Java/)
-* **TeamTalkPy** (dependency: TeamTalk_DLL**)
+* **TeamTalkPy** (dependency: **TeamTalk_DLL**)
   * Python wrappers for TeamTalk DLL
 
 ## TeamTalk 5 Clients
