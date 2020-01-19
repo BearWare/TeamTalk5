@@ -32,6 +32,11 @@
 #include <codec/OpusEncoder.h>
 
 #include <myace/MyACE.h>
+#include <codec/OggOutput.h>
+
+#include <iostream>
+
+using namespace std;
 
 #if defined(WIN32)
 #include <ace/Init_ACE.h>
@@ -290,4 +295,37 @@ TEST_CASE( "MuxedAudioBlock" )
 
     for(auto c : clients)
         REQUIRE(TT_CloseTeamTalk(c));
+}
+
+TEST_CASE( "Opus Read File" )
+{
+    std::vector<TTInstance*> clients;
+    auto rxclient = TT_InitTeamTalkPoll();
+    clients.push_back(rxclient);
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    auto FILENAME = ACE_TEXT("MyMuxFile.ogg");
+    Channel chan;
+    REQUIRE(TT_GetChannel(rxclient, TT_GetMyChannelID(rxclient), &chan));
+    REQUIRE(TT_StartRecordingMuxedAudioFile(rxclient, &chan.audiocodec, FILENAME, AFF_CHANNELCODEC_FORMAT));
+
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, nullptr, 2000);
+
+    for(auto c : clients)
+        REQUIRE(TT_CloseTeamTalk(c));
+    
+    OggFile of;
+    REQUIRE(of.Open(FILENAME));
+    ogg_page op;
+    int pages = 0;
+    REQUIRE(of.ReadOggPage(op));
+    REQUIRE(op.header_len>0);
+    REQUIRE(op.body_len>0);
+    pages++;
+    while (of.ReadOggPage(op))pages++;
+    cout << "pages: " << pages << endl;
 }

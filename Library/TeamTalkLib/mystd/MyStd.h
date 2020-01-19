@@ -48,5 +48,15 @@ stdstrings_t stdtokenize(const std::string& source, const std::string& delimeter
 
 uint32_t GETTIMESTAMP();
 
+class NonCopyable
+{
+protected:
+    NonCopyable() {}
+    ~NonCopyable() {}
+private: 
+    NonCopyable(const NonCopyable &);
+    NonCopyable& operator=(const NonCopyable &);
+};
+
 #endif
 
