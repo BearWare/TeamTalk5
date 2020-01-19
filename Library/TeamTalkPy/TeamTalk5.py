@@ -1,5 +1,6 @@
 import sys
 import os
+import ctypes
 from time import sleep
 from enum import IntEnum
 from ctypes import *
@@ -61,6 +62,8 @@ class SoundDevice(Structure):
     ("outputSampleRates", INT32 * TT_SAMPLERATES_MAX),
     ("nDefaultSampleRate", INT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.SOUNDDEVICE) == ctypes.sizeof(SoundDevice))
 
 class SoundLevel(INT32):
     SOUND_VU_MAX = 100
@@ -81,6 +84,8 @@ class AudioBlock(Structure):
     ("nSamples", INT32),
     ("uSampleIndex", UINT32),
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.AUDIOBLOCK) == ctypes.sizeof(AudioBlock))
 
 class MediaFileStatus(INT32):
     MFS_CLOSED = 0
@@ -107,6 +112,8 @@ class AudioFormat(Structure):
     ("nSampleRate", INT32),
     ("nChannels", INT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.AUDIOFORMAT) == ctypes.sizeof(AudioFormat))
 
 class FourCC(INT32):
     FOURCC_NONE =   0
@@ -122,6 +129,8 @@ class VideoFormat(Structure):
     ("nFPS_Denominator", INT32),
     ("picFourCC", INT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.VIDEOFORMAT) == ctypes.sizeof(VideoFormat))
 
 class VideoFrame(Structure):
     _fields_ = [
@@ -132,6 +141,8 @@ class VideoFrame(Structure):
     ("frameBuffer", c_void_p),
     ("nFrameBufferSize", INT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.VIDEOFRAME) == ctypes.sizeof(VideoFrame))
 
 class VideoCaptureDevice(Structure):
     _fields_ = [
@@ -141,6 +152,8 @@ class VideoCaptureDevice(Structure):
     ("videoFormats", VideoFormat*TT_VIDEOFORMATS_MAX),
     ("nVideoFormatsCount", INT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.VIDEOCAPTUREDEVICE) == ctypes.sizeof(VideoCaptureDevice))
 
 class BitmapFormat(INT32):
     BMP_NONE = 0
@@ -163,6 +176,8 @@ class DesktopWindow(Structure):
     ("frameBuffer", c_void_p),
     ("nFrameBufferSize", INT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.DESKTOPWINDOW) == ctypes.sizeof(DesktopWindow))
 
 class DesktopKeyState(UINT32):
     DESKTOPKEYSTATE_NONE = 0x00000000
@@ -176,6 +191,8 @@ class DesktopInput(Structure):
     ("uKeyCode", UINT32),
     ("uKeyState", UINT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.DESKTOPINPUT) == ctypes.sizeof(DesktopInput))
 
 class SpeexCodec(Structure):
     _fields_ = [
@@ -184,6 +201,8 @@ class SpeexCodec(Structure):
     ("nTxIntervalMSec", INT32),
     ("bStereoPlayback", BOOL)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.SPEEXCODEC) == ctypes.sizeof(SpeexCodec))
 
 class SpeexVBRCodec(Structure):
     _fields_ = [
@@ -195,6 +214,8 @@ class SpeexVBRCodec(Structure):
     ("nTxIntervalMSec", INT32),
     ("bStereoPlayback", BOOL)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.SPEEXVBRCODEC) == ctypes.sizeof(SpeexVBRCodec))
 
 SPEEX_NB_MIN_BITRATE = 2150
 SPEEX_NB_MAX_BITRATE = 24600
@@ -217,6 +238,8 @@ class OpusCodec(Structure):
     ("nTxIntervalMSec", INT32),
     ("nFrameSizeMSec", INT32),
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.OPUSCODEC) == ctypes.sizeof(OpusCodec))
 
 OPUS_APPLICATION_VOIP = 2048
 OPUS_APPLICATION_AUDIO = 2049
@@ -239,6 +262,9 @@ class SpeexDSP(Structure):
     ("nEchoSuppress", INT32),
     ("nEchoSuppressActive", INT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.SPEEXDSP) == ctypes.sizeof(SpeexDSP))
+        
 
 class TTAudioPreprocessor(Structure):
     _fields_ = [
@@ -246,6 +272,8 @@ class TTAudioPreprocessor(Structure):
     ("bMuteLeftSpeaker", BOOL),
     ("bMuteRightSpeaker", BOOL)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.TTAUDIOPREPROCESSOR) == ctypes.sizeof(TTAudioPreprocessor))
 
 class AudioPreprocessorType(INT32):
     NO_AUDIOPREPROCESSOR = 0
@@ -264,6 +292,8 @@ class AudioPreprocessor(Structure):
     ("nPreprocessor", INT32),
     ("u", AudioPreprocessorUnion)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.AUDIOPREPROCESSOR) == ctypes.sizeof(AudioPreprocessor))
 
 class WebMVP8CodecUnion(Union):
     _fields_ = [
@@ -277,6 +307,8 @@ class WebMVP8Codec(Structure):
     ("u", WebMVP8CodecUnion),
     ("nEncodeDeadline", UINT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.WEBMVP8CODEC) == ctypes.sizeof(WebMVP8Codec))
 
 WEBM_VPX_DL_REALTIME = 1
 WEBM_VPX_DL_GOOD_QUALITY = 1000000
@@ -302,12 +334,16 @@ class AudioCodec(Structure):
     ("nCodec", INT32),
     ("u", AudioCodecUnion)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.AUDIOCODEC) == ctypes.sizeof(AudioCodec))
 
 class AudioConfig(Structure):
     _fields_ = [
     ("bEnableAGC", BOOL),
     ("nGainLevel", INT32),
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.AUDIOCONFIG) == ctypes.sizeof(AudioConfig))
 
 class VideoCodecUnion(Union):
     _fields_ = [
@@ -320,6 +356,8 @@ class VideoCodec(Structure):
     ("nCodec", INT32),
     ("u", VideoCodecUnion)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.VIDEOCODEC) == ctypes.sizeof(VideoCodec))
 
 class MediaFileInfo(Structure):
     _fields_ = [
@@ -330,6 +368,8 @@ class MediaFileInfo(Structure):
     ("uDurationMSec", UINT32),
     ("uElapsedMSec", UINT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.MEDIAFILEINFO) == ctypes.sizeof(MediaFileInfo))
 
 class MediaFilePlayback(Structure):
     _fields_ = [
@@ -337,6 +377,8 @@ class MediaFilePlayback(Structure):
     ("bPaused", BOOL),
     ("audioPreprocessor", AudioPreprocessor)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.MEDIAFILEPLAYBACK) == ctypes.sizeof(MediaFilePlayback))
 
 class StreamType(UINT32):
     STREAMTYPE_NONE = 0x00000000
@@ -396,6 +438,8 @@ class ServerProperties(Structure):
     ("nLoginDelayMSec", INT32),
     ("szAccessToken", TTCHAR*TT_STRLEN),
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.SERVERPROPERTIES) == ctypes.sizeof(ServerProperties))
 
 class ServerStatistics(Structure):
     _fields_ = [
@@ -415,6 +459,8 @@ class ServerStatistics(Structure):
     ("nFilesRx", INT64),
     ("nUptimeMSec", INT64)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.SERVERSTATISTICS) == ctypes.sizeof(ServerStatistics))
 
 class BanType(UINT32):
     BANTYPE_NONE = 0x00
@@ -431,6 +477,8 @@ class BannedUser(Structure):
     ("szUsername", TTCHAR*TT_STRLEN),
     ("uBanTypes", UINT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.BANNEDUSER) == ctypes.sizeof(BannedUser))
 
 class UserType(UINT32):
     USERTYPE_NONE = 0x0
@@ -442,6 +490,8 @@ class AbusePrevention(Structure):
     ("nCommandsLimit", INT32),
     ("nCommandsIntervalMSec", INT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.ABUSEPREVENTION) == ctypes.sizeof(AbusePrevention))
 
 class UserAccount(Structure):
     _fields_ = [
@@ -456,6 +506,8 @@ class UserAccount(Structure):
     ("nAudioCodecBpsLimit", INT32),
     ("abusePrevent", AbusePrevention)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.USERACCOUNT) == ctypes.sizeof(UserAccount))
 
 class Subscription(UINT32):
     SUBSCRIBE_NONE = 0x00000000
@@ -515,6 +567,8 @@ class User(Structure):
     ("nBufferMSecMediaFile", INT32),
     ("szClientName", TTCHAR * TT_STRLEN)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.USER) == ctypes.sizeof(User))
 
 class UserStatistics(Structure):
     _fields_ = [
@@ -531,6 +585,8 @@ class UserStatistics(Structure):
     ("nMediaFileVideoFramesLost", INT64),
     ("nMediaFileVideoFramesDropped", INT64),
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.USERSTATISTICS) == ctypes.sizeof(UserStatistics))
 
 class TextMsgType(INT32):
     MSGTYPE_USER = 1
@@ -547,6 +603,8 @@ class TextMessage(Structure):
     ("nChannelID", INT32),
     ("szMessage", TTCHAR*TT_STRLEN),
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.TEXTMESSAGE) == ctypes.sizeof(TextMessage))
 
 class ChannelType(UINT32):
     CHANNEL_DEFAULT = 0x0000
@@ -575,6 +633,8 @@ class Channel(Structure):
     ("transmitUsers", (INT32*2)*TT_TRANSMITUSERS_MAX),
     ("transmitUsersQueue", INT32*TT_TRANSMITQUEUE_MAX)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.CHANNEL) == ctypes.sizeof(Channel))
 
 class FileTransferStatus(INT32):
     FILETRANSFER_CLOSED = 0
@@ -593,6 +653,8 @@ class FileTransfer(Structure):
     ("nTransferred", INT64),
     ("bInbound", BOOL)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.FILETRANSFER) == ctypes.sizeof(FileTransfer))
 
 class RemoteFile(Structure):
     _fields_ = [
@@ -602,6 +664,8 @@ class RemoteFile(Structure):
     ("nFileSize", INT64),
     ("szUsername", TTCHAR*TT_STRLEN)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.REMOTEFILE) == ctypes.sizeof(RemoteFile))
 
 class ClientKeepAlive(Structure):
     _fields_ = [
@@ -612,6 +676,8 @@ class ClientKeepAlive(Structure):
     ("nUdpConnectRTXMSec", INT32),
     ("nUdpConnectTimeoutMSec", INT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.CLIENTKEEPALIVE) == ctypes.sizeof(ClientKeepAlive))
 
 class ClientStatistics(Structure):
     _fields_ = [
@@ -632,6 +698,8 @@ class ClientStatistics(Structure):
     ("nTcpServerSilenceSec", INT32),
     ("nUdpServerSilenceSec", INT32)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.CLIENTSTATISTICS) == ctypes.sizeof(ClientStatistics))
 
 class ClientError(INT32):
     CMDERR_SUCCESS = 0
@@ -681,6 +749,8 @@ class ClientErrorMsg(Structure):
     ("nErrorNo", INT32),
     ("szErrorMsg", TTCHAR*TT_STRLEN)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.CLIENTERRORMSG) == ctypes.sizeof(ClientErrorMsg))
 
 class ClientEvent(UINT32):
     CLIENTEVENT_NONE = 0
@@ -800,6 +870,8 @@ class TTMessage(Structure):
     ("uReserved", UINT32),
     ("u", TTMessageUnion)
     ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.TTMESSAGE) == ctypes.sizeof(TTMessage))
 
 class ClientFlags(UINT32):
     CLIENT_CLOSED = 0x00000000
