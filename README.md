@@ -35,7 +35,7 @@ Projects wrapping the client DLL file in the TeamTalk SDK.
   * TeamTalk 5 C-API DLL
   * C-API header files for TeamTalk 5 DLL
     * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.3.4935/docs/C-API/)
-  * Build using TeamTalkLib or download TeamTalk 5 SDK
+  * Build using TeamTalkLib or [download TeamTalk 5 SDK](https://bearware.dk/?page_id=419)
 * **TeamTalk.NET** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 .NET DLL wrapper for C-API TeamTalk 5 DLL (**TeamTalk_DLL**)
     * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.3.4935/docs/NET/)
@@ -43,6 +43,8 @@ Projects wrapping the client DLL file in the TeamTalk SDK.
 * **TeamTalkJNI** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 JNI project with Java wrapper classes
     * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.3.4935/docs/Java/)
+* **TeamTalkPy** (dependency: TeamTalk_DLL**)
+  * Python wrappers for TeamTalk DLL
 
 ## TeamTalk 5 Clients
 Projects containing client applications which use the TeamTalk 5 client DLL.
@@ -68,17 +70,18 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
 * **TeamTalkAndroid** (dependency: **TeamTalkJNI**)
   * TeamTalk 5 Android client application written in Java
   * Open project in [Android Studio](https://developer.android.com/studio/intro/index.html)
-    * ... or build using [ant](http://ant.apache.org), run the following command: ```android update project -p . -s -t android-17```
   * Copy the TeamTalk 5 Java library to *TeamTalkAndroid/libs* directory:
     * TeamTalk5.jar
       * Located in ```Library/TeamTalkJNI/libs``` (Standard Edition)
     * TeamTalk5Pro.jar
       * Located in ```Library/TeamTalkJNI/libs``` (Professional Edition)
-  * Copy the TeamTalk 5 JNI shared library to *TeamTalkAndroid/src/main/jniLibs/armeabi-v7a*
+  * Copy the TeamTalk 5 JNI shared library to *TeamTalkAndroid/src/main/jniLibs/[armeabi-v7a|arm64-v8a|x86|x86_64]*
     * libTeamTalk5-jni.so
-        * Located in ```Library/TeamTalkJNI/libs/armeabi-v7a``` (Standard Edition)
+        * Located in ```Library/TeamTalkJNI/libs/[armeabi-v7a|arm64-v8a|x86|x86_64]``` (Standard Edition)
     * libTeamTalk5Pro-jni.so
-        * Located in ```Library/TeamTalkJNI/libs/armeabi-v7a``` (Professional Edition)
+        * Located in ```Library/TeamTalkJNI/libs/[armeabi-v7a|arm64-v8a|x86|x86_64]``` (Professional Edition)
+* **ttserverlogpy** (dependency: **TeamTalkPy**
+  * Python example client
 * **ttphpadmin**
   * Console PHP-script for administrating a TeamTalk 5 server.
   * Run ```php ttphpadmin.php```
