@@ -31,7 +31,7 @@ print(getVersion())
 
 ttclient = TeamTalk()
 
-if ttclient.connect(b"tt4eu.bearware.dk", 10443, 10443, 0, 0, True):
+if ttclient.connect(b"127.0.0.1", 10443, 10443, 0, 0, True):
     print("Connecting")
 else:
     sys.exit('Failed to issue connect')

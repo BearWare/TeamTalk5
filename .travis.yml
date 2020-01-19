@@ -34,6 +34,7 @@ addons:
       - libqt5webkit5-dev
 #      - qtwebengine5-dev (ubuntu 18)
       - junit4
+      - python3-minimal
 
 # Library/TeamTalkLib/toolchain has many submodules
 git:
@@ -92,6 +93,9 @@ script:
   - cd Library/TeamTalkJNI
   - export ENCRYPTED=1
   - make runjunitpro
+# Start Python client example and ensure it connects
+  - cd $TRAVIS_BUILD_DIR
+  - make -C Client/ttserverlogpy
   - killall tt5prosrv
 # Run JUnit suite TeamTalkServerTestSuite.java in encrypted mode
   - cd $TRAVIS_BUILD_DIR
