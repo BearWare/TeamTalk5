@@ -50,6 +50,9 @@ env:
     - OPUSTOOLS=0
 
 script:
+# Source env
+  - cd $TRAVIS_BUILD_DIR
+  - source env.sh
 # Build libraries, server binaries and examples
   - mkdir build
   - cd build
