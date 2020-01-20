@@ -308,7 +308,7 @@ TEST_CASE( "Opus Read File" )
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
-    auto FILENAME = ACE_TEXT("MyMuxFile.ogg");
+    const TTCHAR FILENAME[] = ACE_TEXT("MyMuxFile.ogg");
     Channel chan;
     REQUIRE(TT_GetChannel(rxclient, TT_GetMyChannelID(rxclient), &chan));
     REQUIRE(TT_StartRecordingMuxedAudioFile(rxclient, &chan.audiocodec, FILENAME, AFF_CHANNELCODEC_FORMAT));
