@@ -45,7 +45,7 @@
 #include <string>
 #include <vector>
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_TEAMTALKPRO)
 #define DEFAULT_TCPPORT 10443
 #define DEFAULT_UDPPORT 10443
 #else
@@ -57,13 +57,6 @@
 
 #define SERVER_KEEPALIVE_DELAY 1  //keep alive delay (secs). Checks
                                   //whether some users are dead
-
-#define SIMULATE_RX_PACKETLOSS 0
-#define SIMULATE_TX_PACKETLOSS 0
-
-#if defined(NDEBUG) && SIMULATE_RX_PACKETLOSS || defined(NDEBUG) && SIMULATE_TX_PACKETLOSS
-#pragma error Packetloss in release mode!!!
-#endif
 
 #define GUARD_OBJ_NAME(name, this_obj, lock)            \
     guard_t name(lock);                                 \
@@ -149,6 +142,7 @@ namespace teamtalk {
         int GetAuthUserCount();
         int GetActiveFileTransfers(int& uploads, int& downloads);
         bool IsEncrypted() const;
+        bool LoginsExceeded(const ServerUser& user);
 
         //send udp packet
         int SendPacket(const FieldPacket& packet, const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
@@ -375,20 +369,26 @@ namespace teamtalk {
         mapusers_t m_mUsers; //all users
         ServerChannel::users_t m_admins; //only admins (admin cache for speed up)
 
-        //login times
-        mapiptime_t m_mLoginAttempts;
+        //failed login attempts
+        mapiptime_t m_failedlogins;
+        // last login (ip->time)
+        std::map<ACE_TString, ACE_Time_Value> m_logindelay;
+        
         //user id incrementer
         int m_userid_counter;
         //acceptor for listening for clients
 #if defined(ENABLE_ENCRYPTION)
-        std::vector<CryptAcceptor*> m_crypt_acceptors;
+        typedef std::shared_ptr<CryptAcceptor> cryptacceptor_t;
+        std::vector<cryptacceptor_t> m_crypt_acceptors;
 #endif
-        std::vector<DefaultAcceptor*> m_def_acceptors;
+        typedef std::shared_ptr<DefaultAcceptor> defaultacceptor_t;
+        std::vector<defaultacceptor_t> m_def_acceptors;
 
         std::map<ACE_HANDLE, serveruser_t> m_streamhandles;
 
         //socket for udp traffic
-        std::vector<PacketHandler*> m_packethandlers;
+        typedef std::shared_ptr<PacketHandler> packethandler_t;
+        std::vector<packethandler_t> m_packethandlers;
         
         //mutex for clients
         ACE_Recursive_Thread_Mutex m_sendmutex;
@@ -441,6 +441,7 @@ namespace teamtalk {
         virtual void OnUserKicked(const ServerUser& kickee, const ServerUser* kicker, const ServerChannel* channel) = 0;
         virtual void OnUserBanned(const ServerUser& banee, const ServerUser& banner) = 0;
         virtual void OnUserBanned(const ACE_TString& ipaddr, const ServerUser& banner) = 0;
+        virtual void OnUserBanned(const ServerUser& banner, const BannedUser& ban) = 0;
         virtual void OnUserUnbanned(const ServerUser& user, const BannedUser& ban) = 0;
         virtual void OnUserUpdated(const ServerUser& user) = 0;
         virtual void OnUserJoinChannel(const ServerUser& user, const ServerChannel& channel) = 0;

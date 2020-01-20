@@ -34,7 +34,7 @@
 #include "mainwindow.h"
 #include "license.h"
 
-TTInstance* ttInst = NULL;
+TTInstance* ttInst = nullptr;
 
 #if defined(Q_OS_WIN32)
 class MyQApplication
@@ -42,7 +42,7 @@ class MyQApplication
 {
 public:
     MyQApplication(int& argc, char **argv)
-        : QApplication(argc, argv), m_mainwindow(NULL)
+        : QApplication(argc, argv), m_mainwindow(nullptr)
     {
     }
 
@@ -157,7 +157,7 @@ public:
 #endif
 
     MyQApplication(int& argc, char **argv)
-        : QApplication(argc, argv), m_mainwindow(NULL)
+        : QApplication(argc, argv), m_mainwindow(nullptr)
     {
 #if QT_VERSION >= 0x050000
         installNativeEventFilter(this);
@@ -224,7 +224,7 @@ class MyQApplication : public QApplication
 {
 public:
     MyQApplication(int& argc, char **argv) 
-        : QApplication(argc, argv), m_mainwindow(NULL)
+        : QApplication(argc, argv), m_mainwindow(nullptr)
     {
         EventTypeSpec hkEvents[2];
         hkEvents[0].eventClass = kEventClassKeyboard;
@@ -232,7 +232,7 @@ public:
         hkEvents[1].eventClass = kEventClassKeyboard;
         hkEvents[1].eventKind = kEventHotKeyReleased;
 
-        OSStatus oss = InstallApplicationEventHandler(&mac_callback, 2, hkEvents, NULL, NULL);
+        OSStatus oss = InstallApplicationEventHandler(&mac_callback, 2, hkEvents, nullptr, nullptr);
         Q_ASSERT(oss == 0);
 
 #if QT_VERSION >= 0x050400
@@ -255,7 +255,7 @@ public:
                 EventHotKeyID keyID;
                 GetEventParameter(event, kEventParamDirectObject, 
                                   typeEventHotKeyID, 
-                                  NULL, sizeof(keyID), NULL, &keyID);
+                                  nullptr, sizeof(keyID), nullptr, &keyID);
                 m_mainwindow->hotkeyToggle((HotKeyID)keyID.id, kind == kEventHotKeyPressed);
             }
         }

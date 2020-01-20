@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE teamtalk>
+<teamtalk version="5.0">
+ <host>
+  <name>bjoern@127.0.0.1:10333</name>
+  <address>127.0.0.1</address>
+  <tcpport>10333</tcpport>
+  <udpport>10333</udpport>
+  <encrypted>false</encrypted>
+  <auth>
+   <username>liv</username>
+   <password>liv198</password>
+  </auth>
+  <clientsetup>
+   <nickname>Liv</nickname>
+   <gender>2</gender>
+   <win-hotkey>
+    <key>123</key>
+   </win-hotkey>
+   <voice-activated>0</voice-activated>
+   <videoformat>
+    <width>320</width>
+    <height>240</height>
+    <fps-numerator>10</fps-numerator>
+    <fps-denominator>1</fps-denominator>
+    <fourcc>102</fourcc>
+   </videoformat>
+   <videocodec>
+    <codec>128</codec>
+    <webm-vp8-bitrate>256</webm-vp8-bitrate>
+   </videocodec>
+  </clientsetup>
+ </host>
+</teamtalk>

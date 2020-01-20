@@ -25,12 +25,12 @@
 #define AUDIOTHREAD_H
 
 #include <ace/Task.h>
-#include <ace/Thread_Semaphore.h> 
-#include <ace/Bound_Ptr.h>
 
 #if defined(ENABLE_SPEEX)
 #include <codec/SpeexEncoder.h>
-#include <codec/SpeexPreprocess.h>
+#endif
+#if defined(ENABLE_SPEEXDSP)
+#include <avstream/SpeexPreprocess.h>
 #endif
 #if defined(ENABLE_OPUS)
 #include <codec/OpusEncoder.h>
@@ -39,18 +39,12 @@
 #include <codec/MediaUtil.h>
 #include <teamtalk/Common.h>
 
-#define GAIN_MAX 32000
-#define GAIN_NORMAL 1000
-#define GAIN_MIN 0
+#include <memory>
 
-class AudioEncListener
-{
-public:
-    virtual void EncodedAudioFrame(const teamtalk::AudioCodec& codec,
-                                   const char* enc_data, int enc_len,
-                                   const std::vector<int>& enc_frame_sizes,
-                                   const media::AudioFrame& org_frame) = 0;
-};
+typedef std::function< void (const teamtalk::AudioCodec& codec,
+                             const char* enc_data, int enc_len,
+                             const std::vector<int>& enc_frame_sizes,
+                             const media::AudioFrame& org_frame) > audioencodercallback_t;
 
 class AudioThread : protected ACE_Task<ACE_MT_SYNCH>
 {
@@ -58,7 +52,7 @@ public:
     AudioThread();
     virtual ~AudioThread();
 
-    bool StartEncoder(AudioEncListener* listener, 
+    bool StartEncoder(audioencodercallback_t callback, 
                       const teamtalk::AudioCodec& codec, 
                       bool spawn_thread);
     void StopEncoder();
@@ -69,10 +63,11 @@ public:
     void QueueAudio(ACE_Message_Block* mb_audio);
     bool IsVoiceActive() const;
 
-    ACE_Recursive_Thread_Mutex m_preprocess_lock;
-#if defined(ENABLE_SPEEX)
-    SpeexPreprocess m_preprocess_left, m_preprocess_right;
+#if defined(ENABLE_SPEEXDSP)
+    bool UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp);
 #endif
+    void MuteSound(bool leftchannel, bool rightchannel);
+
     int m_voicelevel;
     int m_voiceactlevel;
     ACE_Time_Value m_voiceact_delay;
@@ -89,10 +84,11 @@ public:
 private:
     int close(u_long);
     int svc(void);
-
     void ProcessAudioFrame(media::AudioFrame& audblock);
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     void PreprocessAudioFrame(media::AudioFrame& audblock);
+#endif
+#if defined(ENABLE_SPEEX)
     const char* ProcessSpeex(const media::AudioFrame& audblock,
                              std::vector<int>& enc_frame_sizes);
 #endif
@@ -100,16 +96,21 @@ private:
     const char* ProcessOPUS(const media::AudioFrame& audblock,
                             std::vector<int>& env_frame_sizes);
 #endif
-    AudioEncListener* m_listener;
+    audioencodercallback_t m_callback;
+#if defined(ENABLE_SPEEXDSP)
+    ACE_Recursive_Thread_Mutex m_preprocess_lock;
+    SpeexPreprocess m_preprocess_left, m_preprocess_right;
+#endif
 #if defined(ENABLE_SPEEX)
-    SpeexEncoder* m_speex;
+    std::unique_ptr<SpeexEncoder> m_speex;
 #endif
 #if defined(ENABLE_OPUS)
-    OpusEncode* m_opus;
+    std::unique_ptr<OpusEncode> m_opus;
 #endif
     std::vector<char> m_encbuf;
     std::vector<short> m_echobuf;
     teamtalk::AudioCodec m_codec;
+    StereoMask m_stereo = STEREO_BOTH;
 
     //encoder state has been reset
     bool m_enc_cleared;
@@ -118,9 +119,8 @@ private:
     ACE_Time_Value m_lastActive;
 
     ACE_UINT32 m_tone_sample_index, m_tone_frequency;
-    void GenerateTone(media::AudioFrame& audblock);
 };
 
-typedef ACE_Strong_Bound_Ptr< AudioThread, ACE_Null_Mutex > audio_thread_t;
+typedef std::shared_ptr< AudioThread > audio_thread_t;
 
 #endif

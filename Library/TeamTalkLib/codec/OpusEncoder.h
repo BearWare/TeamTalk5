@@ -36,10 +36,12 @@ int OPUS_GetCbMSec(int samplerate, int cb_samples);
 class OpusEncode
 {
 public:
+    OpusEncode(const OpusEncode&) = delete;
     OpusEncode();
     ~OpusEncode();
     bool Open(int sample_rate, int channels, int app);
     void Close();
+    void Reset();
 
     bool SetComplexity(int complex);
     bool SetFEC(bool enable);

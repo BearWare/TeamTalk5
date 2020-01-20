@@ -73,7 +73,8 @@ typedef enum {
 } MExt;
 
 typedef enum {
-    SERVERNAME
+    SERVERNAME,
+    ACCESSTOKEN
 } SExt;
 
 typedef enum {

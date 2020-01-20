@@ -51,14 +51,6 @@
  * To download the TeamTalk 5 SDK go to the GitHub website:
  *
  * https://github.com/BearWare/TeamTalk5
- *
- * Once downloaded copy TeamTalk.h from the downloaded TeamTalk 5 SDK
- * folder "Library/C-API/TeamTalk_DLL" to the folder
- * "../../TeamTalk_DLL"
- *
- * Also copy libTeamTalk5.a or libTeamTalk5Pro.a from the downloaded
- * TeamTalk 5 SDK folder "Library/C-API/TeamTalk_DLL" to the folder
- * ../../TeamTalk_DLL
  */
 
 #include <TeamTalk.h>
@@ -101,7 +93,7 @@
 
 #define ZERO_STRUCT(a) memset(&a, 0, sizeof(a))
 
-#ifdef ENABLE_ENCRYPTION
+#ifdef ENABLE_TEAMTALKPRO
 
 #define DEFAULT_TCPPORT 10443
 #define DEFAULT_UDPPORT 10443
@@ -166,12 +158,13 @@
 #define DEFAULT_OPUS_VBRCONSTRAINT  FALSE
 #define DEFAULT_OPUS_BITRATE        32000
 #define DEFAULT_OPUS_DELAY          DEFAULT_MSEC_PER_PACKET
+#define DEFAULT_OPUS_FRAMESIZE      0 // implies same as DEFAULT_OPUS_DELAY
 
 //Default video capture settings
 #define DEFAULT_VIDEO_WIDTH     320
 #define DEFAULT_VIDEO_HEIGHT    240
 #define DEFAULT_VIDEO_FPS       10
-#define DEFAULT_VIDEO_FOURCC    FOURCC_RGB32
+#define DEFAULT_VIDEO_FOURCC    FOURCC_I420
 
 //Default video codec settings
 #define DEFAULT_VIDEO_CODEC         WEBM_VP8_CODEC
@@ -236,6 +229,7 @@ enum SoundEvent
     SOUNDEVENT_SERVERLOST,
     SOUNDEVENT_USERMSG,
     SOUNDEVENT_CHANNELMSG,
+    SOUNDEVENT_BROADCASTMSG,
     SOUNDEVENT_HOTKEY,
     SOUNDEVENT_SILENCE,   
     SOUNDEVENT_NEWVIDEO,   
@@ -342,6 +336,8 @@ QStringList getCustomCommand(const TextMessage& msg);
 void initDefaultAudioCodec(AudioCodec& codec);
 bool getVideoCaptureCodec(VideoCodec& vidcodec);
 void initDefaultVideoFormat(VideoFormat& vidfmt);
+void initDefaultAudioPreprocessor(AudioPreprocessor& preprocessor);
+void loadAudioPreprocessor(AudioPreprocessor& preprocessor);
 
 bool initVideoCaptureFromSettings();
 bool initVideoCapture(const QString& devid, const VideoFormat& fmt);
@@ -359,10 +355,14 @@ int getSoundOutputFromUID(int outputid, const QString& uid);
 int getSelectedSndInputDevice();
 int getSelectedSndOutputDevice();
 
+QStringList initSelectedSoundDevices();
+QStringList initDefaultSoundDevices();
+
 QString getHotKeyText(const hotkey_t& hotkey);
 
 bool isComputerIdle(int idle_secs);
 bool isMyselfTalking();
+bool isMyselfStreaming();
 
 void saveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey);
 
@@ -398,7 +398,10 @@ bool hasDesktopAccess(const QVector<DesktopAccessEntry>& entries,
                       const User& user);
 void deleteDesktopAccessEntries();
 
+QString parseXML(const QDomDocument& doc, QString elements);
 QString newVersionAvailable(const QDomDocument& updateDoc);
+QString getBearWareRegistrationUrl(const QDomDocument& doc);
+
 
 QByteArray generateTTFile(const HostEntry& entry);
 

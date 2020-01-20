@@ -47,6 +47,7 @@
 #include "userdesktopdlg.h"
 #include "appinfo.h"
 #include "weblogindlg.h"
+#include "bearwarelogindlg.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -79,15 +80,15 @@
 
 extern TTInstance* ttInst;
 
-QSettings* ttSettings = NULL;
-QTranslator* ttTranslator = NULL;
+QSettings* ttSettings = nullptr;
+QTranslator* ttTranslator = nullptr;
 
 //strip ampersand from menutext
 #define MENUTEXT(text) text.replace("&", "")
 
 MainWindow::MainWindow(const QString& cfgfile)
-: m_sysicon(NULL)
-, m_sysmenu(NULL)
+: m_sysicon(nullptr)
+, m_sysmenu(nullptr)
 , m_current_cmdid(0)
 , m_audiostorage_mode(AUDIOSTORAGE_NONE)
 , m_idled_out(false)
@@ -97,28 +98,27 @@ MainWindow::MainWindow(const QString& cfgfile)
 , m_last_channel()
 , m_srvprop()
 , m_mychannel()
-, m_http_manager(NULL)
-, m_onlineusersdlg(NULL)
-, m_useraccountsdlg(NULL)
-, m_bannedusersdlg(NULL)
-, m_serverstatsdlg(NULL)
+, m_onlineusersdlg(nullptr)
+, m_useraccountsdlg(nullptr)
+, m_bannedusersdlg(nullptr)
+, m_serverstatsdlg(nullptr)
 , m_desktopsession_id(0)
 , m_prev_desktopsession_id(0)
 , m_desktopsession_total(0)
 , m_desktopsession_remain(0)
 , m_desktopsend_on_completion(false)
 #if defined(Q_OS_WIN32)
-, m_hShareWnd(NULL)
+, m_hShareWnd(nullptr)
 #elif defined(Q_OS_DARWIN)
 , m_nCGShareWnd(kCGNullWindowID)
 #elif defined(Q_OS_LINUX)
-, m_display(NULL)
+, m_display(nullptr)
 , m_nWindowShareWnd(0)
 #endif
 {
     //Ensure the correct version of the DLL is loaded
     if(QString(TEAMTALK_VERSION) != _Q(TT_GetVersion()))
-        QMessageBox::warning(0, ("DLL load error"),
+        QMessageBox::warning(nullptr, ("DLL load error"),
                              QString("This %3 executable is built for DLL "
                                       "version %1 but the loaded DLL reports "
                                       "it's version %2. Loading an incorrent "
@@ -156,7 +156,7 @@ MainWindow::MainWindow(const QString& cfgfile)
         if (!QFile::exists(ttSettings->fileName()))
         {
             //copy settings from defaults file
-            QString defpath = QApplication::applicationDirPath() + "/" + QString(APPDEFAULTINIFILE);
+            QString defpath = QString(APPDEFAULTINIFILE);
             QSettings defaultSettings(defpath, QSettings::IniFormat, this);
             QStringList keys = defaultSettings.allKeys();
             foreach(QString key, keys)
@@ -542,7 +542,7 @@ void MainWindow::loadSettings()
             QMessageBox::information(this, "Translate", 
                 QString("Failed to load language file %1").arg(lang));
             delete ttTranslator;
-            ttTranslator = NULL;
+            ttTranslator = nullptr;
         }
         else
         {
@@ -772,28 +772,45 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         //reset stats
         ZERO_STRUCT(m_clientstats);
+        // retrieve initial welcome message and access token
+        TT_GetServerProperties(ttInst, &m_srvprop);
 
-        QString nick = ttSettings->value(QString(SETTINGS_GENERAL_NICKNAME)).toString();
+        if (m_host.username.compare(WEBLOGIN_BEARWARE_USERNAME, Qt::CaseInsensitive) == 0 ||
+            m_host.username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX, Qt::CaseInsensitive))
+        {
+            QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+            QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN).toString();
+            QString accesstoken = _Q(m_srvprop.szAccessToken);
 
-        if(m_host.username.compare(WEBLOGIN_FACEBOOK_USERNAME, Qt::CaseInsensitive) == 0)
+            username = QUrl::toPercentEncoding(username);
+            token = QUrl::toPercentEncoding(token);
+            accesstoken = QUrl::toPercentEncoding(accesstoken);
+
+            QString urlReq = WEBLOGIN_BEARWARE_URLTOKEN(username, token, accesstoken);
+
+            QUrl url(urlReq);
+
+            auto networkMgr = new QNetworkAccessManager(this);
+            connect(networkMgr, SIGNAL(finished(QNetworkReply*)),
+                SLOT(slotBearWareAuthReply(QNetworkReply*)));
+
+            QNetworkRequest request(url);
+            networkMgr->get(request);
+        }
+        else if (m_host.username.compare(WEBLOGIN_FACEBOOK_USERNAME, Qt::CaseInsensitive) == 0 ||
+            m_host.username.endsWith(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX, Qt::CaseInsensitive))
         {
             WebLoginDlg dlg(this);
             if(dlg.exec() != QDialog::Accepted)
                 return;
             m_host.password = dlg.m_password;
+
+            login();
         }
-
-        int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
-                                 _W(m_host.password), _W(QString(APPNAME_SHORT)));
-        if(cmdid>0)
-            m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
-
-        addStatusMsg(tr("Connected to %1 TCP port %2 UDP port %3")
-                     .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
-
-        //query server's max payload
-        if(ttSettings->value(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, false).toBool())
-            TT_QueryMaxPayload(ttInst, 0);
+        else
+        {
+            login();
+        }
 
         update_ui = true;
     }
@@ -880,9 +897,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     {
         Q_ASSERT(msg.ttType == __SERVERPROPERTIES);
 
-        ui.chatEdit->updateServer(msg.serverproperties); 
+        ui.chatEdit->updateServer(msg.serverproperties);
 
         emit(serverUpdate(msg.serverproperties));
+
+        m_srvprop = msg.serverproperties;
 
         update_ui = true;
     }
@@ -923,7 +942,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         QString audiofolder = ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString();
         AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
         if(m_audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES)
-            TT_SetUserMediaStorageDir(ttInst, msg.user.nUserID, _W(audiofolder), NULL, aff);
+            TT_SetUserMediaStorageDir(ttInst, msg.user.nUserID, _W(audiofolder), nullptr, aff);
 
         updateUserSubscription(msg.user.nUserID);
     }
@@ -1013,7 +1032,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(msg.filetransfer.nStatus == FILETRANSFER_ACTIVE &&
            msg.filetransfer.nTransferred == 0)
         {
-            FileTransferDlg* dlg = new FileTransferDlg(msg.filetransfer, NULL);
+            FileTransferDlg* dlg = new FileTransferDlg(msg.filetransfer, nullptr);
             connect(this, SIGNAL(filetransferUpdate(const FileTransfer&)), dlg, 
                     SLOT(slotTransferUpdate(const FileTransfer&)));
             dlg->setAttribute(Qt::WA_DeleteOnClose);
@@ -1125,11 +1144,16 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             startStreamMediaFile();
         }
 
+        emit(mediaStreamUpdate(msg.mediafileinfo));
+
         //update if still talking
         emit(updateMyself());
         update_ui = true;
     }
     break;
+    case CLIENTEVENT_LOCAL_MEDIAFILE:
+        emit(mediaPlaybackUpdate(msg.nSource, msg.mediafileinfo));
+        break;
     case CLIENTEVENT_USER_VIDEOCAPTURE :
     {
         Q_ASSERT(msg.ttType == __INT32);
@@ -1353,7 +1377,7 @@ void MainWindow::commandProcessing(int cmdid, bool complete)
                 if (*ite == CMD_COMPLETE_LIST_CHANNELBANS)
                 {
                     int chanid = ui.channelsWidget->selectedChannel(true);
-                    TTCHAR path[TT_STRLEN] = {0};
+                    TTCHAR path[TT_STRLEN] = {};
                     TT_GetChannelPath(ttInst, chanid, path);
                     chanpath = _Q(path);
                 }
@@ -1505,7 +1529,7 @@ void MainWindow::cmdJoinedChannel(int channelid)
 
 void MainWindow::addStatusMsg(const QString& msg)
 {
-    if(ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR).toBool(), true)
+    if(ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, true).toBool())
     {
         ui.chatEdit->addLogMessage(msg);
         ui.videochatEdit->addLogMessage(msg);
@@ -1525,62 +1549,16 @@ void MainWindow::Connect()
 {
     Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0);
 
-    //Restart sound system so we have the latest sound devices
-    TT_RestartSoundSystem();
-
-    int inputid = getSelectedSndInputDevice();
-    bool init_indev = (TT_GetFlags(ttInst) & CLIENT_SNDINPUT_READY) == 0;
-
-    int outputid = getSelectedSndOutputDevice();
-    bool init_outdev = (TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_READY) == 0;
-
-    bool snd_init_ok = true;
-
-    if(ttSettings->value(SETTINGS_SOUND_DUPLEXMODE, SETTINGS_SOUND_DUPLEXMODE_DEFAULT).toBool())
-    {
-        if(init_indev && init_outdev &&
-           !TT_InitSoundDuplexDevices(ttInst, inputid, outputid))
-        {
-            addStatusMsg(tr("Failed to initialize sound duplex mode"));
-            snd_init_ok = false;
-        }
-    }
-    else
-    {
-        if(init_indev && !TT_InitSoundInputDevice(ttInst, inputid))
-        {
-            addStatusMsg(tr("Failed to initialize sound input device"));
-            snd_init_ok = false;
-        }
-        if(init_outdev && !TT_InitSoundOutputDevice(ttInst, outputid))
-        {
-            addStatusMsg(tr("Failed to initialize sound output device"));
-            snd_init_ok = false;
-        }
-    }
+    QStringList errors = initSelectedSoundDevices();
+    for (auto s : errors)
+        addStatusMsg(s);
 
     //choose default sound devices if configuration failed
-    if(!snd_init_ok)
+    if (errors.size())
     {
-        TT_CloseSoundInputDevice(ttInst);
-        TT_CloseSoundOutputDevice(ttInst);
-
-        addStatusMsg(tr("Switching to default sound devices"));
-
-        if(!TT_GetDefaultSoundDevices(&inputid, &outputid))
-        {
-            addStatusMsg(tr("Unable to get default sound devices"));
-            return;
-        }
-
-        if(!TT_InitSoundInputDevice(ttInst, inputid) ||
-           !TT_InitSoundOutputDevice(ttInst, outputid))
-        {
-            TT_CloseSoundInputDevice(ttInst);
-            TT_CloseSoundOutputDevice(ttInst);
-            addStatusMsg(tr("Failed to initialize default sound devices"));
-            return;
-        }
+        errors = initDefaultSoundDevices();
+        for (auto s : errors)
+            addStatusMsg(s);
     }
 
     int localtcpport = ttSettings->value(SETTINGS_CONNECTION_TCPPORT, 0).toInt();
@@ -1630,6 +1608,23 @@ void MainWindow::Disconnect()
         m_sysicon->setIcon(QIcon(APPTRAYICON));
 
     updateWindowTitle();
+}
+
+void MainWindow::login()
+{
+    QString nick = ttSettings->value(QString(SETTINGS_GENERAL_NICKNAME)).toString();
+
+    int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
+                             _W(m_host.password), _W(QString(APPNAME_SHORT)));
+    if (cmdid>0)
+        m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
+
+    addStatusMsg(tr("Connected to %1 TCP port %2 UDP port %3")
+        .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
+
+    //query server's max payload
+    if(ttSettings->value(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, false).toBool())
+        TT_QueryMaxPayload(ttInst, 0);
 }
 
 void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete cmd_type)
@@ -1978,8 +1973,10 @@ void MainWindow::timerEvent(QTimerEvent *event)
         {
             //only update desktop if there's users in the channel
             //(save bandwidth)
+
             users_t users = ui.channelsWidget->getUsers(m_mychannel.nChannelID);
-            if(users.size() > 1 || (users.begin()->uPeerSubscriptions & SUBSCRIBE_DESKTOP))
+            auto sub = std::find_if(users.begin(), users.end(), [] (const User& user) { return user.uPeerSubscriptions & SUBSCRIBE_DESKTOP;});
+            if(sub != users.end())
                 sendDesktopWindow();
         }
         else
@@ -1990,6 +1987,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
         break;
     default :
         Q_ASSERT(0);
+        break;
     }
 }
 
@@ -2166,14 +2164,14 @@ TextMessageDlg* MainWindow::getTextMessageDlg(int userid)
     {
         User user;
         if(!ui.channelsWidget->getUser(userid, user))
-            return NULL;
+            return nullptr;
 
         TextMessageDlg* dlg;
         usermessages_t::iterator ii = m_usermessages.find(userid);
         if(ii != m_usermessages.end())
-            dlg = new TextMessageDlg(user, ii.value(), 0);
+            dlg = new TextMessageDlg(user, ii.value(), nullptr);
         else
-            dlg = new TextMessageDlg(user, 0);
+            dlg = new TextMessageDlg(user, nullptr);
 
         dlg->setAttribute(Qt::WA_DeleteOnClose);
         m_usermsg.insert(userid, dlg);
@@ -2194,8 +2192,6 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
     {
     case MSGTYPE_CHANNEL :
     {
-        playSoundEvent(SOUNDEVENT_CHANNELMSG);
-
         QString line;
         line = ui.chatEdit->addTextMessage(textmsg);
         ui.videochatEdit->addTextMessage(textmsg);
@@ -2209,12 +2205,15 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
                 openLogFile(m_logChan, chanlog, _Q(m_mychannel.szName));
             writeLogEntry(m_logChan, line);
         }
+
+        playSoundEvent(SOUNDEVENT_CHANNELMSG);
         break;
     }
     case MSGTYPE_BROADCAST :
         ui.chatEdit->addTextMessage(textmsg);
         ui.videochatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
+        playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
     case MSGTYPE_USER :
     {
@@ -2278,7 +2277,7 @@ void MainWindow::processMyselfJoined(int channelid)
     //Enable AGC, denoise etc.
     updateAudioConfig();
 
-    TTCHAR buff[TT_STRLEN] = {0};
+    TTCHAR buff[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, buff);
     addStatusMsg(tr("Joined channel %1").arg(_Q(buff)));
 
@@ -2343,7 +2342,7 @@ bool MainWindow::timerExists(TimerEvent e)
 void MainWindow::updateChannelFiles(int channelid)
 {
     m_filesmodel->slotChannelUpdated(channelid);
-    TTCHAR chanpath[TT_STRLEN] = {0};
+    TTCHAR chanpath[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
 
@@ -2411,7 +2410,7 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
     {
         int userCount = 0;
         QVector<User> users;
-        TT_GetServerUsers(ttInst, NULL, &userCount);
+        TT_GetServerUsers(ttInst, nullptr, &userCount);
         if(userCount)
         {
             users.resize(userCount);
@@ -2422,9 +2421,9 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
         for(int i=0;i<users.size();i++)
         {
             if(enable)
-                TT_SetUserMediaStorageDir(ttInst, users[i].nUserID, _W(audiofolder), NULL, aff);
+                TT_SetUserMediaStorageDir(ttInst, users[i].nUserID, _W(audiofolder), nullptr, aff);
             else
-                TT_SetUserMediaStorageDir(ttInst, users[i].nUserID, _W(QString()), NULL, aff);
+                TT_SetUserMediaStorageDir(ttInst, users[i].nUserID, _W(QString()), nullptr, aff);
         }
     }
 }
@@ -2631,16 +2630,10 @@ void MainWindow::sendDesktopCursor()
 #if defined(Q_OS_LINUX)
     if(!m_display)
         return;
-    Window root, winid;
-    int x, y;
-    unsigned int w, h, bwr, depth;
+
     XWindowAttributes attr;
     Status s = XGetWindowAttributes(m_display, m_nWindowShareWnd, &attr);
 
-    // winid = m_nWindowShareWnd;
-    // s = XGetGeometry(m_display, winid, &root, &x, &y, &w, &h, &bwr, &depth);
-
-    // XQueryPointer(m_display, &root, 
     if(s)
     {
         int x = curPos.x() - attr.x;
@@ -2678,8 +2671,8 @@ void MainWindow::sendDesktopCursor()
     if(m_lastCursorPos != curPos)
     {
         m_lastCursorPos = curPos;
-        TT_SendDesktopCursorPosition(ttInst, m_lastCursorPos.x(),
-                                     m_lastCursorPos.y());
+        TT_SendDesktopCursorPosition(ttInst, UINT16(m_lastCursorPos.x()),
+                                     UINT16(m_lastCursorPos.y()));
         
     }
 }
@@ -2804,7 +2797,7 @@ void MainWindow::processDesktopInput(int userid, const DesktopInput& input)
 
 void MainWindow::startStreamMediaFile()
 {
-    QString fileName = ttSettings->value(SETTINGS_STREAMMEDIA_FILENAME).toString();
+    QString fileName = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(0)).toString();
 
     VideoCodec vidcodec;
     vidcodec.nCodec = (Codec)ttSettings->value(SETTINGS_STREAMMEDIA_CODEC).toInt();
@@ -2818,8 +2811,13 @@ void MainWindow::startStreamMediaFile()
         break;
     }
 
-    if(fileName.size() && 
-       !TT_StartStreamingMediaFileToChannel(ttInst, _W(fileName), &vidcodec))
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(ttSettings->value(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR,
+        SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT).toInt());
+    loadAudioPreprocessor(mfp.audioPreprocessor);
+    mfp.bPaused = false;
+    mfp.uOffsetMSec = ttSettings->value(SETTINGS_STREAMMEDIA_OFFSET, SETTINGS_STREAMMEDIA_OFFSET_DEFAULT).toUInt();
+    if (!TT_StartStreamingMediaFileToChannelEx(ttInst, _W(fileName), &mfp, &vidcodec))
     {
         QMessageBox::information(this,
                                  MENUTEXT(ui.actionStreamMediaFileToChannel->text()),
@@ -2953,7 +2951,7 @@ void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
     keyID.signature = 'cute';
     keyID.id = id;
 
-    EventHotKeyRef ref = 0;
+    EventHotKeyRef ref = nullptr;
     if(RegisterEventHotKey(keycode, mods, keyID, GetApplicationEventTarget(), 0, &ref) == 0)
         m_hotkeys[id] = ref;
     else
@@ -3039,12 +3037,6 @@ void MainWindow::executeDesktopInput(const DesktopInput& input)
 
         XEvent event;
         ZERO_STRUCT(event);
-
-        long event_mask = 0;
-//        event_mask |= ButtonMotionMask;
-//        event_mask |= ButtonPressMask;
-//        event_mask |= ButtonReleaseMask;
-//        event_mask |= PointerMotionMask;
         
         switch(input.uKeyState)
         {
@@ -3099,8 +3091,7 @@ void MainWindow::executeDesktopInput(const DesktopInput& input)
             }
         }
 
-        int ret = XSendEvent(m_display, PointerWindow, True, 0, &event);
-        //qDebug() << "Sent event" << ret << "btn" << event.xbutton.button;
+        XSendEvent(m_display, PointerWindow, True, 0, &event);
         XFlush(m_display);
     }
 }
@@ -3108,17 +3099,15 @@ void MainWindow::executeDesktopInput(const DesktopInput& input)
 
 void MainWindow::checkAppUpdate()
 {
-    if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, true).toBool())
-    {
-        QUrl url(URL_APPUPDATE);
+    // check for software update and get bearware.dk web-login url
+    QUrl url(URL_APPUPDATE);
 
-        m_http_manager = new QNetworkAccessManager(this);
-        connect(m_http_manager, SIGNAL(finished(QNetworkReply*)),
-            SLOT(slotHttpUpdateReply(QNetworkReply*)));
+    auto networkMgr = new QNetworkAccessManager(this);
+    connect(networkMgr, SIGNAL(finished(QNetworkReply*)),
+            SLOT(slotSoftwareUpdateReply(QNetworkReply*)));
 
-        QNetworkRequest request(url);
-        m_http_manager->get(request);
-}
+    QNetworkRequest request(url);
+    networkMgr->get(request);
 }
 
 void MainWindow::slotClientNewInstance(bool /*checked=false*/)
@@ -3448,7 +3437,8 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
         if(!getVideoCaptureCodec(vidcodec) || !initVideoCaptureFromSettings())
         {
             ui.actionEnableVideoTransmission->setChecked(false);
-            QMessageBox::warning(this, 
+            ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
+            QMessageBox::warning(this,
             MENUTEXT(ui.actionEnableVideoTransmission->text()), 
             tr("Video device hasn't been configured property. Check settings in 'Preferences'"));
         }
@@ -3458,7 +3448,8 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
             {
                 ui.actionEnableVideoTransmission->setChecked(false);
                 TT_CloseVideoCaptureDevice(ttInst);
-                QMessageBox::warning(this, 
+                ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
+                QMessageBox::warning(this,
                                  MENUTEXT(ui.actionEnableVideoTransmission->text()), 
                              tr("Failed to configure video codec. Check settings in 'Preferences'"));
                 return;
@@ -3547,7 +3538,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
 #if defined(Q_OS_LINUX)
         if(m_display)
             XCloseDisplay(m_display);
-        m_display = NULL;
+        m_display = nullptr;
 #endif
             m_statusmode &= ~STATUSMODE_DESKTOP;
             QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
@@ -3927,7 +3918,7 @@ void MainWindow::slotChannelsDeleteChannel(bool /*checked =false */)
     if(chanid<=0)
         return;
 
-    TTCHAR buff[TT_STRLEN] = {0};
+    TTCHAR buff[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, chanid, buff);
     if(QMessageBox::information(this, MENUTEXT(ui.actionDeleteChannel->text()),
         tr("Are you sure you want to delete channel \"%1\"?").arg(_Q(buff)), 
@@ -4003,6 +3994,9 @@ void MainWindow::slotChannelsStreamMediaFile(bool checked/*=false*/)
     }
 
     StreamMediaFileDlg dlg(this);
+    connect(this, &MainWindow::mediaStreamUpdate, &dlg, &StreamMediaFileDlg::slotMediaStreamProgress);
+    connect(this, &MainWindow::mediaPlaybackUpdate, &dlg, &StreamMediaFileDlg::slotMediaPlaybackProgress);
+
     if(!dlg.exec())
     {
         ui.actionStreamMediaFileToChannel->setChecked(false);
@@ -4201,7 +4195,7 @@ void MainWindow::slotHelpResetPreferences(bool /*checked=false*/)
         QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
     {
         QString cfgpath = ttSettings->fileName();
-        QString defpath = QApplication::applicationDirPath() + "/" + QString(APPDEFAULTINIFILE);
+        QString defpath = QString(APPDEFAULTINIFILE);
 
         if(!QFile::exists(defpath))
         {
@@ -4471,7 +4465,6 @@ void MainWindow::slotUpdateUI()
     ui.actionDeleteChannel->setEnabled(chanid>0);
     ui.actionStreamMediaFileToChannel->setChecked(statemask & 
                                                   (CLIENT_STREAM_AUDIO | CLIENT_STREAM_VIDEO));
-    ui.actionStreamMediaFileToChannel->setEnabled(mychannel > 0);
     ui.actionUploadFile->setEnabled(mychannel>0);
     ui.actionDownloadFile->setEnabled(mychannel>0);
     ui.actionDeleteFile->setEnabled(filescount>0);
@@ -4555,6 +4548,7 @@ void MainWindow::slotSendChannelMessage()
     case TAB_DESKTOP :
         txtmsg = ui.desktopmsgEdit->text();
         ui.desktopmsgEdit->clear();
+        break;
     default :
         break;
     }
@@ -4891,9 +4885,9 @@ void MainWindow::slotNewUserVideoDlg(int userid, const QSize& size)
 
     UserVideoDlg* dlg;
     if(size.isValid())
-        dlg = new UserVideoDlg(userid, user, size, NULL);
+        dlg = new UserVideoDlg(userid, user, size, nullptr);
     else
-        dlg = new UserVideoDlg(userid, user, NULL);
+        dlg = new UserVideoDlg(userid, user, nullptr);
 
     connect(this, SIGNAL(userUpdate(const User&)), dlg, 
             SLOT(slotUserUpdate(const User&)));
@@ -5107,10 +5101,10 @@ void MainWindow::slotDetachUserDesktop(int userid, const QSize& size)
 
     UserDesktopDlg* dlg;
     if(size.isValid())
-        dlg = new UserDesktopDlg(user, size, NULL);
+        dlg = new UserDesktopDlg(user, size, nullptr);
     else
     {
-        dlg = new UserDesktopDlg(user, QSize(640, 480), NULL);
+        dlg = new UserDesktopDlg(user, QSize(640, 480), nullptr);
     }
 
     connect(this, SIGNAL(newDesktopWindow(int,int)),
@@ -5155,7 +5149,7 @@ void MainWindow::slotUserJoin(int channelid, const User& user)
     QString audiofolder = ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString();
     AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
     if(m_audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES)
-        TT_SetUserMediaStorageDir(ttInst, user.nUserID, _W(audiofolder), NULL, aff);
+        TT_SetUserMediaStorageDir(ttInst, user.nUserID, _W(audiofolder), nullptr, aff);
 
     //only play sound when we're not currently performing an operation
     //like e.g. joining a new channel
@@ -5477,39 +5471,67 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
     Connect();
 }
 
-void MainWindow::slotHttpUpdateReply(QNetworkReply* reply)
+void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
 {
-    Q_ASSERT(m_http_manager);
     QByteArray data = reply->readAll();
 
     QDomDocument doc("foo");
     if(doc.setContent(data))
     {
-        QString version = newVersionAvailable(doc);
-        if(version.size())
-            addStatusMsg(tr("New version available: %1").arg(version));
+        if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, true).toBool())
+        {
+            QString version = newVersionAvailable(doc);
+            if(version.size())
+                addStatusMsg(tr("New version available: %1").arg(version));
+        }
+        
+        BearWareLoginDlg::registerUrl = getBearWareRegistrationUrl(doc);
     }
 
-    m_http_manager->deleteLater();
+    reply->manager()->deleteLater();
+}
+
+void MainWindow::slotBearWareAuthReply(QNetworkReply* reply)
+{
+    QByteArray data = reply->readAll();
+    QDomDocument doc("foo");
+    if(doc.setContent(data))
+    {
+        auto child = doc.firstChildElement("teamtalk");
+        if(!child.isNull())
+        {
+            child = child.firstChildElement("bearware");
+            if(!child.isNull())
+            {
+                auto id = child.firstChildElement("username");
+                if(!id.isNull())
+                    m_host.username = id.text();
+            }
+        }
+    }
+    reply->manager()->deleteLater();
+
+    // connect even if auth failed. Otherwise user will not see progress
+    login();
 }
 
 void MainWindow::slotClosedOnlineUsersDlg(int)
 {
-    m_onlineusersdlg = NULL;
+    m_onlineusersdlg = nullptr;
 }
 
 void MainWindow::slotClosedServerStatsDlg(int)
 {
-    m_serverstatsdlg = NULL;
+    m_serverstatsdlg = nullptr;
 }
 
 void MainWindow::slotClosedUserAccountsDlg(int)
 {
-    m_useraccountsdlg = NULL;
+    m_useraccountsdlg = nullptr;
 }
 
 void MainWindow::slotClosedBannedUsersDlg(int)
 {
-    m_bannedusersdlg = NULL;
+    m_bannedusersdlg = nullptr;
 }
 

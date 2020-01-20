@@ -1,0 +1,2052 @@
+/**
+ * @page changelog ChangeLog
+ *
+ * This section contains the list of new features and API changes
+ * in TeamTalk SDK releases.
+ *
+ * @ref v54brelease
+ * - @ref v54bfeatures
+ * - @ref v54bapi
+ *
+ * @ref v54arelease
+ * - @ref v54afeatures
+ * - @ref v54aapi
+ * - @ref v54abugfixes
+ *
+ * @ref v53brelease
+ * - @ref v53bapi
+ *
+ * @ref v53arelease
+ * - @ref v53aapi
+ *
+ * @ref v52drelease
+ * - @ref v52dbugfixes
+ *
+ * @ref v52crelease
+ * - @ref v52cfeatures
+ *   - @ref v52cvirtsnd
+ *   - @ref v52ctxqueue
+ *   - @ref v52csrvcb
+ *   - @ref v52cstatic
+ *   - @ref v52cdaemon
+ * - @ref v52capi
+ *
+ * @ref v52brelease
+ * - @ref v52bapi
+ *   - @ref v52bsendmsg
+ * - @ref v52bbugfixes
+ *
+ * @ref v52arelease
+ * - @ref v52afeatures
+ *   - @ref v52asrvapi
+ *   - @ref v52aaudunit
+ *   - @ref v52av4l2
+ *   - @ref v52aavf
+ *   - @ref v52adeps
+ *   - @ref v52aagc
+ *   - @ref v52attand
+ *   - @ref v52aogg
+ * - @ref v52aapi
+ *   - @ref v52awebm
+ *   - @ref v52aclientname
+ *   - @ref v52aconsys
+ * - @ref v52abugfixes
+ * 
+ * @ref v51crelease
+ * - @ref v51cfeatures
+ * - @ref v51capi
+ *
+ * @ref v51brelease
+ * - @ref v51bfeatures
+ *   - @ref v51bownstream
+ *   - @ref v51bwinjni
+ *
+ * @ref v51arelease
+ * - @ref v51afeatures
+ *   - @ref v51aserverapi
+ *   - @ref v51ajava
+ *   - @ref v51aios
+ *
+ * @ref v50arelease
+ * - @ref v50afeatures
+ *   - @ref v50aeventhandling
+ *   - @ref v50awebm
+ *   - @ref v50aopus
+ *   - @ref v50aaes
+ *   - @ref v50amediastream
+ *   - @ref v50auserrights
+ *   - @ref v50abitratelimit
+ *   - @ref v50amaxchannels
+ *   - @ref v50ap2p
+ *   - @ref v50achanrename
+ *   - @ref v50adaemon
+ *   - @ref v50aagc
+ *   - @ref v50asrvxml
+ *   - @ref v50astats
+ *   - @ref v50anocrypt
+ * - @ref v50aapi
+ *   - Structures
+ *     - @ref newstruct5
+ *     - @ref modstructs5
+ *     - @ref remstructs5
+ *   - Enumerations
+ *     - @ref newenum5
+ *     - @ref renamedenum5
+ *     - @ref remenum5
+ *   - Events
+ *     - @ref newevents5
+ *     - @ref renamedevents5
+ *     - @ref removedevents5
+ *   - Methods
+ *     - @ref v50anewmethods
+ *     - @ref v50amodmethods
+ *     - @ref v50aremovemethods
+ *
+ * @ref v46brelease
+ * - @ref v46bfeatures
+ *
+ * @ref v46arelease
+ * - @ref v46afeatures
+ *   - @ref v46adeskinput
+ * - @ref v46aapi
+ *
+ * @ref v45arelease
+ * - @ref v45afeatures
+ *   - @ref v45astream
+ *   - @ref v45alogin
+ *   - @ref v45aipban
+ * - @ref v45aapi
+ *
+ * @ref v44arelease
+ * - @ref v44afeatures
+ *   - @ref v44awasapi
+ *   - @ref v44arestartsnd
+ *   - @ref v44aautoresam
+ *   - @ref v44aoprecv
+ *   - @ref v44anoncrypt
+ *   - @ref v44aviduni
+ * - @ref v4aaapi
+ *
+ * @ref v43arelease
+ * - @ref v43afeatures
+ *   - @ref v43adesktop
+ *   - @ref v43ainitialchan
+ *   - @ref v43aautoop
+ *   - @ref v43acustommsgtype
+ *   - @ref v43aquerymtu
+ *   - @ref v43aaudioblock
+ *   - @ref v43aaudiofilename
+ *   - @ref v43aresetaudiofile
+ *   - @ref v43achanechovideo
+ *   - @ref v43afreeforall
+ * - @ref v43aapi
+ *
+ * @ref v42arelease
+ * - @ref v42afeatures
+ *   - @ref v42amuxaudio
+ *   - @ref v42awinfirewall
+ *   - @ref v42atalkdelay
+ *   - @ref v42avbrcodecs
+ *   - @ref v42acelt011
+ *   - @ref v42aipv6
+ * - @ref v42aapi
+ *
+ * @ref v41arelease
+ * - @ref v41afeatures
+ *   - @ref v41aplatforms
+ *   - @ref v41aecho
+ *   - @ref v41aclassroom
+ *   - @ref v41aaudiocfg
+ *   - @ref v41asrvstats
+ *   - @ref v41avideo
+ * - @ref v41aapi
+ *
+ * @ref v40crelease
+ * - @ref v40cfeatures
+ *   - @ref v40cuseraccount
+ *   - @ref v40cmyaccount
+ *   - @ref v40cswaphwnd
+ *   - @ref v40cserverusers
+ * - @ref v40capi
+ * - @ref v40cbugfixes
+ *
+ * @ref v40arelease
+ * - @ref v40afeatures
+ *   - @ref chvidcap
+ *   - @ref chuseradmin
+ *   - @ref chcmdid
+ *   - @ref chp2p
+ *   - @ref chcelt
+ * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v54brelease TeamTalk 5 SDK v. 5.4b release
+ *
+ * @subsection v54bfeatures New features in v5.4b
+ *
+ * Android platform now supports multiple active recorders,
+ * i.e. multiple clients on same audio device.  To use this feature
+ * enumerate the Android audio devices using TT_GetSoundDevices() and
+ * locate the device called "Default sound device - Shared ...". Call
+ * TT_InitSoundInputDevice() with this audio device ID.
+ *
+ * The shared audio device on Android is same as
+ * #TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT but or'ed with the flag
+ * #TT_SOUNDDEVICE_SHARED_FLAG. The sound device ID flag
+ * #TT_SOUNDDEVICE_SHARED_FLAG tells the TeamTalk instance to create a
+ * shared audio recorder which distributes its audio to all other
+ * client instances. The shared audio device which is created runs at
+ * the audio device's highest sample rate and highest number of
+ * channels. Each client which receives the audio from the shared
+ * audio device resamples the audio data to its own format. This is a
+ * CPU intensive task, so many clients at different sample rates uses
+ * more CPU. It is therefore recommended that clients which use this
+ * feature all use channels that has the same audio codec
+ * settings. Preferably @c nDefaultSampleRate and @c
+ * nMaxInputChannelsdefault of the chosen #SoundDevice.
+ *
+ * @subsection v54bapi API changes in v5.4b
+ * 
+ * #TT_SOUNDDEVICE_SHARED_FLAG
+ *
+ * #TT_SOUNDDEVICE_ID_MASK
+ *
+ * <hr>
+ *
+ * @section v54arelease TeamTalk 5 SDK v. 5.4a release
+ *
+ * @subsection v54afeatures New features in v5.4a
+ *
+ * TeamTalk SDKs for Android now comes with a TeamTalk JNI library for
+ * 64-bit ARM and 32-bit Intel x86. Required API level is now 21
+ * (Android 5.0).
+ *
+ * TeamTalk SDKs for Windows now uses <a
+ * href="https://docs.microsoft.com/en-us/windows/desktop/medfound/microsoft-media-foundation-sdk">Microsoft
+ * Media Foundation</a> instead of DirectShow when streaming media
+ * files and capturing from video cameras. This means that Windows 10
+ * users can now stream from HTTP and HTTPS.
+ * 
+ * TeamTalk SDK Standard Edition can now connect to encrypted TeamTalk
+ * servers. Running an encrypted TeamTalk server, however, still
+ * requires TeamTalk SDK Professional Edition.
+ *
+ * TeamTalk SDK Standard Edition can now stream HTTPS on macOS,
+ * Android and Linux.
+ *
+ * TeamTalk SDK Standard Edition now requires libssl dependency
+ * (OpenSSL).
+ *
+ * #OPUS_CODEC upgraded to v1.3 on all platforms.
+ *
+ * Record in MP3 format when using TT_SetUserMediaStorageDir() and
+ * TT_StartRecordingMuxedAudioFile().
+ *
+ * @subsection v54aapi API changes in v5.4a
+ *
+ * - Added @c nLoginDelayMSec to #ServerProperties
+ * - Added @c szAccessToken to #ServerProperties
+ *
+ * @subsection v54abugfixes Bug fixes in v5.4a
+ *
+ * Fixed #DesktopInput not being received in encrypted mode.
+ *
+ * <hr>
+ *
+ * @section v53brelease TeamTalk 5 SDK v. 5.3b release
+ *
+ * @subsection v53bapi API changes in v5.3b
+ *
+ * The @c transmitUsers array of #Channel now also applies to
+ * #CHANNEL_DEFAULT but unlike a channel of type #CHANNEL_CLASSROOM
+ * the @c transmitUsers array contains the user ID of those who cannot
+ * talk. Basically the opposite of classrooms.
+ *
+ * The following new macros have been introduced to access
+ * the @c transmitUsers array:
+ * - #TT_CLASSROOM_USERID_INDEX
+ * - #TT_CLASSROOM_STREAMTYPE_INDEX
+ * - #TT_TRANSMITUSERS_FREEFORALL
+ * - #TT_TRANSMITUSERS_USERID_INDEX
+ * - #TT_TRANSMITUSERS_STREAMTYPE_INDEX
+ *
+ * #StreamType enumeration now contains:
+ * - #STREAMTYPE_MEDIAFILE
+ * - #STREAMTYPE_CLASSROOM_ALL
+ *
+ * #UserRight enumeration now contains:
+ * - #USERRIGHT_RECORD_VOICE
+ * - #USERRIGHT_TRANSMIT_MEDIAFILE
+ *
+ * <hr>
+ *
+ * @section v53arelease TeamTalk 5 SDK v. 5.3a release
+ *
+ * @subsection v53aapi API changes in v5.3a
+ *
+ * - Added #UserRight to lock nickname: #USERRIGHT_LOCKED_NICKNAME.
+ * - Added #UserRight to lock status: #USERRIGHT_LOCKED_STATUS.
+ * - New #BanType enumeration to support new ban types on channel and username.
+ * - Added @c uBanTypes to #BannedUser.
+ * - New #AbusePrevention structure to #UserAccount to prevent flooding.
+ * - Added @c abusePrevent to #UserAccount.
+ * - Added #ClientError to indicate flooding: #CMDERR_COMMAND_FLOOD
+ * - Added #ClientError to indicate channel ban: #CMDERR_CHANNEL_BANNED
+ * - Added #ClientError to indicate login service unavailable: #CMDERR_LOGINSERVICE_UNAVAILABLE.
+ *   - Used for Facebook login in TeamTalk application
+ * - New function TT_DoBanUserEx() for banning a user using #BanType.
+ * - New function TT_DoBan() for banning properties, i.e. #BannedUser.
+ *   - User doesn't have to be logged in to issue this ban.
+ * - New function TT_DoUnBanUserEx() for removing a bans.
+ *
+ * <hr>
+ *
+ * @section v52drelease TeamTalk 5 SDK v. 5.2d release
+ *
+ * @subsection v52dbugfixes Bugfixes in v5.2d
+ *
+ * Fixed severe crash issue when audio streams are stopped. Crash was
+ * due to a race condition which occurs in rare cases.
+ *
+ * <hr>
+ *
+ * @section v52crelease TeamTalk 5 SDK v. 5.2c release
+ *
+ * @subsection v52cfeatures New features in v5.2c
+ * 
+ * @subsubsection v52cvirtsnd Virtual sound device
+ *
+ * In order to record conversations using
+ * TT_StartRecordingMuxedAudioFile() it has previously been required
+ * to initialize a real sound output device in order to process audio
+ * packets. It is still required to initialize the sound output device
+ * but now a new virtual sound device is available which processes
+ * audio packets. This virtual sound device has ID
+ * #TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL.
+ *
+ * @subsubsection v52ctxqueue Transmission queue in CHANNEL_SOLO_TRANSMIT
+ *
+ * A new feature of the #CHANNEL_SOLO_TRANSMIT channel type is that
+ * the server ensures that only one user can transmit audio and media
+ * files to the channel. The user's position in the transmission queue
+ * can be seen in #Channel's @c transmitUsersQueue array.
+ *
+ * @subsubsection v52csrvcb Server callbacks for TT_DoChangeNickname() and TT_DoChangeStatus()
+ *
+ * The server API can now intercept when a user requests to change
+ * nickname or change status. This is done by calling
+ * TTS_RegisterUserChangeNicknameCallback() and
+ * TTS_RegisterUserChangeStatusCallback().
+ *
+ * @subsubsection v52cstatic OpenSSL again dynamically linked in Linux distributions
+ *
+ * The TeamTalk SDK v5.2b introduced static linking of all
+ * dependencies in libTeamTalk5Pro.so but this caused problems when
+ * linking an application that already included an OpenSSL
+ * dependency. Therefore the Linux distributions now again requires
+ * that the user installs the required OpenSSL dependency. To see what
+ * OpenSSL dependency is missing run:
+@verbatim
+  $ ldd Library/TeamTalk_DLL/libTeamTalk5Pro.so 
+@endverbatim
+ *
+ * @subsubsection v52cdaemon Daemon scripts included for TeamTalk servers
+ *
+ * The SDK's @c Server folder now includes daemon scripts for Debian
+ * (@c /etc/init.d) and systemd based Linux distributions.
+ * 
+ * @subsection v52capi API changes in v5.2c
+ * 
+ * - Added macro for virtual sound device #TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL.
+ * - New member variable @c transmitUsersQueue of #Channel struct.
+ * - Added macro for size of transmissionUsersQueue #TT_TRANSMITQUEUE_MAX.
+ * - Added server callback TTS_RegisterUserChangeNicknameCallback()
+ * - Added server callback TTS_RegisterUserChangeStatusCallback()
+ *
+ * <hr>
+ *
+ * @section v52brelease TeamTalk 5 SDK v. 5.2b release
+ *
+ * @subsection v52bapi API changes in v5.2b
+ *
+ * @subsubsection v52bsendmsg Send text message from Server API
+ *
+ * Added TTS_SendTextMessage() to TeamTalk Server API.
+ *
+ * @subsection v52bbugfixes Bugfixes in v5.2b
+ *
+ * - Fixed severe issue causing audio playback not to start if client
+ *   received bursts of audio packets (the client has a 1 second
+ *   buffer which would overflow and not restart).
+ * - Fixed @c nChannelID not being set in #User-struct when using
+ *   TeamTalk Server API.
+ *
+ * <hr>
+ *
+ * @section v52arelease TeamTalk 5 SDK v. 5.2a release
+ *
+ * @subsection v52afeatures New features in v5.2a
+ *
+ * @subsubsection v52asrvapi TeamTalk Server API with System ID
+ *
+ * The server API has been updated in this release so it's possible to
+ * restrict logins to your TeamTalk server to only your own client
+ * application. If the "normal" TeamTalk client tries to connect to
+ * your TeamTalk server then it will be possible to reject it.
+ *
+ * To limit access to your TeamTalk server you can use the @c
+ * szSystemID parameter of TT_StartServerSysID(). When a client has to
+ * connect then the chosen system-ID will also have to passed to
+ * TT_ConnectSysID(). If it's not then the connecting TeamTalk client
+ * will receive the #CMDERR_INCOMPATIBLE_PROTOCOLS. The szSystemID of
+ * the default TeamTalk application is "teamtalk". This is what you
+ * see when you connect with Telnet on port TCP port 10333
+ * (non-encrypted).
+ *
+ * On top of the system-ID restriction it's now also possible to do a
+ * check on the client name connecting by using the extended
+ * TT_DoLoginEx(). When a client tries to connect to a TeamTalk server
+ * you can then check the @c szClientName property of #User to ensure
+ * only your client application is allowed to connect.
+ *
+ * @subsubsection v52aaudunit Voice-Processing I/O Unit for iOS
+ *
+ * Audio device "Voice-Processing I/O Unit" added as sound device ID 1
+ * on iOS. The Voice-Processing I/O Unit sound device is designed to
+ * eliminate echo when using speaker output and also enable automatic
+ * gain control. Read more on audio units here:
+ * https://developer.apple.com/library/ios/documentation/MusicAudio/Conceptual/AudioUnitHostingGuide_iOS/UsingSpecificAudioUnits/UsingSpecificAudioUnits.html
+ *
+ * @subsubsection v52av4l2 Video4Linux2 (V4L2) support on Linux
+ *
+ * The video capture API on Linux has been updated to it now uses V4L2
+ * instead of the obsolete V4L API.
+ *
+ * @subsubsection v52aavf AVFoundation replaces QTkit on Mac OS
+ *
+ * The previously used video capture API, QTkit, on Mac OS has been
+ * replaced by AVFoundation. Apple's AppStore doesn't accept apps
+ * which link to QTkit, so therefore this replacement was nescessary.
+ *
+ * @subsubsection v52adeps Dependencies on Linux has been reduced
+ *
+ * Previous releases of TeamTalk 5 shared library depended on WebM
+ * (libvpx), Speex (libspeex), OPUS (libopus), etc. Now this has been
+ * limited to C++ standard library (libstdc++) and ALSA (libasound).
+ *
+ * @subsubsection v52aagc Sound Preprocessing (Automatic gain control) for iOS
+ *
+ * The Speex sound preprocessing library (SpeexDSP) is now also
+ * supported on iOS platforms.
+ *
+ * The #SpeexDSP-struct is used by TT_SetSoundInputPreprocess() and
+ * TT_StartSoundLoopbackTest().
+ *
+ * @subsubsection v52attand TeamTalk for Android now uses Android Studio
+ *
+ * Previously the TeamTalk sample application (TeamTalkAndroid) was
+ * using Eclipse but this project has now been converted to Android
+ * Studio 2.0.
+ *
+ * @subsubsection v52aogg Store audio in .ogg format
+ *
+ * When storing audio to files it's now possible to specify
+ * #AFF_CHANNELCODEC_FORMAT which is part of the enumeration
+ * #AudioFileFormat. The #AFF_CHANNELCODEC_FORMAT will store in the
+ * audio format configured by a #Channel's #AudioCodec.
+ *
+ * @subsection v52aapi API changes in v5.2a
+ *
+ * @subsubsection v52awebm Deadline for WebM video encoder
+ *
+ * Added @c nEncodeDeadline to #WebMVP8Codec which specifies quality
+ * of the video encoder. Values are #WEBM_VPX_DL_REALTIME,
+ * #WEBM_VPX_DL_GOOD_QUALITY and #WEBM_VPX_DL_BEST_QUALITY.
+ *
+ * @subsubsection v52aclientname Get software client used by peer
+ *
+ * Added @c szClientName to #User-struct. The client name is specified
+ * in TT_DoLoginEx().
+ *
+ * @subsubsection v52aconsys Limit access to TeamTalk server to one software client
+ *
+ * If using TeamTalk 5 SDK Professional then a System-ID can be used
+ * to limit access to the TeamTalk server to a single client
+ * application.
+ *
+ * Use the TeamTalk server API to setup a server with a System-ID,
+ * i.e. TTS_StartServerSysID() and then use TT_ConnectSysID().
+ *
+ * @subsection v52abugfixes Bugfixes in v5.2a
+ *
+ * - Stream media files was slow to start.
+ * - Streaming media file from Windows caused bottom-up bitmap image.
+ * - Fixed file handle being leaked on Windows during desktop transmission.
+ * - Fixed corrupt .wav file if file greater than 4GB.
+ * - Fixed Bluetooth not working on iOS 10 and later.
+ *
+ * <hr>
+ *
+ * @section v51crelease TeamTalk 5 SDK v. 5.1c release
+ *
+ * The TeamTalk C-API DLL has been moved to @c Library/TeamTalk_DLL
+ * The TeamTalk .NET DLL project has been moved to @c
+ * Library/TeamTalk.NET.
+ * The TeamTalk JNI DLL has been moved to @c Library/TeamTalkJNI.
+ *
+ * This file layout change has been made so the projects are more
+ * aligned with @ref github.
+ *
+ * TeamTalk 5 for iOS application (@ref iteamtalk) from App Store now
+ * included with TeamTalk 5 SDKs for iOS.
+ *
+ * TeamTalk 5 Professional SDK now includes TeamTalk 5 Java server
+ * sample application (jTeamTalkServer).
+ *
+ * @subsection v51cfeatures New features in v. 5.1c
+ *
+ * TeamTalk 5 iOS SDKs can now be compiled with "Enable Bitcode" (@c
+ * -fembed-bitcode).
+ *
+ * @subsection v51capi API changes in v. 5.1c
+ *
+ * Sound device 1 (speaker output) removed from TeamTalk iOS SDK when
+ * calling TeamTalk.GetSoundDevices(). Instead use iOS's function @c
+ * AVAudioSession.setMode().
+ *
+ * Server API callback #UserCreateUserAccountCallback changed so
+ * #UserAccount is const.
+ *
+ * - Added function TT_PumpMessage() for getting latest #User-state. 
+ * - Added function TTS_StopServer() for closing network sockets.
+ * - Added function TTS_SetChannelFilesRoot() for server files storage.
+ * - Added function TTS_AddFileToChannel() for adding files to server.
+ * - Added function TTS_RemoveFileFromChannel() for removeing files from server.
+ *
+ * <hr>
+ *
+ * @section v51brelease TeamTalk 5 SDK v. 5.1b release
+ *
+ * A quite severe bug which caused files on the server to end up in
+ * the wrong channels has been fixed in this minor release. The issue
+ * only affects the standalone servers which are included in the
+ * SDK. Custom servers created by the TeamTalk server API should not
+ * be affected.
+ *
+ * @subsection v51bfeatures New features in v. 5.1b
+ *
+ * @subsubsection v51bownstream Record own voice stream to separate file
+ *
+ * Previously it has only been possible to record own audio streams by
+ * subscribing to them. Now it's, however, possible to call
+ * TT_SetUserMediaStorageDir() with user ID 0 to record own audio
+ * stream.
+ *
+ * @subsubsection v51bwinjni TeamTalk JNI DLL for Windows
+ *
+ * Windows developers can now also use Java for client
+ * development. The TeamTalk JNI DLL is located in @c
+ * Library/Java/TeamTalkJNI.
+ *
+ * <hr>
+ * 
+ * @section v51arelease TeamTalk 5 SDK v. 5.1a release
+ *
+ * The inclusion of the @ref serverapi has caused quite a bit of
+ * reorganization of the TeamTalk SDK's file layout. Previously the
+ * TeamTalk DLL only allowed client operations and was therefore
+ * located in the @c Client folder. Now that the TeamTalk DLL (in the
+ * Professional edition) also allows users to develop a TeamTalk
+ * server then the core TeamTalk library projects have been moved to
+ * the @c Library folder in the root of the SDK.
+ *
+@verbatim
+   Library
+     C-API
+     Java
+     NET
+   Documentation
+     C-API
+     Java
+     NET
+   Examples
+     C-API
+     Java
+     NET
+   Server
+   Demo Client
+@endverbatim
+ *
+ * @subsection v51afeatures New Features in v. 5.1a release
+ *
+ * @subsubsection v51aserverapi TeamTalk 5 Server API
+ *
+ * The TeamTalk 5 Professional Edition now includes a @ref serverapi
+ * which enables developers to instantiate a TeamTalk server by
+ * calling the TeamTalk DLL. With the server API it's possible to do
+ * basic operations like authentication users and updating server
+ * properties.
+ * 
+ * Note that the TeamTalk server API is currently only supported in
+ * the TeamTalk C-API DLL.
+ *
+ * @subsubsection v51ajava TeamTalk 5 Java DLL
+ *
+ * Now that the TeamTalk SDK is also available for Android the Java
+ * API used for Android development has also been ported to Linux and
+ * Mac OS X.
+ *
+ * Java is supported by using a new TeamTalk DLL with a Java Native
+ * Interface (JNI). The TeamTalk JNI DLL is located in @c
+ * Library/Java/TeamTalkJNI.
+ * 
+ * Open the Java documentation to see how to use the new Java API. The
+ * Java TeamTalk classes greatly ressemble the .NET classes therefore
+ * the API documentation for Java is the same as .NET. Hopefully this
+ * doesn't cause too much confusion.
+ * 
+ * @subsubsection v51aios TeamTalk 5 SDK for iOS
+ *
+ * The iOS platform is now also supported by the TeamTalk DLL. Please
+ * refer to @ref ttdllios on how to use the TeamTalk DLL on iOS.
+ *
+ * <hr>
+ *
+ * @section v50arelease TeamTalk 5 SDK v. 5.0a release
+ *
+ * @subsection v50afeatures New features in v. 5.0a
+ *
+ * @subsubsection v50aeventhandling Updated event handling
+ *
+ * In TeamTalk 4 events were posted in a @c TTMessage containing a
+ * WPARAM and LPARAM where the WPARAM would typically contain an ID
+ * and the LPARAM some extended information about the event. When an
+ * event occured the client application would query the TeamTalk
+ * client instance to extract information about what had changed to
+ * the current state. Since the client instance was running in its own
+ * thread the state change could, however, have become unknown in the
+ * meantime. If e.g. a text message was received from a user and the
+ * user would immediately quit afterwards then the text message would
+ * be lost since the text message was "attached" to the user who was
+ * no longer there. In TeamTalk 5 a #TTMessage now contains a copy of
+ * what changed as a cause of the event. If e.g. a text message is
+ * received from a user then the #TTMessage will contain a full copy
+ * of the #TextMessage which was received. Also if a new channel is
+ * created then it's no longer required to extract the #Channel object
+ * through the TeamTalk client instance (using TT_GetChannel()) now
+ * the new channel is part of the #TTMessage using the #TTMessage's
+ * data container.
+ *
+ * @subsubsection v50awebm WebM replaces Theora video codec
+ *
+ * Theora video codec was used in TeamTalk 4 to encode video from
+ * webcam and media files but this has now been replaced by the more
+ * recent Google-backed WebM codec. Check out <a
+ * href="http://www.webmproject.org/">WebM</a> website for more
+ * information about the new video codec. Currently it's only possible
+ * to configure the bitrate in the codec but should you need access to
+ * more codec configuration options then feel free to request these.
+ * 
+ * @subsubsection v50aopus OPUS replaces CELT audio codec
+ *
+ * CELT is no longer being developed and has been replaced by
+ * OPUS. Check out <a href="http://www.opus-codec.org/">OPUS</a>
+ * website for more information.
+ *
+ * @subsubsection v50aaes AES encryption replaces Blowfish
+ *
+ * TeamTalk 4 used Blowfish for encrypting audio, video and desktop
+ * sharing streams. TeamTalk 5 uses AES 256-bit for encrypting audio,
+ * video, media file and desktop sharing streams.
+ *
+ * @subsubsection v50amediastream New stream type for media files
+ *
+ * In TeamTalk 4 streaming a media file would replace voice input from
+ * microphone and video from a media file would replace webcam
+ * input. In TeamTalk 5 a new stream type for media files has been
+ * introduced so it's still possible to talk and show webcam video
+ * while streaming a media file to a channel.
+ *
+ * @subsubsection v50auserrights User rights now moved to user account
+ *
+ * In TeamTalk 4 all users of the default user type had the same user
+ * rights on the server which were set up in #ServerProperties. The
+ * user rights (#UserRight) are now part of #UserAccount so each user
+ * can have different #UserRights on the server.
+ *
+ * @subsubsection v50abitratelimit Audio codec bitrate limit moved to user account
+ *
+ * The maximum bitrate for audio codecs where global to all users in
+ * TeamTalk 4 but now the maximum bitrate a user can use for a new
+ * channel is configured in the #UserAccount.
+ *
+ * @subsubsection v50amaxchannels Max channels limited to 4000
+ *
+ * TeamTalk 4 supported 65000 active channels/rooms but in TeamTalk 5
+ * only 4000 channels are supported. This limited has been implemented
+ * to reduce bandwidth usage.
+ *
+ * @subsubsection v50ap2p Peer to peer support has been removed
+ *
+ * TeamTalk 5 doesn't support P2P connections since the 'forward
+ * through server' is required for desktop sharing to work.
+ *
+ * @subsubsection v50achanrename Channels can be renamed
+ *
+ * In TeamTalk 4 is was not possible to update a channel's name but
+ * this is now supported. Ensure to update @c szInitChannel of
+ * #UserAccount if you use this feature.
+ *
+ * @subsubsection v50adaemon Daemon script for server included
+ *
+ * The TeamTalk 5 Linux server now includes a daemon script which can
+ * be put in @c /etc/init.d on Debian to start/stop the TeamTalk
+ * daemon (with -d option).
+ *
+ * @subsubsection v50aagc Audio configuration no longer forced by channel
+ *
+ * If a #Channel was configured with an #AudioConfig in TeamTalk 4
+ * then the client instance would automatically enable this audio
+ * configuration. This is no longer the case in TeamTalk 5. Now the
+ * client application must invoke TT_SetSoundInputPreprocess() manually.
+ *
+ * @subsubsection v50asrvxml Default server config file renamed to tt5srv.xml
+ *
+ * The default name for the server xml configuration file was @c
+ * tt4svc.xml in TeamTalk 4 but in TeamTalk 5 it's now @c tt5srv.xml
+ * and @c tt5prosrv.xml for the Professional edition.
+ *
+ * @subsubsection v50astats Server statistics updated
+ *
+ * #ServerStatistics now includes the number of users served, the
+ * highest number of users and server's uptime.
+ *
+ * @subsubsection v50anocrypt Non-encrypted mode in Professional server
+ *
+ * The TeamTalk server in the Professional SDK (tt5prosrv) now also
+ * supports non-encrypted mode. Whether to run in encrypted or
+ * non-encrypted mode is configured when running the setup wizard. See
+ * more in @ref serversetup.
+ *
+ * @subsection v50aapi API changes in v. 5.0a
+ *
+ * @subsubsection newstruct5 New structs:
+ * 
+ * - #OpusCodec
+ *   - See @ref v50aopus
+ * - #SpeexDSP
+ *   - See TT_SetSoundInputPreprocess().
+ * - #WebMVP8Codec
+ *   - See @ref v50awebm
+ * - #RemoteFile
+ *   - Replacement for @c FileInfo.
+ * - #ClientErrorMsg
+ *   - Contains information about an error of type #ClientError.
+ *
+ * @subsubsection modstructs5 Renamed/modified structs:
+ * - #SoundDevice
+ *   - @c inputSampleRates and @c outputSampleRates replaced by 
+ *     @c supportedSampleRates due to change of TT_GetSoundDevices()
+ *     instead of @c TT_GetSoundInputDevices() and @c 
+ *     TT_GetSoundOutputDevices().
+ * - #AudioBlock
+ *   - Now contains @c nStreamID. Stream ID changes whenever
+ *     push-to-talk or voice activation are toggled.
+ * - #VideoCaptureDevice
+ *   - @c captureFormats renamed to @c videoFormats.
+ *   - @c nCaptureFormatsCount renamed to @c nVideoFormatsCount.
+ * - #MediaFileInfo
+ *   - Now contains @c szFileName.
+ * - #DesktopWindow
+ *   - Now contains @c frameBuffer with pointer to data and @c 
+ *     nFrameBufferSize with size of bffer.
+ * - #SpeexCodec
+ *   - Renamed @c nMSecPerPacket to nTxIntervalMSec.
+ *   - Removed @c bUseJitterBuffer.
+ * - #SpeexVBRCodec
+ *   - Renamed @c nMSecPerPacket to nTxIntervalMSec.
+ *   - Renamed @c nQualityVBR to @c nQuality.
+ *   - Removed @c bUseJitterBuffer.
+ * - #AudioCodec
+ *   - Removed @c celt and @c celt_vbr.
+ *   - Added @c opus, i.e. #OpusCodec.
+ * - #AudioConfig
+ *   - Now only contains gain settings. Use #SpeexDSP for denoising, AEC and AGC.
+ * - #VideoCodec
+ *   - Removed @c theora.
+ *   - Added @c webm_vp8.
+ * - #ServerProperties
+ *   - Removed @c szServerPasswd. Only valid #UserAccount is required now.
+ *   - Removed @c uUserRights. Now part of #UserAccount.
+ *   - Removed @c nAduioCodecBpsLimit. Now part of #UserAccount.
+ *   - @c nMaxVideoTxPerSecond replaced by nMaxVideoCaptureTxPerSecond.
+ *   - Added @c nMaxMediaFileTxPerSecond.
+ * - #ServerStatistics
+ *   - @c nVideoBytesTX replaced by nVideoCaptureBytesTX.
+ *   - @c nVideoBytesRX replaced by nVideoCaptureBytesRX.
+ *   - Added @c nMediaFileBytesTX.
+ *   - Added @c nMediaFileBytesRX.
+ *   - Added @c nUsersServed.
+ *   - Added @c nUsersPeak.
+ *   - Added @c nFilesTx.
+ *   - Added @c nFilesRx.
+ * - #UserAccount
+ *   - Added @c uUserRights. See @ref v50auserrights.
+ *   - Added @c nAudioCodecBpsLimit. See @ref v50abitratelimit.
+ * - #User
+ *   - Added @c nVolumeVoice.
+ *   - Added @c nVolumeMediaFile.
+ *   - Added @c nGainLevelVoice.
+ *   - Added @c nGainLevelMediaFile.
+ *   - Added @c nStoppedDelayVoice.
+ *   - Added @c nStoppedDelayMediaFile.
+ *   - Added @c soundPositionVoice.
+ *   - Added @c soundPositionMediaFile.
+ *   - Added @c stereoPlaybackVoice.
+ *   - Added @c stereoPlaybackMediaFile.
+ *   - Added @c nBufferMSecVoice
+ *   - Added @c nBufferMSecMediaFile.
+ *   - Renamed @c szAudioFolder to @c szMediaStorageDir
+ *   - Removed @c uAFF. Format in #CLIENTEVENT_USER_RECORD_MEDIAFILE.
+ *   - Removed @c szAudioFileName. File name in #CLIENTEVENT_USER_RECORD_MEDIAFILE.
+ * - #UserStatistics
+ *   - @c nAudioPacketsRecv replaced by nVoicePacketsRecv.
+ *   - @c nAudioPacketsLost replaced by nVoicePacketsLost.
+ *   - @c nVideoPacketsRecv replaced by nVideoCapturePacketsRecv.
+ *   - @c nVideoFramesRecv replaced by nVideoCaptureFramesRecv.
+ *   - Added @c nMediaFileAudioPacketsRecv.
+ *   - Added @c nMediaFileAudioPacketsLost.
+ *   - Added @c nMediaFileVideoPacketsRecv.
+ *   - Added @c nMediaFileVideoFramesRecv.
+ *   - Added @c nMediaFileVideoFramesLost.
+ *   - Added @c nMediaFileVideoFramesDropped.
+ * - #Channel
+ *   - Added @c nUserData.
+ *   - Added @c transmitUsers.
+ *   - Renamed @c codec to @c audiocodec.
+ *   - Remove @c voiceUsers. Use @c transmitUsers instead.
+ *   - Remove @c videoUsers. Use @c transmitUsers instead.
+ *   - Remove @c desktopUsers. Use @c transmitUsers instead.
+ *   - Remove @c voiceUsers. Use @c transmitUsers instead.
+ * - #FileTransfer
+ *   - Added @c nStatus.
+ * - #TTMessage
+ *   - See @ref v50aeventhandling.
+ *
+ * @subsubsection remstructs5 Removed structs
+ * - @c CELTCodec
+ *   - See @ref v50aopus
+ * - @c TheoraCodec
+ *   - See @ref v50awebm
+ * - @c FileInfo
+ *   - Replaced by #RemoteFile.
+ * - @c CaptureFormat
+ *   - Replaced by #VideoFormat.
+ *
+ * @subsubsection newenum5 New enumerations
+ * - #StreamType
+ *   - See @ref v50amediastream
+ *
+ * @subsubsection renamedenum5 Renamed/modified enumerations
+ * - @c TransmitType
+ *   - Use #StreamType instead.
+ * - #UserRight
+ *   - Added #USERRIGHT_CREATE_TEMPORARY_CHANNEL. See @ref v50auserrights.
+ *   - Added #USERRIGHT_MODIFY_CHANNELS. See @ref v50auserrights.
+ *   - Added #USERRIGHT_KICK_USERS.
+ *   - Added #USERRIGHT_BAN_USERS.
+ *   - Added #USERRIGHT_MOVE_USERS.
+ *   - Added #USERRIGHT_OPERATOR_ENABLE.
+ *   - Added #USERRIGHT_UPLOAD_FILES.
+ *   - Added #USERRIGHT_DOWNLOAD_FILES.
+ *   - Added #USERRIGHT_UPDATE_SERVERPROPERTIES.
+ *   - Added #USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO. See @ref v50amediastream.
+ *   - Added #USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO See @ref v50amediastream.
+ *   - @c USERRIGHT_DOUBLE_LOGIN replaced by #USERRIGHT_MULTI_LOGIN.
+ *   - @c USERRIGHT_CLIENT_BROADCAST replaced by #USERRIGHT_TEXTMESSAGE_BROADCAST.
+ *   - @c USERRIGHT_FORWARD_AUDIO replaced by #USERRIGHT_TRANSMIT_VOICE
+ *   - @c USERRIGHT_FORWARD_VIDEO replaced by #USERRIGHT_TRANSMIT_VIDEOCAPTURE
+ *   - @c USERRIGHT_FORWARD_DESKTOP replaced by #USERRIGHT_TRANSMIT_DESKTOP
+ *   - @c USERRIGHT_FORWARD_DESKTOPINPUT replaced by #USERRIGHT_TRANSMIT_DESKTOPINPUT
+ *   - Removed @c USERRIGHT_CHANNEL_CREATION. See @ref v50auserrights.
+ *   - Removed @c USERRIGHT_CHANNEL_OPERATORS.
+ *   - Removed @c USERRIGHT_CHANNEL_COMMANDS.
+ *   - Removed @c USERRIGHT_SUBSCRIPTIONS. Subscriptions are now mandatory.
+ *   - Removed @c USERRIGHT_STRICT_UTF8. UTF-8 is now mandatory.
+ * - #Subscription
+ *   - @c SUBSCRIBE_AUDIO replaced by SUBSCRIBE_VOICE.
+ *   - @c SUBSCRIBE_VIDEO replaced by SUBSCRIBE_VIDEOCAPTURE.
+ *   - @c SUBSCRIBE_INTERCEPT_AUDIO replaced by SUBSCRIBE_INTERCEPT_VOICE.
+ *   - @c SUBSCRIBE_INTERCEPT_VIDEO replaced by SUBSCRIBE_INTERCEPT_VIDEOCAPTURE.
+ *   - Added #SUBSCRIBE_MEDIAFILE.
+ *   - Added #SUBSCRIBE_INTERCEPT_MEDIAFILE.
+ * - #UserState
+ *   - @c USERSTATE_TALKING replaced by #USERSTATE_VOICE.
+ *   - @c USERSTATE_MUTE replaced by #USERSTATE_MUTE_VOICE.
+ *   - @c USERSTATE_VIDEO replaced by #USERSTATE_VIDEOCAPTURE.
+ *   - Added @c USERSTATE_MUTE_MEDIAFILE.
+ *   - Added @c USERSTATE_MEDIAFILE_AUDIO.
+ *   - Added @c USERSTATE_MEDIAFILE_VIDEO.
+ *   - Added @c USERSTATE_MEDIAFILE.
+ * - #ChannelType
+ *   - @c CHANNEL_STATIC replaced by #CHANNEL_PERMANENT.
+ *   - Removed @c CHANNEL_ECHO. Use #SUBSCRIBE_VOICE instead.
+ *   - Removed @c CHANNEL_ECHO_AUDIO. Use #SUBSCRIBE_VOICE instead.
+ *   - Removed @c CHANNEL_ECHO_VIDEO. Use #SUBSCRIBE_VIDEOCAPTURE instead.
+ *   - Removed @c CHANNEL_ECHO_DESKTOP. Use #SUBSCRIBE_DESKTOP instead.
+ *   - Added #CHANNEL_NO_VOICEACTIVATION.
+ *   - Added #CHANNEL_NO_RECORDING.
+ * - #ClientError
+ *   - Removed @c CMDERR_INCORRECT_SERVER_PASSWORD.
+ *   - Removed @c CMDERR_CANNOT_CREATE_CHANNELS.
+ *   - Removed @c CMDERR_SUBSCRIPTIONS_DISABLED.
+ *   - Removed @c CMDERR_SERVER_HAS_USERS.
+ *   - Added #CMDERR_INVALID_USERNAME.
+ *   - Added #CMDERR_MAX_CHANNELS_EXCEEDED. See @ref v50amaxchannels.
+ *   - Added #INTERR_AUDIOCODEC_INIT_FAILED.
+ *   - Added #INTERR_SPEEXDSP_INIT_FAILED.
+ * - #ClientFlag
+ *   - Added #CLIENT_SNDINPUT_VOICEACTIVE.
+ *   - @c CLIENT_TX_AUDIO replaced by #CLIENT_TX_VOICE.
+ *   - @c CLIENT_TX_VIDEO replaced by #CLIENT_TX_VIDEOCAPTURE.
+ *   - Removed @c CLIENT_SNDINPUT_DENOISING.
+ *   - Removed @c CLIENT_P2P_AUDIO. See @ref v50ap2p.
+ *   - Removed @c CLIENT_P2P_VIDEO. See @ref v50ap2p.
+ *   - Removed @c CLIENT_P2P. See @ref v50ap2p.
+ *   - Removed @c CLIENT_SNDINPUT_AEC.
+ *   - Removed @c CLIENT_SNDINPUT_AGC.
+ * - #SoundLevel
+ *   - Changed #SOUND_VU_MAX to 100
+ *   - Changed #SOUND_VOLUME_MAX 32000
+ *   - Added #SOUND_VOLUME_DEFAULT
+ *
+ * @subsubsection remenum5 Removed enumerations:
+ * - @c AudioFileStatus
+ *   - Replaced by #MediaFileStatus.
+ *
+ *
+ * @subsubsection newevents5 New events:
+ *   - #CLIENTEVENT_CMD_SERVERSTATISTICS
+ *     - Response to TT_DoQueryServerStats().
+ *   - #CLIENTEVENT_USER_STATECHANGE
+ *     - #User's state mask @c uUserState changed.
+ *   - #CLIENTEVENT_USER_MEDIAFILE_VIDEO
+ *     - Video frame from media file ready for display.
+ *
+ * @subsubsection renamedevents5 Renamed/modified events:
+ * - @c WM_TEAMTALK_CON_SUCCESS
+ *   - Use #CLIENTEVENT_CON_SUCCESS instead.
+ * - @c WM_TEAMTALK_CON_FAILED
+ *   - Use #CLIENTEVENT_CON_FAILED instead.
+ * - @c WM_TEAMTALK_CON_LOST
+ *   - Use #CLIENTEVENT_CON_LOST instead.
+ * - @c WM_TEAMTALK_CMD_PROCESSING
+ *   - Use #CLIENTEVENT_CMD_PROCESSING instead.
+ * - @c WM_TEAMTALK_CMD_MYSELF_LOGGEDIN
+ *   - Use #CLIENTEVENT_CMD_MYSELF_LOGGEDIN instead.
+ * - @c WM_TEAMTALK_CMD_MYSELF_LOGGEDOUT
+ *   - Use #CLIENTEVENT_CMD_MYSELF_LOGGEDOUT instead.
+ * - @c WM_TEAMTALK_CMD_MYSELF_JOINED
+ *   - Use #CLIENTEVENT_CMD_USER_JOINED instead.
+ * - @c WM_TEAMTALK_CMD_MYSELF_LEFT
+ *   - Use #CLIENTEVENT_CMD_USER_LEFT instead.
+ * - @c WM_TEAMTALK_CMD_MYSELF_KICKED
+ *   - Use #CLIENTEVENT_CMD_MYSELF_KICKED instead.
+ * - @c WM_TEAMTALK_CMD_USER_LOGGEDIN
+ *   - Use #CLIENTEVENT_CMD_USER_LOGGEDIN instead.
+ * - @c WM_TEAMTALK_CMD_USER_LOGGEDOUT
+ *   - Use #CLIENTEVENT_CMD_USER_LOGGEDOUT instead.
+ * - @c WM_TEAMTALK_CMD_USER_UPDATE
+ *   - Use #CLIENTEVENT_CMD_USER_UPDATE instead.
+ * - @c WM_TEAMTALK_CMD_USER_JOINED
+ *   - Use #CLIENTEVENT_CMD_USER_JOINED instead.
+ * - @c WM_TEAMTALK_CMD_USER_LEFT
+ *   - Use #CLIENTEVENT_CMD_USER_LEFT instead.
+ * - @c WM_TEAMTALK_CMD_USER_TEXTMSG
+ *   - Use #CLIENTEVENT_CMD_USER_TEXTMSG instead.
+ * - @c WM_TEAMTALK_CMD_CHANNEL_NEW
+ *   - Use #CLIENTEVENT_CMD_CHANNEL_NEW instead.
+ * - @c WM_TEAMTALK_CMD_CHANNEL_UPDATE
+ *   - Use #CLIENTEVENT_CMD_CHANNEL_UPDATE instead.
+ * - @c WM_TEAMTALK_CMD_CHANNEL_REMOVE
+ *   - Use #CLIENTEVENT_CMD_CHANNEL_REMOVE instead.
+ * - @c WM_TEAMTALK_CMD_SERVER_UPDATE
+ *   - Use #CLIENTEVENT_CMD_SERVER_UPDATE instead.
+ * - @c WM_TEAMTALK_CMD_FILE_NEW
+ *   - Use #CLIENTEVENT_CMD_FILE_NEW instead.
+ * - @c WM_TEAMTALK_CMD_FILE_REMOVE
+ *   - Use #CLIENTEVENT_CMD_FILE_REMOVE instead.
+ * - @c WM_TEAMTALK_CMD_ERROR
+ *   - Use #CLIENTEVENT_CMD_ERROR instead.
+ * - @c WM_TEAMTALK_CMD_SUCCESS
+ *   - Use #CLIENTEVENT_CMD_SUCCESS instead.
+ * - @c WM_TEAMTALK_USER_TALKING
+ *   - Use #CLIENTEVENT_USER_STATECHANGE instead.
+ * - @c WM_TEAMTALK_USER_VIDEOFRAME
+ *   - Use #CLIENTEVENT_USER_VIDEOCAPTURE or #CLIENTEVENT_USER_MEDIAFILE_VIDEO instead.
+ * - @c WM_TEAMTALK_USER_AUDIOFILE
+ *   - Use #CLIENTEVENT_USER_RECORD_MEDIAFILE instead.
+ * - @c WM_TEAMTALK_INTERNAL_ERROR
+ *   - Use #CLIENTEVENT_INTERNAL_ERROR instead.
+ * - @c WM_TEAMTALK_VOICE_ACTIVATION
+ *   - Use #CLIENTEVENT_VOICE_ACTIVATION instead.
+ * - @c WM_TEAMTALK_HOTKEY
+ *   - Use #CLIENTEVENT_HOTKEY instead.
+ * - @c WM_TEAMTALK_HOTKEY_TEST
+ *   - Use #CLIENTEVENT_HOTKEY_TEST instead.
+ * - @c WM_TEAMTALK_FILETRANSFER
+ *   - Use #CLIENTEVENT_FILETRANSFER instead.
+ * - @c WM_TEAMTALK_USER_AUDIOBLOCK
+ *   - Use #CLIENTEVENT_USER_AUDIOBLOCK instead.
+ * - @c WM_TEAMTALK_USER_DESKTOPWINDOW
+ *   - Use #CLIENTEVENT_USER_DESKTOPWINDOW instead.
+ * - @c WM_TEAMTALK_DESKTOPWINDOW_TRANSFER
+ *   - Use #CLIENTEVENT_DESKTOPWINDOW_TRANSFER instead.
+ * - @c WM_TEAMTALK_USER_DESKTOPCURSOR
+ *   - Use #CLIENTEVENT_USER_DESKTOPCURSOR instead.
+ * - @c WM_TEAMTALK_CON_MAX_PAYLOAD_UPDATED
+ *   - Use #CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED instead.
+ * - @c WM_TEAMTALK_STREAM_AUDIOFILE_CHANNEL
+ *   - @c TT_StartStreamingAudioFileToUser() replaced by 
+ *     TT_StartStreamingMediaFileToChannel()
+ * - @c WM_TEAMTALK_STREAM_MEDIAFILE_CHANNEL
+ *   - Use #CLIENTEVENT_STREAM_MEDIAFILE instead.
+ * - @c WM_TEAMTALK_USER_DESKTOPINPUT
+ *   - Use #CLIENTEVENT_USER_DESKTOPINPUT instead.
+ *
+ * @subsubsection removedevents5 Removed events
+ * - @c WM_TEAMTALK_STREAM_AUDIOFILE_USER
+ *   - "Outside channel" streaming no longer supported.
+ * - @c WM_TEAMTALK_CON_P2P
+ *    - See @ref v50ap2p
+ *
+ * @subsubsection v50anewmethods New methods
+ * - TT_GetSoundDevices()
+ *   - Replacement for @c TT_GetSoundInputDevices and TT_GetSoundOutputDevices.
+ * - TT_SetSoundInputPreprocess()
+ *   - Replacement for @c TT_SetAGCSettings and @c TT_GetAGCSettings.
+ * - TT_GetSoundInputPreprocess()
+ *   - Replacement for @c TT_GetAGCSettings.
+ * - TT_EnableVoiceTransmission()
+ *   - Replacement for @c TT_EnableTransmission.
+ * - TT_StartVideoCaptureTransmission()
+ *   - Replacement for @c TT_EnableTransmission.
+ * - TT_StopVideoCaptureTransmission()
+ *   - Replacement for @c TT_EnableTransmission.
+ * - TT_AcquireUserVideoCaptureFrame()
+ *   - Replacement for @c TT_GetUserVideoFrame and @c TT_AcquireUserVideoFrame.
+ * - TT_ReleaseUserVideoCaptureFrame()
+ *   - Replacement for @c TT_ReleaseUserVideoFrame.
+ * - TT_AcquireUserMediaVideoFrame()
+ *   - See @ref v50amediastream
+ * - TT_ReleaseUserMediaVideoFrame()
+ *   - See @ref v50amediastream
+ * - TT_AcquireUserDesktopWindow()
+ *   - Replacement for TT_GetUserDesktopWindow().
+ * - TT_AcquireUserDesktopWindowEx()
+ *   - Replacement for TT_GetUserDesktopWindow().
+ * - TT_ReleaseUserDesktopWindow()
+ *   - Replacement for TT_GetUserDesktopWindow().
+ * - TT_GetClientStatistics()
+ *   - Replacement for TT_GetStatistics().
+ * - TT_DoPing()
+ *   - Response using #CLIENTEVENT_CMD_PROCESSING.
+ * - TT_GetChannelFile()
+ *   - Replacement for @c TT_GetChannelFileInfo
+ * - TT_GetMyUserRights()
+ *   - Quick access to own #UserAccount.
+ * - TT_SetUserStoppedPlaybackDelay()
+ *   - Replacement for @c TT_SetUserStoppedTalkingDelay
+ * - TT_SetUserAudioStreamBufferSize()
+ *   - Replacement for @c TT_SetUserMediaBufferSize
+ *
+ * @subsubsection v50amodmethods Renamed/modified methods
+ * - TT_InitTeamTalk()
+ *   - Now has uMsg parameter @c HWND message identifier.
+ * - TT_GetDefaultSoundDevices()
+ *   - Removed lpTTInstance parameter.
+ * - TT_StartSoundLoopbackTest()
+ *   - Now returns #TTSoundLoop instance.
+ * - TT_GetVideoCaptureDevices()
+ *   - Removed @c lpTTInstance parameter.
+ * - TT_InitVideoCaptureDevice()
+ *   - Removed @c lpVideoCodec parameter.
+ * - TT_SendDesktopWindow()
+ *   - @c lpBitmap and @c nBitmapSize are now part of #DesktopWindow.
+ * - TT_SendDesktopCursorPosition()
+ *   - Removed @c nUserID parameter. All in channel will receive.
+ * - TT_Connect()
+ *   - Added @c bEncrypted parameter.
+ * - TT_ConnectEx()
+ *   - Added @c bEncrypted parameter.
+ * - TT_DoLogin()
+ *   - @c szServerPassword removed. User account mandatory in TeamTalk 5.
+ * - TT_GetServerUsers()
+ *   - @c lpUserIDs replaced by @c lpUsers parameter.
+ * - TT_GetChannelUsers()
+ *   - @c lpUserIDs replaced by @c lpUsers parameter.
+ * - TT_GetChannelFiles()
+ *   - @c lpFileInfos replaced by @c lpRemoteFiles
+ * - TT_GetServerChannels()
+ *   - @c lpChannelIDs replaced by @c lpChannels.
+ * - TT_SetUserVolume()
+ *   - Added @c nStreamType parameter.
+ * - TT_SetUserMute()
+ *   - Added @c nStreamType parameter.
+ * - TT_EnableAudioBlockEvent()
+ *   - Now requires @c nUserID and @c nStreamType.
+ * - TT_AcquireUserAudioBlock()
+ *   - Removed @c lpAudioBlock parameter. Now returns #AudioBlock.
+ *
+ * @subsubsection v50aremovemethods Removed methods
+ * - @c TT_GetSoundInputDevices
+ *   - Use TT_GetSoundDevices() instead.
+ * - @c TT_GetSoundOutputDevices
+ *   - Use TT_GetSoundDevices() instead.
+ * - @c TT_StartSoundLoopbackTestEx()
+ *   - Use TT_StartSoundLoopbackTest() instead.
+ * - @c TT_SetUserGainLevel
+ *   - Use TT_SetUserVolume() instead.
+ * - @c TT_EnableAGC
+ *   - Use TT_SetSoundInputPreprocess() instead.
+ * - @c TT_EnableEchoCancellation
+ *   - Use TT_SetSoundInputPreprocess() instead.
+ * - @c TT_SetAGCSettings
+ *   - Use TT_SetSoundInputPreprocess() instead.
+ * - @c TT_GetAGCSettings
+ *   - Use TT_GetSoundInputProcess() instead.
+ * - @c TT_EnableDenoising
+ *   - Use TT_SetSoundInputPreprocess() instead.
+ * - @c TT_SetDenoiseLevel
+ *   - Use TT_SetSoundInputPreprocess() instead.
+ * - @c TT_GetDenoiseLevel
+ *   - Use TT_GetSoundInputPreprocess() instead.
+ * - @c TT_GetUserVideoFrame
+ *   - Use TT_AcquireUserVideoCaptureFrame() instead.
+ * - @c TT_AcquireUserVideoFrame
+ *   - Use TT_AcquireUserVideoCaptureFrame() instead.
+ * - @c TT_ReleaseUserVideoFrame.
+ *   - Use TT_ReleaseUserVideoCaptureFrame() instead.
+ * - @c TT_EnableTransmission
+ *   - Use TT_EnableVoiceTransmission() or TT_StartVideoCaptureTransmission() instead.
+ * - @c TT_IsTransmitting
+ *   - Use TT_GetFlags() instead.
+ * - @c TT_StartStreamingAudioFileToUser
+ *   - "Outside channel" streaming no longer supported.
+ * - @c TT_StopStreamingAudioFileToUser
+ *   - "Outside channel" streaming no longer supported.
+ * - @c TT_StartStreamingAudioFileToChannel
+ *   - Use TT_StartStreamingMediaFileToChannel() instead.
+ * - @c TT_StopStreamingAudioFileToChannel
+ *   - Use TT_StopStreamingMediaFileToChannel() instead.
+ * - @c TT_SetUserAudioFolder
+ *   - Use TT_SetUserMediaStorageDir() instead.
+ * - @c TT_GetUserDesktopCursor
+ *   - Cursor position posted in #CLIENTEVENT_USER_DESKTOPCURSOR.
+ * - @c TT_GetUserDesktopInput
+ *   - #DesktopInput posted in #CLIENTEVENT_USER_DESKTOPINPUT.
+ * - @c TT_ConnectNonEncrypted
+ *   - Use TT_Connect() instead.
+ * - @c TT_SetKeepAliveInterval()
+ *   - Use TT_DoPing() instead.
+ * - @c TT_GetKeepAliveInterval()
+ * - @c TT_SetServerTimeout
+ * - @c TT_GetServerTimeout
+ * - @c TT_EnablePeerToPeer
+ *   - See @ref v50ap2p
+ * - @c TT_GetStatistics
+ *   - Use TT_GetClientStatistics() instead.
+ * - @c TT_GetPacketSize
+ * - @c TT_GetServerStatistics
+ *   - #ServerStatistics posted in #CLIENTEVENT_CMD_SERVERSTATISTICS.
+ * - @c TT_GetChannelFileInfo()
+ *   - Use TT_GetChannelFile() instead.
+ * - @c TT_GetTextMessage()
+ *   - #TextMessage posted in #CLIENTEVENT_CMD_USER_TEXTMSG.
+ * - @c TT_GetUserVolume
+ *   - Use @c nVolumeVoice in #User instead.
+ * - @c TT_GetUserGainLevel
+ *   - Use @c nGainLevelVoice in #User instead.
+ * - @c TT_SetUserStoppedTalkingDelay
+ *   - Use TT_SetUserStoppedPlaybackDelay() instead.
+ * - @c TT_GetUserStoppedTalkingDelay
+ *   - Use @c nStoppedDelayVoice in #User instead.
+ * - @c TT_GetUserPosition
+ *   - Use @c soundPositionVoice in #User instead.
+ * - @c TT_GetUserStereo
+ *   - Use @c uUserState in #User instead.
+ * - @c TT_SetUserMediaBufferSize
+ *   - Use TT_SetUserAudioStreamBufferSize() instead.
+ * - @c TT_ReleaseAllAudioBlocks
+ *   - Use TT_ReleaseUserAudioBlock() instead.
+ *
+ * <hr>
+ *
+ * @section v46brelease TeamTalk 4 SDK v. 4.6b release
+ *
+ * The TeamTalk 4 SDK is now also available for Mac OS X 64-bit.
+ *
+ * Released on 2014/07/20.
+ *
+ * @subsection v46bfeatures New features in v. 4.6b
+ *
+ * The TeamTalk server now also includes @c -l command line argument
+ * for specifying the location of the log-file. Previously only the @c
+ * -wd argument could be used for changing the location of the log
+ * file.
+ *
+ * The log-file of the TeamTalk server now also includes entries for
+ * when a user acount is added or deleted and also a log entry for
+ * when users are moved between channels.
+ *
+ * <hr>
+ *
+ * @section v46arelease TeamTalk 4 SDK v. 4.6a release
+ * 
+ * Released on 2014/02/20.
+ *
+ * @subsection v46afeatures New features in v. 4.6a
+ *
+ * @subsubsection v46adeskinput Desktop Access
+ *
+ * Shared desktops can now be controlled remotely using mouse and
+ * keyboard input. Check out @ref desktopinput to read on how to
+ * control remote desktops.
+ *
+ * @subsection v46aapi API Changes in v4.6a
+ *
+ * - #DesktopInput
+ * - #DesktopKeyState
+ * - #Subscription
+ *   - Added ::SUBSCRIBE_DESKTOPINPUT
+ * - #ClientEvent
+ *   - Added @c WM_TEAMTALK_USER_DESKTOPINPUT
+ * - #UserRight
+ *   - Added @c USERRIGHT_FORWARD_DESKTOPINPUT
+ * - #TT_SendDesktopInput
+ * - @c TT_GetUserDesktopInput
+ * - #TT_DesktopInput_KeyTranslate
+ * - #TT_DesktopInput_Execute
+ *
+ * <hr>
+ *
+ * @section v45arelease TeamTalk 4 SDK v. 4.5a release
+ *
+ * Released on 2013/05/13.
+ *
+ * @subsection v45afeatures New features in v. 4.5a
+ *
+ * @subsubsection v45astream Stream Media Files to Channel
+ *
+ * Previously it's only been possible to stream 16-bit signed PCM
+ * wave-files to a channel but in the 4.5 release it's now possible to
+ * stream mp3, mpg, avi, wma, wmv, etc. to a channel. On Windows you
+ * can basically stream whatever Windows Media Player can play to a
+ * channel. Checkout @c TT_StartStreamingMediaFileToChannel() for more
+ * information.
+ *
+ * @subsubsection v45alogin Login Attempt Limit
+ *
+ * To prevent a brute force login attempt it's now possible to limit
+ * the number of login attempt before banning an
+ * IP-address. Checkout @c nMaxLoginAttempts property of
+ * #ServerProperties.  It's now also possible to limit the
+ * number of logins per IP-address by specifying @c
+ * nMaxLoginsPerIPAddress in #ServerProperties.
+ *
+ * @subsubsection v45aipban Ban user by IP-address
+ *
+ * Previously it was only possible to ban a user's IP-address if the
+ * user was present on the server. Now it's, however, possible to ban
+ * an IP-address using TT_DoBanIPAddress().
+ * 
+ * @subsection v45aapi API Changes in v4.5a
+ *
+ * - #AudioFormat
+ * - #MediaFileInfo
+ * - #ServerProperties
+ *   - Added @c nMaxLoginAttempts
+ *   - Added @c nMaxLoginsPerIPAddress
+ * - #ClientError
+ *   - Added ::CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED
+ * - #ClientFlag
+ *   - Added ::CLIENT_STREAM_VIDEO
+ *   - Added ::CLIENT_STREAM_AUDIO
+ * - #ClientEvent
+ *   - Added @c WM_TEAMTALK_STREAM_MEDIAFILE_CHANNEL
+ * - TT_StartStreamingMediaFileToChannel()
+ * - TT_StopStreamingMediaFileToChannel()
+ * - TT_GetMediaFileInfo()
+ * - TT_DoBanIPAddress()
+ * - TT_SetUserMediaBufferSize()
+ *
+ * <hr>
+ *
+ * @section v44arelease TeamTalk 4 SDK v. 4.4a release
+ *
+ * Released on 2012/10/15.
+ *
+ * @subsection v44afeatures New features in v. 4.4a
+ *
+ * @subsubsection v44awasapi Support for Windows Audio Session
+ *
+ * Windows Audio Session is a new sound system available in Windows
+ * Vista and later versions of Windows. It's a sound system which
+ * provides significantly lower latency than both DirectSound and
+ * Windows default sound devices. Check out #SOUNDSYSTEM_WASAPI for
+ * more information.
+ * 
+ * @subsubsection v44arestartsnd Restart Sound System
+ *
+ * When the TeamTalk client is initially start it scan the system for
+ * all sound devices but if a user later plugs in a USB sound card
+ * then this device will not be detected automatically in
+ * @c TT_GetSoundInputDevices() and @c TT_GetSoundOutputDevices().
+ *
+ * TT_RestartSoundSystem() can now be used to shut down the sound
+ * systems can rescan for new devices.
+ *
+ * @subsubsection v44aautoresam Automatic resampling of unsupported sample rates
+ *
+ * If a sound card doesn't support the sampling rate of a codec or if
+ * the codec requires stereo input then TeamTalk now automatically
+ * resamples audio so it fits the proper format. DirectSound e.g. had
+ * problems with input devices which only allowed mono and therefore
+ * couldn't be used with stereo codecs.
+ *
+ * @subsubsection v44aoprecv Operator receive-only channel type
+ *
+ * A new channel type, #CHANNEL_OPERATOR_RECVONLY, has now also been
+ * introduced which only allowed administrators and operators of a
+ * channel to receive audio and video. This can be useful if bandwidth
+ * is a problem.
+ *
+ * @subsubsection v44anoncrypt Encrypted client (Pro-Edition) can connect to non-encrypted servers
+ *
+ * The client in the TeamTalk 4 Professional Edition can now also
+ * connect to non-encrypted TeamTalk server. Use
+ * TT_ConnectNonEncrypted() to do this.
+ *
+ * @subsubsection v44aviduni Unicode video device names
+ *
+ * #VideoCaptureDevice now shows the name of the video device in Unicode on Windows.
+ *
+ * @subsection v4aaapi API Changes in v4.4a
+ *
+ * - #SoundSystem
+ *   - Added @c #SOUNDSYSTEM_WASAPI
+ * - #SoundDevice
+ *   - Added @c nDefaultSampleRate
+ * - #UserRight
+ *   - Added @c USERRIGHT_STRICT_UTF8
+ * - #ChannelType
+ *   - Added #CHANNEL_OPERATOR_RECVONLY
+ * - TT_GetDefaultSoundDevicesEx()
+ * - TT_RestartSoundSystem()
+ * - TT_ConnectNonEncrypted()
+ *
+ * <hr>
+ *
+ * @section v43arelease TeamTalk 4 SDK v. 4.3a release
+ *
+ * Released on 2012/03/26.
+ *
+ * @subsection v43afeatures New features in v. 4.3a
+ *
+ * @subsubsection v43adesktop Share Desktop Applications
+ *
+ * The major new feature in the 4.3 release is the ability to
+ * share desktop applications. When sharing a desktop application you
+ * send a bitmap, using TT_SendDesktopWindow(), to the local client
+ * instance. The bitmap is then split into in small blocks and
+ * transmitted to the server using the UDP connection. Read more about
+ * this feature in the section @ref desktopshare.
+ *
+ * @subsubsection v43ainitialchan Join channel after login
+ *
+ * A #UserAccount now has the @c szInitChannel property which holds
+ * the channel a user should join after login. The user can join this
+ * channel without passing a password. Use TT_GetMyUserAccount() to
+ * get the local instance's #UserAccount after login has completed.
+ *
+ * @subsubsection v43aautoop Automatically become channel operator
+ *
+ * A user can automatically become operator of a #Channel configured
+ * with @c CHANNEL_STATIC if the channel's ID is in the @c
+ * autoOperatorChannels property of #UserAccount.
+ *
+ * @subsubsection v43acustommsgtype Custom message type
+ *
+ * An extra message type has been added for custom messages. The
+ * #MSGTYPE_CUSTOM works in the same way as #MSGTYPE_USER.
+ *
+ * @subsubsection v43aquerymtu Query maximum UDP packet size
+ *
+ * Some routers don't allow UDP packets over a given size so use
+ * TT_QueryMaxPayload() after connecting to a server to detect the
+ * maximum size for UDP packets. The event
+ * @c WM_TEAMTALK_CON_MAX_PAYLOAD_UPDATED is triggered when the client
+ * instance has finished querying.
+ *
+ * @subsubsection v43aaudioblock Access raw audio data
+ *
+ * The raw audio, which has been playing when a user is talking, can
+ * now be accessed by calling TT_EnableAudioBlockEvent(). The event
+ * @c WM_TEAMTALK_USER_AUDIOBLOCK is triggered when a new #AudioBlock is
+ * available.
+ *
+ * @subsubsection v43aaudiofilename Get name of file being recorded to
+ *
+ * If audio files are being recorded separately for every #User, using
+ * @c TT_SetUserAudioFolder, the file name of the file currently being
+ * recorded to can be found in the @c szAudioFileName property of the
+ * #User struct.
+ *
+ * @subsubsection v43aresetaudiofile Reset recorded audio file
+ *
+ * To cancel and start recording to a new audio file pass #AFF_NONE as
+ * parameter to @c TT_SetUserAudioFolder. This will reset the current
+ * recording and generate the @c WM_TEAMTALK_USER_AUDIOFILE event.
+ *
+ * @subsubsection v43achanechovideo See own video stream
+ *
+ * A #Channel can now be configured using the @c CHANNEL_ECHO_VIDEO flag
+ * for echoing the video stream transmitted by the local client
+ * instance.
+ *
+ * @subsubsection v43afreeforall Free-for-all option in classrooms
+ *
+ * A #Channel configured using #CHANNEL_CLASSROOM was previously
+ * limited to 16 people transmitting either video or audio. Now it's,
+ * however, possible to add #TT_CLASSROOM_FREEFORALL to the "enabled"
+ * users properties to allow everyone to transmit.
+ *
+ * @subsection v43aapi API Changes in v4.3a
+ *
+ * - TT_EnableAudioBlockEvent()
+ * - TT_AcquireUserAudioBlock()
+ * - TT_ReleaseUserAudioBlock()
+ * - TT_ReleaseAllAudioBlocks()
+ * - @c TT_SetUserAudioFolder
+ *   - Added @c uAFF parameter
+ * - TT_PaintVideoFrameEx()
+ * - TT_PaintDesktopWindow()
+ * - TT_PaintDesktopWindowEx()
+ * - TT_SendDesktopWindow()
+ * - TT_SendDesktopWindowFromHWND()
+ * - TT_SendDesktopFromWindowID()
+ * - TT_SendDesktopCursorPosition()
+ * - TT_CloseDesktopWindow()
+ * - @c TT_GetUserDesktopWindow()
+ * - @c TT_GetUserDesktopCursor()
+ * - TT_QueryMaxPayload()
+ * - TT_Palette_GetColorTable()
+ * - TT_Windows_GetDesktopActiveHWND()
+ * - TT_Windows_GetDesktopHWND()
+ * - TT_Windows_GetDesktopWindowHWND()
+ * - TT_Windows_GetWindow()
+ * - TT_MacOS_GetWindow()
+ * - TT_MacOS_GetWindowFromWindowID()
+ * - #AudioBlock new struct
+ * - #BitmapFormat new struct
+ * - #DesktopProtocol new struct
+ * - #DesktopWindow new struct
+ * - #ShareWindow new struct
+ * - #Channel struct updated with new fields:
+ *   - @c desktopUsers
+ * - #ClientStatistics
+ *   - @c nDesktopBytesSent
+ *   - @c nDesktopBytesRecv
+ * - #ServerProperties struct updated with new fields:
+ *   - @c szMOTDRaw
+ *   - @c nMaxDesktopTxPerSecond.
+ * - #UserAccount struct updated with new fields:
+ *   - @c szInitChannel
+ *   - @c autoOperatorChannels
+ * - #User struct updated with new fields
+ *   - @c uAFF
+ *   - @c szAudioFileName
+ * - #AudioFileFormat enumeration updated with new values:
+ *   - #AFF_MP3_16KBIT_FORMAT
+ *   - #AFF_MP3_32KBIT_FORMAT
+ * - #ClientEvent enumeration updated with new values:
+ *   - @c WM_TEAMTALK_USER_AUDIOBLOCK
+ *   - @c WM_TEAMTALK_USER_DESKTOPWINDOW
+ *   - @c WM_TEAMTALK_DESKTOPWINDOW_TRANSFER
+ *   - @c WM_TEAMTALK_USER_DESKTOPCURSOR
+ *   - @c WM_TEAMTALK_CON_MAX_PAYLOAD_UPDATED
+ * - #ChannelType enumeration updated with new values:
+ *   - @c CHANNEL_ECHO_AUDIO
+ *   - @c CHANNEL_ECHO_VIDEO
+ *   - @c CHANNEL_ECHO_DESKTOP
+ * - #ClientFlag
+ *   - #CLIENT_DESKTOP_ACTIVE
+ *   - #CLIENT_TX_DESKTOP
+ * - #Subscription enumeration updated with new values:
+ *   - #SUBSCRIBE_CUSTOM_MSG
+ *   - #SUBSCRIBE_INTERCEPT_CUSTOM_MSG
+ *   - #SUBSCRIBE_DESKTOP
+ *   - #SUBSCRIBE_INTERCEPT_DESKTOP
+ * - #TextMsgType
+ *   - #MSGTYPE_CUSTOM
+ * - #UserState enumeration updated with new values:
+ *   - #USERSTATE_DESKTOP
+ *   - @c USERSTATE_VIDEO
+ * - #UserRight enumeration updated with new values:
+ *   - @c USERRIGHT_FORWARD_DESKTOP.
+ * - #TT_CLASSROOM_FREEFORALL new const macro
+ * - #TT_CHANNELS_OPERATOR_MAX new const macro
+ *
+ * <hr>
+ *
+ * @section v42arelease TeamTalk 4 SDK v. 4.2a release
+ *
+ * Released on 2011/11/02.
+ *
+ * @subsection v42afeatures New features in v. 4.2a
+ *
+ * @subsubsection v42amuxaudio Muxed audio files
+ *
+ * It is now possible to store "muxed" audio files, i.e. audio from
+ * all users are written to the same audio file. Check out
+ * TT_StartRecordingMuxedAudioFile() on how to do this.
+ *
+ * @subsubsection v42awinfirewall Windows XP/Vista/7 Firewall
+ *
+ * The Windows Firewall, included in XP and later Windows versions,
+ * can sometimes block network traffic to and from applications which
+ * uses the TeamTalk DLL. Check out the section @ref firewall on how
+ * to use the Windows Firewall functions.
+ *
+ * @subsubsection v42atalkdelay Modify "talking" delay
+ *
+ * Voice activation is by default disabled if no audio has reached the
+ * voice activation level for 1.5 seconds. This option can now be
+ * changed by calling TT_SetVoiceActivationStopDelay(). Also users who
+ * are talking are set to non-talking after 0.5 seconds if no new
+ * voice data has been received. This value can now be changed by
+ * calling @c TT_SetUserStoppedTalkingDelay().
+ *
+ * @subsubsection v42avbrcodecs VBR audio codecs
+ *
+ * Speex and CELT can now be used in VBR mode by creating a #Channel
+ * with the #SpeexVBRCodec or @c CELTVBRCodec. To limit bandwidth usage
+ * it is advised to use the VBR codecs. Especially the Speex VBR codec
+ * with DTX enabled reduces throughput when there's silence.
+ * 
+ * @subsubsection v42acelt011 CELT updated to version 0.11
+ *
+ * CELT 0.5.2, which was used in v 4.1 and previous of the SDK, has been
+ * replaced by CELT 0.11. Note that encoding and decoding of CELT 0.5.2 
+ * is no longer supported. Check out http://www.celt-codec.org
+ *
+ * @subsubsection v42aipv6 IPv6 support (Windows 2000 no longer supported)
+ *
+ * Client and server now support IPv6. To make the server run in IPv6
+ * mode the server must bind to an IPv6 address. Check out @ref srvconfig
+ * on how to specify the bind IP-address (\<bind-ip\> tag).
+ *
+ * Note that the TeamTalk DLL can no longer run on Windows 2000 since
+ * this platform does not support IPv6.
+ *
+ * @subsection v42aapi API Changes in v4.2a
+ *
+ * - TT_SetVoiceActivationStopDelay()
+ * - TT_GetVoiceActivationStopDelay()
+ * - TT_StartRecordingMuxedAudioFile()
+ * - TT_StopRecordingMuxedAudioFile()
+ * - TT_GetServerChannels()
+ * - @c TT_SetUserStoppedTalkingDelay()
+ * - @c TT_GetUserStoppedTalkingDelay()
+ * - TT_Firewall_Enable()
+ * - TT_Firewall_AppExceptionExists()
+ * - TT_Firewall_AddAppException()
+ * - TT_Firewall_RemoveAppException()
+ * - #SpeexVBRCodec struct for Speex VBR.
+ * - @c CELTCodec struct updated for CELT 0.11.
+ * - @c CELTVBRCodec struct for CELT VBR.
+ * - #Codec enum update with @c CELT_0_5_2_OBSOLETE_CODEC, @c SPEEX_VBR_CODEC, 
+ *   @c CELT_CODEC and @c CELT_VBR_CODEC.
+ * - #AudioCodec struct updated with VBR codecs.
+ * - #ServerProperties struct updated with @c nAudioCodecBpsLimit, 
+ *   @c nMaxAudioTxPerSecond, @c nMaxVideoTxPerSecond and @c nMaxTotalTxPerSecond.
+ * - #ServerStatistics struct updated with @c nUptimeMSec.
+ * - #AudioFileFormat enum for different types of audio storage.
+ * - #ClientError enum now contains #CMDERR_UNKNOWN_AUDIOCODEC for unsupport
+ *   audio codec and #CMDERR_AUDIOCODEC_BITRATE_LIMIT_EXCEEDED for setting a 
+ *   bitrate for audio codecs which is too high.
+ * - #ClientFlag enum now contains #CLIENT_MUX_AUDIOFILE for active muxed 
+ *   audio file.
+ *
+ * @subsubsection v42aapiremove Removed API functions
+ *
+ * Support for "talking callback" by function pointer has been removed
+ * since it's causing problems with threads (typically UI
+ * vs. TT-threads).
+ *
+ * - @c TT_RegisterTalkingCallback
+ * - @c TT_UnregisterTalkingCallback
+ *
+ * <hr>
+ *
+ * @section v41arelease TeamTalk 4 SDK v. 4.1a release
+ *
+ * Released on 2010/10/30.
+ *
+ * @subsection v41afeatures New Features in v. 4.1a
+ *
+ * The new features in the TeamTalk 4 SDK v. 4.1a has are described in
+ * the following subsections.
+ *
+ * @subsubsection v41aplatforms Mac OS X and Windows Mobile platforms
+ *
+ * Mac OS X is now supported using the C-API DLL which is compiled for
+ * i386 and uses QuickTime for video and CoreAudio for audio.  Windows
+ * Mobile support is now also supported using both the C-API DLL and
+ * the .NET Framework DLL. Note, however, that the Windows Mobile is
+ * only supported in the Standard SDK and not the Professional SDK
+ * since OpenSSL is quite tricky to port to Windows Mobile.
+ *
+ * @subsubsection v41aecho Echo Cancellation
+ *
+ * When initializing the client instance's sound system in duplex mode
+ * it is now possible to enable echo cancellation. Note, however, that
+ * echo cancellation performs poorly on Windows whereas it's very
+ * effective on Mac OS X and Linux. Check out TT_InitSoundDuplexDevices()
+ * and TT_EnableEchoCancellation() on how to use echo cancellation.
+ *
+ * @subsubsection v41aclassroom Classroom channel-type
+ *
+ * A new channel-type called classroom has now been introduced where
+ * the channel's operator can control who is allowed to transmit audio
+ * and video to a channel. The channel operator can then work as sort
+ * of a teacher where the teacher selects the people who should answer
+ * questions. Check out #CHANNEL_CLASSROOM for how to create classroom
+ * channels.
+ *
+ * @subsubsection v41aaudiocfg Channel based audio configuration
+ *
+ * Often users have set their microphones to different audio levels so
+ * it's hard to hear certain users and others are too loud. When
+ * creating a channel it's now possible to use #Channel's @a audiocfg
+ * member to set the same audio level for all users. Note that all
+ * users must use the v. 4.1a release for this to work.
+ *
+ * @subsubsection v41asrvstats Server Statistics
+ *
+ * Administrators can now query a server statistics using the command
+ * TT_DoQueryServerStats() and thereby get an overview of bandwidth
+ * usage.
+ *
+ * @subsubsection v41avideo Simpler video extraction
+ * 
+ * Using TT_GetUserVideoFrame() is quite tricky to use since the
+ * developer must first query for how much memory must be allocated to
+ * store the video frame. In this new release it's possible to share
+ * memory with the client instance so one simply calls
+ * TT_AcquireUserVideoFrame() to get a pointer to a user's video data.
+ * when one has completed using the video frame call
+ * TT_ReleaseUserVideoFrame() to release the shared memory. Note that
+ * only one video frame can be extracted each time, therefore calling
+ * TT_AcquireUserVideoFrame() twice will simply result in getting the
+ * same video frame.
+ *
+ * 
+ *
+ * @subsection v41aapi API Changes in v4.1a
+ *
+ * - TT_ConnectEx()
+ *   - The function has now been introduced which allows to
+ *     specify the IP-address to bind to on the local interface.
+ * - @c WM_TEAMTALK_CMD_SUCCESS
+ *   - Whenever the client issues a command to the server (TT_Do* 
+ *     functions) this message will be posted if the command was 
+ *     successful.
+ * - #SOUNDSYSTEM_COREAUDIO
+ *   - Support for Mac OS X sound system.
+ * - TT_InitSoundDuplexDevices()
+ *   - Initialize both sound input and output devices simultaneously.
+ *     In duplex mode all users' playback streams will be mixed into
+ *     a single stream. Duplex mode most be enabled if echo cancellation
+ *     is to be used.
+ * - TT_CloseSoundDuplexDevices()
+ *   - When running in duplex mode this function must be used to close
+ *     down audio capture and playback.
+ * - @c TT_StartSoundLoopbackTestEx()
+ *   - Same as TT_StartSoundLoopbackTest() both with #AudioConfig and
+ *     echo cancellation.
+ * - TT_SetDenoiseLevel()
+ *   - Specify how agressive denoise should be when @c TT_EnableDenoising()
+ *     is enabled.
+ * - @c TT_GetDenoiseLevel()
+ *   - Getter for @c TT_SetDenoiseLevel().
+ * - @c TT_EnableEchoCancellation()
+ *   - For echo cancellation to be enabled the sound system must have been
+ *     initialized in duplex mode using TT_InitSoundDuplexDevices(). Note
+ *     that echo cancellation performs poorly on Windows.
+ * - @c TT_AcquireUserVideoFrame()
+ *   - Extract a user's video frame in a #VideoFrame struct. Call
+ *     @c TT_ReleaseUserVideoFrame() to release the memory referenced in the
+ *     #VideoFrame.
+ * - @c TT_ReleaseUserVideoFrame()
+ *   - Release the resources held by the client instance so a new video frame
+ *     can be extracted. Never use the #VideoFrame from 
+ *     TT_AcquireUserVideoFrame() again after this call.
+ * - #AudioConfig
+ *   - When creating a #Channel using TT_DoMakeChannel() or
+ *     TT_DoJoinChannel() it is now possible to specify an audio
+ *     configuration so all users will speak at the same volume level.
+ * - #CHANNEL_CLASSROOM
+ *   - This is a new channel-type where a channel operator or
+ *     administrator can select which users are allowed to talk and
+ *     send video to a channel. Use @a voiceUsers and @a videoUsers
+ *     members of #Channel to select who is allowed to transmit then
+ *     afterwards call TT_DoUpdateChannel().
+ * - TT_DoChannelOpEx()
+ *   - Make another user operator of a channel by specifying the
+ *     #Channel's operator password.
+ * - TT_DoQueryServerStats()
+ *   - Ask the server for statistics regarding bandwidth usage.
+ * - TT_GetServerStatistics()
+ *   - After a successful call to TT_DoQueryServerStats() extract the server's
+ *     statistics in a #ServerStatistics struct.
+ * - TT_DBG_SIZEOF()
+ *   - Useful for developers making wrappers for the C-API DLL to get the
+ *     size of structs used internally by the client instance.
+ * - TT_DBG_EVENT_LAST()
+ *   - Useful for developers making wrappers for the C-API DLL to ensure
+ *     that events are numbered correctly.
+ *
+ * <hr>
+ *
+ * @section v40crelease TeamTalk 4 SDK v. 4.0c release
+ *
+ * Released on 2010/03/16.
+ *
+ * @subsection v40cfeatures New Features in v. 4.0c
+ *
+ * The new features in the TeamTalk 4 SDK v. 4.0c has are described in
+ * the following subsections.
+ *
+ * @subsubsection v40cuseraccount Note-field and user-data for user accounts
+ * 
+ * The #UserAccount struct now has a new member called @a szNote which
+ * can contain extra information about a user account. The
+ * #UserAccount and #User structs now also has a @a nUserData integer
+ * field which can be used by developers to store an application
+ * specific value. After a successful login the @a nUserData field on
+ * #UserAccount will be transferred to the @a nUserData field on the
+ * #User struct.
+ *
+ * @subsubsection v40cmyaccount Get "my" User Account
+ *
+ * After login it's now possible to retrieve one's own #UserAccount by
+ * calling TT_GetMyUserAccount(). TT_GetMyUserData() can be used to
+ * extract one's @a nUserData of one's #UserAccount.
+ * 
+ * @subsubsection v40cswaphwnd Swap @c HWND for events
+ *
+ * When using TT_InitTeamTalk() a @c HWND is passed which is used for
+ * event handling. If at some point another @c HWND should be used for
+ * event handling this @c HWND can be swapped using
+ * TT_SwapTeamTalkHWND().
+ *
+ * @subsubsection v40cserverusers Extract all Users on the Server
+ *
+ * All users who are connected to a server can now be retrieved using
+ * TT_GetServerUsers().
+ *
+ *
+ * @subsection v40capi API Changes in v4.0c
+ *
+ * The folder for audio storage has now been placed in #User instead
+ * of on #Channel. Audio storage is therefore user specific now
+ * instead of channel specific.
+ *
+ * Renamed/modified functions:
+ *
+ * - @c TT_SetChannelAudioFolder
+ *   - Call @c TT_SetUserAudioFolder instead.
+ *
+ * @subsection v40cbugfixes Bug fixes in v. 4.0c
+ *
+ * Here a list of bugs fixed in this release:
+ *
+ * - Fixed TCP keep-alive timer not starting after connect event
+ * - Improved performance for uploading/downloading files
+ *
+ * <hr>
+ * <hr>
+ *
+ * @section v40arelease TeamTalk 4 SDK v. 4.0a release
+ *
+ * Released on 2009/11/23.
+ *
+ * @subsection v40afeatures New Features in v. 4.0a
+ * 
+ * The new features in the TeamTalk 4 SDK v. 4.0a has are described in
+ * the following subsections.
+ *
+ * @subsubsection chvidcap Video Capturing from WebCams
+ *
+ * TeamTalk can now capture video from webcams and encode it for
+ * transmission. Bandwidth usage can be as low as a 2-3 KBytes/sec in
+ * low resolutions. High resultions are, of course, also supported.
+ *
+ * To start using the new video features checkout the following 
+ * new functions:   
+ *
+ * - Call #TT_GetVideoCaptureDevices to get a list 
+ *   of available capture devices.
+ * - Call #TT_InitVideoCaptureDevice to initialize
+ *   the video capture device.
+ * - Process @c WM_TEAMTALK_USER_VIDEOFRAME event.
+ * - Call @c TT_EnableTransmission to transmit video
+ *   data.
+ *
+ * @subsubsection chuseradmin User Accounts
+ *
+ * The TeamTalk server can now be set to only allow users to log on if
+ * they have a user account on the server. The user account also
+ * introduces user types, so some users can have administrator
+ * capabilities.
+ *
+ * Read the section @ref srvconfig on how to configure the server with
+ * user accounts. To see the new functions in the TeamTalk DLL for
+ * handling user accounts check out the following new functions:
+ *
+ * - Call #TT_DoNewUserAccount to create a new user
+ *   account. The user doing this must be administrator, i.e.
+ *   #USERTYPE_ADMIN.
+ * - Call #TT_DoDeleteUserAccount to delete a user account.
+ * - Call #TT_DoListUserAccounts to list all user accounts
+ *   on the server.
+ *
+ * @subsubsection chcmdid Track Command Completion
+ *
+ * When calling any of the client to server commands listed in
+ * section @ref commands a command ID is returned to the user
+ * application. This command ID can be used to track when the server
+ * has started and finished processing the command using the
+ * @c WM_TEAMTALK_CMD_PROCESSING event.
+ *
+ * @subsubsection chp2p Improved P2P Connections
+ *
+ * The TeamTalk client now has better support for peer to peer data
+ * transmission and can now penetrate most NAT devices.
+ *
+ * Check out section @a REMOVED for more information on P2P
+ * networking. P2P networking is enabled using the following
+ * functions:
+ *
+ * - Call @c TT_EnablePeerToPeer to enable/disable peer to peer
+ *   connections.
+ *
+ * @subsubsection chcelt Support for CELT audio codec
+ *
+ * TeamTalk now not only supports the Speex codec, but also the CELT
+ * codec. The CELT codec gives much better audio quality but also
+ * requires higher bandwidth usage. If a user application is used to
+ * transmit music it is advised to use CELT since the sound quality
+ * will be must better than Speex. Speex is mainly for voice
+ * transmissions. Check out section @ref codecs to read more about the
+ * new codec.
+ *
+ * Also note that the audio codec used by a client is now configured
+ * on a #Channel and not on each individual client. This
+ * means that all users in a channel must now use the same audio
+ * settings. This restriction has been set to support
+ * echo-cancellation which is on the @ref knownissues.
+ *
+ * @subsection v40aapi API Changes in v. 4.0a
+ *
+ * This section outlines how TeamTalk 3 developers can adapt their
+ * existing applications to TeamTalk 4.
+ *
+ * Renamed/modified functions:
+ *
+ * - @c TT_GetDefaultDevices
+ *   - Call #TT_GetDefaultSoundDevices instead.
+ * - @c TT_GetInputDevicesCount
+ *   - Call @c TT_GetSoundInputDevices instead.
+ * - @c TT_GetInputDevice
+ *   - Call @c TT_GetSoundInputDevices instead.
+ * - @c TT_GetOutputDevicesCount
+ *   - Call @c TT_GetSoundOutputDevices instead.
+ * - @c TT_GetOutputDevice
+ *   - Call @c TT_GetSoundOutputDevices instead.
+ * - @c TT_LaunchSoundSystem 
+ *   - Call #TT_InitSoundInputDevice and #TT_InitSoundOutputDevice instead.
+ * - @c TT_IsSoundSystemInitialized
+ *   - Check #CLIENT_SNDINPUT_READY and #CLIENT_SNDOUTPUT_READY instead.
+ * - @c TT_ShutdownSoundSystem 
+ *   - Call #TT_CloseSoundInputDevice and #TT_CloseSoundOutputDevice instead.
+ * - @c TT_RestartSoundSystem
+ *   - Call #TT_CloseSoundInputDevice and #TT_InitSoundInputDevice instead.
+ *     Similar way for output device.
+ * - @c TT_GetCurrentInputLevel
+ *   - Call #TT_GetSoundInputLevel instead.
+ * - @c TT_SetMasterVolume
+ *   - Call #TT_SetSoundOutputVolume instead.
+ * - @c TT_GetMasterVolume
+ *   - Call #TT_GetSoundOutputVolume instead.
+ * - @c TT_MuteAll
+ *   - Call #TT_SetSoundOutputMute instead.
+ * - @c TT_IsAllMute
+ *   - Check #CLIENT_SNDOUTPUT_MUTE instead.
+ * - @c TT_IsDenoising
+ *   - Check @c CLIENT_SNDINPUT_DENOISING instead.
+ * - @c TT_SetVoiceGainLevel
+ *   - Call #TT_SetSoundInputGainLevel instead.
+ * - @c TT_GetVoiceGainLevel
+ *   - Call #TT_GetSoundInputGainLevel instead.
+ * - @c TT_IsVoiceActivated
+ *   - Check #CLIENT_SNDINPUT_VOICEACTIVATED instead.
+ * - @c TT_EnableAutoPositioning
+ *   - Call #TT_Enable3DSoundPositioning instead.
+ * - @c TT_IsConnected
+ *   - Check #CLIENT_CONNECTED instead.
+ * - @c TT_IsConnecting 
+ *   - Check #CLIENT_CONNECTING instead.
+ * - @c TT_IsAuthorized
+ *   - Check #CLIENT_AUTHORIZED instead.
+ * - @c TT_SetTcpKeepAliveInterval
+ *    - Call @c TT_SetKeepAliveInterval instead.
+ * - @c TT_GetTcpKeepAliveInterval 
+ *    - Call @c TT_GetKeepAliveInterval instead.
+ * - @c TT_DoChangeNick
+ *   - Call #TT_DoChangeNickname instead.
+ * - @c TT_DoUserMessage
+ *   - Call #TT_DoTextMessage with message type #MSGTYPE_USER instead.
+ * - @c TT_DoChannelMessage
+ *   - Call #TT_DoTextMessage with message type #MSGTYPE_CHANNEL instead.
+ * - @c TT_GetMessageOfTheDay
+ *   - Call #TT_GetServerProperties instead.
+ * - @c TT_GetServerName
+ *   - Call #TT_GetServerProperties instead.
+ * - @c TT_GetChannelParentID
+ *   - Use @a nParentID in #Channel instead.
+ * - @c TT_GetChannelMessage
+ *   - Call @c TT_GetTextMessage instead.
+ * - @c TT_GetBroadcastMessage
+ *   - Call @c TT_GetTextMessage instead.
+ * - @c TT_GetUserMessage
+ *   - Call @c TT_GetTextMessage instead.
+ * - @c TT_IsUserMute
+ *   - Check @c USERSTATE_MUTE in @a uUserState of #User-struct.
+ * - @c TT_IsUserTalking
+ *   - Check @c USERSTATE_TALKING in @a uUserState of #User-struct.
+ * - @c TT_ForwardToAll
+ *   - Call @c TT_EnablePeerToPeer with parameter to false (the default setting).
+ * - @c TT_IsForwardingToAll
+ *   - Check that @c CLIENT_P2P is no enabled.
+ * - @c TT_GetBytesReceived
+ * - Call @c TT_GetStatistics instead.
+ * - @c TT_GetBytesSent
+ * - Call @c TT_GetStatistics instead.
+ * - @c TT_StartTransmitting
+ *   - Call @c TT_EnableTransmission instead.
+ * - @c TT_StopTransmitting
+ *   - Call @c TT_EnableTransmission instead.
+ * - @c TT_StartTransmittingWaveFile
+ *   - Call @c TT_StartStreamingAudioFileToUser or @c TT_StartStreamingAudioFileToChannel instead.
+ * - @c TT_StopTransmittingWaveFile
+ *   - Call @c TT_StopStreamingAudioFileToUser or @c TT_StopStreamingAudioFileToChannel instead.
+ * - @c TT_RegisterHotKey
+ *   - Call #TT_HotKey_Register instead.
+ * - @c TT_UnregisterHotKey
+ *   - Call #TT_HotKey_Unregister instead.
+ * - @c TT_IsHotKeyActive
+ *   - Call #TT_HotKey_IsActive instead.
+ * - @c TT_GetChannelFilesCount
+ *   - Call #TT_GetChannelFiles instead.
+ * - @c TT_GetChannelFileID
+ *   - Call #TT_GetChannelFiles instead.
+ * - @c TT_DoUserSubscribe
+ *   - Call #TT_DoSubscribe instead.
+ * - @c TT_DoUserUnsubscribe
+ *   - Call #TT_DoUnsubscribe instead.
+ *
+ * Removed functions:
+ *
+ * - @c TT_SetEncoderComplexity
+ * - @c TT_GetEncoderComplexity
+ * - @c TT_GetSamplesPerPacket
+ * - @c TT_SetPlaybackMode
+ * - @c TT_GetPlaybackMode
+ * - @c TT_GetChannelUserCount
+ *
+ * Renamed/modified events:
+ *
+ * - @c WM_TEAMTALK_CONNECTSUCCESS
+ *   - Use @c WM_TEAMTALK_CON_SUCCESS instead.
+ * - @c WM_TEAMTALK_CONNECTFAILED 
+ *   - Use @c WM_TEAMTALK_CON_FAILED instead.
+ * - @c WM_TEAMTALK_CONNECTIONLOST
+ *   - Use @c WM_TEAMTALK_CON_LOST instead.
+ * - @c WM_TEAMTALK_ACCEPTED
+ *   - Use @c WM_TEAMTALK_CMD_MYSELF_LOGGEDIN instead.
+ * - @c WM_TEAMTALK_ADDUSER 
+ *   - Use @c WM_TEAMTALK_CMD_USER_JOINED instead.
+ * - @c WM_TEAMTALK_UPDATEUSER
+ *   - Use @c WM_TEAMTALK_CMD_USER_UPDATE instead.
+ * - @c WM_TEAMTALK_REMOVEUSER
+ *   - Use @c WM_TEAMTALK_CMD_USER_LEFT instead.
+ * - @c WM_TEAMTALK_ADDCHANNEL
+ *   - Use @c WM_TEAMTALK_CMD_CHANNEL_NEW instead.
+ * - @c WM_TEAMTALK_UPDATECHANNEL  
+ *   - Use @c WM_TEAMTALK_CMD_CHANNEL_UPDATE instead.
+ * - @c WM_TEAMTALK_REMOVECHANNEL
+ *   - Use @c WM_TEAMTALK_CMD_CHANNEL_REMOVE instead.
+ * - @c WM_TEAMTALK_USERMESSAGE
+ *   - Use @c WM_TEAMTALK_CMD_USER_TEXTMSG instead.
+ * - @c WM_TEAMTALK_CHANNELMESSAGE
+ *   - Use @c WM_TEAMTALK_CMD_USER_TEXTMSG instead.
+ * - @c WM_TEAMTALK_KICKED
+ *   - Use @c WM_TEAMTALK_CMD_MYSELF_KICKED instead.
+ * - @c WM_TEAMTALK_SERVERUPDATE
+ *   - Use @c WM_TEAMTALK_CMD_SERVER_UPDATE instead.
+ * - @c WM_TEAMTALK_JOINEDCHANNEL
+ *   - Use @c WM_TEAMTALK_CMD_MYSELF_JOINED instead.
+ * - @c WM_TEAMTALK_ERROR
+ *   - Use @c WM_TEAMTALK_CMD_ERROR instead.
+ * - @c WM_TEAMTALK_USERTALKING
+ *   - Use @c WM_TEAMTALK_USER_TALKING instead.
+ * - @c WM_TEAMTALK_USERSTOPPEDTALKING
+ *   - Use @c WM_TEAMTALK_USER_TALKING instead.
+ * - @c WM_TEAMTALK_DIRCONNECTIONFAILED
+ *   - Use @c WM_TEAMTALK_CON_P2P instead.
+ * - @c WM_TEAMTALK_LISTCOMMAND_COMPLETED
+ *   - Use @c WM_TEAMTALK_CMD_PROCESSING instead.
+ * - @c WM_TEAMTALK_LEFTCHANNEL
+ *   - Use @c WM_TEAMTALK_CMD_MYSELF_LEFT instead.
+ * - @c WM_TEAMTALK_LOGGEDOUT
+ *   - Use @c WM_TEAMTALK_CMD_MYSELF_LOGGEDOUT instead.
+ * - @c WM_TEAMTALK_ADDFILE 
+ *   - Use @c WM_TEAMTALK_CMD_FILE_NEW instead.
+ * - @c WM_TEAMTALK_REMOVEFILE 
+ *   - Use @c WM_TEAMTALK_CMD_FILE_REMOVE instead.
+ * - @c WM_TEAMTALK_TRANSFER_BEGIN
+ *   - Use @c WM_TEAMTALK_FILETRANSFER instead.
+ * - @c WM_TEAMTALK_TRANSFER_COMPLETED
+ *   - Use @c WM_TEAMTALK_FILETRANSFER instead.
+ * - @c WM_TEAMTALK_TRANSFER_FAILED
+ *   - Use @c WM_TEAMTALK_FILETRANSFER instead.
+ * - @c WM_TEAMTALK_BROADCASTMESSAGE
+ *   - Use @c WM_TEAMTALK_CMD_USER_TEXTMSG instead.
+ * - @c WM_TEAMTALK_USERLOGGEDIN
+ *   - Use @c WM_TEAMTALK_CMD_USER_LOGGEDIN instead.
+ * - @c WM_TEAMTALK_USERLOGGEDOUT 
+ *   - Use @c WM_TEAMTALK_CMD_USER_LOGGEDOUT instead.
+ * - @c WM_TEAMTALK_SOUNDDEVICE_ERROR
+ *   - Use @c WM_TEAMTALK_INTERNAL_ERROR instead.
+ * - @c WM_TEAMTALK_KEYTEST
+ *   - Use @c WM_TEAMTALK_HOTKEY_TEST instead.
+ * - @c WM_TEAMTALK_AUDIOFILE_STATUS
+ *   - Use @c WM_TEAMTALK_USER_AUDIOFILE instead.
+ * - @c WM_TEAMTALK_STREAMFILE_COMPLETED
+ *   - Use @c WM_TEAMTALK_STREAM_AUDIOFILE_USER instead.
+ * - @c WM_TEAMTALK_USER_SUBSCRIBERS_RESULT 
+ *   - Use @a uLocalSubscriptions and @a uPeerSubscriptions in #User instead.
+ */

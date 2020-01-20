@@ -1,4 +1,4 @@
-*Makefile*
+/*Makefile*
 build_*
 .depend*
 *.vcxproj*
@@ -13,3 +13,4 @@ InstallDir
 Output
 armeabi-v7a
 arm64-v8a
+x86

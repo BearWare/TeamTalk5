@@ -168,6 +168,20 @@
     <item id="304">Supprimer le profil</item>
     <item id="305">Choisissez un profil</item>
     <item id="306">Nom du profil</item>
+    <item id="307">Ascendant</item>
+    <item id="308">Popularité</item>
+    <item id="309">Tout le monde</item>
+    <item id="310">%s a ajouté le fichier %s</item>
+    <item id="311">a supprimé le fichier %s</item>
+    <item id="312">Événements de fichier</item>
+    <item id="313">Fichier ajouté</item>
+    <item id="314">Fichier supprimé</item>
+    <item id="315">Réinitialiser</item>
+    <item id="316">Connexion Web BearWare.dk</item>
+    <item id="317">Échec de l&apos;authentification</item>
+    <item id="318">Impossible d&apos;initialiser la connexion web BearWare.dk</item>
+    <item id="319">%s, votre nom d&apos;utilisateur &quot;&quot;%s&quot;&quot; a été validé.</item>
+    <item id="320">Diffuser un message général</item>
     <item id="1009">Connexion automatique au canal principal lors de la connexion</item>
     <item id="1011">Propriétés de l&apos;hôte</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
@@ -467,6 +481,15 @@
     <item id="1547">Protection contre le flood</item>
     <item id="1548">Empêcher un utilisateur de, par exemple, spammer avec des messages en limitant le nombre de commandes qu&apos;ils peut émettre dans un délai donné.</item>
     <item id="1550">Limite des commandes émises</item>
+    <item id="1553">Profil</item>
+    <item id="1554">L&apos;utilisateur peut changer de pseudo</item>
+    <item id="1558">L&apos;utilisateur peut enregistrer la voix sur tous les canaux</item>
+    <item id="1561">Activer</item>
+    <item id="1562">Connexion Web BearWare.dk</item>
+    <item id="1563">La connexion Web BearWare.dk est utilisée pour identifier un utilisateur TeamTalk. Un identifiant de connexion peut être créé sur le site Web BearWare.dk.</item>
+    <item id="1564">Authentification</item>
+    <item id="1565">Créer</item>
+    <item id="1566">Garder les utilisateurs déconnectés</item>
     <item id="32791">Quelle est mon adresse IP?</item>
     <item id="32798">Définir comme opérateur de canal\tCtrl+O</item>
     <item id="32801">Afficher les messages du canal\tF10</item>
@@ -489,7 +512,7 @@
     <item id="32833">Volume\tCtrl+U</item>
     <item id="32835">Afficher les informations sur l&apos;utilisateur\tCtrl+I</item>
     <item id="32837">Créer un canal\tF7</item>
-    <item id="32838">Joindre le canal\tCtrl+J</item>
+    <item id="32838">Rejoindre le canal\tCtrl+J</item>
     <item id="32839">Messages\tCtrl+E</item>
     <item id="32840">Couper</item>
     <item id="32841">Copier</item>
@@ -574,4 +597,5 @@
     <item id="32951">Exclure et bannir du canal\tCtrl+B</item>
     <item id="32952">Utilisateurs bannis du canal\tCtrl+Alt+Shift+B</item>
     <item id="32953">Nouvelle instance du client\tCtrl+N</item>
+    <item id="32954">Sélectionner pour déplacer\tCtrl+Alt+X</item>
 </language>

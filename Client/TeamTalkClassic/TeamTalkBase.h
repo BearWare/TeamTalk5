@@ -60,7 +60,7 @@ BOOL IsMyselfTalking();
 
 void InitDefaultAudioCodec(AudioCodec& audiocodec);
 
-#ifdef ENABLE_ENCRYPTION
+#ifdef ENABLE_TEAMTALKPRO
 #define DEFAULT_TEAMTALK_TCPPORT 10443
 #define DEFAULT_TEAMTALK_UDPPORT 10443
 #else
@@ -121,12 +121,13 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec);
 #define DEFAULT_OPUS_VBRCONSTRAINT      FALSE
 #define DEFAULT_OPUS_BITRATE            32000
 #define DEFAULT_OPUS_DELAY              DEFAULT_MSEC_PER_PACKET
+#define DEFAULT_OPUS_FRAMESIZE          0 // implies same as DEFAULT_OPUS_DELAY
 
 //Video settings
 #define DEFAULT_VIDEO_WIDTH             320
 #define DEFAULT_VIDEO_HEIGHT            240
 #define DEFAULT_VIDEO_FPS               10
-#define DEFAULT_VIDEO_FOURCC            FOURCC_RGB32
+#define DEFAULT_VIDEO_FOURCC            FOURCC_I420
 
 //WebM settings
 #define DEFAULT_VIDEOCODEC              WEBM_VP8_CODEC
@@ -269,6 +270,7 @@ enum SoundEvent
     SOUNDEVENT_USER_LEFT                    = 0x00000002,
     SOUNDEVENT_USER_TEXTMSG                 = 0x00000004,
     SOUNDEVENT_USER_CHANNEL_TEXTMSG         = 0x00000008,
+    SOUNDEVENT_USER_BROADCAST_TEXTMSG       = 0x00200000,
     SOUNDEVENT_USER_QUESTIONMODE            = 0x00000010,
     SOUNDEVENT_USER_DESKTOP_ACCESS          = 0x00000020,
     SOUNDEVENT_USER_VIDEOSESSION_NEW        = 0x00000040,
@@ -294,10 +296,13 @@ enum SoundEvent
     SOUNDEVENT_ME_ENABLE_VOICEACTIVATION    = 0x00080000,
     SOUNDEVENT_ME_DISABLE_VOICEACTIVATION   = 0x00100000,
 
+    SOUNDEVENT_MAX                          = SOUNDEVENT_USER_BROADCAST_TEXTMSG,
+
     SOUNDEVENT_DEFAULT                  = SOUNDEVENT_USER_JOIN |
                                           SOUNDEVENT_USER_LEFT |
                                           SOUNDEVENT_USER_TEXTMSG |
                                           SOUNDEVENT_USER_CHANNEL_TEXTMSG |
+                                          SOUNDEVENT_USER_BROADCAST_TEXTMSG |
                                           SOUNDEVENT_USER_QUESTIONMODE |
                                           SOUNDEVENT_USER_DESKTOP_ACCESS |
                                           SOUNDEVENT_USER_VIDEOSESSION_NEW |

@@ -24,13 +24,10 @@
 #ifndef STREAMPLAYERS_H
 #define STREAMPLAYERS_H
 
-#include <ace/Bound_Ptr.h>
-
 #include <myace/MyACE.h>
 
-#if defined(ENABLE_SOUNDSYSTEM)
-#include <soundsystem/SoundSystem.h>
-#endif
+#include <avstream/SoundSystem.h>
+#include <avstream/AudioResampler.h>
 
 #include <teamtalk/Common.h>
 #include <teamtalk/PacketLayout.h>
@@ -47,24 +44,13 @@
 #if defined(ENABLE_VPX)
 #include <codec/VpxDecoder.h>
 #endif
-#include <codec/AudioResampler.h>
 #include "VideoThread.h"
+
+#include <memory>
 
 #define STOPPED_TALKING_DELAY 500 //msec
 
-class AudioMuxer;
-
 namespace teamtalk {
-
-    enum Stereo
-    {
-        STEREO_NONE = 0x0,
-        STEREO_LEFT = 0x1,
-        STEREO_RIGHT = 0x2,
-        STEREO_BOTH = STEREO_LEFT | STEREO_RIGHT
-    };
-
-    typedef unsigned char StereoMask;
 
     struct encframe
     {
@@ -83,25 +69,23 @@ namespace teamtalk {
         }
     };
 
+    typedef std::function< void (int userid, StreamType stream_type, const media::AudioFrame& frm) > useraudio_callback_t;
+
     class AudioPlayer
-#if defined(ENABLE_SOUNDSYSTEM)
         : public soundsystem::StreamPlayer
-#endif
     {
     public:
-        AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
-                    AudioMuxer& audiomuxer, const AudioCodec& codec,
+        AudioPlayer(int userid, StreamType stream_type,
+                    useraudio_callback_t audio_cb, const AudioCodec& codec,
                     audio_resampler_t& resampler);
         virtual ~AudioPlayer();
 
         //returns reassembled AudioPacket if 'new_audpkt' has fragments
         audiopacket_t QueuePacket(const AudioPacket& new_audpkt);
 
-#if defined(ENABLE_SOUNDSYSTEM)
         virtual bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                                     short* output_buffer, int n_samples);
-        virtual void StreamPlayerCbEnded();
-#endif
+
         bool PlayBuffer(short* output_buffer, int n_samples);
         virtual bool DecodeFrame(const encframe& enc_frame,
                                  short* output_buffer, int n_samples) = 0;
@@ -119,7 +103,6 @@ namespace teamtalk {
 
         void SetAudioBufferSize(int msec);
 
-        int GetNumAudioBlocks(bool reset);
         int GetNumAudioPacketsRecv(bool reset);
         int GetNumAudioPacketsLost(bool reset);
 
@@ -131,10 +114,9 @@ namespace teamtalk {
         void AddPacket(const AudioPacket& packet);
         virtual void Reset();
 
-        int m_sndgrpid;
         int m_userid;
         StreamType m_streamtype;
-        AudioMuxer& m_audiomuxer;
+        useraudio_callback_t m_audio_callback;
         bool m_talking;
         AudioCodec m_codec;
         //start/stop playback attributes
@@ -143,7 +125,6 @@ namespace teamtalk {
         uint32_t m_played_packet_time; //time of last packet to be send to audio buffer
         //AudioMuxer attributes
         ACE_UINT32 m_samples_played;
-        ACE_UINT32 m_current_samples_played; //for AudioMuxer
         //Resample buffer
         audio_resampler_t m_resampler;
         std::vector<short> m_resample_buffer;
@@ -153,7 +134,6 @@ namespace teamtalk {
         int m_stream_id;
 
         //stats
-        int m_new_audio_blocks;
         int m_audiopackets_recv;
         int m_audiopacket_lost;
 
@@ -171,14 +151,14 @@ namespace teamtalk {
         ACE_Recursive_Thread_Mutex m_mutex;
     };
 
-    typedef ACE_Strong_Bound_Ptr< AudioPlayer, ACE_MT_SYNCH::RECURSIVE_MUTEX > audio_player_t;
+    typedef std::shared_ptr< AudioPlayer > audio_player_t;
 
 #if defined(ENABLE_SPEEX)
     class SpeexPlayer : public AudioPlayer
     {
     public:
-        SpeexPlayer(int sndgrpid, int userid, StreamType stream_type,
-                    AudioMuxer& audiomuxer, const AudioCodec& codec,
+        SpeexPlayer(int userid, StreamType stream_type,
+                    useraudio_callback_t audio_cb, const AudioCodec& codec,
                     audio_resampler_t resampler);
         virtual ~SpeexPlayer();
 
@@ -187,7 +167,7 @@ namespace teamtalk {
 
     protected:
         void Reset();
-        SpeexDecoder m_Decoder;
+        SpeexDecoder m_decoder;
     };
 #endif
 
@@ -195,9 +175,9 @@ namespace teamtalk {
     class OpusPlayer : public AudioPlayer
     {
     public:
-        OpusPlayer(int sndgrpid, int userid, StreamType stream_type,
-                    AudioMuxer& audiomuxer, const AudioCodec& codec,
-                    audio_resampler_t resampler);
+        OpusPlayer(int userid, StreamType stream_type,
+                   useraudio_callback_t audio_cb, const AudioCodec& codec,
+                   audio_resampler_t resampler);
         virtual ~OpusPlayer();
 
         bool DecodeFrame(const encframe& enc_frame,
@@ -273,7 +253,7 @@ namespace teamtalk {
         ACE_Recursive_Thread_Mutex m_mutex;
     };
 
-    typedef ACE_Strong_Bound_Ptr< WebMPlayer, ACE_MT_SYNCH::RECURSIVE_MUTEX > webm_player_t;
+    typedef std::shared_ptr< WebMPlayer > webm_player_t;
 
 #endif /* ENABLE_VPX */
 }

@@ -39,7 +39,7 @@ namespace ttserverlog.net
         [STAThread] //this macro must be set in console applications for TeamTalk to work properly
         static void Main(string[] args)
         {
-#if ENABLE_ENCRYPTION
+#if ENABLE_TEAMTALKPRO
             ttclient = new TeamTalk5Pro(true);
             int tcpport = TeamTalk5Pro.DEFAULT_TCPPORT, udpport = TeamTalk5Pro.DEFAULT_UDPPORT;
 #else

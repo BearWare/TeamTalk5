@@ -13,7 +13,8 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              userimagewidget.h userdesktopdlg.h desktopsharedlg.h \
              sendtextedit.h streammediafiledlg.h videotextdlg.h \
              desktopaccessdlg.h appinfo.h settings.h generatettfiledlg.h \
-             customvideofmtdlg.h weblogindlg.h license.h
+             customvideofmtdlg.h weblogindlg.h license.h bearwarelogindlg.h \
+             audiopreprocessordlg.h
 
 SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              channelstree.cpp channeldlg.cpp userinfodlg.cpp \
@@ -27,7 +28,8 @@ SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              userdesktopwidget.cpp gridwidget.cpp userimagewidget.cpp \
              userdesktopdlg.cpp desktopsharedlg.cpp sendtextedit.cpp \
              streammediafiledlg.cpp videotextdlg.cpp desktopaccessdlg.cpp \
-             generatettfiledlg.cpp customvideofmtdlg.cpp weblogindlg.cpp
+             generatettfiledlg.cpp customvideofmtdlg.cpp weblogindlg.cpp \
+             bearwarelogindlg.cpp audiopreprocessordlg.cpp
 
 FORMS      = mainwindow.ui channel.ui preferences.ui \
              serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui \
@@ -35,7 +37,8 @@ FORMS      = mainwindow.ui channel.ui preferences.ui \
              filetransfer.ui uservolume.ui changestatus.ui about.ui \
              serverstats.ui onlineusers.ui mediastorage.ui userdesktop.ui \
              desktopshare.ui streammediafile.ui videotext.ui desktopaccess.ui \
-             generatettfile.ui customvideofmt.ui weblogin.ui
+             generatettfile.ui customvideofmt.ui weblogin.ui bearwarelogindlg.ui \
+             audiopreprocessor.ui
 
 RESOURCES += resources.qrc
 
@@ -43,6 +46,8 @@ win32 {
     DEFINES += _CRT_SECURE_NO_WARNINGS
     RC_FILE = mainwindow.rc
     QT += axcontainer
+    # Prevent linking to api-ms-win-core-winrt-l1-1-0.dll (doesn't exist on Windows 7)
+    QTPLUGIN.audio=qtaudio_windows
 }
 
 x11 {
@@ -52,23 +57,29 @@ x11 {
 linux {
     LIBS += -lX11
      
-    # QWebEngineView introduced in Qt 5.4
-    greaterThan(QT_MAJOR_VERSION, 4): QT += x11extras webenginewidgets
+    greaterThan(QT_MAJOR_VERSION, 4): QT += x11extras
 }
 
 mac {
     CONFIG += accessibility
     QTPLUGIN += qtaccessiblewidgets
+    # Use 'iconutil' to convert between icns and pngs
     ICON = images/teamtalk.icns
     LIBS += -framework IOKit -framework Carbon
-
-    # QWebEngineView introduced in Qt 5.4
-    greaterThan(QT_MAJOR_VERSION, 4): QT += webenginewidgets
 }
 
-# QWebView introduced in Qt 4.4
-equals(QT_MAJOR_VERSION, 4) {
-    greaterThan(QT_MINOR_VERSION, 3): QT += webkit
+mac | linux {
+    nowebengine {
+        # QWebView introduced in Qt 4.4
+        QT += webkitwidgets
+    } else {
+    
+        # QWebEngineView introduced in Qt 5.4
+        greaterThan(QT_MAJOR_VERSION, 4) {
+            QT += webenginewidgets
+        }
+    }
+
 }
 
 # install

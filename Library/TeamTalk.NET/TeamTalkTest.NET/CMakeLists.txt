@@ -17,7 +17,7 @@ if (MSVC)
 
   if (BUILD_TEAMTALKPRO_DOTNET_UNITTEST)
     add_library (TeamTalk5ProTest.NET SHARED TeamTalkTest.cs Properties/AssemblyInfo.cs)
-    target_compile_options (TeamTalk5ProTest.NET PUBLIC "/define:ENABLE_ENCRYPTION")
+    target_compile_options (TeamTalk5ProTest.NET PUBLIC "/define:ENABLE_TEAMTALKPRO")
     set_property (TARGET TeamTalk5ProTest.NET PROPERTY VS_DOTNET_REFERENCES
       "Microsoft.VisualStudio.QualityTools.UnitTestFramework"
       "System" "System.Core" "System.Drawing")

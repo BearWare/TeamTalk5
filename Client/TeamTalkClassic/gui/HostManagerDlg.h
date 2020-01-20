@@ -34,6 +34,8 @@
 #include "settings/ClientXML.h"
 #include "HttpRequest.h"
 
+#include <memory>
+
 #include "afxwin.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -94,7 +96,7 @@ protected:
 
 private:
     teamtalk::ClientXML* m_pSettings;
-    CHttpRequest* m_pHttpRequest;
+    std::unique_ptr<CHttpRequest> m_HttpPubServers, m_HttpBearWareAuth;
     std::vector<teamtalk::HostEntry> m_pubservers;
     void ShowFieldError();
 

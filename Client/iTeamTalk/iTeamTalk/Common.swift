@@ -107,7 +107,7 @@ func getDefaultSubscriptions() -> Subscriptions {
     if sub_deskinput {
         subs |= SUBSCRIBE_DESKTOPINPUT.rawValue
     }
-    
+
     return subs
 }
 
@@ -154,7 +154,7 @@ func newTableCellBtn(_ cell: UITableViewCell, label: String, btntext: String) ->
     cell.selectionStyle = .none
     cell.textLabel?.text = label
     let buttonfield = UIButton(frame: CGRect(x: 40, y: 0, width: 150, height: 31))
-    buttonfield.setTitle(btntext, for: UIControlState())
+    buttonfield.setTitle(btntext, for: UIControl.State())
     cell.accessoryView = buttonfield
     
     return buttonfield
@@ -195,6 +195,14 @@ func newTableCellStepper(_ cell: UITableViewCell, label: String,
     cell.accessoryView = stepper
     
     return stepper
+}
+
+func getXMLPath(elementStack : [String]) -> String {
+    var path = ""
+    for s in elementStack {
+        path += "/" + s
+    }
+    return path
 }
 
 protocol TeamTalkEvent : class {
@@ -241,8 +249,8 @@ func removeFromTTMessages(_ p: TeamTalkEventHandler) {
     }
 }
 
-enum ChanSort {
-    case ASCENDING
+enum ChanSort : Int {
+    case ASCENDING = 0
     case POPULARITY
     case COUNT
 }
@@ -388,10 +396,18 @@ func getDisplayName(_ user: User) -> String {
 }
 
 enum Sounds : Int {
-    case tx_ON = 1, tx_OFF = 2, chan_MSG = 3,
-         user_MSG = 4, srv_LOST = 5, joined_CHAN = 6, left_CHAN = 7,
-        voxtriggered_ON = 8, voxtriggered_OFF = 9, transmit_ON = 10,
-        transmit_OFF = 11
+    case tx_ON = 1,
+         tx_OFF = 2,
+         chan_MSG = 3,
+         broadcast_MSG = 4,
+         user_MSG = 5,
+         srv_LOST = 6,
+         joined_CHAN = 7,
+         left_CHAN = 8,
+         voxtriggered_ON = 9,
+         voxtriggered_OFF = 10,
+         transmit_ON = 11,
+         transmit_OFF = 12
 }
 
 var player : AVAudioPlayer?
@@ -420,6 +436,11 @@ func getSoundFile(_ s: Sounds) -> String? {
         if settings.object(forKey: PREF_SNDEVENT_USERMSG) == nil ||
             settings.bool(forKey: PREF_SNDEVENT_USERMSG) {
                 return "user_message"
+        }
+    case .broadcast_MSG:
+        if settings.object(forKey: PREF_SNDEVENT_BCASTMSG) == nil ||
+            settings.bool(forKey: PREF_SNDEVENT_BCASTMSG) {
+            return "broadcast_message"
         }
     case .srv_LOST:
         if settings.object(forKey: PREF_SNDEVENT_SERVERLOST) == nil ||
@@ -492,17 +513,15 @@ func enableSpeakerOutput(_ on: Bool) {
     let session = AVAudioSession.sharedInstance()
     
     do {
-        print("preset: " + session.mode)
+        print("preset: " + session.mode.rawValue)
         if on {
-            try session.setMode(AVAudioSessionModeVideoChat)
+            try session.setMode(AVAudioSession.Mode.videoChat)
         }
         else {
-            try session.setMode(AVAudioSessionModeDefault)
-            try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.allowBluetooth)
-//            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.None)
+            try session.setMode(AVAudioSession.Mode.default)
+            try session.setCategory(AVAudioSession.Category.playAndRecord, options: AVAudioSession.CategoryOptions.allowBluetooth)
         }
-//        try session.setActive(true)
-        print("post set: "  + session.mode)
+        print("post set: "  + session.mode.rawValue)
     }
     catch {
         print("Failed to set mode")
@@ -619,6 +638,7 @@ let DEFAULT_OPUS_VBR : TTBOOL = 1
 let DEFAULT_OPUS_VBRCONSTRAINT : TTBOOL = 0
 let DEFAULT_OPUS_BITRATE : INT32 = 32000
 let DEFAULT_OPUS_DELAY : INT32 = DEFAULT_MSEC_PER_PACKET
+let DEFAULT_OPUS_FRAMESIZE : INT32 = 0 // implies same as DEFAULT_OPUS_DELAY
 
 //Default Speex codec settings
 let DEFAULT_SPEEX_BANDMODE : INT32 = 1
@@ -635,7 +655,7 @@ let DEFAULT_SPEEX_VBR_DTX : TTBOOL = 1
 let DEFAULT_SPEEX_VBR_DELAY : INT32 = DEFAULT_MSEC_PER_PACKET
 let DEFAULT_SPEEX_VBR_SIMSTEREO : TTBOOL = 0
 
-func newAudioCodec(_ codec: Codec) -> AudioCodec {
+func newAudioCodec(_ codec: Codec) -> iTeamTalk.AudioCodec {
     var audiocodec = AudioCodec()
     
     switch codec {
@@ -661,7 +681,7 @@ func newOpusCodec() -> OpusCodec {
         nComplexity: DEFAULT_OPUS_COMPLEXITY, bFEC: DEFAULT_OPUS_FEC,
         bDTX: DEFAULT_OPUS_DTX, nBitRate: DEFAULT_OPUS_BITRATE,
         bVBR: DEFAULT_OPUS_VBR, bVBRConstraint: DEFAULT_OPUS_VBRCONSTRAINT,
-        nTxIntervalMSec: DEFAULT_MSEC_PER_PACKET)
+        nTxIntervalMSec: DEFAULT_MSEC_PER_PACKET, nFrameSizeMSec: DEFAULT_OPUS_FRAMESIZE)
 }
 
 func newSpeexCodec() -> SpeexCodec {

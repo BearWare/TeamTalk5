@@ -29,18 +29,125 @@
 
 #define WAVEHEADERSIZE 44
 
+
+bool WriteWaveFileHeader(ACE_FILE_IO& file, const media::AudioFormat& fmt)
+{
+    WAVEFORMATEX waveformat;
+    waveformat.wFormatTag = 1;
+    waveformat.nChannels = fmt.channels;
+    waveformat.nSamplesPerSec = fmt.samplerate;
+    waveformat.nAvgBytesPerSec = PCM16_BYTES(fmt.samplerate, fmt.channels);
+    waveformat.nBlockAlign = uint16_t(PCM16_BYTES(1, fmt.channels));
+    waveformat.wBitsPerSample = 16;
+    waveformat.cbSize = 0;
+
+    static_assert(sizeof(WAVEFORMATEX) - 2 /* cbSize */ == SIZEOF_WAVEFORMATEX, "WAVEFORMATEX not packed");
+
+    return WriteWaveFileHeader(file, &waveformat, SIZEOF_WAVEFORMATEX);
+}
+
+bool WriteWaveFileHeader(ACE_FILE_IO& file, const WAVEFORMATEX* waveformat, int len)
+{
+    const char RIFF[] = "RIFF";
+    const char WAVE[] = "WAVEfmt ";
+    const char DATA[] = "data";
+    bool ret = true;
+    ret &= file.send_n(RIFF, 4) >= 0; // RIFF header
+    int32_t wavedatasize = 0x7FFFFFFF;
+    ret &= file.send_n(&wavedatasize, 4) >= 0; //sizeof file wave data
+    ret &= file.send_n(WAVE, 8) >= 0;
+    ret &= file.send_n(&len, 4) >= 0; //header size
+    ret &= file.send_n(waveformat, len) >= 0;
+    ret &= file.send_n(DATA, 4) >= 0;
+    ret &= file.send_n(&wavedatasize, 4) >= 0; //sizeof file wave data
+
+    return ret;
+}
+
+bool UpdateWaveFileHeader(ACE_FILE_IO& file)
+{
+    assert(file.get_handle() != ACE_INVALID_HANDLE);
+    ACE_OFF_T origin = file.tell();
+    if (file.seek(0, SEEK_END) < 0)
+        return false;
+
+    bool success = false;
+
+    ACE_OFF_T end = file.tell();
+    if (file.seek(strlen("RIFF"), SEEK_SET) >= 0 && end < 0x100000000)
+    {
+        uint32_t wavedatasize = uint32_t(end);
+        uint32_t headersize = 0;
+        if (file.send_n(&wavedatasize, 4) >= 0 &&
+            file.seek(8, SEEK_CUR) >= 0 /* past 'WAVEfmt ' */ &&
+            file.recv(&headersize, 4) >= 0 &&
+            file.seek(headersize, SEEK_CUR) >= 0 /* past extra header size */ &&
+            file.seek(4, SEEK_CUR) >= 0 /* past 'data' */)
+        {
+            wavedatasize = int(end - file.tell());
+            wavedatasize -= 4; // don't include size-field as part of data size
+            if (file.send_n(&wavedatasize, 4) >= 0)
+            {
+                success = true;
+            }
+        }
+        else
+        {
+            MYTRACE(ACE_TEXT("Failed to update wave-file header\n"));
+        }
+    }
+
+    return file.seek(origin, SEEK_SET) >= 0 && success;
+}
+
 WaveFile::WaveFile()
+{
+}
+
+WaveFile::~WaveFile()
+{
+    m_wavfile.close();
+}
+
+bool WaveFile::NewFile(const ACE_TString& filename, const WAVEFORMATEX* waveformat, int len)
+{
+    if (m_wavfile.get_handle() != ACE_INVALID_HANDLE)
+        return false;
+
+    ACE_FILE_Connector con;
+
+#if defined(WIN32)
+    int ret = con.connect(m_wavfile, ACE_FILE_Addr(filename.c_str()),
+        0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_BINARY | O_TRUNC, FILE_SHARE_READ | FILE_SHARE_WRITE);
+#else
+    int ret = con.connect(m_wavfile, ACE_FILE_Addr(filename.c_str()));
+#endif
+
+    if (ret < 0)
+        return false;
+    else
+    {
+        return WriteWaveFileHeader(m_wavfile, waveformat, len);
+    }
+}
+
+bool WaveFile::AppendData(const void* data, int len)
+{
+    return m_wavfile.send_n(data, len) >= 0 && UpdateWaveFileHeader(m_wavfile);
+}
+
+WavePCMFile::WavePCMFile()
 {
     m_channels = 0;
 }
 
-WaveFile::~WaveFile()
+WavePCMFile::~WavePCMFile()
 {
     Close();
     MYTRACE(ACE_TEXT("Closing wave-file %s\n"), m_filepath.c_str());
 }
 
-bool WaveFile::OpenFile(const ACE_TString& filename, bool readonly)
+bool WavePCMFile::OpenFile(const ACE_TString& filename, bool readonly)
 {
     ACE_FILE_Connector con;
 
@@ -65,26 +172,19 @@ bool WaveFile::OpenFile(const ACE_TString& filename, bool readonly)
     return false;
 }
 
-bool WaveFile::NewFile(const ACE_TString& filename, int samplerate, int channels)
+bool WavePCMFile::NewFile(const ACE_TString& filename, int samplerate, int channels)
 {
     ACE_FILE_Connector con;
 
-#if !defined(UNDER_CE)
-    int ret = con.connect(m_wavfile, ACE_FILE_Addr(filename.c_str()));
-#elif defined(WIN32)
+#if defined(WIN32)
     int ret = con.connect(m_wavfile, ACE_FILE_Addr(filename.c_str()),
-        0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT, FILE_SHARE_READ | FILE_SHARE_WRITE);
+        0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_BINARY | O_TRUNC, FILE_SHARE_READ | FILE_SHARE_WRITE);
 #else
-    int ret = con.connect(m_wavfile, ACE_FILE_Addr(filename.c_str()),
-        0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT);
+    int ret = con.connect(m_wavfile, ACE_FILE_Addr(filename.c_str()));
 #endif
 
     if(ret<0)
-    {
-        //assert(fopen(filename.c_str(), "wb+") == 0);
-        //assert(CreateFile(filename.c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, 0, CREATE_ALWAYS | TRUNCATE_EXISTING, FILE_ATTRIBUTE_NORMAL, 0)>0);
         return false;
-    }
     else
     {
         m_wavfile.truncate(0);
@@ -95,17 +195,17 @@ bool WaveFile::NewFile(const ACE_TString& filename, int samplerate, int channels
 }
 
 
-void WaveFile::Close()
+void WavePCMFile::Close()
 {
     if(m_wavfile.get_handle() != ACE_INVALID_HANDLE)
     {
-        WriteHeaderLength();
+        UpdateWaveFileHeader(m_wavfile);
         m_wavfile.close();
         m_channels = 0;
     }
 }
 
-const ACE_TString WaveFile::FileName() const
+const ACE_TString WavePCMFile::FileName() const
 {
     size_t pos = m_filepath.rfind('\\');
     if(pos != ACE_TString::npos)
@@ -114,7 +214,7 @@ const ACE_TString WaveFile::FileName() const
         return m_filepath;
 }
 
-bool WaveFile::SeekSamplesBegin()
+bool WavePCMFile::SeekSamplesBegin()
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
     if(m_wavfile.get_handle() != ACE_INVALID_HANDLE)
@@ -125,7 +225,7 @@ bool WaveFile::SeekSamplesBegin()
     return false;
 }
 
-bool WaveFile::SeekSamplesEnd()
+bool WavePCMFile::SeekSamplesEnd()
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
     if(m_wavfile.get_handle() != ACE_INVALID_HANDLE)
@@ -136,7 +236,7 @@ bool WaveFile::SeekSamplesEnd()
     return false;
 }
 
-int WaveFile::ReadSamples(short* buffer, int buffer_len)
+int WavePCMFile::ReadSamples(short* buffer, int buffer_len)
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
     ACE_OFF_T pos = m_wavfile.tell();
@@ -155,59 +255,15 @@ int WaveFile::ReadSamples(short* buffer, int buffer_len)
     return (int)(pos2-pos)/2/channels;
 }
 
-bool WaveFile::WriteHeader(int samplerate, int channels)
+bool WavePCMFile::WriteHeader(int samplerate, int channels)
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
     m_wavfile.seek(0, SEEK_SET);
 
-    int tmp = 0;
-    const char RIFF[] ="RIFF";
-    const char WAVE[] = "WAVEfmt ";
-    const char DATA[] = "data";
-
-    WriteData(RIFF, 4);
-    tmp = 0x7FFFFFFF;
-    WriteData(&tmp, 4);    //sizeof file wave data
-    WriteData(WAVE, 8);
-    tmp = 16;
-    WriteData(&tmp, 4);    //header size
-    tmp = 1; //PCM uncompressed
-    WriteData(&tmp, 2);    //type
-    tmp = channels;
-    WriteData(&tmp, 2);    //channels
-    tmp = samplerate;
-    WriteData(&tmp, 4);    //sampling rate
-    tmp = samplerate*2*channels;
-    WriteData(&tmp, 4);    //bytes per second
-    tmp = 2 * channels;
-    WriteData(&tmp, 2);    //block align
-    tmp = 16;
-    WriteData(&tmp, 2);    //bit depth
-    WriteData(DATA, (int)strlen(DATA)); //4
-    tmp = 0x7FFFFFFF; 
-    return WriteData(&tmp, 4) == 4; //sizeof file wave data
-    //total 44 bytes
+    return WriteWaveFileHeader(m_wavfile, media::AudioFormat(samplerate, channels));
 }
 
-bool WaveFile::WriteHeaderLength()
-{
-    assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
-    ACE_OFF_T ret_pos = m_wavfile.tell();
-    m_wavfile.seek(0, SEEK_END);
-    ACE_OFF_T pos = m_wavfile.tell();
-    ACE_OFF_T byteCount = pos - WAVEHEADERSIZE;
-    byteCount = byteCount>0?byteCount:0;
-    m_wavfile.seek(strlen("RIFF"), SEEK_SET);
-    assert((int)m_wavfile.tell() == 4);
-    WriteData(&byteCount, 4);    //write byte count
-    m_wavfile.seek(40, SEEK_SET);
-    bool b = WriteData(&byteCount, 4) == 4;
-    m_wavfile.seek(ret_pos, SEEK_SET);
-    assert(m_wavfile.tell() == ret_pos);
-    return b;
-}
-
-bool WaveFile::Valid()
+bool WavePCMFile::Valid()
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
 
@@ -241,7 +297,7 @@ bool WaveFile::Valid()
     return valid;
 }
 
-int WaveFile::GetSampleRate()
+int WavePCMFile::GetSampleRate()
 {
     if(m_wavfile.get_handle() == ACE_INVALID_HANDLE)
         return 0;
@@ -256,29 +312,32 @@ int WaveFile::GetSampleRate()
     return samplerate;
 }
 
-int WaveFile::GetSamplesCount()
+int WavePCMFile::GetSamplesCount()
 {
     if(m_wavfile.get_handle() == ACE_INVALID_HANDLE)
         return 0;
-    else if(!WriteHeaderLength())
+    else if(!UpdateWaveFileHeader(m_wavfile))
         return 0;
 
     ACE_OFF_T oldPos = m_wavfile.tell();
-    int nBitsPerSample = 0, nBytesCount = 0;
+    uint16_t wBitsPerSample = 0, nChannels = 0;
+    uint32_t nBytesCount = 0;
+    m_wavfile.seek(22, SEEK_SET);
+    m_wavfile.recv((char*)&nChannels, 2);
     m_wavfile.seek(34, SEEK_SET);
-    m_wavfile.recv((char*)&nBitsPerSample, 2);
+    m_wavfile.recv((char*)&wBitsPerSample, 2);
     m_wavfile.seek(40, SEEK_SET);
     m_wavfile.recv((char*)&nBytesCount, 4);
 
     m_wavfile.seek(oldPos, SEEK_SET);
 
-    if(nBitsPerSample>0)
-        return nBytesCount / (nBitsPerSample / 8);
+    if (wBitsPerSample >= 8 && nChannels > 0)
+        return nBytesCount / (wBitsPerSample / 8) / nChannels;
 
     return 0;
 }
 
-int WaveFile::GetChannels()
+int WavePCMFile::GetChannels()
 {
     if(m_wavfile.get_handle() == ACE_INVALID_HANDLE)
         return 0;
@@ -296,7 +355,7 @@ int WaveFile::GetChannels()
     return nChannels;
 }
 
-int WaveFile::WriteData(const void* data, int len)
+int WavePCMFile::WriteData(const void* data, int len)
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
     ACE_OFF_T pos = m_wavfile.tell();
@@ -307,11 +366,11 @@ int WaveFile::WriteData(const void* data, int len)
     return val <= 0 && len > 0 ? 0 : val;
 }
 
-bool WaveFile::AppendSamples(const short* buffer, int samples_len)
+bool WavePCMFile::AppendSamples(const short* buffer, int samples_len)
 {
-    if(WriteData(buffer, samples_len * sizeof(short)*GetChannels())>0)
+    if (WriteData(buffer, samples_len * sizeof(short)*GetChannels())>0)
     {
-        WriteHeaderLength(); //update header (so crash will still leave wav-file valid)
+        UpdateWaveFileHeader(m_wavfile); //update header (so crash will still leave wav-file valid)
         return true;
     }
     return false;

@@ -33,11 +33,16 @@
 class VpxEncoder
 {
 public:
+    VpxEncoder(const VpxEncoder&) = delete;
     VpxEncoder();
     ~VpxEncoder();
 
     bool Open(int width, int height, int target_bitrate, int fps);
     void Close();
+    bool Update(int target_bitrate);
+
+    vpx_codec_err_t Encode(const char* imgbuf, vpx_img_fmt fmt, int stride,
+                           bool bottom_up, unsigned long tm, int enc_deadline);
 
     vpx_codec_err_t EncodeRGB32(const char* imgbuf, int imglen, bool bottom_up_bmp,
                                 unsigned long tm, int enc_deadline);

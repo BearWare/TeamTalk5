@@ -94,6 +94,13 @@ implements FileFilter, Comparator<File> {
                     return convertView;
                 }
             });
+
+        File currentPath = new File(CURRENT_DIRECTORY);
+        if (!currentPath.exists()) {
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
+            editor.remove(CURRENT_DIRECTORY).apply();
+        }
+
         browseDirectory(new File(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(CURRENT_DIRECTORY, Environment.getExternalStorageDirectory().getAbsolutePath())));
     }
 

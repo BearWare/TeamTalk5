@@ -58,4 +58,11 @@ public interface TTType {
     public static final int __DESKTOPINPUT       = 31;
     public static final int __SPEEXDSP           = 32;
     public static final int __STREAMTYPE         = 33;
+    public static final int __AUDIOPREPROCESSORTYPE   = 34;
+    public static final int __AUDIOPREPROCESSOR       = 35;
+    public static final int __TTAUDIOPREPROCESSOR     = 36;
+    public static final int __MEDIAFILEPLAYBACK       = 37;
+    public static final int __CLIENTKEEPALIVE         = 38;
+    public static final int __UINT32                  = 39;
+    public static final int __AUDIOINPUTPROGRESS      = 40;
 }

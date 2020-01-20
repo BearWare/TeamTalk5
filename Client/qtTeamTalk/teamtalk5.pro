@@ -29,7 +29,6 @@ CONFIG(release, debug|release) {
     OBJECTS_DIR = build/rel_teamtalk5/obj
 
     mac {
-        LIBS += -sectcreate __TEXT __info_plist TeamTalk5.app/Contents/Info.plist
+        LIBS += -sectcreate __TEXT __info_plist $${TARGET}.app/Contents/Info.plist
     }
 }
-

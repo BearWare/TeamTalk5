@@ -65,7 +65,6 @@
     <item id="224">Hang rendszer</item>
     <item id="227">Felhasználói infó</item>
     <item id="243">Szerverkezelő</item>
-    <item id="247">Mi az ip-címem?</item>
     <item id="249">Billentyűparancs</item>
     <item id="251">Résztvevők pozíciója (3d-t támogató hangkártyák esetén)</item>
     <item id="254">Billentyűparancsok</item>
@@ -84,12 +83,9 @@
     <item id="279">Az átvitel befejeződött</item>
     <item id="280">Beszéd megszakadt</item>
     <item id="1009">Belépés a főszobába csatlakozáskor</item>
-    <item id="1011">Szerver tulajdonságok</item>
     <item id="1012">Szerver TCP port</item>
     <item id="1016">Szerver UDP port</item>
     <item id="1017">Hangerő</item>
-    <item id="1018">Alapértelmezett: 10333</item>
-    <item id="1019">Az üzenet tiltása</item>
     <item id="1020">A szobákban lévő felhasználószám mutatása</item>
     <item id="1021">A felhasználók automatikus pozicionálása 3D hang használatakor</item>
     <item id="1022">Hang aktiválásának tiltása inaktív állapot esetén</item>
@@ -115,7 +111,6 @@
     <item id="1061">Téma</item>
     <item id="1063">Jelszó</item>
     <item id="1067">maximális bejelentkezések IP-címenként</item>
-    <item id="1071">Nem kötelező</item>
     <item id="1073">Jelszó</item>
     <item id="1075">Szerver címe</item>
     <item id="1077">Audio csatornák</item>
@@ -232,7 +227,6 @@
     <item id="1311">A felhasználó láthatja a többi felhasználót az összes szobában</item>
     <item id="1312">A felhasználó küldhet szöveges üzeneteket</item>
     <item id="1315">A felhasználó küldhet hang-alapú adatokat (mikrofon)</item>
-    <item id="1316">Felhasználói fiók módosítása</item>
     <item id="1317">A felhasználó küldhet videó-fájlokat (avi, mp4)</item>
     <item id="1323">Adminisztrátor</item>
     <item id="1324">&amp;Hozzáadás</item>

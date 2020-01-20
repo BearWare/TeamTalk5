@@ -49,9 +49,9 @@ namespace TeamTalkTest.NET
         const string MUXRECORDFILENAME = "c:\\Temp\\testmux.wav";
         const string MEDIAFOLDER = "c:\\temp";
         const string MEDIAFILE_AUDIO = "c:\\temp\\test.wma";
-        const string MEDIAFILE_VIDEO = "c:\\temp\\test.mpg";
+        const string MEDIAFILE_VIDEO = "c:\\temp\\test.wmv";
         const string UPLOADFILE = "c:\\temp\\test.wma";
-        const string DOWNLOADFILE = "c:\\temp\\test_download.mp3";
+        const string DOWNLOADFILE = "c:\\temp\\test_download.wma";
 
         List<TeamTalkBase> ttclients = new List<TeamTalkBase>();
 
@@ -1915,6 +1915,13 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(WaitCmdError(ttclient2, ttclient2.DoUnBanUser(BANIPADDR, 0), DEF_WAIT));
             Assert.IsTrue(WaitCmdError(ttclient2, ttclient2.DoListBans(0, 0, 200), DEF_WAIT));
             Assert.IsTrue(WaitCmdError(ttclient2, ttclient2.DoNewUserAccount(account), DEF_WAIT));
+            BannedUser ban = new BannedUser();
+            ban.uBanTypes = BanType.BANTYPE_USERNAME;
+            ban.szUsername = "hest";
+            Assert.IsTrue(WaitCmdError(ttclient2, ttclient2.DoBan(ban), DEF_WAIT));
+            ban.uBanTypes = BanType.BANTYPE_IPADDR;
+            ban.szIPAddress = "192.168.2.2";
+            Assert.IsTrue(WaitCmdError(ttclient2, ttclient2.DoBan(ban), DEF_WAIT));
 
             Assert.IsTrue(WaitCmdSuccess(ttclient2, ttclient2.DoLeaveChannel(), DEF_WAIT));
             Assert.IsTrue(WaitCmdError(ttclient2, ttclient2.DoMakeChannel(chan), DEF_WAIT));
@@ -2064,8 +2071,17 @@ namespace TeamTalkTest.NET
 
             foreach (UserRight u in (UserRight[])Enum.GetValues(typeof(UserRight)))
             {
-                if (u != UserRight.USERRIGHT_NONE && u != UserRight.USERRIGHT_ALL)
-                    Assert.IsTrue(a.uUserRights.HasFlag(u), "Testing " + u);
+                switch (u)
+                {
+                    case UserRight.USERRIGHT_NONE :
+                    case UserRight.USERRIGHT_ALL :
+                    case UserRight.USERRIGHT_LOCKED_NICKNAME :
+                    case UserRight.USERRIGHT_LOCKED_STATUS :
+                        break;
+                    default:
+                       Assert.IsTrue(a.uUserRights.HasFlag(u), "Testing " + u);
+                        break;
+                }
             }
         }
 
@@ -2616,19 +2632,12 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(WaitCmdSuccess(ttclient, ttclient.DoSubscribe(ttclient.UserID, Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
             Assert.IsTrue(ttclient.EnableAudioBlockEvent(ttclient.UserID, StreamType.STREAMTYPE_VOICE, true));
+            
+            VoiceTxRx(ttclient, 10000, 4000, 4000);
 
-            VoiceTxRx(ttclient, 30000, 5000, 5000);
-            VoiceTxRx(ttclient, 60000, 5000, 30000);
-            VoiceTxRx(ttclient, 120000, 5000, 31000);
-
-
-            //VoiceTxRx(ttclient, 20000, 1000, 200);
-            //VoiceTxRx(ttclient, 20000, 1000, 500);
-            //VoiceTxRx(ttclient, 30000, 1000, 2000);
-            //VoiceTxRx(ttclient, 120000, 20000, 5000);
-            //VoiceTxRx(ttclient, 360000, 1000, 65000);
-            //VoiceTxRx(ttclient, 500000, 25000, 125000);
-            //VoiceTxRx(ttclient, 3600000, 30000, 125000);
+            //VoiceTxRx(ttclient, 30000, 5000, 5000);
+            //VoiceTxRx(ttclient, 60000, 5000, 30000);
+            //VoiceTxRx(ttclient, 120000, 5000, 31000);
         }
 
         [TestMethod]
@@ -2648,16 +2657,14 @@ namespace TeamTalkTest.NET
                 clients.Add(ttclient);
 
                 Connect(ttclient);
-                //InitSound(ttclient);
-                InitSound(ttclient, SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
-                    SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, true);
+                InitSound(ttclient);
                 Login(ttclient, NICKNAME, USERNAME, PASSWORD);
                 JoinRoot(ttclient);
 
                 Assert.IsTrue(WaitCmdSuccess(ttclient, ttclient.DoSubscribe(ttclient.UserID, Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
             }
 
-            for (int r = 0; r < 10000; r++)
+            for (int r = 0; r < 5; r++)
             {
                 for (int i = 0; i < voicetx; i++)
                 {
@@ -2978,7 +2985,7 @@ namespace TeamTalkTest.NET
 
         TeamTalkBase NewClientInstance()
         {
-#if ENABLE_ENCRYPTION
+#if ENABLE_TEAMTALKPRO
             TeamTalkBase ttclient = new TeamTalk5Pro(true);
 #else
             TeamTalkBase ttclient = new TeamTalk5(true);

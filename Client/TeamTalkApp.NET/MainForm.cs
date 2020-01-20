@@ -83,7 +83,7 @@ namespace TeamTalkApp.NET
 
             /* we pass 'false' to poll_events since we don't want to 
              * manually process events using ttclient.GetMessage */
-#if ENABLE_ENCRYPTION
+#if ENABLE_TEAMTALKPRO
             ttclient = new TeamTalk5Pro(false);
 #else
             ttclient = new TeamTalk5(false);

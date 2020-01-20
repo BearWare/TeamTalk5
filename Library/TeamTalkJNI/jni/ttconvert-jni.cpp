@@ -294,7 +294,7 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
         env->SetObjectField(lpChannel, fid_txusers, outer);
         
         intArr = env->NewIntArray(TT_TRANSMITQUEUE_MAX);
-        jint tmp[TT_TRANSMITQUEUE_MAX] = {0};
+        jint tmp[TT_TRANSMITQUEUE_MAX] = {};
         env->SetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, TO_JINT_ARRAY(chan.transmitUsersQueue, tmp, TT_TRANSMITQUEUE_MAX));
         env->SetObjectField(lpChannel, fid_queueusers, intArr);
     }
@@ -320,7 +320,7 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
             env->DeleteLocalRef(intArr);
         }
         jintArray intArr = (jintArray)env->GetObjectField(lpChannel, fid_queueusers);
-        jint tmp[TT_TRANSMITQUEUE_MAX] = {0};
+        jint tmp[TT_TRANSMITQUEUE_MAX] = {};
         env->GetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, tmp);
         TO_INT32_ARRAY(tmp, chan.transmitUsersQueue, TT_TRANSMITQUEUE_MAX);
     }
@@ -446,6 +446,7 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
     jfieldID fid_streamid = env->GetFieldID(ttmsg_class, "nStreamID", "I");
     jfieldID fid_payload = env->GetFieldID(ttmsg_class, "nPayloadSize", "I");
     jfieldID fid_st = env->GetFieldID(ttmsg_class, "nStreamType", "I");
+    jfieldID fid_aip = env->GetFieldID(ttmsg_class, "audioinputprogress", "Ldk/bearware/AudioInputProgress;");
 
     assert(fid_channel);
     assert(fid_cemsg);
@@ -464,6 +465,7 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
     assert(fid_streamid);
     assert(fid_payload);
     assert(fid_st);
+    assert(fid_aip);
 
     switch(msg.ttType)
     {
@@ -503,7 +505,7 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
     {
         jclass cls_obj = env->FindClass("dk/bearware/MediaFileInfo");
         jobject newObj = newObject(env, cls_obj);
-        setMediaFileInfo(env, msg.mediafileinfo, newObj);
+        setMediaFileInfo(env, msg.mediafileinfo, newObj, N2J);
         env->SetObjectField(pMsg, fid_mfi, newObj);
     }
     break;
@@ -574,6 +576,14 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
     case __STREAMTYPE :
         env->SetIntField(pMsg, fid_st, msg.nStreamType);
         break;
+    case __AUDIOINPUTPROGRESS :
+    {
+        jclass cls_obj = env->FindClass("dk/bearware/AudioInputProgress");
+        jobject newObj = newObject(env, cls_obj);
+        setAudioInputProgress(env, msg.audioinputprogress, newObj, N2J);
+        env->SetObjectField(pMsg, fid_aip, newObj);
+    }
+    break;
     case __NONE :
         break;
     default :
@@ -737,7 +747,8 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
         jfieldID fid_br = env->GetFieldID(cls_opus, "nBitRate", "I");
         jfieldID fid_vbr = env->GetFieldID(cls_opus, "bVBR", "Z");
         jfieldID fid_vbrc = env->GetFieldID(cls_opus, "bVBRConstraint", "Z");
-        jfieldID fid_msec = env->GetFieldID(cls_opus, "nTxIntervalMSec", "I");
+        jfieldID fid_txmsec = env->GetFieldID(cls_opus, "nTxIntervalMSec", "I");
+        jfieldID fid_frmmsec = env->GetFieldID(cls_opus, "nFrameSizeMSec", "I");
 
         assert(fid_opus);
         assert(fid_sr);
@@ -749,7 +760,8 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
         assert(fid_br);
         assert(fid_vbr);
         assert(fid_vbrc);
-        assert(fid_msec);
+        assert(fid_txmsec);
+        assert(fid_frmmsec);
 
         if(conv == N2J)
         {
@@ -764,7 +776,8 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
             env->SetIntField(newObj, fid_br, codec.opus.nBitRate);
             env->SetBooleanField(newObj, fid_vbr, codec.opus.bVBR);
             env->SetBooleanField(newObj, fid_vbrc, codec.opus.bVBRConstraint);
-            env->SetIntField(newObj, fid_msec, codec.opus.nTxIntervalMSec);
+            env->SetIntField(newObj, fid_txmsec, codec.opus.nTxIntervalMSec);
+            env->SetIntField(newObj, fid_frmmsec, codec.opus.nFrameSizeMSec);
             env->SetObjectField(lpAudioCodec, fid_opus, newObj);
         }
         else
@@ -779,7 +792,8 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
             codec.opus.nBitRate = env->GetIntField(opus_obj, fid_br);
             codec.opus.bVBR = env->GetBooleanField(opus_obj, fid_vbr);
             codec.opus.bVBRConstraint = env->GetBooleanField(opus_obj, fid_vbrc);
-            codec.opus.nTxIntervalMSec = env->GetIntField(opus_obj, fid_msec);
+            codec.opus.nTxIntervalMSec = env->GetIntField(opus_obj, fid_txmsec);
+            codec.opus.nFrameSizeMSec = env->GetIntField(opus_obj, fid_frmmsec);
         }
     }
     break;
@@ -860,6 +874,60 @@ void setSpeexDSP(JNIEnv* env, SpeexDSP& spxdsp, jobject lpSpeexDSP, JConvert con
     }
 }
 
+void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv) {
+    jclass cls = env->GetObjectClass(lpPreprocessor);
+    jfieldID fid_gain = env->GetFieldID(cls, "nGainLevel", "I");
+    jfieldID fid_left = env->GetFieldID(cls, "bMuteLeftSpeaker", "Z");
+    jfieldID fid_right = env->GetFieldID(cls, "bMuteRightSpeaker", "Z");
+
+    assert(fid_gain);
+    assert(fid_left);
+    assert(fid_right);
+
+    if (conv == N2J)
+    {
+        env->SetIntField(lpPreprocessor, fid_gain, preprocessor.nGainLevel);
+        env->SetBooleanField(lpPreprocessor, fid_left, preprocessor.bMuteLeftSpeaker);
+        env->SetBooleanField(lpPreprocessor, fid_right, preprocessor.bMuteRightSpeaker);
+    }
+    else
+    {
+        preprocessor.nGainLevel = env->GetIntField(lpPreprocessor, fid_gain);
+        preprocessor.bMuteLeftSpeaker = env->GetBooleanField(lpPreprocessor, fid_left);
+        preprocessor.bMuteRightSpeaker = env->GetBooleanField(lpPreprocessor, fid_right);
+    }
+}
+
+void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv) {
+    jclass cls = env->GetObjectClass(lpPreprocessor);
+    jfieldID fid_type = env->GetFieldID(cls, "nPreprocessor", "I");
+    jfieldID fid_spx = env->GetFieldID(cls, "speexdsp", "Ldk/bearware/SpeexDSP;");
+    jfieldID fid_ttp = env->GetFieldID(cls, "ttpreprocessor", "Ldk/bearware/TTAudioPreprocessor;");
+
+    assert(fid_type);
+    assert(fid_spx);
+    assert(fid_ttp);
+
+    if (conv == N2J)
+        env->SetIntField(lpPreprocessor, fid_type, preprocessor.nPreprocessor);
+    else
+        preprocessor.nPreprocessor = AudioPreprocessorType(env->GetIntField(lpPreprocessor, fid_type));
+    
+    jobject spx = env->GetObjectField(lpPreprocessor, fid_spx);
+    jobject ttp = env->GetObjectField(lpPreprocessor, fid_ttp);
+    
+    switch (preprocessor.nPreprocessor) {
+    case NO_AUDIOPREPROCESSOR :
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+        setSpeexDSP(env, preprocessor.speexdsp, spx, conv);
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        setTTAudioPreprocessor(env, preprocessor.ttpreprocessor, ttp, conv);
+        break;
+    }
+}
+
 void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServerProperties, JConvert conv)
 {
     jclass cls_srv = env->GetObjectClass(lpServerProperties);
@@ -869,6 +937,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
     jfieldID fid_motdraw = env->GetFieldID(cls_srv, "szMOTDRaw", "Ljava/lang/String;");
     jfieldID fid_maxusers = env->GetFieldID(cls_srv, "nMaxUsers", "I");
     jfieldID fid_maxattempts = env->GetFieldID(cls_srv, "nMaxLoginAttempts", "I");
+    jfieldID fid_logindelay = env->GetFieldID(cls_srv, "nLoginDelayMSec", "I");
     jfieldID fid_iplogins = env->GetFieldID(cls_srv, "nMaxLoginsPerIPAddress", "I");
     jfieldID fid_voicetx = env->GetFieldID(cls_srv, "nMaxVoiceTxPerSecond", "I");
     jfieldID fid_vidcaptx = env->GetFieldID(cls_srv, "nMaxVideoCaptureTxPerSecond", "I");
@@ -881,12 +950,14 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
     jfieldID fid_tmout = env->GetFieldID(cls_srv, "nUserTimeout", "I");
     jfieldID fid_srvver = env->GetFieldID(cls_srv, "szServerVersion", "Ljava/lang/String;");
     jfieldID fid_srvprot = env->GetFieldID(cls_srv, "szServerProtocolVersion", "Ljava/lang/String;");
+    jfieldID fid_access = env->GetFieldID(cls_srv, "szAccessToken", "Ljava/lang/String;");
 
     assert(fid_name);
     assert(fid_motd);
     assert(fid_motdraw);
     assert(fid_maxusers);
     assert(fid_maxattempts);
+    assert(fid_logindelay);
     assert(fid_iplogins);
     assert(fid_voicetx);
     assert(fid_vidcaptx);
@@ -899,6 +970,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
     assert(fid_tmout);
     assert(fid_srvver);
     assert(fid_srvprot);
+    assert(fid_access);
 
     if(conv == N2J)
     {
@@ -907,6 +979,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
         env->SetObjectField(lpServerProperties, fid_motdraw, NEW_JSTRING(env, srvprop.szMOTDRaw));
         env->SetIntField(lpServerProperties, fid_maxusers, srvprop.nMaxUsers);
         env->SetIntField(lpServerProperties, fid_maxattempts, srvprop.nMaxLoginAttempts);
+        env->SetIntField(lpServerProperties, fid_logindelay, srvprop.nLoginDelayMSec);
         env->SetIntField(lpServerProperties, fid_iplogins, srvprop.nMaxLoginsPerIPAddress);
         env->SetIntField(lpServerProperties, fid_voicetx, srvprop.nMaxVoiceTxPerSecond);
         env->SetIntField(lpServerProperties, fid_vidcaptx, srvprop.nMaxVideoCaptureTxPerSecond);
@@ -919,6 +992,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
         env->SetIntField(lpServerProperties, fid_tmout, srvprop.nUserTimeout);
         env->SetObjectField(lpServerProperties, fid_srvver, NEW_JSTRING(env, srvprop.szServerVersion));
         env->SetObjectField(lpServerProperties, fid_srvprot, NEW_JSTRING(env, srvprop.szServerProtocolVersion));
+        env->SetObjectField(lpServerProperties, fid_access, NEW_JSTRING(env, srvprop.szAccessToken));
     }
     else
     {
@@ -929,6 +1003,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
         srvprop.nMaxUsers = env->GetIntField(lpServerProperties, fid_maxusers);
         srvprop.nMaxLoginAttempts = env->GetIntField(lpServerProperties, fid_maxattempts);
         srvprop.nMaxLoginsPerIPAddress = env->GetIntField(lpServerProperties, fid_iplogins);
+        srvprop.nLoginDelayMSec = env->GetIntField(lpServerProperties, fid_logindelay);
         srvprop.nMaxVoiceTxPerSecond = env->GetIntField(lpServerProperties, fid_voicetx);
         srvprop.nMaxVideoCaptureTxPerSecond = env->GetIntField(lpServerProperties, fid_vidcaptx);
         srvprop.nMaxMediaFileTxPerSecond = env->GetIntField(lpServerProperties, fid_mftx);
@@ -940,10 +1015,11 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
         srvprop.nUserTimeout = env->GetIntField(lpServerProperties, fid_tmout);
         TT_STRCPY(srvprop.szServerVersion, ttstr(env, (jstring)env->GetObjectField(lpServerProperties, fid_srvver)));
         TT_STRCPY(srvprop.szServerProtocolVersion, ttstr(env, (jstring)env->GetObjectField(lpServerProperties, fid_srvprot)));
+        TT_STRCPY(srvprop.szAccessToken, ttstr(env, (jstring)env->GetObjectField(lpServerProperties, fid_access)));
     }
 }
 
-void setClientStatistics(JNIEnv* env, const ClientStatistics& stats, jobject lpStats)
+void setClientStatistics(JNIEnv* env, ClientStatistics& stats, jobject lpStats)
 {
     jclass cls_stats = env->GetObjectClass(lpStats);
 
@@ -997,6 +1073,37 @@ void setClientStatistics(JNIEnv* env, const ClientStatistics& stats, jobject lpS
     env->SetIntField(lpStats, fid_tcpping, stats.nTcpPingTimeMs);
     env->SetIntField(lpStats, fid_tcpsilen, stats.nTcpServerSilenceSec);
     env->SetIntField(lpStats, fid_udpsilen, stats.nUdpServerSilenceSec);
+}
+
+void setClientKeepAlive(JNIEnv* env, ClientKeepAlive& ka, jobject lpClientKeepAlive, JConvert conv) {
+
+    jclass cls_ka = env->GetObjectClass(lpClientKeepAlive);
+
+    jfieldID fid_conlost = env->GetFieldID(cls_ka, "nConnectionLostMSec", "I");
+    jfieldID fid_tcpka = env->GetFieldID(cls_ka, "nTcpKeepAliveIntervalMSec", "I");
+    jfieldID fid_udpka = env->GetFieldID(cls_ka, "nUdpKeepAliveIntervalMSec", "I");
+    jfieldID fid_udprtx = env->GetFieldID(cls_ka, "nUdpKeepAliveRTXMSec", "I");
+    jfieldID fid_udpcon = env->GetFieldID(cls_ka, "nUdpConnectRTXMSec", "I");
+    jfieldID fid_udptm = env->GetFieldID(cls_ka, "nUdpConnectTimeoutMSec", "I");
+
+    if(conv == N2J)
+    {
+        env->SetIntField(lpClientKeepAlive, fid_conlost, ka.nConnectionLostMSec);
+        env->SetIntField(lpClientKeepAlive, fid_tcpka, ka.nTcpKeepAliveIntervalMSec);
+        env->SetIntField(lpClientKeepAlive, fid_udpka, ka.nUdpKeepAliveIntervalMSec);
+        env->SetIntField(lpClientKeepAlive, fid_udprtx, ka.nUdpKeepAliveRTXMSec);
+        env->SetIntField(lpClientKeepAlive, fid_udpcon, ka.nUdpConnectRTXMSec);
+        env->SetIntField(lpClientKeepAlive, fid_udptm, ka.nUdpConnectTimeoutMSec);
+    }
+    else
+    {
+        ka.nConnectionLostMSec = env->GetIntField(lpClientKeepAlive, fid_conlost);
+        ka.nTcpKeepAliveIntervalMSec = env->GetIntField(lpClientKeepAlive, fid_tcpka);
+        ka.nUdpKeepAliveIntervalMSec = env->GetIntField(lpClientKeepAlive, fid_udpka);
+        ka.nUdpKeepAliveRTXMSec = env->GetIntField(lpClientKeepAlive, fid_udprtx);
+        ka.nUdpConnectRTXMSec = env->GetIntField(lpClientKeepAlive, fid_udpcon);
+        ka.nUdpConnectTimeoutMSec = env->GetIntField(lpClientKeepAlive, fid_udptm);
+    }
 }
 
 void setTextMessage(JNIEnv* env, TextMessage& msg, jobject lpTextMessage, JConvert conv)
@@ -1074,7 +1181,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         env->SetObjectField(lpAccount, fid_note, NEW_JSTRING(env, account.szNote));
         env->SetObjectField(lpAccount, fid_initchan, NEW_JSTRING(env, account.szInitChannel));
         jintArray intArr = env->NewIntArray(TT_CHANNELS_OPERATOR_MAX);
-        jint tmp[TT_CHANNELS_OPERATOR_MAX] = {0};
+        jint tmp[TT_CHANNELS_OPERATOR_MAX] = {};
         env->SetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, TO_JINT_ARRAY(account.autoOperatorChannels, tmp, TT_CHANNELS_OPERATOR_MAX));
         env->SetObjectField(lpAccount, fid_op, intArr);
         env->SetIntField(lpAccount, fid_audbps, account.nAudioCodecBpsLimit);
@@ -1095,7 +1202,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         TT_STRCPY(account.szNote, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_note)));
         TT_STRCPY(account.szInitChannel, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_initchan)));
         jintArray intArr = (jintArray)env->GetObjectField(lpAccount, fid_op);
-        jint tmp[TT_CHANNELS_OPERATOR_MAX] = {0};
+        jint tmp[TT_CHANNELS_OPERATOR_MAX] = {};
         env->GetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, tmp);
         TO_INT32_ARRAY(tmp, account.autoOperatorChannels, TT_CHANNELS_OPERATOR_MAX);
         account.nAudioCodecBpsLimit = env->GetIntField(lpAccount, fid_audbps);
@@ -1197,7 +1304,7 @@ void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JCon
     }
 }
 
-void setUserStatistics(JNIEnv* env, const UserStatistics& stats, jobject lpUserStatistics)
+void setUserStatistics(JNIEnv* env, UserStatistics& stats, jobject lpUserStatistics)
 {
     jclass cls_stats = env->GetObjectClass(lpUserStatistics);
     
@@ -1242,7 +1349,7 @@ void setUserStatistics(JNIEnv* env, const UserStatistics& stats, jobject lpUserS
     env->SetLongField(lpUserStatistics, fid_mfvidfdropped, stats.nMediaFileVideoFramesDropped);
 }
 
-void setFileTransfer(JNIEnv* env, const FileTransfer& filetx, jobject lpFileTransfer)
+void setFileTransfer(JNIEnv* env, FileTransfer& filetx, jobject lpFileTransfer)
 {
     jclass cls_ftx = env->GetObjectClass(lpFileTransfer);
 
@@ -1445,7 +1552,7 @@ void setVideoFrame(JNIEnv* env, VideoFrame& vidframe, jobject lpVideoFrame)
    env->SetObjectField(lpVideoFrame, fid_frmbuf, buf);
 }
 
-void setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock)
+jbyteArray setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock, JConvert conv)
 {
     jclass cls = env->GetObjectClass(lpAudioBlock);
 
@@ -1463,23 +1570,42 @@ void setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock)
     assert(fid_sn);
     assert(fid_si);
 
-    int size = audblock.nSamples * sizeof(short) * audblock.nChannels;
-    jbyteArray buf = env->NewByteArray(size);
-    jbyte* bufptr = env->GetByteArrayElements(buf, 0);
-    if(!bufptr)
-        return;
-    memcpy(bufptr, audblock.lpRawAudio, size);
-    env->ReleaseByteArrayElements(buf, bufptr, 0);
-
-    env->SetIntField(lpAudioBlock, fid_sid, audblock.nStreamID);
-    env->SetIntField(lpAudioBlock, fid_sr, audblock.nSampleRate);
-    env->SetIntField(lpAudioBlock, fid_ch, audblock.nChannels);
-    env->SetObjectField(lpAudioBlock, fid_audbuf, buf);
-    env->SetIntField(lpAudioBlock, fid_sn, audblock.nSamples);
-    env->SetIntField(lpAudioBlock, fid_si, audblock.uSampleIndex);
+    if (conv == N2J)
+    {
+        int size = audblock.nSamples * sizeof(short) * audblock.nChannels;
+        jbyteArray buf = env->NewByteArray(size);
+        if (size > 0)
+        {
+            jbyte* bufptr = env->GetByteArrayElements(buf, 0);
+            if(!bufptr)
+                return nullptr;
+            memcpy(bufptr, audblock.lpRawAudio, size);
+            env->ReleaseByteArrayElements(buf, bufptr, 0);
+        }
+        
+        env->SetIntField(lpAudioBlock, fid_sid, audblock.nStreamID);
+        env->SetIntField(lpAudioBlock, fid_sr, audblock.nSampleRate);
+        env->SetIntField(lpAudioBlock, fid_ch, audblock.nChannels);
+        env->SetObjectField(lpAudioBlock, fid_audbuf, buf);
+        env->SetIntField(lpAudioBlock, fid_sn, audblock.nSamples);
+        env->SetIntField(lpAudioBlock, fid_si, audblock.uSampleIndex);
+    }
+    else
+    {
+        audblock.nStreamID = env->GetIntField(lpAudioBlock, fid_sid);
+        audblock.nSampleRate = env->GetIntField(lpAudioBlock, fid_sr);
+        audblock.nChannels = env->GetIntField(lpAudioBlock, fid_ch);
+        audblock.nSamples = env->GetIntField(lpAudioBlock, fid_sn);
+        audblock.uSampleIndex = env->GetIntField(lpAudioBlock, fid_si);
+        jbyteArray byteArr = jbyteArray(env->GetObjectField(lpAudioBlock, fid_audbuf));
+        if (byteArr)
+            audblock.lpRawAudio = env->GetByteArrayElements(byteArr, nullptr);
+        return byteArr;
+    }
+    return nullptr;
 }
 
-void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo)
+void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo, JConvert conv)
 {
    jclass cls = env->GetObjectClass(lpMediaFileInfo);
 
@@ -1488,28 +1614,44 @@ void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo)
    jfieldID fid_audfmt = env->GetFieldID(cls, "audioFmt", "Ldk/bearware/AudioFormat;");
    jfieldID fid_vidfmt = env->GetFieldID(cls, "videoFmt", "Ldk/bearware/VideoFormat;");
    jfieldID fid_dur = env->GetFieldID(cls, "uDurationMSec", "I");
+   jfieldID fid_elap = env->GetFieldID(cls, "uElapsedMSec", "I");
 
    assert(fid_status);
    assert(fid_fname);
    assert(fid_audfmt);
    assert(fid_vidfmt);
    assert(fid_dur);
+   assert(fid_elap);
 
-   env->SetIntField(lpMediaFileInfo, fid_status, mfi.nStatus);
-   env->SetObjectField(lpMediaFileInfo, fid_fname, NEW_JSTRING(env, mfi.szFileName));
-   
    jclass cls_audfmt = env->FindClass("dk/bearware/AudioFormat");
    jclass cls_vidfmt = env->FindClass("dk/bearware/VideoFormat");
-   jobject audfmt_obj = newObject(env, cls_audfmt);
-   jobject vidfmt_obj = newObject(env, cls_vidfmt);
-   setAudioFormat(env, mfi.audioFmt, audfmt_obj);
-   setVideoFormat(env, mfi.videoFmt, vidfmt_obj, N2J);
-   env->SetObjectField(lpMediaFileInfo, fid_audfmt, audfmt_obj);
-   env->SetObjectField(lpMediaFileInfo, fid_vidfmt, vidfmt_obj);
-   env->SetIntField(lpMediaFileInfo, fid_dur, mfi.uDurationMSec);
+
+   if (conv == N2J) {
+       env->SetIntField(lpMediaFileInfo, fid_status, mfi.nStatus);
+       env->SetObjectField(lpMediaFileInfo, fid_fname, NEW_JSTRING(env, mfi.szFileName));
+   
+       jobject audfmt_obj = newObject(env, cls_audfmt);
+       jobject vidfmt_obj = newObject(env, cls_vidfmt);
+       setAudioFormat(env, mfi.audioFmt, audfmt_obj, conv);
+       setVideoFormat(env, mfi.videoFmt, vidfmt_obj, conv);
+       env->SetObjectField(lpMediaFileInfo, fid_audfmt, audfmt_obj);
+       env->SetObjectField(lpMediaFileInfo, fid_vidfmt, vidfmt_obj);
+       env->SetIntField(lpMediaFileInfo, fid_dur, mfi.uDurationMSec);
+       env->SetIntField(lpMediaFileInfo, fid_elap, mfi.uElapsedMSec);
+   }
+   else {
+       mfi.nStatus = MediaFileStatus(env->GetIntField(lpMediaFileInfo, fid_status));
+       TT_STRCPY(mfi.szFileName, ttstr(env, (jstring)env->GetObjectField(lpMediaFileInfo, fid_fname)));
+       jobject audfmt_obj = env->GetObjectField(lpMediaFileInfo, fid_audfmt);
+       jobject vidfmt_obj = env->GetObjectField(lpMediaFileInfo, fid_vidfmt);
+       setAudioFormat(env, mfi.audioFmt, audfmt_obj, conv);
+       setVideoFormat(env, mfi.videoFmt, vidfmt_obj, conv);
+       mfi.uDurationMSec = env->GetIntField(lpMediaFileInfo, fid_dur);
+       mfi.uElapsedMSec = env->GetIntField(lpMediaFileInfo, fid_elap);
+   }
 }
 
-void setAudioFormat(JNIEnv* env, const AudioFormat& fmt, jobject lpAudioFormat)
+void setAudioFormat(JNIEnv* env, AudioFormat& fmt, jobject lpAudioFormat, JConvert conv)
 {
     jclass cls = env->GetObjectClass(lpAudioFormat);
     jfieldID fid_audfmt = env->GetFieldID(cls, "nAudioFmt", "I");
@@ -1520,9 +1662,16 @@ void setAudioFormat(JNIEnv* env, const AudioFormat& fmt, jobject lpAudioFormat)
     assert(fid_sr);
     assert(fid_ch);
 
-    env->SetIntField(lpAudioFormat, fid_audfmt, fmt.nAudioFmt);
-    env->SetIntField(lpAudioFormat, fid_sr, fmt.nSampleRate);
-    env->SetIntField(lpAudioFormat, fid_ch, fmt.nChannels);
+    if (conv == N2J) {
+        env->SetIntField(lpAudioFormat, fid_audfmt, fmt.nAudioFmt);
+        env->SetIntField(lpAudioFormat, fid_sr, fmt.nSampleRate);
+        env->SetIntField(lpAudioFormat, fid_ch, fmt.nChannels);
+    }
+    else {
+        fmt.nAudioFmt = AudioFileFormat(env->GetIntField(lpAudioFormat, fid_audfmt));
+        fmt.nSampleRate = env->GetIntField(lpAudioFormat, fid_sr);
+        fmt.nChannels = env->GetIntField(lpAudioFormat, fid_ch);
+    }
 }
 
 void setVideoFormat(JNIEnv* env, VideoFormat& fmt, jobject lpVideoFormat, JConvert conv)
@@ -1633,5 +1782,55 @@ void setAbusePrevention(JNIEnv* env, AbusePrevention& abuse, jobject lpAbusePrev
     else {
         abuse.nCommandsLimit = env->GetIntField(lpAbusePrevention, fid_cmds);
         abuse.nCommandsIntervalMSec = env->GetIntField(lpAbusePrevention, fid_msec);
+    }
+}
+
+void setMediaFilePlayback(JNIEnv* env, MediaFilePlayback& playback, jobject lpMediaPlayback, JConvert conv) {
+
+    jclass cls = env->GetObjectClass(lpMediaPlayback);
+    jfieldID fid_off = env->GetFieldID(cls, "uOffsetMSec", "I");
+    jfieldID fid_pause = env->GetFieldID(cls, "bPaused", "Z");
+    jfieldID fid_pre = env->GetFieldID(cls, "audioPreprocessor", "Ldk/bearware/AudioPreprocessor;");
+
+    assert(fid_off);
+    assert(fid_pause);
+    assert(fid_pre);
+
+    jobject pre = env->GetObjectField(lpMediaPlayback, fid_pre);
+    
+    if (conv == N2J) {
+        env->SetIntField(lpMediaPlayback, fid_off, playback.uOffsetMSec);
+        env->SetBooleanField(lpMediaPlayback, fid_pause, playback.bPaused);
+        setAudioPreprocessor(env, playback.audioPreprocessor, pre, conv);
+    }
+    else
+    {
+        playback.uOffsetMSec = env->GetIntField(lpMediaPlayback, fid_off);
+        playback.bPaused = env->GetBooleanField(lpMediaPlayback, fid_pause);
+        setAudioPreprocessor(env, playback.audioPreprocessor, pre, conv);
+    }
+}
+
+void setAudioInputProgress(JNIEnv* env, AudioInputProgress& aip, jobject lpAudioInputProgress, JConvert conv)
+{
+    jclass cls = env->GetObjectClass(lpAudioInputProgress);
+    jfieldID fid_sid = env->GetFieldID(cls, "nStreamID", "I");
+    jfieldID fid_queue = env->GetFieldID(cls, "uQueueMSec", "I");
+    jfieldID fid_elapsed = env->GetFieldID(cls, "uElapsedMSec", "I");
+
+    assert(fid_sid);
+    assert(fid_queue);
+    assert(fid_elapsed);
+
+    if (conv == N2J) {
+        env->SetIntField(lpAudioInputProgress, fid_sid, aip.nStreamID);
+        env->SetIntField(lpAudioInputProgress, fid_queue, aip.uQueueMSec);
+        env->SetIntField(lpAudioInputProgress, fid_elapsed, aip.uElapsedMSec);
+    }
+    else
+    {
+        aip.nStreamID = env->GetIntField(lpAudioInputProgress, fid_sid);
+        aip.uQueueMSec = env->GetIntField(lpAudioInputProgress, fid_queue);
+        aip.uElapsedMSec = env->GetIntField(lpAudioInputProgress, fid_elapsed);
     }
 }

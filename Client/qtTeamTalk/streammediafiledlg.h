@@ -26,20 +26,41 @@
 
 #include "ui_streammediafile.h"
 
+#include "common.h"
+
 class StreamMediaFileDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    StreamMediaFileDlg(QWidget* parent = 0);
+    StreamMediaFileDlg(QWidget* parent = nullptr);
+    ~StreamMediaFileDlg();
     
+public:
+    void slotMediaStreamProgress(const MediaFileInfo& mfi);
+    void slotMediaPlaybackProgress(int sessionid, const MediaFileInfo& mfi);
+
 private slots:
     void slotAccepted();
     void slotSelectFile();
+    void slotSelectionFile(const QString&);
     void showMediaFormatInfo();
+    void updateControls();
+    void updateProgress(quint32 elapsed, bool setvalue);
+
+    void slotPlayMediaFile();
+    void slotStopMediaFile();
+    void slotChangePlayOffset(int);
+    void slotChangePreprocessor(int);
+    void slotSetupPreprocessor(bool);
 
 private:
     Ui::StreamMediaFileDlg ui;
+    MediaFileInfo m_mediaFile = {};
+    MediaFilePlayback m_mfp = {};
+    VideoCodec m_videocodec = {};
+    int m_playbackid = 0;
+    bool m_progressupdate = false;
 };
 
 #endif

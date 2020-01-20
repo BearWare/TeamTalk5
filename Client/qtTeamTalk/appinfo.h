@@ -25,7 +25,7 @@
 #define APPINFO_H
 
 #define COMPANYNAME         "BearWare.dk"
-#define APPVERSION_SHORT    "5.3.3"
+#define APPVERSION_SHORT    "5.5.0"
 #define APPVERSION          TEAMTALK_VERSION " - Unreleased"
 
 #define APPICON             QString::fromUtf8(":/images/images/teamtalk.png")
@@ -34,7 +34,7 @@
 #define APPTRAYICON_ACTIVE  QString::fromUtf8(":/images/images/teamtalkg.png")
 #define APPWEBSITE          "http://www.bearware.dk"
 
-#ifdef ENABLE_ENCRYPTION
+#ifdef ENABLE_TEAMTALKPRO
 #define APPTITLE            "TeamTalk Professional v. " APPVERSION
 #define APPNAME_SHORT       "TeamTalk5Pro"
 #else
@@ -45,9 +45,9 @@
 #define APPINIFILE          (QApplication::applicationName() + ".ini")
 
 #if defined(Q_OS_DARWIN)
-#define APPDEFAULTINIFILE   (("/../Resources/Config/") + (QApplication::applicationName() + ".ini"))
+#define APPDEFAULTINIFILE   (QApplication::applicationDirPath() + "/../Resources/Config/" + (QApplication::applicationName() + ".ini"))
 #else
-#define APPDEFAULTINIFILE   (QApplication::applicationName() + ".ini.default")
+#define APPDEFAULTINIFILE   (QApplication::applicationDirPath() + "/" + QApplication::applicationName() + ".ini.default")
 #endif
 
 #if defined(Q_OS_DARWIN)
@@ -59,10 +59,6 @@
 #else
 #define APPMANUAL           (QApplication::applicationDirPath() + "/help/index.html")
 #define TRANSLATE_FOLDER    (QApplication::applicationDirPath() + "/" "languages")
-#endif
-
-#if defined(Q_OS_WIN32)
-#define MP3ENCDLL_FILENAME "lame_enc.dll" 
 #endif
 
 #if defined(Q_OS_WIN32)
@@ -81,17 +77,23 @@
 #define TTFILE_VERSION      "5.0"
 #define TTLINK_PREFIX       "tt:"
 
-#define WEBLOGIN_FACEBOOK_USERNAME          "facebook"
-#define WEBLOGIN_FACEBOOK_CLIENTID          "611833262539381"
-#define WEBLOGIN_FACEBOOK_REDIRECT          "https://www.facebook.com/connect/login_success.html"
-#define WEBLOGIN_FACEBOOK_URL               ("https://www.facebook.com/v2.10/dialog/oauth?client_id=" WEBLOGIN_FACEBOOK_CLIENTID \
-                                            "&redirect_uri=" WEBLOGIN_FACEBOOK_REDIRECT "&response_type=code%20token")
-#define WEBLOGIN_FACEBOOK_PASSWDPREFIX      "code="
-#define WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX   "@facebook.com"
-#define WEBLOGIN_FACEBOOK_PROFILE_URL       "https://facebook.com/"
-#define WEBLOGIN_FACEBOOK_LOGOUT_URL        "https://www.facebook.com/logout.php?"
-#define WEBLOGIN_FACEBOOK_LOGOUT_REDIRECT   WEBLOGIN_FACEBOOK_REDIRECT
+#define WEBLOGIN_FACEBOOK_USERNAME              "facebook"
+#define WEBLOGIN_FACEBOOK_CLIENTID              "611833262539381"
+#define WEBLOGIN_FACEBOOK_REDIRECT              "https://www.facebook.com/connect/login_success.html"
+#define WEBLOGIN_FACEBOOK_URL                   ("https://www.facebook.com/v2.10/dialog/oauth?client_id=" WEBLOGIN_FACEBOOK_CLIENTID \
+                                                "&redirect_uri=" WEBLOGIN_FACEBOOK_REDIRECT "&response_type=code%20token")
+#define WEBLOGIN_FACEBOOK_PASSWDPREFIX          "code="
+#define WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX       "@facebook.com"
+#define WEBLOGIN_FACEBOOK_PROFILE_URL           "https://facebook.com/"
+#define WEBLOGIN_FACEBOOK_LOGOUT_URL            "https://www.facebook.com/logout.php?"
+#define WEBLOGIN_FACEBOOK_LOGOUT_REDIRECT       WEBLOGIN_FACEBOOK_REDIRECT
 
+#define WEBLOGIN_URL                            "https://www.bearware.dk/teamtalk/weblogin.php?client=" APPNAME_SHORT \
+                                                "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE
+#define WEBLOGIN_BEARWARE_URLAUTH(uid, passwd)  QString(WEBLOGIN_URL "&service=bearware&action=auth&username=%1&password=%2").arg(uid).arg(passwd)
+#define WEBLOGIN_BEARWARE_URLTOKEN(uid, token, accesstoken)  QString(WEBLOGIN_URL "&service=bearware&action=clientauth&username=%1&token=%2&accesstoken=%3").arg(uid).arg(token).arg(accesstoken)
+#define WEBLOGIN_BEARWARE_USERNAME              "bearware"
+#define WEBLOGIN_BEARWARE_USERNAMEPOSTFIX       "@bearware.dk"
 
 #if QT_VERSION >= 0x050000
 #if defined(Q_OS_WIN32)

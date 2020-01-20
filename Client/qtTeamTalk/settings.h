@@ -34,6 +34,8 @@
 #define SETTINGS_GENERAL_NICKNAME_DEFAULT           "NoName"
 #define SETTINGS_GENERAL_GENDER                     "general_/gender"
 #define SETTINGS_GENERAL_GENDER_DEFAULT             true
+#define SETTINGS_GENERAL_BEARWARE_USERNAME          "general_/bearwareid"
+#define SETTINGS_GENERAL_BEARWARE_TOKEN             "general_/bearwaretoken"
 #define SETTINGS_GENERAL_AUTOAWAY                   "general_/auto-away"
 #define SETTINGS_GENERAL_PUSHTOTALK                 "general_/push-to-talk"
 #define SETTINGS_GENERAL_PUSHTOTALK_KEY             "general_/ptt-key"
@@ -128,6 +130,7 @@
 #define SETTINGS_SOUNDEVENT_SERVERLOST              "soundevents/server-lost"
 #define SETTINGS_SOUNDEVENT_USERMSG                 "soundevents/user-msg"
 #define SETTINGS_SOUNDEVENT_CHANNELMSG              "soundevents/channel-msg"
+#define SETTINGS_SOUNDEVENT_BROADCASTMSG            "soundevents/broadcast-msg"
 #define SETTINGS_SOUNDEVENT_HOTKEY                  "soundevents/hotkey-pressed"
 #define SETTINGS_SOUNDEVENT_SILENCE                 "soundevents/channel-silent"
 #define SETTINGS_SOUNDEVENT_NEWVIDEO                "soundevents/new-video-session"
@@ -165,13 +168,24 @@
 #define SETTINGS_MEDIASTORAGE_CHANLOGFOLDER         "media-storage/channellog-folder"
 #define SETTINGS_MEDIASTORAGE_USERLOGFOLDER         "media-storage/userlog-folder"
 
-#define SETTINGS_STREAMAUDIO_FILENAME               "stream-audio/stream-audio-file"
-#define SETTINGS_STREAMAUDIO_LOOP                   "stream-audio/stream-audio-file-loop"
-
-#define SETTINGS_STREAMMEDIA_FILENAME               "stream-media/stream-media-filename"
+#define SETTINGS_STREAMMEDIA_FILENAME               "stream-media/%1_stream-media-filename"
 #define SETTINGS_STREAMMEDIA_LOOP                   "stream-media/stream-media-file-loop"
 #define SETTINGS_STREAMMEDIA_CODEC                  "stream-media/codec"
 #define SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE        "stream-media/codec/webmvp8-bitrate"
+#define SETTINGS_STREAMMEDIA_OFFSET                 "stream-media/offset"
+#define SETTINGS_STREAMMEDIA_OFFSET_DEFAULT         0
+#define SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR      "stream-media/audiopreprocessor"
+#define SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT NO_AUDIOPREPROCESSOR
+#define SETTINGS_STREAMMEDIA_TTAP_MUTELEFT          "stream-media/ttaudiopreprocessor/muteleft"
+#define SETTINGS_STREAMMEDIA_TTAP_MUTERIGHT         "stream-media/ttaudiopreprocessor/muteright"
+#define SETTINGS_STREAMMEDIA_TTAP_GAINLEVEL         "stream-media/ttaudiopreprocessor/gainlevel"
+#define SETTINGS_STREAMMEDIA_SPX_AGC_ENABLE         "stream-media/spxaudiopreprocessor/agc-enable"
+#define SETTINGS_STREAMMEDIA_SPX_AGC_GAINLEVEL      "stream-media/spxaudiopreprocessor/agc-gain-level"
+#define SETTINGS_STREAMMEDIA_SPX_AGC_INC_MAXDB      "stream-media/spxaudiopreprocessor/agc-incmaxdbsec"
+#define SETTINGS_STREAMMEDIA_SPX_AGC_DEC_MAXDB      "stream-media/spxaudiopreprocessor/agc-devmaxdbsec"
+#define SETTINGS_STREAMMEDIA_SPX_AGC_GAINMAXDB      "stream-media/spxaudiopreprocessor/agc-gainmaxdb"
+#define SETTINGS_STREAMMEDIA_SPX_DENOISE_ENABLE     "stream-media/spxaudiopreprocessor/denoise-enable"
+#define SETTINGS_STREAMMEDIA_SPX_DENOISE_SUPPRESS   "stream-media/spxaudiopreprocessor/denoise-suppress"
 
 #define SETTINGS_DESKTOPSHARE_MODE                  "desktop-share/desktop-share-mode"
 #define SETTINGS_DESKTOPSHARE_BMPMODE               "desktop-share/desktop-bmp-mode"

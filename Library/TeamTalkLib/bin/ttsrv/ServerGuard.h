@@ -31,6 +31,8 @@
 #include <thread>
 #endif
 
+#include <mutex>
+
 namespace teamtalk {
 
     class ServerGuard : public ServerNodeListener
@@ -49,6 +51,7 @@ namespace teamtalk {
         void OnUserKicked(const ServerUser& kickee, const ServerUser* kicker, const ServerChannel* channel);
         void OnUserBanned(const ServerUser& banee, const ServerUser& banner);
         void OnUserBanned(const ACE_TString& ipaddr, const ServerUser& banner);
+        void OnUserBanned(const ServerUser& banner, const BannedUser& ban);
         void OnUserUnbanned(const ServerUser& user, const BannedUser& ban);
         void OnUserUpdated(const ServerUser& user);
         void OnUserJoinChannel(const ServerUser& user, const ServerChannel& channel);
@@ -91,7 +94,10 @@ namespace teamtalk {
 
     private:
 #if defined(ENABLE_HTTP_AUTH)
-        void HttpLogin(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount);
+        void WebLoginFacebook(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount);
+        void WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount);
+        ErrorMsg WebLoginPostAuthenticate(UserAccount& useraccount);
+        void WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid, const UserAccount& useraccount, const ErrorMsg& err);
         std::map<int, UserAccount> m_pendinglogin;
 #endif
         teamtalk::ServerXML& m_settings;
@@ -110,10 +116,5 @@ namespace teamtalk {
     void MakeStaticChannels(ServerNode& servernode, const statchannels_t& channels);
 
     void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname, std::ofstream& logfile);
-
-#if defined(ENABLE_HTTP_AUTH)
-    int HttpRequest(const ACE_CString& url, std::string& doc);
-#endif
-
 }
 #endif

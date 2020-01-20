@@ -26,6 +26,7 @@
 #include "appinfo.h"
 #include "settings.h"
 #include "generatettfiledlg.h"
+#include "bearwarelogindlg.h"
 
 #include <QUrl>
 #include <QMessageBox>
@@ -37,15 +38,12 @@ extern QSettings* ttSettings;
 
 ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
-    , m_http_manager(NULL)
+    , m_http_manager(nullptr)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-#ifndef ENABLE_ENCRYPTION
-    ui.cryptChkBox->hide();
-#endif
-
+    ui.usernameBox->addItem(WEBLOGIN_BEARWARE_USERNAME);
     ui.usernameBox->addItem(WEBLOGIN_FACEBOOK_USERNAME);
 
     connect(ui.addupdButton, SIGNAL(clicked()),
@@ -141,11 +139,14 @@ void ServerListDlg::showHost(const HostEntry& entry)
     ui.udpportEdit->setText(QString::number(entry.udpport));
     ui.cryptChkBox->setChecked(entry.encrypted);
     ui.usernameBox->lineEdit()->setText(entry.username);
-    if(entry.username == WEBLOGIN_FACEBOOK_USERNAME)
+    if (entry.username == WEBLOGIN_FACEBOOK_USERNAME ||
+        entry.username == WEBLOGIN_BEARWARE_USERNAME)
         ui.passwordEdit->setText("");
     else
         ui.passwordEdit->setText(entry.password);
-    ui.passwordEdit->setDisabled(entry.username == WEBLOGIN_FACEBOOK_USERNAME);
+    ui.passwordEdit->setDisabled(entry.username == WEBLOGIN_FACEBOOK_USERNAME ||
+                                 entry.username == WEBLOGIN_BEARWARE_USERNAME ||
+                                 entry.username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX));
     ui.channelEdit->setText(entry.channel);
     ui.chanpasswdEdit->setText(entry.chanpasswd);
 
@@ -237,6 +238,22 @@ void ServerListDlg::slotConnect()
     HostEntry entry;
     if(getHostEntry(entry))
     {
+        if (entry.username == WEBLOGIN_BEARWARE_USERNAME ||
+            entry.username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX))
+        {
+            QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+            if (username.isEmpty())
+            {
+                BearWareLoginDlg dlg(this);
+                if (dlg.exec())
+                {
+                    username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+                }
+            }
+            ui.usernameBox->lineEdit()->setText(username);
+            ui.passwordEdit->setText("");
+        }
+
         addLatestHost(entry);
         this->accept();
     }
@@ -299,7 +316,7 @@ void ServerListDlg::slotFreeServerRequest(QNetworkReply* reply)
     {
         QListWidgetItem* srvItem = new QListWidgetItem(ui.listWidget);
         srvItem->setText(m_servers[index].name);
-        srvItem->setBackgroundColor(QColor(133,229,141));
+        srvItem->setBackgroundColor(QColor(0x0C,0x52,0x28));
         ui.listWidget->addItem(srvItem);
     }
 }
@@ -341,7 +358,9 @@ void ServerListDlg::slotGenerateEntryName(const QString&)
     else
         ui.nameEdit->setText(QString());
 
-    ui.passwordEdit->setDisabled(username == WEBLOGIN_FACEBOOK_USERNAME);
-    if(username == WEBLOGIN_FACEBOOK_USERNAME)
+    ui.passwordEdit->setDisabled(username == WEBLOGIN_FACEBOOK_USERNAME ||
+                                 username == WEBLOGIN_BEARWARE_USERNAME);
+    if (username == WEBLOGIN_FACEBOOK_USERNAME ||
+        username == WEBLOGIN_BEARWARE_USERNAME)
         ui.passwordEdit->setText("");
 }

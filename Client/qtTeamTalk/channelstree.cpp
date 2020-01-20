@@ -656,7 +656,7 @@ QTreeWidgetItem* ChannelsTree::getChannelItem(int channelid)
 {
     QTreeWidgetItem* item = topLevelItem(0);
     if(!item)
-        return NULL;
+        return nullptr;
     QStack<QTreeWidgetItem*> channels;
     channels.push(item);
     while(channels.size())
@@ -671,14 +671,14 @@ QTreeWidgetItem* ChannelsTree::getChannelItem(int channelid)
                 channels.push(item->child(i));
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 QTreeWidgetItem* ChannelsTree::getUserItem(int userid)
 {
     QTreeWidgetItem* item = topLevelItem(0);
     if(!item)
-        return NULL;
+        return nullptr;
     QStack<QTreeWidgetItem*> channels;
     channels.push(item);
     while(channels.size())
@@ -695,7 +695,7 @@ QTreeWidgetItem* ChannelsTree::getUserItem(int userid)
                 return child;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 int ChannelsTree::getUserIndex(const QTreeWidgetItem* parent, const QString& nick)

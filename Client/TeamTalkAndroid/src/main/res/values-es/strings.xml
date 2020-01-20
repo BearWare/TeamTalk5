@@ -45,8 +45,8 @@
     <string name="pref_summary_rx_tx_audio_icon">Reproducir sonido cuando el botón de transmisión es presionado</string>
     <string name="pref_title_vox_triggered_icon">Disparación de activación por voz</string>
     <string name="pref_summary_vox_triggered_icon">Reproducir sonido cuando activación por voz se dispara</string>
-    <string name="pref_title_personal_message_audio_icon">Mensaje privado</string>
-    <string name="pref_summary_personal_message_audio_icon">Reproducir sonido al recibir un mensaje privado</string>
+    <string name="pref_title_private_message_audio_icon">Mensaje privado</string>
+    <string name="pref_summary_private_message_audio_icon">Reproducir sonido al recibir un mensaje privado</string>
     <string name="pref_title_channel_message_audio_icon">Mensaje en el canal</string>
     <string name="pref_summary_channel_message_audio_icon">Reproducir sonido al recibir un mensaje en el canal</string>
     <string name="pref_title_broadcast_message_audio_icon">Mensaje de difusión</string>
@@ -81,7 +81,7 @@
     <string name="pref_summary_channel_join">Anuncia el nombre del usuario que se ha unido al canal</string>
     <string name="pref_title_channel_leave">El usuario sale del canal</string>
     <string name="pref_summary_channel_leave">Anuncia el nombre del usuario que ha dejado el canal</string>
-    <string name="pref_title_personal_message">Mensajes personales</string>
+    <string name="pref_title_private_message">Mensajes personales</string>
     <string name="pref_title_broadcast_message">Mensajes de difusión</string>
     <string name="pref_summary_message">Anunciar nombre del emisor</string>
     <string name="pref_title_mute_speakers">Silenciar altavoces cuando se pulse el botón TX</string>
@@ -101,7 +101,7 @@
     <string name="text_tts_loggedout">Ha salido</string>
     <string name="text_tts_joined_chan">Se ha unido al canal</string>
     <string name="text_tts_left_chan">Ha salido del canal</string>
-    <string name="text_tts_personal_message">Mensaje personal de %1$s</string>
+    <string name="text_tts_private_message">Mensaje personal de %1$s</string>
     <string name="text_tts_broadcast_message">Mensaje de difusión de  %1$s</string>
     <string name="pref_header_soundsystem">Sistema de sonido</string>
     <string name="title_activity_audio_codec">Códec de audio</string>
@@ -268,8 +268,8 @@
     <string name="err_filesharing_disabled">El servidor no permite transferencias de archivos</string>
     <string name="err_channel_has_users">El canal no está vacío</string>
 
-    <string name="personal_message_notification">Nuevo mensaje de %1$s</string>
-    <string name="personal_message_notification_hint">Click para leer y responder</string>
+    <string name="private_message_notification">Nuevo mensaje de %1$s</string>
+    <string name="private_message_notification_hint">Click para leer y responder</string>
     <string name="user_state_now_speaking">%1$s hablando ahora</string>
     <string name="text_waitstream">Esperando por  emisión de video</string>
     <string name="text_desktop_session">Sesión de escritorio</string>

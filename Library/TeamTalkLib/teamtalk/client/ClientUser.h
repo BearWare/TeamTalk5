@@ -27,8 +27,6 @@
 #include <myace/MyACE.h>
 #include <myace/TimerHandler.h>
 
-#include <ace/Bound_Ptr.h> 
-#include <ace/Null_Mutex.h> 
 #include <ace/Recursive_Thread_Mutex.h>
 #include <ace/Guard_T.h>
 
@@ -87,7 +85,8 @@ namespace teamtalk {
     public:
         ClientUser(int userid, 
                    class ClientNode* clientnode,
-                   class ClientListener* listener);
+                   class ClientListener* listener,
+                   soundsystem::soundsystem_t sndsys);
         virtual ~ClientUser();
 
         void ResetAllStreams();
@@ -100,7 +99,7 @@ namespace teamtalk {
         int TimerDesktopDelayedAck();
 
         void SetChannel(clientchannel_t& chan);
-        clientchannel_t GetChannel() const { return m_channel.strong(); }
+        clientchannel_t GetChannel() const { return m_channel.lock(); }
 
         void SetUsername(const ACE_TString& name){ m_username = name; }
         const ACE_TString& GetUsername() const { return m_username; }
@@ -211,11 +210,13 @@ namespace teamtalk {
 
         ClientNode* m_clientnode;
         ClientListener* m_listener;
+        soundsystem::soundsystem_t m_soundsystem;
+        
         ClientUserStats m_stats;
         ACE_TString m_username;
         UserTypes m_usertype;
         int m_userdata;
-        ACE_Weak_Bound_Ptr< ClientChannel, ACE_Null_Mutex > m_channel;
+        std::weak_ptr< ClientChannel > m_channel;
 
         //voice playback
         audio_player_t m_voice_player;

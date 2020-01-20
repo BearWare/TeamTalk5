@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <assert.h>
 #include <sstream>
+#include <chrono>
 using namespace std;
 
 /*******************************************************************/
@@ -109,3 +110,13 @@ stdstrings_t stdtokenize(const string& source, const string& delimeters)
 
     return tokens; 
 }
+
+uint32_t GETTIMESTAMP()
+{
+    using namespace std::chrono;
+    steady_clock::time_point now = steady_clock::now();
+    auto now_ms = time_point_cast<milliseconds>(now);
+    auto duration = now_ms.time_since_epoch();
+    return duration.count();
+}
+

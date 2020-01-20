@@ -31,6 +31,12 @@ import static org.junit.Assert.assertTrue;
 
 public class TeamTalkTest extends TeamTalkTestCaseBase {
 
+    public TeamTalkBase newClientInstance() {
+        TeamTalkBase ttclient = new TeamTalk5();
+        ttclients.add(ttclient);
+        return ttclient;
+    }
+
     @Test
     public void test_mytest() {
         TeamTalkBase ttclient = newClientInstance();

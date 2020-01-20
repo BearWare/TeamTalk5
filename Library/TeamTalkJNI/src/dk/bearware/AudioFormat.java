@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -24,7 +24,16 @@
 package dk.bearware;
 
 public class AudioFormat {
-    public int nAudioFmt;
+    public /* AudioFileFormat */ int nAudioFmt;
     public int nSampleRate;
     public int nChannels;
+
+    public AudioFormat() {
+    }
+
+    public AudioFormat(int audioFmt, int samplerate, int channels) {
+        this.nAudioFmt = audioFmt;
+        this.nSampleRate = samplerate;
+        this.nChannels = channels;
+    }
 }

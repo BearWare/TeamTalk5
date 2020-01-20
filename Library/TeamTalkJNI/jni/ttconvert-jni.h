@@ -35,12 +35,12 @@
 #define ZERO_STRUCT(s) memset(&s, 0, sizeof(s))
 
 #if defined(WIN32)
-#define NEW_JSTRING(env, str) (env->NewString(reinterpret_cast<const jchar*>(str), wcslen(str)))
-#define TT_STRCPY(dst, src) do { wcsncpy(dst, src, TT_STRLEN); dst[TT_STRLEN-1]; } while(0)
+#define NEW_JSTRING(env, str) (env->NewString(reinterpret_cast<const jchar*>(str), jsize(wcslen(str))))
+#define TT_STRCPY(dst, src) do { wcsncpy(dst, src, TT_STRLEN); dst[TT_STRLEN-1] = 0; } while(0)
 const jint* TO_JINT_ARRAY(const INT32* ttints, jint* jints, INT32 N);
 #else
 #define NEW_JSTRING(env, str) (env->NewStringUTF(str))
-#define TT_STRCPY(dst, src) do { strncpy(dst, src, TT_STRLEN); dst[TT_STRLEN-1]; } while(0)
+#define TT_STRCPY(dst, src) do { strncpy(dst, src, TT_STRLEN); dst[TT_STRLEN-1] = 0; } while(0)
 #define TO_JINT_ARRAY(ttint32, jints, N) (ttint32)
 #endif
 
@@ -116,24 +116,29 @@ jint getIntPtr(JNIEnv* env, jobject intptr);
 void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConvert conv);
 void setAudioConfig(JNIEnv* env, AudioConfig& audcfg, jobject lpAudioConfig, JConvert conv);
 void setSpeexDSP(JNIEnv* env, SpeexDSP& spxdsp, jobject lpSpeexDSP, JConvert conv);
+void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv);
+void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv);
 void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServerProperties, JConvert conv);
-void setClientStatistics(JNIEnv* env, const ClientStatistics& stats, jobject lpStats);
+void setClientStatistics(JNIEnv* env, ClientStatistics& stats, jobject lpStats); //N2J
+void setClientKeepAlive(JNIEnv* env, ClientKeepAlive& ka, jobject lpClientKeepAlive, JConvert conv);
 void setTextMessage(JNIEnv* env, TextMessage& msg, jobject lpTextMessage, JConvert conv);
 void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConvert conv);
 void setServerStatistics(JNIEnv* env, ServerStatistics& stats, jobject lpServerStatistics, JConvert conv);
 void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JConvert conv);
-void setUserStatistics(JNIEnv* env, const UserStatistics& stats, jobject lpUserStatistics);
-void setFileTransfer(JNIEnv* env, const FileTransfer& filetx, jobject lpFileTransfer);
+void setUserStatistics(JNIEnv* env, UserStatistics& stats, jobject lpUserStatistics); //N2J
+void setFileTransfer(JNIEnv* env, FileTransfer& filetx, jobject lpFileTransfer); //N2J
 void setBannedUser(JNIEnv* env, BannedUser& banned, jobject lpBannedUser, JConvert conv);
 void setClientErrorMsg(JNIEnv* env, ClientErrorMsg& cemsg, jobject lpClientErrorMsg, JConvert conv);
 void setDesktopInput(JNIEnv* env, DesktopInput& input, jobject lpDesktopInput, JConvert conv);
 void setDesktopWindow(JNIEnv* env, DesktopWindow& deskwnd, jobject lpDesktopWindow, JConvert conv);
-void setVideoFrame(JNIEnv* env, VideoFrame& vidframe, jobject lpVideoFrame);
-void setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock);
-void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo);
-void setAudioFormat(JNIEnv* env, const AudioFormat& fmt, jobject lpAudioFormat);
+void setVideoFrame(JNIEnv* env, VideoFrame& vidframe, jobject lpVideoFrame); //N2J
+jbyteArray setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock, JConvert conv);
+void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo, JConvert conv);
+void setAudioFormat(JNIEnv* env, AudioFormat& fmt, jobject lpAudioFormat, JConvert conv);
 void setVideoFormat(JNIEnv* env, VideoFormat& fmt, jobject lpVideoFormat, JConvert conv);
 void setVideoCodec(JNIEnv* env, VideoCodec& codec, jobject lpVideoCodec, JConvert conv);
 void setWebMVP8Codec(JNIEnv* env, WebMVP8Codec& webm_vp8, jobject lpWebMVP8Codec, JConvert conv);
 void setAbusePrevention(JNIEnv* env, AbusePrevention& abuse, jobject lpAbusePrevention, JConvert conv);
+void setMediaFilePlayback(JNIEnv* env, MediaFilePlayback& playback, jobject lpMediaPlayback, JConvert conv);
+void setAudioInputProgress(JNIEnv* env, AudioInputProgress& aip, jobject lpAudioInputProgress, JConvert conv);
 #endif

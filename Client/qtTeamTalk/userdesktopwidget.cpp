@@ -37,7 +37,7 @@ UserDesktopWidget::UserDesktopWidget(QWidget* parent, int userid, int border_wid
     , m_desktop_updated(true)
     , m_access_requested(false)
     , m_mousedown(false)
-    , m_desktop_window(NULL)
+    , m_desktop_window(nullptr)
     , m_user()
 {
     m_refresh_timerid = startTimer(100);
@@ -250,7 +250,7 @@ void UserDesktopWidget::slotContextMenu(const QPoint& p)
 #endif
     menu.addSeparator();
 
-    QAction* access = NULL;
+    QAction* access = nullptr;
     if(m_access_requested)
         access = menu.addAction(tr("Retract &Desktop Access"));
     else

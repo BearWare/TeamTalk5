@@ -63,19 +63,6 @@
 #define RECONNECT_TIMEOUT 7000
 #define VUMETER_UPDATE_TIMEOUT 50
 
-enum : UINT_PTR
-{
-    TIMER_VOICELEVEL_ID = 1,
-    TIMER_ONESECOND_ID,
-    TIMER_CONNECT_TIMEOUT_ID,
-    TIMER_STATUSMSG_ID,
-    TIMER_RECONNECT_ID,
-    TIMER_HTTPREQUEST_UPDATE_ID,
-    TIMER_HTTPREQUEST_TIMEOUT_ID,
-    TIMER_DESKTOPSHARE_ID,
-    TIMER_APPUPDATE_ID
-};
-
 enum
 {
     HOTKEY_PUSHTOTALK_ID = 1,
@@ -127,6 +114,8 @@ public:
     BOOL Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL bEncrypted);
     void Disconnect();
 
+    void Login();
+
     void UpdateWindowTitle();
 
     void EnableVoiceActivation(BOOL bEnable, SoundEvent on = SOUNDEVENT_ENABLE_VOICEACTIVATION, SoundEvent off = SOUNDEVENT_DISABLE_VOICEACTIVATION);
@@ -156,8 +145,6 @@ public:
     void SubscribeCommon(int nUserID, Subscription sub, BOOL bEnable);
 
     void FirewallInstall();
-    int GetSoundInputDevice(SoundDevice* pSoundDev = NULL);
-    int GetSoundOutputDevice(SoundDevice* pSoundDev = NULL);
 
     void UpdateAudioStorage(BOOL bEnable);
     void UpdateMasterVolume(int nVol);
@@ -226,6 +213,7 @@ protected:
     typedef std::map<int, CUserDesktopDlg*> mapdesktopdlg_t;
     mapdesktopdlg_t m_desktopdlgs;
     std::set<int> m_desktopignore;
+    class COnlineUsersDlg* m_pOnlineUsersDlg = nullptr;
     //store used channel passwords
     typedef std::map<int, CString> chanpasswd_t;
     chanpasswd_t m_channelPasswords;
@@ -254,13 +242,13 @@ protected:
     cmdreply_t m_commands;
     int m_nCurrentCmdID;
 
+    std::unique_ptr<class CStreamMediaDlg> m_pStreamMediaDlg;
+
     teamtalk::ClientXML m_xmlSettings;
     BOOL m_bResetSettings;
 
     std::vector<UserAccount> m_useraccounts;
     std::vector<BannedUser> m_bannedusers;
-
-    std::set<int> m_moveusers;
 
     //from tt instance
     afx_msg LRESULT OnClientEvent(WPARAM wParam, LPARAM lParam);
@@ -322,6 +310,7 @@ protected:
     afx_msg LRESULT OnVideoDlgEnded(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnDesktopDlgClosed(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnDesktopDlgEnded(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnOnlineUsersDlgClosed(WPARAM wParam, LPARAM lParam);
 
     //tray icon msgs
     afx_msg LRESULT OnTrayMessage(WPARAM wParam, LPARAM lParam);
@@ -355,7 +344,8 @@ public:
 
     BOOL m_bIdledOut;
     BOOL m_bPreferencesOpen;
-    std::unique_ptr<CHttpRequest> m_httpUpdate;
+    std::unique_ptr<CHttpRequest> m_httpUpdate, m_httpWebLogin;
+    std::set<int> m_moveusers;
     CFile m_logChan;
 
     afx_msg void OnUpdateStats(CCmdUI *pCmdUI);
@@ -402,7 +392,6 @@ public:
     afx_msg void OnHelpWebsite();
     afx_msg void OnHelpManual();
     afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
-    afx_msg void OnHelpWhatismyip();
     afx_msg void OnEndSession(BOOL bEnding);
     afx_msg void OnNMCustomdrawSliderVoiceact(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnFilePreferences();
@@ -411,10 +400,6 @@ public:
     afx_msg void OnUsersOp();
     afx_msg void OnUpdateMeUsespeechonevents(CCmdUI *pCmdUI);
     afx_msg void OnMeUsespeechonevents();
-    afx_msg void OnUpdateAdvancedIncreasevolume(CCmdUI *pCmdUI);
-    afx_msg void OnAdvancedIncVolumeVoice();
-    afx_msg void OnUpdateAdvancedLowerVolumeVoice(CCmdUI *pCmdUI);
-    afx_msg void OnAdvancedLowerVolumeVoice();
     afx_msg void OnHelpRunwizard();
     afx_msg void OnUpdateChannelsUploadfile(CCmdUI *pCmdUI);
     afx_msg void OnChannelsUploadfile();

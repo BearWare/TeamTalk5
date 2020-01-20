@@ -22,9 +22,9 @@
  */
 
 #include "stdafx.h"
-#include "Resource.h"
 #include "GeneralPage.h"
 #include "TeamTalkDlg.h"
+#include "BearWareLoginDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -41,6 +41,7 @@ CGeneralPage::CGeneralPage()
 , m_nInactivity(0)
 , m_bIdleVox(FALSE)
 , m_bFemale(FALSE)
+, m_szBearWareID(_T(""))
 {
     m_bPush = FALSE;
     m_sNickname = _T("");
@@ -69,6 +70,9 @@ void CGeneralPage::DoDataExchange(CDataExchange* pDX)
     BOOL bMale = !m_bFemale;
     DDX_Check(pDX, IDC_RADIO_MALE, bMale);
     DDX_Check(pDX, IDC_RADIO_FEMALE, m_bFemale);
+    DDX_Text(pDX, IDC_EDIT_BEARWAREID, m_szBearWareID);
+    DDX_Control(pDX, IDC_EDIT_BEARWAREID, m_wndBearWareID);
+    DDX_Control(pDX, IDC_BUTTON_SETUPBEARWARE, m_wndSetupBearWare);
 }
 
 
@@ -76,6 +80,7 @@ BEGIN_MESSAGE_MAP(CGeneralPage, CPropertyPage)
     ON_BN_CLICKED(IDC_CHECK_PUSHTOTALK, OnBnClickedCheckPushtotalk)
     ON_BN_CLICKED(IDC_BUTTON_SETUPKEYS, OnBnClickedSetupKeys)
     ON_EN_CHANGE(IDC_EDIT_INACTIVITY, OnEnChangeEditInactivity)
+    ON_BN_CLICKED(IDC_BUTTON_SETUPBEARWARE, &CGeneralPage::OnBnClickedButtonSetupbearware)
 END_MESSAGE_MAP()
 
 
@@ -92,6 +97,9 @@ BOOL CGeneralPage::OnInitDialog()
     OnBnClickedCheckPushtotalk();
 
     OnEnChangeEditInactivity();
+
+    if (!m_szBearWareID.IsEmpty())
+        TRANSLATE(m_wndSetupBearWare, IDS_RESET, _T("Reset"));
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -141,5 +149,28 @@ void CGeneralPage::OnEnChangeEditInactivity()
     {
         m_wndIdleVox.EnableWindow(FALSE);
         m_wndIdleVox.SetCheck(BST_UNCHECKED);
+    }
+}
+
+void CGeneralPage::OnBnClickedButtonSetupbearware()
+{
+    CString szUsername;
+    m_wndBearWareID.GetWindowText(szUsername);
+
+    if (szUsername.IsEmpty())
+    {
+        CBearWareLoginDlg dlg(this);
+        if (dlg.DoModal() == IDOK)
+        {
+            m_wndBearWareID.SetWindowText(dlg.m_szUsername);
+            m_szBearWareToken = dlg.m_szToken;
+            TRANSLATE(m_wndSetupBearWare, IDS_RESET, _T("Reset"));
+        }
+    }
+    else
+    {
+        m_wndBearWareID.SetWindowText(_T(""));
+        m_szBearWareToken.Empty();
+        TRANSLATE(m_wndSetupBearWare, IDC_BUTTON_SETUPBEARWARE, _T("&Activate"));
     }
 }

@@ -38,6 +38,7 @@
     <string name="pref_header_general">General</string>
     <string name="pref_title_nickname">Nickname</string>
     <string name="pref_default_nickname">Noname</string>
+    <string name="pref_title_proximity_sensor">Proximity sensor</string>
     <string name="pref_title_keep_screen_on">Keep screen on when connected</string>
     <string name="pref_title_vibrate">Vibrate on PTT</string>
     <string name="pref_show_log_messages">Show log messages in chat history</string>
@@ -46,8 +47,8 @@
     <string name="pref_summary_rx_tx_audio_icon">Play sound when TX button is pressed</string>
     <string name="pref_title_vox_triggered_icon">Voice activation triggered</string>
     <string name="pref_summary_vox_triggered_icon">Play sound when voice activation is triggered</string>
-    <string name="pref_title_personal_message_audio_icon">Private message</string>
-    <string name="pref_summary_personal_message_audio_icon">Play sound when private message is received</string>
+    <string name="pref_title_private_message_audio_icon">Private message</string>
+    <string name="pref_summary_private_message_audio_icon">Play sound when private message is received</string>
     <string name="pref_title_channel_message_audio_icon">Channel message</string>
     <string name="pref_summary_channel_message_audio_icon">Play sound when channel message is received</string>
     <string name="pref_title_broadcast_message_audio_icon">Broadcast message</string>
@@ -58,7 +59,7 @@
     <string name="pref_summary_files_update_audio_icon">Play sound when files are added or removed</string>
     <string name="pref_title_transmitready_icon">Exclusive mode toggled</string>
     <string name="pref_summary_transmitready_icon">Play sound when transmit ready in "No Interruptions" channel</string>
-    <string name="pref_title_userjoin_icon">User joinned channel</string>
+    <string name="pref_title_userjoin_icon">User joined channel</string>
     <string name="pref_summary_userjoin_icon">Play sound when user joins to the current channel</string>
     <string name="pref_title_userleft_icon">User left channel</string>
     <string name="pref_summary_userleft_icon">Play sound when user leaves the current channel</string>
@@ -78,6 +79,8 @@
     <string name="pref_title_sub_mediafile">Media File</string>
     <string name="pref_summary_sub_mediafile">Subscribe to media file streams</string>
     <string name="pref_header_tts">Text to Speech</string>
+    <string name="pref_title_speech_engine">Tts engine selection</string>
+    <string name="pref_summary_speech_engine">Select one of installed speech engines, different from system settings</string>
     <string name="pref_title_server_login">User logs on the server</string>
     <string name="pref_summary_server_login">Announce name of user logging in</string>
     <string name="pref_title_server_logout">User logs out of the server</string>
@@ -86,13 +89,19 @@
     <string name="pref_summary_channel_join">Announce name of the user joining the channel</string>
     <string name="pref_title_channel_leave">User leaves the channel</string>
     <string name="pref_summary_channel_leave">Announce name of the user leaving the channel</string>
-    <string name="pref_title_personal_message">Personal messages</string>
+    <string name="pref_title_private_message">Private messages</string>
+    <string name="pref_summary_private_message">Announce private messages</string>
+    <string name="pref_title_channel_message">Channel messages</string>
+    <string name="pref_summary_channel_message">Announce channel messages</string>
     <string name="pref_title_broadcast_message">Broadcast messages</string>
-    <string name="pref_summary_message">Announce name of the sender</string>
+    <string name="pref_summary_broadcast_message">Announce broadcast messages</string>
     <string name="pref_title_mute_speakers">Mute speakers when pressing TX button</string>
     <string name="pref_summary_mute_speakers">Enable this to avoid echo from speakers</string>
     <string name="pref_title_show_usernames">Show usernames</string>
     <string name="pref_summary_show_usernames">Show usernames instead of nicknames</string>
+    <string name="pref_title_bearwareid">BearWare.dk WebLogin</string>
+    <string name="pref_summary_bearwareid">Setup BearWare.dk WebLogin</string>
+
     <string name="pref_title_mediafile_volume">Media file volume</string>
     <string name="pref_summary_mediafile_volume">Media file vs. voice volume</string>
     <string name="pref_title_speakerphone_checkbox">Enable speaker phone</string>
@@ -106,8 +115,9 @@
     <string name="text_tts_loggedout">has logged out</string>
     <string name="text_tts_joined_chan">has joined the channel</string>
     <string name="text_tts_left_chan">has left the channel</string>
-    <string name="text_tts_personal_message">Personal message from user %1$s</string>
-    <string name="text_tts_broadcast_message">Broadcast message from user %1$s</string>
+    <string name="text_tts_private_message">Private message from %1$s - %2$s</string>
+    <string name="text_tts_channel_message">Channel message from %1$s - %2$s</string>
+    <string name="text_tts_broadcast_message">Broadcast message from %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Sound System</string>
     <string name="title_activity_audio_codec">Audio Codec</string>
     <string name="title_activity_filepicker">File Selection</string>
@@ -116,7 +126,7 @@
     <string name="title_section_speexvbr">Speex VBR</string>
     <string name="title_section_noaudio">No Audio</string>
     <string name="opus_application">Application</string>
-    
+
     <string name="button_tx">TX</string>
     <string name="button_remove">Remove</string>
     <string name="button_edit">Edit</string>
@@ -141,14 +151,14 @@
     <string name="channel_prop_title_op_password">Op Password</string>
     <string name="channel_prop_title_maxusers">Max Users</string>
     <string name="channel_prop_title_diskquota">Disk Quota (KBytes)</string>
-    
+
     <string name="channel_prop_title_permanent">Permanent Channel</string>
     <string name="channel_prop_title_nointerrupt">No Interruptions</string>
     <string name="channel_prop_title_classroom">Classroom</string>
     <string name="channel_prop_title_oprecvonly">Operator Receives Only</string>
     <string name="channel_prop_title_novoiceact">No Voice Activation</string>
     <string name="channel_prop_title_noaudiorecord">No Audio Recording</string>
-    
+
 
     <string name="user_prop_title_username">Username</string>
     <string name="user_prop_title_clientname">Client Name</string>
@@ -293,8 +303,8 @@
     <string name="err_filesharing_disabled">Server does not allow file transfers</string>
     <string name="err_channel_has_users">Channel is not empty</string>
 
-    <string name="personal_message_notification">New message from user %1$s</string>
-    <string name="personal_message_notification_hint">Click to read and answer</string>
+    <string name="private_message_notification">New message from user %1$s</string>
+    <string name="private_message_notification_hint">Click to read and answer</string>
     <string name="user_state_now_speaking">%1$s now speaking</string>
     <string name="text_waitstream">Waiting for video stream</string>
     <string name="text_desktop_session">Desktop session</string>
@@ -312,5 +322,15 @@
 
     <string name="facebook_app_id">611833262539381</string>
     <string name="fb_login_protocol_scheme">fb611833262539381</string>
+    <string name="title_activity_web_login">WebLoginActivity</string>
+    <string name="weblogin_prop_title_bearwareid">Username</string>
+    <string name="weblogin_prop_title_bearwarepasswd">Password</string>
+    <string name="weblogin_prop_title_login">Login</string>
+    <string name="weblogin_prop_title_web_login_id">BearWare.dk Login ID</string>
+    <string name="weblogin_prop_title_create_web_login_id">Create BearWare.dk Login ID</string>
+    <string name="weblogin_prop_title_reset_web_login_id">Reset BearWare.dk Login ID</string>
+    <string name="text_bearwarelogin_success">%1$s your username %2$s has been validated</string>
+    <string name="text_bearwarelogin_failed">Failed to authenticate username %1$s</string>
+    <string name="text_weblogin_authfailure">BearWare.dk web login failed to authenticate</string>
 
 </resources>

@@ -21,7 +21,7 @@
  *
  */
 
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
 
 #define TEAMTALK_SETTINGSFILE "tt5prosrv.xml"
 #define TEAMTALK_LOGFILE "tt5prosrv.log"
@@ -55,10 +55,11 @@
 
 #define TEAMTALK_DESCRIPTION "TeamTalk Conferencing Server"
 
-#endif /* ENABLE_ENCRYPTION */
+#endif /* ENABLE_TEAMTALKPRO */
 
 #define TEAMTALK_VERSION_FRIENDLY TEAMTALK_VERSION TEAMTALK_VERSION_POSTFIX
 
 #define TEAMTALK_XML_ROOTNAME "teamtalk"
 
 #define WEBLOGIN_FACEBOOK               "facebook"
+#define WEBLOGIN_BEARWARE               "bearware"

@@ -36,7 +36,7 @@ void OnlineUsersModel::resetUsers()
 
     m_users.clear();
     int n_users = 0;
-    TT_GetServerUsers(ttInst, NULL, &n_users);
+    TT_GetServerUsers(ttInst, nullptr, &n_users);
     if(n_users)
     {
         QVector<User> users;
@@ -140,7 +140,7 @@ QVariant OnlineUsersModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     const User& user = ii.value();
-    TTCHAR channel[TT_STRLEN] = {0};
+    TTCHAR channel[TT_STRLEN] = {};
 
     switch(role)
     {

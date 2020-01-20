@@ -191,6 +191,20 @@ typedef std::map<ACE_UINT32, ACE_UINT32> key_map_t;
 key_map_t tt_keymap, local_keymap;
 
 #if defined(WIN32)
+
+/* 0-15	The repeat count for the current message. The value
+* is the number of times the keystroke is autorepeated as
+* a result of the user holding down the key. If the
+* keystroke is held long enough, multiple messages are sent.
+* However, the repeat count is not cumulative.
+*
+* 16 - 23	The scan code.The value depends on the OEM.
+*
+* 24	Indicates whether the key is an extended key, such
+* as the right - hand ALT and CTRL keys that appear on an
+* enhanced 101 - or 102 - key keyboard. The value is 1 if it is an extended key; otherwise, it is 0.
+*/
+
 void FillKeys()
 {
     tt_keymap[TTKEY_ESCAPE] = TTKEY_ESCAPE;
@@ -718,8 +732,8 @@ bool TranslateDesktopInput(TTKeyTranslate nTranslate,
 #if defined(MAC_CARBON)
     case TTKEY_MACKEYCODE_TO_TTKEYCODE :
 #endif
-        output.uKeyCode = (ii = local_keymap.find(input.uKeyCode)) != local_keymap.end()?
-            ii->second : TT_DESKTOPINPUT_KEYCODE_IGNORE;
+        output.uKeyCode = ( ((ii = local_keymap.find(input.uKeyCode)) != local_keymap.end())?
+                           ii->second : TT_DESKTOPINPUT_KEYCODE_IGNORE);
     break;
 #if defined(WIN32)
     case TTKEY_TTKEYCODE_TO_WINKEYCODE :
@@ -838,8 +852,21 @@ bool Convert(const AudioCodec& codec, teamtalk::AudioCodec& result)
         result.opus.bitrate = codec.opus.nBitRate;
         result.opus.vbr = codec.opus.bVBR;
         result.opus.vbr_constraint = codec.opus.bVBRConstraint;
-        result.opus.frame_size = OPUS_GetCbSize(codec.opus.nSampleRate,
-                                                codec.opus.nTxIntervalMSec);
+        if (codec.opus.nFrameSizeMSec > 0)
+        {
+            result.opus.frame_size = OPUS_GetCbSize(codec.opus.nSampleRate, codec.opus.nFrameSizeMSec);
+            if (result.opus.frame_size == 0)
+                return false;
+
+            int cbsamples = codec.opus.nSampleRate * codec.opus.nTxIntervalMSec / 1000;
+            result.opus.frames_per_packet = cbsamples / result.opus.frame_size;
+        }
+        else
+        {
+            result.opus.frame_size = OPUS_GetCbSize(codec.opus.nSampleRate,
+                                                    codec.opus.nTxIntervalMSec);
+            result.opus.frames_per_packet = 1;
+        }
         VALID_INT_CODEC(result, result.opus);
 
         return teamtalk::ValidAudioCodec(result);
@@ -894,8 +921,9 @@ bool Convert(const teamtalk::AudioCodec& codec, AudioCodec& result)
         result.opus.nBitRate = codec.opus.bitrate;
         result.opus.bVBR = codec.opus.vbr;
         result.opus.bVBRConstraint = codec.opus.vbr_constraint;
-        result.opus.nTxIntervalMSec = OPUS_GetCbMSec(codec.opus.samplerate,
+        result.opus.nFrameSizeMSec = OPUS_GetCbMSec(codec.opus.samplerate,
                                                     codec.opus.frame_size);
+        result.opus.nTxIntervalMSec = teamtalk::GetAudioCodecCbMillis(codec);
 
         VALID_EXT_CODEC(result, result.opus);
         return teamtalk::ValidAudioCodec(codec);
@@ -918,6 +946,29 @@ void Convert(const AudioConfig& audcfg, teamtalk::AudioConfig& result)
 {
     result.enable_agc = audcfg.bEnableAGC;
     result.gain_level = audcfg.nGainLevel;
+}
+
+void Convert(const AudioPreprocessor& audpreprocess, teamtalk::AudioPreprocessor& result)
+{
+    result.preprocessor = teamtalk::AudioPreprocessorType(audpreprocess.nPreprocessor);
+    switch(audpreprocess.nPreprocessor)
+    {
+    case NO_AUDIOPREPROCESSOR:
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR:
+        Convert(audpreprocess.speexdsp, result.speexdsp);
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        Convert(audpreprocess.ttpreprocessor, result.ttpreprocessor);
+        break;
+    }
+}
+
+void Convert(const TTAudioPreprocessor& ttpreprocess, teamtalk::TTAudioPreprocessor& result)
+{
+    result.gainlevel = ttpreprocess.nGainLevel;
+    result.muteleft = ttpreprocess.bMuteLeftSpeaker;
+    result.muteright = ttpreprocess.bMuteRightSpeaker;
 }
 
 void Convert(const teamtalk::SpeexDSP& spxdsp, SpeexDSP& result)
@@ -958,8 +1009,7 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
 {
     ZERO_STRUCT(result);
 
-    if(!Convert(chanprop.audiocodec, result.audiocodec))
-        return false;
+    Convert(chanprop.audiocodec, result.audiocodec);
 
     result.nParentID = chanprop.parentid;
     result.nChannelID = chanprop.channelid;
@@ -1079,7 +1129,7 @@ void Convert(const teamtalk::ClientUser& clientuser, User& result)
     Convert(static_cast<const teamtalk::User&>(clientuser), result);
 
     teamtalk::clientchannel_t channel = clientuser.GetChannel();
-    if(!channel.null())
+    if(channel)
         result.nChannelID = channel->GetChannelID();
     else
         result.nChannelID = 0;
@@ -1093,7 +1143,7 @@ void Convert(const teamtalk::ClientUser& clientuser, User& result)
         result.uUserState |= USERSTATE_MUTE_VOICE;
     if(clientuser.IsMute(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO))
         result.uUserState |= USERSTATE_MUTE_MEDIAFILE;
-    if(!clientuser.GetDesktopSession().null())
+    if (clientuser.GetDesktopSession())
         result.uUserState |= USERSTATE_DESKTOP;
     teamtalk::VideoCodec vidcodec;
     if(clientuser.GetVideoCaptureCodec(vidcodec))
@@ -1134,7 +1184,7 @@ void Convert(const teamtalk::ServerUser& serveruser, User& result)
 
     Convert(static_cast<const teamtalk::User&>(serveruser), result);
     teamtalk::serverchannel_t channel = serveruser.GetChannel();
-    if(!channel.null())
+    if(channel)
         result.nChannelID = channel->GetChannelID();
     else
         result.nChannelID = 0;
@@ -1145,6 +1195,11 @@ void Convert(const VideoCodec& vidcodec, teamtalk::VideoCodec& result)
 {
     switch(vidcodec.nCodec)
     {
+    case SPEEX_CODEC :
+    case SPEEX_VBR_CODEC :
+    case OPUS_CODEC :
+    case NO_CODEC :
+        break;
     case WEBM_VP8_CODEC :
         result.codec = teamtalk::CODEC_WEBM_VP8;
         result.webm_vp8.rc_target_bitrate = vidcodec.webm_vp8.nRcTargetBitrate;
@@ -1202,6 +1257,7 @@ void Convert(const teamtalk::ServerProperties& srvprop, ServerProperties& result
     result.bAutoSave = srvprop.autosave;
     result.nMaxUsers = srvprop.maxusers;
     result.nUserTimeout = srvprop.usertimeout;
+    result.nLoginDelayMSec = srvprop.logindelay;
     ACE_OS::strsncpy(result.szServerVersion, srvprop.version.c_str(), TT_STRLEN);
 }
 
@@ -1216,6 +1272,7 @@ void Convert(const teamtalk::ServerInfo& srvprop, ServerProperties& result)
         result.nTcpPort = srvprop.hostaddrs[0].get_port_number();
         result.nUdpPort = srvprop.udpaddr.get_port_number();
     }
+    ACE_OS::strsncpy(result.szAccessToken, srvprop.accesstoken.c_str(), TT_STRLEN);
 }
 
 #if defined(ENABLE_TEAMTALKPRO)
@@ -1246,6 +1303,7 @@ void Convert(const ServerProperties& srvprop, teamtalk::ServerProperties& result
     result.totaltxlimit = srvprop.nMaxTotalTxPerSecond;
     result.autosave = srvprop.bAutoSave;
     result.usertimeout = srvprop.nUserTimeout;
+    result.logindelay = srvprop.nLoginDelayMSec;
 }
 
 void Convert(const ServerProperties& srvprop, teamtalk::ServerInfo& result)
@@ -1258,6 +1316,7 @@ void Convert(const ServerProperties& srvprop, teamtalk::ServerInfo& result)
         result.udpaddr.set_port_number(srvprop.nUdpPort);
     }
     result.motd_raw = srvprop.szMOTDRaw;
+    result.accesstoken = srvprop.szAccessToken;
 }
 
 #if defined(ENABLE_TEAMTALKPRO)
@@ -1392,26 +1451,27 @@ void Convert(const MediaFileProp& mediaprop, MediaFileInfo& result)
 {
     ZERO_STRUCT(result);
 
-    if(mediaprop.audio_channels)
+    if(mediaprop.audio.IsValid())
     {
         result.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
-        result.audioFmt.nChannels = mediaprop.audio_channels;
-        result.audioFmt.nSampleRate = mediaprop.audio_samplerate;
+        result.audioFmt.nChannels = mediaprop.audio.channels;
+        result.audioFmt.nSampleRate = mediaprop.audio.samplerate;
     }
     else
         result.audioFmt.nAudioFmt = AFF_NONE;
 
-    if(mediaprop.video_width)
+    if(mediaprop.video.IsValid())
     {
         result.videoFmt.picFourCC = FOURCC_RGB32;
-        result.videoFmt.nWidth = mediaprop.video_width;
-        result.videoFmt.nHeight = mediaprop.video_height;
-        result.videoFmt.nFPS_Numerator = mediaprop.video_fps_numerator;
-        result.videoFmt.nFPS_Denominator = mediaprop.video_fps_denominator;
+        result.videoFmt.nWidth = mediaprop.video.width;
+        result.videoFmt.nHeight = mediaprop.video.height;
+        result.videoFmt.nFPS_Numerator = mediaprop.video.fps_numerator;
+        result.videoFmt.nFPS_Denominator = mediaprop.video.fps_denominator;
     }
     else
         result.videoFmt.picFourCC = FOURCC_NONE;
     result.uDurationMSec = mediaprop.duration_ms;
+    result.uElapsedMSec = mediaprop.elapsed_ms;
     ACE_OS::strsncpy(result.szFileName, mediaprop.filename.c_str(), TT_STRLEN);
 }
 
@@ -1425,8 +1485,17 @@ void Convert(teamtalk::MediaFileStatus status, const teamtalk::VoiceLogFile& vlo
     result.audioFmt.nChannels = vlog.channels;
     result.audioFmt.nSampleRate = vlog.samplerate;
     result.uDurationMSec = vlog.duration;
+    result.uElapsedMSec = 0;
     ACE_OS::strsncpy(result.szFileName, vlog.filename.c_str(), TT_STRLEN);
     ACE_OS::memset(&result.videoFmt, 0, sizeof(result.videoFmt));
+}
+
+void Convert(const AudioInputStatus& ais, AudioInputProgress& result)
+{
+    ZERO_STRUCT(result);
+    result.uElapsedMSec = ais.elapsed_msec;
+    result.uQueueMSec = ais.queueduration_msec;
+    result.nStreamID = ais.streamid;
 }
 
 void Convert(const media::VideoFrame& imgframe, VideoFrame& result)
@@ -1489,6 +1558,26 @@ void Convert(const teamtalk::ClientStats& stats, ClientStatistics& result)
     result.nUdpPingTimeMs = stats.udpping_time;
     result.nTcpServerSilenceSec = stats.tcp_silence_sec;
     result.nUdpServerSilenceSec = stats.udp_silence_sec;
+}
+
+void Convert(const ClientKeepAlive& ka, teamtalk::ClientKeepAlive& result)
+{
+    result.connection_lost.msec(ka.nConnectionLostMSec);
+    result.tcp_keepalive_interval.msec(ka.nTcpKeepAliveIntervalMSec);
+    result.udp_keepalive_interval.msec(ka.nUdpKeepAliveIntervalMSec);
+    result.udp_keepalive_rtx.msec(ka.nUdpKeepAliveRTXMSec);
+    result.udp_connect_interval.msec(ka.nUdpConnectRTXMSec);
+    result.udp_connect_timeout.msec(ka.nUdpConnectTimeoutMSec);
+}
+
+void Convert(const teamtalk::ClientKeepAlive& ka, ClientKeepAlive& result)
+{
+    result.nConnectionLostMSec = ka.connection_lost.msec();
+    result.nTcpKeepAliveIntervalMSec = ka.tcp_keepalive_interval.msec();
+    result.nUdpKeepAliveIntervalMSec = ka.udp_keepalive_interval.msec();
+    result.nUdpKeepAliveRTXMSec = ka.udp_keepalive_rtx.msec();
+    result.nUdpConnectRTXMSec = ka.udp_connect_interval.msec();
+    result.nUdpConnectTimeoutMSec = ka.udp_connect_timeout.msec();
 }
 
 void Convert(const teamtalk::DesktopInput& input, DesktopInput& result)

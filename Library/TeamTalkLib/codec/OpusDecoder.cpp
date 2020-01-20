@@ -53,6 +53,15 @@ void OpusDecode::Close()
     m_decoder = NULL;
 }
 
+void OpusDecode::Reset()
+{
+    if (m_decoder)
+    {
+        int ret = opus_decoder_ctl(m_decoder, OPUS_RESET_STATE);
+        assert(ret == OPUS_OK);
+    }
+}
+
 int OpusDecode::Decode(const char* input_buffer, int input_bufsize, 
                        short* output_buffer, int output_samples)
 {

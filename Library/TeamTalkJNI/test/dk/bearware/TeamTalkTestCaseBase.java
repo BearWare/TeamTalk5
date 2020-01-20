@@ -24,12 +24,15 @@
 package dk.bearware;
 
 import java.util.Vector;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import junit.framework.TestCase;
 
-public class TeamTalkTestCaseBase extends TestCase {
+public abstract class TeamTalkTestCaseBase extends TestCase {
 
-    public static boolean PROEDITION = false, ENCRYPTED = false;
+    public static boolean ENCRYPTED = false;
     public static boolean DEBUG_OUTPUT = false;
     public static final int DEF_WAIT = 15000;
 
@@ -41,17 +44,22 @@ public class TeamTalkTestCaseBase extends TestCase {
     public static String SYSTEMID = "teamtalk";
 
     public static int INPUTDEVICEID = -1, OUTPUTDEVICEID = -1;
-    public static String VIDEODEVICEID = "", VIDEODEVDISABLE="None"; //set to "None" to ignore video capture tests
+    public static String VIDEODEVICEID = "None", VIDEODEVDISABLE="None"; //set to "None" to ignore video capture tests
+    public static String MEDIAFILE_AUDIO = "";
+    public static String MEDIAFILE_VIDEO = "";
+    public static String HTTPS_MEDIAFILE = "";
+    public static boolean OPUSTOOLS = true;
 
     public static final String CRYPTO_CERT_FILE = "ttservercert.pem", CRYPTO_KEY_FILE = "ttserverkey.pem";
     public static final String MUXEDMEDIAFILE_WAVE = "muxwavefile.wav";
     public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
     public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
     public static final String MUXEDMEDIAFILE_OPUS = "muxwavefile_opus.ogg";
-    public static final String MEDIAFILE_AUDIO = "music.wav";
-    public static final String MEDIAFILE = "video.avi";
-    public static final String HTTPS_MEDIAFILE = "https://www.bearware.dk/test/giana.wma";
+
+
     public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
+
+    public abstract TeamTalkBase newClientInstance();
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -64,10 +72,6 @@ public class TeamTalkTestCaseBase extends TestCase {
         if(prop != null && !prop.isEmpty())
             this.OUTPUTDEVICEID = Integer.parseInt(prop);
 
-        prop = System.getProperty("dk.bearware.proedition");
-        if(prop != null && !prop.isEmpty())
-            this.PROEDITION = Integer.parseInt(prop) != 0;
-
         prop = System.getProperty("dk.bearware.encrypted");
         if(prop != null && !prop.isEmpty())
             this.ENCRYPTED = Integer.parseInt(prop) != 0;
@@ -79,6 +83,22 @@ public class TeamTalkTestCaseBase extends TestCase {
         prop = System.getProperty("dk.bearware.videodevid");
         if(prop != null && !prop.isEmpty())
             this.VIDEODEVICEID = prop;
+
+        prop = System.getProperty("dk.bearware.videofile");
+        if(prop != null && !prop.isEmpty())
+            this.MEDIAFILE_VIDEO = prop;
+
+        prop = System.getProperty("dk.bearware.audiofile");
+        if(prop != null && !prop.isEmpty())
+            this.MEDIAFILE_AUDIO = prop;
+
+        prop = System.getProperty("dk.bearware.httpsfile");
+        if(prop != null && !prop.isEmpty())
+            this.HTTPS_MEDIAFILE = prop;
+
+        prop = System.getProperty("dk.bearware.opustools");
+        if(prop != null && !prop.isEmpty())
+            this.OPUSTOOLS = Integer.parseInt(prop) != 0;
 
         if(TCPPORT == 0 && UDPPORT == 0) {
             if(this.ENCRYPTED) {
@@ -106,6 +126,11 @@ public class TeamTalkTestCaseBase extends TestCase {
             }
             ttclient.closeVideoCaptureDevice();
             ttclient.stopStreamingMediaFileToChannel();
+            // close TeamTalk instance since we don't know when GC
+            // will do it. On Android we can only create few TT
+            // instances, so we need to ensure the previous test-cases
+            // have released their resources.
+            ttclient.closeTeamTalk();
         }
         ttclients.clear();
     }
@@ -254,7 +279,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
                                           int waittimeout, TeamTalkEventHandler eventhandler,
                                           ServerInterleave interleave) {
-        
+
         long start = System.currentTimeMillis();
         TTMessage tmp = new TTMessage();
         boolean gotmsg;
@@ -279,7 +304,7 @@ public class TeamTalkTestCaseBase extends TestCase {
 
             interleave.interleave();
 
-            if(DEBUG_OUTPUT) {
+            if(DEBUG_OUTPUT && gotmsg) {
                 System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": " + tmp.nClientEvent);
                 if(tmp.nClientEvent == ClientEvent.CLIENTEVENT_CMD_ERROR) {
                     System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
@@ -293,21 +318,17 @@ public class TeamTalkTestCaseBase extends TestCase {
         if (tmp.nClientEvent == nClientEvent)
         {
             if (DEBUG_OUTPUT)
-                System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": " + tmp.nClientEvent);
+                System.out.println("Success. Event: " + nClientEvent);
 
             msg.nClientEvent = tmp.nClientEvent;
             msg.ttType = tmp.ttType;
             msg.nSource = tmp.nSource;
 
-            msg.bActive = tmp.bActive;
             msg.channel = tmp.channel;
             msg.clienterrormsg = tmp.clienterrormsg;
             msg.desktopinput = tmp.desktopinput;
             msg.filetransfer = tmp.filetransfer;
             msg.mediafileinfo = tmp.mediafileinfo;
-            msg.nBytesRemain = tmp.nBytesRemain;
-            msg.nPayloadSize = tmp.nPayloadSize;
-            msg.nStreamID = tmp.nStreamID;
             msg.remotefile = tmp.remotefile;
             msg.serverproperties = tmp.serverproperties;
             msg.serverstatistics = tmp.serverstatistics;
@@ -315,9 +336,19 @@ public class TeamTalkTestCaseBase extends TestCase {
             msg.user = tmp.user;
             msg.useraccount = tmp.useraccount;
             msg.banneduser = tmp.banneduser;
+            msg.bActive = tmp.bActive;
+            msg.nBytesRemain = tmp.nBytesRemain;
+            msg.nStreamID = tmp.nStreamID;
+            msg.nPayloadSize = tmp.nPayloadSize;
             msg.nStreamType = tmp.nStreamType;
+            msg.audioinputprogress = tmp.audioinputprogress;
             //if assert fails it's because the TTType isn't handled here
-            assertTrue("TTType unhandled: " + tmp.ttType, tmp.ttType <= TTType.__STREAMTYPE);
+            assertTrue("TTType unhandled: " + tmp.ttType, tmp.ttType <= TTType.__AUDIOINPUTPROGRESS);
+        }
+        else
+        {
+            if (DEBUG_OUTPUT)
+                System.out.println("Failed. Event: " + nClientEvent);
         }
         return tmp.nClientEvent == nClientEvent;
     }
@@ -397,16 +428,7 @@ public class TeamTalkTestCaseBase extends TestCase {
         chan.audiocodec.nCodec = codec;
         switch(codec) {
             case Codec.OPUS_CODEC :
-                chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_AUDIO;
-                chan.audiocodec.opus.nChannels = 1;
-                chan.audiocodec.opus.nBitRate = 64000;
-                chan.audiocodec.opus.nComplexity = 5;
-                chan.audiocodec.opus.nTxIntervalMSec = 20;
-                chan.audiocodec.opus.nSampleRate = 48000;
-                chan.audiocodec.opus.bDTX = true;
-                chan.audiocodec.opus.bFEC = true;
-                chan.audiocodec.opus.bVBR = true;
-                chan.audiocodec.opus.bVBRConstraint = false;
+                chan.audiocodec.opus = new OpusCodec(true);
                 break;
             case Codec.SPEEX_CODEC :
                 chan.audiocodec.speex = new SpeexCodec(true);
@@ -416,18 +438,6 @@ public class TeamTalkTestCaseBase extends TestCase {
                 break;
         }
         return chan;
-    }
-
-    TeamTalkBase newClientInstance()
-    {
-        TeamTalkBase ttclient;
-        if(PROEDITION)
-            ttclient = new TeamTalk5Pro();
-        else
-            ttclient = new TeamTalk5();
-
-        ttclients.add(ttclient);
-        return ttclient;
     }
 
     public static String getCurrentMethod()
@@ -453,4 +463,67 @@ public class TeamTalkTestCaseBase extends TestCase {
         System.out.println("");
         System.out.println("\tDefault sample rate: " + Integer.toString(dev.nDefaultSampleRate));
     }
+
+    static FileOutputStream newWaveFile(String filename, int samplerate, int channels, int bytesize) throws IOException {
+        FileOutputStream fs = new FileOutputStream(filename);
+
+        fs.write(new String("RIFF").getBytes());
+        int v = bytesize + 36 - 8;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //WRITE_BYTES - 36 - 8
+        fs.write(new String("WAVEfmt ").getBytes());
+        fs.write(new byte[] {0x10, 0x0, 0x0, 0x0}); //hdr size
+        fs.write(new byte[] {0x1, 0x0}); //type
+        fs.write(new byte[] {(byte)channels, 0x0}); //channels
+        v = samplerate;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //sample rate
+        v = (samplerate * 16 * channels) / 8;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //bytes/sec
+        v = (16 * channels) / 8;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF)}); //block align
+        fs.write(new byte[] {0x10, 0x0}); //bit depth
+        fs.write(new String("data").getBytes());
+        v = bytesize - 44;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //WRITE_BYTES - 44
+        return fs;
+    }
+
+    static byte[] audioToByteArray(short[] audio) {
+        ByteBuffer buf = ByteBuffer.allocate(audio.length * 2);
+        for(int i = 0; i<audio.length; ++i) {
+            buf.putShort(audio[i]);
+        }
+        return buf.array();
+    }
+
+    static short[] generateTone(int freq, int samplerate, int channels, int durationMSec) {
+        double volume = 8000;
+        double duration = durationMSec;
+        duration /= 1000;
+        int samples = (int)(duration * samplerate);
+        short[] buffer = new short[samples*channels];
+
+        for (int i=0; i < samples; i++) {
+            double t = (double)i / samplerate;
+            double v = volume * Math.sin((double)freq * t * 2. * Math.PI);
+
+            if (v > 32767)
+                v = 32767;
+            else if(v < -32768)
+                v = -32768;
+
+            if (channels == 1)
+                buffer[i] = (short)v;
+            else {
+                buffer[2 * i] = (short)v;
+                buffer[2 * i + 1] = (short)v;
+            }
+        }
+        return buffer;
+    }
+
+    static byte[] generateToneAsByte(int freq, int samplerate, int channels, int durationMSec) {
+        short[] tone = generateTone(freq, samplerate, channels, durationMSec);
+        return audioToByteArray(tone);
+    }
+
 }

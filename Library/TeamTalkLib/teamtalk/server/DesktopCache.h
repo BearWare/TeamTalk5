@@ -24,11 +24,10 @@
 #ifndef DESKTOPCACHE_H
 #define DESKTOPCACHE_H
 
-#include <ace/Bound_Ptr.h> 
-#include <ace/Null_Mutex.h> 
-
 #include <teamtalk/DesktopSession.h>
 #include <teamtalk/PacketHelper.h>
+
+#include <memory>
 
 namespace teamtalk {
 
@@ -87,7 +86,7 @@ namespace teamtalk {
         int m_userid;
     };
 
-    typedef ACE_Strong_Bound_Ptr< DesktopCache, ACE_Null_Mutex > desktop_cache_t;
+    typedef std::shared_ptr< DesktopCache > desktop_cache_t;
 
     //blockno -> frags
     typedef std::map<uint16_t, std::set<uint8_t> > map_missing_frags_t;

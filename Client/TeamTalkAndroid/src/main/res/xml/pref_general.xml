@@ -8,6 +8,12 @@
 		android:selectAllOnFocus="true"
 		android:singleLine="true" />
 
+	<CheckBoxPreference
+		android:key="bearwareid_checkbox"
+		android:defaultValue="false"
+		android:title="@string/pref_title_bearwareid"
+		android:summary="@string/pref_summary_bearwareid" />
+
     <CheckBoxPreference
 		android:key="showusernames_checkbox"
 		android:defaultValue="false"
@@ -18,6 +24,11 @@
 		android:key="vibrate_checkbox"
 		android:defaultValue="true"
 		android:title="@string/pref_title_vibrate" />
+
+    <CheckBoxPreference
+		android:key="proximity_sensor_checkbox"
+		android:defaultValue="false"
+		android:title="@string/pref_title_proximity_sensor" />
 
     <CheckBoxPreference
 		android:key="keep_screen_on_checkbox"

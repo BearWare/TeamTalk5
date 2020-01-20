@@ -54,6 +54,10 @@ ServerUser::ServerUser(int userid,
     //MYTRACE("StreamHandler for userid %d is %d\n", GetUserID(), handler.get_handle());
     //TTASSERT(handler.get_handle() != ACE_INVALID_HANDLE);
     m_nLastKeepAlive = 0;
+
+#if defined(ENABLE_ENCRYPTION)
+    RAND_bytes(m_accesstoken, sizeof(m_accesstoken));
+#endif
 }
 
 ServerUser::~ServerUser()
@@ -635,7 +639,7 @@ ErrorMsg ServerUser::HandleJoinChannel(const mstrings_t& properties)
 ErrorMsg ServerUser::HandleLeaveChannel(const mstrings_t& properties)
 {
     serverchannel_t chan = GetChannel();
-    if(chan.null())
+    if (!chan)
     {
         return TT_CMDERR_NOT_IN_CHANNEL;
     }
@@ -785,6 +789,7 @@ ErrorMsg ServerUser::HandleUpdateServer(const mstrings_t& properties)
     GetProperty(properties, TT_MAXUSERS, srvprop.maxusers);
     GetProperty(properties, TT_MAXLOGINATTEMPTS, srvprop.maxloginattempts);
     GetProperty(properties, TT_MAXLOGINSPERIP, srvprop.max_logins_per_ipaddr);
+    GetProperty(properties, TT_LOGINDELAY, srvprop.logindelay);
     GetProperty(properties, TT_VOICETXLIMIT, srvprop.voicetxlimit);
     GetProperty(properties, TT_VIDEOTXLIMIT, srvprop.videotxlimit);
     GetProperty(properties, TT_MEDIAFILETXLIMIT, srvprop.mediafiletxlimit);
@@ -801,12 +806,17 @@ ErrorMsg ServerUser::HandleUpdateServer(const mstrings_t& properties)
     if (srvprop.udpaddrs.size())
         udpport = srvprop.udpaddrs[0].get_port_number();
     
-    GetProperty(properties, TT_TCPPORT, tcpport);
-    GetProperty(properties, TT_UDPPORT, udpport);
-    for (auto& a : srvprop.tcpaddrs)
-        a.set_port_number(tcpport);
-    for (auto& a : srvprop.udpaddrs)
-        a.set_port_number(udpport);
+    if (GetProperty(properties, TT_TCPPORT, tcpport))
+    {
+        for(auto& a : srvprop.tcpaddrs)
+            a.set_port_number(tcpport);
+    }
+
+    if (GetProperty(properties, TT_UDPPORT, udpport))
+    {
+        for(auto& a : srvprop.udpaddrs)
+            a.set_port_number(udpport);
+    }
 
     GetProperty(properties, TT_USERTIMEOUT, srvprop.usertimeout);
 
@@ -1050,7 +1060,7 @@ BannedUser ServerUser::GetBan(BanTypes bantype, const ACE_TString& chanpath) con
     ban.username = GetUsername();
     if ((bantype & BANTYPE_CHANNEL) && chanpath.length())
         ban.chanpath = chanpath;
-    else if (!GetChannel().null())
+    else if (GetChannel())
         ban.chanpath = GetChannel()->GetChannelPath();
     ban.ipaddr = GetIpAddress();
     return ban;
@@ -1195,6 +1205,10 @@ void ServerUser::DoWelcome(const ServerSettings& properties)
     AppendProperty(TT_USERTIMEOUT, properties.usertimeout, command);
     AppendProperty(TT_PROTOCOL, ACE_TString(TEAMTALK_PROTOCOL_VERSION), command);
 
+#if defined(ENABLE_TEAMTALKPRO)
+    AppendProperty(TT_ACCESSTOKEN, GetAccessToken(), command);
+#endif
+
     command += ACE_TString(EOL);
 
     TransmitCommand(command);
@@ -1209,6 +1223,7 @@ void ServerUser::DoServerUpdate(const ServerSettings& properties)
     AppendProperty(TT_SERVERNAME, properties.servername, command);
     AppendProperty(TT_MAXUSERS, properties.maxusers, command);
     AppendProperty(TT_MAXLOGINSPERIP, properties.max_logins_per_ipaddr, command);
+    AppendProperty(TT_LOGINDELAY, properties.logindelay, command);
     AppendProperty(TT_USERTIMEOUT, properties.usertimeout, command);
     AppendProperty(TT_MOTD, m_servernode.GetMessageOfTheDay(), command);
     if(GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES)
@@ -1405,9 +1420,13 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool encrypted)
     AppendProperty(TT_DISKQUOTA, channel.GetMaxDiskUsage(), command);
     AppendProperty(TT_MAXUSERS, channel.GetMaxUsers(), command);
     AppendProperty(TT_CHANNELTYPE, channel.GetChannelType(), command);
-    AppendProperty(TT_USERDATA, channel.GetUserData(), command);    
-    AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
+    AppendProperty(TT_USERDATA, channel.GetUserData(), command);
+    // Deprecated TeamTalk v6
+    if (!AudioCodecConvertBug(GetStreamProtocol(), channel.GetAudioCodec()))
+        AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
     AppendProperty(TT_AUDIOCFG, channel.GetAudioConfig(), command);
+
+    // Deprecated: Ignore in TeamTalk 6.
     // If class-room channel type then we must forward the channel due 
     // to compatibility of TeamTalk TCP protocol v5.3
     if (channel.GetVoiceUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
@@ -1456,7 +1475,9 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     AppendProperty(TT_MAXUSERS, channel.GetMaxUsers(), command);
     AppendProperty(TT_CHANNELTYPE, channel.GetChannelType(), command);
     AppendProperty(TT_USERDATA, channel.GetUserData(), command);
-    AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
+    // Deprecated TeamTalk v6
+    if (!AudioCodecConvertBug(GetStreamProtocol(), channel.GetAudioCodec()))
+        AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
     AppendProperty(TT_AUDIOCFG, channel.GetAudioConfig(), command);
     if (channel.GetVoiceUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
         AppendProperty(TT_VOICEUSERS, channel.GetVoiceUsers(), command);
@@ -1535,6 +1556,9 @@ void ServerUser::DoTextMessage(const ServerUser& fromuser, const TextMessage& ms
     case TTCustomMsg :
         AppendProperty(TT_DESTUSERID, msg.to_userid, command);
         break;
+    case TTBroadcastMsg :
+    case TTNoneMsg :
+        break;
     }
     command += ACE_TString(EOL);
 
@@ -1560,6 +1584,9 @@ void ServerUser::DoTextMessage(const TextMessage& msg)
     case TTCustomMsg :
         AppendProperty(TT_DESTUSERID, msg.to_userid, command);
         break;
+    case TTNoneMsg :
+    case TTBroadcastMsg :
+        break;
     }
     command += ACE_TString(EOL);
 
@@ -1571,7 +1598,7 @@ void ServerUser::DoKicked(int kicker_userid, bool channel_kick)
     ACE_TString command;
     command = ACE_TString(SERVER_KICKED);
     AppendProperty(TT_KICKERID, kicker_userid, command);
-    if(channel_kick && !GetChannel().null())
+    if(channel_kick && GetChannel())
         AppendProperty(TT_CHANNELID, GetChannel()->GetChannelID(), command);
 
     command += ACE_TString(EOL);
@@ -1791,7 +1818,7 @@ void ServerUser::TransmitCommand(const ACE_TString& cmdline)
 
 bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
 {
-    if(!m_desktop_cache.null() && 
+    if (m_desktop_cache && 
         m_desktop_cache->GetSessionID() != packet.GetSessionID() &&
         W32_GEQ(packet.GetTime(), m_desktop_cache->GetCurrentDesktopTime()))
     {
@@ -1799,7 +1826,7 @@ bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
         CloseDesktopSession();
     }
 
-    if(m_desktop_cache.null())
+    if (!m_desktop_cache)
     {
         uint8_t session_id;
         uint16_t width, height, pkt_index, pkt_count;

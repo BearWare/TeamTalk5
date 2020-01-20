@@ -26,16 +26,15 @@
 
 #include <ace/Task.h>
 #include <ace/Message_Block.h>
-#include <ace/Bound_Ptr.h> 
-#include <ace/Null_Mutex.h> 
 
 #if defined(ENABLE_VPX)
 #include <codec/VpxEncoder.h>
 #endif
 
-#include <vidcap/VideoCapture.h>
-
 #include <teamtalk/Common.h>
+#include <codec/MediaUtil.h>
+
+#include <memory>
 
 //Get VideoFrame from ACE_Message_Block
 #define GET_VIDEOFRAME_FROM_MB(video_frame, msg_block) \
@@ -44,21 +43,26 @@
 #define GET_OGGPACKET_FROM_MB(ogg_pkt, msg_block) \
     memcpy(&ogg_pkt, msg_block->rd_ptr(), sizeof(ogg_pkt))
 
-class VideoEncListener;
+typedef std::function< bool (ACE_Message_Block* org_frame, /* can be NULL */
+                             const char* enc_data, int enc_len,
+                             ACE_UINT32 packet_no,
+                             ACE_UINT32 timestamp) > videoencodercallback_t;
 
 class VideoThread : protected ACE_Task<ACE_MT_SYNCH>
 {
 public:
     VideoThread();
 
-    bool StartEncoder(VideoEncListener* listener, 
+    bool StartEncoder(videoencodercallback_t m_callback,
                       const media::VideoFormat& cap_format,
                       const teamtalk::VideoCodec& codec,
                       int max_frames_queued);
     void StopEncoder();
 
-    void QueueFrame(const media::VideoFrame& video_frame, bool encode);
-    void QueueFrame(ACE_Message_Block* mb_video, bool encode);
+    bool UpdateEncoder(const teamtalk::VideoCodec& codec);
+
+    void QueueFrame(const media::VideoFrame& video_frame);
+    void QueueFrame(ACE_Message_Block* mb_video);
 
     const teamtalk::VideoCodec& GetCodec() const { return m_codec; }
     const media::VideoFormat& GetVideoFormat() const { return m_cap_format; }
@@ -67,7 +71,8 @@ private:
     int close(u_long);
     int svc(void);
 
-    VideoEncListener* m_listener;
+    videoencodercallback_t m_callback;
+    
 #if defined(ENABLE_VPX)
     VpxEncoder m_vpx_encoder;
 #endif
@@ -78,7 +83,7 @@ private:
     int m_frames_passed, m_frames_dropped;
 };
 
-typedef ACE_Strong_Bound_Ptr< VideoThread, ACE_Null_Mutex > video_thread_t;
+typedef std::shared_ptr< VideoThread > video_thread_t;
 
 
 class VideoEncListener

@@ -170,9 +170,9 @@ class ChannelListViewController :
         let chanusers : [User] = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
         
         let settings = UserDefaults.standard
-        let chansort = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.hashValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
+        let chansort = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.rawValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
         switch chansort {
-        case ChanSort.POPULARITY.hashValue :
+        case ChanSort.POPULARITY.rawValue :
             displayChans = subchans.sorted() {
                 let aid = $0.nChannelID
                 let bid = $1.nChannelID
@@ -182,7 +182,7 @@ class ChannelListViewController :
                     String(cString: UnsafeRawPointer([$0.szName]).assumingMemoryBound(to: CChar.self))
                 .caseInsensitiveCompare(String(cString: UnsafeRawPointer([$1.szName]).assumingMemoryBound(to: CChar.self))) == ComparisonResult.orderedAscending : au.count > bu.count
             }
-        case ChanSort.ASCENDING.hashValue :
+        case ChanSort.ASCENDING.rawValue :
             fallthrough
         default :
             displayChans = subchans.sorted() {
@@ -420,7 +420,7 @@ class ChannelListViewController :
                 actions.append(action_edit)
             }
             else {
-                cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), for: UIControlState())
+                cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), for: UIControl.State())
                 let action_view = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
                 actions.append(action_view)
             }
@@ -764,14 +764,14 @@ class ChannelListViewController :
                 if unreadmessages.contains(INT32(c.tag)) {
                     let time = Int(Date().timeIntervalSince1970)
                     if time % 2 == 0 {
-                        cell.messageBtn.setImage(UIImage(named: "message_red"), for: UIControlState())
+                        cell.messageBtn.setImage(UIImage(named: "message_red"), for: UIControl.State())
                     }
                     else {
-                        cell.messageBtn.setImage(UIImage(named: "message_blue"), for: UIControlState())
+                        cell.messageBtn.setImage(UIImage(named: "message_blue"), for: UIControl.State())
                     }
                 }
                 else {
-                    cell.messageBtn.setImage(UIImage(named: "message_blue"), for: UIControlState())
+                    cell.messageBtn.setImage(UIImage(named: "message_blue"), for: UIControl.State())
                 }
             }
         }
@@ -812,8 +812,8 @@ class ChannelListViewController :
                 var errmsg = getClientErrorMsg(&m).pointee
                 let s = String(cString: getClientErrorMsgString(ERRMESSAGE, &errmsg))
                 if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: s, preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertActionStyle.default, handler: nil))
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: s, preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 } else {
                     // Fallback on earlier versions
@@ -1025,8 +1025,8 @@ class ChannelListViewController :
                 var errmsg = getClientErrorMsg(&m).pointee
                 let s = String(cString: getClientErrorMsgString(ERRMESSAGE, &errmsg))
                 if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertActionStyle.default, handler: nil))
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertAction.Style.default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 } else {
                     // Fallback on earlier versions

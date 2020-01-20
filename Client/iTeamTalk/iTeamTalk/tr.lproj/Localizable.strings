@@ -1,8 +1,12 @@
-﻿/* log entry */
+
+/* log entry */
 "%@ joined channel" = "%@ kanala katıldı";
 
 /* log entry */
 "%@ left channel" = "%@ kanaldan ayrıldı";
+
+/* Web Login Controller */
+"%@, your username \"%@\" has been validated" = "%@, \"%@\" kullanıcı adınız onaylandı";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Varsayılan";
@@ -54,10 +58,10 @@
 "Announce user leaving channel" = "Kullanıcının kanaldan ayrılmasını duyur";
 
 /* preferences */
-"Announce user logged onto server" = "Sunucuda oturum açan kullanıcıyı duyur";
+"Announce user logged onto server" = "Kullanıcının sunucuda oturum açmasını duyur";
 
 /* preferences */
-"Announce user logged out of server" = "Sunucu oturumunu kapatan kullanıcıyı duyur";
+"Announce user logged out of server" = "Kullanıcının sunucu oturumunu kapatmasını duyur";
 
 /* text to speech */
 "Announcements" = "Duyurular";
@@ -77,11 +81,15 @@
 /* create channel */
 "Audio Codec" = "Ses Kodlayıcı/Çözücüsü";
 
-/* server entry */
+/* Web Login Controller */
+"Authenticate" = "Kimliğini Doğrula";
+
+/* server entry
+   Web Login controller */
 "Authentication" = "Kimlik Doğrulama";
 
 /* channel list */
-"Ban user" = "Kullanıcıyı engelle";
+"Ban user" = "Kullanıcıyı yasakla";
 
 /* codec detail */
 "Bitrate" = "Bit Hızı";
@@ -95,6 +103,9 @@
 /* preferences
    user detail */
 "Broadcast Messages" = "Yayınlanan İletiler";
+
+/* preferences */
+"Broadcast Text Message" = "Yayınlanan Metin İletisi";
 
 /* channel list
    server entry */
@@ -164,6 +175,9 @@
 /* channel list */
 "Edit properties" = "Özellikleri düzenle";
 
+/* server entry */
+"Encrypted" = "Şifreli";
+
 /* Dialog message */
 "Enter Password" = "Parolayı Girin";
 
@@ -181,6 +195,9 @@
 
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook oturumu iptal edildi";
+
+/* codec detail */
+"Frame Size" = "Çerçeve Boyutu";
 
 /* preferences
    user detail */
@@ -226,7 +243,7 @@
 "Kick user" = "Kullanıcıyı uzaklaştır";
 
 /* preferences */
-"Limit length of names in channel list to %d characters" = "Adların kanal listesindeki uzunluk sınırı %d karakterdir";
+"Limit length of names in channel list to %d characters" = "Adların kanal listesindeki uzunluk sınırı %d karakter";
 
 /* text message type */
 "Log message" = "Günlük iletisi";
@@ -268,13 +285,13 @@
 "Music" = "Müzik";
 
 /* channel list */
-"Mute" = "Sustur";
+"Mute" = "Sessize al";
 
 /* user detail */
-"Mute Media File" = "Ortam Dosyasını Sustur";
+"Mute Media File" = "Ortam Dosyasını Sessize Al";
 
 /* user detail */
-"Mute Voice" = "Sesi Sustur";
+"Mute Voice" = "Sesi Sessize Al";
 
 /* create channel
    server entry */
@@ -287,7 +304,7 @@
 "New Server" = "Yeni Sunucu";
 
 /* preferences */
-"Nickname" = "Takma ad";
+"Nickname" = "Rumuz";
 
 /* Dialog message */
 "No" = "Hayır";
@@ -314,7 +331,8 @@
 /* Dialog
    Dialog message
    message dialog
-   user detail */
+   user detail
+   Web Login Controller */
 "OK" = "Tamam";
 
 /* codec detail */
@@ -328,7 +346,8 @@
 
 /* create channel
    Dialog message
-   server entry */
+   server entry
+   Web Login Controller */
 "Password" = "Parola";
 
 /* channel list */
@@ -342,6 +361,9 @@
 
 /* preferences */
 "Play sound when a user leaves the channel" = "Bir kullanıcı kanaldan ayrıldığında ses oynat";
+
+/* preferences */
+"Play sound when broadcast text message is received" = "Yayınlanan metin iletisi alındığında ses oynat";
 
 /* preferences */
 "Play sound when channel text message is received" = "Kanal metin iletisi alındığında ses oynat";
@@ -371,7 +393,7 @@
 "Preferences" = "Tercihler";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Return tuşuna basarak metin iletisi gönderilsin";
+"Pressing Return-key sends text message" = "Return tuşuna basmak metin iletisini göndersin";
 
 /* text message type */
 "Private message" = "Özel ileti";
@@ -436,9 +458,6 @@
 /* Dialog message */
 "Save server to server list?" = "Sunucu, sunucu listesine kaydedilsin mi?";
 
-/* preferences */
-"Select the text-to-speech voice to use" = "Kullanmak için metin okuma sesi seçin";
-
 /* text message */
 "Send empty message to close keyboard" = "Klavyeyi kapatmak için boş ileti gönderin";
 
@@ -464,7 +483,7 @@
 "Show usernames" = "Kullanıcı adlarını göster";
 
 /* preferences */
-"Show usernames instead of nicknames" = "Takma adların yerine kullanıcı adlarını göster";
+"Show usernames instead of nicknames" = "Rumuzların yerine kullanıcı adlarını göster";
 
 /* channel list */
 "Silent" = "Sessiz";
@@ -481,9 +500,6 @@
 
 /* preferences */
 "Speaker Output" = "Hoparlör Çıkışı";
-
-/* preferences */
-"Speech" = "Konuşma";
 
 /* preferences */
 "Speech Rate" = "Konuşma Hızı";
@@ -585,8 +601,15 @@
 "User Messages" = "Kullanıcı İletileri";
 
 /* server entry
-   user detail */
+   user detail
+   Web Login Controller */
 "Username" = "Kullanıcı adı";
+
+/* Web Login Controller */
+"Username or password incorrect" = "Kullanıcı adı ya da parola yanlış";
+
+/* codec detail */
+"Variable Bitrate" = "Değişken Bit Hızı";
 
 /* preferences */
 "Version Information" = "Sürüm Bilgileri";
@@ -628,6 +651,9 @@
 /* user detail */
 "Volume Controls" = "Düzey Denetimleri";
 
+/* Web Login controller */
+"Web Login ID" = "Web Oturum Açma Kimliği";
+
 /* preferences
    user detail */
 "WebCam" = "Web Kamerası";
@@ -636,5 +662,4 @@
 "Yes" = "Evet";
 
 /* speech */
-"You have selected %@" = "%@ sesini seçtiniz";
-
+"You have selected %@" = "Seçtiğiniz: %@";

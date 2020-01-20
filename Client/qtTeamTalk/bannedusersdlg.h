@@ -24,12 +24,13 @@
 #ifndef BANNEDUSERSDLG_H
 #define BANNEDUSERSDLG_H
 
-#include <QAbstractItemModel>
-#include <QVector>
-
 #include "ui_bannedusers.h"
 
 #include "common.h"
+
+#include <QAbstractItemModel>
+#include <QVector>
+#include <QSortFilterProxyModel>
 
 typedef QVector<BannedUser> bannedusers_t;
 
@@ -63,6 +64,7 @@ public:
 private:
     Ui::BannedUsersDlg ui;
     BannedUsersModel* m_bannedmodel, *m_unbannedmodel;
+    QSortFilterProxyModel* m_bannedproxy, *m_unbannedproxy;
     QString m_chanpath;
 
 private slots:

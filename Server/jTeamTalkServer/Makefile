@@ -1,5 +1,5 @@
 
-TEAMTALKLIB=../../Library/TeamTalkJNI/libs/TeamTalk5.jar
+TEAMTALKLIB=../../../TeamTalkJNI/libs/TeamTalk5.jar
 
 OS=$(shell uname)
 
@@ -30,7 +30,7 @@ help:
 	@echo "and libTeamTalk5Pro-jni.$(SHARED_EXT)"
 	@echo ""
 	@echo "Example:"
-	@echo "$$ export $(LIBPATHNAME)=SDK_ROOT/Library/TeamTalk_DLL:SDK_ROOT/Library/TeamTalkJNI/libs"
+	@echo "$$ export $(LIBPATHNAME)=SDK_ROOT/TeamTalk_DLL:SDK_ROOT/TeamTalkJNI/libs"
 
 all:
 	cd src && javac -cp $(TEAMTALKLIB):. TeamTalkServer.java

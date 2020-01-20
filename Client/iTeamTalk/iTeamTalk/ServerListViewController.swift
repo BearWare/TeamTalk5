@@ -49,6 +49,7 @@ class Server : NSObject {
         password = dec.decodeObject(forKey: "password") as! String
         channel = dec.decodeObject(forKey: "channel") as! String
         chanpasswd = dec.decodeObject(forKey: "chanpasswd") as! String
+        encrypted = dec.decodeBool(forKey: "encrypted")
     }
     
     @objc func encodeWithCoder(_ enc: NSCoder!) {
@@ -60,6 +61,7 @@ class Server : NSObject {
         enc.encode(password, forKey: "password")
         enc.encode(channel, forKey: "channel")
         enc.encode(chanpasswd, forKey: "chanpasswd")
+        enc.encode(encrypted, forKey: "encrypted")
     }
 }
 
@@ -143,6 +145,10 @@ class ServerListViewController : UITableViewController,
         let parser = XMLParser(contentsOf: URL(string: AppInfo.getUpdateURL())!)!
         parser.delegate = updateparser
         parser.parse()
+        
+        if updateparser.registerUrl.isEmpty == false {
+            AppInfo.BEARWARE_REGISTRATION_WEBSITE = updateparser.registerUrl
+        }
         
         nextappupdate = nextappupdate.addingTimeInterval(60 * 60 * 24)
     }
@@ -265,7 +271,7 @@ class ServerListViewController : UITableViewController,
         vc.saveServerDetail()
         let name = vc.server.name
         
-        if let found = servers.map({$0.name}).index(of: name) {
+        if let found = servers.map({$0.name}).firstIndex(of: name) {
             servers[found] = vc.server
         }
         else {
@@ -330,6 +336,15 @@ class ServerListViewController : UITableViewController,
                     currentServer.udpport = Int(s)!
                 }
 
+                // encrypted
+                let encrypted = "[&|\\?]encrypted=([^&]*)"
+                let encrypted_regex = try NSRegularExpression(pattern: encrypted, options: .caseInsensitive)
+                let encrypted_matches = encrypted_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
+                if let m = encrypted_matches.first {
+                    let str = ns_str.substring(with: m.range(at: 1))
+                    currentServer.encrypted = str == "true" || str == "1"
+                }
+
                 // username
                 let username = "[&|\\?]username=([^&]*)"
                 let username_regex = try NSRegularExpression(pattern: username, options: .caseInsensitive)
@@ -375,25 +390,33 @@ class ServerListViewController : UITableViewController,
 
 class AppUpdateParser : NSObject, XMLParserDelegate {
 
+    var elementStack = [String]()
     var update = ""
-    var updatefound = false
+    var registerUrl = ""
     
     func parser(_ parser: XMLParser, didStartElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?,
         attributes attributeDict: [String : String]) {
-            
-            if elementName == "name" {
-                updatefound = true
-            }
+        
+        elementStack.append(elementName)
     }
 
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        update = string
+        let path = getXMLPath(elementStack: elementStack)
+        switch path {
+        case "/teamtalk/update/name" :
+            update = string
+        case "/teamtalk/bearware/register-url" :
+            registerUrl = string
+        default :
+             print("Unknown path " + path)
+        }
     }
 
     func parser(_ parser: XMLParser, didEndElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?) {
-            
+        
+        self.elementStack.removeLast()
     }
 
 }
@@ -407,11 +430,11 @@ class ServerParser : NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didStartElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?,
         attributes attributeDict: [String : String]) {
-            
-            elementStack.append(elementName)
-            if elementName == "host" {
-                currentServer = Server()
-            }
+        
+        elementStack.append(elementName)
+        if elementName == "host" {
+            currentServer = Server()
+        }
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
@@ -439,10 +462,10 @@ class ServerParser : NSObject, XMLParserDelegate {
         case "username" :
             currentServer.username = string
         case "password" :
-            if elementStack.index(of: "auth") != nil {
+            if elementStack.firstIndex(of: "auth") != nil {
                 currentServer.password = string
             }
-            else if elementStack.index(of: "join") != nil {
+            else if elementStack.firstIndex(of: "join") != nil {
                 currentServer.chanpasswd = string
             }
         case "channel" :

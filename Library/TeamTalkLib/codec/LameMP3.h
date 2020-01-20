@@ -30,9 +30,8 @@
 
 #include <ace/SString.h>
 #include <ace/FILE_IO.h>
-#include <ace/Bound_Ptr.h>
-#include <ace/Null_Mutex.h>
 
+#include <memory>
 #include <vector>
 
 class LameMP3
@@ -56,7 +55,7 @@ private:
     std::vector<BYTE> m_out_mp3data;
 };
 
-typedef ACE_Strong_Bound_Ptr< LameMP3, ACE_Null_Mutex > lame_mp3file_t;
+typedef std::shared_ptr< LameMP3 > lame_mp3file_t;
 
 #endif
 

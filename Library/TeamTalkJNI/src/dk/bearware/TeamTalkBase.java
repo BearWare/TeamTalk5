@@ -170,6 +170,11 @@ public abstract class TeamTalkBase
     public boolean enableAudioBlockEvent(int nUserID, int nStreamType, boolean bEnable)
         { return enableAudioBlockEvent(ttInst, nUserID, nStreamType, bEnable); }
 
+    private native boolean insertAudioBlock(long lpTTInstance, AudioBlock lpAudioBlock);
+    public boolean insertAudioBlock(AudioBlock lpAudioBlock) {
+        return insertAudioBlock(ttInst, lpAudioBlock);
+    }
+    
     private native boolean enableVoiceTransmission(long lpTTInstance, 
                                                    boolean bEnable);
     public boolean enableVoiceTransmission(boolean bEnable) {
@@ -278,10 +283,51 @@ public abstract class TeamTalkBase
         return startStreamingMediaFileToChannel(ttInst, szMediaFilePath,
                                                 lpVideoCodec);
     }
+    private native boolean startStreamingMediaFileToChannelEx(long lpTTInstance,
+                                                              String szMediaFilePath,
+                                                              MediaFilePlayback lpMediaFilePlayback,
+                                                              VideoCodec lpVideoCodec);
+    public boolean startStreamingMediaFileToChannel(String szMediaFilePath,
+                                                    MediaFilePlayback lpMediaFilePlayback,
+                                                    VideoCodec lpVideoCodec) {
+        return startStreamingMediaFileToChannelEx(ttInst, szMediaFilePath,
+                                                  lpMediaFilePlayback,
+                                                  lpVideoCodec);
+    }
 
+    private native boolean updateStreamingMediaFileToChannel(long lpTTInstance,
+                                                             MediaFilePlayback lpMediaFilePlayback,
+                                                             VideoCodec lpVideoCodec);
+    public boolean updateStreamingMediaFileToChannel(MediaFilePlayback lpMediaFilePlayback,
+                                                     VideoCodec lpVideoCodec) {
+        return updateStreamingMediaFileToChannel(ttInst, lpMediaFilePlayback, lpVideoCodec);
+    }
+    
     private native boolean stopStreamingMediaFileToChannel(long lpTTInstance);
     public boolean stopStreamingMediaFileToChannel() {
         return stopStreamingMediaFileToChannel(ttInst);
+    }
+
+    private native int initLocalPlayback(long lpTTInstance,
+                                         String szMediaFilePath,
+                                         MediaFilePlayback lpMediaFilePlayback);
+    public int initLocalPlayback(String szMediaFilePath,
+                                 MediaFilePlayback lpMediaFilePlayback) {
+        return initLocalPlayback(ttInst, szMediaFilePath, lpMediaFilePlayback);
+    }
+
+    private native boolean updateLocalPlayback(long lpTTInstance,
+                                               int nPlaybackSessionID,
+                                               MediaFilePlayback lpMediaFilePlayback);
+    public boolean updateLocalPlayback(int nPlaybackSessionID,
+                                       MediaFilePlayback lpMediaFilePlayback) {
+        return updateLocalPlayback(ttInst, nPlaybackSessionID, lpMediaFilePlayback);
+    }
+
+    private native boolean stopLocalPlayback(long lpTTInstance,
+                                             int nPlaybackSessionID);
+    public boolean stopLocalPlayback(int nPlaybackSessionID) {
+        return stopLocalPlayback(ttInst, nPlaybackSessionID);
     }
 
     public static native boolean getMediaFileInfo(String szMediaFilePath,
@@ -412,6 +458,16 @@ public abstract class TeamTalkBase
     private native boolean getClientStatistics(long lpTTInstance, ClientStatistics lpClientStatistics);
     public boolean getClientStatistics(ClientStatistics lpClientStatistics) {
         return getClientStatistics(ttInst, lpClientStatistics);
+    }
+
+    private native boolean setClientKeepAlive(long lpTTInstance, ClientKeepAlive lpClientKeepAlive);
+    public boolean setClientKeepAlive(ClientKeepAlive lpClientKeepAlive) {
+        return setClientKeepAlive(ttInst, lpClientKeepAlive);
+    }
+
+    private native boolean getClientKeepAlive(long lpTTInstance, ClientKeepAlive lpClientKeepAlive);
+    public boolean getClientKeepAlive(ClientKeepAlive lpClientKeepAlive) {
+        return getClientKeepAlive(ttInst, lpClientKeepAlive);
     }
 
     private native int doPing(long lpTTInstance);
@@ -768,10 +824,12 @@ public abstract class TeamTalkBase
     }
     public native String getErrorMessage(int nError);
     private native boolean DBG_SetSoundInputTone(long lpTTInstance,
-                                             int uStreamTypes,
-                                             int nFrequency);
+                                                 int uStreamTypes,
+                                                 int nFrequency);
     public boolean DBG_SetSoundInputTone(int uStreamTypes,
                                          int nFrequency) {
         return DBG_SetSoundInputTone(ttInst, uStreamTypes, nFrequency);
     }
+    public static native boolean DBG_WriteAudioFileTone(MediaFileInfo lpMediaFileInfo,
+                                                        int nFrequency);
 }

@@ -1,11 +1,17 @@
 #!/bin/bash
 
-if [ "Darwin" = `uname -s` ]; then
-    export DYLD_LIBRARY_PATH=$PWD/Library/TeamTalk_DLL:$PWD/Library/TeamTalkJNI/libs
-else
-    export LD_LIBRARY_PATH=$PWD/Library/TeamTalk_DLL:$PWD/Library/TeamTalkJNI/libs
-fi
+# Find absolute path (that works on both macOS and Linux :( )
+CURDIR=$PWD
+TEAMTALK_ROOT=$(dirname ${BASH_SOURCE[0]})
+cd $TEAMTALK_ROOT
+TEAMTALK_ROOT=$(pwd -P)
+cd $CURDIR
 
-#locations of 'hamcrest-core' and 'junit'
-export HAMCRESTCORE_JAR=$PWD/Library/TeamTalkJNI/hamcrest-core-1.3.jar
-export JUNIT_JAR=$PWD/Library/TeamTalkJNI/junit-4.11.jar
+PYTHONPATH=$TEAMTALK_ROOT/Library/TeamTalkPy:$PYTHONPATH
+export TEAMTALK_ROOT PYTHONPATH
+
+if [ "Darwin" = `uname -s` ]; then
+    export DYLD_LIBRARY_PATH=$TEAMTALK_ROOT/Library/TeamTalk_DLL:$TEAMTALK_ROOT/Library/TeamTalkJNI/libs
+else
+    export LD_LIBRARY_PATH=$TEAMTALK_ROOT/Library/TeamTalk_DLL:$TEAMTALK_ROOT/Library/TeamTalkJNI/libs
+fi

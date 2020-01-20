@@ -94,7 +94,7 @@ void UserVideoWidget::runTTPaint(QPainter& painter)
     QPoint p0 = this->mapTo(nativeParentWidget(), QPoint(0,0));
     //drain frames (we don't want any queued frames)
 
-    VideoFrame* vid_frame = NULL;
+    VideoFrame* vid_frame = nullptr;
     while(vid_frame = acquireVideo())
     {
         releaseVideo(m_video_frame);
@@ -139,7 +139,7 @@ void UserVideoWidget::slotNewVideoFrame(int userid, int /*stream_id*/)
 #else
         if(m_video_frame)
             releaseVideo(m_video_frame);
-        m_video_frame = NULL;
+        m_video_frame = nullptr;
 
         VideoFrame* vid_frame = acquireVideo();
         if(vid_frame)
@@ -217,7 +217,7 @@ VideoFrame* UserVideoWidget::acquireVideo()
         return TT_AcquireUserMediaVideoFrame(ttInst,
                                              m_userid & VIDEOTYPE_USERMASK);
     }
-    return NULL;
+    return nullptr;
 }
 
 bool UserVideoWidget::releaseVideo(VideoFrame* vid_frame)

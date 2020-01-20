@@ -13,6 +13,7 @@
     <string name="title_activity_user_prop">Свойства Пользователя</string>
     <string name="title_activity_text_message">Текстовое Сообщение</string>
     <string name="title_activity_preferences">Настройки</string>
+    <string name="title_activity_stream_media">Трансляция медиафайла в канале</string>
     <string name="action_createchannel">Создать</string>
     <string name="action_updatechannel">Обновить</string>
     <string name="text_con_failed">Не удалось подключиться к серверу. Попробуем еще...</string>
@@ -34,6 +35,7 @@
     <string name="pref_cat_soundtest">Тест Звука</string>
     <string name="pref_header_general">Общие Настройки</string>
     <string name="pref_title_nickname">Псевдоним</string>
+    <string name="pref_title_proximity_sensor">Датчик приближения</string>
     <string name="pref_title_keep_screen_on">Не гасить экран при активном соединении</string>
     <string name="pref_title_vibrate">Виброотклик кнопки включения передачи</string>
     <string name="pref_show_log_messages">Показывать записи о событиях среди сообщений</string>
@@ -42,8 +44,8 @@
     <string name="pref_summary_rx_tx_audio_icon">Звуковое оповещение о включении / выключении передачи голоса</string>
     <string name="pref_title_vox_triggered_icon">Срабатывание голосовой активации</string>
     <string name="pref_summary_vox_triggered_icon">Звуковое оповещение о включении / выключении передачи при голосовой активации</string>
-    <string name="pref_title_personal_message_audio_icon">Личное сообщение</string>
-    <string name="pref_summary_personal_message_audio_icon">Звуковое оповещение о приходе личного сообщения</string>
+    <string name="pref_title_private_message_audio_icon">Личное сообщение</string>
+    <string name="pref_summary_private_message_audio_icon">Звуковое оповещение о приходе личного сообщения</string>
     <string name="pref_title_channel_message_audio_icon">Сообщение в канале</string>
     <string name="pref_summary_channel_message_audio_icon">Звуковое оповещение о приходе сообщения для всех в текущем канале</string>
     <string name="pref_title_broadcast_message_audio_icon">Широковещательное сообщение</string>
@@ -55,9 +57,9 @@
     <string name="pref_title_transmitready_icon">Включение особого режима</string>
     <string name="pref_summary_transmitready_icon">Звуковое оповещение о готовности к передаче в канале "Не Перебивать Говорящего"</string>
     <string name="pref_title_userjoin_icon">Пользователь присоединился к каналу</string>
-    <string name="pref_summary_userjoin_icon">Звуковое оповещение о присоединения пользователя к текущему каналу</string>
+    <string name="pref_summary_userjoin_icon">Звуковое оповещение о присоединении пользователя к текущему каналу</string>
     <string name="pref_title_userleft_icon">Пользователь покинул канал</string>
-    <string name="pref_summary_userleft_icon">Звуковое оповещение о покидании пользователя текущего канала</string>
+    <string name="pref_summary_userleft_icon">Звуковое оповещение о покидании пользователем текущего канала</string>
     <string name="pref_header_connection">Настройки Соединения</string>
     <string name="pref_title_sub_txtmsg">Текстовые Сообщения</string>
     <string name="pref_summary_sub_txtmsg">Подписаться на текстовые сообщения от пользователей</string>
@@ -74,6 +76,8 @@
     <string name="pref_title_sub_mediafile">Медиафайлы</string>
     <string name="pref_summary_sub_mediafile">Подписаться на трансляции медиафайлов</string>
     <string name="pref_header_tts">Синтез Речи</string>
+    <string name="pref_title_speech_engine">Выбор синтезатора речи</string>
+    <string name="pref_summary_speech_engine">Выберите один из установленных в системе синтезаторов речи</string>
     <string name="pref_title_server_login">Вход пользователя на сервер</string>
     <string name="pref_summary_server_login">Объявлять имя входящего пользователя</string>
     <string name="pref_title_server_logout">Уход пользователя с сервера</string>
@@ -82,13 +86,19 @@
     <string name="pref_summary_channel_join">Объявлять имя подключающегося пользователя</string>
     <string name="pref_title_channel_leave">Отключение пользователя от канала</string>
     <string name="pref_summary_channel_leave">Объявлять имя пользователя, покидающего канал</string>
-    <string name="pref_title_personal_message">Личные сообщения</string>
-    <string name="pref_title_broadcast_message">Общие сообщения</string>
-    <string name="pref_summary_message">Объявлять имя отправителя</string>
+    <string name="pref_title_private_message">Личные сообщения</string>
+    <string name="pref_summary_private_message">Озвучивать личные сообщения</string>
+    <string name="pref_title_channel_message">Сообщения канала</string>
+    <string name="pref_summary_channel_message">Озвучивать сообщения канала</string>
+    <string name="pref_title_broadcast_message">Широковещательные сообщения</string>
+    <string name="pref_summary_broadcast_message">Озвучивать Широковещательные сообщения</string>
     <string name="pref_title_mute_speakers">Выключать звук при передаче голоса</string>
     <string name="pref_summary_mute_speakers">Следует разрешить для избежания эхо-эффекта</string>
     <string name="pref_title_show_usernames">Показывать имена пользователей</string>
     <string name="pref_summary_show_usernames">Показывать имена пользователей вместо псевдонимов</string>
+    <string name="pref_title_bearwareid">Web-регистрация через BearWare.dk</string>
+    <string name="pref_summary_bearwareid">Настройка входа через учетную запись на BearWare.dk</string>
+
     <string name="pref_title_mediafile_volume">Громкость медиафайлов</string>
     <string name="pref_summary_mediafile_volume">Громкость воспроизведения медиафайлов относительно голоса</string>
     <string name="pref_title_speakerphone_checkbox">Громкая связь</string>
@@ -102,8 +112,9 @@
     <string name="text_tts_loggedout">ушел</string>
     <string name="text_tts_joined_chan">присоединился к каналу</string>
     <string name="text_tts_left_chan">покинул канал</string>
-    <string name="text_tts_personal_message">Личное сообщение от пользователя %1$s</string>
-    <string name="text_tts_broadcast_message">Общее сообщение от пользователя %1$s</string>
+    <string name="text_tts_private_message">Личное сообщение от %1$s - %2$s</string>
+    <string name="text_tts_channel_message">Сообщение канала от %1$s - %2$s</string>
+    <string name="text_tts_broadcast_message">Широковещательное сообщение от %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Звуковая Система</string>
     <string name="title_activity_audio_codec">Аудио Кодек</string>
     <string name="title_activity_filepicker">Выбор Файла</string>
@@ -121,6 +132,9 @@
     <string name="action_move">Переместить Сюда</string>
     <string name="action_select">Выбрать Для Перемещения</string>
     <string name="action_upload">Выложить Файл</string>
+    <string name="action_stream">Трансляция медиафайла</string>
+    <string name="button_select_media_file">Просмотр</string>
+    <string name="button_stream_media_file">Трансляция</string>
     <string name="button_msg">Сообщение</string>
     <string name="button_send">Отослать</string>
 
@@ -174,6 +188,8 @@
     <string name="err_retrieve_public_server_list">Не удалось получить список публичных серверов</string>
     <string name="err_send_text_message">Не удалось отослать текстовое сообщение</string>
     <string name="err_connection">Не удалось установить соединение</string>
+    <string name="err_facebooklogin">Не удалось зарегистрироваться через Facebook</string>
+    <string name="err_stream_media">Не удалось запустить трансляцию медиафайла</string>
 
     <string name="action_new_channel">Новый Канал</string>
     <string name="action_save">Сохранить</string>
@@ -192,6 +208,7 @@
     <string name="pref_title_authentication">Идентификация</string>
     <string name="pref_title_username">Имя Пользователя</string>
     <string name="pref_title_password">Пароль</string>
+    <string name="pref_title_facebook">Регистрация через Facebook</string>
     <string name="pref_title_join_channel">Подключить Канал</string>
     <string name="pref_title_last_channel">Последний Посещенный Канал</string>
     <string name="pref_title_channel">Канал</string>
@@ -276,8 +293,8 @@
     <string name="err_filesharing_disabled">Обмен файлами на сервере не разрешен</string>
     <string name="err_channel_has_users">Канал не пуст</string>
 
-    <string name="personal_message_notification">Новое сообщение от пользователя %1$s</string>
-    <string name="personal_message_notification_hint">Нажмите чтобы прочесть и ответить</string>
+    <string name="private_message_notification">Новое сообщение от пользователя %1$s</string>
+    <string name="private_message_notification_hint">Нажмите чтобы прочесть и ответить</string>
     <string name="user_state_now_speaking">%1$s сейчас говорит</string>
     <string name="text_waitstream">Ожидание видеотрансляции</string>
     <string name="text_desktop_session">Сессия рабочего стола</string>
@@ -292,4 +309,16 @@
     <string name="permission_vibrate">Виброотклик кнопки включения передачи будет недоступен</string>
     <string name="permission_wake_lock">Соединение с сервером может быть потеряно при выключении экрана</string>
     <string name="permission_read_phone_state">Правильная реакция на входящие телефонные звонки будет невозможна</string>
+
+    <string name="title_activity_web_login">Настройка web-регистрации</string>
+    <string name="weblogin_prop_title_bearwareid">Имя пользователя</string>
+    <string name="weblogin_prop_title_bearwarepasswd">Пароль</string>
+    <string name="weblogin_prop_title_login">Вход</string>
+    <string name="weblogin_prop_title_web_login_id">ID учетной записи на BearWare.dk</string>
+    <string name="weblogin_prop_title_create_web_login_id">Создать ID учетной записи на BearWare.dk</string>
+    <string name="weblogin_prop_title_reset_web_login_id">Сбросить ID учетной записи на BearWare.dk</string>
+    <string name="text_bearwarelogin_success">%1$s Ваше имя пользователя %2$s подтверждено</string>
+    <string name="text_bearwarelogin_failed">Не удалось авторизовать имя пользователя %1$s</string>
+    <string name="text_weblogin_authfailure">Ошибка авторизации при входе через BearWare.dk</string>
+
 </resources>

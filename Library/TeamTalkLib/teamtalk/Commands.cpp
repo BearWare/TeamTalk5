@@ -23,10 +23,9 @@
 
 #include "Commands.h"
 #include <myace/MyACE.h>
-#include <sstream>
 #include "ttassert.h"
 
-#include <ace/OS_NS_ctype.h>
+#include <ace/OS_NS_ctype.h> //isdigit
 
 using namespace std;
 
@@ -171,12 +170,11 @@ namespace teamtalk {
     bool GetProperty(const mstrings_t& properties, 
         const ACE_TString& prop, int& value)
     {
-        ACE_TString szValue;
         mstrings_t::const_iterator ite = properties.find(prop);
         if( ite != properties.end())
         {
             INT_OR_RET((*ite).second);
-            value = ACE_OS::atoi ((*ite).second.c_str());
+            value = int(string2i((*ite).second));
             return true;
         }
         return false;
@@ -189,24 +187,19 @@ namespace teamtalk {
         if(GetProperty(properties, prop, tmp))
         {
             UINT_OR_RET(tmp);
-#if defined(UNICODE)
-            wistringstream is(tmp.c_str());
-#else
-            istringstream is(tmp.c_str());
-#endif
-            is >> value;
+            value = ACE_UINT32(string2i(tmp));
             return true;
         }
         return false;
     }
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, bool& bValue)
+        const ACE_TString& prop, bool& value)
     {
-        int value = 0;
-        bool b = GetProperty(properties, prop, value);
+        int i = 0;
+        bool b = GetProperty(properties, prop, i);
         if(b)
-            bValue = value == 0? false : true;
+            value = i == 0? false : true;
         return b;
     }
 
@@ -217,12 +210,7 @@ namespace teamtalk {
         if(GetProperty(properties, prop, tmp))
         {
             INT_OR_RET(tmp);
-#if defined(UNICODE)
-            wistringstream is(tmp.c_str());
-#else
-            istringstream is(tmp.c_str());
-#endif
-            is >> value;
+            value = string2i(tmp);
             return true;
         }
         return false;
@@ -244,7 +232,7 @@ namespace teamtalk {
             {
                 token = value.substr(offset, i-offset);
                 offset = i+1;
-                vec.push_back(ACE_OS::atoi(token.c_str()));
+                vec.push_back(int(string2i(token)));
                 i = value.find(',', offset);
 
             }
@@ -252,7 +240,7 @@ namespace teamtalk {
             {
                 token = value.substr(offset, value.length()-offset);
                 offset = i+1;
-                vec.push_back(ACE_OS::atoi(token.c_str()));
+                vec.push_back(int(string2i(token)));
             }
             return true;
         }
@@ -318,7 +306,13 @@ namespace teamtalk {
             codec.opus.vbr = codec_type[8];
             codec.opus.vbr_constraint = codec_type[9];
             codec.opus.frame_size = codec_type[10];
+            if (codec_type.size() > 11)
+                codec.opus.frames_per_packet = codec_type[11];
+            else
+                codec.opus.frames_per_packet = 1;
             return true;
+        case CODEC_WEBM_VP8 :
+            break;
         }
         return false;
     }
@@ -585,26 +579,6 @@ namespace teamtalk {
     }
 
     void AppendProperty(const ACE_TString& prop, 
-        const int& nValue, ACE_TString& dest_str)
-    {
-        ACE_TString newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + i2string(nValue);
-        dest_str += newprop;
-    }
-
-    void AppendProperty(const ACE_TString& prop, 
-                        const ACE_UINT32& val, ACE_TString& dest_str)
-    {
-        ACE_TString newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + i2string((ACE_INT64)val);
-        dest_str += newprop;
-    }
-
-    void AppendProperty(const ACE_TString& prop, 
-        const bool& bValue, ACE_TString& dest_str)
-    {
-        AppendProperty(prop, bValue? 1 : 0, dest_str);
-    }
-
-    void AppendProperty(const ACE_TString& prop, 
         const vector<int>& vecValues, ACE_TString& dest_str)
     {
         ACE_TString newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + PrepareIntegerArray(vecValues);
@@ -618,16 +592,9 @@ namespace teamtalk {
         dest_str += newprop;
     }
 
-    void AppendProperty(const ACE_TString& prop, 
-        ACE_INT64 value, ACE_TString& dest_str)
+    void AppendProperty(const ACE_TString& prop, ACE_INT64 value, ACE_TString& dest_str)
     {
-#if defined(UNICODE)
-        wostringstream os;
-#else
-        ostringstream os;
-#endif
-        os << value;
-        ACE_TString newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + os.str().c_str();
+        ACE_TString newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + i2string(value);
         dest_str += newprop;
     }
 
@@ -673,6 +640,7 @@ namespace teamtalk {
             codec_prop.push_back(codec.opus.vbr);
             codec_prop.push_back(codec.opus.vbr_constraint);
             codec_prop.push_back(codec.opus.frame_size);
+            codec_prop.push_back(codec.opus.frames_per_packet);
             break;
         default :
             codec_prop.push_back(CODEC_NO_CODEC);
@@ -741,7 +709,7 @@ namespace teamtalk {
 
     ACE_TString InetAddrToString(const ACE_INET_Addr& addr)
     {
-        ACE_TCHAR buf[MAX_STRING_LENGTH+1] = {0};
+        ACE_TCHAR buf[MAX_STRING_LENGTH+1] = {};
         addr.addr_to_string(buf, MAX_STRING_LENGTH);
         return buf;
     }

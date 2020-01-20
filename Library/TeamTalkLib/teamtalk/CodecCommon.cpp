@@ -36,23 +36,16 @@
 #define SPEEX_QUALITY_MIN 0
 #define SPEEX_QUALITY_MAX 10
 #define SPEEX_FRAME_MSEC_MIN 20
-#define SPEEX_FRAME_MSEC_MAX 100
+#define SPEEX_FRAME_MSEC_MAX 1000
 
-#define CELT_ENCFRAMESIZE_MIN 10
-#define CELT_FRAMESIZE_MIN 64
-#define CELT_FRAMESIZE_MAX 1024
-#define CELT_SAMPLERATE_MIN 32000
-#define CELT_SAMPLERATE_MAX 96000
-#define CELT_BITRATE_MIN 35000      /* Remember to updated DLL header file when modifying this */
-#define CELT_BITRATE_MAX 3000000    /* Remember to updated DLL header file when modifying this */
-
-#define OPUS_FRAME_MSEC_MIN 3
-#define OPUS_FRAME_MSEC_MAX 60
+#define OPUS_FRAME_MSEC_MIN 2
+#define OPUS_FRAME_MSEC_MAX 120
 #define OPUS_SAMPLERATE_MIN 8000
 #define OPUS_SAMPLERATE_MAX 48000
-#define OPUS_BITRATE_MIN 6000
-#define OPUS_BITRATE_MAX 512000
+#define OPUS_BITRATE_MIN 6000     /* Remember to updated DLL header file when modifying this */
+#define OPUS_BITRATE_MAX 512000   /* Remember to updated DLL header file when modifying this */
 
+#define AUDIOPACKET_DURATION_MSEC_MAX 1000
 
 namespace teamtalk
 {
@@ -67,22 +60,27 @@ namespace teamtalk
         case CODEC_SPEEX_VBR :
             if(GetAudioCodecSampleRate(codec) == 0 ||
                GetAudioCodecCbMillis(codec) < SPEEX_FRAME_MSEC_MIN ||
-               GetAudioCodecCbMillis(codec) > SPEEX_FRAME_MSEC_MAX ||
+               GetAudioCodecCbMillis(codec) > AUDIOPACKET_DURATION_MSEC_MAX ||
                codec.speex.quality < SPEEX_QUALITY_MIN ||
-               codec.speex.quality > SPEEX_QUALITY_MAX)
+               codec.speex.quality > SPEEX_QUALITY_MAX ||
+               GetAudioCodecBitRate(codec) > GetAudioCodecMaxPacketBitrate(codec))
                 return false;
             return true;
         case CODEC_OPUS :
-            if(GetAudioCodecCbMillis(codec) > OPUS_FRAME_MSEC_MAX ||
-               GetAudioCodecCbMillis(codec) < OPUS_FRAME_MSEC_MIN ||
-               GetAudioCodecSampleRate(codec) > OPUS_SAMPLERATE_MAX ||
-               GetAudioCodecSampleRate(codec) < OPUS_SAMPLERATE_MIN ||
-               GetAudioCodecBitRate(codec) > OPUS_BITRATE_MAX ||
-               GetAudioCodecBitRate(codec) < OPUS_BITRATE_MIN ||
-               GetAudioCodecChannels(codec) == 0 ||
-               GetAudioCodecChannels(codec) > 2)
+            if (GetAudioCodecCbMillis(codec) < OPUS_FRAME_MSEC_MIN ||
+                GetAudioCodecCbMillis(codec) > AUDIOPACKET_DURATION_MSEC_MAX ||
+                GetAudioCodecSampleRate(codec) < OPUS_SAMPLERATE_MIN ||
+                GetAudioCodecSampleRate(codec) > OPUS_SAMPLERATE_MAX ||
+                GetAudioCodecFrameSize(codec) > GetAudioCodecSampleRate(codec) * .12 /*OPUS_FRAME_MSEC_MAX*/ ||
+                GetAudioCodecBitRate(codec) < OPUS_BITRATE_MIN ||
+                GetAudioCodecBitRate(codec) > OPUS_BITRATE_MAX ||
+                GetAudioCodecBitRate(codec) > GetAudioCodecMaxPacketBitrate(codec) ||
+                GetAudioCodecChannels(codec) == 0 ||
+                GetAudioCodecChannels(codec) > 2)
                 return false;
             return true;
+        case CODEC_WEBM_VP8 :
+            break;
         }
         return false;
     }
@@ -113,7 +111,7 @@ namespace teamtalk
             return GetSpeexSamplesCount(codec.speex_vbr.bandmode, 
                 codec.speex_vbr.frames_per_packet);
         case CODEC_OPUS :
-            return codec.opus.frame_size;
+            return codec.opus.frame_size * codec.opus.frames_per_packet;
         default :
             return 0;
         }
@@ -121,8 +119,7 @@ namespace teamtalk
 
     int GetAudioCodecCbBytes(const AudioCodec& codec)
     {
-        return GetAudioCodecCbTotalSamples(codec) *
-            sizeof(short);
+        return GetAudioCodecCbTotalSamples(codec) * sizeof(short);
     }
 
     int GetAudioCodecCbMillis(const AudioCodec& codec)
@@ -157,130 +154,6 @@ namespace teamtalk
         }
     }
 
-    int GetAudioCodecEncSize(const AudioCodec& codec)
-    {
-        switch(codec.codec)
-        {
-        case CODEC_SPEEX :
-            return codec.speex.frames_per_packet * GetAudioCodecEncFrameSize(codec);
-        case CODEC_OPUS :
-            MYTRACE(ACE_TEXT("ERROR: Querying size of encoded data for VBR codec.\n"));
-        default :
-            return 0;
-        }
-    }
-
-////////////////////////////////////////////////////////////
-// Can't query the encoded frame size :(                  //
-// So here are the encoded frame sizes defined              //
-////////////////////////////////////////////////////////////
-
-#define ENCODED_NB_FRAME_SIZE_QUALITY_0 6
-#define ENCODED_NB_FRAME_SIZE_QUALITY_1 10
-#define ENCODED_NB_FRAME_SIZE_QUALITY_2 15
-#define ENCODED_NB_FRAME_SIZE_QUALITY_3 20
-#define ENCODED_NB_FRAME_SIZE_QUALITY_4 20
-#define ENCODED_NB_FRAME_SIZE_QUALITY_5 28
-#define ENCODED_NB_FRAME_SIZE_QUALITY_6 28
-#define ENCODED_NB_FRAME_SIZE_QUALITY_7 38
-#define ENCODED_NB_FRAME_SIZE_QUALITY_8 38
-#define ENCODED_NB_FRAME_SIZE_QUALITY_9 46
-#define ENCODED_NB_FRAME_SIZE_QUALITY_10 62
-
-#define ENCODED_WB_FRAME_SIZE_QUALITY_0 10
-#define ENCODED_WB_FRAME_SIZE_QUALITY_1 15
-#define ENCODED_WB_FRAME_SIZE_QUALITY_2 20
-#define ENCODED_WB_FRAME_SIZE_QUALITY_3 25
-#define ENCODED_WB_FRAME_SIZE_QUALITY_4 32
-#define ENCODED_WB_FRAME_SIZE_QUALITY_5 42
-#define ENCODED_WB_FRAME_SIZE_QUALITY_6 52
-#define ENCODED_WB_FRAME_SIZE_QUALITY_7 60
-#define ENCODED_WB_FRAME_SIZE_QUALITY_8 70
-#define ENCODED_WB_FRAME_SIZE_QUALITY_9 86
-#define ENCODED_WB_FRAME_SIZE_QUALITY_10 106
-
-#define ENCODED_UWB_FRAME_SIZE_QUALITY_0 11
-#define ENCODED_UWB_FRAME_SIZE_QUALITY_1 19
-#define ENCODED_UWB_FRAME_SIZE_QUALITY_2 24
-#define ENCODED_UWB_FRAME_SIZE_QUALITY_3 29
-#define ENCODED_UWB_FRAME_SIZE_QUALITY_4 37
-#define ENCODED_UWB_FRAME_SIZE_QUALITY_5 47
-#define ENCODED_UWB_FRAME_SIZE_QUALITY_6 56
-#define ENCODED_UWB_FRAME_SIZE_QUALITY_7 64
-#define ENCODED_UWB_FRAME_SIZE_QUALITY_8 74
-#define ENCODED_UWB_FRAME_SIZE_QUALITY_9 90
-#define ENCODED_UWB_FRAME_SIZE_QUALITY_10 110
-
-    int GetAudioCodecEncFrameSize(const AudioCodec& codec)
-    {
-        switch(codec.codec)
-        {
-        case CODEC_SPEEX :
-            switch(codec.speex.bandmode)
-            {
-            case SPEEX_NB_MODE :
-                switch(codec.speex.quality)
-                {
-                case 0 : return ENCODED_NB_FRAME_SIZE_QUALITY_0;
-                case 1 : return ENCODED_NB_FRAME_SIZE_QUALITY_1;
-                case 2 : return ENCODED_NB_FRAME_SIZE_QUALITY_2;
-                case 3 : return ENCODED_NB_FRAME_SIZE_QUALITY_3;
-                case 4 : return ENCODED_NB_FRAME_SIZE_QUALITY_4;
-                case 5 : return ENCODED_NB_FRAME_SIZE_QUALITY_5;
-                case 6 : return ENCODED_NB_FRAME_SIZE_QUALITY_6;
-                case 7 : return ENCODED_NB_FRAME_SIZE_QUALITY_7;
-                case 8 : return ENCODED_NB_FRAME_SIZE_QUALITY_8;
-                case 9 : return ENCODED_NB_FRAME_SIZE_QUALITY_9;
-                case 10 : return ENCODED_NB_FRAME_SIZE_QUALITY_10;
-                default :
-                    return 0;
-                }
-            case SPEEX_WB_MODE :
-                switch(codec.speex.quality)
-                {
-                case 0 : return ENCODED_WB_FRAME_SIZE_QUALITY_0;
-                case 1 : return ENCODED_WB_FRAME_SIZE_QUALITY_1;
-                case 2 : return ENCODED_WB_FRAME_SIZE_QUALITY_2;
-                case 3 : return ENCODED_WB_FRAME_SIZE_QUALITY_3;
-                case 4 : return ENCODED_WB_FRAME_SIZE_QUALITY_4;
-                case 5 : return ENCODED_WB_FRAME_SIZE_QUALITY_5;
-                case 6 : return ENCODED_WB_FRAME_SIZE_QUALITY_6;
-                case 7 : return ENCODED_WB_FRAME_SIZE_QUALITY_7;
-                case 8 : return ENCODED_WB_FRAME_SIZE_QUALITY_8;
-                case 9 : return ENCODED_WB_FRAME_SIZE_QUALITY_9;
-                case 10 : return ENCODED_WB_FRAME_SIZE_QUALITY_10;
-                default :
-                    return 0;
-                }
-            case SPEEX_UWB_MODE :
-                switch(codec.speex.quality)
-                {
-                case 0 : return ENCODED_UWB_FRAME_SIZE_QUALITY_0;
-                case 1 : return ENCODED_UWB_FRAME_SIZE_QUALITY_1;
-                case 2 : return ENCODED_UWB_FRAME_SIZE_QUALITY_2;
-                case 3 : return ENCODED_UWB_FRAME_SIZE_QUALITY_3;
-                case 4 : return ENCODED_UWB_FRAME_SIZE_QUALITY_4;
-                case 5 : return ENCODED_UWB_FRAME_SIZE_QUALITY_5;
-                case 6 : return ENCODED_UWB_FRAME_SIZE_QUALITY_6;
-                case 7 : return ENCODED_UWB_FRAME_SIZE_QUALITY_7;
-                case 8 : return ENCODED_UWB_FRAME_SIZE_QUALITY_8;
-                case 9 : return ENCODED_UWB_FRAME_SIZE_QUALITY_9;
-                case 10 : return ENCODED_UWB_FRAME_SIZE_QUALITY_10;
-                default :
-                    return 0;
-                }
-            default :
-                return 0;
-            }
-        break;
-        case CODEC_SPEEX_VBR :
-        case CODEC_OPUS :
-            MYTRACE(ACE_TEXT("ERROR: Querying size of encoded framesize for VBR codec.\n"));
-        default :
-            return 0;
-        }
-    }
-
     int GetAudioCodecFrameSize(const AudioCodec& codec)
     {
         switch(codec.codec)
@@ -305,7 +178,7 @@ namespace teamtalk
         case CODEC_SPEEX_VBR :
             return codec.speex_vbr.frames_per_packet;
         case CODEC_OPUS :
-            return 1;
+            return codec.opus.frames_per_packet;
         default :
             return 0;
         }
@@ -316,8 +189,9 @@ namespace teamtalk
         switch(codec.codec)
         {
         case CODEC_SPEEX_VBR :
-        case CODEC_OPUS :
             return true;
+        case CODEC_OPUS :
+            return codec.opus.vbr;
         case CODEC_SPEEX :
         default :
             return false;
@@ -438,6 +312,26 @@ namespace teamtalk
         } /* codec switch */
     }
 
+    // AudioPacket can contain a maximum of 0xfff bytes
+    int GetAudioCodecMaxPacketBitrate(const AudioCodec& codec)
+    {
+        int txinterval_msec = GetAudioCodecCbMillis(codec);
+        if (!txinterval_msec)
+            return 0;
+
+        int bitrate = 8 * ((MAX_ENC_FRAMESIZE * 1000) / txinterval_msec);
+        //MYTRACE(ACE_TEXT("Max packet bitrate: %d\n"), bitrate);
+        return bitrate;
+    }
+
+    media::AudioFormat GetAudioCodecAudioFormat(const AudioCodec& codec)
+    {
+        int channels = GetAudioCodecChannels(codec);
+        if (GetAudioCodecSimulateStereo(codec))
+            channels = 2;
+        return media::AudioFormat(GetAudioCodecSampleRate(codec), channels);
+    }
+
     int GetSpeexBandMode(const AudioCodec& codec)
     {
         switch(codec.codec)
@@ -517,5 +411,31 @@ namespace teamtalk
             return 0;
         }
     }
+
+    bool AudioCodecConvertBug(const ACE_TString& streamprotocol, const AudioCodec& codec)
+    {
+        // Deprecated: Ignore in TeamTalk 6.
+        // Handle crash issue in pre-protocol v5.7 (TeamTalk v5.4).
+        // See git hash 02045445862fc62dec34701888eafebf0b5b5418.
+        if (!VersionSameOrLater(streamprotocol, ACE_TEXT("5.7")))
+        {
+            switch(codec.codec)
+            {
+            case CODEC_SPEEX:
+            case CODEC_SPEEX_VBR:
+                if (GetAudioCodecCbMillis(codec) > 100)
+                    return true;
+                break;
+            case CODEC_OPUS:
+                if (GetAudioCodecCbMillis(codec) > 60)
+                    return true;
+                break;
+            default :
+                break;
+            }
+        }
+        return false;
+    }
+
 }
 

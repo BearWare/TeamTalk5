@@ -29,6 +29,7 @@
 #include "HostManagerDlg.h"
 #include "TeamTalkDlg.h"
 #include "GenerateTTFileDlg.h"
+#include "BearWareLoginDlg.h"
 #include "AppInfo.h"
 
 #ifdef _DEBUG
@@ -40,6 +41,15 @@ static char THIS_FILE[] = __FILE__;
 using namespace teamtalk;
 using namespace std;
 
+enum
+{
+    TIMER_HTTPREQUEST_SERVERLIST_UPDATE_ID,
+    TIMER_HTTPREQUEST_SERVERLIST_TIMEOUT_ID,
+
+    TIMER_HTTPREQUEST_BEARWARE_LOGIN_UPDATE_ID,
+    TIMER_HTTPREQUEST_BEARWARE_LOGIN_TIMEOUT_ID,
+};
+
 #define PUBSERVER_ITEMDATA 0x80000000
 
 /////////////////////////////////////////////////////////////////////////////
@@ -49,7 +59,6 @@ CHostManagerDlg::CHostManagerDlg(ClientXML* xmlSettings, CWnd* pParent /*=NULL*/
     : CDialog(CHostManagerDlg::IDD, pParent)
     , m_szChannel(_T(""))
     , m_szChPassword(_T(""))
-    , m_pHttpRequest(NULL)
     , m_bPubServers(FALSE)
     , m_bEncrypted(FALSE)
 {
@@ -65,7 +74,6 @@ CHostManagerDlg::CHostManagerDlg(ClientXML* xmlSettings, CWnd* pParent /*=NULL*/
 
 CHostManagerDlg::~CHostManagerDlg()
 {
-    delete m_pHttpRequest;
     m_pSettings->SetShowPublicServers(m_bPubServers);
 }
 
@@ -132,10 +140,6 @@ BOOL CHostManagerDlg::OnInitDialog()
     CDialog::OnInitDialog();
 
     TRANSLATE(*this, IDD);
-
-#ifndef ENABLE_ENCRYPTION
-    m_wndEncrypted.ShowWindow(SW_HIDE);
-#endif
 
     m_wndDelete.EnableWindow(FALSE);
 
@@ -366,6 +370,30 @@ void CHostManagerDlg::OnBnClickedOk()
     }
     else
     {
+        CString szUsername;
+        m_wndUsername.GetWindowText(szUsername);
+
+        if (szUsername == WEBLOGIN_BEARWARE_USERNAME)
+        {
+            std::string username, token;
+            m_pSettings->GetBearWareLogin(username, token);
+
+            if (username.empty())
+            {
+                CBearWareLoginDlg dlg;
+                if (dlg.DoModal() == IDOK)
+                {
+                    szUsername = dlg.m_szUsername;
+                    m_pSettings->SetBearWareLogin(STR_UTF8(dlg.m_szUsername), STR_UTF8(dlg.m_szToken));
+                }
+                else
+                    return;
+            }
+            szUsername = STR_UTF8(username);
+            m_wndUsername.SetWindowText(szUsername);
+            m_wndPassword.SetWindowText(_T(""));
+        }
+
         OnOK();
     }
 }
@@ -376,18 +404,18 @@ void CHostManagerDlg::OnTimer(UINT_PTR nIDEvent)
 
     switch(nIDEvent)
     {
-    case TIMER_HTTPREQUEST_UPDATE_ID :
-        ASSERT(m_pHttpRequest);
-        if(!m_pHttpRequest)
+    case TIMER_HTTPREQUEST_SERVERLIST_UPDATE_ID :
+        ASSERT(m_HttpPubServers);
+        if(!m_HttpPubServers)
         {
-            KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
+            KillTimer(TIMER_HTTPREQUEST_SERVERLIST_UPDATE_ID);
             break;
         }
-        if(m_pHttpRequest->SendReady())
-            m_pHttpRequest->Send(_T("<") _T( TT_XML_ROOTNAME ) _T("/>"));
-        else if(m_pHttpRequest->ResponseReady())
+        if(m_HttpPubServers->SendReady())
+            m_HttpPubServers->Send(_T("<") _T( TT_XML_ROOTNAME ) _T("/>"));
+        else if(m_HttpPubServers->ResponseReady())
         {
-            CString szResponse = m_pHttpRequest->GetResponse();
+            CString szResponse = m_HttpPubServers->GetResponse();
 
             string xml = STR_UTF8(szResponse, szResponse.GetLength()*4);
             TTFile ttfile(TT_XML_ROOTNAME);
@@ -404,29 +432,26 @@ void CHostManagerDlg::OnTimer(UINT_PTR nIDEvent)
                 }
             }
 
-            KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
-            KillTimer(TIMER_HTTPREQUEST_TIMEOUT_ID);
-            delete m_pHttpRequest;
-            m_pHttpRequest = NULL;
+            KillTimer(TIMER_HTTPREQUEST_SERVERLIST_UPDATE_ID);
+            KillTimer(TIMER_HTTPREQUEST_SERVERLIST_TIMEOUT_ID);
+            m_HttpPubServers.reset();
         }
         break;
-    case TIMER_HTTPREQUEST_TIMEOUT_ID :
-        KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
-        KillTimer(TIMER_HTTPREQUEST_TIMEOUT_ID);
-        delete m_pHttpRequest;
-        m_pHttpRequest = NULL;
+    case TIMER_HTTPREQUEST_SERVERLIST_TIMEOUT_ID :
+        KillTimer(TIMER_HTTPREQUEST_SERVERLIST_UPDATE_ID);
+        KillTimer(TIMER_HTTPREQUEST_SERVERLIST_TIMEOUT_ID);
+        m_HttpPubServers.reset();
         break;
     }
 }
 
 void CHostManagerDlg::ShowPublicServers()
 {
-    KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
-    KillTimer(TIMER_HTTPREQUEST_TIMEOUT_ID);
-    delete m_pHttpRequest;
-    m_pHttpRequest = new CHttpRequest(URL_PUBLICSERVER);
-    SetTimer(TIMER_HTTPREQUEST_UPDATE_ID, 500, NULL);
-    SetTimer(TIMER_HTTPREQUEST_TIMEOUT_ID, 5000, NULL);
+    KillTimer(TIMER_HTTPREQUEST_SERVERLIST_UPDATE_ID);
+    KillTimer(TIMER_HTTPREQUEST_SERVERLIST_TIMEOUT_ID);
+    m_HttpPubServers.reset(new CHttpRequest(URL_PUBLICSERVER));
+    SetTimer(TIMER_HTTPREQUEST_SERVERLIST_UPDATE_ID, 500, NULL);
+    SetTimer(TIMER_HTTPREQUEST_SERVERLIST_TIMEOUT_ID, 5000, NULL);
 }
 
 void CHostManagerDlg::OnBnClickedCheckPublicservers()

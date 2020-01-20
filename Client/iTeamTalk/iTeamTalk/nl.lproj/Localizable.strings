@@ -1,8 +1,12 @@
+
 /* log entry */
 "%@ joined channel" = "%@ is kanaal binnengekomen";
 
 /* log entry */
 "%@ left channel" = "%@ heeft kanaal verlaten";
+
+/* Web Login Controller */
+"%@, your username \"%@\" has been validated" = "%1$@, your username \"%2$@\" has been validated";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Standaard";
@@ -77,6 +81,9 @@
 /* create channel */
 "Audio Codec" = "Audiocodec";
 
+/* Web Login Controller */
+"Authenticate" = "Authenticate";
+
 /* server entry */
 "Authentication" = "Authenticatie";
 
@@ -95,6 +102,9 @@
 /* preferences
    user detail */
 "Broadcast Messages" = "Uitzendberichten";
+
+/* preferences */
+"Broadcast Text Message" = "Broadcast Text Message";
 
 /* channel list
    server entry */
@@ -164,6 +174,9 @@
 /* channel list */
 "Edit properties" = "Eigenschappen bewerken";
 
+/* server entry */
+"Encrypted" = "Encrypted";
+
 /* Dialog message */
 "Enter Password" = "Wachtwoord Invoeren";
 
@@ -181,6 +194,9 @@
 
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook login was cancelled";
+
+/* codec detail */
+"Frame Size" = "Frame Size";
 
 /* preferences
    user detail */
@@ -344,6 +360,9 @@
 "Play sound when a user leaves the channel" = "Geluid afspelen wanneer een gebruiker het kanaal verlaat";
 
 /* preferences */
+"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
+
+/* preferences */
 "Play sound when channel text message is received" = "Geluid afspelen wanneer kanaaltekstbericht ontvangen wordt";
 
 /* preferences */
@@ -436,9 +455,6 @@
 /* Dialog message */
 "Save server to server list?" = "Save server to server list?";
 
-/* preferences */
-"Select the text-to-speech voice to use" = "Selecteer de te gebruiken tekst-naar-spraak-stem";
-
 /* text message */
 "Send empty message to close keyboard" = "Send empty message to close keyboard";
 
@@ -481,9 +497,6 @@
 
 /* preferences */
 "Speaker Output" = "Luidsprekeruitvoer";
-
-/* preferences */
-"Speech" = "Spraak";
 
 /* preferences */
 "Speech Rate" = "Spraaksnelheid";
@@ -588,6 +601,12 @@
    user detail */
 "Username" = "Gebruikersnaam";
 
+/* Web Login Controller */
+"Username or password incorrect" = "Username or password incorrect";
+
+/* codec detail */
+"Variable Bitrate" = "Variable Bitrate";
+
 /* preferences */
 "Version Information" = "Version Information";
 
@@ -628,6 +647,9 @@
 /* user detail */
 "Volume Controls" = "Volumebediening";
 
+/* Web Login controller */
+"Web Login ID" = "Web Login ID";
+
 /* preferences
    user detail */
 "WebCam" = "WebCam";
@@ -637,4 +659,3 @@
 
 /* speech */
 "You have selected %@" = "U hebt %@ geselecteerd";
-

@@ -39,8 +39,8 @@
 #include <codec/OpusDecoder.h>
 #endif
 
-#if defined(ENABLE_MP3)
-#include <codec/LameMP3.h>
+#if defined(ENABLE_MEDIAFOUNDATION)
+#include <avstream/MFTransform.h>
 #endif
 
 #if defined(ENABLE_OGG)
@@ -72,13 +72,11 @@ namespace teamtalk {
     // Mutex of VoiceLog is ensured by VoiceLogger
     class VoiceLog
     {
-    private:
-        //// no copying
-        VoiceLog(const VoiceLog& log);
-        const VoiceLog& operator = (const VoiceLog& log);
-
     public:
-        VoiceLog(int userid, const ACE_TString& filename, 
+        //// no copying
+        VoiceLog(const VoiceLog& log) = delete;
+
+        VoiceLog(int userid, const ACE_TString& filename,
                  const AudioCodec& codec, AudioFileFormat aff,
                  int stream_id);
         ~VoiceLog();
@@ -125,9 +123,9 @@ namespace teamtalk {
 #if defined(ENABLE_OPUS)
         std::unique_ptr<OpusDecode> m_opus;
 #endif
-        wavefile_t m_wavfile;
-#if defined(ENABLE_MP3)
-        lame_mp3file_t m_mp3file;
+        wavepcmfile_t m_wavfile;
+#if defined(ENABLE_MEDIAFOUNDATION)
+        mftransform_t m_mp3transform;
 #endif
 #if defined(ENABLE_OGG)
         speexfile_t m_speexfile;
@@ -146,17 +144,7 @@ namespace teamtalk {
         int m_streamid;
     };
 
-    typedef ACE_Strong_Bound_Ptr< VoiceLog, ACE_Null_Mutex > voicelog_t;
-
-    enum MediaFileStatus
-    {
-        MFS_CLOSED      = 0,
-        MFS_ERROR       = 1,
-        MFS_STARTED     = 2,
-        MFS_FINISHED    = 3,
-        MFS_ABORTED     = 4,
-    };
-
+    typedef std::shared_ptr< VoiceLog > voicelog_t;
 
     class VoiceLogListener
     {
@@ -197,6 +185,7 @@ namespace teamtalk {
         int m_timerid;
         VoiceLogListener* m_listener;
     };
-    typedef ACE_Strong_Bound_Ptr< VoiceLogger, ACE_Null_Mutex > voicelogger_t;
+
+    typedef std::shared_ptr< VoiceLogger > voicelogger_t;
 }
 #endif

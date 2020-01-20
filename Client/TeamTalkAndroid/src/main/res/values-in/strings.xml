@@ -45,8 +45,8 @@
     <string name="pref_summary_rx_tx_audio_icon">Mainkan suara ketika tombol bicara ditekan</string>
     <string name="pref_title_vox_triggered_icon">Aktivasi suara otomatis</string>
     <string name="pref_summary_vox_triggered_icon">Mainkan suara ketika suara aktivasi otomatis</string>
-    <string name="pref_title_personal_message_audio_icon">Pesan pribadi</string>
-    <string name="pref_summary_personal_message_audio_icon">Mainkan suara ketika menerima pesan pribadi</string>
+    <string name="pref_title_private_message_audio_icon">Pesan pribadi</string>
+    <string name="pref_summary_private_message_audio_icon">Mainkan suara ketika menerima pesan pribadi</string>
     <string name="pref_title_channel_message_audio_icon">Pesan saluran</string>
     <string name="pref_summary_channel_message_audio_icon">Mainkan suara ketika menerima pesan saluran</string>
     <string name="pref_title_broadcast_message_audio_icon">Pesan Broadcast</string>
@@ -81,7 +81,7 @@
     <string name="pref_summary_channel_join">Mengumumkan nama yang saat ini terhubung ke saluran</string>
     <string name="pref_title_channel_leave">Pengguna telah meninggalkan saluran</string>
     <string name="pref_summary_channel_leave">mengumumkan nama pengguna yang meninggalkan saluran</string>
-    <string name="pref_title_personal_message">Pesan pribadi</string>
+    <string name="pref_title_private_message">Pesan pribadi</string>
     <string name="pref_title_broadcast_message">Pesan Broadcast</string>
     <string name="pref_summary_message">Mengumumkan nama pengirim</string>
     <string name="pref_title_mute_speakers">Pengeras suara diam ketika menekan tombol bicara</string>
@@ -101,7 +101,7 @@
     <string name="text_tts_loggedout">telah keluar dari server</string>
     <string name="text_tts_joined_chan">telah bergabung dengan saluran</string>
     <string name="text_tts_left_chan">telah meninggalkan saluran</string>
-    <string name="text_tts_personal_message">Pesan pribadi dari pengguna %1$s</string>
+    <string name="text_tts_private_message">Pesan pribadi dari pengguna %1$s</string>
     <string name="text_tts_broadcast_message">Pesan Broadcast dari pengguna %1$s</string>
     <string name="pref_header_soundsystem">Suara sistem</string>
     <string name="title_activity_audio_codec">Codec Audio</string>
@@ -270,8 +270,8 @@
     <string name="err_filesharing_disabled">Server tidak mengizinkan file transfer</string>
     <string name="err_channel_has_users">Tidak ada tempat di saluran ini</string>
 
-    <string name="personal_message_notification">pesan baru dari pengguna %1$s</string>
-    <string name="personal_message_notification_hint">Klik untuk membaca dan membalasnya</string>
+    <string name="private_message_notification">pesan baru dari pengguna %1$s</string>
+    <string name="private_message_notification_hint">Klik untuk membaca dan membalasnya</string>
     <string name="user_state_now_speaking">%1$s Sedang berbicara</string>
     <string name="text_waitstream">menunggu untuk vidio stream</string>
     <string name="text_desktop_session">Desktop session</string>

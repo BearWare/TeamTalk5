@@ -36,7 +36,6 @@
     <item id="224">Sistema de sonido</item>
     <item id="227">Información del usuario</item>
     <item id="243">Administrador de servidores</item>
-    <item id="247">¿Cuál es mi dirección IP?</item>
     <item id="249">Combinación de teclas</item>
     <item id="251">Posicionar participantes (tarjetas de sonido 3D)</item>
     <item id="254">Atajos</item>
@@ -54,11 +53,8 @@
     <item id="279">Transferencia completa</item>
     <item id="280">Dejó de hablar</item>
     <item id="1009">Unirse al canal raíz automáticamente al conectarse</item>
-    <item id="1011">Propiedades del host</item>
     <item id="1012">Puerto TCP del host</item>
     <item id="1016">Puerto UDP del host</item>
-    <item id="1018">Predeterminado: 10333</item>
-    <item id="1019">Desactivar este mensaje</item>
     <item id="1020">Mostrar número de usuarios en los canales</item>
     <item id="1021">Posicionar automáticamente los usuarios usando sonido 3D</item>
     <item id="1022">Desactivar activación por voz al estar inactivo</item>
@@ -78,7 +74,6 @@
     <item id="1060">Minimizar a la bandeja</item>
     <item id="1061">Asunto</item>
     <item id="1063">Clave de Acceso</item>
-    <item id="1071">Opcional</item>
     <item id="1073">Clave de Acceso</item>
     <item id="1075">Dirección del Host</item>
     <item id="1077">Canales de audio</item>
@@ -188,7 +183,6 @@
     <item id="1312">Los usuarios pueden difundir mensajes de texto</item>
     <item id="1313">Los usuarios pueden invocar comandos en los canales</item>
     <item id="1315">Los usuarios pueden reenviar/retransmitir audio a través del servidor</item>
-    <item id="1316">Modificar cuenta de usuario</item>
     <item id="1323">Administrador</item>
     <item id="1324">&amp;Añadir</item>
     <item id="1325">&amp;Eliminar</item>

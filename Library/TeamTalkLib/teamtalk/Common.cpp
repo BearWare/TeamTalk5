@@ -48,7 +48,7 @@ namespace teamtalk
         {
             if(str_date[i] == '/')
             {
-                year = string2i(str_date.substr(0, i));
+                year = long(string2i(str_date.substr(0, i)));
                 break;
             }
             else i++;
@@ -58,7 +58,7 @@ namespace teamtalk
         {
             if(str_date[i] == '/')
             {
-                month = string2i(str_date.substr(begin, i));
+                month = long(string2i(str_date.substr(begin, i)));
                 break;
             }
             else i++;
@@ -68,7 +68,7 @@ namespace teamtalk
         {
             if(str_date[i] == ' ')
             {
-                day = string2i(str_date.substr(begin, i));
+                day = long(string2i(str_date.substr(begin, i)));
                 break;
             }
             else i++;
@@ -79,7 +79,7 @@ namespace teamtalk
         {
             if(str_date[i] == ':')
             {
-                hour = string2i(str_date.substr(begin, i));
+                hour = long(string2i(str_date.substr(begin, i)));
                 break;
             }
             else i++;
@@ -88,7 +88,7 @@ namespace teamtalk
         begin = ++i;
 
         if(str_date.length() - begin > 0)
-            minutes = string2i(str_date.substr(begin, str_date.length()));
+            minutes = long(string2i(str_date.substr(begin, str_date.length())));
         return ACE_Date_Time(day, month, year, hour, minutes);
     }
 
@@ -131,22 +131,17 @@ namespace teamtalk
             result += in[i];
         return result;
     }
-    int GetAudioFileFormatBitrate(teamtalk::AudioFileFormat aff)
+
+    int AFFToMP3Bitrate(AudioFileFormat aff)
     {
         switch(aff)
         {
-        case AFF_MP3_16KBIT_FORMAT :
-            return 16;
-        case AFF_MP3_32KBIT_FORMAT :
-            return 32;
-        case AFF_MP3_64KBIT_FORMAT :
-            return 64;
-        case AFF_MP3_128KBIT_FORMAT :
-            return 128;
-        case AFF_MP3_256KBIT_FORMAT :
-            return 256;
-        default:
-            return 0;
+        case AFF_MP3_16KBIT_FORMAT: return 16000;
+        case AFF_MP3_32KBIT_FORMAT: return 32000;
+        case AFF_MP3_64KBIT_FORMAT: return 64000;
+        case AFF_MP3_128KBIT_FORMAT: return 128000;
+        case AFF_MP3_256KBIT_FORMAT: return 256000;
+        default: return 0;
         }
     }
 }

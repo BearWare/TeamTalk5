@@ -452,6 +452,26 @@ namespace teamtalk{
         return nValue;
     }
 
+    bool ServerXML::SetLoginDelay(int delaymsec)
+    {
+        TiXmlElement* parent = GetGeneralElement();
+        if(parent)
+        {
+            PutInteger(*parent, "login-delay-msec", delaymsec);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    int ServerXML::GetLoginDelay()
+    {
+        int nValue = 0;
+        TiXmlElement* parent = GetGeneralElement();
+        if(parent)
+            GetInteger(*parent, "login-delay-msec", nValue);
+        return nValue;
+    }
 
     bool ServerXML::SetUserTimeout(int nTimeoutSec)
     {
@@ -744,6 +764,7 @@ namespace teamtalk{
                     PutBoolean(codecElement, "vbr", chan.audiocodec.opus.vbr);
                     PutBoolean(codecElement, "vbr-constraint", chan.audiocodec.opus.vbr_constraint);
                     PutInteger(codecElement, "framesize", chan.audiocodec.opus.frame_size);
+                    PutInteger(codecElement, "fpp", chan.audiocodec.opus.frames_per_packet);
                     break;
                 }
                 ReplaceElement(xmlChan, codecElement);
@@ -905,6 +926,8 @@ namespace teamtalk{
                         b &= GetBoolean(*codecElement, "vbr", newchan.audiocodec.opus.vbr);
                         b &= GetBoolean(*codecElement, "vbr-constraint", newchan.audiocodec.opus.vbr_constraint);
                         b &= GetInteger(*codecElement, "framesize", newchan.audiocodec.opus.frame_size);
+                        newchan.audiocodec.opus.frames_per_packet = 1;
+                        GetInteger(*codecElement, "fpp", newchan.audiocodec.opus.frames_per_packet);
                         break;
                     }
                     if(b)
@@ -1404,7 +1427,7 @@ namespace teamtalk{
 
     time_t StringToDate(std::string date)
     {
-        tm t = {0};
+        tm t = {};
         stdstrings_t tokens = stdtokenize(date, "/ :");
         if(tokens.size() == 5)
         {

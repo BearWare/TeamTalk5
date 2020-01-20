@@ -130,7 +130,6 @@
 #define IDB_BITMAP_SESSION              222
 #define IDD_PROPPAGE_SOUNDEVENTSPAGE    223
 #define IDD_PROPPAGE_SOUNDSYSPAGE       224
-#define IDD_DIALOG_CONNECT              225
 #define IDS_SUBINT_VIDEO                226
 #define IDD_DIALOG_USERINFO             227
 #define IDB_BITMAP_MIKE                 228
@@ -138,7 +137,6 @@
 #define IDB_BITMAP_VOLUME               230
 #define IDD_DIALOG_USERVOLUME           231
 #define IDR_MENU_TRAY                   232
-#define IDD_DIALOG_DIRECTCONDLG         233
 #define IDS_SUBINT_DESKTOP              234
 #define IDD_WIZARD_GENERALPAGE          235
 #define IDR_ACCELERATOR2                236
@@ -152,7 +150,6 @@
 #define IDS_SUBINT_MEDIAFILE            244
 #define IDS_DESKTOPINPUT_GRANTED        245
 #define IDD_WIZARD_COMPLETIONPAGE       246
-#define IDD_DIALOG_IPADDRESSES          247
 #define IDS_DESKTOPINPUT_ACTIVE         248
 #define IDD_DIALOG_KEYCOMP              249
 #define IDR_MENU_MSGPOPUP               250
@@ -220,6 +217,17 @@
 #define IDS_FILEEVENTS                  312
 #define IDS_FILEADD                     313
 #define IDS_FILERM                      314
+#define IDS_RESET                       315
+#define IDD_DIALOG_BEARWARELOGIN        316
+#define IDS_BEARWAREAUTHFAIL            317
+#define IDS_BEARWARETIMEOUT             318
+#define IDS_BEARWAREAUTHSUCCESS         319
+#define IDS_USER_BCASTMSG               320
+#define IDS_SNDINITFAILED               321
+#define IDS_CONNECTING                  322
+#define IDS_PLAY                        323
+#define IDD_DIALOG_TTAUDIOPREPROCESSOR  324
+#define IDD_DIALOG_SPEEXDSP             325
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -232,21 +240,16 @@
 #define IDC_STATIC_MIKE                 1008
 #define IDC_CHECK_AUTOJOINROOT          1009
 #define IDC_STATIC_APPTITLE             1010
-#define IDC_STATIC_GRPCONNECT           1011
 #define IDC_STATIC_HOSTTCPPORT          1012
 #define IDC_STATIC_SPLITTER             1013
 #define IDC_TREE_SESSION                1014
 #define IDC_EDIT_MOTD                   1015
 #define IDC_STATIC_HOSTUDPPORT          1016
 #define IDC_STATIC_VOLUME               1017
-#define IDC_STATIC_DEFSOUND             1018
-#define IDC_CHECK_DISABLE               1019
 #define IDC_CHECK_SHOWUSERCOUNT         1020
 #define IDC_CHECK_POSITIONING           1021
 #define IDC_CHECK_IDLEVOX               1022
 #define IDC_CHECK_MANUAL                1024
-#define IDC_STATIC_DEFHOST              1025
-#define IDC_STATIC_MSG                  1026
 #define IDC_STATIC_VOICEACT             1027
 #define IDC_STATIC_VOLUME2              1028
 #define IDC_EDIT_CHANPASSWORD           1029
@@ -282,7 +285,6 @@
 #define IDC_STATIC_MAXLOGINSIP          1067
 #define IDC_RADIO_DIRECTSOUND           1068
 #define IDC_COMBO_INPUTDRIVER           1070
-#define IDC_STATIC_OPTIONAL             1071
 #define IDC_COMBO_OUTPUTDRIVER          1072
 #define IDC_STATIC_PASSWORD             1073
 #define IDC_COMBO_SRATE                 1074
@@ -359,7 +361,6 @@
 #define IDC_BUTTON_TEST                 1175
 #define IDC_COMBO_MIXERINPUTS           1179
 #define IDC_CHECK_MIXERAUTOSELECT       1181
-#define IDC_EDIT_ADDRESSES              1183
 #define IDC_CHECK_BOOSTBUG              1185
 #define IDC_STATIC_GRPSNDEVENT          1186
 #define IDC_STATIC_RECORDERFREQ         1188
@@ -459,7 +460,6 @@
 #define IDC_CHECK_VIEWALLUSERS          1311
 #define IDC_CHECK_USERBCAST             1312
 #define IDC_CHECK_TRANSMITVOICE         1315
-#define IDC_STATIC_MODACCOUNT           1316
 #define IDC_CHECK_TRANSMITVIDEOFILE     1317
 #define IDC_EDIT_TCPPORT                1318
 #define IDC_EDIT_SRVNAME                1319
@@ -485,9 +485,13 @@
 #define IDC_SLIDER_GAINLEVEL            1342
 #define IDC_STATIC_GAINLEVEL            1344
 #define IDC_CHECK_DUPLEXMODE            1345
+#define IDC_STATIC_GAINLEVEL2           1345
 #define IDC_COMBO_CODEC                 1346
+#define IDC_STATIC_GAINLEVEL3           1346
 #define IDC_CHECK_DTX                   1347
+#define IDC_STATIC_GAINLEVEL4           1347
 #define IDC_EDIT_BITRATE                1348
+#define IDC_STATIC_DENOISE              1348
 #define IDC_STATIC_BITRATE              1349
 #define IDC_STATIC_MAXBITRATE           1350
 #define IDC_STATIC_BPS1                 1351
@@ -594,7 +598,6 @@
 #define IDC_STATIC_OUTPUTPROP           1463
 #define IDC_STATIC_INPUTPROP            1464
 #define IDC_CHECK_ENCRYPTED             1465
-#define IDC_EDIT_FILENAME               1467
 #define IDC_STATIC_SAVESERVERINFO       1468
 #define IDC_STATIC_KBPS5                1469
 #define IDC_STATIC_AUDIOFORMAT          1471
@@ -684,6 +687,40 @@
 #define IDC_COMBO_INPUT                 1556
 #define IDC_COMBO_SORTCHANNELS          1557
 #define IDC_CHECK_RECORDVOICE           1558
+#define IDC_COMBO_FILENAME              1559
+#define IDC_EDIT_BEARWAREID             1560
+#define IDC_BUTTON_SETUPBEARWARE        1561
+#define IDC_STATIC_BEARWARELOGIN        1562
+#define IDC_STATIC_BEARWARECREATE       1563
+#define IDC_STATIC_BEARWAREAUTH         1564
+#define IDC_BUTTON_BEARWARECREATE       1565
+#define IDC_CHECK_SHOWDISCONNECTED      1566
+#define IDC_CHECK_VBR                   1567
+#define IDC_COMBO_OPUSFRAMESIZES        1568
+#define IDC_STATIC_OPUSFRMSIZE          1569
+#define IDC_STATIC_DURATION             1570
+#define IDC_STATIC_SDURATION            1571
+#define IDC_COMBO_AUDIOPREPROCESSOR     1572
+#define IDC_BUTTON_AUDIOSETUP           1573
+#define IDC_SLIDER_OFFSET               1574
+#define IDC_BUTTON_STOP                 1575
+#define IDC_BUTTON_PLAY                 1576
+#define IDC_STATIC_TIMEOFFSET           1577
+#define IDC_STATIC_AGCGRP               1578
+#define IDC_STATIC_DENOISEGRP           1579
+#define IDC_EDIT_GAINLEVEL              1580
+#define IDC_SPIN_GAINLEVEL              1581
+#define IDC_EDIT_MAXGAIN                1582
+#define IDC_SPIN_MAXGAIN                1583
+#define IDC_EDIT_GAININC                1584
+#define IDC_SPIN_GAININC                1585
+#define IDC_EDIT_GAINDEC                1586
+#define IDC_SPIN_GAINDEC                1587
+#define IDC_EDIT_DENOISE                1588
+#define IDC_SPIN_DENOISE                1589
+#define IDC_BUTTON_DEFAULT2             1590
+#define IDC_CHECK_MUTELEFT              1591
+#define IDC_CHECK_MUTERIGHT             1592
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -791,15 +828,16 @@
 #define ID_KICK_KICKANDBANFROMCHANNEL   32951
 #define ID_CHANNELS_BANNEDUSERSINCHANNEL 32952
 #define ID_CLIENT_NEWCLIENTINSTANCE     32953
+#define ID_POPUP_STOREFORMOVE           32954
 #define TT_MAX_ID                       0xFFFF
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        309
-#define _APS_NEXT_COMMAND_VALUE         32954
-#define _APS_NEXT_CONTROL_VALUE         1559
-#define _APS_NEXT_SYMED_VALUE           303
+#define _APS_NEXT_RESOURCE_VALUE        323
+#define _APS_NEXT_COMMAND_VALUE         32955
+#define _APS_NEXT_CONTROL_VALUE         1593
+#define _APS_NEXT_SYMED_VALUE           326
 #endif
 #endif

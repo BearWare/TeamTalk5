@@ -237,15 +237,15 @@ namespace teamtalk {
         return NULL;
     }
 
-    TiXmlElement* ClientXML::GetOtherElement()
+    TiXmlElement* ClientXML::GetMediaFilesElement()
     {
         TiXmlElement* root = GetRootElement();
         if(root)
         {
-            TiXmlElement* child = root->FirstChildElement("other");
+            TiXmlElement* child = root->FirstChildElement("mediafiles");
             if(!child)
             {
-                TiXmlElement newchild("other");
+                TiXmlElement newchild("mediafiles");
                 child = root->InsertEndChild(newchild)->ToElement();
             }
             return child;
@@ -329,6 +329,7 @@ namespace teamtalk {
         PutString(element, "address", entry.szAddress);
         PutInteger(element, "tcpport", entry.nTcpPort);
         PutInteger(element, "udpport", entry.nUdpPort);
+        PutBoolean(element, "encrypted", entry.bEncrypted);
         PutString(element, "username", entry.szUsername);
         PutString(element, "password", entry.szPassword);
         PutString(element, "channel", entry.szChannel);
@@ -465,6 +466,19 @@ namespace teamtalk {
         return def_nickname;
     }
 
+    void ClientXML::SetBearWareLogin(const std::string& szUsername, const std::string& szToken)
+    {
+        SetValue("general/bearwareid/username", szUsername);
+        SetValue("general/bearwareid/token", szToken);
+    }
+
+    bool ClientXML::GetBearWareLogin(std::string& szUsername, std::string& szToken)
+    {
+        szUsername = GetValue(true, "general/bearwareid/username", "");
+        szToken = GetValue(true, "general/bearwareid/token", "");
+        return !szUsername.empty();
+    }
+
     bool ClientXML::SetProfileName(const std::string& szProfilename)
     {
         TiXmlElement* pParent = GetGeneralElement();
@@ -479,7 +493,7 @@ namespace teamtalk {
     
     std::string ClientXML::GetProfileName()
     {
-        return GetValue(m_rootname + "/general/profile-name");
+        return GetValue(true, "/general/profile-name", "");
     }
 
     bool ClientXML::SetGender(int nGender)
@@ -1142,10 +1156,7 @@ namespace teamtalk {
 
     int ClientXML::GetSortOrder()
     {
-        string value = GetValue(m_rootname + "/window/sort-channels");
-        if(value.size())
-            return str2i(value);
-        return 0;
+        return GetValue(true, "window/sort-channels", 0);
     }
 
 
@@ -1875,6 +1886,16 @@ namespace teamtalk {
         return szDefPath;
     }
 
+    bool ClientXML::SetEventBroadcastMsg(const std::string& szPath)
+    {
+        SetValue("events/broadcastmessage", szPath);
+        return true;
+    }
+
+    std::string ClientXML::GetEventBroadcastMsg(std::string szDefPath)
+    {
+        return GetValue(true, "events/broadcastmessage", szDefPath);
+    }
 
     bool ClientXML::SetEventFilesUpd(const std::string& szPath)
     {
@@ -2720,28 +2741,101 @@ namespace teamtalk {
 
     /**** </latest-hosts> *****/
 
-    /********** <other> *********/
-    bool ClientXML::SetLastMediaFile(const std::string& filename)
+    /********** <mediafiles> *********/
+    bool ClientXML::SetLastMediaFiles(const std::vector<std::string>& filenames)
     {
-        TiXmlElement* pParent = GetOtherElement();
-        if(pParent)
+        TiXmlElement* parent = GetMediaFilesElement();
+        if(parent)
         {
-            PutString(*pParent, "last-media-file", filename);
+            TiXmlElement* child = parent->FirstChildElement();
+            while (child)
+            {
+                parent->RemoveChild(child);
+                child = parent->FirstChildElement();
+            }
+
+            for (auto s : filenames)
+            {
+                TiXmlElement element("last-media-file");
+                PutElementText(element, s);
+                AppendElement(*parent, element);
+            }
             return true;
         }
         else
             return false;
     }
 
-    std::string ClientXML::GetLastMediaFile()
+    std::vector<std::string> ClientXML::GetLastMediaFiles()
     {
-        TiXmlElement* child = GetOtherElement();
-        string s;
-        if(child)
-            GetString(*child, "last-media-file", s);
-        return s;
+        std::vector<std::string> result;
+
+        TiXmlElement* parent = GetMediaFilesElement();
+        if (!parent)
+            return result;
+
+        TiXmlElement* child = parent->FirstChildElement();
+        while (child)
+        {
+            std::string s;
+            GetElementText(*child, s);
+            if (s.size())
+                result.push_back(s);
+            child = child->NextSiblingElement("last-media-file");
+        }
+        return result;
     }
-    /********** </other> *********/
+    /********** </mediafiles> *********/
+
+    void ClientXML::SetAudioPreprocessor(AudioPreprocessorType preproc)
+    {
+        SetValue("streammedia/audiopreprocessor", preproc);
+    }
+    
+    AudioPreprocessorType ClientXML::GetAudioPreprocessor(AudioPreprocessorType defaultvalue)
+    {
+        return AudioPreprocessorType(GetValue(true, "streammedia/audiopreprocessor", int(defaultvalue)));
+    }
+
+    void ClientXML::SetTTAudioPreprocessor(const TTAudioPreprocessor& ttaud)
+    {
+        SetValue("streammedia/ttaudiopreprocessor/gain-level", ttaud.nGainLevel);
+        SetValueBool("streammedia/ttaudiopreprocessor/mute-left", ttaud.bMuteLeftSpeaker);
+        SetValueBool("streammedia/ttaudiopreprocessor/mute-right", ttaud.bMuteRightSpeaker);
+    }
+    
+    TTAudioPreprocessor ClientXML::GetTTAudioPreprocessor()
+    {
+        TTAudioPreprocessor ttaud = {};
+        ttaud.nGainLevel = GetValue(true, "streammedia/ttaudiopreprocessor/gain-level", SOUND_GAIN_DEFAULT);
+        ttaud.bMuteLeftSpeaker = GetValueBool(true, "streammedia/ttaudiopreprocessor/mute-left", false);
+        ttaud.bMuteRightSpeaker = GetValueBool(true, "streammedia/ttaudiopreprocessor/mute-right", false);
+        return ttaud;
+    }
+
+    void ClientXML::SetSpeexDSPAudioPreprocessor(const SpeexDSP& spxdsp)
+    {
+        SetValueBool("streammedia/speexdspaudiopreprocessor/agc", spxdsp.bEnableAGC);
+        SetValue("streammedia/speexdspaudiopreprocessor/gain-level", spxdsp.nGainLevel);
+        SetValue("streammedia/speexdspaudiopreprocessor/gain-max", spxdsp.nMaxGainDB);
+        SetValue("streammedia/speexdspaudiopreprocessor/gain-inc-sec", spxdsp.nMaxIncDBSec);
+        SetValue("streammedia/speexdspaudiopreprocessor/gain-dec-sec", spxdsp.nMaxDecDBSec);
+        SetValueBool("streammedia/speexdspaudiopreprocessor/denoise", spxdsp.bEnableDenoise);
+        SetValue("streammedia/speexdspaudiopreprocessor/denoise-max", spxdsp.nMaxNoiseSuppressDB);
+    }
+    
+    SpeexDSP ClientXML::GetSpeexDSPAudioPreprocessor()
+    {
+        SpeexDSP dsp = {};
+        dsp.bEnableAGC = GetValueBool(true, "streammedia/speexdspaudiopreprocessor/agc", DEFAULT_AGC_ENABLE);
+        dsp.nGainLevel = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-level", DEFAULT_AGC_GAINLEVEL);
+        dsp.nMaxGainDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-max", DEFAULT_AGC_GAINMAXDB);
+        dsp.nMaxIncDBSec = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-inc-sec", DEFAULT_AGC_INC_MAXDB);
+        dsp.nMaxDecDBSec = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-dec-sec", DEFAULT_AGC_DEC_MAXDB);
+        dsp.bEnableDenoise = GetValueBool(true, "streammedia/speexdspaudiopreprocessor/denoise", DEFAULT_DENOISE_ENABLE);
+        dsp.nMaxNoiseSuppressDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/denoise-max", DEFAULT_DENOISE_SUPPRESS);
+        return dsp;
+    }
 
     void ClientXML::PutHotKey(TiXmlElement& parent, const HotKey& hotkey)
     {

@@ -5,6 +5,7 @@ set (TTCLASSIC_SOURCES
   gui/AdvancedPage.cpp
   gui/BannedDlg.cpp
   gui/BanTypeDlg.cpp
+  gui/BearWareLoginDlg.cpp
   gui/BitmapSlider.cpp
   gui/ChangeStatusDlg.cpp
   gui/ChannelDlg.cpp
@@ -13,11 +14,9 @@ set (TTCLASSIC_SOURCES
   gui/ChatTab.cpp
   gui/ClientPage.cpp
   gui/CodecLimitTab.cpp
-  gui/ConnectDlg.cpp
   gui/DesktopShareDlg.cpp
   gui/dialogex/ControlsEx.cpp
   gui/dialogex/DialogEx.cpp
-  gui/DirectConDlg.cpp
   gui/ExListBox.cpp
   gui/FilesListCtrl.cpp
   gui/FilesTab.cpp
@@ -26,7 +25,6 @@ set (TTCLASSIC_SOURCES
   gui/GenerateTTFileDlg.cpp
   gui/HostManagerDlg.cpp
   gui/InputDlg.cpp
-  gui/IpAddressesDlg.cpp
   gui/KeyCompDlg.cpp
   gui/MediaStorageDlg.cpp
   gui/MessageDlg.cpp
@@ -49,11 +47,13 @@ set (TTCLASSIC_SOURCES
   gui/ShortcutsPage.cpp
   gui/SoundEventsPage.cpp
   gui/SoundSysPage.cpp
+  gui/SpeexDSPDlg.cpp
   gui/splitterbar.cpp
   gui/StreamMediaDlg.cpp
   gui/SysColStatic.cpp
   gui/SystemTray.cpp
   gui/TextToSpeechPage.cpp
+  gui/TTAudioPreprocessorDlg.cpp
   gui/UserAccountsDlg.cpp
   gui/UserButton.cpp
   gui/UserDesktopDlg.cpp
@@ -111,6 +111,7 @@ set (TTCLASSIC_HEADERS
   gui/AdvancedPage.h
   gui/BannedDlg.h
   gui/BanTypeDlg.h
+  gui/BearWareLoginDlg.h
   gui/BitmapSlider.h
   gui/ChangeStatusDlg.h
   gui/ChannelDlg.h
@@ -119,11 +120,9 @@ set (TTCLASSIC_HEADERS
   gui/ChatTab.h
   gui/ClientPage.h
   gui/CodecLimitTab.h
-  gui/ConnectDlg.h
   gui/DesktopShareDlg.h
   gui/dialogex/ControlsEx.h
   gui/dialogex/DialogEx.h
-  gui/DirectConDlg.h
   gui/ExListBox.h
   gui/FilesListCtrl.h
   gui/FilesTab.h
@@ -132,7 +131,6 @@ set (TTCLASSIC_HEADERS
   gui/GenerateTTFileDlg.h
   gui/HostManagerDlg.h
   gui/InputDlg.h
-  gui/IpAddressesDlg.h
   gui/KeyCompDlg.h
   gui/MediaStorageDlg.h
   gui/MessageDlg.h
@@ -155,11 +153,13 @@ set (TTCLASSIC_HEADERS
   gui/ShortcutsPage.h
   gui/SoundEventsPage.h
   gui/SoundSysPage.h
+  gui/SpeexDSPDlg.h
   gui/splitterbar.h
   gui/StreamMediaDlg.h
   gui/SysColStatic.h
   gui/SystemTray.h
   gui/TextToSpeechPage.h
+  gui/TTAudioPreprocessorDlg.h
   gui/UserAccountsDlg.h
   gui/UserButton.h
   gui/UserDesktopDlg.h

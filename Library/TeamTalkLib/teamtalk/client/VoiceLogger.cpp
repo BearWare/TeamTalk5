@@ -44,23 +44,8 @@ enum
 
 #define FLUSH_INTERVAL ACE_Time_Value(3)
 
-#if defined(ENABLE_MP3)
-#include "BladeMP3EncDLL.h"
-#endif
-
 using namespace std;
 using namespace teamtalk;
-
-#if defined(ENABLE_MP3)
-
-typedef struct
-{
-    int userid;
-    ACE_TCHAR filepath[MAX_PATH];
-    int samplerate;
-} wavfile_t;
-
-#endif
 
 VoiceLog::VoiceLog(int userid, const ACE_TString& filename, 
                    const AudioCodec& codec, AudioFileFormat aff,
@@ -77,13 +62,12 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
 {
     int samplerate = GetAudioCodecSampleRate(m_codec);
     int channels = GetAudioCodecChannels(m_codec);
-    int framesize = GetAudioCodecCbSamples(m_codec);
-    int bitrate = GetAudioFileFormatBitrate(aff);
+    int cbsamples = GetAudioCodecCbSamples(m_codec);
 
     switch(aff)
     {
-#if defined(ENABLE_OGG)
     case AFF_CHANNELCODEC_FORMAT :
+#if defined(ENABLE_OGG)
     {
         bool vbr = true;
         ACE_UNUSED_ARG(vbr);
@@ -104,7 +88,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
                 m_active = false;
                 return;
             }
-#endif
+#endif /* ENABLE_SPEEX */
         }
         break;
 #if defined(ENABLE_OPUSTOOLS)
@@ -113,6 +97,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
             OpusFile* opus_file;
             ACE_NEW(opus_file, OpusFile());
             m_opusfile = opusfile_t(opus_file);
+            int framesize = GetAudioCodecFrameSize(m_codec);
             if(!m_opusfile->Open(filename, channels, samplerate, framesize))
             {
                 ACE_TString error = ACE_TEXT("Failed to open OPUS file ") + filename;
@@ -122,37 +107,40 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
             }
         }
         break;
-#endif
+#else
+        case CODEC_OPUS :
+#endif /* ENABLE_OPUSTOOLS */
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
+            break;
         }
     }
+#endif /* ENABLE_OGG */
     break;
-#endif
 
-#if defined(ENABLE_MP3)
     case AFF_MP3_16KBIT_FORMAT :
     case AFF_MP3_32KBIT_FORMAT :
     case AFF_MP3_64KBIT_FORMAT :
     case AFF_MP3_128KBIT_FORMAT :
     case AFF_MP3_256KBIT_FORMAT :
+#if defined(ENABLE_MEDIAFOUNDATION)
     {
-        LameMP3* lamemp3;
-        ACE_NEW(lamemp3, LameMP3());
-        m_mp3file = lame_mp3file_t(lamemp3);
-        if(!m_mp3file->NewFile(filename, samplerate, channels, bitrate))
+        int mp3bitrate = AFFToMP3Bitrate(aff);
+        m_mp3transform = MFTransform::CreateMP3(media::AudioFormat(samplerate, channels), mp3bitrate, filename.c_str());
+        if (!m_mp3transform)
         {
             ACE_TString error = ACE_TEXT("Failed to open file ") + filename;
             TT_ERROR(error.c_str());
             m_active = false;
+            m_mp3transform.reset();
             return;
         }
     }
-    break;
 #endif
+    break;
     case AFF_WAVE_FORMAT :
     {
-        WaveFile* wavfile;
-        ACE_NEW(wavfile, WaveFile());
-        m_wavfile = wavefile_t(wavfile);
+        m_wavfile.reset(new WavePCMFile());
         if(!m_wavfile->NewFile(filename.c_str(), samplerate, channels))
         {
             ACE_TString error = ACE_TEXT("Failed to open file ") + filename;
@@ -162,6 +150,9 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         }
     }
     break;
+    case AFF_NONE:
+        assert(0);
+        return;
     }
 
     switch(codec.codec)
@@ -183,11 +174,15 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
 #endif
         m_flush = ACE_OS::gettimeofday();
         break;
+    case CODEC_NO_CODEC :
+    case CODEC_WEBM_VP8 :
+        TTASSERT(0);
+        break;
     }
 
-    if(framesize>0)
+    if (cbsamples > 0)
     {
-        m_samples_buf.resize(framesize*channels);
+        m_samples_buf.resize(cbsamples * channels);
         m_active = true;
     }
     MYTRACE(ACE_TEXT("VoiceLog started: %s\n"), this->GetFileName().c_str());
@@ -331,12 +326,11 @@ void VoiceLog::WritePacket(int packet_no)
     
     switch(m_codec.codec)
     {
-#if defined(ENABLE_OGG)
     case CODEC_SPEEX :
     case CODEC_SPEEX_VBR :
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_OGG) && defined(ENABLE_SPEEX)
         TTASSERT(m_speexfile.get());
-        if(!m_speexfile.null())
+        if (m_speexfile)
         {
             int pos = 0;
             for(size_t i=0;i<frame_sizes.size();i++)
@@ -347,12 +341,12 @@ void VoiceLog::WritePacket(int packet_no)
                 pos += frame_sizes[i];
             }
         }
-#endif /* ENABLE_SPEEX */
+#endif /* ENABLE_OGG && ENABLE_SPEEX */
         break;
     case CODEC_OPUS :
-#if defined(ENABLE_OPUSTOOLS)
+#if defined(ENABLE_OGG) && defined(ENABLE_OPUSTOOLS)
         TTASSERT(m_opusfile.get());
-        if(!m_opusfile.null())
+        if (m_opusfile)
         {
             int pos = 0;
             for(size_t i=0;i<frame_sizes.size();i++)
@@ -364,9 +358,12 @@ void VoiceLog::WritePacket(int packet_no)
             }
             
         }
-#endif /* ENABLE_OPUSTOOLS */
+#endif /* ENABLE_OGG && ENABLE_OPUSTOOLS */
         break;
-#endif /* ENABLE_OGG */
+    case CODEC_NO_CODEC :
+    case CODEC_WEBM_VP8 :
+        assert(0);
+        break;
     }
 
     if(ite != m_mFlushPackets.end())
@@ -390,8 +387,8 @@ void VoiceLog::WriteAudio(int packet_no)
 #if defined(ENABLE_SPEEX)
             if(m_speex.get())
             {
-                vector<int> frame_sizes(GetAudioCodecFramesPerPacket(m_codec),
-                                        GetAudioCodecEncFrameSize(m_codec));
+                int frames_per_packet = GetAudioCodecFramesPerPacket(m_codec);
+                vector<int> frame_sizes(frames_per_packet, enc_len / frames_per_packet);
                 m_speex->DecodeMultiple(enc_data, frame_sizes, &m_samples_buf[0]);
             }
 #endif
@@ -415,13 +412,18 @@ void VoiceLog::WriteAudio(int packet_no)
                 int sum_dec = 0;
                 int cb_samples = GetAudioCodecCbSamples(m_codec);
                 int channels = GetAudioCodecChannels(m_codec);
+                int framesize = GetAudioCodecFrameSize(m_codec);
+                int decsamples = 0, ret;
                 for(size_t i=0;i<frame_sizes.size();i++)
                 {
-                    m_opus->Decode(&enc_data[sum_dec], frame_sizes[i],
-                                   &m_samples_buf[cb_samples*channels*i],
-                                   cb_samples);
+                    ret = m_opus->Decode(&enc_data[sum_dec], frame_sizes[i],
+                                         &m_samples_buf[framesize * channels * i],
+                                         cb_samples);
+                    assert(ret > 0);
+                    decsamples += ret;
                     sum_dec += frame_sizes[i];
                 }
+                assert(decsamples == cb_samples);
             }
 #endif
             break;
@@ -463,11 +465,15 @@ void VoiceLog::WriteAudio(int packet_no)
         default : break;
         }
     }
-#if defined(ENABLE_MP3)
-    if(!m_mp3file.null())
-        m_mp3file->Encode(&m_samples_buf[0], GetAudioCodecCbSamples(m_codec));
+#if defined(ENABLE_MEDIAFOUNDATION)
+    if (m_mp3transform)
+    {
+        media::AudioFormat fmt = GetAudioCodecAudioFormat(m_codec);
+        int samples = GetAudioCodecCbSamples(m_codec);
+        m_mp3transform->ProcessAudioEncoder(media::AudioFrame(fmt, &m_samples_buf[0], samples), true);
+    }
 #endif
-    if(!m_wavfile.null())
+    if(m_wavfile)
         m_wavfile->AppendSamples(&m_samples_buf[0], GetAudioCodecCbSamples(m_codec));
 }
 
@@ -481,23 +487,26 @@ void VoiceLog::WriteSilence(int msecs)
     int samplerate = GetAudioCodecSampleRate(m_codec);
     int samples = (int)(((msecs / 1000) * samplerate) + ((double)(msecs % 1000)/1000.0) * samplerate);
 
+    media::AudioFormat fmt = GetAudioCodecAudioFormat(m_codec);
+    int cbsamples = GetAudioCodecCbSamples(m_codec);
+
     while(samples > GetAudioCodecCbSamples(m_codec))
     {
-#if defined(ENABLE_MP3)
-        if(!m_mp3file.null())
-            m_mp3file->Encode(&m_samples_buf[0], GetAudioCodecCbSamples(m_codec));
+#if defined(ENABLE_MEDIAFOUNDATION)
+        if(m_mp3transform)
+            m_mp3transform->ProcessAudioEncoder(media::AudioFrame(fmt, &m_samples_buf[0], cbsamples), true);
 #endif
-        if(!m_wavfile.null())
+        if(m_wavfile)
             m_wavfile->AppendSamples(&m_samples_buf[0], GetAudioCodecCbSamples(m_codec));
         samples -= GetAudioCodecCbSamples(m_codec);
     }
-    if(samples>0)
+    if (samples > 0)
     {
 #if defined(ENABLE_MP3)
-        if(!m_mp3file.null())
-            m_mp3file->Encode(&m_samples_buf[0], samples);
+        if(m_mp3transform)
+            m_mp3transform->ProcessAudioEncoder(media::AudioFrame(fmt, &m_samples_buf[0], samples), true);
 #endif
-        if(!m_wavfile.null())
+        if(m_wavfile)
             m_wavfile->AppendSamples(&m_samples_buf[0], samples);
     }
 }
@@ -516,7 +525,7 @@ VoiceLogFile VoiceLog::GetVoiceLogFile()
 
 int VoiceLog::GetDuration()
 {
-    if(!m_wavfile.null() && m_wavfile->GetSampleRate()>0)
+    if(m_wavfile && m_wavfile->GetSampleRate()>0)
         return m_wavfile->GetSamplesCount() * 1000 / m_wavfile->GetSampleRate();
     return 0;
 }
@@ -546,6 +555,8 @@ VoiceLogger::~VoiceLogger()
         m_reactor.cancel_timer(m_timerid, 0, 0);
     m_reactor.end_reactor_event_loop();
     this->wait();
+
+    MYTRACE(ACE_TEXT("~VoiceLogger()\n"));
 }
 
 int VoiceLogger::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
@@ -623,7 +634,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     //     dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute(), dt.second(), userid);
 
     ACE_TString filename = buf;
-
+    int mp3bitrate = 0;
     AudioFileFormat aff = AFF_WAVE_FORMAT;
     switch(from_user.GetAudioFileFormat())
     {
@@ -635,24 +646,39 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
         case CODEC_OPUS :
             aff = from_user.GetAudioFileFormat();
             filename += ACE_TEXT(".ogg");
+            break;
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
+            break;
         }
         break;
-#if defined(ENABLE_MP3)
     case AFF_MP3_16KBIT_FORMAT :
-    case AFF_MP3_32KBIT_FORMAT :
-    case AFF_MP3_64KBIT_FORMAT :
-    case AFF_MP3_128KBIT_FORMAT :
-    case AFF_MP3_256KBIT_FORMAT :
-        aff = from_user.GetAudioFileFormat();
-        filename += ACE_TEXT(".mp3");
+        mp3bitrate = 16000;
         break;
-#endif
+    case AFF_MP3_32KBIT_FORMAT :
+        mp3bitrate = 32000;
+        break;
+    case AFF_MP3_64KBIT_FORMAT :
+        mp3bitrate = 64000;
+        break;
+    case AFF_MP3_128KBIT_FORMAT :
+        mp3bitrate = 128000;
+        break;
+    case AFF_MP3_256KBIT_FORMAT :
+        mp3bitrate = 256000;
+        break;
     case AFF_NONE :
     case AFF_WAVE_FORMAT :
     default :
         aff = AFF_WAVE_FORMAT;
         filename += ACE_TEXT(".wav");
         break;
+    }
+
+    if (mp3bitrate)
+    {
+        aff = from_user.GetAudioFileFormat();
+        filename += ACE_TEXT(".mp3");
     }
 
     ACE_TString filepath = folderpath + ACE_DIRECTORY_SEPARATOR_STR + filename;

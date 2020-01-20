@@ -93,8 +93,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         findPreference(ServerEntry.KEY_TCPPORT).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_UDPPORT).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_ENCRYPTED).setOnPreferenceChangeListener(this);
-        PreferenceCategory category = (PreferenceCategory)findPreference("srv_info");
-        if(category != null)category.removePreference(findPreference(ServerEntry.KEY_ENCRYPTED));
         findPreference(ServerEntry.KEY_USERNAME).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_PASSWORD).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_FACEBOOK).setOnPreferenceChangeListener(this);
@@ -234,7 +232,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         server.tcpport = Integer.parseInt(Utils.getEditTextPreference(findPreference(ServerEntry.KEY_TCPPORT), "10333"));
         server.udpport = Integer.parseInt(Utils.getEditTextPreference(findPreference(ServerEntry.KEY_UDPPORT), "10333"));
         CheckBoxPreference p = ((CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED));
-        server.encrypted = (p != null)? p.isChecked() : false;
+        server.encrypted = p.isChecked();
         server.username = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), "");
         server.password = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), "");
         server.nickname = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_NICKNAME), "");
@@ -254,9 +252,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_TCPPORT), String.valueOf(entry.tcpport), String.valueOf(entry.tcpport));        
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_UDPPORT), String.valueOf(entry.udpport), String.valueOf(entry.udpport));
         CheckBoxPreference p = (CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED); 
-        if(p != null) {
-            p.setChecked(entry.encrypted);
-        }
+        p.setChecked(entry.encrypted);
 
         // auth
         PreferenceCategory authcat = (PreferenceCategory)findPreference("auth_info");
@@ -291,13 +287,13 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
 
             ServerEntry entry = serverentry == null? Utils.getServerEntry(this.getIntent()) : serverentry;
             if(entry != null) {
-                String username = fblogin? AppInfo.WEBLOGIN_FACEBOOK : entry.username;
+                String username = fblogin? AppInfo.WEBLOGIN_FACEBOOK_USERNAME : entry.username;
                 String password = fblogin? "" : entry.password;
                 Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), username, username, fblogin);
                 Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), password, password, fblogin);
             }
             else if(fblogin){
-                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), AppInfo.WEBLOGIN_FACEBOOK, AppInfo.WEBLOGIN_FACEBOOK);
+                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), AppInfo.WEBLOGIN_FACEBOOK_USERNAME, AppInfo.WEBLOGIN_FACEBOOK_USERNAME);
                 Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), "", "", fblogin);
             }
         }

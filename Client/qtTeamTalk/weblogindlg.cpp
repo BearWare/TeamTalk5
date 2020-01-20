@@ -33,10 +33,10 @@
 
 #if defined(Q_OS_WIN32)
 #include <QAxWidget>
-#elif (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+#elif defined(QT_WEBENGINEWIDGETS_LIB)
 #include <QWebEngineView>
-#elif (QT_VERSION >= QT_VERSION_CHECK(4, 4, 0))
-#include <QtWebKit>
+#elif defined(QT_WEBKITWIDGETS_LIB)
+#include <QWebView>
 #endif
 
 WebLoginDlg::WebLoginDlg(QWidget *parent) :
@@ -53,7 +53,7 @@ WebLoginDlg::WebLoginDlg(QWidget *parent) :
     connect(m_webView, SIGNAL(NavigateComplete2(IDispatch*, QVariant&)),
             this, SLOT( slotNavigateComplete(IDispatch*, QVariant&)));
     ui.horizontalLayout->addWidget(m_webView);
-#elif (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+#elif defined(QT_WEBENGINEWIDGETS_LIB)
     m_webView = new QWebEngineView(this);
     m_webView->setObjectName(QStringLiteral("webView"));
 
@@ -61,7 +61,7 @@ WebLoginDlg::WebLoginDlg(QWidget *parent) :
             SLOT(slotUrlChanged(const QUrl&)));
 
     ui.horizontalLayout->addWidget(m_webView);
-#elif (QT_VERSION >= QT_VERSION_CHECK(4, 4, 0))
+#elif defined(QT_WEBKITWIDGETS_LIB)
     m_webView = new QWebView(this);
     m_webView->setObjectName("webView");
 
@@ -81,9 +81,9 @@ void WebLoginDlg::navigate(const QString& url)
 {
 #if defined(Q_OS_WIN32)
     m_webView->dynamicCall("Navigate(const QString&)", url);
-#elif (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+#elif defined(QT_WEBENGINEWIDGETS_LIB)
     m_webView->load(QUrl(url));
-#elif (QT_VERSION >= QT_VERSION_CHECK(4, 4, 0))
+#elif defined(QT_WEBKITWIDGETS_LIB)
     m_webView->load(QUrl(url));
 #endif
 }

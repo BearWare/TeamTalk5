@@ -248,7 +248,7 @@
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="nocodecPage"/>
             <widget class="QWidget" name="spxPage">
@@ -643,6 +643,9 @@
                 <property name="text">
                  <string>Bitrate</string>
                 </property>
+                <property name="buddy">
+                 <cstring>opus_bpsSpinBox</cstring>
+                </property>
                </widget>
               </item>
               <item row="3" column="1">
@@ -670,6 +673,13 @@
                   </property>
                  </spacer>
                 </item>
+                <item>
+                 <widget class="QCheckBox" name="opus_vbrCheckBox">
+                  <property name="text">
+                   <string>Variable Bit Rate</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
               <item row="4" column="0" colspan="2">
@@ -686,6 +696,9 @@
                <widget class="QLabel" name="label_44">
                 <property name="text">
                  <string>Transmit interval</string>
+                </property>
+                <property name="buddy">
+                 <cstring>opus_txdelaySpinBox</cstring>
                 </property>
                </widget>
               </item>
@@ -713,6 +726,26 @@
                    </size>
                   </property>
                  </spacer>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_6">
+                  <property name="text">
+                   <string>Frame size</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>opus_framesizeComboBox</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="opus_framesizeComboBox"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_10">
+                  <property name="text">
+                   <string>msec</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -834,11 +867,12 @@
   <tabstop>opus_srateBox</tabstop>
   <tabstop>opus_channelsBox</tabstop>
   <tabstop>opus_bpsSpinBox</tabstop>
+  <tabstop>opus_vbrCheckBox</tabstop>
   <tabstop>opus_dtxBox</tabstop>
   <tabstop>opus_txdelaySpinBox</tabstop>
+  <tabstop>opus_framesizeComboBox</tabstop>
   <tabstop>agcBox</tabstop>
   <tabstop>gainlevelSlider</tabstop>
-  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
  <connections>

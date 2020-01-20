@@ -41,8 +41,8 @@
     <string name="pref_title_audio_icons">Ses uyarıları</string>
     <string name="pref_title_rx_tx_audio_icon">Ses iletimi keçişi</string>
     <string name="pref_summary_rx_tx_audio_icon">Bas Danış Düğmesine basıldığında ses çal</string>
-    <string name="pref_title_personal_message_audio_icon">şexi Mesaj</string>
-    <string name="pref_summary_personal_message_audio_icon">şexi Mesaj Alındığında Ses Çal</string>
+    <string name="pref_title_private_message_audio_icon">şexi Mesaj</string>
+    <string name="pref_summary_private_message_audio_icon">şexi Mesaj Alındığında Ses Çal</string>
     <string name="pref_title_channel_message_audio_icon">Kanal Mesajı</string>
     <string name="pref_summary_channel_message_audio_icon">Kanal Mesajı Alındığında Ses Çal</string>
     <string name="pref_title_broadcast_message_audio_icon">Yayın Mesajı</string>
@@ -75,7 +75,7 @@
     <string name="pref_summary_channel_join">Kanala istifadeçilerin qatılımının bildirimi</string>
     <string name="pref_title_channel_leave">Kanaldan istifadeçilerin ayrılması</string>
     <string name="pref_summary_channel_leave">Kanaldan istifadeçilerin ayrılmasının bildirimi</string>
-    <string name="pref_title_personal_message">Serbest Mesajları</string>
+    <string name="pref_title_private_message">Serbest Mesajları</string>
     <string name="pref_title_broadcast_message">Yayın Mesajları</string>
     <string name="pref_summary_message">Gönderici adının bildirimi</string>
     <string name="pref_title_mute_speakers">Bas Danış düğmesine basıldığında hoparlörü sustur</string>
@@ -84,7 +84,7 @@
     <string name="text_tts_loggedout">Sunucudan Getdi</string>
     <string name="text_tts_joined_chan">Geldi</string>
     <string name="text_tts_left_chan">Getdi</string>
-    <string name="text_tts_personal_message">%1$s istifadeçisinden mesaj</string>
+    <string name="text_tts_private_message">%1$s istifadeçisinden mesaj</string>
     <string name="text_tts_broadcast_message">%1$s istifadeçisinden yayın mesajı</string>
     <string name="pref_header_soundsystem">Ses Sistemi</string>
     <string name="title_activity_audio_codec">Ses tercihleri</string>
@@ -223,7 +223,7 @@
     <string name="err_openfile_failed">Sunucu dosyayı açamadı</string>
     <string name="err_filesharing_disabled">Sunucu dosya icaze izin vermiyor</string>
     <string name="err_channel_has_users">Kanal boş değil</string>
-    <string name="personal_message_notification">%1$s istifadeçisinden yeni mesaj</string>
-    <string name="personal_message_notification_hint">Okumak yada cevaplamak üçün tıklayın</string>
+    <string name="private_message_notification">%1$s istifadeçisinden yeni mesaj</string>
+    <string name="private_message_notification_hint">Okumak yada cevaplamak üçün tıklayın</string>
     <string name="user_state_now_speaking">Şuanda %1$s Danışıyor</string>
 </resources>

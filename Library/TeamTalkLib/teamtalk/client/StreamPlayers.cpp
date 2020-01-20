@@ -26,37 +26,29 @@
 #include <teamtalk/PacketHelper.h>
 #include <teamtalk/ttassert.h>
 #include <codec/MediaUtil.h>
-#include "AudioMuxer.h"
-#include "AudioContainer.h"
 
 using namespace media;
 
 namespace teamtalk {
 
-#define DEFAULT_BUF_MSEC 1000
-
-AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
-                         AudioMuxer& audiomuxer, const AudioCodec& codec,
+AudioPlayer::AudioPlayer(int userid, StreamType stream_type,
+                         useraudio_callback_t audio_cb, const AudioCodec& codec,
                          audio_resampler_t& resampler)
-: m_sndgrpid(sndgrpid)
-, m_userid(userid)
+: m_userid(userid)
 , m_streamtype(stream_type)
 , m_talking(false)
 , m_codec(codec)
 , m_last_playback(0)
 , m_play_stopped_delay(STOPPED_TALKING_DELAY)
 , m_played_packet_time(0)
-, m_audiomuxer(audiomuxer)
+, m_audio_callback(audio_cb)
 , m_samples_played(0)
-, m_current_samples_played(0)
 , m_resampler(resampler)
 , m_stereo(STEREO_BOTH)
 , m_no_recording(false)
 , m_stream_id(0)
-, m_new_audio_blocks(0)
 , m_audiopackets_recv(0)
 , m_audiopacket_lost(0)
-, m_buffer_msec(DEFAULT_BUF_MSEC)
 {
     MYTRACE(ACE_TEXT("New AudioPlayer() - #%d\n"), m_userid);
 
@@ -66,17 +58,19 @@ AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
     if(GetAudioCodecSimulateStereo(m_codec))
         input_channels = 2;
     int input_samples = GetAudioCodecCbSamples(m_codec);
-    if(!m_resampler.null())
+    if (m_resampler)
         m_resample_buffer.resize(input_samples*input_channels);
 
-    SetAudioBufferSize(DEFAULT_BUF_MSEC);
+    SetAudioBufferSize(GetAudioCodecCbMillis(m_codec) * 4);
 }
 
 AudioPlayer::~AudioPlayer()
 {
-#if defined(ENABLE_SOUNDSYSTEM)
-    assert(SOUNDSYSTEM->IsStreamStopped(this));
-#endif
+    //store in muxer (if enabled)
+    media::AudioFrame frm(GetAudioCodecAudioFormat(m_codec), nullptr, 0);
+    frm.sample_no = m_samples_played;
+    frm.streamid = m_stream_id;
+    m_audio_callback(m_userid, m_streamtype, frm);
     MYTRACE(ACE_TEXT("~AudioPlayer() - %p - #%d\n"), this, m_userid);
 }
 
@@ -99,31 +93,27 @@ audiopacket_t AudioPlayer::QueuePacket(const AudioPacket& new_audpkt)
         if(fragno == AudioPacket::INVALID_FRAGMENT_NO)
             return ptr_audpkt;
 
-        //clean out fragments which were never played
-        uint16_t old_packet_no = 0;
-        if(m_audfragments.size() >= 10)
-            old_packet_no = packetno - 10;
-        else
-            old_packet_no = GetPlayedPacketNo();
+        //MYTRACE(ACE_TEXT("User #%d, received pkt no %d, frag no %d/%d\n"), m_userid, int(packetno), int(fragno), int(frag_cnt));
 
-        if(old_packet_no)
-            CleanUpAudioFragments(old_packet_no);
+        //clean out fragments which were never played
+        uint16_t playing_pkt_no = GetPlayedPacketNo();
+        if (playing_pkt_no)
+            CleanUpAudioFragments(playing_pkt_no-1);
 
         //copy packet and queue it
-        AudioPacket* q_audpkt;
-        ACE_NEW_NORETURN(q_audpkt, AudioPacket(new_audpkt));
+        audiopacket_t q_audpkt(new AudioPacket(new_audpkt));
         fragments_queue_t::iterator ii=m_audfragments.find(packetno);
         if(ii != m_audfragments.end())
-            ii->second[fragno] = audiopacket_t(q_audpkt);
+            ii->second[fragno] = q_audpkt;
         else
-            m_audfragments[packetno][fragno] = audiopacket_t(q_audpkt);
+            m_audfragments[packetno][fragno] = q_audpkt;
 
         ii = m_audfragments.find(packetno);
 
         //try to reassemble
         ptr_audpkt = ReassembleAudioPacket(ii->second, m_codec);
 
-        if(ptr_audpkt.null())
+        if (!ptr_audpkt)
             return ptr_audpkt;//couldn't reassemble
 
         //erase what we reassembled
@@ -147,11 +137,9 @@ void AudioPlayer::CleanUpAudioFragments(uint16_t too_old_packet_no)
     fragments_queue_t::iterator ii=m_audfragments.begin();
     while(ii != m_audfragments.end())
     {
-        uint16_t oo = ii->first;
-        if(PACKETNO_GEQ(too_old_packet_no, ii->first))
+        if (PACKETNO_GEQ(too_old_packet_no, ii->first))
         {
-            MYTRACE(ACE_TEXT("Packet #%d wasn't reassembled, ejected!\n"),
-                (int)ii->first);
+            MYTRACE(ACE_TEXT("Packet #%d wasn't reassembled, ejected!\n"), int(ii->first));
             m_audfragments.erase(ii++);
         }
         else ii++;
@@ -171,7 +159,6 @@ void AudioPlayer::Reset()
     //how long the player has been inactive.
 }
 
-#if defined(ENABLE_SOUNDSYSTEM)
 bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                                  short* output_buffer, int output_samples)
 {
@@ -183,14 +170,12 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
 
     short* tmp_output_buffer;
     bool played;
-    if(!m_resampler.null())
+    if (m_resampler)
         tmp_output_buffer = &m_resample_buffer[0];
     else
         tmp_output_buffer = output_buffer;
 
     played = PlayBuffer(tmp_output_buffer, input_samples);
-    //increment samples played (used by AudioMuxer)
-    m_samples_played += input_samples;
 
     if(played)
     {
@@ -199,26 +184,7 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         if(input_channels == 2)
         {
             //If in stereo then choose which channels to output audio to
-            switch(m_stereo)
-            {
-            case STEREO_BOTH:
-                break;
-            case STEREO_LEFT :
-                for(int i=2*input_samples - 2; i >= 0; i -= 2)
-                    tmp_output_buffer[i+1] = 0;
-                break;
-            case STEREO_RIGHT :
-                for(int i=2*input_samples - 2; i >= 0; i -= 2)
-                    tmp_output_buffer[i] = 0;
-                break;
-            case STEREO_NONE :
-                for(int i=2*input_samples - 2; i >= 0; i -= 2)
-                {
-                    tmp_output_buffer[i] = 0;
-                    tmp_output_buffer[i+1] = 0;
-                }
-                break;
-            }
+            SelectStereo(m_stereo, tmp_output_buffer, input_samples);
         }
 
         m_talking = true;
@@ -230,28 +196,25 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                 GETTIMESTAMP() - m_last_playback, m_userid);
         m_talking = false;
 
-        //store in muxer (if enabled)
-        m_audiomuxer.QueueUserAudio(m_userid, NULL, m_samples_played, 
-                                    false, m_codec);
         //reset packet numbers
         Reset();
     }
 
-    if(m_talking)
+    // store in muxer before resampling
+    if (!m_no_recording || !played)
     {
-        if(!m_no_recording &&
-            AUDIOCONTAINER::instance()->AddAudio(m_sndgrpid, m_userid, m_streamtype,
-                                                 m_stream_id, input_samplerate, 
-                                                 input_channels, tmp_output_buffer, 
-                                                 input_samples, m_current_samples_played))
-        {
-            m_new_audio_blocks++;
-        }
-        m_current_samples_played += input_samples;
+        //store in muxer (if enabled)
+        media::AudioFormat fmt = GetAudioCodecAudioFormat(m_codec);
+        media::AudioFrame frm(fmt, tmp_output_buffer, GetAudioCodecCbSamples(m_codec));
+        frm.sample_no = m_samples_played;
+        frm.streamid = m_stream_id;
+        m_audio_callback(m_userid, m_streamtype, frm);
     }
-    else m_current_samples_played = 0;
 
-    if(!m_resampler.null())
+    //increment samples played (used by AudioMuxer)
+    m_samples_played += input_samples;
+
+    if (m_resampler)
     {
         int ret = m_resampler->Resample(tmp_output_buffer, input_samples,
                                         output_buffer, output_samples);
@@ -262,24 +225,6 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                      output_samples, ret);
     }
     return true;
-}
-
-void AudioPlayer::StreamPlayerCbEnded()
-{
-    m_audiomuxer.QueueUserAudio(m_userid, NULL, 
-                                m_samples_played, true,
-                                m_codec);
-    //MYTRACE(ACE_TEXT("Stream callback ended for #%d. Played: %u. Cur pkt: %d, max pkt: %d\n"),
-    //        m_userid, m_samples_played, m_play_pkt_no, m_max_packet);
-}
-#endif
-
-int AudioPlayer::GetNumAudioBlocks(bool reset)
-{
-    int n = m_new_audio_blocks;
-    if(reset)
-        m_new_audio_blocks = 0;
-    return n;
 }
 
 int AudioPlayer::GetNumAudioPacketsRecv(bool reset)
@@ -363,10 +308,13 @@ void AudioPlayer::AddPacket(const teamtalk::AudioPacket& packet)
     }
     else
     {
+        int frames_per_packet = GetAudioCodecFramesPerPacket(m_codec);
         m_buffer[pkt_no].enc_frames.assign(enc_data, enc_data+enc_len);
-        if(GetAudioCodecFramesPerPacket(m_codec)>1)
-            m_buffer[pkt_no].enc_frame_sizes.assign(GetAudioCodecFramesPerPacket(m_codec), 
-                                                     GetAudioCodecEncFrameSize(m_codec));
+        if (frames_per_packet > 1)
+        {
+            int encfrmsize = enc_len / frames_per_packet;
+            m_buffer[pkt_no].enc_frame_sizes.assign(frames_per_packet, encfrmsize);
+        }
         else
             m_buffer[pkt_no].enc_frame_sizes.push_back(enc_len);
     }
@@ -409,18 +357,7 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
     {
         TTASSERT(W16_GEQ(m_buffer.begin()->first, m_play_pkt_no));
 
-        int maxbuf_msec = m_buffer_msec;
-        switch(m_streamtype)
-        {
-        case STREAMTYPE_VOICE :
-            maxbuf_msec = m_buffer_msec / 2;
-            break;
-        case STREAMTYPE_MEDIAFILE_AUDIO :
-            break;
-        }
-
-        while(m_stream_id &&
-              GetBufferedAudioMSec() > maxbuf_msec)
+        while(m_stream_id && GetBufferedAudioMSec() > m_buffer_msec)
         {
             MYTRACE(ACE_TEXT("User #%d, dropped packet %d, max %d\n"), 
                     m_userid, m_buffer.begin()->first, m_buffer.rbegin()->first);
@@ -465,14 +402,8 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
         played = false;
     }
 
-    if(!m_no_recording || !played)
-    {
-        //store in muxer (if enabled) - before turning it to stereo!
-        m_audiomuxer.QueueUserAudio(m_userid, played?output_buffer:NULL, 
-                                    m_samples_played, false, m_codec);
-    }
     //stereo simulation
-    if(GetAudioCodecSimulateStereo(m_codec))
+    if (GetAudioCodecSimulateStereo(m_codec))
     {
         //Speex doesn't support stereo so simulate
         //If in stereo then choose which channels to output audio to
@@ -487,20 +418,25 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
 }
 
 #if defined(ENABLE_SPEEX)
-SpeexPlayer::SpeexPlayer(int sndgrpid, int userid, StreamType stream_type,
-                         AudioMuxer& audiomuxer, const AudioCodec& codec,
+SpeexPlayer::SpeexPlayer(int userid, StreamType stream_type,
+                         useraudio_callback_t audio_cb, const AudioCodec& codec,
                          audio_resampler_t resampler)
-: AudioPlayer(sndgrpid, userid, stream_type, audiomuxer, codec, resampler)
+: AudioPlayer(userid, stream_type, audio_cb, codec, resampler)
 {
     TTASSERT(codec.codec == CODEC_SPEEX || codec.codec == CODEC_SPEEX_VBR);
     bool b = false;
     switch(codec.codec)
     {
     case CODEC_SPEEX :
-        b = m_Decoder.Initialize(codec.speex.bandmode);
+        b = m_decoder.Initialize(codec.speex.bandmode);
         break;
     case CODEC_SPEEX_VBR :
-        b = m_Decoder.Initialize(codec.speex_vbr.bandmode);
+        b = m_decoder.Initialize(codec.speex_vbr.bandmode);
+        break;
+    case CODEC_NO_CODEC :
+    case CODEC_OPUS :
+    case CODEC_WEBM_VP8 :
+        TTASSERT(0);
         break;
     }
     MYTRACE_COND(!b, ACE_TEXT("Failed to initialize Speex decoder\n"));
@@ -508,21 +444,24 @@ SpeexPlayer::SpeexPlayer(int sndgrpid, int userid, StreamType stream_type,
 
 SpeexPlayer::~SpeexPlayer()
 {
-    m_Decoder.Close();
+    m_decoder.Close();
 }
 
 void SpeexPlayer::Reset()
 {
     AudioPlayer::Reset();
-    m_Decoder.Reset();
+    m_decoder.Reset();
 }
 
 bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
                               short* output_buffer, int n_samples)
 {
+    if (enc_frame.stream_id != m_stream_id)
+        m_decoder.Reset();
+    
     if(enc_frame.enc_frames.size()) //packet available
     {
-        m_Decoder.DecodeMultiple(&enc_frame.enc_frames[0], 
+        m_decoder.DecodeMultiple(&enc_frame.enc_frames[0], 
                                  ConvertFrameSizes(enc_frame.enc_frame_sizes),
                                  output_buffer);
         return true;
@@ -532,7 +471,7 @@ bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
         MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), 
                 m_userid, m_play_pkt_no);
         std::vector<int> frm_sizes(GetAudioCodecFramesPerPacket(m_codec), 0);
-        m_Decoder.DecodeMultiple(NULL, frm_sizes, output_buffer);
+        m_decoder.DecodeMultiple(NULL, frm_sizes, output_buffer);
         //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
         return false;
     }
@@ -541,10 +480,10 @@ bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
 
 #if defined(ENABLE_OPUS)
 
-OpusPlayer::OpusPlayer(int sndgrpid, int userid, StreamType stream_type,
-                       AudioMuxer& audiomuxer, const AudioCodec& codec,
+OpusPlayer::OpusPlayer(int userid, StreamType stream_type,
+                       useraudio_callback_t audio_cb, const AudioCodec& codec,
                        audio_resampler_t resampler)
-: AudioPlayer(sndgrpid, userid, stream_type, audiomuxer, codec, resampler)
+: AudioPlayer(userid, stream_type, audio_cb, codec, resampler)
 {
     TTASSERT(codec.codec == CODEC_OPUS);
     bool b = false;
@@ -552,6 +491,12 @@ OpusPlayer::OpusPlayer(int sndgrpid, int userid, StreamType stream_type,
     {
     case CODEC_OPUS :
         b = m_decoder.Open(codec.opus.samplerate, codec.opus.channels);
+        break;
+    case CODEC_SPEEX :
+    case CODEC_SPEEX_VBR :
+    case CODEC_WEBM_VP8 :
+    case CODEC_NO_CODEC :
+        TTASSERT(0);
         break;
     }
     MYTRACE_COND(!b, ACE_TEXT("Failed to initialize OPUS decoder\n"));
@@ -565,23 +510,54 @@ OpusPlayer::~OpusPlayer()
 void OpusPlayer::Reset()
 {
     AudioPlayer::Reset();
+    m_decoder.Reset();
 }
 
 bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
                               short* output_buffer, int n_samples)
 {
-    if(enc_frame.enc_frames.size()) //packet available
+    MYTRACE_COND(enc_frame.stream_id != m_stream_id,
+                 ACE_TEXT("New stream id %d\n"), enc_frame.stream_id);
+    
+    if (enc_frame.stream_id != m_stream_id)
+        m_decoder.Reset();
+    
+    int framesize = GetAudioCodecFrameSize(m_codec);
+    int samples = GetAudioCodecCbSamples(m_codec);
+    int channels = GetAudioCodecChannels(m_codec);
+    int ret;
+    
+    assert(samples == n_samples);
+    
+    if (enc_frame.enc_frames.size()) //packet available
     {
-        m_decoder.Decode(&enc_frame.enc_frames[0], 
-                         enc_frame.enc_frame_sizes[0],
-                         output_buffer, n_samples);
+        assert(GetAudioCodecFramesPerPacket(m_codec) == enc_frame.enc_frame_sizes.size());
+        int encoffset = 0, decoffset = 0;
+        for (size_t i=0;i<enc_frame.enc_frame_sizes.size();i++)
+        {
+            //MYTRACE(ACE_TEXT("Decoding frame %d/%d, %d bytes\n"),
+            //        int(i), int(enc_frame.enc_frame_sizes.size()),
+            //        int(enc_frame.enc_frame_sizes[i]));
+            
+            ret = m_decoder.Decode(&enc_frame.enc_frames[encoffset], 
+                                   enc_frame.enc_frame_sizes[i],
+                                   &output_buffer[decoffset*channels], framesize);
+            MYTRACE_COND(ret != framesize, ACE_TEXT("OPUS decode failed for #%d. Ret = %d\n"), m_userid, ret);
+            encoffset += enc_frame.enc_frame_sizes[i];
+            decoffset += framesize;
+        }
         return true;
     }
     else  //packet lost
     {
-        MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), 
-                m_userid, m_play_pkt_no);
-        m_decoder.Decode(NULL, 0, output_buffer, n_samples);
+        MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), m_userid, m_play_pkt_no);
+        int fpp = GetAudioCodecFramesPerPacket(m_codec);
+        int decoffset = 0;
+        for (int i=0;i<fpp;i++)
+        {
+            m_decoder.Decode(NULL, 0, &output_buffer[decoffset*channels], framesize);
+            decoffset += framesize;
+        }
         //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
         return false;
     }
@@ -742,9 +718,16 @@ ACE_Message_Block* WebMPlayer::GetNextFrame(uint32_t* timestamp)
 
     //m_video_frames are sorted with UINT32 wrap
     video_frames_t::iterator ii = m_video_frames.begin();
+
+    MYTRACE_COND(!m_decoder_ready, ACE_TEXT("Decoder not ready from user #%d\n"), m_userid);
+    MYTRACE_COND(ii == m_video_frames.end(), ACE_TEXT("No video frames ready from user #%d\n"), m_userid);
     if(!m_decoder_ready || ii == m_video_frames.end() ||
        (timestamp && W32_GT(ii->first, *timestamp)))
+    {
+        MYTRACE_COND(ii != m_video_frames.end(), ACE_TEXT("Video frame ignored from user #%d. Time diff: %d\n"),
+                     m_userid, int(*timestamp - ii->first));
         return NULL;
+    }
 
     // MYTRACE(ACE_TEXT("GetNextFrame(), process video packet %d, size %d, csum 0x%x\n"),
     //         ii->second.packet_no, ii->second.enc_data.size(), 

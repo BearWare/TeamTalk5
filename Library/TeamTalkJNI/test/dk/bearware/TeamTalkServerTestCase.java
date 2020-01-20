@@ -39,13 +39,17 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     Vector<TeamTalkSrv> servers = new Vector<TeamTalkSrv>();
 
     String FILESTORAGE_FOLDER = "./filestorage";
-    long MAX_DISKUSAGE = 10000000000l, DEFAULT_CHANNEL_QUOTA = 1000000000;
+    long MAX_DISKUSAGE = 100000000000l, DEFAULT_CHANNEL_QUOTA = 10000000000l;
     String SERVERBINDIP;
+
+    public TeamTalkBase newClientInstance() {
+        TeamTalkBase ttclient = new TeamTalk5Pro();
+        ttclients.add(ttclient);
+        return ttclient;
+    }
 
     protected void setUp() throws Exception {
         super.setUp();
-
-        PROEDITION = true;
 
         String prop = System.getProperty("dk.bearware.serverbindip");
         if(prop != null && !prop.isEmpty())
@@ -400,11 +404,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         TeamTalkSrv server = newServerInstance();
         TeamTalkBase client1 = newClientInstance();
 
-        assertTrue("Connect client", client1.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+        connect(server, client1);
 
         ServerInterleave interleave = new RunServer(server);
-
-        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave);
 
         int cmdid = client1.doLogin(getCurrentMethod(), useraccount.szUsername, useraccount.szPassword);
         assertTrue("Login client", cmdid > 0);
@@ -428,16 +430,12 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         ServerInterleave interleave = new RunServer(server);
 
-        assertTrue("Connect client", client1.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+        connect(server, client1);
+        login(server, client1, getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
 
-        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave);
-
-        int cmdid = client1.doLogin(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
-        assertTrue("Login client", cmdid > 0);
-
+        int cmdid;
         TTMessage msg = new TTMessage();
-        assertTrue("wait success", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
-
+        
         UserAccount useraccount = new UserAccount();
         
         useraccount.szUsername = "guest";
@@ -481,12 +479,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase client2 = newClientInstance();
 
         ServerInterleave interleave = new RunServer(server);
-        
-        assertTrue("Connect client1", client1.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
-        assertTrue("Connect client2", client2.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
 
-        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave);
-        waitForEvent(client2, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave);
+        connect(server, client1);
+        connect(server, client2);
 
         int cmdid = client1.doLogin(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
         assertTrue("Login client1", cmdid > 0);
@@ -528,11 +523,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase client2 = newClientInstance();
 
         ServerInterleave interleave = new RunServer(server);
-        assertTrue("Connect client1", client1.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
-        assertTrue("Connect client2", client2.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
-
-        assertTrue("wait connect", waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave));
-        assertTrue("wait connect", waitForEvent(client2, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave));
+        connect(server, client1);
+        connect(server, client2);
 
         int cmdid = client1.doLogin(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
         assertTrue("Login client1", cmdid > 0);
@@ -571,9 +563,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         ServerInterleave interleave = new RunServer(server);
 
         TeamTalkBase client = newClientInstance();
-        assertTrue("Connect", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, "foobar"));
 
-        waitForEvent(client, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave);
+        connect(server, client, "foobar");
 
         int cmdid = client.doLoginEx(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD, "myclientname");
         assertTrue("Login client", cmdid > 0);
@@ -591,13 +582,32 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public void test_wrongSystemID() {
         TeamTalkSrv server = newServerInstance("foobar");
 
-        ServerInterleave interleave = new RunServer(server);
+        final ServerInterleave interleave = new RunServer(server);
 
-        TeamTalkBase client = newClientInstance();
-        assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+        final TeamTalkBase client = newClientInstance();
+        
+        if (ENCRYPTED) {
+            // SSL client uses blocking connect, so we have to connect
+            // in separate thread otherwise we cannot run the client
+            // and server event-loop at the same time
+            Thread t = new Thread(new Runnable(){
+                    public void run() {
+                        assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
 
-        waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000, interleave);
+                        waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000);
+                    }
+                });
+            t.start();
 
+            while (t.isAlive()) {
+                server.runEventLoop(0);
+            }
+        }
+        else {
+            assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+
+            waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000, interleave);
+        }
     }
 
     public void test_moveUser() {
@@ -643,9 +653,15 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("join channel", waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave));
 
+        cmdid = client1.doPing();
+        
+        assertTrue("drain client1", waitCmdComplete(client1, cmdid, DEF_WAIT, interleave));
+
         cmdid = client2.doMoveUser(client1.getMyUserID(), client2.getMyChannelID());
 
         assertTrue("move user", waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave));
+
+        assertTrue("wait move", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_JOINED, DEF_WAIT, interleave));
 
         assertEquals("same channel", client1.getMyChannelID(), client2.getMyChannelID());
     }
@@ -946,6 +962,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         uploadDownloadTest(server, useraccount, NICKNAME, 7);
         uploadDownloadTest(server, useraccount, NICKNAME, 77);
+        uploadDownloadTest(server, useraccount, NICKNAME, 777);
         uploadDownloadTest(server, useraccount, NICKNAME, 7777);
         uploadDownloadTest(server, useraccount, NICKNAME, 777777);
         uploadDownloadTest(server, useraccount, NICKNAME, 7777777);
@@ -956,6 +973,11 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
 
+        if (ENCRYPTED) {
+            System.out.println("Skipping test_DnsResolve in encrypted mode");
+            return;
+        }
+        
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;
         useraccount.szPassword = PASSWORD;
@@ -1064,8 +1086,68 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("voice audioblock", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, interleave));
     }
+
+    public void test_ClientKeepAlive() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_UPDATE_SERVERPROPERTIES;
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
+
+        TeamTalkBase client = newClientInstance();
+        connect(server, client);
+        login(server, client, NICKNAME, USERNAME, PASSWORD);
+
+        ClientKeepAlive ka = new ClientKeepAlive();
+        assertTrue("get keepalive", client.getClientKeepAlive(ka));
+
+        ServerProperties srvprop = new ServerProperties();
+        assertTrue(client.getServerProperties(srvprop));
+
+        assertEquals("tcp ping is half of user timeout (default)", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
+        
+        srvprop.nUserTimeout = 4;
+        assertTrue(waitCmdSuccess(client, client.doUpdateServer(srvprop), DEF_WAIT, interleave));
+
+        assertTrue(client.getServerProperties(srvprop));
+        
+        assertTrue("get keepalive", client.getClientKeepAlive(ka));
+
+        assertEquals("tcp ping is half of user timeout, 4 sec", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
+
+        ka.nUdpKeepAliveIntervalMSec = 1;
+
+        assertTrue("set UDP keepalive", client.setClientKeepAlive(ka));
+
+        assertFalse(waitForEvent(client, ClientEvent.CLIENTEVENT_NONE, 100, interleave));
+
+        ka.nTcpKeepAliveIntervalMSec = 1;
+
+        assertTrue("set TCP keepalive", client.setClientKeepAlive(ka));
+
+        assertTrue("get keepalive", client.getClientKeepAlive(ka));
+
+        assertEquals("ka.nTcpKeepAliveIntervalMSec is read-only", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
+    }
     
     public void _test_runServer() {
+
+        UserAccount useraccount = new UserAccount();
+        
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_TRANSMIT_VOICE;
+
+        useraccounts.add(useraccount);
 
         TeamTalkSrv server = newServerInstance();
 
@@ -1124,19 +1206,36 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         }
     }
 
-    protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient)
-    {
+    protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient) {
         connect(server, ttclient, SYSTEMID);
     }
 
-    protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient, String systemID)
-    {
+    protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient, String systemID) {
         connect(server, ttclient, systemID, IPADDR, TCPPORT, UDPPORT);
     }
 
-    protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient, String systemID,
-                                  String hostaddr, int tcpport, int udpport) {
-        connect(ttclient, systemID, hostaddr, tcpport, udpport, new RunServer(server));
+    protected static void connect(TeamTalkSrv server, final TeamTalkBase ttclient, final String systemID,
+                                  final String hostaddr, final int tcpport, final int udpport) {
+
+        if (ENCRYPTED) {
+            
+            // SSL client uses blocking connect, so we have to connect
+            // in separate thread otherwise we cannot run the client
+            // and server event-loop at the same time
+            Thread t = new Thread(new Runnable(){
+                    public void run() {
+                        connect(ttclient, systemID, hostaddr, tcpport, udpport, nop);
+                    }
+                });
+            t.start();
+
+            while (t.isAlive()) {
+                server.runEventLoop(0);
+            }
+        }
+        else {
+            connect(ttclient, systemID, hostaddr, tcpport, udpport, new RunServer(server));
+        }
     }
     
     protected static void login(TeamTalkSrv server, TeamTalkBase ttclient, 
@@ -1146,13 +1245,11 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     protected static void login(TeamTalkSrv server, TeamTalkBase ttclient, 
                                 String nick, String username, String passwd, 
-                                String clientname)
-    {
+                                String clientname) {
         login(ttclient, nick, username, passwd, clientname, new RunServer(server));
     }
 
-    protected static void joinRoot(TeamTalkSrv server, TeamTalkBase ttclient)
-    {
+    protected static void joinRoot(TeamTalkSrv server, TeamTalkBase ttclient) {
         joinRoot(ttclient, new RunServer(server));
     }
 

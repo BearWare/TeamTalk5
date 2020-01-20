@@ -30,5 +30,7 @@ public interface MediaFileStatus
     public static final int MFS_STARTED = 2;
     public static final int MFS_FINISHED = 3;
     public static final int MFS_ABORTED = 4;
+    public static final int MFS_PAUSED = 5;
+    public static final int MFS_PLAYING = 6;
 }
 

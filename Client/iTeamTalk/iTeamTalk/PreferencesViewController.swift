@@ -26,6 +26,8 @@ import AVFoundation
 
 let PREF_NICKNAME = "nickname_preference"
 let PREF_JOINROOTCHANNEL = "joinroot_preference"
+let PREF_GENERAL_BEARWARE_ID = "general_bearwareid_preference"
+let PREF_GENERAL_BEARWARE_TOKEN = "general_bearwaretoken_preference"
 let PREF_GENERAL_PTTLOCK = "general_pttlock_preference"
 let PREF_GENERAL_SENDONRETURN = "general_sendonreturn_preference"
 
@@ -48,6 +50,7 @@ let PREF_SNDEVENT_SERVERLOST = "snd_srvlost_preference"
 let PREF_SNDEVENT_VOICETX = "snd_voicetx_preference"
 let PREF_SNDEVENT_CHANMSG = "snd_chanmsg_preference"
 let PREF_SNDEVENT_USERMSG = "snd_usermsg_preference"
+let PREF_SNDEVENT_BCASTMSG = "snd_bcastmsg_preference"
 let PREF_SNDEVENT_JOINEDCHAN = "snd_joinedchan_preference"
 let PREF_SNDEVENT_LEFTCHAN = "snd_leftchan_preference"
 let PREF_SNDEVENT_VOXTRIGGER = "snd_vox_triggered_preference"
@@ -129,6 +132,9 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         nicknamefield?.delegate = self
         general_items.append(nicknamecell)
         
+        let weblogincell = tableView.dequeueReusableCell(withIdentifier: "Web Login Cell")
+        general_items.append(weblogincell!)
+        
         let pttlock = settings.object(forKey: PREF_GENERAL_PTTLOCK) != nil && settings.bool(forKey: PREF_GENERAL_PTTLOCK)
         let pttlockcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let pttlockswitch = newTableCellSwitch(pttlockcell, label: NSLocalizedString("Push to Talk lock", comment: "preferences"), initial: pttlock)
@@ -183,7 +189,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         let sortchancell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let options = [ NSLocalizedString("Ascending", comment: "preferences"), NSLocalizedString("Popularity", comment: "preferences")]
         let sortchansegctl = newTableCellSegCtrl(sortchancell, label: NSLocalizedString("Sort channels", comment: "preferences"), values: options)
-        let chansort = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.hashValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
+        let chansort = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.rawValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
         sortchansegctl.selectedSegmentIndex = chansort
         sortchancell.detailTextLabel!.text = NSLocalizedString("Order of channels in Channel List", comment: "preferences")
         sortchansegctl.addTarget(self, action: #selector(PreferencesViewController.channelSortChanged(_:)), for: .valueChanged)
@@ -338,8 +344,6 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         // text to speech events
         
         let ttsvoicecell = tableView.dequeueReusableCell(withIdentifier: "Speech Cell")
-        ttsvoicecell?.textLabel?.text = NSLocalizedString("Speech", comment: "preferences")
-        ttsvoicecell?.detailTextLabel!.text = NSLocalizedString("Select the text-to-speech voice to use", comment: "preferences")
         ttsevents_items.append(ttsvoicecell!)
 
         ttsratecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
@@ -583,7 +587,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
     
     @objc func channelSortChanged(_ segctrl: UISegmentedControl) {
         let defaults = UserDefaults.standard
-        defaults.set(segctrl.selectedSegmentIndex == 0 ? ChanSort.ASCENDING.hashValue : ChanSort.POPULARITY.hashValue,
+        defaults.set(segctrl.selectedSegmentIndex == 0 ? ChanSort.ASCENDING.rawValue : ChanSort.POPULARITY.rawValue,
                      forKey: PREF_DISPLAY_SORTCHANNELS)
     }
 

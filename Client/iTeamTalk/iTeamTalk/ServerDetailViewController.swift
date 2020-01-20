@@ -37,6 +37,7 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
     var ipaddrfield : UITextField?
     var tcpportfield : UITextField?
     var udpportfield : UITextField?
+    var encryptedfield : UISwitch?
     var usernamefield : UITextField?
     var passwdfield : UITextField?
     var fbloginfield : UISwitch?
@@ -73,6 +74,10 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         udpportfield!.delegate = self
         udpportfield!.keyboardType = .numberPad
         conItems.append(udpportcell)
+
+        let encryptedcell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        encryptedfield = newTableCellSwitch(encryptedcell, label: NSLocalizedString("Encrypted", comment: "server entry"), initial: server.encrypted)
+        conItems.append(encryptedcell)
 
         // create auth items
         refreshAuthorizationItems(facebook: self.server.username == AppInfo.WEBLOGIN_FACEBOOK)
@@ -145,6 +150,7 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         if let n = Int(udpportfield!.text!) {
             server.udpport = n
         }
+        server.encrypted = encryptedfield!.isOn
         server.username = usernamefield!.text!
         server.password = passwdfield!.text!
         server.publicserver = false

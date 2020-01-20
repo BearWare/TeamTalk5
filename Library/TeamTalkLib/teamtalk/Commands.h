@@ -32,7 +32,7 @@
 #include <ace/SString.h>
 #include "Common.h"
 
-#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.4")
+#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.7")
 
 /* parameter names */
 #define TT_USERID ACE_TEXT("userid")
@@ -129,6 +129,8 @@
 #define TT_TRANSMITQUEUE ACE_TEXT("transmitqueue") // v5.2
 #define TT_CMDFLOOD ACE_TEXT("cmdflood") // v5.3
 #define TT_BANTYPE ACE_TEXT("type") // v5.3
+#define TT_LOGINDELAY ACE_TEXT("logindelay") // v5.5
+#define TT_ACCESSTOKEN ACE_TEXT("accesstoken") // v5.6
 
 //    Client ---> Server
 //    -------------------------
@@ -291,7 +293,7 @@ namespace teamtalk {
                      const ACE_TString& prop);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, ACE_TString& szValue);
+                     const ACE_TString& prop, ACE_TString& value);
 
     bool GetProperty(const mstrings_t& properties, 
                      const ACE_TString& prop, int& value);
@@ -306,7 +308,7 @@ namespace teamtalk {
                      const ACE_TString& prop, std::set<int>& myset);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, bool& bValue);
+                     const ACE_TString& prop, bool& value);
 
     bool GetProperty(const mstrings_t& properties, 
                      const ACE_TString& prop, ACE_INT64& value);
@@ -333,13 +335,7 @@ namespace teamtalk {
 
     //appends a property to a command ACE_TString
     void AppendProperty(const ACE_TString& prop, 
-                        const ACE_TString& szValue, ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
-                        const int& nValue, ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
-                        const ACE_UINT32& val, ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
-                        const bool& bValue, ACE_TString& dest_str);
+                        const ACE_TString& value, ACE_TString& dest_str);
     void AppendProperty(const ACE_TString& prop, 
                         const std::vector<int>& vecValues, 
                         ACE_TString& dest_str);

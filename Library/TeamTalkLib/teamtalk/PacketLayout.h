@@ -25,8 +25,6 @@
 #define PACKETLAYOUT_H
 
 #include <ace/ACE.h>
-#include <ace/Bound_Ptr.h> 
-#include <ace/Null_Mutex.h> 
 #include <vector>
 #include <memory>
 #include <map>
@@ -39,18 +37,7 @@
 #include <openssl/aes.h>
 #endif
 
-
-#ifdef ACE_WIN32
-typedef ACE_INT8    int8_t;
-typedef ACE_UINT8   uint8_t;
-typedef ACE_INT16   int16_t;
-typedef ACE_UINT16  uint16_t;
-typedef ACE_INT32   int32_t;
-typedef ACE_UINT32  uint32_t;
-typedef ACE_INT64   int64_t;
-#else
 #include <stdint.h>
-#endif
 
 #include "Common.h"
 
@@ -461,8 +448,6 @@ namespace teamtalk {
         uint16_t GetPacketSize() const;
         bool ValidatePacket() const;
 
-        virtual uint8_t GetStreamID() const { return 0; }
-
 #ifdef ENABLE_ENCRYPTION
         const std::set<uint8_t>& GetCryptSections() const { return m_crypt_sections; }
 #endif
@@ -538,7 +523,7 @@ namespace teamtalk {
         
     };
 
-    typedef ACE_Strong_Bound_Ptr< KeepAlivePacket, ACE_Null_Mutex > ka_mtu_packet_t;
+    typedef std::shared_ptr< KeepAlivePacket > ka_mtu_packet_t;
 
 
     /* The number of byes in a typical CBR AudioPacket (including FieldPacket).
@@ -597,6 +582,7 @@ namespace teamtalk {
 
         AudioPacket(const char* packet, uint16_t packet_size);
 
+        AudioPacket(const FieldPacket& packet);
         AudioPacket(const AudioPacket& packet);
 
         enum
@@ -629,7 +615,7 @@ namespace teamtalk {
                             uint8_t& frag_no, uint8_t* frag_cnt) const;
     };
 
-    typedef ACE_Strong_Bound_Ptr< AudioPacket, ACE_Null_Mutex > audiopacket_t;
+    typedef std::shared_ptr< AudioPacket > audiopacket_t;
 
     typedef AudioPacket VoicePacket;
     typedef AudioPacket AudioFilePacket;
@@ -645,6 +631,7 @@ namespace teamtalk {
                    const uint16_t* fragmentno, const uint16_t* fragmentcnt);
     public:
         VideoPacket(const VideoPacket& p); //copy constructor
+        VideoPacket(const FieldPacket& p);
         VideoPacket(const char* packet, uint16_t packet_size);
         VideoPacket(uint8_t kind, const FieldPacket& crypt_pkt,
                     iovec& decrypt_fields)
@@ -700,7 +687,7 @@ namespace teamtalk {
     typedef VideoPacket VideoCapturePacket;
     typedef VideoPacket VideoFilePacket;
 
-    typedef ACE_Strong_Bound_Ptr< VideoPacket, ACE_Null_Mutex > videopacket_t;
+    typedef std::shared_ptr< VideoPacket > videopacket_t;
     
     //desktop block with pointer to data
     struct desktop_block
@@ -757,8 +744,6 @@ namespace teamtalk {
 
         uint8_t GetSessionID() const;
 
-        uint8_t GetStreamID() const { return GetSessionID(); }
-
         //returns INVALID_PACKET_INDEX on error
         uint16_t GetPacketIndex() const;
 
@@ -807,7 +792,7 @@ namespace teamtalk {
         };
     };
 
-    typedef ACE_Strong_Bound_Ptr< DesktopPacket, ACE_Null_Mutex > desktoppacket_t;
+    typedef std::shared_ptr< DesktopPacket > desktoppacket_t;
 
     //Calc the size of fields used
 #define DESKTOPPACKET_SESSIONUSAGE(new_session)                                 \
@@ -857,7 +842,7 @@ namespace teamtalk {
         bool GetSessionInfo(uint16_t* owner_userid, uint8_t* session_id, 
                             uint32_t* upd_time) const;
 
-        uint8_t GetStreamID() const
+        uint8_t GetSessionID() const
         {
             uint8_t sessionid = 0;
             if (GetSessionInfo(0, &sessionid, 0))
@@ -898,8 +883,6 @@ namespace teamtalk {
 
         uint8_t GetSessionID() const;
 
-        uint8_t GetStreamID() const { return GetSessionID(); }
-
     private:
        enum
         {
@@ -915,10 +898,6 @@ namespace teamtalk {
         DesktopCursorPacket(uint16_t src_userid, uint32_t time, 
                             uint8_t session_id, int16_t x, int16_t y);
 
-        DesktopCursorPacket(uint16_t src_userid, uint32_t time, 
-                            uint16_t dest_userid, uint8_t session_id, 
-                            int16_t x, int16_t y);
-
         DesktopCursorPacket(uint8_t kind, const FieldPacket& crypt_pkt,
                             iovec& decrypt_fields)
                             : FieldPacket(kind, crypt_pkt, decrypt_fields){}
@@ -930,14 +909,27 @@ namespace teamtalk {
         bool GetSessionCursor(uint16_t* dest_userid, uint8_t* session_id, 
                               int16_t* x, int16_t* y) const;
 
-        uint8_t GetStreamID() const
+        uint8_t GetSessionID() const
         {
             uint8_t streamid = 0;
             GetSessionCursor(0, &streamid, 0, 0);
             return streamid;
         }
-            
 
+        int16_t GetX() const
+        {
+            int16_t v = 0;
+            GetSessionCursor(0, 0, &v, 0);
+            return v;
+        }
+        
+        int16_t GetY() const
+        {
+            int16_t v = 0;
+            GetSessionCursor(0, 0, 0, &v);
+            return v;
+        }
+            
         static const uint16_t INVALID_DEST_USERID = -1;
 
         uint16_t GetDestUserID() const;
@@ -971,10 +963,10 @@ namespace teamtalk {
 
         bool GetSessionInfo(uint8_t* session_id, uint8_t* packetno) const;
         uint8_t GetSessionID() const;
-        uint8_t GetStreamID() const { return GetSessionID(); }
         uint8_t GetPacketNo(bool* found = NULL) const;
 
         bool GetDesktopInput(std::vector<DesktopInput>& desktopinputs) const;
+        std::vector<DesktopInput> GetDesktopInput() const;
 
     private:
 
@@ -985,7 +977,7 @@ namespace teamtalk {
         };
     };
 
-    typedef ACE_Strong_Bound_Ptr< DesktopInputPacket, ACE_Null_Mutex > desktopinput_pkt_t;
+    typedef std::shared_ptr< DesktopInputPacket > desktopinput_pkt_t;
 
     class DesktopInputAckPacket : public FieldPacket
     {
@@ -1000,13 +992,11 @@ namespace teamtalk {
         DesktopInputAckPacket(const char* packet, uint16_t packet_size)
             : FieldPacket(packet, packet_size) { }
 
-        DesktopInputAckPacket(const DesktopInputAckPacket& packet)
-            : FieldPacket(packet) { }
+        DesktopInputAckPacket(const DesktopInputAckPacket& packet);
 
         bool GetSessionInfo(uint8_t* session_id, uint8_t* packetno) const;
 
         uint8_t GetSessionID() const;
-        uint8_t GetStreamID() const { return GetSessionID(); }
         uint8_t GetPacketNo(bool* found = NULL) const;
 
     private:
@@ -1025,10 +1015,12 @@ namespace teamtalk {
     template < typename PACKETTYPE, uint8_t PACKET_KIND_CRYPT, uint8_t PACKET_KIND_DECRYPTED >
     class CryptPacket : public FieldPacket
     {
+        typedef std::unique_ptr< PACKETTYPE > decrypt_pkt_t;
     public:
         CryptPacket(const PACKETTYPE& p, const uint8_t* encryptkey);
         CryptPacket(const char* packet, uint16_t packet_size);
-        PACKETTYPE* Decrypt(const uint8_t* decryptkey) const;
+        CryptPacket(const FieldPacket& packet) : FieldPacket(packet) { assert(GetKind() == packet.GetKind()); }
+        std::unique_ptr< PACKETTYPE > Decrypt(const uint8_t* decryptkey) const;
 
         enum
         {
@@ -1041,8 +1033,8 @@ namespace teamtalk {
     typedef CryptPacket<VoicePacket, PACKET_KIND_VOICE_CRYPT, PACKET_KIND_VOICE> CryptVoicePacket;
     typedef CryptPacket<AudioFilePacket, PACKET_KIND_MEDIAFILE_AUDIO_CRYPT, PACKET_KIND_MEDIAFILE_AUDIO> CryptAudioFilePacket;
 
-    typedef CryptPacket<VideoPacket, PACKET_KIND_VIDEO_CRYPT, PACKET_KIND_VIDEO> CryptVideoCapturePacket;
-    typedef CryptPacket<VideoPacket, PACKET_KIND_MEDIAFILE_VIDEO_CRYPT, PACKET_KIND_MEDIAFILE_VIDEO> CryptVideoFilePacket;
+    typedef CryptPacket<VideoCapturePacket, PACKET_KIND_VIDEO_CRYPT, PACKET_KIND_VIDEO> CryptVideoCapturePacket;
+    typedef CryptPacket<VideoFilePacket, PACKET_KIND_MEDIAFILE_VIDEO_CRYPT, PACKET_KIND_MEDIAFILE_VIDEO> CryptVideoFilePacket;
 
     typedef CryptPacket<DesktopPacket, PACKET_KIND_DESKTOP_CRYPT, PACKET_KIND_DESKTOP> CryptDesktopPacket;
 

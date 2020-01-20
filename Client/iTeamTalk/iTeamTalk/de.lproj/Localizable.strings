@@ -1,8 +1,12 @@
+
 /* log entry */
 "%@ joined channel" = "%@ hat den Raum betreten";
 
 /* log entry */
 "%@ left channel" = "%@ hat den Raum verlassen";
+
+/* Web Login Controller */
+"%@, your username \"%@\" has been validated" = "%1$@, dein Benutzername \"%2$@\" wurde bestätigt";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Standard";
@@ -48,19 +52,19 @@
 "Announce lost server connection" = "Ansage bei Verbindungsverlust";
 
 /* preferences */
-"Announce user joining channel" = "Ansage wenn Benutzer Raum betritt";
+"Announce user joining channel" = "Ansagen, wenn Benutzer Raum betritt";
 
 /* preferences */
-"Announce user leaving channel" = "Ansage wenn Benutzer Raum verlässt";
+"Announce user leaving channel" = "Ansagen, wenn Benutzer Raum verlässt";
 
 /* preferences */
-"Announce user logged onto server" = "Announce user logged onto server";
+"Announce user logged onto server" = "Ansagen, wenn sich ein Benutzer angemeldet hat";
 
 /* preferences */
-"Announce user logged out of server" = "Announce user logged out of server";
+"Announce user logged out of server" = "Ansagen, wenn sich ein Benutzer abgemeldet hat";
 
 /* text to speech */
-"Announcements" = "Announcements";
+"Announcements" = "Ansagen";
 
 /* preferences */
 "App Version" = "App-Version";
@@ -69,13 +73,16 @@
 "Application" = "Anwendung";
 
 /* preferences */
-"Ascending" = "Ascending";
+"Ascending" = "Aufsteigend";
 
 /* codec detail */
 "Audio Channels" = "Audiokanäle";
 
 /* create channel */
 "Audio Codec" = "Audiocodec";
+
+/* Web Login Controller */
+"Authenticate" = "Anmelden";
 
 /* server entry */
 "Authentication" = "Anmeldung";
@@ -95,6 +102,9 @@
 /* preferences
    user detail */
 "Broadcast Messages" = "Servernachrichten";
+
+/* preferences */
+"Broadcast Text Message" = "Server-Textnachricht";
 
 /* channel list
    server entry */
@@ -164,6 +174,9 @@
 /* channel list */
 "Edit properties" = "Eigenschaften bearbeiten";
 
+/* server entry */
+"Encrypted" = "Verschlüsselt";
+
 /* Dialog message */
 "Enter Password" = "Passwort eingeben";
 
@@ -182,6 +195,9 @@
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook-Login abgebrochen";
 
+/* codec detail */
+"Frame Size" = "Frame Size";
+
 /* preferences
    user detail */
 "General" = "Allgemein";
@@ -193,10 +209,10 @@
 "has left the channel" = "hat den Raum verlassen";
 
 /* TTS EVENT */
-"has logged on" = "has logged on";
+"has logged on" = "hat sich angemeldet";
 
 /* TTS EVENT */
-"has logged out" = "has logged out";
+"has logged out" = "hat sich abgemeldet";
 
 /* preferences */
 "Headset TX Toggle" = "Headset-Übertragung umschalten";
@@ -321,7 +337,7 @@
 "OPUS Codec" = "OPUS-Codec";
 
 /* preferences */
-"Order of channels in Channel List" = "Order of channels in Channel List";
+"Order of channels in Channel List" = "Anordnung der Räume in Raumliste";
 
 /* channel list */
 "Parent channel" = "Übergeordneter Raum";
@@ -342,6 +358,9 @@
 
 /* preferences */
 "Play sound when a user leaves the channel" = "Klang abspielen, wenn Benutzer einen Raum verlässt";
+
+/* preferences */
+"Play sound when broadcast text message is received" = "Klang bei neuer Servernachricht abspielen";
 
 /* preferences */
 "Play sound when channel text message is received" = "Klang bei neuer Raum-Textnachricht abspielen";
@@ -365,7 +384,7 @@
 "Pop up text message when new messages are received" = "Pop-Up beim Empfang neuer Textnachrichten";
 
 /* preferences */
-"Popularity" = "Popularity";
+"Popularity" = "Beliebtheit";
 
 /* serverlist */
 "Preferences" = "Voreinstellungen";
@@ -436,9 +455,6 @@
 /* Dialog message */
 "Save server to server list?" = "Server in Serverliste speichern?";
 
-/* preferences */
-"Select the text-to-speech voice to use" = "Wähle die zu verwendende Stimme";
-
 /* text message */
 "Send empty message to close keyboard" = "Sende eine leere Nachricht zum Schließen der Tastatur";
 
@@ -470,7 +486,7 @@
 "Silent" = "Still";
 
 /* preferences */
-"Sort channels" = "Sort channels";
+"Sort channels" = "Räume sortieren";
 
 /* preferences
    text to speech */
@@ -481,9 +497,6 @@
 
 /* preferences */
 "Speaker Output" = "Lautsprecherwiedergabe";
-
-/* preferences */
-"Speech" = "Sprachausgabe";
 
 /* preferences */
 "Speech Rate" = "Sprechgeschwindigkeit";
@@ -575,10 +588,10 @@
 "User Leaves Channel" = "Benutzer verlässt Raum";
 
 /* preferences */
-"User logged in" = "User logged in";
+"User logged in" = "Benutzer angemeldet";
 
 /* preferences */
-"User logged out" = "User logged out";
+"User logged out" = "Benutzer abgemeldet";
 
 /* preferences
    user detail */
@@ -587,6 +600,12 @@
 /* server entry
    user detail */
 "Username" = "Benutzername";
+
+/* Web Login Controller */
+"Username or password incorrect" = "Benutzername oder Passwort falsch";
+
+/* codec detail */
+"Variable Bitrate" = "Variable Bitrate";
 
 /* preferences */
 "Version Information" = "Versionsinformation";
@@ -628,6 +647,9 @@
 /* user detail */
 "Volume Controls" = "Lautstärkekontrollen";
 
+/* Web Login controller */
+"Web Login ID" = "Web-Login-ID";
+
 /* preferences
    user detail */
 "WebCam" = "WebCam";
@@ -637,4 +659,3 @@
 
 /* speech */
 "You have selected %@" = "Du hast %@ gewählt";
-

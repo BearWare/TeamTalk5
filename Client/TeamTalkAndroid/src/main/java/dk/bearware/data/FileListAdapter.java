@@ -348,6 +348,10 @@ implements ClientListener, Comparator<RemoteFile> {
         return convertView;
     }
 
+    @Override
+    public void onLocalMediaFile(MediaFileInfo mediaFileInfo) {
+
+    }
 
     @Override
     public void onInternalError(ClientErrorMsg clienterrormsg) {

@@ -34,6 +34,7 @@
 #include <ace/INET_Addr.h>
 #include <vector>
 #include <set>
+#include <mystd/MyStd.h>
 
 //reactor event task
 ACE_THR_FUNC_RETURN event_loop (void *arg);
@@ -47,6 +48,17 @@ typedef ACE_Thread_Timer_Queue_Adapter<ACE_Timer_Heap> ActiveTimer;
 
 typedef ACE_Message_Queue<ACE_MT_SYNCH> msg_queue_t;
 
+class MBGuard
+{
+    ACE_Message_Block* m_mb;
+public:
+    MBGuard(const MBGuard&) = delete;
+    void operator=(const MBGuard&) = delete;
+    
+    explicit MBGuard(ACE_Message_Block* mb) : m_mb(mb) { }
+    ~MBGuard() { m_mb->release(); }
+};
+
 typedef std::vector< ACE_TString > strings_t;
 typedef std::set<int> intset_t;
 typedef std::vector<int> intvec_t;
@@ -58,17 +70,16 @@ ACE_TString stringtolower(const ACE_TString& str);
 
 void replace_all(ACE_TString& target, const ACE_TString& to_find, const ACE_TString& replacement );
 
-ACE_TString i2string(int i);
-int string2i(const ACE_TString& int_str);
-
 ACE_TString i2string(ACE_INT64 i);
-ACE_INT64 string2i64(const ACE_TString& int_str, int base = 10);
+ACE_INT64 string2i(const ACE_TString& int_str, int base = 10);
 
 bool stringcmpnocase(const ACE_TString& str1, const ACE_TString& str2);
 strings_t tokenize(const ACE_TString& source, const ACE_TString& delimeters);
 
 ACE_TString KeyToHexString(const unsigned char* key, int length);
 void HexStringToKey(const ACE_TString& crypt_key, unsigned char* key);
+
+ACE_Time_Value ToTimeValue(int msec);
 
 ACE_TString UptimeHours(const ACE_Time_Value& value);
 
@@ -133,14 +144,6 @@ private:
 
 bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against);
 
-bool IsWindows6OrLater();
-
-#ifdef WIN32
-#define GETTIMESTAMP ::GetTickCount
-#else
-uint32_t GETTIMESTAMP();
-#endif
-
 #define DUP_TIMESTAMP_DELAY(tm)          \
     do {                                 \
         while((tm) == GETTIMESTAMP())    \
@@ -175,4 +178,7 @@ struct w16_less_comp
 };
 
 std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port);
+
+int HttpRequest(const ACE_CString& url, std::string& doc);
+
 #endif /* MYACE_H */

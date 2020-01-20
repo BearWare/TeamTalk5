@@ -54,6 +54,7 @@ struct IntTTMessage
         INT32* payload_size;
         MediaFileInfo* mediafileinfo;
         StreamType* streamtype;
+        AudioInputProgress* audioinputprogress;
     };
 };
 
@@ -350,8 +351,8 @@ void TTMsgQueue::OnKicked(const teamtalk::clientuser_t& user, int channelid)
 {
     ACE_Message_Block* mb;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_MYSELF_KICKED,
-                                     channelid, !user.null()? __USER : __NONE);
-    if(!user.null())
+                                     channelid, user? __USER : __NONE);
+    if(user)
         Convert(*user, *msg->user);
     EnqueueMsg(mb);
 }
@@ -501,6 +502,26 @@ void TTMsgQueue::OnChannelStreamMediaFile(const MediaFileProp& mfp,
                                      0, __MEDIAFILEINFO);
     Convert(mfp, *msg->mediafileinfo);
     msg->mediafileinfo->nStatus = (MediaFileStatus)status;
+    EnqueueMsg(mb);
+}
+
+void TTMsgQueue::OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mfp,
+                                          teamtalk::MediaFileStatus status)
+{
+    ACE_Message_Block* mb;
+    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_LOCAL_MEDIAFILE,
+        sessionid, __MEDIAFILEINFO);
+    Convert(mfp, *msg->mediafileinfo);
+    msg->mediafileinfo->nStatus = (MediaFileStatus)status;
+    EnqueueMsg(mb);
+}
+
+void TTMsgQueue::OnAudioInputStatus(int voicestreamid, const AudioInputStatus& ais)
+{
+    ACE_Message_Block* mb;
+    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_AUDIOINPUT,
+                                     voicestreamid, __AUDIOINPUTPROGRESS);
+    Convert(ais, *msg->audioinputprogress);
     EnqueueMsg(mb);
 }
 

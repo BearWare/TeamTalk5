@@ -33,6 +33,7 @@
 
 #include <TeamTalkDefs.h>
 #include "PacketLayout.h"
+#include <codec/MediaUtil.h>
 
 namespace teamtalk {
 
@@ -46,6 +47,7 @@ namespace teamtalk {
         int maxusers;
         int maxloginattempts; //max login attempts with wrong password
         int max_logins_per_ipaddr;
+        int logindelay = 0; // msec before IP-address can log in again
         ACE_INT64 diskquota; //max bytes for each channel to store files
         ACE_INT64 maxdiskusage; //max bytes to use for storage of files
         int usertimeout;
@@ -84,6 +86,8 @@ namespace teamtalk {
         int usersservered;
         //uptime
         ACE_Time_Value starttime;
+        
+        ACE_INT64 packets_received = 0, packets_sent = 0; // only used internally
 
         ServerStats()
             : total_bytessent(0), total_bytesreceived(0), last_bytessent(0)
@@ -372,6 +376,7 @@ namespace teamtalk {
         bool vbr;
         bool vbr_constraint;
         int frame_size;
+        int frames_per_packet;
     };
 
     struct AudioCodec
@@ -392,6 +397,10 @@ namespace teamtalk {
         inline bool operator==(const AudioCodec& ch) const
         {
             return memcmp(this, &ch, sizeof(ch)) == 0;
+        }
+        inline bool operator!=(const AudioCodec& ch) const
+        {
+            return memcmp(this, &ch, sizeof(ch));
         }
     };
 
@@ -430,6 +439,33 @@ namespace teamtalk {
             aec_suppress_level = 0;
             aec_suppress_active = 0;
         }
+    };
+
+    struct TTAudioPreprocessor
+    {
+        int gainlevel = GAIN_NORMAL;
+        bool muteleft = false;
+        bool muteright = false;
+
+        TTAudioPreprocessor() { }
+    };
+
+    enum AudioPreprocessorType
+    {
+        AUDIOPREPROCESSOR_NONE      = 0,
+        AUDIOPREPROCESSOR_SPEEXDSP  = 1,
+        AUDIOPREPROCESSOR_TEAMTALK  = 2
+    };
+    
+    struct AudioPreprocessor
+    {
+        AudioPreprocessorType preprocessor = AUDIOPREPROCESSOR_NONE;
+        union
+        {
+            SpeexDSP speexdsp;
+            TTAudioPreprocessor ttpreprocessor;
+        };
+        AudioPreprocessor() {}
     };
 
     struct WebMVP8Codec
@@ -604,6 +640,20 @@ namespace teamtalk {
         AFF_MP3_256KBIT_FORMAT   = 7,
     };
 
+    int AFFToMP3Bitrate(AudioFileFormat aff);
+
+    /* Remember to updated DLL header file when modifying this */
+    enum MediaFileStatus
+    {
+        MFS_CLOSED      = 0,
+        MFS_ERROR       = 1,
+        MFS_STARTED     = 2,
+        MFS_FINISHED    = 3,
+        MFS_ABORTED     = 4,
+        MFS_PAUSED      = 5,
+        MFS_PLAYING     = 6
+    };
+
     /* Remember to updated DLL header file when modifying this.
      * If more than 16 bits ServerUser subscription model will be broken. */
     enum
@@ -650,7 +700,6 @@ namespace teamtalk {
     int SumFrameSizes(const std::vector<uint16_t>& in);
     std::vector<uint16_t> ConvertFrameSizes(const std::vector<int>& in);
     int SumFrameSizes(const std::vector<int>& in);
-    int GetAudioFileFormatBitrate(AudioFileFormat aff);
 
 #define TRANSMITUSERS_FREEFORALL 0xFFF
 

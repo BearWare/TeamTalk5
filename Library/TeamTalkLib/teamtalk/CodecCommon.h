@@ -26,6 +26,8 @@
 
 #include "Common.h"
 
+#include <codec/MediaUtil.h>
+
 namespace teamtalk
 {
     bool ValidAudioCodec(const AudioCodec& codec);
@@ -35,13 +37,13 @@ namespace teamtalk
     int GetAudioCodecCbMillis(const AudioCodec& codec);
     int GetAudioCodecCbTotalSamples(const AudioCodec& codec); // includes * channels
     int GetAudioCodecChannels(const AudioCodec& codec);
-    int GetAudioCodecEncSize(const AudioCodec& codec); //fpp * enc_frame
-    int GetAudioCodecEncFrameSize(const AudioCodec& codec);
     int GetAudioCodecFrameSize(const AudioCodec& codec);
     int GetAudioCodecFramesPerPacket(const AudioCodec& codec);
     bool GetAudioCodecVBRMode(const AudioCodec& codec);
     bool GetAudioCodecSimulateStereo(const AudioCodec& codec);
     int GetAudioCodecBitRate(const AudioCodec& codec);
+    int GetAudioCodecMaxPacketBitrate(const AudioCodec& codec);
+    media::AudioFormat GetAudioCodecAudioFormat(const AudioCodec& codec);
 
     int GetSpeexBandMode(const AudioCodec& codec);
     int GetSpeexQuality(const AudioCodec& codec);
@@ -51,6 +53,8 @@ namespace teamtalk
     //returns number of milliseconds 
     int GetSpeexFramesDuration(int bandmode, int framecount);
     int GetSpeexSamplesCount(int bandmode, int framecount);
+
+    bool AudioCodecConvertBug(const ACE_TString& streamprotocol, const AudioCodec& codec);
 }
 
 #endif

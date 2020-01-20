@@ -50,7 +50,7 @@ private:
     Ui::WebLoginDlg ui;
 #if defined(Q_OS_WIN32)
     class QAxWidget* m_webView;
-#elif (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+#elif defined(QT_WEBENGINEWIDGETS_LIB)
     class QWebEngineView* m_webView;
 #elif (QT_VERSION >= QT_VERSION_CHECK(4, 4, 0))
     class QWebView* m_webView;

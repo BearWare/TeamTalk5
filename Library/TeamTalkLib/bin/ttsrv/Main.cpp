@@ -21,35 +21,28 @@
  *
  */
 
-#include <ace/Reactor.h>
-#include <ace/TP_Reactor.h>
+#include "ServerGuard.h"
+#include "AppInfo.h"
+
+#include <TeamTalkDefs.h>
+#include <teamtalk/Log.h>
+#include <mystd/MyStd.h>
+
 #include <ace/streams.h>
 #include <ace/NT_Service.h>
 #include <ace/Init_ACE.h>
-
-#include <teamtalk/ttassert.h>
-#include <teamtalk/Log.h>
-#include <TeamTalkDefs.h>
-
-#include "ServerGuard.h"
-
-#include <mystd/MyStd.h>
+#include <ace/Select_Reactor.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <signal.h>
 #include <iostream>
+#include <map>
+#include <sstream>
 
 #if !defined(WIN32)
 #include <unistd.h>
 #endif
-
-#include <teamtalk/server/ServerNode.h>
-#include <iostream>
-#include <map>
-#include <sstream>
-
-#include "AppInfo.h"
 
 using namespace std;
 using namespace teamtalk;
@@ -181,6 +174,7 @@ ServerXML xmlSettings(TEAMTALK_XML_ROOTNAME);
 
 bool bDaemon = false;
 bool bNonDaemon = false;
+int rxloss = 0, txloss = 0;
 
 int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
 {
@@ -281,7 +275,7 @@ int RunServer(
     ACE_LOG_MSG->open(ACE_TEXT(TEAMTALK_NAME));
 #endif
 
-    ACE_TCHAR workdir[512] = {0};
+    ACE_TCHAR workdir[512] = {};
     ACE_OS::getcwd(workdir, 512);
 
     //log file
@@ -314,6 +308,9 @@ int RunServer(
         TT_SYSLOG(error_msg);
         return -1;
     }
+
+    prop.rxloss = rxloss;
+    prop.txloss = txloss;
 
     //check for override options
     if(tcpport > 0)
@@ -349,11 +346,15 @@ int RunServer(
     channels.clear();
 
     bool encrypted = false;
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
     encrypted = xmlSettings.GetCertificateFile().size() && xmlSettings.GetPrivateKeyFile().size();
 #endif
 
+#if defined(ENABLE_TEAMTALKPRO)
     if(!servernode.StartServer(encrypted, SERVER_WELCOME))
+#else
+    if(!servernode.StartServer(false, SERVER_WELCOME))
+#endif
     {
         ACE_TCHAR error_msg[1024];
         if(bindip.length() == 0)
@@ -475,13 +476,15 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
         ACE_TString str(argv[i]);
         pair<ACE_TString,ACE_TString> newPair;
         newPair.first = str;
-        if( (str == ACE_TEXT("-wd") ||
+        if ((str == ACE_TEXT("-wd") ||
             str == ACE_TEXT("-tcpport") ||
             str == ACE_TEXT("-udpport") ||
             str == ACE_TEXT("-ip") ||
             str == ACE_TEXT("-c") ||
             str == ACE_TEXT("-l") ||
-            str == ACE_TEXT("-pid-file")))
+            str == ACE_TEXT("-pid-file") ||
+            str == ACE_TEXT("-rxloss") ||
+            str == ACE_TEXT("-txloss")))
         {
             if(i+1 >= argc)
             {
@@ -536,11 +539,11 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     }
     if( (ite = args.find(ACE_TEXT("-tcpport"))) != args.end())
     {
-        tcpport = string2i((*ite).second.c_str());
+        tcpport = int(string2i((*ite).second.c_str()));
     }
     if( (ite = args.find(ACE_TEXT("-udpport"))) != args.end())
     {
-        udpport = string2i((*ite).second.c_str());
+        udpport = int(string2i((*ite).second.c_str()));
     }
     if( (ite = args.find(ACE_TEXT("-ip"))) != args.end())
     {
@@ -549,6 +552,14 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     if( (ite = args.find(ACE_TEXT("-verbose"))) != args.end())
     {
         verbose = true;
+    }
+    if( (ite = args.find(ACE_TEXT("-rxloss"))) != args.end())
+    {
+        rxloss = ACE_OS::atoi((*ite).second.c_str());
+    }
+    if( (ite = args.find(ACE_TEXT("-txloss"))) != args.end())
+    {
+        txloss = ACE_OS::atoi((*ite).second.c_str());
     }
     if( (ite = args.find(ACE_TEXT("-wd"))) != args.end())
     {
@@ -576,7 +587,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     {
         //load config file from same directory as
         //executable file when running as NT service.
-        ACE_TCHAR bufPath[MAX_PATH] = {0};
+        ACE_TCHAR bufPath[MAX_PATH] = {};
         if(GetModuleFileName(NULL, bufPath, MAX_PATH)>0)
         {
             TCHAR* pChr = ACE_OS::strrchr(bufPath, '\\');
@@ -685,7 +696,7 @@ void PrintCommandArgs()
     cout << TEAMTALK_NAME << " version " << TEAMTALK_VERSION_FRIENDLY << endl;
     cout << "Compiled on " __DATE__ " " __TIME__ "." << endl;
     cout << endl;
-    cout << "Copyright (c) 2002-2018, BearWare.dk" << endl;
+    cout << "Copyright (c) 2002-2019, BearWare.dk" << endl;
     cout << endl;
     cout << "Usage: " << TEAMTALK_EXE << " [OPTIONS]" << endl << endl;
 #if defined(BUILD_NT_SERVICE)
@@ -797,7 +808,7 @@ void RunWizard(ServerXML& xmlSettings)
     int maxusers, max_logins_per_ip = 0;
     bool autosave = true;
     _INT64 diskquota = 0, maxdiskusage = 0, log_maxsize = 0;
-    int tcpport = DEFAULT_TCPPORT, udpport = DEFAULT_UDPPORT, max_login_attempts = 0;
+    int tcpport = DEFAULT_TCPPORT, udpport = DEFAULT_UDPPORT, max_login_attempts = 0, logindelay = 0;
 
     servername = Utf8ToUnicode(xmlSettings.GetServerName().c_str());
     motd = Utf8ToUnicode(xmlSettings.GetMessageOfTheDay().c_str());
@@ -813,8 +824,9 @@ void RunWizard(ServerXML& xmlSettings)
     maxdiskusage = xmlSettings.GetMaxDiskUsage();
     max_login_attempts = xmlSettings.GetMaxLoginAttempts();
     max_logins_per_ip = xmlSettings.GetMaxLoginsPerIP();
+    logindelay = xmlSettings.GetLoginDelay();
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_TEAMTALKPRO)
     certfile = Utf8ToUnicode(xmlSettings.GetCertificateFile().c_str());
     keyfile = Utf8ToUnicode(xmlSettings.GetPrivateKeyFile().c_str());
 #endif
@@ -854,7 +866,7 @@ void RunWizard(ServerXML& xmlSettings)
     cout << "Enable file sharing: ";
     if(printGetBool(filesroot.length()))
     {
-        ACE_TCHAR buff[1024] = {0};
+        ACE_TCHAR buff[1024] = {};
         ACE_OS::getcwd(buff, 1024);
 #ifdef WIN32
         cout << "Directory for file storage, e.g. C:\\MyServerFiles: ";
@@ -918,24 +930,26 @@ void RunWizard(ServerXML& xmlSettings)
         bindips.clear();
     }
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_TEAMTALKPRO)
     cout << "Should server run in encrypted mode? ";
     if(printGetBool(certfile.length() && keyfile.length()))
     {
         cout << "Server certificate file (PEM file) for encryption: ";
         certfile = LocalToUnicode(printGetString(UnicodeToLocal(certfile).c_str()).c_str());
         if(ACE_OS::filesize(certfile.c_str())<=0)
-            cout << "File " << certfile << " not found! Continuing configuration..." << endl;
+            cerr << "File " << certfile << " not found! Continuing configuration..." << endl;
         cout << "Server private key file (PEM file) for encryption: ";
         keyfile = LocalToUnicode(printGetString(UnicodeToLocal(keyfile).c_str()).c_str());
         if(ACE_OS::filesize(keyfile.c_str())<=0)
-            cout << "File " << keyfile << " not found! Continuing configuration..." << endl;
+            cerr << "File " << keyfile << " not found! Continuing configuration..." << endl;
     }
     else
     {
         certfile.clear();
         keyfile.clear();
     }
+
+    bool encrypted = certfile.length() && keyfile.length();
 #endif
 
     cout << endl << "User authentication." << endl;
@@ -943,7 +957,12 @@ void RunWizard(ServerXML& xmlSettings)
     cout << endl;
     cout << "User account administration." << endl;
     int input = 0;
-    enum UserAccountOptions {LIST_USERACCOUNTS = 1, CREATE_USERACCOUNT, CREATE_USERACCOUNT_FACEBOOK, DELETE_USERACCOUNT, QUIT_USERACCOUNTS};
+    enum UserAccountOptions {LIST_USERACCOUNTS = 1, CREATE_USERACCOUNT,
+                             CREATE_USERACCOUNT_FACEBOOK,
+#if defined(ENABLE_TEAMTALKPRO)
+                             CREATE_USERACCOUNT_BEARWARE,
+#endif
+                             DELETE_USERACCOUNT, QUIT_USERACCOUNTS};
     ACE_CString url = WEBLOGIN_URL;
     std::string xml;
 
@@ -958,6 +977,9 @@ void RunWizard(ServerXML& xmlSettings)
         cout << LIST_USERACCOUNTS << ") List user accounts." << endl;
         cout << CREATE_USERACCOUNT << ") Create new user account." << endl;
         cout << CREATE_USERACCOUNT_FACEBOOK << ") Create Facebook login account." << endl;
+#if defined(ENABLE_TEAMTALKPRO)
+        cout << CREATE_USERACCOUNT_BEARWARE << ") Create BearWare.dk web-login account." << endl;
+#endif
         cout << DELETE_USERACCOUNT << ") Delete user account." << endl;
         cout << QUIT_USERACCOUNTS << ") Quit and proceed server configuration." << endl;
         cout << "Select option: ";
@@ -1017,7 +1039,38 @@ void RunWizard(ServerXML& xmlSettings)
                 break;
             }
             goto useraccountcfg;
-#endif
+#if defined(ENABLE_TEAMTALKPRO)
+        case CREATE_USERACCOUNT_BEARWARE :
+
+            if (!encrypted)
+            {
+                cout << "BearWare.dk web-login can only be used in encrypted mode." << endl;
+                break;
+            }
+
+            cout << "Creating BearWare.dk web-login account." << endl;
+            user.username = ACE_TEXT( WEBLOGIN_BEARWARE );
+            user.passwd = ACE_TEXT("");
+            cout << "Testing BearWare.dk web-login service..." << endl;
+
+            url += "client=" TEAMTALK_LIB_NAME;
+            url += "&version=" TEAMTALK_VERSION;
+            url += "&ping=true";
+            switch(HttpRequest(url, xml))
+            {
+            case -1 :
+                cout << "Failed to query " << WEBLOGIN_URL;
+                break;
+            case 0 :
+                cout << "Invalid response from BearWare.dk login service" << endl;
+                break;
+            case 1 :
+                cout << "Got valid response from BearWare.dk login service. Continuing..." << endl;
+                break;
+            }
+            goto useraccountcfg;
+#endif /* ENABLE_TEAMTALKPRO */
+#endif /* ENABLE_HTTP_AUTH */
         useraccountcfg:
             cout << "Available user types:" << endl;
             cout << "\t1. Default user." << endl;
@@ -1171,6 +1224,9 @@ void RunWizard(ServerXML& xmlSettings)
     cout << "Maximum number of logins per IP-address, 0 = disabled: ";
     max_logins_per_ip = printGetInt(max_logins_per_ip);
 
+    cout << "Delay in milliseconds before an IP-address can make another login, 0 = disabled: ";
+    logindelay = printGetInt(logindelay);
+    
     cout << endl << endl;
     cout << "Your " << TEAMTALK_NAME << " is now configured with the following settings:" << endl;
     cout << endl;
@@ -1210,7 +1266,9 @@ void RunWizard(ServerXML& xmlSettings)
     else
         cout << "Max logins per IP-address: " << "disabled" << endl;
 
-#ifdef ENABLE_ENCRYPTION
+    cout << "Users wait for " << logindelay << " msec before attempting login again." << endl;
+    
+#if defined(ENABLE_TEAMTALKPRO)
     cout << "Server certificate file for encryption: " << certfile << endl;
     cout << "Server private key file for encryption: " << keyfile << endl;
 #endif
@@ -1235,13 +1293,14 @@ void RunWizard(ServerXML& xmlSettings)
         xmlSettings.SetBindIPs(bindips);
         xmlSettings.SetHostTcpPort(tcpport);
         xmlSettings.SetHostUdpPort(udpport);
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
         xmlSettings.SetCertificateFile(UnicodeToUtf8(certfile).c_str());
         xmlSettings.SetPrivateKeyFile(UnicodeToUtf8(keyfile).c_str());
 #endif
         xmlSettings.SetServerLogMaxSize(log_maxsize);
         xmlSettings.SetMaxLoginAttempts(max_login_attempts);
         xmlSettings.SetMaxLoginsPerIP(max_logins_per_ip);
+        xmlSettings.SetLoginDelay(logindelay);
         xmlSettings.SaveFile();
 
         cout << "Changes saved." << endl;

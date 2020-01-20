@@ -46,6 +46,10 @@ bool Convert(const AudioCodec& codec, teamtalk::AudioCodec& result);
 void Convert(const teamtalk::AudioConfig& audcfg, AudioConfig& result);
 void Convert(const AudioConfig& audcfg, teamtalk::AudioConfig& result);
 
+void Convert(const AudioPreprocessor& audpreprocess, teamtalk::AudioPreprocessor& result);
+
+void Convert(const TTAudioPreprocessor& ttpreprocess, teamtalk::TTAudioPreprocessor& result);
+
 void Convert(const teamtalk::SpeexDSP& dspdsp, SpeexDSP& result);
 void Convert(const SpeexDSP& spxdsp, teamtalk::SpeexDSP& result);
 
@@ -92,12 +96,17 @@ void Convert(const MediaFileProp& mediaprop, MediaFileInfo& result);
 void Convert(teamtalk::MediaFileStatus status, const teamtalk::VoiceLogFile& vlog,
              MediaFileInfo& result);
 
+void Convert(const AudioInputStatus& ais, AudioInputProgress& result);
+
 void Convert(const media::VideoFrame& imgframe, VideoFrame& result);
 void Convert(const VideoFormat& vidfmt, media::VideoFormat& result);
 
 void Convert(const teamtalk::ClientUserStats& stats, UserStatistics& result);
 
 void Convert(const teamtalk::ClientStats& stats, ClientStatistics& result);
+
+void Convert(const ClientKeepAlive& ka, teamtalk::ClientKeepAlive& result);
+void Convert(const teamtalk::ClientKeepAlive& ka, ClientKeepAlive& result);
 
 void Convert(const teamtalk::DesktopInput& input, DesktopInput& result);
 void Convert(const DesktopInput& input, teamtalk::DesktopInput& result);

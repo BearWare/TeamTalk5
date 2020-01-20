@@ -84,6 +84,8 @@ import android.widget.Toast;
 
 public class Utils {
 
+    public static final String TAG = "bearware";
+
     private static Map<Integer, Integer> errorMessages = new HashMap<Integer, Integer>();
 
     static {
@@ -252,6 +254,7 @@ public class Utils {
             rd.close();
         }
         catch(IOException e) {
+            Log.d(TAG, "Failed to receive URL: "+urlToRead+". " + e.toString());
         }
         
         return result;

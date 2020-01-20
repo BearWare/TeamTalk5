@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -22,10 +22,7 @@
  */
 
 #include "AudioMuxer.h"
-#include <myace/MyACE.h>
 #include <teamtalk/ttassert.h>
-#include <teamtalk/CodecCommon.h>
-#include <teamtalk/Common.h>
 
 #define AUDIOBLOCK_QUEUE_MSEC 1000
 
@@ -45,150 +42,232 @@ AudioMuxer::AudioMuxer()
 
 AudioMuxer::~AudioMuxer()
 {
-    TTASSERT(this->thr_count() == 0);
     StopThread();
+    MYTRACE(ACE_TEXT("~AudioMuxer()\n"));
 }
 
-bool AudioMuxer::StartThread(const ACE_TString& filename,
-                             teamtalk::AudioFileFormat aff,
-                             const teamtalk::AudioCodec& codec)
+bool AudioMuxer::Init(const teamtalk::AudioCodec& codec)
 {
-    TTASSERT(this->thr_count() == 0);
-    if(this->thr_count())
+    if (m_codec == codec)
+        return true;
+
+    return StartThread(codec);
+}
+
+bool AudioMuxer::StartThread(const teamtalk::AudioCodec& codec)
+{
+    TTASSERT(m_codec == AudioCodec());
+
+    TTASSERT(!m_thread);
+    if (m_thread)
         return false;
 
-    TTASSERT(m_audio_queue.empty());
-
     //mux interval
-    const time_t MUX_INTERVAL_MSEC = AUDIOBLOCK_QUEUE_MSEC / 3;
     int samples = GetAudioCodecCbTotalSamples(codec);
     TTASSERT(samples>0);
     if(samples <= 0)
-        goto error;
+        return false;
+
+    MYTRACE(ACE_TEXT("Starting AudioMuxer with sample rate %d and callback %d\n"),
+            GetAudioCodecSampleRate(codec), GetAudioCodecCbSamples(codec));
+
+    m_muxed_audio.resize(samples);
 
     m_codec = codec;
 
+    m_sample_no = 0;
+    m_last_flush_time = GETTIMESTAMP();
+
+    m_thread.reset(new std::thread(&AudioMuxer::Run, this));
+    return true;
+}
+
+void AudioMuxer::StopThread()
+{
+    if (m_thread)
+    {
+        int ret;
+        ret = m_reactor.end_reactor_event_loop();
+        TTASSERT(ret >= 0);
+
+        m_thread->join();
+        m_thread.reset();
+
+        m_reactor.reset_reactor_event_loop();
+
+        //flush remaining data
+        ProcessAudioQueues(true);
+    }
+
+    m_codec = AudioCodec();
+    m_audio_queue.clear();
+    m_user_queue.clear();
+}
+
+bool AudioMuxer::RegisterMuxCallback(const teamtalk::AudioCodec& codec,
+                                     audiomuxer_callback_t cb)
+{
+    if (m_muxcallback)
+        return false;
+
+    m_muxcallback = cb;
+
+    if (!Init(codec))
+    {
+        m_muxcallback = {};
+        return false;
+    }
+    return true;
+}
+
+void AudioMuxer::UnregisterMuxCallback()
+{
+    m_muxcallback = {};
+
+    if (!FileActive())
+        StopThread();
+}
+
+bool AudioMuxer::FileActive()
+{
+    bool fileactive = false;
+
+    fileactive |= bool(m_wavefile);
+
+#if defined(ENABLE_MEDIAFOUNDATION)
+    fileactive |= bool(m_mp3encoder);
+#endif
+
+#if defined(ENABLE_SPEEXFILE)
+    fileactive |= bool(m_speexfile);
+#endif
+
+#if defined(ENABLE_OPUSFILE)
+    fileactive |= bool(m_opusfile);
+#endif
+
+    return fileactive;
+}
+
+bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
+                          const ACE_TString& filename,
+                          teamtalk::AudioFileFormat aff)
+{
+    if (FileActive() || !Init(codec))
+        return false;
+
+    int samplerate = GetAudioCodecSampleRate(m_codec);
+    int channels = GetAudioCodecChannels(m_codec);
+    if (GetAudioCodecSimulateStereo(m_codec))
+        channels = 2;
+
+    bool success = false;
     switch(aff)
     {
     case AFF_WAVE_FORMAT :
-        m_wavefile = wavefile_t(new WaveFile());
-        if(!m_wavefile->NewFile(filename,
-            GetAudioCodecSampleRate(codec),
-            GetAudioCodecChannels(codec)))
-            goto error;
+        m_wavefile.reset(new WavePCMFile());
+        success = m_wavefile->NewFile(filename, samplerate, channels);
+        if (!success)
+            m_wavefile.reset();
         break;
     case AFF_MP3_16KBIT_FORMAT :
     case AFF_MP3_32KBIT_FORMAT :
     case AFF_MP3_64KBIT_FORMAT :
     case AFF_MP3_128KBIT_FORMAT :
     case AFF_MP3_256KBIT_FORMAT :
-#if defined(ENABLE_MP3)
-        if(LameMP3::CanLoad())
-        {
-            int bitrate = 64;
-            switch(aff)
-            {
-            case AFF_MP3_256KBIT_FORMAT :
-                bitrate = 256; break;
-            case AFF_MP3_128KBIT_FORMAT :
-                bitrate = 128; break;
-            case AFF_MP3_64KBIT_FORMAT :
-            default :
-                bitrate = 64; break;
-            case AFF_MP3_16KBIT_FORMAT :
-                bitrate = 16; break;
-            case AFF_MP3_32KBIT_FORMAT :
-                bitrate = 32; break;
-            }
-            m_mp3file = lame_mp3file_t(new LameMP3());
-            if(!m_mp3file->NewFile(filename, 
-                                   GetAudioCodecSampleRate(codec),
-                                   GetAudioCodecChannels(codec), bitrate))
-                goto error;
-        }
-        else
-            goto error;
+    {
+#if defined(ENABLE_MEDIAFOUNDATION)
+        int mp3bitrate = AFFToMP3Bitrate(aff);
+        media::AudioFormat fmt(samplerate, channels);
+        m_mp3encoder = MFTransform::CreateMP3(fmt, mp3bitrate, filename.c_str());
+        success = bool(m_mp3encoder);
 #endif
-        break;
+    }
+    break;
     case AFF_CHANNELCODEC_FORMAT :
-        if(!SetupFileEncode(filename, codec))
-            goto error;
+    {
+        int bitrate = 0, maxbitrate = 0;
+        bool dtx = false;
+        switch(m_codec.codec)
+        {
+        case CODEC_SPEEX_VBR :
+            bitrate = m_codec.speex_vbr.bitrate;
+            maxbitrate = m_codec.speex_vbr.max_bitrate;
+            dtx = m_codec.speex_vbr.dtx;
+        case CODEC_SPEEX :
+#if ENABLE_SPEEXFILE
+            m_speexfile.reset(new SpeexEncFile());
+            success = m_speexfile->Open(filename,
+                                        GetSpeexBandMode(m_codec),
+                                        DEFAULT_SPEEX_COMPLEXITY,
+                                        (float)GetSpeexQuality(m_codec),
+                                        bitrate, maxbitrate, dtx);
+            if (!success)
+                m_speexfile.reset();
+#endif
+            break;
+        case CODEC_OPUS :
+#if defined(ENABLE_OPUSFILE)
+            m_opusfile.reset(new OpusEncFile());
+            success = m_opusfile->Open(filename, channels, samplerate,
+                                       GetAudioCodecFrameSize(m_codec),
+                                       m_codec.opus.application);
+            if (!success)
+                m_opusfile.reset();
+#endif
+            break;
+        default : // unsupported codec
+            break;
+        }
+    }
+    break; // AFF_CHANNELCODEC_FORMAT
+
+    default : // unsupported AFF format
         break;
-    default :
-        goto error; //TODO: native format
     }
 
+    if (!success)
+        CloseFile();
 
-    m_muxed_audio.resize(samples);
-
-    m_last_flush_time = GETTIMESTAMP();
-
-    if(this->activate() < 0)
-        goto error;
-    
-    if(m_reactor.schedule_timer(this, 0, 
-                                ACE_Time_Value(MUX_INTERVAL_MSEC/1000, 
-                                               (MUX_INTERVAL_MSEC % 1000) * 1000), 
-                                ACE_Time_Value(MUX_INTERVAL_MSEC/1000, 
-                                               (MUX_INTERVAL_MSEC % 1000) * 1000))<0)
-        goto error;
-
-    return true;
-
-error:
-    StopThread();
-    return false;
+    return success;
 }
 
-void AudioMuxer::StopThread()
+void AudioMuxer::CloseFile()
 {
-    if(this->thr_count())
-    {
-        int ret = m_reactor.cancel_timer(this);
-        TTASSERT(ret >= 0);
-        ret = m_reactor.end_reactor_event_loop();
-        TTASSERT(ret >= 0);
-        this->wait();
-        m_reactor.reset_reactor_event_loop();
-        //flush remaining data
-        ProcessAudioQueues();
-    }
-
     // write a silence block as the ending.
     std::vector<short> ending(GetAudioCodecCbTotalSamples(m_codec));
+    int samples = GetAudioCodecCbSamples(m_codec);
+
+    if (!m_muxcallback)
+        StopThread();
 
 #if defined(ENABLE_OPUSFILE)
-    if(!m_opusfile.null())
+    if (m_opusfile)
     {
-        m_opusfile->Encode(&ending[0], GetAudioCodecCbSamples(m_codec),
-                           true);
+        m_opusfile->Encode(&ending[0], samples, true);
         m_opusfile->Close();
+        m_opusfile.reset();
     }
-    m_opusfile.reset();
 #endif
 
 #if defined(ENABLE_SPEEXFILE)
-    if(!m_speexfile.null())
+    if (m_speexfile)
     {
         m_speexfile->Encode(&ending[0], true);
         m_speexfile->Close();
         m_speexfile.reset();
     }
 #endif
-    
-    if(!m_wavefile.null())
-        m_wavefile->Close();
-    m_wavefile.reset();
-    
-#if defined(ENABLE_MP3)
-    if(!m_mp3file.null())
-        m_mp3file->Close();
-    m_mp3file.reset();
-#endif
 
-    m_codec = AudioCodec();
-    m_audio_queue.clear();
-    m_user_queue.clear();
+    if (m_wavefile)
+    {
+        m_wavefile->Close();
+        m_wavefile.reset();
+    }
+
+#if defined(ENABLE_MEDIAFOUNDATION)
+    m_mp3encoder.reset();
+#endif
 }
 
 void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
@@ -200,12 +279,12 @@ void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
                    GetAudioCodecChannels(codec));
 }
 
-void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio, 
+void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
                                 ACE_UINT32 sample_no, bool last,
                                 int n_samples, int n_channels)
 {
     //if thread isn't running just ignore
-    if(this->thr_count() == 0)
+    if (!m_thread)
         return;
 
     //audio must be same format as 'm_codec' but allow 'n_samples' and
@@ -215,7 +294,10 @@ void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
     if(GetAudioCodecChannels(m_codec) != n_channels && n_channels != 0)
         return;
 
-    wguard_t g(m_mutex);
+    std::unique_lock<std::recursive_mutex> g(m_mutex);
+
+    // MYTRACE(ACE_TEXT("Add audio from #%d to audiomuxer %p. Offset %u. Samples %d\n"),
+    //         userid, this, sample_no, n_samples);
 
     ACE_Message_Queue<ACE_MT_SYNCH>* q;
     user_audio_queue_t::iterator ii = m_audio_queue.find(userid);
@@ -261,7 +343,7 @@ void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
     ACE_Time_Value tm;
     if(q->enqueue(mb, &tm)<0)
     {
-        MYTRACE(ACE_TEXT("Buffer depleted for user #%d AudioMuxBlock %u, is last: %s. Dropped %u bytes\n"), 
+        MYTRACE(ACE_TEXT("Buffer depleted for user #%d AudioMuxBlock %u, is last: %s. Dropped %u bytes\n"),
                 userid, sample_no, (last? ACE_TEXT("true"):ACE_TEXT("false")), (unsigned)q->message_bytes());
         q->flush();
         //insert after flush, so it will appear as a new stream
@@ -273,27 +355,34 @@ void AudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
         //clear sample no tracker
         m_user_queue.erase(userid);
     }
-
-    // MYTRACE(ACE_TEXT("Queued %d\n"), userid);
 }
 
-int AudioMuxer::svc(void)
+void AudioMuxer::Run()
 {
     m_reactor.owner (ACE_OS::thr_self ());
 
+    const time_t MUX_INTERVAL_MSEC = AUDIOBLOCK_QUEUE_MSEC / 3;
+    auto tv = ACE_Time_Value(MUX_INTERVAL_MSEC/1000, (MUX_INTERVAL_MSEC % 1000) * 1000);
+
+    TimerHandler th(*this, 577);
+    long timerid = m_reactor.schedule_timer(&th, 0, tv, tv);
+    TTASSERT(timerid >= 0);
     m_reactor.run_reactor_event_loop ();
 
-    return 0;
+    if (timerid >= 0)
+    {
+        int ret = m_reactor.cancel_timer(timerid);
+        TTASSERT(ret >= 0);
+    }
 }
 
-int AudioMuxer::handle_timeout(const ACE_Time_Value &current_time, const void *act/*=0*/)
+int AudioMuxer::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
 {
-    ProcessAudioQueues();
-
+    ProcessAudioQueues(false);
     return 0;
 }
 
-void AudioMuxer::ProcessAudioQueues()
+void AudioMuxer::ProcessAudioQueues(bool flush)
 {
     //Make map of userid -> sample no.
     //Check if all expected audio is there (from every user)
@@ -318,7 +407,7 @@ void AudioMuxer::ProcessAudioQueues()
             MuxUserAudio(); //write muxed audio
         else
         {
-            wguard_t g(m_mutex);
+            std::unique_lock<std::recursive_mutex> g(m_mutex);
             if(m_audio_queue.empty())
             {
                 //write silence
@@ -331,8 +420,20 @@ void AudioMuxer::ProcessAudioQueues()
                 break;
         }
 
-        WriteAudioToFile(cb_samples);
+        WriteAudio(cb_samples);
         cb_count--;
+    }
+
+    if (flush)
+    {
+        RemoveEmptyMuxUsers();
+
+        while (CanMuxUserAudio())
+        {
+            MuxUserAudio();
+            WriteAudio(cb_samples);
+            RemoveEmptyMuxUsers();
+        }
     }
 
     // MYTRACE(ACE_TEXT("Queued %d msec at %u\n"), (cb_count * cb_msec) - remain_msec, now);
@@ -341,7 +442,7 @@ void AudioMuxer::ProcessAudioQueues()
 
 bool AudioMuxer::CanMuxUserAudio()
 {
-    wguard_t g(m_mutex);
+    std::unique_lock<std::recursive_mutex> g(m_mutex);
 
     user_audio_queue_t::iterator ii = m_audio_queue.begin();
     while(ii != m_audio_queue.end())
@@ -353,9 +454,31 @@ bool AudioMuxer::CanMuxUserAudio()
     return m_audio_queue.size();
 }
 
+void AudioMuxer::RemoveEmptyMuxUsers()
+{
+    std::unique_lock<std::recursive_mutex> g(m_mutex);
+
+    // get rid of users who haven't supplied data in time for
+    // flush
+    for (auto i = m_audio_queue.begin();i != m_audio_queue.end();)
+    {
+        if (i->second->is_empty())
+        {
+            MYTRACE(ACE_TEXT("AudioMuxer removed empty audio queue for #%d\n"), i->first);
+            i = m_audio_queue.erase(i);
+        }
+        else
+        {
+            MYTRACE(ACE_TEXT("AudioMuxer still has audio queue for #%d. Items: %d\n"),
+                    i->first, int(i->second->message_count()));
+            ++i;
+        }
+    }
+}
+
 bool AudioMuxer::MuxUserAudio()
 {
-    wguard_t g(m_mutex);
+    std::unique_lock<std::recursive_mutex> g(m_mutex);
 
     TTASSERT(m_audio_queue.size());
     TTASSERT(m_muxed_audio.size());
@@ -375,16 +498,16 @@ bool AudioMuxer::MuxUserAudio()
             user_queued_audio_t::iterator ui = m_user_queue.find(ii->first);
             if(ui != m_user_queue.end())
             {
-                TTASSERT(aud->sample_no >= ui->second);
-                if(aud->sample_no > ui->second + SAMPLES)
+                TTASSERT(W32_GEQ(aud->sample_no, ui->second));
+                if (W32_GT(aud->sample_no, ui->second + SAMPLES))
                 {
-                    MYTRACE(ACE_TEXT("Missing audio block from #%d. Got %u, expected %u\n"), 
+                    MYTRACE(ACE_TEXT("Missing audio block from #%d. Got %u, expected %u\n"),
                             ii->first, aud->sample_no, ui->second + SAMPLES);
                     m_user_queue[ii->first] = ui->second + SAMPLES;
                     ii++;
                     continue; //skip it
                 }
-                else if(aud->sample_no < ui->second + SAMPLES)
+                else if (W32_LT(aud->sample_no, ui->second + SAMPLES))
                 {
                     MYTRACE(ACE_TEXT("Got delayed audio block from #%d. Contains %u, expected %u. Dropping user.\n"),
                             ii->first, aud->sample_no, ui->second + SAMPLES);
@@ -432,7 +555,7 @@ bool AudioMuxer::MuxUserAudio()
         }
     }
 
-    g.release(); //don't touch 'm_audio_queue' after this!
+    g.unlock(); //don't touch 'm_audio_queue' after this!
 
     if(audio_blocks.empty())
     {
@@ -442,7 +565,7 @@ bool AudioMuxer::MuxUserAudio()
     else
     {
         AudioMuxBlock* aud = reinterpret_cast<AudioMuxBlock*>(audio_blocks[0]->rd_ptr());
-        TTASSERT((int)m_muxed_audio.size() == 
+        TTASSERT((int)m_muxed_audio.size() ==
                  GetAudioCodecCbSamples(m_codec) * GetAudioCodecChannels(m_codec));
         TTASSERT(aud->audio);
         m_muxed_audio.assign(aud->audio, aud->audio+m_muxed_audio.size());
@@ -476,15 +599,25 @@ bool AudioMuxer::MuxUserAudio()
     return false;
 }
 
-void AudioMuxer::WriteAudioToFile(int cb_samples)
+void AudioMuxer::WriteAudio(int cb_samples)
 {
     int channels = GetAudioCodecChannels(m_codec);
     if(GetAudioCodecSimulateStereo(m_codec))
         channels = 2;
     int framesize = GetAudioCodecFrameSize(m_codec);
+    int samplerate = GetAudioCodecSampleRate(m_codec);
     TTASSERT(cb_samples == GetAudioCodecFramesPerPacket(m_codec)*framesize);
+
+    media::AudioFrame frame(media::AudioFormat(samplerate, channels),
+                            &m_muxed_audio[0], cb_samples, m_sample_no);
+
+    if (m_muxcallback)
+    {
+        m_muxcallback(frame);
+    }
+
 #if ENABLE_SPEEXFILE
-    if(m_speexfile.get() && framesize)
+    if(m_speexfile && framesize)
     {
         int ret = 0;
         for(int i=0;i<cb_samples/framesize && ret >= 0;i++)
@@ -495,7 +628,7 @@ void AudioMuxer::WriteAudioToFile(int cb_samples)
 #endif
 
 #if defined(ENABLE_OPUSFILE)
-    if(m_opusfile.get() && framesize)
+    if(m_opusfile && framesize)
     {
         int ret = 0;
         for(int i=0;i<cb_samples/framesize && ret >= 0;i++)
@@ -503,46 +636,15 @@ void AudioMuxer::WriteAudioToFile(int cb_samples)
     }
 #endif
 
-#if defined(ENABLE_MP3)
-    if(!m_mp3file.null())
+#if defined(ENABLE_MEDIAFOUNDATION)
+    if(m_mp3encoder && framesize)
     {
-        m_mp3file->Encode(&m_muxed_audio[0], cb_samples);
+        m_mp3encoder->ProcessAudioEncoder(frame, true);
     }
 #endif
 
-    if(!m_wavefile.null())
+    if(m_wavefile)
         m_wavefile->AppendSamples(&m_muxed_audio[0], cb_samples);
-}
 
-bool AudioMuxer::SetupFileEncode(const ACE_TString& filename, 
-                                 const teamtalk::AudioCodec& codec)
-{
-    int bitrate = 0, maxbitrate = 0;
-    bool dtx = false;
-    switch(codec.codec)
-    {
-#if ENABLE_SPEEXFILE
-    case CODEC_SPEEX_VBR :
-        bitrate = codec.speex_vbr.bitrate;
-        maxbitrate = codec.speex_vbr.max_bitrate;
-        dtx = codec.speex_vbr.dtx;
-    case CODEC_SPEEX :
-        m_speexfile.reset(new SpeexEncFile());
-        return m_speexfile->Open(filename,
-                                 GetSpeexBandMode(codec),
-                                 DEFAULT_SPEEX_COMPLEXITY,
-                                 (float)GetSpeexQuality(codec),
-                                 bitrate, maxbitrate, dtx);
-#endif
-    case CODEC_OPUS :
-#if defined(ENABLE_OPUSFILE)
-        m_opusfile.reset(new OpusEncFile());
-        return m_opusfile->Open(filename, GetAudioCodecChannels(codec),
-                                GetAudioCodecSampleRate(codec),
-                                GetAudioCodecFrameSize(m_codec),
-                                codec.opus.application);
-#endif
-    default :
-        return false;
-    }
+    m_sample_no += cb_samples;
 }

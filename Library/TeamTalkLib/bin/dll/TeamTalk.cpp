@@ -39,6 +39,11 @@ HINSTANCE hInstance = NULL;
 #include "mdump.h"
 #endif
 
+
+#if defined(ENABLE_MEDIAFOUNDATION)
+#include <mfapi.h>
+#endif
+
 #include <ace/Init_ACE.h>
 
 #include <teamtalk/client/ClientNode.h>
@@ -52,13 +57,9 @@ HINSTANCE hInstance = NULL;
 #include <queue>
 #include <iostream>
 
-#if defined(ENABLE_SOUNDSYSTEM)
-#include <soundsystem/SoundLoopback.h>
-#endif
+#include <avstream/SoundLoopback.h>
 
-#if defined(ENABLE_VIDCAP)
-#include <vidcap/VideoCapture.h>
-#endif
+#include <avstream/VideoCapture.h>
 
 #ifdef NDEBUG
 #pragma message("Compiling TeamTalk version " TEAMTALK_VERSION " = " TEAMTALK_VERSION)
@@ -76,10 +77,12 @@ using teamtalk::SoundProperties;
 using namespace vidcap;
 using namespace std;
 
+typedef std::shared_ptr<ClientNode> clientnode_t;
+
 struct ClientInstance
 {
-    ClientNode* pClientNode;
-    TTMsgQueue* pEventHandler;
+    std::shared_ptr<TTMsgQueue> eventhandler;
+    clientnode_t clientnode;
     ACE_Recursive_Thread_Mutex mutex_video;
     typedef std::map<VideoFrame*, ACE_Message_Block*> video_frames_t;
     video_frames_t video_frames;
@@ -177,10 +180,43 @@ struct ClientInstance
         return false;
     }
 
-    ClientInstance()
+    ClientInstance(TTMsgQueue* eh)
     {
-        pClientNode = NULL;
-        pEventHandler = NULL;
+#if defined(ENABLE_MEDIAFOUNDATION)
+        static class MFInit {
+        public:
+            MFInit()
+            {
+                HRESULT hr = MFStartup(MF_VERSION, MFSTARTUP_FULL);
+                assert(SUCCEEDED(hr));
+            }
+            ~MFInit()
+            {
+                //HRESULT hr = MFShutdown();
+                //assert(SUCCEEDED(hr));
+            }
+        } mfinit;
+#endif
+
+        eventhandler.reset(eh);
+        clientnode.reset(new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), eh));
+        
+#if defined(USE_MINIDUMP)
+        static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
+#endif
+
+#if !defined(WIN32)
+        //avoid SIGPIPE
+        static ACE_Sig_Action no_sigpipe((ACE_SignalHandler)SIG_IGN);
+        static ACE_Sig_Action original_action;
+        no_sigpipe.register_action(SIGPIPE, &original_action);
+#endif
+
+#ifdef ENABLE_ENCRYPTION
+        ACE_SSL_Context *context = ACE_SSL_Context::instance();
+        if(context->get_mode() != ACE_SSL_Context::SSLv23)
+            context->set_mode(ACE_SSL_Context::SSLv23);
+#endif
     }
 
     ~ClientInstance()
@@ -194,17 +230,15 @@ struct ClientInstance
     }
 };
 
-typedef std::set<ClientInstance*> clients_t;
+typedef std::shared_ptr< ClientInstance > clientinst_t;
+typedef std::vector< clientinst_t > clients_t;
 
 clients_t clients;
 ACE_Recursive_Thread_Mutex clients_mutex;
 
-#if defined(ENABLE_SOUNDSYSTEM)
 typedef std::set<SoundLoopback*> soundloops_t;
 ACE_Recursive_Thread_Mutex soundloops_mutex;
 soundloops_t soundloops;
-#endif
-
 
 #if defined(WIN32)
 BOOL APIENTRY DllMain(HANDLE hModule, 
@@ -231,8 +265,6 @@ BOOL APIENTRY DllMain(HANDLE hModule,
         }
     case DLL_PROCESS_DETACH:
         {
-            //while(clients.size())
-            //    TT_CloseTeamTalk(*clients.begin());
             ret = ACE::fini();
             TTASSERT(ret>=0);
             break;
@@ -263,26 +295,26 @@ void HOTKEY_USAGE(int num)
 }
 #endif
 
-ClientInstance* GET_CLIENT(TTInstance* pInstance)
+clientinst_t GET_CLIENT(TTInstance* pInstance)
 {
     wguard_t g(clients_mutex);
 
-    ClientInstance* pClient = static_cast<ClientInstance*>(pInstance);
-    clients_t::iterator ite = clients.find(pClient);
-    if(ite != clients.end())
-        return *ite;
-    return NULL;
+    for (auto c : clients)
+    {
+        if (c.get() == pInstance)
+            return c;
+    }
+    return clientinst_t();
 }
 
-ClientNode* GET_CLIENTNODE(TTInstance* pInstance)
+clientnode_t GET_CLIENTNODE(TTInstance* pInstance)
 {
     wguard_t g(clients_mutex);
 
-    ClientInstance* pClient = static_cast<ClientInstance*>(pInstance);
-    clients_t::iterator ite = clients.find(pClient);
-    if(ite != clients.end())
-        return (*ite)->pClientNode;
-    return NULL;
+    auto c = GET_CLIENT(pInstance);
+    if (c)
+        return c->clientnode;
+    return clientnode_t();
 }
 
 //get ClientNode instance, lock mutex, return if not found
@@ -291,11 +323,8 @@ ClientNode* GET_CLIENTNODE(TTInstance* pInstance)
     if(!pClientNode)return ret;                             \
     GUARD_REACTOR(pClientNode)
 
-#define CLIENT ClientInstance*
 
-
-
-TEAMTALKDLL_API const TTCHAR* TT_GetVersion()
+TEAMTALKDLL_API const TTCHAR* TT_GetVersion(void)
 {
     return ACE_TEXT( TEAMTALK_VERSION );
 }
@@ -303,106 +332,70 @@ TEAMTALKDLL_API const TTCHAR* TT_GetVersion()
 #if defined(WIN32)
 TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT uMsg)
 {
-#if defined(USE_MINIDUMP)
-    static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
-#endif
-
-#ifdef ENABLE_ENCRYPTION
-    ACE_SSL_Context *context = ACE_SSL_Context::instance ();
-    if(context->get_mode() !=  ACE_SSL_Context::SSLv23_client)
-        context->set_mode(ACE_SSL_Context::SSLv23_client);
-#endif
-
-    ClientInstance* pClient = new ClientInstance;
-    pClient->pEventHandler = new TTMsgQueue(hWnd, uMsg);
-    pClient->pClientNode = new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), 
-                                          pClient->pEventHandler);
+    clientinst_t inst(new ClientInstance(new TTMsgQueue(hWnd, uMsg)));
 
     wguard_t g(clients_mutex);
-    clients.insert(pClient);
+    clients.push_back(inst);
 
-    return pClient;
+    return inst.get();
 }
 
 TEAMTALKDLL_API TTBOOL TT_SwapTeamTalkHWND(IN TTInstance* lpTTInstance,
-                                         IN HWND hWnd)
+                                           IN HWND hWnd)
 {
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return FALSE;
-    pClient->pEventHandler->SetHWND(hWnd);
+    
+    inst->eventhandler->SetHWND(hWnd);
     return TRUE;
 }
 #endif
 
-TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll()
+TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll(void)
 {
-#if defined(USE_MINIDUMP)
-    static MiniDumper mdump(ACE_TEXT("TeamTalk4.dll"));
-#endif
-
-#ifdef ENABLE_ENCRYPTION
-    ACE_SSL_Context *context = ACE_SSL_Context::instance ();
-    if(context->get_mode() !=  ACE_SSL_Context::SSLv23_client)
-        context->set_mode(ACE_SSL_Context::SSLv23_client);
-#endif
-
-#if !defined(WIN32)
-    //avoid SIGPIPE
-    static ACE_Sig_Action no_sigpipe ((ACE_SignalHandler) SIG_IGN);
-    static ACE_Sig_Action original_action;
-    no_sigpipe.register_action (SIGPIPE, &original_action);
-#endif
-
-    ClientInstance* pClient = new ClientInstance;
-    pClient->pEventHandler = new TTMsgQueue();
-    pClient->pClientNode = new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), 
-                                          pClient->pEventHandler);
+    clientinst_t inst(new ClientInstance(new TTMsgQueue()));
 
     wguard_t g(clients_mutex);
-    clients.insert(pClient);
+    clients.push_back(inst);
 
-    return pClient;
+    return inst.get();
 }
 
 TEAMTALKDLL_API TTBOOL TT_CloseTeamTalk(IN TTInstance* lpTTInstance)
 {
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return FALSE;
 
     int ret = 0;
 
 #if defined(WIN32)
     //make sure hotkey doesn't call us anymore
-    HOTKEY->ClearAll(pClient->pEventHandler);
+    HOTKEY->ClearAll(inst->eventhandler.get());
 #endif
 
     //validate instance
     {
-        ClientNode* pClientNode;
-        GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+        clientnode_t clientnode;
+        GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     }
 
     TTASSERT(ret>=0);
 
-    delete pClient->pClientNode;
-
-    delete pClient->pEventHandler;
-
     wguard_t g(clients_mutex);
-    clients.erase(pClient);
-    delete pClient;
+    auto c = std::find(clients.begin(), clients.end(), inst);
+    if (c != clients.end())
+        clients.erase(c);
 
     return TRUE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevices(OUT INT32* lpnInputDeviceID, 
-                                               OUT INT32* lpnOutputDeviceID)
+                                                 OUT INT32* lpnOutputDeviceID)
 {
-#if defined(ENABLE_SOUNDSYSTEM)
     int input, output;
-    if(SOUNDSYSTEM->GetDefaultDevices(input, output))
+    if(soundsystem::GetInstance()->GetDefaultDevices(input, output))
     {
         if(lpnInputDeviceID)
             *lpnInputDeviceID = input;
@@ -412,17 +405,16 @@ TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevices(OUT INT32* lpnInputDeviceID,
 
         return TRUE;
     }
-#endif
+
     return FALSE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevicesEx(IN SoundSystem nSndSystem, 
-                                                 OUT INT32* lpnInputDeviceID, 
-                                                 OUT INT32* lpnOutputDeviceID)
+                                                   OUT INT32* lpnInputDeviceID, 
+                                                   OUT INT32* lpnOutputDeviceID)
 {
-#if defined(ENABLE_SOUNDSYSTEM)
     int input, output;
-    if(SOUNDSYSTEM->GetDefaultDevices((soundsystem::SoundAPI)nSndSystem, input, output))
+    if(soundsystem::GetInstance()->GetDefaultDevices((soundsystem::SoundAPI)nSndSystem, input, output))
     {
         if(lpnInputDeviceID)
             *lpnInputDeviceID = input;
@@ -432,20 +424,19 @@ TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevicesEx(IN SoundSystem nSndSystem,
 
         return TRUE;
     }
-#endif
+
     return FALSE;
 }
 
 
 TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
-                                        IN OUT INT32* lpnHowMany)
+                                          IN OUT INT32* lpnHowMany)
 {
     if(!lpnHowMany)
         return FALSE;
 
-#if defined(ENABLE_SOUNDSYSTEM)
     std::vector< soundsystem::DeviceInfo > devices;
-    SOUNDSYSTEM->GetSoundDevices(devices);
+    soundsystem::GetInstance()->GetSoundDevices(devices);
     if(!pSoundDevices)
     {
         *lpnHowMany = (INT32)devices.size();
@@ -498,18 +489,11 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
     }
     *lpnHowMany = (INT32)lessDevs;
     return TRUE;
-#else
-    return FALSE;
-#endif
 }
 
-TEAMTALKDLL_API TTBOOL TT_RestartSoundSystem()
+TEAMTALKDLL_API TTBOOL TT_RestartSoundSystem(void)
 {
-#if defined(ENABLE_SOUNDSYSTEM)
-    return SOUNDSYSTEM->RestartSoundSystem();
-#else
-    return FALSE;
-#endif
+    return soundsystem::GetInstance()->RestartSoundSystem();
 }
 
 TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID, 
@@ -522,14 +506,14 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
     bool agc_enable = false, denoise_enable = false, aec_enable = false;
     int noisesuppressdb = 0;
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     SpeexAGC agc;
     SpeexAEC aec;
 #endif
 
     if(lpSpeexDSP)
     {
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
         agc_enable = lpSpeexDSP->bEnableAGC;
         agc.gain_level = (float)lpSpeexDSP->nGainLevel;
         agc.max_increment = lpSpeexDSP->nMaxIncDBSec;
@@ -549,7 +533,6 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
 #endif
     }
 
-#if defined(ENABLE_SOUNDSYSTEM)
     SoundLoopback* pSoundLoopBack;
     ACE_NEW_RETURN(pSoundLoopBack, SoundLoopback(), NULL);
 
@@ -559,7 +542,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
         b = pSoundLoopBack->StartDuplexTest(nInputDeviceID, 
                                             nOutputDeviceID, 
                                             nSampleRate, nChannels
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
                                             , agc_enable, agc,
                                             denoise_enable, 
                                             noisesuppressdb,
@@ -573,7 +556,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
         b = pSoundLoopBack->StartTest(nInputDeviceID, 
                                        nOutputDeviceID, 
                                        nSampleRate, nChannels
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
                                        , agc_enable, agc,
                                        denoise_enable, 
                                        noisesuppressdb,
@@ -594,13 +577,10 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
         soundloops.insert(pSoundLoopBack);
     }
     return pSoundLoopBack;
-#endif
-    return NULL;
 }
 
 TEAMTALKDLL_API TTBOOL TT_CloseSoundLoopbackTest(IN TTSoundLoop* lpTTSoundLoop)
 {
-#if defined(ENABLE_SOUNDSYSTEM)
     wguard_t g(soundloops_mutex);
     SoundLoopback* pSoundLoopBack = reinterpret_cast<SoundLoopback*>(lpTTSoundLoop);
     if(soundloops.find(pSoundLoopBack) != soundloops.end())
@@ -610,149 +590,147 @@ TEAMTALKDLL_API TTBOOL TT_CloseSoundLoopbackTest(IN TTSoundLoop* lpTTSoundLoop)
         soundloops.erase(pSoundLoopBack);
         return b;
     }
-#endif
+
     return FALSE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_InitSoundDuplexDevices(IN TTInstance* lpTTInstance, 
-                                               IN INT32 nInputDeviceID,
-                                               IN INT32 nOutputDeviceID)
+                                                 IN INT32 nInputDeviceID,
+                                                 IN INT32 nOutputDeviceID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    return pClientNode->InitSoundDuplexDevices(nInputDeviceID, nOutputDeviceID);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->InitSoundDuplexDevices(nInputDeviceID, nOutputDeviceID);
 }
 
 TEAMTALKDLL_API TTBOOL TT_InitSoundInputDevice(IN TTInstance* lpTTInstance, 
-                                             IN INT32 nInputDeviceID)
+                                               IN INT32 nInputDeviceID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    return pClientNode->InitSoundInputDevice(nInputDeviceID);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->InitSoundInputDevice(nInputDeviceID);
 }
 
 TEAMTALKDLL_API TTBOOL TT_InitSoundOutputDevice(IN TTInstance* lpTTInstance, 
-                                              IN INT32 nOutputDeviceID)
+                                                IN INT32 nOutputDeviceID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    return pClientNode->InitSoundOutputDevice(nOutputDeviceID);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->InitSoundOutputDevice(nOutputDeviceID);
 }
 
 TEAMTALKDLL_API TTBOOL TT_CloseSoundInputDevice(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    return pClientNode->CloseSoundInputDevice();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->CloseSoundInputDevice();
 }
 
 TEAMTALKDLL_API TTBOOL TT_CloseSoundOutputDevice(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    return pClientNode->CloseSoundOutputDevice();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->CloseSoundOutputDevice();
 }
 
 TEAMTALKDLL_API TTBOOL TT_CloseSoundDuplexDevices(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    return pClientNode->CloseSoundDuplexDevices();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->CloseSoundDuplexDevices();
 }
 
 TEAMTALKDLL_API INT32 TT_GetSoundInputLevel(IN TTInstance* lpTTInstance)
 {
     INT32 nLevel = SOUND_VU_MIN;
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, nLevel);
-    nLevel = pClientNode->GetCurrentVoiceLevel();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, nLevel);
+    nLevel = clientnode->GetCurrentVoiceLevel();
     return nLevel;
 }
 
-TEAMTALKDLL_API TTBOOL TT_SetSoundInputGainLevel(IN TTInstance* lpTTInstance, INT32 nLevel)
+TEAMTALKDLL_API TTBOOL TT_SetSoundInputGainLevel(IN TTInstance* lpTTInstance, IN INT32 nLevel)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    pClientNode->SetVoiceGainLevel(nLevel);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    clientnode->SetVoiceGainLevel(nLevel);
     return TRUE;
 }
 
 TEAMTALKDLL_API INT32 TT_GetSoundInputGainLevel(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, SOUND_GAIN_MIN);
-    return pClientNode->GetVoiceGainLevel();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, SOUND_GAIN_MIN);
+    return clientnode->GetVoiceGainLevel();
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetSoundInputPreprocess(IN TTInstance* lpTTInstance,
-                                                const IN SpeexDSP* lpSpeexDSP)
+                                                  const IN SpeexDSP* lpSpeexDSP)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     teamtalk::SpeexDSP spxdsp;
     Convert(*lpSpeexDSP, spxdsp);
 
-    pClientNode->SetSoundPreprocess(spxdsp);
+    clientnode->SetSoundPreprocess(spxdsp);
     return TRUE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetSoundInputPreprocess(IN TTInstance* lpTTInstance,
-                                                OUT SpeexDSP* lpSpeexDSP)
+                                                  OUT SpeexDSP* lpSpeexDSP)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    teamtalk::SpeexDSP spxdsp = pClientNode->GetSoundProperties().speexdsp;
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    teamtalk::SpeexDSP spxdsp = clientnode->GetSoundProperties().speexdsp;
     Convert(spxdsp, *lpSpeexDSP);
     return TRUE;
 }
 
-TEAMTALKDLL_API TTBOOL TT_SetSoundOutputVolume(IN TTInstance* lpTTInstance, INT32 nVolume)
+TEAMTALKDLL_API TTBOOL TT_SetSoundOutputVolume(IN TTInstance* lpTTInstance, IN INT32 nVolume)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    return pClientNode->SetSoundOutputVolume(nVolume);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->SetSoundOutputVolume(nVolume);
 }
 
 TEAMTALKDLL_API INT32 TT_GetSoundOutputVolume(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, SOUND_VOLUME_MIN);
-    return pClientNode->GetSoundOutputVolume();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, SOUND_VOLUME_MIN);
+    return clientnode->GetSoundOutputVolume();
 }
 
-TEAMTALKDLL_API TTBOOL TT_SetSoundOutputMute(IN TTInstance* lpTTInstance, TTBOOL bMuteAll)
+TEAMTALKDLL_API TTBOOL TT_SetSoundOutputMute(IN TTInstance* lpTTInstance, IN TTBOOL bMuteAll)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    return pClientNode->MuteAll(bMuteAll);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->MuteAll(bMuteAll);
 }
 
 TEAMTALKDLL_API TTBOOL TT_EnableVoiceTransmission(IN TTInstance* lpTTInstance,
-                                                IN TTBOOL bEnable)
+                                                  IN TTBOOL bEnable)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    pClientNode->EnableVoiceTransmission(bEnable);
-    return TRUE;
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->EnableVoiceTransmission(bEnable);
 }
 
 TEAMTALKDLL_API TTBOOL TT_EnableVoiceActivation(IN TTInstance* lpTTInstance,
-                                              TTBOOL bEnable)
+                                                IN TTBOOL bEnable)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    pClientNode->EnableVoiceActivation(bEnable);
-    return TRUE;
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->EnableVoiceActivation(bEnable);
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetVoiceActivationLevel(IN TTInstance* lpTTInstance, 
-                                                IN INT32 nLevel)
+                                                  IN INT32 nLevel)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     if(nLevel >= SOUND_VU_MIN || nLevel <= SOUND_VU_MAX)
     {
-        pClientNode->SetVoiceActivationLevel(nLevel);
+        clientnode->SetVoiceActivationLevel(nLevel);
         return TRUE;
     }
     return FALSE;
@@ -760,85 +738,95 @@ TEAMTALKDLL_API TTBOOL TT_SetVoiceActivationLevel(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API INT32 TT_GetVoiceActivationLevel(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, SOUND_VU_MIN);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, SOUND_VU_MIN);
 
-    return pClientNode->GetVoiceActivationLevel();
+    return clientnode->GetVoiceActivationLevel();
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetVoiceActivationStopDelay(IN TTInstance* lpTTInstance,
-                                                    IN INT32 nDelayMSec)
+                                                      IN INT32 nDelayMSec)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    pClientNode->SetVoiceActivationStoppedDelay(nDelayMSec);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    clientnode->SetVoiceActivationStoppedDelay(nDelayMSec);
     return TRUE;
 }
 
 TEAMTALKDLL_API INT32 TT_GetVoiceActivationStopDelay(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
-    return pClientNode->GetVoiceActivationStoppedDelay();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
+    return clientnode->GetVoiceActivationStoppedDelay();
 }
 
 TEAMTALKDLL_API TTBOOL TT_Enable3DSoundPositioning(IN TTInstance* lpTTInstance, 
-                                              IN TTBOOL bEnable)
+                                                   IN TTBOOL bEnable)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    return pClientNode->EnableAutoPositioning(bEnable);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->EnableAutoPositioning(bEnable);
 }
 
 TEAMTALKDLL_API TTBOOL TT_AutoPositionUsers(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    return pClientNode->AutoPositionUsers();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->AutoPositionUsers();
 }
 
 TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEvent(IN TTInstance* lpTTInstance,
-                                              IN INT32 nUserID,
-                                              IN StreamType nStreamType,
-                                              IN TTBOOL bEnable)
+                                                IN INT32 nUserID,
+                                                IN StreamType nStreamType,
+                                                IN TTBOOL bEnable)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     
-    pClientNode->EnableAudioBlockCallback(nUserID, (teamtalk::StreamType)nStreamType, bEnable);
-    return TRUE;
+    return clientnode->EnableAudioBlockCallback(nUserID, (teamtalk::StreamType)nStreamType, bEnable);
+}
+
+TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
+                                           IN const AudioBlock* lpAudioBlock)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    media::AudioFrame frm(media::AudioFormat(lpAudioBlock->nSampleRate, lpAudioBlock->nChannels),
+                          reinterpret_cast<short*>(lpAudioBlock->lpRawAudio), lpAudioBlock->nSamples);
+    return clientnode->QueueAudioInput(frm, lpAudioBlock->nStreamID);
 }
 
 TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,
-                                                     IN const AudioCodec* lpAudioCodec,
-                                                     IN const TTCHAR* szAudioFileName,
-                                                     IN AudioFileFormat uAFF)
+                                                       IN const AudioCodec* lpAudioCodec,
+                                                       IN const TTCHAR* szAudioFileName,
+                                                       IN AudioFileFormat uAFF)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     
     teamtalk::AudioCodec codec;
     if(!lpAudioCodec || !Convert(*lpAudioCodec, codec))
         return FALSE;
 
-    return pClientNode->StartRecordingMuxedAudioFile(codec, szAudioFileName, 
+    return clientnode->StartRecordingMuxedAudioFile(codec, szAudioFileName, 
                                                      (teamtalk::AudioFileFormat)uAFF);
 }
 
 TEAMTALKDLL_API TTBOOL TT_StopRecordingMuxedAudioFile(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     
-    pClientNode->StopRecordingMuxedAudioFile();
+    clientnode->StopRecordingMuxedAudioFile();
     return TRUE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_StartVideoCaptureTransmission(IN TTInstance* lpTTInstance,
-                                                      IN const VideoCodec* lpVideoCodec)
+                                                        IN const VideoCodec* lpVideoCodec)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     teamtalk::VideoCodec codec;
     Convert(*lpVideoCodec, codec);
@@ -847,26 +835,27 @@ TEAMTALKDLL_API TTBOOL TT_StartVideoCaptureTransmission(IN TTInstance* lpTTInsta
     else
         codec.codec = teamtalk::CODEC_NO_CODEC;
 
-    return pClientNode->OpenVideoCaptureSession(codec);
+    return clientnode->OpenVideoCaptureSession(codec);
 }
 
 TEAMTALKDLL_API TTBOOL TT_StopVideoCaptureTransmission(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    pClientNode->CloseVideoCaptureSession();
+    clientnode->CloseVideoCaptureSession();
     return TRUE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVideoDevices,
-                                               IN OUT INT32* lpnHowMany)
+                                                 IN OUT INT32* lpnHowMany)
 {
     if(!lpnHowMany)
         return FALSE;
 
-#if defined(ENABLE_VIDCAP)
-    vidcap_devices_t devs = VIDCAP->GetDevices();
+    auto videocapture = VideoCapture::Create();
+
+    vidcap_devices_t devs = videocapture->GetDevices();
     if(!lpVideoDevices)
     {
         *lpnHowMany = (INT32)devs.size();
@@ -901,41 +890,38 @@ TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVi
     }
     *lpnHowMany = (INT32)lessDevs;
     return TRUE;
-#else
-    return FALSE;
-#endif
 }
 
 TEAMTALKDLL_API TTBOOL TT_InitVideoCaptureDevice(IN TTInstance* lpTTInstance,
-                                               IN const TTCHAR* szDeviceID,
-                                               IN const VideoFormat* lpVideoFormat)
+                                                 IN const TTCHAR* szDeviceID,
+                                                 IN const VideoFormat* lpVideoFormat)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     if(!lpVideoFormat)
         return FALSE;
 
     media::VideoFormat cap_format;
     Convert(*lpVideoFormat, cap_format);
 
-    return pClientNode->InitVideoCapture(szDeviceID, cap_format);
+    return clientnode->InitVideoCapture(szDeviceID, cap_format);
 }
 
 TEAMTALKDLL_API TTBOOL TT_CloseVideoCaptureDevice(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    pClientNode->CloseVideoCapture();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    clientnode->CloseVideoCapture();
     return TRUE;
 }
 
 #ifdef WIN32
 TEAMTALKDLL_API TTBOOL TT_PaintVideoFrame(IN HDC hDC,
-                                        IN INT32 XDest,
-                                        IN INT32 YDest,
-                                        IN INT32 nDestWidth,
-                                        IN INT32 nDestHeight,
-                                        IN VideoFrame* lpVideoFrame)
+                                          IN INT32 XDest,
+                                          IN INT32 YDest,
+                                          IN INT32 nDestWidth,
+                                          IN INT32 nDestHeight,
+                                          IN VideoFrame* lpVideoFrame)
 {
     if(!lpVideoFrame)
         return FALSE;
@@ -945,8 +931,8 @@ TEAMTALKDLL_API TTBOOL TT_PaintVideoFrame(IN HDC hDC,
     if(RGB32_BYTES(lpVideoFrame->nWidth, lpVideoFrame->nHeight) != lpVideoFrame->nFrameBufferSize)
         return FALSE;
 
-    BITMAPINFOHEADER bmh = {0};
-    BITMAPINFO bmi = {0};
+    BITMAPINFOHEADER bmh = {};
+    BITMAPINFO bmi = {};
     bmh.biSize = sizeof(bmh);
     bmh.biWidth = lpVideoFrame->nWidth;
     bmh.biHeight = lpVideoFrame->nHeight*-1; //flip image (top down)
@@ -967,15 +953,15 @@ TEAMTALKDLL_API TTBOOL TT_PaintVideoFrame(IN HDC hDC,
 }
 
 TEAMTALKDLL_API TTBOOL TT_PaintVideoFrameEx(IN HDC hDC,
-                                          IN INT32 XDest,
-                                          IN INT32 YDest,
-                                          IN INT32 nDestWidth,
-                                          IN INT32 nDestHeight,
-                                          IN INT32 XSrc,
-                                          IN INT32 YSrc,
-                                          IN INT32 nSrcWidth,
-                                          IN INT32 nSrcHeight,
-                                          IN VideoFrame* lpVideoFrame)
+                                            IN INT32 XDest,
+                                            IN INT32 YDest,
+                                            IN INT32 nDestWidth,
+                                            IN INT32 nDestHeight,
+                                            IN INT32 XSrc,
+                                            IN INT32 YSrc,
+                                            IN INT32 nSrcWidth,
+                                            IN INT32 nSrcHeight,
+                                            IN VideoFrame* lpVideoFrame)
 {
     if(!lpVideoFrame ||
        XSrc + nSrcWidth > lpVideoFrame->nWidth || 
@@ -986,8 +972,8 @@ TEAMTALKDLL_API TTBOOL TT_PaintVideoFrameEx(IN HDC hDC,
     if(RGB32_BYTES(lpVideoFrame->nWidth, lpVideoFrame->nHeight) != lpVideoFrame->nFrameBufferSize)
         return FALSE;
 
-    BITMAPINFOHEADER bmh = {0};
-    BITMAPINFO bmi = {0};
+    BITMAPINFOHEADER bmh = {};
+    BITMAPINFO bmi = {};
     bmh.biSize = sizeof(bmh);
     bmh.biWidth = lpVideoFrame->nWidth;
     bmh.biHeight = lpVideoFrame->nHeight*-1; //flip image
@@ -1011,10 +997,10 @@ TEAMTALKDLL_API TTBOOL TT_PaintVideoFrameEx(IN HDC hDC,
 TEAMTALKDLL_API VideoFrame* TT_AcquireUserVideoCaptureFrame(IN TTInstance* lpTTInstance,
                                                             IN INT32 nUserID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return NULL;
@@ -1023,15 +1009,15 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserVideoCaptureFrame(IN TTInstance* lpTTI
 
     if(nUserID == 0)
     {
-        mb = pClientNode->AcquireVideoCaptureFrame();
+        mb = clientnode->AcquireVideoCaptureFrame();
         if(!mb)
             return NULL;
     }
     else
     {
         //try and extract new one
-        clientuser_t user = pClientNode->GetUser(nUserID);
-        if(user.null())
+        clientuser_t user = clientnode->GetUser(nUserID);
+        if(!user)
             return NULL;
         g.release(); //don't hold lock while decoding
         mb = user->GetVideoCaptureFrame();
@@ -1053,15 +1039,15 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserVideoCaptureFrame(IN TTInstance* lpTTI
 }
 
 TEAMTALKDLL_API TTBOOL TT_ReleaseUserVideoCaptureFrame(IN TTInstance* lpTTInstance,
-                                                     IN VideoFrame* lpVideoFrame)
+                                                       IN VideoFrame* lpVideoFrame)
 {
     if(!lpVideoFrame)
         return FALSE;
 
-    ClientNode* pClientNode; 
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode; 
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return FALSE;
@@ -1070,13 +1056,13 @@ TEAMTALKDLL_API TTBOOL TT_ReleaseUserVideoCaptureFrame(IN TTInstance* lpTTInstan
 
 TEAMTALKDLL_API ClientFlags TT_GetFlags(IN TTInstance* lpTTInstance)
 {    
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, ::CLIENT_CLOSED);
-    return (ClientFlags)pClientNode->GetFlags();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, ::CLIENT_CLOSED);
+    return (ClientFlags)clientnode->GetFlags();
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetLicenseInformation(IN const TTCHAR szRegName[TT_STRLEN],
-                                              IN const TTCHAR szRegKey[TT_STRLEN])
+                                                IN const TTCHAR szRegKey[TT_STRLEN])
 {
     return TRUE;
 }
@@ -1102,20 +1088,14 @@ TEAMTALKDLL_API TTBOOL TT_ConnectSysID(IN TTInstance* lpTTInstance,
                                        IN TTBOOL bEncrypted,
                                        IN const TTCHAR* szSystemID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     if(!szHostAddress)
         return FALSE;
 
-#if defined(ENABLE_ENCRYPTION)
-    return pClientNode->Connect(bEncrypted, szHostAddress, nTcpPort, nUdpPort, 
+    return clientnode->Connect(bEncrypted, szHostAddress, nTcpPort, nUdpPort, 
                                 szSystemID, ACE_TEXT(""), nLocalTcpPort, 
                                 nLocalUdpPort);
-#else
-    return pClientNode->Connect(false, szHostAddress, nTcpPort, nUdpPort, 
-                                szSystemID, ACE_TEXT(""), nLocalTcpPort, 
-                                nLocalUdpPort);
-#endif
 }
 
 TEAMTALKDLL_API TTBOOL TT_ConnectEx(IN TTInstance* lpTTInstance,
@@ -1127,51 +1107,43 @@ TEAMTALKDLL_API TTBOOL TT_ConnectEx(IN TTInstance* lpTTInstance,
                                     IN INT32 nLocalUdpPort,
                                     IN TTBOOL bEncrypted)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     if(!szHostAddress || !szBindIPAddr)
         return FALSE;
 
-#if defined(ENABLE_ENCRYPTION)
-    return pClientNode->Connect(bEncrypted, szHostAddress, nTcpPort, nUdpPort, 
+    return clientnode->Connect(bEncrypted, szHostAddress, nTcpPort, nUdpPort, 
                                 SERVER_WELCOME, szBindIPAddr, nLocalTcpPort, 
                                 nLocalUdpPort);
-#else
-    return pClientNode->Connect(false, szHostAddress, nTcpPort, nUdpPort, 
-                                SERVER_WELCOME, szBindIPAddr, nLocalTcpPort, 
-                                nLocalUdpPort);
-#endif
 }
-
-
 
 TEAMTALKDLL_API TTBOOL TT_Disconnect(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    pClientNode->Disconnect();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    clientnode->Disconnect();
     return TRUE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_QueryMaxPayload(IN TTInstance* lpTTInstance,
-                                        IN INT32 nUserID)
+                                          IN INT32 nUserID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    return pClientNode->StartMTUQuery();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return clientnode->StartMTUQuery();
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetClientStatistics(IN TTInstance* lpTTInstance,
-                                      OUT ClientStatistics* lpClientStatistics)
+                                              OUT ClientStatistics* lpClientStatistics)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     if(!lpClientStatistics)
         return FALSE;
 
     teamtalk::ClientStats stats;
-    if(pClientNode->GetClientStatistics(stats))
+    if(clientnode->GetClientStatistics(stats))
     {
         Convert(stats, *lpClientStatistics);
         return TRUE;
@@ -1179,12 +1151,35 @@ TEAMTALKDLL_API TTBOOL TT_GetClientStatistics(IN TTInstance* lpTTInstance,
     return FALSE;
 }
 
+TEAMTALKDLL_API TTBOOL TT_SetClientKeepAlive(IN TTInstance* lpTTInstance,
+                                             IN const ClientKeepAlive* lpClientKeepAlive)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    teamtalk::ClientKeepAlive ka;
+    Convert(*lpClientKeepAlive, ka);
+    clientnode->UpdateKeepAlive(ka);
+    return TRUE;
+}
+
+TEAMTALKDLL_API TTBOOL TT_GetClientKeepAlive(IN TTInstance* lpTTInstance,
+                                             OUT ClientKeepAlive* lpClientKeepAlive)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    teamtalk::ClientKeepAlive ka = clientnode->GetKeepAlive();
+    Convert(ka, *lpClientKeepAlive);
+    return TRUE;
+}
+
 TEAMTALKDLL_API INT32 TT_DoPing(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
-    return pClientNode->DoPing(true);
+    return clientnode->DoPing(true);
 }
 
 TEAMTALKDLL_API INT32 TT_DoLogin(IN TTInstance* lpTTInstance,
@@ -1202,48 +1197,48 @@ TEAMTALKDLL_API INT32 TT_DoLoginEx(IN TTInstance* lpTTInstance,
                                    IN const TTCHAR* szPassword,
                                    IN const TTCHAR* szClientName)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
     if(szNickname && szUsername && szPassword && szClientName)
-        return pClientNode->DoLogin(szNickname, szUsername, 
+        return clientnode->DoLogin(szNickname, szUsername, 
                                     szPassword, szClientName);
     return -1;
 }
 
 TEAMTALKDLL_API INT32 TT_DoLogout(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
-    return pClientNode->DoLogout();
+    return clientnode->DoLogout();
 }
 
 TEAMTALKDLL_API INT32 TT_DoJoinChannel(IN TTInstance* lpTTInstance,
                                        IN const Channel* lpChannel)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
     teamtalk::ChannelProp prop;
     if(!lpChannel || !Convert(*lpChannel, prop))
         return -1;
 
-    return pClientNode->DoJoinChannel(prop);
+    return clientnode->DoJoinChannel(prop, false);
 }
 
 TEAMTALKDLL_API INT32 TT_DoJoinChannelByID(IN TTInstance* lpTTInstance,
                                            IN INT32 nChannelID, 
                                            IN const TTCHAR* szPassword)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
     if(szPassword)
     {
         teamtalk::ChannelProp prop;
         prop.channelid = nChannelID;
         prop.passwd = szPassword;
-        return pClientNode->DoJoinChannel(prop);
+        return clientnode->DoJoinChannel(prop, true);
     }
     return -1;
 }
@@ -1251,19 +1246,19 @@ TEAMTALKDLL_API INT32 TT_DoJoinChannelByID(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API INT32 TT_DoLeaveChannel(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
-    return pClientNode->DoLeaveChannel();
+    return clientnode->DoLeaveChannel();
 }
 
 TEAMTALKDLL_API INT32 TT_DoChangeNickname(IN TTInstance* lpTTInstance,
-                                      IN const TTCHAR* szNewNick)
+                                          IN const TTCHAR* szNewNick)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
     if( szNewNick )
-        return pClientNode->DoChangeNickname(szNewNick);
+        return clientnode->DoChangeNickname(szNewNick);
     return -1;
 }
 
@@ -1271,25 +1266,25 @@ TEAMTALKDLL_API INT32 TT_DoChangeStatus(IN TTInstance* lpTTInstance,
                                         IN INT32 nStatusMode, 
                                         IN const TTCHAR* szStatusMessage)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
     if(szStatusMessage)
-        return pClientNode->DoChangeStatus(nStatusMode, szStatusMessage);
+        return clientnode->DoChangeStatus(nStatusMode, szStatusMessage);
     return -1;
 }
 
 TEAMTALKDLL_API INT32 TT_DoTextMessage(IN TTInstance* lpTTInstance,
                                        IN const TextMessage* lpTextMessage)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
     if(lpTextMessage)
     {
         teamtalk::TextMessage msg;
         Convert(*lpTextMessage, msg);
-        return pClientNode->DoTextMessage(msg);
+        return clientnode->DoTextMessage(msg);
     }
     return -1;
 }
@@ -1299,9 +1294,9 @@ TEAMTALKDLL_API INT32 TT_DoChannelOp(IN TTInstance* lpTTInstance,
                                      IN INT32 nChannelID,
                                      IN TTBOOL bMakeOperator)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
-    return pClientNode->DoChannelOperator(nUserID, nChannelID, ACE_TString(), 
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
+    return clientnode->DoChannelOperator(nUserID, nChannelID, ACE_TString(), 
                                           bMakeOperator);
 }
 
@@ -1311,11 +1306,11 @@ TEAMTALKDLL_API INT32 TT_DoChannelOpEx(IN TTInstance* lpTTInstance,
                                        IN const TTCHAR* szOpPassword,
                                        IN TTBOOL bMakeOperator)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
     if(!szOpPassword)
         return -1;
-    return pClientNode->DoChannelOperator(nUserID, nChannelID, 
+    return clientnode->DoChannelOperator(nUserID, nChannelID, 
                                           szOpPassword,
                                           bMakeOperator);
 }
@@ -1324,21 +1319,21 @@ TEAMTALKDLL_API INT32 TT_DoKickUser(IN TTInstance* lpTTInstance,
                                     IN INT32 nUserID,
                                     IN INT32 nChannelID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
-    return pClientNode->DoKickUser(nUserID, nChannelID);
+    return clientnode->DoKickUser(nUserID, nChannelID);
 }
 
 TEAMTALKDLL_API INT32 TT_DoSendFile(IN TTInstance* lpTTInstance,
                                     IN INT32 nChannelID,
                                     IN const TTCHAR* szLocalFilePath)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
     if(szLocalFilePath && ACE_OS::filesize(szLocalFilePath)>=0)
-        return pClientNode->DoFileSend(nChannelID, szLocalFilePath);
+        return clientnode->DoFileSend(nChannelID, szLocalFilePath);
     return -1;
 }
 
@@ -1347,15 +1342,15 @@ TEAMTALKDLL_API INT32 TT_DoRecvFile(IN TTInstance* lpTTInstance,
                                     IN INT32 nFileID, 
                                     IN const TTCHAR* szLocalFilePath)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
     if(szLocalFilePath)
     {
-        clientchannel_t chan = pClientNode->GetChannel(nChannelID);
+        clientchannel_t chan = clientnode->GetChannel(nChannelID);
         teamtalk::RemoteFile remotefile;
-        if(!chan.null() && chan->GetFile(nFileID, remotefile))
-            return pClientNode->DoFileRecv(nChannelID, szLocalFilePath,
+        if(chan && chan->GetFile(nFileID, remotefile))
+            return clientnode->DoFileRecv(nChannelID, szLocalFilePath,
                                            remotefile.filename);
     }
     return -1;
@@ -1367,24 +1362,24 @@ TEAMTALKDLL_API INT32 TT_DoDeleteFile(IN TTInstance* lpTTInstance,
                                       IN INT32 nFileID)                                          
 
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
-    clientchannel_t chan = pClientNode->GetChannel(nChannelID);
+    clientchannel_t chan = clientnode->GetChannel(nChannelID);
     teamtalk::RemoteFile remotefile;
-    if(!chan.null() && chan->GetFile(nFileID, remotefile))
-        return pClientNode->DoFileDelete(nChannelID, remotefile.filename);
+    if(chan && chan->GetFile(nFileID, remotefile))
+        return clientnode->DoFileDelete(nChannelID, remotefile.filename);
     return -1;
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetServerProperties(IN TTInstance* lpTTInstance,
-                                            OUT ServerProperties* lpProperties)
+                                              OUT ServerProperties* lpProperties)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     teamtalk::ServerInfo prop;
-    if(pClientNode->GetServerInfo(prop) && lpProperties)
+    if(clientnode->GetServerInfo(prop) && lpProperties)
     {
         Convert(prop, *lpProperties);
         return TRUE;
@@ -1393,16 +1388,16 @@ TEAMTALKDLL_API TTBOOL TT_GetServerProperties(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetServerUsers(IN TTInstance* lpTTInstance,
-                                       IN OUT User* lpUsers,
-                                       IN OUT INT32* lpnHowMany)
+                                         IN OUT User* lpUsers,
+                                         IN OUT INT32* lpnHowMany)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     if(!lpnHowMany)
         return FALSE;
 
     set<int> userids;
-    pClientNode->GetUsers(userids);
+    clientnode->GetUsers(userids);
     if(!lpUsers)
     {
         *lpnHowMany = (INT32)userids.size();
@@ -1412,9 +1407,9 @@ TEAMTALKDLL_API TTBOOL TT_GetServerUsers(IN TTInstance* lpTTInstance,
     int i = 0;
     while(ite != userids.end() && i < *lpnHowMany)
     {
-        clientuser_t user = pClientNode->GetUser(*ite);
-        TTASSERT(!user.null());
-        if(!user.null())
+        clientuser_t user = clientnode->GetUser(*ite);
+        TTASSERT(user);
+        if(user)
             Convert(*user, lpUsers[i++]);
         ite++;
     }
@@ -1425,11 +1420,11 @@ TEAMTALKDLL_API TTBOOL TT_GetServerUsers(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API INT32 TT_GetRootChannelID(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, 0);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, 0);
 
-    clientchannel_t channel = pClientNode->GetRootChannel();
-    if(!channel.null())
+    clientchannel_t channel = clientnode->GetRootChannel();
+    if(channel)
         return channel->GetChannelID();
 
     return 0;
@@ -1437,21 +1432,21 @@ TEAMTALKDLL_API INT32 TT_GetRootChannelID(IN TTInstance* lpTTInstance)
 
 TEAMTALKDLL_API INT32 TT_GetMyChannelID(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, 0);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, 0);
 
-    return pClientNode->GetChannelID();
+    return clientnode->GetChannelID();
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetChannel(IN TTInstance* lpTTInstance,
-                                   IN INT32 nChannelID, 
-                                   OUT Channel* lpChannel)
+                                     IN INT32 nChannelID, 
+                                     OUT Channel* lpChannel)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     teamtalk::ChannelProp chanprop;
-    if(pClientNode->GetChannelProp(nChannelID, chanprop))
+    if(clientnode->GetChannelProp(nChannelID, chanprop))
     {
         return Convert(chanprop, *lpChannel);
     }
@@ -1460,15 +1455,15 @@ TEAMTALKDLL_API TTBOOL TT_GetChannel(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetChannelPath(IN TTInstance* lpTTInstance,
-                                       IN INT32 nChannelID, 
-                                       OUT TTCHAR szChannelPath[TT_STRLEN])
+                                         IN INT32 nChannelID, 
+                                         OUT TTCHAR szChannelPath[TT_STRLEN])
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     if(szChannelPath)
     {
-        clientchannel_t channel = pClientNode->GetChannel(nChannelID);
-        if(!channel.null())
+        clientchannel_t channel = clientnode->GetChannel(nChannelID);
+        if(channel)
         {
             ACE_OS::strsncpy(szChannelPath, channel->GetChannelPath().c_str(), TT_STRLEN);
             return TRUE;
@@ -1478,31 +1473,31 @@ TEAMTALKDLL_API TTBOOL TT_GetChannelPath(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API INT32 TT_GetChannelIDFromPath(IN TTInstance* lpTTInstance,
-                                            IN const TTCHAR* szChannelPath)
+                                              IN const TTCHAR* szChannelPath)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     if(szChannelPath)
     {
-        clientchannel_t channel = ChangeChannel(pClientNode->GetRootChannel(), 
+        clientchannel_t channel = ChangeChannel(clientnode->GetRootChannel(), 
                                                 szChannelPath);
-        if(!channel.null())
+        if (channel)
             return channel->GetChannelID();
     }
     return 0;
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetChannelUsers(IN TTInstance* lpTTInstance,
-                                        IN INT32 nChannelID,
-                                        IN OUT User* lpUsers,
-                                        IN OUT INT32* lpnHowMany)
+                                          IN INT32 nChannelID,
+                                          IN OUT User* lpUsers,
+                                          IN OUT INT32* lpnHowMany)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    clientchannel_t chan = pClientNode->GetChannel(nChannelID);
-    if(chan.null())
+    clientchannel_t chan = clientnode->GetChannel(nChannelID);
+    if(!chan)
         return FALSE;
 
     if(lpUsers == NULL)
@@ -1533,11 +1528,11 @@ TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDir(IN TTInstance* lpTTInstance,
                                                  IN const TTCHAR* szFileNameVars,
                                                  IN AudioFileFormat uAFF)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    clientuser_t user = pClientNode->GetUser(nUserID, TRUE);
-    if(!user.null())
+    clientuser_t user = clientnode->GetUser(nUserID, TRUE);
+    if (user)
     {
         if(!szFolderPath)
             szFolderPath = ACE_TEXT("");
@@ -1554,15 +1549,15 @@ TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDir(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetUserAudioStreamBufferSize(IN TTInstance* lpTTInstance,
-                                                     IN INT32 nUserID,
-                                                     IN StreamTypes uStreamType,
-                                                     IN INT32 nMSec)
+                                                       IN INT32 nUserID,
+                                                       IN StreamTypes uStreamType,
+                                                       IN INT32 nMSec)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    clientuser_t user = pClientNode->GetUser(nUserID);
-    if(!user.null())
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if(user)
     {
         user->SetAudioStreamBufferSize((teamtalk::StreamType)uStreamType, nMSec);
         return TRUE;
@@ -1574,38 +1569,35 @@ TEAMTALKDLL_API AudioBlock* TT_AcquireUserAudioBlock(IN TTInstance* lpTTInstance
                                                      IN StreamType nStreamType,
                                                      IN INT32 nUserID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, NULL);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, NULL);
 
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
-        return NULL;
+        return nullptr;
 
-    const SoundProperties& prop = pClientNode->GetSoundProperties();
+    ACE_Message_Block* mb = clientnode->audiocontainer().AcquireAudioFrame(nUserID, nStreamType);
+    if (!mb)
+        return nullptr;
 
-    RawAudio aud;
-    ACE_Message_Block* mb = AUDIOCONTAINER::instance()->AcquireRawAudio(prop.soundgroupid,
-                                                                        nUserID, 
-                                                                        nStreamType, aud);
-    if(!mb)
-        return NULL;
-
+    media::AudioFrame frm(mb);
+    
     AudioBlock* lpAudioBlock = inst->PushAudioBlock(mb);
-    lpAudioBlock->nStreamID = aud.stream_id;
-    lpAudioBlock->nSampleRate = aud.samplerate;
-    lpAudioBlock->nChannels = aud.channels;
-    lpAudioBlock->lpRawAudio = aud.rawAudio;
-    lpAudioBlock->nSamples = aud.samples;
-    lpAudioBlock->uSampleIndex = aud.start_sample_no;
+    lpAudioBlock->nStreamID = frm.streamid;
+    lpAudioBlock->nSampleRate = frm.inputfmt.samplerate;
+    lpAudioBlock->nChannels = frm.inputfmt.channels;
+    lpAudioBlock->lpRawAudio = frm.input_buffer;
+    lpAudioBlock->nSamples = frm.input_samples;
+    lpAudioBlock->uSampleIndex = frm.sample_no;
 
     return lpAudioBlock;
 }
 
 TEAMTALKDLL_API TTBOOL TT_ReleaseUserAudioBlock(IN TTInstance* lpTTInstance,
-                                              IN AudioBlock* lpAudioBlock)
+                                                IN AudioBlock* lpAudioBlock)
 {
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return FALSE;
@@ -1614,16 +1606,16 @@ TEAMTALKDLL_API TTBOOL TT_ReleaseUserAudioBlock(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetUser(IN TTInstance* lpTTInstance,
-                                IN INT32 nUserID, 
-                                OUT User* lpUser )
+                                  IN INT32 nUserID, 
+                                  OUT User* lpUser )
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     if(!lpUser)
         return FALSE;
 
-    clientuser_t user = pClientNode->GetUser(nUserID);
-    if(user.null())
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if(!user)
         return FALSE;
 
     Convert(*user, *lpUser);
@@ -1632,62 +1624,62 @@ TEAMTALKDLL_API TTBOOL TT_GetUser(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetUserStatistics(IN TTInstance* lpTTInstance,
-                                          IN INT32 nUserID, 
-                                          OUT UserStatistics* lpStats)
+                                            IN INT32 nUserID, 
+                                            OUT UserStatistics* lpStats)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    clientuser_t user = pClientNode->GetUser(nUserID);
-    if(!lpStats || user.null())
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if(!lpStats || !user)
         return FALSE;
     Convert(user->GetStatistics(), *lpStats);
     return TRUE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetUserByUsername(IN TTInstance* lpTTInstance,
-                                      IN const TTCHAR* szUsername, 
-                                      OUT User* lpUser)
+                                            IN const TTCHAR* szUsername, 
+                                            OUT User* lpUser)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     if(!szUsername || !lpUser)
         return FALSE;
 
-    clientuser_t user = pClientNode->GetUserByUsername(szUsername);
+    clientuser_t user = clientnode->GetUserByUsername(szUsername);
     if(user.get())
         return TT_GetUser(lpTTInstance, user->GetUserID(), lpUser);
     return FALSE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_IsChannelOperator(IN TTInstance* lpTTInstance,
-                                          IN INT32 nUserID, 
-                                          IN INT32 nChannelID)
+                                            IN INT32 nUserID, 
+                                            IN INT32 nChannelID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    clientchannel_t chan = pClientNode->GetChannel(nChannelID);
-    if(!chan.null())
+    clientchannel_t chan = clientnode->GetChannel(nChannelID);
+    if(chan)
         return chan->IsOperator(nUserID);
 
     return FALSE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetServerChannels(IN TTInstance* lpTTInstance,
-                                          IN OUT Channel* lpChannels,
-                                          IN OUT INT32* lpnHowMany)
+                                            IN OUT Channel* lpChannels,
+                                            IN OUT INT32* lpnHowMany)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     if(!lpnHowMany)
         return FALSE;
 
     std::vector<teamtalk::ChannelProp> result;
 
-    clientchannel_t chan = pClientNode->GetRootChannel();
-    if(!chan.null())
+    clientchannel_t chan = clientnode->GetRootChannel();
+    if (chan)
     {
         queue<clientchannel_t> channels;
         channels.push(chan);
@@ -1716,20 +1708,20 @@ TEAMTALKDLL_API TTBOOL TT_GetServerChannels(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API INT32 TT_GetMyUserID(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
-    return pClientNode->GetUserID();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
+    return clientnode->GetUserID();
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetMyUserAccount(IN TTInstance* lpTTInstance,
-                                         OUT UserAccount* lpUserAccount)
+                                           OUT UserAccount* lpUserAccount)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     if(!lpUserAccount)
         return FALSE;
 
-    const teamtalk::UserAccount& account = pClientNode->GetMyUserAccount();
+    const teamtalk::UserAccount& account = clientnode->GetMyUserAccount();
     Convert(account, *lpUserAccount);
 
     return TRUE;
@@ -1737,43 +1729,43 @@ TEAMTALKDLL_API TTBOOL TT_GetMyUserAccount(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API UserRights TT_GetMyUserRights(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    const teamtalk::UserAccount& account = pClientNode->GetMyUserAccount();
+    const teamtalk::UserAccount& account = clientnode->GetMyUserAccount();
     return account.userrights;
 }
 
 
 TEAMTALKDLL_API UserTypes TT_GetMyUserType(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, USERTYPE_NONE);
-    const teamtalk::UserAccount& account = pClientNode->GetMyUserAccount();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, USERTYPE_NONE);
+    const teamtalk::UserAccount& account = clientnode->GetMyUserAccount();
     return account.usertype;
 }
 
 TEAMTALKDLL_API INT32 TT_GetMyUserData(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, 0);
-    const teamtalk::UserAccount& account = pClientNode->GetMyUserAccount();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, 0);
+    const teamtalk::UserAccount& account = clientnode->GetMyUserAccount();
     return account.userdata;
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetUserVolume(IN TTInstance* lpTTInstance,
-                                      INT32 nUserID, 
-                                      IN StreamType nStreamType,
-                                      INT32 nVolume)
+                                        IN INT32 nUserID, 
+                                        IN StreamType nStreamType,
+                                        IN INT32 nVolume)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     nVolume = std::max(nVolume, (INT32)SOUND_VOLUME_MIN);
     nVolume = std::min(nVolume, (INT32)SOUND_VOLUME_MAX);
 
-    clientuser_t user = pClientNode->GetUser(nUserID);
-    if(!user.null())
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if (user)
     {
         user->SetVolume((teamtalk::StreamType)nStreamType, nVolume);
         return TRUE;
@@ -1782,15 +1774,15 @@ TEAMTALKDLL_API TTBOOL TT_SetUserVolume(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetUserMute(IN TTInstance* lpTTInstance,
-                                    IN INT32 nUserID, 
-                                    IN StreamType nStreamType,
-                                    IN TTBOOL bMute)
+                                      IN INT32 nUserID, 
+                                      IN StreamType nStreamType,
+                                      IN TTBOOL bMute)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    clientuser_t user = pClientNode->GetUser(nUserID);
-    if(!user.null())
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if (user)
     {
         user->SetMute((teamtalk::StreamType)nStreamType, bMute);
         return TRUE;
@@ -1799,15 +1791,15 @@ TEAMTALKDLL_API TTBOOL TT_SetUserMute(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetUserStoppedPlaybackDelay(IN TTInstance* lpTTInstance,
-                                                    IN INT32 nUserID, 
-                                                    IN StreamType nStreamType,
-                                                    IN INT32 nDelayMSec)
+                                                      IN INT32 nUserID, 
+                                                      IN StreamType nStreamType,
+                                                      IN INT32 nDelayMSec)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    clientuser_t user = pClientNode->GetUser(nUserID);
-    if(!user.null())
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if (user)
     {
         user->SetPlaybackStoppedDelay((teamtalk::StreamType)nStreamType, nDelayMSec);
         return TRUE;
@@ -1817,17 +1809,17 @@ TEAMTALKDLL_API TTBOOL TT_SetUserStoppedPlaybackDelay(IN TTInstance* lpTTInstanc
 
 /// Set the position of a user
 TEAMTALKDLL_API TTBOOL TT_SetUserPosition(IN TTInstance* lpTTInstance,
-                                        IN INT32 nUserID, 
-                                        IN StreamType nStreamType,
-                                        IN float x, 
-                                        IN float y, 
-                                        IN float z)
+                                          IN INT32 nUserID, 
+                                          IN StreamType nStreamType,
+                                          IN float x, 
+                                          IN float y, 
+                                          IN float z)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    clientuser_t user = pClientNode->GetUser(nUserID);
-    if(!user.null())
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if (user)
     {
         user->SetPosition((teamtalk::StreamType)nStreamType, x, y, z);
         return TRUE;
@@ -1836,16 +1828,16 @@ TEAMTALKDLL_API TTBOOL TT_SetUserPosition(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetUserStereo(IN TTInstance* lpTTInstance,
-                                      IN INT32 nUserID,
-                                      IN StreamType nStreamType,
-                                      IN TTBOOL bLeftSpeaker, 
-                                      IN TTBOOL bRightSpeaker)
+                                        IN INT32 nUserID,
+                                        IN StreamType nStreamType,
+                                        IN TTBOOL bLeftSpeaker, 
+                                        IN TTBOOL bRightSpeaker)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    clientuser_t user = pClientNode->GetUser(nUserID);
-    if(!user.null())
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if (user)
     {
         user->SetStereo((teamtalk::StreamType)nStreamType, bLeftSpeaker, bRightSpeaker);
         return TRUE;
@@ -1855,31 +1847,105 @@ TEAMTALKDLL_API TTBOOL TT_SetUserStereo(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_StartStreamingMediaFileToChannel(IN TTInstance* lpTTInstance,
-                                                         IN const TTCHAR* szMediaFilePath,
-                                                         IN const VideoCodec* lpVideoCodec)
+                                                           IN const TTCHAR* szMediaFilePath,
+                                                           IN const VideoCodec* lpVideoCodec)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    MediaFilePlayback mfp = {};
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    return TT_StartStreamingMediaFileToChannelEx(lpTTInstance, szMediaFilePath, &mfp, lpVideoCodec);
+}
 
-    if(!szMediaFilePath || !lpVideoCodec)
+TEAMTALKDLL_API TTBOOL TT_StartStreamingMediaFileToChannelEx(IN TTInstance* lpTTInstance,
+                                                             IN const TTCHAR* szMediaFilePath,
+                                                             IN const MediaFilePlayback* lpMediaFilePlayback,
+                                                             IN const VideoCodec* lpVideoCodec)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    if(!szMediaFilePath || !lpMediaFilePlayback)
         return FALSE;
 
-    teamtalk::VideoCodec vid_codec;
-    Convert(*lpVideoCodec, vid_codec);
+    teamtalk::AudioPreprocessor preprocessor;
+    Convert(lpMediaFilePlayback->audioPreprocessor, preprocessor);
 
-    return pClientNode->StartStreamingMediaFile(szMediaFilePath, vid_codec);
+    teamtalk::VideoCodec vid_codec;
+    if (lpVideoCodec)
+        Convert(*lpVideoCodec, vid_codec);
+
+    return clientnode->StartStreamingMediaFile(szMediaFilePath, lpMediaFilePlayback->uOffsetMSec,
+                                               lpMediaFilePlayback->bPaused, preprocessor, vid_codec);
+}
+
+TEAMTALKDLL_API TTBOOL TT_UpdateStreamingMediaFileToChannel(IN TTInstance* lpTTInstance,
+                                                            IN const MediaFilePlayback* lpMediaFilePlayback,
+                                                            IN const VideoCodec* lpVideoCodec)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    if (!lpMediaFilePlayback)
+        return FALSE;
+
+    teamtalk::AudioPreprocessor preprocessor;
+    Convert(lpMediaFilePlayback->audioPreprocessor, preprocessor);
+
+    teamtalk::VideoCodec vid_codec;
+    if (lpVideoCodec)
+        Convert(*lpVideoCodec, vid_codec);
+
+    return clientnode->UpdateStreamingMediaFile(lpMediaFilePlayback->uOffsetMSec,
+                                                lpMediaFilePlayback->bPaused,
+                                                preprocessor, vid_codec);
 }
 
 TEAMTALKDLL_API TTBOOL TT_StopStreamingMediaFileToChannel(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
-    pClientNode->StopStreamingMediaFile();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    clientnode->StopStreamingMediaFile();
     return TRUE;
 }
 
+TEAMTALKDLL_API INT32 TT_InitLocalPlayback(IN TTInstance* lpTTInstance,
+                                           IN const TTCHAR* szMediaFilePath,
+                                           IN const MediaFilePlayback* lpMediaFilePlayback)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, 0);
+
+    teamtalk::AudioPreprocessor preprocessor;
+    Convert(lpMediaFilePlayback->audioPreprocessor, preprocessor);
+
+    return clientnode->InitMediaPlayback(szMediaFilePath, lpMediaFilePlayback->uOffsetMSec, 
+                                          lpMediaFilePlayback->bPaused, preprocessor);
+}
+
+TEAMTALKDLL_API TTBOOL TT_UpdateLocalPlayback(IN TTInstance* lpTTInstance,
+                                              IN INT32 nPlaybackSessionID,
+                                              IN const MediaFilePlayback* lpMediaFilePlayback)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    teamtalk::AudioPreprocessor preprocessor;
+    Convert(lpMediaFilePlayback->audioPreprocessor, preprocessor);
+
+    return clientnode->UpdateMediaPlayback(nPlaybackSessionID, lpMediaFilePlayback->uOffsetMSec,
+                                            lpMediaFilePlayback->bPaused, preprocessor);
+}
+
+TEAMTALKDLL_API TTBOOL TT_StopLocalPlayback(IN TTInstance* lpTTInstance,
+                                            IN INT32 nPlaybackSessionID)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    return clientnode->StopMediaPlayback(nPlaybackSessionID);
+}
+
 TEAMTALKDLL_API TTBOOL TT_GetMediaFileInfo(IN const TTCHAR* szMediaFilePath,
-                                         OUT MediaFileInfo* lpMediaFileInfo)
+                                           OUT MediaFileInfo* lpMediaFileInfo)
 {
     if(!szMediaFilePath || !lpMediaFileInfo)
         return FALSE;
@@ -1896,16 +1962,16 @@ TEAMTALKDLL_API TTBOOL TT_GetMediaFileInfo(IN const TTCHAR* szMediaFilePath,
 TEAMTALKDLL_API VideoFrame* TT_AcquireUserMediaVideoFrame(IN TTInstance* lpTTInstance,
                                                           IN INT32 nUserID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return NULL;
 
-    clientuser_t user = pClientNode->GetUser(nUserID);
-    if(user.null())
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if (!user)
         return NULL;
 
     g.release(); //don't hold lock while decoding
@@ -1933,10 +1999,10 @@ TEAMTALKDLL_API TTBOOL TT_ReleaseUserMediaVideoFrame(IN TTInstance* lpTTInstance
     if(!lpVideoFrame)
         return FALSE;
 
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return FALSE;
@@ -1962,6 +2028,8 @@ int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat,
 
         switch(outputFormat)
         {
+        case BMP_NONE :
+            return -1;
         case BMP_RGB8_PALETTE : //BMP_RGB8_PALETTE -> BMP_RGB8_PALETTE
         case BMP_RGB16_555 : //BMP_RGB8_PALETTE -> BMP_RGB16_555
         case BMP_RGB24 : //BMP_RGB8_PALETTE -> BMP_RGB24
@@ -2211,8 +2279,8 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
                                            IN const DesktopWindow* lpDesktopWindow,
                                            IN BitmapFormat nConvertBmpFormat)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
     if(!lpDesktopWindow)
         return -1;
@@ -2238,7 +2306,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
                                      (teamtalk::RGBMode)destBmpFmt);
 
     if(src_session.GetBitmapSize() == dst_session.GetBitmapSize())
-        return pClientNode->SendDesktopWindow(lpDesktopWindow->nWidth, 
+        return clientnode->SendDesktopWindow(lpDesktopWindow->nWidth, 
                                               lpDesktopWindow->nHeight, 
                                               (teamtalk::RGBMode)lpDesktopWindow->bmpFormat,
                                               (teamtalk::DesktopProtocol)lpDesktopWindow->nProtocol, 
@@ -2255,13 +2323,13 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
             return -1;
 
         if(tmp_buf.size())
-            return pClientNode->SendDesktopWindow(dst_session.GetWidth(), 
+            return clientnode->SendDesktopWindow(dst_session.GetWidth(), 
                                                   dst_session.GetHeight(), 
                                                   dst_session.GetRGBMode(),
                                                   (teamtalk::DesktopProtocol)lpDesktopWindow->nProtocol,
                                                   &tmp_buf[0], int(tmp_buf.size()));
         else
-            return pClientNode->SendDesktopWindow(dst_session.GetWidth(), 
+            return clientnode->SendDesktopWindow(dst_session.GetWidth(), 
                                                   dst_session.GetHeight(), 
                                                   dst_session.GetRGBMode(),
                                                   (teamtalk::DesktopProtocol)lpDesktopWindow->nProtocol,
@@ -2271,10 +2339,10 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API TTBOOL TT_CloseDesktopWindow(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    return pClientNode->CloseDesktopWindow();
+    return clientnode->CloseDesktopWindow();
 }
 
 TEAMTALKDLL_API unsigned char* TT_Palette_GetColorTable(IN BitmapFormat nBmpPalette,
@@ -2295,13 +2363,13 @@ TEAMTALKDLL_API unsigned char* TT_Palette_GetColorTable(IN BitmapFormat nBmpPale
 
 #ifdef WIN32
 
-TEAMTALKDLL_API HWND TT_Windows_GetDesktopActiveHWND()
+TEAMTALKDLL_API HWND TT_Windows_GetDesktopActiveHWND(void)
 {
     HWND hWnd = GetForegroundWindow();
     return hWnd;
 }
 
-TEAMTALKDLL_API HWND TT_Windows_GetDesktopHWND()
+TEAMTALKDLL_API HWND TT_Windows_GetDesktopHWND(void)
 {
     return GetDesktopWindow();
 }
@@ -2326,7 +2394,7 @@ BOOL CALLBACK CheckWindowTitle( HWND hwnd, LPARAM lParam )
 }
 
 TEAMTALKDLL_API TTBOOL TT_Windows_GetDesktopWindowHWND(IN INT32 nIndex,
-                                                     OUT HWND* lpHWnd)
+                                                       OUT HWND* lpHWnd)
 {
     CheckWindow wnd;
     wnd.hWnd = 0;
@@ -2342,7 +2410,7 @@ TEAMTALKDLL_API TTBOOL TT_Windows_GetDesktopWindowHWND(IN INT32 nIndex,
 }
 
 TEAMTALKDLL_API TTBOOL TT_Windows_GetWindow(IN HWND hWnd,
-                                          OUT ShareWindow* lpShareWindow)
+                                            OUT ShareWindow* lpShareWindow)
 {
     if(!lpShareWindow)
         return FALSE;
@@ -2368,8 +2436,8 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindowFromHWND(IN TTInstance* lpTTInstance,
 {
     ACE_UNUSED_ARG(nDesktopProtocol);
 
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     int nX, nY, nX2, nY2;       // coordinates of rectangle to grab
     int nWidth, nHeight;        // DIB width and height
@@ -2445,7 +2513,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindowFromHWND(IN TTInstance* lpTTInstance,
 
     vector<char> tmp_bmp_buf;
 
-    DesktopWindow src_wnd = {0};
+    DesktopWindow src_wnd = {};
     switch(bmpinfo.bmiHeader.biBitCount)
     {
     case 16 : 
@@ -2471,18 +2539,18 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindowFromHWND(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindow(IN TTInstance* lpTTInstance,
-                                           IN INT32 nUserID,
-                                           IN HDC hDC,
-                                           IN INT32 XDest,
-                                           IN INT32 YDest,
-                                           IN INT32 nDestWidth,
-                                           IN INT32 nDestHeight)
+                                             IN INT32 nUserID,
+                                             IN HDC hDC,
+                                             IN INT32 XDest,
+                                             IN INT32 YDest,
+                                             IN INT32 nDestWidth,
+                                             IN INT32 nDestHeight)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    clientuser_t user = pClientNode->GetUser(nUserID);
-    if(user.null() || user->GetDesktopSession().null())
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if (!user || !user->GetDesktopSession())
         return FALSE;
 
     desktop_viewer_t viewer = user->GetDesktopSession();
@@ -2499,23 +2567,23 @@ struct MYBITMAPINFO
 };
 
 TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindowEx(IN TTInstance* lpTTInstance,
-                                             IN INT32 nUserID,
-                                             IN HDC hDC,
-                                             IN INT32 XDest,
-                                             IN INT32 YDest,
-                                             IN INT32 nDestWidth,
-                                             IN INT32 nDestHeight,
-                                             IN INT32 XSrc,
-                                             IN INT32 YSrc,
-                                             IN INT32 nSrcWidth,
-                                             IN INT32 nSrcHeight)
+                                               IN INT32 nUserID,
+                                               IN HDC hDC,
+                                               IN INT32 XDest,
+                                               IN INT32 YDest,
+                                               IN INT32 nDestWidth,
+                                               IN INT32 nDestHeight,
+                                               IN INT32 XSrc,
+                                               IN INT32 YSrc,
+                                               IN INT32 nSrcWidth,
+                                               IN INT32 nSrcHeight)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    clientuser_t user = pClientNode->GetUser(nUserID);
+    clientuser_t user = clientnode->GetUser(nUserID);
     teamtalk::DesktopWindow wnd;
-    if(user.null() || user->GetDesktopSession().null())
+    if (!user || !user->GetDesktopSession())
         return FALSE;
 
     desktop_viewer_t viewer = user->GetDesktopSession();
@@ -2523,8 +2591,8 @@ TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindowEx(IN TTInstance* lpTTInstance,
     if(XSrc + nSrcWidth > viewer->GetWidth() || YSrc + nSrcHeight > viewer->GetHeight())
         return FALSE;
 
-    BITMAPINFOHEADER bmh = {0};
-    MYBITMAPINFO bmi = {0};
+    BITMAPINFOHEADER bmh = {};
+    MYBITMAPINFO bmi = {};
     bmh.biSize = sizeof(bmh);
     bmh.biWidth = viewer->GetWidth();
     bmh.biHeight = viewer->GetHeight()*-1; //flip image
@@ -2563,7 +2631,7 @@ typedef vector<ShareWindow> shared_windows_t;
 static void EnumerateWindowList(const void *inputDictionary, void *context)
 {
     shared_windows_t& windows = *reinterpret_cast<shared_windows_t*>(context);
-    ShareWindow wnd = {0};
+    ShareWindow wnd = {};
 
     CFDictionaryRef entry = (CFDictionaryRef)inputDictionary;
     CFNumberRef sharingState; /* SInt32 */
@@ -2661,7 +2729,7 @@ TTBOOL PopulateWindowTitles(shared_windows_t& windows)
 }
 
 TEAMTALKDLL_API TTBOOL TT_MacOS_GetWindow(IN INT32 nIndex,
-                                        OUT ShareWindow* lpShareWindow)
+                                          OUT ShareWindow* lpShareWindow)
 {
     shared_windows_t windows;
 
@@ -2684,7 +2752,7 @@ TEAMTALKDLL_API TTBOOL TT_MacOS_GetWindow(IN INT32 nIndex,
 }
 
 TEAMTALKDLL_API TTBOOL TT_MacOS_GetWindowFromWindowID(IN INT64 nWindowID,
-                                                    OUT ShareWindow* lpShareWindow)
+                                                      OUT ShareWindow* lpShareWindow)
 {
     shared_windows_t windows;
 
@@ -2713,7 +2781,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopFromWindowID(IN TTInstance* lpTTInstance,
     CGDataProviderRef provider_ref = nil;
     CFDataRef data_ref = nil;
     int ret = -1, bmp_size = -1;
-    DesktopWindow wnd = {0};
+    DesktopWindow wnd = {};
     CFIndex data_len;
     size_t row_bytes;
     size_t rows;
@@ -2804,22 +2872,22 @@ cleanup:
 #endif
 
 TEAMTALKDLL_API TTBOOL TT_SendDesktopCursorPosition(IN TTInstance* lpTTInstance,
-                                                  IN UINT16 nPosX,
-                                                  IN UINT16 nPosY)
+                                                    IN UINT16 nPosX,
+                                                    IN UINT16 nPosY)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    return pClientNode->SendDesktopCursor(nPosX, nPosY);
+    return clientnode->SendDesktopCursor(nPosX, nPosY);
 }
 
 TEAMTALKDLL_API TTBOOL TT_SendDesktopInput(IN TTInstance* lpTTInstance,
-                                         IN INT32 nUserID,
-                                         IN const DesktopInput* lpDesktopInputs,
-                                         IN INT32 nDesktopInputCount)
+                                           IN INT32 nUserID,
+                                           IN const DesktopInput* lpDesktopInputs,
+                                           IN INT32 nDesktopInputCount)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     if(!lpDesktopInputs)
         return FALSE;
@@ -2831,28 +2899,28 @@ TEAMTALKDLL_API TTBOOL TT_SendDesktopInput(IN TTInstance* lpTTInstance,
         Convert(lpDesktopInputs[m], input);
         inputs.push_back(input);
     }
-    return pClientNode->SendDesktopInput(nUserID, inputs);
+    return clientnode->SendDesktopInput(nUserID, inputs);
 }
 
 
 TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindow(IN TTInstance* lpTTInstance, 
                                                            IN INT32 nUserID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return NULL;
 
-    clientuser_t user = pClientNode->GetUser(nUserID);
+    clientuser_t user = clientnode->GetUser(nUserID);
     teamtalk::DesktopWindow wnd;
-    if(user.null() || !user->GetDesktopWindow(wnd))
+    if (!user || !user->GetDesktopWindow(wnd))
         return NULL;
 
     desktop_viewer_t viewer = user->GetDesktopSession();
-    if(viewer.null())
+    if (!viewer)
         return NULL;
 
     DesktopWindow* lpDesktopWindow = inst->PushDesktopWindow(viewer->GetBitmapSize());
@@ -2891,7 +2959,7 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindowEx(IN TTInstance* lpTT
     int size = ConvertBitmap(deskwnd, nBitmapFormat, in_bmp, out_bmp);
     if(size>0)
     {
-        ClientInstance* inst = GET_CLIENT(lpTTInstance);
+        auto inst = GET_CLIENT(lpTTInstance);
         TTASSERT(inst);
         if(!inst)
             return NULL;
@@ -2917,9 +2985,9 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindowEx(IN TTInstance* lpTT
 }
 
 TEAMTALKDLL_API TTBOOL TT_ReleaseUserDesktopWindow(IN TTInstance* lpTTInstance, 
-                                                 IN DesktopWindow* lpDesktopWindow)
+                                                   IN DesktopWindow* lpDesktopWindow)
 {
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return FALSE;
@@ -2931,13 +2999,13 @@ TEAMTALKDLL_API TTBOOL TT_ReleaseUserDesktopWindow(IN TTInstance* lpTTInstance,
 #if defined(WIN32) /* Windows HOTKEY */
 
 TEAMTALKDLL_API TTBOOL TT_HotKey_Register(IN TTInstance* lpTTInstance,
-                                        IN INT32 nHotKeyID, 
-                                        IN const INT32* lpnVKCodes,
-                                        IN INT32 nVKCodeCount)
+                                          IN INT32 nHotKeyID, 
+                                          IN const INT32* lpnVKCodes,
+                                          IN INT32 nVKCodeCount)
 {
 
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return FALSE;
 
     HotKeyHook hotkey;
@@ -2945,81 +3013,75 @@ TEAMTALKDLL_API TTBOOL TT_HotKey_Register(IN TTInstance* lpTTInstance,
     hotkey.active = false;
     for(int i=0;i<nVKCodeCount;i++)
         hotkey.keys.insert(lpnVKCodes[i]);
-    hotkey.listener = pClient->pEventHandler;
+    hotkey.listener = inst->eventhandler.get();
 
-    if(!HOTKEY->HotKeyExists(pClient->pEventHandler, nHotKeyID))
+    if(!HOTKEY->HotKeyExists(inst->eventhandler.get(), nHotKeyID))
         HOTKEY_USAGE(1);
     HOTKEY->RegisterHotKey(hotkey);
     return TRUE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_HotKey_Unregister(IN TTInstance* lpTTInstance,
-                                          INT32 nHotKeyID)
+                                            IN INT32 nHotKeyID)
 {
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return FALSE;
 
-    if(HOTKEY->HotKeyExists(pClient->pEventHandler, nHotKeyID))
+    if(HOTKEY->HotKeyExists(inst->eventhandler.get(), nHotKeyID))
     {
-        HOTKEY->UnregisterHotKey(pClient->pEventHandler, nHotKeyID);
+        HOTKEY->UnregisterHotKey(inst->eventhandler.get(), nHotKeyID);
         HOTKEY_USAGE(-1);
     }
     return TRUE;
 }
 
 TEAMTALKDLL_API INT32 TT_HotKey_IsActive(IN TTInstance* lpTTInstance,
-                                        IN INT32 nHotKeyID)
+                                         IN INT32 nHotKeyID)
 {
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return -1;
-    return HOTKEY->IsHotKeyActive(pClient->pEventHandler, nHotKeyID);
+    return HOTKEY->IsHotKeyActive(inst->eventhandler.get(), nHotKeyID);
 }
 
 TEAMTALKDLL_API TTBOOL TT_HotKey_InstallTestHook(IN TTInstance* lpTTInstance,
-                                               IN HWND hWnd, UINT uMsg)
+                                                 IN HWND hWnd, UINT uMsg)
 {
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return FALSE;
 
     HOTKEY_USAGE(1);
 
-    pClient->pEventHandler->SetKeyHWND(hWnd, uMsg);
-    HOTKEY->AddKeyTester(pClient->pEventHandler);
+    inst->eventhandler->SetKeyHWND(hWnd, uMsg);
+    HOTKEY->AddKeyTester(inst->eventhandler.get());
     return TRUE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_HotKey_RemoveTestHook(IN TTInstance* lpTTInstance)
 {
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return FALSE;
 
     HOTKEY_USAGE(-1);
 
-    pClient->pEventHandler->SetKeyHWND(NULL, 0);
-    HOTKEY->RemoveKeyTester(pClient->pEventHandler);
+    inst->eventhandler->SetKeyHWND(NULL, 0);
+    HOTKEY->RemoveKeyTester(inst->eventhandler.get());
     return TRUE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_HotKey_GetKeyString(IN TTInstance* lpTTInstance,
-                                            IN INT32 nVKCode,
-                                            OUT TTCHAR szKeyName[TT_STRLEN])
+                                              IN INT32 nVKCode,
+                                              OUT TTCHAR szKeyName[TT_STRLEN])
 {
-#ifndef UNDER_CE
-
 #ifndef MAPVK_VK_TO_VSC
 #define MAPVK_VK_TO_VSC 0
 #endif
 
     UINT scancode = MapVirtualKey(nVKCode, MAPVK_VK_TO_VSC);
     return ::GetKeyNameText( scancode << 16 , szKeyName, TT_STRLEN)>0;
-
-#else
-    return FALSE;
-#endif
 }
 
 #endif /* WIN32 hotkeys */
@@ -3030,6 +3092,8 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
 {
     switch(nType)
     {
+    case __NONE :
+        return 0;
     case __AUDIOCODEC :
         return sizeof(AudioCodec);
     case __BANNEDUSER :
@@ -3090,12 +3154,26 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(TTBOOL);
     case __INT32 :
         return sizeof(INT32);
+    case __UINT32 :
+        return sizeof(UINT32);
     case __MEDIAFILESTATUS :
         return sizeof(MediaFileStatus);
     case __SPEEXDSP :
         return sizeof(SpeexDSP);
     case __STREAMTYPE :
         return sizeof(StreamType);
+    case __AUDIOPREPROCESSORTYPE :
+        return sizeof(AudioPreprocessorType);
+    case __AUDIOPREPROCESSOR :
+        return sizeof(AudioPreprocessor);
+    case __TTAUDIOPREPROCESSOR :
+        return sizeof(TTAudioPreprocessor);
+    case __MEDIAFILEPLAYBACK :
+        return sizeof(MediaFilePlayback);
+    case __CLIENTKEEPALIVE :
+        return sizeof(ClientKeepAlive);
+    case __AUDIOINPUTPROGRESS :
+        return sizeof(AudioInputProgress);
     }
     return 0;
 }
@@ -3106,29 +3184,73 @@ TEAMTALKDLL_API VOID* TT_DBG_GETDATAPTR(IN TTMessage* pMsg)
 }
 
 TEAMTALKDLL_API TTBOOL TT_DBG_SetSoundInputTone(IN TTInstance* lpTTInstance,
-                                              IN StreamTypes uStreamTypes,
-                                              IN INT32 nFrequency)
+                                                IN StreamTypes uStreamTypes,
+                                                IN INT32 nFrequency)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    pClientNode->SetSoundInputTone(uStreamTypes, nFrequency);
+    clientnode->SetSoundInputTone(uStreamTypes, nFrequency);
     return TRUE;
 }
 
+TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN MediaFileInfo* lpMediaFileInfo,
+                                                 IN INT32 nFrequency)
+{
+    double duration = lpMediaFileInfo->uDurationMSec;
+    duration /= 1000;
+    double samples = lpMediaFileInfo->audioFmt.nSampleRate * duration;
+
+    int totalsamples_persec = lpMediaFileInfo->audioFmt.nSampleRate * lpMediaFileInfo->audioFmt.nChannels;
+    std::vector<short> buffer(totalsamples_persec);
+
+    media::AudioFormat fmt(lpMediaFileInfo->audioFmt.nSampleRate, lpMediaFileInfo->audioFmt.nChannels);
+
+    // for now only wave-files are supported
+    switch (lpMediaFileInfo->audioFmt.nAudioFmt)
+    {
+    case AFF_WAVE_FORMAT :
+        break;
+    case AFF_NONE :
+    case AFF_CHANNELCODEC_FORMAT :
+    case AFF_MP3_16KBIT_FORMAT :
+    case AFF_MP3_32KBIT_FORMAT :
+    case AFF_MP3_64KBIT_FORMAT :
+    case AFF_MP3_128KBIT_FORMAT :
+    case AFF_MP3_256KBIT_FORMAT :
+        return FALSE;
+    }
+
+    WavePCMFile wavefile;
+    if (!wavefile.NewFile(lpMediaFileInfo->szFileName, fmt.samplerate, fmt.channels))
+        return FALSE;
+    
+    int sampleindex = 0;
+    while(samples > 0)
+    {
+        int remain = (samples >= lpMediaFileInfo->audioFmt.nSampleRate)? lpMediaFileInfo->audioFmt.nSampleRate : int(samples);
+        media::AudioFrame frm(fmt, &buffer[0], remain);
+        sampleindex = GenerateTone(frm, sampleindex, nFrequency);
+        samples -= remain;
+        if (!wavefile.AppendSamples(frm.input_buffer, frm.input_samples))
+            return FALSE;
+    }
+    
+    return TRUE;
+}
 
 TEAMTALKDLL_API TTBOOL TT_GetChannelFiles(IN TTInstance* lpTTInstance,
-                                        IN INT32 nChannelID, 
-                                        IN OUT RemoteFile* lpRemoteFiles,
-                                        IN OUT INT32* lpnHowMany)
+                                          IN INT32 nChannelID, 
+                                          IN OUT RemoteFile* lpRemoteFiles,
+                                          IN OUT INT32* lpnHowMany)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     if(lpnHowMany)
     {
         teamtalk::ChannelProp chan;
-        if(!pClientNode->GetChannelProp(nChannelID, chan))
+        if(!clientnode->GetChannelProp(nChannelID, chan))
             return FALSE;
 
         if(lpRemoteFiles == NULL)
@@ -3149,18 +3271,18 @@ TEAMTALKDLL_API TTBOOL TT_GetChannelFiles(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetChannelFile(IN TTInstance* lpTTInstance,
-                                           IN INT32 nChannelID, 
-                                           IN INT32 nFileID, 
-                                           OUT RemoteFile* lpRemoteFile)
+                                         IN INT32 nChannelID, 
+                                         IN INT32 nFileID, 
+                                         OUT RemoteFile* lpRemoteFile)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     if(lpRemoteFile)
     {
-        clientchannel_t chan = pClientNode->GetChannel(nChannelID);
+        clientchannel_t chan = clientnode->GetChannel(nChannelID);
         teamtalk::RemoteFile ttremotefile;
-        if(!chan.null() && chan->GetFile(nFileID, ttremotefile, false))
+        if (chan && chan->GetFile(nFileID, ttremotefile, false))
         {
             Convert(ttremotefile, *lpRemoteFile);
             return TRUE;
@@ -3170,17 +3292,17 @@ TEAMTALKDLL_API TTBOOL TT_GetChannelFile(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetFileTransferInfo(IN TTInstance* lpTTInstance,
-                                            IN INT32 nTransferID, 
-                                            OUT FileTransfer* lpTransfer)
+                                              IN INT32 nTransferID, 
+                                              OUT FileTransfer* lpTransfer)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     if(lpTransfer)
     {
         teamtalk::FileTransfer transfer;
         ACE_INT64 transferred = 0;
-        if(pClientNode->GetTransferInfo(nTransferID, transfer))
+        if(clientnode->GetTransferInfo(nTransferID, transfer))
         {
             Convert(transfer, *lpTransfer);
             return TRUE;
@@ -3190,30 +3312,30 @@ TEAMTALKDLL_API TTBOOL TT_GetFileTransferInfo(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_CancelFileTransfer(IN TTInstance* lpTTInstance,
-                                           IN INT32 nTransferID)
+                                             IN INT32 nTransferID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    return pClientNode->CancelFileTransfer(nTransferID);
+    return clientnode->CancelFileTransfer(nTransferID);
 }
 
 TEAMTALKDLL_API INT32 TT_DoSubscribe(IN TTInstance* lpTTInstance,
                                      IN INT32 nUserID, 
                                      IN Subscriptions uSubscriptions)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
-    return pClientNode->DoSubscribe(nUserID, uSubscriptions);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
+    return clientnode->DoSubscribe(nUserID, uSubscriptions);
 }
 
 TEAMTALKDLL_API INT32 TT_DoUnsubscribe(IN TTInstance* lpTTInstance,
                                        IN INT32 nUserID, 
                                        IN Subscriptions uSubscriptions)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
-    return pClientNode->DoUnsubscribe(nUserID, uSubscriptions);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
+    return clientnode->DoUnsubscribe(nUserID, uSubscriptions);
 }
 
 TEAMTALKDLL_API void TT_GetErrorMessage(IN INT32 nError, OUT TTCHAR szErrorMsg[TT_STRLEN])
@@ -3223,34 +3345,34 @@ TEAMTALKDLL_API void TT_GetErrorMessage(IN INT32 nError, OUT TTCHAR szErrorMsg[T
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance, 
-                                   OUT TTMessage* pMsg,
-                                   IN const INT32* pnWaitMs)
+                                     OUT TTMessage* pMsg,
+                                     IN const INT32* pnWaitMs)
 {
-    ClientInstance* pClient = GET_CLIENT(lpTTInstance);
-    if(pClient && pMsg)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(inst && pMsg)
     {
         if(pnWaitMs && *pnWaitMs != -1)
         {
             ACE_Time_Value tv(*pnWaitMs/1000, (*pnWaitMs % 1000) * 1000);
             tv += ACE_OS::gettimeofday();
-            return pClient->pEventHandler->GetMessage(*pMsg, &tv);
+            return inst->eventhandler->GetMessage(*pMsg, &tv);
         }
 
-        return pClient->pEventHandler->GetMessage(*pMsg, NULL);
+        return inst->eventhandler->GetMessage(*pMsg, NULL);
     }
     return FALSE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_PumpMessage(IN TTInstance* lpTTInstance,
-                                      ClientEvent nEvent,
-                                      INT32 nIdentifier)
+                                      IN ClientEvent nEvent,
+                                      IN INT32 nIdentifier)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     switch(nEvent) {
     case CLIENTEVENT_USER_STATECHANGE :
-        return pClientNode->StartUserTimer(USER_TIMER_UPDATE_USER, nIdentifier, nIdentifier,
+        return clientnode->StartUserTimer(USER_TIMER_UPDATE_USER, nIdentifier, nIdentifier,
                                            ACE_Time_Value(), ACE_Time_Value()) >= 0;
     default :
         return false;
@@ -3260,15 +3382,15 @@ TEAMTALKDLL_API TTBOOL TT_PumpMessage(IN TTInstance* lpTTInstance,
 TEAMTALKDLL_API INT32 TT_DoMakeChannel(IN TTInstance* lpTTInstance,
                                        IN const Channel* lpChannel)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
     if(lpChannel)
     {
         teamtalk::ChannelProp prop;
         if(!Convert(*lpChannel, prop))
             return -1;
 
-        return pClientNode->DoMakeChannel(prop);
+        return clientnode->DoMakeChannel(prop);
     }
     return -1;
 }
@@ -3276,8 +3398,8 @@ TEAMTALKDLL_API INT32 TT_DoMakeChannel(IN TTInstance* lpTTInstance,
 TEAMTALKDLL_API INT32 TT_DoUpdateChannel(IN TTInstance* lpTTInstance,
                                          IN const Channel* lpChannel)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
     if(lpChannel)
     {
@@ -3285,7 +3407,7 @@ TEAMTALKDLL_API INT32 TT_DoUpdateChannel(IN TTInstance* lpTTInstance,
         if(!Convert(*lpChannel, prop))
             return -1;
 
-        return pClientNode->DoUpdateChannel(prop);
+        return clientnode->DoUpdateChannel(prop);
     }
     return -1;
 }
@@ -3293,10 +3415,10 @@ TEAMTALKDLL_API INT32 TT_DoUpdateChannel(IN TTInstance* lpTTInstance,
 TEAMTALKDLL_API INT32 TT_DoRemoveChannel(IN TTInstance* lpTTInstance,
                                          IN INT32 nChannelID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
-    return pClientNode->DoRemoveChannel(nChannelID);
+    return clientnode->DoRemoveChannel(nChannelID);
 }
 
 
@@ -3304,22 +3426,25 @@ TEAMTALKDLL_API INT32 TT_DoMoveUser(IN TTInstance* lpTTInstance,
                                     IN INT32 nUserID, 
                                     IN INT32 nChannelID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
-    return pClientNode->DoMoveUser(nUserID, nChannelID);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
+    return clientnode->DoMoveUser(nUserID, nChannelID);
 }
 
 TEAMTALKDLL_API INT32 TT_DoUpdateServer(IN TTInstance* lpTTInstance,
                                         IN const ServerProperties* lpServerProperties)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
     if(lpServerProperties)
     {
-        teamtalk::ServerInfo serverprop;
+        teamtalk::ServerInfo serverprop, tmp;
+        // need to get host information to fill out new TCP/UDP ports
+        if (clientnode->GetServerInfo(tmp))
+            serverprop.hostaddrs = tmp.hostaddrs;
         Convert(*lpServerProperties, serverprop);
-        return pClientNode->DoUpdateServer(serverprop);
+        return clientnode->DoUpdateServer(serverprop);
     }
     return -1;
 }
@@ -3328,17 +3453,17 @@ TEAMTALKDLL_API INT32 TT_DoListUserAccounts(IN TTInstance* lpTTInstance,
                                             IN INT32 nIndex,
                                             IN INT32 nCount)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
-    return pClientNode->DoListUserAccounts(nIndex, nCount);
+    return clientnode->DoListUserAccounts(nIndex, nCount);
 }
 
 TEAMTALKDLL_API INT32 TT_DoNewUserAccount(IN TTInstance* lpTTInstance,
                                           IN const UserAccount* lpUserAccount)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
     if(!lpUserAccount)
         return -1;
@@ -3346,56 +3471,56 @@ TEAMTALKDLL_API INT32 TT_DoNewUserAccount(IN TTInstance* lpTTInstance,
     teamtalk::UserAccount intuser;
     Convert(*lpUserAccount, intuser);
 
-    return pClientNode->DoNewUserAccount(intuser);
+    return clientnode->DoNewUserAccount(intuser);
 }
 
 TEAMTALKDLL_API INT32 TT_DoDeleteUserAccount(IN TTInstance* lpTTInstance,
                                              IN const TTCHAR* szUsername)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
     if(!szUsername)
         return -1;
-    return pClientNode->DoDeleteUserAccount(szUsername);
+    return clientnode->DoDeleteUserAccount(szUsername);
 }
 
 TEAMTALKDLL_API INT32 TT_DoBanUser(IN TTInstance* lpTTInstance,
                                    IN INT32 nUserID,
                                    IN INT32 nChannelID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
     teamtalk::BannedUser ban;
     ban.bantype = teamtalk::BANTYPE_DEFAULT;
     if(nChannelID)
         ban.bantype |= BANTYPE_CHANNEL;
 
-    return pClientNode->DoBanUser(nUserID, ban);
+    return clientnode->DoBanUser(nUserID, ban);
 }
 
 TEAMTALKDLL_API INT32 TT_DoBanUserEx(IN TTInstance* lpTTInstance,
                                      IN INT32 nUserID,
                                      IN BanTypes uBanTypes)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
     teamtalk::BannedUser ban;
     ban.bantype = teamtalk::BanTypes(uBanTypes);
 
-    return pClientNode->DoBanUser(nUserID, ban);
+    return clientnode->DoBanUser(nUserID, ban);
 }
 
 TEAMTALKDLL_API INT32 TT_DoBan(IN TTInstance* lpTTInstance,
                                IN const BannedUser* lpBannedUser)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
     teamtalk::BannedUser ban;
     if(lpBannedUser)
     {
         Convert(*lpBannedUser, ban);
-        return pClientNode->DoBanUser(0, ban);
+        return clientnode->DoBanUser(0, ban);
     }
     return -1;
 }
@@ -3404,8 +3529,8 @@ TEAMTALKDLL_API INT32 TT_DoBanIPAddress(IN TTInstance* lpTTInstance,
                                         IN const TTCHAR* szIPAddress,
                                         IN INT32 nChannelID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
     if(!szIPAddress)
         return -1;
@@ -3414,31 +3539,31 @@ TEAMTALKDLL_API INT32 TT_DoBanIPAddress(IN TTInstance* lpTTInstance,
     ban.bantype = teamtalk::BANTYPE_DEFAULT;
     ban.ipaddr = szIPAddress;
 
-    return pClientNode->DoBanUser(0, ban);
+    return clientnode->DoBanUser(0, ban);
 }
 
 TEAMTALKDLL_API INT32 TT_DoUnBanUser(IN TTInstance* lpTTInstance,
                                      IN const TTCHAR* szIPAddress,
                                      IN INT32 nChannelID)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
     teamtalk::BannedUser ban;
     ban.bantype = teamtalk::BANTYPE_DEFAULT;
     ban.ipaddr = szIPAddress;
-    return pClientNode->DoUnBanUser(ban);
+    return clientnode->DoUnBanUser(ban);
 }
 
 TEAMTALKDLL_API INT32 TT_DoUnBanUserEx(IN TTInstance* lpTTInstance,
                                        IN const BannedUser* lpBannedUser)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
     teamtalk::BannedUser ban;
     if(lpBannedUser)
     {
         Convert(*lpBannedUser, ban);
-        return pClientNode->DoUnBanUser(ban);
+        return clientnode->DoUnBanUser(ban);
     }
     return -1;
 }
@@ -3447,30 +3572,30 @@ TEAMTALKDLL_API INT32 TT_DoListBans(IN TTInstance* lpTTInstance,
                                     IN INT32 nChannelID,
                                     IN INT32 nIndex, IN INT32 nCount)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
-    return pClientNode->DoListBans(nChannelID, nIndex, nCount);
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
+    return clientnode->DoListBans(nChannelID, nIndex, nCount);
 }
 
 TEAMTALKDLL_API INT32 TT_DoSaveConfig(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
-    return pClientNode->DoSaveConfig();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
+    return clientnode->DoSaveConfig();
 }
 
 TEAMTALKDLL_API INT32 TT_DoQueryServerStats(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
-    return pClientNode->DoQueryServerStats();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
+    return clientnode->DoQueryServerStats();
 }
 
 TEAMTALKDLL_API INT32 TT_DoQuit(IN TTInstance* lpTTInstance)
 {
-    ClientNode* pClientNode;
-    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, -1);
-    return pClientNode->DoQuit();
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
+    return clientnode->DoQuit();
 }
 
 TEAMTALKDLL_API INT32 TT_DesktopInput_KeyTranslate(TTKeyTranslate nTranslate,
@@ -3493,7 +3618,7 @@ TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput* lpDesktopIn
 
     for(int i=0;i<nDesktopInputCount;i++)
     {
-        INPUT input = {0};
+        INPUT input = {};
 
         if(lpDesktopInputs[i].uMousePosX != TT_DESKTOPINPUT_MOUSEPOS_IGNORE &&
            lpDesktopInputs[i].uMousePosY != TT_DESKTOPINPUT_MOUSEPOS_IGNORE)
@@ -3534,12 +3659,15 @@ TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput* lpDesktopIn
         else if(lpDesktopInputs[i].uKeyCode != TT_DESKTOPINPUT_KEYCODE_IGNORE &&
                 lpDesktopInputs[i].uKeyState != DESKTOPKEYSTATE_NONE)
         {
+
             input.type = INPUT_KEYBOARD;
             input.ki.dwExtraInfo = GetMessageExtraInfo();
             //input.ki.wVk = lpDesktopInputs[i].uKeyCode;
             input.ki.wScan = lpDesktopInputs[i].uKeyCode;
             input.ki.dwFlags = KEYEVENTF_SCANCODE;
-            
+            if (lpDesktopInputs[i].uKeyCode & 0x100)
+                input.ki.dwFlags |= KEYEVENTF_EXTENDEDKEY;
+
             if(lpDesktopInputs[i].uKeyState == DESKTOPKEYSTATE_UP)
                 input.ki.dwFlags |= KEYEVENTF_KEYUP;
 
@@ -3613,7 +3741,7 @@ TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput* lpDesktopIn
 
 #if defined(WIN32)
 
-TEAMTALKDLL_API INT32 TT_Mixer_GetMixerCount()
+TEAMTALKDLL_API INT32 TT_Mixer_GetMixerCount(void)
 {
     return mixerGetCount();
 }
@@ -3629,13 +3757,13 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_GetMixerName(IN INT32 nMixerIndex, OUT TTCHAR sz
 }
 
 TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInName(IN INT32 nWaveDeviceID,
-                                            OUT TTCHAR szMixerName[TT_STRLEN])
+                                              OUT TTCHAR szMixerName[TT_STRLEN])
 {
     return mixerGetWaveInName(nWaveDeviceID, szMixerName);
 }
 
 TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveOutName(IN INT32 nWaveDeviceID,
-                                             OUT TTCHAR szMixerName[TT_STRLEN])
+                                               OUT TTCHAR szMixerName[TT_STRLEN])
 {
     return mixerGetWaveOutName(nWaveDeviceID, szMixerName);
 }
@@ -3643,7 +3771,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveOutName(IN INT32 nWaveDeviceID,
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveOutMute(IN INT32 nWaveDeviceID, IN MixerControl nControl, TTBOOL bMute)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = bMute;
     switch(nControl)
     {
@@ -3663,7 +3791,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveOutMute(IN INT32 nWaveDeviceID, IN MixerC
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveOutMute(IN INT32 nWaveDeviceID, IN MixerControl nControl)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     switch(nControl)
     {
     case WAVEOUT_MASTER :
@@ -3685,7 +3813,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveOutMute(IN INT32 nWaveDeviceID, IN MixerCo
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveOutVolume(IN INT32 nWaveDeviceID, IN MixerControl nControl, IN INT32 nVolume)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = nVolume;
     switch(nControl)
     {
@@ -3705,7 +3833,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveOutVolume(IN INT32 nWaveDeviceID, IN Mixe
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveOutVolume(IN INT32 nWaveDeviceID, IN MixerControl nControl)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     switch(nControl)
     {
     case WAVEOUT_MASTER :
@@ -3726,7 +3854,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveOutVolume(IN INT32 nWaveDeviceID, IN Mixer
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInSelected(IN INT32 nWaveDeviceID, IN MixerControl nControl)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = 1;
     switch(nControl)
     {
@@ -3746,7 +3874,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInSelected(IN INT32 nWaveDeviceID, IN Mix
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInSelected(IN INT32 nWaveDeviceID, IN MixerControl nControl)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     switch(nControl)
     {
     case WAVEIN_WAVEOUT :
@@ -3767,7 +3895,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInSelected(IN INT32 nWaveDeviceID, IN Mixe
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInVolume(IN INT32 nWaveDeviceID, IN MixerControl nControl, IN INT32 nVolume)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = nVolume;
     switch(nControl)
     {
@@ -3787,7 +3915,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInVolume(IN INT32 nWaveDeviceID, IN Mixer
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInVolume(IN INT32 nWaveDeviceID, IN MixerControl nControl)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     switch(nControl)
     {
     case WAVEIN_WAVEOUT :
@@ -3808,7 +3936,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInVolume(IN INT32 nWaveDeviceID, IN MixerC
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInBoost(IN INT32 nWaveDeviceID, IN TTBOOL bEnable)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = bEnable;
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_MICROPHONE | MIXER_WAVEIN_SET | MIXER_WAVEIN_BOOST, val);
     return result;
@@ -3817,7 +3945,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInBoost(IN INT32 nWaveDeviceID, IN TTBOOL
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInBoost(IN INT32 nWaveDeviceID)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_MICROPHONE | MIXER_WAVEIN_GET | MIXER_WAVEIN_BOOST, val);
     if(!result)
         return -1;
@@ -3827,7 +3955,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInBoost(IN INT32 nWaveDeviceID)
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInMute(IN INT32 nWaveDeviceID, IN TTBOOL bEnable)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = bEnable;
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_MICROPHONE | MIXER_WAVEIN_SET | MIXER_WAVEIN_MUTE, val);
     return result;
@@ -3836,7 +3964,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInMute(IN INT32 nWaveDeviceID, IN TTBOOL 
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInMute(IN INT32 nWaveDeviceID)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_MICROPHONE | MIXER_WAVEIN_GET | MIXER_WAVEIN_MUTE, val);
     if(!result)
         return -1;
@@ -3846,7 +3974,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInMute(IN INT32 nWaveDeviceID)
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInControlCount(IN INT32 nWaveDeviceID)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_GETCOUNT, val);
     if(!result)
         return -1;
@@ -3856,7 +3984,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInControlCount(IN INT32 nWaveDeviceID)
 TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlName(IN INT32 nWaveDeviceID, IN INT32 nControlIndex, OUT TTCHAR szDeviceName[TT_STRLEN])
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = nControlIndex;
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_BYINDEX | MIXER_WAVEIN_GET | MIXER_WAVEIN_NAME, val);
     ACE_OS::strsncpy(szDeviceName, val.name, TT_STRLEN);
@@ -3866,7 +3994,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlName(IN INT32 nWaveDeviceID, IN 
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInControlSelected(IN INT32 nWaveDeviceID, IN INT32 nControlIndex)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = nControlIndex;
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_BYINDEX | MIXER_WAVEIN_SET | MIXER_WAVEIN_SELECTED, val);
     return result;
@@ -3875,7 +4003,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInControlSelected(IN INT32 nWaveDeviceID,
 TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlSelected(IN INT32 nWaveDeviceID, IN INT32 nControlIndex)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = nControlIndex;
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_BYINDEX | MIXER_WAVEIN_GET | MIXER_WAVEIN_SELECTED, val);
     if(!result)
@@ -3883,7 +4011,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlSelected(IN INT32 nWaveDeviceID,
     return val.value;
 }
 
-TEAMTALKDLL_API TTBOOL TT_Firewall_IsEnabled()
+TEAMTALKDLL_API TTBOOL TT_Firewall_IsEnabled(void)
 {
     return WinFirewall(false).IsFirewallOn();
 }
@@ -3899,7 +4027,7 @@ TEAMTALKDLL_API TTBOOL TT_Firewall_AppExceptionExists(IN const TTCHAR* szExecuta
 }
 
 TEAMTALKDLL_API TTBOOL TT_Firewall_AddAppException(IN const TTCHAR* szName, 
-                                                 IN const TTCHAR* szExecutable)
+                                                   IN const TTCHAR* szExecutable)
 {
     if(WinFirewall(WinFirewall::HasUAE()).AddException(szExecutable,
                                                        szName))

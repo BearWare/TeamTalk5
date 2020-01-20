@@ -31,7 +31,7 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#define WM_SPLITTER_MOVED    WM_USER+1000
+#define WM_SPLITTER_MOVED    (WM_USER+1000)
 /////////////////////////////////////////////////////////////////////////////
 // CSplitterBar
 

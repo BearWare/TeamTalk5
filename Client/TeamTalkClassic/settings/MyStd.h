@@ -26,23 +26,15 @@
 
 #include <string>
 #include <vector>
-
-#if !defined(_MSC_VER)
 #include <stdint.h>
-#endif
 
 typedef std::vector<std::string> stdstrings_t;
 
 std::string i2str(int i);
 int str2i(const std::string& szInt);
 
-#if defined(_MSC_VER)
-std::string i2str(__int64 i);
-__int64 str2i64(const std::string& szInt);
-#else
 std::string i2str(int64_t i);
 int64_t str2i64(const std::string& szInt);
-#endif
 
 std::string str2lower(const std::string& str);
 

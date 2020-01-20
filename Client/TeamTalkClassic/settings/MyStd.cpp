@@ -49,7 +49,7 @@ void replace_all(string& target, const string& to_find, const string& replacemen
 
 string i2str(int i)
 {
-    char buf[20] = {0};
+    char buf[20] = {};
     sprintf(buf, "%d", i);
     return string(buf);
 }
@@ -59,22 +59,6 @@ int str2i(const string& szInt)
     return atoi(szInt.c_str());
 }
 
-#if defined(_MSC_VER)
-std::string i2str(__int64 i)
-{
-    ostringstream is;
-    is << i;
-    return is.str();
-}
-
-__int64 str2i64(const std::string& szInt)
-{
-    __int64 ret = 0;
-    istringstream is(szInt);
-    is >> ret;
-    return ret;
-}
-#else
 std::string i2str(int64_t i)
 {
     ostringstream is;
@@ -84,17 +68,16 @@ std::string i2str(int64_t i)
 
 int64_t str2i64(const std::string& szInt)
 {
-    long long ret = 0;
+    int64_t ret = 0;
     istringstream is(szInt);
     is >> ret;
     return ret;
 }
-#endif
 
 std::string str2lower(const std::string& str)
 {
   string sstr = str;
-    std::transform(sstr.begin(), sstr.end(), sstr.begin(), (int (*)(int))tolower);
+  std::transform(sstr.begin(), sstr.end(), sstr.begin(), (int (*)(int))tolower);
   return sstr;
 }
 

@@ -241,9 +241,15 @@ std::vector<uint16_t> GetAudioPacketFrameSizes(const AudioPacket& packet,
     std::vector<uint16_t> frame_sizes;
     if(packet.HasFrameSizes())
         frame_sizes = packet.GetEncodedFrameSizes();
-    else if(GetAudioCodecFramesPerPacket(codec)>1)
-        frame_sizes.assign(GetAudioCodecFramesPerPacket(codec), 
-                           GetAudioCodecEncFrameSize(codec));
+    else if(GetAudioCodecFramesPerPacket(codec) > 1)
+    {
+        uint16_t len = 0;
+        if (packet.GetEncodedAudio(len) == nullptr || len == 0)
+            return frame_sizes;
+
+        int enc_framesize = len / GetAudioCodecFramesPerPacket(codec);
+        frame_sizes.assign(GetAudioCodecFramesPerPacket(codec), enc_framesize);
+    }
     else
     {
         uint16_t enc_len;

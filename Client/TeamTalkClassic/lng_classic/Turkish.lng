@@ -115,7 +115,6 @@
     <item id="243">Host Yöneticisi</item>
     <item id="244">%s Medya Yayını Takibi: %d</item>
     <item id="245">%s Masaüstü erişimine izin verdi</item>
-    <item id="247">IP Adresim nedir?</item>
     <item id="248">%s şimdi masaüstü erişimi var</item>
     <item id="249">Tuş Konbinasyonu</item>
     <item id="251">Ses Tercihleri</item>
@@ -170,13 +169,22 @@
     <item id="306">Profil adı</item>
     <item id="307">Kullanıcı yoğunluğuna göre</item>
     <item id="308">popülerliğine göre</item>
+    <item id="309">Herkes</item>
+    <item id="310">%s Eklenen Dosya %s</item>
+    <item id="311">Kaldırılan Dosya %s</item>
+    <item id="312">Dosya Olayları</item>
+    <item id="313">Dosya Eklendi</item>
+    <item id="314">Dosya Kaldırıldı</item>
+    <item id="315">Sıfırla</item>
+    <item id="316">BearWare.dk web girişi</item>
+    <item id="317">Kimlik doğrulama başarısız</item>
+    <item id="318">Bearware.dk web girişi başarısız</item>
+    <item id="319">%s, kullanıcı adınız &quot;&quot;%s&quot;&quot; başarıyla etkinleştirildi.</item>
+    <item id="320">Mesaj yayını</item>
     <item id="1009">Kök Kanal&apos;a Otomatik Olarak Giriş Yap</item>
-    <item id="1011">Host Özellikleri</item>
     <item id="1012">Host TCP Bağlantı Noktası</item>
     <item id="1016">Host UDP Bağlantı Noktası</item>
     <item id="1017">Ses Yükseltme</item>
-    <item id="1018">Varsayılan: 10333</item>
-    <item id="1019">Bu Mesajı Devre Dışı Bırak</item>
     <item id="1020">Kanal&apos;daki kullanıcı sayısını göster</item>
     <item id="1021">3d Ses Kullanıcıları</item>
     <item id="1022">Ses Aktivasyonunu Devre dışı Bırak</item>
@@ -201,7 +209,6 @@
     <item id="1061">Konu</item>
     <item id="1063">Şifre</item>
     <item id="1067">IP Başına Maksimum Giriş</item>
-    <item id="1071">İsteğe Bağlı</item>
     <item id="1073">Şifre</item>
     <item id="1075">Host Adresi</item>
     <item id="1077">Ses Kanalları</item>
@@ -318,7 +325,6 @@
     <item id="1312">Kullanıcılar Mesaj yayını yapabilir</item>
     <item id="1313">Kullanıcılar kanal komutlarını kullanabilir</item>
     <item id="1315">Kullanıcı ses mikrofon verisi iletebilir</item>
-    <item id="1316">Kullanıcı hesabını değiştir</item>
     <item id="1317">Kullanıcı mp4, avi dosyaları yayımlayabilir</item>
     <item id="1323">Yönetici</item>
     <item id="1324">&amp;Ekle</item>
@@ -452,6 +458,15 @@
     <item id="1547">Taşma Koruması</item>
     <item id="1548">Belirli bir süre içinde komut sınırlayarak Kullanıcının spam mesajlar ve aktiviteler gerçekleştirmesini engelle.</item>
     <item id="1550">verilen komut sınırı</item>
+    <item id="1553">Profil</item>
+    <item id="1554">Kullanıcı takma adını değiştirebilir</item>
+    <item id="1558">Kullanıcı tüm kanallarda ses kaydedebilir</item>
+    <item id="1561">&amp;Etkinleştir</item>
+    <item id="1562">BearWare.dk Web girişi</item>
+    <item id="1563">BearWare.dk web girişi, kullanıcının BearWare.dk web girişi etkinleştirilmiş sunucular üzerinde kimlik doğrulaması için kullanılır. Söz konusu hesap bearware.dk adresi üzerinden oluşturulabilir.</item>
+    <item id="1564">Kimlik doğrulama</item>
+    <item id="1565">&amp;Oluştur</item>
+    <item id="1566">&amp;Bağlı olmayan kullanıcıları göster</item>
     <item id="32791">&amp;IP adresim Nedir?</item>
     <item id="32798">&amp;Operatör yetkisi ver\tCtrl+o</item>
     <item id="32801">&amp;Kanal Mesajlarını gör\tF10</item>
@@ -559,4 +574,5 @@
     <item id="32951">&amp;Kanaldan at ve yasakla\tCtrl+B</item>
     <item id="32952">&amp;Kanaldan Yasaklanmış Kullanıcılar\tCtrl+Alt+Shift+B</item>
     <item id="32953">&amp;Yeni Istemci\tCtrl+N</item>
+    <item id="32954">&amp;Taşıma için kopyala</item>
 </language>

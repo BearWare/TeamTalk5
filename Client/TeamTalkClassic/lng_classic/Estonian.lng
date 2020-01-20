@@ -65,7 +65,6 @@
     <item id="224">Helisüsteem</item>
     <item id="227">Kasutaja info</item>
     <item id="243">Hosti haldur</item>
-    <item id="247">Mis on mu IP-aadress?</item>
     <item id="249">Klahvikombinatsioon</item>
     <item id="251">Osaliste asukoht(3D helikaardid)</item>
     <item id="254">Otseteed</item>
@@ -84,12 +83,9 @@
     <item id="279">Ülekanne valmis</item>
     <item id="280">Lõpetas rääkimise</item>
     <item id="1009">Peale ühendamist autoliitu juurkanaliga</item>
-    <item id="1011">Hosti atribuudid</item>
     <item id="1012">Hosti TCP port</item>
     <item id="1016">Hosti UDP port</item>
     <item id="1017">Helitugevus</item>
-    <item id="1018">Vaikimisi: 10333</item>
-    <item id="1019">Keela see teade</item>
     <item id="1020">Näita kasutajate arvu kanalis</item>
     <item id="1021">Autopaiguta kasutajad 3D heli abil</item>
     <item id="1022">Keela häälaktiveerimine kui eemal</item>
@@ -116,7 +112,6 @@
     <item id="1061">Teema</item>
     <item id="1063">Salasõna</item>
     <item id="1067">Maks. logimisi IP kohta</item>
-    <item id="1071">Valikuline</item>
     <item id="1073">Salasõna</item>
     <item id="1075">Hosti aadress</item>
     <item id="1077">Audiokanalid</item>
@@ -233,7 +228,6 @@
     <item id="1311">Kasutaja saab näha kasutajaid kõikides kanalites</item>
     <item id="1312">Kasutaja saab saata laiali tekstilisi üldteateid</item>
     <item id="1315">Kasutaja saab edastada häält (mikrofon)</item>
-    <item id="1316">Muuda kasutaja kontot</item>
     <item id="1317">Kasutaja saab edastada videofaile (avi, mp4 failid)</item>
     <item id="1323">Administraator</item>
     <item id="1324">&amp;Lisa</item>

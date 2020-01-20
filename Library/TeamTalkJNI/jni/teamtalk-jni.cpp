@@ -366,6 +366,19 @@ extern "C" {
                                         nUserID, (StreamType)nStreamType, bEnable);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_insertAudioBlock(JNIEnv* env,
+                                                                              jobject thiz,
+                                                                              jlong lpTTInstance,
+                                                                              jobject lpAudioBlock)
+    {
+        AudioBlock ab = {};
+        auto byteArr = setAudioBlock(env, ab, lpAudioBlock, J2N);
+        jboolean b = TT_InsertAudioBlock(reinterpret_cast<TTInstance*>(lpTTInstance), &ab);
+        if (byteArr)
+            env->ReleaseByteArrayElements(byteArr, reinterpret_cast<jbyte*>(ab.lpRawAudio), JNI_ABORT);
+        return b;
+    }
+    
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_enableVoiceActivation(JNIEnv* env,
                                                                                    jobject thiz,
                                                                                    jlong lpTTInstance,
@@ -530,10 +543,8 @@ extern "C" {
                                                                                               jobject lpVideoCodec)
     {
         THROW_NULLEX(env, szMediaFilePath, false);
-        THROW_NULLEX(env, lpVideoCodec, false);
 
-        VideoCodec vidcodec;
-        ZERO_STRUCT(vidcodec);
+        VideoCodec vidcodec = {};
         vidcodec.nCodec = NO_CODEC;
         if(lpVideoCodec)
             setVideoCodec(env, vidcodec, lpVideoCodec, J2N);
@@ -541,11 +552,89 @@ extern "C" {
                                                    ttstr(env, szMediaFilePath), &vidcodec);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_startStreamingMediaFileToChannelEx(JNIEnv* env,
+                                                                                                jobject thiz,
+                                                                                                jlong lpTTInstance,
+                                                                                                jstring szMediaFilePath,
+                                                                                                jobject lpMediaFilePlayback,
+                                                                                                jobject lpVideoCodec)
+    {
+        THROW_NULLEX(env, szMediaFilePath, false);
+        THROW_NULLEX(env, lpMediaFilePlayback, false);
+
+        MediaFilePlayback mfp = {};
+        if (lpMediaFilePlayback)
+            setMediaFilePlayback(env, mfp, lpMediaFilePlayback, J2N);
+
+        VideoCodec vidcodec = {};
+        vidcodec.nCodec = NO_CODEC;
+        if(lpVideoCodec)
+            setVideoCodec(env, vidcodec, lpVideoCodec, J2N);
+        return TT_StartStreamingMediaFileToChannelEx(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                                     ttstr(env, szMediaFilePath), &mfp, &vidcodec);
+    }
+
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_updateStreamingMediaFileToChannel(JNIEnv* env,
+                                                                                               jobject thiz,
+                                                                                               jlong lpTTInstance,
+                                                                                               jobject lpMediaFilePlayback,
+                                                                                               jobject lpVideoCodec)
+    {
+        THROW_NULLEX(env, lpMediaFilePlayback, false);
+
+        MediaFilePlayback mfp = {};
+        if (lpMediaFilePlayback)
+            setMediaFilePlayback(env, mfp, lpMediaFilePlayback, J2N);
+        
+        VideoCodec vidcodec = {};
+        vidcodec.nCodec = NO_CODEC;
+        if (lpVideoCodec)
+            setVideoCodec(env, vidcodec, lpVideoCodec, J2N);
+        
+        return TT_UpdateStreamingMediaFileToChannel(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                                    &mfp, &vidcodec);
+    }
+    
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_stopStreamingMediaFileToChannel(JNIEnv* env,
                                                                                              jobject thiz,
                                                                                              jlong lpTTInstance)
     {
         return TT_StopStreamingMediaFileToChannel(reinterpret_cast<TTInstance*>(lpTTInstance));
+    }
+
+    JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_initLocalPlayback(JNIEnv* env, jobject thiz,
+                                                                           jlong lpTTInstance,
+                                                                           jstring szMediaFilePath,
+                                                                           jobject lpMediaFilePlayback) {
+        THROW_NULLEX(env, szMediaFilePath, 0);
+        THROW_NULLEX(env, lpMediaFilePlayback, 0);
+
+        MediaFilePlayback playback = {};
+        setMediaFilePlayback(env, playback, lpMediaFilePlayback, J2N);
+            
+        return TT_InitLocalPlayback(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                    ttstr(env, szMediaFilePath), &playback);
+    }
+
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_updateLocalPlayback(JNIEnv* env, jobject thiz,
+                                                                                 jlong lpTTInstance,
+                                                                                 jint nPlaybackSessionID,
+                                                                                 jobject lpMediaFilePlayback) {
+        
+        THROW_NULLEX(env, lpMediaFilePlayback, false);
+
+        MediaFilePlayback playback = {};
+        setMediaFilePlayback(env, playback, lpMediaFilePlayback, J2N);
+
+        return TT_UpdateLocalPlayback(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                      nPlaybackSessionID, &playback);
+    }
+
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_stopLocalPlayback(JNIEnv* env, jobject thiz,
+                                                                               jlong lpTTInstance,
+                                                                               jint nPlaybackSessionID) {
+        return TT_StopLocalPlayback(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                    nPlaybackSessionID);
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getMediaFileInfo(JNIEnv* env,
@@ -559,7 +648,7 @@ extern "C" {
         MediaFileInfo mfi;
         if(TT_GetMediaFileInfo(ttstr(env, szMediaFilePath), &mfi))
         {
-            setMediaFileInfo(env, mfi, lpMediaFileInfo);
+            setMediaFileInfo(env, mfi, lpMediaFileInfo, N2J);
             return true;
         }
         return false;
@@ -649,9 +738,9 @@ extern "C" {
     {
         THROW_NULLEX(env, lpDesktopInputs, false);
 
-        size_t len = env->GetArrayLength(lpDesktopInputs);
+        jsize len = env->GetArrayLength(lpDesktopInputs);
         std::vector<DesktopInput> inputs(len);
-        for(size_t i=0;i<len;i++)
+        for(jsize i=0;i<len;i++)
             setDesktopInput(env, inputs[i], env->GetObjectArrayElement(lpDesktopInputs, i), J2N);
         return TT_SendDesktopInput(reinterpret_cast<TTInstance*>(lpTTInstance), nUserID,
                                    &inputs[0], len);
@@ -782,6 +871,35 @@ extern "C" {
         return false;
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setClientKeepAlive(JNIEnv* env,
+                                                                                jobject thiz,
+                                                                                jlong lpTTInstance,
+                                                                                jobject lpClientKeepAlive)
+    {
+        THROW_NULLEX(env, lpClientKeepAlive, false);
+
+        ClientKeepAlive ka;
+        setClientKeepAlive(env, ka, lpClientKeepAlive, J2N);
+        
+        return TT_SetClientKeepAlive(reinterpret_cast<TTInstance*>(lpTTInstance), &ka);
+    }
+    
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getClientKeepAlive(JNIEnv* env,
+                                                                                jobject thiz,
+                                                                                jlong lpTTInstance,
+                                                                                jobject lpClientKeepAlive)
+    {
+        THROW_NULLEX(env, lpClientKeepAlive, false);
+
+        ClientKeepAlive ka = {};
+        if (TT_GetClientKeepAlive(reinterpret_cast<TTInstance*>(lpTTInstance), &ka)) {
+            setClientKeepAlive(env, ka, lpClientKeepAlive, N2J);
+            return true;
+        }
+
+        return false;
+    }
+    
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doPing(JNIEnv* env,
                                                                 jobject thiz,
                                                                 jlong lpTTInstance)
@@ -837,7 +955,7 @@ extern "C" {
     {
         THROW_NULLEX(env, lpChannel, -1);
 
-        Channel chan = {0};
+        Channel chan = {};
         setChannel(env, chan, lpChannel, J2N);
         return TT_DoJoinChannel(reinterpret_cast<TTInstance*>(lpTTInstance), &chan);
     }
@@ -1209,7 +1327,7 @@ extern "C" {
             n_users = std::min(n_users, (INT32)getIntPtr(env, lpnHowMany));
             setIntPtr(env, lpnHowMany, n_users);
 
-            for(size_t i=0;i<(size_t)n_users;i++)
+            for(jsize i=0;i<(size_t)n_users;i++)
             {
                 jclass cls = env->FindClass("dk/bearware/User");
                 jobject user_obj = newObject(env, cls);
@@ -1258,7 +1376,7 @@ extern "C" {
                                                                            jlong lpTTInstance,
                                                                            jint nChannelID)
     {
-        TTCHAR channel[TT_STRLEN] = {0};
+        TTCHAR channel[TT_STRLEN] = {};
         TT_GetChannelPath(reinterpret_cast<TTInstance*>(lpTTInstance),
                           nChannelID, channel);
         return NEW_JSTRING(env, channel);
@@ -1306,7 +1424,7 @@ extern "C" {
         {
             n_users = std::min(n_users, (INT32)getIntPtr(env, lpnHowMany));
             setIntPtr(env, lpnHowMany, n_users);
-            for(size_t i=0;i<(size_t)n_users;i++)
+            for(jsize i=0;i<(size_t)n_users;i++)
             {
                 jclass cls = env->FindClass("dk/bearware/User");
                 jobject user_obj = newObject(env, cls);
@@ -1352,7 +1470,7 @@ extern "C" {
             {
                 std::vector<jobject> jfiles(n_files);
                 jclass cls = env->FindClass("dk/bearware/RemoteFile");
-                for(size_t i=0;i<(size_t)n_files;i++)
+                for(jsize i=0;i<(size_t)n_files;i++)
                 {
                     jobject file_obj = newObject(env, cls);
                     setRemoteFile(env, files[i], file_obj, N2J);
@@ -1424,7 +1542,7 @@ extern "C" {
             n_channels = std::min(n_channels, (INT32)getIntPtr(env, lpnHowMany));
             setIntPtr(env, lpnHowMany, n_channels);
             jclass cls = env->FindClass("dk/bearware/Channel");
-            for(size_t i=0;i<(size_t)n_channels;i++)
+            for(jsize i=0;i<jsize(n_channels);i++)
             {
                 jobject chan_obj = newObject(env, cls);
                 setChannel(env, channels[i], chan_obj, N2J);
@@ -1625,7 +1743,7 @@ extern "C" {
             return NULL;
         jclass cls = env->FindClass("dk/bearware/AudioBlock");
         jobject audblk_obj = newObject(env, cls);
-        setAudioBlock(env, *audblock, audblk_obj);
+        setAudioBlock(env, *audblock, audblk_obj, N2J);
         TT_ReleaseUserAudioBlock(reinterpret_cast<TTInstance*>(lpTTInstance), audblock);
         return audblk_obj;
     }
@@ -1661,7 +1779,7 @@ extern "C" {
                                                                             jobject thiz,
                                                                             jint nError)
     {
-        TTCHAR szError[TT_STRLEN] = {0};
+        TTCHAR szError[TT_STRLEN] = {};
         TT_GetErrorMessage(nError, szError);
         return NEW_JSTRING(env, szError);
     }
@@ -1670,12 +1788,21 @@ extern "C" {
                                                                                     jobject thiz,
                                                                                     jlong lpTTInstance,
                                                                                     jint uStreamTypes,
-                                                                                    jint nFrequency)
-    {
+                                                                                    jint nFrequency) {
         return TT_DBG_SetSoundInputTone(reinterpret_cast<TTInstance*>(lpTTInstance),
                                         uStreamTypes, nFrequency);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_DBG_1WriteAudioFileTone(JNIEnv* env,
+                                                                                     jobject thiz,
+                                                                                     jobject lpMediaFileInfo,
+                                                                                     jint nFrequency)
+    {
+        MediaFileInfo mfi = {};
+        setMediaFileInfo(env, mfi, lpMediaFileInfo, J2N);
+        return TT_DBG_WriteAudioFileTone(&mfi, nFrequency);
+    }
+    
     JNIEXPORT jint JNICALL Java_dk_bearware_PlatformHelper_desktopInputKeyTranslate(JNIEnv* env,
                                                                                     jclass,
                                                                                     jint nTranslate,
@@ -1685,13 +1812,13 @@ extern "C" {
         if (env->GetArrayLength(lpDesktopInputs) != env->GetArrayLength(lpTranslatedDesktopInputs))
             return -1;
 
-        jint len = env->GetArrayLength(lpDesktopInputs);
+        jsize len = env->GetArrayLength(lpDesktopInputs);
         std::vector<DesktopInput> inputs(len), outputs(len);
-        for(size_t i=0;i<len;i++) {
+        for(jsize i=0;i<len;i++) {
             setDesktopInput(env, inputs[i], env->GetObjectArrayElement(lpDesktopInputs, i), J2N);
         }
-        size_t ret = TT_DesktopInput_KeyTranslate(TTKeyTranslate(nTranslate), &inputs[0], &outputs[0], len);
-        for (size_t i=0;i<len;++i) {
+        jint ret = TT_DesktopInput_KeyTranslate(TTKeyTranslate(nTranslate), &inputs[0], &outputs[0], len);
+        for (jsize i=0;i<jsize(len);++i) {
             setDesktopInput(env, outputs[i], env->GetObjectArrayElement(lpTranslatedDesktopInputs, i), N2J);
         }
         return ret;
@@ -1701,9 +1828,9 @@ extern "C" {
                                                                                jclass,
                                                                                jobjectArray lpDesktopInputs)
     {
-        jint len = env->GetArrayLength(lpDesktopInputs);
+        jsize len = env->GetArrayLength(lpDesktopInputs);
         std::vector<DesktopInput> inputs(len);
-        for(size_t i=0;i<len;i++) {
+        for(jsize i=0;i<len;i++) {
             setDesktopInput(env, inputs[i], env->GetObjectArrayElement(lpDesktopInputs, i), J2N);
         }
         return TT_DesktopInput_Execute(&inputs[0], len);

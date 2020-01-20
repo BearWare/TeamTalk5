@@ -68,7 +68,8 @@ extern "C" {
         jobject cb_obj = command_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, errmsg_obj, user_obj, useraccount_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
 
         setClientErrorMsg(env, *lpClientErrorMsg, errmsg_obj, J2N);
         setUserAccount(env, *lpUserAccount, useraccount_obj, J2N);
@@ -97,7 +98,8 @@ extern "C" {
         jobject cb_obj = command_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, errmsg_obj, user_obj, newnick_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
 
         setClientErrorMsg(env, *lpClientErrorMsg, errmsg_obj, J2N);
     }
@@ -126,7 +128,8 @@ extern "C" {
         jobject cb_obj = command_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, errmsg_obj, user_obj, nNewStatusMode, newstatusmsg_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
         setClientErrorMsg(env, *lpClientErrorMsg, errmsg_obj, J2N);
     }
     void userCreateUserAccountCallback(IN TTSInstance* lpTTSInstance, 
@@ -154,7 +157,8 @@ extern "C" {
         jobject cb_obj = command_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, errmsg_obj, user_obj, useraccount_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
 
         setClientErrorMsg(env, *lpClientErrorMsg, errmsg_obj, J2N);
     }
@@ -181,7 +185,8 @@ extern "C" {
         jobject cb_obj = command_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, errmsg_obj, user_obj, username_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
 
         setClientErrorMsg(env, *lpClientErrorMsg, errmsg_obj, J2N);
     }
@@ -208,7 +213,8 @@ extern "C" {
         jobject cb_obj = command_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, errmsg_obj, banner_obj, banee_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
 
         setClientErrorMsg(env, *lpClientErrorMsg, errmsg_obj, J2N);
     }
@@ -235,7 +241,8 @@ extern "C" {
         jobject cb_obj = command_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, errmsg_obj, banner_obj, ipaddr_str);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
 
         setClientErrorMsg(env, *lpClientErrorMsg, errmsg_obj, J2N);
     }
@@ -267,7 +274,8 @@ extern "C" {
         jobject cb_obj = command_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, errmsg_obj, user_obj, ipaddr_str);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
 
         setClientErrorMsg(env, *lpClientErrorMsg, errmsg_obj, J2N);
     }
@@ -291,7 +299,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logUserLoggedInCallback(IN TTSInstance* lpTTSInstance,
                                  IN VOID* lpUserData, IN const User* lpUser) {
@@ -309,7 +318,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logUserLoggedOutCallback(IN TTSInstance* lpTTSInstance,
                                   IN VOID* lpUserData, IN const User* lpUser) {
@@ -325,7 +335,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logUserDisconnectedCallback(IN TTSInstance* lpTTSInstance,
                                      IN VOID* lpUserData, IN const User* lpUser) {
@@ -341,7 +352,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logUserTimedoutCallback(IN TTSInstance* lpTTSInstance,
                                  IN VOID* lpUserData, IN const User* lpUser) {
@@ -357,7 +369,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logUserKickedCallback(IN TTSInstance* lpTTSInstance,
                                IN VOID* lpUserData, IN const User* lpKicker,
@@ -378,7 +391,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, kicker_obj, kickee_obj, channel_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logUserBannedCallback(IN TTSInstance* lpTTSInstance,
                                IN VOID* lpUserData, IN const User* lpBanner,
@@ -399,7 +413,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, banner_obj, banee_obj, channel_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logUserUnbannedCallback(IN TTSInstance* lpTTSInstance,
                                  IN VOID* lpUserData, IN const User* lpUnbanner,
@@ -422,7 +437,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, banner_obj, ipaddr_str);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logUserUpdatedCallback(IN TTSInstance* lpTTSInstance,
                                 IN VOID* lpUserData, IN const User* lpUser) {
@@ -440,7 +456,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logUserJoinedChannelCallback(IN TTSInstance* lpTTSInstance,
                                       IN VOID* lpUserData, IN const User* lpUser,
@@ -460,7 +477,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj, chan_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logUserLeftChannelCallback(IN TTSInstance* lpTTSInstance,
                                     IN VOID* lpUserData, IN const User* lpUser,
@@ -481,7 +499,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj, chan_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logUserMovedCallback(IN TTSInstance* lpTTSInstance,
                               IN VOID* lpUserData, IN const User* lpMover,
@@ -502,7 +521,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, mover_obj, movee_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logUserTextMessageCallback(IN TTSInstance* lpTTSInstance,
                                     IN VOID* lpUserData, IN const User* lpUser,
@@ -523,7 +543,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj, tm_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logChannelCreatedCallback(IN TTSInstance* lpTTSInstance,
                                    IN VOID* lpUserData, IN const Channel* lpChannel,
@@ -544,7 +565,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, chan_obj, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logChannelUpdatedCallback(IN TTSInstance* lpTTSInstance,
                                    IN VOID* lpUserData, IN const Channel* lpChannel,
@@ -565,7 +587,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, chan_obj, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logChannelRemovedCallback(IN TTSInstance* lpTTSInstance,
                                    IN VOID* lpUserData, IN const Channel* lpChannel,
@@ -586,7 +609,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, chan_obj, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logFileUploadedCallback(IN TTSInstance* lpTTSInstance,
                                  IN VOID* lpUserData, 
@@ -608,7 +632,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, file_obj, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logFileDownloadedCallback(IN TTSInstance* lpTTSInstance,
                                    IN VOID* lpUserData, 
@@ -630,7 +655,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, file_obj, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logFileDeletedCallback(IN TTSInstance* lpTTSInstance,
                                 IN VOID* lpUserData, 
@@ -652,7 +678,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, file_obj, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logServerUpdatedCallback(IN TTSInstance* lpTTSInstance,
                                   IN VOID* lpUserData, 
@@ -675,7 +702,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, sp_obj, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
     void logSaveServerConfigCallback(IN TTSInstance* lpTTSInstance,
                                      IN VOID* lpUserData, 
@@ -694,7 +722,8 @@ extern "C" {
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
         jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj);
-        assert(com_obj);
+        com_obj = com_obj; // void
+        // assert(com_obj);
     }
 
     JNIEXPORT jstring JNICALL Java_dk_bearware_TeamTalkSrv_getVersion(JNIEnv* env,

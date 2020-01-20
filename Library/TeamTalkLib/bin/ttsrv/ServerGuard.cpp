@@ -30,6 +30,7 @@
 
 #include <sstream>
 #include <queue>
+#include <regex>
 
 #include <teamtalk/Commands.h>
 #include <teamtalk/Log.h>
@@ -123,7 +124,7 @@ void ServerGuard::OnUserDisconnected(const ServerUser& user)
     tostringstream oss;
 
     serverchannel_t chan = user.GetChannel();
-    if(!chan.null())
+    if(chan)
     {
         oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
         oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
@@ -211,6 +212,28 @@ void ServerGuard::OnUserBanned(const ACE_TString& ipaddr, const ServerUser& bann
     oss << ACE_TEXT("banned ");
     oss << ACE_TEXT("IP address: ") << LogPrepare(ipaddr).c_str() << ACE_TEXT(" ");
     oss << ACE_TEXT("from server.");
+
+    TT_LOG(oss.str().c_str());
+}
+
+void ServerGuard::OnUserBanned(const ServerUser& banner, const BannedUser& ban)
+{
+    tostringstream oss;
+    oss << ACE_TEXT("User #") << banner.GetUserID() << ACE_TEXT(" ");
+    oss << ACE_TEXT("nickname: \"") << LogPrepare(banner.GetNickname()).c_str() << ACE_TEXT("\" ");
+    if(banner.GetUsername().length())
+        oss << ACE_TEXT("username: \"") << LogPrepare(banner.GetUsername()).c_str() << ACE_TEXT("\" ");
+    oss << ACE_TEXT("banned ");
+
+    if(ban.bantype & BANTYPE_IPADDR)
+        oss << ACE_TEXT("IP address: ") << LogPrepare(ban.ipaddr).c_str() << ACE_TEXT(" ");
+    if(ban.bantype & BANTYPE_USERNAME)
+        oss << ACE_TEXT("username: \"") << LogPrepare(ban.username).c_str() << ACE_TEXT("\" ");
+
+    if(ban.bantype & BANTYPE_CHANNEL)
+        oss << ACE_TEXT("from channel \"") << LogPrepare(ban.chanpath).c_str() << ACE_TEXT("\".");
+    else
+        oss << ACE_TEXT("from server.");
 
     TT_LOG(oss.str().c_str());
 }
@@ -467,6 +490,7 @@ void ServerGuard::OnSaveConfiguration(ServerNode& servernode, const ServerUser* 
     m_settings.SetMaxUsers(properties.maxusers);
     m_settings.SetMaxLoginAttempts(properties.maxloginattempts);
     m_settings.SetMaxLoginsPerIP(properties.max_logins_per_ipaddr);
+    m_settings.SetLoginDelay(properties.logindelay);
     m_settings.SetUserTimeout(properties.usertimeout);
     m_settings.SetVoiceTxLimit(properties.voicetxlimit);
     m_settings.SetVideoCaptureTxLimit(properties.videotxlimit);
@@ -521,127 +545,220 @@ void ServerGuard::OnShutdown(const ServerStats& stats)
 }
 
 #if defined(ENABLE_HTTP_AUTH)
-#include <ace/INet/HTTP_URL.h>
-#include <ace/INet/HTTP_ClientRequestHandler.h>
 
-void ServerGuard::HttpLogin(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount)
+void ServerGuard::WebLoginFacebook(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount)
 {
-    GUARD_OBJ_NAME(g, servernode, servernode->lock());
-
     int ret;
     ErrorMsg err;
     strings_t tokens = tokenize(useraccount.passwd, ACE_TEXT("="));
     useraccount.passwd.clear();
+    ACE_CString url = WEBLOGIN_URL;
 
-    // authenticate 'facebook'
-    if(m_settings.AuthenticateUser(useraccount) && tokens.size() >= 2)
     {
-        ACE_CString url = WEBLOGIN_URL;
-        url += "client=" TEAMTALK_LIB_NAME;
-        url += "&version=" TEAMTALK_VERSION;
-        url += "&service=facebook";
+        GUARD_OBJ_NAME(g, servernode, servernode->lock());
 
-        if(tokens[0] == ACE_TEXT("code"))
+        // authenticate 'facebook'
+        if(m_settings.AuthenticateUser(useraccount) && tokens.size() >= 2)
         {
+            url += "client=" TEAMTALK_LIB_NAME;
+            url += "&version=" TEAMTALK_VERSION;
+            url += "&service=facebook";
+
+            if(tokens[0] == ACE_TEXT("code"))
+            {
 #if defined(UNICODE)
-            url += "&code=" + UnicodeToUtf8(tokens[1]);
+                url += "&code=" + UnicodeToUtf8(tokens[1]);
 #else
-            url += "&code=" + tokens[1];
+                url += "&code=" + tokens[1];
 #endif
-        }
-        else if(tokens[0] == ACE_TEXT("token"))
-        {
+            }
+            else if(tokens[0] == ACE_TEXT("token"))
+            {
 #if defined(UNICODE)
-            url += "&token=" + UnicodeToUtf8(tokens[1]);
+                url += "&token=" + UnicodeToUtf8(tokens[1]);
 #else
-            url += "&token=" + tokens[1];
+                url += "&token=" + tokens[1];
 #endif
+            }
+            else
+            {
+                err = TT_CMDERR_INVALID_ACCOUNT;
+            }
         }
         else
         {
             err = TT_CMDERR_INVALID_ACCOUNT;
-            
         }
 
-        if (err.success())
+        if (!err.success())
         {
-            GUARD_OBJ_RELEASE(g, servernode);
-
-            std::string utf8;
-            ret = HttpRequest(url, utf8);
-
-            GUARD_OBJ_REACQUIRE(g, servernode);
-
-            switch(ret)
-            {
-            case -1 :
-                err = ErrorMsg(TT_CMDERR_LOGINSERVICE_UNAVAILABLE);
-                break;
-            case 0 :
-                err = ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
-                break;
-            case 1 :
-                teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
-                if(xmldoc.Parse(utf8))
-                {
-                    std::string name = xmldoc.GetValue("teamtalk/facebook/name");
-                    std::string id = xmldoc.GetValue("teamtalk/facebook/id");
-                    id += WEBLOGIN_FACEBOOK_POSTFIX;
-#if defined(UNICODE)
-                    useraccount.username = Utf8ToUnicode(id.c_str());
-                    useraccount.nickname = Utf8ToUnicode(name.c_str());
-#else
-                    useraccount.username = id.c_str();
-                    useraccount.nickname = name.c_str();
-#endif
-                    // check that @facebook.com username is not banned
-                    BannedUser ban;
-                    ban.username = useraccount.username;
-                    if(m_settings.IsUserBanned(ban))
-                    {
-                        err = ErrorMsg(TT_CMDERR_SERVER_BANNED);
-                    }
-                    else
-                    {
-                        // authenticate if @facebook.com exists in db
-                        m_settings.AuthenticateUser(useraccount);
-                        err = ErrorMsg(TT_CMDERR_SUCCESS);
-                    }
-                }
-                else
-                {
-                    err = ErrorMsg(TT_CMDERR_LOGINSERVICE_UNAVAILABLE);
-                }
-                break;
-            }
+            WebLoginComplete(servernode, userid, useraccount, err);
+            return;
         }
+    }
+
+    std::string utf8;
+    ret = HttpRequest(url, utf8);
+
+    GUARD_OBJ_NAME(g, servernode, servernode->lock());
+
+    switch(ret)
+    {
+    case -1:
+        err = ErrorMsg(TT_CMDERR_LOGINSERVICE_UNAVAILABLE);
+        break;
+    case 0:
+        err = ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
+        break;
+    case 1:
+        teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
+        if(xmldoc.Parse(utf8))
+        {
+            std::string name = xmldoc.GetValue("teamtalk/facebook/name");
+            std::string id = xmldoc.GetValue("teamtalk/facebook/id");
+            id += WEBLOGIN_FACEBOOK_POSTFIX;
+#if defined(UNICODE)
+            useraccount.username = Utf8ToUnicode(id.c_str());
+            useraccount.nickname = Utf8ToUnicode(name.c_str());
+#else
+            useraccount.username = id.c_str();
+            useraccount.nickname = name.c_str();
+#endif
+            err = WebLoginPostAuthenticate(useraccount);
+        }
+        else
+        {
+            err = ErrorMsg(TT_CMDERR_LOGINSERVICE_UNAVAILABLE);
+        }
+        break;
+    } // switch
+
+    WebLoginComplete(servernode, userid, useraccount, err);
+}
+
+void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount)
+{
+    ErrorMsg err;
+    std::string authusername = UnicodeToUtf8(useraccount.username).c_str();
+    std::string authtoken;
+
+    {
+        GUARD_OBJ_NAME(g, servernode, servernode->lock());
+
+        auto user = servernode->GetUser(userid);
+        if (user.get())
+        {
+            authtoken = UnicodeToUtf8(user->GetAccessToken()).c_str();
+        }
+
+        if (authtoken.empty())
+        {
+            err = TT_CMDERR_INVALID_ACCOUNT;
+            WebLoginComplete(servernode, userid, useraccount, err);
+            return;
+        }
+
+        // authenticate 'bearware.dk'
+        UserAccount sharedaccount;
+        sharedaccount.username = ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME);
+        if(!m_settings.AuthenticateUser(sharedaccount))
+        {
+            err.errorno = TT_CMDERR_INVALID_ACCOUNT;
+            WebLoginComplete(servernode, userid, useraccount, err);
+            return;
+        }
+
+        //notice 'bearware' is now username, so swap it back
+        useraccount = sharedaccount;
+    }
+
+
+    ACE_CString url = WEBLOGIN_URL;
+    url += "client=" TEAMTALK_LIB_NAME;
+    url += "&version=" TEAMTALK_VERSION;
+    url += "&service=bearware";
+    url += "&action=serverauth";
+    url += ACE_CString("&username=") + authusername.c_str();
+    url += ACE_CString("&accesstoken=") + authtoken.c_str();
+
+    std::string utf8;
+    int ret = HttpRequest(url, utf8);
+
+    GUARD_OBJ_NAME(g, servernode, servernode->lock()); // lock required by WebLoginPostAuthenticate() and WebLoginComplete()
+
+    switch(ret)
+    {
+    default :
+    case -1:
+        err = ErrorMsg(TT_CMDERR_LOGINSERVICE_UNAVAILABLE);
+        break;
+    case 0:
+         err = ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
+        break;
+    case 1:
+        teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
+        if(xmldoc.Parse(utf8))
+        {
+            std::string nickname = xmldoc.GetValue("teamtalk/bearware/nickname");
+            std::string username = xmldoc.GetValue("teamtalk/bearware/username");
+#if defined(UNICODE)
+            useraccount.username = Utf8ToUnicode(username.c_str());
+            useraccount.nickname = Utf8ToUnicode(nickname.c_str());
+#else
+            useraccount.username = username.c_str();
+            useraccount.nickname = nickname.c_str();
+#endif
+            err = WebLoginPostAuthenticate(useraccount);
+        }
+        else
+        {
+            err = ErrorMsg(TT_CMDERR_LOGINSERVICE_UNAVAILABLE);
+        }
+        break;
+    }
+
+    WebLoginComplete(servernode, userid, useraccount, err);
+}
+    
+ErrorMsg ServerGuard::WebLoginPostAuthenticate(UserAccount& useraccount)
+{
+    // check that web-login username is not banned
+    BannedUser ban;
+    ban.username = useraccount.username;
+    if(m_settings.IsUserBanned(ban))
+    {
+        return ErrorMsg(TT_CMDERR_SERVER_BANNED);
     }
     else
     {
-        err = TT_CMDERR_INVALID_ACCOUNT;
+        // authenticate if web-login username exists in db
+        m_settings.AuthenticateUser(useraccount);
+        return ErrorMsg(TT_CMDERR_SUCCESS);
     }
+}
 
+void ServerGuard::WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid,
+                                   const UserAccount& useraccount, const ErrorMsg& err)
+{
     serveruser_t user = servernode->GetUser(userid);
-    if(!user.null())
+    if(!user)
+        return;
+
+    if(!err.success())
     {
-        if (!err.success())
-        {
-            useraccount = UserAccount();
-            user->DoError(err);
-        }
-
-        m_pendinglogin[userid] = useraccount;
-
-#if defined(WIN32)
-        timer_userdata usr = { 0 };
-        usr.src_userid = ACE_UINT16(userid);
-#else
-        timer_userdata usr = { .src_userid = ACE_UINT16(userid) };
-#endif   
-        ret = servernode->StartTimer(TIMER_COMMAND_RESUME, usr, ACE_Time_Value::zero, 
-                                     ACE_Time_Value::zero);
-        TTASSERT(ret>=0);
+        m_pendinglogin[userid] = UserAccount();
+        user->DoError(err);
     }
+    else
+    {
+        m_pendinglogin[userid] = useraccount;
+    }
+
+    timer_userdata usr = {};
+    usr.src_userid = ACE_UINT16(userid);
+
+    int ret = servernode->StartTimer(TIMER_COMMAND_RESUME, usr, ACE_Time_Value::zero);
+    TTASSERT(ret >= 0);
 }
 
 #endif
@@ -657,10 +774,29 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
     }
 
 #if defined(ENABLE_HTTP_AUTH)
-    ACE_TString fbpostfix = ACE_TEXT(WEBLOGIN_FACEBOOK_POSTFIX);
-    if (useraccount.username == ACE_TEXT(WEBLOGIN_FACEBOOK_USERNAME) ||
-       (useraccount.username.length() > fbpostfix.length() &&
-        useraccount.username.find(fbpostfix, useraccount.username.length() - fbpostfix.length()) != ACE_TString::npos))
+    
+    bool facebook = useraccount.username == ACE_TEXT(WEBLOGIN_FACEBOOK_USERNAME);
+    ACE_TString fbregex = ACE_TEXT(WEBLOGIN_FACEBOOK_POSTFIX) + ACE_TString(ACE_TEXT("$"));
+#if defined(UNICODE)
+    facebook |= std::regex_search(useraccount.username.c_str(), std::wregex(fbregex.c_str()));
+#else
+    facebook |= std::regex_search(useraccount.username.c_str(), std::regex(fbregex.c_str()));
+#endif
+
+    bool bearware = false;
+#if defined(ENABLE_TEAMTALKPRO)
+    ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
+    if (useraccount.username == ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME))
+        return TT_CMDERR_INVALID_ACCOUNT;
+#if defined(UNICODE)
+    bearware |= std::regex_search(useraccount.username.c_str(), std::wregex(bwregex.c_str()));
+#else
+    bearware |= std::regex_search(useraccount.username.c_str(), std::regex(bwregex.c_str()));
+#endif
+
+#endif /* ENABLE_TEAMTALKPRO */
+
+    if (bearware || facebook)
     {
         auto i = m_pendinglogin.find(user.GetUserID());
         if(i != m_pendinglogin.end())
@@ -676,8 +812,17 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
             return TT_CMDERR_IGNORE;
         }
 
-        std::thread mythr(&ServerGuard::HttpLogin, this, servernode, ACE_UINT32(user.GetUserID()), useraccount);
-        mythr.detach();
+        if (facebook)
+        {
+            std::thread mythr(&ServerGuard::WebLoginFacebook, this, servernode, ACE_UINT32(user.GetUserID()), useraccount);
+            mythr.detach();
+        }
+        else if (bearware)
+        {
+            std::thread mythr(&ServerGuard::WebLoginBearWare, this, servernode, ACE_UINT32(user.GetUserID()), useraccount);
+            mythr.detach();
+        }
+
         return TT_SRVERR_COMMAND_SUSPEND;
     }
 #endif /* ENABLE_HTTP_AUTH */
@@ -827,7 +972,7 @@ namespace teamtalk {
     bool LoadConfig(ServerXML& xmlSettings, const ACE_TString& cfgfile)
     {
         ACE_TString settings_path;
-        ACE_TCHAR buf[1024] = {0};
+        ACE_TCHAR buf[1024] = {};
 
         if(cfgfile.empty())
         {
@@ -877,6 +1022,7 @@ namespace teamtalk {
         properties.maxusers = xmlSettings.GetMaxUsers() == UNDEFINED? MAX_USERS : xmlSettings.GetMaxUsers();
         properties.max_logins_per_ipaddr = xmlSettings.GetMaxLoginsPerIP();
         properties.maxloginattempts = xmlSettings.GetMaxLoginAttempts();
+        properties.logindelay = xmlSettings.GetLoginDelay();
         properties.usertimeout = xmlSettings.GetUserTimeout();
         properties.filesroot = Utf8ToUnicode(xmlSettings.GetFilesRoot().c_str());
         properties.diskquota = xmlSettings.GetDefaultDiskQuota();
@@ -914,15 +1060,14 @@ namespace teamtalk {
             }
         }
 
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
         ACE_TString certfile, privfile;
 
         certfile = Utf8ToUnicode(xmlSettings.GetCertificateFile().c_str());
         privfile = Utf8ToUnicode(xmlSettings.GetPrivateKeyFile().c_str());
 
         ACE_SSL_Context *context = ACE_SSL_Context::instance ();
-        //context->set_mode(ACE_SSL_Context::SSLv3_server);
-        context->set_mode(ACE_SSL_Context::SSLv23_server);
+        context->set_mode(ACE_SSL_Context::SSLv23);
         if(certfile.length() && privfile.length())
         {
             if(context->certificate (UnicodeToLocal(certfile).c_str(), SSL_FILETYPE_PEM)<0)
@@ -958,7 +1103,7 @@ namespace teamtalk {
 
         MakeStaticChannels(servernode, channels);
 
-        if(servernode.GetRootChannel().null())
+        if(!servernode.GetRootChannel())
         {
             ChannelProp chanprop;
             chanprop.channelid = 1;
@@ -974,6 +1119,7 @@ namespace teamtalk {
             chanprop.audiocodec.opus.vbr_constraint = false;
             chanprop.audiocodec.opus.frame_size = 1920;
             chanprop.audiocodec.opus.application = 2048; /* OPUS_APPLICATION_VOIP */
+            chanprop.audiocodec.opus.frames_per_packet = 1;
 #if 0
             chanprop.audiocodec.codec = CODEC_SPEEX;
             chanprop.audiocodec.speex.bandmode = 1;
@@ -1108,7 +1254,7 @@ namespace teamtalk {
                 strings_t tokens = tokenize(curfile, ACE_TEXT("."));
                 if(tokens.empty())
                     continue;
-                int val = string2i(tokens[tokens.size()-1]);
+                int val = int(string2i(tokens[tokens.size()-1]));
                 if(val > max)
                     max = val;
             }
@@ -1126,26 +1272,5 @@ namespace teamtalk {
         if(!logfile.good())
             logfile.clear();
     }
-
-#if defined(ENABLE_HTTP_AUTH)
-    int HttpRequest(const ACE_CString& url, std::string& doc)
-    {
-        ACE_Auto_Ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
-        assert(url_safe.get());
-        if(url_safe.get() == 0)
-            return -1;
-
-        ACE::HTTP::URL& http_url = *dynamic_cast<ACE::HTTP::URL*> (url_safe.get());
-
-        ACE::HTTP::ClientRequestHandler http;
-        ACE::INet::URLStream urlin = http_url.open(http);
-        
-        ostringstream oss;
-        oss << urlin->rdbuf();
-        doc = oss.str();
-
-        return http.response().get_status().is_ok()?1:0;
-    }
-#endif /* ENABLE_HTTP_AUTH */
 
 }

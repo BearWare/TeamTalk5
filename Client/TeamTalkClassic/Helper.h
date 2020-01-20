@@ -33,10 +33,9 @@ typedef struct
     BOOL bBold;
     BOOL bItalic;
     BOOL bUnderline;
-} Font;
+} MyFont;
 
-
-BOOL ConvertFont( const Font font, LOGFONT& destination);
+BOOL ConvertFont(const MyFont font, LOGFONT& destination);
 
 BOOL FileExists(LPCTSTR szFileName);
 CString GetExecutableFolder();
@@ -92,4 +91,9 @@ BOOL OpenLogFile(CFile& file, LPCTSTR szFolder, LPCTSTR szName, CString& szLogFi
 void CloseLogFile(CFile& file);
 void WriteLogMsg(CFile& file, LPCTSTR szMsg);
 void SetAccessibleName(CWnd& wnd, LPCTSTR szHint);
+
+int GetSoundInputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDev = NULL);
+int GetSoundOutputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDev = NULL);
+BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings);
+
 #endif

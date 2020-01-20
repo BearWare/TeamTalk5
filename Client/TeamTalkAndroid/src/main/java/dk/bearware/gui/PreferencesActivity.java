@@ -33,6 +33,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -40,6 +41,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.speech.tts.TextToSpeech.EngineInfo;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -54,6 +56,9 @@ import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.Preferences;
+import dk.bearware.data.TTSWrapper;
+
+import java.util.ArrayList;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On handset devices, settings are presented
@@ -70,6 +75,8 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
 
     TeamTalkConnection mConnection;
     TeamTalkService ttservice;
+
+    int ACTIVITY_REQUEST_BEARWAREID = 2;
     
     @Override
     protected void onStart() {
@@ -101,10 +108,12 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     }
     
     void updateSettings() {
-    	if(ttservice == null)
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        if(ttservice == null)
     		return;
     				
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         TeamTalkBase ttinst = ttservice.getTTInstance();
         User myself = ttservice.getUsers().get(ttinst.getMyUserID());
         if (myself != null) {
@@ -141,6 +150,17 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String username = prefs.getString(Preferences.PREF_GENERAL_BEARWARE_USERNAME, "");
+
+        CheckBoxPreference preference = (CheckBoxPreference) findPreference(Preferences.PREF_GENERAL_BEARWARE_CHECKED);
+        preference.setChecked(username.length() > 0);
+    }
+
+    @Override
     protected boolean isValidFragment(String fragmentName) {
     	// getCanonicalName() returns a string with '$' separator instead of '.'
         return GeneralPreferenceFragment.class.getName().equals(fragmentName) ||
@@ -157,6 +177,14 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == ACTIVITY_REQUEST_BEARWAREID && resultCode == RESULT_OK) {
+            // BearWare login preference handled by onResume()
+        }
     }
 
     /**
@@ -207,6 +235,23 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
         bindPreferenceSummaryToValue(findPreference(Preferences.PREF_GENERAL_NICKNAME));
+
+        Preference bearwareLogin = findPreference(Preferences.PREF_GENERAL_BEARWARE_CHECKED);
+        bearwareLogin.setOnPreferenceChangeListener((preference, o) -> {
+            Intent edit = new Intent(PreferencesActivity.this, WebLoginActivity.class);
+            startActivityForResult(edit, ACTIVITY_REQUEST_BEARWAREID);
+            return true;
+        });
+        ListPreference enginePrefs = (ListPreference) findPreference("pref_speech_engine");
+        List<EngineInfo> engines = TTSWrapper.getEngines();
+        ArrayList<String> entries = new ArrayList();
+        ArrayList<String> values = new ArrayList();
+        for (EngineInfo info : engines) {
+            entries.add(info.label);
+            values.add(info.name);
+        }
+        enginePrefs.setEntries((CharSequence[]) entries.toArray(new CharSequence[engines.size()]));
+        enginePrefs.setEntryValues((CharSequence[]) values.toArray(new CharSequence[engines.size()]));
     }
 
     /** {@inheritDoc} */
@@ -285,6 +330,10 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
                     }
                 }
 
+            }
+            else if (preference instanceof CheckBoxPreference) {
+                if (preference.getKey().equals(Preferences.PREF_GENERAL_BEARWARE_CHECKED)) {
+                }
             }
             else {
                 // For all other preferences, set the summary to the value's

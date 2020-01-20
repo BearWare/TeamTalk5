@@ -115,7 +115,7 @@ void FilesModel::slotChannelUpdated(int channelid)
     this->beginResetModel();
 
     int count = 0;
-    TT_GetChannelFiles(ttInst, channelid, NULL, &count);
+    TT_GetChannelFiles(ttInst, channelid, nullptr, &count);
     m_files.resize(count);
     if(count)
         TT_GetChannelFiles(ttInst, channelid, &m_files[0], &count);

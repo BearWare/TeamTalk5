@@ -87,6 +87,9 @@ namespace teamtalk {
         bool SetMaxLoginsPerIP(int max_ip_logins);
         int GetMaxLoginsPerIP();
 
+        bool SetLoginDelay(int delaymsec);
+        int GetLoginDelay();
+        
         /***** <bandwidth-limits> *****/
 
         bool SetVoiceTxLimit(int tx_bytes_per_sec);

@@ -1,0 +1,24 @@
+# TeamTalk server systemd unit
+#
+# To start this service you must have configured a user and group
+# both of the name 'teamtalk'. In addition a server configuration 
+# file must be located in /etc/teamtalk/tt5srv.xml. The user 
+# 'teamtalk' must have read/write access to this file. Likewise
+# for the server log file which will be located in 
+# /var/log/teamtalk/tt5srv.log
+#
+
+[Unit]
+Description=TeamTalk 5 server daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/tt5srv -nd -c /etc/teamtalk/tt5srv.xml -l /var/log/teamtalk/tt5srv.log
+Type=simple
+User=teamtalk
+Group=teamtalk
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target

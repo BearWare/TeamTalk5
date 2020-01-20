@@ -38,7 +38,7 @@
     <string name="pref_title_vibrate">Wibracja po wciśnięciu PTT</string>
     <string name="pref_title_audio_icons">Ikony Audio</string>
     <string name="pref_title_rx_tx_audio_icon">Dźwiękowe wskazanie przełączenia transmisji głosu</string>
-    <string name="pref_title_personal_message_audio_icon">Dźwiękowe wskazanie przychodzących wiadomości prywatnych</string>
+    <string name="pref_title_private_message_audio_icon">Dźwiękowe wskazanie przychodzących wiadomości prywatnych</string>
     <string name="pref_title_broadcast_message_audio_icon">Dźwiękowe wskazanie przychodzących wiadomości globalnych</string>
     <string name="pref_header_connection">Połączenie</string>
     <string name="pref_title_sub_txtmsg">Wiadomości</string>
@@ -64,14 +64,14 @@
     <string name="pref_summary_channel_join">Oznajmiaj nazwę użytkownika dołączającego do kanału</string>
     <string name="pref_title_channel_leave">Użytkownik opuszcza kanał</string>
     <string name="pref_summary_channel_leave">Oznajmiaj nazwę użytkownika opuszczającego kanał</string>
-    <string name="pref_title_personal_message">Wiadomości prywatne</string>
+    <string name="pref_title_private_message">Wiadomości prywatne</string>
     <string name="pref_title_broadcast_message">Wiadomości globalne</string>
     <string name="pref_summary_message">Oznajmiaj nadawcę</string>
     <string name="text_tts_loggedin">loguje się</string>
     <string name="text_tts_loggedout">wylogowuje się</string>
     <string name="text_tts_joined_chan">dołącza do kanału</string>
     <string name="text_tts_left_chan">opuszcza kanał</string>
-    <string name="text_tts_personal_message">Wiadomość prywatna od użytkownika %1$s</string>
+    <string name="text_tts_private_message">Wiadomość prywatna od użytkownika %1$s</string>
     <string name="text_tts_broadcast_message">Wiadomość globalna od użytkownika %1$s</string>
     <string name="pref_header_soundsystem">System dźwięku</string>
     <string name="title_activity_audio_codec">Kodek Audio</string>
@@ -211,8 +211,8 @@
     <string name="err_filesharing_disabled">Serwer nie zezwala na transfer plików</string>
     <string name="err_channel_has_users">Kanał nie jest pusty</string>
 
-    <string name="personal_message_notification">Nowa wiadomość prywatna od użytkownika %1$s</string>
-    <string name="personal_message_notification_hint">Kliknij, by przeczytać i odpowiedzieć</string>
+    <string name="private_message_notification">Nowa wiadomość prywatna od użytkownika %1$s</string>
+    <string name="private_message_notification_hint">Kliknij, by przeczytać i odpowiedzieć</string>
     <string name="user_state_now_speaking">%1$s teraz mówi</string>
 
 </resources>

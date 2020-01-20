@@ -32,17 +32,18 @@
 #include "VideoThread.h"
 #include "VoiceLogger.h"
 #include "AudioMuxer.h"
+#include "AudioContainer.h"
 #include "DesktopShare.h"
 #include <myace/TimerHandler.h>
 #include <myace/MyACE.h>
 #include <teamtalk/StreamHandler.h>
 #include <teamtalk/Common.h>
 #include <teamtalk/PacketHandler.h>
-#if defined(ENABLE_VIDCAP)
-#include <vidcap/VideoCapture.h>
-#endif
+#include <avstream/VideoCapture.h>
+#include <avstream/MediaPlayback.h>
 
-#include <codec/MediaStreamer.h>
+#include <avstream/MediaStreamer.h>
+#include <avstream/AudioInputStreamer.h>
 
 // ACE
 #include <ace/Reactor.h>
@@ -51,8 +52,6 @@
 #include <ace/INET_Addr.h>
 #include <ace/Time_Value.h>
 #include <ace/FILE_Connector.h>
-#include <ace/Bound_Ptr.h> 
-#include <ace/Null_Mutex.h> 
 #include <ace/Connector.h> 
 #include <ace/SString.h>
 
@@ -62,15 +61,8 @@
 #include <ace/SOCK_Connector.h>
 #endif
 
-#define CLIENT_UDPKEEPALIVE_INTERVAL        10 //secs. Delay between UDP keepalive packets
-#define CLIENT_UDPKEEPALIVE_CHECK_INTERVAL  ACE_Time_Value(1) //Delay between checking if UDP keepalive should be sent
-#define CLIENT_UDPKEEPALIVE_RTX_INTERVAL    ACE_Time_Value(0, 500000) //Delay between UDP keepalive packets
-#define CLIENT_UDP_CONNECTIONLOST_DELAY     5 //secs. When a p2p connection to a user is considered lost, i.e. UDP keep-alive + this value
-#define CLIENT_CONNECTIONLOST_DELAY         180 //secs (no reply for three minutes, consider server dead)
-#define CLIENT_UDPCONNECT_SERVER_TIMEOUT    ACE_Time_Value(10) //time before giving up on udp connect to server
-#define CLIENT_UDPCONNECT_INTERVAL          ACE_Time_Value(0, 500000) //Interval between UDP connect packets
-#define CLIENT_UDPLIVENESS_INTERVAL         ACE_Time_Value(10) //Interval between recreating UDP socket connection
-#define CLIENT_P2P_CONNECT_TIMEOUT          ACE_Time_Value(5) //Give up p2p connect after this many seconds
+#include <atomic>
+
 #define CLIENT_DESKTOPNAK_TIMEOUT           ACE_Time_Value(4) //close a desktop session
 #define CLIENT_QUERY_MTU_INTERVAL           ACE_Time_Value(0, 500000) //time between MTU query packets
 #define CLIENT_DESKTOPINPUT_RTX_TIMEOUT     ACE_Time_Value(1)
@@ -79,13 +71,6 @@
 #define MTU_QUERY_RETRY_COUNT 20 //20 * 500ms = 10 seconds for MTU query (CLIENT_QUERY_MTU_INTERVAL)
 
 #define SOUNDDEVICE_IGNORE_ID -1
-
-#define SIMULATE_RX_PACKETLOSS 0
-#define SIMULATE_TX_PACKETLOSS 0
-
-#if (SIMULATE_RX_PACKETLOSS || SIMULATE_TX_PACKETLOSS) && defined(NDEBUG)
-#error Packetloss in release mode
-#endif
 
 #ifdef _DEBUG
 #define ASSERT_REACTOR_LOCKED(this_obj)                         \
@@ -104,14 +89,13 @@ enum ClientTimer
 {
     TIMER_ONE_SECOND_ID                     = 1, //timer for checking things every second
     TIMER_TCPKEEPALIVE_ID                   = 2,
-    TIMER_UDPKEEPALIVE_ID                   = 3,
-    TIMER_UDPLIVENESS_ID                    = 4, //check if UDP socket is active to server
-    TIMER_UDPCONNECT_ID                     = 5, //connect to server with UDP
-    TIMER_UDPCONNECT_TIMEOUT_ID             = 6, //give up connecting to server with UDP
+    TIMER_UDPCONNECT_ID                     = 3, //connect to server with UDP
+    TIMER_UDPKEEPALIVE_ID                   = 4,
     TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID      = 8,
     TIMER_DESKTOPNAKPACKET_TIMEOUT_ID       = 9,
     TIMER_BUILD_DESKTOPPACKETS_ID           = 10,
     TIMER_QUERY_MTU_ID                      = 11,
+    TIMER_STOP_AUDIOINPUT                   = 12,
 
     //User instance timers (termination not handled by ClientNode::StopTimer())
     USER_TIMER_MASK                         = 0x8000,
@@ -124,8 +108,8 @@ enum ClientTimer
     USER_TIMER_DESKTOPINPUT_RTX_ID          = USER_TIMER_MASK + 7,
     USER_TIMER_DESKTOPINPUT_ACK_ID          = USER_TIMER_MASK + 8,
     USER_TIMER_REMOVE_FILETRANSFER_ID       = USER_TIMER_MASK + 9,
-    USER_TIMER_UPDATE_USER                  = USER_TIMER_MASK + 10
-
+    USER_TIMER_UPDATE_USER                  = USER_TIMER_MASK + 10,
+    USER_TIMER_REMOVE_LOCALPLAYBACK         = USER_TIMER_MASK + 11
 };
 
 #define TIMERID_MASK            0xFFFF
@@ -207,6 +191,22 @@ namespace teamtalk {
         }
     };
 
+    struct ClientKeepAlive
+    {
+        // no reply for three minutes, consider server dead
+        ACE_Time_Value connection_lost = ACE_Time_Value(180, 0);
+        // Defaults to 1/2 of server's user-timeout
+        ACE_Time_Value tcp_keepalive_interval;
+        // Delay between UDP keepalive packets
+        ACE_Time_Value udp_keepalive_interval = ACE_Time_Value(10, 0);
+        // UDP keepalive retransmission interval
+        ACE_Time_Value udp_keepalive_rtx = ACE_Time_Value(1, 0);
+        //Interval between UDP connect packets
+        ACE_Time_Value udp_connect_interval = ACE_Time_Value(0, 500000);
+        // Time before giving up on udp connect to server
+        ACE_Time_Value udp_connect_timeout = ACE_Time_Value(10, 0);
+    };
+
     struct SoundProperties
     {
         int inputdeviceid;
@@ -244,7 +244,7 @@ namespace teamtalk {
 
     //forward decl.
     class ClientListener;
-    typedef ACE_Strong_Bound_Ptr< class FileNode, ACE_Null_Mutex > filenode_t;
+    typedef std::shared_ptr< class FileNode > filenode_t;
 
     class ClientNode
         : public ACE_Task<ACE_MT_SYNCH>
@@ -254,16 +254,8 @@ namespace teamtalk {
         , public StreamListener<CryptStreamHandler::StreamHandler_t>
 #endif
         , public TimerListener
-        , public AudioEncListener
-        , public VideoEncListener
-#if defined(ENABLE_VIDCAP)
-        , public vidcap::VideoCaptureListener
-#endif
-#if defined(ENABLE_SOUNDSYSTEM)
         , public soundsystem::StreamCapture
         , public soundsystem::StreamDuplex
-#endif
-        , public MediaStreamListener
         , public FileTransferListener
         , public EventSuspender
     {
@@ -285,11 +277,10 @@ namespace teamtalk {
         ACE_Recursive_Thread_Mutex& lock_sndprop() { return m_sndgrp_lock; }
         ACE_Recursive_Thread_Mutex& lock_timers() { return m_timers_lock; }
         VoiceLogger& voicelogger();
-        AudioMuxer& audiomuxer();
+        AudioContainer& audiocontainer();
 
         //server properties
         bool GetServerInfo(ServerInfo& info);
-        bool GetServerStatistics(ServerStats& stats);
         bool GetClientStatistics(ClientStats& stats);
 
         ClientFlags GetFlags() const { return m_flags; }
@@ -318,20 +309,22 @@ namespace teamtalk {
         bool SetSoundOutputVolume(int volume);
         int GetSoundOutputVolume();
 
-        void EnableVoiceTransmission(bool enable);
+        bool EnableVoiceTransmission(bool enable);
         int GetCurrentVoiceLevel();
         void SetVoiceActivationLevel(int voicelevel);
         int GetVoiceActivationLevel();
-        void EnableVoiceActivation(bool enable);
+        bool EnableVoiceActivation(bool enable);
         void SetVoiceActivationStoppedDelay(int msec);
         int GetVoiceActivationStoppedDelay();
 
         bool EnableAutoPositioning(bool enable);
         bool AutoPositionUsers();    //position users in 3D
 
-        void EnableAudioBlockCallback(int userid, StreamType stream_type,
+        bool EnableAudioBlockCallback(int userid, StreamType stream_type,
                                       bool enable);
-
+        // user provided audio stream that replaces voice input stream
+        bool QueueAudioInput(const media::AudioFrame& frm, int streamid);
+        
         bool MuteAll(bool muteall);
 
         void SetVoiceGainLevel(int gainlevel);
@@ -349,8 +342,22 @@ namespace teamtalk {
 
         //stream media file (DirectShow wrapper)
         bool StartStreamingMediaFile(const ACE_TString& filename,
+                                     uint32_t offset, bool paused,
+                                     const AudioPreprocessor& preprocessor,
                                      const VideoCodec& vid_codec);
+        bool UpdateStreamingMediaFile(uint32_t offset, bool paused,
+                                      const AudioPreprocessor& preprocessor,
+                                      const VideoCodec& vid_codec);
         void StopStreamingMediaFile();
+
+        // playback local media file
+        int InitMediaPlayback(const ACE_TString& filename, uint32_t offset,
+                              bool paused, const AudioPreprocessor& preprocessor);
+        bool UpdateMediaPlayback(int id, uint32_t offset, bool paused, 
+                                 const AudioPreprocessor& preprocessor, bool initial = false);
+        bool StopMediaPlayback(int id);
+
+        void MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStreamStatus status);
 
         //video capture
         bool InitVideoCapture(const ACE_TString& src_id,
@@ -380,7 +387,8 @@ namespace teamtalk {
         bool Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
                      const ACE_INET_Addr* localtcpaddr);
         void Disconnect();
-
+        ACE_INET_Addr GetLocalAddr();
+        
         //StreamListener
 #if defined(ENABLE_ENCRYPTION)
         void OnOpened(CryptStreamHandler::StreamHandler_t& handler);
@@ -394,66 +402,80 @@ namespace teamtalk {
         bool OnSend(DefaultStreamHandler::StreamHandler_t& handler);
 
         //set keep alive timer intervals
-        void SetKeepAliveInterval(int tcp_seconds, int udp_seconds);
-        void GetKeepAliveInterval(int &tcp, int& udp) const;
-
-        //server timeout for when to disconnect
-        void SetServerTimeout(int seconds);
-        int GetServerTimeout() const { return m_server_timeout; }
+        void UpdateKeepAlive(const ClientKeepAlive& keepalive);
+        ClientKeepAlive GetKeepAlive();
 
         //Start timer which is handled and terminated outside ClientNode
-        long StartUserTimer(ACE_UINT32 timer_id, int userid, 
+        long StartUserTimer(uint16_t timer_id, uint16_t userid, 
                             long userdata, const ACE_Time_Value& delay, 
                             const ACE_Time_Value& interval = ACE_Time_Value::zero);
-        bool StopUserTimer(ACE_UINT32 timer_id, int userid);
+        bool StopUserTimer(uint16_t timer_id, uint16_t userid);
         bool TimerExists(ACE_UINT32 timer_id);
         bool TimerExists(ACE_UINT32 timer_id, int userid);
         //TimerListener - reactor thread
         int TimerEvent(ACE_UINT32 timer_event_id, long userdata);
 
-        //AudioEncListener - separate thread
-        void EncodedAudioFrame(const teamtalk::AudioCodec& codec,
-                               const char* enc_data, int enc_length,
-                               const std::vector<int>& enc_frame_sizes,
-                               const media::AudioFrame& org_frame);
-        //VideoEncListener - separate thread
-        bool EncodedVideoFrame(const VideoThread* video_encoder,
-                               ACE_Message_Block* org_frame,
-                               const char* enc_data, int enc_len,
-                               ACE_UINT32 packet_no,
-                               ACE_UINT32 timestamp);
-#if defined(ENABLE_SOUNDSYSTEM)
-        //PortAudio listener - separate thread
+        //Audio encoder callback - separate thread
+        void EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
+                                    const char* enc_data, int enc_length,
+                                    const std::vector<int>& enc_frame_sizes,
+                                    const media::AudioFrame& org_frame);
+
+        void EncodedAudioFileFrame(const teamtalk::AudioCodec& codec,
+                                   const char* enc_data, int enc_length,
+                                   const std::vector<int>& enc_frame_sizes,
+                                   const media::AudioFrame& org_frame);
+        
+        //Video encoder - separate thread
+        bool EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
+                                      const char* enc_data, int enc_len,
+                                      ACE_UINT32 packet_no,
+                                      ACE_UINT32 timestamp);
+        bool EncodedVideoFileFrame(ACE_Message_Block* org_frame,
+                                   const char* enc_data, int enc_len,
+                                   ACE_UINT32 packet_no,
+                                   ACE_UINT32 timestamp);
+
+        // SoundSystem listener - separate thread
         void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                              const short* buffer, int n_samples);
         void StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
                                 const short* input_buffer, 
                                 const short* prev_output_buffer, 
                                 int n_samples);
-#endif
-#if defined(ENABLE_VIDCAP)
+
         //VideoCapture listener - separate thread
-        bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
-                                    ACE_Message_Block* mb_video);
-#endif
-        //Media stream listener - separate thread
-        bool MediaStreamVideoCallback(MediaStreamer* streamer,
-                                      media::VideoFrame& video_frame,
+        bool VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
+                                       ACE_Message_Block* mb_video);
+        bool VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
+                                        ACE_Message_Block* mb_video);
+        bool VideoCaptureDualCallback(media::VideoFrame& video_frame,
                                       ACE_Message_Block* mb_video);
-        bool MediaStreamAudioCallback(MediaStreamer* streamer,
-                                      media::AudioFrame& audio_frame,
+
+        //Media stream listener - separate thread
+        bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
+                                      ACE_Message_Block* mb_video);
+        bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
                                       ACE_Message_Block* mb_audio);
-        void MediaStreamStatusCallback(MediaStreamer* streamer,
-                                       const MediaFileProp& mfp,
+        void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                        MediaStreamStatus status);
 
+        // AudioInputStreamer listener - separate thread
+        bool AudioInputCallback(media::AudioFrame& audio_frame,
+                                ACE_Message_Block* mb_audio);
+        void AudioInputStatusCallback(const AudioInputStatus& ais);
+
+        // AudioMuxer callback - separate thread
+        void AudioMuxCallback(const media::AudioFrame& audio_frame);
+        // AudioPlayer listener - separate thread
+        void AudioUserCallback(int userid, StreamType st,
+                               const media::AudioFrame& audio_frame);
+
+        // FileNode listener - reactor thread
         void OnFileTransferStatus(const teamtalk::FileTransfer& transfer);
 
         bool GetTransferInfo(int transferid, FileTransfer& transfer);
         bool CancelFileTransfer(int transferid);
-
-        bannedusers_t GetBannedUsers(bool clear);
-        useraccounts_t GetUserAccounts(bool clear);
 
         //PacketListener - reactor thread
         void ReceivedPacket(PacketHandler* ph,
@@ -471,7 +493,7 @@ namespace teamtalk {
         int DoLogin(const ACE_TString& nickname, const ACE_TString& username, 
                     const ACE_TString& password, const ACE_TString& clientname);
         int DoLogout();
-        int DoJoinChannel(const ChannelProp& chanprop);
+        int DoJoinChannel(const ChannelProp& chanprop, bool forceexisting);
         int DoLeaveChannel();
         int DoChangeNickname(const ACE_TString& newnick);
         int DoChangeStatus(int statusmode, const ACE_TString& statusmsg);
@@ -488,7 +510,6 @@ namespace teamtalk {
         int DoQueryServerStats();
         int DoQuit();
 
-        // Admin specific
         int DoMakeChannel(const ChannelProp& chanprop);
         int DoUpdateChannel(const ChannelProp& chanprop);
         int DoRemoveChannel(int channelid);
@@ -564,8 +585,7 @@ namespace teamtalk {
         //audio start/stop/update
         void OpenAudioCapture(const AudioCodec& codec);
         void CloseAudioCapture();
-        bool UpdateSoundInputPreprocess();
-        void QueueAudioFrame(const media::AudioFrame& audframe);
+        void QueueVoiceFrame(media::AudioFrame& audframe);
 
         void SendVoicePacket(const VoicePacket& packet);
         void SendAudioFilePacket(const AudioFilePacket& packet);
@@ -582,14 +602,15 @@ namespace teamtalk {
         void ReceivedDesktopCursorPacket(const DesktopCursorPacket& csr_pkt);
         void ReceivedDesktopInputPacket(const DesktopInputPacket& csr_pkt);
         void ReceivedDesktopInputAckPacket(const DesktopInputAckPacket& ack_pkt);
-        void SendDesktopAckPacket(int userid);
         void CloseDesktopSession(bool stop_nak_timer);
 
         void ResetAudioPlayers();
 
+        // shared sound system instance
+        soundsystem::soundsystem_t m_soundsystem;
         //the reactor associated with this client instance
         ACE_Reactor m_reactor;
-        ClientFlags m_flags; //Mask of ClientFlag-enum
+        std::atomic<ClientFlags> m_flags; //Mask of ClientFlag-enum
         //set of timers currently in use. Protected by lock_timers().
         timer_handlers_t m_timers;
         ACE_Recursive_Thread_Mutex m_timers_lock; //mutexes must be the last to be destroyed
@@ -598,8 +619,11 @@ namespace teamtalk {
         SoundProperties m_soundprop;
         //log voice to files
         voicelogger_t m_voicelogger;
+        // audio container for getting raw audio from users
+        AudioContainer m_audiocontainer;
         //muxed audio
-        audiomuxer_t m_audiomuxer;
+        audiomuxer_t m_audiomuxer_file;
+        audiomuxer_t m_audiomuxer_stream;
         //TCP connector
         connector_t m_connector;
         DefaultStreamHandler::StreamHandler_t* m_def_stream;
@@ -615,6 +639,7 @@ namespace teamtalk {
 
         ServerInfo m_serverinfo;
         ClientStats m_clientstats;
+        ClientKeepAlive m_keepalive;
 
         //channels and users
         typedef std::map<int, clientuser_t> musers_t;
@@ -634,8 +659,6 @@ namespace teamtalk {
         typedef std::map<int, filenode_t> filenodes_t;
         filenodes_t m_filetransfers;
 
-        ACE_UINT32 m_tcpkeepalive_interval, m_udpkeepalive_interval, m_server_timeout;
-
         //audio resampler for capture
         audio_resampler_t m_capture_resampler;
         std::vector<short> m_capture_buffer;
@@ -647,16 +670,16 @@ namespace teamtalk {
         AudioThread m_voice_thread;
         uint8_t m_voice_stream_id; //0 means not used
         uint16_t m_voice_pkt_counter;
+        std::atomic<bool> m_voice_tx_closed{false}; // CLIENT_TX_VOICE was toggled (transmit next packet)
 
         //encode video from video capture
+        vidcap::videocapture_t m_vidcap;
         VideoThread m_vidcap_thread;
-        ACE_Message_Queue<ACE_MT_SYNCH> m_local_vidcapframes; //local video frames
-        typedef std::map<int, ACE_Message_Block*> user_video_frames_t;
-        user_video_frames_t m_user_vidcapframes; //cached video frames
+        ACE_Message_Queue<ACE_MT_SYNCH> m_local_vidcapframes; //local RGB32 video frames
         uint8_t m_vidcap_stream_id; //0 means not used
 
-        //media streamer
-        media_streamer_t m_media_streamer;
+        //media streamer to channels
+        mediafile_streamer_t m_mediafile_streamer;
         uint8_t m_mediafile_stream_id; //0 means not used
 
         //encode audio of media file
@@ -665,6 +688,13 @@ namespace teamtalk {
 
         //encode video of media file
         video_thread_t m_videofile_thread;
+
+        // local playback of media files
+        std::map<int, mediaplayback_t> m_mediaplayback_streams;
+        uint16_t m_mediaplayback_counter = 0;
+
+        // audio input streamer (replaces voice stream)
+        audioinput_streamer_t m_audioinput_voice;
 
         //desktop session
         desktop_initiator_t m_desktop;
@@ -761,6 +791,11 @@ namespace teamtalk {
 
         virtual void OnChannelStreamMediaFile(const MediaFileProp& mfp,
                                               MediaFileStatus status) = 0;
+
+        virtual void OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mfp,
+                                              MediaFileStatus status) = 0;
+
+        virtual void OnAudioInputStatus(int voicestreamid, const AudioInputStatus& progress) = 0;
 
         virtual void OnUserAudioBlock(int userid, StreamType stream_type) = 0;
 

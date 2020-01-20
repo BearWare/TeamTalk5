@@ -181,6 +181,12 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_CHANNEL_TEXTMSG);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_CHANNEL_TEXTMSG) != 0);
 
+    szText.LoadString(IDS_USER_BCASTMSG);
+    TRANSLATE_ITEM(IDS_USER_BCASTMSG, szText);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_BROADCAST_TEXTMSG);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_BROADCAST_TEXTMSG) != 0);
+
     szText.LoadString(IDS_USER_QUESTIONMODE);
     TRANSLATE_ITEM(IDS_USER_QUESTIONMODE, szText);
     hItem = m_wndTree.InsertItem(szText);

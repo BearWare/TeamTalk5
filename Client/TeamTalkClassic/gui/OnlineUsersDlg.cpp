@@ -34,6 +34,8 @@ extern TTInstance* ttInst;
 
 // COnlineUsersDlg dialog
 
+#define DISCONNECTED_USERID 0
+
 IMPLEMENT_DYNAMIC(COnlineUsersDlg, CDialog)
 
 COnlineUsersDlg::COnlineUsersDlg(CTeamTalkDlg* pParent /*=NULL*/)
@@ -54,6 +56,7 @@ void COnlineUsersDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_LIST_ONLINEUSERS, m_wndUsers);
+    DDX_Control(pDX, IDC_CHECK_SHOWDISCONNECTED, m_wndDisconnectUsers);
 }
 
 
@@ -65,6 +68,8 @@ BEGIN_MESSAGE_MAP(COnlineUsersDlg, CDialog)
     ON_COMMAND(ID_POPUP_COPYUSERINFORMATION, &COnlineUsersDlg::OnPopupCopyuserinformation)
     ON_WM_SIZE()
     ON_COMMAND(ID_POPUP_MESSAGES, &COnlineUsersDlg::OnPopupMessages)
+    ON_COMMAND(ID_POPUP_STOREFORMOVE, &COnlineUsersDlg::OnPopupStoreformove)
+    ON_BN_CLICKED(IDC_CHECK_SHOWDISCONNECTED, &COnlineUsersDlg::OnBnClickedCheckShowdisconnected)
 END_MESSAGE_MAP()
 
 
@@ -78,19 +83,25 @@ BOOL COnlineUsersDlg::OnInitDialog()
 
     static CResizer::CBorderInfo s_bi[] = {
 
-        { IDC_STATIC_CURUSERS,
-        { CResizer::eFixed, IDC_MAIN, CResizer::eLeft },
-        { CResizer::eFixed, IDC_MAIN, CResizer::eTop },
-        { CResizer::eFixed, IDC_MAIN, CResizer::eRight },
-        { CResizer::eFixed, IDC_MAIN, CResizer::eBottom } },
-
         { IDC_LIST_ONLINEUSERS,
         { CResizer::eFixed, IDC_MAIN, CResizer::eLeft },
         { CResizer::eFixed, IDC_MAIN, CResizer::eTop },
         { CResizer::eFixed, IDC_MAIN, CResizer::eRight },
         { CResizer::eFixed, IDC_MAIN, CResizer::eBottom } },
 
+        { IDC_STATIC_CURUSERS,
+        { CResizer::eFixed, IDC_MAIN, CResizer::eLeft },
+        { CResizer::eFixed, IDC_MAIN, CResizer::eTop },
+        { CResizer::eFixed, IDC_MAIN, CResizer::eRight },
+        { CResizer::eFixed, IDC_MAIN, CResizer::eBottom } },
+
+        { IDC_CHECK_SHOWDISCONNECTED,
+        { CResizer::eFixed, IDC_MAIN, CResizer::eLeft },
+        { CResizer::eFixed, IDC_MAIN, CResizer::eBottom },
+        { CResizer::eFixed, IDC_MAIN, CResizer::eRight },
+        { CResizer::eFixed, IDC_MAIN, CResizer::eBottom } },
     };
+
     const int nSize = sizeof(s_bi) / sizeof(s_bi[0]);
     m_resizer.Init(m_hWnd, NULL, s_bi, nSize);
 
@@ -116,33 +127,74 @@ BOOL COnlineUsersDlg::OnInitDialog()
     m_wndUsers.InsertColumn(COLUMN_VERSION_, _T("Version"));
     m_wndUsers.SetColumnWidth(COLUMN_VERSION_, 100);
 
-    int nUsers = 0;
-    TT_GetServerUsers(ttInst, NULL, &nUsers);
+    m_wndUsers.SetFocus();
 
-    std::vector<User> users;
-    if(nUsers)
+    return FALSE;  // return TRUE unless you set the focus to a control
+    // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void COnlineUsersDlg::AddUser(const User& user)
+{
+    int iIndex = 0;
+    auto i = std::find_if(m_users.begin(), m_users.end(), [user](User u) { return u.nUserID == user.nUserID; });
+    if (i != m_users.end())
     {
-        users.resize(nUsers);
-        TT_GetServerUsers(ttInst, &users[0], &nUsers);
-        for(int i=0;i<nUsers;i++)
-        {
-            CString s;
-            s.Format(_T("%d"), users[i].nUserID);
-            int iIndex = m_wndUsers.InsertItem(i, s, 0);
-            m_wndUsers.SetItemText(iIndex, COLUMN_NICKNAME, users[i].szNickname);
-            m_wndUsers.SetItemText(iIndex, COLUMN_STATUSMSG, users[i].szStatusMsg);
-            m_wndUsers.SetItemText(iIndex, COLUMN_USERNAME, users[i].szUsername);
-            TTCHAR szChannel[TT_STRLEN] = _T("");
-            TT_GetChannelPath(ttInst, users[i].nChannelID, szChannel);
-            m_wndUsers.SetItemText(iIndex, COLUMN_CHANNEL, szChannel);
-            m_wndUsers.SetItemText(iIndex, COLUMN_IPADDRESS, users[i].szIPAddress);
-            m_wndUsers.SetItemText(iIndex, COLUMN_VERSION_, GetVersion(users[i]));
-            m_wndUsers.SetItemData(iIndex, users[i].nUserID);
-        }
+        i = m_users.insert(i, user);
+        i = m_users.erase(i + 1);
+        iIndex = int(i - m_users.begin());
+    }
+    else
+    {
+        CString s;
+        s.Format(_T("%d"), user.nUserID);
+        iIndex = m_wndUsers.InsertItem(int(m_users.size()), s, 0);
+        m_users.push_back(user);
+    }
+    m_wndUsers.SetItemText(iIndex, COLUMN_NICKNAME, user.szNickname);
+    m_wndUsers.SetItemText(iIndex, COLUMN_STATUSMSG, user.szStatusMsg);
+    m_wndUsers.SetItemText(iIndex, COLUMN_USERNAME, user.szUsername);
+    TTCHAR szChannel[TT_STRLEN] = _T("");
+    TT_GetChannelPath(ttInst, user.nChannelID, szChannel);
+    m_wndUsers.SetItemText(iIndex, COLUMN_CHANNEL, szChannel);
+    m_wndUsers.SetItemText(iIndex, COLUMN_IPADDRESS, user.szIPAddress);
+    m_wndUsers.SetItemText(iIndex, COLUMN_VERSION_, GetVersion(user));
+    m_wndUsers.SetItemData(iIndex, user.nUserID);
+}
+
+void COnlineUsersDlg::RemoveUser(int nUserID)
+{
+    BOOL bEraseItem = m_wndDisconnectUsers.GetCheck() != BST_CHECKED;
+
+    auto ite = std::find_if(m_users.begin(), m_users.end(), [nUserID] (User u) { return u.nUserID == nUserID; });
+    if (ite != m_users.end())
+    {
+        ite->nUserID = DISCONNECTED_USERID;
+        if (bEraseItem)
+            m_users.erase(ite);
     }
 
-    return TRUE;  // return TRUE unless you set the focus to a control
-    // EXCEPTION: OCX Property Pages should return FALSE
+    for(int i=0;i<m_wndUsers.GetItemCount();i++)
+    {
+        if (m_wndUsers.GetItemData(i) == nUserID)
+        {
+            if (bEraseItem)
+            {
+                m_wndUsers.DeleteItem(i);
+            }
+            else
+            {
+                m_wndUsers.SetItemText(i, 0, _T("0"));
+                m_wndUsers.SetItemData(i, DISCONNECTED_USERID);
+                break;
+            }
+        }
+    }
+}
+
+void COnlineUsersDlg::ResetUsers()
+{
+    m_users.clear();
+    m_wndUsers.DeleteAllItems();
 }
 
 void COnlineUsersDlg::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
@@ -171,79 +223,96 @@ BOOL COnlineUsersDlg::PreTranslateMessage(MSG* pMsg)
 
 void COnlineUsersDlg::MenuCommand(UINT uCmd)
 {
-    int nUserID =  0;
+    int i = 0;
     int count = m_wndUsers.GetItemCount();
-    for(int i=0;i<count;i++)
+    for (i=0;i<count;i++)
     {
         if(m_wndUsers.GetItemState(i, LVIS_SELECTED) == LVIS_SELECTED)
-            nUserID = INT32(m_wndUsers.GetItemData(i));
+        {
+            break;
+        }
     }
 
-    User user = {0};
-    TT_GetUser(ttInst, nUserID, &user);
-    Channel chan = {0};
+    if (i == count)
+        return;
+
+    User user = m_users[i];
+    Channel chan = {};
     TT_GetChannel(ttInst, user.nChannelID, &chan);
 
     switch(uCmd)
     {
     case ID_POPUP_KICKANDBAN :
-        TT_DoBanUser(ttInst, nUserID, 0);
-        TT_DoKickUser(ttInst, nUserID, 0);
+        if (user.nUserID == 0) // logged out user
+        {
+            if (_tcslen(user.szIPAddress))
+            {
+                BannedUser ban = {};
+                COPYTTSTR(ban.szIPAddress, user.szIPAddress);
+                ban.uBanTypes = BANTYPE_IPADDR;
+                TT_DoBan(ttInst, &ban);
+            }
+        }
+        else
+        {
+            TT_DoBanUser(ttInst, user.nUserID, 0);
+            TT_DoKickUser(ttInst, user.nUserID, 0);
+        }
         break;
     case ID_POPUP_KICK :
-        TT_DoKickUser(ttInst, nUserID, user.nChannelID);
+        TT_DoKickUser(ttInst, user.nUserID, user.nChannelID);
         break;
     case ID_POPUP_OP :
-        TT_DoChannelOpEx(ttInst, nUserID, user.nChannelID, chan.szOpPassword, 
-                         !TT_IsChannelOperator(ttInst, nUserID, user.nChannelID));
+        TT_DoChannelOpEx(ttInst, user.nUserID, user.nChannelID, chan.szOpPassword,
+                         !TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID));
         break;
     case ID_POPUP_COPYUSERINFORMATION :
     {
-        User user;
-        if(TT_GetUser(ttInst, nUserID, &user))
-        {
-            CString szText;
-            CString szUserID;
-            szUserID.Format(_T("%d"), user.nUserID);
-            TTCHAR szChannel[TT_STRLEN] = _T("");
-            TT_GetChannelPath(ttInst, user.nChannelID, szChannel);
-            szText = szUserID;
-            szText += _T("\t");
-            szText += GetDisplayName(user);
-            szText += _T("\t");
-            szText += user.szStatusMsg;
-            szText += _T("\t");
-            szText += user.szUsername;
-            szText += _T("\t");
-            szText += szChannel;
-            szText += _T("\t");
-            szText += user.szIPAddress;
-            szText += _T("\t");
-            szText += GetVersion(user);
+        CString szText;
+        CString szUserID;
+        szUserID.Format(_T("%d"), user.nUserID);
+        TTCHAR szChannel[TT_STRLEN] = _T("");
+        TT_GetChannelPath(ttInst, user.nChannelID, szChannel);
+        szText = szUserID;
+        szText += _T("\t");
+        szText += GetDisplayName(user);
+        szText += _T("\t");
+        szText += user.szStatusMsg;
+        szText += _T("\t");
+        szText += user.szUsername;
+        szText += _T("\t");
+        szText += szChannel;
+        szText += _T("\t");
+        szText += user.szIPAddress;
+        szText += _T("\t");
+        szText += GetVersion(user);
 
-            OpenClipboard();
-            EmptyClipboard();
-            HGLOBAL hglbCopy;
-            hglbCopy = GlobalAlloc(GMEM_MOVEABLE,
-                                   (szText.GetLength() + 1) * sizeof(TCHAR));
-            if(hglbCopy)
-            {
-                LPVOID szStr = GlobalLock(hglbCopy);
-                memcpy(szStr, szText.GetBuffer(), (szText.GetLength() + 1) * sizeof(TCHAR));
-                GlobalUnlock(hglbCopy);
+        OpenClipboard();
+        EmptyClipboard();
+        HGLOBAL hglbCopy;
+        hglbCopy = GlobalAlloc(GMEM_MOVEABLE,
+            (szText.GetLength() + 1) * sizeof(TCHAR));
+        if(hglbCopy)
+        {
+            LPVOID szStr = GlobalLock(hglbCopy);
+            memcpy(szStr, szText.GetBuffer(), (szText.GetLength() + 1) * sizeof(TCHAR));
+            GlobalUnlock(hglbCopy);
 #if defined(UNICODE) || defined(_UNICODE)
-                SetClipboardData(CF_UNICODETEXT, hglbCopy);
+            SetClipboardData(CF_UNICODETEXT, hglbCopy);
 #else
-                SetClipboardData(CF_TEXT, hglbCopy);
+            SetClipboardData(CF_TEXT, hglbCopy);
 #endif
-            }
-            CloseClipboard();
         }
+        CloseClipboard();
     }
     break;
     case ID_POPUP_MESSAGES :
         if(m_pParent)
-            m_pParent->OnUsersMessages(nUserID);
+            m_pParent->OnUsersMessages(user.nUserID);
+        break;
+    case ID_POPUP_STOREFORMOVE :
+        if (user.nUserID != 0)
+            m_pParent->m_moveusers.insert(user.nUserID);
         break;
     }
 }
@@ -273,11 +342,49 @@ void COnlineUsersDlg::OnPopupMessages()
     MenuCommand(ID_POPUP_MESSAGES);
 }
 
-void COnlineUsersDlg::OnSize(UINT nType, int cx, int cy)
+void COnlineUsersDlg::OnPopupStoreformove()
 {
-    CDialog::OnSize(nType, cx, cy);
-
-    // TODO: Group box overlaps listbox for some reason...
-    //m_resizer.Move();
+    MenuCommand(ID_POPUP_STOREFORMOVE);
 }
 
+void COnlineUsersDlg::OnSize(UINT nType, int cx, int cy)
+{
+    // TODO: Group box overlaps listbox for some reason...
+    CDialog::OnSize(nType, cx, cy);
+    m_resizer.Move();
+}
+
+void COnlineUsersDlg::PostNcDestroy()
+{
+    CDialog::PostNcDestroy();
+    m_pParent->SendMessage(WM_ONLINEUSERSDLG_CLOSED);
+    delete this;
+}
+
+void COnlineUsersDlg::OnCancel()
+{
+    CDialog::OnCancel();
+    DestroyWindow();
+}
+
+
+void COnlineUsersDlg::OnBnClickedCheckShowdisconnected()
+{
+    BOOL bEraseItem = m_wndDisconnectUsers.GetCheck() != BST_CHECKED;
+
+    auto ite = m_users.begin();
+    while ((ite = std::find_if(m_users.begin(), m_users.end(), [](User u) { return u.nUserID == DISCONNECTED_USERID; })) != m_users.end())
+    {
+        m_users.erase(ite);
+    }
+
+    for (int i = 0; i<m_wndUsers.GetItemCount(); )
+    {
+        if(m_wndUsers.GetItemData(i) == DISCONNECTED_USERID)
+        {
+            m_wndUsers.DeleteItem(i);
+        }
+        else i++;
+    }
+
+}

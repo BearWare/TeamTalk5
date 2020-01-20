@@ -31,6 +31,7 @@ public class ServerProperties
     public int nMaxUsers;
     public int nMaxLoginAttempts;
     public int nMaxLoginsPerIPAddress;
+    public int nLoginDelayMSec;
     public int nMaxVoiceTxPerSecond;
     public int nMaxVideoCaptureTxPerSecond;
     public int nMaxMediaFileTxPerSecond;
@@ -42,4 +43,5 @@ public class ServerProperties
     public int nUserTimeout;
     public String szServerVersion;
     public String szServerProtocolVersion;
+    public String szAccessToken;
 }

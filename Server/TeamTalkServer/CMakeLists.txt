@@ -12,5 +12,6 @@ endif()
 
 if (BUILD_TEAMTALKPRO_SERVER_EXAMPLE)
   add_executable (TeamTalk5ProServer Main.cpp)
+  set_property(TARGET TeamTalk5ProServer PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL")
   target_link_libraries (TeamTalk5ProServer TeamTalk5Pro)
 endif()

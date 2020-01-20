@@ -1,15 +1,94 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.3.3, unreleased
+Version 5.5, unreleased
+Default Qt client
+- VBR/CBR selection for OPUS codec 
+- Frame size selection for OPUS codec
+- Max transmission interval increased to 500 msec
+- Audio preprocessor for media file streaming
+- Control media file offset before streaming to channel
+- Pause media file while streaming to channel
+- Test media file playback before streaming to channel
+- Restored compatibility with Windows 7 (api-ms-win-core-winrt-l1-1-0.dll)
+- Fixed bug where audio recording to single file contained audio from media files
+- Fixed bug in .ogg file header for OPUS codec
+Accessible Windows client
+- VBR/CBR selection for OPUS codec 
+- Frame size selection for OPUS codec
+- Max transmission interval increased to 500 msec
+- Audio preprocessor for media file streaming
+- Control media file offset before streaming to channel
+- Test media file playback before streaming to channel
+- Fixed bug where audio recording to single file contained audio from media files
+- Fixed bug in .ogg file header for OPUS codec
+Android client
+- Portuguese translation
+iOS client
+- Support for Dark Theme
+
+Version 5.4.1, 2019/10/16
+iOS client
+- Updated Danish translation
+Android client
+- Fixed crash issue when uploading file
+
+Version 5.4, 2019/06/25
+Default Qt client
+- Stream HTTP and HTTPS URLs instead of only files in Windows 10
+- Sort bans in Banned Users dialog
+- Sort user accounts in Users Accounts dialog
+- OPUS audio codec v1.3
+- Store audio in MP3 format on Windows
+- Sound event for broadcast message
+- BearWare.dk web-login for TeamTalk 5 Official servers
+- Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
+Accessible Windows client
+- Stream HTTP and HTTPS URLs instead of only files (Windows 10)
+- Online Users dialog now updates continuesly
+- Online Users dialog allows banning logged out users
+- OPUS audio codec v1.3
+- Romanian language
+- Indonesian language
+- Store audio in MP3 format
+- Sound event for broadcast message
+- BearWare.dk web-login for TeamTalk 5 Official servers
+- Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
+iOS client
+- OPUS audio codec v1.3
+- Sound event for broadcast message
+- BearWare.dk web-login for TeamTalk 5 Official servers
+- Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
+Android client
+- Minimum Android version is now 5.0
+- OPUS audio codec v1.3
+- Sound event for broadcast message
+- Option to announce content of private and channel messages
+- Proximity sensor can be used to toggle voice transmission
+- BearWare.dk web-login for TeamTalk 5 Official servers
+- Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
+Server
+- Protection against login/logout floods using "login delay"
+- Linux server now depends on OpenSSL (libssl package)
+
+Version 5.3.5, released 2019/01/01
+Default Qt client
+- Microphone and camera permission prompt on macOS Mojave
+
+Version 5.3.4, released 2018/11/18
+iOS client
+- Fixed sort channels by popularity
+- Chinese translation
+
+Version 5.3.3, released 2018/11/15
 Default Qt client
 - Shared desktop now remains in same position after desktop update
 - Double click to ban/unban in Banned Users dialog
 - Stream HTTPS on macOS and Linux
-- Fixed issue where media files could now be played in class room channels
+- Fixed issue where media files could not be played in class room channels
 Accessible Windows client
 - Text-to-speech event for new file and removed file
-- Fixed issue where media files could now be played in class room channels
+- Fixed issue where media files could not be played in class room channels
 iOS client
 - Separate view controller for Text-To-Speech announcements
 - Separate view controller for sound events
@@ -19,8 +98,10 @@ Android client:
 - Stream HTTP URLs as media files
 - Sound event for users joining and leaving
 - Notification on incoming text message
+- Chinese language
 Server
-- Fixed issue where media files could now be played in class room channels
+- Fixed issue where media files could not be played in class room channels
+- Fixed security issue where IP-address or username could be banned without the ban user-right enabled
 
 Version 5.3.2, released 2018/05/25
 Default Qt client

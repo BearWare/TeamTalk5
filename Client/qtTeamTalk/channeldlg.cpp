@@ -50,8 +50,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     connect(ui.gainlevelSlider, SIGNAL(valueChanged(int)),
             SLOT(slotUpdateSliderLabels()));
 
-    ServerProperties prop;
-    ZERO_STRUCT(prop);
+    ServerProperties prop = {};
     TT_GetServerProperties(ttInst, &prop);
 
     ui.audiocodecBox->addItem(tr("No Audio"), NO_CODEC);
@@ -62,7 +61,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.spx_srateBox->addItem("16000", 1); //wide band
     ui.spx_srateBox->addItem("32000", 2); //narrow band
     ui.spx_txdelaySpinBox->setSingleStep(20);
-    ui.spx_txdelaySpinBox->setRange(20, 100);
+    ui.spx_txdelaySpinBox->setRange(20, 500);
 
     //Speex VBR page
     ui.audiocodecBox->addItem("Speex Variable Bit Rate", SPEEX_VBR_CODEC);
@@ -70,7 +69,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.spxvbr_srateBox->addItem("16000", 1); //wide band
     ui.spxvbr_srateBox->addItem("32000", 2); //narrow band
     ui.spxvbr_txdelaySpinBox->setSingleStep(20);
-    ui.spxvbr_txdelaySpinBox->setRange(20, 100);
+    ui.spxvbr_txdelaySpinBox->setRange(20, 500);
 
     //OPUS page
     ui.audiocodecBox->addItem("OPUS", OPUS_CODEC);
@@ -85,7 +84,17 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.opus_srateBox->addItem("24000", 24000);
     ui.opus_srateBox->addItem("48000", 48000);
     ui.opus_txdelaySpinBox->setSingleStep(20);
-    ui.opus_txdelaySpinBox->setRange(20, 60);
+    ui.opus_txdelaySpinBox->setRange(20, 500);
+    ui.opus_framesizeComboBox->addItem("0", 0);
+    ui.opus_framesizeComboBox->addItem("2.5", OPUS_MIN_FRAMESIZE);
+    ui.opus_framesizeComboBox->addItem("5", 5);
+    ui.opus_framesizeComboBox->addItem("10", 10);
+    ui.opus_framesizeComboBox->addItem("20", 20);
+    ui.opus_framesizeComboBox->addItem("40", 40);
+    ui.opus_framesizeComboBox->addItem("60", OPUS_MAX_FRAMESIZE);
+    ui.opus_framesizeComboBox->addItem("80", 80);
+    ui.opus_framesizeComboBox->addItem("100", 100);
+    ui.opus_framesizeComboBox->addItem("120", OPUS_REALMAX_FRAMESIZE);
 
     ui.staticchanBox->setEnabled(TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS);
     
@@ -112,6 +121,8 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.opus_bpsSpinBox->setValue(DEFAULT_OPUS_BITRATE / 1000);
     ui.opus_dtxBox->setChecked(DEFAULT_OPUS_DTX);
     ui.opus_txdelaySpinBox->setValue(DEFAULT_OPUS_DELAY);
+    ui.opus_vbrCheckBox->setChecked(DEFAULT_OPUS_VBR);
+    setCurrentItemData(ui.opus_framesizeComboBox, DEFAULT_OPUS_FRAMESIZE);
 
     switch(type)
     {
@@ -133,7 +144,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     {
         setWindowTitle(tr("Update Channel"));
         int count = 0;
-        TT_GetChannelUsers(ttInst, chan.nChannelID, NULL, &count);
+        TT_GetChannelUsers(ttInst, chan.nChannelID, nullptr, &count);
         if(count>0)
         {
             ui.audiocodecBox->setEnabled(false);
@@ -229,8 +240,10 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         setCurrentItemData(ui.opus_channelsBox, m_channel.audiocodec.opus.nChannels);
         setCurrentItemData(ui.opus_appBox, m_channel.audiocodec.opus.nApplication);
         ui.opus_bpsSpinBox->setValue(m_channel.audiocodec.opus.nBitRate / 1000);
+        ui.opus_vbrCheckBox->setChecked(m_channel.audiocodec.opus.bVBR);
         ui.opus_dtxBox->setChecked(m_channel.audiocodec.opus.bDTX);
         ui.opus_txdelaySpinBox->setValue(m_channel.audiocodec.opus.nTxIntervalMSec);
+        setCurrentItemData(ui.opus_framesizeComboBox, m_channel.audiocodec.opus.nFrameSizeMSec);
         break;
     default :
         break;
@@ -311,9 +324,10 @@ Channel ChannelDlg::GetChannel() const
         newchannel.audiocodec.opus.bFEC = DEFAULT_OPUS_FEC;
         newchannel.audiocodec.opus.bDTX = ui.opus_dtxBox->isChecked();
         newchannel.audiocodec.opus.nBitRate = ui.opus_bpsSpinBox->value() * 1000;
-        newchannel.audiocodec.opus.bVBR = DEFAULT_OPUS_VBR;
+        newchannel.audiocodec.opus.bVBR = ui.opus_vbrCheckBox->isChecked();
         newchannel.audiocodec.opus.bVBRConstraint = DEFAULT_OPUS_VBRCONSTRAINT;
         newchannel.audiocodec.opus.nTxIntervalMSec = ui.opus_txdelaySpinBox->value();
+        newchannel.audiocodec.opus.nFrameSizeMSec = getCurrentItemData(ui.opus_framesizeComboBox).toInt();
         break;
     default :
         break;
@@ -359,7 +373,7 @@ void ChannelDlg::slotUpdateSliderLabels()
 
 void ChannelDlg::slotUpdateChannelPath(const QString& str)
 {
-    TTCHAR path[TT_STRLEN] = {0};
+    TTCHAR path[TT_STRLEN] = {};
     if(TT_GetChannelPath(ttInst, m_channel.nParentID, path))
         ui.chanpathLabel->setText(_Q(path) + str);
     else

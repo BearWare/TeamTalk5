@@ -30,6 +30,7 @@
 class SpeexDecoder
 {
 public:
+    SpeexDecoder(const SpeexDecoder&) = delete;
     SpeexDecoder();
     ~SpeexDecoder();
 

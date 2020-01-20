@@ -28,15 +28,20 @@
 #include "../Resource.h"
 #include "StreamMediaDlg.h"
 
+#include "TTAudioPreprocessorDlg.h"
+#include "SpeexDSPDlg.h"
+
 extern TTInstance* ttInst;
+
+#define MAX_FILENAMES 10
 
 // CStreamMediaDlg dialog
 
 IMPLEMENT_DYNAMIC(CStreamMediaDlg, CDialog)
 
-CStreamMediaDlg::CStreamMediaDlg(CWnd* pParent /*=NULL*/)
+CStreamMediaDlg::CStreamMediaDlg(teamtalk::ClientXML& xmlSettings, CWnd* pParent /*=NULL*/)
 	: CDialog(CStreamMediaDlg::IDD, pParent)
-    , m_szFilename(_T(""))
+    , m_xmlSettings(xmlSettings)
     , m_nVidCodecBitrate(DEFAULT_WEBM_VP8_BITRATE)
 {
 
@@ -44,6 +49,44 @@ CStreamMediaDlg::CStreamMediaDlg(CWnd* pParent /*=NULL*/)
 
 CStreamMediaDlg::~CStreamMediaDlg()
 {
+    if (m_nPlaybackID)
+        TT_StopLocalPlayback(ttInst, m_nPlaybackID);
+}
+
+void CStreamMediaDlg::ProcessTTMessage(const TTMessage& msg)
+{
+    switch (msg.nClientEvent)
+    {
+    case CLIENTEVENT_STREAM_MEDIAFILE :
+        break;
+    case CLIENTEVENT_LOCAL_MEDIAFILE :
+        m_mfi = msg.mediafileinfo;
+        switch (m_mfi.nStatus)
+        {
+        case MFS_CLOSED:
+        case MFS_PAUSED :
+            break;
+        case MFS_ERROR:
+        case MFS_ABORTED :
+            TT_StopLocalPlayback(ttInst, m_nPlaybackID);
+            m_nPlaybackID = 0;
+            break;
+        case MFS_FINISHED:
+            m_nPlaybackID = 0;
+        case MFS_STARTED:
+        case MFS_PLAYING:
+        {
+
+            double percent = m_mfi.uElapsedMSec / double(m_mfi.uDurationMSec);
+            m_wndOffset.SetPos(int(m_wndOffset.GetRangeMax() * percent));
+
+            UpdateOffset();
+            break;
+        }
+        }
+        UpdateControls();
+        break;
+    }
 }
 
 void CStreamMediaDlg::DoDataExchange(CDataExchange* pDX)
@@ -55,13 +98,26 @@ void CStreamMediaDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_STATIC_AUDIOFORMAT, m_wndAudioFormat);
     DDX_Control(pDX, IDC_STATIC_VIDEOFORMAT, m_wndVideoFormat);
     DDX_Control(pDX, IDC_EDIT_VIDBITRATE, m_wndVideoBitrate);
-    DDX_Control(pDX, IDC_EDIT_FILENAME, m_wndFileName);
-    DDX_Text(pDX, IDC_EDIT_FILENAME, m_szFilename);
+    DDX_Control(pDX, IDC_COMBO_FILENAME, m_wndFilename);
+    DDX_Control(pDX, IDC_COMBO_AUDIOPREPROCESSOR, m_wndAudioPreprocessor);
+    DDX_Control(pDX, IDC_BUTTON_AUDIOSETUP, m_wndAudioSetup);
+    DDX_Control(pDX, IDC_SLIDER_OFFSET, m_wndOffset);
+    DDX_Control(pDX, IDC_STATIC_TIMEOFFSET, m_wndTimeOffset);
+    DDX_Control(pDX, IDC_BUTTON_STOP, m_wndStopPlayback);
+    DDX_Control(pDX, IDC_BUTTON_PLAY, m_wndStartPlayback);
+    DDX_Control(pDX, IDC_STATIC_DURATION, m_wndDuration);
 }
 
 
 BEGIN_MESSAGE_MAP(CStreamMediaDlg, CDialog)
     ON_BN_CLICKED(IDC_BUTTON_AUDIOBROWSE, &CStreamMediaDlg::OnBnClickedButtonBrowse)
+    ON_BN_CLICKED(IDC_BUTTON_AUDIOSETUP, &CStreamMediaDlg::OnBnClickedButtonAudiosetup)
+    ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_OFFSET, &CStreamMediaDlg::OnNMCustomdrawSliderOffset)
+    ON_BN_CLICKED(IDC_BUTTON_STOP, &CStreamMediaDlg::OnBnClickedButtonStop)
+    ON_BN_CLICKED(IDC_BUTTON_PLAY, &CStreamMediaDlg::OnBnClickedButtonPlay)
+    ON_NOTIFY(NM_RELEASEDCAPTURE, IDC_SLIDER_OFFSET, &CStreamMediaDlg::OnNMReleasedcaptureSliderOffset)
+    ON_NOTIFY(TRBN_THUMBPOSCHANGING, IDC_SLIDER_OFFSET, &CStreamMediaDlg::OnTRBNThumbPosChangingSliderOffset)
+    ON_CBN_SELCHANGE(IDC_COMBO_AUDIOPREPROCESSOR, &CStreamMediaDlg::OnCbnSelchangeComboAudiopreprocessor)
 END_MESSAGE_MAP()
 
 
@@ -73,11 +129,35 @@ BOOL CStreamMediaDlg::OnInitDialog()
 
     TRANSLATE(*this, IDD);
 
+    for(POSITION pos = m_fileList.GetHeadPosition(); pos != nullptr;)
+        m_wndFilename.AddString(m_fileList.GetNext(pos));
+    m_wndFilename.SetCurSel(0);
+
+    AddString(m_wndAudioPreprocessor, _T("No Audio Preprocessor"), NO_AUDIOPREPROCESSOR);
+    AddString(m_wndAudioPreprocessor, _T("TeamTalk Audio Preprocessor"), TEAMTALK_AUDIOPREPROCESSOR);
+    AddString(m_wndAudioPreprocessor, _T("Speex DSP Audio Preprocessor"), SPEEXDSP_AUDIOPREPROCESSOR);
+    m_mfp.audioPreprocessor.nPreprocessor = m_xmlSettings.GetAudioPreprocessor(NO_AUDIOPREPROCESSOR);
+
+    SetCurSelItemData(m_wndAudioPreprocessor, m_mfp.audioPreprocessor.nPreprocessor);
+    switch(m_mfp.audioPreprocessor.nPreprocessor)
+    {
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        m_mfp.audioPreprocessor.ttpreprocessor = m_xmlSettings.GetTTAudioPreprocessor();
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+        m_mfp.audioPreprocessor.speexdsp = m_xmlSettings.GetSpeexDSPAudioPreprocessor();
+        break;
+    }
+
+    m_wndOffset.SetRange(0, 10000);
+    m_wndOffset.SetPageSize(50);
+
     AddString(m_wndVidCodec, _T("WebM VP8"), WEBM_VP8_CODEC);
     SetCurSelItemData(m_wndVidCodec, WEBM_VP8_CODEC);
     m_wndVidBitrateSpinCtrl.SetRange(0, 1000);
 
     UpdateMediaFile();
+    UpdateControls();
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -86,35 +166,74 @@ BOOL CStreamMediaDlg::OnInitDialog()
 void CStreamMediaDlg::UpdateMediaFile()
 {
     CString szFileName;
-    m_wndFileName.GetWindowText(szFileName);
+    m_wndFilename.GetWindowText(szFileName);
 
-    MediaFileInfo mediaFile;
-    ZERO_STRUCT(mediaFile);
-    TT_GetMediaFileInfo(szFileName, &mediaFile);
-    BOOL audio = mediaFile.audioFmt.nAudioFmt != AFF_NONE;
-    BOOL video = mediaFile.videoFmt.picFourCC != FOURCC_NONE;
+    TT_GetMediaFileInfo(szFileName, &m_mfi);
+    BOOL audio = m_mfi.audioFmt.nAudioFmt != AFF_NONE;
+    BOOL video = m_mfi.videoFmt.picFourCC != FOURCC_NONE;
 
     CString szAudioFormat = _T("Unknown format");
     CString szVideoFormat = _T("Unknown format");
+    CString szDuration = _T("Unspecified");
+
     if(audio)
-        szAudioFormat.Format(_T("%d Hz, %s"),
-                             mediaFile.audioFmt.nSampleRate,
-                             (mediaFile.audioFmt.nChannels == 2?
-                             _T("Stereo") : _T("Mono")));
+        szAudioFormat.Format(_T("%d Hz, %s"), m_mfi.audioFmt.nSampleRate,
+                             (m_mfi.audioFmt.nChannels == 2? _T("Stereo") : _T("Mono")));
     if(video)
     {
-        double fps = (double)mediaFile.videoFmt.nFPS_Numerator / (double)mediaFile.videoFmt.nFPS_Denominator;
-        szVideoFormat.Format(_T("%dx%d %d FPS"),
-                             mediaFile.videoFmt.nWidth,
-                             mediaFile.videoFmt.nHeight,
+        double fps = (double)m_mfi.videoFmt.nFPS_Numerator / (double)m_mfi.videoFmt.nFPS_Denominator;
+        szVideoFormat.Format(_T("%dx%d %d FPS"), m_mfi.videoFmt.nWidth, m_mfi.videoFmt.nHeight,
                              (int)fps);
+    }
+
+    if (m_mfi.uDurationMSec)
+    {
+        int nDurationSec = m_mfi.uDurationMSec / 1000;
+        szDuration.Format(_T("%d:%02d:%02d"), nDurationSec / 3600, (nDurationSec % 3600) / 60, nDurationSec % 60);
     }
 
     m_wndAudioFormat.SetWindowText(szAudioFormat);
     m_wndVideoFormat.SetWindowText(szVideoFormat);
+    m_wndDuration.SetWindowText(szDuration);
 
     m_wndVidBitrateSpinCtrl.EnableWindow(video);
     m_wndVideoBitrate.EnableWindow(video);
+}
+
+void CStreamMediaDlg::UpdateControls()
+{
+    switch (m_mfi.nStatus)
+    {
+    case MFS_ABORTED :
+    case MFS_ERROR :
+    case MFS_FINISHED:
+        m_wndStopPlayback.EnableWindow(TRUE);
+        m_wndStartPlayback.EnableWindow(FALSE);
+        break;
+    case MFS_CLOSED:
+        m_wndStopPlayback.EnableWindow(FALSE);
+        m_wndStartPlayback.EnableWindow(TRUE);
+        break;
+    case MFS_PLAYING :
+        m_wndStopPlayback.EnableWindow(TRUE);
+        m_wndStartPlayback.EnableWindow(FALSE);
+        break;
+    case MFS_PAUSED :
+        m_wndStopPlayback.EnableWindow(TRUE);
+        m_wndStartPlayback.EnableWindow(TRUE);
+        break;
+    }
+
+    switch(GetItemData(m_wndAudioPreprocessor))
+    {
+    case TEAMTALK_AUDIOPREPROCESSOR :
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+        m_wndAudioSetup.EnableWindow(TRUE);
+        break;
+    default :
+        m_wndAudioSetup.EnableWindow(FALSE);
+        break;
+    }
 }
 
 void CStreamMediaDlg::OnBnClickedButtonBrowse()
@@ -126,9 +245,247 @@ void CStreamMediaDlg::OnBnClickedButtonBrowse()
 
     if(dlg.DoModal() == IDOK)
     {
-        m_wndFileName.SetWindowText(dlg.GetPathName());
+        m_wndFilename.SetWindowText(dlg.GetPathName());
+        int nIndex = m_wndFilename.FindString(-1, dlg.GetPathName());
+        if (nIndex != CB_ERR)
+            m_wndFilename.DeleteString(nIndex);
+        m_wndFilename.InsertString(0, dlg.GetPathName());
+        if (m_wndFilename.GetCount() > MAX_FILENAMES)
+            m_wndFilename.DeleteString(MAX_FILENAMES);
         UpdateMediaFile();
     }
 
     SetCurrentDirectory(s);
+}
+
+
+void CStreamMediaDlg::OnOK()
+{
+    VideoCodec vidCodec = {};
+    vidCodec.nCodec = WEBM_VP8_CODEC;
+    vidCodec.webm_vp8.nRcTargetBitrate = GetWindowNumber(m_wndVideoBitrate);
+    vidCodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
+
+    if (m_mfp.uOffsetMSec == 0)
+        m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    m_mfp.bPaused = FALSE;
+    if (!TT_StartStreamingMediaFileToChannelEx(ttInst, m_mfi.szFileName, &m_mfp, &vidCodec))
+    {
+        MessageBox(_T("Failed to stream media file."),
+            _T("Stream Media File"), MB_OK);
+        return;
+    }
+
+    m_fileList.RemoveAll();
+
+    CString szFilename;
+    m_wndFilename.GetWindowText(szFilename);
+    m_fileList.AddTail(szFilename);
+    for (int i=0;i<m_wndFilename.GetCount();++i)
+    {
+        CString s;
+        m_wndFilename.GetLBText(i, s);
+        if (s.CompareNoCase(szFilename) != 0)
+            m_fileList.AddTail(s);
+    }
+
+    m_xmlSettings.SetAudioPreprocessor(AudioPreprocessorType(GetItemData(m_wndAudioPreprocessor)));
+
+    CDialog::OnOK();
+}
+
+void CStreamMediaDlg::OnBnClickedButtonAudiosetup()
+{
+    switch(GetItemData(m_wndAudioPreprocessor))
+    {
+    case TEAMTALK_AUDIOPREPROCESSOR :
+    {
+        CTTAudioPreprocessorDlg dlg;
+        auto ttaud = m_xmlSettings.GetTTAudioPreprocessor();
+        dlg.m_nGainLevel = ttaud.nGainLevel;
+        dlg.m_bMuteLeft = ttaud.bMuteLeftSpeaker;
+        dlg.m_bMuteRight = ttaud.bMuteRightSpeaker;
+        if (dlg.DoModal() == IDOK)
+        {
+            m_mfp.audioPreprocessor.nPreprocessor = TEAMTALK_AUDIOPREPROCESSOR;
+            m_mfp.audioPreprocessor.ttpreprocessor.nGainLevel = dlg.m_nGainLevel;
+            m_mfp.audioPreprocessor.ttpreprocessor.bMuteLeftSpeaker = dlg.m_bMuteLeft;
+            m_mfp.audioPreprocessor.ttpreprocessor.bMuteRightSpeaker = dlg.m_bMuteRight;
+
+            if (m_nPlaybackID)
+            {
+                m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+                if (!TT_UpdateLocalPlayback(ttInst, m_nPlaybackID, &m_mfp))
+                    MessageBox(_T("Failed to update preprocessor"), LoadText(IDS_PLAY));
+            }
+
+            m_xmlSettings.SetTTAudioPreprocessor(m_mfp.audioPreprocessor.ttpreprocessor);
+        }
+    }
+    break;
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+    {
+        CSpeexDSPDlg dlg;
+        auto speexdsp = m_xmlSettings.GetSpeexDSPAudioPreprocessor();
+        dlg.m_bAGC = speexdsp.bEnableAGC;
+        dlg.m_nGainLevel = speexdsp.nGainLevel;
+        dlg.m_nGainInc = speexdsp.nMaxIncDBSec;
+        dlg.m_nGainDec = speexdsp.nMaxDecDBSec;
+        dlg.m_nMaxGainLevel = speexdsp.nMaxGainDB;
+        dlg.m_bDenoise = speexdsp.bEnableDenoise;
+        dlg.m_nDenoiseLevel = speexdsp.nMaxNoiseSuppressDB;
+        if(dlg.DoModal() == IDOK)
+        {
+            m_mfp.audioPreprocessor.nPreprocessor = SPEEXDSP_AUDIOPREPROCESSOR;
+            m_mfp.audioPreprocessor.speexdsp.bEnableAGC = dlg.m_bAGC;
+            m_mfp.audioPreprocessor.speexdsp.nGainLevel = dlg.m_nGainLevel;
+            m_mfp.audioPreprocessor.speexdsp.nMaxGainDB = dlg.m_nMaxGainLevel;
+            m_mfp.audioPreprocessor.speexdsp.nMaxIncDBSec = dlg.m_nGainInc;
+            m_mfp.audioPreprocessor.speexdsp.nMaxDecDBSec = dlg.m_nGainDec;
+            m_mfp.audioPreprocessor.speexdsp.bEnableDenoise = dlg.m_bDenoise;
+            m_mfp.audioPreprocessor.speexdsp.nMaxNoiseSuppressDB = dlg.m_nDenoiseLevel;
+
+            if(m_nPlaybackID)
+            {
+                m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+                if(!TT_UpdateLocalPlayback(ttInst, m_nPlaybackID, &m_mfp))
+                    MessageBox(_T("Failed to update preprocessor"), LoadText(IDS_PLAY));
+            }
+
+            m_xmlSettings.SetSpeexDSPAudioPreprocessor(m_mfp.audioPreprocessor.speexdsp);
+        }
+    }
+    break;
+    }
+}
+
+void CStreamMediaDlg::OnNMCustomdrawSliderOffset(NMHDR *pNMHDR, LRESULT *pResult)
+{
+    LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+    // TODO: Add your control notification handler code here
+    *pResult = 0;
+
+    if(m_nPlaybackID)
+        return;
+
+    double percent = m_wndOffset.GetPos() / double(m_wndOffset.GetRangeMax());
+    m_mfi.uElapsedMSec = UINT32(m_mfi.uDurationMSec * percent);
+    UpdateOffset();
+}
+
+void CStreamMediaDlg::OnNMReleasedcaptureSliderOffset(NMHDR *pNMHDR, LRESULT *pResult)
+{
+    // TODO: Add your control notification handler code here
+    *pResult = 0;
+}
+
+void CStreamMediaDlg::OnTRBNThumbPosChangingSliderOffset(NMHDR *pNMHDR, LRESULT *pResult)
+{
+    // This feature requires Windows Vista or greater.
+    // The symbol _WIN32_WINNT must be >= 0x0600.
+    NMTRBTHUMBPOSCHANGING *pNMTPC = reinterpret_cast<NMTRBTHUMBPOSCHANGING *>(pNMHDR);
+    // TODO: Add your control notification handler code here
+    *pResult = 0;
+}
+
+void CStreamMediaDlg::OnBnClickedButtonStop()
+{
+    if (m_nPlaybackID)
+    {
+        if(m_mfi.nStatus == MFS_PLAYING)
+        {
+            m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+            m_mfp.bPaused = TRUE;
+            if(TT_UpdateLocalPlayback(ttInst, m_nPlaybackID, &m_mfp))
+                return;
+        }
+
+        TT_StopLocalPlayback(ttInst, m_nPlaybackID);
+        m_nPlaybackID = 0;
+    }
+
+    m_mfp.bPaused = FALSE;
+    m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    m_mfi.nStatus = MFS_CLOSED;
+    m_mfi.uElapsedMSec = 0;
+    m_wndOffset.SetPos(0);
+    UpdateOffset();
+    UpdateControls();
+}
+
+void CStreamMediaDlg::OnBnClickedButtonPlay()
+{
+    if ((TT_GetFlags(ttInst) & (CLIENT_SNDINOUTPUT_DUPLEX | CLIENT_SNDOUTPUT_READY)) == CLIENT_CLOSED)
+    {
+        if (!InitSoundSystem(m_xmlSettings))
+        {
+            MessageBox(LoadText(IDS_SNDINITFAILED), LoadText(IDS_PLAY));
+        }
+    }
+
+    if(m_mfi.nStatus == MFS_PAUSED)
+    {
+        double percent = m_wndOffset.GetPos() / double(m_wndOffset.GetRangeMax());
+        m_mfp.uOffsetMSec = UINT32(m_mfi.uDurationMSec * percent);
+        m_mfp.bPaused = FALSE;
+        if (TT_UpdateLocalPlayback(ttInst, m_nPlaybackID, &m_mfp))
+            return;
+        else
+        {
+            MessageBox(_T("Failed to resume"), LoadText(IDS_PLAY));
+        }
+        TT_StopLocalPlayback(ttInst, m_nPlaybackID);
+    }
+
+    CString szFilename;
+    m_wndFilename.GetWindowText(szFilename);
+
+    if (szFilename.CompareNoCase(m_mfi.szFileName) != 0)
+        UpdateMediaFile();
+
+    m_mfp.bPaused = FALSE;
+    m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    if (m_wndOffset.GetPos())
+    {
+        double percent = m_wndOffset.GetPos() / double(m_wndOffset.GetRangeMax());
+        m_mfp.uOffsetMSec = UINT32(m_mfi.uDurationMSec * percent);
+    }
+
+    m_nPlaybackID = TT_InitLocalPlayback(ttInst, szFilename, &m_mfp);
+    if (m_nPlaybackID <= 0)
+    {
+        MessageBox(_T("Failed to start playback"), LoadText(IDS_PLAY));
+        return;
+    }
+}
+
+void CStreamMediaDlg::UpdateOffset()
+{
+    UINT32 uHours = m_mfi.uElapsedMSec / (60 * 60 * 1000);
+    UINT32 uRemain = m_mfi.uElapsedMSec - (60 * 60 * 1000 * uHours);
+    UINT32 uMinutes = uRemain / (60 * 1000);
+    uRemain -= 60 * 1000 * uMinutes;
+    UINT32 uSeconds = uRemain / 1000;
+    UINT32 uMSec = uRemain % 1000;
+
+    CString szElapsed;
+    szElapsed.Format(_T("%d:%02d:%02d.%03d"), uHours, uMinutes, uSeconds, uMSec);
+    m_wndTimeOffset.SetWindowText(szElapsed);
+}
+
+
+void CStreamMediaDlg::OnCbnSelchangeComboAudiopreprocessor()
+{
+    m_mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(GetItemData(m_wndAudioPreprocessor));
+    switch(m_mfp.audioPreprocessor.nPreprocessor)
+    {
+    case TEAMTALK_AUDIOPREPROCESSOR:
+        m_mfp.audioPreprocessor.ttpreprocessor = m_xmlSettings.GetTTAudioPreprocessor();
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR:
+        m_mfp.audioPreprocessor.speexdsp = m_xmlSettings.GetSpeexDSPAudioPreprocessor();
+        break;
+    }
+
+    UpdateControls();
 }

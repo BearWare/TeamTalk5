@@ -40,7 +40,7 @@ DesktopShareDlg::DesktopShareDlg(QWidget* parent)
 #endif
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
 #if defined(Q_OS_WIN32)
-, m_hShareWnd(NULL)
+, m_hShareWnd(nullptr)
 #elif defined(Q_OS_DARWIN)
 , m_nCGShareWnd(0)
 #elif defined(Q_OS_LINUX)
@@ -52,7 +52,7 @@ DesktopShareDlg::DesktopShareDlg(QWidget* parent)
     setWindowIcon(QIcon(APPICON));
 
 #if defined(Q_OS_WIN32)
-    HWND hWnd = NULL;
+    HWND hWnd = nullptr;
     int i = 0;
     while(TT_Windows_GetDesktopWindowHWND(i, &hWnd))
     {
@@ -87,7 +87,7 @@ DesktopShareDlg::DesktopShareDlg(QWidget* parent)
     // {
     //     Window display_window = XRootWindow(m_display, 0);
 
-    //     Window root = 0, parent_window = 0, *children = NULL;
+    //     Window root = 0, parent_window = 0, *children = nullptr;
     //     unsigned int n_children = 0;
 
     //     Status s = XQueryTree(m_display, display_window, &root, &parent_window,
