@@ -271,7 +271,7 @@ public class MyTest extends TeamTalkTestCase {
         int sndinputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
         int sndoutputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
 
-        // create 4 clients which use the 'real' sound input devices
+        // create 4 clients which will toggle PTT and open/close sound device
         Vector<TeamTalkBase> ttclients = new Vector<>();
         for (int i=0;i<4;++i) {
             TeamTalkBase ttclient = newClientInstance();
@@ -294,9 +294,8 @@ public class MyTest extends TeamTalkTestCase {
             ttclients.add(ttclient);
         }
 
-        // create 4 simulator clients which use virtual sound device and
-        // joins the channel of the 'real' sound device client. That is
-        // 2 clients in each of the 4 channels.
+        // create 4 simulator clients which join in each of the ttclients's
+        // channels
         Vector<TeamTalkBase> simclients = new Vector<>();
         for (int i=0;i<4;++i) {
             TeamTalkBase sclient = newClientInstance();
@@ -320,7 +319,7 @@ public class MyTest extends TeamTalkTestCase {
         }
 
         // now loop where the simulator clients are transmitting all
-        // the time and the 'real' clients are PTT'ing every 15 seconds
+        // the time and the ttclients are PTT'ing every 15 seconds
         for (int x=0;x<3;x++) {
             for (TeamTalkBase sclient : simclients) {
                 assertTrue("enable sim voice tx", sclient.enableVoiceTransmission(true));
