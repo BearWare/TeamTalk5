@@ -261,4 +261,92 @@ public class MyTest extends TeamTalkTestCase {
 
         assertFalse("No AGC error on ARMv7A", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 1000));
     }
+
+    public void test_SndInputFailure() {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN |
+                UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        int sndinputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        int sndoutputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
+
+        // create 4 clients which use the 'real' sound input devices
+        Vector<TeamTalkBase> ttclients = new Vector<>();
+        for (int i=0;i<4;++i) {
+            TeamTalkBase ttclient = newClientInstance();
+            assertTrue("Init ttclient sound output device", ttclient.initSoundOutputDevice(sndoutputdevid));
+
+            // disable audio preprocessing
+            SpeexDSP spxdsp = new SpeexDSP(true);
+            spxdsp.bEnableAGC = false;
+            spxdsp.bEnableDenoise = false;
+            spxdsp.bEnableEchoCancellation = false;
+            assertTrue("SpeexDSP", ttclient.setSoundInputPreprocess(spxdsp));
+
+            connect(ttclient);
+            login(ttclient, NICKNAME, USERNAME, PASSWORD);
+            Channel chan = buildDefaultChannel(ttclient, String.valueOf(ttclient.getMyUserID()), Codec.OPUS_CODEC);
+            chan.audiocodec.opus.nFrameSizeMSec = 120;
+            chan.audiocodec.opus.nTxIntervalMSec = 240;
+            assertTrue("join channel", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+            ttclients.add(ttclient);
+        }
+
+        // create 4 simulator clients which use virtual sound device and
+        // joins the channel of the 'real' sound device client. That is
+        // 2 clients in each of the 4 channels.
+        Vector<TeamTalkBase> simclients = new Vector<>();
+        for (int i=0;i<4;++i) {
+            TeamTalkBase sclient = newClientInstance();
+            assertTrue("Init ttclient sound input device", sclient.initSoundInputDevice(sndinputdevid));
+            assertTrue("Init ttclient sound output device", sclient.initSoundOutputDevice(sndoutputdevid));
+
+            // disable audio preprocessing
+            SpeexDSP spxdsp = new SpeexDSP(true);
+            spxdsp.bEnableAGC = false;
+            spxdsp.bEnableDenoise = false;
+            spxdsp.bEnableEchoCancellation = false;
+            assertTrue("SpeexDSP", sclient.setSoundInputPreprocess(spxdsp));
+
+            connect(sclient);
+            login(sclient, NICKNAME, USERNAME, PASSWORD);
+            assertTrue("join channel", waitCmdSuccess(sclient,
+                    sclient.doJoinChannelByID(ttclients.elementAt(i).getMyChannelID(), ""),
+                    DEF_WAIT));
+
+            simclients.add(sclient);
+        }
+
+        // now loop where the simulator clients are transmitting all
+        // the time and the 'real' clients are PTT'ing every 15 seconds
+        for (int x=0;x<3;x++) {
+            for (TeamTalkBase sclient : simclients) {
+                assertTrue("enable sim voice tx", sclient.enableVoiceTransmission(true));
+            }
+
+            for (TeamTalkBase ttclient : ttclients) {
+                assertTrue("Init ttclient sound input device", ttclient.initSoundInputDevice(sndinputdevid));
+                assertTrue("Init voice TX", ttclient.enableVoiceTransmission(true));
+            }
+
+            waitForEvent(simclients.elementAt(0), ClientEvent.CLIENTEVENT_NONE, 15000);
+
+            for (TeamTalkBase ttclient : ttclients) {
+                assertTrue("Stop voice TX", ttclient.enableVoiceTransmission(false));
+                assertTrue("close ttclient sound input device", ttclient.closeSoundInputDevice());
+            }
+
+            for (TeamTalkBase sclient : simclients) {
+                assertTrue("disable sim voice tx", sclient.enableVoiceTransmission(false));
+            }
+
+            waitForEvent(simclients.elementAt(0), ClientEvent.CLIENTEVENT_NONE, 5000);
+
+            for (TeamTalkBase ttclient : ttclients) {
+                assertFalse("No snd input error", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 0));
+            }
+        }
+    }
 }
