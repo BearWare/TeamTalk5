@@ -299,8 +299,8 @@ public class MyTest extends TeamTalkTestCase {
         Vector<TeamTalkBase> simclients = new Vector<>();
         for (int i=0;i<4;++i) {
             TeamTalkBase sclient = newClientInstance();
-            assertTrue("Init ttclient sound input device", sclient.initSoundInputDevice(sndinputdevid));
-            assertTrue("Init ttclient sound output device", sclient.initSoundOutputDevice(sndoutputdevid));
+            assertTrue("Init sclient sound input device", sclient.initSoundInputDevice(sndinputdevid));
+            assertTrue("Init sclient sound output device", sclient.initSoundOutputDevice(sndoutputdevid));
 
             // disable audio preprocessing
             SpeexDSP spxdsp = new SpeexDSP(true);
@@ -347,5 +347,105 @@ public class MyTest extends TeamTalkTestCase {
                 assertFalse("No snd input error", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 0));
             }
         }
+    }
+
+    // force 'E/libOpenSLES: Too many objects' error
+    public void test_MaxSoundOutputStreams() {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN |
+                UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        int sndinputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        int sndoutputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
+
+        TeamTalkBase ttclient = newClientInstance();
+        assertTrue("Init ttclient sound input device", ttclient.initSoundInputDevice(sndinputdevid));
+        assertTrue("Init ttclient sound output device", ttclient.initSoundOutputDevice(sndoutputdevid));
+
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        Channel chan = buildDefaultChannel(ttclient, String.valueOf(ttclient.getMyUserID()), Codec.OPUS_CODEC);
+        chan.audiocodec.opus.nFrameSizeMSec = 120;
+        chan.audiocodec.opus.nTxIntervalMSec = 240;
+        assertTrue("join channel", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        boolean outputfailed = false;
+        int outputs = 0;
+        Vector<TeamTalkBase> simclients = new Vector<>();
+        while (!outputfailed) {
+            TeamTalkBase sclient = newClientInstance();
+            assertTrue("Init sclient sound input device", sclient.initSoundInputDevice(SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+
+            connect(sclient);
+            login(sclient, NICKNAME, USERNAME, PASSWORD);
+            assertTrue("join channel", waitCmdSuccess(sclient,
+                    sclient.doJoinChannelByID(ttclient.getMyChannelID(), ""),
+                    DEF_WAIT));
+            assertTrue("enable tx", sclient.enableVoiceTransmission(true));
+
+            boolean outputok = false;
+            TTMessage msg = new TTMessage();
+            do {
+                assertTrue("wait for audio start event", ttclient.getMessage(msg, DEF_WAIT));
+
+                switch (msg.nClientEvent) {
+                    case ClientEvent.CLIENTEVENT_USER_STATECHANGE :
+                        if (msg.user.nUserID == sclient.getMyUserID() && (msg.user.uUserState & UserState.USERSTATE_VOICE) != 0) {
+                            outputok = true;
+                            outputs++;
+                        }
+                        break;
+                    case ClientEvent.CLIENTEVENT_INTERNAL_ERROR :
+                        assertEquals("new user stopped audio output", ClientError.INTERR_SNDOUTPUT_FAILURE, msg.clienterrormsg.nErrorNo);
+                        outputfailed = true;
+                        break;
+                }
+
+            } while (!outputok && !outputfailed);
+
+            simclients.add(sclient);
+        }
+
+        System.out.println("Managed to create " + outputs + " audio outputs");
+
+        // now destroy clients and see that audio output resurrects
+
+        for (int i=0;i<simclients.size()-1;++i) {
+            simclients.elementAt(i).closeTeamTalk();
+            assertTrue("wait logout", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDOUT, DEF_WAIT));
+        }
+
+        // new client can talk
+        TeamTalkBase sclient = newClientInstance();
+        assertTrue("Init sclient sound input device", sclient.initSoundInputDevice(SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+
+        connect(sclient);
+        login(sclient, NICKNAME, USERNAME, PASSWORD);
+        assertTrue("join channel", waitCmdSuccess(sclient,
+                sclient.doJoinChannelByID(ttclient.getMyChannelID(), ""),
+                DEF_WAIT));
+        assertTrue("enable tx", sclient.enableVoiceTransmission(true));
+
+        TTMessage msg = new TTMessage();
+        assertTrue("talking event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertTrue("new user talking", (msg.user.uUserState & UserState.USERSTATE_VOICE) != 0);
+        assertEquals("correct new user", sclient.getMyUserID(), msg.user.nUserID);
+
+        // last client who couldn't talk has to be "resurrected"
+        assertTrue("close sndoutput", ttclient.closeSoundOutputDevice());
+        assertTrue("Init ttclient sound output device again", ttclient.initSoundOutputDevice(sndoutputdevid));
+
+        boolean outputrestarted = false;
+        do {
+            assertTrue("user update event", ttclient.getMessage(msg, DEF_WAIT));
+            switch (msg.nClientEvent) {
+                case ClientEvent.CLIENTEVENT_USER_STATECHANGE :
+                    outputrestarted = (msg.user.uUserState & UserState.USERSTATE_VOICE) != 0;
+                    break;
+            }
+        } while (!outputrestarted);
+
+        assertEquals("correct old user restarted", simclients.lastElement().getMyUserID(), msg.user.nUserID);
     }
 }
