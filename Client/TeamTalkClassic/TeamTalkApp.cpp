@@ -26,6 +26,7 @@
 #include "TeamTalkDlg.h"
 #include "AppInfo.h"
 #include "License.h"
+#include <VersionHelpers.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -100,14 +101,7 @@ HWND FindWinTitle( LPCTSTR title )
 BOOL IsWin2kPlus()
 {
     //detect windows version
-    OSVERSIONINFO version;
-    version.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx(&version);
-
-    if(version.dwMajorVersion >= 5)    //win2K/XP
-        return TRUE;
-    else
-        return FALSE;
+    return IsWindowsXPOrGreater();
 }
 
 void MyCommandLineInfo::ParseParam( LPCTSTR lpszParam, BOOL bFlag, BOOL bLast )

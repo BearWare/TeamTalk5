@@ -24,6 +24,7 @@
 #include "WinFirewall.h"
 #include <assert.h>
 #include <Strsafe.h>
+#include <VersionHelpers.h>
 
 HRESULT CoCreateInstanceAsAdmin(HWND hwnd, REFCLSID rclsid, REFIID riid, __out void ** ppv)
 {
@@ -851,11 +852,7 @@ WinFirewall::~WinFirewall()
 bool WinFirewall::HasUAE()
 {
     //detect windows version
-    OSVERSIONINFO version;
-    version.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx(&version);
-
-    return version.dwMajorVersion >= 6 && version.dwPlatformId == VER_PLATFORM_WIN32_NT;    //Vista/7
+    return IsWindowsVistaOrGreater();
 }
 
 bool WinFirewall::IsFirewallOn()
