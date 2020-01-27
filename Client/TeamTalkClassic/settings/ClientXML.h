@@ -461,6 +461,12 @@ namespace teamtalk {
 
         void SetSpeexDSPAudioPreprocessor(const SpeexDSP& spxdsp);
         SpeexDSP GetSpeexDSPAudioPreprocessor();
+
+        void SetMediaFilePlayback(const MediaFilePlayback& mfp);
+        MediaFilePlayback GetMediaFilePlayback();
+
+        void SetVideoCodec(const VideoCodec& codec);
+        VideoCodec GetVideoCodec();
         /********** </mediafiles> *********/
     protected:
         TiXmlElement* GetRootElement();

@@ -128,6 +128,7 @@ public:
     void OpenVideoSession(int nUserID);
     void CloseVideoSession(int nUserID);
     void CloseDesktopSession(int nUserID);
+    void StartMediaStream();
     void StopMediaStream();
     void SwitchFont();
     void ResizeItems();
