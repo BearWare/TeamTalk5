@@ -2168,6 +2168,9 @@ void CTeamTalkDlg::OnStreamMediaFile(const TTMessage& msg)
     case MFS_FINISHED :
         AddStatusText(_T("Finished streaming media file to channel"));
         StopMediaStream();
+
+        if (m_xmlSettings.GetMediaFileRepeat(false))
+            StartMediaStream();
         break;
     case MFS_ABORTED :
         AddStatusText(_T("Aborted streaming media file to channel"));

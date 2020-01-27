@@ -55,6 +55,7 @@ CStreamMediaDlg::~CStreamMediaDlg()
 
 void CStreamMediaDlg::ProcessTTMessage(const TTMessage& msg)
 {
+    BOOL bFinished = false;
     switch (msg.nClientEvent)
     {
     case CLIENTEVENT_STREAM_MEDIAFILE :
@@ -73,6 +74,7 @@ void CStreamMediaDlg::ProcessTTMessage(const TTMessage& msg)
             break;
         case MFS_FINISHED:
             m_nPlaybackID = 0;
+            bFinished = TRUE;
         case MFS_STARTED:
         case MFS_PLAYING:
         {
@@ -86,6 +88,12 @@ void CStreamMediaDlg::ProcessTTMessage(const TTMessage& msg)
         }
         UpdateControls();
         break;
+    }
+
+    if (bFinished && m_wndRepeat.GetCheck() == BST_CHECKED)
+    {
+        OnBnClickedButtonStop();
+        OnBnClickedButtonPlay();
     }
 }
 
@@ -106,6 +114,7 @@ void CStreamMediaDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_BUTTON_STOP, m_wndStopPlayback);
     DDX_Control(pDX, IDC_BUTTON_PLAY, m_wndStartPlayback);
     DDX_Control(pDX, IDC_STATIC_DURATION, m_wndDuration);
+    DDX_Control(pDX, IDC_CHECK_REPEAT, m_wndRepeat);
 }
 
 
@@ -287,6 +296,7 @@ void CStreamMediaDlg::OnOK()
 
     m_xmlSettings.SetMediaFilePlayback(m_mfp);
     m_xmlSettings.SetVideoCodec(vidCodec);
+    m_xmlSettings.SetMediaFileRepeat(m_wndRepeat.GetCheck() == BST_CHECKED);
 
     CDialog::OnOK();
 }

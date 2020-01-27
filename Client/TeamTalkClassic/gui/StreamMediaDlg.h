@@ -86,4 +86,5 @@ public:
     afx_msg void OnTRBNThumbPosChangingSliderOffset(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnCbnSelchangeComboAudiopreprocessor();
     afx_msg void OnCbnSelchangeComboFilename();
+    CButton m_wndRepeat;
 };

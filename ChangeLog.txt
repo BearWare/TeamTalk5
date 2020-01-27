@@ -20,6 +20,7 @@ Accessible Windows client
 - Audio preprocessor for media file streaming
 - Control media file offset before streaming to channel
 - Test media file playback before streaming to channel
+- Option to repeat media file playback
 - Fixed bug where audio recording to single file contained audio from media files
 - Fixed bug in .ogg file header for OPUS codec
 Android client

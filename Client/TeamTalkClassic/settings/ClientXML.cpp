@@ -2908,6 +2908,16 @@ namespace teamtalk {
         return codec;
     }
 
+    void ClientXML::SetMediaFileRepeat(bool repeat)
+    {
+        SetValueBool("streammedia/repeat", repeat);
+    }
+
+    bool ClientXML::GetMediaFileRepeat(bool defaultvalue)
+    {
+        return GetValueBool(true, "streammedia/repeat", defaultvalue);
+    }
+
     void ClientXML::PutHotKey(TiXmlElement& parent, const HotKey& hotkey)
     {
         for(size_t i=0;i<hotkey.size();i++)

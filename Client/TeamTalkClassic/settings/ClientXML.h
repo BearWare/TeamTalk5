@@ -467,6 +467,9 @@ namespace teamtalk {
 
         void SetVideoCodec(const VideoCodec& codec);
         VideoCodec GetVideoCodec();
+
+        void SetMediaFileRepeat(bool repeat);
+        bool GetMediaFileRepeat(bool defaultvalue);
         /********** </mediafiles> *********/
     protected:
         TiXmlElement* GetRootElement();
