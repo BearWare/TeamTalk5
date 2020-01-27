@@ -114,7 +114,7 @@ BOOL CSoundSysPage::OnInitDialog()
 
     ClientFlags uFlags = TT_GetFlags(ttInst);
     m_wndRefreshDevs.EnableWindow((uFlags &
-        (CLIENT_SNDINPUT_READY | CLIENT_SNDOUTPUT_READY)) == 0);
+        (CLIENT_SNDINPUT_READY | CLIENT_SNDOUTPUT_READY | CLIENT_SNDINOUTPUT_DUPLEX)) == 0);
 
     RefreshSoundDevices();
 
