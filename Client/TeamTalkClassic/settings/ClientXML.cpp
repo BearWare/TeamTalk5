@@ -2837,6 +2837,87 @@ namespace teamtalk {
         return dsp;
     }
 
+    void ClientXML::SetMediaFilePlayback(const MediaFilePlayback& mfp)
+    {
+        SetValue("streammedia/mediafileplayback/offset", mfp.uOffsetMSec);
+        SetAudioPreprocessor(mfp.audioPreprocessor.nPreprocessor);
+        switch(mfp.audioPreprocessor.nPreprocessor)
+        {
+        case SPEEXDSP_AUDIOPREPROCESSOR :
+            SetSpeexDSPAudioPreprocessor(mfp.audioPreprocessor.speexdsp);
+            break;
+        case TEAMTALK_AUDIOPREPROCESSOR :
+            SetTTAudioPreprocessor(mfp.audioPreprocessor.ttpreprocessor);
+            break;
+        case NO_AUDIOPREPROCESSOR : break;
+        }
+    }
+
+    MediaFilePlayback ClientXML::GetMediaFilePlayback()
+    {
+        MediaFilePlayback mfp = {};
+        mfp.bPaused = FALSE;
+        mfp.uOffsetMSec = GetValue(true, "streammedia/mediafileplayback/offset", TT_MEDIAPLAYBACK_OFFSET_IGNORE);
+        mfp.audioPreprocessor.nPreprocessor = GetAudioPreprocessor(NO_AUDIOPREPROCESSOR);
+        switch(mfp.audioPreprocessor.nPreprocessor)
+        {
+        case SPEEXDSP_AUDIOPREPROCESSOR :
+            mfp.audioPreprocessor.speexdsp = GetSpeexDSPAudioPreprocessor();
+            break;
+        case TEAMTALK_AUDIOPREPROCESSOR :
+            mfp.audioPreprocessor.ttpreprocessor = GetTTAudioPreprocessor();
+            break;
+        case NO_AUDIOPREPROCESSOR : break;
+        }
+        return mfp;
+    }
+
+    void ClientXML::SetVideoCodec(const VideoCodec& codec)
+    {
+        SetValue("streammedia/videocodec", codec.nCodec);
+        switch (codec.nCodec)
+        {
+        case WEBM_VP8_CODEC :
+            SetValue("streammedia/webmvp8/encdeadline", codec.webm_vp8.nEncodeDeadline);
+            SetValue("streammedia/webmvp8/targetbitrate", codec.webm_vp8.nRcTargetBitrate);
+            break;
+        case SPEEX_CODEC :
+        case SPEEX_VBR_CODEC :
+        case OPUS_CODEC :
+        case NO_CODEC :
+            break;
+        }
+    }
+    
+    VideoCodec ClientXML::GetVideoCodec()
+    {
+        VideoCodec codec = {};
+        codec.nCodec = Codec(GetValue(true, "streammedia/videocodec", NO_CODEC));
+        switch (codec.nCodec)
+        {
+        case WEBM_VP8_CODEC :
+            codec.webm_vp8.nEncodeDeadline = GetValue(true, "streammedia/webmvp8/encdeadline", 0);
+            codec.webm_vp8.nRcTargetBitrate = GetValue(true, "streammedia/webmvp8/targetbitrate", 0);
+            break;
+        case SPEEX_CODEC:
+        case SPEEX_VBR_CODEC:
+        case OPUS_CODEC:
+        case NO_CODEC:
+            break;
+        }
+        return codec;
+    }
+
+    void ClientXML::SetMediaFileRepeat(bool repeat)
+    {
+        SetValueBool("streammedia/repeat", repeat);
+    }
+
+    bool ClientXML::GetMediaFileRepeat(bool defaultvalue)
+    {
+        return GetValueBool(true, "streammedia/repeat", defaultvalue);
+    }
+
     void ClientXML::PutHotKey(TiXmlElement& parent, const HotKey& hotkey)
     {
         for(size_t i=0;i<hotkey.size();i++)

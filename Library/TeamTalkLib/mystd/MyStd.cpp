@@ -117,6 +117,6 @@ uint32_t GETTIMESTAMP()
     steady_clock::time_point now = steady_clock::now();
     auto now_ms = time_point_cast<milliseconds>(now);
     auto duration = now_ms.time_since_epoch();
-    return duration.count();
+    return uint32_t(duration.count());
 }
 

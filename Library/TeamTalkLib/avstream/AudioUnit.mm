@@ -834,7 +834,7 @@ static OSStatus AudioInputCallback(void *userData, AudioUnitRenderActionFlags *a
     ACE_Message_Block* mb;
     ACE_NEW_RETURN(mb, ACE_Message_Block(numFrames * streamer->channels * sizeof(short)), noErr);
     
-    AudioBufferList bufList;
+    AudioBufferList bufList = {};
     bufList.mNumberBuffers = 1;
     bufList.mBuffers[0].mNumberChannels = streamer->channels;
     bufList.mBuffers[0].mDataByteSize = mb->size();
@@ -843,13 +843,15 @@ static OSStatus AudioInputCallback(void *userData, AudioUnitRenderActionFlags *a
     OSStatus status;
     status = AudioUnitRender(streamer->audunit, actionFlags, audioTimeStamp, busNumber, numFrames, &bufList);
     assert(status == noErr);
-    if(status != noErr)
+    if(status != noErr || bufList.mBuffers[0].mDataByteSize == 0)
+    {
+        mb->release();
         return noErr;
-
+    }
+    
     mb->wr_ptr(bufList.mBuffers[0].mDataByteSize);
     ACE_Time_Value tv;
     int ret = streamer->samples_queue.enqueue_tail(mb, &tv);
-    assert(ret >= 0);
     if(ret < 0)
     {
         mb->release();
@@ -889,7 +891,10 @@ static OSStatus AudioInputCallback(void *userData, AudioUnitRenderActionFlags *a
             ret = streamer->samples_queue.enqueue_head(mb, &tv);
             assert(ret >= 0);
             if(ret < 0)
+            {
+                mb->release();
                 return noErr;
+            }
         }
     }
     

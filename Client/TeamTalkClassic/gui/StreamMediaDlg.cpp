@@ -55,6 +55,7 @@ CStreamMediaDlg::~CStreamMediaDlg()
 
 void CStreamMediaDlg::ProcessTTMessage(const TTMessage& msg)
 {
+    BOOL bFinished = false;
     switch (msg.nClientEvent)
     {
     case CLIENTEVENT_STREAM_MEDIAFILE :
@@ -73,6 +74,7 @@ void CStreamMediaDlg::ProcessTTMessage(const TTMessage& msg)
             break;
         case MFS_FINISHED:
             m_nPlaybackID = 0;
+            bFinished = TRUE;
         case MFS_STARTED:
         case MFS_PLAYING:
         {
@@ -86,6 +88,12 @@ void CStreamMediaDlg::ProcessTTMessage(const TTMessage& msg)
         }
         UpdateControls();
         break;
+    }
+
+    if (bFinished && m_wndRepeat.GetCheck() == BST_CHECKED)
+    {
+        OnBnClickedButtonStop();
+        OnBnClickedButtonPlay();
     }
 }
 
@@ -106,6 +114,7 @@ void CStreamMediaDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_BUTTON_STOP, m_wndStopPlayback);
     DDX_Control(pDX, IDC_BUTTON_PLAY, m_wndStartPlayback);
     DDX_Control(pDX, IDC_STATIC_DURATION, m_wndDuration);
+    DDX_Control(pDX, IDC_CHECK_REPEAT, m_wndRepeat);
 }
 
 
@@ -118,6 +127,7 @@ BEGIN_MESSAGE_MAP(CStreamMediaDlg, CDialog)
     ON_NOTIFY(NM_RELEASEDCAPTURE, IDC_SLIDER_OFFSET, &CStreamMediaDlg::OnNMReleasedcaptureSliderOffset)
     ON_NOTIFY(TRBN_THUMBPOSCHANGING, IDC_SLIDER_OFFSET, &CStreamMediaDlg::OnTRBNThumbPosChangingSliderOffset)
     ON_CBN_SELCHANGE(IDC_COMBO_AUDIOPREPROCESSOR, &CStreamMediaDlg::OnCbnSelchangeComboAudiopreprocessor)
+    ON_CBN_SELCHANGE(IDC_COMBO_FILENAME, &CStreamMediaDlg::OnCbnSelchangeComboFilename)
 END_MESSAGE_MAP()
 
 
@@ -136,18 +146,9 @@ BOOL CStreamMediaDlg::OnInitDialog()
     AddString(m_wndAudioPreprocessor, _T("No Audio Preprocessor"), NO_AUDIOPREPROCESSOR);
     AddString(m_wndAudioPreprocessor, _T("TeamTalk Audio Preprocessor"), TEAMTALK_AUDIOPREPROCESSOR);
     AddString(m_wndAudioPreprocessor, _T("Speex DSP Audio Preprocessor"), SPEEXDSP_AUDIOPREPROCESSOR);
-    m_mfp.audioPreprocessor.nPreprocessor = m_xmlSettings.GetAudioPreprocessor(NO_AUDIOPREPROCESSOR);
 
+    m_mfp = m_xmlSettings.GetMediaFilePlayback();
     SetCurSelItemData(m_wndAudioPreprocessor, m_mfp.audioPreprocessor.nPreprocessor);
-    switch(m_mfp.audioPreprocessor.nPreprocessor)
-    {
-    case TEAMTALK_AUDIOPREPROCESSOR :
-        m_mfp.audioPreprocessor.ttpreprocessor = m_xmlSettings.GetTTAudioPreprocessor();
-        break;
-    case SPEEXDSP_AUDIOPREPROCESSOR :
-        m_mfp.audioPreprocessor.speexdsp = m_xmlSettings.GetSpeexDSPAudioPreprocessor();
-        break;
-    }
 
     m_wndOffset.SetRange(0, 10000);
     m_wndOffset.SetPageSize(50);
@@ -156,18 +157,23 @@ BOOL CStreamMediaDlg::OnInitDialog()
     SetCurSelItemData(m_wndVidCodec, WEBM_VP8_CODEC);
     m_wndVidBitrateSpinCtrl.SetRange(0, 1000);
 
-    UpdateMediaFile();
+    UpdateMediaFile(m_fileList.GetHead());
     UpdateControls();
+
+    if (m_mfp.uOffsetMSec != TT_MEDIAPLAYBACK_OFFSET_IGNORE &&
+        m_mfp.uOffsetMSec <= m_mfi.uDurationMSec)
+    {
+        double percent = m_mfp.uOffsetMSec;
+        percent /= m_mfi.uDurationMSec;
+        m_wndOffset.SetPos(m_wndOffset.GetRangeMax() * percent);
+    }
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void CStreamMediaDlg::UpdateMediaFile()
+void CStreamMediaDlg::UpdateMediaFile(const CString szFileName)
 {
-    CString szFileName;
-    m_wndFilename.GetWindowText(szFileName);
-
     TT_GetMediaFileInfo(szFileName, &m_mfi);
     BOOL audio = m_mfi.audioFmt.nAudioFmt != AFF_NONE;
     BOOL video = m_mfi.videoFmt.picFourCC != FOURCC_NONE;
@@ -252,7 +258,8 @@ void CStreamMediaDlg::OnBnClickedButtonBrowse()
         m_wndFilename.InsertString(0, dlg.GetPathName());
         if (m_wndFilename.GetCount() > MAX_FILENAMES)
             m_wndFilename.DeleteString(MAX_FILENAMES);
-        UpdateMediaFile();
+
+        OnCbnSelchangeComboFilename();
     }
 
     SetCurrentDirectory(s);
@@ -262,19 +269,17 @@ void CStreamMediaDlg::OnBnClickedButtonBrowse()
 void CStreamMediaDlg::OnOK()
 {
     VideoCodec vidCodec = {};
-    vidCodec.nCodec = WEBM_VP8_CODEC;
+    vidCodec.nCodec = m_mfi.videoFmt.nWidth > 0? WEBM_VP8_CODEC : NO_CODEC;
     vidCodec.webm_vp8.nRcTargetBitrate = GetWindowNumber(m_wndVideoBitrate);
     vidCodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
+
+
+    double percent = m_wndOffset.GetPos() / double(m_wndOffset.GetRangeMax());
+    m_mfp.uOffsetMSec = UINT32(m_mfi.uDurationMSec * percent);
 
     if (m_mfp.uOffsetMSec == 0)
         m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
     m_mfp.bPaused = FALSE;
-    if (!TT_StartStreamingMediaFileToChannelEx(ttInst, m_mfi.szFileName, &m_mfp, &vidCodec))
-    {
-        MessageBox(_T("Failed to stream media file."),
-            _T("Stream Media File"), MB_OK);
-        return;
-    }
 
     m_fileList.RemoveAll();
 
@@ -289,7 +294,9 @@ void CStreamMediaDlg::OnOK()
             m_fileList.AddTail(s);
     }
 
-    m_xmlSettings.SetAudioPreprocessor(AudioPreprocessorType(GetItemData(m_wndAudioPreprocessor)));
+    m_xmlSettings.SetMediaFilePlayback(m_mfp);
+    m_xmlSettings.SetVideoCodec(vidCodec);
+    m_xmlSettings.SetMediaFileRepeat(m_wndRepeat.GetCheck() == BST_CHECKED);
 
     CDialog::OnOK();
 }
@@ -441,7 +448,7 @@ void CStreamMediaDlg::OnBnClickedButtonPlay()
     m_wndFilename.GetWindowText(szFilename);
 
     if (szFilename.CompareNoCase(m_mfi.szFileName) != 0)
-        UpdateMediaFile();
+        UpdateMediaFile(szFilename);
 
     m_mfp.bPaused = FALSE;
     m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
@@ -473,7 +480,6 @@ void CStreamMediaDlg::UpdateOffset()
     m_wndTimeOffset.SetWindowText(szElapsed);
 }
 
-
 void CStreamMediaDlg::OnCbnSelchangeComboAudiopreprocessor()
 {
     m_mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(GetItemData(m_wndAudioPreprocessor));
@@ -488,4 +494,19 @@ void CStreamMediaDlg::OnCbnSelchangeComboAudiopreprocessor()
     }
 
     UpdateControls();
+}
+
+void CStreamMediaDlg::OnCbnSelchangeComboFilename()
+{
+    int pos = m_wndFilename.GetCurSel();
+    if (pos != CB_ERR)
+    {
+        CString szFileName;
+        m_wndFilename.GetLBText(pos, szFileName);
+        UpdateMediaFile(szFileName);
+
+        // reset media file offset
+        m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+        m_wndOffset.SetPos(0);
+    }
 }

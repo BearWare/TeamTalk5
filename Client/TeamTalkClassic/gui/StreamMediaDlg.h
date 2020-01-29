@@ -48,7 +48,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 
-    void UpdateMediaFile();
+    void UpdateMediaFile(const CString szFileName);
     void UpdateControls();
 
     teamtalk::ClientXML& m_xmlSettings;
@@ -85,4 +85,6 @@ public:
     afx_msg void OnNMReleasedcaptureSliderOffset(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnTRBNThumbPosChangingSliderOffset(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnCbnSelchangeComboAudiopreprocessor();
+    afx_msg void OnCbnSelchangeComboFilename();
+    CButton m_wndRepeat;
 };
