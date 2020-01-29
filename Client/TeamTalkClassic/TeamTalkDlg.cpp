@@ -2897,7 +2897,7 @@ void CTeamTalkDlg::OnOK()
         m_tabChat.m_wndChanMessage.SetWindowText(_T(""));
         if(!s.IsEmpty())
         {
-            TextMessage msg;
+            TextMessage msg = {};
             msg.nMsgType = MSGTYPE_CHANNEL;
             msg.nFromUserID = TT_GetMyUserID(ttInst);
             msg.nChannelID = TT_GetMyChannelID(ttInst);
@@ -6338,8 +6338,7 @@ void CTeamTalkDlg::OnServerBroadcastmessage()
     CInputDlg dlg(_T("Broadcast Message"), _T("Message to broadcast"), 0, this);
     if(dlg.DoModal() == IDOK)
     {
-        TextMessage msg;
-        ZERO_STRUCT(msg);
+        TextMessage msg = {};
         msg.nMsgType = MSGTYPE_BROADCAST;
         COPYTTSTR(msg.szMessage, dlg.m_szInput);
         TT_DoTextMessage(ttInst, &msg);
