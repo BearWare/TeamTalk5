@@ -171,7 +171,7 @@ void CMessageDlg::OnButtonSend()
     {
         m_richMessage.SetWindowText(_T(""));
 
-        TextMessage usermsg;
+        TextMessage usermsg = {};
         usermsg.nMsgType = MSGTYPE_USER;
         usermsg.nFromUserID = m_myself.nUserID;
         usermsg.nToUserID = m_user.nUserID;
@@ -203,7 +203,7 @@ void CMessageDlg::SetAlive(BOOL state)
     m_btnSend.EnableWindow(state);
 }
 
-void CMessageDlg::AppendMessage(const TextMessage& msg, BOOL bStore/* = TRUE*/)
+void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/)
 {
     //append to message list
     if(bStore)
@@ -228,9 +228,8 @@ void CMessageDlg::AppendMessage(const TextMessage& msg, BOOL bStore/* = TRUE*/)
     m_richHistory.SetSel(0,0);
     m_richHistory.ReplaceSel(_T("\r\n"));
 
-    CTime tm = CTime::GetCurrentTime();
     CString szTime;
-    szTime.Format(_T("%.2d:%.2d"), tm.GetHour(), tm.GetMinute());
+    szTime.Format(_T("%.2d:%.2d"), msg.receiveTime.GetHour(), msg.receiveTime.GetMinute());
 
     CString name;
     if(msg.nFromUserID == m_myself.nUserID)

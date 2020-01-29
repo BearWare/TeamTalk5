@@ -906,7 +906,7 @@ BOOL CSessionTreeCtrl::GetChannel(int nChannelID, Channel& outChan) const
     return FALSE;
 }
 
-void CSessionTreeCtrl::AddUserMessage(int nUserID, const TextMessage& msg)
+void CSessionTreeCtrl::AddUserMessage(int nUserID, const MyTextMessage& msg)
 {
     msgmap_t::iterator ite = m_messages.find(nUserID);
     if(ite != m_messages.end())
@@ -919,7 +919,7 @@ void CSessionTreeCtrl::AddUserMessage(int nUserID, const TextMessage& msg)
     }
 }
 
-BOOL CSessionTreeCtrl::GetLastUserMessage(int nUserID, TextMessage& msg) const
+BOOL CSessionTreeCtrl::GetLastUserMessage(int nUserID, MyTextMessage& msg) const
 {
     msgmap_t::const_iterator ite = m_messages.find(nUserID);
     if(ite != m_messages.end() && ite->second.size())

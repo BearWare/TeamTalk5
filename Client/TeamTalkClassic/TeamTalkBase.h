@@ -41,7 +41,28 @@ transmitusers_t& GetTransmitUsers(const Channel& chan, transmitusers_t& transmit
 BOOL ToggleTransmitUser(Channel& chan, int nUserID, StreamTypes streams);
 BOOL CanToggleTransmitUsers(int nChannelID);
 
-typedef std::vector< TextMessage > messages_t;
+struct MyTextMessage : public TextMessage
+{
+    CTime receiveTime;
+    
+    MyTextMessage()
+    {
+        receiveTime = CTime::GetCurrentTime();
+    }
+    
+    MyTextMessage(const TextMessage& msg)
+    : MyTextMessage()
+    {
+        this->nChannelID = msg.nChannelID;
+        this->nFromUserID = msg.nFromUserID;
+        this->nMsgType = msg.nMsgType;
+        this->nToUserID = msg.nToUserID;
+        _tcsncpy_s(this->szFromUsername, msg.szFromUsername, TT_STRLEN);
+        _tcsncpy_s(this->szMessage, msg.szMessage, TT_STRLEN);
+    }
+};
+
+typedef std::vector< MyTextMessage > messages_t;
 typedef std::map< int, messages_t > msgmap_t;
 messages_t GetMessages(int nFromUserID, const messages_t& messages);
 

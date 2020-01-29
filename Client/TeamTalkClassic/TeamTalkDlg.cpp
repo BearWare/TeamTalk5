@@ -1816,7 +1816,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
         {
             if(!bNew)
             {
-                TextMessage msg;
+                MyTextMessage msg;
                 if(m_wndTree.GetLastUserMessage(textmsg.nFromUserID, msg))
                     pMsgDlg->AppendMessage(msg, TRUE);
             }

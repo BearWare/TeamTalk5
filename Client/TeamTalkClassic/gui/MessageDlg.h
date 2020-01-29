@@ -45,7 +45,7 @@ public:
     CMessageDlg(CWnd* pParent, const User& myself, const User& user,
                 LPCTSTR szLogFolder = NULL);   // standard constructor
 
-    void AppendMessage(const TextMessage& msg, BOOL bStore = TRUE);
+    void AppendMessage(const MyTextMessage& msg, BOOL bStore = TRUE);
     void SetAlive(BOOL state);
     BOOL IsAlive();
     LOGFONT m_lf;

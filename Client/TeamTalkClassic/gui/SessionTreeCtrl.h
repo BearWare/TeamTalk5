@@ -148,8 +148,8 @@ public:
     void UpdateChannel(const Channel& chan);
     void RemoveChannel(const Channel& chan);
 
-    void AddUserMessage(int nUserID, const TextMessage& msg);
-    BOOL GetLastUserMessage(int nUserID, TextMessage& msg) const;
+    void AddUserMessage(int nUserID, const MyTextMessage& msg);
+    BOOL GetLastUserMessage(int nUserID, MyTextMessage& msg) const;
     void SetUserMessages(int nUserID, const messages_t& msgs);
     messages_t GetUserMessages(int nUserID) const;
 
