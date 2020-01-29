@@ -134,7 +134,7 @@ namespace teamtalk {
         ACE_thread_t m_reactor_thr_id;
 
         int GetNewUserID();
-        serveruser_t GetUser(int userid);
+        serveruser_t GetUser(int userid, const ServerUser* caller);
 
         ACE_Time_Value GetUptime() const;
         serverchannel_t& GetRootChannel();
@@ -157,9 +157,6 @@ namespace teamtalk {
                                  const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
         void ReceivedKeepAlivePacket(ServerUser& user, const KeepAlivePacket& packet, 
                                      const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
-        void ReceivedFieldPacket(ServerUser& user, 
-                                 const FieldPacket& packet, 
-                                 const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 
         //broadcast either an audio packet or a crypt audio packet
         void ReceivedVoicePacket(ServerUser& user, 
