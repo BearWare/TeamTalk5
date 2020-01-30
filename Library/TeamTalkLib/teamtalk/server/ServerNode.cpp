@@ -3996,12 +3996,13 @@ ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid,
 
     user->AddSubscriptions(*subscriptuser, subscrip);
 
-    //update user's subscription mask, if viewing all users
-    //in same channel or subscritee is admin
-    if( (user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) ||
-        user->GetChannel() == subscriptuser->GetChannel() ||
-        (subscriptuser->GetUserType() & USERTYPE_ADMIN))
+    //update user's subscription mask, if viewing all users or
+    //in same channel
+    if ((subscriptuser->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) ||
+        user->GetChannel() == subscriptuser->GetChannel())
+    {
         subscriptuser->DoUpdateUser(*user);
+    }
 
     if(subscriptuser != user)
         user->DoUpdateUser(*subscriptuser);
@@ -4028,13 +4029,14 @@ ErrorMsg ServerNode::UserUnsubscribe(int userid, int subuserid,
     if (user && subscriptuser)
     {
         user->ClearSubscriptions(*subscriptuser, subscrip);
-        //update user's subscription mask, if viewing all users
-        //in same channel or subscritee is admin
-        if( (user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) ||
-            user->GetChannel() == subscriptuser->GetChannel() ||
-            (subscriptuser->GetUserType() & USERTYPE_ADMIN))
+        //update user's subscription mask, if viewing all users or
+        //in same channel
+        if ((subscriptuser->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) ||
+            user->GetChannel() == subscriptuser->GetChannel())
+        {
             subscriptuser->DoUpdateUser(*user);
-
+        }
+        
         if(subscriptuser != user)
             user->DoUpdateUser(*subscriptuser);
 
