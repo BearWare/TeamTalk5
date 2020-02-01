@@ -396,11 +396,24 @@ namespace teamtalk {
         }
         inline bool operator==(const AudioCodec& ch) const
         {
-            return memcmp(this, &ch, sizeof(ch)) == 0;
+            switch (codec)
+            {
+            case CODEC_SPEEX :
+                return memcmp(&speex, &ch.speex, sizeof(speex)) == 0;
+            case CODEC_SPEEX_VBR :
+                return memcmp(&speex_vbr, &ch.speex_vbr, sizeof(speex_vbr)) == 0;
+            case CODEC_OPUS :
+                return memcmp(&opus, &ch.opus, sizeof(opus)) == 0;
+            case CODEC_NO_CODEC :
+                return codec == ch.codec;
+            case CODEC_WEBM_VP8 :
+                return false;
+            }
+            return false;
         }
         inline bool operator!=(const AudioCodec& ch) const
         {
-            return memcmp(this, &ch, sizeof(ch));
+            return (ch == *this) == false;//memcmp(this, &ch, sizeof(ch));
         }
     };
 
