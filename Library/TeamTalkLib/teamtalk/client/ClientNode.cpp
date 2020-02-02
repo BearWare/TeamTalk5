@@ -1545,15 +1545,13 @@ void ClientNode::AudioUserCallback(int userid, StreamType st,
     {
     case STREAMTYPE_VOICE :
     {
-        // make copy since we're in a separate thread
-        auto filemuxer = m_audiomuxer_file;
-        if (filemuxer)
-            filemuxer->QueueUserAudio(userid, audio_frame.input_buffer,
-                                      audio_frame.sample_no,
-                                      audio_frame.input_buffer == nullptr,
-                                      audio_frame.input_samples,
-                                      audio_frame.inputfmt.channels);
+        m_channelrecord.QueueUserAudio(userid, audio_frame.input_buffer,
+                                       audio_frame.sample_no,
+                                       audio_frame.input_buffer == nullptr,
+                                       audio_frame.input_samples,
+                                       audio_frame.inputfmt.channels);
         
+        // make copy since we're in a separate thread
         auto streammuxer = m_audiomuxer_stream;
         if (streammuxer)
             streammuxer->QueueUserAudio(userid, audio_frame.input_buffer,
@@ -3092,10 +3090,8 @@ bool ClientNode::StartRecordingMuxedAudioFile(const AudioCodec& codec,
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if (!m_audiomuxer_file)
-        m_audiomuxer_file.reset(new AudioMuxer());
-    
-    if (m_audiomuxer_file->SaveFile(codec, filename, aff))
+    if (m_channelrecord.SaveFile(FIXED_AUDIOCODEC_CHANNELID,
+                                 codec, filename, aff))
     {
         m_flags |= CLIENT_MUX_AUDIOFILE;
         return true;
@@ -3107,8 +3103,7 @@ void ClientNode::StopRecordingMuxedAudioFile()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if (m_audiomuxer_file)
-        m_audiomuxer_file->CloseFile();
+    m_channelrecord.Close(FIXED_AUDIOCODEC_CHANNELID);
     
     m_flags &= ~CLIENT_MUX_AUDIOFILE;
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -31,6 +31,7 @@
 #include <avstream/MFTransform.h>
 #endif
 #include <teamtalk/CodecCommon.h>
+#include <mystd/MyStd.h>
 
 #include <map>
 #include <mutex>
@@ -58,12 +59,12 @@ public:
     bool RegisterMuxCallback(const teamtalk::AudioCodec& codec,
                              audiomuxer_callback_t cb);
     void UnregisterMuxCallback();
-    
+
     bool SaveFile(const teamtalk::AudioCodec& codec,
                   const ACE_TString& filename,
                   teamtalk::AudioFileFormat aff);
     void CloseFile();
-    
+
     void QueueUserAudio(int userid, const short* rawAudio,
                         ACE_UINT32 sample_no, bool last,
                         const teamtalk::AudioCodec& codec);
@@ -92,7 +93,7 @@ private:
     typedef std::map<int, ACE_UINT32> user_queued_audio_t;
     user_queued_audio_t m_user_queue;
     std::vector<short> m_muxed_audio;
-    
+
     ACE_Reactor m_reactor;
     std::recursive_mutex m_mutex;
     std::shared_ptr< std::thread > m_thread;
@@ -119,4 +120,31 @@ private:
 
 typedef std::shared_ptr< AudioMuxer > audiomuxer_t;
 
+#define FIXED_AUDIOCODEC_CHANNELID 0
+
+class ChannelAudioMuxer
+{
+    // userid -> channelid
+    std::map<int, int> m_userchan;
+    // channel -> muxer
+    std::map<int, audiomuxer_t> m_muxers;
+
+    std::recursive_mutex m_mutex;
+
+public:
+    ChannelAudioMuxer();
+    ~ChannelAudioMuxer();
+
+    bool SaveFile(int channelid, const teamtalk::AudioCodec& codec,
+                  const ACE_TString& filename,
+                  teamtalk::AudioFileFormat aff);
+    bool Close(int channelid);
+
+    bool AddUser(int userid, int channelid);
+    bool RemoveUser(int userid);
+
+    void QueueUserAudio(int userid, const short* rawAudio,
+                        ACE_UINT32 sample_no, bool last,
+                        int n_samples, int n_channels);
+};
 #endif

@@ -622,7 +622,7 @@ namespace teamtalk {
         // audio container for getting raw audio from users
         AudioContainer m_audiocontainer;
         //muxed audio
-        audiomuxer_t m_audiomuxer_file;
+        ChannelAudioMuxer m_channelrecord;
         audiomuxer_t m_audiomuxer_stream;
         //TCP connector
         connector_t m_connector;

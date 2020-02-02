@@ -648,3 +648,95 @@ void AudioMuxer::WriteAudio(int cb_samples)
 
     m_sample_no += cb_samples;
 }
+
+ChannelAudioMuxer::ChannelAudioMuxer()
+{
+}
+
+ChannelAudioMuxer::~ChannelAudioMuxer()
+{
+    assert(m_userchan.empty());
+}
+
+bool ChannelAudioMuxer::SaveFile(int channelid, const teamtalk::AudioCodec& codec,
+                                 const ACE_TString& filename,
+                                 teamtalk::AudioFileFormat aff)
+{
+    std::unique_lock<std::recursive_mutex> g(m_mutex);
+
+    if (m_muxers.find(channelid) != m_muxers.end())
+        return false;
+
+    audiomuxer_t muxer(new AudioMuxer());
+    bool ret = muxer->SaveFile(codec, filename, aff);
+    if (!ret)
+        return false;
+
+    m_muxers[channelid] = muxer;
+    return ret;
+}
+
+bool ChannelAudioMuxer::Close(int channelid)
+{
+    audiomuxer_t muxer;
+    {
+        std::unique_lock<std::recursive_mutex> g(m_mutex);
+        auto mi = m_muxers.find(channelid);
+        if (mi != m_muxers.end())
+        {
+            muxer = mi->second;
+            m_muxers.erase(mi);
+        }
+    }
+    return muxer.get();
+}
+
+bool ChannelAudioMuxer::AddUser(int userid, int channelid)
+{
+    std::unique_lock<std::recursive_mutex> g(m_mutex);
+    assert(m_userchan.find(userid) == m_userchan.end());
+
+    if (m_userchan.find(userid) == m_userchan.end())
+    {
+        m_userchan[userid] = channelid;
+        return true;
+    }
+    return false;
+}
+
+bool ChannelAudioMuxer::RemoveUser(int userid)
+{
+    std::unique_lock<std::recursive_mutex> g(m_mutex);
+    return m_userchan.erase(userid);
+}
+
+void ChannelAudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
+                                       ACE_UINT32 sample_no, bool last,
+                                       int n_samples, int n_channels)
+{
+    audiomuxer_t chanmuxer, fixedmuxer;
+    {
+        std::unique_lock<std::recursive_mutex> g(m_mutex);
+        if (m_userchan.find(userid) != m_userchan.end())
+        {
+            int chanid = m_userchan[userid];
+            auto im = m_muxers.find(chanid);
+            assert(im != m_muxers.end());
+            if (im != m_muxers.end())
+                chanmuxer = im->second;
+        }
+
+        // 'fixedmuxer' is audio codec specified recorder
+        auto ifm = m_muxers.find(FIXED_AUDIOCODEC_CHANNELID);
+        if (ifm != m_muxers.end())
+            fixedmuxer = ifm->second;
+    }
+
+    if (chanmuxer)
+        chanmuxer->QueueUserAudio(userid, rawAudio, sample_no,
+                                  last, n_samples, n_channels);
+
+    if (fixedmuxer)
+        fixedmuxer->QueueUserAudio(userid, rawAudio, sample_no,
+                                   last, n_samples, n_channels);
+}
