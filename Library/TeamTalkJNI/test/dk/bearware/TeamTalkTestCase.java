@@ -1018,6 +1018,83 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ttclient.enableVoiceTransmission(false);
     }
 
+    public void test_RecordMultipleChannels() {
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_MULTI_LOGIN |
+            UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        Vector<TeamTalkBase> clients = new Vector<>();
+        for (int i=0;i<4;++i) {
+
+            TeamTalkBase ttclient1 = newClientInstance(), ttclient2 = newClientInstance();
+            clients.add(ttclient1);
+            clients.add(ttclient2);
+            assertTrue("tone1", ttclient1.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 400));
+            assertTrue("tone2", ttclient2.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 800));
+            
+            connect(ttclient1);
+            connect(ttclient2);
+            initSound(ttclient1);
+            initSound(ttclient2);
+            SpeexDSP spxdsp = new SpeexDSP();
+            assertTrue("disable spx dsp", ttclient1.setSoundInputPreprocess(spxdsp));
+            assertTrue("disable spx dsp", ttclient2.setSoundInputPreprocess(spxdsp));
+            login(ttclient1, NICKNAME + "#" + ttclient1.getMyUserID(), USERNAME, PASSWORD);
+            login(ttclient2, NICKNAME + "#" + ttclient2.getMyUserID(), USERNAME, PASSWORD);
+
+            Channel chan = buildDefaultChannel(ttclient1, "Opus" + ttclient1.getMyUserID());
+            assertTrue("join1", waitCmdSuccess(ttclient1, ttclient1.doJoinChannel(chan), DEF_WAIT));
+
+            assertTrue("join2", waitCmdSuccess(ttclient2, ttclient2.doJoinChannelByID(ttclient1.getMyChannelID(), ""), DEF_WAIT));
+        }
+
+        TeamTalkBase ttadmin = newClientInstance();
+        connect(ttadmin);
+        initSound(ttadmin);
+        login(ttadmin, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        for (TeamTalkBase ttclient : clients) {
+            assertTrue("Intercept", waitCmdSuccess(ttadmin, ttadmin.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_INTERCEPT_VOICE), DEF_WAIT));
+        }
+
+        for (int i=0;i<clients.size();i+=2) {
+            Channel chan = new Channel();
+            TeamTalkBase ttclient = clients.elementAt(i);
+            assertTrue("get channel", ttclient.getChannel(ttclient.getMyChannelID(), chan));
+            assertTrue("Record mux", ttadmin.startRecordingMuxedAudioFile(ttclient.getMyChannelID(), "MuxedRecording-" + chan.szName + ".wav", AudioFileFormat.AFF_WAVE_FORMAT));
+        }
+
+        waitForEvent(ttadmin, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+        for (int i=0;i<clients.size();i+=2) {
+            TeamTalkBase ttclient = clients.elementAt(i);
+            assertTrue("enable tone", ttclient.enableVoiceTransmission(true));
+        }
+
+        waitForEvent(ttadmin, ClientEvent.CLIENTEVENT_NONE, 3000);
+
+        for (int i=0;i<clients.size();i+=2) {
+            TeamTalkBase ttclient = clients.elementAt(i);
+            assertTrue("disable tone", ttclient.enableVoiceTransmission(false));
+        }
+
+        waitForEvent(ttadmin, ClientEvent.CLIENTEVENT_NONE, 1000);
+        
+        for (int i=1;i<clients.size();i+=2) {
+            TeamTalkBase ttclient = clients.elementAt(i);
+            assertTrue("enable tone", ttclient.enableVoiceTransmission(true));
+        }
+
+        waitForEvent(ttadmin, ClientEvent.CLIENTEVENT_NONE, 3000);
+
+        for (int i=0;i<clients.size();i+=2) {
+            Channel chan = new Channel();
+            TeamTalkBase ttclient = clients.elementAt(i);
+            assertTrue("Stop Record mux", ttadmin.stopRecordingMuxedAudioFile(ttclient.getMyChannelID()));
+        }
+    }
 
     public void test_AudioBlock() {
 
