@@ -438,6 +438,19 @@ extern "C" {
                                                &audcodec, ttstr(env, szAudioFileName), (AudioFileFormat)uAFF);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_startRecordingMuxedAudioFileEx(JNIEnv* env,
+                                                                                            jobject thiz,
+                                                                                            jlong lpTTInstance,
+                                                                                            jint nChannelID,
+                                                                                            jstring szAudioFileName,
+                                                                                            jint uAFF)
+    {
+        THROW_NULLEX(env, szAudioFileName, false);
+
+        return TT_StartRecordingMuxedAudioFileEx(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                                 nChannelID, ttstr(env, szAudioFileName), (AudioFileFormat)uAFF);
+    }
+    
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_stopRecordingMuxedAudioFile(JNIEnv* env,
                                                                                          jobject thiz,
                                                                                          jlong lpTTInstance)
@@ -445,6 +458,14 @@ extern "C" {
         return TT_StopRecordingMuxedAudioFile(reinterpret_cast<TTInstance*>(lpTTInstance));
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_stopRecordingMuxedAudioFileEx(JNIEnv* env,
+                                                                                           jobject thiz,
+                                                                                           jlong lpTTInstance,
+                                                                                           jint nChannelID)
+    {
+        return TT_StopRecordingMuxedAudioFileEx(reinterpret_cast<TTInstance*>(lpTTInstance), nChannelID);
+    }
+    
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_startVideoCaptureTransmission(JNIEnv* env,
                                                                                            jobject thiz,
                                                                                            jlong lpTTInstance,

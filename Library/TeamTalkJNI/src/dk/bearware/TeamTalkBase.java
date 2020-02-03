@@ -213,13 +213,26 @@ public abstract class TeamTalkBase
                                                 int uAFF) {
         return startRecordingMuxedAudioFile(ttInst, lpAudioCodec, szAudioFileName, uAFF);
     }
+    private native boolean startRecordingMuxedAudioFileEx(long lpTTInstance,
+                                                          int nChannelID,
+                                                          String szAudioFileName,
+                                                          int uAFF);
+    public boolean startRecordingMuxedAudioFile(int nChannelID,
+                                                String szAudioFileName,
+                                                int uAFF) {
+        return startRecordingMuxedAudioFileEx(ttInst, nChannelID, szAudioFileName, uAFF);
+    }
 
     private native boolean stopRecordingMuxedAudioFile(long lpTTInstance);
-    
     public boolean stopRecordingMuxedAudioFile() {
         return stopRecordingMuxedAudioFile(ttInst);
     }
 
+    private native boolean stopRecordingMuxedAudioFileEx(long lpTTInstance, int nChannelID);
+    public boolean stopRecordingMuxedAudioFile(int nChannelID) {
+        return stopRecordingMuxedAudioFileEx(ttInst, nChannelID);
+    }
+    
     private native boolean startVideoCaptureTransmission(long lpTTInstance,
                                                          VideoCodec lpVideoCodec);
     public boolean startVideoCaptureTransmission(VideoCodec lpVideoCodec) {
