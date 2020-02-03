@@ -810,7 +810,19 @@ TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstan
         return FALSE;
 
     return clientnode->StartRecordingMuxedAudioFile(codec, szAudioFileName, 
-                                                     (teamtalk::AudioFileFormat)uAFF);
+                                                    teamtalk::AudioFileFormat(uAFF));
+}
+
+TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFileEx(IN TTInstance* lpTTInstance,
+                                                         IN INT32 nChannelID,
+                                                         IN const TTCHAR* szAudioFileName,
+                                                         IN AudioFileFormat uAFF)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    
+    return clientnode->StartRecordingMuxedAudioFile(nChannelID, szAudioFileName, 
+                                                    teamtalk::AudioFileFormat(uAFF));
 }
 
 TEAMTALKDLL_API TTBOOL TT_StopRecordingMuxedAudioFile(IN TTInstance* lpTTInstance)
@@ -819,6 +831,16 @@ TEAMTALKDLL_API TTBOOL TT_StopRecordingMuxedAudioFile(IN TTInstance* lpTTInstanc
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     
     clientnode->StopRecordingMuxedAudioFile();
+    return TRUE;
+}
+
+TEAMTALKDLL_API TTBOOL TT_StopRecordingMuxedAudioFileEx(IN TTInstance* lpTTInstance,
+                                                        IN INT32 nChannelID)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    
+    clientnode->StopRecordingMuxedAudioFile(nChannelID);
     return TRUE;
 }
 

@@ -336,8 +336,12 @@ namespace teamtalk {
         bool StartRecordingMuxedAudioFile(const AudioCodec& codec, 
                                           const ACE_TString& filename,
                                           AudioFileFormat aff);
+        bool StartRecordingMuxedAudioFile(int channelid,
+                                          const ACE_TString& filename,
+                                          AudioFileFormat aff);
         void StopRecordingMuxedAudioFile();
-
+        void StopRecordingMuxedAudioFile(int channelid);
+        
         bool StartMTUQuery();
 
         //stream media file (DirectShow wrapper)
@@ -621,8 +625,9 @@ namespace teamtalk {
         voicelogger_t m_voicelogger;
         // audio container for getting raw audio from users
         AudioContainer m_audiocontainer;
-        //muxed audio
+        // muxed audio into files
         ChannelAudioMuxer m_channelrecord;
+        // muxed audio into stream
         audiomuxer_t m_audiomuxer_stream;
         //TCP connector
         connector_t m_connector;

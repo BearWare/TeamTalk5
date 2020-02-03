@@ -3099,13 +3099,34 @@ bool ClientNode::StartRecordingMuxedAudioFile(const AudioCodec& codec,
     return false;
 }
 
+bool ClientNode::StartRecordingMuxedAudioFile(int channelid,
+                                              const ACE_TString& filename,
+                                              AudioFileFormat aff)
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    auto chan = GetChannel(channelid);
+    if (!chan)
+        return false;
+
+    return m_channelrecord.SaveFile(channelid, chan->GetAudioCodec(),
+                                    filename, aff);
+}
+
 void ClientNode::StopRecordingMuxedAudioFile()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    m_channelrecord.Close(FIXED_AUDIOCODEC_CHANNELID);
+    StopRecordingMuxedAudioFile(FIXED_AUDIOCODEC_CHANNELID);
     
     m_flags &= ~CLIENT_MUX_AUDIOFILE;
+}
+
+void ClientNode::StopRecordingMuxedAudioFile(int channelid)
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    m_channelrecord.CloseFile(channelid);
 }
 
 bool ClientNode::StartMTUQuery()
@@ -4058,32 +4079,23 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
     m_mychannel = chan;
 
     AudioCodec codec = chan->GetAudioCodec();
-    /* Sanity check */
-    if(ValidAudioCodec(codec))
-    {
-        //set audio encoder properties for voice stream
-        auto cbenc = std::bind(&ClientNode::EncodedAudioVoiceFrame, this, _1, _2, _3, _4, _5);
-        if(m_voice_thread.StartEncoder(cbenc, codec, true))
-        {
-            if (!m_voice_thread.UpdatePreprocess(m_soundprop.speexdsp)) //set AGC, denoise, etc.
-            {
-                m_listener->OnInternalError(TT_INTERR_AUDIOCONFIG_INIT_FAILED,
-                            GetErrorDescription(TT_INTERR_AUDIOCONFIG_INIT_FAILED));
-            }
-        }
-        else
-        {
-            m_listener->OnInternalError(TT_INTERR_AUDIOCODEC_INIT_FAILED,
-                                        GetErrorDescription(TT_INTERR_AUDIOCODEC_INIT_FAILED));
-        }
-        //start recorder for voice stream
-        OpenAudioCapture(codec);
 
-        // enable audio muxer callback
-        if (m_audiomuxer_stream)
+    /* Sanity check */
+    if (!ValidAudioCodec(codec))
+    {
+        m_listener->OnInternalError(TT_INTERR_AUDIOCODEC_INIT_FAILED,
+                                    GetErrorDescription(TT_INTERR_AUDIOCODEC_INIT_FAILED));
+        return;
+    }
+
+    //set audio encoder properties for voice stream
+    auto cbenc = std::bind(&ClientNode::EncodedAudioVoiceFrame, this, _1, _2, _3, _4, _5);
+    if(m_voice_thread.StartEncoder(cbenc, codec, true))
+    {
+        if (!m_voice_thread.UpdatePreprocess(m_soundprop.speexdsp)) //set AGC, denoise, etc.
         {
-            bool startmux = m_audiomuxer_stream->RegisterMuxCallback(codec, std::bind(&ClientNode::AudioMuxCallback, this, _1));
-            MYTRACE_COND(!startmux, ACE_TEXT("Failed to start audio muxer\n"));
+            m_listener->OnInternalError(TT_INTERR_AUDIOCONFIG_INIT_FAILED,
+                                        GetErrorDescription(TT_INTERR_AUDIOCONFIG_INIT_FAILED));
         }
     }
     else
@@ -4091,6 +4103,19 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
         m_listener->OnInternalError(TT_INTERR_AUDIOCODEC_INIT_FAILED,
                                     GetErrorDescription(TT_INTERR_AUDIOCODEC_INIT_FAILED));
     }
+        
+    // add "self" from muxed recording
+    m_channelrecord.AddUser(LOCAL_USERID, chan->GetChannelID());
+
+    // enable audio muxer callback
+    if (m_audiomuxer_stream)
+    {
+        bool startmux = m_audiomuxer_stream->RegisterMuxCallback(codec, std::bind(&ClientNode::AudioMuxCallback, this, _1));
+        MYTRACE_COND(!startmux, ACE_TEXT("Failed to start audio muxer\n"));
+    }
+
+    //start recorder for voice stream
+    OpenAudioCapture(codec);
 }
 
 void ClientNode::LeftChannel(ClientChannel& chan)
@@ -4134,6 +4159,9 @@ void ClientNode::LeftChannel(ClientChannel& chan)
     if (m_audiomuxer_stream)
         m_audiomuxer_stream->UnregisterMuxCallback();
 
+    // remove "self" from muxed recording
+    m_channelrecord.RemoveUser(LOCAL_USERID);
+
     CloseDesktopSession(true);
 
     //make sure we don't send obsolete packets to channel
@@ -4157,8 +4185,29 @@ void ClientNode::LoggedOut()
     {
         clientuser_t user = GetUser(*ite);
         if (user)
+        {
             user->ResetAllStreams();
+            // remove all users from muxed recording
+            m_channelrecord.RemoveUser(*ite);
+        }
         ite++;
+    }
+
+    // Close all channel recordings
+    if (m_rootchannel)
+    {
+        std::queue<clientchannel_t> channels;
+        channels.push(m_rootchannel);
+
+        while(channels.size())
+        {
+            m_channelrecord.CloseFile(channels.front()->GetChannelID());
+            auto subs = channels.front()->GetSubChannels();
+            for (auto c : subs)
+                channels.push(c);
+
+            channels.pop();
+        }
     }
 
     CloseDesktopSession(true);
@@ -5250,6 +5299,9 @@ void ClientNode::HandleAddUser(const mstrings_t& properties)
 
     chan->AddUser(user->GetUserID(), user);
 
+    // notify audio file muxer that user is in channel
+    m_channelrecord.AddUser(userid, chanid);
+
     //special case for 'local user'
     if(userid == m_myuserid)
     {
@@ -5324,6 +5376,9 @@ void ClientNode::HandleRemoveUser(const mstrings_t& properties)
     TTASSERT(chan.get());
     if(!user || !chan)
         return;
+
+    // notify audio file muxer that user left channel
+    m_channelrecord.RemoveUser(userid);
 
     if(m_mychannel == chan && user->GetUserID() == m_myuserid)
         LeftChannel(*GetMyChannel());

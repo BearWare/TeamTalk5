@@ -138,7 +138,7 @@ public:
     bool SaveFile(int channelid, const teamtalk::AudioCodec& codec,
                   const ACE_TString& filename,
                   teamtalk::AudioFileFormat aff);
-    bool Close(int channelid);
+    bool CloseFile(int channelid);
 
     bool AddUser(int userid, int channelid);
     bool RemoveUser(int userid);

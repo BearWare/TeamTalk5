@@ -676,7 +676,7 @@ bool ChannelAudioMuxer::SaveFile(int channelid, const teamtalk::AudioCodec& code
     return ret;
 }
 
-bool ChannelAudioMuxer::Close(int channelid)
+bool ChannelAudioMuxer::CloseFile(int channelid)
 {
     audiomuxer_t muxer;
     {
@@ -720,8 +720,9 @@ void ChannelAudioMuxer::QueueUserAudio(int userid, const short* rawAudio,
         if (m_userchan.find(userid) != m_userchan.end())
         {
             int chanid = m_userchan[userid];
+            
+            // check for active channel recording
             auto im = m_muxers.find(chanid);
-            assert(im != m_muxers.end());
             if (im != m_muxers.end())
                 chanmuxer = im->second;
         }

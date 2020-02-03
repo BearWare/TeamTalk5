@@ -4150,6 +4150,27 @@ extern "C" {
                                                            IN AudioFileFormat uAFF);
 
     /**
+     * @brief Store audio conversations from a specific channel into a
+     * single file.
+     *
+     * To record audio outside the #TTInstance's current channel use
+     * the TT_DoSubscribe() with the #SUBSCRIBE_INTERCEPT_VOICE on all
+     * the user's in the channel.
+     *
+     * Unlike TT_StartRecordingMuxedAudioFile() this function does not
+     * toggle the flag #CLIENT_MUX_AUDIOFILE.
+     *
+     * Use TT_StartRecordingMuxedAudioFile() to record conversations
+     * from many different channels with the same #AudioCodec
+     * settings.
+     *
+     * @see TT_StopRecordingMuxedAudioFileEx() */
+    TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFileEx(IN TTInstance* lpTTInstance,
+                                                             IN INT32 nChannelID,
+                                                             IN const TTCHAR* szAudioFileName,
+                                                             IN AudioFileFormat uAFF);
+    
+    /**
      * @brief Stop an active muxed audio recording.
      *
      * A muxed audio recording started with
@@ -4165,6 +4186,15 @@ extern "C" {
      * @see TT_StartRecordingMuxedAudioFile() */
     TEAMTALKDLL_API TTBOOL TT_StopRecordingMuxedAudioFile(IN TTInstance* lpTTInstance);
 
+    /**
+     * @brief Stop recording conversations from a channel to a single file.
+     *
+     * Stop a recording initiated by TT_StartRecordingMuxedAudioFileEx().
+     *
+     * @see TT_StopRecordingMuxedAudioFile() */
+    TEAMTALKDLL_API TTBOOL TT_StopRecordingMuxedAudioFileEx(IN TTInstance* lpTTInstance,
+                                                            IN INT32 nChannelID);
+    
     /** 
      * @brief Start transmitting from video capture device.
      *
