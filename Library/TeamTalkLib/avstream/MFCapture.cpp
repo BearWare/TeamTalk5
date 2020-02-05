@@ -48,10 +48,13 @@ vidcap_devices_t MFCapture::GetDevices()
     HRESULT hr;
     CComPtr<IMFAttributes> pAttributes;
     hr = MFCreateAttributes(&pAttributes, 1);
-    assert(SUCCEEDED(hr));
+    if (FAILED(hr))
+        return devs;
+
     hr = pAttributes->SetGUID(MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE,
                               MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_GUID);
-    assert(SUCCEEDED(hr));
+    if (FAILED(hr))
+        return devs;
 
     // Enumerate devices.
     UINT32      cDevices = 0;
@@ -65,15 +68,18 @@ vidcap_devices_t MFCapture::GetDevices()
         // open source to get capture formats
         CComPtr<IMFMediaSource> pSource;
         hr = pDevice->ActivateObject(IID_PPV_ARGS(&pSource));
-        assert(SUCCEEDED(hr));
+        if (FAILED(hr))
+            continue;
 
         CComPtr<IMFAttributes> pReaderAttributes;
         hr = MFCreateAttributes(&pReaderAttributes, 2);
-        assert(SUCCEEDED(hr));
+        if (FAILED(hr))
+            continue;
 
         CComPtr<IMFSourceReader> pReader;
         hr = MFCreateSourceReaderFromMediaSource(pSource, pReaderAttributes, &pReader);
-        assert(SUCCEEDED(hr));
+        if (FAILED(hr))
+            continue;
 
         // Get native media type of device
         CComPtr<IMFMediaType> pInputType;
