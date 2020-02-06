@@ -1422,6 +1422,38 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         } while (receiveSamples > 0);
     }
 
+    public void testUserEventMuxedStream() {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+            UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase rxclient = newClientInstance();
+        TeamTalkBase txclient = newClientInstance();
+
+        TTMessage msg = new TTMessage();
+
+        connect(rxclient);
+        initSound(rxclient);
+        login(rxclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(rxclient);
+        
+        connect(txclient);
+        initSound(txclient);
+        login(txclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(txclient);
+
+        assertTrue("enable aud cb", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, true));
+        assertTrue("gimme voice audioblock", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+        assertTrue("enable tx", txclient.enableVoiceTransmission(true));
+        assertTrue("User state changed to voice", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertTrue("User is talking", (msg.user.uUserState & UserState.USERSTATE_VOICE) == UserState.USERSTATE_VOICE);
+        assertTrue("gimme voice audioblock again", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+        assertTrue("disable tx", txclient.enableVoiceTransmission(false));
+        assertTrue("User state changed to no voice", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertTrue("User stopped talking", (msg.user.uUserState & UserState.USERSTATE_VOICE) == UserState.USERSTATE_NONE);
+    }
+
     public void testOpusFrameSizeMSec() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
