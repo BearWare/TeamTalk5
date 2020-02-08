@@ -305,11 +305,10 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
 
-    REQUIRE(InitSound(rxclient));
+    REQUIRE(InitSound(rxclient, DEFAULT, SOUNDDEVICEID_IGNORE, SOUNDDEVICEID_DEFAULT));
     REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
-
 
     TTMessage msg;
 
