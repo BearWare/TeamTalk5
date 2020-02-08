@@ -1026,6 +1026,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
 
         Vector<TeamTalkBase> clients = new Vector<>();
+        int[] txintervalsMSec = {40, 100, 250, 500};
         for (int i=0;i<4;++i) {
 
             TeamTalkBase ttclient1 = newClientInstance(), ttclient2 = newClientInstance();
@@ -1033,7 +1034,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             clients.add(ttclient2);
             assertTrue("tone1", ttclient1.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 400));
             assertTrue("tone2", ttclient2.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 800));
-            
+
             connect(ttclient1);
             connect(ttclient2);
             initSound(ttclient1);
@@ -1044,7 +1045,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             login(ttclient1, NICKNAME + "#" + ttclient1.getMyUserID(), USERNAME, PASSWORD);
             login(ttclient2, NICKNAME + "#" + ttclient2.getMyUserID(), USERNAME, PASSWORD);
 
-            Channel chan = buildDefaultChannel(ttclient1, "Opus" + ttclient1.getMyUserID());
+            Channel chan = buildDefaultChannel(ttclient1, "Opus" + ttclient1.getMyUserID(), Codec.OPUS_CODEC);
+            chan.audiocodec.opus.nTxIntervalMSec = txintervalsMSec[i];
             assertTrue("join1", waitCmdSuccess(ttclient1, ttclient1.doJoinChannel(chan), DEF_WAIT));
 
             assertTrue("join2", waitCmdSuccess(ttclient2, ttclient2.doJoinChannelByID(ttclient1.getMyChannelID(), ""), DEF_WAIT));
@@ -1059,12 +1061,23 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             assertTrue("Intercept", waitCmdSuccess(ttadmin, ttadmin.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_INTERCEPT_VOICE), DEF_WAIT));
         }
 
+        Vector<String> filenames = new Vector<>();
+        Vector<Integer> cbintervalMSec = new Vector<>();
         for (int i=0;i<clients.size();i+=2) {
             Channel chan = new Channel();
             TeamTalkBase ttclient = clients.elementAt(i);
             assertTrue("get channel", ttclient.getChannel(ttclient.getMyChannelID(), chan));
-            assertTrue("Record mux", ttadmin.startRecordingMuxedAudioFile(ttclient.getMyChannelID(), "MuxedRecording-" + chan.szName + ".wav", AudioFileFormat.AFF_WAVE_FORMAT));
+            String filename = "MuxedRecording-" + chan.szName + ".wav";
+            filenames.add(filename);
+            cbintervalMSec.add(chan.audiocodec.opus.nTxIntervalMSec);
+            assertTrue("Record mux", ttadmin.startRecordingMuxedAudioFile(ttclient.getMyChannelID(), filename, AudioFileFormat.AFF_WAVE_FORMAT));
         }
+
+        String rootfilename = "MuxedRecording-Root-Channel.wav";
+        filenames.add(rootfilename);
+        assertTrue("Record mux", ttadmin.startRecordingMuxedAudioFile(ttadmin.getRootChannelID(), rootfilename, AudioFileFormat.AFF_WAVE_FORMAT));
+
+        long starttime = System.currentTimeMillis();
 
         waitForEvent(ttadmin, ClientEvent.CLIENTEVENT_NONE, 1000);
 
@@ -1081,7 +1094,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
 
         waitForEvent(ttadmin, ClientEvent.CLIENTEVENT_NONE, 1000);
-        
+
         for (int i=1;i<clients.size();i+=2) {
             TeamTalkBase ttclient = clients.elementAt(i);
             assertTrue("enable tone", ttclient.enableVoiceTransmission(true));
@@ -1089,10 +1102,28 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         waitForEvent(ttadmin, ClientEvent.CLIENTEVENT_NONE, 3000);
 
+        long duration = System.currentTimeMillis() - starttime;
         for (int i=0;i<clients.size();i+=2) {
             Channel chan = new Channel();
             TeamTalkBase ttclient = clients.elementAt(i);
             assertTrue("Stop Record mux", ttadmin.stopRecordingMuxedAudioFile(ttclient.getMyChannelID()));
+        }
+
+        assertTrue("Stop Record root mux", ttadmin.stopRecordingMuxedAudioFile(ttadmin.getRootChannelID()));
+
+        int i=0;
+        for (String filename : filenames) {
+            MediaFileInfo mfi = new MediaFileInfo();
+            assertTrue("Open media file " + filename, ttadmin.getMediaFileInfo(filename, mfi));
+            // callbacks from sound input device may not have
+            // completed when file was closed, so put in a
+            // tolerance. This is not a very precise way of testing
+            // the duration of the files, but at least they should be
+            // somewhere near the duration of the recording.
+            int tolerance = cbintervalMSec.elementAt(i) * 2;
+            assertTrue(String.format("Media file %s duration is %d, must be >= %d, tolerance %d",
+                                     filename, mfi.uDurationMSec, duration, tolerance),
+                       mfi.uDurationMSec + tolerance >= duration);
         }
     }
 
@@ -1514,7 +1545,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         initSound(rxclient);
         login(rxclient, NICKNAME, USERNAME, PASSWORD);
         joinRoot(rxclient);
-        
+
         connect(txclient);
         initSound(txclient);
         login(txclient, NICKNAME, USERNAME, PASSWORD);
