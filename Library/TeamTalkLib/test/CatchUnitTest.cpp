@@ -175,8 +175,8 @@ TEST_CASE( "Last voice packet" )
 
     auto voicestop = [&](TTMessage msg)
     {
-        if (msg.nSource == TT_GetMyUserID(txclient) &&
-            msg.nClientEvent == CLIENTEVENT_USER_STATECHANGE &&
+        if (msg.nClientEvent == CLIENTEVENT_USER_STATECHANGE &&
+            msg.user.nUserID == TT_GetMyUserID(txclient) &&
             (msg.user.uUserState & USERSTATE_VOICE) == 0)
         {
             return true;
@@ -185,7 +185,7 @@ TEST_CASE( "Last voice packet" )
         return false;
     };
 
-    WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop);
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
     //WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, audiocodec.opus.nTxIntervalMSec * 2);
 
     TTCHAR curdir[1024] = {};
@@ -286,6 +286,62 @@ TEST_CASE( "MuxedAudioBlock" )
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
     TTMessage msg;
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, &msg));
+
+    for(auto c : clients)
+        REQUIRE(TT_CloseTeamTalk(c));
+}
+
+TEST_CASE( "MuxedAudioBlockUserEvent" )
+{
+    std::vector<TTInstance*> clients;
+    auto txclient = TT_InitTeamTalkPoll();
+    auto rxclient = TT_InitTeamTalkPoll();
+    clients.push_back(txclient);
+    clients.push_back(rxclient);
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(txclient));
+
+    REQUIRE(InitSound(rxclient, DEFAULT, SOUNDDEVICEID_IGNORE, SOUNDDEVICEID_DEFAULT));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    TTMessage msg;
+
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, &msg));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+    auto voicestart = [&](TTMessage msg)
+    {
+        if (msg.nClientEvent == CLIENTEVENT_USER_STATECHANGE &&
+            msg.user.nUserID == TT_GetMyUserID(txclient) &&
+            (msg.user.uUserState & USERSTATE_VOICE) == USERSTATE_VOICE)
+        {
+            return true;
+        }
+        
+        return false;
+    };
+    auto voicestop = [&](TTMessage msg)
+    {
+        if (msg.nClientEvent == CLIENTEVENT_USER_STATECHANGE &&
+            msg.user.nUserID == TT_GetMyUserID(txclient) &&
+            (msg.user.uUserState & USERSTATE_VOICE) == USERSTATE_NONE)
+        {
+            return true;
+        }
+        
+        return false;
+    };
+
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestart));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, &msg));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, false));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, &msg));
 
     for(auto c : clients)

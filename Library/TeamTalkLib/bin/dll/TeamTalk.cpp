@@ -36,7 +36,7 @@ HINSTANCE hInstance = NULL;
 #endif
 
 #if defined(ENABLE_MINIDUMP)
-#include "mdump.h"
+#include <win32/mdump.h>
 #endif
 
 

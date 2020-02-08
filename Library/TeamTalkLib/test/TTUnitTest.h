@@ -30,6 +30,9 @@
 
 #define DEFWAIT 5000
 
+#define SOUNDDEVICEID_DEFAULT -1
+#define SOUNDDEVICEID_IGNORE  -2
+
 enum SoundMode
 {
     DEFAULT,
@@ -37,7 +40,7 @@ enum SoundMode
     SHARED_INPUT
 };
 
-bool InitSound(TTInstance* ttClient, SoundMode mode = DEFAULT, INT32 indev = -1, INT32 outdev = -1);
+bool InitSound(TTInstance* ttClient, SoundMode mode = DEFAULT, INT32 indev = SOUNDDEVICEID_DEFAULT, INT32 outdev = SOUNDDEVICEID_DEFAULT);
 bool Connect(TTInstance* ttClient, const TTCHAR hostname[TT_STRLEN], INT32 tcpport, INT32 udpport);
 bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR username[TT_STRLEN], const TTCHAR passwd[TT_STRLEN]);
 bool JoinRoot(TTInstance* ttClient);

@@ -27,33 +27,43 @@
 
 #include <myace/MyACE.h>
 
-bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev/* = -1*/, INT32 outdev/* = -1*/)
+bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, INT32 outdev)
 {
     int selindev = indev, seloutdev = outdev;
-    if (indev == -1 || outdev == -1)
+    if (indev == SOUNDDEVICEID_DEFAULT || outdev == SOUNDDEVICEID_DEFAULT)
     {
         if (!TT_GetDefaultSoundDevices(&indev, &outdev))
             return false;
     }
 
-    if (selindev == -1)
+    if (selindev == SOUNDDEVICEID_DEFAULT)
         selindev = indev;
-    if (seloutdev == -1)
+    if (seloutdev == SOUNDDEVICEID_DEFAULT)
         seloutdev = outdev;
 
     switch (mode)
     {
     case DUPLEX :
+        if (selindev == SOUNDDEVICEID_IGNORE || seloutdev == SOUNDDEVICEID_IGNORE)
+            return false;
+
         return TT_InitSoundDuplexDevices(ttClient, selindev, seloutdev);
     case SHARED_INPUT :
+        if (selindev == SOUNDDEVICEID_IGNORE)
+            return false;
+
         selindev |= TT_SOUNDDEVICE_SHARED_FLAG;
         break;
     case DEFAULT :
         break;
     }
 
-    TTBOOL success = TT_InitSoundInputDevice(ttClient, selindev);
-    success &= TT_InitSoundOutputDevice(ttClient, seloutdev);
+    TTBOOL success = true;
+    if (selindev != SOUNDDEVICEID_IGNORE)
+        success &= TT_InitSoundInputDevice(ttClient, selindev);
+    if (seloutdev != SOUNDDEVICEID_IGNORE)
+        success &= TT_InitSoundOutputDevice(ttClient, seloutdev);
+
     return success;
 }
 

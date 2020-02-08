@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -125,11 +125,12 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
         IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_INTERNAL_ERROR,
                                          0, __CLIENTERRORMSG);
         msg->clienterrmsg->nErrorNo = INTERR_TTMESSAGE_QUEUE_OVERFLOW;
-       
+
         ACE_OS::strsncpy(msg->clienterrmsg->szErrorMsg,
                          ACE_TEXT("The internal message queue has overflowed"),
                          TT_STRLEN);
-        m_event_queue.enqueue(mb, &tv);
+        ret = m_event_queue.enqueue(mb, &tv);
+        assert(ret >= 0);
     }
 
 #if defined(WIN32)
@@ -435,7 +436,7 @@ void TTMsgQueue::OnUserStateChange(const teamtalk::ClientUser& user)
 {
     ACE_Message_Block* mb;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_STATECHANGE,
-                                     0, __USER);    
+                                     0, __USER);
     Convert(user, *msg->user);
     EnqueueMsg(mb);
 }
@@ -531,7 +532,7 @@ void TTMsgQueue::OnUserAudioBlock(int userid, teamtalk::StreamType stream_type)
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_AUDIOBLOCK,
                                      userid, __STREAMTYPE);
     *msg->streamtype = (StreamType)stream_type;
-    assert((StreamType)stream_type == STREAMTYPE_VOICE || 
+    assert((StreamType)stream_type == STREAMTYPE_VOICE ||
            (StreamType)stream_type == STREAMTYPE_MEDIAFILE_AUDIO);
     EnqueueMsg(mb);
 }
@@ -546,8 +547,8 @@ void TTMsgQueue::OnMTUQueryComplete(int payload_size)
 }
 
 //VoiceLogListener
-void TTMsgQueue::OnMediaFileStatus(int userid, 
-                                   teamtalk::MediaFileStatus status, 
+void TTMsgQueue::OnMediaFileStatus(int userid,
+                                   teamtalk::MediaFileStatus status,
                                    const teamtalk::VoiceLogFile& vlog)
 {
     ACE_Message_Block* mb;
