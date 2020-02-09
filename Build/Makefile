@@ -61,7 +61,7 @@ centos7:
 	make CMAKE_EXTRA="-DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DSTATICCPP=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_CORE=ON" BUILDDIR=build-$@ buildlib
 
 rasp:
-	make JOBS=2 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf BUILDDIR=build-$@ generic
+	make JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf BUILDDIR=build-$@ generic
 
 mac:
 	make BUILDDIR=build-$@ generic
