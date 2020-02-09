@@ -351,7 +351,7 @@ extern "C" {
  * instance. As a workaround for this issue a shared recording device
  * has been introduced. Internally TeamTalk initializes
  * #TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT which then resample and
- * distribution the audio data to multiple TeamTalk instances.
+ * distribute the audio data to multiple TeamTalk instances.
  *
  * The shared audio device on Android will show up as
  * (TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | TT_SOUNDDEVICE_SHARED_FLAG),
@@ -4108,16 +4108,17 @@ extern "C" {
     TEAMTALKDLL_API INT32 TT_GetVoiceActivationStopDelay(IN TTInstance* lpTTInstance);
 
     /**
-     * @brief Store audio conversations to a single file.
+     * @brief Store all audio conversations with specific #AudioCodec
+     * settings to a single file.
      *
-     * Unlike TT_SetUserMediaStorageDir(), which stores users' audio
-     * streams in separate files, TT_StartRecordingMuxedAudioFile()
-     * muxes the audio streams into a single file.
+     * To record conversations from a specific channel to a single
+     * file call TT_StartRecordingMuxedAudioFileEx().
      *
-     * The audio streams, which should be muxed together, are
-     * required to use the same audio codec. In most cases this is
-     * the audio codec of the channel where the user is currently
-     * participating (i.e. @c audiocodec member of #Channel).
+     * TT_StartRecordingMuxedAudioFile() can be used to record
+     * conversations "across" channels given that the channels use the
+     * same #AudioCodec properties (i.e. @c audiocodec member of
+     * #Channel). To receive audio outside the TeamTalk instance's
+     * channel use TT_DoSubscribe() and #SUBSCRIBE_INTERCEPT_VOICE.
      *
      * If the user changes to a channel which uses a different audio
      * codec then the recording will continue but simply be silent
@@ -4131,6 +4132,12 @@ extern "C" {
      * that only one muxed audio recording can be active at the same
      * time.
      *
+     * Only #STREAMTYPE_VOICE is stored into the audio file, not
+     * #STREAMTYPE_MEDIAFILE_AUDIO.
+     *
+     * Use TT_SetUserMediaStorageDir() to store users' audio streams
+     * in separate files.
+     *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @param lpAudioCodec The audio codec which should be used as
@@ -4143,6 +4150,7 @@ extern "C" {
      * file. The muxer will convert to this format.
      *
      * @see TT_SetUserMediaStorageDir()
+     * @see TT_StartRecordingMuxedAudioFileEx()
      * @see TT_StopRecordingMuxedAudioFile() */
     TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,
                                                            IN const AudioCodec* lpAudioCodec,
@@ -4163,6 +4171,9 @@ extern "C" {
      * Use TT_StartRecordingMuxedAudioFile() to record conversations
      * from many different channels with the same #AudioCodec
      * settings.
+     *
+     * Only #STREAMTYPE_VOICE is stored into the audio file, not
+     * #STREAMTYPE_MEDIAFILE_AUDIO.
      *
      * @see TT_StopRecordingMuxedAudioFileEx() */
     TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFileEx(IN TTInstance* lpTTInstance,

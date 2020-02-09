@@ -4,9 +4,18 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
- * @ref v54brelease
- * - @ref v54bfeatures
- * - @ref v54bapi
+ * @ref v55arelease
+ * - @ref v55afeatures
+ *   - @ref v55asharedaudio
+ *   - @ref v55aplayback
+ *   - @ref v55astream
+ *   - @ref v55atxinterval
+ *   - @ref v55aopus
+ *   - @ref v55amux
+ *   - @ref v55aaudioinput
+ *   - @ref v55akeepalive
+ *   - @ref v55arecord
+ * - @ref v55aapi
  *
  * @ref v54arelease
  * - @ref v54afeatures
@@ -181,9 +190,11 @@
  *
  * <hr>
  *
- * @section v54brelease TeamTalk 5 SDK v. 5.4b release
+ * @section v55arelease TeamTalk 5 SDK v. 5.5a release
  *
- * @subsection v54bfeatures New features in v5.4b
+ * @subsection v55afeatures New features in v5.5a
+ *
+ * @subsubsection v55asharedaudio Shared audio input device
  *
  * Android platform now supports multiple active recorders,
  * i.e. multiple clients on same audio device.  To use this feature
@@ -206,11 +217,145 @@
  * settings. Preferably @c nDefaultSampleRate and @c
  * nMaxInputChannelsdefault of the chosen #SoundDevice.
  *
- * @subsection v54bapi API changes in v5.4b
- * 
- * #TT_SOUNDDEVICE_SHARED_FLAG
+ * @subsubsection v55aplayback Playback media file
  *
- * #TT_SOUNDDEVICE_ID_MASK
+ * Media files can now be played using the TeamTalk instance
+ * configured sound output device. Call TT_InitLocalPlayback() to
+ * playback a media file.
+ *
+ * Prior to playback it's possible to set specify an offset using
+ * #MediaFilePlayback and setup an #AudioPreprocessor.
+ *
+ * While the media file is playing it's possible to use
+ * TT_UpdateLocalPlayback() to change the media stream's
+ * properties. The progress of the media file playback can be monitor
+ * through #CLIENTEVENT_LOCAL_MEDIAFILE.
+ *
+ * Stop local media file playback using TT_StopLocalPlayback().
+ *
+ * @subsubsection v55astream Control media file playback when
+ * streaming to channel
+ *
+ * When streaming media files to a channel it's now possible to
+ * specify an #AudioPreprocessor to change the audio stream of the
+ * media file.
+ *
+ * A new audio #TTAudioPreprocessor is introduced with can mute
+ * left/right audio channel and change gain level.
+ *
+ * It's also possible to change the offset and pause the media file
+ * using TT_UpdateStreamingMediaFileToChannel() and
+ * #MediaFilePlayback.
+ *
+ * To use these new features use
+ * TT_StartStreamingMediaFileToChannelEx() instead of
+ * TT_StartStreamingMediaFileToChannel().
+ *
+ * @subsubsection v55atxinterval nTxIntervalMSec increased to 500 msec
+ *
+ * Previously the maximum transmit interval was limited to 100
+ * msec. With #OpusCodec's introduction of 120 msec frame sizes the
+ * transmit interval has been increased to 500 msec.
+ *
+ * @subsubsection v55aopus OPUS codec frame size selection
+ *
+ * OPUS v1.3 introduced additional frame sizes, i.e. 80, 100 and 120
+ * msec. These frame sizes can now be set using the @c nFrameSizeMSec
+ * property of #OpusCodec.
+ *
+ * @subsubsection v55amux Access muxed audio stream
+ *
+ * Previously TT_EnableAudioBlockEvent() could only be used to access
+ * audio from a single user. Using #TT_MUXED_USERID now makes it
+ * possible to access the audio stream where all users' audio streams
+ * have been mixed together. Basically the same as recording all
+ * conversations to a single file using
+ * TT_StartRecordingMuxedAudioFile().
+ *
+ * @subsubsection v55aaudioinput Inject audio into channel (replace voice input)
+ *
+ * The #STREAMTYPE_VOICE could previously only come from the
+ * configured #SoundDevice passed to TT_InitSoundInputDevice(). Now
+ * it's possible to replace the, typically microphone, audio input
+ * with a custom audio stream by passing raw audio in #AudioBlock to
+ * TT_InsertAudioBlock().
+ *
+ * The audio input must be passed continuesly to TT_InsertAudioBlock()
+ * to keep the input going. Use event #CLIENTEVENT_AUDIOINPUT to
+ * monitor progress. The #AudioInputProgress struct hold information
+ * about the queue sizes/progress.
+ *
+ * @subsubsection v55akeepalive Configure TCP and UDP keep alive properties
+ *
+ * How often "keep alive" information should be sent depend on the
+ * type of network where the TeamTalk client is deployed. Previously
+ * the TCP and UDP keep alive settings have been controlled entirely
+ * by the TeamTalk client instance.
+ *
+ * Now it's possible to configure the keep alive properties using
+ * #ClientKeepAlive-struct and functions TT_SetClientKeepAlive() and
+ * TT_GetClientKeepAlive().
+ *
+ * @subsubsection v55arecord Record audio from multiple channels
+ * 
+ * Previously it was only possible to have one active audio recording using
+ * TT_StartRecordingMuxedAudioFile().
+ *
+ * Now it's possible to record multiple channels at the same time
+ * using TT_StartRecordingMuxedAudioFileEx(). Note that in order to
+ * get audio from channels where the TeamTalk instance is currently
+ * not participating requires the use of TT_DoSubscribe() and
+ * #SUBSCRIBE_INTERCEPT_VOICE.
+ *
+ * @subsection v55aapi API changes in v5.5a
+ * 
+ * - New macro #TT_SOUNDDEVICE_SHARED_FLAG for shared sound input device.
+ *   - See @ref v55asharedaudio.
+ * - New macro #TT_MUXED_USERID for TT_EnableAudioBlockEvent().
+ *   - See @ref v55amux.
+ * - New macro #TT_LOCAL_USERID for TT_EnableAudioBlockEvent()
+ *   - See @ref v55amux.
+ * - New functions TT_SetClientKeepAlive() and TT_GetClientKeepAlive() for keep alive properties.
+ *   - See @ref v55akeepalive.
+ * - New property @c nFrameSizeMSec for #OpusCodec.
+ *   - See @ref v55aopus.
+ * - New macro #OPUS_MIN_FRAMESIZE for minimum OPUS frame size.
+ *   - See @ref v55aopus and @ref v55atxinterval.
+ * - New macro #OPUS_MAX_FRAMESIZE for maximum OPUS frame size (OPUS before v1.3)
+ *   - See @ref v55aopus and @ref v55atxinterval.
+ * - New macro #OPUS_REALMAX_FRAMESIZE for maximum OPUS frame size in OPUS v1.3 and onwards.
+ *   - See @ref v55aopus and @ref v55atxinterval.
+ * - New functions TT_InitLocalPlayback(), TT_UpdateLocalPlayback()
+ *   and TT_StopLocalPlayback() for local media playback.
+ *   - See @ref v55aplayback.
+ * - New enumeration values #MFS_PAUSED #MFS_PLAYING for #MediaFileStatus used by
+ *   #CLIENTEVENT_LOCAL_MEDIAFILE and #CLIENTEVENT_STREAM_MEDIAFILE.
+ *   - See @ref v55aplayback and @ref v55astream.
+ * - New enumeration value #CLIENTEVENT_LOCAL_MEDIAFILE for monitoring progress of local media playback. 
+ *   - See @ref v55aplayback.
+ * - New enumeration #AudioPreprocessorType for audio preprocessor selection. 
+ *   - See @ref v55aplayback and @ref v55astream.
+ * - New #AudioPreprocessor struct for configured audio preprocessor. 
+ *   - See @ref v55aplayback and @ref v55astream.
+ * - New #TTAudioPreprocessor struct for TT_InitLocalPlayback() or TT_StartStreamingMediaFileToChannelEx().
+ *   - See @ref v55aplayback and @ref v55astream.
+ * - New function TT_StartStreamingMediaFileToChannelEx() for streaming media file.
+ *   - See @ref v55astream.
+ * - New function TT_UpdateStreamingMediaFileToChannel() for updating an active media file.
+ *   - See @ref v55astream.
+ * - New #MediaFilePlayback struct for media file streaming or playback.
+ *   - See @ref v55aplayback and @ref v55astream.
+ * - New #AudioInputProgress struct for monitoring progress when injecting audio. 
+ *   - See @ref v55aaudioinput.
+ * - New enumeration value #CLIENTEVENT_AUDIOINPUT for monitoring progress when injecting audio.
+ *   - See @ref v55aaudioinput.
+ * - New function TT_InsertAudioBlock() for injecting audio which replaces microphone input.
+ *   - See @ref v55aaudioinput.
+ * - New function TT_StartRecordingMuxedAudioFileEx() for recording audio from channel.
+ *   - See @ref v55arecord.
+ * - New function TT_StopRecordingMuxedAudioFileEx() for stopping recording audio from channel.
+ *   - See @ref v55arecord.
+ * - New function TT_DBG_WriteAudioFileTone() for generating audio media file.
  *
  * <hr>
  *
