@@ -461,8 +461,15 @@ bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
     
     if(enc_frame.enc_frames.size()) //packet available
     {
+        // first do bounds check
+        std::vector<int> frmsizes = ConvertFrameSizes(enc_frame.enc_frame_sizes);
+        int totalsize = SumFrameSizes(frmsizes);
+        assert(totalsize == enc_frame.enc_frames.size());
+        if (totalsize > enc_frame.enc_frames.size())
+            return false;
+
         m_decoder.DecodeMultiple(&enc_frame.enc_frames[0], 
-                                 ConvertFrameSizes(enc_frame.enc_frame_sizes),
+                                 frmsizes,
                                  output_buffer);
         return true;
     }
@@ -514,7 +521,7 @@ void OpusPlayer::Reset()
 }
 
 bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
-                              short* output_buffer, int n_samples)
+                             short* output_buffer, int n_samples)
 {
     MYTRACE_COND(enc_frame.stream_id != m_stream_id,
                  ACE_TEXT("New stream id %d\n"), enc_frame.stream_id);
@@ -526,12 +533,22 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
     int samples = GetAudioCodecCbSamples(m_codec);
     int channels = GetAudioCodecChannels(m_codec);
     int ret;
-    
+
     assert(samples == n_samples);
     
     if (enc_frame.enc_frames.size()) //packet available
     {
-        assert(GetAudioCodecFramesPerPacket(m_codec) == enc_frame.enc_frame_sizes.size());
+        int fpp = GetAudioCodecFramesPerPacket(m_codec);
+        assert(fpp == enc_frame.enc_frame_sizes.size());
+        if (fpp != enc_frame.enc_frame_sizes.size())
+            return false;
+
+        // first do bounds check
+        int frmsizes = SumFrameSizes(enc_frame.enc_frame_sizes);
+        assert(frmsizes == enc_frame.enc_frames.size());
+        if (frmsizes > enc_frame.enc_frames.size())
+            return false;
+
         int encoffset = 0, decoffset = 0;
         for (size_t i=0;i<enc_frame.enc_frame_sizes.size();i++)
         {
