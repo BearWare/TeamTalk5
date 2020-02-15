@@ -380,6 +380,10 @@ namespace teamtalk {
         PACKET_KIND_DESKTOPINPUT_CRYPT              = 20,
         PACKET_KIND_DESKTOPINPUT_ACK                = 21,
         PACKET_KIND_DESKTOPINPUT_ACK_CRYPT          = 22,
+
+        /* When adding new packet types, then remember to 
+         * update PacketQueue::RemoveChannelPackets() 
+         * for none channel specific packet kinds */
     };
 
     //byte indexes for all packet types

@@ -50,31 +50,24 @@ void PacketQueue::Reset()
     }
 }
 
-void PacketQueue::RemovePackets(PacketKind kind)
+void PacketQueue::RemoveChannelPackets()
 {
     std::queue<FieldPacket*> packets;
     packet_ptr_t p;
     while((p = GetNextPacket()))
     {
-        if(p->GetKind() != kind)
+        switch (p->GetKind())
+        {
+        case PACKET_KIND_HELLO :
+        case PACKET_KIND_KEEPALIVE :
             packets.push(p.release());
+            break;
+        default :
+            MYTRACE(ACE_TEXT("Packet of kind %d was removed from transmit queue\n"), p->GetKind());
+            break;
+        }
     }
-    while(packets.size())
-    {
-        QueuePacket(packets.front());
-        packets.pop();
-    }
-}
 
-void PacketQueue::RemoveChannelPackets(uint16_t chanid)
-{
-    std::queue<FieldPacket*> packets;
-    packet_ptr_t p;
-    while((p = GetNextPacket()))
-    {
-        if(p->GetChannel() != chanid)
-            packets.push(p.release());
-    }
     while(packets.size())
     {
         QueuePacket(packets.front());

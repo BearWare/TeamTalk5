@@ -58,8 +58,8 @@ namespace teamtalk {
     public:
         PacketQueue();
         void Reset();
-        void RemovePackets(PacketKind kind);
-        void RemoveChannelPackets(uint16_t chanid);
+        // remove packets that are not finalized, i.e. packets are destined for a channel but not finalized
+        void RemoveChannelPackets();
         int QueuePacket(FieldPacket* packet);
         packet_ptr_t GetNextPacket();
         int PacketCount();

@@ -4165,7 +4165,7 @@ void ClientNode::LeftChannel(ClientChannel& chan)
     CloseDesktopSession(true);
 
     //make sure we don't send obsolete packets to channel
-    m_tx_queue.RemoveChannelPackets((uint16_t)chan.GetChannelID());
+    m_tx_queue.RemoveChannelPackets();
 }
 
 void ClientNode::LoggedOut()
