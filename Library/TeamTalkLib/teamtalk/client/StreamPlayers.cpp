@@ -456,11 +456,12 @@ void SpeexPlayer::Reset()
 bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
                               short* output_buffer, int n_samples)
 {
-    if (enc_frame.stream_id != m_stream_id)
-        m_decoder.Reset();
-    
     if(enc_frame.enc_frames.size()) //packet available
     {
+        // reset decoder before starting new stream
+        if (enc_frame.stream_id != m_stream_id)
+            m_decoder.Reset();
+
         // first do bounds check
         std::vector<int> frmsizes = ConvertFrameSizes(enc_frame.enc_frame_sizes);
         int totalsize = SumFrameSizes(frmsizes);
@@ -523,11 +524,8 @@ void OpusPlayer::Reset()
 bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
                              short* output_buffer, int n_samples)
 {
-    MYTRACE_COND(enc_frame.stream_id != m_stream_id,
+    MYTRACE_COND(enc_frame.stream_id && enc_frame.stream_id != m_stream_id,
                  ACE_TEXT("New stream id %d\n"), enc_frame.stream_id);
-    
-    if (enc_frame.stream_id != m_stream_id)
-        m_decoder.Reset();
     
     int framesize = GetAudioCodecFrameSize(m_codec);
     int samples = GetAudioCodecCbSamples(m_codec);
@@ -538,6 +536,10 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
     
     if (enc_frame.enc_frames.size()) //packet available
     {
+        // reset decoder before starting new stream
+        if (enc_frame.stream_id != m_stream_id)
+            m_decoder.Reset();
+
         int fpp = GetAudioCodecFramesPerPacket(m_codec);
         assert(fpp == enc_frame.enc_frame_sizes.size());
         if (fpp != enc_frame.enc_frame_sizes.size())
