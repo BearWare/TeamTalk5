@@ -3943,7 +3943,8 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_AutoPositionUsers(IN TTInstance* lpTTInstance);
 
     /**
-     * @brief Enable/disable access to user's raw audio.
+     * @brief Enable/disable access to raw audio from individual
+     * users, local microphone input or muxed stream of all users.
      *
      * With audio block event enabled all audio which has been played
      * will be accessible by calling TT_AcquireUserAudioBlock(). Every
@@ -3952,8 +3953,11 @@ extern "C" {
      * 
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @param nUserID The user ID to monitor for audio callback. Pass #TT_LOCAL_USERID
-     * to monitor local recorded audio prior to encoding/processing.
+     * @param nUserID The user ID to monitor for audio callback. Pass
+     * special user ID #TT_LOCAL_USERID to monitor local recorded
+     * audio prior to encoding/processing. Pass special user ID
+     * #TT_MUXED_USERID to get a single audio stream of all audio that
+     * is being played from users.
      * @param nStreamType Either #STREAMTYPE_VOICE or 
      * #STREAMTYPE_MEDIAFILE_AUDIO.
      * @param bEnable Whether to enable the #CLIENTEVENT_USER_AUDIOBLOCK event.
@@ -3985,16 +3989,17 @@ extern "C" {
      * been filled then monitor #CLIENTEVENT_AUDIOINPUT to see when
      * more data can be queued.
      *
+     * To end raw audio input set parameter @c lpAudioBlock to NULL
+     * and then TT_EnableVoiceTransmission() or
+     * TT_StartStreamingMediaFileToChannel() will be available again.
+     *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     * @param lpAudioBlock The audio to submit as audio input.
      * The member @c nStreamID of #AudioBlock is used to identify the
      * audio input session which is currently in progress and is
      * posted as the @c nSource of #CLIENTEVENT_AUDIOINPUT.
-     *
-     * The member @c uSampleIndex of #AudioBlock is ignored.
-     *
-     * To end raw audio input set @c lpAudioBlock to NULL and then
-     * TT_EnableVoiceTransmission() or
-     * TT_StartStreamingMediaFileToChannel() will be available again.
-     */
+     * The member @c uSampleIndex of #AudioBlock is ignored. */
     TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
                                                IN const AudioBlock* lpAudioBlock);
     
@@ -6441,12 +6446,15 @@ extern "C" {
                                                            IN StreamTypes uStreamType,
                                                            IN INT32 nMSec);
 
-    /** @brief Extract the raw audio from a user who has been talking.
+    /**
+     * @brief Extract the raw audio associated with the event
+     * #CLIENTEVENT_USER_AUDIOBLOCK.
      *
-     * To enable access to user's raw audio first call
+     * To enable access to raw audio first call
      * TT_EnableAudioBlockEvent(). Whenever new audio becomes
-     * available the event #CLIENTEVENT_USER_AUDIOBLOCK is generated and 
-     * TT_AcquireUserAudioBlock() can be called to extract the audio.
+     * available the event #CLIENTEVENT_USER_AUDIOBLOCK is generated
+     * and TT_AcquireUserAudioBlock() can be called to extract the
+     * audio.
      *
      * The #AudioBlock contains shared memory with the local client
      * instance therefore always remember to call
@@ -6457,6 +6465,7 @@ extern "C" {
      * @param nStreamType The stream type to extract, either ::STREAMTYPE_VOICE
      * ::STREAMTYPE_MEDIAFILE_AUDIO.
      * @param nUserID The ID of the user to retrieve the #AudioBlock from.
+     * Basically #TTMessage's @c nSource from #CLIENTEVENT_USER_AUDIOBLOCK.
      * @see TT_ReleaseUserAudioBlock()
      * @see TT_EnableAudioBlockEvent()
      * @see CLIENTEVENT_USER_AUDIOBLOCK */
