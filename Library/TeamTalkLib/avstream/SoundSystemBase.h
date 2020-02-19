@@ -182,7 +182,7 @@ namespace soundsystem {
     {
         std::vector<int> m_keysamplerates;
         
-        uint32_t MakeKey(const INPUTSTREAMER& streamer)
+        uint32_t MakeKey(const InputStreamer& streamer)
         {
             assert(m_keysamplerates.size());
             assert(streamer.channels <= 2);
