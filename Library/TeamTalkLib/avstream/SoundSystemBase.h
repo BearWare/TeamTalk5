@@ -532,23 +532,97 @@ namespace soundsystem {
             memset(buffer, 0, PCM16_BYTES(streamer.framesize, streamer.channels));
 
             std::lock_guard<std::recursive_mutex> g(m_mutex);
-            
+
             for (auto i : m_outputs)
             {
                 if (SameStreamProperties(*i.second, *m_orgstream))
                 {
-                    i.first->StreamPlayerCb(streamer, &m_tmpbuffer[0], samples);
+                    assert(i.second->framesize == samples);
+                    i.first->StreamPlayerCb(*i.second, &m_tmpbuffer[0], samples);
                     SoftVolume(m_sndsys, *i.second, &m_tmpbuffer[0], samples);
-                    for (size_t i=0;i<m_tmpbuffer.size();++i)
+                }
+                else
+                {
+                    auto streamer_resam = i.second;
+                    auto msgq = m_resambuffers[i.first];
+                    int reqbytes = PCM16_BYTES(streamer.framesize, streamer.channels);
+
+                    // fill up buffer with enough bytes to do a callback
+                    while (msgq->message_length() < reqbytes)
                     {
-                        int val = m_tmpbuffer[i] + buffer[i];
-                        if (val > 32767)
-                            buffer[i] = 32767;
-                        else if (val < -32768)
-                            buffer[i] = -32768;
+                        short* input = &m_callbackbuffers[i.first][0];
+                        i.first->StreamPlayerCb(*i.second, input, streamer_resam->framesize);
+                        SoftVolume(m_sndsys, *i.second, input, streamer_resam->framesize);
+                        auto resampler = m_resamplers[i.first];
+                        short* output = resampler->Resample(input);
+
+                        int bytes = PCM16_BYTES(streamer_resam->framesize, streamer_resam->channels);
+
+                        ACE_Message_Block* mb;
+                        ACE_NEW_NORETURN(mb, ACE_Message_Block(bytes));
+                        if (mb->copy(reinterpret_cast<const char*>(output), bytes) < 0)
+                            mb->release();
                         else
-                            buffer[i] = (short)val;
+                        {
+                            ACE_Time_Value tv;
+                            int ret = msgq->enqueue(mb, &tv);
+                            assert(ret >= 0);
+                            if (ret < 0)
+                            {
+                                msgq->close();
+                            }
+                        }
                     }
+
+                    // copy buffer to callback
+                    char* bytebuffer = reinterpret_cast<char*>(&m_tmpbuffer[0]);
+                    size_t copied = 0;
+                    while (copied < reqbytes)
+                    {
+                        ACE_Time_Value tv;
+                        ACE_Message_Block* mb = nullptr;
+                        int ret = msgq->dequeue(mb, &tv);
+                        assert(ret >= 0);
+                        if (ret < 0)
+                        {
+                            msgq->close();
+                            break;
+                        }
+
+                        size_t copylimit = std::min(mb->length(), reqbytes - copied);
+                        memcpy(bytebuffer + copied, mb->rd_ptr(), copylimit);
+                        mb->rd_ptr(copylimit);
+                        copied += copylimit;
+
+                        if (mb->length())
+                        {
+                            assert(copied == reqbytes);
+                            int ret = msgq->enqueue_head(mb, &tv);
+                            assert(ret >= 0);
+                            if (ret < 0)
+                            {
+                                mb->release();
+                                msgq->close();
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            mb->release();
+                        }
+                    }
+                }
+
+                // mix all active streams
+                for (size_t i=0;i<samples;++i)
+                {
+                    int val = m_tmpbuffer[i] + buffer[i];
+                    if (val > 32767)
+                        buffer[i] = 32767;
+                    else if (val < -32768)
+                        buffer[i] = -32768;
+                    else
+                        buffer[i] = short(val);
                 }
             }
             return true;
@@ -592,6 +666,10 @@ namespace soundsystem {
             }
 
             m_resamplers[player] = resampler;
+            m_callbackbuffers[player].resize(streamer->channels * streamer->framesize);
+            m_resambuffers[player].reset(new ACE_Message_Queue< ACE_NULL_SYNCH >());
+            m_resambuffers[player]->high_water_mark(1024*1024);
+            m_resambuffers[player]->low_water_mark(1024*1024);
             return true;
         }
 
@@ -616,11 +694,15 @@ namespace soundsystem {
         }
 
     private:
+        typedef std::shared_ptr< ACE_Message_Queue< ACE_NULL_SYNCH > > msg_queue_t;
+        
         SoundSystem* m_sndsys;
         outputstreamer_t m_orgstream;
         std::vector<short> m_tmpbuffer;
         std::map<StreamPlayer*, outputstreamer_t> m_outputs;
         std::map<StreamPlayer*, audio_resampler_t> m_resamplers;
+        std::map<StreamPlayer*, std::vector<short>> m_callbackbuffers;
+        std::map<StreamPlayer*, msg_queue_t> m_resambuffers;
         std::recursive_mutex m_mutex;
     };
 
