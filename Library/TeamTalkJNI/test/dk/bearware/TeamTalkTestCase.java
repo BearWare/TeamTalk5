@@ -2275,9 +2275,10 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("shared device exists", shareddev != null);
         assertEquals("shared device selected", inputdeviceid, shareddev.nDeviceID);
 
-        // toggle input device as shared audio device
+        // toggle input and output device as shared audio devices
         inputdeviceid = shareddev.nDeviceID | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
-
+        outputdeviceid = shareddev.nDeviceID | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        
         // test two instances with same sample settings as original and one instance which requires resampling
         long sndloop1 = ttclient1.startSoundLoopbackTest(inputdeviceid, outputdeviceid, 48000, 2, false, null);
         assertTrue("Start sound loop 1", sndloop1 != 0);
@@ -3152,5 +3153,4 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             waitForEvent(ttclients[0], ClientEvent.CLIENTEVENT_NONE, 1000);
         }
     }
-
 }
