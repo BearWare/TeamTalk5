@@ -457,10 +457,11 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         System.out.print("\tInput sample rates: ");
         for(int j=0;j<dev.inputSampleRates.length;j++)
             System.out.print(Integer.toString(dev.inputSampleRates[j]) + ", ");
+        System.out.println();
         System.out.print("\tOutput sample rates: ");
         for(int j=0;j<dev.outputSampleRates.length;j++)
             System.out.print(Integer.toString(dev.outputSampleRates[j]) + ", ");
-        System.out.println("");
+        System.out.println();
         System.out.println("\tDefault sample rate: " + Integer.toString(dev.nDefaultSampleRate));
     }
 
