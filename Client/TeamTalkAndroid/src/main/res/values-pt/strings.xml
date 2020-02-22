@@ -68,7 +68,7 @@
     <string name="pref_summary_sub_voice">Subscrever em mensagens de voz</string>
     <string name="pref_title_sub_video">Captura de video</string>
     <string name="pref_summary_sub_video">Subscrever em mensagens de vídeo</string>
-    <string name="pref_title_sub_desktop">Área de trabalho</string>
+    <string name="pref_title_sub_desktop">Tela</string>
     <string name="pref_summary_sub_desktop">Subscrever em capturas de tela</string>
     <string name="pref_title_sub_mediafile">Arquivos multimídia</string>
     <string name="pref_summary_sub_mediafile">Subscrever em transmissões de arquivos multimídia</string>
@@ -82,12 +82,15 @@
     <string name="pref_title_channel_leave">Um usuário saiu do canal</string>
     <string name="pref_summary_channel_leave">Falar o nome dos usuários que saírem do canal</string>
     <string name="pref_title_private_message">Mensagens privadas</string>
+    <string name="pref_summary_channel_message">Anunciar mensagens do canal</string>
     <string name="pref_title_broadcast_message">Mensagens globais</string>
-    <string name="pref_summary_message">Falar o nome do emissor</string>
+    <string name="pref_summary_broadcast_message">Anunciar mensagens globais</string>
     <string name="pref_title_mute_speakers">Silenciar alto-falantes quando pressionar o botão transmitir</string>
     <string name="pref_summary_mute_speakers">Ative isso para evitar o eco produzido pelos alto-falantes</string>
     <string name="pref_title_show_usernames">Mostrar nomes dos usuários</string>
     <string name="pref_summary_show_usernames">Mostrar nome de usuário no lugar do apelido</string>
+    <string name="pref_title_bearwareid">Modo de login BearWare.dk</string>
+    <string name="pref_summary_bearwareid">Configurar o modo de login BearWare.dk</string>
     <string name="pref_title_mediafile_volume">Volume dos arquivos de mídia</string>
     <string name="pref_summary_mediafile_volume">Volume dos arquivos de mídia (não o da voz)</string>
     <string name="pref_title_speakerphone_checkbox">Ativar alto-falantes do celular</string>
@@ -109,18 +112,23 @@
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
     <string name="title_section_noaudio">Sem áudio</string>
-    <string name="opus_application">Aplicação OPUS</string>
+    <string name="opus_application"Aplicação OPUS></string>
     
     <string name="button_tx">Transmitir</string>
     <string name="button_remove">Apagar</string>
     <string name="button_edit">Editar</string>
-    <string name="action_ban">Banir</string>
+    <string name="action_banchan">Banir do canal atual</string>
+    <string name="action_bansrv">Banir do servidor</string>
     <string name="action_edit">Editar canal</string>
     <string name="action_join">Entrar</string>
-    <string name="action_kick">Expulsar</string>
+    <string name="action_kickchan">Expulsar do canal atual</string>
+    <string name="action_kicksrv">Expulsar do servidor</string>
     <string name="action_move">Mover pra cá</string>
     <string name="action_select">Selecionar para mover</string>
     <string name="action_upload">Enviar arquivo</string>
+    <string name="action_stream">Transmitir um arquivo de mídia</string>
+    <string name="button_select_media_file">Procurar</string>
+    <string name="button_stream_media_file">Transmitir</string>
     <string name="button_msg">Mensagem</string>
     <string name="button_send">Enviar</string>
 
@@ -216,7 +224,7 @@
     <string name="server_remove_confirmation">Deseja apagar %1$s da lista de servidores?</string>
     <string name="channel_remove_confirmation">Deseja apagar o canal %1$s?</string>
     <string name="version_update">Nova versão disponível: %1$s</string>
-    <string name="decvolume">Abaixar volume</string>
+    <string name="decvolume">Diminuir volume</string>
 	<string name="incvolume">Aumentar volume</string>
 	<string name="speaker_mute">Silenciar alto-falantes</string>
 	<string name="speaker_unmute">Ativar som</string>
@@ -224,15 +232,17 @@
 	<string name="mic_unmute">Ativar som do microfone</string>
 	<string name="decgain">Diminuir ganho do microfone</string>
 	<string name="incgain">Aumentar ganho do microfone</string>
-	
     <string name="speaker_volume_description">O volume do alto-falantes é %1$s</string>
     <string name="mic_gain_description">O ganho do microfone é %1$s</string>
 
     <string name="voice_activation_on">Ligar ativação por voz</string>
     <string name="voice_activation_off">Desligar ativação por voz</string>
     <string name="decvoxlevel">Diminuir o ganho da ativação por voz</string>
-    <string name="incvoxlevel">Aumentar o nível de ativação por voz</string>
-    <string name="vox_level_description">O nível de ativação por voz é %1$s</string>
+    <string name="incvoxlevel">Aumentar o ganho da ativação por voz</string>
+    <string name="vox_level_description">O nível do ganho da ativação da voz é %1$s</string>
+
+    <string name="tx_on">Transmitindo</string>
+    <string name="tx_off">Transmitir</string>
 
     <string name="text_samplerate">Velocidade de mostra</string>
     <string name="text_ignore_silence">Ignorar silêncios (pressionar-para-falar)</string>
@@ -271,7 +281,7 @@
     <string name="private_message_notification_hint">Clique para ler e responder</string>
     <string name="user_state_now_speaking">%1$s microfone ativado</string>
     <string name="text_waitstream">Esperando pela transmissão de vídeo</string>
-    <string name="text_desktop_session">Sessão de área de trabalho</string>
+    <string name="text_desktop_session">Ativar sessão de tela</string>
     <string name="text_webcam_session">ativar webcam</string>
     <string name="text_mediafile_session">Guia de arquivos multimídia</string>
 
@@ -283,5 +293,38 @@
     <string name="permission_vibrate">A opção vibrar ao pressionar o botão transmitir não poderá ser ativada</string>
     <string name="permission_wake_lock">A conexão com o servidor talvez caia quando a tela for bloqueada</string>
     <string name="permission_read_phone_state">Não será possível a detexão de chamadas</string>
+    <string name="title_activity_web_login">Atividade de login da web</string>
+    <string name="weblogin_prop_title_bearwareid">Nome de usuário</string>
+    <string name="weblogin_prop_title_bearwarepasswd">Senha</string>
+    <string name="weblogin_prop_title_login">Logar</string>
+    <string name="weblogin_prop_title_web_login_id">Id de login BearWare.dk</string>
+    <string name="weblogin_prop_title_create_web_login_id">Criar um ID BearWare.dk</string>
+    <string name="weblogin_prop_title_reset_web_login_id">Reiniciar o ID BearWare.dk</string>
+    <string name="text_bearwarelogin_success">%1$s, seu usuário, %2$s foi validado.</string>
+    <string name="text_bearwarelogin_failed">Falha ao autenticar o usuário %1$s</string>
+    <string name="text_weblogin_authfailure">Falha na web ao autenticar o ID BearWare.dk</string>
+    <string name="title_activity_stream_media">Transmitir arquivo de mídia para canal</string>
+    <string name="pref_title_proximity_sensor">Sensor de proximidade</string>
+    <string name="pref_title_userjoin_icon">Usuário entrou no canal</string>
+    <string name="pref_summary_userjoin_icon">Reproduzir som quando um usuário entrar no canal atual</string>
+    <string name="pref_title_userleft_icon">Usuário sai do canal</string>
+    <string name="pref_summary_userleft_icon">Reproduzir som quando um usuário sair do canal atual</string>
+    <string name="pref_title_speech_engine">Seleção do motor de voz</string>
+    <string name="pref_summary_speech_engine">Selecionar um motor de voz dentre os instalados, diferente da configuração do sistema</string>
+    <string name="pref_summary_private_message">Anunciar mensagens privadas</string>
+    <string name="pref_title_channel_message">Mensagens do canal</string>
+    <string name="text_tts_channel_message">Mensagem no canal de %1$s - %2$s</string>
+    <string name="user_prop_title_subscribe_txtmsg">Subscrever em mensagens do usuário</string>
+    <string name="user_prop_title_subscribe_chanmsg">Subscrever em mensagens do canal enviadas por este usuário</string>
+    <string name="user_prop_title_subscribe_bcastmsg">Subscrever em mensagens globais enviadas por este usuário</string>
+    <string name="user_prop_title_subscribe_voice">Subscrever em transmissão de voz por este usuário</string>
+    <string name="user_prop_title_subscribe_vid">Subscrever em transmissão de vídeo por este usuário</string>
+    <string name="user_prop_title_subscribe_desk">Subscrever em capturas de tela deste usuário</string>
+    <string name="user_prop_title_subscribe_media">Subscrever em transmissão de mídia deste usuário</string>
+    <string name="err_facebooklogin">Erro ao logar com o Facebook</string>
+    <string name="err_stream_media">Erro ao transmitir arquivo de mídia</string>
+    <string name="pref_title_facebook">Login pelo Facebook</string>
+    <string name="ban_confirmation">Você tem certeza que quer banir %1$s?</string>
+    <string name="kick_confirmation">Você tem certeza que quer expulsar %1$s?</string>
 
 </resources>
