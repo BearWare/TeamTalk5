@@ -178,16 +178,24 @@ class ChannelListViewController :
                 let bid = $1.nChannelID
                 let au = users.values.filter({$0.nChannelID == aid})
                 let bu = users.values.filter({$0.nChannelID == bid})
+                var ac = $0
+                var bc = $1
+                let aname = getChannelString(NAME, &ac)
+                let bname = getChannelString(NAME, &bc)
                 return au.count == bu.count ?
-                    String(cString: UnsafeRawPointer([$0.szName]).assumingMemoryBound(to: CChar.self))
-                .caseInsensitiveCompare(String(cString: UnsafeRawPointer([$1.szName]).assumingMemoryBound(to: CChar.self))) == ComparisonResult.orderedAscending : au.count > bu.count
+                    String(cString: aname!)
+                .caseInsensitiveCompare(String(cString: bname!)) == ComparisonResult.orderedAscending : au.count > bu.count
             }
         case ChanSort.ASCENDING.rawValue :
             fallthrough
         default :
             displayChans = subchans.sorted() {
-                String(cString: UnsafeRawPointer([$0.szName]).assumingMemoryBound(to: CChar.self))
-                    .caseInsensitiveCompare(String(cString: UnsafeRawPointer([$1.szName]).assumingMemoryBound(to: CChar.self))) == ComparisonResult.orderedAscending
+                var ac = $0
+                var bc = $1
+                let aname = getChannelString(NAME, &ac)
+                let bname = getChannelString(NAME, &bc)
+                return String(cString: aname!)
+                    .caseInsensitiveCompare(String(cString: bname!)) == ComparisonResult.orderedAscending
             }
         }
         displayUsers = chanusers.sorted() {
