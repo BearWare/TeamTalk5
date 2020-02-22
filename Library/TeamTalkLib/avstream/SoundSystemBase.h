@@ -529,34 +529,39 @@ namespace soundsystem {
         {
             assert(SameStreamProperties(*m_orgstream, streamer));
 
-            memset(buffer, 0, PCM16_BYTES(streamer.framesize, streamer.channels));
+            const size_t reqbytes = PCM16_BYTES(streamer.framesize, streamer.channels);
+            memset(buffer, 0, reqbytes);
 
             std::lock_guard<std::recursive_mutex> g(m_mutex);
 
+            MYTRACE("--------------------------------------------------\n");
             for (auto i : m_outputs)
             {
+                MYTRACE("Resample source: %d samples %d channels @ %d Hz. Destination: %d samples %d channels @ %d Hz\n",
+                        m_orgstream->framesize, m_orgstream->channels, m_orgstream->samplerate,
+                        i.second->framesize, i.second->channels, i.second->samplerate);
+                
                 if (SameStreamProperties(*i.second, *m_orgstream))
                 {
                     assert(i.second->framesize == samples);
                     i.first->StreamPlayerCb(*i.second, &m_tmpbuffer[0], samples);
                     SoftVolume(m_sndsys, *i.second, &m_tmpbuffer[0], samples);
+                    MYTRACE("Same stream\n");
                 }
                 else
                 {
                     auto streamer_resam = i.second;
                     auto msgq = m_resambuffers[i.first];
-                    int reqbytes = PCM16_BYTES(streamer.framesize, streamer.channels);
+                    auto resampler = m_resamplers[i.first];
+                    short* input = &m_callbackbuffers[i.first][0];
+                    size_t bytes = PCM16_BYTES(streamer_resam->framesize, streamer_resam->channels);
 
                     // fill up buffer with enough bytes to do a callback
                     while (msgq->message_length() < reqbytes)
                     {
-                        short* input = &m_callbackbuffers[i.first][0];
-                        i.first->StreamPlayerCb(*i.second, input, streamer_resam->framesize);
-                        SoftVolume(m_sndsys, *i.second, input, streamer_resam->framesize);
-                        auto resampler = m_resamplers[i.first];
+                        i.first->StreamPlayerCb(*streamer_resam, input, streamer_resam->framesize);
+                        SoftVolume(m_sndsys, *streamer_resam, input, streamer_resam->framesize);
                         short* output = resampler->Resample(input);
-
-                        int bytes = PCM16_BYTES(streamer_resam->framesize, streamer_resam->channels);
 
                         ACE_Message_Block* mb;
                         ACE_NEW_NORETURN(mb, ACE_Message_Block(bytes));
@@ -570,6 +575,7 @@ namespace soundsystem {
                             if (ret < 0)
                             {
                                 msgq->close();
+                                mb->release();
                             }
                         }
                     }
@@ -591,7 +597,9 @@ namespace soundsystem {
 
                         size_t copylimit = std::min(mb->length(), reqbytes - copied);
                         memcpy(bytebuffer + copied, mb->rd_ptr(), copylimit);
+                        auto was = mb->rd_ptr();
                         mb->rd_ptr(copylimit);
+                        assert(mb->rd_ptr() == was + copylimit);
                         copied += copylimit;
 
                         if (mb->length())
@@ -611,10 +619,11 @@ namespace soundsystem {
                             mb->release();
                         }
                     }
+                    assert(copied == reqbytes);
                 }
 
                 // mix all active streams
-                for (size_t i=0;i<samples;++i)
+                for (size_t i=0;i<m_tmpbuffer.size();++i)
                 {
                     int val = m_tmpbuffer[i] + buffer[i];
                     if (val > 32767)
@@ -624,7 +633,9 @@ namespace soundsystem {
                     else
                         buffer[i] = short(val);
                 }
-            }
+
+            } // for-loop - streams
+
             return true;
         }
 
@@ -695,7 +706,7 @@ namespace soundsystem {
 
     private:
         typedef std::shared_ptr< ACE_Message_Queue< ACE_NULL_SYNCH > > msg_queue_t;
-        
+
         SoundSystem* m_sndsys;
         outputstreamer_t m_orgstream;
         std::vector<short> m_tmpbuffer;
