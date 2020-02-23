@@ -3195,6 +3195,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         connect(txclient1);
         login(txclient1, NICKNAME, USERNAME, PASSWORD);
         joinRoot(txclient1);
+        assertTrue("Gen tone tx1", txclient1.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 300));
         
         TeamTalkBase txclient2 = newClientInstance();
         assertTrue("Init tx2 input", txclient2.initSoundInputDevice(indev.value));
@@ -3202,6 +3203,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         connect(txclient2);
         login(txclient2, NICKNAME, USERNAME, PASSWORD);
         assertTrue("tx2 join existing" , waitCmdSuccess(txclient2, txclient2.doJoinChannelByID(rxclient.getMyChannelID(), ""), DEF_WAIT));
+        assertTrue("Gen tone tx2", txclient2.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 600));
         
         TeamTalkBase txclient3 = newClientInstance();
         assertTrue("Init tx3 input", txclient3.initSoundInputDevice(indev.value));
@@ -3213,6 +3215,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         chan.audiocodec.opus.nFrameSizeMSec = 60;
         chan.audiocodec.opus.nTxIntervalMSec = 60;
         assertTrue("txclient3 join channel", waitCmdSuccess(txclient3, txclient3.doJoinChannel(chan), DEF_WAIT));
+        assertTrue("Gen tone tx3", txclient3.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 900));
 
         TeamTalkBase txclient4 = newClientInstance();
         assertTrue("Init tx4 input", txclient4.initSoundInputDevice(indev.value));
@@ -3224,6 +3227,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         chan.audiocodec.opus.nFrameSizeMSec = 20;
         chan.audiocodec.opus.nTxIntervalMSec = 20;
         assertTrue("txclient4 join channel", waitCmdSuccess(txclient4, txclient4.doJoinChannel(chan), DEF_WAIT));
+        assertTrue("Gen tone tx4", txclient4.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 1200));
 
         assertTrue("Intercept tx1", waitCmdSuccess(rxclient, rxclient.doSubscribe(txclient1.getMyUserID(), Subscription.SUBSCRIBE_INTERCEPT_VOICE), DEF_WAIT));
         assertTrue("Intercept tx2", waitCmdSuccess(rxclient, rxclient.doSubscribe(txclient2.getMyUserID(), Subscription.SUBSCRIBE_INTERCEPT_VOICE), DEF_WAIT));
@@ -3247,7 +3251,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 ids.remove(new Integer(msg.user.nUserID));
         } while(ids.size() > 0);
 
-        waitForEvent(rxclient, ClientEvent.CLIENTEVENT_NONE, 1500);
+        waitForEvent(rxclient, ClientEvent.CLIENTEVENT_NONE, 5500);
         
         assertTrue("tx1 stop transmit", txclient1.enableVoiceTransmission(false));
         assertTrue("tx2 stop transmit", txclient2.enableVoiceTransmission(false));

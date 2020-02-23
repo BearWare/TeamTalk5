@@ -507,10 +507,12 @@ namespace soundsystem {
         std::recursive_mutex m_mutex;
     };
 
+#define DEBUG_SHAREDPLAYER 0
+    
     template < typename OUTPUTSTREAMER >
     class SharedStreamPlayer : public StreamPlayer
     {
-        bool SameStreamProperties(const OutputStreamer& os1, const OutputStreamer& os2)
+        bool SameStreamProperties(const OutputStreamer& os1, const OutputStreamer& os2) const
         {
             return os1.samplerate == os2.samplerate && os1.channels == os2.channels &&
                 os1.framesize == os2.framesize;
@@ -534,19 +536,25 @@ namespace soundsystem {
 
             std::lock_guard<std::recursive_mutex> g(m_mutex);
 
-            MYTRACE("--------------------------------------------------\n");
+            MYTRACE_COND(DEBUG_SHAREDPLAYER,
+                         ACE_TEXT("--------------------- Mixer inputs %d -----------------------------\n"),
+                         int(m_outputs.size()));
+            
             for (auto i : m_outputs)
             {
-                MYTRACE("Resample source: %d samples %d channels @ %d Hz. Destination: %d samples %d channels @ %d Hz\n",
-                        m_orgstream->framesize, m_orgstream->channels, m_orgstream->samplerate,
-                        i.second->framesize, i.second->channels, i.second->samplerate);
+                MYTRACE_COND(DEBUG_SHAREDPLAYER,
+                             ACE_TEXT("Resample source: %d samples %d channels @ %d Hz duration %d msec. Destination %p: %d samples %d channels @ %d Hz duration %d msec\n"),
+                             m_orgstream->framesize, m_orgstream->channels, m_orgstream->samplerate,
+                             int(PCM16_SAMPLES_DURATION(m_orgstream->framesize, m_orgstream->samplerate)),
+                             i.first, i.second->framesize, i.second->channels, i.second->samplerate,
+                             int(PCM16_SAMPLES_DURATION(i.second->framesize, i.second->samplerate)));
                 
                 if (SameStreamProperties(*i.second, *m_orgstream))
                 {
                     assert(i.second->framesize == samples);
                     i.first->StreamPlayerCb(*i.second, &m_tmpbuffer[0], samples);
                     SoftVolume(m_sndsys, *i.second, &m_tmpbuffer[0], samples);
-                    MYTRACE("Same stream\n");
+                    MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Same stream properties. Destination: %p\n"), i.first);
                 }
                 else
                 {
@@ -554,8 +562,13 @@ namespace soundsystem {
                     auto msgq = m_resambuffers[i.first];
                     auto resampler = m_resamplers[i.first];
                     short* input = &m_callbackbuffers[i.first][0];
-                    size_t bytes = PCM16_BYTES(streamer_resam->framesize, streamer_resam->channels);
+                    int outputsamples = CalcSamples(streamer_resam->samplerate, streamer_resam->framesize, m_orgstream->samplerate);
+                    const size_t outputbytes = PCM16_BYTES(outputsamples, m_orgstream->channels);
 
+                    MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Duration of queue before: %d msec\n"),
+                                 int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
+                                                          streamer.samplerate)));
+                    
                     // fill up buffer with enough bytes to do a callback
                     while (msgq->message_length() < reqbytes)
                     {
@@ -564,8 +577,8 @@ namespace soundsystem {
                         short* output = resampler->Resample(input);
 
                         ACE_Message_Block* mb;
-                        ACE_NEW_NORETURN(mb, ACE_Message_Block(bytes));
-                        if (mb->copy(reinterpret_cast<const char*>(output), bytes) < 0)
+                        ACE_NEW_NORETURN(mb, ACE_Message_Block(outputbytes));
+                        if (mb->copy(reinterpret_cast<const char*>(output), outputbytes) < 0)
                             mb->release();
                         else
                         {
@@ -579,6 +592,11 @@ namespace soundsystem {
                             }
                         }
                     }
+
+                    MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Duration of queue after refill: %d msec. Bytes: %u\n"),
+                                 int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
+                                                          streamer.samplerate)), unsigned(msgq->message_length()));
+                    
 
                     // copy buffer to callback
                     char* bytebuffer = reinterpret_cast<char*>(&m_tmpbuffer[0]);
@@ -620,6 +638,11 @@ namespace soundsystem {
                         }
                     }
                     assert(copied == reqbytes);
+
+                    MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Duration of queue after dequeue: %d msec\n"),
+                                 int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
+                                                          streamer.samplerate)));
+                    
                 }
 
                 // mix all active streams
