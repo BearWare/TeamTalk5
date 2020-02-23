@@ -3251,7 +3251,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 ids.remove(new Integer(msg.user.nUserID));
         } while(ids.size() > 0);
 
-        waitForEvent(rxclient, ClientEvent.CLIENTEVENT_NONE, 5500);
+        waitForEvent(rxclient, ClientEvent.CLIENTEVENT_NONE, 2000);
         
         assertTrue("tx1 stop transmit", txclient1.enableVoiceTransmission(false));
         assertTrue("tx2 stop transmit", txclient2.enableVoiceTransmission(false));
