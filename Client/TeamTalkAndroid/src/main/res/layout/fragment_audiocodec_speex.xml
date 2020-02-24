@@ -19,6 +19,7 @@
             android:id="@+id/speex_bandmodeSpin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -27,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal" >
 
         <TextView
@@ -39,14 +41,16 @@
             android:id="@+id/speex_qualitySeekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1" />
 
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center" >
+        android:layout_marginTop="10dp"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/textView3"
@@ -55,12 +59,19 @@
             android:text="@string/text_txinterval"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Spinner
-            android:id="@+id/speex_txmsecSpin"
-            android:layout_width="wrap_content"
+        <SeekBar
+            android:id="@+id/speex_txintervalSeekBar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1" />
 
+        <TextView
+            android:id="@+id/speex_txintervalTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
     
 </LinearLayout>

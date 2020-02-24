@@ -142,7 +142,7 @@ public class Utils {
     
     public static ServerEntry getServerEntry(Intent intent) {
         if (intent.hasExtra(ServerEntry.class.getName())) {
-            return new Gson().fromJson(intent.getExtras().getString(ServerEntry.class.getName()),  ServerEntry.class);
+            return new Gson().fromJson(intent.getExtras().getString(ServerEntry.class.getName()), ServerEntry.class);
         }
         return null;
     }
@@ -153,11 +153,22 @@ public class Utils {
     
     public static AudioCodec getAudioCodec(Intent intent) {
         if (intent.hasExtra(AudioCodec.class.getName())) {
-            return new Gson().fromJson(intent.getExtras().getString(AudioCodec.class.getName()),  AudioCodec.class);
+            return new Gson().fromJson(intent.getExtras().getString(AudioCodec.class.getName()), AudioCodec.class);
         }
         return null;
     }
-    
+
+    public static Intent putChannel(Intent intent, Channel entry) {
+        return intent.putExtra(Channel.class.getName(), new Gson().toJson(entry));
+    }
+
+    public static Channel getChannel(Intent intent) {
+        if (intent.hasExtra(Channel.class.getName())) {
+            return new Gson().fromJson(intent.getExtras().getString(Channel.class.getName()), Channel.class);
+        }
+        return null;
+    }
+
     public static Vector<Channel> getSubChannels(int chanid, Map<Integer, Channel> channels) {
         Vector<Channel> result = new Vector<Channel>();
         

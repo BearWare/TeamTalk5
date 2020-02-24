@@ -112,7 +112,7 @@
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
     <string name="title_section_noaudio">Sem áudio</string>
-    <string name="opus_application"Aplicação OPUS></string>
+    <string name="opus_application">Aplicação OPUS></string>
     
     <string name="button_tx">Transmitir</string>
     <string name="button_remove">Apagar</string>
