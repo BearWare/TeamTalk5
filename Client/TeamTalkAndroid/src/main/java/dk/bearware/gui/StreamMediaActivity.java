@@ -126,26 +126,20 @@ extends Activity implements TeamTalkConnectionListener {
                         break;
                     case R.id.media_file_stream_btn :
                         String path = file_path.getText().toString();
-                            if(path.isEmpty())
-                                return;
-                            if(path.startsWith("https://")) {
-                                Toast.makeText(StreamMediaActivity.this,
-                                "Https links are not yet supported",
-                                Toast.LENGTH_LONG).show();
-                                return;
-                            }
-                                VideoCodec videocodec = new VideoCodec();
-                                videocodec.nCodec = Codec.NO_CODEC;
-                                if (!ttclient.startStreamingMediaFileToChannel(path, videocodec)) {
-                                    Toast.makeText(StreamMediaActivity.this,
-                                    R.string.err_stream_media,
-                                    Toast.LENGTH_LONG).show();
-                                } else {
-                                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
-                                    editor.putString(lastMedia, path).apply();
-                                    finish();
-                                }
-                                break;
+                        if(path.isEmpty())
+                            return;
+                        VideoCodec videocodec = new VideoCodec();
+                        videocodec.nCodec = Codec.NO_CODEC;
+                        if (!ttclient.startStreamingMediaFileToChannel(path, videocodec)) {
+                            Toast.makeText(StreamMediaActivity.this,
+                            R.string.err_stream_media,
+                            Toast.LENGTH_LONG).show();
+                        } else {
+                            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
+                            editor.putString(lastMedia, path).apply();
+                            finish();
+                        }
+                        break;
                 }
             }
         };

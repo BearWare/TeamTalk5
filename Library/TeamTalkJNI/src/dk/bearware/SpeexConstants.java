@@ -38,7 +38,7 @@ public interface SpeexConstants {
     public static final int SPEEX_WB_MAX_BITRATE = 42200;
     public static final int SPEEX_UWB_MIN_BITRATE = 4150;
     public static final int SPEEX_UWB_MAX_BITRATE = 44000;
-    
+
     public static final int DEFAULT_SPEEX_BANDMODE = 1;
     public static final int DEFAULT_SPEEX_QUALITY = 4;
     public static final int DEFAULT_SPEEX_DELAY = 40;

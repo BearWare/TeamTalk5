@@ -276,6 +276,8 @@
     <string name="text_bitrate">Bitrate</string>
     <string name="text_maxbitrate">Max Bitrate</string>
     <string name="text_txinterval">Transmit interval</string>
+    <string name="text_framesize">Frame size</string>
+    <string name="text_vbr">Variable Bitrate</string>
     <string name="text_quality">Quality</string>
     <string name="text_publicserver">Public server</string>
     <string name="text_localserver">Local server</string>

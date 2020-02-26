@@ -26,12 +26,14 @@ package dk.bearware.gui;
 import java.util.Locale;
 
 import dk.bearware.AudioCodec;
+import dk.bearware.Channel;
 import dk.bearware.Codec;
 import dk.bearware.OpusCodec;
 import dk.bearware.OpusConstants;
 import dk.bearware.SpeexCodec;
 import dk.bearware.SpeexConstants;
 import dk.bearware.SpeexVBRCodec;
+import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.data.MapAdapter;
 
 import android.app.Activity;
@@ -75,11 +77,7 @@ public class AudioCodecActivity extends Activity implements
     ViewPager mViewPager;
     
     AudioCodec audiocodec;
-    
-    OpusCodec opuscodec = new OpusCodec(true);
-    SpeexCodec speexcodec = new SpeexCodec(true);
-    SpeexVBRCodec speexvbrcodec = new SpeexVBRCodec(true);
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,15 +88,12 @@ public class AudioCodecActivity extends Activity implements
         int tab_index = 0;
         switch(audiocodec.nCodec) {
             case Codec.OPUS_CODEC :
-                opuscodec = audiocodec.opus;
                 tab_index = TAB_OPUS;
                 break;
             case Codec.SPEEX_CODEC :
-                speexcodec = audiocodec.speex;
                 tab_index = TAB_SPEEX;
                 break;
             case Codec.SPEEX_VBR_CODEC :
-                speexvbrcodec = audiocodec.speex_vbr;
                 tab_index = TAB_SPEEXVBR;
                 break;
             case Codec.NO_CODEC :
@@ -161,23 +156,20 @@ public class AudioCodecActivity extends Activity implements
                 switch (i) {
                     case TAB_OPUS : {
                         OPUSFragment opusfrag = (OPUSFragment)frag;
-                        opusfrag.exchangeOpusCodec(opusfrag.getView(), true);
+                        audiocodec.opus = opusfrag.exchangeOpusCodec(opusfrag.getView(), true);
                         audiocodec.nCodec = Codec.OPUS_CODEC;
-                        audiocodec.opus = opuscodec;
                         break;
                     }
                     case TAB_SPEEX : {
                         SpeexFragment spxfrag = (SpeexFragment)frag;
-                        spxfrag.exchangeSpeexCodec(spxfrag.getView(), true);
+                        audiocodec.speex = spxfrag.exchangeSpeexCodec(spxfrag.getView(), true);
                         audiocodec.nCodec = Codec.SPEEX_CODEC;
-                        audiocodec.speex = speexcodec;
                         break;
                     }
                     case TAB_SPEEXVBR : {
                         SpeexVBRFragment spxfrag = (SpeexVBRFragment)frag;
-                        spxfrag.exchangeSpeexVBRCodec(spxfrag.getView(), true);
+                        audiocodec.speex_vbr = spxfrag.exchangeSpeexVBRCodec(spxfrag.getView(), true);
                         audiocodec.nCodec = Codec.SPEEX_VBR_CODEC;
-                        audiocodec.speex_vbr = speexvbrcodec;
                         break;
                     }
                     case TAB_NOAUDIO : {
@@ -285,18 +277,18 @@ public class AudioCodecActivity extends Activity implements
         MapAdapter appMap;
         MapAdapter srMap;
         MapAdapter audMap;
-        MapAdapter delayMap;
+        MapAdapter fsMap;
 
         public OPUSFragment() {
         }
 
         @Override
         public void onAttach(Activity activity) {
-            opuscodec = ((AudioCodecActivity)activity).opuscodec;
+            opuscodec = ((AudioCodecActivity)activity).audiocodec.opus;
             appMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             audMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
-            delayMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
+            fsMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
 
             appMap.addPair("VoIP", OpusConstants.OPUS_APPLICATION_VOIP);
             appMap.addPair("Music", OpusConstants.OPUS_APPLICATION_AUDIO);
@@ -310,9 +302,16 @@ public class AudioCodecActivity extends Activity implements
             audMap.addPair("Mono", 1);
             audMap.addPair("Stereo", 2);
 
-            delayMap.addPair("20 msec", 20);
-            delayMap.addPair("40 msec", 40);
-            delayMap.addPair("60 msec", 60);
+            fsMap.addPair("Default", TeamTalkConstants.OPUS_DEFAULT_FRAMESIZEMSEC);
+            fsMap.addPair("2.5 msec", OpusConstants.OPUS_MIN_FRAMESIZE);
+            fsMap.addPair("5 msec", 5);
+            fsMap.addPair("10 msec", 10);
+            fsMap.addPair("20 msec", 20);
+            fsMap.addPair("40 msec", 40);
+            fsMap.addPair("60 msec", OpusConstants.OPUS_MAX_FRAMESIZE);
+            fsMap.addPair("80 msec", 80);
+            fsMap.addPair("100 msec", 100);
+            fsMap.addPair("120 msec", OpusConstants.OPUS_REALMAX_FRAMESIZE);
 
             super.onAttach(activity);
         }
@@ -328,15 +327,18 @@ public class AudioCodecActivity extends Activity implements
             return rootView;
         }
         
-        void exchangeOpusCodec(View rootView, boolean store) {
-            
-            Spinner app = (Spinner)rootView.findViewById(R.id.opus_appSpin);
-            Spinner sr = (Spinner)rootView.findViewById(R.id.opus_samplerateSpin);
-            Spinner audchan = (Spinner)rootView.findViewById(R.id.opus_audchanSpin);
-            CheckBox dtx = (CheckBox)rootView.findViewById(R.id.opus_dtxCheckBox);
-            SeekBar bitrate = (SeekBar)rootView.findViewById(R.id.opus_bitrateSeekBar);
-            final TextView bitrateText = (TextView)rootView.findViewById(R.id.opus_brTextView);
-            Spinner delay = (Spinner)rootView.findViewById(R.id.opus_txmsecSpin);
+        OpusCodec exchangeOpusCodec(View rootView, boolean store) {
+
+            Spinner app = rootView.findViewById(R.id.opus_appSpin);
+            Spinner sr = rootView.findViewById(R.id.opus_samplerateSpin);
+            Spinner audchan = rootView.findViewById(R.id.opus_audchanSpin);
+            CheckBox dtx = rootView.findViewById(R.id.opus_dtxCheckBox);
+            CheckBox vbr = rootView.findViewById(R.id.opus_vbrCheckBox);
+            SeekBar bitrate = rootView.findViewById(R.id.opus_bitrateSeekBar);
+            final TextView bitrateText = rootView.findViewById(R.id.opus_brTextView);
+            Spinner framesize = rootView.findViewById(R.id.opus_fsmsecSpin);
+            SeekBar txinterval = rootView.findViewById(R.id.opus_txintervalSeekBar);
+            final TextView txintervalText = rootView.findViewById(R.id.opus_txintervalTextView);
 
             if(store) {
                 opuscodec.nApplication = appMap.getValue(app.getSelectedItemPosition(), 
@@ -348,11 +350,12 @@ public class AudioCodecActivity extends Activity implements
                 opuscodec.nComplexity = OpusConstants.DEFAULT_OPUS_COMPLEXITY;
                 opuscodec.bFEC = OpusConstants.DEFAULT_OPUS_FEC;
                 opuscodec.bDTX = dtx.isChecked(); 
-                opuscodec.bVBR = OpusConstants.DEFAULT_OPUS_VBR;
+                opuscodec.bVBR = vbr.isChecked();
                 opuscodec.bVBRConstraint = OpusConstants.DEFAULT_OPUS_VBRCONSTRAINT;
-                opuscodec.nBitRate = bitrate.getProgress() * 1000 + OpusConstants.OPUS_MIN_BITRATE; 
-                opuscodec.nTxIntervalMSec = delayMap.getValue(delay.getSelectedItemPosition(),
-                                                             OpusConstants.DEFAULT_OPUS_DELAY);
+                opuscodec.nBitRate = bitrate.getProgress() * 1000 + OpusConstants.OPUS_MIN_BITRATE;
+                opuscodec.nTxIntervalMSec = txinterval.getProgress() + TeamTalkConstants.OPUS_MIN_TXINTERVALMSEC;
+                opuscodec.nFrameSizeMSec = fsMap.getValue(framesize.getSelectedItemPosition(),
+                                                          TeamTalkConstants.OPUS_DEFAULT_FRAMESIZEMSEC);
             }
             else {
                 app.setAdapter(appMap);
@@ -365,11 +368,10 @@ public class AudioCodecActivity extends Activity implements
                 
                 audchan.setAdapter(audMap);
                 audchan.setSelection(audMap.getIndex(opuscodec.nChannels, 0));
-                
-                int max_br = OpusConstants.OPUS_MAX_BITRATE - OpusConstants.OPUS_MIN_BITRATE;
-                max_br /= 1000;
-                bitrate.setMax(max_br);
-                
+
+                int maxbr = OpusConstants.OPUS_MAX_BITRATE - OpusConstants.OPUS_MIN_BITRATE;
+                bitrate.setMax(maxbr / 1000);
+
                 bitrate.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     
                     @Override
@@ -388,12 +390,39 @@ public class AudioCodecActivity extends Activity implements
                     }
                 });
 
-                bitrate.setProgress((opuscodec.nBitRate / 1000) + 
-                                    (OpusConstants.OPUS_MIN_BITRATE / 1000)); 
+                bitrate.setProgress((opuscodec.nBitRate / 1000) - (OpusConstants.OPUS_MIN_BITRATE / 1000));
 
-                delay.setAdapter(delayMap);
-                delay.setSelection(delayMap.getIndex(opuscodec.nTxIntervalMSec, 0));
+                int maxtxinterval = TeamTalkConstants.OPUS_MAX_TXINTERVALMSEC - TeamTalkConstants.OPUS_MIN_TXINTERVALMSEC;
+                txinterval.setMax(maxtxinterval);
+                txinterval.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        int interval = progress + TeamTalkConstants.OPUS_MIN_TXINTERVALMSEC;
+                        txintervalText.setText(interval + " msec");
+
+                        int selFramesize = fsMap.getValue(framesize.getSelectedItemPosition(), TeamTalkConstants.OPUS_DEFAULT_FRAMESIZEMSEC);
+                        if (interval > OpusConstants.OPUS_REALMAX_FRAMESIZE && selFramesize == TeamTalkConstants.OPUS_DEFAULT_FRAMESIZEMSEC)
+                            framesize.setSelection(fsMap.getIndex(OpusConstants.OPUS_REALMAX_FRAMESIZE, 0));
+                        else if (selFramesize > interval)
+                            framesize.setSelection(fsMap.getIndex(TeamTalkConstants.OPUS_DEFAULT_FRAMESIZEMSEC, 0));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    }
+                });
+
+                txinterval.setProgress(opuscodec.nTxIntervalMSec - TeamTalkConstants.OPUS_MIN_TXINTERVALMSEC);
+
+                framesize.setAdapter(fsMap);
+                framesize.setSelection(fsMap.getIndex(opuscodec.nFrameSizeMSec, 0));
             }
+            return opuscodec;
         }
     }
     
@@ -402,25 +431,17 @@ public class AudioCodecActivity extends Activity implements
         SpeexCodec speexcodec;
 
         MapAdapter srMap;
-        MapAdapter delayMap;
 
         public SpeexFragment() {
         }
 
         @Override
         public void onAttach(Activity activity) {
-            speexcodec = ((AudioCodecActivity)activity).speexcodec;
+            speexcodec = ((AudioCodecActivity)activity).audiocodec.speex;
             srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             srMap.addPair("8 KHz", SpeexConstants.SPEEX_BANDMODE_NARROW);
             srMap.addPair("16 KHz", SpeexConstants.SPEEX_BANDMODE_WIDE);
             srMap.addPair("32 KHz", SpeexConstants.SPEEX_BANDMODE_UWIDE);
-            
-            delayMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
-            delayMap.addPair("20 msec", 20);
-            delayMap.addPair("40 msec", 40);
-            delayMap.addPair("60 msec", 60);
-            delayMap.addPair("80 msec", 80);
-            delayMap.addPair("100 msec", 100);
             
             super.onAttach(activity);
         }
@@ -436,27 +457,48 @@ public class AudioCodecActivity extends Activity implements
             return rootView;
         }
         
-        void exchangeSpeexCodec(View rootView, boolean store) {
+        SpeexCodec exchangeSpeexCodec(View rootView, boolean store) {
             
-            Spinner sr = (Spinner)rootView.findViewById(R.id.speex_bandmodeSpin);
-            SeekBar quality = (SeekBar)rootView.findViewById(R.id.speex_qualitySeekBar);
-            Spinner delay = (Spinner)rootView.findViewById(R.id.speex_txmsecSpin);
+            Spinner sr = rootView.findViewById(R.id.speex_bandmodeSpin);
+            SeekBar quality = rootView.findViewById(R.id.speex_qualitySeekBar);
+            SeekBar txinterval = rootView.findViewById(R.id.speex_txintervalSeekBar);
+            final TextView txintervalText = rootView.findViewById(R.id.speex_txintervalTextView);
             
             if(store) {
                 speexcodec.nBandmode = srMap.getValue(sr.getSelectedItemPosition(),
                                                       SpeexConstants.DEFAULT_SPEEX_BANDMODE);
                 speexcodec.nQuality = quality.getProgress() + SpeexConstants.SPEEX_QUALITY_MIN;
-                speexcodec.nTxIntervalMSec = delayMap.getValue(delay.getSelectedItemPosition(),
-                                                              SpeexConstants.DEFAULT_SPEEX_DELAY);
+                speexcodec.nTxIntervalMSec = txinterval.getProgress() + TeamTalkConstants.SPEEX_MIN_TXINTERVALMSEC;
             }
             else {
                 sr.setAdapter(srMap);
-                sr.setSelection(delayMap.getIndex(speexcodec.nBandmode, 1));
+                sr.setSelection(srMap.getIndex(speexcodec.nBandmode, 1));
                 quality.setMax(SpeexConstants.SPEEX_QUALITY_MAX - SpeexConstants.SPEEX_QUALITY_MIN);
                 quality.setProgress(speexcodec.nQuality + SpeexConstants.SPEEX_QUALITY_MIN);
-                delay.setAdapter(delayMap);
-                delay.setSelection(delayMap.getIndex(speexcodec.nTxIntervalMSec, 1));
+
+                int maxtxinterval = TeamTalkConstants.SPEEX_MAX_TXINTERVALMSEC - TeamTalkConstants.OPUS_MIN_TXINTERVALMSEC;
+                txinterval.setMax(maxtxinterval);
+                txinterval.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        int interval = progress + TeamTalkConstants.SPEEX_MIN_TXINTERVALMSEC;
+                        txintervalText.setText(interval + " msec");
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    }
+                });
+
+                txinterval.setProgress(speexcodec.nTxIntervalMSec - TeamTalkConstants.SPEEX_MIN_TXINTERVALMSEC);
+
             }
+            return speexcodec;
         }
     }
     
@@ -464,25 +506,17 @@ public class AudioCodecActivity extends Activity implements
 
         SpeexVBRCodec speexvbrcodec;
         MapAdapter srMap;
-        MapAdapter delayMap;
 
         public SpeexVBRFragment() {
         }
 
         @Override
         public void onAttach(Activity activity) {
-            speexvbrcodec = ((AudioCodecActivity)activity).speexvbrcodec;
+            speexvbrcodec = ((AudioCodecActivity)activity).audiocodec.speex_vbr;
             srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             srMap.addPair("8 KHz", SpeexConstants.SPEEX_BANDMODE_NARROW);
             srMap.addPair("16 KHz", SpeexConstants.SPEEX_BANDMODE_WIDE);
             srMap.addPair("32 KHz", SpeexConstants.SPEEX_BANDMODE_UWIDE);
-            
-            delayMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
-            delayMap.addPair("20 msec", 20);
-            delayMap.addPair("40 msec", 40);
-            delayMap.addPair("60 msec", 60);
-            delayMap.addPair("80 msec", 80);
-            delayMap.addPair("100 msec", 100);
             
             super.onAttach(activity);
         }
@@ -498,49 +532,53 @@ public class AudioCodecActivity extends Activity implements
             return rootView;
         }
         
-        void exchangeSpeexVBRCodec(View rootView, boolean store) {
+        SpeexVBRCodec exchangeSpeexVBRCodec(View rootView, boolean store) {
             
-            Spinner sr = (Spinner) rootView.findViewById(R.id.speexvbr_bandmodeSpin);
-            SeekBar quality = (SeekBar) rootView.findViewById(R.id.speexvbr_qualitySeekBar);
-            // SeekBar bitrate = (SeekBar)rootView.findViewById(R.id.speexvbr_maxbrSeekBar);
-            // final TextView bitrateText = (TextView)rootView.findViewById(R.id.speexvbr_brTextView);
-            CheckBox dtx = (CheckBox) rootView.findViewById(R.id.speexvbr_dtxCheckBox);
-            Spinner delay = (Spinner) rootView.findViewById(R.id.speexvbr_txmsecSpin);
+            Spinner sr = rootView.findViewById(R.id.speexvbr_bandmodeSpin);
+            SeekBar quality = rootView.findViewById(R.id.speexvbr_qualitySeekBar);
+            // SeekBar bitrate = rootView.findViewById(R.id.speexvbr_maxbrSeekBar);
+            // final TextView bitrateText = rootView.findViewById(R.id.speexvbr_brTextView);
+            CheckBox dtx = rootView.findViewById(R.id.speexvbr_dtxCheckBox);
+            SeekBar txinterval = rootView.findViewById(R.id.speexvbr_txintervalSeekBar);
+            final TextView txintervalText = rootView.findViewById(R.id.speexvbr_txintervalTextView);
 
             if(store) {
                 speexvbrcodec.nBandmode = srMap.getValue(sr.getSelectedItemPosition(),
                                                          SpeexConstants.DEFAULT_SPEEX_BANDMODE);
                 speexvbrcodec.nQuality = quality.getProgress() + SpeexConstants.SPEEX_QUALITY_MIN;
                 speexvbrcodec.bDTX = dtx.isChecked();
-                speexvbrcodec.nTxIntervalMSec = delayMap.getValue(delay.getSelectedItemPosition(),
-                                                                 SpeexConstants.DEFAULT_SPEEX_DELAY);
+                speexvbrcodec.nTxIntervalMSec = txinterval.getProgress() + TeamTalkConstants.SPEEX_MIN_TXINTERVALMSEC;
             }
             else {
-                // sr.setOnItemSelectedListener(new OnItemSelectedListener() {
-                // @Override
-                // public void onItemSelected(AdapterView< ? > arg0,
-                // View view, int position, long id) {
-                // switch(srMap.getValue(position, SpeexConstants.DEFAULT_SPEEX_BANDMODE)) {
-                // case SpeexConstants.SPEEX_BANDMODE_NARROW :
-                // bitrate.setMax(SpeexConstants.SPEEX_NB_MAX_BITRATE -
-                // SpeexConstants.SPEEX_NB_MIN_BITRATE);
-                // break;
-                // case SpeexConstants.SPEEX_BANDMODE_WIDE :
-                // }
-                // }
-                // @Override
-                // public void onNothingSelected(AdapterView< ? > arg0) {
-                // }
-                // });
-
                 sr.setAdapter(srMap);
-                sr.setSelection(delayMap.getIndex(speexvbrcodec.nBandmode, 1));
+                sr.setSelection(srMap.getIndex(speexvbrcodec.nBandmode, 1));
                 quality.setMax(SpeexConstants.SPEEX_QUALITY_MAX - SpeexConstants.SPEEX_QUALITY_MIN);
                 quality.setProgress(speexvbrcodec.nQuality - SpeexConstants.SPEEX_QUALITY_MIN);
                 dtx.setChecked(speexvbrcodec.bDTX);
-                delay.setAdapter(delayMap);
-                delay.setSelection(delayMap.getIndex(speexvbrcodec.nTxIntervalMSec, 1));
+
+                int maxtxinterval = TeamTalkConstants.SPEEX_MAX_TXINTERVALMSEC - TeamTalkConstants.OPUS_MIN_TXINTERVALMSEC;
+                txinterval.setMax(maxtxinterval);
+                txinterval.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        int interval = progress + TeamTalkConstants.SPEEX_MIN_TXINTERVALMSEC;
+                        txintervalText.setText(interval + " msec");
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    }
+                });
+
+                txinterval.setProgress(speexvbrcodec.nTxIntervalMSec - TeamTalkConstants.SPEEX_MIN_TXINTERVALMSEC);
             }
+
+            return speexvbrcodec;
         }
     }
    

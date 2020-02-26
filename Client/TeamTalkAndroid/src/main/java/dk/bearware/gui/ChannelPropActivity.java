@@ -66,13 +66,16 @@ implements TeamTalkConnectionListener, CommandListener {
     TeamTalkConnection mConnection;
     TeamTalkService ttservice;
     TeamTalkBase ttclient;
+    Channel channel;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK) {
+            channel = Utils.getChannel(data);
             channel.audiocodec = Utils.getAudioCodec(data);
+            exchangeChannel(false);
         }
     }
 
@@ -137,8 +140,6 @@ implements TeamTalkConnectionListener, CommandListener {
     public void onResume() {
         super.onResume();
     }
-
-    Channel channel;
 
     @Override
     protected void onStart() {
@@ -240,19 +241,21 @@ implements TeamTalkConnectionListener, CommandListener {
 
         service.registerCommandListener(ChannelPropActivity.this);
 
-        int channelid = getIntent().getExtras().getInt(EXTRA_CHANNELID);
-        int parentid = getIntent().getExtras().getInt(EXTRA_PARENTID);
-        if(channelid > 0) {
-            //existing channel
-            channel = ttservice.getChannels().get(channelid);
-        }
-        else if(parentid > 0) {
-            //create new channel
-            channel = new Channel(true, true);
-            channel.nParentID = parentid;
-            ServerProperties prop = new ServerProperties();
-            if(ttservice.getTTInstance().getServerProperties(prop)) {
-                channel.nMaxUsers = prop.nMaxUsers;
+        if (channel == null) {
+            int channelid = getIntent().getExtras().getInt(EXTRA_CHANNELID);
+            int parentid = getIntent().getExtras().getInt(EXTRA_PARENTID);
+            if(channelid > 0) {
+                //existing channel
+                channel = ttservice.getChannels().get(channelid);
+            }
+            else if(parentid > 0) {
+                //create new channel
+                channel = new Channel(true, true);
+                channel.nParentID = parentid;
+                ServerProperties prop = new ServerProperties();
+                if(ttservice.getTTInstance().getServerProperties(prop)) {
+                    channel.nMaxUsers = prop.nMaxUsers;
+                }
             }
         }
 
@@ -268,6 +271,8 @@ implements TeamTalkConnectionListener, CommandListener {
                     case R.id.setup_audcodec_btn :
                         Intent edit = new Intent(ChannelPropActivity.this, AudioCodecActivity.class);
                         edit = Utils.putAudioCodec(edit, channel.audiocodec);
+                        exchangeChannel(true);
+                        edit = Utils.putChannel(edit, channel);
                         startActivityForResult(edit, REQUEST_AUDIOCODEC);
                         break;
                 }
