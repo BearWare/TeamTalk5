@@ -438,7 +438,7 @@ extern "C" {
     
 /** @brief Sound device ID for iOS AudioUnit subtype Voice-Processing
  * I/O Unit. @see SOUNDSYSTEM_AUDIOUNIT */
-#define TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  1
+#define TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  (1 | TT_SOUNDDEVICE_SHARED_FLAG)
     
 /** @brief Sound device ID for Android OpenSL ES default audio
  * device. @see SOUNDSYSTEM_OPENSLES_ANDROID */
