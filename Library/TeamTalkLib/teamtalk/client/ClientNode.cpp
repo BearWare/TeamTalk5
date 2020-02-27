@@ -3167,7 +3167,8 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
                                                        this, _1, _2), true);
 
     MediaStreamOutput media_out;
-    media_out.video.fourcc = media::FOURCC_I420; // TODO: this is not enforced. FFmpeg will output RGB32
+    if (vid_codec.codec != CODEC_NO_CODEC)
+        media_out.video.fourcc = media::FOURCC_I420; // TODO: this is not enforced. FFmpeg will output RGB32
     media_out.audio.channels = GetAudioCodecChannels(m_mychannel->GetAudioCodec());
     media_out.audio.samplerate = GetAudioCodecSampleRate(m_mychannel->GetAudioCodec());
     media_out.audio_samples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());
@@ -3194,7 +3195,7 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
 
     TTASSERT(!m_videofile_thread);
     //initiate video part of media file
-    if (file_in.video.IsValid() && !m_videofile_thread)
+    if (file_in.video.IsValid())
     {
         m_flags |= CLIENT_STREAM_VIDEOFILE;
 
