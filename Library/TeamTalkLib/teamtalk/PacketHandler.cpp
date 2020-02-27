@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -105,7 +105,7 @@ int PacketQueue::PacketCount()
 
 
 
-PacketHandler::PacketHandler(ACE_Reactor* r) 
+PacketHandler::PacketHandler(ACE_Reactor* r)
 : ACE_Event_Handler(r, HI_PRIORITY)
 {
     //MYTRACE(ACE_TEXT("%p PacketHandler()\n"), this);
@@ -134,10 +134,10 @@ bool PacketHandler::open(const ACE_Addr &addr, int recv_buf, int send_buf)
         TTASSERT(ret != -1);
         //MYTRACE("PacketHandler %d opened successfully\n", get_handle());
         int ret = 0;
-        ret = ACE_OS::setsockopt(sock_.get_handle(), SOL_SOCKET, SO_RCVBUF, 
+        ret = ACE_OS::setsockopt(sock_.get_handle(), SOL_SOCKET, SO_RCVBUF,
             reinterpret_cast<const char*>(&recv_buf), sizeof(recv_buf));
         TTASSERT(ret == 0);
-        ret = ACE_OS::setsockopt(sock_.get_handle(), SOL_SOCKET, SO_SNDBUF, 
+        ret = ACE_OS::setsockopt(sock_.get_handle(), SOL_SOCKET, SO_SNDBUF,
             reinterpret_cast<const char*>(&send_buf), sizeof(send_buf));
         TTASSERT(ret == 0);
 
@@ -182,7 +182,7 @@ int PacketHandler::handle_input(ACE_HANDLE)
 
     ssize_t ret = sock_i().recv(&m_buffer[0], m_buffer.size(), addr);
     if(ret > 0)
-    {    
+    {
         packetlisteners_t::iterator ite;
         for(ite=m_setListeners.begin();ite != m_setListeners.end();ite++)
             (*ite)->ReceivedPacket(this, &m_buffer[0], (int)ret, addr);
@@ -205,7 +205,7 @@ int PacketHandler::handle_output (ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
 }
 
 //Used by the reactor to determine the underlying handle
-ACE_HANDLE PacketHandler::get_handle() const 
+ACE_HANDLE PacketHandler::get_handle() const
 {
     return this->sock_.get_handle();
 }
@@ -216,4 +216,89 @@ ACE_SOCK_Dgram& PacketHandler::sock_i()
     return this->sock_;
 }
 
+namespace teamtalk {
 
+int ToIPTOSValue(const FieldPacket& p)
+{
+    switch (PacketKind(p.GetKind()))
+    {
+    case PACKET_KIND_HELLO :
+    case PACKET_KIND_KEEPALIVE :
+        return IP_TOS_SIGNALING;
+
+    case PACKET_KIND_VOICE :
+    case PACKET_KIND_VOICE_CRYPT :
+        return IP_TOS_VOICE;
+
+    case PACKET_KIND_VIDEO :
+    case PACKET_KIND_VIDEO_CRYPT :
+        return IP_TOS_VIDEO;
+
+    case PACKET_KIND_MEDIAFILE_AUDIO :
+    case PACKET_KIND_MEDIAFILE_AUDIO_CRYPT :
+        return IP_TOS_MULTIMEDIA_AUDIO;
+
+    case PACKET_KIND_MEDIAFILE_VIDEO :
+    case PACKET_KIND_MEDIAFILE_VIDEO_CRYPT :
+        return IP_TOS_MULTIMEDIA_VIDEO;
+
+    case PACKET_KIND_DESKTOP :
+    case PACKET_KIND_DESKTOP_CRYPT :
+        return IP_TOS_DESKTOP;
+
+    case PACKET_KIND_DESKTOP_ACK :
+    case PACKET_KIND_DESKTOP_ACK_CRYPT :
+    case PACKET_KIND_DESKTOP_NAK :
+    case PACKET_KIND_DESKTOP_NAK_CRYPT :
+        return IP_TOS_SIGNALING;
+
+    case PACKET_KIND_DESKTOPCURSOR :
+    case PACKET_KIND_DESKTOPCURSOR_CRYPT :
+        return IP_TOS_DESKTOP;
+
+    case PACKET_KIND_DESKTOPINPUT :
+    case PACKET_KIND_DESKTOPINPUT_CRYPT :
+    case PACKET_KIND_DESKTOPINPUT_ACK :
+    case PACKET_KIND_DESKTOPINPUT_ACK_CRYPT :
+        return IP_TOS_SIGNALING;
+
+    default :
+        return IP_TOS_IGNORE;
+    }
+}
+
+}
+
+SocketOptGuard::SocketOptGuard(ACE_SOCK_Dgram& dgram, int level, int option, int value)
+: m_dgram(dgram)
+{
+    int valsize = sizeof(m_value);
+    if (dgram.get_option(level, option, &m_value, &valsize) == 0)
+    {
+        m_level = level;
+        m_option = option;
+
+        if (option == IP_TOS && value == IP_TOS_IGNORE)
+        {
+            m_level = 0;
+        }
+        else
+        {
+            int ret = m_dgram.set_option(m_level, m_option, &value, sizeof(value));
+            MYTRACE_COND(ret, ACE_TEXT("Failed to set socket level %d option %d\n"), level, option);
+        }
+    }
+    else
+    {
+        MYTRACE(ACE_TEXT("Failed to get socket level %d option %d\n"), level, option);
+    }
+}
+
+SocketOptGuard::~SocketOptGuard()
+{
+    if (m_level)
+    {
+        int ret = m_dgram.set_option(m_level, m_option, &m_value, sizeof(m_value));
+        MYTRACE_COND(ret, ACE_TEXT("Failed to revert socket level %d option %d\n"), m_level, m_option);
+    }
+}

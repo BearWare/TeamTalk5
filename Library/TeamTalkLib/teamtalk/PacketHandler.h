@@ -41,6 +41,15 @@ namespace teamtalk {
 
 #define PACKETBUFFER 0x10000
 
+// https://da.wikipedia.org/wiki/Differentiated_Services
+#define IP_TOS_IGNORE           0x00
+#define IP_TOS_SIGNALING        0x28
+#define IP_TOS_VOICE            0x2e
+#define IP_TOS_VIDEO            0x22
+#define IP_TOS_DESKTOP          0x20
+#define IP_TOS_MULTIMEDIA_AUDIO 0x1a
+#define IP_TOS_MULTIMEDIA_VIDEO 0x1e    
+
     class PacketListener
     {
     public:
@@ -94,6 +103,19 @@ namespace teamtalk {
         ACE_INET_Addr m_localaddr;
         packetlisteners_t m_setListeners;
         std::vector<char> m_buffer;
+    };
+
+    int ToIPTOSValue(const FieldPacket& p);
+    
+    class SocketOptGuard
+    {
+    public:
+        SocketOptGuard(const SocketOptGuard&)=delete;
+        SocketOptGuard(ACE_SOCK_Dgram& dgram, int level, int option, int value);
+        ~SocketOptGuard();
+    private:
+        ACE_SOCK_Dgram& m_dgram;
+        int m_level = 0, m_option = 0, m_value = 0;
     };
 }
 
