@@ -276,6 +276,8 @@
     <string name="text_bitrate">比特率</string>
     <string name="text_maxbitrate">最大比特率</string>
     <string name="text_txinterval">传输间隔</string>
+    <string name="text_framesize">帧大小</string>
+    <string name="text_vbr">可变比特率</string>
     <string name="text_quality">质量</string>
     <string name="text_publicserver">公共服务器</string>
     <string name="text_localserver">本地服务器</string>
