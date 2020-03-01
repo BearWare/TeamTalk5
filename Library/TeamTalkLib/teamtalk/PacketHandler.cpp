@@ -261,10 +261,8 @@ int ToIPTOSValue(const FieldPacket& p)
     case PACKET_KIND_DESKTOPINPUT_ACK :
     case PACKET_KIND_DESKTOPINPUT_ACK_CRYPT :
         return IP_TOS_SIGNALING;
-
-    default :
-        return IP_TOS_IGNORE;
     }
+    return IP_TOS_IGNORE;
 }
 
 }

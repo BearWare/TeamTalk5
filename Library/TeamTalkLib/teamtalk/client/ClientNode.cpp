@@ -2281,9 +2281,6 @@ void ClientNode::SendPackets()
         if (!m_def_stream && !m_crypt_stream)
             continue;
         
-        SocketOptGuard sog(m_packethandler.sock_i(), IPPROTO_IP, IP_TOS,
-                           ToIPTOSValue(*p));
-        
         switch(p->GetKind())
         {
         case PACKET_KIND_VOICE :
@@ -2652,6 +2649,9 @@ int ClientNode::SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr)
     }
 #endif
 
+    SocketOptGuard sog(m_packethandler.sock_i(), IPPROTO_IP, IP_TOS,
+                       ToIPTOSValue(packet));
+        
     //normal send without encryption
     int buffers;
     const iovec* vv = packet.GetPacket(buffers);
