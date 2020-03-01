@@ -2313,6 +2313,7 @@ void ClientNode::SendPackets()
             if(m_local_voicelog->GetAudioFolder().length() && !no_record)
                 voicelogger().AddVoicePacket(*m_local_voicelog, *m_mychannel, *audpkt);
 
+
             //if packet is too big we turn it into fragments (packet protocol 2)
             audiopackets_t fragments = BuildAudioFragments(*audpkt, 
                                                            m_mtu_data_size);
@@ -2454,6 +2455,7 @@ void ClientNode::SendPackets()
                 break;
             }
             desktoppkt->SetChannel(m_mychannel->GetChannelID());
+
 #ifdef ENABLE_ENCRYPTION
             if(m_crypt_stream)
             {
@@ -2636,17 +2638,20 @@ int ClientNode::SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr)
 #endif
 
 #if SIMULATE_TX_PACKETLOSS
-        static int dropped = 0, transmitted = 0;
-        transmitted++;
-        if((ACE_OS::rand() % SIMULATE_TX_PACKETLOSS) == 0)
-        {
-            dropped++;
-            MYTRACE(ACE_TEXT("Dropped TX packet kind %d, dropped %d/%d\n"), 
+    static int dropped = 0, transmitted = 0;
+    transmitted++;
+    if((ACE_OS::rand() % SIMULATE_TX_PACKETLOSS) == 0)
+    {
+        dropped++;
+        MYTRACE(ACE_TEXT("Dropped TX packet kind %d, dropped %d/%d\n"), 
                 (int)packet.GetKind(), dropped, transmitted);
-            return packet.GetPacketSize();
-        }
+        return packet.GetPacketSize();
+    }
 #endif
-    
+
+    SocketOptGuard sog(m_packethandler.sock_i(), IPPROTO_IP, IP_TOS,
+                       ToIPTOSValue(packet));
+        
     //normal send without encryption
     int buffers;
     const iovec* vv = packet.GetPacket(buffers);
