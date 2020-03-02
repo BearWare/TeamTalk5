@@ -37,7 +37,6 @@ int detectMinumumBuffer(SLAndroidSimpleBufferQueueItf bq,
 enum AndroidSoundDevice
 {
     DEFAULT_DEVICE_ID           = (0 & SOUND_DEVICEID_MASK),
-    SHARED_DEFAULT_DEVICE_ID    = (DEFAULT_DEVICE_ID | SOUND_DEVICE_SHARED_FLAG)
 };
 
 #define DEFAULT_SAMPLERATE 16000
@@ -864,21 +863,6 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
     }
 
     sounddevs[dev.id] = dev;
-
-    // create shared audio device (SHARED_DEFAULT_DEVICE_ID)
-    DeviceInfo shareddev = dev;
-    shareddev.id = SHARED_DEFAULT_DEVICE_ID;
-    shareddev.devicename += ACE_TEXT(" - Shared @ ") + i2string(shareddev.default_samplerate) + ACE_TEXT(" KHz, ");
-    if (shareddev.max_input_channels == 2)
-        shareddev.devicename += ACE_TEXT("Stereo");
-    else
-        shareddev.devicename += ACE_TEXT("Mono");
-    // clear as output device (currently shared is only supported by input)
-    shareddev.max_output_channels = 0;
-    shareddev.output_samplerates.clear();
-    shareddev.output_channels.clear();
-    
-    sounddevs[shareddev.id] = shareddev;
 
     if (outputMixObject)
         CloseOutputMixObject(sg);
