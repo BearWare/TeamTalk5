@@ -267,6 +267,8 @@
     <string name="text_bitrate">Битрейт</string>
     <string name="text_maxbitrate">Максимальный битрейт</string>
     <string name="text_txinterval">Интервал передачи</string>
+    <string name="text_framesize">Размер фрейма</string>
+    <string name="text_vbr">Переменный битрейт</string>
     <string name="text_quality">Качество</string>
     <string name="text_publicserver">Публичный сервер</string>
     <string name="text_localserver">Локальный сервер</string>

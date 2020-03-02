@@ -255,6 +255,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             @Override
             public void onCallStateChanged(int state, String incomingNumber) {
                 User myself = users.get(ttclient.getMyUserID());
+                if (myself == null) // event may have been generated before ttclient.disconnect() was called
+                    return;
+
                 switch (state) {
                 case TelephonyManager.CALL_STATE_IDLE:
                     if (voxSuspended)
@@ -939,6 +942,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     @Override
     public void onStreamMediaFile(MediaFileInfo mediafileinfo) {
         User myself = users.get(ttclient.getMyUserID());
+        if (myself == null) // event may have been generated before ttclient.disconnect() was called
+            return;
+
         switch (mediafileinfo.nStatus) {
             case MediaFileStatus.MFS_STARTED :
                 ttclient.doChangeStatus(myself.nStatusMode | TeamTalkConstants.STATUSMODE_STREAM_MEDIAFILE, myself.szStatusMsg);

@@ -178,16 +178,20 @@ class ChannelListViewController :
                 let bid = $1.nChannelID
                 let au = users.values.filter({$0.nChannelID == aid})
                 let bu = users.values.filter({$0.nChannelID == bid})
+                let aname = withUnsafePointer(to: $0) { getChannelString(NAME, $0) }
+                let bname = withUnsafePointer(to: $1) { getChannelString(NAME, $0) }
                 return au.count == bu.count ?
-                    String(cString: UnsafeRawPointer([$0.szName]).assumingMemoryBound(to: CChar.self))
-                .caseInsensitiveCompare(String(cString: UnsafeRawPointer([$1.szName]).assumingMemoryBound(to: CChar.self))) == ComparisonResult.orderedAscending : au.count > bu.count
+                    String(cString: aname!)
+                .caseInsensitiveCompare(String(cString: bname!)) == ComparisonResult.orderedAscending : au.count > bu.count
             }
         case ChanSort.ASCENDING.rawValue :
             fallthrough
         default :
             displayChans = subchans.sorted() {
-                String(cString: UnsafeRawPointer([$0.szName]).assumingMemoryBound(to: CChar.self))
-                    .caseInsensitiveCompare(String(cString: UnsafeRawPointer([$1.szName]).assumingMemoryBound(to: CChar.self))) == ComparisonResult.orderedAscending
+                let aname = withUnsafePointer(to: $0) { getChannelString(NAME, $0) }
+                let bname = withUnsafePointer(to: $1) { getChannelString(NAME, $0) }
+                return String(cString: aname!)
+                    .caseInsensitiveCompare(String(cString: bname!)) == ComparisonResult.orderedAscending
             }
         }
         displayUsers = chanusers.sorted() {
