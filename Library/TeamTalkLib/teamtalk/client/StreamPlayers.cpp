@@ -27,6 +27,8 @@
 #include <teamtalk/ttassert.h>
 #include <codec/MediaUtil.h>
 
+#define DEBUG_PLAYBACK 0
+
 using namespace media;
 
 namespace teamtalk {
@@ -371,10 +373,10 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
             }
         }
 
-        // MYTRACE_COND(m_play_pkt_no % 100 == 0,
-        //              ACE_TEXT("User #%d, streamtype %u, stream id %d, cur_pkt %d, max pkt %d, tm: %u\n"),
-        //              m_userid, m_streamtype, m_stream_id, m_play_pkt_no, m_buffer.rbegin()->first,
-        //              GETTIMESTAMP());
+        MYTRACE_COND(DEBUG_PLAYBACK,
+                     ACE_TEXT("User #%d, streamtype %u, stream id %d, cur_pkt %d, max pkt %d, tm: %u\n"),
+                     m_userid, m_streamtype, m_stream_id, m_play_pkt_no, m_buffer.rbegin()->first,
+                     GETTIMESTAMP());
 
         if(DecodeFrame(m_buffer[m_play_pkt_no], output_buffer, n_samples))
         {
@@ -400,6 +402,10 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
     {
         memset(output_buffer, 0, GetAudioCodecCbBytes(m_codec));
         played = false;
+        
+        MYTRACE_COND(DEBUG_PLAYBACK,
+                     ACE_TEXT("No packets available for playback for user #%d. Current packet: %d\n"),
+                     m_userid, m_play_pkt_no);
     }
 
     //stereo simulation

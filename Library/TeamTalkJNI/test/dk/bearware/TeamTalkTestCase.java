@@ -2264,19 +2264,25 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             }
         }
 
-        SoundDevice shareddev = null;
+        SoundDevice sharedindev = null, sharedoutdev = null;
         Vector<SoundDevice> devs = new Vector<>();
         TeamTalkBase.getSoundDevices(devs);
         for(SoundDevice d : devs) {
             if (d.nDeviceID == inputdeviceid)
-                shareddev = d;
+                sharedindev = d;
+            if (d.nDeviceID == outputdeviceid)
+                sharedoutdev = d;
         }
 
-        assertTrue("shared device exists", shareddev != null);
-        assertEquals("shared device selected", inputdeviceid, shareddev.nDeviceID);
+        assertTrue("shared in device exists", sharedindev != null);
+        assertEquals("shared in device selected", inputdeviceid, sharedindev.nDeviceID);
 
-        // toggle input device as shared audio device
-        inputdeviceid = shareddev.nDeviceID | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        assertTrue("shared out device exists", sharedoutdev != null);
+        assertEquals("shared out device selected", outputdeviceid, sharedoutdev.nDeviceID);
+
+        // toggle input and output device as shared audio devices
+        inputdeviceid = sharedindev.nDeviceID | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        outputdeviceid = sharedoutdev.nDeviceID | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
 
         // test two instances with same sample settings as original and one instance which requires resampling
         long sndloop1 = ttclient1.startSoundLoopbackTest(inputdeviceid, outputdeviceid, 48000, 2, false, null);
@@ -2305,7 +2311,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         Vector<Long> sndloops = new Vector<>();
         // now go through all sample rates
-        for(int samplerate : shareddev.inputSampleRates) {
+        for(int samplerate : sharedindev.inputSampleRates) {
             if (samplerate <= 0)
                 continue;
 
@@ -3153,4 +3159,114 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
     }
 
+    public void test_SharedAudioInputOutput() {
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+        
+        TeamTalkBase rxclient = newClientInstance();
+
+        IntPtr indev = new IntPtr(), outdev = new IntPtr();
+        if(INPUTDEVICEID < 0 && OUTPUTDEVICEID < 0)
+           assertTrue("get default devs", rxclient.getDefaultSoundDevices(indev, outdev));
+        else
+        {
+            indev.value = INPUTDEVICEID;
+            outdev.value = OUTPUTDEVICEID;
+        }
+
+        indev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        outdev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+
+        assertTrue("Init rx input", rxclient.initSoundInputDevice(indev.value));
+        assertTrue("Init rx output", rxclient.initSoundOutputDevice(outdev.value));
+        connect(rxclient);
+        login(rxclient, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+        Channel chan = buildDefaultChannel(rxclient, "Speex", Codec.SPEEX_CODEC);
+        chan.audiocodec.speex.nBandmode = SpeexConstants.SPEEX_BANDMODE_WIDE; //16000
+        chan.audiocodec.speex.nTxIntervalMSec = 400;
+        assertTrue("rxclient join channel", waitCmdSuccess(rxclient, rxclient.doJoinChannel(chan), DEF_WAIT));
+
+        TeamTalkBase txclient1 = newClientInstance();
+        assertTrue("Init tx1 input", txclient1.initSoundInputDevice(indev.value));
+        assertTrue("Init tx1 output", txclient1.initSoundOutputDevice(outdev.value));
+        connect(txclient1);
+        login(txclient1, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(txclient1);
+        assertTrue("Gen tone tx1", txclient1.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 300));
+        
+        TeamTalkBase txclient2 = newClientInstance();
+        assertTrue("Init tx2 input", txclient2.initSoundInputDevice(indev.value));
+        assertTrue("Init tx2 output", txclient2.initSoundOutputDevice(outdev.value));
+        connect(txclient2);
+        login(txclient2, NICKNAME, USERNAME, PASSWORD);
+        assertTrue("tx2 join existing" , waitCmdSuccess(txclient2, txclient2.doJoinChannelByID(rxclient.getMyChannelID(), ""), DEF_WAIT));
+        assertTrue("Gen tone tx2", txclient2.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 600));
+        
+        TeamTalkBase txclient3 = newClientInstance();
+        assertTrue("Init tx3 input", txclient3.initSoundInputDevice(indev.value));
+        assertTrue("Init tx3 output", txclient3.initSoundOutputDevice(outdev.value));
+        connect(txclient3);
+        login(txclient3, NICKNAME, USERNAME, PASSWORD);
+        chan = buildDefaultChannel(txclient3, "OPUS223", Codec.OPUS_CODEC);
+        chan.audiocodec.opus.nSampleRate = 24000;
+        chan.audiocodec.opus.nFrameSizeMSec = 60;
+        chan.audiocodec.opus.nTxIntervalMSec = 60;
+        assertTrue("txclient3 join channel", waitCmdSuccess(txclient3, txclient3.doJoinChannel(chan), DEF_WAIT));
+        assertTrue("Gen tone tx3", txclient3.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 900));
+
+        TeamTalkBase txclient4 = newClientInstance();
+        assertTrue("Init tx4 input", txclient4.initSoundInputDevice(indev.value));
+        assertTrue("Init tx4 output", txclient4.initSoundOutputDevice(outdev.value));
+        connect(txclient4);
+        login(txclient4, NICKNAME, USERNAME, PASSWORD);
+        chan = buildDefaultChannel(txclient4, "OPUS224", Codec.OPUS_CODEC);
+        chan.audiocodec.opus.nSampleRate = 12000;
+        chan.audiocodec.opus.nFrameSizeMSec = 20;
+        chan.audiocodec.opus.nTxIntervalMSec = 20;
+        assertTrue("txclient4 join channel", waitCmdSuccess(txclient4, txclient4.doJoinChannel(chan), DEF_WAIT));
+        assertTrue("Gen tone tx4", txclient4.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 1200));
+
+        assertTrue("Intercept tx1", waitCmdSuccess(rxclient, rxclient.doSubscribe(txclient1.getMyUserID(), Subscription.SUBSCRIBE_INTERCEPT_VOICE), DEF_WAIT));
+        assertTrue("Intercept tx2", waitCmdSuccess(rxclient, rxclient.doSubscribe(txclient2.getMyUserID(), Subscription.SUBSCRIBE_INTERCEPT_VOICE), DEF_WAIT));
+        assertTrue("Intercept tx3", waitCmdSuccess(rxclient, rxclient.doSubscribe(txclient3.getMyUserID(), Subscription.SUBSCRIBE_INTERCEPT_VOICE), DEF_WAIT));
+        assertTrue("Intercept tx4", waitCmdSuccess(rxclient, rxclient.doSubscribe(txclient4.getMyUserID(), Subscription.SUBSCRIBE_INTERCEPT_VOICE), DEF_WAIT));
+
+        assertTrue("tx1 transmit", txclient1.enableVoiceTransmission(true));
+        assertTrue("tx2 transmit", txclient2.enableVoiceTransmission(true));
+        assertTrue("tx3 transmit", txclient3.enableVoiceTransmission(true));
+        assertTrue("tx4 transmit", txclient4.enableVoiceTransmission(true));
+
+        Vector<Integer> ids = new Vector<>();
+        ids.add(txclient1.getMyUserID());
+        ids.add(txclient2.getMyUserID());
+        ids.add(txclient3.getMyUserID());
+        ids.add(txclient4.getMyUserID());
+        do {
+            TTMessage msg = new TTMessage();
+            assertTrue("get voice event", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+            if ((msg.user.uUserState & UserState.USERSTATE_VOICE) != 0)
+                ids.remove(new Integer(msg.user.nUserID));
+        } while(ids.size() > 0);
+
+        waitForEvent(rxclient, ClientEvent.CLIENTEVENT_NONE, 2000);
+        
+        assertTrue("tx1 stop transmit", txclient1.enableVoiceTransmission(false));
+        assertTrue("tx2 stop transmit", txclient2.enableVoiceTransmission(false));
+        assertTrue("tx3 stop transmit", txclient3.enableVoiceTransmission(false));
+        assertTrue("tx4 stop transmit", txclient4.enableVoiceTransmission(false));
+
+        ids.add(txclient1.getMyUserID());
+        ids.add(txclient2.getMyUserID());
+        ids.add(txclient3.getMyUserID());
+        ids.add(txclient4.getMyUserID());
+        do {
+            TTMessage msg = new TTMessage();
+            assertTrue("get voice stop event", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+            if ((msg.user.uUserState & UserState.USERSTATE_VOICE) == UserState.USERSTATE_NONE)
+                ids.remove(new Integer(msg.user.nUserID));
+        } while(ids.size()>0);
+    }
 }

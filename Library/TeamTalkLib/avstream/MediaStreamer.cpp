@@ -345,7 +345,8 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, 
         return true;
     }
 
-    uint32_t queue_duration = PCM16_DURATION(queued_audio_bytes, m_media_out.audio.channels, m_media_out.audio.samplerate);
+    uint32_t queue_duration = PCM16_BYTES_DURATION(queued_audio_bytes, m_media_out.audio.channels,
+                                                   m_media_out.audio.samplerate);
 
     // check if head is already ahead of time
     AudioFrame* first_frame = reinterpret_cast<AudioFrame*>(mb->base());
@@ -406,7 +407,9 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, 
             AudioFrame* head_frame = reinterpret_cast<AudioFrame*>(mb->base());
             assert(m_media_out.audio.channels);
             assert(m_media_out.audio.samplerate);
-            head_frame->timestamp += PCM16_DURATION(write_bytes, m_media_out.audio.channels, m_media_out.audio.samplerate);
+            head_frame->timestamp += PCM16_BYTES_DURATION(write_bytes,
+                                                          m_media_out.audio.channels,
+                                                          m_media_out.audio.samplerate);
 
             int ret = out_mb->copy(mb->rd_ptr(), write_bytes);
             assert(ret >= 0);
@@ -440,7 +443,9 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, 
             int(need_more));
     //MYTRACE(ACE_TEXT("Ejecting audio frame %u\n"), media_frame.timestamp);
     
-    uint32_t newduration = PCM16_DURATION(GetQueuedAudioDataSize(), m_media_out.audio.channels, m_media_out.audio.samplerate);
+    uint32_t newduration = PCM16_BYTES_DURATION(GetQueuedAudioDataSize(),
+                                                m_media_out.audio.channels,
+                                                m_media_out.audio.samplerate);
     AudioProgress(newduration, timestamp - starttime + media_frame->InputDurationMSec());
 
     if (!m_audiocallback || !m_audiocallback(*media_frame, out_mb))

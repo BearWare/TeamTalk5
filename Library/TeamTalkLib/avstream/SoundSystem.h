@@ -231,6 +231,7 @@ namespace soundsystem {
             MYTRACE(ACE_TEXT("~OutputStreamer() - %p for StreamPlayer %p\n"), this, player);
         }
         bool IsVirtual() const { return outputdeviceid == SOUND_DEVICEID_VIRTUAL; }
+        bool IsShared() const { return (outputdeviceid & SOUND_DEVICE_SHARED_FLAG) != 0; }
     };
 
     struct DuplexStreamer : public SoundStreamer

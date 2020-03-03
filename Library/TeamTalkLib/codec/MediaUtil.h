@@ -235,7 +235,8 @@ void SelectStereo(StereoMask stereo, short* buffer, int samples);
 int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq);
 
 #define PCM16_BYTES(samples, channels) ((samples) * (channels) * sizeof(short))
-#define PCM16_DURATION(bytes, channels, samplerate) ((((bytes) / (channels) / sizeof(short)) * 1000) / (samplerate))
+#define PCM16_BYTES_DURATION(bytes, channels, samplerate) ((((bytes) / (channels) / sizeof(short)) * 1000) / (samplerate))
+#define PCM16_SAMPLES_DURATION(samples, samplerate) ((((samples)) * 1000) / (samplerate))
 
 #define RGB32_BYTES(w, h) (h * w * 4)
 

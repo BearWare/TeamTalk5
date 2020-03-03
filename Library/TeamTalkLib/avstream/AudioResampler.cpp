@@ -97,8 +97,11 @@ void AudioResampler::SetupFixedFrameSize(const media::AudioFormat& informat,
 
 short* AudioResampler::Resample(const short* input_samples, int* output_samples_size /*= nullptr*/)
 {
+    assert(m_resampleoutput.size());
+    
     int outsamples = Resample(input_samples, m_input_samples_size, &m_resampleoutput[0], m_output_samples_size);
-    *output_samples_size = m_output_samples_size;
+    if (output_samples_size)
+        *output_samples_size = outsamples;
     return &m_resampleoutput[0];
 }
 

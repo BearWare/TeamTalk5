@@ -39,6 +39,7 @@ import dk.bearware.FileTransferStatus;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
+import dk.bearware.SoundDeviceConstants;
 import dk.bearware.StreamType;
 import dk.bearware.Subscription;
 import dk.bearware.TeamTalk5;
@@ -368,7 +369,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         if (enable) {
             txSuspended = false;
             voxSuspended = false;
-            if (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(0))
+            int indevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
+            if (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(indevid))
                 ttclient.enableVoiceTransmission(true);
         }
         else {
@@ -382,7 +384,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         if (enable) {
             txSuspended = false;
             voxSuspended = false;
-            if (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(0))
+            int indevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
+            if (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(indevid))
                 ttclient.enableVoiceActivation(true);
         }
         else {

@@ -763,8 +763,7 @@ if(!recursive)                                                           \
     AudioCodec codec_dbg2;                                               \
     Convert(ret_val, codec_dbg2);                                        \
     Convert(codec_dbg2, codec_dbg1);                                     \
-    assert(memcmp(&(ret_val), &codec_dbg1,                               \
-                  sizeof((ret_val).codec) + sizeof(union_codec)) == 0);  \
+    assert(ret_val == codec_dbg1);                                       \
     recursive = false;                                                   \
 }                                                                        \
 } while(0)

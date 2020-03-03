@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.5.0.4988"
+#define TEAMTALK_VERSION "5.5.0.4989"
 
 
 #if defined(WIN32)
@@ -261,7 +261,7 @@ extern "C" {
         SOUNDSYSTEM_OPENSLES_ANDROID = 7,
         /** @brief iOS sound API.
          *
-         * Two sound devices will appear when calling
+         * The following sound devices will appear when calling
          * TT_GetSoundDevices(). Sound device ID
          * #TT_SOUNDDEVICE_ID_REMOTEIO will be AudioUnit subtype
          * Remote I/O Unit and sound device ID
@@ -344,7 +344,8 @@ extern "C" {
         INT32 nDefaultSampleRate;
     } SoundDevice;
 
-/** @brief Flag/bit in @c nDeviceID telling if the #SoundDevice is a
+/**
+ * @brief Flag/bit in @c nDeviceID telling if the #SoundDevice is a
  * shared version of an existing sound device.
  *
  * On Android the recording device can only be used by one TeamTalk
@@ -3675,12 +3676,25 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_CloseSoundLoopbackTest(IN TTSoundLoop* lpTTSoundLoop);
 
     /**
-     * @brief Initialize the sound input devices (for recording audio).
+     * @brief Initialize the sound input device (for recording audio).
      *
      * The @a nDeviceID of the #SoundDevice should be used as @a 
      * nInputDeviceID.
      *
-     * Callling this function will set the flag #CLIENT_SNDINPUT_READY.
+     * The @c nInputDeviceID can be or'ed with
+     * #TT_SOUNDDEVICE_SHARED_FLAG if the #TTInstance should share
+     * recording device with other instances.
+     *
+     * Notice fixed sound device ID for some platforms:
+     * - iOS
+     *   - #TT_SOUNDDEVICE_ID_REMOTEIO
+     *   - #TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO
+     * - Android
+     *   - #TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT
+     * - All platforms
+     *   - #TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL
+     *
+     * Calling this function will set the flag #CLIENT_SNDINPUT_READY.
      *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
@@ -3695,10 +3709,23 @@ extern "C" {
                                                    IN INT32 nInputDeviceID);
 
     /** 
-     * @brief Initialize the sound output devices (for sound playback).
+     * @brief Initialize the sound output device (for audio playback).
      *
      * The @a nDeviceID of the #SoundDevice should be used as @a 
      * nOutputDeviceID.
+     *
+     * The @c nOutputDeviceID can be or'ed with
+     * #TT_SOUNDDEVICE_SHARED_FLAG if the #TTInstance should share
+     * output device with other instances.
+     *
+     * Notice fixed sound device ID for some platforms:
+     * - iOS
+     *   - #TT_SOUNDDEVICE_ID_REMOTEIO
+     *   - #TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO
+     * - Android
+     *   - #TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT
+     * - All platforms
+     *   - #TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL
      *
      * Callling this function will set the flag
      * #CLIENT_SNDOUTPUT_READY.

@@ -1294,6 +1294,9 @@ int ServerNode::SendPacket(const FieldPacket& packet,
     {
         if (ph->GetLocalAddr() == localaddr)
         {
+            SocketOptGuard sog(ph->sock_i(), IPPROTO_IP, IP_TOS,
+                               ToIPTOSValue(packet));
+            
             if (m_properties.txloss && ((m_stats.packets_sent % m_properties.txloss) == 0))
             {
                 ret = packet.GetPacketSize();
