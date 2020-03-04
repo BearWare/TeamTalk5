@@ -156,7 +156,7 @@ int main(int argc, TTCHAR* argv[])
 
     while(TTS_RunEventLoop(ttsInst, 0))
     {
-        cout << "Event" << endl;
+        cout << _T("Event") << endl;
     }
 
     TTS_CloseTeamTalk(ttsInst);
