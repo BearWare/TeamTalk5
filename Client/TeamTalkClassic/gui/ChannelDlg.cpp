@@ -105,7 +105,7 @@ void CChannelDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_STATIC_BPS2, m_wndBpsLabel2);
     DDX_Control(pDX, IDC_EDIT_TXDELAY, m_wndTxDelay);
     DDX_Text(pDX, IDC_EDIT_TXDELAY, m_nTxDelay);
-    DDV_MinMaxInt(pDX, m_nTxDelay, 20, 100);
+    DDV_MinMaxInt(pDX, m_nTxDelay, AUDIOCODEC_MIN_TXINTERVALMSEC, AUDIOCODEC_MAX_TXINTERVALMSEC);
     DDX_Control(pDX, IDC_SPIN_DELAY, m_wndTxDelaySpin);
     DDX_Control(pDX, IDC_STATIC_TXINTERVAL, m_wndTxDelayLabel);
     DDX_Control(pDX, IDC_STATIC_TXI1, m_wndTxDelayLabel1);
@@ -321,8 +321,8 @@ void CChannelDlg::DisplayCodecControls(Codec nCodec)
         m_wndTxDelay.ShowWindow(SW_SHOW);
         m_wndTxDelaySpin.ShowWindow(SW_SHOW);
         m_wndTxDelayLabel1.ShowWindow(SW_SHOW);
-        m_wndTxDelaySpin.SetRange(SPEEX_MIN_MSEC_PER_PACKET,
-                                  SPEEX_MAX_MSEC_PER_PACKET);
+        m_wndTxDelaySpin.SetRange(SPEEX_MIN_TXINTERVALMSEC,
+                                  SPEEX_MAX_TXINTERVALMSEC);
         SetWindowNumber(m_wndTxDelay, DEFAULT_SPEEX_DELAY);
 
         m_wndAppLabel.ShowWindow(SW_HIDE);
@@ -373,8 +373,8 @@ void CChannelDlg::DisplayCodecControls(Codec nCodec)
         m_wndTxDelay.ShowWindow(SW_SHOW);
         m_wndTxDelaySpin.ShowWindow(SW_SHOW);
         m_wndTxDelayLabel1.ShowWindow(SW_SHOW);
-        m_wndTxDelaySpin.SetRange(SPEEX_MIN_MSEC_PER_PACKET,
-                                  SPEEX_MAX_MSEC_PER_PACKET);
+        m_wndTxDelaySpin.SetRange(SPEEX_MIN_TXINTERVALMSEC,
+                                  SPEEX_MAX_TXINTERVALMSEC);
         SetWindowNumber(m_wndTxDelay, DEFAULT_SPEEX_VBR_DELAY);
 
         m_wndAppLabel.ShowWindow(SW_HIDE);
@@ -428,8 +428,8 @@ void CChannelDlg::DisplayCodecControls(Codec nCodec)
         m_wndTxDelay.ShowWindow(SW_SHOW);
         m_wndTxDelaySpin.ShowWindow(SW_SHOW);
         m_wndTxDelayLabel1.ShowWindow(SW_SHOW);
-        m_wndTxDelaySpin.SetRange(OPUS_MIN_MSEC_PER_PACKET,
-                                  OPUS_MAX_MSEC_PER_PACKET);
+        m_wndTxDelaySpin.SetRange(OPUS_MIN_TXINTERVALMSEC,
+                                  OPUS_MAX_TXINTERVALMSEC);
         SetWindowNumber(m_wndTxDelay, DEFAULT_OPUS_DELAY);
         m_wndOpusFrameSizes.ShowWindow(SW_SHOW);
         m_wndFrmSizeStatic.ShowWindow(SW_SHOW);

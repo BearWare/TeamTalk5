@@ -833,13 +833,20 @@ Each of the fields in the create channel dialog are described here:
             bitrate is less than 30 kbit.
         - **Bitrate**
             - The bitrate to use. OPUS supports 6-510 KBit/sec.
+        - **Variable Bitrate**
+            - Enable to reduce bandwidth usage.
         - **Ignore silence (DTX)**
             - Discontinuous transmission (DTX), i.e. if the OPUS
               codec detects there's silence then it will output
               empty packets to conserve bandwidth.
         - **Transmit interval**
             - The number of milliseconds of recorded audio before the
-              TeamTalk client should transmit.
+              TeamTalk client should transmit. If transmit interval is
+              higher than 120 msec then a *Frame size* must be specified.
+        - **Frame size**
+            - A higher frame size gives less bandwidth usage but more
+              latency. If transmit interval is higher than 120 msec
+              then a frame size must be specified.
 
     - **Speex codec**
         - **Sample rate**
@@ -881,7 +888,7 @@ Each of the fields in the create channel dialog are described here:
       quality.
 - **Volume level**
     - The reference volume all users in the channel should use.
-
+    
 ## Classroom Channel Type {#classroom}
 
 If there's many people in a channel it's often nescessary for someone
