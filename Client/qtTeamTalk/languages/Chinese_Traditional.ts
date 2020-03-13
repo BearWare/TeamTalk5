@@ -352,6 +352,11 @@
         <translation>不間斷模式(同時只能一人出聲)</translation>
     </message>
     <message>
+        <location filename="../channel.ui" line="679"/>
+        <source>Variable bitrate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Static channel (persistent)</source>
         <translation type="obsolete">靜態頻道(永久)</translation>
     </message>
@@ -458,11 +463,6 @@
         <location filename="../channel.ui" line="659"/>
         <source>Kbps</source>
         <translation></translation>
-    </message>
-    <message>
-        <location filename="../channel.ui" line="679"/>
-        <source>Variable Bit Rate</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../channel.ui" line="733"/>
@@ -1999,7 +1999,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5415"/>
-        <source>The file %1 contains %2 setup information.
+        <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>

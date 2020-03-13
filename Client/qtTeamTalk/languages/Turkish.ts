@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="tr">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -414,8 +416,12 @@
     </message>
     <message>
         <location filename="../channel.ui" line="679"/>
+        <source>Variable bitrate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Variable Bit Rate</source>
-        <translation>Değişken Bit Hızı</translation>
+        <translation type="vanished">Değişken Bit Hızı</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="733"/>
@@ -2588,9 +2594,14 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5415"/>
+        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+Should these settings be applied?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.
+        <translation type="vanished">%1 dosyası %2 ayarlama bilgisi içeriyor.
 Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>

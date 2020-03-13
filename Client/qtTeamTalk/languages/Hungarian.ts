@@ -417,7 +417,7 @@
     </message>
     <message>
         <location filename="../channel.ui" line="679"/>
-        <source>Variable Bit Rate</source>
+        <source>Variable bitrate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2624,7 +2624,7 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5415"/>
-        <source>The file %1 contains %2 setup information.
+        <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
