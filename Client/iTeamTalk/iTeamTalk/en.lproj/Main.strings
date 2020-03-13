@@ -146,8 +146,8 @@
 /* Class = "UINavigationItem"; title = "Server List"; ObjectID = "pQJ-c1-GEL"; */
 "pQJ-c1-GEL.title" = "Server List";
 
-/* Class = "UILabel"; text = "Setup Annoucements"; ObjectID = "Q0w-pu-giG"; */
-"Q0w-pu-giG.text" = "Setup Annoucements";
+/* Class = "UILabel"; text = "Setup Announcements"; ObjectID = "Q0w-pu-giG"; */
+"Q0w-pu-giG.text" = "Setup Announcements";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
 "rNU-2J-hMO.normalTitle" = "Use No Audio";
