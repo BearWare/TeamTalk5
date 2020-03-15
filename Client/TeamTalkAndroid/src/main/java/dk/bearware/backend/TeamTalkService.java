@@ -370,6 +370,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             txSuspended = false;
             voxSuspended = false;
             int indevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
+            // indevid |= SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
             if (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(indevid))
                 ttclient.enableVoiceTransmission(true);
         }
