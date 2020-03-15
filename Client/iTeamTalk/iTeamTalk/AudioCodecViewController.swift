@@ -149,7 +149,8 @@ class AudioCodecViewController : UITableViewController {
         opus_items.append(opus_dtxcell)
         
         opus_framesizeCell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        opus_framesizeStepper = newTableCellStepper(opus_framesizeCell!, label: NSLocalizedString("Frame Size", comment:"codec detail"), min: 0, max: 120, step: 5, initial: Double(opuscodec.nFrameSizeMSec))
+        opus_framesizeStepper = newTableCellStepper(opus_framesizeCell!, label: NSLocalizedString("Frame Size", comment:"codec detail"),
+                                                    min: 0, max: Double(OPUS_REALMAX_FRAMESIZE), step: 5, initial: Double(opuscodec.nFrameSizeMSec))
         opus_framesizeStepper?.addTarget(self, action: #selector(AudioCodecViewController.opus_framesizeChanged(_:)), for: .valueChanged)
         opus_items.append(opus_framesizeCell!)
         
@@ -197,11 +198,19 @@ class AudioCodecViewController : UITableViewController {
     }
     
     @objc func opus_framesizeChanged(_ sender: UIStepper) {
-         opus_framesizeCell?.detailTextLabel!.text = String(Int(sender.value)) + " ms"
+        opus_framesizeCell?.detailTextLabel!.text = String(Int(sender.value)) + " ms"
     }
 
     @objc func opus_txintervalChanged(_ sender: UIStepper) {
-         opus_txintervalCell?.detailTextLabel!.text = String(Int(sender.value)) + " ms"
+        opus_txintervalCell?.detailTextLabel!.text = String(Int(sender.value)) + " ms"
+        if opus_framesizeStepper?.value == 0 && INT32(sender.value) > OPUS_REALMAX_FRAMESIZE {
+            opus_framesizeStepper?.value = Double(OPUS_REALMAX_FRAMESIZE)
+            opus_framesizeChanged(opus_framesizeStepper!)
+        }
+        else if opus_framesizeStepper!.value >= sender.value {
+            opus_framesizeStepper?.value = 0
+            opus_framesizeChanged(opus_framesizeStepper!)
+        }
     }
 
     func saveOPUSCodec() {
@@ -212,6 +221,7 @@ class AudioCodecViewController : UITableViewController {
         opuscodec.nTxIntervalMSec = Int32(opus_txintervalStepper!.value)
         opuscodec.bDTX = (opus_dtxSwitch!.isOn ? TRUE : FALSE)
         opuscodec.bVBR = (opus_vbrSwitch!.isOn ? TRUE : FALSE)
+        opuscodec.nFrameSizeMSec = Int32(opus_framesizeStepper!.value)
     }
     
     func setupSpeex() {
