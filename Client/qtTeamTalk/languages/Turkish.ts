@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -417,11 +415,7 @@
     <message>
         <location filename="../channel.ui" line="679"/>
         <source>Variable bitrate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Variable Bit Rate</source>
-        <translation type="vanished">Değişken Bit Hızı</translation>
+        <translation>Değişken bit hızı</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="733"/>
@@ -2084,12 +2078,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1651"/>
         <source>Invalid user account. Type username:</source>
-        <translation>Geçersiz kullanıcı hesabı. Kullanıcı adını yazın:</translation>
+        <translation>Geçersiz kullanıcı hesabı. Kullanıcı adı yazın:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1656"/>
         <source>Invalid user account. Type password:</source>
-        <translation>Geçersiz kullanıcı hesabı. Parolayı yazın:</translation>
+        <translation>Geçersiz kullanıcı hesabı. Parola yazın:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1673"/>
@@ -2596,12 +2590,7 @@
         <location filename="../mainwindow.cpp" line="5415"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">%1 dosyası %2 ayarlama bilgisi içeriyor.
+        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.&lt;byte value=&quot;xd&quot;/&gt;
 Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
@@ -4781,7 +4770,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../videotext.ui" line="128"/>
         <source>Background color</source>
-        <translation>Artalan rengi</translation>
+        <translation>Arka plan rengi</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="145"/>
