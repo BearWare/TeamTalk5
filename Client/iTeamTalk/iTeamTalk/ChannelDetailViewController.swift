@@ -170,7 +170,6 @@ class ChannelDetailViewController :
         
         if channel.nChannelID == 0 {
             cmdid = TT_DoJoinChannel(ttInst, &channel)
-            
         }
         else {
             cmdid = TT_DoUpdateChannel(ttInst, &channel)
@@ -180,7 +179,9 @@ class ChannelDetailViewController :
     @IBAction func joinChannelPressed(_ sender: UIButton) {
         
         if channel.bPassword == TRUE {
-            let alert = UIAlertView(title: NSLocalizedString("Enter Password", comment: "Dialog message"), message: NSLocalizedString("Password", comment: "Dialog message"), delegate: self, cancelButtonTitle: NSLocalizedString("Join", comment: "Dialog message"))
+            let alert = UIAlertView(title: NSLocalizedString("Enter Password", comment: "Dialog message"),
+                                    message: NSLocalizedString("Password", comment: "Dialog message"), delegate: self,
+                                                               cancelButtonTitle: NSLocalizedString("Join", comment: "Dialog message"))
             alert.alertViewStyle = .secureTextInput
             alert.textField(at: 0)?.text = self.passwdfield?.text
             alert.show()

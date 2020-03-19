@@ -41,6 +41,7 @@ import dk.bearware.FileTransfer;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
+import dk.bearware.SoundDeviceConstants;
 import dk.bearware.SoundLevel;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
@@ -1666,9 +1667,12 @@ implements TeamTalkConnectionListener,
         filesAdapter.setTeamTalkService(service);
         filesAdapter.update(mychannel);
 
+        int outsndid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
+        // outsndid |= SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+
         int flags = ttclient.getFlags();
         if (((flags & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
-            !ttclient.initSoundOutputDevice(0))
+            !ttclient.initSoundOutputDevice(outsndid))
             Toast.makeText(this, R.string.err_init_sound_output, Toast.LENGTH_LONG).show();
 
         if (!restarting) {

@@ -220,7 +220,7 @@
   <string name="alert_file_override">%1$s dosyası zaten var, değiştirilsin mi?</string>
   <string name="err_file_delete">%1$s dosyası silinemiyor</string>
   <string name="err_channel_remove">%1$s kanalı silinemiyor</string>
-  <string name="err_download_path">%1$s indirme yolu kullanılamaz</string>
+  <string name="err_download_path">%1$s indirme yolu kullanım dışı</string>
   <string name="download_progress">%1$d%% indirildi</string>
   <string name="upload_progress_title">%1$s yükleniyor</string>
   <string name="upload_progress">%1$d%%, İptal etmek için tıklayın</string>
@@ -257,6 +257,8 @@
   <string name="text_bitrate">Bit hızı</string>
   <string name="text_maxbitrate">En fazla bit hızı</string>
   <string name="text_txinterval">İletim aralığı</string>
+  <string name="text_framesize">Çerçeve boyutu</string>
+  <string name="text_vbr">Değişken Bit Hızı</string>
   <string name="text_quality">Kalite</string>
   <string name="text_publicserver">Kamu sunucusu</string>
   <string name="text_localserver">Yerel sunucu</string>
@@ -289,12 +291,12 @@
   <string name="text_desktop_session">Masaüstü oturumu</string>
   <string name="text_webcam_session">Web kamerası oturumu</string>
   <string name="text_mediafile_session">Ortam dosyası oturumu</string>
-  <string name="permission_audioinput">Ses kaydı ve kayıttan oynatma kullanılamaz olacak</string>
-  <string name="permission_audiomodify">Ses kaydı ve kayıttan oynatma kullanılamaz olacak</string>
-  <string name="permission_filerx">Dosyaları indirme kullanılamaz olacak</string>
-  <string name="permission_filetx">Dosyaları yükleme ve içe aktarma kullanılamaz olacak</string>
+  <string name="permission_audioinput">Ses kaydı ve kayıttan oynatma kullanım dışı olacak</string>
+  <string name="permission_audiomodify">Ses kaydı ve kayıttan oynatma kullanım dışı olacak</string>
+  <string name="permission_filerx">Dosyaları indirme kullanım dışı olacak</string>
+  <string name="permission_filetx">Dosyaları yükleme ve içe aktarma kullanım dışı olacak</string>
   <string name="permission_internet">İstemci sunuculara bağlanamaz olacak</string>
-  <string name="permission_vibrate">Bas konuş sırasında titreşim kullanılamaz olacak</string>
+  <string name="permission_vibrate">Bas konuş sırasında titreşim kullanım dışı olacak</string>
   <string name="permission_wake_lock">Ekran karardığında sunucu bağlantısı kaybedilebilir</string>
   <string name="permission_read_phone_state">Gelen telefon araması algılaması olanaksız olacak</string>
   <string name="facebook_app_id">611833262539381</string>

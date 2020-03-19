@@ -81,7 +81,7 @@
 		<true/>
 	</dict>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Microphone access is required for conversations</string>
+	<string>Microphone access is required to transmit your voice during conversations.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
