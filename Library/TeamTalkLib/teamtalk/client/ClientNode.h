@@ -330,7 +330,7 @@ namespace teamtalk {
         void SetVoiceGainLevel(int gainlevel);
         int GetVoiceGainLevel();
 
-        void SetSoundPreprocess(const SpeexDSP& speexdsp);
+        bool SetSoundPreprocess(const SpeexDSP& speexdsp);
         void SetSoundInputTone(StreamTypes streams, int frequency);
 
         bool StartRecordingMuxedAudioFile(const AudioCodec& codec, 

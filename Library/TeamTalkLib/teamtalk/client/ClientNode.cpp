@@ -3071,14 +3071,14 @@ int ClientNode::GetVoiceGainLevel()
     return m_soundprop.gainlevel;
 }
 
-void ClientNode::SetSoundPreprocess(const SpeexDSP& speexdsp)
+bool ClientNode::SetSoundPreprocess(const SpeexDSP& speexdsp)
 {
     ASSERT_REACTOR_LOCKED(this);
     rguard_t g_snd(lock_sndprop());
 
     m_soundprop.speexdsp = speexdsp;
 
-    m_voice_thread.UpdatePreprocess(speexdsp);
+    return m_voice_thread.UpdatePreprocess(speexdsp);
 }
 
 void ClientNode::SetSoundInputTone(StreamTypes streams, int frequency)

@@ -63,9 +63,7 @@ public:
     void QueueAudio(ACE_Message_Block* mb_audio);
     bool IsVoiceActive() const;
 
-#if defined(ENABLE_SPEEXDSP)
     bool UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp);
-#endif
     void MuteSound(bool leftchannel, bool rightchannel);
 
     int m_voicelevel;
