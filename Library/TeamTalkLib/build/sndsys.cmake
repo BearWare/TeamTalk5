@@ -44,6 +44,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
   set (SOUNDSYS_COMPILE_FLAGS -DENABLE_OPENSLES)
 
+  find_library (OPENSLES_LIBRARY OpenSLES)
+  list (APPEND SOUNDSYS_LINK_FLAGS ${OPENSLES_LIBRARY})
+  
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
   option (AUDIOUNIT "Build using AudioUnit" ON)
