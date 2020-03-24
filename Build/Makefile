@@ -30,7 +30,7 @@ android-build:
 	test -n "$(NDK)"
 	$(MAKE) CONFIGTYPE=$(CONFIGTYPE) \
 	CMAKE_EXTRA+="-DCMAKE_TOOLCHAIN_FILE=$(NDK)/build/cmake/android.toolchain.cmake -DANDROID_NATIVE_API_LEVEL=$(ANDROID_APP_PLATFORM) -DANDROID_ABI=$(ANDROID_APP_ABI) -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF" buildlib
-	cd $(TEAMTALK_ROOT)/Library/TeamTalkJNI/jni && $(NDK)/ndk-build
+	cd $(TEAMTALK_ROOT)/Library/TeamTalkJNI/jni && $(NDK)/ndk-build V=1
 
 android-armeabi-v7a: teamtalk-env toolchain-env
 	. $(TOOLCHAIN_ROOT)/toolchain.sh android armeabi-v7a && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) BUILDDIR=build-$@ android-build
