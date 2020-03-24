@@ -90,7 +90,10 @@ bool OpenSLESWrapper::Init()
     // reinitialize sound groups so they can use the new m_engineEngine
     std::vector<soundgroup_t> grps = GetSoundGroups();
     for (auto sndgrp : grps)
-        InitOutputMixObject(sndgrp);
+    {
+        if (InitOutputMixObject(sndgrp) == nullptr)
+            MYTRACE(ACE_TEXT("Failed to restore sound group\n"));
+    }
 
     // go through effect capabilities interfaces
     SLAndroidEffectCapabilitiesItf effectLibItf;
@@ -118,6 +121,18 @@ bool OpenSLESWrapper::Init()
         }
     }
 
+    SLAndroidAcousticEchoCancellationItf aecItf;
+    result = (*m_engineObject)->GetInterface(m_engineObject, SL_IID_ANDROIDACOUSTICECHOCANCELLATION, &aecItf);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get echo cancel interface from engine\n"));
+
+    SLAndroidNoiseSuppressionItf noiseItf;
+    result = (*m_engineObject)->GetInterface(m_engineObject, SL_IID_ANDROIDNOISESUPPRESSION, &noiseItf);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get noise reduction interface from engine\n"));
+
+    SLAndroidAutomaticGainControlItf agcItf;
+    result = (*m_engineObject)->GetInterface(m_engineObject, SL_IID_ANDROIDAUTOMATICGAINCONTROL, &agcItf);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get AGC interface from engine\n"));
+    
 /* Audio IO capabilities not supported by NDK    
     // go through audio device capabilities interface
     SLAudioIODeviceCapabilitiesItf audioioItf;
