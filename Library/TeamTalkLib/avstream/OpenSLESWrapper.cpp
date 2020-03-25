@@ -62,8 +62,8 @@ bool OpenSLESWrapper::Init()
         {(SLuint32) SL_ENGINEOPTION_THREADSAFE, (SLuint32) SL_BOOLEAN_TRUE}
     };
 
-    SLInterfaceID ids[] = { SL_IID_ANDROIDEFFECTCAPABILITIES, SL_IID_AUDIOIODEVICECAPABILITIES };
-    SLboolean req[] = { SL_BOOLEAN_FALSE, SL_BOOLEAN_FALSE };
+    SLInterfaceID ids[] = { SL_IID_ANDROIDEFFECTCAPABILITIES };
+    SLboolean req[] = { SL_BOOLEAN_FALSE };
     const SLuint32 n_ids = sizeof(ids)/sizeof(ids[0]);
 
     // create engine
@@ -121,18 +121,6 @@ bool OpenSLESWrapper::Init()
         }
     }
 
-    SLAndroidAcousticEchoCancellationItf aecItf;
-    result = (*m_engineObject)->GetInterface(m_engineObject, SL_IID_ANDROIDACOUSTICECHOCANCELLATION, &aecItf);
-    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get echo cancel interface from engine\n"));
-
-    SLAndroidNoiseSuppressionItf noiseItf;
-    result = (*m_engineObject)->GetInterface(m_engineObject, SL_IID_ANDROIDNOISESUPPRESSION, &noiseItf);
-    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get noise reduction interface from engine\n"));
-
-    SLAndroidAutomaticGainControlItf agcItf;
-    result = (*m_engineObject)->GetInterface(m_engineObject, SL_IID_ANDROIDAUTOMATICGAINCONTROL, &agcItf);
-    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get AGC interface from engine\n"));
-    
 /* Audio IO capabilities not supported by NDK    
     // go through audio device capabilities interface
     SLAudioIODeviceCapabilitiesItf audioioItf;
@@ -358,11 +346,17 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     inputstreamer_t streamer;
     int frames_per_callback = 0;
 
-    const SLInterfaceID id[1] = {SL_IID_ANDROIDSIMPLEBUFFERQUEUE};
-    const SLboolean req[1] = {SL_BOOLEAN_TRUE};
+    const SLInterfaceID ids[] = {SL_IID_ANDROIDSIMPLEBUFFERQUEUE,
+                                 SL_IID_ANDROIDACOUSTICECHOCANCELLATION,
+                                 SL_IID_ANDROIDNOISESUPPRESSION,
+                                 SL_IID_ANDROIDAUTOMATICGAINCONTROL};
+    
+    const SLboolean req[] = {SL_BOOLEAN_TRUE, SL_BOOLEAN_FALSE, SL_BOOLEAN_FALSE, SL_BOOLEAN_FALSE};
+    
+    const SLuint32 n_ids = sizeof(ids)/sizeof(ids[0]);
     result = (*m_engineEngine)->CreateAudioRecorder(m_engineEngine, 
                                                     &recorderObject, 
-                                                    &audioSrc, &audioSnk, 1, id, req);
+                                                    &audioSrc, &audioSnk, n_ids, ids, req);
 
     if (SL_RESULT_SUCCESS != result) {
         MYTRACE(ACE_TEXT("Failed to create OpenSL audio recorder\n"));
@@ -390,6 +384,21 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     if (result != SL_RESULT_SUCCESS)
         goto failure;
 
+    SLAndroidAcousticEchoCancellationItf aecItf;
+    result = (*m_engineObject)->GetInterface(recorderObject, SL_IID_ANDROIDACOUSTICECHOCANCELLATION, &aecItf);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get echo cancel interface from engine\n"));
+    MYTRACE_COND(SL_RESULT_SUCCESS == result, ACE_TEXT("Succeeded to get echo cancel interface from engine\n"));
+
+    SLAndroidNoiseSuppressionItf noiseItf;
+    result = (*m_engineObject)->GetInterface(recorderObject, SL_IID_ANDROIDNOISESUPPRESSION, &noiseItf);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get noise reduction interface from engine\n"));
+    MYTRACE_COND(SL_RESULT_SUCCESS == result, ACE_TEXT("Succeeded to get noise reduction interface from engine\n"));
+
+    SLAndroidAutomaticGainControlItf agcItf;
+    result = (*m_engineObject)->GetInterface(recorderObject, SL_IID_ANDROIDAUTOMATICGAINCONTROL, &agcItf);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get AGC interface from engine\n"));
+    MYTRACE_COND(SL_RESULT_SUCCESS == result, ACE_TEXT("Succeeded to get AGC interface from engine\n"));
+    
     // store input stream properties for callback
     streamer.reset(new SLInputStreamer(capture,
                                        sndgrpid,
