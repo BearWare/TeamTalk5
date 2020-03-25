@@ -85,7 +85,7 @@ endfunction()
 # libTeamTalk5.so #
 ######################
 
-option (BUILD_TEAMTALK5DLL "Build TeamTalk5 library" ON)
+option (BUILD_TEAMTALK5DLL "Build TeamTalk5 shared library" ON)
 
 if (BUILD_TEAMTALK5DLL)
 
@@ -93,21 +93,7 @@ if (BUILD_TEAMTALK5DLL)
     list (APPEND TTCLIENTDLL_SOURCES ${MSVS_UNITTEST_SOURCES})
   endif()
 
-  if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
-    # Build both static and shared library for Android. The static
-    # library can be linked into libTeamTalk5-jni so apps don't need
-    # to include two shared libraries (avoid libTeamTalk5-jni.so
-    # depending on libTeamTalk5.so)
-    add_library (TeamTalk5Lib STATIC ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
-    add_library (TeamTalk5DLL SHARED ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
-    
-  elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
-    # Build only static libraries for iOS which are all merged into
-    # a universal binary
-    add_library (TeamTalk5DLL STATIC ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
-  else()
-    add_library (TeamTalk5DLL SHARED ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
-  endif()
+  add_library (TeamTalk5DLL SHARED ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
 
   target_include_directories (TeamTalk5DLL PUBLIC ${TTCLIENTDLL_INCLUDE_DIR})
   target_compile_options (TeamTalk5DLL PUBLIC ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
@@ -116,13 +102,6 @@ if (BUILD_TEAMTALK5DLL)
   
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set_output_dir(TeamTalk5DLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
-
-    # Duplicate build setup for libTeamTalk5.a
-    target_include_directories (TeamTalk5Lib PUBLIC ${TTCLIENTDLL_INCLUDE_DIR})
-    target_compile_options (TeamTalk5Lib PUBLIC ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
-    target_link_libraries (TeamTalk5Lib ${TTCLIENTDLL_LINK_FLAGS} ${LINK_LIBS})
-    set_target_properties (TeamTalk5Lib PROPERTIES OUTPUT_NAME TeamTalk5)
-    set_output_dir(TeamTalk5Lib ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     set_output_dir(TeamTalk5DLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_OSX_ARCHITECTURES})
   else()
@@ -137,10 +116,41 @@ if (BUILD_TEAMTALK5DLL)
 endif()
 
 ######################
+# libTeamTalk5.a #
+######################
+
+option (BUILD_TEAMTALK5LIB "Build TeamTalk5 static library" ON)
+
+if (BUILD_TEAMTALK5LIB)
+
+  if (MSVS_UNITTEST)
+    list (APPEND TTCLIENTDLL_SOURCES ${MSVS_UNITTEST_SOURCES})
+  endif()
+
+  add_library (TeamTalk5Lib STATIC ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
+
+  target_include_directories (TeamTalk5Lib PUBLIC ${TTCLIENTDLL_INCLUDE_DIR})
+  target_compile_options (TeamTalk5Lib PUBLIC ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
+  target_link_libraries (TeamTalk5Lib ${TTCLIENTDLL_LINK_FLAGS} ${LINK_LIBS})
+  set_target_properties (TeamTalk5Lib PROPERTIES OUTPUT_NAME TeamTalk5)
+  
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+    set_output_dir(TeamTalk5Lib ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
+  elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+    set_output_dir(TeamTalk5Lib ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_OSX_ARCHITECTURES})
+  else()
+    set_output_dir(TeamTalk5Lib ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
+  endif()
+
+endif()
+
+
+
+######################
 # libTeamTalk5Pro.so #
 ######################
 
-option (BUILD_TEAMTALK5PRODLL "Build TeamTalk5Pro library" ON)
+option (BUILD_TEAMTALK5PRODLL "Build TeamTalk5Pro shared library" ON)
 
 if (BUILD_TEAMTALK5PRODLL)
 
@@ -148,13 +158,8 @@ if (BUILD_TEAMTALK5PRODLL)
     list (APPEND TTCLIENTPRODLL_SOURCES ${MSVS_UNITTEST_SOURCES})
   endif()
 
-  if (${CMAKE_SYSTEM_NAME} MATCHES "Android" OR ${CMAKE_SYSTEM_NAME} MATCHES "iOS")
-    add_library (TeamTalk5ProDLL STATIC
-      ${TTCLIENTPRODLL_SOURCES} ${TTCLIENTPRODLL_HEADERS})
-  else()
-    add_library (TeamTalk5ProDLL SHARED
-      ${TTCLIENTPRODLL_SOURCES} ${TTCLIENTPRODLL_HEADERS})
-  endif()
+  add_library (TeamTalk5ProDLL SHARED
+    ${TTCLIENTPRODLL_SOURCES} ${TTCLIENTPRODLL_HEADERS})
 
   target_include_directories (TeamTalk5ProDLL PUBLIC
     ${TTCLIENTPRODLL_INCLUDE_DIR})
@@ -182,6 +187,44 @@ if (BUILD_TEAMTALK5PRODLL)
   endif()
 
 endif()
+
+######################
+# libTeamTalk5Pro.a #
+######################
+
+option (BUILD_TEAMTALK5PROLIB "Build TeamTalk5Pro static library" ON)
+
+if (BUILD_TEAMTALK5PROLIB)
+
+  if (MSVS_UNITTEST)
+    list (APPEND TTCLIENTPRODLL_SOURCES ${MSVS_UNITTEST_SOURCES})
+  endif()
+
+  add_library (TeamTalk5ProLib STATIC
+    ${TTCLIENTPRODLL_SOURCES} ${TTCLIENTPRODLL_HEADERS})
+
+  target_include_directories (TeamTalk5ProLib PUBLIC
+    ${TTCLIENTPRODLL_INCLUDE_DIR})
+
+  target_compile_options (TeamTalk5ProLib PUBLIC
+    ${TTCLIENTPRODLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
+
+  target_link_libraries (TeamTalk5ProLib
+    ${TTCLIENTPRODLL_LINK_FLAGS}
+    ${LINK_LIBS})
+
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+    set_output_dir(TeamTalk5ProLib ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
+  elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+    set_output_dir(TeamTalk5ProLib ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_OSX_ARCHITECTURES})
+  else()
+    set_output_dir(TeamTalk5ProLib ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
+  endif()
+
+  set_target_properties (TeamTalk5ProLib PROPERTIES OUTPUT_NAME TeamTalk5Pro)
+  
+endif()
+
 
 ##########
 # tt5srv #
