@@ -119,7 +119,7 @@ endif()
 # libTeamTalk5.a #
 ######################
 
-option (BUILD_TEAMTALK5LIB "Build TeamTalk5 static library" ON)
+option (BUILD_TEAMTALK5LIB "Build TeamTalk5 static library" OFF)
 
 if (BUILD_TEAMTALK5LIB)
 
@@ -192,7 +192,7 @@ endif()
 # libTeamTalk5Pro.a #
 ######################
 
-option (BUILD_TEAMTALK5PROLIB "Build TeamTalk5Pro static library" ON)
+option (BUILD_TEAMTALK5PROLIB "Build TeamTalk5Pro static library" OFF)
 
 if (BUILD_TEAMTALK5PROLIB)
 
