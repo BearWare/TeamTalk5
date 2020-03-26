@@ -672,8 +672,7 @@ TEAMTALKDLL_API TTBOOL TT_SetSoundInputPreprocess(IN TTInstance* lpTTInstance,
     teamtalk::SpeexDSP spxdsp;
     Convert(*lpSpeexDSP, spxdsp);
 
-    clientnode->SetSoundPreprocess(spxdsp);
-    return TRUE;
+    return clientnode->SetSoundPreprocess(spxdsp);
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetSoundInputPreprocess(IN TTInstance* lpTTInstance,

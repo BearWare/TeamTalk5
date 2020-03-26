@@ -3269,4 +3269,70 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 ids.remove(new Integer(msg.user.nUserID));
         } while(ids.size()>0);
     }
+
+    /* cannot test output levels since a user is muted by sound system after decoding and callback.
+
+    public void test_SharedAudioInputOutputLevels() {
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+        
+        TeamTalkBase rxclient = newClientInstance();
+
+        IntPtr indev = new IntPtr(), outdev = new IntPtr();
+        if(INPUTDEVICEID < 0 && OUTPUTDEVICEID < 0)
+           assertTrue("get default devs", rxclient.getDefaultSoundDevices(indev, outdev));
+        else
+        {
+            indev.value = INPUTDEVICEID;
+            outdev.value = OUTPUTDEVICEID;
+        }
+
+        indev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        outdev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+
+        assertTrue("Init rx input", rxclient.initSoundInputDevice(indev.value));
+        assertTrue("Init rx output", rxclient.initSoundOutputDevice(outdev.value));
+        connect(rxclient);
+        login(rxclient, NICKNAME, USERNAME, PASSWORD);
+        Channel chan = buildDefaultChannel(rxclient, "Opus_12khz", Codec.OPUS_CODEC);
+        chan.audiocodec.opus.nSampleRate = 12000;
+        chan.audiocodec.opus.nChannels = 2;
+        chan.audiocodec.opus.nTxIntervalMSec = 20;
+        chan.audiocodec.opus.nFrameSizeMSec = 5;
+        assertTrue("rxclient join channel", waitCmdSuccess(rxclient, rxclient.doJoinChannel(chan), DEF_WAIT));
+
+        TeamTalkBase txclient1 = newClientInstance();
+        assertTrue("Init tx1 input", txclient1.initSoundInputDevice(indev.value));
+        assertTrue("Init tx1 output", txclient1.initSoundOutputDevice(outdev.value));
+        connect(txclient1);
+        login(txclient1, NICKNAME, USERNAME, PASSWORD);
+        assertTrue("tx2 join existing" , waitCmdSuccess(txclient1, txclient1.doJoinChannelByID(rxclient.getMyChannelID(), ""), DEF_WAIT));
+        assertTrue("Gen tone tx1", txclient1.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 300));
+
+        assertTrue("enable callback", rxclient.enableAudioBlockEvent(txclient1.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
+        assertTrue("mute user", rxclient.setUserMute(txclient1.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
+                   
+        assertTrue("tx1 start transmit", txclient1.enableVoiceTransmission(true));
+
+        TTMessage msg = new TTMessage();
+
+        int count = 5;
+        do {
+            assertTrue("gimme voice audioblock", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, txclient1.getMyUserID());
+            assertTrue("got audio block", block != null);
+            assertEquals("stereo block", 2, block.nChannels);
+            short[] audio = audioToShortArray(block.lpRawAudio);
+            int max = 0;
+            for(int i=0;i<audio.length;i++) {
+                assertEquals("Muted user", 0, audio[i]);
+            }
+        } while (count-- > 0);
+
+        assertTrue("rxclient leave channel", waitCmdSuccess(rxclient, rxclient.doLeaveChannel(), DEF_WAIT));
+    }
+    */
 }

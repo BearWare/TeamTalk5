@@ -242,9 +242,9 @@ int AudioThread::close(u_long)
     return 0;
 }
 
-#if defined(ENABLE_SPEEXDSP)
 bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
 {
+#if defined(ENABLE_SPEEXDSP)
     //if audio thread isn't running, then Speex preprocess is not set up
     if(codec().codec == CODEC_NO_CODEC)
         return true;
@@ -307,8 +307,10 @@ bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
             speexdsp.aec_suppress_level, speexdsp.aec_suppress_active);
 
     return true;
-}
+#else
+    return false;
 #endif
+}
 
 void AudioThread::MuteSound(bool leftchannel, bool rightchannel)
 {
