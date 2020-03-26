@@ -24,10 +24,10 @@
 #ifndef OPENSLESWRAPPER_H
 #define OPENSLESWRAPPER_H
 
-#include <SLES/OpenSLES.h>
-#include <SLES/OpenSLES_Android.h>
-
 #include "SoundSystemBase.h"
+
+#include <SLES/OpenSLES_Android.h>
+#include <SLES/OpenSLES.h>
 
 #include <map>
 #include <vector>

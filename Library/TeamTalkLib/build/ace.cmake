@@ -53,3 +53,8 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   find_library (DL_LIBRARY dl)
   list (APPEND ACE_LINK_FLAGS ${DL_LIBRARY})
 endif()
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+  find_library (LOG_LIBRARY log)
+  list (APPEND ACE_LINK_FLAGS ${LOG_LIBRARY})
+endif()
