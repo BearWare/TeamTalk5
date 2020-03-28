@@ -144,6 +144,16 @@ public abstract class TeamTalkBase
         return getSoundInputPreprocess(ttInst, lpSpeexDSP);
     }
 
+    private native boolean setSoundInputPreprocessEx(long lpTTInstance, AudioPreprocessor lpAudioPreprocessor);
+    public boolean setSoundInputPreprocess(AudioPreprocessor lpAudioPreprocessor) {
+        return setSoundInputPreprocessEx(ttInst, lpAudioPreprocessor);
+    }
+
+    private native boolean getSoundInputPreprocessEx(long lpTTInstance, AudioPreprocessor lpAudioPreprocessor);
+    public boolean getSoundInputPreprocess(AudioPreprocessor lpAudioPreprocessor) {
+        return getSoundInputPreprocessEx(ttInst, lpAudioPreprocessor);
+    }
+    
     private native boolean setSoundOutputVolume(long lpTTInstance, int nVolume);
     public boolean setSoundOutputVolume(int nVolume)
         { return setSoundOutputVolume(ttInst, nVolume); }

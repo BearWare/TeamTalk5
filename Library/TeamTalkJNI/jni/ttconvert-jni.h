@@ -117,6 +117,7 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
 void setAudioConfig(JNIEnv* env, AudioConfig& audcfg, jobject lpAudioConfig, JConvert conv);
 void setSpeexDSP(JNIEnv* env, SpeexDSP& spxdsp, jobject lpSpeexDSP, JConvert conv);
 void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv);
+void setAndroidAudioPreprocessor(JNIEnv* env, AndroidAudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv);
 void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv);
 void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServerProperties, JConvert conv);
 void setClientStatistics(JNIEnv* env, ClientStatistics& stats, jobject lpStats); //N2J

@@ -3076,7 +3076,7 @@ int ClientNode::GetVoiceGainLevel()
     if (m_soundprop.preprocessor.preprocessor == AUDIOPREPROCESSOR_TEAMTALK)
         return m_soundprop.preprocessor.ttpreprocessor.gainlevel;
 
-    return GAIN_MIN;
+    return GAIN_NORMAL;
 }
 
 bool ClientNode::SetSoundPreprocess(const AudioPreprocessor& preprocessor)

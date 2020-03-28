@@ -305,6 +305,35 @@ extern "C" {
         return false;
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setSoundInputPreprocessEx(JNIEnv* env,
+                                                                                       jobject thiz,
+                                                                                       jlong lpTTInstance,
+                                                                                       jobject lpAudioPreprocessor)
+    {
+        THROW_NULLEX(env, lpAudioPreprocessor, false);
+
+        AudioPreprocessor preprocessor = {};
+        setAudioPreprocessor(env, preprocessor, lpAudioPreprocessor, J2N);
+        return TT_SetSoundInputPreprocessEx(reinterpret_cast<TTInstance*>(lpTTInstance), &preprocessor);
+    }
+    
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getSoundInputPreprocessEx(JNIEnv* env,
+                                                                                       jobject thiz,
+                                                                                       jlong lpTTInstance,
+                                                                                       jobject lpAudioPreprocessor)
+    {
+        THROW_NULLEX(env, lpAudioPreprocessor, false);
+
+        AudioPreprocessor preprocess = {};
+        if (TT_GetSoundInputPreprocessEx(reinterpret_cast<TTInstance*>(lpTTInstance), &preprocess))
+        {
+            setAudioPreprocessor(env, preprocess, lpAudioPreprocessor, N2J);
+            return true;
+        }
+        return false;
+    }
+    
+
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setSoundOutputVolume(JNIEnv* env,
                                                                                   jobject thiz,
                                                                                   jlong lpTTInstance,

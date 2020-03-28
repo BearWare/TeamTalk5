@@ -29,6 +29,7 @@ option (BUILD_TEAMTALKPRO_LIBRARY_JNI "Build TeamTalk 5 Pro JNI DLL for TeamTalk
 
 set (JAVA_SOURCES
   src/dk/bearware/AbusePrevention.java
+  src/dk/bearware/AndroidAudioPreprocessor.java
   src/dk/bearware/AudioBlock.java
   src/dk/bearware/AudioCodec.java
   src/dk/bearware/AudioConfig.java

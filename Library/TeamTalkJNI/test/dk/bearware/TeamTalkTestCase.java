@@ -2047,6 +2047,53 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         joinRoot(ttclient);
     }
 
+    public void test_SoundInputAudioPreprocessor() {
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_TRANSMIT_VOICE;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+        assertTrue("enable tx", ttclient.enableVoiceTransmission(true));
+
+        AudioPreprocessor preprocess = new AudioPreprocessor();
+        assertTrue("get default preprocessor", ttclient.getSoundInputPreprocess(preprocess));
+        assertEquals("TTAudioPreprocessor is default", AudioPreprocessorType.TEAMTALK_AUDIOPREPROCESSOR, preprocess.nPreprocessor);
+
+        assertEquals("gain compatible", preprocess.ttpreprocessor.nGainLevel, ttclient.getSoundInputGainLevel());
+        assertEquals("gain default set", SoundLevel.SOUND_GAIN_DEFAULT, preprocess.ttpreprocessor.nGainLevel);
+
+        assertTrue("Set gain level", ttclient.setSoundInputGainLevel(SoundLevel.SOUND_GAIN_MAX));
+        assertTrue("get updated AP preprocessor", ttclient.getSoundInputPreprocess(preprocess));
+        assertEquals("gain levelfrom AP is max", SoundLevel.SOUND_GAIN_MAX, preprocess.ttpreprocessor.nGainLevel);
+        assertEquals("gain level is max", SoundLevel.SOUND_GAIN_MAX, ttclient.getSoundInputGainLevel());
+
+        // test SpeexDSP
+        preprocess = new AudioPreprocessor();
+        preprocess.nPreprocessor = AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR;
+        preprocess.speexdsp.nGainLevel = 7777;
+        assertTrue("Enable SpeexDSP", ttclient.setSoundInputPreprocess(preprocess));
+        SpeexDSP speexdsp = new SpeexDSP();
+        assertTrue("Get SpeexDSP", ttclient.getSoundInputPreprocess(speexdsp));
+        assertEquals("SpeexDSP and AudioPreprocessor are equals", 7777, speexdsp.nGainLevel);
+        assertTrue("get updated AP with SpeexDSP preprocessor", ttclient.getSoundInputPreprocess(preprocess));
+        assertEquals("SpeexDSP and AudioPreprocessor are equals", 7777, preprocess.speexdsp.nGainLevel);
+        assertEquals("gain level reset to default", SoundLevel.SOUND_GAIN_DEFAULT, ttclient.getSoundInputGainLevel());
+
+        Channel chan = buildDefaultChannel(ttclient, "Opus - Test", Codec.OPUS_CODEC);
+        chan.audiocodec.opus.nChannels = 2;
+        chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_AUDIO;
+        chan.audiocodec.opus.bDTX = false;
+        assertTrue("join", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue("get updated AP with SpeexDSP preprocessor after join", ttclient.getSoundInputPreprocess(preprocess));
+        assertEquals("SpeexDSP and AudioPreprocessor are still equal", 7777, preprocess.speexdsp.nGainLevel);
+    }
+
     public void test_StoreUserVoiceInFileFormats() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();

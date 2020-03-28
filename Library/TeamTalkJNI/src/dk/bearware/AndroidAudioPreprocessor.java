@@ -23,14 +23,12 @@
 
 package dk.bearware;
 
-public class AudioPreprocessor {
+public class AndroidAudioPreprocessor {
 
-    int nPreprocessor = AudioPreprocessorType.NO_AUDIOPREPROCESSOR;
-
-    public SpeexDSP speexdsp = new SpeexDSP();
-    public TTAudioPreprocessor ttpreprocessor = new TTAudioPreprocessor();
-    public AndroidAudioPreprocessor androidpreprocessor = new AndroidAudioPreprocessor();
+    public boolean bEnableAGC = false;
+    public boolean bEnableDenoise = false;
+    public boolean bEnableEchoCancellation = false;
     
-    AudioPreprocessor() {
+    public AndroidAudioPreprocessor() {
     }
 }
