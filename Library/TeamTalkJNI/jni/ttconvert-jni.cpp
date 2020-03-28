@@ -916,7 +916,7 @@ void setAndroidAudioPreprocessor(JNIEnv* env, AndroidAudioPreprocessor& preproce
     }
     else
     {
-        preprocessor.bEnableEchoCancellation = env->GetIntField(lpPreprocessor, fid_aec);
+        preprocessor.bEnableEchoCancellation = env->GetBooleanField(lpPreprocessor, fid_aec);
         preprocessor.bEnableAGC = env->GetBooleanField(lpPreprocessor, fid_agc);
         preprocessor.bEnableDenoise = env->GetBooleanField(lpPreprocessor, fid_denoise);
     }
