@@ -35,13 +35,13 @@ android-armeabi-v7a: teamtalk-env toolchain-env
 	. $(TOOLCHAIN_ROOT)/toolchain.sh android armeabi-v7a && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) BUILDDIR=build-$@ android-build
 
 android-arm64-v8a: teamtalk-env toolchain-env
-	. $(TOOLCHAIN_ROOT)/toolchain.sh android arm64-v8a && $(MAKE) TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-arm64-v8a.cmake BUILDDIR=build-$@ android-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh android arm64-v8a && $(MAKE) TEAMTALK_ROOT=$(TEAMTALK_ROOT) BUILDDIR=build-$@ android-build
 
 android-x86: teamtalk-env toolchain-env
-	. $(TOOLCHAIN_ROOT)/toolchain.sh android x86 && $(MAKE) TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-x86.cmake BUILDDIR=build-$@ android-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh android x86 && $(MAKE) TEAMTALK_ROOT=$(TEAMTALK_ROOT) BUILDDIR=build-$@ android-build
 
 android-x64: teamtalk-env toolchain-env
-	. $(TOOLCHAIN_ROOT)/toolchain.sh android x86_64 && $(MAKE) TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-x86_64.cmake BUILDDIR=build-$@ android-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh android x86_64 && $(MAKE) TEAMTALK_ROOT=$(TEAMTALK_ROOT) BUILDDIR=build-$@ android-build
 
 generic:
 	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_CORE=ON" buildlib
