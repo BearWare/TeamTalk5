@@ -3056,33 +3056,72 @@ bool ClientNode::MuteAll(bool muteall)
     return m_soundsystem->MuteAll(m_soundprop.soundgroupid, muteall);
 }
 
-void ClientNode::SetVoiceGainLevel(int gainlevel)
+bool ClientNode::SetVoiceGainLevel(int gainlevel)
 {
     rguard_t g_snd(lock_sndprop());
 
-    m_soundprop.gainlevel = gainlevel; //cache value
-    m_voice_thread.m_gainlevel = gainlevel;
+    if (m_soundprop.preprocessor.preprocessor == AUDIOPREPROCESSOR_TEAMTALK)
+    {
+        m_soundprop.preprocessor.ttpreprocessor.gainlevel = gainlevel; //cache value
+        return SetSoundPreprocess(m_soundprop.preprocessor);
+    }
+    
+    return false;
 }
 
 int ClientNode::GetVoiceGainLevel()
 {
     rguard_t g_snd(lock_sndprop());
 
-    return m_soundprop.gainlevel;
+    if (m_soundprop.preprocessor.preprocessor == AUDIOPREPROCESSOR_TEAMTALK)
+        return m_soundprop.preprocessor.ttpreprocessor.gainlevel;
+
+    return GAIN_MIN;
 }
 
-bool ClientNode::SetSoundPreprocess(const SpeexDSP& speexdsp)
+bool ClientNode::SetSoundPreprocess(const AudioPreprocessor& preprocessor)
 {
-    ASSERT_REACTOR_LOCKED(this);
     rguard_t g_snd(lock_sndprop());
 
-    m_soundprop.speexdsp = speexdsp;
+    m_soundprop.preprocessor = preprocessor;
 
-    return m_voice_thread.UpdatePreprocess(speexdsp);
+    if (preprocessor.preprocessor == AUDIOPREPROCESSOR_ANDROID)
+    {
+        bool success = true;
+        success &= m_soundsystem->SetEchoCancellation(this, preprocessor.androidpreprocessor.enable_aec);
+        success &= m_soundsystem->SetAGC(this, preprocessor.androidpreprocessor.enable_agc);
+        success &= m_soundsystem->SetDenoising(this, preprocessor.androidpreprocessor.enable_denoise);
+        return success;
+    }
+    else
+    {
+        m_soundsystem->SetEchoCancellation(this, false);
+        m_soundsystem->SetAGC(this, false);
+        m_soundsystem->SetDenoising(this, false);
+    }
+
+    return m_voice_thread.UpdatePreprocessor(preprocessor);
+}
+
+AudioPreprocessor ClientNode::GetSoundPreprocess()
+{
+    rguard_t g_snd(lock_sndprop());
+
+    auto preprocessor = m_soundprop.preprocessor;
+
+    if (preprocessor.preprocessor == AUDIOPREPROCESSOR_ANDROID)
+    {
+        preprocessor.androidpreprocessor.enable_aec = m_soundsystem->IsEchoCancelling(this);
+        preprocessor.androidpreprocessor.enable_agc = m_soundsystem->IsAGC(this);
+        preprocessor.androidpreprocessor.enable_denoise = m_soundsystem->IsDenoising(this);
+    }
+    return preprocessor;
 }
 
 void ClientNode::SetSoundInputTone(StreamTypes streams, int frequency)
 {
+    ASSERT_REACTOR_LOCKED(this);
+
     if(streams & STREAMTYPE_MEDIAFILE_AUDIO)
         m_audiofile_thread.EnableTone(frequency);
     if(streams & STREAMTYPE_VOICE)
@@ -3250,20 +3289,8 @@ bool ClientNode::UpdateStreamingMediaFile(uint32_t offset, bool paused,
         }
     }
 
-    switch(preprocessor.preprocessor)
-    {
-    case AUDIOPREPROCESSOR_NONE :
-        break;
-    case AUDIOPREPROCESSOR_SPEEXDSP :
-        if (!m_audiofile_thread.UpdatePreprocess(preprocessor.speexdsp))
-            return false;
-        break;
-    case AUDIOPREPROCESSOR_TEAMTALK :
-        m_audiofile_thread.m_gainlevel = preprocessor.ttpreprocessor.gainlevel;
-        m_audiofile_thread.MuteSound(preprocessor.ttpreprocessor.muteleft,
-                                     preprocessor.ttpreprocessor.muteright);
-        break;
-    }
+    if (!m_audiofile_thread.UpdatePreprocessor(preprocessor))
+        return false;
 
     if (offset != MEDIASTREAMER_OFFSET_IGNORE)
         m_mediafile_streamer->SetOffset(offset);
@@ -3354,6 +3381,7 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
 
     switch(preprocessor.preprocessor)
     {
+    case AUDIOPREPROCESSOR_ANDROID : //remove warning. Not applicable value anyway
     case AUDIOPREPROCESSOR_NONE:
         playback->MuteSound(false, false);
         playback->SetGainLevel();
@@ -4098,7 +4126,7 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
     auto cbenc = std::bind(&ClientNode::EncodedAudioVoiceFrame, this, _1, _2, _3, _4, _5);
     if(m_voice_thread.StartEncoder(cbenc, codec, true))
     {
-        if (!m_voice_thread.UpdatePreprocess(m_soundprop.speexdsp)) //set AGC, denoise, etc.
+        if (!SetSoundPreprocess(m_soundprop.preprocessor)) //set AGC, denoise, etc.
         {
             m_listener->OnInternalError(TT_INTERR_AUDIOCONFIG_INIT_FAILED,
                                         GetErrorDescription(TT_INTERR_AUDIOCONFIG_INIT_FAILED));

@@ -1761,6 +1761,14 @@ namespace soundsystem {
             return streamer->mute;
         }
 
+        virtual bool SetEchoCancellation(StreamCapture* capture, bool enable) { return false; }
+        virtual bool IsEchoCancelling(StreamCapture* capture) { return false; }
+        virtual bool SetAGC(StreamCapture* capture, bool enable) { return false; }
+        virtual bool IsAGC(StreamCapture* capture) { return false; }
+        virtual bool SetDenoising(StreamCapture* capture, bool enable) { return false; }
+        virtual bool IsDenoising(StreamCapture* capture) { return false; }
+        
+
 
     protected:
         void StartVirtualStream(inputstreamer_t streamer)

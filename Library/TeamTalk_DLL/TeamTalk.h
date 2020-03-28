@@ -1086,6 +1086,21 @@ extern "C" {
         TTBOOL bMuteRightSpeaker;
     } TTAudioPreprocessor;
 
+    /** @brief Use Android's audio device capabilities for
+     * preprocessing microphone input. 
+     * @see TT_Set */
+    typedef struct AndroidAudioPreprocessor
+    {
+        /** @brief Enable Android audio capability for Automatic Gain
+         * Control. */
+        TTBOOL bEnableAGC;
+        /** @brief Enable Android audio capability for noise
+         * suppression. */
+        TTBOOL bEnableDenoise;
+        /** @brief Enable Android audio capability for echo
+         * cancellation. */
+        TTBOOL bEnableEchoCancellation;
+    } AndroidAudioPreprocessor;
 
     /** @brief The types of supported audio preprocessors.
      *
@@ -1099,6 +1114,8 @@ extern "C" {
         SPEEXDSP_AUDIOPREPROCESSOR  = 1,
         /** @brief Use TeamTalk's internal audio preprocessor #TTAudioPreprocessor. */
         TEAMTALK_AUDIOPREPROCESSOR  = 2,
+        /** @brief Use Android audio preprocessor #OpenSLESAudioPreprocessor. */
+        ANDROID_AUDIOPREPROCESSOR   = 3,
     } AudioPreprocessorType;
 
     /** @brief Configure the audio preprocessor specified by @c nPreprocessor. */
@@ -1112,6 +1129,8 @@ extern "C" {
             SpeexDSP speexdsp;
             /** @brief Used when @c nPreprocessor is #TEAMTALK_AUDIOPREPROCESSOR. */
             TTAudioPreprocessor ttpreprocessor;
+            /** @brief Used when @c nPreprocessor is #ANDROID_AUDIOPREPROCESSOR. */
+            AndroidAudioPreprocessor androidpreprocessor;
         };
     } AudioPreprocessor;
     
@@ -3859,8 +3878,10 @@ extern "C" {
      * original volume and 8000 is 8 times the original volume.
      *
      * Note that using TT_SetSoundInputPreprocess() will override
-     * settings an input gain level. This is because automatic gain
+     * settings on input gain level. This is because automatic gain
      * control will adjust the volume level.
+     *
+     * @deprecated Use TT_SetSoundInputPreprocessEx() and #TEAMTALK_AUDIOPREPROCESSOR.
      *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
@@ -3871,6 +3892,8 @@ extern "C" {
 
     /**
      * @brief Get voice gain level of outgoing audio
+     *
+     * @deprecated Use TT_GetSoundInputPreprocessEx()
      *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
@@ -3889,6 +3912,8 @@ extern "C" {
      * In order for echo cancellation to work best it's important to
      * also enable AGC in the #SpeexDSP.
      *
+     * @deprecated Use TT_SetSoundInputPreprocessEx()
+     *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
      * @param lpSpeexDSP The sound preprocessor settings to use. 
@@ -3896,20 +3921,27 @@ extern "C" {
      * settings for all users.
      * @return TRUE on success, FALSE on failure. */
     TEAMTALKDLL_API TTBOOL TT_SetSoundInputPreprocess(IN TTInstance* lpTTInstance,
-                                                      const IN SpeexDSP* lpSpeexDSP);
+                                                      IN const SpeexDSP* lpSpeexDSP);
 
     /** 
      * @brief Get the sound preprocessor settings which are currently in use
      * for recorded sound input device (voice input).
      *
+     * @deprecated Use TT_GetSoundInputPreprocessEx()
+     *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
      * @param lpSpeexDSP A preallocated SpeexDSP which will 
      * receive the settings that is currently in effect.
-     *
      * @return TRUE on success, FALSE on failure. */
     TEAMTALKDLL_API TTBOOL TT_GetSoundInputPreprocess(IN TTInstance* lpTTInstance,
                                                       OUT SpeexDSP* lpSpeexDSP);
+
+    TEAMTALKDLL_API TTBOOL TT_SetSoundInputPreprocessEx(IN TTInstance* lpTTInstance,
+                                                        IN const AudioPreprocessor* lpAudioPreprocessor);
+    
+    TEAMTALKDLL_API TTBOOL TT_GetSoundInputPreprocessEx(IN TTInstance* lpTTInstance,
+                                                        OUT AudioPreprocessor* lpAudioPreprocessor);
 
     /**
      * @brief Set master volume. 

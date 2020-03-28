@@ -242,6 +242,33 @@ int AudioThread::close(u_long)
     return 0;
 }
 
+bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess)
+{
+    //set AGC
+    std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
+
+    switch (preprocess.preprocessor)
+    {
+    case AUDIOPREPROCESSOR_NONE :
+        MuteSound(false, false);
+        m_gainlevel = GAIN_NORMAL;
+        UpdatePreprocess(teamtalk::SpeexDSP());
+        return true;
+    case AUDIOPREPROCESSOR_SPEEXDSP :
+        MuteSound(false, false);
+        m_gainlevel = GAIN_NORMAL;
+        return UpdatePreprocess(preprocess.speexdsp);
+    case AUDIOPREPROCESSOR_TEAMTALK :
+        MuteSound(preprocess.ttpreprocessor.muteleft, preprocess.ttpreprocessor.muteright);
+        m_gainlevel = preprocess.ttpreprocessor.gainlevel;
+        UpdatePreprocess(teamtalk::SpeexDSP()); // disable SpeexDSP
+        return true;
+    case AUDIOPREPROCESSOR_ANDROID :
+        assert(preprocess.preprocessor != AUDIOPREPROCESSOR_ANDROID);
+        return false;
+    }
+}
+
 bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
 {
 #if defined(ENABLE_SPEEXDSP)
@@ -250,9 +277,6 @@ bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
         return true;
 
     int channels = GetAudioCodecChannels(codec());
-
-    //set AGC
-    wguard_t gp(m_preprocess_lock);
 
     SpeexAGC agc;
     agc.gain_level = (float)speexdsp.agc_gainlevel;
@@ -479,7 +503,7 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
 #if defined(ENABLE_SPEEXDSP)
 void AudioThread::PreprocessAudioFrame(media::AudioFrame& audblock)
 {
-    wguard_t g(m_preprocess_lock);
+    std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
 
     bool preprocess = false;
 

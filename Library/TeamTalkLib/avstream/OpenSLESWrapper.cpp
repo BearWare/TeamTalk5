@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -30,7 +30,7 @@ namespace soundsystem {
 
 SLuint32 toSLSamplerate(int samplerate);
 SLuint32 toSLSpeaker(int channels);
-int detectMinumumBuffer(SLAndroidSimpleBufferQueueItf bq, 
+int detectMinumumBuffer(SLAndroidSimpleBufferQueueItf bq,
                         std::vector<short>& buffer, int samplerate,
                         int framesize, int channels);
 
@@ -114,14 +114,14 @@ bool OpenSLESWrapper::Init()
             SLuint16 effectNameLength = FX_NAME_LENGTH-1;
 
             result = (*effectLibItf)->QueryEffect(effectLibItf, i,
-                                                  &effectType, &effectImplementation, 
+                                                  &effectType, &effectImplementation,
                                                   effectName, &effectNameLength);
             effectName[effectNameLength] = 0;
             MYTRACE(ACE_TEXT("Android Effect Capability: #%d name=%s\n"), i, effectName);
         }
     }
 
-/* Audio IO capabilities not supported by NDK    
+/* Audio IO capabilities not supported by NDK
     // go through audio device capabilities interface
     SLAudioIODeviceCapabilitiesItf audioioItf;
     result = (*m_engineObject)->GetInterface(m_engineObject, SL_IID_AUDIOIODEVICECAPABILITIES, &audioioItf);
@@ -132,7 +132,7 @@ bool OpenSLESWrapper::Init()
         SLint32 nbAudioDevs = 3;//sizeof(audioDevIds)/sizeof(audioDevIds[0]);
         result = (*audioioItf)->GetAvailableAudioInputs(audioioItf, &nbAudioDevs, audioDevIds);
         MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to audio input interfaces from engine\n"));
-        
+
         for(SLint32 i=0;i<nbAudioDevs;i++)
         {
             SLAudioInputDescriptor dev;
@@ -147,7 +147,7 @@ bool OpenSLESWrapper::Init()
 
     RefreshDevices();
 
-    MYTRACE(ACE_TEXT("Initializing OpenSL ES: %s\n"), 
+    MYTRACE(ACE_TEXT("Initializing OpenSL ES: %s\n"),
             result == SL_RESULT_SUCCESS? ACE_TEXT("success") : ACE_TEXT("failure"));
 
     return result == SL_RESULT_SUCCESS;
@@ -160,7 +160,7 @@ void OpenSLESWrapper::Close()
         std::vector<soundgroup_t> grps = GetSoundGroups();
         for (auto sndgrp : grps)
             CloseOutputMixObject(sndgrp);
-        
+
         (*m_engineObject)->Destroy(m_engineObject);
         m_engineObject = NULL;
         m_engineEngine = NULL;
@@ -178,7 +178,7 @@ std::shared_ptr<OpenSLESWrapper> OpenSLESWrapper::getInstance()
 SLObjectItf OpenSLESWrapper::InitOutputMixObject(soundgroup_t& sndgrp)
 {
     std::lock_guard<std::recursive_mutex> g(sndgrp->mutex);
-    
+
     assert(sndgrp->refCount >= 0);
     if (sndgrp->refCount >= 1)
     {
@@ -195,7 +195,7 @@ SLObjectItf OpenSLESWrapper::InitOutputMixObject(soundgroup_t& sndgrp)
     // create output mix, with environmental reverb specified as a non-required interface
     const SLInterfaceID ids_env[1] = {SL_IID_ENVIRONMENTALREVERB};
     const SLboolean req_env[1] = {SL_BOOLEAN_FALSE};
-    result = (*m_engineEngine)->CreateOutputMix(m_engineEngine, &outputMixObject, 
+    result = (*m_engineEngine)->CreateOutputMix(m_engineEngine, &outputMixObject,
                                                 1, ids_env, req_env);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to create OpenSLES output mux\n"));
     if(SL_RESULT_SUCCESS != result)
@@ -215,7 +215,7 @@ SLObjectItf OpenSLESWrapper::InitOutputMixObject(soundgroup_t& sndgrp)
     // output mix object created successfully
     sndgrp->refCount = 1;
     sndgrp->outputMixObject = outputMixObject;
-    
+
     MYTRACE("Create output mix object %p, ref count: %d\n", outputMixObject, sndgrp->refCount);
     return sndgrp->outputMixObject;
 }
@@ -229,15 +229,15 @@ void OpenSLESWrapper::CloseOutputMixObject(soundgroup_t& sndgrp)
         MYTRACE("Ignored close on output mix object. It was never created.\n");
         return;
     }
-    
+
     sndgrp->refCount--;
     assert(sndgrp->refCount >= 0);
 
     MYTRACE("Output mix object %p decremented: %d\n", sndgrp->outputMixObject, sndgrp->refCount);
-    
+
     if (sndgrp->refCount > 0)
         return;
-    
+
     MYTRACE("Removing output mix object %p\n", sndgrp->outputMixObject);
     (*sndgrp->outputMixObject)->Destroy(sndgrp->outputMixObject);
     sndgrp->outputMixObject = nullptr;
@@ -276,7 +276,112 @@ bool OpenSLESWrapper::GetDefaultDevices(SoundAPI sndsys,
     }
     return false;
 }
-        
+
+bool OpenSLESWrapper::SetEchoCancellation(StreamCapture* capture, bool enable)
+{
+    auto inputstream = GetStream(capture);
+    if (!inputstream)
+        return false;
+
+    SLresult result;
+    SLAndroidAcousticEchoCancellationItf aecItf;
+    result = (*m_engineObject)->GetInterface(inputstream->recorderObject, SL_IID_ANDROIDACOUSTICECHOCANCELLATION, &aecItf);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get echo cancel interface from engine\n"));
+    if (result != SL_RESULT_SUCCESS)
+        return false;
+
+    result = (*aecItf)->SetEnabled(aecItf, enable);
+    return result == SL_RESULT_SUCCESS;
+}
+
+bool OpenSLESWrapper::IsEchoCancelling(StreamCapture* capture)
+{
+    auto inputstream = GetStream(capture);
+    if (!inputstream)
+        return false;
+
+    SLresult result;
+    SLAndroidAcousticEchoCancellationItf aecItf;
+    result = (*m_engineObject)->GetInterface(inputstream->recorderObject, SL_IID_ANDROIDACOUSTICECHOCANCELLATION, &aecItf);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get echo cancel interface from engine\n"));
+    if (result != SL_RESULT_SUCCESS)
+        return false;
+
+    SLboolean enabled = false;
+    result = (*aecItf)->IsEnabled(aecItf, &enabled);
+    return result == SL_RESULT_SUCCESS && enabled;
+}
+
+bool OpenSLESWrapper::SetAGC(StreamCapture* capture, bool enable)
+{
+    auto inputstream = GetStream(capture);
+    if (!inputstream)
+        return false;
+
+    SLresult result;
+    SLAndroidAutomaticGainControlItf agcItf;
+    result = (*m_engineObject)->GetInterface(inputstream->recorderObject, SL_IID_ANDROIDAUTOMATICGAINCONTROL, &agcItf);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get AGC interface from engine\n"));
+    if (result != SL_RESULT_SUCCESS)
+        return false;
+
+    result = (*agcItf)->SetEnabled(agcItf, enable);
+    return result == SL_RESULT_SUCCESS;
+}
+
+bool OpenSLESWrapper::IsAGC(StreamCapture* capture)
+{
+    auto inputstream = GetStream(capture);
+    if (!inputstream)
+        return false;
+
+    SLresult result;
+    SLAndroidAutomaticGainControlItf agcItf;
+    result = (*m_engineObject)->GetInterface(inputstream->recorderObject, SL_IID_ANDROIDAUTOMATICGAINCONTROL, &agcItf);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get AGC interface from engine\n"));
+    if (result != SL_RESULT_SUCCESS)
+        return false;
+
+    SLboolean enabled = false;
+    result = (*agcItf)->IsEnabled(agcItf, &enabled);
+    return result == SL_RESULT_SUCCESS && enabled;
+}
+
+bool OpenSLESWrapper::SetDenoising(StreamCapture* capture, bool enable)
+{
+    auto inputstream = GetStream(capture);
+    if (!inputstream)
+        return false;
+
+    SLresult result;
+    SLAndroidNoiseSuppressionItf noiseItf;
+    result = (*m_engineObject)->GetInterface(inputstream->recorderObject, SL_IID_ANDROIDNOISESUPPRESSION, &noiseItf);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get noise suppress interface from engine\n"));
+    if (result != SL_RESULT_SUCCESS)
+        return false;
+
+    result = (*noiseItf)->SetEnabled(noiseItf, enable);
+    return result == SL_RESULT_SUCCESS;
+}
+
+bool OpenSLESWrapper::IsDenoising(StreamCapture* capture)
+{
+    auto inputstream = GetStream(capture);
+    if (!inputstream)
+        return false;
+
+    SLresult result;
+    SLAndroidNoiseSuppressionItf noiseItf;
+    result = (*m_engineObject)->GetInterface(inputstream->recorderObject, SL_IID_ANDROIDNOISESUPPRESSION, &noiseItf);
+    MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get AGC interface from engine\n"));
+    if (result != SL_RESULT_SUCCESS)
+        return false;
+
+    SLboolean enabled = false;
+    result = (*noiseItf)->IsEnabled(noiseItf, &enabled);
+    return result == SL_RESULT_SUCCESS && enabled;
+}
+
 // this callback handler is called every time a buffer finishes recording
 void bqRecorderCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
 {
@@ -284,7 +389,7 @@ void bqRecorderCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
     SLAndroidSimpleBufferQueueState state;
 
     std::lock_guard<std::recursive_mutex> g(streamer->mutex);
-    
+
     SLresult result = (*bq)->GetState(bq, &state);
     assert(result == SL_RESULT_SUCCESS);
     if (result != SL_RESULT_SUCCESS)
@@ -293,8 +398,8 @@ void bqRecorderCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
     ACE_UINT32 buf_index = streamer->buf_index++ % ANDROID_INPUT_BUFFERS;
     assert(streamer->channels);
     assert(streamer->framesize);
-    // MYTRACE(ACE_TEXT("Callback to recorder %p, capture %p, buf size %d, framesize %d\n"), 
-    //         context, streamer->recorder, streamer->buffers[buf_index].size(), 
+    // MYTRACE(ACE_TEXT("Callback to recorder %p, capture %p, buf size %d, framesize %d\n"),
+    //         context, streamer->recorder, streamer->buffers[buf_index].size(),
     //         streamer->framesize);
     int n_samples = streamer->buffers[buf_index].size() / streamer->channels;
     for(int sample_index=0; sample_index<n_samples;
@@ -309,8 +414,8 @@ void bqRecorderCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
     assert(SL_RESULT_SUCCESS == result);
 }
 
-inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture, 
-                                           int inputdeviceid, int sndgrpid, 
+inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
+                                           int inputdeviceid, int sndgrpid,
                                            int samplerate, int channels,
                                            int framesize)
 {
@@ -350,12 +455,12 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
                                  SL_IID_ANDROIDACOUSTICECHOCANCELLATION,
                                  SL_IID_ANDROIDNOISESUPPRESSION,
                                  SL_IID_ANDROIDAUTOMATICGAINCONTROL};
-    
+
     const SLboolean req[] = {SL_BOOLEAN_TRUE, SL_BOOLEAN_FALSE, SL_BOOLEAN_FALSE, SL_BOOLEAN_FALSE};
-    
+
     const SLuint32 n_ids = sizeof(ids)/sizeof(ids[0]);
-    result = (*m_engineEngine)->CreateAudioRecorder(m_engineEngine, 
-                                                    &recorderObject, 
+    result = (*m_engineEngine)->CreateAudioRecorder(m_engineEngine,
+                                                    &recorderObject,
                                                     &audioSrc, &audioSnk, n_ids, ids, req);
 
     if (SL_RESULT_SUCCESS != result) {
@@ -371,7 +476,7 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     }
 
     // get the record interface
-    result = (*recorderObject)->GetInterface(recorderObject, SL_IID_RECORD, 
+    result = (*recorderObject)->GetInterface(recorderObject, SL_IID_RECORD,
                                              &recorderRecord);
     assert(SL_RESULT_SUCCESS == result);
     if (result != SL_RESULT_SUCCESS)
@@ -398,7 +503,7 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     result = (*m_engineObject)->GetInterface(recorderObject, SL_IID_ANDROIDAUTOMATICGAINCONTROL, &agcItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get AGC interface from engine\n"));
     MYTRACE_COND(SL_RESULT_SUCCESS == result, ACE_TEXT("Succeeded to get AGC interface from engine\n"));
-    
+
     // store input stream properties for callback
     streamer.reset(new SLInputStreamer(capture,
                                        sndgrpid,
@@ -413,7 +518,7 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     streamer->recorderBufferQueue = recorderBufferQueue;
 
     // register callback on the buffer queue
-    result = (*recorderBufferQueue)->RegisterCallback(recorderBufferQueue, 
+    result = (*recorderBufferQueue)->RegisterCallback(recorderBufferQueue,
                                                       bqRecorderCallback,
                                                       streamer.get());
     assert(SL_RESULT_SUCCESS == result);
@@ -423,13 +528,13 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     //figure out how many 'framesize' we need in each callback
     frames_per_callback = detectMinumumBuffer(recorderBufferQueue,
                                               streamer->buffers[0],
-                                              samplerate, framesize, 
+                                              samplerate, framesize,
                                               channels);
     if (frames_per_callback == 0)
         goto failure;
 
     MYTRACE(ACE_TEXT("Minimum samples for recording is %d\n"), frames_per_callback * framesize);
-    
+
     for (size_t i=1;i<ANDROID_INPUT_BUFFERS;i++)
     {
         streamer->buffers[i].resize(frames_per_callback*framesize*channels);
@@ -461,7 +566,7 @@ bool OpenSLESWrapper::StartStream(inputstreamer_t streamer)
     SLresult result;
 
     // start recording
-    result = (*streamer->recorderRecord)->SetRecordState(streamer->recorderRecord, 
+    result = (*streamer->recorderRecord)->SetRecordState(streamer->recorderRecord,
                                                          SL_RECORDSTATE_RECORDING);
     assert(SL_RESULT_SUCCESS == result);
 
@@ -473,7 +578,7 @@ bool OpenSLESWrapper::StopStream(inputstreamer_t streamer)
     SLresult result;
 
     // start recording
-    result = (*streamer->recorderRecord)->SetRecordState(streamer->recorderRecord, 
+    result = (*streamer->recorderRecord)->SetRecordState(streamer->recorderRecord,
                                                          SL_RECORDSTATE_STOPPED);
     assert(SL_RESULT_SUCCESS == result);
 
@@ -497,7 +602,7 @@ void OpenSLESWrapper::CloseStream(inputstreamer_t streamer)
     assert(SL_RESULT_SUCCESS == result);
 
     (*streamer->recorderObject)->Destroy(streamer->recorderObject);
-    
+
     MYTRACE(ACE_TEXT("Closed capture stream %p\n"), streamer->recorder);
 }
 
@@ -515,14 +620,14 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
     assert(streamer->framesize);
     int n_samples = streamer->buffers[buf_index].size() / streamer->channels;
     // MYTRACE(ACE_TEXT("bqPlayerCallback, samples %d, framesize %d\n"), n_samples, streamer->framesize);
-    for(int sample_index=0; more && sample_index<n_samples; 
+    for(int sample_index=0; more && sample_index<n_samples;
         sample_index += (streamer->framesize * streamer->channels))
     {
         more = streamer->player->StreamPlayerCb(*streamer,
                                                 &streamer->buffers[buf_index][sample_index],
                                                 streamer->framesize);
         //soft volume also handles mute
-        SoftVolume(OpenSLESWrapper::getInstance().get(), *streamer, 
+        SoftVolume(OpenSLESWrapper::getInstance().get(), *streamer,
                    &streamer->buffers[buf_index][sample_index],
                    streamer->framesize);
     }
@@ -540,9 +645,9 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
     }
 }
 
-outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player, 
+outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
                                             int outputdeviceid,
-                                            int sndgrpid, int samplerate, 
+                                            int sndgrpid, int samplerate,
                                             int channels, int framesize)
 {
     SLresult result;
@@ -558,7 +663,7 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
     SLuint32 sl_samplerate = toSLSamplerate(samplerate);
     if(!sl_samplerate)
         return outputstreamer_t();
-    
+
     SLuint32 sl_speaker = toSLSpeaker(channels);
 
     SLDataFormat_PCM format_pcm = {SL_DATAFORMAT_PCM, (SLuint32)channels, sl_samplerate,
@@ -588,7 +693,7 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
                                   /*SL_IID_MUTESOLO,*/ SL_IID_VOLUME};
     const SLboolean req[3] = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE,
                               /*SL_BOOLEAN_TRUE,*/ SL_BOOLEAN_TRUE};
-    result = (*m_engineEngine)->CreateAudioPlayer(m_engineEngine, &playerObject, 
+    result = (*m_engineEngine)->CreateAudioPlayer(m_engineEngine, &playerObject,
                                                   &audioSrc, &audioSnk,
                                                   3, ids, req);
     MYTRACE_COND(SL_RESULT_SUCCESS != result,
@@ -612,7 +717,7 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
         goto failure;
 
     // get the buffer queue interface
-    result = (*playerObject)->GetInterface(playerObject, 
+    result = (*playerObject)->GetInterface(playerObject,
                                            SL_IID_BUFFERQUEUE,
                                            &playerBufferQueue);
     MYTRACE_COND(SL_RESULT_SUCCESS != result,
@@ -621,12 +726,12 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
     if (result != SL_RESULT_SUCCESS)
         goto failure;
 
-    streamer.reset(new SLOutputStreamer(player, sndgrpid, 
+    streamer.reset(new SLOutputStreamer(player, sndgrpid,
                                         framesize, samplerate,
-                                        channels, 
+                                        channels,
                                         SOUND_API_OPENSLES_ANDROID,
                                         outputdeviceid));
-  
+
     streamer->playerObject = playerObject;
     streamer->playerPlay = playerPlay;
     streamer->playerBufferQueue = playerBufferQueue;
@@ -642,14 +747,14 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
     //figure out how many 'framesize' we need in each callback
     frames_per_callback = detectMinumumBuffer(playerBufferQueue,
                                               streamer->buffers[0],
-                                              samplerate, framesize, 
+                                              samplerate, framesize,
                                               channels);
-    
+
     MYTRACE(ACE_TEXT("Minimum samples for playback is %d\n"), frames_per_callback * framesize);
 
     if(frames_per_callback == 0)
         goto failure;
-    
+
     for (size_t i=1;i<ANDROID_OUTPUT_BUFFERS;i++)
     {
         streamer->buffers[i].resize(frames_per_callback*framesize*channels);
@@ -684,7 +789,7 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
     return streamer;
 
 failure:
-    
+
     if(playerObject)
         (*playerObject)->Destroy(playerObject);
 
@@ -760,15 +865,15 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
     dev.id = DEFAULT_DEVICE_ID;
 
     assert(m_engineEngine);
-    
+
     for(size_t sr=0;sr<standardSampleRates.size();sr++)
     {
         for(int c=1;c<=2;c++)
         {
             // configure audio recorder
-            SLDataLocator_IODevice loc_dev = {SL_DATALOCATOR_IODEVICE, 
+            SLDataLocator_IODevice loc_dev = {SL_DATALOCATOR_IODEVICE,
                                               SL_IODEVICE_AUDIOINPUT,
-                                              SL_DEFAULTDEVICEID_AUDIOINPUT, 
+                                              SL_DEFAULTDEVICEID_AUDIOINPUT,
                                               NULL};
             SLDataSource audioSrc = {&loc_dev, NULL};
 
@@ -779,11 +884,11 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
             // configure audio sink
             SLDataLocator_AndroidSimpleBufferQueue loc_bq = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE,
                                                              ANDROID_INPUT_BUFFERS};
-            SLDataFormat_PCM format_pcm = {SL_DATAFORMAT_PCM, (SLuint32)c, 
+            SLDataFormat_PCM format_pcm = {SL_DATAFORMAT_PCM, (SLuint32)c,
                                            sl_samplerate,
-                                           SL_PCMSAMPLEFORMAT_FIXED_16, 
                                            SL_PCMSAMPLEFORMAT_FIXED_16,
-                                           sl_speaker, 
+                                           SL_PCMSAMPLEFORMAT_FIXED_16,
+                                           sl_speaker,
                                            SL_BYTEORDER_LITTLEENDIAN};
             SLDataSink audioSnk = {&loc_bq, &format_pcm};
 
@@ -793,14 +898,14 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
 
             const SLInterfaceID id[1] = {SL_IID_ANDROIDSIMPLEBUFFERQUEUE};
             const SLboolean req[1] = {SL_BOOLEAN_TRUE};
-            result = (*m_engineEngine)->CreateAudioRecorder(m_engineEngine, 
-                                                            &recorderObject, 
+            result = (*m_engineEngine)->CreateAudioRecorder(m_engineEngine,
+                                                            &recorderObject,
                                                             &audioSrc, &audioSnk, 1, id, req);
             if (SL_RESULT_SUCCESS != result) {
                 MYTRACE(ACE_TEXT("Failed to query OpenSL audio recorder, channels=%d, samplerate=%d\n"), c, standardSampleRates[sr]);
                 continue;
             }
-    
+
             // // realize the audio recorder
             // result = (*recorderObject)->Realize(recorderObject, SL_BOOLEAN_FALSE);
             // if (SL_RESULT_SUCCESS != result) {
@@ -831,12 +936,12 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
 
             SLuint32 sl_samplerate = toSLSamplerate(standardSampleRates[sr]);
             SLuint32 sl_speaker = toSLSpeaker(c);
- 
-            SLDataFormat_PCM format_pcm = {SL_DATAFORMAT_PCM, (SLuint32)c, 
+
+            SLDataFormat_PCM format_pcm = {SL_DATAFORMAT_PCM, (SLuint32)c,
                                            sl_samplerate,
-                                           SL_PCMSAMPLEFORMAT_FIXED_16, 
                                            SL_PCMSAMPLEFORMAT_FIXED_16,
-                                           sl_speaker, 
+                                           SL_PCMSAMPLEFORMAT_FIXED_16,
+                                           sl_speaker,
                                            SL_BYTEORDER_LITTLEENDIAN};
             SLDataSource audioSrc = {&loc_bufq, &format_pcm};
 
@@ -852,7 +957,7 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
                                           /*SL_IID_MUTESOLO,*/ SL_IID_VOLUME};
             const SLboolean req[3] = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE,
                                       /*SL_BOOLEAN_TRUE,*/ SL_BOOLEAN_TRUE};
-            result = (*m_engineEngine)->CreateAudioPlayer(m_engineEngine, &playerObject, 
+            result = (*m_engineEngine)->CreateAudioPlayer(m_engineEngine, &playerObject,
                                                           &audioSrc, &audioSnk,
                                                           3, ids, req);
             if(SL_RESULT_SUCCESS != result)
@@ -928,7 +1033,7 @@ SLuint32 toSLSpeaker(int channels)
     }
 }
 
-int detectMinumumBuffer(SLAndroidSimpleBufferQueueItf bq, 
+int detectMinumumBuffer(SLAndroidSimpleBufferQueueItf bq,
                         std::vector<short>& buffer, int samplerate,
                         int framesize, int channels)
 {

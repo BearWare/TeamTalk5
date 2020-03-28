@@ -213,10 +213,8 @@ namespace teamtalk {
         int outputdeviceid;
         //sound group for current instance
         int soundgroupid;
-        //AGC and denoise settings
-        SpeexDSP speexdsp;
-        //gain input audio
-        int gainlevel;
+        // AGC, AEC and denoise settings
+        AudioPreprocessor preprocessor;
         //dereverb
         bool dereverb;
         //count transmitted samples
@@ -228,10 +226,14 @@ namespace teamtalk {
         {
             inputdeviceid = outputdeviceid = SOUNDDEVICE_IGNORE_ID;
             soundgroupid = 0;
-            gainlevel = GAIN_NORMAL;
             dereverb = true;
             samples_transmitted = 0;
             samples_recorded = 0;
+            // default to TT Audio preprocessor to be compatible with
+            // SetVoiceGainLevel()
+            preprocessor.preprocessor = AUDIOPREPROCESSOR_TEAMTALK;
+            preprocessor.ttpreprocessor.gainlevel = GAIN_NORMAL;
+            preprocessor.ttpreprocessor.muteleft = preprocessor.ttpreprocessor.muteright = false;
         }
     };
 
@@ -327,10 +329,11 @@ namespace teamtalk {
         
         bool MuteAll(bool muteall);
 
-        void SetVoiceGainLevel(int gainlevel);
+        bool SetVoiceGainLevel(int gainlevel);
         int GetVoiceGainLevel();
 
-        bool SetSoundPreprocess(const SpeexDSP& speexdsp);
+        bool SetSoundPreprocess(const AudioPreprocessor& preprocessor);
+        AudioPreprocessor GetSoundPreprocess();
         void SetSoundInputTone(StreamTypes streams, int frequency);
 
         bool StartRecordingMuxedAudioFile(const AudioCodec& codec, 

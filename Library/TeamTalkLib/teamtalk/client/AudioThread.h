@@ -40,6 +40,7 @@
 #include <teamtalk/Common.h>
 
 #include <memory>
+#include <mutex>
 
 typedef std::function< void (const teamtalk::AudioCodec& codec,
                              const char* enc_data, int enc_len,
@@ -63,14 +64,11 @@ public:
     void QueueAudio(ACE_Message_Block* mb_audio);
     bool IsVoiceActive() const;
 
-    bool UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp);
-    void MuteSound(bool leftchannel, bool rightchannel);
+    bool UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess);
 
     int m_voicelevel;
     int m_voiceactlevel;
     ACE_Time_Value m_voiceact_delay;
-    //voice gain
-    int m_gainlevel;    //GAIN_NORMAL == disabled
 
     //real maximum is 100 (when all samples are 32768)
     static const int VU_METER_MAX = 100;
@@ -83,7 +81,9 @@ private:
     int close(u_long);
     int svc(void);
     void ProcessAudioFrame(media::AudioFrame& audblock);
+    void MuteSound(bool leftchannel, bool rightchannel);
 #if defined(ENABLE_SPEEXDSP)
+    bool UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp);
     void PreprocessAudioFrame(media::AudioFrame& audblock);
 #endif
 #if defined(ENABLE_SPEEX)
@@ -95,8 +95,8 @@ private:
                             std::vector<int>& env_frame_sizes);
 #endif
     audioencodercallback_t m_callback;
+    std::recursive_mutex m_preprocess_lock;
 #if defined(ENABLE_SPEEXDSP)
-    ACE_Recursive_Thread_Mutex m_preprocess_lock;
     SpeexPreprocess m_preprocess_left, m_preprocess_right;
 #endif
 #if defined(ENABLE_SPEEX)
@@ -108,7 +108,11 @@ private:
     std::vector<char> m_encbuf;
     std::vector<short> m_echobuf;
     teamtalk::AudioCodec m_codec;
+
+    // TTAudioPreprocessor
     StereoMask m_stereo = STEREO_BOTH;
+    //voice gain
+    int m_gainlevel;    //GAIN_NORMAL == disabled
 
     //encoder state has been reset
     bool m_enc_cleared;

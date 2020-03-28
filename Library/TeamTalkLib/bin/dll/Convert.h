@@ -47,11 +47,13 @@ void Convert(const teamtalk::AudioConfig& audcfg, AudioConfig& result);
 void Convert(const AudioConfig& audcfg, teamtalk::AudioConfig& result);
 
 void Convert(const AudioPreprocessor& audpreprocess, teamtalk::AudioPreprocessor& result);
-
+void Convert(const teamtalk::AudioPreprocessor& audpreprocess, AudioPreprocessor& result);
 void Convert(const TTAudioPreprocessor& ttpreprocess, teamtalk::TTAudioPreprocessor& result);
-
-void Convert(const teamtalk::SpeexDSP& dspdsp, SpeexDSP& result);
+void Convert(const teamtalk::TTAudioPreprocessor& ttpreprocess, TTAudioPreprocessor& result);
+void Convert(const AndroidAudioPreprocessor& preprocess, teamtalk::AndroidAudioPreprocessor& result);
+void Convert(const teamtalk::AndroidAudioPreprocessor& preprocess, AndroidAudioPreprocessor& result);
 void Convert(const SpeexDSP& spxdsp, teamtalk::SpeexDSP& result);
+void Convert(const teamtalk::SpeexDSP& dspdsp, SpeexDSP& result);
 
 bool Convert(const teamtalk::ChannelProp& chanprop, Channel& channel);
 bool Convert(const Channel& channel, teamtalk::ChannelProp& chanprop);

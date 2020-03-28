@@ -141,6 +141,13 @@ namespace soundsystem {
                                int& inputdeviceid,
                                int& outputdeviceid);
         
+        bool SetEchoCancellation(StreamCapture* capture, bool enable);
+        bool IsEchoCancelling(StreamCapture* capture);
+        bool SetAGC(StreamCapture* capture, bool enable);
+        bool IsAGC(StreamCapture* capture);
+        bool SetDenoising(StreamCapture* capture, bool enable);
+        bool IsDenoising(StreamCapture* capture);
+        
     private:
 
         SLObjectItf InitOutputMixObject(soundgroup_t& sndgrp);
