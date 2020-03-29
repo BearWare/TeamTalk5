@@ -3457,7 +3457,7 @@ extern "C" {
      * new event can be retrieved by TT_GetMessage().
      * @return A pointer to a new client instance. NULL if a failure occured.
      * @see TT_CloseTeamTalk */
-    TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT uMsg);
+    TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT32 uMsg);
 
     /**
      * @brief Replace the HWND passed as parameter to #TT_InitTeamTalk
@@ -6712,7 +6712,7 @@ extern "C" {
      * @see TT_HotKey_RemoveTestHook
      * @see CLIENTEVENT_HOTKEY_TEST */
     TEAMTALKDLL_API TTBOOL TT_HotKey_InstallTestHook(IN TTInstance* lpTTInstance,
-                                                     IN HWND hWnd, UINT uMsg);
+                                                     IN HWND hWnd, UINT32 uMsg);
 
     /**
      * @brief Remove the test hook again so the @a hWnd in
