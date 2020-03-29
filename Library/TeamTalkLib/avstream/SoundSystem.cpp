@@ -78,6 +78,7 @@ namespace soundsystem {
                                   int framesize) { return inputstreamer_t(); }
         bool StartStream(inputstreamer_t streamer) { return false; }
         void CloseStream(inputstreamer_t streamer) {}
+        bool IsStreamStopped(inputstreamer_t streamer) { return true; }
 
         outputstreamer_t NewStream(StreamPlayer* player, int outputdeviceid,
                                    int sndgrpid, int samplerate, int channels,
