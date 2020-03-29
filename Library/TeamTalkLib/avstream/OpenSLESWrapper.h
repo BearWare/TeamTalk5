@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -69,7 +69,7 @@ namespace soundsystem {
             , playerObject(NULL)
             , playerPlay(NULL)
             , playerBufferQueue(NULL), buf_index(0) { }
-        
+
     };
 
     struct SLSoundGroup : SoundGroup
@@ -90,7 +90,7 @@ namespace soundsystem {
         const OpenSLESWrapper& operator = (const OpenSLESWrapper& aud);
 
     protected:
-        
+
         bool Init();
         void Close();
         void FillDevices(sounddevices_t& sounddevs);
@@ -99,17 +99,25 @@ namespace soundsystem {
         void RemoveSoundGroup(soundgroup_t sndgrp);
 
         // input
-        inputstreamer_t NewStream(StreamCapture* capture, 
-                                  int inputdeviceid, int sndgrpid, 
+        inputstreamer_t NewStream(StreamCapture* capture,
+                                  int inputdeviceid, int sndgrpid,
                                   int samplerate, int channels,
                                   int framesize);
         bool StartStream(inputstreamer_t streamer);
         bool StopStream(inputstreamer_t streamer);
         void CloseStream(inputstreamer_t streamer);
+        bool IsStreamStopped(inputstreamer_t streamer);
+        
+        bool SetEchoCancellation(inputstreamer_t streamer, bool enable);
+        bool IsEchoCancelling(inputstreamer_t streamer);
+        bool SetAGC(inputstreamer_t streamer, bool enable);
+        bool IsAGC(inputstreamer_t streamer);
+        bool SetDenoising(inputstreamer_t streamer, bool enable);
+        bool IsDenoising(inputstreamer_t streamer);
 
         // output
         outputstreamer_t NewStream(StreamPlayer* player, int outputdeviceid,
-                                   int sndgrpid, int samplerate, int channels, 
+                                   int sndgrpid, int samplerate, int channels,
                                    int framesize);
         void CloseStream(outputstreamer_t streamer);
 
@@ -120,7 +128,7 @@ namespace soundsystem {
         // duplex
         duplexstreamer_t NewStream(StreamDuplex* duplex, int inputdeviceid,
                                    int outputdeviceid, int sndgrpid,
-                                   int samplerate, int input_channels, 
+                                   int samplerate, int input_channels,
                                    int output_channels, int framesize)  { return duplexstreamer_t(); }
         void CloseStream(duplexstreamer_t streamer) { }
         bool StartStream(duplexstreamer_t streamer) { return false; }
@@ -140,14 +148,6 @@ namespace soundsystem {
         bool GetDefaultDevices(SoundAPI sndsys,
                                int& inputdeviceid,
                                int& outputdeviceid);
-        
-        bool SetEchoCancellation(StreamCapture* capture, bool enable);
-        bool IsEchoCancelling(StreamCapture* capture);
-        bool SetAGC(StreamCapture* capture, bool enable);
-        bool IsAGC(StreamCapture* capture);
-        bool SetDenoising(StreamCapture* capture, bool enable);
-        bool IsDenoising(StreamCapture* capture);
-        
     private:
 
         SLObjectItf InitOutputMixObject(soundgroup_t& sndgrp);
@@ -162,7 +162,7 @@ namespace soundsystem {
     typedef SSB::inputstreamer_t inputstreamer_t;
     typedef SSB::outputstreamer_t outputstreamer_t;
     typedef SSB::duplexstreamer_t duplexstreamer_t;
-    
+
 }
 
 #endif

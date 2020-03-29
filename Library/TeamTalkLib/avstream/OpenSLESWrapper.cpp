@@ -277,15 +277,13 @@ bool OpenSLESWrapper::GetDefaultDevices(SoundAPI sndsys,
     return false;
 }
 
-bool OpenSLESWrapper::SetEchoCancellation(StreamCapture* capture, bool enable)
+bool OpenSLESWrapper::SetEchoCancellation(inputstreamer_t streamer, bool enable)
 {
-    auto inputstream = GetStream(capture);
-    if (!inputstream)
-        return false;
+    assert(streamer->recorderObject);
 
     SLresult result;
     SLAndroidAcousticEchoCancellationItf aecItf;
-    result = (*m_engineObject)->GetInterface(inputstream->recorderObject, SL_IID_ANDROIDACOUSTICECHOCANCELLATION, &aecItf);
+    result = (*m_engineObject)->GetInterface(streamer->recorderObject, SL_IID_ANDROIDACOUSTICECHOCANCELLATION, &aecItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get echo cancel interface from engine\n"));
     if (result != SL_RESULT_SUCCESS)
         return false;
@@ -294,15 +292,13 @@ bool OpenSLESWrapper::SetEchoCancellation(StreamCapture* capture, bool enable)
     return result == SL_RESULT_SUCCESS;
 }
 
-bool OpenSLESWrapper::IsEchoCancelling(StreamCapture* capture)
+bool OpenSLESWrapper::IsEchoCancelling(inputstreamer_t streamer)
 {
-    auto inputstream = GetStream(capture);
-    if (!inputstream)
-        return false;
+    assert(streamer->recorderObject);
 
     SLresult result;
     SLAndroidAcousticEchoCancellationItf aecItf;
-    result = (*m_engineObject)->GetInterface(inputstream->recorderObject, SL_IID_ANDROIDACOUSTICECHOCANCELLATION, &aecItf);
+    result = (*m_engineObject)->GetInterface(streamer->recorderObject, SL_IID_ANDROIDACOUSTICECHOCANCELLATION, &aecItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get echo cancel interface from engine\n"));
     if (result != SL_RESULT_SUCCESS)
         return false;
@@ -312,15 +308,13 @@ bool OpenSLESWrapper::IsEchoCancelling(StreamCapture* capture)
     return result == SL_RESULT_SUCCESS && enabled;
 }
 
-bool OpenSLESWrapper::SetAGC(StreamCapture* capture, bool enable)
+bool OpenSLESWrapper::SetAGC(inputstreamer_t streamer, bool enable)
 {
-    auto inputstream = GetStream(capture);
-    if (!inputstream)
-        return false;
+    assert(streamer->recorderObject);
 
     SLresult result;
     SLAndroidAutomaticGainControlItf agcItf;
-    result = (*m_engineObject)->GetInterface(inputstream->recorderObject, SL_IID_ANDROIDAUTOMATICGAINCONTROL, &agcItf);
+    result = (*m_engineObject)->GetInterface(streamer->recorderObject, SL_IID_ANDROIDAUTOMATICGAINCONTROL, &agcItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get AGC interface from engine\n"));
     if (result != SL_RESULT_SUCCESS)
         return false;
@@ -329,15 +323,13 @@ bool OpenSLESWrapper::SetAGC(StreamCapture* capture, bool enable)
     return result == SL_RESULT_SUCCESS;
 }
 
-bool OpenSLESWrapper::IsAGC(StreamCapture* capture)
+bool OpenSLESWrapper::IsAGC(inputstreamer_t streamer)
 {
-    auto inputstream = GetStream(capture);
-    if (!inputstream)
-        return false;
+    assert(streamer->recorderObject);
 
     SLresult result;
     SLAndroidAutomaticGainControlItf agcItf;
-    result = (*m_engineObject)->GetInterface(inputstream->recorderObject, SL_IID_ANDROIDAUTOMATICGAINCONTROL, &agcItf);
+    result = (*m_engineObject)->GetInterface(streamer->recorderObject, SL_IID_ANDROIDAUTOMATICGAINCONTROL, &agcItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get AGC interface from engine\n"));
     if (result != SL_RESULT_SUCCESS)
         return false;
@@ -347,15 +339,13 @@ bool OpenSLESWrapper::IsAGC(StreamCapture* capture)
     return result == SL_RESULT_SUCCESS && enabled;
 }
 
-bool OpenSLESWrapper::SetDenoising(StreamCapture* capture, bool enable)
+bool OpenSLESWrapper::SetDenoising(inputstreamer_t streamer, bool enable)
 {
-    auto inputstream = GetStream(capture);
-    if (!inputstream)
-        return false;
+    assert(streamer->recorderObject);
 
     SLresult result;
     SLAndroidNoiseSuppressionItf noiseItf;
-    result = (*m_engineObject)->GetInterface(inputstream->recorderObject, SL_IID_ANDROIDNOISESUPPRESSION, &noiseItf);
+    result = (*m_engineObject)->GetInterface(streamer->recorderObject, SL_IID_ANDROIDNOISESUPPRESSION, &noiseItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get noise suppress interface from engine\n"));
     if (result != SL_RESULT_SUCCESS)
         return false;
@@ -364,15 +354,13 @@ bool OpenSLESWrapper::SetDenoising(StreamCapture* capture, bool enable)
     return result == SL_RESULT_SUCCESS;
 }
 
-bool OpenSLESWrapper::IsDenoising(StreamCapture* capture)
+bool OpenSLESWrapper::IsDenoising(inputstreamer_t streamer)
 {
-    auto inputstream = GetStream(capture);
-    if (!inputstream)
-        return false;
+    assert(streamer->recorderObject);
 
     SLresult result;
     SLAndroidNoiseSuppressionItf noiseItf;
-    result = (*m_engineObject)->GetInterface(inputstream->recorderObject, SL_IID_ANDROIDNOISESUPPRESSION, &noiseItf);
+    result = (*m_engineObject)->GetInterface(streamer->recorderObject, SL_IID_ANDROIDNOISESUPPRESSION, &noiseItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get AGC interface from engine\n"));
     if (result != SL_RESULT_SUCCESS)
         return false;
@@ -493,16 +481,34 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     result = (*m_engineObject)->GetInterface(recorderObject, SL_IID_ANDROIDACOUSTICECHOCANCELLATION, &aecItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get echo cancel interface from engine\n"));
     MYTRACE_COND(SL_RESULT_SUCCESS == result, ACE_TEXT("Succeeded to get echo cancel interface from engine\n"));
+    if (result == SL_RESULT_SUCCESS)
+    {
+        SLboolean enabled = false;
+        result = (*aecItf)->IsEnabled(aecItf, &enabled);
+        MYTRACE_COND(result == SL_RESULT_SUCCESS, ACE_TEXT("Echo cancellation is currently %s\n"), (enabled? "on" : "off"));
+    }
 
     SLAndroidNoiseSuppressionItf noiseItf;
     result = (*m_engineObject)->GetInterface(recorderObject, SL_IID_ANDROIDNOISESUPPRESSION, &noiseItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get noise reduction interface from engine\n"));
     MYTRACE_COND(SL_RESULT_SUCCESS == result, ACE_TEXT("Succeeded to get noise reduction interface from engine\n"));
+    if (result == SL_RESULT_SUCCESS)
+    {
+        SLboolean enabled = false;
+        result = (*noiseItf)->IsEnabled(noiseItf, &enabled);
+        MYTRACE_COND(result == SL_RESULT_SUCCESS, ACE_TEXT("Noise suppression is currently %s\n"), (enabled? "on" : "off"));
+    }
 
     SLAndroidAutomaticGainControlItf agcItf;
     result = (*m_engineObject)->GetInterface(recorderObject, SL_IID_ANDROIDAUTOMATICGAINCONTROL, &agcItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get AGC interface from engine\n"));
     MYTRACE_COND(SL_RESULT_SUCCESS == result, ACE_TEXT("Succeeded to get AGC interface from engine\n"));
+    if (result == SL_RESULT_SUCCESS)
+    {
+        SLboolean enabled = false;
+        result = (*agcItf)->IsEnabled(agcItf, &enabled);
+        MYTRACE_COND(result == SL_RESULT_SUCCESS, ACE_TEXT("AGC is currently %s\n"), (enabled? "on" : "off"));
+    }
 
     // store input stream properties for callback
     streamer.reset(new SLInputStreamer(capture,
@@ -605,6 +611,21 @@ void OpenSLESWrapper::CloseStream(inputstreamer_t streamer)
 
     MYTRACE(ACE_TEXT("Closed capture stream %p\n"), streamer->recorder);
 }
+
+bool OpenSLESWrapper::IsStreamStopped(inputstreamer_t streamer)
+{
+    SLresult result;
+
+    assert(streamer->recorderObject);
+
+    SLRecordItf recorderRecord = streamer->recorderRecord;
+
+    SLuint32 state = 0;
+    result = (*recorderRecord)->GetRecordState(recorderRecord, &state);
+    assert(SL_RESULT_SUCCESS == result);
+    return state == SL_RECORDSTATE_STOPPED;
+}
+
 
 // this callback handler is called every time a buffer finishes playing
 void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)

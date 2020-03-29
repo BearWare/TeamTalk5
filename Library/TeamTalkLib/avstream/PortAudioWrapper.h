@@ -110,6 +110,7 @@ namespace soundsystem
                                   int framesize);
         bool StartStream(inputstreamer_t streamer);
         void CloseStream(inputstreamer_t streamer);
+        bool IsStreamStopped(inputstreamer_t streamer);
 
         //output members
         outputstreamer_t NewStream(StreamPlayer* player, int outputdeviceid,

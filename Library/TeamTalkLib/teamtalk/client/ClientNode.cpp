@@ -1047,17 +1047,33 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
         }
 
         b = m_soundsystem->OpenDuplexStream(this, m_soundprop.inputdeviceid,
-                                        m_soundprop.outputdeviceid,
-                                        m_soundprop.soundgroupid, 
-                                        input_samplerate, input_channels,
-                                        output_channels, input_samples);
+                                            m_soundprop.outputdeviceid,
+                                            m_soundprop.soundgroupid, 
+                                            input_samplerate, input_channels,
+                                            output_channels, input_samples);
     }
     else
+    {
         b = m_soundsystem->OpenInputStream(this, m_soundprop.inputdeviceid, 
-                                       m_soundprop.soundgroupid,
-                                       input_samplerate, input_channels, 
-                                       input_samples);
-    if(!b)
+                                           m_soundprop.soundgroupid,
+                                           input_samplerate, input_channels, 
+                                           input_samples);
+
+        if (b && m_soundprop.preprocessor.preprocessor == AUDIOPREPROCESSOR_ANDROID)
+        {
+            bool success = true;
+            success &= m_soundsystem->SetEchoCancellation(this, m_soundprop.preprocessor.androidpreprocessor.enable_aec);
+            success &= m_soundsystem->SetAGC(this, m_soundprop.preprocessor.androidpreprocessor.enable_agc);
+            success &= m_soundsystem->SetDenoising(this, m_soundprop.preprocessor.androidpreprocessor.enable_denoise);
+            if (!success)
+            {
+                m_listener->OnInternalError(TT_INTERR_AUDIOPREPROCESSOR_INIT_FAILED,
+                                            GetErrorDescription(TT_INTERR_AUDIOPREPROCESSOR_INIT_FAILED));
+            }
+        }
+    }
+
+    if (!b)
     {
         if(m_listener)
             m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
@@ -3085,19 +3101,27 @@ bool ClientNode::SetSoundPreprocess(const AudioPreprocessor& preprocessor)
 
     m_soundprop.preprocessor = preprocessor;
 
+    // The Android preprocessor is located in the sound system, so it
+    // has to be handled differently
     if (preprocessor.preprocessor == AUDIOPREPROCESSOR_ANDROID)
     {
         bool success = true;
-        success &= m_soundsystem->SetEchoCancellation(this, preprocessor.androidpreprocessor.enable_aec);
-        success &= m_soundsystem->SetAGC(this, preprocessor.androidpreprocessor.enable_agc);
-        success &= m_soundsystem->SetDenoising(this, preprocessor.androidpreprocessor.enable_denoise);
+        if (!m_soundsystem->IsStreamStopped(this))
+        {
+            success &= m_soundsystem->SetEchoCancellation(this, preprocessor.androidpreprocessor.enable_aec);
+            success &= m_soundsystem->SetAGC(this, preprocessor.androidpreprocessor.enable_agc);
+            success &= m_soundsystem->SetDenoising(this, preprocessor.androidpreprocessor.enable_denoise);
+        }
         return success;
     }
     else
     {
-        m_soundsystem->SetEchoCancellation(this, false);
-        m_soundsystem->SetAGC(this, false);
-        m_soundsystem->SetDenoising(this, false);
+        if (!m_soundsystem->IsStreamStopped(this))
+        {
+            m_soundsystem->SetEchoCancellation(this, false);
+            m_soundsystem->SetAGC(this, false);
+            m_soundsystem->SetDenoising(this, false);
+        }
     }
 
     return m_voice_thread.UpdatePreprocessor(preprocessor);
@@ -4128,8 +4152,8 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
     {
         if (!SetSoundPreprocess(m_soundprop.preprocessor)) //set AGC, denoise, etc.
         {
-            m_listener->OnInternalError(TT_INTERR_AUDIOCONFIG_INIT_FAILED,
-                                        GetErrorDescription(TT_INTERR_AUDIOCONFIG_INIT_FAILED));
+            m_listener->OnInternalError(TT_INTERR_AUDIOPREPROCESSOR_INIT_FAILED,
+                                        GetErrorDescription(TT_INTERR_AUDIOPREPROCESSOR_INIT_FAILED));
         }
     }
     else

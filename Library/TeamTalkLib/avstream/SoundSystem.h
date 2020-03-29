@@ -319,6 +319,7 @@ namespace soundsystem {
                                      int sndgrpid, int samplerate, int channels,
                                      int framesize) = 0;
         virtual bool CloseInputStream(StreamCapture* capture) = 0;
+        virtual bool IsStreamStopped(StreamCapture* capture) = 0;
 
         //output members
         virtual bool OpenOutputStream(StreamPlayer* player, int outputdeviceid,

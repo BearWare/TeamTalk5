@@ -141,6 +141,10 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     }
 
     protected void initSound(TeamTalkBase ttclient, boolean duplex) {
+        initSound(ttclient, duplex, INPUTDEVICEID, OUTPUTDEVICEID);
+    }
+    
+    protected void initSound(TeamTalkBase ttclient, boolean duplex, int inputdeviceid, int outputdeviceid) {
 
         Vector<SoundDevice> devs = new Vector<SoundDevice>();
         assertTrue("get sound devs", ttclient.getSoundDevices(devs));
@@ -149,13 +153,13 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             printSoundDevice(devs.get(i));
 
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
-        if(INPUTDEVICEID < 0 && OUTPUTDEVICEID < 0)
+        if (inputdeviceid < 0 && outputdeviceid < 0)
            assertTrue("get default devs", ttclient.getDefaultSoundDevices(indev, outdev));
 
-        if(INPUTDEVICEID >= 0)
-            indev.value = INPUTDEVICEID;
-        if(OUTPUTDEVICEID >= 0)
-            outdev.value = OUTPUTDEVICEID;
+        if (inputdeviceid >= 0)
+            indev.value = inputdeviceid;
+        if (outputdeviceid >= 0)
+            outdev.value = outputdeviceid;
 
         if(duplex) {
             assertTrue("init duplex devs", ttclient.initSoundDuplexDevices(indev.value, outdev.value));

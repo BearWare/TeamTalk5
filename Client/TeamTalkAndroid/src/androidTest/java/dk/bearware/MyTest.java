@@ -44,7 +44,7 @@ public class MyTest extends TeamTalkTestCase {
         this.ADMIN_USERNAME = "admin";
         this.ADMIN_PASSWORD = "admin";
 
-        this.IPADDR = "192.168.0.68";
+        this.IPADDR = "192.168.0.50";
         this.TCPPORT = 10333;
         this.UDPPORT = 10333;
 
@@ -260,6 +260,46 @@ public class MyTest extends TeamTalkTestCase {
         assertTrue("join root", ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "") > 0);
 
         assertFalse("No AGC error on ARMv7A", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 1000));
+    }
+
+    public void test_AndroidPreprocessing() {
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        int outputdeviceid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+
+        int[] inputdevices = {SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG,
+                SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT};
+
+        for (int inputdeviceid : inputdevices) {
+            TeamTalkBase ttclient = newClientInstance();
+            initSound(ttclient, false, inputdeviceid, outputdeviceid);
+            connect(ttclient);
+            login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+            // set AudioEffect prior to having sound device initialized
+            AudioPreprocessor audioPreprocessor = new AudioPreprocessor();
+            audioPreprocessor.nPreprocessor = AudioPreprocessorType.ANDROID_AUDIOPREPROCESSOR;
+            audioPreprocessor.androidpreprocessor.bEnableAGC = true;
+            audioPreprocessor.androidpreprocessor.bEnableDenoise = true;
+            audioPreprocessor.androidpreprocessor.bEnableEchoCancellation = true;
+
+            assertTrue(String.format("set android preprocessor, dev %x", inputdeviceid), ttclient.setSoundInputPreprocess(audioPreprocessor));
+
+            joinRoot(ttclient);
+
+            assertTrue(String.format("get android preprocessor, dev %x", inputdeviceid), ttclient.getSoundInputPreprocess(audioPreprocessor));
+            // cannot check that values have actually been set since only what is supported has been changed
+
+            AudioPreprocessor updatedPreprocessor = new AudioPreprocessor();
+            assertTrue(String.format("get android preprocessor, dev %x", inputdeviceid), ttclient.getSoundInputPreprocess(updatedPreprocessor));
+
+            assertTrue(String.format("leave channel, dev %x", inputdeviceid), waitCmdSuccess(ttclient, ttclient.doLeaveChannel(), DEF_WAIT));
+
+            assertTrue(String.format("Close sound, dev %x", inputdeviceid), ttclient.closeSoundInputDevice());
+        }
     }
 
     public void test_SndInputFailure() {

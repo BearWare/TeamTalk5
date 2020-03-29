@@ -2645,14 +2645,16 @@ extern "C" {
          * Ensure the settings specified in #AudioCodec are valid.
          * @see TT_DoJoinChannel() */
         INTERR_AUDIOCODEC_INIT_FAILED = 10002,
-        /** @brief #SpeexDSP failed to initialize.
-         *
-         * This error occurs when joining a channel.
-         *
-         * The settings specified by TT_SetSoundInputPreprocess() are
-         * invalid for the specified audio codec. @see
-         * TT_DoJoinChannel() */
+        /** @brief Same as #INTERR_AUDIOPREPROCESSOR_INIT_FAILED. */
         INTERR_SPEEXDSP_INIT_FAILED = 10003,
+        /** @brief #AudioPreprocessor failed to initialize.
+         *
+         * This error occurs when joining a channel and the
+         * #AudioPreprocessor is initialized.
+         *
+         * The settings specified by TT_SetSoundInputPreprocessEx()
+         * are invalid or unsupported. @see TT_DoJoinChannel() */
+        INTERR_AUDIOPREPROCESSOR_INIT_FAILED = 10003,
         /** @brief #TTMessage event queue overflowed.
          *
          * The message queue for events has overflowed because

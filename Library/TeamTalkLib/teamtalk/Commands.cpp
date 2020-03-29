@@ -119,8 +119,8 @@ namespace teamtalk {
             errmsg = ACE_TEXT("Sound output device failure");break;
         case TT_INTERR_AUDIOCODEC_INIT_FAILED :
             errmsg = ACE_TEXT("Audio codec failed to initialize");break;
-        case TT_INTERR_AUDIOCONFIG_INIT_FAILED :
-            errmsg = ACE_TEXT("Audio config failed to initialize");break;
+        case TT_INTERR_AUDIOPREPROCESSOR_INIT_FAILED :
+            errmsg = ACE_TEXT("Audio preprocessor failed to initialize");break;
         default :
             errmsg = ACE_TEXT("Unknown error");break;
         }
