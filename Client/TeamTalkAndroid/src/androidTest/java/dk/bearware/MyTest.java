@@ -290,11 +290,12 @@ public class MyTest extends TeamTalkTestCase {
 
             joinRoot(ttclient);
 
-            assertTrue(String.format("get android preprocessor, dev %x", inputdeviceid), ttclient.getSoundInputPreprocess(audioPreprocessor));
-            // cannot check that values have actually been set since only what is supported has been changed
-
             AudioPreprocessor updatedPreprocessor = new AudioPreprocessor();
             assertTrue(String.format("get android preprocessor, dev %x", inputdeviceid), ttclient.getSoundInputPreprocess(updatedPreprocessor));
+            // cannot check that values have actually been set since only what is supported has been changed
+            // assertEquals("AGC enabled", audioPreprocessor.androidpreprocessor.bEnableAGC, updatedPreprocessor.androidpreprocessor.bEnableAGC);
+            // assertEquals("AEC enabled", audioPreprocessor.androidpreprocessor.bEnableEchoCancellation, updatedPreprocessor.androidpreprocessor.bEnableEchoCancellation);
+            // assertEquals("denoise enabled", audioPreprocessor.androidpreprocessor.bEnableDenoise, updatedPreprocessor.androidpreprocessor.bEnableDenoise);
 
             assertTrue(String.format("leave channel, dev %x", inputdeviceid), waitCmdSuccess(ttclient, ttclient.doLeaveChannel(), DEF_WAIT));
 
