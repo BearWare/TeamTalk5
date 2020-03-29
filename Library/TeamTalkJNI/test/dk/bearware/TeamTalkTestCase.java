@@ -34,18 +34,6 @@ import java.io.File;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 
-import dk.bearware.AudioBlock;
-import dk.bearware.AudioFileFormat;
-import dk.bearware.Channel;
-import dk.bearware.ClientEvent;
-import dk.bearware.Codec;
-import dk.bearware.SpeexConstants;
-import dk.bearware.SpeexDSP;
-import dk.bearware.StreamType;
-import dk.bearware.TTMessage;
-import dk.bearware.TeamTalkBase;
-import dk.bearware.WindowsHelper;
-
 public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     public void test_01_This() {
@@ -2092,6 +2080,20 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("get updated AP with SpeexDSP preprocessor after join", ttclient.getSoundInputPreprocess(preprocess));
         assertEquals("SpeexDSP and AudioPreprocessor are still equal", 7777, preprocess.speexdsp.nGainLevel);
+
+        SpeexDSP spxdsp = new SpeexDSP(true), spxdsp2 = new SpeexDSP();
+        assertTrue("set Speex DSP", ttclient.setSoundInputPreprocess(spxdsp));
+
+        assertTrue("get Speex DSP", ttclient.getSoundInputPreprocess(spxdsp2));
+        assertEquals("agc1", spxdsp.bEnableAGC, spxdsp2.bEnableAGC);
+        assertEquals("agc2", spxdsp.nGainLevel, spxdsp2.nGainLevel);
+        assertEquals("agc3", spxdsp.nMaxIncDBSec, spxdsp2.nMaxIncDBSec);
+        assertEquals("agc4", spxdsp.nMaxDecDBSec, spxdsp2.nMaxDecDBSec);
+        assertEquals("agc5", spxdsp.nMaxGainDB, spxdsp2.nMaxGainDB);
+        assertEquals("agc6", spxdsp.bEnableDenoise, spxdsp2.bEnableDenoise);
+        assertEquals("agc7", spxdsp.nMaxNoiseSuppressDB, spxdsp2.nMaxNoiseSuppressDB);
+        assertEquals("agc8", spxdsp.nEchoSuppress, spxdsp2.nEchoSuppress);
+        assertEquals("agc9", spxdsp.nEchoSuppressActive, spxdsp2.nEchoSuppressActive);
     }
 
     public void test_StoreUserVoiceInFileFormats() {
@@ -2285,9 +2287,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase ttclient2 = newClientInstance();
         TeamTalkBase ttclient3 = newClientInstance();
 
-
-        int inputdeviceid = INPUTDEVICEID;
-        int outputdeviceid = OUTPUTDEVICEID;
+        int inputdeviceid = (INPUTDEVICEID & SoundDeviceConstants.TT_SOUNDDEVICE_ID_MASK);
+        int outputdeviceid = (OUTPUTDEVICEID & SoundDeviceConstants.TT_SOUNDDEVICE_ID_MASK);
 
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
         boolean gotdevs = ttclient1.getDefaultSoundDevices(indev, outdev);

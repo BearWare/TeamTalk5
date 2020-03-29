@@ -168,20 +168,6 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             assertTrue("init input dev", ttclient.initSoundInputDevice(indev.value));
             assertTrue("init output dev", ttclient.initSoundOutputDevice(outdev.value));
         }
-
-        SpeexDSP spxdsp = new SpeexDSP(true), spxdsp2 = new SpeexDSP();
-        assertTrue("set Speex DSP", ttclient.setSoundInputPreprocess(spxdsp));
-
-        assertTrue("get Speex DSP", ttclient.getSoundInputPreprocess(spxdsp2));
-        assertEquals("agc1", spxdsp.bEnableAGC, spxdsp2.bEnableAGC);
-        assertEquals("agc2", spxdsp.nGainLevel, spxdsp2.nGainLevel);
-        assertEquals("agc3", spxdsp.nMaxIncDBSec, spxdsp2.nMaxIncDBSec);
-        assertEquals("agc4", spxdsp.nMaxDecDBSec, spxdsp2.nMaxDecDBSec);
-        assertEquals("agc5", spxdsp.nMaxGainDB, spxdsp2.nMaxGainDB);
-        assertEquals("agc6", spxdsp.bEnableDenoise, spxdsp2.bEnableDenoise);
-        assertEquals("agc7", spxdsp.nMaxNoiseSuppressDB, spxdsp2.nMaxNoiseSuppressDB);
-        assertEquals("agc8", spxdsp.nEchoSuppress, spxdsp2.nEchoSuppress);
-        assertEquals("agc9", spxdsp.nEchoSuppressActive, spxdsp2.nEchoSuppressActive);
     }
 
     public interface ServerInterleave {
