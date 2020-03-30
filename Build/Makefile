@@ -32,7 +32,7 @@ android-build:
 	CMAKE_EXTRA+="-DCMAKE_TOOLCHAIN_FILE=$(NDK)/build/cmake/android.toolchain.cmake -DANDROID_NATIVE_API_LEVEL=$(ANDROID_APP_PLATFORM) -DANDROID_ABI=$(ANDROID_APP_ABI) -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK5LIB=ON -DBUILD_TEAMTALK5PROLIB=ON -DBUILD_TEAMTALK_LIBRARIES=ON -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF -DZLIB_STATIC=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON" buildlib
 
 android-armeabi-v7a: teamtalk-env toolchain-env
-	. $(TOOLCHAIN_ROOT)/toolchain.sh android armeabi-v7a && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) BUILDDIR=build-$@ android-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh android armeabi-v7a && $(MAKE) TEAMTALK_ROOT=$(TEAMTALK_ROOT) BUILDDIR=build-$@ android-build
 
 android-arm64-v8a: teamtalk-env toolchain-env
 	. $(TOOLCHAIN_ROOT)/toolchain.sh android arm64-v8a && $(MAKE) TEAMTALK_ROOT=$(TEAMTALK_ROOT) BUILDDIR=build-$@ android-build
