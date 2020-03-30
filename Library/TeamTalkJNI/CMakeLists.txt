@@ -2,12 +2,25 @@
 cmake_minimum_required(VERSION 3.1)
 project (TeamTalk5JNI)
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+  # CMake cannot find JNI package in Android NDK
+  set(JAVA_AWT_LIBRARY "")
+  set(JAVA_JVM_LIBRARY "")
+  set(JAVA_INCLUDE_PATH2 "")
+  set(JAVA_AWT_INCLUDE_PATH "")
+endif()
+
 find_package(JNI)
 
 if (NOT JNI_FOUND)
   message("Specify JAVA_HOME environment variable to help cmake")
+endif()
+
+include_directories (../../Library/TeamTalk_DLL ${JNI_INCLUDE_DIRS})
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+  link_directories (../../Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
 else()
-  include_directories (../../Library/TeamTalk_DLL ${JNI_INCLUDE_DIRS})
   link_directories (../../Library/TeamTalk_DLL)
 endif()
 
@@ -113,13 +126,29 @@ if (BUILD_TEAMTALKPRO_LIBRARY_JNI OR BUILD_TEAMTALK_LIBRARY_JNI)
 endif()
 
 if (BUILD_TEAMTALK_LIBRARY_JNI)
+  
   add_library (TeamTalk5-jni SHARED
     jni/teamtalk-jni.cpp
     jni/ttconvert-jni.cpp
     jni/ttconvert-jni.h)
-  target_link_libraries (TeamTalk5-jni TeamTalk5 ${JNI_LIBRARIES})
 
-  set_output_dir(TeamTalk5-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs")
+  if (BUILD_TEAMTALK_CORE)
+    if (BUILD_TEAMTALK5LIB)
+      target_link_libraries (TeamTalk5-jni TeamTalk5Lib ${JNI_LIBRARIES})
+    elseif (BUILD_TEAMTALK5DLL)
+      target_link_libraries (TeamTalk5-jni TeamTalk5DLL ${JNI_LIBRARIES})
+    else()
+      target_link_libraries (TeamTalk5-jni TeamTalk5 ${JNI_LIBRARIES})
+    endif()
+  else()
+    target_link_libraries (TeamTalk5-jni TeamTalk5 ${JNI_LIBRARIES})
+  endif()
+
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+    set_output_dir(TeamTalk5-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs/${CMAKE_ANDROID_ARCH_ABI}")
+  else()
+    set_output_dir(TeamTalk5-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs")
+  endif()
   
 endif()
 
@@ -129,9 +158,24 @@ if (BUILD_TEAMTALKPRO_LIBRARY_JNI)
     jni/teamtalksrv-jni.cpp
     jni/ttconvert-jni.cpp
     jni/ttconvert-jni.h)
-  target_link_libraries (TeamTalk5Pro-jni TeamTalk5Pro ${JNI_LIBRARIES})
 
-  set_output_dir(TeamTalk5Pro-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs")
+  if (BUILD_TEAMTALK_CORE)
+    if (BUILD_TEAMTALK5PROLIB)
+      target_link_libraries (TeamTalk5Pro-jni TeamTalk5ProLib ${JNI_LIBRARIES})
+    elseif (BUILD_TEAMTALK5PRODLL)
+      target_link_libraries (TeamTalk5Pro-jni TeamTalk5ProDLL ${JNI_LIBRARIES})
+    else()
+      target_link_libraries (TeamTalk5Pro-jni TeamTalk5Pro ${JNI_LIBRARIES})
+    endif()
+  else()
+    target_link_libraries (TeamTalk5Pro-jni TeamTalk5Pro ${JNI_LIBRARIES})
+  endif()
+
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+    set_output_dir(TeamTalk5Pro-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs/${CMAKE_ANDROID_ARCH_ABI}")
+  else()
+    set_output_dir(TeamTalk5Pro-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs")
+  endif()
 
 endif()
 
