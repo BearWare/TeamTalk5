@@ -39,36 +39,42 @@
 
 namespace soundsystem {
 
+    enum AndroidRecorderFeature
+    {
+        ANDROID_SOUNDINPUT_NONE      = 0x0,
+
+        ANDROID_SOUNDINPUT_AGC       = 0x1,
+        ANDROID_SOUNDINPUT_DENOISE   = 0x2,
+        ANDROID_SOUNDINPUT_AEC       = 0x4,
+    };
+
+    typedef uint32_t AndroidRecorderFeatures;
+
     struct SLInputStreamer : InputStreamer
     {
-        SLObjectItf recorderObject;
-        SLRecordItf recorderRecord;
-        SLAndroidSimpleBufferQueueItf recorderBufferQueue;
+        SLObjectItf recorderObject = nullptr;
+        SLRecordItf recorderRecord = nullptr;
+        SLAndroidSimpleBufferQueueItf recorderBufferQueue = nullptr;
+        AndroidRecorderFeatures features = ANDROID_SOUNDINPUT_NONE;
         std::recursive_mutex mutex;
 
         std::vector<short> buffers[ANDROID_INPUT_BUFFERS];
-        ACE_UINT32 buf_index;
+        uint32_t buf_index = 0;
         SLInputStreamer(StreamCapture* r, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
-            : InputStreamer(r, sg, fs, sr, chs, sndsys, devid)
-            , recorderObject(NULL)
-            , recorderRecord(NULL)
-            , recorderBufferQueue(NULL), buf_index(0) { }
+            : InputStreamer(r, sg, fs, sr, chs, sndsys, devid) { }
     };
 
     struct SLOutputStreamer : OutputStreamer
     {
-        SLObjectItf playerObject;
-        SLPlayItf playerPlay;
-        SLAndroidSimpleBufferQueueItf playerBufferQueue;
+        SLObjectItf playerObject = nullptr;
+        SLPlayItf playerPlay = nullptr;
+        SLAndroidSimpleBufferQueueItf playerBufferQueue = nullptr;
         std::recursive_mutex mutex;
 
         std::vector<short> buffers[ANDROID_OUTPUT_BUFFERS];
-        ACE_UINT32 buf_index;
+        uint32_t buf_index = 0;
         SLOutputStreamer(StreamPlayer* p, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
-            : OutputStreamer(p, sg, fs, sr, chs, sndsys, devid)
-            , playerObject(NULL)
-            , playerPlay(NULL)
-            , playerBufferQueue(NULL), buf_index(0) { }
+            : OutputStreamer(p, sg, fs, sr, chs, sndsys, devid) { }
 
     };
 
@@ -107,7 +113,7 @@ namespace soundsystem {
         bool StopStream(inputstreamer_t streamer);
         void CloseStream(inputstreamer_t streamer);
         bool IsStreamStopped(inputstreamer_t streamer);
-        
+
         bool SetEchoCancellation(inputstreamer_t streamer, bool enable);
         bool IsEchoCancelling(inputstreamer_t streamer);
         bool SetAGC(inputstreamer_t streamer, bool enable);

@@ -118,6 +118,10 @@ bool OpenSLESWrapper::Init()
                                                   effectName, &effectNameLength);
             effectName[effectNameLength] = 0;
             MYTRACE(ACE_TEXT("Android Effect Capability: #%d name=%s\n"), i, effectName);
+            MYTRACE_COND(effectType == SL_IID_ANDROIDACOUSTICECHOCANCELLATION,
+                         ACE_TEXT("This is echo cancelling effect type\n"));
+            MYTRACE_COND(effectImplementation == SL_IID_ANDROIDACOUSTICECHOCANCELLATION,
+                         ACE_TEXT("This is echo cancelling effect impl\n"));
         }
     }
 
@@ -286,7 +290,7 @@ bool OpenSLESWrapper::SetEchoCancellation(inputstreamer_t streamer, bool enable)
     result = (*m_engineObject)->GetInterface(streamer->recorderObject, SL_IID_ANDROIDACOUSTICECHOCANCELLATION, &aecItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get echo cancel interface from engine\n"));
     if (result != SL_RESULT_SUCCESS)
-        return false;
+        return false || !enable;
 
     result = (*aecItf)->SetEnabled(aecItf, enable);
     return result == SL_RESULT_SUCCESS;
@@ -317,7 +321,7 @@ bool OpenSLESWrapper::SetAGC(inputstreamer_t streamer, bool enable)
     result = (*m_engineObject)->GetInterface(streamer->recorderObject, SL_IID_ANDROIDAUTOMATICGAINCONTROL, &agcItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get AGC interface from engine\n"));
     if (result != SL_RESULT_SUCCESS)
-        return false;
+        return false || !enable;
 
     result = (*agcItf)->SetEnabled(agcItf, enable);
     return result == SL_RESULT_SUCCESS;
@@ -348,7 +352,7 @@ bool OpenSLESWrapper::SetDenoising(inputstreamer_t streamer, bool enable)
     result = (*m_engineObject)->GetInterface(streamer->recorderObject, SL_IID_ANDROIDNOISESUPPRESSION, &noiseItf);
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get noise suppress interface from engine\n"));
     if (result != SL_RESULT_SUCCESS)
-        return false;
+        return false || !enable;
 
     result = (*noiseItf)->SetEnabled(noiseItf, enable);
     return result == SL_RESULT_SUCCESS;
@@ -438,6 +442,7 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     SLAndroidSimpleBufferQueueItf recorderBufferQueue = nullptr;
     inputstreamer_t streamer;
     int frames_per_callback = 0;
+    AndroidRecorderFeatures features = ANDROID_SOUNDINPUT_NONE;
 
     const SLInterfaceID ids[] = {SL_IID_ANDROIDSIMPLEBUFFERQUEUE,
                                  SL_IID_ANDROIDACOUSTICECHOCANCELLATION,
@@ -486,6 +491,7 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
         SLboolean enabled = false;
         result = (*aecItf)->IsEnabled(aecItf, &enabled);
         MYTRACE_COND(result == SL_RESULT_SUCCESS, ACE_TEXT("Echo cancellation is currently %s\n"), (enabled? "on" : "off"));
+        features |= ANDROID_SOUNDINPUT_AEC;
     }
 
     SLAndroidNoiseSuppressionItf noiseItf;
@@ -497,6 +503,7 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
         SLboolean enabled = false;
         result = (*noiseItf)->IsEnabled(noiseItf, &enabled);
         MYTRACE_COND(result == SL_RESULT_SUCCESS, ACE_TEXT("Noise suppression is currently %s\n"), (enabled? "on" : "off"));
+        features |= ANDROID_SOUNDINPUT_DENOISE;
     }
 
     SLAndroidAutomaticGainControlItf agcItf;
@@ -508,6 +515,7 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
         SLboolean enabled = false;
         result = (*agcItf)->IsEnabled(agcItf, &enabled);
         MYTRACE_COND(result == SL_RESULT_SUCCESS, ACE_TEXT("AGC is currently %s\n"), (enabled? "on" : "off"));
+        features |= ANDROID_SOUNDINPUT_AGC;
     }
 
     // store input stream properties for callback
@@ -522,6 +530,7 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     streamer->recorderObject = recorderObject;
     streamer->recorderRecord = recorderRecord;
     streamer->recorderBufferQueue = recorderBufferQueue;
+    streamer->features = features;
 
     // register callback on the buffer queue
     result = (*recorderBufferQueue)->RegisterCallback(recorderBufferQueue,
