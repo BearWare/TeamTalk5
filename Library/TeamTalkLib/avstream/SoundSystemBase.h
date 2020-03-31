@@ -1000,15 +1000,19 @@ namespace soundsystem {
                                              snddev.max_input_channels,
                                              int(snddev.default_samplerate * 0.04));
             else
+            {
+                MYTRACE(ACE_TEXT("Opening shared input device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 orgstream = NewStream(sharedstream.get(),
                                       snddev.id & SOUND_DEVICEID_MASK,
                                       newsndgrpid,
                                       snddev.default_samplerate,
                                       snddev.max_input_channels,
                                       int(snddev.default_samplerate * 0.04));
-
+            }
+            
             if (!orgstream)
             {
+                MYTRACE(ACE_TEXT("Failed to open shared input device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 return inputstreamer_t();
             }
 
@@ -1036,8 +1040,8 @@ namespace soundsystem {
                 return inputstreamer_t();
             }
 
-            MYTRACE(ACE_TEXT("Opened shared capture stream %p, samplerate %d, channels %d\n"),
-                    capture, samplerate, channels);
+            MYTRACE(ACE_TEXT("Opened shared capture stream %p on device #%d, samplerate %d, channels %d\n"),
+                    capture, (inputdeviceid & SOUND_DEVICEID_MASK), samplerate, channels);
 
             return streamer;
         }
@@ -1096,13 +1100,17 @@ namespace soundsystem {
                                              snddev.max_output_channels,
                                              int(snddev.default_samplerate * 0.04));
             else
+            {
+                MYTRACE(ACE_TEXT("Opening shared output device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 orgstream = NewStream(sharedstream.get(), snddev.id & SOUND_DEVICEID_MASK,
                                       newsndgrpid, snddev.default_samplerate,
                                       snddev.max_output_channels, int(snddev.default_samplerate * 0.04));
-
+            }
+            
             if (!orgstream)
             {
                 RemoveSoundGroup(newsndgrpid);
+                MYTRACE(ACE_TEXT("Failed to open shared output device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 return outputstreamer_t();
             }
 
@@ -1124,6 +1132,9 @@ namespace soundsystem {
                 return outputstreamer_t();
             }
 
+            MYTRACE(ACE_TEXT("Opened shared output stream %p on device #%d, samplerate %d, channels %d\n"),
+                    player, (outputdeviceid & SOUND_DEVICEID_MASK), samplerate, channels);
+            
             return streamer;
         }
 
