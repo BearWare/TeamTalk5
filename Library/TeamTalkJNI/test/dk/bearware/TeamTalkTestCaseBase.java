@@ -220,7 +220,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         UserAccount account = msg.useraccount;
         assertEquals("username set", username, account.szUsername);
         //Assert.AreEqual(passwd, account.szPassword, "password set");
-        assertTrue("Wait login complete", waitCmdComplete(ttclient, cmdid, 1000));
+        assertTrue("Wait login complete", waitCmdComplete(ttclient, cmdid, DEF_WAIT));
         assertTrue("Authorized", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
     }
 
@@ -252,7 +252,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
 
         assertTrue("do join root", cmdid > 0);
 
-        assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, 1000, server));
+        assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, DEF_WAIT, server));
 
         assertEquals("In root channel", ttclient.getMyChannelID(), ttclient.getRootChannelID());
     }
