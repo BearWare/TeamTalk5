@@ -1099,9 +1099,6 @@ namespace soundsystem {
             // another shared stream as well on 'outputdeviceid'
             m_shared_streamplayers[outputdeviceid] = sharedstream;
             
-            // don't hold lock during callback
-            g.unlock();
-
             outputstreamer_t orgstream;
             if (snddev.id == SOUND_DEVICEID_VIRTUAL)
                 orgstream = NewVirtualStream(sharedstream.get(), newsndgrpid,
@@ -1120,13 +1117,11 @@ namespace soundsystem {
             {
                 RemoveSoundGroup(newsndgrpid);
 
-                g.lock();
                 m_shared_streamplayers.erase(outputdeviceid);
                 MYTRACE(ACE_TEXT("Failed to open shared output device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 return outputstreamer_t();
             }
 
-            g.lock();
             sharedstream->SetOrigin(orgstream);
 
             // a hack to get new player into container, otherwise we
