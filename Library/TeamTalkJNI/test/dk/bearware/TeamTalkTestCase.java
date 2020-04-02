@@ -2229,14 +2229,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             }
         }
 
-        long loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 1, true, new SpeexDSP(true));
-        assertTrue("Sound duplex loopback started", loop>0);
-
-        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
-
-        assertTrue("Loop duplex stopped", ttclient.closeSoundLoopbackTest(loop));
-
-        loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 1, false, null);
+        long loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 1, false, null);
         assertTrue("Sound loopback started", loop>0);
 
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
@@ -2263,6 +2256,19 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
 
         assertTrue("Loop virtual duplex-dev stopped", ttclient.closeSoundLoopbackTest(loop));
+
+        if ((in.value & SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG) == SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG ||
+            (out.value & SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG) == SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG) {
+            System.err.println("Duplex tests skipped due to shared sound device as input/output");
+            return;
+        }
+
+        loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 1, true, new SpeexDSP(true));
+        assertTrue("Sound duplex loopback started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Loop duplex stopped", ttclient.closeSoundLoopbackTest(loop));
 
         if (out.value == SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL) {
             System.err.println("Duplex test skipped due to virtual sound device as output");
@@ -2311,6 +2317,10 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 return;
             }
         }
+
+        // if INPUTDEVICEID or OUTPUTDEVICEID is already a shared device then clear it
+        inputdeviceid = (inputdeviceid & SoundDeviceConstants.TT_SOUNDDEVICE_ID_MASK);
+        outputdeviceid = (outputdeviceid & SoundDeviceConstants.TT_SOUNDDEVICE_ID_MASK);
 
         SoundDevice sharedindev = null, sharedoutdev = null;
         Vector<SoundDevice> devs = new Vector<>();
