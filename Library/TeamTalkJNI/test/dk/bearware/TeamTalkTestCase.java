@@ -1067,7 +1067,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             Channel chan = new Channel();
             TeamTalkBase ttclient = clients.elementAt(i);
             assertTrue("get channel", ttclient.getChannel(ttclient.getMyChannelID(), chan));
-            String filename = "MuxedRecording-" + chan.szName + ".wav";
+            String filename = "MuxedRecording-" + chan.szName + "-#" + ttclient.getMyUserID() + ".wav";
             filenames.add(filename);
             cbintervalMSec.add(chan.audiocodec.opus.nTxIntervalMSec);
             assertTrue("Record mux", ttadmin.startRecordingMuxedAudioFile(ttclient.getMyChannelID(), filename, AudioFileFormat.AFF_WAVE_FORMAT));
