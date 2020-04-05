@@ -2072,7 +2072,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("SpeexDSP and AudioPreprocessor are equals", 7777, speexdsp.nGainLevel);
         assertTrue("get updated AP with SpeexDSP preprocessor", ttclient.getSoundInputPreprocess(preprocess));
         assertEquals("SpeexDSP and AudioPreprocessor are equals", 7777, preprocess.speexdsp.nGainLevel);
-        assertEquals("gain level reset to default", SoundLevel.SOUND_GAIN_DEFAULT, ttclient.getSoundInputGainLevel());
+        assertEquals("gain level not changed by SpeexDSP", SoundLevel.SOUND_GAIN_MAX, ttclient.getSoundInputGainLevel());
 
         Channel chan = buildDefaultChannel(ttclient, "Opus - Test", Codec.OPUS_CODEC);
         chan.audiocodec.opus.nChannels = 2;
