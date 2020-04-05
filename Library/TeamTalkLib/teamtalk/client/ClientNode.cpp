@@ -3076,12 +3076,18 @@ bool ClientNode::SetVoiceGainLevel(int gainlevel)
 {
     rguard_t g_snd(lock_sndprop());
 
-    if (m_soundprop.preprocessor.preprocessor == AUDIOPREPROCESSOR_TEAMTALK)
+    switch (m_soundprop.preprocessor.preprocessor)
     {
-        m_soundprop.preprocessor.ttpreprocessor.gainlevel = gainlevel; //cache value
+    case AUDIOPREPROCESSOR_TEAMTALK :
+        m_soundprop.preprocessor.ttpreprocessor.gainlevel = gainlevel; //cache vvalue
         return SetSoundPreprocess(m_soundprop.preprocessor);
+    case AUDIOPREPROCESSOR_NONE :
+    case AUDIOPREPROCESSOR_SPEEXDSP : // maybe only denoising is used
+                                      // in SpeexDSP but gain should
+                                      // still be allowed.
+        m_voice_thread.m_gainlevel = gainlevel;
+        return true;
     }
-    
     return false;
 }
 
@@ -3092,7 +3098,7 @@ int ClientNode::GetVoiceGainLevel()
     if (m_soundprop.preprocessor.preprocessor == AUDIOPREPROCESSOR_TEAMTALK)
         return m_soundprop.preprocessor.ttpreprocessor.gainlevel;
 
-    return GAIN_NORMAL;
+    return m_voice_thread.m_gainlevel;
 }
 
 bool ClientNode::SetSoundPreprocess(const AudioPreprocessor& preprocessor)

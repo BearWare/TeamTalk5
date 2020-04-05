@@ -251,12 +251,10 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
     {
     case AUDIOPREPROCESSOR_NONE :
         MuteSound(false, false);
-        m_gainlevel = GAIN_NORMAL;
         UpdatePreprocess(teamtalk::SpeexDSP());
         return true;
     case AUDIOPREPROCESSOR_SPEEXDSP :
         MuteSound(false, false);
-        m_gainlevel = GAIN_NORMAL;
         return UpdatePreprocess(preprocess.speexdsp);
     case AUDIOPREPROCESSOR_TEAMTALK :
         MuteSound(preprocess.ttpreprocessor.muteleft, preprocess.ttpreprocessor.muteright);

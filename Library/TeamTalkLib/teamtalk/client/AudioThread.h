@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -53,8 +53,8 @@ public:
     AudioThread();
     virtual ~AudioThread();
 
-    bool StartEncoder(audioencodercallback_t callback, 
-                      const teamtalk::AudioCodec& codec, 
+    bool StartEncoder(audioencodercallback_t callback,
+                      const teamtalk::AudioCodec& codec,
                       bool spawn_thread);
     void StopEncoder();
 
@@ -77,6 +77,10 @@ public:
     const teamtalk::AudioCodec& codec() const { return m_codec; }
 
     void ProcessQueue(ACE_Time_Value* tm);
+
+    //voice gain
+    int m_gainlevel;    //GAIN_NORMAL == disabled
+
 private:
     int close(u_long);
     int svc(void);
@@ -111,8 +115,6 @@ private:
 
     // TTAudioPreprocessor
     StereoMask m_stereo = STEREO_BOTH;
-    //voice gain
-    int m_gainlevel;    //GAIN_NORMAL == disabled
 
     //encoder state has been reset
     bool m_enc_cleared;
