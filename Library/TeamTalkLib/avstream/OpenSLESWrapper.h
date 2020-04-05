@@ -46,6 +46,7 @@ namespace soundsystem {
         ANDROID_SOUNDINPUT_AGC       = 0x1,
         ANDROID_SOUNDINPUT_DENOISE   = 0x2,
         ANDROID_SOUNDINPUT_AEC       = 0x4,
+        ANDROID_SOUNDINPUT_VOICECOM  = 0x8,
     };
 
     typedef uint32_t AndroidRecorderFeatures;
@@ -55,7 +56,6 @@ namespace soundsystem {
         SLObjectItf recorderObject = nullptr;
         SLRecordItf recorderRecord = nullptr;
         SLAndroidSimpleBufferQueueItf recorderBufferQueue = nullptr;
-        AndroidRecorderFeatures features = ANDROID_SOUNDINPUT_NONE;
         std::recursive_mutex mutex;
 
         std::vector<short> buffers[ANDROID_INPUT_BUFFERS];

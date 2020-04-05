@@ -60,7 +60,7 @@ namespace soundsystem {
         SOUND_DEVICEID_MASK              = 0x000007FF,
         /* Flag for a shared sound device. The original sound device
          * is in the mask SOUND_DEVICEID_MASK */
-        SOUND_DEVICE_SHARED_FLAG         = 0x00000800
+        SOUND_DEVICE_SHARED_FLAG         = 0x00000800,
     };
 
     class StreamCapture;
