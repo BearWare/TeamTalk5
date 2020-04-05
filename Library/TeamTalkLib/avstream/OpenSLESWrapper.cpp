@@ -707,10 +707,8 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
     int frames_per_callback = 0;
 
     // create audio player
-    const SLInterfaceID ids[] = {SL_IID_BUFFERQUEUE, SL_IID_EFFECTSEND,
-                                  /*SL_IID_MUTESOLO,*/ SL_IID_VOLUME};
-    const SLboolean req[] = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE,
-                              /*SL_BOOLEAN_TRUE,*/ SL_BOOLEAN_TRUE};
+    const SLInterfaceID ids[] = {SL_IID_BUFFERQUEUE};
+    const SLboolean req[] = {SL_BOOLEAN_TRUE};
     const SLuint32 n_ids = sizeof(ids)/sizeof(ids[0]);
 
     result = (*m_engineEngine)->CreateAudioPlayer(m_engineEngine, &playerObject,
@@ -1069,10 +1067,8 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
             SLObjectItf playerObject = NULL;
 
             // create audio player
-            const SLInterfaceID ids[] = {SL_IID_BUFFERQUEUE, SL_IID_EFFECTSEND,
-                                          /*SL_IID_MUTESOLO,*/ SL_IID_VOLUME};
-            const SLboolean req[] = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE,
-                                      /*SL_BOOLEAN_TRUE,*/ SL_BOOLEAN_TRUE};
+            const SLInterfaceID ids[] = {SL_IID_BUFFERQUEUE};
+            const SLboolean req[] = {SL_BOOLEAN_TRUE};
             const SLuint32 n_ids = sizeof(ids)/sizeof(ids[0]);
 
             result = (*m_engineEngine)->CreateAudioPlayer(m_engineEngine, &playerObject,
@@ -1157,6 +1153,7 @@ SLuint32 toSLSpeaker(int channels)
 
 // TODO: Investigate retrieval of optimal buffer size:
 // https://developer.android.com/ndk/guides/audio/audio-latency
+// Also switch to SL_IID_ANDROIDSIMPLEBUFFERQUEUE
 int detectMinumumBuffer(SLAndroidSimpleBufferQueueItf bq,
                         std::vector<short>& buffer, int samplerate,
                         int framesize, int channels)
