@@ -195,10 +195,10 @@ namespace BearWare
          * distribution the audio data to multiple TeamTalk instances.
          *
          * The shared audio device on Android will show up as
-         * (TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | TT_SOUNDDEVICE_SHARED_FLAG),
+         * (TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | TT_SOUNDDEVICE_ID_SHARED_FLAG),
          * i.e. 2048.
          */
-        public const uint TT_SOUNDDEVICE_SHARED_FLAG = 0x00000800;
+        public const uint TT_SOUNDDEVICE_ID_SHARED_FLAG = 0x00000800;
 
         /** @brief Extract sound device ID of @c nDeviceID in #BearWare.SoundDevice by
          * and'ing this value.

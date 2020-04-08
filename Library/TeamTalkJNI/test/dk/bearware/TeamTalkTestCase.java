@@ -2259,8 +2259,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("Loop virtual duplex-dev stopped", ttclient.closeSoundLoopbackTest(loop));
 
-        if ((in.value & SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG) == SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG ||
-            (out.value & SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG) == SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG) {
+        if ((in.value & SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) == SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG ||
+            (out.value & SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) == SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) {
             System.err.println("Duplex tests skipped due to shared sound device as input/output");
             return;
         }
@@ -2341,8 +2341,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("shared out device selected", outputdeviceid, sharedoutdev.nDeviceID);
 
         // toggle input and output device as shared audio devices
-        inputdeviceid = sharedindev.nDeviceID | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
-        outputdeviceid = sharedoutdev.nDeviceID | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        inputdeviceid = sharedindev.nDeviceID | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        outputdeviceid = sharedoutdev.nDeviceID | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
 
         // test two instances with same sample settings as original and one instance which requires resampling
         long sndloop1 = ttclient1.startSoundLoopbackTest(inputdeviceid, outputdeviceid, 48000, 2, false, null);
@@ -3237,8 +3237,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             outdev.value = OUTPUTDEVICEID;
         }
 
-        indev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
-        outdev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        indev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        outdev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
 
         assertTrue("Init rx input", rxclient.initSoundInputDevice(indev.value));
         assertTrue("Init rx output", rxclient.initSoundOutputDevice(outdev.value));
@@ -3350,8 +3350,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             outdev.value = OUTPUTDEVICEID;
         }
 
-        indev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
-        outdev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        indev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        outdev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
 
         assertTrue("Init rx input", rxclient.initSoundInputDevice(indev.value));
         assertTrue("Init rx output", rxclient.initSoundOutputDevice(outdev.value));
