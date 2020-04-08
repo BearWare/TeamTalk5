@@ -454,8 +454,10 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
         pSoundDevices[i].nMaxInputChannels = devices[i].max_input_channels;
         pSoundDevices[i].nMaxOutputChannels = devices[i].max_output_channels;
         pSoundDevices[i].nDefaultSampleRate = devices[i].default_samplerate;
-        pSoundDevices[i].bSupports3D = devices[i].supports3d;
+        pSoundDevices[i].bSupports3D = (devices[i].features & SOUNDDEVICEFEATURE_3DPOSITION);
         pSoundDevices[i].nSoundSystem = (SoundSystem)devices[i].soundsystem;
+        pSoundDevices[i].uSoundDeviceFeatures = devices[i].features;
+
         ACE_OS::strsncpy(pSoundDevices[i].szDeviceID, 
                         devices[i].deviceid.c_str(), 
                         TT_STRLEN);

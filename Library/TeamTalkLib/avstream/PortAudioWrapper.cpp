@@ -259,11 +259,12 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
                 device.output_channels.insert(c);
         }
 
+        device.features |= SOUNDDEVICEFEATURE_DUPLEXMODE;
+
 #if defined(WIN32)
         device.wavedeviceid = devinfo->wavedeviceid;
-        device.supports3d = devinfo->max3dBuffers > 0;
-#else
-        device.supports3d = false;
+        if (devinfo->max3dBuffers > 0)
+            device.features |= SOUNDDEVICEFEATURE_3DPOSITION;
 #endif
         sounddevs[device.id] = device;
     }

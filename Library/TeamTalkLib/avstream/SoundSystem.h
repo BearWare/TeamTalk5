@@ -91,7 +91,6 @@ namespace soundsystem {
 #if defined(WIN32)
         int wavedeviceid;
 #endif
-        bool supports3d;
         SoundDeviceFeatures features = 0;
         int max_input_channels;
         int max_output_channels;
@@ -156,7 +155,6 @@ namespace soundsystem {
             id = SOUND_DEVICEID_INVALID;
             max_input_channels = max_output_channels = 0;
             default_samplerate = 0;
-            supports3d = false;
             soundsystem = SOUND_API_NOSOUND;
 #if defined(WIN32)
             wavedeviceid = -1;

@@ -281,16 +281,40 @@ extern "C" {
         SOUNDSYSTEM_AUDIOUNIT = 8
     } SoundSystem;
 
+    /**
+     * @brief Features available on a sound device.
+     * Checkout @c uSoundDeviceFeatures on #SoundDevice.
+     * */
     typedef enum SoundDeviceFeature
     {
         SOUNDDEVICEFEATURE_NONE         = 0x0000,
+        /** @brief The #SoundDevice can enable Acoustic 
+         * Echo Canceler (AEC).
+         * Enable AEC use property @c bEnableAEC on
+         * #SoundDeviceEffects.
+         * @see TT_SetSoundDeviceEffects() */
         SOUNDDEVICEFEATURE_AEC          = 0x0001,
+        /** @brief The #SoundDevice can enable Automatic
+         * Gain Control (AGC).
+         * Enable AGC use property @c bEnableAGC on
+         * #SoundDeviceEffects.
+         * @see TT_SetSoundDeviceEffects() */
         SOUNDDEVICEFEATURE_AGC          = 0x0002,
+        /** @brief The #SoundDevice can enable denoising.
+         * Enable denoising use property @c bEnableDenoising on 
+         * #SoundDeviceEffects.
+         * @see TT_SetSoundDeviceEffects() */
         SOUNDDEVICEFEATURE_DENOISE      = 0x0004,
+        /** @brief The #SoundDevice can position user in 3D.
+         * @see TT_SetUserPosition()  */
         SOUNDDEVICEFEATURE_3DPOSITION   = 0x0008,
+        /** @brief The #SoundDevice can run in duplex mode.
+         * @see TT_InitSoundDuplexDevices() */
         SOUNDDEVICEFEATURE_DUPLEXMODE   = 0x0010,
     } SoundDeviceFeature;
 
+    /** @brief A bitmask of available #SoundDeviceFeature. 
+     * Checkout @c uSoundDeviceFeatures on #SoundDevice. */
     typedef UINT32 SoundDeviceFeatures;
 
     /** 
@@ -338,7 +362,7 @@ extern "C" {
         INT32 nWaveDeviceID;
 #endif
         /** @brief Whether the sound device supports 3D-sound
-         * effects. */
+         * effects. @deprecated Use #SOUNDDEVICEFEATURE_3DPOSITION. */
         TTBOOL bSupports3D;
         /** @brief The maximum number of input channels. */
         INT32 nMaxInputChannels;
@@ -355,7 +379,10 @@ extern "C" {
         /** @brief The default sample rate for the sound device. */
         INT32 nDefaultSampleRate;
         /** @brief Additional features available for this sound
-         * device */
+         * device. The sound device features can be used to enable
+         * additional features on the sound device.
+         * @see SoundDeviceFeature
+         * @see TT_SetSoundDeviceEffects() */
         SoundDeviceFeatures uSoundDeviceFeatures;
     } SoundDevice;
 
@@ -370,13 +397,16 @@ extern "C" {
     typedef struct SoundDeviceEffects
     {
         /** @brief Enable Automatic Gain Control. On Android this
-         * effect will be applied on all active #TTInstance. */
+         * effect will be applied on all active #TTInstance.
+         * @see SOUNDDEVICEFEATURE_AGC */
         TTBOOL bEnableAGC;
         /** @brief Enable noise suppression. On Android this
-         * effect will be applied on all active #TTInstance. */
+         * effect will be applied on all active #TTInstance. 
+         * @see SOUNDDEVICEFEATURE_DENOISE */
         TTBOOL bEnableDenoise;
         /** @brief Enable echo cancellation. On Android this
-         * effect will be applied on all active #TTInstance. */
+         * effect will be applied on all active #TTInstance.
+         * @see SOUNDDEVICEFEATURE_AEC */
         TTBOOL bEnableEchoCancellation;
     } SoundDeviceEffects;
 
@@ -903,8 +933,8 @@ extern "C" {
         /** @brief Playback should be done in stereo. Doing so will
          * disable 3d-positioning.
          *
-         * @see TT_SetUserPosition
-         * @see TT_SetUserStereo */
+         * @see TT_SetUserPosition()
+         * @see TT_SetUserStereo() */
         TTBOOL bStereoPlayback;
     } SpeexCodec;
 
@@ -947,8 +977,8 @@ extern "C" {
         /** @brief Playback should be done in stereo. Doing so will
          * disable 3d-positioning.
          *
-         * @see TT_SetUserPosition
-         * @see TT_SetUserStereo */
+         * @see TT_SetUserPosition()
+         * @see TT_SetUserStereo() */
         TTBOOL bStereoPlayback; 
     } SpeexVBRCodec;
 
@@ -1968,12 +1998,12 @@ extern "C" {
         INT32 nStoppedDelayMediaFile;
         /** @brief User's position when using 3D-sound (DirectSound option).
          * Index 0 is x-axis, index 1 is y-axis and index 2 is Z-axis.
-         * @see TT_SetUserPosition
+         * @see TT_SetUserPosition()
          * @see SoundDevice */
         float soundPositionVoice[3];
         /** @brief User's position when using 3D-sound (DirectSound option).
          * Index 0 is x-axis, index 1 is y-axis and index 2 is Z-axis.
-         * @see TT_SetUserPosition
+         * @see TT_SetUserPosition()
          * @see SoundDevice */
         float soundPositionMediaFile[3];
         /** @brief Check what speaker a user is outputting to. 
@@ -3415,7 +3445,7 @@ extern "C" {
         /** @brief If set the client instance will auto position users
         * in a 180 degree circle using 3D-sound. This option is only
         * available with #SOUNDSYSTEM_DSOUND.
-        * @see TT_SetUserPosition 
+        * @see TT_SetUserPosition()
         * @see TT_Enable3DSoundPositioning */
         CLIENT_SNDOUTPUT_AUTO3DPOSITION = 0x00000040,
         /** @brief If set the client instance's video device has been
@@ -3695,7 +3725,8 @@ extern "C" {
      * the specified sample rate since this loop back test uses duplex
      * mode ( @see TT_InitSoundDuplexDevices() ). Check out @c
      * supportedSampleRates of #SoundDevice to see which sample rates
-     * are supported.
+     * are supported. The #SoundDevice must have the feature
+     * #SOUNDDEVICEFEATURE_DUPLEXMODE.
      * @param lpSpeexDSP The preprocessing settings to use, i.e. AGC 
      * and denoising properties. Pass NULL to ignore AGC, denoise and AEC.
      * @return Returns NULL in case of error, otherwise sound loop instance
@@ -3798,6 +3829,9 @@ extern "C" {
      * and #SOUNDSYSTEM_ALSA typically only support a single sample
      * rate.  Check @c supportedSampleRates in #SoundDevice to see
      * which sample rates are supported.
+     *
+     * To use duplex mode the feature #SOUNDDEVICEFEATURE_DUPLEXMODE
+     * must be available on the #SoundDevice.
      *
      * Sound duplex mode is required for echo cancellation since sound
      * input and output device must be synchronized. Also sound cards
@@ -4056,25 +4090,29 @@ extern "C" {
     /** 
      * @brief Enable automatically position users using 3D-sound.
      *
+     * 3D sound position requires #SOUNDDEVICEFEATURE_3DPOSITION.
+     *
      * Note that 3d-sound does not work if sound is running in duplex
-     * mode (#CLIENT_SNDINOUTPUT_DUPLEX).
+     * mode (#CLIENT_SNDINOUTPUT_DUPLEX) or in stereo.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @param bEnable TRUE to enable, otherwise FALSE.
-     * @see TT_SetUserPosition */
+     * @see TT_SetUserPosition() */
     TEAMTALKDLL_API TTBOOL TT_Enable3DSoundPositioning(IN TTInstance* lpTTInstance, 
                                                        IN TTBOOL bEnable);
 
     /** 
      * @brief Automatically position users using 3D-sound.
      *
+     * 3D sound position requires #SOUNDDEVICEFEATURE_3DPOSITION.
+     *
      * Note that 3d-sound does not work if sound is running in duplex
-     * mode (#CLIENT_SNDINOUTPUT_DUPLEX).
+     * mode (#CLIENT_SNDINOUTPUT_DUPLEX) or in stereo.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @see TT_SetUserPosition */
+     * @see TT_SetUserPosition() */
     TEAMTALKDLL_API TTBOOL TT_AutoPositionUsers(IN TTInstance* lpTTInstance);
 
     /**
@@ -6472,9 +6510,11 @@ extern "C" {
     /**
      * @brief Set the position of a user.
      *
-     * This can only be done using DirectSound (#SOUNDSYSTEM_DSOUND)
-     * and with sound duplex mode (#CLIENT_SNDINOUTPUT_DUPLEX)
-     * disabled.
+     * 3D sound position requires #SOUNDDEVICEFEATURE_3DPOSITION.
+     *
+     * This can only be done using DirectSound (#SOUNDSYSTEM_DSOUND),
+     * a mono channel and with sound duplex mode 
+     * (#CLIENT_SNDINOUTPUT_DUPLEX) disabled.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.

@@ -31,9 +31,12 @@ public class SoundDevice
     public int nSoundSystem;
     public String szDeviceName = "";
     public String szDeviceID = "";
+    public int nWaveDeviceID;
+    public boolean bSupports3D;
     public int nMaxInputChannels;
     public int nMaxOutputChannels;
     public int inputSampleRates[];
     public int outputSampleRates[];
     public int nDefaultSampleRate;
+    public int uSoundDeviceFeatures;
 }

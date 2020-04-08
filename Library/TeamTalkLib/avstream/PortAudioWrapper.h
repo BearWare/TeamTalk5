@@ -167,7 +167,4 @@ namespace soundsystem
 
 }
 
-#define PORTAUDIO soundsystem::PortAudio::getInstance()
-
-
 #endif
