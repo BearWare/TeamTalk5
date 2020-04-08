@@ -355,10 +355,10 @@ extern "C" {
  * distribute the audio data to multiple TeamTalk instances.
  *
  * The shared audio device on Android will show up as
- * (TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | TT_SOUNDDEVICE_SHARED_FLAG),
+ * (TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | TT_SOUNDDEVICE_ID_SHARED_FLAG),
  * i.e. 2048.
  */
-#define TT_SOUNDDEVICE_SHARED_FLAG              0x00000800
+#define TT_SOUNDDEVICE_ID_SHARED_FLAG           0x00000800
 
 /** @brief Extract sound device ID of @c nDeviceID in #SoundDevice by
  * and'ing this value.
@@ -377,7 +377,7 @@ extern "C" {
 /** @brief Sound device ID for Android OpenSL ES default audio
  * device. Note that this sound device may also exist in the form
  * where the @c nDeviceID as been or'ed with
- * #TT_SOUNDDEVICE_SHARED_FLAG. @see SOUNDSYSTEM_OPENSLES_ANDROID */
+ * #TT_SOUNDDEVICE_ID_SHARED_FLAG. @see SOUNDSYSTEM_OPENSLES_ANDROID */
 #define TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT      0
     
 /** @brief Sound device ID for virtual TeamTalk sound device.
@@ -3682,7 +3682,7 @@ extern "C" {
      * nInputDeviceID.
      *
      * The @c nInputDeviceID can be or'ed with
-     * #TT_SOUNDDEVICE_SHARED_FLAG if the #TTInstance should share
+     * #TT_SOUNDDEVICE_ID_SHARED_FLAG if the #TTInstance should share
      * recording device with other instances.
      *
      * Notice fixed sound device ID for some platforms:
@@ -3715,7 +3715,7 @@ extern "C" {
      * nOutputDeviceID.
      *
      * The @c nOutputDeviceID can be or'ed with
-     * #TT_SOUNDDEVICE_SHARED_FLAG if the #TTInstance should share
+     * #TT_SOUNDDEVICE_ID_SHARED_FLAG if the #TTInstance should share
      * output device with other instances.
      *
      * Notice fixed sound device ID for some platforms:

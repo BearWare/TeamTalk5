@@ -25,7 +25,7 @@ package dk.bearware;
 
 public interface SoundDeviceConstants {
 
-    public static final int TT_SOUNDDEVICE_SHARED_FLAG              = 0x00000800;
+    public static final int TT_SOUNDDEVICE_ID_SHARED_FLAG           = 0x00000800;
     public static final int TT_SOUNDDEVICE_ID_MASK                  = 0x000007FF;
     
     public static final int TT_SOUNDDEVICE_ID_REMOTEIO              = 0;
