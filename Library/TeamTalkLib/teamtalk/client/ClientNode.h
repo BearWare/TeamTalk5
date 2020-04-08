@@ -222,6 +222,8 @@ namespace teamtalk {
         //total samples recorded
         ACE_UINT32 samples_recorded;
 
+        SoundDeviceEffects effects;
+
         SoundProperties()
         {
             inputdeviceid = outputdeviceid = SOUNDDEVICE_IGNORE_ID;
@@ -306,6 +308,8 @@ namespace teamtalk {
         bool CloseSoundInputDevice();
         bool CloseSoundOutputDevice();
         bool CloseSoundDuplexDevices();
+        bool SetSoundDeviceEffects(const SoundDeviceEffects& effects);
+        SoundDeviceEffects GetSoundDeviceEffects();
         const SoundProperties& GetSoundProperties() const { return m_soundprop; }
 
         bool SetSoundOutputVolume(int volume);
@@ -333,7 +337,6 @@ namespace teamtalk {
         int GetVoiceGainLevel();
 
         bool SetSoundPreprocess(const AudioPreprocessor& preprocessor);
-        AudioPreprocessor GetSoundPreprocess();
         void SetSoundInputTone(StreamTypes streams, int frequency);
 
         bool StartRecordingMuxedAudioFile(const AudioCodec& codec, 

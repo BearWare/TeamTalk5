@@ -821,6 +821,31 @@ void setAudioConfig(JNIEnv* env, AudioConfig& audcfg, jobject lpAudioConfig, JCo
     }
 }
 
+void setSoundDeviceEffects(JNIEnv* env, SoundDeviceEffects& effects, jobject lpSoundDeviceEffects, JConvert conv) {
+    jclass cls = env->GetObjectClass(lpSoundDeviceEffects);
+    jfieldID fid_aec = env->GetFieldID(cls, "bEnableEchoCancellation", "Z");
+    jfieldID fid_agc = env->GetFieldID(cls, "bEnableAGC", "Z");
+    jfieldID fid_denoise = env->GetFieldID(cls, "bEnableDenoise", "Z");
+
+    assert(fid_aec);
+    assert(fid_agc);
+    assert(fid_denoise);
+
+    if (conv == N2J)
+    {
+        env->SetBooleanField(lpSoundDeviceEffects, fid_aec, effects.bEnableEchoCancellation);
+        env->SetBooleanField(lpSoundDeviceEffects, fid_agc, effects.bEnableAGC);
+        env->SetBooleanField(lpSoundDeviceEffects, fid_denoise, effects.bEnableDenoise);
+    }
+    else
+    {
+        effects.bEnableEchoCancellation = env->GetBooleanField(lpSoundDeviceEffects, fid_aec);
+        effects.bEnableAGC = env->GetBooleanField(lpSoundDeviceEffects, fid_agc);
+        effects.bEnableDenoise = env->GetBooleanField(lpSoundDeviceEffects, fid_denoise);
+    }
+}
+
+
 void setSpeexDSP(JNIEnv* env, SpeexDSP& spxdsp, jobject lpSpeexDSP, JConvert conv)
 {
     jclass cls_cfg = env->GetObjectClass(lpSpeexDSP);
@@ -898,41 +923,15 @@ void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobj
     }
 }
 
-void setAndroidAudioPreprocessor(JNIEnv* env, AndroidAudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv) {
-    jclass cls = env->GetObjectClass(lpPreprocessor);
-    jfieldID fid_aec = env->GetFieldID(cls, "bEnableEchoCancellation", "Z");
-    jfieldID fid_agc = env->GetFieldID(cls, "bEnableAGC", "Z");
-    jfieldID fid_denoise = env->GetFieldID(cls, "bEnableDenoise", "Z");
-
-    assert(fid_aec);
-    assert(fid_agc);
-    assert(fid_denoise);
-
-    if (conv == N2J)
-    {
-        env->SetBooleanField(lpPreprocessor, fid_aec, preprocessor.bEnableEchoCancellation);
-        env->SetBooleanField(lpPreprocessor, fid_agc, preprocessor.bEnableAGC);
-        env->SetBooleanField(lpPreprocessor, fid_denoise, preprocessor.bEnableDenoise);
-    }
-    else
-    {
-        preprocessor.bEnableEchoCancellation = env->GetBooleanField(lpPreprocessor, fid_aec);
-        preprocessor.bEnableAGC = env->GetBooleanField(lpPreprocessor, fid_agc);
-        preprocessor.bEnableDenoise = env->GetBooleanField(lpPreprocessor, fid_denoise);
-    }
-}
-
 void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv) {
     jclass cls = env->GetObjectClass(lpPreprocessor);
     jfieldID fid_type = env->GetFieldID(cls, "nPreprocessor", "I");
     jfieldID fid_spx = env->GetFieldID(cls, "speexdsp", "Ldk/bearware/SpeexDSP;");
     jfieldID fid_ttp = env->GetFieldID(cls, "ttpreprocessor", "Ldk/bearware/TTAudioPreprocessor;");
-    jfieldID fid_aap = env->GetFieldID(cls, "androidpreprocessor", "Ldk/bearware/AndroidAudioPreprocessor;");
 
     assert(fid_type);
     assert(fid_spx);
     assert(fid_ttp);
-    assert(fid_aap);
 
     if (conv == N2J)
         env->SetIntField(lpPreprocessor, fid_type, preprocessor.nPreprocessor);
@@ -941,7 +940,6 @@ void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject 
     
     jobject spx = env->GetObjectField(lpPreprocessor, fid_spx);
     jobject ttp = env->GetObjectField(lpPreprocessor, fid_ttp);
-    jobject aap = env->GetObjectField(lpPreprocessor, fid_aap);
     
     switch (preprocessor.nPreprocessor) {
     case NO_AUDIOPREPROCESSOR :
@@ -951,9 +949,6 @@ void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject 
         break;
     case TEAMTALK_AUDIOPREPROCESSOR :
         setTTAudioPreprocessor(env, preprocessor.ttpreprocessor, ttp, conv);
-        break;
-    case ANDROID_AUDIOPREPROCESSOR :
-        setAndroidAudioPreprocessor(env, preprocessor.androidpreprocessor, aap, conv);
         break;
     }
 }

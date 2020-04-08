@@ -640,6 +640,29 @@ TEAMTALKDLL_API TTBOOL TT_CloseSoundDuplexDevices(IN TTInstance* lpTTInstance)
     return clientnode->CloseSoundDuplexDevices();
 }
 
+TEAMTALKDLL_API TTBOOL TT_SetSoundDeviceEffects(IN TTInstance* lpTTInstance,
+                                                IN const SoundDeviceEffects* lpSoundDeviceEffects)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    teamtalk::SoundDeviceEffects prop;
+    Convert(*lpSoundDeviceEffects, prop);
+    
+    return clientnode->SetSoundDeviceEffects(prop);
+}
+
+TEAMTALKDLL_API TTBOOL TT_GetSoundDeviceEffects(IN TTInstance* lpTTInstance,
+                                                OUT SoundDeviceEffects* lpSoundDeviceEffect)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    Convert(clientnode->GetSoundDeviceEffects(), *lpSoundDeviceEffect);
+    return TRUE;
+}
+
+
 TEAMTALKDLL_API INT32 TT_GetSoundInputLevel(IN TTInstance* lpTTInstance)
 {
     clientnode_t clientnode;
@@ -702,7 +725,7 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundInputPreprocessEx(IN TTInstance* lpTTInstance,
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    Convert(clientnode->GetSoundPreprocess(), *lpAudioPreprocessor);
+    Convert(clientnode->GetSoundProperties().preprocessor, *lpAudioPreprocessor);
     return TRUE;
 }
 

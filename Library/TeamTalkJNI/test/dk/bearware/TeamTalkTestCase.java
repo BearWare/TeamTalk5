@@ -2295,8 +2295,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase ttclient2 = newClientInstance();
         TeamTalkBase ttclient3 = newClientInstance();
 
-        int inputdeviceid = (INPUTDEVICEID & SoundDeviceConstants.TT_SOUNDDEVICE_ID_MASK);
-        int outputdeviceid = (OUTPUTDEVICEID & SoundDeviceConstants.TT_SOUNDDEVICE_ID_MASK);
+        int inputdeviceid = INPUTDEVICEID;
+        int outputdeviceid = OUTPUTDEVICEID;
 
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
         boolean gotdevs = ttclient1.getDefaultSoundDevices(indev, outdev);

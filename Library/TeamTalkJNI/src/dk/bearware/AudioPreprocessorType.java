@@ -27,5 +27,4 @@ public interface AudioPreprocessorType {
     public static final int NO_AUDIOPREPROCESSOR        = 0;
     public static final int SPEEXDSP_AUDIOPREPROCESSOR  = 1;
     public static final int TEAMTALK_AUDIOPREPROCESSOR  = 2;
-    public static final int ANDROID_AUDIOPREPROCESSOR   = 3;
 }

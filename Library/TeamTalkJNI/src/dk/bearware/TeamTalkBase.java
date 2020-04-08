@@ -124,6 +124,14 @@ public abstract class TeamTalkBase
     public boolean closeSoundDuplexDevices() {
         return closeSoundDuplexDevices(ttInst);
     }
+    private native boolean setSoundDeviceEffects(long lpTTInstance, SoundDeviceEffects lpSoundDeviceEffects);
+    public boolean setSoundDeviceEffects(SoundDeviceEffects lpSoundDeviceEffects) {
+        return setSoundDeviceEffects(ttInst, lpSoundDeviceEffects);
+    }
+    private native boolean getSoundDeviceEffects(long lpTTInstance, SoundDeviceEffects lpSoundDeviceEffects);
+    public boolean getSoundDeviceEffects(SoundDeviceEffects lpSoundDeviceEffects) {
+        return getSoundDeviceEffects(ttInst, lpSoundDeviceEffects);
+    }
     private native int getSoundInputLevel(long lpTTInstance);
     public int getSoundInputLevel() { return getSoundInputLevel(ttInst); }
 

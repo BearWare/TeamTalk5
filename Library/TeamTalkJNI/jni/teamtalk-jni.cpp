@@ -252,6 +252,31 @@ extern "C" {
         return TT_CloseSoundDuplexDevices(reinterpret_cast<TTInstance*>(lpTTInstance));
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setSoundDeviceEffects(JNIEnv* env,
+                                                                                   jobject thiz,
+                                                                                   jlong lpTTInstance,
+                                                                                   jobject lpSoundDeviceEffects)
+    {
+        SoundDeviceEffects effects = {};
+        setSoundDeviceEffects(env, effects, lpSoundDeviceEffects, J2N);
+            
+        return TT_SetSoundDeviceEffects(reinterpret_cast<TTInstance*>(lpTTInstance), &effects);
+    }
+
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getSoundDeviceEffects(JNIEnv* env,
+                                                                                   jobject thiz,
+                                                                                   jlong lpTTInstance,
+                                                                                   jobject lpSoundDeviceEffects)
+    {
+        SoundDeviceEffects effects = {};
+        if (TT_GetSoundDeviceEffects(reinterpret_cast<TTInstance*>(lpTTInstance), &effects))
+        {
+            setSoundDeviceEffects(env, effects, lpSoundDeviceEffects, N2J);
+            return true;
+        }
+        return false;
+    }
+    
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getSoundInputLevel(JNIEnv* env,
                                                                             jobject thiz,
                                                                             jlong lpTTInstance)

@@ -960,9 +960,6 @@ void Convert(const AudioPreprocessor& audpreprocess, teamtalk::AudioPreprocessor
     case TEAMTALK_AUDIOPREPROCESSOR :
         Convert(audpreprocess.ttpreprocessor, result.ttpreprocessor);
         break;
-    case ANDROID_AUDIOPREPROCESSOR :
-        Convert(audpreprocess.androidpreprocessor, result.androidpreprocessor);
-        break;
     }
 }
 
@@ -978,9 +975,6 @@ void Convert(const teamtalk::AudioPreprocessor& audpreprocess, AudioPreprocessor
         break;
     case teamtalk::AUDIOPREPROCESSOR_TEAMTALK :
         Convert(audpreprocess.ttpreprocessor, result.ttpreprocessor);
-        break;
-    case teamtalk::AUDIOPREPROCESSOR_ANDROID :
-        Convert(audpreprocess.androidpreprocessor, result.androidpreprocessor);
         break;
     }
 }
@@ -1033,18 +1027,18 @@ void Convert(const teamtalk::SpeexDSP& spxdsp, SpeexDSP& result)
     result.nEchoSuppressActive = spxdsp.aec_suppress_active;
 }
 
-void Convert(const AndroidAudioPreprocessor& preprocess, teamtalk::AndroidAudioPreprocessor& result)
+void Convert(const SoundDeviceEffects& effects, teamtalk::SoundDeviceEffects& result)
 {
-    result.enable_agc = preprocess.bEnableAGC;
-    result.enable_aec = preprocess.bEnableEchoCancellation;
-    result.enable_denoise = preprocess.bEnableDenoise;
+    result.enable_agc = effects.bEnableAGC;
+    result.enable_aec = effects.bEnableEchoCancellation;
+    result.enable_denoise = effects.bEnableDenoise;
 }
 
-void Convert(const teamtalk::AndroidAudioPreprocessor& preprocess, AndroidAudioPreprocessor& result)
+void Convert(const teamtalk::SoundDeviceEffects& effects, SoundDeviceEffects& result)
 {
-    result.bEnableAGC = preprocess.enable_agc;
-    result.bEnableEchoCancellation = preprocess.enable_aec;
-    result.bEnableDenoise = preprocess.enable_denoise;
+    result.bEnableAGC = effects.enable_agc;
+    result.bEnableEchoCancellation = effects.enable_aec;
+    result.bEnableDenoise = effects.enable_denoise;
 }
 
 bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)

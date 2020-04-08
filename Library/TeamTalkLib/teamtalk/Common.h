@@ -463,11 +463,11 @@ namespace teamtalk {
         TTAudioPreprocessor() { }
     };
 
-    struct AndroidAudioPreprocessor
+    struct SoundDeviceEffects
     {
-        bool enable_agc;
-        bool enable_aec;
-        bool enable_denoise;
+        bool enable_agc = false;
+        bool enable_aec = false;
+        bool enable_denoise = false;
     };
 
     enum AudioPreprocessorType
@@ -475,7 +475,6 @@ namespace teamtalk {
         AUDIOPREPROCESSOR_NONE      = 0,
         AUDIOPREPROCESSOR_SPEEXDSP  = 1,
         AUDIOPREPROCESSOR_TEAMTALK  = 2,
-        AUDIOPREPROCESSOR_ANDROID   = 3,
     };
     
     struct AudioPreprocessor
@@ -485,7 +484,6 @@ namespace teamtalk {
         {
             SpeexDSP speexdsp;
             TTAudioPreprocessor ttpreprocessor;
-            AndroidAudioPreprocessor androidpreprocessor;
         };
         AudioPreprocessor() {}
     };

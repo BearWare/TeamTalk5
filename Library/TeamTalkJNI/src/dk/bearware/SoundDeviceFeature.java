@@ -23,12 +23,10 @@
 
 package dk.bearware;
 
-public class AndroidAudioPreprocessor {
+public interface SoundDeviceFeature {
 
-    public boolean bEnableAGC = false;
-    public boolean bEnableDenoise = false;
-    public boolean bEnableEchoCancellation = false;
-    
-    public AndroidAudioPreprocessor() {
-    }
+    public static final int SOUNDDEVICEFEATURE_NONE         = 0x0000;
+    public static final int SOUNDDEVICEFEATURE_AEC          = 0x0001;
+    public static final int SOUNDDEVICEFEATURE_AGC          = 0x0002;
+    public static final int SOUNDDEVICEFEATURE_DENOISE      = 0x0004;
 }

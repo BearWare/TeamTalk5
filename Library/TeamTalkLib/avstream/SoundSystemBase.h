@@ -819,11 +819,11 @@ namespace soundsystem {
         virtual void CloseStream(inputstreamer_t streamer) = 0;
         virtual bool IsStreamStopped(inputstreamer_t streamer) = 0;
 
-        virtual bool SetEchoCancellation(inputstreamer_t streamer, bool enable) { return false; }
+        virtual bool SetEchoCancellation(inputstreamer_t streamer, bool enable) { return !enable; }
         virtual bool IsEchoCancelling(inputstreamer_t streamer) { return false; }
-        virtual bool SetAGC(inputstreamer_t streamer, bool enable) { return false; }
+        virtual bool SetAGC(inputstreamer_t streamer, bool enable) { return !enable; }
         virtual bool IsAGC(inputstreamer_t streamer) { return false; }
-        virtual bool SetDenoising(inputstreamer_t streamer, bool enable) { return false; }
+        virtual bool SetDenoising(inputstreamer_t streamer, bool enable) { return !enable; }
         virtual bool IsDenoising(inputstreamer_t streamer) { return false; }
 
         inputstreamer_t GetStream(StreamCapture* capture, bool allowVirtual = true, bool getSharedOrigin = false)

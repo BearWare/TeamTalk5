@@ -39,18 +39,6 @@
 
 namespace soundsystem {
 
-    enum AndroidRecorderFeature
-    {
-        ANDROID_SOUNDINPUT_NONE      = 0x0,
-
-        ANDROID_SOUNDINPUT_AGC       = 0x1,
-        ANDROID_SOUNDINPUT_DENOISE   = 0x2,
-        ANDROID_SOUNDINPUT_AEC       = 0x4,
-        ANDROID_SOUNDINPUT_VOICECOM  = 0x8,
-    };
-
-    typedef uint32_t AndroidRecorderFeatures;
-
     struct SLInputStreamer : InputStreamer
     {
         SLObjectItf recorderObject = nullptr;

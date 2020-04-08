@@ -1059,25 +1059,25 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                                            input_samplerate, input_channels, 
                                            input_samples);
 
-        if (b && m_soundprop.preprocessor.preprocessor == AUDIOPREPROCESSOR_ANDROID)
-        {
-            bool success = true;
-            success &= m_soundsystem->SetEchoCancellation(this, m_soundprop.preprocessor.androidpreprocessor.enable_aec);
-            success &= m_soundsystem->SetAGC(this, m_soundprop.preprocessor.androidpreprocessor.enable_agc);
-            success &= m_soundsystem->SetDenoising(this, m_soundprop.preprocessor.androidpreprocessor.enable_denoise);
-            if (!success)
-            {
-                m_listener->OnInternalError(TT_INTERR_AUDIOPREPROCESSOR_INIT_FAILED,
-                                            GetErrorDescription(TT_INTERR_AUDIOPREPROCESSOR_INIT_FAILED));
-            }
-        }
     }
 
-    if (!b)
+    if (b)
     {
-        if(m_listener)
+        bool success = true;
+        success &= m_soundsystem->SetEchoCancellation(this, m_soundprop.effects.enable_aec);
+        success &= m_soundsystem->SetAGC(this, m_soundprop.effects.enable_agc);
+        success &= m_soundsystem->SetDenoising(this, m_soundprop.effects.enable_denoise);
+        if (!success)
+        {
+            m_listener->OnInternalError(TT_INTERR_SNDEFFECT_FAILURE,
+                                        GetErrorDescription(TT_INTERR_SNDEFFECT_FAILURE));
+        }
+    }
+    else
+    {
+        if (m_listener)
             m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
-                                        ACE_TEXT("Failed to open sound input device"));
+                                        GetErrorDescription(TT_INTERR_SNDINPUT_FAILURE));
     }
 }
 
@@ -2878,11 +2878,44 @@ bool ClientNode::CloseSoundDuplexDevices()
     return true;
 }
 
+bool ClientNode::SetSoundDeviceEffects(const SoundDeviceEffects& effects)
+{
+    rguard_t g_snd(lock_sndprop());
+
+    bool success = true;
+    m_soundprop.effects = effects;
+
+    if (!m_soundsystem->IsStreamStopped(this))
+    {
+        success &= m_soundsystem->SetEchoCancellation(this, effects.enable_aec);
+        success &= m_soundsystem->SetAGC(this, effects.enable_agc);
+        success &= m_soundsystem->SetDenoising(this, effects.enable_denoise);
+    }
+    return success;
+}
+
+SoundDeviceEffects ClientNode::GetSoundDeviceEffects()
+{
+    rguard_t g_snd(lock_sndprop());
+
+    auto effect = m_soundprop.effects;
+
+    if (!m_soundsystem->IsStreamStopped(this))
+    {
+        effect.enable_aec = m_soundsystem->IsEchoCancelling(this);
+        effect.enable_agc = m_soundsystem->IsAGC(this);
+        effect.enable_denoise = m_soundsystem->IsDenoising(this);
+    }
+
+    return effect;
+}
+
 bool ClientNode::SetSoundOutputVolume(int volume)
 {
     rguard_t g_snd(lock_sndprop());
     return m_soundsystem->SetMasterVolume(m_soundprop.soundgroupid, volume);
 }
+
 int ClientNode::GetSoundOutputVolume()
 {
     rguard_t g_snd(lock_sndprop());
@@ -3107,45 +3140,7 @@ bool ClientNode::SetSoundPreprocess(const AudioPreprocessor& preprocessor)
 
     m_soundprop.preprocessor = preprocessor;
 
-    // The Android preprocessor is located in the sound system, so it
-    // has to be handled differently
-    if (preprocessor.preprocessor == AUDIOPREPROCESSOR_ANDROID)
-    {
-        bool success = true;
-        if (!m_soundsystem->IsStreamStopped(this))
-        {
-            success &= m_soundsystem->SetEchoCancellation(this, preprocessor.androidpreprocessor.enable_aec);
-            success &= m_soundsystem->SetAGC(this, preprocessor.androidpreprocessor.enable_agc);
-            success &= m_soundsystem->SetDenoising(this, preprocessor.androidpreprocessor.enable_denoise);
-        }
-        return success;
-    }
-    else
-    {
-        if (!m_soundsystem->IsStreamStopped(this))
-        {
-            m_soundsystem->SetEchoCancellation(this, false);
-            m_soundsystem->SetAGC(this, false);
-            m_soundsystem->SetDenoising(this, false);
-        }
-    }
-
     return m_voice_thread.UpdatePreprocessor(preprocessor);
-}
-
-AudioPreprocessor ClientNode::GetSoundPreprocess()
-{
-    rguard_t g_snd(lock_sndprop());
-
-    auto preprocessor = m_soundprop.preprocessor;
-
-    if (preprocessor.preprocessor == AUDIOPREPROCESSOR_ANDROID)
-    {
-        preprocessor.androidpreprocessor.enable_aec = m_soundsystem->IsEchoCancelling(this);
-        preprocessor.androidpreprocessor.enable_agc = m_soundsystem->IsAGC(this);
-        preprocessor.androidpreprocessor.enable_denoise = m_soundsystem->IsDenoising(this);
-    }
-    return preprocessor;
 }
 
 void ClientNode::SetSoundInputTone(StreamTypes streams, int frequency)
@@ -3411,7 +3406,6 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
 
     switch(preprocessor.preprocessor)
     {
-    case AUDIOPREPROCESSOR_ANDROID : //remove warning. Not applicable value anyway
     case AUDIOPREPROCESSOR_NONE:
         playback->MuteSound(false, false);
         playback->SetGainLevel();

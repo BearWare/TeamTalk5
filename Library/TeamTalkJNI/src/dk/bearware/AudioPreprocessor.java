@@ -29,7 +29,6 @@ public class AudioPreprocessor {
 
     public SpeexDSP speexdsp = new SpeexDSP();
     public TTAudioPreprocessor ttpreprocessor = new TTAudioPreprocessor();
-    public AndroidAudioPreprocessor androidpreprocessor = new AndroidAudioPreprocessor();
     
     AudioPreprocessor() {
     }

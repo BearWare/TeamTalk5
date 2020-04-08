@@ -281,6 +281,18 @@ extern "C" {
         SOUNDSYSTEM_AUDIOUNIT = 8
     } SoundSystem;
 
+    typedef enum SoundDeviceFeature
+    {
+        SOUNDDEVICEFEATURE_NONE         = 0x0000,
+        SOUNDDEVICEFEATURE_AEC          = 0x0001,
+        SOUNDDEVICEFEATURE_AGC          = 0x0002,
+        SOUNDDEVICEFEATURE_DENOISE      = 0x0004,
+        SOUNDDEVICEFEATURE_3DPOSITION   = 0x0008,
+        SOUNDDEVICEFEATURE_DUPLEXMODE   = 0x0010,
+    } SoundDeviceFeature;
+
+    typedef UINT32 SoundDeviceFeatures;
+
     /** 
      * @brief A struct containing the properties of a sound device
      * for either playback or recording.
@@ -342,7 +354,31 @@ extern "C" {
         INT32 outputSampleRates[TT_SAMPLERATES_MAX];
         /** @brief The default sample rate for the sound device. */
         INT32 nDefaultSampleRate;
+        /** @brief Additional features available for this sound
+         * device */
+        SoundDeviceFeatures uSoundDeviceFeatures;
     } SoundDevice;
+
+    /**
+     * @brief Set up audio effects supported by the sound device.
+     *
+     * The effects supported by a sound device are listed in the @c
+     * uSoundDeviceFeatures property of #SoundDevice.
+     *
+     * To apply audio effects on a sound device call
+     * TT_SetSoundDeviceEffects() */
+    typedef struct SoundDeviceEffects
+    {
+        /** @brief Enable Automatic Gain Control. On Android this
+         * effect will be applied on all active #TTInstance. */
+        TTBOOL bEnableAGC;
+        /** @brief Enable noise suppression. On Android this
+         * effect will be applied on all active #TTInstance. */
+        TTBOOL bEnableDenoise;
+        /** @brief Enable echo cancellation. On Android this
+         * effect will be applied on all active #TTInstance. */
+        TTBOOL bEnableEchoCancellation;
+    } SoundDeviceEffects;
 
 /**
  * @brief Flag/bit in @c nDeviceID telling if the #SoundDevice is a
@@ -375,10 +411,14 @@ extern "C" {
 #define TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  1
     
 /** @brief Sound device ID for Android OpenSL ES default audio
- * device. Note that this sound device may also exist in the form
- * where the @c nDeviceID as been or'ed with
- * #TT_SOUNDDEVICE_SHARED_FLAG. @see SOUNDSYSTEM_OPENSLES_ANDROID */
+ * device. @see SOUNDSYSTEM_OPENSLES_ANDROID */
 #define TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT      0
+
+/** @brief Sound device ID for Android OpenSL ES voice communication
+ * mode. This device uses the OpenSL ES' AndroidConfiguration @c
+ * SL_ANDROID_RECORDING_PRESET_VOICE_COMMUNICATION @see
+ * SOUNDSYSTEM_OPENSLES_ANDROID */
+#define TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM     1
     
 /** @brief Sound device ID for virtual TeamTalk sound device.
  *
@@ -1086,22 +1126,6 @@ extern "C" {
         TTBOOL bMuteRightSpeaker;
     } TTAudioPreprocessor;
 
-    /** @brief Use Android's audio device capabilities for
-     * preprocessing microphone input. 
-     * @see TT_Set */
-    typedef struct AndroidAudioPreprocessor
-    {
-        /** @brief Enable Android audio capability for Automatic Gain
-         * Control. */
-        TTBOOL bEnableAGC;
-        /** @brief Enable Android audio capability for noise
-         * suppression. */
-        TTBOOL bEnableDenoise;
-        /** @brief Enable Android audio capability for echo
-         * cancellation. */
-        TTBOOL bEnableEchoCancellation;
-    } AndroidAudioPreprocessor;
-
     /** @brief The types of supported audio preprocessors.
      *
      * @see TT_InitLocalPlayback() */
@@ -1114,8 +1138,6 @@ extern "C" {
         SPEEXDSP_AUDIOPREPROCESSOR  = 1,
         /** @brief Use TeamTalk's internal audio preprocessor #TTAudioPreprocessor. */
         TEAMTALK_AUDIOPREPROCESSOR  = 2,
-        /** @brief Use Android audio preprocessor #OpenSLESAudioPreprocessor. */
-        ANDROID_AUDIOPREPROCESSOR   = 3,
     } AudioPreprocessorType;
 
     /** @brief Configure the audio preprocessor specified by @c nPreprocessor. */
@@ -1129,8 +1151,6 @@ extern "C" {
             SpeexDSP speexdsp;
             /** @brief Used when @c nPreprocessor is #TEAMTALK_AUDIOPREPROCESSOR. */
             TTAudioPreprocessor ttpreprocessor;
-            /** @brief Used when @c nPreprocessor is #ANDROID_AUDIOPREPROCESSOR. */
-            AndroidAudioPreprocessor androidpreprocessor;
         };
     } AudioPreprocessor;
     
@@ -2663,6 +2683,13 @@ extern "C" {
          * the queue overflows and resumes event handling again when
          * the message queue has been drained. */
         INTERR_TTMESSAGE_QUEUE_OVERFLOW = 10004,
+        /** @brief #SoundDeviceEffects failed to initialize.
+         * 
+         * This error occurs when joining a channel and an effect in
+         * #SoundDeviceEffects failed to initialize.
+         * 
+         * The effects are applied using TT_SetSoundDeviceEffects() */
+        INTERR_SNDEFFECT_FAILURE = 10005,
     } ClientError;
 
     /** @brief Struct containing an error message. */
@@ -3857,6 +3884,53 @@ extern "C" {
      * #TT_InitTeamTalk. */
     TEAMTALKDLL_API TTBOOL TT_CloseSoundDuplexDevices(IN TTInstance* lpTTInstance);
 
+    /**
+     * @brief Set up audio effects on a sound device.
+     *
+     * Some devices, like Android, enable the user to toggle certain
+     * audio effects on their device to improve audio quality. The
+     * #SoundDeviceEffects-struct can be used to toggle these audio
+     * effects on the device.
+     *
+     * Currently only #SOUNDSYSTEM_OPENSLES_ANDROID supports setting
+     * #SoundDeviceEffects. Modifying #SoundDeviceEffects on Android
+     * will apply to all active #TTInstance, i.e. #SoundDeviceEffects
+     * are applied globally.
+     *
+     * This setting should not be confused with
+     * TT_SetSoundInputPreprocessEx() which runs entirely in software
+     * and is specific to the #TTInstance.
+     *
+     * Investigate #SoundDeviceFeature to see what audio effects are
+     * supported by the available #SoundDevice.
+     *
+     * Note that the sound effects may not be immediately applied
+     * since an sound device is not active until the #TTInstance joins
+     * a channel where the sound device knowns the sample rate and
+     * number of channels
+     * (mono/stereo). #INTERR_SNDEFFECT_INIT_FAILED will be
+     * posted if the #SoundDeviceEffects was unable to initialize.
+     *
+     * @see TT_GetSoundDeviceEffects() */
+    TEAMTALKDLL_API TTBOOL TT_SetSoundDeviceEffects(IN TTInstance* lpTTInstance,
+                                                    IN const SoundDeviceEffects* lpSoundDeviceEffect);
+
+    /**
+     * @brief Get the audio effects that are currently active on the
+     * device.
+     *
+     * Calling TT_GetSoundDeviceEffects() when the #TTInstance is in a
+     * channel may give a different result than when the #TTInstance
+     * is outside a channel. This is because the #TTInstance cannot
+     * apply the #SoundDeviceEffects until the sound device is
+     * active. The sound input device is not active until the
+     * #TTInstance joins a channel and applies the #AudioCodec's
+     * sample rate and channels (mono/stereo).
+     *
+     * @see TT_SoundDeviceEffects() */
+    TEAMTALKDLL_API TTBOOL TT_GetSoundDeviceEffects(IN TTInstance* lpTTInstance,
+                                                    OUT SoundDeviceEffects* lpSoundDeviceEffect);
+    
     /**
      * @brief Get the volume level of the current recorded audio.
      *

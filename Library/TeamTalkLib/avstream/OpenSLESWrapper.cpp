@@ -109,8 +109,8 @@ bool OpenSLESWrapper::Init()
         assert(SL_RESULT_SUCCESS == result);
 
         SLInterfaceID effectType, effectImplementation;
-        for (SLuint32 i = 0 ; i < nbEffects ; i++ ) {
-
+        for (SLuint32 i=0; i < nbEffects; i++)
+        {
             const int FX_NAME_LENGTH = 128;
             SLchar effectName[FX_NAME_LENGTH];
             SLuint16 effectNameLength = FX_NAME_LENGTH-1;
@@ -463,7 +463,8 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
                                                     &recorderObject,
                                                     &audioSrc, &audioSnk, n_ids, ids, req);
 
-    if (SL_RESULT_SUCCESS != result) {
+    if (SL_RESULT_SUCCESS != result)
+    {
         MYTRACE(ACE_TEXT("Failed to create OpenSL audio recorder\n"));
         return inputstreamer_t();
     }
@@ -488,7 +489,8 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
 
     // realize the audio recorder
     result = (*recorderObject)->Realize(recorderObject, SL_BOOLEAN_FALSE);
-    if (SL_RESULT_SUCCESS != result) {
+    if (SL_RESULT_SUCCESS != result)
+    {
         MYTRACE(ACE_TEXT("Failed to realize OpenSL audio recorder\n"));
         goto failure;
     }
@@ -928,14 +930,16 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
                                                             &recorderObject,
                                                             &audioSrc, &audioSnk,
                                                             n_ids, ids, req);
-            if (SL_RESULT_SUCCESS != result) {
+            if (SL_RESULT_SUCCESS != result)
+            {
                 MYTRACE(ACE_TEXT("Failed to query OpenSL audio recorder, channels=%d, samplerate=%d\n"), c, standardSampleRates[sr]);
                 continue;
             }
 
             // // realize the audio recorder
             // result = (*recorderObject)->Realize(recorderObject, SL_BOOLEAN_FALSE);
-            // if (SL_RESULT_SUCCESS != result) {
+            // if (SL_RESULT_SUCCESS != result)
+            // {
             //     MYTRACE(ACE_TEXT("Failed to realize OpenSL audio recorder\n"));
             // }
 
@@ -951,7 +955,7 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
     }
 
     // now detect AEC, AGC, denoise
-    AndroidRecorderFeatures features = ANDROID_SOUNDINPUT_NONE;
+    bool voicecom = false;
     if (dev.input_samplerates.size() && dev.max_input_channels)
     {
         SLuint32 sl_samplerate = toSLSamplerate(*dev.input_samplerates.rbegin());
@@ -992,8 +996,7 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
         {
             SLAndroidConfigurationItf cfgItf;
             result = (*recorderObject)->GetInterface(recorderObject, SL_IID_ANDROIDCONFIGURATION, &cfgItf);
-            if (result == SL_RESULT_SUCCESS)
-                features |= ANDROID_SOUNDINPUT_VOICECOM;
+            voicecom = (result == SL_RESULT_SUCCESS);
 
             SLAndroidAcousticEchoCancellationItf aecItf;
             result = (*m_engineObject)->GetInterface(recorderObject, SL_IID_ANDROIDACOUSTICECHOCANCELLATION, &aecItf);
@@ -1003,7 +1006,7 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
                 SLboolean enabled = false;
                 result = (*aecItf)->IsEnabled(aecItf, &enabled);
                 MYTRACE_COND(result == SL_RESULT_SUCCESS, ACE_TEXT("Echo cancellation is currently %s\n"), (enabled? "on" : "off"));
-                features |= ANDROID_SOUNDINPUT_AEC;
+                dev.features |= SOUNDDEVICEFEATURE_AEC;
             }
 
             SLAndroidNoiseSuppressionItf noiseItf;
@@ -1014,7 +1017,7 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
                 SLboolean enabled = false;
                 result = (*noiseItf)->IsEnabled(noiseItf, &enabled);
                 MYTRACE_COND(result == SL_RESULT_SUCCESS, ACE_TEXT("Noise suppression is currently %s\n"), (enabled? "on" : "off"));
-                features |= ANDROID_SOUNDINPUT_DENOISE;
+                dev.features |= SOUNDDEVICEFEATURE_DENOISE;
             }
 
             SLAndroidAutomaticGainControlItf agcItf;
@@ -1025,7 +1028,7 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
                 SLboolean enabled = false;
                 result = (*agcItf)->IsEnabled(agcItf, &enabled);
                 MYTRACE_COND(result == SL_RESULT_SUCCESS, ACE_TEXT("AGC is currently %s\n"), (enabled? "on" : "off"));
-                features |= ANDROID_SOUNDINPUT_AGC;
+                dev.features |= SOUNDDEVICEFEATURE_AGC;
             }
         }
 
@@ -1033,8 +1036,8 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
             (*recorderObject)->Destroy(recorderObject);
 
         MYTRACE(ACE_TEXT("Query for OpenSL audio recorder features, AEC=%d, AGC=%d, noise supress=%d\n"),
-                (features & ANDROID_SOUNDINPUT_AEC) != 0, (features & ANDROID_SOUNDINPUT_AGC) != 0,
-                (features & ANDROID_SOUNDINPUT_DENOISE) != 0);
+                (dev.features & SOUNDDEVICEFEATURE_AEC) != 0, (dev.features & SOUNDDEVICEFEATURE_AGC) != 0,
+                (dev.features & SOUNDDEVICEFEATURE_DENOISE) != 0);
     }
 
     soundgroup_t sg(new SLSoundGroup());
@@ -1103,11 +1106,11 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
 
     sounddevs[dev.id] = dev;
 
-    if (features & ANDROID_SOUNDINPUT_VOICECOM)
+    if (voicecom)
     {
         // create voice com device
         dev.id = VOICECOM_DEVICE_ID;
-        dev.devicename = ACE_TEXT("Voice communication sound device");
+        dev.devicename = ACE_TEXT("Voice Communication Sound Device");
         sounddevs[dev.id] = dev;
     }
 

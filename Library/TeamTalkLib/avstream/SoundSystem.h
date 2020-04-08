@@ -63,6 +63,21 @@ namespace soundsystem {
         SOUND_DEVICE_SHARED_FLAG         = 0x00000800,
     };
 
+    enum SoundDeviceFeature
+    {
+        SOUNDDEVICEFEATURE_NONE         = 0x0000,
+
+        SOUNDDEVICEFEATURE_AEC          = 0x0001,
+        SOUNDDEVICEFEATURE_AGC          = 0x0002,
+        SOUNDDEVICEFEATURE_DENOISE      = 0x0004,
+        SOUNDDEVICEFEATURE_3DPOSITION   = 0x0008,
+        SOUNDDEVICEFEATURE_DUPLEXMODE   = 0x0010,
+    };
+
+    typedef uint32_t SoundDeviceFeatures;
+
+    
+
     class StreamCapture;
     class StreamPlayer;
     class StreamDuplex;
@@ -77,6 +92,7 @@ namespace soundsystem {
         int wavedeviceid;
 #endif
         bool supports3d;
+        SoundDeviceFeatures features = 0;
         int max_input_channels;
         int max_output_channels;
         int default_samplerate;

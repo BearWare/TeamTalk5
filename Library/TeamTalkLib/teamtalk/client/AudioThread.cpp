@@ -261,10 +261,9 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
         m_gainlevel = preprocess.ttpreprocessor.gainlevel;
         UpdatePreprocess(teamtalk::SpeexDSP()); // disable SpeexDSP
         return true;
-    case AUDIOPREPROCESSOR_ANDROID :
-        assert(preprocess.preprocessor != AUDIOPREPROCESSOR_ANDROID);
-        return false;
     }
+    
+    return false;
 }
 
 bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
