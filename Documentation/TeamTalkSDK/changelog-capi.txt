@@ -16,6 +16,7 @@
  *   - @ref v55akeepalive
  *   - @ref v55arecord
  *   - @ref v55aencrypt
+ *   - @ref v55aandroidcapi
  * - @ref v55aapi
  *
  * @ref v54arelease
@@ -332,6 +333,12 @@
  * unencrypted TeamTalk servers, but now it's also possible to connect
  * to encrypted servers. The TeamTalk server in TeamTalk 5 SDK,
  * however, still cannot run in encrypted mode.
+ *
+ * @subsubsection v55aandroidcapi TeamTalk 5 shared C-API library for Android
+ *
+ *  Previously the Android platform only included a shared library for
+ *  Java Native Interface (JNI). But now it's also possible to use a
+ *  shared library like other platforms.
  *
  * @subsection v55aapi API changes in v5.5a
  * 
