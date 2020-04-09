@@ -3996,6 +3996,11 @@ extern "C" {
                                                     IN StreamType nStreamType,
                                                     IN TTBOOL bEnable);
 
+    /** @} */
+
+    /** @addtogroup transmission
+     * @{ */
+
     /**
      * @brief Transmit application provided raw audio in
      * #AudioBlock-structs as #STREAMTYPE_VOICE, i.e. microphone
@@ -4030,11 +4035,6 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
                                                IN const AudioBlock* lpAudioBlock);
     
-    /** @} */
-
-    /** @addtogroup transmission
-     * @{ */
-
     /**
      * @brief Start/stop transmitting of voice data from sound input.
      *
@@ -6042,7 +6042,10 @@ extern "C" {
     /** @} */
 
     /** @addtogroup server
-     *
+     * @{
+     */
+    
+    /**
      * @brief Get the server's properties.
      *
      * @param lpTTInstance Pointer to client instance created by
@@ -6748,7 +6751,7 @@ extern "C" {
                                                     IN StreamTypes uStreamTypes,
                                                     IN INT32 nFrequency);
 
-    TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN MediaFileInfo* lpMediaFileInfo,
+    TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN const MediaFileInfo* lpMediaFileInfo,
                                                      IN INT32 nFrequency);
 
 #if defined(WIN32) /* Exclude mixer and firewall functions from

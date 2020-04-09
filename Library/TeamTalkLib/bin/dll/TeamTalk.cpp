@@ -3223,7 +3223,7 @@ TEAMTALKDLL_API TTBOOL TT_DBG_SetSoundInputTone(IN TTInstance* lpTTInstance,
     return TRUE;
 }
 
-TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN MediaFileInfo* lpMediaFileInfo,
+TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN const MediaFileInfo* lpMediaFileInfo,
                                                  IN INT32 nFrequency)
 {
     double duration = lpMediaFileInfo->uDurationMSec;
