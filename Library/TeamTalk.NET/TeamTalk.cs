@@ -1078,10 +1078,10 @@ namespace BearWare
         /** @brief The audio preprocessor to use in the union of audio preprocessors. */
         [FieldOffset(0)]
         public AudioPreprocessorType nPreprocessor;
-        /** @brief Used when @c nPreprocessor is #SPEEXDSP_AUDIOPREPROCESSOR. */
+        /** @brief Used when @c nPreprocessor is #AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR. */
         [FieldOffset(4)]
         public SpeexDSP speexdsp;
-        /** @brief Used when @c nPreprocessor is #TEAMTALK_AUDIOPREPROCESSOR. */
+        /** @brief Used when @c nPreprocessor is #AudioPreprocessorType.TEAMTALK_AUDIOPREPROCESSOR. */
         [FieldOffset(4)]
         public TTAudioPreprocessor ttpreprocessor;
     }
@@ -1522,7 +1522,7 @@ namespace BearWare
         /** @brief Number of msec before an IP-address can make
          * another login attempt. If less than this amount then
          * TeamTalkBase.DoLogin() will result in
-         * #CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED. Zero means
+         * #ClientError.CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED. Zero means
          * disabled.
          * 
          * Also checkout @c nMaxLoginAttempts and @c
@@ -4543,27 +4543,27 @@ namespace BearWare
 
         /**
          * @brief Transmit application provided raw audio in
-         * #BearWare.AudioBlock-structs as #STREAMTYPE_VOICE, i.e. microphone
+         * #BearWare.AudioBlock-structs as #StreamType.STREAMTYPE_VOICE, i.e. microphone
          * input.
          *
-         * Since #STREAMTYPE_VOICE is being replaced by audio input this
+         * Since #StreamType.STREAMTYPE_VOICE is being replaced by audio input this
          * means that while audio input is active then subsequent calls to
-         * TT_EnableVoiceTransmission() or TT_EnableVoiceActivation() will
+         * TeamTalkBase.EnableVoiceTransmission() or TeamTalkBase.EnableVoiceActivation() will
          * fail until the audio input has ended.
          *
-         * If the flags #CLIENT_TX_VOICE or
-         * #CLIENT_SNDINPUT_VOICEACTIVATED are active then calling
-         * TT_InputAudioBlock() will fail because #STREAMTYPE_VOICE is
+         * If the flags #ClientFlag.CLIENT_TX_VOICE or
+         * #ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED are active then calling
+         * TeamTalkBase.InputAudioBlock() will fail because #StreamType.STREAMTYPE_VOICE is
          * already in use.
          *
-         * TT_InsertAudioBlock() can be called multiple times until the
+         * TeamTalkBase.InsertAudioBlock() can be called multiple times until the
          * client instance's internal queue is full. When the queue has
-         * been filled then monitor #CLIENTEVENT_AUDIOINPUT to see when
+         * been filled then monitor #ClientEvent.CLIENTEVENT_AUDIOINPUT to see when
          * more data can be queued.
          *
          * To end raw audio input set parameter @c lpAudioBlock to NULL
-         * and then TT_EnableVoiceTransmission() or
-         * TT_StartStreamingMediaFileToChannel() will be available again.
+         * and then TeamTalkBase.EnableVoiceTransmission() or
+         * TeamTalkBase.StartStreamingMediaFileToChannel() will be available again.
          *
          * @param lpAudioBlock The audio to submit as audio input.
          * The member @c nStreamID of #BearWare.AudioBlock is used to identify the
@@ -5087,7 +5087,7 @@ namespace BearWare
          *
          * @param szMediaFilePath File path to media file.
          * @param lpMediaFilePlayback Playback settings to pause, seek and
-         * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
+         * preprocess audio. If #AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR then the echo
          * cancellation part of #BearWare.SpeexDSP is unused. Only denoise and AGC
          * settings are applied.
          * @param lpVideoCodec If video file then specify output codec properties 
@@ -5113,7 +5113,7 @@ namespace BearWare
          * #BearWare.MediaFilePlayback properties.
          *
          * @param lpMediaFilePlayback Playback settings to pause, seek and
-         * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
+         * preprocess audio. If #AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR then the echo
          * cancellation part of #BearWare.SpeexDSP is unused. Only denoise and AGC
          * settings are applied.
          * @param lpVideoCodec If video file then specify output codec properties 
@@ -5146,7 +5146,7 @@ namespace BearWare
          *
          * @param szMediaFilePath Path to media file.
          * @param lpMediaFilePlayback Playback settings to pause, seek and
-         * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
+         * preprocess audio. If #AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR then the echo
          * cancellation part of #BearWare.SpeexDSP is unused. Only denoise and AGC
          * settings are applied.
          *
@@ -5597,7 +5597,7 @@ namespace BearWare
          * The system-ID is set in the TeamTalk server API using
          * TTS_StartServerSysID(). If a client tries to connect with a
          * different system-ID that client will receive the error
-         * #CMDERR_INCOMPATIBLE_PROTOCOLS when trying to log in.
+         * #ClientError.CMDERR_INCOMPATIBLE_PROTOCOLS when trying to log in.
          *
          * @param szHostAddress The IP-address or hostname of the server.
          * @param nTcpPort The host port of the server (TCP).
@@ -6421,10 +6421,10 @@ namespace BearWare
         /** 
          * @brief Ban the user with @c nUserID using the ban types specified.
          *
-         * If @c uBanTypes contains #BANTYPE_USERNAME then the username cannot join
+         * If @c uBanTypes contains #BanType.BANTYPE_USERNAME then the username cannot join
          * the channel where @n nUserID is currently present.
          *
-         * If @c uBanTypes contains #BANTYPE_IPADDR then the IP-address cannot join
+         * If @c uBanTypes contains #BanType.BANTYPE_IPADDR then the IP-address cannot join
          * the channel where @n nUserID is currently present.
          *
          * @see TT_DoListBans()
@@ -6443,11 +6443,11 @@ namespace BearWare
          * DoJoinChannel(). Otherwise the ban applies to login,
          * DoLogin().
          *
-         * If #BANTYPE_IPADDR is specified then the IP-address must be set
+         * If #BanType.BANTYPE_IPADDR is specified then the IP-address must be set
          * in @c szIPAddress and any IP-address matching will receive
-         * #CMDERR_SERVER_BANNED or #CMDERR_CHANNEL_BANNED for
-         * TT_DoLogin() or TT_DoJoinChannel(). If instead
-         * #BANTYPE_USERNAME is specified then @c szUsername must be set
+         * #ClientError.CMDERR_SERVER_BANNED or #ClientError.CMDERR_CHANNEL_BANNED for
+         * TeamTalkBase.DoLogin() or TeamTalkBase.DoJoinChannel(). If instead
+         * #BanType.BANTYPE_USERNAME is specified then @c szUsername must be set
          * and the same rule applies as for IP-addresses.
          *
          * @see TT_DoListBans()
@@ -6467,8 +6467,8 @@ namespace BearWare
          * - #UserRight.USERRIGHT_BAN_USERS
          *
          * Possible errors:
-         * - #CMDERR_NOT_LOGGEDIN
-         * - #CMDERR_NOT_AUTHORIZED
+         * - #ClientError.CMDERR_NOT_LOGGEDIN
+         * - #ClientError.CMDERR_NOT_AUTHORIZED
          *
          * @param szIPAddress The IP-address to ban.
          * @param nChannelID Set to zero.
