@@ -338,9 +338,9 @@ namespace BearWare
  *
  * @subsubsection v55aandroidcapi TeamTalk 5 shared C-API library for Android
  *
- *  Previously the Android platform only included a shared library for
- *  Java Native Interface (JNI). But now it's also possible to use a
- *  shared library like other platforms.
+ * Previously the Android platform only included a shared library for
+ * Java Native Interface (JNI). But now it's also possible to use a
+ * shared library like other platforms.
  *
  * @subsection v55aapi API changes in v5.5a
  * 
