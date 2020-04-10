@@ -38,8 +38,14 @@
  *     - Universal binary for i386, x86_64, armv7 and arm64.
  *     - Located in the folder @c Library/TeamTalk_DLL
  *
- * The TeamTalk client in the Standard Edition *cannot* connect to
- * encrypted TeamTalk servers.
+ * - <b>Android platform</b>
+ *   - @c libTeamTalk5.so
+ *     - The TeamTalk C-API shared object
+ *     - Located in the folders:
+ *       - @c Library/TeamTalk_DLL/arm64-v8a
+ *       - @c Library/TeamTalk_DLL/armeabi-v7a
+ *       - @c Library/TeamTalk_DLL/x86
+ *       - @c Library/TeamTalk_DLL/x86_64
  *
  * @section ttprosdkfiles TeamTalk SDK Professional Edition
  *
@@ -76,7 +82,12 @@
  *     - Universal binary for i386, x86_64, armv7 and arm64.
  *     - Located in the folder @c Library/TeamTalk_DLL
  *
- * The TeamTalk client in the Professional Edition *can* connect to
- * both encrypted and non-encrypted TeamTalk servers.
- *
+ * - <b>Android platform</b>
+ *   - @c libTeamTalk5Pro.so
+ *     - The TeamTalk C-API shared object
+ *     - Located in the folders:
+ *       - @c Library/TeamTalk_DLL/arm64-v8a
+ *       - @c Library/TeamTalk_DLL/armeabi-v7a
+ *       - @c Library/TeamTalk_DLL/x86
+ *       - @c Library/TeamTalk_DLL/x86_64
  */

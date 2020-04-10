@@ -330,7 +330,7 @@ TEAMTALKDLL_API const TTCHAR* TT_GetVersion(void)
 }
 
 #if defined(WIN32)
-TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT uMsg)
+TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT32 uMsg)
 {
     clientinst_t inst(new ClientInstance(new TTMsgQueue(hWnd, uMsg)));
 
@@ -3075,7 +3075,7 @@ TEAMTALKDLL_API INT32 TT_HotKey_IsActive(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_HotKey_InstallTestHook(IN TTInstance* lpTTInstance,
-                                                 IN HWND hWnd, UINT uMsg)
+                                                 IN HWND hWnd, UINT32 uMsg)
 {
     auto inst = GET_CLIENT(lpTTInstance);
     if(!inst)
@@ -3109,7 +3109,7 @@ TEAMTALKDLL_API TTBOOL TT_HotKey_GetKeyString(IN TTInstance* lpTTInstance,
 #define MAPVK_VK_TO_VSC 0
 #endif
 
-    UINT scancode = MapVirtualKey(nVKCode, MAPVK_VK_TO_VSC);
+    UINT32 scancode = MapVirtualKey(nVKCode, MAPVK_VK_TO_VSC);
     return ::GetKeyNameText( scancode << 16 , szKeyName, TT_STRLEN)>0;
 }
 
@@ -3223,7 +3223,7 @@ TEAMTALKDLL_API TTBOOL TT_DBG_SetSoundInputTone(IN TTInstance* lpTTInstance,
     return TRUE;
 }
 
-TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN MediaFileInfo* lpMediaFileInfo,
+TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN const MediaFileInfo* lpMediaFileInfo,
                                                  IN INT32 nFrequency)
 {
     double duration = lpMediaFileInfo->uDurationMSec;

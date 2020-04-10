@@ -1,4 +1,4 @@
-# TeamTalk 5 JNI shared library for Android 7.0 (x86_64)
+# TeamTalk 5 JNI shared library for Android 5.0 (x86_64), API level 21
 
 Copy shared library **libTeamTalk5-jni.so** or
 **libTeamTalk5Pro-jni.so** from [TeamTalk 5

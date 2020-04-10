@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.5.0.4990"
+#define TEAMTALK_VERSION "5.5.0.4992"
 
 
 #if defined(WIN32)
@@ -355,10 +355,10 @@ extern "C" {
  * distribute the audio data to multiple TeamTalk instances.
  *
  * The shared audio device on Android will show up as
- * (TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | TT_SOUNDDEVICE_SHARED_FLAG),
+ * (TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | TT_SOUNDDEVICE_ID_SHARED_FLAG),
  * i.e. 2048.
  */
-#define TT_SOUNDDEVICE_SHARED_FLAG              0x00000800
+#define TT_SOUNDDEVICE_ID_SHARED_FLAG           0x00000800
 
 /** @brief Extract sound device ID of @c nDeviceID in #SoundDevice by
  * and'ing this value.
@@ -377,7 +377,7 @@ extern "C" {
 /** @brief Sound device ID for Android OpenSL ES default audio
  * device. Note that this sound device may also exist in the form
  * where the @c nDeviceID as been or'ed with
- * #TT_SOUNDDEVICE_SHARED_FLAG. @see SOUNDSYSTEM_OPENSLES_ANDROID */
+ * #TT_SOUNDDEVICE_ID_SHARED_FLAG. @see SOUNDSYSTEM_OPENSLES_ANDROID */
 #define TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT      0
     
 /** @brief Sound device ID for virtual TeamTalk sound device.
@@ -3457,7 +3457,7 @@ extern "C" {
      * new event can be retrieved by TT_GetMessage().
      * @return A pointer to a new client instance. NULL if a failure occured.
      * @see TT_CloseTeamTalk */
-    TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT uMsg);
+    TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT32 uMsg);
 
     /**
      * @brief Replace the HWND passed as parameter to #TT_InitTeamTalk
@@ -3682,7 +3682,7 @@ extern "C" {
      * nInputDeviceID.
      *
      * The @c nInputDeviceID can be or'ed with
-     * #TT_SOUNDDEVICE_SHARED_FLAG if the #TTInstance should share
+     * #TT_SOUNDDEVICE_ID_SHARED_FLAG if the #TTInstance should share
      * recording device with other instances.
      *
      * Notice fixed sound device ID for some platforms:
@@ -3715,7 +3715,7 @@ extern "C" {
      * nOutputDeviceID.
      *
      * The @c nOutputDeviceID can be or'ed with
-     * #TT_SOUNDDEVICE_SHARED_FLAG if the #TTInstance should share
+     * #TT_SOUNDDEVICE_ID_SHARED_FLAG if the #TTInstance should share
      * output device with other instances.
      *
      * Notice fixed sound device ID for some platforms:
@@ -3996,6 +3996,11 @@ extern "C" {
                                                     IN StreamType nStreamType,
                                                     IN TTBOOL bEnable);
 
+    /** @} */
+
+    /** @addtogroup transmission
+     * @{ */
+
     /**
      * @brief Transmit application provided raw audio in
      * #AudioBlock-structs as #STREAMTYPE_VOICE, i.e. microphone
@@ -4030,11 +4035,6 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
                                                IN const AudioBlock* lpAudioBlock);
     
-    /** @} */
-
-    /** @addtogroup transmission
-     * @{ */
-
     /**
      * @brief Start/stop transmitting of voice data from sound input.
      *
@@ -6042,7 +6042,10 @@ extern "C" {
     /** @} */
 
     /** @addtogroup server
-     *
+     * @{
+     */
+    
+    /**
      * @brief Get the server's properties.
      *
      * @param lpTTInstance Pointer to client instance created by
@@ -6712,7 +6715,7 @@ extern "C" {
      * @see TT_HotKey_RemoveTestHook
      * @see CLIENTEVENT_HOTKEY_TEST */
     TEAMTALKDLL_API TTBOOL TT_HotKey_InstallTestHook(IN TTInstance* lpTTInstance,
-                                                     IN HWND hWnd, UINT uMsg);
+                                                     IN HWND hWnd, UINT32 uMsg);
 
     /**
      * @brief Remove the test hook again so the @a hWnd in
@@ -6748,7 +6751,7 @@ extern "C" {
                                                     IN StreamTypes uStreamTypes,
                                                     IN INT32 nFrequency);
 
-    TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN MediaFileInfo* lpMediaFileInfo,
+    TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN const MediaFileInfo* lpMediaFileInfo,
                                                      IN INT32 nFrequency);
 
 #if defined(WIN32) /* Exclude mixer and firewall functions from

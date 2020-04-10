@@ -133,14 +133,14 @@ namespace BearWare
          * The root file folder cannot be changed after the server has
          * been started.
          *
-         * Ensure to set #USERRIGHT_UPLOAD_FILES and #USERRIGHT_DOWNLOAD_FILES
+         * Ensure to set #UserRight.USERRIGHT_UPLOAD_FILES and #UserRight.USERRIGHT_DOWNLOAD_FILES
          * in user's #BearWare.UserAccount.
          *
          * @param szFilesRoot Directory where to store uploaded files.
          * @param nMaxDiskUsage The maximum number of bytes which can be used for
          * file storage.
          * @param nDefaultChannelQuota The number of bytes available to temporary
-         * channels (not #CHANNEL_PERMANENT). This will be the value in #BearWare.Channel
+         * channels (not #ChannelType.CHANNEL_PERMANENT). This will be the value in #BearWare.Channel
          * @c nDiskQuota.
          *
          * @return Error code from #ClientError. */

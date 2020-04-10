@@ -1668,7 +1668,7 @@ implements TeamTalkConnectionListener,
         filesAdapter.update(mychannel);
 
         int outsndid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
-        // outsndid |= SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        // outsndid |= SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
 
         int flags = ttclient.getFlags();
         if (((flags & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&

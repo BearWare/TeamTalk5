@@ -74,15 +74,19 @@ script:
 # Kill TeamTalk Standard Server non-encrypted mode
   - killall tt5srv
 # Start TeamTalk Pro Server non-encrypted mode for JUnit suite TeamTalkProTestSuite.java
+# and use shared audio device
   - cd $TRAVIS_BUILD_DIR
   - cp -f Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
   - Server/tt5prosrv -d -c Server/tt5srv.xml
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
   - export ENCRYPTED=0
+  - export INPUTDEVICEID=4026
+  - export OUTPUTDEVICEID=4026
   - make runjunitpro
   - killall tt5prosrv
 # Start TeamTalk Pro Server in encrypted mode for JUnit suite TeamTalkProTestSuite.java
+# and switch back to default sound device
   - cd $TRAVIS_BUILD_DIR
   - cp Library/TeamTalkLib/test/tt5prosrv.xml_template Server/tt5prosrv.xml
   - cp Library/TeamTalkLib/test/ttservercert.pem Server/
@@ -90,6 +94,8 @@ script:
   - Server/tt5prosrv -d -wd Server/
   - cd Library/TeamTalkJNI
   - export ENCRYPTED=1
+  - export INPUTDEVICEID=1978
+  - export OUTPUTDEVICEID=1978
   - make runjunitpro
 # Start Python client example and ensure it connects
   - cd $TRAVIS_BUILD_DIR

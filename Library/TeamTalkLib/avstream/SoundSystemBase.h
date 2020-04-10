@@ -526,6 +526,11 @@ namespace soundsystem {
         {
         }
 
+        ~SharedStreamPlayer()
+        {
+            MYTRACE(ACE_TEXT("~SharedStreamPlayer() - %p\n"), this);
+        }
+        
         bool StreamPlayerCb(const OutputStreamer& streamer,
                             short* buffer, int samples)
         {
@@ -1062,9 +1067,10 @@ namespace soundsystem {
             if (!newsndgrpid)
                 return outputstreamer_t();
 
-            // don't hold lock during callback
-            g.unlock();
-
+            // store in container so others will not try to create
+            // another shared stream as well on 'outputdeviceid'
+            m_shared_streamplayers[outputdeviceid] = sharedstream;
+            
             outputstreamer_t orgstream;
             if (snddev.id == SOUND_DEVICEID_VIRTUAL)
                 orgstream = NewVirtualStream(sharedstream.get(), newsndgrpid,
@@ -1079,12 +1085,12 @@ namespace soundsystem {
             if (!orgstream)
             {
                 RemoveSoundGroup(newsndgrpid);
+
+                m_shared_streamplayers.erase(outputdeviceid);
                 return outputstreamer_t();
             }
 
-            g.lock();
             sharedstream->SetOrigin(orgstream);
-            m_shared_streamplayers[outputdeviceid] = sharedstream;
 
             // a hack to get new player into container, otherwise we
             // cannot start it
@@ -1095,6 +1101,7 @@ namespace soundsystem {
             if (!StartStream(sharedstream.get()))
             {
                 RemoveSoundGroup(newsndgrpid);
+
                 g.lock();
                 m_shared_streamplayers.erase(outputdeviceid);
                 return outputstreamer_t();

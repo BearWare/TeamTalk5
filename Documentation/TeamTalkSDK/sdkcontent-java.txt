@@ -43,15 +43,22 @@
  *     - Located in the folder @c Library/TeamTalkJNI/libs
  *
  * - <b>Android platform</b>
+ *   - @c libTeamTalk5.so
+ *     - The TeamTalk C-API shared object
+ *     - Located in the folders:
+ *       - @c Library/TeamTalk_DLL/arm64-v8a
+ *       - @c Library/TeamTalk_DLL/armeabi-v7a
+ *       - @c Library/TeamTalk_DLL/x86
+ *       - @c Library/TeamTalk_DLL/x86_64
  *   - @c libTeamTalk5-jni.so
- *     - The prebuilt TeamTalk JNI DLL located in
- *       @c Library/TeamTalkJNI/libs
+ *     - The prebuilt TeamTalk JNI DLL located in folders:
+ *       - @c Library/TeamTalkJNI/libs/arm64-v8a
+ *       - @c Library/TeamTalkJNI/libs/armeabi-v7a
+ *       - @c Library/TeamTalkJNI/libs/x86
+ *       - @c Library/TeamTalkJNI/libs/x86_64
  *     - Notice that unlike the other platforms @c
  *       libTeamTalk5-jni.so for Android does not depend on @c
  *       libTeamTalk5.so.
- *
- * The TeamTalk client in the Standard Edition *cannot* connect to
- * encrypted TeamTalk servers.
  *
  * @section ttprosdkfiles TeamTalk SDK Professional Edition
  *
@@ -92,15 +99,20 @@
  *     - Located in the folder @c Library/TeamTalkJNI/libs
  *
  * - <b>Android platform</b>
+ *   - @c libTeamTalk5Pro.so
+ *     - The TeamTalk C-API shared object
+ *     - Located in the folders:
+ *       - @c Library/TeamTalk_DLL/arm64-v8a
+ *       - @c Library/TeamTalk_DLL/armeabi-v7a
+ *       - @c Library/TeamTalk_DLL/x86
+ *       - @c Library/TeamTalk_DLL/x86_64
  *   - @c libTeamTalk5Pro-jni.so
- *     - Java JNI wrapper for Android
- *     - The prebuilt TeamTalk JNI DLL located in
- *       @c Library/TeamTalkJNI/libs
+ *     - The prebuilt TeamTalk JNI DLL located in folders:
+ *       - @c Library/TeamTalkJNI/libs/arm64-v8a
+ *       - @c Library/TeamTalkJNI/libs/armeabi-v7a
+ *       - @c Library/TeamTalkJNI/libs/x86
+ *       - @c Library/TeamTalkJNI/libs/x86_64
  *     - Notice that unlike the other platforms @c
  *       libTeamTalk5Pro-jni.so for Android does not depend on @c
  *       libTeamTalk5Pro.so.
- *
- * The TeamTalk client in the Professional Edition *can* connect to
- * both encrypted and non-encrypted TeamTalk servers.
- *
  */
