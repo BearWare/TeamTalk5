@@ -79,7 +79,7 @@ namespace BearWare
         SOUNDSYSTEM_OPENSLES_ANDROID = 7,
         /** @brief iOS sound API.
          *
-         * Two sound devices will appear when calling
+         * The following sound devices will appear when calling
          * TeamTalkBase.GetSoundDevices(). Sound device ID 0 will be AudioUnit
          * subtype Remote I/O Unit and sound device ID 1 will be
          * AudioUnit subtype Voice-Processing I/O Unit.
@@ -172,7 +172,9 @@ namespace BearWare
          * I/O Unit. @see SOUNDSYSTEM_AUDIOUNIT */
         public const int TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO = 1;
         /** @brief Sound device ID for Android OpenSL ES default audio
-         * device. @see SOUNDSYSTEM_OPENSLES_ANDROID */
+         * device. Note that this sound device may also exist in the form
+         * where the @c nDeviceID as been or'ed with
+         * #TT_SOUNDDEVICE_ID_SHARED_FLAG. @see SOUNDSYSTEM_OPENSLES_ANDROID */        
         public const int TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT = 0;
         /** @brief Sound device ID for virtual TeamTalk sound device.
          *
@@ -376,7 +378,7 @@ namespace BearWare
     }
 
     /**
-     * @brief Struct describing the audio format used by a
+     * @brief Struct describing the audio format used by a
      * media file.
      *
      * @see TeamTalkBase.GetMediaFileInfo()
@@ -763,9 +765,14 @@ namespace BearWare
          * enabled Speex will ignore silence, so the bitrate will
          * become very low. */
         public bool bDTX;
-        /** @brief Milliseconds of audio data before each transmission. Speex
-         * uses 20 msec frame sizes. Recommended is 40 ms. Min is 20,
-         * max is 1000. */
+        /** @brief Milliseconds of audio data before each transmission.
+         *
+         * Speex uses 20 msec frame sizes. Recommended is 40 msec. Min
+         * is 20, max is 500 msec.
+         *
+         * The #BearWare.SoundSystem must be able to process audio packets at
+         * this interval. In most cases this makes less than 40 msec
+         * transmission interval unfeasible. */        
         public int nTxIntervalMSec;
         /** @brief Playback should be done in stereo. Doing so will
          * disable 3d-positioning.
@@ -1071,10 +1078,10 @@ namespace BearWare
         /** @brief The audio preprocessor to use in the union of audio preprocessors. */
         [FieldOffset(0)]
         public AudioPreprocessorType nPreprocessor;
-        /** @brief Used when @c nPreprocessor is #SPEEXDSP_AUDIOPREPROCESSOR. */
+        /** @brief Used when @c nPreprocessor is #AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR. */
         [FieldOffset(4)]
         public SpeexDSP speexdsp;
-        /** @brief Used when @c nPreprocessor is #TEAMTALK_AUDIOPREPROCESSOR. */
+        /** @brief Used when @c nPreprocessor is #AudioPreprocessorType.TEAMTALK_AUDIOPREPROCESSOR. */
         [FieldOffset(4)]
         public TTAudioPreprocessor ttpreprocessor;
     }
@@ -1283,6 +1290,21 @@ namespace BearWare
         public bool bPaused;
         /** @brief Option to activate audio preprocessor on local media file playback. */
         public AudioPreprocessor audioPreprocessor;
+    }
+
+    /** @brief The progress of the audio currently being processed as
+     * audio input.  @see TeamTalkBase.InsertAudioBlock() */
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct AudioInputProgress
+    {
+        /** @brief The stream ID provided in the #BearWare.AudioBlock. */
+        public int nStreamID;
+        /** @brief The duration of the audio currently queued for
+         * transmission. */
+        public uint uQueueMSec;
+        /** @brief The duration of the audio that has been
+         * transmitted. */
+        public uint uElapsedMSec;
     }
 
     /** @} */
@@ -1500,7 +1522,7 @@ namespace BearWare
         /** @brief Number of msec before an IP-address can make
          * another login attempt. If less than this amount then
          * TeamTalkBase.DoLogin() will result in
-         * #CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED. Zero means
+         * #ClientError.CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED. Zero means
          * disabled.
          * 
          * Also checkout @c nMaxLoginAttempts and @c
@@ -2386,22 +2408,34 @@ namespace BearWare
         public int nConnectionLostMSec;
         /** @brief Client instance's interval between TeamTalkBase.DoPing()
          * command. Read-only value. Will be half of
-         * #BearWare.ServerProperties' @c nUserTimeout.
-         */
+         * #BearWare.ServerProperties' @c nUserTimeout. */
         public int nTcpKeepAliveIntervalMSec;
         /** @brief Client instance's interval between sending UDP keep
-         * alive packets. This value must be less than @c
-         * nConnectionLostMSec. */
+         * alive packets. The UDP keep alive packets are used to
+         * ensure audio, video and desktop streams can be sent from
+         * the server to the client immediately. This value must be
+         * less than @c nConnectionLostMSec. */        
         public int nUdpKeepAliveIntervalMSec;
         /** @brief Client instance's interval for retransmitting UDP
-         * keep alive packets. */
+         * keep alive packets. If server hasn't responded to UDP keep
+         * alive sent at interval @c nUdpKeepAliveIntervalMSec then a
+         * new UDP keep alive will be sent at the rate specified by
+         * @c nUdpKeepAliveRTXMSec. */
         public int nUdpKeepAliveRTXMSec;
         /** @brief Client instance's interval for retransmitting UDP
          * connect packets. UDP connect packets are only sent when
-         * TeamTalkBase.Connect() is initially called. */
+         * TeamTalkBase.Connect() is initially called. If the server doesn't
+         * respond to the client instance's initial UDP connect then a
+         * retransmission will be started at the rate of @c
+         * nUdpConnectRTXMSec. */        
         public int nUdpConnectRTXMSec;
-        /** @brief The duration before the TeamTalk instance should give up
-         * trying to connect to the server. */
+        /** @brief The duration before the client instance should give
+         * up trying to connect to the server on UDP. When
+         * TeamTalkBase.Connect() manages to connect to the server's TCP port
+         * then the client will afterwards try to connect on server's
+         * UDP port. If the client cannot connect on UDP before the
+         * time specified by @c nUdpConnectTimeoutMSec then the client
+         * instance will report #ClientEvent.CLIENTEVENT_CON_FAILED. */
         public int nUdpConnectTimeoutMSec;
     }
 
@@ -3154,7 +3188,7 @@ namespace BearWare
          *
          * Call TeamTalkBase.AcquireUserAudioBlock() to extract the #BearWare.AudioBlock.
          *
-         * @param nSource The user ID.
+         * @param nSource The user ID. @see TT_LOCAL_USERID @see TT_MUTEX_USERID
          * @param ttType #TTType.__STREAMTYPE */
         CLIENTEVENT_USER_AUDIOBLOCK = CLIENTEVENT_NONE + 570,
         /** 
@@ -3182,7 +3216,7 @@ namespace BearWare
          *
          * @see TeamTalkBase.GetSoundInputLevel()
          * @see TeamTalkBase.SetVoiceActivationLevel()
-         * @see CLIENT_SNDINPUT_VOICEACTIVATION
+         * @see CLIENT_SNDINPUT_VOICEACTIVATED
          * @see TeamTalkBase.EnableTransmission */
         CLIENTEVENT_VOICE_ACTIVATION = CLIENTEVENT_NONE + 1010,
         /** 
@@ -3273,6 +3307,28 @@ namespace BearWare
          * being played.
          */
         CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070,
+        /**
+         * @brief Progress is audio being injected as
+         * #StreamType.STREAMTYPE_VOICE.
+         *
+         * @c nStreamID of #BearWare.AudioInputProgress is the stream ID
+         * provided in the #BearWare.AudioBlock when calling
+         * TeamTalkBase.InsertAudioBlock().
+         *
+         * When @c uElapsedMSec and @c uQueueMSec of
+         * #BearWare.AudioInputProgress are zero then the stream ID (session)
+         * has ended. An audio input session has ended when an empty
+         * #BearWare.AudioBlock has been inserted using TeamTalkBase.InsertAudioBlock().
+         *
+         * @param nSource Stream ID used for sending audio input.
+         * The stream ID will appear in #BearWare.AudioBlock's @c nStreamID
+         * on the receiving side.
+         * @param ttType #TTType.__AUDIOINPUTPROGRESS
+         * @param audioinputprogress Placed in union of #BearWare.TTMessage.
+         * Tells how much audio remains in queue. The queue should 
+         * be refilled as long as the audio input should remain active.
+         */
+        CLIENTEVENT_AUDIOINPUT = CLIENTEVENT_NONE + 1080,            
     }
 
 
@@ -3318,6 +3374,8 @@ namespace BearWare
         __TTAUDIOPREPROCESSOR     = 36,
         __MEDIAFILEPLAYBACK       = 37,
         __CLIENTKEEPALIVE         = 38,
+        __UINT32                  = 39,
+        __AUDIOINPUTPROGRESS      = 40            
     }
 
     /**
@@ -3349,10 +3407,10 @@ namespace BearWare
         {
             switch (ttType)
             {
-                case TTType.__CLIENTERRORMSG:
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(ClientErrorMsg));
                 case TTType.__CHANNEL:
                     return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(Channel));
+                case TTType.__CLIENTERRORMSG:
+                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(ClientErrorMsg));
                 case TTType.__DESKTOPINPUT:
                     return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(DesktopInput));
                 case TTType.__FILETRANSFER:
@@ -3379,6 +3437,8 @@ namespace BearWare
                     return Marshal.ReadInt32(TTDLL.TT_DBG_GETDATAPTR(ref this));
                 case TTType.__STREAMTYPE :
                     return (StreamType)Marshal.ReadInt32(TTDLL.TT_DBG_GETDATAPTR(ref this));
+                case TTType.__AUDIOINPUTPROGRESS :
+                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(AudioInputProgress));
                 default:
                     return null;
             }
@@ -3597,6 +3657,30 @@ namespace BearWare
         * Same as #TT_CLASSROOM_STREAMTYPE_INDEX */
         public const int TT_TRANSMITUSERS_STREAMTYPE_INDEX = 1;
 
+        /**
+         * @brief User ID passed to TeamTalkBase.EnableAudioBlockEvent() in order to
+         * receive #BearWare.AudioBlock directly from sound input device after joining
+         * a channel.
+         *
+         * When this user ID is passed then the #BearWare.AudioBlock received will be
+         * prior to audio preprocessing (#BearWare.AudioPreprocessor).
+         *
+         * Note, however, that #ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK will not be
+         * triggered until the TeamTalk instance is in a channel. This is because
+         * the sound input device is not started until it knows the
+         * #BearWare.AudioCodec's sample rate, number of channels and transmit
+         * interval. */
+        public const int TT_LOCAL_USERID = 0;
+
+        /**
+         * @brief User ID used to identify muxed audio that has been mixed
+         * into a single stream.
+         *
+         * This user ID is passed to TT_EnableAudioBlockEvent() in order to
+         * receive #BearWare.AudioBlock of audio that is played in the TeamTalk instance's
+         * channel. */
+        public const int TT_MUXED_USERID = 0x1001; /* TT_USERID_MAX + 1 */
+    
         /** @ingroup users
          * The maximum number of channels where a user can automatically become
          * channel operator.
@@ -3620,9 +3704,11 @@ namespace BearWare
 
         /** @ingroup mediastream
          *
-         * Specify this value as uOffsetMSec in #BearWare.MediaFilePlayback when
-         * calling TT_InitLocalPlayback() and TeamTalkBase.UpdateLocalPlayback() to
-         * ignore rewind or forward.
+         * Specify this value as uOffsetMSec in
+         * #BearWare.MediaFilePlayback when calling
+         * BearWare.TeamTalkBase.InitLocalPlayback() and
+         * TeamTalkBase.UpdateLocalPlayback() to ignore rewind or
+         * forward.
          */
         public const uint TT_MEDIAPLAYBACK_OFFSET_IGNORE = 0xFFFFFFFF;
 
@@ -3691,6 +3777,7 @@ namespace BearWare
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__TTAUDIOPREPROCESSOR) == Marshal.SizeOf(new TTAudioPreprocessor()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__MEDIAFILEPLAYBACK) == Marshal.SizeOf(new MediaFilePlayback()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__CLIENTKEEPALIVE) == Marshal.SizeOf(new ClientKeepAlive()));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__AUDIOINPUTPROGRESS) == Marshal.SizeOf(new AudioInputProgress()));
 
             if (poll_based)
                 m_ttInst = TTDLL.TT_InitTeamTalkPoll();
@@ -3998,6 +4085,14 @@ namespace BearWare
                     if(OnStreamMediaFile != null)
                         OnStreamMediaFile((MediaFileInfo)msg.DataToObject());
                     break;
+                case ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE:
+                    if (OnLocalMediaFile != null)
+                        OnLocalMediaFile((MediaFileInfo)msg.DataToObject());
+                    break;
+                case ClientEvent.CLIENTEVENT_AUDIOINPUT:
+                    if (OnAudioInput != null)
+                        OnAudioInput((AudioInputProgress)msg.DataToObject());
+                    break;
             }
         }
 
@@ -4111,10 +4206,23 @@ namespace BearWare
             return TTDLL.TT_CloseSoundLoopbackTest(lpTTSoundLoop);
         }
         /**
-         * @brief Initialize the sound input devices (for recording audio).
+         * @brief Initialize the sound input device (for recording audio).
          *
          * The @a nDeviceID of the #BearWare.SoundDevice should be used as @a 
          * nInputDeviceID.
+         *
+         * The @c nInputDeviceID can be or'ed with
+         * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG if the TeamTalk instance should share
+         * recording device with other instances.
+         *
+         * Notice fixed sound device ID for some platforms:
+         * - iOS
+         *   - #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_REMOTEIO
+         *   - #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO
+         * - Android
+         *   - #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT
+         * - All platforms
+         *   - #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL
          * 
          * Calling this function will set the flag #ClientFlag.CLIENT_SNDINPUT_READY.
          *
@@ -4131,12 +4239,25 @@ namespace BearWare
         }
 
         /** 
-         * @brief Initialize the sound output devices (for sound playback).
+         * @brief Initialize the sound output device (for audio playback).
          *
          * The @a nDeviceID of the #BearWare.SoundDevice should be used as @a 
          * nOutputDeviceID.
          *
-         * Callling this function will set the flag
+         * The @c nOutputDeviceID can be or'ed with
+         * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG if the TeamTalk instance should share
+         * output device with other instances.
+         *
+         * Notice fixed sound device ID for some platforms:
+         * - iOS
+         *   - #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_REMOTEIO
+         *   - #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO
+         * - Android
+         *   - #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT
+         * - All platforms
+         *   - #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL
+         *
+         * Calling this function will set the flag
          * #ClientFlag.CLIENT_SNDOUTPUT_READY.
          *
          * @param nOutputDeviceID Should be the @a nDeviceID of 
@@ -4390,15 +4511,19 @@ namespace BearWare
         }
 
         /**
-         * @brief Enable/disable access to user's raw audio.
+         * @brief Enable/disable access to raw audio from individual
+         * users, local microphone input or muxed stream of all users.
          *
          * With audio callbacks enabled all audio which has been played
          * will be accessible by calling TeamTalkBase.AcquireUserAudioBlock(). Every
          * time a new #BearWare.AudioBlock is available the event
          * OnUserAudioBlock() is generated.
          * 
-         * @param nUserID The user ID to monitor for audio callback. Pass 0
-         * to monitor local audio.
+         * @param nUserID The user ID to monitor for audio callback. Pass
+         * special user ID #TT_LOCAL_USERID to monitor local recorded
+         * audio prior to encoding/processing. Pass special user ID
+         * #TT_MUXED_USERID to get a single audio stream of all audio that
+         * is being played from users.
          * @param nStreamType Either #StreamType.STREAMTYPE_VOICE or 
          * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
          * @param bEnable Whether to enable the #ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK event.
@@ -4417,6 +4542,40 @@ namespace BearWare
          * @{ */
 
         /**
+         * @brief Transmit application provided raw audio in
+         * #BearWare.AudioBlock-structs as #StreamType.STREAMTYPE_VOICE, i.e. microphone
+         * input.
+         *
+         * Since #StreamType.STREAMTYPE_VOICE is being replaced by audio input this
+         * means that while audio input is active then subsequent calls to
+         * TeamTalkBase.EnableVoiceTransmission() or TeamTalkBase.EnableVoiceActivation() will
+         * fail until the audio input has ended.
+         *
+         * If the flags #ClientFlag.CLIENT_TX_VOICE or
+         * #ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED are active then calling
+         * TeamTalkBase.InputAudioBlock() will fail because #StreamType.STREAMTYPE_VOICE is
+         * already in use.
+         *
+         * TeamTalkBase.InsertAudioBlock() can be called multiple times until the
+         * client instance's internal queue is full. When the queue has
+         * been filled then monitor #ClientEvent.CLIENTEVENT_AUDIOINPUT to see when
+         * more data can be queued.
+         *
+         * To end raw audio input set parameter @c lpAudioBlock to NULL
+         * and then TeamTalkBase.EnableVoiceTransmission() or
+         * TeamTalkBase.StartStreamingMediaFileToChannel() will be available again.
+         *
+         * @param lpAudioBlock The audio to submit as audio input.
+         * The member @c nStreamID of #BearWare.AudioBlock is used to identify the
+         * audio input session which is currently in progress and is
+         * posted as the @c nSource of #ClientEvent.CLIENTEVENT_AUDIOINPUT.
+         * The member @c uSampleIndex of #BearWare.AudioBlock is ignored. */
+        public bool InsertAudioBlock(AudioBlock lpAudioBlock)
+        {
+            return TTDLL.TT_InsertAudioBlock(m_ttInst, ref lpAudioBlock);
+        }
+
+        /**
          * @brief Start/stop transmitting of voice data from sound input.
          *
          * Sound input is initialized using TeamTalkBase.InitSoundInputDevice() or
@@ -4427,8 +4586,12 @@ namespace BearWare
          * User rights required:
          * - #UserRight.USERRIGHT_TRANSMIT_VOICE
          *
+         * Note that voice activation cannot be enabled when
+         * TeamTalkBase.InsertAudioBlock() is active.
          *
-         * @param bEnable Enable/disable transmission. */
+         * @param bEnable Enable/disable transmission.
+         * @return TRUE on success. FALSE if voice transmission could
+         * not be activated on the client instance. */
         public bool EnableVoiceTransmission(bool bEnable)
         {
             return TTDLL.TT_EnableVoiceTransmission(m_ttInst, bEnable);
@@ -4439,7 +4602,7 @@ namespace BearWare
          *
          * The client instance will start transmitting audio if the recorded audio
          * level is above or equal to the voice activation level set by
-         * #SetVoiceActivationLevel. Once the voice activation level is reached
+         * SetVoiceActivationLevel(). Once the voice activation level is reached
          * the event #OnVoiceActivation is posted.
          *
          * The current volume level can be queried calling
@@ -4450,8 +4613,15 @@ namespace BearWare
          * User rights required:
          * - #UserRight.USERRIGHT_TRANSMIT_VOICE
          *
+         * Note that voice activation cannot be enabled when
+         * TeamTalkBase.InsertAudioBlock() is active.
+         *
          * @param bEnable TRUE to enable, otherwise FALSE.
-         * @see ClientFlag #ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED */
+         * @return TRUE on success. FALSE if voice activation cannot 
+         * be enabled on the client instance.
+         *
+         * @see #ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED
+         * @see TeamTalkBase.SetVoiceActivationStopDelay() */
         public bool EnableVoiceActivation(bool bEnable)
         {
             return TTDLL.TT_EnableVoiceActivation(m_ttInst, bEnable);
@@ -4511,16 +4681,17 @@ namespace BearWare
         }
 
         /**
-         * @brief Store audio conversations to a single file.
+         * @brief Store all audio conversations with specific #BearWare.AudioCodec
+         * settings to a single file.
          *
-         * Unlike TeamTalkBase.SetUserMediaStorageDir(), which stores users' audio
-         * streams in separate files, TeamTalkBase.StartRecordingMuxedAudioFile()
-         * muxes the audio streams into a single file.
+         * To record conversations from a specific channel to a single
+         * file call TeamTalkBase.StartRecordingMuxedAudioFileEx().
          *
-         * The audio streams, which should be muxed together, are
-         * required to use the same audio codec. In most cases this is
-         * the audio codec of the channel where the user is currently
-         * participating (i.e. @c audiocodec member of #BearWare.Channel).
+         * TeamTalkBase.StartRecordingMuxedAudioFile() can be used to record
+         * conversations "across" channels given that the channels use the
+         * same #BearWare.AudioCodec properties (i.e. @c audiocodec member of
+         * #BearWare.Channel). To receive audio outside the TeamTalk instance's
+         * channel use TeamTalkBase.DoSubscribe() and #Subscription.SUBSCRIBE_INTERCEPT_VOICE.
          *
          * If the user changes to a channel which uses a different audio
          * codec then the recording will continue but simply be silent
@@ -4533,6 +4704,12 @@ namespace BearWare
          * Call TeamTalkBase.StopRecordingMuxedAudioFile() to stop recording. Note
          * that only one muxed audio recording can be active at the same
          * time.
+         *
+         * Only #StreamType.STREAMTYPE_VOICE is stored into the audio file, not
+         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         *
+         * Use TeamTalkBase.SetUserMediaStorageDir() to store users' audio streams
+         * in separate files.
          *
          * @param lpAudioCodec The audio codec which should be used as
          * reference for muxing users' audio streams. In most situations
@@ -4556,6 +4733,35 @@ namespace BearWare
         }
 
         /**
+         * @brief Store audio conversations from a specific channel into a
+         * single file.
+         *
+         * To record audio outside the TeamTalk instance's current channel use
+         * the TeamTalkBase.DoSubscribe() with the #Subscription.SUBSCRIBE_INTERCEPT_VOICE on all
+         * the user's in the channel.
+         *
+         * Unlike TeamTalkBase.StartRecordingMuxedAudioFile() this function does not
+         * toggle the flag #ClientFlag.CLIENT_MUX_AUDIOFILE.
+         *
+         * Use TeamTalkBase.StartRecordingMuxedAudioFile() to record conversations
+         * from many different channels with the same #BearWare.AudioCodec
+         * settings.
+         *
+         * Only #StreamType.STREAMTYPE_VOICE is stored into the audio file, not
+         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         *
+         * @see StopRecordingMuxedAudioFile() */
+        public bool StartRecordingMuxedAudioFile(int nChannelID,
+                                                 string szAudioFileName,
+                                                 AudioFileFormat uAFF)
+        {
+            return TTDLL.TT_StartRecordingMuxedAudioFileEx(m_ttInst,
+                                                           nChannelID,
+                                                           szAudioFileName,
+                                                           uAFF);
+        }
+
+        /**
          * @brief Stop an active muxed audio recording.
          *
          * A muxed audio recording started with
@@ -4569,6 +4775,17 @@ namespace BearWare
         public bool StopRecordingMuxedAudioFile()
         {
             return TTDLL.TT_StopRecordingMuxedAudioFile(m_ttInst);
+        }
+
+        /**
+         * @brief Stop recording conversations from a channel to a single file.
+         *
+         * Stop a recording initiated by TeamTalkBase.StartRecordingMuxedAudioFileEx().
+         *
+         * @see StopRecordingMuxedAudioFile() */
+        public bool StopRecordingMuxedAudioFile(int nChannelID)
+        {
+            return TTDLL.TT_StopRecordingMuxedAudioFileEx(m_ttInst, nChannelID);
         }
 
         /**
@@ -4870,7 +5087,7 @@ namespace BearWare
          *
          * @param szMediaFilePath File path to media file.
          * @param lpMediaFilePlayback Playback settings to pause, seek and
-         * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
+         * preprocess audio. If #AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR then the echo
          * cancellation part of #BearWare.SpeexDSP is unused. Only denoise and AGC
          * settings are applied.
          * @param lpVideoCodec If video file then specify output codec properties 
@@ -4896,7 +5113,7 @@ namespace BearWare
          * #BearWare.MediaFilePlayback properties.
          *
          * @param lpMediaFilePlayback Playback settings to pause, seek and
-         * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
+         * preprocess audio. If #AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR then the echo
          * cancellation part of #BearWare.SpeexDSP is unused. Only denoise and AGC
          * settings are applied.
          * @param lpVideoCodec If video file then specify output codec properties 
@@ -4929,7 +5146,7 @@ namespace BearWare
          *
          * @param szMediaFilePath Path to media file.
          * @param lpMediaFilePlayback Playback settings to pause, seek and
-         * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
+         * preprocess audio. If #AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR then the echo
          * cancellation part of #BearWare.SpeexDSP is unused. Only denoise and AGC
          * settings are applied.
          *
@@ -5380,7 +5597,7 @@ namespace BearWare
          * The system-ID is set in the TeamTalk server API using
          * TTS_StartServerSysID(). If a client tries to connect with a
          * different system-ID that client will receive the error
-         * #CMDERR_INCOMPATIBLE_PROTOCOLS when trying to log in.
+         * #ClientError.CMDERR_INCOMPATIBLE_PROTOCOLS when trying to log in.
          *
          * @param szHostAddress The IP-address or hostname of the server.
          * @param nTcpPort The host port of the server (TCP).
@@ -6204,10 +6421,10 @@ namespace BearWare
         /** 
          * @brief Ban the user with @c nUserID using the ban types specified.
          *
-         * If @c uBanTypes contains #BANTYPE_USERNAME then the username cannot join
+         * If @c uBanTypes contains #BanType.BANTYPE_USERNAME then the username cannot join
          * the channel where @n nUserID is currently present.
          *
-         * If @c uBanTypes contains #BANTYPE_IPADDR then the IP-address cannot join
+         * If @c uBanTypes contains #BanType.BANTYPE_IPADDR then the IP-address cannot join
          * the channel where @n nUserID is currently present.
          *
          * @see TT_DoListBans()
@@ -6226,11 +6443,11 @@ namespace BearWare
          * DoJoinChannel(). Otherwise the ban applies to login,
          * DoLogin().
          *
-         * If #BANTYPE_IPADDR is specified then the IP-address must be set
+         * If #BanType.BANTYPE_IPADDR is specified then the IP-address must be set
          * in @c szIPAddress and any IP-address matching will receive
-         * #CMDERR_SERVER_BANNED or #CMDERR_CHANNEL_BANNED for
-         * TT_DoLogin() or TT_DoJoinChannel(). If instead
-         * #BANTYPE_USERNAME is specified then @c szUsername must be set
+         * #ClientError.CMDERR_SERVER_BANNED or #ClientError.CMDERR_CHANNEL_BANNED for
+         * TeamTalkBase.DoLogin() or TeamTalkBase.DoJoinChannel(). If instead
+         * #BanType.BANTYPE_USERNAME is specified then @c szUsername must be set
          * and the same rule applies as for IP-addresses.
          *
          * @see TT_DoListBans()
@@ -6250,8 +6467,8 @@ namespace BearWare
          * - #UserRight.USERRIGHT_BAN_USERS
          *
          * Possible errors:
-         * - #CMDERR_NOT_LOGGEDIN
-         * - #CMDERR_NOT_AUTHORIZED
+         * - #ClientError.CMDERR_NOT_LOGGEDIN
+         * - #ClientError.CMDERR_NOT_AUTHORIZED
          *
          * @param szIPAddress The IP-address to ban.
          * @param nChannelID Set to zero.
@@ -6768,10 +6985,8 @@ namespace BearWare
          * Event #OnUserRecordMediaFile is triggered when
          * recording starts/stops.
          *
-         * To store in MP3 format instead of .wav format ensure that the
-         * LAME MP3 encoder file lame_enc.dll is placed in the same
-         * directory as the SDKs DLL files. To stop recording set @c
-         * szFolderPath to an empty string and @a uAFF to #AudioFileFormat.AFF_NONE.
+         * To stop recording set @c szFolderPath to an empty string
+         * and @a uAFF to #AudioFileFormat.AFF_NONE.
          *
          * To store audio of other channels than the client instance check
          * out the section @ref spying.
@@ -6832,7 +7047,7 @@ namespace BearWare
         {
             return TTDLL.TT_SetUserAudioStreamBufferSize(m_ttInst, nUserID, uStreamType, nMSec);
         }
-        /** @brief Extract the raw audio from a user who has been talking.
+        /** @brief Extract the raw audio associated with the event TeamTalkBase.OnUserAudioBlock().
          *
          * To enable access to user's raw audio first call
          * TeamTalkBase.EnableAudioBlockEvent(). Whenever new audio becomes
@@ -7038,6 +7253,13 @@ namespace BearWare
             return TTDLL.TT_DBG_SetSoundInputTone(m_ttInst, uStreamTypes, nFrequency);
         }
 
+
+        public bool DBG_WriteAudioFileTone(MediaFileInfo lpMediaFileInfo,
+                                           int nFrequency)
+        {
+            return TTDLL.TT_DBG_WriteAudioFileTone(ref lpMediaFileInfo, nFrequency);
+        }
+        
         /** @addtogroup events
          * @{ */
 
@@ -7495,6 +7717,24 @@ namespace BearWare
          *
          * Event handler for #ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE */
         public event StreamMediaFile OnStreamMediaFile;
+
+        /** @brief Delegate for event #OnLocalMediaFile. */
+        public delegate void LocalMediaFile(MediaFileInfo mediafileinfo);
+
+        /**
+         * @brief Media file is being played locally.
+         * 
+         * Event handler for #ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE */
+        public event LocalMediaFile OnLocalMediaFile;
+
+        /** @brief Delegate for event #OnAudioInput. */
+        public delegate void AudioInput(AudioInputProgress aip);
+
+        /**
+         * @brief Audio input progress as result of TeamTalkBase.InsertAudioBlock()
+         * 
+         * Event handler for #ClientEvent.CLIENTEVENT_AUDIOINPUT */
+        public event AudioInput OnAudioInput;
 
         /** @} */
 

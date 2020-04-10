@@ -159,7 +159,8 @@ namespace c_tt
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_EnableAudioBlockEvent(IntPtr lpTTInstance, int nUserID, 
                                                            BearWare.StreamType nStreamType, bool bEnable);
-
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_InsertAudioBlock(IntPtr lpTTInstance, ref BearWare.AudioBlock lpAudioBlock);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_EnableVoiceTransmission(IntPtr lpTTInstance, bool bEnable);
 
@@ -185,7 +186,14 @@ namespace c_tt
                     [MarshalAs(UnmanagedType.LPWStr)] string szAudioFileName,
                                                        BearWare.AudioFileFormat aff);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_StartRecordingMuxedAudioFileEx(IntPtr lpTTInstance,
+                                                       int nChannelID,
+                    [MarshalAs(UnmanagedType.LPWStr)] string szAudioFileName,
+                                                       BearWare.AudioFileFormat aff);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_StopRecordingMuxedAudioFile(IntPtr lpTTInstance);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_StopRecordingMuxedAudioFileEx(IntPtr lpTTInstance, int nChannelID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_StartVideoCaptureTransmission(IntPtr lpTTInstance, ref BearWare.VideoCodec lpVideoCodec);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -654,6 +662,9 @@ namespace c_tt
         public static extern bool TT_DBG_SetSoundInputTone(IntPtr lpTTInstance,
                                                            BearWare.StreamType uStreamTypes,
                                                            int nFrequency);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_DBG_WriteAudioFileTone(ref BearWare.MediaFileInfo lpMediaFileInfo,
+                                                            int nFrequency);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern System.IntPtr TT_DBG_GETDATAPTR(ref BearWare.TTMessage pMsg);
 

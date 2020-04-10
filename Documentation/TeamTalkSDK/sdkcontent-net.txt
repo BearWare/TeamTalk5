@@ -17,9 +17,6 @@
  *   - Read section @ref buildnetdll on how to build this.
  *   - Located in folder @c Library/TeamTalk.NET
  *
- * The TeamTalk client in the Standard Edition *cannot* connect to
- * encrypted TeamTalk servers.
- *
  * @section ttprosdkfiles TeamTalk SDK Professional Edition
  *
  * Here's a brief overview of the files in the TeamTalk SDK
@@ -32,8 +29,4 @@
  *   - .NET wrapper for @c TeamTalk5Pro.dll.
  *   - Read section @ref buildnetdll on how to build this.
  *   - Located in folder @c Library/TeamTalk.NET
- *
- * The TeamTalk client in the Professional Edition *can* connect to
- * both encrypted and non-encrypted TeamTalk servers.
- *
  */

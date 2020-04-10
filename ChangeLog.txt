@@ -24,8 +24,14 @@ Accessible Windows client
 - Fixed bug where audio recording to single file contained audio from media files
 - Fixed bug in .ogg file header for OPUS codec
 Android client
+- VBR/CBR selection for OPUS codec 
+- Frame size selection for OPUS codec
+- Max transmission interval increased to 500 msec
 - Portuguese translation
 iOS client
+- VBR/CBR selection for OPUS codec 
+- Frame size selection for OPUS codec
+- Max transmission interval increased to 500 msec
 - Support for Dark Theme
 
 Version 5.4.1, 2019/10/16

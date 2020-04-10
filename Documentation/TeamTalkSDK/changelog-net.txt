@@ -6,6 +6,21 @@ namespace BearWare
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v55arelease
+ * - @ref v55afeatures
+ *   - @ref v55asharedaudio
+ *   - @ref v55aplayback
+ *   - @ref v55astream
+ *   - @ref v55atxinterval
+ *   - @ref v55aopus
+ *   - @ref v55amux
+ *   - @ref v55aaudioinput
+ *   - @ref v55akeepalive
+ *   - @ref v55arecord
+ *   - @ref v55aencrypt
+ *   - @ref v55aandroidcapi
+ * - @ref v55aapi
+ *
  * @ref v54arelease
  * - @ref v54afeatures
  * - @ref v54aapi
@@ -176,6 +191,206 @@ namespace BearWare
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v55arelease TeamTalk 5 SDK v. 5.5a release
+ *
+ * @subsection v55afeatures New features in v5.5a
+ *
+ * @subsubsection v55asharedaudio Shared audio input/output device
+ *
+ * Previously the Android platform only supported one active sound
+ * input device. This meant that only one TeamTalk instance could be
+ * used on Android.
+ *
+ * With the introduction of shared audio device it's now possible for
+ * multiple TeamTalk instances to share the same audio input
+ * device.
+ *
+ * Also for playback the TeamTalk instance can use a shared sound
+ * device so playback is not limited to few simultaneous users talking
+ * at the same time.
+ *
+ * The shared audio device on Android is same as
+ * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT but or'ed with the flag
+ * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG. The sound device ID flag
+ * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG tells the TeamTalk instance to create a
+ * shared audio device which distributes its audio to all other
+ * client instances.
+ *
+ * The shared audio device which is created runs at the audio device's
+ * highest sample rate and highest number of channels. Each client
+ * which receives the audio from the shared audio device resamples the
+ * audio data to its own format. This is a CPU intensive task, so many
+ * clients at different sample rates uses more CPU. It is therefore
+ * recommended that clients which use this feature all use channels
+ * that has the same audio codec settings. Preferably @c
+ * nDefaultSampleRate and @c nMaxInputChannels and @c
+ * nMaxOutputChannels of the chosen #BearWare.SoundDevice.
+ *
+ * To initialize a shared audio input device call like this:
+@verbatim
+  ttInst.InitSoundInputDevice(ttInst, inputid | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG);
+@endverbatim
+ * To initialize a shared audio output device call like this: 
+@verbatim
+  ttInst.InitSoundInputDevice(ttInst, outputid | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG);
+@endverbatim
+ *
+ *
+ * @subsubsection v55aplayback Playback media file
+ *
+ * Media files can now be played using the TeamTalk instance
+ * configured sound output device. Call TeamTalkBase.InitLocalPlayback() to
+ * playback a media file.
+ *
+ * Prior to playback it's possible to set specify an offset using
+ * #BearWare.MediaFilePlayback and setup an #BearWare.AudioPreprocessor.
+ *
+ * While the media file is playing it's possible to use
+ * TeamTalkBase.UpdateLocalPlayback() to change the media stream's
+ * properties. The progress of the media file playback can be monitor
+ * through #ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE.
+ *
+ * Stop local media file playback using TeamTalkBase.StopLocalPlayback().
+ *
+ * @subsubsection v55astream Control media file playback when
+ * streaming to channel
+ *
+ * When streaming media files to a channel it's now possible to
+ * specify an #BearWare.AudioPreprocessor to change the audio stream of the
+ * media file.
+ *
+ * A new audio #BearWare.TTAudioPreprocessor is introduced with can mute
+ * left/right audio channel and change gain level.
+ *
+ * It's also possible to change the offset and pause the media file
+ * using TeamTalkBase.UpdateStreamingMediaFileToChannel() and
+ * #BearWare.MediaFilePlayback.
+ *
+ * To use these new features use
+ * TeamTalkBase.StartStreamingMediaFileToChannelEx() instead of
+ * TeamTalkBase.StartStreamingMediaFileToChannel().
+ *
+ * @subsubsection v55atxinterval nTxIntervalMSec increased to 500 msec
+ *
+ * Previously the maximum transmit interval was limited to 100
+ * msec. With #BearWare.OpusCodec's introduction of 120 msec frame sizes the
+ * transmit interval has been increased to 500 msec.
+ *
+ * @subsubsection v55aopus OPUS codec frame size selection
+ *
+ * OPUS v1.3 introduced additional frame sizes, i.e. 80, 100 and 120
+ * msec. These frame sizes can now be set using the @c nFrameSizeMSec
+ * property of #BearWare.OpusCodec.
+ *
+ * @subsubsection v55amux Access muxed audio stream
+ *
+ * Previously TeamTalkBase.EnableAudioBlockEvent() could only be used to access
+ * audio from a single user. Using #BearWare.TeamTalkBase.TT_MUXED_USERID now makes it
+ * possible to access the audio stream where all users' audio streams
+ * have been mixed together. Basically the same as recording all
+ * conversations to a single file using
+ * TeamTalkBase.StartRecordingMuxedAudioFile().
+ *
+ * @subsubsection v55aaudioinput Inject audio into channel (replace voice input)
+ *
+ * The #StreamType.STREAMTYPE_VOICE could previously only come from the
+ * configured #BearWare.SoundDevice passed to TeamTalkBase.InitSoundInputDevice(). Now
+ * it's possible to replace the, typically microphone, audio input
+ * with a custom audio stream by passing raw audio in #BearWare.AudioBlock to
+ * TeamTalkBase.InsertAudioBlock().
+ *
+ * The audio input must be passed continuesly to TeamTalkBase.InsertAudioBlock()
+ * to keep the input going. Use event #ClientEvent.CLIENTEVENT_AUDIOINPUT to
+ * monitor progress. The #BearWare.AudioInputProgress struct hold information
+ * about the queue sizes/progress.
+ *
+ * @subsubsection v55akeepalive Configure TCP and UDP keep alive properties
+ *
+ * How often "keep alive" information should be sent depend on the
+ * type of network where the TeamTalk client is deployed. Previously
+ * the TCP and UDP keep alive settings have been controlled entirely
+ * by the TeamTalk client instance.
+ *
+ * Now it's possible to configure the keep alive properties using
+ * #BearWare.ClientKeepAlive-struct and functions TeamTalkBase.SetClientKeepAlive() and
+ * TeamTalkBase.GetClientKeepAlive().
+ *
+ * @subsubsection v55arecord Record audio from multiple channels
+ * 
+ * Previously it was only possible to have one active audio recording using
+ * TeamTalkBase.StartRecordingMuxedAudioFile().
+ *
+ * Now it's possible to record multiple channels at the same time
+ * using TeamTalkBase.StartRecordingMuxedAudioFileEx(). Note that in order to
+ * get audio from channels where the TeamTalk instance is currently
+ * not participating requires the use of TeamTalkBase.DoSubscribe() and
+ * #Subscription.SUBSCRIBE_INTERCEPT_VOICE.
+ *
+ * @subsubsection v55aencrypt Connect to encrypted TeamTalk Professional servers
+ *
+ * The TeamTalk 5 SDK Standard Edition could only connect to
+ * unencrypted TeamTalk servers, but now it's also possible to connect
+ * to encrypted servers. The TeamTalk server in TeamTalk 5 SDK,
+ * however, still cannot run in encrypted mode.
+ *
+ * @subsubsection v55aandroidcapi TeamTalk 5 shared C-API library for Android
+ *
+ * Previously the Android platform only included a shared library for
+ * Java Native Interface (JNI). But now it's also possible to use a
+ * shared library like other platforms.
+ *
+ * @subsection v55aapi API changes in v5.5a
+ * 
+ * - New macro #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG for shared sound input device.
+ *   - See @ref v55asharedaudio.
+ * - New macro #BearWare.TeamTalkBase.TT_MUXED_USERID for TeamTalkBase.EnableAudioBlockEvent().
+ *   - See @ref v55amux.
+ * - New macro #BearWare.TeamTalkBase.TT_LOCAL_USERID for TeamTalkBase.EnableAudioBlockEvent()
+ *   - See @ref v55amux.
+ * - New functions TeamTalkBase.SetClientKeepAlive() and TeamTalkBase.GetClientKeepAlive() for keep alive properties.
+ *   - See @ref v55akeepalive.
+ * - New property @c nFrameSizeMSec for #BearWare.OpusCodec.
+ *   - See @ref v55aopus.
+ * - New macro #BearWare.OpusConstants.OPUS_MIN_FRAMESIZE for minimum OPUS frame size.
+ *   - See @ref v55aopus and @ref v55atxinterval.
+ * - New macro #BearWare.OpusConstants.OPUS_MAX_FRAMESIZE for maximum OPUS frame size (OPUS before v1.3)
+ *   - See @ref v55aopus and @ref v55atxinterval.
+ * - New macro #BearWare.OpusConstants.OPUS_REALMAX_FRAMESIZE for maximum OPUS frame size in OPUS v1.3 and onwards.
+ *   - See @ref v55aopus and @ref v55atxinterval.
+ * - New functions TeamTalkBase.InitLocalPlayback(), TeamTalkBase.UpdateLocalPlayback()
+ *   and TeamTalkBase.StopLocalPlayback() for local media playback.
+ *   - See @ref v55aplayback.
+ * - New enumeration values #MediaFileStatus.MFS_PAUSED #MediaFileStatus.MFS_PLAYING for #MediaFileStatus used by
+ *   #ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE and #ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE.
+ *   - See @ref v55aplayback and @ref v55astream.
+ * - New enumeration value #ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE for monitoring progress of local media playback. 
+ *   - See @ref v55aplayback.
+ * - New enumeration #BearWare.AudioPreprocessorType for audio preprocessor selection. 
+ *   - See @ref v55aplayback and @ref v55astream.
+ * - New #BearWare.AudioPreprocessor struct for configured audio preprocessor. 
+ *   - See @ref v55aplayback and @ref v55astream.
+ * - New #BearWare.TTAudioPreprocessor struct for TeamTalkBase.InitLocalPlayback() or TeamTalkBase.StartStreamingMediaFileToChannel().
+ *   - See @ref v55aplayback and @ref v55astream.
+ * - New function TeamTalkBase.StartStreamingMediaFileToChannel() for streaming media file.
+ *   - See @ref v55astream.
+ * - New function TeamTalkBase.UpdateStreamingMediaFileToChannel() for updating an active media file.
+ *   - See @ref v55astream.
+ * - New #BearWare.MediaFilePlayback struct for media file streaming or playback.
+ *   - See @ref v55aplayback and @ref v55astream.
+ * - New #BearWare.AudioInputProgress struct for monitoring progress when injecting audio. 
+ *   - See @ref v55aaudioinput.
+ * - New enumeration value #ClientEvent.CLIENTEVENT_AUDIOINPUT for monitoring progress when injecting audio.
+ *   - See @ref v55aaudioinput.
+ * - New function TeamTalkBase.InsertAudioBlock() for injecting audio which replaces microphone input.
+ *   - See @ref v55aaudioinput.
+ * - New function TeamTalkBase.StartRecordingMuxedAudioFile() for recording audio from channel.
+ *   - See @ref v55arecord.
+ * - New function TeamTalkBase.StopRecordingMuxedAudioFile() for stopping recording audio from channel.
+ *   - See @ref v55arecord.
+ * - New function TeamTalkBase.DBG_WriteAudioFileTone() for generating audio media file.
  *
  * <hr>
  *

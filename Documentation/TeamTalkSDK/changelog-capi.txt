@@ -15,6 +15,8 @@
  *   - @ref v55aaudioinput
  *   - @ref v55akeepalive
  *   - @ref v55arecord
+ *   - @ref v55aencrypt
+ *   - @ref v55aandroidcapi
  * - @ref v55aapi
  *
  * @ref v54arelease
@@ -210,8 +212,8 @@
  *
  * The shared audio device on Android is same as
  * #TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT but or'ed with the flag
- * #TT_SOUNDDEVICE_SHARED_FLAG. The sound device ID flag
- * #TT_SOUNDDEVICE_SHARED_FLAG tells the TeamTalk instance to create a
+ * #TT_SOUNDDEVICE_ID_SHARED_FLAG. The sound device ID flag
+ * #TT_SOUNDDEVICE_ID_SHARED_FLAG tells the TeamTalk instance to create a
  * shared audio device which distributes its audio to all other
  * client instances.
  *
@@ -227,11 +229,11 @@
  *
  * To initialize a shared audio input device call like this:
 @verbatim
-  TT_InitSoundInputDevice(ttInst, inputid | TT_SOUNDDEVICE_SHARED_FLAG);
+  TT_InitSoundInputDevice(ttInst, inputid | TT_SOUNDDEVICE_ID_SHARED_FLAG);
 @endverbatim
  * To initialize a shared audio output device call like this: 
 @verbatim
-  TT_InitSoundInputDevice(ttInst, outputid | TT_SOUNDDEVICE_SHARED_FLAG);
+  TT_InitSoundInputDevice(ttInst, outputid | TT_SOUNDDEVICE_ID_SHARED_FLAG);
 @endverbatim
  *
  *
@@ -325,9 +327,22 @@
  * not participating requires the use of TT_DoSubscribe() and
  * #SUBSCRIBE_INTERCEPT_VOICE.
  *
+ * @subsubsection v55aencrypt Connect to encrypted TeamTalk Professional servers
+ *
+ * The TeamTalk 5 SDK Standard Edition could only connect to
+ * unencrypted TeamTalk servers, but now it's also possible to connect
+ * to encrypted servers. The TeamTalk server in TeamTalk 5 SDK,
+ * however, still cannot run in encrypted mode.
+ *
+ * @subsubsection v55aandroidcapi TeamTalk 5 shared C-API library for Android
+ *
+ * Previously the Android platform only included a shared library for
+ * Java Native Interface (JNI). But now it's also possible to use a
+ * shared library like other platforms.
+ *
  * @subsection v55aapi API changes in v5.5a
  * 
- * - New macro #TT_SOUNDDEVICE_SHARED_FLAG for shared sound input device.
+ * - New macro #TT_SOUNDDEVICE_ID_SHARED_FLAG for shared sound input device.
  *   - See @ref v55asharedaudio.
  * - New macro #TT_MUXED_USERID for TT_EnableAudioBlockEvent().
  *   - See @ref v55amux.
