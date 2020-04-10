@@ -17,7 +17,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page_0">
       <widget class="QLabel" name="label_7">
@@ -177,6 +177,9 @@
               <property name="text">
                <string>Max Attenuation of noise (dB)</string>
               </property>
+              <property name="buddy">
+               <cstring>maxdenoiseSpinBox</cstring>
+              </property>
              </widget>
             </item>
             <item>
@@ -286,9 +289,9 @@
   <tabstop>denoiseCheckBox</tabstop>
   <tabstop>maxdenoiseSpinBox</tabstop>
   <tabstop>gainlevelSlider</tabstop>
+  <tabstop>ttdefaultButton</tabstop>
   <tabstop>muteleftCheckBox</tabstop>
   <tabstop>muteRightCheckBox</tabstop>
-  <tabstop>ttdefaultButton</tabstop>
  </tabstops>
  <resources/>
  <connections>
