@@ -60,7 +60,7 @@ bool OpenSLESWrapper::Init()
     SLresult result;
 
     SLEngineOption engineOptions[] = {
-        {(SLuint32) SL_ENGINEOPTION_THREADSAFE, (SLuint32) SL_BOOLEAN_TRUE}
+        { .feature = SL_ENGINEOPTION_THREADSAFE, .data = SL_BOOLEAN_TRUE}
     };
     const SLuint32 n_ops = sizeof(engineOptions)/sizeof(engineOptions[0]);
 
@@ -426,12 +426,16 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     SLuint32 sl_speaker = toSLSpeaker(channels);
 
     // configure audio sink
-    SLDataLocator_AndroidSimpleBufferQueue loc_bq = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE,
-                                                     ANDROID_INPUT_BUFFERS};
-    SLDataFormat_PCM format_pcm = {SL_DATAFORMAT_PCM, (SLuint32)channels, sl_samplerate,
-                                   SL_PCMSAMPLEFORMAT_FIXED_16, SL_PCMSAMPLEFORMAT_FIXED_16,
-                                   sl_speaker, SL_BYTEORDER_LITTLEENDIAN};
-    SLDataSink audioSnk = {&loc_bq, &format_pcm};
+    SLDataLocator_AndroidSimpleBufferQueue loc_bq = {
+        .locatorType = SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE,
+        .numBuffers = ANDROID_INPUT_BUFFERS };
+    SLDataFormat_PCM format_pcm = {
+        .formatType = SL_DATAFORMAT_PCM, .numChannels = SLuint32(channels),
+        .samplesPerSec = sl_samplerate, .bitsPerSample = SL_PCMSAMPLEFORMAT_FIXED_16,
+        .containerSize = SL_PCMSAMPLEFORMAT_FIXED_16, .channelMask = sl_speaker,
+        .endianness = SL_BYTEORDER_LITTLEENDIAN };
+    
+    SLDataSink audioSnk = { .pLocator = &loc_bq, .pFormat = &format_pcm };
 
     // create audio recorder
     // (requires the RECORD_AUDIO permission)
@@ -677,8 +681,9 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
         return outputstreamer_t();
 
     // configure audio source
-    SLDataLocator_AndroidSimpleBufferQueue loc_bufq = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE,
-                                                       ANDROID_OUTPUT_BUFFERS};
+    SLDataLocator_AndroidSimpleBufferQueue loc_bufq = {
+        .locatorType = SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE,
+        .numBuffers = ANDROID_OUTPUT_BUFFERS };
 
     SLuint32 sl_samplerate = toSLSamplerate(samplerate);
     if(!sl_samplerate)
@@ -686,10 +691,13 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
 
     SLuint32 sl_speaker = toSLSpeaker(channels);
 
-    SLDataFormat_PCM format_pcm = {SL_DATAFORMAT_PCM, (SLuint32)channels, sl_samplerate,
-                                   SL_PCMSAMPLEFORMAT_FIXED_16, SL_PCMSAMPLEFORMAT_FIXED_16,
-                                   sl_speaker, SL_BYTEORDER_LITTLEENDIAN};
-    SLDataSource audioSrc = {&loc_bufq, &format_pcm};
+    SLDataFormat_PCM format_pcm = {
+        .formatType = SL_DATAFORMAT_PCM, .numChannels = SLuint32(channels),
+        .samplesPerSec = sl_samplerate, .bitsPerSample = SL_PCMSAMPLEFORMAT_FIXED_16,
+        .containerSize = SL_PCMSAMPLEFORMAT_FIXED_16, .channelMask = sl_speaker,
+        .endianness = SL_BYTEORDER_LITTLEENDIAN };
+
+    SLDataSource audioSrc = { .pLocator = &loc_bufq, .pFormat = &format_pcm};
 
     SLObjectItf outputMixObject = InitOutputMixObject(sg);
     if (!outputMixObject)
@@ -699,8 +707,11 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
     }
 
     // configure audio sink
-    SLDataLocator_OutputMix loc_outmix = {SL_DATALOCATOR_OUTPUTMIX, outputMixObject};
-    SLDataSink audioSnk = {&loc_outmix, NULL};
+    SLDataLocator_OutputMix loc_outmix = {
+        .locatorType = SL_DATALOCATOR_OUTPUTMIX,
+        .outputMix = outputMixObject };
+    
+    SLDataSink audioSnk = { .pLocator = &loc_outmix, .pFormat = NULL};
 
     SLObjectItf playerObject = nullptr;
     SLPlayItf playerPlay = nullptr;
@@ -887,24 +898,26 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
     assert(m_engineEngine);
 
     // configure default audio recorder
-    SLDataLocator_IODevice loc_dev = {SL_DATALOCATOR_IODEVICE,
-                                      SL_IODEVICE_AUDIOINPUT,
-                                      SL_DEFAULTDEVICEID_AUDIOINPUT,
-                                      NULL};
-    SLDataSource audioSrc = {&loc_dev, NULL};
+    SLDataLocator_IODevice loc_dev = {
+        .locatorType = SL_DATALOCATOR_IODEVICE, .deviceType = SL_IODEVICE_AUDIOINPUT,
+        .deviceID = SL_DEFAULTDEVICEID_AUDIOINPUT, .device = NULL };
+
+    SLDataSource audioSrc = { .pLocator = &loc_dev, .pFormat = NULL };
 
     // configure audio sink
-    SLDataLocator_AndroidSimpleBufferQueue loc_bq = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE,
-                                                     ANDROID_INPUT_BUFFERS};
+    SLDataLocator_AndroidSimpleBufferQueue loc_bq = {
+        .locatorType = SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE,
+        .numBuffers = ANDROID_INPUT_BUFFERS };
 
-    SLDataFormat_PCM format_pcm = {SL_DATAFORMAT_PCM,
-                                   0, // specify later
-                                   0, // specify later
-                                   SL_PCMSAMPLEFORMAT_FIXED_16,
-                                   SL_PCMSAMPLEFORMAT_FIXED_16,
-                                   0, // specify later
-                                   SL_BYTEORDER_LITTLEENDIAN};
-    SLDataSink audioSnk = {&loc_bq, &format_pcm};
+    SLDataFormat_PCM format_pcm = {
+        .formatType = SL_DATAFORMAT_PCM, .numChannels = 0, // specify later
+        .samplesPerSec = 0, // specify later
+        .bitsPerSample = SL_PCMSAMPLEFORMAT_FIXED_16,
+        .containerSize = SL_PCMSAMPLEFORMAT_FIXED_16,
+        .channelMask = 0, // specify later
+        .endianness = SL_BYTEORDER_LITTLEENDIAN};
+
+    SLDataSink audioSnk = { .pLocator = &loc_bq, .pFormat = &format_pcm };
 
     for(size_t sr=0;sr<standardSampleRates.size();sr++)
     {
@@ -915,7 +928,7 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
             format_pcm.samplesPerSec = sl_samplerate;
 
             SLuint32 sl_speaker = toSLSpeaker(c);
-            format_pcm.numChannels = c;
+            format_pcm.numChannels = SLuint32(c);
             format_pcm.channelMask = sl_speaker;
 
             // create audio recorder
@@ -1054,18 +1067,17 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
             SLuint32 sl_samplerate = toSLSamplerate(standardSampleRates[sr]);
             SLuint32 sl_speaker = toSLSpeaker(c);
 
-            SLDataFormat_PCM format_pcm = {SL_DATAFORMAT_PCM, (SLuint32)c,
-                                           sl_samplerate,
-                                           SL_PCMSAMPLEFORMAT_FIXED_16,
-                                           SL_PCMSAMPLEFORMAT_FIXED_16,
-                                           sl_speaker,
-                                           SL_BYTEORDER_LITTLEENDIAN};
-            SLDataSource audioSrc = {&loc_bufq, &format_pcm};
-
+            SLDataFormat_PCM format_pcm = {
+                .formatType = SL_DATAFORMAT_PCM, .numChannels = SLuint32(c),
+                .samplesPerSec = sl_samplerate, .bitsPerSample = SL_PCMSAMPLEFORMAT_FIXED_16,
+                .containerSize = SL_PCMSAMPLEFORMAT_FIXED_16, .channelMask = sl_speaker,
+                .endianness = SL_BYTEORDER_LITTLEENDIAN };
+            SLDataSource audioSrc = { .pLocator = &loc_bufq, .pFormat = &format_pcm };
 
             // configure audio sink
-            SLDataLocator_OutputMix loc_outmix = {SL_DATALOCATOR_OUTPUTMIX, outputMixObject};
-            SLDataSink audioSnk = {&loc_outmix, NULL};
+            SLDataLocator_OutputMix loc_outmix = {
+                .locatorType = SL_DATALOCATOR_OUTPUTMIX, .outputMix = outputMixObject };
+            SLDataSink audioSnk = { .pLocator = &loc_outmix, .pFormat = NULL };
 
             SLObjectItf playerObject = NULL;
 

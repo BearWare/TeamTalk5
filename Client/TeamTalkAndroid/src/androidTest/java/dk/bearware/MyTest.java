@@ -272,10 +272,10 @@ public class MyTest extends TeamTalkTestCase {
         int[] inputdevices = {
                 SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT,
                 SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM,
-                SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG,
-                SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG};
+                SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG,
+                SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG};
 
-        int outputdeviceid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        int outputdeviceid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
 
         for (int inputdeviceid : inputdevices) {
             TeamTalkBase ttclient = newClientInstance();
