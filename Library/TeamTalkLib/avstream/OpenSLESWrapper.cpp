@@ -416,9 +416,11 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
         return inputstreamer_t();
 
     // configure audio source
-    SLDataLocator_IODevice loc_dev = {SL_DATALOCATOR_IODEVICE, SL_IODEVICE_AUDIOINPUT,
-                                      SL_DEFAULTDEVICEID_AUDIOINPUT, NULL};
-    SLDataSource audioSrc = {&loc_dev, NULL};
+    SLDataLocator_IODevice loc_dev = { .locatorType = SL_DATALOCATOR_IODEVICE,
+                                       .deviceType = SL_IODEVICE_AUDIOINPUT,
+                                       .deviceID = SL_DEFAULTDEVICEID_AUDIOINPUT,
+                                       .device = NULL};
+    SLDataSource audioSrc = { .pLocator = &loc_dev, .pFormat = NULL };
 
     SLuint32 sl_samplerate = toSLSamplerate(samplerate);
     if(!sl_samplerate)
@@ -1061,8 +1063,9 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
         for(int c=1;c<=2;c++)
         {
             // configure audio player
-            SLDataLocator_AndroidSimpleBufferQueue loc_bufq = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE,
-                                                               ANDROID_OUTPUT_BUFFERS};
+            SLDataLocator_AndroidSimpleBufferQueue loc_bufq = {
+                .locatorType = SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE,
+                .numBuffers = ANDROID_OUTPUT_BUFFERS };
 
             SLuint32 sl_samplerate = toSLSamplerate(standardSampleRates[sr]);
             SLuint32 sl_speaker = toSLSpeaker(c);
