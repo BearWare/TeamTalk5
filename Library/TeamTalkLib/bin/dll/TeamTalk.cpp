@@ -454,8 +454,10 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
         pSoundDevices[i].nMaxInputChannels = devices[i].max_input_channels;
         pSoundDevices[i].nMaxOutputChannels = devices[i].max_output_channels;
         pSoundDevices[i].nDefaultSampleRate = devices[i].default_samplerate;
-        pSoundDevices[i].bSupports3D = devices[i].supports3d;
+        pSoundDevices[i].bSupports3D = (devices[i].features & SOUNDDEVICEFEATURE_3DPOSITION);
         pSoundDevices[i].nSoundSystem = (SoundSystem)devices[i].soundsystem;
+        pSoundDevices[i].uSoundDeviceFeatures = devices[i].features;
+
         ACE_OS::strsncpy(pSoundDevices[i].szDeviceID, 
                         devices[i].deviceid.c_str(), 
                         TT_STRLEN);
@@ -640,21 +642,41 @@ TEAMTALKDLL_API TTBOOL TT_CloseSoundDuplexDevices(IN TTInstance* lpTTInstance)
     return clientnode->CloseSoundDuplexDevices();
 }
 
+TEAMTALKDLL_API TTBOOL TT_SetSoundDeviceEffects(IN TTInstance* lpTTInstance,
+                                                IN const SoundDeviceEffects* lpSoundDeviceEffects)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    teamtalk::SoundDeviceEffects prop;
+    Convert(*lpSoundDeviceEffects, prop);
+    
+    return clientnode->SetSoundDeviceEffects(prop);
+}
+
+TEAMTALKDLL_API TTBOOL TT_GetSoundDeviceEffects(IN TTInstance* lpTTInstance,
+                                                OUT SoundDeviceEffects* lpSoundDeviceEffect)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    Convert(clientnode->GetSoundDeviceEffects(), *lpSoundDeviceEffect);
+    return TRUE;
+}
+
+
 TEAMTALKDLL_API INT32 TT_GetSoundInputLevel(IN TTInstance* lpTTInstance)
 {
-    INT32 nLevel = SOUND_VU_MIN;
     clientnode_t clientnode;
-    GET_CLIENTNODE_RET(clientnode, lpTTInstance, nLevel);
-    nLevel = clientnode->GetCurrentVoiceLevel();
-    return nLevel;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, SOUND_VU_MIN);
+    return clientnode->GetCurrentVoiceLevel();
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetSoundInputGainLevel(IN TTInstance* lpTTInstance, IN INT32 nLevel)
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
-    clientnode->SetVoiceGainLevel(nLevel);
-    return TRUE;
+    return clientnode->SetVoiceGainLevel(nLevel);
 }
 
 TEAMTALKDLL_API INT32 TT_GetSoundInputGainLevel(IN TTInstance* lpTTInstance)
@@ -667,21 +689,45 @@ TEAMTALKDLL_API INT32 TT_GetSoundInputGainLevel(IN TTInstance* lpTTInstance)
 TEAMTALKDLL_API TTBOOL TT_SetSoundInputPreprocess(IN TTInstance* lpTTInstance,
                                                   const IN SpeexDSP* lpSpeexDSP)
 {
-    clientnode_t clientnode;
-    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
-    teamtalk::SpeexDSP spxdsp;
-    Convert(*lpSpeexDSP, spxdsp);
-
-    return clientnode->SetSoundPreprocess(spxdsp);
+    AudioPreprocessor preprocess;
+    preprocess.nPreprocessor = SPEEXDSP_AUDIOPREPROCESSOR;
+    preprocess.speexdsp = *lpSpeexDSP;
+    return TT_SetSoundInputPreprocessEx(lpTTInstance, &preprocess);
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetSoundInputPreprocess(IN TTInstance* lpTTInstance,
                                                   OUT SpeexDSP* lpSpeexDSP)
 {
+    AudioPreprocessor preprocess = {};
+    if (!TT_GetSoundInputPreprocessEx(lpTTInstance, &preprocess))
+        return FALSE;
+    
+    if (preprocess.nPreprocessor == SPEEXDSP_AUDIOPREPROCESSOR)
+    {
+        *lpSpeexDSP = preprocess.speexdsp;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+TEAMTALKDLL_API TTBOOL TT_SetSoundInputPreprocessEx(IN TTInstance* lpTTInstance,
+                                                    IN const AudioPreprocessor* lpAudioPreprocessor)
+{
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
-    teamtalk::SpeexDSP spxdsp = clientnode->GetSoundProperties().speexdsp;
-    Convert(spxdsp, *lpSpeexDSP);
+
+    teamtalk::AudioPreprocessor preprocess;
+    Convert(*lpAudioPreprocessor, preprocess);
+    return clientnode->SetSoundPreprocess(preprocess);
+}
+    
+TEAMTALKDLL_API TTBOOL TT_GetSoundInputPreprocessEx(IN TTInstance* lpTTInstance,
+                                                    OUT AudioPreprocessor* lpAudioPreprocessor)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    Convert(clientnode->GetSoundProperties().preprocessor, *lpAudioPreprocessor);
     return TRUE;
 }
 

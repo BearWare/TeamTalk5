@@ -36,6 +36,7 @@ addons:
       - junit4
       - catch
       - python3-minimal
+      - doxygen
 
 # Library/TeamTalkLib/toolchain has many submodules
 git:
@@ -108,7 +109,6 @@ script:
 # Run Catch unit tests (disabled, don't work with linked shared objects)
 #  - cd $TRAVIS_BUILD_DIR
 #  - Library/TeamTalkLib/test/catchtt
-
 # Build Qt clients
 #  - cd $TRAVIS_BUILD_DIR
 #  - cd Client/qtTeamTalk
@@ -117,3 +117,12 @@ script:
 #  - make clean
 #  - qmake CONFIG+=nowebengine teamtalk5pro.pro
 #  - make -j4
+# Run doxygen
+  - cd $TRAVIS_BUILD_DIR/Documentation/TeamTalk
+  - doxygen TeamTalk5.dox
+  - cd $TRAVIS_BUILD_DIR/Documentation/TeamTalkSDK
+  - doxygen TeamTalk.dox
+  - cd $TRAVIS_BUILD_DIR/Documentation/TeamTalkSDK
+  - doxygen TeamTalk.NET.dox
+  - cd $TRAVIS_BUILD_DIR/Documentation/TeamTalkSDK
+  - doxygen TeamTalk.Java.dox

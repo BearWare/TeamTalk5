@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -259,11 +259,12 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
                 device.output_channels.insert(c);
         }
 
+        device.features |= SOUNDDEVICEFEATURE_DUPLEXMODE;
+
 #if defined(WIN32)
         device.wavedeviceid = devinfo->wavedeviceid;
-        device.supports3d = devinfo->max3dBuffers > 0;
-#else
-        device.supports3d = false;
+        if (devinfo->max3dBuffers > 0)
+            device.features |= SOUNDDEVICEFEATURE_3DPOSITION;
 #endif
         sounddevs[device.id] = device;
     }
@@ -307,7 +308,7 @@ int InputStreamCallback(const void *inputBuffer, void *outputBuffer,
     return paContinue;
 }
 
-inputstreamer_t PortAudio::NewStream(StreamCapture* capture, int inputdeviceid, 
+inputstreamer_t PortAudio::NewStream(StreamCapture* capture, int inputdeviceid,
                                      int sndgrpid, int samplerate, int channels,
                                      int framesize)
 {
@@ -330,7 +331,7 @@ inputstreamer_t PortAudio::NewStream(StreamCapture* capture, int inputdeviceid,
     inputParameters.suggestedLatency = indev->defaultLowInputLatency;
 
     PaError err = Pa_OpenStream(&streamer->stream, &inputParameters, NULL,
-                                (double)samplerate, framesize, paClipOff, 
+                                (double)samplerate, framesize, paClipOff,
                                 InputStreamCallback,
                                 static_cast<void*> (streamer.get()) );
     MYTRACE_COND(err != paNoError, ACE_TEXT("Failed to initialize input device %d\n"), inputdeviceid);
@@ -357,7 +358,7 @@ void PortAudio::CloseStream(inputstreamer_t streamer)
 #endif
 
     PaStream* stream = streamer->stream;
-    assert(stream);        
+    assert(stream);
 
     PaError err = Pa_StopStream(stream);
     assert(err == paNoError);
@@ -366,6 +367,12 @@ void PortAudio::CloseStream(inputstreamer_t streamer)
     assert(err == paNoError);
 
     streamer->stream = nullptr;
+}
+
+bool PortAudio::IsStreamStopped(inputstreamer_t streamer)
+{
+    assert(streamer->stream);
+    return Pa_IsStreamStopped(streamer->stream) > 0;
 }
 
 int OutputStreamCallback(const void *inputBuffer, void *outputBuffer,
@@ -407,7 +414,7 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
     const PaDeviceInfo* outdev = Pa_GetDeviceInfo( outputParameters.device );
     if(!outdev)
         return outputstreamer_t();
-        
+
     outputParameters.suggestedLatency = outdev->defaultLowOutputLatency;
 
     //create stream holder
@@ -531,7 +538,7 @@ bool PortAudio::SetPosition(StreamPlayer* player, float x, float y, float z)
         return false;
 
 #if defined(WIN32)
-    if(streamer->soundsystem == SOUND_API_DSOUND && 
+    if(streamer->soundsystem == SOUND_API_DSOUND &&
        streamer->channels == 1 &&
        streamer->stream)//only supported in mono
     {
@@ -561,8 +568,8 @@ bool PortAudio::GetPosition(StreamPlayer* player, float& x, float& y, float& z)
     return false;
 }
 
-int DuplexStreamCallback(const void *inputBuffer, 
-                         void *outputBuffer, unsigned long framesPerBuffer, 
+int DuplexStreamCallback(const void *inputBuffer,
+                         void *outputBuffer, unsigned long framesPerBuffer,
                          const PaStreamCallbackTimeInfo* timeInfo,
                          PaStreamCallbackFlags statusFlags, void *userData)
 {
@@ -590,11 +597,11 @@ void DuplexStreamCallbackEnded(void* userData)
 
 duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
                                       int outputdeviceid, int sndgrpid,
-                                      int samplerate, int input_channels, 
+                                      int samplerate, int input_channels,
                                       int output_channels, int framesize)
 {
     //input device init
-    PaStreamParameters inputParameters; 
+    PaStreamParameters inputParameters;
     inputParameters.device = inputdeviceid;
     const PaDeviceInfo* indev = Pa_GetDeviceInfo( inputParameters.device );
     if( !indev )
@@ -616,14 +623,14 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
     outputParameters.suggestedLatency = outdev->defaultLowOutputLatency;
 
     duplexstreamer_t streamer(new PaDuplexStreamer(duplex, sndgrpid, framesize,
-                                                   samplerate, input_channels, 
+                                                   samplerate, input_channels,
                                                    output_channels, GetSoundSystem(outdev),
                                                    inputdeviceid, outputdeviceid));
 
     //open stream
     PaError err = Pa_OpenStream(&streamer->stream, &inputParameters,
-                                &outputParameters, (double)samplerate, 
-                                framesize, paClipOff, 
+                                &outputParameters, (double)samplerate,
+                                framesize, paClipOff,
                                 DuplexStreamCallback,
                                 static_cast<void*> (streamer.get()) );
     MYTRACE_COND(err != paNoError,
@@ -654,7 +661,7 @@ void PortAudio::CloseStream(duplexstreamer_t streamer)
     PaStream* stream = streamer->stream;
     PaError err = Pa_CloseStream(streamer->stream);
     assert(err == paNoError);
-    
+
     streamer->stream = nullptr;
 }
 

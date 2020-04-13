@@ -27,9 +27,13 @@ public interface SoundDeviceConstants {
 
     public static final int TT_SOUNDDEVICE_ID_SHARED_FLAG           = 0x00000800;
     public static final int TT_SOUNDDEVICE_ID_MASK                  = 0x000007FF;
-    
+
+    /* iOS */
     public static final int TT_SOUNDDEVICE_ID_REMOTEIO              = 0;
     public static final int TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  = 1;
+    /* Android */
     public static final int TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT      = 0;
+    public static final int TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM     = 1;
+    
     public static final int TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL      = 1978;
 }

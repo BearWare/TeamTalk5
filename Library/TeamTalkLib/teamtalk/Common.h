@@ -463,11 +463,18 @@ namespace teamtalk {
         TTAudioPreprocessor() { }
     };
 
+    struct SoundDeviceEffects
+    {
+        bool enable_agc = false;
+        bool enable_aec = false;
+        bool enable_denoise = false;
+    };
+
     enum AudioPreprocessorType
     {
         AUDIOPREPROCESSOR_NONE      = 0,
         AUDIOPREPROCESSOR_SPEEXDSP  = 1,
-        AUDIOPREPROCESSOR_TEAMTALK  = 2
+        AUDIOPREPROCESSOR_TEAMTALK  = 2,
     };
     
     struct AudioPreprocessor

@@ -70,6 +70,8 @@ namespace soundsystem {
         msg_queue_t samples_queue;
 
         AudioUnit audunit;
+        bool recording = false;
+        
         AUInputStreamer(StreamCapture* r, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
             : InputStreamer(r, sg, fs, sr, chs, sndsys, devid)
         , audunit(nil)
@@ -539,6 +541,7 @@ assert(status == noErr);
             assert(streamer->audunit);
             status = AudioOutputUnitStart(streamer->audunit);
             assert(status == noErr);
+            streamer->recording = (status == noErr);
             return status == noErr;
         }
 
@@ -553,6 +556,12 @@ assert(status == noErr);
             MYTRACE_COND(status != noErr, ACE_TEXT("Failed to close audio input\n"));
             status = AudioComponentInstanceDispose(streamer->audunit);
             assert(status == noErr);
+        }
+
+        bool IsStreamStopped(inputstreamer_t streamer)
+        {
+            assert(streamer->audunit);
+            return !streamer->recording;
         }
 
         outputstreamer_t NewStream(StreamPlayer* player, int outputdeviceid,

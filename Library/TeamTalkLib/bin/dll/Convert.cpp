@@ -963,11 +963,50 @@ void Convert(const AudioPreprocessor& audpreprocess, teamtalk::AudioPreprocessor
     }
 }
 
+void Convert(const teamtalk::AudioPreprocessor& audpreprocess, AudioPreprocessor& result)
+{
+    result.nPreprocessor = AudioPreprocessorType(audpreprocess.preprocessor);
+    switch(audpreprocess.preprocessor)
+    {
+    case teamtalk::AUDIOPREPROCESSOR_NONE:
+        break;
+    case teamtalk::AUDIOPREPROCESSOR_SPEEXDSP:
+        Convert(audpreprocess.speexdsp, result.speexdsp);
+        break;
+    case teamtalk::AUDIOPREPROCESSOR_TEAMTALK :
+        Convert(audpreprocess.ttpreprocessor, result.ttpreprocessor);
+        break;
+    }
+}
+
 void Convert(const TTAudioPreprocessor& ttpreprocess, teamtalk::TTAudioPreprocessor& result)
 {
     result.gainlevel = ttpreprocess.nGainLevel;
     result.muteleft = ttpreprocess.bMuteLeftSpeaker;
     result.muteright = ttpreprocess.bMuteRightSpeaker;
+}
+
+void Convert(const teamtalk::TTAudioPreprocessor& ttpreprocess, TTAudioPreprocessor& result)
+{
+    result.nGainLevel = ttpreprocess.gainlevel;
+    result.bMuteLeftSpeaker = ttpreprocess.muteleft;
+    result.bMuteRightSpeaker = ttpreprocess.muteright;
+}
+
+void Convert(const SpeexDSP& spxdsp, teamtalk::SpeexDSP& result)
+{
+    result.enable_agc = spxdsp.bEnableAGC;
+    result.agc_gainlevel = spxdsp.nGainLevel;
+    result.agc_maxincdbsec = spxdsp.nMaxIncDBSec;
+    result.agc_maxdecdbsec = spxdsp.nMaxDecDBSec;
+    result.agc_maxgaindb = spxdsp.nMaxGainDB;
+
+    result.enable_denoise = spxdsp.bEnableDenoise;
+    result.maxnoisesuppressdb = spxdsp.nMaxNoiseSuppressDB;
+
+    result.enable_aec = spxdsp.bEnableEchoCancellation;
+    result.aec_suppress_level = spxdsp.nEchoSuppress;
+    result.aec_suppress_active = spxdsp.nEchoSuppressActive;
 }
 
 void Convert(const teamtalk::SpeexDSP& spxdsp, SpeexDSP& result)
@@ -988,20 +1027,18 @@ void Convert(const teamtalk::SpeexDSP& spxdsp, SpeexDSP& result)
     result.nEchoSuppressActive = spxdsp.aec_suppress_active;
 }
 
-void Convert(const SpeexDSP& spxdsp, teamtalk::SpeexDSP& result)
+void Convert(const SoundDeviceEffects& effects, teamtalk::SoundDeviceEffects& result)
 {
-    result.enable_agc = spxdsp.bEnableAGC;
-    result.agc_gainlevel = spxdsp.nGainLevel;
-    result.agc_maxincdbsec = spxdsp.nMaxIncDBSec;
-    result.agc_maxdecdbsec = spxdsp.nMaxDecDBSec;
-    result.agc_maxgaindb = spxdsp.nMaxGainDB;
+    result.enable_agc = effects.bEnableAGC;
+    result.enable_aec = effects.bEnableEchoCancellation;
+    result.enable_denoise = effects.bEnableDenoise;
+}
 
-    result.enable_denoise = spxdsp.bEnableDenoise;
-    result.maxnoisesuppressdb = spxdsp.nMaxNoiseSuppressDB;
-
-    result.enable_aec = spxdsp.bEnableEchoCancellation;
-    result.aec_suppress_level = spxdsp.nEchoSuppress;
-    result.aec_suppress_active = spxdsp.nEchoSuppressActive;
+void Convert(const teamtalk::SoundDeviceEffects& effects, SoundDeviceEffects& result)
+{
+    result.bEnableAGC = effects.enable_agc;
+    result.bEnableEchoCancellation = effects.enable_aec;
+    result.bEnableDenoise = effects.enable_denoise;
 }
 
 bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)

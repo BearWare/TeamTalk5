@@ -67,6 +67,12 @@ jobject newSoundDevice(JNIEnv* env, const SoundDevice& dev)
     assert(fid_devname);
     jfieldID fid_devstr = env->GetFieldID(cls_snddev, "szDeviceID", "Ljava/lang/String;");
     assert(fid_devstr);
+#if defined(WIN32)
+    jfieldID fid_wave = env->GetFieldID(cls_snddev, "nWaveDeviceID", "I");
+    assert(fid_wave);
+#endif
+    jfieldID fid_3d = env->GetFieldID(cls_snddev, "bSupports3D", "Z");
+    assert(fid_3d);
     jfieldID fid_inchan = env->GetFieldID(cls_snddev, "nMaxInputChannels", "I");
     assert(fid_inchan);
     jfieldID fid_outchan = env->GetFieldID(cls_snddev, "nMaxOutputChannels", "I");
@@ -77,11 +83,17 @@ jobject newSoundDevice(JNIEnv* env, const SoundDevice& dev)
     assert(fid_outsr);
     jfieldID fid_defsr = env->GetFieldID(cls_snddev, "nDefaultSampleRate", "I");
     assert(fid_defsr);
-        
+    jfieldID fid_sdf = env->GetFieldID(cls_snddev, "uSoundDeviceFeatures", "I");
+    assert(fid_sdf);
+
     env->SetIntField(newObj, fid_devid, dev.nDeviceID);
     env->SetIntField(newObj, fid_sndsys, dev.nSoundSystem);
     env->SetObjectField(newObj, fid_devname, NEW_JSTRING(env, dev.szDeviceName));
     env->SetObjectField(newObj, fid_devstr, NEW_JSTRING(env, dev.szDeviceID));
+#if defined(WIN32)
+    env->SetIntField(newObj, fid_wave, dev.nWaveDeviceID);
+#endif
+    env->SetBooleanField(newObj, fid_3d, dev.bSupports3D);
     env->SetIntField(newObj, fid_inchan, dev.nMaxInputChannels);
     env->SetIntField(newObj, fid_outchan, dev.nMaxOutputChannels);
     jintArray arr_insr = env->NewIntArray(TT_SAMPLERATES_MAX);
@@ -91,7 +103,8 @@ jobject newSoundDevice(JNIEnv* env, const SoundDevice& dev)
     jintArray arr_outsr = env->NewIntArray(TT_SAMPLERATES_MAX);
     env->SetIntArrayRegion(arr_outsr, 0, TT_SAMPLERATES_MAX, TO_JINT_ARRAY(dev.outputSampleRates, tmp, TT_SAMPLERATES_MAX));
     env->SetObjectField(newObj, fid_outsr, arr_outsr);
-    env->SetIntField(newObj, fid_defsr, dev.nDefaultSampleRate);        
+    env->SetIntField(newObj, fid_defsr, dev.nDefaultSampleRate);
+    env->SetIntField(newObj, fid_defsr, dev.uSoundDeviceFeatures);
 
     return newObj;
 }
@@ -820,6 +833,31 @@ void setAudioConfig(JNIEnv* env, AudioConfig& audcfg, jobject lpAudioConfig, JCo
         audcfg.nGainLevel = env->GetIntField(lpAudioConfig, fid_gainlevel);
     }
 }
+
+void setSoundDeviceEffects(JNIEnv* env, SoundDeviceEffects& effects, jobject lpSoundDeviceEffects, JConvert conv) {
+    jclass cls = env->GetObjectClass(lpSoundDeviceEffects);
+    jfieldID fid_aec = env->GetFieldID(cls, "bEnableEchoCancellation", "Z");
+    jfieldID fid_agc = env->GetFieldID(cls, "bEnableAGC", "Z");
+    jfieldID fid_denoise = env->GetFieldID(cls, "bEnableDenoise", "Z");
+
+    assert(fid_aec);
+    assert(fid_agc);
+    assert(fid_denoise);
+
+    if (conv == N2J)
+    {
+        env->SetBooleanField(lpSoundDeviceEffects, fid_aec, effects.bEnableEchoCancellation);
+        env->SetBooleanField(lpSoundDeviceEffects, fid_agc, effects.bEnableAGC);
+        env->SetBooleanField(lpSoundDeviceEffects, fid_denoise, effects.bEnableDenoise);
+    }
+    else
+    {
+        effects.bEnableEchoCancellation = env->GetBooleanField(lpSoundDeviceEffects, fid_aec);
+        effects.bEnableAGC = env->GetBooleanField(lpSoundDeviceEffects, fid_agc);
+        effects.bEnableDenoise = env->GetBooleanField(lpSoundDeviceEffects, fid_denoise);
+    }
+}
+
 
 void setSpeexDSP(JNIEnv* env, SpeexDSP& spxdsp, jobject lpSpeexDSP, JConvert conv)
 {

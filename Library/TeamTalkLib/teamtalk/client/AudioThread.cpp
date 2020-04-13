@@ -242,6 +242,30 @@ int AudioThread::close(u_long)
     return 0;
 }
 
+bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess)
+{
+    //set AGC
+    std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
+
+    switch (preprocess.preprocessor)
+    {
+    case AUDIOPREPROCESSOR_NONE :
+        MuteSound(false, false);
+        UpdatePreprocess(teamtalk::SpeexDSP());
+        return true;
+    case AUDIOPREPROCESSOR_SPEEXDSP :
+        MuteSound(false, false);
+        return UpdatePreprocess(preprocess.speexdsp);
+    case AUDIOPREPROCESSOR_TEAMTALK :
+        MuteSound(preprocess.ttpreprocessor.muteleft, preprocess.ttpreprocessor.muteright);
+        m_gainlevel = preprocess.ttpreprocessor.gainlevel;
+        UpdatePreprocess(teamtalk::SpeexDSP()); // disable SpeexDSP
+        return true;
+    }
+    
+    return false;
+}
+
 bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
 {
 #if defined(ENABLE_SPEEXDSP)
@@ -250,9 +274,6 @@ bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
         return true;
 
     int channels = GetAudioCodecChannels(codec());
-
-    //set AGC
-    wguard_t gp(m_preprocess_lock);
 
     SpeexAGC agc;
     agc.gain_level = (float)speexdsp.agc_gainlevel;
@@ -290,9 +311,12 @@ bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
     if(channels == 2)
         m_preprocess_right.EnableDereverb(dereverb);
 
-    MYTRACE_COND(!agc_success, ACE_TEXT("Failed to set SpeexDSP AGC settings\n"));
-    MYTRACE_COND(!denoise_success, ACE_TEXT("Failed to set SpeexDSP denoise settings\n"));
-    MYTRACE_COND(!aec_success, ACE_TEXT("Failed to set SpeexDSP AEC settings\n"));
+    MYTRACE_COND(!agc_success && speexdsp.enable_agc,
+                 ACE_TEXT("Failed to set SpeexDSP AGC settings\n"));
+    MYTRACE_COND(!denoise_success && speexdsp.enable_denoise,
+                 ACE_TEXT("Failed to set SpeexDSP denoise settings\n"));
+    MYTRACE_COND(!aec_success && speexdsp.enable_aec,
+                 ACE_TEXT("Failed to set SpeexDSP AEC settings\n"));
 
     if ((speexdsp.enable_agc && !agc_success) ||
         (speexdsp.enable_denoise && !denoise_success) ||
@@ -479,7 +503,7 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
 #if defined(ENABLE_SPEEXDSP)
 void AudioThread::PreprocessAudioFrame(media::AudioFrame& audblock)
 {
-    wguard_t g(m_preprocess_lock);
+    std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
 
     bool preprocess = false;
 

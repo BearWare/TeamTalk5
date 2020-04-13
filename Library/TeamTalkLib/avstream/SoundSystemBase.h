@@ -508,7 +508,7 @@ namespace soundsystem {
     };
 
 #define DEBUG_SHAREDPLAYER 0
-    
+
     template < typename OUTPUTSTREAMER >
     class SharedStreamPlayer : public StreamPlayer
     {
@@ -544,7 +544,7 @@ namespace soundsystem {
             MYTRACE_COND(DEBUG_SHAREDPLAYER,
                          ACE_TEXT("--------------------- Mixer inputs %d -----------------------------\n"),
                          int(m_outputs.size()));
-            
+
             for (auto i : m_outputs)
             {
                 MYTRACE_COND(DEBUG_SHAREDPLAYER,
@@ -553,7 +553,7 @@ namespace soundsystem {
                              int(PCM16_SAMPLES_DURATION(m_orgstream->framesize, m_orgstream->samplerate)),
                              i.first, i.second->framesize, i.second->channels, i.second->samplerate,
                              int(PCM16_SAMPLES_DURATION(i.second->framesize, i.second->samplerate)));
-                
+
                 if (SameStreamProperties(*i.second, *m_orgstream))
                 {
                     assert(i.second->framesize == samples);
@@ -573,7 +573,7 @@ namespace soundsystem {
                     MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Duration of queue before: %d msec\n"),
                                  int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
                                                           streamer.samplerate)));
-                    
+
                     // fill up buffer with enough bytes to do a callback
                     while (msgq->message_length() < reqbytes)
                     {
@@ -601,7 +601,7 @@ namespace soundsystem {
                     MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Duration of queue after refill: %d msec. Bytes: %u\n"),
                                  int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
                                                           streamer.samplerate)), unsigned(msgq->message_length()));
-                    
+
 
                     // copy buffer to callback
                     char* bytebuffer = reinterpret_cast<char*>(&m_tmpbuffer[0]);
@@ -647,7 +647,7 @@ namespace soundsystem {
                     MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Duration of queue after dequeue: %d msec\n"),
                                  int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
                                                           streamer.samplerate)));
-                    
+
                 }
 
                 // mix all active streams
@@ -817,13 +817,37 @@ namespace soundsystem {
                                           int framesize) = 0;
         virtual bool StartStream(inputstreamer_t streamer) = 0;
         virtual void CloseStream(inputstreamer_t streamer) = 0;
+        virtual bool IsStreamStopped(inputstreamer_t streamer) = 0;
 
-        inputstreamer_t GetStream(StreamCapture* capture)
+        virtual bool SetEchoCancellation(inputstreamer_t streamer, bool enable) { return !enable; }
+        virtual bool IsEchoCancelling(inputstreamer_t streamer) { return false; }
+        virtual bool SetAGC(inputstreamer_t streamer, bool enable) { return !enable; }
+        virtual bool IsAGC(inputstreamer_t streamer) { return false; }
+        virtual bool SetDenoising(inputstreamer_t streamer, bool enable) { return !enable; }
+        virtual bool IsDenoising(inputstreamer_t streamer) { return false; }
+
+        inputstreamer_t GetStream(StreamCapture* capture, bool allowVirtual = true, bool getSharedOrigin = false)
         {
             std::lock_guard<std::recursive_mutex> g(capture_lock());
             typename inputstreamers_t::iterator ii = m_input_streamers.find(capture);
             if(ii != m_input_streamers.end())
-                return ii->second;
+            {
+                auto inputstream = ii->second;
+
+                if (inputstream->IsVirtual() && !allowVirtual)
+                    return inputstreamer_t();
+
+                if (inputstream->IsShared() && getSharedOrigin)
+                {
+                    sharedstreamcapture_t sharedstream = m_shared_streamcaptures[inputstream->inputdeviceid];
+                    assert(sharedstream);
+                    inputstream = sharedstream->GetOrigin();
+                    assert(inputstream);
+                    return inputstream;
+                }
+
+                return inputstream;
+            }
             return inputstreamer_t();
         }
 
@@ -981,15 +1005,19 @@ namespace soundsystem {
                                              snddev.max_input_channels,
                                              int(snddev.default_samplerate * 0.04));
             else
+            {
+                MYTRACE(ACE_TEXT("Opening shared input device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 orgstream = NewStream(sharedstream.get(),
                                       snddev.id & SOUND_DEVICEID_MASK,
                                       newsndgrpid,
                                       snddev.default_samplerate,
                                       snddev.max_input_channels,
                                       int(snddev.default_samplerate * 0.04));
-
+            }
+            
             if (!orgstream)
             {
+                MYTRACE(ACE_TEXT("Failed to open shared input device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 return inputstreamer_t();
             }
 
@@ -1017,8 +1045,8 @@ namespace soundsystem {
                 return inputstreamer_t();
             }
 
-            MYTRACE(ACE_TEXT("Opened shared capture stream %p, samplerate %d, channels %d\n"),
-                    capture, samplerate, channels);
+            MYTRACE(ACE_TEXT("Opened shared capture stream %p on device #%d, samplerate %d, channels %d\n"),
+                    capture, (inputdeviceid & SOUND_DEVICEID_MASK), samplerate, channels);
 
             return streamer;
         }
@@ -1078,15 +1106,19 @@ namespace soundsystem {
                                              snddev.max_output_channels,
                                              int(snddev.default_samplerate * 0.04));
             else
+            {
+                MYTRACE(ACE_TEXT("Opening shared output device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 orgstream = NewStream(sharedstream.get(), snddev.id & SOUND_DEVICEID_MASK,
                                       newsndgrpid, snddev.default_samplerate,
                                       snddev.max_output_channels, int(snddev.default_samplerate * 0.04));
-
+            }
+            
             if (!orgstream)
             {
                 RemoveSoundGroup(newsndgrpid);
 
                 m_shared_streamplayers.erase(outputdeviceid);
+                MYTRACE(ACE_TEXT("Failed to open shared output device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 return outputstreamer_t();
             }
 
@@ -1107,6 +1139,9 @@ namespace soundsystem {
                 return outputstreamer_t();
             }
 
+            MYTRACE(ACE_TEXT("Opened shared output stream %p on device #%d, samplerate %d, channels %d\n"),
+                    player, (outputdeviceid & SOUND_DEVICEID_MASK), samplerate, channels);
+            
             return streamer;
         }
 
@@ -1269,6 +1304,17 @@ namespace soundsystem {
             std::lock_guard<std::recursive_mutex> g(capture_lock());
             m_input_streamers.erase(capture);
             return true;
+        }
+
+        bool IsStreamStopped(StreamCapture* capture)
+        {
+            // capture streams are started automatically so if they
+            // exists then they're running
+            inputstreamer_t streamer = GetStream(capture);
+            if (!streamer)
+                return true;
+
+            return false;
         }
 
         bool OpenOutputStream(StreamPlayer* player, int outputdeviceid,
@@ -1737,6 +1783,7 @@ namespace soundsystem {
             return streamer->volume;
         }
 
+        // TODO: This doesn't support shared output device
         virtual void SetAutoPositioning(StreamPlayer* player, bool enable) {}
         virtual bool IsAutoPositioning(StreamPlayer* player) { return false; }
 
@@ -1756,7 +1803,6 @@ namespace soundsystem {
                 streamer->mute = mute;
                 SetVolume(player, streamer->volume);
             }
-
         }
 
         virtual bool IsMute(StreamPlayer* player)
@@ -1768,6 +1814,59 @@ namespace soundsystem {
             return streamer->mute;
         }
 
+        virtual bool SetEchoCancellation(StreamCapture* capture, bool enable)
+        {
+            auto inputstream = GetStream(capture, false, true);
+            if (!inputstream)
+                return false;
+
+            return SetEchoCancellation(inputstream, enable);
+        }
+
+        virtual bool IsEchoCancelling(StreamCapture* capture)
+        {
+            auto inputstream = GetStream(capture, false, true);
+            if (!inputstream)
+                return false;
+
+            return IsEchoCancelling(inputstream);
+        }
+
+        virtual bool SetAGC(StreamCapture* capture, bool enable)
+        {
+            auto inputstream = GetStream(capture, false, true);
+            if (!inputstream)
+                return false;
+
+            return SetAGC(inputstream, enable);
+        }
+
+        virtual bool IsAGC(StreamCapture* capture)
+        {
+            auto inputstream = GetStream(capture, false, true);
+            if (!inputstream)
+                return false;
+
+            return IsAGC(inputstream);
+        }
+
+        virtual bool SetDenoising(StreamCapture* capture, bool enable)
+        {
+            auto inputstream = GetStream(capture, false, true);
+            if (!inputstream)
+                return false;
+
+            return SetDenoising(inputstream, enable);
+        }
+
+        virtual bool IsDenoising(StreamCapture* capture)
+        {
+            auto inputstream = GetStream(capture, false, true);
+            if (!inputstream)
+                return false;
+
+            return IsDenoising(inputstream);
+        }
 
     protected:
         void StartVirtualStream(inputstreamer_t streamer)

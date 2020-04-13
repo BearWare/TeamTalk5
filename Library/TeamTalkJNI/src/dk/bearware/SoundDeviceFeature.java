@@ -23,20 +23,10 @@
 
 package dk.bearware;
 
-public class SoundDevice
-{
-    public SoundDevice() { }
+public interface SoundDeviceFeature {
 
-    public int nDeviceID;
-    public int nSoundSystem;
-    public String szDeviceName = "";
-    public String szDeviceID = "";
-    public int nWaveDeviceID;
-    public boolean bSupports3D;
-    public int nMaxInputChannels;
-    public int nMaxOutputChannels;
-    public int inputSampleRates[];
-    public int outputSampleRates[];
-    public int nDefaultSampleRate;
-    public int uSoundDeviceFeatures;
+    public static final int SOUNDDEVICEFEATURE_NONE         = 0x0000;
+    public static final int SOUNDDEVICEFEATURE_AEC          = 0x0001;
+    public static final int SOUNDDEVICEFEATURE_AGC          = 0x0002;
+    public static final int SOUNDDEVICEFEATURE_DENOISE      = 0x0004;
 }

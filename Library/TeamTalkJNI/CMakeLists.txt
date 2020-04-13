@@ -76,6 +76,8 @@ set (JAVA_SOURCES
   src/dk/bearware/ServerStatistics.java
   src/dk/bearware/SoundDevice.java
   src/dk/bearware/SoundDeviceConstants.java
+  src/dk/bearware/SoundDeviceEffects.java
+  src/dk/bearware/SoundDeviceFeature.java
   src/dk/bearware/SoundLevel.java
   src/dk/bearware/SoundSystem.java
   src/dk/bearware/SpeexCodec.java
