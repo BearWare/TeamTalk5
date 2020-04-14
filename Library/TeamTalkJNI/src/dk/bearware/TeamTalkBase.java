@@ -124,6 +124,14 @@ public abstract class TeamTalkBase
     public boolean closeSoundDuplexDevices() {
         return closeSoundDuplexDevices(ttInst);
     }
+    private native boolean setSoundDeviceEffects(long lpTTInstance, SoundDeviceEffects lpSoundDeviceEffects);
+    public boolean setSoundDeviceEffects(SoundDeviceEffects lpSoundDeviceEffects) {
+        return setSoundDeviceEffects(ttInst, lpSoundDeviceEffects);
+    }
+    private native boolean getSoundDeviceEffects(long lpTTInstance, SoundDeviceEffects lpSoundDeviceEffects);
+    public boolean getSoundDeviceEffects(SoundDeviceEffects lpSoundDeviceEffects) {
+        return getSoundDeviceEffects(ttInst, lpSoundDeviceEffects);
+    }
     private native int getSoundInputLevel(long lpTTInstance);
     public int getSoundInputLevel() { return getSoundInputLevel(ttInst); }
 
@@ -144,6 +152,16 @@ public abstract class TeamTalkBase
         return getSoundInputPreprocess(ttInst, lpSpeexDSP);
     }
 
+    private native boolean setSoundInputPreprocessEx(long lpTTInstance, AudioPreprocessor lpAudioPreprocessor);
+    public boolean setSoundInputPreprocess(AudioPreprocessor lpAudioPreprocessor) {
+        return setSoundInputPreprocessEx(ttInst, lpAudioPreprocessor);
+    }
+
+    private native boolean getSoundInputPreprocessEx(long lpTTInstance, AudioPreprocessor lpAudioPreprocessor);
+    public boolean getSoundInputPreprocess(AudioPreprocessor lpAudioPreprocessor) {
+        return getSoundInputPreprocessEx(ttInst, lpAudioPreprocessor);
+    }
+    
     private native boolean setSoundOutputVolume(long lpTTInstance, int nVolume);
     public boolean setSoundOutputVolume(int nVolume)
         { return setSoundOutputVolume(ttInst, nVolume); }

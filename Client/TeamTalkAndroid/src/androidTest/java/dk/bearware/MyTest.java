@@ -25,6 +25,7 @@ package dk.bearware;
 
 import junit.framework.Assert;
 
+import java.util.Properties;
 import java.util.Vector;
 
 /**
@@ -44,7 +45,7 @@ public class MyTest extends TeamTalkTestCase {
         this.ADMIN_USERNAME = "admin";
         this.ADMIN_PASSWORD = "admin";
 
-        this.IPADDR = "192.168.0.68";
+        this.IPADDR = "192.168.0.50";
         this.TCPPORT = 10333;
         this.UDPPORT = 10333;
 
@@ -260,6 +261,51 @@ public class MyTest extends TeamTalkTestCase {
         assertTrue("join root", ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "") > 0);
 
         assertFalse("No AGC error on ARMv7A", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 1000));
+    }
+
+    public void test_SoundDeviceEffects() {
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        int[] inputdevices = {
+                SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT,
+                SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM,
+                SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG,
+                SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG};
+
+        int outputdeviceid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
+
+        for (int inputdeviceid : inputdevices) {
+            TeamTalkBase ttclient = newClientInstance();
+            initSound(ttclient, false, inputdeviceid, outputdeviceid);
+            connect(ttclient);
+            login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+            // set AudioEffect prior to having sound device initialized
+            SoundDeviceEffects effects = new SoundDeviceEffects();
+            effects.bEnableAGC = true;
+            effects.bEnableDenoise = true;
+            effects.bEnableEchoCancellation = true;
+
+            assertTrue(String.format("set android preprocessor, dev %x", inputdeviceid), ttclient.setSoundDeviceEffects(effects));
+
+            joinRoot(ttclient);
+
+            SoundDeviceEffects updatedEffects = new SoundDeviceEffects();
+            assertTrue(String.format("get android preprocessor, dev %x", inputdeviceid), ttclient.getSoundDeviceEffects(updatedEffects));
+            // cannot check that values have actually been set since only what is supported has been changed
+            // assertEquals("AGC enabled", effects.bEnableAGC, updatedEffects.bEnableAGC);
+            // assertEquals("AEC enabled", effects.bEnableEchoCancellation, updatedEffects.bEnableEchoCancellation);
+            // assertEquals("denoise enabled", effects.bEnableDenoise, updatedEffects.bEnableDenoise);
+
+            System.out.println("Testing sound device #" + inputdeviceid);
+            waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+            assertTrue(String.format("leave channel, dev %x", inputdeviceid), waitCmdSuccess(ttclient, ttclient.doLeaveChannel(), DEF_WAIT));
+            assertTrue(String.format("Close sound, dev %x", inputdeviceid), ttclient.closeSoundInputDevice());
+        }
     }
 
     public void test_SndInputFailure() {

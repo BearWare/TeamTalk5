@@ -61,14 +61,14 @@ void AudioPreprocessorDlg::showSettings()
         ui.maxdecSpinBox->setValue(m_preprocess.speexdsp.nMaxDecDBSec);
         ui.denoiseCheckBox->setChecked(m_preprocess.speexdsp.bEnableDenoise);
         ui.maxdenoiseSpinBox->setValue(m_preprocess.speexdsp.nMaxNoiseSuppressDB);
-        setWindowTitle(tr("TeamTalk Audio Preprocessor"));
+        setWindowTitle(tr("Speex DSP Audio Preprocessor"));
         break;
     case TEAMTALK_AUDIOPREPROCESSOR :
         ui.stackedWidget->setCurrentIndex(2);
         ui.gainlevelSlider->setValue(m_preprocess.ttpreprocessor.nGainLevel);
         ui.muteleftCheckBox->setChecked(m_preprocess.ttpreprocessor.bMuteLeftSpeaker);
         ui.muteRightCheckBox->setChecked(m_preprocess.ttpreprocessor.bMuteRightSpeaker);
-        setWindowTitle(tr("Speex DSP Audio Preprocessor"));
+        setWindowTitle(tr("TeamTalk Audio Preprocessor"));
         break;
     }
 }

@@ -141,6 +141,10 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     }
 
     protected void initSound(TeamTalkBase ttclient, boolean duplex) {
+        initSound(ttclient, duplex, INPUTDEVICEID, OUTPUTDEVICEID);
+    }
+    
+    protected void initSound(TeamTalkBase ttclient, boolean duplex, int inputdeviceid, int outputdeviceid) {
 
         Vector<SoundDevice> devs = new Vector<SoundDevice>();
         assertTrue("get sound devs", ttclient.getSoundDevices(devs));
@@ -149,13 +153,13 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             printSoundDevice(devs.get(i));
 
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
-        if(INPUTDEVICEID < 0 && OUTPUTDEVICEID < 0)
+        if (inputdeviceid < 0 && outputdeviceid < 0)
            assertTrue("get default devs", ttclient.getDefaultSoundDevices(indev, outdev));
 
-        if(INPUTDEVICEID >= 0)
-            indev.value = INPUTDEVICEID;
-        if(OUTPUTDEVICEID >= 0)
-            outdev.value = OUTPUTDEVICEID;
+        if (inputdeviceid >= 0)
+            indev.value = inputdeviceid;
+        if (outputdeviceid >= 0)
+            outdev.value = outputdeviceid;
 
         if(duplex) {
             assertTrue("init duplex devs", ttclient.initSoundDuplexDevices(indev.value, outdev.value));
@@ -164,20 +168,6 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             assertTrue("init input dev", ttclient.initSoundInputDevice(indev.value));
             assertTrue("init output dev", ttclient.initSoundOutputDevice(outdev.value));
         }
-
-        SpeexDSP spxdsp = new SpeexDSP(true), spxdsp2 = new SpeexDSP();
-        assertTrue("set Speex DSP", ttclient.setSoundInputPreprocess(spxdsp));
-
-        assertTrue("get Speex DSP", ttclient.getSoundInputPreprocess(spxdsp2));
-        assertEquals("agc1", spxdsp.bEnableAGC, spxdsp2.bEnableAGC);
-        assertEquals("agc2", spxdsp.nGainLevel, spxdsp2.nGainLevel);
-        assertEquals("agc3", spxdsp.nMaxIncDBSec, spxdsp2.nMaxIncDBSec);
-        assertEquals("agc4", spxdsp.nMaxDecDBSec, spxdsp2.nMaxDecDBSec);
-        assertEquals("agc5", spxdsp.nMaxGainDB, spxdsp2.nMaxGainDB);
-        assertEquals("agc6", spxdsp.bEnableDenoise, spxdsp2.bEnableDenoise);
-        assertEquals("agc7", spxdsp.nMaxNoiseSuppressDB, spxdsp2.nMaxNoiseSuppressDB);
-        assertEquals("agc8", spxdsp.nEchoSuppress, spxdsp2.nEchoSuppress);
-        assertEquals("agc9", spxdsp.nEchoSuppressActive, spxdsp2.nEchoSuppressActive);
     }
 
     public interface ServerInterleave {
@@ -230,7 +220,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         UserAccount account = msg.useraccount;
         assertEquals("username set", username, account.szUsername);
         //Assert.AreEqual(passwd, account.szPassword, "password set");
-        assertTrue("Wait login complete", waitCmdComplete(ttclient, cmdid, 1000));
+        assertTrue("Wait login complete", waitCmdComplete(ttclient, cmdid, DEF_WAIT));
         assertTrue("Authorized", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
     }
 
@@ -262,7 +252,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
 
         assertTrue("do join root", cmdid > 0);
 
-        assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, 1000, server));
+        assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, DEF_WAIT, server));
 
         assertEquals("In root channel", ttclient.getMyChannelID(), ttclient.getRootChannelID());
     }

@@ -60,8 +60,23 @@ namespace soundsystem {
         SOUND_DEVICEID_MASK              = 0x000007FF,
         /* Flag for a shared sound device. The original sound device
          * is in the mask SOUND_DEVICEID_MASK */
-        SOUND_DEVICE_SHARED_FLAG         = 0x00000800
+        SOUND_DEVICE_SHARED_FLAG         = 0x00000800,
     };
+
+    enum SoundDeviceFeature
+    {
+        SOUNDDEVICEFEATURE_NONE         = 0x0000,
+
+        SOUNDDEVICEFEATURE_AEC          = 0x0001,
+        SOUNDDEVICEFEATURE_AGC          = 0x0002,
+        SOUNDDEVICEFEATURE_DENOISE      = 0x0004,
+        SOUNDDEVICEFEATURE_3DPOSITION   = 0x0008,
+        SOUNDDEVICEFEATURE_DUPLEXMODE   = 0x0010,
+    };
+
+    typedef uint32_t SoundDeviceFeatures;
+
+    
 
     class StreamCapture;
     class StreamPlayer;
@@ -76,7 +91,7 @@ namespace soundsystem {
 #if defined(WIN32)
         int wavedeviceid;
 #endif
-        bool supports3d;
+        SoundDeviceFeatures features = 0;
         int max_input_channels;
         int max_output_channels;
         int default_samplerate;
@@ -140,7 +155,6 @@ namespace soundsystem {
             id = SOUND_DEVICEID_INVALID;
             max_input_channels = max_output_channels = 0;
             default_samplerate = 0;
-            supports3d = false;
             soundsystem = SOUND_API_NOSOUND;
 #if defined(WIN32)
             wavedeviceid = -1;
@@ -319,6 +333,7 @@ namespace soundsystem {
                                      int sndgrpid, int samplerate, int channels,
                                      int framesize) = 0;
         virtual bool CloseInputStream(StreamCapture* capture) = 0;
+        virtual bool IsStreamStopped(StreamCapture* capture) = 0;
 
         //output members
         virtual bool OpenOutputStream(StreamPlayer* player, int outputdeviceid,
@@ -366,6 +381,12 @@ namespace soundsystem {
         virtual bool GetPosition(StreamPlayer* player, float& x, float& y, float& z) = 0;
         virtual void SetMute(StreamPlayer* player, bool mute) = 0;
         virtual bool IsMute(StreamPlayer* player) = 0;
+        virtual bool SetEchoCancellation(StreamCapture* capture, bool enable) = 0;
+        virtual bool IsEchoCancelling(StreamCapture* capture) = 0;
+        virtual bool SetAGC(StreamCapture* capture, bool enable) = 0;
+        virtual bool IsAGC(StreamCapture* capture) = 0;
+        virtual bool SetDenoising(StreamCapture* capture, bool enable) = 0;
+        virtual bool IsDenoising(StreamCapture* capture) = 0;
     };
 
 
