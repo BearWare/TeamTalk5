@@ -282,7 +282,7 @@
     <string name="text_publicserver">Serveur public</string>
     <string name="text_localserver">Serveur local</string>
     <string name="text_passwdprot">Protégé par mot de passe</string>
-    <string name="text_translator">Traduit par Corentin Bacqué-Cazenave</string>
+    <string name="text_translator">Traduit par Oreonan</string>
     <string name="desktop_image">Image du bureau</string>
     <string name="channel_change_alert">Tous les transferts seront interrompus lors du changement de canal</string>
     <string name="disconnect_alert">Tous les transferts en cours seront interrompus lors de la déconnexion du serveur</string>
