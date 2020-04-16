@@ -157,7 +157,8 @@ BOOL CStreamMediaDlg::OnInitDialog()
     SetCurSelItemData(m_wndVidCodec, WEBM_VP8_CODEC);
     m_wndVidBitrateSpinCtrl.SetRange(0, 1000);
 
-    UpdateMediaFile(m_fileList.GetHead());
+    if (m_fileList.GetCount())
+        UpdateMediaFile(m_fileList.GetHead());
     UpdateControls();
 
     if (m_mfp.uOffsetMSec != TT_MEDIAPLAYBACK_OFFSET_IGNORE &&
