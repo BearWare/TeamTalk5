@@ -48,6 +48,14 @@ class SoundSystem(INT32):
     SOUNDSYSTEM_OPENSLES_ANDROID = 7
     SOUNDSYSTEM_AUDIOUNIT = 8
 
+class SoundDeviceFeature(UINT32):
+    SOUNDDEVICEFEATURE_NONE = 0x0000
+    SOUNDDEVICEFEATURE_AEC = 0x0001
+    SOUNDDEVICEFEATURE_AGC = 0x0002
+    SOUNDDEVICEFEATURE_DENOISE = 0x0004
+    SOUNDDEVICEFEATURE_3DPOSITION = 0x0008
+    SOUNDDEVICEFEATURE_DUPLEXMODE = 0x0010
+
 class SoundDevice(Structure):
     _fields_ = [
     ("nDeviceID", INT32),
@@ -60,10 +68,20 @@ class SoundDevice(Structure):
     ("nMaxOutputChannels", INT32),
     ("inputSampleRates", INT32 * TT_SAMPLERATES_MAX),
     ("outputSampleRates", INT32 * TT_SAMPLERATES_MAX),
-    ("nDefaultSampleRate", INT32)
+    ("nDefaultSampleRate", INT32),
+    ("uSoundDeviceFeatures", UINT32)
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.SOUNDDEVICE) == ctypes.sizeof(SoundDevice))
+
+class SoundDeviceEffects(Structure):
+    _fields_ = [
+    ("bEnableAGC", BOOL),
+    ("bEnableDenoise", BOOL),
+    ("bEnableEchoCancellation", BOOL)
+    ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.SoundDeviceEffects) == ctypes.sizeof(SoundDeviceEffects))
 
 class SoundLevel(INT32):
     SOUND_VU_MAX = 100
@@ -380,6 +398,15 @@ class MediaFilePlayback(Structure):
     def __init__(self):
         assert(DBG_SIZEOF(TTType.MEDIAFILEPLAYBACK) == ctypes.sizeof(MediaFilePlayback))
 
+class AudioInputProgress(Structure):
+    _fields_ = [
+    ("nStreamID", INT32),
+    ("uQueueMSec", UINT32),
+    ("uElapsedMSec", UINT32)
+    ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.AudioInputProgress) == ctypes.sizeof(AudioInputProgress))
+
 class StreamType(UINT32):
     STREAMTYPE_NONE = 0x00000000
     STREAMTYPE_VOICE = 0x00000001
@@ -553,8 +580,8 @@ class User(Structure):
     ("szNickname", TTCHAR * TT_STRLEN),
     ("nStatusMode", INT32),
     ("szStatusMsg", TTCHAR * TT_STRLEN),
-    ("szMediaStorageDir", TTCHAR * TT_STRLEN),
     ("uUserState", UINT32),
+    ("szMediaStorageDir", TTCHAR * TT_STRLEN),
     ("nVolumeVoice", INT32),
     ("nVolumeMediaFile", INT32),
     ("nStoppedDelayVoice", INT32),
@@ -705,8 +732,7 @@ class ClientError(INT32):
     CMDERR_SUCCESS = 0
     CMDERR_SYNTAX_ERROR = 1000
     CMDERR_UNKNOWN_COMMAND = 1001
-    CMDERR_MISSING_PARAMETER = 1002
-    CMDERR_INCOMPATIBLE_PROTOCOLS = 1003
+    CMDERR_MISSING_PARAMETER = 1002    CMDERR_INCOMPATIBLE_PROTOCOLS = 1003
     CMDERR_UNKNOWN_AUDIOCODEC = 1004
     CMDERR_INVALID_USERNAME = 1005
     CMDERR_INCORRECT_CHANNEL_PASSWORD = 2001
@@ -743,6 +769,7 @@ class ClientError(INT32):
     INTERR_AUDIOCODEC_INIT_FAILED = 10002
     INTERR_SPEEXDSP_INIT_FAILED = 10003
     INTERR_TTMESSAGE_QUEUE_OVERFLOW = 10004
+    INTERR_SNDEFFECT_FAILURE = 10005
 
 class ClientErrorMsg(Structure):
     _fields_ = [
@@ -792,9 +819,10 @@ class ClientEvent(UINT32):
     CLIENTEVENT_HOTKEY = CLIENTEVENT_NONE + 1020
     CLIENTEVENT_HOTKEY_TEST = CLIENTEVENT_NONE + 1030
     CLIENTEVENT_FILETRANSFER = CLIENTEVENT_NONE + 1040
-    CLIENTEVENT_DESKTOPWINDOW_TRANSFER = CLIENTEVENT_NONE + 105
+    CLIENTEVENT_DESKTOPWINDOW_TRANSFER = CLIENTEVENT_NONE + 1050
     CLIENTEVENT_STREAM_MEDIAFILE = CLIENTEVENT_NONE + 1060
     CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070
+    CLIENTEVENT_AUDIOINPUT = CLIENTEVENT_NONE + 1080
 
 # Underscore has special meaning in Python, so we remove it
 class TTType(INT32):
@@ -837,6 +865,8 @@ class TTType(INT32):
     TTAUDIOPREPROCESSOR = 36
     MEDIAFILEPLAYBACK = 37
     CLIENTKEEPALIVE = 38
+    UINT32 = 39
+    AUDIOINPUTPROGRESS = 40
 
 class TTMessageUnion(Union):
     _fields_ = [
@@ -857,6 +887,7 @@ class TTMessageUnion(Union):
     ("nStreamID", INT32),
     ("nPayloadSize", INT32),
     ("nStreamType", INT32),
+    ("audioinputprogress", AudioInputProgress),
     ("data", c_char*1)
     ]
 
@@ -905,6 +936,9 @@ _CloseTeamTalk.argtypes = [_TTInstance]
 _GetMessage = dll.TT_GetMessage
 _GetMessage.restype = BOOL
 _GetMessage.argtypes = [_TTInstance, POINTER(TTMessage), POINTER(INT32)]
+_PumpMessage = dll.TT_PumpMessage
+_PumpMessage.restype = BOOL
+_PumpMessage.argtypes = [_TTInstance, ClientEvent, INT32]
 _GetFlags = dll.TT_GetFlags
 _GetFlags.restype = UINT32
 _GetFlags.argtypes = [_TTInstance]
@@ -920,30 +954,98 @@ _GetDefaultSoundDevicesEx.argtypes = [SoundSystem, POINTER(INT32), POINTER(INT32
 _GetSoundDevices = dll.TT_GetSoundDevices
 _GetSoundDevices.restype = BOOL
 _GetSoundDevices.argtypes = [POINTER(SoundDevice), POINTER(INT32)]
+_RestartSoundSystem = dll.TT_RestartSoundSystem
+_RestartSoundSystem.restype = BOOL
+_StartSoundLoopbackTest = dll.TT_StartSoundLoopbackTest
+_StartSoundLoopbackTest.restype = _TTSoundLoop
+_StartSoundLoopbackTest.argtypes = [INT32, INT32, INT32, INT32, BOOL, POINTER(SpeexDSP)]
+_CloseSoundLoopbackTest = dll.TT_CloseSoundLoopbackTest
+_CloseSoundLoopbackTest.restype = BOOL
+_CloseSoundLoopbackTest.argtypes = [_TTSoundLoop]
 _InitSoundInputDevice = dll.TT_InitSoundInputDevice
 _InitSoundInputDevice.restype = BOOL
 _InitSoundInputDevice.argtypes = [_TTInstance, INT32]
 _InitSoundOutputDevice = dll.TT_InitSoundOutputDevice
 _InitSoundOutputDevice.restype = BOOL
 _InitSoundOutputDevice.argtypes = [_TTInstance, INT32]
+_InitSoundDuplexDevices = dll.TT_InitSoundDuplexDevices
+_InitSoundDuplexDevices.restype = BOOL
+_InitSoundDuplexDevices.argtypes = [_TTInstance, INT32, INT32]
+_CloseSoundInputDevice = dll.TT_CloseSoundInputDevice
+_CloseSoundInputDevice.restype = BOOL
+_CloseSoundInputDevice.argtypes = [_TTInstance]
+_CloseSoundOutputDevice = dll.TT_CloseSoundOutputDevice
+_CloseSoundOutputDevice.restype = BOOL
+_CloseSoundOutputDevice.argtypes = [_TTInstance]
+_CloseSoundDuplexDevices = dll.TT_CloseSoundDuplexDevices
+_CloseSoundDuplexDevices.restype = BOOL
+_CloseSoundDuplexDevices.argtypes = [_TTInstance]
+_SetSoundDeviceEffects = dll.TT_SetSoundDeviceEffects
+_SetSoundDeviceEffects.restype = BOOL
+_SetSoundDeviceEffects.argtypes = [_TTInstance, POINTER(SoundDeviceEffects)]
+_GetSoundDeviceEffects = dll.TT_GetSoundDeviceEffects
+_GetSoundDeviceEffects.restype = BOOL
+_GetSoundDeviceEffects.argtypes = [_TTInstance, POINTER(SoundDeviceEffects)]
+_GetSoundInputLevel = dll.TT_GetSoundInputLevel
+_GetSoundInputLevel.restype = INT32
+_GetSoundInputLevel.argtypes = [_TTInstance]
+_SetSoundInputGainLevel = dll.TT_SetSoundInputGainLevel
+_SetSoundInputGainLevel.restype = BOOL
+_SetSoundInputGainLevel.argtypes = [_TTInstance, INT32]
+_GetSoundInputGainLevel = dll.TT_GetSoundInputGainLevel
+_GetSoundInputGainLevel.restype = INT32
+_GetSoundInputGainLevel.argtypes = [_TTInstance]
+_SetSoundInputPreprocess = dll.TT_SetSoundInputPreprocess
+_SetSoundInputPreprocess.restype = BOOL
+_SetSoundInputPreprocess.argtypes = [_TTInstance, POINTER(SpeexDSP)]
+_GetSoundInputPreprocess = dll.TT_GetSoundInputPreprocess
+_GetSoundInputPreprocess.restype = BOOL
+_GetSoundInputPreprocess.argtypes = [_TTInstance, POINTER(SpeexDSP)]
+_SetSoundInputPreprocessEx = dll.TT_SetSoundInputPreprocessEx
+_SetSoundInputPreprocessEx.restype = BOOL
+_SetSoundInputPreprocessEx.argtypes = [_TTInstance, POINTER(AudioPreprocessor)]
+_GetSoundInputPreprocessEx = dll.TT_GetSoundInputPreprocessEx
+_GetSoundInputPreprocessEx.restype = BOOL
+_GetSoundInputPreprocessEx.argtypes = [_TTInstance, POINTER(AudioPreprocessor)]
+_SetSoundOutputVolume = dll.TT_SetSoundOutputVolume
+_SetSoundOutputVolume.restype = BOOL
+_SetSoundOutputVolume.argtypes = [_TTInstance, INT32]
+_GetSoundOutputVolume = dll.TT_GetSoundOutputVolume
+_GetSoundOutputVolume.restype = INT32
+_GetSoundOutputVolume.argtypes = [_TTInstance]
+_SetSoundOutputMute = dll.TT_SetSoundOutputMute
+_SetSoundOutputMute.restype = BOOL
+_SetSoundOutputMute.argtypes = [_TTInstance, BOOL]
+_Enable3DSoundPositioning = dll.TT_Enable3DSoundPositioning
+_Enable3DSoundPositioning.restype = BOOL
+_Enable3DSoundPositioning.argtypes = [_TTInstance, BOOL]
+_AutoPositionUsers = dll.TT_AutoPositionUsers
+_AutoPositionUsers.restype = BOOL
+_AutoPositionUsers.argtypes = [_TTInstance]
+_EnableAudioBlockEvent = dll.TT_EnableAudioBlockEvent
+_EnableAudioBlockEvent.restype = BOOL
+_EnableAudioBlockEvent.argtypes = [_TTInstance, INT32, INT32, BOOL]
+_InsertAudioBlock = dll.TT_InsertAudioBlock
+_InsertAudioBlock.restype = BOOL
+_InsertAudioBlock.argtypes = [_TTInstance, POINTER(AudioBlock)]
 _EnableVoiceTransmission = dll.TT_EnableVoiceTransmission
 _EnableVoiceTransmission.restype = BOOL
-_EnableVoiceTransmission.argstype = [_TTInstance, BOOL]
+_EnableVoiceTransmission.argtypes = [_TTInstance, BOOL]
 _EnableVoiceActivation = dll.TT_EnableVoiceActivation
 _EnableVoiceActivation.restype = BOOL
-_EnableVoiceActivation.argstype = [_TTInstance, BOOL]
+_EnableVoiceActivation.argtypes = [_TTInstance, BOOL]
 _SetVoiceActivationLevel = dll.TT_SetVoiceActivationLevel
 _SetVoiceActivationLevel.restype = BOOL
-_SetVoiceActivationLevel.argstype = [_TTInstance, INT32]
+_SetVoiceActivationLevel.argtypes = [_TTInstance, INT32]
 _GetVoiceActivationLevel = dll.TT_GetVoiceActivationLevel
 _GetVoiceActivationLevel.restype = INT32
-_GetVoiceActivationLevel.argstype = [_TTInstance]
+_GetVoiceActivationLevel.argtypes = [_TTInstance]
 _SetVoiceActivationStopDelay = dll.TT_SetVoiceActivationStopDelay
 _SetVoiceActivationStopDelay.restype = BOOL
-_SetVoiceActivationStopDelay.argstype = [_TTInstance, INT32]
+_SetVoiceActivationStopDelay.argtypes = [_TTInstance, INT32]
 _GetVoiceActivationStopDelay = dll.TT_GetVoiceActivationStopDelay
 _GetVoiceActivationStopDelay.restype = INT32
-_GetVoiceActivationStopDelay.argstype = [_TTInstance]
+_GetVoiceActivationStopDelay.argtypes = [_TTInstance]
 _Connect = dll.TT_Connect
 _Connect.restype = BOOL
 _Connect.argtypes = [_TTInstance, TTCHAR_P, INT32, INT32, INT32, INT32, BOOL]
@@ -958,10 +1060,19 @@ _Disconnect.restype = BOOL
 _Disconnect.argtypes = [_TTInstance]
 _QueryMaxPayload = dll.TT_QueryMaxPayload
 _QueryMaxPayload.restype = BOOL
-_QueryMaxPayload.argstype = [_TTInstance, INT32]
+_QueryMaxPayload.argtypes = [_TTInstance, INT32]
+_GetClientStatistics = dll.TT_GetClientStatistics
+_GetClientStatistics.restype = BOOL
+_GetClientStatistics.argtypes = [_TTInstance, POINTER(ClientStatistics)]
+_SetClientKeepAlive = dll.TT_SetClientKeepAlive
+_SetClientKeepAlive.restype = BOOL
+_SetClientKeepAlive.argtypes = [_TTInstance, POINTER(ClientKeepAlive)]
+_GetClientKeepAlive = dll.TT_GetClientKeepAlive
+_GetClientKeepAlive.restype = BOOL
+_GetClientKeepAlive.argtypes = [_TTInstance, POINTER(ClientKeepAlive)]
 _DoPing = dll.TT_DoPing
 _DoPing.restype = INT32
-_DoPing.argstype = [_TTInstance]
+_DoPing.argtypes = [_TTInstance]
 _DoLogin = dll.TT_DoLogin
 _DoLogin.restype = INT32
 _DoLogin.argtypes = [_TTInstance, TTCHAR_P, TTCHAR_P, TTCHAR_P]
@@ -970,22 +1081,73 @@ _DoLoginEx.restype = INT32
 _DoLoginEx.argtypes = [_TTInstance, TTCHAR_P, TTCHAR_P, TTCHAR_P, TTCHAR_P]
 _DoLogout = dll.TT_DoLogout
 _DoLogout.restype = INT32
-_DoLogout.argstype = [_TTInstance]
+_DoLogout.argtypes = [_TTInstance]
+_DoJoinChannel = dll.TT_DoJoinChannel
+_DoJoinChannel.restype = INT32
+_DoJoinChannel.argtypes = [_TTInstance, POINTER(Channel)]
 _DoJoinChannelByID = dll.TT_DoJoinChannelByID
 _DoJoinChannelByID.restype = INT32
 _DoJoinChannelByID.argtypes = [_TTInstance, INT32, TTCHAR_P]
 _DoLeaveChannel = dll.TT_DoLeaveChannel
 _DoLeaveChannel.restype = INT32
-_DoLeaveChannel.argstype = [_TTInstance]
+_DoLeaveChannel.argtypes = [_TTInstance]
 _DoChangeNickname = dll.TT_DoChangeNickname
 _DoChangeNickname.restype = INT32
-_DoChangeNickname.argstype = [_TTInstance, TTCHAR_P]
+_DoChangeNickname.argtypes = [_TTInstance, TTCHAR_P]
 _DoChangeStatus = dll.TT_DoChangeStatus
 _DoChangeStatus.restype = INT32
-_DoChangeStatus.argstype = [_TTInstance, INT32, TTCHAR_P]
+_DoChangeStatus.argtypes = [_TTInstance, INT32, TTCHAR_P]
 _DoTextMessage = dll.TT_DoTextMessage
 _DoTextMessage.restype = INT32
 _DoTextMessage.argtypes = [_TTInstance, POINTER(TextMessage)]
+_DoChannelOp = dll.TT_DoChannelOp
+_DoChannelOp.restype = INT32
+_DoChannelOp.argtypes = [_TTInstance, INT32, INT32, BOOL]
+_DoChannelOpEx = dll.TT_DoChannelOpEx
+_DoChannelOpEx.restype = INT32
+_DoChannelOpEx.argtypes = [_TTInstance, INT32, INT32, TTCHAR_P, BOOL]
+_DoKickUser = dll.TT_DoKickUser
+_DoKickUser.restype = INT32
+_DoKickUser.argtypes = [_TTInstance, INT32, INT32]
+_DoSendFile = dll.TT_DoSendFile
+_DoSendFile.restype = INT32
+_DoSendFile.argtypes = [_TTInstance, INT32, TTCHAR_P]
+_DoRecvFile = dll.TT_DoRecvFile
+_DoRecvFile.restype = INT32
+_DoRecvFile.argtypes = [_TTInstance, INT32, INT32, TTCHAR_P]
+_DoDeleteFile = dll.TT_DoDeleteFile
+_DoDeleteFile.restype = INT32
+_DoDeleteFile.argtypes = [_TTInstance, INT32, INT32]
+_DoMakeChannel = dll.TT_DoMakeChannel
+_DoMakeChannel.restype = INT32
+_DoMakeChannel.argtypes = [_TTInstance, POINTER(Channel)]
+_DoUpdateChannel = dll.TT_DoUpdateChannel
+_DoUpdateChannel.restype = INT32
+_DoUpdateChannel.argtypes = [_TTInstance, POINTER(Channel)]
+_DoRemoveChannel = dll.TT_DoRemoveChannel
+_DoRemoveChannel.restype = INT32
+_DoRemoveChannel.argtypes = [_TTInstance, INT32]
+_DoMoveUser = dll.TT_DoMoveUser
+_DoMoveUser.restype = INT32
+_DoMoveUser.argtypes = [_TTInstance, INT32, INT32]
+_DoUpdateServer = dll.TT_DoUpdateServer
+_DoUpdateServer.restype = INT32
+_DoUpdateServer.argtypes = [_TTInstance, POINTER(ServerProperties)]
+_DoListUserAccounts = dll.TT_DoListUserAccounts
+_DoListUserAccounts.restype = INT32
+_DoListUserAccounts.argtypes = [_TTInstance, INT32, INT32]
+_DoNewUserAccount = dll.TT_DoNewUserAccount
+_DoNewUserAccount.restype = INT32
+_DoNewUserAccount.argtypes = [_TTInstance, POINTER(UserAccount)]
+_DoSaveConfig = dll.TT_DoSaveConfig
+_DoSaveConfig.restype = INT32
+_DoSaveConfig.argtypes = [_TTInstance]
+_DoQueryServerStats = dll.TT_DoQueryServerStats
+_DoQueryServerStats.restype = INT32
+_DoQueryServerStats.argtypes = [_TTInstance]
+_DoQuit = dll.TT_DoQuit
+_DoQuit.restype = INT32
+_DoQuit.argtypes = [_TTInstance]
 _GetServerProperties = dll.TT_GetServerProperties
 _GetServerProperties.restype = BOOL
 _GetServerProperties.argtypes = [_TTInstance, POINTER(ServerProperties)]
@@ -1013,6 +1175,12 @@ _GetChannelUsers.argtypes = [_TTInstance, INT32, POINTER(User), POINTER(INT32)]
 _GetChannelFiles = dll.TT_GetChannelFiles
 _GetChannelFiles.restype = BOOL
 _GetChannelFiles.argtypes = [_TTInstance, INT32, POINTER(RemoteFile), POINTER(INT32)]
+_GetChannelFile = dll.TT_GetChannelFile
+_GetChannelFile.restype = BOOL
+_GetChannelFile.argtypes = [_TTInstance, INT32, INT32, POINTER(RemoteFile)]
+_IsChannelOperator = dll.TT_IsChannelOperator
+_IsChannelOperator.restype = BOOL
+_IsChannelOperator.argtypes = [_TTInstance, INT32, INT32]
 _GetServerChannels = dll.TT_GetServerChannels
 _GetServerChannels.restype = BOOL
 _GetServerChannels.argtypes = [_TTInstance, POINTER(Channel), POINTER(INT32)]
@@ -1034,6 +1202,12 @@ _GetUserStatistics.argtypes = [_TTInstance, INT32, POINTER(UserStatistics)]
 _GetUserByUsername = dll.TT_GetUserByUsername
 _GetUserByUsername.restype = BOOL
 _GetUserByUsername.argtypes = [_TTInstance, TTCHAR_P, POINTER(User)]
+_GetFileTransferInfo = dll.TT_GetFileTransferInfo
+_GetFileTransferInfo.restype = BOOL
+_GetFileTransferInfo.argtypes = [_TTInstance, INT32, POINTER(FileTransfer)]
+_CancelFileTransfer = dll.TT_CancelFileTransfer
+_CancelFileTransfer.restype = BOOL
+_CancelFileTransfer.argtypes = [_TTInstance, INT32]
 _GetErrorMessage = dll.TT_GetErrorMessage
 _GetErrorMessage.restype = c_void_p
 _GetErrorMessage.argtypes = [INT32, POINTER(TTCHAR*TT_STRLEN)]
