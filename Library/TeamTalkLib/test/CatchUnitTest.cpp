@@ -32,7 +32,7 @@
 #include <codec/OpusEncoder.h>
 
 #include <myace/MyACE.h>
-#include <codec/OggOutput.h>
+#include <map>
 
 #include <iostream>
 
@@ -41,6 +41,12 @@ using namespace std;
 #if defined(WIN32)
 #include <ace/Init_ACE.h>
 #include <assert.h>
+#include <Mmsystem.h>
+#include <propsys.h>
+#include <atlbase.h>
+#include <MMDeviceApi.h>
+#include <avstream/DMOResampler.h>
+
 static class WinInit
 {
 public:
@@ -70,7 +76,7 @@ TEST_CASE( "Ogg Write", "" ) {
 
 TEST_CASE( "Record mux") {
     std::vector<TTInstance*> clients(2);
-    for (auto i=0;i<clients.size();++i)
+    for (size_t i=0;i<clients.size();++i)
     {
         REQUIRE((clients[i] = TT_InitTeamTalkPoll()));
         REQUIRE(InitSound(clients[i], SHARED_INPUT));
@@ -407,3 +413,142 @@ TEST_CASE( "Opus Read File" )
     while (of.ReadOggPage(op))pages++;
     cout << "pages: " << pages << endl;
 }
+
+#if defined(WIN32)
+
+TEST_CASE("CLSID_CWMAudioAEC")
+{
+    std::vector<SoundDevice> devs(100);
+    INT32 nDevs = 100, indev, outdev;
+    REQUIRE(TT_GetSoundDevices(&devs[0], &nDevs));
+    nDevs = nDevs;
+    REQUIRE(TT_GetDefaultSoundDevicesEx(SOUNDSYSTEM_WASAPI, &indev, &outdev));
+
+    CComPtr<IMMDeviceEnumerator> spEnumerator;
+    CComPtr<IMMDeviceCollection> spEndpoints;
+    UINT dwCount;
+
+    REQUIRE(SUCCEEDED(spEnumerator.CoCreateInstance(__uuidof(MMDeviceEnumerator))));
+
+    std::map<std::wstring, UINT> capdevs, spkdevs;
+
+    REQUIRE(SUCCEEDED(spEnumerator->EnumAudioEndpoints(eCapture, DEVICE_STATE_ACTIVE, &spEndpoints)));
+    REQUIRE(SUCCEEDED(spEndpoints->GetCount(&dwCount)));
+    for (UINT index = 0; index < dwCount; index++)
+    {
+        WCHAR* pszDeviceId = NULL;
+        PROPVARIANT value;
+        CComPtr<IMMDevice> spDevice;
+        CComPtr<IPropertyStore> spProperties;
+
+        PropVariantInit(&value);
+        REQUIRE(SUCCEEDED(spEndpoints->Item(index, &spDevice)));
+        REQUIRE(SUCCEEDED(spDevice->GetId(&pszDeviceId)));
+
+        capdevs[pszDeviceId] = index;
+
+        PropVariantClear(&value);
+        CoTaskMemFree(pszDeviceId);
+    }
+    spEndpoints.Release();
+
+    REQUIRE(SUCCEEDED(spEnumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &spEndpoints)));
+    REQUIRE(SUCCEEDED(spEndpoints->GetCount(&dwCount)));
+    for(UINT index = 0; index < dwCount; index++)
+    {
+        WCHAR* pszDeviceId = NULL;
+        PROPVARIANT value;
+        CComPtr<IMMDevice> spDevice;
+        CComPtr<IPropertyStore> spProperties;
+
+        PropVariantInit(&value);
+        REQUIRE(SUCCEEDED(spEndpoints->Item(index, &spDevice)));
+        REQUIRE(SUCCEEDED(spDevice->GetId(&pszDeviceId)));
+
+        spkdevs[pszDeviceId] = index;
+
+        PropVariantClear(&value);
+        CoTaskMemFree(pszDeviceId);
+    }
+
+    CComPtr<IMediaObject> pDMO;
+    CComPtr<IPropertyStore> pPS;
+
+    REQUIRE(SUCCEEDED(CoCreateInstance(CLSID_CWMAudioAEC, NULL, CLSCTX_INPROC_SERVER, IID_IMediaObject, (LPVOID*)&pDMO)));
+    REQUIRE(SUCCEEDED(pDMO->QueryInterface(IID_IPropertyStore, (LPVOID*)&pPS)));
+
+    const int SAMPLERATE = 16000;
+    const int CHANNELS = 1;
+
+    DMO_MEDIA_TYPE mt = {};
+    HRESULT hr = MoInitMediaType(&mt, sizeof(WAVEFORMATEX));
+    REQUIRE(SUCCEEDED(hr));
+    REQUIRE(SetWaveMediaType(SAMPLEFORMAT_INT16, CHANNELS, SAMPLERATE, mt));
+
+    REQUIRE(SUCCEEDED(pDMO->SetOutputType(0, &mt, 0)));
+    REQUIRE(SUCCEEDED(MoFreeMediaType(&mt)));
+
+    REQUIRE(capdevs.find(devs[indev].szDeviceID) != capdevs.end());
+    REQUIRE(spkdevs.find(devs[outdev].szDeviceID) != spkdevs.end());
+
+    indev = capdevs[devs[indev].szDeviceID];
+    outdev = spkdevs[devs[outdev].szDeviceID];
+
+    PROPVARIANT pvDeviceId;
+    PropVariantInit(&pvDeviceId);
+    pvDeviceId.vt = VT_I4;
+    pvDeviceId.lVal = (outdev << 16) | indev;
+    REQUIRE(SUCCEEDED(pPS->SetValue(MFPKEY_WMAAECMA_DEVICE_INDEXES, pvDeviceId)));
+    REQUIRE(SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_DEVICE_INDEXES, &pvDeviceId)));
+    PropVariantClear(&pvDeviceId);
+
+    REQUIRE(SUCCEEDED(pDMO->AllocateStreamingResources()));
+
+    int iFrameSize;
+    PROPVARIANT pvFrameSize;
+    PropVariantInit(&pvFrameSize);
+    REQUIRE(SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_FEATR_FRAME_SIZE, &pvFrameSize)));
+    iFrameSize = pvFrameSize.lVal;
+    PropVariantClear(&pvFrameSize);
+
+    int delay = iFrameSize * 1000 / SAMPLERATE;
+    int waitMSec = 3000000;
+    std::vector<BYTE> outputbuf(PCM16_BYTES(SAMPLERATE, CHANNELS));
+    do
+    {
+        CComPtr<IMediaBuffer> ioutputbuf;
+        REQUIRE(SUCCEEDED(CMediaBuffer::CreateBuffer(&outputbuf[0], 0, outputbuf.size(), (void**)&ioutputbuf)));
+        DMO_OUTPUT_DATA_BUFFER dmodatabuf = {};
+        dmodatabuf.pBuffer = ioutputbuf;
+        DWORD dwStatus, dwOutputLen = 0;
+        hr = pDMO->ProcessOutput(0, 1, &dmodatabuf, &dwStatus);
+
+        BYTE* outputbufptr;
+        switch (hr)
+        {
+            case S_FALSE :
+                dwOutputLen = 0;
+                break;
+            case S_OK :
+                hr = ioutputbuf->GetBufferAndLength(&outputbufptr, &dwOutputLen);
+                REQUIRE(SUCCEEDED(hr));
+                break;
+            case E_FAIL :
+                break;
+            case E_INVALIDARG :
+                break;
+            case E_POINTER :
+                break;
+            case WMAAECMA_E_NO_ACTIVE_RENDER_STREAM :
+                MYTRACE(ACE_TEXT("No audio rendered\n"));
+                break;
+            default :
+                MYTRACE(ACE_TEXT("Unknown HRESULT from echo cancellor 0x%x\n"), hr);
+                break;
+        }
+
+        Sleep(delay);
+
+    } while ((waitMSec -= delay) > 0);
+}
+#endif
