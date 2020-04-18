@@ -348,13 +348,17 @@ extern "C" {
         TTCHAR szDeviceID[TT_STRLEN];
 #if defined(WIN32)
         /** 
-         * @brief The ID of the device used in Win32's
-         * waveInGetDevCaps and waveOutGetDevCaps.
+         * @brief A Windows specific ID to the sound device.
          *
+         * For DirectSound and WinMM this is the ID of the device used 
+         * in Win32's waveInGetDevCaps and waveOutGetDevCaps.
          * Value will be -1 if no ID could be found This ID can also
          * be used to find the corresponding mixer on Windows passing
          * it as @a nWaveDeviceID.  Note that this ID applies both to
          * DirectSound and WinMM.
+         *
+         * For WASAPI this ID is the index of 
+         * IMMDeviceEnumerator::EnumAudioEndpoints()
          *
          * @see TT_Mixer_GetWaveInName
          * @see TT_Mixer_GetWaveOutName
