@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -55,7 +55,7 @@ namespace soundsystem {
     {
         SOUND_DEVICEID_INVALID           = /* 0xFFFFFFFF */ -1,
         SOUND_DEVICEID_VIRTUAL           = /* 0x000007BA */ 1978,
-        
+
         /* Sound devices are from 0 => 0x7FF */
         SOUND_DEVICEID_MASK              = 0x000007FF,
         /* Flag for a shared sound device. The original sound device
@@ -76,7 +76,7 @@ namespace soundsystem {
 
     typedef uint32_t SoundDeviceFeatures;
 
-    
+
 
     class StreamCapture;
     class StreamPlayer;
@@ -296,7 +296,7 @@ namespace soundsystem {
     {
     public:
         virtual ~StreamPlayer() {}
-        virtual bool StreamPlayerCb(const OutputStreamer& streamer, 
+        virtual bool StreamPlayerCb(const OutputStreamer& streamer,
                                     short* buffer, int samples) = 0;
     };
 
@@ -306,10 +306,10 @@ namespace soundsystem {
         virtual ~StreamDuplex() {}
 
         virtual void StreamDuplexEchoCb(const DuplexStreamer& streamer,
-                                        const short* input_buffer, 
+                                        const short* input_buffer,
                                         const short* prev_output_buffer, int samples){}
         virtual void StreamDuplexCb(const DuplexStreamer& streamer,
-                                    const short* input_buffer, 
+                                    const short* input_buffer,
                                     short* output_buffer, int samples){}
     };
 
@@ -323,13 +323,31 @@ namespace soundsystem {
         virtual bool GetDefaultDevices(SoundAPI sndsys,
                                        int& inputdeviceid,
                                        int& outputdeviceid) = 0;
-        
+
+        virtual bool GetSoundDevices(devices_t& snddevices) = 0;
+        virtual bool CheckInputDevice(int inputdeviceid) = 0;
+        virtual bool CheckOutputDevice(int outputdeviceid) = 0;
+        virtual bool SupportsInputFormat(int inputdeviceid, int input_channels, int samplerate) = 0;
+        virtual bool SupportsOutputFormat(int outputdeviceid, int output_channels, int samplerate) = 0;
+        virtual bool GetDevice(int id, DeviceInfo& dev) = 0;
+
+        virtual bool RestartSoundSystem() = 0;
+
         //sound group members
         virtual int OpenSoundGroup() = 0;
         virtual void RemoveSoundGroup(int sndgrpid) = 0;
 
+        virtual bool SetMasterVolume(int sndgrpid, int volume) = 0;
+        virtual int GetMasterVolume(int sndgrpid) = 0;
+        virtual bool IsAllMute(int sndgrpid) = 0;
+        virtual bool MuteAll(int sndgrpid, bool mute) = 0;
+
+        virtual bool SetAutoPositioning(int sndgrpid, bool enable) = 0;
+        virtual bool IsAutoPositioning(int sndgrpid) = 0;
+        virtual bool AutoPositionPlayers(int sndgrpid, bool all_players) = 0;
+
         //input members
-        virtual bool OpenInputStream(StreamCapture* capture, int inputdeviceid, 
+        virtual bool OpenInputStream(StreamCapture* capture, int inputdeviceid,
                                      int sndgrpid, int samplerate, int channels,
                                      int framesize) = 0;
         virtual bool CloseInputStream(StreamCapture* capture) = 0;
@@ -337,7 +355,7 @@ namespace soundsystem {
 
         //output members
         virtual bool OpenOutputStream(StreamPlayer* player, int outputdeviceid,
-                                      int sndgrpid, int samplerate, int channels, 
+                                      int sndgrpid, int samplerate, int channels,
                                       int framesize) = 0;
         virtual bool CloseOutputStream(StreamPlayer* player) = 0;
         virtual bool StartStream(StreamPlayer* player) = 0;
@@ -347,7 +365,7 @@ namespace soundsystem {
         //duplex members
         virtual bool OpenDuplexStream(StreamDuplex* duplex, int inputdeviceid,
                                       int outputdeviceid, int sndgrpid,
-                                      int samplerate, int input_channels, 
+                                      int samplerate, int input_channels,
                                       int output_channels, int framesize) = 0;
         virtual bool CloseDuplexStream(StreamDuplex* duplex) = 0;
         virtual bool AddDuplexOutputStream(StreamDuplex* duplex,
@@ -355,24 +373,6 @@ namespace soundsystem {
         virtual bool RemoveDuplexOutputStream(StreamDuplex* duplex,
                                               StreamPlayer* player) = 0;
 
-        virtual bool SetMasterVolume(int sndgrpid, int volume) = 0;
-        virtual int GetMasterVolume(int sndgrpid) = 0;
-        virtual bool SetAutoPositioning(int sndgrpid, bool enable) = 0;
-        virtual bool IsAutoPositioning(int sndgrpid) = 0;
-        virtual bool AutoPositionPlayers(int sndgrpid, bool all_players) = 0;
-        virtual bool IsAllMute(int sndgrpid) = 0;
-        virtual bool MuteAll(int sndgrpid, bool mute) = 0;
-        virtual bool RestartSoundSystem() = 0;
-        virtual bool GetSoundDevices(devices_t& snddevices) = 0;
-        virtual bool CheckInputDevice(int inputdeviceid) = 0;
-        virtual bool CheckOutputDevice(int outputdeviceid) = 0;
-        virtual bool SupportsInputFormat(int inputdeviceid,
-                                         int input_channels,
-                                         int samplerate) = 0;
-        virtual bool SupportsOutputFormat(int outputdeviceid,
-                                          int output_channels,
-                                          int samplerate) = 0;
-        virtual bool GetDevice(int id, DeviceInfo& dev) = 0;
         virtual void SetVolume(StreamPlayer* player, int volume) = 0;
         virtual int GetVolume(StreamPlayer* player) = 0;
         virtual void SetAutoPositioning(StreamPlayer* player, bool enable) = 0;
@@ -396,4 +396,3 @@ namespace soundsystem {
 }
 
 #endif
-
