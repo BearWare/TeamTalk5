@@ -27,10 +27,7 @@
 #include "SoundSystemEx.h"
 #include "SoundSystemShared.h"
 
-#include <memory>
-#include <thread>
 #include <mutex>
-#include <cstring>
 
 namespace soundsystem {
 

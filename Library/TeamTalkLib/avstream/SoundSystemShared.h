@@ -28,6 +28,10 @@
 
 #include "AudioResampler.h"
 
+#include <memory>
+#include <thread>
+#include <mutex>
+
 namespace soundsystem {
 
 /* SharedStreamCapture::MakeKey() has limited space */
