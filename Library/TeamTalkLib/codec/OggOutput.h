@@ -24,6 +24,8 @@
 #ifndef OGGOUTPUT_H
 #define OGGOUTPUT_H
 
+#include <mystd/MyStd.h>
+
 #include <ogg/ogg.h>
 
 #include <ace/FILE_Connector.h>
@@ -33,10 +35,9 @@
 #include <memory>
 #include <vector>
 
-class OggOutput
+class OggOutput : private NonCopyable
 {
 public:
-    OggOutput(const OggOutput&) = delete;
     OggOutput();
     ~OggOutput();
     bool Open(int stream_id);
@@ -50,24 +51,32 @@ protected:
     ogg_stream_state m_os;
 };
 
-class OggFile
+class OggFile : private NonCopyable
 {
 public:
+    OggFile();
     ~OggFile();
+    
+    // write
+    bool NewFile(const ACE_TString& filename);
+    // read
     bool Open(const ACE_TString& filename);
+    
     void Close();
 
+    int ReadOggPage(ogg_page& og);
     int WriteOggPage(const ogg_page& og);
 
 private:
-    ACE_FILE_IO m_out_file;
+    ACE_FILE_IO m_file;
+    ogg_sync_state m_state = {};
 };
 
 #if defined(ENABLE_SPEEX)
 
 #include <speex/speex_header.h>
 
-class SpeexOgg
+class SpeexOgg : private NonCopyable
 {
 public:
     SpeexOgg();
@@ -103,7 +112,7 @@ int speex_packet_jump(int msec_per_packet,
                       unsigned int last_timestamp,
                       unsigned int cur_timestamp);
 
-class SpeexFile
+class SpeexFile : private NonCopyable
 {
 public:
     SpeexFile();
@@ -130,7 +139,7 @@ typedef std::shared_ptr< SpeexFile > speexfile_t;
 
 #include "SpeexEncoder.h"
 
-class SpeexEncFile
+class SpeexEncFile : private NonCopyable
 {
 public:
     SpeexEncFile();
@@ -152,7 +161,7 @@ typedef std::shared_ptr< SpeexEncFile > speexencfile_t;
 #endif /* ENABLE_SPEEX */
 
 #if defined(ENABLE_OPUSTOOLS)
-class OpusFile
+class OpusFile : private NonCopyable
 {
 public:
     OpusFile();
@@ -177,7 +186,7 @@ typedef std::shared_ptr< OpusFile > opusfile_t;
 
 #include "OpusEncoder.h"
 
-class OpusEncFile
+class OpusEncFile : private NonCopyable
 {
 public:
     OpusEncFile();
