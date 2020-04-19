@@ -30,6 +30,7 @@
 
 #include <codec/OggOutput.h>
 #include <codec/OpusEncoder.h>
+#include <codec/WaveFile.h>
 
 #include <myace/MyACE.h>
 #include <map>
@@ -418,7 +419,7 @@ TEST_CASE("CLSID_CWMAudioAEC")
     REQUIRE(SUCCEEDED(CoCreateInstance(CLSID_CWMAudioAEC, NULL, CLSCTX_INPROC_SERVER, IID_IMediaObject, (LPVOID*)&pDMO)));
     REQUIRE(SUCCEEDED(pDMO->QueryInterface(IID_IPropertyStore, (LPVOID*)&pPS)));
 
-    const int SAMPLERATE = 16000;
+    const int SAMPLERATE = 22050;
     const int CHANNELS = 1;
 
     DMO_MEDIA_TYPE mt = {};
@@ -451,9 +452,12 @@ TEST_CASE("CLSID_CWMAudioAEC")
     REQUIRE(SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_FEATR_FRAME_SIZE, &pvFrameSize)));
     iFrameSize = pvFrameSize.lVal;
     PropVariantClear(&pvFrameSize);
+    
+    WavePCMFile wavefile;
+    REQUIRE(wavefile.NewFile(ACE_TEXT("Echo_cancelled.wav"), SAMPLERATE, CHANNELS));
 
     int delay = iFrameSize * 1000 / SAMPLERATE;
-    int waitMSec = 3000000;
+    int waitMSec = 10000;
     std::vector<BYTE> outputbuf(PCM16_BYTES(SAMPLERATE, CHANNELS));
     do
     {
@@ -473,18 +477,24 @@ TEST_CASE("CLSID_CWMAudioAEC")
             case S_OK :
                 hr = ioutputbuf->GetBufferAndLength(&outputbufptr, &dwOutputLen);
                 REQUIRE(SUCCEEDED(hr));
+                REQUIRE(wavefile.AppendSamples(reinterpret_cast<const short*>(outputbufptr), dwOutputLen / sizeof(short) / CHANNELS));
                 break;
             case E_FAIL :
+                REQUIRE(SUCCEEDED(hr));
                 break;
             case E_INVALIDARG :
+                REQUIRE(SUCCEEDED(hr));
                 break;
             case E_POINTER :
+                REQUIRE(SUCCEEDED(hr));
                 break;
             case WMAAECMA_E_NO_ACTIVE_RENDER_STREAM :
-                MYTRACE(ACE_TEXT("No audio rendered\n"));
+                MYTRACE(ACE_TEXT("No audio rendered on device: %s\n"), devs[outdev].szDeviceID);
+                REQUIRE(SUCCEEDED(hr));
                 break;
             default :
                 MYTRACE(ACE_TEXT("Unknown HRESULT from echo cancellor 0x%x\n"), hr);
+                REQUIRE(SUCCEEDED(hr));
                 break;
         }
 
