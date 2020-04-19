@@ -483,7 +483,7 @@ namespace soundsystem {
                         }
 
                         size_t copylimit = std::min(mb->length(), reqbytes - copied);
-                        memcpy(bytebuffer + copied, mb->rd_ptr(), copylimit);
+                        std::memcpy(bytebuffer + copied, mb->rd_ptr(), copylimit);
                         auto was = mb->rd_ptr();
                         mb->rd_ptr(copylimit);
                         assert(mb->rd_ptr() == was + copylimit);
