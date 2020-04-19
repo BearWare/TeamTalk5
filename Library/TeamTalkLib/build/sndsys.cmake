@@ -3,12 +3,14 @@ include (ttlib)
 set (SOUNDSYS_HEADERS
   ${TEAMTALKLIB_ROOT}/avstream/SoundLoopback.h
   ${TEAMTALKLIB_ROOT}/avstream/SoundSystem.h
-  ${TEAMTALKLIB_ROOT}/avstream/SoundSystemBase.h)
+  ${TEAMTALKLIB_ROOT}/avstream/SoundSystemBase.h
+  ${TEAMTALKLIB_ROOT}/avstream/SoundSystemEx.h
+  ${TEAMTALKLIB_ROOT}/avstream/SoundSystemShared.h)
 
 set (SOUNDSYS_SOURCES
   ${TEAMTALKLIB_ROOT}/avstream/SoundLoopback.cpp
   ${TEAMTALKLIB_ROOT}/avstream/SoundSystem.cpp
-  ${TEAMTALKLIB_ROOT}/avstream/SoundSystemBase.cpp)
+  ${TEAMTALKLIB_ROOT}/avstream/SoundSystemEx.cpp)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   # Needed for CLSID_CWMAudioAEC

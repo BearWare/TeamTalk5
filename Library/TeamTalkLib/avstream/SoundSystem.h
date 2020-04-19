@@ -381,6 +381,7 @@ namespace soundsystem {
         virtual bool GetPosition(StreamPlayer* player, float& x, float& y, float& z) = 0;
         virtual void SetMute(StreamPlayer* player, bool mute) = 0;
         virtual bool IsMute(StreamPlayer* player) = 0;
+
         virtual bool SetEchoCancellation(StreamCapture* capture, bool enable) = 0;
         virtual bool IsEchoCancelling(StreamCapture* capture) = 0;
         virtual bool SetAGC(StreamCapture* capture, bool enable) = 0;
