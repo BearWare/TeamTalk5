@@ -21,8 +21,7 @@
  *
  */
 
-#include "SoundSystemBase.h"
-
+#include "SoundSystemEx.h"
 
 #include <codec/MediaUtil.h>
 
