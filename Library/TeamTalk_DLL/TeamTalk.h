@@ -346,7 +346,6 @@ extern "C" {
          * DirectSound, WASAPI and WinMM it would be the GUID of the sound
          * device. Note that it may not always be available. */
         TTCHAR szDeviceID[TT_STRLEN];
-#if defined(WIN32)
         /** 
          * @brief The ID of the device used in Win32's
          * waveInGetDevCaps and waveOutGetDevCaps.
@@ -360,7 +359,6 @@ extern "C" {
          * @see TT_Mixer_GetWaveOutName
          * @see TT_Mixer_GetMixerCount */
         INT32 nWaveDeviceID;
-#endif
         /** @brief Whether the sound device supports 3D-sound
          * effects. @deprecated Use #SOUNDDEVICEFEATURE_3DPOSITION. */
         TTBOOL bSupports3D;
