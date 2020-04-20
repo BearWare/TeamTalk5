@@ -28,6 +28,7 @@
 
 #include "AudioResampler.h"
 
+#include <cstring>
 #include <memory>
 #include <thread>
 #include <mutex>
