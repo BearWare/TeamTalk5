@@ -56,6 +56,8 @@ BOOL CTTAudioPreprocessorDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
 
+    TRANSLATE(*this, IDD);
+
     m_wndGainlevel.SetRange(SOUND_GAIN_MIN, SOUND_GAIN_MAX);
     m_wndGainlevel.SetPos(m_nGainLevel);
 
