@@ -64,6 +64,8 @@ BOOL CSpeexDSPDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
 
+    TRANSLATE(*this, IDD);
+
     m_wndGainLevelSpin.SetRange(0, 0x7fff);
     m_wndGainMaxSpin.SetRange(0, 100);
     m_wndGainIncSpin.SetRange(0, 100);
