@@ -437,8 +437,12 @@ extern "C" {
 #define TT_SOUNDDEVICE_ID_REMOTEIO              0
     
 /** @brief Sound device ID for iOS AudioUnit subtype Voice-Processing
- * I/O Unit. @see SOUNDSYSTEM_AUDIOUNIT */
-#define TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  (1 | TT_SOUNDDEVICE_SHARED_FLAG)
+ * I/O Unit.
+ *
+ * This sound device ID include the flag
+ * #TT_SOUNDDEVICE_ID_SHARED_FLAG since multiple streams cannot be
+ * recorded/played on the device. @see SOUNDSYSTEM_AUDIOUNIT */
+#define TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  (1 | TT_SOUNDDEVICE_ID_SHARED_FLAG)
     
 /** @brief Sound device ID for Android OpenSL ES default audio
  * device. @see SOUNDSYSTEM_OPENSLES_ANDROID */
