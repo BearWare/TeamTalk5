@@ -507,7 +507,7 @@ BEGIN
     LTEXT           "Static",IDC_STATIC_APPTITLE,7,7,143,47
     LTEXT           "Static",IDC_STATIC_VERSION,105,34,92,14
     LTEXT           "Written by Bjoern D. Rasmussen",IDC_STATIC_AUTHOR,7,62,139,8
-    LTEXT           "Copyright (c) 2005-2018, BearWare.dk",IDC_STATIC_COPYRIGHT,7,75,183,8
+    LTEXT           "Copyright (c) 2005-2020, BearWare.dk",IDC_STATIC_COPYRIGHT,7,75,183,8
     LTEXT           "Speex codec developed by Jean-Marc Valin, www.speex.org",IDC_STATIC,7,88,189,17
     LTEXT           "OPUS codec developed by Opus project, www.opus-codec.org",IDC_STATIC,7,110,189,17
     LTEXT           "WebM VP8 codec developed by WebM project, www.webmproject.org",IDC_STATIC,7,132,189,17
@@ -515,7 +515,7 @@ BEGIN
     LTEXT           "TeamTalk Classic Project Contributors:\nBeqa Gozalishvili",IDC_STATIC_TRANSLATOR2,7,178,189,25
     LTEXT           "Compiled on ",IDC_STATIC_COMPILED,7,205,189,25
     DEFPUSHBUTTON   "OK",IDOK,154,7,36,16
-    ICON            IDR_MAINFRAME,IDC_STATIC_IMAGE,151,61,21,20
+    ICON            IDR_MAINFRAME,IDC_STATIC_IMAGE,151,61,20,20
 END
 
 IDD_DIALOG_HOSTMANAGER DIALOGEX 0, 0, 420, 275
@@ -815,13 +815,13 @@ BEGIN
     LTEXT           "",IDC_STATIC_DURATION,75,60,75,8
     CONTROL         "Continuously play media file",IDC_CHECK_REPEAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,154,59,120,10
     GROUPBOX        "Playback Settings",IDC_STATIC,7,77,273,57
-    LTEXT           "Audio preprocessor",IDC_STATIC,18,90,82,8
+    LTEXT           "Audio preprocessor",IDC_STATIC_AUDIOPREPROCESSOR,18,90,82,8
     COMBOBOX        IDC_COMBO_AUDIOPREPROCESSOR,103,88,125,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "&Setup",IDC_BUTTON_AUDIOSETUP,232,87,42,14
-    LTEXT           "Start position",IDC_STATIC,18,105,44,8
+    LTEXT           "Start position",IDC_STATIC_STARTPOS,18,105,44,8
     CONTROL         "",IDC_SLIDER_OFFSET,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,102,101,125,15
     LTEXT           "0:00:000",IDC_STATIC_TIMEOFFSET,232,105,42,8
-    LTEXT           "Test playback",IDC_STATIC,18,120,45,8
+    LTEXT           "Test playback",IDC_STATIC_TESTPLAYBACK,18,120,45,8
     PUSHBUTTON      "S&top",IDC_BUTTON_STOP,130,117,29,14
     PUSHBUTTON      "&Play",IDC_BUTTON_PLAY,176,117,29,14
     GROUPBOX        "Video Codec Settings",IDC_STATIC_VIDCODECSETTINGS,7,138,273,50
@@ -957,7 +957,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,68,47,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,148,47,50,14
-    LTEXT           "Gain level",IDC_STATIC,7,10,48,8
+    LTEXT           "Gain level",IDC_STATIC_GAINLEVEL,7,10,48,8
     CONTROL         "",IDC_SLIDER_GAINLEVEL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,61,7,86,15
     PUSHBUTTON      "Default",IDC_BUTTON_DEFAULT,148,7,50,14
     CONTROL         "Mute left channel",IDC_CHECK_MUTELEFT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,30,71,10
@@ -1877,6 +1877,11 @@ BEGIN
 END
 
 IDD_DIALOG_SPEEXDSP AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DIALOG_ABOUTBOX AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

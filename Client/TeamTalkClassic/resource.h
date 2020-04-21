@@ -406,9 +406,9 @@
 #define IDC_COMBO_LANGUAGE              1239
 #define IDC_STATIC_TRANSLATOR           1240
 #define IDC_STATIC_UILANGUAGE           1241
-#define IDC_STATIC_TRANSLATOR2          1241
 #define IDC_EDIT_WIZCOMPLETED           1242
 #define IDC_STATIC_MIXERDEVICE          1243
+#define IDC_STATIC_TRANSLATOR2          1244
 #define IDC_CHECK_UILANGUAGE            1245
 #define IDC_CHECK_AUTOCLOSE             1246
 #define IDC_TAB_CTRL                    1251
@@ -722,6 +722,9 @@
 #define IDC_CHECK_MUTELEFT              1591
 #define IDC_CHECK_MUTERIGHT             1592
 #define IDC_CHECK_REPEAT                1593
+#define IDC_STATIC_STARTPOS             1594
+#define IDC_STATIC_AUDIOPREPROCESSOR    1595
+#define IDC_STATIC_TESTPLAYBACK         1596
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -838,7 +841,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        323
 #define _APS_NEXT_COMMAND_VALUE         32955
-#define _APS_NEXT_CONTROL_VALUE         1594
+#define _APS_NEXT_CONTROL_VALUE         1597
 #define _APS_NEXT_SYMED_VALUE           326
 #endif
 #endif

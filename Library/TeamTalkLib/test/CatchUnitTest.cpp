@@ -32,6 +32,11 @@
 #include <codec/OpusEncoder.h>
 
 #include <myace/MyACE.h>
+#include <codec/OggOutput.h>
+
+#include <iostream>
+
+using namespace std;
 
 #if defined(WIN32)
 #include <ace/Init_ACE.h>
@@ -346,4 +351,59 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
 
     for(auto c : clients)
         REQUIRE(TT_CloseTeamTalk(c));
+}
+
+TEST_CASE( "Opus Read File" )
+{
+    std::vector<TTInstance*> clients;
+    auto rxclient = TT_InitTeamTalkPoll();
+    clients.push_back(rxclient);
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+    AudioCodec codec;
+#if defined(ENABLE_OPUSTOOLS) && 0
+    codec.nCodec = OPUS_CODEC;
+    codec.opus = {};
+    codec.opus.nApplication = OPUS_APPLICATION_AUDIO;
+    codec.opus.nBitRate = 64000;
+    codec.opus.nChannels = 2;
+    codec.opus.nComplexity = 9;
+    codec.opus.nFrameSizeMSec = 5;
+    codec.opus.nSampleRate = 24000;
+    codec.opus.nTxIntervalMSec = 400;
+    Channel chan = MakeChannel(rxclient, ACE_TEXT("opustools"), TT_GetMyChannelID(rxclient), codec);
+    REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannel(rxclient, &chan)));
+#else
+    codec.nCodec = SPEEX_VBR_CODEC;
+    codec.speex_vbr = {};
+    codec.speex_vbr.nBandmode = 1;
+    codec.speex_vbr.nBitRate = 16000;
+    codec.speex_vbr.nMaxBitRate = 32000;
+    codec.speex_vbr.nQuality = 5;
+    codec.speex_vbr.nTxIntervalMSec = 400;
+    Channel chan = MakeChannel(rxclient, ACE_TEXT("speex"), TT_GetMyChannelID(rxclient), codec);
+    REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannel(rxclient, &chan)));
+#endif
+    const TTCHAR FILENAME[] = ACE_TEXT("MyMuxFile.ogg");
+    REQUIRE(TT_GetChannel(rxclient, TT_GetMyChannelID(rxclient), &chan));
+    REQUIRE(TT_StartRecordingMuxedAudioFile(rxclient, &chan.audiocodec, FILENAME, AFF_CHANNELCODEC_FORMAT));
+
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, nullptr, 2000);
+
+    for(auto c : clients)
+        REQUIRE(TT_CloseTeamTalk(c));
+    
+    OggFile of;
+    REQUIRE(of.Open(FILENAME));
+    ogg_page op;
+    int pages = 0;
+    REQUIRE(of.ReadOggPage(op));
+    REQUIRE(op.header_len>0);
+    REQUIRE(op.body_len>0);
+    pages++;
+    while (of.ReadOggPage(op))pages++;
+    cout << "pages: " << pages << endl;
 }

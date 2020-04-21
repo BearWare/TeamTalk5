@@ -14,9 +14,7 @@ public:
 	virtual ~CSpeexDSPDlg();
 
 // Dialog Data
-#ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_DIALOG_SPEEXDSP };
-#endif
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

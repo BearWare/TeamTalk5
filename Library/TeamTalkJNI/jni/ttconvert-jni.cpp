@@ -67,10 +67,8 @@ jobject newSoundDevice(JNIEnv* env, const SoundDevice& dev)
     assert(fid_devname);
     jfieldID fid_devstr = env->GetFieldID(cls_snddev, "szDeviceID", "Ljava/lang/String;");
     assert(fid_devstr);
-#if defined(WIN32)
     jfieldID fid_wave = env->GetFieldID(cls_snddev, "nWaveDeviceID", "I");
     assert(fid_wave);
-#endif
     jfieldID fid_3d = env->GetFieldID(cls_snddev, "bSupports3D", "Z");
     assert(fid_3d);
     jfieldID fid_inchan = env->GetFieldID(cls_snddev, "nMaxInputChannels", "I");
@@ -90,9 +88,7 @@ jobject newSoundDevice(JNIEnv* env, const SoundDevice& dev)
     env->SetIntField(newObj, fid_sndsys, dev.nSoundSystem);
     env->SetObjectField(newObj, fid_devname, NEW_JSTRING(env, dev.szDeviceName));
     env->SetObjectField(newObj, fid_devstr, NEW_JSTRING(env, dev.szDeviceID));
-#if defined(WIN32)
     env->SetIntField(newObj, fid_wave, dev.nWaveDeviceID);
-#endif
     env->SetBooleanField(newObj, fid_3d, dev.bSupports3D);
     env->SetIntField(newObj, fid_inchan, dev.nMaxInputChannels);
     env->SetIntField(newObj, fid_outchan, dev.nMaxOutputChannels);

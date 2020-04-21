@@ -30,7 +30,7 @@ public interface SoundDeviceConstants {
 
     /* iOS */
     public static final int TT_SOUNDDEVICE_ID_REMOTEIO              = 0;
-    public static final int TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  = 1;
+    public static final int TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  = (1 | TT_SOUNDDEVICE_ID_SHARED_FLAG);
     /* Android */
     public static final int TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT      = 0;
     public static final int TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM     = 1;
