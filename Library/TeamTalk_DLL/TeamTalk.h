@@ -346,7 +346,6 @@ extern "C" {
          * DirectSound, WASAPI and WinMM it would be the GUID of the sound
          * device. Note that it may not always be available. */
         TTCHAR szDeviceID[TT_STRLEN];
-#if defined(WIN32)
         /** 
          * @brief A Windows specific ID to the sound device.
          *
@@ -364,7 +363,6 @@ extern "C" {
          * @see TT_Mixer_GetWaveOutName
          * @see TT_Mixer_GetMixerCount */
         INT32 nWaveDeviceID;
-#endif
         /** @brief Whether the sound device supports 3D-sound
          * effects. @deprecated Use #SOUNDDEVICEFEATURE_3DPOSITION. */
         TTBOOL bSupports3D;
@@ -441,8 +439,12 @@ extern "C" {
 #define TT_SOUNDDEVICE_ID_REMOTEIO              0
     
 /** @brief Sound device ID for iOS AudioUnit subtype Voice-Processing
- * I/O Unit. @see SOUNDSYSTEM_AUDIOUNIT */
-#define TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  1
+ * I/O Unit.
+ *
+ * This sound device ID include the flag
+ * #TT_SOUNDDEVICE_ID_SHARED_FLAG since multiple streams cannot be
+ * recorded/played on the device. @see SOUNDSYSTEM_AUDIOUNIT */
+#define TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  (1 | TT_SOUNDDEVICE_ID_SHARED_FLAG)
     
 /** @brief Sound device ID for Android OpenSL ES default audio
  * device. @see SOUNDSYSTEM_OPENSLES_ANDROID */

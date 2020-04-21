@@ -170,7 +170,7 @@ namespace BearWare
         public const int TT_SOUNDDEVICE_ID_REMOTEIO = 0;
         /** @brief Sound device ID for iOS AudioUnit subtype Voice-Processing
          * I/O Unit. @see SOUNDSYSTEM_AUDIOUNIT */
-        public const int TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO = 1;
+        public const int TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO = (1 | (int)TT_SOUNDDEVICE_ID_SHARED_FLAG);
         /** @brief Sound device ID for Android OpenSL ES default audio
          * device. Note that this sound device may also exist in the form
          * where the @c nDeviceID as been or'ed with

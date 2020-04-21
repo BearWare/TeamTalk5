@@ -298,6 +298,7 @@
     <item id="1240">Traduit par Oreonan</item>
     <item id="1241">Langue de l&apos;interface utilisateur</item>
     <item id="1243">Mélangeur</item>
+    <item id="1244">Contributeurs au projet TeamTalk Classic : Beqa Gozalishvili</item>
     <item id="1245">Utiliser une autre langue d&apos;installation</item>
     <item id="1246">Fermer quand terminé</item>
     <item id="1253">Nom du fichier :</item>
@@ -426,7 +427,7 @@
     <item id="1475">Format audio :</item>
     <item id="1476">Format vidéo :</item>
     <item id="1477">Propriétés du fichier média</item>
-    <item id="1478">Transmission de fihicer média maximale</item>
+    <item id="1478">Transmission de fichier média maximale</item>
     <item id="1480">Ko/s (0 = désactivé)</item>
     <item id="1481">Utilisateur</item>
     <item id="1482">L&apos;utilisateur peut obtenir un accès à distance aux bureau</item>
@@ -500,6 +501,10 @@
     <item id="1591">Muer à gauche</item>
     <item id="1592">Muer à droite</item>
     <item id="1593">Jouer le média continuellement</item>
+    <item id="1594">Position initiale</item>
+    <item id="1595">Traitement audio</item>
+    <item id="1596">Tester la lecture</item>
+
     <item id="32791">Quelle est mon adresse IP?</item>
     <item id="32798">Définir comme opérateur de canal\tCTRL-O</item>
     <item id="32801">Afficher les messages du canal\tF10</item>

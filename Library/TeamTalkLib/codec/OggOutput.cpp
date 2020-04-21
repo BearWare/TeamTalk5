@@ -61,34 +61,82 @@ int OggOutput::FlushPageOut(ogg_page& og)
     return ogg_stream_flush(&m_os,&og);
 }
 
+OggFile::OggFile()
+{
+}
+
 OggFile::~OggFile()
 {
     Close();
 }
 
-bool OggFile::Open(const ACE_TString& filename)
+bool OggFile::NewFile(const ACE_TString& filename)
 {
     ACE_FILE_Connector con;
-    if(con.connect(m_out_file, ACE_FILE_Addr(filename.c_str()),
+    if (con.connect(m_file, ACE_FILE_Addr(filename.c_str()),
         0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_TRUNC) < 0)
         return false;
 
     return true;
 }
 
+bool OggFile::Open(const ACE_TString& filename)
+{
+    ACE_FILE_Connector con;
+    if (con.connect(m_file, ACE_FILE_Addr(filename.c_str()),
+        0, ACE_Addr::sap_any, 0, O_RDONLY) < 0)
+    {
+        return false;
+    }
+    
+    return ogg_sync_init(&m_state) == 0;
+}
+
 void OggFile::Close()
 {
-    m_out_file.close();
+    m_file.close();
+
+    if (ogg_sync_check(&m_state) == 0)
+    {
+        ogg_sync_clear(&m_state);
+    }
+}
+
+int OggFile::ReadOggPage(ogg_page& og)
+{
+    assert(m_file.get_handle() != ACE_INVALID_HANDLE);
+    assert(ogg_sync_check(&m_state) == 0);
+    
+    int pages;
+    while ((pages = ogg_sync_pageout(&m_state, &og)) != 1)
+    {
+        auto SIZE = 0x1000;
+        auto buffer = ogg_sync_buffer(&m_state, SIZE);
+        auto ret = m_file.recv(buffer, SIZE);
+        if (ret > 0)
+        {
+            ret = ogg_sync_wrote(&m_state, ret);
+            assert(ret == 0);
+        }
+        else break;
+    }
+    
+    return pages;
 }
 
 int OggFile::WriteOggPage(const ogg_page& og)
 {
-    assert(m_out_file.get_handle() != ACE_INVALID_HANDLE);
+    assert(m_file.get_handle() != ACE_INVALID_HANDLE);
 
-    ssize_t bytes_out = -1;
-    bytes_out = m_out_file.send(og.header, og.header_len);
-    if(bytes_out>0)
-        bytes_out += m_out_file.send(og.body, og.body_len);
+    auto bytes_out = m_file.send(og.header, og.header_len);
+    if (bytes_out > 0)
+    {
+        auto ret = m_file.send(og.body, og.body_len);
+        if (ret > 0)
+            bytes_out += ret;
+        else
+            bytes_out = -1;
+    }
 
     return int(bytes_out);
 }
@@ -302,7 +350,7 @@ bool SpeexFile::Open(const ACE_TString& filename,
         Close();
         return false;
     }
-    if(!m_ogg.Open(filename))
+    if (!m_ogg.NewFile(filename))
     {
         Close();
         return false;
@@ -417,7 +465,7 @@ bool OpusFile::Open(const ACE_TString& filename,
                     int framesize)
 {
 
-    if(!m_ogg.Open('S') || !m_oggfile.Open(filename))
+    if(!m_ogg.Open('S') || !m_oggfile.NewFile(filename))
     {
         Close();
         return false;

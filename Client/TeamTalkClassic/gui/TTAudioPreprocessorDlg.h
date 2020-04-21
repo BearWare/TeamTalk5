@@ -14,9 +14,7 @@ public:
 	virtual ~CTTAudioPreprocessorDlg();
 
 // Dialog Data
-#ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_DIALOG_TTAUDIOPREPROCESSOR };
-#endif
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

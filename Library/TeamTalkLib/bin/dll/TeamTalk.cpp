@@ -461,9 +461,8 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
         ACE_OS::strsncpy(pSoundDevices[i].szDeviceID, 
                         devices[i].deviceid.c_str(), 
                         TT_STRLEN);
-#ifdef WIN32
         pSoundDevices[i].nWaveDeviceID = devices[i].wavedeviceid;
-#endif
+
         set<int>::const_iterator is = devices[i].input_samplerates.begin();
         for(size_t s=0;s<TT_SAMPLERATES_MAX;s++)
         {

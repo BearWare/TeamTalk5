@@ -88,9 +88,7 @@ namespace soundsystem {
         SoundAPI soundsystem;
         int id;
         ACE_TString deviceid;
-#if defined(WIN32)
         int wavedeviceid;
-#endif
         SoundDeviceFeatures features = 0;
         int max_input_channels;
         int max_output_channels;
@@ -158,6 +156,8 @@ namespace soundsystem {
             soundsystem = SOUND_API_NOSOUND;
 #if defined(WIN32)
             wavedeviceid = -1;
+#else
+            wavedeviceid = 0;
 #endif
         }
     };
