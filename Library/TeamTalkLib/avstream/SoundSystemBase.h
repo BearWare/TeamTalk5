@@ -300,7 +300,7 @@ namespace soundsystem {
                                       snddev.max_input_channels,
                                       int(snddev.default_samplerate * 0.04));
             }
-            
+
             if (!orgstream)
             {
                 MYTRACE(ACE_TEXT("Failed to open shared input device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
@@ -384,7 +384,7 @@ namespace soundsystem {
             // store in container so others will not try to create
             // another shared stream as well on 'outputdeviceid'
             m_shared_streamplayers[outputdeviceid] = sharedstream;
-            
+
             outputstreamer_t orgstream;
             if (snddev.id == SOUND_DEVICEID_VIRTUAL)
                 orgstream = NewVirtualStream(sharedstream.get(), newsndgrpid,
@@ -398,7 +398,7 @@ namespace soundsystem {
                                       newsndgrpid, snddev.default_samplerate,
                                       snddev.max_output_channels, int(snddev.default_samplerate * 0.04));
             }
-            
+
             if (!orgstream)
             {
                 RemoveSoundGroup(newsndgrpid);
@@ -427,7 +427,7 @@ namespace soundsystem {
 
             MYTRACE(ACE_TEXT("Opened shared output stream %p on device #%d, samplerate %d, channels %d\n"),
                     player, (outputdeviceid & SOUND_DEVICEID_MASK), samplerate, channels);
-            
+
             return streamer;
         }
 
@@ -629,6 +629,7 @@ namespace soundsystem {
 
             return true;
         }
+
         bool CloseOutputStream(StreamPlayer* player)
         {
             outputstreamer_t streamer = GetStream(player);
@@ -676,6 +677,7 @@ namespace soundsystem {
 
             return true;
         }
+
         bool StartStream(StreamPlayer* player)
         {
             outputstreamer_t streamer = GetStream(player);
@@ -701,6 +703,7 @@ namespace soundsystem {
 
             return StartStream(streamer);
         }
+
         bool StopStream(StreamPlayer* player)
         {
             outputstreamer_t streamer = GetStream(player);
@@ -725,6 +728,7 @@ namespace soundsystem {
 
             return StopStream(streamer);
         }
+
         bool IsStreamStopped(StreamPlayer* player)
         {
             outputstreamer_t streamer = GetStream(player);
@@ -1154,7 +1158,7 @@ namespace soundsystem {
             return IsDenoising(inputstream);
         }
 
-    protected:
+    private:
         void StartVirtualStream(inputstreamer_t streamer)
         {
             assert(streamer->IsVirtual());
@@ -1199,8 +1203,6 @@ namespace soundsystem {
             std::lock_guard<std::recursive_mutex> g(m_virtdev_lock);
             return m_virtual_streams.find(streamer) == m_virtual_streams.end();
         }
-
-    private:
 
         void AddVirtualDevice()
         {
