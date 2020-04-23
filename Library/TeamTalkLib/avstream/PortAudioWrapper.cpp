@@ -28,8 +28,16 @@
 #include <assert.h>
 
 #if defined(ACE_WIN32)
+
+#include <avstream/DMOResampler.h> // need SetWaveMediaType()
+
 #include <px_win_ds.h>    //the directx mixer
+
 #include <Objbase.h>
+#include <Mmsystem.h>
+#include <propsys.h>
+#include <atlbase.h>
+#include <MMDeviceApi.h>
 #endif
 
 using namespace std;
@@ -470,6 +478,7 @@ void PortAudio::CloseStream(outputstreamer_t streamer)
 
 bool PortAudio::StartStream(outputstreamer_t streamer)
 {
+    assert(streamer->stream);
     PaError err = Pa_StartStream(streamer->stream);
     assert(err == paNoError);
     return err == paNoError;
@@ -600,12 +609,14 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
                                       int samplerate, int input_channels,
                                       int output_channels, int framesize)
 {
+    const PaDeviceInfo* indev = Pa_GetDeviceInfo(inputdeviceid);
+    const PaDeviceInfo* outdev = Pa_GetDeviceInfo(outputdeviceid);
+    if (!indev || !outdev)
+        return duplexstreamer_t();
+
     //input device init
     PaStreamParameters inputParameters;
     inputParameters.device = inputdeviceid;
-    const PaDeviceInfo* indev = Pa_GetDeviceInfo( inputParameters.device );
-    if( !indev )
-        return duplexstreamer_t();
     inputParameters.channelCount = input_channels;
     inputParameters.hostApiSpecificStreamInfo = NULL;
     inputParameters.sampleFormat = paInt16;
@@ -614,9 +625,6 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
     //output device init
     PaStreamParameters outputParameters;
     outputParameters.device = outputdeviceid;
-    const PaDeviceInfo* outdev = Pa_GetDeviceInfo( outputParameters.device );
-    if(!outdev)
-        return duplexstreamer_t();
     outputParameters.channelCount = output_channels;
     outputParameters.hostApiSpecificStreamInfo = NULL;
     outputParameters.sampleFormat = paInt16;
@@ -658,11 +666,346 @@ void PortAudio::CloseStream(duplexstreamer_t streamer)
 {
     assert(streamer->players.empty());
 
-    PaStream* stream = streamer->stream;
     PaError err = Pa_CloseStream(streamer->stream);
     assert(err == paNoError);
 
     streamer->stream = nullptr;
 }
+
+#if defined(WIN32)
+CWMAudioAECCapture::CWMAudioAECCapture(PaDuplexStreamer* duplex)
+: m_streamer(duplex)
+{
+    m_output_buffer.resize(m_streamer->framesize * m_streamer->output_channels);
+}
+
+CWMAudioAECCapture::~CWMAudioAECCapture()
+{
+    if (m_callback_thread)
+    {
+        m_stop.set_value(true);
+        m_callback_thread->join();
+    }
+}
+
+bool CWMAudioAECCapture::Open()
+{
+    auto result = m_started.get_future();
+    m_callback_thread.reset(new std::thread(&CWMAudioAECCapture::Run, this));
+
+    return result.get();
+}
+
+void CWMAudioAECCapture::Run()
+{
+    // CoInitialize(NULL); let PortAudio::getInstance() initialize COM
+
+    // find MFPKEY_WMAAECMA_DEVICE_INDEXES
+    LONG inDevIndex, outDevIndex;
+    if (!FindDevs(inDevIndex, outDevIndex))
+        return;
+
+    CComPtr<IMediaObject> pDMO;
+    CComPtr<IPropertyStore> pPS;
+
+    if (FAILED(CoCreateInstance(CLSID_CWMAudioAEC, NULL, CLSCTX_INPROC_SERVER, IID_IMediaObject, (LPVOID*)&pDMO)))
+    {
+        m_started.set_value(false);
+        return;
+    }
+
+    if (FAILED(pDMO->QueryInterface(IID_IPropertyStore, (LPVOID*)&pPS)))
+    {
+        m_started.set_value(false);
+        return;
+    }
+
+    const int SAMPLERATE = 22050;
+    const int CHANNELS = 1;
+    media::AudioFormat infmt(SAMPLERATE, CHANNELS);
+    const size_t BUFSIZE = PCM16_BYTES(SAMPLERATE * 3, CHANNELS);
+
+    m_input_queue.high_water_mark(BUFSIZE);
+    m_input_queue.low_water_mark(BUFSIZE);
+
+    int inputsamples = CalcSamples(m_streamer->samplerate, m_streamer->framesize, SAMPLERATE);
+    m_input_buffer.resize(inputsamples * CHANNELS);
+
+    m_resampler = MakeAudioResampler(infmt, media::AudioFormat(m_streamer->samplerate, m_streamer->input_channels), inputsamples);
+    if (!m_resampler)
+    {
+        m_started.set_value(false);
+        return;
+    }
+
+    DMO_MEDIA_TYPE mt = {};
+    if (FAILED(MoInitMediaType(&mt, sizeof(WAVEFORMATEX))))
+    {
+        m_started.set_value(false);
+        return;
+    }
+
+    if (!SetWaveMediaType(SAMPLEFORMAT_INT16, CHANNELS, SAMPLERATE, mt))
+    {
+        m_started.set_value(false);
+        return;
+    }
+
+    if (FAILED(pDMO->SetOutputType(0, &mt, 0)))
+    {
+        m_started.set_value(false);
+        SUCCEEDED(MoFreeMediaType(&mt));
+        return;
+    }
+    
+    SUCCEEDED(MoFreeMediaType(&mt));
+
+    PROPVARIANT pvDeviceId;
+    PropVariantInit(&pvDeviceId);
+    pvDeviceId.vt = VT_I4;
+    pvDeviceId.lVal = (outDevIndex << 16) | inDevIndex;
+    if (FAILED(pPS->SetValue(MFPKEY_WMAAECMA_DEVICE_INDEXES, pvDeviceId)))
+    {
+        m_started.set_value(false);
+        return;
+    }
+    if (FAILED(pPS->GetValue(MFPKEY_WMAAECMA_DEVICE_INDEXES, &pvDeviceId)))
+    {
+        m_started.set_value(false);
+        return;
+    }
+    PropVariantClear(&pvDeviceId);
+
+    if (FAILED(pDMO->AllocateStreamingResources()))
+    {
+        m_started.set_value(false);
+        return;
+    }
+
+    auto stopstate = m_stop.get_future();
+
+    m_started.set_value(true);
+
+    int iFrameSize = 0;
+    PROPVARIANT pvFrameSize;
+    PropVariantInit(&pvFrameSize);
+    SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_FEATR_FRAME_SIZE, &pvFrameSize));
+    iFrameSize = pvFrameSize.lVal;
+    PropVariantClear(&pvFrameSize);
+
+    std::vector<BYTE> outputbuf(PCM16_BYTES(SAMPLERATE, CHANNELS));
+    auto delayMSec = std::chrono::milliseconds(iFrameSize * 1000 / SAMPLERATE);
+    bool error = false;
+    do
+    {
+        // before queuing more then drain what we already have
+        while (m_input_queue.message_count())
+        {
+            ACE_Time_Value tv;
+            ACE_Message_Block* mb;
+            if (m_input_queue.dequeue(mb, &tv) >= 0)
+            {
+                media::AudioFrame frm(mb);
+                QueueAudioInput(frm);
+                mb->release();
+            }
+            else break;
+        }
+
+        CComPtr<IMediaBuffer> ioutputbuf;
+        HRESULT hr = CMediaBuffer::CreateBuffer(&outputbuf[0], 0, outputbuf.size(), (void**)&ioutputbuf);
+        MYTRACE_COND(FAILED(hr), ACE_TEXT("Failed to create AEC output buffer\n"));
+        if (FAILED(hr))
+            break;
+
+        DMO_OUTPUT_DATA_BUFFER dmodatabuf = {};
+        dmodatabuf.pBuffer = ioutputbuf;
+        DWORD dwStatus, dwOutputLen = 0;
+        hr = pDMO->ProcessOutput(0, 1, &dmodatabuf, &dwStatus);
+
+        switch(hr)
+        {
+        case S_FALSE:
+            dwOutputLen = 0;
+            break;
+        case S_OK:
+            dwOutputLen = 0;
+            BYTE* outputbufptr;
+            if (SUCCEEDED(ioutputbuf->GetBufferAndLength(&outputbufptr, &dwOutputLen)))
+            {
+                MYTRACE(ACE_TEXT("Audio callback with %d msec\n"), PCM16_BYTES_DURATION(dwOutputLen, CHANNELS, SAMPLERATE));
+                int samples = dwOutputLen / sizeof(short) / CHANNELS;
+
+                media::AudioFrame frm(infmt, reinterpret_cast<short*>(outputbufptr), samples);
+                // if we already have a queue then just add to queue
+                if (m_input_queue.message_count())
+                {
+                    ACE_Message_Block* mb = AudioFrameToMsgBlock(frm);
+                    ACE_Time_Value tv;
+                    if (m_input_queue.enqueue_tail(mb, &tv) < 0)
+                    {
+                        mb->release();
+                        MYTRACE(ACE_TEXT("Failed to queue echo cancelled audio\n"));
+                    }
+                }
+                else
+                {
+                    QueueAudioInput(frm);
+                }
+            }
+
+            if (stopstate.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                break; // stop requested
+            else continue; // see if there's more
+        case E_FAIL:
+            error = true;
+            break;
+        case E_INVALIDARG:
+            error = true;
+            break;
+        case E_POINTER:
+            error = true;
+            break;
+        case WMAAECMA_E_NO_ACTIVE_RENDER_STREAM:
+            MYTRACE(ACE_TEXT("No audio rendered on device: %d\n"), outDevIndex);
+            error = true;
+            break;
+        default:
+            MYTRACE(ACE_TEXT("Unknown HRESULT from echo cancellor 0x%x\n"), hr);
+            error = true;
+            break;
+        }
+
+    } while (!error && stopstate.wait_for(delayMSec) == std::future_status::timeout);
+}
+
+void CWMAudioAECCapture::QueueAudioInput(const media::AudioFrame& frm)
+{
+    const int CHANNELS = frm.inputfmt.channels;
+    int samples = frm.input_samples;
+    int copiedsamples = 0;
+
+    assert(m_input_index < m_input_buffer.size());
+
+    while (samples > 0 && m_input_index < m_input_buffer.size())
+    {
+        int remainsamples = (m_input_buffer.size() - m_input_index) / CHANNELS;
+        int copysamples = std::min(samples, remainsamples);
+
+        int copybytes = PCM16_BYTES(copysamples, CHANNELS);
+        std::memcpy(&m_input_buffer[m_input_index * CHANNELS], &frm.input_buffer[copiedsamples * CHANNELS], copybytes);
+        m_input_index += copysamples * CHANNELS;
+        assert(m_input_index <= m_input_buffer.size());
+
+        if (m_input_index == m_input_buffer.size())
+        {
+            int n_resampled;
+            short* input = m_resampler->Resample(&m_input_buffer[0], &n_resampled);
+            assert(n_resampled <= m_streamer->framesize);
+            m_streamer->duplex->StreamDuplexCb(*m_streamer, input, &m_output_buffer[0], m_streamer->framesize);
+            m_input_index = 0;
+        }
+
+        samples -= copysamples;
+        copiedsamples += copysamples;
+        assert(samples >= 0);
+        assert(copiedsamples <= frm.input_samples);
+    }
+
+    // if there's still more samples left we queue them
+    if (samples)
+    {
+        media::AudioFrame tmp = frm;
+        tmp.input_buffer = &frm.input_buffer[copiedsamples * CHANNELS];
+        tmp.input_samples = samples;
+
+        ACE_Message_Block* mb = AudioFrameToMsgBlock(tmp);
+        ACE_Time_Value tv;
+        if (m_input_queue.enqueue_head(mb, &tv) < 0)
+        {
+            mb->release();
+            MYTRACE(ACE_TEXT("Failed to queue echo cancelled audio\n"));
+        }
+    }
+}
+
+bool CWMAudioAECCapture::FindDevs(LONG& indevindex, LONG& outdevindex)
+{
+    mapsndid_t indevs, outdevs;
+
+    CComPtr<IMMDeviceEnumerator> spEnumerator;
+    CComPtr<IMMDeviceCollection> spEndpoints;
+    UINT dwCount = 0;
+
+    // initialize COM
+    auto sndsys = GetInstance();
+
+    // Now enumerate capture devices
+    if (FAILED(spEnumerator.CoCreateInstance(__uuidof(MMDeviceEnumerator))))
+        return false;
+
+    if (FAILED(spEnumerator->EnumAudioEndpoints(eCapture, DEVICE_STATE_ACTIVE, &spEndpoints)))
+        return false;
+
+    if (FAILED(spEndpoints->GetCount(&dwCount)))
+        return false;
+
+    for(UINT index = 0; index < dwCount; index++)
+    {
+        WCHAR* pszDeviceId = NULL;
+        PROPVARIANT value;
+        CComPtr<IMMDevice> spDevice;
+        CComPtr<IPropertyStore> spProperties;
+
+        PropVariantInit(&value);
+        if (SUCCEEDED(spEndpoints->Item(index, &spDevice)) && SUCCEEDED(spDevice->GetId(&pszDeviceId)))
+            indevs[pszDeviceId] = index;
+
+        PropVariantClear(&value);
+        CoTaskMemFree(pszDeviceId);
+    }
+    
+    // reset for reuse
+    spEndpoints.Release();
+    dwCount = 0;
+
+    // Now enumerate speaker devices
+    if (FAILED(spEnumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &spEndpoints)))
+        return false;
+
+    if (FAILED(spEndpoints->GetCount(&dwCount)))
+        return false;
+
+    for(UINT index = 0; index < dwCount; index++)
+    {
+        WCHAR* pszDeviceId = NULL;
+        PROPVARIANT value;
+        CComPtr<IMMDevice> spDevice;
+        CComPtr<IPropertyStore> spProperties;
+
+        PropVariantInit(&value);
+        if (SUCCEEDED(spEndpoints->Item(index, &spDevice)) && SUCCEEDED(spDevice->GetId(&pszDeviceId)))
+            outdevs[pszDeviceId] = index;
+
+        PropVariantClear(&value);
+        CoTaskMemFree(pszDeviceId);
+    }
+
+    DeviceInfo indev, outdev;
+    sndsys->GetDevice(m_streamer->inputdeviceid, indev);
+    sndsys->GetDevice(m_streamer->outputdeviceid, outdev);
+
+    if (indevs.find(indev.deviceid) == indevs.end())
+        return false;
+
+    if (outdevs.find(outdev.deviceid) == outdevs.end())
+        return false;
+
+    indevindex = indevs[indev.deviceid];
+    outdevindex = outdevs[outdev.deviceid];
+    return true;
+}
+
+#endif
 
 } //namespace

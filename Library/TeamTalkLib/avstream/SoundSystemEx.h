@@ -162,7 +162,6 @@ namespace soundsystem {
             return true;
         }
     };
-
 }
 
 #endif
