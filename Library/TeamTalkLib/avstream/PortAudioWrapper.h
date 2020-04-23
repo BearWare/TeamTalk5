@@ -26,16 +26,13 @@
 
 #include "SoundSystemBase.h"
 
-#include <vector>
-#include <map>
-
 #include <portaudio.h>
 
 #include <myace/MyACE.h>
-#include <ace/SString.h>
-#include <ace/Time_Value.h>
-#include <ace/Singleton.h>
 
+#include <vector>
+#include <map>
+#include <future>
 #include <assert.h>
 
 namespace soundsystem
@@ -165,6 +162,34 @@ namespace soundsystem
     typedef SSB::outputstreamer_t outputstreamer_t;
     typedef SSB::duplexstreamer_t duplexstreamer_t;
 
+
+#if defined(WIN32)
+    class CWMAudioAECCapture
+    {
+        PaDuplexStreamer* m_streamer;
+        std::shared_ptr<std::thread> m_callback_thread;
+
+        typedef std::map<ACE_TString, UINT> mapsndid_t;
+
+        bool FindDevs(LONG& indevindex, LONG& outdevindex);
+        void Run();
+        void QueueAudioInput(const media::AudioFrame& frm);
+
+        // signaling semaphores
+        std::promise<bool> m_started, m_stop;
+
+        size_t m_input_index = 0;
+        std::vector<short> m_input_buffer; // audio from input device
+        std::vector<short> m_output_buffer; // audio from output device
+        msg_queue_t m_input_queue; // audio from input device that didn't fit in 'm_input_buffer'
+        audio_resampler_t m_resampler;
+
+    public:
+        CWMAudioAECCapture(PaDuplexStreamer* duplex);
+        ~CWMAudioAECCapture();
+        bool Open();
+    };
+#endif
 }
 
 #endif

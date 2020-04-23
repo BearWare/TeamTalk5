@@ -47,6 +47,7 @@ using namespace std;
 #include <atlbase.h>
 #include <MMDeviceApi.h>
 #include <avstream/DMOResampler.h>
+#include <avstream/PortAudioWrapper.h>
 
 static class WinInit
 {
@@ -560,5 +561,53 @@ TEST_CASE("CLSID_CWMAudioAEC")
         Sleep(delay);
 
     } while ((waitMSec -= delay) > 0);
+}
+
+TEST_CASE("CWMAudioAEC_Callback")
+{
+    using namespace soundsystem;
+    class MyClass : public StreamDuplex
+    {
+    public:
+        int callbacks = 0;
+        void StreamDuplexEchoCb(const DuplexStreamer& streamer,
+                                const short* input_buffer,
+                                const short* prev_output_buffer, int samples)
+        {
+        }
+
+        void StreamDuplexCb(const DuplexStreamer& streamer,
+                            const short* input_buffer,
+                            short* output_buffer, int samples)
+        {
+            MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
+            callbacks++;
+        }
+
+    } myduplex, myduplex2;
+
+    auto sndsys = soundsystem::GetInstance();
+    int sndgrpid = sndsys->OpenSoundGroup();
+    int indev, outdev;
+    REQUIRE(sndsys->GetDefaultDevices(SOUND_API_WASAPI, indev, outdev));
+    // test when framesize > CWMAudioAEC framesize
+    PaDuplexStreamer paduplex(&myduplex, sndgrpid, 48000 * .1, 48000, 1, 1, SOUND_API_WASAPI, indev, outdev);
+    {
+        CWMAudioAECCapture aec(&paduplex);
+        REQUIRE(aec.Open());
+        while (myduplex.callbacks <= 10)
+            Sleep(1);
+    }
+
+    // test when framesize < CWMAudioAEC framesize
+    PaDuplexStreamer paduplex2(&myduplex2, sndgrpid, 48000 * .005, 48000, 1, 1, SOUND_API_WASAPI, indev, outdev);
+    {
+        CWMAudioAECCapture aec(&paduplex2);
+        REQUIRE(aec.Open());
+        while(myduplex2.callbacks <= 200)
+            Sleep(1);
+    }
+
+    sndsys->RemoveSoundGroup(sndgrpid);
 }
 #endif
