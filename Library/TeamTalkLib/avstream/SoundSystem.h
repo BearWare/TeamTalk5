@@ -382,12 +382,17 @@ namespace soundsystem {
         virtual void SetMute(StreamPlayer* player, bool mute) = 0;
         virtual bool IsMute(StreamPlayer* player) = 0;
 
+        // Android sets echo cancellation on the input device
         virtual bool SetEchoCancellation(StreamCapture* capture, bool enable) = 0;
         virtual bool IsEchoCancelling(StreamCapture* capture) = 0;
         virtual bool SetAGC(StreamCapture* capture, bool enable) = 0;
         virtual bool IsAGC(StreamCapture* capture) = 0;
         virtual bool SetDenoising(StreamCapture* capture, bool enable) = 0;
         virtual bool IsDenoising(StreamCapture* capture) = 0;
+
+        // Windows sets echo cancellation on active output device and creates input device
+        virtual bool SetEchoCancellation(int sndgrpid, bool enable) = 0;
+        virtual bool IsEchoCancelling(int sndgrpid) = 0;
     };
 
 

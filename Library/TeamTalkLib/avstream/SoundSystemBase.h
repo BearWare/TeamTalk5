@@ -97,6 +97,11 @@ namespace soundsystem {
             return result;
         }
 
+        virtual bool SetEchoCancellation(soundgroup_t sndgrp, bool enable) { return !enable; }
+        virtual bool IsEchoCancelling(soundgroup_t sndgrp) { return false; }
+
+        // recording members
+
         virtual inputstreamer_t NewStream(StreamCapture* capture,
                                           int inputdeviceid, int sndgrpid,
                                           int samplerate, int channels,
@@ -150,6 +155,7 @@ namespace soundsystem {
             return recorders;
         }
 
+        // playback members
         virtual outputstreamer_t NewStream(StreamPlayer* player, int outputdeviceid,
                                            int sndgrpid, int samplerate, int channels,
                                            int framesize) = 0;
@@ -181,6 +187,7 @@ namespace soundsystem {
             return players;
         }
 
+        // duplex members
         virtual duplexstreamer_t NewStream(StreamDuplex* duplex, int inputdeviceid,
                                            int outputdeviceid, int sndgrpid,
                                            int samplerate, int input_channels,
@@ -1156,6 +1163,20 @@ namespace soundsystem {
                 return false;
 
             return IsDenoising(inputstream);
+        }
+
+        virtual bool SetEchoCancellation(int sndgrpid, bool enable)
+        {
+            auto sndgrp = GetSoundGroup(sndgrpid);
+            if (!sndgrp)
+                return false;
+
+            return !enable;
+        }
+
+        virtual bool IsEchoCancelling(int sndgrpid)
+        {
+            return false;
         }
 
     private:

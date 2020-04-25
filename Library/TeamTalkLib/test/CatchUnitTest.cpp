@@ -586,26 +586,66 @@ TEST_CASE("CWMAudioAEC_Callback")
 
     } myduplex, myduplex2;
 
+    media::AudioFormat fmt(48000, 1);
     auto sndsys = soundsystem::GetInstance();
     int sndgrpid = sndsys->OpenSoundGroup();
     int indev, outdev;
     REQUIRE(sndsys->GetDefaultDevices(SOUND_API_WASAPI, indev, outdev));
     // test when framesize > CWMAudioAEC framesize
-    PaDuplexStreamer paduplex(&myduplex, sndgrpid, 48000 * .1, 48000, 1, 1, SOUND_API_WASAPI, indev, outdev);
     {
-        CWMAudioAECCapture aec(&paduplex);
-        REQUIRE(aec.Open());
+        PaDuplexStreamer paduplex(&myduplex, sndgrpid, fmt.samplerate * .1, fmt.samplerate, fmt.channels, fmt.channels, SOUND_API_WASAPI, indev, outdev);
+        paduplex.winaec.reset(new CWMAudioAECCapture(&paduplex));
+        REQUIRE(paduplex.winaec->Open());
         while (myduplex.callbacks <= 10)
-            Sleep(1);
+        {
+            Sleep(PCM16_SAMPLES_DURATION(paduplex.framesize, fmt.samplerate));
+            short* recorded = paduplex.winaec->AcquireBuffer();
+            if (recorded)
+            {
+                std::vector<short> playback(paduplex.framesize * paduplex.output_channels);
+                paduplex.duplex->StreamDuplexEchoCb(paduplex, recorded, &playback[0], paduplex.framesize);
+                paduplex.duplex->StreamDuplexCb(paduplex, recorded, &playback[0], paduplex.framesize);
+                paduplex.winaec->ReleaseBuffer();
+            }
+        }
     }
 
     // test when framesize < CWMAudioAEC framesize
-    PaDuplexStreamer paduplex2(&myduplex2, sndgrpid, 48000 * .005, 48000, 1, 1, SOUND_API_WASAPI, indev, outdev);
     {
-        CWMAudioAECCapture aec(&paduplex2);
-        REQUIRE(aec.Open());
+        fmt = media::AudioFormat(32000, 2);
+        PaDuplexStreamer paduplex2(&myduplex2, sndgrpid, fmt.samplerate * .005, fmt.samplerate, fmt.channels, fmt.channels, SOUND_API_WASAPI, indev, outdev);
+        paduplex2.winaec.reset(new CWMAudioAECCapture(&paduplex2));
+        REQUIRE(paduplex2.winaec->Open());
         while(myduplex2.callbacks <= 200)
-            Sleep(1);
+        {
+            Sleep(PCM16_SAMPLES_DURATION(paduplex2.framesize, fmt.samplerate));
+            short* recorded = paduplex2.winaec->AcquireBuffer();
+            if(recorded)
+            {
+                std::vector<short> playback(paduplex2.framesize * paduplex2.output_channels);
+                paduplex2.duplex->StreamDuplexEchoCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
+                paduplex2.duplex->StreamDuplexCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
+                paduplex2.winaec->ReleaseBuffer();
+            }
+        }
+        // Ensure queue is used instead of direct callback
+        Sleep(1000);
+
+        // Ensure we can resume
+        myduplex2.callbacks = 0;
+        while(myduplex2.callbacks <= 200)
+        {
+            Sleep(PCM16_SAMPLES_DURATION(paduplex2.framesize, fmt.samplerate));
+            short* recorded = paduplex2.winaec->AcquireBuffer();
+            if(recorded)
+            {
+                std::vector<short> playback(paduplex2.framesize * paduplex2.output_channels);
+                paduplex2.duplex->StreamDuplexEchoCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
+                paduplex2.duplex->StreamDuplexCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
+                paduplex2.winaec->ReleaseBuffer();
+            }
+        }
+
     }
 
     sndsys->RemoveSoundGroup(sndgrpid);
