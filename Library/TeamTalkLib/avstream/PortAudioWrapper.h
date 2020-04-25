@@ -67,6 +67,9 @@ namespace soundsystem
 
     struct PaDuplexStreamer : DuplexStreamer, PaStreamer
     {
+#if defined(WIN32)
+        std::shared_ptr<class CWMAudioAECCapture> winaec;
+#endif
         PaDuplexStreamer(StreamDuplex* d, int sg, int fs, int sr, int inchs, int outchs,
                          SoundAPI out_sndsys, int inputdeviceid, int outputdeviceid)
             : DuplexStreamer(d, sg, fs, sr, inchs, outchs, out_sndsys, inputdeviceid, outputdeviceid)
@@ -78,11 +81,9 @@ namespace soundsystem
 
     struct PaSoundGroup : SoundGroup
     {
-        bool autoposition;
-        PaSoundGroup()
-        {
-            autoposition = false;
-        }
+        bool autoposition = false;;
+        bool echocancel = false;
+        PaSoundGroup() { }
     };
 
     typedef SoundSystemBase < PaSoundGroup, PaInputStreamer, PaOutputStreamer, PaDuplexStreamer > SSB;
@@ -100,6 +101,9 @@ namespace soundsystem
         //sound group members
         soundgroup_t NewSoundGroup();
         void RemoveSoundGroup(soundgroup_t sndgrp);
+
+        bool SetEchoCancellation(soundgroup_t sndgrp, bool enable);
+        bool IsEchoCancelling(soundgroup_t sndgrp);
 
         //input members
         inputstreamer_t NewStream(StreamCapture* capture, int inputdeviceid, 
@@ -173,21 +177,26 @@ namespace soundsystem
 
         bool FindDevs(LONG& indevindex, LONG& outdevindex);
         void Run();
-        void QueueAudioInput(const media::AudioFrame& frm);
+        void ProcessAudioQueue();
+        // true means audio frame was consumed, false means audio frame
+        // was queued
+        bool QueueAudioInput(const media::AudioFrame& frm);
 
         // signaling semaphores
         std::promise<bool> m_started, m_stop;
 
         size_t m_input_index = 0;
         std::vector<short> m_input_buffer; // audio from input device
-        std::vector<short> m_output_buffer; // audio from output device
         msg_queue_t m_input_queue; // audio from input device that didn't fit in 'm_input_buffer'
         audio_resampler_t m_resampler;
-
+        short* m_resampled_input = nullptr;
+        std::mutex m_mutex;
     public:
         CWMAudioAECCapture(PaDuplexStreamer* duplex);
         ~CWMAudioAECCapture();
         bool Open();
+        short* AcquireBuffer();
+        void ReleaseBuffer();
     };
 #endif
 }

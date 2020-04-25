@@ -96,6 +96,17 @@ void PortAudio::RemoveSoundGroup(soundgroup_t sndgrp)
 {
 }
 
+bool PortAudio::SetEchoCancellation(soundgroup_t sndgrp, bool enable)
+{
+    sndgrp->echocancel = enable;
+    return true;
+}
+
+bool PortAudio::IsEchoCancelling(soundgroup_t sndgrp)
+{
+    return sndgrp->echocancel;
+}
+
 bool PortAudio::SetAutoPositioning(int sndgrpid, bool enable)
 {
     soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
@@ -621,6 +632,7 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
     inputParameters.hostApiSpecificStreamInfo = NULL;
     inputParameters.sampleFormat = paInt16;
     inputParameters.suggestedLatency = indev->defaultLowInputLatency;
+    PaStreamParameters* tmpInputParameters = &inputParameters;
 
     //output device init
     PaStreamParameters outputParameters;
@@ -635,8 +647,20 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
                                                    output_channels, GetSoundSystem(outdev),
                                                    inputdeviceid, outputdeviceid));
 
+#if defined(WIN32)
+    soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
+    if (!sndgrp)
+        return false;
+
+    if (sndgrp->echocancel)
+    {
+        streamer->winaec.reset(new CWMAudioAECCapture(streamer.get()));
+        tmpInputParameters = nullptr;
+    }
+#endif
+
     //open stream
-    PaError err = Pa_OpenStream(&streamer->stream, &inputParameters,
+    PaError err = Pa_OpenStream(&streamer->stream, tmpInputParameters,
                                 &outputParameters, (double)samplerate,
                                 framesize, paClipOff,
                                 DuplexStreamCallback,
@@ -676,7 +700,6 @@ void PortAudio::CloseStream(duplexstreamer_t streamer)
 CWMAudioAECCapture::CWMAudioAECCapture(PaDuplexStreamer* duplex)
 : m_streamer(duplex)
 {
-    m_output_buffer.resize(m_streamer->framesize * m_streamer->output_channels);
 }
 
 CWMAudioAECCapture::~CWMAudioAECCapture()
@@ -798,19 +821,7 @@ void CWMAudioAECCapture::Run()
     bool error = false;
     do
     {
-        // before queuing more then drain what we already have
-        while (m_input_queue.message_count())
-        {
-            ACE_Time_Value tv;
-            ACE_Message_Block* mb;
-            if (m_input_queue.dequeue(mb, &tv) >= 0)
-            {
-                media::AudioFrame frm(mb);
-                QueueAudioInput(frm);
-                mb->release();
-            }
-            else break;
-        }
+        ProcessAudioQueue();
 
         CComPtr<IMediaBuffer> ioutputbuf;
         HRESULT hr = CMediaBuffer::CreateBuffer(&outputbuf[0], 0, outputbuf.size(), (void**)&ioutputbuf);
@@ -879,13 +890,37 @@ void CWMAudioAECCapture::Run()
     } while (!error && stopstate.wait_for(delayMSec) == std::future_status::timeout);
 }
 
-void CWMAudioAECCapture::QueueAudioInput(const media::AudioFrame& frm)
+void CWMAudioAECCapture::ProcessAudioQueue()
+{
+    {
+        // if queue is full then just give up
+        std::lock_guard<std::mutex> g(m_mutex);
+        if(m_input_index == m_input_buffer.size())
+            return;
+    }
+
+    bool full = false;
+    while(m_input_queue.message_count() && !full)
+    {
+        ACE_Time_Value tv;
+        ACE_Message_Block* mb;
+        if(m_input_queue.dequeue(mb, &tv) >= 0)
+        {
+            media::AudioFrame frm(mb);
+            full = QueueAudioInput(frm) == false;
+            mb->release();
+        }
+        else break;
+    }
+}
+
+bool CWMAudioAECCapture::QueueAudioInput(const media::AudioFrame& frm)
 {
     const int CHANNELS = frm.inputfmt.channels;
     int samples = frm.input_samples;
     int copiedsamples = 0;
 
-    assert(m_input_index < m_input_buffer.size());
+    std::lock_guard<std::mutex> g(m_mutex);
 
     while (samples > 0 && m_input_index < m_input_buffer.size())
     {
@@ -900,10 +935,9 @@ void CWMAudioAECCapture::QueueAudioInput(const media::AudioFrame& frm)
         if (m_input_index == m_input_buffer.size())
         {
             int n_resampled;
-            short* input = m_resampler->Resample(&m_input_buffer[0], &n_resampled);
+            assert(m_resampled_input == nullptr);
+            m_resampled_input = m_resampler->Resample(&m_input_buffer[0], &n_resampled);
             assert(n_resampled <= m_streamer->framesize);
-            m_streamer->duplex->StreamDuplexCb(*m_streamer, input, &m_output_buffer[0], m_streamer->framesize);
-            m_input_index = 0;
         }
 
         samples -= copysamples;
@@ -927,6 +961,21 @@ void CWMAudioAECCapture::QueueAudioInput(const media::AudioFrame& frm)
             MYTRACE(ACE_TEXT("Failed to queue echo cancelled audio\n"));
         }
     }
+
+    return samples == 0;
+}
+
+ short* CWMAudioAECCapture::AcquireBuffer()
+{
+    std::lock_guard<std::mutex> g(m_mutex);
+    return m_resampled_input;
+}
+
+void CWMAudioAECCapture::ReleaseBuffer()
+{
+    std::lock_guard<std::mutex> g(m_mutex);
+    m_resampled_input = nullptr;
+    m_input_index = 0;
 }
 
 bool CWMAudioAECCapture::FindDevs(LONG& indevindex, LONG& outdevindex)
