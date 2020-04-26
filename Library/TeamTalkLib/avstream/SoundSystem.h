@@ -258,7 +258,9 @@ namespace soundsystem {
         SoundAPI output_soundsystem;
         int inputdeviceid, outputdeviceid;
         std::vector<short> tmpOutputBuffer;
-
+#if defined(DEBUG)
+        uint32_t lastPlaybackCrc = 0;
+#endif
         DuplexStreamer(StreamDuplex* d, int sg, int fs, int sr, int inchs, int outchs,
                        SoundAPI out_sndsys, int indevid, int outdevid)
             : SoundStreamer(sg, fs, sr)

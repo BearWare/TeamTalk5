@@ -30,6 +30,11 @@ namespace soundsystem {
 void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream,
                     const short* recorded, short* playback)
 {
+#if defined(DEBUG)
+    // ensure 'playback' is same as last time, otherwise StreamDuplex::StreamDuplexEchoCb() will not work
+    assert(dpxStream.lastPlaybackCrc == 0 || dpxStream.lastPlaybackCrc == ACE::crc32(reinterpret_cast<const char*>(playback), PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels)));
+#endif
+
     dpxStream.duplex->StreamDuplexEchoCb(dpxStream, recorded, playback, dpxStream.framesize);
 
     //now mix all active players
@@ -41,6 +46,10 @@ void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream,
         MuxPlayers(sndsys, dpxStream.players, &dpxStream.tmpOutputBuffer[0], playback);
     }
     dpxStream.duplex->StreamDuplexCb(dpxStream, recorded, playback, dpxStream.framesize);
+
+#if defined(DEBUG)
+    dpxStream.lastPlaybackCrc = ACE::crc32(reinterpret_cast<const char*>(playback), PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels));
+#endif
 }
 
 void MuxPlayers(SoundSystem* sndsys, const std::vector<OutputStreamer*>& players,

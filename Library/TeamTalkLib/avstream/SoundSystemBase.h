@@ -1171,12 +1171,16 @@ namespace soundsystem {
             if (!sndgrp)
                 return false;
 
-            return !enable;
+            return SetEchoCancellation(sndgrp, enable);
         }
 
         virtual bool IsEchoCancelling(int sndgrpid)
         {
-            return false;
+            auto sndgrp = GetSoundGroup(sndgrpid);
+            if(!sndgrp)
+                return false;
+
+            return IsEchoCancelling(sndgrp);
         }
 
     private:
