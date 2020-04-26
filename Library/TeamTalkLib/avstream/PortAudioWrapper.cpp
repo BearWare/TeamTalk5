@@ -603,8 +603,31 @@ int DuplexStreamCallback(const void *inputBuffer,
     const short* recorded = reinterpret_cast<const short*>(inputBuffer);
     short* playback = reinterpret_cast<short*>(outputBuffer);
 
-    DuplexCallback(PortAudio::getInstance().get(), *dpxStream, recorded, playback);
+#if defined(WIN32)
+    if (dpxStream->winaec)
+    {
+        recorded = dpxStream->winaec->AcquireBuffer();
+        MYTRACE_COND(!recorded, ACE_TEXT("No echo cancelled audio available\n"));
 
+        if (recorded)
+        {
+            DuplexCallback(PortAudio::getInstance().get(), *dpxStream, recorded, playback);
+            dpxStream->winaec->ReleaseBuffer();
+        }
+        else
+        {
+            std::vector<short> tmpbuf(dpxStream->framesize * dpxStream->input_channels);
+            recorded = &tmpbuf[0];
+            DuplexCallback(PortAudio::getInstance().get(), *dpxStream, recorded, playback);
+        }
+    }
+    else
+    {
+        DuplexCallback(PortAudio::getInstance().get(), *dpxStream, recorded, playback);
+    }
+#else
+    DuplexCallback(PortAudio::getInstance().get(), *dpxStream, recorded, playback);
+#endif
     return paContinue;
 }
 
@@ -650,11 +673,13 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
 #if defined(WIN32)
     soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
     if (!sndgrp)
-        return false;
+        return duplexstreamer_t();
 
     if (sndgrp->echocancel)
     {
         streamer->winaec.reset(new CWMAudioAECCapture(streamer.get()));
+        if (!streamer->winaec->Open())
+            return duplexstreamer_t();
         tmpInputParameters = nullptr;
     }
 #endif
@@ -844,7 +869,7 @@ void CWMAudioAECCapture::Run()
             BYTE* outputbufptr;
             if (SUCCEEDED(ioutputbuf->GetBufferAndLength(&outputbufptr, &dwOutputLen)))
             {
-                MYTRACE(ACE_TEXT("Audio callback with %d msec\n"), PCM16_BYTES_DURATION(dwOutputLen, CHANNELS, SAMPLERATE));
+                //MYTRACE(ACE_TEXT("Audio callback with %d msec\n"), PCM16_BYTES_DURATION(dwOutputLen, CHANNELS, SAMPLERATE));
                 int samples = dwOutputLen / sizeof(short) / CHANNELS;
 
                 media::AudioFrame frm(infmt, reinterpret_cast<short*>(outputbufptr), samples);
@@ -965,9 +990,18 @@ bool CWMAudioAECCapture::QueueAudioInput(const media::AudioFrame& frm)
     return samples == 0;
 }
 
- short* CWMAudioAECCapture::AcquireBuffer()
+short* CWMAudioAECCapture::AcquireBuffer()
 {
-    std::lock_guard<std::mutex> g(m_mutex);
+     size_t bytes = m_input_queue.message_length();
+     bytes -= sizeof(media::AudioFrame) * m_input_queue.message_count();
+     int duration = PCM16_BYTES_DURATION(bytes, m_streamer->input_channels, m_streamer->samplerate);
+     MYTRACE(ACE_TEXT("Acquire echo audio, duration: %d msec. Full %d%%\n"), duration, 100 * m_input_index / m_input_buffer.size());
+     
+     if (m_resampled_input)
+        return m_resampled_input;
+
+    ProcessAudioQueue();
+ 
     return m_resampled_input;
 }
 

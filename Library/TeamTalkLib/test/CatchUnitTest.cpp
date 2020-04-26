@@ -650,4 +650,54 @@ TEST_CASE("CWMAudioAEC_Callback")
 
     sndsys->RemoveSoundGroup(sndgrpid);
 }
+
+TEST_CASE("CWMAudioAEC_DuplexMode")
+{
+    using namespace soundsystem;
+    
+    media::AudioFormat fmt(48000, 1);
+    int framesize = fmt.samplerate * .04;
+    WavePCMFile wavefile;
+    REQUIRE(wavefile.NewFile(ACE_TEXT("DuplexEchoCancel.wav"), fmt.samplerate, fmt.channels));
+    class MyClass : public StreamDuplex
+    {
+        WavePCMFile& m_wavefile;
+
+    public:
+        MyClass(WavePCMFile& wavefile) : m_wavefile(wavefile)
+        {
+        }
+        int callbacks = 0;
+        void StreamDuplexEchoCb(const DuplexStreamer& streamer,
+            const short* input_buffer,
+            const short* prev_output_buffer, int samples)
+        {
+        }
+
+        void StreamDuplexCb(const DuplexStreamer& streamer,
+            const short* input_buffer,
+            short* output_buffer, int samples)
+        {
+            //MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
+            callbacks++;
+            REQUIRE(m_wavefile.AppendSamples(input_buffer, samples));
+        }
+
+    } myduplex(wavefile);
+
+    auto sndsys = soundsystem::GetInstance();
+    int sndgrpid = sndsys->OpenSoundGroup();
+    int indev, outdev;
+    REQUIRE(sndsys->GetDefaultDevices(SOUND_API_WASAPI, indev, outdev));
+    REQUIRE(sndsys->SetEchoCancellation(sndgrpid, true));
+    REQUIRE(sndsys->OpenDuplexStream(&myduplex, indev, outdev, sndgrpid, fmt.samplerate, fmt.channels, fmt.channels, framesize));
+
+    while(myduplex.callbacks <= 200)
+    {
+        Sleep(PCM16_SAMPLES_DURATION(framesize, fmt.samplerate));
+    }
+
+    sndsys->CloseDuplexStream(&myduplex);
+    sndsys->RemoveSoundGroup(sndgrpid);
+}
 #endif
