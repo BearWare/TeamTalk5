@@ -1235,7 +1235,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1263"/>
         <source>Ctrl+Shift+T</source>
-        <translation>CTRL+Shift+T</translation>
+        <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1268"/>
@@ -1301,7 +1301,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1319"/>
         <source>Ctrl+J</source>
-        <translation>CTRL+J</translation>
+        <translation>Ctrl+J</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1331"/>
@@ -1311,7 +1311,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1334"/>
         <source>Ctrl+Shift+A</source>
-        <translation>CTRL+Shift+A</translation>
+        <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1339"/>
@@ -1341,7 +1341,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1358"/>
         <source>Ctrl+I</source>
-        <translation>CTRL+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1370"/>
@@ -1351,7 +1351,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1373"/>
         <source>Ctrl+M</source>
-        <translation>CTRL+M</translation>
+        <translation>Ctrl+M</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1378"/>
@@ -1391,7 +1391,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1405"/>
         <source>Ctrl+Shift+B</source>
-        <translation>CTRL+Shift+B</translation>
+        <translation>Ctrl+Shift+B</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1410"/>
@@ -1401,7 +1401,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1413"/>
         <source>Ctrl+Shift+L</source>
-        <translation>CTRL+Shift+L</translation>
+        <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1418"/>
@@ -1411,7 +1411,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1421"/>
         <source>Ctrl+Shift+S</source>
-        <translation>CTRL+Shift+S</translation>
+        <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1426"/>
@@ -1426,7 +1426,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1437"/>
         <source>Ctrl+E</source>
-        <translation>CTRL+E</translation>
+        <translation>Ctrl+E</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1442"/>
@@ -1436,7 +1436,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1445"/>
         <source>Ctrl+Shift+K</source>
-        <translation>CTRL+Shift+K</translation>
+        <translation>Ctrl+Shift+K</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1454"/>
@@ -1446,7 +1446,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1457"/>
         <source>Ctrl+O</source>
-        <translation>CTRL+O</translation>
+        <translation>Ctrl+O</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1462"/>
@@ -1456,7 +1456,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1465"/>
         <source>Ctrl+U</source>
-        <translation>CTRL+U</translation>
+        <translation>Ctrl+U</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1477"/>
@@ -1466,7 +1466,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1480"/>
         <source>Ctrl+4</source>
-        <translation>CTRL+4</translation>
+        <translation>Ctrl+4</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1492"/>
@@ -1476,7 +1476,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1495"/>
         <source>Ctrl+1</source>
-        <translation>CTRL+1</translation>
+        <translation>Ctrl+1</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1503"/>
@@ -1486,12 +1486,12 @@
     <message>
         <location filename="../mainwindow.ui" line="1506"/>
         <source>Ctrl+2</source>
-        <translation>CTRL+2</translation>
+        <translation>Ctrl+2</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1521"/>
         <source>Ctrl+5</source>
-        <translation>CTRL+5</translation>
+        <translation>Ctrl+5</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1529"/>
@@ -1501,7 +1501,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1532"/>
         <source>Ctrl+3</source>
-        <translation>CTRL+3</translation>
+        <translation>Ctrl+3</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1544"/>
@@ -1511,7 +1511,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1547"/>
         <source>Ctrl+Shift+V</source>
-        <translation>CTRL+Shift+V</translation>
+        <translation>Ctrl+Shift+V</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1555"/>
@@ -1521,7 +1521,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1558"/>
         <source>Ctrl+W</source>
-        <translation>CTRL+W</translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1563"/>
@@ -1531,7 +1531,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1566"/>
         <source>Ctrl+Shift+W</source>
-        <translation>CTRL+Shift+W</translation>
+        <translation>Ctrl+Shift+W</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1578"/>
@@ -1546,7 +1546,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1584"/>
         <source>Ctrl+Alt+A</source>
-        <translation>CTRL+Shift+A</translation>
+        <translation>Ctrl+Alt+A</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1596"/>
@@ -1556,7 +1556,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1599"/>
         <source>Ctrl+Shift+1</source>
-        <translation>CTRL+Shift+1</translation>
+        <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1607"/>
@@ -1566,7 +1566,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1610"/>
         <source>Ctrl+Shift+2</source>
-        <translation>CTRL+Shift+2</translation>
+        <translation>Ctrl+Shift+2</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1622"/>
@@ -1576,7 +1576,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1625"/>
         <source>Ctrl+Shift+4</source>
-        <translation>CTRL+Shift+4</translation>
+        <translation>Ctrl+Shift+4</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1637"/>
@@ -1586,7 +1586,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1640"/>
         <source>Ctrl+Shift+5</source>
-        <translation>CTRL+Shift+5</translation>
+        <translation>Ctrl+Shift+5</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1645"/>
@@ -1596,7 +1596,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1648"/>
         <source>Ctrl+Alt+B</source>
-        <translation>CTRL+Shift+B</translation>
+        <translation>Ctrl+Alt+B</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1653"/>
@@ -1606,7 +1606,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1656"/>
         <source>Ctrl+Right</source>
-        <translation>CTRL+Right</translation>
+        <translation>Ctrl+Right</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1661"/>
@@ -1616,7 +1616,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1664"/>
         <source>Ctrl+Left</source>
-        <translation>CTRL+Left</translation>
+        <translation>Ctrl+Left</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1669"/>
@@ -1626,7 +1626,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1672"/>
         <source>Ctrl+Alt+X</source>
-        <translation>CTRL+Alt+X</translation>
+        <translation>Ctrl+Alt+X</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1677"/>
@@ -1636,7 +1636,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1680"/>
         <source>Ctrl+Alt+V</source>
-        <translation>CTRL+Alt+V</translation>
+        <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1697"/>
@@ -1646,7 +1646,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1700"/>
         <source>Ctrl+Alt+Q</source>
-        <translation>CTRL+Alt+Q</translation>
+        <translation>Ctrl+Alt+Q</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1708"/>
@@ -1656,7 +1656,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1711"/>
         <source>Ctrl+Alt+W</source>
-        <translation>CTRL+Alt+W</translation>
+        <translation>Ctrl+Alt+W</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1716"/>
@@ -1676,7 +1676,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1727"/>
         <source>Ctrl+N</source>
-        <translation>CTRL+N</translation>
+        <translation>Ctrl+N</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1735"/>
@@ -1686,7 +1686,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1738"/>
         <source>Ctrl+Shift+U</source>
-        <translation>CTRL+Shift+U</translation>
+        <translation>Ctrl+Shift+U</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1750"/>
@@ -1706,7 +1706,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1768"/>
         <source>Ctrl+Shift+D</source>
-        <translation>CTRL+Shift+D</translation>
+        <translation>Ctrl+Shift+D</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1776"/>
@@ -1716,7 +1716,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1779"/>
         <source>Ctrl+Alt+E</source>
-        <translation>CTRL+Alt+E</translation>
+        <translation>Ctrl+Alt+E</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1791"/>
@@ -1726,7 +1726,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1794"/>
         <source>Ctrl+6</source>
-        <translation>CTRL+6</translation>
+        <translation>Ctrl+6</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1806"/>
@@ -1736,7 +1736,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1809"/>
         <source>Ctrl+Shift+6</source>
-        <translation>CTRL+Shift+6</translation>
+        <translation>Ctrl+Shift+6</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1821"/>
@@ -1746,7 +1746,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1824"/>
         <source>Ctrl+S</source>
-        <translation>CTRL+S</translation>
+        <translation>Ctrl+S</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1836"/>
@@ -1761,7 +1761,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1851"/>
         <source>Ctrl+7</source>
-        <translation>CTRL+7</translation>
+        <translation>Ctrl+7</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1859"/>
@@ -1776,7 +1776,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1874"/>
         <source>Ctrl+8</source>
-        <translation>CTRL+8</translation>
+        <translation>Ctrl+8</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1886"/>
@@ -1786,7 +1786,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1889"/>
         <source>Ctrl+Shift+8</source>
-        <translation>CTRL+Shift+8</translation>
+        <translation>Ctrl+Shift+8</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1894"/>
@@ -1796,7 +1796,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1897"/>
         <source>Ctrl+Alt+R</source>
-        <translation>CTRL+Alt+R</translation>
+        <translation>Ctrl+Alt+R</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1902"/>
@@ -1806,7 +1806,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1905"/>
         <source>Ctrl+Shift+M</source>
-        <translation>CTRL+Shift+M</translation>
+        <translation>Ctrl+Shift+M</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1910"/>
@@ -1816,7 +1816,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1913"/>
         <source>Ctrl+Alt+Μ</source>
-        <translation>CTRL+Alt+Μ</translation>
+        <translation>Ctrl+Alt+Μ</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1918"/>
@@ -1826,7 +1826,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1921"/>
         <source>Ctrl+K</source>
-        <translation>CTRL+K</translation>
+        <translation>Ctrl+K</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1926"/>
@@ -1836,7 +1836,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1929"/>
         <source>Ctrl+Alt+K</source>
-        <translation>CTRL+Alt+K</translation>
+        <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1934"/>
@@ -1846,7 +1846,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1937"/>
         <source>Ctrl+Shift+Right</source>
-        <translation>CTRL+Shift+Right</translation>
+        <translation>Ctrl+Shift+Right</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1942"/>
@@ -1856,7 +1856,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1945"/>
         <source>Ctrl+Shift+Left</source>
-        <translation>CTRL+Shift+Left</translation>
+        <translation>Ctrl+Shift+Left</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1950"/>
@@ -1871,7 +1871,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1958"/>
         <source>Ctrl+B</source>
-        <translation>CTRL+B</translation>
+        <translation>Ctrl+B</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1963"/>
@@ -1881,7 +1881,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1966"/>
         <source>Ctrl+Alt+Shift+B</source>
-        <translation>CTRL+Alt+Shift+B</translation>
+        <translation>Ctrl+Alt+Shift+B</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="732"/>
