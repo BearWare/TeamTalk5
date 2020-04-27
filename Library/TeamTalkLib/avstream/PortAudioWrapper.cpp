@@ -603,6 +603,13 @@ int DuplexStreamCallback(const void *inputBuffer,
     const short* recorded = reinterpret_cast<const short*>(inputBuffer);
     short* playback = reinterpret_cast<short*>(outputBuffer);
 
+    if (dpxStream->initialcallback)
+    {
+        // allow Pa_OpenStream() to return
+        dpxStream->initialcallback = false;
+        return paContinue;
+    }
+
 #if defined(WIN32)
     if (dpxStream->winaec)
     {
@@ -677,6 +684,11 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
 
     if (sndgrp->echocancel)
     {
+        DeviceInfo outdev;
+        if (!GetDevice(outputdeviceid, outdev))
+            return duplexstreamer_t();
+        samplerate = outdev.default_samplerate;
+
         streamer->winaec.reset(new CWMAudioAECCapture(streamer.get()));
         if (!streamer->winaec->Open())
             return duplexstreamer_t();

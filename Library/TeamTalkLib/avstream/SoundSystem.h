@@ -395,6 +395,7 @@ namespace soundsystem {
         // Windows sets echo cancellation on active output device and creates input device
         virtual bool SetEchoCancellation(int sndgrpid, bool enable) = 0;
         virtual bool IsEchoCancelling(int sndgrpid) = 0;
+        //TODO: Align Windows and Android sound effects enable/disable. Use SoundGroupID instead of StreamCapture.
     };
 
 

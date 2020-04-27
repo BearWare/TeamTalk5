@@ -67,6 +67,8 @@ namespace soundsystem
 
     struct PaDuplexStreamer : DuplexStreamer, PaStreamer
     {
+        // Pa_OpenStream doesn't return until DuplexCallback is called at least once
+        bool initialcallback = true;
 #if defined(WIN32)
         std::shared_ptr<class CWMAudioAECCapture> winaec;
 #endif
