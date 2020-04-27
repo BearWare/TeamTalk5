@@ -2898,6 +2898,8 @@ bool ClientNode::SetSoundDeviceEffects(const SoundDeviceEffects& effects)
     bool success = true;
     m_soundprop.effects = effects;
 
+    m_soundsystem->SetEchoCancellation(m_soundprop.soundgroupid, effects.enable_aec);
+
     if (!m_soundsystem->IsStreamStopped(this))
     {
         success &= m_soundsystem->SetEchoCancellation(this, effects.enable_aec);
