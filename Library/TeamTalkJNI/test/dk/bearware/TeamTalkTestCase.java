@@ -3091,11 +3091,21 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
         joinRoot(ttclient);
 
+        TeamTalkBase ttclient2 = newClientInstance();
+
+        initSound(ttclient2);
+        connect(ttclient2);
+        login(ttclient2, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient2);
+        
         assertTrue("enable voice tx", ttclient.enableVoiceTransmission(true));
+
+        assertTrue("get voice event", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertTrue("initial voice event", ((msg.user.uUserState & UserState.USERSTATE_VOICE) != 0));
 
         int STREAMID = 57;
 
-        byte[] tone = generateToneAsByte(800, 16000, 1, 1000);
+        byte[] tone = generateToneAsByte(500, 16000, 1, 1000);
 
         assertEquals("one second of 16000 rate", 16000, tone.length / 2);
 
@@ -3107,6 +3117,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ab.nSamples = tone.length / 2;
         ab.uSampleIndex = 0;
 
+        // newWaveFile("foo.wav", ab.nSampleRate, ab.nChannels, tone.length).write(tone);
+
         assertFalse("Reject audio input during voicetx", ttclient.insertAudioBlock(ab));
 
         assertTrue("disable voice tx", ttclient.enableVoiceTransmission(false));
@@ -3117,6 +3129,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("disable voice act", ttclient.enableVoiceActivation(false));
 
+        assertTrue("voice stopped event", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertTrue("Voice stop event", ((msg.user.uUserState & UserState.USERSTATE_VOICE) == 0));
+        
         assertTrue("Send audio block", ttclient.insertAudioBlock(ab));
 
         int frames = 0;
@@ -3124,6 +3139,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         frames++;
 
         assertEquals("Stream ID match", STREAMID, msg.audioinputprogress.nStreamID);
+
+        assertTrue("Playing audio input remotely", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertTrue("Voice event from audio input", ((msg.user.uUserState & UserState.USERSTATE_VOICE) != 0));
 
         assertFalse("Reject voice tx", ttclient.enableVoiceTransmission(true));
 
