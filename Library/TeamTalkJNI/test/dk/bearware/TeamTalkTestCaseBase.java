@@ -168,6 +168,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             assertTrue("init input dev", ttclient.initSoundInputDevice(indev.value));
             assertTrue("init output dev", ttclient.initSoundOutputDevice(outdev.value));
         }
+        System.out.println("Using sound input device #"+indev.value+" and output device #"+outdev.value);
     }
 
     public interface ServerInterleave {
