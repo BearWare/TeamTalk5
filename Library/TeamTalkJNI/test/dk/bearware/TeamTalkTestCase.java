@@ -3169,6 +3169,10 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertFalse("Reject voice act", ttclient.enableVoiceActivation(true));
 
+        assertTrue("Accept voice tx disable", ttclient.enableVoiceTransmission(false));
+
+        assertTrue("Accept voice act disable", ttclient.enableVoiceActivation(false));
+
         boolean gotlocal = false, gotmuxed = false;
         do {
             assertTrue("Event processing", ttclient.getMessage(msg, DEF_WAIT));
