@@ -3099,8 +3099,28 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         joinRoot(ttclient2);
 
         assertTrue("enable muxed aud cb", ttclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, true));
-        assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
-        
+        assertTrue("enable local aud cb", ttclient.enableAudioBlockEvent(Constants.TT_LOCAL_USERID, StreamType.STREAMTYPE_VOICE, true));
+
+        FileOutputStream localWaveFile = null, muxedWaveFile = null;
+        while (localWaveFile == null || muxedWaveFile == null) {
+            assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            if (msg.nSource == Constants.TT_LOCAL_USERID) {
+                AudioBlock ab = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_LOCAL_USERID);
+                if (localWaveFile == null) {
+                    localWaveFile = newWaveFile("local_audioinput.wav", ab.nSampleRate, ab.nChannels, 1024*1024 /* no idea */);
+                }
+                localWaveFile.write(ab.lpRawAudio);
+            }
+
+            if (msg.nSource == Constants.TT_MUXED_USERID) {
+                AudioBlock ab = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_MUXED_USERID);
+                if (muxedWaveFile == null) {
+                    muxedWaveFile = newWaveFile("muxed_audioinput.wav", ab.nSampleRate, ab.nChannels, 1024*1024 /* no idea */);
+                }
+                muxedWaveFile.write(ab.lpRawAudio);
+            }
+        }
+
         assertTrue("enable voice tx", ttclient.enableVoiceTransmission(true));
 
         assertTrue("get voice event", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
@@ -3120,8 +3140,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ab.lpRawAudio = tone; //PCM16 mono
         ab.nSamples = tone.length / 2 / CHANNELS;
         ab.uSampleIndex = 0;
-
-        // newWaveFile("foo.wav", ab.nSampleRate, ab.nChannels, tone.length).write(tone);
 
         assertFalse("Reject audio input during voicetx", ttclient.insertAudioBlock(ab));
 
@@ -3151,6 +3169,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertFalse("Reject voice act", ttclient.enableVoiceActivation(true));
 
+        boolean gotlocal = false, gotmuxed = false;
         do {
             assertTrue("Event processing", ttclient.getMessage(msg, DEF_WAIT));
             switch (msg.nClientEvent) {
@@ -3159,13 +3178,27 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                     frames++;
                 break;
             case ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK :
-                assertTrue("get audio block", ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_MUXED_USERID) != null);
+                if (msg.nSource == Constants.TT_LOCAL_USERID) {
+                    AudioBlock abl = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_LOCAL_USERID);
+                    assertTrue("get local audio block", abl != null);
+                    localWaveFile.write(abl.lpRawAudio);
+                    gotlocal = true;
+                }
+                if (msg.nSource == Constants.TT_MUXED_USERID) {
+                    AudioBlock abm = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_MUXED_USERID);
+                    assertTrue("get muxed audio block", abm != null);
+                    muxedWaveFile.write(abm.lpRawAudio);
+                    gotmuxed = true;
+                }
                 break;
             }
-        } while(msg.audioinputprogress.nStreamID == STREAMID &&
-                msg.audioinputprogress.uElapsedMSec != 0 &&
-                msg.audioinputprogress.uQueueMSec != 0);
+        } while (msg.nClientEvent != ClientEvent.CLIENTEVENT_AUDIOINPUT ||
+                 (msg.audioinputprogress.nStreamID == STREAMID &&
+                  msg.audioinputprogress.uElapsedMSec != 0 &&
+                  msg.audioinputprogress.uQueueMSec != 0));
 
+        assertTrue("Got local user audio", gotlocal);
+        assertTrue("Got muxed user audio", gotmuxed);
 
         // now send audio block whose nSamples doesn't match the
         // transmit interval, i.e. we need to flush to send
@@ -3181,6 +3214,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("Stream ID match", STREAMID, msg.audioinputprogress.nStreamID);
 
+        gotlocal = gotmuxed = false;
         for (int i=0;i<frames-1;) {
             assertTrue("Event processing", ttclient.getMessage(msg, DEF_WAIT));
             switch (msg.nClientEvent) {
@@ -3191,10 +3225,17 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 i++;
                 break;
             case ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK :
-                assertTrue("get audio block", ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_MUXED_USERID) != null);
+                if (msg.nSource == Constants.TT_LOCAL_USERID) {
+                    gotlocal = true;
+                }
+                if (msg.nSource == Constants.TT_MUXED_USERID) {
+                    gotmuxed = true;
+                }
                 break;
             }
         }
+        assertTrue("Got local user audio, before flushing", gotlocal);
+        assertTrue("Got muxed user audio, before flushing", gotmuxed);
 
         assertFalse("Last frame will not appear until we flush", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, 100, msg));
 
@@ -3211,12 +3252,28 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("queue done", msg.audioinputprogress.uQueueMSec == 0);
 
         //drain audio blocks
+        while (ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_LOCAL_USERID) != null);
         while (ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_MUXED_USERID) != null);
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 0);
 
-        assertTrue("get another audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
-        assertTrue("get audio block", ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_MUXED_USERID) != null);
+        gotlocal = gotmuxed = false;
+        while (!gotlocal || !gotmuxed) {
+            
+            assertTrue("get another audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            if (msg.nSource == Constants.TT_LOCAL_USERID) {
+                AudioBlock abl = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_LOCAL_USERID);
+                assertTrue("get local audio block", abl != null);
+                gotlocal = true;
+            }
+            if (msg.nSource == Constants.TT_MUXED_USERID) {
+                AudioBlock abm = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_MUXED_USERID);
+                assertTrue("get muxed audio block", abm != null);
+                gotmuxed = true;
+            }
+        }
 
+        assertTrue("Got local user audio, after flush", gotlocal);
+        assertTrue("Got muxed user audio, after flush", gotmuxed);
 
         // test audio input queue limits
         STREAMID = 77;
