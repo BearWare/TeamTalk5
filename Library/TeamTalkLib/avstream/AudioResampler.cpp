@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -52,6 +52,11 @@ AudioResampler::AudioResampler(const media::AudioFormat& informat, const media::
 {
     if (fixed_input_samples > 0)
         SetupFixedFrameSize(informat, outformat, fixed_input_samples);
+
+    MYTRACE(ACE_TEXT("Created resampler %d Hz, channels %d -> %d Hz, channels %d. Frame size: %d -> %d\n"),
+            informat.samplerate, informat.channels, outformat.samplerate, outformat.channels,
+            fixed_input_samples,
+            (fixed_input_samples ? CalcSamples(informat.samplerate, fixed_input_samples, outformat.samplerate) : 0));
 }
 
 void AudioResampler::FillOutput(int channels, short* output_samples,
@@ -98,7 +103,7 @@ void AudioResampler::SetupFixedFrameSize(const media::AudioFormat& informat,
 short* AudioResampler::Resample(const short* input_samples, int* output_samples_size /*= nullptr*/)
 {
     assert(m_resampleoutput.size());
-    
+
     int outsamples = Resample(input_samples, m_input_samples_size, &m_resampleoutput[0], m_output_samples_size);
     if (output_samples_size)
         *output_samples_size = outsamples;

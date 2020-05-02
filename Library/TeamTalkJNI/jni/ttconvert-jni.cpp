@@ -100,7 +100,7 @@ jobject newSoundDevice(JNIEnv* env, const SoundDevice& dev)
     env->SetIntArrayRegion(arr_outsr, 0, TT_SAMPLERATES_MAX, TO_JINT_ARRAY(dev.outputSampleRates, tmp, TT_SAMPLERATES_MAX));
     env->SetObjectField(newObj, fid_outsr, arr_outsr);
     env->SetIntField(newObj, fid_defsr, dev.nDefaultSampleRate);
-    env->SetIntField(newObj, fid_defsr, dev.uSoundDeviceFeatures);
+    env->SetIntField(newObj, fid_sdf, dev.uSoundDeviceFeatures);
 
     return newObj;
 }
