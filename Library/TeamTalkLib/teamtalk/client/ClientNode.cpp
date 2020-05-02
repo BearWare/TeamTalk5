@@ -2939,11 +2939,12 @@ bool ClientNode::EnableVoiceTransmission(bool enable)
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if (m_audioinput_voice)
-        return false;
-    
-    if(enable)
+    if (enable)
     {
+        // don't allow voice transmission during audio input
+        if (m_audioinput_voice)
+            return false;
+        
         m_flags |= CLIENT_TX_VOICE;
 
         //don't increment stream id if voice activated and voice active
@@ -2970,11 +2971,14 @@ bool ClientNode::EnableVoiceActivation(bool enable)
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if (m_audioinput_voice)
-        return false;
+    if (enable)
+    {
+        // don't allow voice activation during audio input
+        if (m_audioinput_voice)
+            return false;
     
-    if(enable)
         m_flags |= CLIENT_SNDINPUT_VOICEACTIVATED;
+    }
     else
     {
         m_flags &= ~CLIENT_SNDINPUT_VOICEACTIVATED;
