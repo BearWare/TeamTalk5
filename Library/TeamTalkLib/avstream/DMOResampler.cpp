@@ -183,16 +183,6 @@ int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
     MYTRACE_COND(status == 0, ACE_TEXT("Flushing audio resampler\n"));
     if(status == 0)
         m_pDMO->Flush();
-/*
-    static int x = 0;
-    MYTRACE(ACE_TEXT("%d, Input samples: %d, output samples: %d. Status %x\n"),
-            ++x,
-            input_samples_cnt * 2 * pInputWav->nChannels,
-            output_samples_cnt * 2 * pOutputWav->nChannels, status);
-*/
-
-    for(int i=0;i<output_samples_cnt*pOutputWav->nChannels;i++)
-        output_samples[i] = 32766;
 
     hr = m_pDMO->ProcessInput(0, input_mb, 0, 0, 0);
     assert(SUCCEEDED(hr));
