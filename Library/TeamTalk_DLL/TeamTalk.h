@@ -593,7 +593,7 @@ extern "C" {
  * This user ID is passed to TT_EnableAudioBlockEvent() in order to
  * receive #AudioBlock of audio that is played in the #TTInstance's
  * channel. */
-#define TT_MUXED_USERID 0x1001 /* TT_USERID_MAX + 1 */
+#define TT_MUXED_USERID 0x1001 /* TT_USERID_MAX + 2 */
 
     /** @} */
 
