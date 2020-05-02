@@ -1108,24 +1108,38 @@ void ClientNode::CloseAudioCapture()
 }
 
 // Separate thread
-void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe)
+void ClientNode::QueueAudioCapture(media::AudioFrame& audframe)
 {
     audframe.force_enc = ((m_flags & CLIENT_TX_VOICE) || m_voice_tx_closed.exchange(false));
     audframe.voiceact_enc = (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED);
+    audframe.sample_no = m_soundprop.samples_recorded;
+    m_soundprop.samples_recorded += audframe.input_samples;
+
+    if (!m_audioinput_voice)
+        QueueVoiceFrame(audframe);
+}
+
+// Separate thread
+void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe,
+                                 ACE_Message_Block* mb_audio)
+{
     audframe.soundgrpid = m_soundprop.soundgroupid;
     audframe.userdata = STREAMTYPE_VOICE;
-    audframe.sample_no = m_soundprop.samples_recorded;
     audframe.streamid = m_voice_stream_id;
 
-    m_voice_thread.QueueAudio(audframe);
-    
     if (m_audiocontainer.AddAudio(LOCAL_USERID, STREAMTYPE_VOICE, audframe))
     {
         m_listener->OnUserAudioBlock(LOCAL_USERID, STREAMTYPE_VOICE);
     }
-
-    m_soundprop.samples_recorded += audframe.input_samples;
-}
+    
+    if (mb_audio)
+    {
+        m_voice_thread.QueueAudio(mb_audio);
+        // don't touch 'mb_audio' after this
+    }
+    else
+        m_voice_thread.QueueAudio(audframe);
+    }
 
 void ClientNode::SendVoicePacket(const VoicePacket& packet)
 {
@@ -1324,7 +1338,7 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     AudioFrame audframe(AudioFormat(codec_samplerate, codec_channels),
                         const_cast<short*>(capture_buffer), codec_samples);
     
-    QueueVoiceFrame(audframe);
+    QueueAudioCapture(audframe);
 }
 
 void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
@@ -1380,7 +1394,7 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
     audframe.output_buffer = playback_buffer;
     audframe.output_samples = codec_samples;
 
-    QueueVoiceFrame(audframe);
+    QueueAudioCapture(audframe);
 }
 
 bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
@@ -1482,8 +1496,9 @@ bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
     audio_frame.userdata = STREAMTYPE_MEDIAFILE_AUDIO;
     audio_frame.streamid = m_mediafile_stream_id;
     m_audiofile_thread.QueueAudio(mb_audio);
+    // don't touch 'mb_audio' after this
 
-    return true;  //m_video_thread always takes ownership
+    return true;  //m_audiofile_thread always takes ownership
 }
 
 void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
@@ -1527,10 +1542,8 @@ bool ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
 {
     assert(mb_audio);
     audio_frame.force_enc = true;
-    audio_frame.userdata = STREAMTYPE_VOICE;
-    audio_frame.streamid = m_voice_stream_id;
+    QueueVoiceFrame(audio_frame);
 
-    m_voice_thread.QueueAudio(mb_audio);
     return true;
 }
 
