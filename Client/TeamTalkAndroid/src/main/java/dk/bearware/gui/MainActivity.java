@@ -2118,7 +2118,7 @@ implements TeamTalkConnectionListener,
     }
 
     @Override
-        public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled, boolean isSuspended) {
+    public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled, boolean isSuspended) {
         adjustTxState(voiceTransmissionEnabled);
 
         if (!isSuspended) {
@@ -2147,7 +2147,7 @@ implements TeamTalkConnectionListener,
     }
 
     @Override
-        public void onVoiceActivationToggle(boolean voiceActivationEnabled, boolean isSuspended) {
+    public void onVoiceActivationToggle(boolean voiceActivationEnabled, boolean isSuspended) {
         adjustVoxState(voiceActivationEnabled, voiceActivationEnabled ? ttclient.getVoiceActivationLevel() : ttclient.getSoundInputGainLevel());
     }
 
