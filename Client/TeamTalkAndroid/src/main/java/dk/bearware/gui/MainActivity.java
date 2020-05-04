@@ -552,7 +552,7 @@ implements TeamTalkConnectionListener,
     public void onSensorChanged(SensorEvent event) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         boolean proximity_sensor = prefs.getBoolean("proximity_sensor_checkbox", false);
-        if (proximity_sensor && (mConnection != null) && mConnection.isBound()) {
+        if (proximity_sensor && (mConnection != null) && mConnection.isBound() && !ttservice.isInPhoneCall()) {
             if (event.values[0] == 0) {
                 audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
                 audioManager.setSpeakerphoneOn(false);
