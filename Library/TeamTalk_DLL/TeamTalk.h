@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.5.0.4993"
+#define TEAMTALK_VERSION "5.5.1.4994"
 
 
 #if defined(WIN32)
@@ -593,7 +593,7 @@ extern "C" {
  * This user ID is passed to TT_EnableAudioBlockEvent() in order to
  * receive #AudioBlock of audio that is played in the #TTInstance's
  * channel. */
-#define TT_MUXED_USERID 0x1001 /* TT_USERID_MAX + 1 */
+#define TT_MUXED_USERID 0x1001 /* TT_USERID_MAX + 2 */
 
     /** @} */
 
