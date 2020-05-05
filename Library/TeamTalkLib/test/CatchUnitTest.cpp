@@ -479,16 +479,13 @@ TEST_CASE("CLSID_CWMAudioAEC")
     REQUIRE(SUCCEEDED(CoCreateInstance(CLSID_CWMAudioAEC, NULL, CLSCTX_INPROC_SERVER, IID_IMediaObject, (LPVOID*)&pDMO)));
     REQUIRE(SUCCEEDED(pDMO->QueryInterface(IID_IPropertyStore, (LPVOID*)&pPS)));
 
-    const int SAMPLERATE = 22050;
-    const int CHANNELS = 1;
-
-    DMO_MEDIA_TYPE mt = {};
-    HRESULT hr = MoInitMediaType(&mt, sizeof(WAVEFORMATEX));
-    REQUIRE(SUCCEEDED(hr));
-    REQUIRE(SetWaveMediaType(SAMPLEFORMAT_INT16, CHANNELS, SAMPLERATE, mt));
-
-    REQUIRE(SUCCEEDED(pDMO->SetOutputType(0, &mt, 0)));
-    REQUIRE(SUCCEEDED(MoFreeMediaType(&mt)));
+    PROPVARIANT pvSysMode;
+    PropVariantInit(&pvSysMode);
+    pvSysMode.vt = VT_I4;
+    pvSysMode.lVal = SINGLE_CHANNEL_AEC;
+    REQUIRE(SUCCEEDED(pPS->SetValue(MFPKEY_WMAAECMA_SYSTEM_MODE, pvSysMode)));
+    REQUIRE(SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_SYSTEM_MODE, &pvSysMode)));
+    PropVariantClear(&pvSysMode);
 
     REQUIRE(capdevs.find(devs[indev].szDeviceID) != capdevs.end());
     REQUIRE(spkdevs.find(devs[outdev].szDeviceID) != spkdevs.end());
@@ -503,6 +500,26 @@ TEST_CASE("CLSID_CWMAudioAEC")
     REQUIRE(SUCCEEDED(pPS->SetValue(MFPKEY_WMAAECMA_DEVICE_INDEXES, pvDeviceId)));
     REQUIRE(SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_DEVICE_INDEXES, &pvDeviceId)));
     PropVariantClear(&pvDeviceId);
+
+    // Turn on feature modes
+    PROPVARIANT pvFeatrModeOn;
+    PropVariantInit(&pvFeatrModeOn);
+    pvFeatrModeOn.vt = VT_BOOL;
+    pvFeatrModeOn.boolVal = VARIANT_TRUE;
+    REQUIRE(SUCCEEDED(pPS->SetValue(MFPKEY_WMAAECMA_FEATURE_MODE, pvFeatrModeOn)));
+    REQUIRE(SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_FEATURE_MODE, &pvFeatrModeOn)));
+    PropVariantClear(&pvFeatrModeOn);
+
+    const int SAMPLERATE = 22050;
+    const int CHANNELS = 1;
+
+    DMO_MEDIA_TYPE mt = {};
+    HRESULT hr = MoInitMediaType(&mt, sizeof(WAVEFORMATEX));
+    REQUIRE(SUCCEEDED(hr));
+    REQUIRE(SetWaveMediaType(SAMPLEFORMAT_INT16, CHANNELS, SAMPLERATE, mt));
+
+    REQUIRE(SUCCEEDED(pDMO->SetOutputType(0, &mt, 0)));
+    REQUIRE(SUCCEEDED(MoFreeMediaType(&mt)));
 
     REQUIRE(SUCCEEDED(pDMO->AllocateStreamingResources()));
 
