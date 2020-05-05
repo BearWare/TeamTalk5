@@ -598,17 +598,35 @@ int DuplexStreamCallback(const void *inputBuffer,
 
     MYTRACE_COND(statusFlags & paInputUnderflow, ACE_TEXT("PORTAUDIO: paInputUnderFlow\n"));
     MYTRACE_COND(statusFlags & paInputOverflow, ACE_TEXT("PORTAUDIO: paInputOverflow\n"));
-
     PaDuplexStreamer* dpxStream = static_cast<PaDuplexStreamer*>(userData);
     const short* recorded = reinterpret_cast<const short*>(inputBuffer);
     short* playback = reinterpret_cast<short*>(outputBuffer);
+
+    assert(framesPerBuffer == dpxStream->framesize);
+
+    /*
+    static uint32_t cbsamples = 0, tick = GETTIMESTAMP();
+    cbsamples += framesPerBuffer;
+    auto now = GETTIMESTAMP();
+    auto total = now - tick;
+    auto duration = PCM16_SAMPLES_DURATION(cbsamples, dpxStream->samplerate);
+    MYTRACE(ACE_TEXT("Samples duration: %u msec. Total: %u msec. Diff: %d msec\n"), duration, total, total - duration);
+    */
 
     if (dpxStream->initialcallback)
     {
         // allow Pa_OpenStream() to return
         dpxStream->initialcallback = false;
+        dpxStream->starttime = GETTIMESTAMP();
         return paContinue;
     }
+
+    // check if duplex callback is over or underflowing
+    uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, dpxStream->samplerate);
+    uint32_t durationMSec = GETTIMESTAMP() - dpxStream->starttime;
+    dpxStream->playedsamples_msec += cbMSec;
+    MYTRACE_COND(std::abs(int(durationMSec - dpxStream->playedsamples_msec)) > cbMSec * 3,
+                 ACE_TEXT("Duplex callback is off my %d msec\n"), durationMSec - dpxStream->playedsamples_msec);
 
 #if defined(WIN32)
     if (dpxStream->winaec)
@@ -627,6 +645,11 @@ int DuplexStreamCallback(const void *inputBuffer,
             recorded = &tmpbuf[0];
             DuplexCallback(PortAudio::getInstance().get(), *dpxStream, recorded, playback);
         }
+
+        auto echodiff_msec = dpxStream->playedsamples_msec - dpxStream->echosamples_msec;
+        MYTRACE_COND(std::abs(int(echodiff_msec)) > cbMSec * 3,
+                     ACE_TEXT("Duplex callback shows player is off by %d msec compared to echo cancellor\n"),
+                     echodiff_msec);
     }
     else
     {
@@ -682,6 +705,7 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
     if (!sndgrp)
         return duplexstreamer_t();
 
+    // echo cancel only applies to WASAPI
     if (sndgrp->echocancel)
     {
         DeviceInfo outdev;
@@ -697,7 +721,7 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
 #endif
 
     //open stream
-    PaError err = Pa_OpenStream(&streamer->stream, tmpInputParameters,
+    PaError err = Pa_OpenStream(&streamer->stream, (tmpInputParameters ? tmpInputParameters : NULL),
                                 &outputParameters, (double)samplerate,
                                 framesize, paClipOff,
                                 DuplexStreamCallback,
@@ -798,6 +822,39 @@ void CWMAudioAECCapture::Run()
         return;
     }
 
+    PROPVARIANT pvSysMode;
+    PropVariantInit(&pvSysMode);
+    pvSysMode.vt = VT_I4;
+    pvSysMode.lVal = SINGLE_CHANNEL_AEC;
+    if (FAILED(pPS->SetValue(MFPKEY_WMAAECMA_SYSTEM_MODE, pvSysMode)))
+    {
+        m_started.set_value(false);
+        return;
+    }
+    PropVariantClear(&pvSysMode);
+
+    PROPVARIANT pvDeviceId;
+    PropVariantInit(&pvDeviceId);
+    pvDeviceId.vt = VT_I4;
+    pvDeviceId.lVal = (outDevIndex << 16) | inDevIndex;
+    if (FAILED(pPS->SetValue(MFPKEY_WMAAECMA_DEVICE_INDEXES, pvDeviceId)))
+    {
+        m_started.set_value(false);
+        return;
+    }
+    PropVariantClear(&pvDeviceId);
+
+    PROPVARIANT pvFeatrModeOn;
+    PropVariantInit(&pvFeatrModeOn);
+    pvFeatrModeOn.vt = VT_BOOL;
+    pvFeatrModeOn.boolVal = VARIANT_TRUE;
+    if (FAILED(pPS->SetValue(MFPKEY_WMAAECMA_FEATURE_MODE, pvFeatrModeOn)))
+    {
+        m_started.set_value(false);
+        return;
+    }
+    PropVariantClear(&pvFeatrModeOn);
+
     DMO_MEDIA_TYPE mt = {};
     if (FAILED(MoInitMediaType(&mt, sizeof(WAVEFORMATEX))))
     {
@@ -817,24 +874,8 @@ void CWMAudioAECCapture::Run()
         SUCCEEDED(MoFreeMediaType(&mt));
         return;
     }
-    
-    SUCCEEDED(MoFreeMediaType(&mt));
 
-    PROPVARIANT pvDeviceId;
-    PropVariantInit(&pvDeviceId);
-    pvDeviceId.vt = VT_I4;
-    pvDeviceId.lVal = (outDevIndex << 16) | inDevIndex;
-    if (FAILED(pPS->SetValue(MFPKEY_WMAAECMA_DEVICE_INDEXES, pvDeviceId)))
-    {
-        m_started.set_value(false);
-        return;
-    }
-    if (FAILED(pPS->GetValue(MFPKEY_WMAAECMA_DEVICE_INDEXES, &pvDeviceId)))
-    {
-        m_started.set_value(false);
-        return;
-    }
-    PropVariantClear(&pvDeviceId);
+    SUCCEEDED(MoFreeMediaType(&mt));
 
     if (FAILED(pDMO->AllocateStreamingResources()))
     {
@@ -856,6 +897,7 @@ void CWMAudioAECCapture::Run()
     std::vector<BYTE> outputbuf(PCM16_BYTES(SAMPLERATE, CHANNELS));
     auto delayMSec = std::chrono::milliseconds(iFrameSize * 1000 / SAMPLERATE);
     bool error = false;
+    uint64_t processedBytes = 0;
     do
     {
         ProcessAudioQueue();
@@ -883,6 +925,8 @@ void CWMAudioAECCapture::Run()
             {
                 //MYTRACE(ACE_TEXT("Audio callback with %d msec\n"), PCM16_BYTES_DURATION(dwOutputLen, CHANNELS, SAMPLERATE));
                 int samples = dwOutputLen / sizeof(short) / CHANNELS;
+                processedBytes += dwOutputLen;
+                m_streamer->echosamples_msec = PCM16_BYTES_DURATION(processedBytes, CHANNELS, SAMPLERATE);
 
                 media::AudioFrame frm(infmt, reinterpret_cast<short*>(outputbufptr), samples);
                 // if we already have a queue then just add to queue
@@ -936,18 +980,15 @@ void CWMAudioAECCapture::ProcessAudioQueue()
             return;
     }
 
-    bool full = false;
-    while(m_input_queue.message_count() && !full)
+    ACE_Time_Value tv;
+    ACE_Message_Block* mb;
+    while (m_input_queue.dequeue(mb, &tv) >= 0)
     {
-        ACE_Time_Value tv;
-        ACE_Message_Block* mb;
-        if(m_input_queue.dequeue(mb, &tv) >= 0)
-        {
-            media::AudioFrame frm(mb);
-            full = QueueAudioInput(frm) == false;
-            mb->release();
-        }
-        else break;
+        media::AudioFrame frm(mb);
+        bool ret = QueueAudioInput(frm);
+        mb->release();
+        if (!ret)
+            break;
     }
 }
 
@@ -995,7 +1036,7 @@ bool CWMAudioAECCapture::QueueAudioInput(const media::AudioFrame& frm)
         if (m_input_queue.enqueue_head(mb, &tv) < 0)
         {
             mb->release();
-            MYTRACE(ACE_TEXT("Failed to queue echo cancelled audio\n"));
+            MYTRACE(ACE_TEXT("Failed to reenqueue echo cancelled audio\n"));
         }
     }
 
@@ -1007,7 +1048,8 @@ short* CWMAudioAECCapture::AcquireBuffer()
      size_t bytes = m_input_queue.message_length();
      bytes -= sizeof(media::AudioFrame) * m_input_queue.message_count();
      int duration = PCM16_BYTES_DURATION(bytes, m_streamer->input_channels, m_streamer->samplerate);
-     MYTRACE(ACE_TEXT("Acquire echo audio, duration: %d msec. Full %d%%\n"), duration, 100 * m_input_index / m_input_buffer.size());
+     //MYTRACE(ACE_TEXT("Acquire echo audio, duration: %d msec. Full %d%%. Bytes %u\n"),
+     //        duration, 100 * m_input_index / m_input_buffer.size(), unsigned(m_input_queue.message_length()));
      
      if (m_resampled_input)
         return m_resampled_input;

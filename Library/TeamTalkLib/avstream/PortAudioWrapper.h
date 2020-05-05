@@ -69,8 +69,11 @@ namespace soundsystem
     {
         // Pa_OpenStream doesn't return until DuplexCallback is called at least once
         bool initialcallback = true;
+        uint32_t playedsamples_msec = 0;
+        uint32_t starttime = 0;
 #if defined(WIN32)
         std::shared_ptr<class CWMAudioAECCapture> winaec;
+        uint32_t echosamples_msec = 0;
 #endif
         PaDuplexStreamer(StreamDuplex* d, int sg, int fs, int sr, int inchs, int outchs,
                          SoundAPI out_sndsys, int inputdeviceid, int outputdeviceid)
