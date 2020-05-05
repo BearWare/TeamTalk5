@@ -159,17 +159,14 @@ int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
     IMediaBuffer* input_mb = NULL, *output_mb = NULL;
     int ret = 0;
 
-    hr = CMediaBuffer::CreateBuffer((BYTE*)input_samples,
-                                    input_samples_cnt * 2 * pInputWav->nChannels,
-                                    input_samples_cnt * 2 * pInputWav->nChannels,
-                                    (void**)&input_mb);
+    long inbufsize = PCM16_BYTES(input_samples_cnt, pInputWav->nChannels);
+    hr = CMediaBuffer::CreateBuffer((BYTE*)input_samples, inbufsize, inbufsize, (LPVOID*)&input_mb);
     assert(SUCCEEDED(hr));
     if(FAILED(hr))
         goto fail;
 
-    hr = CMediaBuffer::CreateBuffer((BYTE*)output_samples, 0, 
-                                    output_samples_cnt * 2 * pOutputWav->nChannels, 
-                                    (void**)&output_mb);
+    long outbufsize = PCM16_BYTES(output_samples_cnt, pOutputWav->nChannels);
+    hr = CMediaBuffer::CreateBuffer((BYTE*)output_samples, 0, outbufsize, (LPVOID*)&output_mb);
     assert(SUCCEEDED(hr));
     if(FAILED(hr))
         goto fail;
@@ -180,7 +177,8 @@ int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
     hr = m_pDMO->GetInputStatus(0, &status);
     assert(SUCCEEDED(hr));
     //this should not happen but if there's data left in the media object then flush it
-    MYTRACE_COND(status == 0, ACE_TEXT("Flushing audio resampler\n"));
+    MYTRACE_COND(status == 0, ACE_TEXT("Flushing audio resampler. %d Hz -> %d Hz. Frame size: %d -> %d\n"),
+                 GetInputFormat().samplerate, GetOutputFormat().samplerate, input_samples_cnt, output_samples_cnt);
     if(status == 0)
         m_pDMO->Flush();
 
