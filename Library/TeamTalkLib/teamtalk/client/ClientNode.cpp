@@ -980,7 +980,6 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
     int codec_samplerate = GetAudioCodecSampleRate(codec);
     int codec_samples = GetAudioCodecCbSamples(codec);
     int codec_channels = GetAudioCodecChannels(codec);
-    int output_channels = GetAudioCodecSimulateStereo(codec)?2:codec_channels;
 
     rguard_t g_snd(lock_sndprop());
 
@@ -988,53 +987,27 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
        m_soundprop.inputdeviceid == SOUNDDEVICE_IGNORE_ID)
         return;
 
-    int input_samplerate = 0, input_channels = 0, input_samples = 0;
-    if(!m_soundsystem->SupportsInputFormat(m_soundprop.inputdeviceid,
-                                       codec_channels, codec_samplerate))
-    {
-        DeviceInfo dev;
-        if(!m_soundsystem->GetDevice(m_soundprop.inputdeviceid, dev) ||
-           dev.default_samplerate == 0)
-            return;
-        
-        //choose highest sample rate supported by device
-        input_samplerate = dev.default_samplerate;
-        //choose channels supported by device
-        input_channels = dev.GetSupportedInputChannels(codec_channels);
-        //get callback size for new samplerate
-        input_samples = CalcSamples(codec_samplerate, codec_samples,
-                                    input_samplerate);
-        media::AudioFormat infmt(input_samplerate, input_channels),
-            outfmt(codec_samplerate, codec_channels);
-        m_capture_resampler = MakeAudioResampler(infmt, outfmt);
-
-        if (!m_capture_resampler)
-        {
-            m_capture_resampler.reset();
-            m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
-                                        ACE_TEXT("Cannot create resampler for sound input device."));
-            return;
-        }
-        m_capture_buffer.resize(codec_samples * codec_channels);
-    }
-    else
-    {
-        input_samplerate = codec_samplerate;
-        input_channels = codec_channels;
-        input_samples = codec_samples;
-    }
 
     bool b;
-    if(m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
+    if (m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
     {
-        DeviceInfo dev;
-        m_soundsystem->GetDevice(m_soundprop.outputdeviceid, dev);
-        if(!dev.SupportsOutputFormat(output_channels, input_samplerate))
+        int samplerate = codec_samplerate;
+        int output_channels = GetAudioCodecSimulateStereo(codec) ? 2 : codec_channels;
+
+        // In order to support Windows AEC we let output device 
+        // determine what resampler settings should be used. Input sample rate
+        // is fixed in Windows AEC so we should let output device choose sample rate.
+        // Also duplex mode in PortAudioWrapper is hacked on Windows' to make a fake
+        // duplex device.
+        DeviceInfo outdev;
+        m_soundsystem->GetDevice(m_soundprop.outputdeviceid, outdev);
+        if (!outdev.SupportsOutputFormat(output_channels, codec_samplerate))
         {
-            media::AudioFormat infmt(input_samplerate, output_channels),
+            output_channels = outdev.GetSupportedOutputChannels(output_channels);
+            samplerate = outdev.default_samplerate; // duplex callback should use output device's sample rate
+            media::AudioFormat infmt(samplerate, output_channels),
                 outfmt(codec_samplerate, codec_channels);
-            m_playback_resampler = MakeAudioResampler(infmt, //sample rate shared in dpx mode
-                                                      outfmt);
+            m_playback_resampler = MakeAudioResampler(infmt, outfmt);  //sample rate shared in dpx mode
             if (!m_playback_resampler)
             {
                 m_playback_resampler.reset();
@@ -1042,18 +1015,84 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                                             ACE_TEXT("Cannot create resampler for sound output device"));
                 return;
             }
-
             m_playback_buffer.resize(codec_samples * codec_channels);
         }
+
+        // resample if output device already forced resampling or 
+        // if input device doesn't support number of channels
+        DeviceInfo indev;
+        m_soundsystem->GetDevice(m_soundprop.inputdeviceid, indev);
+        int input_channels = indev.GetSupportedInputChannels(codec_channels);
+        int samples = codec_samples;
+
+        if (samplerate != codec_samplerate || input_channels != codec_channels)
+        {
+            media::AudioFormat infmt(samplerate, input_channels),
+                outfmt(codec_samplerate, codec_channels);
+            m_capture_resampler = MakeAudioResampler(infmt, outfmt);
+
+            if (!m_capture_resampler)
+            {
+                m_capture_resampler.reset();
+                m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
+                    ACE_TEXT("Cannot create resampler for sound input device."));
+                return;
+            }
+            m_capture_buffer.resize(codec_samples * codec_channels);
+
+            samples = CalcSamples(codec_samplerate, codec_samples, samplerate);
+        }
+
 
         b = m_soundsystem->OpenDuplexStream(this, m_soundprop.inputdeviceid,
                                             m_soundprop.outputdeviceid,
                                             m_soundprop.soundgroupid, 
-                                            input_samplerate, input_channels,
-                                            output_channels, input_samples);
+                                            samplerate, input_channels,
+                                            output_channels, samples);
     }
     else
     {
+        int input_samplerate = 0, input_channels = 0, input_samples = 0;
+
+        if(!m_soundsystem->SupportsInputFormat(m_soundprop.inputdeviceid,
+            codec_channels, codec_samplerate))
+        {
+            DeviceInfo dev;
+            if(!m_soundsystem->GetDevice(m_soundprop.inputdeviceid, dev) ||
+                dev.default_samplerate == 0)
+            {
+                m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
+                    ACE_TEXT("Cannot open sound input device."));
+                return;
+            }
+
+            //choose highest sample rate supported by device
+            input_samplerate = dev.default_samplerate;
+            //choose channels supported by device
+            input_channels = dev.GetSupportedInputChannels(codec_channels);
+            //get callback size for new samplerate
+            input_samples = CalcSamples(codec_samplerate, codec_samples,
+                input_samplerate);
+            media::AudioFormat infmt(input_samplerate, input_channels),
+                outfmt(codec_samplerate, codec_channels);
+            m_capture_resampler = MakeAudioResampler(infmt, outfmt);
+
+            if(!m_capture_resampler)
+            {
+                m_capture_resampler.reset();
+                m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
+                    ACE_TEXT("Cannot create resampler for sound input device."));
+                return;
+            }
+            m_capture_buffer.resize(codec_samples * codec_channels);
+        }
+        else
+        {
+            input_samplerate = codec_samplerate;
+            input_channels = codec_channels;
+            input_samples = codec_samples;
+        }
+
         b = m_soundsystem->OpenInputStream(this, m_soundprop.inputdeviceid, 
                                            m_soundprop.soundgroupid,
                                            input_samplerate, input_channels, 
