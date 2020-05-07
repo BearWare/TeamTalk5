@@ -16,7 +16,7 @@
     <item id="116">Diffusion</item>
     <item id="117">Bureau</item>
     <item id="118">Webcam</item>
-    <item id="119">Muer le fichier multimédia</item>
+    <item id="119">Rendre le fichier multimédia muet</item>
     <item id="120">Protégé par mot de passe</item>
     <item id="121">%s rejoint</item>
     <item id="122">Le périphérique de sortie prend en charge le son 3D</item>
@@ -498,8 +498,8 @@
     <item id="1578">Contrôle automatique du gain</item>
     <item id="1579">Réduction du bruit</item>
     <item id="1590">Défaut</item>
-    <item id="1591">Muer à gauche</item>
-    <item id="1592">Muer à droite</item>
+    <item id="1591">Muet à gauche</item>
+    <item id="1592">Muet à droite</item>
     <item id="1593">Jouer le média continuellement</item>
     <item id="1594">Position initiale</item>
     <item id="1595">Traitement audio</item>
