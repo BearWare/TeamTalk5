@@ -95,7 +95,7 @@ private:
 #if defined(ENABLE_SPEEXDSP)
     SpeexPreprocess m_preprocess_left, m_preprocess_right;
 #endif
-    std::vector<short> m_resample_buffer, m_preprocess_buffer_left, 
+    std::vector<short> m_preprocess_buffer_left, 
         m_preprocess_buffer_right;
     std::queue< std::vector<short> > m_buf_queue;
     audio_resampler_t m_capture_resampler;
