@@ -118,22 +118,22 @@ TEST_CASE( "Record mux") {
     REQUIRE(TT_GetChannel(clients[1], TT_GetMyChannelID(clients[1]), &chan));
 
     REQUIRE(TT_EnableVoiceTransmission(clients[0], true));
-    WaitForEvent(clients[0], CLIENTEVENT_NONE, nullptr, 100);
+    WaitForEvent(clients[0], CLIENTEVENT_NONE, 100);
     REQUIRE(TT_EnableVoiceTransmission(clients[0], false));
 
     REQUIRE(TT_StartRecordingMuxedAudioFile(clients[1], &chan.audiocodec, ACE_TEXT("MyMuxFile.wav"), AFF_WAVE_FORMAT));
 
     REQUIRE(TT_DBG_SetSoundInputTone(clients[0], STREAMTYPE_VOICE, 500));
     REQUIRE(TT_EnableVoiceTransmission(clients[0], true));
-    WaitForEvent(clients[0], CLIENTEVENT_NONE, nullptr, 2500);
+    WaitForEvent(clients[0], CLIENTEVENT_NONE, 2500);
     REQUIRE(TT_EnableVoiceTransmission(clients[0], false));
 
     REQUIRE(TT_DBG_SetSoundInputTone(clients[1], STREAMTYPE_VOICE, 600));
     REQUIRE(TT_EnableVoiceTransmission(clients[1], true));
-    WaitForEvent(clients[1], CLIENTEVENT_NONE, nullptr, 2500);
+    WaitForEvent(clients[1], CLIENTEVENT_NONE, 2500);
     REQUIRE(TT_EnableVoiceTransmission(clients[1], false));
 
-    WaitForEvent(clients[1], CLIENTEVENT_NONE, nullptr, 10000);
+    WaitForEvent(clients[1], CLIENTEVENT_NONE, 10000);
 
     REQUIRE(TT_StopRecordingMuxedAudioFile(clients[1]));
 
@@ -183,7 +183,7 @@ TEST_CASE( "Last voice packet" )
     REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 600));
 
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, int(audiocodec.opus.nTxIntervalMSec * 5 + audiocodec.opus.nTxIntervalMSec * .5));
+    WaitForEvent(txclient, CLIENTEVENT_NONE, int(audiocodec.opus.nTxIntervalMSec * 5 + audiocodec.opus.nTxIntervalMSec * .5));
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
 
     auto voicestop = [&](TTMessage msg)
@@ -207,7 +207,7 @@ TEST_CASE( "Last voice packet" )
 
     REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 0));
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 1000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, 1000);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
     
     for(auto c : clients)
@@ -238,38 +238,38 @@ TEST_CASE( "MuxedAudioToFile" )
 
     REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 2000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
 
     // This tone is not being stored in 'MyMuxFile.wav' because the
     // audio block will bypass the audio encoder.
     REQUIRE(TT_DBG_SetSoundInputTone(rxclient, STREAMTYPE_VOICE, 600));
     REQUIRE(TT_EnableVoiceTransmission(rxclient, true));
-    WaitForEvent(rxclient, CLIENTEVENT_NONE, nullptr, 2000);
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, 2000);
     REQUIRE(TT_EnableVoiceTransmission(rxclient, false));
 
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 2000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
 
     REQUIRE(TT_EnableVoiceTransmission(rxclient, true));
-    WaitForEvent(rxclient, CLIENTEVENT_NONE, nullptr, 2000);
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, 2000);
     REQUIRE(TT_EnableVoiceTransmission(rxclient, false));
 
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 2000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoUnsubscribe(rxclient, TT_GetMyUserID(txclient), SUBSCRIBE_VOICE)));
     
-    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 2000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
     
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoSubscribe(rxclient, TT_GetMyUserID(txclient), SUBSCRIBE_VOICE)));
 
     REQUIRE(TT_EnableVoiceTransmission(rxclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 2000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
 
     REQUIRE(TT_CloseSoundInputDevice(rxclient));
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, 2000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
     
     REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
@@ -298,8 +298,7 @@ TEST_CASE( "MuxedAudioBlock" )
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
-    TTMessage msg;
-    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, &msg));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
 
     for(auto c : clients)
         REQUIRE(TT_CloseTeamTalk(c));
@@ -323,10 +322,8 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
-    TTMessage msg;
-
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
-    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, &msg));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
     auto voicestart = [&](TTMessage msg)
     {
@@ -352,10 +349,10 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
     };
 
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestart));
-    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, &msg));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
-    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, &msg));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
 
     for(auto c : clients)
         REQUIRE(TT_CloseTeamTalk(c));
@@ -399,7 +396,7 @@ TEST_CASE( "Opus Read File" )
     REQUIRE(TT_GetChannel(rxclient, TT_GetMyChannelID(rxclient), &chan));
     REQUIRE(TT_StartRecordingMuxedAudioFile(rxclient, &chan.audiocodec, FILENAME, AFF_CHANNELCODEC_FORMAT));
 
-    WaitForEvent(rxclient, CLIENTEVENT_NONE, nullptr, 2000);
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, 2000);
 
     for(auto c : clients)
         REQUIRE(TT_CloseTeamTalk(c));
@@ -600,6 +597,11 @@ TEST_CASE("CWMAudioAEC_Callback")
             MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
             callbacks++;
         }
+        
+        soundsystem::SoundDeviceFeatures GetDuplexFeatures()
+        {
+            return soundsystem::SOUNDDEVICEFEATURE_NONE;
+        }
 
     } myduplex, myduplex2;
 
@@ -700,13 +702,17 @@ TEST_CASE("CWMAudioAEC_DuplexMode")
             REQUIRE(m_wavefile.AppendSamples(input_buffer, samples));
         }
 
+        soundsystem::SoundDeviceFeatures GetDuplexFeatures()
+        {
+            return soundsystem::SOUNDDEVICEFEATURE_AEC;
+        }
+
     } myduplex(wavefile);
 
     auto sndsys = soundsystem::GetInstance();
     int sndgrpid = sndsys->OpenSoundGroup();
     int indev, outdev;
     REQUIRE(sndsys->GetDefaultDevices(SOUND_API_WASAPI, indev, outdev));
-    REQUIRE(sndsys->SetEchoCancellation(sndgrpid, true));
     REQUIRE(sndsys->OpenDuplexStream(&myduplex, indev, outdev, sndgrpid, fmt.samplerate, fmt.channels, fmt.channels, framesize));
 
     while(myduplex.callbacks <= 200)
