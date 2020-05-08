@@ -197,6 +197,33 @@ extern "C" {
         }
         return reinterpret_cast<jlong>(inst);
     }
+
+    JNIEXPORT jlong JNICALL Java_dk_bearware_TeamTalkBase_startSoundLoopbackTestEx(JNIEnv* env,
+                                                                                   jclass,
+                                                                                   jint nInputDeviceID, 
+                                                                                   jint nOutputDeviceID,
+                                                                                   jint nSampleRate,
+                                                                                   jint nChannels,
+                                                                                   jboolean bDuplexMode,
+                                                                                   jobject lpAudioPreprocessor,
+                                                                                   jobject lpSoundDeviceEffects)
+    {
+    
+        TTSoundLoop* inst;
+        AudioPreprocessor preprocessor = {};
+        SoundDeviceEffects effects = {};
+
+        if (lpAudioPreprocessor)
+            setAudioPreprocessor(env, preprocessor, lpAudioPreprocessor, J2N);
+        if (lpSoundDeviceEffects)
+            setSoundDeviceEffects(env, effects, lpSoundDeviceEffects, J2N);
+        
+        inst = TT_StartSoundLoopbackTestEx(nInputDeviceID, nOutputDeviceID, 
+                                           nSampleRate, nChannels, bDuplexMode,
+                                           (lpAudioPreprocessor? &preprocessor : nullptr),
+                                           (lpSoundDeviceEffects? &effects : nullptr));
+        return reinterpret_cast<jlong>(inst);
+    }
     
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_closeSoundLoopbackTest(JNIEnv* env,
                                                                                     jclass,
