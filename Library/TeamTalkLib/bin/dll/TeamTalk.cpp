@@ -504,34 +504,69 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
                                                        IN TTBOOL bDuplexMode,
                                                        IN const SpeexDSP* lpSpeexDSP)
 {
+    AudioPreprocessor preprocessor = {};
+    preprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+    if (lpSpeexDSP)
+    {
+        preprocessor.nPreprocessor = SPEEXDSP_AUDIOPREPROCESSOR;
+        preprocessor.speexdsp = *lpSpeexDSP;
+    }
+    
+    SoundDeviceEffects effects = {};
+    return TT_StartSoundLoopbackTestEx(nInputDeviceID, nOutputDeviceID, nSampleRate,
+                                       nChannels, bDuplexMode, &preprocessor, &effects);
+}
+
+TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID,
+                                                         IN INT32 nOutputDeviceID,
+                                                         IN INT32 nSampleRate,
+                                                         IN INT32 nChannels,
+                                                         IN TTBOOL bDuplexMode,
+                                                         IN const AudioPreprocessor* lpAudioPreprocessor,
+                                                         IN const SoundDeviceEffects* lpSoundDeviceEffects)
+{
     bool agc_enable = false, denoise_enable = false, aec_enable = false;
     int noisesuppressdb = 0;
+    soundsystem::SoundDeviceFeatures sndfeatures = soundsystem::SOUNDDEVICEFEATURE_NONE;
 
 #if defined(ENABLE_SPEEXDSP)
     SpeexAGC agc;
     SpeexAEC aec;
 #endif
 
-    if(lpSpeexDSP)
+    if (lpAudioPreprocessor)
     {
+        switch (lpAudioPreprocessor->nPreprocessor)
+        {
+        case SPEEXDSP_AUDIOPREPROCESSOR :
 #if defined(ENABLE_SPEEXDSP)
-        agc_enable = lpSpeexDSP->bEnableAGC;
-        agc.gain_level = (float)lpSpeexDSP->nGainLevel;
-        agc.max_increment = lpSpeexDSP->nMaxIncDBSec;
-        agc.max_decrement = lpSpeexDSP->nMaxDecDBSec;
-        agc.max_gain = lpSpeexDSP->nMaxGainDB;
+            agc_enable = lpAudioPreprocessor->speexdsp.bEnableAGC;
+            agc.gain_level = (float)lpAudioPreprocessor->speexdsp.nGainLevel;
+            agc.max_increment = lpAudioPreprocessor->speexdsp.nMaxIncDBSec;
+            agc.max_decrement = lpAudioPreprocessor->speexdsp.nMaxDecDBSec;
+            agc.max_gain = lpAudioPreprocessor->speexdsp.nMaxGainDB;
         
-        denoise_enable = lpSpeexDSP->bEnableDenoise;
-        noisesuppressdb = lpSpeexDSP->nMaxNoiseSuppressDB;
+            denoise_enable = lpAudioPreprocessor->speexdsp.bEnableDenoise;
+            noisesuppressdb = lpAudioPreprocessor->speexdsp.nMaxNoiseSuppressDB;
         
-        aec_enable = lpSpeexDSP->bEnableEchoCancellation;
-        aec.suppress_level = lpSpeexDSP->nEchoSuppress;
-        aec.suppress_active = lpSpeexDSP->nEchoSuppressActive;
+            aec_enable = lpAudioPreprocessor->speexdsp.bEnableEchoCancellation;
+            aec.suppress_level = lpAudioPreprocessor->speexdsp.nEchoSuppress;
+            aec.suppress_active = lpAudioPreprocessor->speexdsp.nEchoSuppressActive;
 #else
-        if(lpSpeexDSP->bEnableAGC || lpSpeexDSP->bEnableDenoise ||
-           lpSpeexDSP->bEnableEchoCancellation)
-           return FALSE;
+            if (lpAudioPreprocessor->speexdsp.bEnableAGC ||
+                lpAudioPreprocessor->speexdsp.bEnableDenoise ||
+                lpAudioPreprocessor->speexdsp.bEnableEchoCancellation)
+                return FALSE;
 #endif
+            break;
+        }
+    }
+
+    if (lpSoundDeviceEffects)
+    {
+        teamtalk::SoundDeviceEffects effects;
+        Convert(*lpSoundDeviceEffects, effects);
+        sndfeatures = teamtalk::GetSoundDeviceFeatures(effects);
     }
 
     SoundLoopback* pSoundLoopBack;
@@ -550,7 +585,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
                                             aec_enable, 
                                             aec
 #endif
-                                            );
+                                            , sndfeatures);
     }
     else
     {
@@ -564,7 +599,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
                                        aec_enable, 
                                        aec
 #endif
-                                       );
+                                       , sndfeatures);
     }
 
     if(!b)
@@ -579,6 +614,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
     }
     return pSoundLoopBack;
 }
+
 
 TEAMTALKDLL_API TTBOOL TT_CloseSoundLoopbackTest(IN TTSoundLoop* lpTTSoundLoop)
 {

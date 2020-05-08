@@ -96,17 +96,6 @@ void PortAudio::RemoveSoundGroup(soundgroup_t sndgrp)
 {
 }
 
-bool PortAudio::SetEchoCancellation(soundgroup_t sndgrp, bool enable)
-{
-    sndgrp->echocancel = enable;
-    return true;
-}
-
-bool PortAudio::IsEchoCancelling(soundgroup_t sndgrp)
-{
-    return sndgrp->echocancel;
-}
-
 bool PortAudio::SetAutoPositioning(int sndgrpid, bool enable)
 {
     soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
@@ -701,12 +690,8 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
                                                    inputdeviceid, outputdeviceid));
 
 #if defined(WIN32)
-    soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
-    if (!sndgrp)
-        return duplexstreamer_t();
-
     // echo cancel only applies to WASAPI
-    if (sndgrp->echocancel)
+    if (duplex->GetDuplexFeatures() & SOUNDDEVICEFEATURE_AEC)
     {
         DeviceInfo outdev;
         if (!GetDevice(outputdeviceid, outdev))
@@ -755,6 +740,21 @@ void PortAudio::CloseStream(duplexstreamer_t streamer)
     assert(err == paNoError);
 
     streamer->stream = nullptr;
+}
+
+bool PortAudio::UpdateStreamDuplexFeatures(duplexstreamer_t streamer)
+{
+    assert(streamer);
+    SoundDeviceFeatures features = streamer->duplex->GetDuplexFeatures();
+    if (features & (SOUNDDEVICEFEATURE_AGC | SOUNDDEVICEFEATURE_DENOISE))
+        return false;
+
+#if defined(WIN32)
+    return features == SOUNDDEVICEFEATURE_NONE ||
+        ((features & SOUNDDEVICEFEATURE_AEC) && streamer->winaec);
+#else
+    return features == SOUNDDEVICEFEATURE_NONE;
+#endif
 }
 
 #if defined(WIN32)

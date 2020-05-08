@@ -101,6 +101,7 @@ namespace soundsystem {
         bool StopStream(inputstreamer_t streamer);
         void CloseStream(inputstreamer_t streamer);
         bool IsStreamStopped(inputstreamer_t streamer);
+        bool UpdateStreamCaptureFeatures(inputstreamer_t streamer);
 
         bool SetEchoCancellation(inputstreamer_t streamer, bool enable);
         bool IsEchoCancelling(inputstreamer_t streamer);

@@ -52,7 +52,7 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
                               bool denoise, int denoise_level,
                               bool enable_aec, const SpeexAEC& aec
 #endif
-                              )
+                              , soundsystem::SoundDeviceFeatures sndfeatures)
 {
     assert(!m_active);
     if(m_active)
@@ -109,6 +109,8 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
     }
 #endif
 
+    m_features = sndfeatures;
+
     if(!m_soundsystem->OpenOutputStream(this, outputdevid, m_soundgrpid,
                                       output_samplerate, output_channels,
                                       output_samples))
@@ -142,7 +144,7 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
                                     bool denoise, int denoise_level,
                                     bool enable_aec, const SpeexAEC& aec
 #endif
-                                    )
+                                    , soundsystem::SoundDeviceFeatures sndfeatures)
 {
     DeviceInfo in_dev;
     if(!m_soundsystem->GetDevice(inputdevid, in_dev) ||
@@ -175,9 +177,11 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
     }
 #endif
 
+    m_features = sndfeatures;
+
     if(!m_soundsystem->OpenDuplexStream(this, inputdevid, outputdevid,
-                                    m_soundgrpid, samplerate, 
-                                    input_channels, channels, samples))
+                                        m_soundgrpid, samplerate, 
+                                        input_channels, channels, samples))
     {
         StopTest();
         return false;
@@ -203,6 +207,7 @@ bool SoundLoopback::StopTest()
     while(m_buf_queue.size())
         m_buf_queue.pop();
     m_active = false;
+    m_features = soundsystem::SOUNDDEVICEFEATURE_NONE;
     return b;
 }
 
@@ -395,6 +400,16 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
         MergeStereo(m_preprocess_buffer_left, m_preprocess_buffer_right,
                     output_buffer, streamer.framesize);
     }
+}
+
+SoundDeviceFeatures SoundLoopback::GetCaptureFeatures()
+{
+    return m_features;
+}
+
+SoundDeviceFeatures SoundLoopback::GetDuplexFeatures()
+{
+    return GetCaptureFeatures();
 }
 
 #if defined(ENABLE_SPEEXDSP)

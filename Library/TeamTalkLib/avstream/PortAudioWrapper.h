@@ -87,7 +87,6 @@ namespace soundsystem
     struct PaSoundGroup : SoundGroup
     {
         bool autoposition = false;;
-        bool echocancel = false;
         PaSoundGroup() { }
     };
 
@@ -106,9 +105,6 @@ namespace soundsystem
         //sound group members
         soundgroup_t NewSoundGroup();
         void RemoveSoundGroup(soundgroup_t sndgrp);
-
-        bool SetEchoCancellation(soundgroup_t sndgrp, bool enable);
-        bool IsEchoCancelling(soundgroup_t sndgrp);
 
         //input members
         inputstreamer_t NewStream(StreamCapture* capture, int inputdeviceid, 
@@ -135,6 +131,7 @@ namespace soundsystem
                                    int output_channels, int framesize);
         bool StartStream(duplexstreamer_t streamer);
         void CloseStream(duplexstreamer_t streamer);
+        bool UpdateStreamDuplexFeatures(duplexstreamer_t streamer);
 
     public:
         virtual ~PortAudio();
