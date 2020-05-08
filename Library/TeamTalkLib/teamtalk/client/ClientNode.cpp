@@ -987,8 +987,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
        m_soundprop.inputdeviceid == SOUNDDEVICE_IGNORE_ID)
         return;
 
-
-    bool b;
+    bool opened;
     if (m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
     {
         int samplerate = codec_samplerate;
@@ -1044,11 +1043,11 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
         }
 
 
-        b = m_soundsystem->OpenDuplexStream(this, m_soundprop.inputdeviceid,
-                                            m_soundprop.outputdeviceid,
-                                            m_soundprop.soundgroupid, 
-                                            samplerate, input_channels,
-                                            output_channels, samples);
+        opened = m_soundsystem->OpenDuplexStream(this, m_soundprop.inputdeviceid,
+                                                 m_soundprop.outputdeviceid,
+                                                 m_soundprop.soundgroupid, 
+                                                 samplerate, input_channels,
+                                                 output_channels, samples);
     }
     else
     {
@@ -1093,19 +1092,18 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
             input_samples = codec_samples;
         }
 
-        b = m_soundsystem->OpenInputStream(this, m_soundprop.inputdeviceid, 
-                                           m_soundprop.soundgroupid,
-                                           input_samplerate, input_channels, 
-                                           input_samples);
-
+        opened = m_soundsystem->OpenInputStream(this, m_soundprop.inputdeviceid, 
+                                                m_soundprop.soundgroupid,
+                                                input_samplerate, input_channels, 
+                                                input_samples);
     }
 
-    if (b)
+    if (opened)
     {
-        bool success = true;
-        success &= m_soundsystem->SetEchoCancellation(this, m_soundprop.effects.enable_aec);
-        success &= m_soundsystem->SetAGC(this, m_soundprop.effects.enable_agc);
-        success &= m_soundsystem->SetDenoising(this, m_soundprop.effects.enable_denoise);
+        bool success = (m_flags & CLIENT_SNDINOUTPUT_DUPLEX) ?
+            m_soundsystem->UpdateStreamDuplexFeatures(this) :
+            m_soundsystem->UpdateStreamCaptureFeatures(this);
+        
         if (!success)
         {
             m_listener->OnInternalError(TT_INTERR_SNDEFFECT_FAILURE,
@@ -1434,6 +1432,32 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
     audframe.output_samples = codec_samples;
 
     QueueAudioCapture(audframe);
+}
+
+namespace teamtalk {
+    SoundDeviceFeatures GetSoundDeviceFeatures(const SoundDeviceEffects& effects)
+    {
+        SoundDeviceFeatures features = SOUNDDEVICEFEATURE_NONE;
+
+        if (effects.enable_aec)
+            features |= SOUNDDEVICEFEATURE_AEC;
+        if (effects.enable_agc)
+            features |= SOUNDDEVICEFEATURE_AGC;
+        if (effects.enable_denoise)
+            features |= SOUNDDEVICEFEATURE_DENOISE;
+
+        return features;
+    }
+}
+
+SoundDeviceFeatures ClientNode::GetCaptureFeatures()
+{
+    return GetSoundDeviceFeatures(m_soundprop.effects);
+}
+
+SoundDeviceFeatures ClientNode::GetDuplexFeatures()
+{
+    return GetCaptureFeatures();
 }
 
 bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
@@ -2934,34 +2958,18 @@ bool ClientNode::SetSoundDeviceEffects(const SoundDeviceEffects& effects)
 {
     rguard_t g_snd(lock_sndprop());
 
-    bool success = true;
     m_soundprop.effects = effects;
 
-    m_soundsystem->SetEchoCancellation(m_soundprop.soundgroupid, effects.enable_aec);
-
-    if (!m_soundsystem->IsStreamStopped(this))
-    {
-        success &= m_soundsystem->SetEchoCancellation(this, effects.enable_aec);
-        success &= m_soundsystem->SetAGC(this, effects.enable_agc);
-        success &= m_soundsystem->SetDenoising(this, effects.enable_denoise);
-    }
-    return success;
+    return (m_flags & CLIENT_SNDINOUTPUT_DUPLEX) ?
+        m_soundsystem->UpdateStreamDuplexFeatures(this) :
+        m_soundsystem->UpdateStreamCaptureFeatures(this);
 }
 
 SoundDeviceEffects ClientNode::GetSoundDeviceEffects()
 {
     rguard_t g_snd(lock_sndprop());
 
-    auto effect = m_soundprop.effects;
-
-    if (!m_soundsystem->IsStreamStopped(this))
-    {
-        effect.enable_aec = m_soundsystem->IsEchoCancelling(this);
-        effect.enable_agc = m_soundsystem->IsAGC(this);
-        effect.enable_denoise = m_soundsystem->IsDenoising(this);
-    }
-
-    return effect;
+    return m_soundprop.effects;
 }
 
 bool ClientNode::SetSoundOutputVolume(int volume)

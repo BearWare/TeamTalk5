@@ -52,7 +52,7 @@ public:
                    bool denoise, int denoise_level,
                    bool enable_aec, const SpeexAEC& aec
 #endif
-                   );
+                   , soundsystem::SoundDeviceFeatures sndfeatures);
 
     bool StartDuplexTest(int inputdevid, int outputdevid,
                          int samplerate, int channels
@@ -61,7 +61,7 @@ public:
                          bool denoise, int denoise_level,
                          bool enable_aec, const SpeexAEC& aec
 #endif
-                         );
+                         , soundsystem::SoundDeviceFeatures sndfeatures);
     bool StopTest();
 
     void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
@@ -76,6 +76,9 @@ public:
                         const short* input_buffer, 
                         short* output_buffer, int samples);
 
+    soundsystem::SoundDeviceFeatures GetCaptureFeatures();
+    soundsystem::SoundDeviceFeatures GetDuplexFeatures();
+    
 private:
 #if defined(ENABLE_SPEEXDSP)
     bool SetAGC(int samplerate, int samples, int channels,
@@ -88,6 +91,7 @@ private:
     bool m_active;
     soundsystem::soundsystem_t m_soundsystem;
     int m_soundgrpid;
+    soundsystem::SoundDeviceFeatures m_features = soundsystem::SOUNDDEVICEFEATURE_NONE;
 #if defined(ENABLE_SPEEXDSP)
     SpeexPreprocess m_preprocess_left, m_preprocess_right;
 #endif

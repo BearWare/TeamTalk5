@@ -279,6 +279,15 @@ bool OpenSLESWrapper::GetDefaultDevices(SoundAPI sndsys,
     return false;
 }
 
+bool OpenSLESWrapper::UpdateStreamCaptureFeatures(inputstreamer_t streamer)
+{
+    SoundDeviceFeatures features = streamer->recorder->GetCaptureFeatures();
+    bool success = SetEchoCancellation(streamer, features & SOUNDDEVICEFEATURE_AEC);
+    success &= SetAGC(streamer, features & SOUNDDEVICEFEATURE_AGC);
+    success &= SetDenoising(streamer, features & SOUNDDEVICEFEATURE_DENOISE);
+    return success;
+}
+
 bool OpenSLESWrapper::SetEchoCancellation(inputstreamer_t streamer, bool enable)
 {
     assert(streamer->recorderObject);
@@ -528,6 +537,12 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     streamer->recorderRecord = recorderRecord;
     streamer->recorderBufferQueue = recorderBufferQueue;
 
+    if (!UpdateStreamCaptureFeatures(streamer))
+    {
+        MYTRACE(ACE_TEXT("Failed to activate sound device features 0x%x on device #%d\n"),
+                capture->GetCaptureFeatures(), inputdeviceid);
+    }
+    
     // register callback on the buffer queue
     result = (*recorderBufferQueue)->RegisterCallback(recorderBufferQueue,
                                                       bqRecorderCallback,

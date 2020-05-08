@@ -97,9 +97,6 @@ namespace soundsystem {
             return result;
         }
 
-        virtual bool SetEchoCancellation(soundgroup_t sndgrp, bool enable) { return !enable; }
-        virtual bool IsEchoCancelling(soundgroup_t sndgrp) { return false; }
-
         // recording members
 
         virtual inputstreamer_t NewStream(StreamCapture* capture,
@@ -109,13 +106,7 @@ namespace soundsystem {
         virtual bool StartStream(inputstreamer_t streamer) = 0;
         virtual void CloseStream(inputstreamer_t streamer) = 0;
         virtual bool IsStreamStopped(inputstreamer_t streamer) = 0;
-
-        virtual bool SetEchoCancellation(inputstreamer_t streamer, bool enable) { return !enable; }
-        virtual bool IsEchoCancelling(inputstreamer_t streamer) { return false; }
-        virtual bool SetAGC(inputstreamer_t streamer, bool enable) { return !enable; }
-        virtual bool IsAGC(inputstreamer_t streamer) { return false; }
-        virtual bool SetDenoising(inputstreamer_t streamer, bool enable) { return !enable; }
-        virtual bool IsDenoising(inputstreamer_t streamer) { return false; }
+        virtual bool UpdateStreamCaptureFeatures(inputstreamer_t streamer) { return false; }
 
         inputstreamer_t GetStream(StreamCapture* capture, bool allowVirtual = true, bool getSharedOrigin = false)
         {
@@ -194,6 +185,8 @@ namespace soundsystem {
                                            int output_channels, int framesize) = 0;
         virtual void CloseStream(duplexstreamer_t streamer) = 0;
         virtual bool StartStream(duplexstreamer_t streamer) = 0;
+        virtual bool UpdateStreamDuplexFeatures(duplexstreamer_t streamer) { return false; }
+        
         duplexstreamer_t GetStream(StreamDuplex* duplex)
         {
             std::lock_guard<std::recursive_mutex> g(duplex_lock());
@@ -281,7 +274,7 @@ namespace soundsystem {
 
             // shared device does not exist, create as new original stream
             sharedstreamcapture_t sharedstream;
-            sharedstream.reset(new SharedStreamCapture<INPUTSTREAMER>());
+            sharedstream.reset(new SharedStreamCapture<INPUTSTREAMER>(capture->GetCaptureFeatures()));
 
             // create new sound group. We cannot use 'sndgrpid' since
             // that instance might be deleted and the shared stream
@@ -610,6 +603,14 @@ namespace soundsystem {
             return false;
         }
 
+        bool UpdateStreamCaptureFeatures(StreamCapture* capture)
+        {
+            auto cap = GetStream(capture, true, true);
+            if (cap)
+                return UpdateStreamCaptureFeatures(cap);
+            return false;
+        }
+
         bool OpenOutputStream(StreamPlayer* player, int outputdeviceid,
                               int sndgrpid, int samplerate, int channels,
                               int framesize)
@@ -891,6 +892,14 @@ namespace soundsystem {
             return true;
         }
 
+        bool UpdateStreamDuplexFeatures(StreamDuplex* duplex)
+        {
+            auto dpx = GetStream(duplex);
+            if (dpx)
+                return UpdateStreamDuplexFeatures(dpx);
+            return false;
+        }
+
         virtual bool SetMasterVolume(int sndgrpid, int volume)
         {
             if(volume > VOLUME_MAX) volume = VOLUME_MAX;
@@ -1109,78 +1118,6 @@ namespace soundsystem {
                 return false;
 
             return streamer->mute;
-        }
-
-        virtual bool SetEchoCancellation(StreamCapture* capture, bool enable)
-        {
-            auto inputstream = GetStream(capture, false, true);
-            if (!inputstream)
-                return false;
-
-            return SetEchoCancellation(inputstream, enable);
-        }
-
-        virtual bool IsEchoCancelling(StreamCapture* capture)
-        {
-            auto inputstream = GetStream(capture, false, true);
-            if (!inputstream)
-                return false;
-
-            return IsEchoCancelling(inputstream);
-        }
-
-        virtual bool SetAGC(StreamCapture* capture, bool enable)
-        {
-            auto inputstream = GetStream(capture, false, true);
-            if (!inputstream)
-                return false;
-
-            return SetAGC(inputstream, enable);
-        }
-
-        virtual bool IsAGC(StreamCapture* capture)
-        {
-            auto inputstream = GetStream(capture, false, true);
-            if (!inputstream)
-                return false;
-
-            return IsAGC(inputstream);
-        }
-
-        virtual bool SetDenoising(StreamCapture* capture, bool enable)
-        {
-            auto inputstream = GetStream(capture, false, true);
-            if (!inputstream)
-                return false;
-
-            return SetDenoising(inputstream, enable);
-        }
-
-        virtual bool IsDenoising(StreamCapture* capture)
-        {
-            auto inputstream = GetStream(capture, false, true);
-            if (!inputstream)
-                return false;
-
-            return IsDenoising(inputstream);
-        }
-
-        virtual bool SetEchoCancellation(int sndgrpid, bool enable)
-        {
-            auto sndgrp = GetSoundGroup(sndgrpid);
-            if (!sndgrp)
-                return false;
-
-            return SetEchoCancellation(sndgrp, enable);
-        }
-
-        virtual bool IsEchoCancelling(int sndgrpid)
-        {
-            auto sndgrp = GetSoundGroup(sndgrpid);
-            if(!sndgrp)
-                return false;
-
-            return IsEchoCancelling(sndgrp);
         }
 
     private:

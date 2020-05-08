@@ -76,8 +76,6 @@ namespace soundsystem {
 
     typedef uint32_t SoundDeviceFeatures;
 
-
-
     class StreamCapture;
     class StreamPlayer;
     class StreamDuplex;
@@ -292,6 +290,7 @@ namespace soundsystem {
         virtual ~StreamCapture() {}
         virtual void StreamCaptureCb(const InputStreamer& streamer,
                                      const short* buffer, int samples) = 0;
+        virtual SoundDeviceFeatures GetCaptureFeatures() = 0;
     };
 
     class StreamPlayer
@@ -313,6 +312,7 @@ namespace soundsystem {
         virtual void StreamDuplexCb(const DuplexStreamer& streamer,
                                     const short* input_buffer,
                                     short* output_buffer, int samples){}
+        virtual SoundDeviceFeatures GetDuplexFeatures() = 0;
     };
 
     class SoundSystem
@@ -354,6 +354,7 @@ namespace soundsystem {
                                      int framesize) = 0;
         virtual bool CloseInputStream(StreamCapture* capture) = 0;
         virtual bool IsStreamStopped(StreamCapture* capture) = 0;
+        virtual bool UpdateStreamCaptureFeatures(StreamCapture* capture) = 0;
 
         //output members
         virtual bool OpenOutputStream(StreamPlayer* player, int outputdeviceid,
@@ -374,6 +375,7 @@ namespace soundsystem {
                                            StreamPlayer* player) = 0;
         virtual bool RemoveDuplexOutputStream(StreamDuplex* duplex,
                                               StreamPlayer* player) = 0;
+        virtual bool UpdateStreamDuplexFeatures(StreamDuplex* duplex) = 0;
 
         virtual void SetVolume(StreamPlayer* player, int volume) = 0;
         virtual int GetVolume(StreamPlayer* player) = 0;
@@ -384,18 +386,6 @@ namespace soundsystem {
         virtual void SetMute(StreamPlayer* player, bool mute) = 0;
         virtual bool IsMute(StreamPlayer* player) = 0;
 
-        // Android sets echo cancellation on the input device
-        virtual bool SetEchoCancellation(StreamCapture* capture, bool enable) = 0;
-        virtual bool IsEchoCancelling(StreamCapture* capture) = 0;
-        virtual bool SetAGC(StreamCapture* capture, bool enable) = 0;
-        virtual bool IsAGC(StreamCapture* capture) = 0;
-        virtual bool SetDenoising(StreamCapture* capture, bool enable) = 0;
-        virtual bool IsDenoising(StreamCapture* capture) = 0;
-
-        // Windows sets echo cancellation on active output device and creates input device
-        virtual bool SetEchoCancellation(int sndgrpid, bool enable) = 0;
-        virtual bool IsEchoCancelling(int sndgrpid) = 0;
-        //TODO: Align Windows and Android sound effects enable/disable. Use SoundGroupID instead of StreamCapture.
     };
 
 

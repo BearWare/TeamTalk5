@@ -84,10 +84,12 @@ namespace soundsystem {
                 s1.framesize == s2.framesize;
         }
 
+        SoundDeviceFeatures m_features;
+
     public:
         typedef std::shared_ptr < INPUTSTREAMER > inputstreamer_t;
 
-        SharedStreamCapture() { }
+        SharedStreamCapture(SoundDeviceFeatures features) { m_features = features; }
         ~SharedStreamCapture()
         {
             assert(m_sndgrpid == 0);
@@ -101,6 +103,11 @@ namespace soundsystem {
                 m_resample_thread->join();
 
             MYTRACE(ACE_TEXT("~SharedCaptureStream()\n"));
+        }
+
+        SoundDeviceFeatures GetCaptureFeatures()
+        {
+            return m_features;
         }
 
         // Set the source input stream which feeds the shared input streams
