@@ -98,6 +98,27 @@ public abstract class TeamTalkBase
                                                      boolean bDuplexMode,
                                                      SpeexDSP lpSpeexDSP);
 
+    private static native long startSoundLoopbackTestEx(int nInputDeviceID,
+                                                        int nOutputDeviceID,
+                                                        int nSampleRate,
+                                                        int nChannels,
+                                                        boolean bDuplexMode,
+                                                        AudioPreprocessor lpAudioPreprocessor,
+                                                        SoundDeviceEffects lpSoundDeviceEffects);
+
+    public static long startSoundLoopbackTest(int nInputDeviceID,
+                                              int nOutputDeviceID,
+                                              int nSampleRate,
+                                              int nChannels,
+                                              boolean bDuplexMode,
+                                              AudioPreprocessor lpAudioPreprocessor,
+                                              SoundDeviceEffects lpSoundDeviceEffects) {
+        return startSoundLoopbackTestEx(nInputDeviceID, nOutputDeviceID, nSampleRate,
+                                        nChannels, bDuplexMode, lpAudioPreprocessor,
+                                        lpSoundDeviceEffects);
+    }
+    
+
     public static native boolean closeSoundLoopbackTest(long lpTTSoundLoop);
 
     private native boolean initSoundInputDevice(long lpTTInstance, int nInputDeviceID);
