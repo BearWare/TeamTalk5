@@ -742,6 +742,12 @@ void PortAudio::CloseStream(duplexstreamer_t streamer)
     streamer->stream = nullptr;
 }
 
+bool PortAudio::IsStreamStopped(duplexstreamer_t streamer)
+{
+    assert(streamer->stream);
+    return Pa_IsStreamStopped(streamer->stream) > 0;
+}
+
 bool PortAudio::UpdateStreamDuplexFeatures(duplexstreamer_t streamer)
 {
     assert(streamer);

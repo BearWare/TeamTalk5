@@ -131,6 +131,7 @@ namespace soundsystem
                                    int output_channels, int framesize);
         bool StartStream(duplexstreamer_t streamer);
         void CloseStream(duplexstreamer_t streamer);
+        bool IsStreamStopped(duplexstreamer_t streamer);
         bool UpdateStreamDuplexFeatures(duplexstreamer_t streamer);
 
     public:

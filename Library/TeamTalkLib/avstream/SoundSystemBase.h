@@ -185,6 +185,8 @@ namespace soundsystem {
                                            int output_channels, int framesize) = 0;
         virtual void CloseStream(duplexstreamer_t streamer) = 0;
         virtual bool StartStream(duplexstreamer_t streamer) = 0;
+        virtual bool IsStreamStopped(duplexstreamer_t streamer) = 0;
+
         virtual bool UpdateStreamDuplexFeatures(duplexstreamer_t streamer) { return false; }
         
         duplexstreamer_t GetStream(StreamDuplex* duplex)
@@ -890,6 +892,14 @@ namespace soundsystem {
             m_output_streamers.erase(player);
 
             return true;
+        }
+
+        bool IsStreamStopped(StreamDuplex* duplex)
+        {
+            duplexstreamer_t streamer = GetStream(duplex);
+            if (!streamer)
+                return true;
+            return IsStreamStopped(streamer);
         }
 
         bool UpdateStreamDuplexFeatures(StreamDuplex* duplex)

@@ -723,4 +723,22 @@ TEST_CASE("CWMAudioAEC_DuplexMode")
     sndsys->CloseDuplexStream(&myduplex);
     sndsys->RemoveSoundGroup(sndgrpid);
 }
+
+TEST_CASE("TT_AEC")
+{
+    std::vector<TTInstance*> clients;
+    auto ttclient = TT_InitTeamTalkPoll();
+    clients.push_back(ttclient);
+
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    INT32 indev, outdev;
+    REQUIRE(TT_GetDefaultSoundDevicesEx(SOUNDSYSTEM_DSOUND, &indev, &outdev));
+    SoundDeviceEffects effects = {};
+    effects.bEnableAGC = TRUE;
+    REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
+    REQUIRE(InitSound(ttclient, DEFAULT, indev, outdev) == FALSE);
+}
 #endif
