@@ -2956,13 +2956,22 @@ bool ClientNode::CloseSoundDuplexDevices()
 
 bool ClientNode::SetSoundDeviceEffects(const SoundDeviceEffects& effects)
 {
-    rguard_t g_snd(lock_sndprop());
+    {
+        rguard_t g_snd(lock_sndprop());
+        m_soundprop.effects = effects;
+    }
 
-    m_soundprop.effects = effects;
-
-    return (m_flags & CLIENT_SNDINOUTPUT_DUPLEX) ?
-        m_soundsystem->UpdateStreamDuplexFeatures(this) :
-        m_soundsystem->UpdateStreamCaptureFeatures(this);
+    if (m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
+    {
+        if (!m_soundsystem->IsStreamStopped(static_cast<StreamDuplex*>(this)))
+            return m_soundsystem->UpdateStreamDuplexFeatures(this);
+    }
+    else
+    {
+        if (!m_soundsystem->IsStreamStopped(static_cast<StreamCapture*>(this)))
+            return m_soundsystem->UpdateStreamCaptureFeatures(this);
+    }
+    return true;
 }
 
 SoundDeviceEffects ClientNode::GetSoundDeviceEffects()
