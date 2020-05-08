@@ -24,6 +24,7 @@
 #include "SoundLoopback.h"
 #include <codec/MediaUtil.h>
 #include <assert.h>
+#include <cstring>
 
 using namespace std;
 using namespace soundsystem;
