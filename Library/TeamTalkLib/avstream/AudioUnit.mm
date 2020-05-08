@@ -668,14 +668,20 @@ assert(status == noErr);
         {
             return duplexstreamer_t();
         }
+
         void CloseStream(duplexstreamer_t streamer)
         {
         }
+
         bool StartStream(duplexstreamer_t streamer)
         {
             return false;
         }
         
+        bool IsStreamStopped(duplexstreamer_t streamer)
+        {
+            return true;
+        }
     };
 
     soundsystem_t getAudUnit()
