@@ -1202,14 +1202,13 @@ namespace UnitTest
             Assert::IsTrue(mpb.OpenSoundSystem(sndgrpid, nOutputDeviceID), L"Open sound system");
 
             Assert::IsTrue(mpb.PlayMedia());
-            TTMessage msg;
-            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            WaitForEvent(inst, CLIENTEVENT_NONE, 3000);
             mpb.MuteSound(true, false);
-            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            WaitForEvent(inst, CLIENTEVENT_NONE, 3000);
             mpb.MuteSound(false, true);
-            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            WaitForEvent(inst, CLIENTEVENT_NONE, 3000);
             mpb.MuteSound(false, false);
-            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            WaitForEvent(inst, CLIENTEVENT_NONE, 3000);
 
             TT_CloseTeamTalk(inst);
         }
@@ -1245,12 +1244,12 @@ namespace UnitTest
             Assert::AreEqual(int(MFS_STARTED), int(msg.mediafileinfo.nStatus));
             Assert::AreEqual(std::wstring(filename), std::wstring(msg.mediafileinfo.szFileName));
 
-            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            WaitForEvent(inst, CLIENTEVENT_NONE, 3000);
             mfp.audioPreprocessor.ttpreprocessor.bMuteLeftSpeaker = TRUE;
             mfp.audioPreprocessor.ttpreprocessor.bMuteRightSpeaker = FALSE;
             mfp.audioPreprocessor.ttpreprocessor.nGainLevel = SOUND_GAIN_MAX;
             Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID, &mfp));
-            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            WaitForEvent(inst, CLIENTEVENT_NONE, 3000);
 
             auto filename2 = L"C:\\Temp\\giana_10sec.wma";
 
@@ -1265,10 +1264,10 @@ namespace UnitTest
                 return tmp.mediafileinfo.nStatus != MFS_PLAYING && tmp.nSource == nSessionID2;
             };
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaySession, msg));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaySession, &msg));
             Assert::AreEqual(int(MFS_STARTED), int(msg.mediafileinfo.nStatus));
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaySession, msg, 12000));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaySession, &msg, 12000));
             Assert::AreEqual(int(MFS_FINISHED), int(msg.mediafileinfo.nStatus));
 
             TT_CloseTeamTalk(inst);
@@ -1362,7 +1361,7 @@ namespace UnitTest
             mfp3.bPaused = TRUE;
             Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, msg));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, &msg));
             Assert::AreEqual(int(MFS_PAUSED), int(msg.mediafileinfo.nStatus));
             os << L"Elapsed time: " << msg.mediafileinfo.uElapsedMSec << std::endl;
             Logger::WriteMessage(os.str().c_str());
@@ -1374,7 +1373,7 @@ namespace UnitTest
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
             Assert::AreEqual(int(MFS_STARTED), int(msg.mediafileinfo.nStatus));
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, msg, mfi.uDurationMSec * 2));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, &msg, mfi.uDurationMSec * 2));
             Assert::AreEqual(int(MFS_FINISHED), int(msg.mediafileinfo.nStatus));
 
             os.str(L"");
@@ -1420,7 +1419,7 @@ namespace UnitTest
             Assert::IsTrue(msg.mediafileinfo.uElapsedMSec >= mfp3.uOffsetMSec);
             auto starttime = GETTIMESTAMP();
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, msg));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, &msg));
             Assert::AreEqual(int(MFS_FINISHED), int(msg.mediafileinfo.nStatus));
 
             // play in the middle
@@ -1440,11 +1439,11 @@ namespace UnitTest
             mfp3.uOffsetMSec = 58000;
             Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, msg));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, &msg));
             Assert::AreEqual(int(MFS_STARTED), int(msg.mediafileinfo.nStatus));
             Assert::IsTrue(msg.mediafileinfo.uElapsedMSec >= mfp3.uOffsetMSec);
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, msg));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, &msg));
             Assert::AreEqual(int(MFS_FINISHED), int(msg.mediafileinfo.nStatus));
 
             TT_CloseTeamTalk(inst);
