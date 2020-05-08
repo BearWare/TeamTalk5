@@ -73,7 +73,7 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
     
     int output_channels = channels;
     int output_samplerate = samplerate;
-    if(!out_dev.SupportsOutputFormat(channels, samplerate))
+    if (!out_dev.SupportsOutputFormat(channels, samplerate))
     {
         output_channels = out_dev.GetSupportedOutputChannels(channels);
         output_samplerate = out_dev.default_samplerate;
@@ -85,7 +85,8 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
     int input_channels = output_channels;
     int input_samplerate = output_samplerate;
     int input_samples = output_samples;
-    if(!in_dev.SupportsInputFormat(output_channels, output_samplerate))
+
+    if (!in_dev.SupportsInputFormat(output_channels, output_samplerate))
     {
         input_channels = in_dev.GetSupportedInputChannels(channels);
         input_samplerate = in_dev.default_samplerate;
@@ -94,10 +95,9 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
                                     input_samplerate);
         media::AudioFormat infmt(input_samplerate, input_channels),
             outfmt(output_samplerate, output_channels);
-        m_capture_resampler = MakeAudioResampler(infmt, outfmt);
+        m_capture_resampler = MakeAudioResampler(infmt, outfmt, input_samples);
         if (!m_capture_resampler)
             return false;
-        m_resample_buffer.resize(output_samples * output_channels);
     }
 
 #if defined(ENABLE_SPEEXDSP)
@@ -157,15 +157,13 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
 
     int samples = CALLBACK_FRAMESIZE(samplerate);
 
-    if(input_channels != channels)
+    if (input_channels != channels)
     {
         media::AudioFormat infmt(samplerate, input_channels),
             outfmt(samplerate, channels);
-        m_capture_resampler = MakeAudioResampler(infmt, outfmt);
+        m_capture_resampler = MakeAudioResampler(infmt, outfmt, samples);
         if (!m_capture_resampler)
             return false;
-
-        m_resample_buffer.resize(samples * channels);
     }
     
 #if defined(ENABLE_SPEEXDSP)
@@ -203,7 +201,6 @@ bool SoundLoopback::StopTest()
     m_preprocess_buffer_left.clear();
     m_preprocess_buffer_right.clear();
     m_capture_resampler.reset();
-    m_resample_buffer.clear();
     while(m_buf_queue.size())
         m_buf_queue.pop();
     m_active = false;
@@ -223,21 +220,20 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     {
         assert(output_samples > 0);
 
-        int ret = m_capture_resampler->Resample(buffer, samples, 
-                                                &m_resample_buffer[0],
-                                                int(m_preprocess_buffer_left.size()));
-        assert(ret > 0);
+        int ret = 0;
+        const short* resampled = m_capture_resampler->Resample(buffer, &ret);
+        assert(resampled);
         MYTRACE_COND(ret != output_samples,
                      ACE_TEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
                      output_samples, ret);
 
         if(output_channels == 1)
         {
-            m_preprocess_buffer_left = m_resample_buffer;
+            m_preprocess_buffer_left.assign(resampled, resampled + output_samples);
         }
         else if(output_channels == 2)
         {
-            SplitStereo(&m_resample_buffer[0], output_samples, 
+            SplitStereo(resampled, output_samples, 
                         m_preprocess_buffer_left, m_preprocess_buffer_right);
         }
     }
@@ -311,15 +307,13 @@ void SoundLoopback::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& stream
     const short* tmp_input_buffer = input_buffer;
     if (m_capture_resampler)
     {
-        int ret = m_capture_resampler->Resample(input_buffer, samples, 
-                                                &m_resample_buffer[0],
-                                                output_samples);
-        assert(ret > 0);
+        int ret = 0;
+        tmp_input_buffer = m_capture_resampler->Resample(input_buffer, &ret);
+        assert(tmp_input_buffer);
         assert(ret <= output_samples);
         MYTRACE_COND(ret != output_samples,
                      ACE_TEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
                      output_samples, ret);
-        tmp_input_buffer = &m_resample_buffer[0];
     }
 
     if(output_channels == 1)
