@@ -83,7 +83,7 @@ struct ClientInstance
 {
     std::shared_ptr<TTMsgQueue> eventhandler;
     clientnode_t clientnode;
-    ACE_Recursive_Thread_Mutex mutex_video;
+    std::mutex mutex_video;
     typedef std::map<VideoFrame*, ACE_Message_Block*> video_frames_t;
     video_frames_t video_frames;
 
@@ -96,13 +96,13 @@ struct ClientInstance
             mb->release();
             return NULL;
         }
-        wguard_t g(mutex_video);
+        std::lock_guard<std::mutex> g(mutex_video);
         video_frames[vid_frame] = mb;
         return vid_frame;
     }
     bool RemoveVideoFrame(VideoFrame* vid_frame)
     {
-        wguard_t g(mutex_video);
+        std::lock_guard<std::mutex> g(mutex_video);
         video_frames_t::iterator ii = video_frames.find(vid_frame);
         TTASSERT(ii != video_frames.end());
         if(ii != video_frames.end())
@@ -115,7 +115,7 @@ struct ClientInstance
         return false;
     }
 
-    ACE_Recursive_Thread_Mutex mutex_desktop;
+    std::mutex mutex_desktop;
     typedef std::map<DesktopWindow*, ACE_Message_Block*> desktopwindows_t;
     desktopwindows_t desktop_windows;
     DesktopWindow* PushDesktopWindow(int buf_size)
@@ -129,14 +129,14 @@ struct ClientInstance
         wnd_frame->frameBuffer = mb->rd_ptr() + sizeof(DesktopWindow);
         wnd_frame->nFrameBufferSize = buf_size;
 
-        wguard_t g(mutex_desktop);
+        std::lock_guard<std::mutex> g(mutex_desktop);
         desktop_windows[wnd_frame] = mb;
         return wnd_frame;
     }
 
     bool RemoveDesktopWindow(DesktopWindow* desktop_wnd)
     {
-        wguard_t g(mutex_desktop);
+        std::lock_guard<std::mutex> g(mutex_desktop);
         desktopwindows_t::iterator ii = desktop_windows.find(desktop_wnd);
         if(ii != desktop_windows.end())
         {
@@ -147,7 +147,7 @@ struct ClientInstance
         return false;
     }
 
-    ACE_Recursive_Thread_Mutex mutex_audblocks;
+    std::mutex mutex_audblocks;
     typedef std::map<AudioBlock*, ACE_Message_Block*> audio_blocks_t;
     audio_blocks_t audio_blocks;
 
@@ -160,14 +160,14 @@ struct ClientInstance
             mb->release();
             return NULL;
         }
-        wguard_t g(mutex_audblocks);
+        std::lock_guard<std::mutex> g(mutex_audblocks);
         audio_blocks[audblock] = mb;
         return audblock;
     }
 
     bool RemoveAudioBlock(AudioBlock* audblock)
     {
-        wguard_t g(mutex_audblocks);
+        std::lock_guard<std::mutex> g(mutex_audblocks);
         audio_blocks_t::iterator ii = audio_blocks.find(audblock);
         TTASSERT(ii != audio_blocks.end());
         if(ii != audio_blocks.end())
@@ -234,10 +234,10 @@ typedef std::shared_ptr< ClientInstance > clientinst_t;
 typedef std::vector< clientinst_t > clients_t;
 
 clients_t clients;
-ACE_Recursive_Thread_Mutex clients_mutex;
+std::mutex clients_mutex;
 
 typedef std::set<SoundLoopback*> soundloops_t;
-ACE_Recursive_Thread_Mutex soundloops_mutex;
+std::mutex soundloops_mutex;
 soundloops_t soundloops;
 
 #if defined(WIN32)
@@ -297,7 +297,7 @@ void HOTKEY_USAGE(int num)
 
 clientinst_t GET_CLIENT(TTInstance* pInstance)
 {
-    wguard_t g(clients_mutex);
+    std::lock_guard<std::mutex> g(clients_mutex);
 
     for (auto c : clients)
     {
@@ -309,8 +309,6 @@ clientinst_t GET_CLIENT(TTInstance* pInstance)
 
 clientnode_t GET_CLIENTNODE(TTInstance* pInstance)
 {
-    wguard_t g(clients_mutex);
-
     auto c = GET_CLIENT(pInstance);
     if (c)
         return c->clientnode;
@@ -334,7 +332,7 @@ TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT32 uMsg)
 {
     clientinst_t inst(new ClientInstance(new TTMsgQueue(hWnd, uMsg)));
 
-    wguard_t g(clients_mutex);
+    std::lock_guard<std::mutex> g(clients_mutex);
     clients.push_back(inst);
 
     return inst.get();
@@ -356,7 +354,7 @@ TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll(void)
 {
     clientinst_t inst(new ClientInstance(new TTMsgQueue()));
 
-    wguard_t g(clients_mutex);
+    std::lock_guard<std::mutex> g(clients_mutex);
     clients.push_back(inst);
 
     return inst.get();
@@ -383,7 +381,7 @@ TEAMTALKDLL_API TTBOOL TT_CloseTeamTalk(IN TTInstance* lpTTInstance)
 
     TTASSERT(ret>=0);
 
-    wguard_t g(clients_mutex);
+    std::lock_guard<std::mutex> g(clients_mutex);
     auto c = std::find(clients.begin(), clients.end(), inst);
     if (c != clients.end())
         clients.erase(c);
@@ -534,6 +532,9 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
     SpeexAEC aec;
 #endif
 
+    int gainlevel = GAIN_NORMAL;
+    StereoMask stereo = ToStereoMask(false, false);
+
     if (lpAudioPreprocessor)
     {
         switch (lpAudioPreprocessor->nPreprocessor)
@@ -558,6 +559,14 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
                 lpAudioPreprocessor->speexdsp.bEnableEchoCancellation)
                 return FALSE;
 #endif
+            break;
+        case TEAMTALK_AUDIOPREPROCESSOR :
+            gainlevel = lpAudioPreprocessor->ttpreprocessor.nGainLevel;
+            
+            stereo = ToStereoMask(lpAudioPreprocessor->ttpreprocessor.bMuteLeftSpeaker,
+                                  lpAudioPreprocessor->ttpreprocessor.bMuteRightSpeaker);
+            break;
+        case NO_AUDIOPREPROCESSOR :
             break;
         }
     }
@@ -585,7 +594,8 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
                                             aec_enable, 
                                             aec
 #endif
-                                            , sndfeatures);
+                                            , gainlevel, stereo,
+                                            sndfeatures);
     }
     else
     {
@@ -599,7 +609,8 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
                                        aec_enable, 
                                        aec
 #endif
-                                       , sndfeatures);
+                                      , gainlevel, stereo,
+                                      sndfeatures);
     }
 
     if(!b)
@@ -609,7 +620,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
     }
     else
     {
-        wguard_t g(soundloops_mutex);
+        std::lock_guard<std::mutex> g(soundloops_mutex);
         soundloops.insert(pSoundLoopBack);
     }
     return pSoundLoopBack;
@@ -618,7 +629,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
 
 TEAMTALKDLL_API TTBOOL TT_CloseSoundLoopbackTest(IN TTSoundLoop* lpTTSoundLoop)
 {
-    wguard_t g(soundloops_mutex);
+    std::lock_guard<std::mutex> g(soundloops_mutex);
     SoundLoopback* pSoundLoopBack = reinterpret_cast<SoundLoopback*>(lpTTSoundLoop);
     if(soundloops.find(pSoundLoopBack) != soundloops.end())
     {
