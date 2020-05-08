@@ -268,9 +268,9 @@ namespace soundsystem {
             , output_soundsystem(out_sndsys)
             , inputdeviceid(indevid)
             , outputdeviceid(outdevid)
-        {
-            tmpOutputBuffer.resize(outchs * fs);
-        }
+            {
+                tmpOutputBuffer.resize(outchs * fs);
+            }
 
         virtual ~DuplexStreamer()
         {

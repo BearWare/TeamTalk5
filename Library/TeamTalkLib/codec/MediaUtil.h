@@ -244,11 +244,12 @@ int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq);
 #define GAIN_NORMAL 1000
 #define GAIN_MIN 0
 
-#define SOFTGAIN(samplesbuffer, n_samples, channels, gain_numerator, gain_denominator) do { \
+#define SOFTGAIN(inputsamples, n_samples, channels, gain_numerator, gain_denominator) do { \
     if (gain_numerator == gain_denominator)                     \
         break;                                                  \
     float factor = float(gain_numerator) / float(gain_denominator);   \
     int samples_total = channels*n_samples;                     \
+    short* samplesbuffer = inputsamples;                        \
     if(samples_total % 4 == 0)                                  \
     {                                                           \
         int v[4];                                               \
