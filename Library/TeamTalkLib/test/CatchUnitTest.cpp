@@ -613,7 +613,7 @@ TEST_CASE("CWMAudioAEC_Callback")
     // test when framesize > CWMAudioAEC framesize
     {
         PaDuplexStreamer paduplex(&myduplex, sndgrpid, fmt.samplerate * .1, fmt.samplerate, fmt.channels, fmt.channels, SOUND_API_WASAPI, indev, outdev);
-        paduplex.winaec.reset(new CWMAudioAECCapture(&paduplex));
+        paduplex.winaec.reset(new CWMAudioAECCapture(&paduplex, soundsystem::SOUNDDEVICEFEATURE_AEC));
         REQUIRE(paduplex.winaec->Open());
         while (myduplex.callbacks <= 10)
         {
@@ -633,7 +633,7 @@ TEST_CASE("CWMAudioAEC_Callback")
     {
         fmt = media::AudioFormat(32000, 2);
         PaDuplexStreamer paduplex2(&myduplex2, sndgrpid, fmt.samplerate * .005, fmt.samplerate, fmt.channels, fmt.channels, SOUND_API_WASAPI, indev, outdev);
-        paduplex2.winaec.reset(new CWMAudioAECCapture(&paduplex2));
+        paduplex2.winaec.reset(new CWMAudioAECCapture(&paduplex2, soundsystem::SOUNDDEVICEFEATURE_AEC));
         REQUIRE(paduplex2.winaec->Open());
         while(myduplex2.callbacks <= 200)
         {
@@ -732,7 +732,6 @@ TEST_CASE("TT_AEC")
 
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
-    REQUIRE(JoinRoot(ttclient));
 
     // Only WASAPI supported by CWMAudioAEC
     INT32 indev, outdev;
@@ -742,7 +741,7 @@ TEST_CASE("TT_AEC")
     SoundDeviceEffects effects = {};
     effects.bEnableEchoCancellation = TRUE;
     REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
-    // When using CWMAudioAEC the shared sample rate between input and output device doesn't apply
+    // When using CWMAudioAEC the requirement for shared sample rate between input and output device doesn't apply
     REQUIRE(InitSound(ttclient, DUPLEX, indev, outdev));
 
     int chanid = TT_GetRootChannelID(ttclient);
@@ -757,10 +756,64 @@ TEST_CASE("TT_AEC")
             break;
     }
 
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_USERID, STREAMTYPE_VOICE, TRUE));
+    int abCount = 20;
+    AudioBlock* ab;
+    while (abCount--)
+    {
+        REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+        ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_USERID);
+        REQUIRE(ab != nullptr);
+        REQUIRE(TT_ReleaseUserAudioBlock(ttclient, ab));
+    }
+
     // Reset state
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
     REQUIRE(TT_CloseSoundDuplexDevices(ttclient));
     effects.bEnableEchoCancellation = FALSE;
     REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_USERID, STREAMTYPE_VOICE, FALSE));
+    while (ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_USERID))
+        TT_ReleaseUserAudioBlock(ttclient, ab);
+
+    // Test that we can also only run with AGC and NS
+    effects.bEnableAGC = TRUE;
+    effects.bEnableDenoise = TRUE;
+    REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
+    REQUIRE(InitSound(ttclient, DUPLEX, indev, outdev));
+    cmdid = TT_DoJoinChannelByID(ttclient, chanid, _T(""));
+    REQUIRE(cmdid>0);
+    while(TT_GetMessage(ttclient, &msg, &waitms))
+    {
+        REQUIRE(msg.nClientEvent != CLIENTEVENT_INTERNAL_ERROR);
+        if (msg.nClientEvent == CLIENTEVENT_CMD_PROCESSING && msg.bActive == FALSE)
+            break;
+    }
+
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_USERID, STREAMTYPE_VOICE, TRUE));
+    
+    abCount = 20;
+    while (abCount--)
+    {
+        REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+        ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_USERID);
+        REQUIRE(ab != nullptr);
+        REQUIRE(TT_ReleaseUserAudioBlock(ttclient, ab));
+    }
+
+    // It's not possible to change sound effects when sound device is active (in channel)
+    effects.bEnableEchoCancellation = TRUE;
+    REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects) == FALSE);
+
+    REQUIRE(TT_CloseSoundDuplexDevices(ttclient));
+    REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
+    REQUIRE(InitSound(ttclient, DUPLEX, indev, outdev));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_INTERNAL_ERROR, 500) == false);
+
+    // cannot disable sound effects either
+    effects.bEnableAGC = effects.bEnableDenoise = effects.bEnableEchoCancellation = FALSE;
+    REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects) == FALSE);
+
+    TT_CloseTeamTalk(ttclient);
 }
 #endif
