@@ -691,14 +691,14 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
 
 #if defined(WIN32)
     // echo cancel only applies to WASAPI
-    if (duplex->GetDuplexFeatures() & SOUNDDEVICEFEATURE_AEC)
+    if (duplex->GetDuplexFeatures() & (SOUNDDEVICEFEATURE_AEC | SOUNDDEVICEFEATURE_AGC | SOUNDDEVICEFEATURE_DENOISE))
     {
         DeviceInfo outdev;
         if (!GetDevice(outputdeviceid, outdev))
             return duplexstreamer_t();
         samplerate = outdev.default_samplerate;
 
-        streamer->winaec.reset(new CWMAudioAECCapture(streamer.get()));
+        streamer->winaec.reset(new CWMAudioAECCapture(streamer.get(), duplex->GetDuplexFeatures()));
         if (!streamer->winaec->Open())
             return duplexstreamer_t();
         tmpInputParameters = nullptr;
@@ -751,21 +751,19 @@ bool PortAudio::IsStreamStopped(duplexstreamer_t streamer)
 bool PortAudio::UpdateStreamDuplexFeatures(duplexstreamer_t streamer)
 {
     assert(streamer);
-    SoundDeviceFeatures features = streamer->duplex->GetDuplexFeatures();
-    if (features & (SOUNDDEVICEFEATURE_AGC | SOUNDDEVICEFEATURE_DENOISE))
-        return false;
+    SoundDeviceFeatures newfeatures = streamer->duplex->GetDuplexFeatures();
 
 #if defined(WIN32)
-    return features == SOUNDDEVICEFEATURE_NONE ||
-        ((features & SOUNDDEVICEFEATURE_AEC) && streamer->winaec);
-#else
-    return features == SOUNDDEVICEFEATURE_NONE;
+    if (streamer->winaec)
+        return streamer->winaec->GetFeatures() == newfeatures;
 #endif
+    return newfeatures == SOUNDDEVICEFEATURE_NONE;
 }
 
 #if defined(WIN32)
-CWMAudioAECCapture::CWMAudioAECCapture(PaDuplexStreamer* duplex)
+CWMAudioAECCapture::CWMAudioAECCapture(PaDuplexStreamer* duplex, SoundDeviceFeatures features)
 : m_streamer(duplex)
+, m_features(features)
 {
 }
 
@@ -831,7 +829,7 @@ void CWMAudioAECCapture::Run()
     PROPVARIANT pvSysMode;
     PropVariantInit(&pvSysMode);
     pvSysMode.vt = VT_I4;
-    pvSysMode.lVal = SINGLE_CHANNEL_AEC;
+    pvSysMode.lVal = (m_features & SOUNDDEVICEFEATURE_AEC) ? SINGLE_CHANNEL_AEC : SINGLE_CHANNEL_NSAGC;
     if (FAILED(pPS->SetValue(MFPKEY_WMAAECMA_SYSTEM_MODE, pvSysMode)))
     {
         m_started.set_value(false);
@@ -860,6 +858,36 @@ void CWMAudioAECCapture::Run()
         return;
     }
     PropVariantClear(&pvFeatrModeOn);
+
+    // Toggle AGC
+    if (m_features & SOUNDDEVICEFEATURE_AGC)
+    {
+        PROPVARIANT pvAGC;
+        PropVariantInit(&pvAGC);
+        pvAGC.vt = VT_BOOL;
+        pvAGC.boolVal = VARIANT_TRUE;
+        if (FAILED(pPS->SetValue(MFPKEY_WMAAECMA_FEATR_AGC, pvAGC)))
+        {
+            m_started.set_value(false);
+            return;
+        }
+        PropVariantClear(&pvAGC);
+    }
+
+    if (m_features & SOUNDDEVICEFEATURE_DENOISE)
+    {
+        // Turn on/off noise suppression
+        PROPVARIANT pvNoiseSup;
+        PropVariantInit(&pvNoiseSup);
+        pvNoiseSup.vt = VT_I4;
+        pvNoiseSup.lVal = 1;
+        if (FAILED(pPS->SetValue(MFPKEY_WMAAECMA_FEATR_NS, pvNoiseSup)))
+        {
+            m_started.set_value(false);
+            return;
+        }
+        PropVariantClear(&pvNoiseSup);
+    }
 
     DMO_MEDIA_TYPE mt = {};
     if (FAILED(MoInitMediaType(&mt, sizeof(WAVEFORMATEX))))

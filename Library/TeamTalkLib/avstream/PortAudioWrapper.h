@@ -194,12 +194,14 @@ namespace soundsystem
         audio_resampler_t m_resampler;
         short* m_resampled_input = nullptr;
         std::mutex m_mutex;
+        SoundDeviceFeatures m_features;
     public:
-        CWMAudioAECCapture(PaDuplexStreamer* duplex);
+        CWMAudioAECCapture(PaDuplexStreamer* duplex, SoundDeviceFeatures features);
         ~CWMAudioAECCapture();
         bool Open();
         short* AcquireBuffer();
         void ReleaseBuffer();
+        SoundDeviceFeatures GetFeatures() const { return m_features; }
     };
 #endif
 }
