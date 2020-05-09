@@ -734,11 +734,33 @@ TEST_CASE("TT_AEC")
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(ttclient));
 
+    // Only WASAPI supported by CWMAudioAEC
     INT32 indev, outdev;
-    REQUIRE(TT_GetDefaultSoundDevicesEx(SOUNDSYSTEM_DSOUND, &indev, &outdev));
+    REQUIRE(TT_GetDefaultSoundDevicesEx(SOUNDSYSTEM_WASAPI, &indev, &outdev));
+
+    // Set sound effects prior to joining a channel results in CWMAudioAEC being enabled
     SoundDeviceEffects effects = {};
-    effects.bEnableAGC = TRUE;
+    effects.bEnableEchoCancellation = TRUE;
     REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
-    REQUIRE(InitSound(ttclient, DEFAULT, indev, outdev) == FALSE);
+    // When using CWMAudioAEC the shared sample rate between input and output device doesn't apply
+    REQUIRE(InitSound(ttclient, DUPLEX, indev, outdev));
+
+    int chanid = TT_GetRootChannelID(ttclient);
+    int waitms = DEFWAIT;
+    TTMessage msg;
+    int cmdid = TT_DoJoinChannelByID(ttclient, chanid, _T(""));
+    REQUIRE(cmdid>0);
+    while(TT_GetMessage(ttclient, &msg, &waitms))
+    {
+        REQUIRE(msg.nClientEvent != CLIENTEVENT_INTERNAL_ERROR);
+        if (msg.nClientEvent == CLIENTEVENT_CMD_PROCESSING && msg.bActive == FALSE)
+            break;
+    }
+
+    // Reset state
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
+    REQUIRE(TT_CloseSoundDuplexDevices(ttclient));
+    effects.bEnableEchoCancellation = FALSE;
+    REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
 }
 #endif

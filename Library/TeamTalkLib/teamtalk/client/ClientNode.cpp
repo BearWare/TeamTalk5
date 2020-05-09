@@ -2966,7 +2966,7 @@ bool ClientNode::SetSoundDeviceEffects(const SoundDeviceEffects& effects)
         if (!m_soundsystem->IsStreamStopped(static_cast<StreamDuplex*>(this)))
             return m_soundsystem->UpdateStreamDuplexFeatures(this);
     }
-    else
+    else if (m_flags & CLIENT_SNDINPUT_READY)
     {
         if (!m_soundsystem->IsStreamStopped(static_cast<StreamCapture*>(this)))
             return m_soundsystem->UpdateStreamCaptureFeatures(this);
