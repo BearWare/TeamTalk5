@@ -71,5 +71,7 @@ public class ClientError {
     public static final int INTERR_SNDOUTPUT_FAILURE                = 10001;
     public static final int INTERR_AUDIOCODEC_INIT_FAILED           = 10002;
     public static final int INTERR_SPEEXDSP_INIT_FAILED             = 10003;
+    public static final int INTERR_AUDIOPREPROCESSOR_INIT_FAILED    = 10003;
     public static final int INTERR_TTMESSAGE_QUEUE_OVERFLOW         = 10004;
+    public static final int INTERR_SNDEFFECT_FAILURE                = 10005;
 }
