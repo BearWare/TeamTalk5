@@ -188,7 +188,7 @@ namespace soundsystem {
         virtual bool IsStreamStopped(duplexstreamer_t streamer) = 0;
 
         virtual bool UpdateStreamDuplexFeatures(duplexstreamer_t streamer) { return false; }
-        
+
         duplexstreamer_t GetStream(StreamDuplex* duplex)
         {
             std::lock_guard<std::recursive_mutex> g(duplex_lock());
@@ -514,7 +514,8 @@ namespace soundsystem {
                 streamer = NewStream(capture, inputdeviceid, sndgrpid,
                                      samplerate, channels, framesize);
 
-            MYTRACE_COND(!streamer, ACE_TEXT("Failed to open input stream on device #%d\n"), inputdeviceid);
+            MYTRACE_COND(!streamer, ACE_TEXT("Failed to open StreamCapture %p on device #%d\n"),
+                         capture, inputdeviceid);
 
             if (!streamer)
                 return false;
@@ -631,6 +632,10 @@ namespace soundsystem {
             else
                 streamer = NewStream(player, outputdeviceid, sndgrpid,
                                      samplerate, channels, framesize);
+
+            MYTRACE_COND(!streamer, ACE_TEXT("Failed to open StreamPlayer %p on device #%d\n"),
+                         player, outputdeviceid);
+
             if (!streamer)
                 return false;
 
@@ -789,6 +794,9 @@ namespace soundsystem {
                                     samplerate, input_channels,
                                     output_channels, framesize);
             }
+
+            MYTRACE_COND(!streamer, ACE_TEXT("Failed to open StreamDuplex %p on devices input #%d output %d\n"),
+                         duplex, inputdeviceid, outputdeviceid);
 
             if (!streamer)
                 return false;
