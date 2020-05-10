@@ -185,11 +185,8 @@ protected:
     //tray
     CSystemTray* m_pTray;
 
-    BOOL m_bBoostBugComp;
     INT64 m_nLastRecvBytes;
     INT64 m_nLastSentBytes;
-    BOOL m_bTempMixerInput;
-    UINT m_nLastMixerInput;
     CFont m_Font;
     teamtalk::HostEntry m_host;
     CString m_szStatusBar;

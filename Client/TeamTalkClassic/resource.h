@@ -259,7 +259,6 @@
 #define IDC_EDIT_INACTIVITY             1033
 #define IDC_STATIC_USERID               1035
 #define IDC_STATIC_NICKNAME             1036
-#define IDC_COMBO_MIXER                 1039
 #define IDC_STATIC_INTRO                1042
 #define IDC_SLIDER_MEDIAFILEVOL         1043
 #define IDC_CHECK_WEBSITE               1044
@@ -336,8 +335,6 @@
 #define IDC_EDIT_VIDEOTX                1137
 #define IDC_RICHEDIT_HISTORY            1138
 #define IDC_STATIC_GRPADVANCED          1142
-#define IDC_STATIC_GRPMIXER             1145
-#define IDC_STATIC_TMPMIXERDEVICE       1147
 #define IDC_STATIC_CLIENTVER            1148
 #define IDC_STATIC_GRPCLIENT            1149
 #define IDC_CHECK_STARTMINIMIZED        1150
@@ -359,9 +356,6 @@
 #define IDC_BUTTON_GENTT                1170
 #define IDC_STATIC_MOTD                 1172
 #define IDC_BUTTON_TEST                 1175
-#define IDC_COMBO_MIXERINPUTS           1179
-#define IDC_CHECK_MIXERAUTOSELECT       1181
-#define IDC_CHECK_BOOSTBUG              1185
 #define IDC_STATIC_GRPSNDEVENT          1186
 #define IDC_STATIC_RECORDERFREQ         1188
 #define IDC_STATIC_INPUT                1189

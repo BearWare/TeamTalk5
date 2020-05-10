@@ -46,12 +46,5 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 public:
-    BOOL m_bMixerAutoSelect;
-    CButton m_wndMixerAutoSelect;
-    int m_nMixerIndex;
-    afx_msg void OnBnClickedCheckMixerautoselect();
-    CComboBox m_wndMixerInputs;
     virtual BOOL OnInitDialog();
-    void UpdateControls();
-    BOOL m_bBoostBug;
 };

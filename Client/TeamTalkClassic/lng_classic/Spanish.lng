@@ -99,8 +99,6 @@
     <item id="1123">Dirección IP</item>
     <item id="1131">Volver a conectar al perder la conexión</item>
     <item id="1142">Opciones Avanzadas</item>
-    <item id="1145">Ayudante del mezclador de windows</item>
-    <item id="1147">Entrada temporal del mezclador</item>
     <item id="1148">Versión del cliente</item>
     <item id="1149">Configuración del cliente</item>
     <item id="1150">Iniciar minimizado</item>
@@ -120,8 +118,6 @@
     <item id="1170">&amp;Generar archivo .tt</item>
     <item id="1172">MDD</item>
     <item id="1175">Probar seleccionado</item>
-    <item id="1181">Activar dispositivo de entrada temporal del mezclador al presionar la tecla rápida</item>
-    <item id="1185">Compensar por problema de potencia del micrófono</item>
     <item id="1186">Eventos de sonido</item>
     <item id="1189">Dispositivo de entrada</item>
     <item id="1190">Calidad de voz</item>

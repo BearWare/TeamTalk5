@@ -240,8 +240,6 @@
     <item id="1123">IP-Adresse</item>
     <item id="1131">Wiederaufbau nach Verbindungsverlust</item>
     <item id="1142">Erweiterte Einstellungen</item>
-    <item id="1145">Windows-Mixer-Unterstützung</item>
-    <item id="1147">Temporäre Aufnahmequelle</item>
     <item id="1148">Client-Version</item>
     <item id="1149">Client-Einstellungen</item>
     <item id="1150">Minimiert starten</item>
@@ -262,8 +260,6 @@
     <item id="1170">.tt-Datei &amp;erstellen</item>
     <item id="1172">Nachricht des Tages</item>
     <item id="1175">Klangtest</item>
-    <item id="1181">Temporäre Aufnahmequelle beim Drücken eines Hotkeys</item>
-    <item id="1185">Mikrofonboost-Fehler beheben</item>
     <item id="1186">Klangereignisse</item>
     <item id="1188">Rekorder-Samplerate</item>
     <item id="1189">Aufnahmegerät</item>

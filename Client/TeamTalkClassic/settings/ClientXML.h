@@ -275,9 +275,6 @@ namespace teamtalk {
         bool SetMediaStreamVsVoice(int nPercent);
         int GetMediaStreamVsVoice(int nDefPercent);
 
-        bool SetSoundMixerDevice(int nDevice);
-        int GetSoundMixerDevice();
-
         bool SetAutoPositioning(bool bEnable);
         bool GetAutoPositioning();
 
@@ -381,15 +378,6 @@ namespace teamtalk {
         /********* </events> ************/
 
         /********* <advanced> ***********/
-        bool SetMixerAutoSelection(bool bEnable);
-        bool GetMixerAutoSelection();
-
-        bool SetMixerAutoSelectInput(int nIndex);
-        int GetMixerAutoSelectInput();
-
-        bool SetMixerBoostBugCompensation(bool bEnable);
-        bool GetMixerBoostBugCompensation();
-
         bool SetLowLevelMouseHook(bool bEnable);
         bool GetLowLevelMouseHook();
         /********* </advanced> **********/

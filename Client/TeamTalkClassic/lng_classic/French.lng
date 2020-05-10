@@ -243,8 +243,6 @@
     <item id="1123">Adresse IP</item>
     <item id="1131">Reconnexion automatique lors d'une perte de connexion</item>
     <item id="1142">Paramètres avancés</item>
-    <item id="1145">Assistant du mélangeur Windows</item>
-    <item id="1147">Mélangeur d&apos;entrée temporaire</item>
     <item id="1148">Version du client</item>
     <item id="1149">Paramètres du client</item>
     <item id="1150">Démarrer en minimisé</item>
@@ -265,8 +263,6 @@
     <item id="1170">Générer un fichier .tt</item>
     <item id="1172">Message du jour</item>
     <item id="1175">Tester la sélection</item>
-    <item id="1181">Activer le périphérique d&apos;entrée du mélangeur temporaire lorsque vous utilisez le raccourcis clavier</item>
-    <item id="1185">Compenser le bug du boost du microphone</item>
     <item id="1186">Évènements sonnores</item>
     <item id="1188">Taux d&apos;échantillonnage</item>
     <item id="1189">Périphérique d&apos;entrée</item>
