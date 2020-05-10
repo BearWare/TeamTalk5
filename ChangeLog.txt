@@ -1,7 +1,11 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.5, unreleased
+Version 5.5.1, 2020/05/03
+Accessible Windows client
+- Fixed crash issue when opening stream media file dialog
+
+Version 5.5, 2020/04/14
 Default Qt client
 - VBR/CBR selection for OPUS codec 
 - Frame size selection for OPUS codec
