@@ -151,15 +151,16 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
                                     , int gainlevel, StereoMask stereo,
                                     soundsystem::SoundDeviceFeatures sndfeatures)
 {
-    DeviceInfo in_dev;
-    if(!m_soundsystem->GetDevice(inputdevid, in_dev) ||
-       in_dev.default_samplerate == 0)
+    DeviceInfo in_dev, out_dev;
+    if (!m_soundsystem->GetDevice(outputdevid, out_dev) ||
+        !m_soundsystem->GetDevice(inputdevid, in_dev))
        return false;
 
-    int input_channels = in_dev.GetSupportedInputChannels(channels);
-    if(!in_dev.SupportsInputFormat(input_channels, samplerate))
+    // For WASAPI we want to force output device's sample rate
+    if (!out_dev.SupportsOutputFormat(channels, samplerate))
         return false;
 
+    int input_channels = in_dev.GetSupportedInputChannels(channels);
     int samples = CALLBACK_FRAMESIZE(samplerate);
 
     if (input_channels != channels)
