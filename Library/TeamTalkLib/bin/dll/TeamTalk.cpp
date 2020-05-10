@@ -582,7 +582,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
     ACE_NEW_RETURN(pSoundLoopBack, SoundLoopback(), NULL);
 
     TTBOOL b;
-    if(bDuplexMode)
+    if (bDuplexMode)
     {
         b = pSoundLoopBack->StartDuplexTest(nInputDeviceID, 
                                             nOutputDeviceID, 
