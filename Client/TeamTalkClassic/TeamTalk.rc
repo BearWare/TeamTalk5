@@ -252,8 +252,6 @@ BEGIN
     LTEXT           "Output sample rates",IDC_STATIC_OUTPUTPROP,14,81,80,8
     LTEXT           "",IDC_STATIC_OUTPUT_SAMPLERATES,98,81,150,8
     PUSHBUTTON      "Test selected",IDC_BUTTON_TEST,97,92,65,14
-    CONTROL         "Enable duplex mode (required for echo cancellation)",IDC_CHECK_DUPLEXMODE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,108,236,10
     CONTROL         "Enable echo cancellation (remove echo from speakers)",IDC_CHECK_ECHOCANCEL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,122,236,10
     CONTROL         "Enable automatic gain control (microphone level adjusted automatically)",IDC_CHECK_AGC,

@@ -46,7 +46,6 @@ CSoundSysPage::CSoundSysPage()
 , m_bPositioning(FALSE)
 , m_bTesting(FALSE)
 , m_bDenoise(FALSE)
-, m_bDuplexMode(DEFAULT_SOUND_DUPLEXMODE)
 , m_bEchoCancel(DEFAULT_ECHO_ENABLE)
 , m_SndLoopBack(NULL)
 , m_bAGC(DEFAULT_AGC_ENABLE)
@@ -74,8 +73,6 @@ void CSoundSysPage::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK_DENOISE, m_bDenoise);
     DDX_Control(pDX, IDC_CHECK_DENOISE, m_btnDenoiseBtn);
     DDX_Control(pDX, IDC_BUTTON_DEFAULT, m_wndDefaultBtn);
-    DDX_Control(pDX, IDC_CHECK_DUPLEXMODE, m_btnDuplexMode);
-    DDX_Check(pDX, IDC_CHECK_DUPLEXMODE, m_bDuplexMode);
     DDX_Control(pDX, IDC_CHECK_ECHOCANCEL, m_btnEchoCancel);
     DDX_Check(pDX, IDC_CHECK_ECHOCANCEL, m_bEchoCancel);
     DDX_Control(pDX, IDC_STATIC_INPUT_SAMPLERATES, m_wndInputSampleRates);
@@ -95,11 +92,11 @@ BEGIN_MESSAGE_MAP(CSoundSysPage, CPropertyPage)
     ON_CBN_SELCHANGE(IDC_COMBO_OUTPUTDRIVER, OnCbnSelchangeComboOutputdriver)
     ON_BN_CLICKED(IDC_BUTTON_TEST, OnBnClickedButtonTest)
     ON_BN_CLICKED(IDC_BUTTON_DEFAULT, OnBnClickedDefault)
-    ON_BN_CLICKED(IDC_CHECK_DUPLEXMODE, &CSoundSysPage::OnBnClickedCheckDuplexmode)
     ON_BN_CLICKED(IDC_CHECK_ECHOCANCEL, &CSoundSysPage::OnBnClickedCheckEchochannel)
     ON_BN_CLICKED(IDC_CHECK_DENOISE, &CSoundSysPage::OnBnClickedCheckDenoise)
     ON_BN_CLICKED(IDC_RADIO_WASAPI, &CSoundSysPage::OnBnClickedRadioWasapi)
     ON_BN_CLICKED(IDC_BUTTON_REFRESHSND, &CSoundSysPage::OnBnClickedButtonRefreshsnd)
+    ON_BN_CLICKED(IDC_CHECK_AGC, &CSoundSysPage::OnBnClickedCheckAgc)
 END_MESSAGE_MAP()
 
 
@@ -319,34 +316,55 @@ BOOL CSoundSysPage::StartTest()
     if(m_bTesting)
         return FALSE;
 
-    sounddevs_t::const_iterator ii = m_SoundDevices.find(m_nInputDevice);
-    if(ii == m_SoundDevices.end())
+    sounddevs_t::const_iterator ii = m_SoundDevices.find(m_nInputDevice),
+        io = m_SoundDevices.find(m_nOutputDevice);
+    if(ii == m_SoundDevices.end() || io == m_SoundDevices.end())
         return FALSE;
 
     int nChannels = 1;
-    const SoundDevice& in_dev = ii->second;
+    const SoundDevice& in_dev = ii->second, out_dev = io->second;
+    ASSERT(in_dev.nSoundSystem == out_dev.nSoundSystem);
+    switch (in_dev.nSoundSystem)
+    {
+    case SOUNDSYSTEM_DSOUND :
+    {
+        SpeexDSP spxdsp = {};
+        spxdsp.bEnableAGC = m_bAGC;
+        spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+        spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
+        spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
+        spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
 
-    SpeexDSP spxdsp = {};
-    spxdsp.bEnableAGC = DEFAULT_AGC_ENABLE;
-    spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-    spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-    spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-    spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
+        spxdsp.bEnableDenoise = m_bDenoise;
+        spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
 
-    spxdsp.bEnableDenoise = m_bDenoise;
-    spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
+        spxdsp.bEnableEchoCancellation = m_bEchoCancel;
+        spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
+        spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
 
-    spxdsp.bEnableEchoCancellation = m_bEchoCancel;
-    spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-    spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+        m_SndLoopBack = TT_StartSoundLoopbackTest(m_nInputDevice,
+                                                  m_nOutputDevice,
+                                                  in_dev.nDefaultSampleRate,
+                                                  nChannels,
+                                                  m_bEchoCancel,
+                                                  &spxdsp);
+    }
+    break;
+    case SOUNDSYSTEM_WASAPI :
+    {
+        SoundDeviceEffects effects = {};
+        effects.bEnableAGC = m_bAGC;
+        effects.bEnableDenoise = m_bDenoise;
+        effects.bEnableEchoCancellation = m_bEchoCancel;
+        BOOL bDuplex = (m_bAGC || m_bDenoise || m_bEchoCancel);
+        m_SndLoopBack = TT_StartSoundLoopbackTestEx(m_nInputDevice, m_nOutputDevice,
+                                                    out_dev.nDefaultSampleRate, nChannels,
+                                                    bDuplex, nullptr, &effects);
+    }
+    break;
+    }
 
-    m_SndLoopBack = TT_StartSoundLoopbackTest(m_nInputDevice, 
-                                              m_nOutputDevice, 
-                                              in_dev.nDefaultSampleRate, 
-                                              nChannels,
-                                              m_btnDuplexMode.GetCheck() == BST_CHECKED,
-                                              &spxdsp);
-    if(!m_SndLoopBack)
+    if (!m_SndLoopBack)
     {
         AfxMessageBox(_T("Failed to initialize sound devices. Check your selected input and output devices."));
         return FALSE;
@@ -386,8 +404,6 @@ void CSoundSysPage::RefreshSoundDevices()
 
 void CSoundSysPage::UpdateSoundControls()
 {
-    BOOL bDuplexOk = m_nInputDevice>=0 && m_nOutputDevice>=0;
-
     sounddevs_t::const_iterator ii;
     CString szInputSampleRates, szOutputSampleRates;
     SoundDevice in_dev = {};
@@ -435,19 +451,11 @@ void CSoundSysPage::UpdateSoundControls()
     std::set<int> output_rates(out_dev.outputSampleRates,
                                out_dev.outputSampleRates + TT_SAMPLERATES_MAX);
 
-    bDuplexOk &= (BOOL)in_dev.nDefaultSampleRate>0 && (output_rates.find(in_dev.nDefaultSampleRate) != output_rates.end());
-
     m_wndInputSampleRates.SetWindowText(szInputSampleRates);
     m_wndOutputSampleRates.SetWindowText(szOutputSampleRates);
 
-    m_bDuplexMode &= bDuplexOk;
-    m_bEchoCancel &= (m_bDuplexMode && bDuplexOk);
-    m_btnDuplexMode.EnableWindow(bDuplexOk);
-    m_btnDuplexMode.SetCheck(bDuplexOk && m_bDuplexMode?BST_CHECKED:BST_UNCHECKED);
-    m_btnEchoCancel.EnableWindow(bDuplexOk && m_bDuplexMode);
-    m_btnEchoCancel.SetCheck(m_bDuplexMode && m_bEchoCancel?BST_CHECKED:BST_UNCHECKED);
-    m_wndPositionBtn.EnableWindow(!m_bDuplexMode && out_dev.nSoundSystem == SOUNDSYSTEM_DSOUND);
-    m_wndPositionBtn.SetCheck(m_wndPositionBtn.GetCheck() == BST_CHECKED && !m_bDuplexMode);
+    m_wndPositionBtn.EnableWindow(out_dev.nSoundSystem == SOUNDSYSTEM_DSOUND);
+    m_wndPositionBtn.SetCheck(m_wndPositionBtn.GetCheck() == BST_CHECKED);
 }
 
 void CSoundSysPage::OnBnClickedDefault()
@@ -458,31 +466,26 @@ void CSoundSysPage::OnBnClickedDefault()
     if(ii != m_SoundDevices.end())
         ShowDrivers(ii->second.nSoundSystem);
 
-    m_btnDuplexMode.SetCheck(DEFAULT_SOUND_DUPLEXMODE? BST_CHECKED : BST_UNCHECKED);
     m_btnDenoiseBtn.SetCheck(DEFAULT_DENOISE_ENABLE? BST_CHECKED : BST_UNCHECKED);
     m_btnEchoCancel.SetCheck(DEFAULT_ECHO_ENABLE? BST_CHECKED : BST_UNCHECKED);
     m_wndAGC.SetCheck(DEFAULT_AGC_ENABLE? BST_CHECKED : BST_UNCHECKED);
     m_wndMediaVsVoice.SetPos(DEFAULT_MEDIA_VS_VOICE);
 }
 
-void CSoundSysPage::OnBnClickedCheckDuplexmode()
-{
-    m_bDuplexMode = m_btnDuplexMode.GetCheck() == BST_CHECKED;
-    UpdateSoundControls();
-}
-
 void CSoundSysPage::OnBnClickedCheckEchochannel()
 {
     m_bEchoCancel = m_btnEchoCancel.GetCheck() == BST_CHECKED;
-    UpdateSoundControls();
 }
 
 void CSoundSysPage::OnBnClickedCheckDenoise()
 {
     m_bDenoise = m_btnDenoiseBtn.GetCheck() == BST_CHECKED;
-    UpdateSoundControls();
 }
 
+void CSoundSysPage::OnBnClickedCheckAgc()
+{
+    m_bAGC = m_wndAGC.GetCheck() == BST_CHECKED;
+}
 
 void CSoundSysPage::OnBnClickedButtonRefreshsnd()
 {

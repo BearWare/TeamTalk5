@@ -503,12 +503,21 @@ BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings)
     TT_CloseSoundOutputDevice(ttInst);
     TT_CloseSoundDuplexDevices(ttInst);
 
-    int nInputDevice = GetSoundInputDevice(xmlSettings);
+    SoundDevice indev = {};
+    int nInputDevice = GetSoundInputDevice(xmlSettings, &indev);
     int nOutputDevice = GetSoundOutputDevice(xmlSettings);
 
+    SoundDeviceEffects effects = {};
+    effects.bEnableAGC = xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
+    effects.bEnableEchoCancellation = xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
+    effects.bEnableDenoise = xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
+
     BOOL bSuccess = FALSE;
-    if (xmlSettings.GetDuplexMode(DEFAULT_SOUND_DUPLEXMODE))
+
+    if ((effects.bEnableAGC || effects.bEnableEchoCancellation || effects.bEnableDenoise) &&
+        (indev.nSoundSystem == SOUNDSYSTEM_WASAPI))
     {
+        TT_SetSoundDeviceEffects(ttInst, &effects);
         bSuccess = TT_InitSoundDuplexDevices(ttInst, nInputDevice, nOutputDevice);
     }
     else

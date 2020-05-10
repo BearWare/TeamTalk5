@@ -477,7 +477,6 @@
 #define IDC_CHECK_FORCEAGC              1341
 #define IDC_SLIDER_GAINLEVEL            1342
 #define IDC_STATIC_GAINLEVEL            1344
-#define IDC_CHECK_DUPLEXMODE            1345
 #define IDC_STATIC_GAINLEVEL2           1345
 #define IDC_COMBO_CODEC                 1346
 #define IDC_STATIC_GAINLEVEL3           1346

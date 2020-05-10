@@ -349,7 +349,6 @@
     <item id="1335">用户可多次登录</item>
     <item id="1339">教室（管理员可控制传输）</item>
     <item id="1341">为所有用户启用音量修复</item>
-    <item id="1345">启用双工模式（需要回声消除）</item>
     <item id="1347">忽略静音屏蔽</item>
     <item id="1349">比特率</item>
     <item id="1350">最大比特率</item>

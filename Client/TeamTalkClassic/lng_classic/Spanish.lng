@@ -189,7 +189,6 @@
     <item id="1334">Incluir servidores públicos</item>
     <item id="1339">Aula (el operador controla las transmisiones)</item>
     <item id="1341">Activar volumen de audio fijo para todos los usuarios</item>
-    <item id="1345">Activar modo duplex (requerido para la cancelación de eco)</item>
     <item id="1347">Ignorar silencio</item>
     <item id="1349">Velocidad en bits</item>
     <item id="1350">Velocidad en bits máx.</item>
