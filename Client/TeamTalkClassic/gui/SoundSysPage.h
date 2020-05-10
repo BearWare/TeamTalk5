@@ -90,11 +90,8 @@ public:
     virtual BOOL OnKillActive();
     virtual void OnCancel();
     CButton m_wndPositionBtn;
-    CButton m_btnDuplexMode;
-    BOOL m_bDuplexMode;
     CButton m_btnEchoCancel;
     BOOL m_bEchoCancel;
-    afx_msg void OnBnClickedCheckDuplexmode();
     afx_msg void OnBnClickedCheckEchochannel();
     afx_msg void OnBnClickedCheckDenoise();
     CStatic m_wndInputSampleRates;
@@ -106,4 +103,5 @@ public:
     CButton m_wndRefreshDevs;
     int m_nMediaVsVoice;
     CSliderCtrl m_wndMediaVsVoice;
+    afx_msg void OnBnClickedCheckAgc();
 };

@@ -339,7 +339,6 @@
     <item id="1335">User can log in multiple times</item>
     <item id="1339">Classroom (operator controls transmissions)</item>
     <item id="1341">Enable fixed audio volume for all users</item>
-    <item id="1345">Enable duplex mode (required for echo cancellation)</item>
     <item id="1347">Ignore silence</item>
     <item id="1349">Bitrate</item>
     <item id="1350">Max bitrate</item>

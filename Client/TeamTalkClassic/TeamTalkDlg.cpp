@@ -3278,7 +3278,6 @@ void CTeamTalkDlg::OnFilePreferences()
     soundpage.m_nInputDevice = m_xmlSettings.GetSoundInputDevice(UNDEFINED);
     soundpage.m_szInputDeviceID = STR_UTF8(m_xmlSettings.GetSoundInputDevice());
     soundpage.m_bPositioning = m_xmlSettings.GetAutoPositioning();
-    soundpage.m_bDuplexMode = m_xmlSettings.GetDuplexMode(DEFAULT_SOUND_DUPLEXMODE);
     soundpage.m_bEchoCancel = m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
     soundpage.m_bAGC = m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
     soundpage.m_bDenoise = m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
@@ -3511,7 +3510,9 @@ void CTeamTalkDlg::OnFilePreferences()
         BOOL bRestart = FALSE;
         bRestart |= m_xmlSettings.GetSoundOutputDevice(UNDEFINED) != soundpage.m_nOutputDevice;
         bRestart |= m_xmlSettings.GetSoundInputDevice(UNDEFINED) != soundpage.m_nInputDevice;
-        bRestart |= m_xmlSettings.GetDuplexMode(DEFAULT_SOUND_DUPLEXMODE) != (bool)soundpage.m_bDuplexMode;
+        bRestart |= m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE) != (bool)soundpage.m_bAGC;
+        bRestart |= m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE) != (bool)soundpage.m_bEchoCancel;
+        bRestart |= m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE) != (bool)soundpage.m_bDenoise;
         bRestart = bRestart && (TT_GetFlags(ttInst) & CLIENT_CONNECTION);
 
         m_xmlSettings.SetSoundOutputDevice(soundpage.m_nOutputDevice);
@@ -3519,7 +3520,6 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetSoundInputDevice(soundpage.m_nInputDevice);
         m_xmlSettings.SetSoundInputDevice(STR_UTF8(soundpage.m_szInputDeviceID));
         m_xmlSettings.SetAutoPositioning(soundpage.m_bPositioning);
-        m_xmlSettings.SetDuplexMode(soundpage.m_bDuplexMode);
         m_xmlSettings.SetEchoCancel(soundpage.m_bEchoCancel);
         m_xmlSettings.SetAGC(soundpage.m_bAGC);
         m_xmlSettings.SetDenoise(soundpage.m_bDenoise);
@@ -5178,7 +5178,12 @@ void CTeamTalkDlg::UpdateAudioConfig()
     }
     else
     {
-        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
+        // enable SpeexDSP if no AGC/AEC etc is enabled from sound device.
+        SoundDeviceEffects effects = {};
+        TT_GetSoundDeviceEffects(ttInst, &effects);
+        if (!effects.bEnableAGC && !effects.bEnableDenoise && !effects.bEnableEchoCancellation)
+            TT_SetSoundInputPreprocess(ttInst, &spxdsp);
+
         UpdateGainLevel(m_wndGainSlider.GetPos());
     }
 

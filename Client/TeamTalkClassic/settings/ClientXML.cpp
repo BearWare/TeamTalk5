@@ -1653,27 +1653,6 @@ namespace teamtalk {
         return nDefGain;
     }
 
-    bool ClientXML::SetDuplexMode(bool bEnable)
-    {
-        TiXmlElement* pParent = GetSoundSystemElement();
-        if(pParent)
-        {
-            PutBoolean(*pParent, "duplex-mode", bEnable);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    bool ClientXML::GetDuplexMode(bool bDefValue)
-    {
-        TiXmlElement* child = GetSoundSystemElement();
-        bool bEnabled = bDefValue;
-        if(child)
-            GetBoolean(*child, "duplex-mode", bEnabled);
-        return bEnabled;
-    }
-
     bool ClientXML::SetEchoCancel(bool bEnable)
     {
         TiXmlElement* pParent = GetSoundSystemElement();

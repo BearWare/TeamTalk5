@@ -290,9 +290,6 @@ namespace teamtalk {
         bool SetVoiceGainLevel(int nGain);
         int GetVoiceGainLevel(int nDefGain);
 
-        bool SetDuplexMode(bool bEnable);
-        bool GetDuplexMode(bool bDefValue);
-
         bool SetEchoCancel(bool bEnable);
         bool GetEchoCancel(bool bDefValue);
         /********* </soundsystem> ********/
