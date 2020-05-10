@@ -280,7 +280,6 @@
 #define IDC_STATIC_CHTOPIC              1061
 #define IDC_STATIC_CHPASSWORD           1063
 #define IDC_RADIO_WASAPI                1065
-#define IDC_RADIO_WINAUDIO              1066
 #define IDC_STATIC_MAXLOGINSIP          1067
 #define IDC_RADIO_DIRECTSOUND           1068
 #define IDC_COMBO_INPUTDRIVER           1070

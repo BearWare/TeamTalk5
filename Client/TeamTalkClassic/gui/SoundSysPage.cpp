@@ -65,7 +65,6 @@ void CSoundSysPage::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_COMBO_INPUTDRIVER, m_InputDriversCombo);
     DDX_Control(pDX, IDC_COMBO_OUTPUTDRIVER, m_OutputDriversCombo);
     DDX_Control(pDX, IDC_RADIO_WASAPI, m_WasApiButton);
-    DDX_Control(pDX, IDC_RADIO_WINAUDIO, m_WinButton);
     DDX_Control(pDX, IDC_RADIO_DIRECTSOUND, m_DxButton);
     DDX_Control(pDX, IDC_BUTTON_TEST, m_wndTestBtn);
     DDX_Control(pDX, IDC_STATIC_INPUT, m_wndInputText);
@@ -91,7 +90,6 @@ void CSoundSysPage::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CSoundSysPage, CPropertyPage)
-    ON_BN_CLICKED(IDC_RADIO_WINAUDIO, OnBnClickedRadioWinaudio)
     ON_BN_CLICKED(IDC_RADIO_DIRECTSOUND, OnBnClickedRadioDirectsound)
     ON_CBN_SELCHANGE(IDC_COMBO_INPUTDRIVER, OnCbnSelchangeComboInputdriver)
     ON_CBN_SELCHANGE(IDC_COMBO_OUTPUTDRIVER, OnCbnSelchangeComboOutputdriver)
@@ -123,11 +121,6 @@ BOOL CSoundSysPage::OnInitDialog()
     
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
-}
-
-void CSoundSysPage::OnBnClickedRadioWinaudio()
-{
-    ShowDrivers(SOUNDSYSTEM_WINMM);
 }
 
 void CSoundSysPage::OnBnClickedRadioDirectsound()
@@ -232,7 +225,6 @@ void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
     }
 
     m_DxButton.SetCheck(nSoundSystem == SOUNDSYSTEM_DSOUND? BST_CHECKED : BST_UNCHECKED);
-    m_WinButton.SetCheck(nSoundSystem == SOUNDSYSTEM_WINMM? BST_CHECKED : BST_UNCHECKED);
     m_WasApiButton.SetCheck(nSoundSystem == SOUNDSYSTEM_WASAPI? BST_CHECKED : BST_UNCHECKED);
 
     OnCbnSelchangeComboOutputdriver();
@@ -284,7 +276,6 @@ void CSoundSysPage::OnBnClickedButtonTest()
             TRANSLATE_ITEM(IDS_STOP, szTest);
             m_wndTestBtn.SetWindowText(szTest);
             m_DxButton.EnableWindow(FALSE);
-            m_WinButton.EnableWindow(FALSE);
             m_WasApiButton.EnableWindow(FALSE);
             m_OutputDriversCombo.EnableWindow(FALSE);
             m_InputDriversCombo.EnableWindow(FALSE);
@@ -297,7 +288,6 @@ void CSoundSysPage::OnBnClickedButtonTest()
         TRANSLATE_ITEM(IDS_TESTSELECTED, szTest);
         m_wndTestBtn.SetWindowText(szTest);
         m_DxButton.EnableWindow(TRUE);
-        m_WinButton.EnableWindow(TRUE);
         m_WasApiButton.EnableWindow(TRUE);
         m_OutputDriversCombo.EnableWindow(TRUE);
         m_InputDriversCombo.EnableWindow(TRUE);
