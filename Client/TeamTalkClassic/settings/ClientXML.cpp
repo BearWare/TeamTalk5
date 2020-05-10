@@ -1504,30 +1504,6 @@ namespace teamtalk {
         return devid;
     }
 
-    bool ClientXML::SetSoundMixerDevice(int nDevice)
-    {
-        TiXmlElement* pParent = GetSoundSystemElement();
-        if(pParent)
-        {
-            PutInteger(*pParent, "mixer-input", nDevice);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    int ClientXML::GetSoundMixerDevice()
-    {
-        TiXmlElement* child = GetSoundSystemElement();
-        if(child)
-        {
-            int nValue = UNDEFINED;
-            GetInteger(*child, "mixer-input", nValue);
-            return nValue;
-        }
-        return UNDEFINED;
-    }
-
     bool ClientXML::SetSoundOutputVolume(int nVolume)
     {
         TiXmlElement* pParent = GetSoundSystemElement();
@@ -2246,77 +2222,6 @@ namespace teamtalk {
 
 
     /********* <advanced> ************/
-    bool ClientXML::SetMixerAutoSelection(bool bEnable)
-    {
-        TiXmlElement* pParent = GetAdvancedElement();
-        if(pParent)
-        {
-            PutBoolean(*pParent, "mixer-auto-select", bEnable);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    bool ClientXML::GetMixerAutoSelection()
-    {
-        TiXmlElement* child = GetAdvancedElement();
-        if(child)
-        {
-            bool bEnabled = false;
-            GetBoolean(*child, "mixer-auto-select", bEnabled);
-            return bEnabled;
-        }
-        return false;
-    }
-
-    bool ClientXML::SetMixerAutoSelectInput(int nIndex)
-    {
-        TiXmlElement* pParent = GetAdvancedElement();
-        if(pParent)
-        {
-            PutInteger(*pParent, "mixer-select-input", nIndex);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    int ClientXML::GetMixerAutoSelectInput()
-    {
-        TiXmlElement* child = GetAdvancedElement();
-        if(child)
-        {
-            int nIndex = UNDEFINED;
-            GetInteger(*child, "mixer-select-input", nIndex);
-            return nIndex;
-        }
-        return UNDEFINED;
-    }
-
-    bool ClientXML::SetMixerBoostBugCompensation(bool bEnable)
-    {
-        TiXmlElement* pParent = GetAdvancedElement();
-        if(pParent)
-        {
-            PutBoolean(*pParent, "mixer-boost-bug", bEnable);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    bool ClientXML::GetMixerBoostBugCompensation()
-    {
-        TiXmlElement* child = GetAdvancedElement();
-        if(child)
-        {
-            bool bEnabled = false;
-            GetBoolean(*child, "mixer-boost-bug", bEnabled);
-            return bEnabled;
-        }
-        return false;
-    }
 
     bool ClientXML::SetLowLevelMouseHook(bool bEnable)
     {

@@ -85,8 +85,6 @@
     <item id="1134">huidige status</item>
     <item id="1137">status bericht</item>
     <item id="1142">geavanceerde opties</item>
-    <item id="1145">windows mixer helper</item>
-    <item id="1147">tijdelijke mixer invoer</item>
     <item id="1148">client versie</item>
     <item id="1149">client instellingen</item>
     <item id="1150">start geminimaliseerd</item>
@@ -107,8 +105,6 @@
     <item id="1172">Bericht van de dag</item>
     <item id="1173">nieuwe gebruiker</item>
     <item id="1175">test geselecteerde</item>
-    <item id="1181">zet tijdelijke mixer invoer apparaat aan indien je sneltoets indrukt</item>
-    <item id="1185">compenseer microfoon BOOST fout</item>
     <item id="1186">geluids gebeurtenis</item>
     <item id="1187">onthoud dat een hogere kwaliteit voor de encoder meer bandbreedte en cpu verbruikt</item>
     <item id="1189">invoer apparaat</item>

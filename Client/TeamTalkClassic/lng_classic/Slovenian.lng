@@ -83,8 +83,6 @@
     <item id="1134">Trenuten status</item>
     <item id="1137">Statusno sporočilo</item>
     <item id="1142">Dodatne nastavitve</item>
-    <item id="1145">Pomoč Windovs mixerja</item>
-    <item id="1147">Trenuten vhod na mixer</item>
     <item id="1148">Verzija klienta</item>
     <item id="1149">Nastavitve klienta</item>
     <item id="1150">Zaženi minimizirano</item>
@@ -105,8 +103,6 @@
     <item id="1172">MOTD</item>
     <item id="1173">Nov uporabnik</item>
     <item id="1175">Izbrano testiranje</item>
-    <item id="1181">Omogoči trenuten mixer vhodne enote ob pritisni in govori</item>
-    <item id="1185">Komponente za ojačanje mikrofona</item>
     <item id="1186">Zvokovni dogodki</item>
     <item id="1187">Večja kvaliteta govora zahteva večjo pasovno širino in večjo uporabo procesorja.</item>
     <item id="1189">Vhodna naprava</item>

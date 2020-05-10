@@ -90,8 +90,6 @@
     <item id="1134">Nykyinen tila</item>
     <item id="1137">Tila viesti</item>
     <item id="1142">Edistyneet asetukset</item>
-    <item id="1145">Windows mixer auttaja</item>
-    <item id="1147">Väliaikainen mixeri sisääntulo</item>
     <item id="1148">Asiakas versio</item>
     <item id="1149">Asiakas asetukset</item>
     <item id="1150">Aloita pienennettynä</item>
@@ -112,8 +110,6 @@
     <item id="1172">MOTD</item>
     <item id="1173">Uusi käyttäjä</item>
     <item id="1175">Testi valittu</item>
-    <item id="1181">Salli väliaikainen mixeri sisääntulo laite kun painetaan pikanäppäintä</item>
-    <item id="1185">kompensoida microfoonin tehostus bugia</item>
     <item id="1186">Äänitapahtumat</item>
     <item id="1187">Muista että korkeampi äänenlaatu vaatii enemmän kaistaa ja prosessorin käyttöä</item>
     <item id="1189">Sisääntulo laite</item>

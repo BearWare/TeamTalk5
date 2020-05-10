@@ -133,8 +133,6 @@
     <item id="1134">상태 입력</item>
     <item id="1137">상태 메시지</item>
     <item id="1142">고급 설정</item>
-    <item id="1145">윈도우 믹서 도움말</item>
-    <item id="1147">임시 믹서 입력</item>
     <item id="1148">클라이언트 버전</item>
     <item id="1149">클라이언트 설정</item>
     <item id="1150">최소화 상태로 시작</item>
@@ -155,8 +153,6 @@
     <item id="1172">MOTD</item>
     <item id="1173">새 사용자</item>
     <item id="1175">Test 선택됨</item>
-    <item id="1181">단축키를 누를 동안 믹서 입력장치 사용 가능</item>
-    <item id="1185">마이크 증폭 버그 보정</item>
     <item id="1186">사운드 이벤트</item>
     <item id="1187">높은 음질을 사용하기 위해선 더 많은 대역폭과 CPU사용량을 요구합니다.</item>
     <item id="1189">입력 장치</item>

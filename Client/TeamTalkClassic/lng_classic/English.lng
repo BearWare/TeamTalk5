@@ -243,8 +243,6 @@
     <item id="1123">IP-address</item>
     <item id="1131">Reconnect on connection dropped</item>
     <item id="1142">Advanced settings</item>
-    <item id="1145">Windows mixer helper</item>
-    <item id="1147">Temporary mixer input</item>
     <item id="1148">Client version</item>
     <item id="1149">Client settings</item>
     <item id="1150">Start minimized</item>
@@ -265,8 +263,6 @@
     <item id="1170">&amp;Generate .tt File</item>
     <item id="1172">MOTD</item>
     <item id="1175">Test selected</item>
-    <item id="1181">Enable temporary mixer input device when pressing hotkey</item>
-    <item id="1185">Compensate for microphone boost bug</item>
     <item id="1186">Sound events</item>
     <item id="1188">Recorder samplerate</item>
     <item id="1189">Input device</item>
