@@ -1,6 +1,13 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
+Version 5.6, unreleased
+Accessible Windows client
+- Removed duplex mode for sound devices
+- Removed Windows Sound system
+- Removed Advanced page from Preferences
+- Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
+
 Version 5.5.1, 2020/05/03
 Accessible Windows client
 - Fixed crash issue when opening stream media file dialog
