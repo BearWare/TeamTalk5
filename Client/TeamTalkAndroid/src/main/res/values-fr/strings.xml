@@ -12,7 +12,7 @@
     <string name="title_section_media">Diffusion média</string>
     <string name="title_section_files">Fichiers</string>
     <string name="title_activity_channel_prop">Propriétés du canal</string>
-    <string name="title_activity_user_prop">Propriétés de l'utilisateur</string>
+    <string name="title_activity_user_prop">Propriétés de l\'utilisateur</string>
     <string name="title_activity_text_message">Message texte</string>
     <string name="title_activity_preferences">Préférences</string>
     <string name="title_activity_stream_media">Diffuser un fichier média sur le canal</string>
@@ -21,8 +21,8 @@
     <string name="text_con_failed">Échec de la connexion au serveur. Nouvelle tentative …</string>
     <string name="text_con_lost">Connexion au serveur perdue</string>
     <string name="text_con_success">Connecté au serveur</string>
-    <string name="text_con_cmderr">Échec à l'exécution de la commande</string>
-    <string name="text_cmderr_login">Échec à l'exécution de la commande de connexion</string>
+    <string name="text_con_cmderr">Échec à l\'exécution de la commande</string>
+    <string name="text_cmderr_login">Échec à l\'exécution de la commande de connexion</string>
     <string name="text_cmd_loggedin">Identifié sur le serveur</string>
     <string name="text_cmd_joinchan">Canal rejoint :</string>
     <string name="text_cmd_leftchan">Canal quitté :</string>
@@ -39,56 +39,56 @@
     <string name="pref_title_nickname">Pseudo</string>
     <string name="pref_default_nickname">Sans nom</string>
     <string name="pref_title_proximity_sensor">Capteur de proximité</string>
-    <string name="pref_title_keep_screen_on">Maintenir l'écran actif quand connecté</string>
+    <string name="pref_title_keep_screen_on">Maintenir l\'écran actif quand connecté</string>
     <string name="pref_title_vibrate">Vibrer pour le Maintenir-Pour-Parler</string>
-    <string name="pref_show_log_messages">Afficher les messages du journal dans l'historique du chat</string>
+    <string name="pref_show_log_messages">Afficher les messages du journal dans l\'historique du chat</string>
     <string name="pref_title_audio_icons">Évènements sonnores</string>
     <string name="pref_title_rx_tx_audio_icon">Bascule de la transmission vocale</string>
     <string name="pref_summary_rx_tx_audio_icon">Jouer un son quand le bouton de transmission est pressé</string>
-    <string name="pref_title_vox_triggered_icon">Déclenchement de l'activation vocale</string>
-    <string name="pref_summary_vox_triggered_icon">Jouer un son quand l'activation vocale est déclenchée</string>
+    <string name="pref_title_vox_triggered_icon">Déclenchement de l\'activation vocale</string>
+    <string name="pref_summary_vox_triggered_icon">Jouer un son quand l\'activation vocale est déclenchée</string>
     <string name="pref_title_private_message_audio_icon">Messages privés</string>
-    <string name="pref_summary_private_message_audio_icon">Jouer un son à la réception d'un message privé</string>
+    <string name="pref_summary_private_message_audio_icon">Jouer un son à la réception d\'un message privé</string>
     <string name="pref_title_channel_message_audio_icon">Messages de canal</string>
-    <string name="pref_summary_channel_message_audio_icon">Jouer un son à la réception d'un message de canal</string>
+    <string name="pref_summary_channel_message_audio_icon">Jouer un son à la réception d\'un message de canal</string>
     <string name="pref_title_broadcast_message_audio_icon">Messages généraux</string>
-    <string name="pref_summary_broadcast_message_audio_icon">Jouer un son à la réception d'un message général</string>
+    <string name="pref_summary_broadcast_message_audio_icon">Jouer un son à la réception d\'un message général</string>
     <string name="pref_title_server_lost_audio_icon">Perte de connexion au serveur</string>
     <string name="pref_summary_server_lost_audio_icon">Jouer un son quand la connexion est perdue</string>
     <string name="pref_title_files_update_audio_icon">Liste de fichiers mise à jour</string>
-    <string name="pref_summary_files_update_audio_icon">Jouer un son lorsqu'un fichier est ajouté ou supprimé</string>
+    <string name="pref_summary_files_update_audio_icon">Jouer un son lorsqu\'un fichier est ajouté ou supprimé</string>
     <string name="pref_title_transmitready_icon">Mode exclusif basculé</string>
     <string name="pref_summary_transmitready_icon">Jouer un son lorsque la transmission vocale est prête dans un canal "sans interruption"</string>
     <string name="pref_title_userjoin_icon">Un utilisateur rejoint le canal</string>
-    <string name="pref_summary_userjoin_icon">Jouer un son lorsqu'un utilisateur rejoint le canal actuel</string>
+    <string name="pref_summary_userjoin_icon">Jouer un son lorsqu\'un utilisateur rejoint le canal actuel</string>
     <string name="pref_title_userleft_icon">Un utilisateur quitte le canal</string>
-    <string name="pref_summary_userleft_icon">Jouer un son lorsqu'un utilisateur quitte le canal actuel</string>
+    <string name="pref_summary_userleft_icon">Jouer un son lorsqu\'un utilisateur quitte le canal actuel</string>
     <string name="pref_header_connection">Connexion</string>
     <string name="pref_title_sub_txtmsg">Messages textes</string>
-    <string name="pref_summary_sub_txtmsg">S'abonner aux messages textes des utilisateurs</string>
+    <string name="pref_summary_sub_txtmsg">S\'abonner aux messages textes des utilisateurs</string>
     <string name="pref_title_sub_chanmsg">Messages de canal</string>
-    <string name="pref_summary_sub_chanmsg">S'abonner aux messages de canal</string>
+    <string name="pref_summary_sub_chanmsg">S\'abonner aux messages de canal</string>
     <string name="pref_title_sub_bcastmsg">Messages généraux</string>
-    <string name="pref_summary_sub_bcastmsg">S'abonner aux messages généraux</string>
+    <string name="pref_summary_sub_bcastmsg">S\'abonner aux messages généraux</string>
     <string name="pref_title_sub_voice">Voix</string>
-    <string name="pref_summary_sub_voice">S'abonner à la diffusion vocale</string>
+    <string name="pref_summary_sub_voice">S\'abonner à la diffusion vocale</string>
     <string name="pref_title_sub_video">Capture vidéo</string>
-    <string name="pref_summary_sub_video">S'abonner à la diffusion de captures vidéo</string>
+    <string name="pref_summary_sub_video">S\'abonner à la diffusion de captures vidéo</string>
     <string name="pref_title_sub_desktop">Bureau</string>
-    <string name="pref_summary_sub_desktop">S'abonner à la diffusion du bureau</string>
+    <string name="pref_summary_sub_desktop">S\'abonner à la diffusion du bureau</string>
     <string name="pref_title_sub_mediafile">Fichiers média</string>
-    <string name="pref_summary_sub_mediafile">S'abonner à la diffusion de fichiers média</string>
+    <string name="pref_summary_sub_mediafile">S\'abonner à la diffusion de fichiers média</string>
     <string name="pref_header_tts">Synthèse vocale</string>
     <string name="pref_title_speech_engine">Sélection du synthétiseur vocal</string>
-    <string name="pref_summary_speech_engine">Sélectionner l'un des synthétiseurs vocaux installés, différent de celui des paramètres système</string>
+    <string name="pref_summary_speech_engine">Sélectionner l\'un des synthétiseurs vocaux installés, différent de celui des paramètres système</string>
     <string name="pref_title_server_login">Un utilisateur se connecte au serveur</string>
-    <string name="pref_summary_server_login">Annoncer le nom de l'utilisateur qui se connecte</string>
+    <string name="pref_summary_server_login">Annoncer le nom de l\'utilisateur qui se connecte</string>
     <string name="pref_title_server_logout">Un utilisateur se déconnecte du serveur</string>
-    <string name="pref_summary_server_logout">Annoncer le nom de l'utilisateur qui se déconnecte</string>
+    <string name="pref_summary_server_logout">Annoncer le nom de l\'utilisateur qui se déconnecte</string>
     <string name="pref_title_channel_join">Un utilisateur rejoint le canal</string>
-    <string name="pref_summary_channel_join">Annoncer le nom de l'utilisateur qui rejoint le canal</string>
+    <string name="pref_summary_channel_join">Annoncer le nom de l\'utilisateur qui rejoint le canal</string>
     <string name="pref_title_channel_leave">Un utilisateur quitte le canal</string>
-    <string name="pref_summary_channel_leave">Annoncer le nom de l'utilisateur qui quitte le canal</string>
+    <string name="pref_summary_channel_leave">Annoncer le nom de l\'utilisateur qui quitte le canal</string>
     <string name="pref_title_private_message">Messages privés</string>
     <string name="pref_summary_private_message">Annoncer les messages privés</string>
     <string name="pref_title_channel_message">Messages de canal</string>
@@ -96,9 +96,9 @@
     <string name="pref_title_broadcast_message">Messages généraux</string>
     <string name="pref_summary_broadcast_message">Annoncer les messages généraux</string>
     <string name="pref_title_mute_speakers">Couper le haut-parleur lorsque le bouton de transmission est pressé</string>
-    <string name="pref_summary_mute_speakers">Activer cette option pour supprimer l'écho des haut-parleurs</string>
-    <string name="pref_title_show_usernames">Afficher les noms d'utilisateur</string>
-    <string name="pref_summary_show_usernames">Afficher les noms d'utilisateur au lieu des pseudos</string>
+    <string name="pref_summary_mute_speakers">Activer cette option pour supprimer l\'écho des haut-parleurs</string>
+    <string name="pref_title_show_usernames">Afficher les noms d\'utilisateur</string>
+    <string name="pref_summary_show_usernames">Afficher les noms d\'utilisateur au lieu des pseudos</string>
     <string name="pref_title_bearwareid">Connexion Web BearWare.dk</string>
     <string name="pref_summary_bearwareid">Configurer la connexion Web BearWare.dk</string>
 
@@ -107,12 +107,12 @@
     <string name="pref_title_speakerphone_checkbox">Activer le haut-parleur du téléphone</string>
     <string name="pref_summary_speakerphone_checkbox">Basculer entre les écouteurs et le haut-parleur</string>
     <string name="pref_title_voice_processing_checkbox">Activer le traitement de la voix</string>
-    <string name="pref_summary_voice_processing_checkbox">Utiliser l'annulation d'écho et le contrôle automatique du volume</string>
+    <string name="pref_summary_voice_processing_checkbox">Utiliser l\'annulation d\'écho et le contrôle automatique du volume</string>
     <string name="pref_title_public_servers">Afficher les serveurs publics</string>
     <string name="pref_summary_public_servers">Inclure les serveurs public dans la liste de serveurs</string>
 
-    <string name="text_tts_loggedin">s'est connecté</string>
-    <string name="text_tts_loggedout">s'est déconnecté</string>
+    <string name="text_tts_loggedin">s\'est connecté</string>
+    <string name="text_tts_loggedout">s\'est déconnecté</string>
     <string name="text_tts_joined_chan">a rejoint le canal</string>
     <string name="text_tts_left_chan">a quitté le canal</string>
     <string name="text_tts_private_message">Message privé de %1$s : %2$s</string>
@@ -124,7 +124,7 @@
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
-    <string name="title_section_noaudio">Pas d'audio</string>
+    <string name="title_section_noaudio">Pas d\'audio</string>
     <string name="opus_application">Application</string>
 
     <string name="button_tx">Transmission</string>
@@ -148,31 +148,31 @@
     <string name="channel_prop_title_name">Nom</string>
     <string name="channel_prop_title_topic">Sujet</string>
     <string name="channel_prop_title_password">Mot de passe</string>
-    <string name="channel_prop_title_op_password">Mot de passe de l'opérateur</string>
-    <string name="channel_prop_title_maxusers">Nombre maximum d'utilisateurs</string>
+    <string name="channel_prop_title_op_password">Mot de passe de l\'opérateur</string>
+    <string name="channel_prop_title_maxusers">Nombre maximum d\'utilisateurs</string>
     <string name="channel_prop_title_diskquota">Quota disque (KB)</string>
 
     <string name="channel_prop_title_permanent">Canal permanent</string>
     <string name="channel_prop_title_nointerrupt">Sans interruption</string>
     <string name="channel_prop_title_classroom">Salle de classe</string>
-    <string name="channel_prop_title_oprecvonly">Seul l'opérateur reçoit</string>
+    <string name="channel_prop_title_oprecvonly">Seul l\'opérateur reçoit</string>
     <string name="channel_prop_title_novoiceact">Sans activation vocale</string>
     <string name="channel_prop_title_noaudiorecord">Sans enregistrement audio</string>
 
 
-    <string name="user_prop_title_username">Nom d'utilisateur</string>
+    <string name="user_prop_title_username">Nom d\'utilisateur</string>
     <string name="user_prop_title_clientname">Nom du client</string>
     <string name="user_prop_title_voice_volume">Volume de la voix</string>
     <string name="user_prop_title_mute_voice">Couper la voix</string>
     <string name="user_prop_title_media_volume">Volume des fichiers média</string>
     <string name="user_prop_title_mute_media">Couper les fichiers média</string>
-    <string name="user_prop_title_subscribe_txtmsg">S'abonner aux messages utilisateur</string>
-    <string name="user_prop_title_subscribe_chanmsg">S'abonner aux messages de canal</string>
-    <string name="user_prop_title_subscribe_bcastmsg">S'abonner aux messages généraux</string>
-    <string name="user_prop_title_subscribe_voice">S'abonner à la voix</string>
-    <string name="user_prop_title_subscribe_vid">S'abonner aux vidéos</string>
-    <string name="user_prop_title_subscribe_desk">S'abonner aux ureaux</string>
-    <string name="user_prop_title_subscribe_media">S'abonner aux fichiers média</string>
+    <string name="user_prop_title_subscribe_txtmsg">S\'abonner aux messages utilisateur</string>
+    <string name="user_prop_title_subscribe_chanmsg">S\'abonner aux messages de canal</string>
+    <string name="user_prop_title_subscribe_bcastmsg">S\'abonner aux messages généraux</string>
+    <string name="user_prop_title_subscribe_voice">S\'abonner à la voix</string>
+    <string name="user_prop_title_subscribe_vid">S\'abonner aux vidéos</string>
+    <string name="user_prop_title_subscribe_desk">S\'abonner aux ureaux</string>
+    <string name="user_prop_title_subscribe_media">S\'abonner aux fichiers média</string>
 
     <string name="label_connection">Connexion :</string>
     <string name="stat_online">En ligne</string>
@@ -192,10 +192,10 @@
     <string name="time_date">Heure et date</string>
     <string name="name">Nom</string>
 
-    <string name="err_init_sound_input">Échec à l'initialisation de l'entrée audio</string>
-    <string name="err_init_sound_output">Échec à l'initialisation de la sortie audio</string>
+    <string name="err_init_sound_input">Échec à l\'initialisation de l\'entrée audio</string>
+    <string name="err_init_sound_output">Échec à l\'initialisation de la sortie audio</string>
     <string name="err_retrieve_public_server_list">Échec à la récupération de la liste des serveurs publics</string>
-    <string name="err_send_text_message">Échec à l'envoi du message texte</string>
+    <string name="err_send_text_message">Échec à l\'envoi du message texte</string>
     <string name="err_connection">La connexion a échoué</string>
     <string name="err_facebooklogin">La connexion Facebook a échoué</string>
     <string name="err_stream_media">Échec à la diffusion du fichier média</string>
@@ -215,7 +215,7 @@
     <string name="pref_title_udp_port">Port UDP</string>
     <string name="pref_title_encription">Crypté</string>
     <string name="pref_title_authentication">Authentification</string>
-    <string name="pref_title_username">Nom d'utilisateur</string>
+    <string name="pref_title_username">Nom d\'utilisateur</string>
     <string name="pref_title_password">Mot de passe</string>
     <string name="pref_title_facebook">Connexion Facebook</string>
     <string name="pref_title_join_channel">Rejoindre le canal</string>
@@ -224,7 +224,7 @@
     <string name="pref_title_last_channel">Dernier canal rejoint</string>
 
     <string name="pref_summary_server_name">Ce serveur apparaîtra avec ce nom dans la liste de serveurs</string>
-    <string name="pref_summary_server_address">Le nom de domaine ou l'adresse IP du serveur</string>
+    <string name="pref_summary_server_address">Le nom de domaine ou l\'adresse IP du serveur</string>
 
     <string name="channel_password_prompt">Entrez le mot de passe du canal</string>
     <string name="button_download">Télécharger</string>
@@ -246,8 +246,8 @@
     <string name="remote_file_remove_confirmation">Souhaitez-vous vraiment supprimer le fichier %1$s du serveur ?</string>
     <string name="server_remove_confirmation">Souhaitez-vous vraiment supprimer %1$s de la liste de serveurs ?</string>
     <string name="channel_remove_confirmation">Souhaitez-vous vraiment supprimer le canal %1$s ?</string>
-    <string name="ban_confirmation">Souhaitez-vous vraiment bannir l'utilisateur %1$s ?</string>
-    <string name="kick_confirmation">Souhaitez-vous vraiment exclure l'utilisateur %1$s ?</string>
+    <string name="ban_confirmation">Souhaitez-vous vraiment bannir l\'utilisateur %1$s?</string>
+    <string name="kick_confirmation">Souhaitez-vous vraiment exclure l\'utilisateur %1$s?</string>
     <string name="version_update">Nouvelle version de TeamTalk disponnible : %1$s ?</string>
     <string name="decvolume">Diminuer le volume</string>
     <string name="incvolume">Augmenter le volume</string>
@@ -261,16 +261,16 @@
     <string name="speaker_volume_description">Volume du haut-parleur : %1$s</string>
     <string name="mic_gain_description">Volume du microphone : %1$s</string>
 
-    <string name="voice_activation_on">Activer l'activation vocale</string>
-    <string name="voice_activation_off">Désactiver l'activation vocale</string>
-    <string name="decvoxlevel">Diminuer le niveau d'activation vocale</string>
-    <string name="incvoxlevel">Augmenter le niveau d'activation vocale</string>
-    <string name="vox_level_description">Niveau d'activation vocale : %1$s</string>
+    <string name="voice_activation_on">Activer l\'activation vocale</string>
+    <string name="voice_activation_off">Désactiver l\'activation vocale</string>
+    <string name="decvoxlevel">Diminuer le niveau d\'activation vocale</string>
+    <string name="incvoxlevel">Augmenter le niveau d\'activation vocale</string>
+    <string name="vox_level_description">Niveau d\'activation vocale: %1$s</string>
 
     <string name="tx_on">Transmission …</string>
     <string name="tx_off">Transmission inactive</string>
 
-    <string name="text_samplerate">Taux d'échantillonnage</string>
+    <string name="text_samplerate">Taux d\'échantillonnage</string>
     <string name="text_ignore_silence">Ignorer le silence</string>
     <string name="text_audchan">Canal audio</string>
     <string name="text_bitrate">Débit</string>
@@ -287,25 +287,25 @@
     <string name="channel_change_alert">Tous les transferts seront interrompus lors du changement de canal</string>
     <string name="disconnect_alert">Tous les transferts en cours seront interrompus lors de la déconnexion du serveur</string>
 
-    <string name="err_invalid_username">Nom d'utilisateur invalide</string>
+    <string name="err_invalid_username">Nom d\'utilisateur invalide</string>
     <string name="err_incorrect_server_password">Mot de passe du serveur incorrect</string>
     <string name="err_incorrect_channel_password">Mot de passe du canl incorrect</string>
     <string name="err_invalid_account">Compte invalide</string>
-    <string name="err_max_server_users_exceeded">Trop d'utilisateurs sur le serveur</string>
-    <string name="err_max_channel_users_exceeded">Trop d'utilisateurs dans le canal</string>
+    <string name="err_max_server_users_exceeded">Trop d\'utilisateurs sur le serveur</string>
+    <string name="err_max_channel_users_exceeded">Trop d\'utilisateurs dans le canal</string>
     <string name="err_server_banned">Votre adresse IP est bannie</string>
     <string name="err_not_authorized">Non autorisé</string>
     <string name="err_max_diskusage_exceeded">Espace disque insuffisant</string>
-    <string name="err_incorrect_op_password">Mot de passe d'opérateur incorrect</string>
+    <string name="err_incorrect_op_password">Mot de passe d\'opérateur incorrect</string>
     <string name="err_max_logins_per_ipaddress_exceeded">Trop de connexions simultanées depuis la même adresse IP</string>
     <string name="err_max_channels_exceeded">Trop de canaux</string>
     <string name="err_channel_already_exists">Le canal exise déjà</string>
     <string name="err_user_not_found">Utilisateur introuvable</string>
     <string name="err_openfile_failed">Le serveur a échoué à ouvrir le fichier</string>
-    <string name="err_filesharing_disabled">Le serveur n'autorise pas le transfert de fichiers</string>
-    <string name="err_channel_has_users">Le canal n'est pas vide</string>
+    <string name="err_filesharing_disabled">Le serveur n\'autorise pas le transfert de fichiers</string>
+    <string name="err_channel_has_users">Le canal n\'est pas vide</string>
 
-    <string name="private_message_notification">Nouveau message de l'utilisateur %1$s</string>
+    <string name="private_message_notification">Nouveau message de l\'utilisateur %1$s</string>
     <string name="private_message_notification_hint">Cliquer pour lire et répondre</string>
     <string name="user_state_now_speaking">%1$s parle actuellement</string>
     <string name="text_waitstream">En attente de diffusion vidéo</string>
@@ -314,25 +314,25 @@
     <string name="text_mediafile_session">Session de fichiers média</string>
 
     <string name="permission_audioinput">Enregistrement audio indisponnibles</string>
-    <string name="permission_audiomodify">L'enregistrement audio sera indisponnible</string>
+    <string name="permission_audiomodify">L\'enregistrement audio sera indisponnible</string>
     <string name="permission_filerx">Le téléchargement de fichiers sera indisponnible</string>
-    <string name="permission_filetx">Le téléversement et l'import de fichiers seront indisponnibles</string>
+    <string name="permission_filetx">Le téléversement et l\'import de fichiers seront indisponnibles</string>
     <string name="permission_internet">Le client ne pourra pas se connecter aux serveurs</string>
     <string name="permission_vibrate">Le vibration au maintenir-pour-parler sera indisponnible</string>
-    <string name="permission_wake_lock">La connexion pourra être perdue lorsque l'écran sera désactivé</string>
+    <string name="permission_wake_lock">La connexion pourra être perdue lorsque l\'écran sera désactivé</string>
     <string name="permission_read_phone_state">La détection des appels entrants sera impossible</string>
 
     <string name="facebook_app_id">611833262539381</string>
     <string name="fb_login_protocol_scheme">fb611833262539381</string>
     <string name="title_activity_web_login">Activité de connexion Web</string>
-    <string name="weblogin_prop_title_bearwareid">Nom d'utilisateur</string>
+    <string name="weblogin_prop_title_bearwareid">Nom d\'utilisateur</string>
     <string name="weblogin_prop_title_bearwarepasswd">Mot de passe</string>
     <string name="weblogin_prop_title_login">Connexion</string>
     <string name="weblogin_prop_title_web_login_id">Identifiant de connexion Web BearWare.dk</string>
     <string name="weblogin_prop_title_create_web_login_id">Créer un identifiant de connexion Web BearWare.dk</string>
-    <string name="weblogin_prop_title_reset_web_login_id">Réinitialiser l'identifiant de connexion Web BearWare.dk</string>
-    <string name="text_bearwarelogin_success">%1$s votre nom d'utilisateur %2$s a été validé</string>
-    <string name="text_bearwarelogin_failed">Échec à l'authentification de nom d'utilisateur %1$s</string>
+    <string name="weblogin_prop_title_reset_web_login_id">Réinitialiser l\'identifiant de connexion Web BearWare.dk</string>
+    <string name="text_bearwarelogin_success">%1$s votre nom d\'utilisateur %2$s a été validé</string>
+    <string name="text_bearwarelogin_failed">Échec à l\'authentification de nom d\'utilisateur %1$s</string>
     <string name="text_weblogin_authfailure">Échec de connexion Web BearWare.dk</string>
 
 </resources>

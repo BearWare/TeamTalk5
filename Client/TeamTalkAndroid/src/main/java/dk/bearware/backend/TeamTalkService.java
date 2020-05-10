@@ -118,6 +118,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     private boolean permanentMuteState;
     private boolean currentMuteState;
 
+    private volatile boolean inPhoneCall;
+
+
     public class LocalBinder extends Binder {
         public TeamTalkService getService() {
             // Return this instance of LocalService so clients can call public methods
@@ -141,6 +144,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         voxSuspended = false;
         permanentMuteState = false;
         currentMuteState = false;
+        inPhoneCall = false;
 
         //register self as event handler so 'users' and 'channels' can be updated
         mEventHandler.addConnectionListener(this);
@@ -268,8 +272,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
                     setMute(permanentMuteState);
                     if ((myself != null) && ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0))
                         ttclient.doChangeStatus(myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
+                    inPhoneCall = false;
                     break;
                 case TelephonyManager.CALL_STATE_RINGING:
+                    inPhoneCall = true;
                     if (!isMute()) {
                         ttclient.setSoundOutputMute(true);
                         currentMuteState = true;
@@ -297,6 +303,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     public void enablePhoneCallReaction() {
         txSuspended = false;
         voxSuspended = false;
+        inPhoneCall = false;
         telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
         listeningPhoneStateChanges = true;
     }
@@ -308,6 +315,11 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         }
         txSuspended = false;
         voxSuspended = false;
+        inPhoneCall = false;
+    }
+
+    public boolean isInPhoneCall() {
+        return inPhoneCall;
     }
 
     public TeamTalkBase getTTInstance() {
