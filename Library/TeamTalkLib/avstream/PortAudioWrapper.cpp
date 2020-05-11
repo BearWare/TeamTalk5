@@ -273,7 +273,16 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
         device.wavedeviceid = devinfo->wavedeviceid;
         if (devinfo->max3dBuffers > 0)
             device.features |= SOUNDDEVICEFEATURE_3DPOSITION;
+
+        // CWMAudioAECCapture
+        if (device.soundsystem == SOUND_API_WASAPI && device.input_channels.size())
+        {
+            device.features |= SOUNDDEVICEFEATURE_AEC;
+            device.features |= SOUNDDEVICEFEATURE_AGC;
+            device.features |= SOUNDDEVICEFEATURE_DENOISE;
+        }
 #endif
+
         sounddevs[device.id] = device;
     }
 }
