@@ -202,6 +202,24 @@ bool isValid(const VideoFormat& fmt)
         fmt.nFPS_Denominator>0 && fmt.picFourCC != FOURCC_NONE;
 }
 
+QVector<SoundDevice> getSoundDevices()
+{
+    //try getting all sound devices at once
+    int count = 25;
+    QVector<SoundDevice> result(count);
+    TT_GetSoundDevices(&result[0], &count);
+    if(result.size() == count)
+    {
+        //query again since we didn't have enough room
+        TT_GetSoundDevices(nullptr, &count);
+        result.resize(count);
+        TT_GetSoundDevices(&result[0], &count);
+    }
+    else
+        result.resize(count);
+    return result;
+}
+
 bool getSoundDevice(int deviceid, const QVector<SoundDevice>& devs,
                     SoundDevice& dev)
 {
@@ -258,12 +276,7 @@ int getSoundInputFromUID(int inputid, const QString& uid)
     if(uid.isEmpty())
         return inputid;
 
-    QVector<SoundDevice> inputdev;
-    int count = 0;
-    TT_GetSoundDevices(nullptr, &count);
-    inputdev.resize(count);
-    if(count)
-        TT_GetSoundDevices(&inputdev[0], &count);
+    QVector<SoundDevice> inputdev = getSoundDevices();
 
     SoundDevice dev;
     if(getSoundDevice(uid, inputdev, dev))
@@ -277,12 +290,7 @@ int getSoundOutputFromUID(int outputid, const QString& uid)
     if(uid.isEmpty())
         return outputid;
 
-    QVector<SoundDevice> outputdev;
-    int count = 0;
-    TT_GetSoundDevices(nullptr, &count);
-    outputdev.resize(count);
-    if(count)
-        TT_GetSoundDevices(&outputdev[0], &count);
+    QVector<SoundDevice> outputdev = getSoundDevices();
 
     SoundDevice dev;
     if(getSoundDevice(uid, outputdev, dev))
@@ -334,26 +342,38 @@ QStringList initSelectedSoundDevices()
     TT_RestartSoundSystem();
 
     int inputid = getSelectedSndInputDevice();
-    bool init_indev = (TT_GetFlags(ttInst) & CLIENT_SNDINPUT_READY) == 0;
-
     int outputid = getSelectedSndOutputDevice();
-    bool init_outdev = (TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_READY) == 0;
 
-    if(ttSettings->value(SETTINGS_SOUND_DUPLEXMODE, SETTINGS_SOUND_DUPLEXMODE_DEFAULT).toBool())
+    QVector<SoundDevice> devs = getSoundDevices();
+    SoundDevice indev = {};
+    getSoundDevice(inputid, devs, indev);
+
+    // toggle sound device effect if it's supported by input device
+    SoundDeviceEffects effects = {};
+    effects.bEnableAGC = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AGC) && ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
+    effects.bEnableDenoise = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DENOISE) && ttSettings->value(SETTINGS_SOUND_DENOISING, SETTINGS_SOUND_DENOISING_DEFAULT).toBool();
+    effects.bEnableEchoCancellation = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC) && ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool();
+
+    TT_SetSoundDeviceEffects(ttInst, &effects);
+
+    bool duplex = ttSettings->value(SETTINGS_SOUND_DUPLEXMODE, SETTINGS_SOUND_DUPLEXMODE_DEFAULT).toBool();
+    // WASAPI has to know which speaker device to echo cancel therefore force duplex mode
+    duplex |= (indev.nSoundSystem == SOUNDSYSTEM_WASAPI && (effects.bEnableAGC || effects.bEnableDenoise || effects.bEnableEchoCancellation));
+
+    if (duplex)
     {
-        if(init_indev && init_outdev &&
-           !TT_InitSoundDuplexDevices(ttInst, inputid, outputid))
+        if (!TT_InitSoundDuplexDevices(ttInst, inputid, outputid))
         {
             result.append(QObject::tr("Failed to initialize sound duplex mode"));
         }
     }
     else
     {
-        if(init_indev && !TT_InitSoundInputDevice(ttInst, inputid))
+        if (!TT_InitSoundInputDevice(ttInst, inputid))
         {
             result.append(QObject::tr("Failed to initialize sound input device"));
         }
-        if(init_outdev && !TT_InitSoundOutputDevice(ttInst, outputid))
+        if (!TT_InitSoundOutputDevice(ttInst, outputid))
         {
             result.append(QObject::tr("Failed to initialize sound output device"));
         }
@@ -377,6 +397,10 @@ QStringList initDefaultSoundDevices()
     }
     else
     {
+        // reset sound device effects
+        SoundDeviceEffects effects = {};
+        TT_SetSoundDeviceEffects(ttInst, &effects);
+
         if (!TT_InitSoundInputDevice(ttInst, inputid) || !TT_InitSoundOutputDevice(ttInst, outputid))
         {
             TT_CloseSoundInputDevice(ttInst);

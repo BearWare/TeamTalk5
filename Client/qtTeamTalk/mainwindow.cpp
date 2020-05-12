@@ -2430,8 +2430,7 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
 
 void MainWindow::updateAudioConfig()
 {
-    SpeexDSP spxdsp;
-    ZERO_STRUCT(spxdsp);
+    SpeexDSP spxdsp = {};
 
     //set default values for audio config
     spxdsp.bEnableAGC = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
@@ -2461,6 +2460,14 @@ void MainWindow::updateAudioConfig()
     }
     else
     {
+        SoundDeviceEffects effects = {};
+        TT_GetSoundDeviceEffects(ttInst, &effects);
+        
+        // If sound device provides AGC, AEC and denoise then use these instead
+        spxdsp.bEnableAGC &= !effects.bEnableAGC;
+        spxdsp.bEnableEchoCancellation &= !effects.bEnableEchoCancellation;
+        spxdsp.bEnableDenoise &= !effects.bEnableDenoise;
+
         TT_SetSoundInputPreprocess(ttInst, &spxdsp);
         slotMicrophoneGainChanged(ui.micSlider->value());
         ui.micSlider->setToolTip(tr("Microphone gain"));
@@ -5065,8 +5072,7 @@ void MainWindow::slotAccessUserDesktop(bool enable)
     if(!userid)
         return;
 
-    TextMessage msg;
-    ZERO_STRUCT(msg);
+    TextMessage msg = {};
     msg.nFromUserID = TT_GetMyUserID(ttInst);
     msg.nMsgType = MSGTYPE_CUSTOM;
     msg.nToUserID = userid;

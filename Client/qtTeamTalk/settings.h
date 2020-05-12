@@ -98,10 +98,14 @@
 #define SETTINGS_CONNECTION_TCPPORT                 "connection/localtcpport"
 #define SETTINGS_CONNECTION_UDPPORT                 "connection/localudpport"
 
+#define SOUNDDEVICEID_DEFAULT  -2
+
 #define SETTINGS_SOUND_SOUNDSYSTEM                  "soundsystem/soundsystem"
 #define SETTINGS_SOUND_INPUTDEVICE                  "soundsystem/inputdeviceid"
+#define SETTINGS_SOUND_INPUTDEVICE_DEFAULT          SOUNDDEVICEID_DEFAULT
 #define SETTINGS_SOUND_INPUTDEVICE_UID              "soundsystem/inputdeviceuid"
 #define SETTINGS_SOUND_OUTPUTDEVICE                 "soundsystem/outputdeviceid"
+#define SETTINGS_SOUND_OUTPUTDEVICE_DEFAULT         SOUNDDEVICEID_DEFAULT
 #define SETTINGS_SOUND_OUTPUTDEVICE_UID             "soundsystem/outputdeviceuid"
 #define SETTINGS_SOUND_MASTERVOLUME                 "soundsystem/mastervolume"
 #define SETTINGS_SOUND_MASTERVOLUME_DEFAULT         50
@@ -219,7 +223,5 @@
 
 #define SETTINGS_LAST_DIRECTORY                     "history/last-directory"
 #define SETTINGS_FIREWALL_ADD                       "history/firewall-add"
-
-#define SOUNDDEVICEID_DEFAULT  -2
 
 #endif
