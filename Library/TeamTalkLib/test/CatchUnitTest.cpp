@@ -674,53 +674,89 @@ TEST_CASE("CWMAudioAEC_DuplexMode")
 {
     using namespace soundsystem;
     
-    media::AudioFormat fmt(48000, 1);
-    int framesize = fmt.samplerate * .04;
-    WavePCMFile wavefile;
-    REQUIRE(wavefile.NewFile(ACE_TEXT("DuplexEchoCancel.wav"), fmt.samplerate, fmt.channels));
-    class MyClass : public StreamDuplex
-    {
-        WavePCMFile& m_wavefile;
-
-    public:
-        MyClass(WavePCMFile& wavefile) : m_wavefile(wavefile)
-        {
-        }
-        int callbacks = 0;
-        void StreamDuplexEchoCb(const DuplexStreamer& streamer,
-            const short* input_buffer,
-            const short* prev_output_buffer, int samples)
-        {
-        }
-
-        void StreamDuplexCb(const DuplexStreamer& streamer,
-            const short* input_buffer,
-            short* output_buffer, int samples)
-        {
-            //MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
-            callbacks++;
-            REQUIRE(m_wavefile.AppendSamples(input_buffer, samples));
-        }
-
-        soundsystem::SoundDeviceFeatures GetDuplexFeatures()
-        {
-            return soundsystem::SOUNDDEVICEFEATURE_AEC;
-        }
-
-    } myduplex(wavefile);
 
     auto sndsys = soundsystem::GetInstance();
     int sndgrpid = sndsys->OpenSoundGroup();
     int indev, outdev;
     REQUIRE(sndsys->GetDefaultDevices(SOUND_API_WASAPI, indev, outdev));
-    REQUIRE(sndsys->OpenDuplexStream(&myduplex, indev, outdev, sndgrpid, fmt.samplerate, fmt.channels, fmt.channels, framesize));
+    INT32 n_devs = 25;
+    std::vector<SoundDevice> devs(n_devs);
+    REQUIRE(TT_GetSoundDevices(&devs[0], &n_devs));
+    auto idev = std::find_if(devs.begin(), devs.end(), [outdev] (SoundDevice d) { return d.nDeviceID == outdev; });
+    REQUIRE(idev != devs.end());
 
-    while(myduplex.callbacks <= 200)
+    std::vector<int> channels = {1, 2};
+    std::vector<double> frmdurations = { 0.02, 0.04, 0.1, 0.24, 0.5, };
+    for (auto chans : channels)
     {
-        Sleep(PCM16_SAMPLES_DURATION(framesize, fmt.samplerate));
+        for (auto frmduration : frmdurations)
+        {
+            media::AudioFormat fmt(idev->nDefaultSampleRate, chans);
+            int framesize = fmt.samplerate * frmduration;
+
+            class MyClass : public StreamDuplex
+            {
+                WavePCMFile m_echofile, m_playfile;
+                audio_resampler_t m_resampler;
+                int m_playframesize;
+                std::vector<short> m_playbuffer;
+
+            public:
+                MyClass(media::AudioFormat fmt, int framesize)
+                {
+                    TTCHAR filename[MAX_PATH];
+                    ACE_OS::snprintf(filename, MAX_PATH, ACE_TEXT("EchoCancel_%dHz_%s_txinterval_%dmsec.wav"),
+                                     fmt.samplerate, (fmt.channels == 2?ACE_TEXT("Stereo"):ACE_TEXT("Mono")),
+                                         PCM16_SAMPLES_DURATION(framesize, fmt.samplerate));
+                    REQUIRE(m_echofile.NewFile(filename, fmt.samplerate, fmt.channels));
+
+                    REQUIRE(m_playfile.OpenFile(ACE_TEXT("playfile.wav"), true));
+
+                    media::AudioFormat filefmt(m_playfile.GetSampleRate(), m_playfile.GetChannels());
+                    m_playframesize = CalcSamples(fmt.samplerate, framesize, filefmt.samplerate);
+                    m_resampler = MakeAudioResampler(filefmt, fmt, m_playframesize);
+                    REQUIRE(m_resampler);
+                    m_playbuffer.resize(m_playframesize * m_playfile.GetChannels());
+                }
+                int callbacks = 0;
+                void StreamDuplexEchoCb(const DuplexStreamer& streamer,
+                    const short* input_buffer,
+                    const short* prev_output_buffer, int samples)
+                {
+                }
+
+                void StreamDuplexCb(const DuplexStreamer& streamer,
+                    const short* input_buffer,
+                    short* output_buffer, int samples)
+                {
+                    //MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
+                    callbacks++;
+                    REQUIRE(m_echofile.AppendSamples(input_buffer, samples));
+
+                    REQUIRE(m_playfile.ReadSamples(&m_playbuffer[0], m_playframesize)>0);
+                    int resampled = m_resampler->Resample(&m_playbuffer[0], output_buffer);
+                    REQUIRE(resampled <= samples);
+                }
+
+                soundsystem::SoundDeviceFeatures GetDuplexFeatures()
+                {
+                    return soundsystem::SOUNDDEVICEFEATURE_AEC | soundsystem::SOUNDDEVICEFEATURE_AGC | soundsystem::SOUNDDEVICEFEATURE_DENOISE;
+                }
+
+            } myduplex(fmt, framesize);
+
+            REQUIRE(sndsys->OpenDuplexStream(&myduplex, indev, outdev, sndgrpid, fmt.samplerate, fmt.channels, fmt.channels, framesize));
+
+            int frameduration = PCM16_SAMPLES_DURATION(framesize, fmt.samplerate);
+            while(myduplex.callbacks * frameduration <= 10000)
+            {
+                Sleep(frameduration);
+            }
+
+            sndsys->CloseDuplexStream(&myduplex);
+        }
     }
 
-    sndsys->CloseDuplexStream(&myduplex);
     sndsys->RemoveSoundGroup(sndgrpid);
 }
 
