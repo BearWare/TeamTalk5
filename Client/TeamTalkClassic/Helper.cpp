@@ -508,16 +508,16 @@ BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings)
     int nOutputDevice = GetSoundOutputDevice(xmlSettings);
 
     SoundDeviceEffects effects = {};
-    effects.bEnableAGC = xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
-    effects.bEnableEchoCancellation = xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
-    effects.bEnableDenoise = xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
+    effects.bEnableAGC = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AGC) && xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
+    effects.bEnableDenoise = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DENOISE) && xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
+    effects.bEnableEchoCancellation = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC) && xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
 
+    TT_SetSoundDeviceEffects(ttInst, &effects);
     BOOL bSuccess = FALSE;
 
     if ((effects.bEnableAGC || effects.bEnableEchoCancellation || effects.bEnableDenoise) &&
         (indev.nSoundSystem == SOUNDSYSTEM_WASAPI))
     {
-        TT_SetSoundDeviceEffects(ttInst, &effects);
         bSuccess = TT_InitSoundDuplexDevices(ttInst, nInputDevice, nOutputDevice);
     }
     else
