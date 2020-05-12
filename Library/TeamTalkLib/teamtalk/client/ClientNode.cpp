@@ -1098,19 +1098,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                                                 input_samples);
     }
 
-    if (opened)
-    {
-        bool success = (m_flags & CLIENT_SNDINOUTPUT_DUPLEX) ?
-            m_soundsystem->UpdateStreamDuplexFeatures(this) :
-            m_soundsystem->UpdateStreamCaptureFeatures(this);
-        
-        if (!success)
-        {
-            m_listener->OnInternalError(TT_INTERR_SNDEFFECT_FAILURE,
-                                        GetErrorDescription(TT_INTERR_SNDEFFECT_FAILURE));
-        }
-    }
-    else
+    if (!opened)
     {
         if (m_listener)
             m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
