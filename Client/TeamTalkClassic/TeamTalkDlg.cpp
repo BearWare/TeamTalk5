@@ -5136,6 +5136,7 @@ void CTeamTalkDlg::UpdateGainLevel(int nGain)
     if(m_wndGainSlider.GetPos() != nGain)
         m_wndGainSlider.SetPos(nGain);
 
+    // m_wndGainSlider windows is disabled in AudioConfig-mode
     SpeexDSP spxdsp =  {};
     if(TT_GetSoundInputPreprocess(ttInst, &spxdsp) && spxdsp.bEnableAGC)
     {
