@@ -127,6 +127,7 @@ namespace soundsystem {
                                    int output_channels, int framesize)  { return duplexstreamer_t(); }
         void CloseStream(duplexstreamer_t streamer) { }
         bool StartStream(duplexstreamer_t streamer) { return false; }
+        bool IsStreamStopped(duplexstreamer_t streamer) { return true; }
         bool AddDuplexOutputStream(StreamDuplex* duplex,
                                    StreamPlayer* player)  { return false; }
         bool RemoveDuplexOutputStream(StreamDuplex* duplex,
