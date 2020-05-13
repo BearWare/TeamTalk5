@@ -1103,10 +1103,10 @@ void PreferencesDlg::slotSoundTestDevices(bool checked)
             effects.bEnableDenoise = ui.denoisingBox->isChecked();
             effects.bEnableEchoCancellation = ui.echocancelBox->isChecked();
 
-            BOOL bDuplex = (effects.bEnableAGC || effects.bEnableDenoise || effects.bEnableEchoCancellation);
+            bool duplex = (effects.bEnableAGC || effects.bEnableDenoise || effects.bEnableEchoCancellation);
 
             m_sndloop = TT_StartSoundLoopbackTestEx(inputid, outputid, samplerate,
-                                                    channels, bDuplex, nullptr, &effects);
+                                                    channels, duplex, nullptr, &effects);
         }
         else
         {
