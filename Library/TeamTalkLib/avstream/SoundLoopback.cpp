@@ -102,6 +102,10 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
             return false;
     }
 
+    m_preprocess_buffer_left.resize(output_samples);
+    if(channels == 2)
+        m_preprocess_buffer_right.resize(output_samples);
+
 #if defined(ENABLE_SPEEXDSP)
     if(!SetAGC(samplerate, output_samples, channels, 
                enable_agc, agc, denoise, denoise_level, enable_aec, aec))
@@ -172,6 +176,11 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
             return false;
     }
     
+    
+    m_preprocess_buffer_left.resize(samples);
+    if(channels == 2)
+        m_preprocess_buffer_right.resize(samples);
+
 #if defined(ENABLE_SPEEXDSP)
     if(!SetAGC(samplerate, samples, channels, enable_agc, agc, 
               denoise, denoise_level, enable_aec, aec))
@@ -479,10 +488,6 @@ bool SoundLoopback::SetAGC(int samplerate, int samples, int channels,
     initaec &= m_preprocess_left.SetEchoSuppressActive(aec.suppress_active);
     if(channels == 2)
         initaec &= m_preprocess_right.SetEchoSuppressActive(aec.suppress_active);
-    
-    m_preprocess_buffer_left.resize(samples);
-    if(channels == 2)
-        m_preprocess_buffer_right.resize(samples);
 
     // Fixed point SpeexDSP library doesn't support AGC and AEC so
     // only report error if requested.
