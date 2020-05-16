@@ -28,8 +28,12 @@
 
 #include "TTUnitTest.h"
 
+#if defined(ENABLE_OGG)
 #include <codec/OggOutput.h>
+#endif
+#if defined(ENABLE_OPUS)
 #include <codec/OpusEncoder.h>
+#endif
 #include <codec/WaveFile.h>
 
 #include <myace/MyACE.h>
@@ -71,11 +75,14 @@ TEST_CASE( "Init TT", "" ) {
     REQUIRE( TT_CloseTeamTalk(ttinst) );
 }
 
+#if defined(ENABLE_OGG) && defined(ENABLE_SPEEX)
 TEST_CASE( "Ogg Write", "" ) {
     SpeexEncFile spxfile;
     REQUIRE( spxfile.Open(ACE_TEXT("/foo.spx"), 1, DEFAULT_SPEEX_COMPLEXITY, 7, 32000, 48000, false) == false);
 }
+#endif
 
+#if defined(ENABLE_OPUS)
 TEST_CASE( "Record mux") {
     std::vector<TTInstance*> clients(2);
     for (size_t i=0;i<clients.size();++i)
@@ -140,7 +147,9 @@ TEST_CASE( "Record mux") {
     for(auto c : clients)
         REQUIRE(TT_CloseTeamTalk(c));
 }
+#endif
 
+#if defined(ENABLE_OPUS)
 TEST_CASE( "Last voice packet" )
 {
     std::vector<TTInstance*> clients;
@@ -213,6 +222,7 @@ TEST_CASE( "Last voice packet" )
     for(auto c : clients)
         REQUIRE(TT_CloseTeamTalk(c));
 }
+#endif
 
 TEST_CASE( "MuxedAudioToFile" )
 {
@@ -358,6 +368,7 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
         REQUIRE(TT_CloseTeamTalk(c));
 }
 
+#if defined(ENABLE_OGG)
 TEST_CASE( "Opus Read File" )
 {
     std::vector<TTInstance*> clients;
@@ -412,6 +423,7 @@ TEST_CASE( "Opus Read File" )
     while (of.ReadOggPage(op))pages++;
     cout << "pages: " << pages << endl;
 }
+#endif
 
 #if defined(WIN32)
 
