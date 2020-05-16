@@ -520,6 +520,11 @@ BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings)
     {
         bSuccess = TT_InitSoundDuplexDevices(ttInst, nInputDevice, nOutputDevice);
     }
+    else if (xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE))
+    {
+        // Echo cancel requires duplex mode when using SpeexDSP
+        bSuccess = TT_InitSoundDuplexDevices(ttInst, nInputDevice, nOutputDevice);
+    }
     else
     {
         bSuccess = TT_InitSoundInputDevice(ttInst, nInputDevice) &&
