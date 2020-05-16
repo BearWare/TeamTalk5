@@ -30,26 +30,22 @@ namespace soundsystem {
 void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream,
                     const short* recorded, short* playback)
 {
-#if defined(DEBUG)
-    // ensure 'playback' is same as last time, otherwise StreamDuplex::StreamDuplexEchoCb() will not work
-    assert(dpxStream.lastPlaybackCrc == 0 || dpxStream.lastPlaybackCrc == ACE::crc32(reinterpret_cast<const char*>(playback), PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels)));
-#endif
-
-    dpxStream.duplex->StreamDuplexEchoCb(dpxStream, recorded, playback, dpxStream.framesize);
+    size_t bytes = PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels);
+    dpxStream.duplex->StreamDuplexEchoCb(dpxStream, recorded, &dpxStream.tmpOutputBuffer[0], dpxStream.framesize);
 
     //now mix all active players
-    memset(playback, 0, PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels));
+    std::memset(playback, 0, bytes);
     {
         //lock 'players' so they're not removed during callback
         std::lock_guard<std::recursive_mutex> g(dpxStream.players_mtx);
         assert(dpxStream.tmpOutputBuffer.size());
         MuxPlayers(sndsys, dpxStream.players, &dpxStream.tmpOutputBuffer[0], playback);
+        if (dpxStream.players.empty())
+        {
+            std::memcpy(&dpxStream.tmpOutputBuffer[0], playback, bytes);
+        }
     }
     dpxStream.duplex->StreamDuplexCb(dpxStream, recorded, playback, dpxStream.framesize);
-
-#if defined(DEBUG)
-    dpxStream.lastPlaybackCrc = ACE::crc32(reinterpret_cast<const char*>(playback), PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels));
-#endif
 }
 
 void MuxPlayers(SoundSystem* sndsys, const std::vector<OutputStreamer*>& players,
