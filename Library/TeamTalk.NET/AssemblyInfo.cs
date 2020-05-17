@@ -58,5 +58,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("5.5.1.4994")]
+[assembly: AssemblyVersion("5.6.0.4995")]
 
