@@ -728,7 +728,7 @@ bool TranslateDesktopInput(TTKeyTranslate nTranslate,
     {
     case TTKEY_WINKEYCODE_TO_TTKEYCODE :
     case TTKEY_MACKEYCODE_TO_TTKEYCODE :
-        output.uKeyCode = ( (ii = local_keymap.find(input.uKeyCode) != local_keymap.end())?
+        output.uKeyCode = ( (ii = local_keymap.find(input.uKeyCode)) != local_keymap.end()?
                            ii->second : TT_DESKTOPINPUT_KEYCODE_IGNORE);
     break;
     case TTKEY_TTKEYCODE_TO_WINKEYCODE :
