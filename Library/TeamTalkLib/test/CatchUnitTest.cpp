@@ -717,7 +717,7 @@ TEST_CASE("CWMAudioAEC_DuplexMode")
                 MyClass(media::AudioFormat fmt, int framesize)
                 {
                     TTCHAR filename[MAX_PATH];
-                    ACE_OS::snprintf(filename, MAX_PATH, ACE_TEXT("EchoCancel_%dHz_%s_txinterval_%dmsec.wav"),
+                    ACE_OS::snprintf(filename, MAX_PATH, ACE_TEXT("EchoCancel_%dHz_%s_txinterval_%03dmsec.wav"),
                                      fmt.samplerate, (fmt.channels == 2?ACE_TEXT("Stereo"):ACE_TEXT("Mono")),
                                          PCM16_SAMPLES_DURATION(framesize, fmt.samplerate));
                     REQUIRE(m_echofile.NewFile(filename, fmt.samplerate, fmt.channels));
