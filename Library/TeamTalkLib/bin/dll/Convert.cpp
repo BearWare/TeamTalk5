@@ -726,21 +726,13 @@ bool TranslateDesktopInput(TTKeyTranslate nTranslate,
 
     switch(nTranslate)
     {
-#if defined(WIN32)
     case TTKEY_WINKEYCODE_TO_TTKEYCODE :
-#endif
-#if defined(MAC_CARBON)
     case TTKEY_MACKEYCODE_TO_TTKEYCODE :
-#endif
-        output.uKeyCode = ( ((ii = local_keymap.find(input.uKeyCode)) != local_keymap.end())?
+        output.uKeyCode = ( (ii = local_keymap.find(input.uKeyCode) != local_keymap.end())?
                            ii->second : TT_DESKTOPINPUT_KEYCODE_IGNORE);
     break;
-#if defined(WIN32)
     case TTKEY_TTKEYCODE_TO_WINKEYCODE :
-#endif
-#if defined(MAC_CARBON)
     case TTKEY_TTKEYCODE_TO_MACKEYCODE :
-#endif
         output.uKeyCode = (ii = tt_keymap.find(input.uKeyCode)) != tt_keymap.end()?
             ii->second : TT_DESKTOPINPUT_KEYCODE_IGNORE;
         break;
