@@ -1,0 +1,74 @@
+TeamTalk 5 Professional Server for Windows
+-------------------------------------------
+
+TeamTalk 5 Professional Server works pretty much the same as the
+TeamTalk 5 Server included with the TeamTalk 5 distribution. The only
+difference is the following features in the TeamTalk 5 Professional
+Server:
+
+- Support for encrypted connection between clients and server
+- Support for BearWare WebLogin
+
+
+Quick Guide
+-----------
+
+Here's a quick introduction on how to set up a TeamTalk 5 Professional
+Server which uses encrypted connections and BearWare.dk WebLogins.
+
+Setting up encryption requires a tool called OpenSSL. OpenSSL for
+Windows can be downloaded from this website: https://wiki.openssl.org/index.php/Binaries
+
+Locate openssl.exe in the installation folder and use it as a
+reference onwards.
+
+First create a server certificate and private key for your TeamTalk
+server by running the following command:
+
+$ openssl.exe req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -out ttservercert.pem -outform PEM
+
+Remember the location of the generated private key file
+"ttserverkey.pem" and certificate file "ttservercert.pem".
+
+
+Now run the TeamTalk 5 Professional Server's setup wizard:
+
+$ ./tt5prosrv.exe -wizard
+
+When asked "Should server run in encrypted mode?" answer "Y".
+
+The wizard will then ask you for the server's certificate file. Here
+you write the location of "ttservercert.pem".
+
+Next the wizard will ask for the server's private key file. Here you
+write the location of "ttserverkey.pem".
+
+
+Next up is creating the BearWare.dk WebLogin account. This account can
+be created when the wizard asks to create user accounts.
+
+Select the option "Create BearWare.dk web-login account" to enable
+BearWare.dk WebLogin. The BearWare.dk WebLogin account is name
+"bearware" and is a general account for all users who log on to your
+server with a BearWare.dk WebLogin account.
+
+
+Complete the remaining wizard items in the wizard and you're ready to
+start your server:
+
+$ ./tt5prosrv.exe -nd -verbose
+
+To run the server as an service, so you can log out of your session,
+run:
+
+$ tt5prosvc_install.bat
+
+If you have any troubles look in the following trouble shooting
+section.
+
+
+Trouble Shooting
+----------------
+
+Email contact@bearware.dk for additional support.
+
