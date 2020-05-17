@@ -25,6 +25,8 @@
 
 #include <codec/MediaUtil.h>
 
+#include <cstring>
+
 namespace soundsystem {
 
 void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream,
