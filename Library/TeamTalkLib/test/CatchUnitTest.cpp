@@ -39,6 +39,7 @@
 #include <myace/MyACE.h>
 #include <map>
 
+#include <map>
 #include <iostream>
 
 using namespace std;
