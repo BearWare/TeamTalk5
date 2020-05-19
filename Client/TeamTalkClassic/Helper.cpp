@@ -259,14 +259,12 @@ void AddString(CComboBox& wnd, LPCTSTR szText, DWORD_PTR nItemData)
     wnd.SetItemData(nIndex, nItemData);
 }
 
-int GetItemData(CComboBox& wnd, BOOL* pError)
+DWORD_PTR GetItemData(CComboBox& wnd, DWORD_PTR dwDefault)
 {
     int nCur = wnd.GetCurSel();
-    if(pError)
-        *pError = nCur>=0;
-    if(nCur>=0)
-        return int(wnd.GetItemData(nCur));
-    return 0;
+    if(nCur != CB_ERR)
+        return wnd.GetItemData(nCur);
+    return dwDefault;
 }
 
 void SetCurSelItemData(CComboBox& wnd, DWORD_PTR nItemData)
@@ -280,6 +278,14 @@ void SetCurSelItemData(CComboBox& wnd, DWORD_PTR nItemData)
             return;
         }
     }
+}
+
+DWORD_PTR GetItemData(CListBox& wnd, DWORD_PTR dwDefault)
+{
+    int nCur = wnd.GetCurSel();
+    if(nCur != LB_ERR)
+        return wnd.GetItemData(nCur);
+    return dwDefault;
 }
 
 HTREEITEM GetItemDataItem(CTreeCtrl& wnd, DWORD_PTR dwItemData)
