@@ -5206,7 +5206,7 @@ void CTeamTalkDlg::UpdateChannelLog()
     CString szPath = STR_UTF8(m_xmlSettings.GetChanTextLogStorage());
     if(szPath.GetLength())
     {
-        if(!OpenLogFile(m_logChan, szPath, chan.szName, szPath))
+        if(!OpenLogFile(m_logChan, szPath, CString(chan.szName) + _T(".clog"), szPath))
         {
             CString szFormat;
             szFormat.Format(_T("Failed to open file: %s"), szPath);
