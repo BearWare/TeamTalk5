@@ -24,17 +24,19 @@
 #if !defined(SOUNDLOOPBACK_H)
 #define SOUNDLOOPBACK_H
 
-#include <myace/MyACE.h>
 #include "SoundSystem.h"
 
 #if defined(ENABLE_SPEEXDSP)
 #include <avstream/SpeexPreprocess.h>
 #endif
-
 #include <avstream/AudioResampler.h>
+#include <codec/MediaUtil.h>
+
+#include <myace/MyACE.h>
 
 #include <vector>
 #include <queue>
+#include <mutex>
 
 class SoundLoopback
     : public soundsystem::StreamDuplex
@@ -52,7 +54,8 @@ public:
                    bool denoise, int denoise_level,
                    bool enable_aec, const SpeexAEC& aec
 #endif
-                   );
+                   , int gainlevel, StereoMask stereo,
+                   soundsystem::SoundDeviceFeatures sndfeatures);
 
     bool StartDuplexTest(int inputdevid, int outputdevid,
                          int samplerate, int channels
@@ -61,7 +64,8 @@ public:
                          bool denoise, int denoise_level,
                          bool enable_aec, const SpeexAEC& aec
 #endif
-                         );
+                         , int gainlevel, StereoMask stereo,
+                         soundsystem::SoundDeviceFeatures sndfeatures);
     bool StopTest();
 
     void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
@@ -76,6 +80,9 @@ public:
                         const short* input_buffer, 
                         short* output_buffer, int samples);
 
+    soundsystem::SoundDeviceFeatures GetCaptureFeatures();
+    soundsystem::SoundDeviceFeatures GetDuplexFeatures();
+    
 private:
 #if defined(ENABLE_SPEEXDSP)
     bool SetAGC(int samplerate, int samples, int channels,
@@ -88,14 +95,16 @@ private:
     bool m_active;
     soundsystem::soundsystem_t m_soundsystem;
     int m_soundgrpid;
+    int m_gainlevel = GAIN_NORMAL;
+    StereoMask m_stereo = STEREO_BOTH;
+    soundsystem::SoundDeviceFeatures m_features = soundsystem::SOUNDDEVICEFEATURE_NONE;
 #if defined(ENABLE_SPEEXDSP)
     SpeexPreprocess m_preprocess_left, m_preprocess_right;
 #endif
-    std::vector<short> m_resample_buffer, m_preprocess_buffer_left, 
-        m_preprocess_buffer_right;
+    std::vector<short> m_preprocess_buffer_left, m_preprocess_buffer_right;
     std::queue< std::vector<short> > m_buf_queue;
     audio_resampler_t m_capture_resampler;
-    ACE_Recursive_Thread_Mutex m_mutex;
+    std::mutex m_mutex;
 };
 
 #endif

@@ -233,8 +233,6 @@
     <item id="1123">Alamat-IP</item>
     <item id="1131">hubungkan kembali ketika koneksi terputus</item>
     <item id="1142">Pengaturan tingkat lanjut</item>
-    <item id="1145">bantuan mixer</item>
-    <item id="1147">Masukan mixer sementara</item>
     <item id="1148">Versi klien</item>
     <item id="1149">Pengaturan klien</item>
     <item id="1150">Mulai meminimalkan</item>
@@ -255,8 +253,6 @@
     <item id="1170">&amp;Hasilkan Berkas .tt</item>
     <item id="1172">MOTD</item>
     <item id="1175">Uji yang dipilih</item>
-    <item id="1181">Hidupkan input mixer sementara ketika tombol ditekan</item>
-    <item id="1185">Mengimbangi untuk bug boost mik</item>
     <item id="1186">Sound events</item>
     <item id="1188">Samplerate rekaman</item>
     <item id="1189">Perangkat input</item>
@@ -332,7 +328,6 @@
     <item id="1335">Pengguna dapat masuk beberapa kali</item>
     <item id="1339">Mode classroom (operator mengatur transmisi)</item>
     <item id="1341">Aktifkan volume sama rata untuk semua pengguna</item>
-    <item id="1345">Aktifkan mode duplex (dibutuhkan untuk echo cancellation)</item>
     <item id="1347">Abaykan kesunyian</item>
     <item id="1349">Bitrate</item>
     <item id="1350">Max bitrate</item>

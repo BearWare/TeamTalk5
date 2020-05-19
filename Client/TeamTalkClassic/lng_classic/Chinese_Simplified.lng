@@ -251,8 +251,6 @@
     <item id="1123">IP-地址</item>
     <item id="1131">断线重连</item>
     <item id="1142">高级设置</item>
-    <item id="1145">Windows 混音 助手</item>
-    <item id="1147">临时混音输入</item>
     <item id="1148">客户端版本</item>
     <item id="1149">客户端设置</item>
     <item id="1150">最小化启动</item>
@@ -273,8 +271,6 @@
     <item id="1170">生成 .tt 文件(&amp;T)</item>
     <item id="1172">每日消息</item>
     <item id="1175">测试所选项</item>
-    <item id="1181">按下热键时启用临时混音器输入设备</item>
-    <item id="1185">麦克风增强漏洞补偿</item>
     <item id="1186">声音事件</item>
     <item id="1188">录音采样率</item>
     <item id="1189">输入设备</item>
@@ -353,7 +349,6 @@
     <item id="1335">用户可多次登录</item>
     <item id="1339">教室（管理员可控制传输）</item>
     <item id="1341">为所有用户启用音量修复</item>
-    <item id="1345">启用双工模式（需要回声消除）</item>
     <item id="1347">忽略静音屏蔽</item>
     <item id="1349">比特率</item>
     <item id="1350">最大比特率</item>

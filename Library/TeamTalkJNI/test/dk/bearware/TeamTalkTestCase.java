@@ -2020,6 +2020,12 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
 
+        if (INPUTDEVICEID != -1 && (INPUTDEVICEID & SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) == SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG ||
+            OUTPUTDEVICEID != -1 && (OUTPUTDEVICEID & SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) == SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) {
+            System.err.println("Duplex tests skipped due to shared sound device as input/output");
+            return;
+        }
+
         TeamTalkBase ttclient = newClientInstance();
         initSound(ttclient, true);
 
@@ -2034,7 +2040,21 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         connect(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
-        joinRoot(ttclient);
+        
+        int cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "");
+        assertTrue("issued cmd", cmdid>0);
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_PROCESSING, DEF_WAIT);
+
+        do {
+            assertTrue("get event", ttclient.getMessage(msg, DEF_WAIT));
+            switch (msg.nClientEvent) {
+            case ClientEvent.CLIENTEVENT_INTERNAL_ERROR :
+                assertTrue("Sound input failure", msg.clienterrormsg.nErrorNo != ClientError.INTERR_SNDINPUT_FAILURE);
+                assertTrue("Sound output failure", msg.clienterrormsg.nErrorNo != ClientError.INTERR_SNDOUTPUT_FAILURE);
+                assertTrue("Preprocessor failure", msg.clienterrormsg.nErrorNo != ClientError.INTERR_AUDIOPREPROCESSOR_INIT_FAILED);
+                break;
+            }
+        } while (msg.nClientEvent != ClientEvent.CLIENTEVENT_CMD_PROCESSING);
     }
 
     public void test_SoundInputAudioPreprocessor() {
@@ -2234,41 +2254,62 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         long loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 1, false, null);
         assertTrue("Sound loopback started", loop>0);
 
-        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
 
         assertTrue("Loop stopped", ttclient.closeSoundLoopbackTest(loop));
 
         loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, out.value, 48000, 1, false, null);
         assertTrue("Sound loopback virtual input-dev started", loop>0);
 
-        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
 
         assertTrue("Loop virtual input-dev stopped", ttclient.closeSoundLoopbackTest(loop));
 
         loop = ttclient.startSoundLoopbackTest(in.value, nodev.nDeviceID, 48000, 2, false, null);
         assertTrue("Sound loopback virtual output-dev started", loop>0);
 
-        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
 
         assertTrue("Loop virtual output-dev stopped", ttclient.closeSoundLoopbackTest(loop));
 
         loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, nodev.nDeviceID, 48000, 2, true, new SpeexDSP(true));
         assertTrue("Sound loopback virtual duplex-dev started", loop>0);
 
-        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
 
         assertTrue("Loop virtual duplex-dev stopped", ttclient.closeSoundLoopbackTest(loop));
 
+        AudioPreprocessor preprocessor = new AudioPreprocessor();
+        preprocessor.nPreprocessor = AudioPreprocessorType.TEAMTALK_AUDIOPREPROCESSOR;
+        preprocessor.ttpreprocessor.nGainLevel = 4000;
+        preprocessor.ttpreprocessor.bMuteLeftSpeaker = true;
+
+        SoundDeviceEffects effects = new SoundDeviceEffects();
+
+        loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 2, false, preprocessor, effects);
+        assertTrue("Sound loopback effects started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
+        
+        assertTrue("Loop effects stopped", ttclient.closeSoundLoopbackTest(loop));
+        
         if ((in.value & SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) == SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG ||
             (out.value & SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) == SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) {
             System.err.println("Duplex tests skipped due to shared sound device as input/output");
             return;
         }
 
+        loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 2, true, preprocessor, null);
+        assertTrue("Sound loopback AudioPreprocessor started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
+        
+        assertTrue("Loop Audio Preprocessor stopped", ttclient.closeSoundLoopbackTest(loop));
+
         loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 1, true, new SpeexDSP(true));
         assertTrue("Sound duplex loopback started", loop>0);
 
-        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
 
         assertTrue("Loop duplex stopped", ttclient.closeSoundLoopbackTest(loop));
 

@@ -243,8 +243,6 @@
     <item id="1123">IP Adresi</item>
     <item id="1131">Bağlantı kesildiğinde yeniden bağlan</item>
     <item id="1142">Gelişmiş Ayarlar</item>
-    <item id="1145">Windows Karıştırıcı Yardımcısı</item>
-    <item id="1147">Geçici Mixer girişi</item>
     <item id="1148">İstemci Sürümü</item>
     <item id="1149">İstemci Ayarları</item>
     <item id="1150">Sistem tepsisinde başlat</item>
@@ -264,8 +262,6 @@
     <item id="1169">&amp;Yeni</item>
     <item id="1170">&amp;TT Dosyası Oluştur</item>
     <item id="1175">Seçili Ayarları Test et</item>
-    <item id="1181">Kısayol tuşuna basıldığında Geçici karıştırıcı aygıdını etkinleştir</item>
-    <item id="1185">Mikrofon hatalarında bana yardım et</item>
     <item id="1186">Ses Olayları</item>
     <item id="1188">Kaydedici örnekleme hızı</item>
     <item id="1189">Giriş Aygıdı</item>
@@ -343,7 +339,6 @@
     <item id="1335">Kullanıcı birden çok kez giriş yapabilir</item>
     <item id="1339">Yayınlar operatör kontrolünde</item>
     <item id="1341">Tüm kullanıcılar için sabit ses seviyesini belirleyin</item>
-    <item id="1345">Çift modlu yankı iptal etkinleştirin</item>
     <item id="1347">Sessizliği Görünmez</item>
     <item id="1349">Bit değeri</item>
     <item id="1350">Maksimum bit değeri</item>

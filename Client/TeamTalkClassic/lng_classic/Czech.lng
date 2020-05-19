@@ -245,8 +245,6 @@
     <item id="1123">IP adresa</item>
     <item id="1131">Připojit se po ztrátě spojení</item>
     <item id="1142">Pokročilá nastavení</item>
-    <item id="1145">Pomocník směšovače hlasitosti Windows</item>
-    <item id="1147">Dočasný zvukový vstup směšovače hlasitosti</item>
     <item id="1148">Verze klienta</item>
     <item id="1149">Nastavení klienta</item>
     <item id="1150">Spustit minimalizovaně</item>
@@ -267,8 +265,6 @@
     <item id="1170">&amp;Vytvořit soubor .tt</item>
     <item id="1172">Uvítací zpráva</item>
     <item id="1175">Testovat vybrané</item>
-    <item id="1181">Aktivovat dočasný zvukový vstup směšovače hlasitosti při stisknutí klávesové zkratky</item>
-    <item id="1185">Odstranit chybu dodatečného zesílení mikrofonu</item>
     <item id="1186">Zvukové události</item>
     <item id="1188">Vzorkovací frekvence zařízení</item>
     <item id="1189">Vstupní zařízení</item>
@@ -346,7 +342,6 @@
     <item id="1335">Uživatel se může přihlásit víckrát</item>
     <item id="1339">Kontrolovaný kanál (operátor uděluje hlas jednotlivým uživatelům)</item>
     <item id="1341">Stejná hlasitost pro všechny uživatele</item>
-    <item id="1345">Povolit režim duplex (nezbytné pro odstranění ozvěny)</item>
     <item id="1347">Ignorovat ticho</item>
     <item id="1349">Bitrate</item>
     <item id="1350">Maximální bitrate</item>

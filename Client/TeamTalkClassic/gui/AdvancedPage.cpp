@@ -36,9 +36,6 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNAMIC(CAdvancedPage, CPropertyPage)
 CAdvancedPage::CAdvancedPage()
     : CPropertyPage(CAdvancedPage::IDD)
-    , m_bMixerAutoSelect(FALSE)
-    , m_nMixerIndex(UNDEFINED)
-    , m_bBoostBug(FALSE)
 {
 }
 
@@ -49,48 +46,9 @@ CAdvancedPage::~CAdvancedPage()
 void CAdvancedPage::DoDataExchange(CDataExchange* pDX)
 {
     CPropertyPage::DoDataExchange(pDX);
-    DDX_Check(pDX, IDC_CHECK_MIXERAUTOSELECT, m_bMixerAutoSelect);
-    DDX_Control(pDX, IDC_CHECK_MIXERAUTOSELECT, m_wndMixerAutoSelect);
-    DDX_CBIndex(pDX, IDC_COMBO_MIXERINPUTS, m_nMixerIndex);
-    DDX_Control(pDX, IDC_COMBO_MIXERINPUTS, m_wndMixerInputs);
-    DDX_Check(pDX, IDC_CHECK_BOOSTBUG, m_bBoostBug);
 }
-
-void CAdvancedPage::UpdateControls()
-{
-    if(m_bMixerAutoSelect)
-    {
-        m_wndMixerInputs.ResetContent();
-        CStringList list;
-        int count = TT_Mixer_GetWaveInControlCount(0);
-        int nSelectedIndex = -1;
-        for(int i=0;i<count;i++)
-        {
-            TCHAR buff[TT_STRLEN] = {};
-            TT_Mixer_GetWaveInControlName(0, i, buff);
-            list.AddTail(buff);
-            if(TT_Mixer_GetWaveInControlSelected(0, i))
-                nSelectedIndex = i;
-        }
-
-        if(list.GetCount())
-        {
-            for(POSITION pos=list.GetHeadPosition(); pos!= NULL;)
-                m_wndMixerInputs.AddString(list.GetNext(pos));
-            int index = -1;
-                m_wndMixerInputs.SetCurSel(m_nMixerIndex == -1? nSelectedIndex : m_nMixerIndex);
-        }
-        else
-        {
-            AfxMessageBox(_T("Failed to initialize Windows' mixer"));
-        }
-    }
-    m_wndMixerInputs.EnableWindow(m_bMixerAutoSelect);
-}
-
 
 BEGIN_MESSAGE_MAP(CAdvancedPage, CPropertyPage)
-    ON_BN_CLICKED(IDC_CHECK_MIXERAUTOSELECT, OnBnClickedCheckMixerautoselect)
 END_MESSAGE_MAP()
 
 
@@ -101,16 +59,5 @@ BOOL CAdvancedPage::OnInitDialog()
     CPropertyPage::OnInitDialog();
 
     TRANSLATE(*this, IDD);
-
-    UpdateControls();
-
-    return TRUE;  // return TRUE unless you set the focus to a control
-    // EXCEPTION: OCX Property Pages should return FALSE
-}
-
-
-void CAdvancedPage::OnBnClickedCheckMixerautoselect()
-{
-    m_bMixerAutoSelect = !m_bMixerAutoSelect;
-    UpdateControls();
+    return TRUE;
 }

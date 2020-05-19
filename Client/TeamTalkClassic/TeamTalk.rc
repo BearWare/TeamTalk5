@@ -195,13 +195,6 @@ CAPTION "Advanced"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Advanced settings",IDC_STATIC_GRPADVANCED,7,7,246,226
-    GROUPBOX        "Windows mixer helper",IDC_STATIC_GRPMIXER,14,19,234,72
-    CONTROL         "Enable temporary mixer input device when pressing hotkey",IDC_CHECK_MIXERAUTOSELECT,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,22,30,217,18
-    CONTROL         "Temporary mixer input",IDC_STATIC_TMPMIXERDEVICE,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,21,53,90,8
-    COMBOBOX        IDC_COMBO_MIXERINPUTS,113,51,127,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Compensate for microphone boost bug",IDC_CHECK_BOOSTBUG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,74,220,10
 END
 
 IDD_PROPPAGE_CLIENTPAGE DIALOGEX 0, 0, 260, 240
@@ -248,9 +241,8 @@ CAPTION "Sound System"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Sound system settings",IDC_STATIC_GRPSOUNDSYSTEM,7,7,246,207
-    CONTROL         "Windows Audio Session",IDC_RADIO_WASAPI,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,14,22,95,10
-    CONTROL         "DirectSound",IDC_RADIO_DIRECTSOUND,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,110,22,56,10
-    CONTROL         "Windows Default",IDC_RADIO_WINAUDIO,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,171,22,77,10
+    CONTROL         "Windows Audio Session",IDC_RADIO_WASAPI,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,41,22,95,10
+    CONTROL         "DirectSound",IDC_RADIO_DIRECTSOUND,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,160,22,56,10
     LTEXT           "Input device",IDC_STATIC_INPUT,14,39,75,8
     COMBOBOX        IDC_COMBO_INPUTDRIVER,98,37,150,43,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Input sample rates",IDC_STATIC_INPUTPROP,14,53,80,8
@@ -260,8 +252,6 @@ BEGIN
     LTEXT           "Output sample rates",IDC_STATIC_OUTPUTPROP,14,81,80,8
     LTEXT           "",IDC_STATIC_OUTPUT_SAMPLERATES,98,81,150,8
     PUSHBUTTON      "Test selected",IDC_BUTTON_TEST,97,92,65,14
-    CONTROL         "Enable duplex mode (required for echo cancellation)",IDC_CHECK_DUPLEXMODE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,108,236,10
     CONTROL         "Enable echo cancellation (remove echo from speakers)",IDC_CHECK_ECHOCANCEL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,122,236,10
     CONTROL         "Enable automatic gain control (microphone level adjusted automatically)",IDC_CHECK_AGC,
@@ -624,15 +614,13 @@ FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Sound system settings",IDC_STATIC_GRPSOUNDSYSTEM,0,0,316,212
     LTEXT           "Here you select the sound devices which TeamTalk should use for recording and playing audio. Choosing DirectSound is highly recommended since it provides lower latency than Windows' default sound system. ",IDC_STATIC_SOUNDSYSDESCRIP,14,23,288,29
-    CONTROL         "DirectSound (default)",IDC_RADIO_DIRECTSOUND,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,76,58,98,10
-    CONTROL         "Windows audio",IDC_RADIO_WINAUDIO,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,181,58,109,10
-    LTEXT           "Mixer device",IDC_STATIC_MIXERDEVICE,37,78,78,8
-    COMBOBOX        IDC_COMBO_MIXER,123,76,110,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Input device",IDC_STATIC_INPUT,37,93,82,8
-    COMBOBOX        IDC_COMBO_INPUTDRIVER,123,91,110,43,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Output device",IDC_STATIC_OUTPUT,37,114,81,8
-    COMBOBOX        IDC_COMBO_OUTPUTDRIVER,123,112,110,41,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Test selected",IDC_BUTTON_TEST,129,130,53,14
+    CONTROL         "Windows Audio Session",IDC_RADIO_WASAPI,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,49,58,103,10
+    CONTROL         "DirectSound",IDC_RADIO_DIRECTSOUND,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,179,58,73,10
+    LTEXT           "Input device",IDC_STATIC_INPUT,37,79,82,8
+    COMBOBOX        IDC_COMBO_INPUTDRIVER,123,77,110,43,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Output device",IDC_STATIC_OUTPUT,37,100,81,8
+    COMBOBOX        IDC_COMBO_OUTPUTDRIVER,123,98,110,41,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Test selected",IDC_BUTTON_TEST,129,116,53,14
     LTEXT           "By pressing ""Test selected"" you can test the currently selected devices and hear whether you're able to play the audio recorded by the selected input device.",IDC_STATIC_TESTDESCRIP,14,151,288,20
 END
 
@@ -1523,8 +1511,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,5,1,4994
- PRODUCTVERSION 5,5,1,4994
+ FILEVERSION 5,6,0,4996
+ PRODUCTVERSION 5,6,0,4996
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1541,12 +1529,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 5, 1, 4994"
+            VALUE "FileVersion", "5, 6, 0, 4996"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2005-2018, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 5, 1, 4994"
+            VALUE "ProductVersion", "5, 6, 0, 4996"
         END
     END
     BLOCK "VarFileInfo"
@@ -1882,6 +1870,16 @@ BEGIN
 END
 
 IDD_DIALOG_ABOUTBOX AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_WIZARD_SOUNDSYSPAGE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PROPPAGE_SOUNDSYSPAGE AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

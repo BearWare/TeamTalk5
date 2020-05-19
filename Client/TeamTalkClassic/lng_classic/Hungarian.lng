@@ -140,8 +140,6 @@
     <item id="1123">IP-cím</item>
     <item id="1131">Újrakapcsolódás, a kapcsolat megszakadt</item>
     <item id="1142">Haladó beállítások</item>
-    <item id="1145">Windows mixer súgó</item>
-    <item id="1147">Ideiglenes mixer bemenet</item>
     <item id="1148">Kliens verzió</item>
     <item id="1149">Kliens beállítások</item>
     <item id="1150">Indítás kis méretben</item>
@@ -162,8 +160,6 @@
     <item id="1170">.tt fájl &amp;létrehozása</item>
     <item id="1172">MOTD</item>
     <item id="1175">A kiválasztott tesztelése</item>
-    <item id="1181">A billentyűparancs megnyomására engedélyezi az ideiglenes bemeneti mixer eszközt.</item>
-    <item id="1185">A mikrofon erősítés hibájának kompenzálása</item>
     <item id="1186">Hang események</item>
     <item id="1188">Felvevő mintavételezési arány</item>
     <item id="1189">Bemeneti eszköz</item>
@@ -239,7 +235,6 @@
     <item id="1335">A felhasználó többször is beléphet</item>
     <item id="1339">Az osztályterem operátora szabályozza az átviteleket</item>
     <item id="1341">Rögzített hangerő engedélyezése minden felhasználónak</item>
-    <item id="1345">Duplex mód engedélyezése (A visszhang megszüntetéséhez szükséges)</item>
     <item id="1347">Csend figyelmenkívül hagyása</item>
     <item id="1349">Bitráta</item>
     <item id="1350">Max bitráta</item>

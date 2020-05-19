@@ -233,8 +233,6 @@
     <item id="1123">Adresă IP</item>
     <item id="1131">Reconectează-te atunci când se pierde conexiunea</item>
     <item id="1142">Setări avansate</item>
-    <item id="1145">Ajutor mixer Windows</item>
-    <item id="1147">Intrare  mixer temporară</item>
     <item id="1148">Versiune client</item>
     <item id="1149">Setări client</item>
     <item id="1150">Pornește aplicația minimizată</item>
@@ -255,8 +253,6 @@
     <item id="1170">Generează un fișier .tt</item>
     <item id="1172">Mesajul zilei</item>
     <item id="1175">Test</item>
-    <item id="1181">Activează  dispozitivul de intrare temporar al mixerului când apeși scurtătura</item>
-    <item id="1185">Rezolvă problema de mărire automată a sunetului (mai mult utilizată pentru utilizatorii de Mac)</item>
     <item id="1186">Evenimente sonore</item>
     <item id="1188">Samplerate de înregistrare</item>
     <item id="1189">Dispozitiv de intrare</item>
@@ -332,7 +328,6 @@
     <item id="1335">Utilizatorul se poate loga de mai multe ori</item>
     <item id="1339">Sală de clasă (operatorul controlează transmisiunile)</item>
     <item id="1341">Volum fixat pentru toți utilizatorii</item>
-    <item id="1345">Modul duplex (utilizat pentru reducerea zgomotului)</item>
     <item id="1347">Ignoră liniștea</item>
     <item id="1349">Bitrate</item>
     <item id="1350">Bitrate maxim</item>

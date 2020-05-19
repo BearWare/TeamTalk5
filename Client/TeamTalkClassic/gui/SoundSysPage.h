@@ -51,7 +51,6 @@ public:
 
     CComboBox m_InputDriversCombo;
     CComboBox m_OutputDriversCombo;
-    CButton m_WinButton;
     CButton m_DxButton;
     CButton m_WasApiButton;
     BOOL m_bDenoise;
@@ -79,7 +78,6 @@ protected:
     sounddevs_t m_SoundDevices;
 
 public:
-    afx_msg void OnBnClickedRadioWinaudio();
     virtual BOOL OnInitDialog();
     afx_msg void OnBnClickedRadioDirectsound();
     afx_msg void OnCbnSelchangeComboInputdriver();
@@ -92,11 +90,8 @@ public:
     virtual BOOL OnKillActive();
     virtual void OnCancel();
     CButton m_wndPositionBtn;
-    CButton m_btnDuplexMode;
-    BOOL m_bDuplexMode;
     CButton m_btnEchoCancel;
     BOOL m_bEchoCancel;
-    afx_msg void OnBnClickedCheckDuplexmode();
     afx_msg void OnBnClickedCheckEchochannel();
     afx_msg void OnBnClickedCheckDenoise();
     CStatic m_wndInputSampleRates;
@@ -108,4 +103,5 @@ public:
     CButton m_wndRefreshDevs;
     int m_nMediaVsVoice;
     CSliderCtrl m_wndMediaVsVoice;
+    afx_msg void OnBnClickedCheckAgc();
 };

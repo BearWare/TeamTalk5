@@ -26,131 +26,6 @@
 #include <Mmreg.h>
 #include <assert.h>
 #include <new>
-//#include <myace/MyACE.h>
-
-class CMediaBuffer : public IMediaBuffer
-{
-private:
-    DWORD        m_cbLength;
-    const DWORD  m_cbMaxLength;
-    LONG         m_cRef;
-    BYTE         *m_pbData;
-    bool m_free_buf;
-
-    ~CMediaBuffer()
-    {
-        if (m_free_buf) {
-            delete [] m_pbData;
-        }
-    }
-
-public:
-    CMediaBuffer(DWORD cbMaxLength) :
-        m_cRef(0),
-        m_cbMaxLength(cbMaxLength),
-        m_cbLength(0),
-        m_pbData(NULL),
-        m_free_buf(true)
-    {
-        m_pbData = new BYTE[cbMaxLength];
-        if (!m_pbData) throw std::bad_alloc();
-    }
-
-    CMediaBuffer(BYTE* pInitBuf, DWORD cbInitLength, DWORD cbMaxLength) :
-        m_cRef(0),
-        m_cbMaxLength(cbMaxLength),
-        m_cbLength(cbInitLength),
-        m_pbData(pInitBuf),
-        m_free_buf(false)
-    {
-    }
-
-    // Function to create a new IMediaBuffer object and return 
-    // an AddRef'd interface pointer.
-    static HRESULT CreateBuffer(long cbMaxLen, void **ppUnk)
-    {
-        try {
-            CMediaBuffer *pBuffer = new CMediaBuffer(cbMaxLen);
-            return pBuffer->QueryInterface(__uuidof(IMediaBuffer), ppUnk);
-        }
-        catch (std::bad_alloc)
-        {
-            return E_OUTOFMEMORY;
-        }
-    }
-
-    static HRESULT CreateBuffer(BYTE* pInitBuf, long cbInitLen, long cbMaxLen, void **ppUnk)
-    {
-        try {
-            CMediaBuffer *pBuffer = new CMediaBuffer(pInitBuf, cbInitLen, cbMaxLen);
-            return pBuffer->QueryInterface(__uuidof(IMediaBuffer), ppUnk);
-        }
-        catch (std::bad_alloc)
-        {
-            return E_OUTOFMEMORY;
-        }
-    }
-
-    // IUnknown methods.
-    STDMETHODIMP QueryInterface(REFIID riid, void **ppv)
-    {
-        if (ppv == NULL) {
-            return E_POINTER;
-        }
-        if (riid == __uuidof(IMediaBuffer) || riid == IID_IUnknown) {
-            *ppv = static_cast<IMediaBuffer *>(this);
-            AddRef();
-            return S_OK;
-        }
-        *ppv = NULL;
-        return E_NOINTERFACE;
-    }
-
-    STDMETHODIMP_(ULONG) AddRef()
-    {
-        return InterlockedIncrement(&m_cRef);
-    }
-
-    STDMETHODIMP_(ULONG) Release()
-    {
-        LONG lRef = InterlockedDecrement(&m_cRef);
-        if (lRef == 0) {
-            delete this;
-            // m_cRef is no longer valid! Return lRef.
-        }
-        return lRef;  
-    }
-
-    // IMediaBuffer methods.
-    STDMETHODIMP SetLength(DWORD cbLength)
-    {
-        if (cbLength > m_cbMaxLength) {
-            return E_INVALIDARG;
-        } else {
-            m_cbLength = cbLength;
-            return S_OK;
-        }
-    }
-
-    STDMETHODIMP GetMaxLength(DWORD *pcbMaxLength)
-    {
-        if (pcbMaxLength == NULL) {
-            return E_POINTER;
-        }
-        *pcbMaxLength = m_cbMaxLength;
-        return S_OK;
-    }
-
-    STDMETHODIMP GetBufferAndLength(BYTE **ppbBuffer, DWORD *pcbLength)
-    {
-        if (ppbBuffer == NULL || pcbLength == NULL) {
-            return E_POINTER;
-        }
-        *ppbBuffer = m_pbData;
-        *pcbLength = m_cbLength;
-        return S_OK;
-    }
-};
 
 bool SetWaveMediaType(SampleFormat sampleFmt, int channels,
                       int samplerate, DMO_MEDIA_TYPE& mt)
@@ -284,17 +159,14 @@ int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
     IMediaBuffer* input_mb = NULL, *output_mb = NULL;
     int ret = 0;
 
-    hr = CMediaBuffer::CreateBuffer((BYTE*)input_samples,
-                                    input_samples_cnt * 2 * pInputWav->nChannels,
-                                    input_samples_cnt * 2 * pInputWav->nChannels,
-                                    (void**)&input_mb);
+    long inbufsize = PCM16_BYTES(input_samples_cnt, pInputWav->nChannels);
+    hr = CMediaBuffer::CreateBuffer((BYTE*)input_samples, inbufsize, inbufsize, (LPVOID*)&input_mb);
     assert(SUCCEEDED(hr));
     if(FAILED(hr))
         goto fail;
 
-    hr = CMediaBuffer::CreateBuffer((BYTE*)output_samples, 0, 
-                                    output_samples_cnt * 2 * pOutputWav->nChannels, 
-                                    (void**)&output_mb);
+    long outbufsize = PCM16_BYTES(output_samples_cnt, pOutputWav->nChannels);
+    hr = CMediaBuffer::CreateBuffer((BYTE*)output_samples, 0, outbufsize, (LPVOID*)&output_mb);
     assert(SUCCEEDED(hr));
     if(FAILED(hr))
         goto fail;
@@ -305,19 +177,10 @@ int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
     hr = m_pDMO->GetInputStatus(0, &status);
     assert(SUCCEEDED(hr));
     //this should not happen but if there's data left in the media object then flush it
-    MYTRACE_COND(status == 0, ACE_TEXT("Flushing audio resampler\n"));
+    MYTRACE_COND(status == 0, ACE_TEXT("Flushing audio resampler. %d Hz -> %d Hz. Frame size: %d -> %d\n"),
+                 GetInputFormat().samplerate, GetOutputFormat().samplerate, input_samples_cnt, output_samples_cnt);
     if(status == 0)
         m_pDMO->Flush();
-/*
-    static int x = 0;
-    MYTRACE(ACE_TEXT("%d, Input samples: %d, output samples: %d. Status %x\n"),
-            ++x,
-            input_samples_cnt * 2 * pInputWav->nChannels,
-            output_samples_cnt * 2 * pOutputWav->nChannels, status);
-*/
-
-    for(int i=0;i<output_samples_cnt*pOutputWav->nChannels;i++)
-        output_samples[i] = 32766;
 
     hr = m_pDMO->ProcessInput(0, input_mb, 0, 0, 0);
     assert(SUCCEEDED(hr));

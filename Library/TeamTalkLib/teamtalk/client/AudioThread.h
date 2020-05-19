@@ -86,8 +86,8 @@ private:
     int svc(void);
     void ProcessAudioFrame(media::AudioFrame& audblock);
     void MuteSound(bool leftchannel, bool rightchannel);
-#if defined(ENABLE_SPEEXDSP)
     bool UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp);
+#if defined(ENABLE_SPEEXDSP)
     void PreprocessAudioFrame(media::AudioFrame& audblock);
 #endif
 #if defined(ENABLE_SPEEX)

@@ -90,8 +90,6 @@
     <item id="1134">Aktuálny stav</item>
     <item id="1137">Správa stavu</item>
     <item id="1142">Pokročilé nastavenia</item>
-    <item id="1145">Nastavenia zmiešavača windows</item>
-    <item id="1147">Dočasný vstup zmiešavača</item>
     <item id="1148">Verzia klienta</item>
     <item id="1149">Nastavenia klienta</item>
     <item id="1150">Spustiť minimalizovaný</item>
@@ -112,8 +110,6 @@
     <item id="1172">MOTD</item>
     <item id="1173">Nový používateľ</item>
     <item id="1175">Testovať vybraté</item>
-    <item id="1181">Zapnúť dočasný vstup zmiešavača po stlačení klávesovej skratky</item>
-    <item id="1185">Kompenzovať problém s nastavením microphone boost</item>
     <item id="1186">Zvukové udalosti</item>
     <item id="1187">Uvedomte si, že vyššie nastavenie kvality enkodéra vyžaduje vyššiu prenosovú kapacitu a výkonnosť procesora.</item>
     <item id="1189">Vstupné zariadenie</item>

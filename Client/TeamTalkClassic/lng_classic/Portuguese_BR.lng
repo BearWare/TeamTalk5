@@ -243,8 +243,6 @@
     <item id="1123">Endereço IP</item>
     <item id="1131">Reconectar quando a conexão cair</item>
     <item id="1142">Configurações avançadas</item>
-    <item id="1145">Ajuda com o mixer do Windows</item>
-    <item id="1147">Dispositivo mixer de entrada temporário</item>
     <item id="1148">Versão do cliente</item>
     <item id="1149">Configurações do cliente</item>
     <item id="1150">Iniciar minimizado</item>
@@ -265,8 +263,6 @@
     <item id="1170">Criar arquivo .tt</item>
     <item id="1172">Mensagem</item>
     <item id="1175">Testar selecionado</item>
-    <item id="1181">Ativar mixer temporário quando pressionar a tecla de atalho</item>
-    <item id="1185">Compensar pelo bug de potência do microfone</item>
     <item id="1186">Eventos de som</item>
     <item id="1188">samplerate de gravação</item>
     <item id="1189">Dispositivo de entrada</item>
@@ -342,7 +338,6 @@
     <item id="1335">O usuário pode conectar várias vezes</item>
     <item id="1339">Canal de palestra (Os operadores controlam as transmissões)</item>
     <item id="1341">Ativar volume fixo para todos os usuários</item>
-    <item id="1345">Ativar modo duplex (Necessário para cancelamento de eco)</item>
     <item id="1347">Ignorar silêncio</item>
     <item id="1349">Bitrate</item>
     <item id="1350">Bitrate máximo</item>

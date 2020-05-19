@@ -90,8 +90,6 @@
     <item id="1134">當前狀態</item>
     <item id="1137">狀態訊息</item>
     <item id="1142">進階設置</item>
-    <item id="1145">Windows 混音 Helper</item>
-    <item id="1147">臨時混音輸入</item>
     <item id="1148">用戶端版本</item>
     <item id="1149">用戶端設置</item>
     <item id="1150">啟動時自動最小化</item>
@@ -112,8 +110,6 @@
     <item id="1172">伺服器資訊</item>
     <item id="1173">新用戶</item>
     <item id="1175">測試</item>
-    <item id="1181">按下熱鍵時允許臨時混音輸入</item>
-    <item id="1185">彌補麥克風增強的BUG</item>
     <item id="1186">聲音事件</item>
     <item id="1187">注意: 優質的編碼需要佔用更多的頻寬和CPU資源</item>
     <item id="1189">輸入裝置</item>

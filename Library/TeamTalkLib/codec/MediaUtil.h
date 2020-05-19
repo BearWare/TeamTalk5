@@ -44,6 +44,8 @@ namespace media
         FOURCC_H264  = 201,
     };
 
+#define RGB32_BYTES(w, h) ((h) * (w) * 4)
+
 /* Remember to updated DLL header file when modifying this */
     struct VideoFormat
     {
@@ -100,6 +102,10 @@ namespace media
         }
     };
 
+#define PCM16_BYTES(samples, channels) ((samples) * (channels) * sizeof(short))
+#define PCM16_BYTES_DURATION(bytes, channels, samplerate) ((((bytes) / (channels) / sizeof(short)) * 1000) / (samplerate))
+#define PCM16_SAMPLES_DURATION(samples, samplerate) ((((samples) / (samplerate)) * 1000) + ((((samples) % (samplerate)) * 1000) / (samplerate)))
+
     struct AudioFrame
     {
         short* input_buffer; //for recorded frame
@@ -145,7 +151,7 @@ namespace media
         {
             if (!inputfmt.IsValid())
                 return 0;
-            return (input_samples * 1000) / inputfmt.samplerate;
+            return PCM16_SAMPLES_DURATION(input_samples, inputfmt.samplerate);
         }
     };
 
@@ -234,21 +240,16 @@ void SelectStereo(StereoMask stereo, short* buffer, int samples);
 // returns new sample_index
 int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq);
 
-#define PCM16_BYTES(samples, channels) ((samples) * (channels) * sizeof(short))
-#define PCM16_BYTES_DURATION(bytes, channels, samplerate) ((((bytes) / (channels) / sizeof(short)) * 1000) / (samplerate))
-#define PCM16_SAMPLES_DURATION(samples, samplerate) ((((samples)) * 1000) / (samplerate))
-
-#define RGB32_BYTES(w, h) (h * w * 4)
-
 #define GAIN_MAX 32000
 #define GAIN_NORMAL 1000
 #define GAIN_MIN 0
 
-#define SOFTGAIN(samplesbuffer, n_samples, channels, gain_numerator, gain_denominator) do { \
+#define SOFTGAIN(inputsamples, n_samples, channels, gain_numerator, gain_denominator) do { \
     if (gain_numerator == gain_denominator)                     \
         break;                                                  \
     float factor = float(gain_numerator) / float(gain_denominator);   \
     int samples_total = channels*n_samples;                     \
+    short* samplesbuffer = inputsamples;                        \
     if(samples_total % 4 == 0)                                  \
     {                                                           \
         int v[4];                                               \

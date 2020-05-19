@@ -26,16 +26,13 @@
 
 #include "SoundSystemBase.h"
 
-#include <vector>
-#include <map>
-
 #include <portaudio.h>
 
 #include <myace/MyACE.h>
-#include <ace/SString.h>
-#include <ace/Time_Value.h>
-#include <ace/Singleton.h>
 
+#include <vector>
+#include <map>
+#include <future>
 #include <assert.h>
 
 namespace soundsystem
@@ -70,6 +67,14 @@ namespace soundsystem
 
     struct PaDuplexStreamer : DuplexStreamer, PaStreamer
     {
+        // Pa_OpenStream doesn't return until DuplexCallback is called at least once
+        bool initialcallback = true;
+        uint32_t playedsamples_msec = 0;
+        uint32_t starttime = 0;
+#if defined(WIN32)
+        std::shared_ptr<class CWMAudioAECCapture> winaec;
+        uint32_t echosamples_msec = 0;
+#endif
         PaDuplexStreamer(StreamDuplex* d, int sg, int fs, int sr, int inchs, int outchs,
                          SoundAPI out_sndsys, int inputdeviceid, int outputdeviceid)
             : DuplexStreamer(d, sg, fs, sr, inchs, outchs, out_sndsys, inputdeviceid, outputdeviceid)
@@ -81,11 +86,8 @@ namespace soundsystem
 
     struct PaSoundGroup : SoundGroup
     {
-        bool autoposition;
-        PaSoundGroup()
-        {
-            autoposition = false;
-        }
+        bool autoposition = false;;
+        PaSoundGroup() { }
     };
 
     typedef SoundSystemBase < PaSoundGroup, PaInputStreamer, PaOutputStreamer, PaDuplexStreamer > SSB;
@@ -129,6 +131,8 @@ namespace soundsystem
                                    int output_channels, int framesize);
         bool StartStream(duplexstreamer_t streamer);
         void CloseStream(duplexstreamer_t streamer);
+        bool IsStreamStopped(duplexstreamer_t streamer);
+        bool UpdateStreamDuplexFeatures(duplexstreamer_t streamer);
 
     public:
         virtual ~PortAudio();
@@ -165,6 +169,41 @@ namespace soundsystem
     typedef SSB::outputstreamer_t outputstreamer_t;
     typedef SSB::duplexstreamer_t duplexstreamer_t;
 
+
+#if defined(WIN32)
+    class CWMAudioAECCapture
+    {
+        PaDuplexStreamer* m_streamer;
+        std::shared_ptr<std::thread> m_callback_thread;
+
+        typedef std::map<ACE_TString, UINT> mapsndid_t;
+
+        bool FindDevs(LONG& indevindex, LONG& outdevindex);
+        void Run();
+        void ProcessAudioQueue();
+        // true means audio frame was consumed, false means audio frame
+        // was queued
+        bool QueueAudioInput(const media::AudioFrame& frm);
+
+        // signaling semaphores
+        std::promise<bool> m_started, m_stop;
+
+        size_t m_input_index = 0;
+        std::vector<short> m_input_buffer; // audio from input device
+        msg_queue_t m_input_queue; // audio from input device that didn't fit in 'm_input_buffer'
+        audio_resampler_t m_resampler;
+        short* m_resampled_input = nullptr;
+        std::mutex m_mutex;
+        SoundDeviceFeatures m_features;
+    public:
+        CWMAudioAECCapture(PaDuplexStreamer* duplex, SoundDeviceFeatures features);
+        ~CWMAudioAECCapture();
+        bool Open();
+        short* AcquireBuffer();
+        void ReleaseBuffer();
+        SoundDeviceFeatures GetFeatures() const { return m_features; }
+    };
+#endif
 }
 
 #endif

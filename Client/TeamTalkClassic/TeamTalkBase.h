@@ -104,7 +104,6 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec);
 #define DEFAULT_ECHO_SUPPRESS           -40
 #define DEFAULT_ECHO_SUPPRESSACTIVE     -15
 
-#define DEFAULT_SOUND_DUPLEXMODE        FALSE
 #define DEFAULT_AUDIOCODEC              OPUS_CODEC
 #define DEFAULT_MSEC_PER_PACKET         40
 

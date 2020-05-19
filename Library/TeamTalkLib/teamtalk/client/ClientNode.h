@@ -239,6 +239,8 @@ namespace teamtalk {
         }
     };
 
+    soundsystem::SoundDeviceFeatures GetSoundDeviceFeatures(const SoundDeviceEffects& effects);
+
     class EventSuspender
     {
     public:
@@ -453,6 +455,8 @@ namespace teamtalk {
                                 const short* input_buffer, 
                                 const short* prev_output_buffer, 
                                 int n_samples);
+        soundsystem::SoundDeviceFeatures GetCaptureFeatures();
+        soundsystem::SoundDeviceFeatures GetDuplexFeatures();
 
         //VideoCapture listener - separate thread
         bool VideoCaptureRGB32Callback(media::VideoFrame& video_frame,

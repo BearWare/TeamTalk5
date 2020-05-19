@@ -239,8 +239,6 @@
     <item id="1123">ip adresa</item>
     <item id="1131">ponovno poveži pri nasilno odspojenoj vezi</item>
     <item id="1142">napredne postavke</item>
-    <item id="1145">pomoćnik windowsovog mješaća zvuka</item>
-    <item id="1147">privremeni ulaz miksera zvuka</item>
     <item id="1148">inačica klijenta</item>
     <item id="1149">postavke klijenta</item>
     <item id="1150">pokreni minimiziran teamtalk</item>
@@ -261,8 +259,6 @@
     <item id="1170">&amp;Generiraj datoteku.tt</item>
     <item id="1172">Poruka Dana</item>
     <item id="1175">Testiraj označeno</item>
-    <item id="1181">Ukljući privremeni mješač pri pritisku tipke</item>
-    <item id="1185">Nadomjesti grešku mikrofonskog pojačanja</item>
     <item id="1186">Zvukovi</item>
     <item id="1188">brzina uzorkovanja snimača</item>
     <item id="1189">ulazni uređaj</item>
@@ -339,7 +335,6 @@
     <item id="1335">Korisnik se može ulogirati više puta</item>
     <item id="1339">kanal u obliku razreda (operator kontrolira transmisiju)</item>
     <item id="1341">Omogući fiksiranu glasnoću zvuka za sve korisnike</item>
-    <item id="1345">Omogući dupleksni način (potreban za poništivača jeke)</item>
     <item id="1347">ignoriraj tišinu</item>
     <item id="1349">bitrejt</item>
     <item id="1350">maksimalni bitrejt</item>

@@ -503,12 +503,26 @@ BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings)
     TT_CloseSoundOutputDevice(ttInst);
     TT_CloseSoundDuplexDevices(ttInst);
 
-    int nInputDevice = GetSoundInputDevice(xmlSettings);
+    SoundDevice indev = {};
+    int nInputDevice = GetSoundInputDevice(xmlSettings, &indev);
     int nOutputDevice = GetSoundOutputDevice(xmlSettings);
 
+    SoundDeviceEffects effects = {};
+    effects.bEnableAGC = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AGC) && xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
+    effects.bEnableDenoise = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DENOISE) && xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
+    effects.bEnableEchoCancellation = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC) && xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
+
+    TT_SetSoundDeviceEffects(ttInst, &effects);
     BOOL bSuccess = FALSE;
-    if (xmlSettings.GetDuplexMode(DEFAULT_SOUND_DUPLEXMODE))
+
+    if ((effects.bEnableAGC || effects.bEnableEchoCancellation || effects.bEnableDenoise) &&
+        (indev.nSoundSystem == SOUNDSYSTEM_WASAPI))
     {
+        bSuccess = TT_InitSoundDuplexDevices(ttInst, nInputDevice, nOutputDevice);
+    }
+    else if (xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE))
+    {
+        // Echo cancel requires duplex mode when using SpeexDSP
         bSuccess = TT_InitSoundDuplexDevices(ttInst, nInputDevice, nOutputDevice);
     }
     else

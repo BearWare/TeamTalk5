@@ -980,7 +980,6 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
     int codec_samplerate = GetAudioCodecSampleRate(codec);
     int codec_samples = GetAudioCodecCbSamples(codec);
     int codec_channels = GetAudioCodecChannels(codec);
-    int output_channels = GetAudioCodecSimulateStereo(codec)?2:codec_channels;
 
     rguard_t g_snd(lock_sndprop());
 
@@ -988,53 +987,26 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
        m_soundprop.inputdeviceid == SOUNDDEVICE_IGNORE_ID)
         return;
 
-    int input_samplerate = 0, input_channels = 0, input_samples = 0;
-    if(!m_soundsystem->SupportsInputFormat(m_soundprop.inputdeviceid,
-                                       codec_channels, codec_samplerate))
+    bool opened;
+    if (m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
     {
-        DeviceInfo dev;
-        if(!m_soundsystem->GetDevice(m_soundprop.inputdeviceid, dev) ||
-           dev.default_samplerate == 0)
-            return;
-        
-        //choose highest sample rate supported by device
-        input_samplerate = dev.default_samplerate;
-        //choose channels supported by device
-        input_channels = dev.GetSupportedInputChannels(codec_channels);
-        //get callback size for new samplerate
-        input_samples = CalcSamples(codec_samplerate, codec_samples,
-                                    input_samplerate);
-        media::AudioFormat infmt(input_samplerate, input_channels),
-            outfmt(codec_samplerate, codec_channels);
-        m_capture_resampler = MakeAudioResampler(infmt, outfmt);
+        int samplerate = codec_samplerate;
+        int output_channels = GetAudioCodecSimulateStereo(codec) ? 2 : codec_channels;
 
-        if (!m_capture_resampler)
+        // In order to support Windows AEC we let output device 
+        // determine what resampler settings should be used. Input sample rate
+        // is fixed in Windows AEC so we should let output device choose sample rate.
+        // Also duplex mode in PortAudioWrapper is hacked on Windows' to make a fake
+        // duplex device.
+        DeviceInfo outdev;
+        m_soundsystem->GetDevice(m_soundprop.outputdeviceid, outdev);
+        if (!outdev.SupportsOutputFormat(output_channels, codec_samplerate))
         {
-            m_capture_resampler.reset();
-            m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
-                                        ACE_TEXT("Cannot create resampler for sound input device."));
-            return;
-        }
-        m_capture_buffer.resize(codec_samples * codec_channels);
-    }
-    else
-    {
-        input_samplerate = codec_samplerate;
-        input_channels = codec_channels;
-        input_samples = codec_samples;
-    }
-
-    bool b;
-    if(m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
-    {
-        DeviceInfo dev;
-        m_soundsystem->GetDevice(m_soundprop.outputdeviceid, dev);
-        if(!dev.SupportsOutputFormat(output_channels, input_samplerate))
-        {
-            media::AudioFormat infmt(input_samplerate, output_channels),
+            output_channels = outdev.GetSupportedOutputChannels(output_channels);
+            samplerate = outdev.default_samplerate; // duplex callback should use output device's sample rate
+            media::AudioFormat infmt(samplerate, output_channels),
                 outfmt(codec_samplerate, codec_channels);
-            m_playback_resampler = MakeAudioResampler(infmt, //sample rate shared in dpx mode
-                                                      outfmt);
+            m_playback_resampler = MakeAudioResampler(infmt, outfmt);  //sample rate shared in dpx mode
             if (!m_playback_resampler)
             {
                 m_playback_resampler.reset();
@@ -1042,38 +1014,91 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                                             ACE_TEXT("Cannot create resampler for sound output device"));
                 return;
             }
-
             m_playback_buffer.resize(codec_samples * codec_channels);
         }
 
-        b = m_soundsystem->OpenDuplexStream(this, m_soundprop.inputdeviceid,
-                                            m_soundprop.outputdeviceid,
-                                            m_soundprop.soundgroupid, 
-                                            input_samplerate, input_channels,
-                                            output_channels, input_samples);
-    }
-    else
-    {
-        b = m_soundsystem->OpenInputStream(this, m_soundprop.inputdeviceid, 
-                                           m_soundprop.soundgroupid,
-                                           input_samplerate, input_channels, 
-                                           input_samples);
+        // resample if output device already forced resampling or 
+        // if input device doesn't support number of channels
+        DeviceInfo indev;
+        m_soundsystem->GetDevice(m_soundprop.inputdeviceid, indev);
+        int input_channels = indev.GetSupportedInputChannels(codec_channels);
+        int samples = codec_samples;
 
-    }
-
-    if (b)
-    {
-        bool success = true;
-        success &= m_soundsystem->SetEchoCancellation(this, m_soundprop.effects.enable_aec);
-        success &= m_soundsystem->SetAGC(this, m_soundprop.effects.enable_agc);
-        success &= m_soundsystem->SetDenoising(this, m_soundprop.effects.enable_denoise);
-        if (!success)
+        if (samplerate != codec_samplerate || input_channels != codec_channels)
         {
-            m_listener->OnInternalError(TT_INTERR_SNDEFFECT_FAILURE,
-                                        GetErrorDescription(TT_INTERR_SNDEFFECT_FAILURE));
+            media::AudioFormat infmt(samplerate, input_channels),
+                outfmt(codec_samplerate, codec_channels);
+            m_capture_resampler = MakeAudioResampler(infmt, outfmt);
+
+            if (!m_capture_resampler)
+            {
+                m_capture_resampler.reset();
+                m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
+                    ACE_TEXT("Cannot create resampler for sound input device."));
+                return;
+            }
+            m_capture_buffer.resize(codec_samples * codec_channels);
+
+            samples = CalcSamples(codec_samplerate, codec_samples, samplerate);
         }
+
+
+        opened = m_soundsystem->OpenDuplexStream(this, m_soundprop.inputdeviceid,
+                                                 m_soundprop.outputdeviceid,
+                                                 m_soundprop.soundgroupid, 
+                                                 samplerate, input_channels,
+                                                 output_channels, samples);
     }
     else
+    {
+        int input_samplerate = 0, input_channels = 0, input_samples = 0;
+
+        if(!m_soundsystem->SupportsInputFormat(m_soundprop.inputdeviceid,
+            codec_channels, codec_samplerate))
+        {
+            DeviceInfo dev;
+            if(!m_soundsystem->GetDevice(m_soundprop.inputdeviceid, dev) ||
+                dev.default_samplerate == 0)
+            {
+                m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
+                    ACE_TEXT("Cannot open sound input device."));
+                return;
+            }
+
+            //choose highest sample rate supported by device
+            input_samplerate = dev.default_samplerate;
+            //choose channels supported by device
+            input_channels = dev.GetSupportedInputChannels(codec_channels);
+            //get callback size for new samplerate
+            input_samples = CalcSamples(codec_samplerate, codec_samples,
+                input_samplerate);
+            media::AudioFormat infmt(input_samplerate, input_channels),
+                outfmt(codec_samplerate, codec_channels);
+            m_capture_resampler = MakeAudioResampler(infmt, outfmt);
+
+            if(!m_capture_resampler)
+            {
+                m_capture_resampler.reset();
+                m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
+                    ACE_TEXT("Cannot create resampler for sound input device."));
+                return;
+            }
+            m_capture_buffer.resize(codec_samples * codec_channels);
+        }
+        else
+        {
+            input_samplerate = codec_samplerate;
+            input_channels = codec_channels;
+            input_samples = codec_samples;
+        }
+
+        opened = m_soundsystem->OpenInputStream(this, m_soundprop.inputdeviceid, 
+                                                m_soundprop.soundgroupid,
+                                                input_samplerate, input_channels, 
+                                                input_samples);
+    }
+
+    if (!opened)
     {
         if (m_listener)
             m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
@@ -1395,6 +1420,32 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
     audframe.output_samples = codec_samples;
 
     QueueAudioCapture(audframe);
+}
+
+namespace teamtalk {
+    SoundDeviceFeatures GetSoundDeviceFeatures(const SoundDeviceEffects& effects)
+    {
+        SoundDeviceFeatures features = SOUNDDEVICEFEATURE_NONE;
+
+        if (effects.enable_aec)
+            features |= SOUNDDEVICEFEATURE_AEC;
+        if (effects.enable_agc)
+            features |= SOUNDDEVICEFEATURE_AGC;
+        if (effects.enable_denoise)
+            features |= SOUNDDEVICEFEATURE_DENOISE;
+
+        return features;
+    }
+}
+
+SoundDeviceFeatures ClientNode::GetCaptureFeatures()
+{
+    return GetSoundDeviceFeatures(m_soundprop.effects);
+}
+
+SoundDeviceFeatures ClientNode::GetDuplexFeatures()
+{
+    return GetCaptureFeatures();
 }
 
 bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
@@ -2893,34 +2944,29 @@ bool ClientNode::CloseSoundDuplexDevices()
 
 bool ClientNode::SetSoundDeviceEffects(const SoundDeviceEffects& effects)
 {
-    rguard_t g_snd(lock_sndprop());
-
-    bool success = true;
-    m_soundprop.effects = effects;
-
-    if (!m_soundsystem->IsStreamStopped(this))
     {
-        success &= m_soundsystem->SetEchoCancellation(this, effects.enable_aec);
-        success &= m_soundsystem->SetAGC(this, effects.enable_agc);
-        success &= m_soundsystem->SetDenoising(this, effects.enable_denoise);
+        rguard_t g_snd(lock_sndprop());
+        m_soundprop.effects = effects;
     }
-    return success;
+
+    if (m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
+    {
+        if (!m_soundsystem->IsStreamStopped(static_cast<StreamDuplex*>(this)))
+            return m_soundsystem->UpdateStreamDuplexFeatures(this);
+    }
+    else if (m_flags & CLIENT_SNDINPUT_READY)
+    {
+        if (!m_soundsystem->IsStreamStopped(static_cast<StreamCapture*>(this)))
+            return m_soundsystem->UpdateStreamCaptureFeatures(this);
+    }
+    return true;
 }
 
 SoundDeviceEffects ClientNode::GetSoundDeviceEffects()
 {
     rguard_t g_snd(lock_sndprop());
 
-    auto effect = m_soundprop.effects;
-
-    if (!m_soundsystem->IsStreamStopped(this))
-    {
-        effect.enable_aec = m_soundsystem->IsEchoCancelling(this);
-        effect.enable_agc = m_soundsystem->IsAGC(this);
-        effect.enable_denoise = m_soundsystem->IsDenoising(this);
-    }
-
-    return effect;
+    return m_soundprop.effects;
 }
 
 bool ClientNode::SetSoundOutputVolume(int volume)

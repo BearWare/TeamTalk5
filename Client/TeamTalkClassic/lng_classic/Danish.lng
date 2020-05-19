@@ -183,8 +183,6 @@
     <item id="1134">Nuværende status</item>
     <item id="1137">Statusbesked</item>
     <item id="1142">Avancerede indstillinger</item>
-    <item id="1145">Windows mixer hjælper</item>
-    <item id="1147">Midlertidig mixer input</item>
     <item id="1148">Klientversion</item>
     <item id="1149">Klientindstillinger</item>
     <item id="1150">Start minimeret</item>
@@ -206,8 +204,6 @@
     <item id="1172">MOTD</item>
     <item id="1173">Ny bruger</item>
     <item id="1175">Afprøv valgte</item>
-    <item id="1181">Aktiver midlertidig mixer input enhed når hotkey holdes nede</item>
-    <item id="1185">Kompenser for mikrofon boost fejl</item>
     <item id="1186">Lydhændelser</item>
     <item id="1187">Husk at en højere kvalitet for encoder vil kræve mere båndbredde og CPU forbrug.</item>
     <item id="1188">Rate for optagelse</item>
@@ -290,7 +286,6 @@
     <item id="1335">Bruger kan logge ind flere gange</item>
     <item id="1339">Klasseværelse (kanalejer styrer transmissioner)</item>
     <item id="1341">Aktiver samme lydniveau for alle brugere</item>
-    <item id="1345">Aktiver duplex mode (påkrævet for fjernelse af ekko)</item>
     <item id="1347">Ignorer stilhed</item>
     <item id="1349">Bitrate</item>
     <item id="1350">Max bitrate</item>

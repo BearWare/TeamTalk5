@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.5.1.4994"
+#define TEAMTALK_VERSION "5.6.0.4996"
 
 
 #if defined(WIN32)
@@ -347,13 +347,17 @@ extern "C" {
          * device. Note that it may not always be available. */
         TTCHAR szDeviceID[TT_STRLEN];
         /** 
-         * @brief The ID of the device used in Win32's
-         * waveInGetDevCaps and waveOutGetDevCaps.
+         * @brief A Windows specific ID to the sound device.
          *
+         * For DirectSound and WinMM this is the ID of the device used 
+         * in Win32's waveInGetDevCaps and waveOutGetDevCaps.
          * Value will be -1 if no ID could be found This ID can also
          * be used to find the corresponding mixer on Windows passing
          * it as @a nWaveDeviceID.  Note that this ID applies both to
          * DirectSound and WinMM.
+         *
+         * For WASAPI this ID is the index of 
+         * IMMDeviceEnumerator::EnumAudioEndpoints()
          *
          * @see TT_Mixer_GetWaveInName
          * @see TT_Mixer_GetWaveOutName
@@ -3743,6 +3747,15 @@ extern "C" {
                                                            IN INT32 nChannels,
                                                            IN TTBOOL bDuplexMode,
                                                            IN const SpeexDSP* lpSpeexDSP);
+
+    TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID,
+                                                             IN INT32 nOutputDeviceID,
+                                                             IN INT32 nSampleRate,
+                                                             IN INT32 nChannels,
+                                                             IN TTBOOL bDuplexMode,
+                                                             IN const AudioPreprocessor* lpAudioPreprocessor,
+                                                             IN const SoundDeviceEffects* lpSoundDeviceEffects);
+    
     
     /**
      * @brief Stop recorder and playback test.
@@ -3952,16 +3965,7 @@ extern "C" {
                                                     IN const SoundDeviceEffects* lpSoundDeviceEffect);
 
     /**
-     * @brief Get the audio effects that are currently active on the
-     * device.
-     *
-     * Calling TT_GetSoundDeviceEffects() when the #TTInstance is in a
-     * channel may give a different result than when the #TTInstance
-     * is outside a channel. This is because the #TTInstance cannot
-     * apply the #SoundDeviceEffects until the sound device is
-     * active. The sound input device is not active until the
-     * #TTInstance joins a channel and applies the #AudioCodec's
-     * sample rate and channels (mono/stereo).
+     * @brief Get the audio effects that are currently enabled.
      *
      * @see TT_SoundDeviceEffects() */
     TEAMTALKDLL_API TTBOOL TT_GetSoundDeviceEffects(IN TTInstance* lpTTInstance,

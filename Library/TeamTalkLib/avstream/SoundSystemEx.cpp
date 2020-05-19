@@ -21,25 +21,31 @@
  *
  */
 
-#include "SoundSystemBase.h"
-
+#include "SoundSystemEx.h"
 
 #include <codec/MediaUtil.h>
+
+#include <cstring>
 
 namespace soundsystem {
 
 void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream,
                     const short* recorded, short* playback)
 {
-    dpxStream.duplex->StreamDuplexEchoCb(dpxStream, recorded, playback, dpxStream.framesize);
+    size_t bytes = PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels);
+    dpxStream.duplex->StreamDuplexEchoCb(dpxStream, recorded, &dpxStream.tmpOutputBuffer[0], dpxStream.framesize);
 
     //now mix all active players
-    memset(playback, 0, PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels));
+    std::memset(playback, 0, bytes);
     {
         //lock 'players' so they're not removed during callback
         std::lock_guard<std::recursive_mutex> g(dpxStream.players_mtx);
         assert(dpxStream.tmpOutputBuffer.size());
         MuxPlayers(sndsys, dpxStream.players, &dpxStream.tmpOutputBuffer[0], playback);
+        if (dpxStream.players.empty())
+        {
+            std::memcpy(&dpxStream.tmpOutputBuffer[0], playback, bytes);
+        }
     }
     dpxStream.duplex->StreamDuplexCb(dpxStream, recorded, playback, dpxStream.framesize);
 }

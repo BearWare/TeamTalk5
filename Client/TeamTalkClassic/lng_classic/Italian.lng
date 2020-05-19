@@ -179,8 +179,6 @@
     <item id="1134">Stato corrente</item>
     <item id="1137">Messaggio di stato</item>
     <item id="1142">Settaggi avanzati</item>
-    <item id="1145">Windows mixer helper</item>
-    <item id="1147">Imput mixer temporaneo</item>
     <item id="1148">Versione del client</item>
     <item id="1149">Settaggi del client</item>
     <item id="1150">Iconizza all&apos;avvio</item>
@@ -207,10 +205,8 @@
     <item id="1177">Server perso</item>
     <item id="1178">Nuovo messaggio</item>
     <item id="1180">Tasto premuto</item>
-    <item id="1181">Attiva la periferica per l&apos;imput del mixer temporaneo quando si preme il tasto</item>
     <item id="1182">Messaggio del canale</item>
     <item id="1184">Finito di parlare</item>
-    <item id="1185">Compensa per il bug del boost microfono</item>
     <item id="1186">Suono eventi</item>
     <item id="1187">Ricorda che una migliore qualità dell&apos; encoder richiede più banda e più memoria del tuo computer</item>
     <item id="1188">frequenza di campionamento registratore</item>
@@ -293,7 +289,6 @@
     <item id="1335">l&apos;utente può registrarsi ed entrare molte volte</item>
     <item id="1339">operatore stanza classe controllo trasmissioni</item>
     <item id="1341">volume corretto per tutti gli utenti abilitato</item>
-    <item id="1345">attiva modo duplex richiesto per cancellazione eco</item>
     <item id="1347">ignora silenzio</item>
     <item id="1349">velocità in bit</item>
     <item id="1350">velocità in bit massima</item>

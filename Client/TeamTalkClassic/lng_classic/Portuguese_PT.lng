@@ -90,8 +90,6 @@
     <item id="1134">Estado actual</item>
     <item id="1137">Mensagem de estado</item>
     <item id="1142">Parâmetros avançados</item>
-    <item id="1145">Ajuda sobre o misturador de som do Windows</item>
-    <item id="1147">Misturador de entrada temporário</item>
     <item id="1148">Versão cliente</item>
     <item id="1149">Parâmetros do cliente</item>
     <item id="1150">Iniciar mínimizado</item>
@@ -112,8 +110,6 @@
     <item id="1172">MOTD</item>
     <item id="1173">Novo utilizador</item>
     <item id="1175">Testar</item>
-    <item id="1181">Activar o misturador temporário do dispositivo de entrada quando pressionada a hotkey</item>
-    <item id="1185">Compensar o problema do microfone boost</item>
     <item id="1186">Eventos sonoros</item>
     <item id="1187">Lembre-se que maior qualidade para o codificador requererá mais largura de banda e processador (CPU).</item>
     <item id="1189">Dispositivo de entrada</item>

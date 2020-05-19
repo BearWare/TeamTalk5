@@ -259,7 +259,6 @@
 #define IDC_EDIT_INACTIVITY             1033
 #define IDC_STATIC_USERID               1035
 #define IDC_STATIC_NICKNAME             1036
-#define IDC_COMBO_MIXER                 1039
 #define IDC_STATIC_INTRO                1042
 #define IDC_SLIDER_MEDIAFILEVOL         1043
 #define IDC_CHECK_WEBSITE               1044
@@ -281,7 +280,6 @@
 #define IDC_STATIC_CHTOPIC              1061
 #define IDC_STATIC_CHPASSWORD           1063
 #define IDC_RADIO_WASAPI                1065
-#define IDC_RADIO_WINAUDIO              1066
 #define IDC_STATIC_MAXLOGINSIP          1067
 #define IDC_RADIO_DIRECTSOUND           1068
 #define IDC_COMBO_INPUTDRIVER           1070
@@ -336,8 +334,6 @@
 #define IDC_EDIT_VIDEOTX                1137
 #define IDC_RICHEDIT_HISTORY            1138
 #define IDC_STATIC_GRPADVANCED          1142
-#define IDC_STATIC_GRPMIXER             1145
-#define IDC_STATIC_TMPMIXERDEVICE       1147
 #define IDC_STATIC_CLIENTVER            1148
 #define IDC_STATIC_GRPCLIENT            1149
 #define IDC_CHECK_STARTMINIMIZED        1150
@@ -359,9 +355,6 @@
 #define IDC_BUTTON_GENTT                1170
 #define IDC_STATIC_MOTD                 1172
 #define IDC_BUTTON_TEST                 1175
-#define IDC_COMBO_MIXERINPUTS           1179
-#define IDC_CHECK_MIXERAUTOSELECT       1181
-#define IDC_CHECK_BOOSTBUG              1185
 #define IDC_STATIC_GRPSNDEVENT          1186
 #define IDC_STATIC_RECORDERFREQ         1188
 #define IDC_STATIC_INPUT                1189
@@ -484,7 +477,6 @@
 #define IDC_CHECK_FORCEAGC              1341
 #define IDC_SLIDER_GAINLEVEL            1342
 #define IDC_STATIC_GAINLEVEL            1344
-#define IDC_CHECK_DUPLEXMODE            1345
 #define IDC_STATIC_GAINLEVEL2           1345
 #define IDC_COMBO_CODEC                 1346
 #define IDC_STATIC_GAINLEVEL3           1346

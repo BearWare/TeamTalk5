@@ -24,6 +24,7 @@
 #include "SoundLoopback.h"
 #include <codec/MediaUtil.h>
 #include <assert.h>
+#include <cstring>
 
 using namespace std;
 using namespace soundsystem;
@@ -52,7 +53,8 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
                               bool denoise, int denoise_level,
                               bool enable_aec, const SpeexAEC& aec
 #endif
-                              )
+                              , int gainlevel, StereoMask stereo,
+                              soundsystem::SoundDeviceFeatures sndfeatures)
 {
     assert(!m_active);
     if(m_active)
@@ -73,7 +75,7 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
     
     int output_channels = channels;
     int output_samplerate = samplerate;
-    if(!out_dev.SupportsOutputFormat(channels, samplerate))
+    if (!out_dev.SupportsOutputFormat(channels, samplerate))
     {
         output_channels = out_dev.GetSupportedOutputChannels(channels);
         output_samplerate = out_dev.default_samplerate;
@@ -85,7 +87,8 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
     int input_channels = output_channels;
     int input_samplerate = output_samplerate;
     int input_samples = output_samples;
-    if(!in_dev.SupportsInputFormat(output_channels, output_samplerate))
+
+    if (!in_dev.SupportsInputFormat(output_channels, output_samplerate))
     {
         input_channels = in_dev.GetSupportedInputChannels(channels);
         input_samplerate = in_dev.default_samplerate;
@@ -94,11 +97,14 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
                                     input_samplerate);
         media::AudioFormat infmt(input_samplerate, input_channels),
             outfmt(output_samplerate, output_channels);
-        m_capture_resampler = MakeAudioResampler(infmt, outfmt);
+        m_capture_resampler = MakeAudioResampler(infmt, outfmt, input_samples);
         if (!m_capture_resampler)
             return false;
-        m_resample_buffer.resize(output_samples * output_channels);
     }
+
+    m_preprocess_buffer_left.resize(output_samples);
+    if(channels == 2)
+        m_preprocess_buffer_right.resize(output_samples);
 
 #if defined(ENABLE_SPEEXDSP)
     if(!SetAGC(samplerate, output_samples, channels, 
@@ -108,6 +114,10 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
         return false;
     }
 #endif
+
+    m_features = sndfeatures;
+    m_gainlevel = gainlevel;
+    m_stereo = stereo;
 
     if(!m_soundsystem->OpenOutputStream(this, outputdevid, m_soundgrpid,
                                       output_samplerate, output_channels,
@@ -142,30 +152,35 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
                                     bool denoise, int denoise_level,
                                     bool enable_aec, const SpeexAEC& aec
 #endif
-                                    )
+                                    , int gainlevel, StereoMask stereo,
+                                    soundsystem::SoundDeviceFeatures sndfeatures)
 {
-    DeviceInfo in_dev;
-    if(!m_soundsystem->GetDevice(inputdevid, in_dev) ||
-       in_dev.default_samplerate == 0)
+    DeviceInfo in_dev, out_dev;
+    if (!m_soundsystem->GetDevice(outputdevid, out_dev) ||
+        !m_soundsystem->GetDevice(inputdevid, in_dev))
        return false;
 
-    int input_channels = in_dev.GetSupportedInputChannels(channels);
-    if(!in_dev.SupportsInputFormat(input_channels, samplerate))
+    // For WASAPI we want to force output device's sample rate
+    if (!out_dev.SupportsOutputFormat(channels, samplerate))
         return false;
 
+    int input_channels = in_dev.GetSupportedInputChannels(channels);
     int samples = CALLBACK_FRAMESIZE(samplerate);
 
-    if(input_channels != channels)
+    if (input_channels != channels)
     {
         media::AudioFormat infmt(samplerate, input_channels),
             outfmt(samplerate, channels);
-        m_capture_resampler = MakeAudioResampler(infmt, outfmt);
+        m_capture_resampler = MakeAudioResampler(infmt, outfmt, samples);
         if (!m_capture_resampler)
             return false;
-
-        m_resample_buffer.resize(samples * channels);
     }
     
+    
+    m_preprocess_buffer_left.resize(samples);
+    if(channels == 2)
+        m_preprocess_buffer_right.resize(samples);
+
 #if defined(ENABLE_SPEEXDSP)
     if(!SetAGC(samplerate, samples, channels, enable_agc, agc, 
               denoise, denoise_level, enable_aec, aec))
@@ -175,9 +190,13 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
     }
 #endif
 
+    m_features = sndfeatures;
+    m_gainlevel = gainlevel;
+    m_stereo = stereo;
+
     if(!m_soundsystem->OpenDuplexStream(this, inputdevid, outputdevid,
-                                    m_soundgrpid, samplerate, 
-                                    input_channels, channels, samples))
+                                        m_soundgrpid, samplerate, 
+                                        input_channels, channels, samples))
     {
         StopTest();
         return false;
@@ -199,10 +218,10 @@ bool SoundLoopback::StopTest()
     m_preprocess_buffer_left.clear();
     m_preprocess_buffer_right.clear();
     m_capture_resampler.reset();
-    m_resample_buffer.clear();
     while(m_buf_queue.size())
         m_buf_queue.pop();
     m_active = false;
+    m_features = soundsystem::SOUNDDEVICEFEATURE_NONE;
     return b;
 }
 
@@ -218,21 +237,20 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     {
         assert(output_samples > 0);
 
-        int ret = m_capture_resampler->Resample(buffer, samples, 
-                                                &m_resample_buffer[0],
-                                                int(m_preprocess_buffer_left.size()));
-        assert(ret > 0);
+        int ret = 0;
+        const short* resampled = m_capture_resampler->Resample(buffer, &ret);
+        assert(resampled);
         MYTRACE_COND(ret != output_samples,
                      ACE_TEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
                      output_samples, ret);
 
-        if(output_channels == 1)
+        if (output_channels == 1)
         {
-            m_preprocess_buffer_left = m_resample_buffer;
+            m_preprocess_buffer_left.assign(resampled, resampled + output_samples);
         }
         else if(output_channels == 2)
         {
-            SplitStereo(&m_resample_buffer[0], output_samples, 
+            SplitStereo(resampled, output_samples, 
                         m_preprocess_buffer_left, m_preprocess_buffer_right);
         }
     }
@@ -240,7 +258,9 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     {
         assert(output_samples == samples);
         if(output_channels == 1)
+        {
             m_preprocess_buffer_left.assign(buffer, buffer + samples);
+        }
         else if(output_channels == 2)
         {
             assert((int)m_preprocess_buffer_right.size() == samples);
@@ -258,7 +278,12 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     
     if(output_channels == 1)
     {
-        wguard_t g(m_mutex);
+        // TTAudioPreprocessor
+        if (m_gainlevel != GAIN_NORMAL)
+            SOFTGAIN(&m_preprocess_buffer_left[0], output_samples,
+                     output_channels, m_gainlevel, GAIN_NORMAL);
+
+        std::lock_guard<std::mutex> g(m_mutex);
         m_buf_queue.push(m_preprocess_buffer_left);
     }
     else if(output_channels == 2)
@@ -266,7 +291,14 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
         vector<short> tmp_buf(m_preprocess_buffer_left.size() * output_channels);
         MergeStereo(m_preprocess_buffer_left, m_preprocess_buffer_right,
                     &tmp_buf[0], output_samples);
-        wguard_t g(m_mutex);
+
+        // TTAudioPreprocessor
+        if (m_gainlevel != GAIN_NORMAL)
+            SOFTGAIN(&tmp_buf[0], output_samples, output_channels,
+                     m_gainlevel, GAIN_NORMAL);
+        SelectStereo(m_stereo, &tmp_buf[0], output_samples);
+        
+        std::lock_guard<std::mutex> g(m_mutex);
         m_buf_queue.push(tmp_buf);
     }
 }
@@ -274,17 +306,17 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
 bool SoundLoopback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer, 
                                    short* buffer, int samples)
 {
-    wguard_t g(m_mutex);
+    std::lock_guard<std::mutex> g(m_mutex);
     int output_channels = m_preprocess_buffer_right.size()? 2 : 1;
     if(m_buf_queue.size())
     {
         assert((int)m_buf_queue.front().size() / output_channels == samples);
-        memcpy(buffer, &m_buf_queue.front()[0], m_buf_queue.front().size()*sizeof(short));
+        std::memcpy(buffer, &m_buf_queue.front()[0], m_buf_queue.front().size()*sizeof(short));
         m_buf_queue.pop();
     }
     else
     {
-        ACE_OS::memset(buffer, 0, samples * sizeof(short) * output_channels);
+        std::memset(buffer, 0, samples * sizeof(short) * output_channels);
     }
 
     //don't empty queue since OpenSLES may perform multiple play
@@ -306,15 +338,13 @@ void SoundLoopback::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& stream
     const short* tmp_input_buffer = input_buffer;
     if (m_capture_resampler)
     {
-        int ret = m_capture_resampler->Resample(input_buffer, samples, 
-                                                &m_resample_buffer[0],
-                                                output_samples);
-        assert(ret > 0);
+        int ret = 0;
+        tmp_input_buffer = m_capture_resampler->Resample(input_buffer, &ret);
+        assert(tmp_input_buffer);
         assert(ret <= output_samples);
         MYTRACE_COND(ret != output_samples,
                      ACE_TEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
                      output_samples, ret);
-        tmp_input_buffer = &m_resample_buffer[0];
     }
 
     if(output_channels == 1)
@@ -379,8 +409,13 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
 #if defined(ENABLE_SPEEXDSP)
         m_preprocess_left.Preprocess(&m_preprocess_buffer_left[0]);
 #endif
-        memcpy(output_buffer, &m_preprocess_buffer_left[0], 
-               streamer.framesize * streamer.input_channels * sizeof(short));
+        // TTAudioPreprocessor
+        if (m_gainlevel != GAIN_NORMAL)
+            SOFTGAIN(&m_preprocess_buffer_left[0], output_samples,
+                     output_channels, m_gainlevel, GAIN_NORMAL);
+        
+        std::memcpy(output_buffer, &m_preprocess_buffer_left[0], 
+                    streamer.framesize * streamer.input_channels * sizeof(short));
     }
     else if(output_channels == 2)
     {
@@ -394,7 +429,23 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
 
         MergeStereo(m_preprocess_buffer_left, m_preprocess_buffer_right,
                     output_buffer, streamer.framesize);
+
+        // TTAudioPreprocessor
+        if (m_gainlevel != GAIN_NORMAL)
+            SOFTGAIN(output_buffer, output_samples, output_channels,
+                     m_gainlevel, GAIN_NORMAL);
+        SelectStereo(m_stereo, output_buffer, output_samples);        
     }
+}
+
+SoundDeviceFeatures SoundLoopback::GetCaptureFeatures()
+{
+    return m_features;
+}
+
+SoundDeviceFeatures SoundLoopback::GetDuplexFeatures()
+{
+    return GetCaptureFeatures();
 }
 
 #if defined(ENABLE_SPEEXDSP)
@@ -437,10 +488,6 @@ bool SoundLoopback::SetAGC(int samplerate, int samples, int channels,
     initaec &= m_preprocess_left.SetEchoSuppressActive(aec.suppress_active);
     if(channels == 2)
         initaec &= m_preprocess_right.SetEchoSuppressActive(aec.suppress_active);
-    
-    m_preprocess_buffer_left.resize(samples);
-    if(channels == 2)
-        m_preprocess_buffer_right.resize(samples);
 
     // Fixed point SpeexDSP library doesn't support AGC and AEC so
     // only report error if requested.

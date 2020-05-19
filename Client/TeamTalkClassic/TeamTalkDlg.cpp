@@ -113,9 +113,6 @@ CTeamTalkDlg::CTeamTalkDlg(CWnd* pParent /*=NULL*/)
 , m_bTwoPanes(TRUE)
 , m_bIgnoreResize(FALSE)
 , m_bHotKey(FALSE)
-, m_bBoostBugComp(FALSE)
-, m_bTempMixerInput(FALSE)
-, m_nLastMixerInput(UNDEFINED)
 , m_nLastRecvBytes(0)
 , m_nLastSentBytes(0)
 , m_pTray(NULL)
@@ -504,8 +501,6 @@ void CTeamTalkDlg::RunWizard()
     /// Sound system
     soundpage.m_nInputDevice = m_xmlSettings.GetSoundInputDevice(UNDEFINED);
     soundpage.m_nOutputDevice = m_xmlSettings.GetSoundOutputDevice(UNDEFINED);
-    if(m_xmlSettings.GetSoundMixerDevice() != UNDEFINED)
-        soundpage.m_nMixerInput = m_xmlSettings.GetSoundMixerDevice();
 
     dlg.AddPage(&welcomepage);
     dlg.AddPage(&generalpage);
@@ -541,10 +536,6 @@ void CTeamTalkDlg::RunWizard()
         /// Sound system
         m_xmlSettings.SetSoundInputDevice(soundpage.m_nInputDevice);
         m_xmlSettings.SetSoundOutputDevice(soundpage.m_nOutputDevice);
-        if(soundpage.m_nOutputDevice != CB_ERR)
-            m_xmlSettings.SetSoundMixerDevice(soundpage.m_nMixerInput);
-        else
-            m_xmlSettings.SetSoundMixerDevice(UNDEFINED);
 
         if(completepage.m_bWebsite)
             OnHelpWebsite();
@@ -2201,39 +2192,6 @@ void CTeamTalkDlg::OnHotKey(const TTMessage& msg)
     case HOTKEY_PUSHTOTALK_ID :
         if(msg.bActive)
         {
-            //check whether input must be changed
-            if(m_bTempMixerInput)
-            {
-                int nSelectedIndex = -1;
-                int count = TT_Mixer_GetWaveInControlCount(0);
-                for(int i=0;i<count && nSelectedIndex == -1;i++)
-                {
-                    if(TT_Mixer_GetWaveInControlSelected(0, i))
-                        nSelectedIndex = i;
-                }
-
-                int nAutoSelectedIndex = m_xmlSettings.GetMixerAutoSelectInput();
-                ASSERT(nAutoSelectedIndex != UNDEFINED);
-                if(nSelectedIndex>=0 && nAutoSelectedIndex != UNDEFINED)
-                {
-                    m_nLastMixerInput = nSelectedIndex;
-                    TT_Mixer_SetWaveInControlSelected(0, nAutoSelectedIndex);
-                }
-                else
-                {
-                    m_bTempMixerInput = FALSE;
-                    AfxMessageBox(_T("Unable to access Windows' mixer"));
-                    m_nLastMixerInput = -1;
-                }
-            }
-            //check whether compensation for boost bug is active
-            if(m_bBoostBugComp)
-            {
-                BOOL bEnabled = TT_Mixer_GetWaveInBoost(0);
-                TT_Mixer_SetWaveInBoost(0, !bEnabled);
-                TT_Mixer_SetWaveInBoost(0, bEnabled);
-            }
-
             TT_EnableVoiceTransmission(ttInst, TRUE);
             m_wndTree.SetUserTalking(TT_GetMyUserID(ttInst),
                                      IsMyselfTalking());
@@ -2250,10 +2208,6 @@ void CTeamTalkDlg::OnHotKey(const TTMessage& msg)
 
             //released event
             PlaySoundEvent(SOUNDEVENT_PUSHTOTALK);
-
-            //check whether input must be changed
-            if(m_bTempMixerInput)
-                TT_Mixer_SetWaveInControlSelected(0, m_nLastMixerInput);
         }
         break;
     case HOTKEY_VOICEACT_ID :
@@ -2631,34 +2585,6 @@ BOOL CTeamTalkDlg::OnInitDialog()
     m_tabChat.m_wndRichEdit.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
 
     m_wndVUProgress.ShowWindow(m_xmlSettings.GetVuMeterUpdate()?SW_SHOW : SW_HIDE);
-
-    //detect whether mixer device differs from orginal
-    int nMixerDeviceIndex = m_xmlSettings.GetSoundMixerDevice();
-    if(nMixerDeviceIndex != UNDEFINED)
-    {
-        if(TT_Mixer_GetWaveInControlCount(0)>0 &&
-            TT_Mixer_GetWaveInControlSelected(0, nMixerDeviceIndex) == FALSE)
-        {
-            int nRet = AfxMessageBox(_T("Mixer input device has been changed. Reset to default?"), MB_YESNO);
-            if(nRet == IDYES)
-                TT_Mixer_SetWaveInControlSelected(0, nMixerDeviceIndex);
-            else
-                m_xmlSettings.SetSoundMixerDevice(UNDEFINED);
-        }
-    }
-
-    //set auto mixer selection
-    m_bTempMixerInput = m_xmlSettings.GetMixerAutoSelection();
-
-    //compensate for boostbug?
-    if(m_xmlSettings.GetMixerBoostBugCompensation())
-    {
-        BOOL bEnabled = TT_Mixer_GetWaveInBoost(0);
-        if(!TT_Mixer_SetWaveInBoost(0, bEnabled))
-            AfxMessageBox(_T("Failed to enable boost bug compensation"));
-        else
-            m_bBoostBugComp = TRUE;
-    }
 
     RunAppUpdate();
     SetTimer(TIMER_APPUPDATE_ID, 24 * 60 * 60 * 1000, NULL);
@@ -3352,7 +3278,6 @@ void CTeamTalkDlg::OnFilePreferences()
     soundpage.m_nInputDevice = m_xmlSettings.GetSoundInputDevice(UNDEFINED);
     soundpage.m_szInputDeviceID = STR_UTF8(m_xmlSettings.GetSoundInputDevice());
     soundpage.m_bPositioning = m_xmlSettings.GetAutoPositioning();
-    soundpage.m_bDuplexMode = m_xmlSettings.GetDuplexMode(DEFAULT_SOUND_DUPLEXMODE);
     soundpage.m_bEchoCancel = m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
     soundpage.m_bAGC = m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
     soundpage.m_bDenoise = m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
@@ -3413,9 +3338,6 @@ void CTeamTalkDlg::OnFilePreferences()
     ////////////////////
     // advanced
     ////////////////////
-    advancedpage.m_bMixerAutoSelect = m_xmlSettings.GetMixerAutoSelection();
-    advancedpage.m_nMixerIndex = m_xmlSettings.GetMixerAutoSelectInput();
-    advancedpage.m_bBoostBug = m_xmlSettings.GetMixerBoostBugCompensation();
 
     sheet.AddPage(&generalpage);
     sheet.AddPage(&windowpage);
@@ -3425,7 +3347,7 @@ void CTeamTalkDlg::OnFilePreferences()
     sheet.AddPage(&ttspage);
     sheet.AddPage(&shortcutspage);
     sheet.AddPage(&videopage);
-    sheet.AddPage(&advancedpage);
+    //sheet.AddPage(&advancedpage);
 
     if(sheet.DoModal() == IDOK)
     {
@@ -3588,7 +3510,9 @@ void CTeamTalkDlg::OnFilePreferences()
         BOOL bRestart = FALSE;
         bRestart |= m_xmlSettings.GetSoundOutputDevice(UNDEFINED) != soundpage.m_nOutputDevice;
         bRestart |= m_xmlSettings.GetSoundInputDevice(UNDEFINED) != soundpage.m_nInputDevice;
-        bRestart |= m_xmlSettings.GetDuplexMode(DEFAULT_SOUND_DUPLEXMODE) != (bool)soundpage.m_bDuplexMode;
+        bRestart |= m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE) != (bool)soundpage.m_bAGC;
+        bRestart |= m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE) != (bool)soundpage.m_bEchoCancel;
+        bRestart |= m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE) != (bool)soundpage.m_bDenoise;
         bRestart = bRestart && (TT_GetFlags(ttInst) & CLIENT_CONNECTION);
 
         m_xmlSettings.SetSoundOutputDevice(soundpage.m_nOutputDevice);
@@ -3596,7 +3520,6 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetSoundInputDevice(soundpage.m_nInputDevice);
         m_xmlSettings.SetSoundInputDevice(STR_UTF8(soundpage.m_szInputDeviceID));
         m_xmlSettings.SetAutoPositioning(soundpage.m_bPositioning);
-        m_xmlSettings.SetDuplexMode(soundpage.m_bDuplexMode);
         m_xmlSettings.SetEchoCancel(soundpage.m_bEchoCancel);
         m_xmlSettings.SetAGC(soundpage.m_bAGC);
         m_xmlSettings.SetDenoise(soundpage.m_bDenoise);
@@ -3682,47 +3605,6 @@ void CTeamTalkDlg::OnFilePreferences()
         /////////////////////////////////////////
         //   write settings for Advanced
         //////////////////////////////////////////
-        m_xmlSettings.SetMixerAutoSelection(advancedpage.m_bMixerAutoSelect);
-        m_xmlSettings.SetMixerAutoSelectInput(advancedpage.m_nMixerIndex);
-        m_xmlSettings.SetMixerBoostBugCompensation(advancedpage.m_bBoostBug);
-        m_bTempMixerInput = advancedpage.m_bMixerAutoSelect;
-        m_bBoostBugComp = advancedpage.m_bBoostBug;
-
-        if(advancedpage.m_bMixerAutoSelect)
-        {
-            int nSelectedIndex = -1;
-            int count = TT_Mixer_GetWaveInControlCount(0);
-            for(int i=0;i<count && nSelectedIndex == -1;i++)
-            {
-                if(TT_Mixer_GetWaveInControlSelected(0, i))
-                    nSelectedIndex = i;
-            }
-            if(!TT_Mixer_SetWaveInControlSelected(0, advancedpage.m_nMixerIndex))
-            {
-                AfxMessageBox(_T("Failed to selected temporary mixer device"));
-                m_xmlSettings.SetMixerAutoSelection(FALSE);
-                m_xmlSettings.SetMixerAutoSelectInput(UNDEFINED);
-                m_bTempMixerInput = FALSE;
-            }
-            else
-                m_bTempMixerInput = advancedpage.m_bMixerAutoSelect;
-            if(nSelectedIndex>=0)
-                TT_Mixer_SetWaveInControlSelected(0, nSelectedIndex);
-        }
-
-        //compensate for boost bug
-        if(advancedpage.m_bBoostBug)
-        {
-            BOOL bEnabled = TT_Mixer_GetWaveInBoost(0);
-            if(!TT_Mixer_SetWaveInBoost(0, bEnabled))
-            {
-                AfxMessageBox(_T("Failed to enable boost bug compensation"));
-                VERIFY(m_xmlSettings.SetMixerBoostBugCompensation(FALSE));
-                m_bBoostBugComp = FALSE;
-            }
-            else
-                m_bBoostBugComp = advancedpage.m_bBoostBug;
-        }
 
         m_xmlSettings.SaveFile();
     }
@@ -5254,6 +5136,7 @@ void CTeamTalkDlg::UpdateGainLevel(int nGain)
     if(m_wndGainSlider.GetPos() != nGain)
         m_wndGainSlider.SetPos(nGain);
 
+    // m_wndGainSlider windows is disabled in AudioConfig-mode
     SpeexDSP spxdsp =  {};
     if(TT_GetSoundInputPreprocess(ttInst, &spxdsp) && spxdsp.bEnableAGC)
     {
@@ -5296,7 +5179,12 @@ void CTeamTalkDlg::UpdateAudioConfig()
     }
     else
     {
-        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
+        // enable SpeexDSP if no AGC/AEC etc is enabled from sound device.
+        SoundDeviceEffects effects = {};
+        TT_GetSoundDeviceEffects(ttInst, &effects);
+        if (!effects.bEnableAGC && !effects.bEnableDenoise && !effects.bEnableEchoCancellation)
+            TT_SetSoundInputPreprocess(ttInst, &spxdsp);
+
         UpdateGainLevel(m_wndGainSlider.GetPos());
     }
 

@@ -101,6 +101,7 @@ namespace soundsystem {
         bool StopStream(inputstreamer_t streamer);
         void CloseStream(inputstreamer_t streamer);
         bool IsStreamStopped(inputstreamer_t streamer);
+        bool UpdateStreamCaptureFeatures(inputstreamer_t streamer);
 
         bool SetEchoCancellation(inputstreamer_t streamer, bool enable);
         bool IsEchoCancelling(inputstreamer_t streamer);
@@ -126,6 +127,7 @@ namespace soundsystem {
                                    int output_channels, int framesize)  { return duplexstreamer_t(); }
         void CloseStream(duplexstreamer_t streamer) { }
         bool StartStream(duplexstreamer_t streamer) { return false; }
+        bool IsStreamStopped(duplexstreamer_t streamer) { return true; }
         bool AddDuplexOutputStream(StreamDuplex* duplex,
                                    StreamPlayer* player)  { return false; }
         bool RemoveDuplexOutputStream(StreamDuplex* duplex,

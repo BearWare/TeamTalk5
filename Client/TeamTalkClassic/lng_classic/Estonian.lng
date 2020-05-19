@@ -141,8 +141,6 @@
     <item id="1123">IP-aadress</item>
     <item id="1131">Ühenduse katkemisel järel taasühenda</item>
     <item id="1142">Täpsemad seaded</item>
-    <item id="1145">Windowsi mikseri abiline</item>
-    <item id="1147">Ajutine mikseri sisend</item>
     <item id="1148">Kliendi versioon</item>
     <item id="1149">Kliendi häälestused</item>
     <item id="1150">Käivitu minimeeritult</item>
@@ -163,8 +161,6 @@
     <item id="1170">&amp;Genereeri .tt fail</item>
     <item id="1172">p.sõnum</item>
     <item id="1175">Testi valitut</item>
-    <item id="1181">Luba ajutine mikseri sisendseade, kui vajutatakse kiirklahvi</item>
-    <item id="1185">Kompenseeri mikrofoni võimendamise bugi</item>
     <item id="1186">Helisündmus</item>
     <item id="1188">Salvestaja sämplimiskiirus</item>
     <item id="1189">Sisendseade</item>
@@ -240,7 +236,6 @@
     <item id="1335">Kasutaja võib sisse logida mitu korda</item>
     <item id="1339">Klassituba (operaator juhib edastamist)</item>
     <item id="1341">Luba kõigi kasutajate jaoks fikseeritud helitugevus</item>
-    <item id="1345">Luba dupleks režiim (vajalik kajasummutuse jaoks)</item>
     <item id="1347">Ignoreeri vaikust</item>
     <item id="1349">Bitikiirus</item>
     <item id="1350">Maks. bitikiirus</item>

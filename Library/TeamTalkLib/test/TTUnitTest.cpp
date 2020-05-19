@@ -114,9 +114,15 @@ bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(
     return false;
 }
 
-bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage* outmsg, int timeout /*= DEFWAIT*/)
+bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg, int timeout /*= DEFWAIT*/)
 {
-    return WaitForEvent(ttClient, ttevent, [](TTMessage) { return true; }, outmsg, timeout);
+    return WaitForEvent(ttClient, ttevent, [](TTMessage) { return true; }, &outmsg, timeout);
+}
+
+bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, int timeout)
+{
+    TTMessage msg;
+    return WaitForEvent(ttClient, ttevent, msg, timeout);
 }
 
 bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage* outmsg, int timeout /*= DEFWAIT*/)

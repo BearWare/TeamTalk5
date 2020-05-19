@@ -206,8 +206,6 @@
     <item id="1123">Adres IP</item>
     <item id="1131">połącz ponownie po utracie połączenia</item>
     <item id="1142">Ustawienia zaawansowane</item>
-    <item id="1145">Pomocnik miksera systemu</item>
-    <item id="1147">Tymczasowe wejście miksera</item>
     <item id="1148">Wersja klienta</item>
     <item id="1149">Ustawienia klienta</item>
     <item id="1150">Uruchamiaj jako zminimalizowany</item>
@@ -228,8 +226,6 @@
     <item id="1170">&amp;Utwórz plik .tt</item>
     <item id="1172">Wiadomość powitalna</item>
     <item id="1175">Testuj</item>
-    <item id="1181">Włącz tymczasowe wejście miksera gdy klawisz jest wciskany (Przestarzałe, użyteczne dla WIN XP)</item>
-    <item id="1185">Kompensuj błąd wzmocnienia mikrofonu (przestarzałe, użyteczne dla WIN XP)</item>
     <item id="1186">Ustawienia zdarzeń dźwiękowych</item>
     <item id="1188">Prędkość próbkowania urządzenia wejściowego</item>
     <item id="1189">Urządzenie wejścia</item>
@@ -306,7 +302,6 @@
     <item id="1335">Użytkownik może logować się z więcej niż jednej sesji</item>
     <item id="1339">Kanał kontrolowany przez operatora (klasa, wykład)</item>
     <item id="1341">Ustal określony poziom głośności dla wszystkich użytkowników (niezalecane)</item>
-    <item id="1345">Włącz tryb dupleksu (wymagany do poprawnego funkcjonowania usuwania echa)</item>
     <item id="1347">Ignoruj ciszę</item>
     <item id="1349">Bitrate</item>
     <item id="1350">Maxymalny bitrate</item>
