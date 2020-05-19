@@ -181,7 +181,7 @@ void TextMessageDlg::newMsg(const TextMessage& msg, bool store)
             if(TT_GetUser(ttInst, m_userid, &user))
             {
                 if(!m_logFile.isOpen())
-                    openLogFile(m_logFile, folder, getDisplayName(user));
+                    openLogFile(m_logFile, folder, getDisplayName(user) + ".ulog");
             }
             writeLogEntry(m_logFile, line);
         }

@@ -2202,7 +2202,7 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
         if(chanlog.size())
         {
             if(!m_logChan.isOpen())
-                openLogFile(m_logChan, chanlog, _Q(m_mychannel.szName));
+                openLogFile(m_logChan, chanlog, _Q(m_mychannel.szName) + ".clog");
             writeLogEntry(m_logChan, line);
         }
 

@@ -1628,7 +1628,7 @@ QString generateLogFileName(const QString& name)
         if(invalidPath.contains(filename[i]))
             filename[i] = '_';
     }
-    return filename + ".log";
+    return filename;
 }
 
 bool openLogFile(QFile& file, const QString& folder, const QString& name)
