@@ -7,6 +7,11 @@ Accessible Windows client
 - Removed Windows Sound system
 - Removed Advanced page from Preferences
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
+- User accounts are now sorted
+Default Qt client
+- Removed duplex mode for sound devices
+- Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
+
 
 Version 5.5.1, 2020/05/03
 Accessible Windows client
