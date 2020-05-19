@@ -705,7 +705,7 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
         DeviceInfo outdev;
         if (!GetDevice(outputdeviceid, outdev))
             return duplexstreamer_t();
-        samplerate = outdev.default_samplerate;
+        assert(samplerate == outdev.default_samplerate);
 
         streamer->winaec.reset(new CWMAudioAECCapture(streamer.get(), duplex->GetDuplexFeatures()));
         if (!streamer->winaec->Open())
