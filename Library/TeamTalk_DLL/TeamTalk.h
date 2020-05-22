@@ -3714,6 +3714,18 @@ extern "C" {
      * @brief Perform a record and playback test of specified sound
      * devices along with an audio configuration.
      *
+     * @deprecated Use TT_StartSoundLoopbackTestEx() */
+    TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
+                                                           IN INT32 nOutputDeviceID,
+                                                           IN INT32 nSampleRate,
+                                                           IN INT32 nChannels,
+                                                           IN TTBOOL bDuplexMode,
+                                                           IN const SpeexDSP* lpSpeexDSP);
+
+    /**
+     * @brief Perform a record and playback test of specified sound
+     * devices along with an audio configuration.
+     *
      * Call TT_CloseSoundLoopbackTest() to stop the loopback
      * test.
      *
@@ -3733,21 +3745,16 @@ extern "C" {
      * supportedSampleRates of #SoundDevice to see which sample rates
      * are supported. The #SoundDevice must have the feature
      * #SOUNDDEVICEFEATURE_DUPLEXMODE.
-     * @param lpSpeexDSP The preprocessing settings to use, i.e. AGC 
+     * @param lpAudioPreprocessor The preprocessing settings to use, i.e. AGC
      * and denoising properties. Pass NULL to ignore AGC, denoise and AEC.
+     * @param lpSoundDeviceEffects The sound device effects which should be
+     * applied before the loopback test is started.
      * @return Returns NULL in case of error, otherwise sound loop instance
      * which can be closed by TT_CloseSoundLoopbackTest();
      * @see TT_InitSoundInputDevice()
      * @see TT_InitSoundOutputDevice()
      * @see TT_InitSoundDuplexDevices()
      * @see TT_CloseSoundLoopbackTest() */
-    TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID, 
-                                                           IN INT32 nOutputDeviceID,
-                                                           IN INT32 nSampleRate,
-                                                           IN INT32 nChannels,
-                                                           IN TTBOOL bDuplexMode,
-                                                           IN const SpeexDSP* lpSpeexDSP);
-
     TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID,
                                                              IN INT32 nOutputDeviceID,
                                                              IN INT32 nSampleRate,
