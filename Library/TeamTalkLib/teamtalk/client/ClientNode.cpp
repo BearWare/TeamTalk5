@@ -3075,12 +3075,13 @@ bool ClientNode::AutoPositionUsers()
 }
 
 bool ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
+                                          const media::AudioFormat& outfmt,
                                           bool enable)
 {
     ASSERT_REACTOR_LOCKED(this);
 
     if(enable)
-        m_audiocontainer.AddSoundSource(userid, stream_type);
+        m_audiocontainer.AddSoundSource(userid, stream_type, outfmt);
     else
         m_audiocontainer.RemoveSoundSource(userid, stream_type);
 

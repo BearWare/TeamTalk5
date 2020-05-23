@@ -4060,9 +4060,31 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_GetSoundInputPreprocess(IN TTInstance* lpTTInstance,
                                                       OUT SpeexDSP* lpSpeexDSP);
 
+    /**
+     * @brief Enable sound preprocessor which should be used for
+     * processing audio recorded by the sound input device (voice
+     * input).
+     *
+     * It is recommended to use the sound device's native echo
+     * cancellor, denoising and automatic gain control instead of
+     * #SpeexDSP. Checkout TT_SetSoundDeviceEffects().
+     *
+     * @param lpTTInstance Pointer to client instance created by 
+     * #TT_InitTeamTalk.
+     * @param lpAudioPreprocessor The sound preprocessor settings to use.
+     * @return TRUE on success, FALSE on failure. */
     TEAMTALKDLL_API TTBOOL TT_SetSoundInputPreprocessEx(IN TTInstance* lpTTInstance,
                                                         IN const AudioPreprocessor* lpAudioPreprocessor);
     
+    /** 
+     * @brief Get the sound preprocessor settings which are currently
+     * in use for recorded sound input device (voice input).
+     *
+     * @param lpTTInstance Pointer to client instance created by 
+     * #TT_InitTeamTalk.
+     * @param lpAudioPreprocessor A preallocated #AudioPreprocessor which will 
+     * receive the settings that is currently in effect.
+     * @return TRUE on success, FALSE on failure. */
     TEAMTALKDLL_API TTBOOL TT_GetSoundInputPreprocessEx(IN TTInstance* lpTTInstance,
                                                         OUT AudioPreprocessor* lpAudioPreprocessor);
 
@@ -4136,6 +4158,8 @@ extern "C" {
      * will be accessible by calling TT_AcquireUserAudioBlock(). Every
      * time a new #AudioBlock is available the event
      * #CLIENTEVENT_USER_AUDIOBLOCK is generated.
+     *
+     * @deprecated Use TT_EnableAudioBlockEventEx()
      * 
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
@@ -4155,6 +4179,31 @@ extern "C" {
                                                     IN StreamType nStreamType,
                                                     IN TTBOOL bEnable);
 
+    /**
+     * @brief Same as TT_EnableAudioBlockEvent() but option to specify
+     * audio output format.
+     *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     * @param nUserID The user ID to monitor for audio callback. Pass
+     * special user ID #TT_LOCAL_USERID to monitor local recorded
+     * audio prior to encoding/processing. Pass special user ID
+     * #TT_MUXED_USERID to get a single audio stream of all audio that
+     * is being played from users.
+     * @param nStreamType Either #STREAMTYPE_VOICE or 
+     * #STREAMTYPE_MEDIAFILE_AUDIO.
+     * @param lpAudioFormat Resample audio format from user to this #AudioFormat.
+     * Specify NULL to get original audio format.
+     * @param bEnable Whether to enable the #CLIENTEVENT_USER_AUDIOBLOCK event.
+     * @see TT_AcquireUserAudioBlock()
+     * @see TT_ReleaseUserAudioBlock()
+     * @see CLIENTEVENT_USER_AUDIOBLOCK */
+    TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEventEx(IN TTInstance* lpTTInstance,
+                                                      IN INT32 nUserID,
+                                                      IN StreamType nStreamType,
+                                                      IN const AudioFormat* lpAudioFormat,
+                                                      IN TTBOOL bEnable);
+    
     /** @} */
 
     /** @addtogroup transmission

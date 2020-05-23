@@ -871,10 +871,26 @@ TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEvent(IN TTInstance* lpTTInstance,
                                                 IN StreamType nStreamType,
                                                 IN TTBOOL bEnable)
 {
+    return TT_EnableAudioBlockEventEx(lpTTInstance, nUserID, nStreamType, nullptr, bEnable);
+}
+
+TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEventEx(IN TTInstance* lpTTInstance,
+                                                  IN INT32 nUserID,
+                                                  IN StreamType nStreamType,
+                                                  IN const AudioFormat* lpAudioFormat,
+                                                  IN TTBOOL bEnable)
+{
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    media::AudioFormat fmt = (lpAudioFormat ? media::AudioFormat(lpAudioFormat->nSampleRate,
+                                                                 lpAudioFormat->nChannels)
+                              : media::AudioFormat());
     
-    return clientnode->EnableAudioBlockCallback(nUserID, (teamtalk::StreamType)nStreamType, bEnable);
+    
+    
+    return clientnode->EnableAudioBlockCallback(nUserID, (teamtalk::StreamType)nStreamType,
+                                                fmt, bEnable);
 }
 
 TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,

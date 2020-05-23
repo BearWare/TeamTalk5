@@ -329,6 +329,7 @@ namespace teamtalk {
         bool AutoPositionUsers();    //position users in 3D
 
         bool EnableAudioBlockCallback(int userid, StreamType stream_type,
+                                      const media::AudioFormat& outfmt,
                                       bool enable);
         // user provided audio stream that replaces voice input stream
         bool QueueAudioInput(const media::AudioFrame& frm, int streamid);

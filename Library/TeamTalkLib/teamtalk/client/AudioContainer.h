@@ -33,19 +33,22 @@
 #include <memory>
 #include <mutex>
 
-typedef union audioentry
+struct AudioEntry
 {
-    struct
+    uint16_t userid = 0;
+    uint16_t streamtype = 0;
+    
+    AudioEntry(uint16_t uid, uint16_t st) : userid(uid), streamtype(st) {}
+    
+    uint32_t entryid() const
     {
-        ACE_UINT16 userid;
-        ACE_UINT16 streamtype;
-        ACE_UINT32 none;
-    };
-    ACE_UINT64 entryid;
-    audioentry() : entryid(0) {}
-    audioentry(ACE_UINT16 user_id, ACE_UINT16 stream_type)
-        : userid(user_id), streamtype(stream_type), none(0) { }
-} audioentry_t;
+        return (userid << 16) | streamtype;
+    }
+    bool operator<(const AudioEntry& entry) const
+    {
+        return entryid() < entry.entryid();
+    }
+};
 
 class AudioContainer
 {
@@ -53,7 +56,7 @@ public:
     AudioContainer(const AudioContainer&) = delete;
     AudioContainer();
     
-    void AddSoundSource(int userid, int stream_type);
+    void AddSoundSource(int userid, int stream_type, const media::AudioFormat& af);
     void RemoveSoundSource(int userid, int stream_type);
 
     bool AddAudio(int userid, int stream_type, const media::AudioFrame& frame);
@@ -63,10 +66,9 @@ public:
 
 private:
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > msg_queue_t;
-    typedef std::map<ACE_UINT64, msg_queue_t> audiostore_t;
+    typedef std::map<AudioEntry, msg_queue_t> audiostore_t;
     audiostore_t m_container;
     std::recursive_mutex m_store_mtx;
-    std::set<ACE_UINT64> m_active_srcs;
 };
 
 #endif

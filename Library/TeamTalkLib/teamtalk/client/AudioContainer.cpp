@@ -28,19 +28,17 @@ AudioContainer::AudioContainer()
 {
 }
 
-void AudioContainer::AddSoundSource(int userid, int stream_type)
+void AudioContainer::AddSoundSource(int userid, int stream_type,
+                                    const media::AudioFormat& af)
 {
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
-    m_active_srcs.insert(audioentry(userid, stream_type).entryid);
+    m_container[AudioEntry(userid, stream_type)] = msg_queue_t();
 }
 
 void AudioContainer::RemoveSoundSource(int userid, int stream_type)
 {
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
-
-    audioentry entry(userid, stream_type);
-    m_active_srcs.erase(entry.entryid);
-    m_container.erase(entry.entryid);
+    m_container.erase(AudioEntry(userid, stream_type));
 }
 
 bool AudioContainer::AddAudio(int userid, int stream_type,
@@ -51,18 +49,18 @@ bool AudioContainer::AddAudio(int userid, int stream_type,
 
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
 
-    audioentry_t entry(userid, stream_type);
-    if(m_active_srcs.find(entry.entryid) == m_active_srcs.end())
+    audiostore_t::iterator ii = m_container.find(AudioEntry(userid, stream_type));
+    
+    if (ii == m_container.end())
         return false;
-
+        
     // MYTRACE(ACE_TEXT("Add audio from #%d to container %p. Offset %u. Samples: %u. Timestamp: %u\n"),
     //         userid, this, frame.sample_no, frame.input_samples, frame.timestamp);
 
     // MYTRACE(ACE_TEXT("Adding audio #%d of channels %d\n"), userid, channels);
     ACE_Message_Block* mb = AudioFrameToMsgBlock(frame);
 
-    audiostore_t::iterator ii = m_container.find(entry.entryid);
-    if(ii != m_container.end())
+    if(ii != m_container.end() && ii->second)
     {
         ACE_Time_Value tm;
         if (ii->second->enqueue(mb, &tm) < 0)
@@ -97,7 +95,7 @@ bool AudioContainer::AddAudio(int userid, int stream_type,
         }
         else
         {
-            m_container[entry.entryid] = mq;
+            ii->second = mq;
         }
     }
     return true;
@@ -107,9 +105,7 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, int stream_type
 {
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
 
-    audioentry_t entry(userid, stream_type);
-
-    audiostore_t::iterator ii = m_container.find(entry.entryid);
+    audiostore_t::iterator ii = m_container.find(AudioEntry(userid, stream_type));
     if(ii != m_container.end())
     {
         ACE_Time_Value tm;
@@ -133,9 +129,6 @@ void AudioContainer::ReleaseAllAudio()
     audiostore_t::iterator ii = m_container.begin();
     while(ii != m_container.end())
     {
-        audioentry_t entry;
-        entry.entryid = ii->first;
-
         ACE_Time_Value tm;
         ACE_Message_Block* mb;
 
@@ -143,7 +136,7 @@ void AudioContainer::ReleaseAllAudio()
         {
             mb->release();
             MYTRACE(ACE_TEXT("AudioContainer clean up #%d, removing obsolete\n"),
-                    entry.userid);
+                    ii->first.userid);
         }
 
         m_container.erase(ii++);
