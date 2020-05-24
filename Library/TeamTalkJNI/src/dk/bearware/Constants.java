@@ -43,6 +43,7 @@ public interface Constants
     public static final int TT_TRANSMITUSERS_USERID_INDEX = 0;
     public static final int TT_TRANSMITUSERS_STREAMTYPE_INDEX = 1;
     public static final int TT_LOCAL_USERID = 0;
+    public static final int TT_LOCAL_TX_USERID = 0x1002;
     public static final int TT_MUXED_USERID = 0x1001;
 
     public static final int DEFAULT_TCP_PORT = 10333;
