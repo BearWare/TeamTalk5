@@ -591,6 +591,15 @@ extern "C" {
 #define TT_LOCAL_USERID 0
 
 /**
+ * @brief User ID passed to TT_EnableAudioBlockEvent() in order to
+ * receive #AudioBlock when voice transmission is activated.
+ *
+ * Either through TT_EnableVoiceActivation() or
+ * TT_EnableVoiceTransmission().
+ */
+#define TT_LOCAL_TX_USERID 0x1002
+
+/**
  * @brief User ID used to identify muxed audio that has been mixed
  * into a single stream.
  *
