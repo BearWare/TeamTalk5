@@ -770,21 +770,6 @@ namespace UnitTest
             cv.wait(lk);
         }
 #endif
-        TEST_METHOD(TestHTTPS)
-        {
-            //ACE::HTTPS::Context::set_default_ssl_mode(ACE_SSL_Context::SSLv23);
-            //ACE::HTTPS::Context::set_default_verify_mode(true);
-            //ACE::HTTPS::Context::instance().use_default_ca();
-            //ACE::INet::SSL_CallbackManager::instance()->set_certificate_callback(new ACE::INet::SSL_CertificateAcceptor);
-
-            std::string response1, response2, response3;
-            Assert::AreEqual(1, HttpRequest("http://www.bearware.dk/teamtalk/weblogin.php?ping=1", response1));
-#if defined(ENABLE_ENCRYPTION)
-            Assert::AreEqual(1, HttpRequest("https://www.bearware.dk/teamtalk/weblogin.php?ping=1", response2));
-            Assert::AreEqual(response1, response2);
-            Assert::AreEqual(1, HttpRequest("https://www.google.com", response3));
-#endif
-        }
 
         TEST_METHOD(TestTeamTalkVideoCapture)
         {
