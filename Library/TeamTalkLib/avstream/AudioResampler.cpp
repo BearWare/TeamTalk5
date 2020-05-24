@@ -38,11 +38,11 @@
 
 #define ZERO_IT 0
 
-int CalcSamples(int src_samplerate, int src_samples, int dest_samplerate)
+uint32_t CalcSamples(int src_samplerate, uint32_t src_samples, int dest_samplerate)
 {
     double samples = ((double)dest_samplerate / (double)src_samplerate) * (double)src_samples;
     samples += .5;
-    return (int)samples;
+    return uint32_t(samples);
 }
 
 AudioResampler::AudioResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,

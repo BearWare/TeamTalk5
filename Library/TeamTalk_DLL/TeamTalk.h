@@ -643,7 +643,7 @@ extern "C" {
          * @see TT_SetUserMediaStorageDir()
          * @see TT_StartRecordingMuxedAudioFile() */
         AFF_CHANNELCODEC_FORMAT  = 1,
-        /** @brief Store in 16-bit wave format. */
+        /** @brief Store in PCM 16-bit wave format. */
         AFF_WAVE_FORMAT          = 2,
         /** @brief Store in MP3-format. */
         AFF_MP3_16KBIT_FORMAT    = 3,
@@ -4193,6 +4193,7 @@ extern "C" {
      * @param nStreamType Either #STREAMTYPE_VOICE or 
      * #STREAMTYPE_MEDIAFILE_AUDIO.
      * @param lpAudioFormat Resample audio format from user to this #AudioFormat.
+     * Currently only AFF_WAVE_FORMAT is supported.
      * Specify NULL to get original audio format.
      * @param bEnable Whether to enable the #CLIENTEVENT_USER_AUDIOBLOCK event.
      * @see TT_AcquireUserAudioBlock()
