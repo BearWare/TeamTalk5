@@ -61,6 +61,7 @@ using namespace std;
 #include <MMDeviceApi.h>
 #include <avstream/DMOResampler.h>
 #include <avstream/PortAudioWrapper.h>
+#include <mfapi.h>
 
 static class WinInit
 {
@@ -69,6 +70,10 @@ public:
     {
         int ret = ACE::init();
         assert(ret >= 0);
+#if defined(ENABLE_MEDIAFOUNDATION)
+        HRESULT hr = MFStartup(MF_VERSION, MFSTARTUP_FULL);
+        assert(SUCCEEDED(hr));
+#endif
     }
     ~WinInit()
     {
