@@ -22,7 +22,7 @@
  */
 
 #include "AudioContainer.h"
-#include <teamtalk/ttassert.h>
+#include <assert.h>
 
 uint32_t GenKey(int userid, int streamtype)
 {
@@ -53,9 +53,6 @@ void AudioContainer::RemoveSoundSource(int userid, int stream_type)
 bool AudioContainer::AddAudio(int userid, int stream_type,
                               const media::AudioFrame& frame)
 {
-    TTASSERT(userid<=0xFFFF);
-    TTASSERT(stream_type<=0xFFFF);
-
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
 
     audiostore_t::iterator ii = m_container.find(GenKey(userid, stream_type));
