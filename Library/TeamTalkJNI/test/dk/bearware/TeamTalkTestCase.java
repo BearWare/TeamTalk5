@@ -1539,6 +1539,71 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         } while (receiveSamples > 0);
     }
 
+
+    public void test_MuxedAudioBlockSoundInputDisabled() throws IOException {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+            UserRight.USERRIGHT_TRANSMIT_VOICE |
+            UserRight.USERRIGHT_MULTI_LOGIN;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase rxclient = newClientInstance();
+
+        TTMessage msg = new TTMessage();
+
+        connect(rxclient);
+        initSound(rxclient);
+        login(rxclient, NICKNAME, USERNAME, PASSWORD);
+
+        Channel chan = buildDefaultChannel(rxclient, "Opus - Mux initial", Codec.OPUS_CODEC);
+        chan.audiocodec.opus.nChannels = 2;
+        chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_AUDIO;
+        chan.audiocodec.opus.bDTX = false;
+
+        assertTrue("join", waitCmdSuccess(rxclient, rxclient.doJoinChannel(chan), DEF_WAIT));
+        assertTrue("get new chan", rxclient.getChannel(rxclient.getMyChannelID(), chan));
+        assertTrue("enable aud cb", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, true));
+
+        // first receive initial audio blocks with sound input device active
+        int receiveBlocks = 5;
+        do {
+            assertTrue("gimme 1 secs of voice audioblock", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            assertEquals("muxed userid", Constants.TT_MUXED_USERID, msg.nSource);
+            AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+            assertTrue("block valid initially", block != null);
+            assertTrue("aud block has samples", block.nSamples > 0);
+            receiveBlocks--;
+        } while (receiveBlocks > 0);
+
+        // close sound input device and ensure we still receive samples
+        assertTrue("close sound input", rxclient.closeSoundInputDevice());
+
+        receiveBlocks = 10;
+        do {
+            assertTrue("gimme audioblock with sound input disabled", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            assertEquals("muxed userid", Constants.TT_MUXED_USERID, msg.nSource);
+            AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+            assertTrue("block valid with sound input disabled", block != null);
+            assertTrue("aud block has samples", block.nSamples > 0);
+            receiveBlocks--;
+        } while (receiveBlocks > 0);
+
+        // restart audio blocks while sound input device is disabled
+        assertTrue("disable aud cb and remove pending audio blocks", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, false));
+        waitForEvent(rxclient, ClientEvent.CLIENTEVENT_NONE, 0);
+        assertTrue("enable aud cb again", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, true));
+
+        receiveBlocks = 5;
+        do {
+            assertTrue("gimme audio block with reenabled audioblocks and sound input disabled", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            assertEquals("muxed userid", Constants.TT_MUXED_USERID, msg.nSource);
+            AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+            assertTrue("block valid after reenable", block != null);
+            assertTrue("aud block has samples", block.nSamples > 0);
+            receiveBlocks--;
+        } while (receiveBlocks > 0);
+    }
+
     public void testResampledAudioBlock() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
