@@ -302,7 +302,8 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
                     System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
                 }
             }
-            if(System.currentTimeMillis() - start >= waittimeout)
+
+            if (System.currentTimeMillis() - start >= waittimeout && !gotmsg)
                 break;
         }
         while (!gotmsg || tmp.nClientEvent != nClientEvent);
