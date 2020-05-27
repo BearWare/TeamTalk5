@@ -2119,7 +2119,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("pass 0 user id as MYSELF", ttclient.enableAudioBlockEvent(0, StreamType.STREAMTYPE_VOICE, true));
 
-        FileOutputStream fs = new FileOutputStream(STORAGEFOLDER + File.separator + "MyWaveFile.wav");
+        String wavefilePath = STORAGEFOLDER + File.separator + "MyWaveFile.wav";
+        FileOutputStream fs = new FileOutputStream(wavefilePath);
 
         fs.write(new String("RIFF").getBytes());
         v = WRITE_BYTES + 36 - 8;
@@ -2163,7 +2164,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("init output dev, so we can hear recorded wavfile", ttclient.initSoundOutputDevice(outdev.value));
 
-        assertTrue("Stream MyWaveFile.wav",  ttclient.startStreamingMediaFileToChannel("MyWaveFile.wav", new VideoCodec()));
+        assertTrue("Stream MyWaveFile.wav",  ttclient.startStreamingMediaFileToChannel(wavefilePath, new VideoCodec()));
 
         assertTrue("get initial streaming event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
 
@@ -2435,7 +2436,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("Loop virtual output-dev stopped", ttclient.closeSoundLoopbackTest(loop));
 
         loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, nodev.nDeviceID, 48000, 2, true, new SpeexDSP(true));
-        assertTrue("Sound loopback virtual duplex-dev started", loop>0);
+        assertTrue("Sound loopback virtual duplex-dev started with SpeexDSP", loop>0);
 
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
 
