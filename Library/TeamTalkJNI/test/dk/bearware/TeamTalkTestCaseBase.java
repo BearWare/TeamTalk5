@@ -43,6 +43,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     public static int TCPPORT = 0, UDPPORT = 0;
 
     public static String SYSTEMID = "teamtalk";
+    public static String STORAGEFOLDER = System.getProperty("user.dir");
 
     public static int INPUTDEVICEID = -1, OUTPUTDEVICEID = -1;
     public static String VIDEODEVICEID = "None", VIDEODEVDISABLE="None"; //set to "None" to ignore video capture tests
@@ -56,7 +57,6 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
     public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
     public static final String MUXEDMEDIAFILE_OPUS = "muxwavefile_opus.ogg";
-
 
     public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
 

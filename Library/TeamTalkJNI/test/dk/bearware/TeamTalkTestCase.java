@@ -671,7 +671,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ttclient.getChannel(ttclient.getMyChannelID(), chan);
 
         assertEquals("OPUS codec running", Codec.OPUS_CODEC, chan.audiocodec.nCodec);
-        assertTrue("Opus to muxed wave", ttclient.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
+        assertTrue("Opus to muxed wave", ttclient.startRecordingMuxedAudioFile(chan.audiocodec,
+                                                                               STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
 
         assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(),
                                                                  Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
@@ -695,7 +696,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             assertTrue(waitCmdSuccess(clients.get(i), clients.get(i).doJoinChannelByID(ttclient.getMyChannelID(), ""), DEF_WAIT));
         }
 
-        assertTrue("Speex to muxed wave", ttclient.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
+        assertTrue("Speex to muxed wave", ttclient.startRecordingMuxedAudioFile(chan.audiocodec,
+                                                                                STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
 
 
         ttclient.enableVoiceTransmission(true);
@@ -790,7 +792,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         Channel chan = new Channel();
         ttclient.getChannel(ttclient.getMyChannelID(), chan);
-        assertTrue("Record muxed audio file", ttclient.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
+        assertTrue("Record muxed audio file", ttclient.startRecordingMuxedAudioFile(chan.audiocodec,
+                                                                                    STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
 
         assertTrue("enable voice tx", ttclient.enableVoiceTransmission(true));
 
@@ -846,7 +849,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                                                                                    Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
         assertEquals("OPUS codec running", Codec.OPUS_CODEC, chan.audiocodec.nCodec);
-        assertTrue("Mux to Opus file", ttclient1.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE_OPUS, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
+        assertTrue("Mux to Opus file", ttclient1.startRecordingMuxedAudioFile(chan.audiocodec,
+                                                                              STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_OPUS, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
 
         assertTrue("enable voice tx 1", ttclient1.enableVoiceTransmission(true));
 
@@ -911,7 +915,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ttclient2.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, freq += 300);
 
         // now store in Speex
-        assertTrue("Mux to Speex file", ttclient1.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE_SPEEX, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
+        assertTrue("Mux to Speex file", ttclient1.startRecordingMuxedAudioFile(chan.audiocodec,
+                                                                               STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_SPEEX, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
 
         assertTrue(ttclient1.enableVoiceTransmission(true));
 
@@ -942,7 +947,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                                                                    Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
         // now store in Speex
-        assertTrue("Mux to Speex VBR file", ttclient2.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE_SPEEX_VBR, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
+        assertTrue("Mux to Speex VBR file", ttclient2.startRecordingMuxedAudioFile(chan.audiocodec,
+                                                                                   STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_SPEEX_VBR, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
 
         assertTrue("get channel spx vbr", ttclient2.getChannel(ttclient2.getMyChannelID(), chan));
 
@@ -990,7 +996,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         Channel chan = new Channel();
         ttclient.getChannel(ttclient.getMyChannelID(), chan);
-        assertTrue(ttclient.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
+        assertTrue(ttclient.startRecordingMuxedAudioFile(chan.audiocodec,
+                                                         STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
 
         assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(),
                                                                  Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
@@ -1055,13 +1062,13 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         for (int i=0;i<clients.size();i+=2) {
             TeamTalkBase ttclient = clients.elementAt(i);
             assertTrue("get channel", ttclient.getChannel(ttclient.getMyChannelID(), chan));
-            String filename = "MuxedRecording-" + chan.szName + "-#" + ttclient.getMyUserID() + ".wav";
+            String filename = STORAGEFOLDER + File.separator + "MuxedRecording-" + chan.szName + "-#" + ttclient.getMyUserID() + ".wav";
             filenames.add(filename);
             cbintervalMSec.add(chan.audiocodec.opus.nTxIntervalMSec);
             assertTrue("Record mux", ttadmin.startRecordingMuxedAudioFile(ttclient.getMyChannelID(), filename, AudioFileFormat.AFF_WAVE_FORMAT));
         }
 
-        String rootfilename = "MuxedRecording-Root-Channel.wav";
+        String rootfilename = STORAGEFOLDER + File.separator + "MuxedRecording-Root-Channel.wav";
         filenames.add(rootfilename);
         assertTrue("Record mux", ttadmin.startRecordingMuxedAudioFile(ttadmin.getRootChannelID(), rootfilename, AudioFileFormat.AFF_WAVE_FORMAT));
         assertTrue("get root channel", ttadmin.getChannel(ttadmin.getRootChannelID(), chan));
@@ -1162,7 +1169,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("Enable aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_MEDIAFILE_AUDIO, true));
 
         MediaFileInfo mfi = new MediaFileInfo();
-        mfi.szFileName = "hest.wav";
+        mfi.szFileName = STORAGEFOLDER + File.separator + "hest.wav";
         mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
         mfi.uDurationMSec = 30 * 1000;
 
@@ -1391,10 +1398,10 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
 
         assertTrue("enable aud cb", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, true));
-        assertTrue("enable aud mux file", rxclient.startRecordingMuxedAudioFile(chan.audiocodec, "muxfileoutput.wav", AudioFileFormat.AFF_WAVE_FORMAT));
+        assertTrue("enable aud mux file", rxclient.startRecordingMuxedAudioFile(chan.audiocodec, STORAGEFOLDER + File.separator + "muxfileoutput.wav", AudioFileFormat.AFF_WAVE_FORMAT));
 
         int bytelen = chan.audiocodec.opus.nSampleRate * chan.audiocodec.opus.nChannels * 12/*seconds*/ * 2 /*short*/;
-        FileOutputStream fs = newWaveFile("muxoutput_opus.wav", chan.audiocodec.opus.nSampleRate, chan.audiocodec.opus.nChannels, bytelen);
+        FileOutputStream fs = newWaveFile(STORAGEFOLDER + File.separator + "muxoutput_opus.wav", chan.audiocodec.opus.nSampleRate, chan.audiocodec.opus.nChannels, bytelen);
 
         int receiveSamples = chan.audiocodec.opus.nSampleRate;
         do {
@@ -1483,7 +1490,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
 
         bytelen = samplerate * 5;
-        fs = newWaveFile("muxoutput_speexvbr.wav", samplerate, 1, bytelen);
+        fs = newWaveFile(STORAGEFOLDER + File.separator + "muxoutput_speexvbr.wav", samplerate, 1, bytelen);
         receiveSamples = samplerate;
         do {
             assertTrue("gimme 1 sec tone of voice speex vbr audioblock", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
@@ -2051,7 +2058,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 440));
         assertTrue(ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
 
-        FileOutputStream fs = newWaveFile("MyWaveFile.wav", SAMPLERATE, CHANNELS, WRITE_BYTES);
+        FileOutputStream fs = newWaveFile(STORAGEFOLDER + File.separator + "MyWaveFile.wav", SAMPLERATE, CHANNELS, WRITE_BYTES);
 
         while(WRITE_BYTES > 0) {
             assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
@@ -2112,7 +2119,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("pass 0 user id as MYSELF", ttclient.enableAudioBlockEvent(0, StreamType.STREAMTYPE_VOICE, true));
 
-        FileOutputStream fs = new FileOutputStream("MyWaveFile.wav");
+        FileOutputStream fs = new FileOutputStream(STORAGEFOLDER + File.separator + "MyWaveFile.wav");
 
         fs.write(new String("RIFF").getBytes());
         v = WRITE_BYTES + 36 - 8;
@@ -2304,9 +2311,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("wait cmd ok", waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(),
                                                                                 Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
-        String cwd = System.getProperty("user.dir");
         assertTrue("specify audio storage", ttclient.setUserMediaStorageDir(ttclient.getMyUserID(),
-                                                                            cwd, "%username%_%counter%",
+                                                                            STORAGEFOLDER, "%username%_%counter%",
                                                                             AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
 
         assertTrue("enable voice tx", ttclient.enableVoiceTransmission(true));
@@ -2314,7 +2320,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("audio file created", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
 
         assertEquals("recording started", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
-        assertEquals("correct filename", cwd + File.separator + USERNAME + "_" + "000000001.ogg", msg.mediafileinfo.szFileName);
+        assertEquals("correct filename", STORAGEFOLDER + File.separator + USERNAME + "_" + "000000001.ogg", msg.mediafileinfo.szFileName);
 
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 10000);
 
@@ -2328,7 +2334,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("audio file created 2", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
 
         assertEquals("recording started 2", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
-        assertEquals("correct filename 2", cwd + File.separator + USERNAME + "_" + "000000002.ogg", msg.mediafileinfo.szFileName);
+        assertEquals("correct filename 2", STORAGEFOLDER + File.separator + USERNAME + "_" + "000000002.ogg", msg.mediafileinfo.szFileName);
 
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 10000);
 
@@ -2359,7 +2365,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("audio file created 3", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
 
         assertEquals("recording started 3", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
-        assertEquals("correct filename 3", cwd + File.separator + USERNAME + "_" + "000000003.ogg", msg.mediafileinfo.szFileName);
+        assertEquals("correct filename 3", STORAGEFOLDER + File.separator + USERNAME + "_" + "000000003.ogg", msg.mediafileinfo.szFileName);
 
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 10000);
 
@@ -2374,7 +2380,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("audio file created 4", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
 
         assertEquals("recording started 4", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
-        assertEquals("correct filename 4", cwd + File.separator + USERNAME + "_" + "000000004.ogg", msg.mediafileinfo.szFileName);
+        assertEquals("correct filename 4", STORAGEFOLDER + File.separator + USERNAME + "_" + "000000004.ogg", msg.mediafileinfo.szFileName);
 
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 10000);
 
@@ -3097,7 +3103,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         // play single two second file
         MediaFileInfo mfi = new MediaFileInfo();
-        mfi.szFileName = "hest.wav";
+        mfi.szFileName = STORAGEFOLDER + File.separator + "hest.wav";
         mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
         mfi.uDurationMSec = 2 * 1000;
 
@@ -3138,7 +3144,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         // play single two second file
         MediaFileInfo mfi = new MediaFileInfo();
-        mfi.szFileName = "hest.wav";
+        mfi.szFileName = STORAGEFOLDER + File.separator + "hest.wav";
         mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
         mfi.uDurationMSec = 20 * 1000;
 
@@ -3187,7 +3193,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         // play single two second file
         MediaFileInfo mfi = new MediaFileInfo();
-        mfi.szFileName = "hest.wav";
+        mfi.szFileName = STORAGEFOLDER + File.separator + "hest.wav";
         mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
         mfi.uDurationMSec = 20 * 1000;
 
@@ -3221,7 +3227,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         // play single two second file
         MediaFileInfo mfi = new MediaFileInfo();
-        mfi.szFileName = "hest.wav";
+        mfi.szFileName = STORAGEFOLDER + File.separator + "hest.wav";
         mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
         mfi.uDurationMSec = 20 * 1000;
 
@@ -3304,7 +3310,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             if (msg.nSource == Constants.TT_LOCAL_USERID) {
                 AudioBlock ab = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_LOCAL_USERID);
                 if (localWaveFile == null) {
-                    localWaveFile = newWaveFile("local_audioinput.wav", ab.nSampleRate, ab.nChannels, 1024*1024 /* no idea */);
+                    localWaveFile = newWaveFile(STORAGEFOLDER + File.separator + "local_audioinput.wav", ab.nSampleRate, ab.nChannels, 1024*1024 /* no idea */);
                 }
                 localWaveFile.write(ab.lpRawAudio);
             }
@@ -3312,7 +3318,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             if (msg.nSource == Constants.TT_MUXED_USERID) {
                 AudioBlock ab = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_MUXED_USERID);
                 if (muxedWaveFile == null) {
-                    muxedWaveFile = newWaveFile("muxed_audioinput.wav", ab.nSampleRate, ab.nChannels, 1024*1024 /* no idea */);
+                    muxedWaveFile = newWaveFile(STORAGEFOLDER + File.separator + "muxed_audioinput.wav", ab.nSampleRate, ab.nChannels, 1024*1024 /* no idea */);
                 }
                 muxedWaveFile.write(ab.lpRawAudio);
             }
