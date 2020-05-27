@@ -23,9 +23,13 @@
 
 package dk.bearware;
 
-import junit.framework.Assert;
+import android.Manifest;
+import android.os.Environment;
+import android.support.test.rule.GrantPermissionRule;
 
-import java.util.Properties;
+import org.junit.Rule;
+
+import java.io.File;
 import java.util.Vector;
 
 /**
@@ -39,6 +43,16 @@ public class MyTest extends TeamTalkTestCase {
         return ttclient;
     }
 
+    @Rule
+    public GrantPermissionRule permissionRule1 = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.INTERNET,
+            Manifest.permission.VIBRATE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.READ_PHONE_STATE);
+
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -51,11 +65,14 @@ public class MyTest extends TeamTalkTestCase {
 
         this.INPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
         this.OUTPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
+
+        File filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        this.STORAGEFOLDER = filepath.toString();
     }
 
     public void test_This() {
         TeamTalkBase ttclient = newClientInstance();
-        assertTrue(ttclient != null);
+        assertNotNull(ttclient);
         initSound(ttclient);
         connect(ttclient);
         login(ttclient, getCurrentMethod(), "guest", "guest");
@@ -75,7 +92,7 @@ public class MyTest extends TeamTalkTestCase {
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
         assertTrue("close input devs", ttclient.closeSoundInputDevice());
         assertTrue("close output devs", ttclient.closeSoundOutputDevice());
-        assertTrue("restart sound system", ttclient.restartSoundSystem());
+        assertTrue("restart sound system", TeamTalkBase.restartSoundSystem());
         initSound(ttclient);
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT);
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
@@ -109,7 +126,7 @@ public class MyTest extends TeamTalkTestCase {
                 shareddev = d;
         }
 
-        assertTrue("shared device exists", shareddev != null);
+        assertNotNull("shared device exists", shareddev);
 
         shareddev.nDeviceID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
 
@@ -243,8 +260,6 @@ public class MyTest extends TeamTalkTestCase {
         spxdsp.bEnableDenoise = true;
         spxdsp.nMaxNoiseSuppressDB = -30;
         assertTrue("SpeexDSP", ttclient.setSoundInputPreprocess(spxdsp));
-
-        TTMessage msg = new TTMessage();
 
         connect(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
