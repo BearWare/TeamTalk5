@@ -36,7 +36,7 @@ import java.nio.ByteBuffer;
 
 public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
-    public void test_01_This() {
+    public void testThis() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
@@ -53,7 +53,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         // System.out.println("Desktop window: " + wnd.nWidth + "x" + wnd.nHeight + " size " + wnd.frameBuffer.length);
     }
 
-    public void test_SoundDevs() {
+    public void testSoundDevs() {
         TeamTalkBase ttclient = newClientInstance();
         initSound(ttclient);
 
@@ -61,14 +61,14 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("Set output mute", ttclient.setSoundOutputMute(true));
     }
 
-    public void test_Connect() {
+    public void testConnect() {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
 
         assertTrue("ping", waitCmdComplete(ttclient, ttclient.doPing(), DEF_WAIT));
     }
 
-    public void test_Auth() {
+    public void testAuth() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_VIEW_ALL_USERS;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
@@ -97,7 +97,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void test_Channels() {
+    public void testChannels() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
@@ -154,7 +154,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
     }
 
-    public void test_GenericMethods() {
+    public void testGenericMethods() {
 
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
@@ -202,7 +202,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void test_UserAccount() {
+    public void testUserAccount() {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
         login(ttclient, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
@@ -235,7 +235,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
 
-    public void test_Stats() {
+    public void testStats() {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
         login(ttclient, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
@@ -252,7 +252,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(ttclient.getClientStatistics(stats));
     }
 
-    public void test_SendDesktopWindow() {
+    public void testSendDesktopWindow() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
@@ -297,7 +297,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("Close desktop", ttclient.closeDesktopWindow());
     }
 
-    public void test_VideoCaptureDevs() {
+    public void testVideoCaptureDevs() {
 
         if (VIDEODEVICEID.equals(VIDEODEVDISABLE)) {
             System.err.println("Video capture test skipped due to device id: " + VIDEODEVDISABLE);
@@ -347,7 +347,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(ttclient.closeVideoCaptureDevice());
     }
 
-    public void test_VideoCaptureStream() {
+    public void testVideoCaptureStream() {
 
         if (VIDEODEVICEID.equals(VIDEODEVDISABLE)) {
             System.err.println("Video capture test skipped due to device id: " + VIDEODEVDISABLE);
@@ -445,7 +445,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(ttclient.closeVideoCaptureDevice());
     }
 
-    public void test_MediaStreaming() {
+    public void testMediaStreaming() {
 
         if (MEDIAFILE_VIDEO.isEmpty()) {
             System.err.println(getCurrentMethod() + " skipped due to missing " + MEDIAFILE_VIDEO);
@@ -532,7 +532,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("Stopped", ttclient.stopStreamingMediaFileToChannel());
     }
 
-    public void test_MediaStreamingOffset() {
+    public void testMediaStreamingOffset() {
 
         if (MEDIAFILE_VIDEO.isEmpty()) {
             System.err.println(getCurrentMethod() + " skipped due to missing " + MEDIAFILE_VIDEO);
@@ -596,7 +596,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("Stopped", ttclient.stopStreamingMediaFileToChannel());
     }
 
-    public void test_MediaStreaming_https() {
+    public void testMediaStreaming_https() {
 
         if (HTTPS_MEDIAFILE.isEmpty()) {
             System.err.println(getCurrentMethod() + " skipped due to empty HTTPS URL");
@@ -638,7 +638,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
 
 
-    public void test_MediaStorage_WaveOutput() {
+    public void testMediaStorage_WaveOutput() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
@@ -768,7 +768,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void test_MediaStorage_Self_WaveOutput() {
+    public void testMediaStorage_Self_WaveOutput() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
@@ -806,7 +806,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ttclient.enableVoiceTransmission(false);
     }
 
-    public void test_MediaStorage_OpusOutput() {
+    public void testMediaStorage_OpusOutput() {
 
         if (!OPUSTOOLS) {
             System.err.println(getCurrentMethod() + " skipped due to OPUS tools disabled.");
@@ -875,7 +875,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertFalse(waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, 100));
     }
 
-    public void test_MediaStorage_SpeexOutput() {
+    public void testMediaStorage_SpeexOutput() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
@@ -972,7 +972,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
     }
 
-    public void test_SelfEchoMediaStorage() {
+    public void testSelfEchoMediaStorage() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
@@ -1013,7 +1013,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ttclient.enableVoiceTransmission(false);
     }
 
-    public void test_RecordMultipleChannels() {
+    public void testRecordMultipleChannels() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_MULTI_LOGIN |
@@ -1124,7 +1124,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
     }
 
-    public void test_AudioBlock() {
+    public void testAudioBlock() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
@@ -1283,7 +1283,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
     }
 
-    public void test_LocalAudioBlock() {
+    public void testLocalAudioBlock() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
@@ -1348,7 +1348,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
     }
 
-    public void test_MuxedAudioBlock() throws IOException {
+    public void testMuxedAudioBlock() throws IOException {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
@@ -1547,7 +1547,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
 
-    public void test_MuxedAudioBlockSoundInputDisabled() throws IOException {
+    public void testMuxedAudioBlockSoundInputDisabled() throws IOException {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
             UserRight.USERRIGHT_TRANSMIT_VOICE |
@@ -1790,10 +1790,10 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
     }
 
-    public void test_ListAccounts() {
+    public void testListAccounts() {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
-        login(ttclient, "test_08_ListAccounts", ADMIN_USERNAME, ADMIN_PASSWORD);
+        login(ttclient, "test08_ListAccounts", ADMIN_USERNAME, ADMIN_PASSWORD);
 
         TTMessage msg = new TTMessage();
 
@@ -1803,11 +1803,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(account.uUserType != UserType.USERTYPE_NONE);
     }
 
-    public void test_ListBannedUsers() {
+    public void testListBannedUsers() {
 
         TeamTalkBase ttadmin = newClientInstance();
         connect(ttadmin);
-        login(ttadmin, "test_09_ListBannedUsers", ADMIN_USERNAME, ADMIN_PASSWORD);
+        login(ttadmin, "test09_ListBannedUsers", ADMIN_USERNAME, ADMIN_PASSWORD);
 
         User user = new User();
         assertTrue("get self", ttadmin.getUser(ttadmin.getMyUserID(), user));
@@ -1902,7 +1902,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void test_ChannelSwitch() throws InterruptedException{
+    public void testChannelSwitch() throws InterruptedException{
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS |
@@ -1945,7 +1945,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
     }
 
-    public void bug_test_18_ViewAllUsers() throws InterruptedException {
+    public void bug_test18_ViewAllUsers() throws InterruptedException {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - "
             + getCurrentMethod();
@@ -1969,7 +1969,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
     }
 
-    public void test_MessageQueue() throws InterruptedException {
+    public void testMessageQueue() throws InterruptedException {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - "
             + getCurrentMethod();
@@ -2020,7 +2020,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void test_WaveFile() throws IOException {
+    public void testWaveFile() throws IOException {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
             UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |
@@ -2078,7 +2078,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         fs.close();
     }
 
-    public void test_RecordPlayback() throws IOException {
+    public void testRecordPlayback() throws IOException {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
@@ -2177,7 +2177,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("Stream ended", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_FINISHED);
     }
 
-    public void test_SoundDuplex() {
+    public void testSoundDuplex() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
@@ -2220,7 +2220,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         } while (msg.nClientEvent != ClientEvent.CLIENTEVENT_CMD_PROCESSING);
     }
 
-    public void test_SoundInputAudioPreprocessor() {
+    public void testSoundInputAudioPreprocessor() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS |
@@ -2281,7 +2281,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("agc9", spxdsp.nEchoSuppressActive, spxdsp2.nEchoSuppressActive);
     }
 
-    public void test_StoreUserVoiceInFileFormats() {
+    public void testStoreUserVoiceInFileFormats() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
@@ -2391,7 +2391,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void test_SoundLoopback() {
+    public void testSoundLoopback() {
         TeamTalkBase ttclient;
 
         ttclient = newClientInstance();
@@ -2492,7 +2492,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
     }
 
-    public void test_SharedSoundDevice() {
+    public void testSharedSoundDevice() {
 
         TeamTalkBase ttclient1 = newClientInstance();
         TeamTalkBase ttclient2 = newClientInstance();
@@ -2591,7 +2591,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
 
-    public void test_VirtualSoundDevice() {
+    public void testVirtualSoundDevice() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
@@ -3279,7 +3279,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("streaming finished", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
     }
 
-    public void test_AudioInput() throws IOException {
+    public void testAudioInput() throws IOException {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN;
@@ -3491,7 +3491,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         // assertFalse("Maximum queue size for audio input is 3 sec", ttclient.insertAudioBlock(ab));
     }
 
-    public void test_VoiceTransmitOpenCloseAudioInput() throws InterruptedException {
+    public void testVoiceTransmitOpenCloseAudioInput() throws InterruptedException {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE;
@@ -3527,7 +3527,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
     }
 
-    public void test_SharedAudioInputOutput() {
+    public void testSharedAudioInputOutput() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE |
@@ -3640,7 +3640,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     /* cannot test output levels since a user is muted by sound system after decoding and callback.
 
-    public void test_SharedAudioInputOutputLevels() {
+    public void testSharedAudioInputOutputLevels() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE |

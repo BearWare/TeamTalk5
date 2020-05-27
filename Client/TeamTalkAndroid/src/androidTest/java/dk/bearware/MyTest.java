@@ -70,16 +70,7 @@ public class MyTest extends TeamTalkTestCase {
         this.STORAGEFOLDER = filepath.toString();
     }
 
-    public void test_This() {
-        TeamTalkBase ttclient = newClientInstance();
-        assertNotNull(ttclient);
-        initSound(ttclient);
-        connect(ttclient);
-        login(ttclient, getCurrentMethod(), "guest", "guest");
-        joinRoot(ttclient);
-    }
-
-    public void test_RestartSnd() {
+    public void testRestartSnd() {
         TeamTalkBase ttclient = newClientInstance();
         initSound(ttclient);
         connect(ttclient);
@@ -98,7 +89,7 @@ public class MyTest extends TeamTalkTestCase {
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
     }
 
-    public void test_StreamMedia() {
+    public void testStreamMedia() {
         TeamTalkBase ttclient = newClientInstance();
         initSound(ttclient);
         connect(ttclient);
@@ -112,7 +103,7 @@ public class MyTest extends TeamTalkTestCase {
         assertTrue("Stop media stream", ttclient.stopStreamingMediaFileToChannel());
     }
 
-    public void test_SharedAudioDevice() {
+    public void testSharedAudioDevice() {
         TeamTalkBase ttclient1 = newClientInstance();
         TeamTalkBase ttclient2 = newClientInstance();
         TeamTalkBase ttclient3 = newClientInstance();
@@ -172,7 +163,7 @@ public class MyTest extends TeamTalkTestCase {
         }
     }
 
-    public void test_MultiClientOnSharedAudioDevice() {
+    public void testMultiClientOnSharedAudioDevice() {
         TeamTalkBase ttclient1 = newClientInstance();
         TeamTalkBase ttclient2 = newClientInstance();
         TeamTalkBase ttclient3 = newClientInstance();
@@ -245,7 +236,7 @@ public class MyTest extends TeamTalkTestCase {
         }
     }
 
-    public void test_SpeexDSP() {
+    public void testSpeexDSP() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
@@ -278,7 +269,7 @@ public class MyTest extends TeamTalkTestCase {
         assertFalse("No AGC error on ARMv7A", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 1000));
     }
 
-    public void test_SoundDeviceEffects() {
+    public void testSoundDeviceEffects() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
@@ -323,7 +314,7 @@ public class MyTest extends TeamTalkTestCase {
         }
     }
 
-    public void test_SndInputFailure() {
+    public void testSndInputFailure() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN |
                 UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
@@ -411,7 +402,7 @@ public class MyTest extends TeamTalkTestCase {
     }
 
     // force 'E/libOpenSLES: Too many objects' error
-    public void test_MaxSoundOutputStreams() {
+    public void testMaxSoundOutputStreams() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN |
                 UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
