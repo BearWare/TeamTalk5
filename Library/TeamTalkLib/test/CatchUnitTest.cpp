@@ -683,10 +683,16 @@ TEST_CASE("CWMAudioAEC_Callback")
     sndsys->RemoveSoundGroup(sndgrpid);
 }
 
+#define ECHOPLAYBACKFILENAME ACE_TEXT("playfile.wav")
 TEST_CASE("CWMAudioAEC_DuplexMode")
 {
     using namespace soundsystem;
     
+    {
+        // Ensure wave file exists before running unit-test (otherwise SoundSystemBase destructor will complain with abort)
+        WavePCMFile ww;
+        REQUIRE(ww.OpenFile(ECHOPLAYBACKFILENAME, true));
+    }
 
     auto sndsys = soundsystem::GetInstance();
     int sndgrpid = sndsys->OpenSoundGroup();
@@ -723,7 +729,7 @@ TEST_CASE("CWMAudioAEC_DuplexMode")
                                          PCM16_SAMPLES_DURATION(framesize, fmt.samplerate));
                     REQUIRE(m_echofile.NewFile(filename, fmt.samplerate, fmt.channels));
 
-                    REQUIRE(m_playfile.OpenFile(ACE_TEXT("playfile.wav"), true));
+                    REQUIRE(m_playfile.OpenFile(ECHOPLAYBACKFILENAME, true));
 
                     media::AudioFormat filefmt(m_playfile.GetSampleRate(), m_playfile.GetChannels());
                     m_playframesize = CalcSamples(fmt.samplerate, framesize, filefmt.samplerate);
