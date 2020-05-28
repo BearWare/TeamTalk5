@@ -48,6 +48,7 @@ class MFTransformImpl : public MFTransform
     media::VideoFormat m_outputvideofmt;
     media::AudioFormat m_outputaudiofmt;
     int m_audio_samples = 0; // samples in audio output buffer
+    LONGLONG m_audio_duration = 0;
     wavefile_t m_audiofile;
 
 public:
@@ -499,7 +500,9 @@ public:
         auto pSample = CreateSample(frame);
 
         if (pSample)
+        {
             return SubmitSample(pSample);
+        }
 
         return TRANSFORM_ERROR;
     }
@@ -790,6 +793,15 @@ public:
         if(!pSample)
             return result;
 
+        // AAC requires IMFSample::SetSampleTime() and IMFSample::SetSampleDuration()
+        LONGLONG llSampleDuration = 0;
+        if (SUCCEEDED(pSample->GetSampleDuration(&llSampleDuration)))
+        {
+            HRESULT hr = pSample->SetSampleTime(m_audio_duration);
+            m_audio_duration += llSampleDuration;
+            assert(SUCCEEDED(hr));
+        }
+
         auto outputsamples = ProcessSample(pSample);
 
         for(auto& pOutSample : outputsamples)
@@ -1032,6 +1044,24 @@ mftransform_t MFTransform::CreateWMA(const media::AudioFormat& inputfmt, UINT uB
 
     return result;
 }
+
+mftransform_t MFTransform::CreateAAC(const media::AudioFormat& inputfmt, UINT uBitrate,
+                                     const ACE_TCHAR* szOutputFilename /*= nullptr*/)
+{
+    std::unique_ptr<MFTransformImpl> result;
+
+    CComPtr<IMFMediaType> pInputType = ConvertAudioFormat(inputfmt);
+    if(!pInputType)
+        return nullptr;
+
+    result.reset(new MFTransformImpl(pInputType, MFAudioFormat_AAC, uBitrate, szOutputFilename));
+    
+    if(!result->Ready())
+        result.reset();
+
+    return result;
+}
+
 
 media::FourCC ConvertSubType(const GUID& native_subtype)
 {
@@ -1338,13 +1368,10 @@ CComPtr<IMFSample> CreateSample(const media::AudioFrame& frame)
     if(FAILED(hr))
         goto fail;
 
-    //hr = pSample->SetSampleTime(frame.timestamp * 10000);
-    //if(FAILED(hr))
-    //    goto fail;
-
-    //hr = pSample->SetSampleDuration((1000 / 30) * 10000);
-    //if(FAILED(hr))
-    //    goto fail;
+    LONGLONG hnsSampleDuration = (frame.input_samples * (LONGLONG)10000000 ) / frame.inputfmt.samplerate;
+    hr = pSample->SetSampleDuration(hnsSampleDuration);
+    if (FAILED(hr))
+        goto fail;
 
     hr = MFCreateMemoryBuffer(dwBufSize, &pMediaBuffer);
     if(FAILED(hr))

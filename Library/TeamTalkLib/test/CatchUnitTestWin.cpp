@@ -1,5 +1,11 @@
 #include "catch.hpp"
 
+#include <ace/OS.h>
+
+#include "TTUnitTest.h"
+
+#include <bin/dll/Convert.h>
+
 #if defined(ENABLE_MEDIAFOUNDATION)
 #include <avstream/MFTransform.h>
 #endif
@@ -108,8 +114,36 @@ TEST_CASE("TestAudioEncoderTransform")
     UpdateWaveFileHeader(outwavefile);
 }
 
+TEST_CASE("TestAACEncoder")
+{
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nSampleRate = 48000;
+    wcsncpy(mfi.szFileName, _T("aacinputfile.wav"), TT_STRLEN);
+    mfi.uDurationMSec = 10*1000;
+
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.OpenFile(mfi.szFileName, true));
+
+    media::AudioFormat aacout(mfi.audioFmt.nSampleRate, mfi.audioFmt.nChannels);
+
+    auto transform = MFTransform::CreateAAC(aacout, 12000 * 8, _T("aacoutputfile.wav"));
+    REQUIRE(transform);
+
+    std::vector<short> buf(mfi.audioFmt.nChannels * mfi.audioFmt.nSampleRate);
+    media::AudioFrame frm(aacout, &buf[0], mfi.audioFmt.nSampleRate);
+    while (wavfile.ReadSamples(&buf[0], mfi.audioFmt.nSampleRate) > 0)
+    {
+        transform->ProcessAudioEncoder(frm, true);
+        frm.sample_no += mfi.audioFmt.nSampleRate;
+    }
+}
+
 enum {
-    MP3, WMA };
+    MP3, WMA, AAC };
 
 void AudioTransformEncoder(const media::AudioFormat& input, int bitrate, int fmt)
 {
@@ -141,6 +175,10 @@ void AudioTransformEncoder(const media::AudioFormat& input, int bitrate, int fmt
         wos << L"hest_mp3_" << input.channels << L"_" << input.samplerate << L"_" << bitrate << L"bps" << L".wav";
         transform = MFTransform::CreateMP3(input, bitrate, wos.str().c_str());
         break;
+    case AAC :
+        wos << L"hest_aac_" << input.channels << L"_" << input.samplerate << L"_" << bitrate << L"bps" << L".wav";
+        transform = MFTransform::CreateAAC(input, bitrate, wos.str().c_str());
+        break;
     }
 
     REQUIRE(transform.get() != nullptr);
@@ -160,14 +198,16 @@ void AudioTransformEncoder(const media::AudioFormat& input, int bitrate, int fmt
 
 TEST_CASE("TestAudioTransformEncoder")
 {
-    std::vector<int> samplerates = {8000, 12000, 16000, 24000, 32000, 48000}, channels = {1, 2}, bitrates = {16000, 32000, 64000, 128000, 256000}, fmts = { MP3 , WMA};
+    std::vector<int> samplerates = {8000, 12000, 16000, 24000, 32000, 48000}, channels = {1, 2}, bitrates = {16000, 32000, 64000, 128000, 256000}, fmts = { MP3 , WMA, AAC};
 
     for (auto sr :samplerates)
         for (auto ch : channels)
             for (auto br : bitrates)
                 for (auto fm : fmts)
                 {
-                    if (fm == WMA)
+                    switch (fm)
+                    {
+                    case WMA :
                         switch(sr)
                         {
                         case 12000 :
@@ -175,6 +215,16 @@ TEST_CASE("TestAudioTransformEncoder")
                         case 48000 :
                             continue;
                         }
+                        break;
+                    case AAC :
+                        switch(sr)
+                        {
+                        case 48000 :
+                            break;
+                        default :
+                            continue;
+                        }
+                    }
 
                     media::AudioFormat input(sr, ch);
                     AudioTransformEncoder(input, br, fm);

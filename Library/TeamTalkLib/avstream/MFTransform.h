@@ -67,6 +67,7 @@ public:
     static mftransform_t Create(media::AudioFormat inputfmt, media::AudioFormat outputfmt, int output_samples);
     static mftransform_t CreateMP3(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename = nullptr);
     static mftransform_t CreateWMA(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename = nullptr);
+    static mftransform_t CreateAAC(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename = nullptr);
 
     virtual CComPtr<IMFMediaType> GetInputType() = 0;
     virtual CComPtr<IMFMediaType> GetOutputType() = 0;
