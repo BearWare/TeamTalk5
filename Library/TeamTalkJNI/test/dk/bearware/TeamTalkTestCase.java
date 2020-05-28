@@ -2205,6 +2205,15 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         connect(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
 
+        Channel chan = new Channel();
+        assertTrue("get root channel", ttclient.getChannel(ttclient.getRootChannelID(), chan));
+        assertEquals("opus set", Codec.OPUS_CODEC, chan.audiocodec.nCodec);
+
+        if (!supportsDuplexMode(ttclient, INPUTDEVICEID, OUTPUTDEVICEID, chan.audiocodec.opus.nSampleRate)) {
+            System.err.println("Duplex tests skipped due to no shared sample rate");
+            return;
+        }
+
         int cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "");
         assertTrue("issued cmd", cmdid>0);
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_PROCESSING, DEF_WAIT);
@@ -2404,7 +2413,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             out.value = OUTPUTDEVICEID;
         }
 
-        SoundDevice nodev = null;
+        SoundDevice nodev = null, outdev = null;
         Vector<SoundDevice> devs = new Vector<SoundDevice>();
         ttclient.getSoundDevices(devs);
         for(SoundDevice d : devs) {
@@ -2412,6 +2421,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 nodev = d;
                 assertEquals("Virtual TeamTalk device", SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, d.nDeviceID);
             }
+            if (d.nDeviceID == out.value)
+                outdev = d;
         }
 
         long loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 1, false, null);
@@ -2462,14 +2473,20 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             return;
         }
 
-        loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 2, true, preprocessor, null);
+        final int SAMPLERATE = outdev.nDefaultSampleRate;
+        if (!supportsDuplexMode(ttclient, in.value, out.value, SAMPLERATE)) {
+            System.err.println("Duplex tests skipped due to no shared sample rate");
+            return;
+        }
+
+        loop = ttclient.startSoundLoopbackTest(in.value, out.value, SAMPLERATE, 2, true, preprocessor, null);
         assertTrue("Sound loopback AudioPreprocessor started", loop>0);
 
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
 
         assertTrue("Loop Audio Preprocessor stopped", ttclient.closeSoundLoopbackTest(loop));
 
-        loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 1, true, new SpeexDSP(true));
+        loop = ttclient.startSoundLoopbackTest(in.value, out.value, SAMPLERATE, 1, true, new SpeexDSP(true));
         assertTrue("Sound duplex loopback started", loop>0);
 
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
@@ -2480,7 +2497,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             System.err.println("Duplex test skipped due to virtual sound device as output");
         }
         else {
-            loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, out.value, 48000, 1, true, new SpeexDSP(true));
+            loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, out.value, SAMPLERATE, 1, true, new SpeexDSP(true));
             assertTrue("Sound loopback virtual duplex-dev cannot be mixed with real dev", loop<=0);
         }
 
@@ -2488,7 +2505,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             System.err.println("Duplex test skipped due to virtual sound device as input");
         }
         else {
-            loop = ttclient.startSoundLoopbackTest(in.value, nodev.nDeviceID, 48000, 1, true, new SpeexDSP(true));
+            loop = ttclient.startSoundLoopbackTest(in.value, nodev.nDeviceID, SAMPLERATE, 1, true, new SpeexDSP(true));
             assertTrue("Sound loopback virtual duplex-dev cannot be mixed with real dev", loop<=0);
         }
     }

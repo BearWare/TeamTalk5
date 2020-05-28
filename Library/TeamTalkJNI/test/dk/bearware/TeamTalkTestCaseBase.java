@@ -143,7 +143,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     protected void initSound(TeamTalkBase ttclient, boolean duplex) {
         initSound(ttclient, duplex, INPUTDEVICEID, OUTPUTDEVICEID);
     }
-    
+
     protected void initSound(TeamTalkBase ttclient, boolean duplex, int inputdeviceid, int outputdeviceid) {
 
         Vector<SoundDevice> devs = new Vector<SoundDevice>();
@@ -456,6 +456,37 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             System.out.print(Integer.toString(dev.outputSampleRates[j]) + ", ");
         System.out.println();
         System.out.println("\tDefault sample rate: " + Integer.toString(dev.nDefaultSampleRate));
+    }
+
+    static boolean supportsDuplexMode(TeamTalkBase ttclient, int inputdeviceid, int outputdeviceid, int samplerate) {
+
+        if (inputdeviceid == -1 || outputdeviceid == -1) {
+            IntPtr indev = new IntPtr(), outdev = new IntPtr();
+            ttclient.getDefaultSoundDevices(indev, outdev);
+            inputdeviceid = inputdeviceid == -1? indev.value : inputdeviceid;
+            outputdeviceid = outputdeviceid == -1? outdev.value : outputdeviceid;
+        }
+
+        Vector<SoundDevice> devs = new Vector<SoundDevice>();
+        SoundDevice indev = null, outdev = null;
+        ttclient.getSoundDevices(devs);
+        for(SoundDevice d : devs) {
+            if (d.nDeviceID == inputdeviceid)
+                indev = d;
+            if (d.nDeviceID == outputdeviceid)
+                outdev = d;
+        }
+
+        assertTrue("indev set", indev != null);
+        assertTrue("outdev set", outdev != null);
+
+        boolean inputsr = false, outputsr = false;
+        for (int sr : indev.inputSampleRates)
+            inputsr |= sr == samplerate;
+        for (int sr : outdev.outputSampleRates)
+            outputsr |= sr == samplerate;
+
+        return inputsr && outputsr;
     }
 
     static FileOutputStream newWaveFile(String filename, int samplerate, int channels, int bytesize) throws IOException {
