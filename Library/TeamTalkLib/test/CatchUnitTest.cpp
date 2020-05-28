@@ -866,3 +866,30 @@ TEST_CASE("TT_AEC")
     TT_CloseTeamTalk(ttclient);
 }
 #endif
+
+TEST_CASE("testMuxedAudioBlockSoundInputDisabled")
+{
+    std::vector<TTInstance*> clients;
+    auto ttclient = TT_InitTeamTalkPoll();
+    clients.push_back(ttclient);
+
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(JoinRoot(ttclient));
+
+    REQUIRE(TT_CloseSoundInputDevice(ttclient));
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
+
+    int n_blocks = 10;
+    do
+    {
+        TTMessage msg;
+        REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+        REQUIRE(msg.nSource == TT_MUXED_USERID);
+        AudioBlock* ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_MUXED_USERID);
+        REQUIRE(ab);
+        REQUIRE(ab->nSamples>0);
+        REQUIRE(TT_ReleaseUserAudioBlock(ttclient, ab));
+    } while (n_blocks--);
+}
