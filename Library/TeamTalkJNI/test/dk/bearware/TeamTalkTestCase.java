@@ -1902,7 +1902,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void testChannelSwitch() throws InterruptedException{
+    public void testChannelSwitch() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS |
@@ -1911,37 +1911,38 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         TeamTalkBase ttclient = newClientInstance();
 
-        TTMessage msg = new TTMessage();
-
         connect(ttclient);
         initSound(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
-        joinRoot(ttclient);
 
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
         assertTrue(ttclient.enableVoiceTransmission(true));
         assertTrue(ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
-        for(int i=0;i<5;i++) {
+        int[] opus_samplerates = {8000, 12000, 16000, 24000, 48000};
+
+        for(int sr : opus_samplerates) {
+
+            Channel chan;
+            chan = buildDefaultChannel(ttclient, "Opus_" + sr);
+            assertEquals("OPUS enabled", chan.audiocodec.nCodec, Codec.OPUS_CODEC);
+            chan.audiocodec.opus.nSampleRate = sr;
+            assertTrue("join channel", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
 
             AudioBlock audblk = new AudioBlock();
-            for(int j=0;j<200;j++) {
+            for(int j=0;j<1000 / chan.audiocodec.opus.nTxIntervalMSec;j++) {
                 assertTrue("get audioblock " + j, waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT));
                 audblk = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID());
                 assertTrue("Stream ID is set", audblk.nStreamID>0);
+                assertEquals("Sample rate as channel", sr, audblk.nSampleRate);
             }
 
-            Channel chan;
-            if(i % 2 == 0) {
-                chan = buildDefaultChannel(ttclient, "Opus_" + i);
-                assertEquals("OPUS enabled", chan.audiocodec.nCodec, Codec.OPUS_CODEC);
-            }
-            else {
-                chan = new Channel();
-                assertTrue("get root", ttclient.getChannel(ttclient.getRootChannelID(), chan));
-            }
+            assertTrue("leave channel", waitCmdSuccess(ttclient, ttclient.doLeaveChannel(), DEF_WAIT));
 
-            assertTrue("join channel", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+            // drain messages after channel switch
+            while (ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID()) != null);
+            waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 0);
         }
     }
 
