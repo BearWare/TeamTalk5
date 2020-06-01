@@ -375,6 +375,7 @@ namespace soundsystem {
         virtual bool IsStreamStopped(StreamDuplex* duplex) = 0;
         virtual bool UpdateStreamDuplexFeatures(StreamDuplex* duplex) = 0;
 
+        // playback members
         virtual void SetVolume(StreamPlayer* player, int volume) = 0;
         virtual int GetVolume(StreamPlayer* player) = 0;
         virtual void SetAutoPositioning(StreamPlayer* player, bool enable) = 0;
