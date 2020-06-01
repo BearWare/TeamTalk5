@@ -3839,6 +3839,9 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_InitSoundInputDevice(IN TTInstance* lpTTInstance, 
                                                    IN INT32 nInputDeviceID);
 
+    TEAMTALKDLL_API TTBOOL TT_InitSoundInputSharedDevice(IN INT32 nSampleRate,
+                                                         IN INT32 nChannels,
+                                                         IN INT32 nFrameSize);
     /** 
      * @brief Initialize the sound output device (for audio playback).
      *
@@ -3872,6 +3875,9 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_InitSoundOutputDevice(IN TTInstance* lpTTInstance, 
                                                     IN INT32 nOutputDeviceID);
 
+    TEAMTALKDLL_API TTBOOL TT_InitSoundOutputSharedDevice(IN INT32 nSampleRate,
+                                                          IN INT32 nChannels,
+                                                          IN INT32 nFrameSize);
     /**
      * @brief Enable duplex mode where multiple audio streams are
      * mixed into a single stream using software.

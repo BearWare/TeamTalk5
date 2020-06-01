@@ -331,6 +331,8 @@ namespace soundsystem {
         virtual bool GetDevice(int id, DeviceInfo& dev) = 0;
 
         virtual bool RestartSoundSystem() = 0;
+        virtual bool InitSharedInputDevice(int samplerate, int channels, int framesize) = 0;
+        virtual bool InitSharedOutputDevice(int samplerate, int channels, int framesize) = 0;
 
         //sound group members
         virtual int OpenSoundGroup() = 0;
