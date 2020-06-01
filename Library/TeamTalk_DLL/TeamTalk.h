@@ -398,16 +398,37 @@ extern "C" {
      * TT_SetSoundDeviceEffects() */
     typedef struct SoundDeviceEffects
     {
-        /** @brief Enable Automatic Gain Control. On Android this
-         * effect will be applied on all active #TTInstance.
+        /**
+         * @brief Enable Automatic Gain Control.
+         *
+         * Supported platforms:
+         * - Windows
+         *   - Automatic gain control is per #TTInstance.
+         * - Android
+         *   - Automatic gain control will be applied on all active
+         *     #TTInstance.
          * @see SOUNDDEVICEFEATURE_AGC */
         TTBOOL bEnableAGC;
-        /** @brief Enable noise suppression. On Android this
-         * effect will be applied on all active #TTInstance. 
+        /**
+         * @brief Enable noise suppression.
+         *
+         * Supported platforms:
+         * - Windows
+         *   - Noise suppression is per #TTInstance.
+         * - Android
+         *   - Noise suppression will be applied on all active
+         *     #TTInstance.
          * @see SOUNDDEVICEFEATURE_DENOISE */
         TTBOOL bEnableDenoise;
-        /** @brief Enable echo cancellation. On Android this
-         * effect will be applied on all active #TTInstance.
+        /**
+         * @brief Enable echo cancellation.
+         *
+         * Supported platforms:
+         * - Windows
+         *   - Echo cancellation is per #TTInstance.
+         * - Android
+         *   - Echo cancellation will be applied on all active
+         *     #TTInstance.
          * @see SOUNDDEVICEFEATURE_AEC */
         TTBOOL bEnableEchoCancellation;
     } SoundDeviceEffects;
