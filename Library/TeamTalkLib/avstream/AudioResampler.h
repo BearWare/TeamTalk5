@@ -30,7 +30,7 @@
 //with a callback of 'src_samples' and sample rate of
 //'src_samplerate', how many samples should be provided given a
 //samplerate of 'dest_samplerate'
-int CalcSamples(int src_samplerate, int src_samples, int dest_samplerate);
+uint32_t CalcSamples(int src_samplerate, uint32_t src_samples, int dest_samplerate);
 
 class AudioResampler
 {

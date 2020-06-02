@@ -49,8 +49,9 @@ using namespace std::placeholders;
 #define UDP_SOCKET_RECV_BUF_SIZE 0x20000
 #define UDP_SOCKET_SEND_BUF_SIZE 0x20000
 
-#define LOCAL_USERID 0
-#define MUX_USERID   0x1001
+#define LOCAL_USERID    0 // Local user recording
+#define MUX_USERID      0x1001 // User ID for recording muxed stream
+#define LOCAL_TX_USERID 0x1002 // User ID for local user transmitting
 
 #define SIMULATE_RX_PACKETLOSS 0
 #define SIMULATE_TX_PACKETLOSS 0
@@ -1119,6 +1120,10 @@ void ClientNode::CloseAudioCapture()
     media::AudioFrame frm;
     frm.sample_no = m_soundprop.samples_transmitted;
     frm.streamid = m_voice_stream_id;
+    AudioUserCallback(LOCAL_TX_USERID, STREAMTYPE_VOICE, frm);
+
+    // submit ending of recording
+    frm.sample_no = m_soundprop.samples_recorded;
     AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
     
     m_soundprop.samples_transmitted = 0;
@@ -1254,7 +1259,7 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
         media::AudioFrame frm;
         frm.sample_no = m_soundprop.samples_transmitted;
         frm.streamid = m_voice_stream_id;
-        AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
+        AudioUserCallback(LOCAL_TX_USERID, STREAMTYPE_VOICE, frm);
         
         return;
     }
@@ -1273,7 +1278,7 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
     media::AudioFrame cpyframe = org_frame;
     cpyframe.streamid = m_voice_stream_id;
     cpyframe.sample_no = m_soundprop.samples_transmitted;
-    AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, cpyframe);
+    AudioUserCallback(LOCAL_TX_USERID, STREAMTYPE_VOICE, cpyframe);
     
     m_soundprop.samples_transmitted += org_frame.input_samples;
 
@@ -3075,12 +3080,13 @@ bool ClientNode::AutoPositionUsers()
 }
 
 bool ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
+                                          const media::AudioFormat& outfmt,
                                           bool enable)
 {
     ASSERT_REACTOR_LOCKED(this);
 
     if(enable)
-        m_audiocontainer.AddSoundSource(userid, stream_type);
+        m_audiocontainer.AddSoundSource(userid, stream_type, outfmt);
     else
         m_audiocontainer.RemoveSoundSource(userid, stream_type);
 
@@ -4226,7 +4232,7 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
     }
         
     // add "self" from muxed recording
-    m_channelrecord.AddUser(LOCAL_USERID, chan->GetChannelID());
+    m_channelrecord.AddUser(LOCAL_TX_USERID, chan->GetChannelID());
 
     // enable audio muxer callback
     if (m_audiomuxer_stream)
@@ -4281,7 +4287,7 @@ void ClientNode::LeftChannel(ClientChannel& chan)
         m_audiomuxer_stream->UnregisterMuxCallback();
 
     // remove "self" from muxed recording
-    m_channelrecord.RemoveUser(LOCAL_USERID);
+    m_channelrecord.RemoveUser(LOCAL_TX_USERID);
 
     CloseDesktopSession(true);
 

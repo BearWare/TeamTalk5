@@ -231,7 +231,7 @@ void CStreamMediaDlg::UpdateControls()
         break;
     }
 
-    switch(GetItemData(m_wndAudioPreprocessor))
+    switch(GetItemData(m_wndAudioPreprocessor, NO_AUDIOPREPROCESSOR))
     {
     case TEAMTALK_AUDIOPREPROCESSOR :
     case SPEEXDSP_AUDIOPREPROCESSOR :
@@ -304,7 +304,7 @@ void CStreamMediaDlg::OnOK()
 
 void CStreamMediaDlg::OnBnClickedButtonAudiosetup()
 {
-    switch(GetItemData(m_wndAudioPreprocessor))
+    switch(GetItemData(m_wndAudioPreprocessor, NO_AUDIOPREPROCESSOR))
     {
     case TEAMTALK_AUDIOPREPROCESSOR :
     {
@@ -483,7 +483,7 @@ void CStreamMediaDlg::UpdateOffset()
 
 void CStreamMediaDlg::OnCbnSelchangeComboAudiopreprocessor()
 {
-    m_mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(GetItemData(m_wndAudioPreprocessor));
+    m_mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(GetItemData(m_wndAudioPreprocessor, NO_AUDIOPREPROCESSOR));
     switch(m_mfp.audioPreprocessor.nPreprocessor)
     {
     case TEAMTALK_AUDIOPREPROCESSOR:

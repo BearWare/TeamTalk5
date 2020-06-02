@@ -98,19 +98,20 @@ bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(
 {
     TTMessage msg = {};
     auto start = GETTIMESTAMP();
-    while(GETTIMESTAMP() < start + timeout)
+    bool gotmsg;
+    do
     {
-        INT32 waitMsec = 10;
-        if(TT_GetMessage(ttClient, &msg, &waitMsec) &&
-            msg.nClientEvent == ttevent &&
-            pred(msg))
+        INT32 waitMsec = 0;
+        gotmsg = TT_GetMessage(ttClient, &msg, &waitMsec);
+        if (gotmsg && msg.nClientEvent == ttevent && pred(msg))
         {
             if (outmsg)
                 *outmsg = msg;
             
             return true;
         }
-    }
+    } while (GETTIMESTAMP() <= start + timeout || gotmsg);
+
     return false;
 }
 

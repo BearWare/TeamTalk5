@@ -72,4 +72,5 @@ dependencies {
     // Optional -- UI testing with UI Automator
     //androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
     androidTestImplementation files('libs/TeamTalk5Test.jar')
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
 }

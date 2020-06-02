@@ -592,6 +592,7 @@
 #define IDC_CHECK_ENCRYPTED             1465
 #define IDC_STATIC_SAVESERVERINFO       1468
 #define IDC_STATIC_KBPS5                1469
+#define IDC_STATIC_SORTCHANNELS         1470
 #define IDC_STATIC_AUDIOFORMAT          1471
 #define IDC_STATIC_VIDEOFORMAT          1472
 #define IDC_STATIC_MOTD_TEXT            1473

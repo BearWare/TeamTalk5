@@ -398,16 +398,37 @@ extern "C" {
      * TT_SetSoundDeviceEffects() */
     typedef struct SoundDeviceEffects
     {
-        /** @brief Enable Automatic Gain Control. On Android this
-         * effect will be applied on all active #TTInstance.
+        /**
+         * @brief Enable Automatic Gain Control.
+         *
+         * Supported platforms:
+         * - Windows
+         *   - Automatic gain control is per #TTInstance.
+         * - Android
+         *   - Automatic gain control will be applied on all active
+         *     #TTInstance.
          * @see SOUNDDEVICEFEATURE_AGC */
         TTBOOL bEnableAGC;
-        /** @brief Enable noise suppression. On Android this
-         * effect will be applied on all active #TTInstance. 
+        /**
+         * @brief Enable noise suppression.
+         *
+         * Supported platforms:
+         * - Windows
+         *   - Noise suppression is per #TTInstance.
+         * - Android
+         *   - Noise suppression will be applied on all active
+         *     #TTInstance.
          * @see SOUNDDEVICEFEATURE_DENOISE */
         TTBOOL bEnableDenoise;
-        /** @brief Enable echo cancellation. On Android this
-         * effect will be applied on all active #TTInstance.
+        /**
+         * @brief Enable echo cancellation.
+         *
+         * Supported platforms:
+         * - Windows
+         *   - Echo cancellation is per #TTInstance.
+         * - Android
+         *   - Echo cancellation will be applied on all active
+         *     #TTInstance.
          * @see SOUNDDEVICEFEATURE_AEC */
         TTBOOL bEnableEchoCancellation;
     } SoundDeviceEffects;
@@ -591,6 +612,15 @@ extern "C" {
 #define TT_LOCAL_USERID 0
 
 /**
+ * @brief User ID passed to TT_EnableAudioBlockEvent() in order to
+ * receive #AudioBlock when voice transmission is activated.
+ *
+ * Either through TT_EnableVoiceActivation() or
+ * TT_EnableVoiceTransmission().
+ */
+#define TT_LOCAL_TX_USERID 0x1002
+
+/**
  * @brief User ID used to identify muxed audio that has been mixed
  * into a single stream.
  *
@@ -643,7 +673,7 @@ extern "C" {
          * @see TT_SetUserMediaStorageDir()
          * @see TT_StartRecordingMuxedAudioFile() */
         AFF_CHANNELCODEC_FORMAT  = 1,
-        /** @brief Store in 16-bit wave format. */
+        /** @brief Store in PCM 16-bit wave format. */
         AFF_WAVE_FORMAT          = 2,
         /** @brief Store in MP3-format. */
         AFF_MP3_16KBIT_FORMAT    = 3,
@@ -3714,6 +3744,18 @@ extern "C" {
      * @brief Perform a record and playback test of specified sound
      * devices along with an audio configuration.
      *
+     * @deprecated Use TT_StartSoundLoopbackTestEx() */
+    TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
+                                                           IN INT32 nOutputDeviceID,
+                                                           IN INT32 nSampleRate,
+                                                           IN INT32 nChannels,
+                                                           IN TTBOOL bDuplexMode,
+                                                           IN const SpeexDSP* lpSpeexDSP);
+
+    /**
+     * @brief Perform a record and playback test of specified sound
+     * devices along with an audio configuration.
+     *
      * Call TT_CloseSoundLoopbackTest() to stop the loopback
      * test.
      *
@@ -3733,21 +3775,16 @@ extern "C" {
      * supportedSampleRates of #SoundDevice to see which sample rates
      * are supported. The #SoundDevice must have the feature
      * #SOUNDDEVICEFEATURE_DUPLEXMODE.
-     * @param lpSpeexDSP The preprocessing settings to use, i.e. AGC 
+     * @param lpAudioPreprocessor The preprocessing settings to use, i.e. AGC
      * and denoising properties. Pass NULL to ignore AGC, denoise and AEC.
+     * @param lpSoundDeviceEffects The sound device effects which should be
+     * applied before the loopback test is started.
      * @return Returns NULL in case of error, otherwise sound loop instance
      * which can be closed by TT_CloseSoundLoopbackTest();
      * @see TT_InitSoundInputDevice()
      * @see TT_InitSoundOutputDevice()
      * @see TT_InitSoundDuplexDevices()
      * @see TT_CloseSoundLoopbackTest() */
-    TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID, 
-                                                           IN INT32 nOutputDeviceID,
-                                                           IN INT32 nSampleRate,
-                                                           IN INT32 nChannels,
-                                                           IN TTBOOL bDuplexMode,
-                                                           IN const SpeexDSP* lpSpeexDSP);
-
     TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID,
                                                              IN INT32 nOutputDeviceID,
                                                              IN INT32 nSampleRate,
@@ -4053,9 +4090,31 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_GetSoundInputPreprocess(IN TTInstance* lpTTInstance,
                                                       OUT SpeexDSP* lpSpeexDSP);
 
+    /**
+     * @brief Enable sound preprocessor which should be used for
+     * processing audio recorded by the sound input device (voice
+     * input).
+     *
+     * It is recommended to use the sound device's native echo
+     * cancellor, denoising and automatic gain control instead of
+     * #SpeexDSP. Checkout TT_SetSoundDeviceEffects().
+     *
+     * @param lpTTInstance Pointer to client instance created by 
+     * #TT_InitTeamTalk.
+     * @param lpAudioPreprocessor The sound preprocessor settings to use.
+     * @return TRUE on success, FALSE on failure. */
     TEAMTALKDLL_API TTBOOL TT_SetSoundInputPreprocessEx(IN TTInstance* lpTTInstance,
                                                         IN const AudioPreprocessor* lpAudioPreprocessor);
     
+    /** 
+     * @brief Get the sound preprocessor settings which are currently
+     * in use for recorded sound input device (voice input).
+     *
+     * @param lpTTInstance Pointer to client instance created by 
+     * #TT_InitTeamTalk.
+     * @param lpAudioPreprocessor A preallocated #AudioPreprocessor which will 
+     * receive the settings that is currently in effect.
+     * @return TRUE on success, FALSE on failure. */
     TEAMTALKDLL_API TTBOOL TT_GetSoundInputPreprocessEx(IN TTInstance* lpTTInstance,
                                                         OUT AudioPreprocessor* lpAudioPreprocessor);
 
@@ -4129,6 +4188,8 @@ extern "C" {
      * will be accessible by calling TT_AcquireUserAudioBlock(). Every
      * time a new #AudioBlock is available the event
      * #CLIENTEVENT_USER_AUDIOBLOCK is generated.
+     *
+     * @deprecated Use TT_EnableAudioBlockEventEx()
      * 
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
@@ -4148,6 +4209,32 @@ extern "C" {
                                                     IN StreamType nStreamType,
                                                     IN TTBOOL bEnable);
 
+    /**
+     * @brief Same as TT_EnableAudioBlockEvent() but option to specify
+     * audio output format.
+     *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     * @param nUserID The user ID to monitor for audio callback. Pass
+     * special user ID #TT_LOCAL_USERID to monitor local recorded
+     * audio prior to encoding/processing. Pass special user ID
+     * #TT_MUXED_USERID to get a single audio stream of all audio that
+     * is being played from users.
+     * @param nStreamType Either #STREAMTYPE_VOICE or 
+     * #STREAMTYPE_MEDIAFILE_AUDIO.
+     * @param lpAudioFormat Resample audio format from user to this #AudioFormat.
+     * Currently only AFF_WAVE_FORMAT is supported.
+     * Specify NULL to get original audio format.
+     * @param bEnable Whether to enable the #CLIENTEVENT_USER_AUDIOBLOCK event.
+     * @see TT_AcquireUserAudioBlock()
+     * @see TT_ReleaseUserAudioBlock()
+     * @see CLIENTEVENT_USER_AUDIOBLOCK */
+    TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEventEx(IN TTInstance* lpTTInstance,
+                                                      IN INT32 nUserID,
+                                                      IN StreamType nStreamType,
+                                                      IN const AudioFormat* lpAudioFormat,
+                                                      IN TTBOOL bEnable);
+    
     /** @} */
 
     /** @addtogroup transmission

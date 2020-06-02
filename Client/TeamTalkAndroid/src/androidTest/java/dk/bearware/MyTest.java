@@ -23,9 +23,13 @@
 
 package dk.bearware;
 
-import junit.framework.Assert;
+import android.Manifest;
+import android.os.Environment;
+import android.support.test.rule.GrantPermissionRule;
 
-import java.util.Properties;
+import org.junit.Rule;
+
+import java.io.File;
 import java.util.Vector;
 
 /**
@@ -39,6 +43,16 @@ public class MyTest extends TeamTalkTestCase {
         return ttclient;
     }
 
+    @Rule
+    public GrantPermissionRule permissionRule1 = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.INTERNET,
+            Manifest.permission.VIBRATE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.READ_PHONE_STATE);
+
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -51,18 +65,12 @@ public class MyTest extends TeamTalkTestCase {
 
         this.INPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
         this.OUTPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
+
+        File filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        this.STORAGEFOLDER = filepath.toString();
     }
 
-    public void test_This() {
-        TeamTalkBase ttclient = newClientInstance();
-        assertTrue(ttclient != null);
-        initSound(ttclient);
-        connect(ttclient);
-        login(ttclient, getCurrentMethod(), "guest", "guest");
-        joinRoot(ttclient);
-    }
-
-    public void test_RestartSnd() {
+    public void testRestartSnd() {
         TeamTalkBase ttclient = newClientInstance();
         initSound(ttclient);
         connect(ttclient);
@@ -75,13 +83,13 @@ public class MyTest extends TeamTalkTestCase {
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
         assertTrue("close input devs", ttclient.closeSoundInputDevice());
         assertTrue("close output devs", ttclient.closeSoundOutputDevice());
-        assertTrue("restart sound system", ttclient.restartSoundSystem());
+        assertTrue("restart sound system", TeamTalkBase.restartSoundSystem());
         initSound(ttclient);
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT);
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
     }
 
-    public void test_StreamMedia() {
+    public void testStreamMedia() {
         TeamTalkBase ttclient = newClientInstance();
         initSound(ttclient);
         connect(ttclient);
@@ -95,7 +103,7 @@ public class MyTest extends TeamTalkTestCase {
         assertTrue("Stop media stream", ttclient.stopStreamingMediaFileToChannel());
     }
 
-    public void test_SharedAudioDevice() {
+    public void testSharedAudioDevice() {
         TeamTalkBase ttclient1 = newClientInstance();
         TeamTalkBase ttclient2 = newClientInstance();
         TeamTalkBase ttclient3 = newClientInstance();
@@ -109,7 +117,7 @@ public class MyTest extends TeamTalkTestCase {
                 shareddev = d;
         }
 
-        assertTrue("shared device exists", shareddev != null);
+        assertNotNull("shared device exists", shareddev);
 
         shareddev.nDeviceID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
 
@@ -155,7 +163,7 @@ public class MyTest extends TeamTalkTestCase {
         }
     }
 
-    public void test_MultiClientOnSharedAudioDevice() {
+    public void testMultiClientOnSharedAudioDevice() {
         TeamTalkBase ttclient1 = newClientInstance();
         TeamTalkBase ttclient2 = newClientInstance();
         TeamTalkBase ttclient3 = newClientInstance();
@@ -228,7 +236,7 @@ public class MyTest extends TeamTalkTestCase {
         }
     }
 
-    public void test_SpeexDSP() {
+    public void testSpeexDSP() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
@@ -243,8 +251,6 @@ public class MyTest extends TeamTalkTestCase {
         spxdsp.bEnableDenoise = true;
         spxdsp.nMaxNoiseSuppressDB = -30;
         assertTrue("SpeexDSP", ttclient.setSoundInputPreprocess(spxdsp));
-
-        TTMessage msg = new TTMessage();
 
         connect(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
@@ -263,7 +269,7 @@ public class MyTest extends TeamTalkTestCase {
         assertFalse("No AGC error on ARMv7A", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 1000));
     }
 
-    public void test_SoundDeviceEffects() {
+    public void testSoundDeviceEffects() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
@@ -308,7 +314,7 @@ public class MyTest extends TeamTalkTestCase {
         }
     }
 
-    public void test_SndInputFailure() {
+    public void testSndInputFailure() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN |
                 UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
@@ -396,7 +402,7 @@ public class MyTest extends TeamTalkTestCase {
     }
 
     // force 'E/libOpenSLES: Too many objects' error
-    public void test_MaxSoundOutputStreams() {
+    public void testMaxSoundOutputStreams() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN |
                 UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;

@@ -43,6 +43,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     public static int TCPPORT = 0, UDPPORT = 0;
 
     public static String SYSTEMID = "teamtalk";
+    public static String STORAGEFOLDER = System.getProperty("user.dir");
 
     public static int INPUTDEVICEID = -1, OUTPUTDEVICEID = -1;
     public static String VIDEODEVICEID = "None", VIDEODEVDISABLE="None"; //set to "None" to ignore video capture tests
@@ -56,7 +57,6 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
     public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
     public static final String MUXEDMEDIAFILE_OPUS = "muxwavefile_opus.ogg";
-
 
     public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
 
@@ -143,7 +143,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     protected void initSound(TeamTalkBase ttclient, boolean duplex) {
         initSound(ttclient, duplex, INPUTDEVICEID, OUTPUTDEVICEID);
     }
-    
+
     protected void initSound(TeamTalkBase ttclient, boolean duplex, int inputdeviceid, int outputdeviceid) {
 
         Vector<SoundDevice> devs = new Vector<SoundDevice>();
@@ -302,7 +302,8 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
                     System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
                 }
             }
-            if(System.currentTimeMillis() - start >= waittimeout)
+
+            if (System.currentTimeMillis() - start >= waittimeout && !gotmsg)
                 break;
         }
         while (!gotmsg || tmp.nClientEvent != nClientEvent);
@@ -455,6 +456,37 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             System.out.print(Integer.toString(dev.outputSampleRates[j]) + ", ");
         System.out.println();
         System.out.println("\tDefault sample rate: " + Integer.toString(dev.nDefaultSampleRate));
+    }
+
+    static boolean supportsDuplexMode(TeamTalkBase ttclient, int inputdeviceid, int outputdeviceid, int samplerate) {
+
+        if (inputdeviceid == -1 || outputdeviceid == -1) {
+            IntPtr indev = new IntPtr(), outdev = new IntPtr();
+            ttclient.getDefaultSoundDevices(indev, outdev);
+            inputdeviceid = inputdeviceid == -1? indev.value : inputdeviceid;
+            outputdeviceid = outputdeviceid == -1? outdev.value : outputdeviceid;
+        }
+
+        Vector<SoundDevice> devs = new Vector<SoundDevice>();
+        SoundDevice indev = null, outdev = null;
+        ttclient.getSoundDevices(devs);
+        for(SoundDevice d : devs) {
+            if (d.nDeviceID == inputdeviceid)
+                indev = d;
+            if (d.nDeviceID == outputdeviceid)
+                outdev = d;
+        }
+
+        assertTrue("indev set", indev != null);
+        assertTrue("outdev set", outdev != null);
+
+        boolean inputsr = false, outputsr = false;
+        for (int sr : indev.inputSampleRates)
+            inputsr |= sr == samplerate;
+        for (int sr : outdev.outputSampleRates)
+            outputsr |= sr == samplerate;
+
+        return inputsr && outputsr;
     }
 
     static FileOutputStream newWaveFile(String filename, int samplerate, int channels, int bytesize) throws IOException {

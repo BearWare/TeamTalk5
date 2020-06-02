@@ -496,13 +496,13 @@ void CChannelDlg::UpdateCodec()
     switch(m_codec.nCodec)
     {
     case SPEEX_CODEC :
-        m_codec.speex.nBandmode = GetItemData(m_wndSampleRate);
+        m_codec.speex.nBandmode = GetItemData(m_wndSampleRate, DEFAULT_SPEEX_BANDMODE);
         m_codec.speex.nQuality = m_wndQuality.GetPos();
         m_codec.speex.bStereoPlayback = DEFAULT_SPEEX_SIMSTEREO;
         m_codec.speex.nTxIntervalMSec = GetWindowNumber(m_wndTxDelay);
         break;
     case SPEEX_VBR_CODEC :
-        m_codec.speex_vbr.nBandmode = GetItemData(m_wndSampleRate);
+        m_codec.speex_vbr.nBandmode = GetItemData(m_wndSampleRate, DEFAULT_SPEEX_BANDMODE);
         m_codec.speex_vbr.nQuality = m_wndQuality.GetPos();
         m_codec.speex_vbr.nBitRate = bitrate;
         m_codec.speex_vbr.nMaxBitRate = maxbitrate;
@@ -511,9 +511,9 @@ void CChannelDlg::UpdateCodec()
         m_codec.speex_vbr.nTxIntervalMSec = GetWindowNumber(m_wndTxDelay);
         break;
     case OPUS_CODEC :
-        m_codec.opus.nSampleRate = GetItemData(m_wndSampleRate);
-        m_codec.opus.nChannels = GetItemData(m_wndAudioChannels);
-        m_codec.opus.nApplication = GetItemData(m_wndCodecApp);
+        m_codec.opus.nSampleRate = GetItemData(m_wndSampleRate, DEFAULT_OPUS_SAMPLERATE);
+        m_codec.opus.nChannels = GetItemData(m_wndAudioChannels, DEFAULT_OPUS_CHANNELS);
+        m_codec.opus.nApplication = GetItemData(m_wndCodecApp, DEFAULT_OPUS_APPLICATION);
         m_codec.opus.nComplexity = DEFAULT_OPUS_COMPLEXITY;
         m_codec.opus.bFEC = DEFAULT_OPUS_FEC;
         m_codec.opus.bDTX = m_wndDtx.GetCheck() == BST_CHECKED;
@@ -521,7 +521,7 @@ void CChannelDlg::UpdateCodec()
         m_codec.opus.bVBR = m_wndVBR.GetCheck() == BST_CHECKED;
         m_codec.opus.bVBRConstraint = DEFAULT_OPUS_VBRCONSTRAINT;
         m_codec.opus.nTxIntervalMSec = GetWindowNumber(m_wndTxDelay);
-        m_codec.opus.nFrameSizeMSec = GetItemData(m_wndOpusFrameSizes);
+        m_codec.opus.nFrameSizeMSec = GetItemData(m_wndOpusFrameSizes, DEFAULT_OPUS_FRAMESIZE);
         break;
     }
 }
@@ -569,7 +569,7 @@ void CChannelDlg::GetBitrateLimits(Codec nCodec, int& nMinBps,
     switch(nCodec)
     {
     case SPEEX_VBR_CODEC :
-        switch(GetItemData(m_wndSampleRate))
+        switch(GetItemData(m_wndSampleRate, DEFAULT_SPEEX_BANDMODE))
         {
         case SPEEX_MODEID_NB :
             nMinBps = SPEEX_NB_MIN_BITRATE;

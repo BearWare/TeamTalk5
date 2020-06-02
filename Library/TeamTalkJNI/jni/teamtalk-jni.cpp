@@ -447,6 +447,22 @@ extern "C" {
                                         nUserID, (StreamType)nStreamType, bEnable);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_enableAudioBlockEventEx(JNIEnv* env,
+                                                                                     jobject thiz,
+                                                                                     jlong lpTTInstance,
+                                                                                     jint nUserID,
+                                                                                     jint nStreamType,
+                                                                                     jobject lpAudioFormat,
+                                                                                     jboolean bEnable)
+    {
+        AudioFormat fmt = {};
+        if (lpAudioFormat)
+            setAudioFormat(env, fmt, lpAudioFormat, J2N);
+        
+        return TT_EnableAudioBlockEventEx(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                          nUserID, (StreamType)nStreamType, lpAudioFormat? &fmt : nullptr, bEnable);
+    }
+    
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_insertAudioBlock(JNIEnv* env,
                                                                               jobject thiz,
                                                                               jlong lpTTInstance,

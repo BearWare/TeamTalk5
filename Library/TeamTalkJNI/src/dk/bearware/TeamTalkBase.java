@@ -209,6 +209,11 @@ public abstract class TeamTalkBase
     public boolean enableAudioBlockEvent(int nUserID, int nStreamType, boolean bEnable)
         { return enableAudioBlockEvent(ttInst, nUserID, nStreamType, bEnable); }
 
+    private native boolean enableAudioBlockEventEx(long lpTTInstance, int nUserID,
+                                                   int nStreamType, AudioFormat lpAudioFormat, boolean bEnable);
+    public boolean enableAudioBlockEvent(int nUserID, int nStreamType, AudioFormat lpAudioFormat, boolean bEnable)
+        { return enableAudioBlockEventEx(ttInst, nUserID, nStreamType, lpAudioFormat, bEnable); }
+    
     private native boolean insertAudioBlock(long lpTTInstance, AudioBlock lpAudioBlock);
     public boolean insertAudioBlock(AudioBlock lpAudioBlock) {
         return insertAudioBlock(ttInst, lpAudioBlock);

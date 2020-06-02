@@ -138,12 +138,12 @@ void CWizSoundSysPage::OnBnClickedRadioDirectsound()
 
 void CWizSoundSysPage::OnCbnSelchangeComboInputdriver()
 {
-    m_nInputDevice = GetItemData(m_InputDriversCombo);
+    m_nInputDevice = GetItemData(m_InputDriversCombo, m_nInputDevice);
 }
 
 void CWizSoundSysPage::OnCbnSelchangeComboOutputdriver()
 {
-    m_nOutputDevice = GetItemData(m_OutputDriversCombo);
+    m_nOutputDevice = GetItemData(m_OutputDriversCombo, m_nOutputDevice);
 }
 
 void CWizSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)

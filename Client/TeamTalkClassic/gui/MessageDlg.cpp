@@ -57,7 +57,7 @@ CMessageDlg::CMessageDlg(CWnd* pParent, const User& myself, const User& user,
     memset(&m_lf, 0, sizeof(LOGFONT));
 
     if(szLogFolder && _tcslen(szLogFolder))
-        OpenLogFile(m_logFile, szLogFolder, GetDisplayName(user));
+        OpenLogFile(m_logFile, szLogFolder, GetDisplayName(user) + _T(".ulog"));
 }
 
 

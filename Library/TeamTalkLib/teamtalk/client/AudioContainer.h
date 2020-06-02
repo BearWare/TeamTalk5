@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -25,6 +25,7 @@
 #define AUDIOCONTAINER_H
 
 #include <codec/MediaUtil.h>
+#include <avstream/AudioResampler.h>
 
 #include <ace/Message_Queue.h>
 
@@ -33,27 +34,30 @@
 #include <memory>
 #include <mutex>
 
-typedef union audioentry
+struct AudioEntry
 {
-    struct
+    msg_queue_t mq;
+
+    audio_resampler_t resampler;
+    media::AudioFormat outfmt;
+
+    AudioEntry(const media::AudioFormat& resamplefmt) : outfmt(resamplefmt)
     {
-        ACE_UINT16 userid;
-        ACE_UINT16 streamtype;
-        ACE_UINT32 none;
-    };
-    ACE_UINT64 entryid;
-    audioentry() : entryid(0) {}
-    audioentry(ACE_UINT16 user_id, ACE_UINT16 stream_type)
-        : userid(user_id), streamtype(stream_type), none(0) { }
-} audioentry_t;
+        size_t bufmax = PCM16_BYTES(48000, 2); // one second at 48KHz stereo
+        mq.high_water_mark(bufmax);
+        mq.low_water_mark(bufmax);
+    }
+};
+
+typedef std::shared_ptr<AudioEntry> audioentry_t;
 
 class AudioContainer
 {
 public:
     AudioContainer(const AudioContainer&) = delete;
     AudioContainer();
-    
-    void AddSoundSource(int userid, int stream_type);
+
+    void AddSoundSource(int userid, int stream_type, const media::AudioFormat& af);
     void RemoveSoundSource(int userid, int stream_type);
 
     bool AddAudio(int userid, int stream_type, const media::AudioFrame& frame);
@@ -62,12 +66,9 @@ public:
     void ReleaseAllAudio();
 
 private:
-    typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > msg_queue_t;
-    typedef std::map<ACE_UINT64, msg_queue_t> audiostore_t;
+    typedef std::map< uint32_t, audioentry_t > audiostore_t;
     audiostore_t m_container;
     std::recursive_mutex m_store_mtx;
-    std::set<ACE_UINT64> m_active_srcs;
 };
 
 #endif
-
