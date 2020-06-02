@@ -3839,6 +3839,36 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_InitSoundInputDevice(IN TTInstance* lpTTInstance, 
                                                    IN INT32 nInputDeviceID);
 
+    /**
+     * @brief Setup sample rate, channels and frame size of shared
+     * sound input device.
+     *
+     * By default a shared sound device (checkout
+     * #TT_SOUNDDEVICE_ID_SHARED_FLAG) initialized by
+     * TT_InitSoundInputDevice will use the sound device's @c
+     * nDefaultSampleRate, @c nMaxInputChannels of #SoundDevice and
+     * a frame size (callback buffer) of nDefaultSampleRate * 0.04.
+     *
+     * TT_InitSoundInputSharedDevice() can be used to override these
+     * default settings.
+     *
+     * Note that TT_InitSoundInputSharedDevice() must be called prior
+     * to TT_InitSoundInputDevice(). Also ensure no shared sound input
+     * device is currently active.
+     *
+     * @param nSampleRate The sample rate to use on the shared
+     * device. Must exist in #SoundDevice's @c inputSampleRates. 
+     * Pass zero to reset to default behaviour.
+     * @param nChannels The number of channels to use (mono,
+     * stereo). Must be less or equals to #SoundDevice's @c
+     * nMaxInputChannels.  Pass zero to reset to default behaviour.
+     * @param nFrameSize The number of samples in each callback from
+     * the shared sound device. A 40 msec callback on a 48 KHz input
+     * is calculated like this: nFrameSize = 48000 * 0.04.  Pass zero
+     * to reset to default behaviour.
+     *
+     * @see TT_InitSoundInputDevice()
+     * @see TT_InitSoundOutputSharedDevice() */
     TEAMTALKDLL_API TTBOOL TT_InitSoundInputSharedDevice(IN INT32 nSampleRate,
                                                          IN INT32 nChannels,
                                                          IN INT32 nFrameSize);
@@ -3875,6 +3905,36 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_InitSoundOutputDevice(IN TTInstance* lpTTInstance, 
                                                     IN INT32 nOutputDeviceID);
 
+    /**
+     * @brief Setup sample rate, channels and frame size of shared
+     * sound output device.
+     *
+     * By default a shared sound device (checkout
+     * #TT_SOUNDDEVICE_ID_SHARED_FLAG) initialized by
+     * TT_InitSoundOutputDevice will use the sound device's @c
+     * nDefaultSampleRate, @c nMaxOutputChannels of #SoundDevice and
+     * a frame size (callback buffer) of nDefaultSampleRate * 0.04.
+     *
+     * TT_InitSoundOutputSharedDevice() can be used to override these
+     * default settings.
+     *
+     * Note that TT_InitSoundOutputSharedDevice() must be called prior
+     * to TT_InitSoundOutputDevice(). Also ensure no shared sound output
+     * device is currently active.
+     *
+     * @param nSampleRate The sample rate to use on the shared
+     * device. Must exist in #SoundDevice's @c outputSampleRates. 
+     * Pass zero to reset to default behaviour.
+     * @param nChannels The number of channels to use (mono,
+     * stereo). Must be less or equals to #SoundDevice's @c
+     * nMaxOutputChannels.  Pass zero to reset to default behaviour.
+     * @param nFrameSize The number of samples in each callback from
+     * the shared sound device. A 40 msec callback on a 48KHz output
+     * is calculated like this: nFrameSize = 48000 * 0.04.  Pass zero
+     * to reset to default behaviour.
+     *
+     * @see TT_InitSoundInputDevice()
+     * @see TT_InitSoundOutputSharedDevice() */
     TEAMTALKDLL_API TTBOOL TT_InitSoundOutputSharedDevice(IN INT32 nSampleRate,
                                                           IN INT32 nChannels,
                                                           IN INT32 nFrameSize);
