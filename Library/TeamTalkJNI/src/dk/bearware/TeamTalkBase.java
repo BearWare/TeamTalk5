@@ -125,10 +125,12 @@ public abstract class TeamTalkBase
     public boolean initSoundInputDevice(int nInputDeviceID) {
         return initSoundInputDevice(ttInst, nInputDeviceID);
     }
+    public static native boolean initSoundInputSharedDevice(int nSampleRate, int nChannels, int nFrameSize);
     private native boolean initSoundOutputDevice(long lpTTInstance, int nOutputDeviceID);
     public boolean initSoundOutputDevice(int nOutputDeviceID) {
         return initSoundOutputDevice(ttInst, nOutputDeviceID);
     }
+    public static native boolean initSoundOutputSharedDevice(int nSampleRate, int nChannels, int nFrameSize);
     private native boolean initSoundDuplexDevices(long lpTTInstance, int nInputDeviceID, int nOutputDeviceID);
     public boolean initSoundDuplexDevices(int nInputDeviceID, int nOutputDeviceID) {
         return initSoundDuplexDevices(ttInst, nInputDeviceID, nOutputDeviceID);

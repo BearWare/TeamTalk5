@@ -3656,6 +3656,110 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         } while(ids.size()>0);
     }
 
+    public void testInitSoundSharedInputOutput() {
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+        Channel chan = buildDefaultChannel(ttclient, "Opus", Codec.OPUS_CODEC);
+        chan.audiocodec.opus.nFrameSizeMSec = 20;
+        chan.audiocodec.opus.nTxIntervalMSec = 20;
+        assertTrue("ttclient join channel", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        IntPtr indev = new IntPtr(), outdev = new IntPtr();
+        if(INPUTDEVICEID < 0 && OUTPUTDEVICEID < 0)
+           assertTrue("get default devs", ttclient.getDefaultSoundDevices(indev, outdev));
+        else
+        {
+            indev.value = INPUTDEVICEID;
+            outdev.value = OUTPUTDEVICEID;
+        }
+
+        indev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        outdev.value |= SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
+
+        TTMessage msg = new TTMessage();
+
+        int[] samplerates = {8000, 12000, 16000, 24000, 48000};
+        for (int samplerate : samplerates) {
+            assertTrue("enable local aud cb", ttclient.enableAudioBlockEvent(Constants.TT_LOCAL_USERID, StreamType.STREAMTYPE_VOICE, true));
+            assertTrue("setup shared input settings", TeamTalkBase.initSoundInputSharedDevice(samplerate, 2, samplerate));
+            assertTrue("setup shared output settings", TeamTalkBase.initSoundOutputSharedDevice(samplerate, 2, samplerate));
+
+            assertTrue("Init "+samplerate+" input", ttclient.initSoundInputDevice(indev.value));
+            assertTrue("Init "+samplerate+" output", ttclient.initSoundOutputDevice(outdev.value));
+
+            int samples = chan.audiocodec.opus.nSampleRate;
+            AudioBlock ab;
+            do {
+                assertTrue("get "+samplerate+" audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+                assertEquals("from local", Constants.TT_LOCAL_USERID, msg.nSource);
+                ab = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_LOCAL_USERID);
+                assertTrue("get local audio block", ab != null);
+                samples -= ab.nSamples;
+            } while(samples > 0);
+
+            long initialTS = System.currentTimeMillis();
+            assertTrue("get "+samplerate+" audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            long nextTS = System.currentTimeMillis();
+
+            assertTrue("close input", ttclient.closeSoundInputDevice());
+            assertTrue("close output", ttclient.closeSoundOutputDevice());
+            assertTrue("disable local aud cb", ttclient.enableAudioBlockEvent(Constants.TT_LOCAL_USERID, StreamType.STREAMTYPE_VOICE, false));
+            waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 0);
+            while(ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_LOCAL_USERID) != null);
+
+            assertTrue("reset shared input settings", TeamTalkBase.initSoundInputSharedDevice(0, 0, 0));
+            assertTrue("reset shared output settings", TeamTalkBase.initSoundOutputSharedDevice(0, 0, 0));
+
+            assertTrue("next callback was ~1 second later", nextTS - initialTS > 900);
+        }
+
+        assertTrue("reset shared input settings", TeamTalkBase.initSoundInputSharedDevice(0, 0, 0));
+
+        assertTrue("Init input", ttclient.initSoundInputDevice(indev.value));
+
+        assertTrue("enable tx", ttclient.enableVoiceTransmission(true));
+        assertTrue("subscribe", waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+
+        for (int samplerate : samplerates) {
+
+            assertTrue("enable local aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
+            assertTrue("setup shared output settings", TeamTalkBase.initSoundOutputSharedDevice(samplerate, 2, samplerate));
+
+            assertTrue("Init "+samplerate+" output", ttclient.initSoundOutputDevice(outdev.value));
+
+            int samples = chan.audiocodec.opus.nSampleRate;
+            AudioBlock ab;
+            do {
+                assertTrue("get "+samplerate+" audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+                assertEquals("from myself", ttclient.getMyUserID(), msg.nSource);
+                ab = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID());
+                assertTrue("get audio block", ab != null);
+                samples -= ab.nSamples;
+            } while(samples > 0);
+
+            long initialTS = System.currentTimeMillis();
+            assertTrue("get "+samplerate+" audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            long nextTS = System.currentTimeMillis();
+
+            assertTrue("close output", ttclient.closeSoundOutputDevice());
+            assertTrue("disable aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, false));
+            waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 0);
+            while(ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID()) != null);
+
+            assertTrue("reset shared output settings", TeamTalkBase.initSoundOutputSharedDevice(0, 0, 0));
+
+            assertTrue("next callback was ~1 second later", nextTS - initialTS > 900);
+        }
+    }
+
     /* cannot test output levels since a user is muted by sound system after decoding and callback.
 
     public void testSharedAudioInputOutputLevels() {

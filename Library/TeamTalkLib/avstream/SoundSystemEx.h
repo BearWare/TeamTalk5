@@ -67,7 +67,7 @@ namespace soundsystem {
 
         int handle_timeout(const ACE_Time_Value& tv, const void* arg)
         {
-            while (W32_LEQ(m_start, GETTIMESTAMP()) && m_interval != 0)
+            while (m_interval != 0 && W32_LEQ(m_start + m_interval, GETTIMESTAMP()))
             {
                 StreamCallback(&m_buffer[0]);
                 m_start += m_interval;
@@ -78,8 +78,9 @@ namespace soundsystem {
         int svc()
         {
             m_reactor.owner (ACE_OS::thr_self ());
+            ACE_Time_Value zero;
             auto tv = ToTimeValue(m_interval);
-            int ret = m_reactor.schedule_timer(this, 0, tv, tv);
+            int ret = m_reactor.schedule_timer(this, 0, zero, tv);
             MYTRACE_COND(ret < 0, ACE_TEXT("Failed to schedule timer in StreamCaller\n"));
             m_reactor.run_reactor_event_loop();
             return 0;
