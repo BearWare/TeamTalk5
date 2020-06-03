@@ -659,12 +659,30 @@ TEAMTALKDLL_API TTBOOL TT_InitSoundInputDevice(IN TTInstance* lpTTInstance,
     return clientnode->InitSoundInputDevice(nInputDeviceID);
 }
 
+TEAMTALKDLL_API TTBOOL TT_InitSoundInputSharedDevice(IN INT32 nSampleRate,
+                                                     IN INT32 nChannels,
+                                                     IN INT32 nFrameSize)
+{
+    return soundsystem::GetInstance()->InitSharedInputDevice(nSampleRate,
+                                                             nChannels,
+                                                             nFrameSize);
+}
+
 TEAMTALKDLL_API TTBOOL TT_InitSoundOutputDevice(IN TTInstance* lpTTInstance, 
                                                 IN INT32 nOutputDeviceID)
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     return clientnode->InitSoundOutputDevice(nOutputDeviceID);
+}
+
+TEAMTALKDLL_API TTBOOL TT_InitSoundOutputSharedDevice(IN INT32 nSampleRate,
+                                                      IN INT32 nChannels,
+                                                      IN INT32 nFrameSize)
+{
+    return soundsystem::GetInstance()->InitSharedOutputDevice(nSampleRate,
+                                                              nChannels,
+                                                              nFrameSize);
 }
 
 TEAMTALKDLL_API TTBOOL TT_CloseSoundInputDevice(IN TTInstance* lpTTInstance)
