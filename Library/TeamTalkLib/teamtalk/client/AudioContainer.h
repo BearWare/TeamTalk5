@@ -43,7 +43,7 @@ struct AudioEntry
 
     AudioEntry(const media::AudioFormat& resamplefmt) : outfmt(resamplefmt)
     {
-        size_t bufmax = PCM16_BYTES(48000, 2); // one second at 48KHz stereo
+        size_t bufmax = PCM16_BYTES(48000, 2) * 3; // 3 seconds at 48KHz stereo
         mq.high_water_mark(bufmax);
         mq.low_water_mark(bufmax);
     }
