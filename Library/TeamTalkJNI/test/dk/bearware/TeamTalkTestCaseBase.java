@@ -148,9 +148,12 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
 
         Vector<SoundDevice> devs = new Vector<SoundDevice>();
         assertTrue("get sound devs", ttclient.getSoundDevices(devs));
-        System.out.println("---- Sound Devices ----");
-        for(int i=0;i<devs.size();i++)
-            printSoundDevice(devs.get(i));
+
+        if ("0".equals(System.getProperty("dk.bearware.verbose")) == false) {
+            System.out.println("---- Sound Devices ----");
+            for(int i=0;i<devs.size();i++)
+                printSoundDevice(devs.get(i));
+        }
 
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
         if (inputdeviceid < 0 && outputdeviceid < 0)
@@ -168,7 +171,10 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             assertTrue("init input dev", ttclient.initSoundInputDevice(indev.value));
             assertTrue("init output dev", ttclient.initSoundOutputDevice(outdev.value));
         }
-        System.out.println("Using sound input device #"+indev.value+" and output device #"+outdev.value);
+
+        if ("0".equals(System.getProperty("dk.bearware.verbose")) == false) {
+            System.out.println("Using sound input device #"+indev.value+" and output device #"+outdev.value);
+        }
     }
 
     public interface ServerInterleave {
@@ -445,14 +451,40 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     static void printSoundDevice(SoundDevice dev) {
         System.out.println("Sound dev " + Integer.toString(dev.nDeviceID) + ":");
         System.out.println("\tName:" + dev.szDeviceName);
+        switch (dev.nSoundSystem) {
+        case SoundSystem.SOUNDSYSTEM_NONE :
+            System.out.println("\tSound System: None");
+            break;
+        case SoundSystem.SOUNDSYSTEM_WINMM :
+            System.out.println("\tSound System: Windows MM");
+            break;
+        case SoundSystem.SOUNDSYSTEM_DSOUND :
+            System.out.println("\tSound System: DirectSound");
+            break;
+        case SoundSystem.SOUNDSYSTEM_ALSA :
+            System.out.println("\tSound System: ALSA");
+            break;
+        case SoundSystem.SOUNDSYSTEM_COREAUDIO :
+            System.out.println("\tSound System: CoreAudio");
+            break;
+        case SoundSystem.SOUNDSYSTEM_WASAPI :
+            System.out.println("\tSound System: WASAPI");
+            break;
+        case SoundSystem.SOUNDSYSTEM_OPENSLES_ANDROID :
+            System.out.println("\tSound System: OpenSL ES for Android");
+            break;
+        case SoundSystem.SOUNDSYSTEM_AUDIOUNIT_IOS :
+            System.out.println("\tSound System: AudioUnit for iOS");
+            break;
+        }
         System.out.println("\tInput channels: " + Integer.toString(dev.nMaxInputChannels));
         System.out.println("\tOutput channels: " + Integer.toString(dev.nMaxOutputChannels));
         System.out.print("\tInput sample rates: ");
-        for(int j=0;j<dev.inputSampleRates.length;j++)
+        for(int j=0;j<dev.inputSampleRates.length && dev.inputSampleRates[j] != 0;j++)
             System.out.print(Integer.toString(dev.inputSampleRates[j]) + ", ");
         System.out.println();
         System.out.print("\tOutput sample rates: ");
-        for(int j=0;j<dev.outputSampleRates.length;j++)
+        for(int j=0;j<dev.outputSampleRates.length && dev.outputSampleRates[j] != 0;j++)
             System.out.print(Integer.toString(dev.outputSampleRates[j]) + ", ");
         System.out.println();
         System.out.println("\tDefault sample rate: " + Integer.toString(dev.nDefaultSampleRate));

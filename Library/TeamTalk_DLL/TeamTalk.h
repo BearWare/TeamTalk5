@@ -278,7 +278,9 @@ extern "C" {
          * Duplex mode is not supported by AudioUnit iOS sound API.
          * @see TT_SOUNDDEVICE_ID_REMOTEIO
          * @see TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO */
-        SOUNDSYSTEM_AUDIOUNIT = 8
+        SOUNDSYSTEM_AUDIOUNIT = 8,
+        /** @brief Same as #SOUNDSYSTEM_AUDIOUNIT. */
+        SOUNDSYSTEM_AUDIOUNIT_IOS = SOUNDSYSTEM_AUDIOUNIT,
     } SoundSystem;
 
     /**

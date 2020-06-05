@@ -32,4 +32,7 @@ public interface SoundSystem
     public static final int SOUNDSYSTEM_COREAUDIO = 4;
     public static final int SOUNDSYSTEM_WASAPI = 5;
     public static final int SOUNDSYSTEM_OPENSLES = 7;
+    public static final int SOUNDSYSTEM_OPENSLES_ANDROID = SOUNDSYSTEM_OPENSLES;
+    public static final int SOUNDSYSTEM_AUDIOUNIT = 8;
+    public static final int SOUNDSYSTEM_AUDIOUNIT_IOS = SOUNDSYSTEM_AUDIOUNIT;
 }
