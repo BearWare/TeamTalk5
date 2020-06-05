@@ -3707,25 +3707,29 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
             long initialTS = System.currentTimeMillis();
             assertTrue("get "+samplerate+" audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
-
-            assertTrue("next callback is 1 second from now", System.currentTimeMillis() - initialTS > 500);
+            long nextTS = System.currentTimeMillis();
 
             assertTrue("close input", ttclient.closeSoundInputDevice());
             assertTrue("close output", ttclient.closeSoundOutputDevice());
             assertTrue("disable local aud cb", ttclient.enableAudioBlockEvent(Constants.TT_LOCAL_USERID, StreamType.STREAMTYPE_VOICE, false));
             waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 0);
             while(ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_LOCAL_USERID) != null);
+
+            assertTrue("reset shared input settings", TeamTalkBase.initSoundInputSharedDevice(0, 0, 0));
+            assertTrue("reset shared output settings", TeamTalkBase.initSoundOutputSharedDevice(0, 0, 0));
+
+            assertTrue("next callback was ~1 second later", nextTS - initialTS > 900);
         }
 
         assertTrue("reset shared input settings", TeamTalkBase.initSoundInputSharedDevice(0, 0, 0));
-        
+
         assertTrue("Init input", ttclient.initSoundInputDevice(indev.value));
-        
+
         assertTrue("enable tx", ttclient.enableVoiceTransmission(true));
         assertTrue("subscribe", waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
-        
+
         for (int samplerate : samplerates) {
-            
+
             assertTrue("enable local aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
             assertTrue("setup shared output settings", TeamTalkBase.initSoundOutputSharedDevice(samplerate, 2, samplerate));
 
@@ -3743,16 +3747,17 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
             long initialTS = System.currentTimeMillis();
             assertTrue("get "+samplerate+" audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
-
-            assertTrue("next callback is 1 second from now", System.currentTimeMillis() - initialTS > 500);
+            long nextTS = System.currentTimeMillis();
 
             assertTrue("close output", ttclient.closeSoundOutputDevice());
             assertTrue("disable aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, false));
             waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 0);
             while(ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID()) != null);
+
+            assertTrue("reset shared output settings", TeamTalkBase.initSoundOutputSharedDevice(0, 0, 0));
+
+            assertTrue("next callback was ~1 second later", nextTS - initialTS > 900);
         }
-        
-        
     }
 
     /* cannot test output levels since a user is muted by sound system after decoding and callback.
