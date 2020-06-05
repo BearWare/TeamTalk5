@@ -297,7 +297,7 @@ BEGIN
     LTEXT           "Maximum text length",IDC_STATIC_LIMITTEXT,134,136,77,8
     EDITTEXT        IDC_EDIT_LIMITTEXT,208,133,35,14,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN_TEXTLEN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,232,133,11,14
-    LTEXT           "Sort channels",IDC_STATIC,134,154,59,8
+    LTEXT           "Sort channels",IDC_STATIC_SORTCHANNELS,134,154,59,8
     COMBOBOX        IDC_COMBO_SORTCHANNELS,195,152,48,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
@@ -1511,8 +1511,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,6,0,4996
- PRODUCTVERSION 5,6,0,4996
+ FILEVERSION 5,6,0,4997
+ PRODUCTVERSION 5,6,0,4997
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1529,12 +1529,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 6, 0, 4996"
+            VALUE "FileVersion", "5, 6, 0, 4997"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2005-2018, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 6, 0, 4996"
+            VALUE "ProductVersion", "5, 6, 0, 4997"
         END
     END
     BLOCK "VarFileInfo"

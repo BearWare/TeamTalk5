@@ -220,12 +220,19 @@ namespace soundsystem {
         sharedstreamcaptures_t m_shared_streamcaptures; // capture_lock()
         sharedstreamplayers_t m_shared_streamplayers; //players_lock()
 
+        // default shared input/output settings are sound device's
+        // default samplerate, max channels and samplerate * 0.04
+        // frame size.
+        int m_shared_inputsamplerate = 0, m_shared_outputsamplerate = 0,
+            m_shared_inputchannels = 0, m_shared_outputchannels = 0,
+            m_shared_inputframesize = 0, m_shared_outputframesize = 0;
+
+        std::recursive_mutex m_sndgrp_lock, m_cap_lock, m_play_lock, m_dpx_lock;
+
         std::recursive_mutex& sndgrp_lock() { return m_sndgrp_lock; }
         std::recursive_mutex& capture_lock() { return m_cap_lock; }
         std::recursive_mutex& players_lock() { return m_play_lock; }
         std::recursive_mutex& duplex_lock() { return m_dpx_lock; }
-
-        std::recursive_mutex m_sndgrp_lock, m_cap_lock, m_play_lock, m_dpx_lock;
 
         inputstreamer_t NewVirtualStream(StreamCapture* capture, int sndgrpid,
                                          int samplerate, int channels,
@@ -285,22 +292,24 @@ namespace soundsystem {
             if (!newsndgrpid)
                 return inputstreamer_t();
 
+            int sharedsamplerate = m_shared_inputsamplerate != 0? m_shared_inputsamplerate : snddev.default_samplerate;
+            int sharedchannels = m_shared_inputchannels != 0? m_shared_inputchannels : snddev.max_input_channels;
+            int sharedframesize = m_shared_inputframesize != 0? m_shared_inputframesize : int(snddev.default_samplerate * 0.04);
+
             inputstreamer_t orgstream;
             if (snddev.id == SOUND_DEVICEID_VIRTUAL)
+            {
                 orgstream = NewVirtualStream(sharedstream.get(),
-                                             newsndgrpid,
-                                             snddev.default_samplerate,
-                                             snddev.max_input_channels,
-                                             int(snddev.default_samplerate * 0.04));
+                                             newsndgrpid, sharedsamplerate,
+                                             sharedchannels, sharedframesize);
+            }
             else
             {
                 MYTRACE(ACE_TEXT("Opening shared input device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 orgstream = NewStream(sharedstream.get(),
                                       snddev.id & SOUND_DEVICEID_MASK,
-                                      newsndgrpid,
-                                      snddev.default_samplerate,
-                                      snddev.max_input_channels,
-                                      int(snddev.default_samplerate * 0.04));
+                                      newsndgrpid, sharedsamplerate,
+                                      sharedchannels, sharedframesize);
             }
 
             if (!orgstream)
@@ -387,18 +396,21 @@ namespace soundsystem {
             // another shared stream as well on 'outputdeviceid'
             m_shared_streamplayers[outputdeviceid] = sharedstream;
 
+            int sharedsamplerate = m_shared_outputsamplerate != 0? m_shared_outputsamplerate : snddev.default_samplerate;
+            int sharedchannels = m_shared_outputchannels != 0? m_shared_outputchannels : snddev.max_output_channels;
+            int sharedframesize = m_shared_outputframesize != 0? m_shared_outputframesize : int(snddev.default_samplerate * 0.04);
+
             outputstreamer_t orgstream;
             if (snddev.id == SOUND_DEVICEID_VIRTUAL)
+            {
                 orgstream = NewVirtualStream(sharedstream.get(), newsndgrpid,
-                                             snddev.default_samplerate,
-                                             snddev.max_output_channels,
-                                             int(snddev.default_samplerate * 0.04));
+                                             sharedsamplerate, sharedchannels, sharedframesize);
+            }
             else
             {
                 MYTRACE(ACE_TEXT("Opening shared output device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 orgstream = NewStream(sharedstream.get(), snddev.id & SOUND_DEVICEID_MASK,
-                                      newsndgrpid, snddev.default_samplerate,
-                                      snddev.max_output_channels, int(snddev.default_samplerate * 0.04));
+                                      newsndgrpid, sharedsamplerate, sharedchannels, sharedframesize);
             }
 
             if (!orgstream)
@@ -999,6 +1011,30 @@ namespace soundsystem {
             }
 
             return Init();
+        }
+
+        bool InitSharedInputDevice(int samplerate, int channels, int framesize)
+        {
+            std::lock_guard<std::recursive_mutex> g(capture_lock());
+            if (m_shared_streamcaptures.size())
+                return false;
+
+            m_shared_inputsamplerate = samplerate;
+            m_shared_inputchannels = channels;
+            m_shared_inputframesize = framesize;
+            return true;
+        }
+
+        bool InitSharedOutputDevice(int samplerate, int channels, int framesize)
+        {
+            std::lock_guard<std::recursive_mutex> g(players_lock());
+            if (m_shared_streamplayers.size())
+                return false;
+
+            m_shared_outputsamplerate = samplerate;
+            m_shared_outputchannels = channels;
+            m_shared_outputframesize = framesize;
+            return true;
         }
 
         //input and output devices

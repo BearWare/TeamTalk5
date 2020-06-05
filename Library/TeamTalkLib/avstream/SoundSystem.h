@@ -331,6 +331,8 @@ namespace soundsystem {
         virtual bool GetDevice(int id, DeviceInfo& dev) = 0;
 
         virtual bool RestartSoundSystem() = 0;
+        virtual bool InitSharedInputDevice(int samplerate, int channels, int framesize) = 0;
+        virtual bool InitSharedOutputDevice(int samplerate, int channels, int framesize) = 0;
 
         //sound group members
         virtual int OpenSoundGroup() = 0;
@@ -375,6 +377,7 @@ namespace soundsystem {
         virtual bool IsStreamStopped(StreamDuplex* duplex) = 0;
         virtual bool UpdateStreamDuplexFeatures(StreamDuplex* duplex) = 0;
 
+        // playback members
         virtual void SetVolume(StreamPlayer* player, int volume) = 0;
         virtual int GetVolume(StreamPlayer* player) = 0;
         virtual void SetAutoPositioning(StreamPlayer* player, bool enable) = 0;
