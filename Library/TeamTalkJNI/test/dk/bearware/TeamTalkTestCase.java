@@ -1913,6 +1913,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         connect(ttclient);
         initSound(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
 
         assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
         assertTrue("enable tx", ttclient.enableVoiceTransmission(true));
