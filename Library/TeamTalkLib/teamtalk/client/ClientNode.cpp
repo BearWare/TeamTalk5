@@ -5001,18 +5001,6 @@ void ClientNode::OnClosed()
 #endif
     m_def_stream = NULL;
     
-
-    if (m_serverinfo.hostaddrs.size() > 1)
-    {
-        m_serverinfo.hostaddrs.erase(m_serverinfo.hostaddrs.begin());
-        u_short udpport = m_serverinfo.udpaddr.get_port_number();
-        m_serverinfo.udpaddr = m_serverinfo.hostaddrs[0];
-        m_serverinfo.udpaddr.set_port_number(udpport);
-        if (Connect(encrypted, m_serverinfo.hostaddrs[0],
-                    m_localTcpAddr != ACE_INET_Addr() ? &m_localTcpAddr : NULL))
-            return;
-    }
-
     if(m_flags & CLIENT_CONNECTED)
     {
         m_flags &= ~CLIENT_CONNECTED;
@@ -5022,6 +5010,18 @@ void ClientNode::OnClosed()
     }
     else if(m_flags & CLIENT_CONNECTING)
     {
+        // try next resolved host before giving up
+        if (m_serverinfo.hostaddrs.size() > 1)
+        {
+            m_serverinfo.hostaddrs.erase(m_serverinfo.hostaddrs.begin());
+            u_short udpport = m_serverinfo.udpaddr.get_port_number();
+            m_serverinfo.udpaddr = m_serverinfo.hostaddrs[0];
+            m_serverinfo.udpaddr.set_port_number(udpport);
+            if (Connect(encrypted, m_serverinfo.hostaddrs[0],
+                        m_localTcpAddr != ACE_INET_Addr() ? &m_localTcpAddr : NULL))
+                return;
+        }
+
         m_flags &= ~CLIENT_CONNECTING;
         //Disconnect and clean up clientnode
         if(m_listener)
