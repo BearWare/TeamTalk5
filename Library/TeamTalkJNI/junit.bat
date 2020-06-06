@@ -6,19 +6,23 @@ cd %TEAMTALKJNI_HOME%\test
 javac.exe -source 1.7 -target 1.7 -g -cp %CLASSPATH% -sourcepath %TEAMTALKJNI_HOME%/src dk/bearware/TeamTalkStdTestCase.java dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkStdTestSuite.java SingleJUnitTestRunner.java
 jar.exe cf ../libs/TeamTalk5Test.jar ./dk/bearware/*.class
 
-set JAVAPROP=-Djava.library.path=%TEAMTALKJNI_HOME%\libs
-set JAVAPROP=%JAVAPROP% -Ddk.bearware.serverip=
-set JAVAPROP=%JAVAPROP% -Ddk.bearware.sndinputid=
-set JAVAPROP=%JAVAPROP% -Ddk.bearware.sndoutputid=
-set JAVAPROP=%JAVAPROP% -Ddk.bearware.encrypted=0
-set JAVAPROP=%JAVAPROP% -Ddk.bearware.videodevid=
-set JAVAPROP=%JAVAPROP% -Ddk.bearware.serverip=127.0.0.1
-set JAVAPROP=%JAVAPROP% -Ddk.bearware.serverbindip=
-set JAVAPROP=%JAVAPROP% -Ddk.bearware.videofile=
-set JAVAPROP=%JAVAPROP% -Ddk.bearware.audiofile=
-set JAVAPROP=%JAVAPROP% -Ddk.bearware.httpsfile=
-set JAVAPROP=%JAVAPROP% -Ddk.bearware.opustools=
+@set JAVAPROP=-Djava.library.path=%TEAMTALKJNI_HOME%\libs
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.serverip=
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.sndinputid=
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.sndoutputid=
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.encrypted=0
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.videodevid=
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.serverip=127.0.0.1
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.serverbindip=
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.videofile=
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.audiofile=
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.httpsfile=
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.opustools=
 
 java.exe -cp %CLASSPATH% %JAVAPROP% org.junit.runner.JUnitCore TeamTalkStdTestSuite
+
+@REM :again
+@REM java.exe -cp %CLASSPATH% %JAVAPROP% SingleJUnitTestRunner dk.bearware.TeamTalkStdTestCase#testMessageQueue
+@REM if %ERRORLEVEL% EQU 0 goto again
 
 cd %TEAMTALKJNI_HOME%
