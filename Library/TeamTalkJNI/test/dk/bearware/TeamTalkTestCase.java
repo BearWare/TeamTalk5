@@ -2008,6 +2008,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             int x = 100;
             do {
                 Thread.sleep(1);
+                assertTrue("still connected", (ttclient.getFlags() & ClientFlag.CLIENT_CONNECTED) == ClientFlag.CLIENT_CONNECTED);
                 assertTrue("get chan", ttclient.getChannel(chan.nChannelID, tmp));
             } while (tmp.nUserData != chan.nUserData && x-- > 0);
 
