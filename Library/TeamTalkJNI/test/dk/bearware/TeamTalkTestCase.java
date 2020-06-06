@@ -1991,7 +1991,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
 
         Channel chan = buildDefaultChannel(ttclient, channame);
-        chan.nUserData = 0x7fffffff;
         chan.uChannelType = ~ChannelType.CHANNEL_PERMANENT;
         chan.szOpPassword = longstr;
         chan.szPassword = longstr;
@@ -2001,12 +2000,17 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         chan.nChannelID = ttclient.getMyChannelID();
 
-        for(int j = 0;j < 20;j++) {
-            for(int i = 0;i < 50;i++) {
-                if(ttclient.doUpdateChannel(chan) < 0)
-                    break;
-            }
-            Thread.sleep(500);
+        for(int j = 1;j <= 1000;j++) {
+            chan.nUserData = j;
+            assertTrue("update chan", ttclient.doUpdateChannel(chan) > 0);
+            Channel tmp = new Channel();
+            do {
+                
+                assertTrue("get chan", ttclient.getChannel(chan.nChannelID, tmp));
+                if (tmp.nUserData != j)
+                    Thread.sleep(10);
+                
+            } while (tmp.nUserData != j);
         }
 
         assertTrue("Internal error", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, DEF_WAIT, msg));
