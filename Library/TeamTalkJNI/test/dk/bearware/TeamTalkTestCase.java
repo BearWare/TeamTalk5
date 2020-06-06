@@ -2000,18 +2000,18 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         chan.nChannelID = ttclient.getMyChannelID();
 
-        for(int j = 1;j <= 1000;j++) {
-            chan.nUserData = j;
+        Channel tmp = new Channel();
+        do {
+            ++chan.nUserData;
             assertTrue("update chan", ttclient.doUpdateChannel(chan) > 0);
-            Channel tmp = new Channel();
+
+            int x = 100;
             do {
-                
+                Thread.sleep(1);
                 assertTrue("get chan", ttclient.getChannel(chan.nChannelID, tmp));
-                if (tmp.nUserData != j)
-                    Thread.sleep(10);
-                
-            } while (tmp.nUserData != j);
-        }
+            } while (tmp.nUserData != chan.nUserData && x-- > 0);
+
+        } while (tmp.nUserData == chan.nUserData);
 
         assertTrue("Internal error", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, DEF_WAIT, msg));
         assertTrue("Queue overflow", msg.clienterrormsg.nErrorNo == ClientError.INTERR_TTMESSAGE_QUEUE_OVERFLOW);
