@@ -1062,7 +1062,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         for (int i=0;i<clients.size();i+=2) {
             TeamTalkBase ttclient = clients.elementAt(i);
             assertTrue("get channel", ttclient.getChannel(ttclient.getMyChannelID(), chan));
-            String filename = STORAGEFOLDER + File.separator + "MuxedRecording-" + chan.szName + "-#" + ttclient.getMyUserID() + ".wav";
+            String filename = STORAGEFOLDER + File.separator + "MuxedRecording-" +
+                chan.szName + "-#" + ttclient.getMyUserID() + "-" + chan.audiocodec.opus.nTxIntervalMSec + "msec.wav";
+
             filenames.add(filename);
             cbintervalMSec.add(chan.audiocodec.opus.nTxIntervalMSec);
             assertTrue("Record mux", ttadmin.startRecordingMuxedAudioFile(ttclient.getMyChannelID(), filename, AudioFileFormat.AFF_WAVE_FORMAT));
@@ -1117,7 +1119,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             // tolerance. This is not a very precise way of testing
             // the duration of the files, but at least they should be
             // somewhere near the duration of the recording.
-            int tolerance = cbintervalMSec.remove(0) * 2;
+            int tolerance = cbintervalMSec.remove(0) * 3;
             assertTrue(String.format("Media file %s duration is %d, must be >= %d, tolerance %d",
                                      filename, mfi.uDurationMSec, duration, tolerance),
                        mfi.uDurationMSec + tolerance >= duration);
