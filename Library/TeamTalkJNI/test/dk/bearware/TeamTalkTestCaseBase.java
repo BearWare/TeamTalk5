@@ -298,6 +298,11 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         TTMessage tmp = new TTMessage();
         boolean gotmsg;
         do {
+            // caller might pass 'nClientEvent =
+            // ClientEvent.CLIENTEVENT_NONE' which is default in
+            // TTMessage. So set to something unsupported.
+            tmp.nClientEvent = -1;
+            
             gotmsg = ttclient.getMessage(tmp, 0);
 
             interleave.interleave();
@@ -308,11 +313,8 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
                     System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
                 }
             }
-
-            if (System.currentTimeMillis() - start >= waittimeout && !gotmsg)
-                break;
         }
-        while (!gotmsg || tmp.nClientEvent != nClientEvent);
+        while (tmp.nClientEvent != nClientEvent && (System.currentTimeMillis() - start <= waittimeout || gotmsg));
 
         if (tmp.nClientEvent == nClientEvent)
         {

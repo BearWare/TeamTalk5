@@ -3182,7 +3182,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         int sessionid = ttclient.initLocalPlayback(mfi.szFileName, mfp);
         assertTrue("init playback", sessionid > 0);
 
-        assertTrue("Hold pause state", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 100));
+        assertFalse("Hold pause state", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 100));
 
         mfp.bPaused = false;
         assertTrue("Unpause", ttclient.updateLocalPlayback(sessionid, mfp));
