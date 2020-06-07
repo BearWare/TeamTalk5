@@ -18,6 +18,7 @@ jar.exe cf ../libs/TeamTalk5Test.jar ./dk/bearware/*.class
 @set JAVAPROP=%JAVAPROP% -Ddk.bearware.audiofile=
 @set JAVAPROP=%JAVAPROP% -Ddk.bearware.httpsfile=
 @set JAVAPROP=%JAVAPROP% -Ddk.bearware.opustools=
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.verbose=
 
 java.exe -cp %CLASSPATH% %JAVAPROP% org.junit.runner.JUnitCore TeamTalkStdTestSuite
 
