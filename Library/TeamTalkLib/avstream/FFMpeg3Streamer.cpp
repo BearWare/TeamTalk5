@@ -54,10 +54,10 @@ void InitAVConv()
 
         if (!ready)
         {
-#if defined(NDEBUG)
-            av_log_set_level(AV_LOG_QUIET);
-#else
+#if defined(_DEBUG)
             av_log_set_level(AV_LOG_MAX_OFFSET);
+#else
+            av_log_set_level(AV_LOG_QUIET);
 #endif
             avdevice_register_all();
             av_register_all();
