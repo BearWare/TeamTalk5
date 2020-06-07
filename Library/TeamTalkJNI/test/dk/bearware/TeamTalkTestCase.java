@@ -1982,19 +1982,10 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         TTMessage msg = new TTMessage();
 
-        String longstr = "";
-        for(int i=0;i<Constants.TT_STRLEN-2;i++)
-            longstr = longstr.concat("T");
-        String channame = longstr.substring(0, 500);
-
         connect(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
 
-        Channel chan = buildDefaultChannel(ttclient, channame);
-        chan.uChannelType = ChannelType.CHANNEL_DEFAULT;
-        chan.szOpPassword = longstr;
-        chan.szPassword = longstr;
-        chan.szTopic = longstr;
+        Channel chan = buildDefaultChannel(ttclient, "hest");
 
         assertTrue("join chan success", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
