@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -62,11 +62,11 @@ using namespace std::placeholders;
 
 ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
                        : m_reactor(new ACE_Select_Reactor(), true) //Ensure we don't use ACE_WFMO_Reactor!!!
-#ifdef _DEBUG
+#if defined(_DEBUG)
                        , m_reactor_thr_id(0)
                        , m_active_timerid(0)
-                       , m_reactor_wait(0)
 #endif
+                       , m_reactor_wait(0)
                        , m_flags(CLIENT_CLOSED)
                        , m_connector(&m_reactor, ACE_NONBLOCK)
                        , m_def_stream(NULL)
@@ -100,24 +100,18 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
     m_local_voicelog.reset(new ClientUser(LOCAL_USERID, this,
                                           m_listener, m_soundsystem));
 
-    this->activate();
-#if defined(_DEBUG)
-    m_reactor_wait.acquire();
-#endif
-
+    ResumeEventHandling();
 }
 
 ClientNode::~ClientNode()
 {
     //close reactor so no one can register new handlers
-    int ret = m_reactor.end_reactor_event_loop();
-    TTASSERT(ret>=0);
-    this->wait();
+    SuspendEventHandling();
 
     {
         //guard needed for disconnect since Logout and LeaveChannel are called
         GUARD_REACTOR(this);
-        
+
         Disconnect();
         StopStreamingMediaFile();
         CloseVideoCapture();
@@ -137,9 +131,7 @@ int ClientNode::svc(void)
     int ret = m_reactor.owner (ACE_OS::thr_self ());
     assert(ret >= 0);
 
-#if defined(_DEBUG)
     m_reactor_wait.release();
-#endif
 
     m_reactor.run_reactor_event_loop ();
     MYTRACE( (ACE_TEXT("ClientNode reactor thread exited.\n")) );
@@ -148,30 +140,31 @@ int ClientNode::svc(void)
 
 void ClientNode::SuspendEventHandling()
 {
-    if(this->thr_count())
-    {
-        m_reactor.end_reactor_event_loop();
-        MYTRACE( (ACE_TEXT("ClientNode reactor thread suspended.\n")) );
-    }
+    m_reactor.end_reactor_event_loop();
+    this->wait();
+    MYTRACE( (ACE_TEXT("ClientNode reactor thread suspended.\n")) );
 }
 
 void ClientNode::ResumeEventHandling()
 {
-    if(this->thr_count() == 0)
-    {
-        ACE_thread_t thr_id = 0;
-        m_reactor.owner(&thr_id);
-        TTASSERT(thr_id != ACE_OS::thr_self());
+    assert(this->thr_count() == 0);
+    
+    ACE_thread_t thr_id = 0;
+    m_reactor.owner(&thr_id);
 
-        MYTRACE( (ACE_TEXT("ClientNode reactor thread waiting.\n")) );
-        if(thr_id != ACE_OS::thr_self())
-            this->wait();
-        MYTRACE( (ACE_TEXT("ClientNode reactor thread activating.\n")) );
-        m_reactor.reset_reactor_event_loop();
-        int ret = this->activate();
-        assert(ret >= 0);
-        MYTRACE( (ACE_TEXT("ClientNode reactor thread activated.\n")) );
-    }
+    MYTRACE( (ACE_TEXT("ClientNode reactor thread waiting.\n")) );
+    if(thr_id != ACE_OS::thr_self())
+        this->wait();
+
+    MYTRACE( (ACE_TEXT("ClientNode reactor thread activating.\n")) );
+    m_reactor.reset_reactor_event_loop();
+    int ret = this->activate();
+    assert(ret >= 0);
+
+    ret = m_reactor_wait.acquire();
+    assert(ret >= 0);
+
+    MYTRACE( (ACE_TEXT("ClientNode reactor thread activated.\n")) );
 }
 
 ACE_Lock& ClientNode::reactor_lock()
