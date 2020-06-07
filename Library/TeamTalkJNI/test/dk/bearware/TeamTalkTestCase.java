@@ -1975,9 +1975,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - "
             + getCurrentMethod();
-        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL
-            | UserRight.USERRIGHT_TRANSMIT_VOICE
-            | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
 
         TeamTalkBase ttclient = newClientInstance();
@@ -1993,7 +1991,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
 
         Channel chan = buildDefaultChannel(ttclient, channame);
-        chan.uChannelType = ~ChannelType.CHANNEL_PERMANENT;
+        chan.uChannelType = ChannelType.CHANNEL_DEFAULT;
         chan.szOpPassword = longstr;
         chan.szPassword = longstr;
         chan.szTopic = longstr;

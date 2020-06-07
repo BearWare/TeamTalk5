@@ -302,7 +302,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             // ClientEvent.CLIENTEVENT_NONE' which is default in
             // TTMessage. So set to something unsupported.
             tmp.nClientEvent = -1;
-            
+
             gotmsg = ttclient.getMessage(tmp, 0);
 
             interleave.interleave();
