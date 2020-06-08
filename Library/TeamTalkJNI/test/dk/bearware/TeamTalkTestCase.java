@@ -1997,7 +1997,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             ++chan.nUserData;
             assertTrue("update chan", ttclient.doUpdateChannel(chan) > 0);
 
-            int x = 100;
+            int x = 1000;
             do {
                 Thread.sleep(1);
                 assertTrue("still connected", (ttclient.getFlags() & ClientFlag.CLIENT_CONNECTED) == ClientFlag.CLIENT_CONNECTED);
