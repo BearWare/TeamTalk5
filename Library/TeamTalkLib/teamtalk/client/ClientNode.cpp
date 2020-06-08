@@ -141,7 +141,13 @@ int ClientNode::svc(void)
 void ClientNode::SuspendEventHandling()
 {
     m_reactor.end_reactor_event_loop();
-    // don't wait for thread to die since SuspendEventHandling() is called from reactor loop
+
+    // don't wait for thread to die if SuspendEventHandling() is called from reactor loop
+    ACE_thread_t thr_id = 0;
+    m_reactor.owner(&thr_id);
+    if(thr_id != ACE_OS::thr_self())
+        this->wait();
+
     MYTRACE( (ACE_TEXT("ClientNode reactor thread suspended.\n")) );
 }
 
