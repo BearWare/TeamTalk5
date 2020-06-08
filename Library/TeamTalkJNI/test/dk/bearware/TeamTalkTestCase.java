@@ -3690,6 +3690,17 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         int[] samplerates = {8000, 12000, 16000, 24000, 48000};
         for (int samplerate : samplerates) {
+
+            if (!supportsInputSampleRate(getSoundDevice(ttclient, indev.value & SoundDeviceConstants.TT_SOUNDDEVICE_ID_MASK), samplerate)) {
+                System.err.println("Input device doesn't support sample rate: " + samplerate);
+                continue;
+            }
+
+            if (!supportsOutputSampleRate(getSoundDevice(ttclient, outdev.value & SoundDeviceConstants.TT_SOUNDDEVICE_ID_MASK), samplerate)) {
+                System.err.println("Output device doesn't support sample rate: " + samplerate);
+                continue;
+            }
+
             assertTrue("enable local aud cb", ttclient.enableAudioBlockEvent(Constants.TT_LOCAL_USERID, StreamType.STREAMTYPE_VOICE, true));
             assertTrue("setup shared input settings", TeamTalkBase.initSoundInputSharedDevice(samplerate, 2, samplerate));
             assertTrue("setup shared output settings", TeamTalkBase.initSoundOutputSharedDevice(samplerate, 2, samplerate));
@@ -3731,6 +3742,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("subscribe", waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
         for (int samplerate : samplerates) {
+
+            if (!supportsOutputSampleRate(getSoundDevice(ttclient, outdev.value & SoundDeviceConstants.TT_SOUNDDEVICE_ID_MASK), samplerate)) {
+                System.err.println("Output device doesn't support sample rate: " + samplerate);
+                continue;
+            }
 
             assertTrue("enable local aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
             assertTrue("setup shared output settings", TeamTalkBase.initSoundOutputSharedDevice(samplerate, 2, samplerate));
