@@ -241,7 +241,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         useraccount.szPassword = password;
         useraccount.uUserRights = userrights;
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
-        assertTrue("New user accout ok", waitCmdSuccess(ttclient, ttclient.doNewUserAccount(useraccount), DEF_WAIT));
+        assertTrue("New user account ok", waitCmdSuccess(ttclient, ttclient.doNewUserAccount(useraccount), DEF_WAIT));
         assertTrue("Disconnect", ttclient.disconnect());
     }
 
