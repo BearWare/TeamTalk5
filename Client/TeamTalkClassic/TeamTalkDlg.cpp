@@ -994,15 +994,13 @@ void CTeamTalkDlg::OnConnectFailed(const TTMessage& msg)
     Disconnect();
 
     CString s;
-    s.Format(_T("Failed to connect to %s TCP port %d UDP port %d"), STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
+    s.Format(LoadText(IDS_CONNFAILED, _T("Failed to connect to %s TCP port %d UDP port %d")), STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
     AddStatusText(s);
 
     if(!m_nReconnectTimerID)
     {
         CString szError;
-        szError.Format(    _T("Failed to connect to host \"%s\" TCP port %d UDP port %d.\r\n")
-            _T("Check that the server is running on the specified address\r\n")
-            _T("and that a firewall isn't preventing clients from connecting."),
+        szError.Format(LoadText(IDS_CONFAILED, _T("Failed to connect to host \"%s\" TCP port %d UDP port %d.\r\nCheck that the server is running on the specified address\r\nand that a firewall isn't preventing clients from connecting.")),
             STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
         AfxMessageBox(szError);
     }
@@ -1013,7 +1011,7 @@ void CTeamTalkDlg::OnConnectionLost(const TTMessage& msg)
     Disconnect();
 
     CString s;
-    s.Format(_T("Connection lost to %s TCP port %d UDP port %d"), STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
+    s.Format(LoadText(IDS_CONLOST, _T("Connection lost to %s TCP port %d UDP port %d")), STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
     AddStatusText(s);
 
     //reconnect to latest?
@@ -1030,7 +1028,7 @@ void CTeamTalkDlg::OnConnectionLost(const TTMessage& msg)
 
 void CTeamTalkDlg::OnLoggedIn(const TTMessage& msg)
 {
-    AddStatusText(_T("Successfully logged in"));
+    AddStatusText(LoadText(IDS_CONSUCCESS, _T("Successfully logged in")));
 
     switch(m_xmlSettings.GetGender(GENDER_NONE))
     {
@@ -1046,14 +1044,14 @@ void CTeamTalkDlg::OnLoggedIn(const TTMessage& msg)
 
 void CTeamTalkDlg::OnLoggedOut(const TTMessage& msg)
 {
-    AddStatusText(_T("Successfully logged out"));
+    AddStatusText(LoadText(IDS_LOGOUTSUCCESS, _T("Successfully logged out")));
 }
 
 void CTeamTalkDlg::OnKicked(const TTMessage& msg)
 {
     PlaySoundEvent(SOUNDEVENT_CONNECTION_LOST);
 
-    AfxMessageBox(_T("You have been kicked from the channel."));
+    AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from the channel.")));
 }
 
 void CTeamTalkDlg::OnServerUpdate(const TTMessage& msg)
@@ -1097,17 +1095,14 @@ void CTeamTalkDlg::OnCommandError(const TTMessage& msg)
 
         if(_tcslen(msg.clienterrormsg.szErrorMsg))
         {
-            CString szError = _T("An error occurred while perform a requested command:\r\n");
+            CString szError =LoadText(IDS_ERROROCCURREDCOMMAND, _T("An error occurred while perform a requested command:\r\n"));
             szError += msg.clienterrormsg.szErrorMsg;
             AfxMessageBox(szError);
         }
         else
         {
             //unknown error occured
-            AfxMessageBox(_T("An unknown error occurred. Check that the action you\r\n")
-                _T("performed is supported by the server. This error is most\r\n")
-                _T("likely caused by an incompability issue between the server\r\n")
-                _T("and your client."));
+            AfxMessageBox(LoadText(IDS_UNKNOWNERROR, _T("An unknown error occurred. Check that the action you\r\nperformed is supported by the server. This error is most\r\nlikely caused by an incompability issue between the server\r\nand your client.")));
         }
     }
     }
@@ -1641,9 +1636,9 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         if(ret != 0)
         {
             if (ret < 0)
-                szMsg.Format(_T("%s can no longer transmit voice!"), szName);
+                szMsg.Format(LoadText(IDS_NOLONGERTRANSMIT, _T("%s can no longer transmit voice!")), szName);
             else
-                szMsg.Format(_T("%s can now transmit voice!"), szName);
+                szMsg.Format(LoadText(IDS_CANNOWTRANSMIT, _T("%s can now transmit voice!")), szName);
 
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VIDEO_TX)
@@ -1653,9 +1648,9 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         if(ret != 0)
         {
             if (ret < 0)
-                szMsg.Format(_T("%s can no longer transmit video input!"), szName);
+                szMsg.Format(LoadText(IDS_NOLONGERTRANSMITVIDEO, _T("%s can no longer transmit video input!")), szName);
             else
-                szMsg.Format(_T("%s can now transmit video input!"), szName);
+                szMsg.Format(LoadText(IDS_CANNOWTRANSMITVIDEO, _T("%s can now transmit video input!")), szName);
 
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VOICE_TX)
@@ -1665,9 +1660,9 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         if(ret != 0)
         {
             if (ret < 0)
-                szMsg.Format(_T("%s can no longer transmit shared desktops!"), szName);
+                szMsg.Format(LoadText(IDS_NOLONGERTRANSMITDESKTOP, _T("%s can no longer transmit shared desktops!")), szName);
             else
-                szMsg.Format(_T("%s can now transmit shared desktops!"), szName);
+                szMsg.Format(LoadText(IDS_CANNOWTRANSMITDESKTOP, _T("%s can now transmit shared desktops!")), szName);
 
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_DESKTOP_TX)
@@ -1677,9 +1672,9 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         if(ret != 0)
         {
             if (ret < 0)
-                szMsg.Format(_T("%s can no longer transmit media files!"), szName);
+                szMsg.Format(LoadText(IDS_NOLONGERTRANSMITMEDIAFILE, _T("%s can no longer transmit media files!")), szName);
             else
-                szMsg.Format(_T("%s can now transmit media files!"), szName);
+                szMsg.Format(LoadText(IDS_CANNOWTRANSMITMEDIAFILE, _T("%s can now transmit media files!")), szName);
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_MEDIAFILE_TX)
                 AddVoiceMessage(szMsg);
@@ -2067,7 +2062,7 @@ void CTeamTalkDlg::OnUserDesktopInput(const TTMessage& msg)
         else if(TT_DesktopInput_KeyTranslate(key_trans, &inputs[i], &trans_input, 1))
             executeInputs.push_back(trans_input);
         else
-            TRACE(_T("Failed to translate received desktop input. KeyCode: 0x%X"), inputs[i].uKeyCode);
+            TRACE(LoadText(IDS_FAILEDTOTRANSLATEDESKTOP, _T("Failed to translate received desktop input. KeyCode: 0x%X")), inputs[i].uKeyCode);
     }
 
     if(executeInputs.size())
@@ -2091,7 +2086,7 @@ void CTeamTalkDlg::OnUserAudioFile(const TTMessage& msg)
     if(msg.mediafileinfo.nStatus == MFS_ERROR)
     {
         CString szMsg;
-        szMsg.Format(_T("Failed to write audio file for %s"),
+        szMsg.Format(LoadText(IDS_FAILEDTOWRITEAUDIOFILE, _T("Failed to write audio file for %s")),
                      GetDisplayName(user));
         AddStatusText(szMsg);
     }
@@ -2118,7 +2113,7 @@ void CTeamTalkDlg::OnFileTransfer(const TTMessage& msg)
         else
         {
             CString szError;
-            szError.Format(_T("Failed to start file transfer.\r\nFile name: %s"),
+            szError.Format(LoadText(IDS_FAILEDTOSTARTFILETRANSFER, _T("Failed to start file transfer.\r\nFile name: %s")),
                 (filetransfer.bInbound? filetransfer.szRemoteFileName :
                 filetransfer.szRemoteFileName));
             AfxMessageBox(szError);
@@ -2150,21 +2145,21 @@ void CTeamTalkDlg::OnStreamMediaFile(const TTMessage& msg)
     switch(msg.mediafileinfo.nStatus)
     {
     case MFS_ERROR :
-        AddStatusText(_T("Error streaming media file to channel"));
+        AddStatusText(LoadText(IDS_ERRORSTREAMINGTOCHANNEL, _T("Error streaming media file to channel")));
         StopMediaStream();
         break;
     case MFS_STARTED :
-        AddStatusText(_T("Started streaming media file to channel"));
+        AddStatusText(LoadText(IDS_STREAMINGTOCHANNELSTART, _T("Started streaming media file to channel")));
         break;
     case MFS_FINISHED :
-        AddStatusText(_T("Finished streaming media file to channel"));
+        AddStatusText(LoadText(IDS_STREAMINGTOCHANNELFINISH, _T("Finished streaming media file to channel")));
         StopMediaStream();
 
         if (m_xmlSettings.GetMediaFileRepeat(false))
             StartMediaStream();
         break;
     case MFS_ABORTED :
-        AddStatusText(_T("Aborted streaming media file to channel"));
+        AddStatusText(LoadText(IDS_STREAMINGTOCHANNELABORT, _T("Aborted streaming media file to channel")));
         StopMediaStream();
         break;
     }
