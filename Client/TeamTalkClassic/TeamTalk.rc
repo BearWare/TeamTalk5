@@ -2224,6 +2224,7 @@ BEGIN
     IDS_PLAY                "Play"
     IDS_NOPREPROCESSOR      "No Audio Preprocessor"
     IDS_CONLOGIN            "Connected... logging in"
+    IDS_STREAMFAILEDBOX            "Failed to stream media file."
 END
 
 #endif    // Neutral resources
