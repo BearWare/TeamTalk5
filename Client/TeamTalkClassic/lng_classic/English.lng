@@ -186,6 +186,8 @@
     <item id="323">Play</item>
     <item id="324">TeamTalk Audio Preprocessor</item>
     <item id="325">Speex Audio Preprocessor</item>
+    <item id="326">No Audio Preprocessor</item>
+    <item id="327">Connected... logging in</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>

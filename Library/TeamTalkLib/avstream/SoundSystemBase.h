@@ -315,6 +315,7 @@ namespace soundsystem {
             if (!orgstream)
             {
                 MYTRACE(ACE_TEXT("Failed to open shared input device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
+                RemoveSoundGroup(newsndgrpid);
                 return inputstreamer_t();
             }
 
@@ -337,8 +338,11 @@ namespace soundsystem {
             {
                 // failure, erase again
                 g.lock();
+
                 sharedstream->RemoveInputStreamer(streamer);
                 m_shared_streamcaptures.erase(inputdeviceid);
+                RemoveSoundGroup(newsndgrpid);
+
                 return inputstreamer_t();
             }
 

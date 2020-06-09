@@ -34,6 +34,7 @@ JAVAPROP+=-Ddk.bearware.videofile=$(VIDEOFILE)
 JAVAPROP+=-Ddk.bearware.audiofile=$(AUDIOFILE)
 JAVAPROP+=-Ddk.bearware.httpsfile=$(HTTPSFILE)
 JAVAPROP+=-Ddk.bearware.opustools=$(OPUSTOOLS)
+JAVAPROP+=-Ddk.bearware.verbose=$(VERBOSE)
 
 help:
 	@echo "Targets:"

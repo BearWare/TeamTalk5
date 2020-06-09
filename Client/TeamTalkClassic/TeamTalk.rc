@@ -2222,6 +2222,8 @@ BEGIN
     IDS_SNDINITFAILED       "Failed to initialize sound system"
     IDS_CONNECTING          "Connecting to host ""%s"" TCP port %d UDP port %d"
     IDS_PLAY                "Play"
+    IDS_NOPREPROCESSOR      "No Audio Preprocessor"
+    IDS_CONLOGIN            "Connected... logging in"
 END
 
 #endif    // Neutral resources

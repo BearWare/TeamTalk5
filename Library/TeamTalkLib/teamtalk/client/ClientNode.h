@@ -278,8 +278,9 @@ namespace teamtalk {
 #if defined(_DEBUG)
         ACE_thread_t m_reactor_thr_id;
         ACE_UINT32 m_active_timerid;
-        ACE_Semaphore m_reactor_wait;
 #endif
+        ACE_Semaphore m_reactor_wait;
+        
         ACE_Recursive_Thread_Mutex& lock_sndprop() { return m_sndgrp_lock; }
         ACE_Recursive_Thread_Mutex& lock_timers() { return m_timers_lock; }
         VoiceLogger& voicelogger();

@@ -38,7 +38,7 @@
     <item id="138">%s bittet um Desktopzugriff</item>
     <item id="139">%s hat Desktopzugriff zurückgezogen</item>
     <item id="140">Servereigenschaften</item>
-    <item id="141">benutzeraccounts</item>
+    <item id="141">benutzerkonten</item>
     <item id="142">Raum</item>
     <item id="143">Derzeitiger Sprachpegel</item>
     <item id="144">Benutzer-verschieben-Dialog</item>
@@ -126,7 +126,7 @@
     <item id="263">Maximal können %d Benutzer in einem Raum übertragen</item>
     <item id="264">%s hat den Raum %s betreten</item>
     <item id="265">%s hat den Raum %s verlassen</item>
-    <item id="266">Root</item>
+    <item id="266">Hauptraum</item>
     <item id="267">Keine Soundkarte</item>
     <item id="268">Neuer Benutzer</item>
     <item id="269">Benutzer entfernt</item>
@@ -141,14 +141,14 @@
     <item id="278">Dateien aktualisiert</item>
     <item id="279">Übertragung komplett</item>
     <item id="280">Sprechen beendet</item>
-    <item id="281">Sprachaktivierung umgeschaltet</item>
+    <item id="281">Sprachaktivierung aktiv</item>
     <item id="282">Sprachaktivierung beendet</item>
     <item id="283">Unterbrechungsfreie Übertragung bereit</item>
     <item id="284">Unterbrechungsfreie Übertragung beendet</item>
     <item id="285">Sprachaktivierung einschalten</item>
     <item id="286">Sprachaktivierung ausschalten</item>
-    <item id="287">Sprachaktivierung aus Menü einschalten</item>
-    <item id="288">Sprachaktivierung aus Menü ausschalten</item>
+    <item id="287">Sprachaktivierung aus Profil-Menü einschalten</item>
+    <item id="288">Sprachaktivierung aus Profil-Menü ausschalten</item>
     <item id="289">Raum-Operator</item>
     <item id="290">Codec-Begrenzungen</item>
     <item id="291">Missbrauchsschutz</item>
@@ -181,6 +181,11 @@
     <item id="318">Verbindung zum BearWare.dk-Web-Login konnte nicht hergestellt werden</item>
     <item id="319">%s, dein Benutzername &quot;&quot;%s&quot;&quot; wurde bestätigt.</item>
     <item id="320">Servernachricht</item>
+    <item id="321">Sound-System konnte nicht initialisiert werden</item>
+    <item id="322">Verbinde zu host &quot;%s&quot; TCP port %d UDP port %d</item>
+    <item id="323">Abspielen</item>
+    <item id="324">TeamTalk Audio-Vorverarbeitung</item>
+    <item id="325">Speex Audio-Vorverarbeitung</item>
     <item id="1009">Bei Verbindung automatisch Hauptraum betreten</item>
     <item id="1012">TCP-Port</item>
     <item id="1016">UDP-Port</item>
@@ -206,7 +211,7 @@
     <item id="1056">Spracherkennung</item>
     <item id="1057">Nachricht</item>
     <item id="1059">Raumname</item>
-    <item id="1060">In Tray minimieren</item>
+    <item id="1060">In den Infobereich minimieren</item>
     <item id="1061">Thema</item>
     <item id="1063">Passwort</item>
     <item id="1067">Max. Logins pro IP-Adresse</item>
@@ -290,7 +295,8 @@
     <item id="1237">TeamTalk 4 Einrichtungsassistent abgeschlossen</item>
     <item id="1240">Übersetzt von Steffen Schultz (steffenschultz@mailbox.org)</item>
     <item id="1241">Programmsprache</item>
-    <item id="1243">Mixergerät</item>
+    <item id="1243">Mixer</item>
+    <item id="1244">TeamTalk Classic Project Contributors: Beqa Gozalishvili</item>
     <item id="1245">Eine andere Installationssprache benutzen</item>
     <item id="1246">Schließen wenn komplett</item>
     <item id="1253">Dateiname:</item>
@@ -315,7 +321,7 @@
     <item id="1295">Raum betreten (optional)</item>
     <item id="1296">benutzer-Timeout</item>
     <item id="1298">Sprachcodec</item>
-    <item id="1299">Aktive Accounts</item>
+    <item id="1299">Aktive Konten</item>
     <item id="1303">Nur eine gleichzeitige Übertragung erlauben</item>
     <item id="1304">Permanenter Raum (auf Server gespeichert)</item>
     <item id="1308">Typ</item>
@@ -414,11 +420,12 @@
     <item id="1465">Verschlüsselter Server</item>
     <item id="1468">Server-Informationen speichern</item>
     <item id="1469">KBytes</item>
+    <item id="1470">Räume sortieren</item>
     <item id="1473">Nachricht des Tages</item>
     <item id="1474">KBytes/Sek (0 = ausgeschaltet)</item>
     <item id="1475">Audioformat:</item>
     <item id="1476">Videoformat:</item>
-    <item id="1477">Dateieigenschaften</item>
+    <item id="1477">Mediendatei suchen...</item>
     <item id="1478">Mediendatei</item>
     <item id="1480">KBytes/sec (0 = ausgeschaltet)</item>
     <item id="1481">Standardbenutzer</item>
@@ -481,6 +488,21 @@
     <item id="1564">Anmeldung</item>
     <item id="1565">&amp;Erstellen</item>
     <item id="1566">Behalte getrennte Benutzer</item>
+    <item id="1567">Variable Bitrate</item>
+    <item id="1569">Frame-Größe</item>
+    <item id="1571">Dauer</item>
+    <item id="1573">&amp;Setup</item>
+    <item id="1575">S&amp;topp</item>
+    <item id="1576">&amp;Abspielen</item>
+    <item id="1578">Automatische Pegel-Kontrolle</item>
+    <item id="1579">Rauschunterdrückung</item>
+    <item id="1590">Standard</item>
+    <item id="1591">linken Kanal stummschalten</item>
+    <item id="1592">rechten Kanal stummschalten</item>
+    <item id="1593">Mediendatei kontinuierlich abspielen</item>
+    <item id="1594">Startposition</item>
+    <item id="1595">Audio-Vorverarbeitung</item>
+    <item id="1596">Playback testen</item>
     <item id="32791">Wie lautet meine &amp;IP-Adresse?</item>
     <item id="32798">&amp;Op\tSTRG+O</item>
     <item id="32801">Raumnachrichten &amp;zeigen\tF10</item>
@@ -528,9 +550,9 @@
     <item id="32859">Datei &amp;löschen\tUmsch+entfernen</item>
     <item id="32864">Raum verlassen\tSTRG+L</item>
     <item id="32866">Raum lösch&amp;en\tF8</item>
-    <item id="32867">Raum &amp;aktualisieren\tUmsch+F7</item>
+    <item id="32867">Raum &amp;bearbeiten\tUmsch+F7</item>
     <item id="32868">Server&amp;eigenschaften\tF9</item>
-    <item id="32869">Ben&amp;utzeraccounts verwalten\tSTRG+Umsch+L</item>
+    <item id="32869">Ben&amp;utzerkonten verwalten\tSTRG+Umsch+L</item>
     <item id="32870">&amp;Server</item>
     <item id="32871">Konfiguration &amp;speichern\tSTRG+Umsch+S</item>
     <item id="32877">Zum Ver&amp;schieben merken\tSTRG+Alt+X</item>

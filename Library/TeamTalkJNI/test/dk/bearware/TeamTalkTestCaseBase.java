@@ -241,7 +241,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         useraccount.szPassword = password;
         useraccount.uUserRights = userrights;
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
-        assertTrue("New user accout ok", waitCmdSuccess(ttclient, ttclient.doNewUserAccount(useraccount), DEF_WAIT));
+        assertTrue("New user account ok", waitCmdSuccess(ttclient, ttclient.doNewUserAccount(useraccount), DEF_WAIT));
         assertTrue("Disconnect", ttclient.disconnect());
     }
 
@@ -298,6 +298,11 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         TTMessage tmp = new TTMessage();
         boolean gotmsg;
         do {
+            // caller might pass 'nClientEvent =
+            // ClientEvent.CLIENTEVENT_NONE' which is default in
+            // TTMessage. So set to something unsupported.
+            tmp.nClientEvent = -1;
+
             gotmsg = ttclient.getMessage(tmp, 0);
 
             interleave.interleave();
@@ -308,11 +313,8 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
                     System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
                 }
             }
-
-            if (System.currentTimeMillis() - start >= waittimeout && !gotmsg)
-                break;
         }
-        while (!gotmsg || tmp.nClientEvent != nClientEvent);
+        while (tmp.nClientEvent != nClientEvent && (System.currentTimeMillis() - start <= waittimeout || gotmsg));
 
         if (tmp.nClientEvent == nClientEvent)
         {
@@ -490,6 +492,34 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         System.out.println("\tDefault sample rate: " + Integer.toString(dev.nDefaultSampleRate));
     }
 
+    public static SoundDevice getSoundDevice(TeamTalkBase ttclient, int deviceid) {
+        Vector<SoundDevice> devs = new Vector<SoundDevice>();
+        ttclient.getSoundDevices(devs);
+        for(SoundDevice d : devs) {
+            if (d.nDeviceID == deviceid)
+                return d;
+        }
+        return null;
+    }
+
+    public static boolean supportsInputSampleRate(SoundDevice indev, int samplerate) {
+
+        boolean inputsr = false;
+        for (int sr : indev.inputSampleRates)
+            inputsr |= sr == samplerate;
+
+        return inputsr;
+    }
+
+    public static boolean supportsOutputSampleRate(SoundDevice outdev, int samplerate) {
+
+        boolean outputsr = false;
+        for (int sr : outdev.outputSampleRates)
+            outputsr |= sr == samplerate;
+
+        return outputsr;
+    }
+
     static boolean supportsDuplexMode(TeamTalkBase ttclient, int inputdeviceid, int outputdeviceid, int samplerate) {
 
         if (inputdeviceid == -1 || outputdeviceid == -1) {
@@ -499,24 +529,14 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             outputdeviceid = outputdeviceid == -1? outdev.value : outputdeviceid;
         }
 
-        Vector<SoundDevice> devs = new Vector<SoundDevice>();
-        SoundDevice indev = null, outdev = null;
-        ttclient.getSoundDevices(devs);
-        for(SoundDevice d : devs) {
-            if (d.nDeviceID == inputdeviceid)
-                indev = d;
-            if (d.nDeviceID == outputdeviceid)
-                outdev = d;
-        }
+        SoundDevice indev = getSoundDevice(ttclient, inputdeviceid),
+            outdev = getSoundDevice(ttclient, outputdeviceid);
 
         assertTrue("indev set", indev != null);
         assertTrue("outdev set", outdev != null);
 
-        boolean inputsr = false, outputsr = false;
-        for (int sr : indev.inputSampleRates)
-            inputsr |= sr == samplerate;
-        for (int sr : outdev.outputSampleRates)
-            outputsr |= sr == samplerate;
+        boolean inputsr = supportsInputSampleRate(indev, samplerate),
+            outputsr = supportsOutputSampleRate(outdev, samplerate);
 
         return inputsr && outputsr;
     }

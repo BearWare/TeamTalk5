@@ -143,9 +143,12 @@ BOOL CStreamMediaDlg::OnInitDialog()
         m_wndFilename.AddString(m_fileList.GetNext(pos));
     m_wndFilename.SetCurSel(0);
 
-    AddString(m_wndAudioPreprocessor, _T("No Audio Preprocessor"), NO_AUDIOPREPROCESSOR);
-    AddString(m_wndAudioPreprocessor, _T("TeamTalk Audio Preprocessor"), TEAMTALK_AUDIOPREPROCESSOR);
-    AddString(m_wndAudioPreprocessor, _T("Speex DSP Audio Preprocessor"), SPEEXDSP_AUDIOPREPROCESSOR);
+    CString szPreprocessor = LoadText(IDS_NOPREPROCESSOR, _T("No Audio Preprocessor"));
+    AddString(m_wndAudioPreprocessor, szPreprocessor, NO_AUDIOPREPROCESSOR);
+    szPreprocessor = LoadText(IDD_DIALOG_TTAUDIOPREPROCESSOR, _T("TeamTalk Audio Preprocessor"));
+    AddString(m_wndAudioPreprocessor, szPreprocessor, TEAMTALK_AUDIOPREPROCESSOR);
+    szPreprocessor = LoadText(IDD_DIALOG_SPEEXDSP, _T("Speex DSP Audio Preprocessor"));
+    AddString(m_wndAudioPreprocessor, szPreprocessor, SPEEXDSP_AUDIOPREPROCESSOR);
 
     m_mfp = m_xmlSettings.GetMediaFilePlayback();
     SetCurSelItemData(m_wndAudioPreprocessor, m_mfp.audioPreprocessor.nPreprocessor);
