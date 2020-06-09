@@ -293,7 +293,7 @@ void CTeamTalkDlg::Login()
 
     m_commands[cmd] = CMD_COMPLETE_LOGIN;
 
-    AddStatusText(_T("Connected... logging in"));
+    AddStatusText(LoadText(IDS_CONLOGIN, _T("Connected... logging in")));
 }
 
 void CTeamTalkDlg::UpdateWindowTitle()

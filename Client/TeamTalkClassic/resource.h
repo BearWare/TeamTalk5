@@ -229,6 +229,7 @@
 #define IDD_DIALOG_TTAUDIOPREPROCESSOR  324
 #define IDD_DIALOG_SPEEXDSP             325
 #define IDS_NOPREPROCESSOR              326
+#define IDS_CONLOGIN                    327
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -836,6 +837,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        323
 #define _APS_NEXT_COMMAND_VALUE         32955
 #define _APS_NEXT_CONTROL_VALUE         1597
-#define _APS_NEXT_SYMED_VALUE           327
+#define _APS_NEXT_SYMED_VALUE           328
 #endif
 #endif
