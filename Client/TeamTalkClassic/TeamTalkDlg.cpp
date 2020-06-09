@@ -429,7 +429,7 @@ void CTeamTalkDlg::StartMediaStream()
 
     if (!TT_StartStreamingMediaFileToChannelEx(ttInst, szFileName, &mfp, &vidcodec))
     {
-        MessageBox(_T("Failed to stream media file."),
+        MessageBox(LoadText(IDS_STREAMFAILEDBOX, _T("Failed to stream media file."),
             LoadText(IDD_DIALOG_STREAMMEDIA, _T("Stream Media File")), MB_OK);
         return;
     }

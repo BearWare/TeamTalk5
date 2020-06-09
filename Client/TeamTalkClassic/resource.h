@@ -230,6 +230,7 @@
 #define IDD_DIALOG_SPEEXDSP             325
 #define IDS_NOPREPROCESSOR              326
 #define IDS_CONLOGIN                    327
+#define IDS_STREAMFAILEDBOX                    328
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
