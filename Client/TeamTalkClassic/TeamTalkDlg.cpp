@@ -429,7 +429,7 @@ void CTeamTalkDlg::StartMediaStream()
 
     if (!TT_StartStreamingMediaFileToChannelEx(ttInst, szFileName, &mfp, &vidcodec))
     {
-        MessageBox(LoadText(IDS_STREAMFAILEDBOX, _T("Failed to stream media file."),
+        MessageBox(LoadText(IDS_STREAMFAILEDBOX, _T("Failed to stream media file.")),
             LoadText(IDD_DIALOG_STREAMMEDIA, _T("Stream Media File")), MB_OK);
         return;
     }
@@ -1000,7 +1000,7 @@ void CTeamTalkDlg::OnConnectFailed(const TTMessage& msg)
     if(!m_nReconnectTimerID)
     {
         CString szError;
-        szError.Format(LoadText(IDS_CONFAILED, _T("Failed to connect to host \"%s\" TCP port %d UDP port %d.\r\nCheck that the server is running on the specified address\r\nand that a firewall isn't preventing clients from connecting.")),
+        szError.Format(LoadText(IDS_CONFAILED, _T("Failed to connect to host %s TCP port %d UDP port %d.\r\nCheck that the server is running on the specified address\r\nand that a firewall isn't preventing clients from connecting.")),
             STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
         AfxMessageBox(szError);
     }
@@ -2381,7 +2381,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
             if(m_xmlSettings.HasErrors())
             {
                 CString szMsg = LoadText(IDS_UNABLELOADSETFILE, _T("Unable to load the settings file:\r\n"));
-                szMsg += szXmlFile + _T(".\r\n") LoadText(IDS_CREATENEWSETFILE, _T("Create a new settings file?"));
+                szMsg += szXmlFile + _T(".\r\n") + LoadText(IDS_CREATENEWSETFILE, _T("Create a new settings file?"));
                 if(AfxMessageBox(szMsg, MB_YESNO) == IDYES)
                 {
                     m_xmlSettings.CreateFile(ansiXml);
@@ -2655,7 +2655,7 @@ void CTeamTalkDlg::OnSysCommand(UINT nID, LPARAM lParam)
             GetWindowText(wintitle);
             if(!m_pTray->Create(0, WM_TRAY_MSG, wintitle, GetIcon(TRUE), IDR_MENU_TRAY))
             {
-                AfxMessageBox(LoadText(FAILEDTOCREATETRAYICON, _T("Failed to create tray icon")));
+                AfxMessageBox(LoadText(IDS_FAILEDTOCREATETRAYICON, _T("Failed to create tray icon")));
                 delete m_pTray;
                 m_pTray = NULL;
             }
@@ -2785,7 +2785,7 @@ void CTeamTalkDlg::Exit()
 		if (!CopyFile(szDefPath, szCfgPath, FALSE))
 		{
 			CString szMsg;
-			szMsg.Format(LoadText(FAILEDTOCOPY, _T("Failed to copy %s to %s")), szDefPath, szCfgPath);
+			szMsg.Format(LoadText(IDS_FAILEDTOCOPY, _T("Failed to copy %s to %s")), szDefPath, szCfgPath);
 			MessageBox(szMsg, LoadText(IDS_RESETSETTINGS, _T("Reset Settings")));
 		}
 	}
@@ -4253,7 +4253,7 @@ void CTeamTalkDlg::OnChannelsJoinchannel()
 
             int nCmdID = TT_DoJoinChannelByID(ttInst, nChannelID, _T(""));
             m_commands[nCmdID] = CMD_COMPLETE_JOIN;
-            TRACE(LoadText(JOININGCHAN, _T("Joining \"%s\"\n")), szChannelPath);
+            TRACE(LoadText(IDS_JOININGCHAN, _T("Joining %s\r\n")), szChannelPath);
         }
     }
 }
@@ -4346,7 +4346,7 @@ void CTeamTalkDlg::OnChannelsViewchannelmessages()
 void CTeamTalkDlg::OnHelpAbout()
 {
     CAboutBox dlg;
-    dlg.m_szCompiled = LoadText(IDS_COMPILEDON, _T("Compiled on ")) _T( __DATE__ ) _T(" ") _T( __TIME__ ) _T(".\r\n");
+    dlg.m_szCompiled = LoadText(IDS_COMPILEDON, _T("Compiled on ")) + _T( __DATE__ ) _T(" ") _T( __TIME__ ) _T(".\r\n");
 #if defined(UNICODE)
     dlg.m_szCompiled += LoadText(IDS_UNICODEENABLED, _T("Unicode -> UTF-8 conversion enabled.\r\n"));
 #else
@@ -4399,10 +4399,10 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
                     }
 
                     if(stats.nUdpPingTimeMs != -1)
-                        m_szStatusBar.Format(LoadText(RXTXOPEN, _T("RX: %.2fKB TX: %.2fKB PING: %u %s")), 
+                        m_szStatusBar.Format(LoadText(IDS_RXTXPING, _T("RX: %.2fKB TX: %.2fKB PING: %u %s")), 
                         rx, tx, stats.nUdpPingTimeMs, szHotKey);
                     else
-                        m_szStatusBar.Format(LoadText(RXTX, _T("RX: %.2fKB TX: %.2fKB %s")), 
+                        m_szStatusBar.Format(LoadText(IDS_RXTX, _T("RX: %.2fKB TX: %.2fKB %s")), 
                         rx, tx, szHotKey);
                 }
             }
@@ -5314,7 +5314,7 @@ void CTeamTalkDlg::OnChannelsDownloadfile()
             CString szWorkDir;
             GetCurrentDirectory(MAX_PATH, szWorkDir.GetBufferSetLength(MAX_PATH));
 
-            TCHAR szFilters[] = LoadText(IDS_ALLFILESTYPE, _T("All Files (*.*)|*.*||"));
+            CString szFilters = LoadText(IDS_ALLFILESTYPE, _T("All Files (*.*)|*.*||"));
             CFileDialog fileDlg(FALSE, NULL, remotefiles[j].szFileName, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
             if(fileDlg.DoModal() == IDOK)
             {
@@ -6243,7 +6243,7 @@ void CTeamTalkDlg::OnMeEnablevideotransmission()
         return;
     }
 
-    TCHAR szCaption[] = LoadText(IDS_ENABLEVT, _T("Enable Video Transmission"));
+    CString szCaption = LoadText(IDS_ENABLEVT, _T("Enable Video Transmission"));
     CString szDeviceID = STR_UTF8(m_xmlSettings.GetVideoCaptureDevice());
     vector<VideoCaptureDevice> viddevs;
     int count = 0;
