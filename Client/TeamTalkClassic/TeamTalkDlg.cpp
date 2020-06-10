@@ -2325,7 +2325,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
     //load accelerators
     m_hAccel = ::LoadAccelerators(AfxGetResourceHandle(), (LPCTSTR)IDR_ACCELERATOR2);
     if (!m_hAccel)
-        MessageBox(_T("The accelerator table was not loaded"));
+        MessageBox(LoadText(IDS_ACCELERATORNOTLOADDED, _T("The accelerator table was not loaded")));
 
     //load bmp for pictures
     //transparent pictures
@@ -2380,8 +2380,8 @@ BOOL CTeamTalkDlg::OnInitDialog()
         {
             if(m_xmlSettings.HasErrors())
             {
-                CString szMsg = _T("Unable to load the settings file:\r\n");
-                szMsg += szXmlFile + _T(".\r\n") _T("Create a new settings file?");
+                CString szMsg = LoadText(IDS_UNABLELOADSETFILE, _T("Unable to load the settings file:\r\n"));
+                szMsg += szXmlFile + _T(".\r\n") LoadText(IDS_CREATENEWSETFILE, _T("Create a new settings file?"));
                 if(AfxMessageBox(szMsg, MB_YESNO) == IDYES)
                 {
                     m_xmlSettings.CreateFile(ansiXml);
@@ -2530,11 +2530,11 @@ BOOL CTeamTalkDlg::OnInitDialog()
     m_brush.CreateSolidBrush(RGB(244,244,244));
 
     BOOL b = m_tabChat.Create(IDD_TAB_CHAT, &m_wndTabCtrl);
-    CString szChat = _T("Chat");
+    CString szChat = LoadText(IDS_CHAT, _T("Chat"));
     TRANSLATE_ITEM(IDS_CHAT, szChat);
     m_wndTabCtrl.AddTab(&m_tabChat, szChat, 0);
     b &= m_tabFiles.Create(IDD_TAB_FILES, &m_wndTabCtrl);
-    CString szFiles = _T("Files");
+    CString szFiles = LoadText(IDS_FILES, _T("Files"));
     TRANSLATE_ITEM(IDS_FILES, szFiles);
     m_wndTabCtrl.AddTab(&m_tabFiles, szFiles, 0);
     m_tabChat.m_hAccel = m_hAccel;
@@ -2655,7 +2655,7 @@ void CTeamTalkDlg::OnSysCommand(UINT nID, LPARAM lParam)
             GetWindowText(wintitle);
             if(!m_pTray->Create(0, WM_TRAY_MSG, wintitle, GetIcon(TRUE), IDR_MENU_TRAY))
             {
-                AfxMessageBox(_T("Failed to create tray icon"));
+                AfxMessageBox(LoadText(FAILEDTOCREATETRAYICON, _T("Failed to create tray icon")));
                 delete m_pTray;
                 m_pTray = NULL;
             }
@@ -2785,8 +2785,8 @@ void CTeamTalkDlg::Exit()
 		if (!CopyFile(szDefPath, szCfgPath, FALSE))
 		{
 			CString szMsg;
-			szMsg.Format(_T("Failed to copy %s to %s"), szDefPath, szCfgPath);
-			MessageBox(szMsg, _T("Reset Settings"));
+			szMsg.Format(LoadText(FAILEDTOCOPY, _T("Failed to copy %s to %s")), szDefPath, szCfgPath);
+			MessageBox(szMsg, LoadText(IDS_RESETSETTINGS, _T("Reset Settings")));
 		}
 	}
 
@@ -3105,7 +3105,7 @@ void CTeamTalkDlg::OnFileHostmanager()
         m_nReconnectTimerID = 0;
         Disconnect();
         CString s;
-        s.Format(_T("Disconnected from %s TCP port %d UDP port %d"), 
+        s.Format(LoadText(IDS_DISCONNECTEDFROM, _T("Disconnected from %s TCP port %d UDP port %d")), 
             STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, 
             m_host.nUdpPort);
         AddStatusText(s);
@@ -3536,8 +3536,8 @@ void CTeamTalkDlg::OnFilePreferences()
         {
             if (!InitSoundSystem(m_xmlSettings))
             {
-                MessageBox(_T("Failed to initialize new sound devices."),
-                    _T("Restart Sound System"), MB_OK);
+                MessageBox(LoadText(IDS_FAILEDTOINITIALIZENEWSD, _T("Failed to initialize new sound devices.")),
+                    LoadText(IDS_RESTARTSS, _T("Restart Sound System")), MB_OK);
             }
         }
 
@@ -3618,7 +3618,7 @@ void CTeamTalkDlg::OnUpdateMeChangenick(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnMeChangenick()
 {
-    CString szChNick = _T("Change nickname"), szNewNick = _T("New nickname");
+    CString szChNick = LoadText(IDS_CHANGENN, _T("Change nickname")), szNewNick = LoadText(IDS_NEWNN, _T("New nickname"));
     TRANSLATE_ITEM(IDS_CHANGENICKNAME, szChNick);
     TRANSLATE_ITEM(IDS_NEWNICKNAME, szNewNick);
 
@@ -3666,8 +3666,7 @@ void CTeamTalkDlg::OnMeEnablehotkey()
         }
         else
         {
-            if( AfxMessageBox(    _T("No push-to-talk key combination is currently configured.\r\n")
-                _T("Would you like to configure it now?"), MB_YESNO) == IDYES)
+            if( AfxMessageBox(    LoadText(IDS_NOCOMBINAISONKEYPTT, _T("No push-to-talk key combination is currently configured.\r\nWould you like to configure it now?")), MB_YESNO) == IDYES)
             {
                 CKeyCompDlg dlg;
                 dlg.DoModal();
@@ -3728,7 +3727,7 @@ void CTeamTalkDlg::OnUsersViewinfo()
         TT_GetUser(ttInst, nUserID, &user);
 
         dlg.m_szUsername = user.szUsername;
-        dlg.m_szUserType = (user.uUserType & USERTYPE_ADMIN)? _T("Admin"): _T("Default");
+        dlg.m_szUserType = (user.uUserType & USERTYPE_ADMIN)? LoadText(IDS_ADMIN, _T("Admin")): LoadText(IDS_DEFAULT, _T("Default"));
         if(TT_GetMyUserRights(ttInst) & USERRIGHT_BAN_USERS)
             dlg.m_szIPAddr = user.szIPAddress;
         dlg.m_szClientName = user.szClientName;
@@ -3911,9 +3910,9 @@ void CTeamTalkDlg::OnUsersOp()
         }
         else
         {
-            CString szTitle = _T("Operator password");
+            CString szTitle = LoadText(IDS_OPPSW, _T("Operator password"));
             TRANSLATE_ITEM(IDC_STATIC_OPPASSWD, szTitle);
-            CInputDlg dlg(szTitle, _T("Enter password"), _T(""), this);
+            CInputDlg dlg(szTitle, LoadText(IDS_ENTERPSW, _T("Enter password")), _T(""), this);
             if(dlg.DoModal() == IDOK)
                 TT_DoChannelOpEx(ttInst, i->nUserID, i->nChannelID, dlg.m_szInput, bNewState);
         }
@@ -3941,16 +3940,16 @@ void CTeamTalkDlg::OnUsersPositionusers()
 {
     if((TT_GetFlags(ttInst) & CLIENT_SNDINOUTPUT_DUPLEX))
     {
-        MessageBox(_T("Positioning users is not supported in sound duplex mode"),
-        _T("Position Users"), MB_OK);
+        MessageBox(LoadText(IDS_DUPLEXNOTSUPPORTPOS, _T("Positioning users is not supported in sound duplex mode")),
+        LoadText(IDS_POSUSERS, _T("Position Users")), MB_OK);
         return;
     }
 
     SoundDevice dev;
     if(GetSoundOutputDevice(m_xmlSettings, &dev) == UNDEFINED || dev.nSoundSystem != SOUNDSYSTEM_DSOUND)
     {
-        MessageBox(_T("Positioning users is only support with DirectSound"),
-        _T("Position Users"), MB_OK);
+        MessageBox(LoadText(IDS_POSONLYDS, _T("Positioning users is only support with DirectSound")),
+        LoadText(IDS_POSUSERS, _T("Position Users")), MB_OK);
         return;
     }
 
@@ -4206,8 +4205,8 @@ void CTeamTalkDlg::OnChannelsDeletechannel()
     TTCHAR path[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, path);
     CString s;
-    s.Format(_T("Are you sure you want to delete channel %s"), path);
-    if(MessageBox(s, _T("Delete Channel"), MB_YESNO) == IDYES)
+    s.Format(LoadText(IDS_SUREDELETECHAN, _T("Are you sure you want to delete channel %s")), path);
+    if(MessageBox(s, LoadText(IDS_CHANDELETETITLE, _T("Delete Channel")), MB_YESNO) == IDYES)
         TT_DoRemoveChannel(ttInst, channelid);
 }
 
@@ -4230,7 +4229,7 @@ void CTeamTalkDlg::OnChannelsJoinchannel()
         TT_GetChannelPath(ttInst, nChannelID, szChannelPath);
         if(chan.bPassword)
         {
-            CInputDlg dlg(_T("Channel password"), _T("Enter password"), _T(""), this);
+            CInputDlg dlg(LoadText(IDS_CHANPSW, _T("Channel password")), LoadText(IDS_ENTERPSW, _T("Enter password")), _T(""), this);
             dlg.m_szInput = m_channelPasswords[nChannelID];
             if(dlg.DoModal() == IDOK)
             {
@@ -4254,7 +4253,7 @@ void CTeamTalkDlg::OnChannelsJoinchannel()
 
             int nCmdID = TT_DoJoinChannelByID(ttInst, nChannelID, _T(""));
             m_commands[nCmdID] = CMD_COMPLETE_JOIN;
-            TRACE(_T("Joining \"%s\"\n"), szChannelPath);
+            TRACE(LoadText(JOININGCHAN, _T("Joining \"%s\"\n")), szChannelPath);
         }
     }
 }
@@ -4347,27 +4346,27 @@ void CTeamTalkDlg::OnChannelsViewchannelmessages()
 void CTeamTalkDlg::OnHelpAbout()
 {
     CAboutBox dlg;
-    dlg.m_szCompiled = _T("Compiled on ") _T( __DATE__ ) _T(" ") _T( __TIME__ ) _T(".\r\n");
+    dlg.m_szCompiled = LoadText(IDS_COMPILEDON, _T("Compiled on ")) _T( __DATE__ ) _T(" ") _T( __TIME__ ) _T(".\r\n");
 #if defined(UNICODE)
-    dlg.m_szCompiled += _T("Unicode -> UTF-8 conversion enabled.\r\n");
+    dlg.m_szCompiled += LoadText(IDS_UNICODEENABLED, _T("Unicode -> UTF-8 conversion enabled.\r\n"));
 #else
-    dlg.m_szCompiled += _T("Uses local character set.\r\n");
+    dlg.m_szCompiled += LoadText(IDS_LOCALECHARS, _T("Uses local character set.\r\n"));
 #endif
     if(sizeof(void*) == 8)
-        dlg.m_szCompiled += _T("TeamTalk 64-bit DLL version: ") + CString(TT_GetVersion());
+        dlg.m_szCompiled += LoadText(IDS_TTDLLVER, _T("TeamTalk 64-bit DLL version: ")) + CString(TT_GetVersion());
     else
-        dlg.m_szCompiled += _T("TeamTalk 32-bit DLL version: ") + CString(TT_GetVersion());
+        dlg.m_szCompiled += LoadText(IDS_TTDLLVERS, _T("TeamTalk 32-bit DLL version: ")) + CString(TT_GetVersion());
     dlg.DoModal();
 }
 
 void CTeamTalkDlg::OnHelpWebsite()
 {
-    HINSTANCE i = ShellExecute(this->m_hWnd,_T("open"),WEBSITE,_T(""),_T(""),SW_SHOW);
+    HINSTANCE i = ShellExecute(this->m_hWnd,LoadText(IDS_SHELLEXECOPEN, _T("open")),WEBSITE,_T(""),_T(""),SW_SHOW);
 }
 
 void CTeamTalkDlg::OnHelpManual()
 {
-    HINSTANCE i = ShellExecute(this->m_hWnd,_T("open"),MANUALFILE,_T(""),NULL,SW_SHOW);
+    HINSTANCE i = ShellExecute(this->m_hWnd,LoadText(IDS_SHELLEXECOPEN, _T("open")),MANUALFILE,_T(""),NULL,SW_SHOW);
 }
 
 void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
@@ -4400,10 +4399,10 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
                     }
 
                     if(stats.nUdpPingTimeMs != -1)
-                        m_szStatusBar.Format(_T("RX: %.2fKB TX: %.2fKB PING: %u %s"), 
+                        m_szStatusBar.Format(LoadText(RXTXOPEN, _T("RX: %.2fKB TX: %.2fKB PING: %u %s")), 
                         rx, tx, stats.nUdpPingTimeMs, szHotKey);
                     else
-                        m_szStatusBar.Format(_T("RX: %.2fKB TX: %.2fKB %s"), 
+                        m_szStatusBar.Format(LoadText(RXTX, _T("RX: %.2fKB TX: %.2fKB %s")), 
                         rx, tx, szHotKey);
                 }
             }
@@ -4418,7 +4417,7 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
                 {
                     if((user.nStatusMode & STATUSMODE_MASK) != STATUSMODE_AWAY)
                     {
-                        TT_DoChangeStatus(ttInst, STATUSMODE_AWAY, _T("Away"));
+                        TT_DoChangeStatus(ttInst, STATUSMODE_AWAY, LoadText(IDS_AWAY, _T("Away")));
                         if(m_xmlSettings.GetDisableVadOnIdle() && m_xmlSettings.GetVoiceActivated())
                             EnableVoiceActivation(FALSE);
                         m_bIdledOut = TRUE;
@@ -4446,8 +4445,7 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             Disconnect();
 
             CString szErr;
-            szErr.Format(_T("Failed to connect to %s port %d sound port %d.\r\n")
-                _T("Check that your host settings are correct."), 
+            szErr.Format(LoadText(IDS_FAILEDTOCONNECTLP, _T("Failed to connect to %s port %d sound port %d.\r\nCheck that your host settings are correct.")), 
                 STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, 
                 m_host.nUdpPort);
             AfxMessageBox(szErr, MB_OK | MB_ICONSTOP);
@@ -4522,7 +4520,7 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
                 if(!updname.IsEmpty())
                 {
                     CString str;
-                    str.Format(_T("New update available: %s"), updname);
+                    str.Format(LoadText(IDS_NEWUPDATEAVAILABLE, _T("New update available: %s")), updname);
                     AddStatusText(str);
                 }
                 CString szRegisterUrl = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/register-url", "").c_str());
@@ -4697,7 +4695,7 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
 
         if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
         {
-            if(AfxMessageBox(_T("Disconnect from current host?"), MB_YESNO) == IDNO)
+            if(AfxMessageBox(LoadText(IDS_DISCONNECTCURRENT, _T("Disconnect from current host?")), MB_YESNO) == IDNO)
             {
                 m_szTTLink.Empty();
                 return TRUE;
@@ -4710,8 +4708,7 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
                     m_host.nUdpPort, m_host.bEncrypted))
         {
             CString s;
-            s.Format(_T("Failed to connect to %s, port %d, sound port %d\r\n")
-                _T("Please check that that host is valid"), STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
+            s.Format(LoadText(IDS_FAILEDTOCONNECTCHECKHOSTVALID, _T("Failed to connect to %s, port %d, sound port %d\r\nPlease check that that host is valid")), STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
             AfxMessageBox(s);
         }
 
@@ -4721,14 +4718,13 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
     else if(!VersionSameOrLater(STR_UTF8(tt.GetFileVersion()), _T("5.0")))
     {
         CString szError;
-        szError.Format(_T("The file \"%s\" is incompatible with %s"), m_szTTLink, APPTITLE);
-        MessageBox(szError, _T("Load File"), MB_ICONERROR);
+        szError.Format(LoadText(IDS_TTFILEINCOMPATIBLE, _T("The file \"%s\" is incompatible with %s")), m_szTTLink, APPTITLE);
+        MessageBox(szError, LoadText(IDS_MSGBOXTTFILELOADERROR, _T("Load File")), MB_ICONERROR);
     }
     else
     {
         CString s;
-        s.Format(_T("The file %s\r\ndoes not contain a valid %s host entry.\r\n")
-            _T("Error message: %s"), m_szTTLink, APPNAME, STR_UTF8(tt.GetError().c_str()));
+        s.Format(LoadText(IDS_TTFILENOTVALIDHOST, _T("The file %s\r\ndoes not contain a valid %s host entry.\r\nError message: %s")), m_szTTLink, APPNAME, STR_UTF8(tt.GetError().c_str()));
         AfxMessageBox(s);
     }
 
@@ -4744,7 +4740,7 @@ LRESULT CTeamTalkDlg::OnTeamTalkLink(WPARAM wParam, LPARAM lParam)
     if(StartsWith(m_szTTLink, TTURL, FALSE))
     {
         if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
-            if(AfxMessageBox(_T("Disconnect from current host?"), MB_YESNO) == IDNO)
+            if(AfxMessageBox(LoadText(IDS_DISCONNECTCURRENT, _T("Disconnect from current host?")), MB_YESNO) == IDNO)
             {
                 m_szTTLink.Empty();
                 return TRUE;
@@ -4806,7 +4802,7 @@ LRESULT CTeamTalkDlg::OnTeamTalkLink(WPARAM wParam, LPARAM lParam)
     }
     else
     {
-        CString szErr; szErr = _T("Unable to parse link address:\r\n") + m_szTTLink;
+        CString szErr; szErr = LoadText(IDS_UNABLETOPARSELINKADDR, _T("Unable to parse link address:\r\n")) + m_szTTLink;
         AfxMessageBox(szErr);
     }
 
