@@ -193,6 +193,8 @@
     <item id="323">播放</item>
     <item id="324">TeamTalk 音频预处理器</item>
     <item id="325">Speex 音频预处理器</item>
+    <item id="326">没有音频预处理器</item>
+    <item id="327">已连接...正在登录</item>
     <item id="1009">连接后自动加入跟频道</item>
     <item id="1012">主机TCP端口</item>
     <item id="1016">主机UDP端口</item>
