@@ -4645,10 +4645,10 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
     {
         m_host = tthost;
 
-        CString szFormat, szText;
-        szFormat = LoadText(IDS_CLIENTSETTINGS);
-        szText.Format(szFormat, m_szTTLink, APPTITLE_SHORT);
-        if(tt.HasClientSetup() && MessageBox(szText, _T("Load ") _T(TTFILE_EXT) _T(" File"), MB_YESNO) == IDYES)
+        CString szText, szCaption;
+        szText.Format(LoadText(IDS_CLIENTSETTINGS), m_szTTLink, APPTITLE_SHORT);
+        szCaption.Format(_T("Load %s File"), _T(TTFILE_EXT));
+        if(tt.HasClientSetup() && MessageBox(szText, szCaption, MB_YESNO) == IDYES)
         {
             //override nickname if set in .tt file and not set in settings
             if(m_host.szNickname.size())
@@ -5046,8 +5046,9 @@ void CTeamTalkDlg::FirewallInstall()
     GetModuleFileName(NULL, szPath.GetBufferSetLength(MAX_PATH), MAX_PATH);
     if(!TT_Firewall_AppExceptionExists(szPath))
     {
-        int nAnswer = MessageBox(_T("Add ") APPNAME _T(" to Windows Firewall exceptions?"),
-            APPNAME, MB_YESNO);
+        CString szText;
+        szText.Format(_T("Add %s to Windows Firewall exceptions?"), APPNAME);
+        int nAnswer = MessageBox(szText, APPNAME, MB_YESNO);
         if(nAnswer == IDYES && !TT_Firewall_AddAppException(APPNAME, szPath))
             MessageBox(LoadText(IDS_FWFAILEDTOADD, _T("Failed to add application to Windows Firewall exceptions.")));
     }
