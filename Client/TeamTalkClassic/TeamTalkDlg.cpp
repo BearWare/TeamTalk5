@@ -4842,7 +4842,7 @@ void CTeamTalkDlg::OnMeUsespeechonevents()
 void CTeamTalkDlg::OnHelpRunwizard()
 {
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
-        AfxMessageBox(_T("Please disconnect before running this wizard"));
+        AfxMessageBox(LoadText(IDS_DISCOBEFORERUN, _T("Please disconnect before running this wizard")));
     else
         RunWizard();
 }
@@ -5049,7 +5049,7 @@ void CTeamTalkDlg::FirewallInstall()
         int nAnswer = MessageBox(_T("Add ") APPNAME _T(" to Windows Firewall exceptions?"),
             APPNAME, MB_YESNO);
         if(nAnswer == IDYES && !TT_Firewall_AddAppException(APPNAME, szPath))
-            MessageBox(_T("Failed to add application to Windows Firewall exceptions."));
+            MessageBox(LoadText(IDS_FWFAILEDTOADD, _T("Failed to add application to Windows Firewall exceptions.")));
     }
 }
 
@@ -5106,11 +5106,11 @@ void CTeamTalkDlg::UpdateAudioStorage(BOOL bEnable)
             if(!TT_StartRecordingMuxedAudioFile(ttInst, &chan.audiocodec, 
                 szAudioFile, aff))
             {
-                MessageBox(_T("Failed to start recording"), _T("Error"));
+                MessageBox(LoadText(IDS_RECSTARTFAILED, _T("Failed to start recording")), LoadText(IDS_ERR, _T("Error")));
                 return;
             }
             else
-                AddStatusText(_T("Recording to file: ") + szAudioFile);
+                AddStatusText(LoadText(IDS_RECORDINGFILE, _T("Recording to file: ")) + szAudioFile);
         }
     }
 }
@@ -5200,7 +5200,7 @@ void CTeamTalkDlg::UpdateChannelLog()
         if(!OpenLogFile(m_logChan, szPath, CString(chan.szName) + _T(".clog"), szPath))
         {
             CString szFormat;
-            szFormat.Format(_T("Failed to open file: %s"), szPath);
+            szFormat.Format(LoadText(IDS_FILEOPENFAILED, _T("Failed to open file: %s")), szPath);
             m_tabChat.m_wndRichEdit.AddLogMesage(szFormat);
         }
     }
@@ -5274,12 +5274,12 @@ void CTeamTalkDlg::OnChannelsUploadfile()
         CString szWorkDir;
         GetCurrentDirectory(MAX_PATH, szWorkDir.GetBufferSetLength(MAX_PATH));
 
-        CString filetypes = _T("All files (*.*)|*.*|");
+        CString filetypes = LoadText(IDS_ALLFILESTYPE, _T("All files (*.*)|*.*|"));
         CFileDialog dlg(TRUE, 0,0,OFN_FILEMUSTEXIST| OFN_HIDEREADONLY,filetypes, this);
         if(dlg.DoModal() == IDOK)
         {
             if(!TT_DoSendFile(ttInst, TT_GetMyChannelID(ttInst), dlg.GetPathName()))
-                AfxMessageBox(_T("Failed to send file."));
+                AfxMessageBox(LoadText(IDS_SENDFILEFAILED, _T("Failed to send file.")));
         }
         SetCurrentDirectory(szWorkDir);
     }
@@ -5314,12 +5314,12 @@ void CTeamTalkDlg::OnChannelsDownloadfile()
             CString szWorkDir;
             GetCurrentDirectory(MAX_PATH, szWorkDir.GetBufferSetLength(MAX_PATH));
 
-            TCHAR szFilters[] = _T("All Files (*.*)|*.*||");
+            TCHAR szFilters[] = LoadText(IDS_ALLFILESTYPE, _T("All Files (*.*)|*.*||"));
             CFileDialog fileDlg(FALSE, NULL, remotefiles[j].szFileName, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
             if(fileDlg.DoModal() == IDOK)
             {
                 if(!TT_DoRecvFile(ttInst, TT_GetMyChannelID(ttInst), fileids[i], fileDlg.GetPathName()))
-                    AfxMessageBox(_T("Failed to download file."));
+                    AfxMessageBox(LoadText(IDS_DLFILEFAILED, _T("Failed to download file.")));
             }
             SetCurrentDirectory(szWorkDir);
         }
@@ -5348,7 +5348,7 @@ LRESULT CTeamTalkDlg::OnFilesDropped(WPARAM wParam, LPARAM lParam)
         if(nChannelID>0)
         {
             if(!TT_DoSendFile(ttInst, TT_GetMyChannelID(ttInst), szFileName))
-                AfxMessageBox(_T("Failed to send file."));
+                AfxMessageBox(LoadText(IDS_SENDFILEFAILED, _T("Failed to send file.")));
         }
     }
     return TRUE;
@@ -6196,7 +6196,7 @@ void CTeamTalkDlg::OnServerServerstatistics()
     if(nCmdID>0)
         m_commands[nCmdID] = CMD_COMPLETE_SERVERSTATS;
     else
-        MessageBox(_T("Failed to query server statistics"), _T("Server Statistics"), MB_OK);
+        MessageBox(LoadText(IDS_QUERYSERVSTATFAILED, _T("Failed to query server statistics")), LoadText(IDS_SERVSTAT, _T("Server Statistics")), MB_OK);
 }
 
 void CTeamTalkDlg::OnNMCustomdrawSliderGainlevel(NMHDR *pNMHDR, LRESULT *pResult)
@@ -6214,7 +6214,7 @@ void CTeamTalkDlg::OnUpdateServerBroadcastmessage(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnServerBroadcastmessage()
 {
-    CInputDlg dlg(_T("Broadcast Message"), _T("Message to broadcast"), 0, this);
+    CInputDlg dlg(LoadText(IDS_BROADMSG, _T("Broadcast Message")), LoadText(IDS_MSGTOBROAD, _T("Message to broadcast")), 0, this);
     if(dlg.DoModal() == IDOK)
     {
         TextMessage msg = {};
@@ -6243,7 +6243,7 @@ void CTeamTalkDlg::OnMeEnablevideotransmission()
         return;
     }
 
-    TCHAR szCaption[] = _T("Enable Video Transmission");
+    TCHAR szCaption[] = LoadText(IDS_ENABLEVT, _T("Enable Video Transmission"));
     CString szDeviceID = STR_UTF8(m_xmlSettings.GetVideoCaptureDevice());
     vector<VideoCaptureDevice> viddevs;
     int count = 0;
@@ -6273,8 +6273,7 @@ void CTeamTalkDlg::OnMeEnablevideotransmission()
         }
         else
         {
-            MessageBox(_T("No video devices detected.\r\n")
-                       _T("Press Client -> Preferences -> Video Capture to reconfigure."), 
+            MessageBox(LoadText(IDS_NOVIDEODEVICE, _T("No video devices detected.\r\nPress Client -> Preferences -> Video Capture to reconfigure.")), 
                        szCaption, MB_OK);
             return;
         }
@@ -6304,14 +6303,14 @@ void CTeamTalkDlg::OnMeEnablevideotransmission()
 
     if(!TT_InitVideoCaptureDevice(ttInst, szDeviceID, &capformat))
     {
-        MessageBox(_T("Failed to start video capture device."),
+        MessageBox(LoadText(IDS_STARTVIDEODEVICEFAILED, _T("Failed to start video capture device.")),
                    szCaption, MB_OK);
         return;
     }
 
     if(!TT_StartVideoCaptureTransmission(ttInst, &codec))
     {
-        MessageBox(_T("Failed to initiate video codec."),
+        MessageBox(LoadText(IDS_INITIALIZEVIDEOCODECFAILED, _T("Failed to initiate video codec.")),
                    szCaption, MB_OK);
         TT_CloseVideoCaptureDevice(ttInst);
         return;
@@ -6442,7 +6441,7 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
             return;
 
         CString szUser, szVoice, szMute, szMediaFile, szMuteMediaFile,
-            szVideoCapture, szDesktop, szChanOp = _T("Channel Operator");
+            szVideoCapture, szDesktop, szChanOp = LoadText(IDS_CHANOP, _T("Channel Operator"));
 
         szUser.LoadString(IDS_USER);
         TRANSLATE_ITEM(IDD_TAB_CHANNELOP, szChanOp);
@@ -6614,7 +6613,7 @@ void CTeamTalkDlg::OnHelpResetpreferencestodefault()
     TRANSLATE_ITEM(IDS_RESETPREFERENCES, szMsg);
 
     szTitle = ExtractMenuText(ID_HELP_RESETPREFERENCESTODEFAULT,
-                              _T("Reset Preferences"));
+                              LoadText(IDS_RESETPREF, _T("Reset Preferences")));
     if(MessageBox(szMsg, szTitle, MB_YESNO) == IDYES)
     {
         m_bResetSettings = TRUE;
@@ -6664,7 +6663,7 @@ void CTeamTalkDlg::OnClientNewclientinstance()
     const CString szNewProfile = LoadText(IDS_NEWPROFILE, _T("New Profile")),
         szDelProfile = LoadText(IDS_DELETEPROFILE, _T("Delete Profile")),
         szTitle = ExtractMenuText(ID_CLIENT_NEWCLIENTINSTANCE,
-                                  _T("New Client Instance")),
+                                  LoadText(IDS_NEWCLIENTINSTAN, _T("New Client Instance"))),
         szSelect = LoadText(IDS_SELECTPROFILE, _T("Select profile")),
         szProfileName = LoadText(IDS_PROFILENAME, _T("Profile name"));
 
@@ -6734,5 +6733,5 @@ void CTeamTalkDlg::OnClientNewclientinstance()
     ZERO_STRUCT(processInfo);
 
     if (!CreateProcess(szBuff, szCmdLine.GetBuffer(), NULL, NULL, FALSE, CREATE_DEFAULT_ERROR_MODE, NULL, NULL, &info, &processInfo))
-        MessageBox(szTitle, _T("Failed to execute: ") + szCmdLine);
+        MessageBox(szTitle, LoadText(IDS_EXECUTEFAILED, _T("Failed to execute: ")) + szCmdLine);
 }
