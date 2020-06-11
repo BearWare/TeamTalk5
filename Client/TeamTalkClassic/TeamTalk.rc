@@ -2308,6 +2308,13 @@ BEGIN
     IDS_RESETPREF            "Reset Preferences"
     IDS_NEWCLIENTINSTAN            "New Client Instance"
     IDS_EXECUTEFAILED            "Failed to execute: "
+    IDS_ONLINEDLGID            "ID"
+    IDS_ONLINEDLGNICKNAME            "Nickname"
+    IDS_ONLINEDLGSM            "Status message"
+    IDS_ONLINEDLGUSERNAME            "Username"
+    IDS_ONLINEDLGCHAN            "Channel"
+    IDS_ONLINEDLGIPADDR            "IP-address"
+    IDS_ONLINEDLGVERS            "Version"
 END
 
 #endif    // Neutral resources

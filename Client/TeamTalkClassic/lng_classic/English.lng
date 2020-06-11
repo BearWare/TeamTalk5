@@ -272,6 +272,13 @@
     <item id="410">Reset Preferences</item>
     <item id="411">New Client Instance</item>
     <item id="412">Failed to execute: </item>
+    <item id="414">ID</item>
+    <item id="415">Nickname</item>
+    <item id="416">Status message</item>
+    <item id="417">Username</item>
+    <item id="418">Channel</item>
+    <item id="419">IP-address</item>
+    <item id="420">Version</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>
