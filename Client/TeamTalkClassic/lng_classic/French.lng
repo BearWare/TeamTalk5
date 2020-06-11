@@ -272,6 +272,13 @@
     <item id="410">Réinitialiser les préférences</item>
     <item id="411">Nouvelle instance du client</item>
     <item id="412">Impossible d'exécuter : </item>
+    <item id="414">ID</item>
+    <item id="415">Pseudo</item>
+    <item id="416">Message de statut</item>
+    <item id="417">Nom d'utilisateur</item>
+    <item id="418">Canal</item>
+    <item id="419">Adresse IP</item>
+    <item id="420">Version</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>

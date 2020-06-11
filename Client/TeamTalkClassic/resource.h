@@ -314,6 +314,13 @@
 #define IDS_RESETPREF                    410
 #define IDS_NEWCLIENTINSTAN                    411
 #define IDS_EXECUTEFAILED                    412
+#define IDS_ONLINEDLGID                    414
+#define IDS_ONLINEDLGNICKNAME                    415
+#define IDS_ONLINEDLGSM                    416
+#define IDS_ONLINEDLGUSERNAME                    417
+#define IDS_ONLINEDLGCHAN                    418
+#define IDS_ONLINEDLGIPADDR                    419
+#define IDS_ONLINEDLGVERS                    420
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
