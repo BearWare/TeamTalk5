@@ -331,6 +331,11 @@
 #define IDS_STREAMDLGFAILEDSTARTPB                    428
 #define IDS_LOADFILECLIENTSET                    429
 #define IDS_ADDTOFWEXCEP                    430
+#define IDS_DLGEXFAILEDTOCREATESB                    431
+#define IDS_DLGEXFAILEDTOCREATETB                    432
+#define IDS_DLGEXUPDATEDATAFAILED                    433
+#define IDS_DLGEXUNKNOWNINDICATOR                    434
+#define IDS_DLGEXNOLINEPROMPTFORID                    435
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
