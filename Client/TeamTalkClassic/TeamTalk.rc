@@ -2325,6 +2325,11 @@ BEGIN
     IDS_STREAMDLGFAILEDSTARTPB            "Failed to start playback"
     IDS_LOADFILECLIENTSET            "Load %s File"
     IDS_ADDTOFWEXCEP            "Add %s to Windows Firewall exceptions?"
+    IDS_DLGEXFAILEDTOCREATESB            "Failed to create status bar\n"
+    IDS_DLGEXFAILEDTOCREATETB            "Failed to create toolbar bar\n"
+    IDS_DLGEXUPDATEDATAFAILED            "UpdateData failed -- modeless dialog terminate\n"
+    IDS_DLGEXUNKNOWNINDICATOR            "Warning: OnUpdateKeyIndicator - unknown indicator 0x%04X\n"
+    IDS_DLGEXNOLINEPROMPTFORID            "Warning: no message line prompt for ID %x%04X\n"
 END
 
 #endif    // Neutral resources

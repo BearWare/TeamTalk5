@@ -289,6 +289,11 @@
     <item id="428">Impossible de démarrer la lecture</item>
     <item id="429">Charger le fichier %s</item>
     <item id="430">Ajouter %s aux exceptions du pare-feu Windows ?</item>
+    <item id="431">Impossible de créer la barre d'état&#xA;</item>
+    <item id="432">Impossible de créer la barre d'outils&#xA;</item>
+    <item id="433">Impossible de mettre à jour les données -- dialogue non modal terminé&#xA;</item>
+    <item id="434">Attention : OnUpdateKeyIndicator - indicateur 0x%04X inconnu&#xA;</item>
+    <item id="435">Attention : pas de message correspondant à la ligne %x%04X&#xA;</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>
