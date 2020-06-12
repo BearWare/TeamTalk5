@@ -279,6 +279,14 @@
     <item id="418">Canal</item>
     <item id="419">Adresse IP</item>
     <item id="420">Version</item>
+    <item id="421">Format inconnu</item>
+    <item id="422">Non spécifié</item>
+    <item id="423">Stéréo</item>
+    <item id="424">Mono</item>
+    <item id="425">Fichiers media (*.*)|*.*|</item>
+    <item id="426">Impossible de mettre à jour le traitement audio</item>
+    <item id="427">Impossible de résumer</item>
+    <item id="428">Impossible de démarrer la lecture</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>

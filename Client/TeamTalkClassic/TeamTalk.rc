@@ -2315,6 +2315,14 @@ BEGIN
     IDS_ONLINEDLGCHAN            "Channel"
     IDS_ONLINEDLGIPADDR            "IP-address"
     IDS_ONLINEDLGVERS            "Version"
+    IDS_STREAMDLGUNKFOR            "Unknown format"
+    IDS_STREAMDLGUNSPECIFIED            "Unspecified"
+    IDS_STREAMDLGSTEREO            "Stereo"
+    IDS_STREAMDLGMONO            "Mono"
+    IDS_STREAMDLGMFT            "Media files (*.*)|*.*|"
+    IDS_STREAMDLGFAILEDUPDATE            "Failed to update preprocessor"
+    IDS_STREAMDLGFAILEDRESUME            "Failed to resume"
+    IDS_STREAMDLGFAILEDSTARTPB            "Failed to start playback"
 END
 
 #endif    // Neutral resources
