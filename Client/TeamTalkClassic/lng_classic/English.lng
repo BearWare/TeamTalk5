@@ -279,6 +279,14 @@
     <item id="418">Channel</item>
     <item id="419">IP-address</item>
     <item id="420">Version</item>
+    <item id="421">Unknown format</item>
+    <item id="422">Unspecified</item>
+    <item id="423">Stereo</item>
+    <item id="424">Mono</item>
+    <item id="425">Media files (*.*)|*.*|</item>
+    <item id="426">Failed to update preprocessor</item>
+    <item id="427">Failed to resume</item>
+    <item id="428">Failed to start playback</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>

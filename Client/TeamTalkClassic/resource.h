@@ -321,6 +321,14 @@
 #define IDS_ONLINEDLGCHAN                    418
 #define IDS_ONLINEDLGIPADDR                    419
 #define IDS_ONLINEDLGVERS                    420
+#define IDS_STREAMDLGUNKFOR                    421
+#define IDS_STREAMDLGUNSPECIFIED                    422
+#define IDS_STREAMDLGSTEREO                    423
+#define IDS_STREAMDLGMONO                    424
+#define IDS_STREAMDLGMFT                    425
+#define IDS_STREAMDLGFAILEDUPDATE                    426
+#define IDS_STREAMDLGFAILEDRESUME                    427
+#define IDS_STREAMDLGFAILEDSTARTPB                    428
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
