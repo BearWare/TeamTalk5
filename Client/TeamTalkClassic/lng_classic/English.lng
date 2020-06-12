@@ -287,6 +287,8 @@
     <item id="426">Failed to update preprocessor</item>
     <item id="427">Failed to resume</item>
     <item id="428">Failed to start playback</item>
+    <item id="429">Load %s File</item>
+    <item id="430">Add %s to Windows Firewall exceptions?</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>

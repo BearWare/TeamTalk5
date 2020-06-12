@@ -2323,6 +2323,8 @@ BEGIN
     IDS_STREAMDLGFAILEDUPDATE            "Failed to update preprocessor"
     IDS_STREAMDLGFAILEDRESUME            "Failed to resume"
     IDS_STREAMDLGFAILEDSTARTPB            "Failed to start playback"
+    IDS_LOADFILECLIENTSET            "Load %s File"
+    IDS_ADDTOFWEXCEP            "Add %s to Windows Firewall exceptions?"
 END
 
 #endif    // Neutral resources
