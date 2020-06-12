@@ -329,6 +329,8 @@
 #define IDS_STREAMDLGFAILEDUPDATE                    426
 #define IDS_STREAMDLGFAILEDRESUME                    427
 #define IDS_STREAMDLGFAILEDSTARTPB                    428
+#define IDS_LOADFILECLIENTSET                    429
+#define IDS_ADDTOFWEXCEP                    430
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001

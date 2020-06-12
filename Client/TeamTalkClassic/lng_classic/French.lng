@@ -287,6 +287,8 @@
     <item id="426">Impossible de mettre à jour le traitement audio</item>
     <item id="427">Impossible de résumer</item>
     <item id="428">Impossible de démarrer la lecture</item>
+    <item id="429">Charger le fichier %s</item>
+    <item id="430">Ajouter %s aux exceptions du pare-feu Windows ?</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>
