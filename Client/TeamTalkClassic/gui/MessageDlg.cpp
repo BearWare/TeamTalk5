@@ -98,7 +98,7 @@ BOOL CMessageDlg::OnInitDialog()
     //load accelerators
     m_hAccel = ::LoadAccelerators(AfxGetResourceHandle(), (LPCTSTR)IDR_ACCELERATOR1);
     if (!m_hAccel)
-        MessageBox(_T("The accelerator table was not loaded"));
+        MessageBox(LoadText(IDS_ACCELERATORNOTLOADDED, _T("The accelerator table was not loaded")));
 
     if(IsAlive())
     {
@@ -180,7 +180,7 @@ void CMessageDlg::OnButtonSend()
         if( TT_DoTextMessage(ttInst, &usermsg)>0)
             AppendMessage(usermsg, TRUE);
         else
-            AfxMessageBox(_T("Failed to send message!"));
+            AfxMessageBox(LoadText(IDS_MSGDLGFAILEDTOSEND, _T("Failed to send message!")));
     }
 }
 

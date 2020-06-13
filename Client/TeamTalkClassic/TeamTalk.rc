@@ -2375,6 +2375,7 @@ BEGIN
     IDS_MEDIASTORAGEMP3FORMAT64            "MP3-format (64 kbit)"
     IDS_MEDIASTORAGEMP3FORMAT128            "MP3-format (128 kbit)"
     IDS_MEDIASTORAGEMP3FORMAT256            "MP3-format (256 kbit)"
+    IDS_MSGDLGFAILEDTOSEND            "Failed to send message!"
 END
 
 #endif    // Neutral resources
