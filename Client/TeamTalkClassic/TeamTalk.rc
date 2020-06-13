@@ -2378,6 +2378,7 @@ BEGIN
     IDS_MSGDLGFAILEDTOSEND            "Failed to send message!"
     IDS_POSUSERDISTCOORDO            "Distance: %.2fm\r\nCoordinates: (%.2f,%.2f)"
     IDS_SHORTCUTPAGECLEAR            "Clear"
+    IDS_SOUNDEVENTSWAVFILES            "Wave files (*.wav)|*.wav|All files (*.*)|*.*|"
 END
 
 #endif    // Neutral resources

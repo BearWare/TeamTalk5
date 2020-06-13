@@ -384,6 +384,7 @@
 #define IDS_MSGDLGFAILEDTOSEND                    484
 #define IDS_POSUSERDISTCOORDO                    485
 #define IDS_SHORTCUTPAGECLEAR                    486
+#define IDS_SOUNDEVENTSWAVFILES                    487
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001

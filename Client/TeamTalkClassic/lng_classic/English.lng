@@ -342,6 +342,7 @@
     <item id="484">Failed to send message!</item>
     <item id="485">Distance: %.2fm&#xD;&#xA;Coordinates: (%.2f,%.2f)</item>
     <item id="486">Clear</item>
+    <item id="487">Wave Files (*.wav)|*.wav|All Files (*.*)|*.*|</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>

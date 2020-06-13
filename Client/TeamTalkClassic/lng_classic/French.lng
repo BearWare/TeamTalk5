@@ -342,6 +342,7 @@
     <item id="484">Impossible d'envoyer le message !</item>
     <item id="485">Distance : %.2fm&#xD;&#xA;Coordonnées : (%.2f,%.2f)</item>
     <item id="486">Effacer</item>
+    <item id="487">Fichiers WAV (*.wav)|*.wav|Tous les fichiers (*.*)|*.*|</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>
