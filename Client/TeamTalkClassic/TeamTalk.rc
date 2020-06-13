@@ -2384,6 +2384,8 @@ BEGIN
     IDS_SOUNDSYSTEMFAILEDTOINITIALIZE            "Failed to initialize sound devices. Check your selected input and output devices."
     IDS_USERACCOUNTCREATEANONYMOUS            "Create anonymous user account?"
     IDS_USERACCOUNTADDUPDATE            "Add/Update User Account"
+    IDS_USERDESKTOPLOCALDESKTOP            "Local Desktop"
+    IDS_USERDESKTOPDESKTOP            "Desktop - "
 END
 
 #endif    // Neutral resources
