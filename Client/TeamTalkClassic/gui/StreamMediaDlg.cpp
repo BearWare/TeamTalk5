@@ -169,7 +169,7 @@ BOOL CStreamMediaDlg::OnInitDialog()
     {
         double percent = m_mfp.uOffsetMSec;
         percent /= m_mfi.uDurationMSec;
-        m_wndOffset.SetPos(m_wndOffset.GetRangeMax() * percent);
+        m_wndOffset.SetPos(int(m_wndOffset.GetRangeMax() * percent));
     }
 
     return TRUE;  // return TRUE unless you set the focus to a control

@@ -2241,7 +2241,6 @@ BEGIN
     IDS_CANNOWTRANSMITDESKTOP            "%s can now transmit shared desktops!"
     IDS_NOLONGERTRANSMITMEDIAFILE            "%s can no longer transmit media files!"
     IDS_CANNOWTRANSMITMEDIAFILE            "%s can now transmit media files!"
-    IDS_FAILEDTOTRANSLATEDESKTOP            "Failed to translate received desktop input. KeyCode: 0x%X"
     IDS_FAILEDTOWRITEAUDIOFILE            "Failed to write audio file for %s"
     IDS_FAILEDTOSTARTFILETRANSFER            "Failed to start file transfer.\r\nFile name: %s"
     IDS_ERRORSTREAMINGTOCHANNEL             "Error streaming media file to channel"
@@ -2269,7 +2268,6 @@ BEGIN
     IDS_SUREDELETECHAN            "Are you sure you want to delete channel %s"
     IDS_CHANDELETETITLE            "Delete Channel"
     IDS_CHANPSW             "Channel password"
-    IDS_JOININGCHAN            "Joining %s\r\n"
     IDS_COMPILEDON            "Compiled on "
     IDS_UNICODEENABLED            "Unicode -> UTF-8 conversion enabled.\r\n"
     IDS_LOCALECHARS             "Uses local character set.\r\n"
@@ -2325,11 +2323,6 @@ BEGIN
     IDS_STREAMDLGFAILEDSTARTPB            "Failed to start playback"
     IDS_LOADFILECLIENTSET            "Load %s File"
     IDS_ADDTOFWEXCEP            "Add %s to Windows Firewall exceptions?"
-    IDS_DLGEXFAILEDTOCREATESB            "Failed to create status bar\n"
-    IDS_DLGEXFAILEDTOCREATETB            "Failed to create toolbar bar\n"
-    IDS_DLGEXUPDATEDATAFAILED            "UpdateData failed -- modeless dialog terminate\n"
-    IDS_DLGEXUNKNOWNINDICATOR            "Warning: OnUpdateKeyIndicator - unknown indicator 0x%04X\n"
-    IDS_DLGEXNOLINEPROMPTFORID            "Warning: no message line prompt for ID %x%04X\n"
 END
 
 #endif    // Neutral resources
