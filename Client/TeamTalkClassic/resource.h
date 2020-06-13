@@ -392,6 +392,8 @@
 #define IDS_USERACCOUNTADDUPDATE                    492
 #define IDS_USERDESKTOPLOCALDESKTOP                    493
 #define IDS_USERDESKTOPDESKTOP                    494
+#define IDS_USERVIDEOLOCALVIDEO                    495
+#define IDS_USERVIDEOVIDEO                    496
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001

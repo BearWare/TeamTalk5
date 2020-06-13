@@ -2386,6 +2386,8 @@ BEGIN
     IDS_USERACCOUNTADDUPDATE            "Add/Update User Account"
     IDS_USERDESKTOPLOCALDESKTOP            "Local Desktop"
     IDS_USERDESKTOPDESKTOP            "Desktop - "
+    IDS_USERVIDEOLOCALVIDEO            "Local Video"
+    IDS_USERVIDEOVIDEO            "Video - "
 END
 
 #endif    // Neutral resources

@@ -350,6 +350,8 @@
     <item id="492">Add/Update User Account</item>
     <item id="493">Local Desktop</item>
     <item id="494">Desktop - </item>
+    <item id="495">Local Video</item>
+    <item id="496">Video - </item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>
