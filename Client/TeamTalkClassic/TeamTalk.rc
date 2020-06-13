@@ -2377,6 +2377,7 @@ BEGIN
     IDS_MEDIASTORAGEMP3FORMAT256            "MP3-format (256 kbit)"
     IDS_MSGDLGFAILEDTOSEND            "Failed to send message!"
     IDS_POSUSERDISTCOORDO            "Distance: %.2fm\r\nCoordinates: (%.2f,%.2f)"
+    IDS_SHORTCUTPAGECLEAR            "Clear"
 END
 
 #endif    // Neutral resources

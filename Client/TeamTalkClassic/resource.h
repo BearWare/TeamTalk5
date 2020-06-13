@@ -383,6 +383,7 @@
 #define IDS_MEDIASTORAGEMP3FORMAT256                    483
 #define IDS_MSGDLGFAILEDTOSEND                    484
 #define IDS_POSUSERDISTCOORDO                    485
+#define IDS_SHORTCUTPAGECLEAR                    486
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
