@@ -2062,7 +2062,7 @@ void CTeamTalkDlg::OnUserDesktopInput(const TTMessage& msg)
         else if(TT_DesktopInput_KeyTranslate(key_trans, &inputs[i], &trans_input, 1))
             executeInputs.push_back(trans_input);
         else
-            TRACE(LoadText(IDS_FAILEDTOTRANSLATEDESKTOP, _T("Failed to translate received desktop input. KeyCode: 0x%X")), inputs[i].uKeyCode);
+            TRACE(_T("Failed to translate received desktop input. KeyCode: 0x%X"), inputs[i].uKeyCode);
     }
 
     if(executeInputs.size())
@@ -4253,7 +4253,7 @@ void CTeamTalkDlg::OnChannelsJoinchannel()
 
             int nCmdID = TT_DoJoinChannelByID(ttInst, nChannelID, _T(""));
             m_commands[nCmdID] = CMD_COMPLETE_JOIN;
-            TRACE(LoadText(IDS_JOININGCHAN, _T("Joining %s\r\n")), szChannelPath);
+            TRACE(_T("Joining %s\r\n"), szChannelPath);
         }
     }
 }

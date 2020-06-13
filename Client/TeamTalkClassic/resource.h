@@ -247,7 +247,6 @@
 #define IDS_CANNOWTRANSMITDESKTOP                    342
 #define IDS_NOLONGERTRANSMITMEDIAFILE                    343
 #define IDS_CANNOWTRANSMITMEDIAFILE                    344
-#define IDS_FAILEDTOTRANSLATEDESKTOP                    345
 #define IDS_FAILEDTOWRITEAUDIOFILE                    346
 #define IDS_FAILEDTOSTARTFILETRANSFER                    347
 #define IDS_ERRORSTREAMINGTOCHANNEL                    348
@@ -275,7 +274,6 @@
 #define IDS_SUREDELETECHAN                    371
 #define IDS_CHANDELETETITLE                    372
 #define IDS_CHANPSW                    373
-#define IDS_JOININGCHAN                    374
 #define IDS_COMPILEDON                    375
 #define IDS_UNICODEENABLED                    376
 #define IDS_LOCALECHARS                    377
@@ -331,11 +329,6 @@
 #define IDS_STREAMDLGFAILEDSTARTPB                    428
 #define IDS_LOADFILECLIENTSET                    429
 #define IDS_ADDTOFWEXCEP                    430
-#define IDS_DLGEXFAILEDTOCREATESB                    431
-#define IDS_DLGEXFAILEDTOCREATETB                    432
-#define IDS_DLGEXUPDATEDATAFAILED                    433
-#define IDS_DLGEXUNKNOWNINDICATOR                    434
-#define IDS_DLGEXNOLINEPROMPTFORID                    435
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -940,7 +933,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        436
+#define _APS_NEXT_RESOURCE_VALUE        431
 #define _APS_NEXT_COMMAND_VALUE         32955
 #define _APS_NEXT_CONTROL_VALUE         1597
 #define _APS_NEXT_SYMED_VALUE           413
