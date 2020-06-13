@@ -331,6 +331,7 @@
     <item id="473">Fichiers d'hôte (*</item>
     <item id="474">|Tous les fichiers (*.*)|*.*|</item>
     <item id="475">Le fichier %s ne contient aucune entrée d'hôte %s valide.&#xD;&#xA;Message d'erreur : %s</item>
+    <item id="476">Erreur au paramétrage de la combinaison de touches. Essayez de redémarrer le programme.</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>

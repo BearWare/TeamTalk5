@@ -373,6 +373,7 @@
 #define IDS_HOSTMANAGERHOSTFILES                    473
 #define IDS_HOSTMANAGERALLFILES                    474
 #define IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY                    475
+#define IDS_KEYCOMPERROR                    476
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001

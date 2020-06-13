@@ -2367,6 +2367,7 @@ BEGIN
     IDS_HOSTMANAGERHOSTFILES            "Host files (*"
     IDS_HOSTMANAGERALLFILES            "|All files (*.*)|*.*|"
     IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY            "The file %s\r\ndoes not contain a valid %s host entry.\r\nError message: %s"
+    IDS_KEYCOMPERROR            "Error setting keyboard hook. Try restarting the program."
 END
 
 #endif    // Neutral resources

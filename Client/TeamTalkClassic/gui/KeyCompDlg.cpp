@@ -66,7 +66,7 @@ BOOL CKeyCompDlg::OnInitDialog()
     ShowKeys();
 
     if(!TT_HotKey_InstallTestHook(ttInst, GetSafeHwnd(), WM_TEAMTALK_HOTKEYEVENT))
-        AfxMessageBox(_T("Error setting keyboard hook. Try restarting the program."));
+        AfxMessageBox(LoadText(IDS_KEYCOMPERROR, _T("Error setting keyboard hook. Try restarting the program.")));
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
