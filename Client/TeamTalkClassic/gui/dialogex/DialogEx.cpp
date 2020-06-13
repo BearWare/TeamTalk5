@@ -88,7 +88,7 @@ BOOL CDialogExx::InitDialogEx(BOOL bToolTips /*= FALSE*/, BOOL bStatusBar /*= FA
         {
             if (!m_CSBCtrlStatus.Create(this) ||
                 !m_CSBCtrlStatus.SetIndicators(pIndicators,nIndicators )) {
-                TRACE(_T("Failed to create status bar\n"));
+                TRACE(LoadText(IDS_DLGEXFAILEDTOCREATESB, _T("Failed to create status bar\n")));
                 return FALSE;      // fail to create
             }
         }
@@ -102,7 +102,7 @@ BOOL CDialogExx::InitDialogEx(BOOL bToolTips /*= FALSE*/, BOOL bStatusBar /*= FA
                                 };
             if (!m_CSBCtrlStatus.Create(this) ||
                 !m_CSBCtrlStatus.SetIndicators(indicators,4)) {
-                TRACE(_T("Failed to create status bar\n"));
+                TRACE(LoadText(IDS_DLGEXFAILEDTOCREATESB, _T("Failed to create status bar\n")));
                 return FALSE;      // fail to create
             }
         }
@@ -122,7 +122,7 @@ BOOL CDialogExx::InitDialogEx(BOOL bToolTips /*= FALSE*/, BOOL bStatusBar /*= FA
             m_bToolBar = TRUE;
 
         } else {
-            TRACE(_T("Failed to create toolbar bar\n"));
+            TRACE(LoadText(IDS_DLGEXFAILEDTOCREATETB, _T("Failed to create toolbar bar\n")));
             return FALSE;
         }
     }
@@ -177,7 +177,7 @@ void CDialogExx::OnOK()
 {
     if (m_bKillItself) {
         if (!UpdateData(TRUE)) {
-            TRACE(_T("UpdateData failed -- modeless dialog terminate\n"));
+            TRACE(LoadText(IDS_DLGEXUPDATEDATAFAILED, _T("UpdateData failed -- modeless dialog terminate\n")));
             return;
         }
         DestroyWindow();
@@ -242,7 +242,7 @@ void CDialogExx::OnUpdateKeyIndicator(CCmdUI* pCmdUI)
         nVK = VK_SCROLL;
         break;
     default:
-        TRACE(_T("Warning: OnUpdateKeyIndicator - unknown indicator 0x%04X\n"), pCmdUI->m_nID);
+        TRACE(LoadText(IDS_DLGEXUNKNOWNINDICATOR, _T("Warning: OnUpdateKeyIndicator - unknown indicator 0x%04X\n")), pCmdUI->m_nID);
         pCmdUI->ContinueRouting();
         return;
     }
@@ -293,7 +293,7 @@ LRESULT CDialogExx::OnSetMessageString(WPARAM wParam, LPARAM lParam)
                 }
                 if (m_CSBCtrlStatus.m_hWnd) m_CSBCtrlStatus.SetWindowText(strTipText);
             } else {
-                TRACE(_T("Warning: no message line prompt for ID %x%04X\n"), nIDMsg);
+                TRACE(LoadText(IDS_DLGEXNOLINEPROMPTFORID, _T("Warning: no message line prompt for ID %x%04X\n")), nIDMsg);
             }
         }
     } else {
