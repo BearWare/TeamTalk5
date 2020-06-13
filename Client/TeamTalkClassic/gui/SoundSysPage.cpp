@@ -254,12 +254,12 @@ void CSoundSysPage::OnBnClickedButtonTest()
 {
     if(m_nInputDevice == UNDEFINED)
     {
-        AfxMessageBox(_T("No input device selected"));
+        AfxMessageBox(LoadText(IDS_SOUNDSYSTEMNOINPUTDEVICESEL, _T("No input device selected")));
         return;
     }
     if(m_nOutputDevice == UNDEFINED)
     {
-        AfxMessageBox(_T("No output device selected"));
+        AfxMessageBox(LoadText(IDS_SOUNDSYSTEMNOOUTPUTDEVICESEL, _T("No output device selected")));
         return;
     }
 
@@ -366,7 +366,7 @@ BOOL CSoundSysPage::StartTest()
 
     if (!m_SndLoopBack)
     {
-        AfxMessageBox(_T("Failed to initialize sound devices. Check your selected input and output devices."));
+        AfxMessageBox(LoadText(IDS_SOUNDSYSTEMFAILEDTOINITIALIZE, _T("Failed to initialize sound devices. Check your selected input and output devices.")));
         return FALSE;
     }
 

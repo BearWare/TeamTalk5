@@ -2379,6 +2379,9 @@ BEGIN
     IDS_POSUSERDISTCOORDO            "Distance: %.2fm\r\nCoordinates: (%.2f,%.2f)"
     IDS_SHORTCUTPAGECLEAR            "Clear"
     IDS_SOUNDEVENTSWAVFILES            "Wave files (*.wav)|*.wav|All files (*.*)|*.*|"
+    IDS_SOUNDSYSTEMNOINPUTDEVICESEL            "No input device selected"
+    IDS_SOUNDSYSTEMNOOUTPUTDEVICESEL            "No output device selected"
+    IDS_SOUNDSYSTEMFAILEDTOINITIALIZE            "Failed to initialize sound devices. Check your selected input and output devices."
 END
 
 #endif    // Neutral resources
