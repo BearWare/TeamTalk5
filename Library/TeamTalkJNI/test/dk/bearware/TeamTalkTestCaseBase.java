@@ -382,11 +382,12 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     protected static boolean waitCmdSuccess(TeamTalkBase ttclient, int cmdid,
                                             int waittimeout, ServerInterleave interleave) {
         TTMessage msg = new TTMessage();
-
         while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_SUCCESS, waittimeout, msg, interleave))
         {
-            if (msg.nSource == cmdid)
+            if (msg.nSource == cmdid) {
+                waitCmdComplete(ttclient, cmdid, waittimeout, interleave);
                 return true;
+            }
         }
 
         return false;
@@ -403,8 +404,10 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
 
         while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_ERROR, waittimeout, msg, interleave))
         {
-            if (msg.nSource == cmdid)
+            if (msg.nSource == cmdid) {
+                waitCmdComplete(ttclient, cmdid, waittimeout, interleave);
                 return true;
+            }
         }
 
         return false;
