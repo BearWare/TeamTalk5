@@ -2341,6 +2341,14 @@ BEGIN
     IDS_CHATRICHDISKQUOTA            "\r\nDisk quota: "
     IDS_CHATRICHKBYTES            " KBytes"
     IDS_CLIENTPAGECANNOTUSESAMEPORTS            "You cannot use the same ports"
+    IDS_DESKTOPDLGLOW            "Low (8-bit colors)"
+    IDS_DESKTOPDLGMEDIUM            "Medium (16-bit colors)"
+    IDS_DESKTOPDLGHIGH            "High (24-bit colors)"
+    IDS_DESKTOPDLGMAXIMUM            "Maximum (32-bit colors)"
+    IDS_FILETABKB            "%u KB"
+    IDS_FILETABNAME            "Name"
+    IDS_FILETABSIZE            "Size"
+    IDS_FILETABUSER            "User"
 END
 
 #endif    // Neutral resources

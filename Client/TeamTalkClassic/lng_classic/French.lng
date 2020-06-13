@@ -305,6 +305,14 @@
     <item id="447">&#xD;&#xA;Quota du disque : </item>
     <item id="448"> Ko</item>
     <item id="449">Vous ne pouvez pas utiliser les mêmes ports</item>
+    <item id="450">Faible (couleurs 8-bit)</item>
+    <item id="451">Moyen (couleurs 16-bit)</item>
+    <item id="452">Élevé (couleurs 24-bit)</item>
+    <item id="453">Maximum (couleurs 32-bit)</item>
+    <item id="454">%u Ko</item>
+    <item id="455">Nom</item>
+    <item id="456">Taille</item>
+    <item id="457">Utilisateur</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>

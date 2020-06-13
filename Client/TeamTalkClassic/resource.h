@@ -347,6 +347,14 @@
 #define IDS_CHATRICHDISKQUOTA                    447
 #define IDS_CHATRICHKBYTES                    448
 #define IDS_CLIENTPAGECANNOTUSESAMEPORTS                    449
+#define IDS_DESKTOPDLGLOW                    450
+#define IDS_DESKTOPDLGMEDIUM                    451
+#define IDS_DESKTOPDLGHIGH                    452
+#define IDS_DESKTOPDLGMAXIMUM                    453
+#define IDS_FILETABKB                    454
+#define IDS_FILETABNAME                    455
+#define IDS_FILETABSIZE                    456
+#define IDS_FILETABUSER                    457
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
