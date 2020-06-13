@@ -167,7 +167,7 @@ void CPositionUsersDlg::UpdatePosition(int nUserID, CUserButton* pBtn)
     c = sqrt(c);
 
     CString s;
-    s.Format(_T("Distance: %.2fm\r\nCoordinates: (%.2f,%.2f)"), c, a, b);
+    s.Format(LoadText(IDS_POSUSERDISTCOORDO, _T("Distance: %.2fm\r\nCoordinates: (%.2f,%.2f)")), c, a, b);
     m_wndCoordinates.SetWindowText(s);
 
     TT_SetUserPosition(ttInst, nUserID, STREAMTYPE_VOICE, a, b, 0);
