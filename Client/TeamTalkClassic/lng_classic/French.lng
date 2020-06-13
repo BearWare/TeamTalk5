@@ -324,6 +324,13 @@
     <item id="466">Fichiers .tt (*.tt)|*.tt||</item>
     <item id="467">Impossible d'enregistrer le fichier .tt.</item>
     <item id="468">Enregistrer le fichier .tt</item>
+    <item id="469">Veuillez remplir tous les champs requis.&#xD;&#xA;- Nom de l'entrée&#xD;&#xA;- Adresse hôte&#xD;&#xA;- Port TCP&#xD;&#xA;- Port UDP&#xD;&#xA;</item>
+    <item id="470">Impossible de supprimer les serveurs public</item>
+    <item id="471">Supprimer l'hôte</item>
+    <item id="472">Public : </item>
+    <item id="473">Fichiers d'hôte (*</item>
+    <item id="474">|Tous les fichiers (*.*)|*.*|</item>
+    <item id="475">Le fichier %s ne contient aucune entrée d'hôte %s valide.&#xD;&#xA;Message d'erreur : %s</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>

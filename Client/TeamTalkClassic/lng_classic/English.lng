@@ -324,6 +324,13 @@
     <item id="466">.tt Files (*.tt)|*.tt||</item>
     <item id="467">Failed to save .tt file.</item>
     <item id="468">Save .tt File</item>
+    <item id="469">Please fill in all the required fields.&#xD;&#xA;- Entry name&#xD;&#xA;- Host address&#xD;&#xA;- TCP port&#xD;&#xA;- UDP port&#xD;&#xA;</item>
+    <item id="470">Cannot delete public servers</item>
+    <item id="471">Delete Host</item>
+    <item id="472">Public: </item>
+    <item id="473">Host files (*</item>
+    <item id="474">|All files (*.*)|*.*|</item>
+    <item id="475">The file %s&#xD;&#xA;does not contain a valid %s host entry.&#xD;&#xA;Error message: %s</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>

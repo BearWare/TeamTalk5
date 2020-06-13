@@ -2360,6 +2360,13 @@ BEGIN
     IDS_GENERATETTFILEEXTFILE            ".tt Files (*.tt)|*.tt||"
     IDS_GENERATETTFILEFAILEDTOSAVE            "Failed to save .tt file."
     IDS_GENERATETTFILESAVE            "Save .tt File"
+    IDS_HOSTMANAGERFILLALLFIELDS            "Please fill in all the required fields.\r\n- Entry name\r\n- Host address\r\n- TCP port\r\n- UDP port\r\n"
+    IDS_HOSTMANAGERCANNOTDELPUBSERV            "Cannot delete public servers"
+    IDS_HOSTMANAGERDELHOST            "Delete Host"
+    IDS_HOSTMANAGERPUBLIC            "Public: "
+    IDS_HOSTMANAGERHOSTFILES            "Host files (*"
+    IDS_HOSTMANAGERALLFILES            "|All files (*.*)|*.*|"
+    IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY            "The file %s\r\ndoes not contain a valid %s host entry.\r\nError message: %s"
 END
 
 #endif    // Neutral resources

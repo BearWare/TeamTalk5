@@ -366,6 +366,13 @@
 #define IDS_GENERATETTFILEEXTFILE                    466
 #define IDS_GENERATETTFILEFAILEDTOSAVE                    467
 #define IDS_GENERATETTFILESAVE                    468
+#define IDS_HOSTMANAGERFILLALLFIELDS                    469
+#define IDS_HOSTMANAGERCANNOTDELPUBSERV                    470
+#define IDS_HOSTMANAGERDELHOST                    471
+#define IDS_HOSTMANAGERPUBLIC                    472
+#define IDS_HOSTMANAGERHOSTFILES                    473
+#define IDS_HOSTMANAGERALLFILES                    474
+#define IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY                    475
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
