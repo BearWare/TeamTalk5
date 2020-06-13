@@ -2382,6 +2382,8 @@ BEGIN
     IDS_SOUNDSYSTEMNOINPUTDEVICESEL            "No input device selected"
     IDS_SOUNDSYSTEMNOOUTPUTDEVICESEL            "No output device selected"
     IDS_SOUNDSYSTEMFAILEDTOINITIALIZE            "Failed to initialize sound devices. Check your selected input and output devices."
+    IDS_USERACCOUNTCREATEANONYMOUS            "Create anonymous user account?"
+    IDS_USERACCOUNTADDUPDATE            "Add/Update User Account"
 END
 
 #endif    // Neutral resources

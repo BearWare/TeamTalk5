@@ -346,6 +346,8 @@
     <item id="488">No input device selected</item>
     <item id="489">No output device selected</item>
     <item id="490">Failed to initialize sound devices. Check your selected input and output devices.</item>
+    <item id="491">Create anonymous user account?</item>
+    <item id="492">Add/Update User Account</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>

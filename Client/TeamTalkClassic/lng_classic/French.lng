@@ -346,6 +346,8 @@
     <item id="488">Aucun périphérique d'entrée sélectionné</item>
     <item id="489">Aucun périphérique de sortie sélectionné</item>
     <item id="490">Impossible d'initialiser les périphériques audio. Vérifiez vos périphériques d'entrée et de sortie.</item>
+    <item id="491">Créer un compte utilisateur anonyme ?</item>
+    <item id="492">Ajouter/mettre à jour le compte utilisateur</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>

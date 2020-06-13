@@ -388,6 +388,8 @@
 #define IDS_SOUNDSYSTEMNOINPUTDEVICESEL                    488
 #define IDS_SOUNDSYSTEMNOOUTPUTDEVICESEL                    489
 #define IDS_SOUNDSYSTEMFAILEDTOINITIALIZE                    490
+#define IDS_USERACCOUNTCREATEANONYMOUS                    491
+#define IDS_USERACCOUNTADDUPDATE                    492
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
