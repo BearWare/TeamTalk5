@@ -1990,21 +1990,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("join chan success", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
-        chan.nChannelID = ttclient.getMyChannelID();
-
-        Channel tmp = new Channel();
-        do {
-            ++chan.nUserData;
-            assertTrue("update chan", ttclient.doUpdateChannel(chan) > 0);
-
-            int x = 1000;
-            do {
-                Thread.sleep(1);
-                assertTrue("still connected", (ttclient.getFlags() & ClientFlag.CLIENT_CONNECTED) == ClientFlag.CLIENT_CONNECTED);
-                assertTrue("get chan", ttclient.getChannel(chan.nChannelID, tmp));
-            } while (tmp.nUserData != chan.nUserData && x-- > 0);
-
-        } while (tmp.nUserData == chan.nUserData);
+        for(int i=0;i<10000;i++)
+            ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, ttclient.getMyUserID());
 
         assertTrue("Internal error", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, DEF_WAIT, msg));
         assertTrue("Queue overflow", msg.clienterrormsg.nErrorNo == ClientError.INTERR_TTMESSAGE_QUEUE_OVERFLOW);

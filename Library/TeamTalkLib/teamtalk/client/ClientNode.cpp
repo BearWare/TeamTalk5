@@ -153,9 +153,16 @@ void ClientNode::SuspendEventHandling()
 
 void ClientNode::ResumeEventHandling()
 {
-    assert(this->thr_count() == 0);
-    
     MYTRACE( (ACE_TEXT("ClientNode reactor thread activating.\n")) );
+
+    ACE_thread_t thr_id = 0;
+    m_reactor.owner(&thr_id);
+    if(thr_id != ACE_OS::thr_self())
+    {
+        MYTRACE( (ACE_TEXT("ClientNode reactor thread waiting.\n")) );
+        this->wait();
+    }
+
     m_reactor.reset_reactor_event_loop();
     int ret = this->activate();
     assert(ret >= 0);

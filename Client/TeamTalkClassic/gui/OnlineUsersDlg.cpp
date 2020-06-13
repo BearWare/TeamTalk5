@@ -108,23 +108,23 @@ BOOL COnlineUsersDlg::OnInitDialog()
     //load accelerators
     m_hAccel = ::LoadAccelerators(AfxGetResourceHandle(), (LPCTSTR)IDR_ACCELERATOR3);
     if (!m_hAccel)
-        MessageBox(_T("The accelerator table was not loaded"));
+        MessageBox(LoadText(IDS_ACCELERATORNOTLOADDED, _T("The accelerator table was not loaded")));
 
     m_wndUsers.SetExtendedStyle(m_wndUsers.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 
-    m_wndUsers.InsertColumn(COLUMN_USERID, _T("ID"));
+    m_wndUsers.InsertColumn(COLUMN_USERID, LoadText(IDS_ONLINEDLGID, _T("ID")));
     m_wndUsers.SetColumnWidth(COLUMN_USERID, 45);
-    m_wndUsers.InsertColumn(COLUMN_NICKNAME, _T("Nickname"));
+    m_wndUsers.InsertColumn(COLUMN_NICKNAME, LoadText(IDS_ONLINEDLGNICKNAME, _T("Nickname")));
     m_wndUsers.SetColumnWidth(COLUMN_NICKNAME, 100);
-    m_wndUsers.InsertColumn(COLUMN_STATUSMSG, _T("Status message"));
+    m_wndUsers.InsertColumn(COLUMN_STATUSMSG, LoadText(IDS_ONLINEDLGSM, _T("Status message")));
     m_wndUsers.SetColumnWidth(COLUMN_STATUSMSG, 100);
-    m_wndUsers.InsertColumn(COLUMN_USERNAME, _T("Username"));
+    m_wndUsers.InsertColumn(COLUMN_USERNAME, LoadText(IDS_ONLINEDLGUSERNAME, _T("Username")));
     m_wndUsers.SetColumnWidth(COLUMN_USERNAME, 65);
-    m_wndUsers.InsertColumn(COLUMN_CHANNEL, _T("Channel"));
+    m_wndUsers.InsertColumn(COLUMN_CHANNEL, LoadText(IDS_ONLINEDLGCHAN, _T("Channel")));
     m_wndUsers.SetColumnWidth(COLUMN_CHANNEL, 100);
-    m_wndUsers.InsertColumn(COLUMN_IPADDRESS, _T("IP-address"));
+    m_wndUsers.InsertColumn(COLUMN_IPADDRESS, LoadText(IDS_ONLINEDLGIPADDR, _T("IP-address")));
     m_wndUsers.SetColumnWidth(COLUMN_IPADDRESS, 100);
-    m_wndUsers.InsertColumn(COLUMN_VERSION_, _T("Version"));
+    m_wndUsers.InsertColumn(COLUMN_VERSION_, LoadText(IDS_ONLINEDLGVERS, _T("Version")));
     m_wndUsers.SetColumnWidth(COLUMN_VERSION_, 100);
 
     m_wndUsers.SetFocus();

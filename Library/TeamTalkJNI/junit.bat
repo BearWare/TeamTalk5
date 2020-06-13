@@ -18,12 +18,12 @@ jar.exe cf ../libs/TeamTalk5Test.jar ./dk/bearware/*.class
 @set JAVAPROP=%JAVAPROP% -Ddk.bearware.audiofile=
 @set JAVAPROP=%JAVAPROP% -Ddk.bearware.httpsfile=
 @set JAVAPROP=%JAVAPROP% -Ddk.bearware.opustools=
-@set JAVAPROP=%JAVAPROP% -Ddk.bearware.verbose=
+@set JAVAPROP=%JAVAPROP% -Ddk.bearware.verbose=0
 
 java.exe -cp %CLASSPATH% %JAVAPROP% org.junit.runner.JUnitCore TeamTalkStdTestSuite
 
 @REM :again
-@REM java.exe -cp %CLASSPATH% %JAVAPROP% SingleJUnitTestRunner dk.bearware.TeamTalkStdTestCase#testMessageQueue
+@REM java.exe -cp %CLASSPATH% %JAVAPROP% SingleJUnitTestRunner dk.bearware.TeamTalkStdTestCase#testVirtualSoundDevice
 @REM if %ERRORLEVEL% EQU 0 goto again
 
 cd %TEAMTALKJNI_HOME%
