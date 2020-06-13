@@ -296,7 +296,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         }
 
         // reset root channel
-        Channel root = new Channel(true, true);
+        Channel root = new Channel(true, false);
         root.nChannelID = ttclient.getRootChannelID();
         root.uChannelType = ChannelType.CHANNEL_PERMANENT;
         root.nMaxUsers = prop.nMaxUsers;
