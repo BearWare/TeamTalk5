@@ -362,6 +362,10 @@
 #define IDS_FILETRANSFERBYTESSEC                    462
 #define IDS_FILETRANSFERPROGRESSCOMPLETED                    463
 #define IDS_FILETRANSFERFAILED                    464
+#define IDS_GENERATETTFILEANY                    465
+#define IDS_GENERATETTFILEEXTFILE                    466
+#define IDS_GENERATETTFILEFAILEDTOSAVE                    467
+#define IDS_GENERATETTFILESAVE                    468
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001

@@ -320,6 +320,10 @@
     <item id="462">%I64d o/s</item>
     <item id="463"> - Complété</item>
     <item id="464"> - Échec</item>
+    <item id="465">Tout</item>
+    <item id="466">Fichiers .tt (*.tt)|*.tt||</item>
+    <item id="467">Impossible d'enregistrer le fichier .tt.</item>
+    <item id="468">Enregistrer le fichier .tt</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>

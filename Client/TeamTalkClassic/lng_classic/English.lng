@@ -320,6 +320,10 @@
     <item id="462">%I64d bytes/sec</item>
     <item id="463"> - Completed</item>
     <item id="464"> - Failed</item>
+    <item id="465">Any</item>
+    <item id="466">.tt Files (*.tt)|*.tt||</item>
+    <item id="467">Failed to save .tt file.</item>
+    <item id="468">Save .tt File</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>

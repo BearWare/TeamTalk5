@@ -2356,6 +2356,10 @@ BEGIN
     IDS_FILETRANSFERBYTESSEC            "%I64d bytes/sec"
     IDS_FILETRANSFERPROGRESSCOMPLETED            " - Completed"
     IDS_FILETRANSFERFAILED            " - Failed"
+    IDS_GENERATETTFILEANY            "Any"
+    IDS_GENERATETTFILEEXTFILE            ".tt Files (*.tt)|*.tt||"
+    IDS_GENERATETTFILEFAILEDTOSAVE            "Failed to save .tt file."
+    IDS_GENERATETTFILESAVE            "Save .tt File"
 END
 
 #endif    // Neutral resources
