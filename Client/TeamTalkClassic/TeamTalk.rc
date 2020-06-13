@@ -2390,6 +2390,8 @@ BEGIN
     IDS_USERVIDEOVIDEO            "Video - "
     IDS_USERVOLUMETITLEWINDOW            "Volume for "
     IDS_VIDEOCAPTUREFAILED            "Failed to start selected device Test Selected"
+    IDS_WEBLOGINDLGFBLOGOUT            "Do Facebook logout?"
+    IDS_WEBLOGINFBLOGIN            "Facebook Login"
 END
 
 #endif    // Neutral resources

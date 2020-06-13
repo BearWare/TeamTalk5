@@ -396,6 +396,8 @@
 #define IDS_USERVIDEOVIDEO                    496
 #define IDS_USERVOLUMETITLEWINDOW                    497
 #define IDS_VIDEOCAPTUREFAILED                    498
+#define IDS_WEBLOGINFBLOGOUT                    499
+#define IDS_WEBLOGINFBLOGIN                    500
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001

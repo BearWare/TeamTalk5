@@ -354,6 +354,8 @@
     <item id="496">Video - </item>
     <item id="497">Volume for </item>
     <item id="498">Failed to start selected device Test Selected</item>
+    <item id="499">Do Facebook logout?</item>
+    <item id="500">Facebook Login</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>
