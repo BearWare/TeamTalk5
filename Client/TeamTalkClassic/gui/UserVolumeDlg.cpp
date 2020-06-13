@@ -104,7 +104,7 @@ BOOL CUserVolumeDlg::OnInitDialog()
     m_wndMediaFileMuteLeft.SetCheck(!m_user.stereoPlaybackMediaFile[0]?BST_CHECKED:BST_UNCHECKED);
     m_wndMediaFileMuteRight.SetCheck(!m_user.stereoPlaybackMediaFile[1]?BST_CHECKED:BST_UNCHECKED);
 
-    SetWindowText(CString(_T("Volume for ")) + GetDisplayName(m_user));
+    SetWindowText(CString(LoadText(IDS_USERVOLUMETITLEWINDOW, _T("Volume for "))) + GetDisplayName(m_user));
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }

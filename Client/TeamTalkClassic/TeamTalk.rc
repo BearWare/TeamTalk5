@@ -2388,6 +2388,7 @@ BEGIN
     IDS_USERDESKTOPDESKTOP            "Desktop - "
     IDS_USERVIDEOLOCALVIDEO            "Local Video"
     IDS_USERVIDEOVIDEO            "Video - "
+    IDS_USERVOLUMETITLEWINDOW            "Volume for "
 END
 
 #endif    // Neutral resources
