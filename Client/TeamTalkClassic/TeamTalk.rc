@@ -2389,6 +2389,7 @@ BEGIN
     IDS_USERVIDEOLOCALVIDEO            "Local Video"
     IDS_USERVIDEOVIDEO            "Video - "
     IDS_USERVOLUMETITLEWINDOW            "Volume for "
+    IDS_VIDEOCAPTUREFAILED            "Failed to start selected device Test Selected"
 END
 
 #endif    // Neutral resources

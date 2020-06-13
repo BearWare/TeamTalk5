@@ -163,7 +163,7 @@ void CVideoCapturePage::OnBnClickedButtonVidtest()
         TT_CloseVideoCaptureDevice(ttInst);
     }
     else
-        MessageBox(_T("Failed to start selected device"), _T("Test Selected"), MB_OK);
+        MessageBox(LoadText(IDS_VIDEOCAPTUREFAILED, _T("Failed to start selected device Test Selected")), MB_OK);
 }
 
 void CVideoCapturePage::OnCbnSelchangeComboViddev()
