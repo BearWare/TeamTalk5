@@ -2368,6 +2368,13 @@ BEGIN
     IDS_HOSTMANAGERALLFILES            "|All files (*.*)|*.*|"
     IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY            "The file %s\r\ndoes not contain a valid %s host entry.\r\nError message: %s"
     IDS_KEYCOMPERROR            "Error setting keyboard hook. Try restarting the program."
+    IDS_MEDIASTORAGEWAVEFORMAT            "Wave-format"
+    IDS_MEDIASTORAGEOGGFORMAT            "Ogg-format"
+    IDS_MEDIASTORAGEMP3FORMAT16            "MP3-format (16 kbit)"
+    IDS_MEDIASTORAGEMP3FORMAT32            "MP3-format (32 kbit)"
+    IDS_MEDIASTORAGEMP3FORMAT64            "MP3-format (64 kbit)"
+    IDS_MEDIASTORAGEMP3FORMAT128            "MP3-format (128 kbit)"
+    IDS_MEDIASTORAGEMP3FORMAT256            "MP3-format (256 kbit)"
 END
 
 #endif    // Neutral resources

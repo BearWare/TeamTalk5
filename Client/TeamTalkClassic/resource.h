@@ -374,6 +374,13 @@
 #define IDS_HOSTMANAGERALLFILES                    474
 #define IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY                    475
 #define IDS_KEYCOMPERROR                    476
+#define IDS_MEDIASTORAGEWAVEFORMAT                    477
+#define IDS_MEDIASTORAGEOGGFORMAT                    478
+#define IDS_MEDIASTORAGEMP3FORMAT16                    479
+#define IDS_MEDIASTORAGEMP3FORMAT32                    480
+#define IDS_MEDIASTORAGEMP3FORMAT64                    481
+#define IDS_MEDIASTORAGEMP3FORMAT128                    482
+#define IDS_MEDIASTORAGEMP3FORMAT256                    483
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001

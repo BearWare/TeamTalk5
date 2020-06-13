@@ -332,6 +332,13 @@
     <item id="474">|All files (*.*)|*.*|</item>
     <item id="475">The file %s&#xD;&#xA;does not contain a valid %s host entry.&#xD;&#xA;Error message: %s</item>
     <item id="476">Error setting keyboard hook. Try restarting the program.</item>
+    <item id="477">Wave-format</item>
+    <item id="478">Ogg-format</item>
+    <item id="479">MP3-format (16 kbit)</item>
+    <item id="480">MP3-format (32 kbit)</item>
+    <item id="481">MP3-format (64 kbit)</item>
+    <item id="482">MP3-format (128 kbit)</item>
+    <item id="483">MP3-format (256 kbit)</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>

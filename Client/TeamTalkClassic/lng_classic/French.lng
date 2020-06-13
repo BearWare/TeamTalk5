@@ -332,6 +332,13 @@
     <item id="474">|Tous les fichiers (*.*)|*.*|</item>
     <item id="475">Le fichier %s ne contient aucune entrée d'hôte %s valide.&#xD;&#xA;Message d'erreur : %s</item>
     <item id="476">Erreur au paramétrage de la combinaison de touches. Essayez de redémarrer le programme.</item>
+    <item id="477">Format WAV</item>
+    <item id="478">Format OGG</item>
+    <item id="479">Format MP3 (16 kbit)</item>
+    <item id="480">Format MP3 (32 kbit)</item>
+    <item id="481">Format MP3 (64 kbit)</item>
+    <item id="482">Format MP3 (128 kbit)</item>
+    <item id="483">Format MP3 (256 kbit)</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>
