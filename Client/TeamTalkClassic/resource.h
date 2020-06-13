@@ -355,6 +355,13 @@
 #define IDS_FILETABNAME                    455
 #define IDS_FILETABSIZE                    456
 #define IDS_FILETABUSER                    457
+#define IDS_FILETRANSFERKBYTES                    458
+#define IDS_FILETRANSFERBYTES                    459
+#define IDS_FILETRANSFERSPEED                    460
+#define IDS_FILETRANSFERSPEEDB                    461
+#define IDS_FILETRANSFERBYTESSEC                    462
+#define IDS_FILETRANSFERPROGRESSCOMPLETED                    463
+#define IDS_FILETRANSFERFAILED                    464
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001

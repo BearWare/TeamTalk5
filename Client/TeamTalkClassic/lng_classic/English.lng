@@ -313,6 +313,13 @@
     <item id="455">Name</item>
     <item id="456">Size</item>
     <item id="457">User</item>
+    <item id="458">%I64d KBytes</item>
+    <item id="459">%I64d bytes</item>
+    <item id="460">%I64d KB/sec, %I64d KB last sec.</item>
+    <item id="461">%I64d bytes/sec, %I64d bytes last sec.</item>
+    <item id="462">%I64d bytes/sec</item>
+    <item id="463"> - Completed</item>
+    <item id="464"> - Failed</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>

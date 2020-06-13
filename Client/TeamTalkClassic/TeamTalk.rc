@@ -2349,6 +2349,13 @@ BEGIN
     IDS_FILETABNAME            "Name"
     IDS_FILETABSIZE            "Size"
     IDS_FILETABUSER            "User"
+    IDS_FILETRANSFERKBYTES            "%I64d KBytes"
+    IDS_FILETRANSFERBYTES            "%I64d bytes"
+    IDS_FILETRANSFERSPEED            "%I64d KB/sec, %I64d KB last sec."
+    IDS_FILETRANSFERSPEEDB            "%I64d bytes/sec, %I64d bytes last sec."
+    IDS_FILETRANSFERBYTESSEC            "%I64d bytes/sec"
+    IDS_FILETRANSFERPROGRESSCOMPLETED            " - Completed"
+    IDS_FILETRANSFERFAILED            " - Failed"
 END
 
 #endif    // Neutral resources
