@@ -3688,6 +3688,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 continue;
             }
 
+            assertTrue("no waiting audio blocks", ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID()) == null);
+            
             assertTrue("enable local aud cb", ttclient.enableAudioBlockEvent(Constants.TT_LOCAL_USERID, StreamType.STREAMTYPE_VOICE, true));
             assertTrue("setup shared input settings", TeamTalkBase.initSoundInputSharedDevice(samplerate, 2, samplerate));
             assertTrue("setup shared output settings", TeamTalkBase.initSoundOutputSharedDevice(samplerate, 2, samplerate));
@@ -3718,7 +3720,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             assertTrue("reset shared input settings", TeamTalkBase.initSoundInputSharedDevice(0, 0, 0));
             assertTrue("reset shared output settings", TeamTalkBase.initSoundOutputSharedDevice(0, 0, 0));
 
-            assertTrue("next callback was ~1 second later", nextTS - initialTS > 900);
+            assertTrue(String.format("next in/out %d callback was %d msec later but should be ~1 sec", samplerate, nextTS - initialTS), nextTS - initialTS > 900);
         }
 
         assertTrue("reset shared input settings", TeamTalkBase.initSoundInputSharedDevice(0, 0, 0));
@@ -3734,6 +3736,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 System.err.println("Output device doesn't support sample rate: " + samplerate);
                 continue;
             }
+
+            assertTrue("no waiting audio blocks", ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID()) == null);
 
             assertTrue("enable local aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
             assertTrue("setup shared output settings", TeamTalkBase.initSoundOutputSharedDevice(samplerate, 2, samplerate));
@@ -3761,7 +3765,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
             assertTrue("reset shared output settings", TeamTalkBase.initSoundOutputSharedDevice(0, 0, 0));
 
-            assertTrue("next callback was ~1 second later", nextTS - initialTS > 900);
+            assertTrue(String.format("next output %d callback was %d msec later but should be ~1 sec", samplerate, nextTS - initialTS), nextTS - initialTS > 900);
         }
     }
 
