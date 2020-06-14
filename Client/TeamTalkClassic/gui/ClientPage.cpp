@@ -93,7 +93,7 @@ BOOL CClientPage::OnKillActive()
     UINT nSound = _ttoi(szSound);
     if( szHost == szSound && nHost > 0)
     {
-        AfxMessageBox(_T("You cannot use the same ports"));
+        AfxMessageBox(LoadText(IDS_CLIENTPAGECANNOTUSESAMEPORTS, _T("You cannot use the same ports")));
         return FALSE;
     }
 

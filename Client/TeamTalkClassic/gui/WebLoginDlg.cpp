@@ -146,7 +146,7 @@ void CWebLoginDlg::OnCancel()
 
     m_bCancelled = TRUE;
 
-    if(MessageBox(_T("Do Facebook logout?"), _T("Facebook Login"), MB_YESNO) == IDYES)
+    if(MessageBox(LoadText(IDS_WEBLOGINFBLOGOUT, _T("Do Facebook logout?")), LoadText(IDS_WEBLOGINFBLOGIN, _T("Facebook Login")), MB_YESNO) == IDYES)
     {
         CString szUrl = WEBLOGIN_FACEBOOK_LOGOUT_URL;
         szUrl += _T("next=") WEBLOGIN_FACEBOOK_LOGOUT_REDIRECT;

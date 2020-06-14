@@ -92,7 +92,7 @@ void CFilesTab::AddFile(int nChannelID, int nFileID)
         if(remotefile.nFileSize > 0 && remotefile.nFileSize < 1024)
             size = 1;
         CString num;
-        num.Format(_T("%u KB"), UINT(size));
+        num.Format(LoadText(IDS_FILETABKB, _T("%u KB")), UINT(size));
         m_wndFiles.SetItem(itemIndex, 1, LVIF_TEXT, num, 0, 0, 0, 0, 0);
         m_wndFiles.SetItem(itemIndex, 2, LVIF_TEXT, remotefile.szUsername, 0, 0, 0, 0, 0);
         m_wndFiles.SetItemData(itemIndex, nFileID);
@@ -176,9 +176,9 @@ BOOL CFilesTab::OnInitDialog()
     const int nSize = sizeof(s_bi)/sizeof(s_bi[0]);
     m_resizer.Init(m_hWnd, NULL, s_bi, nSize);
 
-    m_wndFiles.InsertColumn(0, _T("Name"));
-    m_wndFiles.InsertColumn(1, _T("Size"), LVCFMT_RIGHT);
-    m_wndFiles.InsertColumn(2, _T("User"), LVCFMT_RIGHT);
+    m_wndFiles.InsertColumn(0, LoadText(IDS_FILETABNAME, _T("Name")));
+    m_wndFiles.InsertColumn(1, LoadText(IDS_FILETABSIZE, _T("Size")), LVCFMT_RIGHT);
+    m_wndFiles.InsertColumn(2, LoadText(IDS_FILETABUSER, _T("User")), LVCFMT_RIGHT);
 
     //ResizeHeader();
     return TRUE;  // return TRUE unless you set the focus to a control

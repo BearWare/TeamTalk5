@@ -183,8 +183,8 @@ void CUserAccountsDlg::OnBnClickedButtonAdd()
     m_wndPassword.GetWindowText(account.szPassword, TT_STRLEN);
 
     if(_tcslen(account.szUsername) == 0 &&
-       MessageBox(_T("Create anonymous user account?"), 
-                  _T("Add/Update User Account"), MB_YESNO) != IDYES)
+       MessageBox(LoadText(IDS_USERACCOUNTCREATEANONYMOUS, _T("Create anonymous user account?")), 
+                  LoadText(IDS_USERACCOUNTADDUPDATE, _T("Add/Update User Account")), MB_YESNO) != IDYES)
         return;
 
     account.uUserType = (m_wndAdminUser.GetCheck() == BST_CHECKED)? USERTYPE_ADMIN : USERTYPE_DEFAULT;

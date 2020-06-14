@@ -252,9 +252,9 @@ void CChatRichEditCtrl::AddBroadcastMessage(CString szMessage)
     //insert ServerInfo
     CString szMsg;
     if(GetLineCount()<=1)
-        szMsg.Format(_T("Broadcast: %s\r\n"), szMessage);
+        szMsg.Format(LoadText(IDS_CHATRICHBROADCAST, _T("Broadcast: %s\r\n")), szMessage);
     else
-        szMsg.Format(_T("\r\nBroadcast: %s"), szMessage);
+        szMsg.Format(LoadText(IDS_CHATRICHBROADCASTT, _T("\r\nBroadcast: %s")), szMessage);
     SetSel(GetTextLength(),GetTextLength());
     cf.crTextColor    = RGB(255, 117, 5);
     SetSelectionCharFormat(cf);
@@ -305,9 +305,9 @@ void CChatRichEditCtrl::SetServerInfo(CString szServerName, CString szMOTD)
     //insert ServerInfo
     CString szMsg;
     if(GetLineCount()<=1)
-        szMsg.Format(_T("Server name: %s\r\nMOTD: %s\r\n"), szServerName, szMOTD);
+        szMsg.Format(LoadText(IDS_CHATRICHSERVERNAMEMOTD, _T("Server name: %s\r\nMOTD: %s\r\n")), szServerName, szMOTD);
     else
-        szMsg.Format(_T("\r\nServer name: %s\r\nMOTD: %s"), szServerName, szMOTD);
+        szMsg.Format(LoadText(IDS_CHATRICHSERVERNAMEMOTDD, _T("\r\nServer name: %s\r\nMOTD: %s")), szServerName, szMOTD);
     SetSel(GetTextLength(),GetTextLength());
     cf.crTextColor    = RGB(0, 0, 0);
     SetSelectionCharFormat(cf);
@@ -347,26 +347,26 @@ void CChatRichEditCtrl::SetChannelInfo(int nChannelID)
     cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE);
     SetSelectionCharFormat(cf);
 
-    ReplaceSel(_T("\r\nJoined new channel."));
+    ReplaceSel(LoadText(IDS_CHATRICHJOINEDNEWCHAN, _T("\r\nJoined new channel.")));
 
     //insert Channel name
     SetSel(GetTextLength(),GetTextLength());
     cf.crTextColor    = RGB(0, 123, 36);
     cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
     SetSelectionCharFormat(cf);
-    ReplaceSel(_T("\r\nChannel: ")+ szChannelName);
+    ReplaceSel(LoadText(IDS_CHATRICHCHAN, _T("\r\nChannel: "))+ szChannelName);
 
     //insert topic
     SetSel(GetTextLength(),GetTextLength());
     cf.crTextColor    = RGB(0, 105, 221);
     SetSelectionCharFormat(cf);
-    ReplaceSel(_T("\r\nTopic: ") + szTopic);
+    ReplaceSel(LoadText(IDS_CHATRICHTOPIC, _T("\r\nTopic: ")) + szTopic);
 
     //insert disk quota
     SetSel(GetTextLength(),GetTextLength());
     cf.crTextColor    = RGB(175, 51, 59);
     SetSelectionCharFormat(cf);
-    ReplaceSel(_T("\r\nDisk quota: ") + szDiskQuota + _T(" KBytes"));
+    ReplaceSel(LoadText(IDS_CHATRICHDISKQUOTA, _T("\r\nDisk quota: ")) + szDiskQuota + LoadText(IDS_CHATRICHKBYTES, _T(" KBytes")));
 
     //insert enter
     SetSel(GetTextLength(), GetTextLength());

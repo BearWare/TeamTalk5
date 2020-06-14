@@ -179,12 +179,12 @@ BOOL CUserDesktopDlg::OnInitDialog()
     TRANSLATE(*this, IDD);
 
     if(m_nUserID == 0)
-        SetWindowText(_T("Local Desktop"));
+        SetWindowText(LoadText(IDS_USERDESKTOPLOCALDESKTOP, _T("Local Desktop")));
     else
     {
         User user = {};
         TT_GetUser(ttInst, m_nUserID, &user);
-        SetWindowText(CString(_T("Desktop - ")) + GetDisplayName(user));
+        SetWindowText(CString(LoadText(IDS_USERDESKTOPDESKTOP, _T("Desktop - "))) + GetDisplayName(user));
     }
 
     ResizeToDesktopWindow();

@@ -107,13 +107,13 @@ BOOL CDesktopShareDlg::OnInitDialog()
     m_wndSpinUpdInterval.SetRange32(100, 60000);
 
     int i;
-    i = m_wndColorMode.AddString(_T("Low (8-bit colors)"));
+    i = m_wndColorMode.AddString(LoadText(IDS_DESKTOPDLGLOW, _T("Low (8-bit colors)")));
     m_wndColorMode.SetItemData(i, BMP_RGB8_PALETTE);
-    i = m_wndColorMode.AddString(_T("Medium (16-bit colors)"));
+    i = m_wndColorMode.AddString(LoadText(IDS_DESKTOPDLGMEDIUM, _T("Medium (16-bit colors)")));
     m_wndColorMode.SetItemData(i, BMP_RGB16_555);
-    i = m_wndColorMode.AddString(_T("High (24-bit colors)"));
+    i = m_wndColorMode.AddString(LoadText(IDS_DESKTOPDLGHIGH, _T("High (24-bit colors)")));
     m_wndColorMode.SetItemData(i, BMP_RGB24);
-    i = m_wndColorMode.AddString(_T("Maximum (32-bit colors)"));
+    i = m_wndColorMode.AddString(LoadText(IDS_DESKTOPDLGMAXIMUM, _T("Maximum (32-bit colors)")));
     m_wndColorMode.SetItemData(i, BMP_RGB32);
     m_wndColorMode.SetCurSel(0);
 
