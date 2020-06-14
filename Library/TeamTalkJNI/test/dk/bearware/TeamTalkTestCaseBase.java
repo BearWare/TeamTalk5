@@ -111,9 +111,6 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
                 UDPPORT = Constants.DEFAULT_UDP_PORT;
             }
         }
-
-        if (this.IPADDR.length() > 0)
-            resetServerProperties();
     }
 
     protected void tearDown() throws Exception {

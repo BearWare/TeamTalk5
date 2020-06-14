@@ -36,6 +36,13 @@ import java.nio.ByteBuffer;
 
 public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        // if (this.IPADDR.length() > 0)
+        //     resetServerProperties();
+    }    
+
     public void testThis() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
