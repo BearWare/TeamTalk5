@@ -3515,33 +3515,33 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
 
-        TeamTalkBase[] ttclients = new TeamTalkBase[4];
-        for (int i=0;i<ttclients.length;++i) {
-            ttclients[i] = newClientInstance();
+        TeamTalkBase[] clients = new TeamTalkBase[4];
+        for (int i=0;i<clients.length;++i) {
+            clients[i] = newClientInstance();
             IntPtr indev = new IntPtr(), outdev = new IntPtr();
-            assertTrue("get default sound devices", ttclients[i].getDefaultSoundDevices(indev, outdev));
-            assertTrue("init output device", ttclients[i].initSoundOutputDevice(outdev.value));
-            connect(ttclients[i]);
-            login(ttclients[i], NICKNAME + "_" + i, USERNAME, PASSWORD);
-            joinRoot(ttclients[i]);
+            assertTrue("get default sound devices", clients[i].getDefaultSoundDevices(indev, outdev));
+            assertTrue("init output device", clients[i].initSoundOutputDevice(outdev.value));
+            connect(clients[i]);
+            login(clients[i], NICKNAME + "_" + i, USERNAME, PASSWORD);
+            joinRoot(clients[i]);
         }
 
         for (int i=0;i < 5; i++) {
-            for (TeamTalkBase ttclient : ttclients) {
+            for (TeamTalkBase ttclient : clients) {
                 IntPtr indev = new IntPtr(), outdev = new IntPtr();
                 assertTrue("get default sound devices", ttclient.getDefaultSoundDevices(indev, outdev));
                 assertTrue("client init sndinput", ttclient.initSoundInputDevice(indev.value));
                 assertTrue("client enable voice tx", ttclient.enableVoiceTransmission(true));
             }
 
-            waitForEvent(ttclients[0], ClientEvent.CLIENTEVENT_NONE, 1500);
+            waitForEvent(clients[0], ClientEvent.CLIENTEVENT_NONE, 1500);
 
-            for (TeamTalkBase ttclient : ttclients) {
+            for (TeamTalkBase ttclient : clients) {
                 assertTrue("client close sndinput", ttclient.closeSoundInputDevice());
                 assertTrue("client disable voice tx", ttclient.enableVoiceTransmission(false));
             }
 
-            waitForEvent(ttclients[0], ClientEvent.CLIENTEVENT_NONE, 1000);
+            waitForEvent(clients[0], ClientEvent.CLIENTEVENT_NONE, 1000);
         }
     }
 
