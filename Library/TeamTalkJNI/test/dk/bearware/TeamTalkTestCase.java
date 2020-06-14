@@ -39,9 +39,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        // if (this.IPADDR.length() > 0)
-        //     resetServerProperties();
-    }    
+        if (this.IPADDR.length() > 0)
+            resetServerProperties();
+    }
 
     public void testThis() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
@@ -2648,9 +2648,12 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
 
+        Vector<TeamTalkBase> clients = new Vector<TeamTalkBase>();
+
         TTMessage msg = new TTMessage();
 
         TeamTalkBase ttclient1 = newClientInstance();
+        clients.add(ttclient1);
 
         connect(ttclient1);
         initSound(ttclient1);
@@ -2672,6 +2675,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         for(int i=0;i<2;i++) {
 
             TeamTalkBase ttclient = newClientInstance();
+            clients.add(ttclient);
 
             connect(ttclient);
             initSound(ttclient);
@@ -2735,7 +2739,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("ttclient1, myself talking", ttclient1.getMyUserID(), msg.user.nUserID);
 
         // ensure ttclient2 doesn't take over transmit queue from ttclient1
-        TeamTalkBase ttclient2 = ttclients.get(2);
+        TeamTalkBase ttclient2 = clients.get(1);
 
         assertTrue("ttclient2, drain client 2", waitCmdComplete(ttclient2, ttclient2.doPing(), DEF_WAIT));
 
@@ -3696,7 +3700,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             }
 
             assertTrue("no waiting audio blocks", ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID()) == null);
-            
+
             assertTrue("enable local aud cb", ttclient.enableAudioBlockEvent(Constants.TT_LOCAL_USERID, StreamType.STREAMTYPE_VOICE, true));
             assertTrue("setup shared input settings", TeamTalkBase.initSoundInputSharedDevice(samplerate, 2, samplerate));
             assertTrue("setup shared output settings", TeamTalkBase.initSoundOutputSharedDevice(samplerate, 2, samplerate));
