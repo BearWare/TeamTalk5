@@ -408,7 +408,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         ServerInterleave interleave = new RunServer(server);
 
-        int cmdid = client1.doLogin(getCurrentMethod(), useraccount.szUsername, useraccount.szPassword);
+        int cmdid = client1.doLogin(getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
         assertTrue("Login client", cmdid > 0);
 
         TTMessage msg = new TTMessage();
@@ -431,7 +431,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         ServerInterleave interleave = new RunServer(server);
 
         connect(server, client1);
-        login(server, client1, getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
+        login(server, client1, getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
 
         int cmdid;
         TTMessage msg = new TTMessage();
@@ -483,10 +483,10 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         connect(server, client1);
         connect(server, client2);
 
-        int cmdid = client1.doLogin(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
+        int cmdid = client1.doLogin(getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
         assertTrue("Login client1", cmdid > 0);
 
-        cmdid = client2.doLogin(getCurrentMethod(), useraccount.szUsername, useraccount.szPassword);
+        cmdid = client2.doLogin(getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
         assertTrue("Login client2", cmdid > 0);
 
         TTMessage msg = new TTMessage();
@@ -526,10 +526,10 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         connect(server, client1);
         connect(server, client2);
 
-        int cmdid = client1.doLogin(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
+        int cmdid = client1.doLogin(getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
         assertTrue("Login client1", cmdid > 0);
 
-        cmdid = client2.doLogin(getCurrentMethod(), useraccount.szUsername, useraccount.szPassword);
+        cmdid = client2.doLogin(getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
         assertTrue("Login client2", cmdid > 0);
 
         TTMessage msg = new TTMessage();
@@ -566,7 +566,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         connect(server, client, "foobar");
 
-        int cmdid = client.doLoginEx(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD, "myclientname");
+        int cmdid = client.doLoginEx(getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD, "myclientname");
         assertTrue("Login client", cmdid > 0);
 
         TTMessage msg = new TTMessage();
@@ -613,7 +613,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public void test_moveUser() {
         UserAccount useraccount = new UserAccount();
         
-        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         useraccount.szUsername = USERNAME;
         useraccount.szPassword = PASSWORD;
@@ -668,7 +668,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     public void test_channelUpdates() {
 
-        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;
@@ -710,7 +710,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     public void test_kickUser() {
 
-        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;
@@ -765,7 +765,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     public void test_sendMessage() {
-        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;
@@ -835,7 +835,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     public void test_changeNicknameStatus() {
-        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;
@@ -948,7 +948,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     public void test_fileUpload() {
-        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;
@@ -971,7 +971,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     public void test_DnsResolve() throws Exception {
 
-        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         if (ENCRYPTED) {
             System.out.println("Skipping test_DnsResolve in encrypted mode");
@@ -1003,7 +1003,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     public void test_InterceptVoice() {
         
-        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;
@@ -1044,7 +1044,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     public void test_transmitUsers() {
         
-        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;
@@ -1088,7 +1088,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     public void test_ClientKeepAlive() {
-        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;

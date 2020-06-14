@@ -234,7 +234,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     protected void resetServerProperties() {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
-        login(ttclient, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+        login(ttclient, ADMIN_NICKNAME + "resetServerProperties()", ADMIN_USERNAME, ADMIN_PASSWORD);
 
         // reset server properties
         ServerProperties prop = new ServerProperties();
@@ -327,7 +327,7 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
-        login(ttclient, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+        login(ttclient, ADMIN_NICKNAME + "makeUserAccount()", ADMIN_USERNAME, ADMIN_PASSWORD);
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = username;
         useraccount.szPassword = password;
@@ -536,9 +536,14 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         return chan;
     }
 
-    public static String getCurrentMethod()
+    public static String getTestMethodName()
     {
-        return Thread.currentThread().getStackTrace()[2].getMethodName();
+        for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+            if (ste.getMethodName().startsWith("test"))
+                return ste.getMethodName();
+        }
+        assertTrue("no test method found", false);
+        return "";
     }
 
     static boolean hasFlag(int flags, int flag) {
