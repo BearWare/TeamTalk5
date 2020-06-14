@@ -240,7 +240,7 @@ void CGenerateTTFileDlg::OnBnClickedButtonSavettfile()
     CString szWorkDir;
     GetCurrentDirectory(MAX_PATH, szWorkDir.GetBufferSetLength(MAX_PATH));
 
-    TCHAR szFilters[] = LoadText(IDS_GENERATETTFILEEXTFILE, _T(".tt Files (*.tt)|*.tt||"));
+    CString szFilters = LoadText(IDS_GENERATETTFILEEXTFILE, _T(".tt Files (*.tt)|*.tt||"));
     CFileDialog fileDlg(FALSE, NULL, _T(""), OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
     if(fileDlg.DoModal() == IDOK)
     {

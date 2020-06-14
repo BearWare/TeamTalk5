@@ -328,8 +328,7 @@
     <item id="470">Cannot delete public servers</item>
     <item id="471">Delete Host</item>
     <item id="472">Public: </item>
-    <item id="473">Host files (*</item>
-    <item id="474">|All files (*.*)|*.*|</item>
+    <item id="473">Host files (*%s)|*%s|All files (*.*)|*.*|</item>
     <item id="475">The file %s&#xD;&#xA;does not contain a valid %s host entry.&#xD;&#xA;Error message: %s</item>
     <item id="476">Error setting keyboard hook. Try restarting the program.</item>
     <item id="477">Wave-format</item>

@@ -516,8 +516,10 @@ void CHostManagerDlg::OnCbnSelchangeComboHostaddress()
 
 void CHostManagerDlg::OnBnClickedButtonImportttile()
 {
-    CString filetypes = LoadText(IDS_HOSTMANAGERHOSTFILES, _T("Host files (*")) _T(TTFILE_EXT) _T(")|*") _T(TTFILE_EXT) LoadText(IDS_HOSTMANAGERALLFILES, _T("|All files (*.*)|*.*|"));
-    CFileDialog dlg(TRUE, 0,0,OFN_FILEMUSTEXIST| OFN_HIDEREADONLY,filetypes, this);
+    CString szFileTypes;
+    szFileTypes.Format(LoadText(IDS_HOSTMANAGERHOSTFILES, _T("Host files (*%s)|*%s|All files (*.*)|*.*|")), _T(TTFILE_EXT), _T(TTFILE_EXT));
+
+    CFileDialog dlg(TRUE, 0,0,OFN_FILEMUSTEXIST| OFN_HIDEREADONLY, szFileTypes, this);
     if(dlg.DoModal() == IDOK)
     {
         HostEntry tthost;
@@ -535,7 +537,7 @@ void CHostManagerDlg::OnBnClickedButtonImportttile()
         else
         {
             CString s, szCaption;
-            s.Format(LoadText(IDS_FILENOTCONTAINVALIDENTRY, _T("The file %s\r\ndoes not contain a valid %s host entry.\r\nError message: %s")), dlg.GetPathName(), APPNAME, STR_UTF8(tt.GetError().c_str()));
+            s.Format(LoadText(IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY, _T("The file %s\r\ndoes not contain a valid %s host entry.\r\nError message: %s")), dlg.GetPathName(), APPNAME, STR_UTF8(tt.GetError().c_str()));
             m_wndImportBtn.GetWindowText(szCaption);
             MessageBox(s, StripAmpersand(szCaption), MB_ICONERROR);
         }
