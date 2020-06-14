@@ -54,14 +54,14 @@ public class MyTest extends TeamTalkTestCase {
             Manifest.permission.READ_PHONE_STATE);
 
     protected void setUp() throws Exception {
-        super.setUp();
-
         this.ADMIN_USERNAME = "admin";
         this.ADMIN_PASSWORD = "admin";
 
         this.IPADDR = "192.168.0.50";
         this.TCPPORT = 10333;
         this.UDPPORT = 10333;
+
+        super.setUp();
 
         this.INPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
         this.OUTPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
@@ -71,10 +71,14 @@ public class MyTest extends TeamTalkTestCase {
     }
 
     public void testRestartSnd() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_VOICE;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
         TeamTalkBase ttclient = newClientInstance();
         initSound(ttclient);
         connect(ttclient);
-        login(ttclient, getCurrentMethod(), "guest", "guest");
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
         joinRoot(ttclient);
         assertTrue("sub voice", ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE)>0);
         ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 600);
@@ -90,10 +94,14 @@ public class MyTest extends TeamTalkTestCase {
     }
 
     public void testStreamMedia() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
         TeamTalkBase ttclient = newClientInstance();
         initSound(ttclient);
         connect(ttclient);
-        login(ttclient, getCurrentMethod(), "guest", "guest");
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
         joinRoot(ttclient);
 
         assertTrue("Stream media file", ttclient.startStreamingMediaFileToChannel("http://hi5.streamingsoundtracks.com", new VideoCodec()));
@@ -164,33 +172,43 @@ public class MyTest extends TeamTalkTestCase {
     }
 
     public void testMultiClientOnSharedAudioDevice() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        Vector<TeamTalkBase> clients = new Vector<>();
         TeamTalkBase ttclient1 = newClientInstance();
         TeamTalkBase ttclient2 = newClientInstance();
         TeamTalkBase ttclient3 = newClientInstance();
         TeamTalkBase ttclient4 = newClientInstance();
 
+        clients.add(ttclient1);
+        clients.add(ttclient2);
+        clients.add(ttclient3);
+        clients.add(ttclient4);
+
         int sndinputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
         int sndoutputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
 
-        for (TeamTalkBase ttclient : this.ttclients) {
+        for (TeamTalkBase ttclient : clients) {
             assertTrue("Init ttclient sound input device", ttclient.initSoundInputDevice(sndinputdevid));
             assertTrue("Init ttclient sound output device", ttclient.initSoundOutputDevice(sndoutputdevid));
         }
 
         int freq = 500;
-        for (TeamTalkBase ttclient : this.ttclients) {
+        for (TeamTalkBase ttclient : clients) {
             connect(ttclient);
-            login(ttclient, getCurrentMethod(), "guest", "guest");
+            login(ttclient, NICKNAME, USERNAME, PASSWORD);
             joinRoot(ttclient);
             ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, freq += 100);
         }
 
         // now we hear all clients transmitting at the same time
-        for (TeamTalkBase ttclient : this.ttclients) {
+        for (TeamTalkBase ttclient : clients) {
             assertTrue("Transmit audio on ttclient", ttclient.enableVoiceTransmission(true));
         }
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
-        for (TeamTalkBase ttclient : this.ttclients) {
+        for (TeamTalkBase ttclient : clients) {
             assertTrue("Stop transmit audio on ttclient", ttclient.enableVoiceTransmission(false));
         }
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
@@ -211,7 +229,7 @@ public class MyTest extends TeamTalkTestCase {
         assertTrue("ttclient4 join ttclient3's channel", waitCmdSuccess(ttclient4, ttclient4.doJoinChannelByID(ttclient3.getMyChannelID(), chan2.szPassword), DEF_WAIT));
 
         // now we should hear 5 second tone of each client on two different channels
-        for (TeamTalkBase ttclient : this.ttclients) {
+        for (TeamTalkBase ttclient : clients) {
             assertTrue("Transmit audio on ttclient", ttclient.enableVoiceTransmission(true));
             waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
             assertTrue("Stop transmit audio on ttclient", ttclient.enableVoiceTransmission(false));
@@ -228,7 +246,7 @@ public class MyTest extends TeamTalkTestCase {
         assertTrue("ttclient2 join ttclient1's channel", waitCmdSuccess(ttclient2, ttclient2.doJoinChannelByID(ttclient1.getMyChannelID(), chan3.szPassword), DEF_WAIT));
 
         // now we should hear 5 second tone of each client on two different channels
-        for (TeamTalkBase ttclient : this.ttclients) {
+        for (TeamTalkBase ttclient : clients) {
             assertTrue("Transmit audio on ttclient", ttclient.enableVoiceTransmission(true));
             waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
             assertTrue("Stop transmit audio on ttclient", ttclient.enableVoiceTransmission(false));
@@ -238,7 +256,7 @@ public class MyTest extends TeamTalkTestCase {
 
     public void testSpeexDSP() {
 
-        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
 
@@ -271,7 +289,7 @@ public class MyTest extends TeamTalkTestCase {
 
     public void testSoundDeviceEffects() {
 
-        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
 
@@ -315,7 +333,7 @@ public class MyTest extends TeamTalkTestCase {
     }
 
     public void testSndInputFailure() {
-        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN |
                 UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
@@ -324,7 +342,7 @@ public class MyTest extends TeamTalkTestCase {
         int sndoutputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
 
         // create 4 clients which will toggle PTT and open/close sound device
-        Vector<TeamTalkBase> ttclients = new Vector<>();
+        Vector<TeamTalkBase> clients = new Vector<>();
         for (int i=0;i<4;++i) {
             TeamTalkBase ttclient = newClientInstance();
             assertTrue("Init ttclient sound output device", ttclient.initSoundOutputDevice(sndoutputdevid));
@@ -343,10 +361,10 @@ public class MyTest extends TeamTalkTestCase {
             chan.audiocodec.opus.nTxIntervalMSec = 240;
             assertTrue("join channel", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
-            ttclients.add(ttclient);
+            clients.add(ttclient);
         }
 
-        // create 4 simulator clients which join in each of the ttclients's
+        // create 4 simulator clients which join in each of the clients's
         // channels
         Vector<TeamTalkBase> simclients = new Vector<>();
         for (int i=0;i<4;++i) {
@@ -364,27 +382,27 @@ public class MyTest extends TeamTalkTestCase {
             connect(sclient);
             login(sclient, NICKNAME, USERNAME, PASSWORD);
             assertTrue("join channel", waitCmdSuccess(sclient,
-                    sclient.doJoinChannelByID(ttclients.elementAt(i).getMyChannelID(), ""),
+                    sclient.doJoinChannelByID(clients.elementAt(i).getMyChannelID(), ""),
                     DEF_WAIT));
 
             simclients.add(sclient);
         }
 
         // now loop where the simulator clients are transmitting all
-        // the time and the ttclients are PTT'ing every 15 seconds
+        // the time and the clients are PTT'ing every 15 seconds
         for (int x=0;x<3;x++) {
             for (TeamTalkBase sclient : simclients) {
                 assertTrue("enable sim voice tx", sclient.enableVoiceTransmission(true));
             }
 
-            for (TeamTalkBase ttclient : ttclients) {
+            for (TeamTalkBase ttclient : clients) {
                 assertTrue("Init ttclient sound input device", ttclient.initSoundInputDevice(sndinputdevid));
                 assertTrue("Init voice TX", ttclient.enableVoiceTransmission(true));
             }
 
             waitForEvent(simclients.elementAt(0), ClientEvent.CLIENTEVENT_NONE, 15000);
 
-            for (TeamTalkBase ttclient : ttclients) {
+            for (TeamTalkBase ttclient : clients) {
                 assertTrue("Stop voice TX", ttclient.enableVoiceTransmission(false));
                 assertTrue("close ttclient sound input device", ttclient.closeSoundInputDevice());
             }
@@ -395,7 +413,7 @@ public class MyTest extends TeamTalkTestCase {
 
             waitForEvent(simclients.elementAt(0), ClientEvent.CLIENTEVENT_NONE, 5000);
 
-            for (TeamTalkBase ttclient : ttclients) {
+            for (TeamTalkBase ttclient : clients) {
                 assertFalse("No snd input error", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 0));
             }
         }
@@ -403,7 +421,7 @@ public class MyTest extends TeamTalkTestCase {
 
     // force 'E/libOpenSLES: Too many objects' error
     public void testMaxSoundOutputStreams() {
-        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN |
                 UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);

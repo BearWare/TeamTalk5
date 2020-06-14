@@ -128,9 +128,14 @@ bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, int timeout)
 
 bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage* outmsg, int timeout /*= DEFWAIT*/)
 {
-    return WaitForEvent(ttClient, CLIENTEVENT_CMD_SUCCESS, [cmdid](TTMessage msg) {
+    bool result = WaitForEvent(ttClient, CLIENTEVENT_CMD_SUCCESS, [cmdid](TTMessage msg) {
         return msg.nSource == cmdid;
     }, outmsg, timeout);
+
+    if (result)
+        WaitForCmdComplete(ttClient, cmdid, outmsg, timeout);
+
+    return result;
 }
 
 bool WaitForCmdComplete(TTInstance* ttClient, int cmdid, TTMessage* outmsg, int timeout /*= DEFWAIT*/)

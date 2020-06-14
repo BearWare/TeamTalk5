@@ -231,11 +231,103 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         assertTrue("Authorized", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
     }
 
+    protected void resetServerProperties() {
+        TeamTalkBase ttclient = newClientInstance();
+        connect(ttclient);
+        login(ttclient, ADMIN_NICKNAME + "resetServerProperties()", ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        // reset server properties
+        ServerProperties prop = new ServerProperties();
+        prop.szServerName = "TeamTalk 5 Server";
+        prop.szMOTD = "";
+        prop.szMOTDRaw = "";
+        prop.nMaxUsers = 1000;
+        prop.nMaxLoginAttempts = 0;
+        prop.nMaxLoginsPerIPAddress = 0;
+        prop.nLoginDelayMSec = 0;
+        prop.nMaxVoiceTxPerSecond = 0;
+        prop.nMaxVideoCaptureTxPerSecond = 0;
+        prop.nMaxMediaFileTxPerSecond = 0;
+        prop.nMaxDesktopTxPerSecond = 0;
+        prop.nMaxTotalTxPerSecond = 0;
+        prop.bAutoSave = false;
+        prop.nTcpPort = TCPPORT;
+        prop.nUdpPort = UDPPORT;
+        prop.nUserTimeout = 60;
+        prop.szServerVersion = "";
+        prop.szServerProtocolVersion = "";
+        prop.szAccessToken = "";
+        assertTrue("reset server properties", waitCmdSuccess(ttclient, ttclient.doUpdateServer(prop), DEF_WAIT));
+
+        // reset bans
+        int cmdid = ttclient.doListBans(0, 0, 10000);
+        assertTrue("do list bans", cmdid > 0);
+        removeBans(ttclient, cmdid);
+
+        cmdid = ttclient.doListBans(ttclient.getRootChannelID(), 0, 10000);
+        assertTrue("do list root bans", cmdid > 0);
+        removeBans(ttclient, cmdid);
+
+        // erase user accounts
+        Vector<UserAccount> accounts = new Vector<UserAccount>();
+        cmdid = ttclient.doListUserAccounts(0, 10000);
+        TTMessage msg = new TTMessage();
+        while (cmdid > 0 && ttclient.getMessage(msg, DEF_WAIT)) {
+            switch (msg.nClientEvent) {
+            case ClientEvent.CLIENTEVENT_CMD_USERACCOUNT :
+                accounts.add(msg.useraccount);
+                break;
+            case ClientEvent.CLIENTEVENT_CMD_PROCESSING :
+                if (msg.nSource == cmdid && msg.bActive == false) {
+                    cmdid = 0;
+                }
+                break;
+            }
+        }
+        
+        for (UserAccount account : accounts) {
+            if (account.szUsername.equals(ADMIN_USERNAME))
+                continue;
+            
+            assertTrue("del account", waitCmdSuccess(ttclient, ttclient.doDeleteUserAccount(account.szUsername), DEF_WAIT));
+        }
+
+        // reset root channel
+        Channel root = new Channel(true, false);
+        root.nChannelID = ttclient.getRootChannelID();
+        root.uChannelType = ChannelType.CHANNEL_PERMANENT;
+        root.nMaxUsers = prop.nMaxUsers;
+        assertTrue("reset root channel", waitCmdSuccess(ttclient, ttclient.doUpdateChannel(root), DEF_WAIT));
+
+        assertTrue("Disconnect", ttclient.disconnect());
+    }
+
+    protected void removeBans(TeamTalkBase ttclient, int cmdid) {
+        Vector<BannedUser> bans = new Vector<BannedUser>();
+        TTMessage msg = new TTMessage();
+        while (cmdid > 0 && ttclient.getMessage(msg, DEF_WAIT)) {
+            switch (msg.nClientEvent) {
+            case ClientEvent.CLIENTEVENT_CMD_BANNEDUSER :
+                bans.add(msg.banneduser);
+                break;
+            case ClientEvent.CLIENTEVENT_CMD_PROCESSING :
+                if (msg.nSource == cmdid && msg.bActive == false) {
+                    cmdid = 0;
+                }
+                break;
+            }
+        }
+
+        for (BannedUser ban : bans) {
+            assertTrue("del ban", waitCmdSuccess(ttclient, ttclient.doUnBanUserEx(ban), DEF_WAIT));
+        }
+    }
+    
     protected void makeUserAccount(String nickname, String username, String password, int userrights)
     {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
-        login(ttclient, nickname, ADMIN_USERNAME, ADMIN_PASSWORD);
+        login(ttclient, ADMIN_NICKNAME + "makeUserAccount()", ADMIN_USERNAME, ADMIN_PASSWORD);
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = username;
         useraccount.szPassword = password;
@@ -382,11 +474,12 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     protected static boolean waitCmdSuccess(TeamTalkBase ttclient, int cmdid,
                                             int waittimeout, ServerInterleave interleave) {
         TTMessage msg = new TTMessage();
-
         while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_SUCCESS, waittimeout, msg, interleave))
         {
-            if (msg.nSource == cmdid)
+            if (msg.nSource == cmdid) {
+                waitCmdComplete(ttclient, cmdid, waittimeout, interleave);
                 return true;
+            }
         }
 
         return false;
@@ -403,8 +496,10 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
 
         while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_ERROR, waittimeout, msg, interleave))
         {
-            if (msg.nSource == cmdid)
+            if (msg.nSource == cmdid) {
+                waitCmdComplete(ttclient, cmdid, waittimeout, interleave);
                 return true;
+            }
         }
 
         return false;
@@ -441,9 +536,14 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         return chan;
     }
 
-    public static String getCurrentMethod()
+    public static String getTestMethodName()
     {
-        return Thread.currentThread().getStackTrace()[2].getMethodName();
+        for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+            if (ste.getMethodName().startsWith("test"))
+                return ste.getMethodName();
+        }
+        assertTrue("no test method found", false);
+        return "";
     }
 
     static boolean hasFlag(int flags, int flag) {
