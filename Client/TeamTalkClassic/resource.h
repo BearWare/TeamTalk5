@@ -578,6 +578,7 @@
 #define IDC_STATIC_TRANSLATOR2          1244
 #define IDC_CHECK_UILANGUAGE            1245
 #define IDC_CHECK_AUTOCLOSE             1246
+#define IDCANCEL             1247
 #define IDC_TAB_CTRL                    1251
 #define IDC_PROGRESS1                   1252
 #define IDC_STATIC_FILETXT              1253
