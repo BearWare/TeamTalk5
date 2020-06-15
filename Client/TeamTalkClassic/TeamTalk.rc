@@ -498,9 +498,9 @@ BEGIN
     LTEXT           "Static",IDC_STATIC_VERSION,105,34,92,14
     LTEXT           "Written by Bjoern D. Rasmussen",IDC_STATIC_AUTHOR,7,62,139,8
     LTEXT           "Copyright (c) 2005-2020, BearWare.dk",IDC_STATIC_COPYRIGHT,7,75,183,8
-    LTEXT           "Speex codec developed by Jean-Marc Valin, www.speex.org",IDC_STATIC,7,88,189,17
-    LTEXT           "OPUS codec developed by Opus project, www.opus-codec.org",IDC_STATIC,7,110,189,17
-    LTEXT           "WebM VP8 codec developed by WebM project, www.webmproject.org",IDC_STATIC,7,132,189,17
+    LTEXT           "Speex codec developed by Jean-Marc Valin, www.speex.org",IDC_STATIC_SPEEXCODECDEV,7,88,189,17
+    LTEXT           "OPUS codec developed by Opus project, www.opus-codec.org",IDC_STATIC_OPUSCODECDEV,7,110,189,17
+    LTEXT           "WebM VP8 codec developed by WebM project, www.webmproject.org",IDC_STATIC_WEBMCODECDEV,7,132,189,17
     LTEXT           "Translated by Bjoern D. Rasmussen",IDC_STATIC_TRANSLATOR,7,154,189,18
     LTEXT           "TeamTalk Classic Project Contributors:\nBeqa Gozalishvili",IDC_STATIC_TRANSLATOR2,7,178,189,25
     LTEXT           "Compiled on ",IDC_STATIC_COMPILED,7,205,189,25
@@ -802,7 +802,7 @@ BEGIN
     LTEXT           "Duration:",IDC_STATIC_SDURATION,18,60,52,8
     LTEXT           "",IDC_STATIC_DURATION,75,60,75,8
     CONTROL         "Continuously play media file",IDC_CHECK_REPEAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,154,59,120,10
-    GROUPBOX        "Playback Settings",IDC_STATIC,7,77,273,57
+    GROUPBOX        "Playback Settings",IDC_STATIC_PBSET,7,77,273,57
     LTEXT           "Audio preprocessor",IDC_STATIC_AUDIOPREPROCESSOR,18,90,82,8
     COMBOBOX        IDC_COMBO_AUDIOPREPROCESSOR,103,88,125,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "&Setup",IDC_BUTTON_AUDIOSETUP,232,87,42,14

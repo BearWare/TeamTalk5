@@ -560,12 +560,16 @@
 #define IDC_STATIC_COPYRIGHT            1226
 #define IDC_STATIC_IMAGE                1227
 #define IDC_STATIC_AUTHOR               1228
+#define IDC_STATIC_SPEEXCODECDEV               1229
 #define IDC_STATIC_GRPCHANNEL           1230
 #define IDC_BUTTON_SEND                 1231
+#define IDC_STATIC_OPUSCODECDEV                 1232
 #define IDC_VERT_SPLITTER               1233
 #define IDC_STATIC_VERSION              1234
+#define IDC_STATIC_              1235
 #define IDC_STATIC_WIZWELCOME           1236
 #define IDC_STATIC_WIZCOMPLETED         1237
+#define IDC_STATIC_PBSET         1238
 #define IDC_COMBO_LANGUAGE              1239
 #define IDC_STATIC_TRANSLATOR           1240
 #define IDC_STATIC_UILANGUAGE           1241

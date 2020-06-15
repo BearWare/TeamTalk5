@@ -456,10 +456,16 @@
     <item id="1218">L&apos;utilisateur peut créer/modifier tous les canaux</item>
     <item id="1221">Toujours au dessus</item>
     <item id="1225">Défaut</item>
+    <item id="1226">Copyright (c) 2005-2020, BearWare.dk</item>
+    <item id="1228">Écrit par Bjoern D. Rasmussen</item>
+    <item id="1229">Codec Speex développé par Jean-Marc Valin, www.speex.org</item>
     <item id="1230">Nouvelles informations du canal</item>
     <item id="1231">Envoyer</item>
+    <item id="1232">Codec OPUS développé par Opus project, www.opus-codec.org</item>
+    <item id="1235">Codec WebM VP8 développé par WebM project, www.webmproject.org</item>
     <item id="1236">Bienvenue dans l&apos;assistant de configuration de TeamTalk</item>
     <item id="1237">Terminé l&apos;assistant de configuration de TeamTalk</item>
+    <item id="1238">Paramètres de lecture</item>
     <item id="1240">Traduit par Oreonan</item>
     <item id="1241">Langue de l&apos;interface utilisateur</item>
     <item id="1243">Mélangeur</item>
