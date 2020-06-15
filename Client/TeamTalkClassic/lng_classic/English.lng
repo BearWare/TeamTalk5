@@ -101,6 +101,7 @@
     <item id="205">Change status</item>
     <item id="206">%s changed subscription &quot;Media File Stream&quot; to: %d</item>
     <item id="207">%s changed subscription &quot;Intercept User Messages&quot; to: %d</item>
+    <item id="209">About</item>
     <item id="210">%s changed subscription &quot;Intercept Channel Messages&quot; to: %d</item>
     <item id="211">%s changed subscription &quot;Intercept Voice&quot; to: %d</item>
     <item id="212">Display</item>
