@@ -82,19 +82,19 @@ BOOL CMediaStorageDlg::OnInitDialog()
 
     TRANSLATE(*this, IDD);
 
-    int i = m_wndAFF.AddString(_T("Wave-format"));
+    int i = m_wndAFF.AddString(LoadText(IDS_MEDIASTORAGEWAVEFORMAT, _T("Wave-format")));
     m_wndAFF.SetItemData(i, AFF_WAVE_FORMAT);
-    i = m_wndAFF.AddString(_T("Ogg-format"));
+    i = m_wndAFF.AddString(LoadText(IDS_MEDIASTORAGEOGGFORMAT, _T("Ogg-format")));
     m_wndAFF.SetItemData(i, AFF_CHANNELCODEC_FORMAT);
-    i = m_wndAFF.AddString(_T("MP3-format (16 kbit)"));
+    i = m_wndAFF.AddString(LoadText(IDS_MEDIASTORAGEMP3FORMAT16, _T("MP3-format (16 kbit)")));
     m_wndAFF.SetItemData(i, AFF_MP3_16KBIT_FORMAT);
-    i = m_wndAFF.AddString(_T("MP3-format (32 kbit)"));
+    i = m_wndAFF.AddString(LoadText(IDS_MEDIASTORAGEMP3FORMAT32, _T("MP3-format (32 kbit)")));
     m_wndAFF.SetItemData(i, AFF_MP3_32KBIT_FORMAT);
-    i = m_wndAFF.AddString(_T("MP3-format (64 kbit)"));
+    i = m_wndAFF.AddString(LoadText(IDS_MEDIASTORAGEMP3FORMAT64, _T("MP3-format (64 kbit)")));
     m_wndAFF.SetItemData(i, AFF_MP3_64KBIT_FORMAT);
-    i = m_wndAFF.AddString(_T("MP3-format (128 kbit)"));
+    i = m_wndAFF.AddString(LoadText(IDS_MEDIASTORAGEMP3FORMAT128, _T("MP3-format (128 kbit)")));
     m_wndAFF.SetItemData(i, AFF_MP3_128KBIT_FORMAT);
-    i = m_wndAFF.AddString(_T("MP3-format (256 kbit)"));
+    i = m_wndAFF.AddString(LoadText(IDS_MEDIASTORAGEMP3FORMAT256, _T("MP3-format (256 kbit)")));
     m_wndAFF.SetItemData(i, AFF_MP3_256KBIT_FORMAT);
     m_wndAFF.SetCurSel(0);
 

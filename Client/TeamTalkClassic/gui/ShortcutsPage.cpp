@@ -96,31 +96,31 @@ void CShortcutsPage::UpdateHotKeys()
     m_wndHKMin.SetWindowText(CKeyCompDlg::GetHotkeyString(m_hkMinRestore));
 
     if(m_hkVoiceAct.size())
-        m_btnHKVA.SetWindowText(_T("Clear"));
+        m_btnHKVA.SetWindowText(LoadText(IDS_SHORTCUTPAGECLEAR, _T("Clear")));
     else
         TRANSLATE(m_btnHKVA, IDC_BUTTON_SETUPKEYS, _T("Setup keys"));
     if(m_hkVolumePlus.size())
-        m_btnHKIV.SetWindowText(_T("Clear"));
+        m_btnHKIV.SetWindowText(LoadText(IDS_SHORTCUTPAGECLEAR, _T("Clear")));
     else
         TRANSLATE(m_btnHKIV, IDC_BUTTON_SETUPKEYS, _T("Setup keys"));
     if(m_hkVolumeMinus.size())
-        m_btnHKLV.SetWindowText(_T("Clear"));
+        m_btnHKLV.SetWindowText(LoadText(IDS_SHORTCUTPAGECLEAR, _T("Clear")));
     else
         TRANSLATE(m_btnHKLV, IDC_BUTTON_SETUPKEYS, _T("Setup keys"));
     if(m_hkMuteAll.size())
-        m_btnHKMA.SetWindowText(_T("Clear"));
+        m_btnHKMA.SetWindowText(LoadText(IDS_SHORTCUTPAGECLEAR, _T("Clear")));
     else
         TRANSLATE(m_btnHKMA, IDC_BUTTON_SETUPKEYS, _T("Setup keys"));
     if(m_hkGainPlus.size())
-        m_btnHKIVG.SetWindowText(_T("Clear"));
+        m_btnHKIVG.SetWindowText(LoadText(IDS_SHORTCUTPAGECLEAR, _T("Clear")));
     else
         TRANSLATE(m_btnHKIVG, IDC_BUTTON_SETUPKEYS, _T("Setup keys"));
     if(m_hkGainMinus.size())
-        m_btnHKLVG.SetWindowText(_T("Clear"));
+        m_btnHKLVG.SetWindowText(LoadText(IDS_SHORTCUTPAGECLEAR, _T("Clear")));
     else
         TRANSLATE(m_btnHKLVG, IDC_BUTTON_SETUPKEYS, _T("Setup keys"));
     if(m_hkMinRestore.size())
-        m_btnHKMin.SetWindowText(_T("Clear"));
+        m_btnHKMin.SetWindowText(LoadText(IDS_SHORTCUTPAGECLEAR, _T("Clear")));
     else
         TRANSLATE(m_btnHKMin, IDC_BUTTON_SETUPKEYS, _T("Setup keys"));
 }

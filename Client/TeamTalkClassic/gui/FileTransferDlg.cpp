@@ -118,9 +118,9 @@ BOOL CFileTransferDlg::OnInitDialog()
     {
         CString szTotalSize;
         if(m_nTotalSize>1024)
-            szTotalSize.Format(_T("%I64d KBytes"), transfer.nFileSize/(INT64)1024);
+            szTotalSize.Format(LoadText(IDS_FILETRANSFERKBYTES, _T("%I64d KBytes")), transfer.nFileSize/(INT64)1024);
         else
-            szTotalSize.Format(_T("%I64d bytes"), transfer.nFileSize);
+            szTotalSize.Format(LoadText(IDS_FILETRANSFERBYTES, _T("%I64d bytes")), transfer.nFileSize);
         SetWindowText(transfer.szRemoteFileName);
         m_nTotalSize = transfer.nFileSize;
         m_wndFilename.SetWindowText(transfer.szRemoteFileName);
@@ -164,12 +164,12 @@ BOOL CFileTransferDlg::UpdateTransferInfo()
             INT64 nBytesPerSec = transfer.nTransferred/nTotalTime;
             INT64 nBytesLastSec = transfer.nTransferred-m_nLastTransferred;
             if(nBytesPerSec/1024>0 && nBytesLastSec/1024>0)
-                szThroughput.Format(_T("%I64d KB/sec, %I64d KB last sec."), nBytesPerSec/1024, nBytesLastSec/1024);
+                szThroughput.Format(LoadText(IDS_FILETRANSFERSPEED, _T("%I64d KB/sec, %I64d KB last sec.")), nBytesPerSec/1024, nBytesLastSec/1024);
             else
-                szThroughput.Format(_T("%I64d bytes/sec, %I64d bytes last sec."), nBytesPerSec, nBytesLastSec);
+                szThroughput.Format(LoadText(IDS_FILETRANSFERSPEEDB, _T("%I64d bytes/sec, %I64d bytes last sec.")), nBytesPerSec, nBytesLastSec);
         }
         else
-            szThroughput.Format(_T("%I64d bytes/sec"), (INT64)0);
+            szThroughput.Format(LoadText(IDS_FILETRANSFERBYTESSEC, _T("%I64d bytes/sec")), (INT64)0);
         //szThroughput.Format(_T("%I64d bytes last sec."),transfer.nTransferred-m_nLastTransferred);
         m_wndThroughput.SetWindowText(szThroughput);
         m_nLastTransferred = transfer.nTransferred;
@@ -195,7 +195,7 @@ void CFileTransferDlg::Completed()
 {
     CString szText;
     GetWindowText(szText);
-    szText += _T(" - Completed");
+    szText += LoadText(IDS_FILETRANSFERPROGRESSCOMPLETED, _T(" - Completed"));
     m_wndCancel.SetWindowText(_T("OK"));
     m_bCompleted = TRUE;
     m_nLastTransferred = m_nTotalSize;
@@ -209,7 +209,7 @@ void CFileTransferDlg::Failed()
 {
     CString szText;
     GetWindowText(szText);
-    szText += _T(" - Failed");
+    szText += LoadText(IDS_FILETRANSFERFAILED, _T(" - Failed"));
 }
 
 void CFileTransferDlg::OnBnClickedCheckAutoclose()

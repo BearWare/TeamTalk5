@@ -57,29 +57,31 @@ script:
 # Build libraries, server binaries and examples
   - mkdir build
   - cd build
-  - cmake -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_STATIC=OFF -DBUILD_TEAMTALK_ACE=OFF -DSPEEXDSP_STATIC=OFF -DFFMPEG_STATIC=OFF -DAVF=OFF -DMSDMO=OFF -DDSHOW=OFF -DVIDCAP=OFF -DMEDIAFOUNDATION=OFF -DOPUS_STATIC=OFF -DLIBVPX_STATIC=OFF -DSPEEX_STATIC=OFF -DOGG_STATIC=OFF -DOPUSTOOLS=OFF -DLAMEMP3=OFF -DMSVS_UNITTEST=OFF -DACE_STATIC=OFF -DTINYXML_STATIC=OFF -DPORTAUDIO=OFF -DZLIB_STATIC=OFF -DCATCH_UNITTEST=ON -DCMAKE_BUILD_TYPE=release ..
-  - make -j4
+  - cmake -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_STATIC=OFF -DBUILD_TEAMTALK_ACE=OFF -DSPEEXDSP_STATIC=OFF -DFFMPEG_STATIC=OFF -DAVF=OFF -DMSDMO=OFF -DDSHOW=OFF -DVIDCAP=OFF -DMEDIAFOUNDATION=OFF -DOPUS_STATIC=OFF -DLIBVPX_STATIC=OFF -DSPEEX_STATIC=OFF -DOGG_STATIC=OFF -DOPUSTOOLS=OFF -DLAMEMP3=OFF -DMSVS_UNITTEST=OFF -DACE_STATIC=OFF -DTINYXML_STATIC=OFF -DPORTAUDIO=OFF -DZLIB_STATIC=OFF -DCATCH_UNITTEST=ON ..
+  - make -j4 > /dev/null
 # Run JUnit suite TeamTalkServerTestSuite.java
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
   - make runjunitsrv
-# Start TeamTalk Standard Server non-encrypted mode for JUnit suite TeamTalkStdTestSuite.java and Catch
+# Start TeamTalk Standard Server non-encrypted mode for JUnit and Catch
   - cd $TRAVIS_BUILD_DIR
   - cp Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
   - Server/tt5srv -d -c Server/tt5srv.xml
-  - cd $TRAVIS_BUILD_DIR
-  - cd Library/TeamTalkJNI
-  - make runjunit
 # Run Catch unit-tests
   - cd $TRAVIS_BUILD_DIR
   - Library/TeamTalkLib/test/catchtt
+# Run JUnit suite TeamTalkStdTestSuite.java
+  - cd $TRAVIS_BUILD_DIR
+  - cd Library/TeamTalkJNI
+  - make runjunit
 # Kill TeamTalk Standard Server non-encrypted mode
   - killall tt5srv
-# Start TeamTalk Pro Server non-encrypted mode for JUnit suite TeamTalkProTestSuite.java
+# Start TeamTalk Pro Server non-encrypted mode for JUnit
 # and use shared audio device
   - cd $TRAVIS_BUILD_DIR
   - cp -f Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
   - Server/tt5prosrv -d -c Server/tt5srv.xml
+# Run JUnit suite TeamTalkProTestSuite.java
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
   - export ENCRYPTED=0
@@ -87,21 +89,22 @@ script:
   - export OUTPUTDEVICEID=4026
   - make runjunitpro
   - killall tt5prosrv
-# Start TeamTalk Pro Server in encrypted mode for JUnit suite TeamTalkProTestSuite.java
+# Start TeamTalk Pro Server in encrypted mode for JUnit
 # and switch back to default sound device
   - cd $TRAVIS_BUILD_DIR
   - cp Library/TeamTalkLib/test/tt5prosrv.xml_template Server/tt5prosrv.xml
   - cp Library/TeamTalkLib/test/ttservercert.pem Server/
   - cp Library/TeamTalkLib/test/ttserverkey.pem Server/
   - Server/tt5prosrv -d -wd Server/
+# Start Python client example and ensure it connects
+  - cd $TRAVIS_BUILD_DIR
+  - make -C Client/ttserverlogpy
+# Run JUnit suite TeamTalkProTestSuite.java
   - cd Library/TeamTalkJNI
   - export ENCRYPTED=1
   - export INPUTDEVICEID=1978
   - export OUTPUTDEVICEID=1978
   - make runjunitpro
-# Start Python client example and ensure it connects
-  - cd $TRAVIS_BUILD_DIR
-  - make -C Client/ttserverlogpy
   - killall tt5prosrv
 # Run JUnit suite TeamTalkServerTestSuite.java in encrypted mode
   - cd $TRAVIS_BUILD_DIR

@@ -76,7 +76,7 @@ BOOL CSoundEventsPage::OnInitDialog()
 
 CString CSoundEventsPage::GetEventFilePath(const CString& szInitFile)
 {
-    CString filetypes = _T("Wave files (*.wav)|*.wav|All files (*.*)|*.*|");
+    CString filetypes = LoadText(IDS_SOUNDEVENTSWAVFILES, _T("Wave files (*.wav)|*.wav|All files (*.*)|*.*|"));
     CFileDialog dlg(TRUE, 0, szInitFile.IsEmpty()?0:szInitFile, OFN_FILEMUSTEXIST| OFN_HIDEREADONLY, filetypes, this);
     TCHAR s[MAX_PATH];
     CString szFilePath;

@@ -66,11 +66,11 @@ BOOL CBanTypeDlg::OnInitDialog()
 
     TRANSLATE(*this, IDD);
 
-    CString szText = _T("Ban IP-address");
+    CString szText = LoadText(IDS_BANTYPEDLGIPADDR, _T("Ban IP-address"));
     TRANSLATE_ITEM(IDC_STATIC_IPADDR, szText);
     int i = m_wndBanType.AddString(szText);
     m_wndBanType.SetItemData(i, DWORD_PTR(BANTYPE_IPADDR));
-    szText = _T("Ban username");
+    szText = LoadText(IDS_BANTYPEDLGUSERNAME, _T("Ban username"));
     TRANSLATE_ITEM(IDC_STATIC_USERNAME, szText);
     i = m_wndBanType.AddString(szText); 
     m_wndBanType.SetItemData(i, DWORD_PTR(BANTYPE_USERNAME));

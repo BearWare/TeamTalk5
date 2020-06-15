@@ -93,7 +93,7 @@ BOOL CGenerateTTFileDlg::OnInitDialog()
 
     LoadVideoFormats();
 
-    m_wndCapfmt.AddString(_T("Any"));
+    m_wndCapfmt.AddString(LoadText(IDS_GENERATETTFILEANY, _T("Any")));
 
     for(size_t i=1;i<m_vidcap_fmts.size();i++)
     {
@@ -104,7 +104,7 @@ BOOL CGenerateTTFileDlg::OnInitDialog()
     }
     m_wndCapfmt.SetCurSel(0);
 
-    m_wndVidCodec.SetItemData(m_wndVidCodec.AddString(_T("Any")), NO_CODEC);
+    m_wndVidCodec.SetItemData(m_wndVidCodec.AddString(LoadText(IDS_GENERATETTFILEANY, _T("Any"))), NO_CODEC);
     m_wndVidCodec.SetItemData(m_wndVidCodec.AddString(_T("WebM VP8")), WEBM_VP8_CODEC);
     m_wndVidCodec.SetCurSel(0);
     m_wndVidBitrateSpinCtrl.SetRange(0, 1000);
@@ -240,7 +240,7 @@ void CGenerateTTFileDlg::OnBnClickedButtonSavettfile()
     CString szWorkDir;
     GetCurrentDirectory(MAX_PATH, szWorkDir.GetBufferSetLength(MAX_PATH));
 
-    TCHAR szFilters[] = _T(".tt Files (*.tt)|*.tt||");
+    CString szFilters = LoadText(IDS_GENERATETTFILEEXTFILE, _T(".tt Files (*.tt)|*.tt||"));
     CFileDialog fileDlg(FALSE, NULL, _T(""), OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
     if(fileDlg.DoModal() == IDOK)
     {
@@ -250,7 +250,7 @@ void CGenerateTTFileDlg::OnBnClickedButtonSavettfile()
 
         teamtalk::TTFile ttfile(TT_XML_ROOTNAME);
         if(!ttfile.CreateFile(STR_LOCAL(szFileName)))
-            MessageBox(_T("Failed to save .tt file."), _T("Save .tt File"));
+            MessageBox(LoadText(IDS_GENERATETTFILEFAILEDTOSAVE, _T("Failed to save .tt file.")), LoadText(IDS_GENERATETTFILESAVE, _T("Save .tt File")));
         else
         {
             ttfile.SetHostEntry(m_hostentry);

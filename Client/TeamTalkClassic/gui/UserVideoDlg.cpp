@@ -188,12 +188,12 @@ BOOL CUserVideoDlg::OnInitDialog()
         SetTimer(VIDEODLG_UPDATE_TIMERID, m_nTimedUpdateMSec, NULL);
 
     if(m_nUserID == 0)
-        SetWindowText(_T("Local Video"));
+        SetWindowText(LoadText(IDS_USERVIDEOLOCALVIDEO, _T("Local Video")));
     else
     {
         User user = {};
         TT_GetUser(ttInst, (m_nUserID & VIDEOTYPE_USERMASK), &user);
-        SetWindowText(CString(_T("Video - ")) + GetDisplayName(user));
+        SetWindowText(CString(LoadText(IDS_USERVIDEOVIDEO, _T("Video - "))) + GetDisplayName(user));
     }
 
     switch(m_nUserID & VIDEOTYPE_MASK)

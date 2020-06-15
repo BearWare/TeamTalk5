@@ -192,11 +192,7 @@ void CHostManagerDlg::DisplayHosts()
 
 void CHostManagerDlg::ShowFieldError()
 {
-    AfxMessageBox(_T("Please fill in all the required fields.\r\n")
-        _T("- Entry name\r\n")
-        _T("- Host address\r\n")
-        _T("- TCP port\r\n")
-        _T("- UDP port\r\n"));
+    AfxMessageBox(LoadText(IDS_HOSTMANAGERFILLALLFIELDS, _T("Please fill in all the required fields.\r\n- Entry name\r\n- Host address\r\n- TCP port\r\n- UDP port\r\n")));
 }
 
 BOOL CHostManagerDlg::GetHostEntry(teamtalk::HostEntry& entry)
@@ -286,7 +282,7 @@ void CHostManagerDlg::OnButtonDelete()
     int index = m_wndHosts.GetCurSel();
     if(m_wndHosts.GetItemData(index) & PUBSERVER_ITEMDATA)
     {
-        MessageBox(_T("Cannot delete public servers"), _T("Delete Host"));
+        MessageBox(LoadText(IDS_HOSTMANAGERCANNOTDELPUBSERV, _T("Cannot delete public servers")), LoadText(IDS_HOSTMANAGERDELHOST, _T("Delete Host")));
         return;
     }
 
@@ -426,7 +422,7 @@ void CHostManagerDlg::OnTimer(UINT_PTR nIDEvent)
                 while(ttfile.GetHostEntry(entry, i++))
                 {
                     m_pubservers.push_back(entry);
-                    int newindex = m_wndHosts.AddString(CString(_T("Public: ")) 
+                    int newindex = m_wndHosts.AddString(CString(LoadText(IDS_HOSTMANAGERPUBLIC, _T("Public: "))) 
                         + STR_UTF8(entry.szEntryName.c_str()));
                     m_wndHosts.SetItemData(newindex, PUBSERVER_ITEMDATA);
                 }
@@ -520,8 +516,10 @@ void CHostManagerDlg::OnCbnSelchangeComboHostaddress()
 
 void CHostManagerDlg::OnBnClickedButtonImportttile()
 {
-    CString filetypes = _T("Host files (*") _T(TTFILE_EXT) _T(")|*") _T(TTFILE_EXT) _T("|All files (*.*)|*.*|");
-    CFileDialog dlg(TRUE, 0,0,OFN_FILEMUSTEXIST| OFN_HIDEREADONLY,filetypes, this);
+    CString szFileTypes;
+    szFileTypes.Format(LoadText(IDS_HOSTMANAGERHOSTFILES, _T("Host files (*%s)|*%s|All files (*.*)|*.*|")), _T(TTFILE_EXT), _T(TTFILE_EXT));
+
+    CFileDialog dlg(TRUE, 0,0,OFN_FILEMUSTEXIST| OFN_HIDEREADONLY, szFileTypes, this);
     if(dlg.DoModal() == IDOK)
     {
         HostEntry tthost;
@@ -539,8 +537,7 @@ void CHostManagerDlg::OnBnClickedButtonImportttile()
         else
         {
             CString s, szCaption;
-            s.Format(_T("The file %s\r\ndoes not contain a valid %s host entry.\r\n")
-                _T("Error message: %s"), dlg.GetPathName(), APPNAME, STR_UTF8(tt.GetError().c_str()));
+            s.Format(LoadText(IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY, _T("The file %s\r\ndoes not contain a valid %s host entry.\r\nError message: %s")), dlg.GetPathName(), APPNAME, STR_UTF8(tt.GetError().c_str()));
             m_wndImportBtn.GetWindowText(szCaption);
             MessageBox(s, StripAmpersand(szCaption), MB_ICONERROR);
         }

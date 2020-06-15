@@ -515,8 +515,8 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Hosts",IDC_STATIC_GRPHOSTS,7,7,178,261
     LISTBOX         IDC_LIST_HOSTS,13,18,163,206,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "&Delete",IDC_BUTTON_DELETE,13,230,40,14
-    PUSHBUTTON      "&Import .tt File",IDC_BUTTON_IMPORTTTILE,65,230,61,14
+    PUSHBUTTON      "&Delete",IDC_BUTTON_DELETE,13,230,55,14
+    PUSHBUTTON      "&Import .tt File",IDC_BUTTON_IMPORTTTILE,97,230,79,14
     CONTROL         "Include public servers",IDC_CHECK_PUBLICSERVERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,251,115,10
     GROUPBOX        "Host properties",IDC_STATIC_GRPHOSTPROP,190,7,223,189
     LTEXT           "Host address",IDC_STATIC_HOSTADDR,201,21,68,8
@@ -544,8 +544,8 @@ BEGIN
     GROUPBOX        "Save server information",IDC_STATIC_SAVESERVERINFO,190,219,223,49
     LTEXT           "Entry name",IDC_STATIC_ENTRYNAME,201,234,68,8
     EDITTEXT        IDC_EDIT_ENTRYNAME,285,231,123,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "&Generate .tt File",IDC_BUTTON_GENTT,201,249,69,14
-    PUSHBUTTON      "&Add/Update",IDC_BUTTON_ADDUPDATE,356,249,52,14
+    PUSHBUTTON      "&Generate .tt File",IDC_BUTTON_GENTT,201,249,81,14
+    PUSHBUTTON      "&Add/Update",IDC_BUTTON_ADDUPDATE,327,249,81,14
 END
 
 IDD_DIALOG_KEYCOMP DIALOGEX 0, 0, 196, 106
@@ -2224,105 +2224,223 @@ BEGIN
     IDS_PLAY                "Play"
     IDS_NOPREPROCESSOR      "No Audio Preprocessor"
     IDS_CONLOGIN            "Connected... logging in"
-    IDS_STREAMFAILEDBOX            "Failed to stream media file."
-    IDS_CONFAILED            "Failed to connect to host %s TCP port %d UDP port %d.\r\nCheck that the server is running on the specified address\r\nand that a firewall isn't preventing clients from connecting."
-    IDS_ERROROCCURREDCOMMAND            "An error occurred while perform a requested command:\r\n"
-    IDS_CONNFAILED            "Failed to connect to %s TCP port %d UDP port %d"
-    IDS_CONLOST            "Connection lost to %s TCP port %d UDP port %d"
-    IDS_CONSUCCESS            "Successfully logged in"
-    IDS_LOGOUTSUCCESS            "Successfully logged out"
-    IDS_KICKEDFROMCHANNEL            "You have been kicked from the channel."
-    IDS_UNKNOWNERROR            "An unknown error occurred. Check that the action you\r\nperformed is supported by the server. This error is most\r\nlikely caused by an incompability issue between the server\r\nand your client."
-    IDS_NOLONGERTRANSMIT            "%s can no longer transmit voice!"
-    IDS_CANNOWTRANSMIT            "%s can now transmit voice!"
-    IDS_NOLONGERTRANSMITVIDEO            "%s can no longer transmit video input!"
-    IDS_CANNOWTRANSMITVIDEO             "%s can now transmit video input!"
-    IDS_NOLONGERTRANSMITDESKTOP            "%s can no longer transmit shared desktops!"
-    IDS_CANNOWTRANSMITDESKTOP            "%s can now transmit shared desktops!"
-    IDS_NOLONGERTRANSMITMEDIAFILE            "%s can no longer transmit media files!"
-    IDS_CANNOWTRANSMITMEDIAFILE            "%s can now transmit media files!"
-    IDS_FAILEDTOWRITEAUDIOFILE            "Failed to write audio file for %s"
-    IDS_FAILEDTOSTARTFILETRANSFER            "Failed to start file transfer.\r\nFile name: %s"
-    IDS_ERRORSTREAMINGTOCHANNEL             "Error streaming media file to channel"
-    IDS_STREAMINGTOCHANNELSTART            "Started streaming media file to channel"
-    IDS_STREAMINGTOCHANNELFINISH            "Finished streaming media file to channel"
-    IDS_STREAMINGTOCHANNELABORT            "Aborted streaming media file to channel"
-    IDS_ACCELERATORNOTLOADDED            "The accelerator table was not loaded"
-    IDS_UNABLELOADSETFILE            "Unable to load the settings file:\r\n"
-    IDS_CREATENEWSETFILE            "Create a new settings file?"
-    IDS_FAILEDTOCREATETRAYICON            "Failed to create tray icon"
-    IDS_FAILEDTOCOPY            "Failed to copy %s to %s"
-    IDS_RESETSETTINGS            "Reset Settings"
-    IDS_DISCONNECTEDFROM            "Disconnected from %s TCP port %d UDP port %d"
-    IDS_FAILEDTOINITIALIZENEWSD            "Failed to initialize new sound devices."
-    IDS_RESTARTSS            "Restart Sound System"
+    IDS_CONFAILED           "Failed to connect to host %s TCP port %d UDP port %d.\r\nCheck that the server is running on the specified address\r\nand that a firewall isn't preventing clients from connecting."
+    IDS_ERROROCCURREDCOMMAND 
+                            "An error occurred while perform a requested command:\r\n"
+    IDS_CONNFAILED          "Failed to connect to %s TCP port %d UDP port %d"
+    IDS_CONLOST             "Connection lost to %s TCP port %d UDP port %d"
+    IDS_CONSUCCESS          "Successfully logged in"
+    IDS_LOGOUTSUCCESS       "Successfully logged out"
+    IDS_KICKEDFROMCHANNEL   "You have been kicked from the channel."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_STREAMFAILEDBOX     "Failed to stream media file."
+    IDS_ACCELERATORNOTLOADDED "The accelerator table was not loaded"
+    IDS_UNABLELOADSETFILE   "Unable to load the settings file:\r\n"
+    IDS_CREATENEWSETFILE    "Create a new settings file?"
+    IDS_FAILEDTOCREATETRAYICON "Failed to create tray icon"
+    IDS_FAILEDTOCOPY        "Failed to copy %s to %s"
+    IDS_RESETSETTINGS       "Reset Settings"
+    IDS_DISCONNECTEDFROM    "Disconnected from %s TCP port %d UDP port %d"
+    IDS_FAILEDTOINITIALIZENEWSD "Failed to initialize new sound devices."
+    IDS_RESTARTSS           "Restart Sound System"
     IDS_CHANGENN            "Change nickname"
-    IDS_NEWNN            "Nw nickname"
-    IDS_NOCOMBINAISONKEYPTT             "No push-to-talk key combination is currently configured.\r\nWould you like to configure it now?"
-    IDS_ADMIN            "Admin"
-    IDS_OPPSW            "Operator password"
+    IDS_NEWNN               "Nw nickname"
+    IDS_NOCOMBINAISONKEYPTT "No push-to-talk key combination is currently configured.\r\nWould you like to configure it now?"
+    IDS_ADMIN               "Admin"
+    IDS_OPPSW               "Operator password"
     IDS_ENTERPSW            "Enter password"
-    IDS_DUPLEXNOTSUPPORTPOS            "Positioning users is not supported in sound duplex mode"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_UNKNOWNERROR        "An unknown error occurred. Check that the action you\r\nperformed is supported by the server. This error is most\r\nlikely caused by an incompability issue between the server\r\nand your client."
+    IDS_NOLONGERTRANSMIT    "%s can no longer transmit voice!"
+    IDS_CANNOWTRANSMIT      "%s can now transmit voice!"
+    IDS_NOLONGERTRANSMITVIDEO "%s can no longer transmit video input!"
+    IDS_CANNOWTRANSMITVIDEO "%s can now transmit video input!"
+    IDS_NOLONGERTRANSMITDESKTOP "%s can no longer transmit shared desktops!"
+    IDS_CANNOWTRANSMITDESKTOP "%s can now transmit shared desktops!"
+    IDS_NOLONGERTRANSMITMEDIAFILE "%s can no longer transmit media files!"
+    IDS_CANNOWTRANSMITMEDIAFILE "%s can now transmit media files!"
+    IDS_FAILEDTOWRITEAUDIOFILE "Failed to write audio file for %s"
+    IDS_FAILEDTOSTARTFILETRANSFER 
+                            "Failed to start file transfer.\r\nFile name: %s"
+    IDS_ERRORSTREAMINGTOCHANNEL "Error streaming media file to channel"
+    IDS_STREAMINGTOCHANNELSTART "Started streaming media file to channel"
+    IDS_STREAMINGTOCHANNELFINISH "Finished streaming media file to channel"
+    IDS_STREAMINGTOCHANNELABORT "Aborted streaming media file to channel"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DUPLEXNOTSUPPORTPOS "Positioning users is not supported in sound duplex mode"
     IDS_POSUSERS            "Position Users"
-    IDS_POSONLYDS            "Positioning users is only support with DirectSound"
-    IDS_SUREDELETECHAN            "Are you sure you want to delete channel %s"
-    IDS_CHANDELETETITLE            "Delete Channel"
+    IDS_POSONLYDS           "Positioning users is only support with DirectSound"
+    IDS_SUREDELETECHAN      "Are you sure you want to delete channel %s"
+    IDS_CHANDELETETITLE     "Delete Channel"
     IDS_CHANPSW             "Channel password"
-    IDS_COMPILEDON            "Compiled on "
-    IDS_UNICODEENABLED            "Unicode -> UTF-8 conversion enabled.\r\n"
-    IDS_LOCALECHARS             "Uses local character set.\r\n"
-    IDS_TTDLLVER             "TeamTalk 64-bit DLL version: "
-    IDS_TTDLLVERS            "TeamTalk 32-bit DLL version: "
-    IDS_SHELLEXECOPEN            "open"
+    IDS_COMPILEDON          "Compiled on "
+    IDS_UNICODEENABLED      "Unicode -> UTF-8 conversion enabled.\r\n"
+    IDS_LOCALECHARS         "Uses local character set.\r\n"
+    IDS_TTDLLVER            "TeamTalk 64-bit DLL version: "
+    IDS_TTDLLVERS           "TeamTalk 32-bit DLL version: "
+    IDS_SHELLEXECOPEN       "open"
     IDS_RXTXPING            "RX: %.2fKB TX: %.2fKB PING: %u %s"
-    IDS_RXTX           "RX: %.2fKB TX: %.2fKB %s"
-    IDS_AWAY            "Away"
-    IDS_FAILEDTOCONNECTLP             "Failed to connect to %s port %d sound port %d.\r\nCheck that your host settings are correct."
-    IDS_NEWUPDATEAVAILABLE              "New update available: %s"
-    IDS_DISCONNECTCURRENT              "Disconnect from current host?"
-    IDS_FAILEDTOCONNECTCHECKHOSTVALID             "Failed to connect to %s, port %d, sound port %d\r\nPlease check that that host is valid"
-    IDS_TTFILEINCOMPATIBLE             "The file %s is incompatible with %s"
-    IDS_MSGBOXTTFILELOADERROR             "Load File"
-    IDS_TTFILENOTVALIDHOST            "The file %s\r\ndoes not contain a valid %s host entry.\r\nError message: %s"
-    IDS_UNABLETOPARSELINKADDR             "Unable to parse link address:\r\n"
-    IDS_DISCOBEFORERUN             "Please disconnect before running this wizard"
-    IDS_FWFAILEDTOADD             "Failed to add application to Windows Firewall exceptions."
-    IDS_RECSTARTFAILED            "Failed to start recording"
-    IDS_ERR            "Error"
-    IDS_RECORDINGFILE            "Recording to file: "
-    IDS_FILEOPENFAILED            "Failed to open file: %s"
-    IDS_ALLFILESTYPE            "All files (*.*)|*.*|"
-    IDS_SENDFILEFAILED            "Failed to send file."
-    IDS_DLFILEFAILED            "Failed to download file."
-    IDS_QUERYSERVSTATFAILED            "Failed to query server statistics"
+    IDS_RXTX                "RX: %.2fKB TX: %.2fKB %s"
+    IDS_AWAY                "Away"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_FAILEDTOCONNECTLP   "Failed to connect to %s port %d sound port %d.\r\nCheck that your host settings are correct."
+    IDS_NEWUPDATEAVAILABLE  "New update available: %s"
+    IDS_DISCONNECTCURRENT   "Disconnect from current host?"
+    IDS_FAILEDTOCONNECTCHECKHOSTVALID 
+                            "Failed to connect to %s, port %d, sound port %d\r\nPlease check that that host is valid"
+    IDS_TTFILEINCOMPATIBLE  "The file %s is incompatible with %s"
+    IDS_MSGBOXTTFILELOADERROR "Load File"
+    IDS_TTFILENOTVALIDHOST  "The file %s\r\ndoes not contain a valid %s host entry.\r\nError message: %s"
+    IDS_UNABLETOPARSELINKADDR "Unable to parse link address:\r\n"
+    IDS_DISCOBEFORERUN      "Please disconnect before running this wizard"
+    IDS_FWFAILEDTOADD       "Failed to add application to Windows Firewall exceptions."
+    IDS_RECSTARTFAILED      "Failed to start recording"
+    IDS_ERR                 "Error"
+    IDS_RECORDINGFILE       "Recording to file: "
+    IDS_FILEOPENFAILED      "Failed to open file: %s"
+    IDS_ALLFILESTYPE        "All files (*.*)|*.*|"
+    IDS_SENDFILEFAILED      "Failed to send file."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DLFILEFAILED        "Failed to download file."
+    IDS_QUERYSERVSTATFAILED "Failed to query server statistics"
     IDS_SERVSTAT            "Server Statistics"
     IDS_BROADMSG            "Broadcast Message"
-    IDS_MSGTOBROAD            "Message to broadcast"
+    IDS_MSGTOBROAD          "Message to broadcast"
     IDS_ENABLEVT            "Enable Video Transmission"
-    IDS_NOVIDEODEVICE            "No video devices detected.\r\nPress Client -> Preferences -> Video Capture to reconfigure."
-    IDS_STARTVIDEODEVICEFAILED            "Failed to start video capture device."
-    IDS_INITIALIZEVIDEOCODECFAILED            "Failed to initiate video codec."
-    IDS_CHANOP            "Channel Operator"
-    IDS_RESETPREF            "Reset Preferences"
-    IDS_NEWCLIENTINSTAN            "New Client Instance"
-    IDS_EXECUTEFAILED            "Failed to execute: "
-    IDS_ONLINEDLGID            "ID"
-    IDS_ONLINEDLGNICKNAME            "Nickname"
-    IDS_ONLINEDLGSM            "Status message"
-    IDS_ONLINEDLGUSERNAME            "Username"
-    IDS_ONLINEDLGCHAN            "Channel"
-    IDS_ONLINEDLGIPADDR            "IP-address"
-    IDS_ONLINEDLGVERS            "Version"
-    IDS_STREAMDLGUNKFOR            "Unknown format"
-    IDS_STREAMDLGUNSPECIFIED            "Unspecified"
-    IDS_STREAMDLGSTEREO            "Stereo"
-    IDS_STREAMDLGMONO            "Mono"
-    IDS_STREAMDLGMFT            "Media files (*.*)|*.*|"
-    IDS_STREAMDLGFAILEDUPDATE            "Failed to update preprocessor"
-    IDS_STREAMDLGFAILEDRESUME            "Failed to resume"
-    IDS_STREAMDLGFAILEDSTARTPB            "Failed to start playback"
-    IDS_LOADFILECLIENTSET            "Load %s File"
-    IDS_ADDTOFWEXCEP            "Add %s to Windows Firewall exceptions?"
+    IDS_NOVIDEODEVICE       "No video devices detected.\r\nPress Client -> Preferences -> Video Capture to reconfigure."
+    IDS_STARTVIDEODEVICEFAILED "Failed to start video capture device."
+    IDS_INITIALIZEVIDEOCODECFAILED "Failed to initiate video codec."
+    IDS_CHANOP              "Channel Operator"
+    IDS_RESETPREF           "Reset Preferences"
+    IDS_NEWCLIENTINSTAN     "New Client Instance"
+    IDS_EXECUTEFAILED       "Failed to execute: "
+    IDS_ONLINEDLGID         "ID"
+    IDS_ONLINEDLGNICKNAME   "Nickname"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ONLINEDLGSM         "Status message"
+    IDS_ONLINEDLGUSERNAME   "Username"
+    IDS_ONLINEDLGCHAN       "Channel"
+    IDS_ONLINEDLGIPADDR     "IP-address"
+    IDS_ONLINEDLGVERS       "Version"
+    IDS_STREAMDLGUNKFOR     "Unknown format"
+    IDS_STREAMDLGUNSPECIFIED "Unspecified"
+    IDS_STREAMDLGSTEREO     "Stereo"
+    IDS_STREAMDLGMONO       "Mono"
+    IDS_STREAMDLGMFT        "Media files (*.*)|*.*|"
+    IDS_STREAMDLGFAILEDUPDATE "Failed to update preprocessor"
+    IDS_STREAMDLGFAILEDRESUME "Failed to resume"
+    IDS_STREAMDLGFAILEDSTARTPB "Failed to start playback"
+    IDS_LOADFILECLIENTSET   "Load %s File"
+    IDS_ADDTOFWEXCEP        "Add %s to Windows Firewall exceptions?"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_BANTYPEDLGIPADDR    "Ban IP-address"
+    IDS_BANTYPEDLGUSERNAME  "Ban username"
+    IDS_CHANDLGNOAUDIO      "No Audio"
+    IDS_CHANDLGSPEEXVARIABLE "Speex Variable Bitrate"
+    IDS_CHANDLGENTERACHANNAME "Enter a channel name"
+    IDS_CHANDLGNOSLASH      "A channel name cannot contain a '/'"
+    IDS_CHANDLGVOIP         "VoIP"
+    IDS_CHANDLGMUSIC        "Music"
+    IDS_CHATRICHBROADCAST   "Broadcast: %s\r\n"
+    IDS_CHATRICHBROADCASTT  "\r\nBroadcast: %s"
+    IDS_CHATRICHSERVERNAMEMOTD "Server name: %s\r\nMOTD: %s\r\n"
+    IDS_CHATRICHSERVERNAMEMOTDD "\r\nServer name: %s\r\nMOTD: %s"
+    IDS_CHATRICHJOINEDNEWCHAN "\r\nJoined new channel."
+    IDS_CHATRICHCHAN        "\r\nChannel: "
+    IDS_CHATRICHTOPIC       "\r\nTopic: "
+    IDS_CHATRICHDISKQUOTA   "\r\nDisk quota: "
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CHATRICHKBYTES      " KBytes"
+    IDS_CLIENTPAGECANNOTUSESAMEPORTS "You cannot use the same ports"
+    IDS_DESKTOPDLGLOW       "Low (8-bit colors)"
+    IDS_DESKTOPDLGMEDIUM    "Medium (16-bit colors)"
+    IDS_DESKTOPDLGHIGH      "High (24-bit colors)"
+    IDS_DESKTOPDLGMAXIMUM   "Maximum (32-bit colors)"
+    IDS_FILETABKB           "%u KB"
+    IDS_FILETABNAME         "Name"
+    IDS_FILETABSIZE         "Size"
+    IDS_FILETABUSER         "User"
+    IDS_FILETRANSFERKBYTES  "%I64d KBytes"
+    IDS_FILETRANSFERBYTES   "%I64d bytes"
+    IDS_FILETRANSFERSPEED   "%I64d KB/sec, %I64d KB last sec."
+    IDS_FILETRANSFERSPEEDB  "%I64d bytes/sec, %I64d bytes last sec."
+    IDS_FILETRANSFERBYTESSEC "%I64d bytes/sec"
+    IDS_FILETRANSFERPROGRESSCOMPLETED " - Completed"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_FILETRANSFERFAILED  " - Failed"
+    IDS_GENERATETTFILEANY   "Any"
+    IDS_GENERATETTFILEEXTFILE ".tt Files (*.tt)|*.tt||"
+    IDS_GENERATETTFILEFAILEDTOSAVE "Failed to save .tt file."
+    IDS_GENERATETTFILESAVE  "Save .tt File"
+    IDS_HOSTMANAGERFILLALLFIELDS 
+                            "Please fill in all the required fields.\r\n- Entry name\r\n- Host address\r\n- TCP port\r\n- UDP port\r\n"
+    IDS_HOSTMANAGERCANNOTDELPUBSERV "Cannot delete public servers"
+    IDS_HOSTMANAGERDELHOST  "Delete Host"
+    IDS_HOSTMANAGERPUBLIC   "Public: "
+    IDS_HOSTMANAGERHOSTFILES "Host files (*%s)|*%s|All files (*.*)|*.*|"
+    IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY 
+                            "The file %s\r\ndoes not contain a valid %s host entry.\r\nError message: %s"
+    IDS_KEYCOMPERROR        "Error setting keyboard hook. Try restarting the program."
+    IDS_MEDIASTORAGEWAVEFORMAT "Wave-format"
+    IDS_MEDIASTORAGEOGGFORMAT "Ogg-format"
+    IDS_MEDIASTORAGEMP3FORMAT16 "MP3-format (16 kbit)"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MEDIASTORAGEMP3FORMAT32 "MP3-format (32 kbit)"
+    IDS_MEDIASTORAGEMP3FORMAT64 "MP3-format (64 kbit)"
+    IDS_MEDIASTORAGEMP3FORMAT128 "MP3-format (128 kbit)"
+    IDS_MEDIASTORAGEMP3FORMAT256 "MP3-format (256 kbit)"
+    IDS_MSGDLGFAILEDTOSEND  "Failed to send message!"
+    IDS_POSUSERDISTCOORDO   "Distance: %.2fm\r\nCoordinates: (%.2f,%.2f)"
+    IDS_SHORTCUTPAGECLEAR   "Clear"
+    IDS_SOUNDEVENTSWAVFILES "Wave files (*.wav)|*.wav|All files (*.*)|*.*|"
+    IDS_SOUNDSYSTEMNOINPUTDEVICESEL "No input device selected"
+    IDS_SOUNDSYSTEMNOOUTPUTDEVICESEL "No output device selected"
+    IDS_SOUNDSYSTEMFAILEDTOINITIALIZE 
+                            "Failed to initialize sound devices. Check your selected input and output devices."
+    IDS_USERACCOUNTCREATEANONYMOUS "Create anonymous user account?"
+    IDS_USERACCOUNTADDUPDATE "Add/Update User Account"
+    IDS_USERDESKTOPLOCALDESKTOP "Local Desktop"
+    IDS_USERDESKTOPDESKTOP  "Desktop - "
+    IDS_USERVIDEOLOCALVIDEO "Local Video"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_USERVIDEOVIDEO      "Video - "
+    IDS_USERVOLUMETITLEWINDOW "Volume for "
+    IDS_VIDEOCAPTUREFAILED  "Failed to start selected device Test Selected"
+    IDS_WEBLOGINFBLOGOUT    "Do Facebook logout?"
+    IDS_WEBLOGINFBLOGIN     "Facebook Login"
 END
 
 #endif    // Neutral resources

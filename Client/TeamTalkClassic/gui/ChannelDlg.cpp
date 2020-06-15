@@ -151,9 +151,9 @@ BOOL CChannelDlg::OnInitDialog()
     ServerProperties prop;
     TT_GetServerProperties(ttInst, &prop);
 
-    AddString(m_wndCodec, _T("No Audio"), NO_CODEC);
+    AddString(m_wndCodec, LoadText(IDS_CHANDLGNOAUDIO, _T("No Audio")), NO_CODEC);
     AddString(m_wndCodec, _T("Speex"), SPEEX_CODEC);
-    AddString(m_wndCodec, _T("Speex Variable Bitrate"), SPEEX_VBR_CODEC);
+    AddString(m_wndCodec, LoadText(IDS_CHANDLGSPEEXVARIABLE, _T("Speex Variable Bitrate")), SPEEX_VBR_CODEC);
     AddString(m_wndCodec, _T("OPUS"), OPUS_CODEC);
     SetCurSelItemData(m_wndCodec, m_codec.nCodec);
 
@@ -242,12 +242,12 @@ void CChannelDlg::OnOK()
     m_wndChannelName.GetWindowText(s);
     if(s.GetLength() == 0 && m_nType == CREATE_CHANNEL)
     {
-        AfxMessageBox(_T("Enter a channel name"));
+        AfxMessageBox(LoadText(IDS_CHANDLGENTERACHANNAME, _T("Enter a channel name")));
         m_wndChannelName.SetFocus();
     }
     else if(s.Find('/') != -1)
     {
-        AfxMessageBox(_T("A channel name cannot contain a '/'"));
+        AfxMessageBox(LoadText(IDS_CHANDLGNOSLASH, _T("A channel name cannot contain a '/'")));
         m_wndChannelName.SetFocus();
     }
     else
@@ -308,8 +308,8 @@ void CChannelDlg::DisplayCodecControls(Codec nCodec)
         m_wndACLabel.ShowWindow(SW_HIDE);
         m_wndAudioChannels.ShowWindow(SW_HIDE);
         m_wndAudioChannels.ResetContent();
-        AddString(m_wndAudioChannels, _T("Mono"), 1);
-        AddString(m_wndAudioChannels, _T("Stereo"), 2);
+        AddString(m_wndAudioChannels, LoadText(IDS_STREAMDLGMONO, _T("Mono")), 1);
+        AddString(m_wndAudioChannels, LoadText(IDS_STREAMDLGSTEREO, _T("Stereo")), 2);
         SetCurSelItemData(m_wndAudioChannels, DEFAULT_SPEEX_SIMSTEREO ? 2 : 1);
         //quality
         m_wndQuality.SetRange(0, 10, TRUE);
@@ -352,8 +352,8 @@ void CChannelDlg::DisplayCodecControls(Codec nCodec)
         //channels
         m_wndACLabel.ShowWindow(SW_HIDE);
         m_wndAudioChannels.ShowWindow(SW_HIDE);
-        AddString(m_wndAudioChannels, _T("Mono"), 1);
-        AddString(m_wndAudioChannels, _T("Stereo"), 2);
+        AddString(m_wndAudioChannels, LoadText(IDS_STREAMDLGMONO, _T("Mono")), 1);
+        AddString(m_wndAudioChannels, LoadText(IDS_STREAMDLGSTEREO, _T("Stereo")), 2);
         SetCurSelItemData(m_wndAudioChannels, DEFAULT_SPEEX_VBR_SIMSTEREO ? 2 : 1);
         //quality        
         m_wndQualityLabel.ShowWindow(SW_SHOW);
@@ -393,8 +393,8 @@ void CChannelDlg::DisplayCodecControls(Codec nCodec)
         m_wndAppLabel.ShowWindow(SW_SHOW);
         m_wndCodecApp.ShowWindow(SW_SHOW);
         m_wndCodecApp.ResetContent();
-        AddString(m_wndCodecApp, _T("VoIP"), OPUS_APPLICATION_VOIP);
-        AddString(m_wndCodecApp, _T("Music"), OPUS_APPLICATION_AUDIO);
+        AddString(m_wndCodecApp, LoadText(IDS_CHANDLGVOIP, _T("VoIP")), OPUS_APPLICATION_VOIP);
+        AddString(m_wndCodecApp, LoadText(IDS_CHANDLGMUSIC, _T("Music")), OPUS_APPLICATION_AUDIO);
         SetCurSelItemData(m_wndCodecApp, DEFAULT_OPUS_APPLICATION);
         //samplerate
         m_wndSRLabel.ShowWindow(SW_SHOW);
@@ -410,8 +410,8 @@ void CChannelDlg::DisplayCodecControls(Codec nCodec)
         m_wndACLabel.ShowWindow(SW_SHOW);
         m_wndAudioChannels.ShowWindow(SW_SHOW);
         m_wndAudioChannels.ResetContent();
-        AddString(m_wndAudioChannels, _T("Mono"), 1);
-        AddString(m_wndAudioChannels, _T("Stereo"), 2);
+        AddString(m_wndAudioChannels, LoadText(IDS_STREAMDLGMONO, _T("Mono")), 1);
+        AddString(m_wndAudioChannels, LoadText(IDS_STREAMDLGSTEREO, _T("Stereo")), 2);
         SetCurSelItemData(m_wndAudioChannels, DEFAULT_OPUS_CHANNELS);
         //bitrate
         m_wndBpsLabel.ShowWindow(SW_SHOW);
