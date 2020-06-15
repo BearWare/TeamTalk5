@@ -268,7 +268,7 @@
     <item id="401">查询服务器统计信息失败</item>
     <item id="402">服务器统计信息</item>
     <item id="403">广播消息</item>
-    <item id="404">消息广播</item>
+    <item id="404">消息内容</item>
     <item id="405">启用视频传输</item>
     <item id="406">未检测到视频设备。&#xD;&#xA;点击 客户端 -> 首选项 -> 视频采集 以重新配置。</item>
     <item id="407">无法启动视频捕获设备。</item>
