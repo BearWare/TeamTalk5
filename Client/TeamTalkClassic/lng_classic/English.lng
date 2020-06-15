@@ -98,6 +98,7 @@
     <item id="199">%s changed subscription &quot;Desktop&quot; to: %d</item>
     <item id="200">%s changed subscription &quot;Desktop Access&quot; to: %d</item>
     <item id="201">Messages</item>
+    <item id="203">Channel informations</item>
     <item id="205">Change status</item>
     <item id="206">%s changed subscription &quot;Media File Stream&quot; to: %d</item>
     <item id="207">%s changed subscription &quot;Intercept User Messages&quot; to: %d</item>
@@ -452,6 +453,8 @@
     <item id="1201">New message</item>
     <item id="1202">Click Finish to close the wizard and start using TeamTalk.</item>
     <item id="1203">Type in the nick name you wish to use when you connect to a server</item>
+    <item id="1204">History</item>
+    <item id="1206">Type a message to the channel</item>
     <item id="1208">Popup message dialog on incoming message</item>
     <item id="1209">TeamTalk supports two ways to transmit audio to other users. Either by holding down a key (Push-to-talk) or by using voice activation</item>
     <item id="1211">Sound system settings</item>
