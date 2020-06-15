@@ -2441,6 +2441,11 @@ BEGIN
     IDS_VIDEOCAPTUREFAILED  "Failed to start selected device Test Selected"
     IDS_WEBLOGINFBLOGOUT    "Do Facebook logout?"
     IDS_WEBLOGINFBLOGIN     "Facebook Login"
+    IDS_APPTITLEUNRELEASED            " - Unreleased"
+    IDS_APPTITLEPROV            "TeamTalk 5 Classic Professional v. "
+    IDS_APPTITLEPRO            "TeamTalk 5 Classic Professional"
+    IDS_APPTITLENPROV            "TeamTalk 5 Classic v. "
+    IDS_APPTITLENPRO            "TeamTalk 5 Classic"
 END
 
 #endif    // Neutral resources

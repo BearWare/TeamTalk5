@@ -399,6 +399,11 @@
 #define IDS_WEBLOGINFBLOGOUT                    499
 #define IDS_WEBLOGINFBLOGIN                    500
 #define MAX_STRING_LENGTH               511
+#define IDS_APPTITLEUNRELEASED               512
+#define IDS_APPTITLEPROV               513
+#define IDS_APPTITLEPRO               514
+#define IDS_APPTITLENPROV               515
+#define IDS_APPTITLENPRO               516
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
