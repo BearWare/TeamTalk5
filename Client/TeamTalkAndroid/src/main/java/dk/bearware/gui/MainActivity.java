@@ -278,7 +278,7 @@ implements TeamTalkConnectionListener,
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean isEditable = curchannel != null;
-        boolean isJoinable = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() != curchannel.nChannelID);
+        boolean isJoinable = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() != curchannel.nChannelID) && (curchannel.nMaxUsers > 0);
         boolean isMyChannel = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID);
         menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
         menu.findItem(R.id.action_join).setEnabled(isJoinable).setVisible(isJoinable);
@@ -866,8 +866,9 @@ implements TeamTalkConnectionListener,
         private static final int PARENT_CHANNEL_VIEW_TYPE = 0,
             CHANNEL_VIEW_TYPE = 1,
             USER_VIEW_TYPE = 2,
+            INFO_VIEW_TYPE = 3,
 
-            VIEW_TYPE_COUNT = 3;
+            VIEW_TYPE_COUNT = 4;
 
         private LayoutInflater inflater;
 
@@ -967,12 +968,12 @@ implements TeamTalkConnectionListener,
                     return PARENT_CHANNEL_VIEW_TYPE;
                 }
                 else if (position <= subchannels.size()) {
-                    return CHANNEL_VIEW_TYPE;
+                    return (subchannels.get(position - 1).nMaxUsers > 0) ? CHANNEL_VIEW_TYPE : INFO_VIEW_TYPE;
                 }
                 return USER_VIEW_TYPE;
             }
             else if (position < subchannels.size()) {
-                return CHANNEL_VIEW_TYPE;
+                return (subchannels.get(position).nMaxUsers > 0) ? CHANNEL_VIEW_TYPE : INFO_VIEW_TYPE;
             }
             return USER_VIEW_TYPE;
         }
@@ -996,6 +997,15 @@ implements TeamTalkConnectionListener,
                     if (convertView == null ||
                         convertView.findViewById(R.id.parentname) == null)
                         convertView = inflater.inflate(R.layout.item_channel_back, parent, false);
+                }
+                else if (channel.nMaxUsers == 0) {
+                    if (convertView == null ||
+                        convertView.findViewById(R.id.titletext) == null)
+                        convertView = inflater.inflate(R.layout.item_info, parent, false);
+                    TextView title = (TextView) convertView.findViewById(R.id.titletext);
+                    TextView details = (TextView) convertView.findViewById(R.id.infodetails);
+                    title.setText(channel.szName);
+                    details.setText(channel.szTopic);
                 }
                 else {
 
@@ -1045,8 +1055,10 @@ implements TeamTalkConnectionListener,
                     join.setAccessibilityDelegate(accessibilityAssistant);
                     join.setEnabled(channel.nChannelID != ttclient.getMyChannelID());
                 }
-                int population = Utils.getUsers(channel.nChannelID, ttservice.getUsers()).size();
-                ((TextView)convertView.findViewById(R.id.population)).setText((population > 0) ? String.format("(%d)", population) : "");
+                if (channel.nMaxUsers > 0) {
+                    int population = Utils.getUsers(channel.nChannelID, ttservice.getUsers()).size();
+                    ((TextView)convertView.findViewById(R.id.population)).setText((population > 0) ? String.format("(%d)", population) : "");
+                }
             }
             else if(item instanceof User) {
                 if (convertView == null ||
