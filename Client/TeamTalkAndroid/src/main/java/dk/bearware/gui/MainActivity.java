@@ -902,6 +902,10 @@ implements TeamTalkConnectionListener,
             Collections.sort(subchannels, new Comparator<Channel>() {
                     @Override
                     public int compare(Channel c1, Channel c2) {
+                        if ((c1.nMaxUsers <= 0) && (c2.nMaxUsers > 0))
+                            return -1;
+                        else if ((c1.nMaxUsers > 0) && (c2.nMaxUsers <= 0))
+                            return 1;
                         return c1.szName.compareToIgnoreCase(c2.szName);
                     }
                 });
