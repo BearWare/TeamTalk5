@@ -399,6 +399,11 @@
 #define IDS_WEBLOGINFBLOGOUT                    499
 #define IDS_WEBLOGINFBLOGIN                    500
 #define MAX_STRING_LENGTH               511
+#define IDS_APPTITLEUNRELEASED               512
+#define IDS_APPTITLEPROV               513
+#define IDS_APPTITLEPRO               514
+#define IDS_APPTITLENPROV               515
+#define IDS_APPTITLENPRO               516
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
@@ -427,6 +432,7 @@
 #define IDC_EDIT_CHANNAME               1031
 #define IDC_EDIT_CHANTOPIC              1032
 #define IDC_EDIT_INACTIVITY             1033
+#define IDC_STATIC_DISABLED0             1034
 #define IDC_STATIC_USERID               1035
 #define IDC_STATIC_NICKNAME             1036
 #define IDC_STATIC_INTRO                1042
@@ -560,12 +566,16 @@
 #define IDC_STATIC_COPYRIGHT            1226
 #define IDC_STATIC_IMAGE                1227
 #define IDC_STATIC_AUTHOR               1228
+#define IDC_STATIC_SPEEXCODECDEV               1229
 #define IDC_STATIC_GRPCHANNEL           1230
 #define IDC_BUTTON_SEND                 1231
+#define IDC_STATIC_OPUSCODECDEV                 1232
 #define IDC_VERT_SPLITTER               1233
 #define IDC_STATIC_VERSION              1234
+#define IDC_STATIC_              1235
 #define IDC_STATIC_WIZWELCOME           1236
 #define IDC_STATIC_WIZCOMPLETED         1237
+#define IDC_STATIC_PBSET         1238
 #define IDC_COMBO_LANGUAGE              1239
 #define IDC_STATIC_TRANSLATOR           1240
 #define IDC_STATIC_UILANGUAGE           1241
@@ -574,6 +584,7 @@
 #define IDC_STATIC_TRANSLATOR2          1244
 #define IDC_CHECK_UILANGUAGE            1245
 #define IDC_CHECK_AUTOCLOSE             1246
+#define IDCANCEL             1247
 #define IDC_TAB_CTRL                    1251
 #define IDC_PROGRESS1                   1252
 #define IDC_STATIC_FILETXT              1253
@@ -771,6 +782,7 @@
 #define IDC_STATIC_VIDFMT               1476
 #define IDC_STATIC_MEDIAGRP             1477
 #define IDC_STATIC_MEDIAFILE            1478
+#define IDOK            1479
 #define IDC_STATIC_KBYPS5               1480
 #define IDC_RADIO_DEFAULTUSER           1481
 #define IDC_CHECK_TRANSMITDESKTOPINPUT  1482
