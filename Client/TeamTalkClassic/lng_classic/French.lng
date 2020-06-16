@@ -376,6 +376,7 @@
     <item id="1034">0=désactivé</item>
     <item id="1035">Identifiant utilisateur</item>
     <item id="1036">Pseudo</item>
+    <item id="1037">0=désactivé</item>
     <item id="1042">Cet assistant vous guidera à travers les étapes nécessaires à la configuration&#x0D;&#x0A;de l&apos;application de conférence TeamTalk. Appuyez sur le bouton &quot;Suivant&quot; pour&#x0D;&#x0A;commencer à suivre les étapes pour terminer cet assistant. Si vous appuyez sur&#x0D;&#x0A;&quot;Annuler&quot;, vous devrez configurer TeamTalk manuellement.</item>
     <item id="1044">Consultez le site Web www.bearware.dk pour rechercher les serveurs TeamTalk</item>
     <item id="1045">Perte de paquets</item>
