@@ -362,6 +362,7 @@
     <item id="514">TeamTalk 5 Classique Professionnel</item>
     <item id="515">TeamTalk 5 Classique V</item>
     <item id="516">TeamTalk 5 Classique</item>
+    <item id="1006">Liste des fichiers</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>
@@ -455,7 +456,7 @@
     <item id="1202">Cliquez sur Terminer pour fermer l&apos;assistant et commencer à utiliser TeamTalk.</item>
     <item id="1203">Tapez le pseudo que vous souhaitez utiliser lorsque vous vous connectez à un&#x0D;&#x0A;serveur</item>
     <item id="1204">Historique</item>
-    <item id="1206">Taper un message pour le canal</item>
+    <item id="1206">Message</item>
     <item id="1208">Boîte de dialogue message lors d&apos;un message entrant</item>
     <item id="1209">TeamTalk prend en charge deux façons de transmettre l&apos;audio à d&apos;autres utilisateurs. Soit en appuyant sur une touche (maintenir-pour-parler) ou en utilisant&#x0D;&#x0A;l&apos;activation vocale</item>
     <item id="1211">Paramètres du système audio</item>

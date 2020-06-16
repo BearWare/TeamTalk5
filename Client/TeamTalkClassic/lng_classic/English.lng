@@ -362,6 +362,7 @@
     <item id="514">TeamTalk 5 Classic Professional</item>
     <item id="515">TeamTalk 5 Classic v. </item>
     <item id="516">TeamTalk 5 Classic</item>
+    <item id="1006">Files list</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>
@@ -455,7 +456,7 @@
     <item id="1202">Click Finish to close the wizard and start using TeamTalk.</item>
     <item id="1203">Type in the nick name you wish to use when you connect to a server</item>
     <item id="1204">History</item>
-    <item id="1206">Type a message to the channel</item>
+    <item id="1206">Message</item>
     <item id="1208">Popup message dialog on incoming message</item>
     <item id="1209">TeamTalk supports two ways to transmit audio to other users. Either by holding down a key (Push-to-talk) or by using voice activation</item>
     <item id="1211">Sound system settings</item>
