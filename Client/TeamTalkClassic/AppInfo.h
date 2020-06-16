@@ -25,17 +25,17 @@
 
 #define COMPANYNAME             _T("BearWare.dk")
 #define APPVERSION_SHORT        _T("5.6.0")
-#define APPVERSION              _T( TEAMTALK_VERSION ) LoadText(IDS_APPTITLEUNRELEASED, _T(" - Unreleased"))
+#define APPVERSION              _T( TEAMTALK_VERSION ) + LoadText(IDS_APPTITLEUNRELEASED, _T(" - Unreleased"))
 
 #ifdef ENABLE_TEAMTALKPRO
-#define APPTITLE                LoadText(IDS_APPTITLEPROV, _T("TeamTalk 5 Classic Professional v. ")) APPVERSION
-#define APPNAME                 LoadText(IDS_APPTITLEPRO, _T("TeamTalk 5 Classic Professional"))
+#define APPTITLE                _T("TeamTalk 5 Classic Professional v. ") APPVERSION
+#define APPNAME                 _T("TeamTalk 5 Classic Professional")
 #define APPTITLE_SHORT          _T("TeamTalk5ClassicPro")
 #define SETTINGS_FILE           "TeamTalk5ClassicPro.xml"
 #define SETTINGS_DEFAULT_FILE   "TeamTalk5ClassicPro.xml.default"
 #else
-#define APPTITLE                LoadText(IDS_APPTITLENPROV, _T("TeamTalk 5 Classic v. ")) APPVERSION
-#define APPNAME                 LoadText(IDS_APPTITLENPRO, _T("TeamTalk 5 Classic"))
+#define APPTITLE                _T("TeamTalk 5 Classic v. ") APPVERSION
+#define APPNAME                 _T("TeamTalk 5 Classic")
 #define APPTITLE_SHORT          _T("TeamTalk5Classic")
 #define SETTINGS_FILE           "TeamTalk5Classic.xml"
 #define SETTINGS_DEFAULT_FILE   "TeamTalk5Classic.xml.default"

@@ -554,6 +554,7 @@
 #define IDC_STATIC_GRPSOUNDSYSTEM       1211
 #define IDC_STATIC_FONTNAME             1212
 #define IDC_STATIC_SOUNDSYSDESCRIP      1213
+#define IDC_STATIC_WEBMCODECDEV         1214
 #define IDC_STATIC_TESTDESCRIP          1215
 #define IDC_EDIT_USERTYPE               1216
 #define IDC_CHECK_CHANNELSTEMP          1217
@@ -584,7 +585,6 @@
 #define IDC_STATIC_TRANSLATOR2          1244
 #define IDC_CHECK_UILANGUAGE            1245
 #define IDC_CHECK_AUTOCLOSE             1246
-#define IDCANCEL             1247
 #define IDC_TAB_CTRL                    1251
 #define IDC_PROGRESS1                   1252
 #define IDC_STATIC_FILETXT              1253
@@ -782,7 +782,6 @@
 #define IDC_STATIC_VIDFMT               1476
 #define IDC_STATIC_MEDIAGRP             1477
 #define IDC_STATIC_MEDIAFILE            1478
-#define IDOK            1479
 #define IDC_STATIC_KBYPS5               1480
 #define IDC_RADIO_DEFAULTUSER           1481
 #define IDC_CHECK_TRANSMITDESKTOPINPUT  1482
@@ -1014,7 +1013,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        501
+#define _APS_NEXT_RESOURCE_VALUE        517
 #define _APS_NEXT_COMMAND_VALUE         32955
 #define _APS_NEXT_CONTROL_VALUE         1597
 #define _APS_NEXT_SYMED_VALUE           413
