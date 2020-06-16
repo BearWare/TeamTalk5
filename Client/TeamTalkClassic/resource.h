@@ -432,6 +432,7 @@
 #define IDC_EDIT_CHANNAME               1031
 #define IDC_EDIT_CHANTOPIC              1032
 #define IDC_EDIT_INACTIVITY             1033
+#define IDC_STATIC_DISABLED0             1034
 #define IDC_STATIC_USERID               1035
 #define IDC_STATIC_NICKNAME             1036
 #define IDC_STATIC_INTRO                1042

@@ -71,8 +71,8 @@ BEGIN
     EDITTEXT        IDC_EDIT_IPLOGINS,359,129,40,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Max login attempts before ban",IDC_STATIC_MAXLOGINSBAN,229,116,126,8
     LTEXT           "Max logins per IP-address",IDC_STATIC_MAXLOGINSIP,229,132,126,8
-    LTEXT           "(0=disabled)",IDC_STATIC,403,116,42,8
-    LTEXT           "(0=disabled)",IDC_STATIC,402,132,42,8
+    LTEXT           "(0=disabled)",IDC_STATIC_DISABLED0,403,116,42,8
+    LTEXT           "(0=disabled)",IDC_STATIC_DISABLED0,402,132,42,8
 END
 
 IDD_DIALOG_BANNEDDLG DIALOGEX 0, 0, 312, 221

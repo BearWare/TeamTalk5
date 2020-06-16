@@ -372,6 +372,7 @@
     <item id="1024">Launch the Quick start guide to learn how to setup a server and connect to it</item>
     <item id="1028">Volume</item>
     <item id="1030">&amp;Connect</item>
+    <item id="1034">0=disabled</item>
     <item id="1035">User ID</item>
     <item id="1036">Nickname</item>
     <item id="1042">This wizard will guide you through the steps required to setup the TeamTalk conference application. Press the &quot;Next&quot; button to start going through the steps to complete this wizard. If you press &quot;Cancel&quot; you&apos;ll have to setup TeamTalk manually.</item>
