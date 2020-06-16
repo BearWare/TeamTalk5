@@ -1082,30 +1082,135 @@ void CTeamTalkDlg::OnServerStatistics(const TTMessage& msg)
 
 void CTeamTalkDlg::OnCommandError(const TTMessage& msg)
 {
+    CString szError = LoadText(IDS_ERROROCCURREDCOMMAND, _T("An error occurred while perform a requested command:\r\n"));
+
     switch(msg.clienterrormsg.nErrorNo)
     {
+    case CMDERR_SYNTAX_ERROR :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_UNKNOWN_COMMAND :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_MISSING_PARAMETER :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_INCOMPATIBLE_PROTOCOLS :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_UNKNOWN_AUDIOCODEC :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_INVALID_USERNAME :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_INCORRECT_CHANNEL_PASSWORD :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_INVALID_ACCOUNT :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_MAX_SERVER_USERS_EXCEEDED :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_MAX_CHANNEL_USERS_EXCEEDED :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_SERVER_BANNED :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_NOT_AUTHORIZED :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_MAX_DISKUSAGE_EXCEEDED :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_INCORRECT_OP_PASSWORD :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_AUDIOCODEC_BITRATE_LIMIT_EXCEEDED :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_MAX_CHANNELS_EXCEEDED :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_COMMAND_FLOOD :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_CHANNEL_BANNED :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_NOT_LOGGEDIN :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_ALREADY_LOGGEDIN :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_NOT_IN_CHANNEL :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_ALREADY_IN_CHANNEL :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_CHANNEL_ALREADY_EXISTS :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_CHANNEL_NOT_FOUND :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_BAN_NOT_FOUND :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_FILETRANSFER_NOT_FOUND :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_OPENFILE_FAILED :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_ACCOUNT_NOT_FOUND :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_FILE_NOT_FOUND :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_FILE_ALREADY_EXISTS :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_FILESHARING_DISABLED :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_CHANNEL_HAS_USERS :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
+    case CMDERR_LOGINSERVICE_UNAVAILABLE :
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
     case CMDERR_USER_NOT_FOUND :
-        //just ignore if reply to unsubscribe. It's use for closing streams
+        //just ignore if reply to unsubscribe. It's used for closing streams
         if(m_commands[m_nCurrentCmdID] == CMD_COMPLETE_UNSUBSCRIBE)
+        {
+            szError.Empty();
             break;
+        }
+        szError += LoadText(0, msg.clienterrormsg.szErrorMsg);
+        break;
     default :
-    {
-        // remove command complete notification, since the command failed
-        m_commands.erase(msg.nSource);
+        //unknown error occured
+        szError = LoadText(IDS_UNKNOWNERROR, _T("An unknown error occurred. Check that the action you\r\nperformed is supported by the server. This error is most\r\nlikely caused by an incompability issue between the server\r\nand your client:\r\n"));
+        szError += msg.clienterrormsg.szErrorMsg;
+        break;
+    }
 
-        if(_tcslen(msg.clienterrormsg.szErrorMsg))
-        {
-            CString szError =LoadText(IDS_ERROROCCURREDCOMMAND, _T("An error occurred while perform a requested command:\r\n"));
-            szError += msg.clienterrormsg.szErrorMsg;
-            AfxMessageBox(szError);
-        }
-        else
-        {
-            //unknown error occured
-            AfxMessageBox(LoadText(IDS_UNKNOWNERROR, _T("An unknown error occurred. Check that the action you\r\nperformed is supported by the server. This error is most\r\nlikely caused by an incompability issue between the server\r\nand your client.")));
-        }
+    if (szError.GetLength())
+    {
+        AfxMessageBox(szError);
     }
-    }
+
+    // remove command complete notification, since the command failed
+    m_commands.erase(msg.nSource);
 }
 
 void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)

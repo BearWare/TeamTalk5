@@ -98,9 +98,11 @@
     <item id="199">%s changed subscription &quot;Desktop&quot; to: %d</item>
     <item id="200">%s changed subscription &quot;Desktop Access&quot; to: %d</item>
     <item id="201">Messages</item>
+    <item id="203">Channel informations</item>
     <item id="205">Change status</item>
     <item id="206">%s changed subscription &quot;Media File Stream&quot; to: %d</item>
     <item id="207">%s changed subscription &quot;Intercept User Messages&quot; to: %d</item>
+    <item id="209">About</item>
     <item id="210">%s changed subscription &quot;Intercept Channel Messages&quot; to: %d</item>
     <item id="211">%s changed subscription &quot;Intercept Voice&quot; to: %d</item>
     <item id="212">Display</item>
@@ -355,6 +357,12 @@
     <item id="498">Failed to start selected device Test Selected</item>
     <item id="499">Do Facebook logout?</item>
     <item id="500">Facebook Login</item>
+    <item id="512"> - Unreleased</item>
+    <item id="513">TeamTalk 5 Classic Professional v. </item>
+    <item id="514">TeamTalk 5 Classic Professional</item>
+    <item id="515">TeamTalk 5 Classic v. </item>
+    <item id="516">TeamTalk 5 Classic</item>
+    <item id="1006">Files list</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>
@@ -365,8 +373,10 @@
     <item id="1024">Launch the Quick start guide to learn how to setup a server and connect to it</item>
     <item id="1028">Volume</item>
     <item id="1030">&amp;Connect</item>
+    <item id="1034">0=disabled</item>
     <item id="1035">User ID</item>
     <item id="1036">Nickname</item>
+    <item id="1037">0=disabled</item>
     <item id="1042">This wizard will guide you through the steps required to setup the TeamTalk conference application. Press the &quot;Next&quot; button to start going through the steps to complete this wizard. If you press &quot;Cancel&quot; you&apos;ll have to setup TeamTalk manually.</item>
     <item id="1044">Check out the www.bearware.dk website to look for TeamTalk servers</item>
     <item id="1045">Packetloss</item>
@@ -446,6 +456,8 @@
     <item id="1201">New message</item>
     <item id="1202">Click Finish to close the wizard and start using TeamTalk.</item>
     <item id="1203">Type in the nick name you wish to use when you connect to a server</item>
+    <item id="1204">History</item>
+    <item id="1206">Message</item>
     <item id="1208">Popup message dialog on incoming message</item>
     <item id="1209">TeamTalk supports two ways to transmit audio to other users. Either by holding down a key (Push-to-talk) or by using voice activation</item>
     <item id="1211">Sound system settings</item>
@@ -456,16 +468,23 @@
     <item id="1218">User can create/modify all channels</item>
     <item id="1221">Always on top</item>
     <item id="1225">&amp;Default</item>
+    <item id="1226">Copyright (c) 2005-2020, BearWare.dk</item>
+    <item id="1228">Written by Bjoern D. Rasmussen</item>
+    <item id="1229">Speex codec developed by Jean-Marc Valin, www.speex.org</item>
     <item id="1230">New channel information</item>
     <item id="1231">&amp;Send</item>
+    <item id="1232">OPUS codec developed by Opus project, www.opus-codec.org</item>
+    <item id="1235">WebM VP8 codec developed by WebM project, www.webmproject.org</item>
     <item id="1236">Welcome to the TeamTalk setup wizard</item>
     <item id="1237">Completed the TeamTalk setup wizard</item>
+    <item id="1238">Playback Settings</item>
     <item id="1240">Translated by Bjoern D. Rasmussen</item>
     <item id="1241">User interface language</item>
     <item id="1243">Mixer device</item>
     <item id="1244">TeamTalk Classic Project Contributors: Beqa Gozalishvili</item>
     <item id="1245">Use another installation language</item>
     <item id="1246">Close when completed</item>
+    <item id="1247">Cancel</item>
     <item id="1253">Filename:</item>
     <item id="1257">&amp;Setup keys</item>
     <item id="1260">Voice activation</item>
@@ -513,6 +532,7 @@
     <item id="1350">Max bitrate</item>
     <item id="1351">bps</item>
     <item id="1352">bps (0 = ignore)</item>
+    <item id="1359">...</item>
     <item id="1362">Transmit interval</item>
     <item id="1363">msec</item>
     <item id="1364">Single audio file for all users</item>
@@ -592,7 +612,8 @@
     <item id="1475">Audio format:</item>
     <item id="1476">Video format:</item>
     <item id="1477">Media File Properties</item>
-    <item id="1478">Media File TX max</item>
+    <item id="1478">Media file</item>
+    <item id="1479">OK</item>
     <item id="1480">KBytes/sec (0 = disabled)</item>
     <item id="1481">Default user</item>
     <item id="1482">User can get remote access to desktop sessions</item>
@@ -683,6 +704,7 @@
     <item id="32822">E&amp;xit\tAlt-F4</item>
     <item id="32823">Use &amp;Push-To-Talk\tCtrl+Shift+T</item>
     <item id="32824">Use &amp;Voice Activation\tCtrl+Shift+A</item>
+    <item id="32825">BearWare.dk &amp;Website</item>
     <item id="32826">Change &amp;Status\tF6</item>
     <item id="32828">&amp;Kick\tCtrl+K</item>
     <item id="32829">Restore</item>

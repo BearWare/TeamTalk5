@@ -9,6 +9,7 @@ Accessible Windows client
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
 - User accounts are now sorted alphabetically
 - Text message log files are stored with .clog and .ulog extension for channel and user log respectively
+- More items are now translatables. Translations for French and Chinese are been updated. Translators, you are invited to check lng files to update your translations with new strings.
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
