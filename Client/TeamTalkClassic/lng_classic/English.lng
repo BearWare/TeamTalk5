@@ -376,6 +376,7 @@
     <item id="1034">0=disabled</item>
     <item id="1035">User ID</item>
     <item id="1036">Nickname</item>
+    <item id="1037">0=disabled</item>
     <item id="1042">This wizard will guide you through the steps required to setup the TeamTalk conference application. Press the &quot;Next&quot; button to start going through the steps to complete this wizard. If you press &quot;Cancel&quot; you&apos;ll have to setup TeamTalk manually.</item>
     <item id="1044">Check out the www.bearware.dk website to look for TeamTalk servers</item>
     <item id="1045">Packetloss</item>
