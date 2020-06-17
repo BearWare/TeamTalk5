@@ -99,7 +99,7 @@
     <item id="199">%s更改订阅&quot;桌面&quot;为: %d</item>
     <item id="200">%s更改 订阅&quot;桌面访问&quot;为: %d</item>
     <item id="201">消息</item>
-    <item id="203">频道</item>
+    <item id="203">频道信息</item>
     <item id="204">输入</item>
     <item id="205">更改状态</item>
     <item id="206">%s更改订阅&quot;媒体文件流&quot;为: %d</item>
@@ -362,6 +362,12 @@
     <item id="498">无法测试您选择的设备</item>
     <item id="499">登出Facebook账户吗？</item>
     <item id="500">Facebook 登陆</item>
+    <item id="512"> - 未发布</item>
+    <item id="513">TeamTalk 5 Classic 专业版 v. </item>
+    <item id="514">TeamTalk 5 Classic 专业版</item>
+    <item id="515">TeamTalk 5 Classic v. </item>
+    <item id="516">TeamTalk 5 Classic</item>
+    <item id="1006">文件列表</item>
     <item id="1009">连接后自动加入跟频道</item>
     <item id="1012">主机TCP端口</item>
     <item id="1016">主机UDP端口</item>
@@ -373,8 +379,10 @@
     <item id="1025">默认: 10333</item>
     <item id="1028">音量</item>
     <item id="1030">连接(&amp;C)</item>
+    <item id="1034">0=禁用</item>
     <item id="1035">用户ID</item>
     <item id="1036">昵称</item>
+    <item id="1037">0=禁用</item>
     <item id="1042">此向导将一步一步的带您完成 TeamTalk 会议程序的安装过程，点击“下一步”按钮开始逐步完成此向导，如果您点击“取消”按钮，您将不得不手动设置 TeamTalk。</item>
     <item id="1044">查看www.bearware.dk 网站寻找TeamTalk 服务器</item>
     <item id="1045">信息包丢失</item>
@@ -413,7 +421,7 @@
     <item id="1109">在线(&amp;L)</item>
     <item id="1111">此对话框将在您松开所有按键后关闭</item>
     <item id="1112">离开(&amp;A)</item>
-    <item id="1114">历史记录</item>
+    <item id="1114">历史消息</item>
     <item id="1117">如果您选择的声卡带有3D声音效果，您可为您所在频道的每个用户指定不同的位置。请注意，您应该使用耳机来获德最家的体验</item>
     <item id="1118">问题</item>
     <item id="1122">密码保护</item>
@@ -454,6 +462,8 @@
     <item id="1201">新消息</item>
     <item id="1202">点击完成，关闭向导并开始使用TeamTalk。</item>
     <item id="1203">请您输入连接到服务器时使用的昵称</item>
+    <item id="1204">历史消息</item>
+    <item id="1206">消息</item>
     <item id="1208">收到消息弹出对话框</item>
     <item id="1209">TeamTalk 支持两种方式传送语音给其它用户。 按住热键说话和语音自动激活</item>
     <item id="1211">声音系统设置</item>
@@ -464,16 +474,23 @@
     <item id="1218">用户可以创建/修改所有频道</item>
     <item id="1221">总在最前</item>
     <item id="1225">默认(&amp;D)</item>
+    <item id="1226">Copyright (c) 2005-2020, BearWare.dk</item>
+    <item id="1228">编写者 Bjoern D. Rasmussen</item>
+    <item id="1229">Speex 编解码器由 Jean-Marc Valin 开发, www.speex.org</item>
     <item id="1230">新频道信息</item>
     <item id="1231">发送(&amp;S)</item>
+    <item id="1232">OPUS 编解码器由 Opus project 开发, www.opus-codec.org</item>
+    <item id="1235">WebM VP8 编解码器由 WebM project 开发, www.webmproject.org</item>
     <item id="1236">欢迎使用TeamTalk设置向导</item>
     <item id="1237">完成TeamTalk设置向导</item>
+    <item id="1238">回放设置</item>
     <item id="1240">由星空、海浪翻译</item>
     <item id="1241">用户界面语言</item>
     <item id="1243">混音设备</item>
     <item id="1244">TeamTalk Classic 项目贡献者: Beqa Gozalishvili</item>
     <item id="1245">使用另一种安装语言</item>
     <item id="1246">完成后关闭</item>
+    <item id="1247">取消</item>
     <item id="1253">文件名</item>
     <item id="1257">热键注册(&amp;S)</item>
     <item id="1260">语音激活</item>
@@ -607,7 +624,8 @@
     <item id="1475">音频格式</item>
     <item id="1476">视频格式</item>
     <item id="1477">媒体文件属性</item>
-    <item id="1478">媒体文件传输最大值</item>
+    <item id="1478">媒体文件</item>
+    <item id="1479">确定</item>
     <item id="1480">千字节/秒 (0 = 禁用)</item>
     <item id="1481">默认用户</item>
     <item id="1482">用户可以远程访问桌面会话</item>
