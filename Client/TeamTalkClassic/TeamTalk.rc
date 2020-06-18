@@ -2074,7 +2074,7 @@ BEGIN
     IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
-    IDS_CHANNEL             "Channel"	
+    IDS_CHANNEL             "Channel"
     IDS_VOICELEVEL          "Voice Level"
 END
 
@@ -2441,11 +2441,60 @@ BEGIN
     IDS_VIDEOCAPTUREFAILED  "Failed to start selected device Test Selected"
     IDS_WEBLOGINFBLOGOUT    "Do Facebook logout?"
     IDS_WEBLOGINFBLOGIN     "Facebook Login"
-    IDS_APPTITLEUNRELEASED            " - Unreleased"
-    IDS_APPTITLEPROV            "TeamTalk 5 Classic Professional v. "
-    IDS_APPTITLEPRO            "TeamTalk 5 Classic Professional"
-    IDS_APPTITLENPROV            "TeamTalk 5 Classic v. "
-    IDS_APPTITLENPRO            "TeamTalk 5 Classic"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_APPTITLEUNRELEASED  " - Unreleased"
+    IDS_APPTITLEPROV        "TeamTalk 5 Classic Professional v. "
+    IDS_APPTITLEPRO         "TeamTalk 5 Classic Professional"
+    IDS_APPTITLENPROV       "TeamTalk 5 Classic v. "
+    IDS_APPTITLENPRO        "TeamTalk 5 Classic"
+    IDS_CMDERR_SYNTAX_ERROR "Syntax error"
+    IDS_CMDERR_UNKNOWN_COMMAND "Unknown command"
+    IDS_CMDERR_MISSING_PARAMETER "Missing parameter"
+    IDS_CMDERR_INCOMPATIBLE_PROTOCOLS "Incompatible protocols"
+    IDS_CMDERR_UNKNOWN_AUDIOCODEC "Unknown audio codec"
+    IDS_CMDERR_INVALID_USERNAME "Invalid username"
+    IDS_CMDERR_INCORRECT_CHANNEL_PASSWORD "Incorrect channel password"
+    IDS_CMDERR_INVALID_ACCOUNT "Invalid account"
+    IDS_CMDERR_MAX_SERVER_USERS_EXCEEDED "Maximum server users exceeded"
+    IDS_CMDERR_MAX_CHANNEL_USERS_EXCEEDED "Maximum channel users exceeded"
+    IDS_CMDERR_SERVER_BANNED "Banned from server"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMDERR_NOT_AUTHORIZED "Not authorized"
+    IDS_CMDERR_MAX_DISKUSAGE_EXCEEDED "Maximum disk usage exceeded"
+    IDS_CMDERR_INCORRECT_OP_PASSWORD "Incorrect operator password"
+    IDS_CMDERR_AUDIOCODEC_BITRATE_LIMIT_EXCEEDED 
+                            "Audio codec bitrate limit exceeded"
+    IDS_CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED 
+                            "Maximum logins per IP-address exceeded"
+    IDS_CMDERR_MAX_CHANNELS_EXCEEDED "Maximum channels exceeded"
+    IDS_CMDERR_COMMAND_FLOOD "Command flood"
+    IDS_CMDERR_CHANNEL_BANNED "Banned from channel"
+    IDS_CMDERR_NOT_LOGGEDIN "Not logged in"
+    IDS_CMDERR_ALREADY_LOGGEDIN "Already logged in"
+    IDS_CMDERR_NOT_IN_CHANNEL "Not in channel"
+    IDS_CMDERR_ALREADY_IN_CHANNEL "Already in channel"
+    IDS_CMDERR_CHANNEL_ALREADY_EXISTS "Channel already exists"
+    IDS_CMDERR_CHANNEL_NOT_FOUND "Channel not found"
+    IDS_CMDERR_BAN_NOT_FOUND "Ban not found"
+    IDS_CMDERR_FILETRANSFER_NOT_FOUND "File transfer not found"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMDERR_OPENFILE_FAILED "Open file failed"
+    IDS_CMDERR_ACCOUNT_NOT_FOUND "Account not found"
+    IDS_CMDERR_FILE_NOT_FOUND "File not found"
+    IDS_CMDERR_FILE_ALREADY_EXISTS "File already exists"
+    IDS_CMDERR_FILESHARING_DISABLED "File sharing disabled"
+    IDS_CMDERR_CHANNEL_HAS_USERS "Channel has active users"
+    IDS_CMDERR_LOGINSERVICE_UNAVAILABLE "Login service unavailable"
+    IDS_CMDERR_USER_NOT_FOUND "User not found"
 END
 
 #endif    // Neutral resources
