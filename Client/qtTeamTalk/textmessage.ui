@@ -51,7 +51,11 @@
     </widget>
    </item>
    <item>
-    <widget class="SendTextEdit" name="newmsgTextEdit"/>
+    <widget class="SendTextEdit" name="newmsgTextEdit">
+     <property name="tabChangesFocus">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

@@ -14,6 +14,7 @@ Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
 - Text message log files are stored with .clog and .ulog extension for channel and user log respectively
+- Press tab changes focus in text message dialog
 
 
 Version 5.5.1, 2020/05/03
