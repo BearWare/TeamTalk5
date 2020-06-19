@@ -26,12 +26,12 @@
 
 #include <QSettings>
 
-#define SETTINGS_VERSION                            "5.1"
+#define SETTINGS_VERSION                            "5.6"
 #define SETTINGS_GENERAL_VERSION                    "version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            "5.0"
 
 #define SETTINGS_GENERAL_NICKNAME                   "general_/nickname"
-#define SETTINGS_GENERAL_NICKNAME_DEFAULT           "NoName"
+#define SETTINGS_GENERAL_NICKNAME_DEFAULT           tr("NoName")
 #define SETTINGS_GENERAL_GENDER                     "general_/gender"
 #define SETTINGS_GENERAL_GENDER_DEFAULT             true
 #define SETTINGS_GENERAL_BEARWARE_USERNAME          "general_/bearwareid"

@@ -4857,4 +4857,12 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>Settings</name>
+    <message>
+        <location filename="../settings.h" line="34"/>
+        <source>NoName</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>
