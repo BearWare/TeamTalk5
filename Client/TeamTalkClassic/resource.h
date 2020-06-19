@@ -439,6 +439,9 @@
 #define IDS_CMDERR_CHANNEL_HAS_USERS    549
 #define IDS_CMDERR_LOGINSERVICE_UNAVAILABLE 550
 #define IDS_CMDERR_USER_NOT_FOUND       551
+#define IDC_STATIC_CHANMESSAGES           553
+#define IDC_STATIC_CHANMESSAGE           555
+#define IDS_DEFAULTNICKNAME           556
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
@@ -1052,7 +1055,5 @@
 #define _APS_NEXT_COMMAND_VALUE         32955
 #define _APS_NEXT_CONTROL_VALUE         1597
 #define _APS_NEXT_SYMED_VALUE           413
-#define IDC_STATIC_CHANMESSAGES           553
-#define IDC_STATIC_CHANMESSAGE           555
 #endif
 #endif
