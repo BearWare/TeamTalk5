@@ -397,9 +397,6 @@
     <item id="549">Channel has active users</item>
     <item id="550">Login service unavailable</item>
     <item id="551">User not found</item>
-    <item id="553">Channel's history</item>
-    <item id="555">Message</item>
-    <item id="556">NoName</item>
     <item id="1006">Files list</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
@@ -565,6 +562,7 @@
     <item id="1335">User can log in multiple times</item>
     <item id="1339">Classroom (operator controls transmissions)</item>
     <item id="1341">Enable fixed audio volume for all users</item>
+    <item id="1344">Gain level</item>
     <item id="1347">Ignore silence</item>
     <item id="1349">Bitrate</item>
     <item id="1350">Max bitrate</item>
