@@ -9,8 +9,48 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../about.ui" line="73"/>
+        <source>Written by Bjoern D. Rasmussen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="100"/>
+        <source>Speex codec developed by Jean-Marc Valin, www.speex.org</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="110"/>
+        <source>OPUS codec developed by Opus project, www.opus-codec.org</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="117"/>
+        <source>WebM VP8 codec developed by WebM project, www.webmproject.org</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../about.ui" line="93"/>
         <source>Translated by Bjoern D. Rasmussen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aboutdlg.cpp" line="34"/>
+        <source>Compiled on </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aboutdlg.cpp" line="35"/>
+        <source>Version </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aboutdlg.cpp" line="37"/>
+        <source>TeamTalk 64-bit DLL version %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aboutdlg.cpp" line="39"/>
+        <source>TeamTalk 32-bit DLL version %1.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
