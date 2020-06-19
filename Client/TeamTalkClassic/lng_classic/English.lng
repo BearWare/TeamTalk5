@@ -397,6 +397,9 @@
     <item id="549">Channel has active users</item>
     <item id="550">Login service unavailable</item>
     <item id="551">User not found</item>
+    <item id="553">Channel's history</item>
+    <item id="555">Message</item>
+    <item id="556">NoName</item>
     <item id="1006">Files list</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>

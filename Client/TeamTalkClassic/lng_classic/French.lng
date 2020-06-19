@@ -238,7 +238,7 @@
     <item id="376">Conversion Unicode -> UTF-8 activée.&#xD;&#xA;</item>
     <item id="377">Utilisation des caractères locaux.&#xD;&#xA;</item>
     <item id="378">Version de la DLL TeamTalk 64-bit : </item>
-    <item id="379">Version de la DLL TeamTalk : </item>
+    <item id="379">Version de la DLL TeamTalk 32-bit : </item>
     <item id="380">Ouvrir</item>
     <item id="381">Réception : %.2fKB, Transmission : %.2fKB, PING : %u %s</item>
     <item id="382">Réception : %.2fKB, Transmission : %.2fKB %s</item>
@@ -397,6 +397,10 @@
     <item id="549">Le canal a des utilisateurs actifs</item>
     <item id="550">Service d'identification indisponible</item>
     <item id="551">Utilisateur introuvable</item>
+    <item id="553">Historique du canal</item>
+    <item id="555">Message</item>
+    <item id="556">Sans nom</item>
+    <item id="556">Sans nom</item>
     <item id="1006">Liste des fichiers</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
@@ -507,7 +511,7 @@
     <item id="1228">Écrit par Bjoern D. Rasmussen</item>
     <item id="1229">Codec Speex développé par Jean-Marc Valin, www.speex.org</item>
     <item id="1230">Nouvelles informations du canal</item>
-    <item id="1231">Envoyer</item>
+    <item id="1231">&amp;Envoyer</item>
     <item id="1232">Codec OPUS développé par Opus project, www.opus-codec.org</item>
     <item id="1235">Codec WebM VP8 développé par WebM project, www.webmproject.org</item>
     <item id="1236">Bienvenue dans l&apos;assistant de configuration de TeamTalk</item>
