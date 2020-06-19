@@ -1052,5 +1052,7 @@
 #define _APS_NEXT_COMMAND_VALUE         32955
 #define _APS_NEXT_CONTROL_VALUE         1597
 #define _APS_NEXT_SYMED_VALUE           413
+#define IDC_STATIC_CHANMESSAGES           553
+#define IDC_STATIC_CHANMESSAGE           555
 #endif
 #endif
