@@ -9,49 +9,9 @@
         <translation>À propos</translation>
     </message>
     <message>
-        <location filename="../about.ui" line="73"/>
-        <source>Written by Bjoern D. Rasmussen</source>
-        <translation>Écrit par Bjoern D. Rasmussen</translation>
-    </message>
-    <message>
-        <location filename="../about.ui" line="100"/>
-        <source>Speex codec developed by Jean-Marc Valin, www.speex.org</source>
-        <translation>Codec Speex développé par Jean-Marc Valin, www.speex.org</translation>
-    </message>
-    <message>
-        <location filename="../about.ui" line="110"/>
-        <source>OPUS codec developed by Opus project, www.opus-codec.org</source>
-        <translation>Codec OPUS développé par Opus project, www.opus-codec.org</translation>
-    </message>
-    <message>
-        <location filename="../about.ui" line="117"/>
-        <source>WebM VP8 codec developed by WebM project, www.webmproject.org</source>
-        <translation>Codec WebM VP8 développé par WebM project, www.webmproject.org</translation>
-    </message>
-    <message>
         <location filename="../about.ui" line="93"/>
         <source>Translated by Bjoern D. Rasmussen</source>
         <translation>Traduit par Oreonan</translation>
-    </message>
-    <message>
-        <location filename="../aboutdlg.cpp" line="34"/>
-        <source>Compiled on </source>
-        <translation>Compilé le </translation>
-    </message>
-    <message>
-        <location filename="../aboutdlg.cpp" line="35"/>
-        <source>Version </source>
-        <translation>Version </translation>
-    </message>
-    <message>
-        <location filename="../aboutdlg.cpp" line="37"/>
-        <source>TeamTalk 64-bit DLL version %1.</source>
-        <translation>Version de la DLL TeamTalk 64-bit %1.</translation>
-    </message>
-    <message>
-        <location filename="../aboutdlg.cpp" line="39"/>
-        <source>TeamTalk 32-bit DLL version %1.</source>
-        <translation>Version de la DLL TeamTalk 32-bit %1.</translation>
     </message>
 </context>
 <context>
@@ -1075,7 +1035,12 @@
     <message>
         <location filename="../mainwindow.ui" line="335"/>
         <source>Channel messages and event log</source>
-        <translation>Messages de canal et messages journaux</translation>
+        <translation>Messages de canal et journal d'évènements</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="356"/>
+        <source>Message</source>
+        <translation>Message</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="365"/>
@@ -4855,14 +4820,6 @@ Should these settings be applied?</source>
         <location filename="../weblogindlg.cpp" line="134"/>
         <source>Do Facebook logout?</source>
         <translation>Se déconnecter de Facebook ?</translation>
-    </message>
-</context>
-<context>
-    <name>Settings</name>
-    <message>
-        <location filename="../settings.h" line="34"/>
-        <source>NoName</source>
-        <translation>Sans nom</translation>
     </message>
 </context>
 </TS>
