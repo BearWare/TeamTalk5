@@ -566,7 +566,10 @@
     <item id="1339">Classroom (operator controls transmissions)</item>
     <item id="1341">Enable fixed audio volume for all users</item>
     <item id="1344">Gain level</item>
+    <item id="1345">Max gain dB</item>
+    <item id="1346">Max gain increase per sec (dB)</item>
     <item id="1347">Ignore silence</item>
+    <item id="1348">Max attenuation of noise (dB)</item>
     <item id="1349">Bitrate</item>
     <item id="1350">Max bitrate</item>
     <item id="1351">bps</item>

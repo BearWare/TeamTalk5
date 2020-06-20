@@ -567,7 +567,10 @@
     <item id="1339">Salle de classe (l&apos;opérateur contrôle les transmissions)</item>
     <item id="1341">Activer le volume audio fixe pour tous les utilisateurs</item>
     <item id="1344">Niveau du gain</item>
+    <item id="1345">Gain maximal dB</item>
+    <item id="1346">Augmentation de gain par seconde maximale (dB)</item>
     <item id="1347">Ignorer le silence</item>
+    <item id="1348">Atténuation de bruit maximale (dB)</item>
     <item id="1349">Débit</item>
     <item id="1350">Débit maximal</item>
     <item id="1351">bps</item>
