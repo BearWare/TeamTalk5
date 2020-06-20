@@ -440,7 +440,7 @@
     <item id="1081">Maximum de tentatives de connexion avant bannissement</item>
     <item id="1082">Débit :</item>
     <item id="1083">Nom d&apos;utilisateur</item>
-    <item id="1084">Authentification</item>
+    <item id="1084">Authentification (optionnel)</item>
     <item id="1085">Hôte</item>
     <item id="1088">Propriétés de l&apos;hôte</item>
     <item id="1092">Nom du signet</item>
@@ -473,12 +473,12 @@
     <item id="1160">Secondes d&apos;inactivité (0 = désactivé)</item>
     <item id="1162">Définir le statut absent après</item>
     <item id="1163">Nom du serveur</item>
-    <item id="1164">Supprimer</item>
+    <item id="1164">&amp;Supprimer</item>
     <item id="1165">Mot de passe du serveur</item>
     <item id="1166">Port UDP local</item>
-    <item id="1167">Ajouter/mettre à jour</item>
-    <item id="1169">Nouveau</item>
-    <item id="1170">Générer un fichier .tt</item>
+    <item id="1167">&amp;Ajouter/mettre à jour</item>
+    <item id="1169">&amp;Nouveau</item>
+    <item id="1170">&amp;Générer un fichier .tt</item>
     <item id="1172">Message du jour</item>
     <item id="1175">Tester la sélection</item>
     <item id="1186">Évènements sonnores</item>
@@ -698,7 +698,7 @@
     <item id="1534">Longueur maximale du texte</item>
     <item id="1535">Paramètres de capture vidéo</item>
     <item id="1537">Fichier média versus volume de la voix</item>
-    <item id="1538">Importer le fichier .tt</item>
+    <item id="1538">&amp;Importer le fichier .tt</item>
     <item id="1539">Afficher le nom d&apos;utilisateur au lieu du pseudo</item>
     <item id="1540">Nom du client</item>
     <item id="1543">Activer/désactiver les événements de synthèse vocale</item>
