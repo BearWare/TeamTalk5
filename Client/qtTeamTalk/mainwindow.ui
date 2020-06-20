@@ -332,7 +332,7 @@
             <bool>false</bool>
            </property>
            <property name="accessibleName">
-            <string>Channel messages and event log</string>
+            <string>History</string>
            </property>
            <property name="tabChangesFocus">
             <bool>true</bool>

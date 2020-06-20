@@ -1034,7 +1034,7 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="335"/>
-        <source>Channel messages and event log</source>
+        <source>History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
