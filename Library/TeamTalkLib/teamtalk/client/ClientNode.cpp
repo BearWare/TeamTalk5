@@ -106,7 +106,7 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
 ClientNode::~ClientNode()
 {
     //close reactor so no one can register new handlers
-    SuspendEventHandling();
+    SuspendEventHandling(true);
 
     {
         //guard needed for disconnect since Logout and LeaveChannel are called
@@ -138,7 +138,7 @@ int ClientNode::svc(void)
     return 0;
 }
 
-void ClientNode::SuspendEventHandling()
+void ClientNode::SuspendEventHandling(bool quit)
 {
     m_reactor.end_reactor_event_loop();
 
@@ -148,7 +148,7 @@ void ClientNode::SuspendEventHandling()
     if(thr_id != ACE_OS::thr_self())
         this->wait();
 
-    MYTRACE( (ACE_TEXT("ClientNode reactor thread suspended.\n")) );
+    MYTRACE(ACE_TEXT("ClientNode reactor thread %s.\n"), (quit ? ACE_TEXT("exited") : ACE_TEXT("suspended")));
 }
 
 void ClientNode::ResumeEventHandling()
