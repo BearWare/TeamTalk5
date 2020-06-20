@@ -572,7 +572,7 @@
     <item id="1350">Débit maximal</item>
     <item id="1351">bps</item>
     <item id="1352">bps (0 = ignorer)</item>
-    <item id="1359">Parcourir</item>
+    <item id="1359">&amp;Parcourir</item>
     <item id="1362">Intervalle de transmission</item>
     <item id="1363">msec</item>
     <item id="1364">Fichier audio unique pour tous les utilisateurs</item>
@@ -726,8 +726,8 @@
     <item id="1590">Défaut</item>
     <item id="1591">Muet à gauche</item>
     <item id="1592">Muet à droite</item>
-    <item id="1593">Jouer le média continuellement</item>
-    <item id="1594">Position initiale</item>
+    <item id="1593">&amp;Jouer le média continuellement</item>
+    <item id="1594">P&amp;osition initiale</item>
     <item id="1595">Traitement audio</item>
     <item id="1596">Tester la lecture</item>
 
