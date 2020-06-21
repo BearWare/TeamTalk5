@@ -663,7 +663,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             assertTrue(ttclient.setSoundInputPreprocess(new SpeexDSP()));
 
             connect(ttclient);
-            login(ttclient, "ttclient" + (i), USERNAME, PASSWORD);
+            login(ttclient, NICKNAME + (i), USERNAME, PASSWORD);
             joinRoot(ttclient);
 
             ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, freq);
@@ -1803,7 +1803,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     public void testListAccounts() {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
-        login(ttclient, "test08_ListAccounts", ADMIN_USERNAME, ADMIN_PASSWORD);
+        login(ttclient, ADMIN_NICKNAME + getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
 
         TTMessage msg = new TTMessage();
 
@@ -1817,7 +1817,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         TeamTalkBase ttadmin = newClientInstance();
         connect(ttadmin);
-        login(ttadmin, "test09_ListBannedUsers", ADMIN_USERNAME, ADMIN_PASSWORD);
+        login(ttadmin, ADMIN_NICKNAME + getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
 
         User user = new User();
         assertTrue("get self", ttadmin.getUser(ttadmin.getMyUserID(), user));
