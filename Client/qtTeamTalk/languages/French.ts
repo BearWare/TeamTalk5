@@ -1005,6 +1005,7 @@
     <message>
         <location filename="../mainwindow.ui" line="134"/>
         <location filename="../mainwindow.ui" line="156"/>
+        <location filename="../mainwindow.ui" line="159"/>
         <source>Master volume</source>
         <translation>Volume principal</translation>
     </message>
@@ -1017,6 +1018,7 @@
     <message>
         <location filename="../mainwindow.ui" line="213"/>
         <location filename="../mainwindow.ui" line="238"/>
+        <location filename="../mainwindow.ui" line="241"/>
         <location filename="../mainwindow.cpp" line="2466"/>
         <source>Microphone gain</source>
         <translation>Volume du microphone</translation>
@@ -1024,6 +1026,7 @@
     <message>
         <location filename="../mainwindow.ui" line="254"/>
         <location filename="../mainwindow.ui" line="279"/>
+        <location filename="../mainwindow.ui" line="282"/>
         <source>Voice activation level</source>
         <translation>Niveau d'activation vocale</translation>
     </message>
