@@ -97,6 +97,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -156,7 +157,8 @@ implements TeamTalkConnectionListener,
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
-    
+    TabLayout mTabLayout;
+
     public static final String TAG = "bearware";
 
     public final int REQUEST_EDITCHANNEL = 1,
@@ -247,11 +249,12 @@ implements TeamTalkConnectionListener,
         // Create the adapter that will return a fragment for each of the five
         // primary sections of the app.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
 
         setupButtons();
 
