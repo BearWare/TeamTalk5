@@ -190,7 +190,12 @@ class TextMessageViewController :
         if msgTextView.text == initial_text {
             msgTextView.text = ""
         }
-        msgTextView.textColor = UIColor.darkText
+        
+        if #available(iOS 13, *) {
+            msgTextView.textColor = .label
+        } else {
+            msgTextView.textColor = .black
+        }
         
         return true
     }
