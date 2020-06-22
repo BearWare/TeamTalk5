@@ -31,8 +31,8 @@ AboutDlg::AboutDlg(QWidget* parent)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-    QString compile = tr("Compiled on ") __DATE__ " " __TIME__ ".\r\n"
-                      tr("Version ") TEAMTALK_VERSION ".\r\n";
+    QString compile = tr("Compiled on ") + (__DATE__ " " __TIME__ ".\r\n") +
+        tr("Version ") + (TEAMTALK_VERSION ".\r\n");
     if(sizeof(void*) == 8)
         compile += QString(tr("TeamTalk 64-bit DLL version %1.")).arg(_Q(TT_GetVersion()));
     else
