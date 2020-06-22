@@ -353,12 +353,13 @@
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
-           <item>
-            <widget class="ChatLineEdit" name="msgEdit"/>
-           <property name="accessibleName">
-            <string>Message</string>
-           </property>
-           </item>
+            <item>
+              <widget class="ChatLineEdit" name="msgEdit">
+                <property name="accessibleName">
+                  <string>Message</string>
+                </property>
+              </widget>
+            </item>
            <item>
             <widget class="QToolButton" name="sendButton">
              <property name="sizePolicy">
