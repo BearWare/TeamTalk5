@@ -1912,6 +1912,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
                 if(isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_AWAY) == 0)
                 {
                     m_statusmode |= STATUSMODE_AWAY;
+                    ttSettings->setValue(SETTINGS_GENERAL_STATUSMESSAGE, tr("Away"));
                     TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
                     m_idled_out = true;
                 }

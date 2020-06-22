@@ -287,7 +287,7 @@ void CTeamTalkDlg::Login()
     }
 
     int cmd = TT_DoLoginEx(ttInst,
-        STR_UTF8(m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str()),
+        STR_UTF8(m_xmlSettings.GetNickname(STR_UTF8(LoadText(IDS_DEFAULTNICKNAME, DEFAULT_NICKNAME))).c_str()),
         STR_UTF8(m_host.szUsername.c_str()),
         STR_UTF8(m_host.szPassword.c_str()), APPTITLE_SHORT);
 
