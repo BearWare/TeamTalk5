@@ -23,30 +23,6 @@
 
 import UIKit
 import AVFoundation
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class ChannelListViewController :
     UIViewController, UITableViewDataSource,
@@ -167,10 +143,10 @@ class ChannelListViewController :
         if textmessages[userid] == nil {
             textmessages[userid] = [MyTextMessage]()
         }
-        textmessages[userid]?.append(txtmsg)
+        textmessages[userid]!.append(txtmsg)
         
-        if textmessages[userid]?.count > MAX_TEXTMESSAGES {
-            textmessages[userid]?.removeFirst()
+        if textmessages[userid]!.count > MAX_TEXTMESSAGES {
+            textmessages[userid]!.removeFirst()
         }
     }
     
@@ -194,20 +170,18 @@ class ChannelListViewController :
                 let bid = $1.nChannelID
                 let au = users.values.filter({$0.nChannelID == aid})
                 let bu = users.values.filter({$0.nChannelID == bid})
-                let aname = withUnsafePointer(to: $0) { getChannelString(NAME, $0) }
-                let bname = withUnsafePointer(to: $1) { getChannelString(NAME, $0) }
+                let aname = getChannelName($0)
+                let bname = getChannelName($1)
                 return au.count == bu.count ?
-                    String(cString: aname!)
-                .caseInsensitiveCompare(String(cString: bname!)) == ComparisonResult.orderedAscending : au.count > bu.count
+                    aname.caseInsensitiveCompare(bname) == ComparisonResult.orderedAscending : au.count > bu.count
             }
         case ChanSort.ASCENDING.rawValue :
             fallthrough
         default :
             displayChans = subchans.sorted() {
-                let aname = withUnsafePointer(to: $0) { getChannelString(NAME, $0) }
-                let bname = withUnsafePointer(to: $1) { getChannelString(NAME, $0) }
-                return String(cString: aname!)
-                    .caseInsensitiveCompare(String(cString: bname!)) == ComparisonResult.orderedAscending
+                let aname = getChannelName($0)
+                let bname = getChannelName($1)
+                return aname.caseInsensitiveCompare(bname) == ComparisonResult.orderedAscending
             }
         }
         displayUsers = chanusers.sorted() {
@@ -374,7 +348,7 @@ class ChannelListViewController :
                 subtitle = String(cString: getServerPropertiesString(SERVERNAME, &srvprop))
             }
             else {
-                subtitle = String(cString: getChannelString(NAME, &channel))
+                subtitle = getChannelName(channel)
             }
             
             textcolor = UIColor.gray
@@ -395,7 +369,7 @@ class ChannelListViewController :
             channel = displayChans[chan_index]
             
             let user_count = getUsersCount(channel.nChannelID)
-            title = String(cString: getChannelString(NAME, &channel)) + " (\(user_count))"
+            title = getChannelName(channel) + " (\(user_count))"
             subtitle = String(cString: getChannelString(TOPIC, &channel))
             
             if channel.bPassword != 0 {
@@ -467,7 +441,7 @@ class ChannelListViewController :
             title = String(cString: getServerPropertiesString(SERVERNAME, &srvprop))
         }
         else {
-            title = String(cString: getChannelString(NAME, &curchannel))
+            title = getChannelName(curchannel)
         }
         
         self.tabBarController?.navigationItem.title = title
@@ -586,7 +560,7 @@ class ChannelListViewController :
                     cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
                     activeCommands[cmdid] = .joinCmd
                 }
-                else if String(cString: getChannelString(NAME, &rejoinchannel)).isEmpty == false {
+                else if getChannelName(rejoinchannel).isEmpty == false {
                     // join from initial login
                     let passwd = String(cString: getChannelString(PASSWORD, &rejoinchannel))
                     toTTString(passwd, dst: &rejoinchannel.szPassword)

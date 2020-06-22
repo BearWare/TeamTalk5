@@ -395,6 +395,10 @@ func getDisplayName(_ user: User) -> String {
     return limitText(String(cString: getUserString(NICKNAME, &user)))
 }
 
+func getChannelName(_ chan: Channel) -> String {
+    return String(cString: withUnsafePointer(to: chan) { getChannelString(NAME, $0) })
+}
+
 enum Sounds : Int {
     case tx_ON = 1,
          tx_OFF = 2,
