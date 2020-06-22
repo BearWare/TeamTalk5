@@ -156,7 +156,7 @@
              <string>Master volume</string>
             </property>
             <property name="accessibleName">
-             <string/>
+             <string>Master volume</string>
             </property>
             <property name="maximum">
              <number>100</number>
@@ -238,7 +238,7 @@
              <string>Microphone gain</string>
             </property>
             <property name="accessibleName">
-             <string/>
+             <string>Microphone gain</string>
             </property>
             <property name="maximum">
              <number>100</number>
@@ -276,6 +276,9 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
+             <string>Voice activation level</string>
+            </property>
+            <property name="accessibleName">
              <string>Voice activation level</string>
             </property>
             <property name="maximum">
@@ -332,7 +335,7 @@
             <bool>false</bool>
            </property>
            <property name="accessibleName">
-            <string>Channel messages and event log</string>
+            <string>History</string>
            </property>
            <property name="tabChangesFocus">
             <bool>true</bool>
@@ -350,9 +353,13 @@
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
-           <item>
-            <widget class="ChatLineEdit" name="msgEdit"/>
-           </item>
+            <item>
+              <widget class="ChatLineEdit" name="msgEdit">
+                <property name="accessibleName">
+                  <string>Message</string>
+                </property>
+              </widget>
+            </item>
            <item>
             <widget class="QToolButton" name="sendButton">
              <property name="sizePolicy">

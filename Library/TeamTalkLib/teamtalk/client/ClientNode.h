@@ -244,7 +244,7 @@ namespace teamtalk {
     class EventSuspender
     {
     public:
-        virtual void SuspendEventHandling() = 0;
+        virtual void SuspendEventHandling(bool quit = false) = 0;
         virtual void ResumeEventHandling() = 0;
     };
 
@@ -271,7 +271,7 @@ namespace teamtalk {
 
         int svc(void);
 
-        void SuspendEventHandling();
+        void SuspendEventHandling(bool quit = false);
         void ResumeEventHandling();
 
         ACE_Lock& reactor_lock();
