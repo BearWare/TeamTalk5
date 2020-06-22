@@ -1612,7 +1612,7 @@ void MainWindow::Disconnect()
 
 void MainWindow::login()
 {
-    QString nick = ttSettings->value(QString(SETTINGS_GENERAL_NICKNAME)).toString();
+    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
 
     int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
                              _W(m_host.password), _W(QString(APPNAME_SHORT)));
@@ -1659,7 +1659,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
                 return;
             
             addLatestHost(m_host);
-            QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString();
+            QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
             int cmdid = TT_DoLoginEx(ttInst, _W(nickname), 
                                      _W(m_host.username), _W(m_host.password), 
                                      _W(QString(APPNAME_SHORT)));
@@ -3272,8 +3272,9 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     if((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) &&
         TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &myself))
     {
-        if(_Q(myself.szNickname) != ttSettings->value(SETTINGS_GENERAL_NICKNAME))
-            TT_DoChangeNickname(ttInst, _W(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString()));
+        QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+        if(_Q(myself.szNickname) != nickname)
+            TT_DoChangeNickname(ttInst, _W(nickname));
 
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
         //change to female if set
@@ -3381,9 +3382,10 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
 {
     bool ok = false;
     QString s = QInputDialog::getText(this, 
-                            MENUTEXT(ui.actionChangeNickname->text()), 
-        tr("Specify new nickname"), QLineEdit::Normal, 
-        ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString(), &ok);
+                                      MENUTEXT(ui.actionChangeNickname->text()), 
+                                      tr("Specify new nickname"), QLineEdit::Normal, 
+                                      ttSettings->value(SETTINGS_GENERAL_NICKNAME,
+                                                        tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString(), &ok);
     if(ok)
     {
         ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, s);
