@@ -26,7 +26,7 @@
 
 #include <QSettings>
 
-#define SETTINGS_VERSION                            "5.1"
+#define SETTINGS_VERSION                            "5.6"
 #define SETTINGS_GENERAL_VERSION                    "version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            "5.0"
 

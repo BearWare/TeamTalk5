@@ -1005,6 +1005,7 @@
     <message>
         <location filename="../mainwindow.ui" line="134"/>
         <location filename="../mainwindow.ui" line="156"/>
+        <location filename="../mainwindow.ui" line="159"/>
         <source>Master volume</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1017,6 +1018,7 @@
     <message>
         <location filename="../mainwindow.ui" line="213"/>
         <location filename="../mainwindow.ui" line="238"/>
+        <location filename="../mainwindow.ui" line="241"/>
         <location filename="../mainwindow.cpp" line="2466"/>
         <source>Microphone gain</source>
         <translation type="unfinished"></translation>
@@ -1024,6 +1026,7 @@
     <message>
         <location filename="../mainwindow.ui" line="254"/>
         <location filename="../mainwindow.ui" line="279"/>
+        <location filename="../mainwindow.ui" line="282"/>
         <source>Voice activation level</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1034,7 +1037,12 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="335"/>
-        <source>Channel messages and event log</source>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="356"/>
+        <source>Message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4585,6 +4593,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
+        <location filename="../mainwindow.cpp" line="1915"/>
         <source>Away</source>
         <translation type="unfinished"></translation>
     </message>
