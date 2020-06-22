@@ -4593,6 +4593,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
+        <location filename="../mainwindow.cpp" line="1915"/>
         <source>Away</source>
         <translation type="unfinished"></translation>
     </message>
