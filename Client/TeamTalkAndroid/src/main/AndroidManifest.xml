@@ -38,6 +38,7 @@
             android:name=".ServerListActivity"
             android:icon="@drawable/teamtalk_blue"
             android:label="@string/title_activity_server_list"
+            android:theme="@style/AppTheme"
             android:launchMode="singleTop">
 
             <intent-filter>
