@@ -98,11 +98,11 @@ import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.util.SparseArray;
@@ -132,7 +132,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity
-extends FragmentActivity
+extends AppCompatActivity
 implements TeamTalkConnectionListener, 
         ConnectionListener, 
         CommandListener, 
@@ -227,7 +227,7 @@ implements TeamTalkConnectionListener,
         String serverName = getIntent().getStringExtra(ServerEntry.KEY_SERVERNAME);
         if ((serverName != null) && !serverName.isEmpty())
             setTitle(serverName);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
@@ -717,7 +717,7 @@ implements TeamTalkConnectionListener,
 
     private void setCurrentChannel(Channel channel) {
         curchannel = channel;
-        getActionBar().setSubtitle((channel != null) ? channel.szName : null);
+        getSupportActionBar().setSubtitle((channel != null) ? channel.szName : null);
         invalidateOptionsMenu();
     }
 
