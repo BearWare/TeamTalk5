@@ -58,7 +58,8 @@
 
         <activity
             android:name=".ServerEntryActivity"
-            android:label="@string/title_activity_server_entry">
+            android:label="@string/title_activity_server_entry"
+            android:theme="@style/AppTheme">
         </activity>
 
         <activity

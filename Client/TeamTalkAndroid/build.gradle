@@ -51,6 +51,7 @@ android {
 dependencies {
     implementation 'com.google.code.gson:gson:2.2.4'
     implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation  'com.android.support:preference-v7:28.0.0'
     implementation files('libs/TeamTalk5.jar')
 
     // Facebook login
