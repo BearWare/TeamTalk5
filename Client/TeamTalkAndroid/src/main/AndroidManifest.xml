@@ -72,12 +72,14 @@
 
         <activity
             android:name=".ChannelPropActivity"
-            android:label="@string/title_activity_channel_prop">
+            android:label="@string/title_activity_channel_prop"
+            android:theme="@style/AppTheme">
         </activity>
 
         <activity
             android:name=".StreamMediaActivity"
-            android:label="@string/title_activity_stream_media">
+            android:label="@string/title_activity_stream_media"
+            android:theme="@style/AppTheme">
         </activity>
 
         <service
@@ -86,12 +88,14 @@
 
         <activity
             android:name=".UserPropActivity"
-            android:label="@string/title_activity_user_prop">
+            android:label="@string/title_activity_user_prop"
+            android:theme="@style/AppTheme">
         </activity>
 
         <activity
             android:name=".TextMessageActivity"
             android:label="@string/title_activity_text_message"
+            android:theme="@style/AppTheme"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -105,12 +109,14 @@
 
         <activity
             android:name=".AudioCodecActivity"
-            android:label="@string/title_activity_audio_codec">
+            android:label="@string/title_activity_audio_codec"
+            android:theme="@style/AppTheme">
         </activity>
 
         <activity
             android:name=".FilePickerActivity"
-            android:label="@string/title_activity_filepicker">
+            android:label="@string/title_activity_filepicker"
+            android:theme="@style/AppTheme">
         </activity>
 
         <receiver android:name=".MediaButtonEventReceiver">
