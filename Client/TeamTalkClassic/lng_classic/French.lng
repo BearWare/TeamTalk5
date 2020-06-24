@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
+    <item id="1">OK</item>
+    <item id="2">Annuler</item>
     <item id="102">Assistant de configuration de TeamTalk</item>
     <item id="104">Déconnexion\tF2</item>
     <item id="105">%s a rejoint le canal</item>

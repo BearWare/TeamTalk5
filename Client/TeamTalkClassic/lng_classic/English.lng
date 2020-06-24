@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
+    <item id="1">OK</item>
+    <item id="2">Annuler</item>
     <item id="102">TeamTalk setup wizard</item>
     <item id="104">Dis&amp;connect\tF2</item>
     <item id="105">%s joined channel</item>
