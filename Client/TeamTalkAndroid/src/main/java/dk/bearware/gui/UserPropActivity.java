@@ -32,22 +32,22 @@ import dk.bearware.UserState;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
-import android.view.View.OnClickListener;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-public class UserPropActivity extends Activity implements TeamTalkConnectionListener {
+public class UserPropActivity extends AppCompatActivity implements TeamTalkConnectionListener {
 
     public final static String EXTRA_USERID = "userid";
 
@@ -59,7 +59,7 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_prop);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 

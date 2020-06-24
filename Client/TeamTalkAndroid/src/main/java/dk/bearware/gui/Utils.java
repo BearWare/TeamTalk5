@@ -75,10 +75,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.CountDownTimer;
-import android.preference.EditTextPreference;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v7.preference.EditTextPreference;
+import android.support.v7.preference.Preference;
 import android.util.Log;
 import android.widget.Toast;
 
