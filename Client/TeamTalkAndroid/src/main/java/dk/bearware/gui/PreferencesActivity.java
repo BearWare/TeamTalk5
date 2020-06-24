@@ -42,9 +42,14 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.speech.tts.TextToSpeech.EngineInfo;
+import android.support.annotation.LayoutRes;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -77,7 +82,60 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     TeamTalkService ttservice;
 
     int ACTIVITY_REQUEST_BEARWAREID = 2;
-    
+
+    private AppCompatDelegate appCompatDelegate = null;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        getDelegate().installViewFactory();
+        getDelegate().onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public MenuInflater getMenuInflater() {
+        return getDelegate().getMenuInflater();
+    }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        getDelegate().setContentView(layoutResID);
+    }
+
+    @Override
+    public void setContentView(View view) {
+        getDelegate().setContentView(view);
+    }
+
+    @Override
+    public void setContentView(View view, ViewGroup.LayoutParams params) {
+        getDelegate().setContentView(view, params);
+    }
+
+    @Override
+    public void addContentView(View view, ViewGroup.LayoutParams params) {
+        getDelegate().addContentView(view, params);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        getDelegate().onPostResume();
+    }
+
+    @Override
+    protected void onTitleChanged(CharSequence title, int color) {
+        super.onTitleChanged(title, color);
+        getDelegate().setTitle(title);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        getDelegate().onConfigurationChanged(newConfig);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -92,13 +150,13 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
                 Log.e(TAG, "Failed to bind to TeamTalk service");
         }
     }
-    
+
     @Override
     protected void onStop() {
         super.onStop();
-        
+        getDelegate().onStop();
         updateSettings();
-        
+
         // Unbind from the service
         if(mConnection.isBound()) {
             Log.d(TAG, "Unbinding TeamTalk service");
@@ -106,7 +164,18 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             mConnection.setBound(false);
         }
     }
-    
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getDelegate().onDestroy();
+    }
+
+    @Override
+    public void invalidateOptionsMenu() {
+        getDelegate().invalidateOptionsMenu();
+    }
+
     void updateSettings() {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -144,7 +213,8 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getDelegate().onPostCreate(savedInstanceState);
+        getDelegate().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setupSimplePreferencesScreen();
     }
@@ -425,4 +495,13 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
     }
+
+
+    private AppCompatDelegate getDelegate() {
+        if (appCompatDelegate == null) {
+            appCompatDelegate = AppCompatDelegate.create(this, null);
+        }
+        return appCompatDelegate;
+    }
+
 }

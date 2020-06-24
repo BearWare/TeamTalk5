@@ -105,7 +105,8 @@
 
         <activity
             android:name=".PreferencesActivity"
-            android:label="@string/title_activity_preferences">
+            android:label="@string/title_activity_preferences"
+            android:theme="@style/AppTheme">
         </activity>
 
         <activity
