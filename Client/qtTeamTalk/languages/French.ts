@@ -1186,7 +1186,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1029"/>
         <source>C&amp;lient</source>
-        <translation>C&amp;lient</translation>
+        <translation>&amp;Client</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1042"/>
@@ -1221,7 +1221,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1124"/>
         <source>&amp;Channels</source>
-        <translation>&amp;Canaux</translation>
+        <translation>Ca&amp;naux</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1143"/>
@@ -1231,7 +1231,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1158"/>
         <source>&amp;Help</source>
-        <translation>A&amp;ide</translation>
+        <translation>&amp;Aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1221"/>
