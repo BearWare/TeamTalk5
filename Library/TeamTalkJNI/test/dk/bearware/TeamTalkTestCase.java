@@ -1979,7 +1979,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
     }
 
-    public void testMessageQueue() throws InterruptedException {
+    public void _testMessageQueue() throws InterruptedException {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - "
             + getTestMethodName();
