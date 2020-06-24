@@ -70,7 +70,7 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string notr="true">Written by Bjoern D. Rasmussen</string>
+        <string>Written by Bjoern D. Rasmussen</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -80,7 +80,7 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string notr="true">Copyright (c) 2005-2019, BearWare.dk</string>
+        <string notr="true">Copyright (c) 2005-2020, BearWare.dk</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -97,7 +97,7 @@
      <item>
       <widget class="QLabel" name="label_5">
        <property name="text">
-        <string notr="true">Speex codec developed by Jean-Marc Valin, www.speex.org</string>
+        <string>Speex codec developed by Jean-Marc Valin, www.speex.org</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -107,14 +107,14 @@
      <item>
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string notr="true">OPUS codec developed by Opus project, www.opus-codec.org</string>
+        <string>OPUS codec developed by Opus project, www.opus-codec.org</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string notr="true">WebM VP8 codec developed by WebM project, www.webmproject.org</string>
+        <string>WebM VP8 codec developed by WebM project, www.webmproject.org</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

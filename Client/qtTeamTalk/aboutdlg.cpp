@@ -31,12 +31,12 @@ AboutDlg::AboutDlg(QWidget* parent)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-    QString compile = "Compiled on " __DATE__ " " __TIME__ ".\r\n"
-                      "Version " TEAMTALK_VERSION ".\r\n";
+    QString compile = tr("Compiled on ") + (__DATE__ " " __TIME__ ".\r\n") +
+        tr("Version ") + (TEAMTALK_VERSION ".\r\n");
     if(sizeof(void*) == 8)
-        compile += QString("TeamTalk 64-bit DLL version %1.").arg(_Q(TT_GetVersion()));
+        compile += QString(tr("TeamTalk 64-bit DLL version %1.")).arg(_Q(TT_GetVersion()));
     else
-        compile += QString("TeamTalk 32-bit DLL version %1.").arg(_Q(TT_GetVersion()));
+        compile += QString(tr("TeamTalk 32-bit DLL version %1.")).arg(_Q(TT_GetVersion()));
     ui.compileLabel->setText(compile);
     ui.versionLabel->setText(APPVERSION);
     ui.iconLabel->setPixmap(QPixmap(APPICON));

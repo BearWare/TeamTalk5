@@ -663,7 +663,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             assertTrue(ttclient.setSoundInputPreprocess(new SpeexDSP()));
 
             connect(ttclient);
-            login(ttclient, "ttclient" + (i), USERNAME, PASSWORD);
+            login(ttclient, NICKNAME + (i), USERNAME, PASSWORD);
             joinRoot(ttclient);
 
             ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, freq);
@@ -1803,7 +1803,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     public void testListAccounts() {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
-        login(ttclient, "test08_ListAccounts", ADMIN_USERNAME, ADMIN_PASSWORD);
+        login(ttclient, ADMIN_NICKNAME + getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
 
         TTMessage msg = new TTMessage();
 
@@ -1817,7 +1817,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         TeamTalkBase ttadmin = newClientInstance();
         connect(ttadmin);
-        login(ttadmin, "test09_ListBannedUsers", ADMIN_USERNAME, ADMIN_PASSWORD);
+        login(ttadmin, ADMIN_NICKNAME + getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
 
         User user = new User();
         assertTrue("get self", ttadmin.getUser(ttadmin.getMyUserID(), user));
@@ -1979,7 +1979,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
     }
 
-    public void testMessageQueue() throws InterruptedException {
+    public void _testMessageQueue() throws InterruptedException {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - "
             + getTestMethodName();
@@ -1997,8 +1997,10 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("join chan success", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
-        for(int i=0;i<10000;i++)
+        for(int i=0;i<400;i++) {
             ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, ttclient.getMyUserID());
+            Thread.sleep(1);
+        }
 
         assertTrue("Internal error", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, DEF_WAIT, msg));
         assertTrue("Queue overflow", msg.clienterrormsg.nErrorNo == ClientError.INTERR_TTMESSAGE_QUEUE_OVERFLOW);
@@ -2915,7 +2917,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("update server", waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
     }
 
-    public void testDisconnect() throws IOException {
+    public void testUserTimeout() throws IOException {
 
         TeamTalkBase ttadmin = newClientInstance();
         connect(ttadmin);
