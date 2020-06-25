@@ -442,6 +442,8 @@
 #define IDC_STATIC_CHANMESSAGES           553
 #define IDC_STATIC_CHANMESSAGE           555
 #define IDS_DEFAULTNICKNAME           556
+#define IDC_STATIC_CHANLIST           557
+#define IDC_STATIC_FILESLIST           558
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
