@@ -1,12 +1,12 @@
 package dk.bearware.gui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +33,7 @@ import javax.xml.xpath.XPathFactory;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.Preferences;
 
-public class WebLoginActivity extends Activity {
+public class WebLoginActivity extends AppCompatActivity {
 
     void setupUI() {
 

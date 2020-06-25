@@ -22,6 +22,11 @@ Default Qt client
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French's language is now supported
+- Buttons for changing between tabs Channels, Chat, Media Streams and Files
+- Preferences are grouped into General, Sound Events, Text to Speech, Connection and Sound System
+- Users are now displayed before channels
+- Support for dark mode and day/night shift
+- Blank nicknames are set to NoName followed by user ID
 IOS client
 - Channels are now sorted correctly in TeamTalk on IOS 13 and newer
 - French translation has been updated

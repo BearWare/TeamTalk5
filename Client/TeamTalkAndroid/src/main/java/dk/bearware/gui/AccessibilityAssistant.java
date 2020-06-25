@@ -59,6 +59,14 @@ public class AccessibilityAssistant extends AccessibilityDelegate {
         return accessibilityService.isEnabled();
     }
 
+    public void shutUp() {
+        if (isServiceActive()) {
+            if (!hostActivity.getWindow().getDecorView().post(accessibilityService::interrupt)) {
+                accessibilityService.interrupt();
+            }
+        }
+    }
+
     public boolean isUiUpdateDiscouraged() {
         return discourageUiUpdates && accessibilityService.isEnabled();
     }

@@ -75,7 +75,7 @@ namespace teamtalk
                 GetAudioCodecBitRate(codec) < OPUS_BITRATE_MIN ||
                 GetAudioCodecBitRate(codec) > OPUS_BITRATE_MAX ||
                 GetAudioCodecBitRate(codec) > GetAudioCodecMaxPacketBitrate(codec) ||
-                GetAudioCodecChannels(codec) == 0 ||
+                GetAudioCodecChannels(codec) < 1 ||
                 GetAudioCodecChannels(codec) > 2)
                 return false;
             return true;
@@ -319,9 +319,11 @@ namespace teamtalk
         if (!txinterval_msec)
             return 0;
 
-        int bitrate = 8 * ((MAX_ENC_FRAMESIZE * 1000) / txinterval_msec);
-        //MYTRACE(ACE_TEXT("Max packet bitrate: %d\n"), bitrate);
-        return bitrate;
+        int maxbitrate = 8 * ((MAX_ENC_FRAMESIZE * 1000) / txinterval_msec);
+        MYTRACE_COND(GetAudioCodecBitRate(codec) > maxbitrate,
+                     ACE_TEXT("Max packet bitrate exceeded: %d > %d\n"),
+                     GetAudioCodecBitRate(codec), maxbitrate);
+        return maxbitrate;
     }
 
     media::AudioFormat GetAudioCodecAudioFormat(const AudioCodec& codec)
