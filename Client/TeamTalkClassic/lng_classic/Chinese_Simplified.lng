@@ -244,7 +244,6 @@
     <item id="377">使用本地字符集。&#xD;&#xA;</item>
     <item id="378">TeamTalk 64位 DLL 版本: </item>
     <item id="379">TeamTalk 32位 DLL 版本: </item>
-    <item id="380">打开</item>
     <item id="381">接收: %.2fKB 发送: %.2fKB PING: %u %s</item>
     <item id="382">接收: %.2fKB 发送: %.2fKB %s</item>
     <item id="383">离开</item>

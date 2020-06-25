@@ -4466,12 +4466,12 @@ void CTeamTalkDlg::OnHelpAbout()
 
 void CTeamTalkDlg::OnHelpWebsite()
 {
-    HINSTANCE i = ShellExecute(this->m_hWnd,LoadText(IDS_SHELLEXECOPEN, _T("open")),WEBSITE,_T(""),_T(""),SW_SHOW);
+    HINSTANCE i = ShellExecute(this->m_hWnd,_T("open"),WEBSITE,_T(""),_T(""),SW_SHOW);
 }
 
 void CTeamTalkDlg::OnHelpManual()
 {
-    HINSTANCE i = ShellExecute(this->m_hWnd,LoadText(IDS_SHELLEXECOPEN, _T("open")),MANUALFILE,_T(""),NULL,SW_SHOW);
+    HINSTANCE i = ShellExecute(this->m_hWnd,_T("open"),MANUALFILE,_T(""),NULL,SW_SHOW);
 }
 
 void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)

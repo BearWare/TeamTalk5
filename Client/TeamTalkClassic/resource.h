@@ -279,7 +279,6 @@
 #define IDS_LOCALECHARS                 377
 #define IDS_TTDLLVER                    378
 #define IDS_TTDLLVERS                   379
-#define IDS_SHELLEXECOPEN               380
 #define IDS_RXTXPING                    381
 #define IDS_RXTX                        382
 #define IDS_AWAY                        383
