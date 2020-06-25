@@ -21,6 +21,7 @@ Android client
 - Preferences are grouped into General, Sound Events, Text to Speech, Connection and Sound System
 - Users are now displayed before channels
 - Support for dark mode and day/night shift
+- Blank nicknames are set to NoName followed by user ID
 
 Version 5.5.1, 2020/05/03
 Accessible Windows client

@@ -476,7 +476,7 @@ public class Utils {
             return user.szUsername;
         }
         if (TextUtils.isEmpty(user.szNickname)) {
-            return context.getString(R.string.pref_default_nickname);
+            return context.getString(R.string.pref_default_nickname) + " - #" + user.nUserID;
         }
         return user.szNickname;
     }
