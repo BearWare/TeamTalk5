@@ -1413,22 +1413,24 @@ implements TeamTalkConnectionListener,
     }
 
     private void adjustTxState(boolean txEnabled) {
+        accessibilityAssistant.lockEvents();
+
         findViewById(R.id.transmit_voice).setBackgroundColor(txEnabled ? Color.GREEN : Color.RED);
         findViewById(R.id.transmit_voice).setContentDescription(txEnabled ? getString(R.string.tx_on) : getString(R.string.tx_off));
 
-        if ((curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID)) {
-            accessibilityAssistant.lockEvents();
+        if ((curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID))
             channelsAdapter.notifyDataSetChanged();
-            accessibilityAssistant.unlockEvents();
-        }
+
+        accessibilityAssistant.unlockEvents();
     }
 
     private interface OnButtonInteractionListener extends OnTouchListener, OnClickListener {
     }
 
     private void setupButtons() {
-        
+
         final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
+        tx_btn.setAccessibilityDelegate(accessibilityAssistant);
 
         OnButtonInteractionListener txButtonListener = new OnButtonInteractionListener() {
 
@@ -2155,6 +2157,7 @@ implements TeamTalkConnectionListener,
             boolean ptt_vibrate = pref.getBoolean("vibrate_checkbox", true) &&
                 Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_VIBRATE);
             if (voiceTransmissionEnabled) {
+                accessibilityAssistant.shutUp();
                 if (sounds.get(SOUND_VOICETXON) != 0) {
                     audioIcons.play(sounds.get(SOUND_VOICETXON), 1.0f, 1.0f, 0, 0, 1.0f);
                 }
