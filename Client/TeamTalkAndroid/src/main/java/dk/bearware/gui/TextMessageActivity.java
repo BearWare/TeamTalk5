@@ -39,10 +39,10 @@ import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.events.CommandListener;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,7 +54,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class TextMessageActivity
-extends Activity implements TeamTalkConnectionListener, CommandListener {
+extends AppCompatActivity implements TeamTalkConnectionListener, CommandListener {
 
     public static final String TAG = "bearware";
     
@@ -70,7 +70,7 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_text_message);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         accessibilityAssistant = new AccessibilityAssistant(this);
     }

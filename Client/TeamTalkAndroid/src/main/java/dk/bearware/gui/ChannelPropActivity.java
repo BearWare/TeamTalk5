@@ -37,10 +37,10 @@ import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.events.CommandListener;
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,7 +52,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class ChannelPropActivity
-extends Activity
+extends AppCompatActivity
 implements TeamTalkConnectionListener, CommandListener {
 
     public static final String TAG = "bearware";
@@ -83,7 +83,7 @@ implements TeamTalkConnectionListener, CommandListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_channel_prop);
-        getActionBar().setDisplayHomeAsUpEnabled(true);        
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);        
     }
 
     @Override
