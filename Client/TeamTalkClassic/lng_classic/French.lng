@@ -201,7 +201,7 @@
     <item id="335">Vous avez été exclu du canal.</item>
     <item id="336">Une erreur inconnue est survenue.&#xD;&#xA;Vérifiez que l'action que vous essayez d'exécuter est supportée par le serveur.&#xD;&#xA;Cette erreur est souvent causée par une incompatibilité entre le serveur et votre client.</item>
     <item id="337">%s ne peut plus transmettre sa voix !</item>
-    <item id="338">%s peut maintenant transmattre sa voix !</item>
+    <item id="338">%s peut maintenant transmettre sa voix !</item>
     <item id="339">%s ne peut plus transmettre d'entrée vidéo !</item>
     <item id="340">%s peut maintenant transmettre une entrée vidéo !</item>
     <item id="341">%s ne peut plus transmettre de bureaux partagés !</item>
