@@ -17,6 +17,8 @@ Default Qt client
 - Press tab changes focus in text message dialog
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
+- Buttons for changing between tabs Channels, Chat, Media Streams and Files
+- Preferences are grouped into General, Sound Events, Text to Speech, Connection and Sound System
 
 Version 5.5.1, 2020/05/03
 Accessible Windows client
