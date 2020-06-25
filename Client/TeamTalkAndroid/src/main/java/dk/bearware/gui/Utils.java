@@ -79,6 +79,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -473,6 +474,9 @@ public class Utils {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context); 
         if(pref.getBoolean(Preferences.PREF_GENERAL_SHOWUSERNAMES, false)) {
             return user.szUsername;
+        }
+        if (TextUtils.isEmpty(user.szNickname)) {
+            return context.getString(R.string.pref_default_nickname);
         }
         return user.szNickname;
     }
