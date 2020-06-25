@@ -2291,7 +2291,6 @@ BEGIN
     IDS_LOCALECHARS         "Uses local character set.\r\n"
     IDS_TTDLLVER            "TeamTalk 64-bit DLL version: "
     IDS_TTDLLVERS           "TeamTalk 32-bit DLL version: "
-    IDS_SHELLEXECOPEN       "open"
     IDS_RXTXPING            "RX: %.2fKB TX: %.2fKB PING: %u %s"
     IDS_RXTX                "RX: %.2fKB TX: %.2fKB %s"
     IDS_AWAY                "Away"
