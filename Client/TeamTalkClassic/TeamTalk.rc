@@ -2046,7 +2046,7 @@ END
 STRINGTABLE
 BEGIN
     ID_USERS                "&Users"
-    ID_FILE                 "&Client"
+    ID_FILE                 "C&lient"
     ID_ME                   "&Me"
     ID_ADVANCED             "&Advanced"
     ID_SUBSCRIPTIONS        "&Subscriptions"
