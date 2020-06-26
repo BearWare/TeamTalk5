@@ -11,6 +11,7 @@ Accessible Windows client
 - Text message log files are stored with .clog and .ulog extension for channel and user log respectively
 - More items are now translatables. Translations for French, Chinese and Bresilian Portuguese are been updated. Translators, you are invited to check lng files to update your translations with new strings.
 - More elements are now labellize, specificly in main's window.
+- Blank nicknames are set to NoName followed by user ID
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
@@ -19,6 +20,7 @@ Default Qt client
 - More items are now translatables. French translation has been updated. Translators, you are invited to check ts files to update your translations with new strings.
 - More elements are now labellize, specificly in main's window.
 - When you switch to Away mode due to your inactivity, your status message is now updated
+- Blank nicknames are set to NoName followed by user ID
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French's language is now supported
@@ -28,7 +30,7 @@ Android client
 - Support for dark mode and day/night shift
 - Blank nicknames are set to NoName followed by user ID
 IOS client
-- Channels are now sorted correctly in TeamTalk on IOS 13 and newer
+- Channels are now sorted correctly in TeamTalk on iOS 13 and newer
 - French translation has been updated
 
 Version 5.5.1, 2020/05/03
