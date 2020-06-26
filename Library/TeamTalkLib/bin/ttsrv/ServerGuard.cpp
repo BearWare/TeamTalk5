@@ -614,8 +614,8 @@ void ServerGuard::WebLoginFacebook(ServerNode* servernode, ACE_UINT32 userid, Us
         teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
         if(xmldoc.Parse(utf8))
         {
-            std::string name = xmldoc.GetValue("teamtalk/facebook/name");
-            std::string id = xmldoc.GetValue("teamtalk/facebook/id");
+            std::string name = xmldoc.GetValue(false, "teamtalk/facebook/name", "");
+            std::string id = xmldoc.GetValue(false, "teamtalk/facebook/id", "");
             id += WEBLOGIN_FACEBOOK_POSTFIX;
 #if defined(UNICODE)
             useraccount.username = Utf8ToUnicode(id.c_str());
@@ -699,8 +699,8 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
         teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
         if(xmldoc.Parse(utf8))
         {
-            std::string nickname = xmldoc.GetValue("teamtalk/bearware/nickname");
-            std::string username = xmldoc.GetValue("teamtalk/bearware/username");
+            std::string nickname = xmldoc.GetValue(false, "teamtalk/bearware/nickname", "");
+            std::string username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
 #if defined(UNICODE)
             useraccount.username = Utf8ToUnicode(username.c_str());
             useraccount.nickname = Utf8ToUnicode(nickname.c_str());

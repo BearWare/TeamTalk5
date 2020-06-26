@@ -167,6 +167,12 @@ namespace teamtalk{
     /*************************************************/
     /**************** <general> **********************/
     /*************************************************/
+
+    std::string ServerXML::GetSystemID(const std::string& defwelcome)
+    {
+        return GetValue(true, "general/systemid", defwelcome);
+    }
+    
     bool ServerXML::SetServerName(string szServerName)
     {
         TiXmlElement* parent = GetGeneralElement();
