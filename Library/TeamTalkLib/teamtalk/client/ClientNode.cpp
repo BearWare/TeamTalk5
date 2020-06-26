@@ -5258,15 +5258,15 @@ void ClientNode::HandleServerUpdate(const mstrings_t& properties)
 
     if(m_serverinfo.hostaddrs.size())
     {
-        int tcpport = m_serverinfo.hostaddrs[0].get_port_number();
-        int udpport = m_serverinfo.udpaddr.get_port_number();
-        if (GetProperty(properties, TT_TCPPORT, tcpport))
-        {
-            for (auto& a : m_serverinfo.hostaddrs)
-                a.set_port_number(tcpport);
-        }
-        if (GetProperty(properties, TT_UDPPORT, udpport))
-            m_serverinfo.udpaddr.set_port_number(udpport);
+        int newtcpport, tcpport = m_serverinfo.hostaddrs[0].get_port_number();
+        int newudpport, udpport = m_serverinfo.udpaddr.get_port_number();
+        
+        GetProperty(properties, TT_TCPPORT, newtcpport);
+        MYTRACE_COND(newtcpport != tcpport, ACE_TEXT("TCP port is different. Indicates server is behind NAT.\n"));
+        // don't change m_serverinfo.udpaddr. This will not work for
+        // servers behind NAT
+        GetProperty(properties, TT_UDPPORT, newudpport);
+        MYTRACE_COND(newudpport != udpport, ACE_TEXT("UDP port is different. Indicates server is behind NAT.\n"));
     }
     GetProperty(properties, TT_MOTD, m_serverinfo.motd);
     GetProperty(properties, TT_MOTDRAW, m_serverinfo.motd_raw);

@@ -35,6 +35,7 @@
     <string name="pref_cat_soundtest">Тест Звука</string>
     <string name="pref_header_general">Общие Настройки</string>
     <string name="pref_title_nickname">Псевдоним</string>
+    <string name="pref_default_nickname">Аноним</string>
     <string name="pref_title_proximity_sensor">Датчик приближения</string>
     <string name="pref_title_keep_screen_on">Не гасить экран при активном соединении</string>
     <string name="pref_title_vibrate">Виброотклик кнопки включения передачи</string>
