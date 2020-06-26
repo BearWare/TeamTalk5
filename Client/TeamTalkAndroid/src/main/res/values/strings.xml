@@ -334,5 +334,17 @@
     <string name="text_bearwarelogin_success">%1$s your username %2$s has been validated</string>
     <string name="text_bearwarelogin_failed">Failed to authenticate username %1$s</string>
     <string name="text_weblogin_authfailure">BearWare.dk web login failed to authenticate</string>
+    <string name="editmsg">Message:</string>
+    <string name="filepathlab">File:</string>
+    <string name="channamelab">Channel's name:</string>
+    <string name="chanpswlab">Channel's password:</string>
+    <string name="chantopiclab">Channel's topic:</string>
+    <string name="chanoppswlab">Operator's password:</string>
+    <string name="maxuserslab">Number of mximal users:</string>
+    <string name="diskquotalab">Disk quota:</string>
+    <string name="bwidlab">Username:</string>
+    <string name="bwpswlab">Password:</string>
+
+
 
 </resources>

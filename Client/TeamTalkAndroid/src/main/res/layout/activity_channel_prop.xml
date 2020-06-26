@@ -26,7 +26,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:singleLine="true" >
+            android:singleLine="true"
+            android:hint="@string/channamelab" >
         </EditText>
     </LinearLayout>
 
@@ -46,7 +47,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:lines="1" >
+            android:lines="1"
+            android:hint="@string/chanpswlab" >
         </EditText>
     </LinearLayout>
     <LinearLayout
@@ -65,7 +67,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:lines="3" >
+            android:lines="3"
+            android:hint="@string/chantopiclab" >
         </EditText>
     </LinearLayout>
     
@@ -87,7 +90,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:lines="1" >
+            android:lines="1"
+            android:hint="@string/chanoppswlab" >
         </EditText>
     </LinearLayout>
     
@@ -108,7 +112,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="number" />
+            android:inputType="number"
+            android:hint="@string/maxuserslab" />
 
     </LinearLayout>
     
@@ -129,7 +134,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="number" />
+            android:inputType="number"
+            android:hint="@string/diskquotalab" />
 
     </LinearLayout>
     <LinearLayout
