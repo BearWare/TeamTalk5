@@ -320,8 +320,6 @@
     <string name="permission_wake_lock">Veza sa poslužiteljem može biti izgubljena kada se zaslon zaključa</string>
     <string name="permission_read_phone_state">Otkrivanje dolaznih telefonskih poziva bit će onemogućeno</string>
 
-    <string name="facebook_app_id">611833262539381</string>
-    <string name="fb_login_protocol_scheme">fb611833262539381</string>
     <string name="title_activity_web_login">WebLoginActivity</string>
     <string name="weblogin_prop_title_bearwareid">Korisničko ime</string>
     <string name="weblogin_prop_title_bearwarepasswd">Lozinka</string>
@@ -330,7 +328,7 @@
     <string name="weblogin_prop_title_create_web_login_id">Stvori BearWare.dk nalog</string>
     <string name="weblogin_prop_title_reset_web_login_id">Resetiraj BearWare.dk identifikator prijave</string>
     <string name="text_bearwarelogin_success">%1$s vaše korisničko ime %2$s je ovjereno</string>
-    <string name="text_bearwarelogin_failed">Nije bilo moguće ovjeriti %1$s</string>
+    <string name="text_bearwarelogin_failed">Nije bilo moguće ovjeriti %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">BearWare.dk web login nije se uspio prijaviti</string>
 
 </resources>

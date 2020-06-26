@@ -299,8 +299,6 @@
   <string name="permission_vibrate">Bas konuş sırasında titreşim kullanım dışı olacak</string>
   <string name="permission_wake_lock">Ekran karardığında sunucu bağlantısı kaybedilebilir</string>
   <string name="permission_read_phone_state">Gelen telefon araması algılaması olanaksız olacak</string>
-  <string name="facebook_app_id">611833262539381</string>
-  <string name="fb_login_protocol_scheme">fb611833262539381</string>
   <string name="title_activity_web_login">Web Oturumu Etkinliği</string>
   <string name="weblogin_prop_title_bearwareid">Kullanıcı Adı</string>
   <string name="weblogin_prop_title_bearwarepasswd">Parola</string>
@@ -309,6 +307,6 @@
   <string name="weblogin_prop_title_create_web_login_id">BearWare.dk Oturum Açma Kimliği Oluştur</string>
   <string name="weblogin_prop_title_reset_web_login_id">BearWare.dk Oturum Açma Kimliğini Sıfırla</string>
   <string name="text_bearwarelogin_success">%1$s %2$s kullanıcı adınız onaylandı</string>
-  <string name="text_bearwarelogin_failed">%1$s kullanıcı adı kimliğinin doğrulanması başarısız</string>
+  <string name="text_bearwarelogin_failed">%1$s (%2$s) kullanıcı adı kimliğinin doğrulanması başarısız</string>
   <string name="text_weblogin_authfailure">BearWare.dk web oturum açma kimliğinin doğrulanması başarısız</string>
 </resources>

@@ -322,8 +322,6 @@
     <string name="permission_wake_lock">La connexion pourra être perdue lorsque l\'écran sera désactivé</string>
     <string name="permission_read_phone_state">La détection des appels entrants sera impossible</string>
 
-    <string name="facebook_app_id">611833262539381</string>
-    <string name="fb_login_protocol_scheme">fb611833262539381</string>
     <string name="title_activity_web_login">Activité de connexion Web</string>
     <string name="weblogin_prop_title_bearwareid">Nom d\'utilisateur</string>
     <string name="weblogin_prop_title_bearwarepasswd">Mot de passe</string>
@@ -332,7 +330,7 @@
     <string name="weblogin_prop_title_create_web_login_id">Créer un identifiant de connexion Web BearWare.dk</string>
     <string name="weblogin_prop_title_reset_web_login_id">Réinitialiser l\'identifiant de connexion Web BearWare.dk</string>
     <string name="text_bearwarelogin_success">%1$s votre nom d\'utilisateur %2$s a été validé</string>
-    <string name="text_bearwarelogin_failed">Échec à l\'authentification de nom d\'utilisateur %1$s</string>
+    <string name="text_bearwarelogin_failed">Échec à l\'authentification de nom d\'utilisateur %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">Échec de connexion Web BearWare.dk</string>
     <string name="editmsg">Message :</string>
     <string name="filepathlab">Fichier :</string>

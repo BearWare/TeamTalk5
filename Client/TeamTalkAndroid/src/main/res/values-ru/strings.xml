@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
+    <string name="app_name">TeamTalk</string>
     <string name="title_activity_server_list">Серверы TeamTalk 5</string>
     <string name="action_settings">Настройки</string>
     <string name="action_exit">Выход</string>
     <string name="title_activity_server_entry">Свойства Сервера TeamTalk 5</string>
+    <string name="title_activity_main">TeamTalk 5 Для Android</string>
     <string name="title_section_channels">Каналы</string>
     <string name="title_section_chat">Сообщения</string>
     <string name="title_section_media">Медиатрансляции</string>
@@ -321,7 +324,7 @@
     <string name="weblogin_prop_title_create_web_login_id">Создать ID учетной записи на BearWare.dk</string>
     <string name="weblogin_prop_title_reset_web_login_id">Сбросить ID учетной записи на BearWare.dk</string>
     <string name="text_bearwarelogin_success">%1$s Ваше имя пользователя %2$s подтверждено</string>
-    <string name="text_bearwarelogin_failed">Не удалось авторизовать имя пользователя %1$s</string>
+    <string name="text_bearwarelogin_failed">Не удалось авторизовать имя пользователя %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">Ошибка авторизации при входе через BearWare.dk</string>
 
 </resources>

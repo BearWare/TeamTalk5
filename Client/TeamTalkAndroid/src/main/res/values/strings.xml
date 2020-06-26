@@ -322,8 +322,9 @@
     <string name="permission_wake_lock">Server connection can be lost when screen dims out</string>
     <string name="permission_read_phone_state">Incoming phone call detection will be impossible</string>
 
-    <string name="facebook_app_id">611833262539381</string>
-    <string name="fb_login_protocol_scheme">fb611833262539381</string>
+    <string translatable="false" name="facebook_app_id">611833262539381</string>
+    <string translatable="false" name="fb_login_protocol_scheme">fb611833262539381</string>
+
     <string name="title_activity_web_login">WebLoginActivity</string>
     <string name="weblogin_prop_title_bearwareid">Username</string>
     <string name="weblogin_prop_title_bearwarepasswd">Password</string>
@@ -332,7 +333,7 @@
     <string name="weblogin_prop_title_create_web_login_id">Create BearWare.dk Login ID</string>
     <string name="weblogin_prop_title_reset_web_login_id">Reset BearWare.dk Login ID</string>
     <string name="text_bearwarelogin_success">%1$s your username %2$s has been validated</string>
-    <string name="text_bearwarelogin_failed">Failed to authenticate username %1$s</string>
+    <string name="text_bearwarelogin_failed">Failed to authenticate username %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">BearWare.dk web login failed to authenticate</string>
     <string name="editmsg">Message:</string>
     <string name="filepathlab">File:</string>

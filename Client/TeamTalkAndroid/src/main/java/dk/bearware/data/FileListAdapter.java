@@ -53,7 +53,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Environment;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -435,9 +434,8 @@ implements ClientListener, Comparator<RemoteFile> {
                     progressNotification.setSmallIcon(android.R.drawable.stat_sys_upload)
                         .setContentTitle(context.getString(R.string.upload_progress_title, transfer.szRemoteFileName))
                         .setContentIntent(PendingIntent.getService(context, id, cancellationIntent, 0))
-                        .setAutoCancel(true);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
-                        progressNotification.setShowWhen(false);
+                        .setAutoCancel(true)
+                        .setShowWhen(false);
                     uploads.put(id, progressNotification);
                 }
                 indicateUploadProgress(transfer);
