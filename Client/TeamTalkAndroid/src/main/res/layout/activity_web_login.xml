@@ -47,7 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:inputType="text"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:hint="@string/bwidlab" />
     </LinearLayout>
 
     <LinearLayout
@@ -67,7 +68,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:hint="@string/bwpswlab" />
     </LinearLayout>
 
     <LinearLayout

@@ -334,5 +334,15 @@
     <string name="text_bearwarelogin_success">%1$s votre nom d\'utilisateur %2$s a été validé</string>
     <string name="text_bearwarelogin_failed">Échec à l\'authentification de nom d\'utilisateur %1$s</string>
     <string name="text_weblogin_authfailure">Échec de connexion Web BearWare.dk</string>
+    <string name="editmsg">Message :</string>
+    <string name="filepathlab">Fichier :</string>
+    <string name="channamelab">Nom du canal :</string>
+    <string name="chanpswlab">Mot de passe du canal :</string>
+    <string name="chantopiclab">Sujet du canal :</string>
+    <string name="chanoppswlab">Mot de passe de l'opérateur :</string>
+    <string name="maxuserslab">Nombre d'utilisateurs maximal :</string>
+    <string name="diskquotalab">Quota du disque :</string>
+    <string name="bwidlab">Nom d'utilisateur :</string>
+    <string name="bwpswlab">Mot de passe :</string>
 
 </resources>
