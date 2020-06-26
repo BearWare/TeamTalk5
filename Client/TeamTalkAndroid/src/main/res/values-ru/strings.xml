@@ -326,5 +326,15 @@
     <string name="text_bearwarelogin_success">%1$s Ваше имя пользователя %2$s подтверждено</string>
     <string name="text_bearwarelogin_failed">Не удалось авторизовать имя пользователя %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">Ошибка авторизации при входе через BearWare.dk</string>
+    <string name="editmsg">Сообщение:</string>
+    <string name="filepathlab">Файл:</string>
+    <string name="channamelab">Название канала:</string>
+    <string name="chanpswlab">Пароль канала:</string>
+    <string name="chantopiclab">Тема канала:</string>
+    <string name="chanoppswlab">Пароль оператора:</string>
+    <string name="maxuserslab">Максимальное число пользователей:</string>
+    <string name="diskquotalab">Дисковая квота:</string>
+    <string name="bwidlab">Имя пользователя:</string>
+    <string name="bwpswlab">Пароль:</string>
 
 </resources>
