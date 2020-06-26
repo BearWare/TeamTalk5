@@ -23,12 +23,12 @@
 
 package dk.bearware;
 
-import junit.framework.TestCase;
-import org.junit.AssumptionViolatedException;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.Stopwatch;
-import org.junit.runner.Description;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Vector;
 import java.util.List;
@@ -40,31 +40,10 @@ import java.io.File;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
-    @Rule
-    Stopwatch stopwatch = new Stopwatch() {
-
-            @Override
-            protected void succeeded(long nanos, Description description) {
-                System.out.println("Succeeded");
-            }
-
-            @Override
-            protected void failed(long nanos, Throwable e, Description description) {
-            }
-
-            @Override
-            protected void skipped(long nanos, AssumptionViolatedException e, Description description) {
-            }
-
-            @Override
-            protected void finished(long nanos, Description description) {
-                System.out.println("Finished");
-            }
-        };
-
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
 
         if (this.IPADDR.length() > 0)

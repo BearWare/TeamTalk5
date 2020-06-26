@@ -23,7 +23,14 @@
 
 package dk.bearware;
 
-import junit.framework.TestCase;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+
 import java.util.Vector;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
@@ -34,6 +41,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.net.InetAddress;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     Vector<TeamTalkSrv> servers = new Vector<TeamTalkSrv>();
@@ -48,7 +56,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         return ttclient;
     }
 
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
 
         String prop = System.getProperty("dk.bearware.serverbindip");
@@ -72,7 +80,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    protected void tearDown() throws Exception {
+    public void tearDown() throws Exception {
         super.tearDown();
 
         for(TeamTalkSrv s : servers) {
@@ -388,7 +396,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             }
         };
 
-    public void test_UserLogin() {
+    @Test
+    public void testUserLogin() {
 
         UserAccount useraccount = new UserAccount();
         
@@ -423,7 +432,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("Login success", cmdid, msg.nSource);
     }
 
-    public void test_CreateAccount() {
+    @Test
+    public void testCreateAccount() {
 
         TeamTalkSrv server = newServerInstance();
         TeamTalkBase client1 = newClientInstance();
@@ -461,7 +471,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("Account note", srv_ua.szNote, useraccount.szNote);
     }
 
-    public void test_DeleteAccount() {
+    @Test
+    public void testDeleteAccount() {
 
         UserAccount useraccount = new UserAccount();
         
@@ -505,7 +516,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         waitCmdError(client2, cmdid, 1000, interleave);
     }
 
-    public void test_banUser() {
+    @Test
+    public void testBanUser() {
 
         UserAccount useraccount = new UserAccount();
         
@@ -557,7 +569,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         
     }
 
-    public void test_systemID() {
+    @Test
+    public void testSystemID() {
         TeamTalkSrv server = newServerInstance("foobar");
 
         ServerInterleave interleave = new RunServer(server);
@@ -579,7 +592,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void test_wrongSystemID() {
+    @Test
+    public void testWrongSystemID() {
         TeamTalkSrv server = newServerInstance("foobar");
 
         final ServerInterleave interleave = new RunServer(server);
@@ -610,7 +624,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         }
     }
 
-    public void test_moveUser() {
+    @Test
+    public void testMoveUser() {
         UserAccount useraccount = new UserAccount();
         
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
@@ -666,7 +681,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("same channel", client1.getMyChannelID(), client2.getMyChannelID());
     }
 
-    public void test_channelUpdates() {
+    @Test
+    public void testChannelUpdates() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
@@ -708,7 +724,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         interleave.interleave();
     }
 
-    public void test_kickUser() {
+    @Test
+    public void testKickUser() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
@@ -764,7 +781,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         interleave.interleave();
     }
 
-    public void test_sendMessage() {
+    @Test
+    public void testSendMessage() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
@@ -834,7 +852,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
     }
 
-    public void test_changeNicknameStatus() {
+    @Test
+    public void testChangeNicknameStatus() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
@@ -947,7 +966,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         }
     }
 
-    public void test_fileUpload() {
+    @Test
+    public void testFileUpload() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
@@ -969,7 +989,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         uploadDownloadTest(server, useraccount, NICKNAME, 77777777);
     }
 
-    public void test_DnsResolve() throws Exception {
+    @Test
+    public void testDnsResolve() throws Exception {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
@@ -1001,7 +1022,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         }
     }
 
-    public void test_InterceptVoice() {
+    @Test
+    public void testInterceptVoice() {
         
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
@@ -1042,7 +1064,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void test_transmitUsers() {
+    @Test
+    public void testTransmitUsers() {
         
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
@@ -1087,7 +1110,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("voice audioblock", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, interleave));
     }
 
-    public void test_ClientKeepAlive() {
+    @Test
+    public void testClientKeepAlive() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
