@@ -339,10 +339,10 @@
     <string name="channamelab">Nom du canal :</string>
     <string name="chanpswlab">Mot de passe du canal :</string>
     <string name="chantopiclab">Sujet du canal :</string>
-    <string name="chanoppswlab">Mot de passe de l'opérateur :</string>
-    <string name="maxuserslab">Nombre d'utilisateurs maximal :</string>
+    <string name="chanoppswlab">Mot de passe de l\'opérateur :</string>
+    <string name="maxuserslab">Nombre d\'utilisateurs maximal :</string>
     <string name="diskquotalab">Quota du disque :</string>
-    <string name="bwidlab">Nom d'utilisateur :</string>
+    <string name="bwidlab">Nom d\'utilisateur :</string>
     <string name="bwpswlab">Mot de passe :</string>
 
 </resources>
