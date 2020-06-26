@@ -254,6 +254,7 @@ implements TeamTalkConnectionListener,
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
         setupButtons();
