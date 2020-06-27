@@ -95,11 +95,43 @@ namespace teamtalk {
         return version;
     }
 
-    std::string XMLDocument::GetValue(const std::string& path)
+    void XMLDocument::SetValue(const std::string& path, const std::string& value)
     {
         TiXmlElement* item = GetRootElement();
         stdstrings_t tokens = stdtokenize(path, "/");
-        if(item && tokens.size())
+        assert(tokens.size());
+        if (tokens.empty() || !item)
+            return;
+
+        std::string name = tokens.back();
+        tokens.erase(tokens.end()-1);
+
+        while (tokens.size())
+        {
+            auto child = item->FirstChildElement(tokens[0].c_str());
+            if (!child)
+            {
+                TiXmlElement newelement(tokens[0].c_str());
+                child = AppendElement(*item, newelement);
+            }
+            item = child;
+            tokens.erase(tokens.begin());
+        }
+        PutString(*item, name, value);
+    }
+
+    std::string XMLDocument::GetValue(bool prefixRoot, const std::string& path, const std::string& defaultvalue)
+    {
+        TiXmlElement* item = GetRootElement();
+        if (!item)
+            return defaultvalue;
+
+        stdstrings_t tokens = stdtokenize(path, "/");
+        if (prefixRoot)
+            tokens.insert(tokens.begin(), m_rootname);
+
+        // handle root item
+        if (tokens.size())
         {
             if(item->Value() != tokens[0])
             {
@@ -110,23 +142,44 @@ namespace teamtalk {
                 tokens.erase(tokens.begin());
         }
 
+        // handle child items
         while(item && tokens.size())
         {
             item = item->FirstChildElement(tokens[0].c_str());
             tokens.erase(tokens.begin());
         }
-        string value;
+        string value = defaultvalue;
         if(tokens.empty() && item)
             GetElementText(*item, value);
         return value;
     }
 
+    void XMLDocument::SetValue(const std::string& path, int value)
+    {
+        SetValue(path, i2str(value));
+    }
+    
+    int XMLDocument::GetValue(bool prefixRoot, const std::string& path, int defaultvalue)
+    {
+        return str2i(GetValue(prefixRoot, path, i2str(defaultvalue)));
+    }
+
+    void XMLDocument::SetValueBool(const std::string& path, bool value)
+    {
+        SetValue(path, std::string(value?"true":"false"));
+    }
+    
+    bool XMLDocument::GetValueBool(bool prefixRoot, const std::string& path, bool defaultvalue)
+    {
+        return GetValue(prefixRoot, path, std::string(defaultvalue?"true":"false")) == "true";
+    }
 
     bool XMLDocument::LoadFile(const std::string& filename)
     {
         if(m_xmlDocument.LoadFile(filename.c_str()))
         {
             m_filename = filename;
+            m_rootname = GetRootElement()? GetRootElement()->Value() : "";
             return true;
         }
         return false;

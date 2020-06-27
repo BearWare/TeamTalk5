@@ -66,7 +66,7 @@
     <string name="pref_summary_sub_bcastmsg">Subscrever em mensagens globais</string>
     <string name="pref_title_sub_voice">Voz</string>
     <string name="pref_summary_sub_voice">Subscrever em mensagens de voz</string>
-    <string name="pref_title_sub_video">Captura de video</string>
+    <string name="pref_title_sub_video">Captura de vídeo</string>
     <string name="pref_summary_sub_video">Subscrever em mensagens de vídeo</string>
     <string name="pref_title_sub_desktop">Tela</string>
     <string name="pref_summary_sub_desktop">Subscrever em capturas de tela</string>
@@ -301,7 +301,7 @@
     <string name="weblogin_prop_title_create_web_login_id">Criar um ID BearWare.dk</string>
     <string name="weblogin_prop_title_reset_web_login_id">Reiniciar o ID BearWare.dk</string>
     <string name="text_bearwarelogin_success">%1$s, seu usuário, %2$s foi validado.</string>
-    <string name="text_bearwarelogin_failed">Falha ao autenticar o usuário %1$s</string>
+    <string name="text_bearwarelogin_failed">Falha ao autenticar o usuário %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">Falha na web ao autenticar o ID BearWare.dk</string>
     <string name="title_activity_stream_media">Transmitir arquivo de mídia para canal</string>
     <string name="pref_title_proximity_sensor">Sensor de proximidade</string>

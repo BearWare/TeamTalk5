@@ -49,6 +49,8 @@ namespace teamtalk {
         TiXmlElement* GetRootElement();
 
         /***** <general> *****/
+        std::string GetSystemID(const std::string& defwelcome);
+        
         bool SetServerName(std::string szServerName);
         std::string GetServerName();
 

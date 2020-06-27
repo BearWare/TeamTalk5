@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">TeamTalk</string>
@@ -322,8 +322,6 @@
     <string name="permission_wake_lock">屏幕锁定时，服务器连接可能会丢失</string>
     <string name="permission_read_phone_state">无法接听来电</string>
 
-    <string name="facebook_app_id">611833262539381</string>
-    <string name="fb_login_protocol_scheme">fb611833262539381</string>
     <string name="title_activity_web_login">Web 登录激活</string>
     <string name="weblogin_prop_title_bearwareid">用户名</string>
     <string name="weblogin_prop_title_bearwarepasswd">密码</string>
@@ -332,7 +330,7 @@
     <string name="weblogin_prop_title_create_web_login_id">创建 BearWare.dk 登录 ID</string>
     <string name="weblogin_prop_title_reset_web_login_id">重置 BearWare.dk 登录 ID</string>
     <string name="text_bearwarelogin_success">%1$s 您的用户名 %2$s 已通过验证</string>
-    <string name="text_bearwarelogin_failed">无法验证用户名 %1$s</string>
+    <string name="text_bearwarelogin_failed">无法验证用户名 %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">BearWare.dk web 登录 无法进行身份验证</string>
 
 </resources>

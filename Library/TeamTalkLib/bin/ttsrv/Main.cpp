@@ -351,9 +351,9 @@ int RunServer(
 #endif
 
 #if defined(ENABLE_TEAMTALKPRO)
-    if(!servernode.StartServer(encrypted, SERVER_WELCOME))
+    if (!servernode.StartServer(encrypted, Utf8ToUnicode(xmlSettings.GetSystemID(SERVER_WELCOME).c_str())))
 #else
-    if(!servernode.StartServer(false, SERVER_WELCOME))
+    if (!servernode.StartServer(false, SERVER_WELCOME))
 #endif
     {
         ACE_TCHAR error_msg[1024];

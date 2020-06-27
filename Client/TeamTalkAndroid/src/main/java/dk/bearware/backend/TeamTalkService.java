@@ -233,9 +233,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
                     .setContentText(getNotificationText());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     widget.setChannelId("TeamtalkConnection");
-			    }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
-                    widget.setShowWhen(false);
+                }
+                widget.setShowWhen(false);
                 startForeground(UI_WIDGET_ID, widget.build());
             } else {
                 ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).notify(UI_WIDGET_ID, widget.setContentText(getNotificationText()).build());
