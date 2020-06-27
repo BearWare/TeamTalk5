@@ -29,6 +29,7 @@ Android client
 - Support for dark mode and day/night shift
 - Blank nicknames are set to NoName followed by user ID
 - More elements are now labellize, specificly some edit fields
+- Bluetooth headset microphone usage facility
 IOS client
 - Channels are now sorted correctly in TeamTalk on iOS 13 and newer
 - French translation has been updated
