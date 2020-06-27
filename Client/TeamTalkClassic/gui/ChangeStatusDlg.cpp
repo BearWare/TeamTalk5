@@ -78,6 +78,7 @@ void CChangeStatusDlg::OnBnClickedRadioAway()
 {
     m_nStatusMode &= ~STATUSMODE_MASK;
     m_nStatusMode |= STATUSMODE_AWAY;
+                        TT_DoChangeStatus(ttInst, STATUSMODE_AWAY, LoadText(IDS_AWAY, _T("Away")));
 }
 
 void CChangeStatusDlg::OnBnClickedRadioQuestion()

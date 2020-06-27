@@ -11,6 +11,7 @@ Accessible Windows client
 - Text message log files are stored with .clog and .ulog extension for channel and user log respectively
 - More items are now translatables. Some translations (like French, Turkish, German and Chinese) are been updated. Translators, you are invited to check lng files to update your translations with new strings.
 - Blank nicknames are set to NoName followed by user ID
+- Updating status message when you manually switch to away mode
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
@@ -20,6 +21,7 @@ Default Qt client
 - More elements are now labellize, specificly in main's window.
 - When you switch to Away mode due to your inactivity, your status message is now updated
 - Blank nicknames are set to NoName followed by user ID
+- Updating status message when you manually switch to away mode
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French's language is now supported
