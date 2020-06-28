@@ -1,4 +1,3 @@
-
 /* log entry */
 "%@ joined channel" = "%@ er nu i kanalen";
 
@@ -105,6 +104,9 @@
 
 /* preferences */
 "Broadcast Text Message" = "Udsend tekstbesked";
+
+/* Dialog message */
+"Cancel" = "Cancel";
 
 /* channel list
    server entry */
