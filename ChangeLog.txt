@@ -6,12 +6,16 @@ Accessible Windows client
 - Removed duplex mode for sound devices
 - Removed Windows Sound system
 - Removed Advanced page from Preferences
-- Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
+- Default sound system, Windows Audio Session, now uses Windows' own echo cancellor, AGC and noise suppression
 - User accounts are now sorted alphabetically
 - Text message log files are stored with .clog and .ulog extension for channel and user log respectively
-- More items are now translatables. Some translations (like French, Turkish, German and Chinese) are been updated. Translators, you are invited to check lng files to update your translations with new strings.
 - Blank nicknames are set to NoName followed by user ID
+<<<<<<< HEAD
 - Multilines channel messages are now allowed
+=======
+- More items are now translatable.
+- French, Turkish, German and Chinese languages updated.
+>>>>>>> origin/master
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
@@ -29,8 +33,9 @@ Android client
 - Users are now displayed before channels
 - Support for dark mode and day/night shift
 - Blank nicknames are set to NoName followed by user ID
-- More elements are now labellize, specificly some edit fields
-IOS client
+- More elements are now labeled, specifically some edit fields
+- Bluetooth headset microphone usage facility
+iOS client
 - Channels are now sorted correctly in TeamTalk on iOS 13 and newer
 - French translation has been updated
 
