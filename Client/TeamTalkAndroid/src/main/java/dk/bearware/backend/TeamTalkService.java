@@ -101,7 +101,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 public class TeamTalkService extends Service
-implements CommandListener, UserListener, ConnectionListener, ClientListener {
+implements CommandListener, UserListener, ConnectionListener, ClientListener, BluetoothHeadsetHelper.HeadsetConnectionListener {
 
     public static final String CANCEL_TRANSFER = "cancel_transfer";
 
@@ -111,6 +111,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     private final IBinder mBinder = new LocalBinder();
 
     private TeamTalkEventHandler mEventHandler = new TeamTalkEventHandler();
+    private BluetoothHeadsetHelper bluetoothHeadsetHelper;
     private TelephonyManager telephonyManager;
     private boolean listeningPhoneStateChanges;
     private boolean txSuspended;
@@ -155,6 +156,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         //create timer to process 'mEventHandler'
         createEventTimer();
 
+        bluetoothHeadsetHelper = new BluetoothHeadsetHelper(this);
+
         Log.d(TAG, "Created TeamTalk 5 service");
     }
 
@@ -183,6 +186,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         mEventHandler.removeCommandListener(this);
         mEventHandler.removeUserListener(this);
         disablePhoneCallReaction();
+        unwatchBluetoothHeadset();
 
         if (ttclient != null)
             ttclient.closeTeamTalk();
@@ -319,6 +323,19 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
 
     public boolean isInPhoneCall() {
         return inPhoneCall;
+    }
+
+    public void watchBluetoothHeadset() {
+        if (bluetoothHeadsetHelper.start()) {
+            if (bluetoothHeadsetHelper.isHeadsetConnected())
+                bluetoothHeadsetHelper.scoAudioConnect();
+            bluetoothHeadsetHelper.registerHeadsetConnectionListener(this);
+        }
+    }
+
+    public void unwatchBluetoothHeadset() {
+        bluetoothHeadsetHelper.unregisterHeadsetConnectionListener(this);
+        bluetoothHeadsetHelper.stop();
     }
 
     public TeamTalkBase getTTInstance() {
@@ -972,6 +989,17 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     @Override
     public void onLocalMediaFile(MediaFileInfo mediaFileInfo) {
 
+    }
+
+
+    @Override
+    public void onHeadsetConnected() {
+        bluetoothHeadsetHelper.scoAudioConnect();
+    }
+
+    @Override
+    public void onHeadsetDisconnected() {
+        bluetoothHeadsetHelper.scoAudioDisconnect();
     }
 
 

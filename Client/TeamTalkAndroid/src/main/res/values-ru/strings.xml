@@ -107,6 +107,8 @@
     <string name="pref_summary_mediafile_volume">Громкость воспроизведения медиафайлов относительно голоса</string>
     <string name="pref_title_speakerphone_checkbox">Громкая связь</string>
     <string name="pref_summary_speakerphone_checkbox">Использовать динамик вместо наушника</string>
+    <string name="pref_title_bluetooth_headset_checkbox">Использовать микрофон беспроводной гарнитуры</string>
+    <string name="pref_summary_bluetooth_headset_checkbox">При подключении беспроводной гарнитуры будет использоваться ее микрофон</string>
     <string name="pref_title_voice_processing_checkbox">Разрешить предобработку голоса</string>
     <string name="pref_summary_voice_processing_checkbox">Подавление эффекта эхо и автоматическая регулировка уровня</string>
     <string name="pref_title_public_servers">Показывать публичные серверы</string>
@@ -315,6 +317,7 @@
     <string name="permission_vibrate">Виброотклик кнопки включения передачи будет недоступен</string>
     <string name="permission_wake_lock">Соединение с сервером может быть потеряно при выключении экрана</string>
     <string name="permission_read_phone_state">Правильная реакция на входящие телефонные звонки будет невозможна</string>
+    <string name="permission_bluetooth">Использование микрофона беспроводной гарнитуры будет невозможно</string>
 
     <string name="title_activity_web_login">Настройка web-регистрации</string>
     <string name="weblogin_prop_title_bearwareid">Имя пользователя</string>
