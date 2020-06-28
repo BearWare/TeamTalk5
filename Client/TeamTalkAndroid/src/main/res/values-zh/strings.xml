@@ -332,5 +332,15 @@
     <string name="text_bearwarelogin_success">%1$s 您的用户名 %2$s 已通过验证</string>
     <string name="text_bearwarelogin_failed">无法验证用户名 %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">BearWare.dk web 登录 无法进行身份验证</string>
+    <string name="editmsg">消息：</string>
+    <string name="filepathlab">文件：</string>
+    <string name="channamelab">频道名称：</string>
+    <string name="chanpswlab">频道密码：</string>
+    <string name="chantopiclab">频道主题</string>
+    <string name="chanoppswlab">管理员密码：</string>
+    <string name="maxuserslab">最大用户数：</string>
+    <string name="diskquotalab">磁盘配额：</string>
+    <string name="bwidlab">用户名：</string>
+    <string name="bwpswlab">密码：</string>
 
 </resources>

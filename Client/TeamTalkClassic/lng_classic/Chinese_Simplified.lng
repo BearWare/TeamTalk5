@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
+    <item id="1">确定</item>
+    <item id="2">取消</item>
     <item id="102">TeamTalk 设置向导</item>
     <item id="104">断开连接(&amp;C)\tF2</item>
     <item id="105">%s 加入频道</item>
@@ -401,6 +403,11 @@
     <item id="549">频道中有活跃用户</item>
     <item id="550">登录服务不可用</item>
     <item id="551">用户未找到</item>
+    <item id="553">历史消息</item>
+    <item id="555">消息</item>
+    <item id="556">无名</item>
+    <item id="557">频道列表</item>
+    <item id="558">文件列表</item>
     <item id="1006">文件列表</item>
     <item id="1009">连接后自动加入跟频道</item>
     <item id="1012">主机TCP端口</item>
@@ -569,14 +576,18 @@
     <item id="1335">用户可多次登录</item>
     <item id="1339">教室（管理员可控制传输）</item>
     <item id="1341">为所有用户启用音量修复</item>
+    <item id="1344">增益级别</item>
+    <item id="1345">最大增益 dB</item>
+    <item id="1346">每秒最大增加增益 (dB)</item>
     <item id="1347">忽略静音屏蔽</item>
+    <item id="1348">最大噪音衰减 (dB)</item>
     <item id="1349">比特率</item>
     <item id="1350">最大比特率</item>
     <item id="1351">比特每秒</item>
     <item id="1352">比特每秒 (0 =忽略 )</item>
-    <item id="1357">浏览...</item>
-    <item id="1359">浏览...</item>
-    <item id="1360">浏览...</item>
+    <item id="1357">浏览(&amp;B)</item>
+    <item id="1359">浏览(&amp;B)</item>
+    <item id="1360">浏览(&amp;B)</item>
     <item id="1362">发送时间间隔</item>
     <item id="1363">毫秒</item>
     <item id="1364">所有用户保存单个音频文件</item>
@@ -732,8 +743,8 @@
     <item id="1590">默认</item>
     <item id="1591">左静音</item>
     <item id="1592">右静音</item>
-    <item id="1593">重复播放媒体文件</item>
-    <item id="1594">起始位置</item>
+    <item id="1593">循环播放媒体文件(&amp;P)</item>
+    <item id="1594">起始位置(&amp;O)</item>
     <item id="1595">音频预处理器</item>
     <item id="1596">测试回放</item>
     <item id="32791">您的 &amp;IP 地址</item>
@@ -770,7 +781,7 @@
     <item id="32846">粘贴</item>
     <item id="32847">頻道(&amp;P)</item>
     <item id="32848">用戶(&amp;U)</item>
-    <item id="32849">客户端(&amp;C)</item>
+    <item id="32849">客户端(&amp;L)</item>
     <item id="32850">个人(&amp;M)</item>
     <item id="32851">高级(&amp;A)</item>
     <item id="32853">订阅(&amp;S)</item>
