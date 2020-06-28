@@ -106,6 +106,8 @@
     <string name="pref_summary_mediafile_volume">媒体文件相对于语音的音量</string>
     <string name="pref_title_speakerphone_checkbox">启用扬声器</string>
     <string name="pref_summary_speakerphone_checkbox">从听筒切换为扬声器</string>
+    <string name="pref_title_bluetooth_headset_checkbox">使用蓝牙耳机麦克风</string>
+    <string name="pref_summary_bluetooth_headset_checkbox">连接蓝牙耳机时使用其麦克风</string>
     <string name="pref_title_voice_processing_checkbox">启用语音预处理</string>
     <string name="pref_summary_voice_processing_checkbox">使用回声消除和自动增益控制</string>
     <string name="pref_title_public_servers">显示公共服务器</string>
@@ -320,7 +322,8 @@
     <string name="permission_internet">客户端将无法连接到服务器</string>
     <string name="permission_vibrate">按键说话期间的振动将不可用</string>
     <string name="permission_wake_lock">屏幕锁定时，服务器连接可能会丢失</string>
-    <string name="permission_read_phone_state">无法接听来电</string>
+    <string name="permission_read_phone_state">来电监测将不可用</string>
+    <string name="permission_bluetooth">蓝牙耳机麦克风将不可用</string>
 
     <string name="title_activity_web_login">Web 登录激活</string>
     <string name="weblogin_prop_title_bearwareid">用户名</string>
