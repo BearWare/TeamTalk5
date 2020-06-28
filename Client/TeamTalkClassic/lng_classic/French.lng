@@ -404,6 +404,7 @@
     <item id="557">Liste de canaux</item>
     <item id="558">Liste de fichiers</item>
     <item id="1006">Liste des fichiers</item>
+    <item id="1007">Mot de passe</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>
@@ -714,6 +715,7 @@
     <item id="1553">Profil</item>
     <item id="1554">L&apos;utilisateur peut changer de pseudo</item>
     <item id="1558">L&apos;utilisateur peut enregistrer la voix sur tous les canaux</item>
+    <item id="1560">Nom d'utilisateur</item>
     <item id="1561">Activer</item>
     <item id="1562">Connexion Web BearWare.dk</item>
     <item id="1563">La connexion Web BearWare.dk est utilisée pour identifier un utilisateur TeamTalk. Un identifiant de connexion peut être créé sur le site Web BearWare.dk.</item>
