@@ -34,6 +34,7 @@ Android client
 iOS client
 - Channels are now sorted correctly in TeamTalk on iOS 13 and newer
 - French translation has been updated
+- Blank nicknames are set to NoName followed by user ID
 
 Version 5.5.1, 2020/05/03
 Accessible Windows client
