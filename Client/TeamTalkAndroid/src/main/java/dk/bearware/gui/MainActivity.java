@@ -510,6 +510,7 @@ implements TeamTalkConnectionListener,
                 Log.d(TAG, "Unbinding TeamTalk service");
                 onServiceDisconnected(ttservice);
                 ttservice.disablePhoneCallReaction();
+                ttservice.unwatchBluetoothHeadset();
                 ttservice.resetState();
                 unbindService(mConnection);
                 mConnection.setBound(false);
@@ -1723,6 +1724,9 @@ implements TeamTalkConnectionListener,
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)
+            &&Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
+            ttservice.watchBluetoothHeadset();
 
         if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
             wakeLock.acquire();
@@ -1782,6 +1786,12 @@ implements TeamTalkConnectionListener,
             case Permissions.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE:
                 if ((mConnection != null) && mConnection.isBound())
                     ttservice.enablePhoneCallReaction();
+                break;
+            case Permissions.MY_PERMISSIONS_BLUETOOTH:
+                if ((mConnection != null) && mConnection.isBound())
+                    ttservice.watchBluetoothHeadset();
+                break;
+            default:
                 break;
         }
     }

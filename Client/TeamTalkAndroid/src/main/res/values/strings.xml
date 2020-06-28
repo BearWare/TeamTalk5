@@ -106,6 +106,8 @@
     <string name="pref_summary_mediafile_volume">Media file vs. voice volume</string>
     <string name="pref_title_speakerphone_checkbox">Enable speaker phone</string>
     <string name="pref_summary_speakerphone_checkbox">Switch from earpiece to speakers</string>
+    <string name="pref_title_bluetooth_headset_checkbox">Use bluetooth headset microphone</string>
+    <string name="pref_summary_bluetooth_headset_checkbox">When bluetooth headset is connected use its microphone</string>
     <string name="pref_title_voice_processing_checkbox">Enable voice preprocessing</string>
     <string name="pref_summary_voice_processing_checkbox">Use echo cancellation and automatic gain control</string>
     <string name="pref_title_public_servers">Show public servers</string>
@@ -321,6 +323,7 @@
     <string name="permission_vibrate">Vibrate during push-to-talk will be unavailable</string>
     <string name="permission_wake_lock">Server connection can be lost when screen dims out</string>
     <string name="permission_read_phone_state">Incoming phone call detection will be impossible</string>
+    <string name="permission_bluetooth">Bluetooth headset microphone usage will be impossible</string>
 
     <string translatable="false" name="facebook_app_id">611833262539381</string>
     <string translatable="false" name="fb_login_protocol_scheme">fb611833262539381</string>

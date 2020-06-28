@@ -13,6 +13,12 @@
 		android:title="@string/pref_title_speakerphone_checkbox"
 		android:summary="@string/pref_summary_speakerphone_checkbox" />
 
+	<CheckBoxPreference
+		android:key="bluetooth_headset_checkbox"
+		android:defaultValue="false"
+		android:title="@string/pref_title_bluetooth_headset_checkbox"
+		android:summary="@string/pref_summary_bluetooth_headset_checkbox" />
+
     <CheckBoxPreference
         android:key="voiceprocessing_checkbox"
         android:defaultValue="false"
