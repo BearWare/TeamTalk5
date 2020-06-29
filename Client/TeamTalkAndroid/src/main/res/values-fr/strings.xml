@@ -345,5 +345,7 @@
     <string name="diskquotalab">Quota du disque :</string>
     <string name="bwidlab">Nom d\'utilisateur :</string>
     <string name="bwpswlab">Mot de passe :</string>
+    <string name="ttversion">TeamTalk V</string>
+    <string name="ttdllversion">DLL TeamTalk V</string>
 
 </resources>
