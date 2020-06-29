@@ -1,4 +1,3 @@
-
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
 "07s-AR-tvQ.title" = "Ana Sekme Denetleyicisi";
 
@@ -146,7 +145,7 @@
 /* Class = "UINavigationItem"; title = "Server List"; ObjectID = "pQJ-c1-GEL"; */
 "pQJ-c1-GEL.title" = "Sunucu Listesi";
 
-/* Class = "UILabel"; text = "Setup Annoucements"; ObjectID = "Q0w-pu-giG"; */
+/* Class = "UILabel"; text = "Setup Announcements"; ObjectID = "Q0w-pu-giG"; */
 "Q0w-pu-giG.text" = "Duyuruları Ayarla";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */

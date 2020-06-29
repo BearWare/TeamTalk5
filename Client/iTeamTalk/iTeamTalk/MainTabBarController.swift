@@ -474,8 +474,8 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                     let parentid = TT_GetChannelIDFromPath(ttInst, fromStringWrap(&path))
                     if parentid > 0 {
                         channelsTab.rejoinchannel.nParentID = parentid
-                        toTTString(channame, dst: &channelsTab.rejoinchannel.szName)
-                        toTTString(server.chanpasswd, dst: &channelsTab.rejoinchannel.szPassword)
+                        setChannelString(NAME, &channelsTab.rejoinchannel, channame)
+                        setChannelString(PASSWORD, &channelsTab.rejoinchannel, server.chanpasswd)
                         channelsTab.rejoinchannel.audiocodec = newAudioCodec(DEFAULT_AUDIOCODEC)
                     }
                 }

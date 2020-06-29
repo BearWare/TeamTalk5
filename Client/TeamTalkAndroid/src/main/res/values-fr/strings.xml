@@ -106,6 +106,8 @@
     <string name="pref_summary_mediafile_volume">Volume des fichiers média versus volume de la voix</string>
     <string name="pref_title_speakerphone_checkbox">Activer le haut-parleur du téléphone</string>
     <string name="pref_summary_speakerphone_checkbox">Basculer entre les écouteurs et le haut-parleur</string>
+    <string name="pref_title_bluetooth_headset_checkbox">Utiliser le microphone du casque Bluetooth</string>
+    <string name="pref_summary_bluetooth_headset_checkbox">Utilise le micro du casque Bluetooth lorsqu\'il y en a un de connecter</string>
     <string name="pref_title_voice_processing_checkbox">Activer le traitement de la voix</string>
     <string name="pref_summary_voice_processing_checkbox">Utiliser l\'annulation d\'écho et le contrôle automatique du volume</string>
     <string name="pref_title_public_servers">Afficher les serveurs publics</string>
@@ -321,6 +323,7 @@
     <string name="permission_vibrate">Le vibration au maintenir-pour-parler sera indisponnible</string>
     <string name="permission_wake_lock">La connexion pourra être perdue lorsque l\'écran sera désactivé</string>
     <string name="permission_read_phone_state">La détection des appels entrants sera impossible</string>
+    <string name="permission_bluetooth">L\'utilisation du casque Bluetooth sera impossible</string>
 
     <string name="title_activity_web_login">Activité de connexion Web</string>
     <string name="weblogin_prop_title_bearwareid">Nom d\'utilisateur</string>

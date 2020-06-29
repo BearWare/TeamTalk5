@@ -110,8 +110,7 @@ class ChannelListViewController :
                 passwdField?.autocorrectionType = .no
                 passwdField?.spellCheckingType = .no
                 passwdField?.autocapitalizationType = .none
-                let passwd = withUnsafePointer(to: channel) { getChannelString(PASSWORD, $0) }
-                passwdField?.text = String(cString: passwd!)
+                passwdField?.text = getChannel(channel, strprop: PASSWORD)
             }
             
             passwdAlert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Dialog message"), style: .cancel, handler: { (pAction) in
@@ -170,8 +169,8 @@ class ChannelListViewController :
                 let bid = $1.nChannelID
                 let au = users.values.filter({$0.nChannelID == aid})
                 let bu = users.values.filter({$0.nChannelID == bid})
-                let aname = getChannelName($0)
-                let bname = getChannelName($1)
+                let aname = getChannel($0, strprop: NAME)
+                let bname = getChannel($1, strprop: NAME)
                 return au.count == bu.count ?
                     aname.caseInsensitiveCompare(bname) == ComparisonResult.orderedAscending : au.count > bu.count
             }
@@ -179,8 +178,8 @@ class ChannelListViewController :
             fallthrough
         default :
             displayChans = subchans.sorted() {
-                let aname = getChannelName($0)
-                let bname = getChannelName($1)
+                let aname = getChannel($0, strprop: NAME)
+                let bname = getChannel($1, strprop: NAME)
                 return aname.caseInsensitiveCompare(bname) == ComparisonResult.orderedAscending
             }
         }
@@ -247,9 +246,9 @@ class ChannelListViewController :
             
             let cellIdentifier = "UserTableCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! UserTableCell
-            var user = displayUsers[user_index]
+            let user = displayUsers[user_index]
             let name = getDisplayName(user)
-            let statusmsg = String(cString: getUserString(STATUSMSG, &user))
+            let statusmsg = getUser(user, strprop: STATUSMSG)
             
             cell.nicknameLabel.text = name
             cell.statusmsgLabel.text = statusmsg
@@ -326,7 +325,7 @@ class ChannelListViewController :
             channel = displayChans[chan_index]
             
             title = String(cString: getServerPropertiesString(SERVERNAME, &srvprop))
-            subtitle = String(cString: getChannelString(TOPIC, &channel))
+            subtitle = getChannel(channel, strprop: TOPIC)
             
             if channel.bPassword != 0 {
                 cell.chanimage.image = UIImage(named: "channel_pink.png")
@@ -348,7 +347,7 @@ class ChannelListViewController :
                 subtitle = String(cString: getServerPropertiesString(SERVERNAME, &srvprop))
             }
             else {
-                subtitle = getChannelName(channel)
+                subtitle = getChannel(channel, strprop: NAME)
             }
             
             textcolor = UIColor.gray
@@ -369,8 +368,8 @@ class ChannelListViewController :
             channel = displayChans[chan_index]
             
             let user_count = getUsersCount(channel.nChannelID)
-            title = getChannelName(channel) + " (\(user_count))"
-            subtitle = String(cString: getChannelString(TOPIC, &channel))
+            title = getChannel(channel, strprop: NAME) + " (\(user_count))"
+            subtitle = getChannel(channel, strprop: TOPIC)
             
             if channel.bPassword != 0 {
                 cell.chanimage.image = UIImage(named: "channel_pink.png")
@@ -441,7 +440,7 @@ class ChannelListViewController :
             title = String(cString: getServerPropertiesString(SERVERNAME, &srvprop))
         }
         else {
-            title = getChannelName(curchannel)
+            title = getChannel(curchannel, strprop: NAME)
         }
         
         self.tabBarController?.navigationItem.title = title
@@ -550,20 +549,19 @@ class ChannelListViewController :
                 
                 if rejoinchannel.nChannelID > 0 {
                     // if we were previously in a channel then rejoin
-                    let passwd = chanpasswds[rejoinchannel.nChannelID] != nil ? chanpasswds[rejoinchannel.nChannelID] :
-                        String(cString: getChannelString(PASSWORD, &rejoinchannel))
+                    let passwd = chanpasswds[rejoinchannel.nChannelID] != nil ? chanpasswds[rejoinchannel.nChannelID] : getChannel(rejoinchannel, strprop: PASSWORD)
                     if chanpasswds[rejoinchannel.nChannelID] == nil {
                         // if channel password is from initial login (Server-struct) then we need to store it
-                       chanpasswds[rejoinchannel.nChannelID] = String(cString: getChannelString(PASSWORD, &rejoinchannel))
+                       chanpasswds[rejoinchannel.nChannelID] = getChannel(rejoinchannel, strprop: PASSWORD)
                     }
-                    toTTString(passwd!, dst: &rejoinchannel.szPassword)
+                    setChannelString(PASSWORD, &rejoinchannel, passwd!)
                     cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
                     activeCommands[cmdid] = .joinCmd
                 }
-                else if getChannelName(rejoinchannel).isEmpty == false {
+                else if getChannel(rejoinchannel, strprop: NAME).isEmpty == false {
                     // join from initial login
-                    let passwd = String(cString: getChannelString(PASSWORD, &rejoinchannel))
-                    toTTString(passwd, dst: &rejoinchannel.szPassword)
+                    let passwd = getChannel(rejoinchannel, strprop: PASSWORD)
+                    setChannelString(PASSWORD, &rejoinchannel, passwd)
                     cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
                     activeCommands[cmdid] = .joinCmd
                 }
@@ -626,15 +624,15 @@ class ChannelListViewController :
                 // Fallback on earlier versions
             }
 
-            if var channel = channels[chanid] {
+            if let channel = channels[chanid] {
                 
                 let chanDetail = segue.destination as! ChannelDetailViewController
                 
                 chanDetail.channel = channel
                 
-                if String(cString: getChannelString(PASSWORD, &channel)).isEmpty {
+                if getChannel(channel, strprop: PASSWORD).isEmpty {
                     if let passwd = self.chanpasswds[chanid] {
-                        toTTString(passwd, dst: &chanDetail.channel.szPassword)
+                        setChannelString(PASSWORD, &chanDetail.channel, passwd)
                     }
                 }
             }
@@ -916,7 +914,7 @@ class ChannelListViewController :
                 
                 //store password if it's from initial login (Server-struct)
                 if rejoinchannel.nChannelID == 0 && chanpasswds[user.nChannelID] == nil {
-                   chanpasswds[user.nChannelID] = String(cString: getChannelString(PASSWORD, &rejoinchannel))
+                   chanpasswds[user.nChannelID] = getChannel(rejoinchannel, strprop: PASSWORD)
                 }
                 rejoinchannel = channels[user.nChannelID]! //join this on connection lost
 

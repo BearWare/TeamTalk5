@@ -91,3 +91,5 @@ const TTCHAR* getTextMessageString(MExt e, const TextMessage* m);
 const TTCHAR* getServerPropertiesString(SExt e, const ServerProperties* s);
 const TTCHAR* getClientErrorMsgString(CEExt e, const ClientErrorMsg* m);
 const TTCHAR* getUserAccountString(UAExt e, const UserAccount* u);
+
+void setChannelString(CExt e, Channel* c, const TTCHAR* str);
