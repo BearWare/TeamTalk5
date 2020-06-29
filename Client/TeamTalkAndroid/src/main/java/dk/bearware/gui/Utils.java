@@ -172,17 +172,30 @@ public class Utils {
 
     public static Vector<Channel> getSubChannels(int chanid, Map<Integer, Channel> channels) {
         Vector<Channel> result = new Vector<Channel>();
-        
+
         Iterator<Entry<Integer, Channel>> it = channels.entrySet().iterator();
 
         while (it.hasNext()) {
             Channel chan = it.next().getValue();
-            if (chan.nParentID == chanid)
+            if ((chan.nParentID == chanid) && (chan.nMaxUsers > 0))
                 result.add(chan);
         }
         return result;
     }
-    
+
+    public static Vector<Channel> getStickyChannels(int chanid, Map<Integer, Channel> channels) {
+        Vector<Channel> result = new Vector<Channel>();
+
+        Iterator<Entry<Integer, Channel>> it = channels.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Channel chan = it.next().getValue();
+            if ((chan.nParentID == chanid) && (chan.nMaxUsers <= 0))
+                result.add(chan);
+        }
+        return result;
+    }
+
     public static Vector<User> getUsers(int chanid, Map<Integer, User> users) {
         Vector<User> result = new Vector<User>();
         Iterator<Entry<Integer, User>> it = users.entrySet().iterator();

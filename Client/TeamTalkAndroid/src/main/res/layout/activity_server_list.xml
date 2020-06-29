@@ -17,11 +17,6 @@
                android:layout_weight="0.8"
                android:drawSelectorOnTop="false"/>
 
-     <TextView android:id="@android:id/empty"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="@string/server_list_empty"/>
-
      <Space
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
