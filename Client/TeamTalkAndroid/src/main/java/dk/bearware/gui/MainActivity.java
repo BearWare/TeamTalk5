@@ -340,7 +340,16 @@ implements TeamTalkConnectionListener,
                 break;
             }
             case android.R.id.home : {
-                if (filesAdapter.getActiveTransfersCount() > 0) {
+                Channel parentChannel = ((mViewPager.getCurrentItem() == SectionsPagerAdapter.CHANNELS_PAGE)
+                                         && (curchannel != null)
+                                         && (curchannel.nChannelID != ttclient.getRootChannelID())) ?
+                    ttservice.getChannels().get(curchannel.nParentID) :
+                    null;
+                if ((parentChannel != null) && (parentChannel.nChannelID > 0)) {
+                    setCurrentChannel(parentChannel);
+                    channelsAdapter.notifyDataSetChanged();
+                }
+                else if (filesAdapter.getActiveTransfersCount() > 0) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(this);
                     alert.setMessage(R.string.disconnect_alert);
                     alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
