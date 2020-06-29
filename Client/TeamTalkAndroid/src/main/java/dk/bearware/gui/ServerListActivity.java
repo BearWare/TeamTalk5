@@ -112,6 +112,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
 
         setContentView(R.layout.activity_server_list);
         getListFragment().setListAdapter(adapter);
+        getListFragment().setEmptyText(getString(R.string.server_list_empty));
         getListFragment().getListView().setOnItemClickListener(this);
         getListFragment().getListView().setOnItemLongClickListener(this);
     }
