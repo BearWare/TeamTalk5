@@ -29,3 +29,6 @@ CONFIG(release, debug|release) {
     OBJECTS_DIR = build/rel_teamtalk5pro/obj
 
 }
+@
+QMAKE_POST_LINK = lrelease teamtalk5pro.pro
+@

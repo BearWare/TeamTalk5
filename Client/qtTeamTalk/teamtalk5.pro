@@ -32,3 +32,8 @@ CONFIG(release, debug|release) {
         LIBS += -sectcreate __TEXT __info_plist $${TARGET}.app/Contents/Info.plist
     }
 }
+
+@
+QMAKE_POST_LINK = lrelease teamtalk5.pro
+@
+
