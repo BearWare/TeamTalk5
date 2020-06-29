@@ -892,6 +892,7 @@ implements TeamTalkConnectionListener,
         private LayoutInflater inflater;
 
         Vector<Channel> subchannels = new Vector<Channel>();
+        Vector<Channel> stickychannels = new Vector<Channel>();
         Vector<User> currentusers = new Vector<User>();
 
         ChannelListAdapter(Context context) {
@@ -903,12 +904,14 @@ implements TeamTalkConnectionListener,
             int chanid = 0;
 
             subchannels.clear();
+            stickychannels.clear();
             currentusers.clear();
 
             if(curchannel != null) {
                 chanid = curchannel.nChannelID;
 
                 subchannels = Utils.getSubChannels(chanid, ttservice.getChannels());
+                stickychannels = Utils.getStickyChannels(chanid, ttservice.getChannels());
                 currentusers = Utils.getUsers(chanid, ttservice.getUsers());
             }
             else {
@@ -918,15 +921,12 @@ implements TeamTalkConnectionListener,
                     subchannels.add(root);
             }
 
-            Collections.sort(subchannels, new Comparator<Channel>() {
-                    @Override
-                    public int compare(Channel c1, Channel c2) {
-                        if ((c1.nMaxUsers <= 0) && (c2.nMaxUsers > 0))
-                            return -1;
-                        else if ((c1.nMaxUsers > 0) && (c2.nMaxUsers <= 0))
-                            return 1;
-                        return c1.szName.compareToIgnoreCase(c2.szName);
-                    }
+            Collections.sort(subchannels, (c1, c2) -> {
+                    return c1.szName.compareToIgnoreCase(c2.szName);
+                });
+
+            Collections.sort(stickychannels, (c1, c2) -> {
+                    return c1.szName.compareToIgnoreCase(c2.szName);
                 });
 
             Collections.sort(currentusers, new Comparator<User>() {
@@ -950,7 +950,7 @@ implements TeamTalkConnectionListener,
 
         @Override
         public int getCount() {
-            int count = currentusers.size() + subchannels.size();
+            int count = currentusers.size() + subchannels.size() + stickychannels.size();
             if ((curchannel != null) && (curchannel.nParentID > 0)) {
                 count++; // include parent channel shortcut
             }
@@ -959,6 +959,13 @@ implements TeamTalkConnectionListener,
 
         @Override
         public Object getItem(int position) {
+
+            if (position < stickychannels.size()) {
+                return stickychannels.get(position);
+            }
+
+            // sticky channels are first so subtract these
+            position -= stickychannels.size();
 
             if (position < currentusers.size()) {
                 return currentusers.get(position);
@@ -989,6 +996,12 @@ implements TeamTalkConnectionListener,
         @Override
         public int getItemViewType(int position) {
 
+            if (position < stickychannels.size())
+                return INFO_VIEW_TYPE;
+
+            // sticky channels are first so subtract these
+            position -= stickychannels.size();
+
             if (position < currentusers.size())
                 return USER_VIEW_TYPE;
 
@@ -1003,7 +1016,7 @@ implements TeamTalkConnectionListener,
                 position--; // subtract parent channel shortcut
             }
 
-            return (subchannels.get(position).nMaxUsers > 0) ? CHANNEL_VIEW_TYPE : INFO_VIEW_TYPE;
+            return CHANNEL_VIEW_TYPE;
         }
 
         @Override
