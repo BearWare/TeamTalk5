@@ -50,6 +50,9 @@ ChangeStatusDlg::ChangeStatusDlg(QWidget* parent/* = 0*/)
             ui.questionBtn->setFocus();
             ui.questionBtn->setChecked(true);break;
         }
+if(ui.awayBtn->isChecked())
+        ui.msgEdit->setText(_Q(m_user.szStatusMsgaway));
+
         ui.msgEdit->setText(_Q(m_user.szStatusMsg));
     }
 }
