@@ -435,7 +435,7 @@ void CTeamTalkDlg::StartMediaStream()
     }
 
     m_nStatusMode |= STATUSMODE_STREAM_MEDIAFILE;
-    TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
+    TT_DoChangeStatus(ttInst, m_nStatusMode, LoadText(IDS_STREAMINGMDFILE, _T("Streaming media file")));
 }
 
 void CTeamTalkDlg::StopMediaStream()

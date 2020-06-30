@@ -453,6 +453,7 @@
 #define IDC_STATIC_MIKE                 1008
 #define IDC_CHECK_AUTOJOINROOT          1009
 #define IDC_STATIC_APPTITLE             1010
+#define IDS_STREAMINGMDFILE             1011
 #define IDC_STATIC_HOSTTCPPORT          1012
 #define IDC_STATIC_SPLITTER             1013
 #define IDC_TREE_SESSION                1014

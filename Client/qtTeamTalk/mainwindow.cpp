@@ -2839,8 +2839,8 @@ void MainWindow::startStreamMediaFile()
         //if(tx_mode & TRANSMIT_VIDEO)
         //    m_statusmode |= STATUSMODE_VIDEOTX;
 
-        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-        TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+        //QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        TT_DoChangeStatus(ttInst, m_statusmode, _W(tr("Streaming media file")));
     }
 }
 
