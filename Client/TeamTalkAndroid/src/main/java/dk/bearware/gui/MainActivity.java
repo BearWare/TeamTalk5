@@ -333,8 +333,6 @@ implements TeamTalkConnectionListener,
             }
             break;
             case R.id.action_settings : {
-                if ((mConnection != null) && mConnection.isBound())
-                    ttservice.unwatchBluetoothHeadset();
                 Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
                 startActivity(intent);
                 break;
@@ -398,9 +396,11 @@ implements TeamTalkConnectionListener,
                 Log.e(TAG, "Failed to bind to TeamTalk service");
         }
         else {
-            if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)
-                &&Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
-                ttservice.watchBluetoothHeadset();
+            if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)) {
+                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
+                    ttservice.watchBluetoothHeadset();
+            }
+            else ttservice.unwatchBluetoothHeadset();
 
             int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
             int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
@@ -1752,7 +1752,7 @@ implements TeamTalkConnectionListener,
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)
-            &&Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
+            && Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
             ttservice.watchBluetoothHeadset();
 
         if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
