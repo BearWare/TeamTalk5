@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>TeamTalk - change log</title>
+</head>
+<body>
+<h1>TeamTalk's change log</h1>
+<h2>Version 5.6&nbsp;: unreleased</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>Removed duplex mode for sound devices</li>
+<li>Removed Windows Sound system</li>
+<li>Removed Advanced page from Preferences</li>
+<li>Default sound system, Windows Audio Session, now uses Windows' own echo cancellor, AGC and noise suppression</li>
+<li>User accounts are now sorted alphabetically</li>
+<li>Text message log files are stored with .clog and .ulog extension for channel and user log respectively</li>
+<li>Blank nicknames are set to NoName followed by user ID</li>
+<li>More items are now translatable.</li>
+<li>French, Turkish, German and Chinese languages updated.</li>
+<li>When you are playing media file to channel, your status message is now updated</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Removed duplex mode for sound devices</li>
+<li>Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression</li>
+<li>Text message log files are stored with .clog and .ulog extension for channel and user log respectively</li>
+<li>Press tab changes focus in text message dialog</li>
+<li>More items are now translatables. French translation has been updated. Translators, you are invited to check ts files to update your translations with new strings.</li>
+<li>More elements are now labellize, specificly in main's window.</li>
+<li>When you switch to Away mode due to your inactivity, your status message is now updated</li>
+<li>Blank nicknames are set to NoName followed by user ID</li>
+<li>When you are playing media file to channel, your status message is now updated</li></ul></li>
+<li>Android client
+<ul>
+<li>Empty channels with max users set to zero are listed first (sticky channels)</li>
+<li>French's language is now supported</li>
+<li>Buttons for changing between tabs Channels, Chat, Media Streams and Files</li>
+<li>Preferences are grouped into General, Sound Events, Text to Speech, Connection and Sound System</li>
+<li>Users are now displayed before channels</li>
+<li>Support for dark mode and day/night shift</li>
+<li>Blank nicknames are set to NoName followed by user ID</li>
+<li>More elements are now labeled, specifically some edit fields</li>
+<li>Bluetooth headset microphone usage facility</li>
+<li>Use back button to navigate to the parent channel</li></ul></li>
+<li>iOS client
+<ul>
+<li>Channels are now sorted correctly in TeamTalk on iOS 13 and newer</li>
+<li>French translation has been updated</li>
+<li>Blank nicknames are set to NoName followed by user ID</li></ul></li>
+</ul>
+<h2>Version 5.5.1&nbsp;: 2020/05/03</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>Fixed crash issue when opening stream media file dialog</li></ul></li>
+</ul>
+<h2>Version 5.5&nbsp;: 2020/04/14</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>VBR/CBR selection for OPUS codec </li>
+<li>Frame size selection for OPUS codec</li>
+<li>Max transmission interval increased to 500 msec</li>
+<li>Audio preprocessor for media file streaming</li>
+<li>Control media file offset before streaming to channel</li>
+<li>Test media file playback before streaming to channel</li>
+<li>Option to repeat media file playback</li>
+<li>Fixed bug where audio recording to single file contained audio from media files</li>
+<li>Fixed bug in .ogg file header for OPUS codec</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>VBR/CBR selection for OPUS codec </li>
+<li>Frame size selection for OPUS codec</li>
+<li>Max transmission interval increased to 500 msec</li>
+<li>Audio preprocessor for media file streaming</li>
+<li>Control media file offset before streaming to channel</li>
+<li>Pause media file while streaming to channel</li>
+<li>Test media file playback before streaming to channel</li>
+<li>Restored compatibility with Windows 7 (api-ms-win-core-winrt-l1-1-0.dll)</li>
+<li>Fixed bug where audio recording to single file contained audio from media files</li>
+<li>Fixed bug in .ogg file header for OPUS codec</li></ul></li>
+<li>Android client
+<ul>
+<li>VBR/CBR selection for OPUS codec </li>
+<li>Frame size selection for OPUS codec</li>
+<li>Max transmission interval increased to 500 msec</li>
+<li>Portuguese translation</li></ul></li>
+<li>iOS client
+<ul>
+<li>VBR/CBR selection for OPUS codec </li>
+<li>Frame size selection for OPUS codec</li>
+<li>Max transmission interval increased to 500 msec</li>
+<li>Support for Dark Theme</li></ul></li>
+</ul>
+<h2>Version 5.4.1&nbsp;: 2019/10/16</h2>
+<ul>
+<li>Android client
+<ul>
+<li>Fixed crash issue when uploading file</li></ul></li>
+<li>iOS client
+<ul>
+<li>Updated Danish translation</li></ul></li>
+</ul>
+<h2>Version 5.4&nbsp;: 2019/06/25</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>Stream HTTP and HTTPS URLs instead of only files (Windows 10)</li>
+<li>Online Users dialog now updates continuesly</li>
+<li>Online Users dialog allows banning logged out users</li>
+<li>OPUS audio codec v1.3</li>
+<li>Romanian language</li>
+<li>Indonesian language</li>
+<li>Store audio in MP3 format</li>
+<li>Sound event for broadcast message</li>
+<li>BearWare.dk web-login for TeamTalk 5 Official servers</li>
+<li>Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Stream HTTP and HTTPS URLs instead of only files in Windows 10</li>
+<li>Sort bans in Banned Users dialog</li>
+<li>Sort user accounts in Users Accounts dialog</li>
+<li>OPUS audio codec v1.3</li>
+<li>Store audio in MP3 format on Windows</li>
+<li>Sound event for broadcast message</li>
+<li>BearWare.dk web-login for TeamTalk 5 Official servers</li>
+<li>Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)</li></ul></li>
+<li>Android client
+<ul>
+<li>Minimum Android version is now 5.0</li>
+<li>OPUS audio codec v1.3</li>
+<li>Sound event for broadcast message</li>
+<li>Option to announce content of private and channel messages</li>
+<li>Proximity sensor can be used to toggle voice transmission</li>
+<li>BearWare.dk web-login for TeamTalk 5 Official servers</li>
+<li>Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)</li></ul></li>
+<li>iOS client
+<ul>
+<li>OPUS audio codec v1.3</li>
+<li>Sound event for broadcast message</li>
+<li>BearWare.dk web-login for TeamTalk 5 Official servers</li>
+<li>Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)</li></ul></li>
+<li>Server
+<ul>
+<li>Protection against login/logout floods using "login delay"</li>
+<li>Linux server now depends on OpenSSL (libssl package)</li></ul></li>
+</ul>
+<h2>Version 5.3.5&nbsp;: 2019/01/01</h2>
+<ul>
+<li>Default Qt client
+<ul>
+<li>Microphone and camera permission prompt on macOS Mojave</li></ul></li>
+</ul>
+<h2>Version 5.3.4&nbsp;: 2018/11/18</h2>
+<ul>
+<li>iOS client
+<ul>
+<li>Fixed sort channels by popularity</li>
+<li>Chinese translation</li></ul></li>
+</ul>
+<h2>Version 5.3.3&nbsp;: 2018/11/15</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>Text-to-speech event for new file and removed file</li>
+<li>Fixed issue where media files could not be played in class room channels</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Shared desktop now remains in same position after desktop update</li>
+<li>Double click to ban/unban in Banned Users dialog</li>
+<li>Stream HTTPS on macOS and Linux</li>
+<li>Fixed issue where media files could not be played in class room channels</li></ul></li>
+<li>Android client
+<ul>
+<li>Stream HTTP URLs as media files</li>
+<li>Sound event for users joining and leaving</li>
+<li>Notification on incoming text message</li>
+<li>Chinese language</li></ul></li>
+<li>iOS client
+<ul>
+<li>Separate view controller for Text-To-Speech announcements</li>
+<li>Separate view controller for sound events</li>
+<li>Announce user log in/out</li>
+<li>Join user account's initial channel</li></ul></li>
+<li>Server
+<ul>
+<li>Fixed issue where media files could not be played in class room channels</li>
+<li>Fixed security issue where IP-address or username could be banned without the ban user-right enabled</li></ul></li>
+</ul>
+<h2>Version 5.3.2&nbsp;: 2018/05/25</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>Users now arranged before channels in tree view</li>
+<li>Option to enable/disable user's voice/video/desktop/media-file stream</li>
+<li>Try to connect to all resolved hosts (i.e. localhost both on 127.0.0.1 and ::1)</li>
+<li>Sort channels ascending or popularity</li>
+<li>File owner column in files tab</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Users now arranged before channels in tree view</li>
+<li>Option to enable/disable user's voice/video/desktop/media-file stream</li>
+<li>Try to connect to all resolved hosts (i.e. localhost both on 127.0.0.1 and ::1)</li>
+<li>Fixed webcam not working on macOS</li></ul></li>
+<li>iOS client
+<ul>
+<li>Sort channels ascending or popularity</li>
+<li>Fixed Tmobile clients not able to connect to servers when using data</li></ul></li>
+<li>Server
+<ul>
+<li>Added user-right to record in channel where it's not allowed</li>
+<li>Bind to multiple IP-addresses</li>
+<li>Icon for console server on Windows </li></ul></li>
+</ul>
+<h2>Version 5.3&nbsp;: 2018/02/18</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>Facebook web-login for Facebook enabled TeamTalk servers</li>
+<li>Profiles for running multiple TeamTalk clients (Ctrl+N)</li>
+<li>Ban users from channel</li>
+<li>Ban option for username and/or IP-address</li>
+<li>Option to lock nickname (Facebook name)</li>
+<li>Abuse prevention tab in user account administration</li>
+<li>Tell operator state using Ctrl+G</li>
+<li>Send text message from Online Users dialog</li>
+<li>Move multiple users (Store for Move menu-item)</li>
+<li>French language now supported</li>
+<li>Arabic, German, Turkish, Chinese updated</li>
+<li>OPUS audio codec updated to v1.2.1</li>
+<li>WebM (VPX) video codec updated to v1.6.1</li>
+<li>Windows XP is no longer supported</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Facebook web-login for Facebook enabled TeamTalk servers</li>
+<li>Profiles for running multiple TeamTalk clients (Ctrl+N)</li>
+<li>Ban users from channel</li>
+<li>Ban option for username and/or IP-address</li>
+<li>Option to ban subnets using wildcards, e.g. 192.168.0.*</li>
+<li>Option to lock nickname (Facebook name)</li>
+<li>Abuse prevention tab in user account administration</li>
+<li>OPUS audio codec updated to v1.2.1</li>
+<li>WebM (VPX) video codec updated to v1.6.1</li>
+<li>TeamTalk client for Windows no longer supports Windows XP</li>
+<li>TeamTalk clients for Windows updated to Qt v5.8</li>
+<li>TeamTalk clients for Debian Linux updated to Debian GNU/Linux 9 (stretch) and Qt v5.7 (PTT behaviour changed)</li>
+<li>TeamTalk client for Mac requires minimum macOS 10.9 (Mavericks)</li></ul></li>
+<li>Android client
+<ul>
+<li>Facebook web-login for Facebook enabled TeamTalk servers</li>
+<li>Toggle subscriptions in User Information activity</li>
+<li>URLs in text messages are now clickable</li>
+<li>Added Indonesian language thanks to Muhammad Gagah</li>
+<li>OPUS audio codec updated to v1.2.1</li>
+<li>WebM (VPX) video codec updated to v1.6.1</li></ul></li>
+<li>iOS client
+<ul>
+<li>Facebook web-login for Facebook enabled TeamTalk servers</li>
+<li>Ban user from channel with accessible action</li>
+<li>OPUS audio codec updated to v1.2.1</li></ul></li>
+<li>Server
+<ul>
+<li>Facebook user authentication</li>
+<li>Ban users from channel</li>
+<li>Ban option for username and/or IP-address</li>
+<li>Fixed brute force login prevention using ban feature</li>
+<li>Limit number of issued commands by clients</li>
+<li>TeamTalk server for Windows no longer supports Windows XP</li>
+<li>TeamTalk server for Mac requires minimum macOS 10.9 (Mavericks)</li>
+<li>TeamTalk server for Debian Linux updated to Debian GNU/Linux 9 (stretch)</li>
+<li>TeamTalk server Raspberry Pi updated to Raspbian GNU/Linux 9 (stretch)</li></ul></li>
+</ul>
+<h2>Version 5.2.4&nbsp;: 2017/11/08</h2>
+<ul>
+<li>Android client
+<ul>
+<li>Stay connected after screen dims</li>
+<li>Set voice activation level on main screen</li>
+<li>Toggle between voice activation and microphone gain</li>
+<li>Disable voice communication during phone call</li>
+<li>Status bar notification for initiated connection</li>
+<li>Ask before deleting server entry</li></ul></li>
+<li>iOS client
+<ul>
+<li>Updated UI to iOS 11</li>
+<li>Corrected accessibility hint for TX button</li></ul></li>
+</ul>
+<h2>Version 5.2.3&nbsp;: 2017/06/01</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>Fixed crash issue when receiving multiple voice streams</li>
+<li>Two new sound events for transmit start/suspended</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Fixed crash issue when receiving multiple voice streams</li></ul></li>
+<li>Android client
+<ul>
+<li>Fixed crash issue when receiving multiple voice streams</li></ul></li>
+<li>iOS client
+<ul>
+<li>Fixed crash issue when receiving multiple voice streams</li></ul></li>
+</ul>
+<h2>Version 5.2.2&nbsp;: 2017/05/08</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>Queue system when channel type is "Allow only one user to talk"</li>
+<li>Sound events for:
+<ul>
+<li>Voice activation feature enabled/disabled</li>
+<li>Voice activation triggered</li>
+<li>Transmit ready/suspended in channel type "Allow only one user to talk" (requires server v5.2.2)</li></ul></li>
+<li>Close private text message dialog by pressing escape</li>
+<li>Virtual sound device for no input/output sound device</li>
+<li>Sound events are played fully, i.e. new sound events do not cancel currently played</li>
+<li>Added Arabic language</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Virtual sound device for no input/output sound device</li></ul></li>
+<li>Android client
+<ul>
+<li>Added Arabic language</li>
+<li>Option to disable public servers from server list</li>
+<li>Sound events for:
+<ul>
+<li>Voice activation triggered</li>
+<li>Transmit ready/suspended in "No Interruptions" channel (requires server v5.2.2)</li></ul></li></ul></li>
+<li>iOS client
+<ul>
+<li>Added Arabic language (Israel)</li>
+<li>Sound events for:
+<ul>
+<li>Voice activation triggered</li>
+<li>Transmit ready/suspended in "No Interruptions" channel (requires server v5.2.2)</li></ul></li></ul></li>
+</ul>
+<h2>Version 5.2.1&nbsp;: 2017/01/30</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>Fixed bug causing audio playback to halt during bursts</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Fixed bug causing audio playback to halt during bursts</li></ul></li>
+<li>Android client
+<ul>
+<li>Fixed bug causing audio playback to halt during bursts</li></ul></li>
+<li>iOS client
+<ul>
+<li>Added accessible action for moving users</li>
+<li>Accessible actions now takes user-rights into account</li>
+<li>Client now asks whether to save new servers to list when disconnecting</li>
+<li>Configurable option on whether Return should automatically send text message</li>
+<li>Fixed bug causing audio playback to halt during bursts</li>
+<li>Fixed reconnect issue when switching from WIFI to phone network</li></ul></li>
+</ul>
+<h2>Version 5.2&nbsp;: 2017/01/08</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>Store audio in .ogg format</li>
+<li>Fixed bug when storing in 4GB .wav file</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Linux video capture updated to V4L2</li>
+<li>Reduced shared library dependencies on Linux</li>
+<li>Mac OS video capture updated to AVFoundation</li>
+<li>Mac OS client no longer closes when pressing X</li>
+<li>Video TX hotkey changed to enable/disable by one press</li>
+<li>Store audio in .ogg format</li>
+<li>Fixed bug when storing in 4GB .wav file</li>
+<li>Fixed bug on Mac OS where some sounds where not played</li></ul></li>
+<li>iOS client
+<ul>
+<li>Fixed recording/playback issue related to Bluetooth headsets</li></ul></li>
+</ul>
+<h2>Version 5.1.7&nbsp;: 2016/08/10</h2>
+<ul>
+<li>Default Qt client
+<ul>
+<li>Fixed bug where tone was generated instead of voice input</li></ul></li>
+</ul>
+<h2>Version 5.1.6&nbsp;: 2016/08/09</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>TTS events are now configurable in Preferences</li>
+<li>Sliders labelled for screen reader</li>
+<li>Option in Help-menu to reset to default settings</li>
+<li>Pressing Enter on Channel item now means join</li>
+<li>Pressing Enter on User item now means text message</li>
+<li>Announce who is talking/streaming/desktop/video by pressing Ctrl+Shift+G</li>
+<li>Video transmission state is restored when restarting the application</li>
+<li>Classroom channel transmit all menu-item in Users->Advanced</li>
+<li>Added Estonian language</li>
+<li>Closing client will minize to tray (if minimize to tray is enabled)</li>
+<li>Fixed issue where voice processing was not reenabled</li>
+<li>Fixed issue where incorrect sound device is chosen when new sound devices are plugged/unplugged</li>
+<li>Fixed issue where status-mode is reset after reconnect</li>
+<li>Fixed issue where default video frame rate was always selected</li>
+<li>Fixed issue where resizing video dialog would show weird colors</li>
+<li>Fixed issue where local audio was not stored in MP3 format</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Multi selection for kick, ban, volume levels</li>
+<li>Option in Help-menu to reset to default settings</li>
+<li>Video transmission state is restored when restarting the application</li>
+<li>Fixed issue where local audio was not stored in MP3 format (on Windows)</li></ul></li>
+<li>Android client
+<ul>
+<li>Kick/ban option</li>
+<li>Single tap to connect in portrait mode, edit in landscape mode</li>
+<li>Added voice preprocessing option in preferences (echo cancellation)</li>
+<li>Added speakerphone option in preferences</li></ul></li>
+<li>iOS client
+<ul>
+<li>Reintroduced "Voice Preprocessing" option in preferences</li></ul></li>
+</ul>
+<h2>Version 5.1.5</h2>
+<ul>
+<li>iOS client
+<ul>
+<li>Removed use of "Voice Preprocessing" option in preferences</li></ul></li>
+</ul>
+<h2>Version 5.1.4&nbsp;: 2016/06/18</h2>
+<ul>
+<li>iOS client
+<ul>
+<li>Keyboard closes when sending empty message</li>
+<li>TX toggle from headset now configurable</li>
+<li>BlueTooth support</li>
+<li>Added "Voice Preprocessing" option to preferences for better echo cancellation</li></ul></li>
+</ul>
+<h2>Version 5.1.3&nbsp;: 2016/05/01</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>Portuguese_BR, Chinese Simplified, Turkish, Czech, Korean updated</li>
+<li>Names for main window controls (translatable)</li>
+<li>Fixed issue where away-status was not set after reconnect</li>
+<li>Show username instead of nickname in channel list</li>
+<li>TTS for private and channel text messages</li>
+<li>See which client application is being used</li>
+<li>Fixed bug where video encoder was always set to 256 kbit/sec</li>
+<li>Significant improvement in video encoder speed</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Option to enable/disable VU-meter updates</li>
+<li>Show username instead of nickname in channel list</li>
+<li>See which client application is being used</li>
+<li>Fixed bug where video encoder was always set to 256 kbit/sec</li>
+<li>Significant improvement in video encoder speed</li></ul></li>
+<li>Android client
+<ul>
+<li>Voice activation</li>
+<li>Show username instead of nickname</li>
+<li>Updated Turkish and Russian</li>
+<li>Volume control more responsive</li>
+<li>Green icon for "self" when talking</li></ul></li>
+<li>iOS client
+<ul>
+<li>Fixed crash issue when creating channel and VoiceOver active</li>
+<li>Fixed audio stream not resuming after phone call</li>
+<li>Fixed disconnect issue after long phone call</li>
+<li>Default to OPUS audio codec when creating new channel</li>
+<li>iOS 7.0 support (iPhone 4)</li>
+<li>tt:// URL and .tt file support</li></ul></li>
+<li>Server
+<ul>
+<li>systemd configuration file thanks to Leonard de Ruijter</li></ul></li>
+</ul>
+<h2>Version 5.1.2&nbsp;: 2016/02/18</h2>
+<ul>
+<li>iOS client
+<ul>
+<li>Initial release</li></ul></li>
+</ul>
+<h2>Version 5.1.1&nbsp;: 2015/10/02</h2>
+<ul>
+<li>Accessible Windows client
+<ul>
+<li>Added -cfg command line argument for new/existing ini-file</li>
+<li>Added Import .tt File button in Host Manager</li>
+<li>Record own voice stream when using separate media files (user-id 0)</li>
+<li>Fixed issue where video resolution couldn't be changed</li>
+<li>Fixed issue where operator password caused error message</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Added -cfg command line argument for new/existing ini-file</li>
+<li>Record own voice stream when using separate media files (user-id 0)</li></ul></li>
+<li>Server
+<ul>
+<li>Fixed issue where files were not put in correct channel</li></ul></li>
+</ul>
+<h2>Version 5.1&nbsp;: 2015/06/15</h2>
+<ul>
+<li>General
+<ul>
+<li>Fixed clicking sound when streaming media files</li></ul></li>
+<li>Accessible Windows client
+<ul>
+<li>Ctrl+G sends user or channel state to text-to-speech in classic client</li>
+<li>Changed tab-order in classic client's connect dialog</li>
+<li>Option to set media file vs. voice volume in Sound System-tab</li>
+<li>Denoise and Automatic Gain Control now active when doing sound device test</li>
+<li>Volume and gain level has new min/max values (0-100%)</li>
+<li>Remembers channel passwords when joining same channel again</li>
+<li>Croatian language</li></ul></li>
+<li>Default Qt client
+<ul>
+<li>Custom video capture format (Video-tab)</li>
+<li>Last to talk is shown in yellow</li>
+<li>Flip image menu option in Qt client (right-click image)</li>
+<li>Option to set media file vs. voice volume in Sound System-tab</li>
+<li>Denoise and Automatic Gain Control now active when doing sound device test</li>
+<li>Fixed text message window appearing in background on Mac OS X</li>
+<li>Volume and gain level has new min/max values (0-100%)</li>
+<li>Remembers channel passwords when joining same channel again</li>
+<li>Bulgarian language</li>
+<li>Hungarian language</li></ul></li>
+<li>Android client
+<ul>
+<li>Fixed sampling rate limited to 16 KHz mono</li>
+<li>Video capture and media file playback</li>
+<li>Fixed crash in settings on some Android devices</li>
+<li>Microphone and master volume gain</li></ul></li>
+<li>Server
+<ul>
+<li>Default audio codec for server's root channel is now OPUS</li>
+<li>CentOS 5/6 i386 executable</li>
+<li>CentOS 7 x86_64 executable</li></ul></li>
+</ul>
+<h2>Version 5.0&nbsp;: 2015/03/10</h2>
+<ul>
+<li>WebM video codec replaces Theora</li>
+<li>OPUS audio codec replaces CELT</li>
+<li>Separate stream for multimedia files</li>
+<li>User rights now part of user account (instead of server properties)</li>
+<li>Audio codec bitrate limit moved to user account</li>
+<li>Max number of channels 4000</li>
+<li>Max number of users 1000</li>
+<li>Removed P2P support</li>
+<li>Rename channel names</li>
+<li>No voice activation channel type</li>
+<li>Added -pid-file option to server</li>
+<li>Automatic gain control enabled by default</li>
+<li>Classroom free-for-all stored in server's config file</li>
+<li>Default server config file now tt5srv.xml and log file tt5srv.log</li>
+<li>Daemon startup script for Debian Linux</li>
+<li>Server statistics for "users served", "users peak" and "uptime"</li>
+<li>Console server included with Windows-distribution</li>
+<li>Refresh sound devices for Classic client</li>
+<li>No recording allowed channel type</li>
+<li>Packetloss statistics in Classic client</li>
+<li>Option in Classic client to disable VU-meter</li>
+<li>Classic client now uses default screen-reader text-to-speech</li>
+<li>AGC, denoise and echo cancellation for stereo codecs</li>
+<li>Czech language file for Classic client</li>
+</ul>
+<h2>Version 4.6.3&nbsp;: 2014/12/31</h2>
+<ul>
+<li>Limit text length in classic client</li>
+<li>TT-file generator with client setup</li>
+<li>Push-to-talk key in statusbar</li>
+<li>Log channel and user text messages to files</li>
+<li>Store Audio to Disk renamed to Record Conversations</li>
+</ul>
+<h2>Version 4.6.2</h2>
+<ul>
+<li>Mac OS X 64-bit build with Qt 5.3.1</li>
+</ul>
+<h2>Version 4.6.1&nbsp;: 2014/06/19</h2>
+<ul>
+<li>Fixes problem saving settings in General-tab</li>
+<li>WebCam support in Mac OS X 64-bit</li>
+<li>Added command line argument -l option to server</li>
+<li>Log messages for add/delete user account, move user</li>
+</ul>
+<h2>Version 4.6&nbsp;: 2014/02/20</h2>
+<ul>
+<li>Control shared desktops remotely (no keyboard support on X11)</li>
+<li>TeamTalk client for Mac OS X 64-bit (no webcam support)</li>
+<li>Fixes video and desktop paint issue on Mac OS X</li>
+<li>Fixes Windows bug where streaming media file ends abruptly</li>
+<li>Solves issue with unidentified developer on Mac OS X</li>
+<li>Remembers last download/upload file location</li>
+<li>https:// link support in Chat-tab</li>
+<li>Fixes security issue where users could send text messages outside own channel</li>
+<li>Fixes issue where users could create sub-channels outside parent channel</li>
+<li>Added "Leave channel" menu item</li>
+</ul>
+<h2>Version 4.5.2&nbsp;: 2013/09/18</h2>
+<ul>
+<li>Video text box with user's nickname</li>
+<li>Limit text strings in channels view</li>
+<li>Fixed video and desktop dialogs on Mac OS X are not resizeable</li>
+<li>TeamTalk server for CentOS 5.9</li>
+<li>Updated language files for Classic/accessible client</li>
+</ul>
+<h2>Version 4.5&nbsp;: 2013/08/24</h2>
+<ul>
+<li>Stream media files</li>
+<li>Max login attempts in Server Properties</li>
+<li>Max logins per IP-address in Server Properties</li>
+<li>Ban IP-address without user present</li>
+</ul>
+<h2>Version 4.4&nbsp;: 2012/09/26</h2>
+<ul>
+<li>Windows Audio Session support (low latency sound system)</li>
+<li>Automatic resampling of unsupported sample rates on Linux</li>
+<li>Operator receive only channel type</li>
+<li>Security updates</li>
+<li>Fixed freeze in Online Users dialog</li>
+<li>Double-click user opens video dialog</li>
+<li>Enable/disable closed video dialog back to video grid</li>
+</ul>
+<h2>Version 4.3&nbsp;: 2012/03/13</h2>
+<ul>
+<li>Desktop sharing</li>
+<li>Video sessions start faster (no wait for key frames)</li>
+<li>Sound event for new video and/or desktop session</li>
+<li>See own video stream</li>
+<li>Specify default subscriptions in properties</li>
+<li>Loop audio files played to channel</li>
+<li>Channel operators in user account properties</li>
+<li>Free-for-all option in classroom channels</li>
+<li>User-typing notification in text message dialog</li>
+</ul>
+<h2>Version 4.2&nbsp;: 2011/10/04</h2>
+<ul>
+<li>Store conversations to a single file</li>
+<li>Server-side audio codec bitrate limitation</li>
+<li>Server can set max throughput</li>
+<li>Transmission interval (delay between packets)</li>
+<li>IPv6 support</li>
+<li>TTS events in class-room channels for accessibility client</li>
+<li>Windows Firewall exception during install</li>
+<li>Speex VBR codec</li>
+<li>CELT 0.11.1 codec (CBR and VBR mode)</li>
+<li>CELT codec (0.5.2) in TeamTalk 4.1 and earlier is now obsolete</li>
+</ul>
+<h2>Version 4.1&nbsp;: 2010/10/31</h2>
+<ul>
+<li>Classroom channel type</li>
+<li>Server statistics </li>
+<li>Subscriptions in accessibility client</li>
+<li>Czech, French, Hebrew, Italian, Portuguese (EU & BR), Slovak, Slovenian, Spanish and Thai languages</li>
+<li>Video playback is delayed until first key-frame is received</li>
+<li>Configurable volume level for all users in a channel</li>
+<li>Echo cancellation for removing echo from speakers</li>
+<li>Subscription changes are listed as status messages</li>
+<li>TeamTalk for Mac OS X</li>
+<li>TeamTalk 4 PHP Admin</li>
+</ul>
+<h2>Version 4.0.1&nbsp;: 2010/01/07</h2>
+<ul>
+<li>Improved file transfer performance</li>
+<li>German, Portuguese and Russian language</li>
+<li>tt:// URLs</li>
+<li>Restrict a user account to one login per account</li>
+<li>Server stores statistics to log file on shutdown</li>
+<li>Fixed TCP ping issue causing dropped connections</li>
+<li>Windows 64-bit versions</li>
+<li>URL aware chat text</li>
+<li>Ability to specify server timeout and keep alive interval in accessibility client</li>
+<li>Minimize/restore hotkey in accessibility client</li>
+<li>Support for more video capture resolutions</li>
+<li>Store audio moved to Users-menu, now applies to all users</li>
+<li>Video transmission logo also for local user</li>
+</ul>
+<h2>Version 4.0&nbsp;: 2009/11/23</h2>
+<ul>
+<li>Video capture</li>
+<li>User accounts</li>
+<li>CELT codec</li>
+<li>Stereo recording/playback</li>
+<li>Improved P2P</li>
+</ul>
+<h2>Version 3.6.2</h2>
+<ul>
+<li>Server settings' <server-logging> field replaced by <server-log-maxsize></li>
+</ul>
+<h2>Version 3.6.1&nbsp;: 2009/07/14</h2>
+<ul>
+<li>Chinese Traditional language file</li>
+<li>Installer now has option only to install client</li>
+<li>Fixed server bug loading static channels from 3.5 settings file</li>
+<li>Channels with queued voice transmission</li>
+<li>Echo channels</li>
+</ul>
+<h2>Version 3.6.0</h2>
+<ul>
+<li>Slovak language file</li>
+<li>Changed tab-order in various dialogs</li>
+<li>Removed FilesList.xml and BanList.xml. Files and bans are now stored in TeamTalkService.xml</li>
+<li>Fixes download/upload dialog not closing</li>
+<li>Voice transmission is not triggered if alone in channel</li>
+</ul>
+<h2>Version 3.5.4&nbsp;: 2008/12/11</h2>
+<ul>
+<li>Specify channel to join in Host Manager</li>
+<li>Server shows current throughput with "/stats" channel command</li>
+<li>First tries to load TeamTalk.xml from current directory and then from %APPDATA%</li>
+<li>Thai language file</li>
+</ul>
+<h2>Version 3.5.3&nbsp;: 2008/08/12</h2>
+<ul>
+<li>Playback improvements</li>
+<li>Stability fixes in client</li>
+<li>Vietnamese language file</li>
+</ul>
+<h2>Version 3.5.2</h2>
+<ul>
+<li>Fixes crash when showing banned users in admin</li>
+<li>64-bit versions of executables (client optimized for SSE2 instruction set in Windows 64-bit)</li>
+<li>TeamTalk.xml and TeamTalkAdmin.ini files are now stored in %APPDATA%</li>
+</ul>
+<h2>Version 3.5.1</h2>
+<ul>
+<li>Fixes server stability issue</li>
+</ul>
+<h2>Version 3.5</h2>
+<ul>
+<li>Use ALT+Tab to switch between private chat windows</li>
+<li>Fixed upload of files with non-English characters</li>
+<li>Version 3.5 is incompatible with Windows9x due to extensive use of Unicode</li>
+<li>Sorted users and channels</li>
+</ul>
+<h2>Version 3.4&nbsp;: 2008/01/12</h2>
+<ul>
+<li>Fixed bug in server when 3.0-3.2 clients left non-static channel</li>
+<li>Server can now be configured to show users in other channels</li>
+<li>Channels can now have a limit on the maximum number of users (max is 128)</li>
+<li>"Message of the Day" can now be configured with variable information</li>
+<li>Showing IP-address user-information has been disabled</li>
+<li>Reinitialize sound system while connected</li>
+<li>Included sounds for events</li>
+<li>Using new installer for better compatibility with Windows Vista</li>
+<li>TeamTalk NT Service installs on Windows Vista</li>
+</ul>
+<h2>Version 3.3.1&nbsp;: 2007/09/28</h2>
+<ul>
+<li>IP access-list for administrators</li>
+<li>Limit number of incorrect login attempts</li>
+<li>Removed complexity slider</li>
+<li>Automatic reestablishment of lost UDP connection</li>
+<li>Lower latency for low voice qualities</li>
+<li>Ability for admin to send user and channel messages</li>
+<li>Ability for admin to broadcast messages</li>
+</ul>
+<h2>Version 3.3&nbsp;: 2007/04/09</h2>
+<ul>
+<li>File transfers</li>
+<li>Hosting ability removed from main TeamTalk application</li>
+<li>TeamTalk Admin included in distribution</li>
+<li>HotKey shortcuts for common features</li>
+<li>Included server configurator for NT service</li>
+<li>Max users changable in TeamTalk Admin</li>
+<li>Auto save option in TeamTalk Admin</li>
+<li>Become operator in any channel with "/opme" command</li>
+<li>Ability to set operator password when creating channel</li>
+<li>Rejoins previous channel if connection is lost</li>
+<li>Drag and drop users in TeamTalk Admin</li>
+<li>Software gain for increasing volume for audio receiver</li>
+<li>Encoder complexity setting to improve voice quality</li>
+</ul>
+<h2>Version 3.2&nbsp;: 2006/09/04</h2>
+<ul>
+<li>Forwarding option for server no longer applies</li>
+<li>Restored compatibility with Windows9x (but still unstable)</li>
+<li>Server stability issue fixed</li>
+<li>TeamTalk Admin included in distribution</li>
+</ul>
+<h2>Version 3.1.1&nbsp;: 2005/11/21</h2>
+<ul>
+<li>Event for user stopped talking</li>
+<li>Fixed scroll bug in channel messages when minimized</li>
+<li>Forward through server is now default</li>
+<li>Run multiple instances of TeamTalk without conflicting hotkeys.</li>
+<li>Double-click joins channel (can be disabled)</li>
+<li>TeamTalk can now be translated to other languages</li>
+<li>Channel operators can kick users (again)</li>
+<li>Max users on a server (service only)</li>
+<li>Bind to only one IP-address (service only)</li>
+</ul>
+<h2>Version 3.1&nbsp;: 2005/05/30</h2>
+<ul>
+<li>New sound system</li>
+<li>Shows number of users in channels</li>
+<li>Auto away when inactive</li>
+<li>Mouse as hotkey</li>
+<li>Users remain operators when they return to their channels</li>
+<li>Speech for events (XP only)</li>
+<li>Enable/disable auto positioning</li>
+<li>Improved voice gain</li>
+<li>Ban users from server (use TeamTalk Admin)</li>
+<li>Pocket PC now supports events with sounds, vibration and LED blinking</li>
+<li>Pocket PC now supports push-to-talk</li>
+<li>Pocket PC now has option to prevent it from going into standby while connected</li>
+<li>FreeBSD version of TeamTalk daemon</li>
+</ul>
+<h2>Version 3.0.1</h2>
+<ul>
+<li>Multiline paste in channel window</li>
+<li>Updated sound system (3.74)</li>
+<li>Talk icon more stable</li>
+<li>Reduced lag a bit</li>
+<li>Direct Sound is now default sound system</li>
+<li>Hostmanager didn't save password when connecting</li>
+<li>Optional fixed playback rate (to disable catching-up when recv-buffer increases)</li>
+<li>Selectable speedup delay (catch-up delay)</li>
+<li>Non-admins can make other users channel operators</li>
+<li>Short-cuts for all menu items.</li>
+</ul>
+<h2>Version 3.0&nbsp;: 2005/01/30</h2>
+<ul>
+<li>Variable packet size</li>
+<li>MOTD</li>
+<li>Auto forwarding</li>
+<li>Complexity for better voice quality</li>
+<li>More expressive URLs tt://teamtalk.dyndns.dk?hostport=10300&soundport=10301&password=boogieman&channel=/abcd/&cpassword=blah</li>
+<li>Updated .tt files - easier to join subchannels</li>
+<li>Away message</li>
+</ul>
+<h2>Version 2.5.3&nbsp;: 2004/12/05</h2>
+<ul>
+<li>Forwarding option in preferences.</li>
+<li>User interface updated.</li>
+<li>Sorting of users and channels.</li>
+<li>Single packet forwarding for low bandwidth users.</li>
+<li>ACE based TeamTalk service</li>
+</ul>
+<h2>Version 2.5.2&nbsp;: 2004/12/04</h2>
+<ul>
+<li>Single forwarding in CServerNode (client version)</li>
+<li>Sorting of users and channels</li>
+</ul>
+<h2>Version 2.5.1</h2>
+<ul>
+<li>Always forward through server i preferences</li>
+<li>Single packet for forwarding through server</li>
+<li>Packet protocol upgraded to 3</li>
+<li>Stream protocol upgraded to 2.2</li>
+<li>Admin connect</li>
+<li>Admin make static channels</li>
+</ul>
+<h2>Version 2.4.1&nbsp;: 2004/10/03</h2>
+<ul>
+<li>Sound system tab -> message when connected</li>
+<li>NT Service using SocketEngine</li>
+<li>Linux daemon released</li>
+</ul>
+<h2>Version 2.4</h2>
+<ul>
+<li>Local user is operator in all channels and can join any channel</li>
+<li>No sound for sound output</li>
+<li>3D sound and positioning</li>
+<li>Relocated "fwd to all" and "mute all" to User menu-item</li>
+<li>No push-to-talk enabled</li>
+</ul>
+<h2>Version 2.3.1&nbsp;: 2004/08/08</h2>
+<ul>
+<li>Windows98 fix for RichEdit</li>
+</ul>
+<h2>Version 2.3</h2>
+<ul>
+<li>IRC-like chat console</li>
+<li>Message pop up</li>
+<li>Window-tab in preferences</li>
+</ul>
+<h2>Version 2.2&nbsp;: 2004/04/06</h2>
+<ul>
+<li>Server available as NT service</li>
+<li>Denoiser for outgoing audio</li>
+<li>Voice level</li>
+</ul>
+<h2>Version 2.01&nbsp;: 2003/12/08</h2>
+<ul>
+<li>Host on startup</li>
+<li>HotKey event sound</li>
+<li>Connect stability bug fixed</li>
+<li>HotKey bug fix in Win2K/XP</li>
+</ul>
+<h2>Version 2.0&nbsp;: 2003/10/23</h2>
+<ul>
+<li>Now supports 32 KHz audio</li>
+<li>Create channels with passwords</li>
+</ul>
+<h2>Version 1.02&nbsp;: 2003/05/25</h2>
+<ul>
+<li>- Fxied multiple inputs caused failure to init sound system.</li>
+</ul>
+<h2>Version 1.01&nbsp;: 2003/05/21</h2>
+<ul>
+<li>Fixed no mike input with multiple sound cards</li>
+<li>Fixed Windows error sound when pressing virtual keys</li>
+</ul>
+<h2>Version 1.0&nbsp;: 2003/04/06</h2>
+<ul>
+<li>Initial TeamTalk version with both client and server in one application</li>
+</ul>
+<hr />
+<h1>Tiny TeamTalk's change log</h1>
+<h2>Version 1.1</h2>
+<ul>
+<li>Support for Pocket PC 2002</li>
+<li>Performance improvements</li>
+<li>Sound test</li>
+</ul>
+</body>
+</html>
