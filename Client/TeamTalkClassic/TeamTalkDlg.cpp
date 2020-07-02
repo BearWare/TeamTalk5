@@ -3749,7 +3749,14 @@ void CTeamTalkDlg::OnMeChangestatus()
     {
         m_nStatusMode = dlg.m_nStatusMode;
         m_szAwayMessage = dlg.m_szAwayMessage;
+        if (m_nStatusMode == STATUSMODE_AWAY && m_szAwayMessage.IsEmpty())
+		{
+			                        TT_DoChangeStatus(ttInst, STATUSMODE_AWAY, LoadText(IDS_AWAY, _T("Away")));
+		}
+		else
+			{
         TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
+			}
     }
 }
 
