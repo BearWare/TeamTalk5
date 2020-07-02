@@ -115,6 +115,8 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
         getListFragment().setEmptyText(getString(R.string.server_list_empty));
         getListFragment().getListView().setOnItemClickListener(this);
         getListFragment().getListView().setOnItemLongClickListener(this);
+
+        setTitle(R.string.title_activity_server_list);
     }
 
     @Override
@@ -645,8 +647,8 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
                 
         TextView tv_version = (TextView)findViewById(R.id.version_textview);
         TextView tv_dllversion = (TextView)findViewById(R.id.dllversion_textview);
-        tv_version.setText("@string/ttversion" + version + AppInfo.APPVERSION_POSTFIX);
-        tv_dllversion.setText("@string/ttdllversion" + TeamTalkBase.getVersion());
+        tv_version.setText(getString(R.string.ttversion) + version + AppInfo.APPVERSION_POSTFIX);
+        tv_dllversion.setText(getString(R.string.ttdllversion) + TeamTalkBase.getVersion());
 
         new VersionCheckAsyncTask().execute();
     }
