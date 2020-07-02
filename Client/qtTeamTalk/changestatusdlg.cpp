@@ -50,8 +50,6 @@ ChangeStatusDlg::ChangeStatusDlg(QWidget* parent/* = 0*/)
             ui.questionBtn->setFocus();
             ui.questionBtn->setChecked(true);break;
         }
-if(ui.awayBtn->isChecked())
-        ui.msgEdit->setText(_Q(m_user.szStatusMsgaway));
 
         ui.msgEdit->setText(_Q(m_user.szStatusMsg));
     }
@@ -64,12 +62,18 @@ void ChangeStatusDlg::slotAccepted()
         m_user.nStatusMode |= STATUSMODE_AVAILABLE;
     else if(ui.awayBtn->isChecked())
         m_user.nStatusMode |= STATUSMODE_AWAY;
-                    TT_DoChangeStatus(ttInst, m_statusmode, _W(tr("Away")));
     else if(ui.questionBtn->isChecked())
         m_user.nStatusMode |= STATUSMODE_QUESTION;
 
     ttSettings->setValue(SETTINGS_GENERAL_STATUSMESSAGE, ui.msgEdit->text());
 
-    TT_DoChangeStatus(ttInst, m_user.nStatusMode, _W(ui.msgEdit->text()));
+if(m_user.nStatusMode == STATUSMODE_AWAY && ui.msgEdit->text().isEmpty())
+{
+	TT_DoChangeStatus(ttInst, STATUSMODE_AWAY, _W(tr("Away")));
+}
+else
+{
+	TT_DoChangeStatus(ttInst, m_user.nStatusMode, _W(ui.msgEdit->text()));
+}
 
 }
