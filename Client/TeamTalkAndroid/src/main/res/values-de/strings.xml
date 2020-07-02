@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TeamTalk 5</string>
-    <string name="title_activity_server_list">TeamTalk-5-Server</string>
+    <string name="app_name">TeamTalk</string>
+    <string name="title_activity_server_list">TeamTalk 5 Server</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_exit">Beenden</string>
     <string name="title_activity_server_entry">TeamTalk 5 Servereigenschaften</string>

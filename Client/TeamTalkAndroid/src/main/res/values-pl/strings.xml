@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TeamTalk 5</string>
+    <string name="app_name">TeamTalk</string>
     <string name="title_activity_server_list">Serwery TeamTalk 5</string>
     <string name="action_settings">Ustawienia</string>
     <string name="action_exit">Wyjście</string>
