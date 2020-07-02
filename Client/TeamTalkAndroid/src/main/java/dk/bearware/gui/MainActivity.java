@@ -333,14 +333,21 @@ implements TeamTalkConnectionListener,
             }
             break;
             case R.id.action_settings : {
-                if ((mConnection != null) && mConnection.isBound())
-                    ttservice.unwatchBluetoothHeadset();
                 Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
                 startActivity(intent);
                 break;
             }
             case android.R.id.home : {
-                if (filesAdapter.getActiveTransfersCount() > 0) {
+                Channel parentChannel = ((mViewPager.getCurrentItem() == SectionsPagerAdapter.CHANNELS_PAGE)
+                                         && (curchannel != null)
+                                         && (curchannel.nChannelID != ttclient.getRootChannelID())) ?
+                    ttservice.getChannels().get(curchannel.nParentID) :
+                    null;
+                if ((parentChannel != null) && (parentChannel.nChannelID > 0)) {
+                    setCurrentChannel(parentChannel);
+                    channelsAdapter.notifyDataSetChanged();
+                }
+                else if (filesAdapter.getActiveTransfersCount() > 0) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(this);
                     alert.setMessage(R.string.disconnect_alert);
                     alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -389,9 +396,12 @@ implements TeamTalkConnectionListener,
                 Log.e(TAG, "Failed to bind to TeamTalk service");
         }
         else {
-            if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)
-                &&Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
-                ttservice.watchBluetoothHeadset();
+            adjustSoundSystem(prefs);
+            if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)) {
+                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
+                    ttservice.watchBluetoothHeadset();
+            }
+            else ttservice.unwatchBluetoothHeadset();
 
             int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
             int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
@@ -429,10 +439,6 @@ implements TeamTalkConnectionListener,
         audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-        audioManager.setMode(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false)?
-                AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
-        audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
 
         if (prefs.getBoolean("server_lost_audio_icon", true)) {
             sounds.put(SOUND_SERVERLOST, audioIcons.load(getApplicationContext(), R.raw.serverlost, 1));
@@ -510,6 +516,8 @@ implements TeamTalkConnectionListener,
                 ttsWrapper = null;
             }
 
+            audioManager.setMode(AudioManager.MODE_NORMAL);
+
             // Unbind from the service
             if (mConnection.isBound()) {
                 Log.d(TAG, "Unbinding TeamTalk service");
@@ -568,9 +576,7 @@ implements TeamTalkConnectionListener,
                 audioManager.setSpeakerphoneOn(false);
                 ttservice.enableVoiceTransmission(true);
             } else {
-                audioManager.setMode(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false)?
-                        AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
-                audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+                adjustSoundSystem(prefs);
                 if (ttservice.isVoiceTransmissionEnabled())
                     ttservice.enableVoiceTransmission(false);
             }
@@ -883,6 +889,7 @@ implements TeamTalkConnectionListener,
         private LayoutInflater inflater;
 
         Vector<Channel> subchannels = new Vector<Channel>();
+        Vector<Channel> stickychannels = new Vector<Channel>();
         Vector<User> currentusers = new Vector<User>();
 
         ChannelListAdapter(Context context) {
@@ -894,12 +901,14 @@ implements TeamTalkConnectionListener,
             int chanid = 0;
 
             subchannels.clear();
+            stickychannels.clear();
             currentusers.clear();
 
             if(curchannel != null) {
                 chanid = curchannel.nChannelID;
 
                 subchannels = Utils.getSubChannels(chanid, ttservice.getChannels());
+                stickychannels = Utils.getStickyChannels(chanid, ttservice.getChannels());
                 currentusers = Utils.getUsers(chanid, ttservice.getUsers());
             }
             else {
@@ -909,15 +918,12 @@ implements TeamTalkConnectionListener,
                     subchannels.add(root);
             }
 
-            Collections.sort(subchannels, new Comparator<Channel>() {
-                    @Override
-                    public int compare(Channel c1, Channel c2) {
-                        if ((c1.nMaxUsers <= 0) && (c2.nMaxUsers > 0))
-                            return -1;
-                        else if ((c1.nMaxUsers > 0) && (c2.nMaxUsers <= 0))
-                            return 1;
-                        return c1.szName.compareToIgnoreCase(c2.szName);
-                    }
+            Collections.sort(subchannels, (c1, c2) -> {
+                    return c1.szName.compareToIgnoreCase(c2.szName);
+                });
+
+            Collections.sort(stickychannels, (c1, c2) -> {
+                    return c1.szName.compareToIgnoreCase(c2.szName);
                 });
 
             Collections.sort(currentusers, new Comparator<User>() {
@@ -941,7 +947,7 @@ implements TeamTalkConnectionListener,
 
         @Override
         public int getCount() {
-            int count = currentusers.size() + subchannels.size();
+            int count = currentusers.size() + subchannels.size() + stickychannels.size();
             if ((curchannel != null) && (curchannel.nParentID > 0)) {
                 count++; // include parent channel shortcut
             }
@@ -950,6 +956,13 @@ implements TeamTalkConnectionListener,
 
         @Override
         public Object getItem(int position) {
+
+            if (position < stickychannels.size()) {
+                return stickychannels.get(position);
+            }
+
+            // sticky channels are first so subtract these
+            position -= stickychannels.size();
 
             if (position < currentusers.size()) {
                 return currentusers.get(position);
@@ -980,6 +993,12 @@ implements TeamTalkConnectionListener,
         @Override
         public int getItemViewType(int position) {
 
+            if (position < stickychannels.size())
+                return INFO_VIEW_TYPE;
+
+            // sticky channels are first so subtract these
+            position -= stickychannels.size();
+
             if (position < currentusers.size())
                 return USER_VIEW_TYPE;
 
@@ -994,7 +1013,7 @@ implements TeamTalkConnectionListener,
                 position--; // subtract parent channel shortcut
             }
 
-            return (subchannels.get(position).nMaxUsers > 0) ? CHANNEL_VIEW_TYPE : INFO_VIEW_TYPE;
+            return CHANNEL_VIEW_TYPE;
         }
 
         @Override
@@ -1386,6 +1405,14 @@ implements TeamTalkConnectionListener,
         return true;
     }
 
+    private void adjustSoundSystem(SharedPreferences prefs) {
+        boolean voiceProcessing = prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false);
+        audioManager.setMode(voiceProcessing ?
+                AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
+        if (voiceProcessing)
+            audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+    }
+
     private void adjustMuteButton(ImageButton btn) {
         if (ttservice.getCurrentMuteState()) {
             btn.setImageResource(R.drawable.mute_blue);
@@ -1729,8 +1756,10 @@ implements TeamTalkConnectionListener,
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        adjustSoundSystem(prefs);
+
         if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)
-            &&Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
+            && Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
             ttservice.watchBluetoothHeadset();
 
         if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
