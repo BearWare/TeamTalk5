@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TeamTalk 5</string>
-    <string name="title_activity_server_list">TeamTalk-5-Server</string>
+    <string name="app_name">TeamTalk</string>
+    <string name="title_activity_server_list">TeamTalk 5 Server</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_exit">Beenden</string>
     <string name="title_activity_server_entry">TeamTalk 5 Servereigenschaften</string>
@@ -115,9 +115,9 @@
     <string name="text_tts_loggedout">hat sich abgemeldet</string>
     <string name="text_tts_joined_chan">hat den Raum betreten</string>
     <string name="text_tts_left_chan">hat den Raum verlassen</string>
-    <string name="text_tts_private_message">Privatnachricht von Benutzer %1$s</string>
+    <string name="text_tts_private_message">Privatnachricht von Benutzer %1$s - %2$s</string>
     <string name="text_tts_channel_message">Raumnachricht von %1$s - %2$s</string>
-    <string name="text_tts_broadcast_message">Servernachricht von Benutzer %1$s</string>
+    <string name="text_tts_broadcast_message">Servernachricht von Benutzer %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Soundsystem</string>
     <string name="title_activity_audio_codec">Audio-Codec</string>
     <string name="title_activity_filepicker">Dateiauswahl</string>
@@ -320,8 +320,6 @@
     <string name="permission_wake_lock">Server-Verbindung kann bei abgedunkeltem Bildschirm abreißen</string>
     <string name="permission_read_phone_state">Erkennung eingehender Telefonate wird nicht möglich sein</string>
 
-    <string name="facebook_app_id">611833262539381</string>
-    <string name="fb_login_protocol_scheme">fb611833262539381</string>
     <string name="title_activity_web_login">WebLogin-Aktivität</string>
     <string name="weblogin_prop_title_bearwareid">Benutzername</string>
     <string name="weblogin_prop_title_bearwarepasswd">Passwort</string>
@@ -330,7 +328,7 @@
     <string name="weblogin_prop_title_create_web_login_id">BearWare.dk-Login-ID erstellen</string>
     <string name="weblogin_prop_title_reset_web_login_id">BearWare.dk-Login-ID zurücksetzen</string>
     <string name="text_bearwarelogin_success">%1$s dein Benutzername %2$s wurde bestätigt</string>
-    <string name="text_bearwarelogin_failed">Fehler beim Authentifizieren des Benutzernamens %1$s</string>
+    <string name="text_bearwarelogin_failed">Fehler beim Authentifizieren des Benutzernamens %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">BearWare.dk Web-Login konnte nicht authentifiziert werden</string>
 
 </resources>

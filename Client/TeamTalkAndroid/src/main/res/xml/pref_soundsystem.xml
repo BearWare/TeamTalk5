@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    
+
     <CheckBoxPreference
 		android:key="mute_speakers_on_tx_checkbox"
 		android:defaultValue="false"
@@ -18,6 +18,12 @@
         android:defaultValue="false"
         android:title="@string/pref_title_voice_processing_checkbox"
         android:summary="@string/pref_summary_voice_processing_checkbox" />
+
+	<CheckBoxPreference
+		android:key="bluetooth_headset_checkbox"
+		android:defaultValue="false"
+		android:title="@string/pref_title_bluetooth_headset_checkbox"
+		android:summary="@string/pref_summary_bluetooth_headset_checkbox" />
 
 	<dk.bearware.gui.SeekBarPreference
 	    android:key="mediafilevolume_seekbar"

@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:inputType="textCapSentences"
-            android:singleLine="true" >
+            android:singleLine="true"
+            android:hint="@string/editmsg" >
 
             <requestFocus />
         </EditText>

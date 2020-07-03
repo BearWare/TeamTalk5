@@ -106,6 +106,8 @@
     <string name="pref_summary_mediafile_volume">Media file vs. voice volume</string>
     <string name="pref_title_speakerphone_checkbox">Enable speaker phone</string>
     <string name="pref_summary_speakerphone_checkbox">Switch from earpiece to speakers</string>
+    <string name="pref_title_bluetooth_headset_checkbox">Use bluetooth headset microphone</string>
+    <string name="pref_summary_bluetooth_headset_checkbox">When bluetooth headset is connected use its microphone</string>
     <string name="pref_title_voice_processing_checkbox">Enable voice preprocessing</string>
     <string name="pref_summary_voice_processing_checkbox">Use echo cancellation and automatic gain control</string>
     <string name="pref_title_public_servers">Show public servers</string>
@@ -321,9 +323,11 @@
     <string name="permission_vibrate">Vibrate during push-to-talk will be unavailable</string>
     <string name="permission_wake_lock">Server connection can be lost when screen dims out</string>
     <string name="permission_read_phone_state">Incoming phone call detection will be impossible</string>
+    <string name="permission_bluetooth">Bluetooth headset microphone usage will be impossible</string>
 
-    <string name="facebook_app_id">611833262539381</string>
-    <string name="fb_login_protocol_scheme">fb611833262539381</string>
+    <string translatable="false" name="facebook_app_id">611833262539381</string>
+    <string translatable="false" name="fb_login_protocol_scheme">fb611833262539381</string>
+
     <string name="title_activity_web_login">WebLoginActivity</string>
     <string name="weblogin_prop_title_bearwareid">Username</string>
     <string name="weblogin_prop_title_bearwarepasswd">Password</string>
@@ -332,7 +336,21 @@
     <string name="weblogin_prop_title_create_web_login_id">Create BearWare.dk Login ID</string>
     <string name="weblogin_prop_title_reset_web_login_id">Reset BearWare.dk Login ID</string>
     <string name="text_bearwarelogin_success">%1$s your username %2$s has been validated</string>
-    <string name="text_bearwarelogin_failed">Failed to authenticate username %1$s</string>
+    <string name="text_bearwarelogin_failed">Failed to authenticate username %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">BearWare.dk web login failed to authenticate</string>
+    <string name="editmsg">Message:</string>
+    <string name="filepathlab">File:</string>
+    <string name="channamelab">Channel\'s name:</string>
+    <string name="chanpswlab">Channel\'s password:</string>
+    <string name="chantopiclab">Channel\'s topic:</string>
+    <string name="chanoppswlab">Operator\'s password:</string>
+    <string name="maxuserslab">Number of maximal users:</string>
+    <string name="diskquotalab">Disk quota:</string>
+    <string name="bwidlab">Username:</string>
+    <string name="bwpswlab">Password:</string>
+    <string name="ttversion">TeamTalk v</string>
+    <string name="ttdllversion">TeamTalk DLL v</string>
+
+
 
 </resources>

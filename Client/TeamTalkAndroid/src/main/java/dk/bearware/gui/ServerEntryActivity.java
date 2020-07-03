@@ -43,12 +43,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.CheckBoxPreference;
+import android.support.v7.preference.EditTextPreference;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.Preference.OnPreferenceChangeListener;
+import android.support.v7.preference.PreferenceCategory;
+import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,7 +62,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
 public class ServerEntryActivity
-extends PreferenceActivity
+extends AppCompatActivity
 implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListener {
 
     public static final String TAG = "bearware";
@@ -73,21 +74,24 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
 
     CallbackManager callbackManager;
 
-    @SuppressWarnings("deprecation")
-    @Deprecated
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.pref_serverentry);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportFragmentManager().beginTransaction()
+            .replace(android.R.id.content, new ServerPreferencesFragment())
+            .commit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         callbackManager = CallbackManager.Factory.create();
+    }
 
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         ServerEntry entry = Utils.getServerEntry(this.getIntent());
         if(entry != null) {
             showServer(entry);
         }
-        
+
         findPreference(ServerEntry.KEY_SERVERNAME).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_IPADDR).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_TCPPORT).setOnPreferenceChangeListener(this);
@@ -101,7 +105,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         findPreference(ServerEntry.KEY_CHANNEL).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_CHANPASSWD).setOnPreferenceChangeListener(this);
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -397,6 +401,21 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
 
     @Override
     public void onCmdBannedUser(BannedUser banneduser) {
+    }
+
+
+    private Preference findPreference(CharSequence key) {
+        return ((PreferenceFragmentCompat) getSupportFragmentManager().findFragmentById(android.R.id.content)).findPreference(key);
+    }
+
+
+    public static class ServerPreferencesFragment extends PreferenceFragmentCompat {
+
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            setPreferencesFromResource(R.xml.pref_serverentry, rootKey);
+        }
+
     }
 
 }

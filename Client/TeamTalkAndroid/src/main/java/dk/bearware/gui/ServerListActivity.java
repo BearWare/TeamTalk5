@@ -62,7 +62,6 @@ import dk.bearware.data.ServerEntry;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -72,6 +71,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ListFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -81,7 +82,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,8 +90,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 
 public class ServerListActivity
-extends ListActivity
-implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> {
+extends AppCompatActivity
+implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> {
 
     TeamTalkConnection mConnection;
     TeamTalkService ttservice;
@@ -108,12 +108,15 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
         super.onCreate(savedInstanceState);
 
         callbackManager = CallbackManager.Factory.create();
-
         adapter = new ServerListAdapter(this.getBaseContext());
-        setListAdapter(adapter);
 
-        setContentView(R.layout.activity_server_list);        
-        getListView().setOnItemLongClickListener(this);
+        setContentView(R.layout.activity_server_list);
+        getListFragment().setListAdapter(adapter);
+        getListFragment().setEmptyText(getString(R.string.server_list_empty));
+        getListFragment().getListView().setOnItemClickListener(this);
+        getListFragment().getListView().setOnItemLongClickListener(this);
+
+        setTitle(R.string.title_activity_server_list);
     }
 
     @Override
@@ -333,7 +336,7 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
+    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
         serverentry = servers.get(position);
 
         //unregister so delayed facebook login will not cancel new login session
@@ -415,7 +418,7 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
                 editButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            onItemLongClick(getListView(), v, position, v.getId());
+                            onItemLongClick(getListFragment().getListView(), v, position, v.getId());
                         }
                     });
             convertView.findViewById(R.id.server_remove).setOnClickListener(new View.OnClickListener() {
@@ -644,8 +647,8 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
                 
         TextView tv_version = (TextView)findViewById(R.id.version_textview);
         TextView tv_dllversion = (TextView)findViewById(R.id.dllversion_textview);
-        tv_version.setText("TeamTalk v. " + version + AppInfo.APPVERSION_POSTFIX);
-        tv_dllversion.setText("TeamTalk DLL v." + TeamTalkBase.getVersion());
+        tv_version.setText(getString(R.string.ttversion) + version + AppInfo.APPVERSION_POSTFIX);
+        tv_dllversion.setText(getString(R.string.ttdllversion) + TeamTalkBase.getVersion());
 
         new VersionCheckAsyncTask().execute();
     }
@@ -754,4 +757,9 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
         // order of public servers are determined by xml-reply
         return 0;
     }
+
+    private ListFragment getListFragment() {
+        return (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list_fragment);
+    }
+
 }

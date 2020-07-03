@@ -23,15 +23,23 @@
 
 package dk.bearware;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.After;
+import org.junit.Rule;
+import org.junit.AssumptionViolatedException;
+import org.junit.runner.Description;
+import org.junit.rules.Stopwatch;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
 import java.util.Vector;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import junit.framework.TestCase;
-
-public abstract class TeamTalkTestCaseBase extends TestCase {
+public abstract class TeamTalkTestCaseBase {
 
     public static boolean ENCRYPTED = false;
     public static boolean DEBUG_OUTPUT = false;
@@ -62,8 +70,29 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
 
     public abstract TeamTalkBase newClientInstance();
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Rule
+    public Stopwatch stopwatch = new Stopwatch() {
+
+            @Override
+            protected void succeeded(long nanos, Description description) {
+            }
+
+            @Override
+            protected void failed(long nanos, Throwable e, Description description) {
+            }
+
+            @Override
+            protected void skipped(long nanos, AssumptionViolatedException e, Description description) {
+            }
+
+            @Override
+            protected void finished(long nanos, Description description) {
+                System.out.println("Duration: " + description + " " + (nanos / 1000000) + " msec");
+            }
+        };
+
+    @Before
+    public void setUp() throws Exception {
 
         String prop = System.getProperty("dk.bearware.sndinputid");
         if(prop != null && !prop.isEmpty())
@@ -113,8 +142,8 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         }
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
 
         for(TeamTalkBase ttclient : ttclients) {
             ttclient.disconnect();

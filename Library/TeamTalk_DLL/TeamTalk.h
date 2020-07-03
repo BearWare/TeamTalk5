@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.6.0.5000"
+#define TEAMTALK_VERSION "5.6.0.5001"
 
 
 #if defined(WIN32)
@@ -4046,10 +4046,17 @@ extern "C" {
      * #SoundDeviceEffects-struct can be used to toggle these audio
      * effects on the device.
      *
-     * Currently only #SOUNDSYSTEM_OPENSLES_ANDROID supports setting
-     * #SoundDeviceEffects. Modifying #SoundDeviceEffects on Android
-     * will apply to all active #TTInstance, i.e. #SoundDeviceEffects
-     * are applied globally.
+     * The following sound systems support TT_SetSoundDeviceEffects():
+     * - #SOUNDSYSTEM_OPENSLES_ANDROID
+     *   - Modifying #SoundDeviceEffects on Android will apply to all
+     *     active #TTInstance, i.e. #SoundDeviceEffects are applied
+     *     globally.
+     * - #SOUNDSYSTEM_WASAPI
+     *   - TT_SetSoundDeviceEffects() must be called prior to
+     *     TT_InitSoundDuplexDevices(). Sound device effects cannot be
+     *     used with TT_InitSoundInputDevice() and TT_InitSoundOutputDevice()
+     *     since Windows needs to know both input and output device upon
+     *     initialization.
      *
      * This setting should not be confused with
      * TT_SetSoundInputPreprocessEx() which runs entirely in software
@@ -4062,7 +4069,7 @@ extern "C" {
      * since an sound device is not active until the #TTInstance joins
      * a channel where the sound device knowns the sample rate and
      * number of channels
-     * (mono/stereo). #INTERR_SNDEFFECT_INIT_FAILED will be
+     * (mono/stereo). #INTERR_SNDEFFECT_FAILURE will be
      * posted if the #SoundDeviceEffects was unable to initialize.
      *
      * @see TT_GetSoundDeviceEffects() */

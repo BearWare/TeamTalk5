@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TeamTalk 5</string>
+    <string name="app_name">TeamTalk</string>
     <string name="title_activity_server_list">Servidores TeamTalk 5</string>
     <string name="action_settings">Preferencias</string>
     <string name="action_exit">Salir</string>
@@ -83,7 +83,6 @@
     <string name="pref_summary_channel_leave">Anuncia el nombre del usuario que ha dejado el canal</string>
     <string name="pref_title_private_message">Mensajes personales</string>
     <string name="pref_title_broadcast_message">Mensajes de difusión</string>
-    <string name="pref_summary_message">Anunciar nombre del emisor</string>
     <string name="pref_title_mute_speakers">Silenciar altavoces cuando se pulse el botón TX</string>
     <string name="pref_summary_mute_speakers">Activa esto para evitar el eco proveniente de los altavoces</string>
     <string name="pref_title_show_usernames">Mostrar nombres de usuario</string>
@@ -101,8 +100,8 @@
     <string name="text_tts_loggedout">Ha salido</string>
     <string name="text_tts_joined_chan">Se ha unido al canal</string>
     <string name="text_tts_left_chan">Ha salido del canal</string>
-    <string name="text_tts_private_message">Mensaje personal de %1$s</string>
-    <string name="text_tts_broadcast_message">Mensaje de difusión de  %1$s</string>
+    <string name="text_tts_private_message">Mensaje personal de %1$s - %2$s</string>
+    <string name="text_tts_broadcast_message">Mensaje de difusión de  %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Sistema de sonido</string>
     <string name="title_activity_audio_codec">Códec de audio</string>
     <string name="title_activity_filepicker">Selección de archivo</string>
@@ -115,10 +114,8 @@
     <string name="button_tx">TX</string>
     <string name="button_remove">Eliminar</string>
     <string name="button_edit">Editar</string>
-    <string name="action_ban">Banear</string>
     <string name="action_edit">Editar canal</string>
     <string name="action_join">Unirse</string>
-    <string name="action_kick">Expulsar</string>
     <string name="action_move">Mover aquí</string>
     <string name="action_select">Seleccionar para mover</string>
     <string name="action_upload">Subir archivo</string>

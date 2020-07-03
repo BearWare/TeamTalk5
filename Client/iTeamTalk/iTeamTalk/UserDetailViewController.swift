@@ -66,7 +66,7 @@ class UserDetailViewController : UITableViewController, TeamTalkEvent {
         
         // general items
         let usernamecell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        usernamefield = newTableCellTextField(usernamecell, label: NSLocalizedString("Username", comment: "user detail"), initial: String(cString: getUserString(USERNAME, &user)))
+        usernamefield = newTableCellTextField(usernamecell, label: NSLocalizedString("Username", comment: "user detail"), initial: getUser(user, strprop: USERNAME))
         general_items.append(usernamecell)
         
         // volume items

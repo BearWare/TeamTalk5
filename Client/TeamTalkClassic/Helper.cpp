@@ -440,7 +440,13 @@ CString GetDisplayName(const User& user)
 {
     if(bShowUsernames)
         return LimitText(user.szUsername);
-    return LimitText(user.szNickname);
+
+    CString szNickname = LimitText(user.szNickname);
+    if (szNickname.IsEmpty())
+    {
+        szNickname.Format(_T("%s - #%d"), LoadText(IDS_DEFAULTNICKNAME, DEFAULT_NICKNAME), user.nUserID);
+    }
+    return LimitText(szNickname);
 }
 
 BOOL EndsWith(const CString& szText, LPCTSTR szEnd, BOOL bCaseSensitive)

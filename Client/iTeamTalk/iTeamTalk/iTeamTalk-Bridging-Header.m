@@ -148,3 +148,20 @@ const TTCHAR* getUserAccountString(UAExt e, const UserAccount* u) {
     }
     return "";
 }
+
+void setChannelString(CExt e, Channel* c, const TTCHAR* str) {
+    switch (e) {
+        case NAME :
+            strncpy(c->szName, str, TT_STRLEN);
+            break;
+        case PASSWORD :
+            strncpy(c->szPassword, str, TT_STRLEN);
+            break;
+        case OPPASSWORD :
+            strncpy(c->szOpPassword, str, TT_STRLEN);
+            break;
+        case TOPIC :
+            strncpy(c->szTopic, str, TT_STRLEN);
+            break;
+    }
+}

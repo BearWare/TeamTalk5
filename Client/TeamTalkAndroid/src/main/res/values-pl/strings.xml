@@ -1,7 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TeamTalk 5</string>
+    <string name="app_name">TeamTalk</string>
     <string name="title_activity_server_list">Serwery TeamTalk 5</string>
     <string name="action_settings">Ustawienia</string>
     <string name="action_exit">Wyjście</string>
@@ -66,13 +66,12 @@
     <string name="pref_summary_channel_leave">Oznajmiaj nazwę użytkownika opuszczającego kanał</string>
     <string name="pref_title_private_message">Wiadomości prywatne</string>
     <string name="pref_title_broadcast_message">Wiadomości globalne</string>
-    <string name="pref_summary_message">Oznajmiaj nadawcę</string>
     <string name="text_tts_loggedin">loguje się</string>
     <string name="text_tts_loggedout">wylogowuje się</string>
     <string name="text_tts_joined_chan">dołącza do kanału</string>
     <string name="text_tts_left_chan">opuszcza kanał</string>
-    <string name="text_tts_private_message">Wiadomość prywatna od użytkownika %1$s</string>
-    <string name="text_tts_broadcast_message">Wiadomość globalna od użytkownika %1$s</string>
+    <string name="text_tts_private_message">Wiadomość prywatna od użytkownika %1$s - %2$s</string>
+    <string name="text_tts_broadcast_message">Wiadomość globalna od użytkownika %1$s - %2$s</string>
     <string name="pref_header_soundsystem">System dźwięku</string>
     <string name="title_activity_audio_codec">Kodek Audio</string>
     <string name="title_activity_filepicker">Wybór pliku</string>

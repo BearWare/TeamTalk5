@@ -392,11 +392,20 @@ func getDisplayName(_ user: User) -> String {
         return limitText(String(cString: getUserString(USERNAME, &user)))
     }
 
-    return limitText(String(cString: getUserString(NICKNAME, &user)))
+    let nickname = getUser(user, strprop: NICKNAME)
+    if nickname.isEmpty {
+        return DEFAULT_NICKNAME + " - #\(user.nUserID)"
+    }
+    
+    return limitText(nickname)
 }
 
-func getChannelName(_ chan: Channel) -> String {
-    return String(cString: withUnsafePointer(to: chan) { getChannelString(NAME, $0) })
+func getChannel(_ chan: Channel, strprop : CExt) -> String {
+    return String(cString: withUnsafePointer(to: chan) { getChannelString(strprop, $0) })
+}
+
+func getUser(_ user: User, strprop : UExt) -> String {
+    return String(cString: withUnsafePointer(to: user) { getUserString(strprop, $0) })
 }
 
 enum Sounds : Int {

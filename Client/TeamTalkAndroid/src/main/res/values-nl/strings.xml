@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TeamTalk 5</string>
+    <string name="app_name">TeamTalk</string>
     <string name="title_activity_server_list">TeamTalk 5 Servers</string>
     <string name="action_settings">Instellingen</string>
     <string name="action_exit">Afsluiten</string>
@@ -79,7 +79,6 @@
     <string name="pref_summary_channel_leave">Naam van gebruiker die kanaal verlaat melden</string>
     <string name="pref_title_private_message">Persoonlijk bericht</string>
     <string name="pref_title_broadcast_message">Uitzendberichten</string>
-    <string name="pref_summary_message">Naam van de zender melden</string>
     <string name="pref_title_mute_speakers">Luidsprekers dempen bij indrukken uitzendknop</string>
     <string name="pref_summary_mute_speakers">Schakel dit in om echo van luidsprekers te vermijden</string>
     <string name="pref_title_show_usernames">Gebruikersnamen weergeven</string>
@@ -91,8 +90,8 @@
     <string name="text_tts_loggedout">is uitgelogd</string>
     <string name="text_tts_joined_chan">is het kanaal binnengekomen</string>
     <string name="text_tts_left_chan">heeft het kanaal verlaten</string>
-    <string name="text_tts_private_message">Persoonlijk bericht van gebruiker %1$s</string>
-    <string name="text_tts_broadcast_message">Uitzendbericht van gebruiker %1$s</string>
+    <string name="text_tts_private_message">Persoonlijk bericht van gebruiker %1$s - %2$s</string>
+    <string name="text_tts_broadcast_message">Uitzendbericht van gebruiker %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Geluidssysteem</string>
     <string name="title_activity_audio_codec">Audiocodec</string>
     <string name="title_activity_filepicker">Bestandsselectie</string>

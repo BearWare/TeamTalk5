@@ -27,23 +27,24 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Comparator;
 
-import android.app.ListActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ListFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class FilePickerActivity
-extends ListActivity
-implements FileFilter, Comparator<File> {
+extends AppCompatActivity
+implements AdapterView.OnItemClickListener, FileFilter, Comparator<File> {
 
     public static final String CURRENT_DIRECTORY = "filepicker_directory";
     public static final String SELECTED_FILE = "selected_file";
@@ -56,26 +57,28 @@ implements FileFilter, Comparator<File> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_file_picker);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         acceptedSuffix = getIntent().getStringExtra(FILTER_EXTENSION);
+        getListFragment().getListView().setOnItemClickListener(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        currentPosition = getSelectedItemPosition();
+        currentPosition = getListFragment().getSelectedItemPosition();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setSelection(currentPosition);
+        getListFragment().setSelection(currentPosition);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        setListAdapter(new ArrayAdapter<File>(this, R.layout.item_file) {
+        getListFragment().setListAdapter(new ArrayAdapter<File>(this, R.layout.item_file) {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     if(convertView == null)
@@ -123,14 +126,15 @@ implements FileFilter, Comparator<File> {
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
+    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
         ArrayAdapter<File> files = getContentAdapter();
         File selectedFile = files.getItem(position);
         if (selectedFile.isDirectory()) {
             File item = currentDirectory;
             browseDirectory(selectedFile);
-            setSelection(files.getPosition(item));
+            getListFragment().setSelection(files.getPosition(item));
         }
         else {
             setResult(RESULT_OK, getIntent().putExtra(SELECTED_FILE, selectedFile.getAbsolutePath()));
@@ -161,20 +165,24 @@ implements FileFilter, Comparator<File> {
 
     @SuppressWarnings("unchecked")
     private ArrayAdapter<File> getContentAdapter() {
-        return (ArrayAdapter<File>)getListAdapter();
+        return (ArrayAdapter<File>) getListFragment().getListAdapter();
     }
 
     private void browseDirectory(File path) {
         ArrayAdapter<File> files = getContentAdapter();
         File parent = path.getParentFile();
-        getActionBar().setSubtitle(path.getAbsolutePath());
+        getSupportActionBar().setSubtitle(path.getAbsolutePath());
         files.clear();
         files.addAll(path.listFiles(this));
         files.sort(this);
         if (parent != null)
             files.insert(parent, 0);
         currentDirectory = path;
-        setListAdapter(files);
+        getListFragment().setListAdapter(files);
+    }
+
+    private ListFragment getListFragment() {
+        return (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list_fragment);
     }
 
 }

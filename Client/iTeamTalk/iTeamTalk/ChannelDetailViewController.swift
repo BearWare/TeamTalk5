@@ -54,12 +54,12 @@ class ChannelDetailViewController :
         }
         
         let namecell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        namefield = newTableCellTextField(namecell, label: NSLocalizedString("Name", comment: "create channel"), initial: String(cString: getChannelString(NAME, &channel)))
+        namefield = newTableCellTextField(namecell, label: NSLocalizedString("Name", comment: "create channel"), initial: getChannel(channel, strprop: NAME))
         namefield?.delegate = self
         chan_items.append(namecell)
         
         let passwdcell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "create channel"), initial: String (cString: getChannelString(PASSWORD, &channel)))
+        passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "create channel"), initial: getChannel(channel, strprop: PASSWORD))
         passwdfield?.delegate = self
         passwdfield?.autocorrectionType = .no
         passwdfield?.spellCheckingType = .no
@@ -67,7 +67,7 @@ class ChannelDetailViewController :
         chan_items.append(passwdcell)
         
         let topiccell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        topicfield = newTableCellTextField(topiccell, label: NSLocalizedString("Topic", comment: "create channel"), initial: String(cString: getChannelString(TOPIC, &channel)))
+        topicfield = newTableCellTextField(topiccell, label: NSLocalizedString("Topic", comment: "create channel"), initial: getChannel(channel, strprop: TOPIC))
         topicfield?.delegate = self
         chan_items.append(topiccell)
         
@@ -298,9 +298,10 @@ class ChannelDetailViewController :
     }
     
     func saveChannelDetail() {
-        toTTString(namefield!.text!, dst: &channel.szName)
-        toTTString(passwdfield!.text!, dst: &channel.szPassword)
-        toTTString(topicfield!.text!, dst: &channel.szTopic)
+        setChannelString(NAME, &channel, namefield!.text!)
+        setChannelString(PASSWORD, &channel, passwdfield!.text!)
+        setChannelString(TOPIC, &channel, topicfield!.text!)
+
         if permanentswitch!.isOn {
             channel.uChannelType |= CHANNEL_PERMANENT.rawValue
         }

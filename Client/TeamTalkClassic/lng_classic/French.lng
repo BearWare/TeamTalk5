@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
+    <item id="1">OK</item>
+    <item id="2">Annuler</item>
     <item id="102">Assistant de configuration de TeamTalk</item>
     <item id="104">Déconnexion\tF2</item>
     <item id="105">%s a rejoint le canal</item>
@@ -199,7 +201,7 @@
     <item id="335">Vous avez été exclu du canal.</item>
     <item id="336">Une erreur inconnue est survenue.&#xD;&#xA;Vérifiez que l'action que vous essayez d'exécuter est supportée par le serveur.&#xD;&#xA;Cette erreur est souvent causée par une incompatibilité entre le serveur et votre client.</item>
     <item id="337">%s ne peut plus transmettre sa voix !</item>
-    <item id="338">%s peut maintenant transmattre sa voix !</item>
+    <item id="338">%s peut maintenant transmettre sa voix !</item>
     <item id="339">%s ne peut plus transmettre d'entrée vidéo !</item>
     <item id="340">%s peut maintenant transmettre une entrée vidéo !</item>
     <item id="341">%s ne peut plus transmettre de bureaux partagés !</item>
@@ -238,8 +240,7 @@
     <item id="376">Conversion Unicode -> UTF-8 activée.&#xD;&#xA;</item>
     <item id="377">Utilisation des caractères locaux.&#xD;&#xA;</item>
     <item id="378">Version de la DLL TeamTalk 64-bit : </item>
-    <item id="379">Version de la DLL TeamTalk : </item>
-    <item id="380">Ouvrir</item>
+    <item id="379">Version de la DLL TeamTalk 32-bit : </item>
     <item id="381">Réception : %.2fKB, Transmission : %.2fKB, PING : %u %s</item>
     <item id="382">Réception : %.2fKB, Transmission : %.2fKB %s</item>
     <item id="383">Absent</item>
@@ -397,6 +398,11 @@
     <item id="549">Le canal a des utilisateurs actifs</item>
     <item id="550">Service d'identification indisponible</item>
     <item id="551">Utilisateur introuvable</item>
+    <item id="553">Historique</item>
+    <item id="555">Message</item>
+    <item id="556">Sans nom</item>
+    <item id="557">Liste de canaux</item>
+    <item id="558">Liste de fichiers</item>
     <item id="1006">Liste des fichiers</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
@@ -407,7 +413,7 @@
     <item id="1022">Désactiver l&apos;activation vocale en cas d'inactivité</item>
     <item id="1024">Lancez le guide de démarrage rapide pour apprendre à configurer un serveur et s&apos;y connecter</item>
     <item id="1028">Volume</item>
-    <item id="1030">Connexion</item>
+    <item id="1030">&amp;Connexion</item>
     <item id="1034">0=désactivé</item>
     <item id="1035">Identifiant utilisateur</item>
     <item id="1036">Pseudo</item>
@@ -436,7 +442,7 @@
     <item id="1081">Maximum de tentatives de connexion avant bannissement</item>
     <item id="1082">Débit :</item>
     <item id="1083">Nom d&apos;utilisateur</item>
-    <item id="1084">Authentification</item>
+    <item id="1084">Authentification (optionnel)</item>
     <item id="1085">Hôte</item>
     <item id="1088">Propriétés de l&apos;hôte</item>
     <item id="1092">Nom du signet</item>
@@ -469,12 +475,12 @@
     <item id="1160">Secondes d&apos;inactivité (0 = désactivé)</item>
     <item id="1162">Définir le statut absent après</item>
     <item id="1163">Nom du serveur</item>
-    <item id="1164">Supprimer</item>
+    <item id="1164">&amp;Supprimer</item>
     <item id="1165">Mot de passe du serveur</item>
     <item id="1166">Port UDP local</item>
-    <item id="1167">Ajouter/mettre à jour</item>
-    <item id="1169">Nouveau</item>
-    <item id="1170">Générer un fichier .tt</item>
+    <item id="1167">&amp;Ajouter/mettre à jour</item>
+    <item id="1169">&amp;Nouveau</item>
+    <item id="1170">&amp;Générer un fichier .tt</item>
     <item id="1172">Message du jour</item>
     <item id="1175">Tester la sélection</item>
     <item id="1186">Évènements sonnores</item>
@@ -502,12 +508,12 @@
     <item id="1217">L&apos;utilisateur peut créer des canaux temporaires</item>
     <item id="1218">L&apos;utilisateur peut créer/modifier tous les canaux</item>
     <item id="1221">Toujours au dessus</item>
-    <item id="1225">Défaut</item>
+    <item id="1225">&amp;Défaut</item>
     <item id="1226">Copyright (c) 2005-2020, BearWare.dk</item>
     <item id="1228">Écrit par Bjoern D. Rasmussen</item>
     <item id="1229">Codec Speex développé par Jean-Marc Valin, www.speex.org</item>
     <item id="1230">Nouvelles informations du canal</item>
-    <item id="1231">Envoyer</item>
+    <item id="1231">&amp;Envoyer</item>
     <item id="1232">Codec OPUS développé par Opus project, www.opus-codec.org</item>
     <item id="1235">Codec WebM VP8 développé par WebM project, www.webmproject.org</item>
     <item id="1236">Bienvenue dans l&apos;assistant de configuration de TeamTalk</item>
@@ -562,12 +568,16 @@
     <item id="1335">L&apos;utilisateur peut se connecter plusieurs fois simultanément</item>
     <item id="1339">Salle de classe (l&apos;opérateur contrôle les transmissions)</item>
     <item id="1341">Activer le volume audio fixe pour tous les utilisateurs</item>
+    <item id="1344">Niveau du gain</item>
+    <item id="1345">Gain maximal dB</item>
+    <item id="1346">Augmentation de gain par seconde maximale (dB)</item>
     <item id="1347">Ignorer le silence</item>
+    <item id="1348">Atténuation de bruit maximale (dB)</item>
     <item id="1349">Débit</item>
     <item id="1350">Débit maximal</item>
     <item id="1351">bps</item>
     <item id="1352">bps (0 = ignorer)</item>
-    <item id="1359">Parcourir</item>
+    <item id="1359">&amp;Parcourir</item>
     <item id="1362">Intervalle de transmission</item>
     <item id="1363">msec</item>
     <item id="1364">Fichier audio unique pour tous les utilisateurs</item>
@@ -693,7 +703,7 @@
     <item id="1534">Longueur maximale du texte</item>
     <item id="1535">Paramètres de capture vidéo</item>
     <item id="1537">Fichier média versus volume de la voix</item>
-    <item id="1538">Importer le fichier .tt</item>
+    <item id="1538">&amp;Importer le fichier .tt</item>
     <item id="1539">Afficher le nom d&apos;utilisateur au lieu du pseudo</item>
     <item id="1540">Nom du client</item>
     <item id="1543">Activer/désactiver les événements de synthèse vocale</item>
@@ -710,7 +720,7 @@
     <item id="1564">Authentification</item>
     <item id="1565">Créer</item>
     <item id="1566">Garder les utilisateurs déconnectés</item>
-    <item id="1567">Taux d'échantillonnage variable</item>
+    <item id="1567">Qualité variable</item>
     <item id="1569">Taille du cadre</item>
     <item id="1571">Durée :</item>
     <item id="1573">&amp;Configurer</item>
@@ -721,8 +731,8 @@
     <item id="1590">Défaut</item>
     <item id="1591">Muet à gauche</item>
     <item id="1592">Muet à droite</item>
-    <item id="1593">Jouer le média continuellement</item>
-    <item id="1594">Position initiale</item>
+    <item id="1593">&amp;Jouer le média continuellement</item>
+    <item id="1594">P&amp;osition initiale</item>
     <item id="1595">Traitement audio</item>
     <item id="1596">Tester la lecture</item>
 

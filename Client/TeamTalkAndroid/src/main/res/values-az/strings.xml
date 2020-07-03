@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TeamTalk 5</string>
+    <string name="app_name">TeamTalk</string>
     <string name="title_activity_server_list">TeamTalk 5 Az</string>
     <string name="action_settings">Tercihler</string>
     <string name="action_exit">Çıxış</string>
@@ -77,15 +77,14 @@
     <string name="pref_summary_channel_leave">Kanaldan istifadeçilerin ayrılmasının bildirimi</string>
     <string name="pref_title_private_message">Serbest Mesajları</string>
     <string name="pref_title_broadcast_message">Yayın Mesajları</string>
-    <string name="pref_summary_message">Gönderici adının bildirimi</string>
     <string name="pref_title_mute_speakers">Bas Danış düğmesine basıldığında hoparlörü sustur</string>
     <string name="pref_summary_mute_speakers">Hoparlörden ses dönüşümünü önlemek üçün bunu etkinleştirin</string>
     <string name="text_tts_loggedin">Sunucuya Geldi</string>
     <string name="text_tts_loggedout">Sunucudan Getdi</string>
     <string name="text_tts_joined_chan">Geldi</string>
     <string name="text_tts_left_chan">Getdi</string>
-    <string name="text_tts_private_message">%1$s istifadeçisinden mesaj</string>
-    <string name="text_tts_broadcast_message">%1$s istifadeçisinden yayın mesajı</string>
+    <string name="text_tts_private_message">%1$s istifadeçisinden mesaj - %2$s</string>
+    <string name="text_tts_broadcast_message">%1$s istifadeçisinden yayın mesajı - %2$s</string>
     <string name="pref_header_soundsystem">Ses Sistemi</string>
     <string name="title_activity_audio_codec">Ses tercihleri</string>
     <string name="title_activity_filepicker">Dosya Seçimi</string>

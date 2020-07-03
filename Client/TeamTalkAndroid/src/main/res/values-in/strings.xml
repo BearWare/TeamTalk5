@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">TeamTalk</string>
@@ -83,7 +83,6 @@
     <string name="pref_summary_channel_leave">mengumumkan nama pengguna yang meninggalkan saluran</string>
     <string name="pref_title_private_message">Pesan pribadi</string>
     <string name="pref_title_broadcast_message">Pesan Broadcast</string>
-    <string name="pref_summary_message">Mengumumkan nama pengirim</string>
     <string name="pref_title_mute_speakers">Pengeras suara diam ketika menekan tombol bicara</string>
     <string name="pref_summary_mute_speakers">Aktifkan ini untuk menghindari echo dari pengeras suara</string>
     <string name="pref_title_show_usernames">Tampilkan nama pengguna</string>
@@ -101,8 +100,8 @@
     <string name="text_tts_loggedout">telah keluar dari server</string>
     <string name="text_tts_joined_chan">telah bergabung dengan saluran</string>
     <string name="text_tts_left_chan">telah meninggalkan saluran</string>
-    <string name="text_tts_private_message">Pesan pribadi dari pengguna %1$s</string>
-    <string name="text_tts_broadcast_message">Pesan Broadcast dari pengguna %1$s</string>
+    <string name="text_tts_private_message">Pesan pribadi dari pengguna %1$s - %2$s</string>
+    <string name="text_tts_broadcast_message">Pesan Broadcast dari pengguna %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Suara sistem</string>
     <string name="title_activity_audio_codec">Codec Audio</string>
     <string name="title_activity_filepicker">Seleksi Berkas</string>
@@ -115,10 +114,8 @@
     <string name="button_tx">Bicara</string>
     <string name="button_remove">Hapus</string>
     <string name="button_edit">Edit</string>
-    <string name="action_ban">melarang</string>
     <string name="action_edit">Edit Saluran</string>
     <string name="action_join">Gabung</string>
-    <string name="action_kick">Tendang</string>
     <string name="action_move">Pindah Ke Sini</string>
     <string name="action_select">Pilih Untuk Dipindah</string>
     <string name="action_upload">Unggah File</string>
@@ -286,8 +283,5 @@
     <string name="permission_vibrate">Bergetar saat tahan dan bicara akan tidak tersedia</string>
     <string name="permission_wake_lock">Koneksi ke server bisa hilang ketika layar meredup</string>
     <string name="permission_read_phone_state">Deteksi panggilan masuk akan tidak memungkinkan</string>
-
-    <string name="facebook_app_id">611833262539381</string>
-    <string name="fb_login_protocol_scheme">fb611833262539381</string>
 
 </resources>

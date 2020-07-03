@@ -1,28 +1,30 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        app:showAsAction="never"
         android:title="@string/action_settings"/>
     <item
         android:id="@+id/action_exit"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        app:showAsAction="never"
         android:title="@string/action_exit"/>
     <item
         android:id="@+id/action_newserverentry"
-        android:showAsAction="always|withText"
+        app:showAsAction="always|withText"
         android:title="@string/action_new_server">
     </item>
     <item
         android:id="@+id/action_refreshserverlist"
         android:title="@string/action_refresh"
-        android:showAsAction="ifRoom|withText">
+        app:showAsAction="ifRoom|withText">
     </item>
     <item
         android:id="@+id/action_import_serverlist"
-        android:showAsAction="ifRoom|withText"
+        app:showAsAction="ifRoom|withText"
         android:title="@string/action_import_serverlist">
     </item>
 

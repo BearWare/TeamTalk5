@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
+    <string name="app_name">TeamTalk</string>
     <string name="title_activity_server_list">Серверы TeamTalk 5</string>
     <string name="action_settings">Настройки</string>
     <string name="action_exit">Выход</string>
     <string name="title_activity_server_entry">Свойства Сервера TeamTalk 5</string>
+    <string name="title_activity_main">TeamTalk 5 Для Android</string>
     <string name="title_section_channels">Каналы</string>
     <string name="title_section_chat">Сообщения</string>
     <string name="title_section_media">Медиатрансляции</string>
@@ -35,6 +38,7 @@
     <string name="pref_cat_soundtest">Тест Звука</string>
     <string name="pref_header_general">Общие Настройки</string>
     <string name="pref_title_nickname">Псевдоним</string>
+    <string name="pref_default_nickname">Аноним</string>
     <string name="pref_title_proximity_sensor">Датчик приближения</string>
     <string name="pref_title_keep_screen_on">Не гасить экран при активном соединении</string>
     <string name="pref_title_vibrate">Виброотклик кнопки включения передачи</string>
@@ -103,6 +107,8 @@
     <string name="pref_summary_mediafile_volume">Громкость воспроизведения медиафайлов относительно голоса</string>
     <string name="pref_title_speakerphone_checkbox">Громкая связь</string>
     <string name="pref_summary_speakerphone_checkbox">Использовать динамик вместо наушника</string>
+    <string name="pref_title_bluetooth_headset_checkbox">Использовать микрофон беспроводной гарнитуры</string>
+    <string name="pref_summary_bluetooth_headset_checkbox">При подключении беспроводной гарнитуры будет использоваться ее микрофон</string>
     <string name="pref_title_voice_processing_checkbox">Разрешить предобработку голоса</string>
     <string name="pref_summary_voice_processing_checkbox">Подавление эффекта эхо и автоматическая регулировка уровня</string>
     <string name="pref_title_public_servers">Показывать публичные серверы</string>
@@ -311,6 +317,7 @@
     <string name="permission_vibrate">Виброотклик кнопки включения передачи будет недоступен</string>
     <string name="permission_wake_lock">Соединение с сервером может быть потеряно при выключении экрана</string>
     <string name="permission_read_phone_state">Правильная реакция на входящие телефонные звонки будет невозможна</string>
+    <string name="permission_bluetooth">Использование микрофона беспроводной гарнитуры будет невозможно</string>
 
     <string name="title_activity_web_login">Настройка web-регистрации</string>
     <string name="weblogin_prop_title_bearwareid">Имя пользователя</string>
@@ -320,7 +327,17 @@
     <string name="weblogin_prop_title_create_web_login_id">Создать ID учетной записи на BearWare.dk</string>
     <string name="weblogin_prop_title_reset_web_login_id">Сбросить ID учетной записи на BearWare.dk</string>
     <string name="text_bearwarelogin_success">%1$s Ваше имя пользователя %2$s подтверждено</string>
-    <string name="text_bearwarelogin_failed">Не удалось авторизовать имя пользователя %1$s</string>
+    <string name="text_bearwarelogin_failed">Не удалось авторизовать имя пользователя %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">Ошибка авторизации при входе через BearWare.dk</string>
+    <string name="editmsg">Сообщение:</string>
+    <string name="filepathlab">Файл:</string>
+    <string name="channamelab">Название канала:</string>
+    <string name="chanpswlab">Пароль канала:</string>
+    <string name="chantopiclab">Тема канала:</string>
+    <string name="chanoppswlab">Пароль оператора:</string>
+    <string name="maxuserslab">Максимальное число пользователей:</string>
+    <string name="diskquotalab">Дисковая квота:</string>
+    <string name="bwidlab">Имя пользователя:</string>
+    <string name="bwpswlab">Пароль:</string>
 
 </resources>

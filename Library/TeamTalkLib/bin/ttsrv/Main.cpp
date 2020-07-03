@@ -350,10 +350,12 @@ int RunServer(
     encrypted = xmlSettings.GetCertificateFile().size() && xmlSettings.GetPrivateKeyFile().size();
 #endif
 
+    ACE_TString systemid = SERVER_WELCOME;
 #if defined(ENABLE_TEAMTALKPRO)
-    if(!servernode.StartServer(encrypted, SERVER_WELCOME))
+    systemid = Utf8ToUnicode(xmlSettings.GetSystemID(UnicodeToUtf8(systemid).c_str()).c_str());
+    if (!servernode.StartServer(encrypted, systemid))
 #else
-    if(!servernode.StartServer(false, SERVER_WELCOME))
+    if (!servernode.StartServer(false, systemid))
 #endif
     {
         ACE_TCHAR error_msg[1024];

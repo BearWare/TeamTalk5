@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ТИМТОК 5</string>
+    <string name="app_name">TeamTalk</string>
     <string name="title_activity_server_list">Тимток 5 сервери</string>
     <string name="action_settings">нагодувања</string>
     <string name="action_exit">Излес</string>
@@ -83,7 +83,6 @@
     <string name="pref_summary_channel_leave">Објави го името на корисникот што го напушта каналот</string>
     <string name="pref_title_private_message">Лични пораки</string>
     <string name="pref_title_broadcast_message">Објави ги пораките</string>
-    <string name="pref_summary_message">Објави го името на испраќачот</string>
     <string name="pref_title_mute_speakers">Исклучи го звукот од звучниците кога ќе се притисне копчето TX</string>
     <string name="pref_summary_mute_speakers">Вклучи го ова со цел да се избегне еко од звучниците</string>
     <string name="pref_title_show_usernames">Приказ на корисничките имиња</string>
@@ -101,8 +100,8 @@
     <string name="text_tts_loggedout">се одјави</string>
     <string name="text_tts_joined_chan">се приклучи на каналот</string>
     <string name="text_tts_left_chan">го напушти каналот</string>
-    <string name="text_tts_private_message">Лична порака од корисникот %1$s</string>
-    <string name="text_tts_broadcast_message">Броткаст порака од корисникот %1$s</string>
+    <string name="text_tts_private_message">Лична порака од корисникот %1$s - %2$s</string>
+    <string name="text_tts_broadcast_message">Броткаст порака од корисникот %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Систем за звук</string>
     <string name="title_activity_audio_codec">Аудио кодек</string>
     <string name="title_activity_filepicker">Одбирање на датотека</string>
@@ -115,10 +114,8 @@
     <string name="button_tx">TX</string>
     <string name="button_remove">Избриши</string>
     <string name="button_edit">Уреди</string>
-    <string name="action_ban">Банирај</string>
     <string name="action_edit">Уреди го каналот</string>
     <string name="action_join">Приклучи се</string>
-    <string name="action_kick">Кикни</string>
     <string name="action_move">Премести го овде</string>
     <string name="action_select">Одбери со цел преместување</string>
     <string name="action_upload">Прикачи датотека</string>

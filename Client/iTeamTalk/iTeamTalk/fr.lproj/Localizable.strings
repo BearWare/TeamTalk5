@@ -1,4 +1,3 @@
-
 /* log entry */
 "%@ joined channel" = "%@ a rejoint le canal";
 
@@ -106,6 +105,9 @@
 
 /* preferences */
 "Broadcast Text Message" = "Message texte général";
+
+/* Dialog message */
+"Cancel" = "Annuler";
 
 /* channel list
    server entry */

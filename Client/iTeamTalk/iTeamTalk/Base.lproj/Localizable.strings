@@ -1,4 +1,3 @@
-
 /* log entry */
 "%@ joined channel" = "%@ joined channel";
 
@@ -663,3 +662,6 @@
 
 /* speech */
 "You have selected %@" = "You have selected %@";
+
+/* Dialog message */
+"Cancel" = "Cancel";

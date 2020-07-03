@@ -1,4 +1,3 @@
-
 /* log entry */
 "%@ joined channel" = "%@ hat den Raum betreten";
 
@@ -105,6 +104,9 @@
 
 /* preferences */
 "Broadcast Text Message" = "Server-Textnachricht";
+
+/* Dialog message */
+"Cancel" = "Cancel";
 
 /* channel list
    server entry */

@@ -1583,7 +1583,11 @@ QString getDisplayName(const User& user)
     {
         return limitText(_Q(user.szUsername));
     }
-    return limitText(_Q(user.szNickname));
+
+    QString nickname = _Q(user.szNickname);
+    if (nickname.isEmpty())
+        nickname = QString("%1 - #%2").arg(SETTINGS_GENERAL_NICKNAME_DEFAULT).arg(user.nUserID);
+    return limitText(nickname);
 }
 
 QString getDateTimeStamp()

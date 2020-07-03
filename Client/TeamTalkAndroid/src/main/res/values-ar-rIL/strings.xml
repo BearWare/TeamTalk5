@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TeamTalk 5</string>
+    <string name="app_name">TeamTalk</string>
     <string name="title_activity_server_list">TeamTalk 5 Servers</string>
     <string name="action_settings">الإعدادات</string>
     <string name="action_exit">خروج</string>
@@ -79,7 +79,6 @@
     <string name="pref_summary_channel_leave">التعريف باسم المستخدم عند مغادرة القناة</string>
     <string name="pref_title_private_message">رسائل شخصية</string>
     <string name="pref_title_broadcast_message">رسائل برودكاست</string>
-    <string name="pref_summary_message">التعريف باسم الشخص المرسل</string>
     <string name="pref_title_mute_speakers">كتم الصوت الخارجي عند الضغط على الزر</string>
     <string name="pref_summary_mute_speakers">مكن هذا لحذف الصدى عند تفعيل الصوت الخارجي</string>
     <string name="pref_title_show_usernames">إظهار أسامي المستخدمين</string>
@@ -95,8 +94,8 @@
     <string name="text_tts_loggedout">تم تسجيل الخروج</string>
     <string name="text_tts_joined_chan">انضم للقناة</string>
     <string name="text_tts_left_chan">غادر القناة</string>
-    <string name="text_tts_private_message">رسالة شخصية من مستخدم %1$s</string>
-    <string name="text_tts_broadcast_message">رسالة برودكاست من مستخدم %1$s</string>
+    <string name="text_tts_private_message">رسالة شخصية من مستخدم %1$s - %2$s</string>
+    <string name="text_tts_broadcast_message">رسالة برودكاست من مستخدم %1$s - %2$s</string>
     <string name="pref_header_soundsystem">نظام الصوت</string>
     <string name="title_activity_audio_codec">Aترميز الصوت</string>
     <string name="title_activity_filepicker">اختيار الملف</string>
@@ -109,10 +108,8 @@
     <string name="button_tx">TX</string>
     <string name="button_remove">حذف</string>
     <string name="button_edit">تعديل</string>
-    <string name="action_ban">حظر</string>
     <string name="action_edit">تعديل القناة</string>
     <string name="action_join">انضمام</string>
-    <string name="action_kick">طرد</string>
     <string name="action_move">نقل هنا</string>
     <string name="action_select">اختر للنقل</string>
     <string name="action_upload">ارفع ملف</string>

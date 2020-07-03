@@ -97,12 +97,13 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.util.SparseArray;
@@ -132,7 +133,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity
-extends FragmentActivity
+extends AppCompatActivity
 implements TeamTalkConnectionListener, 
         ConnectionListener, 
         CommandListener, 
@@ -156,7 +157,8 @@ implements TeamTalkConnectionListener,
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
-    
+    TabLayout mTabLayout;
+
     public static final String TAG = "bearware";
 
     public final int REQUEST_EDITCHANNEL = 1,
@@ -227,7 +229,7 @@ implements TeamTalkConnectionListener,
         String serverName = getIntent().getStringExtra(ServerEntry.KEY_SERVERNAME);
         if ((serverName != null) && !serverName.isEmpty())
             setTitle(serverName);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
@@ -236,7 +238,7 @@ implements TeamTalkConnectionListener,
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mediaButtonEventReceiver = new ComponentName(getPackageName(), MediaButtonEventReceiver.class.getName());
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        wakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+        wakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG + ":TeamTalk5");
         wakeLock.setReferenceCounted(false);
 
         channelsAdapter = new ChannelListAdapter(this.getBaseContext());
@@ -247,11 +249,13 @@ implements TeamTalkConnectionListener,
         // Create the adapter that will return a fragment for each of the five
         // primary sections of the app.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
 
         setupButtons();
 
@@ -334,7 +338,16 @@ implements TeamTalkConnectionListener,
                 break;
             }
             case android.R.id.home : {
-                if (filesAdapter.getActiveTransfersCount() > 0) {
+                Channel parentChannel = ((mViewPager.getCurrentItem() == SectionsPagerAdapter.CHANNELS_PAGE)
+                                         && (curchannel != null)
+                                         && (curchannel.nChannelID != ttclient.getRootChannelID())) ?
+                    ttservice.getChannels().get(curchannel.nParentID) :
+                    null;
+                if ((parentChannel != null) && (parentChannel.nChannelID > 0)) {
+                    setCurrentChannel(parentChannel);
+                    channelsAdapter.notifyDataSetChanged();
+                }
+                else if (filesAdapter.getActiveTransfersCount() > 0) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(this);
                     alert.setMessage(R.string.disconnect_alert);
                     alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -383,6 +396,12 @@ implements TeamTalkConnectionListener,
                 Log.e(TAG, "Failed to bind to TeamTalk service");
         }
         else {
+            adjustSoundSystem(prefs);
+            if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)) {
+                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
+                    ttservice.watchBluetoothHeadset();
+            }
+            else ttservice.unwatchBluetoothHeadset();
 
             int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
             int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
@@ -420,10 +439,6 @@ implements TeamTalkConnectionListener,
         audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-        audioManager.setMode(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false)?
-                AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
-        audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
 
         if (prefs.getBoolean("server_lost_audio_icon", true)) {
             sounds.put(SOUND_SERVERLOST, audioIcons.load(getApplicationContext(), R.raw.serverlost, 1));
@@ -501,11 +516,14 @@ implements TeamTalkConnectionListener,
                 ttsWrapper = null;
             }
 
+            audioManager.setMode(AudioManager.MODE_NORMAL);
+
             // Unbind from the service
             if (mConnection.isBound()) {
                 Log.d(TAG, "Unbinding TeamTalk service");
                 onServiceDisconnected(ttservice);
                 ttservice.disablePhoneCallReaction();
+                ttservice.unwatchBluetoothHeadset();
                 ttservice.resetState();
                 unbindService(mConnection);
                 mConnection.setBound(false);
@@ -558,9 +576,7 @@ implements TeamTalkConnectionListener,
                 audioManager.setSpeakerphoneOn(false);
                 ttservice.enableVoiceTransmission(true);
             } else {
-                audioManager.setMode(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false)?
-                        AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
-                audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+                adjustSoundSystem(prefs);
                 if (ttservice.isVoiceTransmissionEnabled())
                     ttservice.enableVoiceTransmission(false);
             }
@@ -717,7 +733,7 @@ implements TeamTalkConnectionListener,
 
     private void setCurrentChannel(Channel channel) {
         curchannel = channel;
-        getActionBar().setSubtitle((channel != null) ? channel.szName : null);
+        getSupportActionBar().setSubtitle((channel != null) ? channel.szName : null);
         invalidateOptionsMenu();
     }
 
@@ -873,6 +889,7 @@ implements TeamTalkConnectionListener,
         private LayoutInflater inflater;
 
         Vector<Channel> subchannels = new Vector<Channel>();
+        Vector<Channel> stickychannels = new Vector<Channel>();
         Vector<User> currentusers = new Vector<User>();
 
         ChannelListAdapter(Context context) {
@@ -884,12 +901,14 @@ implements TeamTalkConnectionListener,
             int chanid = 0;
 
             subchannels.clear();
+            stickychannels.clear();
             currentusers.clear();
 
             if(curchannel != null) {
                 chanid = curchannel.nChannelID;
 
                 subchannels = Utils.getSubChannels(chanid, ttservice.getChannels());
+                stickychannels = Utils.getStickyChannels(chanid, ttservice.getChannels());
                 currentusers = Utils.getUsers(chanid, ttservice.getUsers());
             }
             else {
@@ -899,15 +918,12 @@ implements TeamTalkConnectionListener,
                     subchannels.add(root);
             }
 
-            Collections.sort(subchannels, new Comparator<Channel>() {
-                    @Override
-                    public int compare(Channel c1, Channel c2) {
-                        if ((c1.nMaxUsers <= 0) && (c2.nMaxUsers > 0))
-                            return -1;
-                        else if ((c1.nMaxUsers > 0) && (c2.nMaxUsers <= 0))
-                            return 1;
-                        return c1.szName.compareToIgnoreCase(c2.szName);
-                    }
+            Collections.sort(subchannels, (c1, c2) -> {
+                    return c1.szName.compareToIgnoreCase(c2.szName);
+                });
+
+            Collections.sort(stickychannels, (c1, c2) -> {
+                    return c1.szName.compareToIgnoreCase(c2.szName);
                 });
 
             Collections.sort(currentusers, new Comparator<User>() {
@@ -931,7 +947,7 @@ implements TeamTalkConnectionListener,
 
         @Override
         public int getCount() {
-            int count = subchannels.size() + currentusers.size();
+            int count = currentusers.size() + subchannels.size() + stickychannels.size();
             if ((curchannel != null) && (curchannel.nParentID > 0)) {
                 count++; // include parent channel shortcut
             }
@@ -940,6 +956,21 @@ implements TeamTalkConnectionListener,
 
         @Override
         public Object getItem(int position) {
+
+            if (position < stickychannels.size()) {
+                return stickychannels.get(position);
+            }
+
+            // sticky channels are first so subtract these
+            position -= stickychannels.size();
+
+            if (position < currentusers.size()) {
+                return currentusers.get(position);
+            }
+
+            // users are first so subtract these
+            position -= currentusers.size();
+
             if ((curchannel != null) && (curchannel.nParentID > 0)) {
                 if(position == 0) {
                     Channel parent = ttservice.getChannels().get(curchannel.nParentID);
@@ -949,15 +980,9 @@ implements TeamTalkConnectionListener,
                     return new Channel();
                 }
 
-                position--; // substract parent channel shortcut
+                position--; // subtract parent channel shortcut
             }
-            if(position < subchannels.size()) {
-                return subchannels.get(position);
-            }
-            else {
-                position -= subchannels.size();
-                return currentusers.get(position);
-            }
+            return subchannels.get(position);
         }
 
         @Override
@@ -967,19 +992,28 @@ implements TeamTalkConnectionListener,
 
         @Override
         public int getItemViewType(int position) {
+
+            if (position < stickychannels.size())
+                return INFO_VIEW_TYPE;
+
+            // sticky channels are first so subtract these
+            position -= stickychannels.size();
+
+            if (position < currentusers.size())
+                return USER_VIEW_TYPE;
+
+            // users are first so subtract these
+            position -= currentusers.size();
+
             if ((curchannel != null) && (curchannel.nParentID > 0)) {
                 if (position == 0) {
                     return PARENT_CHANNEL_VIEW_TYPE;
                 }
-                else if (position <= subchannels.size()) {
-                    return (subchannels.get(position - 1).nMaxUsers > 0) ? CHANNEL_VIEW_TYPE : INFO_VIEW_TYPE;
-                }
-                return USER_VIEW_TYPE;
+
+                position--; // subtract parent channel shortcut
             }
-            else if (position < subchannels.size()) {
-                return (subchannels.get(position).nMaxUsers > 0) ? CHANNEL_VIEW_TYPE : INFO_VIEW_TYPE;
-            }
-            return USER_VIEW_TYPE;
+
+            return CHANNEL_VIEW_TYPE;
         }
 
         @Override
@@ -996,72 +1030,77 @@ implements TeamTalkConnectionListener,
 
                 final Channel channel = (Channel) item;
 
-                if ((curchannel != null) && (curchannel.nParentID > 0) && (position == 0)) {
-                    // show parent channel shortcut
-                    if (convertView == null ||
-                        convertView.findViewById(R.id.parentname) == null)
-                        convertView = inflater.inflate(R.layout.item_channel_back, parent, false);
-                }
-                else if (channel.nMaxUsers == 0) {
-                    if (convertView == null ||
-                        convertView.findViewById(R.id.titletext) == null)
-                        convertView = inflater.inflate(R.layout.item_info, parent, false);
-                    TextView title = (TextView) convertView.findViewById(R.id.titletext);
-                    TextView details = (TextView) convertView.findViewById(R.id.infodetails);
-                    title.setText(channel.szName);
-                    details.setText(channel.szTopic);
-                }
-                else {
+                switch (getItemViewType(position)) {
+                    case PARENT_CHANNEL_VIEW_TYPE :
+                        // show parent channel shortcut
+                        if (convertView == null ||
+                                convertView.findViewById(R.id.parentname) == null)
+                            convertView = inflater.inflate(R.layout.item_channel_back, parent, false);
+                        break;
 
-                    if (convertView == null ||
-                        convertView.findViewById(R.id.channelname) == null)
-                        convertView = inflater.inflate(R.layout.item_channel, parent, false);
+                    case CHANNEL_VIEW_TYPE :
+                        if (convertView == null ||
+                                convertView.findViewById(R.id.channelname) == null)
+                            convertView = inflater.inflate(R.layout.item_channel, parent, false);
 
-                    ImageView chanicon = (ImageView) convertView.findViewById(R.id.channelicon);
-                    TextView name = (TextView) convertView.findViewById(R.id.channelname);
-                    TextView topic = (TextView) convertView.findViewById(R.id.chantopic);
-                    Button join = (Button) convertView.findViewById(R.id.join_btn);
-                    int icon_resource = R.drawable.channel_orange;
-                    if(channel.bPassword) {
-                        icon_resource = R.drawable.channel_pink;
-                        chanicon.setContentDescription(getString(R.string.text_passwdprot));
-                        chanicon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-                    }
-                    else {
-                        chanicon.setContentDescription(null);
-                        chanicon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-                    }
-                    chanicon.setImageResource(icon_resource);
-                    
-                    if(channel.nParentID == 0) {
-                        // show server name as channel name for root channel
-                        ServerProperties srvprop = new ServerProperties();
-                        ttclient.getServerProperties(srvprop);
-                        name.setText(srvprop.szServerName);
-                    }
-                    else {
-                        name.setText(channel.szName);
-                    }
-                    topic.setText(channel.szTopic);
-
-                    OnClickListener listener = new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            switch(v.getId()) {
-                                case R.id.join_btn : {
-                                    joinChannel(channel);
-                                }
-                                break;
-                            }
+                        ImageView chanicon = (ImageView) convertView.findViewById(R.id.channelicon);
+                        TextView name = (TextView) convertView.findViewById(R.id.channelname);
+                        TextView topic = (TextView) convertView.findViewById(R.id.chantopic);
+                        Button join = (Button) convertView.findViewById(R.id.join_btn);
+                        int icon_resource = R.drawable.channel_orange;
+                        if(channel.bPassword) {
+                            icon_resource = R.drawable.channel_pink;
+                            chanicon.setContentDescription(getString(R.string.text_passwdprot));
+                            chanicon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
                         }
-                    };
-                    join.setOnClickListener(listener);
-                    join.setAccessibilityDelegate(accessibilityAssistant);
-                    join.setEnabled(channel.nChannelID != ttclient.getMyChannelID());
-                }
-                if (channel.nMaxUsers > 0) {
-                    int population = Utils.getUsers(channel.nChannelID, ttservice.getUsers()).size();
-                    ((TextView)convertView.findViewById(R.id.population)).setText((population > 0) ? String.format("(%d)", population) : "");
+                        else {
+                            chanicon.setContentDescription(null);
+                            chanicon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+                        }
+                        chanicon.setImageResource(icon_resource);
+
+                        if(channel.nParentID == 0) {
+                            // show server name as channel name for root channel
+                            ServerProperties srvprop = new ServerProperties();
+                            ttclient.getServerProperties(srvprop);
+                            name.setText(srvprop.szServerName);
+                        }
+                        else {
+                            name.setText(channel.szName);
+                        }
+                        topic.setText(channel.szTopic);
+
+                        OnClickListener listener = new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                switch(v.getId()) {
+                                    case R.id.join_btn : {
+                                        joinChannel(channel);
+                                    }
+                                    break;
+                                }
+                            }
+                        };
+                        join.setOnClickListener(listener);
+                        join.setAccessibilityDelegate(accessibilityAssistant);
+                        join.setEnabled(channel.nChannelID != ttclient.getMyChannelID());
+
+                        if (channel.nMaxUsers > 0) {
+                            int population = Utils.getUsers(channel.nChannelID, ttservice.getUsers()).size();
+                            ((TextView)convertView.findViewById(R.id.population)).setText((population > 0) ? String.format("(%d)", population) : "");
+                        }
+
+                        break;
+
+                    case INFO_VIEW_TYPE :
+                        if (convertView == null ||
+                                convertView.findViewById(R.id.titletext) == null)
+                            convertView = inflater.inflate(R.layout.item_info, parent, false);
+                        TextView title = (TextView) convertView.findViewById(R.id.titletext);
+                        TextView details = (TextView) convertView.findViewById(R.id.infodetails);
+                        title.setText(channel.szName);
+                        details.setText(channel.szTopic);
+                        break;
                 }
             }
             else if(item instanceof User) {
@@ -1366,6 +1405,14 @@ implements TeamTalkConnectionListener,
         return true;
     }
 
+    private void adjustSoundSystem(SharedPreferences prefs) {
+        boolean voiceProcessing = prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false);
+        audioManager.setMode(voiceProcessing ?
+                AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
+        if (voiceProcessing)
+            audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+    }
+
     private void adjustMuteButton(ImageButton btn) {
         if (ttservice.getCurrentMuteState()) {
             btn.setImageResource(R.drawable.mute_blue);
@@ -1400,22 +1447,24 @@ implements TeamTalkConnectionListener,
     }
 
     private void adjustTxState(boolean txEnabled) {
+        accessibilityAssistant.lockEvents();
+
         findViewById(R.id.transmit_voice).setBackgroundColor(txEnabled ? Color.GREEN : Color.RED);
         findViewById(R.id.transmit_voice).setContentDescription(txEnabled ? getString(R.string.tx_on) : getString(R.string.tx_off));
 
-        if ((curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID)) {
-            accessibilityAssistant.lockEvents();
+        if ((curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID))
             channelsAdapter.notifyDataSetChanged();
-            accessibilityAssistant.unlockEvents();
-        }
+
+        accessibilityAssistant.unlockEvents();
     }
 
     private interface OnButtonInteractionListener extends OnTouchListener, OnClickListener {
     }
 
     private void setupButtons() {
-        
+
         final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
+        tx_btn.setAccessibilityDelegate(accessibilityAssistant);
 
         OnButtonInteractionListener txButtonListener = new OnButtonInteractionListener() {
 
@@ -1707,6 +1756,11 @@ implements TeamTalkConnectionListener,
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        adjustSoundSystem(prefs);
+
+        if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)
+            && Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
+            ttservice.watchBluetoothHeadset();
 
         if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
             wakeLock.acquire();
@@ -1766,6 +1820,12 @@ implements TeamTalkConnectionListener,
             case Permissions.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE:
                 if ((mConnection != null) && mConnection.isBound())
                     ttservice.enablePhoneCallReaction();
+                break;
+            case Permissions.MY_PERMISSIONS_BLUETOOTH:
+                if ((mConnection != null) && mConnection.isBound())
+                    ttservice.watchBluetoothHeadset();
+                break;
+            default:
                 break;
         }
     }
@@ -2142,6 +2202,7 @@ implements TeamTalkConnectionListener,
             boolean ptt_vibrate = pref.getBoolean("vibrate_checkbox", true) &&
                 Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_VIBRATE);
             if (voiceTransmissionEnabled) {
+                accessibilityAssistant.shutUp();
                 if (sounds.get(SOUND_VOICETXON) != 0) {
                     audioIcons.play(sounds.get(SOUND_VOICETXON), 1.0f, 1.0f, 0, 0, 1.0f);
                 }
