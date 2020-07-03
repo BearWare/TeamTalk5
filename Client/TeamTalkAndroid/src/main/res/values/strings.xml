@@ -348,6 +348,8 @@
     <string name="diskquotalab">Disk quota:</string>
     <string name="bwidlab">Username:</string>
     <string name="bwpswlab">Password:</string>
+    <string name="ttversion">TeamTalk v</string>
+    <string name="ttdllversion">TeamTalk DLL v</string>
 
 
 

@@ -396,6 +396,7 @@ implements TeamTalkConnectionListener,
                 Log.e(TAG, "Failed to bind to TeamTalk service");
         }
         else {
+            adjustSoundSystem(prefs);
             if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)) {
                 if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
                     ttservice.watchBluetoothHeadset();
@@ -438,10 +439,6 @@ implements TeamTalkConnectionListener,
         audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-        audioManager.setMode(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false)?
-                AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
-        audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
 
         if (prefs.getBoolean("server_lost_audio_icon", true)) {
             sounds.put(SOUND_SERVERLOST, audioIcons.load(getApplicationContext(), R.raw.serverlost, 1));
@@ -519,6 +516,8 @@ implements TeamTalkConnectionListener,
                 ttsWrapper = null;
             }
 
+            audioManager.setMode(AudioManager.MODE_NORMAL);
+
             // Unbind from the service
             if (mConnection.isBound()) {
                 Log.d(TAG, "Unbinding TeamTalk service");
@@ -577,9 +576,7 @@ implements TeamTalkConnectionListener,
                 audioManager.setSpeakerphoneOn(false);
                 ttservice.enableVoiceTransmission(true);
             } else {
-                audioManager.setMode(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false)?
-                        AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
-                audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+                adjustSoundSystem(prefs);
                 if (ttservice.isVoiceTransmissionEnabled())
                     ttservice.enableVoiceTransmission(false);
             }
@@ -1408,6 +1405,14 @@ implements TeamTalkConnectionListener,
         return true;
     }
 
+    private void adjustSoundSystem(SharedPreferences prefs) {
+        boolean voiceProcessing = prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false);
+        audioManager.setMode(voiceProcessing ?
+                AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
+        if (voiceProcessing)
+            audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+    }
+
     private void adjustMuteButton(ImageButton btn) {
         if (ttservice.getCurrentMuteState()) {
             btn.setImageResource(R.drawable.mute_blue);
@@ -1751,6 +1756,8 @@ implements TeamTalkConnectionListener,
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        adjustSoundSystem(prefs);
+
         if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)
             && Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
             ttservice.watchBluetoothHeadset();
