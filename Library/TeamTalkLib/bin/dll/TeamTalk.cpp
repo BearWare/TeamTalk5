@@ -1156,8 +1156,7 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserVideoCaptureFrame(IN TTInstance* lpTTI
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     auto inst = GET_CLIENT(lpTTInstance);
-    TTASSERT(inst);
-    if(!inst)
+    if (!inst)
         return NULL;
 
     ACE_Message_Block* mb;
@@ -1203,8 +1202,7 @@ TEAMTALKDLL_API TTBOOL TT_ReleaseUserVideoCaptureFrame(IN TTInstance* lpTTInstan
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     auto inst = GET_CLIENT(lpTTInstance);
-    TTASSERT(inst);
-    if(!inst)
+    if (!inst)
         return FALSE;
     return inst->RemoveVideoFrame(lpVideoFrame);
 }
@@ -1728,8 +1726,7 @@ TEAMTALKDLL_API AudioBlock* TT_AcquireUserAudioBlock(IN TTInstance* lpTTInstance
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, NULL);
 
     auto inst = GET_CLIENT(lpTTInstance);
-    TTASSERT(inst);
-    if(!inst)
+    if (!inst)
         return nullptr;
 
     ACE_Message_Block* mb = clientnode->audiocontainer().AcquireAudioFrame(nUserID, nStreamType);
@@ -1753,8 +1750,7 @@ TEAMTALKDLL_API TTBOOL TT_ReleaseUserAudioBlock(IN TTInstance* lpTTInstance,
                                                 IN AudioBlock* lpAudioBlock)
 {
     auto inst = GET_CLIENT(lpTTInstance);
-    TTASSERT(inst);
-    if(!inst)
+    if (!inst)
         return FALSE;
 
     return inst->RemoveAudioBlock(lpAudioBlock);
@@ -2121,8 +2117,7 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserMediaVideoFrame(IN TTInstance* lpTTIns
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     auto inst = GET_CLIENT(lpTTInstance);
-    TTASSERT(inst);
-    if(!inst)
+    if (!inst)
         return NULL;
 
     clientuser_t user = clientnode->GetUser(nUserID);
@@ -2158,8 +2153,7 @@ TEAMTALKDLL_API TTBOOL TT_ReleaseUserMediaVideoFrame(IN TTInstance* lpTTInstance
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     auto inst = GET_CLIENT(lpTTInstance);
-    TTASSERT(inst);
-    if(!inst)
+    if (!inst)
         return FALSE;
 
     return inst->RemoveVideoFrame(lpVideoFrame);
@@ -3065,8 +3059,7 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindow(IN TTInstance* lpTTIn
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     auto inst = GET_CLIENT(lpTTInstance);
-    TTASSERT(inst);
-    if(!inst)
+    if (!inst)
         return NULL;
 
     clientuser_t user = clientnode->GetUser(nUserID);
@@ -3115,8 +3108,7 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindowEx(IN TTInstance* lpTT
     if(size>0)
     {
         auto inst = GET_CLIENT(lpTTInstance);
-        TTASSERT(inst);
-        if(!inst)
+        if (!inst)
             return NULL;
 
         DesktopWindow* lpNewWindow = inst->PushDesktopWindow(size);
@@ -3143,8 +3135,7 @@ TEAMTALKDLL_API TTBOOL TT_ReleaseUserDesktopWindow(IN TTInstance* lpTTInstance,
                                                    IN DesktopWindow* lpDesktopWindow)
 {
     auto inst = GET_CLIENT(lpTTInstance);
-    TTASSERT(inst);
-    if(!inst)
+    if (!inst)
         return FALSE;
 
     return (TTBOOL)inst->RemoveDesktopWindow(lpDesktopWindow);
