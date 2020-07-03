@@ -12,6 +12,7 @@ Accessible Windows client
 - Blank nicknames are set to NoName followed by user ID
 - More items are now translatable.
 - French, Turkish, German and Chinese languages updated.
+- When you are streaming media file on a channel, your status message is now updated
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
@@ -21,6 +22,7 @@ Default Qt client
 - More elements are now labellize, specificly in main's window.
 - When you switch to Away mode due to your inactivity, your status message is now updated
 - Blank nicknames are set to NoName followed by user ID
+- When you are streaming media file on a channel, your status message is now updated
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French's language is now supported
