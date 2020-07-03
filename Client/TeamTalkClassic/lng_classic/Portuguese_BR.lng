@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
+    <item id="1">Ok</item>
+    <item id="2">Cancel</item>
     <item id="102">TeamTalk: Assistente de instalação</item>
     <item id="104">Desconectar\tF2</item>
     <item id="105">%s entrou no canal.</item>
@@ -241,6 +243,7 @@
     <item id="377">Usar tabela de caracteres definida.\r\n</item>
     <item id="378">Versão da dll de 64 bits do TeamTalk:&#x0D;&#x0A;</item>
     <item id="379">Versão da dll de 32 bits do TeamTalk:&#x0D;&#x0A;</item>
+    <item id="380">Abrir</item>
     <item id="381">Recebido: %.2fKB Transferência: %.2fKB PING: %u %s</item>
     <item id="382">Recebido: %.2fKB Transferido: %.2fKB %s</item>
     <item id="383">Ausente</item>
@@ -398,6 +401,11 @@
     <item id="549">Canal tem usuários ativos</item>
     <item id="550">Serviço de conexão indisponível</item>
     <item id="551">Usuário não existe</item>
+    <item id="553">Histórico</item>
+    <item id="555">Mensagem</item>
+    <item id="556">Sem Nome</item>
+    <item id="557">Lista de canais</item>
+    <item id="558">Lista de arquivos</item>
     <item id="1006">Lista de arquivos</item>
     <item id="1009">Ir para o canal inicial ao conectar</item>
     <item id="1012">Porta TCP do servidor</item>
@@ -567,13 +575,16 @@
     <item id="1335">O usuário pode conectar várias vezes</item>
     <item id="1339">Canal de palestra (Os operadores controlam as transmissões)</item>
     <item id="1341">Ativar volume fixo para todos os usuários</item>
+    <item id="1344">Nível de ganho</item>
     <item id="1345">Ativar modo duplex (Necessário para cancelamento de eco)</item>
+    <item id="1346">Ganho máximo à aumentar por segundo (dB)</item>
     <item id="1347">Ignorar silêncio</item>
+    <item id="1348">Atenuação máxima de ruído (dB)</item>
     <item id="1349">Bitrate</item>
-    <item id="1350">Bitrate máximo</item>
+    <item id="1350">Bitrate máxima</item>
     <item id="1351">BPS</item>
     <item id="1352">BPS (0 = ignorar)</item>
-    <item id="1359">...</item>
+    <item id="1359">&amp;Procurar</item>
     <item id="1362">Intervalo de transmissão</item>
     <item id="1363">MSEC</item>
     <item id="1364">Único arquivo de áudio para todos os usuários</item>
