@@ -345,5 +345,7 @@
     <string name="diskquotalab">磁盘配额：</string>
     <string name="bwidlab">用户名：</string>
     <string name="bwpswlab">密码：</string>
+    <string name="ttversion">TeamTalk v</string>
+    <string name="ttdllversion">TeamTalk DLL v</string>
 
 </resources>
