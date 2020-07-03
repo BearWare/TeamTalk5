@@ -21,6 +21,7 @@ Default Qt client
 - More elements are now labellize, specificly in main's window.
 - When you switch to Away mode due to your inactivity, your status message is now updated
 - Blank nicknames are set to NoName followed by user ID
+- Area history is now readonly
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French's language is now supported
