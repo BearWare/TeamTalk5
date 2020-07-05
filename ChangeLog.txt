@@ -14,6 +14,7 @@ Accessible Windows client
 - French, Turkish, German and Chinese languages updated.
 - All areas of main window are now labelled
 - Slider's control is now more natural, you must use down arrow to decrease value, and up arrow to increase value
+- If you are respectivly subscribed to tts events for voice and media files subscriptions, you are now informed by tts message when you change volume for one of this elements for an user by shortcuts ctrl+maj+arrow keys and ctrl+alt+arrow keys
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
