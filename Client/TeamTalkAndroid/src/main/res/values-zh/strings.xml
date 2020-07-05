@@ -347,5 +347,6 @@
     <string name="bwpswlab">密码：</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
+    <string name="pref_title_facebook_summary">仅检查此服务器是否已启用Facebook登录</string>
 
 </resources>
