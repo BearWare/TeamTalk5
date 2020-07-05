@@ -350,7 +350,7 @@
     <string name="bwpswlab">Password:</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
-
+    <string name="pref_title_facebook_summary">Check only if this server has enabled Facebook login</string>
 
 
 </resources>

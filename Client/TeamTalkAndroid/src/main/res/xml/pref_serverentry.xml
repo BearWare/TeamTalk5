@@ -59,10 +59,11 @@
             android:singleLine="true"
             android:persistent="false" />
         <CheckBoxPreference
-            android:key="fblogin"
-            android:title="@string/pref_title_facebook"
             android:defaultValue="false"
-            android:persistent="false" />
+            android:key="fblogin"
+            android:persistent="false"
+            android:summary="@string/pref_title_facebook_summary"
+            android:title="@string/pref_title_facebook" />
         <EditTextPreference
             android:key="nickname"
             android:title="@string/pref_title_nickname"

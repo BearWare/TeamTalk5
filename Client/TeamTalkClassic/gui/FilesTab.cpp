@@ -164,7 +164,6 @@ BOOL CFilesTab::OnInitDialog()
 {
     CMyTab::OnInitDialog();
 
-
     static CResizer::CBorderInfo s_bi[] = {
 
         {IDC_LIST_FILES,    
@@ -179,6 +178,8 @@ BOOL CFilesTab::OnInitDialog()
     m_wndFiles.InsertColumn(0, LoadText(IDS_FILETABNAME, _T("Name")));
     m_wndFiles.InsertColumn(1, LoadText(IDS_FILETABSIZE, _T("Size")), LVCFMT_RIGHT);
     m_wndFiles.InsertColumn(2, LoadText(IDS_FILETABUSER, _T("User")), LVCFMT_RIGHT);
+
+    TRANSLATE(*this, IDD);
 
     //ResizeHeader();
     return TRUE;  // return TRUE unless you set the focus to a control
