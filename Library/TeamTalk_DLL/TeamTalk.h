@@ -5294,8 +5294,9 @@ extern "C" {
      * @param nLocalUdpPort The local UDP port which should be used. 
      * Setting it to 0 makes OS select a port number (recommended).
      * @param bEncrypted Whether the server requires an encrypted 
-     * connection. Encryption is only available in the TeamTalk
-     * Professional SDK.
+     * connection. As of TeamTalk v5.5 and onwards encryption is 
+     * available in both TeamTalk SDK Standard and Professional
+     * Edition.
      * @return Returns TRUE if connection process was initiated.
      * @see CLIENTEVENT_CON_SUCCESS
      * @see CLIENTEVENT_CON_FAILED
@@ -5329,8 +5330,9 @@ extern "C" {
      * @param nLocalUdpPort The local UDP port which should be used. 
      * Setting it to 0 makes OS select a port number (recommended).
      * @param bEncrypted Whether the server requires an encrypted 
-     * connection. Encryption is only available in the TeamTalk
-     * Professional SDK.
+     * connection. As of TeamTalk v5.5 and onwards encryption is 
+     * available in both TeamTalk SDK Standard and Professional
+     * Edition.
      * @param szSystemID The identification of the conferencing system.
      * The default value is "teamtalk". See TTS_StartServerSysID()
      * @return Returns TRUE if connection process was initiated. */
@@ -5361,8 +5363,9 @@ extern "C" {
      * @param nLocalUdpPort The local UDP port which should be used. 
      * Setting it to 0 makes OS select a port number (recommended).
      * @param bEncrypted Whether the server requires an encrypted 
-     * connection. Encryption is only available in the TeamTalk
-     * Professional SDK.
+     * connection. As of TeamTalk v5.5 and onwards encryption is 
+     * available in both TeamTalk SDK Standard and Professional
+     * Edition.
      * @see TT_Connect */
     TEAMTALKDLL_API TTBOOL TT_ConnectEx(IN TTInstance* lpTTInstance,
                                         IN const TTCHAR* szHostAddress,
