@@ -61,8 +61,8 @@
     <item id="160">Message privé de %s : %s</item>
     <item id="161">Synthèse vocale</item>
     <item id="162">Message général de %s : %s</item>
-    <item id="163">%s viens de se connecter au serveur</item>
-    <item id="164">%s viens de se déconnecter du serveur</item>
+    <item id="163">%s vient de se connecter au serveur</item>
+    <item id="164">%s vient de se déconnecter du serveur</item>
     <item id="165">Évènements utilisateur</item>
     <item id="166">L&apos;utilisateur s&apos;est connecté</item>
     <item id="167">L&apos;utilisateur s&apos;est déconnecté</item>
@@ -164,7 +164,7 @@
     <item id="297">Limite des commandes émises</item>
     <item id="298">Nombre de commandes à autoriser (0 = désactivé)</item>
     <item id="299">Délai pour autoriser %d commandes (en secondes)</item>
-    <item id="300">Annonyme</item>
+    <item id="300">Anonyme</item>
     <item id="301">Connexion Web</item>
     <item id="302">Propriétés de l&apos;utilisateur banni</item>
     <item id="303">Nouveau profil</item>
