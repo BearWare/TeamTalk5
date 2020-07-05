@@ -84,7 +84,7 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
         break;
     }
 
-    ui.vidcodecBox->addItem("No video", NO_CODEC);
+    ui.vidcodecBox->addItem(tr("No video"), NO_CODEC);
     ui.vidcodecBox->addItem("WebM VP8", WEBM_VP8_CODEC);
     ui.vp8bitrateSpinBox->setValue(m_videocodec.webm_vp8.nRcTargetBitrate);
     int vidindex = ui.vidcodecBox->findData(WEBM_VP8_CODEC);
