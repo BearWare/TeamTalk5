@@ -45,18 +45,18 @@ LANGUAGE LANG_DANISH, SUBLANG_DEFAULT
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -88,12 +88,20 @@ BEGIN
         BLOCK "040604b0"
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
+#ifdef ENABLE_TEAMTALKPRO
+            VALUE "FileDescription", "TeamTalk Professional Conferencing Server"
+#else
             VALUE "FileDescription", "TeamTalk Conferencing Server"
+#endif
             VALUE "FileVersion", "5, 6, 0, 5002"
             VALUE "InternalName", "tt5srv.exe"
-            VALUE "LegalCopyright", "Copyright (c) 2002-2018, BearWare.dk.  All rights reserved."
+            VALUE "LegalCopyright", "Copyright (c) 2002-2020, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "tt5srv.exe"
+#ifdef ENABLE_TEAMTALKPRO
+            VALUE "ProductName", "TeamTalk Professional Conferencing Server"
+#else
             VALUE "ProductName", "TeamTalk Conferencing Server"
+#endif
             VALUE "ProductVersion", "5, 6, 0, 5002"
         END
     END
@@ -117,4 +125,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
