@@ -339,5 +339,6 @@
     <string name="diskquotalab">Дисковая квота:</string>
     <string name="bwidlab">Имя пользователя:</string>
     <string name="bwpswlab">Пароль:</string>
+    <string name="pref_title_facebook_summary">Только если для данного сервера разрешен вход через Facebook</string>
 
 </resources>
