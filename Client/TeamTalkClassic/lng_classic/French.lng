@@ -408,10 +408,14 @@
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>
     <item id="1017">Volume</item>
+    <item id="1018">Volume de la voix de %s augmenté à %d%%</item>
+    <item id="1019">Volume de la voix de %s diminué à %d%%</item>
     <item id="1020">Afficher le nombre d&apos;utilisateurs dans la liste de canaux</item>
     <item id="1021">Position automatique des utilisateurs à l&apos;aide du son 3D</item>
     <item id="1022">Désactiver l&apos;activation vocale en cas d'inactivité</item>
+    <item id="1023">Volume des fichiers média de %s augmenté à %d%%</item>
     <item id="1024">Lancez le guide de démarrage rapide pour apprendre à configurer un serveur et s&apos;y connecter</item>
+    <item id="1025">Volume des fichiers média de %s diminué à %d%%</item>
     <item id="1028">Volume</item>
     <item id="1030">&amp;Connexion</item>
     <item id="1034">0=désactivé</item>
