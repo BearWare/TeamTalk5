@@ -1405,12 +1405,15 @@ implements TeamTalkConnectionListener,
         return true;
     }
 
+    @SuppressWarnings("deprecation")
     private void adjustSoundSystem(SharedPreferences prefs) {
+        if (audioManager.isBluetoothA2dpOn())
+            return;
         boolean voiceProcessing = prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false);
         audioManager.setMode(voiceProcessing ?
                 AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
         if (voiceProcessing)
-            audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+            audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false) && !audioManager.isWiredHeadsetOn());
     }
 
     private void adjustMuteButton(ImageButton btn) {
