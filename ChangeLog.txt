@@ -12,6 +12,7 @@ Accessible Windows client
 - Blank nicknames are set to NoName followed by user ID
 - More items are now translatable.
 - French, Turkish, German and Chinese languages updated.
+- Slider's control is now more natural, you must use down arrow to decrease value, and up arrow to increase value
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
