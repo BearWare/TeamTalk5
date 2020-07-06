@@ -4522,7 +4522,7 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
                 {
                     if((user.nStatusMode & STATUSMODE_MASK) != STATUSMODE_AWAY)
                     {
-                        TT_DoChangeStatus(ttInst, STATUSMODE_AWAY, LoadText(IDS_AWAY, _T("Away")));
+                        TT_DoChangeStatus(ttInst, STATUSMODE_AWAY, m_szAwayMessage);
                         if(m_xmlSettings.GetDisableVadOnIdle() && m_xmlSettings.GetVoiceActivated())
                             EnableVoiceActivation(FALSE);
                         m_bIdledOut = TRUE;
@@ -4530,7 +4530,7 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
                 }
                 else if(m_bIdledOut)
                 {
-                    TT_DoChangeStatus(ttInst, STATUSMODE_AVAILABLE, _T(""));
+                        TT_DoChangeStatus(ttInst, STATUSMODE_AVAILABLE, m_szAwayMessage);
                     m_bIdledOut = FALSE;
                     if(m_xmlSettings.GetDisableVadOnIdle() && m_xmlSettings.GetVoiceActivated())
                         EnableVoiceActivation(TRUE);

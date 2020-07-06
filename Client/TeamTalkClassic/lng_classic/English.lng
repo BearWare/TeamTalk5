@@ -243,7 +243,6 @@
     <item id="379">TeamTalk 32-bit DLL version: </item>
     <item id="381">RX: %.2fKB TX: %.2fKB PING: %u %s</item>
     <item id="382">RX: %.2fKB TX: %.2fKB %s</item>
-    <item id="383">Away</item>
     <item id="384">Failed to connect to %s port %d sound port %d.&#xD;&#xA;Check that your host settings are correct.</item>
     <item id="385">New update available: %s</item>
     <item id="386">Disconnect from current host?</item>
@@ -412,12 +411,15 @@
     <item id="1021">Auto position users using 3D sound</item>
     <item id="1022">Disable voice activation while inactive</item>
     <item id="1024">Launch the Quick start guide to learn how to setup a server and connect to it</item>
+    <item id="1026">Away</item>
     <item id="1028">Volume</item>
     <item id="1030">&amp;Connect</item>
     <item id="1034">0=disabled</item>
     <item id="1035">User ID</item>
     <item id="1036">Nickname</item>
     <item id="1037">0=disabled</item>
+    <item id="1038">Question</item>
+    <item id="1039">Streaming media file</item>
     <item id="1042">This wizard will guide you through the steps required to setup the TeamTalk conference application. Press the &quot;Next&quot; button to start going through the steps to complete this wizard. If you press &quot;Cancel&quot; you&apos;ll have to setup TeamTalk manually.</item>
     <item id="1044">Check out the www.bearware.dk website to look for TeamTalk servers</item>
     <item id="1045">Packetloss</item>

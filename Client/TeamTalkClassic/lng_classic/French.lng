@@ -243,7 +243,6 @@
     <item id="379">Version de la DLL TeamTalk 32-bit : </item>
     <item id="381">Réception : %.2fKB, Transmission : %.2fKB, PING : %u %s</item>
     <item id="382">Réception : %.2fKB, Transmission : %.2fKB %s</item>
-    <item id="383">Absent</item>
     <item id="384">Impossible de se connecter à %s, port %d, port d'écoute %d.&#xD;&#xA;Vérifiez que vos paramètres d'hôte soient corrects.</item>
     <item id="385">Nouvelle version disponible : %s</item>
     <item id="386">Se déconnecter de l'hôte actuel ?</item>
@@ -412,12 +411,15 @@
     <item id="1021">Position automatique des utilisateurs à l&apos;aide du son 3D</item>
     <item id="1022">Désactiver l&apos;activation vocale en cas d'inactivité</item>
     <item id="1024">Lancez le guide de démarrage rapide pour apprendre à configurer un serveur et s&apos;y connecter</item>
+    <item id="1026">Absent</item>
     <item id="1028">Volume</item>
     <item id="1030">&amp;Connexion</item>
     <item id="1034">0=désactivé</item>
     <item id="1035">Identifiant utilisateur</item>
     <item id="1036">Pseudo</item>
     <item id="1037">0=désactivé</item>
+    <item id="1038">Question</item>
+    <item id="1039">Diffuse un fichier média</item>
     <item id="1042">Cet assistant vous guidera à travers les étapes nécessaires à la configuration&#x0D;&#x0A;de l&apos;application de conférence TeamTalk. Appuyez sur le bouton &quot;Suivant&quot; pour&#x0D;&#x0A;commencer à suivre les étapes pour terminer cet assistant. Si vous appuyez sur&#x0D;&#x0A;&quot;Annuler&quot;, vous devrez configurer TeamTalk manuellement.</item>
     <item id="1044">Consultez le site Web www.bearware.dk pour rechercher les serveurs TeamTalk</item>
     <item id="1045">Perte de paquets</item>
