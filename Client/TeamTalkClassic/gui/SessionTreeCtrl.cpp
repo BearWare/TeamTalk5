@@ -1006,10 +1006,10 @@ CString CSessionTreeCtrl::GetUserText(int nUserID) const
                 szText = szText + _T(" (") + LoadText(IDS_USERISSTREAMINGMDFILE, _T("Streaming media file")) + _T(")");
             }
             else if(user.nStatusMode == STATUSMODE_AWAY + STATUSMODE_STREAM_MEDIAFILE) {
-                szText = szText + _T(" (") + LoadText(IDS_USERISAWAY, _T("Away")) + _T(") (") + LoadText(IDS_USERISSTREAMINGMDFILE, _T("Streaming media file")) + _T(")");
+                szText = szText + _T(" (") + LoadText(IDS_USERISAWAY, _T("Away")) + _T(", ") + LoadText(IDS_USERISSTREAMINGMDFILE, _T("Streaming media file")) + _T(")");
             }
             else if(user.nStatusMode == STATUSMODE_QUESTION + STATUSMODE_STREAM_MEDIAFILE) {
-                szText = szText + _T(" (") + LoadText(IDS_USERISQUESTION, _T("Question")) + _T(") (") + LoadText(IDS_USERISSTREAMINGMDFILE, _T("Streaming media file")) + _T(")");
+                szText = szText + _T(" (") + LoadText(IDS_USERISQUESTION, _T("Question")) + _T(", ") + LoadText(IDS_USERISSTREAMINGMDFILE, _T("Streaming media file")) + _T(")");
             }
     }
                 return LimitText(szText);
