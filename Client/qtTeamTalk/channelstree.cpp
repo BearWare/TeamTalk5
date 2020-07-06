@@ -955,7 +955,21 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             itemtext = name + QString(" - ") + _Q(user.szStatusMsg);
         else
             itemtext = name;
-
+        if(user.nStatusMode == STATUSMODE_STREAM_MEDIAFILE) {
+            itemtext += _W(tr(" (Streaming media file)"));
+        }
+        else if(user.nStatusMode == STATUSMODE_AWAY) {
+            itemtext += _W(tr(" (Away)"));
+        }
+        else if(user.nStatusMode == STATUSMODE_QUESTION) {
+            itemtext += _W(tr(" (Question)"));
+        }
+        else if(user.nStatusMode == STATUSMODE_AWAY + STATUSMODE_STREAM_MEDIAFILE) {
+            itemtext += _W(tr(" (Away, Streaming media file)"));
+        }
+        else if(user.nStatusMode == STATUSMODE_QUESTION + STATUSMODE_STREAM_MEDIAFILE) {
+            itemtext += _W(tr(" (Question, Streaming media file)"));
+        }
         if(itemtext.size()>m_strlen)
         {
             itemtext.resize(m_strlen);

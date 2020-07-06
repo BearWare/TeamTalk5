@@ -26,8 +26,11 @@ Default Qt client
 - Press tab changes focus in text message dialog
 - More items are now translatables. French translation has been updated. Translators, you are invited to check ts files to update your translations with new strings.
 - More elements are now labellize, specificly in main's window.
-- When you switch to Away mode due to your inactivity, your status message is now updated
 - Blank nicknames are set to NoName followed by user ID
+- Changing behavior of displaying status-mode
+ - Status mode is now displaying for 3 status (Away, Question, and Streaming media file)
+ - Away is displaying when you switch automatically to this mode due to your inactivity, and also when you manually switch to this mode
+ - Status mode is now displaying in receiver side (after your status message), it's not your client who return your status mode message
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French's language is now supported
