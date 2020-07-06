@@ -49,17 +49,17 @@ BEGIN
             VALUE "Comments", "TeamTalk 5 Conferencing DLL"
             VALUE "CompanyName", "BearWare.dk"
 #ifdef _WIN64
-            VALUE "FileDescription", "TeamTalk Encrypted Dynamic Link Library for x64"
+            VALUE "FileDescription", "TeamTalk Professional Dynamic Link Library for x64"
 #elif defined(_WIN32_WCE)
-            VALUE "FileDescription", "TeamTalk Encrypted Dynamic Link Library for ARM"
+            VALUE "FileDescription", "TeamTalk Professional Dynamic Link Library for ARM"
 #else
-            VALUE "FileDescription", "TeamTalk Encrypted Dynamic Link Library for x86"
+            VALUE "FileDescription", "TeamTalk Professional Dynamic Link Library for x86"
 #endif
             VALUE "FileVersion", TEAMTALK_RC_FILEVERSION
             VALUE "InternalName", "TeamTalk"
-            VALUE "LegalCopyright", "Copyright (C) 2006-2018, BearWare.dk. All rights reserved."
+            VALUE "LegalCopyright", "Copyright (C) 2006-2020, BearWare.dk. All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5Pro.dll"
-            VALUE "ProductName", "TeamTalk Encrypted Dynamic Link Library"
+            VALUE "ProductName", "TeamTalk Professional Dynamic Link Library"
             VALUE "ProductVersion", TEAMTALK_RC_FILEVERSION
 #else
             VALUE "Comments", "TeamTalk 5 Conferencing DLL"
@@ -73,7 +73,7 @@ BEGIN
 #endif
             VALUE "FileVersion", TEAMTALK_RC_FILEVERSION
             VALUE "InternalName", "TeamTalk"
-            VALUE "LegalCopyright", "Copyright (C) 2006-2018, BearWare.dk. All rights reserved."
+            VALUE "LegalCopyright", "Copyright (C) 2006-2020, BearWare.dk. All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.dll"
             VALUE "ProductName", "TeamTalk Dynamic Link Library"
             VALUE "ProductVersion", TEAMTALK_RC_FILEVERSION
@@ -105,18 +105,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -138,4 +138,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
