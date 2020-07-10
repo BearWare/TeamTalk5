@@ -134,9 +134,16 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getDelegate().onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
-        
+        getDelegate().onStart();
+
         // Bind to LocalService if not already
         if (mConnection == null)
             mConnection = new TeamTalkConnection(this);
