@@ -104,6 +104,8 @@
   <string name="pref_summary_mediafile_volume">Ortam dosyası-ses düzeyi oranı</string>
   <string name="pref_title_speakerphone_checkbox">Hoparlörlü telefonu etkinleştir</string>
   <string name="pref_summary_speakerphone_checkbox">Ahizeden hoparlörlere geç</string>
+  <string name="pref_title_bluetooth_headset_checkbox">Bluetooth kulaklık mikrofonunu kullan</string>
+  <string name="pref_summary_bluetooth_headset_checkbox">Bluetooth kulaklık bağlandığında onun mikrofonunu kullan</string>
   <string name="pref_title_voice_processing_checkbox">Ses önişlemeyi etkinleştir</string>
   <string name="pref_summary_voice_processing_checkbox">Yankı iptali ve otomatik kazanç denetimi kullan</string>
   <string name="pref_title_public_servers">Kamu sunucularını göster</string>
@@ -299,6 +301,7 @@
   <string name="permission_vibrate">Bas konuş sırasında titreşim kullanım dışı olacak</string>
   <string name="permission_wake_lock">Ekran karardığında sunucu bağlantısı kaybedilebilir</string>
   <string name="permission_read_phone_state">Gelen telefon araması algılaması olanaksız olacak</string>
+  <string name="permission_bluetooth">Bluetooth kulaklık mikrofonu kullanımı olanaksız olacak</string>
   <string name="title_activity_web_login">Web Oturumu Etkinliği</string>
   <string name="weblogin_prop_title_bearwareid">Kullanıcı Adı</string>
   <string name="weblogin_prop_title_bearwarepasswd">Parola</string>
@@ -307,6 +310,19 @@
   <string name="weblogin_prop_title_create_web_login_id">BearWare.dk Oturum Açma Kimliği Oluştur</string>
   <string name="weblogin_prop_title_reset_web_login_id">BearWare.dk Oturum Açma Kimliğini Sıfırla</string>
   <string name="text_bearwarelogin_success">%1$s %2$s kullanıcı adınız onaylandı</string>
-  <string name="text_bearwarelogin_failed">%1$s (%2$s) kullanıcı adı kimliğinin doğrulanması başarısız</string>
+  <string name="text_bearwarelogin_failed">%1$s kullanıcı adının kimliğini doğrulama başarısız (%2$s)</string>
   <string name="text_weblogin_authfailure">BearWare.dk web oturum açma kimliğinin doğrulanması başarısız</string>
+  <string name="editmsg">İleti:</string>
+  <string name="filepathlab">Dosya:</string>
+  <string name="channamelab">Kanalın adı:</string>
+  <string name="chanpswlab">Kanalın parolası:</string>
+  <string name="chantopiclab">Kanalın konusu:</string>
+  <string name="chanoppswlab">İşletmecinin parolası:</string>
+  <string name="maxuserslab">En fazla kullanıcıların sayısı:</string>
+  <string name="diskquotalab">Disk kotası:</string>
+  <string name="bwidlab">Kullanıcı adı:</string>
+  <string name="bwpswlab">Parola:</string>
+  <string name="ttversion">TeamTalk v</string>
+  <string name="ttdllversion">TeamTalk DLL v</string>
+  <string name="pref_title_facebook_summary">Yalnızca bu sunucu Facebook oturumunu etkinleştirdiyse işaretleyin</string>
 </resources>

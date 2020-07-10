@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -11,7 +9,7 @@
     <message>
         <location filename="../about.ui" line="73"/>
         <source>Written by Bjoern D. Rasmussen</source>
-        <translation type="unfinished"></translation>
+        <translation>Bjoern D. Rasmussen tarafından yazıldı</translation>
     </message>
     <message>
         <location filename="../about.ui" line="93"/>
@@ -21,37 +19,37 @@
     <message>
         <location filename="../about.ui" line="100"/>
         <source>Speex codec developed by Jean-Marc Valin, www.speex.org</source>
-        <translation type="unfinished"></translation>
+        <translation>Speex kodlayıcı/çözücüsü Jean-Marc Valin tarafından geliştirildi, www.speex.org</translation>
     </message>
     <message>
         <location filename="../about.ui" line="110"/>
         <source>OPUS codec developed by Opus project, www.opus-codec.org</source>
-        <translation type="unfinished"></translation>
+        <translation>OPUS kodlayıcı/çözücüsü Opus projesi tarafından geliştirildi, www.opus-codec.org</translation>
     </message>
     <message>
         <location filename="../about.ui" line="117"/>
         <source>WebM VP8 codec developed by WebM project, www.webmproject.org</source>
-        <translation type="unfinished"></translation>
+        <translation>WebM VP8 kodlayıcı/çözücüsü WebM projesi tarafından geliştirildi, www.webmproject.org</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on </source>
-        <translation type="unfinished"></translation>
+        <translation>Derlenme </translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="35"/>
         <source>Version </source>
-        <translation type="unfinished"></translation>
+        <translation>Sürüm </translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="37"/>
         <source>TeamTalk 64-bit DLL version %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>TeamTalk 64-bit DLL sürümü %1.</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="39"/>
         <source>TeamTalk 32-bit DLL version %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>TeamTalk 32-bit DLL sürümü %1.</translation>
     </message>
 </context>
 <context>
@@ -346,7 +344,7 @@
     <message>
         <location filename="../channel.ui" line="172"/>
         <source>Permanent channel (stored on server)</source>
-        <translation>Kalıcı kanal (sunucuda saklanır)</translation>
+        <translation>Kalıcı kanal (sunucuda depolanır)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="179"/>
@@ -492,12 +490,12 @@
     <message>
         <location filename="../channeldlg.cpp" line="76"/>
         <source>Mono</source>
-        <translation>Tekli</translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="77"/>
         <source>Stereo</source>
-        <translation>Çoklu</translation>
+        <translation>Stereo</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="78"/>
@@ -972,7 +970,7 @@
         <location filename="../generatettfiledlg.cpp" line="66"/>
         <location filename="../generatettfiledlg.cpp" line="77"/>
         <source>Any</source>
-        <translation>Hiçbiri</translation>
+        <translation>Herhangi Biri</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="176"/>
@@ -1076,18 +1074,14 @@
         <translation>Sohbet</translation>
     </message>
     <message>
-        <source>Channel messages and event log</source>
-        <translation type="vanished">Kanal iletileri ve olay günlüğü</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="338"/>
         <source>History</source>
-        <translation type="unfinished">Geçmiş</translation>
+        <translation>Geçmiş</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="359"/>
         <source>Message</source>
-        <translation type="unfinished">İleti</translation>
+        <translation>İleti</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="372"/>
@@ -1588,12 +1582,12 @@
     <message>
         <location filename="../mainwindow.ui" line="1585"/>
         <source>Record Conversations to &amp;Disk</source>
-        <translation>Sohbetleri &amp;Diske Kaydet</translation>
+        <translation>Görüşmeleri &amp;Diske Kaydet</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1588"/>
         <source>Specify a folder where audio from users will be stored</source>
-        <translation>Kullanıcılardan gelen sesin saklanacağı bir klasör belirtin</translation>
+        <translation>Kullanıcılardan gelen sesin depolanacağı bir klasör belirtin</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1591"/>
@@ -1673,7 +1667,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1676"/>
         <source>&amp;Store User(s) for Move</source>
-        <translation>Kullanıcıları &amp;Taşıma için Sakla</translation>
+        <translation>Kullanıcıları &amp;Taşıma için Depola</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1679"/>
@@ -2257,7 +2251,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1915"/>
         <source>Away</source>
-        <translation type="unfinished">Uzakta</translation>
+        <translation>Uzakta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2036"/>
@@ -2649,7 +2643,7 @@
         <location filename="../mainwindow.cpp" line="5423"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.&lt;byte value=&quot;xd&quot;/&gt;
+        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.
 Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
@@ -2663,17 +2657,17 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../mediastorage.ui" line="14"/>
         <source>Record Conversations to Disk</source>
-        <translation>Sohbetleri Diske Kaydet</translation>
+        <translation>Görüşmeleri Diske Kaydet</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="20"/>
         <source>Store audio conversations</source>
-        <translation>Sesli sohbetleri sakla</translation>
+        <translation>Sesli görüşmeleri depola</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="28"/>
         <source>Storage mode</source>
-        <translation>Saklama kipi</translation>
+        <translation>Depolama kipi</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="38"/>
@@ -2706,7 +2700,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../mediastorage.ui" line="94"/>
         <source>Store text message conversations</source>
-        <translation>Metin iletili sohbetleri sakla</translation>
+        <translation>Metin iletili görüşmeleri depola</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="100"/>
@@ -2721,7 +2715,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../mediastoragedlg.cpp" line="90"/>
         <source>Folder for storing audio files does not exist</source>
-        <translation>Ses dosyalarını saklamak için klasör yok</translation>
+        <translation>Ses dosyalarını depolamak için klasör yok</translation>
     </message>
 </context>
 <context>
@@ -3415,18 +3409,6 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>Ses Başlatma</translation>
     </message>
     <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">İkili ses kipini başlatma başarısız</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound input device</source>
-        <translation type="vanished">Yeni ses giriş aygıtını başlatma başarısız</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound output device</source>
-        <translation type="vanished">Yeni ses çıkış aygıtını başlatma başarısız</translation>
-    </message>
-    <message>
         <location filename="../preferencesdlg.cpp" line="930"/>
         <location filename="../preferencesdlg.cpp" line="942"/>
         <source>Video Device</source>
@@ -4026,12 +4008,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../streammediafiledlg.cpp" line="163"/>
         <source>Stereo</source>
-        <translation>Çoklu</translation>
+        <translation>Stereo</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="165"/>
         <source>Mono</source>
-        <translation>Tekli</translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="167"/>
@@ -4715,7 +4697,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../uservolume.ui" line="53"/>
         <location filename="../uservolume.ui" line="109"/>
         <source>Stereo Option</source>
-        <translation>Çoklu Kanal Seçeneği</translation>
+        <translation>Stereo Seçeneği</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="59"/>
