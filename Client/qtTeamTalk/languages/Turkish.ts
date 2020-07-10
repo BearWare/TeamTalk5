@@ -14,7 +14,7 @@
     <message>
         <location filename="../about.ui" line="93"/>
         <source>Translated by Bjoern D. Rasmussen</source>
-        <translation>Ozancan Karataş tarafından çevrilmiştir</translation>
+        <translation>Ozancan Karataş tarafından çevrildi</translation>
     </message>
     <message>
         <location filename="../about.ui" line="100"/>
