@@ -222,6 +222,10 @@ BOOL CFilesTab::PreTranslateMessage(MSG* pMsg)
 {
     if (WM_KEYFIRST <= pMsg->message && pMsg->message <= WM_KEYLAST)
         if (m_hAccel && ::TranslateAccelerator(AfxGetMainWnd()->m_hWnd, m_hAccel, pMsg))
+            CString szCtrlName;
+            szCtrlName.LoadString(IDS_FILESLISTLAB);
+            TRANSLATE_ITEM(IDS_FILESLISTLAB, szCtrlName);
+            SetAccessibleName(m_wndFiles, szCtrlName);
             return TRUE;
 
     return CMyTab::PreTranslateMessage(pMsg);

@@ -111,6 +111,13 @@ BOOL CChatTab::PreTranslateMessage(MSG* pMsg)
 {
     if (WM_KEYFIRST <= pMsg->message && pMsg->message <= WM_KEYLAST)
         if (m_hAccel && ::TranslateAccelerator(AfxGetMainWnd()->m_hWnd, m_hAccel, pMsg))
+            CString szCtrlName;
+            szCtrlName.LoadString(IDS_CHANMESSAGESLAB);
+            TRANSLATE_ITEM(IDS_CHANMESSAGESLAB, szCtrlName);
+            SetAccessibleName(m_wndRichEdit, szCtrlName);
+            szCtrlName.LoadString(IDS_CHANMESSAGELAB);
+            TRANSLATE_ITEM(IDS_CHANMESSAGELAB, szCtrlName);
+            SetAccessibleName(m_wndChanMessage, szCtrlName);
             return TRUE;
 
     return CMyTab::PreTranslateMessage(pMsg);
