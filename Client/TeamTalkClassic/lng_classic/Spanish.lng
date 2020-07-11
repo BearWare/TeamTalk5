@@ -33,7 +33,7 @@
     <item id="133">Se unió al canal de aula %s</item>
     <item id="134">Archivos</item>
     <item id="135">Chat</item>
-    <item id="136">El archivo %s contiene %s información de configuración.\r\n¿Quieres aplicar estos ajustes?</item>
+    <item id="136">El archivo %s contiene %s información de configuración.&#xD;&#xA;¿Quieres aplicar estos ajustes?</item>
     <item id="137">Usuario</item>
     <item id="138">%s está solicitando acceso al escritorio</item>
     <item id="139">%s ha cancelado el acceso al escritorio</item>

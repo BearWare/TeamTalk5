@@ -192,7 +192,7 @@
     <item id="325">Traitement audio Speex</item>
     <item id="326">Aucun traitement audio</item>
     <item id="327">Connecté… Identifié</item>
-    <item id="329">Impossible de se connecter à l'hôte \"%s\", Port TCP %d, Port UDP %d.&#xD;&#xA;Vérifiez que le serveur est démarré sur l'adresse spécifiée et qu'un pare-feu n'empêche pas les clients de se connecter.</item>
+    <item id="329">Impossible de se connecter à l'hôte &quot;%s&quot;, Port TCP %d, Port UDP %d.&#xD;&#xA;Vérifiez que le serveur est démarré sur l'adresse spécifiée et qu'un pare-feu n'empêche pas les clients de se connecter.</item>
     <item id="330">Une erreur est survenue lors de l'exécution d'une commande :&#xD;&#xA;</item>
     <item id="331">Impossible de se connecter à l'hôte %s, port TCP %d, port UDP %d</item>
     <item id="332">Connexion à %s, port TCP %d, port UDP %d perdue</item>
@@ -248,7 +248,7 @@
     <item id="385">Nouvelle version disponible : %s</item>
     <item id="386">Se déconnecter de l'hôte actuel ?</item>
     <item id="387">Impossible de se connecter à %s, port %d, port d'écoute %d&#xD;&#xA;Veuillez vérifier que cet hôte soit valide</item>
-    <item id="388">Le fichier \"%s\" est incompatible avec %s</item>
+    <item id="388">Le fichier &quot;%s&quot; est incompatible avec %s</item>
     <item id="389">Charger le fichier</item>
     <item id="390">Le fichier %s&#xD;&#xA;ne contient pas d'entrée %s.&#xD;&#xA;Message d'erreur : %s</item>
     <item id="391">Impossible d'extraire l'adresse du lien :&#xD;&#xA;</item>
