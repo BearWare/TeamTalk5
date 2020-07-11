@@ -298,7 +298,8 @@ class ChannelDetailViewController :
     }
     
     func saveChannelDetail() {
-        setChannelString(NAME, &channel, namefield!.text!)
+        let channame = namefield!.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        setChannelString(NAME, &channel, channame)
         setChannelString(PASSWORD, &channel, passwdfield!.text!)
         setChannelString(TOPIC, &channel, topicfield!.text!)
 

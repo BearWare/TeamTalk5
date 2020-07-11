@@ -152,10 +152,12 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
             server.udpport = n
         }
         server.encrypted = encryptedfield!.isOn
-        server.username = usernamefield!.text!
+        let username = usernamefield!.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        server.username = username
         server.password = passwdfield!.text!
         server.publicserver = false
-        server.channel = chanfield!.text!
+        let channame = chanfield!.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        server.channel = channame
         server.chanpasswd = chpasswdfield!.text!
     }
     
