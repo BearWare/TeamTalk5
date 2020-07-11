@@ -14,8 +14,8 @@ Accessible Windows client
 - French, Turkish, German and Chinese languages updated.
 - All areas of main window are now labelled
 - Slider's control is now more natural, you must use down arrow to decrease value, and up arrow to increase value
-- If you are respectivly subscribed to TTS events for voice and media files subscriptions, you are now informed by TTS message when you change volume for one of this elements for an user by shortcuts ctrl+maj+arrow keys and ctrl+alt+arrow keys
-- When you are in main channel, window's title is now Server name - TeamTalk version
+- TTS announces volume changes when using shortcut keys Ctrl+Alt+Left/Right and Ctrl+Shift+Left/Right
+- When you are in main channel, window's title is now server name
 - Blank characters are automatically removed from username and channel name
 Default Qt client
 - Removed duplex mode for sound devices
