@@ -465,7 +465,7 @@ void UserAccountsDlg::slotAddUser()
     }
 
     ZERO_STRUCT(m_add_user);
-    COPY_TTSTR(m_add_user.szUsername, ui.usernameEdit->text());
+    COPY_TTSTR(m_add_user.szUsername, ui.usernameEdit->text().trimmed());
     COPY_TTSTR(m_add_user.szPassword, ui.passwordEdit->text());
     if(ui.adminBtn->isChecked())
         m_add_user.uUserType = USERTYPE_ADMIN;
@@ -553,7 +553,7 @@ void UserAccountsDlg::slotAddUser()
         m_add_user.uUserRights &= ~USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO;
 
     COPY_TTSTR(m_add_user.szNote, ui.noteEdit->toPlainText());
-    COPY_TTSTR(m_add_user.szInitChannel, ui.channelComboBox->lineEdit()->text());
+    COPY_TTSTR(m_add_user.szInitChannel, ui.channelComboBox->lineEdit()->text().trimmed());
 
     // Tab - Channel operator
     int opchan_idx = 0;

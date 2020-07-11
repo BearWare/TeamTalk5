@@ -238,14 +238,17 @@ void CChannelDlg::OnOK()
     AudioCodec codec = m_codec;
     UpdateCodec();
 
-    CString s;
-    m_wndChannelName.GetWindowText(s);
-    if(s.GetLength() == 0 && m_nType == CREATE_CHANNEL)
+    CString szChannel;
+    m_wndChannelName.GetWindowText(szChannel);
+    szChannel.Trim();
+    m_wndChannelName.SetWindowText(szChannel);
+
+    if (szChannel.GetLength() == 0 && m_nType == CREATE_CHANNEL)
     {
         AfxMessageBox(LoadText(IDS_CHANDLGENTERACHANNAME, _T("Enter a channel name")));
         m_wndChannelName.SetFocus();
     }
-    else if(s.Find('/') != -1)
+    else if (szChannel.Find('/') != -1)
     {
         AfxMessageBox(LoadText(IDS_CHANDLGNOSLASH, _T("A channel name cannot contain a '/'")));
         m_wndChannelName.SetFocus();
@@ -496,13 +499,13 @@ void CChannelDlg::UpdateCodec()
     switch(m_codec.nCodec)
     {
     case SPEEX_CODEC :
-        m_codec.speex.nBandmode = GetItemData(m_wndSampleRate, DEFAULT_SPEEX_BANDMODE);
+        m_codec.speex.nBandmode = int(GetItemData(m_wndSampleRate, DEFAULT_SPEEX_BANDMODE));
         m_codec.speex.nQuality = m_wndQuality.GetPos();
         m_codec.speex.bStereoPlayback = DEFAULT_SPEEX_SIMSTEREO;
         m_codec.speex.nTxIntervalMSec = GetWindowNumber(m_wndTxDelay);
         break;
     case SPEEX_VBR_CODEC :
-        m_codec.speex_vbr.nBandmode = GetItemData(m_wndSampleRate, DEFAULT_SPEEX_BANDMODE);
+        m_codec.speex_vbr.nBandmode = int(GetItemData(m_wndSampleRate, DEFAULT_SPEEX_BANDMODE));
         m_codec.speex_vbr.nQuality = m_wndQuality.GetPos();
         m_codec.speex_vbr.nBitRate = bitrate;
         m_codec.speex_vbr.nMaxBitRate = maxbitrate;
@@ -511,9 +514,9 @@ void CChannelDlg::UpdateCodec()
         m_codec.speex_vbr.nTxIntervalMSec = GetWindowNumber(m_wndTxDelay);
         break;
     case OPUS_CODEC :
-        m_codec.opus.nSampleRate = GetItemData(m_wndSampleRate, DEFAULT_OPUS_SAMPLERATE);
-        m_codec.opus.nChannels = GetItemData(m_wndAudioChannels, DEFAULT_OPUS_CHANNELS);
-        m_codec.opus.nApplication = GetItemData(m_wndCodecApp, DEFAULT_OPUS_APPLICATION);
+        m_codec.opus.nSampleRate = int(GetItemData(m_wndSampleRate, DEFAULT_OPUS_SAMPLERATE));
+        m_codec.opus.nChannels = int(GetItemData(m_wndAudioChannels, DEFAULT_OPUS_CHANNELS));
+        m_codec.opus.nApplication = int(GetItemData(m_wndCodecApp, DEFAULT_OPUS_APPLICATION));
         m_codec.opus.nComplexity = DEFAULT_OPUS_COMPLEXITY;
         m_codec.opus.bFEC = DEFAULT_OPUS_FEC;
         m_codec.opus.bDTX = m_wndDtx.GetCheck() == BST_CHECKED;
@@ -521,7 +524,7 @@ void CChannelDlg::UpdateCodec()
         m_codec.opus.bVBR = m_wndVBR.GetCheck() == BST_CHECKED;
         m_codec.opus.bVBRConstraint = DEFAULT_OPUS_VBRCONSTRAINT;
         m_codec.opus.nTxIntervalMSec = GetWindowNumber(m_wndTxDelay);
-        m_codec.opus.nFrameSizeMSec = GetItemData(m_wndOpusFrameSizes, DEFAULT_OPUS_FRAMESIZE);
+        m_codec.opus.nFrameSizeMSec = int(GetItemData(m_wndOpusFrameSizes, DEFAULT_OPUS_FRAMESIZE));
         break;
     }
 }
