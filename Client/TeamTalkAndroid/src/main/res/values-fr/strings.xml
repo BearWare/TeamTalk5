@@ -334,7 +334,7 @@
     <string name="weblogin_prop_title_reset_web_login_id">Réinitialiser l\'identifiant de connexion Web BearWare.dk</string>
     <string name="text_bearwarelogin_success">%1$s votre nom d\'utilisateur %2$s a été validé</string>
     <string name="text_bearwarelogin_failed">Échec à l\'authentification de nom d\'utilisateur %1$s (%2$s)</string>
-    <string name="text_weblogin_authfailure">Échec de connexion Web BearWare.dk</string>
+    <string name="text_weblogin_authfailure">Échec de connexion Web BearWare.dk. Vérifiez la connexion Web BearWare.dk dans les préférences.</string>
     <string name="editmsg">Message :</string>
     <string name="filepathlab">Fichier :</string>
     <string name="channamelab">Nom du canal :</string>
