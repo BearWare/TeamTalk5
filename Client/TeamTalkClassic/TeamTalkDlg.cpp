@@ -304,14 +304,17 @@ void CTeamTalkDlg::UpdateWindowTitle()
     TT_GetChannel(ttInst, TT_GetMyChannelID(ttInst), &chan);
 
     //set window title
-    CString szTitle;
-    if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID) {
+    ServerProperties prop = {};
+    CString szTitle = APPTITLE;
+    if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID)
+    {
         szTitle.Format(_T("%s - %s"), LimitText(chan.szName), APPTITLE);
-    } else {
-        ServerProperties prop = {};
-        TT_GetServerProperties(ttInst, &prop);
-        szTitle.Format(_T("%s - %s"), prop.szServerName, APPTITLE);
     }
+    else if (TT_GetServerProperties(ttInst, &prop))
+    {
+        szTitle.Format(_T("%s - %s"), LimitText(prop.szServerName), APPTITLE);
+    }
+
     if(szProfileName.GetLength())
         szTitle += _T(" - ") + szProfileName;
 

@@ -2089,19 +2089,21 @@ bool MainWindow::nativeEvent(const QByteArray& eventType, void* message,
 
 void MainWindow::updateWindowTitle()
 {
-    QString profilename, title;
+    QString profilename, title = APPTITLE;
     if(ttSettings)
         profilename = ttSettings->value(SETTINGS_GENERAL_PROFILENAME).toString();
 
+    ServerProperties prop = {};
     if(m_mychannel.nChannelID > 0 &&
-       m_mychannel.nChannelID != TT_GetRootChannelID(ttInst)) {
-        title = QString("%1 - %2").arg(_Q(m_mychannel.szName)).arg(APPTITLE);
-    } else {
-        ServerProperties prop;
-        ZERO_STRUCT(prop);
-        TT_GetServerProperties(ttInst, &prop);
-        title = QString("%1 - %2").arg(_Q(prop.szServerName)).arg(APPTITLE);
+       m_mychannel.nChannelID != TT_GetRootChannelID(ttInst))
+    {
+        title = QString("%1 - %2").arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
     }
+    else if (TT_GetServerProperties(ttInst, &prop))
+    {
+        title = QString("%1 - %2").arg(limitText(_Q(prop.szServerName))).arg(APPTITLE);
+    }
+
     if(profilename.size())
         title = QString("%1 - %2").arg(title).arg(profilename);
     setWindowTitle(title);
