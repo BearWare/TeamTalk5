@@ -2094,10 +2094,14 @@ void MainWindow::updateWindowTitle()
         profilename = ttSettings->value(SETTINGS_GENERAL_PROFILENAME).toString();
 
     if(m_mychannel.nChannelID > 0 &&
-       m_mychannel.nChannelID != TT_GetRootChannelID(ttInst))
+       m_mychannel.nChannelID != TT_GetRootChannelID(ttInst)) {
         title = QString("%1 - %2").arg(_Q(m_mychannel.szName)).arg(APPTITLE);
-    else
-        title = APPTITLE;
+    } else {
+        ServerProperties prop;
+        ZERO_STRUCT(prop);
+        TT_GetServerProperties(ttInst, &prop);
+        title = QString("%1 - %2").arg(_Q(prop.szServerName)).arg(APPTITLE);
+    }
     if(profilename.size())
         title = QString("%1 - %2").arg(title).arg(profilename);
     setWindowTitle(title);
