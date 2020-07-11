@@ -408,10 +408,14 @@
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>
     <item id="1017">Volume</item>
+    <item id="1018">Voice volume for %s increased to %d%%</item>
+    <item id="1019">Voice volume for %s decreased to %d%%</item>
     <item id="1020">Show number of users in channels</item>
     <item id="1021">Auto position users using 3D sound</item>
     <item id="1022">Disable voice activation while inactive</item>
+    <item id="1023">Media files volume for %s increased to %d%%</item>
     <item id="1024">Launch the Quick start guide to learn how to setup a server and connect to it</item>
+    <item id="1025">Media files volume for %s decreased to %d%%</item>
     <item id="1028">Volume</item>
     <item id="1030">&amp;Connect</item>
     <item id="1034">0=disabled</item>
