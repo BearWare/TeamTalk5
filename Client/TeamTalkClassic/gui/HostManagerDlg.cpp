@@ -143,6 +143,7 @@ BOOL CHostManagerDlg::OnInitDialog()
 
     m_wndDelete.EnableWindow(FALSE);
 
+    m_wndUsername.AddString(_T(WEBLOGIN_BEARWARE_USERNAME));
     m_wndUsername.AddString(WEBLOGIN_FACEBOOK_USERNAME);
 
     if(m_bPubServers)
