@@ -38,21 +38,21 @@
         </item>
         <item>
          <widget class="QToolButton" name="toolButton">
-          <property name="text">
-           <string>...</string>
-          </property>
           <property name="accessibleName">
            <string>Browse</string>
+          </property>
+          <property name="text">
+           <string>...</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QToolButton" name="refreshBtn">
-          <property name="text">
-           <string>...</string>
-          </property>
           <property name="accessibleName">
            <string>Refresh</string>
+          </property>
+          <property name="text">
+           <string>...</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
@@ -119,7 +119,7 @@
       <item>
        <widget class="QCheckBox" name="loopChkBox">
         <property name="text">
-         <string>Repeat</string>
+         <string>Continuously play media file</string>
         </property>
        </widget>
       </item>
