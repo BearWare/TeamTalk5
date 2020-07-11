@@ -14,7 +14,8 @@ Accessible Windows client
 - French, Turkish, German and Chinese languages updated.
 - All areas of main window are now labelled
 - Slider's control is now more natural, you must use down arrow to decrease value, and up arrow to increase value
-- If you are respectivly subscribed to tts events for voice and media files subscriptions, you are now informed by tts message when you change volume for one of this elements for an user by shortcuts ctrl+maj+arrow keys and ctrl+alt+arrow keys
+- If you are respectivly subscribed to TTS events for voice and media files subscriptions, you are now informed by TTS message when you change volume for one of this elements for an user by shortcuts ctrl+maj+arrow keys and ctrl+alt+arrow keys
+- When you are in main channel, window's title is now Server name - TeamTalk version
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
@@ -24,6 +25,7 @@ Default Qt client
 - More elements are now labellize, specificly in main's window.
 - When you switch to Away mode due to your inactivity, your status message is now updated
 - Blank nicknames are set to NoName followed by user ID
+- When you are in main channel, window's title is now Server name - TeamTalk version
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French's language is now supported

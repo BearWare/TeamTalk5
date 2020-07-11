@@ -135,8 +135,9 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
             authItems.append(passwdcell)
         }
         
-        let fbcell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        let fbcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         fbloginfield = newTableCellSwitch(fbcell, label: NSLocalizedString("Facebook Login", comment: "server entry"), initial: facebook)
+        fbcell.detailTextLabel?.text = NSLocalizedString("Check only if this server has enabled Facebook login", comment: "server entry")
         fbloginfield?.addTarget(self, action: #selector(facebookLogin(_:)), for: .valueChanged)
         authItems.append(fbcell)
     }

@@ -39,8 +39,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.speech.tts.TextToSpeech.EngineInfo;
-import android.support.annotation.LayoutRes;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.annotation.LayoutRes;
+import androidx.appcompat.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuInflater;
@@ -134,9 +134,16 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getDelegate().onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
-        
+        getDelegate().onStart();
+
         // Bind to LocalService if not already
         if (mConnection == null)
             mConnection = new TeamTalkConnection(this);

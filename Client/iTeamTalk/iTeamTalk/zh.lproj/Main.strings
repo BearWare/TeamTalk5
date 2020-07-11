@@ -23,13 +23,13 @@
 "5K7-Hd-4h7.title" = "文字转语音事件";
 
 /* Class = "UIButton"; normalTitle = "Login"; ObjectID = "5YA-rx-tGz"; */
-"5YA-rx-tGz.normalTitle" = "登陆";
+"5YA-rx-tGz.normalTitle" = "登录";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
 "79c-sV-yxb.title" = "文字转语音";
 
 /* Class = "UIButton"; normalTitle = "Create Web Login ID"; ObjectID = "8Ls-H9-lri"; */
-"8Ls-H9-lri.normalTitle" = "创建 Web 登陆 ID";
+"8Ls-H9-lri.normalTitle" = "创建 Web 登录 ID";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "空白";
@@ -47,7 +47,7 @@
 "B8t-mo-k8g.text" = "语音";
 
 /* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
-"baE-IB-ajD.normalTitle" = "重置 Web 登陆 ID";
+"baE-IB-ajD.normalTitle" = "重置 Web 登录 ID";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
 "bDf-Jp-1l5.normalTitle" = "连接";
@@ -86,7 +86,7 @@
 "gA8-TJ-0RU.title" = "聊天频道";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
-"Hcv-zz-riB.text" = "BearWare.dk Web 登陆";
+"Hcv-zz-riB.text" = "BearWare.dk Web 登录";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
 "hqu-CX-Vn4.accessibilityHint" = "双击展开频道选项";
@@ -131,7 +131,7 @@
 "nVj-7w-Sta.text" = "空白";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
-"o7z-cC-U4w.title" = "BearWare.dk Web 登陆";
+"o7z-cC-U4w.title" = "BearWare.dk Web 登录";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.accessibilityLabel" = "连接";
@@ -155,7 +155,7 @@
 "Rrg-2O-NzF.normalTitle" = "OPUS 编解码器";
 
 /* Class = "UILabel"; text = "Login ID from BearWare.dk"; ObjectID = "SmF-8J-cWK"; */
-"SmF-8J-cWK.text" = "BearWare.dk 的登陆 ID";
+"SmF-8J-cWK.text" = "BearWare.dk 的登录 ID";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "空白";

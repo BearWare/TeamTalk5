@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ServerListActivity" >
     
-     <fragment android:name="android.support.v4.app.ListFragment"
+     <fragment android:name="androidx.fragment.app.ListFragment"
                android:id="@+id/list_fragment"
                android:layout_width="match_parent"
                android:layout_height="match_parent"

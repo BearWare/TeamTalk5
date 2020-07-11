@@ -38,6 +38,9 @@
         </item>
         <item>
          <widget class="QToolButton" name="toolButton">
+          <property name="accessibleName">
+           <string>Browse</string>
+          </property>
           <property name="text">
            <string>...</string>
           </property>
@@ -45,6 +48,9 @@
         </item>
         <item>
          <widget class="QToolButton" name="refreshBtn">
+          <property name="accessibleName">
+           <string>Refresh</string>
+          </property>
           <property name="text">
            <string>...</string>
           </property>

@@ -35,7 +35,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -156,6 +156,9 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((requestCode == REQUEST_STREAM_MEDIA) && (resultCode == RESULT_OK)) {
             file_path.setText(data.getStringExtra(FilePickerActivity.SELECTED_FILE));
+        }
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

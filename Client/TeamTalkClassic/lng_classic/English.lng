@@ -61,8 +61,8 @@
     <item id="160">Text message from %s. %s.</item>
     <item id="161">Text-To-Speech</item>
     <item id="162">Broadcast message from %s. %s.</item>
-    <item id="163">%s logged on to the server</item>
-    <item id="164">%s logged out of the server</item>
+    <item id="163">%s has logged in</item>
+    <item id="164">%s has logged out</item>
     <item id="165">User events</item>
     <item id="166">User logged in</item>
     <item id="167">User logged out</item>
