@@ -16,6 +16,7 @@ Accessible Windows client
 - Slider's control is now more natural, you must use down arrow to decrease value, and up arrow to increase value
 - If you are respectivly subscribed to TTS events for voice and media files subscriptions, you are now informed by TTS message when you change volume for one of this elements for an user by shortcuts ctrl+maj+arrow keys and ctrl+alt+arrow keys
 - When you are in main channel, window's title is now Server name - TeamTalk version
+- Shortcuts to respectivly increase and decrease user's voice volume are now ctrl+right and ctrl+left, instead of ctrl+alt+right and ctrl+alt+left
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
