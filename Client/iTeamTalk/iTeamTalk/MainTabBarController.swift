@@ -346,6 +346,13 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                         self.server.password = AppInfo.WEBLOGIN_BEARWARE_PASSWDPREFIX + authParser.token
                     }
                 }
+                
+                if self.server.username == AppInfo.WEBLOGIN_BEARWARE_USERNAME {
+                    let err = NSLocalizedString("BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences", comment: "weblogin event")
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "message dialog"), message: err, preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertAction.Style.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
             
             login()
