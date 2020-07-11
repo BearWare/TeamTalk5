@@ -99,8 +99,8 @@
     <string name="pref_summary_mute_speakers">启用此选项可避免扬声器发出回声</string>
     <string name="pref_title_show_usernames">显示用户名</string>
     <string name="pref_summary_show_usernames">显示用户名而非昵称</string>
-    <string name="pref_title_bearwareid">BearWare.dk Web 登陆</string>
-    <string name="pref_summary_bearwareid">设置 BearWare.dk Web 登陆</string>
+    <string name="pref_title_bearwareid">BearWare.dk Web 登录</string>
+    <string name="pref_summary_bearwareid">设置 BearWare.dk Web 登录</string>
 
     <string name="pref_title_mediafile_volume">媒体文件音量</string>
     <string name="pref_summary_mediafile_volume">媒体文件相对于语音的音量</string>
@@ -219,7 +219,7 @@
     <string name="pref_title_authentication">认证</string>
     <string name="pref_title_username">用户名</string>
     <string name="pref_title_password">密码</string>
-    <string name="pref_title_facebook">Facebook 登陆</string>
+    <string name="pref_title_facebook">Facebook 登录</string>
     <string name="pref_title_join_channel">加入频道</string>
     <string name="pref_title_channel">频道</string>
     <string name="pref_title_channel_password">频道密码</string>
@@ -347,6 +347,6 @@
     <string name="bwpswlab">密码：</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
-    <string name="pref_title_facebook_summary">仅检查此服务器是否已启用Facebook登录</string>
+    <string name="pref_title_facebook_summary">仅当此服务器已启用Facebook登录时可勾选</string>
 
 </resources>
