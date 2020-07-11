@@ -33,7 +33,7 @@
     <item id="133">Vstoupili jste na kontrolovaný kanál %s</item>
     <item id="134">Soubory</item>
     <item id="135">Chat</item>
-    <item id="136">Soubor %s obsahuje informace o nastavení klienta %s.\r\nChcete tato nastavení použít?</item>
+    <item id="136">Soubor %s obsahuje informace o nastavení klienta %s.&#xD;&#xA;Chcete tato nastavení použít?</item>
     <item id="137">Uživatel</item>
     <item id="138">%s požaduje sdílení obrazovky</item>
     <item id="139">%s přerušil sdílení obrazovky</item>
