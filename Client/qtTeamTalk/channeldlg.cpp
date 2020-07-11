@@ -261,7 +261,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
 Channel ChannelDlg::GetChannel() const
 {
     Channel newchannel = m_channel;
-    COPY_TTSTR(newchannel.szName, ui.nameEdit->text());
+    COPY_TTSTR(newchannel.szName, ui.nameEdit->text().trimmed());
     COPY_TTSTR(newchannel.szTopic, ui.topicTextEdit->toPlainText());
     COPY_TTSTR(newchannel.szPassword, ui.chanpasswdEdit->text());
     COPY_TTSTR(newchannel.szOpPassword, ui.oppasswdEdit->text());

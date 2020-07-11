@@ -225,9 +225,9 @@ bool ServerListDlg::getHostEntry(HostEntry& entry)
     entry.tcpport = ui.tcpportEdit->text().toInt();
     entry.udpport = ui.udpportEdit->text().toInt();
     entry.encrypted = ui.cryptChkBox->isChecked();
-    entry.username = ui.usernameBox->lineEdit()->text();
+    entry.username = ui.usernameBox->lineEdit()->text().trimmed();
     entry.password = ui.passwordEdit->text();
-    entry.channel = ui.channelEdit->text();
+    entry.channel = ui.channelEdit->text().trimmed();
     entry.chanpasswd = ui.chanpasswdEdit->text();
 
     return true;

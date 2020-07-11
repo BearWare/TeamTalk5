@@ -367,8 +367,14 @@ void CHostManagerDlg::OnBnClickedOk()
     }
     else
     {
-        CString szUsername;
+        CString szChannel, szUsername;
+        m_wndChannel.GetWindowText(szChannel);
         m_wndUsername.GetWindowText(szUsername);
+
+        szUsername.Trim();
+        szChannel.Trim();
+        m_wndUsername.SetWindowText(szUsername);
+        m_wndChannel.SetWindowText(szChannel);
 
         if (szUsername == WEBLOGIN_BEARWARE_USERNAME)
         {
