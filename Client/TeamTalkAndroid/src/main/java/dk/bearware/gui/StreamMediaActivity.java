@@ -157,5 +157,8 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
         if ((requestCode == REQUEST_STREAM_MEDIA) && (resultCode == RESULT_OK)) {
             file_path.setText(data.getStringExtra(FilePickerActivity.SELECTED_FILE));
         }
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

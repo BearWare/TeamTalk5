@@ -61,8 +61,8 @@
     <item id="160">Message privé de %s : %s</item>
     <item id="161">Synthèse vocale</item>
     <item id="162">Message général de %s : %s</item>
-    <item id="163">%s vient de se connecter au serveur</item>
-    <item id="164">%s vient de se déconnecter du serveur</item>
+    <item id="163">%s s&apos;est connecté</item>
+    <item id="164">%s s&apos;est déconnecté</item>
     <item id="165">Évènements utilisateur</item>
     <item id="166">L&apos;utilisateur s&apos;est connecté</item>
     <item id="167">L&apos;utilisateur s&apos;est déconnecté</item>
@@ -407,10 +407,14 @@
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>
     <item id="1017">Volume</item>
+    <item id="1018">Volume de la voix de %s augmenté à %d%%</item>
+    <item id="1019">Volume de la voix de %s diminué à %d%%</item>
     <item id="1020">Afficher le nombre d&apos;utilisateurs dans la liste de canaux</item>
     <item id="1021">Position automatique des utilisateurs à l&apos;aide du son 3D</item>
     <item id="1022">Désactiver l&apos;activation vocale en cas d'inactivité</item>
+    <item id="1023">Volume des fichiers média de %s augmenté à %d%%</item>
     <item id="1024">Lancez le guide de démarrage rapide pour apprendre à configurer un serveur et s&apos;y connecter</item>
+    <item id="1025">Volume des fichiers média de %s diminué à %d%%</item>
     <item id="1026">Absent</item>
     <item id="1028">Volume</item>
     <item id="1030">&amp;Connexion</item>
@@ -733,7 +737,7 @@
     <item id="1590">Défaut</item>
     <item id="1591">Muet à gauche</item>
     <item id="1592">Muet à droite</item>
-    <item id="1593">&amp;Jouer le média continuellement</item>
+    <item id="1593">&amp;Répéter</item>
     <item id="1594">P&amp;osition initiale</item>
     <item id="1595">Traitement audio</item>
     <item id="1596">Tester la lecture</item>

@@ -458,11 +458,15 @@
 #define IDC_EDIT_MOTD                   1015
 #define IDC_STATIC_HOSTUDPPORT          1016
 #define IDC_STATIC_VOLUME               1017
+#define IDS_INCVOLUMEVOICEUSER          1018
+#define IDS_DECVOLUMEVOICEUSER          1019
 #define IDC_CHECK_SHOWUSERCOUNT         1020
 #define IDC_CHECK_POSITIONING           1021
 #define IDC_CHECK_IDLEVOX               1022
+#define IDS_INCVOLUMEMFUSER             1023
 #define IDC_CHECK_MANUAL                1024
-#define IDS_USERISAWAY                1026
+#define IDS_DECVOLUMEMFUSER             1025
+#define IDS_USERISAWAY                  1026
 #define IDC_STATIC_VOICEACT             1027
 #define IDC_STATIC_VOLUME2              1028
 #define IDC_EDIT_CHANPASSWORD           1029
@@ -474,8 +478,8 @@
 #define IDC_STATIC_USERID               1035
 #define IDC_STATIC_NICKNAME             1036
 #define IDC_STATIC_DISABLED1            1037
-#define IDS_USERISQUESTION            1038
-#define IDS_USERISSTREAMINGMDFILE            1039
+#define IDS_USERISQUESTION              1038
+#define IDS_USERISSTREAMINGMDFILE       1039
 #define IDC_STATIC_INTRO                1042
 #define IDC_SLIDER_MEDIAFILEVOL         1043
 #define IDC_CHECK_WEBSITE               1044

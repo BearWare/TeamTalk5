@@ -62,10 +62,10 @@
     <item id="160">私人消息：%s. %s.</item>
     <item id="161">文字转语音</item>
     <item id="162">广播消息：%s. %s.</item>
-    <item id="163">%s登陆到服务器</item>
-    <item id="164">%s退出服务器</item>
+    <item id="163">%s已登录</item>
+    <item id="164">%s已登出</item>
     <item id="165">用户事件</item>
-    <item id="166">用户登陆</item>
+    <item id="166">用户登录</item>
     <item id="167">用户登出</item>
     <item id="168">用户加入频道</item>
     <item id="169">用户离开频道</item>
@@ -185,9 +185,9 @@
     <item id="313">文件已添加</item>
     <item id="314">文件已删除</item>
     <item id="315">重置</item>
-    <item id="316">BearWare.dk Web 登陆</item>
+    <item id="316">BearWare.dk Web 登录</item>
     <item id="317">身份验证失败</item>
-    <item id="318">无法与 BearWare.dk Web 登陆 通讯</item>
+    <item id="318">无法与 BearWare.dk Web 登录 通讯</item>
     <item id="319">%s, 您的用户名 &quot;%s&quot; 已通过验证。</item>
     <item id="320">广播消息</item>
     <item id="321">无法初始化声音系统</item>
@@ -201,7 +201,7 @@
     <item id="330">执行请求的命令时发生错误：&#xD;&#xA;</item>
     <item id="331">无法连接 %s TCP端口 %d UDP端口 %d</item>
     <item id="332">丢失与 %s TCP端口 %d UDP端口 %d 的连接</item>
-    <item id="333">成功登陆</item>
+    <item id="333">成功登录</item>
     <item id="334">成功登出</item>
     <item id="335">您已被踢出频道。</item>
     <item id="336">发生未知错误。检查您执行的操作是否被服务器支持。&#xD;&#xA;此错误很可能是由于服务器与您的客户端不兼容导致。&#xD;&#xA;</item>
@@ -362,7 +362,7 @@
     <item id="497">音量 - </item>
     <item id="498">无法测试您选择的设备</item>
     <item id="499">登出Facebook账户吗？</item>
-    <item id="500">Facebook 登陆</item>
+    <item id="500">Facebook 登录</item>
     <item id="512"> - 未发布</item>
     <item id="513">TeamTalk 5 Classic 专业版 v. </item>
     <item id="514">TeamTalk 5 Classic 专业版</item>
@@ -727,8 +727,8 @@
     <item id="1554">用户可以更改昵称</item>
     <item id="1558">用户可在所有频道录音</item>
     <item id="1561">激活(&amp;A)</item>
-    <item id="1562">BearWare.dk Web 登陆</item>
-    <item id="1563">BearWare.dk Web 登陆 用于识别 TeamTalk 用户。 可在 BearWare.dk 网站创建登陆 ID。</item>
+    <item id="1562">BearWare.dk Web 登录</item>
+    <item id="1563">BearWare.dk Web 登录 用于识别 TeamTalk 用户。 可在 BearWare.dk 网站创建登录 ID。</item>
     <item id="1564">认证</item>
     <item id="1565">创建(&amp;C)</item>
     <item id="1566">保留已断开连接用户(&amp;d)</item>
@@ -743,7 +743,7 @@
     <item id="1590">默认</item>
     <item id="1591">左静音</item>
     <item id="1592">右静音</item>
-    <item id="1593">循环播放媒体文件(&amp;P)</item>
+    <item id="1593">重复播放(&amp;R)</item>
     <item id="1594">起始位置(&amp;O)</item>
     <item id="1595">音频预处理器</item>
     <item id="1596">测试回放</item>

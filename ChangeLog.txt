@@ -14,6 +14,8 @@ Accessible Windows client
 - French, Turkish, German and Chinese languages updated.
 - All areas of main window are now labelled
 - Slider's control is now more natural, you must use down arrow to decrease value, and up arrow to increase value
+- If you are respectivly subscribed to TTS events for voice and media files subscriptions, you are now informed by TTS message when you change volume for one of this elements for an user by shortcuts ctrl+maj+arrow keys and ctrl+alt+arrow keys
+- When you are in main channel, window's title is now Server name - TeamTalk version
 - Changing behavior of displaying status-mode
  - Status mode is now displaying for 3 status (Away, Question, and Streaming media file)
  - Away is displaying when you switch automatically to this mode due to your inactivity, and also when you manually switch to this mode
@@ -27,6 +29,7 @@ Default Qt client
 - More items are now translatables. French translation has been updated. Translators, you are invited to check ts files to update your translations with new strings.
 - More elements are now labellize, specificly in main's window.
 - Blank nicknames are set to NoName followed by user ID
+- When you are in main channel, window's title is now Server name - TeamTalk version
 - Changing behavior of displaying status-mode
  - Status mode is now displaying for 3 status (Away, Question, and Streaming media file)
  - Away is displaying when you switch automatically to this mode due to your inactivity, and also when you manually switch to this mode
