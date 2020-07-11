@@ -562,6 +562,9 @@ implements TeamTalkConnectionListener,
                 Toast.makeText(this, R.string.upload_started, Toast.LENGTH_SHORT).show();
             }
         }
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

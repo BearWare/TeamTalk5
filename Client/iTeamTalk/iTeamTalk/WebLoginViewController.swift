@@ -119,7 +119,10 @@ class WebLoginViewController : UITableViewController {
     
     @IBAction func validateLogin(_ sender: UIButton) {
         
-        let url = AppInfo.getBearWareTokenURL(username: usernameField!.text!, passwd: passwordField!.text!)
+        let username = usernameField!.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        usernameField!.text = username
+        
+        let url = AppInfo.getBearWareTokenURL(username: username, passwd: passwordField!.text!)
         
         let authParser = WebLoginParser()
         if let parser = XMLParser(contentsOf: URL(string: url)!) {

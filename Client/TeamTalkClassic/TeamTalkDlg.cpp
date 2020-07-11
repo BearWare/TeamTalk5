@@ -304,11 +304,16 @@ void CTeamTalkDlg::UpdateWindowTitle()
     TT_GetChannel(ttInst, TT_GetMyChannelID(ttInst), &chan);
 
     //set window title
-    CString szTitle;
+    ServerProperties prop = {};
+    CString szTitle = APPTITLE;
     if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID)
+    {
         szTitle.Format(_T("%s - %s"), LimitText(chan.szName), APPTITLE);
-    else
-        szTitle.Format(_T("%s"), APPTITLE);
+    }
+    else if (TT_GetServerProperties(ttInst, &prop))
+    {
+        szTitle.Format(_T("%s - %s"), LimitText(prop.szServerName), APPTITLE);
+    }
 
     if(szProfileName.GetLength())
         szTitle += _T(" - ") + szProfileName;
@@ -4086,6 +4091,11 @@ void CTeamTalkDlg::OnAdvancedIncvolumevoice()
         {
             int v = RefVolumeToPercent(user.nVolumeVoice);
             TT_SetUserVolume(ttInst, i->nUserID, STREAMTYPE_VOICE, RefVolume(v + 1));
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_VOICE) {
+            CString szText;
+            szText.Format(LoadText(IDS_INCVOLUMEVOICEUSER, _T("Voice volume for %s increased to %d")), GetDisplayName(user), int(v+1));
+            AddVoiceMessage(szText);
+        }
         }
     }
 }
@@ -4110,6 +4120,11 @@ void CTeamTalkDlg::OnAdvancedLowervolumevoice()
             int v = RefVolumeToPercent(user.nVolumeVoice);
             TT_SetUserVolume(ttInst, i->nUserID, STREAMTYPE_VOICE,
                 RefVolume(v - 1));
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_VOICE) {
+            CString szText;
+            szText.Format(LoadText(IDS_DECVOLUMEVOICEUSER, _T("Voice volume for %s decreased to %d")), GetDisplayName(user), int(v-1));
+            AddVoiceMessage(szText);
+        }
         }
     }
 }
@@ -4134,6 +4149,11 @@ void CTeamTalkDlg::OnAdvancedIncvolumemediafile()
             int v = RefVolumeToPercent(user.nVolumeMediaFile);
             TT_SetUserVolume(ttInst, i->nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
                 RefVolume(v + 1));
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_MEDIAFILE) {
+            CString szText;
+            szText.Format(LoadText(IDS_INCVOLUMEMFUSER, _T("Media files volume for %s increased to %d")), GetDisplayName(user), int(v+1));
+            AddVoiceMessage(szText);
+        }
         }
     }
 }
@@ -4158,6 +4178,11 @@ void CTeamTalkDlg::OnAdvancedLowervolumemediafile()
             int v = RefVolumeToPercent(user.nVolumeMediaFile);
             TT_SetUserVolume(ttInst, i->nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
                 RefVolume(v - 1));
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_MEDIAFILE) {
+            CString szText;
+            szText.Format(LoadText(IDS_DECVOLUMEMFUSER, _T("Media files volume for %s decreased to %d")), GetDisplayName(user), int(v-1));
+            AddVoiceMessage(szText);
+        }
         }
     }
 }

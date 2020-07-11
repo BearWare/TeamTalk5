@@ -178,6 +178,11 @@ void CUserAccountsDlg::OnBnClickedButtonNew()
 
 void CUserAccountsDlg::OnBnClickedButtonAdd()
 {
+    CString szUsername, szChannel;
+    m_wndUsername.GetWindowText(szUsername);
+    szUsername.Trim();
+    m_wndUsername.SetWindowText(szUsername);
+    
     UserAccount account = {};
     m_wndUsername.GetWindowText(account.szUsername, TT_STRLEN);
     m_wndPassword.GetWindowText(account.szPassword, TT_STRLEN);
@@ -229,7 +234,11 @@ void CUserAccountsDlg::OnBnClickedButtonAdd()
     if(m_wndRecordVoice.GetCheck() == BST_CHECKED)
         account.uUserRights |= USERRIGHT_RECORD_VOICE;
 
+    m_wndInitChannel.GetWindowText(szChannel);
+    szChannel.Trim();
+    m_wndInitChannel.SetWindowText(szChannel);
     m_wndInitChannel.GetWindowText(account.szInitChannel, TT_STRLEN);
+    
     m_wndNote.GetWindowText(account.szNote, TT_STRLEN);
 
     for(int i=0;i<TT_CHANNELS_OPERATOR_MAX;i++)

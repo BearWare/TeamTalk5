@@ -193,10 +193,10 @@
 "Exclusive Mode Toggled" = "独占模式切换";
 
 /* server entry */
-"Facebook Login" = "Facebook 登陆";
+"Facebook Login" = "Facebook 登录";
 
 /* Dialog message */
-"Facebook login was cancelled" = "Facebook 登陆被取消";
+"Facebook login was cancelled" = "Facebook 登录被取消";
 
 /* codec detail */
 "Frame Size" = "帧大小";
@@ -212,7 +212,7 @@
 "has left the channel" = "离开频道";
 
 /* TTS EVENT */
-"has logged on" = "已登陆";
+"has logged on" = "已登录";
 
 /* TTS EVENT */
 "has logged out" = "已退出";
@@ -236,7 +236,7 @@
 "Join Root Channel" = "加入跟频道";
 
 /* preferences */
-"Join root channel after login" = "登陆后加入跟频道";
+"Join root channel after login" = "登录后加入跟频道";
 
 /* log entry */
 "Joined %@" = "加入 %@";
@@ -251,7 +251,7 @@
 "Log message" = "日志消息";
 
 /* log entry */
-"Logged on to server" = "登陆服务器";
+"Logged on to server" = "登录服务器";
 
 /* preferences */
 "Master Volume" = "主音量";
@@ -654,7 +654,7 @@
 "Volume Controls" = "音量控制";
 
 /* Web Login controller */
-"Web Login ID" = "Web 登陆 ID";
+"Web Login ID" = "Web 登录 ID";
 
 /* preferences
    user detail */

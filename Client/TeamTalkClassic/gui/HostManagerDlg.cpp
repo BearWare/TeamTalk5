@@ -143,6 +143,7 @@ BOOL CHostManagerDlg::OnInitDialog()
 
     m_wndDelete.EnableWindow(FALSE);
 
+    m_wndUsername.AddString(_T(WEBLOGIN_BEARWARE_USERNAME));
     m_wndUsername.AddString(WEBLOGIN_FACEBOOK_USERNAME);
 
     if(m_bPubServers)
@@ -366,8 +367,14 @@ void CHostManagerDlg::OnBnClickedOk()
     }
     else
     {
-        CString szUsername;
+        CString szChannel, szUsername;
+        m_wndChannel.GetWindowText(szChannel);
         m_wndUsername.GetWindowText(szUsername);
+
+        szUsername.Trim();
+        szChannel.Trim();
+        m_wndUsername.SetWindowText(szUsername);
+        m_wndChannel.SetWindowText(szChannel);
 
         if (szUsername == WEBLOGIN_BEARWARE_USERNAME)
         {

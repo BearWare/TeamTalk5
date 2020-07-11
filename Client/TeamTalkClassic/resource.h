@@ -458,10 +458,14 @@
 #define IDC_EDIT_MOTD                   1015
 #define IDC_STATIC_HOSTUDPPORT          1016
 #define IDC_STATIC_VOLUME               1017
+#define IDS_INCVOLUMEVOICEUSER          1018
+#define IDS_DECVOLUMEVOICEUSER          1019
 #define IDC_CHECK_SHOWUSERCOUNT         1020
 #define IDC_CHECK_POSITIONING           1021
 #define IDC_CHECK_IDLEVOX               1022
+#define IDS_INCVOLUMEMFUSER          1023
 #define IDC_CHECK_MANUAL                1024
+#define IDS_DECVOLUMEMFUSER          1025
 #define IDS_USERISAWAY                1026
 #define IDC_STATIC_VOICEACT             1027
 #define IDC_STATIC_VOLUME2              1028
