@@ -28,19 +28,26 @@
 
 #include "TTUnitTest.h"
 
+#include <myace/MyACE.h>
+
+#include <map>
+#include <map>
+#include <iostream>
+#include <future>
+
 #if defined(ENABLE_OGG)
 #include <codec/OggOutput.h>
 #endif
+
 #if defined(ENABLE_OPUS)
 #include <codec/OpusEncoder.h>
 #endif
 #include <codec/WaveFile.h>
 
-#include <myace/MyACE.h>
-#include <map>
+#if defined(ENABLE_FFMPEG3)
+#include <avstream/FFMpeg3Streamer.h>
+#endif
 
-#include <map>
-#include <iostream>
 
 using namespace std;
 
@@ -899,3 +906,41 @@ TEST_CASE("testMuxedAudioBlockSoundInputDisabled")
         REQUIRE(TT_ReleaseUserAudioBlock(ttclient, ab));
     } while (n_blocks--);
 }
+
+#if defined(ENABLE_FFMPEG3) && 0
+TEST_CASE("testThumbnail")
+{
+    // ffmpeg -i in.mp3 -i teamtalk.png -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" out.mp3
+    FFMpegStreamer ffmpeg;
+    MediaStreamOutput prop(media::AudioFormat(16000, 2), 1600, media::FOURCC_RGB32);
+    auto filename = "out.mp3";
+    
+    REQUIRE(ffmpeg.OpenFile(filename, prop));
+
+    std::promise<bool> done;
+    auto sig_done = done.get_future();
+    
+    auto status = [&] (const MediaFileProp& mfp, MediaStreamStatus status) {
+                      std::cout << mfp.filename.c_str() << " status: " << (int)status << std::endl;
+                      if (status == MEDIASTREAM_FINISHED)
+                          done.set_value(true);
+                  };
+
+    auto audio = [] (media::AudioFrame& audio_frame, ACE_Message_Block* mb_audio) {
+                     return false;
+                 };
+
+    auto video = [] (media::VideoFrame& video_frame, ACE_Message_Block* mb_video) {
+                    return false;
+                };
+        
+
+    ffmpeg.RegisterStatusCallback(status, true);
+    ffmpeg.RegisterAudioCallback(audio, true);
+    ffmpeg.RegisterVideoCallback(video, true);
+
+    REQUIRE(ffmpeg.StartStream());
+
+    REQUIRE(sig_done.get());
+}
+#endif

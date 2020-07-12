@@ -84,6 +84,7 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
         break;
     }
 
+    ui.vidcodecBox->addItem(tr("No video"), NO_CODEC);
     ui.vidcodecBox->addItem("WebM VP8", WEBM_VP8_CODEC);
     ui.vp8bitrateSpinBox->setValue(m_videocodec.webm_vp8.nRcTargetBitrate);
     int vidindex = ui.vidcodecBox->findData(WEBM_VP8_CODEC);
@@ -119,8 +120,7 @@ void StreamMediaFileDlg::slotAccepted()
     ttSettings->setValue(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR, getCurrentItemData(ui.preprocessorComboBox).toInt());
     ttSettings->setValue(SETTINGS_STREAMMEDIA_OFFSET, m_mfp.uOffsetMSec);
     ttSettings->setValue(SETTINGS_STREAMMEDIA_LOOP, ui.loopChkBox->isChecked());
-    int codec_index = ui.vidcodecBox->currentIndex();
-    ttSettings->setValue(SETTINGS_STREAMMEDIA_CODEC, ui.vidcodecBox->itemData(codec_index).toInt());
+    ttSettings->setValue(SETTINGS_STREAMMEDIA_CODEC, getCurrentItemData(ui.vidcodecBox).toInt());
     ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE, ui.vp8bitrateSpinBox->value());
 }
 
@@ -156,6 +156,7 @@ void StreamMediaFileDlg::showMediaFormatInfo()
 
     if (TT_GetMediaFileInfo(_W(filename), &m_mediaFile))
     {
+        // display audio format
         if(m_mediaFile.audioFmt.nAudioFmt != AFF_NONE)
         {
             QString channels;
@@ -171,6 +172,7 @@ void StreamMediaFileDlg::showMediaFormatInfo()
         else
             audio = tr("Unknown format");
 
+        // display video format
         double fps = double(m_mediaFile.videoFmt.nFPS_Numerator) / double(m_mediaFile.videoFmt.nFPS_Denominator);
         if(m_mediaFile.videoFmt.picFourCC != FOURCC_NONE)
             video = tr("%1x%2 %3 FPS").arg(m_mediaFile.videoFmt.nWidth).arg(m_mediaFile.videoFmt.nHeight).arg(fps, 0, 'f', 1);
@@ -191,6 +193,15 @@ void StreamMediaFileDlg::showMediaFormatInfo()
     ui.audioLabel->setText(audio);
     ui.videoLabel->setText(video);
     ui.durationLabel->setText(duration);
+
+    if (m_mediaFile.videoFmt.picFourCC == FOURCC_NONE)
+    {
+        setCurrentItemData(ui.vidcodecBox, NO_CODEC);
+    }
+    else
+    {
+        setCurrentItemData(ui.vidcodecBox, WEBM_VP8_CODEC);
+    }
     ui.vidcodecBox->setEnabled(m_mediaFile.videoFmt.picFourCC != FOURCC_NONE);
 }
 
