@@ -76,7 +76,7 @@ bool UpdateWaveFileHeader(ACE_FILE_IO& file)
     ACE_OFF_T end = file.tell();
     if (file.seek(strlen("RIFF"), SEEK_SET) >= 0 && end < 0x100000000)
     {
-        uint32_t wavedatasize = uint32_t(end);
+        uint32_t wavedatasize = uint32_t(end) - 8 /* don't include RIFF and size field in total size */;
         uint32_t headersize = 0;
         if (file.send_n(&wavedatasize, 4) >= 0 &&
             file.seek(8, SEEK_CUR) >= 0 /* past 'WAVEfmt ' */ &&
@@ -84,7 +84,7 @@ bool UpdateWaveFileHeader(ACE_FILE_IO& file)
             file.seek(headersize, SEEK_CUR) >= 0 /* past extra header size */ &&
             file.seek(4, SEEK_CUR) >= 0 /* past 'data' */)
         {
-            wavedatasize = int(end - file.tell());
+            wavedatasize = uint32_t(end - file.tell());
             wavedatasize -= 4; // don't include size-field as part of data size
             if (file.send_n(&wavedatasize, 4) >= 0)
             {
