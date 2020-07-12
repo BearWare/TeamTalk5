@@ -197,7 +197,7 @@
     <item id="325">Speex 音频预处理器</item>
     <item id="326">无音频预处理器</item>
     <item id="327">已连接...正在登录</item>
-    <item id="329">无法连接至主机 "%s" TCP端口 %d UDP端口 %d。&#xD;&#xA;检查服务器是否在指定地址上运行，&#xD;&#xA;并且防火墙没有阻止客户端连接。</item>
+    <item id="329">无法连接至主机 &quot;%s&quot; TCP端口 %d UDP端口 %d。&#xD;&#xA;检查服务器是否在指定地址上运行，&#xD;&#xA;并且防火墙没有阻止客户端连接。</item>
     <item id="330">执行请求的命令时发生错误：&#xD;&#xA;</item>
     <item id="331">无法连接 %s TCP端口 %d UDP端口 %d</item>
     <item id="332">丢失与 %s TCP端口 %d UDP端口 %d 的连接</item>
@@ -253,7 +253,7 @@
     <item id="385">有新的更新可用： %s</item>
     <item id="386">断开与当前主机的连接吗？</item>
     <item id="387">无法连接 %s，端口 %d，声音端口 %d&#xD;&#xA;请检查主机是否有效</item>
-    <item id="388">文件 "%s" 与 %s 不兼容</item>
+    <item id="388">文件 &quot;%s&quot; 与 %s 不兼容</item>
     <item id="389">载入文件</item>
     <item id="390">文件 %s&#xD;&#xA;不包含有效的 %s 主机条目。&#xD;&#xA;错误信息： %s</item>
     <item id="391">无法解析链接地址：&#xD;&#xA;</item>
