@@ -530,12 +530,12 @@
     <message>
         <location filename="../chattextedit.cpp" line="117"/>
         <source>Server Name: %1</source>
-        <translation>Nom du serveur : %1</translation>
+        <translation>Nom du serveur: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="121"/>
         <source>Message of the Day: %1</source>
-        <translation>Message du jour : %1</translation>
+        <translation>Message du jour: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="159"/>
@@ -545,17 +545,17 @@
     <message>
         <location filename="../chattextedit.cpp" line="167"/>
         <source>Channel: %1</source>
-        <translation>Canal : %1</translation>
+        <translation>Canal: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="174"/>
         <source>Topic: %1</source>
-        <translation>Sujet : %1</translation>
+        <translation>Sujet: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="181"/>
         <source>Disk quota: %1 KBytes</source>
-        <translation>Quota du disque : %1 KO</translation>
+        <translation>Quota du disque: %1 KO</translation>
     </message>
 </context>
 <context>
@@ -776,22 +776,22 @@
     <message>
         <location filename="../filetransfer.ui" line="28"/>
         <source>Filename:</source>
-        <translation>Nom du fichier :</translation>
+        <translation>Nom du fichier:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="42"/>
         <source>File size:</source>
-        <translation>Taille du fichier :</translation>
+        <translation>Taille du fichier:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="56"/>
         <source>Throughput:</source>
-        <translation>Débit :</translation>
+        <translation>Débit:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="70"/>
         <source>Destination:</source>
-        <translation>Destination :</translation>
+        <translation>Destination:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="115"/>
@@ -2128,12 +2128,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1651"/>
         <source>Invalid user account. Type username:</source>
-        <translation>Compte utilisateur invalide. Tapez le nom d&apos;utilisateur :</translation>
+        <translation>Compte utilisateur invalide. Tapez le nom d&apos;utilisateur:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1656"/>
         <source>Invalid user account. Type password:</source>
-        <translation>Compte utilisateur invalide. Tapez le mot de passe :</translation>
+        <translation>Compte utilisateur invalide. Tapez le mot de passe:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1673"/>
@@ -2143,7 +2143,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1674"/>
         <source>Incorrect channel password. Try again:</source>
-        <translation>Mot de passe du canal incorrect. Réessayez :</translation>
+        <translation>Mot de passe du canal incorrect. Réessayez:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1687"/>
@@ -2248,7 +2248,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1744"/>
         <source>The server reported an error:</source>
-        <translation>Le serveur a retourné une erreur :</translation>
+        <translation>Le serveur a retourné une erreur:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1915"/>
@@ -2263,7 +2263,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2116"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
-        <translation>Souhaitez-vous ajouter %1 à la liste des exceptions du pare-feu Windows ?</translation>
+        <translation>Souhaitez-vous ajouter %1 à la liste des exceptions du pare-feu Windows?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2125"/>
@@ -2294,7 +2294,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2347"/>
         <source>Files in channel: %1</source>
-        <translation>Fichiers dans le canal : %1</translation>
+        <translation>Fichiers dans le canal: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2352"/>
@@ -2309,7 +2309,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2401"/>
         <source>Recording to file: %1</source>
-        <translation>Enregistrement dans le fichier : %1</translation>
+        <translation>Enregistrement dans le fichier: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2459"/>
@@ -2408,7 +2408,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3933"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
-        <translation>Êtes-vous sûr de vouloir supprimer le canal &quot;%1&quot; ?</translation>
+        <translation>Êtes-vous sûr de vouloir supprimer le canal &quot;%1&quot;?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3939"/>
@@ -2439,22 +2439,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="4068"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
-        <translation>Êtes-vous sûr de vouloir supprimer &quot;%1&quot; ?</translation>
+        <translation>Êtes-vous sûr de vouloir supprimer &quot;%1&quot;?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4073"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
-        <translation>Êtes-vous sûr de vouloir supprimer %1 fichier(s) ?</translation>
+        <translation>Êtes-vous sûr de vouloir supprimer %1 fichier(s)?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4161"/>
         <source>Message to broadcast:</source>
-        <translation>Message à diffuser :</translation>
+        <translation>Message à diffuser:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4203"/>
         <source>Are you sure you want to delete your existing settings?</source>
-        <translation>Êtes-vous sûr de vouloir supprimer vos paramètres existants ?</translation>
+        <translation>Êtes-vous sûr de vouloir supprimer vos paramètres existants?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4212"/>
@@ -2645,12 +2645,12 @@
         <location filename="../mainwindow.cpp" line="5423"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation>Le fichier %1 contient %2 informations de configuration.  Appliquer ces paramètres ?</translation>
+        <translation>Le fichier %1 contient %2 informations de configuration.  Appliquer ces paramètres?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5493"/>
         <source>New version available: %1</source>
-        <translation>Nouvelle version disponible : %1</translation>
+        <translation>Nouvelle version disponible: %1</translation>
     </message>
 </context>
 <context>
@@ -3085,7 +3085,7 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="762"/>
         <location filename="../preferences.ui" line="779"/>
         <source>Default: 0</source>
-        <translation>Défaut : 0</translation>
+        <translation>Défaut: 0</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="769"/>
@@ -3437,7 +3437,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1020"/>
         <source>Max Input Channels %1</source>
-        <translation>Maximum de canaux d&apos;entrée : %1</translation>
+        <translation>Maximum de canaux d&apos;entrée: %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1022"/>
@@ -3448,7 +3448,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1043"/>
         <source>Max Output Channels %1</source>
-        <translation>Maximum de canaux de sortie : %1</translation>
+        <translation>Maximum de canaux de sortie: %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1073"/>
@@ -3560,7 +3560,7 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="102"/>
         <location filename="../serverlist.ui" line="122"/>
         <source>Default: 10333</source>
-        <translation>Défaut : 10333</translation>
+        <translation>Défaut: 10333</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="109"/>
@@ -3689,7 +3689,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverproperties.ui" line="103"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>Variables message du jour : nombre d&apos;utilisateurs sur le serveur %users%, nomre d&apos;admins sur le serveur %admins%, temps de connexion du serveur %uptime%, KO reçus %voicetx%, KO envoyés %voicerx% et dernier utilisateur s&apos;étant connecté %lastuser%</translation>
+        <translation>Variables message du jour: nombre d&apos;utilisateurs sur le serveur %users%, nomre d&apos;admins sur le serveur %admins%, temps de connexion du serveur %uptime%, KO reçus %voicetx%, KO envoyés %voicerx% et dernier utilisateur s&apos;étant connecté %lastuser%</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="116"/>
@@ -3911,17 +3911,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafile.ui" line="64"/>
         <source>Audio format:</source>
-        <translation>Format audio :</translation>
+        <translation>Format audio:</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="82"/>
         <source>Video format:</source>
-        <translation>Format vidéo :</translation>
+        <translation>Format vidéo:</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="100"/>
         <source>Duration:</source>
-        <translation>Durée :</translation>
+        <translation>Durée:</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="116"/>
@@ -4862,7 +4862,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../weblogindlg.cpp" line="134"/>
         <source>Do Facebook logout?</source>
-        <translation>Se déconnecter de Facebook ?</translation>
+        <translation>Se déconnecter de Facebook?</translation>
     </message>
 </context>
 </TS>
