@@ -1689,7 +1689,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1696"/>
         <source>&amp;BearWare.dk Website</source>
-        <translation type="unfinished"></translation>
+        <translation>Site &amp;Web BearWare.dk</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1704"/>
@@ -2650,7 +2650,8 @@
         <location filename="../mainwindow.cpp" line="5429"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Le fichier %1 contient des informations de configuration %2.<byte value="xd"/>
+Ces paramètres doivent-ils être appliqués?</translation>
     </message>
     <message>
         <source>The file %1 contains %2 setup information.
@@ -3916,7 +3917,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafile.ui" line="42"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="45"/>
@@ -3927,7 +3928,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafile.ui" line="52"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualiser</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="70"/>
@@ -4032,7 +4033,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="87"/>
         <source>No video</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas de vidéo</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="132"/>
