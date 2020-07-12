@@ -13,9 +13,9 @@ Accessible Windows client
 - More items are now translatable.
 - French, Turkish, German and Chinese languages updated.
 - All areas of main window are now labelled
-- Slider's control is now more natural, you must use down arrow to decrease value, and up arrow to increase value
+- Slider controls now use down arrow to decrease volume and up arrow to increase volume
 - TTS announces volume changes when using shortcut keys Ctrl+Alt+Left/Right and Ctrl+Shift+Left/Right
-- When you are in main channel, window's title is now server name
+- When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name
 - Changing behavior of displaying status-mode
  - Status mode is now displaying for 3 status (Away, Question, and Streaming media file)
@@ -27,10 +27,10 @@ Default Qt client
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
 - Text message log files are stored with .clog and .ulog extension for channel and user log respectively
 - Press tab changes focus in text message dialog
-- More items are now translatables. French translation has been updated. Translators, you are invited to check ts files to update your translations with new strings.
-- More elements are now labellize, specificly in main's window.
+- More items are translatable
+- More controls are labelled with accessibility hints
 - Blank nicknames are set to NoName followed by user ID
-- When you are in main channel, window's title is now Server name - TeamTalk version
+- When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name
 - Changing behavior of displaying status-mode
  - Status mode is now displaying for 3 status (Away, Question, and Streaming media file)
@@ -38,13 +38,13 @@ Default Qt client
  - Status mode is now displaying in receiver side (after your status message), it's not your client who return your status mode message
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
-- French's language is now supported
+- French language is now supported
 - Buttons for changing between tabs Channels, Chat, Media Streams and Files
 - Preferences are grouped into General, Sound Events, Text to Speech, Connection and Sound System
 - Users are now displayed before channels
 - Support for dark mode and day/night shift
 - Blank nicknames are set to NoName followed by user ID
-- More elements are now labeled, specifically some edit fields
+- More elements are now labelled with accessibility hints
 - Bluetooth headset microphone usage facility
 - Use back button to navigate to the parent channel
 iOS client

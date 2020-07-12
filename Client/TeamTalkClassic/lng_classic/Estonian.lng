@@ -33,7 +33,7 @@
     <item id="133">Liitunud klassitoa kanaliga %s</item>
     <item id="134">Failid</item>
     <item id="135">Vestlus</item>
-    <item id="136">Failis %s on häälestus %s jaoks.\r\nTuleks see rakendada?</item>
+    <item id="136">Failis %s on häälestus %s jaoks.&#xD;&#xA;Tuleks see rakendada?</item>
     <item id="137">Kasutaja</item>
     <item id="138">%s küsib ligipääsu töölauale</item>
     <item id="139">%s loobus ligipääsust töölauale</item>
