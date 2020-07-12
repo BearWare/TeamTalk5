@@ -157,11 +157,26 @@ void FillMediaFileProp(AVFormatContext *fmt_ctx,
 
     if(vid_dec_ctx)
     {
-        //frame rate
+        // set frame rate
         double fps = 1.0 / av_q2d(vid_dec_ctx->time_base) / std::max(vid_dec_ctx->ticks_per_frame, 1);
-        AVRational r_fps = av_d2q(fps, 1000);
-        out_prop.video = media::VideoFormat(vid_dec_ctx->width, vid_dec_ctx->height,
-                                            r_fps.num, r_fps.den, media::FOURCC_RGB32);
+
+        /* it seems FFmpeg puts some bogus frame rate with
+         * 'vid_dec_ctx->time_base' set to 1/90000 when frame rate
+         * information is unavailable. This means that images embedded
+         * in mp3 files show up as video with a frame rate of 90000
+         * fps.
+         *
+         * Note from libavcodec/decode.c:
+         *
+         * We do not currently have an API for passing the input timebase into decoders,
+         * but no filters used here should actually need it.
+         * So we make up some plausible-looking number (the MPEG 90kHz timebase) */
+        if (int(fps) != 90000)
+        {
+            AVRational r_fps = av_d2q(fps, 1000);
+            out_prop.video = media::VideoFormat(vid_dec_ctx->width, vid_dec_ctx->height,
+                                                r_fps.num, r_fps.den, media::FOURCC_RGB32);
+        }
     }
 
     out_prop.duration_ms = (fmt_ctx->duration * av_q2d(AV_TIME_BASE_Q)) * 1000;
@@ -585,7 +600,7 @@ int64_t FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
     if (AddStartTime())
     {
         // initial frame should be timestamp = 0 msec
-        if (start_offset == -1)
+        if (start_offset == MEDIASTREAMER_OFFSET_IGNORE)
             start_offset = frame_timestamp;
         frame_timestamp -= start_offset;
     }
@@ -595,7 +610,7 @@ int64_t FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
                      ACE_TEXT("Frame time: %u, start time: %u, diff: %d\n"),
                      frame_timestamp, start_time, int(frame_timestamp - start_time));
             
-        if (start_offset == -1)
+        if (start_offset == MEDIASTREAMER_OFFSET_IGNORE)
         {
             // the first couple of frames we get might be from before 'start_time'
             if (W32_LT(frame_timestamp, start_time))

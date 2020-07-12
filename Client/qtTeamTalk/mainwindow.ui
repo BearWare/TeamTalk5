@@ -84,11 +84,11 @@
           <attribute name="headerVisible">
            <bool>false</bool>
           </attribute>
-          <attribute name="headerDefaultSectionSize">
-           <number>50</number>
-          </attribute>
           <attribute name="headerMinimumSectionSize">
            <number>5</number>
+          </attribute>
+          <attribute name="headerDefaultSectionSize">
+           <number>50</number>
           </attribute>
           <attribute name="headerStretchLastSection">
            <bool>false</bool>
@@ -344,22 +344,22 @@
             <bool>false</bool>
            </property>
            <property name="readOnly">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <property name="textInteractionFlags">
-            <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+            <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
            </property>
           </widget>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
-            <item>
-              <widget class="ChatLineEdit" name="msgEdit">
-                <property name="accessibleName">
-                  <string>Message</string>
-                </property>
-              </widget>
-            </item>
+           <item>
+            <widget class="ChatLineEdit" name="msgEdit">
+             <property name="accessibleName">
+              <string>Message</string>
+             </property>
+            </widget>
+           </item>
            <item>
             <widget class="QToolButton" name="sendButton">
              <property name="sizePolicy">
@@ -1021,7 +1021,7 @@
      <x>0</x>
      <y>0</y>
      <width>637</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuClient">
@@ -2034,6 +2034,7 @@
   <tabstop>desktopsendButton</tabstop>
  </tabstops>
  <resources>
+  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections/>

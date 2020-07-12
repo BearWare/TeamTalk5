@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.6.0.5002"
+#define TEAMTALK_VERSION "5.6.0.5003"
 
 
 #if defined(WIN32)
@@ -5346,7 +5346,7 @@ extern "C" {
                                            IN const TTCHAR* szSystemID);
 
     /**
-     * @brief Bind to specific IP-address priot to connecting to server.
+     * @brief Bind to specific IP-address prior to connecting to server.
      *
      * Same as TT_Connect() except that this also allows which IP-address
      * to bind to on the local interface.
