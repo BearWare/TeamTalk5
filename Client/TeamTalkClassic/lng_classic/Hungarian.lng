@@ -33,7 +33,7 @@
     <item id="133">%s osztályterem típusú szoba csatlakozott</item>
     <item id="134">Fájlok</item>
     <item id="135">Beszélgetés</item>
-    <item id="136">%s fájl tartalmaz %s telepítési információkat.\r\nEngedélyezi ezek végrehajtását?</item>
+    <item id="136">%s fájl tartalmaz %s telepítési információkat.&#xD;&#xA;Engedélyezi ezek végrehajtását?</item>
     <item id="137">Felhasználó</item>
     <item id="138">%s kéri az asztali hozzáférést</item>
     <item id="139">%s visszavonja az asztali hozzáférést</item>

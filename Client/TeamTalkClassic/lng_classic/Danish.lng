@@ -33,7 +33,7 @@
     <item id="133">Er nu i kanalen %s af typen klasseværelse</item>
     <item id="134">Filer</item>
     <item id="135">Chat</item>
-    <item id="136">Filen %s indeholder %s opsætning.\r\nSkal denne opsætning blive aktiveret?</item>
+    <item id="136">Filen %s indeholder %s opsætning.&#xD;&#xA;Skal denne opsætning blive aktiveret?</item>
     <item id="137">Bruger</item>
     <item id="138">%s anmoder om skrivebordsadgang</item>
     <item id="139">%s har ikke længere skrivebordsadgang</item>

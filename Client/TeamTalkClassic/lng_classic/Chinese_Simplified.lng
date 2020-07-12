@@ -197,7 +197,7 @@
     <item id="325">Speex 音频预处理器</item>
     <item id="326">无音频预处理器</item>
     <item id="327">已连接...正在登录</item>
-    <item id="329">无法连接至主机 "%s" TCP端口 %d UDP端口 %d。&#xD;&#xA;检查服务器是否在指定地址上运行，&#xD;&#xA;并且防火墙没有阻止客户端连接。</item>
+    <item id="329">无法连接至主机 &quot;%s&quot; TCP端口 %d UDP端口 %d。&#xD;&#xA;检查服务器是否在指定地址上运行，&#xD;&#xA;并且防火墙没有阻止客户端连接。</item>
     <item id="330">执行请求的命令时发生错误：&#xD;&#xA;</item>
     <item id="331">无法连接 %s TCP端口 %d UDP端口 %d</item>
     <item id="332">丢失与 %s TCP端口 %d UDP端口 %d 的连接</item>
@@ -253,7 +253,7 @@
     <item id="385">有新的更新可用： %s</item>
     <item id="386">断开与当前主机的连接吗？</item>
     <item id="387">无法连接 %s，端口 %d，声音端口 %d&#xD;&#xA;请检查主机是否有效</item>
-    <item id="388">文件 "%s" 与 %s 不兼容</item>
+    <item id="388">文件 &quot;%s&quot; 与 %s 不兼容</item>
     <item id="389">载入文件</item>
     <item id="390">文件 %s&#xD;&#xA;不包含有效的 %s 主机条目。&#xD;&#xA;错误信息： %s</item>
     <item id="391">无法解析链接地址：&#xD;&#xA;</item>
@@ -413,11 +413,14 @@
     <item id="1012">主机TCP端口</item>
     <item id="1016">主机UDP端口</item>
     <item id="1017">音量</item>
+    <item id="1018">%s 的语音音量增加至 %d%%</item>
+    <item id="1019">%s 的语音音量减小至 %d%%</item>
     <item id="1020">显示频道用户人数</item>
     <item id="1021">自动使用 3D 声音定位用户所在位置</item>
     <item id="1022">空闲时停用语音活动</item>
+    <item id="1023">%s 的媒体文件音量增加至 %d%%</item>
     <item id="1024">启动快速入门指南，了解如何设置服务器，并学会如何连接到该服务器</item>
-    <item id="1025">默认: 10333</item>
+    <item id="1025">%s 的媒体文件音量减小至 %d%%</item>
     <item id="1028">音量</item>
     <item id="1030">连接(&amp;C)</item>
     <item id="1034">0=禁用</item>
@@ -503,8 +506,6 @@
     <item id="1201">新消息</item>
     <item id="1202">点击完成，关闭向导并开始使用TeamTalk。</item>
     <item id="1203">请您输入连接到服务器时使用的昵称</item>
-    <item id="1204">历史消息</item>
-    <item id="1206">消息</item>
     <item id="1208">收到消息弹出对话框</item>
     <item id="1209">TeamTalk 支持两种方式传送语音给其它用户。 按住热键说话和语音自动激活</item>
     <item id="1211">声音系统设置</item>
@@ -779,7 +780,7 @@
     <item id="32844">全选</item>
     <item id="32845">撤消</item>
     <item id="32846">粘贴</item>
-    <item id="32847">頻道(&amp;P)</item>
+    <item id="32847">頻道(&amp;C)</item>
     <item id="32848">用戶(&amp;U)</item>
     <item id="32849">客户端(&amp;L)</item>
     <item id="32850">个人(&amp;M)</item>

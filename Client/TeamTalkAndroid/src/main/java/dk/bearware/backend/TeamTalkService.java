@@ -980,8 +980,15 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
             case MediaFileStatus.MFS_STARTED :
                 ttclient.doChangeStatus(myself.nStatusMode | TeamTalkConstants.STATUSMODE_STREAM_MEDIAFILE, myself.szStatusMsg);
                 break;
-            default :
+            case MediaFileStatus.MFS_ERROR:
+            case MediaFileStatus.MFS_ABORTED:
+            case MediaFileStatus.MFS_FINISHED:
                 ttclient.doChangeStatus(myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_STREAM_MEDIAFILE, myself.szStatusMsg);
+                break;
+            case MediaFileStatus.MFS_PLAYING :
+            case MediaFileStatus.MFS_PAUSED :
+            case MediaFileStatus.MFS_CLOSED :
+            default :
                 break;
         }
     }
