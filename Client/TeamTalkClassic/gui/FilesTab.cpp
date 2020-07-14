@@ -180,7 +180,10 @@ BOOL CFilesTab::OnInitDialog()
     m_wndFiles.InsertColumn(2, LoadText(IDS_FILETABUSER, _T("User")), LVCFMT_RIGHT);
 
     TRANSLATE(*this, IDD);
-
+    CString szCtrlName;
+    szCtrlName.LoadString(IDS_FILESLISTLAB);
+    TRANSLATE_ITEM(IDS_FILESLISTLAB, szCtrlName);
+    SetAccessibleName(m_wndFiles, szCtrlName);
     //ResizeHeader();
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -222,10 +225,6 @@ BOOL CFilesTab::PreTranslateMessage(MSG* pMsg)
 {
     if (WM_KEYFIRST <= pMsg->message && pMsg->message <= WM_KEYLAST)
         if (m_hAccel && ::TranslateAccelerator(AfxGetMainWnd()->m_hWnd, m_hAccel, pMsg))
-            CString szCtrlName;
-            szCtrlName.LoadString(IDS_FILESLISTLAB);
-            TRANSLATE_ITEM(IDS_FILESLISTLAB, szCtrlName);
-            SetAccessibleName(m_wndFiles, szCtrlName);
             return TRUE;
 
     return CMyTab::PreTranslateMessage(pMsg);
