@@ -163,6 +163,8 @@ public abstract class TeamTalkTestCaseBase {
             ttclient.closeTeamTalk();
         }
         ttclients.clear();
+
+        DEBUG_OUTPUT = false;
     }
 
     protected void initSound(TeamTalkBase ttclient) {

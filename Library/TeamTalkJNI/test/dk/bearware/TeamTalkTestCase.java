@@ -3049,6 +3049,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     @Test
     public void testDesktopInput() {
+        DEBUG_OUTPUT = true;
+        
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_TRANSMIT_DESKTOP |
             UserRight.USERRIGHT_TRANSMIT_DESKTOPINPUT | UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN;
@@ -3722,6 +3724,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     @Test
     public void testInitSoundSharedInputOutput() {
 
+        DEBUG_OUTPUT = true;
+        
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE |
             UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;

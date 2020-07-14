@@ -39,7 +39,7 @@ Android client
 - Blank nicknames are set to NoName followed by user ID
 - More elements are now labelled with accessibility hints
 - Bluetooth headset microphone usage facility
-- Use back button to navigate to the parent channel
+- Use back button on the action bar to navigate to the parent channel
 iOS client
 - Channels are now sorted correctly in TeamTalk on iOS 13 and newer
 - French translation has been updated
