@@ -328,7 +328,7 @@
     <string name="weblogin_prop_title_reset_web_login_id">Сбросить ID учетной записи на BearWare.dk</string>
     <string name="text_bearwarelogin_success">%1$s Ваше имя пользователя %2$s подтверждено</string>
     <string name="text_bearwarelogin_failed">Не удалось авторизовать имя пользователя %1$s (%2$s)</string>
-    <string name="text_weblogin_authfailure">Ошибка авторизации при входе через BearWare.dk</string>
+    <string name="text_weblogin_authfailure">Ошибка авторизации при входе через BearWare.dk. Проверьте параметры входа через BearWare.dk в настройках</string>
     <string name="editmsg">Сообщение:</string>
     <string name="filepathlab">Файл:</string>
     <string name="channamelab">Название канала:</string>
