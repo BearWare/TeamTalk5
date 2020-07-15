@@ -130,15 +130,47 @@ TEST_CASE("TestAACEncoder")
 
     media::AudioFormat aacout(mfi.audioFmt.nSampleRate, mfi.audioFmt.nChannels);
 
-    auto transform = MFTransform::CreateAAC(aacout, 12000 * 8, _T("aacoutputfile.wav"));
+    auto transform = MFTransform::CreateAAC(aacout, 192000, _T("aacoutputfile.wav"));
     REQUIRE(transform);
 
     std::vector<short> buf(mfi.audioFmt.nChannels * mfi.audioFmt.nSampleRate);
     media::AudioFrame frm(aacout, &buf[0], mfi.audioFmt.nSampleRate);
-    while (wavfile.ReadSamples(&buf[0], mfi.audioFmt.nSampleRate) > 0)
+    int samples;
+    while ((samples = wavfile.ReadSamples(&buf[0], mfi.audioFmt.nSampleRate * 0.01)) > 0)
     {
+        frm.input_samples = samples;
         transform->ProcessAudioEncoder(frm, true);
-        frm.sample_no += mfi.audioFmt.nSampleRate;
+        frm.sample_no += samples;
+    }
+}
+
+TEST_CASE("TestWavEncoder")
+{
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nSampleRate = 48000;
+    wcsncpy(mfi.szFileName, _T("aacinputfile.wav"), TT_STRLEN);
+    mfi.uDurationMSec = 10*1000;
+
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.OpenFile(mfi.szFileName, true));
+
+    media::AudioFormat aacout(mfi.audioFmt.nSampleRate, mfi.audioFmt.nChannels);
+
+    auto transform = MFTransform::CreateWav(aacout, media::AudioFormat(mfi.audioFmt.nSampleRate, mfi.audioFmt.nChannels), _T("aacoutputfile.wav"));
+    REQUIRE(transform);
+
+    std::vector<short> buf(mfi.audioFmt.nChannels * mfi.audioFmt.nSampleRate);
+    media::AudioFrame frm(aacout, &buf[0], mfi.audioFmt.nSampleRate);
+    int samples;
+    while ((samples = wavfile.ReadSamples(&buf[0], mfi.audioFmt.nSampleRate * 0.01)) > 0)
+    {
+        frm.input_samples = samples;
+        transform->ProcessAudioEncoder(frm, true);
+        frm.sample_no += samples;
     }
 }
 
@@ -148,7 +180,20 @@ enum {
 void AudioTransformEncoder(const media::AudioFormat& input, int bitrate, int fmt)
 {
     std::wostringstream wos;
-    wos << (fmt == MP3? L"MP3" : L"WMA") << L" channels " << input.channels << L" samplerate " << input.samplerate << L" bitrate " << bitrate << L"bps";
+    switch (fmt)
+    {
+    case MP3 :
+        wos << L"MP3";
+        break;
+    case WMA :
+        wos << L"WMA";
+        break;
+    case AAC :
+        wos << L"AAC";
+        break;
+    }
+    
+    wos << L" channels " << input.channels << L" samplerate " << input.samplerate << L" bitrate " << bitrate << L"bps";
     std::wcout << (wos.str().c_str()) << std::endl;
     wos.str(L"");
 
