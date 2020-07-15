@@ -180,10 +180,7 @@ BOOL CFilesTab::OnInitDialog()
     m_wndFiles.InsertColumn(2, LoadText(IDS_FILETABUSER, _T("User")), LVCFMT_RIGHT);
 
     TRANSLATE(*this, IDD);
-    CString szCtrlName;
-    szCtrlName.LoadString(IDS_FILESLISTLAB);
-    TRANSLATE_ITEM(IDS_FILESLISTLAB, szCtrlName);
-    SetAccessibleName(m_wndFiles, szCtrlName);
+    SetAccessibleName(m_wndFiles, LoadText(IDS_FILESLISTLAB, _T("Files list")));
     //ResizeHeader();
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
