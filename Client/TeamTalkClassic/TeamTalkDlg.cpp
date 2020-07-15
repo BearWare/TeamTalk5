@@ -2730,6 +2730,9 @@ BOOL CTeamTalkDlg::OnInitDialog()
     szCtrlName.LoadString(IDS_VOICEACTLEVEL);
     TRANSLATE_ITEM(IDS_VOICEACTLEVEL, szCtrlName);
     SetAccessibleName(m_wndVoiceSlider, szCtrlName);
+    szCtrlName.LoadString(IDS_TREECTRLLAB);
+    TRANSLATE_ITEM(IDS_TREECTRLLAB, szCtrlName);
+    SetAccessibleName(m_wndTree, szCtrlName);
 
     return TRUE;  // return TRUE  unless you set the focus to a control
 }
