@@ -65,9 +65,11 @@ public:
     static mftransform_t Create(IMFMediaType* pInputType, const GUID& dest_videoformat);
     static mftransform_t Create(const media::VideoFormat& inputfmt, media::FourCC outputfmt);
     static mftransform_t Create(media::AudioFormat inputfmt, media::AudioFormat outputfmt, int output_samples);
+    static mftransform_t Create(const media::AudioFormat& inputfmt, const GUID& audioSubType, UINT uBitrate, const ACE_TCHAR* szOutputFilename = nullptr);
     static mftransform_t CreateMP3(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename = nullptr);
     static mftransform_t CreateWMA(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename = nullptr);
     static mftransform_t CreateAAC(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename = nullptr);
+    static mftransform_t CreateWav(const media::AudioFormat& inputfmt, const media::AudioFormat& outputfmt, const ACE_TCHAR* szOutputFilename);
 
     virtual CComPtr<IMFMediaType> GetInputType() = 0;
     virtual CComPtr<IMFMediaType> GetOutputType() = 0;
