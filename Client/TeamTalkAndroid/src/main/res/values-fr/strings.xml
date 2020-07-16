@@ -173,7 +173,7 @@
     <string name="user_prop_title_subscribe_bcastmsg">S\'abonner aux messages généraux</string>
     <string name="user_prop_title_subscribe_voice">S\'abonner à la voix</string>
     <string name="user_prop_title_subscribe_vid">S\'abonner aux vidéos</string>
-    <string name="user_prop_title_subscribe_desk">S\'abonner aux ureaux</string>
+    <string name="user_prop_title_subscribe_desk">S\'abonner aux bureaux</string>
     <string name="user_prop_title_subscribe_media">S\'abonner aux fichiers média</string>
 
     <string name="label_connection">Connexion :</string>
