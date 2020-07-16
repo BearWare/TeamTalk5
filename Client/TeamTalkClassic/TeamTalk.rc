@@ -305,9 +305,7 @@ IDD_TAB_CHAT DIALOGEX 0, 0, 176, 142
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "History",IDC_STATIC_CHANMESSAGES,0,0,0,0
     CONTROL         "",IDC_RICHEDIT_CHANMESSAGES,"RICHEDIT20W",WS_BORDER | WS_VSCROLL | WS_TABSTOP | 0x1844,0,0,176,125
-    LTEXT           "Message",IDC_STATIC_CHANMESSAGE,0,0,0,0
     EDITTEXT        IDC_EDIT_CHANMESSAGE,0,126,176,14,ES_AUTOHSCROLL
 END
 
@@ -315,7 +313,6 @@ IDD_TAB_FILES DIALOGEX 0, 0, 186, 138
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Files list",IDC_STATIC_FILESLIST,0,0,0,0
     CONTROL         "",IDC_LIST_FILES,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,0,0,186,138,WS_EX_ACCEPTFILES
 END
 
@@ -339,7 +336,6 @@ CAPTION "TeamTalk"
 MENU IDR_MENU_MAIN
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Channels list",IDC_STATIC_CHANLIST,0,0,0,0
     CONTROL         "",IDC_TREE_SESSION,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | WS_BORDER | WS_TABSTOP,7,3,119,73
     CONTROL         IDD_DIALOG_GENERATETTFILE,IDC_STATIC_VOLUME,"Static",SS_BITMAP,7,77,11,10
     CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP | 0x400,18,77,47,12
@@ -1515,8 +1511,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,6,0,5003
- PRODUCTVERSION 5,6,0,5003
+ FILEVERSION 5,6,0,5004
+ PRODUCTVERSION 5,6,0,5004
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1533,12 +1529,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 6, 0, 5003"
+            VALUE "FileVersion", "5, 6, 0, 5004"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2005-2018, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 6, 0, 5003"
+            VALUE "ProductVersion", "5, 6, 0, 5004"
         END
     END
     BLOCK "VarFileInfo"
@@ -2211,6 +2207,8 @@ STRINGTABLE
 BEGIN
     ID_ME_ENABLEDESKTOPSHARING "Enable desktop sharing"
     ID_CHANNELS_STREAMMEDIAFILETOCHANNEL "Stream media file to channel"
+    IDS_CHANHISTORYLAB "History"
+    IDS_CHANMESSAGELAB "Message"
 END
 
 STRINGTABLE
