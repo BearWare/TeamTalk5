@@ -4548,7 +4548,7 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             {
                 if((::GetTickCount() - GetLastInput()) >= dwDelay)
                 {
-                    if((user.nStatusMode & STATUSMODE_MASK) != STATUSMODE_AWAY)
+                    if ((user.nStatusMode & STATUSMODE_MASK) == STATUSMODE_AVAILABLE)
                     {
                         m_nStatusMode |= STATUSMODE_AWAY;
                         TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
@@ -4557,7 +4557,7 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
                         m_bIdledOut = TRUE;
                     }
                 }
-                else if(m_bIdledOut)
+                else if (m_bIdledOut)
                 {
                     m_nStatusMode &= ~STATUSMODE_AWAY;
                     TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
