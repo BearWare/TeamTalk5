@@ -57,6 +57,11 @@ ubuntu64:
 	$(MAKE) JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON" generic
 
 centos7:
+	# TeamTalk depends on CMake 3.1 or later.
+	# To install CMake 3:
+	# $ yum --enablerepo=extras install epel-release
+	# Setup CMake 3 as default cmake:
+	# $ ln -s /bin/cmake3 /bin/cmake
 	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DSTATICCPP=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_CORE=ON" BUILDDIR=build-$@ buildlib
 
 rasp:
