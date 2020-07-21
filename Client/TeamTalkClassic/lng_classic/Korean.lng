@@ -392,8 +392,8 @@
     <item id="32929">미디어 파일 음속어\tCtrl+Alt+M &amp;F</item>
     <item id="32930">채널에서 강퇴\tCtrl+K &amp;K</item>
     <item id="32931">서버에서 강퇴\tCtrl+Alt+K &amp;S</item>
-    <item id="32932">음성 볼륨 증가 (+10)\tCtrl+Alt+Right &amp;I</item>
-    <item id="32933">음성 볼륨 감소 (-10)\tCtrl+Alt+Left &amp;L</item>
+    <item id="32932">음성 볼륨 증가 (+10)\tCtrl+Right &amp;I</item>
+    <item id="32933">음성 볼륨 감소 (-10)\tCtrl+Left &amp;L</item>
     <item id="32934">미디어 파일 볼륨 증가 (+10)\tCtrl+Shift+Right &amp;F</item>
     <item id="32935">미디어 파일 볼륨 감소 (-10)\tCtrl+Shift+Left &amp;l</item>
     <item id="32936">데스크톱 전송 허용\tCtrl+Alt+E &amp;k</item>

@@ -824,8 +824,8 @@
     <item id="32929">Utišaj multimedijalnu &amp;datoteku\tCtrl+Alt+M</item>
     <item id="32930">&amp;Istjeraj s kanala\tCtrl+K</item>
     <item id="32931">Istjeraj sa &amp;Poslužitelja\tCtrl+Alt+K</item>
-    <item id="32932">&amp;Povećaj glasnoću glasa (+10)\tCtrl+Alt+Right</item>
-    <item id="32933">&amp;Smanji glasnoću glasa (-10)\tCtrl+Alt+Left</item>
+    <item id="32932">&amp;Povećaj glasnoću glasa (+10)\tCtrl+Right</item>
+    <item id="32933">&amp;Smanji glasnoću glasa (-10)\tCtrl+Left</item>
     <item id="32934">Pojaćaj glasnoću &amp;Multimedijalne datoteke(+10)\tCtrl+Shift+Right</item>
     <item id="32935">Smanji multimedijalnu &amp;glasnoću (-10)\tCtrl+Shift+Left</item>
     <item id="32936">&amp;dozvoli transmisiju glasa\tCtrl+Alt+E</item>

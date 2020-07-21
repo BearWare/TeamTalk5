@@ -549,8 +549,8 @@
     <item id="32929">Diamkan Berkas &amp;Media\tCtrl+Alt+M</item>
     <item id="32930">&amp;Keluarkan Dari Saluran\tCtrl+K</item>
     <item id="32931">Keluarkan Dari &amp;Server\tCtrl+Alt+K</item>
-    <item id="32932">&amp;Tingkatkan Pengeras Suara (+10)\tCtrl+Alt+Right</item>
-    <item id="32933">&amp;Kurangi Pengeras Suara (-10)\tCtrl+Alt+Left</item>
+    <item id="32932">&amp;Tingkatkan Pengeras Suara (+10)\tCtrl+Right</item>
+    <item id="32933">&amp;Kurangi Pengeras Suara (-10)\tCtrl+Left</item>
     <item id="32934">Tingkatkan Pengeras Suara Berkas &amp;Media (+10)\tCtrl+Shift+Right</item>
     <item id="32935">Kurangi Pengeras Suara Berkas &amp;Media (-10)\tCtrl+Shift+Left</item>
     <item id="32936">Izinkan Tran&amp;smisi Desktop\tCtrl+Alt+E</item>

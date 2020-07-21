@@ -452,8 +452,8 @@
     <item id="32929">Vaigista meedia&amp;fail\tCtrl+Alt+M</item>
     <item id="32930">&amp;Viska kanalist välja\tCtrl+K</item>
     <item id="32931">Viska &amp;serverist välja\tCtrl+Alt+K</item>
-    <item id="32932">Suurenda hääle hel&amp;itugevust (+10)\tCtrl+Alt+Right</item>
-    <item id="32933">Vähenda hääle he&amp;litugevust (-10)\tCtrl+Alt+Left</item>
+    <item id="32932">Suurenda hääle hel&amp;itugevust (+10)\tCtrl+Right</item>
+    <item id="32933">Vähenda hääle he&amp;litugevust (-10)\tCtrl+Left</item>
     <item id="32934">Suurenda meedia&amp;failide helitugevust (+10)\tCtrl+Shift+Right</item>
     <item id="32935">Vähenda meediafailide he&amp;litugevust (-10)\tCtrl+Shift+Left</item>
     <item id="32936">Luba töölaua üle&amp;kandmine\tCtrl+Alt+E</item>
