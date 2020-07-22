@@ -17,7 +17,7 @@ Accessible Windows client
 - TTS announces volume changes when using shortcut keys Ctrl+Alt+Left/Right and Ctrl+Shift+Left/Right
 - When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name
-- Shortcuts to respectivly increase and decrease user's voice volume are now ctrl+right and ctrl+left, instead of ctrl+alt+right and ctrl+alt+left
+- Shortcuts to increase/decrease voice and file media volume are now ctrl++/- and ctrl+shift++/-
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
@@ -29,6 +29,7 @@ Default Qt client
 - Blank nicknames are set to NoName followed by user ID
 - When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name
+- Shortcuts to increase/decrease voice and file media volume are now ctrl++/- and ctrl+shift++/-
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French language is now supported
