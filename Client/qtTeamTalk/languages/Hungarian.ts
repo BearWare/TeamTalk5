@@ -1912,8 +1912,8 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1944"/>
-        <source>Ctrl+Shift++</source>
-        <translation>Ctrl+Shift++</translation>
+        <source>Ctrl+Alt++</source>
+        <translation>Ctrl+Alt++</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1949"/>
@@ -1922,8 +1922,8 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1952"/>
-        <source>Ctrl+Shift+-</source>
-        <translation>Ctrl+Shift+-</translation>
+        <source>Ctrl+Alt+-</source>
+        <translation>Ctrl+Alt+-</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1957"/>

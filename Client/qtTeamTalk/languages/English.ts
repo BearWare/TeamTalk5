@@ -1898,7 +1898,7 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1944"/>
-        <source>Ctrl+Shift++</source>
+        <source>Ctrl+Alt++</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1908,7 +1908,7 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1952"/>
-        <source>Ctrl+Shift+-</source>
+        <source>Ctrl+Alt+-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

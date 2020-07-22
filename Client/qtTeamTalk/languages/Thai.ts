@@ -2761,13 +2761,13 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1944"/>
-        <source>Ctrl+Shift++</source>
-        <translation>กดปุ่ม Ctrl+Shift++ พร้อมกัน</translation>
+        <source>Ctrl+Alt++</source>
+        <translation>กดปุ่ม Ctrl+Alt++ พร้อมกัน</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1952"/>
-        <source>Ctrl+Shift+-</source>
-        <translation>กดปุ่ม Ctrl+Shift+- พร้อมกัน</translation>
+        <source>Ctrl+Alt+-</source>
+        <translation>กดปุ่ม Ctrl+Alt+- พร้อมกัน</translation>
     </message>
     <message>
         <source>Store Audio to Disk</source>

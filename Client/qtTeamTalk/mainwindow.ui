@@ -1941,7 +1941,7 @@
     <string>Increase Media File Volume</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift++</string>
+    <string>Ctrl+Alt++</string>
    </property>
   </action>
   <action name="actionLowerMediaFileVolume">
@@ -1949,7 +1949,7 @@
     <string>Lower Media File Volume</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+-</string>
+    <string>Ctrl+Alt+-</string>
    </property>
   </action>
   <action name="actionResetPreferencesToDefault">
