@@ -394,8 +394,8 @@
     <item id="32931">서버에서 강퇴\tCtrl+Alt+K &amp;S</item>
     <item id="32932">음성 볼륨 증가 (+10)\tCtrl++ &amp;I</item>
     <item id="32933">음성 볼륨 감소 (-10)\tCtrl+- &amp;L</item>
-    <item id="32934">미디어 파일 볼륨 증가 (+10)\tCtrl+Shift++ &amp;F</item>
-    <item id="32935">미디어 파일 볼륨 감소 (-10)\tCtrl+Shift+- &amp;l</item>
+    <item id="32934">미디어 파일 볼륨 증가 (+10)\tCtrl+Alt++ &amp;F</item>
+    <item id="32935">미디어 파일 볼륨 감소 (-10)\tCtrl+Alt+- &amp;l</item>
     <item id="32936">데스크톱 전송 허용\tCtrl+Alt+E &amp;k</item>
     <item id="32937">미디어 파일 전송 허용\tCtrl+Alt+R &amp;e</item>
     <item id="32939">미디어 파일 Stream 차단\tCtrl+Shift+8 &amp;a</item>

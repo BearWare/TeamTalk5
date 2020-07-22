@@ -552,8 +552,8 @@
     <item id="32931">&amp;طرد من الخادم\tCtrl+Alt+K</item>
     <item id="32932">&amp;زيادة حجم الصوت (+10)\tCtrl++</item>
     <item id="32933">&amp;خفض حجم الصوت (+10)\tCtrl+-</item>
-    <item id="32934">زيادة حجم الوسائط والملفات (بنسبة +10) \ tCtrl + Shift ++</item>
-    <item id="32935">زيادة حجم الوسائط والملفات (بنسبة +10) \ tCtrl + Shift +-</item>
+    <item id="32934">زيادة حجم الوسائط والملفات (بنسبة +10) \ tCtrl + Alt ++</item>
+    <item id="32935">زيادة حجم الوسائط والملفات (بنسبة +10) \ tCtrl + Alt +-</item>
     <item id="32936">السماح بنقل سطح المكتب \ tCtrl + Alt + E</item>
     <item id="32937">السماح بنقل ملف الوسائط \ tCtrl + Alt + R</item>
     <item id="32940">معلومات المستخدم</item>

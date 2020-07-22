@@ -825,8 +825,8 @@
     <item id="32931">Kick From &amp;Server\tCtrl+Alt+K</item>
     <item id="32932">&amp;Increase Voice Volume (+10)\tCtrl++</item>
     <item id="32933">&amp;Lower Voice Volume (-10)\tCtrl+-</item>
-    <item id="32934">Increase Media &amp;File Volume (+10)\tCtrl+Shift++</item>
-    <item id="32935">Lower Media File Vo&amp;lume (-10)\tCtrl+Shift+-</item>
+    <item id="32934">Increase Media &amp;File Volume (+10)\tCtrl+Alt++</item>
+    <item id="32935">Lower Media File Vo&amp;lume (-10)\tCtrl+Alt+-</item>
     <item id="32936">Allow Des&amp;ktop Transmission\tCtrl+Alt+E</item>
     <item id="32937">Allow M&amp;edia File Transmission\tCtrl+Alt+R</item>
     <item id="32938">&amp;Media File Stream\tCtrl+8</item>

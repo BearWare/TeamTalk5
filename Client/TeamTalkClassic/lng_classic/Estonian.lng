@@ -454,8 +454,8 @@
     <item id="32931">Viska &amp;serverist välja\tCtrl+Alt+K</item>
     <item id="32932">Suurenda hääle hel&amp;itugevust (+10)\tCtrl++</item>
     <item id="32933">Vähenda hääle he&amp;litugevust (-10)\tCtrl+-</item>
-    <item id="32934">Suurenda meedia&amp;failide helitugevust (+10)\tCtrl+Shift++</item>
-    <item id="32935">Vähenda meediafailide he&amp;litugevust (-10)\tCtrl+Shift+-</item>
+    <item id="32934">Suurenda meedia&amp;failide helitugevust (+10)\tCtrl+Alt++</item>
+    <item id="32935">Vähenda meediafailide he&amp;litugevust (-10)\tCtrl+Alt+-</item>
     <item id="32936">Luba töölaua üle&amp;kandmine\tCtrl+Alt+E</item>
     <item id="32937">Luba me&amp;ediafailide ülekandmine\tCtrl+Alt+R</item>
     <item id="32938">&amp;Meediafailide striim\tCtrl+8</item>
