@@ -589,10 +589,10 @@
     <item id="32929">Silenciar Archivos Multimedia\tCtrl+Alt+M</item>
     <item id="32930">&amp;Expulsar del Canal\tCtrl+K</item>
     <item id="32931">Expulsar del servidor\tCtrl+Alt+K</item>
-    <item id="32932">&amp;Incrementar Volumen de Voz (+10)\tCtrl+Right</item>
-    <item id="32933">Disminuir volumen de voz (-10)\tCtrl+Left</item>
-    <item id="32934">Incrementar Volumen Multimedia (+10)\tCtrl+Shift+Right</item>
-    <item id="32935">Disminuir Volumen Multimedia (-10)\tCtrl+Shift+Left</item>
+    <item id="32932">&amp;Incrementar Volumen de Voz (+10)\tCtrl++</item>
+    <item id="32933">Disminuir volumen de voz (-10)\tCtrl+-</item>
+    <item id="32934">Incrementar Volumen Multimedia (+10)\tCtrl+Shift++</item>
+    <item id="32935">Disminuir Volumen Multimedia (-10)\tCtrl+Shift+-</item>
     <item id="32936">Permitir Transmisión de Escritorio \tCtrl+Alt+E</item>
     <item id="32937">Permitir Transmisión Multimedia \tCtrl+Alt+R</item>
     <item id="32938">Transmisión de Archivos Multimedia \tCtrl+8</item>
