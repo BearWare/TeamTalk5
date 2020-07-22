@@ -2579,13 +2579,13 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1944"/>
-        <source>Ctrl+Shift+Right</source>
-        <translation>Ctrl+Shift+Do prava</translation>
+        <source>Ctrl+Shift++</source>
+        <translation>Ctrl+Shift++</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1952"/>
-        <source>Ctrl+Shift+Left</source>
-        <translation>Ctrl+Shift+Do ľava</translation>
+        <source>Ctrl+Shift+-</source>
+        <translation>Ctrl+Shift+-</translation>
     </message>
     <message>
         <source>Store Audio to Disk</source>
@@ -2941,8 +2941,8 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1663"/>
-        <source>Ctrl+Right</source>
-        <translation>Ctrl+Right</translation>
+        <source>Ctrl++</source>
+        <translation>Ctrl++</translation>
     </message>
     <message>
         <source>&amp;Lower Volume (-10)</source>
@@ -2950,8 +2950,8 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1671"/>
-        <source>Ctrl+Left</source>
-        <translation>Ctrl+Left</translation>
+        <source>Ctrl+-</source>
+        <translation>Ctrl+-</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1676"/>
