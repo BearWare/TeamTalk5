@@ -118,13 +118,8 @@ MainWindow::MainWindow(const QString& cfgfile)
 {
     //Ensure the correct version of the DLL is loaded
     if(QString(TEAMTALK_VERSION) != _Q(TT_GetVersion()))
-        QMessageBox::warning(nullptr, ("DLL load error"),
-                             QString("This %3 executable is built for DLL "
-                                      "version %1 but the loaded DLL reports "
-                                      "it's version %2. Loading an incorrent "
-                                      "DLL for %3 may cause problems and crash "
-                                      "the application. Please reinstall to "
-                                      "solve this problem.")
+        QMessageBox::warning(nullptr, (tr("DLL load error")),
+                             QString(tr("This %3 executable is built for DLL version %1 but the loaded DLL reports it's version %2. Loading an incorrect DLL for %3 may cause problems and crash the application. Please reinstall to solve this problem."))
                                      .arg(TEAMTALK_VERSION).
                                      arg(_Q(TT_GetVersion())).
                                      arg(APPNAME_SHORT));
