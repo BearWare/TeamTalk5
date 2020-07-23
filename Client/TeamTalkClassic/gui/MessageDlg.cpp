@@ -209,9 +209,6 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     if(bStore)
         m_messages.push_back(msg);
 
-    //insert enter
-    m_richHistory.SetSel(0,0);
-    m_richHistory.ReplaceSel(_T("\r\n"));
     //insert msg
     m_richHistory.SetSel(0,0);
     m_richHistory.ReplaceSel( msg.szMessage );
@@ -233,10 +230,10 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
 
     CString name;
     if(msg.nFromUserID == m_myself.nUserID)
-        name.Format(_T("%s:"), GetDisplayName(m_myself));
+        name.Format(_T("<%s> "), GetDisplayName(m_myself));
     else
     {
-        name.Format(_T("%s:"), GetDisplayName(m_user));
+        name.Format(_T("<%s> "), GetDisplayName(m_user));
     }
 
     if(m_bShowTimeStamp)
