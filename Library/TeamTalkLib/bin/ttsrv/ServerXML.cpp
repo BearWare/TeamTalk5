@@ -395,6 +395,56 @@ namespace teamtalk{
         return s;
     }
 
+    void ServerXML::SetCertificateAuthFile(const std::string& cafile)
+    {
+        SetValue("general/trusted-certificate/certificate-authority-file", cafile);
+    }
+    
+    std::string ServerXML::GetCertificateAuthFile()
+    {
+        return GetValue(true, "general/trusted-certificate/certificate-authority-file", "");
+    }
+
+    void ServerXML::SetCertificateAuthDir(const std::string& cadir)
+    {
+        SetValue("general/trusted-certificate/certificate-authority-dir", cadir);
+    }
+    
+    std::string ServerXML::GetCertificateAuthDir()
+    {
+        return GetValue(true, "general/trusted-certificate/certificate-authority-dir", "");
+    }
+
+    void ServerXML::SetCertificateVerify(bool enabled)
+    {
+        SetValueBool("general/trusted-certificate/verify-peer", enabled);
+    }
+    
+    bool ServerXML::GetCertificateVerify(bool defvalue)
+    {
+        return GetValueBool(true, "general/trusted-certificate/verify-peer", defvalue);
+    }
+
+    void ServerXML::SetCertificateVerifyOnce(bool enabled)
+    {
+        SetValueBool("general/trusted-certificate/verify-client-once", enabled);
+    }
+    
+    bool ServerXML::GetCertificateVerifyOnce(bool defvalue)
+    {
+        return GetValueBool(true, "general/trusted-certificate/verify-client-once", defvalue);
+    }
+
+    void ServerXML::SetCertificateVerifyDepth(int depth)
+    {
+        SetValue("general/trusted-certificate/verify-depth", depth);
+    }
+
+    bool ServerXML::GetCertificateVerifyDepth(int defvalue)
+    {
+        return GetValue(true, "general/trusted-certificate/verify-depth", defvalue);
+    }
+
     bool ServerXML::SetAutoSave(bool enable)
     {
         TiXmlElement* parent = GetGeneralElement();

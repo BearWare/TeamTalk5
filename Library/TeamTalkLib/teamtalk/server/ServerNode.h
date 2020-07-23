@@ -45,13 +45,11 @@
 #include <string>
 #include <vector>
 
-#if defined(ENABLE_TEAMTALKPRO)
-#define DEFAULT_TCPPORT 10443
-#define DEFAULT_UDPPORT 10443
-#else
+#define DEFAULT_ENCRYPTED_TCPPORT 10443
+#define DEFAULT_ENCRYPTED_UDPPORT 10443
+
 #define DEFAULT_TCPPORT 10333
 #define DEFAULT_UDPPORT 10333
-#endif
 
 #define SERVER_USERID 0
 
