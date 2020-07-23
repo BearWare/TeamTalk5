@@ -955,25 +955,21 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             itemtext = name + QString(" - ") + _Q(user.szStatusMsg);
         else
             itemtext = name;
-        if(user.nStatusMode == STATUSMODE_STREAM_MEDIAFILE) {
-            itemtext += _W(tr(" (Streaming media file)"));
+
+        switch (user.nStatusMode & STATUSMODE_MODE)
+        {
+        case STATUSMODE_AWAY :
+            itemtext += tr(" (Away)");
+            break;
+        case STATUSMODE_QUESTION :
+            itemtext += tr(" (Question)");
+            break;
         }
-        else if(user.nStatusMode == STATUSMODE_AWAY) {
-            itemtext += _W(tr(" (Away)"));
-        }
-        else if(user.nStatusMode == STATUSMODE_QUESTION) {
-            itemtext += _W(tr(" (Question)"));
-        }
-        else if(user.nStatusMode == STATUSMODE_AWAY + STATUSMODE_STREAM_MEDIAFILE) {
-            itemtext += _W(tr(" (Away, Streaming media file)"));
-        }
-        else if(user.nStatusMode == STATUSMODE_QUESTION + STATUSMODE_STREAM_MEDIAFILE) {
-            itemtext += _W(tr(" (Question, Streaming media file)"));
-        }
-        else if(user.nStatusMode == STATUSMODE_QUESTION + STATUSMODE_AWAY) {
-            itemtext += _W(tr(" (Question, Away)"));
-        }
-        if(itemtext.size()>m_strlen)
+
+        if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
+            itemtext += tr(" (Streaming media file)");
+
+        if (itemtext.size() > m_strlen)
         {
             itemtext.resize(m_strlen);
             itemtext += "...";
