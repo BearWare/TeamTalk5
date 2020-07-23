@@ -347,5 +347,6 @@
     <string name="bwpswlab">Mot de passe :</string>
     <string name="ttversion">TeamTalk V</string>
     <string name="ttdllversion">DLL TeamTalk V</string>
+    <string name="pref_title_facebook_summary">À ne cocher que si ce serveur a activé la connexion Facebook</string>
 
 </resources>
