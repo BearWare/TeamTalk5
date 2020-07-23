@@ -229,7 +229,7 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     m_richHistory.ReplaceSel(_T("\r\n"));
 
     CString szTime;
-    szTime.Format(_T("%.2d:%.2d"), msg.receiveTime.GetHour(), msg.receiveTime.GetMinute());
+    szTime.Format(_T("%.2d:%.2d:%.2d"), msg.receiveTime.GetHour(), msg.receiveTime.GetMinute(), msg.receiveTime.GetSecond());
 
     CString name;
     if(msg.nFromUserID == m_myself.nUserID)
