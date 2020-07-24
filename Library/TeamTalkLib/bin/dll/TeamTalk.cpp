@@ -1220,6 +1220,44 @@ TEAMTALKDLL_API TTBOOL TT_SetLicenseInformation(IN const TTCHAR szRegName[TT_STR
     return TRUE;
 }
 
+TEAMTALKDLL_API TTBOOL TT_SetEncryptionContext(IN TTInstance* lpTTInstance,
+                                               const EncryptionContext* lpEncryptionContext)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    ACE_SSL_Context* context = clientnode->SetupEncryptionContext();
+    if (!context)
+        return FALSE;
+
+    // TODO: ACE_SSL_SOCK_Stream only supports singleton SSL context
+    context = ACE_SSL_Context::instance();
+    
+    if (ACE_OS::strlen(lpEncryptionContext->szCertificateFile) &&
+        context->certificate(lpEncryptionContext->szCertificateFile, SSL_FILETYPE_PEM) < 0)
+        return FALSE;
+
+    if (ACE_OS::strlen(lpEncryptionContext->szPrivateKeyFile) &&
+        context->private_key(lpEncryptionContext->szPrivateKeyFile, SSL_FILETYPE_PEM) < 0)
+        return FALSE;
+
+    bool cafile = ACE_OS::strlen(lpEncryptionContext->szCAFile),
+        cadir = ACE_OS::strlen(lpEncryptionContext->szCADir);
+    
+    if (cafile || cadir)
+    {
+        if (context->load_trusted_ca(cafile ? lpEncryptionContext->szCAFile : nullptr,
+                                     cadir ? lpEncryptionContext->szCADir : nullptr, false) < 0)
+            return FALSE;
+    }
+
+    context->set_verify_peer(lpEncryptionContext->bVerifyPeer,
+                             lpEncryptionContext->bVerifyClientOnce,
+                             lpEncryptionContext->nVerifyDepth);
+    
+    return TRUE;
+}
+
 TEAMTALKDLL_API TTBOOL TT_Connect(IN TTInstance* lpTTInstance,
                                   IN const TTCHAR* szHostAddress, 
                                   IN INT32 nTcpPort, 

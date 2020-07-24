@@ -42,6 +42,7 @@
 #include <myace/MyACE.h>
 
 #include <map>
+#include <memory>
 
 template < typename STREAMHANDLER >
 class StreamListener
@@ -233,7 +234,7 @@ int QueueStreamData(ACE_Message_Queue_Base& msg_q,
 
 #if defined(ENABLE_ENCRYPTION)
 
-typedef std::map<ACE_Reactor*, ACE_SSL_Context*> ssl_ctx_t;
+typedef std::map<ACE_Reactor*, std::shared_ptr<ACE_SSL_Context>> ssl_ctx_t;
 
 class CryptStreamHandler : public StreamHandler<ACE_SSL_SOCK_Stream>
 {
@@ -251,7 +252,8 @@ public:
     //Callback to handle any output received
     virtual int handle_output(ACE_HANDLE fd = ACE_INVALID_HANDLE);
 
-    static void AddSSLContext(ACE_Reactor* r, ACE_SSL_Context* c);
+    static ACE_SSL_Context* AddSSLContext(ACE_Reactor* r);
+    static void RemoveSSLContext(ACE_Reactor* r);
 
 protected:
     int process_ssl(SSL* ssl);

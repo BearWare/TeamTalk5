@@ -23,6 +23,8 @@
 
 #include "StreamHandler.h"
 
+#include <mutex>
+
 int QueueStreamData(ACE_Message_Queue_Base& msg_q, 
                     const char* data, int len, ACE_Time_Value* tm/* = 0*/)
 {
@@ -38,16 +40,32 @@ int QueueStreamData(ACE_Message_Queue_Base& msg_q,
 
 #if defined(ENABLE_ENCRYPTION)
 
-void CryptStreamHandler::AddSSLContext(ACE_Reactor* r, ACE_SSL_Context* c)
+static std::mutex ctxmtx;
+
+ACE_SSL_Context* CryptStreamHandler::AddSSLContext(ACE_Reactor* r)
 {
-    m_contexts[r] = c;
+    std::lock_guard<std::mutex> g(ctxmtx);
+
+    assert(m_contexts.find(r) == m_contexts.end());
+    
+    m_contexts[r].reset(new ACE_SSL_Context());
+    return m_contexts[r].get();
+}
+
+void CryptStreamHandler::RemoveSSLContext(ACE_Reactor* r)
+{
+    std::lock_guard<std::mutex> g(ctxmtx);
+
+    m_contexts.erase(r);
 }
 
 ACE_SSL_Context* CryptStreamHandler::ssl_context(ACE_Reactor* r)
 {
+    std::lock_guard<std::mutex> g(ctxmtx);
+
     ACE_SSL_Context* c = ACE_SSL_Context::instance();
     if(m_contexts.find(r) != m_contexts.end())
-        c = m_contexts[r];
+        c = m_contexts[r].get();
     return c;
 }
 
@@ -64,7 +82,6 @@ CryptStreamHandler::CryptStreamHandler(ACE_Thread_Manager *thr_mgr,
     SSL* ssl = peer().ssl();
     long opt = SSL_get_options(ssl);
     SSL_clear(ssl);
-
 }
 
 int CryptStreamHandler::handle_input(ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)

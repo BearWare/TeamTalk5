@@ -1070,7 +1070,8 @@ namespace teamtalk {
 
         //TODO: make server instance based
         ACE_SSL_Context *context = ACE_SSL_Context::instance ();
-        context->set_mode(ACE_SSL_Context::SSLv23);
+        if (context->set_mode(ACE_SSL_Context::SSLv23) < 0)
+            return false;
 
         if (certfile.length() && privfile.length())
         {
