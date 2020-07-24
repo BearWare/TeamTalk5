@@ -326,5 +326,18 @@
     <string name="pref_title_facebook">Login pelo Facebook</string>
     <string name="ban_confirmation">Você tem certeza que quer banir %1$s?</string>
     <string name="kick_confirmation">Você tem certeza que quer expulsar %1$s?</string>
+    <string name="editmsg">Mensagem:</string>
+    <string name="filepathlab">Arquivo:</string>
+    <string name="channamelab">Nome do canal:</string>
+    <string name="chanpswlab">Senha do canal:</string>
+    <string name="chantopiclab">Tópico do canal:</string>
+    <string name="chanoppswlab">Senha de operador:</string>
+    <string name="maxuserslab">Número máximo de usuários:</string>
+    <string name="diskquotalab">Cuota de disco:</string>
+    <string name="bwidlab">Nome de usuário:</string>
+    <string name="bwpswlab">Senha do usuário:</string>
+    <string name="ttversion">TeamTalk v</string>
+    <string name="ttdllversion">TeamTalk DLL v</string>
+    <string name="pref_title_facebook_summary">Marque apenas se o servidor permite login através do Facebook</string>
 
 </resources>
