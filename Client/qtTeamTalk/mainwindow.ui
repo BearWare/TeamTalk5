@@ -879,7 +879,7 @@
        </widget>
        <widget class="QWidget" name="filesTab">
         <attribute name="title">
-         <string>Files</string>
+         <string>&amp;Files</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <property name="leftMargin">
@@ -903,6 +903,9 @@
          </item>
          <item>
           <widget class="FilesView" name="filesView">
+           <property name="accessibleName">
+            <string>Files list</string>
+           </property>
            <property name="editTriggers">
             <set>QAbstractItemView::NoEditTriggers</set>
            </property>
