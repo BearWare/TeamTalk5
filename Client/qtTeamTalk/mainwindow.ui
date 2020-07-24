@@ -314,7 +314,7 @@
          <string/>
         </property>
         <attribute name="title">
-         <string>Chat</string>
+         <string>C&amp;hat</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <property name="leftMargin">
@@ -634,7 +634,7 @@
        </widget>
        <widget class="QWidget" name="desktopTab">
         <attribute name="title">
-         <string>Desktops</string>
+         <string>&amp;Desktops</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <property name="spacing">
