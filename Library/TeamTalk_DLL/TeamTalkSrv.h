@@ -466,13 +466,6 @@ extern "C" {
     /**
      * @brief Set certificate and private key for encrypted server.
      *
-     * @verbatim
-     * NOTE: AT THE MOMENT CALL TTS_SetEncryptionContext() BEFORE
-     * CREATING THE SERVER INSTANCE, TTS_InitTeamTalk(). JUST PASS 0
-     * AS lpTTSInstance. IN OTHER WORDS ONLY ONE ENCRYPTION CONTEXT IS
-     * SUPPORTED AT THE MOMENT.
-     * @endverbatim
-     *
      * The encrypted server's certificate and private key must be set
      * prior to starting the server using TTS_StartServer().
      *
