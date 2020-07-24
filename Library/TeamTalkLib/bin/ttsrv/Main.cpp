@@ -335,7 +335,7 @@ int RunServer(
         prop.udpaddrs.push_back(udpaddr);
     }
 
-    if(!ConfigureServer(servernode, prop, channels))
+    if (!ConfigureServer(servernode, prop, channels))
     {
         ACE_TCHAR error_msg[1024];
         ACE_OS::snprintf(error_msg, 1024,
@@ -348,6 +348,8 @@ int RunServer(
     bool encrypted = false;
 #if defined(ENABLE_TEAMTALKPRO)
     encrypted = xmlSettings.GetCertificateFile().size() && xmlSettings.GetPrivateKeyFile().size();
+    if (encrypted && !SetupEncryption(servernode, xmlSettings))
+        return -1;
 #endif
 
     ACE_TString systemid = SERVER_WELCOME;

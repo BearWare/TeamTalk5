@@ -42,9 +42,6 @@ struct ServerInstance
     ACE_Reactor tcpReactor;
     ACE_Reactor udpReactor;
 
-#if defined(ENABLE_ENCRYPTION)
-    ACE_SSL_Context sslcontext;
-#endif
     std::unique_ptr<ServerMonitor> monitor;
     std::unique_ptr<ServerNode> server;
 
@@ -147,21 +144,20 @@ void InitContext()
 
 #if defined(ENABLE_ENCRYPTION)
 TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContext(IN TTSInstance* lpTTSInstance,
-                                              IN const TTCHAR* szCertificateFile,
-                                              IN const TTCHAR* szPrivateKeyFile)
+                                                IN const TTCHAR* szCertificateFile,
+                                                IN const TTCHAR* szPrivateKeyFile)
 {
-    //TODO: Make SSL context instance specific
-    //ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    //if(!ttInst)
-    //    return FALSE;
+    ServerNode* pServerNode;
+    GET_SERVERNODE_RET(pServerNode, lpTTSInstance, FALSE);
 
-    //ACE_SSL_Context* ssl_context = &ttInst->sslcontext;
-
-    ACE_SSL_Context* ssl_context = ACE_SSL_Context::instance();
+    ACE_SSL_Context* ssl_context = pServerNode->SetupEncryptionContext();
+    if (!ssl_context)
+        return FALSE;
 
     if(szCertificateFile && szPrivateKeyFile)
     {
-        ssl_context->set_mode(ACE_SSL_Context::SSLv23);
+        if (ssl_context->set_mode(ACE_SSL_Context::SSLv23) < 0)
+            return FALSE;
 
 #if defined(UNICODE)
         ACE_CString cert = UnicodeToLocal(szCertificateFile);

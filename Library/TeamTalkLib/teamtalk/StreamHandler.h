@@ -236,10 +236,19 @@ int QueueStreamData(ACE_Message_Queue_Base& msg_q,
 
 typedef std::map<ACE_Reactor*, std::shared_ptr<ACE_SSL_Context>> ssl_ctx_t;
 
-class CryptStreamHandler : public StreamHandler<ACE_SSL_SOCK_Stream>
+class MySSLSockStream : public ACE_SSL_SOCK_Stream
 {
 public:
-    typedef StreamHandler<ACE_SSL_SOCK_Stream> super;
+    MySSLSockStream(ACE_SSL_Context* ctx = ACE_SSL_Context::instance());
+    // Horrifying hack to get around ACE's forced singleton SSL
+    // context implementation
+    void ReinitSSL(ACE_SSL_Context* ctx);
+};
+
+class CryptStreamHandler : public StreamHandler<MySSLSockStream>
+{
+public:
+    typedef StreamHandler<MySSLSockStream> super;
     typedef StreamListener< CryptStreamHandler::StreamHandler_t > StreamListener_t;
 
     CryptStreamHandler(ACE_Thread_Manager *thr_mgr = 0,

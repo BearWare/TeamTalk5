@@ -71,12 +71,26 @@ ACE_SSL_Context* CryptStreamHandler::ssl_context(ACE_Reactor* r)
 
 ssl_ctx_t CryptStreamHandler::m_contexts;
 
+MySSLSockStream::MySSLSockStream(ACE_SSL_Context* ctx)
+: ACE_SSL_SOCK_Stream(ctx)
+{
+}
+
+void MySSLSockStream::ReinitSSL(ACE_SSL_Context* ctx)
+{
+    ::SSL_free (this->ssl_);
+
+    this->ssl_ = ::SSL_new (ctx->context ());
+}
+
 CryptStreamHandler::CryptStreamHandler(ACE_Thread_Manager *thr_mgr,
                                        ACE_Message_Queue<ACE_MT_SYNCH> *mq,
                                        ACE_Reactor *reactor)
     : super(thr_mgr, mq, reactor)
 {
     ACE_SSL_Context* ctx = ssl_context(reactor);
+    peer_.ReinitSSL(ctx);
+
     SSL_CTX* sslctx = ctx->context();
 
     SSL* ssl = peer().ssl();

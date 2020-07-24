@@ -1060,7 +1060,14 @@ namespace teamtalk {
             }
         }
 
+        xmlSettings.GetStaticChannels(channels);
+
+        return true;
+    }
+
 #if defined(ENABLE_TEAMTALKPRO)
+    bool SetupEncryption(ServerNode& servernode, ServerXML& xmlSettings)
+    {
         ACE_TString certfile, privfile, cafile, cadir;
 
         certfile = Utf8ToUnicode(xmlSettings.GetCertificateFile().c_str());
@@ -1068,8 +1075,13 @@ namespace teamtalk {
         cafile = Utf8ToUnicode(xmlSettings.GetCertificateAuthFile().c_str());
         cadir = Utf8ToUnicode(xmlSettings.GetCertificateAuthDir().c_str());
 
-        //TODO: make server instance based
-        ACE_SSL_Context *context = ACE_SSL_Context::instance ();
+        ACE_SSL_Context *context = servernode.SetupEncryptionContext();
+        if (!context)
+        {
+            TT_SYSLOG("Failed to setup encryption context.");
+            return false;
+        }
+        
         if (context->set_mode(ACE_SSL_Context::SSLv23) < 0)
             return false;
 
@@ -1101,13 +1113,10 @@ namespace teamtalk {
         context->set_verify_peer(xmlSettings.GetCertificateVerify(false),
                                  xmlSettings.GetCertificateVerifyOnce(true),
                                  xmlSettings.GetCertificateVerifyDepth(0));
-#endif
-
-        xmlSettings.GetStaticChannels(channels);
-
         return true;
     }
-
+#endif
+    
     bool ConfigureServer(ServerNode& servernode, const ServerSettings& properties,
                          const statchannels_t& channels)
     {

@@ -211,12 +211,6 @@ struct ClientInstance
         static ACE_Sig_Action original_action;
         no_sigpipe.register_action(SIGPIPE, &original_action);
 #endif
-
-#ifdef ENABLE_ENCRYPTION
-        ACE_SSL_Context *context = ACE_SSL_Context::instance();
-        if(context->get_mode() != ACE_SSL_Context::SSLv23)
-            context->set_mode(ACE_SSL_Context::SSLv23);
-#endif
     }
 
     ~ClientInstance()
@@ -1230,9 +1224,6 @@ TEAMTALKDLL_API TTBOOL TT_SetEncryptionContext(IN TTInstance* lpTTInstance,
     if (!context)
         return FALSE;
 
-    // TODO: ACE_SSL_SOCK_Stream only supports singleton SSL context
-    context = ACE_SSL_Context::instance();
-    
     if (ACE_OS::strlen(lpEncryptionContext->szCertificateFile) &&
         context->certificate(lpEncryptionContext->szCertificateFile, SSL_FILETYPE_PEM) < 0)
         return FALSE;

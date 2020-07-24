@@ -237,6 +237,7 @@ namespace teamtalk {
         ACE_Event_Handler* RegisterStreamCallback(ACE_HANDLE h);
 
 #if defined(ENABLE_ENCRYPTION)
+        ACE_SSL_Context* SetupEncryptionContext();
         void OnOpened(CryptStreamHandler::StreamHandler_t& streamer);
         void OnClosed(CryptStreamHandler::StreamHandler_t& streamer);
         bool OnReceive(CryptStreamHandler::StreamHandler_t& streamer, const char* buff, int len);
