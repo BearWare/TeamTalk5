@@ -1854,7 +1854,7 @@ void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
        m_commands[m_nCurrentCmdID] != CMD_COMPLETE_JOIN)
     {
         PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
-        TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
+//        TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
         CString szMsg;
         szMsg.Format(LoadText(IDS_FILEADDED), GetDisplayName(user), remotefile.szFileName);
         AddStatusText(szMsg);
