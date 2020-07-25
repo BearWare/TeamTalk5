@@ -2209,6 +2209,8 @@ BEGIN
     ID_CHANNELS_STREAMMEDIAFILETOCHANNEL "Stream media file to channel"
     IDS_CHANHISTORYLAB "History"
     IDS_CHANMESSAGELAB "Message"
+    IDS_TREECTRLLAB            "Channels list"
+   IDS_FILESLISTLAB            "Files list"
 END
 
 STRINGTABLE
