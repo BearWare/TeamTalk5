@@ -17,6 +17,11 @@ Accessible Windows client
 - TTS announces volume changes when using shortcut keys Ctrl+Alt+Left/Right and Ctrl+Shift+Left/Right
 - When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name
+- Changing behavior of displaying status-mode
+ - Status mode is now displaying for 3 status (Away, Question, and Streaming media file)
+ - Away is displaying when you switch automatically to this mode due to your inactivity, and also when you manually switch to this mode
+ - Status mode is now displaying in receiver side (after your status message), it's not your client who return your status mode message
+ - Status message is now displaying after a hyphen, it's uniformizing behavior with QT client
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
@@ -24,10 +29,13 @@ Default Qt client
 - Press tab changes focus in text message dialog
 - More items are translatable
 - More controls are labelled with accessibility hints
-- When switching to Away mode due to inactivity the status message is now updated
 - Blank nicknames are set to NoName followed by user ID
 - When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name
+- Changing behavior of displaying status-mode
+ - Status mode is now displaying for 3 status (Away, Question, and Streaming media file)
+ - Away is displaying when you switch automatically to this mode due to your inactivity, and also when you manually switch to this mode
+ - Status mode is now displaying in receiver side (after your status message), it's not your client who return your status mode message
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French language is now supported
