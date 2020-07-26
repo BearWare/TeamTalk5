@@ -174,8 +174,8 @@
     <item id="307">Ordre alphabétique</item>
     <item id="308">Nombre d'utilisateurs</item>
     <item id="309">Tout le monde</item>
-    <item id="310">%s a ajouté le fichier %s</item>
-    <item id="311">%s a supprimé le fichier %s</item>
+    <item id="310">Fichier %s ajouté par %s</item>
+    <item id="311">Fichier %s supprimé par %s</item>
     <item id="312">Évènements de fichier</item>
     <item id="313">Fichier ajouté</item>
     <item id="314">Fichier supprimé</item>
