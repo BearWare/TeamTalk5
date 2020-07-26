@@ -1872,7 +1872,7 @@ void CTeamTalkDlg::OnFileRemove(const TTMessage& msg)
     {
         PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
         CString szMsg;
-        szMsg.Format(LoadText(IDS_FILEREMOVED), remotefile.szFileName);
+        szMsg.Format(LoadText(IDS_FILEREMOVED), GetDisplayName(user), remotefile.szFileName);
         AddStatusText(szMsg);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_FILE_REMOVE)
             AddVoiceMessage(szMsg);
