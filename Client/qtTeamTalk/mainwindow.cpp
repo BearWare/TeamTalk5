@@ -940,6 +940,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             TT_SetUserMediaStorageDir(ttInst, msg.user.nUserID, _W(audiofolder), nullptr, aff);
 
         updateUserSubscription(msg.user.nUserID);
+        addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
     }
     break;
     case CLIENTEVENT_CMD_USER_LOGGEDOUT :
@@ -947,12 +948,20 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         emit(userLogout(msg.user));
         //remove text-message history from this user
         m_usermessages.remove(msg.user.nUserID);
+        addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
         break;
     case CLIENTEVENT_CMD_USER_JOINED :
         Q_ASSERT(msg.ttType == __USER);
         if(msg.user.nUserID == TT_GetMyUserID(ttInst))
             processMyselfJoined(msg.user.nChannelID);
         emit(userJoined(msg.user.nChannelID, msg.user));
+        Channel chan;
+        ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
+        if(chan.nParentID == 0) {
+            addStatusMsg(tr("%1 joined channel root") .arg(getDisplayName(msg.user)));
+        } else {
+            addStatusMsg(tr("%1 joined channel %2") .arg(getDisplayName(msg.user)).arg(chan.szName));
+        }
         update_ui = true;
         break;
     case CLIENTEVENT_CMD_USER_LEFT :
@@ -960,6 +969,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(msg.user.nUserID == TT_GetMyUserID(ttInst))
             processMyselfLeft(msg.nSource);
         emit(userLeft(msg.nSource, msg.user));
+        ui.channelsWidget->getChannel(msg.nSource, chan);
+        if(chan.nParentID == 0) {
+            addStatusMsg(tr("%1 left channel root") .arg(getDisplayName(msg.user)));
+        } else {
+            addStatusMsg(tr("%1 left channel %2") .arg(getDisplayName(msg.user)).arg(chan.szName));
+        }
         update_ui = true;
         break;
     case CLIENTEVENT_CMD_USER_UPDATE :
@@ -992,11 +1007,10 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         processTextMessage(msg.textmessage);
         break;
     case CLIENTEVENT_CMD_FILE_NEW :
-    case CLIENTEVENT_CMD_FILE_REMOVE :
     {
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         const RemoteFile& file = msg.remotefile;
-
+        User user; 
         //only update files list if we're not currently logging in or 
         //joining a channel
         cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1006,6 +1020,29 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
+            TT_GetUserByUsername(ttInst, file.szUsername, &user);
+            addStatusMsg(tr("File %1 added by %2") .arg(file.szFileName).arg(getDisplayName(user)));
+        }
+
+        update_ui = true;
+    }
+    break;
+    case CLIENTEVENT_CMD_FILE_REMOVE :
+    {
+        Q_ASSERT(msg.ttType == __REMOTEFILE);
+        const RemoteFile& file = msg.remotefile;
+        User user; 
+        //only update files list if we're not currently logging in or 
+        //joining a channel
+        cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
+        if(m_filesmodel->getChannelID() == file.nChannelID &&
+           (ite == m_commands.end() || (*ite != CMD_COMPLETE_LOGIN && 
+                                        *ite != CMD_COMPLETE_JOINCHANNEL)) )
+        {
+            updateChannelFiles(file.nChannelID);
+            playSoundEvent(SOUNDEVENT_FILESUPD);
+            TT_GetUserByUsername(ttInst, file.szUsername, &user);
+            addStatusMsg(tr("File %1 removed by %2") .arg(file.szFileName).arg(getDisplayName(user)));
         }
 
         update_ui = true;
