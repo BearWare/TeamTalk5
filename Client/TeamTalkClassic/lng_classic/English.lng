@@ -178,7 +178,7 @@
     <item id="308">Popularity</item>
     <item id="309">Everyone</item>
     <item id="310">%s added file %s</item>
-    <item id="311">removed file %s</item>
+    <item id="311">%s removed file %s</item>
     <item id="312">File events</item>
     <item id="313">File added</item>
     <item id="314">File removed</item>
