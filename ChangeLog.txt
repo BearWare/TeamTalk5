@@ -23,6 +23,7 @@ Accessible Windows client
  - Status mode is now displaying in receiver side (after your status message), it's not your client who return your status mode message
  - Status message is now displaying after a hyphen, it's uniformizing behavior with QT client
 - Shortcuts to increase/decrease voice and file media volume are now ctrl++/- and ctrl+alt++/-
+- Who has removed a file is now announce
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
@@ -38,6 +39,7 @@ Default Qt client
  - Away is displaying when you switch automatically to this mode due to your inactivity, and also when you manually switch to this mode
  - Status mode is now displaying in receiver side (after your status message), it's not your client who return your status mode message
 - Shortcuts to increase/decrease voice and file media volume are now ctrl++/- and ctrl+alt++/-
+- New events on chat history for file addition and deletion
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French language is now supported
