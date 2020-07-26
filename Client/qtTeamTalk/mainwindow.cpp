@@ -1005,7 +1005,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-//            TT_GetUserByUsername(ttInst, file.szUsername, &user);
+            TT_GetUserByUsername(ttInst, file.szUsername, &user);
             addStatusMsg(tr("File %1 added by %2") .arg(file.szFileName).arg(getDisplayName(user))); 
         }
 
@@ -1927,13 +1927,13 @@ void MainWindow::timerEvent(QTimerEvent *event)
             if(idle_time != 0)
             {
                 QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-                if (isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_MODE) == STATUSMODE_AVAILABLE)
+                if(isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_AWAY) == 0)
                 {
                     m_statusmode |= STATUSMODE_AWAY;
-                    TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+                    TT_DoChangeStatus(ttInst, m_statusmode, _W(tr("Away")));
                     m_idled_out = true;
                 }
-                else if (m_idled_out && !isComputerIdle(idle_time))
+                else if(m_idled_out && !isComputerIdle(idle_time))
                 {
                     m_statusmode &= ~STATUSMODE_AWAY;
                     TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
