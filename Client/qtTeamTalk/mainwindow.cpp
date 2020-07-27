@@ -940,7 +940,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             TT_SetUserMediaStorageDir(ttInst, msg.user.nUserID, _W(audiofolder), nullptr, aff);
 
         updateUserSubscription(msg.user.nUserID);
-        if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
+        if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
             addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
         }
     }
@@ -961,10 +961,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         emit(userJoined(msg.user.nChannelID, msg.user));
         Channel chan;
         ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
-        if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-            addStatusMsg(tr("%1 joined channel root") .arg(getDisplayName(msg.user)));
-        } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-            addStatusMsg(tr("%1 joined channel %2") .arg(getDisplayName(msg.user)).arg(chan.szName));
+        if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
+            if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
+                addStatusMsg(tr("%1 joined channel root") .arg(getDisplayName(msg.user)));
+            } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
+                addStatusMsg(tr("%1 joined channel %2") .arg(getDisplayName(msg.user)).arg(chan.szName));
+            }
         }
         update_ui = true;
         break;
