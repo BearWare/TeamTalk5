@@ -28,6 +28,7 @@ Default Qt client
 - Blank nicknames are set to NoName followed by user ID
 - When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name
+- New history events for file addition/deletion, user log in/out and user join/left any channel
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French language is now supported
