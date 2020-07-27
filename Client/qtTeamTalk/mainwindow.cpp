@@ -940,6 +940,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             TT_SetUserMediaStorageDir(ttInst, msg.user.nUserID, _W(audiofolder), nullptr, aff);
 
         updateUserSubscription(msg.user.nUserID);
+        if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
+            addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
+        }
     }
     break;
     case CLIENTEVENT_CMD_USER_LOGGEDOUT :
@@ -947,12 +950,22 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         emit(userLogout(msg.user));
         //remove text-message history from this user
         m_usermessages.remove(msg.user.nUserID);
+        if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
+            addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
+        }
         break;
     case CLIENTEVENT_CMD_USER_JOINED :
         Q_ASSERT(msg.ttType == __USER);
         if(msg.user.nUserID == TT_GetMyUserID(ttInst))
             processMyselfJoined(msg.user.nChannelID);
         emit(userJoined(msg.user.nChannelID, msg.user));
+        Channel chan;
+        ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
+        if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
+            addStatusMsg(tr("%1 joined channel root") .arg(getDisplayName(msg.user)));
+        } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
+            addStatusMsg(tr("%1 joined channel %2") .arg(getDisplayName(msg.user)).arg(chan.szName));
+        }
         update_ui = true;
         break;
     case CLIENTEVENT_CMD_USER_LEFT :
@@ -960,6 +973,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(msg.user.nUserID == TT_GetMyUserID(ttInst))
             processMyselfLeft(msg.nSource);
         emit(userLeft(msg.nSource, msg.user));
+        ui.channelsWidget->getChannel(msg.nSource, chan);
+        if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
+            addStatusMsg(tr("%1 left channel root") .arg(getDisplayName(msg.user)));
+        } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
+            addStatusMsg(tr("%1 left channel %2") .arg(getDisplayName(msg.user)).arg(chan.szName));
+        }
         update_ui = true;
         break;
     case CLIENTEVENT_CMD_USER_UPDATE :
