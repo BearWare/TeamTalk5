@@ -1011,31 +1011,10 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         processTextMessage(msg.textmessage);
         break;
     case CLIENTEVENT_CMD_FILE_NEW :
-    {
-        Q_ASSERT(msg.ttType == __REMOTEFILE);
-        const RemoteFile& file = msg.remotefile;
-        User user; 
-        //only update files list if we're not currently logging in or 
-        //joining a channel
-        cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
-        if(m_filesmodel->getChannelID() == file.nChannelID &&
-           (ite == m_commands.end() || (*ite != CMD_COMPLETE_LOGIN && 
-                                        *ite != CMD_COMPLETE_JOINCHANNEL)) )
-        {
-            updateChannelFiles(file.nChannelID);
-            playSoundEvent(SOUNDEVENT_FILESUPD);
-            TT_GetUserByUsername(ttInst, file.szUsername, &user);
-            addStatusMsg(tr("File %1 added by %2") .arg(file.szFileName).arg(getDisplayName(user)));
-        }
-
-        update_ui = true;
-    }
-    break;
     case CLIENTEVENT_CMD_FILE_REMOVE :
     {
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         const RemoteFile& file = msg.remotefile;
-        User user; 
         //only update files list if we're not currently logging in or 
         //joining a channel
         cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1045,8 +1024,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            TT_GetUserByUsername(ttInst, file.szUsername, &user);
-            addStatusMsg(tr("File %1 removed by %2") .arg(file.szFileName).arg(getDisplayName(user)));
         }
 
         update_ui = true;
