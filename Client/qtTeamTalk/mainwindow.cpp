@@ -976,10 +976,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             processMyselfLeft(msg.nSource);
         emit(userLeft(msg.nSource, msg.user));
         ui.channelsWidget->getChannel(msg.nSource, chan);
-        if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
-            addStatusMsg(tr("%1 left channel root") .arg(getDisplayName(msg.user)));
-        } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
-            addStatusMsg(tr("%1 left channel %2") .arg(getDisplayName(msg.user)).arg(chan.szName));
+        if(m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
+            if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
+                addStatusMsg(tr("%1 left channel root") .arg(getDisplayName(msg.user)));
+            } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
+                addStatusMsg(tr("%1 left channel %2") .arg(getDisplayName(msg.user)).arg(chan.szName));
+            }
         }
         update_ui = true;
         break;
@@ -2353,6 +2355,9 @@ void MainWindow::processMyselfLeft(int channelid)
         if(size == 0)
             QFile::remove(filename);
     }
+    TTCHAR buff[TT_STRLEN] = {};
+    TT_GetChannelPath(ttInst, channelid, buff);
+    addStatusMsg(tr("Left channel %1").arg(_Q(buff)));
     updateWindowTitle();
 }
 
