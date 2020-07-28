@@ -2343,9 +2343,9 @@ void MainWindow::processMyselfJoined(int channelid)
     //Enable AGC, denoise etc.
     updateAudioConfig();
 
-    TTCHAR buff[TT_STRLEN] = {};
+/*    TTCHAR buff[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, buff);
-    addStatusMsg(tr("Joined channel %1").arg(_Q(buff)));
+    addStatusMsg(tr("Joined channel %1").arg(_Q(buff)));*/
 
     //store new muxed audio file if we're changing channel
     if(ui.actionMediaStorage->isChecked() &&
