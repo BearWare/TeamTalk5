@@ -967,7 +967,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
                 userjoinchan = userjoinchan + _W(tr("root"));
             } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-                userjoinchan = userjoinchan + _W(chan.szName);
+                userjoinchan = userjoinchan + _Q(chan.szName);
             }
             addStatusMsg(userjoinchan);
         }
