@@ -1019,6 +1019,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         const RemoteFile& file = msg.remotefile;
         User user;
+        fileadd fileadd;
         //only update files list if we're not currently logging in or 
         //joining a channel
         cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
