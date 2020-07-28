@@ -1412,6 +1412,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     //update menus, button, etc.
     if(update_ui)
         slotUpdateUI();
+        this->ui.retranslateUi(this);
 }
 
 
