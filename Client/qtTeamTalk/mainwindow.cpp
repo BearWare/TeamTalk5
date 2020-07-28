@@ -970,8 +970,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
                     userjoinchan = userjoinchan + _Q(chan.szName);
                 }
-                addStatusMsg(userjoinchan);
             }
+            addStatusMsg(userjoinchan);
         }
         update_ui = true;
         break;
