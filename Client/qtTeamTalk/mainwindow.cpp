@@ -753,6 +753,8 @@ bool MainWindow::parseArgs(const QStringList& args)
 void MainWindow::processTTMessage(const TTMessage& msg)
 {
     bool update_ui = false;
+    QString rootchanname = _W(tr("root"));
+    QString mynickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
 
     switch(msg.nClientEvent)
     {
@@ -966,7 +968,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 QString userjoinchan;
                 userjoinchan = _W(tr("%1 joined channel ") .arg(getDisplayName(msg.user)));
                 if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-                    userjoinchan = userjoinchan + _W(tr("root"));
+                    userjoinchan = userjoinchan + rootchanname;
                 } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
                     userjoinchan = userjoinchan + _Q(chan.szName);
                 }
@@ -986,7 +988,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 QString userleftchan;
                 userleftchan = _W(tr("%1 left channel ") .arg(getDisplayName(msg.user)));
                 if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
-                    userleftchan = userleftchan + _W(tr("root"));
+                    userleftchan = userleftchan + rootchanname;
                 } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
                     userleftchan = userleftchan + _Q(chan.szName);
                 }
@@ -1042,7 +1044,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             fileadd = _W(tr("File %1 added") .arg(file.szFileName));
             if(strlen(file.szUsername) > 0) {
                 TT_GetUserByUsername(ttInst, file.szUsername, &user);
-                fileadd = fileadd + _W(tr(" by %2") .arg(getDisplayName(user)));
+                if(getDisplayName(user) != mynickname) {
+                    fileadd = fileadd + _W(tr(" by %2") .arg(getDisplayName(user)));
+                }
             }
         addStatusMsg(fileadd);
         }
@@ -1068,7 +1072,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             filerem = _W(tr("File %1 removed") .arg(file.szFileName));
             if(strlen(file.szUsername) > 0) {
                 TT_GetUserByUsername(ttInst, file.szUsername, &user);
-                filerem = filerem + _W(tr(" by %2") .arg(getDisplayName(user)));
+                if(getDisplayName(user) != mynickname) {
+                    filerem = filerem + _W(tr(" by %2") .arg(getDisplayName(user)));
+                }
             }
         addStatusMsg(filerem);
         }
