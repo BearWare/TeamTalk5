@@ -962,7 +962,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Channel chan;
         ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
-            if(msg.user.nUserID != TT_GetMyUserID(ttInst) {
+            if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
                 QString userjoinchan;
                 userjoinchan = _W(tr("%1 joined channel ") .arg(getDisplayName(msg.user)));
                 if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
