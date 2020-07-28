@@ -542,8 +542,8 @@ void MainWindow::loadSettings()
         else
         {
             QApplication::installTranslator(ttTranslator);
-            this->ui.retranslateUi(this);
             update_ui = true;
+            this->ui.retranslateUi(this);
         }
     }
 
