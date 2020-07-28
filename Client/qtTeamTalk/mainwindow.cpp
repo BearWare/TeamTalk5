@@ -1028,12 +1028,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
+            fileadd = _W(tr("File %1 added") .arg(file.szFileName));
             if(strlen(file.szUsername) > 0) {
-                TT_GetUser(ttInst, file.szUsername, &user);
-                addStatusMsg(tr("File %1 added by %2") .arg(file.szFileName).arg(getDisplayName(user)));
-            } else {
-                addStatusMsg(tr("File %1 added") .arg(file.szFileName));
+                TT_GetUserByUsername(ttInst, file.szUsername, &user);
+                fileadd = fileadd + _W(tr(" by %2") .arg(getDisplayName(user)));
             }
+        addStatusMsg(fileadded);
         }
 
         update_ui = true;
