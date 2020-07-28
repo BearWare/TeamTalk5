@@ -753,6 +753,7 @@ bool MainWindow::parseArgs(const QStringList& args)
 void MainWindow::processTTMessage(const TTMessage& msg)
 {
     bool update_ui = false;
+    QString mynickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
 
     switch(msg.nClientEvent)
     {
@@ -996,6 +997,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         const RemoteFile& file = msg.remotefile;
         User user; 
+        QString fileadd;
         //only update files list if we're not currently logging in or 
         //joining a channel
         cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1005,8 +1007,14 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            TT_GetUserByUsername(ttInst, file.szUsername, &user);
-            addStatusMsg(tr("File %1 added by %2") .arg(file.szFileName).arg(getDisplayName(user))); 
+            fileadd = _W(tr("File %1 added") .arg(file.szFileName));
+            if(strlen(file.szUsername) > 0) {
+                TT_GetUserByUsername(ttInst, file.szUsername, &user);
+                if(getDisplayName(user) != mynickname) {
+                    fileadd = fileadd + _W(tr(" by %2") .arg(getDisplayName(user)));
+                }
+            }
+        addStatusMsg(fileadd);
         }
 
         update_ui = true;
@@ -1017,6 +1025,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         const RemoteFile& file = msg.remotefile;
         User user; 
+        QString filerem;
         //only update files list if we're not currently logging in or 
         //joining a channel
         cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1026,8 +1035,14 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            TT_GetUserByUsername(ttInst, file.szUsername, &user);
-            addStatusMsg(tr("File %1 removed by %2") .arg(file.szFileName).arg(getDisplayName(user)));
+            filerem = _W(tr("File %1 removed") .arg(file.szFileName));
+            if(strlen(file.szUsername) > 0) {
+                TT_GetUserByUsername(ttInst, file.szUsername, &user);
+                if(getDisplayName(user) != mynickname) {
+                    filerem = filerem + _W(tr(" by %2") .arg(getDisplayName(user)));
+                }
+            }
+        addStatusMsg(filerem);
         }
 
         update_ui = true;
