@@ -962,11 +962,14 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Channel chan;
         ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
+            QString userjoinchan;
+            userjoinchan = _W(tr("%1 joined channel ") .arg(getDisplayName(msg.user)));
             if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-                addStatusMsg(tr("%1 joined channel root") .arg(getDisplayName(msg.user)));
+                userjoinchan = userjoinchan + _W(tr("root"));
             } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-                addStatusMsg(tr("%1 joined channel %2") .arg(getDisplayName(msg.user)).arg(chan.szName));
+                userjoinchan = userjoinchan + _W(%2) .arg(chan.szName);
             }
+            addStatusMsg(userjoinchan);
         }
         update_ui = true;
         break;
