@@ -962,14 +962,16 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Channel chan;
         ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
-            QString userjoinchan;
-            userjoinchan = _W(tr("%1 joined channel ") .arg(getDisplayName(msg.user)));
-            if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-                userjoinchan = userjoinchan + _W(tr("root"));
-            } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-                userjoinchan = userjoinchan + _Q(chan.szName);
+            if(msg.user.nUserID != TT_GetMyUserID(ttInst) {
+                QString userjoinchan;
+                userjoinchan = _W(tr("%1 joined channel ") .arg(getDisplayName(msg.user)));
+                if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
+                    userjoinchan = userjoinchan + _W(tr("root"));
+                } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
+                    userjoinchan = userjoinchan + _Q(chan.szName);
+                }
+                addStatusMsg(userjoinchan);
             }
-            addStatusMsg(userjoinchan);
         }
         update_ui = true;
         break;
@@ -5226,9 +5228,7 @@ void MainWindow::slotUserJoin(int channelid, const User& user)
     if(m_mychannel.nChannelID == channelid && m_current_cmdid == 0)
     {
         playSoundEvent(SOUNDEVENT_NEWUSER);
-        if(user.nUserID != TT_GetMyUserID(ttInst)) {
-            addStatusMsg(tr("%1 joined channel").arg(getDisplayName(user)));
-        }
+        addStatusMsg(tr("%1 joined channel").arg(getDisplayName(user)));
     }
 
     //set use to mute if enabled
