@@ -1045,6 +1045,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         const RemoteFile& file = msg.remotefile;
         User user;
+        QString filerem;
         //only update files list if we're not currently logging in or 
         //joining a channel
         cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1054,8 +1055,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            TT_GetUserByUsername(ttInst, file.szUsername, &user);
-            addStatusMsg(tr("File %1 removed by %2") .arg(file.szFileName).arg(getDisplayName(user))); 
+            filerem = _W(tr("File %1 removed") .arg(file.szFileName));
+            if(strlen(file.szUsername) > 0) {
+                TT_GetUserByUsername(ttInst, file.szUsername, &user);
+                filerem = filerem + _W(tr(" by %2") .arg(getDisplayName(user)));
+            }
+        addStatusMsg(filerem);
         }
 
         update_ui = true;
