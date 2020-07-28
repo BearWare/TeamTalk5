@@ -1033,7 +1033,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 TT_GetUserByUsername(ttInst, file.szUsername, &user);
                 fileadd = fileadd + _W(tr(" by %2") .arg(getDisplayName(user)));
             }
-        addStatusMsg(fileadded);
+        addStatusMsg(fileadd);
         }
 
         update_ui = true;
