@@ -970,8 +970,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
                     userjoinchan = userjoinchan + _Q(chan.szName);
                 }
+                addStatusMsg(userjoinchan);
             }
-            addStatusMsg(userjoinchan);
         }
         update_ui = true;
         break;
@@ -5233,7 +5233,7 @@ void MainWindow::slotUserJoin(int channelid, const User& user)
     if(m_mychannel.nChannelID == channelid && m_current_cmdid == 0)
     {
         playSoundEvent(SOUNDEVENT_NEWUSER);
-        addStatusMsg(tr("%1 joined channel").arg(getDisplayName(user)));
+//        addStatusMsg(tr("%1 joined channel").arg(getDisplayName(user)));
     }
 
     //set use to mute if enabled
