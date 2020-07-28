@@ -753,6 +753,7 @@ bool MainWindow::parseArgs(const QStringList& args)
 void MainWindow::processTTMessage(const TTMessage& msg)
 {
     bool update_ui = false;
+    QString rootchanname = _W(tr("root"));
 
     switch(msg.nClientEvent)
     {
@@ -962,10 +963,15 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Channel chan;
         ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
-            if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-                addStatusMsg(tr("%1 joined channel root") .arg(getDisplayName(msg.user)));
-            } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-                addStatusMsg(tr("%1 joined channel %2") .arg(getDisplayName(msg.user)).arg(chan.szName));
+            if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
+                QString userjoinchan;
+                userjoinchan = _W(tr("%1 joined channel ") .arg(getDisplayName(msg.user)));
+                if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
+                    userjoinchan = userjoinchan + rootchanname;
+                } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
+                    userjoinchan = userjoinchan + _Q(chan.szName);
+                }
+                addStatusMsg(userjoinchan);
             }
         }
         update_ui = true;
@@ -977,10 +983,15 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         emit(userLeft(msg.nSource, msg.user));
         ui.channelsWidget->getChannel(msg.nSource, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
-            if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
-                addStatusMsg(tr("%1 left channel root") .arg(getDisplayName(msg.user)));
-            } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
-                addStatusMsg(tr("%1 left channel %2") .arg(getDisplayName(msg.user)).arg(chan.szName));
+            if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
+                QString userleftchan;
+                userleftchan = _W(tr("%1 left channel ") .arg(getDisplayName(msg.user)));
+                if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
+                    userleftchan = userleftchan + rootchanname;
+                } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
+                    userleftchan = userleftchan + _Q(chan.szName);
+                }
+                addStatusMsg(userleftchan);
             }
         }
         update_ui = true;
@@ -2299,10 +2310,6 @@ void MainWindow::processMyselfJoined(int channelid)
     TT_GetChannel(ttInst, channelid, &m_mychannel);
     //Enable AGC, denoise etc.
     updateAudioConfig();
-
-    TTCHAR buff[TT_STRLEN] = {};
-    TT_GetChannelPath(ttInst, channelid, buff);
-    addStatusMsg(tr("Joined channel %1").arg(_Q(buff)));
 
     //store new muxed audio file if we're changing channel
     if(ui.actionMediaStorage->isChecked() &&
