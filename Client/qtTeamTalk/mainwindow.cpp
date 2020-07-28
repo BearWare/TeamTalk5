@@ -985,9 +985,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
                 QString userleftchan;
                 userleftchan = _W(tr("%1 left channel ") .arg(getDisplayName(msg.user)));
-                if(chan.nParentID == 0 && msg.user.nSource != TT_GetMyChannelID(ttInst)) {
+                if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
                     userleftchan = userleftchan + _W(tr("root"));
-                } else if(msg.user.nSource != TT_GetMyChannelID(ttInst)) {
+                } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
                     userleftchan = userleftchan + _Q(chan.szName);
                 }
                 addStatusMsg(userleftchan);
