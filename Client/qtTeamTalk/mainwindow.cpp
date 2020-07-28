@@ -982,10 +982,15 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         emit(userLeft(msg.nSource, msg.user));
         ui.channelsWidget->getChannel(msg.nSource, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
-            if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
-                addStatusMsg(tr("%1 left channel root") .arg(getDisplayName(msg.user)));
-            } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
-                addStatusMsg(tr("%1 left channel %2") .arg(getDisplayName(msg.user)).arg(chan.szName));
+            if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
+                QString userleftchan;
+                userleftchan = _W(tr("%1 left channel ") .arg(getDisplayName(msg.user)));
+                if(chan.nParentID == 0 && msg.user.nSource != TT_GetMyChannelID(ttInst)) {
+                    userleftchan = userleftchan + _W(tr("root"));
+                } else if(msg.user.nSource != TT_GetMyChannelID(ttInst)) {
+                    userleftchan = userleftchan + _Q(chan.szName);
+                }
+                addStatusMsg(userleftchan);
             }
         }
         update_ui = true;
