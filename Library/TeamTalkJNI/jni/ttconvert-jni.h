@@ -142,4 +142,5 @@ void setWebMVP8Codec(JNIEnv* env, WebMVP8Codec& webm_vp8, jobject lpWebMVP8Codec
 void setAbusePrevention(JNIEnv* env, AbusePrevention& abuse, jobject lpAbusePrevention, JConvert conv);
 void setMediaFilePlayback(JNIEnv* env, MediaFilePlayback& playback, jobject lpMediaPlayback, JConvert conv);
 void setAudioInputProgress(JNIEnv* env, AudioInputProgress& aip, jobject lpAudioInputProgress, JConvert conv);
+void setEncryptionContext(JNIEnv* env, EncryptionContext& ec, jobject lpEncryptionContext, JConvert conv);
 #endif
