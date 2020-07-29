@@ -527,6 +527,7 @@ void MainWindow::loadSettings()
         ttSettings->remove(SETTINGS_SOUND_MICROPHONEGAIN);
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
+
     bool update_ui = false;
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();
     if(!lang.isEmpty())

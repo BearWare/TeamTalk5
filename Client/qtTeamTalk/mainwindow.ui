@@ -314,7 +314,7 @@
          <string/>
         </property>
         <attribute name="title">
-         <string>C&amp;hat</string>
+         <string>Ch&amp;at</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <property name="leftMargin">
