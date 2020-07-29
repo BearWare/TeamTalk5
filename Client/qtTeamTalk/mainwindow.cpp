@@ -1053,8 +1053,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         addStatusMsg(fileadd);
         }
 
-        update_ui = true;
     }
+    update_ui = true;
     break;
     case CLIENTEVENT_CMD_FILE_REMOVE :
     {
@@ -1081,8 +1081,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         addStatusMsg(filerem);
         }
 
-        update_ui = true;
     }
+    update_ui = true;
     break;
     case CLIENTEVENT_CMD_USERACCOUNT :
         Q_ASSERT(msg.ttType == __USERACCOUNT);
