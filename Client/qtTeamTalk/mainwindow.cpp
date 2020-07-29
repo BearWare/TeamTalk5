@@ -528,7 +528,6 @@ void MainWindow::loadSettings()
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
 
-    bool update_ui = false;
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();
     if(!lang.isEmpty())
     {
@@ -1411,9 +1410,10 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     }
 
     //update menus, button, etc.
-    if(update_ui)
+    if(update_ui) {
         slotUpdateUI();
         this->ui.retranslateUi(this);
+    }
 }
 
 
