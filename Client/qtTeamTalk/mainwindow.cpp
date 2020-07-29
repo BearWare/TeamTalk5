@@ -528,6 +528,7 @@ void MainWindow::loadSettings()
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
 
+    bool update_ui = false;
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();
     if(!lang.isEmpty())
     {
@@ -542,6 +543,7 @@ void MainWindow::loadSettings()
         else
         {
             QApplication::installTranslator(ttTranslator);
+            update_ui = true;
             this->ui.retranslateUi(this);
         }
     }
@@ -1340,6 +1342,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     //update menus, button, etc.
     if(update_ui)
         slotUpdateUI();
+        this->ui.retranslateUi(this);
 }
 
 
@@ -2348,9 +2351,9 @@ void MainWindow::updateChannelFiles(int channelid)
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
 
     if(m_filesmodel->rowCount() == 0)
-        ui.tabWidget->setTabText(TAB_FILES, tr("Files"));
+        ui.tabWidget->setTabText(TAB_FILES, tr("&amp;Files"));
     else
-        ui.tabWidget->setTabText(TAB_FILES, tr("Files (%1)").arg(m_filesmodel->rowCount()));
+        ui.tabWidget->setTabText(TAB_FILES, tr("&amp;Files (%1)").arg(m_filesmodel->rowCount()));
 }
 
 void MainWindow::updateUserSubscription(int userid)
