@@ -543,8 +543,8 @@ void MainWindow::loadSettings()
         else
         {
             QApplication::installTranslator(ttTranslator);
-            this->ui.retranslateUi(this);
             update_ui = true;
+            this->ui.retranslateUi(this);
         }
     }
 
@@ -1052,9 +1052,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             }
         addStatusMsg(fileadd);
         }
-
+        update_ui = true;
     }
-    update_ui = true;
     break;
     case CLIENTEVENT_CMD_FILE_REMOVE :
     {
@@ -1080,9 +1079,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             }
         addStatusMsg(filerem);
         }
-
+        update_ui = true;
     }
-    update_ui = true;
     break;
     case CLIENTEVENT_CMD_USERACCOUNT :
         Q_ASSERT(msg.ttType == __USERACCOUNT);
@@ -1411,10 +1409,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     }
 
     //update menus, button, etc.
-    if(update_ui) {
-        this->ui.retranslateUi(this);
+    if(update_ui)
         slotUpdateUI();
-    }
+    this->ui.retranslateUi(this);
 }
 
 
@@ -2424,7 +2421,6 @@ void MainWindow::updateChannelFiles(int channelid)
     TTCHAR chanpath[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
-    bool update_ui = false;
     if(m_filesmodel->rowCount() == 0)
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
     else
