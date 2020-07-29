@@ -543,8 +543,8 @@ void MainWindow::loadSettings()
         else
         {
             QApplication::installTranslator(ttTranslator);
-            update_ui = true;
             this->ui.retranslateUi(this);
+            update_ui = true;
         }
     }
 
@@ -1412,8 +1412,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
     //update menus, button, etc.
     if(update_ui) {
-        slotUpdateUI();
         this->ui.retranslateUi(this);
+        slotUpdateUI();
     }
 }
 
