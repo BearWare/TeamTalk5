@@ -2426,7 +2426,7 @@ void MainWindow::updateChannelFiles(int channelid)
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
 
     if(m_filesmodel->rowCount() == 0)
-        ui.tabWidget->setTabText(TAB_FILES, tr("&amp;Files"));
+        ui.tabWidget->setTabText(TAB_FILES, _W("&amp;"tr("&amp;Files")));
     else
         ui.tabWidget->setTabText(TAB_FILES, tr("&amp;Files (%1)").arg(m_filesmodel->rowCount()));
 }
