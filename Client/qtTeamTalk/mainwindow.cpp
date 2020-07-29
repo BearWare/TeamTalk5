@@ -2429,6 +2429,7 @@ void MainWindow::updateChannelFiles(int channelid)
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
     else
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_filesmodel->rowCount()));
+    update_ui = true;
 }
 
 void MainWindow::updateUserSubscription(int userid)
