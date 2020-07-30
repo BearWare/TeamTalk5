@@ -528,7 +528,6 @@ void MainWindow::loadSettings()
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
 
-    bool update_ui = false;
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();
     if(!lang.isEmpty())
     {
@@ -543,7 +542,7 @@ void MainWindow::loadSettings()
         else
         {
             QApplication::installTranslator(ttTranslator);
-            update_ui = true;
+            slotUpdateUI();
             this->ui.retranslateUi(this);
         }
     }
@@ -1340,10 +1339,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     }
 
     //update menus, button, etc.
-    if(update_ui) {
+    if(update_ui)
         slotUpdateUI();
-        this->ui.retranslateUi(this);
-    }
 }
 
 
@@ -5324,17 +5321,17 @@ void MainWindow::slotEnableQuestionMode(bool checked)
 void MainWindow::slotUpdateVideoCount(int count)
 {
     if(count == 0)
-        ui.tabWidget->setTabText(TAB_VIDEO, tr("Video"));
+        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video"));
     else
-        ui.tabWidget->setTabText(TAB_VIDEO, tr("Video (%1)").arg(count));
+        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video (%1)").arg(count));
 }
 
 void MainWindow::slotUpdateDesktopCount(int count)
 {
     if(count == 0)
-        ui.tabWidget->setTabText(TAB_DESKTOP, tr("Desktops"));
+        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops"));
     else
-        ui.tabWidget->setTabText(TAB_DESKTOP, tr("Desktops (%1)").arg(count));
+        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops (%1)").arg(count));
 }
 
 void MainWindow::slotMasterVolumeChanged(int value)
