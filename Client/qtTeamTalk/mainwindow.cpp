@@ -528,7 +528,6 @@ void MainWindow::loadSettings()
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
 
-    bool update_ui = false;
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();
     if(!lang.isEmpty())
     {
@@ -544,7 +543,7 @@ void MainWindow::loadSettings()
         {
             QApplication::installTranslator(ttTranslator);
             this->ui.retranslateUi(this);
-            update_ui = true;
+            slotUpdateUI();
         }
     }
 
@@ -754,7 +753,6 @@ bool MainWindow::parseArgs(const QStringList& args)
 
 void MainWindow::processTTMessage(const TTMessage& msg)
 {
-    bool update_ui = false;
     QString rootchanname = _W(tr("root"));
     QString mynickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
 
@@ -811,7 +809,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             login();
         }
 
-        update_ui = true;
+        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CON_FAILED :
@@ -821,7 +819,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         addStatusMsg(tr("Failed to connect to %1 TCP port %2 UDP port %3")
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
-        update_ui = true;
+        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CON_LOST :
@@ -835,7 +833,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         playSoundEvent(SOUNDEVENT_SERVERLOST);
 
-        update_ui = true;
+        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED :
@@ -858,25 +856,25 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         showTTErrorMessage(msg.clienterrormsg, cmd_type);
 
-        update_ui = true;
+        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CMD_SUCCESS :
         emit(cmdSuccess(msg.nSource));
 
-        update_ui = true;
+        slotUpdateUI();
         break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
         //ui.chatEdit->updateServer();
         addStatusMsg(tr("Logged in"));
         //store user account settings
         m_myuseraccount = msg.useraccount;
-        update_ui = true;
+        slotUpdateUI();
         break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDOUT :
         addStatusMsg(tr("Logged out"));
         Disconnect();
-        update_ui = true;
+        slotUpdateUI();
 
         break;
     case CLIENTEVENT_CMD_MYSELF_KICKED :
@@ -889,7 +887,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         else
             addStatusMsg(tr("Kicked by unknown user"));
 
-        update_ui = true;
+        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CMD_SERVER_UPDATE :
@@ -902,7 +900,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         m_srvprop = msg.serverproperties;
 
-        update_ui = true;
+        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CMD_SERVERSTATISTICS :
@@ -925,7 +923,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             //update AGC, denoise, etc. if changed
             updateAudioConfig();
 
-            update_ui = true;
+            slotUpdateUI();
         }
         emit(updateChannel(msg.channel));
     }
@@ -977,7 +975,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 addStatusMsg(userjoinchan);
             }
         }
-        update_ui = true;
+        slotUpdateUI();
         break;
     case CLIENTEVENT_CMD_USER_LEFT :
         Q_ASSERT(msg.ttType == __USER);
@@ -997,7 +995,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 addStatusMsg(userleftchan);
             }
         }
-        update_ui = true;
+        slotUpdateUI();
         break;
     case CLIENTEVENT_CMD_USER_UPDATE :
     {
@@ -1054,7 +1052,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         }
 
     }
-    update_ui = true;
+    slotUpdateUI();
     break;
     case CLIENTEVENT_CMD_FILE_REMOVE :
     {
@@ -1082,7 +1080,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         }
 
     }
-    update_ui = true;
+    slotUpdateUI();
     break;
     case CLIENTEVENT_CMD_USERACCOUNT :
         Q_ASSERT(msg.ttType == __USERACCOUNT);
@@ -1119,7 +1117,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                                         .arg(_Q(msg.filetransfer.szLocalFilePath)));
         }
 
-        update_ui = true;
+        slotUpdateUI();
         break;
     case CLIENTEVENT_INTERNAL_ERROR :
     {
@@ -1149,7 +1147,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             QMessageBox::critical(this, tr("Internal Error"), textmsg);
         addStatusMsg(textmsg);
 
-        update_ui = true;
+        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_USER_STATECHANGE :
@@ -1216,7 +1214,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         //update if still talking
         emit(updateMyself());
-        update_ui = true;
+        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_LOCAL_MEDIAFILE:
@@ -1256,7 +1254,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 addStatusMsg(tr("New video session from %1")
                              .arg(getDisplayName(user)));
 
-            update_ui = true;
+            slotUpdateUI();
         }
         emit(newVideoCaptureFrame(userid, msg.nStreamID));
     }
@@ -1288,7 +1286,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 addStatusMsg(tr("New video session from %1")
                 .arg(getDisplayName(user)));
 
-            update_ui = true;
+            slotUpdateUI();
         }
         emit(newMediaVideoFrame(userid, msg.nStreamID));
     }
@@ -1316,7 +1314,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                     .arg(getDisplayName(user)));
             }
 
-            update_ui = true;
+            slotUpdateUI();
         }
         emit(newDesktopWindow(msg.nSource, msg.nStreamID));
         break;
@@ -1410,12 +1408,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         qDebug() << "Unknown message type" << msg.nClientEvent;
     }
 
-    //update menus, button, etc.
+/*    update menus, button, etc.
     if(update_ui) {
         QApplication::installTranslator(ttTranslator);
         this->ui.retranslateUi(this);
         slotUpdateUI();
-    }
+    }*/
 }
 
 
