@@ -528,25 +528,6 @@ void MainWindow::loadSettings()
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
 
-    QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();
-    if(!lang.isEmpty())
-    {
-        ttTranslator = new QTranslator(this);
-        if(!ttTranslator->load(lang, TRANSLATE_FOLDER))
-        {
-            QMessageBox::information(this, "Translate", 
-                QString("Failed to load language file %1").arg(lang));
-            delete ttTranslator;
-            ttTranslator = nullptr;
-        }
-        else
-        {
-            QApplication::installTranslator(ttTranslator);
-            this->ui.retranslateUi(this);
-            slotUpdateUI();
-        }
-    }
-
     //load settings
     bool ptt = ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool();
     slotMeEnablePushToTalk(ptt);
@@ -1414,6 +1395,24 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         this->ui.retranslateUi(this);
         slotUpdateUI();
     }*/
+    QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();
+    if(!lang.isEmpty())
+    {
+        ttTranslator = new QTranslator(this);
+        if(!ttTranslator->load(lang, TRANSLATE_FOLDER))
+        {
+            QMessageBox::information(this, "Translate", 
+                QString("Failed to load language file %1").arg(lang));
+            delete ttTranslator;
+            ttTranslator = nullptr;
+        }
+        else
+        {
+            QApplication::installTranslator(ttTranslator);
+            this->ui.retranslateUi(this);
+            slotUpdateUI();
+        }
+    }
 }
 
 
@@ -2423,7 +2422,6 @@ void MainWindow::updateChannelFiles(int channelid)
     TTCHAR chanpath[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
-    bool update_ui = false;
     if(m_filesmodel->rowCount() == 0)
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
     else 
