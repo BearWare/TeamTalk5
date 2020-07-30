@@ -1407,10 +1407,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     default :
         qDebug() << "Unknown message type" << msg.nClientEvent;
     }
-
-    //update menus, button, etc.
-    if(update_ui)
-        slotUpdateUI();
 }
 
 void MainWindow::commandProcessing(int cmdid, bool complete)
