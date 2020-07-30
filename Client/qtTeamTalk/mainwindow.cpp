@@ -1412,6 +1412,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
     //update menus, button, etc.
     if(update_ui) {
+        QApplication::installTranslator(ttTranslator);
         this->ui.retranslateUi(this);
         slotUpdateUI();
     }
@@ -2425,15 +2426,10 @@ void MainWindow::updateChannelFiles(int channelid)
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
     bool update_ui = false;
-    if(m_filesmodel->rowCount() == 0) {
+    if(m_filesmodel->rowCount() == 0)
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
-        this->ui.retranslateUi(this);    
-        slotUpdateUI();
-    } else {
+    else 
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_filesmodel->rowCount()));
-        this->ui.retranslateUi(this);    
-        slotUpdateUI();
-    }
 }
 
 void MainWindow::updateUserSubscription(int userid)
