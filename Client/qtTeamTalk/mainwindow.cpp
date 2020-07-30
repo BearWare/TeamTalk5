@@ -165,7 +165,24 @@ MainWindow::MainWindow(const QString& cfgfile)
 
     setWindowIcon(QIcon(APPICON));
     updateWindowTitle();
-
+    QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();
+    if(!lang.isEmpty())
+    {
+        ttTranslator = new QTranslator(this);
+        if(!ttTranslator->load(lang, TRANSLATE_FOLDER))
+        {
+            QMessageBox::information(this, "Translate", 
+                QString("Failed to load language file %1").arg(lang));
+            delete ttTranslator;
+            ttTranslator = nullptr;
+        }
+        else
+        {
+            QApplication::installTranslator(ttTranslator);
+            this->ui.retranslateUi(this);
+            slotUpdateUI();
+        }
+    }
     m_filesmodel = new FilesModel(this);
     ui.filesView->setModel(m_filesmodel);
     QItemSelectionModel* selmodel = ui.filesView->selectionModel();
@@ -1396,24 +1413,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         slotUpdateUI();
     }*/
 }
-    QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();
-    if(!lang.isEmpty())
-    {
-        ttTranslator = new QTranslator(this);
-        if(!ttTranslator->load(lang, TRANSLATE_FOLDER))
-        {
-            QMessageBox::information(this, "Translate", 
-                QString("Failed to load language file %1").arg(lang));
-            delete ttTranslator;
-            ttTranslator = nullptr;
-        }
-        else
-        {
-            QApplication::installTranslator(ttTranslator);
-            this->ui.retranslateUi(this);
-            slotUpdateUI();
-        }
-    }
 
 void MainWindow::commandProcessing(int cmdid, bool complete)
 {
