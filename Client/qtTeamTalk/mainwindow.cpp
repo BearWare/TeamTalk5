@@ -1395,6 +1395,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         this->ui.retranslateUi(this);
         slotUpdateUI();
     }*/
+}
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();
     if(!lang.isEmpty())
     {
@@ -1413,8 +1414,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             slotUpdateUI();
         }
     }
-}
-
 
 void MainWindow::commandProcessing(int cmdid, bool complete)
 {
