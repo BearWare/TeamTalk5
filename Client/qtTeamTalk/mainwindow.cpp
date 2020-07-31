@@ -2414,12 +2414,13 @@ void MainWindow::updateChannelFiles(int channelid)
     TTCHAR chanpath[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
-    if(m_filesmodel->rowCount() == 0)
+    if(m_filesmodel->rowCount() == 0) {
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
         ui.deleteButton->setVisible(false);
-    else
+    } else {
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)") .arg(m_filesmodel->rowCount()));
-        ui.deleteButton->setVisible(false);
+        ui.deleteButton->setVisible(true);
+    }
 }
 
 void MainWindow::updateUserSubscription(int userid)
