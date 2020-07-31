@@ -2417,7 +2417,7 @@ void MainWindow::updateChannelFiles(int channelid)
     QString filestabtitle = tr("&Files");
     int filescount = m_filesmodel->rowCount();
     if(m_filesmodel->rowCount() > 0)
-        filestabtitle = filestabtitle + " (" + filescount + ")";
+        filestabtitle = filestabtitle + " (" + _Q(filescount) + ")";
     ui.tabWidget->setTabText(TAB_FILES, filestabtitle);
 }
 
