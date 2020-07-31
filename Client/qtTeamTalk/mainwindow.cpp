@@ -543,6 +543,7 @@ void MainWindow::loadSettings()
         {
             QApplication::installTranslator(ttTranslator);
             this->ui.retranslateUi(this);
+            slotUpdateUI();
         }
     }
 
