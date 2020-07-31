@@ -2415,8 +2415,9 @@ void MainWindow::updateChannelFiles(int channelid)
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
     QString filestabtitle = tr("&Files");
+    int filescount = m_filesmodel->rowCount();
     if(m_filesmodel->rowCount() > 0)
-        filestabtitle = filestabtitle + QString(" (%2)" .arg(m_filesmodel->rowCount()));
+        filestabtitle = filestabtitle + " (" + filescount + ")";
     ui.tabWidget->setTabText(TAB_FILES, filestabtitle);
 }
 
