@@ -263,6 +263,10 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(selmodel, SIGNAL(selectionChanged(const QItemSelection&, 
                                               const QItemSelection&)),
             ui.filesView, SLOT(slotNewSelection(const QItemSelection&)));
+    connect(ui.filesView, SIGNAL(filesSelected(bool)), ui.actionDownloadFile, 
+            SLOT(setEnabled(bool)));
+    connect(ui.filesView, SIGNAL(filesSelected(bool)), ui.downloadButton, 
+            SLOT(setEnabled(bool)));
     connect(ui.filesView, SIGNAL(filesSelected(bool)), ui.actionDeleteFile, 
             SLOT(setEnabled(bool)));
     connect(ui.filesView, SIGNAL(filesSelected(bool)), ui.deleteButton, 
