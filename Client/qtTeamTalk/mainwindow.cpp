@@ -2416,8 +2416,10 @@ void MainWindow::updateChannelFiles(int channelid)
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
     if(m_filesmodel->rowCount() == 0)
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
+        ui.deleteButton->setVisible(false);
     else
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)") .arg(m_filesmodel->rowCount()));
+        ui.deleteButton->setVisible(false);
 }
 
 void MainWindow::updateUserSubscription(int userid)
