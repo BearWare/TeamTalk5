@@ -2414,11 +2414,10 @@ void MainWindow::updateChannelFiles(int channelid)
     TTCHAR chanpath[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
-    QString filestabtitle = tr("&Files");
-    int filescount = m_filesmodel->rowCount();
-    if(m_filesmodel->rowCount() > 0)
-        filestabtitle = filestabtitle + " (" + _W(filescount) + ")";
-    ui.tabWidget->setTabText(TAB_FILES, filestabtitle);
+    if(m_filesmodel->rowCount() == 0)
+        ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
+    else
+        ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)") .arg(m_filesmodel->rowCount()));
 }
 
 void MainWindow::updateUserSubscription(int userid)
@@ -5385,18 +5384,18 @@ void MainWindow::slotEnableQuestionMode(bool checked)
 
 void MainWindow::slotUpdateVideoCount(int count)
 {
-    QString videostabtitle = tr("&Videos");
-    if(count > 0)
-        videostabtitle = videostabtitle + " (" + count + ")";
-    ui.tabWidget->setTabText(TAB_VIDEO, videostabtitle);
+    if(count == 0)
+        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video"));
+    else
+        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video (%1)") .arg(count));
 }
 
 void MainWindow::slotUpdateDesktopCount(int count)
 {
-    QString desktopstabtitle = tr("&Desktops");
-    if(count > 0)
-    desktopstabtitle = desktopstabtitle + " (" + count + ")";
-    ui.tabWidget->setTabText(TAB_DESKTOP, desktopstabtitle);
+    if(count == 0)
+        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops"));
+    else
+        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops (%1)") .arg(count));
 }
 
 void MainWindow::slotMasterVolumeChanged(int value)
