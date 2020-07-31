@@ -542,7 +542,6 @@ void MainWindow::loadSettings()
         else
         {
             QApplication::installTranslator(ttTranslator);
-            slotUpdateUI();
             this->ui.retranslateUi(this);
         }
     }
@@ -965,12 +964,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
             if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
-                QString userjoinchan;
-                userjoinchan = _W(tr("%1 joined channel ") .arg(getDisplayName(msg.user)));
+                QString userjoinchan = _W(tr("%1 joined channel") .arg(getDisplayName(msg.user)));
                 if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-                    userjoinchan = userjoinchan + rootchanname;
+                    userjoinchan = userjoinchan + " " + rootchanname;
                 } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-                    userjoinchan = userjoinchan + _Q(chan.szName);
+                    userjoinchan = userjoinchan + " " + _Q(chan.szName);
                 }
                 addStatusMsg(userjoinchan);
             }
@@ -985,12 +983,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         ui.channelsWidget->getChannel(msg.nSource, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
             if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
-                QString userleftchan;
-                userleftchan = _W(tr("%1 left channel ") .arg(getDisplayName(msg.user)));
+                QString userleftchan = _W(tr("%1 left channel") .arg(getDisplayName(msg.user)));
                 if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
-                    userleftchan = userleftchan + rootchanname;
+                    userleftchan = userleftchan + " " + rootchanname;
                 } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
-                    userleftchan = userleftchan + _Q(chan.szName);
+                    userleftchan = userleftchan + " " + _Q(chan.szName);
                 }
                 addStatusMsg(userleftchan);
             }
@@ -1031,7 +1028,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         const RemoteFile& file = msg.remotefile;
         User user;
-        QString fileadd;
         //only update files list if we're not currently logging in or 
         //joining a channel
         cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1041,11 +1037,13 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            fileadd = _W(tr("File %1 added") .arg(file.szFileName));
+            QString fileadd = _W(tr("File %1 added") .arg(file.szFileName));
             if(strlen(file.szUsername) > 0) {
                 TT_GetUserByUsername(ttInst, file.szUsername, &user);
                 if(getDisplayName(user) != mynickname) {
                     fileadd = fileadd + _W(tr(" by %2") .arg(getDisplayName(user)));
+                } else {
+                    fileadd = fileadd + _W(tr(" by yourself"));
                 }
             }
         addStatusMsg(fileadd);
@@ -1059,7 +1057,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         const RemoteFile& file = msg.remotefile;
         User user;
-        QString filerem;
         //only update files list if we're not currently logging in or 
         //joining a channel
         cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1069,11 +1066,13 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            filerem = _W(tr("File %1 removed") .arg(file.szFileName));
+            QString filerem = _W(tr("File %1 removed") .arg(file.szFileName));
             if(strlen(file.szUsername) > 0) {
                 TT_GetUserByUsername(ttInst, file.szUsername, &user);
                 if(getDisplayName(user) != mynickname) {
                     filerem = filerem + _W(tr(" by %2") .arg(getDisplayName(user)));
+                } else {
+                    filerem = filerem + _W(tr(" by yourself"));
                 }
             }
         addStatusMsg(filerem);
@@ -2415,10 +2414,10 @@ void MainWindow::updateChannelFiles(int channelid)
     TTCHAR chanpath[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
-    if(m_filesmodel->rowCount() == 0)
-        ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
-    else 
-        ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_filesmodel->rowCount()));
+    QString filestabtitle = tr("&Files");
+    if(m_filesmodel->rowCount() > 0)
+        filestabtitle = filestabtitle + " (" + m_filesmodel->rowCount() + ")";
+    ui.tabWidget->setTabText(TAB_FILES, filestabtitle);
 }
 
 void MainWindow::updateUserSubscription(int userid)
@@ -5385,18 +5384,18 @@ void MainWindow::slotEnableQuestionMode(bool checked)
 
 void MainWindow::slotUpdateVideoCount(int count)
 {
-    if(count == 0)
-        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video"));
-    else
-        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video (%1)").arg(count));
+    QString videostabtitle = tr("&Videos");
+    if(count > 0)
+        videostabtitle = videostabtitle + " (" + count + ")";
+    ui.tabWidget->setTabText(TAB_VIDEO, videostabtitle);
 }
 
 void MainWindow::slotUpdateDesktopCount(int count)
 {
-    if(count == 0)
-        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops"));
-    else
-        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops (%1)").arg(count));
+    QString desktopstabtitle = tr("&Desktops");
+    if(count > 0)
+    desktopstabtitle = desktopstabtitle + " (" + count + ")";
+    ui.tabWidget->setTabText(TAB_DESKTOP, desktopstabtitle);
 }
 
 void MainWindow::slotMasterVolumeChanged(int value)
