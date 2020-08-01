@@ -1180,7 +1180,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
 /*            int nameuser;
             TT_GetUser(user.nUserID, nameuser);*/
-            addStatusMsg(tr("%1 has started streaming mediafile to channel") .arg(user.nUserID)));
+            addStatusMsg(tr("%1 has started streaming mediafile to channel") .arg(user.nUserID));
         }
         
         if(m_talking.empty())
