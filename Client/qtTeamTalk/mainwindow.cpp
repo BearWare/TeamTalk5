@@ -2431,11 +2431,18 @@ void MainWindow::updateChannelFiles(int channelid)
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
         ui.deleteButton->setVisible(false);
         ui.downloadButton->setVisible(false);
+<<<<<<< HEAD
     } else {
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)") .arg(m_filesmodel->rowCount()));
         ui.deleteButton->setVisible(true);
         ui.downloadButton->setVisible(true);
     }
+=======
+    else
+        ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_filesmodel->rowCount()));
+        ui.deleteButton->setVisible(true);
+        ui.downloadButton->setVisible(true);
+>>>>>>> qt_filetab
 }
 
 void MainWindow::updateUserSubscription(int userid)
