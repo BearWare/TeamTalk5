@@ -1179,7 +1179,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(user.uUserState & USERSTATE_MEDIAFILE_AUDIO)
         {
             User nameuser;
-            TT_GetUser(ttInst, user.nUserID, nameuser);
+            TT_GetUser(ttInst, user.nUserID, &nameuser);
             addStatusMsg(tr("%1 has started streaming mediafile to channel") .arg(getDisplayName(nameuser)));
         }
         
