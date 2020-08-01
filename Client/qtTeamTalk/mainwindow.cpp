@@ -1176,7 +1176,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 m_sysicon->setIcon(QIcon(APPTRAYICON_CON));
         }
 
-        if(user.uUserState & USERSTATE_MEDIAFILE_AUDIO)
+        if(user.uUserState & USERSTATE_MEDIAFILE_AUDIO && user.nUserID != TT_GetMyUserID(ttInst))
         {
             User nameuser;
             TT_GetUser(ttInst, user.nUserID, &nameuser);
