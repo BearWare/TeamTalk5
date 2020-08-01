@@ -1178,9 +1178,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         if(user.uUserState & USERSTATE_MEDIAFILE_AUDIO)
         {
-            int nameuser;
-            TT_GetUser(user.nUserID, nameuser);
-            addStatusMsg(tr("%1 has started streaming mediafile to channel") .arg(nameuser));
+/*            int nameuser;
+            TT_GetUser(user.nUserID, nameuser);*/
+            addStatusMsg(tr("%1 has started streaming mediafile to channel") .arg(user.nUserID)));
         }
         
         if(m_talking.empty())
