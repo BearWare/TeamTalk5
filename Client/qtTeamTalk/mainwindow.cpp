@@ -2350,8 +2350,12 @@ void MainWindow::updateChannelFiles(int channelid)
 
     if(m_filesmodel->rowCount() == 0)
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
+        ui.deleteButton->setVisible(false);
+        ui.downloadButton->setVisible(false);
     else
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_filesmodel->rowCount()));
+        ui.deleteButton->setVisible(true);
+        ui.downloadButton->setVisible(true);
 }
 
 void MainWindow::updateUserSubscription(int userid)
