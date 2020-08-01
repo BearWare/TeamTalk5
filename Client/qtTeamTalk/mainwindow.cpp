@@ -1012,8 +1012,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 TT_GetUserByUsername(ttInst, file.szUsername, &user);
                 if(getDisplayName(user) != mynickname) {
                     fileadd = fileadd + _W(tr(" by %2") .arg(getDisplayName(user)));
-                } else {
-                    fileadd = fileadd + _W(tr(" by yourself"));
                 }
             }
         addStatusMsg(fileadd);
