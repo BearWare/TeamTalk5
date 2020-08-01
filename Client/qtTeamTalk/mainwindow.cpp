@@ -1180,6 +1180,13 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                m_talking.size() == 0)
                 m_sysicon->setIcon(QIcon(APPTRAYICON_CON));
         }
+
+        if(user.uUserState & USERSTATE_MEDIAFILE_AUDIO)
+        {
+            QString nameuser;
+            TT_GetUser(user.nUserID, nameuser);
+            addStatusMsg(tr("%1 has started streaming mediafile to channel") .arg(nameuser));
+        }
         
         if(m_talking.empty())
             playSoundEvent(SOUNDEVENT_SILENCE);
