@@ -1178,7 +1178,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         if(user.uUserState & USERSTATE_MEDIAFILE_AUDIO)
         {
-            QString nameuser;
+            int nameuser;
             TT_GetUser(user.nUserID, nameuser);
             addStatusMsg(tr("%1 has started streaming mediafile to channel") .arg(nameuser));
         }
