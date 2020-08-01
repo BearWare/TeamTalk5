@@ -964,12 +964,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
             if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
-                QString userjoinchan;
-                userjoinchan = _W(tr("%1 joined channel ") .arg(getDisplayName(msg.user)));
+                QString userjoinchan = _W(tr("%1 joined channel") .arg(getDisplayName(msg.user)));
                 if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-                    userjoinchan = userjoinchan + rootchanname;
+                    userjoinchan = userjoinchan + " " + rootchanname;
                 } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
-                    userjoinchan = userjoinchan + _Q(chan.szName);
+                    userjoinchan = userjoinchan + " " + _Q(chan.szName);
                 }
                 addStatusMsg(userjoinchan);
             }
@@ -984,12 +983,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         ui.channelsWidget->getChannel(msg.nSource, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
             if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
-                QString userleftchan;
-                userleftchan = _W(tr("%1 left channel ") .arg(getDisplayName(msg.user)));
+                QString userleftchan = _W(tr("%1 left channel") .arg(getDisplayName(msg.user)));
                 if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
-                    userleftchan = userleftchan + rootchanname;
+                    userleftchan = userleftchan + " " + rootchanname;
                 } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
-                    userleftchan = userleftchan + _Q(chan.szName);
+                    userleftchan = userleftchan + " " + _Q(chan.szName);
                 }
                 addStatusMsg(userleftchan);
             }
