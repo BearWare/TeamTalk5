@@ -757,13 +757,8 @@ bool MainWindow::parseArgs(const QStringList& args)
 
 void MainWindow::processTTMessage(const TTMessage& msg)
 {
-<<<<<<< HEAD
     QString rootchanname = _W(tr("root"));
     QString mynickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
-=======
-    bool update_ui = false;
-    QString rootchanname = _W(tr("root"));
->>>>>>> qt_events
 
     switch(msg.nClientEvent)
     {
@@ -2360,13 +2355,6 @@ void MainWindow::processMyselfJoined(int channelid)
     //Enable AGC, denoise etc.
     updateAudioConfig();
 
-<<<<<<< HEAD
-/*    TTCHAR buff[TT_STRLEN] = {};
-    TT_GetChannelPath(ttInst, channelid, buff);
-    addStatusMsg(tr("Joined channel %1").arg(_Q(buff)));*/
-
-=======
->>>>>>> qt_events
     //store new muxed audio file if we're changing channel
     if(ui.actionMediaStorage->isChecked() &&
         (m_audiostorage_mode & AUDIOSTORAGE_SINGLEFILE))
@@ -2438,18 +2426,11 @@ void MainWindow::updateChannelFiles(int channelid)
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
         ui.deleteButton->setVisible(false);
         ui.downloadButton->setVisible(false);
-<<<<<<< HEAD
     } else {
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)") .arg(m_filesmodel->rowCount()));
         ui.deleteButton->setVisible(true);
         ui.downloadButton->setVisible(true);
     }
-=======
-    else
-        ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_filesmodel->rowCount()));
-        ui.deleteButton->setVisible(true);
-        ui.downloadButton->setVisible(true);
->>>>>>> qt_filetab
 }
 
 void MainWindow::updateUserSubscription(int userid)
