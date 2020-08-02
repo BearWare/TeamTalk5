@@ -509,8 +509,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     //pull using a timer
     m_timers.insert(startTimer(20), TIMER_PROCESS_TTEVENT);
 #endif
-QString blabla = ui.msgEdit;
-if(strlen(blabla) <= 0) {
+if(ui->msgEdit.text().isEmpty()) {
     ui.sendButton->setVisible(false);
 }
 }
