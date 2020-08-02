@@ -514,6 +514,7 @@ if(ui.msgEdit->text().isEmpty()) {
 } else {
     ui.sendButton->setVisible(true);
 }
+slotUpdateUI();
 }
 
 MainWindow::~MainWindow()
