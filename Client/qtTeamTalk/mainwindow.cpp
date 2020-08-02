@@ -4639,8 +4639,10 @@ void MainWindow::slotSendChannelMessage()
         break;
     }
 
-    if(txtmsg.isEmpty())
+    if(txtmsg.isEmpty()) {
+        ui.sendButton->setVisible(false);
         return;
+    }
 
     TextMessage msg;
     msg.nFromUserID = TT_GetMyUserID(ttInst);
