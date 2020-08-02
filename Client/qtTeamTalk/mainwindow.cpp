@@ -511,6 +511,8 @@ MainWindow::MainWindow(const QString& cfgfile)
 #endif
 if(ui.msgEdit->text().isEmpty()) {
     ui.sendButton->setVisible(false);
+} else {
+    ui.sendButton->setVisible(true);
 }
 }
 
