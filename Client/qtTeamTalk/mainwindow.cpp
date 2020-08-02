@@ -509,6 +509,10 @@ MainWindow::MainWindow(const QString& cfgfile)
     //pull using a timer
     m_timers.insert(startTimer(20), TIMER_PROCESS_TTEVENT);
 #endif
+if(ui.msgEdit.isEmpty()) {
+    ui.sendButton->setVisible(false);
+}
+}
 }
 
 MainWindow::~MainWindow()
@@ -4639,10 +4643,8 @@ void MainWindow::slotSendChannelMessage()
         break;
     }
 
-    if(txtmsg.isEmpty()) {
-        ui.sendButton->setVisible(false);
+    if(txtmsg.isEmpty())
         return;
-    }
 
     TextMessage msg;
     msg.nFromUserID = TT_GetMyUserID(ttInst);
