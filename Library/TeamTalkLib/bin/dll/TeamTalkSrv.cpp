@@ -150,12 +150,12 @@ TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContext(IN TTSInstance* lpTTSInstance,
     ServerNode* pServerNode;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, FALSE);
 
-    ACE_SSL_Context* ssl_context = pServerNode->SetupEncryptionContext();
-    if (!ssl_context)
-        return FALSE;
-
-    if(szCertificateFile && szPrivateKeyFile)
+    if (szCertificateFile && szPrivateKeyFile)
     {
+        ACE_SSL_Context* ssl_context = pServerNode->SetupEncryptionContext();
+        if (!ssl_context)
+            return FALSE;
+
         if (ssl_context->set_mode(ACE_SSL_Context::SSLv23) < 0)
             return FALSE;
 
@@ -166,10 +166,12 @@ TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContext(IN TTSInstance* lpTTSInstance,
         ACE_CString cert = szCertificateFile;
         ACE_CString priv = szPrivateKeyFile;
 #endif
-        if(ssl_context->certificate (cert.c_str(), SSL_FILETYPE_PEM)<0)
+        if (ssl_context->certificate(cert.c_str(), SSL_FILETYPE_PEM) < 0)
             return FALSE;
-        if(ssl_context->private_key (priv.c_str(), SSL_FILETYPE_PEM)<0)
+        if (ssl_context->private_key(priv.c_str(), SSL_FILETYPE_PEM) < 0)
             return FALSE;
+
+        ssl_context->set_verify_peer(false, true, 0);
 
         return TRUE;
     }

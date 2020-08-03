@@ -1224,21 +1224,28 @@ TEAMTALKDLL_API TTBOOL TT_SetEncryptionContext(IN TTInstance* lpTTInstance,
     if (!context)
         return FALSE;
 
-    if (ACE_OS::strlen(lpEncryptionContext->szCertificateFile) &&
-        context->certificate(UnicodeToLocal(lpEncryptionContext->szCertificateFile).c_str(), SSL_FILETYPE_PEM) < 0)
-        return FALSE;
-
-    if (ACE_OS::strlen(lpEncryptionContext->szPrivateKeyFile) &&
-        context->private_key(UnicodeToLocal(lpEncryptionContext->szPrivateKeyFile).c_str(), SSL_FILETYPE_PEM) < 0)
-        return FALSE;
-
-    bool cafile = ACE_OS::strlen(lpEncryptionContext->szCAFile),
-        cadir = ACE_OS::strlen(lpEncryptionContext->szCADir);
+#if defined(UNICODE)
+    ACE_CString cert = UnicodeToLocal(lpEncryptionContext->szCertificateFile);
+    ACE_CString priv = UnicodeToLocal(lpEncryptionContext->szPrivateKeyFile);
+    ACE_CString cafile = UnicodeToLocal(lpEncryptionContext->szCAFile);
+    ACE_CString cadir = UnicodeToLocal(lpEncryptionContext->szCADir);
+#else
+    ACE_CString cert = lpEncryptionContext->szCertificateFile;
+    ACE_CString priv = lpEncryptionContext->szPrivateKeyFile;
+    ACE_CString cafile = lpEncryptionContext->szCAFile;
+    ACE_CString cadir = lpEncryptionContext->szCADir;
+#endif
     
-    if (cafile || cadir)
+    if (cert.length() && context->certificate(cert.c_str(), SSL_FILETYPE_PEM) < 0)
+        return FALSE;
+
+    if (priv.length() && context->private_key(priv.c_str(), SSL_FILETYPE_PEM) < 0)
+        return FALSE;
+
+    if (cafile.length() || cadir.length())
     {
-        if (context->load_trusted_ca(cafile ? UnicodeToLocal(lpEncryptionContext->szCAFile).c_str() : nullptr,
-                                     cadir ? UnicodeToLocal(lpEncryptionContext->szCADir).c_str() : nullptr, false) < 0)
+        if (context->load_trusted_ca(cafile.length() ? cafile.c_str() : nullptr,
+                                     cadir.length() ? cadir.c_str() : nullptr, false) < 0)
             return FALSE;
     }
 
