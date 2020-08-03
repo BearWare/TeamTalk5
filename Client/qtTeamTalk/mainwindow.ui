@@ -859,7 +859,26 @@
                <number>0</number>
               </property>
               <item>
-               <widget class="ChatTextEdit" name="desktopchatEdit"/>
+               <widget class="ChatTextEdit" name="desktopchatEdit">
+                <property name="mouseTracking">
+                 <bool>false</bool>
+                </property>
+                <property name="accessibleName">
+                 <string>History</string>
+                </property>
+                <property name="tabChangesFocus">
+                 <bool>true</bool>
+                </property>
+                <property name="undoRedoEnabled">
+                 <bool>false</bool>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+                </property>
+               </widget>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_5">
