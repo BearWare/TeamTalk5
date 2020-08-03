@@ -53,6 +53,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public TeamTalkBase newClientInstance() {
         TeamTalkBase ttclient = new TeamTalk5Pro();
         ttclients.add(ttclient);
+        // if (ENCRYPTED) {
+        //     assertTrue("Set encryption context", ttclient.setEncryptionContext(new EncryptionContext()));
+        // }
         return ttclient;
     }
 
@@ -995,7 +998,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         if (ENCRYPTED) {
-            System.out.println("Skipping test_DnsResolve in encrypted mode");
+            System.out.println("Skipping testDnsResolve in encrypted mode");
             return;
         }
         
@@ -1160,7 +1163,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("ka.nTcpKeepAliveIntervalMSec is read-only", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
     }
     
-    public void _test_runServer() {
+    // @Test
+    public void _testRunServer() {
 
         UserAccount useraccount = new UserAccount();
         
@@ -1191,9 +1195,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public TeamTalkSrv newServerInstance(String systemid, String bindip) {
 
         TeamTalkSrv server = new TeamTalk5Srv(cmdcallback, logger);
-        if(ENCRYPTED)
+        if (ENCRYPTED) {
             assertTrue("Set context", server.setEncryptionContext(CRYPTO_CERT_FILE, CRYPTO_KEY_FILE));
-
+        }
         assertEquals("File storage", ClientError.CMDERR_SUCCESS,
                      server.setChannelFilesRoot(FILESTORAGE_FOLDER, MAX_DISKUSAGE, DEFAULT_CHANNEL_QUOTA));
 
