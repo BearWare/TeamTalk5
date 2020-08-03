@@ -2384,8 +2384,8 @@ void MainWindow::processMyselfLeft(int channelid)
     TTCHAR buff[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, buff);
     addStatusMsg(tr("Left channel %1").arg(_Q(buff)));
-    ui.msgEdit->setVisible(true);
-    ui.sendButton->setVisible(true);
+    ui.msgEdit->setVisible(false);
+    ui.sendButton->setVisible(false);
     updateWindowTitle();
 }
 
