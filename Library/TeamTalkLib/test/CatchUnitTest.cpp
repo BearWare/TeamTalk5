@@ -954,8 +954,8 @@ TEST_CASE("testSSLSetup")
     clients.push_back(ttclient);
 
     EncryptionContext context = {};
-    ACE_OS::strsncpy(context.szCertificateFile, "ttclientcert.pem", TT_STRLEN);
-    ACE_OS::strsncpy(context.szPrivateKeyFile, "ttclientkey.pem", TT_STRLEN);
+    ACE_OS::strsncpy(context.szCertificateFile, ACE_TEXT("ttclientcert.pem"), TT_STRLEN);
+    ACE_OS::strsncpy(context.szPrivateKeyFile, ACE_TEXT("ttclientkey.pem"), TT_STRLEN);
     ACE_OS::strsncpy(context.szCAFile, ACE_TEXT("ca.cer"), TT_STRLEN);
     context.bVerifyPeer = FALSE;
     context.bVerifyClientOnce = TRUE;

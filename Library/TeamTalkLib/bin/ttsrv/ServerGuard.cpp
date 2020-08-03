@@ -1102,8 +1102,8 @@ namespace teamtalk {
 
         if (cafile.length() || cadir.length())
         {
-            if (context->load_trusted_ca(cafile.length() ? cafile.c_str() :  nullptr,
-                                         cadir.length() ? cadir.c_str() : nullptr, false) < 0)
+            if (context->load_trusted_ca(cafile.length() ? UnicodeToLocal(cafile).c_str() :  nullptr,
+                                         cadir.length() ? UnicodeToLocal(cadir).c_str() : nullptr, false) < 0)
             {
                 TT_SYSLOG("Failed to load CA file. Check the settings file.");
                 return false;

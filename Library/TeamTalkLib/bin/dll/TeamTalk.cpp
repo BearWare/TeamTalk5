@@ -1225,11 +1225,11 @@ TEAMTALKDLL_API TTBOOL TT_SetEncryptionContext(IN TTInstance* lpTTInstance,
         return FALSE;
 
     if (ACE_OS::strlen(lpEncryptionContext->szCertificateFile) &&
-        context->certificate(lpEncryptionContext->szCertificateFile, SSL_FILETYPE_PEM) < 0)
+        context->certificate(UnicodeToLocal(lpEncryptionContext->szCertificateFile).c_str(), SSL_FILETYPE_PEM) < 0)
         return FALSE;
 
     if (ACE_OS::strlen(lpEncryptionContext->szPrivateKeyFile) &&
-        context->private_key(lpEncryptionContext->szPrivateKeyFile, SSL_FILETYPE_PEM) < 0)
+        context->private_key(UnicodeToLocal(lpEncryptionContext->szPrivateKeyFile).c_str(), SSL_FILETYPE_PEM) < 0)
         return FALSE;
 
     bool cafile = ACE_OS::strlen(lpEncryptionContext->szCAFile),
@@ -1237,8 +1237,8 @@ TEAMTALKDLL_API TTBOOL TT_SetEncryptionContext(IN TTInstance* lpTTInstance,
     
     if (cafile || cadir)
     {
-        if (context->load_trusted_ca(cafile ? lpEncryptionContext->szCAFile : nullptr,
-                                     cadir ? lpEncryptionContext->szCADir : nullptr, false) < 0)
+        if (context->load_trusted_ca(cafile ? UnicodeToLocal(lpEncryptionContext->szCAFile).c_str() : nullptr,
+                                     cadir ? UnicodeToLocal(lpEncryptionContext->szCADir).c_str() : nullptr, false) < 0)
             return FALSE;
     }
 
