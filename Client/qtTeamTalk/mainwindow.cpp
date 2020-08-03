@@ -5624,5 +5624,5 @@ void MainWindow::slotClosedBannedUsersDlg(int)
 
 void MainWindow::slotTextChanged()
 {
-    ui.sendButton->setEnabled(ui.msgEdit->toPlainText().size()>0);
+    ui.sendButton->setEnabled(ui.msgEdit->Text().size()>0);
 }
