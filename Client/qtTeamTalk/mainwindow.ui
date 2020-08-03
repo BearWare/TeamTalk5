@@ -358,6 +358,9 @@
              <property name="accessibleName">
               <string>Message</string>
              </property>
+             <property name="visible">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -373,6 +376,9 @@
              </property>
              <property name="text">
               <string>Sen&amp;d</string>
+             </property>
+             <property name="visible">
+              <bool>false</bool>
              </property>
             </widget>
            </item>

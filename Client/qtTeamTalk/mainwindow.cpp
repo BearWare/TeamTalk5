@@ -2290,6 +2290,8 @@ void MainWindow::processMyselfJoined(int channelid)
         updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
     }
 
+    ui.msgEdit->setVisible(true);
+    ui.sendButton->setVisible(true);
     updateWindowTitle();
 }
 
@@ -2310,6 +2312,8 @@ void MainWindow::processMyselfLeft(int channelid)
         if(size == 0)
             QFile::remove(filename);
     }
+    ui.msgEdit->setVisible(false);
+    ui.sendButton->setVisible(false);
     updateWindowTitle();
 }
 
