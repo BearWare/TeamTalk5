@@ -20,13 +20,13 @@
     <item id="118">Webcam</item>
     <item id="119">Rendre le fichier multimédia muet</item>
     <item id="120">Protégé par mot de passe</item>
-    <item id="121">%s rejoint</item>
+    <item id="121">Canal %s rejoint</item>
     <item id="122">Le périphérique de sortie prend en charge le son 3D</item>
     <item id="123">Le périphérique de sortie ne prend pas en charge le son 3D</item>
     <item id="124">Tester la sélection</item>
     <item id="125">Stop</item>
     <item id="126">Défaut</item>
-    <item id="127">%s quitté</item>
+    <item id="127">Canal %s quitté</item>
     <item id="128">Paramètres</item>
     <item id="129">Aide</item>
     <item id="130">Nouveau pseudo</item>
@@ -130,7 +130,7 @@
     <item id="263">Le nombre maximum d&apos;utilisateurs pouvant transmettre dans le canal est %d</item>
     <item id="264">%s a rejoint le canal %s</item>
     <item id="265">%s a quitté le canal %s</item>
-    <item id="266">Principal</item>
+    <item id="266">principal</item>
     <item id="267">Aucun périphérique audio</item>
     <item id="268">L&apos;utilisateur a rejoint le canal</item>
     <item id="269">L&apos;utilisateur a quitté le canal</item>
