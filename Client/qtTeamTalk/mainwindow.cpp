@@ -192,7 +192,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     ui.statusbar->addPermanentWidget(m_dtxprogress);
     ui.statusbar->addPermanentWidget(m_pinglabel);
     ui.statusbar->addPermanentWidget(m_pttlabel);
-
+    connect(ui.msgEdit, SIGNAL(textChanged()), SLOT(slotTextChanged()));
     connect(ui.sendButton, SIGNAL(clicked()),
             SLOT(slotSendChannelMessage()));
     connect(ui.msgEdit, SIGNAL(returnPressed()),
@@ -5622,3 +5622,7 @@ void MainWindow::slotClosedBannedUsersDlg(int)
     m_bannedusersdlg = nullptr;
 }
 
+void MainWindow::slotTextChanged()
+{
+    ui.sendButton->setEnabled(ui.msgEdit->toPlainText().size()>0);
+}
