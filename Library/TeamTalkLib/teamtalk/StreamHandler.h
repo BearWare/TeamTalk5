@@ -251,9 +251,9 @@ public:
     typedef StreamHandler<MySSLSockStream> super;
     typedef StreamListener< CryptStreamHandler::StreamHandler_t > StreamListener_t;
 
-    CryptStreamHandler(ACE_Thread_Manager *thr_mgr = 0,
-                       ACE_Message_Queue<ACE_MT_SYNCH> *mq = 0,
-                       ACE_Reactor *reactor = ACE_Reactor::instance());
+    CryptStreamHandler(ACE_Thread_Manager *thr_mgr = nullptr,
+                       ACE_Message_Queue<ACE_MT_SYNCH> *mq = nullptr,
+                       ACE_Reactor *reactor = nullptr);
 
     //Callback to handle any input received
     virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE);
@@ -264,7 +264,10 @@ public:
     static ACE_SSL_Context* AddSSLContext(ACE_Reactor* r);
     static void RemoveSSLContext(ACE_Reactor* r);
 
+    virtual void reactor(ACE_Reactor *reactor);
+
 protected:
+    void ssl_reset(ACE_Reactor *reactor);
     int process_ssl(SSL* ssl);
 
     static ACE_SSL_Context* ssl_context(ACE_Reactor* r);
