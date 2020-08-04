@@ -5643,4 +5643,5 @@ void MainWindow::slotTextChanged()
     } else {
         ui.sendButton->setVisible(false);
     }
+slotUpdateUI();
 }
