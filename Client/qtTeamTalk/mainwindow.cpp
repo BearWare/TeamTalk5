@@ -2366,7 +2366,7 @@ void MainWindow::processMyselfJoined(int channelid)
     }
 
     ui.msgEdit->setVisible(true);
-    ui.sendButton->setVisible(true);
+//    ui.sendButton->setVisible(true);
     ui.desktopmsgEdit->setVisible(true);
     ui.desktopsendButton->setVisible(true);
     ui.videomsgEdit->setVisible(true);
@@ -5638,5 +5638,9 @@ void MainWindow::slotClosedBannedUsersDlg(int)
 
 void MainWindow::slotTextChanged()
 {
-    ui.sendButton->setEnabled(ui.msgEdit->text().size()>0);
+    if(strlen(ui.msgEdit->text()) > 0) {
+         ui.sendButton->setVisible(true);
+    } else {
+        ui.sendButton->setVisible(false);
+    }
 }
