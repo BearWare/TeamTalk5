@@ -1178,7 +1178,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             TT_GetUser(ttInst, user.nUserID, &nameuser);
             addStatusMsg(tr("Streaming from %1 started") .arg(getDisplayName(nameuser)));
         } else {
-            if(m_commands[m_current_cmdid] != CMD_COMPLETE_LEAVECHANNEL) {
+            if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN || m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
                 User nameuser;
                 TT_GetUser(ttInst, user.nUserID, &nameuser);
                 addStatusMsg(tr("Streaming from %1 finished") .arg(getDisplayName(nameuser)));
