@@ -36,9 +36,9 @@
 namespace soundsystem {
 
 /* SharedStreamCapture::MakeKey() has limited space */
-#define MAX_SAMPLERATES       16
-#define MAX_CHANNELS          2
-#define MAX_FRAMESIZE         ((1 << 27) - 1)
+#define SHAREDSTREAM_MAX_SAMPLERATES       16
+#define SHAREDSTREAM_MAX_CHANNELS          2
+#define SHAREDSTREAM_MAX_FRAMESIZE         ((1 << 27) - 1)
 
 #define DEBUG_RESAMPLER 0
 
@@ -64,7 +64,7 @@ namespace soundsystem {
 
         int GetFrameSizeFromKey(uint32_t key) const
         {
-            return key & MAX_FRAMESIZE;
+            return key & SHAREDSTREAM_MAX_FRAMESIZE;
         }
 
         int GetSampleRateFromKey(uint32_t key) const
@@ -141,7 +141,7 @@ namespace soundsystem {
             if (std::find(m_keysamplerates.begin(), m_keysamplerates.end(), streamer->samplerate) == m_keysamplerates.end())
             {
                 m_keysamplerates.push_back(streamer->samplerate);
-                assert(m_keysamplerates.size() <= MAX_SAMPLERATES);
+                assert(m_keysamplerates.size() <= SHAREDSTREAM_MAX_SAMPLERATES);
             }
 
             MYTRACE(ACE_TEXT("Number of active inputs on sound device #%d: %u\n"),
