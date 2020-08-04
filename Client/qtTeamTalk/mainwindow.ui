@@ -614,17 +614,46 @@
                <number>0</number>
               </property>
               <item>
-               <widget class="ChatTextEdit" name="videochatEdit"/>
+               <widget class="ChatTextEdit" name="videochatEdit">
+                <property name="mouseTracking">
+                 <bool>false</bool>
+                </property>
+                <property name="accessibleName">
+                 <string>History</string>
+                </property>
+                <property name="tabChangesFocus">
+                 <bool>true</bool>
+                </property>
+                <property name="undoRedoEnabled">
+                 <bool>false</bool>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+                </property>
+               </widget>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_6">
                 <item>
-                 <widget class="ChatLineEdit" name="videomsgEdit"/>
+                 <widget class="ChatLineEdit" name="videomsgEdit">
+                  <property name="accessibleName">
+                   <string>Message</string>
+                  </property>
+                  <property name="visible">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
                 </item>
                 <item>
                  <widget class="QToolButton" name="videosendButton">
                   <property name="text">
                    <string>Sen&amp;d</string>
+                  </property>
+                  <property name="visible">
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
@@ -883,12 +912,22 @@
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_5">
                 <item>
-                 <widget class="ChatLineEdit" name="desktopmsgEdit"/>
+                 <widget class="ChatLineEdit" name="desktopmsgEdit">
+                  <property name="accessibleName">
+                   <string>Message</string>
+                  </property>
+                  <property name="visible">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
                 </item>
                 <item>
                  <widget class="QToolButton" name="desktopsendButton">
                   <property name="text">
                    <string>Sen&amp;d</string>
+                  </property>
+                  <property name="visible">
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
