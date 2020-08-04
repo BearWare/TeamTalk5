@@ -5638,8 +5638,8 @@ void MainWindow::slotClosedBannedUsersDlg(int)
 
 void MainWindow::slotTextChanged()
 {
-    if(strlen(ui.msgEdit->text()) > 0) {
-         ui.sendButton->setVisible(true);
+    if(strlen(ui.msgEdit->text()->size()) > 0) {
+        ui.sendButton->setVisible(true);
     } else {
         ui.sendButton->setVisible(false);
     }
