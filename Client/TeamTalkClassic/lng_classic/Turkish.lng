@@ -509,6 +509,7 @@
     <item id="1211">Ses Sistemi Ayarları</item>
     <item id="1212">Seçili yazı tipi yok</item>
     <item id="1213">Burada kullanmak istediğiniz mikrofon/hoparlör aygıtlarını seçebilirsiniz. doğrudan ses seçeneği, Windows varsayılana göre daha düşük gecikme sağlar ve kesinlikle tavsiye edilir.</item>
+    <item id="1214">WebM VP8 kodek WebM project tarafından geliştirildi, www.webmproject.org</item>
     <item id="1215">&quot;Seçili ayarları test et&quot; tıklayarak, seçtiğiniz mikrofon/hoparlör aygıdını kontrol edebilirsiniz.</item>
     <item id="1217">Kullanıcılar Kanal Oluşturabilir</item>
     <item id="1218">Kullanıcılar tüm kanalları düzenleyebilir</item>
@@ -520,7 +521,6 @@
     <item id="1230">Yeni Kanal Bilgisi</item>
     <item id="1231">&amp;Gönder</item>
     <item id="1232">OPUS kodek Opus project tarafından geliştirildi, www.opus-codec.org</item>
-    <item id="1235">WebM VP8 kodek WebM project tarafından geliştirildi, www.webmproject.org</item>
     <item id="1236">TeamTalk kurulum sihirbazına hoşgeldiniz</item>
     <item id="1237">TeamTalk kurulum sihirbazı tamamlandı</item>
     <item id="1238">Oynatma ayarları</item>
