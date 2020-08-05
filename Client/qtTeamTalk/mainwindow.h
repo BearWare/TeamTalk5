@@ -408,7 +408,6 @@ private slots:
     void slotClosedServerStatsDlg(int);
     void slotClosedUserAccountsDlg(int);
     void slotClosedBannedUsersDlg(int);
-    void slotTextChanged();
 
 signals:
     /* Begin - CLIENTEVENT_* based events */
