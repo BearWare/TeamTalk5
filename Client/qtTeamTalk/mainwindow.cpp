@@ -192,7 +192,6 @@ MainWindow::MainWindow(const QString& cfgfile)
     ui.statusbar->addPermanentWidget(m_dtxprogress);
     ui.statusbar->addPermanentWidget(m_pinglabel);
     ui.statusbar->addPermanentWidget(m_pttlabel);
-    connect(ui.msgEdit, SIGNAL(textChanged()), SLOT(slotTextChanged()));
     connect(ui.sendButton, SIGNAL(clicked()),
             SLOT(slotSendChannelMessage()));
     connect(ui.msgEdit, SIGNAL(returnPressed()),
@@ -2366,7 +2365,7 @@ void MainWindow::processMyselfJoined(int channelid)
     }
 
     ui.msgEdit->setVisible(true);
-//    ui.sendButton->setVisible(true);
+    ui.sendButton->setVisible(true);
     ui.desktopmsgEdit->setVisible(true);
     ui.desktopsendButton->setVisible(true);
     ui.videomsgEdit->setVisible(true);
@@ -5634,14 +5633,4 @@ void MainWindow::slotClosedUserAccountsDlg(int)
 void MainWindow::slotClosedBannedUsersDlg(int)
 {
     m_bannedusersdlg = nullptr;
-}
-
-void MainWindow::slotTextChanged()
-{
-    if(ui.msgEdit->text().size() > 0) {
-        ui.sendButton->setVisible(true);
-    } else {
-        ui.sendButton->setVisible(false);
-    }
-slotUpdateUI();
 }
