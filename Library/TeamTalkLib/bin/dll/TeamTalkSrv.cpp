@@ -150,35 +150,12 @@ TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContext(IN TTSInstance* lpTTSInstance,
     ServerNode* pServerNode;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, FALSE);
 
-    if (szCertificateFile && szPrivateKeyFile)
-    {
-        ACE_SSL_Context* ssl_context = pServerNode->SetupEncryptionContext();
-        if (!ssl_context)
-            return FALSE;
+    EncryptionContext context = {};
+    context.bVerifyPeer = true;
+    ACE_OS::strsncpy(context.szCertificateFile, szCertificateFile, TT_STRLEN);
+    ACE_OS::strsncpy(context.szPrivateKeyFile, szPrivateKeyFile, TT_STRLEN);
 
-        if (ssl_context->set_mode(ACE_SSL_Context::SSLv23) < 0)
-            return FALSE;
-
-#if defined(UNICODE)
-        ACE_CString cert = UnicodeToLocal(szCertificateFile);
-        ACE_CString priv = UnicodeToLocal(szPrivateKeyFile);
-#else
-        ACE_CString cert = szCertificateFile;
-        ACE_CString priv = szPrivateKeyFile;
-#endif
-        if (ssl_context->certificate(cert.c_str(), SSL_FILETYPE_PEM) < 0)
-            return FALSE;
-        if (ssl_context->private_key(priv.c_str(), SSL_FILETYPE_PEM) < 0)
-            return FALSE;
-
-        ssl_context->set_verify_peer(false, true, 0);
-
-        return TRUE;
-    }
-    else
-    {
-        return FALSE;
-    }
+    return TTS_SetEncryptionContextEx(lpTTSInstance, &context);
 }
 
 TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContextEx(IN TTSInstance* lpTTSInstance,

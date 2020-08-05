@@ -116,3 +116,7 @@ void Convert(const DesktopInput& input, teamtalk::DesktopInput& result);
 
 void Convert(const std::set<int>& intset, int* int_array, int max_elements);
 void Convert(const int* int_array, int max_elements, std::set<int>& intset);
+
+#if defined(ENABLE_ENCRYPTION)
+bool SetupEncryptionContext(const EncryptionContext& enccontext, ACE_SSL_Context* context);
+#endif
