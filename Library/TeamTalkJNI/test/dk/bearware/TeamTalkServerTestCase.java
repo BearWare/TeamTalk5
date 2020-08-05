@@ -1174,9 +1174,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
-        
-        useraccount.szUsername = "guest";
-        useraccount.szPassword = "guest";
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
         useraccount.szNote = "An example user account with limited user-rights";
         useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
@@ -1185,19 +1184,49 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccounts.add(useraccount);
 
         TeamTalkSrv server = newServerInstance();
-        assertTrue("Stop server", server.stopServer());
+        ServerInterleave interleave = new RunServer(server);
+
+        final TeamTalkBase client = newClientInstance();
 
         EncryptionContext context = new EncryptionContext();
-        context.szCertificateFile = CRYPTO_CERT_FILE;
-        context.szPrivateKeyFile = CRYPTO_KEY_FILE;
+        context.szCertificateFile = CRYPTO_CLIENT_CERT_FILE;
+        context.szPrivateKeyFile = CRYPTO_CLIENT_KEY_FILE;
+        context.bVerifyPeer = true;
+        context.bVerifyClientOnce = true;
+        context.nVerifyDepth = 0;
+        assertTrue("Set client encryption context", client.setEncryptionContext(context));
 
-        assertTrue("set encryption context", server.setEncryptionContext(context));
+        // SSL client uses blocking connect, so we have to connect
+        // in separate thread otherwise we cannot run the client
+        // and server event-loop at the same time
+        Thread t = new Thread(new Runnable(){
+                public void run() {
+                    assertFalse("connect call", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID));
+                }
+            });
+        t.start();
+
+        while (t.isAlive()) {
+            server.runEventLoop(0);
+        }
+        
+        assertTrue("Stop server", server.stopServer());
+        assertTrue("Disconnect client", client.disconnect());
+
+        EncryptionContext srvcontext = new EncryptionContext();
+        srvcontext.szCertificateFile = CRYPTO_SERVER_CERT_FILE;
+        srvcontext.szPrivateKeyFile = CRYPTO_SERVER_KEY_FILE;
+        srvcontext.szCAFile = CRYPTO_CA_FILE;
+        srvcontext.bVerifyPeer = true;
+        srvcontext.bVerifyClientOnce = true;
+        srvcontext.nVerifyDepth = 0;
+
+        assertTrue("set server encryption context", server.setEncryptionContext(srvcontext));
+        context.szCAFile = CRYPTO_CA_FILE;
+        assertTrue("Set client encryption context", client.setEncryptionContext(context));
 
         assertTrue("Start server", server.startServer(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED));
 
-        ServerInterleave interleave = new RunServer(server);
-
-        TeamTalkBase client = newClientInstance();
         connect(server, client);
         login(server, client, NICKNAME, USERNAME, PASSWORD);
     }
@@ -1235,7 +1264,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         TeamTalkSrv server = new TeamTalk5Srv(cmdcallback, logger);
         if (ENCRYPTED) {
-            assertTrue("Set context", server.setEncryptionContext(CRYPTO_CERT_FILE, CRYPTO_KEY_FILE));
+            assertTrue("Set context", server.setEncryptionContext(CRYPTO_SERVER_CERT2_FILE, CRYPTO_SERVER_KEY2_FILE));
         }
         assertEquals("File storage", ClientError.CMDERR_SUCCESS,
                      server.setChannelFilesRoot(FILESTORAGE_FOLDER, MAX_DISKUSAGE, DEFAULT_CHANNEL_QUOTA));
