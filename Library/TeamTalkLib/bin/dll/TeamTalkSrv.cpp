@@ -168,37 +168,7 @@ TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContextEx(IN TTSInstance* lpTTSInstance,
     if (!context)
         return FALSE;
 
-#if defined(UNICODE)
-    ACE_CString cert = UnicodeToLocal(lpEncryptionContext->szCertificateFile);
-    ACE_CString priv = UnicodeToLocal(lpEncryptionContext->szPrivateKeyFile);
-    ACE_CString cafile = UnicodeToLocal(lpEncryptionContext->szCAFile);
-    ACE_CString cadir = UnicodeToLocal(lpEncryptionContext->szCADir);
-#else
-    ACE_CString cert = lpEncryptionContext->szCertificateFile;
-    ACE_CString priv = lpEncryptionContext->szPrivateKeyFile;
-    ACE_CString cafile = lpEncryptionContext->szCAFile;
-    ACE_CString cadir = lpEncryptionContext->szCADir;
-#endif
-    
-    if (cert.length() && context->certificate(cert.c_str(), SSL_FILETYPE_PEM) < 0)
-        return FALSE;
-
-    if (priv.length() && context->private_key(priv.c_str(), SSL_FILETYPE_PEM) < 0)
-        return FALSE;
-
-    if (cafile.length() || cadir.length())
-    {
-        if (context->load_trusted_ca(cafile.length() ? cafile.c_str() : nullptr,
-                                     cadir.length() ? cadir.c_str() : nullptr, false) < 0)
-            return FALSE;
-    }
-
-    context->set_verify_peer(lpEncryptionContext->bVerifyPeer,
-                             lpEncryptionContext->bVerifyClientOnce,
-                             lpEncryptionContext->nVerifyDepth);
-    
-    return TRUE;
-    
+    return SetupEncryptionContext(*lpEncryptionContext, context);
 }
 
 #endif
