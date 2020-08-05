@@ -811,7 +811,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             login();
         }
-
+        updateWindowTitle();
         slotUpdateUI();
     }
     break;
