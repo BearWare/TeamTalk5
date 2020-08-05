@@ -1162,6 +1162,45 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("ka.nTcpKeepAliveIntervalMSec is read-only", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
     }
+
+    @Test
+    public void testPeerVerification() {
+
+        if (!ENCRYPTED) {
+            System.out.println("Skipped test. Requires encryption");
+            return;
+        }
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+
+        UserAccount useraccount = new UserAccount();
+        
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_TRANSMIT_VOICE;
+
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        assertTrue("Stop server", server.stopServer());
+
+        EncryptionContext context = new EncryptionContext();
+        context.szCertificateFile = CRYPTO_CERT_FILE;
+        context.szPrivateKeyFile = CRYPTO_KEY_FILE;
+
+        assertTrue("set encryption context", server.setEncryptionContext(context));
+
+        assertTrue("Start server", server.startServer(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED));
+
+        ServerInterleave interleave = new RunServer(server);
+
+        TeamTalkBase client = newClientInstance();
+        connect(server, client);
+        login(server, client, NICKNAME, USERNAME, PASSWORD);
+    }
     
     // @Test
     public void _testRunServer() {

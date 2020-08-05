@@ -472,14 +472,41 @@ extern "C" {
      * Look in @ref serversetup on how to generate the certificate and
      * private key file using OpenSSL.
      *
+     * Note that this encryption option doesn't set up a certificate
+     * authority for verifying peers connecting to the server. To
+     * verify this use TTS_SetEncryptionContextEx().
+     *
      * @param lpTTSInstance Pointer to the server instance created by
      * TTS_InitTeamTalk().
      * @param szCertificateFile Path to server's certificate file. 
-     * @param szPrivateKeyFile Path to server's private key file. */
+     * @param szPrivateKeyFile Path to server's private key file.
+     * @see TTS_SetEncryptionContextEx() */
     TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContext(IN TTSInstance* lpTTSInstance,
                                                     IN const TTCHAR* szCertificateFile,
                                                     IN const TTCHAR* szPrivateKeyFile);
 
+    /**
+     * @brief Set up encryption context for encrypted server.
+     *
+     * The encryption context for the server must be set prior to
+     * starting the server using TTS_StartServer().
+     *
+     * Minimal requirements for the encryption context is to set
+     * certificate and private key.
+     *
+     * Look in @ref serversetup on how to generate the certificate and
+     * private key file using OpenSSL.
+     *
+     * @param lpTTSInstance Pointer to the server instance created by
+     * TTS_InitTeamTalk().
+     * @param lpEncryptionContext The encryption context for the server,
+     * i.e. server certificate, private key and optionally certificate 
+     * authority.
+     *
+     * @see TTS_SetEncryptionContextEx() */
+    TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContextEx(IN TTSInstance* lpTTInstance,
+                                                      const EncryptionContext* lpEncryptionContext);
+    
     /**
      * @brief Create new TeamTalk server instance.
      * 
