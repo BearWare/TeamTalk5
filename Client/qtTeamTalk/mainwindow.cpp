@@ -806,7 +806,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             login();
         }
-
+        updateWindowTitle();
         update_ui = true;
     }
     break;
