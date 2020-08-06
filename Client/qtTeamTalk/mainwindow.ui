@@ -1761,7 +1761,7 @@
      <normaloff>:/images/images/teamtalk.png</normaloff>:/images/images/teamtalk.png</iconset>
    </property>
    <property name="text">
-    <string>&BearWare.dk Website</string>
+    <string>&amp;BearWare.dk Website</string>
    </property>
   </action>
   <action name="actionVisitChangeLog">
