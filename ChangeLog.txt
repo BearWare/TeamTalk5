@@ -3,6 +3,7 @@
 ----------------------------------------------
 Version 5.6.1, unreleased
 Accessible Windows Client:
+- Fixed translation for development of WebM VP8 codec on about dialog
 - Update window title at login with server name
 Default QT Client:
 - Update window title at login with server name
