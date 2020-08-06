@@ -970,8 +970,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             itemtext += tr(" (Streaming media file)");
 
         if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
-//            itemtext += tr(" [Channel operator]");
-            item->setAccessibleDescription(tr("Channel operator"));
+            itemtext += tr(" [Channel operator]");
 
         if(user.uUserType & USERTYPE_ADMIN)
             itemtext += tr(" [Admin]");
