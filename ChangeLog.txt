@@ -2,7 +2,8 @@
                  TeamTalk
 ----------------------------------------------
 Version 5.6.1, unreleased
--
+Accessible Windows Client:
+- Fixed some labels
 
 Version 5.6, 2020/08/04
 Accessible Windows client
