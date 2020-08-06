@@ -115,13 +115,23 @@ namespace c_tt
                                                               bool bDuplexMode,
                                                               ref BearWare.SpeexDSP lpSpeexDSP);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern IntPtr TT_StartSoundLoopbackTestEx(int nInputDeviceID, int nOutputDeviceID,
+                                                                int nSampleRate, int nChannels,
+                                                                bool bDuplexMode,
+                                                                ref BearWare.AudioPreprocessor lpAudioPreprocessor,
+                                                                ref BearWare.SoundDeviceEffects lpSoundDeviceEffects);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_CloseSoundLoopbackTest(IntPtr lpTTSoundLoop);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_InitSoundInputDevice(IntPtr lpTTInstance,
                                                      int nInputDeviceID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_InitSoundInputSharedDevice(int nSampleRate, int nChannels, int nFrameSize);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_InitSoundOutputDevice(IntPtr lpTTInstance,
                                                       int nOutputDeviceID);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_InitSoundOutputSharedDevice(int nSampleRate, int nChannels, int nFrameSize);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_InitSoundDuplexDevices(IntPtr lpTTInstance,
                                                       int nInputDeviceID,
@@ -133,6 +143,10 @@ namespace c_tt
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_CloseSoundDuplexDevices(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_SetSoundDeviceEffects(IntPtr lpTTInstance, ref BearWare.SoundDeviceEffects lpSoundDeviceEffect);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_GetSoundDeviceEffects(IntPtr lpTTInstance, ref BearWare.SoundDeviceEffects lpSoundDeviceEffect);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_GetSoundInputLevel(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_SetSoundInputGainLevel(IntPtr lpTTInstance,
@@ -143,6 +157,11 @@ namespace c_tt
         public static extern bool TT_SetSoundInputPreprocess(IntPtr lpTTInstance, ref BearWare.SpeexDSP lpSpeexDSP);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetSoundInputPreprocess(IntPtr lpTTInstance, ref BearWare.SpeexDSP lpSpeexDSP);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_SetSoundInputPreprocessEx(IntPtr lpTTInstance, ref BearWare.AudioPreprocessor lpAudioPreprocessor);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_GetSoundInputPreprocessEx(IntPtr lpTTInstance, ref BearWare.AudioPreprocessor lpAudioPreprocessor);
+
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_SetSoundOutputVolume(IntPtr lpTTInstance,
                                                      int nVolume);
@@ -159,6 +178,9 @@ namespace c_tt
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_EnableAudioBlockEvent(IntPtr lpTTInstance, int nUserID, 
                                                            BearWare.StreamType nStreamType, bool bEnable);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_EnableAudioBlockEventEx(IntPtr lpTTInstance, int nUserID,
+                                                           BearWare.StreamType nStreamType, ref BearWare.AudioFormat lpAudioFormat, bool bEnable);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_InsertAudioBlock(IntPtr lpTTInstance, ref BearWare.AudioBlock lpAudioBlock);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]

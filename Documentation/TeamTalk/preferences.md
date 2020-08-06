@@ -217,21 +217,33 @@ playback devices.
 The items in the Sound System-tab are explained here:
 
 - **Windows Audio Session**
-  - The preferred sound system for Windows Vista/7. It's very fast and
-    works well with echo cancellation.
+  - The preferred sound system on Windows.
+  - Echo cancellation, denoising and automatic gain control is
+    performed using Windows' built in functions.
+  - When enabling echo cancellation, denoising or automatic gain
+    control (AGC) the sound system automatically switches to mono at
+    22 KHz.
 
 - **DirectSound**
-  - This is the preferred sound system to use on Windows XP.
+  - Provides best compatibility with sound devices.
+  - Echo cancellation, denoising and automatic gain control is
+    performed using Speex's audio processing.
 
 - **Windows Standard**
   - Windows default sound system. This typically is slower than
     DirectSound and Windows Audio Session.
+  - Echo cancellation, denoising and automatic gain control is
+    performed using Speex's audio processing.
   
 - **ALSA**
   - This sound system is only available on Linux.
+  - Echo cancellation, denoising and automatic gain control is
+    performed using Speex's audio processing.
 
 - **Core Audio**
   - This sound system is only available on Mac OS X.
+  - Echo cancellation, denoising and automatic gain control is
+    performed using Speex's audio processing.
 
 - **Input Device**
   - The sound device to use for recording audio. It is advised to use
