@@ -946,7 +946,9 @@ TEST_CASE("testThumbnail")
 }
 #endif
 
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_ENCRYPTION) && 0
+// Encryption context should apparently not be set on client unless it
+// is meant for peer verification
 TEST_CASE("testSSLSetup")
 {
     std::vector<TTInstance*> clients;
