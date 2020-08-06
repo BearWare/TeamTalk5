@@ -5321,7 +5321,17 @@ extern "C" {
 
     /**
      * @brief Setup encryption properties prior to TT_Connect().
-     */
+     *
+     * If the server does peer verification then client must specify
+     * certificate file and private key file.
+     *
+     * Do not set encryption context unless server requires clients to
+     * do so.
+     *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     * @param lpEncryptionContext Encryption properties for peer
+     * verification. */
     TEAMTALKDLL_API TTBOOL TT_SetEncryptionContext(IN TTInstance* lpTTInstance,
                                                    const EncryptionContext* lpEncryptionContext);
 
