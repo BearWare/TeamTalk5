@@ -2,7 +2,10 @@
                  TeamTalk
 ----------------------------------------------
 Version 5.6.1, unreleased
--
+Accessible Windows Client:
+- Update window title at login with server name
+Default QT Client:
+- Update window title at login with server name
 
 Version 5.6, 2020/08/04
 Accessible Windows client
