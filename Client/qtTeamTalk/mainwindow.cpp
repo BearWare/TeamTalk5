@@ -451,7 +451,7 @@ MainWindow::MainWindow(const QString& cfgfile)
             SLOT(slotHelpResetPreferences(bool)));
     connect(ui.actionVisitBearWare, SIGNAL(triggered(bool)),
             SLOT(slotHelpVisitBearWare(bool)));
-    connect(ui.actionVisitCHangeLog, SIGNAL(triggered(bool)),
+    connect(ui.actionVisitChangeLog, SIGNAL(triggered(bool)),
             SLOT(slotHelpVisitChangeLog(bool)));
     connect(ui.actionAbout, SIGNAL(triggered(bool)),
             SLOT(slotHelpAbout(bool)));
