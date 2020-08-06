@@ -4342,7 +4342,7 @@ void MainWindow::slotHelpVisitBearWare(bool /*checked=false*/)
 
 void MainWindow::slotHelpVisitChangeLog(bool /*checked=false*/)
 {
-   QDesktopServices::openUrl(QUrl("https://github.com/BearWare/TeamTalk5/blob/master/ChangeLog.txt"));
+   QDesktopServices::openUrl(QUrl("https://raw.githubusercontent.com/BearWare/TeamTalk5/master/ChangeLog.txt"));
 }
 
 void MainWindow::slotHelpAbout(bool /*checked =false */)
