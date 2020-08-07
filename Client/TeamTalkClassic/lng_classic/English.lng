@@ -508,6 +508,7 @@
     <item id="1211">Sound system settings</item>
     <item id="1212">No font selected</item>
     <item id="1213">Here you select the sound devices which TeamTalk should use for recording and playing audio. Choosing DirectSound is highly recommended since it provides lower latency than Windows&apos; default sound system.</item>
+    <item id="1214">WebM VP8 codec developed by WebM project, www.webmproject.org</item>
     <item id="1215">By pressing &quot;Test selected&quot; you can test the currently selected devices and hear whether you&apos;re able to play the audio recorded by the selected input device.</item>
     <item id="1217">User can create temporary channels</item>
     <item id="1218">User can create/modify all channels</item>
@@ -519,7 +520,6 @@
     <item id="1230">New channel information</item>
     <item id="1231">&amp;Send</item>
     <item id="1232">OPUS codec developed by Opus project, www.opus-codec.org</item>
-    <item id="1235">WebM VP8 codec developed by WebM project, www.webmproject.org</item>
     <item id="1236">Welcome to the TeamTalk setup wizard</item>
     <item id="1237">Completed the TeamTalk setup wizard</item>
     <item id="1238">Playback Settings</item>

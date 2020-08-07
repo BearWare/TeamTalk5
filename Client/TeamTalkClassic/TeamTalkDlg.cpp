@@ -992,6 +992,7 @@ void CTeamTalkDlg::OnConnectSuccess(const TTMessage& msg)
     {
         Login();
     }
+    UpdateWindowTitle();
 }
 
 void CTeamTalkDlg::OnConnectFailed(const TTMessage& msg)
