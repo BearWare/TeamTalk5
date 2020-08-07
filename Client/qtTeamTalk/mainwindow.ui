@@ -1765,10 +1765,6 @@
    </property>
   </action>
   <action name="actionVisitChangeLog">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/images/teamtalk.png</normaloff>:/images/images/teamtalk.png</iconset>
-   </property>
    <property name="text">
     <string>&amp;Change Log</string>
    </property>
