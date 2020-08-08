@@ -1873,6 +1873,7 @@ void CTeamTalkDlg::OnFileRemove(const TTMessage& msg)
     if(remotefile.nChannelID == TT_GetMyChannelID(ttInst))
     {
         PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
+        TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
         CString szMsg;
         szMsg.Format(LoadText(IDS_FILEREMOVED), remotefile.szFileName, GetDisplayName(user));
         AddStatusText(szMsg);
