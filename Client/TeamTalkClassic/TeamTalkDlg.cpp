@@ -1867,6 +1867,7 @@ void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
 void CTeamTalkDlg::OnFileRemove(const TTMessage& msg)
 {
     const RemoteFile& remotefile = msg.remotefile;
+    User user;
     m_tabFiles.RemoveFile(remotefile.nChannelID, remotefile.nFileID);
 
     if(remotefile.nChannelID == TT_GetMyChannelID(ttInst))
