@@ -120,6 +120,9 @@
 		254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTeamTalk-Bridging-Header.m"; sourceTree = "<group>"; };
 		254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDetailViewController.swift; sourceTree = "<group>"; };
 		254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerListViewController.swift; sourceTree = "<group>"; };
+		254BE12224DED8F200244D0C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Main.strings"; sourceTree = "<group>"; };
+		254BE12324DED8F300244D0C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		254BE12424DED8F500244D0C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		254C08491C345E3700C98566 /* newuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = newuser.mp3; sourceTree = "<group>"; };
 		254C084A1C345E3700C98566 /* removeuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = removeuser.mp3; sourceTree = "<group>"; };
 		256328171C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
@@ -371,6 +374,7 @@
 				nl,
 				ar,
 				zh,
+				"pt-BR",
 			);
 			mainGroup = 254B7A3E1B98BAA300BE0DEF;
 			productRefGroup = 254B7A481B98BAA300BE0DEF /* Products */;
@@ -483,6 +487,7 @@
 				252BDD5F1C85F90600102B5E /* nl */,
 				251997F01EB911FA003C94B1 /* ar */,
 				252EB82C21921FE60026A2D0 /* zh */,
+				254BE12224DED8F200244D0C /* pt-BR */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -491,6 +496,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				254B7A561B98BAA300BE0DEF /* Base */,
+				254BE12324DED8F300244D0C /* pt-BR */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -511,6 +517,7 @@
 				252BDD611C85F90600102B5E /* nl */,
 				251997F21EB911FB003C94B1 /* ar */,
 				252EB82E21921FE70026A2D0 /* zh */,
+				254BE12424DED8F500244D0C /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
