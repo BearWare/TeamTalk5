@@ -4,6 +4,16 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v56arelease
+ * - @ref v56afeatures
+ *   - @ref v56avoicecom
+ *   - @ref v56aeffects
+ *   - @ref v56asharedaudio
+ *   - @ref v56aloopback
+ *   - @ref v56apreprocess
+ * - @ref v56aapi
+ *   - @ref v56acompat
+ *
  * @ref v55arelease
  * - @ref v55afeatures
  *   - @ref v55asharedaudio
@@ -189,6 +199,145 @@
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v56arelease TeamTalk 5 SDK v. 5.6a release
+ *
+ * @subsection v56afeatures New features in v5.6a
+ *
+ * @subsubsection v56avoicecom Android sound device for enabling voice communication mode
+ *
+ * A new #SoundDevice will appear on Android when calling
+ * TT_GetSoundDevices(). This sound device behaves the same as calling
+ * Android Java class
+ * android.media.AudioManager.setMode(AudioManager.MODE_IN_COMMUNICATION).
+ *
+ * @subsubsection v56aeffects Enable platform specific sound device effects
+ *
+ * Most platforms today come with their own way of toggling effects on
+ * a sound device. Examples of this are echo cancellation, automatic
+ * gain control (AGC), noise suppression, 3D sound positioning.
+ *
+ * #SoundDevice now has a new property called @c uSoundDeviceFeatures
+ * which tells what features can be enabled on the sound
+ * device. Currently the list of #SoundDeviceFeature includes:
+ *
+ * - #SOUNDDEVICEFEATURE_AEC
+ *   - This feature is currently available on Android and on Windows when
+ *     using #SOUNDSYSTEM_WASAPI.
+ *   - Enable this feature using TT_SetSoundDeviceEffects()
+ * - #SOUNDDEVICEFEATURE_AGC
+ *   - This feature is currently available on Android and on Windows when
+ *     using #SOUNDSYSTEM_WASAPI.
+ *   - Enable this feature using TT_SetSoundDeviceEffects()
+ * - #SOUNDDEVICEFEATURE_DENOISE
+ *   - This feature is currently available on Android and on Windows when
+ *     using #SOUNDSYSTEM_WASAPI.
+ *   - Enable this feature using TT_SetSoundDeviceEffects()
+ * - #SOUNDDEVICEFEATURE_3DPOSITION
+ *   - This feature is currently available on Windows when
+ *     using #SOUNDSYSTEM_DSOUND.
+ *   - Enable this feature using TT_SetUserPosition()
+ * - #SOUNDDEVICEFEATURE_DUPLEXMODE
+ *   - Enable this feature using TT_InitSoundDuplexDevices()
+ *
+ * TT_SetSoundDeviceEffects() is a new function in TeamTalk v5.6 which
+ * can be used for enabling AGC, AEC and denoising on Windows and
+ * Android.
+ *
+ * @subsubsection v56asharedaudio Specify sample rate and audio channels for shared sound device
+ *
+ * When #TT_SOUNDDEVICE_ID_SHARED_FLAG was introduced the shared sound
+ * device would default to a sample rate of 48000 and stereo.
+ *
+ * Now it's possible to manually specify the sample rate and number of
+ * audio channels using TT_InitSoundInputSharedDevice() and
+ * TT_InitSoundOutputSharedDevice().
+ * 
+ * @subsubsection v56aloopback Perform sound loopback test using audio preprocessor and sound device effects
+ *
+ * When #AudioPreprocessor was introduced it could not be used when
+ * performing a loopback test. This is now possible using
+ * TT_StartSoundLoopbackTestEx().
+ *
+ * @subsubsection v56apreprocess Sound preprocessor selection
+ *
+ * Previously only #SpeexDSP was available as #AudioPreprocessor but
+ * now others can be chosing using TT_SetSoundInputPreprocessEx().
+ *
+ * @subsection v56aapi API changes in v5.6a
+ *
+ * - New macro #SOUNDSYSTEM_AUDIOUNIT_IOS to emphasize AudioUnit for
+ *   iOS. #SOUNDSYSTEM_COREAUDIO actually also uses AudioUnit.
+ * - New enumeration #SoundDeviceFeature for listing features that are
+ *   provided by a #SoundDevice. See @c uSoundDeviceFeatures on
+ *   #SoundDevice.
+ * - New property @c nWaveDeviceID on #SoundDevice on non-Windows
+ *   platforms. Previously this property was only shown on Windows but
+ *   now it's shown on all platform. The reason for this is to have a
+ *   common structure available for Python integration.
+ *   - Note that this change actually breaks binary compatiblity with
+ *     TeamTalk v5.5 and previous versions. See @ref v56acompat.
+ * - New property @c uSoundDeviceFeatures on #SoundDevice for showing
+ *   features available when setting up a sound device.
+ * - New structure #SoundDeviceEffects for enabling specific effects
+ *   on a sound device prior to initialization, e.g. echo
+ *   cancellation.
+ * - Modified macro #TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO to include
+ *   #TT_SOUNDDEVICE_ID_SHARED_FLAG. Previously the iOS sound device
+ *   that does voice preprocessing actually ran in its own shared
+ *   device. However, with the introduction of
+ *   #TT_SOUNDDEVICE_ID_SHARED_FLAG in TeamTalk v5.5 it is simpler for
+ *   iOS to use the same shared device property as on Android.
+ *   - Note that this change actually breaks binary compatiblity with
+ *     TeamTalk v5.5 and previous versions. See @ref v56acompat.
+ * - New macro #TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM for selecting a
+ *   #SoundDevice that uses Android OpenSL ES voice communication mode.
+ * - New macro #TT_LOCAL_TX_USERID for only getting audio during voice
+ *   transmission when using TT_EnableAudioBlockEvent().
+ * - Added #INTERR_AUDIOPREPROCESSOR_INIT_FAILED to #ClientError.
+ * - Added #INTERR_SNDEFFECT_FAILURE to #ClientError.
+ * - New function TT_StartSoundLoopbackTestEx() for testing a
+ *   #SoundDevice with #AudioPreprocessor and #SoundDeviceEffects.
+ * - New function TT_InitSoundInputSharedDevice() for specifying
+ *   sample rate, frame size and mono/stereo of the input #SoundDevice
+ *   that has been initialized with #TT_SOUNDDEVICE_ID_SHARED_FLAG.
+ * - New function TT_InitSoundOutputSharedDevice() for specifying
+ *   sample rate, frame size and mono/stereo of the output
+ *   #SoundDevice that has been initialized with
+ *   #TT_SOUNDDEVICE_ID_SHARED_FLAG.
+ * - New function TT_SetSoundDeviceEffects() for enabling
+ *   #SoundDeviceEffects on a client instance prior to initialization
+ *   of the #SoundDevice.
+ * - New function TT_GetSoundDeviceEffects() for getting the
+ *   #SoundDeviceEffects on a client instance.
+ * - New function TT_SetSoundInputPreprocessEx() for selecting an
+ *   #AudioPreprocessor instead of only #SpeexDSP in
+ *   TT_SetSoundInputPreprocess().
+ * - New function TT_GetSoundInputPreprocessEx() for getting the
+ *   active #AudioPreprocessor.
+ * - New function TT_EnableAudioBlockEventEx() for requesting
+ *   #AudioBlock with the specified #AudioFormat.
+ *
+ * @subsubsection v56acompat Compatibility issue with TeamTalk v5.5 and previous
+ *
+ * All platforms now include the property @c nWaveDeviceID on
+ * #SoundDevice. Previously this property was only shown on Windows
+ * but now it's shown on all platform. This means the byte offset
+ * of @c bSupports3D and onwards have changed in the #SoundDevice
+ * structure. The reason for this is to have a common structure
+ * available for Python integration.
+ *
+ * Value of #TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO has been changed
+ * to include #TT_SOUNDDEVICE_ID_SHARED_FLAG. Previously the iOS sound
+ * device that does voice preprocessing actually ran in its own shared
+ * device. However, with the introduction of
+ * #TT_SOUNDDEVICE_ID_SHARED_FLAG in TeamTalk v5.5 it is simpler for
+ * iOS to use the same shared device property as on Android. Therefore
+ * ensure that TT_InitSoundInputDevice() and
+ * TT_InitSoundOutputDevice() is not called with 1 instead of the
+ * value of #TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO.
  *
  * <hr>
  *

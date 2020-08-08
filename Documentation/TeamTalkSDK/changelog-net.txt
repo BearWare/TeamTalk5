@@ -6,6 +6,16 @@ namespace BearWare
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v56arelease
+ * - @ref v56afeatures
+ *   - @ref v56avoicecom
+ *   - @ref v56aeffects
+ *   - @ref v56asharedaudio
+ *   - @ref v56aloopback
+ *   - @ref v56apreprocess
+ * - @ref v56aapi
+ *   - @ref v56acompat
+ *
  * @ref v55arelease
  * - @ref v55afeatures
  *   - @ref v55asharedaudio
@@ -191,6 +201,149 @@ namespace BearWare
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v56arelease TeamTalk 5 SDK v. 5.6a release
+ *
+ * @subsection v56afeatures New features in v5.6a
+ *
+ * @subsubsection v56avoicecom Android sound device for enabling voice communication mode
+ *
+ * A new #BearWare.SoundDevice will appear on Android when calling
+ * TeamTalkBase.GetSoundDevices(). This sound device behaves the same as calling
+ * Android Java class
+ * android.media.AudioManager.setMode(AudioManager.MODE_IN_COMMUNICATION).
+ *
+ * @subsubsection v56aeffects Enable platform specific sound device effects
+ *
+ * Most platforms today come with their own way of toggling effects on
+ * a sound device. Examples of this are echo cancellation, automatic
+ * gain control (AGC), noise suppression, 3D sound positioning.
+ *
+ * #BearWare.SoundDevice now has a new property called @c uSoundDeviceFeatures
+ * which tells what features can be enabled on the sound
+ * device. Currently the list of #BearWare.SoundDeviceFeature includes:
+ *
+ * - #SoundDeviceFeature.SOUNDDEVICEFEATURE_AEC
+ *   - This feature is currently available on Android and on Windows when
+ *     using #SoundSystem.SOUNDSYSTEM_WASAPI.
+ *   - Enable this feature using TeamTalkBase.SetSoundDeviceEffects()
+ * - #SoundDeviceFeature.SOUNDDEVICEFEATURE_AGC
+ *   - This feature is currently available on Android and on Windows when
+ *     using #SoundSystem.SOUNDSYSTEM_WASAPI.
+ *   - Enable this feature using TeamTalkBase.SetSoundDeviceEffects()
+ * - #SoundDeviceFeature.SOUNDDEVICEFEATURE_DENOISE
+ *   - This feature is currently available on Android and on Windows when
+ *     using #SoundSystem.SOUNDSYSTEM_WASAPI.
+ *   - Enable this feature using TeamTalkBase.SetSoundDeviceEffects()
+ * - #SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION
+ *   - This feature is currently available on Windows when
+ *     using #SoundSystem.SOUNDSYSTEM_DSOUND.
+ *   - Enable this feature using TeamTalkBase.SetUserPosition()
+ * - #SoundDeviceFeature.SOUNDDEVICEFEATURE_DUPLEXMODE
+ *   - Enable this feature using TeamTalkBase.InitSoundDuplexDevices()
+ *
+ * TeamTalkBase.SetSoundDeviceEffects() is a new function in TeamTalk v5.6 which
+ * can be used for enabling AGC, AEC and denoising on Windows and
+ * Android.
+ *
+ * @subsubsection v56asharedaudio Specify sample rate and audio channels for shared sound device
+ *
+ * When #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG was introduced the shared sound
+ * device would default to a sample rate of 48000 and stereo.
+ *
+ * Now it's possible to manually specify the sample rate and number of
+ * audio channels using TeamTalkBase.InitSoundInputSharedDevice() and
+ * TeamTalkBase.InitSoundOutputSharedDevice().
+ * 
+ * @subsubsection v56aloopback Perform sound loopback test using audio preprocessor and sound device effects
+ *
+ * When #BearWare.AudioPreprocessor was introduced it could not be used when
+ * performing a loopback test. This is now possible using
+ * TeamTalkBase.StartSoundLoopbackTestEx().
+ *
+ * @subsubsection v56apreprocess Sound preprocessor selection
+ *
+ * Previously only #BearWare.SpeexDSP was available as #BearWare.AudioPreprocessor but
+ * now others can be chosing using TeamTalkBase.SetSoundInputPreprocessEx().
+ *
+ * @subsection v56aapi API changes in v5.6a
+ *
+ * - New macro #SoundSystem.SOUNDSYSTEM_AUDIOUNIT_IOS to emphasize AudioUnit for
+ *   iOS. #SoundSystem.SOUNDSYSTEM_COREAUDIO actually also uses AudioUnit.
+ * - New enumeration #BearWare.SoundDeviceFeature for listing features that are
+ *   provided by a #BearWare.SoundDevice. See @c uSoundDeviceFeatures on
+ *   #BearWare.SoundDevice.
+ * - New property @c nWaveDeviceID on #BearWare.SoundDevice on non-Windows
+ *   platforms. Previously this property was only shown on Windows but
+ *   now it's shown on all platform. The reason for this is to have a
+ *   common structure available for Python integration.
+ *   - Note that this change actually breaks binary compatiblity with
+ *     TeamTalk v5.5 and previous versions. See @ref v56acompat.
+ * - New property @c uSoundDeviceFeatures on #BearWare.SoundDevice for showing
+ *   features available when setting up a sound device.
+ * - New structure #BearWare.SoundDeviceEffects for enabling specific effects
+ *   on a sound device prior to initialization, e.g. echo
+ *   cancellation.
+ * - Modified macro #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO to include
+ *   #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG. Previously the iOS sound device
+ *   that does voice preprocessing actually ran in its own shared
+ *   device. However, with the introduction of
+ *   #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG in TeamTalk v5.5 it is simpler for
+ *   iOS to use the same shared device property as on Android.
+ *   - Note that this change actually breaks binary compatiblity with
+ *     TeamTalk v5.5 and previous versions.
+ * - New macro #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM for selecting a
+ *   #BearWare.SoundDevice that uses Android OpenSL ES voice communication mode.
+ * - New macro #BearWare.TeamTalkBase.TT_LOCAL_TX_USERID for only getting audio during voice
+ *   transmission when using TeamTalkBase.EnableAudioBlockEvent().
+ * - Added #ClientError.INTERR_AUDIOPREPROCESSOR_INIT_FAILED to #ClientError.
+ * - Added #ClientError.INTERR_SNDEFFECT_FAILURE to #ClientError.
+ * - New function TeamTalkBase.StartSoundLoopbackTestEx() for testing a
+ *   #BearWare.SoundDevice with #BearWare.AudioPreprocessor and #BearWare.SoundDeviceEffects.
+ * - New function TeamTalkBase.InitSoundInputSharedDevice() for specifying
+ *   sample rate, frame size and mono/stereo of the input #BearWare.SoundDevice
+ *   that has been initialized with #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG.
+ * - New function TeamTalkBase.InitSoundOutputSharedDevice() for specifying
+ *   sample rate, frame size and mono/stereo of the output
+ *   #BearWare.SoundDevice that has been initialized with
+ *   #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG.
+ * - New function TeamTalkBase.SetSoundDeviceEffects() for enabling
+ *   #BearWare.SoundDeviceEffects on a client instance prior to initialization
+ *   of the #BearWare.SoundDevice.
+ * - New function TeamTalkBase.GetSoundDeviceEffects() for getting the
+ *   #BearWare.SoundDeviceEffects on a client instance.
+ * - New function TeamTalkBase.SetSoundInputPreprocessEx() for selecting an
+ *   #BearWare.AudioPreprocessor instead of only #BearWare.SpeexDSP in
+ *   TeamTalkBase.SetSoundInputPreprocess().
+ * - New function TeamTalkBase.GetSoundInputPreprocessEx() for getting the
+ *   active #BearWare.AudioPreprocessor.
+ * - New function TeamTalkBase.EnableAudioBlockEventEx() for requesting
+ *   #BearWare.AudioBlock with the specified #BearWare.AudioFormat.
+ *
+ * @subsubsection v56acompat Compatibility issue with TeamTalk v5.5 and previous
+ *
+ * All platforms now include the property @c nWaveDeviceID on
+ * #BearWare.SoundDevice. Previously this property was only shown on
+ * Windows but now it's shown on all platform. This means the byte
+ * offset of @c bSupports3D and onwards have changed in the
+ * #BearWare.SoundDevice structure. The reason for this is to have a common
+ * structure available for Python integration.
+ *
+ * Value of
+ * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO
+ * has been changed to include
+ * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG. Previously
+ * the iOS sound device that does voice preprocessing actually ran in
+ * its own shared device. However, with the introduction of
+ * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG in
+ * TeamTalk v5.5 it is simpler for iOS to use the same shared device
+ * property as on Android. Therefore ensure that
+ * TeamTalkBase.InitSoundInputDevice() and
+ * TeamTalkBase.InitSoundOutputDevice() is not called with 1 instead
+ * of the value of
+ * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO.
  *
  * <hr>
  *
