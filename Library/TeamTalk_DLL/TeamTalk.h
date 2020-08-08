@@ -289,6 +289,8 @@ extern "C" {
      * */
     typedef enum SoundDeviceFeature
     {
+        /** @brief No sound device features are available on this
+         * sound device. */
         SOUNDDEVICEFEATURE_NONE         = 0x0000,
         /** @brief The #SoundDevice can enable Acoustic 
          * Echo Canceler (AEC).
@@ -403,9 +405,14 @@ extern "C" {
         /**
          * @brief Enable Automatic Gain Control.
          *
+         * This effect can be enabled on a #SoundDevice that has
+         * #SOUNDDEVICEFEATURE_AGC flag in @c uSoundDeviceFeatures.
+         *
          * Supported platforms:
          * - Windows
          *   - Automatic gain control is per #TTInstance.
+         *   - #TTInstance must initialize sound devices using
+         *     TT_InitSoundDuplexDevices()
          * - Android
          *   - Automatic gain control will be applied on all active
          *     #TTInstance.
@@ -414,9 +421,15 @@ extern "C" {
         /**
          * @brief Enable noise suppression.
          *
+         * This effect can be enabled on a #SoundDevice that has
+         * #SOUNDDEVICEFEATURE_DENOISE flag in @c
+         * uSoundDeviceFeatures.
+         *
          * Supported platforms:
          * - Windows
          *   - Noise suppression is per #TTInstance.
+         *   - #TTInstance must initialize sound devices using
+         *     TT_InitSoundDuplexDevices()
          * - Android
          *   - Noise suppression will be applied on all active
          *     #TTInstance.
@@ -425,9 +438,14 @@ extern "C" {
         /**
          * @brief Enable echo cancellation.
          *
+         * This effect can be enabled on a #SoundDevice that has
+         * #SOUNDDEVICEFEATURE_AEC flag in @c uSoundDeviceFeatures.
+         *
          * Supported platforms:
          * - Windows
          *   - Echo cancellation is per #TTInstance.
+         *   - #TTInstance must initialize sound devices using
+         *     TT_InitSoundDuplexDevices()
          * - Android
          *   - Echo cancellation will be applied on all active
          *     #TTInstance.
@@ -3944,19 +3962,8 @@ extern "C" {
      * @brief Enable duplex mode where multiple audio streams are
      * mixed into a single stream using software.
      *
-     * Duplex mode can @b ONLY be enabled on sound devices which
-     * support the same sample rate. Sound systems #SOUNDSYSTEM_WASAPI
-     * and #SOUNDSYSTEM_ALSA typically only support a single sample
-     * rate.  Check @c supportedSampleRates in #SoundDevice to see
-     * which sample rates are supported.
-     *
      * To use duplex mode the feature #SOUNDDEVICEFEATURE_DUPLEXMODE
      * must be available on the #SoundDevice.
-     *
-     * Sound duplex mode is required for echo cancellation since sound
-     * input and output device must be synchronized. Also sound cards
-     * which does not support multiple output streams should use
-     * duplex mode.
      *
      * If TT_InitSoundDuplexDevices() is successful the following
      * flags will be set:
@@ -3972,8 +3979,9 @@ extern "C" {
      * local client instance calls TT_DoSubscribe() with
      * #SUBSCRIBE_INTERCEPT_VOICE on a user in another channel then
      * the audio from this user will be started in a separate
-     * stream. The reason for this is that the other user may use a
-     * different audio codec.
+     * stream. The reason for this is that the other user may use an
+     * audio codec with a different sample rate or number of audio
+     * channels.
      *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
