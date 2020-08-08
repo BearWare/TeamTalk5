@@ -6,6 +6,7 @@ Accessible Windows Client:
 - Fixed translation for development of WebM VP8 codec on about dialog
 - Update window title at login with server name
 - Fixed some labels
+- It's now possible to use numpad keys for subscriptions shortcuts
 Default QT Client:
 - Update window title at login with server name
 
