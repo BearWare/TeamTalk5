@@ -506,6 +506,7 @@
     <item id="1211">Soundsystemeinstellungen</item>
     <item id="1212">Keine Schriftart gewählt</item>
     <item id="1213">Wähle hier die Audiogeräte, die TeamTalk zum Aufnehmen und Wiedergeben von Sounds verwenden soll. DirectSound ist die empfohlene Einstellung, da hierbei eine geringere Verzögerung als bei Windows-Audio erreicht wird.</item>
+    <item id="1214">WebM-VP8-Codec entwickelt von WebM project, www.webmproject.org</item>
     <item id="1215">Mit Klick auf &quot;Klangtest&quot; kannst du die gewählten Geräte testen und hören, ob das Aufnahmegerät die Sprache auf dem Wiedergabegerät ausgibt.</item>
     <item id="1217">Kann temporäre Räume erstellen</item>
     <item id="1218">Kann alle Räume erstellen/bearbeiten</item>
@@ -517,7 +518,6 @@
     <item id="1230">Rauminformationen</item>
     <item id="1231">&amp;Senden</item>
     <item id="1232">OPUS-Codec entwickelt von Opus project, www.opus-codec.org</item>
-    <item id="1235">WebM-VP8-Codec entwickelt von WebM project, www.webmproject.org</item>
     <item id="1236">Willkommen beim TeamTalk 4 Einrichtungsassistent</item>
     <item id="1237">TeamTalk 4 Einrichtungsassistent abgeschlossen</item>
     <item id="1238">Playback-Einstellungen</item>
