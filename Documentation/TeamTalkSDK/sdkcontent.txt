@@ -1,0 +1,185 @@
+/**
+ * @page clientsetup TeamTalk SDK Contents
+ *
+ * This section explains the core files for developing applications
+ * which use the TeamTalk 5 DLL.
+ *
+ * @section ttsdkfiles TeamTalk SDK Standard Edition
+ *
+ * Here's a brief overview of the files in the TeamTalk SDK Standard
+ * Edition for each platform:
+ *
+ * - <b>Common to all platforms</b>
+ *   - @c TeamTalk.h
+ *     - The C-API header file exposing the client API. Common to all platforms.
+ *     - Located in the folder @c Library/TeamTalk_DLL
+ *   - @c TeamTalk5.py
+ *     - Python interface for TeamTalk 5 DLL
+ *     - Located in the folder @c Library/TeamTalkPy
+ *   - @c TeamTalk5.jar
+ *     - Java classes for @c TeamTalk 5 JNI interface.
+ *     - Located in the folder @c Library/TeamTalkJNI/libs
+ *
+ * - <b>Windows platform</b>
+ *   
+ *   - @c TeamTalk5.dll
+ *     - The TeamTalk C-API DLL
+ *     - Located in the folder @c Library/TeamTalk_DLL
+ *   - @c TeamTalk5.lib
+ *     - The C import library
+ *     - Located in the folder @c Library/TeamTalk_DLL
+ *   - @c TeamTalk5.NET.dll
+ *     - .NET wrapper for @c TeamTalk5.dll.
+ *     - Located in folder @c Library/TeamTalk.NET
+ *   - @c TeamTalk5-jni.dll
+ *     - Java JNI wrapper DLL for @c TeamTalk5.dll
+ *     - Located in the folder @c Library/TeamTalkJNI/libs
+ *   - @c tt5srv.exe
+ *     - TeamTalk server as console application.
+ *     - Located in the folder @c Server
+ *     - Read section @ref serversetup for more information.
+ *   - @c tt5svc.exe
+ *     - TeamTalk server as an NT service.
+ *     - Located in the folder @c Server
+ *     - Read section @ref serversetup for more information.
+ *
+ * - <b>Mac OS X platform</b>
+ *   - @c libTeamTalk5.dylib
+ *     - The TeamTalk C-API shared object
+ *     - Located in the folder @c Library/TeamTalk_DLL
+ *   - @c libTeamTalk5-jni.dylib
+ *     - Java JNI wrapper DLL for @c libTeamTalk5.dylib
+ *     - Located in the folder @c Library/TeamTalkJNI/libs
+ *   - @c tt5srv
+ *     - TeamTalk server which can run as a console application and a
+ *       daemon.
+ *     - Located in the folder @c Server
+ *     - Read section @ref serversetup for more information.
+ *
+ * - <b>Linux platform</b>
+ *   - @c libTeamTalk5.so
+ *     - The TeamTalk C-API shared object
+ *     - Located in the folder @c Library/TeamTalk_DLL
+ *   - @c libTeamTalk5-jni.so
+ *     - Java JNI wrapper DLL for @c libTeamTalk5.so
+ *     - Located in the folder @c Library/TeamTalkJNI/libs
+ *   - @c tt5srv
+ *     - TeamTalk server which can run as a console application and a
+ *       daemon.
+ *     - Located in the folder @c Server
+ *     - Read section @ref serversetup for more information.
+ *
+ * - <b>iOS platform</b>
+ *   - @c libTeamTalk5.a
+ *     - The TeamTalk C-API as a static library.
+ *     - Universal binary for i386, x86_64, armv7 and arm64.
+ *     - Located in the folder @c Library/TeamTalk_DLL
+ *
+ * - <b>Android platform</b>
+ *   - @c libTeamTalk5.so
+ *     - The TeamTalk C-API shared object
+ *     - Located in the folders:
+ *       - @c Library/TeamTalk_DLL/arm64-v8a
+ *       - @c Library/TeamTalk_DLL/armeabi-v7a
+ *       - @c Library/TeamTalk_DLL/x86
+ *       - @c Library/TeamTalk_DLL/x86_64
+ *   - @c libTeamTalk5-jni.so
+ *     - The prebuilt TeamTalk JNI DLL located in folders:
+ *       - @c Library/TeamTalkJNI/libs/arm64-v8a
+ *       - @c Library/TeamTalkJNI/libs/armeabi-v7a
+ *       - @c Library/TeamTalkJNI/libs/x86
+ *       - @c Library/TeamTalkJNI/libs/x86_64
+ *     - Notice that unlike the other platforms @c
+ *       libTeamTalk5-jni.so for Android does not depend on @c
+ *       libTeamTalk5.so.
+ *
+ * @section ttprosdkfiles TeamTalk SDK Professional Edition
+ *
+ * Here's a brief overview of the files in the TeamTalk SDK Professional
+ * Edition for each platform:
+ *
+ * - <b>Common to all platforms</b>
+ *   - @c TeamTalk.h
+ *     - The C-API header file exposing the client API. Common to all platforms.
+ *   - @c TeamTalkSrv.h
+ *     - The C-API header file exposing the server API. Common to all platforms.
+ *   - @c TeamTalk5.py
+ *     - Python interface for TeamTalk 5 Pro DLL
+ *     - Manually edit and ensure it loads TeamTalk5Pro instead of TeamTalk5 DLL.
+ *     - Located in the folder @c Library/TeamTalkPy
+ *   - @c TeamTalk5Pro.jar
+ *     - Java classes for @c TeamTalk 5 Pro JNI interface.
+ *     - Located in the folder @c Library/TeamTalkJNI/libs
+ *
+ * - <b>Windows platform</b>
+ *   - @c TeamTalk5Pro.dll
+ *     - The TeamTalk C-API DLL
+ *     - Located in the folder @c Library/TeamTalk_DLL
+ *   - @c TeamTalk5Pro.lib
+ *     - The C import library
+ *     - Located in the folder @c Library/TeamTalk_DLL
+ *   - @c TeamTalk5Pro.NET.dll
+ *     - .NET wrapper for @c TeamTalk5Pro.dll.
+ *     - Located in folder @c Library/TeamTalk.NET
+ *   - @c TeamTalk5Pro-jni.dll
+ *     - Java JNI wrapper for @c TeamTalk5Pro.dll
+ *     - Located in the folder @c Library/TeamTalkJNI/libs
+ *   - @c tt5prosrv.exe
+ *     - TeamTalk server with encryption as console application.
+ *     - Located in the folder @c Server
+ *     - Read section @ref serversetup for more information.
+ *   - @c tt5prosvc.exe
+ *     - TeamTalk server with encryption as an NT service.
+ *     - Located in the folder @c Server
+ *     - Read section @ref serversetup for more information.
+ *
+ * - <b>Mac OS X platform</b>
+ *   - @c libTeamTalk5Pro.dylib
+ *     - The TeamTalk C-API shared object
+ *     - Located in the folder @c Library/TeamTalk_DLL
+ *   - @c libTeamTalk5Pro-jni.dylib
+ *     - Java JNI wrapper for @c libTeamTalk5Pro.dylib
+ *     - Located in the folder @c Library/TeamTalkJNI/libs
+ *   - @c tt5prosrv
+ *     - TeamTalk server with encryption which can run as a console
+ *       application and a daemon.
+ *     - Located in the folder @c Server
+ *     - Read section @ref serversetup for more information.
+ *
+ * - <b>Linux platform</b>
+ *   - @c libTeamTalk5Pro.so
+ *     - The TeamTalk C-API shared object
+ *     - Located in the folder @c Library/TeamTalk_DLL
+ *   - @c libTeamTalk5Pro-jni.so
+ *     - Java JNI wrapper for @c libTeamTalk5Pro.so
+ *     - Located in the folder @c Library/TeamTalkJNI/libs
+ *   - @c tt5prosrv
+ *     - TeamTalk server with encryption which can run as a console
+ *       application and a daemon.
+ *     - Located in the folder @c Server
+ *     - Read section @ref serversetup for more information.
+ *
+ * - <b>iOS platform</b>
+ *   - @c libTeamTalk5Pro.a
+ *     - The TeamTalk C-API as a static library.
+ *     - Universal binary for i386, x86_64, armv7 and arm64.
+ *     - Located in the folder @c Library/TeamTalk_DLL
+ *
+ * - <b>Android platform</b>
+ *   - @c libTeamTalk5Pro.so
+ *     - The TeamTalk C-API shared object
+ *     - Located in the folders:
+ *       - @c Library/TeamTalk_DLL/arm64-v8a
+ *       - @c Library/TeamTalk_DLL/armeabi-v7a
+ *       - @c Library/TeamTalk_DLL/x86
+ *       - @c Library/TeamTalk_DLL/x86_64
+ *   - @c libTeamTalk5Pro-jni.so
+ *     - The prebuilt TeamTalk JNI DLL located in folders:
+ *       - @c Library/TeamTalkJNI/libs/arm64-v8a
+ *       - @c Library/TeamTalkJNI/libs/armeabi-v7a
+ *       - @c Library/TeamTalkJNI/libs/x86
+ *       - @c Library/TeamTalkJNI/libs/x86_64
+ *     - Notice that unlike the other platforms @c
+ *       libTeamTalk5Pro-jni.so for Android does not depend on @c
+ *       libTeamTalk5Pro.so.
+ */

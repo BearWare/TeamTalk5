@@ -796,7 +796,7 @@ INPUT                  = modules-net.txt \
                          ../../Library/TeamTalk.NET/TeamTalkSrvBase.cs \
                          keytranslate.txt \
                          mainpage.txt \
-                         sdkcontent-net.txt \
+                         sdkcontent.txt \
                          library-net.txt \
                          serversetup.txt \
                          stepbystep-net.txt \
