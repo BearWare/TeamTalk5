@@ -1855,9 +1855,14 @@ void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
        m_commands[m_nCurrentCmdID] != CMD_COMPLETE_JOIN)
     {
         PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
-        TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
         CString szMsg;
-        szMsg.Format(LoadText(IDS_FILEADDED), remotefile.szFileName, GetDisplayName(user));
+        szMsg.Format(LoadText(IDS_FILEADDED, _T("File %s added")), remotefile.szFileName);
+        if(size(remotefile.szUsername) > 0) {
+            if(remotefile.szUsername != STR_UTF8(m_host.szUsername)) {
+                TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
+                szMsg.Format(LoadText(IDS_FILEADDBY, _T("File %s added by %s")), remotefile.szFileName, GetDisplayName(user));
+            }
+        }
         AddStatusText(szMsg);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_FILE_ADD)
             AddVoiceMessage(szMsg);
@@ -1873,9 +1878,14 @@ void CTeamTalkDlg::OnFileRemove(const TTMessage& msg)
     if(remotefile.nChannelID == TT_GetMyChannelID(ttInst))
     {
         PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
-        TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
         CString szMsg;
-        szMsg.Format(LoadText(IDS_FILEREMOVED), remotefile.szFileName, GetDisplayName(user));
+        szMsg.Format(LoadText(IDS_FILEREMOVED, _T("File %s removed")), remotefile.szFileName);
+        if(size(remotefile.szUsername) > 0) {
+            if(remotefile.szUsername != STR_UTF8(m_host.szUsername)) {
+                TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
+                szMsg.Format(LoadText(IDS_FILEREMOVEDBY, _T("File %s removed by %s")), remotefile.szFileName, GetDisplayName(user));
+            }
+        }
         AddStatusText(szMsg);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_FILE_REMOVE)
             AddVoiceMessage(szMsg);
