@@ -1665,8 +1665,8 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1663"/>
-        <source>Ctrl++</source>
-        <translation>Ctrl++</translation>
+        <source>Ctrl+9</source>
+        <translation>Ctrl+9</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1668"/>
@@ -1675,8 +1675,8 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1671"/>
-        <source>Ctrl+-</source>
-        <translation>Ctrl+-</translation>
+        <source>Ctrl+0</source>
+        <translation>Ctrl+0</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1676"/>
@@ -1910,8 +1910,8 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1944"/>
-        <source>Ctrl+Alt++</source>
-        <translation>Ctrl+Alt++</translation>
+        <source>Ctrl+Alt+9</source>
+        <translation>Ctrl+Alt+9</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1949"/>
@@ -1920,8 +1920,8 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1952"/>
-        <source>Ctrl+Alt+-</source>
-        <translation>Ctrl+Alt+-</translation>
+        <source>Ctrl+Alt+0</source>
+        <translation>Ctrl+Alt+0</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1957"/>
