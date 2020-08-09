@@ -177,8 +177,8 @@
     <item id="307">Ascending</item>
     <item id="308">Popularity</item>
     <item id="309">Everyone</item>
-    <item id="310">File %s added by %s</item>
-    <item id="311">File %s removed by %s</item>
+    <item id="310">File %s added</item>
+    <item id="311">File %s removed</item>
     <item id="312">File events</item>
     <item id="313">File added</item>
     <item id="314">File removed</item>
@@ -240,11 +240,13 @@
     <item id="371">Are you sure you want to delete channel %s</item>
     <item id="372">Delete Channel</item>
     <item id="373">Channel password</item>
+    <item id="374">File %s added by %s</item>
     <item id="375">Compiled on </item>
     <item id="376">Unicode -> UTF-8 conversion enabled.&#xD;&#xA;</item>
     <item id="377">Uses local character set.&#xD;&#xA;</item>
     <item id="378">TeamTalk 64-bit DLL version: </item>
     <item id="379">TeamTalk 32-bit DLL version: </item>
+    <item id="380">File %s removed by %s</item>
     <item id="381">RX: %.2fKB TX: %.2fKB PING: %u %s</item>
     <item id="382">RX: %.2fKB TX: %.2fKB %s</item>
     <item id="383">Selected users has been moved to channel %s</item>
