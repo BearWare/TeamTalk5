@@ -39,7 +39,7 @@ using System.Runtime.InteropServices;
 #endif
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("BearWare.dk")]
-[assembly: AssemblyCopyright("Copyright (c) 2005-2018, BearWare.dk")]
+[assembly: AssemblyCopyright("Copyright (c) 2005-2020, BearWare.dk")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
