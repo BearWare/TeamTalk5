@@ -795,7 +795,7 @@ INPUT                  = modules-capi.txt \
                          ../../Library/TeamTalk_DLL/TeamTalkSrv.h \
                          keytranslate.txt \
                          mainpage.txt \
-                         sdkcontent-capi.txt \
+                         sdkcontent.txt \
                          library-capi.txt \
                          serversetup.txt \
                          stepbystep-capi.txt \
