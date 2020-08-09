@@ -130,6 +130,7 @@
 #define IDB_BITMAP_SESSION              222
 #define IDD_PROPPAGE_SOUNDEVENTSPAGE    223
 #define IDD_PROPPAGE_SOUNDSYSPAGE       224
+#define IDS_CLASSROOM_ROOT_SELF_JOINED       225
 #define IDS_SUBINT_VIDEO                226
 #define IDD_DIALOG_USERINFO             227
 #define IDB_BITMAP_MIKE                 228
@@ -137,6 +138,7 @@
 #define IDB_BITMAP_VOLUME               230
 #define IDD_DIALOG_USERVOLUME           231
 #define IDR_MENU_TRAY                   232
+#define IDS_CHANNEL_ROOT_SELF_JOINED                   233
 #define IDS_SUBINT_DESKTOP              234
 #define IDD_WIZARD_GENERALPAGE          235
 #define IDR_ACCELERATOR2                236
@@ -150,6 +152,7 @@
 #define IDS_SUBINT_MEDIAFILE            244
 #define IDS_DESKTOPINPUT_GRANTED        245
 #define IDD_WIZARD_COMPLETIONPAGE       246
+#define IDS_CHANNEL_ROOT_SELF_LEFT           247
 #define IDS_DESKTOPINPUT_ACTIVE         248
 #define IDD_DIALOG_KEYCOMP              249
 #define IDR_MENU_MSGPOPUP               250
