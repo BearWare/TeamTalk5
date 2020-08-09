@@ -1807,15 +1807,26 @@ void CTeamTalkDlg::OnChannelJoined(const Channel& chan)
     m_tabChat.m_wndRichEdit.SetChannelInfo(chan.nChannelID);
 
     CString szMsg, szFormat;
-    if(chan.uChannelType & CHANNEL_CLASSROOM)
-    {
-        szFormat = LoadText(IDS_CLASSROOM_SELF_JOINED);
-        szMsg.Format(szFormat, LimitText(chan.szName));
-    }
-    else
-    {
-        szFormat = LoadText(IDS_CHANNEL_SELF_JOINED);
-        szMsg.Format(szFormat, LimitText(chan.szName));
+    if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID) {
+        if(chan.uChannelType & CHANNEL_CLASSROOM)
+        {
+            szFormat = LoadText(IDS_CLASSROOM_SELF_JOINED);
+            szMsg.Format(szFormat, LimitText(chan.szName));
+        }
+        else
+        {
+            szFormat = LoadText(IDS_CHANNEL_SELF_JOINED);
+            szMsg.Format(szFormat, LimitText(chan.szName));
+        }
+    } else {
+        if(chan.uChannelType & CHANNEL_CLASSROOM)
+        {
+            szMsg = LoadText(IDS_CLASSROOM_ROOT_SELF_JOINED);
+        }
+        else
+        {
+            szMsg = LoadText(IDS_CHANNEL_ROOT_SELF_JOINED);
+        }
     }
 
     AddStatusText(szMsg);
@@ -1835,8 +1846,12 @@ void CTeamTalkDlg::OnChannelLeft(const Channel& chan)
     UpdateWindowTitle();
 
     CString szMsg, szFormat;
-    szFormat = LoadText(IDS_CHANNEL_SELF_LEFT);
-    szMsg.Format(szFormat, chan.szName);
+    if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID) {
+        szFormat = LoadText(IDS_CHANNEL_SELF_LEFT);
+        szMsg.Format(szFormat, chan.szName);
+    } else {
+        szMsg = LoadText(IDS_CHANNEL_ROOT_SELF_LEFT);
+    }
 
     AddStatusText(szMsg);
     if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT)

@@ -2031,12 +2031,14 @@ BEGIN
     IDS_MUTE_MEDIAFILE      "Mute media file"
     IDS_PASSWORD_PROTECTED  "Password protected"
     IDS_CHANNEL_SELF_JOINED "Joined channel %s"
+    IDS_CHANNEL_ROOT_SELF_JOINED "Joined root channel"
     IDS_SUPPORTS3D          "Output device supports 3D sound"
     IDS_NOSUPPORTS3D        "Output device does not support 3D sound"
     IDS_TESTSELECTED        "Test selected"
     IDS_STOP                "Stop"
     IDS_DEFAULT             "Default"
     IDS_CHANNEL_SELF_LEFT   "Left channel %s"
+    IDS_CHANNEL_ROOT_SELF_LEFT   "Left root channel"
 END
 
 STRINGTABLE
@@ -2068,6 +2070,7 @@ BEGIN
     IDS_CHANGENICKNAME      "Change nickname"
     IDS_CLASSROOMCHANNEL    "Classroom"
     IDS_CLASSROOM_SELF_JOINED "Joined classroom channel %s"
+    IDS_CLASSROOM_ROOT_SELF_JOINED "Joined root classroom channel"
     IDS_FILES               "Files"
     IDS_CHAT                "Chat"
     IDS_CLIENTSETTINGS      "The file %s contains %s setup information.\r\nShould these settings be applied?"
