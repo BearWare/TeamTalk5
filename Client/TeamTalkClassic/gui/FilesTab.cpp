@@ -175,11 +175,6 @@ BOOL CFilesTab::OnInitDialog()
     const int nSize = sizeof(s_bi)/sizeof(s_bi[0]);
     m_resizer.Init(m_hWnd, NULL, s_bi, nSize);
 
-    //load accelerators
-    m_hAccel = ::LoadAccelerators(AfxGetResourceHandle(), (LPCTSTR)IDR_ACCELERATOR5);
-    if (!m_hAccel)
-        MessageBox(LoadText(IDS_ACCELERATORNOTLOADDED, _T("The accelerator table was not loaded")));
-
     m_wndFiles.InsertColumn(0, LoadText(IDS_FILETABNAME, _T("Name")));
     m_wndFiles.InsertColumn(1, LoadText(IDS_FILETABSIZE, _T("Size")), LVCFMT_RIGHT);
     m_wndFiles.InsertColumn(2, LoadText(IDS_FILETABUSER, _T("User")), LVCFMT_RIGHT);

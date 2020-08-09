@@ -79,11 +79,6 @@ BOOL CChatTab::OnInitDialog()
     const int nSize = sizeof(s_bi)/sizeof(s_bi[0]);
     m_resizer.Init(m_hWnd, NULL, s_bi, nSize);
 
-    //load accelerators
-    m_hAccel = ::LoadAccelerators(AfxGetResourceHandle(), (LPCTSTR)IDR_ACCELERATOR4);
-    if (!m_hAccel)
-        MessageBox(LoadText(IDS_ACCELERATORNOTLOADDED, _T("The accelerator table was not loaded")));
-
     //enable link detection in CRichEdit
 #if !defined(_WIN64)
     HWND hRichEdit = ::GetDlgItem(m_hWnd, IDC_RICHEDIT_CHANMESSAGES);
