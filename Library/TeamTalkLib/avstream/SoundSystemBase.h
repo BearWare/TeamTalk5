@@ -54,7 +54,7 @@ namespace soundsystem {
     protected:
         SoundSystemBase()
         {
-            assert(standardSampleRates.size() <= MAX_SAMPLERATES);
+            assert(standardSampleRates.size() <= SHAREDSTREAM_MAX_SAMPLERATES);
         }
         virtual ~SoundSystemBase()
         {
@@ -514,8 +514,8 @@ namespace soundsystem {
             MYTRACE(ACE_TEXT("Opening StreamCapture %p, sample rate %d, channels %d, framesize %d, device #%d\n"),
                     capture, samplerate, channels, framesize, inputdeviceid);
 
-            assert(channels <= MAX_CHANNELS);
-            assert(framesize <= MAX_FRAMESIZE);
+            assert(channels <= SHAREDSTREAM_MAX_CHANNELS);
+            assert(framesize <= SHAREDSTREAM_MAX_FRAMESIZE);
 
             inputstreamer_t streamer;
             if(inputdeviceid == SOUND_DEVICEID_VIRTUAL)
