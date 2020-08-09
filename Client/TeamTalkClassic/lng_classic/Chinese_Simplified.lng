@@ -834,10 +834,10 @@
     <item id="32929">媒体文件静音(&amp;F)\tCtrl+Alt+M</item>
     <item id="32930">从频道踢出(&amp;K)\tCtrl+K</item>
     <item id="32931">从服务器踢出(&amp;S)\tCtrl+Alt+K</item>
-    <item id="32932">增加语音音量 (+10)(&amp;I)\tCtrl++</item>
-    <item id="32933">减小语音音量 (-10)(&amp;L)\tCtrl+-</item>
-    <item id="32934">增加媒体文件音量 (+10)(&amp;F)\tCtrl+Alt++</item>
-    <item id="32935">减小媒体文件音量 (-10)(&amp;L)\tCtrl+Alt+-</item>
+    <item id="32932">增加语音音量 (+10)(&amp;I)\tCtrl+9</item>
+    <item id="32933">减小语音音量 (-10)(&amp;L)\tCtrl+0</item>
+    <item id="32934">增加媒体文件音量 (+10)(&amp;F)\tCtrl+Alt+9</item>
+    <item id="32935">减小媒体文件音量 (-10)(&amp;L)\tCtrl+Alt+0</item>
     <item id="32936">允许桌面传输(&amp;K)\tCtrl+Alt+E</item>
     <item id="32937">允许媒体文件传输(&amp;E)\tCtrl+Alt+R</item>
     <item id="32938">媒体文件流(&amp;M)\tCtrl+8</item>

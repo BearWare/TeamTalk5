@@ -1638,8 +1638,8 @@ BEGIN
         BEGIN
             MENUITEM "&Increase Voice Volume (+10)\tCtrl+9", ID_ADVANCED_INCVOLUMEVOICE
             MENUITEM "&Lower Voice Volume (-10)\tCtrl+0", ID_ADVANCED_LOWERVOLUMEVOICE
-            MENUITEM "Increase Media &File Volume (+10)\tCtrl+Shift+9", ID_ADVANCED_INCVOLUMEMEDIAFILE
-            MENUITEM "Lower Media File Vo&lume (-10)\tCtrl+Shift+0", ID_ADVANCED_LOWERVOLUMEMEDIAFILE
+            MENUITEM "Increase Media &File Volume (+10)\tCtrl+Alt+9", ID_ADVANCED_INCVOLUMEMEDIAFILE
+            MENUITEM "Lower Media File Vo&lume (-10)\tCtrl+Alt+0", ID_ADVANCED_LOWERVOLUMEMEDIAFILE
             MENUITEM SEPARATOR
             MENUITEM "&Store for Move\tCtrl+Alt+X", ID_ADVANCED_STOREFORMOVE
             MENUITEM "&Move User\tCtrl+Alt+V",      ID_ADVANCED_MOVEUSER

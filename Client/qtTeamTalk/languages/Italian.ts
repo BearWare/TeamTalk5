@@ -2572,12 +2572,12 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1944"/>
-        <source>Ctrl+Alt++</source>
+        <source>Ctrl+Alt+9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1952"/>
-        <source>Ctrl+Alt+-</source>
+        <source>Ctrl+Alt+0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2933,8 +2933,8 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1663"/>
-        <source>Ctrl++</source>
-        <translation>Ctrl++</translation>
+        <source>Ctrl+9</source>
+        <translation>Ctrl+9</translation>
     </message>
     <message>
         <source>&amp;Lower Volume (-10)</source>
@@ -2942,8 +2942,8 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1671"/>
-        <source>Ctrl+-</source>
-        <translation>Ctrl+-</translation>
+        <source>Ctrl+0</source>
+        <translation>Ctrl+0</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1676"/>

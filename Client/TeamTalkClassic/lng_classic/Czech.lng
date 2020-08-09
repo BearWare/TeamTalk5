@@ -572,10 +572,10 @@
     <item id="32929">Ztlumit zvuk &amp;multimediálního souboru\tCtrl+Alt+M</item>
     <item id="32930">Vy&amp;kopnout z kanálu\tCtrl+K</item>
     <item id="32931">Vykopnout ze &amp;serveru\tCtrl+Alt+K</item>
-    <item id="32932">Ze&amp;sílit (+10)\tCtrl++</item>
-    <item id="32933">&amp;Ztišit (-10)\tCtrl+-</item>
-    <item id="32934">Zesílit zvuk multimediálního souboru (+10)\tCtrl+Alt++</item>
-    <item id="32935">Z&amp;tišit zvuk multimediálního souboru (-10)\tCtrl+Alt+-</item>
+    <item id="32932">Ze&amp;sílit (+10)\tCtrl+9</item>
+    <item id="32933">&amp;Ztišit (-10)\tCtrl+0</item>
+    <item id="32934">Zesílit zvuk multimediálního souboru (+10)\tCtrl+Alt+9</item>
+    <item id="32935">Z&amp;tišit zvuk multimediálního souboru (-10)\tCtrl+Alt+0</item>
     <item id="32936">Povolit sdílení obrazov&amp;ky\tCtrl+Alt+E</item>
     <item id="32937">Povolit vysílání multim&amp;ediálních souborů\tCtrl+Alt+R</item>
     <item id="32938">Stream &amp;multimediálních souborů\tCtrl+Á</item>

@@ -7,8 +7,10 @@ Accessible Windows Client:
 - Update window title at login with server name
 - Fixed some labels
 - It's now possible to use numpad keys for subscriptions shortcuts
+- Shortcuts to increase/decrease voice and file media volume are now ctrl+9/0 and ctrl+alt+9/0
 Default QT Client:
 - Update window title at login with server name
+- Shortcuts to increase/decrease voice and file media volume are now ctrl+9/0 and ctrl+alt+9/0
 
 Version 5.6, 2020/08/04
 Accessible Windows client
@@ -31,7 +33,6 @@ Accessible Windows client
  - Away is displaying when you switch automatically to this mode due to your inactivity, and also when you manually switch to this mode
  - Status mode is now displaying in receiver side (after your status message), it's not your client who return your status mode message
  - Status message is now displaying after a hyphen, it's uniformizing behavior with QT client
-- Shortcuts to increase/decrease voice and file media volume are now ctrl++/- and ctrl+alt++/-
 - Who has removed a file is now announce
 - A lot of others small changes and fixes
 Default Qt client
@@ -48,7 +49,6 @@ Default Qt client
  - Status mode is now displaying for 3 status (Away, Question, and Streaming media file)
  - Away is displaying when you switch automatically to this mode due to your inactivity, and also when you manually switch to this mode
  - Status mode is now displaying in receiver side (after your status message), it's not your client who return your status mode message
-- Shortcuts to increase/decrease voice and file media volume are now ctrl++/- and ctrl+alt++/-
 - New history events for file addition/deletion, user log in/out and user join/left any channel
 - A lot of others small changes and fixes
 Android client
