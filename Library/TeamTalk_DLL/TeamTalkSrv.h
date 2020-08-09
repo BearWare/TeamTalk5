@@ -504,7 +504,7 @@ extern "C" {
      * authority.
      *
      * @see TTS_SetEncryptionContextEx() */
-    TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContextEx(IN TTSInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContextEx(IN TTSInstance* lpTTSInstance,
                                                       const EncryptionContext* lpEncryptionContext);
     
     /**
