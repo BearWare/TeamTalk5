@@ -8,6 +8,7 @@ Accessible Windows Client:
 - Shortcuts to increase/decrease voice and file media volume are now ctrl+9/0 and ctrl+alt+9/0
 Default QT Client:
 - Update window title at login with server name
+- Shortcuts to increase/decrease voice and file media volume are now ctrl+9/0 and ctrl+alt+9/0
 
 Version 5.6, 2020/08/04
 Accessible Windows client
@@ -36,7 +37,6 @@ Default Qt client
 - Blank nicknames are set to NoName followed by user ID
 - When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name
-- Shortcuts to increase/decrease voice and file media volume are now ctrl++/- and ctrl+alt++/-
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French language is now supported
