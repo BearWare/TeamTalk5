@@ -224,19 +224,15 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     m_richHistory.SetSel(0, long(_tcslen(msg.szMessage)));
     m_richHistory.SetSelectionCharFormat(cf); 
 
-    //insert enter
-    m_richHistory.SetSel(0,0);
-    m_richHistory.ReplaceSel(_T("\r\n"));
-
     CString szTime;
     szTime.Format(_T("%.2d:%.2d"), msg.receiveTime.GetHour(), msg.receiveTime.GetMinute());
 
     CString name;
     if(msg.nFromUserID == m_myself.nUserID)
-        name.Format(_T("%s:"), GetDisplayName(m_myself));
+        name.Format(_T("<%s> "), GetDisplayName(m_myself));
     else
     {
-        name.Format(_T("%s:"), GetDisplayName(m_user));
+        name.Format(_T("<%s> "), GetDisplayName(m_user));
     }
 
     if(m_bShowTimeStamp)
