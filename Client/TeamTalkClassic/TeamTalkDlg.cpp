@@ -992,6 +992,7 @@ void CTeamTalkDlg::OnConnectSuccess(const TTMessage& msg)
     {
         Login();
     }
+    UpdateWindowTitle();
 }
 
 void CTeamTalkDlg::OnConnectFailed(const TTMessage& msg)
@@ -4548,17 +4549,19 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             {
                 if((::GetTickCount() - GetLastInput()) >= dwDelay)
                 {
-                    if((user.nStatusMode & STATUSMODE_MASK) != STATUSMODE_AWAY)
+                    if ((user.nStatusMode & STATUSMODE_MASK) == STATUSMODE_AVAILABLE)
                     {
-                        TT_DoChangeStatus(ttInst, STATUSMODE_AWAY, LoadText(IDS_AWAY, _T("Away")));
+                        m_nStatusMode |= STATUSMODE_AWAY;
+                        TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
                         if(m_xmlSettings.GetDisableVadOnIdle() && m_xmlSettings.GetVoiceActivated())
                             EnableVoiceActivation(FALSE);
                         m_bIdledOut = TRUE;
                     }
                 }
-                else if(m_bIdledOut)
+                else if (m_bIdledOut)
                 {
-                    TT_DoChangeStatus(ttInst, STATUSMODE_AVAILABLE, _T(""));
+                    m_nStatusMode &= ~STATUSMODE_AWAY;
+                    TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
                     m_bIdledOut = FALSE;
                     if(m_xmlSettings.GetDisableVadOnIdle() && m_xmlSettings.GetVoiceActivated())
                         EnableVoiceActivation(TRUE);

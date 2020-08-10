@@ -1060,34 +1060,63 @@ namespace teamtalk {
             }
         }
 
-#if defined(ENABLE_TEAMTALKPRO)
-        ACE_TString certfile, privfile;
-
-        certfile = Utf8ToUnicode(xmlSettings.GetCertificateFile().c_str());
-        privfile = Utf8ToUnicode(xmlSettings.GetPrivateKeyFile().c_str());
-
-        ACE_SSL_Context *context = ACE_SSL_Context::instance ();
-        context->set_mode(ACE_SSL_Context::SSLv23);
-        if(certfile.length() && privfile.length())
-        {
-            if(context->certificate (UnicodeToLocal(certfile).c_str(), SSL_FILETYPE_PEM)<0)
-            {
-                TT_SYSLOG("Failed to load certificate file. Check the settings file.");
-                return false;
-            }
-            if(context->private_key (UnicodeToLocal(privfile).c_str(), SSL_FILETYPE_PEM)<0)
-            {
-                TT_SYSLOG("Failed to load private key file. Check the settings file.");
-                return false;
-            }
-        }
-#endif
-
         xmlSettings.GetStaticChannels(channels);
 
         return true;
     }
 
+#if defined(ENABLE_TEAMTALKPRO)
+    bool SetupEncryption(ServerNode& servernode, ServerXML& xmlSettings)
+    {
+        ACE_TString certfile, privfile, cafile, cadir;
+
+        certfile = Utf8ToUnicode(xmlSettings.GetCertificateFile().c_str());
+        privfile = Utf8ToUnicode(xmlSettings.GetPrivateKeyFile().c_str());
+        cafile = Utf8ToUnicode(xmlSettings.GetCertificateAuthFile().c_str());
+        cadir = Utf8ToUnicode(xmlSettings.GetCertificateAuthDir().c_str());
+
+        ACE_SSL_Context *context = servernode.SetupEncryptionContext();
+        if (!context)
+        {
+            TT_SYSLOG("Failed to setup encryption context.");
+            return false;
+        }
+        
+        if (context->set_mode(ACE_SSL_Context::SSLv23) < 0)
+            return false;
+
+        if (certfile.length() && privfile.length())
+        {
+            if (context->certificate(UnicodeToLocal(certfile).c_str(), SSL_FILETYPE_PEM) < 0)
+            {
+                TT_SYSLOG("Failed to load certificate file. Check the settings file.");
+                return false;
+            }
+
+            if (context->private_key(UnicodeToLocal(privfile).c_str(), SSL_FILETYPE_PEM) < 0)
+            {
+                TT_SYSLOG("Failed to load private key file. Check the settings file.");
+                return false;
+            }
+        }
+
+        if (cafile.length() || cadir.length())
+        {
+            if (context->load_trusted_ca(cafile.length() ? UnicodeToLocal(cafile).c_str() :  nullptr,
+                                         cadir.length() ? UnicodeToLocal(cadir).c_str() : nullptr, false) < 0)
+            {
+                TT_SYSLOG("Failed to load CA file. Check the settings file.");
+                return false;
+            }
+        }
+
+        context->set_verify_peer(xmlSettings.GetCertificateVerify(false),
+                                 xmlSettings.GetCertificateVerifyOnce(true),
+                                 xmlSettings.GetCertificateVerifyDepth(0));
+        return true;
+    }
+#endif
+    
     bool ConfigureServer(ServerNode& servernode, const ServerSettings& properties,
                          const statchannels_t& channels)
     {

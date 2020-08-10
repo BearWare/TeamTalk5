@@ -917,6 +917,19 @@ extern "C" {
         return deskwnd_obj;
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setEncryptionContext(JNIEnv* env,
+                                                                                  jobject thiz,
+                                                                                  jlong lpTTInstance,
+                                                                                  jobject lpEncryptionContext) {
+        THROW_NULLEX(env, lpEncryptionContext, false);
+
+        EncryptionContext context = {};
+        setEncryptionContext(env, context, lpEncryptionContext, J2N);
+
+        return TT_SetEncryptionContext(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                       &context);
+    }
+    
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_connect(JNIEnv* env,
                                                                      jobject thiz,
                                                                      jlong lpTTInstance,

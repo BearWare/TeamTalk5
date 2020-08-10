@@ -1511,8 +1511,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,6,0,5004
- PRODUCTVERSION 5,6,0,5004
+ FILEVERSION 5,6,1,5007
+ PRODUCTVERSION 5,6,1,5007
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1529,12 +1529,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 6, 0, 5004"
+            VALUE "FileVersion", "5, 6, 1, 5007"
             VALUE "InternalName", "TeamTalk5.exe"
-            VALUE "LegalCopyright", "Copyright (c) 2005-2018, BearWare.dk.  All rights reserved."
+            VALUE "LegalCopyright", "Copyright (c) 2005-2020, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 6, 0, 5004"
+            VALUE "ProductVersion", "5, 6, 1, 5007"
         END
     END
     BLOCK "VarFileInfo"
@@ -2249,7 +2249,7 @@ BEGIN
     IDS_FAILEDTOINITIALIZENEWSD "Failed to initialize new sound devices."
     IDS_RESTARTSS           "Restart Sound System"
     IDS_CHANGENN            "Change nickname"
-    IDS_NEWNN               "Nw nickname"
+    IDS_NEWNN               "New nickname"
     IDS_NOCOMBINAISONKEYPTT "No push-to-talk key combination is currently configured.\r\nWould you like to configure it now?"
     IDS_ADMIN               "Admin"
     IDS_OPPSW               "Operator password"
@@ -2291,7 +2291,6 @@ BEGIN
     IDS_TTDLLVERS           "TeamTalk 32-bit DLL version: "
     IDS_RXTXPING            "RX: %.2fKB TX: %.2fKB PING: %u %s"
     IDS_RXTX                "RX: %.2fKB TX: %.2fKB %s"
-    IDS_AWAY                "Away"
 END
 
 STRINGTABLE

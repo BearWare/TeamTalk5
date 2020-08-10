@@ -506,6 +506,7 @@
     <item id="1211">postavke sustava zvuka</item>
     <item id="1212">nema označenog fonta</item>
     <item id="1213">Ovdje odabirete uređaje zvuka koje teamtalk treba koristiti za snimanje i reprodukciju zvuka odabir izravnog zvuka je jako preporučljivo zato što daje manje kašnjenje na izlazu od windows podrazumjevanog zvučnog sustava</item>
+    <item id="1214">WebM VP8 codec razvija WebM project, www.webmproject.org</item>
     <item id="1215">Kada pritisnete testiraj označeno, možete testirati trenutno odabrane uređaje i čuti rade li uređaji ispravno</item>
     <item id="1217">korisnici mogu stvarati kanale</item>
     <item id="1218">korisnici mogu stvarati / modificirati sve kanale</item>
@@ -517,7 +518,6 @@
     <item id="1230">Informacije o novom kanalu</item>
     <item id="1231">&amp;Šalji</item>
     <item id="1232">OPUS codec razvija Opus project, www.opus-codec.org</item>
-    <item id="1235">WebM VP8 codec razvija WebM project, www.webmproject.org</item>
     <item id="1236">Dobro došli u čarobnjak za postavljanje teamtalka!</item>
     <item id="1237">Završeno je podešavanje team talka</item>
     <item id="1238">Postavke reprodukcije</item>

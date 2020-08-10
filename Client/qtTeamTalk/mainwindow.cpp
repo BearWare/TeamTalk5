@@ -807,7 +807,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             login();
         }
-
+        updateWindowTitle();
         update_ui = true;
     }
     break;
@@ -1942,13 +1942,13 @@ void MainWindow::timerEvent(QTimerEvent *event)
             if(idle_time != 0)
             {
                 QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-                if(isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_AWAY) == 0)
+                if (isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_MODE) == STATUSMODE_AVAILABLE)
                 {
                     m_statusmode |= STATUSMODE_AWAY;
-                    TT_DoChangeStatus(ttInst, m_statusmode, _W(tr("Away")));
+                    TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
                     m_idled_out = true;
                 }
-                else if(m_idled_out && !isComputerIdle(idle_time))
+                else if (m_idled_out && !isComputerIdle(idle_time))
                 {
                     m_statusmode &= ~STATUSMODE_AWAY;
                     TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));

@@ -52,5 +52,5 @@
  * Read the @ref changelog to see what has changed since the last
  * release.
  *
- * Copyright (C) 2006-2017, <a href="http://www.bearware.dk">BearWare.dk</a>. All rights reserved.
+ * Copyright (C) 2006-2020, <a href="http://www.bearware.dk">BearWare.dk</a>. All rights reserved.
  */
