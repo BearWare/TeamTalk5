@@ -416,12 +416,15 @@
     <item id="1023">Glasnoća multimedije za %s povećana je na %d%%</item>
     <item id="1024">Otvori dokument &quot;brzi početak&quot; kako bi naučio kako postaviti server i spojiti se na njega</item>
     <item id="1025">Zadano: 10333</item>
+    <item id="1026">Otsutan</item>
     <item id="1028">Glasnoća</item>
     <item id="1030">&amp;Spoji se</item>
     <item id="1034">0=onemogućeno</item>
     <item id="1035">Korisnički identifikator</item>
     <item id="1036">Nadimak</item>
     <item id="1037">0=onemogućeno</item>
+    <item id="1038">Pitanje</item>
+    <item id="1039">Streamanje multimedijske datoteke</item>
     <item id="1042">Ovaj će vas čarobnjak voditi korake potrebne kako biste postavili team talk konferencijsku aplikaciju. Pritisni gumb dalje kako biste prešli sve korake konfiguracije team talka ako pritisnete odustani morat ćete podesiti teamtalk ručno.</item>
     <item id="1044">provjerite www.bearware.dk kako biste provjerili dostupne team talk servere</item>
     <item id="1045">Gubitak paketa</item>
