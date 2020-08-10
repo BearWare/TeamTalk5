@@ -54,6 +54,7 @@ set (JAVA_SOURCES
   src/dk/bearware/DesktopInput.java
   src/dk/bearware/DesktopProtocol.java
   src/dk/bearware/DesktopWindow.java
+  src/dk/bearware/EncryptionContext.java
   src/dk/bearware/events/ClientListener.java
   src/dk/bearware/events/CommandListener.java
   src/dk/bearware/events/ConnectionListener.java

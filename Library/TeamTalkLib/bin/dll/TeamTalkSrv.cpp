@@ -42,9 +42,6 @@ struct ServerInstance
     ACE_Reactor tcpReactor;
     ACE_Reactor udpReactor;
 
-#if defined(ENABLE_ENCRYPTION)
-    ACE_SSL_Context sslcontext;
-#endif
     std::unique_ptr<ServerMonitor> monitor;
     std::unique_ptr<ServerNode> server;
 
@@ -147,41 +144,33 @@ void InitContext()
 
 #if defined(ENABLE_ENCRYPTION)
 TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContext(IN TTSInstance* lpTTSInstance,
-                                              IN const TTCHAR* szCertificateFile,
-                                              IN const TTCHAR* szPrivateKeyFile)
+                                                IN const TTCHAR* szCertificateFile,
+                                                IN const TTCHAR* szPrivateKeyFile)
 {
-    //TODO: Make SSL context instance specific
-    //ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    //if(!ttInst)
-    //    return FALSE;
+    ServerNode* pServerNode;
+    GET_SERVERNODE_RET(pServerNode, lpTTSInstance, FALSE);
 
-    //ACE_SSL_Context* ssl_context = &ttInst->sslcontext;
+    EncryptionContext context = {};
+    context.bVerifyClientOnce = true;
+    ACE_OS::strsncpy(context.szCertificateFile, szCertificateFile, TT_STRLEN);
+    ACE_OS::strsncpy(context.szPrivateKeyFile, szPrivateKeyFile, TT_STRLEN);
 
-    ACE_SSL_Context* ssl_context = ACE_SSL_Context::instance();
-
-    if(szCertificateFile && szPrivateKeyFile)
-    {
-        ssl_context->set_mode(ACE_SSL_Context::SSLv23);
-
-#if defined(UNICODE)
-        ACE_CString cert = UnicodeToLocal(szCertificateFile);
-        ACE_CString priv = UnicodeToLocal(szPrivateKeyFile);
-#else
-        ACE_CString cert = szCertificateFile;
-        ACE_CString priv = szPrivateKeyFile;
-#endif
-        if(ssl_context->certificate (cert.c_str(), SSL_FILETYPE_PEM)<0)
-            return FALSE;
-        if(ssl_context->private_key (priv.c_str(), SSL_FILETYPE_PEM)<0)
-            return FALSE;
-
-        return TRUE;
-    }
-    else
-    {
-        return FALSE;
-    }
+    return TTS_SetEncryptionContextEx(lpTTSInstance, &context);
 }
+
+TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContextEx(IN TTSInstance* lpTTSInstance,
+                                                  const EncryptionContext* lpEncryptionContext)
+{
+    ServerNode* pServerNode;
+    GET_SERVERNODE_RET(pServerNode, lpTTSInstance, FALSE);
+
+    ACE_SSL_Context* context = pServerNode->SetupEncryptionContext();
+    if (!context)
+        return FALSE;
+
+    return SetupEncryptionContext(*lpEncryptionContext, context);
+}
+
 #endif
 
 TEAMTALKDLL_API TTSInstance* TTS_InitTeamTalk()

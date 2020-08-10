@@ -77,6 +77,21 @@ namespace teamtalk {
         bool SetPrivateKeyFile(const std::string& keyfile);
         std::string GetPrivateKeyFile();
 
+        void SetCertificateAuthFile(const std::string& cafile);
+        std::string GetCertificateAuthFile();
+
+        void SetCertificateAuthDir(const std::string& cadir);
+        std::string GetCertificateAuthDir();
+
+        void SetCertificateVerify(bool enabled);
+        bool GetCertificateVerify(bool defvalue);
+
+        void SetCertificateVerifyOnce(bool enabled);
+        bool GetCertificateVerifyOnce(bool defvalue);
+
+        void SetCertificateVerifyDepth(int depth);
+        bool GetCertificateVerifyDepth(int defvalue);
+        
         bool SetAutoSave(bool enable);
         bool GetAutoSave();
 

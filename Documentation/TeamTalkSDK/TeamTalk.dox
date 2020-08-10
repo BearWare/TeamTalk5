@@ -38,7 +38,7 @@ PROJECT_NAME           = "TeamTalk 5 C-API DLL"
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER = "Version 5.6.0.5004 - Unreleased"
+PROJECT_NUMBER = "Version 5.6.1.5007 - Unreleased"
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -795,7 +795,7 @@ INPUT                  = modules-capi.txt \
                          ../../Library/TeamTalk_DLL/TeamTalkSrv.h \
                          keytranslate.txt \
                          mainpage.txt \
-                         sdkcontent-capi.txt \
+                         sdkcontent.txt \
                          library-capi.txt \
                          serversetup.txt \
                          stepbystep-capi.txt \

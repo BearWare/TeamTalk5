@@ -18,7 +18,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_SERVER_VERSION "5.6.0.5004"
+#define TEAMTALK_SERVER_VERSION "5.6.1.5007"
 
 #ifdef __cplusplus
 extern "C" {
@@ -466,27 +466,47 @@ extern "C" {
     /**
      * @brief Set certificate and private key for encrypted server.
      *
-     * @verbatim
-     * NOTE: AT THE MOMENT CALL TTS_SetEncryptionContext() BEFORE
-     * CREATING THE SERVER INSTANCE, TTS_InitTeamTalk(). JUST PASS 0
-     * AS lpTTSInstance. IN OTHER WORDS ONLY ONE ENCRYPTION CONTEXT IS
-     * SUPPORTED AT THE MOMENT.
-     * @endverbatim
-     *
      * The encrypted server's certificate and private key must be set
      * prior to starting the server using TTS_StartServer().
      *
      * Look in @ref serversetup on how to generate the certificate and
      * private key file using OpenSSL.
      *
+     * Note that this encryption option doesn't set up a certificate
+     * authority for verifying peers connecting to the server. To
+     * verify this use TTS_SetEncryptionContextEx().
+     *
      * @param lpTTSInstance Pointer to the server instance created by
      * TTS_InitTeamTalk().
      * @param szCertificateFile Path to server's certificate file. 
-     * @param szPrivateKeyFile Path to server's private key file. */
+     * @param szPrivateKeyFile Path to server's private key file.
+     * @see TTS_SetEncryptionContextEx() */
     TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContext(IN TTSInstance* lpTTSInstance,
                                                     IN const TTCHAR* szCertificateFile,
                                                     IN const TTCHAR* szPrivateKeyFile);
 
+    /**
+     * @brief Set up encryption context for encrypted server.
+     *
+     * The encryption context for the server must be set prior to
+     * starting the server using TTS_StartServer().
+     *
+     * Minimal requirements for the encryption context is to set
+     * certificate and private key.
+     *
+     * Look in @ref serversetup on how to generate the certificate and
+     * private key file using OpenSSL.
+     *
+     * @param lpTTSInstance Pointer to the server instance created by
+     * TTS_InitTeamTalk().
+     * @param lpEncryptionContext The encryption context for the server,
+     * i.e. server certificate, private key and optionally certificate 
+     * authority.
+     *
+     * @see TTS_SetEncryptionContextEx() */
+    TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContextEx(IN TTSInstance* lpTTSInstance,
+                                                      const EncryptionContext* lpEncryptionContext);
+    
     /**
      * @brief Create new TeamTalk server instance.
      * 

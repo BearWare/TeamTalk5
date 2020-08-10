@@ -67,9 +67,9 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
     return success;
 }
 
-bool Connect(TTInstance* ttClient, const TTCHAR hostname[TT_STRLEN], INT32 tcpport, INT32 udpport)
+bool Connect(TTInstance* ttClient, const TTCHAR hostname[TT_STRLEN], INT32 tcpport, INT32 udpport, TTBOOL encrypted)
 {
-    if (!TT_Connect(ttClient, hostname, tcpport, udpport, 0, 0, FALSE))
+    if (!TT_Connect(ttClient, hostname, tcpport, udpport, 0, 0, encrypted))
         return false;
     return WaitForEvent(ttClient, CLIENTEVENT_CON_SUCCESS);
 }
