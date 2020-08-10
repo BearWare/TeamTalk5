@@ -5767,6 +5767,7 @@ void CTeamTalkDlg::OnAdvancedMoveuser()
         [nChanID](int nUserID)
     {
         TT_DoMoveUser(ttInst, nUserID, nChanID);
+        AddVoiceMessage(LoadText(IDS_USERSMOVED, _T("Selected users has been moved to %s channel")), TT_GetChannel(ttInst, nChanID));
     });
     m_moveusers.clear();
 }
