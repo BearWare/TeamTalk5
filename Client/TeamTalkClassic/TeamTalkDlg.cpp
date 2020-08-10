@@ -6681,7 +6681,7 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         TRANSLATE_ITEM(IDS_PASSWORD_PROTECTED, szPasswd);
         TRANSLATE_ITEM(IDS_CLASSROOMCHANNEL, szClassroom);
         TRANSLATE_ITEM(IDC_STATIC_CHTOPIC, szTopic);
-        szChannel += _T(":");
+        szChannel += _T(": ");
         szChannel += chan.szName;
         szTopic += _T(": ");
         szTopic += chan.szTopic;
