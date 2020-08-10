@@ -753,7 +753,7 @@ bool MainWindow::parseArgs(const QStringList& args)
 void MainWindow::processTTMessage(const TTMessage& msg)
 {
     bool update_ui = false;
-    QString rootchanname = _W(tr("root"));
+    QString rootchanname = tr("root");
 
     switch(msg.nClientEvent)
     {
