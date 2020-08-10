@@ -446,6 +446,12 @@ public abstract class TeamTalkBase
         return acquireUserDesktopWindowEx(ttInst, nUserID, nBitmapFormat);
     }
 
+    private native boolean setEncryptionContext(long lpTTInstance,
+                                                EncryptionContext lpEncryptionContext);
+    public boolean setEncryptionContext(EncryptionContext lpEncryptionContext) {
+        return setEncryptionContext(ttInst, lpEncryptionContext);
+    }
+
     private native boolean connect(long lpTTInstance,
                                    String szHostAddress,
                                    int nTcpPort, 

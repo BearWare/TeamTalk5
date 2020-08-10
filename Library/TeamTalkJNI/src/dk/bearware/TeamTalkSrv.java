@@ -79,6 +79,10 @@ public abstract class TeamTalkSrv /* Java 1.7 implements AutoCloseable */ {
     public boolean setEncryptionContext(String szCertificateFile, String szPrivateKeyFile) {
         return setEncryptionContext(ttsInst, szCertificateFile, szPrivateKeyFile);
     }
+    native boolean setEncryptionContextEx(long lpTTSInstance, EncryptionContext lpEncryptionContext);
+    public boolean setEncryptionContext(EncryptionContext lpEncryptionContext) {
+        return setEncryptionContextEx(ttsInst, lpEncryptionContext);
+    }
     native boolean runEventLoop(long lpTTSInstance, int pnWaitMs);
     public boolean runEventLoop(int pnWaitMs) {
         return runEventLoop(ttsInst, pnWaitMs);

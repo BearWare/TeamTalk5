@@ -10,6 +10,13 @@
         <udpport>10443</udpport>
         <certificate-file>ttservercert.pem</certificate-file>
         <privatekey-file>ttserverkey.pem</privatekey-file>
+        <trusted-certificate>
+            <certificate-authority-file></certificate-authority-file>
+            <certificate-authority-dir></certificate-authority-dir>
+            <verify-peer>false</verify-peer>
+            <verify-client-once>true</verify-client-once>
+            <verify-depth>0</verify-depth>
+        </trusted-certificate>
         <login-attempts>0</login-attempts>
         <max-logins-per-ipaddr>0</max-logins-per-ipaddr>
         <bandwidth-limits>

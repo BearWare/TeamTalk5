@@ -335,7 +335,7 @@ int RunServer(
         prop.udpaddrs.push_back(udpaddr);
     }
 
-    if(!ConfigureServer(servernode, prop, channels))
+    if (!ConfigureServer(servernode, prop, channels))
     {
         ACE_TCHAR error_msg[1024];
         ACE_OS::snprintf(error_msg, 1024,
@@ -348,6 +348,8 @@ int RunServer(
     bool encrypted = false;
 #if defined(ENABLE_TEAMTALKPRO)
     encrypted = xmlSettings.GetCertificateFile().size() && xmlSettings.GetPrivateKeyFile().size();
+    if (encrypted && !SetupEncryption(servernode, xmlSettings))
+        return -1;
 #endif
 
     ACE_TString systemid = SERVER_WELCOME;
@@ -806,16 +808,16 @@ void RunWizard(ServerXML& xmlSettings)
 
     ACE_TString servername, motd, filesroot;
     std::vector<std::string> bindips;
-    ACE_TString certfile, keyfile;
+    ACE_TString certfile, keyfile, cafile, cadir;
     int maxusers, max_logins_per_ip = 0;
-    bool autosave = true;
+    bool autosave = true, certverifypeer, certverifyonce, certdepth;
     _INT64 diskquota = 0, maxdiskusage = 0, log_maxsize = 0;
     int tcpport = DEFAULT_TCPPORT, udpport = DEFAULT_UDPPORT, max_login_attempts = 0, logindelay = 0;
 
     servername = Utf8ToUnicode(xmlSettings.GetServerName().c_str());
     motd = Utf8ToUnicode(xmlSettings.GetMessageOfTheDay().c_str());
     filesroot = Utf8ToUnicode(xmlSettings.GetFilesRoot().c_str());
-    bindips = xmlSettings.GetBindIPs();;
+    bindips = xmlSettings.GetBindIPs();
     tcpport = xmlSettings.GetHostTcpPort()==UNDEFINED?DEFAULT_TCPPORT:xmlSettings.GetHostTcpPort();
     udpport = xmlSettings.GetHostUdpPort()==UNDEFINED?DEFAULT_UDPPORT:xmlSettings.GetHostUdpPort();
 
@@ -831,6 +833,11 @@ void RunWizard(ServerXML& xmlSettings)
 #if defined(ENABLE_TEAMTALKPRO)
     certfile = Utf8ToUnicode(xmlSettings.GetCertificateFile().c_str());
     keyfile = Utf8ToUnicode(xmlSettings.GetPrivateKeyFile().c_str());
+    cafile = Utf8ToUnicode(xmlSettings.GetCertificateAuthFile().c_str());
+    cadir = Utf8ToUnicode(xmlSettings.GetCertificateAuthDir().c_str());
+    certverifypeer = xmlSettings.GetCertificateVerify(false);
+    certverifyonce = xmlSettings.GetCertificateVerifyOnce(true);
+    certdepth = xmlSettings.GetCertificateVerifyDepth(0);
 #endif
 
     cout << endl;
@@ -936,19 +943,57 @@ void RunWizard(ServerXML& xmlSettings)
     cout << "Should server run in encrypted mode? ";
     if(printGetBool(certfile.length() && keyfile.length()))
     {
-        cout << "Server certificate file (PEM file) for encryption: ";
-        certfile = LocalToUnicode(printGetString(UnicodeToLocal(certfile).c_str()).c_str());
-        if(ACE_OS::filesize(certfile.c_str())<=0)
-            cerr << "File " << certfile << " not found! Continuing configuration..." << endl;
-        cout << "Server private key file (PEM file) for encryption: ";
-        keyfile = LocalToUnicode(printGetString(UnicodeToLocal(keyfile).c_str()).c_str());
-        if(ACE_OS::filesize(keyfile.c_str())<=0)
-            cerr << "File " << keyfile << " not found! Continuing configuration..." << endl;
+        while (true)
+        {
+            cout << "Server certificate file (in PEM format) for encryption: ";
+            certfile = LocalToUnicode(printGetString(UnicodeToLocal(certfile).c_str()).c_str());
+            if (ACE_OS::filesize(certfile.c_str()) <= 0)
+                cerr << "File " << certfile << " not found!" << endl;
+            else break;
+        }
+
+        while (true)
+        {
+            cout << "Server private key file (in PEM format) for encryption: ";
+            keyfile = LocalToUnicode(printGetString(UnicodeToLocal(keyfile).c_str()).c_str());
+            if (ACE_OS::filesize(keyfile.c_str()) <= 0)
+                cerr << "File " << keyfile << " not found!" << endl;
+            else break;
+        }
+
+        cout << "Should server verify client's certificate with provided Certificate Authority (CA) certificate? ";
+        if (certverifypeer = printGetBool(certverifypeer))
+        {
+            cout << "File containing Certificate Authority (CA) certificate (in PEM format): ";
+            cafile = LocalToUnicode(printGetString(UnicodeToLocal(cafile).c_str()).c_str());
+
+            cout << "Directory containing Certificate Authority (CA) certificates (leave blank to only use single CA file): ";
+            cadir = LocalToUnicode(printGetString(UnicodeToLocal(cadir).c_str()).c_str());
+
+            cout << "Should client's certificate only be verified initially? ";
+            certverifyonce = printGetBool(certverifyonce);
+
+            cout << "Max depth in certificate chain during the verification process? ";
+            certdepth = printGetInt(certdepth);
+        }
+        else
+        {
+            cafile.clear();
+            cadir.clear();
+            certverifypeer = false;
+            certverifyonce = true;
+            certdepth = 0;
+        }
     }
     else
     {
         certfile.clear();
         keyfile.clear();
+        cafile.clear();
+        cadir.clear();
+        certverifypeer = false;
+        certverifyonce = true;
+        certdepth = 0;
     }
 
     bool encrypted = certfile.length() && keyfile.length();
@@ -1273,6 +1318,11 @@ void RunWizard(ServerXML& xmlSettings)
 #if defined(ENABLE_TEAMTALKPRO)
     cout << "Server certificate file for encryption: " << certfile << endl;
     cout << "Server private key file for encryption: " << keyfile << endl;
+    cout << "Server should verify client's certificate: " << (certverifypeer? "true" : "false") << endl;
+    if (certverifypeer && cafile.length())
+        cout << "Certificate Authority (CA) file: " << cafile << endl;
+    if (certverifypeer && cadir.length())
+        cout << "Certificate Authority (CA) directory: " << cadir << endl;
 #endif
 
     int count = 0;
@@ -1298,6 +1348,11 @@ void RunWizard(ServerXML& xmlSettings)
 #if defined(ENABLE_TEAMTALKPRO)
         xmlSettings.SetCertificateFile(UnicodeToUtf8(certfile).c_str());
         xmlSettings.SetPrivateKeyFile(UnicodeToUtf8(keyfile).c_str());
+        xmlSettings.SetCertificateAuthFile(UnicodeToUtf8(cafile).c_str());
+        xmlSettings.SetCertificateAuthDir(UnicodeToUtf8(cadir).c_str());
+        xmlSettings.SetCertificateVerify(certverifypeer);
+        xmlSettings.SetCertificateVerifyOnce(certverifyonce);
+        xmlSettings.SetCertificateVerifyDepth(certdepth);
 #endif
         xmlSettings.SetServerLogMaxSize(log_maxsize);
         xmlSettings.SetMaxLoginAttempts(max_login_attempts);
