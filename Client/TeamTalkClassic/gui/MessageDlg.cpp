@@ -209,6 +209,10 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     if(bStore)
         m_messages.push_back(msg);
 
+    //insert enter
+    m_richHistory.SetSel(0,0);
+    m_richHistory.ReplaceSel(_T("\r\n"));
+
     //insert msg
     m_richHistory.SetSel(0,0);
     m_richHistory.ReplaceSel( msg.szMessage );
@@ -220,10 +224,6 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     cf.crTextColor    = RGB(0, 0, 0); 
     m_richHistory.SetSel(0, long(_tcslen(msg.szMessage)));
     m_richHistory.SetSelectionCharFormat(cf); 
-
-    //insert enter
-    m_richHistory.SetSel(0,0);
-    m_richHistory.ReplaceSel(_T("\r\n"));
 
     CString szTime;
     szTime.Format(_T("%.2d:%.2d:%.2d"), msg.receiveTime.GetHour(), msg.receiveTime.GetMinute(), msg.receiveTime.GetSecond());
