@@ -2249,7 +2249,7 @@ BEGIN
     IDS_FAILEDTOINITIALIZENEWSD "Failed to initialize new sound devices."
     IDS_RESTARTSS           "Restart Sound System"
     IDS_CHANGENN            "Change nickname"
-    IDS_NEWNN               "Nw nickname"
+    IDS_NEWNN               "New nickname"
     IDS_NOCOMBINAISONKEYPTT "No push-to-talk key combination is currently configured.\r\nWould you like to configure it now?"
     IDS_ADMIN               "Admin"
     IDS_OPPSW               "Operator password"
@@ -2291,7 +2291,6 @@ BEGIN
     IDS_TTDLLVERS           "TeamTalk 32-bit DLL version: "
     IDS_RXTXPING            "RX: %.2fKB TX: %.2fKB PING: %u %s"
     IDS_RXTX                "RX: %.2fKB TX: %.2fKB %s"
-    IDS_AWAY                "Away"
 END
 
 STRINGTABLE
