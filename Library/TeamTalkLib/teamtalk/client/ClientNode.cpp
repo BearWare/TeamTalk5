@@ -123,6 +123,10 @@ ClientNode::~ClientNode()
 
     m_soundsystem->RemoveSoundGroup(m_soundprop.soundgroupid);
 
+#if defined(ENABLE_ENCRYPTION)
+    CryptStreamHandler::RemoveSSLContext(&m_reactor);
+#endif
+
     MYTRACE( (ACE_TEXT("~ClientNode\n")) );
 }
 
@@ -4092,6 +4096,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
     {
         ACE_NEW_RETURN(m_crypt_stream, CryptStreamHandler(0, 0, &m_reactor), false);
         m_crypt_stream->SetListener(this);
+
         //ACE_Synch_Options options = ACE_Synch_Options::defaults;
         //ACE only supports OpenSSL on blocking sockets
 #if 0
@@ -4953,6 +4958,21 @@ ACE_INET_Addr ClientNode::GetLocalAddr()
     }
     return localaddr;
 }
+
+#if defined(ENABLE_ENCRYPTION)
+ACE_SSL_Context* ClientNode::SetupEncryptionContext()
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    if (m_flags & CLIENT_CONNECTION)
+        return nullptr;
+    
+    CryptStreamHandler::RemoveSSLContext(&m_reactor);
+
+    return CryptStreamHandler::AddSSLContext(&m_reactor);
+}
+#endif
+
 
 void ClientNode::OnOpened()
 {

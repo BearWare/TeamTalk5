@@ -402,6 +402,9 @@ namespace teamtalk {
                      const ACE_INET_Addr* localtcpaddr);
         void Disconnect();
         ACE_INET_Addr GetLocalAddr();
+#if defined(ENABLE_ENCRYPTION)
+        ACE_SSL_Context* SetupEncryptionContext();
+#endif
         
         //StreamListener
 #if defined(ENABLE_ENCRYPTION)

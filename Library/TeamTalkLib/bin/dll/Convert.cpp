@@ -1651,3 +1651,39 @@ void Convert(const int* int_array, int max_elements, std::set<int>& intset)
         i++;
     }
 }
+
+#if defined(ENABLE_ENCRYPTION)
+bool SetupEncryptionContext(const EncryptionContext& enccontext, ACE_SSL_Context* context)
+{
+#if defined(UNICODE)
+    ACE_CString cert = UnicodeToLocal(enccontext.szCertificateFile);
+    ACE_CString priv = UnicodeToLocal(enccontext.szPrivateKeyFile);
+    ACE_CString cafile = UnicodeToLocal(enccontext.szCAFile);
+    ACE_CString cadir = UnicodeToLocal(enccontext.szCADir);
+#else
+    ACE_CString cert = enccontext.szCertificateFile;
+    ACE_CString priv = enccontext.szPrivateKeyFile;
+    ACE_CString cafile = enccontext.szCAFile;
+    ACE_CString cadir = enccontext.szCADir;
+#endif
+    
+    if (cert.length() && context->certificate(cert.c_str(), SSL_FILETYPE_PEM) < 0)
+        return FALSE;
+
+    if (priv.length() && context->private_key(priv.c_str(), SSL_FILETYPE_PEM) < 0)
+        return FALSE;
+
+    if (cafile.length() || cadir.length())
+    {
+        if (context->load_trusted_ca(cafile.length() ? cafile.c_str() : nullptr,
+                                     cadir.length() ? cadir.c_str() : nullptr, false) < 0)
+            return FALSE;
+    }
+
+    context->set_verify_peer(enccontext.bVerifyPeer,
+                             enccontext.bVerifyClientOnce,
+                             enccontext.nVerifyDepth);
+    
+    return TRUE;
+}
+#endif

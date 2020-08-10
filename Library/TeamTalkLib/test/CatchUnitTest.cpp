@@ -29,6 +29,7 @@
 #include "TTUnitTest.h"
 
 #include <myace/MyACE.h>
+#include <teamtalk/server/ServerNode.h>
 
 #include <map>
 #include <map>
@@ -942,5 +943,28 @@ TEST_CASE("testThumbnail")
     REQUIRE(ffmpeg.StartStream());
 
     REQUIRE(sig_done.get());
+}
+#endif
+
+#if defined(ENABLE_ENCRYPTION) && 0
+// Encryption context should apparently not be set on client unless it
+// is meant for peer verification
+TEST_CASE("testSSLSetup")
+{
+    std::vector<TTInstance*> clients;
+    auto ttclient = TT_InitTeamTalkPoll();
+    clients.push_back(ttclient);
+
+    EncryptionContext context = {};
+    ACE_OS::strsncpy(context.szCertificateFile, ACE_TEXT("ttclientcert.pem"), TT_STRLEN);
+    ACE_OS::strsncpy(context.szPrivateKeyFile, ACE_TEXT("ttclientkey.pem"), TT_STRLEN);
+    ACE_OS::strsncpy(context.szCAFile, ACE_TEXT("ca.cer"), TT_STRLEN);
+    context.bVerifyPeer = FALSE;
+    context.bVerifyClientOnce = TRUE;
+    context.nVerifyDepth = 0;
+    
+    REQUIRE(TT_SetEncryptionContext(ttclient, &context));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), DEFAULT_ENCRYPTED_TCPPORT, DEFAULT_ENCRYPTED_UDPPORT, TRUE));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
 }
 #endif

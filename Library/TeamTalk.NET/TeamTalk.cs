@@ -93,40 +93,40 @@ namespace BearWare
          *
          * Duplex mode is not supported by AudioUnit iOS sound API. */
         SOUNDSYSTEM_AUDIOUNIT = 8,
-        /** @brief Same as #SOUNDSYSTEM_AUDIOUNIT. */
+        /** @brief Same as #SoundSystem.SOUNDSYSTEM_AUDIOUNIT. */
         SOUNDSYSTEM_AUDIOUNIT_IOS = SOUNDSYSTEM_AUDIOUNIT,
     }
 
     /**
      * @brief Features available on a sound device.
-     * Checkout @c uSoundDeviceFeatures on #SoundDevice.
+     * Checkout @c uSoundDeviceFeatures on #BearWare.SoundDevice.
      * */
     [Flags]
     public enum SoundDeviceFeature : uint
     {
         SOUNDDEVICEFEATURE_NONE = 0x0000,
-        /** @brief The #SoundDevice can enable Acoustic 
+        /** @brief The #BearWare.SoundDevice can enable Acoustic 
          * Echo Canceler (AEC).
          * Enable AEC use property @c bEnableAEC on
-         * #SoundDeviceEffects.
-         * @see TT_SetSoundDeviceEffects() */
+         * #BearWare.SoundDeviceEffects.
+         * @see TeamTalkBase.SetSoundDeviceEffects() */
         SOUNDDEVICEFEATURE_AEC = 0x0001,
-        /** @brief The #SoundDevice can enable Automatic
+        /** @brief The #BearWare.SoundDevice can enable Automatic
          * Gain Control (AGC).
          * Enable AGC use property @c bEnableAGC on
-         * #SoundDeviceEffects.
-         * @see TT_SetSoundDeviceEffects() */
+         * #BearWare.SoundDeviceEffects.
+         * @see TeamTalkBase.SetSoundDeviceEffects() */
         SOUNDDEVICEFEATURE_AGC = 0x0002,
-        /** @brief The #SoundDevice can enable denoising.
+        /** @brief The #BearWare.SoundDevice can enable denoising.
          * Enable denoising use property @c bEnableDenoising on 
-         * #SoundDeviceEffects.
-         * @see TT_SetSoundDeviceEffects() */
+         * #BearWare.SoundDeviceEffects.
+         * @see TeamTalkBase.SetSoundDeviceEffects() */
         SOUNDDEVICEFEATURE_DENOISE = 0x0004,
-        /** @brief The #SoundDevice can position user in 3D.
-         * @see TT_SetUserPosition()  */
+        /** @brief The #BearWare.SoundDevice can position user in 3D.
+         * @see TeamTalkBase.SetUserPosition()  */
         SOUNDDEVICEFEATURE_3DPOSITION = 0x0008,
-        /** @brief The #SoundDevice can run in duplex mode.
-         * @see TT_InitSoundDuplexDevices() */
+        /** @brief The #BearWare.SoundDevice can run in duplex mode.
+         * @see TeamTalkBase.InitSoundDuplexDevices() */
         SOUNDDEVICEFEATURE_DUPLEXMODE = 0x0010,
     }
 
@@ -220,34 +220,50 @@ namespace BearWare
         /**
          * @brief Enable Automatic Gain Control.
          *
+         * This effect can be enabled on a #BearWare.SoundDevice that has
+         * #SoundDeviceFeature.SOUNDDEVICEFEATURE_AGC flag in @c uSoundDeviceFeatures.
+         *
          * Supported platforms:
          * - Windows
-         *   - Automatic gain control is per TeamTalkBase instance.
+         *   - Automatic gain control is per #BearWare.TeamTalkBase instance.
+         *   - #BearWare.TeamTalkBase instance must initialize sound devices using
+         *     TeamTalkBase.InitSoundDuplexDevices()
          * - Android
          *   - Automatic gain control will be applied on all active
-         *     TeamTalkBase instances.
+         *     #BearWare.TeamTalkBase instances.
          * @see SoundDeviceFeature.SOUNDDEVICEFEATURE_AGC */
         public bool bEnableAGC;
         /**
          * @brief Enable noise suppression.
          *
+         * This effect can be enabled on a #BearWare.SoundDevice that has
+         * #SoundDeviceFeature.SOUNDDEVICEFEATURE_DENOISE flag in @c
+         * uSoundDeviceFeatures.
+         *
          * Supported platforms:
          * - Windows
          *   - Noise suppression is per TeamTalkBase instance.
+         *   - #BearWare.TeamTalkBase instance must initialize sound devices using
+         *     TeamTalkBase.InitSoundDuplexDevices()
          * - Android
          *   - Noise suppression will be applied on all active
-         *     TeamTalkBase instance.
+         *     #BearWare.TeamTalkBase instance.
          * @see SoundDeviceFeature.SOUNDDEVICEFEATURE_DENOISE */
         public bool bEnableDenoise;
         /**
          * @brief Enable echo cancellation.
          *
+         * This effect can be enabled on a #BearWare.SoundDevice that has
+         * #SoundDeviceFeature.SOUNDDEVICEFEATURE_AEC flag in @c uSoundDeviceFeatures.
+         *
          * Supported platforms:
          * - Windows
          *   - Echo cancellation is per TeamTalkBase instance.
+         *   - #BearWare.TeamTalkBase instance must initialize sound devices using
+         *     TeamTalkBase.InitSoundDuplexDevices()
          * - Android
          *   - Echo cancellation will be applied on all active
-         *     TeamTalkBase instance.
+         *     #BearWare.TeamTalkBase instance.
          * @see SoundDeviceFeature.SOUNDDEVICEFEATURE_AEC */
         public bool bEnableEchoCancellation;
     }
@@ -1142,7 +1158,7 @@ namespace BearWare
     }
 
     /** @brief Use TeamTalk's internal audio preprocessor for gain
-     * audio. Same as used for TT_SetSoundInputGainLevel(). */
+     * audio. Same as used for TeamTalkBase.SetSoundInputGainLevel(). */
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct TTAudioPreprocessor
     {
@@ -1158,7 +1174,7 @@ namespace BearWare
 
     /** @brief The types of supported audio preprocessors.
      *
-     * @see TT_InitLocalPlayback() */
+     * @see TeamTalkBase.InitLocalPlayback() */
     public enum AudioPreprocessorType : uint
     {
         /** @brief Value for specifying that no audio preprocessing
@@ -1711,7 +1727,7 @@ namespace BearWare
     /**
      * @brief A struct containing the properties of a banned user.
      * @see TeamTalkBase.DoListBans() 
-     * @see TT_DoBanUserEx() */
+     * @see TeamTalkBase.DoBanUserEx() */
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct BannedUser
     {
@@ -2086,7 +2102,7 @@ namespace BearWare
         public int nBufferMSecMediaFile;
         /** @brief The name of the client application which the user
          * is using. This is the value passed as @c szClientName in
-         * TT_DoLoginEx() */
+         * TeamTalkBase.DoLoginEx() */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szClientName;
     }
@@ -2489,7 +2505,7 @@ namespace BearWare
      * @brief Control timers for sending keep alive information to the
      * server.
      *
-     * @see TT_DoPing()
+     * @see TeamTalkBase.DoPing()
      */
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct ClientKeepAlive
@@ -2734,9 +2750,9 @@ namespace BearWare
 
         /** @brief Banned from joining a channel.
          * 
-         * @see TT_DoJoinChannel()
-         * @see TT_DoJoinChannelByID()
-         * @see TT_DoBanUser() */
+         * @see TeamTalkBase.DoJoinChannel()
+         * @see TeamTalkBase.DoJoinChannelByID()
+         * @see TeamTalkBase.DoBanUser() */
         CMDERR_CHANNEL_BANNED = 2015,
 
         /* COMMAND ERRORS 3000-3999 ARE DUE TO INVALID STATE OF CLIENT INSTANCE */
@@ -2857,15 +2873,15 @@ namespace BearWare
          * Ensure the settings specified in #BearWare.AudioCodec are valid.
          * @see TeamTalkBase.DoJoinChannel() */
         INTERR_AUDIOCODEC_INIT_FAILED           = 10002,
-        /** @brief Same as #INTERR_AUDIOPREPROCESSOR_INIT_FAILED. */
+        /** @brief Same as #ClientError.INTERR_AUDIOPREPROCESSOR_INIT_FAILED. */
         INTERR_SPEEXDSP_INIT_FAILED = 10003,
-        /** @brief #AudioPreprocessor failed to initialize.
+        /** @brief #BearWare.AudioPreprocessor failed to initialize.
          *
          * This error occurs when joining a channel and the
          * #BearWare.AudioPreprocessor is initialized.
          *
          * The settings specified by TeamTalkBase.SetSoundInputPreprocessEx()
-         * are invalid or unsupported. @see TT_DoJoinChannel() */
+         * are invalid or unsupported. @see TeamTalkBase.DoJoinChannel() */
         INTERR_AUDIOPREPROCESSOR_INIT_FAILED = 10003,
         /** @brief #BearWare.TTMessage event queue overflowed.
          *
@@ -2875,7 +2891,7 @@ namespace BearWare
          * event handling once the queue overflows and resumes event
          * handling again when the message queue has been drained. */
         INTERR_TTMESSAGE_QUEUE_OVERFLOW         = 10004,
-        /** @brief #SoundDeviceEffects failed to initialize.
+        /** @brief #BearWare.SoundDeviceEffects failed to initialize.
          * 
          * This error occurs when joining a channel and an effect in
          * #BearWare.SoundDeviceEffects failed to initialize.
@@ -3296,7 +3312,7 @@ namespace BearWare
          *
          * Call TeamTalkBase.AcquireUserAudioBlock() to extract the #BearWare.AudioBlock.
          *
-         * @param nSource The user ID. @see TT_LOCAL_USERID @see TT_MUTEX_USERID
+         * @param nSource The user ID. @see TeamTalkBase.TT_LOCAL_USERID @see TeamTalkBase.TT_MUTEX_USERID
          * @param ttType #TTType.__STREAMTYPE */
         CLIENTEVENT_USER_AUDIOBLOCK = CLIENTEVENT_NONE + 570,
         /** 
@@ -4279,9 +4295,7 @@ namespace BearWare
         /**
          * @brief Perform a record and playback test of specified sound
          * devices along with an audio configuration and ability to try
-         * echo cancellation.
-         *
-         *  @deprecated Use TT_StartSoundLoopbackTestEx() */
+         * echo cancellation. */
         public static IntPtr StartSoundLoopbackTest(int nInputDeviceID, int nOutputDeviceID,
                                                     int nSampleRate, int nChannels,
                                                     bool bDuplexMode, SpeexDSP lpSpeexDSP)
@@ -4309,7 +4323,7 @@ namespace BearWare
          * the specified sample rate since this loop back test uses duplex
          * mode ( @see TeamTalkBase.InitSoundDuplexDevices() ). Check out @c
          * supportedSampleRates of #BearWare.SoundDevice to see which sample rates
-         * are supported. The #SoundDevice must have the feature
+         * are supported. The #BearWare.SoundDevice must have the feature
          * #SoundDeviceFeature.SOUNDDEVICEFEATURE_DUPLEXMODE.
          * @param lpAudioPreprocessor The preprocessing settings to use, i.e. AGC
          * and denoising properties. Pass NULL to ignore AGC, denoise and AEC.
@@ -4378,7 +4392,7 @@ namespace BearWare
          * sound input device.
          *
          * By default a shared sound device (checkout
-         * #SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) initialized by
+         * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) initialized by
          * TeamTalkBase.InitSoundInputDevice will use the sound device's @c
          * nDefaultSampleRate, @c nMaxInputChannels of #BearWare.SoundDevice and
          * a frame size (callback buffer) of nDefaultSampleRate * 0.04.
@@ -4391,10 +4405,10 @@ namespace BearWare
          * device is currently active.
          *
          * @param nSampleRate The sample rate to use on the shared
-         * device. Must exist in #SoundDevice's @c inputSampleRates. 
+         * device. Must exist in #BearWare.SoundDevice's @c inputSampleRates. 
          * Pass zero to reset to default behaviour.
          * @param nChannels The number of channels to use (mono,
-         * stereo). Must be less or equals to #SoundDevice's @c
+         * stereo). Must be less or equals to #BearWare.SoundDevice's @c
          * nMaxInputChannels.  Pass zero to reset to default behaviour.
          * @param nFrameSize The number of samples in each callback from
          * the shared sound device. A 40 msec callback on a 48 KHz input
@@ -4445,7 +4459,7 @@ namespace BearWare
          * sound output device.
          *
          * By default a shared sound device (checkout
-         * #SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) initialized by
+         * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG) initialized by
          * TeamTalkBase.InitSoundOutputDevice will use the sound device's @c
          * nDefaultSampleRate, @c nMaxOutputChannels of #BearWare.SoundDevice and
          * a frame size (callback buffer) of nDefaultSampleRate * 0.04.
@@ -4458,10 +4472,10 @@ namespace BearWare
          * device is currently active.
          *
          * @param nSampleRate The sample rate to use on the shared
-         * device. Must exist in #SoundDevice's @c outputSampleRates. 
+         * device. Must exist in #BearWare.SoundDevice's @c outputSampleRates. 
          * Pass zero to reset to default behaviour.
          * @param nChannels The number of channels to use (mono,
-         * stereo). Must be less or equals to #SoundDevice's @c
+         * stereo). Must be less or equals to #BearWare.SoundDevice's @c
          * nMaxOutputChannels.  Pass zero to reset to default behaviour.
          * @param nFrameSize The number of samples in each callback from
          * the shared sound device. A 40 msec callback on a 48KHz output
@@ -4478,19 +4492,8 @@ namespace BearWare
          * @brief Enable duplex mode where multiple audio streams are
          * mixed into a single stream using software.
          *
-         * Duplex mode can @b ONLY be enabled on sound devices which
-         * support the same sample rate. Sound systems #SoundSystem.SOUNDSYSTEM_WASAPI
-         * and #SoundSystem.SOUNDSYSTEM_ALSA typically only support a single sample
-         * rate.  Check @c supportedSampleRates in #BearWare.SoundDevice to see
-         * which sample rates are supported.
-         * 
          * To use duplex mode the feature #SoundDeviceFeature.SOUNDDEVICEFEATURE_DUPLEXMODE
-         * must be available on the #SoundDevice.
-         *
-         * Sound duplex mode is required for echo cancellation since sound
-         * input and output device must be synchronized. Also sound cards
-         * which does not support multiple output streams should use
-         * duplex mode.
+         * must be available on the #BearWare.SoundDevice.
          *
          * If TeamTalkBase.InitSoundDuplexDevices() is successful the following
          * flags will be set:
@@ -4499,11 +4502,6 @@ namespace BearWare
          * - #ClientFlag.CLIENT_SNDOUTPUT_READY
          * - #ClientFlag.CLIENT_SNDINPUT_READY
          *
-         * Sound duplex mode is required for echo cancellation since sound
-         * input and output device must be synchronized. Also sound cards
-         * which does not support multiple output stream should use
-         * duplex mode.
-         *
          * Call TeamTalkBase.CloseSoundDuplexDevices() to shut down duplex mode.
          *
          * Note that it is only the audio streams from users in the local
@@ -4511,8 +4509,9 @@ namespace BearWare
          * local client instance calls TeamTalkBase.DoSubscribe() with
          * #Subscription #Subscription.SUBSCRIBE_INTERCEPT_VOICE on a user in another channel then
          * the audio from this user will be started in a separate
-         * stream. The reason for this is that the other user may use a
-         * different audio codec.
+         * stream. The reason for this is that the other user may use an
+         * audio codec with a different sample rate or number of audio
+         * channels.
          *
          * @param nInputDeviceID The @a nDeviceID of #BearWare.SoundDevice extracted 
          * through GetSoundDevices().
@@ -4589,7 +4588,7 @@ namespace BearWare
          * #BearWare.SoundDeviceEffects-struct can be used to toggle these audio
          * effects on the device.
          *
-         * The following sound systems support TT_SetSoundDeviceEffects():
+         * The following sound systems support TeamTalkBase.SetSoundDeviceEffects():
          * - #SoundSystem.SOUNDSYSTEM_OPENSLES_ANDROID
          *   - Modifying #BearWare.SoundDeviceEffects on Android will apply to all
          *     active TeamTalkBase instances, i.e. #BearWare.SoundDeviceEffects are applied
@@ -4603,13 +4602,13 @@ namespace BearWare
          *
          * This setting should not be confused with
          * TeamTalkBase.SetSoundInputPreprocessEx() which runs entirely in software
-         * and is specific to the #TTInstance.
+         * and is specific to the #TeamTalkBase instance.
          *
          * Investigate #BearWare.SoundDeviceFeature to see what audio effects are
-         * supported by the available #SoundDevice.
+         * supported by the available #BearWare.SoundDevice.
          *
          * Note that the sound effects may not be immediately applied
-         * since an sound device is not active until the #TTInstance joins
+         * since an sound device is not active until the #TeamTalkBase instance joins
          * a channel where the sound device knowns the sample rate and
          * number of channels
          * (mono/stereo). #ClientError.INTERR_SNDEFFECT_FAILURE will be
@@ -4714,7 +4713,7 @@ namespace BearWare
          *
          * It is recommended to use the sound device's native echo
          * cancellor, denoising and automatic gain control instead of
-         * #SpeexDSP. Checkout TeamTalkBase.SetSoundDeviceEffects().
+         * #BearWare.SpeexDSP. Checkout TeamTalkBase.SetSoundDeviceEffects().
          *
          * @param lpAudioPreprocessor The sound preprocessor settings to use.
          * @return TRUE on success, FALSE on failure. */
@@ -4810,7 +4809,7 @@ namespace BearWare
          * is being played from users.
          * @param nStreamType Either #StreamType.STREAMTYPE_VOICE or 
          * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
-         * @param bEnable Whether to enable the #ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK event.
+         * @param bEnable Whether to enable the OnUserAudioBlock() event.
          * 
          * @see TeamTalkBase.AcquireUserAudioBlock()
          * @see TeamTalkBase.ReleaseUserAudioBlock()
@@ -4821,25 +4820,23 @@ namespace BearWare
             return TTDLL.TT_EnableAudioBlockEvent(m_ttInst, nUserID, nStreamType, bEnable);
         }
         /**
-         * @brief Same as TT_EnableAudioBlockEvent() but option to specify
+         * @brief Same as TeamTalkBase.EnableAudioBlockEvent() but option to specify
          * audio output format.
          *
-         * @param lpTTInstance Pointer to client instance created by
-         * #TT_InitTeamTalk.
          * @param nUserID The user ID to monitor for audio callback. Pass
          * special user ID #TT_LOCAL_USERID to monitor local recorded
          * audio prior to encoding/processing. Pass special user ID
          * #TT_MUXED_USERID to get a single audio stream of all audio that
          * is being played from users.
-         * @param nStreamType Either #STREAMTYPE_VOICE or 
-         * #STREAMTYPE_MEDIAFILE_AUDIO.
-         * @param lpAudioFormat Resample audio format from user to this #AudioFormat.
-         * Currently only AFF_WAVE_FORMAT is supported.
+         * @param nStreamType Either #StreamType.STREAMTYPE_VOICE or 
+         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         * @param lpAudioFormat Resample audio format from user to this #BearWare.AudioFormat.
+         * Currently only #AudioFileFormat.AFF_WAVE_FORMAT is supported.
          * Specify NULL to get original audio format.
-         * @param bEnable Whether to enable the #CLIENTEVENT_USER_AUDIOBLOCK event.
-         * @see TT_AcquireUserAudioBlock()
-         * @see TT_ReleaseUserAudioBlock()
-         * @see CLIENTEVENT_USER_AUDIOBLOCK */
+         * @param bEnable Whether to enable the OnUserAudioBlock() event.
+         * @see TeamTalkBase.AcquireUserAudioBlock()
+         * @see TeamTalkBase.ReleaseUserAudioBlock()
+         * @see ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK */
         public bool EnableAudioBlockEvent(int nUserID, StreamType nStreamType,
                                           AudioFormat lpAudioFormat, bool bEnable)
         {
@@ -5921,7 +5918,7 @@ namespace BearWare
          * available in both TeamTalk SDK Standard and Professional
          * Edition.
          * @param szSystemID The identification of the conferencing system.
-         * The default value is "teamtalk". See TT_StartServerSysID()
+         * The default value is "teamtalk". See TeamTalkSrvBase.StartServerSysID()
          * @return Returns TRUE if connection process was initiated. */
         public bool ConnectSysID(string szHostAddress,
                                  int nTcpPort,
@@ -6739,8 +6736,8 @@ namespace BearWare
          * If @c uBanTypes contains #BanType.BANTYPE_IPADDR then the IP-address cannot join
          * the channel where @n nUserID is currently present.
          *
-         * @see TT_DoListBans()
-         * @see TT_DoBan() */
+         * @see TeamTalkBase.DoListBans()
+         * @see TeamTalkBase.DoBan() */
         public int DoBanUserEx(int nUserID, BanType uBanTypes)
         {
             return TTDLL.TT_DoBanUserEx(m_ttInst, nUserID, uBanTypes);
@@ -6762,8 +6759,8 @@ namespace BearWare
          * #BanType.BANTYPE_USERNAME is specified then @c szUsername must be set
          * and the same rule applies as for IP-addresses.
          *
-         * @see TT_DoListBans()
-         * @see TT_DoBanUserEx() */
+         * @see TeamTalkBase.DoListBans()
+         * @see TeamTalkBase.DoBanUserEx() */
         public int DoBan(BannedUser lpBannedUser)
         {
             return TTDLL.TT_DoBan(m_ttInst, ref lpBannedUser);
@@ -7260,7 +7257,7 @@ namespace BearWare
         /**
          * @brief Set the position of a user.
          *
-         * 3D sound position requires #SOUNDDEVICEFEATURE_3DPOSITION.
+         * 3D sound position requires #SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION.
          *
          * This can only be done using DirectSound (#SoundSystem.SOUNDSYSTEM_DSOUND),
          * a mono channel and with sound duplex mode 

@@ -80,6 +80,10 @@ ServerNode::~ServerNode()
 {
     StopServer(true);
     MYTRACE(ACE_TEXT("~ServerNode()\n"));
+
+#if defined(ENABLE_ENCRYPTION)
+    CryptStreamHandler::RemoveSSLContext(m_tcp_reactor);
+#endif
 }
 
 ACE_Lock& ServerNode::lock()
@@ -1107,6 +1111,13 @@ void ServerNode::OnOpened(ACE_HANDLE h, serveruser_t& user)
 }
 
 #if defined(ENABLE_ENCRYPTION)
+ACE_SSL_Context* ServerNode::SetupEncryptionContext()
+{
+    CryptStreamHandler::RemoveSSLContext(m_tcp_reactor);
+
+    return CryptStreamHandler::AddSSLContext(m_tcp_reactor);
+}
+
 void ServerNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
 {
     GUARD_OBJ(this, lock());
