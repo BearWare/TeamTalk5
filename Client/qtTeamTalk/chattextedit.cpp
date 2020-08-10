@@ -95,7 +95,7 @@ QString ChatTextEdit::getTimeStamp(bool force_ts)
 {
     QString dt;
     if(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool() || force_ts)
-        dt = QDateTime::currentDateTime().toString(Qt::ISODate) + QString(" ");
+        dt = QDateTime::currentDateTime().toString(tr("yyyy-MM-dd HH:mm:ss")) + QString(" ");
     return dt;
 }
 
