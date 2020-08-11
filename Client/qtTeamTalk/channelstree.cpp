@@ -969,6 +969,9 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
             itemtext += tr(" (Streaming media file)");
 
+        if (user.nStatusMode & STATUSMODE_VIDEO)
+            itemtext += tr(" (Webcam)");
+
       
         if(user.uUserType & USERTYPE_ADMIN)
             itemtext += tr(" [Administrator]");
