@@ -968,3 +968,158 @@ TEST_CASE("testSSLSetup")
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
 }
 #endif
+
+TEST_CASE("Last voice packet - wav files")
+{
+    TTCHAR curdir[1024] = {};
+    ACE_OS::getcwd(curdir, 1024);
+
+
+    //clean up wav files from previous runs
+    //they are not deleted after the test, so they are available for inspection afterwards
+    ACE_TCHAR delim = ACE_DIRECTORY_SEPARATOR_CHAR;
+    ACE_OS::strncat(curdir, &delim, 1);
+    ACE_OS::strncat(curdir, ACE_TEXT("wav"), 4);
+
+    ACE_stat fileInfo;
+    ACE_DIR* dir = ACE_OS::opendir(curdir);
+    REQUIRE(dir);
+
+    if (ACE_OS::stat(curdir, &fileInfo) == -1);
+    {
+        ACE_OS::mkdir(curdir);
+        dir = ACE_OS::opendir(curdir);
+    }
+    dirent* dirInfo = ACE_OS::readdir(dir);
+    ACE_TCHAR fileToDelete[1024]{};
+    do
+    {
+        if ((ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT(".")) == 0) || (ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT("..")) == 0))
+        {
+            continue;
+        }
+
+        TTCHAR buf[1024]{};
+        ACE_OS::strncpy(buf, dirInfo->d_name + ACE_OS::strlen(dirInfo->d_name) - 4, 4);
+        int index = ACE_OS::strncmp(buf, ACE_TEXT(".wav"), 4);
+
+        if (index == 0)
+        {
+            ACE_OS::strcpy(fileToDelete, curdir);
+            ACE_OS::strncat(fileToDelete, &delim, 1);
+            ACE_OS::strncat(fileToDelete, dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
+            ACE_OS::unlink(fileToDelete);
+        }
+
+
+    } while ((dirInfo = ACE_OS::readdir(dir)) != NULL);
+
+    ACE_OS::closedir(dir);
+
+    //run multiple times to get the wav output files with different number of frames.
+    //running 10 times, gives me 1-4 files with a missing frame, sometimes I get no file with a missing frame, but then you can run this test again or increase the number
+    //of runs from 10 to e.g. 20.
+    for (int i = 0; i < 10; i++)
+    {
+        std::vector<TTInstance*> clients;
+        auto txclient = TT_InitTeamTalkPoll();
+        auto rxclient = TT_InitTeamTalkPoll();
+        clients.push_back(txclient);
+        clients.push_back(rxclient);
+
+        REQUIRE(InitSound(txclient, SHARED_INPUT));
+        REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+        REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+
+        REQUIRE(InitSound(rxclient, SHARED_INPUT));
+        REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+        REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+
+        AudioCodec audiocodec = {};
+        audiocodec.nCodec = OPUS_CODEC;
+        audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
+        audiocodec.opus.nTxIntervalMSec = 240;
+#if defined(OPUS_FRAMESIZE_120_MS)
+        audiocodec.opus.nFrameSizeMSec = 120;
+#else
+        audiocodec.opus.nFrameSizeMSec = 60;
+#endif
+        audiocodec.opus.nBitRate = OPUS_MIN_BITRATE;
+        audiocodec.opus.nChannels = 2;
+        audiocodec.opus.nComplexity = 10;
+        audiocodec.opus.nSampleRate = 48000;
+        audiocodec.opus.bDTX = true;
+        audiocodec.opus.bFEC = true;
+        audiocodec.opus.bVBR = false;
+        audiocodec.opus.bVBRConstraint = false;
+
+        Channel chan = MakeChannel(txclient, ACE_TEXT("foo"), TT_GetRootChannelID(txclient), audiocodec);
+        REQUIRE(WaitForCmdSuccess(txclient, TT_DoJoinChannel(txclient, &chan)));
+        REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannelByID(rxclient, TT_GetMyChannelID(txclient), ACE_TEXT(""))));
+
+        REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 600));
+        REQUIRE(TT_SetUserMediaStorageDir(rxclient, TT_GetMyUserID(txclient), curdir, ACE_TEXT(""), AFF_WAVE_FORMAT));
+
+        auto voicestop = [&](TTMessage msg)
+            {
+                if (msg.nClientEvent == CLIENTEVENT_USER_STATECHANGE &&
+                    msg.user.nUserID == TT_GetMyUserID(txclient) &&
+                    (msg.user.uUserState & USERSTATE_VOICE) == 0)
+                {
+                    return true;
+                }
+
+                return false;
+            };
+
+        REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+        /*
+         * A duration which ends on a third of a package size, will produce different wav outputs (files are generated which last 1220 ms (5x nTxIntervalMSec)
+         * and files are generated which last 1440ms (6x nTxIntervalMSec)
+         */
+        WaitForEvent(txclient, CLIENTEVENT_NONE, int(audiocodec.opus.nTxIntervalMSec * 5 + audiocodec.opus.nTxIntervalMSec * 0.33));
+        REQUIRE(TT_EnableVoiceTransmission(txclient, false));
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
+
+
+        for (auto c : clients)
+            REQUIRE(TT_CloseTeamTalk(c));
+
+    }
+
+    //check file sizes. All files should hvae the same size (but some are missing the last frame, so this test fails)
+    long long fileSize = -1;
+    dir = ACE_OS::opendir(curdir);
+    dirInfo = ACE_OS::readdir(dir);
+    do
+    {
+        if ((ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT(".")) == 0) || (ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT("..")) == 0))
+        {
+            continue;
+        }
+
+        TTCHAR buf[1024]{};
+        ACE_OS::strncpy(buf, dirInfo->d_name + ACE_OS::strlen(dirInfo->d_name) - 4, 4);
+        int index = ACE_OS::strncmp(buf, ACE_TEXT(".wav"), 4);
+
+        ACE_TCHAR fileToCheck[1024]{};
+        if (index == 0)
+        {
+            ACE_OS::strcpy(fileToCheck, curdir);
+            ACE_OS::strncat(fileToCheck, &delim, 1);
+            ACE_OS::strncat(fileToCheck, dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
+
+            if (ACE_OS::stat(fileToCheck, &fileInfo) != -1)
+            {
+                if (fileSize == -1)
+                {
+                    fileSize = fileInfo.st_size;
+                }
+
+                REQUIRE(fileSize == fileInfo.st_size);
+            }
+        }
+    } while ((dirInfo = ACE_OS::readdir(dir)) != NULL);
+
+    ACE_OS::closedir(dir);
+}

@@ -237,28 +237,7 @@ void VoiceLog::FlushLog()
     ACE_Time_Value last = m_last;
     g.release();
 
-    ACE_Time_Value now = ACE_OS::gettimeofday();
-
-    //write if voice has been received
-    if(first.msec() != 0)
-    {
-        int diff_ms = first.msec() - m_flush.msec();
-        if(diff_ms)
-            WriteSilence(diff_ms);
-        WritePackets(m_packet_current, pktno_max,
-                     pktno_latest, wrapped);
-        diff_ms = now.msec() - last.msec();
-        if(diff_ms)
-            WriteSilence(diff_ms);
-    }
-    else//write if _no_ voice has been received
-    {
-        int diff_ms = now.msec() - m_flush.msec();
-        if(diff_ms)
-            WriteSilence(diff_ms);
-    }
-
-    m_flush = now;
+    WritePackets(m_packet_current, pktno_max, pktno_latest, wrapped);
 
     g.acquire();
     m_first.set(0,0);//reset
