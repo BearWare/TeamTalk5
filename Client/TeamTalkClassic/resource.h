@@ -288,6 +288,7 @@
 #define IDS_FILEREMOVEDBY                   380
 #define IDS_RXTXPING                    381
 #define IDS_RXTX                        382
+#define IDS_USERSMOVED                        383
 #define IDS_FAILEDTOCONNECTLP           384
 #define IDS_NEWUPDATEAVAILABLE          385
 #define IDS_DISCONNECTCURRENT           386
@@ -334,6 +335,7 @@
 #define IDS_STREAMDLGFAILEDSTARTPB      428
 #define IDS_LOADFILECLIENTSET           429
 #define IDS_ADDTOFWEXCEP                430
+#define IDS_SELECTFORMOVE                431
 #define IDS_BANTYPEDLGIPADDR            432
 #define IDS_BANTYPEDLGUSERNAME          433
 #define IDS_CHANDLGNOAUDIO              434

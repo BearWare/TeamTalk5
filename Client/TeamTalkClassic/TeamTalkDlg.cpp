@@ -5752,7 +5752,13 @@ void CTeamTalkDlg::OnAdvancedStoreformove()
     int nMoveUserID = m_wndTree.GetSelectedUser();
     if (nMoveUserID)
         m_moveusers.insert(nMoveUserID);
-
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED) {
+            User user;
+            TT_GetUser(ttInst, nMoveUserID, &user);
+            CString szMsg;
+            szMsg.Format(LoadText(IDS_SELECTFORMOVE, _T("%s selected for move")), GetDisplayName(user));
+            AddVoiceMessage(szMsg);
+        }
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedMoveuser(CCmdUI *pCmdUI)
@@ -5767,8 +5773,14 @@ void CTeamTalkDlg::OnAdvancedMoveuser()
         [nChanID](int nUserID)
     {
         TT_DoMoveUser(ttInst, nUserID, nChanID);
-        AddVoiceMessage(LoadText(IDS_USERSMOVED, _T("Selected users has been moved to %s channel")), TT_GetChannel(ttInst, nChanID));
     });
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED) {
+        Channel chan;
+        TT_GetChannel(ttInst, nChanID, &chan);
+        CString szMsg;
+        szMsg.Format(LoadText(IDS_USERSMOVED, _T("Selected users has been moved to channel %s")), chan.szName);
+        AddVoiceMessage(szMsg);
+    }
     m_moveusers.clear();
 }
 
