@@ -212,7 +212,7 @@ TEST_CASE( "Last voice packet" )
         {
             return true;
         }
-        
+
         return false;
     };
 
@@ -227,7 +227,7 @@ TEST_CASE( "Last voice packet" )
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
     WaitForEvent(txclient, CLIENTEVENT_NONE, 1000);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
-    
+
     for(auto c : clients)
         REQUIRE(TT_CloseTeamTalk(c));
 }
@@ -278,9 +278,9 @@ TEST_CASE( "MuxedAudioToFile" )
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
     WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoUnsubscribe(rxclient, TT_GetMyUserID(txclient), SUBSCRIBE_VOICE)));
-    
+
     WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
-    
+
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoSubscribe(rxclient, TT_GetMyUserID(txclient), SUBSCRIBE_VOICE)));
 
     REQUIRE(TT_EnableVoiceTransmission(rxclient, true));
@@ -290,7 +290,7 @@ TEST_CASE( "MuxedAudioToFile" )
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
     WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
-    
+
     REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
 
     for(auto c : clients)
@@ -352,7 +352,7 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
         {
             return true;
         }
-        
+
         return false;
     };
     auto voicestop = [&](TTMessage msg)
@@ -363,7 +363,7 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
         {
             return true;
         }
-        
+
         return false;
     };
 
@@ -420,7 +420,7 @@ TEST_CASE( "Opus Read File" )
 
     for(auto c : clients)
         REQUIRE(TT_CloseTeamTalk(c));
-    
+
     OggFile of;
     REQUIRE(of.Open(FILENAME));
     ogg_page op;
@@ -547,7 +547,7 @@ TEST_CASE("CLSID_CWMAudioAEC")
     REQUIRE(SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_FEATR_FRAME_SIZE, &pvFrameSize)));
     iFrameSize = pvFrameSize.lVal;
     PropVariantClear(&pvFrameSize);
-    
+
     WavePCMFile wavefile;
     REQUIRE(wavefile.NewFile(ACE_TEXT("Echo_cancelled.wav"), SAMPLERATE, CHANNELS));
 
@@ -618,7 +618,7 @@ TEST_CASE("CWMAudioAEC_Callback")
             MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
             callbacks++;
         }
-        
+
         soundsystem::SoundDeviceFeatures GetDuplexFeatures()
         {
             return soundsystem::SOUNDDEVICEFEATURE_NONE;
@@ -695,7 +695,7 @@ TEST_CASE("CWMAudioAEC_Callback")
 TEST_CASE("CWMAudioAEC_DuplexMode")
 {
     using namespace soundsystem;
-    
+
     {
         // Ensure wave file exists before running unit-test (otherwise SoundSystemBase destructor will complain with abort)
         WavePCMFile ww;
@@ -854,7 +854,7 @@ TEST_CASE("TT_AEC")
     }
 
     REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_USERID, STREAMTYPE_VOICE, TRUE));
-    
+
     abCount = 20;
     while (abCount--)
     {
@@ -915,12 +915,12 @@ TEST_CASE("testThumbnail")
     FFMpegStreamer ffmpeg;
     MediaStreamOutput prop(media::AudioFormat(16000, 2), 1600, media::FOURCC_RGB32);
     auto filename = "out.mp3";
-    
+
     REQUIRE(ffmpeg.OpenFile(filename, prop));
 
     std::promise<bool> done;
     auto sig_done = done.get_future();
-    
+
     auto status = [&] (const MediaFileProp& mfp, MediaStreamStatus status) {
                       std::cout << mfp.filename.c_str() << " status: " << (int)status << std::endl;
                       if (status == MEDIASTREAM_FINISHED)
@@ -934,7 +934,7 @@ TEST_CASE("testThumbnail")
     auto video = [] (media::VideoFrame& video_frame, ACE_Message_Block* mb_video) {
                     return false;
                 };
-        
+
 
     ffmpeg.RegisterStatusCallback(status, true);
     ffmpeg.RegisterAudioCallback(audio, true);
@@ -962,7 +962,7 @@ TEST_CASE("testSSLSetup")
     context.bVerifyPeer = FALSE;
     context.bVerifyClientOnce = TRUE;
     context.nVerifyDepth = 0;
-    
+
     REQUIRE(TT_SetEncryptionContext(ttclient, &context));
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), DEFAULT_ENCRYPTED_TCPPORT, DEFAULT_ENCRYPTED_UDPPORT, TRUE));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
