@@ -49,9 +49,10 @@ using namespace teamtalk;
 
 VoiceLog::VoiceLog(int userid, const ACE_TString& filename, 
                    const AudioCodec& codec, AudioFileFormat aff,
-                   int stream_id)
+                   int stream_id, int stoppedtalking_delay)
 : m_packet_max(-1)
 , m_packet_latest(-1)
+, m_tot_msec(stoppedtalking_delay)
 , m_packet_current(-1)
 , m_userid(userid)
 , m_codec(codec)
@@ -164,7 +165,6 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         if(!m_speex->Initialize(GetSpeexBandMode(m_codec)))
             return;
 #endif
-        m_flush = ACE_OS::gettimeofday();
         break;
     case CODEC_OPUS :
 #if defined(ENABLE_OPUS)
@@ -172,7 +172,6 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         if(!m_opus->Open(codec.opus.samplerate, codec.opus.channels))
             return;
 #endif
-        m_flush = ACE_OS::gettimeofday();
         break;
     case CODEC_NO_CODEC :
     case CODEC_WEBM_VP8 :
@@ -203,16 +202,11 @@ void VoiceLog::AddVoicePacket(const teamtalk::AudioPacket& packet)
 
     wguard_t g(m_mutex);
 
-    if(m_first.msec() == 0)
-        m_first = ACE_OS::gettimeofday();
-
-    //calc when voice of this packet ends
-    int msec = GetAudioCodecCbMillis(m_codec);
-    m_last = ACE_OS::gettimeofday() + ACE_Time_Value(msec/1000, (msec%1000) * 1000);
+    m_last = ACE_OS::gettimeofday();
 
     int packet_no = packet.GetPacketNumber();
 
-    m_mQueuePackets[packet_no] = audiopacket_t( new AudioPacket(packet) );
+    m_mQueuePackets[packet_no].reset(new AudioPacket(packet));
 
     if(m_packet_current == -1)
     {
@@ -233,14 +227,11 @@ void VoiceLog::FlushLog()
     int pktno_latest = m_packet_latest;
     bool wrapped = false;
 
-    ACE_Time_Value first = m_first;
-    ACE_Time_Value last = m_last;
     g.release();
 
     WritePackets(m_packet_current, pktno_max, pktno_latest, wrapped);
 
     g.acquire();
-    m_first.set(0,0);//reset
 
     //if packet no wrapped we have to update 'packet max' so 
     //it can start over
@@ -490,6 +481,11 @@ void VoiceLog::WriteSilence(int msecs)
     }
 }
 
+ACE_Time_Value VoiceLog::GetVoiceEndTime() const
+{
+    return m_last + ToTimeValue(m_tot_msec);
+}
+
 VoiceLogFile VoiceLog::GetVoiceLogFile()
 {
     VoiceLogFile vlogfile;
@@ -664,7 +660,8 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 
     VoiceLog* newlog;
     ACE_NEW(newlog, VoiceLog(from_user.GetUserID(), filepath,
-                             codec, aff, stream_id));
+                             codec, aff, stream_id,
+                             from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE)));
     voicelog_t log (newlog);
 
     bool active = log->IsActive();
@@ -764,7 +761,7 @@ void VoiceLogger::FlushLogs()
         ite != m_mLogs.end();ite++)
     {
         ite->second->FlushLog();
-        if(ite->second->GetVoiceEndTime() + ACE_Time_Value(2,0) < ACE_OS::gettimeofday())
+        if (ite->second->GetVoiceEndTime() < ACE_OS::gettimeofday())
             closeLogs.push_back(ite->first);
     }
     g.release(); // don't hold lock otherwise lock-order with m_add_mtx can end up wrong

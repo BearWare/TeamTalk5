@@ -78,13 +78,13 @@ namespace teamtalk {
 
         VoiceLog(int userid, const ACE_TString& filename,
                  const AudioCodec& codec, AudioFileFormat aff,
-                 int stream_id);
+                 int stream_id, int stoppedtalking_delay);
         ~VoiceLog();
 
         void AddVoicePacket(const teamtalk::AudioPacket& packet);
         void FlushLog();
 
-        ACE_Time_Value GetVoiceEndTime() const { return m_last; }
+        ACE_Time_Value GetVoiceEndTime() const;
 
         VoiceLogFile GetVoiceLogFile();
 
@@ -114,9 +114,8 @@ namespace teamtalk {
         int m_packet_current;
         int m_packet_max;
         int m_packet_latest;
-        ACE_Time_Value m_flush; //time of last flush
-        ACE_Time_Value m_first; //time of first packet received
-        ACE_Time_Value m_last;  //time of last packet received
+        ACE_Time_Value m_last;
+        int m_tot_msec; // auto close voice log after this timeout
 #if defined(ENABLE_SPEEX)
         std::unique_ptr<SpeexDecoder> m_speex;
 #endif
