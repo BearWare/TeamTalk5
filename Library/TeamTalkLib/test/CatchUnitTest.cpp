@@ -93,7 +93,7 @@ TEST_CASE( "Ogg Write", "" ) {
 
 #if defined(ENABLE_OPUS)
 TEST_CASE( "Record mux") {
-    std::vector<TTInstance*> clients(2);
+    std::vector<ttinst> clients(2);
     for (size_t i=0;i<clients.size();++i)
     {
         REQUIRE((clients[i] = TT_InitTeamTalkPoll()));
@@ -152,16 +152,13 @@ TEST_CASE( "Record mux") {
     WaitForEvent(clients[1], CLIENTEVENT_NONE, 10000);
 
     REQUIRE(TT_StopRecordingMuxedAudioFile(clients[1]));
-
-    for(auto c : clients)
-        REQUIRE(TT_CloseTeamTalk(c));
 }
 #endif
 
 #if defined(ENABLE_OPUS)
 TEST_CASE( "Last voice packet" )
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto txclient = TT_InitTeamTalkPoll();
     auto rxclient = TT_InitTeamTalkPoll();
     clients.push_back(txclient);
@@ -227,15 +224,12 @@ TEST_CASE( "Last voice packet" )
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
     WaitForEvent(txclient, CLIENTEVENT_NONE, 1000);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
-
-    for(auto c : clients)
-        REQUIRE(TT_CloseTeamTalk(c));
 }
 #endif
 
 TEST_CASE( "MuxedAudioToFile" )
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto txclient = TT_InitTeamTalkPoll();
     auto rxclient = TT_InitTeamTalkPoll();
     clients.push_back(txclient);
@@ -292,14 +286,11 @@ TEST_CASE( "MuxedAudioToFile" )
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
 
     REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
-
-    for(auto c : clients)
-        REQUIRE(TT_CloseTeamTalk(c));
 }
 
 TEST_CASE( "MuxedAudioBlock" )
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto txclient = TT_InitTeamTalkPoll();
     auto rxclient = TT_InitTeamTalkPoll();
     clients.push_back(txclient);
@@ -318,14 +309,11 @@ TEST_CASE( "MuxedAudioBlock" )
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
-
-    for(auto c : clients)
-        REQUIRE(TT_CloseTeamTalk(c));
 }
 
 TEST_CASE( "MuxedAudioBlockUserEvent" )
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto txclient = TT_InitTeamTalkPoll();
     auto rxclient = TT_InitTeamTalkPoll();
     clients.push_back(txclient);
@@ -372,15 +360,12 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
-
-    for(auto c : clients)
-        REQUIRE(TT_CloseTeamTalk(c));
 }
 
 #if defined(ENABLE_OGG)
 TEST_CASE( "Opus Read File" )
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto rxclient = TT_InitTeamTalkPoll();
     clients.push_back(rxclient);
 
@@ -417,9 +402,6 @@ TEST_CASE( "Opus Read File" )
     REQUIRE(TT_StartRecordingMuxedAudioFile(rxclient, &chan.audiocodec, FILENAME, AFF_CHANNELCODEC_FORMAT));
 
     WaitForEvent(rxclient, CLIENTEVENT_NONE, 2000);
-
-    for(auto c : clients)
-        REQUIRE(TT_CloseTeamTalk(c));
 
     OggFile of;
     REQUIRE(of.Open(FILENAME));
@@ -789,7 +771,7 @@ TEST_CASE("CWMAudioAEC_DuplexMode")
 
 TEST_CASE("TT_AEC")
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto ttclient = TT_InitTeamTalkPoll();
     clients.push_back(ttclient);
 
@@ -876,14 +858,12 @@ TEST_CASE("TT_AEC")
     // cannot disable sound effects either
     effects.bEnableAGC = effects.bEnableDenoise = effects.bEnableEchoCancellation = FALSE;
     REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects) == FALSE);
-
-    TT_CloseTeamTalk(ttclient);
 }
 #endif
 
 TEST_CASE("testMuxedAudioBlockSoundInputDisabled")
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto ttclient = TT_InitTeamTalkPoll();
     clients.push_back(ttclient);
 
@@ -951,7 +931,7 @@ TEST_CASE("testThumbnail")
 // is meant for peer verification
 TEST_CASE("testSSLSetup")
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto ttclient = TT_InitTeamTalkPoll();
     clients.push_back(ttclient);
 
@@ -1026,7 +1006,7 @@ TEST_CASE("Last voice packet - wav files")
     //of runs from 10 to e.g. 20.
     for (int i = 0; i < 10; i++)
     {
-        std::vector<TTInstance*> clients;
+        std::vector<ttinst> clients;
         auto txclient = TT_InitTeamTalkPoll();
         auto rxclient = TT_InitTeamTalkPoll();
         clients.push_back(txclient);
@@ -1086,9 +1066,6 @@ TEST_CASE("Last voice packet - wav files")
         WaitForEvent(txclient, CLIENTEVENT_NONE, duration);
         REQUIRE(TT_EnableVoiceTransmission(txclient, false));
         REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
-
-        for (auto c : clients)
-            REQUIRE(TT_CloseTeamTalk(c));
     }
 
     //check file sizes. All files should hvae the same size (but some are missing the last frame, so this test fails)
