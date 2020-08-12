@@ -10,6 +10,7 @@ Accessible Windows Client:
 - Status mode is now displayed on receiving side (after status message)
 - Status message is now displaying after a hyphen (same behavior with QT Client)
 - Fixed accessible hints on channel list and files-tab
+- CTRL+G now return "Administrator" when it's the case
 Default QT Client:
 - Update window title at login with server name
 - Status mode is now displayed as text for 3 status (Away, Question, and Streaming media file)

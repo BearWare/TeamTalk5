@@ -6579,8 +6579,13 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
 
         CString szUser, szVoice, szMute, szMediaFile, szMuteMediaFile,
             szVideoCapture, szDesktop, szChanOp = LoadText(IDS_CHANOP, _T("Channel Operator"));
-
-        szUser.LoadString(IDS_USER);
+        if(user.uUserType & USERTYPE_ADMIN) {
+            szUser.LoadString(IDS_USERADMIN);
+            TRANSLATE_ITEM(IDS_USERADMIN, szUser);
+        } else {
+            szUser.LoadString(IDS_USER);
+            TRANSLATE_ITEM(IDS_USER, szUser);
+        }
         TRANSLATE_ITEM(IDD_TAB_CHANNELOP, szChanOp);
         szVoice.LoadString(IDS_TALKING);
         szMute.LoadString(IDS_MUTE);
@@ -6589,7 +6594,6 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         szVideoCapture.LoadString(IDS_VIDEOCAPTURE);
         szDesktop.LoadString(IDS_DESKTOP);
 
-        TRANSLATE_ITEM(IDS_USER, szUser);
         TRANSLATE_ITEM(IDS_TALKING, szVoice);
         TRANSLATE_ITEM(IDS_MUTE, szMute);
         TRANSLATE_ITEM(IDS_STREAMING_MEDIAFILE, szMediaFile);
