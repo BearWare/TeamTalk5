@@ -2095,6 +2095,7 @@ BEGIN
     IDS_CHAT                "Chat"
     IDS_CLIENTSETTINGS      "The file %s contains %s setup information.\r\nShould these settings be applied?"
     IDS_USER                "User"
+    IDS_USERADMIN                "Administrator"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
     IDS_CHANNEL             "Channel"
