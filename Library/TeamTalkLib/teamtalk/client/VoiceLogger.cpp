@@ -50,9 +50,7 @@ using namespace teamtalk;
 VoiceLog::VoiceLog(int userid, const ACE_TString& filename, 
                    const AudioCodec& codec, AudioFileFormat aff,
                    int stream_id, int stoppedtalking_delay)
-: m_packet_max(-1)
-, m_packet_latest(-1)
-, m_tot_msec(stoppedtalking_delay)
+: m_tot_msec(stoppedtalking_delay)
 , m_packet_current(-1)
 , m_userid(userid)
 , m_codec(codec)
@@ -206,15 +204,19 @@ void VoiceLog::AddVoicePacket(const teamtalk::AudioPacket& packet)
 
     int packet_no = packet.GetPacketNumber();
 
-    m_mQueuePackets[packet_no].reset(new AudioPacket(packet));
-
     if(m_packet_current == -1)
     {
         m_packet_current = packet_no;
     }
-    if(m_packet_max == -1 || packet_no > m_packet_max)
-        m_packet_max = packet_no;
-    m_packet_latest = packet_no;
+
+    if (W16_LT(packet_no, m_packet_current))
+    {
+        MYTRACE(ACE_TEXT("Skipped delayed packet %d from #%d voice log\n"),
+                packet_no, m_userid);
+        return;
+    }
+
+    m_mQueuePackets[packet_no].reset(new AudioPacket(packet));
 }
 
 void VoiceLog::FlushLog()
@@ -223,47 +225,20 @@ void VoiceLog::FlushLog()
     m_mFlushPackets.insert(m_mQueuePackets.begin(),m_mQueuePackets.end());
     m_mQueuePackets.clear();
 
-    int pktno_max = m_packet_max;
-    int pktno_latest = m_packet_latest;
-    bool wrapped = false;
-
     g.release();
 
-    WritePackets(m_packet_current, pktno_max, pktno_latest, wrapped);
-
-    g.acquire();
-
-    //if packet no wrapped we have to update 'packet max' so 
-    //it can start over
-    if(wrapped)
-        m_packet_max = pktno_max;
+    m_packet_current = WritePackets(m_packet_current);
 }
 
-void VoiceLog::WritePackets(int& pktno_cur, int& pktno_max, 
-                            int pktno_latest, bool& wrapped)
+int VoiceLog::WritePackets(int pktno_cur)
 {
     while(!m_mFlushPackets.empty())
     {
-        if(pktno_cur < pktno_max)
-            WritePacket(pktno_cur++);
-        else if(pktno_cur == pktno_max)
-        {
-            WritePacket(pktno_cur++);
-            break;
-        }
-        else if( (m_packet_latest & 0xFFFF) + 1000 < pktno_max)
-        {
-            if(pktno_cur > 0xFFFF)
-            {
-                pktno_cur = 0;
-                pktno_max = pktno_latest;
-                wrapped = true;
-            }
-            WritePacket(pktno_cur++);
-        }
-        else
-            break;
+        WritePacket(pktno_cur++);
+        pktno_cur &= 0xFFFF;
     }
+
+    return pktno_cur;
 }
 
 void VoiceLog::WritePacket(int packet_no)

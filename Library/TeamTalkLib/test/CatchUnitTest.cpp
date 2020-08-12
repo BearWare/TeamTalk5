@@ -983,6 +983,11 @@ TEST_CASE("Last voice packet - wav files")
 
     ACE_stat fileInfo;
     ACE_DIR* dir = ACE_OS::opendir(curdir);
+    if (!dir)
+    {
+        ACE_OS::mkdir(curdir);
+        dir = ACE_OS::opendir(curdir);
+    }
     REQUIRE(dir);
 
     if (ACE_OS::stat(curdir, &fileInfo) == -1);
@@ -1077,14 +1082,13 @@ TEST_CASE("Last voice packet - wav files")
          * A duration which ends on a third of a package size, will produce different wav outputs (files are generated which last 1220 ms (5x nTxIntervalMSec)
          * and files are generated which last 1440ms (6x nTxIntervalMSec)
          */
-        WaitForEvent(txclient, CLIENTEVENT_NONE, int(audiocodec.opus.nTxIntervalMSec * 5 + audiocodec.opus.nTxIntervalMSec * 0.33));
+        int duration = int(audiocodec.opus.nTxIntervalMSec * 5 + audiocodec.opus.nTxIntervalMSec * 0.33);
+        WaitForEvent(txclient, CLIENTEVENT_NONE, duration);
         REQUIRE(TT_EnableVoiceTransmission(txclient, false));
         REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
 
-
         for (auto c : clients)
             REQUIRE(TT_CloseTeamTalk(c));
-
     }
 
     //check file sizes. All files should hvae the same size (but some are missing the last frame, so this test fails)

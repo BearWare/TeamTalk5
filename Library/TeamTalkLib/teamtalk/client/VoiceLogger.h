@@ -100,10 +100,9 @@ namespace teamtalk {
         int GetStreamID() const { return m_streamid; }
         void SetClosing() { m_closing = true; }
     private:
-        typedef std::map<int, audiopacket_t> mappackets_t;
+        typedef std::map<int, audiopacket_t, w16_less_comp> mappackets_t;
 
-        void WritePackets(int& pktno_cur, int& pktno_max, 
-                          int pktno_latest, bool& wrapped);
+        int WritePackets(int pktno_cur);
         void WritePacket(int packet_no);
         void WriteAudio(int packet_no);
         void WriteSilence(int msecs);
@@ -112,8 +111,6 @@ namespace teamtalk {
         mappackets_t m_mQueuePackets; //packetnum --> packet
         mappackets_t m_mFlushPackets; //packetnum --> packet
         int m_packet_current;
-        int m_packet_max;
-        int m_packet_latest;
         ACE_Time_Value m_last;
         int m_tot_msec; // auto close voice log after this timeout
 #if defined(ENABLE_SPEEX)
