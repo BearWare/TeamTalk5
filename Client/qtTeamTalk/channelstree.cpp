@@ -972,7 +972,6 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if (user.nStatusMode & STATUSMODE_VIDEOTX)
             itemtext += tr(" (Webcam)");
 
-      
         if(user.uUserType & USERTYPE_ADMIN)
             itemtext += tr(" [Administrator]");
 

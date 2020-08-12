@@ -405,6 +405,7 @@
 #define IDS_VIDEOCAPTUREFAILED          498
 #define IDS_WEBLOGINFBLOGOUT            499
 #define IDS_WEBLOGINFBLOGIN             500
+#define IDS_USERISVIDEOTX             502
 #define MAX_STRING_LENGTH               511
 #define IDS_APPTITLEUNRELEASED          512
 #define IDS_APPTITLEPROV                513
