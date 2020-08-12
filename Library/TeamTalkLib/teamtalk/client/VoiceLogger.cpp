@@ -203,10 +203,11 @@ void VoiceLog::AddVoicePacket(const teamtalk::AudioPacket& packet)
     m_last = ACE_OS::gettimeofday();
 
     int packet_no = packet.GetPacketNumber();
-
-    if(m_packet_current == -1)
+    bool first = false;
+    if (m_packet_current == -1)
     {
         m_packet_current = packet_no;
+        first = true;
     }
 
     if (W16_LT(packet_no, m_packet_current))
@@ -215,6 +216,9 @@ void VoiceLog::AddVoicePacket(const teamtalk::AudioPacket& packet)
                 packet_no, m_userid);
         return;
     }
+
+    if (first || W32_GT(packet.GetTime(), m_packet_timestamp))
+        m_packet_timestamp = packet.GetTime();
 
     m_mQueuePackets[packet_no].reset(new AudioPacket(packet));
 }
@@ -461,6 +465,12 @@ ACE_Time_Value VoiceLog::GetVoiceEndTime() const
     return m_last + ToTimeValue(m_tot_msec);
 }
 
+uint32_t VoiceLog::GetLatestPacketTime() const
+{
+    assert(m_packet_current != -1);
+    return m_packet_timestamp;
+}
+
 VoiceLogFile VoiceLog::GetVoiceLogFile()
 {
     VoiceLogFile vlogfile;
@@ -540,7 +550,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 
         TimerHandler* th;
         ACE_NEW(th, TimerHandler(*this, TIMER_WRITELOG_ID));
-            m_timerid = m_reactor.schedule_timer(th, 0, FLUSH_INTERVAL, FLUSH_INTERVAL);
+        m_timerid = m_reactor.schedule_timer(th, 0, FLUSH_INTERVAL, FLUSH_INTERVAL);
         TTASSERT(m_timerid>=0);
     }
 
@@ -700,6 +710,13 @@ void VoiceLogger::AddVoicePacket(ClientUser& from_user,
     }
     else if(ite->second->GetStreamID() != packet.GetStreamID())
     {
+        if (W32_LT(packet.GetTime(), ite->second->GetLatestPacketTime()))
+        {
+            MYTRACE(ACE_TEXT("Ignored packet %d from #%d. Packet older than latest\n"),
+                    packet.GetPacketNumber(), from_user.GetUserID());
+            return;
+        }
+
         EndLog(from_user.GetUserID());
         BeginLog(from_user, channel.GetAudioCodec(), packet.GetStreamID(),
                  from_user.GetAudioFolder());
