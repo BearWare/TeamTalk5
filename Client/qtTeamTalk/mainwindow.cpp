@@ -3843,10 +3843,10 @@ void MainWindow::slotUsersAdvancedDecVolumeMediaFile()
 
 void MainWindow::slotUsersAdvancedStoreForMove()
 {
-/*    m_moveusers.clear();
+    m_moveusers.clear();
     m_moveusers = ui.channelsWidget->selectedUsers();
-    slotUpdateUI();*/
-//    int nMoveUserID = m_wndTree.GetSelectedUser();
+    slotUpdateUI();
+/*    int nMoveUserID = m_wndTree.GetSelectedUser();
     QInt nMoveUserID = ui.channelsWidget->getSelectedUser();
     if(nMoveUserID) {
         if(m_moveusers.find(nMoveUserID) != m_moveusers.end()) {
@@ -3854,7 +3854,7 @@ void MainWindow::slotUsersAdvancedStoreForMove()
         } else {
             m_moveusers.insert(nMoveUserID);
         }
-    }
+    }*/
 }
 
 void MainWindow::slotUsersAdvancedMoveUsers()

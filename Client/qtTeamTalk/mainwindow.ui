@@ -1728,7 +1728,7 @@
     <string>&amp;Increase Voice Volume</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+.</string>
+    <string>Ctrl+F8</string>
    </property>
   </action>
   <action name="actionLowerVoiceVolume">
@@ -1736,7 +1736,7 @@
     <string>&amp;Lower Voice Volume</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+,</string>
+    <string>Ctrl+F7</string>
    </property>
   </action>
   <action name="actionStoreForMove">
@@ -2014,7 +2014,7 @@
     <string>Increase Media File Volume</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Alt+.</string>
+    <string>Ctrl+F6</string>
    </property>
   </action>
   <action name="actionLowerMediaFileVolume">
@@ -2022,7 +2022,7 @@
     <string>Lower Media File Volume</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Alt+,</string>
+    <string>Ctrl+F5</string>
    </property>
   </action>
   <action name="actionResetPreferencesToDefault">
