@@ -970,7 +970,7 @@ TEST_CASE("Last voice packet - wav files")
     }
     REQUIRE(dir);
 
-    if (ACE_OS::stat(curdir, &fileInfo) == -1);
+    if (ACE_OS::stat(curdir, &fileInfo) == -1)
     {
         ACE_OS::mkdir(curdir);
         dir = ACE_OS::opendir(curdir);
