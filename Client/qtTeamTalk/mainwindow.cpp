@@ -3847,8 +3847,7 @@ void MainWindow::slotUsersAdvancedStoreForMove()
     m_moveusers = ui.channelsWidget->selectedUsers();
     slotUpdateUI();*/
 //    int nMoveUserID = m_wndTree.GetSelectedUser();
-//    int nMoveUserID = ui.channelsWidget->getSelectedUser();
-    m_moveusers = ui.channelsWidget->getSelectedUser();
+    QInt nMoveUserID = ui.channelsWidget->getSelectedUser();
     if(nMoveUserID) {
         if(m_moveusers.find(nMoveUserID) != m_moveusers.end()) {
             m_moveusers.erase(nMoveUserID);
