@@ -243,6 +243,7 @@
     <item id="379">TeamTalk 32-bit DLL version: </item>
     <item id="381">RX: %.2fKB TX: %.2fKB PING: %u %s</item>
     <item id="382">RX: %.2fKB TX: %.2fKB %s</item>
+    <item id="383">Selected users has been moved to channel %s</item>
     <item id="384">Failed to connect to %s port %d sound port %d.&#xD;&#xA;Check that your host settings are correct.</item>
     <item id="385">New update available: %s</item>
     <item id="386">Disconnect from current host?</item>

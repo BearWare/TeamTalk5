@@ -5764,6 +5764,13 @@ void CTeamTalkDlg::OnAdvancedMoveuser()
     {
         TT_DoMoveUser(ttInst, nUserID, nChanID);
     });
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED) {
+        Channel chan;
+        TT_GetChannel(ttInst, nChanID, &chan);
+        CString szMsg;
+        szMsg.Format(LoadText(IDS_USERSMOVED, _T("Selected users has been moved to channel %s")), chan.szName);
+        AddVoiceMessage(szMsg);
+    }
     m_moveusers.clear();
 }
 

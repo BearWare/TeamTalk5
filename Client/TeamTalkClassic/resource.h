@@ -281,6 +281,7 @@
 #define IDS_TTDLLVERS                   379
 #define IDS_RXTXPING                    381
 #define IDS_RXTX                        382
+#define IDS_USERSMOVED                        383
 #define IDS_FAILEDTOCONNECTLP           384
 #define IDS_NEWUPDATEAVAILABLE          385
 #define IDS_DISCONNECTCURRENT           386

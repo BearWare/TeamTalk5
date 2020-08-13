@@ -243,7 +243,7 @@
     <item id="379">Version de la DLL TeamTalk 32-bit: </item>
     <item id="381">Réception: %.2fKB, Transmission: %.2fKB, PING: %u %s</item>
     <item id="382">Réception: %.2fKB, Transmission: %.2fKB %s</item>
-    <item id="383">Absent</item>
+    <item id="383">Les utilisateurs sélectionnés ont été déplacés vers le canal %s</item>
     <item id="384">Impossible de se connecter à %s, port %d, port d'écoute %d.&#xD;&#xA;Vérifiez que vos paramètres d'hôte soient corrects.</item>
     <item id="385">Nouvelle version disponible: %s</item>
     <item id="386">Se déconnecter de l'hôte actuel?</item>
