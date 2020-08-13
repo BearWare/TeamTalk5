@@ -290,6 +290,7 @@
     <item id="428">Impossible de démarrer la lecture</item>
     <item id="429">Charger le fichier %s</item>
     <item id="430">Ajouter %s aux exceptions du pare-feu Windows?</item>
+    <item id="431">%s sélectionné pour déplacement</item>
     <item id="432">Bannir l'adresse IP</item>
     <item id="433">Bannir le nom d'utilisateur</item>
     <item id="434">Pas d'audio</item>
@@ -358,6 +359,8 @@
     <item id="498">Impossible de démarrer le périphérique sélectionné. Tester la sélection</item>
     <item id="499">Se déconnecter de Facebook?</item>
     <item id="500">Connexion Facebook</item>
+    <item id="504">%s désélectionné pour déplacement</item>
+    <item id="505">Sélectionné pour déplacement</item>
     <item id="512"> - Non publié</item>
     <item id="513">TeamTalk 5 Classique Professionnel V</item>
     <item id="514">TeamTalk 5 Classique Professionnel</item>

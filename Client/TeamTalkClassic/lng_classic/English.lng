@@ -289,6 +289,7 @@
     <item id="428">Failed to start playback</item>
     <item id="429">Load %s File</item>
     <item id="430">Add %s to Windows Firewall exceptions?</item>
+    <item id="431">%s selected for move</item>
     <item id="432">Ban IP-address</item>
     <item id="433">Ban username</item>
     <item id="434">No Audio</item>
@@ -357,6 +358,8 @@
     <item id="498">Failed to start selected device Test Selected</item>
     <item id="499">Do Facebook logout?</item>
     <item id="500">Facebook Login</item>
+    <item id="504">%s unselected for move</item>
+    <item id="505">Selected for move</item>
     <item id="512"> - Unreleased</item>
     <item id="513">TeamTalk 5 Classic Professional v. </item>
     <item id="514">TeamTalk 5 Classic Professional</item>

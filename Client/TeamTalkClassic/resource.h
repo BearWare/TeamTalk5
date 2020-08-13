@@ -327,6 +327,7 @@
 #define IDS_STREAMDLGFAILEDSTARTPB      428
 #define IDS_LOADFILECLIENTSET           429
 #define IDS_ADDTOFWEXCEP                430
+#define IDS_SELECTFORMOVE                431
 #define IDS_BANTYPEDLGIPADDR            432
 #define IDS_BANTYPEDLGUSERNAME          433
 #define IDS_CHANDLGNOAUDIO              434
@@ -396,6 +397,8 @@
 #define IDS_VIDEOCAPTUREFAILED          498
 #define IDS_WEBLOGINFBLOGOUT            499
 #define IDS_WEBLOGINFBLOGIN             500
+#define IDS_UNSELECTFORMOVE             504
+#define IDS_MOVESELECTED             505
 #define MAX_STRING_LENGTH               511
 #define IDS_APPTITLEUNRELEASED          512
 #define IDS_APPTITLEPROV                513
