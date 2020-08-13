@@ -407,6 +407,8 @@
 #define IDS_WEBLOGINFBLOGIN             500
 #define IDS_USERISVIDEOTX             502
 #define IDS_USERADMIN             503
+#define IDS_UNSELECTFORMOVE             504
+#define IDS_MOVESELECTED             505
 #define MAX_STRING_LENGTH               511
 #define IDS_APPTITLEUNRELEASED          512
 #define IDS_APPTITLEPROV                513
