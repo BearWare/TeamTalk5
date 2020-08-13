@@ -49,9 +49,8 @@ using namespace teamtalk;
 
 VoiceLog::VoiceLog(int userid, const ACE_TString& filename, 
                    const AudioCodec& codec, AudioFileFormat aff,
-                   int stream_id)
-: m_packet_max(-1)
-, m_packet_latest(-1)
+                   int stream_id, int stoppedtalking_delay)
+: m_tot_msec(stoppedtalking_delay)
 , m_packet_current(-1)
 , m_userid(userid)
 , m_codec(codec)
@@ -164,7 +163,6 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         if(!m_speex->Initialize(GetSpeexBandMode(m_codec)))
             return;
 #endif
-        m_flush = ACE_OS::gettimeofday();
         break;
     case CODEC_OPUS :
 #if defined(ENABLE_OPUS)
@@ -172,7 +170,6 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         if(!m_opus->Open(codec.opus.samplerate, codec.opus.channels))
             return;
 #endif
-        m_flush = ACE_OS::gettimeofday();
         break;
     case CODEC_NO_CODEC :
     case CODEC_WEBM_VP8 :
@@ -203,24 +200,27 @@ void VoiceLog::AddVoicePacket(const teamtalk::AudioPacket& packet)
 
     wguard_t g(m_mutex);
 
-    if(m_first.msec() == 0)
-        m_first = ACE_OS::gettimeofday();
-
-    //calc when voice of this packet ends
-    int msec = GetAudioCodecCbMillis(m_codec);
-    m_last = ACE_OS::gettimeofday() + ACE_Time_Value(msec/1000, (msec%1000) * 1000);
+    m_last = ACE_OS::gettimeofday();
 
     int packet_no = packet.GetPacketNumber();
-
-    m_mQueuePackets[packet_no] = audiopacket_t( new AudioPacket(packet) );
-
-    if(m_packet_current == -1)
+    bool first = false;
+    if (m_packet_current == -1)
     {
         m_packet_current = packet_no;
+        first = true;
     }
-    if(m_packet_max == -1 || packet_no > m_packet_max)
-        m_packet_max = packet_no;
-    m_packet_latest = packet_no;
+
+    if (W16_LT(packet_no, m_packet_current))
+    {
+        MYTRACE(ACE_TEXT("Skipped delayed packet %d from #%d voice log\n"),
+                packet_no, m_userid);
+        return;
+    }
+
+    if (first || W32_GT(packet.GetTime(), m_packet_timestamp))
+        m_packet_timestamp = packet.GetTime();
+
+    m_mQueuePackets[packet_no].reset(new AudioPacket(packet));
 }
 
 void VoiceLog::FlushLog()
@@ -229,71 +229,20 @@ void VoiceLog::FlushLog()
     m_mFlushPackets.insert(m_mQueuePackets.begin(),m_mQueuePackets.end());
     m_mQueuePackets.clear();
 
-    int pktno_max = m_packet_max;
-    int pktno_latest = m_packet_latest;
-    bool wrapped = false;
-
-    ACE_Time_Value first = m_first;
-    ACE_Time_Value last = m_last;
     g.release();
 
-    ACE_Time_Value now = ACE_OS::gettimeofday();
-
-    //write if voice has been received
-    if(first.msec() != 0)
-    {
-        int diff_ms = first.msec() - m_flush.msec();
-        if(diff_ms)
-            WriteSilence(diff_ms);
-        WritePackets(m_packet_current, pktno_max,
-                     pktno_latest, wrapped);
-        diff_ms = now.msec() - last.msec();
-        if(diff_ms)
-            WriteSilence(diff_ms);
-    }
-    else//write if _no_ voice has been received
-    {
-        int diff_ms = now.msec() - m_flush.msec();
-        if(diff_ms)
-            WriteSilence(diff_ms);
-    }
-
-    m_flush = now;
-
-    g.acquire();
-    m_first.set(0,0);//reset
-
-    //if packet no wrapped we have to update 'packet max' so 
-    //it can start over
-    if(wrapped)
-        m_packet_max = pktno_max;
+    m_packet_current = WritePackets(m_packet_current);
 }
 
-void VoiceLog::WritePackets(int& pktno_cur, int& pktno_max, 
-                            int pktno_latest, bool& wrapped)
+int VoiceLog::WritePackets(int pktno_cur)
 {
     while(!m_mFlushPackets.empty())
     {
-        if(pktno_cur < pktno_max)
-            WritePacket(pktno_cur++);
-        else if(pktno_cur == pktno_max)
-        {
-            WritePacket(pktno_cur++);
-            break;
-        }
-        else if( (m_packet_latest & 0xFFFF) + 1000 < pktno_max)
-        {
-            if(pktno_cur > 0xFFFF)
-            {
-                pktno_cur = 0;
-                pktno_max = pktno_latest;
-                wrapped = true;
-            }
-            WritePacket(pktno_cur++);
-        }
-        else
-            break;
+        WritePacket(pktno_cur++);
+        pktno_cur &= 0xFFFF;
     }
+
+    return pktno_cur;
 }
 
 void VoiceLog::WritePacket(int packet_no)
@@ -511,6 +460,17 @@ void VoiceLog::WriteSilence(int msecs)
     }
 }
 
+ACE_Time_Value VoiceLog::GetVoiceEndTime() const
+{
+    return m_last + ToTimeValue(m_tot_msec);
+}
+
+uint32_t VoiceLog::GetLatestPacketTime() const
+{
+    assert(m_packet_current != -1);
+    return m_packet_timestamp;
+}
+
 VoiceLogFile VoiceLog::GetVoiceLogFile()
 {
     VoiceLogFile vlogfile;
@@ -590,7 +550,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 
         TimerHandler* th;
         ACE_NEW(th, TimerHandler(*this, TIMER_WRITELOG_ID));
-            m_timerid = m_reactor.schedule_timer(th, 0, FLUSH_INTERVAL, FLUSH_INTERVAL);
+        m_timerid = m_reactor.schedule_timer(th, 0, FLUSH_INTERVAL, FLUSH_INTERVAL);
         TTASSERT(m_timerid>=0);
     }
 
@@ -685,7 +645,8 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 
     VoiceLog* newlog;
     ACE_NEW(newlog, VoiceLog(from_user.GetUserID(), filepath,
-                             codec, aff, stream_id));
+                             codec, aff, stream_id,
+                             from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE)));
     voicelog_t log (newlog);
 
     bool active = log->IsActive();
@@ -749,6 +710,13 @@ void VoiceLogger::AddVoicePacket(ClientUser& from_user,
     }
     else if(ite->second->GetStreamID() != packet.GetStreamID())
     {
+        if (W32_LT(packet.GetTime(), ite->second->GetLatestPacketTime()))
+        {
+            MYTRACE(ACE_TEXT("Ignored packet %d from #%d. Packet older than latest\n"),
+                    packet.GetPacketNumber(), from_user.GetUserID());
+            return;
+        }
+
         EndLog(from_user.GetUserID());
         BeginLog(from_user, channel.GetAudioCodec(), packet.GetStreamID(),
                  from_user.GetAudioFolder());
@@ -785,7 +753,7 @@ void VoiceLogger::FlushLogs()
         ite != m_mLogs.end();ite++)
     {
         ite->second->FlushLog();
-        if(ite->second->GetVoiceEndTime() + ACE_Time_Value(2,0) < ACE_OS::gettimeofday())
+        if (ite->second->GetVoiceEndTime() < ACE_OS::gettimeofday())
             closeLogs.push_back(ite->first);
     }
     g.release(); // don't hold lock otherwise lock-order with m_add_mtx can end up wrong
