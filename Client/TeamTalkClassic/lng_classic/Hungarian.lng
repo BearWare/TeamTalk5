@@ -450,10 +450,10 @@
     <item id="32929">&amp;Médiafájl némítása\tCtrl+Alt+M</item>
     <item id="32930">&amp;Kidobás a szobából\tCtrl+K</item>
     <item id="32931">Kidobás a &amp;szerverről</item>
-    <item id="32932">Beszédhang növelése (+10)\tCtrl+Alt+Right</item>
-    <item id="32933">Beszédhang csökkentése (-10)\tCtrl+Alt+Left</item>
-    <item id="32934">Média növelése (+10)\tCtrl+Shift+Right</item>
-    <item id="32935">Média csökkentése (-10)\tCtrl+Shift+Left</item>
+    <item id="32932">Beszédhang növelése\tCtrl+Alt+Right</item>
+    <item id="32933">Beszédhang csökkentése\tCtrl+Alt+Left</item>
+    <item id="32934">Média növelése\tCtrl+Shift+Right</item>
+    <item id="32935">Média csökkentése\tCtrl+Shift+Left</item>
     <item id="32936">&amp;Aszal megosztásának engedélyezése\tCtrl+Alt+E</item>
     <item id="32937">&amp;Médiafájl megosztásának engedélyezése\tCtrl+Alt+R</item>
     <item id="32938">Médiafájl &amp;lejátszása\tCtrl+8</item>
