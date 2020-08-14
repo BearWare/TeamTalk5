@@ -3925,6 +3925,15 @@ void CTeamTalkDlg::OnUsersMuteVoice()
         TT_SetUserMute(ttInst, nUserID, STREAMTYPE_VOICE,
                        !(user.uUserState & USERSTATE_MUTE_VOICE));
     }
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_VOICE) {
+        CString szMsg;
+        if(!(user.uUserState & USERSTATE_MUTE_VOICE)) {
+            szMsg.Format(LoadText(IDS_MVUD, _T("Voice for %s disabled")), GetDisplayName(user));
+        } else {
+            szMsg.Format(LoadText(IDS_MVUE, _T("Voice for %s enabled")), GetDisplayName(user));
+        }
+        AddVoiceMessage(szMsg);
+    }
 }
 
 void CTeamTalkDlg::OnUpdateUsersMuteMediafile(CCmdUI *pCmdUI)
@@ -3950,6 +3959,15 @@ void CTeamTalkDlg::OnUsersMuteMediafile()
     {
         TT_SetUserMute(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
                        !(user.uUserState & USERSTATE_MUTE_MEDIAFILE));
+    }
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_MEDIAFILE) {
+        CString szMsg;
+        if(!(user.uUserState & USERSTATE_MUTE_MEDIAFILE)) {
+            szMsg.Format(LoadText(IDS_MMFUD, _T("Media files for %s disabled")), GetDisplayName(user));
+        } else {
+            szMsg.Format(LoadText(IDS_MMFUE, _T("Media files for %s enabled")), GetDisplayName(user));
+        }
+        AddVoiceMessage(szMsg);
     }
 }
 
@@ -4066,6 +4084,13 @@ void CTeamTalkDlg::OnUpdateUsersMuteVoiceall(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnUsersMuteVoiceall()
 {
     TT_SetSoundOutputMute(ttInst, !(TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_MUTE));
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_VOICE) {
+        if((TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_MUTE) != CLIENT_CLOSED == 1) {
+            AddVoiceMessage(LoadText(IDS_MVD, _T("Master volume disabled")));
+        } else {
+            AddVoiceMessage(LoadText(IDS_MVE, _T("Master volume enabled")));
+        }
+    }
 }
 
 void CTeamTalkDlg::OnUpdateUsersPositionusers(CCmdUI *pCmdUI)
