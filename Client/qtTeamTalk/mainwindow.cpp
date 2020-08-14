@@ -3924,10 +3924,13 @@ void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
     {
         QMap<int,StreamTypes> transmitUsers;
         ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
-        if(checked)
-            transmitUsers[userid] |= STREAMTYPE_MEDIAFILE;
-        else
-            transmitUsers[userid] &= ~STREAMTYPE_MEDIAFILE;
+        if(checked) {
+            transmitUsers[userid] |= STREAMTYPE_MEDIAFILE_AUDIO;
+            transmitUsers[userid] |= STREAMTYPE_MEDIAFILE_VIDEO;
+        } else {
+            transmitUsers[userid] &= ~STREAMTYPE_MEDIAFILE_AUDIO;
+            transmitUsers[userid] &= ~STREAMTYPE_MEDIAFILE_VIDEO;
+        }
         slotTransmitUsersChanged(channelid, transmitUsers);
     }
 }
