@@ -831,7 +831,7 @@
     <item id="32924">允许桌面访问(&amp;D)\tCtrl+7</item>
     <item id="32925">请求桌面访问(&amp;R)</item>
     <item id="32928">语音静音(&amp;U)\tCtrl+Shift+M</item>
-    <item id="32929">媒体文件静音(&amp;F)\tCtrl+Alt+M</item>
+    <item id="32929">媒体文件静音(&amp;F)\tCtrl+Shift+Alt+M</item>
     <item id="32930">从频道踢出(&amp;K)\tCtrl+K</item>
     <item id="32931">从服务器踢出(&amp;S)\tCtrl+Alt+K</item>
     <item id="32932">增加语音音量 (+10)(&amp;I)\tCtrl+F8</item>

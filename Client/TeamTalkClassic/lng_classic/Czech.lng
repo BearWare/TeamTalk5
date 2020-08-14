@@ -569,7 +569,7 @@
     <item id="32924">Povolit přístup ke sdílené obrazovce\tCtrl+Ý</item>
     <item id="32925">&amp;Vyžádat přístup k obrazovce</item>
     <item id="32928">Ztlumit &amp;zvuk\tCtrl+Shift+M</item>
-    <item id="32929">Ztlumit zvuk &amp;multimediálního souboru\tCtrl+Alt+M</item>
+    <item id="32929">Ztlumit zvuk &amp;multimediálního souboru\tCtrl+Shift+Alt+M</item>
     <item id="32930">Vy&amp;kopnout z kanálu\tCtrl+K</item>
     <item id="32931">Vykopnout ze &amp;serveru\tCtrl+Alt+K</item>
     <item id="32932">Ze&amp;sílit (+10)\tCtrl+F8</item>

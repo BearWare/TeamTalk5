@@ -389,7 +389,7 @@
     <item id="32924">데스크톱 접근 허용\tCtrl+7 &amp;D</item>
     <item id="32925">데스크톱 접근 요청 &amp;R</item>
     <item id="32928">음성 음속어\tCtrl+Shift+M &amp;u</item>
-    <item id="32929">미디어 파일 음속어\tCtrl+Alt+M &amp;F</item>
+    <item id="32929">미디어 파일 음속어\tCtrl+Shift+Alt+M &amp;F</item>
     <item id="32930">채널에서 강퇴\tCtrl+K &amp;K</item>
     <item id="32931">서버에서 강퇴\tCtrl+Alt+K &amp;S</item>
     <item id="32932">음성 볼륨 증가 (+10)\tCtrl+F8 &amp;i</item>

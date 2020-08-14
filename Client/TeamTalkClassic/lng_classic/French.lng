@@ -821,7 +821,7 @@
     <item id="32924">Autoriser l&apos;accès au bureau à distance\tCTRL-7</item>
     <item id="32925">Demande d&apos;accès au bureau à distance</item>
     <item id="32928">Couper la voix\tCTRL-Maj-M</item>
-    <item id="32929">C&amp;ouper les fichiers média\tCTRL-Alt-M</item>
+    <item id="32929">C&amp;ouper les fichiers média\tCTRL-Maj-Alt-M</item>
     <item id="32930">Exclure du canal\tCTRL-K</item>
     <item id="32931">Ex&amp;clure du serveur\tCTRL-Alt-K</item>
     <item id="32932">Au&amp;gmenter le volume de la voix (+10)\tCTRL-F8</item>

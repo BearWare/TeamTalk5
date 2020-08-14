@@ -586,7 +586,7 @@
     <item id="32924">Permitir Acceso al Escritorio\tCtrl+7</item>
     <item id="32925">&amp;Solicitar Acceso al Escritorio</item>
     <item id="32928">Silenciar Voz\tCtrl+Shift+M</item>
-    <item id="32929">Silenciar Archivos Multimedia\tCtrl+Alt+M</item>
+    <item id="32929">Silenciar Archivos Multimedia\tCtrl+Shift+Alt+M</item>
     <item id="32930">&amp;Expulsar del Canal\tCtrl+K</item>
     <item id="32931">Expulsar del servidor\tCtrl+Alt+K</item>
     <item id="32932">&amp;Incrementar Volumen de Voz (+10)\tCtrl+F8</item>

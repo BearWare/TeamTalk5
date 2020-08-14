@@ -705,7 +705,7 @@
     <item id="32924">اسمح الوصول إلى سطح المكتب\tCtrl+7</item>
     <item id="32925">&amp;طلب الوصول إلى سطح المكتب</item>
     <item id="32928">&amp;كتم الصوت\tCtrl+Shift+M</item>
-    <item id="32929">كتم الوسائط والملفات \ tCtrl + Alt + M</item>
+    <item id="32929">كتم الوسائط والملفات \ tCtrl + Shift + Alt + M</item>
     <item id="32930">&amp;طرد من القناة \tCtrl+K</item>
     <item id="32931">&amp;طرد من الخادم\tCtrl+Alt+K</item>
     <item id="32932">&amp;زيادة حجم الصوت (+10)\tCtrl+F8</item>
