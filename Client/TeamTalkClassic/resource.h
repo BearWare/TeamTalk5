@@ -405,10 +405,16 @@
 #define IDS_VIDEOCAPTUREFAILED          498
 #define IDS_WEBLOGINFBLOGOUT            499
 #define IDS_WEBLOGINFBLOGIN             500
+#define IDS_MVUE             501
 #define IDS_USERISVIDEOTX             502
 #define IDS_USERADMIN             503
 #define IDS_UNSELECTFORMOVE             504
 #define IDS_MOVESELECTED             505
+#define IDS_MVD             506
+#define IDS_MVE             507
+#define IDS_MVUD             508
+#define IDS_MMFUE             509
+#define IDS_MMFUD             510
 #define MAX_STRING_LENGTH               511
 #define IDS_APPTITLEUNRELEASED          512
 #define IDS_APPTITLEPROV                513
