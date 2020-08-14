@@ -4864,6 +4864,16 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
             msg = tr("You can no longer transmit desktop windows!");
         addStatusMsg(msg);
     }
+    before = userCanMediaFileTx(TT_GetMyUserID(ttInst), oldchan);
+    after = userCanMediaFileTx(TT_GetMyUserID(ttInst), chan);
+    if(before != after)
+    {
+        if(after)
+            msg = tr("You can now transmit media files!");
+        else
+            msg = tr("You can no longer transmit media files!");
+        addStatusMsg(msg);
+    }
 }
 
 void MainWindow::slotInitVideo()
