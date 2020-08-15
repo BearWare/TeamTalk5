@@ -5,7 +5,8 @@ Version 5.6.1, unreleased
 Accessible Windows Client:
 - Fixed translation for development of WebM VP8 codec on about dialog
 - Update window title at login with server name
-- Status mode is now displaying for 3 status (Away, Question, and Streaming media file)
+- It's now possible to use numpad keys for subscriptions shortcuts
+- Status mode is now displayed for Away, Question and Streaming media file
 - Away is displayed when switching automatically to Away-mode due to inactivity, and also when manually switching to this mode
 - Status mode is now displayed on receiving side (after status message)
 - Status message is now displaying after a hyphen (same behavior with QT Client)
@@ -13,7 +14,7 @@ Accessible Windows Client:
 - CTRL+G now return "Administrator" when it's the case
 Default QT Client:
 - Update window title at login with server name
-- Status mode is now displayed as text for 3 status (Away, Question, and Streaming media file)
+- Status mode is now displayed for Away, Question and Streaming media file
 - Away is displayed when switching automatically to Away-mode due to inactivity, and also when manually switching to this mode
 - Status mode is now displayed on receiving side (after status message)
 
