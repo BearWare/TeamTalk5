@@ -1870,14 +1870,9 @@ void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
        m_commands[m_nCurrentCmdID] != CMD_COMPLETE_JOIN)
     {
         PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
+        TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
         CString szMsg;
-        szMsg.Format(LoadText(IDS_FILEADDED, _T("File %s added")), remotefile.szFileName);
-        if(size(remotefile.szUsername) > 0) {
-            if(remotefile.szUsername != STR_UTF8(m_host.szUsername)) {
-                TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
-                szMsg.Format(LoadText(IDS_FILEADDBY, _T("File %s added by %s")), remotefile.szFileName, GetDisplayName(user));
-            }
-        }
+        szMsg.Format(LoadText(IDS_FILEADDED), GetDisplayName(user), remotefile.szFileName);
         AddStatusText(szMsg);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_FILE_ADD)
             AddVoiceMessage(szMsg);
@@ -1887,21 +1882,13 @@ void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
 void CTeamTalkDlg::OnFileRemove(const TTMessage& msg)
 {
     const RemoteFile& remotefile = msg.remotefile;
-    User user;
     m_tabFiles.RemoveFile(remotefile.nChannelID, remotefile.nFileID);
 
     if(remotefile.nChannelID == TT_GetMyChannelID(ttInst))
     {
         PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
-        TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
         CString szMsg;
-        szMsg.Format(LoadText(IDS_FILEREMOVED, _T("File %s removed")), remotefile.szFileName);
-        if(size(remotefile.szUsername) > 0) {
-            if(remotefile.szUsername != STR_UTF8(m_host.szUsername)) {
-                TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
-                szMsg.Format(LoadText(IDS_FILEREMOVEDBY, _T("File %s removed by %s")), remotefile.szFileName, GetDisplayName(user));
-            }
-        }
+        szMsg.Format(LoadText(IDS_FILEREMOVED), remotefile.szFileName);
         AddStatusText(szMsg);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_FILE_REMOVE)
             AddVoiceMessage(szMsg);
@@ -3930,15 +3917,6 @@ void CTeamTalkDlg::OnUsersMuteVoice()
         TT_SetUserMute(ttInst, nUserID, STREAMTYPE_VOICE,
                        !(user.uUserState & USERSTATE_MUTE_VOICE));
     }
-    if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_VOICE) {
-        CString szMsg;
-        if(!(user.uUserState & USERSTATE_MUTE_VOICE)) {
-            szMsg.Format(LoadText(IDS_MVUD, _T("Voice for %s disabled")), GetDisplayName(user));
-        } else {
-            szMsg.Format(LoadText(IDS_MVUE, _T("Voice for %s enabled")), GetDisplayName(user));
-        }
-        AddVoiceMessage(szMsg);
-    }
 }
 
 void CTeamTalkDlg::OnUpdateUsersMuteMediafile(CCmdUI *pCmdUI)
@@ -3964,15 +3942,6 @@ void CTeamTalkDlg::OnUsersMuteMediafile()
     {
         TT_SetUserMute(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
                        !(user.uUserState & USERSTATE_MUTE_MEDIAFILE));
-    }
-    if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_MEDIAFILE) {
-        CString szMsg;
-        if(!(user.uUserState & USERSTATE_MUTE_MEDIAFILE)) {
-            szMsg.Format(LoadText(IDS_MMFUD, _T("Media files for %s disabled")), GetDisplayName(user));
-        } else {
-            szMsg.Format(LoadText(IDS_MMFUE, _T("Media files for %s enabled")), GetDisplayName(user));
-        }
-        AddVoiceMessage(szMsg);
     }
 }
 
@@ -4089,13 +4058,6 @@ void CTeamTalkDlg::OnUpdateUsersMuteVoiceall(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnUsersMuteVoiceall()
 {
     TT_SetSoundOutputMute(ttInst, !(TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_MUTE));
-    if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_VOICE) {
-        if((TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_MUTE) != CLIENT_CLOSED == 1) {
-            AddVoiceMessage(LoadText(IDS_MVD, _T("Master volume disabled")));
-        } else {
-            AddVoiceMessage(LoadText(IDS_MVE, _T("Master volume enabled")));
-        }
-    }
 }
 
 void CTeamTalkDlg::OnUpdateUsersPositionusers(CCmdUI *pCmdUI)
@@ -4807,11 +4769,11 @@ BOOL CTeamTalkDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pData)
         m_cmdArgs.RemoveAll();
         CString args = msg.szPath;
         int i = 0;
-        CString token = args.Tokenize(_T("¤"), i);
+        CString token = args.Tokenize(_T("Â¤"), i);
         while(!token.IsEmpty())
         {
             m_cmdArgs.AddTail(token);
-            token = args.Tokenize(_T("¤"), i);
+            token = args.Tokenize(_T("Â¤"), i);
         }
 
         ParseArgs();
@@ -5784,16 +5746,16 @@ void CTeamTalkDlg::OnAdvancedStoreformove()
     if(nMoveUserID) {
         if(m_moveusers.find(nMoveUserID) != m_moveusers.end()) {
             m_moveusers.erase(nMoveUserID);
-            if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED) {
+            if(m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
                 User user;
                 TT_GetUser(ttInst, nMoveUserID, &user);
                 CString szMsg;
-                szMsg.Format(LoadText(IDS_UNSELECTFORMOVE, _T("%s unselected for move")), GetDisplayName(user));
+                szMsg.Format(LoadText(IDS_UNSELECTFORMOVE, _T("%s deselected for move")), GetDisplayName(user));
                 AddVoiceMessage(szMsg);
             }
         } else {
             m_moveusers.insert(nMoveUserID);
-            if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED) {
+            if(m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
                 User user;
                 TT_GetUser(ttInst, nMoveUserID, &user);
                 CString szMsg;
@@ -5817,7 +5779,7 @@ void CTeamTalkDlg::OnAdvancedMoveuser()
     {
         TT_DoMoveUser(ttInst, nUserID, nChanID);
     });
-    if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED) {
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
         Channel chan;
         TT_GetChannel(ttInst, nChanID, &chan);
         CString szMsg;
@@ -6663,13 +6625,14 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
 
         CString szUser, szVoice, szMute, szMediaFile, szMuteMediaFile,
             szVideoCapture, szDesktop, szChanOp = LoadText(IDS_CHANOP, _T("Channel Operator")), szMoveSelected = LoadText(IDS_MOVESELECTED, _T("Selected for move"));
-        if(user.uUserType & USERTYPE_ADMIN) {
+        if (user.uUserType & USERTYPE_ADMIN) {
             szUser.LoadString(IDS_USERADMIN);
             TRANSLATE_ITEM(IDS_USERADMIN, szUser);
         } else {
             szUser.LoadString(IDS_USER);
             TRANSLATE_ITEM(IDS_USER, szUser);
         }
+
         TRANSLATE_ITEM(IDD_TAB_CHANNELOP, szChanOp);
         szVoice.LoadString(IDS_TALKING);
         szMute.LoadString(IDS_MUTE);

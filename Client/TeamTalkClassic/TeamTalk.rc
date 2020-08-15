@@ -2127,6 +2127,7 @@ BEGIN
     IDS_FILEEVENTS          "File events"
     IDS_FILEADD             "File added"
     IDS_FILERM              "File removed"
+    IDS_MENUACTIONS         "Menu actions"
     IDS_RESET               "Reset"
     IDS_BEARWAREAUTHFAIL    "Failed to authenticate"
     IDS_BEARWARETIMEOUT     "Unable to contact BearWare.dk Web Login"
