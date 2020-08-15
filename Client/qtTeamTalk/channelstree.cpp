@@ -776,12 +776,13 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             }
             channame = QString("%1 (%2)").arg(channame).arg(count);
         }
+        if(ite->bPassword)
+            channame += " 🔒";
         item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
         QPixmap img(QString::fromUtf8(img_name));
         //img.setMask(img.createHeuristicMask());
         if(ite->bPassword)
         {
-            channame += ": PWD";
             QPixmap lock(QString::fromUtf8(":/images/images/lock.png"));
             //lock.setMask(lock.createMaskFromColor(QColor(255,255,255)));
             //lock.setMask(lock.createHeuristicMask());
