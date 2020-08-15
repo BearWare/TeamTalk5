@@ -245,6 +245,8 @@ enum
     TTS_FILE_ADD                                    = 0x00000080,
     TTS_FILE_REMOVE                                 = 0x00800000,
 
+    TTS_MENU_ACTIONS                                = 0x40000000,
+
     TTS_USER_ALL              = TTS_USER_LOGGEDIN                               |
                                 TTS_USER_LOGGEDOUT                              |
                                 TTS_USER_JOINED                                 |
@@ -281,7 +283,9 @@ enum
     TTS_FILE_ALL         = TTS_FILE_ADD                          |
                                 TTS_FILE_REMOVE,
 
-    TTS_ALL                   = TTS_USER_ALL | TTS_SUBSCRIPTIONS_ALL | TTS_CLASSROOM_ALL | TTS_FILE_ALL
+    TTS_MENU_ACTIONS_ALL        = TTS_MENU_ACTIONS,
+
+    TTS_ALL                   = TTS_USER_ALL | TTS_SUBSCRIPTIONS_ALL | TTS_CLASSROOM_ALL | TTS_FILE_ALL | TTS_MENU_ACTIONS_ALL
 };
 
 typedef __int64 TTSEvents;

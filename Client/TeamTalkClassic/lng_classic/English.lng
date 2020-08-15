@@ -208,6 +208,7 @@
     <item id="342">%s can now transmit shared desktops!</item>
     <item id="343">%s can no longer transmit media files!</item>
     <item id="344">%s can now transmit media files!</item>
+    <item id="345">Menu actions</item>
     <item id="346">Failed to write audio file for %s</item>
     <item id="347">Failed to start file transfer.&#xD;&#xA;File name: %s</item>
     <item id="348">Error streaming media file to channel</item>
