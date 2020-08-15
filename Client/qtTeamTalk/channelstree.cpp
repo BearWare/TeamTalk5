@@ -781,7 +781,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         //img.setMask(img.createHeuristicMask());
         if(ite->bPassword)
         {
-            channame += "🔒";
+            channame += ": PWD";
             QPixmap lock(QString::fromUtf8(":/images/images/lock.png"));
             //lock.setMask(lock.createMaskFromColor(QColor(255,255,255)));
             //lock.setMask(lock.createHeuristicMask());
