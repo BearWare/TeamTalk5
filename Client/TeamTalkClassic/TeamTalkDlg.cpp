@@ -5731,7 +5731,7 @@ void CTeamTalkDlg::OnAdvancedStoreformove()
     if(nMoveUserID) {
         if(m_moveusers.find(nMoveUserID) != m_moveusers.end()) {
             m_moveusers.erase(nMoveUserID);
-            if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED) {
+            if(m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
                 User user;
                 TT_GetUser(ttInst, nMoveUserID, &user);
                 CString szMsg;
@@ -5740,7 +5740,7 @@ void CTeamTalkDlg::OnAdvancedStoreformove()
             }
         } else {
             m_moveusers.insert(nMoveUserID);
-            if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED) {
+            if(m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
                 User user;
                 TT_GetUser(ttInst, nMoveUserID, &user);
                 CString szMsg;
@@ -5764,7 +5764,7 @@ void CTeamTalkDlg::OnAdvancedMoveuser()
     {
         TT_DoMoveUser(ttInst, nUserID, nChanID);
     });
-    if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED) {
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
         Channel chan;
         TT_GetChannel(ttInst, nChanID, &chan);
         CString szMsg;
