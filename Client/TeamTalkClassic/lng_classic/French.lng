@@ -211,6 +211,7 @@
     <item id="342">%s peut maintenant transmettre des bureaux partagés!</item>
     <item id="343">%s ne peut plus transmettre de fichiers média!</item>
     <item id="344">%s peut maintenant transmettre des fichiers média!</item>
+    <item id="345">Actions de menu</item>
     <item id="346">Impossible d'écrire le fichier audio pour %s</item>
     <item id="347">Impossible de démarrer le transfert de fichier.&#xD;&#xA;Nom du fichier: %s</item>
     <item id="348">Erreur à la diffusion du fichier média sur le canal</item>
