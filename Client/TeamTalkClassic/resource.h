@@ -130,6 +130,7 @@
 #define IDB_BITMAP_SESSION              222
 #define IDD_PROPPAGE_SOUNDEVENTSPAGE    223
 #define IDD_PROPPAGE_SOUNDSYSPAGE       224
+#define IDS_CLASSROOM_ROOT_SELF_JOINED       225
 #define IDS_SUBINT_VIDEO                226
 #define IDD_DIALOG_USERINFO             227
 #define IDB_BITMAP_MIKE                 228
@@ -137,6 +138,7 @@
 #define IDB_BITMAP_VOLUME               230
 #define IDD_DIALOG_USERVOLUME           231
 #define IDR_MENU_TRAY                   232
+#define IDS_CHANNEL_ROOT_SELF_JOINED                   233
 #define IDS_SUBINT_DESKTOP              234
 #define IDD_WIZARD_GENERALPAGE          235
 #define IDR_ACCELERATOR2                236
@@ -150,6 +152,7 @@
 #define IDS_SUBINT_MEDIAFILE            244
 #define IDS_DESKTOPINPUT_GRANTED        245
 #define IDD_WIZARD_COMPLETIONPAGE       246
+#define IDS_CHANNEL_ROOT_SELF_LEFT           247
 #define IDS_DESKTOPINPUT_ACTIVE         248
 #define IDD_DIALOG_KEYCOMP              249
 #define IDR_MENU_MSGPOPUP               250
@@ -246,6 +249,7 @@
 #define IDS_CANNOWTRANSMITDESKTOP       342
 #define IDS_NOLONGERTRANSMITMEDIAFILE   343
 #define IDS_CANNOWTRANSMITMEDIAFILE     344
+#define IDS_MENUACTIONS                 345
 #define IDS_FAILEDTOWRITEAUDIOFILE      346
 #define IDS_FAILEDTOSTARTFILETRANSFER   347
 #define IDS_ERRORSTREAMINGTOCHANNEL     348
@@ -281,6 +285,7 @@
 #define IDS_TTDLLVERS                   379
 #define IDS_RXTXPING                    381
 #define IDS_RXTX                        382
+#define IDS_USERSMOVED                        383
 #define IDS_FAILEDTOCONNECTLP           384
 #define IDS_NEWUPDATEAVAILABLE          385
 #define IDS_DISCONNECTCURRENT           386
@@ -327,6 +332,7 @@
 #define IDS_STREAMDLGFAILEDSTARTPB      428
 #define IDS_LOADFILECLIENTSET           429
 #define IDS_ADDTOFWEXCEP                430
+#define IDS_SELECTFORMOVE                431
 #define IDS_BANTYPEDLGIPADDR            432
 #define IDS_BANTYPEDLGUSERNAME          433
 #define IDS_CHANDLGNOAUDIO              434
@@ -396,6 +402,9 @@
 #define IDS_VIDEOCAPTUREFAILED          498
 #define IDS_WEBLOGINFBLOGOUT            499
 #define IDS_WEBLOGINFBLOGIN             500
+#define IDS_USERADMIN                   503
+#define IDS_UNSELECTFORMOVE             504
+#define IDS_MOVESELECTED                505
 #define MAX_STRING_LENGTH               511
 #define IDS_APPTITLEUNRELEASED          512
 #define IDS_APPTITLEPROV                513
