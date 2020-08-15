@@ -29,6 +29,7 @@
 #include "TTUnitTest.h"
 
 #include <myace/MyACE.h>
+#include <teamtalk/server/ServerNode.h>
 
 #include <map>
 #include <map>
@@ -92,7 +93,7 @@ TEST_CASE( "Ogg Write", "" ) {
 
 #if defined(ENABLE_OPUS)
 TEST_CASE( "Record mux") {
-    std::vector<TTInstance*> clients(2);
+    std::vector<ttinst> clients(2);
     for (size_t i=0;i<clients.size();++i)
     {
         REQUIRE((clients[i] = TT_InitTeamTalkPoll()));
@@ -151,16 +152,13 @@ TEST_CASE( "Record mux") {
     WaitForEvent(clients[1], CLIENTEVENT_NONE, 10000);
 
     REQUIRE(TT_StopRecordingMuxedAudioFile(clients[1]));
-
-    for(auto c : clients)
-        REQUIRE(TT_CloseTeamTalk(c));
 }
 #endif
 
 #if defined(ENABLE_OPUS)
 TEST_CASE( "Last voice packet" )
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto txclient = TT_InitTeamTalkPoll();
     auto rxclient = TT_InitTeamTalkPoll();
     clients.push_back(txclient);
@@ -211,7 +209,7 @@ TEST_CASE( "Last voice packet" )
         {
             return true;
         }
-        
+
         return false;
     };
 
@@ -226,15 +224,12 @@ TEST_CASE( "Last voice packet" )
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
     WaitForEvent(txclient, CLIENTEVENT_NONE, 1000);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
-    
-    for(auto c : clients)
-        REQUIRE(TT_CloseTeamTalk(c));
 }
 #endif
 
 TEST_CASE( "MuxedAudioToFile" )
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto txclient = TT_InitTeamTalkPoll();
     auto rxclient = TT_InitTeamTalkPoll();
     clients.push_back(txclient);
@@ -277,9 +272,9 @@ TEST_CASE( "MuxedAudioToFile" )
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
     WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoUnsubscribe(rxclient, TT_GetMyUserID(txclient), SUBSCRIBE_VOICE)));
-    
+
     WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
-    
+
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoSubscribe(rxclient, TT_GetMyUserID(txclient), SUBSCRIBE_VOICE)));
 
     REQUIRE(TT_EnableVoiceTransmission(rxclient, true));
@@ -289,16 +284,13 @@ TEST_CASE( "MuxedAudioToFile" )
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
     WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
-    
-    REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
 
-    for(auto c : clients)
-        REQUIRE(TT_CloseTeamTalk(c));
+    REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
 }
 
 TEST_CASE( "MuxedAudioBlock" )
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto txclient = TT_InitTeamTalkPoll();
     auto rxclient = TT_InitTeamTalkPoll();
     clients.push_back(txclient);
@@ -317,14 +309,11 @@ TEST_CASE( "MuxedAudioBlock" )
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
-
-    for(auto c : clients)
-        REQUIRE(TT_CloseTeamTalk(c));
 }
 
 TEST_CASE( "MuxedAudioBlockUserEvent" )
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto txclient = TT_InitTeamTalkPoll();
     auto rxclient = TT_InitTeamTalkPoll();
     clients.push_back(txclient);
@@ -351,7 +340,7 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
         {
             return true;
         }
-        
+
         return false;
     };
     auto voicestop = [&](TTMessage msg)
@@ -362,7 +351,7 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
         {
             return true;
         }
-        
+
         return false;
     };
 
@@ -371,15 +360,12 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
-
-    for(auto c : clients)
-        REQUIRE(TT_CloseTeamTalk(c));
 }
 
 #if defined(ENABLE_OGG)
 TEST_CASE( "Opus Read File" )
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto rxclient = TT_InitTeamTalkPoll();
     clients.push_back(rxclient);
 
@@ -417,9 +403,6 @@ TEST_CASE( "Opus Read File" )
 
     WaitForEvent(rxclient, CLIENTEVENT_NONE, 2000);
 
-    for(auto c : clients)
-        REQUIRE(TT_CloseTeamTalk(c));
-    
     OggFile of;
     REQUIRE(of.Open(FILENAME));
     ogg_page op;
@@ -546,7 +529,7 @@ TEST_CASE("CLSID_CWMAudioAEC")
     REQUIRE(SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_FEATR_FRAME_SIZE, &pvFrameSize)));
     iFrameSize = pvFrameSize.lVal;
     PropVariantClear(&pvFrameSize);
-    
+
     WavePCMFile wavefile;
     REQUIRE(wavefile.NewFile(ACE_TEXT("Echo_cancelled.wav"), SAMPLERATE, CHANNELS));
 
@@ -617,7 +600,7 @@ TEST_CASE("CWMAudioAEC_Callback")
             MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
             callbacks++;
         }
-        
+
         soundsystem::SoundDeviceFeatures GetDuplexFeatures()
         {
             return soundsystem::SOUNDDEVICEFEATURE_NONE;
@@ -694,7 +677,7 @@ TEST_CASE("CWMAudioAEC_Callback")
 TEST_CASE("CWMAudioAEC_DuplexMode")
 {
     using namespace soundsystem;
-    
+
     {
         // Ensure wave file exists before running unit-test (otherwise SoundSystemBase destructor will complain with abort)
         WavePCMFile ww;
@@ -788,7 +771,7 @@ TEST_CASE("CWMAudioAEC_DuplexMode")
 
 TEST_CASE("TT_AEC")
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto ttclient = TT_InitTeamTalkPoll();
     clients.push_back(ttclient);
 
@@ -853,7 +836,7 @@ TEST_CASE("TT_AEC")
     }
 
     REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_USERID, STREAMTYPE_VOICE, TRUE));
-    
+
     abCount = 20;
     while (abCount--)
     {
@@ -875,14 +858,12 @@ TEST_CASE("TT_AEC")
     // cannot disable sound effects either
     effects.bEnableAGC = effects.bEnableDenoise = effects.bEnableEchoCancellation = FALSE;
     REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects) == FALSE);
-
-    TT_CloseTeamTalk(ttclient);
 }
 #endif
 
 TEST_CASE("testMuxedAudioBlockSoundInputDisabled")
 {
-    std::vector<TTInstance*> clients;
+    std::vector<ttinst> clients;
     auto ttclient = TT_InitTeamTalkPoll();
     clients.push_back(ttclient);
 
@@ -914,12 +895,12 @@ TEST_CASE("testThumbnail")
     FFMpegStreamer ffmpeg;
     MediaStreamOutput prop(media::AudioFormat(16000, 2), 1600, media::FOURCC_RGB32);
     auto filename = "out.mp3";
-    
+
     REQUIRE(ffmpeg.OpenFile(filename, prop));
 
     std::promise<bool> done;
     auto sig_done = done.get_future();
-    
+
     auto status = [&] (const MediaFileProp& mfp, MediaStreamStatus status) {
                       std::cout << mfp.filename.c_str() << " status: " << (int)status << std::endl;
                       if (status == MEDIASTREAM_FINISHED)
@@ -933,7 +914,7 @@ TEST_CASE("testThumbnail")
     auto video = [] (media::VideoFrame& video_frame, ACE_Message_Block* mb_video) {
                     return false;
                 };
-        
+
 
     ffmpeg.RegisterStatusCallback(status, true);
     ffmpeg.RegisterAudioCallback(audio, true);
@@ -944,3 +925,182 @@ TEST_CASE("testThumbnail")
     REQUIRE(sig_done.get());
 }
 #endif
+
+#if defined(ENABLE_ENCRYPTION) && 0
+// Encryption context should apparently not be set on client unless it
+// is meant for peer verification
+TEST_CASE("testSSLSetup")
+{
+    std::vector<ttinst> clients;
+    auto ttclient = TT_InitTeamTalkPoll();
+    clients.push_back(ttclient);
+
+    EncryptionContext context = {};
+    ACE_OS::strsncpy(context.szCertificateFile, ACE_TEXT("ttclientcert.pem"), TT_STRLEN);
+    ACE_OS::strsncpy(context.szPrivateKeyFile, ACE_TEXT("ttclientkey.pem"), TT_STRLEN);
+    ACE_OS::strsncpy(context.szCAFile, ACE_TEXT("ca.cer"), TT_STRLEN);
+    context.bVerifyPeer = FALSE;
+    context.bVerifyClientOnce = TRUE;
+    context.nVerifyDepth = 0;
+
+    REQUIRE(TT_SetEncryptionContext(ttclient, &context));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), DEFAULT_ENCRYPTED_TCPPORT, DEFAULT_ENCRYPTED_UDPPORT, TRUE));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+}
+#endif
+
+TEST_CASE("Last voice packet - wav files")
+{
+    TTCHAR curdir[1024] = {};
+    ACE_OS::getcwd(curdir, 1024);
+
+
+    //clean up wav files from previous runs
+    //they are not deleted after the test, so they are available for inspection afterwards
+    ACE_TCHAR delim = ACE_DIRECTORY_SEPARATOR_CHAR;
+    ACE_OS::strncat(curdir, &delim, 1);
+    ACE_OS::strncat(curdir, ACE_TEXT("wav"), 4);
+
+    ACE_stat fileInfo;
+    ACE_DIR* dir = ACE_OS::opendir(curdir);
+    if (!dir)
+    {
+        ACE_OS::mkdir(curdir);
+        dir = ACE_OS::opendir(curdir);
+    }
+    REQUIRE(dir);
+
+    if (ACE_OS::stat(curdir, &fileInfo) == -1);
+    {
+        ACE_OS::mkdir(curdir);
+        dir = ACE_OS::opendir(curdir);
+    }
+    dirent* dirInfo = ACE_OS::readdir(dir);
+    ACE_TCHAR fileToDelete[1024]{};
+    do
+    {
+        if ((ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT(".")) == 0) || (ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT("..")) == 0))
+        {
+            continue;
+        }
+
+        TTCHAR buf[1024]{};
+        ACE_OS::strncpy(buf, dirInfo->d_name + ACE_OS::strlen(dirInfo->d_name) - 4, 4);
+        int index = ACE_OS::strncmp(buf, ACE_TEXT(".wav"), 4);
+
+        if (index == 0)
+        {
+            ACE_OS::strcpy(fileToDelete, curdir);
+            ACE_OS::strncat(fileToDelete, &delim, 1);
+            ACE_OS::strncat(fileToDelete, dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
+            ACE_OS::unlink(fileToDelete);
+        }
+
+
+    } while ((dirInfo = ACE_OS::readdir(dir)) != NULL);
+
+    ACE_OS::closedir(dir);
+
+    //run multiple times to get the wav output files with different number of frames.
+    //running 10 times, gives me 1-4 files with a missing frame, sometimes I get no file with a missing frame, but then you can run this test again or increase the number
+    //of runs from 10 to e.g. 20.
+    for (int i = 0; i < 10; i++)
+    {
+        std::vector<ttinst> clients;
+        auto txclient = TT_InitTeamTalkPoll();
+        auto rxclient = TT_InitTeamTalkPoll();
+        clients.push_back(txclient);
+        clients.push_back(rxclient);
+
+        REQUIRE(InitSound(txclient, SHARED_INPUT));
+        REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+        REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+
+        REQUIRE(InitSound(rxclient, SHARED_INPUT));
+        REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+        REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+
+        AudioCodec audiocodec = {};
+        audiocodec.nCodec = OPUS_CODEC;
+        audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
+        audiocodec.opus.nTxIntervalMSec = 240;
+#if defined(OPUS_FRAMESIZE_120_MS)
+        audiocodec.opus.nFrameSizeMSec = 120;
+#else
+        audiocodec.opus.nFrameSizeMSec = 60;
+#endif
+        audiocodec.opus.nBitRate = OPUS_MIN_BITRATE;
+        audiocodec.opus.nChannels = 2;
+        audiocodec.opus.nComplexity = 10;
+        audiocodec.opus.nSampleRate = 48000;
+        audiocodec.opus.bDTX = true;
+        audiocodec.opus.bFEC = true;
+        audiocodec.opus.bVBR = false;
+        audiocodec.opus.bVBRConstraint = false;
+
+        Channel chan = MakeChannel(txclient, ACE_TEXT("foo"), TT_GetRootChannelID(txclient), audiocodec);
+        REQUIRE(WaitForCmdSuccess(txclient, TT_DoJoinChannel(txclient, &chan)));
+        REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannelByID(rxclient, TT_GetMyChannelID(txclient), ACE_TEXT(""))));
+
+        REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 600));
+        REQUIRE(TT_SetUserMediaStorageDir(rxclient, TT_GetMyUserID(txclient), curdir, ACE_TEXT(""), AFF_WAVE_FORMAT));
+
+        auto voicestop = [&](TTMessage msg)
+            {
+                if (msg.nClientEvent == CLIENTEVENT_USER_STATECHANGE &&
+                    msg.user.nUserID == TT_GetMyUserID(txclient) &&
+                    (msg.user.uUserState & USERSTATE_VOICE) == 0)
+                {
+                    return true;
+                }
+
+                return false;
+            };
+
+        REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+        /*
+         * A duration which ends on a third of a package size, will produce different wav outputs (files are generated which last 1220 ms (5x nTxIntervalMSec)
+         * and files are generated which last 1440ms (6x nTxIntervalMSec)
+         */
+        int duration = int(audiocodec.opus.nTxIntervalMSec * 5 + audiocodec.opus.nTxIntervalMSec * 0.33);
+        WaitForEvent(txclient, CLIENTEVENT_NONE, duration);
+        REQUIRE(TT_EnableVoiceTransmission(txclient, false));
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
+    }
+
+    //check file sizes. All files should hvae the same size (but some are missing the last frame, so this test fails)
+    long long fileSize = -1;
+    dir = ACE_OS::opendir(curdir);
+    dirInfo = ACE_OS::readdir(dir);
+    do
+    {
+        if ((ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT(".")) == 0) || (ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT("..")) == 0))
+        {
+            continue;
+        }
+
+        TTCHAR buf[1024]{};
+        ACE_OS::strncpy(buf, dirInfo->d_name + ACE_OS::strlen(dirInfo->d_name) - 4, 4);
+        int index = ACE_OS::strncmp(buf, ACE_TEXT(".wav"), 4);
+
+        ACE_TCHAR fileToCheck[1024]{};
+        if (index == 0)
+        {
+            ACE_OS::strcpy(fileToCheck, curdir);
+            ACE_OS::strncat(fileToCheck, &delim, 1);
+            ACE_OS::strncat(fileToCheck, dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
+
+            if (ACE_OS::stat(fileToCheck, &fileInfo) != -1)
+            {
+                if (fileSize == -1)
+                {
+                    fileSize = fileInfo.st_size;
+                }
+
+                REQUIRE(fileSize == fileInfo.st_size);
+            }
+        }
+    } while ((dirInfo = ACE_OS::readdir(dir)) != NULL);
+
+    ACE_OS::closedir(dir);
+}

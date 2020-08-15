@@ -5,8 +5,16 @@ Version 5.6.1, unreleased
 Accessible Windows Client:
 - Fixed translation for development of WebM VP8 codec on about dialog
 - Update window title at login with server name
+- Status mode is now displaying for 3 status (Away, Question, and Streaming media file)
+- Away is displayed when switching automatically to Away-mode due to inactivity, and also when manually switching to this mode
+- Status mode is now displayed on receiving side (after status message)
+- Status message is now displaying after a hyphen (same behavior with QT Client)
+- Fixed accessible hints on channel list and files-tab
 Default QT Client:
 - Update window title at login with server name
+- Status mode is now displayed as text for 3 status (Away, Question, and Streaming media file)
+- Away is displayed when switching automatically to Away-mode due to inactivity, and also when manually switching to this mode
+- Status mode is now displayed on receiving side (after status message)
 
 Version 5.6, 2020/08/04
 Accessible Windows client
@@ -31,7 +39,6 @@ Default Qt client
 - Press tab changes focus in text message dialog
 - More items are translatable
 - More controls are labelled with accessibility hints
-- When switching to Away mode due to inactivity the status message is now updated
 - Blank nicknames are set to NoName followed by user ID
 - When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name

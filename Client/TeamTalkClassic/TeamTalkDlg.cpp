@@ -4564,17 +4564,19 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             {
                 if((::GetTickCount() - GetLastInput()) >= dwDelay)
                 {
-                    if((user.nStatusMode & STATUSMODE_MASK) != STATUSMODE_AWAY)
+                    if ((user.nStatusMode & STATUSMODE_MASK) == STATUSMODE_AVAILABLE)
                     {
-                        TT_DoChangeStatus(ttInst, STATUSMODE_AWAY, LoadText(IDS_AWAY, _T("Away")));
+                        m_nStatusMode |= STATUSMODE_AWAY;
+                        TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
                         if(m_xmlSettings.GetDisableVadOnIdle() && m_xmlSettings.GetVoiceActivated())
                             EnableVoiceActivation(FALSE);
                         m_bIdledOut = TRUE;
                     }
                 }
-                else if(m_bIdledOut)
+                else if (m_bIdledOut)
                 {
-                    TT_DoChangeStatus(ttInst, STATUSMODE_AVAILABLE, _T(""));
+                    m_nStatusMode &= ~STATUSMODE_AWAY;
+                    TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
                     m_bIdledOut = FALSE;
                     if(m_xmlSettings.GetDisableVadOnIdle() && m_xmlSettings.GetVoiceActivated())
                         EnableVoiceActivation(TRUE);
@@ -6666,7 +6668,7 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         TRANSLATE_ITEM(IDS_PASSWORD_PROTECTED, szPasswd);
         TRANSLATE_ITEM(IDS_CLASSROOMCHANNEL, szClassroom);
         TRANSLATE_ITEM(IDC_STATIC_CHTOPIC, szTopic);
-        szChannel += _T(":");
+        szChannel += _T(": ");
         szChannel += chan.szName;
         szTopic += _T(": ");
         szTopic += chan.szTopic;

@@ -27,6 +27,7 @@
 #include <TeamTalk.h>
 
 #include <functional>
+#include <memory>
 
 #define DEFWAIT 5000
 
@@ -41,7 +42,7 @@ enum SoundMode
 };
 
 bool InitSound(TTInstance* ttClient, SoundMode mode = DEFAULT, INT32 indev = SOUNDDEVICEID_DEFAULT, INT32 outdev = SOUNDDEVICEID_DEFAULT);
-bool Connect(TTInstance* ttClient, const TTCHAR hostname[TT_STRLEN], INT32 tcpport, INT32 udpport);
+bool Connect(TTInstance* ttClient, const TTCHAR hostname[TT_STRLEN], INT32 tcpport, INT32 udpport, TTBOOL encrypted = FALSE);
 bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR username[TT_STRLEN], const TTCHAR passwd[TT_STRLEN]);
 bool JoinRoot(TTInstance* ttClient);
 Channel MakeChannel(TTInstance* ttClient, const TTCHAR* name, int parentid, const AudioCodec& codec);
@@ -50,5 +51,23 @@ bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg, 
 bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, int timeout = DEFWAIT);
 bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage* outmsg = nullptr, int timeout = DEFWAIT);
 bool WaitForCmdComplete(TTInstance* ttClient, int cmdid, TTMessage* outmsg = nullptr, int timeout = DEFWAIT);
+
+struct TTInst
+{
+    TTInst(const TTInst&) = delete;
+    void operator=(const TTInst&) = delete;
+
+    TTInstance* ttInst;
+    TTInst(TTInstance* ttClient) : ttInst(ttClient) {}
+    ~TTInst() { TT_CloseTeamTalk(ttInst); }
+};
+
+class ttinst : public std::shared_ptr<TTInst>
+{
+public:
+    ttinst() {}
+    ttinst(TTInstance* ttClient) { reset(new TTInst(ttClient)); }
+    operator TTInstance*() { return get()->ttInst; }
+};
 
 #endif

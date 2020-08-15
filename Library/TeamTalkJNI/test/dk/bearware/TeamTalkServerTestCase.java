@@ -53,6 +53,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public TeamTalkBase newClientInstance() {
         TeamTalkBase ttclient = new TeamTalk5Pro();
         ttclients.add(ttclient);
+        // if (ENCRYPTED) {
+        //     assertTrue("Set encryption context", ttclient.setEncryptionContext(new EncryptionContext()));
+        // }
         return ttclient;
     }
 
@@ -995,7 +998,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         if (ENCRYPTED) {
-            System.out.println("Skipping test_DnsResolve in encrypted mode");
+            System.out.println("Skipping testDnsResolve in encrypted mode");
             return;
         }
         
@@ -1159,8 +1162,77 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("ka.nTcpKeepAliveIntervalMSec is read-only", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
     }
+
+    @Test
+    public void testPeerVerification() {
+
+        if (!ENCRYPTED) {
+            System.out.println("Skipped test. Requires encryption");
+            return;
+        }
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_TRANSMIT_VOICE;
+
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
+
+        final TeamTalkBase client = newClientInstance();
+
+        EncryptionContext context = new EncryptionContext();
+        context.szCertificateFile = CRYPTO_CLIENT_CERT_FILE;
+        context.szPrivateKeyFile = CRYPTO_CLIENT_KEY_FILE;
+        context.bVerifyPeer = true;
+        context.bVerifyClientOnce = true;
+        context.nVerifyDepth = 0;
+        assertTrue("Set client encryption context", client.setEncryptionContext(context));
+
+        // SSL client uses blocking connect, so we have to connect
+        // in separate thread otherwise we cannot run the client
+        // and server event-loop at the same time
+        Thread t = new Thread(new Runnable(){
+                public void run() {
+                    assertFalse("connect call", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID));
+                }
+            });
+        t.start();
+
+        while (t.isAlive()) {
+            server.runEventLoop(0);
+        }
+        
+        assertTrue("Stop server", server.stopServer());
+        assertTrue("Disconnect client", client.disconnect());
+
+        EncryptionContext srvcontext = new EncryptionContext();
+        srvcontext.szCertificateFile = CRYPTO_SERVER_CERT_FILE;
+        srvcontext.szPrivateKeyFile = CRYPTO_SERVER_KEY_FILE;
+        srvcontext.szCAFile = CRYPTO_CA_FILE;
+        srvcontext.bVerifyPeer = true;
+        srvcontext.bVerifyClientOnce = true;
+        srvcontext.nVerifyDepth = 0;
+
+        assertTrue("set server encryption context", server.setEncryptionContext(srvcontext));
+        context.szCAFile = CRYPTO_CA_FILE;
+        assertTrue("Set client encryption context", client.setEncryptionContext(context));
+
+        assertTrue("Start server", server.startServer(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED));
+
+        connect(server, client);
+        login(server, client, NICKNAME, USERNAME, PASSWORD);
+    }
     
-    public void _test_runServer() {
+    // @Test
+    public void _testRunServer() {
 
         UserAccount useraccount = new UserAccount();
         
@@ -1191,9 +1263,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public TeamTalkSrv newServerInstance(String systemid, String bindip) {
 
         TeamTalkSrv server = new TeamTalk5Srv(cmdcallback, logger);
-        if(ENCRYPTED)
-            assertTrue("Set context", server.setEncryptionContext(CRYPTO_CERT_FILE, CRYPTO_KEY_FILE));
-
+        if (ENCRYPTED) {
+            assertTrue("Set context", server.setEncryptionContext(CRYPTO_SERVER_CERT2_FILE, CRYPTO_SERVER_KEY2_FILE));
+        }
         assertEquals("File storage", ClientError.CMDERR_SUCCESS,
                      server.setChannelFilesRoot(FILESTORAGE_FOLDER, MAX_DISKUSAGE, DEFAULT_CHANNEL_QUOTA));
 

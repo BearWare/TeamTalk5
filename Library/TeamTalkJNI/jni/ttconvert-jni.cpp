@@ -1868,3 +1868,42 @@ void setAudioInputProgress(JNIEnv* env, AudioInputProgress& aip, jobject lpAudio
         aip.uElapsedMSec = env->GetIntField(lpAudioInputProgress, fid_elapsed);
     }
 }
+
+void setEncryptionContext(JNIEnv* env, EncryptionContext& ec, jobject lpEncryptionContext, JConvert conv) {
+
+    jclass cls = env->GetObjectClass(lpEncryptionContext);
+    jfieldID fid_cf = env->GetFieldID(cls, "szCertificateFile", "Ljava/lang/String;");
+    jfieldID fid_pf = env->GetFieldID(cls, "szPrivateKeyFile", "Ljava/lang/String;");
+    jfieldID fid_caf = env->GetFieldID(cls, "szCAFile", "Ljava/lang/String;");
+    jfieldID fid_cad = env->GetFieldID(cls, "szCADir", "Ljava/lang/String;");
+    jfieldID fid_vp = env->GetFieldID(cls, "bVerifyPeer", "Z");
+    jfieldID fid_vco = env->GetFieldID(cls, "bVerifyClientOnce", "Z");
+    jfieldID fid_vd = env->GetFieldID(cls, "nVerifyDepth", "I");
+
+    assert(fid_cf);
+    assert(fid_pf);
+    assert(fid_caf);
+    assert(fid_cad);
+    assert(fid_vp);
+    assert(fid_vco);
+    assert(fid_vd);
+
+    if (conv == N2J) {
+        env->SetObjectField(lpEncryptionContext, fid_cf, NEW_JSTRING(env, ec.szCertificateFile));
+        env->SetObjectField(lpEncryptionContext, fid_pf, NEW_JSTRING(env, ec.szPrivateKeyFile));
+        env->SetObjectField(lpEncryptionContext, fid_caf, NEW_JSTRING(env, ec.szCAFile));
+        env->SetObjectField(lpEncryptionContext, fid_cad, NEW_JSTRING(env, ec.szCADir));
+        env->SetBooleanField(lpEncryptionContext, fid_vp, ec.bVerifyPeer);
+        env->SetBooleanField(lpEncryptionContext, fid_vco, ec.bVerifyClientOnce);
+        env->SetIntField(lpEncryptionContext, fid_vd, ec.nVerifyDepth);
+    }
+    else {
+       TT_STRCPY(ec.szCertificateFile, ttstr(env, (jstring)env->GetObjectField(lpEncryptionContext, fid_cf)));
+       TT_STRCPY(ec.szPrivateKeyFile, ttstr(env, (jstring)env->GetObjectField(lpEncryptionContext, fid_pf)));
+       TT_STRCPY(ec.szCAFile, ttstr(env, (jstring)env->GetObjectField(lpEncryptionContext, fid_caf)));
+       TT_STRCPY(ec.szCADir, ttstr(env, (jstring)env->GetObjectField(lpEncryptionContext, fid_cad)));
+       ec.bVerifyPeer = env->GetBooleanField(lpEncryptionContext, fid_vp);
+       ec.bVerifyClientOnce = env->GetBooleanField(lpEncryptionContext, fid_vco);
+       ec.nVerifyDepth = env->GetIntField(lpEncryptionContext, fid_vd);
+    }
+}

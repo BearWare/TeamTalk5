@@ -249,6 +249,7 @@
 #define IDS_CANNOWTRANSMITDESKTOP       342
 #define IDS_NOLONGERTRANSMITMEDIAFILE   343
 #define IDS_CANNOWTRANSMITMEDIAFILE     344
+#define IDS_MENUACTIONS                 345
 #define IDS_FAILEDTOWRITEAUDIOFILE      346
 #define IDS_FAILEDTOSTARTFILETRANSFER   347
 #define IDS_ERRORSTREAMINGTOCHANNEL     348
@@ -284,7 +285,6 @@
 #define IDS_TTDLLVERS                   379
 #define IDS_RXTXPING                    381
 #define IDS_RXTX                        382
-#define IDS_AWAY                        383
 #define IDS_FAILEDTOCONNECTLP           384
 #define IDS_NEWUPDATEAVAILABLE          385
 #define IDS_DISCONNECTCURRENT           386
@@ -470,6 +470,7 @@
 #define IDS_INCVOLUMEMFUSER          1023
 #define IDC_CHECK_MANUAL                1024
 #define IDS_DECVOLUMEMFUSER          1025
+#define IDS_USERISAWAY                1026
 #define IDC_STATIC_VOICEACT             1027
 #define IDC_STATIC_VOLUME2              1028
 #define IDC_EDIT_CHANPASSWORD           1029
@@ -481,6 +482,8 @@
 #define IDC_STATIC_USERID               1035
 #define IDC_STATIC_NICKNAME             1036
 #define IDC_STATIC_DISABLED1            1037
+#define IDS_USERISQUESTION            1038
+#define IDS_USERISSTREAMINGMDFILE            1039
 #define IDC_STATIC_INTRO                1042
 #define IDC_SLIDER_MEDIAFILEVOL         1043
 #define IDC_CHECK_WEBSITE               1044

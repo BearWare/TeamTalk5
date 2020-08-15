@@ -211,12 +211,6 @@ struct ClientInstance
         static ACE_Sig_Action original_action;
         no_sigpipe.register_action(SIGPIPE, &original_action);
 #endif
-
-#ifdef ENABLE_ENCRYPTION
-        ACE_SSL_Context *context = ACE_SSL_Context::instance();
-        if(context->get_mode() != ACE_SSL_Context::SSLv23)
-            context->set_mode(ACE_SSL_Context::SSLv23);
-#endif
     }
 
     ~ClientInstance()
@@ -1218,6 +1212,19 @@ TEAMTALKDLL_API TTBOOL TT_SetLicenseInformation(IN const TTCHAR szRegName[TT_STR
                                                 IN const TTCHAR szRegKey[TT_STRLEN])
 {
     return TRUE;
+}
+
+TEAMTALKDLL_API TTBOOL TT_SetEncryptionContext(IN TTInstance* lpTTInstance,
+                                               const EncryptionContext* lpEncryptionContext)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    ACE_SSL_Context* context = clientnode->SetupEncryptionContext();
+    if (!context)
+        return FALSE;
+
+    return SetupEncryptionContext(*lpEncryptionContext, context);
 }
 
 TEAMTALKDLL_API TTBOOL TT_Connect(IN TTInstance* lpTTInstance,

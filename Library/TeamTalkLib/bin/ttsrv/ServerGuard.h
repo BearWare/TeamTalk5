@@ -108,6 +108,10 @@ namespace teamtalk {
     bool ReadServerProperties(ServerXML& xmlSettings, ServerSettings& properties,
                               statchannels_t& channels);
 
+#if defined(ENABLE_TEAMTALKPRO)
+    bool SetupEncryption(ServerNode& servernode, ServerXML& xmlSettings);
+#endif
+
     bool ConfigureServer(ServerNode& servernode, const ServerSettings& properties,
                          const statchannels_t& channels);
 

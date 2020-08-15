@@ -45,13 +45,11 @@
 #include <string>
 #include <vector>
 
-#if defined(ENABLE_TEAMTALKPRO)
-#define DEFAULT_TCPPORT 10443
-#define DEFAULT_UDPPORT 10443
-#else
+#define DEFAULT_ENCRYPTED_TCPPORT 10443
+#define DEFAULT_ENCRYPTED_UDPPORT 10443
+
 #define DEFAULT_TCPPORT 10333
 #define DEFAULT_UDPPORT 10333
-#endif
 
 #define SERVER_USERID 0
 
@@ -239,6 +237,7 @@ namespace teamtalk {
         ACE_Event_Handler* RegisterStreamCallback(ACE_HANDLE h);
 
 #if defined(ENABLE_ENCRYPTION)
+        ACE_SSL_Context* SetupEncryptionContext();
         void OnOpened(CryptStreamHandler::StreamHandler_t& streamer);
         void OnClosed(CryptStreamHandler::StreamHandler_t& streamer);
         bool OnReceive(CryptStreamHandler::StreamHandler_t& streamer, const char* buff, int len);

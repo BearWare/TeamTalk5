@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
     <item id="1">OK</item>
     <item id="2">Annuler</item>
@@ -419,12 +419,15 @@
     <item id="1023">Volume des fichiers média de %s augmenté à %d%%</item>
     <item id="1024">Lancez le guide de démarrage rapide pour apprendre à configurer un serveur et s&apos;y connecter</item>
     <item id="1025">Volume des fichiers média de %s diminué à %d%%</item>
+    <item id="1026">Absent</item>
     <item id="1028">Volume</item>
     <item id="1030">&amp;Connexion</item>
     <item id="1034">0=désactivé</item>
     <item id="1035">Identifiant utilisateur</item>
     <item id="1036">Pseudo</item>
     <item id="1037">0=désactivé</item>
+    <item id="1038">Question</item>
+    <item id="1039">Diffuse un fichier média</item>
     <item id="1042">Cet assistant vous guidera à travers les étapes nécessaires à la configuration&#x0D;&#x0A;de l&apos;application de conférence TeamTalk. Appuyez sur le bouton &quot;Suivant&quot; pour&#x0D;&#x0A;commencer à suivre les étapes pour terminer cet assistant. Si vous appuyez sur&#x0D;&#x0A;&quot;Annuler&quot;, vous devrez configurer TeamTalk manuellement.</item>
     <item id="1044">Consultez le site Web www.bearware.dk pour rechercher les serveurs TeamTalk</item>
     <item id="1045">Perte de paquets</item>
