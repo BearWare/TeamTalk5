@@ -78,13 +78,14 @@ namespace teamtalk {
 
         VoiceLog(int userid, const ACE_TString& filename,
                  const AudioCodec& codec, AudioFileFormat aff,
-                 int stream_id);
+                 int stream_id, int stoppedtalking_delay);
         ~VoiceLog();
 
         void AddVoicePacket(const teamtalk::AudioPacket& packet);
         void FlushLog();
 
-        ACE_Time_Value GetVoiceEndTime() const { return m_last; }
+        uint32_t GetLatestPacketTime() const;
+        ACE_Time_Value GetVoiceEndTime() const;
 
         VoiceLogFile GetVoiceLogFile();
 
@@ -100,10 +101,9 @@ namespace teamtalk {
         int GetStreamID() const { return m_streamid; }
         void SetClosing() { m_closing = true; }
     private:
-        typedef std::map<int, audiopacket_t> mappackets_t;
+        typedef std::map<int, audiopacket_t, w16_less_comp> mappackets_t;
 
-        void WritePackets(int& pktno_cur, int& pktno_max, 
-                          int pktno_latest, bool& wrapped);
+        int WritePackets(int pktno_cur);
         void WritePacket(int packet_no);
         void WriteAudio(int packet_no);
         void WriteSilence(int msecs);
@@ -112,11 +112,9 @@ namespace teamtalk {
         mappackets_t m_mQueuePackets; //packetnum --> packet
         mappackets_t m_mFlushPackets; //packetnum --> packet
         int m_packet_current;
-        int m_packet_max;
-        int m_packet_latest;
-        ACE_Time_Value m_flush; //time of last flush
-        ACE_Time_Value m_first; //time of first packet received
-        ACE_Time_Value m_last;  //time of last packet received
+        ACE_Time_Value m_last;
+        uint32_t m_packet_timestamp = 0; // timestamp of most recent packet
+        int m_tot_msec; // auto close voice log after this timeout
 #if defined(ENABLE_SPEEX)
         std::unique_ptr<SpeexDecoder> m_speex;
 #endif

@@ -4754,11 +4754,11 @@ BOOL CTeamTalkDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pData)
         m_cmdArgs.RemoveAll();
         CString args = msg.szPath;
         int i = 0;
-        CString token = args.Tokenize(_T("¤"), i);
+        CString token = args.Tokenize(_T("Â¤"), i);
         while(!token.IsEmpty())
         {
             m_cmdArgs.AddTail(token);
-            token = args.Tokenize(_T("¤"), i);
+            token = args.Tokenize(_T("Â¤"), i);
         }
 
         ParseArgs();
@@ -5717,14 +5717,38 @@ void CTeamTalkDlg::OnServerSaveconfiguration()
 void CTeamTalkDlg::OnUpdateAdvancedStoreformove(CCmdUI *pCmdUI)
 {
     pCmdUI->Enable(m_wndTree.GetSelectedUser()>0);
+    int nUserID = m_wndTree.GetSelectedUser();
+    if(m_moveusers.find(nUserID) != m_moveusers.end()) {
+        pCmdUI->SetCheck(true);
+    } else {
+        pCmdUI->SetCheck(false);
+    }
 }
 
 void CTeamTalkDlg::OnAdvancedStoreformove()
 {
     int nMoveUserID = m_wndTree.GetSelectedUser();
-    if (nMoveUserID)
-        m_moveusers.insert(nMoveUserID);
-
+    if(nMoveUserID) {
+        if(m_moveusers.find(nMoveUserID) != m_moveusers.end()) {
+            m_moveusers.erase(nMoveUserID);
+            if(m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
+                User user;
+                TT_GetUser(ttInst, nMoveUserID, &user);
+                CString szMsg;
+                szMsg.Format(LoadText(IDS_UNSELECTFORMOVE, _T("%s deselected for move")), GetDisplayName(user));
+                AddVoiceMessage(szMsg);
+            }
+        } else {
+            m_moveusers.insert(nMoveUserID);
+            if(m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
+                User user;
+                TT_GetUser(ttInst, nMoveUserID, &user);
+                CString szMsg;
+                szMsg.Format(LoadText(IDS_SELECTFORMOVE, _T("%s selected for move")), GetDisplayName(user));
+                AddVoiceMessage(szMsg);
+            }
+        }
+    }
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedMoveuser(CCmdUI *pCmdUI)
@@ -5740,6 +5764,13 @@ void CTeamTalkDlg::OnAdvancedMoveuser()
     {
         TT_DoMoveUser(ttInst, nUserID, nChanID);
     });
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
+        Channel chan;
+        TT_GetChannel(ttInst, nChanID, &chan);
+        CString szMsg;
+        szMsg.Format(LoadText(IDS_USERSMOVED, _T("Selected users has been moved to channel %s")), chan.szName);
+        AddVoiceMessage(szMsg);
+    }
     m_moveusers.clear();
 }
 
@@ -6578,14 +6609,15 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
             return;
 
         CString szUser, szVoice, szMute, szMediaFile, szMuteMediaFile,
-            szVideoCapture, szDesktop, szChanOp = LoadText(IDS_CHANOP, _T("Channel Operator"));
-        if(user.uUserType & USERTYPE_ADMIN) {
+            szVideoCapture, szDesktop, szChanOp = LoadText(IDS_CHANOP, _T("Channel Operator")), szMoveSelected = LoadText(IDS_MOVESELECTED, _T("Selected for move"));
+        if (user.uUserType & USERTYPE_ADMIN) {
             szUser.LoadString(IDS_USERADMIN);
             TRANSLATE_ITEM(IDS_USERADMIN, szUser);
         } else {
             szUser.LoadString(IDS_USER);
             TRANSLATE_ITEM(IDS_USER, szUser);
         }
+
         TRANSLATE_ITEM(IDD_TAB_CHANNELOP, szChanOp);
         szVoice.LoadString(IDS_TALKING);
         szMute.LoadString(IDS_MUTE);
@@ -6604,6 +6636,9 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         szSpeakList.AddTail(szUser);
 
         CString szStatus;
+
+        if(m_moveusers.find(user.nUserID) != m_moveusers.end())
+            szSpeakList.AddTail(szMoveSelected);
 
         if(TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
             szSpeakList.AddTail(szChanOp);
