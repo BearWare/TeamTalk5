@@ -2,45 +2,10 @@
  * @page knownissues Known Issues
  *
  * Some features have known issues which are currently in the process
- * of being solved. For an up to date list please checkout the issues
- * section on the <a href="https://github.com/BearWare/TeamTalk5">TeamTalk GitHub project</a>.
- *
- * @section knownandroid Known issues on Android
- *
- * Currently the following features are unavailable in the TeamTalk 5
- * SDKs for Android:
- *
- * - Stream media files to channel.
- *   - It is, however, possible to listen to media files being played to
- *     a channel.
- * - Video capture for camera.
- *   - The video capture interface currently isn't supported.
- *
- * @section knownios Known issues on iOS
- *
- * Currently the following features are unavailable in the TeamTalk 5
- * SDKs for iOS:
- *
- * - Stream media files to channel.
- *   - It is, however, possible to listen to media files being played to
- *     a channel.
- * - Video capture for camera.
- *   - The video capture interface currently isn't supported.
- *
- * @section knownwin Known issues on Windows
- *
- * Currently the following issues are known in the TeamTalk 5 SDKs for
- * Windows:
- *
- * - Stereo MP3 files report incorrect time
- *   - When recording user's audio using
-@if NETFRAMEWORK 
-     BearWare.TeamTalk.SetUserMediaStorageDir()
-@else
-     TT_SetUserMediaStorageDir()
-@endif
- *     and the user is using stereo the resulting MP3 file reports a
- *     shorter duration than what is actually recorded in some media
- *     players.
+ * of being solved. For an up to date list please checkout the <a
+ * href="https://github.com/BearWare/TeamTalk5/issues">Issues</a>
+ * section on the <a
+ * href="https://github.com/BearWare/TeamTalk5">TeamTalk GitHub
+ * project</a>.
  *
  */

@@ -36,29 +36,6 @@
 #endif
 
 
-#if defined(ENABLE_ENCRYPTION)
-
-class My_SSL_SOCK_Acceptor : public ACE_SOCK_Acceptor
-{
-public:
-  int accept (ACE_SSL_SOCK_Stream &new_stream,
-              ACE_Addr *remote_addr = 0,
-              ACE_Time_Value *timeout = 0,
-              int restart = 1,
-              int reset_new_handle = 0) const;
-};
-#endif
-
-/*
-class My_SOCK_Acceptor : public ACE_SOCK_Acceptor
-{
-protected:
-    int shared_open(const ACE_Addr &local_sap,
-        int protocol_family,
-        int backlog);
-};
-*/
-
 template < typename STREAMHANDLER, typename MYACCEPTOR >
 class Acceptor : public ACE_Acceptor< STREAMHANDLER, MYACCEPTOR >
 {
@@ -99,6 +76,16 @@ private:
 typedef Acceptor< DefaultStreamHandler, ACE_SOCK_ACCEPTOR > DefaultAcceptor;
 
 #if defined(ENABLE_ENCRYPTION)
+class My_SSL_SOCK_Acceptor : public ACE_SOCK_Acceptor
+{
+public:
+  int accept (ACE_SSL_SOCK_Stream &new_stream,
+              ACE_Addr *remote_addr = 0,
+              ACE_Time_Value *timeout = 0,
+              int restart = 1,
+              int reset_new_handle = 0) const;
+};
+
 typedef Acceptor< CryptStreamHandler, My_SSL_SOCK_Acceptor > CryptAcceptor;
 #endif
 

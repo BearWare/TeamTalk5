@@ -42,6 +42,7 @@
 #include <myace/MyACE.h>
 
 #include <map>
+#include <memory>
 
 template < typename STREAMHANDLER >
 class StreamListener
@@ -233,17 +234,26 @@ int QueueStreamData(ACE_Message_Queue_Base& msg_q,
 
 #if defined(ENABLE_ENCRYPTION)
 
-typedef std::map<ACE_Reactor*, ACE_SSL_Context*> ssl_ctx_t;
+typedef std::map<ACE_Reactor*, std::shared_ptr<ACE_SSL_Context>> ssl_ctx_t;
 
-class CryptStreamHandler : public StreamHandler<ACE_SSL_SOCK_Stream>
+class MySSLSockStream : public ACE_SSL_SOCK_Stream
 {
 public:
-    typedef StreamHandler<ACE_SSL_SOCK_Stream> super;
+    MySSLSockStream(ACE_SSL_Context* ctx = ACE_SSL_Context::instance());
+    // Horrifying hack to get around ACE's forced singleton SSL
+    // context implementation
+    void ReinitSSL(ACE_SSL_Context* ctx);
+};
+
+class CryptStreamHandler : public StreamHandler<MySSLSockStream>
+{
+public:
+    typedef StreamHandler<MySSLSockStream> super;
     typedef StreamListener< CryptStreamHandler::StreamHandler_t > StreamListener_t;
 
-    CryptStreamHandler(ACE_Thread_Manager *thr_mgr = 0,
-                       ACE_Message_Queue<ACE_MT_SYNCH> *mq = 0,
-                       ACE_Reactor *reactor = ACE_Reactor::instance());
+    CryptStreamHandler(ACE_Thread_Manager *thr_mgr = nullptr,
+                       ACE_Message_Queue<ACE_MT_SYNCH> *mq = nullptr,
+                       ACE_Reactor *reactor = nullptr);
 
     //Callback to handle any input received
     virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE);
@@ -251,9 +261,13 @@ public:
     //Callback to handle any output received
     virtual int handle_output(ACE_HANDLE fd = ACE_INVALID_HANDLE);
 
-    static void AddSSLContext(ACE_Reactor* r, ACE_SSL_Context* c);
+    static ACE_SSL_Context* AddSSLContext(ACE_Reactor* r);
+    static void RemoveSSLContext(ACE_Reactor* r);
+
+    virtual void reactor(ACE_Reactor *reactor);
 
 protected:
+    void ssl_reset(ACE_Reactor *reactor);
     int process_ssl(SSL* ssl);
 
     static ACE_SSL_Context* ssl_context(ACE_Reactor* r);

@@ -146,6 +146,9 @@ BOOL CTextToSpeechPage::OnInitDialog()
     m_wndTree.SetItemData(m_wndTree.InsertItem(LoadText(IDS_FILERM), hFile), TTS_FILE_REMOVE);
     m_wndTree.Expand(hFile, TVE_EXPAND);
 
+    HTREEITEM hMenuActions = m_wndTree.InsertItem(LoadText(IDS_MENUACTIONS));
+    m_wndTree.SetItemData(hMenuActions, TTS_MENU_ACTIONS);
+
     m_wndTree.EnsureVisible(hUser);
     // The MFC tree control stinks so we have to schedule a timer to do updates...
     SetTimer(1, 0, NULL);

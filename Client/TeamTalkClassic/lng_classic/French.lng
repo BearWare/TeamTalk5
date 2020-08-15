@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
     <item id="1">OK</item>
     <item id="2">Annuler</item>
@@ -243,7 +243,7 @@
     <item id="379">Version de la DLL TeamTalk 32-bit: </item>
     <item id="381">Réception: %.2fKB, Transmission: %.2fKB, PING: %u %s</item>
     <item id="382">Réception: %.2fKB, Transmission: %.2fKB %s</item>
-    <item id="383">Absent</item>
+    <item id="383">Les utilisateurs sélectionnés ont été déplacés vers le canal %s</item>
     <item id="384">Impossible de se connecter à %s, port %d, port d'écoute %d.&#xD;&#xA;Vérifiez que vos paramètres d'hôte soient corrects.</item>
     <item id="385">Nouvelle version disponible: %s</item>
     <item id="386">Se déconnecter de l'hôte actuel?</item>
@@ -290,6 +290,7 @@
     <item id="428">Impossible de démarrer la lecture</item>
     <item id="429">Charger le fichier %s</item>
     <item id="430">Ajouter %s aux exceptions du pare-feu Windows?</item>
+    <item id="431">%s sélectionné pour déplacement</item>
     <item id="432">Bannir l'adresse IP</item>
     <item id="433">Bannir le nom d'utilisateur</item>
     <item id="434">Pas d'audio</item>
@@ -358,6 +359,9 @@
     <item id="498">Impossible de démarrer le périphérique sélectionné. Tester la sélection</item>
     <item id="499">Se déconnecter de Facebook?</item>
     <item id="500">Connexion Facebook</item>
+    <item id="503">Administrateur</item>
+    <item id="504">%s désélectionné pour déplacement</item>
+    <item id="505">Sélectionné pour déplacement</item>
     <item id="512"> - Non publié</item>
     <item id="513">TeamTalk 5 Classique Professionnel V</item>
     <item id="514">TeamTalk 5 Classique Professionnel</item>
@@ -416,12 +420,15 @@
     <item id="1023">Volume des fichiers média de %s augmenté à %d%%</item>
     <item id="1024">Lancez le guide de démarrage rapide pour apprendre à configurer un serveur et s&apos;y connecter</item>
     <item id="1025">Volume des fichiers média de %s diminué à %d%%</item>
+    <item id="1026">Absent</item>
     <item id="1028">Volume</item>
     <item id="1030">&amp;Connexion</item>
     <item id="1034">0=désactivé</item>
     <item id="1035">Identifiant utilisateur</item>
     <item id="1036">Pseudo</item>
     <item id="1037">0=désactivé</item>
+    <item id="1038">Question</item>
+    <item id="1039">Diffuse un fichier média</item>
     <item id="1042">Cet assistant vous guidera à travers les étapes nécessaires à la configuration&#x0D;&#x0A;de l&apos;application de conférence TeamTalk. Appuyez sur le bouton &quot;Suivant&quot; pour&#x0D;&#x0A;commencer à suivre les étapes pour terminer cet assistant. Si vous appuyez sur&#x0D;&#x0A;&quot;Annuler&quot;, vous devrez configurer TeamTalk manuellement.</item>
     <item id="1044">Consultez le site Web www.bearware.dk pour rechercher les serveurs TeamTalk</item>
     <item id="1045">Perte de paquets</item>
@@ -824,10 +831,10 @@
     <item id="32929">C&amp;ouper les fichiers média\tCTRL-Alt-M</item>
     <item id="32930">Exclure du canal\tCTRL-K</item>
     <item id="32931">Ex&amp;clure du serveur\tCTRL-Alt-K</item>
-    <item id="32932">Au&amp;gmenter le volume de la voix (+10)\tCTRL-Alt-Fl_droite</item>
-    <item id="32933">Diminuer le volume de la voix (-10)\tCTRL-Alt-Fl_gauche</item>
-    <item id="32934">A&amp;ugmenter le volume des fichiers média (+10)\tCTRL-Maj-Fl_droite</item>
-    <item id="32935">D&amp;iminuer le volume des fichiers média (-10)\tCTRL-Maj-Fl_gauche</item>
+    <item id="32932">Au&amp;gmenter le volume de la voix\tCTRL-Alt-Fl_droite</item>
+    <item id="32933">Diminuer le volume de la voix\tCTRL-Alt-Fl_gauche</item>
+    <item id="32934">A&amp;ugmenter le volume des fichiers média\tCTRL-Maj-Fl_droite</item>
+    <item id="32935">D&amp;iminuer le volume des fichiers média\tCTRL-Maj-Fl_gauche</item>
     <item id="32936">Aut&amp;oriser la transmission du bureau\tCTRL-Alt-E</item>
     <item id="32937">Auto&amp;riser la transmission de fichiers média\tCTRL-Alt-R</item>
     <item id="32938">Flux de fichiers médias\tCTRL-8</item>

@@ -830,6 +830,18 @@ extern "C" {
                                         ttstr(env, szPrivateKeyFile));
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_setEncryptionContextEx
+    (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jobject lpEncryptionContext) {
+
+        THROW_NULLEX(env, lpEncryptionContext, false);
+
+        EncryptionContext context = {};
+        setEncryptionContext(env, context, lpEncryptionContext, J2N);
+
+        return TTS_SetEncryptionContextEx(reinterpret_cast<TTSInstance*>(lpTTSInstance),
+                                          &context);
+    }
+    
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_runEventLoop
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jint pnWaitMs) {
 

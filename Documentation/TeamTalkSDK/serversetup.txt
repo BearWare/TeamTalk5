@@ -37,17 +37,15 @@
  *      - @c tt5prosrv
  *        TeamTalk server with encryption which can run as a console
  *        application and a daemon.
- *   - To run in encrypted mode the server requires a certificate and private key
- *     which can be created using OpenSSL. Run the following command line
- *     using OpenSSL to generate the certificate and privte key:
- *   @verbatim
-$ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -out ttservercert.pem -outform PEM
-@endverbatim
+ *   - To run in encrypted mode the server requires a certificate and
+ *     private key which can be created using OpenSSL. See
+ *     section @ref ttsrvencrypt on how to do this.
  *
  * This section outlines the following:
  * - @ref srvconfig
  * - @ref srvstart
  * - @ref ntservice
+ * - @ref ttsrvencrypt
  * - @ref ttphpadmin
  *
  * @section srvconfig Configurating the TeamTalk Server
@@ -245,7 +243,7 @@ $ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -
  *   - @c \<certificate-file\>
  *     If certificate file and private key file are specified then the
  *     server is running in encrypted mode. Read section @ref
- *     serverexe on how to create certificate and private key files.
+ *     ttsrvencrypt on how to create certificate and private key files.
  *   - @c \<privatekey-file\>
  *     Read @c \<certificate-file\> description above.
  *   - @c \<login-attempts\>
@@ -422,7 +420,7 @@ $ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -
  *
  * To install multiple TeamTalk NT Services the @c sc.exe command
  * can be used. Here is an example:
- @verbatim
+@verbatim
 sc.exe create "TeamTalk Server 2" binPath= "C:\MyServer\tt5svc.exe -wd c:\MyServer" start= auto
 @endverbatim
  *
@@ -430,7 +428,7 @@ sc.exe create "TeamTalk Server 2" binPath= "C:\MyServer\tt5svc.exe -wd c:\MyServ
  * in the NT service list. Notice the spaces after @c binPath and @c
  * start. For some strange reason these are required. To start the above
  * service run:
- @verbatim
+@verbatim
 sc.exe start "TeamTalk Server 2"
 @endverbatim
  * To stop it type:
@@ -442,6 +440,120 @@ sc.exe stop "TeamTalk Server 2"
 sc.exe delete "TeamTalk Server 2"
 @endverbatim
  *
+ * @section ttsrvencrypt Setup TeamTalk Server Encryption
+ *
+ * Setting up an encrypted TeamTalk server requires a TeamTalk
+ * Professional server.
+ *
+ * A TeamTalk server supports two types of encryptions:
+ * - Encrypted connection from client to server
+ * - Encrypted connection from client to server where the authenticity
+ *   of both ends are verified.
+ *
+ * When running the server setup wizard (@c -wizard option) the server
+ * will ask which type of encryption to use.
+ *
+ * @subsection simpleenc Simple client/server encryption
+ *
+ * The simplest way to start an encrypted TeamTalk server is to
+ * generate a certificate and private key file.
+ *
+ * Run the following command line using OpenSSL to generate the
+ * certificate and privte key:
+@verbatim
+$ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -out ttservercert.pem -outform PEM
+@endverbatim
+ *
+ * Now run the server's setup wizard to specify the location of the
+ * certificate and private key files. Alternatively fill out tags
+ * @c <certificate-file> and @c <privatekey-file> in @c tt5prosrv.xml
+ * (see section @ref srvconfig).
+ *
+ * To test if the server is running in encrypted mode try the
+ * following command:
+@verbatim
+$ openssl s_client -connect 127.0.0.1:10443
+@endverbatim
+ *
+ * @subsection peerverification Verifying client/server connections
+ *
+ * Doing peer verification, i.e. verifying the authenticity of the
+ * remote end, requires a quite complicated setup.
+ *
+ * First the client and server must agree on a Certificate Authority
+ * (CA) which creates certificates.
+ *
+ * To generate a certificate authority (CA) cert run the following
+ * command:
+@verbatim
+$ openssl req -newkey rsa:4096 -keyform PEM -keyout ca.key -x509 -days 3650 -outform PEM -out ca.cer
+@endverbatim
+ *
+ * Now generate the server's private key:
+@verbatim
+$ openssl genrsa -out ttserverkey.pem 4096
+@endverbatim
+ *
+ * Now generate the server's certificate request to the CA:
+@verbatim
+$ openssl req -new -key ttserverkey.pem -out server.req -sha256
+@endverbatim
+ *
+ * Now use the server's certificate request to generate the server's
+ * certificate:
+@verbatim
+$ openssl x509 -req -in server.req -CA ca.cer -CAkey ca.key -set_serial 100 -extensions server -days 365 -outform PEM -out ttservercert.pem -sha256
+@endverbatim
+ *
+ * The procedure for the client's certificate and private key are
+ * similar. First generate the client's private key:
+@verbatim
+$ openssl genrsa -out ttclientkey.pem 4096
+@endverbatim
+ *
+ * Now generate the client's certificate request to the CA:
+@verbatim
+$ openssl req -new -key ttclientkey.pem 4096 -out client.req
+@endverbatim
+ *
+ * Now use the client's certificate request to generate the client's
+ * certificate:
+@verbatim
+$ openssl x509 -req -in client.req -CA ca.cer -CAkey ca.key -set_serial 101 -extensions client -days 365 -outform PEM -out ttclientcert.pem
+@endverbatim
+ *
+ * To test if the server is running in encrypted mode with peer
+ * verification try the following command:
+@verbatim
+$ openssl s_client -connect 127.0.0.1:10443 -cert ttclientcert.pem -key ttclientkey.pem
+@endverbatim
+ *
+ * After the above operations the following files have been generated:
+ * - @c ca.cer
+ *   - The Certificate Authority (CA) cert (in this case self-signed).
+ *   - Both client and server must use the same CA cert to be able to
+ *     verify certificates authenticity.
+ * - @c ca.key
+ *   - The Certificate Authority (CA) private key. Never give this to anyone.
+ * - @c ttserverkey.pem
+ *   - The server's private key required to run the server in encrypted mode. 
+ *     Never give this to anyone.
+ * - @c ttservercert.pem
+ *   - The server's certificate required to run the server in encrypted mode.
+ * - @c ttclientkey.pem
+ *   - The client's private key required for peer verification. Generate
+ *     a new private key for each client.
+ * - @c ttclientcert.pem
+ *   - The client's certificate required for peer verification. Generate
+ *     a new certificate for each client.
+ *
+ * Now run the TeamTalk server's wizard and specify that the server
+ * should verify peer connections. The following files will be need in
+ * the process: @c ca.cer, @c ttserverkey.pem, @c ttservercert.pem
+ *
+ * The TeamTalk server also supports multiple Certificate
+ * Authorities. In this case a directory must be specified where the
+ * server can't find all CA certs.
  *
  * @section ttphpadmin TeamTalk PHP Admin for remote administration
  *

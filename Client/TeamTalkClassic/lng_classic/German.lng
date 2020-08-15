@@ -823,10 +823,10 @@
     <item id="32929">Mediendatei st&amp;umm\tSTRG+Alt+M</item>
     <item id="32930">Aus Raum &amp;werfen\tSTRG+K</item>
     <item id="32931">Vom &amp;Server werfen\tSTRG+Alt+K</item>
-    <item id="32932">Sprachlautstärke um +10 er&amp;höhen\tSTRG+Alt+Rechts</item>
-    <item id="32933">Sprachlautstärke um -10 &amp;verringern\tSTRG+Alt+Links</item>
-    <item id="32934">Medien&amp;datei-Lautstärke um +10 erhöhen\tSTRG+Umsch+Rechts</item>
-    <item id="32935">Mediendatei-&amp;Lautstärke um -10 verringern\tSTRG+Umsch+Links</item>
+    <item id="32932">Sprachlautstärke um er&amp;höhen\tSTRG+Alt+Rechts</item>
+    <item id="32933">Sprachlautstärke um &amp;verringern\tSTRG+Alt+Links</item>
+    <item id="32934">Medien&amp;datei-Lautstärke um erhöhen\tSTRG+Umsch+Rechts</item>
+    <item id="32935">Mediendatei-&amp;Lautstärke um verringern\tSTRG+Umsch+Links</item>
     <item id="32936">Erlaube Desk&amp;topübertragung\tSTRG+Alt+E</item>
     <item id="32937">Erlaube M&amp;ediendatei-Übertragung\tSTRG+Alt+R</item>
     <item id="32938">&amp;Mediendatei-Stream\tSTRG+8</item>

@@ -985,18 +985,27 @@ CString CSessionTreeCtrl::GetUserText(int nUserID) const
 {
     CString szText;
     auto ite = m_users.find(nUserID);
-    if(ite != m_users.end())
-    {
-        User user = ite->second;
-        szText = GetDisplayName(user);
+    if (ite == m_users.end())
+        return _T("");
 
-        if(_tcslen(user.szStatusMsg)>0)
-        {
-            CString szMsg = user.szStatusMsg;
-            if(!szMsg.IsEmpty())
-                szText = szText + _T("  (") + szMsg + _T(")");
-        }
+    User user = ite->second;
+    szText = GetDisplayName(user);
+    if (_tcslen(user.szStatusMsg) > 0)
+        szText += _T(" - ") + CString(user.szStatusMsg);
+
+    switch (user.nStatusMode & STATUSMODE_MASK)
+    {
+    case STATUSMODE_AWAY:
+        szText += _T(" (") + LoadText(IDS_USERISAWAY, _T("Away")) + _T(")");
+        break;
+    case STATUSMODE_QUESTION:
+        szText += _T(" (") + LoadText(IDS_USERISQUESTION, _T("Question")) + _T(")");
+        break;
     }
+
+    if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
+        szText += _T(" (") + LoadText(IDS_USERISSTREAMINGMDFILE, _T("Streaming media file")) + _T(")");
+
     return LimitText(szText);
 }
 
