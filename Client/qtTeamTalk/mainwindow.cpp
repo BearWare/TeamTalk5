@@ -3916,7 +3916,7 @@ void MainWindow::slotUsersAdvancedDesktopAllowed(bool checked/*=false*/)
     }
 }
 
-/*void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
+/*void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked=false)
 {
     int userid = ui.channelsWidget->selectedUser();
     int channelid = ui.channelsWidget->selectedChannel(true);
