@@ -5735,7 +5735,7 @@ void CTeamTalkDlg::OnAdvancedStoreformove()
                 User user;
                 TT_GetUser(ttInst, nMoveUserID, &user);
                 CString szMsg;
-                szMsg.Format(LoadText(IDS_UNSELECTFORMOVE, _T("%s unselected for move")), GetDisplayName(user));
+                szMsg.Format(LoadText(IDS_UNSELECTFORMOVE, _T("%s deselected for move")), GetDisplayName(user));
                 AddVoiceMessage(szMsg);
             }
         } else {
