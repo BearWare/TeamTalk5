@@ -3916,7 +3916,7 @@ void MainWindow::slotUsersAdvancedDesktopAllowed(bool checked/*=false*/)
     }
 }
 
-/*void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked=false)
+void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
 {
     int userid = ui.channelsWidget->selectedUser();
     int channelid = ui.channelsWidget->selectedChannel(true);
@@ -3928,10 +3928,9 @@ void MainWindow::slotUsersAdvancedDesktopAllowed(bool checked/*=false*/)
             transmitUsers[userid] |= STREAMTYPE_MEDIAFILE;
         else
             transmitUsers[userid] &= ~STREAMTYPE_MEDIAFILE;
-        }
         slotTransmitUsersChanged(channelid, transmitUsers);
     }
-}*/
+}
 
 void MainWindow::slotUsersStoreAudioToDisk(bool/* checked*/)
 {
