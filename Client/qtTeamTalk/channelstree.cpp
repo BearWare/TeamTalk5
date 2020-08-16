@@ -953,11 +953,6 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         QString itemtext;
         QString name = getDisplayName(user);
-        if(_Q(user.szStatusMsg).size())
-            itemtext = name + QString(" - ") + _Q(user.szStatusMsg);
-        else
-            itemtext = name;
-
         switch (user.nStatusMode & STATUSMODE_MODE)
         {
         case STATUSMODE_AWAY :
@@ -973,6 +968,10 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         if (user.nStatusMode & STATUSMODE_VIDEOTX)
             itemtext += tr(" (Webcam)");
+        if(_Q(user.szStatusMsg).size())
+            itemtext = name + QString(" - ") + _Q(user.szStatusMsg);
+        else
+            itemtext = name;
 
         if(user.uUserType & USERTYPE_ADMIN)
             itemtext += tr(" [Administrator]");
