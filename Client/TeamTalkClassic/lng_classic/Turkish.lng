@@ -828,9 +828,9 @@
     <item id="32930">&amp;Kanal&apos;dan At\tCtrl+K</item>
     <item id="32931">&amp;Sunucu&apos;dan at\tCtrl+Alt+K</item>
     <item id="32932">&amp;Sesi Artır (%10)\tCtrl+Alt+Right</item>
-    <item id="32933">&amp;Sesi azalt (-10)\tCtrl+Alt+Left</item>
-    <item id="32934">&amp;Medya Sesini Artır (+10)\tCtrl+Shift+Right</item>
-    <item id="32935">&amp;Medya Sesini Azalt (-10)\tCtrl+Shift+Left</item>
+    <item id="32933">&amp;Sesi azalt\tCtrl+Alt+Left</item>
+    <item id="32934">&amp;Medya Sesini Artır\tCtrl+Shift+Right</item>
+    <item id="32935">&amp;Medya Sesini Azalt\tCtrl+Shift+Left</item>
     <item id="32936">&amp;Masaüstü iletimine izin ver\tCtrl+Alt+E</item>
     <item id="32937">&amp;Medya Yayınına izin ver\tCtrl+Alt+R</item>
     <item id="32938">&amp;Medya Yayını\tCtrl+8</item>
