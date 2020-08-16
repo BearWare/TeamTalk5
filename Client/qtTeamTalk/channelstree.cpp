@@ -957,18 +957,18 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         switch (user.nStatusMode & STATUSMODE_MODE)
         {
         case STATUSMODE_AWAY :
-            itemtext += tr(" (Away) ");
+            itemtext += tr(", Away");
             break;
         case STATUSMODE_QUESTION :
-            itemtext += tr(" (Question) ");
+            itemtext += tr(", Question");
             break;
         }
 
         if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
-            itemtext += tr(" (Streaming media file) ");
+            itemtext += tr(", Streaming media file");
 
         if (user.nStatusMode & STATUSMODE_VIDEOTX)
-            itemtext += tr(" (Webcam) ");
+            itemtext += tr(", Webcam");
         if(_Q(user.szStatusMsg).size())
             itemtext += QString(" - ") + _Q(user.szStatusMsg);
 
