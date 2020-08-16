@@ -737,13 +737,15 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         const char* img_name = "";
         QString channame;
+        if(ite->bPassword)
+            channame = "🔒 ";
         if(channelid == TT_GetRootChannelID(ttInst))
         {
             //make server servername appear as the root channel name
             ServerProperties prop;
             ZERO_STRUCT(prop);
             TT_GetServerProperties(ttInst, &prop);
-            channame = _Q(prop.szServerName);
+            channame += _Q(prop.szServerName);
             if(item->isExpanded())
                 img_name = ":/images/images/root_open.png";
             else
@@ -751,7 +753,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         }
         else
         {
-            channame = _Q(ite->szName);
+            channame += _Q(ite->szName);
             item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
             if(item->isExpanded())
                 img_name = ":/images/images/channel_open.png";
@@ -774,7 +776,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
                 for(auto i=subs.begin();i!=subs.end();++i)
                     count += getChannelUsers(i.key(), m_users).size();
             }
-            channame = QString("%1 (%2)").arg(channame).arg(count);
+            channame += QString("%1 (%2)").arg(channame).arg(count);
         }
         item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
         QPixmap img(QString::fromUtf8(img_name));
