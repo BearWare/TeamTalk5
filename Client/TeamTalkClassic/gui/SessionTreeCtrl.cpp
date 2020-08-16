@@ -612,7 +612,11 @@ void CSessionTreeCtrl::AddChannel(const Channel& channel)
     m_channels[channel.nChannelID] = channel;
     if(channel.nChannelID == GetRootChannelID(m_channels))  //it's the root
     {
-        HTREEITEM hRoot = InsertItem( _T(""), ROOT_CLOSED, ROOT_CLOSED);
+        if(channel.bPassword) {
+            HTREEITEM hRoot = InsertItem( _T("🔒 "), ROOT_CLOSED, ROOT_CLOSED);
+        } else {
+            HTREEITEM hRoot = InsertItem( _T(""), ROOT_CLOSED, ROOT_CLOSED);
+        }
         SetItemData(hRoot, (channel.nChannelID | CHANNEL_ITEMDATA));
         SetItemText(hRoot, GetChannelText(channel.nChannelID));
         if(channel.bPassword)
@@ -627,8 +631,13 @@ void CSessionTreeCtrl::AddChannel(const Channel& channel)
         ASSERT(hParent);
         if(hParent)
         {
-            HTREEITEM hNewItem = InsertItem(LimitText(GetChannelText(channel.nChannelID)),
+            if(channel.bPassword) {
+                HTREEITEM hNewItem = InsertItem(_T("🔒 ") + LimitText(GetChannelText(channel.nChannelID)),
                                             CHANNEL_CLOSED, CHANNEL_CLOSED, hParent);
+            } else {
+                HTREEITEM hNewItem = InsertItem(LimitText(GetChannelText(channel.nChannelID)),
+                                            CHANNEL_CLOSED, CHANNEL_CLOSED, hParent);
+            }
             SetItemData(hNewItem, (channel.nChannelID | CHANNEL_ITEMDATA));
             if(channel.bPassword)
                 ChannelItemPlus(hNewItem, ChannelLocked);
