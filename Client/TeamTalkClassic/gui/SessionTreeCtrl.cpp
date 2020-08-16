@@ -990,6 +990,8 @@ CString CSessionTreeCtrl::GetUserText(int nUserID) const
 
     User user = ite->second;
     szText = GetDisplayName(user);
+    if (user.nStatusMode & STATUSMODE_VIDEOTX)
+        szText += _T(" (") + LoadText(IDS_USERISVIDEOTX, _T("Webcam"));
     if (_tcslen(user.szStatusMsg) > 0)
         szText += _T(" - ") + CString(user.szStatusMsg);
 
@@ -1005,9 +1007,6 @@ CString CSessionTreeCtrl::GetUserText(int nUserID) const
 
     if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
         szText += _T(" (") + LoadText(IDS_USERISSTREAMINGMDFILE, _T("Streaming media file")) + _T(")");
-
-    if (user.nStatusMode & STATUSMODE_VIDEOTX)
-        szText += _T(" (") + LoadText(IDS_USERISVIDEOTX, _T("Webcam")) + _T(")");
 
     return LimitText(szText);
 }
