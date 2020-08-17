@@ -951,12 +951,11 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         QString itemtext;
         QString name = getDisplayName(user);
+        itemtext = name;
         if (user.nStatusMode & STATUSMODE_VIDEOTX)
             itemtext += tr(", Webcam");
         if(_Q(user.szStatusMsg).size())
-            itemtext = name + QString(" - ") + _Q(user.szStatusMsg);
-        else
-            itemtext = name;
+            itemtext += QString(" - ") + _Q(user.szStatusMsg);
 
         switch (user.nStatusMode & STATUSMODE_MODE)
         {
