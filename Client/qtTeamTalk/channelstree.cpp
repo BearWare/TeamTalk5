@@ -778,6 +778,8 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             }
             channame = QString("%1 (%2)").arg(channame).arg(count);
         }
+        if(ite->bPassword)
+            channame += " - 🔒";
         item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
         QPixmap img(QString::fromUtf8(img_name));
         //img.setMask(img.createHeuristicMask());

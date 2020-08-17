@@ -1051,6 +1051,7 @@ CString CSessionTreeCtrl::GetChannelText(int nChannelID) const
                 szText.Format(_T("%s"), ite->second.szName);
         }
     }
+
     if(ite->second.bPassword) {
         CString szPwd = _T(" - ") + LoadText(IDS_CHANPROT, _T("Protected"));
         return LimitText(szText) + szPwd;
