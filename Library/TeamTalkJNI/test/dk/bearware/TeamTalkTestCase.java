@@ -3888,8 +3888,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                    
             assertTrue("txclient tone", txclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 600));
             String filename = getTestMethodName()+"_"+i;
-            files.add(filename + ".wav");
-            assertTrue("rxclient storage", rxclient.setUserMediaStorageDir(txclient.getMyUserID(), ".", filename, AudioFileFormat.AFF_WAVE_FORMAT));
+            files.add(STORAGEFOLDER + File.separator + filename + ".wav");
+            assertTrue("rxclient storage", rxclient.setUserMediaStorageDir(txclient.getMyUserID(), STORAGEFOLDER, filename, AudioFileFormat.AFF_WAVE_FORMAT));
 
             assertTrue("enable tx", txclient.enableVoiceTransmission(true));
             /*
