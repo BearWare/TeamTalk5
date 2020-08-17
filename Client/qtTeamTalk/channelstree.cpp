@@ -737,8 +737,6 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         const char* img_name = "";
         QString channame;
-        if(ite->bPassword)
-            channame = "🔒 ";
         if(channelid == TT_GetRootChannelID(ttInst))
         {
             //make server servername appear as the root channel name
