@@ -278,6 +278,7 @@
 #define IDS_SUREDELETECHAN              371
 #define IDS_CHANDELETETITLE             372
 #define IDS_CHANPSW                     373
+#define IDS_CHANPROT                     374
 #define IDS_COMPILEDON                  375
 #define IDS_UNICODEENABLED              376
 #define IDS_LOCALECHARS                 377

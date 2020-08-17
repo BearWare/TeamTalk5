@@ -240,6 +240,7 @@
     <item id="371">Are you sure you want to delete channel %s</item>
     <item id="372">Delete Channel</item>
     <item id="373">Channel password</item>
+    <item id="374">Protected</item>
     <item id="375">Compiled on </item>
     <item id="376">Unicode -> UTF-8 conversion enabled.&#xD;&#xA;</item>
     <item id="377">Uses local character set.&#xD;&#xA;</item>

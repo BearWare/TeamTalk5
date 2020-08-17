@@ -2305,6 +2305,7 @@ BEGIN
     IDS_SUREDELETECHAN      "Are you sure you want to delete channel %s"
     IDS_CHANDELETETITLE     "Delete Channel"
     IDS_CHANPSW             "Channel password"
+    IDS_CHANPROT             "Protected"
     IDS_COMPILEDON          "Compiled on "
     IDS_UNICODEENABLED      "Unicode -> UTF-8 conversion enabled.\r\n"
     IDS_LOCALECHARS         "Uses local character set.\r\n"
