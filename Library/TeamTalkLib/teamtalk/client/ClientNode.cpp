@@ -1148,6 +1148,8 @@ void ClientNode::QueueAudioCapture(media::AudioFrame& audframe)
     audframe.sample_no = m_soundprop.samples_recorded;
     m_soundprop.samples_recorded += audframe.input_samples;
 
+    MYTRACE(ACE_TEXT("Samples recorded: %u\n"), m_soundprop.samples_recorded);
+
     if (!m_audioinput_voice)
         QueueVoiceFrame(audframe);
 }
@@ -3006,11 +3008,14 @@ bool ClientNode::EnableVoiceTransmission(bool enable)
            ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) &&
             (m_flags & CLIENT_SNDINPUT_VOICEACTIVE)))
             GEN_NEXT_ID(m_voice_stream_id);
+
+        MYTRACE(ACE_TEXT("PTT on at samples transmitted %u\n"), m_soundprop.samples_transmitted);
     }
     else
     {
         m_voice_tx_closed = (m_flags & CLIENT_TX_VOICE);
         m_flags &= ~CLIENT_TX_VOICE;
+        MYTRACE(ACE_TEXT("PTT off at samples transmitted %u\n"), m_soundprop.samples_transmitted);
     }
     
     return true;
