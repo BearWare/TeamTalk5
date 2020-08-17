@@ -202,7 +202,7 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...)
     static ACE_UINT32 begin = GETTIMESTAMP(), next;
     next = GETTIMESTAMP();
 
-#if (MYTRACE_TIMESTAMP)
+#if (MYTRACE_TIMESTAMP) && !defined(__ANDROID_API__)
     ACE_OS::snprintf(tmp_str, 512, ACE_TEXT("%08u: %s"), next - begin, trace_str);
     ACE_OS::vsnprintf(str_buf, 512, tmp_str, args);
 #else
