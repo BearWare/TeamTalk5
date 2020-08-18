@@ -3873,7 +3873,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             chan.audiocodec.nCodec = Codec.OPUS_CODEC;
             chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_VOIP;
             chan.audiocodec.opus.nTxIntervalMSec = 240;
-            chan.audiocodec.opus.nFrameSizeMSec = 120;
+            chan.audiocodec.opus.nFrameSizeMSec = 10;
             chan.audiocodec.opus.nBitRate = OpusConstants.OPUS_MIN_BITRATE;
             chan.audiocodec.opus.nChannels = 2;
             chan.audiocodec.opus.nComplexity = 10;
