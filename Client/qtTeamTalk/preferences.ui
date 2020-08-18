@@ -1184,16 +1184,6 @@
               </property>
              </widget>
             </item>
-            <item row="17" column="0">
-             <widget class="QLabel" name="label_977">
-              <property name="text">
-               <string>Voice activation enabled</string>
-              </property>
-              <property name="buddy">
-               <cstring>voiceactonEdit</cstring>
-              </property>
-             </widget>
-            </item>
             <item row="5" column="0">
              <widget class="QLabel" name="label_36">
               <property name="text">
@@ -1492,6 +1482,23 @@
             </item>
             <item row="0" column="1">
              <widget class="QLineEdit" name="voiceactEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="20" column="0">
+             <widget class="QLabel" name="label_925">
+              <property name="text">
+               <string>Voice activation enabled</string>
+              </property>
+              <property name="buddy">
+               <cstring>voiceactonEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="20" column="1">
+             <widget class="QLineEdit" name="voiceactonEdit">
               <property name="readOnly">
                <bool>true</bool>
               </property>
@@ -2089,6 +2096,7 @@
   <tabstop>desktopaccessEdit</tabstop>
   <tabstop>desktopaccessBtn</tabstop>
   <tabstop>voiceactEdit</tabstop>
+  <tabstop>voiceactonEdit</tabstop>
   <tabstop>voiceactButton</tabstop>
   <tabstop>volumeincEdit</tabstop>
   <tabstop>volumeincButton</tabstop>
