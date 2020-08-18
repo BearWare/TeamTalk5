@@ -3525,13 +3525,15 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
 
 void MainWindow::slotMeEnableVoiceActivation(bool checked)
 {
-    TT_EnableVoiceActivation(ttInst, checked);
-    ui.voiceactSlider->setVisible(checked);
-    ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
-    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
-        emit(updateMyself());
-    playSoundEvent(SOUNDEVENT_VOICEACTON);
-    slotUpdateUI();
+    if(checked == true) {
+        TT_EnableVoiceActivation(ttInst, checked);
+        ui.voiceactSlider->setVisible(checked);
+        ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
+        if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+            emit(updateMyself());
+        playSoundEvent(SOUNDEVENT_VOICEACTON);
+        slotUpdateUI();
+    }
 }
 
 void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
