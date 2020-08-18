@@ -453,6 +453,7 @@
 #define IDS_DEFAULTNICKNAME           556
 #define IDS_TREECTRLLAB           557
 #define IDS_FILESLISTLAB           558
+#define IDS_JUSTATEST           909
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
