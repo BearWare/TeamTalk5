@@ -49,11 +49,32 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
 
         return TT_InitSoundDuplexDevices(ttClient, selindev, seloutdev);
     case SHARED_INPUT :
+    {
         if (selindev == SOUNDDEVICEID_IGNORE)
+            return false;
+
+        std::vector<SoundDevice> devs(100);
+        INT32 howmany = INT32(devs.size());
+        TT_GetSoundDevices(&devs[0], &howmany);
+        if (howmany == devs.size())
+        {
+            devs.resize(howmany);
+            TT_GetSoundDevices(&devs[0], &howmany);
+        }
+        auto indev = std::find_if(devs.begin(), devs.end(), [selindev] (const SoundDevice& d)
+        {
+            return d.nDeviceID == selindev;
+        });
+        if (indev == devs.end())
+            return false;
+
+        // By default a shared device uses default sample rate, max channels and 40 msec framesize
+        if (!TT_InitSoundInputSharedDevice(indev->nDefaultSampleRate, indev->nMaxInputChannels, int(indev->nDefaultSampleRate * 0.04)))
             return false;
 
         selindev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
         break;
+    }
     case DEFAULT :
         break;
     }

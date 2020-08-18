@@ -36,9 +36,9 @@
 
 enum SoundMode
 {
-    DEFAULT,
-    DUPLEX,
-    SHARED_INPUT
+    DEFAULT         = 0x0,
+    DUPLEX          = 0x1,
+    SHARED_INPUT    = 0x2,
 };
 
 bool InitSound(TTInstance* ttClient, SoundMode mode = DEFAULT, INT32 indev = SOUNDDEVICEID_DEFAULT, INT32 outdev = SOUNDDEVICEID_DEFAULT);
