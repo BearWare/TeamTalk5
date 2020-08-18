@@ -143,6 +143,7 @@
 #define SETTINGS_SOUNDEVENT_FILETXDONE              "soundevents/file-tx-done"
 #define SETTINGS_SOUNDEVENT_QUESTIONMODE            "soundevents/question-mode"
 #define SETTINGS_SOUNDEVENT_DESKTOPACCESS           "soundevents/desktop-access-request"
+#define SETTINGS_SOUNDEVENT_VOICEACTON           "soundevents/voice-activation-on"
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"

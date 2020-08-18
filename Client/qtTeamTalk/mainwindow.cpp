@@ -3530,6 +3530,7 @@ void MainWindow::slotMeEnableVoiceActivation(bool checked)
     ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
         emit(updateMyself());
+    playSoundEvent(SOUNDEVENT_VOICEACTON);
     slotUpdateUI();
 }
 
