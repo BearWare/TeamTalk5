@@ -1143,12 +1143,13 @@ void ClientNode::CloseAudioCapture()
 // Separate thread
 void ClientNode::QueueAudioCapture(media::AudioFrame& audframe)
 {
-    audframe.force_enc = ((m_flags & CLIENT_TX_VOICE) || m_voice_tx_closed.exchange(false));
+    bool ptt_close = m_voice_tx_closed.exchange(false);
+    audframe.force_enc = ((m_flags & CLIENT_TX_VOICE) || ptt_close);
     audframe.voiceact_enc = (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED);
     audframe.sample_no = m_soundprop.samples_recorded;
     m_soundprop.samples_recorded += audframe.input_samples;
 
-    MYTRACE(ACE_TEXT("Samples recorded: %u\n"), m_soundprop.samples_recorded);
+    MYTRACE(ACE_TEXT("%p Samples recorded: %u. PTT close %d\n"), this, m_soundprop.samples_recorded, int(ptt_close));
 
     if (!m_audioinput_voice)
         QueueVoiceFrame(audframe);
@@ -1286,6 +1287,7 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
     AudioUserCallback(LOCAL_TX_USERID, STREAMTYPE_VOICE, cpyframe);
     
     m_soundprop.samples_transmitted += org_frame.input_samples;
+    MYTRACE(ACE_TEXT("%p Samples transmitted %u\n"), this, m_soundprop.samples_transmitted);
 
     MYTRACE_COND(enc_length > MAX_ENC_FRAMESIZE,
                  ACE_TEXT("Queue voice packet #%d at TS: %u, pkt time: %u, size: %d\n"),
@@ -3009,13 +3011,13 @@ bool ClientNode::EnableVoiceTransmission(bool enable)
             (m_flags & CLIENT_SNDINPUT_VOICEACTIVE)))
             GEN_NEXT_ID(m_voice_stream_id);
 
-        MYTRACE(ACE_TEXT("PTT on at samples transmitted %u\n"), m_soundprop.samples_transmitted);
+        MYTRACE(ACE_TEXT("%p PTT on at samples transmitted %u\n"), this, m_soundprop.samples_transmitted);
     }
     else
     {
         m_voice_tx_closed = (m_flags & CLIENT_TX_VOICE);
         m_flags &= ~CLIENT_TX_VOICE;
-        MYTRACE(ACE_TEXT("PTT off at samples transmitted %u\n"), m_soundprop.samples_transmitted);
+        MYTRACE(ACE_TEXT("%p PTT off at samples transmitted %u\n"), this, m_soundprop.samples_transmitted);
     }
     
     return true;
