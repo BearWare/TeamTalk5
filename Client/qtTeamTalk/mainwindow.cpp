@@ -5487,6 +5487,8 @@ void MainWindow::slotMicrophoneGainChanged(int value)
 void MainWindow::slotVoiceActivationLevelChanged(int value)
 {
     TT_SetVoiceActivationLevel(ttInst, value);
+    if(int == 0) {
+        
 }
 
 void MainWindow::slotTrayIconChange(QSystemTrayIcon::ActivationReason reason)
