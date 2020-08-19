@@ -69,8 +69,8 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
             return false;
 
         // By default a shared device uses default sample rate, max channels and 40 msec framesize
-        if (!TT_InitSoundInputSharedDevice(indev->nDefaultSampleRate, indev->nMaxInputChannels, int(indev->nDefaultSampleRate * 0.02)))
-            return false;
+        //if (!TT_InitSoundInputSharedDevice(indev->nDefaultSampleRate, indev->nMaxInputChannels, int(indev->nDefaultSampleRate * 0.04)))
+        //    return false;
 
         selindev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
         break;

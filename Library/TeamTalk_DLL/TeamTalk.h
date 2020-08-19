@@ -2526,6 +2526,18 @@ extern "C" {
         /** @brief The number of seconds nothing has been received by
          * the client on UDP. @see ClientKeepAlive */
         INT32 nUdpServerSilenceSec;
+        /** @brief Delay of sound input device until the first audio 
+         * frame is delivered (in msec).
+         *
+         * The time from when the sound input device is started and until the first
+         * audio frame is delived (not including the time of the initial audio frame).
+         *
+         * @c nSoundInputDeviceDelayMSec is only updated when #TTInstance is in
+         * a channel. @c nSoundInputDeviceDelayMSec will remain zero until the
+         * first audio frame is delived.
+         *
+         * @see TT_InitSoundInputDevice() */
+        INT32 nSoundInputDeviceDelayMSec;
     } ClientStatistics;
 
     /** @addtogroup errorhandling

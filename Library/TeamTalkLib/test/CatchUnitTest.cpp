@@ -1064,6 +1064,9 @@ TEST_CASE("Last voice packet - wav files")
          */
         int duration = int(audiocodec.opus.nTxIntervalMSec * 5 + audiocodec.opus.nTxIntervalMSec * 0.33);
         WaitForEvent(txclient, CLIENTEVENT_NONE, duration);
+        ClientStatistics stats = {};
+        REQUIRE(TT_GetClientStatistics(txclient, &stats));
+        std::cout << "Initial audio frame delay: " << stats.nSoundInputDeviceDelayMSec << " msec" << std::endl;
         REQUIRE(TT_EnableVoiceTransmission(txclient, false));
         REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
     }

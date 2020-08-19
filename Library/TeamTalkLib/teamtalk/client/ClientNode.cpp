@@ -990,6 +990,10 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
     if(codec_samples <= 0 || codec_samplerate <= 0 || codec_channels == 0 ||
        m_soundprop.inputdeviceid == SOUNDDEVICE_IGNORE_ID)
         return;
+    
+    // track duration of initial audio frame
+    m_clientstats.streamcapture_delay_msec = 0;
+    m_soundprop.samples_delay_msec = GETTIMESTAMP();
 
     bool opened;
     if (m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
@@ -1132,6 +1136,10 @@ void ClientNode::CloseAudioCapture()
     m_soundprop.samples_transmitted = 0;
     m_soundprop.samples_recorded = 0;
 
+    // reset time of initial audio frame
+    m_soundprop.samples_delay_msec = 0;
+    m_clientstats.streamcapture_delay_msec = 0;
+
     //clear capture resampler if initiated (in duplex mode)
     m_capture_resampler.reset();
     m_capture_buffer.clear();
@@ -1149,6 +1157,16 @@ void ClientNode::QueueAudioCapture(media::AudioFrame& audframe)
     audframe.sample_no = m_soundprop.samples_recorded;
     m_soundprop.samples_recorded += audframe.input_samples;
 
+    MYTRACE_COND(m_soundprop.samples_delay_msec, ACE_TEXT("%p Audio recorder delay: %u msec\n"),
+                 this, GETTIMESTAMP() - m_soundprop.samples_delay_msec);
+
+    if (m_soundprop.samples_delay_msec)
+    {
+        int delay = int(GETTIMESTAMP() - m_soundprop.samples_delay_msec);
+        delay -= PCM16_SAMPLES_DURATION(audframe.input_samples, audframe.inputfmt.samplerate);
+        m_clientstats.streamcapture_delay_msec = std::max(delay, 1); // put minimum 1 to indicate it was set
+        m_soundprop.samples_delay_msec = 0;
+    }
     MYTRACE(ACE_TEXT("%p Samples recorded: %u. PTT close %d\n"), this, m_soundprop.samples_recorded, int(ptt_close));
 
     if (!m_audioinput_voice)
