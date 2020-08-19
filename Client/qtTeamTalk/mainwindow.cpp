@@ -4285,6 +4285,7 @@ void MainWindow::slotServerServerProperties(bool /*checked =false */)
 void MainWindow::slotServerSaveConfiguration(bool /*checked =false */)
 {
     TT_DoSaveConfig(ttInst);
+    addStatusMsg(tr("Server configuration saved"));
 }
 
 void MainWindow::slotServerServerStatistics(bool /*checked=false*/)
