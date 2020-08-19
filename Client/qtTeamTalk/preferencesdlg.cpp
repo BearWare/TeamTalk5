@@ -133,7 +133,7 @@ PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
             SLOT(slotEventChannelTextMsg()));
     connect(ui.voiceactonButton, SIGNAL(clicked()),
             SLOT(slotEventVoiceActOn()));
-    connect(ui.voiceactonButtoff, SIGNAL(clicked()),
+    connect(ui.voiceactoffButton, SIGNAL(clicked()),
             SLOT(slotEventVoiceActOff()));
     connect(ui.bcastmsgButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventBroadcastTextMsg);
