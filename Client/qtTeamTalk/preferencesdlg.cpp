@@ -131,6 +131,8 @@ PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
             SLOT(slotEventUserTextMsg()));
     connect(ui.chanmsgButton, SIGNAL(clicked()),
             SLOT(slotEventChannelTextMsg()));
+    connect(ui.voiceactonButton, SIGNAL(clicked()),
+            SLOT(slotEventVoiceActOn()));
     connect(ui.bcastmsgButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventBroadcastTextMsg);
     connect(ui.hotkeyButton, SIGNAL(clicked()),
@@ -1202,6 +1204,13 @@ void PreferencesDlg::slotEventChannelTextMsg()
     QString filename;
     if(getSoundFile(filename))
         ui.chanmsgEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventVoiceActOn()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.voiceactonEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventBroadcastTextMsg()
