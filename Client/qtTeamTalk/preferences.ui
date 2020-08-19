@@ -1156,11 +1156,11 @@
            <layout class="QGridLayout" name="gridLayout_4">
             <item row="1" column="2">
              <widget class="QToolButton" name="rmuserButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1172,11 +1172,11 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1225,41 +1225,41 @@
             </item>
             <item row="6" column="2">
              <widget class="QToolButton" name="hotkeyButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
             <item row="13" column="2">
              <widget class="QToolButton" name="desktopaccessBtn">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
             <item row="12" column="2">
              <widget class="QToolButton" name="questionmodeBtn">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
             <item row="10" column="2">
              <widget class="QToolButton" name="videosessionButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1328,32 +1328,32 @@
             </item>
             <item row="20" column="2">
              <widget class="QToolButton" name="voiceactonButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
 // End of test
             <item row="9" column="2">
              <widget class="QToolButton" name="transferdoneButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
             <item row="2" column="2">
              <widget class="QToolButton" name="srvlostButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1368,11 +1368,11 @@
             </item>
             <item row="11" column="2">
              <widget class="QToolButton" name="desktopsessionButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1414,11 +1414,11 @@
             </item>
             <item row="3" column="2">
              <widget class="QToolButton" name="usermsgButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1450,11 +1450,11 @@
             </item>
             <item row="7" column="2">
              <widget class="QToolButton" name="chansilentButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1463,21 +1463,21 @@
             </item>
             <item row="8" column="2">
              <widget class="QToolButton" name="fileupdButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
             <item row="4" column="2">
              <widget class="QToolButton" name="chanmsgButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1496,11 +1496,11 @@
             </item>
             <item row="5" column="2">
              <widget class="QToolButton" name="bcastmsgButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
