@@ -5487,7 +5487,7 @@ void MainWindow::slotMicrophoneGainChanged(int value)
 void MainWindow::slotVoiceActivationLevelChanged(int value)
 {
     TT_SetVoiceActivationLevel(ttInst, value);
-    if(int == 1) {
+    if(value > 0) {
         playSoundEvent(SOUNDEVENT_VOICEACTTRIG);
 }
 
