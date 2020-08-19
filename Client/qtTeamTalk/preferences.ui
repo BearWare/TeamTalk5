@@ -1159,6 +1159,9 @@
               <property name="text">
                <string notr="true">...</string>
               </property>
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
              </widget>
             </item>
             <item row="0" column="2">
@@ -1171,6 +1174,9 @@
               </property>
               <property name="text">
                <string notr="true">...</string>
+              </property>
+              <property name="accessibleName">
+               <string>Browse</string>
               </property>
              </widget>
             </item>
@@ -1222,19 +1228,28 @@
               <property name="text">
                <string notr="true">...</string>
               </property>
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
              </widget>
             </item>
             <item row="13" column="2">
              <widget class="QToolButton" name="desktopaccessBtn">
               <property name="text">
-               <string>...</string>
+               <string notr="true">...</string>
+              </property>
+              <property name="accessibleName">
+               <string>Browse</string>
               </property>
              </widget>
             </item>
             <item row="12" column="2">
              <widget class="QToolButton" name="questionmodeBtn">
               <property name="text">
-               <string>...</string>
+               <string notr="true">...</string>
+              </property>
+              <property name="accessibleName">
+               <string>Browse</string>
               </property>
              </widget>
             </item>
@@ -1242,6 +1257,9 @@
              <widget class="QToolButton" name="videosessionButton">
               <property name="text">
                <string notr="true">...</string>
+              </property>
+              <property name="accessibleName">
+               <string>Browse</string>
               </property>
              </widget>
             </item>
@@ -1313,6 +1331,9 @@
               <property name="text">
                <string notr="true">...</string>
               </property>
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
              </widget>
             </item>
 // End of test
@@ -1321,12 +1342,18 @@
               <property name="text">
                <string notr="true">...</string>
               </property>
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
              </widget>
             </item>
             <item row="2" column="2">
              <widget class="QToolButton" name="srvlostButton">
               <property name="text">
                <string notr="true">...</string>
+              </property>
+              <property name="accessibleName">
+               <string>Browse</string>
               </property>
              </widget>
             </item>
@@ -1343,6 +1370,9 @@
              <widget class="QToolButton" name="desktopsessionButton">
               <property name="text">
                <string notr="true">...</string>
+              </property>
+              <property name="accessibleName">
+               <string>Browse</string>
               </property>
              </widget>
             </item>
@@ -1387,6 +1417,9 @@
               <property name="text">
                <string notr="true">...</string>
               </property>
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
              </widget>
             </item>
             <item row="4" column="0">
@@ -1420,6 +1453,9 @@
               <property name="text">
                <string notr="true">...</string>
               </property>
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
              </widget>
             </item>
             <item row="9" column="1">
@@ -1430,12 +1466,18 @@
               <property name="text">
                <string notr="true">...</string>
               </property>
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
              </widget>
             </item>
             <item row="4" column="2">
              <widget class="QToolButton" name="chanmsgButton">
               <property name="text">
                <string notr="true">...</string>
+              </property>
+              <property name="accessibleName">
+               <string>Browse</string>
               </property>
              </widget>
             </item>
@@ -1456,6 +1498,9 @@
              <widget class="QToolButton" name="bcastmsgButton">
               <property name="text">
                <string notr="true">...</string>
+              </property>
+              <property name="accessibleName">
+               <string>Browse</string>
               </property>
              </widget>
             </item>
