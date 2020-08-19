@@ -102,6 +102,7 @@ private slots:
     void slotEventChannelTextMsg();
     void slotEventVoiceActOn();
     void slotEventVoiceActOff();
+    void slotEventVoiceActTrig();
     void slotEventBroadcastTextMsg();
     void slotEventHotKey();
     void slotEventSilence();
