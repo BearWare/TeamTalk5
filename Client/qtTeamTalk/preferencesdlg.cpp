@@ -133,6 +133,8 @@ PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
             SLOT(slotEventChannelTextMsg()));
     connect(ui.voiceactonButton, SIGNAL(clicked()),
             SLOT(slotEventVoiceActOn()));
+    connect(ui.voiceactonButtoff, SIGNAL(clicked()),
+            SLOT(slotEventVoiceActOff()));
     connect(ui.bcastmsgButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventBroadcastTextMsg);
     connect(ui.hotkeyButton, SIGNAL(clicked()),
@@ -524,6 +526,7 @@ void PreferencesDlg::slotTabChange(int index)
         ui.questionmodeEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE).toString());
         ui.desktopaccessEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS).toString());
         ui.voiceactonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON).toString());
+        ui.voiceactonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF).toString());
         break;
     case SHORTCUTS_TAB :  //shortcuts
     {
@@ -851,6 +854,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_QUESTIONMODE, ui.questionmodeEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_DESKTOPACCESS, ui.desktopaccessEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTON, ui.voiceactonEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTOFF, ui.voiceactoffEdit->text());
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {
@@ -1211,6 +1215,13 @@ void PreferencesDlg::slotEventVoiceActOn()
     QString filename;
     if(getSoundFile(filename))
         ui.voiceactonEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventVoiceActOff()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.voiceactoffEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventBroadcastTextMsg()
