@@ -1372,7 +1372,7 @@
              </widget>
             </item>
             <item row="22" column="2">
-             <widget class="QToolButton" name="voiceactoffButton">
+             <widget class="QToolButton" name="voiceacttrigButton">
               <property name="accessibleName">
                <string>Browse</string>
               </property>
