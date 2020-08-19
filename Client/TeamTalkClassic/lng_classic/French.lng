@@ -147,7 +147,7 @@
     <item id="277">Maintenir-pour-parler activé</item>
     <item id="278">Liste de fichiers mise à jour</item>
     <item id="279">Transfert de fichier terminé</item>
-    <item id="280">Tout le monde dans le canal a arrêté de parler</item>
+    <item id="280">Canal silencieux</item>
     <item id="281">Activation vocale déclenchée</item>
     <item id="282">Activation vocale  arrêtée</item>
     <item id="283">Transmission prête dans le canal &quot;sans interuption&quot;</item>
@@ -187,7 +187,7 @@
     <item id="317">Échec de l&apos;authentification</item>
     <item id="318">Impossible d&apos;initialiser la connexion web BearWare.dk</item>
     <item id="319">%s, votre nom d&apos;utilisateur &quot;&quot;%s&quot;&quot; a été validé.</item>
-    <item id="320">Envoyer un message général</item>
+    <item id="320">Message général</item>
     <item id="321">Échec à l'initialisation du système audio</item>
     <item id="322">Connexion à l'hôte &quot;%s&quot;, port TCP %d, port UDP %d</item>
     <item id="323">Lire</item>
