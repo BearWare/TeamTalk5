@@ -1335,13 +1335,13 @@
               </property>
              </widget>
             </item>
-            <item row="20" column="1">
+            <item row="21" column="1">
              <widget class="QLineEdit" name="voiceactoffEdit"/>
             </item>
             <item row="21" column="0">
              <widget class="QLabel" name="label_321">
               <property name="text">
-               <string>Voice activation Disabled</string>
+               <string>Voice activation disabled</string>
               </property>
               <property name="buddy">
                <cstring>voiceactoffEdit</cstring>
