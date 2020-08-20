@@ -834,10 +834,10 @@
     <item id="32929">C&amp;ouper les fichiers média\tCTRL-Alt-M</item>
     <item id="32930">Exclure du canal\tCTRL-K</item>
     <item id="32931">Ex&amp;clure du serveur\tCTRL-Alt-K</item>
-    <item id="32932">Au&amp;gmenter le volume de la voix\tCTRL-Alt-Fl_droite</item>
-    <item id="32933">Diminuer le volume de la voix\tCTRL-Alt-Fl_gauche</item>
-    <item id="32934">A&amp;ugmenter le volume des fichiers média\tCTRL-Maj-Fl_droite</item>
-    <item id="32935">D&amp;iminuer le volume des fichiers média\tCTRL-Maj-Fl_gauche</item>
+    <item id="32932">Au&amp;gmenter le volume de la voix\tCTRL-Y</item>
+    <item id="32933">Diminuer le volume de la voix\tCTRL-H</item>
+    <item id="32934">A&amp;ugmenter le volume des fichiers média\tCTRL-Maj-Y</item>
+    <item id="32935">D&amp;iminuer le volume des fichiers média\tCTRL-Maj-H</item>
     <item id="32936">Aut&amp;oriser la transmission du bureau\tCTRL-Alt-E</item>
     <item id="32937">Auto&amp;riser la transmission de fichiers média\tCTRL-Alt-R</item>
     <item id="32938">Flux de fichiers médias\tCTRL-8</item>

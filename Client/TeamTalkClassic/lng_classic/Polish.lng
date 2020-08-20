@@ -519,10 +519,10 @@
     <item id="32929">Multimedia\tCtrl+Alt+M</item>
     <item id="32930">&amp;Z kanału\tCtrl+K</item>
     <item id="32931">Z serwera\tCtrl+Alt+K</item>
-    <item id="32932">&amp;Zwiększ głośność audio\tCtrl+Alt+Right</item>
-    <item id="32933">&amp;Zmniejsz głośność audio\tCtrl+Alt+Left</item>
-    <item id="32934">Zwiększ głośność multimediów\tCtrl+Shift+Right</item>
-    <item id="32935">Zmniejsz głośność multimediów\tCtrl+Shift+Left</item>
+    <item id="32932">&amp;Zwiększ głośność audio\tCtrl+Y</item>
+    <item id="32933">&amp;Zmniejsz głośność audio\tCtrl+H</item>
+    <item id="32934">Zwiększ głośność multimediów\tCtrl+Shift+Y</item>
+    <item id="32935">Zmniejsz głośność multimediów\tCtrl+Shift+H</item>
     <item id="32936">Zezwól na transmisję obrazów pulpitu\tCtrl+Alt+E</item>
     <item id="32937">Zezwól na transmisję multimediów\tCtrl+Alt+R</item>
     <item id="32938">&amp;Pliki multimedialne\tCtrl+8</item>
