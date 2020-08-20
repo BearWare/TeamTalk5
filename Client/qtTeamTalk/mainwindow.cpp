@@ -3823,30 +3823,41 @@ void MainWindow::slotUsersAdvancedIncVolumeVoice()
 
 void MainWindow::slotUsersAdvancedDecVolumeVoice()
 {
-    userids_t users = ui.channelsWidget->selectedUsers();
-    std::for_each(users.begin(), users.end(),
-                  std::bind2nd(std::ptr_fun(&decVolume),
-                               STREAMTYPE_VOICE));
-    
-    slotUpdateUI();
+    if(ui.channelsWidget->hasFocus() == true) {
+        userids_t users = ui.channelsWidget->selectedUsers();
+        std::for_each(users.begin(), users.end(),
+                      std::bind2nd(std::ptr_fun(&decVolume),
+                                   STREAMTYPE_VOICE));
+        slotUpdateUI();
+    } else {
+        ui.actionLowerVoiceVolume->setEnabled(false);
+    }
 }
 
 void MainWindow::slotUsersAdvancedIncVolumeMediaFile()
 {
-    userids_t users = ui.channelsWidget->selectedUsers();
-    std::for_each(users.begin(), users.end(), 
-                  std::bind2nd(std::ptr_fun(&incVolume),
-                               STREAMTYPE_MEDIAFILE_AUDIO));
-    slotUpdateUI();
+    if(ui.channelsWidget->hasFocus() == true) {
+        userids_t users = ui.channelsWidget->selectedUsers();
+        std::for_each(users.begin(), users.end(), 
+                      std::bind2nd(std::ptr_fun(&incVolume),
+                                   STREAMTYPE_MEDIAFILE_AUDIO));
+        slotUpdateUI();
+    } else {
+        ui.actionIncreaseMediaFileVolume->setEnabled(false);
+    }
 }
 
 void MainWindow::slotUsersAdvancedDecVolumeMediaFile()
 {
-    userids_t users = ui.channelsWidget->selectedUsers();
-    std::for_each(users.begin(), users.end(), 
-                  std::bind2nd(std::ptr_fun(&decVolume),
-                               STREAMTYPE_MEDIAFILE_AUDIO));
-    slotUpdateUI();
+    if(ui.channelsWidget->hasFocus() == true) {
+        userids_t users = ui.channelsWidget->selectedUsers();
+        std::for_each(users.begin(), users.end(), 
+                      std::bind2nd(std::ptr_fun(&decVolume),
+                                   STREAMTYPE_MEDIAFILE_AUDIO));
+        slotUpdateUI();
+    } else {
+        ui.actionLowerMediaFileVolume->setEnabled(false);
+    }
 }
 
 void MainWindow::slotUsersAdvancedStoreForMove()
