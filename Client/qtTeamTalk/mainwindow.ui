@@ -1728,7 +1728,7 @@
     <string>&amp;Increase Voice Volume</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F8</string>
+    <string>Ctrl+Right</string>
    </property>
   </action>
   <action name="actionLowerVoiceVolume">
