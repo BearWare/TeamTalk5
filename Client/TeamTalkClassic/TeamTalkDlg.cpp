@@ -4093,7 +4093,7 @@ void CTeamTalkDlg::OnUsersPositionusers()
 
 void CTeamTalkDlg::OnUpdateAdvancedIncvolumevoice(CCmdUI *pCmdUI)
 {
-    User user;
+     User user;
     if(TT_GetUser(ttInst, m_wndTree.GetSelectedUser(), &user))
         pCmdUI->Enable(user.nVolumeVoice<SOUND_VOLUME_MAX);
     else
