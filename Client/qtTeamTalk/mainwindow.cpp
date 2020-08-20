@@ -3810,12 +3810,14 @@ void MainWindow::slotUsersSubscriptionsInterceptMediaFile(bool checked /*=false*
 
 void MainWindow::slotUsersAdvancedIncVolumeVoice()
 {
-    userids_t users = ui.channelsWidget->selectedUsers();
-    std::for_each(users.begin(), users.end(),
-                  std::bind2nd(std::ptr_fun(&incVolume),
-                               STREAMTYPE_VOICE));
+    if(ui.channelsWidget->hasFocus() == true) {
+        userids_t users = ui.channelsWidget->selectedUsers();
+        std::for_each(users.begin(), users.end(),
+                      std::bind2nd(std::ptr_fun(&incVolume),
+                                   STREAMTYPE_VOICE));
 
-    slotUpdateUI();
+        slotUpdateUI();
+    }
 }
 
 void MainWindow::slotUsersAdvancedDecVolumeVoice()
