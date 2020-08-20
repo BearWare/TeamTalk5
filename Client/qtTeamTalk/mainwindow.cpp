@@ -381,10 +381,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             SLOT(slotUsersSubscriptionsInterceptMediaFile(bool)));
 
     //advanced
-    if(ui.channelsWidget->hasFocus() == true) {
-        connect(ui.actionIncreaseVoiceVolume, SIGNAL(triggered()),
-                SLOT(slotUsersAdvancedIncVolumeVoice()));
-    }
+    connect(ui.actionIncreaseVoiceVolume, SIGNAL(triggered()),
+            SLOT(slotUsersAdvancedIncVolumeVoice()));
     connect(ui.actionLowerVoiceVolume, SIGNAL(triggered()),
             SLOT(slotUsersAdvancedDecVolumeVoice()));
     connect(ui.actionIncreaseMediaFileVolume, SIGNAL(triggered()),
@@ -760,7 +758,7 @@ bool MainWindow::parseArgs(const QStringList& args)
 
 void MainWindow::processTTMessage(const TTMessage& msg)
 {
-    QString rootchanname = _W(tr("root"));
+    QString rootchanname = tr("root");
     QString mynickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
 
     switch(msg.nClientEvent)
@@ -3812,12 +3810,15 @@ void MainWindow::slotUsersSubscriptionsInterceptMediaFile(bool checked /*=false*
 
 void MainWindow::slotUsersAdvancedIncVolumeVoice()
 {
-    userids_t users = ui.channelsWidget->selectedUsers();
-    std::for_each(users.begin(), users.end(),
-                  std::bind2nd(std::ptr_fun(&incVolume),
-                               STREAMTYPE_VOICE));
-
-    slotUpdateUI();
+    if(ui.channelsWidget->hasFocus() == true) {
+        userids_t users = ui.channelsWidget->selectedUsers();
+        std::for_each(users.begin(), users.end(),
+                      std::bind2nd(std::ptr_fun(&incVolume),
+                                   STREAMTYPE_VOICE));
+        slotUpdateUI();
+    } else {
+        action->setEnabled(false);
+    }
 }
 
 void MainWindow::slotUsersAdvancedDecVolumeVoice()
