@@ -135,8 +135,6 @@ PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
             SLOT(slotEventVoiceActOn()));
     connect(ui.voiceactoffButton, SIGNAL(clicked()),
             SLOT(slotEventVoiceActOff()));
-    connect(ui.voiceacttrigButton, SIGNAL(clicked()),
-            SLOT(slotEventVoiceActTrig()));
     connect(ui.bcastmsgButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventBroadcastTextMsg);
     connect(ui.hotkeyButton, SIGNAL(clicked()),
@@ -529,7 +527,6 @@ void PreferencesDlg::slotTabChange(int index)
         ui.desktopaccessEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS).toString());
         ui.voiceactonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON).toString());
         ui.voiceactoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF).toString());
-        ui.voiceacttrigEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTTRIG).toString());
         break;
     case SHORTCUTS_TAB :  //shortcuts
     {
@@ -858,7 +855,6 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_DESKTOPACCESS, ui.desktopaccessEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTON, ui.voiceactonEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTOFF, ui.voiceactoffEdit->text());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTTRIG, ui.voiceacttrigEdit->text());
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {
@@ -1226,13 +1222,6 @@ void PreferencesDlg::slotEventVoiceActOff()
     QString filename;
     if(getSoundFile(filename))
         ui.voiceactoffEdit->setText(filename);
-}
-
-void PreferencesDlg::slotEventVoiceActTrig()
-{
-    QString filename;
-    if(getSoundFile(filename))
-        ui.voiceacttrigEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventBroadcastTextMsg()
