@@ -970,7 +970,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
             if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
-                QString userjoinchan = _W(tr("%1 joined channel") .arg(getDisplayName(msg.user)));
+                QString userjoinchan = tr("%1 joined channel") .arg(getDisplayName(msg.user));
                 if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
                     userjoinchan = userjoinchan + " " + rootchanname;
                 } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
@@ -989,7 +989,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         ui.channelsWidget->getChannel(msg.nSource, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
             if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
-                QString userleftchan = _W(tr("%1 left channel") .arg(getDisplayName(msg.user)));
+                QString userleftchan = tr("%1 left channel") .arg(getDisplayName(msg.user));
                 if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
                     userleftchan = userleftchan + " " + rootchanname;
                 } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
@@ -1043,11 +1043,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            QString fileadd = _W(tr("File %1 added") .arg(file.szFileName));
-            if(strlen(file.szUsername) > 0) {
+            QString fileadd = tr("File %1 added") .arg(_Q(file.szFileName));
+            if(_Q(file.szUsername).isEmpty() == false) {
                 TT_GetUserByUsername(ttInst, file.szUsername, &user);
                 if(getDisplayName(user) != mynickname) {
-                    fileadd = fileadd + _W(tr(" by %2") .arg(getDisplayName(user)));
+                    fileadd = fileadd + tr(" by %2") .arg(getDisplayName(user));
                 }
             }
         addStatusMsg(fileadd);
@@ -1070,11 +1070,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            QString filerem = _W(tr("File %1 removed") .arg(file.szFileName));
-            if(strlen(file.szUsername) > 0) {
+            QString filerem = tr("File %1 removed") .arg(_Q(file.szFileName));
+            if(_Q(file.szUsername).isEmpty() == false) {
                 TT_GetUserByUsername(ttInst, file.szUsername, &user);
                 if(getDisplayName(user) != mynickname) {
-                    filerem = filerem + _W(tr(" by %2") .arg(getDisplayName(user)));
+                    filerem = filerem + tr(" by %2") .arg(getDisplayName(user));
                 }
             }
         addStatusMsg(filerem);
