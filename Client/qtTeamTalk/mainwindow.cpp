@@ -3817,7 +3817,7 @@ void MainWindow::slotUsersAdvancedIncVolumeVoice()
                                    STREAMTYPE_VOICE));
         slotUpdateUI();
     } else {
-        action->setEnabled(false);
+        ui.actionIncreaseVoiceVolume->setEnabled(false);
     }
 }
 
