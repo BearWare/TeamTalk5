@@ -622,7 +622,45 @@
     </message>
 </context>
 <context>
+    <name>ChannelsTree</name>
+    <message>
+        <location filename="../channelstree.cpp" line="960"/>
+        <source>, Away</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="963"/>
+        <source>, Question</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="968"/>
+        <source>, Streaming media file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="971"/>
+        <source>, Webcam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="976"/>
+        <source> (Administrator)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="979"/>
+        <source> (Channel operator)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ChatTextEdit</name>
+    <message>
+        <location filename="../chattextedit.cpp" line="98"/>
+        <source>yyyy-MM-dd HH:mm:ss</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../chattextedit.cpp" line="117"/>
         <source>Server Name: %1</source>
@@ -1213,18 +1251,18 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="1622"/>
+        <location filename="../mainwindow.cpp" line="1697"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
         <translation>Połączono z %1 port TCP %2 port UDP %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="822"/>
-        <location filename="../mainwindow.cpp" line="1575"/>
+        <location filename="../mainwindow.cpp" line="824"/>
+        <location filename="../mainwindow.cpp" line="1650"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
         <translation>Błąd połączenia z %1 port TCP %2 port UDP %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="834"/>
+        <location filename="../mainwindow.cpp" line="836"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Utracono połączenie z %1 port TCP %2 port UDP %3</translation>
     </message>
@@ -1245,27 +1283,26 @@
         <translation type="obsolete">%1 będzie niedostępny dla transmisji wideo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="872"/>
+        <location filename="../mainwindow.cpp" line="874"/>
         <source>Logged in</source>
         <translation>Zalogowany</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="878"/>
+        <location filename="../mainwindow.cpp" line="880"/>
         <source>Logged out</source>
         <translation>Wylogowany</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2288"/>
         <source>Joined channel %1</source>
-        <translation>%1 dołączył do kanału</translation>
+        <translation type="vanished">%1 dołączył do kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="888"/>
+        <location filename="../mainwindow.cpp" line="890"/>
         <source>Kicked by %1</source>
         <translation>Wyrzucony przez %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="891"/>
+        <location filename="../mainwindow.cpp" line="893"/>
         <source>Kicked by unknown user</source>
         <translation>Wyrzucony przez nieznanego użytkownika</translation>
     </message>
@@ -1286,39 +1323,39 @@
         <translation type="obsolete">Połączenia P2P dla wideo wyłączone !</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5173"/>
+        <location filename="../mainwindow.cpp" line="973"/>
         <source>%1 joined channel</source>
         <translation>%1 dołączył do kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5195"/>
+        <location filename="../mainwindow.cpp" line="992"/>
         <source>%1 left channel</source>
         <translation>%1 opuścił kanał</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1046"/>
-        <location filename="../mainwindow.cpp" line="4059"/>
+        <location filename="../mainwindow.cpp" line="1113"/>
+        <location filename="../mainwindow.cpp" line="4177"/>
         <source>Failed to download file %1</source>
         <translation>Niepowodzenie przy ściąganiu pliku %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1050"/>
-        <location filename="../mainwindow.cpp" line="4542"/>
+        <location filename="../mainwindow.cpp" line="1117"/>
+        <location filename="../mainwindow.cpp" line="4666"/>
         <source>Failed to upload file %1</source>
         <translation>Niepowodzenie przy wysyłaniu pliku %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1065"/>
+        <location filename="../mainwindow.cpp" line="1132"/>
         <source>Failed to initialize sound input device</source>
         <translation>Nie można uruchomić urządzenia do nagrywania audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1067"/>
+        <location filename="../mainwindow.cpp" line="1134"/>
         <source>Failed to initialize sound output device</source>
         <translation>Nie można uruchomić urządzenia do odtwarzania audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1081"/>
+        <location filename="../mainwindow.cpp" line="1148"/>
         <source>Internal Error</source>
         <translation>Błąd wewnętrzny</translation>
     </message>
@@ -1339,38 +1376,38 @@
         <translation type="obsolete">przerwane wysyłanie dźwięku do %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1123"/>
+        <location filename="../mainwindow.cpp" line="1203"/>
         <source>Error streaming media file to channel</source>
         <translation>Błąd przy przesyłania pliku z mediami do kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1127"/>
+        <location filename="../mainwindow.cpp" line="1207"/>
         <source>Started streaming media file to channel</source>
         <translation>Rozpoczęto przesyłanie pliku z mediami do kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1130"/>
+        <location filename="../mainwindow.cpp" line="1210"/>
         <source>Finished streaming media file to channel</source>
         <translation>Zakończono przesyłanie pliku z mediami do kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1134"/>
+        <location filename="../mainwindow.cpp" line="1214"/>
         <source>Aborted streaming media file to channel</source>
         <translation>Przerwano przesyłanie pliku z mediami do kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1188"/>
-        <location filename="../mainwindow.cpp" line="1220"/>
+        <location filename="../mainwindow.cpp" line="1268"/>
+        <location filename="../mainwindow.cpp" line="1300"/>
         <source>New video session from %1</source>
         <translation>Nowa sesja wideo od %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1247"/>
+        <location filename="../mainwindow.cpp" line="1327"/>
         <source>New desktop session from %1</source>
         <translation>Nowa sesja pulpitu od %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1275"/>
+        <location filename="../mainwindow.cpp" line="1355"/>
         <source>Your desktop session was cancelled</source>
         <translation>Twoja sesja pulpitu została anulowana</translation>
     </message>
@@ -1395,7 +1432,7 @@
         <translation type="vanished">Nie można zainicjalizować domyślnego urządzenia audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1567"/>
+        <location filename="../mainwindow.cpp" line="1642"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Łączenie do %1 port TCP %2 port UDP %3</translation>
     </message>
@@ -1408,8 +1445,8 @@
         <translation type="obsolete">nie można połączyć z serwerem</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1632"/>
-        <location filename="../mainwindow.cpp" line="2403"/>
+        <location filename="../mainwindow.cpp" line="1707"/>
+        <location filename="../mainwindow.cpp" line="2493"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -1418,10 +1455,10 @@
         <translation type="vanished">klient nie jest kompatybilny z serwerem, akcja nie może być podjęta.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1650"/>
-        <location filename="../mainwindow.cpp" line="1655"/>
-        <location filename="../mainwindow.cpp" line="1686"/>
-        <location filename="../mainwindow.cpp" line="1691"/>
+        <location filename="../mainwindow.cpp" line="1725"/>
+        <location filename="../mainwindow.cpp" line="1730"/>
+        <location filename="../mainwindow.cpp" line="1761"/>
+        <location filename="../mainwindow.cpp" line="1766"/>
         <source>Login error</source>
         <translation>Błąd logowania</translation>
     </message>
@@ -1430,32 +1467,32 @@
         <translation type="obsolete">złe hasło serwera, spróbuj ponownie:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1651"/>
+        <location filename="../mainwindow.cpp" line="1726"/>
         <source>Invalid user account. Type username:</source>
         <translation>Nieprawidłowe logowanie, wpisz nazwę użytkownika:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1656"/>
+        <location filename="../mainwindow.cpp" line="1731"/>
         <source>Invalid user account. Type password:</source>
         <translation>Nieprawidłowe logowanie, wpisz hasło:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1673"/>
+        <location filename="../mainwindow.cpp" line="1748"/>
         <source>Join channel error</source>
         <translation>Błąd dołączania do kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1674"/>
+        <location filename="../mainwindow.cpp" line="1749"/>
         <source>Incorrect channel password. Try again:</source>
         <translation>Nieprawidłowe hasło kanału, spróbuj jeszcze raz:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1687"/>
+        <location filename="../mainwindow.cpp" line="1762"/>
         <source>Banned from server</source>
         <translation>Zbanowany przez serwer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1689"/>
+        <location filename="../mainwindow.cpp" line="1764"/>
         <source>Command not authorized</source>
         <translation>Komenda nieautoryzowana</translation>
     </message>
@@ -1464,17 +1501,17 @@
         <translation type="obsolete">nie dozowlone tworzenie kanałów</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1692"/>
+        <location filename="../mainwindow.cpp" line="1767"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>Przekroczona maksymalna liczba użytkowników na tym serwerze</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1694"/>
+        <location filename="../mainwindow.cpp" line="1769"/>
         <source>Maximum disk usage exceeded</source>
         <translation>Przekroczono maksymalne użycie dysku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1696"/>
+        <location filename="../mainwindow.cpp" line="1771"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>Przekroczona maksymalna ilośc użytkowników na kanale</translation>
     </message>
@@ -1483,67 +1520,67 @@
         <translation type="obsolete">modyfikacja subskrypcji nie dozwolona</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1698"/>
+        <location filename="../mainwindow.cpp" line="1773"/>
         <source>Incorrect channel operator password</source>
         <translation>Nieprawidłowe hasło operatora kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1702"/>
+        <location filename="../mainwindow.cpp" line="1777"/>
         <source>Already logged in</source>
         <translation>Obecnie zalogowany</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1704"/>
+        <location filename="../mainwindow.cpp" line="1779"/>
         <source>Cannot perform action because client is currently not logged in</source>
         <translation>Nie można wykonać akcji ponieważ klient nie jest obenie zalogowany</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1707"/>
+        <location filename="../mainwindow.cpp" line="1782"/>
         <source>Cannot join the same channel twice</source>
         <translation>Nie można dołączyć dwa razy do tego samego kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1709"/>
+        <location filename="../mainwindow.cpp" line="1784"/>
         <source>Channel already exists</source>
         <translation>Kanał obecnie istnieje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1715"/>
+        <location filename="../mainwindow.cpp" line="1790"/>
         <source>User not found</source>
         <translation>Nie znaleziono użytkownika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1718"/>
+        <location filename="../mainwindow.cpp" line="1793"/>
         <source>Channel not found</source>
         <translation>Nie znaleziono kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1720"/>
+        <location filename="../mainwindow.cpp" line="1795"/>
         <source>Banned user not found</source>
         <translation>Nie znaleziono zbanowanego użytkownika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1722"/>
+        <location filename="../mainwindow.cpp" line="1797"/>
         <source>File transfer not found</source>
         <translation>Nie znaleziono transferu pliku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1724"/>
+        <location filename="../mainwindow.cpp" line="1799"/>
         <source>User account not found</source>
         <translation>Nie znaleziono konta użytkownika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1726"/>
+        <location filename="../mainwindow.cpp" line="1801"/>
         <source>File not found</source>
         <translation>Nie znaleziono pliku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1728"/>
+        <location filename="../mainwindow.cpp" line="1803"/>
         <source>File already exists</source>
         <translation>Plik już istnieje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1730"/>
+        <location filename="../mainwindow.cpp" line="1805"/>
         <source>File sharing is disabled</source>
         <translation>Współdzielenie plików wyłączone</translation>
     </message>
@@ -1552,161 +1589,168 @@
         <translation type="obsolete">serwer ma aktywnych użytkowników</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1732"/>
+        <location filename="../mainwindow.cpp" line="1807"/>
         <source>Channel has active users</source>
         <translation>Kanał ma aktywnych użytkowników</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1737"/>
+        <location filename="../mainwindow.cpp" line="1812"/>
         <source>Unknown error occured</source>
         <translation>Wystąpił nieznany błąd</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1744"/>
+        <location filename="../mainwindow.cpp" line="1819"/>
         <source>The server reported an error:</source>
         <translation>Serwer zgłosił błąd:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2258"/>
+        <location filename="../mainwindow.cpp" line="2333"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 wysyła żądanie dostępu do pulpitu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2264"/>
-        <location filename="../mainwindow.cpp" line="3670"/>
+        <location filename="../mainwindow.cpp" line="2339"/>
+        <location filename="../mainwindow.cpp" line="3765"/>
         <source>%1 granted desktop access</source>
         <translation>%1 przyznano dostęp do pulpitu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2270"/>
+        <location filename="../mainwindow.cpp" line="2345"/>
         <source>%1 retracted desktop access</source>
         <translation>%1 wycofano dostęp do pulpitu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2837"/>
+        <location filename="../mainwindow.cpp" line="2397"/>
+        <source>Left channel %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2445"/>
+        <source>&amp;Files (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2927"/>
         <source>Failed to stream media file %1</source>
         <translation>Nie można przesyłać pliku z mediami %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3533"/>
+        <location filename="../mainwindow.cpp" line="3628"/>
         <source>Failed to start desktop sharing</source>
         <translation>Nie można uruchomić udostępniania pulpitu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4074"/>
+        <location filename="../mainwindow.cpp" line="4192"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
         <translation>Jesteś pewny, że chcesz skasować %1 ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4079"/>
+        <location filename="../mainwindow.cpp" line="4197"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>Jesteś pewny, że chcesz skasować %1 plik(i) ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5328"/>
         <source>Video</source>
-        <translation>Wideo</translation>
+        <translation type="vanished">Wideo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5330"/>
         <source>Video (%1)</source>
-        <translation>Wideo (%1)</translation>
+        <translation type="vanished">Wideo (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5338"/>
         <source>Desktops (%1)</source>
-        <translation>Pulpity %1</translation>
+        <translation type="vanished">Pulpity %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1511"/>
+        <location filename="../mainwindow.cpp" line="1586"/>
         <source>Cannot join channel %1</source>
         <translation>Nie można dołączyć do kanału %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2036"/>
+        <location filename="../mainwindow.cpp" line="2111"/>
         <source>&amp;Restore</source>
         <translation>&amp;Przywróc</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5214"/>
-        <location filename="../mainwindow.cpp" line="5223"/>
-        <location filename="../mainwindow.cpp" line="5232"/>
-        <location filename="../mainwindow.cpp" line="5241"/>
-        <location filename="../mainwindow.cpp" line="5250"/>
-        <location filename="../mainwindow.cpp" line="5259"/>
-        <location filename="../mainwindow.cpp" line="5268"/>
-        <location filename="../mainwindow.cpp" line="5277"/>
-        <location filename="../mainwindow.cpp" line="5286"/>
-        <location filename="../mainwindow.cpp" line="5295"/>
-        <location filename="../mainwindow.cpp" line="5304"/>
+        <location filename="../mainwindow.cpp" line="5346"/>
+        <location filename="../mainwindow.cpp" line="5355"/>
+        <location filename="../mainwindow.cpp" line="5364"/>
+        <location filename="../mainwindow.cpp" line="5373"/>
+        <location filename="../mainwindow.cpp" line="5382"/>
+        <location filename="../mainwindow.cpp" line="5391"/>
+        <location filename="../mainwindow.cpp" line="5400"/>
+        <location filename="../mainwindow.cpp" line="5409"/>
+        <location filename="../mainwindow.cpp" line="5418"/>
+        <location filename="../mainwindow.cpp" line="5427"/>
+        <location filename="../mainwindow.cpp" line="5436"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
         <translation>%1 zmienił subskrybcję z %2 na %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5218"/>
-        <location filename="../mainwindow.cpp" line="5227"/>
-        <location filename="../mainwindow.cpp" line="5236"/>
-        <location filename="../mainwindow.cpp" line="5245"/>
-        <location filename="../mainwindow.cpp" line="5254"/>
-        <location filename="../mainwindow.cpp" line="5263"/>
-        <location filename="../mainwindow.cpp" line="5272"/>
-        <location filename="../mainwindow.cpp" line="5281"/>
-        <location filename="../mainwindow.cpp" line="5290"/>
-        <location filename="../mainwindow.cpp" line="5299"/>
-        <location filename="../mainwindow.cpp" line="5308"/>
+        <location filename="../mainwindow.cpp" line="5350"/>
+        <location filename="../mainwindow.cpp" line="5359"/>
+        <location filename="../mainwindow.cpp" line="5368"/>
+        <location filename="../mainwindow.cpp" line="5377"/>
+        <location filename="../mainwindow.cpp" line="5386"/>
+        <location filename="../mainwindow.cpp" line="5395"/>
+        <location filename="../mainwindow.cpp" line="5404"/>
+        <location filename="../mainwindow.cpp" line="5413"/>
+        <location filename="../mainwindow.cpp" line="5422"/>
+        <location filename="../mainwindow.cpp" line="5431"/>
+        <location filename="../mainwindow.cpp" line="5440"/>
         <source>On</source>
         <translation>Włączone</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5218"/>
-        <location filename="../mainwindow.cpp" line="5227"/>
-        <location filename="../mainwindow.cpp" line="5236"/>
-        <location filename="../mainwindow.cpp" line="5245"/>
-        <location filename="../mainwindow.cpp" line="5254"/>
-        <location filename="../mainwindow.cpp" line="5263"/>
-        <location filename="../mainwindow.cpp" line="5272"/>
-        <location filename="../mainwindow.cpp" line="5281"/>
-        <location filename="../mainwindow.cpp" line="5290"/>
-        <location filename="../mainwindow.cpp" line="5299"/>
-        <location filename="../mainwindow.cpp" line="5308"/>
+        <location filename="../mainwindow.cpp" line="5350"/>
+        <location filename="../mainwindow.cpp" line="5359"/>
+        <location filename="../mainwindow.cpp" line="5368"/>
+        <location filename="../mainwindow.cpp" line="5377"/>
+        <location filename="../mainwindow.cpp" line="5386"/>
+        <location filename="../mainwindow.cpp" line="5395"/>
+        <location filename="../mainwindow.cpp" line="5404"/>
+        <location filename="../mainwindow.cpp" line="5413"/>
+        <location filename="../mainwindow.cpp" line="5422"/>
+        <location filename="../mainwindow.cpp" line="5431"/>
+        <location filename="../mainwindow.cpp" line="5440"/>
         <source>Off</source>
         <translation>Wyłączone</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1252"/>
-        <location filename="../mainwindow.cpp" line="2038"/>
+        <location filename="../mainwindow.ui" line="1320"/>
+        <location filename="../mainwindow.cpp" line="2113"/>
         <source>&amp;Exit</source>
         <translation>&amp;Wyjdź</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2353"/>
+        <location filename="../mainwindow.cpp" line="2439"/>
         <source>Files in channel: %1</source>
         <translation>Plików w kanale: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2972"/>
+        <location filename="../mainwindow.cpp" line="3062"/>
         <source>Enable HotKey</source>
         <translation>Włącz skróty klawiszowe</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2973"/>
+        <location filename="../mainwindow.cpp" line="3063"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
         <translation>Nie można zarejestrować skrótu, spróbuj inny.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3392"/>
+        <location filename="../mainwindow.cpp" line="3482"/>
         <source>Specify new nickname</source>
         <translation>Podaj nowy nick</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3458"/>
-        <location filename="../mainwindow.cpp" line="4768"/>
+        <location filename="../mainwindow.cpp" line="3553"/>
+        <location filename="../mainwindow.cpp" line="4902"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
         <translation>Urządzenie wideo nie zostało skonfigurowane prawidłowo, sprawdź ustawienia w &quot;Opcjach&quot;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3966"/>
-        <location filename="../mainwindow.cpp" line="4319"/>
+        <location filename="../mainwindow.cpp" line="4084"/>
+        <location filename="../mainwindow.cpp" line="4443"/>
         <source>Specify password</source>
         <translation>Podaj hasło</translation>
     </message>
@@ -1723,289 +1767,359 @@
         <translation type="obsolete">nie można wysyłać pliku %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3903"/>
-        <location filename="../mainwindow.cpp" line="3912"/>
+        <location filename="../mainwindow.cpp" line="4021"/>
+        <location filename="../mainwindow.cpp" line="4030"/>
         <source>Failed to issue command to create channel</source>
         <translation>Nie można zrealizować tworzenia kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2122"/>
+        <location filename="../mainwindow.cpp" line="2197"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
         <translation>Czy chcesz dodać %1 do wyjątków w zaporze Windows?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="732"/>
-        <location filename="../mainwindow.cpp" line="2130"/>
+        <location filename="../mainwindow.cpp" line="733"/>
+        <location filename="../mainwindow.cpp" line="2205"/>
         <source>Firewall exception</source>
         <translation>Wyjątek zapory</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2131"/>
+        <location filename="../mainwindow.cpp" line="2206"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>Błąd dodawnia %1 do wyjątków zapory Windows.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="733"/>
+        <location filename="../mainwindow.cpp" line="734"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
         <translation>Błąd usuwania %1 z wyjątków zapory Windows.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="749"/>
+        <location filename="../mainwindow.cpp" line="121"/>
+        <source>DLL load error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="122"/>
+        <source>This %3 executable is built for DLL version %1 but the loaded DLL reports it&apos;s version %2. Loading an incorrect DLL for %3 may cause problems and crash the application. Please reinstall to solve this problem.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="750"/>
         <source>Startup arguments</source>
         <translation>Argumenty startowe</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="750"/>
+        <location filename="../mainwindow.cpp" line="751"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
         <translation>Argument %1 nie rozpoznany.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1069"/>
+        <location filename="../mainwindow.cpp" line="761"/>
+        <source>root</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="951"/>
+        <source>%1 has logged in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="961"/>
+        <source>%1 has logged out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1046"/>
+        <source>File %1 added</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1050"/>
+        <location filename="../mainwindow.cpp" line="1077"/>
+        <source> by %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1073"/>
+        <source>File %1 removed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1136"/>
         <source>Failed to initialize audio codec</source>
         <translation>Niemożliwa inicjalizacja kodeka audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1072"/>
+        <location filename="../mainwindow.cpp" line="1139"/>
         <source>Failed to initialize audio configuration</source>
         <translation>Niemożliwa inicjalizacja konfiguracji audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1075"/>
+        <location filename="../mainwindow.cpp" line="1142"/>
         <source>Internal message queue overloaded</source>
         <translation>Przeciążona wewnętrzna kolejka komunikatów</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1295"/>
+        <location filename="../mainwindow.cpp" line="1180"/>
+        <source>Streaming from %1 started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1375"/>
         <source>Writing audio file %1 for %2</source>
         <translation>Zapisywanie pliku audio %1 dla %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1300"/>
+        <location filename="../mainwindow.cpp" line="1380"/>
         <source>Failed to write audio file %1 for %2</source>
         <translation>Niemożliwe zapisanie pliku audio %1 dla %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1305"/>
+        <location filename="../mainwindow.cpp" line="1385"/>
         <source>Finished audio file %1</source>
         <translation>Zakończono zapis audio do pliku %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1309"/>
+        <location filename="../mainwindow.cpp" line="1389"/>
         <source>Aborted audio file %1</source>
         <translation>Przerwano zapis audio do pliku %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1386"/>
+        <location filename="../mainwindow.cpp" line="1461"/>
         <source>Banned Users in Channel %1</source>
         <translation>Zbanowani użytkownicy w kanale%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1641"/>
+        <location filename="../mainwindow.cpp" line="1716"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
         <translation>Ten klient nie jest zgodny z serwerem, nie można wykonać akcji.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1644"/>
+        <location filename="../mainwindow.cpp" line="1719"/>
         <source>The username is invalid</source>
         <translation>Nazwa użytkownika jest nieprawidłowa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1915"/>
+        <location filename="../mainwindow.cpp" line="1990"/>
         <source>Away</source>
         <translation type="unfinished">Nieobecny</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2358"/>
         <source>Files (%1)</source>
-        <translation>Pliki %1</translation>
+        <translation type="vanished">Pliki %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2403"/>
+        <location filename="../mainwindow.cpp" line="2493"/>
         <source>Failed to start recording</source>
         <translation>Nie można rozpocząć nagrywania</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2407"/>
+        <location filename="../mainwindow.cpp" line="2497"/>
         <source>Recording to file: %1</source>
         <translation>Nagrywanie do pliku %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2465"/>
+        <location filename="../mainwindow.cpp" line="2555"/>
         <source>Microphone gain is controlled by channel</source>
         <translation>Wzmocnienie mikrofonu jest kontrolowane przez kanał</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2978"/>
+        <location filename="../mainwindow.cpp" line="3068"/>
         <source>Push To Talk: </source>
         <translation>Naciśnij aby mówić: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3156"/>
-        <location filename="../mainwindow.cpp" line="3180"/>
+        <location filename="../mainwindow.cpp" line="3246"/>
+        <location filename="../mainwindow.cpp" line="3270"/>
         <source>New Profile</source>
         <translation>Nowy profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3156"/>
+        <location filename="../mainwindow.cpp" line="3246"/>
         <source>Delete Profile</source>
         <translation>Usuń profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3163"/>
-        <location filename="../mainwindow.cpp" line="3171"/>
+        <location filename="../mainwindow.cpp" line="3253"/>
+        <location filename="../mainwindow.cpp" line="3261"/>
         <source>New Client Instance</source>
         <translation>Nowa instancja klienta</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3164"/>
+        <location filename="../mainwindow.cpp" line="3254"/>
         <source>Select profile</source>
         <translation>Wybierz profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3172"/>
+        <location filename="../mainwindow.cpp" line="3262"/>
         <source>Delete profile</source>
         <translation>Usuń profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3180"/>
+        <location filename="../mainwindow.cpp" line="3270"/>
         <source>Profile name</source>
         <translation>Nazwa profilu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3469"/>
+        <location filename="../mainwindow.cpp" line="3564"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
         <translation>Niemożliwe skonfigurowanie kodeka wideo. Sprawdź ustawienia w sekcji &apos;Ustawienia&apos;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3514"/>
+        <location filename="../mainwindow.cpp" line="3609"/>
         <source>Failed to open X11 display.</source>
         <translation>Nie można otworzyć X11.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3926"/>
+        <location filename="../mainwindow.cpp" line="4044"/>
         <source>Failed to issue command to update channel</source>
         <translation>Nie można zaktualizować kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3939"/>
+        <location filename="../mainwindow.cpp" line="4057"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
         <translation>Czy napewno chcesz usunąć kanał &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3945"/>
+        <location filename="../mainwindow.cpp" line="4063"/>
         <source>Failed to issue command to delete channel</source>
         <translation>Nie można skasować kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3981"/>
+        <location filename="../mainwindow.cpp" line="4099"/>
         <source>Failed to issue command to join channel</source>
         <translation>Nie można dołączyć do kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4030"/>
+        <location filename="../mainwindow.cpp" line="4148"/>
         <source>Open File</source>
         <translation>Otwórz plik</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4050"/>
+        <location filename="../mainwindow.cpp" line="4168"/>
         <source>Save File</source>
         <translation>Zapisz plik</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4167"/>
+        <location filename="../mainwindow.cpp" line="4285"/>
         <source>Message to broadcast:</source>
         <translation>Wiadomość dla wszystkich:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4209"/>
+        <location filename="../mainwindow.cpp" line="4304"/>
+        <source>Server configuration saved</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4328"/>
         <source>Are you sure you want to delete your existing settings?</source>
         <translation>Czy na pewno chcesz usunąć istniejące ustawienia?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4218"/>
+        <location filename="../mainwindow.cpp" line="4337"/>
         <source>Cannot find %1</source>
         <translation>Nie można znaleźć %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4225"/>
+        <location filename="../mainwindow.cpp" line="4344"/>
         <source>Cannot remove %1</source>
         <translation>Nie można usunąć %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4232"/>
+        <location filename="../mainwindow.cpp" line="4351"/>
         <source>Failed to copy %1 to %2</source>
         <translation>Nie można skopiować %1 do %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4332"/>
+        <location filename="../mainwindow.cpp" line="4456"/>
         <source>IP-address</source>
         <translation>Adres IP</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4332"/>
+        <location filename="../mainwindow.cpp" line="4456"/>
         <source>Username</source>
         <translation>Nazwa użytkownika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4334"/>
+        <location filename="../mainwindow.cpp" line="4458"/>
         <source>Ban User From Channel</source>
         <translation>Zbanuj użytkownika z kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4334"/>
+        <location filename="../mainwindow.cpp" line="4458"/>
         <source>Ban user&apos;s</source>
         <translation>Zbanuj użytkownika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4471"/>
+        <location filename="../mainwindow.cpp" line="4595"/>
         <source>&amp;Leave Channel</source>
         <translation>&amp;Opuść kanał</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4697"/>
+        <location filename="../mainwindow.cpp" line="4821"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Maksymalna ilość użytkowników, którzy mogą nadawać to %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4735"/>
+        <location filename="../mainwindow.cpp" line="4859"/>
         <source>You can now transmit audio!</source>
         <translation>Możesz teraz nadawać audio!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4737"/>
+        <location filename="../mainwindow.cpp" line="4861"/>
         <source>You can no longer transmit audio!</source>
         <translation>Nie możesz już nadawać audio!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4745"/>
+        <location filename="../mainwindow.cpp" line="4869"/>
         <source>You can now transmit video!</source>
         <translation>Możesz teraz nadawać video!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4747"/>
+        <location filename="../mainwindow.cpp" line="4871"/>
         <source>You can no longer transmit video!</source>
         <translation>Nie możesz już nadawać video!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4755"/>
+        <location filename="../mainwindow.cpp" line="4879"/>
         <source>You can now transmit desktop windows!</source>
         <translation>Możesz udostępnić swój pulpit!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4757"/>
+        <location filename="../mainwindow.cpp" line="4881"/>
         <source>You can no longer transmit desktop windows!</source>
         <translation>Nie możesz udostępniać swojego pulpitu!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4767"/>
+        <location filename="../mainwindow.cpp" line="4889"/>
+        <source>You can now transmit media files!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4891"/>
+        <source>You can no longer transmit media files!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4901"/>
         <source>Start Webcam</source>
         <translation>Uruchom kamerę</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4790"/>
-        <location filename="../mainwindow.cpp" line="4842"/>
+        <location filename="../mainwindow.cpp" line="4924"/>
+        <location filename="../mainwindow.cpp" line="4976"/>
         <source>Myself</source>
         <translation>Ja</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5462"/>
+        <source>&amp;Video (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5470"/>
+        <source>&amp;Desktops (%1)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The file %1 contains %2 setup information.
@@ -2018,42 +2132,42 @@ Czy te ustawienia mają być zastosowane ?</translation>
         <translation type="obsolete">%1 ustawił/a subskrypcję &quot;%2&quot; na Ciebie do: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5389"/>
-        <location filename="../mainwindow.cpp" line="5398"/>
-        <location filename="../mainwindow.cpp" line="5408"/>
-        <location filename="../mainwindow.cpp" line="5419"/>
+        <location filename="../mainwindow.cpp" line="5521"/>
+        <location filename="../mainwindow.cpp" line="5530"/>
+        <location filename="../mainwindow.cpp" line="5540"/>
+        <location filename="../mainwindow.cpp" line="5551"/>
         <source>Load File</source>
         <translation>Załaduj plik</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5390"/>
-        <location filename="../mainwindow.cpp" line="5399"/>
+        <location filename="../mainwindow.cpp" line="5522"/>
+        <location filename="../mainwindow.cpp" line="5531"/>
         <source>Failed to load file %1</source>
         <translation>Nie można załadować pliku %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5409"/>
+        <location filename="../mainwindow.cpp" line="5541"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>Plik &quot;%1&quot; jest niekompatybilny z %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5420"/>
+        <location filename="../mainwindow.cpp" line="5552"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Niemożliwe uzyskanie informacji o hoście z %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5428"/>
+        <location filename="../mainwindow.cpp" line="5560"/>
         <source>Load %1 File</source>
         <translation>Ładowanie pliku %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5429"/>
+        <location filename="../mainwindow.cpp" line="5561"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5499"/>
+        <location filename="../mainwindow.cpp" line="5631"/>
         <source>New version available: %1</source>
         <translation>Dostępna nowa wersja %1</translation>
     </message>
@@ -2074,7 +2188,7 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="213"/>
         <location filename="../mainwindow.ui" line="238"/>
         <location filename="../mainwindow.ui" line="241"/>
-        <location filename="../mainwindow.cpp" line="2479"/>
+        <location filename="../mainwindow.cpp" line="2569"/>
         <source>Microphone gain</source>
         <translation>Wzmocnienie mikrofonu</translation>
     </message>
@@ -2086,43 +2200,43 @@ Should these settings be applied?</source>
         <translation>Poziom aktywacji głosem</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="317"/>
         <source>Chat</source>
-        <translation>Czat</translation>
+        <translation type="vanished">Czat</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="372"/>
+        <location filename="../mainwindow.ui" line="375"/>
         <source>Send text message</source>
         <translation>Wyślij wiadomość</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="375"/>
-        <location filename="../mainwindow.ui" line="621"/>
-        <location filename="../mainwindow.ui" line="866"/>
+        <location filename="../mainwindow.ui" line="378"/>
+        <location filename="../mainwindow.ui" line="653"/>
+        <location filename="../mainwindow.ui" line="927"/>
         <source>Sen&amp;d</source>
         <translation>Wyśli&amp;j</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="391"/>
-        <location filename="../mainwindow.ui" line="1525"/>
+        <location filename="../mainwindow.ui" line="397"/>
+        <location filename="../mainwindow.ui" line="1593"/>
+        <location filename="../mainwindow.cpp" line="5460"/>
         <source>&amp;Video</source>
         <translation>&amp;Wideo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="479"/>
-        <location filename="../mainwindow.ui" line="482"/>
+        <location filename="../mainwindow.ui" line="485"/>
+        <location filename="../mainwindow.ui" line="488"/>
         <source>Add User to Video Grid</source>
         <translation>Dodaj użytkownika do siatki wideo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="515"/>
-        <location filename="../mainwindow.ui" line="518"/>
+        <location filename="../mainwindow.ui" line="521"/>
+        <location filename="../mainwindow.ui" line="524"/>
         <source>Remove User From Video Grid</source>
         <translation>Usuń użytkownika z siatki wideo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="446"/>
-        <location filename="../mainwindow.ui" line="449"/>
+        <location filename="../mainwindow.ui" line="452"/>
+        <location filename="../mainwindow.ui" line="455"/>
         <source>Detach User Video</source>
         <translation>Odłącz wideo użytkownika</translation>
     </message>
@@ -2136,448 +2250,447 @@ Should these settings be applied?</source>
         <translation type="vanished">Wiadomości i zdarzenia kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="548"/>
+        <location filename="../mainwindow.ui" line="554"/>
         <source>Start/Stop Webcam</source>
         <translation>Uruchom/zatrzymaj kamerę</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="637"/>
-        <location filename="../mainwindow.cpp" line="5336"/>
         <source>Desktops</source>
-        <translation>Pulpity</translation>
+        <translation type="vanished">Pulpity</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="692"/>
+        <location filename="../mainwindow.ui" line="727"/>
         <source>Detach selected window</source>
         <translation>Odłącz wybrane okno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="695"/>
-        <location filename="../mainwindow.ui" line="761"/>
-        <location filename="../mainwindow.ui" line="797"/>
+        <location filename="../mainwindow.ui" line="730"/>
+        <location filename="../mainwindow.ui" line="796"/>
+        <location filename="../mainwindow.ui" line="832"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="725"/>
+        <location filename="../mainwindow.ui" line="760"/>
         <source>Put back removed window</source>
         <translation>Przywróć usunięte okno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="758"/>
+        <location filename="../mainwindow.ui" line="793"/>
         <source>Remove selected window</source>
         <translation>Usuń wybrane okno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="794"/>
+        <location filename="../mainwindow.ui" line="829"/>
         <source>Request desktop access</source>
         <translation>Poproś o dostęp do pulpitu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="882"/>
-        <location filename="../mainwindow.cpp" line="2356"/>
         <source>Files</source>
-        <translation>Pliki</translation>
+        <translation type="vanished">Pliki</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="946"/>
-        <location filename="../mainwindow.ui" line="949"/>
+        <location filename="../mainwindow.ui" line="1013"/>
+        <location filename="../mainwindow.ui" line="1016"/>
         <source>Upload</source>
         <translation>Wysyłanie</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="969"/>
-        <location filename="../mainwindow.ui" line="972"/>
+        <location filename="../mainwindow.ui" line="1036"/>
+        <location filename="../mainwindow.ui" line="1039"/>
         <source>Download</source>
         <translation>Pobieranie</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="992"/>
-        <location filename="../mainwindow.ui" line="995"/>
+        <location filename="../mainwindow.ui" line="1059"/>
+        <location filename="../mainwindow.ui" line="1062"/>
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1029"/>
+        <location filename="../mainwindow.ui" line="1096"/>
         <source>C&amp;lient</source>
         <translation>K&amp;lient</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1042"/>
+        <location filename="../mainwindow.ui" line="1109"/>
         <source>&amp;Me</source>
         <translation>&amp;Ja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1054"/>
+        <location filename="../mainwindow.ui" line="1121"/>
         <source>&amp;Users</source>
         <translation>&amp;Użytkownicy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1058"/>
+        <location filename="../mainwindow.ui" line="1125"/>
         <source>&amp;Subscriptions</source>
         <translation>&amp;Subskrypcje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1078"/>
+        <location filename="../mainwindow.ui" line="1145"/>
         <source>&amp;Advanced</source>
         <translation>&amp;Zaawansowane</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1124"/>
+        <location filename="../mainwindow.ui" line="1191"/>
         <source>&amp;Channels</source>
         <translation>&amp;Kanały</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1143"/>
+        <location filename="../mainwindow.ui" line="1210"/>
         <source>&amp;Server</source>
         <translation>&amp;Serwer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1158"/>
+        <location filename="../mainwindow.ui" line="1225"/>
         <source>&amp;Help</source>
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1221"/>
+        <location filename="../mainwindow.ui" line="1289"/>
         <source>&amp;Server List</source>
         <translation>&amp;Lista serwerów</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1224"/>
-        <location filename="../mainwindow.ui" line="1436"/>
+        <location filename="../mainwindow.ui" line="1292"/>
+        <location filename="../mainwindow.ui" line="1504"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1236"/>
+        <location filename="../mainwindow.ui" line="1304"/>
         <source>&amp;Connect</source>
         <translation>&amp;Połącz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1239"/>
+        <location filename="../mainwindow.ui" line="1307"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1244"/>
+        <location filename="../mainwindow.ui" line="1312"/>
         <source>&amp;Preferences</source>
         <translation>&amp;Opcje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1247"/>
+        <location filename="../mainwindow.ui" line="1315"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1255"/>
+        <location filename="../mainwindow.ui" line="1323"/>
         <source>Alt+F4</source>
         <translation>Alt+F4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1267"/>
+        <location filename="../mainwindow.ui" line="1335"/>
         <source>Enable &amp;Push To Talk</source>
         <translation>Włącz &quot;&amp;przyciśnij aby mówić&quot;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1270"/>
+        <location filename="../mainwindow.ui" line="1338"/>
         <source>Ctrl+Shift+T</source>
         <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1275"/>
+        <location filename="../mainwindow.ui" line="1343"/>
         <source>&amp;About</source>
         <translation>&amp;O programie</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1283"/>
+        <location filename="../mainwindow.ui" line="1351"/>
         <source>&amp;Manual</source>
         <translation>&amp;Instrukcja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1286"/>
+        <location filename="../mainwindow.ui" line="1354"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1291"/>
+        <location filename="../mainwindow.ui" line="1359"/>
         <source>Server &amp;Properties</source>
         <translation>Serwer i &amp;opcje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1294"/>
+        <location filename="../mainwindow.ui" line="1362"/>
         <source>F9</source>
         <translation>F9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1299"/>
+        <location filename="../mainwindow.ui" line="1367"/>
         <source>&amp;Create Channel</source>
         <translation>&amp;Utwórz kanał</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1302"/>
+        <location filename="../mainwindow.ui" line="1370"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1307"/>
+        <location filename="../mainwindow.ui" line="1375"/>
         <source>&amp;Update Channel</source>
         <translation>&amp;Zaktualizuj kanał</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1310"/>
+        <location filename="../mainwindow.ui" line="1378"/>
         <source>Shift+F7</source>
         <translation>Shift+F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1315"/>
+        <location filename="../mainwindow.ui" line="1383"/>
         <source>&amp;Delete Channel</source>
         <translation>&amp;Skasuj kanał</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1318"/>
+        <location filename="../mainwindow.ui" line="1386"/>
         <source>F8</source>
         <translation>F8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1323"/>
-        <location filename="../mainwindow.cpp" line="4473"/>
+        <location filename="../mainwindow.ui" line="1391"/>
+        <location filename="../mainwindow.cpp" line="4597"/>
         <source>&amp;Join Channel</source>
         <translation>&amp;Dołącz do kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1326"/>
+        <location filename="../mainwindow.ui" line="1394"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1338"/>
+        <location filename="../mainwindow.ui" line="1406"/>
         <source>Enable Voice &amp;Activation</source>
         <translation>Włącz &amp;aktywację głosem</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1341"/>
+        <location filename="../mainwindow.ui" line="1409"/>
         <source>Ctrl+Shift+A</source>
         <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1346"/>
+        <location filename="../mainwindow.ui" line="1414"/>
         <source>Change &amp;Nickname</source>
         <translation>Zmień &amp;nick</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1349"/>
+        <location filename="../mainwindow.ui" line="1417"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1354"/>
+        <location filename="../mainwindow.ui" line="1422"/>
         <source>Change &amp;Status</source>
         <translation>Zmień &amp;status</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1357"/>
+        <location filename="../mainwindow.ui" line="1425"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1362"/>
+        <location filename="../mainwindow.ui" line="1430"/>
         <source>&amp;View User Information</source>
         <translation>Pokaż &amp;informację o użytkowniku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1365"/>
+        <location filename="../mainwindow.ui" line="1433"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1377"/>
+        <location filename="../mainwindow.ui" line="1445"/>
         <source>Mute &amp;All</source>
         <translation>Wycisz &amp;wszystko</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1380"/>
+        <location filename="../mainwindow.ui" line="1448"/>
         <source>Ctrl+M</source>
         <translation>Ctrl+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1385"/>
+        <location filename="../mainwindow.ui" line="1453"/>
         <source>Up&amp;load File</source>
         <translation>Wyślij p&amp;lik</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1388"/>
+        <location filename="../mainwindow.ui" line="1456"/>
         <source>Shift+F5</source>
         <translation>Shift+F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1393"/>
+        <location filename="../mainwindow.ui" line="1461"/>
         <source>D&amp;ownload File</source>
         <translation>P&amp;obierz plik</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1396"/>
+        <location filename="../mainwindow.ui" line="1464"/>
         <source>Shift+F6</source>
         <translation>Shift+F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1401"/>
+        <location filename="../mainwindow.ui" line="1469"/>
         <source>Dele&amp;te File</source>
         <translation>&amp;Skasuj plik</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1404"/>
+        <location filename="../mainwindow.ui" line="1472"/>
         <source>Shift+Del</source>
         <translation>Shift+Del</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1409"/>
+        <location filename="../mainwindow.ui" line="1477"/>
         <source>&amp;Banned Users</source>
         <translation>&amp;Zbanowani użytkownicy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1417"/>
+        <location filename="../mainwindow.ui" line="1485"/>
         <source>&amp;User Accounts</source>
         <translation>&amp;Konta użytkowników</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1449"/>
+        <location filename="../mainwindow.ui" line="1517"/>
         <source>Kick and &amp;Ban From Server</source>
         <translation>Wyrzuć z tego serwera i z&amp;banuj</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1484"/>
+        <location filename="../mainwindow.ui" line="1552"/>
         <source>V&amp;oice</source>
         <translation>&amp;Głos</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1487"/>
+        <location filename="../mainwindow.ui" line="1555"/>
         <source>Ctrl+4</source>
         <translation>Ctrl+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1502"/>
+        <location filename="../mainwindow.ui" line="1570"/>
         <source>Ctrl+1</source>
         <translation>Ctrl+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1513"/>
+        <location filename="../mainwindow.ui" line="1581"/>
         <source>Ctrl+2</source>
         <translation>Ctrl+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1528"/>
+        <location filename="../mainwindow.ui" line="1596"/>
         <source>Ctrl+5</source>
         <translation>Ctrl+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1539"/>
+        <location filename="../mainwindow.ui" line="1607"/>
         <source>Ctrl+3</source>
         <translation>Ctrl+3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1585"/>
+        <location filename="../mainwindow.ui" line="1653"/>
         <source>Record Conversations to &amp;Disk</source>
         <translation>Zapisz rozmowę na &amp;dysku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1606"/>
+        <location filename="../mainwindow.ui" line="1674"/>
         <source>Ctrl+Shift+1</source>
         <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1617"/>
+        <location filename="../mainwindow.ui" line="1685"/>
         <source>Ctrl+Shift+2</source>
         <translation>Ctrl+Shift+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1632"/>
+        <location filename="../mainwindow.ui" line="1700"/>
         <source>Ctrl+Shift+4</source>
         <translation>Ctrl+Shift+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1647"/>
+        <location filename="../mainwindow.ui" line="1715"/>
         <source>Ctrl+Shift+5</source>
         <translation>Ctrl+Shift+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1696"/>
+        <location filename="../mainwindow.ui" line="1764"/>
         <source>&amp;BearWare.dk Website</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1941"/>
+        <location filename="../mainwindow.ui" line="1769"/>
+        <source>&amp;Change Log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="2014"/>
         <source>Increase Media File Volume</source>
         <translation>Zwiększ głośność pliku z multimediami</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1949"/>
+        <location filename="../mainwindow.ui" line="2022"/>
         <source>Lower Media File Volume</source>
         <translation>Zmniejsz głośność pliku z multimediami</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1957"/>
+        <location filename="../mainwindow.ui" line="2030"/>
         <source>R&amp;eset Preferences to Default</source>
         <translation>P&amp;rzywróć ustawienia domyślne</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1962"/>
+        <location filename="../mainwindow.ui" line="2035"/>
         <source>Kick and Ban From &amp;Channel</source>
         <translation>Wyrzuć z tego kanału i z&amp;banuj</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1965"/>
+        <location filename="../mainwindow.ui" line="2038"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1970"/>
+        <location filename="../mainwindow.ui" line="2043"/>
         <source>Banned Users From Channel</source>
         <translation>Zbanowani użytkownicy kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1973"/>
+        <location filename="../mainwindow.ui" line="2046"/>
         <source>Ctrl+Alt+Shift+B</source>
         <translation>Ctrl+Alt+Shift+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1731"/>
+        <location filename="../mainwindow.ui" line="1804"/>
         <source>&amp;New Client Instance</source>
         <translation>&amp;Nowa instancja klienta</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1734"/>
+        <location filename="../mainwindow.ui" line="1807"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1742"/>
+        <location filename="../mainwindow.ui" line="1815"/>
         <source>&amp;Online Users</source>
         <translation>&amp;Użytkownicy Online</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1745"/>
+        <location filename="../mainwindow.ui" line="1818"/>
         <source>Ctrl+Shift+U</source>
         <translation>Ctrl+Shift+U</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1933"/>
+        <location filename="../mainwindow.ui" line="2006"/>
         <source>Kick From Server</source>
         <translation>Wyrzuć z serwera</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1936"/>
+        <location filename="../mainwindow.ui" line="2009"/>
         <source>Ctrl+Alt+K</source>
         <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1944"/>
         <source>Ctrl+Alt+9</source>
-        <translation>Ctrl+Alt+9</translation>
+        <translation type="vanished">Ctrl+Alt+9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1952"/>
         <source>Ctrl+Alt+0</source>
-        <translation>Ctrl+Alt+0</translation>
+        <translation type="vanished">Ctrl+Alt+0</translation>
     </message>
     <message>
         <source>Store Audio to Disk</source>
@@ -2588,82 +2701,82 @@ Should these settings be applied?</source>
         <translation type="obsolete">Uruchom/Zatrzymaj nagrywanie audio do pliku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1757"/>
+        <location filename="../mainwindow.ui" line="1830"/>
         <source>Enable Question Mode</source>
         <translation>Włącz tryb zapytania</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1760"/>
+        <location filename="../mainwindow.ui" line="1833"/>
         <source>Show blinking icon</source>
         <translation>Pokaż migającą ikonę</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1772"/>
+        <location filename="../mainwindow.ui" line="1845"/>
         <source>Enable Desktop Sharing</source>
         <translation>Włącz udostępnianie pulpitu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1775"/>
+        <location filename="../mainwindow.ui" line="1848"/>
         <source>Ctrl+Shift+D</source>
         <translation>Ctrl+Shift+D</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1783"/>
+        <location filename="../mainwindow.ui" line="1856"/>
         <source>Allow Desktop Transmission</source>
         <translation>Pozwól na transmisję pulpitu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1786"/>
+        <location filename="../mainwindow.ui" line="1859"/>
         <source>Ctrl+Alt+E</source>
         <translation>Ctrl+Alt+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1798"/>
+        <location filename="../mainwindow.ui" line="1871"/>
         <source>&amp;Desktop</source>
         <translation>&amp;Puplit</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1801"/>
+        <location filename="../mainwindow.ui" line="1874"/>
         <source>Ctrl+6</source>
         <translation>Ctrl+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1813"/>
+        <location filename="../mainwindow.ui" line="1886"/>
         <source>Intercept Desktop</source>
         <translation>Przechwytywanie pulpitu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1816"/>
+        <location filename="../mainwindow.ui" line="1889"/>
         <source>Ctrl+Shift+6</source>
         <translation>Ctrl+Shift+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1828"/>
+        <location filename="../mainwindow.ui" line="1901"/>
         <source>Stream &amp;Media File to Channel</source>
         <translation>Przesyłanie pliku z &amp;mediami na kanał</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1831"/>
+        <location filename="../mainwindow.ui" line="1904"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1843"/>
+        <location filename="../mainwindow.ui" line="1916"/>
         <source>Desktop Acce&amp;ss</source>
         <translation>Dostęp do &amp;pulpitu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1855"/>
+        <location filename="../mainwindow.ui" line="1928"/>
         <source>Allow Desktop Access</source>
         <translation>Zezwól na dostęp do pulpitu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1858"/>
+        <location filename="../mainwindow.ui" line="1931"/>
         <source>Ctrl+7</source>
         <translation>Ctrl+7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1866"/>
+        <location filename="../mainwindow.ui" line="1939"/>
         <source>&amp;Deny</source>
         <translation>&amp;Zabroń</translation>
     </message>
@@ -2672,7 +2785,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">pokaż z&amp;banowanych użytkowników</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1412"/>
+        <location filename="../mainwindow.ui" line="1480"/>
         <source>Ctrl+Shift+B</source>
         <translation>Ctrl+Shift+B</translation>
     </message>
@@ -2681,22 +2794,22 @@ Should these settings be applied?</source>
         <translation type="obsolete">pokaż konta &amp;użytkowników</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1420"/>
+        <location filename="../mainwindow.ui" line="1488"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1425"/>
+        <location filename="../mainwindow.ui" line="1493"/>
         <source>&amp;Save Configuration</source>
         <translation>&amp;Zapisz konfigurację</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1428"/>
+        <location filename="../mainwindow.ui" line="1496"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1433"/>
+        <location filename="../mainwindow.ui" line="1501"/>
         <source>&amp;View Channel Info</source>
         <translation>Pokaż &amp;informacje o kanale</translation>
     </message>
@@ -2705,102 +2818,128 @@ Should these settings be applied?</source>
         <translation type="obsolete">Shift+F3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1441"/>
+        <location filename="../mainwindow.ui" line="1509"/>
         <source>M&amp;essages</source>
         <translation>&amp;Wiadomości</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1444"/>
+        <location filename="../mainwindow.ui" line="1512"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1095"/>
+        <location filename="../mainwindow.ui" line="1162"/>
         <source>&amp;Mute</source>
         <translation>Wy&amp;cisz</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="317"/>
+        <source>Ch&amp;at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.ui" line="338"/>
+        <location filename="../mainwindow.ui" line="622"/>
+        <location filename="../mainwindow.ui" line="896"/>
         <source>History</source>
         <translation type="unfinished">Historia</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="359"/>
+        <location filename="../mainwindow.ui" line="643"/>
+        <location filename="../mainwindow.ui" line="917"/>
         <source>Message</source>
         <translation type="unfinished">Wiadomość</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1660"/>
+        <location filename="../mainwindow.ui" line="672"/>
+        <location filename="../mainwindow.cpp" line="5468"/>
+        <source>&amp;Desktops</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="946"/>
+        <location filename="../mainwindow.cpp" line="2441"/>
+        <source>&amp;Files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="971"/>
+        <source>Files list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1728"/>
         <source>&amp;Increase Voice Volume</source>
         <translation>Zw&amp;iększ głośność głosu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1668"/>
+        <location filename="../mainwindow.ui" line="1736"/>
         <source>&amp;Lower Voice Volume</source>
         <translation>Zmniejsz głośność g&amp;łosu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1878"/>
+        <location filename="../mainwindow.ui" line="1951"/>
         <source>Media File Stream</source>
         <translation>Transmisja pliku multimedialnego</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1881"/>
+        <location filename="../mainwindow.ui" line="1954"/>
         <source>Ctrl+8</source>
         <translation>Ctrl+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1893"/>
+        <location filename="../mainwindow.ui" line="1966"/>
         <source>Intercept Media File Stream</source>
         <translation>Przechwyć transmisję pliku multimedialnego</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1896"/>
+        <location filename="../mainwindow.ui" line="1969"/>
         <source>Ctrl+Shift+8</source>
         <translation>Ctrl+Shift+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1901"/>
+        <location filename="../mainwindow.ui" line="1974"/>
         <source>Allow Media File Transmission</source>
         <translation>Pozwól na transmisję plików multimedialnych</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1904"/>
+        <location filename="../mainwindow.ui" line="1977"/>
         <source>Ctrl+Alt+R</source>
         <translation>Ctrl+Alt+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1909"/>
+        <location filename="../mainwindow.ui" line="1982"/>
         <source>Mu&amp;te Voice</source>
         <translation>W&amp;ycisz głos</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1912"/>
+        <location filename="../mainwindow.ui" line="1985"/>
         <source>Ctrl+Shift+M</source>
         <translation>Ctrl+Shift+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1102"/>
+        <location filename="../mainwindow.ui" line="1169"/>
         <source>&amp;Kick</source>
         <translation>&amp;Wyrzuć</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1917"/>
+        <location filename="../mainwindow.ui" line="1990"/>
         <source>Mute Media File</source>
         <translation>Wycisz plik multimedialny</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1920"/>
+        <location filename="../mainwindow.ui" line="1993"/>
         <source>Ctrl+Alt+Μ</source>
         <translation>Ctrl+Alt+Μ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1925"/>
+        <location filename="../mainwindow.ui" line="1998"/>
         <source>Kick From Channel</source>
         <translation>Wyrzuć z kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1928"/>
+        <location filename="../mainwindow.ui" line="2001"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
     </message>
@@ -2809,27 +2948,27 @@ Should these settings be applied?</source>
         <translation type="obsolete">wyrzuć i z&amp;banuj</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1452"/>
+        <location filename="../mainwindow.ui" line="1520"/>
         <source>Ctrl+Shift+K</source>
         <translation>Ctrl+Shift+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1461"/>
+        <location filename="../mainwindow.ui" line="1529"/>
         <source>&amp;Op</source>
         <translation>&amp;Operator</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1464"/>
+        <location filename="../mainwindow.ui" line="1532"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1469"/>
+        <location filename="../mainwindow.ui" line="1537"/>
         <source>&amp;Volume</source>
         <translation>&amp;Głośność</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1472"/>
+        <location filename="../mainwindow.ui" line="1540"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
@@ -2838,47 +2977,47 @@ Should these settings be applied?</source>
         <translation type="obsolete">&amp;dźwięk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1499"/>
+        <location filename="../mainwindow.ui" line="1567"/>
         <source>&amp;User Messages</source>
         <translation>&amp;Wiadomości użytkowników</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1510"/>
+        <location filename="../mainwindow.ui" line="1578"/>
         <source>&amp;Channel Messages</source>
         <translation>Wiadomości &amp;kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1536"/>
+        <location filename="../mainwindow.ui" line="1604"/>
         <source>&amp;Broadcast Messages</source>
         <translation>Wiadomości do &amp;wszystkich</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1551"/>
+        <location filename="../mainwindow.ui" line="1619"/>
         <source>Enable &amp;Video Transmission</source>
         <translation>Włącz transmisję &amp;wideo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1554"/>
+        <location filename="../mainwindow.ui" line="1622"/>
         <source>Ctrl+Shift+V</source>
         <translation>Ctrl+Shift+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1562"/>
+        <location filename="../mainwindow.ui" line="1630"/>
         <source>&amp;Stream Audio File to Channel</source>
         <translation>Wysyłaj plik &amp;audio na kanał</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1565"/>
+        <location filename="../mainwindow.ui" line="1633"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1570"/>
+        <location filename="../mainwindow.ui" line="1638"/>
         <source>Stream Audio &amp;File to User</source>
         <translation>Wyślij plik audio do &amp;użytkownika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1573"/>
+        <location filename="../mainwindow.ui" line="1641"/>
         <source>Ctrl+Shift+W</source>
         <translation>Ctrl+Shift+W</translation>
     </message>
@@ -2887,42 +3026,42 @@ Should these settings be applied?</source>
         <translation type="obsolete">z&amp;apisz dźwięk na dysk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1588"/>
+        <location filename="../mainwindow.ui" line="1656"/>
         <source>Specify a folder where audio from users will be stored</source>
         <translation>Określ folder gdzie będą przechowywane pliki audio od użytkowników</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1591"/>
+        <location filename="../mainwindow.ui" line="1659"/>
         <source>Ctrl+Alt+A</source>
         <translation>Ctrl+Alt+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1603"/>
+        <location filename="../mainwindow.ui" line="1671"/>
         <source>Intercept User Messages</source>
         <translation>Przechwyć wiadomości użytkownika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1614"/>
+        <location filename="../mainwindow.ui" line="1682"/>
         <source>Intercept Channel Messages</source>
         <translation>Przechwyć wiadomości kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1629"/>
+        <location filename="../mainwindow.ui" line="1697"/>
         <source>Intercept Audio</source>
         <translation>Przechwyć audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1644"/>
+        <location filename="../mainwindow.ui" line="1712"/>
         <source>Intercept Video</source>
         <translation>Przechwyć wideo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1652"/>
+        <location filename="../mainwindow.ui" line="1720"/>
         <source>&amp;Broadcast Message</source>
         <translation>&amp;Wiadomość do wszystkich</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1655"/>
+        <location filename="../mainwindow.ui" line="1723"/>
         <source>Ctrl+Alt+B</source>
         <translation>Ctrl+Alt+B</translation>
     </message>
@@ -2931,66 +3070,64 @@ Should these settings be applied?</source>
         <translation type="obsolete">zw&amp;iększ głośność (+10)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1663"/>
         <source>Ctrl+9</source>
-        <translation>Ctrl+9</translation>
+        <translation type="vanished">Ctrl+9</translation>
     </message>
     <message>
         <source>&amp;Lower Volume (-10)</source>
         <translation type="obsolete">&amp;zmniejsz głośność (-10)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1671"/>
         <source>Ctrl+0</source>
-        <translation>Ctrl+0</translation>
+        <translation type="vanished">Ctrl+0</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1676"/>
+        <location filename="../mainwindow.ui" line="1744"/>
         <source>&amp;Store User(s) for Move</source>
         <translation>&amp;Zapisz użytkowników do przeniesienia</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1679"/>
+        <location filename="../mainwindow.ui" line="1747"/>
         <source>Ctrl+Alt+X</source>
         <translation>Ctrl+Alt+X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1684"/>
+        <location filename="../mainwindow.ui" line="1752"/>
         <source>&amp;Move User(s)</source>
         <translation>&amp;Przenieś użytkownika(ów)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1687"/>
+        <location filename="../mainwindow.ui" line="1755"/>
         <source>Ctrl+Alt+V</source>
         <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1704"/>
+        <location filename="../mainwindow.ui" line="1777"/>
         <source>Allow V&amp;oice Transmission</source>
         <translation>Pozwól na transmisję &amp;audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1707"/>
+        <location filename="../mainwindow.ui" line="1780"/>
         <source>Ctrl+Alt+Q</source>
         <translation>Ctrl+Alt+Q</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1715"/>
+        <location filename="../mainwindow.ui" line="1788"/>
         <source>Allow Video Transmission</source>
         <translation>Pozwól na transmisję wideo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1718"/>
+        <location filename="../mainwindow.ui" line="1791"/>
         <source>Ctrl+Alt+W</source>
         <translation>Ctrl+Alt+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1723"/>
+        <location filename="../mainwindow.ui" line="1796"/>
         <source>Server S&amp;tatistics</source>
         <translation>Statystyki &amp;serwera</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1726"/>
+        <location filename="../mainwindow.ui" line="1799"/>
         <source>Shift+F9</source>
         <translation>Shift+F9</translation>
     </message>
@@ -3211,12 +3348,12 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="291"/>
-        <location filename="../preferences.ui" line="1493"/>
-        <location filename="../preferences.ui" line="1520"/>
-        <location filename="../preferences.ui" line="1547"/>
-        <location filename="../preferences.ui" line="1574"/>
-        <location filename="../preferences.ui" line="1601"/>
-        <location filename="../preferences.ui" line="1628"/>
+        <location filename="../preferences.ui" line="1581"/>
+        <location filename="../preferences.ui" line="1608"/>
+        <location filename="../preferences.ui" line="1635"/>
+        <location filename="../preferences.ui" line="1662"/>
+        <location filename="../preferences.ui" line="1689"/>
+        <location filename="../preferences.ui" line="1716"/>
         <source>&amp;Setup Keys</source>
         <translation>&amp;Ustaw klawisze</translation>
     </message>
@@ -3306,12 +3443,42 @@ Should these settings be applied?</source>
         <translation>Głośność pliku audio vs. głosu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1190"/>
+        <location filename="../preferences.ui" line="1160"/>
+        <location filename="../preferences.ui" line="1176"/>
+        <location filename="../preferences.ui" line="1229"/>
+        <location filename="../preferences.ui" line="1239"/>
+        <location filename="../preferences.ui" line="1249"/>
+        <location filename="../preferences.ui" line="1259"/>
+        <location filename="../preferences.ui" line="1331"/>
+        <location filename="../preferences.ui" line="1354"/>
+        <location filename="../preferences.ui" line="1364"/>
+        <location filename="../preferences.ui" line="1374"/>
+        <location filename="../preferences.ui" line="1393"/>
+        <location filename="../preferences.ui" line="1439"/>
+        <location filename="../preferences.ui" line="1475"/>
+        <location filename="../preferences.ui" line="1488"/>
+        <location filename="../preferences.ui" line="1498"/>
+        <location filename="../preferences.ui" line="1521"/>
+        <source>Browse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1196"/>
         <source>New broadcast message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1878"/>
+        <location filename="../preferences.ui" line="1321"/>
+        <source>Voice activation enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1344"/>
+        <source>Voice activation disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1966"/>
         <source>Bitrate</source>
         <translation>Przepływność</translation>
     </message>
@@ -3450,7 +3617,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="852"/>
-        <location filename="../preferencesdlg.cpp" line="827"/>
+        <location filename="../preferencesdlg.cpp" line="833"/>
         <source>Sound System</source>
         <translation>System audio</translation>
     </message>
@@ -3525,7 +3692,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1120"/>
-        <location filename="../preferences.ui" line="1964"/>
+        <location filename="../preferences.ui" line="2052"/>
         <source>&amp;Default</source>
         <translation>&amp;Domyślne</translation>
     </message>
@@ -3536,71 +3703,69 @@ Should these settings be applied?</source>
         <translation>Dźwięki powiadomień</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1353"/>
+        <location filename="../preferences.ui" line="1426"/>
         <source>New user</source>
         <translation>Nowy użytkownik</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1386"/>
+        <location filename="../preferences.ui" line="1462"/>
         <source>User removed</source>
         <translation>Użytkownik usunięty</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1197"/>
+        <location filename="../preferences.ui" line="1203"/>
         <source>Server lost</source>
         <translation>Połączenie z serwerem utracone</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1213"/>
+        <location filename="../preferences.ui" line="1219"/>
         <source>New user message</source>
         <translation>Nowa wiadomość od użytkownika</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1373"/>
+        <location filename="../preferences.ui" line="1449"/>
         <source>New channel message</source>
         <translation>Nowa wiadomość kanału</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1251"/>
+        <location filename="../preferences.ui" line="1269"/>
         <source>Hotkey pressed</source>
         <translation>Skrót klawiszowy naciśnięty</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1423"/>
+        <location filename="../preferences.ui" line="1508"/>
         <source>Channel silent</source>
         <translation>Kanał wyciszony</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1261"/>
+        <location filename="../preferences.ui" line="1279"/>
         <source>Files updated</source>
         <translation>Pliki zaktualizowane</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1343"/>
+        <location filename="../preferences.ui" line="1416"/>
         <source>File transfer complete</source>
         <translation>Transfer plików zakończony</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1290"/>
+        <location filename="../preferences.ui" line="1308"/>
         <source>New video session</source>
         <translation>Nowa sesja wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1274"/>
+        <location filename="../preferences.ui" line="1292"/>
         <source>New desktop session</source>
         <translation>Nowa sesja udostępnienia pulpitu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1180"/>
+        <location filename="../preferences.ui" line="1186"/>
         <source>User entered question-mode</source>
         <translation>Użytkownik wszedł w tryb zapytania</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="497"/>
         <location filename="../preferences.ui" line="709"/>
-        <location filename="../preferences.ui" line="1230"/>
-        <location filename="../preferences.ui" line="1237"/>
-        <location filename="../preferences.ui" line="1727"/>
+        <location filename="../preferences.ui" line="1815"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -3625,114 +3790,114 @@ Should these settings be applied?</source>
         <translation>Włącz zapobieganie szumom mikrofonu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1330"/>
+        <location filename="../preferences.ui" line="1403"/>
         <source>Desktop access request</source>
         <translation>Prośba o dostęp do pulpitu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1462"/>
+        <location filename="../preferences.ui" line="1550"/>
         <source>Shortcuts</source>
         <translation>Skróty</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1468"/>
+        <location filename="../preferences.ui" line="1556"/>
         <source>Keyboard Shortcuts</source>
         <translation>Skróty klawiszowe</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1476"/>
+        <location filename="../preferences.ui" line="1564"/>
         <source>Enable/disable voice activation</source>
         <translation>Włącz/wyłącz aktywację głosem</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1503"/>
+        <location filename="../preferences.ui" line="1591"/>
         <source>Increase volume</source>
         <translation>Zwiększ głośność</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1530"/>
+        <location filename="../preferences.ui" line="1618"/>
         <source>Lower volume</source>
         <translation>Zmniejsz głośność</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1557"/>
+        <location filename="../preferences.ui" line="1645"/>
         <source>Enable/disable mute all</source>
         <translation>Włącz/wyłącz wyciszenie wszystkiego</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1584"/>
+        <location filename="../preferences.ui" line="1672"/>
         <source>Increase microphone gain</source>
         <translation>Zwiększ wzmicnienie mikrofonu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1611"/>
+        <location filename="../preferences.ui" line="1699"/>
         <source>Lower microphone gain</source>
         <translation>Zmniejsz wzmocnienie mikrofonu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1638"/>
+        <location filename="../preferences.ui" line="1726"/>
         <source>Enable/disable video transmission</source>
         <translation>Włącz/wyłącz transmisję wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1651"/>
+        <location filename="../preferences.ui" line="1739"/>
         <source>Setup Keys</source>
         <translation>Ustawienia klawiszy</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="680"/>
-        <location filename="../preferences.ui" line="1680"/>
+        <location filename="../preferences.ui" line="1768"/>
         <source>Video Capture</source>
         <translation>Przechwytywanie wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1686"/>
+        <location filename="../preferences.ui" line="1774"/>
         <source>Video Capture Settings</source>
         <translation>Ustawienia przechwytywania wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1692"/>
+        <location filename="../preferences.ui" line="1780"/>
         <source>Video Capture Device</source>
         <translation>Urządzenia przechwytywania wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1712"/>
+        <location filename="../preferences.ui" line="1800"/>
         <source>Video Resolution</source>
         <translation>Rozdzielczość wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1738"/>
+        <location filename="../preferences.ui" line="1826"/>
         <source>Image Format</source>
         <translation>Format obrazu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1745"/>
+        <location filename="../preferences.ui" line="1833"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1752"/>
+        <location filename="../preferences.ui" line="1840"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1759"/>
+        <location filename="../preferences.ui" line="1847"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1783"/>
+        <location filename="../preferences.ui" line="1871"/>
         <source>Test Selected</source>
         <translation>Testuj wybrane</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1811"/>
-        <location filename="../preferences.ui" line="1814"/>
+        <location filename="../preferences.ui" line="1899"/>
+        <location filename="../preferences.ui" line="1902"/>
         <source>Video Codec Settings</source>
         <translation>Ustawienia kodeka wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1822"/>
+        <location filename="../preferences.ui" line="1910"/>
         <source>Codec</source>
         <translation>Kodek</translation>
     </message>
@@ -3745,49 +3910,49 @@ Should these settings be applied?</source>
         <translation type="obsolete">przepustowość</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="297"/>
+        <location filename="../preferencesdlg.cpp" line="301"/>
         <source>Default Input Device</source>
         <translation>Domyślne urządzenie wejściowe</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="331"/>
+        <location filename="../preferencesdlg.cpp" line="335"/>
         <source>Default Output Device</source>
         <translation>Domyślne urządzenie wyjściowe</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="315"/>
-        <location filename="../preferencesdlg.cpp" line="346"/>
+        <location filename="../preferencesdlg.cpp" line="319"/>
+        <location filename="../preferencesdlg.cpp" line="350"/>
         <source>No Sound Device</source>
         <translation>Brak urządzenia audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="404"/>
+        <location filename="../preferencesdlg.cpp" line="408"/>
         <source>Open Wave File</source>
         <translation>Otwórz plik wav</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="406"/>
+        <location filename="../preferencesdlg.cpp" line="410"/>
         <source>Wave files (*.wav)</source>
         <translation>Pliki *.wav</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="711"/>
-        <location filename="../preferencesdlg.cpp" line="718"/>
+        <location filename="../preferencesdlg.cpp" line="717"/>
+        <location filename="../preferencesdlg.cpp" line="724"/>
         <source>Windows Firewall</source>
         <translation>Zapora systemu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="712"/>
+        <location filename="../preferencesdlg.cpp" line="718"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>Błąd dodawania %1 do lity wyjątków Zapory systemu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="719"/>
+        <location filename="../preferencesdlg.cpp" line="725"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>Błąd usuwania %1 z lity wyjątków Zapory systemu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1136"/>
+        <location filename="../preferencesdlg.cpp" line="1144"/>
         <source>Sound Initialization</source>
         <translation>Inicjalizacja dźwięku</translation>
     </message>
@@ -3808,36 +3973,36 @@ Should these settings be applied?</source>
         <translation type="obsolete">nie można uruchomić tłumienia echa</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="930"/>
-        <location filename="../preferencesdlg.cpp" line="942"/>
+        <location filename="../preferencesdlg.cpp" line="938"/>
+        <location filename="../preferencesdlg.cpp" line="950"/>
         <source>Video Device</source>
         <translation>Urządzenie wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="931"/>
-        <location filename="../preferencesdlg.cpp" line="943"/>
-        <location filename="../preferencesdlg.cpp" line="1487"/>
+        <location filename="../preferencesdlg.cpp" line="939"/>
+        <location filename="../preferencesdlg.cpp" line="951"/>
+        <location filename="../preferencesdlg.cpp" line="1509"/>
         <source>Failed to initialize video device</source>
         <translation>Nie można uruchomić urządzenia wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1020"/>
+        <location filename="../preferencesdlg.cpp" line="1028"/>
         <source>Max Input Channels %1</source>
         <translation>Maksymalna liczba kanałów wejściowych %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1022"/>
-        <location filename="../preferencesdlg.cpp" line="1045"/>
+        <location filename="../preferencesdlg.cpp" line="1030"/>
+        <location filename="../preferencesdlg.cpp" line="1053"/>
         <source>Sample Rates:</source>
         <translation>Szybkość próbkowania:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1043"/>
+        <location filename="../preferencesdlg.cpp" line="1051"/>
         <source>Max Output Channels %1</source>
         <translation>Maksymalna liczba kanałów wyjściowych %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1073"/>
+        <location filename="../preferencesdlg.cpp" line="1081"/>
         <source>Refresh Sound Devices</source>
         <translation>Odśwież urządzenia audio</translation>
     </message>
@@ -3846,27 +4011,27 @@ Should these settings be applied?</source>
         <translation type="obsolete">Aby odświeżyć urządzenia audio klient musi być rozłączony</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1074"/>
+        <location filename="../preferencesdlg.cpp" line="1082"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Nie można zrestartować systemu audio. Proszę zrestartować aplikację.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1137"/>
+        <location filename="../preferencesdlg.cpp" line="1145"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Nie można uruchomić nowego urządzenia audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1445"/>
+        <location filename="../preferencesdlg.cpp" line="1467"/>
         <source>Custom video format</source>
         <translation>Niestandardowy format wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1539"/>
+        <location filename="../preferencesdlg.cpp" line="1561"/>
         <source>Default Video Capture</source>
         <translation>Domyślne urządzenie przechwytywania wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1540"/>
+        <location filename="../preferencesdlg.cpp" line="1562"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Nie można znaleźć preferowanych ustawień urządzenia przechwytywania wideo</translation>
     </message>
@@ -3904,7 +4069,7 @@ Should these settings be applied?</source>
         <translation type="unfinished">Nie można zainicjalizować domyślnego urządzenia audio</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="1601"/>
+        <location filename="../common.cpp" line="1607"/>
         <source>Conference</source>
         <translation>Konferencja</translation>
     </message>
@@ -4480,10 +4645,10 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="223"/>
-        <location filename="../streammediafiledlg.cpp" line="245"/>
-        <location filename="../streammediafiledlg.cpp" line="257"/>
-        <location filename="../streammediafiledlg.cpp" line="270"/>
-        <location filename="../streammediafiledlg.cpp" line="307"/>
+        <location filename="../streammediafiledlg.cpp" line="242"/>
+        <location filename="../streammediafiledlg.cpp" line="254"/>
+        <location filename="../streammediafiledlg.cpp" line="267"/>
+        <location filename="../streammediafiledlg.cpp" line="304"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4545,7 +4710,7 @@ Should these settings be applied?</source>
         <translation>&amp;anuluj</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="132"/>
+        <location filename="../streammediafiledlg.cpp" line="130"/>
         <source>Open Media File</source>
         <translation>Otwórz plik z mediami</translation>
     </message>
@@ -4554,87 +4719,87 @@ Should these settings be applied?</source>
         <translation type="obsolete">Pliki z mediami (*.*)</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="67"/>
+        <location filename="../streammediafiledlg.cpp" line="59"/>
         <source>No Audio Preprocessor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="68"/>
+        <location filename="../streammediafiledlg.cpp" line="60"/>
         <source>TeamTalk Audio Preprocessor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="69"/>
+        <location filename="../streammediafiledlg.cpp" line="61"/>
         <source>Speex DSP Audio Preprocessor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="87"/>
+        <location filename="../streammediafiledlg.cpp" line="79"/>
         <source>No video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="134"/>
+        <location filename="../streammediafiledlg.cpp" line="132"/>
         <source>Media files %1</source>
         <translation>Plik multimedialny %1</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="164"/>
+        <location filename="../streammediafiledlg.cpp" line="161"/>
         <source>Stereo</source>
         <translation>Stereo</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="166"/>
+        <location filename="../streammediafiledlg.cpp" line="163"/>
         <source>Mono</source>
         <translation>Mono</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="168"/>
+        <location filename="../streammediafiledlg.cpp" line="165"/>
         <source>%1 audio channels</source>
         <translation>%1 kanały audio</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="170"/>
+        <location filename="../streammediafiledlg.cpp" line="167"/>
         <source>%1 Hz, %2</source>
         <translation>%1 Hz, %2</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="173"/>
-        <location filename="../streammediafiledlg.cpp" line="180"/>
+        <location filename="../streammediafiledlg.cpp" line="170"/>
+        <location filename="../streammediafiledlg.cpp" line="177"/>
         <source>Unknown format</source>
         <translation>Nieznany format</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="178"/>
+        <location filename="../streammediafiledlg.cpp" line="175"/>
         <source>%1x%2 %3 FPS</source>
         <translation>%1x%2 %3 FPS</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="257"/>
-        <location filename="../streammediafiledlg.cpp" line="270"/>
-        <location filename="../streammediafiledlg.cpp" line="307"/>
+        <location filename="../streammediafiledlg.cpp" line="254"/>
+        <location filename="../streammediafiledlg.cpp" line="267"/>
+        <location filename="../streammediafiledlg.cpp" line="304"/>
         <source>Failed to play media file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="315"/>
+        <location filename="../streammediafiledlg.cpp" line="312"/>
         <source>Stream</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="315"/>
+        <location filename="../streammediafiledlg.cpp" line="312"/>
         <source>Failed to stream media file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="359"/>
-        <location filename="../streammediafiledlg.cpp" line="364"/>
+        <location filename="../streammediafiledlg.cpp" line="356"/>
+        <location filename="../streammediafiledlg.cpp" line="361"/>
         <source>Audio Preprocessor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="359"/>
-        <location filename="../streammediafiledlg.cpp" line="364"/>
+        <location filename="../streammediafiledlg.cpp" line="356"/>
+        <location filename="../streammediafiledlg.cpp" line="361"/>
         <source>Failed to activate audio preprocessor</source>
         <translation type="unfinished"></translation>
     </message>
