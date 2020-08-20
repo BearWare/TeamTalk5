@@ -381,8 +381,10 @@ MainWindow::MainWindow(const QString& cfgfile)
             SLOT(slotUsersSubscriptionsInterceptMediaFile(bool)));
 
     //advanced
-    connect(ui.actionIncreaseVoiceVolume, SIGNAL(triggered()),
-            SLOT(slotUsersAdvancedIncVolumeVoice()));
+    if(ui.channelsWidget->hasFocus() == true) {
+        connect(ui.actionIncreaseVoiceVolume, SIGNAL(triggered()),
+                SLOT(slotUsersAdvancedIncVolumeVoice()));
+    }
     connect(ui.actionLowerVoiceVolume, SIGNAL(triggered()),
             SLOT(slotUsersAdvancedDecVolumeVoice()));
     connect(ui.actionIncreaseMediaFileVolume, SIGNAL(triggered()),
@@ -3810,14 +3812,12 @@ void MainWindow::slotUsersSubscriptionsInterceptMediaFile(bool checked /*=false*
 
 void MainWindow::slotUsersAdvancedIncVolumeVoice()
 {
-    if(ui.channelsWidget->hasFocus() == true) {
-        userids_t users = ui.channelsWidget->selectedUsers();
-        std::for_each(users.begin(), users.end(),
-                      std::bind2nd(std::ptr_fun(&incVolume),
-                                   STREAMTYPE_VOICE));
+    userids_t users = ui.channelsWidget->selectedUsers();
+    std::for_each(users.begin(), users.end(),
+                  std::bind2nd(std::ptr_fun(&incVolume),
+                               STREAMTYPE_VOICE));
 
-        slotUpdateUI();
-    }
+    slotUpdateUI();
 }
 
 void MainWindow::slotUsersAdvancedDecVolumeVoice()
