@@ -3810,54 +3810,38 @@ void MainWindow::slotUsersSubscriptionsInterceptMediaFile(bool checked /*=false*
 
 void MainWindow::slotUsersAdvancedIncVolumeVoice()
 {
-    if(ui.channelsWidget->hasFocus() == true) {
-        userids_t users = ui.channelsWidget->selectedUsers();
-        std::for_each(users.begin(), users.end(),
-                      std::bind2nd(std::ptr_fun(&incVolume),
-                                   STREAMTYPE_VOICE));
-        slotUpdateUI();
-    } else {
-        ui.actionIncreaseVoiceVolume->setEnabled(false);
-    }
+    userids_t users = ui.channelsWidget->selectedUsers();
+    std::for_each(users.begin(), users.end(),
+                  std::bind2nd(std::ptr_fun(&incVolume),
+                               STREAMTYPE_VOICE));
+    slotUpdateUI();
 }
 
 void MainWindow::slotUsersAdvancedDecVolumeVoice()
 {
-    if(ui.channelsWidget->hasFocus() == true) {
-        userids_t users = ui.channelsWidget->selectedUsers();
-        std::for_each(users.begin(), users.end(),
-                      std::bind2nd(std::ptr_fun(&decVolume),
-                                   STREAMTYPE_VOICE));
-        slotUpdateUI();
-    } else {
-        ui.actionLowerVoiceVolume->setEnabled(false);
-    }
+    userids_t users = ui.channelsWidget->selectedUsers();
+    std::for_each(users.begin(), users.end(),
+                  std::bind2nd(std::ptr_fun(&decVolume),
+                               STREAMTYPE_VOICE));
+    slotUpdateUI();
 }
 
 void MainWindow::slotUsersAdvancedIncVolumeMediaFile()
 {
-    if(ui.channelsWidget->hasFocus() == true) {
-        userids_t users = ui.channelsWidget->selectedUsers();
-        std::for_each(users.begin(), users.end(), 
-                      std::bind2nd(std::ptr_fun(&incVolume),
-                                   STREAMTYPE_MEDIAFILE_AUDIO));
-        slotUpdateUI();
-    } else {
-        ui.actionIncreaseMediaFileVolume->setEnabled(false);
-    }
+    userids_t users = ui.channelsWidget->selectedUsers();
+    std::for_each(users.begin(), users.end(), 
+                  std::bind2nd(std::ptr_fun(&incVolume),
+                               STREAMTYPE_MEDIAFILE_AUDIO));
+    slotUpdateUI();
 }
 
 void MainWindow::slotUsersAdvancedDecVolumeMediaFile()
 {
-    if(ui.channelsWidget->hasFocus() == true) {
-        userids_t users = ui.channelsWidget->selectedUsers();
-        std::for_each(users.begin(), users.end(), 
-                      std::bind2nd(std::ptr_fun(&decVolume),
-                                   STREAMTYPE_MEDIAFILE_AUDIO));
-        slotUpdateUI();
-    } else {
-        ui.actionLowerMediaFileVolume->setEnabled(false);
-    }
+    userids_t users = ui.channelsWidget->selectedUsers();
+    std::for_each(users.begin(), users.end(), 
+                  std::bind2nd(std::ptr_fun(&decVolume),
+                               STREAMTYPE_MEDIAFILE_AUDIO));
+    slotUpdateUI();
 }
 
 void MainWindow::slotUsersAdvancedStoreForMove()
