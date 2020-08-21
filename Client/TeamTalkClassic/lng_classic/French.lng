@@ -801,7 +801,7 @@
     <item id="32877">Sélectionner pour déplacer\tCTRL-Alt-X</item>
     <item id="32878">Déplacer l&apos;utilisateur\tCTRL-Alt-V</item>
     <item id="32882">Utilisateurs banni\tCTRL-Maj-B</item>
-    <item id="32885">Exc&amp;lure et bannir\tCTRL-Maj-K</item>
+    <item id="32885">Exc&amp;lure et bannir\tCTRL-Alt-B</item>
     <item id="32888">Enregistrer les conversations\tCTRL-Alt-A</item>
     <item id="32890">Boîte de dialogue de déplacement de l&apos;utilisateur\tCTRL-Alt-M</item>
     <item id="32892">Messages utilisateur\tCTRL-1</item>
@@ -820,7 +820,7 @@
     <item id="32905">Exclure\tCTRL-K</item>
     <item id="32906">Exclure et bannir\tCTRL-Maj-K</item>
     <item id="32907">Définir comme opérateur de canal\tCTRL-O</item>
-    <item id="32908">Envoyer un message général\tCTRL-Alt-B</item>
+    <item id="32908">Envoyer un message général\tCTRL-Maj-E</item>
     <item id="32909">Activer la transmission vidéo\tCTRL-Maj-V</item>
     <item id="32914">Bureau\tCTRL-6</item>
     <item id="32915">Intercepter &amp;le bureau\tCTRL-Maj-6</item>
