@@ -821,7 +821,7 @@
     <item id="32924">&amp;Dopusti pristup radnoj površini\tCtrl+7</item>
     <item id="32925">&amp;Zahtjevaj pristup radnoj površini</item>
     <item id="32928">&amp;Utišaj glas\tCtrl+Shift+M</item>
-    <item id="32929">Utišaj multimedijalnu &amp;datoteku\tCtrl+Alt+M</item>
+    <item id="32929">Utišaj multimedijalnu &amp;datoteku\tCtrl+Shift+Alt+M</item>
     <item id="32930">&amp;Istjeraj s kanala\tCtrl+K</item>
     <item id="32931">Istjeraj sa &amp;Poslužitelja\tCtrl+Alt+K</item>
     <item id="32932">&amp;Povećaj glasnoću glasa)\tCtrl+Y</item>

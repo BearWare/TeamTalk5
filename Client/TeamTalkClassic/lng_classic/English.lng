@@ -831,7 +831,7 @@
     <item id="32924">Allow &amp;Desktop Access\tCtrl+7</item>
     <item id="32925">&amp;Request Desktop Access</item>
     <item id="32928">M&amp;ute Voice\tCtrl+Shift+M</item>
-    <item id="32929">Mute Media &amp;File\tCtrl+Alt+M</item>
+    <item id="32929">Mute Media &amp;File\tCtrl+Shift+Alt+M</item>
     <item id="32930">&amp;Kick From Channel\tCtrl+K</item>
     <item id="32931">Kick From &amp;Server\tCtrl+Alt+K</item>
     <item id="32932">&amp;Increase Voice Volume\tCtrl+Y</item>

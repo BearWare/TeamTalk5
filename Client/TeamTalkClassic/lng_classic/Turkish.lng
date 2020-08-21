@@ -824,7 +824,7 @@
     <item id="32924">&amp;Masaüstü Erişimine izin ver\tCtrl+7</item>
     <item id="32925">&amp;Masaüstü erişimi için istek gönder</item>
     <item id="32928">&amp;Sesi Kapat\tCtrl+Shift+M</item>
-    <item id="32929">&amp;Medya Sesini Kapat\tCtrl+Alt+M</item>
+    <item id="32929">&amp;Medya Sesini Kapat\tCtrl+Shift+Alt+M</item>
     <item id="32930">&amp;Kanal&apos;dan At\tCtrl+K</item>
     <item id="32931">&amp;Sunucu&apos;dan at\tCtrl+Alt+K</item>
     <item id="32932">&amp;Sesi Artır (%10)\tCtrl+Y</item>

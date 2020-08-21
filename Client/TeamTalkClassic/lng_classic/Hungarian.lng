@@ -447,7 +447,7 @@
     <item id="32924">Asztali hozzáférés &amp;engedélyezése\tCtrl+7</item>
     <item id="32925">Asztali hozzáférés &amp;kérése</item>
     <item id="32928">Hang és &amp;némítás\tCtrl+Shift+M</item>
-    <item id="32929">&amp;Médiafájl némítása\tCtrl+Alt+M</item>
+    <item id="32929">&amp;Médiafájl némítása\tCtrl+Shift+Alt+M</item>
     <item id="32930">&amp;Kidobás a szobából\tCtrl+K</item>
     <item id="32931">Kidobás a &amp;szerverről</item>
     <item id="32932">Beszédhang növelése\tCtrl+Y</item>

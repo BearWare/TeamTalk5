@@ -554,7 +554,7 @@
     <item id="32924">Разрешить Доступ к &amp;Рабочему столу\tCtrl+7</item>
     <item id="32925">&amp;Запрос Доступа к Рабочему столу</item>
     <item id="32928">В&amp;ыключить Голос\tCtrl+Shift+M</item>
-    <item id="32929">Выключить Медиа &amp;Файл\tCtrl+Alt+M</item>
+    <item id="32929">Выключить Медиа &amp;Файл\tCtrl+Shift+Alt+M</item>
     <item id="32930">&amp;Выгнать Из Канала\tCtrl+K</item>
     <item id="32931">Выгнать С &amp;Сервера\tCtrl+Alt+K</item>
     <item id="32932">&amp;Увеличить Громкость Голоса\tCtrl+Y</item>
