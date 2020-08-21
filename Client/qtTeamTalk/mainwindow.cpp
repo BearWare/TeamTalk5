@@ -3673,7 +3673,7 @@ void MainWindow::slotUsersMuteVoice(bool checked /*=false */)
 //    foreach(int userid, ui.channelsWidget->selectedUsers())
     int userid = ui.channelsWidget->selectedUser();
 //    slotUsersMuteVoice(userid, checked);
-    user user;
+    User user;
     if( TT_GetUser(ttInst, userid, &user) )
     {
         TT_SetUserMute(ttInst, userid, STREAMTYPE_VOICE,
