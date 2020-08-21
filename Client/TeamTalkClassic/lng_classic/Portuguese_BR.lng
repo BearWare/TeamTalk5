@@ -810,9 +810,9 @@
     <item id="32903">Estatísticas do servidor\tShift+F9</item>
     <item id="32904">Usuários conectados\tCtrl+Shift+U</item>
     <item id="32905">&amp;Expulsar\tCtrl+K</item>
-    <item id="32906">Expulsar e banir\tCtrl+Shift+K</item>
+    <item id="32906">Expulsar e banir\tCtrl+Alt+B</item>
     <item id="32907">&amp;Tornar operador\tCtrl+O</item>
-    <item id="32908">Mensagem global\tCtrl+Alt+B</item>
+    <item id="32908">Mensagem global\tCtrl+Shift+E</item>
     <item id="32909">Ativar transmissão de vídeo\tCtrl+Shift+V</item>
     <item id="32914">&amp;Tela\tCtrl+6</item>
     <item id="32915">Interceptar tela\tCtrl+Shift+6</item>

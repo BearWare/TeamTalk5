@@ -1495,7 +1495,7 @@
     <string>Kick and &amp;Ban From Server</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+K</string>
+    <string notr="true">Ctrl+Alt+B</string>
    </property>
   </action>
   <action name="actionOp">
@@ -1698,7 +1698,7 @@
     <string>&amp;Broadcast Message</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Alt+B</string>
+    <string notr="true">Ctrl+Shift+E</string>
    </property>
   </action>
   <action name="actionIncreaseVoiceVolume">

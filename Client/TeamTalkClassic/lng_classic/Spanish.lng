@@ -573,9 +573,9 @@
     <item id="32903">Estadísticas del Servidor\tShift+F9</item>
     <item id="32904">Usuarios conectados\tCtrl+Shift+U</item>
     <item id="32905">&amp;Expulsar\tCtrl+K</item>
-    <item id="32906">Expulsar y &amp;Excluir\tCtrl+Shift+K</item>
+    <item id="32906">Expulsar y &amp;Excluir\tCtrl+Alt+B</item>
     <item id="32907">&amp;Op\tCtrl+O</item>
-    <item id="32908">Transmitir mensaje\tCtrl+Alt+B</item>
+    <item id="32908">Transmitir mensaje\tCtrl+Shift+E</item>
     <item id="32909">Habilitar la transmisión de vídeo\tCtrl+Shift+V</item>
     <item id="32914">&amp;Escritorio\tCtrl+6</item>
     <item id="32915">Intercepción para el escritorio\tCtrl+Shift+6</item>

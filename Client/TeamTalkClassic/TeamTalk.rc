@@ -1610,7 +1610,7 @@ BEGIN
             MENUITEM "Kick and Ban From &Channel\tCtrl+B", ID_KICK_KICKANDBANFROMCHANNEL
             MENUITEM SEPARATOR
             MENUITEM "Kick From &Server\tCtrl+Alt+K", ID_USERS_KICKFROMSERVER
-            MENUITEM "Kick and &Ban From Server\tCtrl+Shift+K", ID_USERS_KICKANDBAN
+            MENUITEM "Kick and &Ban From Server\tCtrl+Alt+K", ID_USERS_KICKANDBAN
         END
         POPUP "&Subscriptions"
         BEGIN
@@ -1687,7 +1687,7 @@ BEGIN
         MENUITEM "&Banned Users\tCtrl+Shift+B", ID_SERVER_LISTBANNEDUSERS
         MENUITEM "&Online Users\tCtrl+Shift+U", ID_SERVER_ONLINEUSERS
         MENUITEM SEPARATOR
-        MENUITEM "B&roadcast Message\tCtrl+Alt+B", ID_SERVER_BROADCASTMESSAGE
+        MENUITEM "B&roadcast Message\tCtrl+Shift+E", ID_SERVER_BROADCASTMESSAGE
         MENUITEM SEPARATOR
         MENUITEM "Server &Properties\tF9",      ID_SERVER_SERVERPROPERTIES
         MENUITEM "S&ave Configuration\tCtrl+Shift+S", ID_SERVER_SAVECONFIGURATION

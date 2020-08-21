@@ -541,9 +541,9 @@
     <item id="32903">Статистика С&amp;ервера\tShift+F9</item>
     <item id="32904">&amp;Пользователи Онлайн\tCtrl+Shift+U</item>
     <item id="32905">&amp;Выгнать\tCtrl+K</item>
-    <item id="32906">Выгнать и &amp;Заблокировать\tCtrl+Shift+K</item>
+    <item id="32906">Выгнать и &amp;Заблокировать\tCtrl+Alt+B</item>
     <item id="32907">&amp;Передать права Оператора\tCtrl+O</item>
-    <item id="32908">Отправить С&amp;етевое Сообщение\tCtrl+Alt+B</item>
+    <item id="32908">Отправить С&amp;етевое Сообщение\tCtrl+Shift+E</item>
     <item id="32909">Разрешить П&amp;ередачу Видео\tCtrl+Shift+V</item>
     <item id="32914">&amp;Рабочий стол\tCtrl+6</item>
     <item id="32915">Перехватить Р&amp;абочий стол\tCtrl+Shift+6</item>

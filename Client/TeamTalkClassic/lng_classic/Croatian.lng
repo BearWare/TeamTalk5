@@ -808,9 +808,9 @@
     <item id="32903">&amp;Statistike Servera\tShift+F9</item>
     <item id="32904">&amp;Korisnici koji su na mreži\tCtrl+Shift+U</item>
     <item id="32905">&amp;Protjeraj\tCtrl+K</item>
-    <item id="32906">Istjeraj i &amp;baniraj\tCtrl+Shift+K</item>
+    <item id="32906">Istjeraj i &amp;baniraj\tCtrl+Alt+B</item>
     <item id="32907">&amp;Op\tCtrl+O</item>
-    <item id="32908">&amp;Javna Poruka\tCtrl+Alt+B</item>
+    <item id="32908">&amp;Javna Poruka\tCtrl+Shift+E</item>
     <item id="32909">&amp;Omogući Video Prijenos\tCtrl+Shift+V</item>
     <item id="32914">&amp;Radna površina\tCtrl+6</item>
     <item id="32915">Prisluškuj &amp;Radnu površinu\tCtrl+Shift+6</item>

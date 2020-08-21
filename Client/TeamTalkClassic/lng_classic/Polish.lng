@@ -503,9 +503,9 @@
     <item id="32903">Statystyki Serwera\tShift+F9</item>
     <item id="32904">Obecnie zalogowani użytkownicy\tCtrl+Shift+U</item>
     <item id="32905">&amp;Wykop\tCtrl+K</item>
-    <item id="32906">Wykop i zbanuj\tCtrl+Shift+K</item>
+    <item id="32906">Wykop i zbanuj\tCtrl+Alt+B</item>
     <item id="32907">&amp;Op\tCtrl+O</item>
-    <item id="32908">Wiadomość administracyjna\tCtrl+Alt+B</item>
+    <item id="32908">Wiadomość administracyjna\tCtrl+Shift+E</item>
     <item id="32909">Włącz transmisję Wideo\tCtrl+Shift+V</item>
     <item id="32914">&amp;Obrazy pulpitu\tCtrl+6</item>
     <item id="32915">Przechwyć obrazy pulpitu\tCtrl+Shift+6</item>

@@ -556,9 +556,9 @@
     <item id="32903">Statistiky &amp;serveru\tShift+F9</item>
     <item id="32904">Přip&amp;ojení uživatelé\tCtrl+Shift+U</item>
     <item id="32905">Vy&amp;kopnout\tCtrl+K</item>
-    <item id="32906">Vykopnout a &amp;zakázat přístup\tCtrl+Shift+K</item>
+    <item id="32906">Vykopnout a &amp;zakázat přístup\tCtrl+Alt+B</item>
     <item id="32907">Udělit právo &amp;operátora\tCtrl+O</item>
-    <item id="32908">Poslat administrátorskou zp&amp;rávu pro celý server\tCtrl+Alt+B</item>
+    <item id="32908">Poslat administrátorskou zp&amp;rávu pro celý server\tCtrl+Shift+E</item>
     <item id="32909">Spustit &amp;video\tCtrl+Shift+V</item>
     <item id="32914">&amp;Sdílená obrazovka\tCtrl+Ž</item>
     <item id="32915">Sledovat sdíl&amp;enou obrazovku\tCtrl+Shift+Ž</item>

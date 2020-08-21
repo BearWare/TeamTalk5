@@ -811,9 +811,9 @@
     <item id="32903">&amp;Sunucu İstatistikleri\tShift+F9</item>
     <item id="32904">&amp;Çevrimiçi Kullanıcılar\tCtrl+Shift+U</item>
     <item id="32905">&amp;At\tCtrl+K</item>
-    <item id="32906">&amp;At ve Girişini yasakla\tCtrl+Shift+K</item>
+    <item id="32906">&amp;At ve Girişini yasakla\tCtrl+Alt+B</item>
     <item id="32907">&amp;Operatör Yetkisi Ver\tCtrl+O</item>
-    <item id="32908">&amp;Mesaj Yayınla\tCtrl+Alt+B</item>
+    <item id="32908">&amp;Mesaj Yayınla\tCtrl+Shift+E</item>
     <item id="32909">&amp;Video iletimini etkinleştir\tCtrl+Shift+V</item>
     <item id="32914">&amp;Masaüstü\tCtrl+6</item>
     <item id="32915">&amp;Masaüstünü takip et\tCtrl+Shift+6</item>
