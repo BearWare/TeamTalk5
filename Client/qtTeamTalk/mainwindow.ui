@@ -1990,7 +1990,7 @@
     <string>Mute Media File</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Alt+Μ</string>
+    <string notr="true">Ctrl+Shift+Alt+M</string>
    </property>
   </action>
   <action name="actionKickFromChannel">
