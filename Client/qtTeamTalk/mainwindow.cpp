@@ -3677,7 +3677,8 @@ void MainWindow::slotUsersMuteVoice(bool checked /*=false */)
         TT_SetUserMute(ttInst, userid, STREAMTYPE_VOICE,
                        !(user.uUserState & USERSTATE_MUTE_VOICE));
     }
-    ui.actionMuteVoice->setChecked(checked);
+//    ui.actionMuteVoice->setChecked(checked);
+    slotUpdateUI();
 }
 
 void MainWindow::slotUsersMuteMediaFile(bool checked /*=false */)
