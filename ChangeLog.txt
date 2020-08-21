@@ -13,12 +13,21 @@ Accessible Windows Client:
 - Status message is now displaying after a hyphen (same behavior with QT Client)
 - Fixed accessible hints on channel list and files-tab
 - CTRL+G now return "Administrator" when it's the case
+- Change some shortcuts:
+ - CTRL+H/Y and CTRL+Shift+H/Y to increase/decrease voice and media files volume of an user
+ - CTRL+Shife+E to send a broadcast message
+ - CTRL+Alt+B to kick and ban
+ - CTRL+Shift+Alt+M to mute/unmute media files of an user
 Default QT Client:
 - Update window title at login with server name
 - Shortcuts to increase/decrease voice and file media volume are now ctrl+9/0 and ctrl+alt+9/0
 - Status mode is now displayed as text for 4 status (Away, Question, Streaming media file, and Webcam)
 - Away is displayed when switching automatically to Away-mode due to inactivity, and also when manually switching to this mode
 - Status mode is now displayed on receiving side (after status message)
+- Change some shortcuts:
+ - CTRL+H/Y and CTRL+Shift+H/Y to increase/decrease voice and media files volume of an user
+ - CTRL+Shife+E to send a broadcast message
+ - CTRL+Alt+B to kick and ban
 
 Version 5.6, 2020/08/04
 Accessible Windows client
