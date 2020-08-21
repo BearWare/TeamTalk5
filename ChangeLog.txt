@@ -11,12 +11,11 @@ Accessible Windows Client:
 - Status mode is now displayed on receiving side (after status message)
 - Status message is now displaying after a hyphen (same behavior with QT Client)
 - Fixed accessible hints on channel list and files-tab
-- CTRL+G now return "Administrator" when it's the case
-- Change some shortcuts:
- - CTRL+H/Y and CTRL+Shift+H/Y to increase/decrease voice and media files volume of an user
- - CTRL+Shife+E to send a broadcast message
- - CTRL+Alt+B to kick and ban
- - CTRL+Shift+Alt+M to mute/unmute media files of an user
+- Ctrl+G now return "Administrator" when it's the case
+- Ctrl+H/Y and Ctrl+Shift+H/Y to increase/decrease voice and media files volume of an user
+- Ctrl+Shift+E to send a broadcast message
+- Ctrl+Alt+B to kick and ban
+- Ctrl+Shift+Alt+M to mute/unmute media files of an user
 Default QT Client:
 - Update window title at login with server name
 - Status mode is now displayed for Away, Question and Streaming media file

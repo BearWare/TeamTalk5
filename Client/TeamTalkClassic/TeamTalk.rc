@@ -1410,33 +1410,33 @@ END
 IDR_ACCELERATOR2 ACCELERATORS
 BEGIN
     "1",            ID_SUBSCRIPTIONS_USERMESSAGES, VIRTKEY, CONTROL, NOINVERT
-    VK_NUMPAD1,            ID_SUBSCRIPTIONS_USERMESSAGES, VIRTKEY, CONTROL, NOINVERT
+    VK_NUMPAD1,     ID_SUBSCRIPTIONS_USERMESSAGES, VIRTKEY, CONTROL, NOINVERT
     "1",            ID_SUBSCRIPTIONS_INTERCEPTUSERMESSAGES, VIRTKEY, SHIFT, CONTROL, NOINVERT
-    VK_NUMPAD1,            ID_SUBSCRIPTIONS_INTERCEPTUSERMESSAGES, VIRTKEY, SHIFT, CONTROL, NOINVERT
+    VK_NUMPAD1,     ID_SUBSCRIPTIONS_INTERCEPTUSERMESSAGES, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "2",            ID_SUBSCRIPTIONS_CHANNELMESSAGES, VIRTKEY, CONTROL, NOINVERT
-    VK_NUMPAD2,            ID_SUBSCRIPTIONS_CHANNELMESSAGES, VIRTKEY, CONTROL, NOINVERT
+    VK_NUMPAD2,     ID_SUBSCRIPTIONS_CHANNELMESSAGES, VIRTKEY, CONTROL, NOINVERT
     "2",            ID_SUBSCRIPTIONS_INTERCEPTCHANNELMESSAGES, VIRTKEY, SHIFT, CONTROL, NOINVERT
-    VK_NUMPAD2,            ID_SUBSCRIPTIONS_INTERCEPTCHANNELMESSAGES, VIRTKEY, SHIFT, CONTROL, NOINVERT
+    VK_NUMPAD2,     ID_SUBSCRIPTIONS_INTERCEPTCHANNELMESSAGES, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "3",            ID_SUBSCRIPTIONS_BROADCASTMESSAGES, VIRTKEY, CONTROL, NOINVERT
-    VK_NUMPAD3,            ID_SUBSCRIPTIONS_BROADCASTMESSAGES, VIRTKEY, CONTROL, NOINVERT
+    VK_NUMPAD3,     ID_SUBSCRIPTIONS_BROADCASTMESSAGES, VIRTKEY, CONTROL, NOINVERT
     "4",            ID_SUBSCRIPTIONS_VOICE, VIRTKEY, CONTROL, NOINVERT
-    VK_NUMPAD4,            ID_SUBSCRIPTIONS_VOICE, VIRTKEY, CONTROL, NOINVERT
+    VK_NUMPAD4,     ID_SUBSCRIPTIONS_VOICE, VIRTKEY, CONTROL, NOINVERT
     "4",            ID_SUBSCRIPTIONS_INTERCEPTVOICE, VIRTKEY, SHIFT, CONTROL, NOINVERT
-    VK_NUMPAD4,            ID_SUBSCRIPTIONS_INTERCEPTVOICE, VIRTKEY, SHIFT, CONTROL, NOINVERT
+    VK_NUMPAD4,     ID_SUBSCRIPTIONS_INTERCEPTVOICE, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "5",            ID_SUBSCRIPTIONS_VIDEO, VIRTKEY, CONTROL, NOINVERT
-    VK_NUMPAD5,            ID_SUBSCRIPTIONS_VIDEO, VIRTKEY, CONTROL, NOINVERT
+    VK_NUMPAD5,     ID_SUBSCRIPTIONS_VIDEO, VIRTKEY, CONTROL, NOINVERT
     "5",            ID_SUBSCRIPTIONS_INTERCEPTVIDEO, VIRTKEY, SHIFT, CONTROL, NOINVERT
-    VK_NUMPAD5,            ID_SUBSCRIPTIONS_INTERCEPTVIDEO, VIRTKEY, SHIFT, CONTROL, NOINVERT
+    VK_NUMPAD5,     ID_SUBSCRIPTIONS_INTERCEPTVIDEO, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "6",            ID_SUBSCRIPTIONS_DESKTOP, VIRTKEY, CONTROL, NOINVERT
-    VK_NUMPAD6,            ID_SUBSCRIPTIONS_DESKTOP, VIRTKEY, CONTROL, NOINVERT
+    VK_NUMPAD6,     ID_SUBSCRIPTIONS_DESKTOP, VIRTKEY, CONTROL, NOINVERT
     "6",            ID_SUBSCRIPTIONS_INTERCEPTDESKTOP, VIRTKEY, SHIFT, CONTROL, NOINVERT
-    VK_NUMPAD6,            ID_SUBSCRIPTIONS_INTERCEPTDESKTOP, VIRTKEY, SHIFT, CONTROL, NOINVERT
+    VK_NUMPAD6,     ID_SUBSCRIPTIONS_INTERCEPTDESKTOP, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "7",            ID_SUBSCRIPTIONS_DESKTOPACCES, VIRTKEY, CONTROL, NOINVERT
-    VK_NUMPAD7,            ID_SUBSCRIPTIONS_DESKTOPACCES, VIRTKEY, CONTROL, NOINVERT
+    VK_NUMPAD7,     ID_SUBSCRIPTIONS_DESKTOPACCES, VIRTKEY, CONTROL, NOINVERT
     "8",            ID_SUBSCRIPTIONS_MEDIAFILESTREAM, VIRTKEY, CONTROL, NOINVERT
-    VK_NUMPAD8,            ID_SUBSCRIPTIONS_MEDIAFILESTREAM, VIRTKEY, CONTROL, NOINVERT
+    VK_NUMPAD8,     ID_SUBSCRIPTIONS_MEDIAFILESTREAM, VIRTKEY, CONTROL, NOINVERT
     "8",            ID_SUBSCRIPTIONS_INTERCEPTMEDIAFILESTREAM, VIRTKEY, SHIFT, CONTROL, NOINVERT
-    VK_NUMPAD8,            ID_SUBSCRIPTIONS_INTERCEPTMEDIAFILESTREAM, VIRTKEY, SHIFT, CONTROL, NOINVERT
+    VK_NUMPAD8,     ID_SUBSCRIPTIONS_INTERCEPTMEDIAFILESTREAM, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "A",            ID_USERS_STORECONVERSATIONSTODISK, VIRTKEY, CONTROL, ALT, NOINVERT
     "A",            ID_ME_ENABLEVOICEACTIVATION, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "B",            ID_KICK_KICKANDBANFROMCHANNEL, VIRTKEY, CONTROL, NOINVERT
@@ -1458,7 +1458,7 @@ BEGIN
     "M",            ID_USERS_MUTEALL,       VIRTKEY, CONTROL, NOINVERT
     "M",            ID_ADVANCED_MOVEUSERDIALOG, VIRTKEY, CONTROL, ALT, NOINVERT
     "M",            ID_USERS_MUTE_VOICE,    VIRTKEY, SHIFT, CONTROL, NOINVERT
-    "M",            ID_USERS_MUTE_MEDIAFILE,    VIRTKEY, SHIFT, CONTROL, ALT, NOINVERT
+    "M",            ID_USERS_MUTE_MEDIAFILE, VIRTKEY, SHIFT, CONTROL, ALT, NOINVERT
     "N",            ID_CLIENT_NEWCLIENTINSTANCE, VIRTKEY, CONTROL, NOINVERT
     "O",            ID_USERS_OP,            VIRTKEY, CONTROL, NOINVERT
     "P",            ID_USERS_POSITIONUSERS, VIRTKEY, CONTROL, NOINVERT
@@ -1489,10 +1489,10 @@ BEGIN
     VK_F8,          ID_CHANNELS_DELETECHANNEL, VIRTKEY, NOINVERT
     VK_F9,          ID_SERVER_SERVERPROPERTIES, VIRTKEY, NOINVERT
     VK_F9,          ID_SERVER_SERVERSTATISTICS, VIRTKEY, SHIFT, NOINVERT
-    "H",        ID_ADVANCED_LOWERVOLUMEVOICE, VIRTKEY, CONTROL, NOINVERT
-    "H",        ID_ADVANCED_LOWERVOLUMEMEDIAFILE, VIRTKEY, SHIFT, CONTROL, NOINVERT
-    "Y",       ID_ADVANCED_INCVOLUMEVOICE, VIRTKEY, CONTROL, NOINVERT
-    "Y",       ID_ADVANCED_INCVOLUMEMEDIAFILE, VIRTKEY, SHIFT, CONTROL, NOINVERT
+    "H",            ID_ADVANCED_LOWERVOLUMEVOICE, VIRTKEY, CONTROL, NOINVERT
+    "H",            ID_ADVANCED_LOWERVOLUMEMEDIAFILE, VIRTKEY, SHIFT, CONTROL, NOINVERT
+    "Y",            ID_ADVANCED_INCVOLUMEVOICE, VIRTKEY, CONTROL, NOINVERT
+    "Y",            ID_ADVANCED_INCVOLUMEMEDIAFILE, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "W",            ID_ADVANCED_ALLOWVIDEOTRANSMISSION, VIRTKEY, CONTROL, ALT, NOINVERT
     "W",            ID_ADVANCED_ALLOWALLVIDEOTRANSMISSION, VIRTKEY, SHIFT, CONTROL, ALT, NOINVERT
     "X",            ID_ADVANCED_STOREFORMOVE, VIRTKEY, CONTROL, ALT, NOINVERT
@@ -1603,7 +1603,7 @@ BEGIN
         POPUP "M&ute"
         BEGIN
             MENUITEM "M&ute Voice\tCtrl+Shift+M",   ID_USERS_MUTE_VOICE
-            MENUITEM "Mute Media &File\tCtrl+SHIFT+Alt+M", ID_USERS_MUTE_MEDIAFILE
+            MENUITEM "Mute Media &File\tCtrl+Shift+Alt+M", ID_USERS_MUTE_MEDIAFILE
         END
         POPUP "K&ick"
         BEGIN
@@ -1633,10 +1633,10 @@ BEGIN
         END
         POPUP "&Advanced"
         BEGIN
-            MENUITEM "&Increase Voice Volume\tCtrl+Alt+Right", ID_ADVANCED_INCVOLUMEVOICE
-            MENUITEM "&Lower Voice Volume\tCtrl+Alt+Left", ID_ADVANCED_LOWERVOLUMEVOICE
-            MENUITEM "Increase Media &File Volume\tCtrl+Shift+Right", ID_ADVANCED_INCVOLUMEMEDIAFILE
-            MENUITEM "Lower Media File Vo&lume\tCtrl+Shift+Left", ID_ADVANCED_LOWERVOLUMEMEDIAFILE
+            MENUITEM "&Increase Voice Volume\tCtrl+Y", ID_ADVANCED_INCVOLUMEVOICE
+            MENUITEM "&Lower Voice Volume\tCtrl+H", ID_ADVANCED_LOWERVOLUMEVOICE
+            MENUITEM "Increase Media &File Volume\tCtrl+Shift+Y", ID_ADVANCED_INCVOLUMEMEDIAFILE
+            MENUITEM "Lower Media File Vo&lume\tCtrl+Shift+H", ID_ADVANCED_LOWERVOLUMEMEDIAFILE
             MENUITEM SEPARATOR
             MENUITEM "&Store for Move\tCtrl+Alt+X", ID_ADVANCED_STOREFORMOVE
             MENUITEM "&Move User\tCtrl+Alt+V",      ID_ADVANCED_MOVEUSER
@@ -2046,14 +2046,28 @@ BEGIN
     IDS_MUTE_MEDIAFILE      "Mute media file"
     IDS_PASSWORD_PROTECTED  "Password protected"
     IDS_CHANNEL_SELF_JOINED "Joined channel %s"
-    IDS_CHANNEL_ROOT_SELF_JOINED "Joined root channel"
     IDS_SUPPORTS3D          "Output device supports 3D sound"
     IDS_NOSUPPORTS3D        "Output device does not support 3D sound"
     IDS_TESTSELECTED        "Test selected"
     IDS_STOP                "Stop"
     IDS_DEFAULT             "Default"
     IDS_CHANNEL_SELF_LEFT   "Left channel %s"
-    IDS_CHANNEL_ROOT_SELF_LEFT   "Left root channel"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CLASSROOM_ROOT_SELF_JOINED "Joined root classroom channel"
+    IDS_SUBINT_VIDEO        "%s changed subscription ""Intercept Video"" to: %d"
+    IDS_CHANNEL_ROOT_SELF_JOINED "Joined root channel"
+    IDS_SUBINT_DESKTOP      "%s changed subscription ""Intercept Desktop"" to: %d"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SUBINT_MEDIAFILE    "%s changed subscription ""Intercept Media File Stream"" to: %d"
+    IDS_DESKTOPINPUT_GRANTED "%s has granted desktop access"
+    IDS_CHANNEL_ROOT_SELF_LEFT "Left root channel"
+    IDS_DESKTOPINPUT_ACTIVE "%s now has desktop access"
 END
 
 STRINGTABLE
@@ -2085,16 +2099,24 @@ BEGIN
     IDS_CHANGENICKNAME      "Change nickname"
     IDS_CLASSROOMCHANNEL    "Classroom"
     IDS_CLASSROOM_SELF_JOINED "Joined classroom channel %s"
-    IDS_CLASSROOM_ROOT_SELF_JOINED "Joined root classroom channel"
     IDS_FILES               "Files"
     IDS_CHAT                "Chat"
     IDS_CLIENTSETTINGS      "The file %s contains %s setup information.\r\nShould these settings be applied?"
     IDS_USER                "User"
-    IDS_USERADMIN                "Administrator"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
     IDS_CHANNEL             "Channel"
     IDS_VOICELEVEL          "Voice Level"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_USERVIDEOVIDEO      "Video - "
+    IDS_USERVOLUMETITLEWINDOW "Volume for "
+    IDS_VIDEOCAPTUREFAILED  "Failed to start selected device Test Selected"
+    IDS_WEBLOGINFBLOGOUT    "Do Facebook logout?"
+    IDS_WEBLOGINFBLOGIN     "Facebook Login"
+    IDS_USERADMIN           "Administrator"
 END
 
 STRINGTABLE
@@ -2125,7 +2147,6 @@ BEGIN
     IDS_FILEEVENTS          "File events"
     IDS_FILEADD             "File added"
     IDS_FILERM              "File removed"
-    IDS_MENUACTIONS         "Menu actions"
     IDS_RESET               "Reset"
     IDS_BEARWAREAUTHFAIL    "Failed to authenticate"
     IDS_BEARWARETIMEOUT     "Unable to contact BearWare.dk Web Login"
@@ -2134,9 +2155,23 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_SUBINT_MEDIAFILE    "%s changed subscription ""Intercept Media File Stream"" to: %d"
-    IDS_DESKTOPINPUT_GRANTED "%s has granted desktop access"
-    IDS_DESKTOPINPUT_ACTIVE "%s now has desktop access"
+    IDS_UNKNOWNERROR        "An unknown error occurred. Check that the action you\r\nperformed is supported by the server. This error is most\r\nlikely caused by an incompability issue between the server\r\nand your client."
+    IDS_NOLONGERTRANSMIT    "%s can no longer transmit voice!"
+    IDS_CANNOWTRANSMIT      "%s can now transmit voice!"
+    IDS_NOLONGERTRANSMITVIDEO "%s can no longer transmit video input!"
+    IDS_CANNOWTRANSMITVIDEO "%s can now transmit video input!"
+    IDS_NOLONGERTRANSMITDESKTOP "%s can no longer transmit shared desktops!"
+    IDS_CANNOWTRANSMITDESKTOP "%s can now transmit shared desktops!"
+    IDS_NOLONGERTRANSMITMEDIAFILE "%s can no longer transmit media files!"
+    IDS_CANNOWTRANSMITMEDIAFILE "%s can now transmit media files!"
+    IDS_MENUACTIONS         "Menu actions"
+    IDS_FAILEDTOWRITEAUDIOFILE "Failed to write audio file for %s"
+    IDS_FAILEDTOSTARTFILETRANSFER 
+                            "Failed to start file transfer.\r\nFile name: %s"
+    IDS_ERRORSTREAMINGTOCHANNEL "Error streaming media file to channel"
+    IDS_STREAMINGTOCHANNELSTART "Started streaming media file to channel"
+    IDS_STREAMINGTOCHANNELFINISH "Finished streaming media file to channel"
+    IDS_STREAMINGTOCHANNELABORT "Aborted streaming media file to channel"
 END
 
 STRINGTABLE
@@ -2171,12 +2206,6 @@ BEGIN
     IDS_PROPPAGE_SUB_CHANGE "Subscription changes"
     IDS_PROPPAGE_SUB_TXTMSG_PRIV "Private text message subscription"
     IDS_PROPPAGE_SUB_TXTMSG_CHAN "Channel text message subscription"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_SUBINT_VIDEO        "%s changed subscription ""Intercept Video"" to: %d"
-    IDS_SUBINT_DESKTOP      "%s changed subscription ""Intercept Desktop"" to: %d"
 END
 
 STRINGTABLE
@@ -2227,10 +2256,22 @@ STRINGTABLE
 BEGIN
     ID_ME_ENABLEDESKTOPSHARING "Enable desktop sharing"
     ID_CHANNELS_STREAMMEDIAFILETOCHANNEL "Stream media file to channel"
-    IDS_CHANHISTORYLAB "History"
-    IDS_CHANMESSAGELAB "Message"
-    IDS_TREECTRLLAB            "Channels list"
-   IDS_FILESLISTLAB            "Files list"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMDERR_OPENFILE_FAILED "Open file failed"
+    IDS_CMDERR_ACCOUNT_NOT_FOUND "Account not found"
+    IDS_CMDERR_FILE_NOT_FOUND "File not found"
+    IDS_CMDERR_FILE_ALREADY_EXISTS "File already exists"
+    IDS_CMDERR_FILESHARING_DISABLED "File sharing disabled"
+    IDS_CMDERR_CHANNEL_HAS_USERS "Channel has active users"
+    IDS_CMDERR_LOGINSERVICE_UNAVAILABLE "Login service unavailable"
+    IDS_CMDERR_USER_NOT_FOUND "User not found"
+    IDS_CHANHISTORYLAB      "History"
+    IDS_CHANMESSAGELAB      "Message"
+    IDS_TREECTRLLAB         "Channels list"
+    IDS_FILESLISTLAB        "Files list"
 END
 
 STRINGTABLE
@@ -2276,26 +2317,6 @@ BEGIN
     IDS_ADMIN               "Admin"
     IDS_OPPSW               "Operator password"
     IDS_ENTERPSW            "Enter password"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_UNKNOWNERROR        "An unknown error occurred. Check that the action you\r\nperformed is supported by the server. This error is most\r\nlikely caused by an incompability issue between the server\r\nand your client."
-    IDS_NOLONGERTRANSMIT    "%s can no longer transmit voice!"
-    IDS_CANNOWTRANSMIT      "%s can now transmit voice!"
-    IDS_NOLONGERTRANSMITVIDEO "%s can no longer transmit video input!"
-    IDS_CANNOWTRANSMITVIDEO "%s can now transmit video input!"
-    IDS_NOLONGERTRANSMITDESKTOP "%s can no longer transmit shared desktops!"
-    IDS_CANNOWTRANSMITDESKTOP "%s can now transmit shared desktops!"
-    IDS_NOLONGERTRANSMITMEDIAFILE "%s can no longer transmit media files!"
-    IDS_CANNOWTRANSMITMEDIAFILE "%s can now transmit media files!"
-    IDS_FAILEDTOWRITEAUDIOFILE "Failed to write audio file for %s"
-    IDS_FAILEDTOSTARTFILETRANSFER 
-                            "Failed to start file transfer.\r\nFile name: %s"
-    IDS_ERRORSTREAMINGTOCHANNEL "Error streaming media file to channel"
-    IDS_STREAMINGTOCHANNELSTART "Started streaming media file to channel"
-    IDS_STREAMINGTOCHANNELFINISH "Finished streaming media file to channel"
-    IDS_STREAMINGTOCHANNELABORT "Aborted streaming media file to channel"
 END
 
 STRINGTABLE
@@ -2458,15 +2479,6 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_USERVIDEOVIDEO      "Video - "
-    IDS_USERVOLUMETITLEWINDOW "Volume for "
-    IDS_VIDEOCAPTUREFAILED  "Failed to start selected device Test Selected"
-    IDS_WEBLOGINFBLOGOUT    "Do Facebook logout?"
-    IDS_WEBLOGINFBLOGIN     "Facebook Login"
-END
-
-STRINGTABLE
-BEGIN
     IDS_APPTITLEUNRELEASED  " - Unreleased"
     IDS_APPTITLEPROV        "TeamTalk 5 Classic Professional v. "
     IDS_APPTITLEPRO         "TeamTalk 5 Classic Professional"
@@ -2505,18 +2517,6 @@ BEGIN
     IDS_CMDERR_CHANNEL_NOT_FOUND "Channel not found"
     IDS_CMDERR_BAN_NOT_FOUND "Ban not found"
     IDS_CMDERR_FILETRANSFER_NOT_FOUND "File transfer not found"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_CMDERR_OPENFILE_FAILED "Open file failed"
-    IDS_CMDERR_ACCOUNT_NOT_FOUND "Account not found"
-    IDS_CMDERR_FILE_NOT_FOUND "File not found"
-    IDS_CMDERR_FILE_ALREADY_EXISTS "File already exists"
-    IDS_CMDERR_FILESHARING_DISABLED "File sharing disabled"
-    IDS_CMDERR_CHANNEL_HAS_USERS "Channel has active users"
-    IDS_CMDERR_LOGINSERVICE_UNAVAILABLE "Login service unavailable"
-    IDS_CMDERR_USER_NOT_FOUND "User not found"
 END
 
 #endif    // Neutral resources
