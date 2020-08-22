@@ -953,7 +953,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         QString itemtext;
         QString name = getDisplayName(user);
-        itemtext += name;
+        itemtext = name;
         switch (user.nStatusMode & STATUSMODE_MODE)
         {
         case STATUSMODE_AWAY :

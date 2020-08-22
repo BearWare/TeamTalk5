@@ -6,18 +6,16 @@ Accessible Windows Client:
 - Fixed translation for development of WebM VP8 codec on about dialog
 - Update window title at login with server name
 - It's now possible to use numpad keys for subscriptions shortcuts
-- Shortcuts to increase/decrease voice and file media volume are now ctrl+9/0 and ctrl+alt+9/0
 - Status mode is now displaying for 4 status (Away, Question, Streaming media file, and Webcam)
 - Away is displayed when switching automatically to Away-mode due to inactivity, and also when manually switching to this mode
 - Status mode is now displayed on receiving side (after status message)
 - Status message is now displaying after a hyphen (same behavior with QT Client)
 - Fixed accessible hints on channel list and files-tab
-- CTRL+G now return "Administrator" when it's the case
-- Change some shortcuts:
- - CTRL+H/Y and CTRL+Shift+H/Y to increase/decrease voice and media files volume of an user
- - CTRL+Shife+E to send a broadcast message
- - CTRL+Alt+B to kick and ban
- - CTRL+Shift+Alt+M to mute/unmute media files of an user
+- Ctrl+G now return "Administrator" when it's the case
+- Ctrl+H/Y and Ctrl+Shift+H/Y to increase/decrease voice and media files volume of an user
+- Ctrl+Shift+E to send a broadcast message
+- Ctrl+Alt+B to kick and ban
+- Ctrl+Shift+Alt+M to mute/unmute media files of an user
 Default QT Client:
 - Update window title at login with server name
 - Shortcuts to increase/decrease voice and file media volume are now ctrl+9/0 and ctrl+alt+9/0
@@ -45,16 +43,6 @@ Accessible Windows client
 - TTS announces volume changes when using shortcut keys Ctrl+Alt+Left/Right and Ctrl+Shift+Left/Right
 - When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name
-<<<<<<< HEAD
-- Changing behavior of displaying status-mode
- - Status mode is now displaying for 3 status (Away, Question, and Streaming media file)
- - Away is displaying when you switch automatically to this mode due to your inactivity, and also when you manually switch to this mode
- - Status mode is now displaying in receiver side (after your status message), it's not your client who return your status mode message
- - Status message is now displaying after a hyphen, it's uniformizing behavior with QT client
-- Who has removed a file is now announce
-- A lot of others small changes and fixes
-=======
->>>>>>> origin/master
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
@@ -65,15 +53,6 @@ Default Qt client
 - Blank nicknames are set to NoName followed by user ID
 - When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name
-<<<<<<< HEAD
-- Changing behavior of displaying status-mode
- - Status mode is now displaying for 3 status (Away, Question, and Streaming media file)
- - Away is displaying when you switch automatically to this mode due to your inactivity, and also when you manually switch to this mode
- - Status mode is now displaying in receiver side (after your status message), it's not your client who return your status mode message
-- New history events for file addition/deletion, user log in/out and user join/left any channel
-- A lot of others small changes and fixes
-=======
->>>>>>> origin/master
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French language is now supported

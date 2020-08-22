@@ -1033,7 +1033,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     {
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         const RemoteFile& file = msg.remotefile;
-        User user;
         //only update files list if we're not currently logging in or 
         //joining a channel
         cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1043,24 +1042,24 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            QString fileadd = tr("File %1 added") .arg(_Q(file.szFileName));
-            if(_Q(file.szUsername).isEmpty() == false) {
-                TT_GetUserByUsername(ttInst, file.szUsername, &user);
-                if(getDisplayName(user) != mynickname) {
-                    fileadd = fileadd + tr(" by %2") .arg(getDisplayName(user));
-                }
+            QString fileadd = tr("File %1 added").arg(file.szFileName);
+            User user;
+            if (m_host.username != _Q(file.szUsername) &&
+                TT_GetUserByUsername(ttInst, file.szUsername, &user))
+            {
+                fileadd = tr("File %1 added by %2").arg(file.szFileName).arg(getDisplayName(user));
             }
-        addStatusMsg(fileadd);
+            addStatusMsg(fileadd);
         }
 
+        update_ui = true;
     }
-    slotUpdateUI();
     break;
     case CLIENTEVENT_CMD_FILE_REMOVE :
     {
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         const RemoteFile& file = msg.remotefile;
-        User user;
+        User user; 
         //only update files list if we're not currently logging in or 
         //joining a channel
         cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1070,14 +1069,14 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            QString filerem = tr("File %1 removed") .arg(_Q(file.szFileName));
-            if(_Q(file.szUsername).isEmpty() == false) {
-                TT_GetUserByUsername(ttInst, file.szUsername, &user);
-                if(getDisplayName(user) != mynickname) {
-                    filerem = filerem + tr(" by %2") .arg(getDisplayName(user));
-                }
+            QString filerem = tr("File %1 removed").arg(file.szFileName);
+            if (m_host.username != _Q(file.szUsername) &&
+                TT_GetUserByUsername(ttInst, file.szUsername, &user))
+            {
+                filerem = tr("File %1 removed by %2").arg(file.szFileName).arg(getDisplayName(user));
             }
-        addStatusMsg(filerem);
+            addStatusMsg(filerem);
+>>>>>>> origin/master
         }
 
     }
@@ -2437,12 +2436,13 @@ void MainWindow::updateChannelFiles(int channelid)
     TTCHAR chanpath[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
+
     if(m_filesmodel->rowCount() == 0) {
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
         ui.deleteButton->setVisible(false);
         ui.downloadButton->setVisible(false);
     } else {
-        ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)") .arg(m_filesmodel->rowCount()));
+        ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_filesmodel->rowCount()));
         ui.deleteButton->setVisible(true);
         ui.downloadButton->setVisible(true);
     }

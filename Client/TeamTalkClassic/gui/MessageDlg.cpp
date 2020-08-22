@@ -214,14 +214,14 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     m_richHistory.ReplaceSel(_T("\r\n"));
     //insert msg
     m_richHistory.SetSel(0,0);
-    m_richHistory.ReplaceSel( msg.szMessage );
+    m_richHistory.ReplaceSel(CString(_T(" ")) + msg.szMessage);
 
-    CHARFORMAT cf;
+    CHARFORMAT cf = {};
     cf.cbSize        = sizeof (CHARFORMAT);  
     cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
     cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
     cf.crTextColor    = RGB(0, 0, 0); 
-    m_richHistory.SetSel(0, long(_tcslen(msg.szMessage)));
+    m_richHistory.SetSel(0, long(_tcslen(msg.szMessage)) + 1);
     m_richHistory.SetSelectionCharFormat(cf); 
 
     CString szTime;
@@ -229,10 +229,10 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
 
     CString name;
     if(msg.nFromUserID == m_myself.nUserID)
-        name.Format(_T("<%s> "), GetDisplayName(m_myself));
+        name.Format(_T("<%s>"), GetDisplayName(m_myself));
     else
     {
-        name.Format(_T("<%s> "), GetDisplayName(m_user));
+        name.Format(_T("<%s>"), GetDisplayName(m_user));
     }
 
     if(m_bShowTimeStamp)
@@ -242,7 +242,7 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     m_richHistory.SetSel(0,0);
     m_richHistory.ReplaceSel(name);
 
-    memset(&cf,0,sizeof (CHARFORMAT));
+    cf = {};
     cf.cbSize        = sizeof (CHARFORMAT);  
     cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
     cf.dwEffects    = CFE_UNDERLINE | CFE_BOLD;
