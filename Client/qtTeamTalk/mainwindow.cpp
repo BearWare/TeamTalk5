@@ -3608,14 +3608,26 @@ void MainWindow::slotUsersMessages(bool /*checked =false */)
 
 void MainWindow::slotUsersMuteVoice(bool checked /*=false */)
 {
-    foreach(int userid, ui.channelsWidget->selectedUsers())
-        slotUsersMuteVoice(userid, checked);
+    int userid = ui.channelsWidget->selectedUser();
+    User user;
+    if( TT_GetUser(ttInst, userid, &user) )
+    {
+        TT_SetUserMute(ttInst, userid, STREAMTYPE_VOICE,
+                       !(user.uUserState & USERSTATE_MUTE_VOICE));
+    }
+    ui.actionMuteVoice->setChecked(checked);
 }
 
 void MainWindow::slotUsersMuteMediaFile(bool checked /*=false */)
 {
-    foreach(int userid, ui.channelsWidget->selectedUsers())
-        slotUsersMuteMediaFile(userid, checked);
+    int userid = ui.channelsWidget->selectedUser();
+    User user;
+    if( TT_GetUser(ttInst, userid, &user) )
+    {
+        TT_SetUserMute(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO,
+                       !(user.uUserState & USERSTATE_MUTE_MEDIAFILE));
+    }
+    ui.actionMuteMediaFile->setChecked(checked);
 }
 
 void MainWindow::slotUsersVolume(bool /*checked =false */)
