@@ -3692,7 +3692,7 @@ void MainWindow::slotUsersMuteMediaFile(bool checked /*=false */)
                            !(user.uUserState & USERSTATE_MUTE_MEDIAFILE));
         }
         ui.actionMuteMediaFile->setChecked(checked);*/
-        slotUsersMuteMediafile(userid, checked);
+        slotUsersMuteMediaFile(userid, checked);
         slotUpdateUI();
     }
 }
