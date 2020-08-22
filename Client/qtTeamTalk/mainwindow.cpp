@@ -1076,7 +1076,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 filerem = tr("File %1 removed by %2").arg(file.szFileName).arg(getDisplayName(user));
             }
             addStatusMsg(filerem);
->>>>>>> origin/master
         }
 
     }
