@@ -1989,6 +1989,9 @@
    </property>
   </action>
   <action name="actionMuteMediaFile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Mute Media File</string>
    </property>

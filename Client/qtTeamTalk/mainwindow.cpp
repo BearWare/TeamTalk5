@@ -3677,7 +3677,6 @@ void MainWindow::slotUsersMuteVoice(bool checked /*=false */)
                        !(user.uUserState & USERSTATE_MUTE_VOICE));
     }
     ui.actionMuteVoice->setChecked(checked);
-//    slotUpdateUI();
 }
 
 void MainWindow::slotUsersMuteMediaFile(bool checked /*=false */)
@@ -3689,6 +3688,7 @@ void MainWindow::slotUsersMuteMediaFile(bool checked /*=false */)
         TT_SetUserMute(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO,
                        !(user.uUserState & USERSTATE_MUTE_MEDIAFILE));
     }
+    ui.actionMuteMediaFile->setChecked(checked);
 }
 
 void MainWindow::slotUsersVolume(bool /*checked =false */)
