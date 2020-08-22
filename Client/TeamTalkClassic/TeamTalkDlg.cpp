@@ -1820,13 +1820,18 @@ void CTeamTalkDlg::OnChannelJoined(const Channel& chan)
             szMsg.Format(szFormat, LimitText(chan.szName));
         }
     } else {
+        CString szRoot;
+        szRoot.LoadString(IDS_ROOTCHANNEL);
+        TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRoot);
         if(chan.uChannelType & CHANNEL_CLASSROOM)
         {
-            szMsg = LoadText(IDS_CLASSROOM_ROOT_SELF_JOINED);
+            szFormat = LoadText(IDS_CLASSROOM_SELF_JOINED);
+            szMsg.Format(szFormat, LimitText(szRoot));
         }
         else
         {
-            szMsg = LoadText(IDS_CHANNEL_ROOT_SELF_JOINED);
+            szFormat = LoadText(IDS_CHANNEL_SELF_JOINED);
+            szMsg.Format(szFormat, LimitText(szRoot));
         }
     }
 
@@ -1851,7 +1856,11 @@ void CTeamTalkDlg::OnChannelLeft(const Channel& chan)
         szFormat = LoadText(IDS_CHANNEL_SELF_LEFT);
         szMsg.Format(szFormat, chan.szName);
     } else {
-        szMsg = LoadText(IDS_CHANNEL_ROOT_SELF_LEFT);
+        CString szRoot;
+        szRoot.LoadString(IDS_ROOTCHANNEL);
+        TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRoot);
+        szFormat = LoadText(IDS_CHANNEL_SELF_LEFT);
+        szMsg.Format(szFormat, szRoot);
     }
 
     AddStatusText(szMsg);
@@ -5827,7 +5836,14 @@ void CTeamTalkDlg::OnAdvancedMoveuser()
         Channel chan;
         TT_GetChannel(ttInst, nChanID, &chan);
         CString szMsg;
-        szMsg.Format(LoadText(IDS_USERSMOVED, _T("Selected users has been moved to channel %s")), chan.szName);
+        if(chan.nParentID == 0) {
+            CString szRoot;
+            szRoot.LoadString(IDS_ROOTCHANNEL);
+            TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRoot);
+            szMsg.Format(LoadText(IDS_USERSMOVED, _T("Selected users has been moved to channel %s")), szRoot);
+        } else {
+            szMsg.Format(LoadText(IDS_USERSMOVED, _T("Selected users has been moved to channel %s")), chan.szName);
+        }
         AddVoiceMessage(szMsg);
     }
     m_moveusers.clear();

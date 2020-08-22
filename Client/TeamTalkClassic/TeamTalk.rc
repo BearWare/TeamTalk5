@@ -2060,9 +2060,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_CLASSROOM_ROOT_SELF_JOINED "Joined root classroom channel"
     IDS_SUBINT_VIDEO        "%s changed subscription ""Intercept Video"" to: %d"
-    IDS_CHANNEL_ROOT_SELF_JOINED "Joined root channel"
     IDS_SUBINT_DESKTOP      "%s changed subscription ""Intercept Desktop"" to: %d"
 END
 
@@ -2070,7 +2068,6 @@ STRINGTABLE
 BEGIN
     IDS_SUBINT_MEDIAFILE    "%s changed subscription ""Intercept Media File Stream"" to: %d"
     IDS_DESKTOPINPUT_GRANTED "%s has granted desktop access"
-    IDS_CHANNEL_ROOT_SELF_LEFT "Left root channel"
     IDS_DESKTOPINPUT_ACTIVE "%s now has desktop access"
 END
 
