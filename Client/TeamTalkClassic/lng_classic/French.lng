@@ -211,6 +211,7 @@
     <item id="342">%s peut maintenant transmettre des bureaux partagés!</item>
     <item id="343">%s ne peut plus transmettre de fichiers média!</item>
     <item id="344">%s peut maintenant transmettre des fichiers média!</item>
+    <item id="345">Actions de menu</item>
     <item id="346">Impossible d'écrire le fichier audio pour %s</item>
     <item id="347">Impossible de démarrer le transfert de fichier.&#xD;&#xA;Nom du fichier: %s</item>
     <item id="348">Erreur à la diffusion du fichier média sur le canal</item>
@@ -364,9 +365,15 @@
     <item id="498">Impossible de démarrer le périphérique sélectionné. Tester la sélection</item>
     <item id="499">Se déconnecter de Facebook?</item>
     <item id="500">Connexion Facebook</item>
+    <item id="501">Voix de %s activée</item>
     <item id="503">Administrateur</item>
     <item id="504">%s désélectionné pour déplacement</item>
     <item id="505">Sélectionné pour déplacement</item>
+    <item id="506">Volume principal désactivé</item>
+    <item id="507">Volume principal activé</item>
+    <item id="508">Voix de %s désactivée</item>
+    <item id="509">Fichiers médias de %s activés</item>
+    <item id="510">Fichiers médias de %s désactivés</item>
     <item id="512"> - Non publié</item>
     <item id="513">TeamTalk 5 Classique Professionnel V</item>
     <item id="514">TeamTalk 5 Classique Professionnel</item>

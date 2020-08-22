@@ -365,9 +365,15 @@
     <item id="498">Failed to start selected device Test Selected</item>
     <item id="499">Do Facebook logout?</item>
     <item id="500">Facebook Login</item>
+    <item id="501">Voice for %s enabled</item>
     <item id="503">Administrator</item>
     <item id="504">%s deselected for move</item>
     <item id="505">Selected for move</item>
+    <item id="506">Master volume disabled</item>
+    <item id="507">Master volume enabled</item>
+    <item id="508">Voice for %s disabled</item>
+    <item id="509">Media files for %s enabled</item>
+    <item id="510">Media files for %s disabled</item>
     <item id="512"> - Unreleased</item>
     <item id="513">TeamTalk 5 Classic Professional v. </item>
     <item id="514">TeamTalk 5 Classic Professional</item>
