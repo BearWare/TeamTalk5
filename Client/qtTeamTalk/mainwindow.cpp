@@ -966,16 +966,15 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(msg.user.nUserID == TT_GetMyUserID(ttInst))
             processMyselfJoined(msg.user.nChannelID);
         emit(userJoined(msg.user.nChannelID, msg.user));
-        Channel chan;
-        ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
             if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
-                QString userjoinchan = tr("%1 joined channel") .arg(getDisplayName(msg.user));
-                if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
+                Channel chan = {};
+                ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
+                QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(msg.user));
+                if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst))
                     userjoinchan = userjoinchan + " " + rootchanname;
-                } else if(msg.user.nChannelID != TT_GetMyChannelID(ttInst)) {
+                else if (msg.user.nChannelID != TT_GetMyChannelID(ttInst))
                     userjoinchan = userjoinchan + " " + _Q(chan.szName);
-                }
                 addStatusMsg(userjoinchan);
             }
         }
@@ -986,10 +985,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(msg.user.nUserID == TT_GetMyUserID(ttInst))
             processMyselfLeft(msg.nSource);
         emit(userLeft(msg.nSource, msg.user));
-        ui.channelsWidget->getChannel(msg.nSource, chan);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
             if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
-                QString userleftchan = tr("%1 left channel") .arg(getDisplayName(msg.user));
+                Channel chan = {};
+                ui.channelsWidget->getChannel(msg.nSource, chan);
+                QString userleftchan = tr("%1 left channel").arg(getDisplayName(msg.user));
                 if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
                     userleftchan = userleftchan + " " + rootchanname;
                 } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
