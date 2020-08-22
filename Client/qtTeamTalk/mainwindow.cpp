@@ -1052,7 +1052,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             addStatusMsg(fileadd);
         }
 
-        update_ui = true;
+        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CMD_FILE_REMOVE :
