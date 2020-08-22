@@ -278,11 +278,13 @@
 #define IDS_SUREDELETECHAN              371
 #define IDS_CHANDELETETITLE             372
 #define IDS_CHANPSW                     373
+#define IDS_FILEADDBY                     374
 #define IDS_COMPILEDON                  375
 #define IDS_UNICODEENABLED              376
 #define IDS_LOCALECHARS                 377
 #define IDS_TTDLLVER                    378
 #define IDS_TTDLLVERS                   379
+#define IDS_FILEREMOVEDBY                   380
 #define IDS_RXTXPING                    381
 #define IDS_RXTX                        382
 #define IDS_USERSMOVED                        383

@@ -177,8 +177,8 @@
     <item id="307">Ordre alphabétique</item>
     <item id="308">Nombre d'utilisateurs</item>
     <item id="309">Tout le monde</item>
-    <item id="310">%s a ajouté le fichier %s</item>
-    <item id="311">A supprimé le fichier %s</item>
+    <item id="310">Fichier %s ajouté</item>
+    <item id="311">Fichier %s supprimé</item>
     <item id="312">Évènements de fichier</item>
     <item id="313">Fichier ajouté</item>
     <item id="314">Fichier supprimé</item>
@@ -239,11 +239,13 @@
     <item id="371">Êtes-vous sûre de vouloir supprimer le canal %s?</item>
     <item id="372">Supprimer le canal</item>
     <item id="373">Mot de passe du canal</item>
+    <item id="374">Fichier %s ajouté par %s</item>
     <item id="375">Compilé le </item>
     <item id="376">Conversion Unicode -> UTF-8 activée.&#xD;&#xA;</item>
     <item id="377">Utilisation des caractères locaux.&#xD;&#xA;</item>
     <item id="378">Version de la DLL TeamTalk 64-bit: </item>
     <item id="379">Version de la DLL TeamTalk 32-bit: </item>
+    <item id="380">Fichier supprimé %s créé par %s</item>
     <item id="381">Réception: %.2fKB, Transmission: %.2fKB, PING: %u %s</item>
     <item id="382">Réception: %.2fKB, Transmission: %.2fKB %s</item>
     <item id="383">Les utilisateurs sélectionnés ont été déplacés vers le canal %s</item>

@@ -993,11 +993,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         processTextMessage(msg.textmessage);
         break;
     case CLIENTEVENT_CMD_FILE_NEW :
-    case CLIENTEVENT_CMD_FILE_REMOVE :
     {
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         const RemoteFile& file = msg.remotefile;
-
         //only update files list if we're not currently logging in or 
         //joining a channel
         cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1007,6 +1005,40 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
+            QString fileadd = tr("File %1 added").arg(file.szFileName);
+            User user;
+            if (m_host.username != _Q(file.szUsername) &&
+                TT_GetUserByUsername(ttInst, file.szUsername, &user))
+            {
+                fileadd = tr("File %1 added by %2").arg(file.szFileName).arg(getDisplayName(user));
+            }
+            addStatusMsg(fileadd);
+        }
+
+        update_ui = true;
+    }
+    break;
+    case CLIENTEVENT_CMD_FILE_REMOVE :
+    {
+        Q_ASSERT(msg.ttType == __REMOTEFILE);
+        const RemoteFile& file = msg.remotefile;
+        User user; 
+        //only update files list if we're not currently logging in or 
+        //joining a channel
+        cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
+        if(m_filesmodel->getChannelID() == file.nChannelID &&
+           (ite == m_commands.end() || (*ite != CMD_COMPLETE_LOGIN && 
+                                        *ite != CMD_COMPLETE_JOINCHANNEL)) )
+        {
+            updateChannelFiles(file.nChannelID);
+            playSoundEvent(SOUNDEVENT_FILESUPD);
+            QString filerem = tr("File %1 removed").arg(file.szFileName);
+            if (m_host.username != _Q(file.szUsername) &&
+                TT_GetUserByUsername(ttInst, file.szUsername, &user))
+            {
+                filerem = tr("File %1 removed by %2").arg(file.szFileName).arg(getDisplayName(user));
+            }
+            addStatusMsg(filerem);
         }
 
         update_ui = true;
