@@ -448,6 +448,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             SLOT(slotHelpResetPreferences(bool)));
     connect(ui.actionVisitBearWare, SIGNAL(triggered(bool)),
             SLOT(slotHelpVisitBearWare(bool)));
+    connect(ui.actionVisitChangeLog, SIGNAL(triggered(bool)),
+            SLOT(slotHelpVisitChangeLog(bool)));
     connect(ui.actionAbout, SIGNAL(triggered(bool)),
             SLOT(slotHelpAbout(bool)));
     /* End - Help menu */
@@ -4281,6 +4283,11 @@ void MainWindow::slotHelpManual(bool /*checked =false */)
 void MainWindow::slotHelpVisitBearWare(bool /*checked=false*/)
 {
    QDesktopServices::openUrl(QUrl(APPWEBSITE));
+}
+
+void MainWindow::slotHelpVisitChangeLog(bool /*checked=false*/)
+{
+   QDesktopServices::openUrl(QUrl("https://raw.githubusercontent.com/BearWare/TeamTalk5/master/ChangeLog.txt"));
 }
 
 void MainWindow::slotHelpAbout(bool /*checked =false */)

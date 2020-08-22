@@ -977,6 +977,7 @@
 #define ID_ME_ENABLEVOICEACTIVATION     32824
 #define ID_HELP_WEBSITE                 32825
 #define ID_ME_CHANGESTATUS              32826
+#define ID_HELP_CHANGELOG              32827
 #define ID_POPUP_RESTORE                32829
 #define ID_ME_CHANGENICK                32830
 #define ID_CHANNELS_VIEWCHANNELINFO     32831

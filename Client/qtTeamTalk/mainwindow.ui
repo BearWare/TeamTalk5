@@ -1209,6 +1209,7 @@
     <addaction name="actionManual"/>
     <addaction name="actionResetPreferencesToDefault"/>
     <addaction name="actionVisitBearWare"/>
+    <addaction name="actionVisitChangeLog"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
    </widget>
@@ -1743,6 +1744,11 @@
    </property>
    <property name="text">
     <string>&amp;BearWare.dk Website</string>
+   </property>
+  </action>
+  <action name="actionVisitChangeLog">
+   <property name="text">
+    <string>&amp;Change log</string>
    </property>
   </action>
   <action name="actionAllowVoiceTransmission">

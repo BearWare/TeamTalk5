@@ -388,6 +388,7 @@ public:
     afx_msg void OnNMCustomdrawSliderVolume(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnHelpAbout();
     afx_msg void OnHelpWebsite();
+    afx_msg void OnHelpChangelog();
     afx_msg void OnHelpManual();
     afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
     afx_msg void OnEndSession(BOOL bEnding);
