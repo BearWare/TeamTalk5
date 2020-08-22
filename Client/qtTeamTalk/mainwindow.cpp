@@ -3670,7 +3670,7 @@ void MainWindow::slotUsersMessages(bool /*checked =false */)
 void MainWindow::slotUsersMuteVoice(bool checked /*=false */)
 {
 //    int userid = ui.channelsWidget->selectedUser();
-    foreach(int userid, ui.channelsWidget->selectedUsers())
+    foreach(int userid, ui.channelsWidget->selectedUsers());
     User user;
     if( TT_GetUser(ttInst, userid, &user) )
     {
