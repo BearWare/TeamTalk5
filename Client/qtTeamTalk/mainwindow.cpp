@@ -3670,14 +3670,15 @@ void MainWindow::slotUsersMessages(bool /*checked =false */)
 void MainWindow::slotUsersMuteVoice(bool checked /*=false */)
 {
 //    int userid = ui.channelsWidget->selectedUser();
-    foreach(int userid, ui.channelsWidget->selectedUsers());
-    User user;
-    if( TT_GetUser(ttInst, userid, &user) )
-    {
-        TT_SetUserMute(ttInst, userid, STREAMTYPE_VOICE,
-                       !(user.uUserState & USERSTATE_MUTE_VOICE));
+    foreach(int userid, ui.channelsWidget->selectedUsers()) {
+        User user;
+        if( TT_GetUser(ttInst, userid, &user) )
+        {
+            TT_SetUserMute(ttInst, userid, STREAMTYPE_VOICE,
+                           !(user.uUserState & USERSTATE_MUTE_VOICE));
+        }
+        ui.actionMuteVoice->setChecked(checked);
     }
-    ui.actionMuteVoice->setChecked(checked);
 }
 
 void MainWindow::slotUsersMuteMediaFile(bool checked /*=false */)
