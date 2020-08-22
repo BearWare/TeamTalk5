@@ -1530,10 +1530,6 @@
         <translation>Exclure et &amp;bannir du serveur</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+K</source>
-        <translation type="vanished">Ctrl+Shift+K</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1529"/>
         <source>&amp;Op</source>
         <translation>&amp;Opérateur</translation>
@@ -1687,10 +1683,6 @@
         <location filename="../mainwindow.ui" line="1720"/>
         <source>&amp;Broadcast Message</source>
         <translation>Messages &amp;généraux</translation>
-    </message>
-    <message>
-        <source>Ctrl+Alt+B</source>
-        <translation type="vanished">Ctrl+Alt+B</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1728"/>
@@ -1898,17 +1890,9 @@
         <translation>Cou&amp;per la voix</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+M</source>
-        <translation type="vanished">Ctrl+Shift+M</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1996"/>
         <source>Mute Media File</source>
         <translation>Couper les fichiers média</translation>
-    </message>
-    <message>
-        <source>Ctrl+Alt+Μ</source>
-        <translation type="vanished">Ctrl+Alt+Μ</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2004"/>
@@ -2053,10 +2037,6 @@
         <translation>Fichier %1 ajouté</translation>
     </message>
     <message>
-        <source> by %2</source>
-        <translation type="vanished"> par %2</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1072"/>
         <source>File %1 removed</source>
         <translation>Fichier %1 supprimé</translation>
@@ -2064,7 +2044,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1076"/>
         <source>File %1 removed by %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier %1 supprimé par %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1111"/>
@@ -2407,7 +2387,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1050"/>
         <source>File %1 added by %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier %1 ajouté par %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1178"/>
