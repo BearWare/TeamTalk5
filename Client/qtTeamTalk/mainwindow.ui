@@ -1978,6 +1978,9 @@
    </property>
   </action>
   <action name="actionMuteVoice">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Mu&amp;te Voice</string>
    </property>
