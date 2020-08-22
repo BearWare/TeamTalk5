@@ -3678,7 +3678,7 @@ void MainWindow::slotUsersMuteVoice(bool checked /*=false */)
         }
         ui.actionMuteVoice->setChecked(checked);*/
         slotUsersMuteVoice(userid, checked);
-        slotUpdateUI()
+        slotUpdateUI();
     }
 }
 
