@@ -1862,7 +1862,6 @@ void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
 {
     ASSERT(msg.ttType == __REMOTEFILE);
     const RemoteFile& remotefile = msg.remotefile;
-    User user;
     m_tabFiles.AddFile(remotefile.nChannelID, remotefile.nFileID);
 
     if(remotefile.nChannelID == TT_GetMyChannelID(ttInst) &&
@@ -1872,11 +1871,10 @@ void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
         PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
         CString szMsg;
         szMsg.Format(LoadText(IDS_FILEADDED, _T("File %s added")), remotefile.szFileName);
-        if(size(remotefile.szUsername) > 0) {
-            if(remotefile.szUsername != STR_UTF8(m_host.szUsername)) {
-                TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
+        if (remotefile.szUsername != STR_UTF8(m_host.szUsername)) {
+            User user;
+            if (TT_GetUserByUsername(ttInst, remotefile.szUsername, &user))
                 szMsg.Format(LoadText(IDS_FILEADDBY, _T("File %s added by %s")), remotefile.szFileName, GetDisplayName(user));
-            }
         }
         AddStatusText(szMsg);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_FILE_ADD)
@@ -1887,7 +1885,6 @@ void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
 void CTeamTalkDlg::OnFileRemove(const TTMessage& msg)
 {
     const RemoteFile& remotefile = msg.remotefile;
-    User user;
     m_tabFiles.RemoveFile(remotefile.nChannelID, remotefile.nFileID);
 
     if(remotefile.nChannelID == TT_GetMyChannelID(ttInst))
@@ -1895,11 +1892,10 @@ void CTeamTalkDlg::OnFileRemove(const TTMessage& msg)
         PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
         CString szMsg;
         szMsg.Format(LoadText(IDS_FILEREMOVED, _T("File %s removed")), remotefile.szFileName);
-        if(size(remotefile.szUsername) > 0) {
-            if(remotefile.szUsername != STR_UTF8(m_host.szUsername)) {
-                TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
-                szMsg.Format(LoadText(IDS_FILEREMOVEDBY, _T("File %s removed by %s")), remotefile.szFileName, GetDisplayName(user));
-            }
+        if (remotefile.szUsername != STR_UTF8(m_host.szUsername)) {
+            User user;
+            if (TT_GetUserByUsername(ttInst, remotefile.szUsername, &user))
+                szMsg.Format(LoadText(IDS_FILEREMOVEDBY, _T("Removed file %s created by %s")), remotefile.szFileName, GetDisplayName(user));
         }
         AddStatusText(szMsg);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_FILE_REMOVE)

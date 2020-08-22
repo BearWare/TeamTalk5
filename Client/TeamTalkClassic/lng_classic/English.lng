@@ -246,7 +246,7 @@
     <item id="377">Uses local character set.&#xD;&#xA;</item>
     <item id="378">TeamTalk 64-bit DLL version: </item>
     <item id="379">TeamTalk 32-bit DLL version: </item>
-    <item id="380">File %s removed by %s</item>
+    <item id="380">Removed file %s created by %s</item>
     <item id="381">RX: %.2fKB TX: %.2fKB PING: %u %s</item>
     <item id="382">RX: %.2fKB TX: %.2fKB %s</item>
     <item id="383">Selected users has been moved to channel %s</item>
