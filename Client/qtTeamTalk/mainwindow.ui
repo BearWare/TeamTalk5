@@ -314,7 +314,7 @@
          <string/>
         </property>
         <attribute name="title">
-         <string>Chat</string>
+         <string>Ch&amp;at</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <property name="leftMargin">
@@ -657,7 +657,7 @@
        </widget>
        <widget class="QWidget" name="desktopTab">
         <attribute name="title">
-         <string>Desktops</string>
+         <string>&amp;Desktops</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <property name="spacing">
@@ -925,7 +925,7 @@
        </widget>
        <widget class="QWidget" name="filesTab">
         <attribute name="title">
-         <string>Files</string>
+         <string>&amp;Files</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <property name="leftMargin">
@@ -949,6 +949,9 @@
          </item>
          <item>
           <widget class="FilesView" name="filesView">
+           <property name="accessibleName">
+            <string>Files list</string>
+           </property>
            <property name="editTriggers">
             <set>QAbstractItemView::NoEditTriggers</set>
            </property>
@@ -1495,7 +1498,7 @@
     <string>Kick and &amp;Ban From Server</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+K</string>
+    <string notr="true">Ctrl+Alt+B</string>
    </property>
   </action>
   <action name="actionOp">
@@ -1698,7 +1701,7 @@
     <string>&amp;Broadcast Message</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Alt+B</string>
+    <string notr="true">Ctrl+Shift+E</string>
    </property>
   </action>
   <action name="actionIncreaseVoiceVolume">
@@ -1706,7 +1709,7 @@
     <string>&amp;Increase Voice Volume</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Right</string>
+    <string notr="true">Ctrl+Y</string>
    </property>
   </action>
   <action name="actionLowerVoiceVolume">
@@ -1714,7 +1717,7 @@
     <string>&amp;Lower Voice Volume</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Left</string>
+    <string notr="true">Ctrl+H</string>
    </property>
   </action>
   <action name="actionStoreForMove">
@@ -1987,7 +1990,7 @@
     <string>Increase Media File Volume</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+Right</string>
+    <string notr="true">Ctrl+Shift+Y</string>
    </property>
   </action>
   <action name="actionLowerMediaFileVolume">
@@ -1995,7 +1998,7 @@
     <string>Lower Media File Volume</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+Left</string>
+    <string notr="true">Ctrl+Shift+H</string>
    </property>
   </action>
   <action name="actionResetPreferencesToDefault">

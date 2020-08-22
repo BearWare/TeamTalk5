@@ -953,22 +953,22 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         QString itemtext;
         QString name = getDisplayName(user);
+        itemtext = name;
         switch (user.nStatusMode & STATUSMODE_MODE)
         {
         case STATUSMODE_AWAY :
-            itemtext += tr(" (Away)");
+            itemtext += tr(", Away");
             break;
         case STATUSMODE_QUESTION :
-            itemtext += tr(" (Question)");
+            itemtext += tr(", Question");
             break;
         }
 
         if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
-            itemtext += tr(" (Streaming media file)");
+            itemtext += tr(", Streaming media file");
+
         if(_Q(user.szStatusMsg).size())
-            itemtext += name + QString(" - ") + _Q(user.szStatusMsg);
-        else
-            itemtext += name;
+            itemtext += QString(" - ") + _Q(user.szStatusMsg);
 
         if (itemtext.size() > m_strlen)
         {

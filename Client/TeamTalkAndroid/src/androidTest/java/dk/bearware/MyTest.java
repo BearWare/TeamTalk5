@@ -25,9 +25,14 @@ package dk.bearware;
 
 import android.Manifest;
 import android.os.Environment;
-import android.support.test.rule.GrantPermissionRule;
+import androidx.test.rule.GrantPermissionRule;
 
 import org.junit.Rule;
+import org.junit.Test;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.util.Vector;
@@ -53,7 +58,7 @@ public class MyTest extends TeamTalkTestCase {
             Manifest.permission.WAKE_LOCK,
             Manifest.permission.READ_PHONE_STATE);
 
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         this.ADMIN_USERNAME = "admin";
         this.ADMIN_PASSWORD = "admin";
 
@@ -70,6 +75,7 @@ public class MyTest extends TeamTalkTestCase {
         this.STORAGEFOLDER = filepath.toString();
     }
 
+    @Test
     public void testRestartSnd() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_VOICE;
@@ -93,6 +99,7 @@ public class MyTest extends TeamTalkTestCase {
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
     }
 
+    @Test
     public void testStreamMedia() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
@@ -111,6 +118,7 @@ public class MyTest extends TeamTalkTestCase {
         assertTrue("Stop media stream", ttclient.stopStreamingMediaFileToChannel());
     }
 
+    @Test
     public void testSharedAudioDevice() {
         TeamTalkBase ttclient1 = newClientInstance();
         TeamTalkBase ttclient2 = newClientInstance();
@@ -171,6 +179,7 @@ public class MyTest extends TeamTalkTestCase {
         }
     }
 
+    @Test
     public void testMultiClientOnSharedAudioDevice() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
@@ -254,6 +263,7 @@ public class MyTest extends TeamTalkTestCase {
         }
     }
 
+    @Test
     public void testSpeexDSP() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
@@ -287,6 +297,7 @@ public class MyTest extends TeamTalkTestCase {
         assertFalse("No AGC error on ARMv7A", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 1000));
     }
 
+    @Test
     public void testSoundDeviceEffects() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
@@ -332,6 +343,7 @@ public class MyTest extends TeamTalkTestCase {
         }
     }
 
+    @Test
     public void testSndInputFailure() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN |
@@ -420,6 +432,7 @@ public class MyTest extends TeamTalkTestCase {
     }
 
     // force 'E/libOpenSLES: Too many objects' error
+    @Test
     public void testMaxSoundOutputStreams() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN |

@@ -55,14 +55,6 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
     connect(ui.playbackOffsetSlider, &QSlider::sliderMoved, this, &StreamMediaFileDlg::slotChangePlayOffset);
     //connect(ui.playbackOffsetSlider, &QSlider::valueChanged, this, &StreamMediaFileDlg::slotChangePlayOffset);
 
-    int i = 0;
-    QString item;
-    while ((item = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i++)).toString()).size())
-    {
-        ui.mediafileComboBox->addItem(item);
-    }
-    ui.mediafileComboBox->setCurrentIndex(0);
-
     // audio preprocessor
     ui.preprocessorComboBox->addItem(tr("No Audio Preprocessor"), NO_AUDIOPREPROCESSOR);
     ui.preprocessorComboBox->addItem(tr("TeamTalk Audio Preprocessor"), TEAMTALK_AUDIOPREPROCESSOR);
@@ -87,10 +79,16 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
     ui.vidcodecBox->addItem(tr("No video"), NO_CODEC);
     ui.vidcodecBox->addItem("WebM VP8", WEBM_VP8_CODEC);
     ui.vp8bitrateSpinBox->setValue(m_videocodec.webm_vp8.nRcTargetBitrate);
-    int vidindex = ui.vidcodecBox->findData(WEBM_VP8_CODEC);
-    ui.vidcodecBox->setCurrentIndex(vidindex);
+    setCurrentItemData(ui.vidcodecBox, m_videocodec.nCodec);
 
-    showMediaFormatInfo();
+    int i = 0;
+    QString item;
+    while ((item = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i++)).toString()).size())
+    {
+        ui.mediafileComboBox->addItem(item);
+    }
+    ui.mediafileComboBox->setCurrentIndex(0); // generates showMediaFormatInfo()
+
     updateControls();
 }
 
@@ -136,9 +134,8 @@ void StreamMediaFileDlg::slotSelectFile()
     {
         fileName = QDir::toNativeSeparators(fileName);
         ui.mediafileComboBox->insertItem(0, fileName);
-        ui.mediafileComboBox->setCurrentIndex(0);
+        ui.mediafileComboBox->setCurrentIndex(0); // generates showMediaFormatInfo()
     }
-    showMediaFormatInfo();
 }
 
 void StreamMediaFileDlg::slotSelectionFile(const QString&)

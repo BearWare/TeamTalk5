@@ -11,12 +11,20 @@ Accessible Windows Client:
 - Status mode is now displayed on receiving side (after status message)
 - Status message is now displaying after a hyphen (same behavior with QT Client)
 - Fixed accessible hints on channel list and files-tab
-- CTRL+G now return "Administrator" when it's the case
+- Ctrl+G now return "Administrator" when it's the case
+- Ctrl+H/Y and Ctrl+Shift+H/Y to increase/decrease voice and media files volume of an user
+- Ctrl+Shift+E to send a broadcast message
+- Ctrl+Alt+B to kick and ban
+- Ctrl+Shift+Alt+M to mute/unmute media files of an user
 Default QT Client:
 - Update window title at login with server name
 - Status mode is now displayed for Away, Question and Streaming media file
 - Away is displayed when switching automatically to Away-mode due to inactivity, and also when manually switching to this mode
 - Status mode is now displayed on receiving side (after status message)
+- Change some shortcuts:
+ - CTRL+H/Y and CTRL+Shift+H/Y to increase/decrease voice and media files volume of an user
+ - CTRL+Shife+E to send a broadcast message
+ - CTRL+Alt+B to kick and ban
 
 Version 5.6, 2020/08/04
 Accessible Windows client
@@ -34,6 +42,7 @@ Accessible Windows client
 - TTS announces volume changes when using shortcut keys Ctrl+Alt+Left/Right and Ctrl+Shift+Left/Right
 - When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name
+- Who has removed a file is now announce
 Default Qt client
 - Removed duplex mode for sound devices
 - Sound system Windows Audio Session now uses Windows' own echo cancellor, AGC and noise suppression
@@ -44,6 +53,7 @@ Default Qt client
 - Blank nicknames are set to NoName followed by user ID
 - When in main channel the application title is now server name
 - Blank characters are automatically removed from username and channel name
+- New events on chat history for file addition and deletion
 Android client
 - Empty channels with max users set to zero are listed first (sticky channels)
 - French language is now supported
