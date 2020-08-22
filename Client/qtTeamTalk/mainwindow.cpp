@@ -542,6 +542,7 @@ void MainWindow::loadSettings()
         else
         {
             QApplication::installTranslator(ttTranslator);
+            slotUpdateUI();
             this->ui.retranslateUi(this);
         }
     }
@@ -2347,10 +2348,15 @@ void MainWindow::updateChannelFiles(int channelid)
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
 
-    if(m_filesmodel->rowCount() == 0)
-        ui.tabWidget->setTabText(TAB_FILES, tr("Files"));
-    else
-        ui.tabWidget->setTabText(TAB_FILES, tr("Files (%1)").arg(m_filesmodel->rowCount()));
+    if(m_filesmodel->rowCount() == 0) {
+        ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
+        ui.deleteButton->setVisible(false);
+        ui.downloadButton->setVisible(false);
+    } else {
+        ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_filesmodel->rowCount()));
+        ui.deleteButton->setVisible(true);
+        ui.downloadButton->setVisible(true);
+    }
 }
 
 void MainWindow::updateUserSubscription(int userid)
@@ -5320,17 +5326,17 @@ void MainWindow::slotEnableQuestionMode(bool checked)
 void MainWindow::slotUpdateVideoCount(int count)
 {
     if(count == 0)
-        ui.tabWidget->setTabText(TAB_VIDEO, tr("Video"));
+        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video"));
     else
-        ui.tabWidget->setTabText(TAB_VIDEO, tr("Video (%1)").arg(count));
+        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video (%1)").arg(count));
 }
 
 void MainWindow::slotUpdateDesktopCount(int count)
 {
     if(count == 0)
-        ui.tabWidget->setTabText(TAB_DESKTOP, tr("Desktops"));
+        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops"));
     else
-        ui.tabWidget->setTabText(TAB_DESKTOP, tr("Desktops (%1)").arg(count));
+        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops (%1)").arg(count));
 }
 
 void MainWindow::slotMasterVolumeChanged(int value)
