@@ -1050,7 +1050,7 @@ CString CSessionTreeCtrl::GetChannelText(int nChannelID) const
     }
 
     if(ite->second.bPassword) {
-        CString szPwd = _T(" - ") + LoadText(IDS_CHANPROT, _T("Protected"));
+        CString szPwd = _T(" - \U0001f512");
         return LimitText(szText) + szPwd;
     } else {
         return LimitText(szText);
