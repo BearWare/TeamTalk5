@@ -46,7 +46,7 @@ ACE_SSL_Context* CryptStreamHandler::AddSSLContext(ACE_Reactor* r)
 {
     std::lock_guard<std::mutex> g(ctxmtx);
 
-    assert(m_contexts.find(r) == m_contexts.end());
+    TTASSERT(m_contexts.find(r) == m_contexts.end());
     
     m_contexts[r].reset(new ACE_SSL_Context());
     return m_contexts[r].get();

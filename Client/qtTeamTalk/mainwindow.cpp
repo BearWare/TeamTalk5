@@ -542,6 +542,7 @@ void MainWindow::loadSettings()
         else
         {
             QApplication::installTranslator(ttTranslator);
+            slotUpdateUI();
             this->ui.retranslateUi(this);
         }
     }
@@ -1024,7 +1025,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         processTextMessage(msg.textmessage);
         break;
     case CLIENTEVENT_CMD_FILE_NEW :
-    case CLIENTEVENT_CMD_FILE_REMOVE :
     {
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         const RemoteFile& file = msg.remotefile;
@@ -1037,6 +1037,40 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
+            QString fileadd = tr("File %1 added").arg(file.szFileName);
+            User user;
+            if (m_host.username != _Q(file.szUsername) &&
+                TT_GetUserByUsername(ttInst, file.szUsername, &user))
+            {
+                fileadd = tr("File %1 added by %2").arg(file.szFileName).arg(getDisplayName(user));
+            }
+            addStatusMsg(fileadd);
+        }
+
+        update_ui = true;
+    }
+    break;
+    case CLIENTEVENT_CMD_FILE_REMOVE :
+    {
+        Q_ASSERT(msg.ttType == __REMOTEFILE);
+        const RemoteFile& file = msg.remotefile;
+        User user; 
+        //only update files list if we're not currently logging in or 
+        //joining a channel
+        cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
+        if(m_filesmodel->getChannelID() == file.nChannelID &&
+           (ite == m_commands.end() || (*ite != CMD_COMPLETE_LOGIN && 
+                                        *ite != CMD_COMPLETE_JOINCHANNEL)) )
+        {
+            updateChannelFiles(file.nChannelID);
+            playSoundEvent(SOUNDEVENT_FILESUPD);
+            QString filerem = tr("File %1 removed").arg(file.szFileName);
+            if (m_host.username != _Q(file.szUsername) &&
+                TT_GetUserByUsername(ttInst, file.szUsername, &user))
+            {
+                filerem = tr("File %1 removed by %2").arg(file.szFileName).arg(getDisplayName(user));
+            }
+            addStatusMsg(filerem);
         }
 
         update_ui = true;
@@ -2382,10 +2416,15 @@ void MainWindow::updateChannelFiles(int channelid)
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
 
-    if(m_filesmodel->rowCount() == 0)
-        ui.tabWidget->setTabText(TAB_FILES, tr("Files"));
-    else
-        ui.tabWidget->setTabText(TAB_FILES, tr("Files (%1)").arg(m_filesmodel->rowCount()));
+    if(m_filesmodel->rowCount() == 0) {
+        ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
+        ui.deleteButton->setVisible(false);
+        ui.downloadButton->setVisible(false);
+    } else {
+        ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_filesmodel->rowCount()));
+        ui.deleteButton->setVisible(true);
+        ui.downloadButton->setVisible(true);
+    }
 }
 
 void MainWindow::updateUserSubscription(int userid)
@@ -5355,17 +5394,17 @@ void MainWindow::slotEnableQuestionMode(bool checked)
 void MainWindow::slotUpdateVideoCount(int count)
 {
     if(count == 0)
-        ui.tabWidget->setTabText(TAB_VIDEO, tr("Video"));
+        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video"));
     else
-        ui.tabWidget->setTabText(TAB_VIDEO, tr("Video (%1)").arg(count));
+        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video (%1)").arg(count));
 }
 
 void MainWindow::slotUpdateDesktopCount(int count)
 {
     if(count == 0)
-        ui.tabWidget->setTabText(TAB_DESKTOP, tr("Desktops"));
+        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops"));
     else
-        ui.tabWidget->setTabText(TAB_DESKTOP, tr("Desktops (%1)").arg(count));
+        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops (%1)").arg(count));
 }
 
 void MainWindow::slotMasterVolumeChanged(int value)
