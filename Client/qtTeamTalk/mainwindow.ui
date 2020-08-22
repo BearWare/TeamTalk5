@@ -1985,7 +1985,7 @@
     <string>Mu&amp;te Voice</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+M</string>
+    <string notr="true">Ctrl+Shift+M</string>
    </property>
   </action>
   <action name="actionMuteMediaFile">
