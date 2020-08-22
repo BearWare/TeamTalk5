@@ -246,7 +246,7 @@
     <item id="377">Utilisation des caractères locaux.&#xD;&#xA;</item>
     <item id="378">Version de la DLL TeamTalk 64-bit: </item>
     <item id="379">Version de la DLL TeamTalk 32-bit: </item>
-    <item id="380">Fichier supprimé %s créé par %s</item>
+    <item id="380">Fichier %s créé par %s supprimé</item>
     <item id="381">Réception: %.2fKB, Transmission: %.2fKB, PING: %u %s</item>
     <item id="382">Réception: %.2fKB, Transmission: %.2fKB %s</item>
     <item id="383">Les utilisateurs sélectionnés ont été déplacés vers le canal %s</item>
