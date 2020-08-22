@@ -689,6 +689,7 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
     ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_VOLUME, OnNMCustomdrawSliderVolume)
     ON_COMMAND(ID_HELP_ABOUT, OnHelpAbout)
     ON_COMMAND(ID_HELP_WEBSITE, OnHelpWebsite)
+    ON_COMMAND(ID_HELP_CHANGELOG, OnHelpChangelog)
     ON_COMMAND(ID_HELP_MANUAL, OnHelpManual)
     ON_WM_SHOWWINDOW()
     ON_WM_ENDSESSION()
@@ -4544,6 +4545,11 @@ void CTeamTalkDlg::OnHelpAbout()
 void CTeamTalkDlg::OnHelpWebsite()
 {
     HINSTANCE i = ShellExecute(this->m_hWnd,_T("open"),WEBSITE,_T(""),_T(""),SW_SHOW);
+}
+
+void CTeamTalkDlg::OnHelpChangelog()
+{
+    HINSTANCE i = ShellExecute(this->m_hWnd,_T("open"),WEBCHANGELOG,_T(""),_T(""),SW_SHOW);
 }
 
 void CTeamTalkDlg::OnHelpManual()

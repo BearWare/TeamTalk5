@@ -1702,6 +1702,7 @@ BEGIN
         MENUITEM "R&eset Preferences to Default", ID_HELP_RESETPREFERENCESTODEFAULT
         MENUITEM SEPARATOR
         MENUITEM "BearWare.dk &Website",        ID_HELP_WEBSITE
+        MENUITEM "&Change log",        ID_HELP_CHANGELOG
         MENUITEM "&About",                      ID_HELP_ABOUT
     END
 END
@@ -2018,6 +2019,7 @@ BEGIN
     ID_ME_ENABLEHOTKEY      "Use keyboard keys to transmit voice data"
     ID_ME_ENABLEVOICEACTIVATION "Use voice activation to transmit voice data"
     ID_HELP_WEBSITE         "Goto the application's website"
+    ID_HELP_CHANGELOG         "Open the application's Change log"
     ID_ME_CHANGESTATUS      "Change your online status"
     ID_ME_CHANGENICK        "Change your nick name"
     ID_CHANNELS_VIEWCHANNELINFO 
