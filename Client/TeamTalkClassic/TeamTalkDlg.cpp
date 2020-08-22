@@ -1807,15 +1807,31 @@ void CTeamTalkDlg::OnChannelJoined(const Channel& chan)
     m_tabChat.m_wndRichEdit.SetChannelInfo(chan.nChannelID);
 
     CString szMsg, szFormat;
-    if(chan.uChannelType & CHANNEL_CLASSROOM)
-    {
-        szFormat = LoadText(IDS_CLASSROOM_SELF_JOINED);
-        szMsg.Format(szFormat, LimitText(chan.szName));
-    }
-    else
-    {
-        szFormat = LoadText(IDS_CHANNEL_SELF_JOINED);
-        szMsg.Format(szFormat, LimitText(chan.szName));
+    if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID) {
+        if(chan.uChannelType & CHANNEL_CLASSROOM)
+        {
+            szFormat = LoadText(IDS_CLASSROOM_SELF_JOINED);
+            szMsg.Format(szFormat, LimitText(chan.szName));
+        }
+        else
+        {
+            szFormat = LoadText(IDS_CHANNEL_SELF_JOINED);
+            szMsg.Format(szFormat, LimitText(chan.szName));
+        }
+    } else {
+        CString szRoot;
+        szRoot.LoadString(IDS_ROOTCHANNEL);
+        TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRoot);
+        if(chan.uChannelType & CHANNEL_CLASSROOM)
+        {
+            szFormat = LoadText(IDS_CLASSROOM_SELF_JOINED);
+            szMsg.Format(szFormat, LimitText(szRoot));
+        }
+        else
+        {
+            szFormat = LoadText(IDS_CHANNEL_SELF_JOINED);
+            szMsg.Format(szFormat, LimitText(szRoot));
+        }
     }
 
     AddStatusText(szMsg);
@@ -1835,8 +1851,16 @@ void CTeamTalkDlg::OnChannelLeft(const Channel& chan)
     UpdateWindowTitle();
 
     CString szMsg, szFormat;
-    szFormat = LoadText(IDS_CHANNEL_SELF_LEFT);
-    szMsg.Format(szFormat, chan.szName);
+    if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID) {
+        szFormat = LoadText(IDS_CHANNEL_SELF_LEFT);
+        szMsg.Format(szFormat, chan.szName);
+    } else {
+        CString szRoot;
+        szRoot.LoadString(IDS_ROOTCHANNEL);
+        TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRoot);
+        szFormat = LoadText(IDS_CHANNEL_SELF_LEFT);
+        szMsg.Format(szFormat, szRoot);
+    }
 
     AddStatusText(szMsg);
     if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT)
@@ -1847,7 +1871,6 @@ void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
 {
     ASSERT(msg.ttType == __REMOTEFILE);
     const RemoteFile& remotefile = msg.remotefile;
-    User user;
     m_tabFiles.AddFile(remotefile.nChannelID, remotefile.nFileID);
 
     if(remotefile.nChannelID == TT_GetMyChannelID(ttInst) &&
@@ -1855,9 +1878,13 @@ void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
        m_commands[m_nCurrentCmdID] != CMD_COMPLETE_JOIN)
     {
         PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
-        TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
         CString szMsg;
-        szMsg.Format(LoadText(IDS_FILEADDED), GetDisplayName(user), remotefile.szFileName);
+        szMsg.Format(LoadText(IDS_FILEADDED, _T("File %s added")), remotefile.szFileName);
+        if (remotefile.szUsername != STR_UTF8(m_host.szUsername)) {
+            User user;
+            if (TT_GetUserByUsername(ttInst, remotefile.szUsername, &user))
+                szMsg.Format(LoadText(IDS_FILEADDBY, _T("File %s added by %s")), remotefile.szFileName, GetDisplayName(user));
+        }
         AddStatusText(szMsg);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_FILE_ADD)
             AddVoiceMessage(szMsg);
@@ -1873,7 +1900,12 @@ void CTeamTalkDlg::OnFileRemove(const TTMessage& msg)
     {
         PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
         CString szMsg;
-        szMsg.Format(LoadText(IDS_FILEREMOVED), remotefile.szFileName);
+        szMsg.Format(LoadText(IDS_FILEREMOVED, _T("File %s removed")), remotefile.szFileName);
+        if (remotefile.szUsername != STR_UTF8(m_host.szUsername)) {
+            User user;
+            if (TT_GetUserByUsername(ttInst, remotefile.szUsername, &user))
+                szMsg.Format(LoadText(IDS_FILEREMOVEDBY, _T("Removed file %s created by %s")), remotefile.szFileName, GetDisplayName(user));
+        }
         AddStatusText(szMsg);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_FILE_REMOVE)
             AddVoiceMessage(szMsg);
@@ -3902,6 +3934,15 @@ void CTeamTalkDlg::OnUsersMuteVoice()
         TT_SetUserMute(ttInst, nUserID, STREAMTYPE_VOICE,
                        !(user.uUserState & USERSTATE_MUTE_VOICE));
     }
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_VOICE) {
+        CString szMsg;
+        if(!(user.uUserState & USERSTATE_MUTE_VOICE)) {
+            szMsg.Format(LoadText(IDS_MVUD, _T("Voice for %s disabled")), GetDisplayName(user));
+        } else {
+            szMsg.Format(LoadText(IDS_MVUE, _T("Voice for %s enabled")), GetDisplayName(user));
+        }
+        AddVoiceMessage(szMsg);
+    }
 }
 
 void CTeamTalkDlg::OnUpdateUsersMuteMediafile(CCmdUI *pCmdUI)
@@ -3927,6 +3968,15 @@ void CTeamTalkDlg::OnUsersMuteMediafile()
     {
         TT_SetUserMute(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
                        !(user.uUserState & USERSTATE_MUTE_MEDIAFILE));
+    }
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_MEDIAFILE) {
+        CString szMsg;
+        if(!(user.uUserState & USERSTATE_MUTE_MEDIAFILE)) {
+            szMsg.Format(LoadText(IDS_MMFUD, _T("Media files for %s disabled")), GetDisplayName(user));
+        } else {
+            szMsg.Format(LoadText(IDS_MMFUE, _T("Media files for %s enabled")), GetDisplayName(user));
+        }
+        AddVoiceMessage(szMsg);
     }
 }
 
@@ -4043,6 +4093,13 @@ void CTeamTalkDlg::OnUpdateUsersMuteVoiceall(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnUsersMuteVoiceall()
 {
     TT_SetSoundOutputMute(ttInst, !(TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_MUTE));
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_VOICE) {
+        if((TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_MUTE) != CLIENT_CLOSED == 1) {
+            AddVoiceMessage(LoadText(IDS_MVD, _T("Master volume disabled")));
+        } else {
+            AddVoiceMessage(LoadText(IDS_MVE, _T("Master volume enabled")));
+        }
+    }
 }
 
 void CTeamTalkDlg::OnUpdateUsersPositionusers(CCmdUI *pCmdUI)
@@ -4754,11 +4811,11 @@ BOOL CTeamTalkDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pData)
         m_cmdArgs.RemoveAll();
         CString args = msg.szPath;
         int i = 0;
-        CString token = args.Tokenize(_T("¤"), i);
+        CString token = args.Tokenize(_T("Â¤"), i);
         while(!token.IsEmpty())
         {
             m_cmdArgs.AddTail(token);
-            token = args.Tokenize(_T("¤"), i);
+            token = args.Tokenize(_T("Â¤"), i);
         }
 
         ParseArgs();
@@ -5717,14 +5774,38 @@ void CTeamTalkDlg::OnServerSaveconfiguration()
 void CTeamTalkDlg::OnUpdateAdvancedStoreformove(CCmdUI *pCmdUI)
 {
     pCmdUI->Enable(m_wndTree.GetSelectedUser()>0);
+    int nUserID = m_wndTree.GetSelectedUser();
+    if(m_moveusers.find(nUserID) != m_moveusers.end()) {
+        pCmdUI->SetCheck(true);
+    } else {
+        pCmdUI->SetCheck(false);
+    }
 }
 
 void CTeamTalkDlg::OnAdvancedStoreformove()
 {
     int nMoveUserID = m_wndTree.GetSelectedUser();
-    if (nMoveUserID)
-        m_moveusers.insert(nMoveUserID);
-
+    if(nMoveUserID) {
+        if(m_moveusers.find(nMoveUserID) != m_moveusers.end()) {
+            m_moveusers.erase(nMoveUserID);
+            if(m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
+                User user;
+                TT_GetUser(ttInst, nMoveUserID, &user);
+                CString szMsg;
+                szMsg.Format(LoadText(IDS_UNSELECTFORMOVE, _T("%s deselected for move")), GetDisplayName(user));
+                AddVoiceMessage(szMsg);
+            }
+        } else {
+            m_moveusers.insert(nMoveUserID);
+            if(m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
+                User user;
+                TT_GetUser(ttInst, nMoveUserID, &user);
+                CString szMsg;
+                szMsg.Format(LoadText(IDS_SELECTFORMOVE, _T("%s selected for move")), GetDisplayName(user));
+                AddVoiceMessage(szMsg);
+            }
+        }
+    }
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedMoveuser(CCmdUI *pCmdUI)
@@ -5740,6 +5821,20 @@ void CTeamTalkDlg::OnAdvancedMoveuser()
     {
         TT_DoMoveUser(ttInst, nUserID, nChanID);
     });
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
+        Channel chan;
+        TT_GetChannel(ttInst, nChanID, &chan);
+        CString szMsg;
+        if(chan.nParentID == 0) {
+            CString szRoot;
+            szRoot.LoadString(IDS_ROOTCHANNEL);
+            TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRoot);
+            szMsg.Format(LoadText(IDS_USERSMOVED, _T("Selected users has been moved to channel %s")), szRoot);
+        } else {
+            szMsg.Format(LoadText(IDS_USERSMOVED, _T("Selected users has been moved to channel %s")), chan.szName);
+        }
+        AddVoiceMessage(szMsg);
+    }
     m_moveusers.clear();
 }
 
@@ -6578,9 +6673,15 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
             return;
 
         CString szUser, szVoice, szMute, szMediaFile, szMuteMediaFile,
-            szVideoCapture, szDesktop, szChanOp = LoadText(IDS_CHANOP, _T("Channel Operator"));
+            szVideoCapture, szDesktop, szChanOp = LoadText(IDS_CHANOP, _T("Channel Operator")), szMoveSelected = LoadText(IDS_MOVESELECTED, _T("Selected for move"));
+        if (user.uUserType & USERTYPE_ADMIN) {
+            szUser.LoadString(IDS_USERADMIN);
+            TRANSLATE_ITEM(IDS_USERADMIN, szUser);
+        } else {
+            szUser.LoadString(IDS_USER);
+            TRANSLATE_ITEM(IDS_USER, szUser);
+        }
 
-        szUser.LoadString(IDS_USER);
         TRANSLATE_ITEM(IDD_TAB_CHANNELOP, szChanOp);
         szVoice.LoadString(IDS_TALKING);
         szMute.LoadString(IDS_MUTE);
@@ -6589,7 +6690,6 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         szVideoCapture.LoadString(IDS_VIDEOCAPTURE);
         szDesktop.LoadString(IDS_DESKTOP);
 
-        TRANSLATE_ITEM(IDS_USER, szUser);
         TRANSLATE_ITEM(IDS_TALKING, szVoice);
         TRANSLATE_ITEM(IDS_MUTE, szMute);
         TRANSLATE_ITEM(IDS_STREAMING_MEDIAFILE, szMediaFile);
@@ -6600,6 +6700,9 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         szSpeakList.AddTail(szUser);
 
         CString szStatus;
+
+        if(m_moveusers.find(user.nUserID) != m_moveusers.end())
+            szSpeakList.AddTail(szMoveSelected);
 
         if(TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
             szSpeakList.AddTail(szChanOp);
@@ -6653,7 +6756,7 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         TRANSLATE_ITEM(IDS_PASSWORD_PROTECTED, szPasswd);
         TRANSLATE_ITEM(IDS_CLASSROOMCHANNEL, szClassroom);
         TRANSLATE_ITEM(IDC_STATIC_CHTOPIC, szTopic);
-        szChannel += _T(":");
+        szChannel += _T(": ");
         szChannel += chan.szName;
         szTopic += _T(": ");
         szTopic += chan.szTopic;
