@@ -195,7 +195,7 @@
     <item id="325">Speex Audio Preprocessor</item>
     <item id="326">No Audio Preprocessor</item>
     <item id="327">Connected... logging in</item>
-    <item id="329">Failed to connect to host &quot;%s&quot; TCP port %d UDP port %d.&#xD;&#xA;Check that the server is running on the specified address&#xD;&#xA;and that a firewall isn't preventing clients from connecting.</item>
+    <item id="329">Failed to connect to host &quot;%s&quot; TCP port %d UDP port %d.&#xD;&#xA;Check that the server is running on the specified address&#xD;&#xA;and that a firewall isn&apos;t preventing clients from connecting.</item>
     <item id="330">An error occurred while perform a requested command:&#xD;&#xA;</item>
     <item id="331">Failed to connect to %s TCP port %d UDP port %d</item>
     <item id="332">Connection lost to %s TCP port %d UDP port %d</item>
@@ -302,7 +302,7 @@
     <item id="434">No Audio</item>
     <item id="435">Speex Variable Bitrate</item>
     <item id="436">Enter a channel name</item>
-    <item id="437">A channel name cannot contain a '/'</item>
+    <item id="437">A channel name cannot contain a &apos;/&apos;</item>
     <item id="438">VoIP</item>
     <item id="439">Music</item>
     <item id="440">Broadcast: %s&#xD;&#xA;</item>
@@ -411,7 +411,7 @@
     <item id="553">History</item>
     <item id="555">Message</item>
     <item id="556">NoName</item>
-    <item id="557">Channel's list</item>
+    <item id="557">Channel list</item>
     <item id="558">Files list</item>
     <item id="1006">Files list</item>
     <item id="1009">Auto join root channel upon connection</item>
