@@ -113,15 +113,12 @@
     <item id="221">Connexion</item>
     <item id="223">Évènements sonores</item>
     <item id="224">Système audio</item>
-    <item id="225">Canal salle de classe principal rejoint</item>
     <item id="226">%s a réglé l&apos;abonnement &quot;interception vidéo&quot; sur %d</item>
     <item id="227">Informations de l&apos;utilisateur</item>
-    <item id="233">Canal principal rejoint</item>
     <item id="234">%s a réglé l&apos;abonnement &quot;interception du bureau&quot; sur %d</item>
     <item id="243">Gestionnaire d'hôtes</item>
     <item id="244">%s a réglé l&apos;abonnement &quot;interception des fichiers média&quot; sur %d</item>
     <item id="245">%s a accordé l&apos;accès au bureau</item>
-    <item id="247">Canal principal quitté</item>
     <item id="248">%s a maintenant un accès au bureau</item>
     <item id="249">Combinaison de touches</item>
     <item id="251">Positionner les participants (cartes son 3D)</item>

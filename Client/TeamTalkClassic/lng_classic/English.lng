@@ -113,15 +113,12 @@
     <item id="221">Connection</item>
     <item id="223">Sound events</item>
     <item id="224">Sound system</item>
-    <item id="225">Joined root classroom channel</item>
     <item id="226">%s changed subscription &quot;Intercept Video&quot; to: %d</item>
     <item id="227">User Information</item>
-    <item id="233">Joined root channel</item>
     <item id="234">%s changed subscription &quot;Intercept Desktop&quot; to: %d</item>
     <item id="243">Host manager</item>
     <item id="244">%s changed subscription &quot;Intercept Media File Stream&quot; to: %d</item>
     <item id="245">%s has granted desktop access</item>
-    <item id="247">Left root channel</item>
     <item id="248">%s now has desktop access</item>
     <item id="249">Key combination</item>
     <item id="251">Position participants (3D sound cards)</item>
