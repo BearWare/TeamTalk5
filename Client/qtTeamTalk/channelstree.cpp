@@ -973,6 +973,12 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if(_Q(user.szStatusMsg).size())
             itemtext += QString(" - ") + _Q(user.szStatusMsg);
 
+        if(user.uUserType & USERTYPE_ADMIN)
+            itemtext += tr(" (Administrator)");
+
+        if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
+            itemtext += tr(" (Channel operator)");
+
         if (itemtext.size() > m_strlen)
         {
             itemtext.resize(m_strlen);
