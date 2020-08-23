@@ -2329,7 +2329,6 @@ BEGIN
     IDS_CHANPSW             "Channel password"
     IDS_FILEADDBY             "File %s added by %s"
     IDS_FILEREMOVEDBY             "Removed file %s created by %s"
->>>>>>> origin/master
     IDS_COMPILEDON          "Compiled on "
     IDS_UNICODEENABLED      "Unicode -> UTF-8 conversion enabled.\r\n"
     IDS_LOCALECHARS         "Uses local character set.\r\n"
