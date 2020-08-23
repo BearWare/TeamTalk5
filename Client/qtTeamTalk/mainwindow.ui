@@ -331,6 +331,9 @@
          </property>
          <item>
           <widget class="ChatTextEdit" name="chatEdit">
+           <property name="shortcut">
+            <string>CTRL+F10</string>
+           </property>
            <property name="mouseTracking">
             <bool>false</bool>
            </property>
