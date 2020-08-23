@@ -1335,6 +1335,29 @@
               </property>
              </widget>
             </item>
+            <item row="21" column="1">
+             <widget class="QLineEdit" name="voiceactoffEdit"/>
+            </item>
+            <item row="21" column="0">
+             <widget class="QLabel" name="label_321">
+              <property name="text">
+               <string>Voice activation disabled</string>
+              </property>
+              <property name="buddy">
+               <cstring>voiceactoffEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="21" column="2">
+             <widget class="QToolButton" name="voiceactoffButton">
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
             <item row="22" column="1">
              <widget class="QLineEdit" name="voiceactongEdit"/>
             </item>
