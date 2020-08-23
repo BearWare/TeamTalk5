@@ -331,9 +331,9 @@
          </property>
          <item>
           <widget class="ChatTextEdit" name="chatEdit">
-           <attribute name="title">
+           <property name="text">
             <string>Histor&amp;y</string>
-           </attribute>
+           </property>
            <property name="mouseTracking">
             <bool>false</bool>
            </property>
