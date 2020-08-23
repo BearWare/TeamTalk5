@@ -1871,7 +1871,7 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
                 playSoundEvent(SOUNDEVENT_VOICEACTON);
             } else {
                 playSoundEvent(SOUNDEVENT_VOICEACTOFF);
-            }*/
+            }
         }
         break;
     case HOTKEY_INCVOLUME :
