@@ -808,7 +808,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             login();
         }
         updateWindowTitle();
-        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CON_FAILED :
@@ -817,8 +816,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         addStatusMsg(tr("Failed to connect to %1 TCP port %2 UDP port %3")
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
-
-        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CON_LOST :
@@ -831,8 +828,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
         playSoundEvent(SOUNDEVENT_SERVERLOST);
-
-        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED :
@@ -854,27 +849,20 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         emit(cmdError(msg.clienterrormsg.nErrorNo, msg.nSource));
 
         showTTErrorMessage(msg.clienterrormsg, cmd_type);
-
-        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CMD_SUCCESS :
         emit(cmdSuccess(msg.nSource));
-
-        slotUpdateUI();
         break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
         //ui.chatEdit->updateServer();
         addStatusMsg(tr("Logged in"));
         //store user account settings
         m_myuseraccount = msg.useraccount;
-        slotUpdateUI();
         break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDOUT :
         addStatusMsg(tr("Logged out"));
         Disconnect();
-        slotUpdateUI();
-
         break;
     case CLIENTEVENT_CMD_MYSELF_KICKED :
     {
@@ -885,8 +873,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                          .arg(getDisplayName(msg.user)));
         else
             addStatusMsg(tr("Kicked by unknown user"));
-
-        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CMD_SERVER_UPDATE :
@@ -898,8 +884,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         emit(serverUpdate(msg.serverproperties));
 
         m_srvprop = msg.serverproperties;
-
-        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CMD_SERVERSTATISTICS :
@@ -921,8 +905,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             m_mychannel = msg.channel;
             //update AGC, denoise, etc. if changed
             updateAudioConfig();
-
-            slotUpdateUI();
         }
         emit(updateChannel(msg.channel));
     }
@@ -972,7 +954,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 addStatusMsg(userjoinchan);
             }
         }
-        slotUpdateUI();
         break;
     case CLIENTEVENT_CMD_USER_LEFT :
         Q_ASSERT(msg.ttType == __USER);
@@ -992,7 +973,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 addStatusMsg(userleftchan);
             }
         }
-        slotUpdateUI();
         break;
     case CLIENTEVENT_CMD_USER_UPDATE :
     {
@@ -1045,8 +1025,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             }
             addStatusMsg(fileadd);
         }
-
-        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_CMD_FILE_REMOVE :
@@ -1073,7 +1051,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         }
 
     }
-    slotUpdateUI();
     break;
     case CLIENTEVENT_CMD_USERACCOUNT :
         Q_ASSERT(msg.ttType == __USERACCOUNT);
@@ -1109,8 +1086,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                                         tr("Failed to upload file %1")
                                         .arg(_Q(msg.filetransfer.szLocalFilePath)));
         }
-
-        slotUpdateUI();
         break;
     case CLIENTEVENT_INTERNAL_ERROR :
     {
@@ -1139,8 +1114,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(critical)
             QMessageBox::critical(this, tr("Internal Error"), textmsg);
         addStatusMsg(textmsg);
-
-        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_USER_STATECHANGE :
@@ -1220,7 +1193,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         //update if still talking
         emit(updateMyself());
-        slotUpdateUI();
     }
     break;
     case CLIENTEVENT_LOCAL_MEDIAFILE:
@@ -1259,8 +1231,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
                 addStatusMsg(tr("New video session from %1")
                              .arg(getDisplayName(user)));
-
-            slotUpdateUI();
         }
         emit(newVideoCaptureFrame(userid, msg.nStreamID));
     }
@@ -1291,8 +1261,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
                 addStatusMsg(tr("New video session from %1")
                 .arg(getDisplayName(user)));
-
-            slotUpdateUI();
         }
         emit(newMediaVideoFrame(userid, msg.nStreamID));
     }
@@ -1319,8 +1287,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                     addStatusMsg(tr("New desktop session from %1")
                     .arg(getDisplayName(user)));
             }
-
-            slotUpdateUI();
         }
         emit(newDesktopWindow(msg.nSource, msg.nStreamID));
         break;
@@ -1413,6 +1379,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     default :
         qDebug() << "Unknown message type" << msg.nClientEvent;
     }
+    slotUpdateUI();
 }
 
 
