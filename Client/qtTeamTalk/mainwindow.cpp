@@ -1872,7 +1872,7 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
             } else {
                 playSoundEvent(SOUNDEVENT_VOICEACTOFF);
             }*/
-            SLOT(slotMeEnableVoiceActivation(bool));
+            slotMeEnableVoiceActivation());
         }
         break;
     case HOTKEY_INCVOLUME :
