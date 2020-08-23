@@ -1865,13 +1865,14 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         break;
     case HOTKEY_VOICEACTIVATION :
         if(active) {
-            TT_EnableVoiceActivation(ttInst, 
+/*            TT_EnableVoiceActivation(ttInst, 
                      !(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
             if(((TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVE) != CLIENT_CLOSED) == true) {
                 playSoundEvent(SOUNDEVENT_VOICEACTON);
             } else {
                 playSoundEvent(SOUNDEVENT_VOICEACTOFF);
-            }
+            }*/
+            SLOT(slotMeEnableVoiceActivation(bool));
         }
         break;
     case HOTKEY_INCVOLUME :
