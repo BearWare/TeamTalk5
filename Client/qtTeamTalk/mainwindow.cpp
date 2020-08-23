@@ -754,7 +754,6 @@ bool MainWindow::parseArgs(const QStringList& args)
 void MainWindow::processTTMessage(const TTMessage& msg)
 {
     QString rootchanname = tr("root");
-    QString mynickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
 
     switch(msg.nClientEvent)
     {
