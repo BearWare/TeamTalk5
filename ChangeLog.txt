@@ -6,7 +6,7 @@ Accessible Windows Client:
 - Fixed translation for development of WebM VP8 codec on about dialog
 - Update window title at login with server name
 - It's now possible to use numpad keys for subscriptions shortcuts
-- Status mode is now displaying for 4 status (Away, Question, Streaming media file, and Webcam)
+- Status mode is now displayed for Away, Question, Streaming media file and Webcam
 - Away is displayed when switching automatically to Away-mode due to inactivity, and also when manually switching to this mode
 - Status mode is now displayed on receiving side (after status message)
 - Status message is now displaying after a hyphen (same behavior with QT Client)
@@ -18,8 +18,7 @@ Accessible Windows Client:
 - Ctrl+Shift+Alt+M to mute/unmute media files of an user
 Default QT Client:
 - Update window title at login with server name
-- Shortcuts to increase/decrease voice and file media volume are now ctrl+9/0 and ctrl+alt+9/0
-- Status mode is now displayed as text for 4 status (Away, Question, Streaming media file, and Webcam)
+- Status mode is now displayed for Away, Question, Streaming media file and Webcam
 - Away is displayed when switching automatically to Away-mode due to inactivity, and also when manually switching to this mode
 - Status mode is now displayed on receiving side (after status message)
 - Ctrl+H/Y and Ctrl+Shift+H/Y to increase/decrease voice and media files volume of an user
