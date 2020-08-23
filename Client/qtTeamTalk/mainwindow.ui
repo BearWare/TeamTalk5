@@ -331,11 +331,14 @@
          </property>
          <item>
           <widget class="ChatTextEdit" name="chatEdit">
+           <attribute name="title">
+            <string>Histor&amp;y</string>
+           </attribute>
            <property name="mouseTracking">
             <bool>false</bool>
            </property>
            <property name="accessibleName">
-            <string>Histor&amp;y</string>
+            <string>History</string>
            </property>
            <property name="tabChangesFocus">
             <bool>true</bool>
