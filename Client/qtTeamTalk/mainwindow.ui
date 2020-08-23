@@ -335,7 +335,7 @@
             <bool>false</bool>
            </property>
            <property name="accessibleName">
-            <string>Histor&y</string>
+            <string>Histor&amp;y</string>
            </property>
            <property name="tabChangesFocus">
             <bool>true</bool>
