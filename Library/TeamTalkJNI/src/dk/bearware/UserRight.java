@@ -48,6 +48,6 @@ public interface UserRight
     public static final int USERRIGHT_LOCKED_NICKNAME             = 0x00040000;
     public static final int USERRIGHT_LOCKED_STATUS               = 0x00080000;
 
-    public static final int USERRIGHT_ALL                         = 0xFFFFFFFF;
+    public static final int USERRIGHT_ALL                         = 0xFFFFFFFF & ~USERRIGHT_LOCKED_NICKNAME & ~USERRIGHT_LOCKED_STATUS;
     
 }
