@@ -531,7 +531,7 @@ void PreferencesDlg::slotTabChange(int index)
         ui.desktopaccessEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS).toString());
         ui.voiceactonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON).toString());
         ui.voiceactoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF).toString());
-        ui.voiceactonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTONG).toString());
+        ui.voiceactongEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTONG).toString());
         ui.voiceactoffgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFFG).toString());
         break;
     case SHORTCUTS_TAB :  //shortcuts
