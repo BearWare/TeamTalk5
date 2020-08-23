@@ -1866,8 +1866,8 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
     case HOTKEY_VOICEACTIVATION :
         if(active) {
             TT_EnableVoiceActivation(ttInst, 
-                     !(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED), playSoundEvent(SOUNDEVENT_VOICEACTON), playSoundEvent(SOUNDEVENT_VOICEACTOFF));
-/*            if((TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVE) == true) {
+                     !(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
+            if(((TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVE) != CLIENT_CLOSED) == true) {
                 playSoundEvent(SOUNDEVENT_VOICEACTON);
             } else {
                 playSoundEvent(SOUNDEVENT_VOICEACTOFF);
