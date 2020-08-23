@@ -1869,8 +1869,10 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
                      !(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
             if(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED) == true) {
                 playSoundEvent(SOUNDEVENT_VOICEACTOFF);
+                ui.voiceactSlider->setVisible(false);
             } else {
                 playSoundEvent(SOUNDEVENT_VOICEACTON);
+                ui.voiceactSlider->setVisible(true);
             }
         }
         break;
