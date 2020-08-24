@@ -895,7 +895,7 @@ void playSoundEvent(SoundEvent event)
         break;
     }
     if(filename.size()) {
-        QSound::stop();
+        QSound::stop(event);
         QSound::play(filename);
     }
 }
