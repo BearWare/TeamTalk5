@@ -894,7 +894,7 @@ void playSoundEvent(SoundEvent event)
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFFG).toString();
         break;
     }
-    if(filename.size())
+    if(filename.size() && QSound::isFinished() == true)
         QSound::play(filename);
 }
 
