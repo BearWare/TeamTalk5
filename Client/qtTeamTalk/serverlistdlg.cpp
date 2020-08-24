@@ -259,9 +259,8 @@ void ServerListDlg::slotConnect()
     }
 }
 
-void ServerListDlg::slotServerSelected(QListWidgetItem * item)
+void ServerListDlg::slotServerSelected(QListWidgetItem *)
 {
-    Q_UNUSED(item);
     qDebug() << "Activated";
 }
 
@@ -316,7 +315,7 @@ void ServerListDlg::slotFreeServerRequest(QNetworkReply* reply)
     {
         QListWidgetItem* srvItem = new QListWidgetItem(ui.listWidget);
         srvItem->setText(m_servers[index].name);
-        srvItem->setBackgroundColor(QColor(0x0C,0x52,0x28));
+        srvItem->setBackground(QColor(0x0C,0x52,0x28));
         ui.listWidget->addItem(srvItem);
     }
 }

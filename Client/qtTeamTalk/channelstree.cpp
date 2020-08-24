@@ -485,12 +485,12 @@ void ChannelsTree::timerEvent(QTimerEvent* event)
                 bool update_item = false;
                 if(audloss_pct >= .1f || vidloss_pct >= .1f)
                 {
-                    if(userItem->backgroundColor(COLUMN_ITEM) != COLOR_LOSSY)
-                        userItem->setBackgroundColor(COLUMN_ITEM, COLOR_LOSSY);
+                    if(userItem->background(COLUMN_ITEM) != COLOR_LOSSY)
+                        userItem->setBackground(COLUMN_ITEM, COLOR_LOSSY);
                     else
                         update_item = true;
                 }
-                else if(userItem->backgroundColor(COLUMN_ITEM) == COLOR_LOSSY)
+                else if(userItem->background(COLUMN_ITEM) == COLOR_LOSSY)
                     update_item = true;
 
                 if(vidrecv)

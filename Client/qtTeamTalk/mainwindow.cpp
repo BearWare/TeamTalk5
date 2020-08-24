@@ -1178,6 +1178,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             stopStreamMediaFile();
             break;
         case MFS_CLOSED :
+        case MFS_PAUSED :
+        case MFS_PLAYING :
             break;
         }
 
@@ -1321,8 +1323,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     case CLIENTEVENT_USER_RECORD_MEDIAFILE :
     {
         Q_ASSERT(msg.ttType == __MEDIAFILEINFO);
-        User user;
-        ZERO_STRUCT(user);
+        User user = {};
         ui.channelsWidget->getUser(msg.nSource, user);
 
         switch(msg.mediafileinfo.nStatus)
@@ -1346,6 +1347,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                          .arg(_Q(msg.mediafileinfo.szFileName)));
             break;
         case MFS_CLOSED :
+        case MFS_PLAYING :
+        case MFS_PAUSED :
             break;
         }
     }
@@ -1882,13 +1885,12 @@ void MainWindow::timerEvent(QTimerEvent *event)
         {
             ClientStatistics stats;
             TT_GetClientStatistics(ttInst, &stats);
-            float rx = (float)(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
-            float tx = (float)(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
+            float rx = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
+            float tx = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
             int ping = stats.nUdpPingTimeMs;
             m_clientstats = stats;
 
-            QString status;
-            status.sprintf("RX: %.2fKB TX: %.2fKB", rx/1024.0f, tx/1024.0f);
+            QString status = QString("RX: %1KB TX: %2KB").arg(rx / 1024.0, 2, 'f', 2, '0').arg(tx / 1024.0, 2, 'f', 2, '0');
 
             if(ping != -1)
                 m_pinglabel->setText(QString("PING: %1").arg(ping));
