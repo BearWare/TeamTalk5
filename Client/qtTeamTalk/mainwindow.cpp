@@ -1844,6 +1844,8 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
                 playSoundEvent(SOUNDEVENT_VOICEACTOFFG);
                 ui.voiceactSlider->setVisible(false);
                 ui.actionEnableVoiceActivation->setChecked(false);
+                disableHotKey(HOTKEY_PUSHTOTALK);
+                ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, false);
             } else {
                 playSoundEvent(SOUNDEVENT_VOICEACTONG);
                 ui.voiceactSlider->setVisible(true);
