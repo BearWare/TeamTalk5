@@ -16,6 +16,8 @@ Accessible Windows Client:
 - Ctrl+Shift+E to send a broadcast message
 - Ctrl+Alt+B to kick and ban
 - Ctrl+Shift+Alt+M to mute/unmute media files of an user
+- Messages timestamp now return also dates
+- Messages timestamps are now translatables
 Default QT Client:
 - Update window title at login with server name
 - Status mode is now displayed for Away, Question, Streaming media file and Webcam
