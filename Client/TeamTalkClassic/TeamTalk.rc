@@ -2324,6 +2324,7 @@ BEGIN
     IDS_SUREDELETECHAN      "Are you sure you want to delete channel %s"
     IDS_CHANDELETETITLE     "Delete Channel"
     IDS_CHANPSW             "Channel password"
+    IDS_TIMELOCALE             "%Y-%m-%d %H:%M:%S"
     IDS_FILEADDBY             "File %s added by %s"
     IDS_FILEREMOVEDBY             "Removed file %s created by %s"
     IDS_COMPILEDON          "Compiled on "
