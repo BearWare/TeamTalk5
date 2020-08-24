@@ -1051,7 +1051,12 @@ CString CSessionTreeCtrl::GetChannelText(int nChannelID) const
         }
     }
 
-    return LimitText(szText);
+    if(ite->second.bPassword) {
+        CString szPwd = _T(" - \U0001f512");
+        return LimitText(szText) + szPwd;
+    } else {
+        return LimitText(szText);
+    }
 }
 
 void CSessionTreeCtrl::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
