@@ -3498,7 +3498,11 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
     {
         disableHotKey(HOTKEY_PUSHTOTALK);
     }
-
+    if(checked == true) {
+        TT_EnableVoiceActivation(ttInst, false);
+        ui.voiceactSlider->setVisible(false);
+        ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, false);
+    }
     ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, checked);
 
     slotUpdateUI();
