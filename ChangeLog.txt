@@ -27,6 +27,7 @@ Default QT Client:
 - Ctrl+Shift+E to send a broadcast message
 - Ctrl+Alt+B to kick and ban
 - Ctrl+Shift+Alt+M to mute/unmute media files of an user
+- User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
 
 Version 5.6, 2020/08/04
 Accessible Windows client

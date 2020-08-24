@@ -1326,6 +1326,57 @@ QString getBearWareRegistrationUrl(const QDomDocument& doc)
     return parseXML(doc, "teamtalk/bearware/register-url");
 }
 
+QString userCacheID(const User& user)
+{
+    bool restore = ttSettings->value(SETTINGS_GENERAL_RESTOREUSERSETTINGS, SETTINGS_GENERAL_RESTOREUSERSETTINGS_DEFAULT).toBool();
+
+    if (restore && _Q(user.szUsername).endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX))
+        return QString("%1|%2").arg(_Q(user.szUsername)).arg(_Q(user.szClientName));
+
+    return QString();
+}
+
+UserCached::UserCached(const User& user)
+{
+    valid = !userCacheID(user).isEmpty();
+    if (!valid)
+        return;
+
+    subscriptions = user.uLocalSubscriptions;
+    voiceMute = (user.uUserState & USERSTATE_MUTE_VOICE) != USERSTATE_NONE;
+    mediaMute = (user.uUserState & USERSTATE_MUTE_MEDIAFILE) != USERSTATE_NONE;
+    voiceVolume = user.nVolumeVoice;
+    mediaVolume = user.nVolumeMediaFile;
+    voiceLeftSpeaker = user.stereoPlaybackVoice[0];
+    voiceRightSpeaker = user.stereoPlaybackVoice[1];
+    mediaLeftSpeaker = user.stereoPlaybackMediaFile[0];
+    mediaRightSpeaker = user.stereoPlaybackMediaFile[1];
+
+    qDebug() << "Cached " << userCacheID(user);
+}
+
+void UserCached::sync(TTInstance* ttInst, const User& user)
+{
+    if (!valid)
+        return;
+
+    TT_SetUserMute(ttInst, user.nUserID, STREAMTYPE_VOICE, voiceMute);
+    TT_SetUserMute(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, mediaMute);
+    TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_VOICE, voiceVolume);
+    TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, mediaVolume);
+    TT_SetUserStereo(ttInst, user.nUserID, STREAMTYPE_VOICE, voiceLeftSpeaker, voiceRightSpeaker);
+    TT_SetUserStereo(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, mediaLeftSpeaker, mediaRightSpeaker);
+    if (subscriptions != user.uLocalSubscriptions)
+    {
+        TT_DoUnsubscribe(ttInst, user.nUserID, user.uLocalSubscriptions ^ subscriptions);
+        TT_DoSubscribe(ttInst, user.nUserID, subscriptions);
+    }
+    TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, user.nUserID);
+
+    qDebug() << "Restored " << userCacheID(user);
+}
+
+
 QByteArray generateTTFile(const HostEntry& entry)
 {
     QDomDocument doc(TTFILE_ROOT);

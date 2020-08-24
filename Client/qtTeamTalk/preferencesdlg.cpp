@@ -60,6 +60,7 @@ PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
     //general tab
     connect(ui.setupBearWareLoginButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEnableBearWareID);
+
     connect(ui.pttChkBox, SIGNAL(clicked(bool)), SLOT(slotEnablePushToTalk(bool)));
     connect(ui.setupkeysButton, SIGNAL(clicked()), SLOT(slotSetupHotkey()));
 
@@ -437,6 +438,8 @@ void PreferencesDlg::slotTabChange(int index)
         ui.bearwareidEdit->setText(bearwareid);
         if (bearwareid.size())
             ui.setupBearWareLoginButton->setText("&Reset");
+        ui.syncWebUserCheckBox->setChecked(ttSettings->value(SETTINGS_GENERAL_RESTOREUSERSETTINGS,
+                                                             SETTINGS_GENERAL_RESTOREUSERSETTINGS_DEFAULT).toBool());
 
         ui.awaySpinBox->setValue(ttSettings->value(SETTINGS_GENERAL_AUTOAWAY).toInt());
         ui.pttChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
@@ -660,6 +663,7 @@ void PreferencesDlg::slotSaveChanges()
         saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
         ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.pttChkBox->isChecked());
         ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, ui.voiceactChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_GENERAL_RESTOREUSERSETTINGS, ui.syncWebUserCheckBox->isChecked());
     }
     if(m_modtab.find(DISPLAY_TAB) != m_modtab.end())
     {
