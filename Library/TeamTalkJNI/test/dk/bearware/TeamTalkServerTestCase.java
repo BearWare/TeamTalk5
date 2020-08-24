@@ -1186,13 +1186,13 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         TeamTalkSrv server = newServerInstance();
         ServerInterleave interleave = new RunServer(server);
 
+        // setup client which will reject server due to invalid server
+        // certificate
         final TeamTalkBase client = newClientInstance();
 
         EncryptionContext context = new EncryptionContext();
-        context.szCertificateFile = CRYPTO_CLIENT_CERT_FILE;
-        context.szPrivateKeyFile = CRYPTO_CLIENT_KEY_FILE;
+        context.szCAFile = CRYPTO_CA_FILE;
         context.bVerifyPeer = true;
-        context.bVerifyClientOnce = true;
         context.nVerifyDepth = 0;
         assertTrue("Set client encryption context", client.setEncryptionContext(context));
 
@@ -1213,6 +1213,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("Stop server", server.stopServer());
         assertTrue("Disconnect client", client.disconnect());
 
+        // now run server with peer verification, i.e. client has
+        // certificate and private key
+
         EncryptionContext srvcontext = new EncryptionContext();
         srvcontext.szCertificateFile = CRYPTO_SERVER_CERT_FILE;
         srvcontext.szPrivateKeyFile = CRYPTO_SERVER_KEY_FILE;
@@ -1220,10 +1223,37 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         srvcontext.bVerifyPeer = true;
         srvcontext.bVerifyClientOnce = true;
         srvcontext.nVerifyDepth = 0;
-
         assertTrue("set server encryption context", server.setEncryptionContext(srvcontext));
-        context.szCAFile = CRYPTO_CA_FILE;
+
+        // here we specify client's private key and certificate (for
+        // server verification)
+        context.szCertificateFile = CRYPTO_CLIENT_CERT_FILE;
+        context.szPrivateKeyFile = CRYPTO_CLIENT_KEY_FILE;
         assertTrue("Set client encryption context", client.setEncryptionContext(context));
+
+        assertTrue("Start server", server.startServer(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED));
+
+        connect(server, client);
+        login(server, client, NICKNAME, USERNAME, PASSWORD);
+
+        assertTrue("Stop server", server.stopServer());
+        assertTrue("Disconnect client", client.disconnect());
+
+        // Now disable server's peer verification but make client
+        // verify server's certificate
+        srvcontext = new EncryptionContext();
+        srvcontext.szCertificateFile = CRYPTO_SERVER_CERT_FILE;
+        srvcontext.szPrivateKeyFile = CRYPTO_SERVER_KEY_FILE;
+        srvcontext.bVerifyPeer = false;
+        srvcontext.bVerifyClientOnce = false;
+        srvcontext.nVerifyDepth = 0;
+        assertTrue("set server encryption context", server.setEncryptionContext(srvcontext));
+
+        context = new EncryptionContext();
+        context.szCAFile = CRYPTO_CA_FILE;
+        context.bVerifyPeer = true;
+        context.nVerifyDepth = 0;
+        assertTrue("Set client encryption context", client.setEncryptionContext(context));        
 
         assertTrue("Start server", server.startServer(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED));
 
