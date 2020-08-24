@@ -3512,6 +3512,8 @@ void MainWindow::slotMeEnableVoiceActivation(bool checked)
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
         emit(updateMyself());
     if(checked == true) {
+        disableHotKey(HOTKEY_PUSHTOTALK);
+        ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, false);
         playSoundEvent(SOUNDEVENT_VOICEACTON);
     } else {
         playSoundEvent(SOUNDEVENT_VOICEACTOFF);
