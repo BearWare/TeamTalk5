@@ -1379,7 +1379,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     default :
         qDebug() << "Unknown message type" << msg.nClientEvent;
     }
-    slotUpdateUI();
+
+    // don't update UI when we're in the process of completing a
+    // command. Otherwise the UI will get a bunch of updates. E.g. on
+    // initial login. See #CLIENTEVENT_CMD_PROCESSING.
+    if (m_current_cmdid == 0)
+        slotUpdateUI();
 }
 
 
