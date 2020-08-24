@@ -115,6 +115,7 @@
     <item id="224">Sound system</item>
     <item id="226">%s changed subscription &quot;Intercept Video&quot; to: %d</item>
     <item id="227">User Information</item>
+    <item id="233">%Y-%m-%d %H:%M:%S</item>
     <item id="234">%s changed subscription &quot;Intercept Desktop&quot; to: %d</item>
     <item id="243">Host manager</item>
     <item id="244">%s changed subscription &quot;Intercept Media File Stream&quot; to: %d</item>
