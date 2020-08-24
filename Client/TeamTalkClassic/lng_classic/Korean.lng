@@ -379,7 +379,7 @@
     <item id="32903">서버 통계\tShift+F9 &amp;t</item>
     <item id="32904">온라인 사용자\tCtrl+Shift+U &amp;O</item>
     <item id="32905">강퇴\tCtrl+K &amp;K</item>
-    <item id="32906">강퇴와 차단\tCtrl+Shift+K &amp;B</item>
+    <item id="32906">강퇴와 차단\tCtrl+Alt+B &amp;B</item>
     <item id="32909">비디오 전송 사용\tCtrl+Shift+V &amp;i</item>
     <item id="32914">데스크톱\tCtrl+6 &amp;D</item>
     <item id="32915">데스크톱 차단\tCtrl+Shift+6 &amp;e</item>
@@ -389,13 +389,13 @@
     <item id="32924">데스크톱 접근 허용\tCtrl+7 &amp;D</item>
     <item id="32925">데스크톱 접근 요청 &amp;R</item>
     <item id="32928">음성 음속어\tCtrl+Shift+M &amp;u</item>
-    <item id="32929">미디어 파일 음속어\tCtrl+Alt+M &amp;F</item>
+    <item id="32929">미디어 파일 음속어\tCtrl+Shift+Alt+M &amp;F</item>
     <item id="32930">채널에서 강퇴\tCtrl+K &amp;K</item>
     <item id="32931">서버에서 강퇴\tCtrl+Alt+K &amp;S</item>
-    <item id="32932">음성 볼륨 증가\tCtrl+Alt+Right &amp;I</item>
-    <item id="32933">음성 볼륨 감소\tCtrl+Alt+Left &amp;L</item>
-    <item id="32934">미디어 파일 볼륨 증가\tCtrl+Shift+Right &amp;F</item>
-    <item id="32935">미디어 파일 볼륨 감소\tCtrl+Shift+Left &amp;l</item>
+    <item id="32932">음성 볼륨 증가\tCtrl+Y &amp;I</item>
+    <item id="32933">음성 볼륨 감소\tCtrl+H &amp;L</item>
+    <item id="32934">미디어 파일 볼륨 증가\tCtrl+Shift+Y &amp;F</item>
+    <item id="32935">미디어 파일 볼륨 감소\tCtrl+Shift+H &amp;l</item>
     <item id="32936">데스크톱 전송 허용\tCtrl+Alt+E &amp;k</item>
     <item id="32937">미디어 파일 전송 허용\tCtrl+Alt+R &amp;e</item>
     <item id="32939">미디어 파일 Stream 차단\tCtrl+Shift+8 &amp;a</item>

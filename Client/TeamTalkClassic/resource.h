@@ -130,7 +130,6 @@
 #define IDB_BITMAP_SESSION              222
 #define IDD_PROPPAGE_SOUNDEVENTSPAGE    223
 #define IDD_PROPPAGE_SOUNDSYSPAGE       224
-#define IDS_CLASSROOM_ROOT_SELF_JOINED       225
 #define IDS_SUBINT_VIDEO                226
 #define IDD_DIALOG_USERINFO             227
 #define IDB_BITMAP_MIKE                 228
@@ -138,7 +137,6 @@
 #define IDB_BITMAP_VOLUME               230
 #define IDD_DIALOG_USERVOLUME           231
 #define IDR_MENU_TRAY                   232
-#define IDS_CHANNEL_ROOT_SELF_JOINED                   233
 #define IDS_SUBINT_DESKTOP              234
 #define IDD_WIZARD_GENERALPAGE          235
 #define IDR_ACCELERATOR2                236
@@ -152,7 +150,6 @@
 #define IDS_SUBINT_MEDIAFILE            244
 #define IDS_DESKTOPINPUT_GRANTED        245
 #define IDD_WIZARD_COMPLETIONPAGE       246
-#define IDS_CHANNEL_ROOT_SELF_LEFT           247
 #define IDS_DESKTOPINPUT_ACTIVE         248
 #define IDD_DIALOG_KEYCOMP              249
 #define IDR_MENU_MSGPOPUP               250
@@ -278,11 +275,13 @@
 #define IDS_SUREDELETECHAN              371
 #define IDS_CHANDELETETITLE             372
 #define IDS_CHANPSW                     373
+#define IDS_FILEADDBY                     374
 #define IDS_COMPILEDON                  375
 #define IDS_UNICODEENABLED              376
 #define IDS_LOCALECHARS                 377
 #define IDS_TTDLLVER                    378
 #define IDS_TTDLLVERS                   379
+#define IDS_FILEREMOVEDBY                   380
 #define IDS_RXTXPING                    381
 #define IDS_RXTX                        382
 #define IDS_USERSMOVED                        383
@@ -402,9 +401,16 @@
 #define IDS_VIDEOCAPTUREFAILED          498
 #define IDS_WEBLOGINFBLOGOUT            499
 #define IDS_WEBLOGINFBLOGIN             500
+#define IDS_MVUE                        501
+#define IDS_USERISVIDEOTX             502
 #define IDS_USERADMIN                   503
 #define IDS_UNSELECTFORMOVE             504
 #define IDS_MOVESELECTED                505
+#define IDS_MVD                         506
+#define IDS_MVE                         507
+#define IDS_MVUD                        508
+#define IDS_MMFUE                       509
+#define IDS_MMFUD                       510
 #define MAX_STRING_LENGTH               511
 #define IDS_APPTITLEUNRELEASED          512
 #define IDS_APPTITLEPROV                513
