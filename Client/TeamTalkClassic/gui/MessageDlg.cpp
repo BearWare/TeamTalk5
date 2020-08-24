@@ -225,7 +225,7 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     m_richHistory.SetSelectionCharFormat(cf); 
 
     CString szTime;
-    szTime.Format(_T("%.2d:%.2d:%.2d"), msg.receiveTime.GetHour(), msg.receiveTime.GetMinute(), msg.receiveTime.GetSecond());
+    szTime = msg.receiveTime.Format(LoadText(IDS_TIMELOCALE, _T("%Y-%m-%d %H:%M:%S")));
 
     CString name;
     if(msg.nFromUserID == m_myself.nUserID)
