@@ -765,7 +765,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             m_sysicon->setIcon(QIcon(APPTRAYICON_CON));
 
         //reset stats
-        ZERO_STRUCT(m_clientstats);
+        m_clientstats = {};
+
         // retrieve initial welcome message and access token
         TT_GetServerProperties(ttInst, &m_srvprop);
 
@@ -924,9 +925,15 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
             addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
         }
+
+        // sync user settings from cache
+        QString cacheid = userCacheID(msg.user);
+        if (m_usercache.find(cacheid) != m_usercache.end())
+            m_usercache[cacheid].sync(ttInst, msg.user);
     }
     break;
     case CLIENTEVENT_CMD_USER_LOGGEDOUT :
+    {
         Q_ASSERT(msg.ttType == __USER);
         emit(userLogout(msg.user));
         //remove text-message history from this user
@@ -934,7 +941,13 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
             addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
         }
-        break;
+
+        // user settings in cache
+        QString cacheid = userCacheID(msg.user);
+        if (!cacheid.isEmpty())
+            m_usercache[cacheid] = UserCached(msg.user);
+    }
+    break;
     case CLIENTEVENT_CMD_USER_JOINED :
         Q_ASSERT(msg.ttType == __USER);
         if(msg.user.nUserID == TT_GetMyUserID(ttInst))
@@ -952,6 +965,15 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 addStatusMsg(userjoinchan);
             }
         }
+
+        // sync user settings from cache
+        if ((m_myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
+        {
+            QString cacheid = userCacheID(msg.user);
+            if (m_usercache.find(cacheid) != m_usercache.end())
+                m_usercache[cacheid].sync(ttInst, msg.user);
+        }
+
         break;
     case CLIENTEVENT_CMD_USER_LEFT :
         Q_ASSERT(msg.ttType == __USER);
@@ -970,6 +992,14 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 }
                 addStatusMsg(userleftchan);
             }
+        }
+
+        if ((m_myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
+        {
+            // sync user settings to cache
+            QString cacheid = userCacheID(msg.user);
+            if (!cacheid.isEmpty())
+                m_usercache[cacheid] = UserCached(msg.user);
         }
         break;
     case CLIENTEVENT_CMD_USER_UPDATE :
@@ -1627,6 +1657,15 @@ void MainWindow::Disconnect()
     {
         TT_CloseSoundInputDevice(ttInst);
         TT_CloseSoundOutputDevice(ttInst);
+    }
+
+    //
+    auto users = ui.channelsWidget->getUsers();
+    for (int uid : users)
+    {
+        User u;
+        if (ui.channelsWidget->getUser(uid, u) && !userCacheID(u).isEmpty())
+            m_usercache[userCacheID(u)] = UserCached(u);
     }
 
     ui.channelsWidget->reset();
@@ -4346,6 +4385,7 @@ void MainWindow::slotUsersVolume(int userid)
 {
     UserVolumeDlg dlg(userid, this);
     dlg.exec();
+    TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userid);
     slotUpdateUI();
 }
 
