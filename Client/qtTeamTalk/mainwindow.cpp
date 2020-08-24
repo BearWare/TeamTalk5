@@ -753,8 +753,6 @@ bool MainWindow::parseArgs(const QStringList& args)
 
 void MainWindow::processTTMessage(const TTMessage& msg)
 {
-    QString rootchanname = tr("root");
-
     switch(msg.nClientEvent)
     {
     case CLIENTEVENT_CON_SUCCESS :
@@ -948,7 +946,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
                 QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(msg.user));
                 if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst))
-                    userjoinchan = userjoinchan + " " + rootchanname;
+                    userjoinchan = userjoinchan + " " + tr("root");
                 else if (msg.user.nChannelID != TT_GetMyChannelID(ttInst))
                     userjoinchan = userjoinchan + " " + _Q(chan.szName);
                 addStatusMsg(userjoinchan);
@@ -966,7 +964,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 ui.channelsWidget->getChannel(msg.nSource, chan);
                 QString userleftchan = tr("%1 left channel").arg(getDisplayName(msg.user));
                 if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
-                    userleftchan = userleftchan + " " + rootchanname;
+                    userleftchan = userleftchan + " " + tr("root");
                 } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
                     userleftchan = userleftchan + " " + _Q(chan.szName);
                 }
