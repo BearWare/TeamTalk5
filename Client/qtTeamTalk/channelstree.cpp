@@ -965,11 +965,9 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
             itemtext += tr(", Streaming media file");
 
-        if(_Q(user.szStatusMsg).size())
-            itemtext += QString(" - ") + _Q(user.szStatusMsg);
-
         if (user.nStatusMode & STATUSMODE_VIDEOTX)
             itemtext += tr(", Webcam");
+
         if(_Q(user.szStatusMsg).size())
             itemtext += QString(" - ") + _Q(user.szStatusMsg);
 
