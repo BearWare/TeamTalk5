@@ -894,8 +894,10 @@ void playSoundEvent(SoundEvent event)
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFFG).toString();
         break;
     }
-    if(filename.size() && event.isFinished())
+    if(filename.size()) {
+        QSound::stop();
         QSound::play(filename);
+    }
 }
 
 void addLatestHost(const HostEntry& host)
