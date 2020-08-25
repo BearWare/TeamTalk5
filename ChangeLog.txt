@@ -25,6 +25,7 @@ Default QT Client:
  - CTRL+H/Y and CTRL+Shift+H/Y to increase/decrease voice and media files volume of an user
  - CTRL+Shife+E to send a broadcast message
  - CTRL+Alt+B to kick and ban
+- User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
 
 Version 5.6, 2020/08/04
 Accessible Windows client

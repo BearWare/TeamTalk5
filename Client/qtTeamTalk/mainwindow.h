@@ -193,6 +193,8 @@ private:
     userdesktop_t m_userdesktop;
     //users to move to another channel (drag/drop)
     userids_t m_moveusers;
+    // user-cache of previous settings
+    QMap<QString, UserCached> m_usercache;
     //online users in separate dialog
     class OnlineUsersDlg* m_onlineusersdlg;
     //user accounts in separate dialog

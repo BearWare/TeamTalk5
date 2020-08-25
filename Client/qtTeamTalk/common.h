@@ -323,6 +323,19 @@ struct DesktopAccessEntry
     : tcpport(0) { }
 };
 
+struct UserCached
+{
+    bool valid = false;
+    Subscriptions subscriptions = SUBSCRIBE_NONE;
+    bool voiceMute = false, mediaMute = false;
+    int voiceVolume = SOUND_VOLUME_DEFAULT, mediaVolume = SOUND_VOLUME_DEFAULT;
+    bool voiceLeftSpeaker = true, voiceRightSpeaker = true,
+        mediaLeftSpeaker = true, mediaRightSpeaker = true;
+    UserCached() {}
+    UserCached(const User& user);
+    void sync(TTInstance* ttInst, const User& user);
+};
+
 //internal TeamTalk 5 commands. Use with TT_DoTextMessage() and 
 //message type MSGTYPE_CUSTOM
 #define TT_INTCMD_TYPING_TEXT         "typing"
@@ -402,7 +415,7 @@ void deleteDesktopAccessEntries();
 QString parseXML(const QDomDocument& doc, QString elements);
 QString newVersionAvailable(const QDomDocument& updateDoc);
 QString getBearWareRegistrationUrl(const QDomDocument& doc);
-
+QString userCacheID(const User& user);
 
 QByteArray generateTTFile(const HostEntry& entry);
 

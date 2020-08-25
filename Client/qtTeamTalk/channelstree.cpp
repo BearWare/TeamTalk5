@@ -485,12 +485,12 @@ void ChannelsTree::timerEvent(QTimerEvent* event)
                 bool update_item = false;
                 if(audloss_pct >= .1f || vidloss_pct >= .1f)
                 {
-                    if(userItem->backgroundColor(COLUMN_ITEM) != COLOR_LOSSY)
-                        userItem->setBackgroundColor(COLUMN_ITEM, COLOR_LOSSY);
+                    if(userItem->background(COLUMN_ITEM) != COLOR_LOSSY)
+                        userItem->setBackground(COLUMN_ITEM, COLOR_LOSSY);
                     else
                         update_item = true;
                 }
-                else if(userItem->backgroundColor(COLUMN_ITEM) == COLOR_LOSSY)
+                else if(userItem->background(COLUMN_ITEM) == COLOR_LOSSY)
                     update_item = true;
 
                 if(vidrecv)
@@ -776,6 +776,8 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             }
             channame = QString("%1 (%2)").arg(channame).arg(count);
         }
+        if(ite->bPassword)
+            channame += " - 🔒";
         item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
         QPixmap img(QString::fromUtf8(img_name));
         //img.setMask(img.createHeuristicMask());
@@ -965,11 +967,9 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
             itemtext += tr(", Streaming media file");
 
-        if(_Q(user.szStatusMsg).size())
-            itemtext += QString(" - ") + _Q(user.szStatusMsg);
-
         if (user.nStatusMode & STATUSMODE_VIDEOTX)
             itemtext += tr(", Webcam");
+
         if(_Q(user.szStatusMsg).size())
             itemtext += QString(" - ") + _Q(user.szStatusMsg);
 
