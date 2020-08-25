@@ -1195,7 +1195,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         break;
     case CLIENTEVENT_STREAM_MEDIAFILE :
     {
-        bool repeatstream = false;
         Q_ASSERT(msg.ttType == __MEDIAFILEINFO);
         switch(msg.mediafileinfo.nStatus)
         {
@@ -1204,7 +1203,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             stopStreamMediaFile();
             break;
         case MFS_STARTED :
-            if(repeatstream == false) {
+            if(ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, false).toBool()) {
                 addStatusMsg(tr("Started streaming media file to channel"));
             }
             break;
@@ -1225,7 +1224,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(msg.mediafileinfo.nStatus == MFS_FINISHED &&
            ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, false).toBool())
         {
-            repeatstream = true;
             startStreamMediaFile();
         }
 
