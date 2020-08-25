@@ -1196,9 +1196,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     case CLIENTEVENT_STREAM_MEDIAFILE :
     {
         Q_ASSERT(msg.ttType == __MEDIAFILEINFO);
-        bool repeatstream = false;
         switch(msg.mediafileinfo.nStatus)
         {
+        bool repeatstream = false;
         case MFS_ERROR :
             addStatusMsg(tr("Error streaming media file to channel"));
             stopStreamMediaFile();
