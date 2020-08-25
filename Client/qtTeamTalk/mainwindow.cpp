@@ -1196,6 +1196,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     case CLIENTEVENT_STREAM_MEDIAFILE :
     {
         Q_ASSERT(msg.ttType == __MEDIAFILEINFO);
+        bool repeatstream;
         switch(msg.mediafileinfo.nStatus)
         {
         case MFS_ERROR :
@@ -1226,7 +1227,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
            ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, false).toBool())
         {
             startStreamMediaFile();
-            bool repeatstream = true;
+            repeatstream = true;
         }
 
         emit(mediaStreamUpdate(msg.mediafileinfo));
