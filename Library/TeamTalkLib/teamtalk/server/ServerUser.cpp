@@ -1199,7 +1199,8 @@ void ServerUser::DoWelcome(const ServerSettings& properties)
 {
     ACE_TString command = properties.systemid;
     AppendProperty(TT_USERID, GetUserID(), command);
-    AppendProperty(TT_SERVERNAME, properties.servername, command);
+    if (properties.servername.length())
+        AppendProperty(TT_SERVERNAME, properties.servername, command);
     AppendProperty(TT_MAXUSERS, properties.maxusers, command);
     AppendProperty(TT_MAXLOGINSPERIP, properties.max_logins_per_ipaddr, command);
     AppendProperty(TT_USERTIMEOUT, properties.usertimeout, command);
@@ -1255,7 +1256,8 @@ void ServerUser::DoAccepted(const UserAccount& useraccount)
     command = ACE_TString(SERVER_LOGINACCEPTED);
     AppendProperty(TT_USERID, GetUserID(), command);
 
-    AppendProperty(TT_NICKNAME, GetNickname(), command);
+    if (GetNickname().length())
+        AppendProperty(TT_NICKNAME, GetNickname(), command);
 
     AppendProperty(TT_IPADDR, GetIpAddress(), command);
     //user account information
@@ -1263,9 +1265,12 @@ void ServerUser::DoAccepted(const UserAccount& useraccount)
     AppendProperty(TT_USERTYPE, useraccount.usertype, command);
     AppendProperty(TT_USERDATA, useraccount.userdata, command);
     AppendProperty(TT_USERRIGHTS, useraccount.userrights, command);
-    AppendProperty(TT_NOTEFIELD, useraccount.note, command);
-    AppendProperty(TT_INITCHANNEL, useraccount.init_channel, command);
-    AppendProperty(TT_AUTOOPCHANNELS, useraccount.auto_op_channels, command);
+    if (useraccount.note.length())
+        AppendProperty(TT_NOTEFIELD, useraccount.note, command);
+    if (useraccount.init_channel.length())
+        AppendProperty(TT_INITCHANNEL, useraccount.init_channel, command);
+    if (useraccount.auto_op_channels.size())
+        AppendProperty(TT_AUTOOPCHANNELS, useraccount.auto_op_channels, command);
     AppendProperty(TT_AUDIOBPSLIMIT, useraccount.audiobpslimit, command);
     AppendProperty(TT_CMDFLOOD, useraccount.abuse.toParam(), command);
 
@@ -1290,22 +1295,27 @@ void ServerUser::DoLoggedIn(const ServerUser& user)
     ACE_TString command;
     command = ACE_TString(SERVER_LOGGEDIN);
     AppendProperty(TT_USERID, user.GetUserID(), command);
-    AppendProperty(TT_NICKNAME, user.GetNickname(), command);
-    AppendProperty(TT_USERNAME, user.GetUsername(), command);
+
+    if (user.GetNickname().length())
+        AppendProperty(TT_NICKNAME, user.GetNickname(), command);
+    if (user.GetUsername().length())
+        AppendProperty(TT_USERNAME, user.GetUsername(), command);
     if((GetUserRights() & USERRIGHT_BAN_USERS) ||
        user.GetUserID() == GetUserID())
     {
         AppendProperty(TT_IPADDR, user.GetIpAddress(), command);
     }
     AppendProperty(TT_STATUSMODE, user.GetStatusMode(), command);
-    AppendProperty(TT_STATUSMESSAGE, user.GetStatusMessage(), command);
+    if (user.GetStatusMessage().length())
+        AppendProperty(TT_STATUSMESSAGE, user.GetStatusMessage(), command);
     AppendProperty(TT_VERSION, user.GetClientVersion(), command);
     AppendProperty(TT_PACKETPROTOCOL, user.GetPacketProtocol(), command);
     AppendProperty(TT_USERTYPE, user.GetUserType(), command);
     AppendProperty(TT_LOCALSUBSCRIPTIONS, GetSubscriptions(user), command);
     AppendProperty(TT_PEERSUBSCRIPTIONS, user.GetSubscriptions(*this), command);
     AppendProperty(TT_USERDATA, user.GetUserData(), command);
-    AppendProperty(TT_CLIENTNAME, user.GetClientName(), command);
+    if (user.GetClientName().length())
+        AppendProperty(TT_CLIENTNAME, user.GetClientName(), command);
     command += ACE_TString(EOL);
 
     TransmitCommand(command);
@@ -1329,8 +1339,10 @@ void ServerUser::DoAddUser(const ServerUser& user, const ServerChannel& channel)
     ACE_TString command;
     command = ACE_TString(SERVER_ADDUSER);
     AppendProperty(TT_USERID, user.GetUserID(), command);
-    AppendProperty(TT_NICKNAME, user.GetNickname(), command);
-    AppendProperty(TT_USERNAME, user.GetUsername(), command);
+    if (user.GetNickname().length())
+        AppendProperty(TT_NICKNAME, user.GetNickname(), command);
+    if (user.GetUsername().length())
+        AppendProperty(TT_USERNAME, user.GetUsername(), command);
     if((GetUserRights() & USERRIGHT_BAN_USERS) ||
        user.GetUserID() == GetUserID())
     {
@@ -1338,14 +1350,16 @@ void ServerUser::DoAddUser(const ServerUser& user, const ServerChannel& channel)
     }
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
     AppendProperty(TT_STATUSMODE, user.GetStatusMode(), command);
-    AppendProperty(TT_STATUSMESSAGE, user.GetStatusMessage(), command);
+    if (user.GetStatusMessage().length())
+        AppendProperty(TT_STATUSMESSAGE, user.GetStatusMessage(), command);
     AppendProperty(TT_VERSION, user.GetClientVersion(), command);
     AppendProperty(TT_PACKETPROTOCOL, user.GetPacketProtocol(), command);
     AppendProperty(TT_USERTYPE, user.GetUserType(), command);
     AppendProperty(TT_LOCALSUBSCRIPTIONS, GetSubscriptions(user), command);
     AppendProperty(TT_PEERSUBSCRIPTIONS, user.GetSubscriptions(*this), command);
     AppendProperty(TT_USERDATA, user.GetUserData(), command);
-    AppendProperty(TT_CLIENTNAME, user.GetClientName(), command);
+    if (user.GetClientName().length())
+        AppendProperty(TT_CLIENTNAME, user.GetClientName(), command);
     command += ACE_TString(EOL);
 
     TransmitCommand(command);
@@ -1357,8 +1371,8 @@ void ServerUser::DoUpdateUser(const ServerUser& user)
 
     ACE_TString command;
     command = ACE_TString(SERVER_UPDATEUSER);
-    AppendProperty(TT_USERID, user.GetUserID(),command);
-    AppendProperty(TT_NICKNAME, user.GetNickname(),command);
+    AppendProperty(TT_USERID, user.GetUserID(), command);
+    AppendProperty(TT_NICKNAME, user.GetNickname(), command);
     AppendProperty(TT_STATUSMODE, user.GetStatusMode(), command);
     AppendProperty(TT_STATUSMESSAGE, user.GetStatusMessage(), command);
     AppendProperty(TT_LOCALSUBSCRIPTIONS, GetSubscriptions(user), command);
@@ -1401,8 +1415,10 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool encrypted)
     if((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) ||
        channel.IsOperator(GetUserID()))
     {
-        AppendProperty(TT_PASSWORD, channel.GetPassword(), command);
-        AppendProperty(TT_OPPASSWORD, channel.GetOpPassword(), command);
+        if (channel.GetPassword().length())
+            AppendProperty(TT_PASSWORD, channel.GetPassword(), command);
+        if (channel.GetOpPassword().length())
+            AppendProperty(TT_OPPASSWORD, channel.GetOpPassword(), command);
     }
 
     if(GetUserType() & USERTYPE_ADMIN)  //admins should see password
@@ -1415,8 +1431,10 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool encrypted)
     }
     AppendProperty(TT_REQPASSWORD, channel.IsPasswordProtected(), command);
 
-    AppendProperty(TT_TOPIC, channel.GetTopic(), command);
-    AppendProperty(TT_OPERATORS, setOps, command);
+    if (channel.GetTopic().length())
+        AppendProperty(TT_TOPIC, channel.GetTopic(), command);
+    if (setOps.size())
+        AppendProperty(TT_OPERATORS, setOps, command);
     AppendProperty(TT_DISKQUOTA, channel.GetMaxDiskUsage(), command);
     AppendProperty(TT_MAXUSERS, channel.GetMaxUsers(), command);
     AppendProperty(TT_CHANNELTYPE, channel.GetChannelType(), command);
