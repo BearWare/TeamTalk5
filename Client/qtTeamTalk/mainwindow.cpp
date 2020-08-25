@@ -1224,8 +1224,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(msg.mediafileinfo.nStatus == MFS_FINISHED &&
            ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, false).toBool())
         {
-            startStreamMediaFile();
             repeatstream = true;
+            startStreamMediaFile();
         }
 
         emit(mediaStreamUpdate(msg.mediafileinfo));
