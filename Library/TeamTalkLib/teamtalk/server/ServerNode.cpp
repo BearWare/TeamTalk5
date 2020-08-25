@@ -245,6 +245,21 @@ ServerChannel::users_t ServerNode::GetNotificationUsers()
     return notifyusers;
 }
 
+ServerChannel::users_t ServerNode::GetNotificationUsers(UserRights urights, const serverchannel_t& chan)
+{
+    ServerChannel::users_t notifyusers;
+    if (chan)
+        notifyusers = chan->GetUsers();
+
+    ServerChannel::users_t users = GetAuthorizedUsers(false);
+    for (auto u : users)
+    {
+        if ((u->GetUserRights() & urights) == urights)
+            notifyusers.push_back(u);
+    }
+    return notifyusers;
+}
+
 bool ServerNode::SetFileSharing(const ACE_TString& rootdir)
 {
     ASSERT_REACTOR_LOCKED(this);
@@ -2690,7 +2705,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
         user->ForwardFiles(GetRootChannel(), true);
 
     //notify other users of new user
-    ServerChannel::users_t users = GetNotificationUsers();
+    ServerChannel::users_t users = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS);
     for(size_t i=0;i<users.size();i++)
     {
         if(users[i]->GetUserID() != userid)
@@ -2760,7 +2775,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
     }
 
     //notify users of logout
-    ServerChannel::users_t users = GetNotificationUsers();
+    ServerChannel::users_t users = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS);
     for(size_t i=0;i<users.size();i++)
         users[i]->DoLoggedOut(*user);
 
@@ -2816,25 +2831,10 @@ ErrorMsg ServerNode::UserUpdate(int userid)
     if(!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
-    const serverchannel_t& chan = user->GetChannel();
-    if(chan)
-    {
-        const ServerChannel::users_t& users = chan->GetUsers();
-        for(size_t i=0;i<users.size();i++)
-            users[i]->DoUpdateUser(*user);
-
-        //notify admins and show-all-users
-        ServerChannel::users_t notifyusers = GetNotificationUsers(*chan);
-        for(size_t i=0;i<notifyusers.size();i++)
-            notifyusers[i]->DoUpdateUser(*user);
-    }
-    else
-    {
-        //notify admins and show-all-users
-        ServerChannel::users_t notifyusers = GetNotificationUsers();
-        for(size_t i=0;i<notifyusers.size();i++)
-            notifyusers[i]->DoUpdateUser(*user);
-    }
+    ServerChannel::users_t notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS,
+                                                              user->GetChannel());
+    for (auto u : notifyusers)
+        u->DoUpdateUser(*user);
 
     m_srvguard->OnUserUpdated(*user);
 

@@ -269,6 +269,7 @@ namespace teamtalk {
         ServerChannel::users_t GetNotificationUsers(const ServerChannel& excludeChannel);
         //get users who should be notified of user changes
         ServerChannel::users_t GetNotificationUsers();
+        ServerChannel::users_t GetNotificationUsers(UserRights urights, const serverchannel_t& chan = nullptr);
 
         //////////////////////////////////////////
         /// User performing action
