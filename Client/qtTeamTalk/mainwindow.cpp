@@ -1208,7 +1208,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             }
             break;
         case MFS_FINISHED :
-            if(msg.mediafileinfo.nStatus == MFS_FINISHED && ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, true).toBool()) {
+            if(msg.mediafileinfo.nStatus == MFS_FINISHED && ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, false).toBool()) {
                 addStatusMsg(tr("Finished streaming media file to channel"));
             }
             stopStreamMediaFile();
