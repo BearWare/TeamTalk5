@@ -265,10 +265,6 @@ namespace teamtalk {
         ServerChannel::users_t GetAdministrators(const ServerChannel& excludeChannel);
         //get all authorized users
         ServerChannel::users_t GetAuthorizedUsers(bool excludeAdmins = false);
-        //get users who should be notified of users changing channels
-        ServerChannel::users_t GetNotificationUsers(const ServerChannel& excludeChannel);
-        //get users who should be notified of user changes
-        ServerChannel::users_t GetNotificationUsers();
         ServerChannel::users_t GetNotificationUsers(UserRights urights, const serverchannel_t& chan = nullptr);
 
         //////////////////////////////////////////

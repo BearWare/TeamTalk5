@@ -213,38 +213,6 @@ ServerChannel::users_t ServerNode::GetAuthorizedUsers(bool excludeAdmins/* = fal
     return users;
 }
 
-ServerChannel::users_t ServerNode::GetNotificationUsers(const ServerChannel& excludeChannel)
-{
-    ASSERT_REACTOR_LOCKED(this);
-
-    //vector with users who'll be notified of changes on server
-    ServerChannel::users_t notifyusers = GetAdministrators(excludeChannel);
-
-    const ServerChannel::users_t& users = GetAuthorizedUsers(true); //get all users except admins
-    for(size_t i=0;i<users.size();i++)
-    {
-        if((users[i]->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) &&
-            !excludeChannel.UserExists(users[i]->GetUserID()))
-            notifyusers.push_back(users[i]);
-    }
-    return notifyusers;
-}
-
-ServerChannel::users_t ServerNode::GetNotificationUsers()
-{
-    ASSERT_REACTOR_LOCKED(this);
-
-    //vector with users who'll be notified of changes on server
-    ServerChannel::users_t notifyusers = GetAdministrators();
-    const ServerChannel::users_t& users = GetAuthorizedUsers(true); //get all users except admins
-    for(size_t i=0;i<users.size();i++)
-    {
-        if(users[i]->GetUserRights() & USERRIGHT_VIEW_ALL_USERS)
-            notifyusers.push_back(users[i]);
-    }
-    return notifyusers;
-}
-
 ServerChannel::users_t ServerNode::GetNotificationUsers(UserRights urights, const serverchannel_t& chan)
 {
     ServerChannel::users_t notifyusers;
