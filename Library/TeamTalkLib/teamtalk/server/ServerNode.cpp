@@ -254,7 +254,7 @@ ServerChannel::users_t ServerNode::GetNotificationUsers(UserRights urights, cons
     ServerChannel::users_t users = GetAuthorizedUsers(false);
     for (auto u : users)
     {
-        if ((u->GetUserRights() & urights) == urights)
+        if ((u->GetUserRights() & urights) == urights && (!chan || chan != u->GetChannel()))
             notifyusers.push_back(u);
     }
     return notifyusers;
@@ -2932,25 +2932,20 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         useraccount.auto_op_channels.end())
         makeop = true;
 
-    //vector with users who'll be notified of the new user
-    ServerChannel::users_t notifyusers = GetNotificationUsers(*newchan);
-    for(size_t i=0;i<notifyusers.size();i++)
-        notifyusers[i]->DoAddUser(*user, *newchan);
-
-    //notify users in new channel that new user has joined
-    const ServerChannel::users_t& users = newchan->GetUsers();
-    if(user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS)
+    //notify users that new user has joined
+    ServerChannel::users_t users = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, newchan);
+    for (auto u : users)
     {
-        for(size_t i=0;i<users.size();i++)
-            users[i]->DoAddUser(*user, *newchan);
+        u->DoAddUser(*user, *newchan);
     }
-    else
+
+    // notify new user of other users in channel if not visible
+    if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
     {
-        for(size_t i=0;i<users.size();i++)
+        for (auto cu : newchan->GetUsers())
         {
-            users[i]->DoAddUser(*user, *newchan);
-            if(user->GetUserID() != users[i]->GetUserID())
-                user->DoAddUser(*users[i], *newchan);
+            if (cu != user)
+                user->DoAddUser(*cu, *newchan);
         }
     }
 
@@ -2965,16 +2960,16 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         user->ForwardFiles(newchan, false);
 
     //start active desktop transmissions
-    for(size_t i=0;i<users.size();i++)
+    for (auto cu : newchan->GetUsers())
     {
-        if (users[i]->GetDesktopSession() && 
-           (user->GetSubscriptions(*users[i]) & SUBSCRIBE_DESKTOP))
+        if (cu->GetDesktopSession() && 
+           (user->GetSubscriptions(*cu) & SUBSCRIBE_DESKTOP))
         {
             //Start delayed timers for desktop transmission, so the new 
             //user will have received the channel's channel-key.
             TimerHandler* th;
             timer_userdata tm_data;
-            tm_data.src_userid = users[i]->GetUserID();
+            tm_data.src_userid = cu->GetUserID();
             tm_data.dest_userid = user->GetUserID();
             ACE_NEW_NORETURN(th, TimerHandler(*this, TIMER_START_DESKTOPTX_ID,
                                               tm_data.userdata));
@@ -2983,8 +2978,8 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         }
         //TODO: user could actually reuse the desktop session (but restarts at the moment)
 //         if (user->GetDesktopSession() && 
-//            users[i]->GetUserID() != user->GetUserID())
-//             StartDesktopTransmitter(*user, *users[i], *newchan);
+//            cu->GetUserID() != user->GetUserID())
+//             StartDesktopTransmitter(*user, cu, *newchan);
     }
 
     //notify listener
