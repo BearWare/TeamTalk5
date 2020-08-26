@@ -2939,7 +2939,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         u->DoAddUser(*user, *newchan);
     }
 
-    // notify new user of other users in channel if not visible
+    // notify new user of other users in same channel if not visible
     if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
     {
         for (auto cu : newchan->GetUsers())
@@ -3010,9 +3010,9 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     user->DoLeftChannel(*chan);
 
     //notify admins and "show-all" users
-    ServerChannel::users_t notifyusers = GetNotificationUsers(*chan);
-    for(size_t i=0;i<notifyusers.size();i++)
-        notifyusers[i]->DoRemoveUser(*user, *chan);
+    ServerChannel::users_t notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, chan);
+    for (auto u : notifyusers)
+        u->DoRemoveUser(*user, *chan);
 
     //notify channel users
     const ServerChannel::users_t& users = chan->GetUsers();
@@ -3024,18 +3024,12 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
         StopDesktopTransmitter(*user, *users[i], false);
     }
 
-    if(user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS)
+    if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) ==  USERRIGHT_NONE)
     {
-        for(size_t i=0;i<users.size();i++)
-            users[i]->DoRemoveUser(*user, *chan);
-    }
-    else
-    {
-        for(size_t i=0;i<users.size();i++)
+        for (auto u : users)
         {
-            users[i]->DoRemoveUser(*user, *chan);
-            if(user->GetUserID() != users[i]->GetUserID())
-                user->DoRemoveUser(*users[i], *chan);
+            if(user->GetUserID() != u->GetUserID())
+                user->DoRemoveUser(*u, *chan);
         }
     }
 
