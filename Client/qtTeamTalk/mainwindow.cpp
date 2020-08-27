@@ -1203,7 +1203,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             stopStreamMediaFile();
             break;
         case MFS_STARTED :
-            if(ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, false).toBool()) {
+            if(!ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, true).toBool()) {
                 addStatusMsg(tr("Started streaming media file to channel"));
             }
             break;
