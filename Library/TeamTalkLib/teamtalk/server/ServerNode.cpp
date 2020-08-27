@@ -2726,7 +2726,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
         serverchannel_t chan = GetChannel(*i);
         TTASSERT(chan);
         if(chan)
-            UpdateChannel(*chan);
+            UpdateChannel(chan);
     }
 
     user->DoLoggedOut();
@@ -2920,7 +2920,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     if(makeop)
     {
         newchan->AddOperator(user->GetUserID());
-        UpdateChannel(*newchan); //notify users of new operator
+        UpdateChannel(newchan); //notify users of new operator
     }
 
     //send channel's file list
@@ -3006,7 +3006,7 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     chan->RemoveUser(user->GetUserID());
 
     if(upd_chan)
-        UpdateChannel(*chan);
+        UpdateChannel(chan);
 
     serverchannel_t nullc;
     user->SetChannel(nullc);
@@ -3069,7 +3069,7 @@ ErrorMsg ServerNode::UserOpDeOp(int userid, int channelid,
             chan->AddOperator(op_userid);
         else
             chan->RemoveOperator(op_userid);
-        UpdateChannel(*chan);
+        UpdateChannel(chan);
 
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }
@@ -3506,10 +3506,9 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
 
     //forward new channel to all connected users
     const ServerChannel::users_t& users = GetAuthorizedUsers();
-    for(size_t i=0;i<users.size();i++)
+    for (auto u : users)
     {
-        if(users[i]->IsAuthorized())
-            users[i]->DoAddChannel(*chan, IsEncrypted());
+        u->DoAddChannel(*chan, IsEncrypted());
     }
 
     //notify listener if any
@@ -3583,7 +3582,7 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
     chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
     chan->SetTransmitQueue(chanprop.transmitqueue);
 
-    UpdateChannel(*chan);
+    UpdateChannel(chan);
 
     //notify listener if any
     m_srvguard->OnChannelUpdated(*chan, user);
@@ -3705,20 +3704,14 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
-void ServerNode::UpdateChannel(const ServerChannel& chan)
+void ServerNode::UpdateChannel(const serverchannel_t& chan)
 {
     ASSERT_REACTOR_LOCKED(this);
-
-    //don't show channel updates when show-all-users is disabled.
-    for( mapusers_t::iterator ite = m_mUsers.begin(); 
-        ite != m_mUsers.end();
-        ite++ )
-    {
-        if( (*ite).second->IsAuthorized() && 
-            ((ite->second->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) || 
-             &chan == ite->second->GetChannel().get()) )
-            (*ite).second->DoUpdateChannel(chan, IsEncrypted());
-    }
+    TTASSERT(chan);
+    
+    ServerChannel::users_t users = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, chan);
+    for (auto u : users)
+        u->DoUpdateChannel(*chan, IsEncrypted());
 }
 
 void ServerNode::UpdateChannel(const ServerChannel& chan, const ServerChannel::users_t& users)

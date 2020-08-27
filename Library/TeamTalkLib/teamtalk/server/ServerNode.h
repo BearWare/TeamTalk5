@@ -327,7 +327,7 @@ namespace teamtalk {
         void OnClosed(ACE_HANDLE h);
         bool OnReceive(ACE_HANDLE h, const char* buff, int len);
         //notify users of channel update
-        void UpdateChannel(const ServerChannel& chan);
+        void UpdateChannel(const serverchannel_t& chan);
         void UpdateChannel(const ServerChannel& chan, const ServerChannel::users_t& users);
         void CleanChannels(serverchannel_t& channel);
         void UpdateSoloTransmitChannels();
