@@ -3688,12 +3688,9 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
             if (parent)
             {
                 //notify users
-                for(mapusers_t::iterator ite=m_mUsers.begin(); 
-                    ite != m_mUsers.end(); ite++)
-                {
-                    if((*ite).second->IsAuthorized())
-                        (*ite).second->DoRemoveChannel(*chan);
-                }
+                ServerChannel::users_t notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS);
+                for (auto u : notifyusers)
+                    u->DoRemoveChannel(*chan);
 
                 parent->RemoveSubChannel(chan->GetName());
                 //notify listener if any
