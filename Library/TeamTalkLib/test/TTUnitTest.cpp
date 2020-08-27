@@ -53,25 +53,6 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
         if (selindev == SOUNDDEVICEID_IGNORE)
             return false;
 
-        std::vector<SoundDevice> devs(100);
-        INT32 howmany = INT32(devs.size());
-        TT_GetSoundDevices(&devs[0], &howmany);
-        if (howmany == devs.size())
-        {
-            devs.resize(howmany);
-            TT_GetSoundDevices(&devs[0], &howmany);
-        }
-        auto indev = std::find_if(devs.begin(), devs.end(), [selindev] (const SoundDevice& d)
-        {
-            return d.nDeviceID == selindev;
-        });
-        if (indev == devs.end())
-            return false;
-
-        // By default a shared device uses default sample rate, max channels and 40 msec framesize
-        //if (!TT_InitSoundInputSharedDevice(indev->nDefaultSampleRate, indev->nMaxInputChannels, int(indev->nDefaultSampleRate * 0.04)))
-        //    return false;
-
         selindev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
         break;
     }
@@ -86,6 +67,53 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
         success &= TT_InitSoundOutputDevice(ttClient, seloutdev);
 
     return success;
+}
+
+bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/* = SOUNDDEVICEID_DEFAULT*/, INT32 outdev/* = SOUNDDEVICEID_DEFAULT*/)
+{
+    const int DEVMAX = 100;
+    std::vector<SoundDevice> devs(DEVMAX);
+    INT32 howmany = INT32(devs.size());
+    TT_GetSoundDevices(&devs[0], &howmany);
+    devs.resize(howmany);
+    if (howmany == DEVMAX)
+    {
+        TT_GetSoundDevices(&devs[0], &howmany);
+    }
+
+    int defaultin, defaultout;
+    if (!TT_GetDefaultSoundDevices(indev != SOUNDDEVICEID_IGNORE ? &defaultin : nullptr,
+                                   outdev != SOUNDDEVICEID_IGNORE ? &defaultout : nullptr))
+        return false;
+
+    if (indev == SOUNDDEVICEID_DEFAULT)
+        indev = defaultin;
+
+    if (outdev == SOUNDDEVICEID_DEFAULT)
+        outdev = defaultout;
+
+    if (indev != SOUNDDEVICEID_IGNORE)
+    {
+        auto dev = std::find_if(devs.begin(), devs.end(), [indev](const SoundDevice& d)
+        {
+            return d.nDeviceID == indev;
+        });
+        if (dev == devs.end())
+            return false;
+        insnddev = *dev;
+    }
+
+    if (outdev != SOUNDDEVICEID_IGNORE)
+    {
+        auto dev = std::find_if(devs.begin(), devs.end(), [outdev] (const SoundDevice& d)
+        {
+            return d.nDeviceID == outdev;
+        });
+        if (dev == devs.end())
+            return false;
+        outsnddev = *dev;
+    }
+    return true;
 }
 
 bool Connect(TTInstance* ttClient, const TTCHAR hostname[TT_STRLEN], INT32 tcpport, INT32 udpport, TTBOOL encrypted)
