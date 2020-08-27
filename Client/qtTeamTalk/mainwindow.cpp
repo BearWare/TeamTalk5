@@ -1205,11 +1205,15 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         case MFS_STARTED :
             if(!ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, true).toBool()) {
                 addStatusMsg(tr("Started streaming media file to channel"));
+            } else {
+                addStatusMsg(tr("Started streaming media file to channel (loop)"));
             }
             break;
         case MFS_FINISHED :
             if(!ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, true).toBool()) {
                 addStatusMsg(tr("Finished streaming media file to channel"));
+            } else {
+                addStatusMsg(tr("Finished streaming media file to channel (loop)"));
             }
             stopStreamMediaFile();
             break;
