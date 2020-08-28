@@ -988,7 +988,7 @@
            <property name="selectionBehavior">
             <enum>QAbstractItemView::SelectRows</enum>
            </property>
-           <property name="indentation">
+<!--           <property name="indentation">
             <number>0</number>
            </property>
            <property name="rootIsDecorated">
@@ -999,7 +999,7 @@
            </property>
            <property name="expandsOnDoubleClick">
             <bool>false</bool>
-           </property>
+           </property>-->
           </widget>
          </item>
          <item>
