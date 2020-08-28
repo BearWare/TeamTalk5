@@ -966,7 +966,8 @@
           </widget>
          </item>
          <item>
-          <widget class="FilesView" name="filesView">
+//          <widget class="FilesView" name="filesView">
+          <widget class="QListView" name="filesView"/>
            <property name="accessibleName">
             <string>Files list</string>
            </property>
