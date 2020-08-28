@@ -643,7 +643,7 @@ void MainWindow::loadSettings()
         ui.desktopsplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_DESKTOPSPLITTER).toByteArray());
     }
     //set files header to last position
-    ui.filesView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_FILESHEADER).toByteArray());
+//    ui.filesView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_FILESHEADER).toByteArray());
 
     // http query for app updates
     checkAppUpdate();
