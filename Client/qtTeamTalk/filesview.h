@@ -24,12 +24,12 @@
 #ifndef FILESVIEW_H
 #define FILESVIEW_H
 
-#include <QTreeView>
+#include <QListView>
 #include <QList>
 
 
 
-class FilesView : public QTreeView
+class FilesView : public QListView
 {
     Q_OBJECT
 public:
