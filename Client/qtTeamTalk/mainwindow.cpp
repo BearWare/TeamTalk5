@@ -2118,7 +2118,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
         ttSettings->setValue(SETTINGS_DISPLAY_DESKTOPSPLITTER, ui.desktopsplitter->saveState());
     }
 
-    ttSettings->setValue(SETTINGS_DISPLAY_FILESHEADER, ui.filesView->header()->saveState());
+//    ttSettings->setValue(SETTINGS_DISPLAY_FILESHEADER, ui.filesView->header()->saveState());
 
     return QMainWindow::closeEvent(event);
 }
