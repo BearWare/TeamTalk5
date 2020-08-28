@@ -32,7 +32,7 @@
 extern TTInstance* ttInst;
 
 FilesView::FilesView(QWidget* parent)
-: QTreeView(parent)
+: QListView(parent)
 {
     setAcceptDrops(true);
 }
