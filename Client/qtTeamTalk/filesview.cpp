@@ -86,7 +86,7 @@ void FilesView::dropEvent(QDropEvent *event)
 
 void FilesView::mousePressEvent(QMouseEvent* event )
 {
-    QTreeView::mousePressEvent(event);
+    QListView::mousePressEvent(event);
 
     //QDrag* drag = new QDrag(this);
     //QMimeData* mimedata = new QMimeData();;
