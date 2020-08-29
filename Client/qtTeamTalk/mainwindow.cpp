@@ -1884,21 +1884,8 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
 #endif
         break;
     case HOTKEY_VOICEACTIVATION :
-        if(active) {
-            TT_EnableVoiceActivation(ttInst, 
-                     !(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
-            if(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED) == true) {
-                playSoundEvent(SOUNDEVENT_VOICEACTOFFG);
-                ui.voiceactSlider->setVisible(false);
-                ui.actionEnableVoiceActivation->setChecked(false);
-            } else {
-                playSoundEvent(SOUNDEVENT_VOICEACTONG);
-                ui.voiceactSlider->setVisible(true);
-                ui.actionEnableVoiceActivation->setChecked(true);
-                disableHotKey(HOTKEY_PUSHTOTALK);
-                ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, false);
-            }
-        }
+        if(active)
+            slotMeEnableVoiceActivation(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
         break;
     case HOTKEY_INCVOLUME :
         if(active)
@@ -4565,7 +4552,7 @@ void MainWindow::slotUpdateUI()
     if(TT_GetUser(ttInst, userid, &user))
     {
         ui.actionMuteVoice->setChecked(user.uUserState & USERSTATE_MUTE_VOICE);
-        ui.actionMuteMediaFile->setChecked(user.uUserState & USERSTATE_MEDIAFILE_AUDIO);
+        ui.actionMuteMediaFile->setChecked(user.uUserState & USERSTATE_MUTE_MEDIAFILE);
         ui.actionDesktopAccessAllow->setChecked(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT);
 
         ui.actionUserMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_USER_MSG);
