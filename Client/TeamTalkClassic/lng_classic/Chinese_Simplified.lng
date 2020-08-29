@@ -813,7 +813,7 @@
     <item id="32877">存储移动(&amp;S)\tCtrl+Alt+X</item>
     <item id="32878">移动用户(&amp;M)\tCtrl+Alt+V</item>
     <item id="32882">禁止用户(&amp;B)\tCtrl+Shift+B</item>
-    <item id="32885">从服务器踢出并禁止(&amp;B)\tCtrl+Shift+K</item>
+    <item id="32885">从服务器踢出并禁止(&amp;B)\tCtrl+Alt+B</item>
     <item id="32888">记录会话(&amp;D)\tCtrl+Alt+A</item>
     <item id="32890">移动用户对话(&amp;D)\tCtrl+Alt+M</item>
     <item id="32892">私人消息(&amp;U)\tCtrl+1</item>

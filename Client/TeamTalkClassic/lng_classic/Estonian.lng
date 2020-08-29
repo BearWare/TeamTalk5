@@ -419,7 +419,7 @@
     <item id="32877">&amp;Säilita liigutamiseks\tCtrl+Alt+X</item>
     <item id="32878">Teisal&amp;da kasutajat\tCtrl+Alt+V</item>
     <item id="32882">&amp;Blokitud kasutajad\tCtrl+Shift+B</item>
-    <item id="32885">Viska välja ja &amp;bloki\tCtrl+Shift+K</item>
+    <item id="32885">Viska välja ja &amp;bloki\tCtrl+Alt+B</item>
     <item id="32888">&amp;Salvesta vestluseid\tCtrl+Alt+A</item>
     <item id="32890">Kasutaja teisaldamise &amp;dialoog\tCtrl+Alt+M</item>
     <item id="32892">Kas&amp;utaja sõnumid\tCtrl+1</item>

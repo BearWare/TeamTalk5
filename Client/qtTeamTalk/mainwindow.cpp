@@ -1872,8 +1872,7 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         break;
     case HOTKEY_VOICEACTIVATION :
         if(active)
-            TT_EnableVoiceActivation(ttInst, 
-                     !(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
+            slotMeEnableVoiceActivation(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
         break;
     case HOTKEY_INCVOLUME :
         if(active)
@@ -4487,7 +4486,7 @@ void MainWindow::slotUpdateUI()
     if(TT_GetUser(ttInst, userid, &user))
     {
         ui.actionMuteVoice->setChecked(user.uUserState & USERSTATE_MUTE_VOICE);
-        ui.actionMuteMediaFile->setChecked(user.uUserState & USERSTATE_MEDIAFILE_AUDIO);
+        ui.actionMuteMediaFile->setChecked(user.uUserState & USERSTATE_MUTE_MEDIAFILE);
         ui.actionDesktopAccessAllow->setChecked(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT);
 
         ui.actionUserMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_USER_MSG);

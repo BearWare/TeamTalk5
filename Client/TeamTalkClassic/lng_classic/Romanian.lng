@@ -790,7 +790,7 @@
     <item id="32877">&amp;Stochează pentru a muta\tCtrl+Alt+X</item>
     <item id="32878">&amp;Mută utilizatorul\tCtrl+Alt+V</item>
     <item id="32882">&amp;Utilizatori banați\tCtrl+Shift+B</item>
-    <item id="32885">Dă afară și &amp;banează de pe server\tCtrl+Shift+K</item>
+    <item id="32885">Dă afară și &amp;banează de pe server\tCtrl+Alt+B</item>
     <item id="32888">în&amp;registrează conversațiile\tCtrl+Alt+A</item>
     <item id="32890">Mută utilizatorul &amp;dialog\tCtrl+Alt+M</item>
     <item id="32892">&amp;Mesaje utilizator\tCtrl+1</item>
@@ -809,7 +809,7 @@
     <item id="32905">&amp;Dă afară\tCtrl+K</item>
     <item id="32906">Dă afară și &amp;banează\tCtrl+Shift+K</item>
     <item id="32907">&amp;Op\tCtrl+O</item>
-    <item id="32908">A&amp;nunț\tCtrl+Alt+B</item>
+    <item id="32908">A&amp;nunț\tCtrl+Shift+E</item>
     <item id="32909">Activează transmisia V&amp;ideo\tCtrl+Shift+V</item>
     <item id="32914">&amp;Desktop\tCtrl+6</item>
     <item id="32915">Interceptează D&amp;esktop-ul\tCtrl+Shift+6</item>

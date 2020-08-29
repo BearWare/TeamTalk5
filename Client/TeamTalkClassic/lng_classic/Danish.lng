@@ -435,7 +435,7 @@
     <item id="32877">&amp;Gem til Flytning\tCtrl+Alt+X</item>
     <item id="32878">&amp;Flyt Bruger\tCtrl+Alt+V</item>
     <item id="32882">Vis &amp;Blokerede Brugere\tCtrl+Shift+B</item>
-    <item id="32885">Spark ud og Bloker\tCtrl+Shift+K</item>
+    <item id="32885">Spark ud og Bloker\tCtrl+Alt+B</item>
     <item id="32890">Flyt Bruger &amp;Dialog\tCtrl+Alt+M</item>
     <item id="32892">&amp;Brugerbeskeder</item>
     <item id="32893">&amp;Kanalbeskeder</item>
@@ -448,7 +448,7 @@
     <item id="32902">Tillad Vid&amp;eotransmission\tCtrl+Alt+W</item>
     <item id="32903">Servers&amp;tatistik\tShift+F9</item>
     <item id="32904">&amp;Online-brugere\tCtrl+Shift+U</item>
-    <item id="32908">B&amp;roadcast Besked\tCtrl+Alt+B</item>
+    <item id="32908">B&amp;roadcast Besked\tCtrl+Shift+E</item>
     <item id="32909">Aktiver V&amp;ideotransmission\tCtrl+Shift+V</item>
     <item id="32914">&amp;Desktop</item>
     <item id="32915">Opsnap D&amp;esktop</item>

@@ -1954,6 +1954,9 @@
    </property>
   </action>
   <action name="actionMuteVoice">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Mu&amp;te Voice</string>
    </property>
@@ -1962,11 +1965,14 @@
    </property>
   </action>
   <action name="actionMuteMediaFile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Mute Media File</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Alt+Μ</string>
+    <string>Ctrl+Alt+Shift+M</string>
    </property>
   </action>
   <action name="actionKickFromChannel">

@@ -364,7 +364,7 @@
     <item id="32871">환경 설정 저장\tCtrl+Shift+S &amp;a</item>
     <item id="32878">사용자 이동\tCtrl+Alt+V &amp;M</item>
     <item id="32882">차단된 사용자\tCtrl+Shift+B &amp;B</item>
-    <item id="32885">강퇴와 차단\tCtrl+Shift+K &amp;B</item>
+    <item id="32885">강퇴와 차단\tCtrl+Alt+B &amp;B</item>
     <item id="32892">사용자 메시지\tCtrl+1 &amp;U</item>
     <item id="32893">채널 메시지\tCtrl+2 &amp;C</item>
     <item id="32894">&amp;Broadcast 메시지\tCtrl+3 &amp;B</item>

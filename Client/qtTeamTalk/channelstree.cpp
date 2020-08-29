@@ -973,6 +973,11 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if(_Q(user.szStatusMsg).size())
             itemtext += QString(" - ") + _Q(user.szStatusMsg);
 
+        if(user.nStatusMode & STATUSMODE_FEMALE)
+            itemtext += " 👩";
+        else
+            itemtext += " 👨";
+
         if(user.uUserType & USERTYPE_ADMIN)
             itemtext += tr(" (Administrator)");
 
@@ -1291,8 +1296,11 @@ void ChannelsTree::slotUserUpdate(const User& user)
         if(item->data(COLUMN_ITEM, Qt::DisplayRole).toString() != name)
         {
             QTreeWidgetItem* parent = item->parent();
+            bool selected = this->currentItem() == item;
             parent->removeChild(item);
             parent->insertChild(getUserIndex(parent, getDisplayName(user)), item);
+            if (selected)
+               this->setCurrentItem(item);
         }
         //clear blinking request user (if enabled)
         if(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT)
