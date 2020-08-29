@@ -228,6 +228,7 @@
     <item id="1211">Settaggi per il suono</item>
     <item id="1212">Nessun font selezionato</item>
     <item id="1213">Qui puoi selezionare le periferiche usate da TeamTalk per la registrazione e la riproduzione dell&apos;audio. L&apos;uso del DirectSound è vivamente consigliato perchè garantisce una minore latenza rispetto al sistema usato normalmente da windows.</item>
+    <item id="1214">Abilita amministrazione remota</item>
     <item id="1215">Premendo &quot;Prova selezione&quot; potrai testare le periferiche selezionate e sentire se si sente quello che hai registrato tramite l&apos;imput scelto</item>
     <item id="1217">Gli utenti possono creare canali temporanei</item>
     <item id="1218">gli utenti possono creare/modificare tutti i canali</item>
@@ -236,11 +237,13 @@
     <item id="1225">&amp;Default</item>
     <item id="1230">Nuove informazioni sul canale</item>
     <item id="1231">&amp;Invia</item>
+    <item id="1232">&amp;Aggiorna</item>
     <item id="1235">Settaggi dell&apos;hosting</item>
     <item id="1236">Benvenuto nel setup guidato di TeamTalk</item>
     <item id="1237">Il setup guidato di TeamTalk è stato completato</item>
     <item id="1240">Tradotto da Alessio Colizza</item>
     <item id="1241">Lingua interfaccia utente</item>
+    <item id="1243">Periferica mixer</item>
     <item id="1245">Usa un&apos;altra lingua per l&apos;installazione</item>
     <item id="1246">chiudi quando completato</item>
     <item id="1253">nome del file</item>

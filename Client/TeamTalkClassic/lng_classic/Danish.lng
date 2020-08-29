@@ -225,6 +225,7 @@
     <item id="1211">Lydsystemindstillinger</item>
     <item id="1212">Ingen font valg</item>
     <item id="1213">Her kan du vælge de lydenheder som TeamTalk skal benytte til at optage og afspille lyd. Valg af DirectSound er anbefalet, da det giver lavere forsinkelse end Windows&apos; standard lydsystem.</item>
+    <item id="1214">Aktiver fjernadministration</item>
     <item id="1215">Ved at trykke &quot;Afprøv valgte&quot; kan du teste de valgte lydenheder og høre om du er i stand til at afspille den lyd der optages.</item>
     <item id="1217">Brugere kan oprette kanaler</item>
     <item id="1218">Brugere kan fremsende lyd gennem server</item>
@@ -233,11 +234,13 @@
     <item id="1225">&amp;Standard</item>
     <item id="1230">Ny kanalinformation</item>
     <item id="1231">&amp;Send</item>
+    <item id="1232">&amp;Opdater</item>
     <item id="1235">Serverindstillinger</item>
     <item id="1236">Velkommen til TeamTalk 4 opsætningsguide</item>
     <item id="1237">TeamTalk 4 opsætningsguiden er nu færdig</item>
     <item id="1240">Oversat af Bjørn D. Rasmussen</item>
     <item id="1241">Sprog</item>
+    <item id="1243">Mixer enhed</item>
     <item id="1245">Brug et andet sprog til installationen</item>
     <item id="1246">Luk ved fuldførelse</item>
     <item id="1253">Filnavn:</item>

@@ -130,6 +130,7 @@
     <item id="1211">Thiết lập hệ thống âm thanh</item>
     <item id="1212">Chưa chọn font</item>
     <item id="1213">Ở đây bạn chọn thiết bị âm thành mà TeamTalk dùng để ghi âm và phát. Nên chọn DirectSound vì nó có độ trễ ít hơn so với hệ thống âm thanh ngầm định của Windows.</item>
+    <item id="1214">Cho phép quản trị từ xa</item>
     <item id="1215">Bằng cách chọn &quot;Chọn chế độ thử&quot; bạn có thể thử thiết bị đang chọn và nghe xem bạn có thể phát lại âm thanh đã thu từ thiết bị vào được không.</item>
     <item id="1217">Người dùng có thể tạo các kênh.</item>
     <item id="1218">Người dùng có thể truyền âm qua máy chủ</item>
@@ -138,11 +139,13 @@
     <item id="1225">(&amp;D)Ngầm định</item>
     <item id="1230">Thông tin kênh mới</item>
     <item id="1231">(&amp;S)Gửi</item>
+    <item id="1232">(&amp;U)Cập nhật</item>
     <item id="1235">Thiết lập máy chủ</item>
     <item id="1236">Chào mừng bạn đến với trợ giúp cài đặt TeamTalk 4</item>
     <item id="1237">Cài đặt TeamTalk 4 đã hoàn thành</item>
     <item id="1240">Chuyển ngữ bởi Nguyen Ngoc Quynh</item>
     <item id="1241">Ngôn ngữ giao diện người dùng</item>
+    <item id="1243">Thiết bị hoà âm</item>
     <item id="1245">Chọn ngôn ngữ cài đặt khác</item>
     <item id="1260">Kích hoạt âm thanh</item>
     <item id="1261">Tăng âm lượng</item>

@@ -23,7 +23,6 @@
 
 #pragma once
 #include "afxwin.h"
-#include "afxcmn.h"
 
 // CAboutBox dialog
 
@@ -42,7 +41,6 @@ protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
     DECLARE_MESSAGE_MAP()
-    void AddLine(const CString& szLine, CHARFORMAT& cf);
 public:
     CString m_strProgramTitle;
     CString m_strVersion;
@@ -57,5 +55,4 @@ public:
     CStatic m_wndImage;
     CStatic m_wndCompiled;
     CString m_szCompiled;
-    CRichEditCtrl m_wndCredits;
- };
+};

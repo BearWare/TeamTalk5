@@ -517,6 +517,7 @@
     <item id="1211">声音系统设置</item>
     <item id="1212">未选择字体</item>
     <item id="1213">请您在这里为 TeamTalk 选择可以录音和播放音频的设备。 推荐选择 DirectSound ，它能提供比 Windows 默认声音系统更低的延迟。</item>
+    <item id="1214">WebM VP8 编解码器由 WebM project 开发, www.webmproject.org</item>
     <item id="1215">通过点击 “测试所选项”，您可以测试当前选定的设备，并听取您是否能够播放所选输入设备录制的音频。</item>
     <item id="1217">用户可创建临时频道</item>
     <item id="1218">用户可创建/修改所有频道</item>
@@ -524,13 +525,17 @@
     <item id="1225">默认(&amp;D)</item>
     <item id="1226">Copyright (c) 2005-2020, BearWare.dk</item>
     <item id="1228">编写者 Bjoern D. Rasmussen</item>
+    <item id="1229">Speex 编解码器由 Jean-Marc Valin 开发, www.speex.org</item>
     <item id="1230">新频道信息</item>
     <item id="1231">发送(&amp;S)</item>
+    <item id="1232">OPUS 编解码器由 Opus project 开发, www.opus-codec.org</item>
     <item id="1236">欢迎使用TeamTalk设置向导</item>
     <item id="1237">完成TeamTalk设置向导</item>
     <item id="1238">回放设置</item>
     <item id="1240">由星空、海浪翻译</item>
     <item id="1241">用户界面语言</item>
+    <item id="1243">混音设备</item>
+    <item id="1244">TeamTalk Classic 项目贡献者: Beqa Gozalishvili</item>
     <item id="1245">使用另一种安装语言</item>
     <item id="1246">完成后关闭</item>
     <item id="1247">取消</item>
