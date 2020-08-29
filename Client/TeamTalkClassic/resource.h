@@ -137,6 +137,7 @@
 #define IDB_BITMAP_VOLUME               230
 #define IDD_DIALOG_USERVOLUME           231
 #define IDR_MENU_TRAY                   232
+#define IDS_TIMELOCALE                   233
 #define IDS_SUBINT_DESKTOP              234
 #define IDD_WIZARD_GENERALPAGE          235
 #define IDR_ACCELERATOR2                236

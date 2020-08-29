@@ -115,6 +115,7 @@
     <item id="224">Système audio</item>
     <item id="226">%s a réglé l&apos;abonnement &quot;interception vidéo&quot; sur %d</item>
     <item id="227">Informations de l&apos;utilisateur</item>
+    <item id="233">%d/%m/%Y %H:%M:%S</item>
     <item id="234">%s a réglé l&apos;abonnement &quot;interception du bureau&quot; sur %d</item>
     <item id="243">Gestionnaire d'hôtes</item>
     <item id="244">%s a réglé l&apos;abonnement &quot;interception des fichiers média&quot; sur %d</item>
