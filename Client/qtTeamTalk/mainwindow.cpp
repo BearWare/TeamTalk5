@@ -4487,7 +4487,7 @@ void MainWindow::slotUpdateUI()
     if(TT_GetUser(ttInst, userid, &user))
     {
         ui.actionMuteVoice->setChecked(user.uUserState & USERSTATE_MUTE_VOICE);
-        ui.actionMuteMediaFile->setChecked(user.uUserState & USERSTATE_MEDIAFILE_AUDIO);
+        ui.actionMuteMediaFile->setChecked(user.uUserState & USERSTATE_MUTE_MEDIAFILE);
         ui.actionDesktopAccessAllow->setChecked(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT);
 
         ui.actionUserMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_USER_MSG);
