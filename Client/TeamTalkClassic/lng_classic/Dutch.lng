@@ -125,7 +125,6 @@
     <item id="1211">geluids systeem instellingen</item>
     <item id="1212">geen font geselecteerd</item>
     <item id="1213">Hier selecteerd u het geluids apparaat die team talk gebruikt voor het opnemen en afspelen . Het gebruik van directsound heeft de hoogste voorkeur omdat dit een lagere tijdsduur gebruikt dan het windows standaad systeem</item>
-    <item id="1214">zet afstands administratie aan</item>
     <item id="1215">Door het indrukken &quot;test geselecteerde&quot;kunt u het huidige geselecteerde apparaat testen of u in staat bent de opgenomen audio af te spelen</item>
     <item id="1217">gebruiker kan kanalen aanmaken</item>
     <item id="1218">gebruiker kan audio via server forwarden</item>
@@ -134,13 +133,11 @@
     <item id="1225">&amp;standaard</item>
     <item id="1230">nieuw kanaal informatie</item>
     <item id="1231">&amp;zend</item>
-    <item id="1232">&amp;vernieuwen</item>
     <item id="1235">hosting instellingen</item>
     <item id="1236">Welkom bij het CVLSB Team TALk 3 installatie wizard</item>
     <item id="1237">volbreng de team talk 3 installatie wizard</item>
     <item id="1240">Vertaald door Patrick Scheeper (c)2007 cvlsb</item>
     <item id="1241">gebruikers Taal</item>
-    <item id="1243">mixer apparaat</item>
     <item id="1245">gebruik een andere installatie taal</item>
     <item id="32791">Wat is mijn &amp;IP-address?</item>
     <item id="32792">vastgesteld &amp;playback snelheid\ctrl=shift=p</item>

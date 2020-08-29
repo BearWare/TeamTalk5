@@ -130,7 +130,6 @@
     <item id="1211">Äänijärjestelmä asetukset</item>
     <item id="1212">Kirjaisinta ei ole valittu</item>
     <item id="1213">Täällä valitset äänilaitteet joita TeamTalk tulisi käyttää nauhoittaakseen ja toistaakseen ääntä. DirectSound valitseminen on hyvin suositeltua sen tarjoaman pienemmän viiveen vuoksi.</item>
-    <item id="1214">Salli Kaukohallinta</item>
     <item id="1215">Painamalla &quot;Testi valittu&quot; voit testata valittuja laiteita ja kuulla mitä sisääntulo laiteesi tuo sisään.</item>
     <item id="1217">Käyttäjät voivat luoda kanavia</item>
     <item id="1218">Käyttäjät voivat toimittaa ääntä serverin kautta</item>
@@ -139,13 +138,11 @@
     <item id="1225">Perus</item>
     <item id="1230">Uuden kanavan tiedosto</item>
     <item id="1231">Lähetä</item>
-    <item id="1232">Päivitä</item>
     <item id="1235">Serverin asetukset</item>
     <item id="1236">Tervetuloa TeamTalk 4 asennusvelhoon</item>
     <item id="1237">Suoritit TeamTalk 4 asetusvelhon</item>
     <item id="1240">Kääntänyt Jani P</item>
     <item id="1241">Käyttöliittymä kieli</item>
-    <item id="1243">Mixeri laite</item>
     <item id="1245">Käytä toista asennus kieltä</item>
     <item id="1260">Ääni aktivointi</item>
     <item id="1261">Nosta äänenvoimakkuutta</item>
