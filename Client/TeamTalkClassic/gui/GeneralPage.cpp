@@ -42,6 +42,7 @@ CGeneralPage::CGeneralPage()
 , m_bIdleVox(FALSE)
 , m_bFemale(FALSE)
 , m_szBearWareID(_T(""))
+, m_bRestoreUser(FALSE)
 {
     m_bPush = FALSE;
     m_sNickname = _T("");
@@ -73,6 +74,7 @@ void CGeneralPage::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT_BEARWAREID, m_szBearWareID);
     DDX_Control(pDX, IDC_EDIT_BEARWAREID, m_wndBearWareID);
     DDX_Control(pDX, IDC_BUTTON_SETUPBEARWARE, m_wndSetupBearWare);
+    DDX_Check(pDX, IDC_CHECK_WEBLOGIN, m_bRestoreUser);
 }
 
 

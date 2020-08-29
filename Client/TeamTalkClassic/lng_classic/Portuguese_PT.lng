@@ -130,7 +130,6 @@
     <item id="1211">Propriedades do sistema de som</item>
     <item id="1212">Nenhuma fonte seleccionada</item>
     <item id="1213">Aqui poderá seleccionar os dispositivos de som que o TeamTalk irá usar para a gravação e reprodução de som. O DirectSound é altamente recomendado uma vez que apresenta uma latência mais baixa do que o Windows default sound system.</item>
-    <item id="1214">Activar administração remota</item>
     <item id="1215">Pressionando &quot;Testar selecção&quot; poderá testar os dispositivos de som seleccionados e confirmar a reprodução do som gravado pelo dispositivo de entrada.</item>
     <item id="1217">Os utilizadores podem criar canais</item>
     <item id="1218">Os utilizadores podem encaminhar som através pelo servidor</item>
@@ -139,13 +138,11 @@
     <item id="1225">&amp;Defeito</item>
     <item id="1230">Nova informação do canal</item>
     <item id="1231">&amp;Enviar</item>
-    <item id="1232">Act&amp;ualizar</item>
     <item id="1235">Opções do servidor</item>
     <item id="1236">Bem vindo ao agente de configuração do TeamTalk 4</item>
     <item id="1237">Terminou o agente de configuração do TeamTalk 4</item>
     <item id="1240">Traduzido por Filipe Vieira</item>
     <item id="1241">Idioma da interface</item>
-    <item id="1243">Dispositivo de mistura</item>
     <item id="1245">Use uma outro idioma na instalação</item>
     <item id="1260">Activação por voz</item>
     <item id="1261">Aumentar volume</item>

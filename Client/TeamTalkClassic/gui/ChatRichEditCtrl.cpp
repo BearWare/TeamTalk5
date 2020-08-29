@@ -205,7 +205,7 @@ CString CChatRichEditCtrl::GetChatTime()
 {
     CTime tm = CTime::GetCurrentTime();
     CString szTime;
-    szTime.Format(_T("%.2d:%.2d:%.2d"), tm.GetHour(), tm.GetMinute(), tm.GetSecond());
+    szTime = tm.Format(LoadText(IDS_TIMELOCALE, _T("%Y-%m-%d %H:%M:%S")));
     return szTime;
 }
 

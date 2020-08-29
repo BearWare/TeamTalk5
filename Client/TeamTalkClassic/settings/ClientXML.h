@@ -35,6 +35,7 @@
 #define DEFAULT_PUSHTOTALK                          false
 #define DEFAULT_VOICEACTIVATED                      true
 #define DEFAULT_VOICEACTIVATE_LEVEL                 2
+#define DEFAULT_RESTOREWEBLOGIN                     true
 
 #define DEFAULT_SOUND_OUTPUT_VOLUME                 50
 #define DEFAULT_SOUND_GAIN_LEVEL                    50
@@ -127,6 +128,9 @@ namespace teamtalk {
 
         void SetBearWareLogin(const std::string& szUsername, const std::string& szToken);
         bool GetBearWareLogin(std::string& szUsername, std::string& szToken);
+
+        void SetRestoreUserFromWebLogin(bool bEnable);
+        bool GetRestoreUserFromWebLogin(bool bDefEnable = DEFAULT_RESTOREWEBLOGIN);
 
         bool SetProfileName(const std::string& szProfilename);
         std::string GetProfileName();

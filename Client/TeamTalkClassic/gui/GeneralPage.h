@@ -72,4 +72,5 @@ public:
     CString m_szBearWareToken;
     CEdit m_wndBearWareID;
     CButton m_wndSetupBearWare;
-};
+    BOOL m_bRestoreUser;
+ };
