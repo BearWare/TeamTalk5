@@ -123,7 +123,6 @@
     <item id="1211">Zvočne nastavitve</item>
     <item id="1212">Nisi izbral fontov</item>
     <item id="1213">Tukaj izberete zvokovno napravo, katero TeamTalk uporablja za snemanje in predvajanje zvoka. Izbira DirectSound je najbolj priporočljiva.</item>
-    <item id="1214">Omogoči oddaljeno administracijo</item>
     <item id="1215">S pritiskom &quot;Testiranje&quot; lahko preverite trenutno izbrane nastavitve in stestirate vhodi in izhodni zvok.</item>
     <item id="1217">Uporabnik lahko ustvari kanal</item>
     <item id="1218">Uporabnik lahko preusmeri zvok skozi server</item>
@@ -132,13 +131,11 @@
     <item id="1225">&amp;Privzeto</item>
     <item id="1230">Informacije novega kanala</item>
     <item id="1231">&amp;Pošlji</item>
-    <item id="1232">&amp;Posodobi</item>
     <item id="1235">Nastavitve strežnika</item>
     <item id="1236">Pozdravljeni v TeamTalk 4 nastavitvenem čarovniku</item>
     <item id="1237">Končan čarovnik TeamTalk 4</item>
     <item id="1240">Prevod ISAK Igor</item>
     <item id="1241">Jezik vmesnika</item>
-    <item id="1243">Mixer oprema</item>
     <item id="1245">Uporabi drug jezik instalacije</item>
     <item id="32791">Kakšen je moj IP naslov</item>
     <item id="32792">Fiksna &amp;hitrost predvajanja\tCtrl+Shift+P</item>

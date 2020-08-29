@@ -130,7 +130,6 @@
     <item id="1211">系統聲音設置</item>
     <item id="1212">沒有字體可以選擇</item>
     <item id="1213">你應該為TeamTalk選擇可以錄音和播放的音訊設備. 推薦選擇 DirectSound, 它比Windows 預設系統聲音更優異.</item>
-    <item id="1214">允許遠端系統管理</item>
     <item id="1215">按下 “測試” 按鈕測試當前選擇的設備能否聽見你們的聲音.</item>
     <item id="1217">用戶可以創建頻道</item>
     <item id="1218">用戶能通過伺服器傳送音訊</item>
@@ -139,13 +138,11 @@
     <item id="1225">預設(&amp;D)</item>
     <item id="1230">新頻道資訊</item>
     <item id="1231">發送(&amp;S)</item>
-    <item id="1232">更新(&amp;U)</item>
     <item id="1235">主持設置</item>
     <item id="1236">歡迎使用 TeamTalk 4 安裝精靈</item>
     <item id="1237">完成 TeamTalk 4 的安裝</item>
     <item id="1240">由智成家族Komido翻譯</item>
     <item id="1241">使用者介面語言</item>
-    <item id="1243">混音器</item>
     <item id="1245">安裝使用其它語言</item>
     <item id="1260">聲音啟動</item>
     <item id="1261">提高音量</item>

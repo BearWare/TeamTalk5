@@ -495,17 +495,12 @@ CAPTION "About"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Static",IDC_STATIC_APPTITLE,7,7,143,47
-    LTEXT           "Static",IDC_STATIC_VERSION,105,34,92,14
-    LTEXT           "Written by Bjoern D. Rasmussen",IDC_STATIC_AUTHOR,7,62,139,8
-    LTEXT           "Copyright (c) 2005-2020, BearWare.dk",IDC_STATIC_COPYRIGHT,7,75,183,8
-    LTEXT           "Speex codec developed by Jean-Marc Valin, www.speex.org",IDC_STATIC_SPEEXCODECDEV,7,88,189,17
-    LTEXT           "OPUS codec developed by Opus project, www.opus-codec.org",IDC_STATIC_OPUSCODECDEV,7,110,189,17
-    LTEXT           "WebM VP8 codec developed by WebM project, www.webmproject.org",IDC_STATIC_WEBMCODECDEV,7,132,189,17
-    LTEXT           "Translated by Bjoern D. Rasmussen",IDC_STATIC_TRANSLATOR,7,154,189,18
-    LTEXT           "TeamTalk Classic Project Contributors:\nBeqa Gozalishvili\nOreonan",IDC_STATIC_TRANSLATOR2,7,178,189,25
-    LTEXT           "Compiled on ",IDC_STATIC_COMPILED,7,205,189,25
     DEFPUSHBUTTON   "OK",IDOK,154,7,36,16
-    ICON            IDR_MAINFRAME,IDC_STATIC_IMAGE,151,61,20,20
+    LTEXT           "Static",IDC_STATIC_VERSION,105,34,92,14
+    CONTROL         "",IDC_RICHEDIT2_CREDITS,"RichEdit20W",ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | ES_WANTRETURN | WS_BORDER | WS_VSCROLL | WS_TABSTOP,7,66,190,124
+    LTEXT           "Compiled on ",IDC_STATIC_COMPILED,7,193,189,25
+    LTEXT           "Copyright (c) 2005-2020, BearWare.dk",IDC_STATIC_COPYRIGHT,7,222,183,8
+    ICON            IDR_MAINFRAME,IDC_STATIC_IMAGE,176,201,21,20
 END
 
 IDD_DIALOG_HOSTMANAGER DIALOGEX 0, 0, 420, 275
@@ -1441,12 +1436,12 @@ BEGIN
     "A",            ID_ME_ENABLEVOICEACTIVATION, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "B",            ID_KICK_KICKANDBANFROMCHANNEL, VIRTKEY, CONTROL, NOINVERT
     "B",            ID_SERVER_LISTBANNEDUSERS, VIRTKEY, SHIFT, CONTROL, NOINVERT
-    "B",            ID_USERS_KICKANDBAN,    VIRTKEY, ALT, CONTROL, NOINVERT
+    "B",            ID_USERS_KICKANDBAN,    VIRTKEY, CONTROL, ALT, NOINVERT
     "D",            ID_ME_ENABLEDESKTOPSHARING, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "E",            ID_USERS_MESSAGES,      VIRTKEY, CONTROL, NOINVERT
     "E",            ID_ADVANCED_ALLOWDESKTOPTRANSMISSION, VIRTKEY, CONTROL, ALT, NOINVERT
     "E",            ID_ADVANCED_ALLOWALLDESKTOPTRANSMISSION, VIRTKEY, SHIFT, CONTROL, ALT, NOINVERT
-    "E",            ID_SERVER_BROADCASTMESSAGE, VIRTKEY, CONTROL, SHIFT, NOINVERT
+    "E",            ID_SERVER_BROADCASTMESSAGE, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "G",            ID_USERINFO_SPEAKUSERINFO, VIRTKEY, CONTROL, NOINVERT
     "G",            ID_CHANNELINFO_SPEAKCHANNELSTATE, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "I",            ID_USERS_VIEWINFO,      VIRTKEY, CONTROL, NOINVERT
@@ -2328,14 +2323,13 @@ BEGIN
     IDS_SUREDELETECHAN      "Are you sure you want to delete channel %s"
     IDS_CHANDELETETITLE     "Delete Channel"
     IDS_CHANPSW             "Channel password"
-    IDS_TIMELOCALE             "%Y-%m-%d %H:%M:%S"
-    IDS_FILEADDBY             "File %s added by %s"
-    IDS_FILEREMOVEDBY             "Removed file %s created by %s"
+    IDS_FILEADDBY           "File %s added by %s"
     IDS_COMPILEDON          "Compiled on "
     IDS_UNICODEENABLED      "Unicode -> UTF-8 conversion enabled.\r\n"
     IDS_LOCALECHARS         "Uses local character set.\r\n"
     IDS_TTDLLVER            "TeamTalk 64-bit DLL version: "
     IDS_TTDLLVERS           "TeamTalk 32-bit DLL version: "
+    IDS_FILEREMOVEDBY       "Removed file %s created by %s"
     IDS_RXTXPING            "RX: %.2fKB TX: %.2fKB PING: %u %s"
     IDS_RXTX                "RX: %.2fKB TX: %.2fKB %s"
 END
