@@ -18,6 +18,7 @@ Accessible Windows Client:
 - Ctrl+Shift+Alt+M to mute/unmute media files of an user
 - Messages timestamp now return also dates
 - Messages timestamps are now translatables
+- User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
 Default QT Client:
 - Update window title at login with server name
 - Status mode is now displayed for Away, Question, Streaming media file and Webcam

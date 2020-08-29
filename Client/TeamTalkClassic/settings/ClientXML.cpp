@@ -472,6 +472,16 @@ namespace teamtalk {
         SetValue("general/bearwareid/token", szToken);
     }
 
+    void ClientXML::SetRestoreUserFromWebLogin(bool bEnable)
+    {
+        SetValue("general/restore-user-weblogin", bEnable);
+    }
+    
+    bool ClientXML::GetRestoreUserFromWebLogin(bool bDefEnable)
+    {
+        return GetValue(true, "general/restore-user-weblogin", bDefEnable);
+    }
+
     bool ClientXML::GetBearWareLogin(std::string& szUsername, std::string& szToken)
     {
         szUsername = GetValue(true, "general/bearwareid/username", "");
