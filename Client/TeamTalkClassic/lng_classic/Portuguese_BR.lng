@@ -793,7 +793,7 @@
     <item id="32877">Armazenar para mover\tCtrl+Alt+X</item>
     <item id="32878">&amp;Mover usuário\tCtrl+Alt+V</item>
     <item id="32882">Usuários banidos\tCtrl+Shift+B</item>
-    <item id="32885">Expulsar e &amp;banir do servidor\tCtrl+Shift+K</item>
+    <item id="32885">Expulsar e &amp;banir do servidor\tCtrl+Alt+B</item>
     <item id="32888">Gravar conversação\tCtrl+Alt+A</item>
     <item id="32890">Diálogo para mover usuário\tCtrl+Alt+M</item>
     <item id="32892">Mensagens do usuário\tCtrl+1</item>

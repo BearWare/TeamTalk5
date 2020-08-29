@@ -791,7 +791,7 @@
     <item id="32877">&amp;Spremi za premještenje\tCtrl+Alt+X</item>
     <item id="32878">&amp;Premjesti korisnika\tCtrl+Alt+V</item>
     <item id="32882">&amp;Banirani korisnici\tCtrl+Shift+B</item>
-    <item id="32885">Istjeraj i &amp;Baniraj\tCtrl+Shift+K</item>
+    <item id="32885">Istjeraj i &amp;Baniraj\tCtrl+Alt+B</item>
     <item id="32888">&amp;Snimaj razgovore\tCtrl+Alt+A</item>
     <item id="32890">Premjesti korisnika &amp;dijaloški okvir\tCtrl+Alt+M</item>
     <item id="32892">Korisničke &amp;Poruke\tCtrl+1</item>

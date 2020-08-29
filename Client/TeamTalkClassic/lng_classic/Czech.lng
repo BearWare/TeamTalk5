@@ -539,7 +539,7 @@
     <item id="32877">&amp;Uložit pro pozdější přenesení\tCtrl+Alt+X</item>
     <item id="32878">&amp;Přesunout uživatele\tCtrl+Alt+V</item>
     <item id="32882">&amp;Zakázaní uživatelé\tCtrl+Shift+B</item>
-    <item id="32885">Vykopnout a &amp;zakázat přístup\tCtrl+Shift+K</item>
+    <item id="32885">Vykopnout a &amp;zakázat přístup\tCtrl+Alt+B</item>
     <item id="32888">Za&amp;znamenávat konverzace\tCtrl+Alt+A</item>
     <item id="32890">&amp;Dialog pro přesunutí uživatele\tCtrl+Alt+M</item>
     <item id="32892">&amp;Soukromé zprávy\tCtrl++</item>

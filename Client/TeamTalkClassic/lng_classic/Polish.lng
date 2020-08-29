@@ -486,7 +486,7 @@
     <item id="32877">&amp;Cel przeniesienia\tCtrl+Alt+X</item>
     <item id="32878">&amp;Przenieś użytkownika\tCtrl+Alt+V</item>
     <item id="32882">&amp;Zbanowani użytkownicy\tCtrl+Shift+B</item>
-    <item id="32885">Wykop i &amp;zbanuj\tCtrl+Shift+K</item>
+    <item id="32885">Wykop i &amp;zbanuj\tCtrl+Alt+B</item>
     <item id="32888">Zachowaj rozmowy\tCtrl+Alt+A</item>
     <item id="32890">Przenieś użytkownika... (dialog)\tCtrl+Alt+M</item>
     <item id="32892">&amp;Prywatne wiadomości\tCtrl+1</item>

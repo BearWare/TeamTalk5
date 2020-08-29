@@ -556,7 +556,7 @@
     <item id="32877">Agregar para Mover\tCtrl+Alt+X</item>
     <item id="32878">Mover Usuarios\tCtrl+Alt+V</item>
     <item id="32882">Usuarios Excluidos\tCtrl+Shift+B</item>
-    <item id="32885">Expulsar y excluir del Servidor\tCtrl+Shift+K</item>
+    <item id="32885">Expulsar y excluir del Servidor\tCtrl+Alt+B</item>
     <item id="32888">Grabar Conversaciones\tCtrl+Alt+A</item>
     <item id="32890">Diálogo para Mover Usuarios\tCtrl+Alt+M</item>
     <item id="32892">Mensajes del Usuario\tCtrl+1</item>
