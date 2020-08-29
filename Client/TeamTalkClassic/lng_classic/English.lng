@@ -807,7 +807,7 @@
     <item id="32877">&amp;Store for Move\tCtrl+Alt+X</item>
     <item id="32878">&amp;Move User\tCtrl+Alt+V</item>
     <item id="32882">&amp;Banned Users\tCtrl+Shift+B</item>
-    <item id="32885">Kick and &amp;Ban From Server\tCtrl+Shift+K</item>
+    <item id="32885">Kick and &amp;Ban From Server\tCtrl+Alt+B</item>
     <item id="32888">Recor&amp;d Conversations\tCtrl+Alt+A</item>
     <item id="32890">Move User &amp;Dialog\tCtrl+Alt+M</item>
     <item id="32892">&amp;User Messages\tCtrl+1</item>

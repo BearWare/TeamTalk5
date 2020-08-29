@@ -794,7 +794,7 @@
     <item id="32877">&amp;Kullanıcı Kopyala\tCtrl+Alt+X</item>
     <item id="32878">&amp;Kullanıcı Taşı\tCtrl+Alt+V</item>
     <item id="32882">&amp;Yasaklanmış kullanıcılar\tCtrl+Shift+B</item>
-    <item id="32885">&amp;Sunucudan At ve Girişini Yasakla\tCtrl+Shift+K</item>
+    <item id="32885">&amp;Sunucudan At ve Girişini Yasakla\tCtrl+Alt+B</item>
     <item id="32888">&amp;Konuşmaları Kaydet\tCtrl+Alt+A</item>
     <item id="32890">&amp;Kullanıcı Taşıma Penceresi\tCtrl+Alt+M</item>
     <item id="32892">&amp;Kullanıcı Mesajları\tCtrl+1</item>

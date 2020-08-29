@@ -524,7 +524,7 @@
     <item id="32877">Добавить Пользователя Для Перемещения\tCtrl+Alt+X</item>
     <item id="32878">&amp;Переместить Пользователя\tCtrl+Alt+V</item>
     <item id="32882">&amp;Заблокированные Пользователи\tCtrl+Shift+B</item>
-    <item id="32885">Выгнать с Сервера и &amp;Заблокировать\tCtrl+Shift+K</item>
+    <item id="32885">Выгнать с Сервера и &amp;Заблокировать\tCtrl+Alt+B</item>
     <item id="32888">Запис&amp;ать Беседы\tCtrl+Alt+A</item>
     <item id="32890">Диалог Перемещения &amp;Пользователя\tCtrl+Alt+M</item>
     <item id="32892">&amp;Сообщения Пользователя\tCtrl+1</item>
