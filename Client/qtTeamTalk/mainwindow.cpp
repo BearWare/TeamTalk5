@@ -1871,17 +1871,8 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
 #endif
         break;
     case HOTKEY_VOICEACTIVATION :
-        if(active) {
-            TT_EnableVoiceActivation(ttInst, 
-                     !(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
-            if(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED) == true) {
-                ui.voiceactSlider->setVisible(false);
-                ui.actionEnableVoiceActivation->setChecked(false);
-            } else {
-                ui.voiceactSlider->setVisible(true);
-                ui.actionEnableVoiceActivation->setChecked(true);
-            }
-        }
+        if(active)
+            slotMeEnableVoiceActivation(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
         break;
     case HOTKEY_INCVOLUME :
         if(active)
