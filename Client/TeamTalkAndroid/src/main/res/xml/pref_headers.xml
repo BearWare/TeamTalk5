@@ -17,5 +17,8 @@
     <header
         android:fragment="dk.bearware.gui.PreferencesActivity$SoundSystemPreferenceFragment"
         android:title="@string/pref_header_soundsystem" />
-    
+    <header
+        android:fragment="dk.bearware.gui.PreferencesActivity$AboutPreferenceFragment"
+        android:title="@string/pref_cat_about" />
+
 </preference-headers>
