@@ -362,7 +362,7 @@ private slots:
 
     void slotTreeSelectionChanged();
     void slotTreeContextMenu(const QPoint& pos);
-
+    void slotUpdateUI();
     void slotUpdateVideoTabUI();
     void slotUpdateDesktopTabUI();
     void slotUploadFiles(const QStringList& files);

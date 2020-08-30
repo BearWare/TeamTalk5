@@ -1300,10 +1300,7 @@ void ChannelsTree::slotUserUpdate(const User& user)
             parent->removeChild(item);
             parent->insertChild(getUserIndex(parent, getDisplayName(user)), item);
             if (selected)
-            {
                this->setCurrentItem(item);
-               slotUpdateUI();
-            }
         }
         //clear blinking request user (if enabled)
         if(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT)

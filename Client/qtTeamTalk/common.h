@@ -453,5 +453,4 @@ void setMacResizeMargins(QDialog* dlg, QLayout* layout);
 
 void setCurrentItemData(QComboBox* cbox, const QVariant& itemdata);
 QVariant getCurrentItemData(QComboBox* cbox, const QVariant& not_found = QVariant());
-void slotUpdateUI();
 #endif
