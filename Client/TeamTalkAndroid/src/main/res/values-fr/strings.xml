@@ -348,5 +348,10 @@
     <string name="ttversion">TeamTalk V</string>
     <string name="ttdllversion">DLL TeamTalk V</string>
     <string name="pref_title_facebook_summary">À ne cocher que si ce serveur a activé la connexion Facebook</string>
+    <string name="pref_cat_about">À propos</string>
+    <string name="pref_title_contrib">Contributeurs</string>
+    <string name="pref_title_translator">Traducteur</string>
+    <string name="pref_title_libraries">Librairies tierces</string>
+
 
 </resources>
