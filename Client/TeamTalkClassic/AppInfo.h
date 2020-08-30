@@ -43,7 +43,6 @@
 
 #define MANUALFILE              _T("TeamTalk5.chm")
 #define WEBSITE                 _T("http://www.bearware.dk")
-#define WEBCHANGELOG                 _T("https://raw.githubusercontent.com/BearWare/TeamTalk5/master/ChangeLog.txt")
 #define TEAMTALK_INSTALLDIR     _T("BearWare.dk")
 #define TTURL                   _T("tt://")
 #define TT_XML_ROOTNAME         "teamtalk"

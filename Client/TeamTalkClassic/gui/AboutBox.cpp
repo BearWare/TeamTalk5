@@ -49,11 +49,11 @@ void CAboutBox::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_STATIC_VERSION, m_strVersion);
     DDX_Control(pDX, IDC_STATIC_APPTITLE, m_wndProgramTitle);
     DDX_Control(pDX, IDC_STATIC_VERSION, m_wndVersion);
-    DDX_Control(pDX, IDC_STATIC_AUTHOR, m_wndAuthor);
     DDX_Control(pDX, IDC_STATIC_COPYRIGHT, m_wndCopyright);
     DDX_Control(pDX, IDC_STATIC_IMAGE, m_wndImage);
     DDX_Control(pDX, IDC_STATIC_COMPILED, m_wndCompiled);
     DDX_Text(pDX, IDC_STATIC_COMPILED, m_szCompiled);
+    DDX_Control(pDX, IDC_RICHEDIT2_CREDITS, m_wndCredits);
 }
 
 
@@ -107,6 +107,53 @@ BOOL CAboutBox::OnInitDialog()
 
     TRANSLATE(*this, IDD);
 
+    CHARFORMAT cfDefault = {};
+
+    cfDefault.cbSize = sizeof (CHARFORMAT);  
+    cfDefault.dwMask = CFM_UNDERLINE | CFM_BOLD;
+    cfDefault.dwEffects = CFE_UNDERLINE | CFE_BOLD;
+    cfDefault.crTextColor = RGB(0, 0, 0);
+
+    const CString EOL(_T("\r\n"));
+    AddLine(_T("Credits") + EOL + EOL, cfDefault);
+
+    cfDefault.dwEffects = CFE_BOLD;
+    AddLine(_T("Contributors") + EOL, cfDefault);
+
+    cfDefault.dwEffects = 0;
+    AddLine(_T("Bjørn Damstedt Rasmussen, developer") + EOL, cfDefault);
+    AddLine(_T("Beqa Gozalishvili, developer") + EOL, cfDefault);
+    AddLine(_T("Corentin Bacqué-Cazenave, developer") + EOL, cfDefault);
+
+    cfDefault.dwEffects = CFE_BOLD;
+    AddLine(EOL + _T("Translators") + EOL, cfDefault);
+    cfDefault.dwEffects = 0;
+    AddLine(LoadText(IDC_STATIC_TRANSLATOR, _T("Translated by Bjørn Damstedt Rasmussen")) + EOL, cfDefault);
+
+    cfDefault.dwEffects = CFE_BOLD;
+    AddLine(EOL + _T("Libraries") + EOL, cfDefault);
+    cfDefault.dwEffects = 0;
+    AddLine(_T("TeamTalk uses the following libraries:") + EOL, cfDefault);
+    AddLine(_T("ACE") + EOL, cfDefault);
+    AddLine(_T("FFmpeg") + EOL, cfDefault);
+    AddLine(_T("OGG") + EOL, cfDefault);
+    AddLine(_T("OpenSSL") + EOL, cfDefault);
+    AddLine(_T("OPUS") + EOL, cfDefault);
+    AddLine(_T("OPUS-tools") + EOL, cfDefault);
+    AddLine(_T("PortAudio") + EOL, cfDefault);
+    AddLine(_T("Qt") + EOL, cfDefault);
+    AddLine(_T("Speex") + EOL, cfDefault);
+    AddLine(_T("SpeexDSP") + EOL, cfDefault);
+    AddLine(_T("TinyXML") + EOL, cfDefault);
+    AddLine(_T("WebM") + EOL, cfDefault);
+    AddLine(_T("Zlib") + EOL, cfDefault);
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CAboutBox::AddLine(const CString& szLine, CHARFORMAT& cf)
+{
+    m_wndCredits.SetSelectionCharFormat(cf);
+    m_wndCredits.SetSel(m_wndCredits.GetTextLength(), m_wndCredits.GetTextLength());
+    m_wndCredits.ReplaceSel(szLine);
 }
