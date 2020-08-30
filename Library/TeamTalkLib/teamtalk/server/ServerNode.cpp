@@ -2901,8 +2901,13 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         makeop = true;
 
     //notify users that new user has joined
-    ServerChannel::users_t users = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, newchan);
-    for (auto u : users)
+    ServerChannel::users_t notifyusers;
+    if (newchan->GetChannelType() & CHANNEL_HIDDEN)
+        notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, newchan);
+    else
+        notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, newchan);
+
+    for (auto u : notifyusers)
     {
         u->DoAddUser(*user, *newchan);
     }
@@ -2978,14 +2983,17 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     user->DoLeftChannel(*chan);
 
     //notify admins and "show-all" users
-    ServerChannel::users_t notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, chan);
+    ServerChannel::users_t notifyusers;
+    if (chan->GetChannelType() & CHANNEL_HIDDEN)
+        notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, chan);
+    else
+        notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, chan);
+    
     for (auto u : notifyusers)
         u->DoRemoveUser(*user, *chan);
 
-    //notify channel users
-    const ServerChannel::users_t& users = chan->GetUsers();
-
     //close active desktop transmissions
+    const ServerChannel::users_t& users = chan->GetUsers();
     for(size_t i=0;i<users.size();i++)
     {
         StopDesktopTransmitter(*users[i], *user, false);
@@ -2994,7 +3002,7 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
 
     if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) ==  USERRIGHT_NONE)
     {
-        for (auto u : users)
+        for (auto u : chan->GetUsers())
         {
             if(user->GetUserID() != u->GetUserID())
                 user->DoRemoveUser(*u, *chan);
@@ -3006,7 +3014,7 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     chan->RemoveUser(user->GetUserID());
 
     if(upd_chan)
-        UpdateChannel(chan);
+        UpdateChannel(*chan, chan->GetUsers());
 
     serverchannel_t nullc;
     user->SetChannel(nullc);
@@ -3069,6 +3077,7 @@ ErrorMsg ServerNode::UserOpDeOp(int userid, int channelid,
             chan->AddOperator(op_userid);
         else
             chan->RemoveOperator(op_userid);
+
         UpdateChannel(chan);
 
         return ErrorMsg(TT_CMDERR_SUCCESS);
@@ -3504,8 +3513,13 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     chan->SetDesktopUsers(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP));
     chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
 
-    //forward new channel to all connected users
-    const ServerChannel::users_t& users = GetAuthorizedUsers();
+    //forward new channel to users
+    ServerChannel::users_t users;
+    if (chan->GetChannelType() & CHANNEL_HIDDEN)
+        users = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, chan);
+    else
+        users = GetAuthorizedUsers();
+
     for (auto u : users)
     {
         u->DoAddChannel(*chan, IsEncrypted());
@@ -3687,7 +3701,12 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
             if (parent)
             {
                 //notify users
-                ServerChannel::users_t notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS);
+                ServerChannel::users_t notifyusers;
+                if (chan->GetChannelType() & CHANNEL_HIDDEN)
+                    notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS);
+                else
+                    notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS);
+
                 for (auto u : notifyusers)
                     u->DoRemoveChannel(*chan);
 
@@ -3708,10 +3727,11 @@ void ServerNode::UpdateChannel(const serverchannel_t& chan)
 {
     ASSERT_REACTOR_LOCKED(this);
     TTASSERT(chan);
-    
-    ServerChannel::users_t users = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, chan);
-    for (auto u : users)
-        u->DoUpdateChannel(*chan, IsEncrypted());
+
+    if (chan->GetChannelType() & CHANNEL_HIDDEN)
+        UpdateChannel(*chan, GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, chan));
+    else
+        UpdateChannel(*chan, GetAuthorizedUsers());
 }
 
 void ServerNode::UpdateChannel(const ServerChannel& chan, const ServerChannel::users_t& users)

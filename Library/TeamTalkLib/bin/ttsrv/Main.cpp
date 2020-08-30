@@ -962,7 +962,7 @@ void RunWizard(ServerXML& xmlSettings)
         }
 
         cout << "Should server verify client's certificate with provided Certificate Authority (CA) certificate? ";
-        if (certverifypeer = printGetBool(certverifypeer))
+        if ((certverifypeer = printGetBool(certverifypeer)))
         {
             cout << "File containing Certificate Authority (CA) certificate (in PEM format): ";
             cafile = LocalToUnicode(printGetString(UnicodeToLocal(cafile).c_str()).c_str());

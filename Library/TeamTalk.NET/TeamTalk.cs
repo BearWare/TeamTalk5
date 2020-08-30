@@ -1554,6 +1554,8 @@ namespace BearWare
         /** @brief User can record voice in all channels. Even channels
          * with #ChannelType.CHANNEL_NO_RECORDING. */
         USERRIGHT_RECORD_VOICE                      = 0x00100000,
+        /** @brief User can see hidden channels, #CHANNEL_HIDDEN. */
+        USERRIGHT_VIEW_HIDDEN_CHANNELS              = 0x00200000,
         /** @brief User with all rights.*/
         USERRIGHT_ALL                               = 0xFFFFFFFF & ~USERRIGHT_LOCKED_NICKNAME & ~USERRIGHT_LOCKED_STATUS
     }
@@ -2237,7 +2239,10 @@ namespace BearWare
          * voice activation. @see TeamTalkBase.EnableVoiceActivation() */
         CHANNEL_NO_VOICEACTIVATION                              = 0x0010,
         /** @brief Don't allow recording to files in the channel. */
-        CHANNEL_NO_RECORDING                                    = 0x0020
+        CHANNEL_NO_RECORDING                                    = 0x0020,
+        /** @brief Hidden channel which can only be seen with
+         * #UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS. */
+        CHANNEL_HIDDEN                                          = 0x0040
     }
 
     /**

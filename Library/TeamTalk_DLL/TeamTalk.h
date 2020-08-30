@@ -1545,6 +1545,8 @@ extern "C" {
         /** @brief User can record voice in all channels. Even channels
          * with #CHANNEL_NO_RECORDING. */
         USERRIGHT_RECORD_VOICE              = 0x00100000,
+        /** @brief User can see hidden channels, #CHANNEL_HIDDEN. */
+        USERRIGHT_VIEW_HIDDEN_CHANNELS      = 0x00200000
     } UserRight;
 
     /** 
@@ -2210,7 +2212,10 @@ extern "C" {
          * voice activation. @see TT_EnableVoiceActivation() */
         CHANNEL_NO_VOICEACTIVATION  = 0x0010,
         /** @brief Don't allow recording to files in the channel. */
-        CHANNEL_NO_RECORDING        = 0x0020
+        CHANNEL_NO_RECORDING        = 0x0020,
+        /** @brief Hidden channel which can only be seen with
+         * #USERRIGHT_VIEW_HIDDEN_CHANNELS. */
+        CHANNEL_HIDDEN              = 0x0040
     } ChannelType;
 
     /** 
