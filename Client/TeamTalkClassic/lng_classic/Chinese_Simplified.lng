@@ -93,7 +93,7 @@
     <item id="192">允许桌面传输</item>
     <item id="193">允许媒体文件传输</item>
     <item id="194">%s更改订阅&quot;用户消息&quot;为: %d</item>
-    <item id="195">%s d更改订阅&quot;频道消息&quot;为: %d</item>
+    <item id="195">%s更改订阅&quot;频道消息&quot;为: %d</item>
     <item id="196">%s更改订阅&quot;广播 消息&quot;为: %d</item>
     <item id="197">%s更改订阅 &quot;语音&quot;为: %d</item>
     <item id="198">%s更改订阅&quot;视频&quot;为: %d</item>
@@ -115,6 +115,7 @@
     <item id="224">声音系统</item>
     <item id="226">%s 更改订阅&quot;拦截视频&quot;为: %d</item>
     <item id="227">用户信息</item>
+    <item id="233">%Y-%m-%d %H:%M:%S</item>
     <item id="234">%s 更改订阅&quot;拦截桌面&quot;为: %d</item>
     <item id="243">主机管理器</item>
     <item id="244">%s更改订阅&quot;拦截媒体文件流&quot;为: %d</item>
@@ -529,7 +530,6 @@
     <item id="1221">总在最前</item>
     <item id="1225">默认(&amp;D)</item>
     <item id="1226">Copyright (c) 2005-2020, BearWare.dk</item>
-    <item id="1228">编写者 Bjoern D. Rasmussen</item>
     <item id="1230">新频道信息</item>
     <item id="1231">发送(&amp;S)</item>
     <item id="1236">欢迎使用TeamTalk设置向导</item>
@@ -755,6 +755,8 @@
     <item id="1594">起始位置(&amp;O)</item>
     <item id="1595">音频预处理器</item>
     <item id="1596">测试回放</item>
+    <item id="1598">为Web登录用户恢复登录时的音量级别和订阅</item>
+    <item id="1599">BearWare.dk Web 登陆 ID</item>
     <item id="32791">您的 &amp;IP 地址</item>
     <item id="32798">设维频道管理员(&amp;O)\tCtrl+O</item>
     <item id="32801">查看频道消息(&amp;W)\tF10</item>
