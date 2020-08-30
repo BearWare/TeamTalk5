@@ -2112,7 +2112,16 @@ BEGIN
     IDS_VIDEOCAPTUREFAILED  "Failed to start selected device Test Selected"
     IDS_WEBLOGINFBLOGOUT    "Do Facebook logout?"
     IDS_WEBLOGINFBLOGIN     "Facebook Login"
+    IDS_MVUE                "Voice for %s enabled"
+    IDS_USERISVIDEOTX       "Webcam"
     IDS_USERADMIN           "Administrator"
+    IDS_UNSELECTFORMOVE     "%s deselected for move"
+    IDS_MOVESELECTED        "Selected for move"
+    IDS_MVD                 "Master volume disabled"
+    IDS_MVE                 "Master volume enabled"
+    IDS_MVUD                "Voice for %s disabled"
+    IDS_MMFUE               "Media files for %s enabled"
+    IDS_MMFUD               "Media files for %s disabled"
 END
 
 STRINGTABLE
@@ -2266,6 +2275,7 @@ BEGIN
     IDS_CMDERR_USER_NOT_FOUND "User not found"
     IDS_CHANHISTORYLAB      "History"
     IDS_CHANMESSAGELAB      "Message"
+    IDS_DEFAULTNICKNAME     "NoName"
     IDS_TREECTRLLAB         "Channels list"
     IDS_FILESLISTLAB        "Files list"
 END
@@ -2332,6 +2342,7 @@ BEGIN
     IDS_FILEREMOVEDBY       "Removed file %s created by %s"
     IDS_RXTXPING            "RX: %.2fKB TX: %.2fKB PING: %u %s"
     IDS_RXTX                "RX: %.2fKB TX: %.2fKB %s"
+    IDS_USERSMOVED          "Selected users has been moved to channel %s"
 END
 
 STRINGTABLE
@@ -2391,6 +2402,7 @@ BEGIN
     IDS_STREAMDLGFAILEDSTARTPB "Failed to start playback"
     IDS_LOADFILECLIENTSET   "Load %s File"
     IDS_ADDTOFWEXCEP        "Add %s to Windows Firewall exceptions?"
+    IDS_SELECTFORMOVE       "%s selected for move"
 END
 
 STRINGTABLE
@@ -2473,6 +2485,21 @@ BEGIN
     IDS_USERDESKTOPLOCALDESKTOP "Local Desktop"
     IDS_USERDESKTOPDESKTOP  "Desktop - "
     IDS_USERVIDEOLOCALVIDEO "Local Video"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DECVOLUMEMFUSER     "Media files volume for %s decreased to %d"
+    IDS_USERISAWAY          "Away"
+    IDS_USERISQUESTION      "Question"
+    IDS_USERISSTREAMINGMDFILE "Streaming media file"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_INCVOLUMEVOICEUSER  "Voice volume for %s increased to %d"
+    IDS_DECVOLUMEVOICEUSER  "Voice volume for %s decreased to %d"
+    IDS_INCVOLUMEMFUSER     "Media files volume for %s increased to %d"
 END
 
 STRINGTABLE
