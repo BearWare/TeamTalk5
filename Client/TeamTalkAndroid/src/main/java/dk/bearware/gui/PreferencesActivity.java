@@ -50,6 +50,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import dk.bearware.ClientEvent;
 import dk.bearware.SoundLevel;
 import dk.bearware.StreamType;
 import dk.bearware.TeamTalkBase;
@@ -204,6 +205,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         mf_volume = Utils.refVolume(mf_volume);
         for(User u: ttservice.getUsers().values()) {
             ttinst.setUserVolume(u.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, mf_volume);
+            ttinst.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, u.nUserID);
         }
     }
 
