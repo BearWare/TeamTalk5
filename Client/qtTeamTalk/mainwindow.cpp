@@ -947,7 +947,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
         }
 
-        // user settings in cache
+        // sync user settings to cache
         QString cacheid = userCacheID(msg.user);
         if (!cacheid.isEmpty())
             m_usercache[cacheid] = UserCached(msg.user);
@@ -1672,7 +1672,7 @@ void MainWindow::Disconnect()
         TT_CloseSoundOutputDevice(ttInst);
     }
 
-    //
+    // sync user settings to cache
     auto users = ui.channelsWidget->getUsers();
     for (int uid : users)
     {

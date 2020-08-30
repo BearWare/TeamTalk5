@@ -362,4 +362,18 @@ void GetCustomCommand(const CString& szMessage, CStringList& result);
 
 BOOL IsValid(const VideoFormat& capfmt);
 
+struct UserCached
+{
+    BOOL bValid = FALSE;
+    Subscriptions uSubscriptions = SUBSCRIBE_NONE;
+    BOOL bVoiceMute = FALSE, bMediaMute = FALSE;
+    int nVoiceVolume = SOUND_VOLUME_DEFAULT, nMediaVolume = SOUND_VOLUME_DEFAULT;
+    BOOL bVoiceLeftSpeaker = TRUE, bVoiceRightSpeaker = TRUE,
+        bMediaLeftSpeaker = TRUE, bMediaRightSpeaker = TRUE;
+    UserCached() {}
+    UserCached(const User& user);
+    void Sync(TTInstance* ttInst, const User& user);
+};
+CString UserCacheID(const User& user);
+
 #endif

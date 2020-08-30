@@ -69,6 +69,7 @@ void CUserVolumeDlg::UpdateProperties()
     TT_SetUserStereo(ttInst, m_user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
                      m_wndMediaFileMuteLeft.GetCheck() != BST_CHECKED,
                      m_wndMediaFileMuteRight.GetCheck() != BST_CHECKED);
+    TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, m_user.nUserID);
 }
 
 BEGIN_MESSAGE_MAP(CUserVolumeDlg, CDialog)

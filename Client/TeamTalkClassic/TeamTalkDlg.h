@@ -242,6 +242,8 @@ protected:
 
     std::unique_ptr<class CStreamMediaDlg> m_pStreamMediaDlg;
 
+    std::map<CString, UserCached> m_UserCache;
+
     teamtalk::ClientXML m_xmlSettings;
     BOOL m_bResetSettings;
 

@@ -137,7 +137,7 @@
 #define IDB_BITMAP_VOLUME               230
 #define IDD_DIALOG_USERVOLUME           231
 #define IDR_MENU_TRAY                   232
-#define IDS_TIMELOCALE                   233
+#define IDS_TIMELOCALE                  233
 #define IDS_SUBINT_DESKTOP              234
 #define IDD_WIZARD_GENERALPAGE          235
 #define IDR_ACCELERATOR2                236
@@ -918,7 +918,7 @@
 #define IDC_COMBO_FILENAME              1559
 #define IDC_EDIT_BEARWAREID             1560
 #define IDC_BUTTON_SETUPBEARWARE        1561
-#define IDC_STATIC_BEARWARELOGIN        1562
+#define IDC_STATIC_WEBLOGIN             1562
 #define IDC_STATIC_BEARWARECREATE       1563
 #define IDC_STATIC_BEARWAREAUTH         1564
 #define IDC_BUTTON_BEARWARECREATE       1565
@@ -954,6 +954,8 @@
 #define IDC_STATIC_AUDIOPREPROCESSOR    1595
 #define IDC_STATIC_TESTPLAYBACK         1596
 #define IDC_RICHEDIT2_CREDITS           1597
+#define IDC_CHECK_WEBLOGIN              1598
+#define IDC_STATIC_BEARWARELOGIN        1599
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -1070,7 +1072,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        559
 #define _APS_NEXT_COMMAND_VALUE         32955
-#define _APS_NEXT_CONTROL_VALUE         1598
+#define _APS_NEXT_CONTROL_VALUE         1600
 #define _APS_NEXT_SYMED_VALUE           413
 #endif
 #endif
