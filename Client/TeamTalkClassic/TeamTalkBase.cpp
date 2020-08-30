@@ -282,3 +282,53 @@ BOOL IsValid(const VideoFormat& capfmt)
     return capfmt.nWidth>0 && capfmt.nHeight>0 && capfmt.nFPS_Numerator>0 &&
         capfmt.nFPS_Denominator > 0 && capfmt.picFourCC != FOURCC_NONE;
 }
+
+CString UserCacheID(const User& user)
+{
+    const CString szPostFix = _T(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX);
+    if (CString(user.szUsername).Right(szPostFix.GetLength()) == szPostFix)
+        return CString(user.szUsername) + _T("|") + CString(user.szClientName);
+
+    return CString();
+}
+
+
+UserCached::UserCached(const User& user)
+{
+    bValid = !UserCacheID(user).IsEmpty();
+    if (!bValid)
+        return;
+
+    uSubscriptions = user.uLocalSubscriptions;
+    bVoiceMute = (user.uUserState & USERSTATE_MUTE_VOICE) != USERSTATE_NONE;
+    bMediaMute = (user.uUserState & USERSTATE_MUTE_MEDIAFILE) != USERSTATE_NONE;
+    nVoiceVolume = user.nVolumeVoice;
+    nMediaVolume = user.nVolumeMediaFile;
+    bVoiceLeftSpeaker = user.stereoPlaybackVoice[0];
+    bVoiceRightSpeaker = user.stereoPlaybackVoice[1];
+    bMediaLeftSpeaker = user.stereoPlaybackMediaFile[0];
+    bMediaRightSpeaker = user.stereoPlaybackMediaFile[1];
+
+    TRACE(_T("Cached ") + UserCacheID(user) + _T("\n"));
+}
+
+void UserCached::Sync(TTInstance* ttInst, const User& user)
+{
+    if (!bValid)
+        return;
+
+    TT_SetUserMute(ttInst, user.nUserID, STREAMTYPE_VOICE, bVoiceMute);
+    TT_SetUserMute(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, bMediaMute);
+    TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_VOICE, nVoiceVolume);
+    TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, nMediaVolume);
+    TT_SetUserStereo(ttInst, user.nUserID, STREAMTYPE_VOICE, bVoiceLeftSpeaker, bVoiceRightSpeaker);
+    TT_SetUserStereo(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, bMediaLeftSpeaker, bMediaRightSpeaker);
+    if (uSubscriptions != user.uLocalSubscriptions)
+    {
+        TT_DoUnsubscribe(ttInst, user.nUserID, user.uLocalSubscriptions ^ uSubscriptions);
+        TT_DoSubscribe(ttInst, user.nUserID, uSubscriptions);
+    }
+    TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, user.nUserID);
+
+    TRACE(_T("Restored ") + UserCacheID(user) + _T("\n"));
+}

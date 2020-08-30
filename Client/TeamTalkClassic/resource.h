@@ -137,6 +137,7 @@
 #define IDB_BITMAP_VOLUME               230
 #define IDD_DIALOG_USERVOLUME           231
 #define IDR_MENU_TRAY                   232
+#define IDS_TIMELOCALE                  233
 #define IDS_SUBINT_DESKTOP              234
 #define IDD_WIZARD_GENERALPAGE          235
 #define IDR_ACCELERATOR2                236
@@ -275,16 +276,16 @@
 #define IDS_SUREDELETECHAN              371
 #define IDS_CHANDELETETITLE             372
 #define IDS_CHANPSW                     373
-#define IDS_FILEADDBY                     374
+#define IDS_FILEADDBY                   374
 #define IDS_COMPILEDON                  375
 #define IDS_UNICODEENABLED              376
 #define IDS_LOCALECHARS                 377
 #define IDS_TTDLLVER                    378
 #define IDS_TTDLLVERS                   379
-#define IDS_FILEREMOVEDBY                   380
+#define IDS_FILEREMOVEDBY               380
 #define IDS_RXTXPING                    381
 #define IDS_RXTX                        382
-#define IDS_USERSMOVED                        383
+#define IDS_USERSMOVED                  383
 #define IDS_FAILEDTOCONNECTLP           384
 #define IDS_NEWUPDATEAVAILABLE          385
 #define IDS_DISCONNECTCURRENT           386
@@ -331,7 +332,7 @@
 #define IDS_STREAMDLGFAILEDSTARTPB      428
 #define IDS_LOADFILECLIENTSET           429
 #define IDS_ADDTOFWEXCEP                430
-#define IDS_SELECTFORMOVE                431
+#define IDS_SELECTFORMOVE               431
 #define IDS_BANTYPEDLGIPADDR            432
 #define IDS_BANTYPEDLGUSERNAME          433
 #define IDS_CHANDLGNOAUDIO              434
@@ -402,7 +403,7 @@
 #define IDS_WEBLOGINFBLOGOUT            499
 #define IDS_WEBLOGINFBLOGIN             500
 #define IDS_MVUE                        501
-#define IDS_USERISVIDEOTX             502
+#define IDS_USERISVIDEOTX               502
 #define IDS_USERADMIN                   503
 #define IDS_UNSELECTFORMOVE             504
 #define IDS_MOVESELECTED                505
@@ -452,11 +453,11 @@
 #define IDS_CMDERR_CHANNEL_HAS_USERS    549
 #define IDS_CMDERR_LOGINSERVICE_UNAVAILABLE 550
 #define IDS_CMDERR_USER_NOT_FOUND       551
-#define IDS_CHANHISTORYLAB           553
-#define IDS_CHANMESSAGELAB           555
-#define IDS_DEFAULTNICKNAME           556
-#define IDS_TREECTRLLAB           557
-#define IDS_FILESLISTLAB           558
+#define IDS_CHANHISTORYLAB              553
+#define IDS_CHANMESSAGELAB              555
+#define IDS_DEFAULTNICKNAME             556
+#define IDS_TREECTRLLAB                 557
+#define IDS_FILESLISTLAB                558
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
@@ -478,10 +479,10 @@
 #define IDC_CHECK_SHOWUSERCOUNT         1020
 #define IDC_CHECK_POSITIONING           1021
 #define IDC_CHECK_IDLEVOX               1022
-#define IDS_INCVOLUMEMFUSER          1023
+#define IDS_INCVOLUMEMFUSER             1023
 #define IDC_CHECK_MANUAL                1024
-#define IDS_DECVOLUMEMFUSER          1025
-#define IDS_USERISAWAY                1026
+#define IDS_DECVOLUMEMFUSER             1025
+#define IDS_USERISAWAY                  1026
 #define IDC_STATIC_VOICEACT             1027
 #define IDC_STATIC_VOLUME2              1028
 #define IDC_EDIT_CHANPASSWORD           1029
@@ -493,8 +494,8 @@
 #define IDC_STATIC_USERID               1035
 #define IDC_STATIC_NICKNAME             1036
 #define IDC_STATIC_DISABLED1            1037
-#define IDS_USERISQUESTION            1038
-#define IDS_USERISSTREAMINGMDFILE            1039
+#define IDS_USERISQUESTION              1038
+#define IDS_USERISSTREAMINGMDFILE       1039
 #define IDC_STATIC_INTRO                1042
 #define IDC_SLIDER_MEDIAFILEVOL         1043
 #define IDC_CHECK_WEBSITE               1044
@@ -614,7 +615,6 @@
 #define IDC_STATIC_GRPSOUNDSYSTEM       1211
 #define IDC_STATIC_FONTNAME             1212
 #define IDC_STATIC_SOUNDSYSDESCRIP      1213
-#define IDC_STATIC_WEBMCODECDEV         1214
 #define IDC_STATIC_TESTDESCRIP          1215
 #define IDC_EDIT_USERTYPE               1216
 #define IDC_CHECK_CHANNELSTEMP          1217
@@ -626,14 +626,10 @@
 #define IDC_BUTTON_DEFAULT              1225
 #define IDC_STATIC_COPYRIGHT            1226
 #define IDC_STATIC_IMAGE                1227
-#define IDC_STATIC_AUTHOR               1228
-#define IDC_STATIC_SPEEXCODECDEV        1229
 #define IDC_STATIC_GRPCHANNEL           1230
 #define IDC_BUTTON_SEND                 1231
-#define IDC_STATIC_OPUSCODECDEV         1232
 #define IDC_VERT_SPLITTER               1233
 #define IDC_STATIC_VERSION              1234
-#define IDC_STATIC_                     1235
 #define IDC_STATIC_WIZWELCOME           1236
 #define IDC_STATIC_WIZCOMPLETED         1237
 #define IDC_STATIC_PBSET                1238
@@ -641,8 +637,6 @@
 #define IDC_STATIC_TRANSLATOR           1240
 #define IDC_STATIC_UILANGUAGE           1241
 #define IDC_EDIT_WIZCOMPLETED           1242
-#define IDC_STATIC_MIXERDEVICE          1243
-#define IDC_STATIC_TRANSLATOR2          1244
 #define IDC_CHECK_UILANGUAGE            1245
 #define IDC_CHECK_AUTOCLOSE             1246
 #define IDC_TAB_CTRL                    1251
@@ -924,7 +918,7 @@
 #define IDC_COMBO_FILENAME              1559
 #define IDC_EDIT_BEARWAREID             1560
 #define IDC_BUTTON_SETUPBEARWARE        1561
-#define IDC_STATIC_BEARWARELOGIN        1562
+#define IDC_STATIC_WEBLOGIN             1562
 #define IDC_STATIC_BEARWARECREATE       1563
 #define IDC_STATIC_BEARWAREAUTH         1564
 #define IDC_BUTTON_BEARWARECREATE       1565
@@ -959,6 +953,9 @@
 #define IDC_STATIC_STARTPOS             1594
 #define IDC_STATIC_AUDIOPREPROCESSOR    1595
 #define IDC_STATIC_TESTPLAYBACK         1596
+#define IDC_RICHEDIT2_CREDITS           1597
+#define IDC_CHECK_WEBLOGIN              1598
+#define IDC_STATIC_BEARWARELOGIN        1599
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -1075,7 +1072,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        559
 #define _APS_NEXT_COMMAND_VALUE         32955
-#define _APS_NEXT_CONTROL_VALUE         1597
+#define _APS_NEXT_CONTROL_VALUE         1600
 #define _APS_NEXT_SYMED_VALUE           413
 #endif
 #endif

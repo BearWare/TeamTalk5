@@ -942,7 +942,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
         }
 
-        // user settings in cache
+        // sync user settings to cache
         QString cacheid = userCacheID(msg.user);
         if (!cacheid.isEmpty())
             m_usercache[cacheid] = UserCached(msg.user);
@@ -1659,7 +1659,7 @@ void MainWindow::Disconnect()
         TT_CloseSoundOutputDevice(ttInst);
     }
 
-    //
+    // sync user settings to cache
     auto users = ui.channelsWidget->getUsers();
     for (int uid : users)
     {
@@ -2373,6 +2373,8 @@ void MainWindow::processMyselfJoined(int channelid)
         updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
     }
 
+    ui.msgEdit->setVisible(true);
+    ui.sendButton->setVisible(true);
     updateWindowTitle();
 }
 
@@ -2393,6 +2395,8 @@ void MainWindow::processMyselfLeft(int channelid)
         if(size == 0)
             QFile::remove(filename);
     }
+    ui.msgEdit->setVisible(false);
+    ui.sendButton->setVisible(false);
     updateWindowTitle();
 }
 

@@ -167,26 +167,29 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "General"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "User settings",IDC_STATIC_GRPUSERSETTINGS,7,7,246,98
+    GROUPBOX        "User settings",IDC_STATIC_GRPUSERSETTINGS,7,7,246,79
     LTEXT           "Nickname",IDC_STATIC_NICKNAME,15,22,49,8
     EDITTEXT        IDC_EDIT_NICKNAME,67,19,76,14,ES_AUTOHSCROLL
     LTEXT           "Gender",IDC_STATIC_GENDER,15,38,49,8
     CONTROL         "Male",IDC_RADIO_MALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,75,37,31,10
     CONTROL         "Female",IDC_RADIO_FEMALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,127,37,39,10
-    LTEXT           "BearWare.dk Web Login",IDC_STATIC_BEARWARELOGIN,15,54,80,8
-    EDITTEXT        IDC_EDIT_BEARWAREID,97,51,97,14,ES_AUTOHSCROLL | ES_READONLY
-    PUSHBUTTON      "&Activate",IDC_BUTTON_SETUPBEARWARE,199,51,50,14
-    LTEXT           "Set away status after ",IDC_STATIC_SETAWAY,15,70,93,8
-    EDITTEXT        IDC_EDIT_INACTIVITY,112,67,19,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "sec. of inactivity (0=disabled)",IDC_STATIC_SECINACT,134,70,114,8
+    LTEXT           "Set away status after ",IDC_STATIC_SETAWAY,15,54,93,8
+    EDITTEXT        IDC_EDIT_INACTIVITY,112,51,19,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "sec. of inactivity (0=disabled)",IDC_STATIC_SECINACT,134,54,114,8
     CONTROL         "Disable voice activation while inactive",IDC_CHECK_IDLEVOX,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,86,232,10
-    GROUPBOX        "Speech transmission mode",IDC_STATIC_GRPSPEECH,7,109,246,76
-    CONTROL         "Push to talk",IDC_CHECK_PUSHTOTALK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,127,78,10
-    PUSHBUTTON      "&Setup keys",IDC_BUTTON_SETUPKEYS,99,125,59,13
-    LTEXT           "Key combination",IDC_STATIC_KEYCOMP,15,146,80,8
-    EDITTEXT        IDC_EDIT_KEYCOMB,99,143,87,14,ES_AUTOHSCROLL | ES_READONLY
-    CONTROL         "Voice activated",IDC_CHECK_VOICEACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,163,96,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,70,232,10
+    GROUPBOX        "BearWare.dk Web Login",IDC_STATIC_WEBLOGIN,7,90,246,50
+    LTEXT           "BearWare.dk Web Login ID",IDC_STATIC_BEARWARELOGIN,15,106,99,8
+    EDITTEXT        IDC_EDIT_BEARWAREID,118,103,77,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "&Activate",IDC_BUTTON_SETUPBEARWARE,198,103,50,14
+    CONTROL         "Restore volume levels and subscriptions on login for Web Login users",IDC_CHECK_WEBLOGIN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,122,233,10
+    GROUPBOX        "Speech transmission mode",IDC_STATIC_GRPSPEECH,7,144,246,76
+    CONTROL         "Push to talk",IDC_CHECK_PUSHTOTALK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,162,78,10
+    PUSHBUTTON      "&Setup keys",IDC_BUTTON_SETUPKEYS,99,160,59,13
+    LTEXT           "Key combination",IDC_STATIC_KEYCOMP,15,181,80,8
+    EDITTEXT        IDC_EDIT_KEYCOMB,99,178,87,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "Voice activated",IDC_CHECK_VOICEACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,198,96,10
 END
 
 IDD_PROPPAGE_ADVANCEDPAGE DIALOGEX 0, 0, 260, 240
@@ -495,17 +498,12 @@ CAPTION "About"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Static",IDC_STATIC_APPTITLE,7,7,143,47
-    LTEXT           "Static",IDC_STATIC_VERSION,105,34,92,14
-    LTEXT           "Written by Bjoern D. Rasmussen",IDC_STATIC_AUTHOR,7,62,139,8
-    LTEXT           "Copyright (c) 2005-2020, BearWare.dk",IDC_STATIC_COPYRIGHT,7,75,183,8
-    LTEXT           "Speex codec developed by Jean-Marc Valin, www.speex.org",IDC_STATIC_SPEEXCODECDEV,7,88,189,17
-    LTEXT           "OPUS codec developed by Opus project, www.opus-codec.org",IDC_STATIC_OPUSCODECDEV,7,110,189,17
-    LTEXT           "WebM VP8 codec developed by WebM project, www.webmproject.org",IDC_STATIC_WEBMCODECDEV,7,132,189,17
-    LTEXT           "Translated by Bjoern D. Rasmussen",IDC_STATIC_TRANSLATOR,7,154,189,18
-    LTEXT           "TeamTalk Classic Project Contributors:\nBeqa Gozalishvili",IDC_STATIC_TRANSLATOR2,7,178,189,25
-    LTEXT           "Compiled on ",IDC_STATIC_COMPILED,7,205,189,25
     DEFPUSHBUTTON   "OK",IDOK,154,7,36,16
-    ICON            IDR_MAINFRAME,IDC_STATIC_IMAGE,151,61,20,20
+    LTEXT           "Static",IDC_STATIC_VERSION,105,34,92,14
+    CONTROL         "",IDC_RICHEDIT2_CREDITS,"RichEdit20W",WS_BORDER | WS_VSCROLL | WS_TABSTOP | 0x1844,7,66,190,124
+    LTEXT           "Compiled on ",IDC_STATIC_COMPILED,7,193,189,25
+    LTEXT           "Copyright (c) 2005-2020, BearWare.dk",IDC_STATIC_COPYRIGHT,7,222,183,8
+    ICON            IDR_MAINFRAME,IDC_STATIC_IMAGE,176,201,21,20
 END
 
 IDD_DIALOG_HOSTMANAGER DIALOGEX 0, 0, 420, 275
@@ -1441,12 +1439,12 @@ BEGIN
     "A",            ID_ME_ENABLEVOICEACTIVATION, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "B",            ID_KICK_KICKANDBANFROMCHANNEL, VIRTKEY, CONTROL, NOINVERT
     "B",            ID_SERVER_LISTBANNEDUSERS, VIRTKEY, SHIFT, CONTROL, NOINVERT
-    "B",            ID_USERS_KICKANDBAN,    VIRTKEY, ALT, CONTROL, NOINVERT
+    "B",            ID_USERS_KICKANDBAN,    VIRTKEY, CONTROL, ALT, NOINVERT
     "D",            ID_ME_ENABLEDESKTOPSHARING, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "E",            ID_USERS_MESSAGES,      VIRTKEY, CONTROL, NOINVERT
     "E",            ID_ADVANCED_ALLOWDESKTOPTRANSMISSION, VIRTKEY, CONTROL, ALT, NOINVERT
     "E",            ID_ADVANCED_ALLOWALLDESKTOPTRANSMISSION, VIRTKEY, SHIFT, CONTROL, ALT, NOINVERT
-    "E",            ID_SERVER_BROADCASTMESSAGE, VIRTKEY, CONTROL, SHIFT, NOINVERT
+    "E",            ID_SERVER_BROADCASTMESSAGE, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "G",            ID_USERINFO_SPEAKUSERINFO, VIRTKEY, CONTROL, NOINVERT
     "G",            ID_CHANNELINFO_SPEAKCHANNELSTATE, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "I",            ID_USERS_VIEWINFO,      VIRTKEY, CONTROL, NOINVERT
@@ -2057,6 +2055,7 @@ END
 STRINGTABLE
 BEGIN
     IDS_SUBINT_VIDEO        "%s changed subscription ""Intercept Video"" to: %d"
+    IDS_TIMELOCALE          "%Y-%m-%d %H:%M:%S"
     IDS_SUBINT_DESKTOP      "%s changed subscription ""Intercept Desktop"" to: %d"
 END
 
@@ -2324,13 +2323,13 @@ BEGIN
     IDS_SUREDELETECHAN      "Are you sure you want to delete channel %s"
     IDS_CHANDELETETITLE     "Delete Channel"
     IDS_CHANPSW             "Channel password"
-    IDS_FILEADDBY             "File %s added by %s"
-    IDS_FILEREMOVEDBY             "Removed file %s created by %s"
+    IDS_FILEADDBY           "File %s added by %s"
     IDS_COMPILEDON          "Compiled on "
     IDS_UNICODEENABLED      "Unicode -> UTF-8 conversion enabled.\r\n"
     IDS_LOCALECHARS         "Uses local character set.\r\n"
     IDS_TTDLLVER            "TeamTalk 64-bit DLL version: "
     IDS_TTDLLVERS           "TeamTalk 32-bit DLL version: "
+    IDS_FILEREMOVEDBY       "Removed file %s created by %s"
     IDS_RXTXPING            "RX: %.2fKB TX: %.2fKB PING: %u %s"
     IDS_RXTX                "RX: %.2fKB TX: %.2fKB %s"
 END

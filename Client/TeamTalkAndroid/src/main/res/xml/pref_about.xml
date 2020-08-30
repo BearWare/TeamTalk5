@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+        android:key="about_def"
+        android:title="@string/pref_cat_about">
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_title_contrib">
+
+        <EditTextPreference
+            android:enabled="false"
+            android:singleLine="true"
+            android:title="Beqa Gozalishvili, developer" />
+        <EditTextPreference
+            android:enabled="false"
+            android:singleLine="true"
+            android:title="Bjørn Damstedt Rasmussen, developer" />
+        <EditTextPreference
+            android:enabled="false"
+            android:singleLine="true"
+            android:title="Corentin Bacqué-Cazenave, developer" />
+        <EditTextPreference
+            android:enabled="false"
+            android:singleLine="true"
+            android:title="Igor B. Poretsky, developer" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_title_translator">
+        <EditTextPreference
+            android:enabled="false"
+            android:singleLine="true"
+            android:title="@string/text_translator" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_title_libraries">
+        <EditTextPreference
+            android:enabled="false"
+            android:title="ACE, FFmpeg, Ogg, OpenSSL, Opus, Opus-tools, Speex, SpeexDSP, WebM, Zlib" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
