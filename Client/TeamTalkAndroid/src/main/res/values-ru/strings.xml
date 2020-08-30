@@ -341,5 +341,9 @@
     <string name="bwidlab">Имя пользователя:</string>
     <string name="bwpswlab">Пароль:</string>
     <string name="pref_title_facebook_summary">Только если для данного сервера разрешен вход через Facebook</string>
+    <string name="pref_cat_about">О программе</string>
+    <string name="pref_title_contrib">Разработчики</string>
+    <string name="pref_title_translator">Переводчик</string>
+    <string name="pref_title_libraries">Сторонние Компоненты</string>
 
 </resources>
