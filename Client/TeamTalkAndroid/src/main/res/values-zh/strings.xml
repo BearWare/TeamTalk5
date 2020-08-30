@@ -325,9 +325,6 @@
     <string name="permission_read_phone_state">来电监测将不可用</string>
     <string name="permission_bluetooth">蓝牙耳机麦克风将不可用</string>
 
-    <string translatable="false" name="facebook_app_id">611833262539381</string>
-    <string translatable="false" name="fb_login_protocol_scheme">fb611833262539381</string>
-
     <string name="title_activity_web_login">Web 登录激活</string>
     <string name="weblogin_prop_title_bearwareid">用户名</string>
     <string name="weblogin_prop_title_bearwarepasswd">密码</string>
