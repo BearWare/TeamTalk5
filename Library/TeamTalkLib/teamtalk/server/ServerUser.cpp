@@ -140,9 +140,11 @@ void ServerUser::ForwardChannels(const serverchannel_t& root, bool encrypted)
     {
         serverchannel_t ch = chanqueue.front();
         chanqueue.pop();
+
         const ServerChannel::channels_t& subs = ch->GetSubChannels();
         for(size_t i=0;i<subs.size();i++)
             chanqueue.push(subs[i]);
+
         DoAddChannel(*ch.get(), encrypted);
     }
 }
@@ -1335,6 +1337,10 @@ void ServerUser::DoLoggedOut(const ServerUser& user)
 void ServerUser::DoAddUser(const ServerUser& user, const ServerChannel& channel)
 {
     TTASSERT(IsAuthorized());
+    TTASSERT((GetUserRights() & USERRIGHT_VIEW_ALL_USERS) || GetChannel().get() == &channel);
+    TTASSERT((channel.GetChannelType() & CHANNEL_HIDDEN) == CHANNEL_DEFAULT ||
+             (GetUserRights() & (USERRIGHT_VIEW_ALL_USERS | USERRIGHT_VIEW_HIDDEN_CHANNELS)) == (USERRIGHT_VIEW_ALL_USERS | USERRIGHT_VIEW_HIDDEN_CHANNELS) ||
+             GetChannel().get() == &channel);
 
     ACE_TString command;
     command = ACE_TString(SERVER_ADDUSER);
@@ -1386,6 +1392,11 @@ void ServerUser::DoRemoveUser(const ServerUser& user, const ServerChannel& chann
 {
     TTASSERT(IsAuthorized());
 
+    TTASSERT((GetUserRights() & USERRIGHT_VIEW_ALL_USERS) || GetChannel().get() == &channel);
+    TTASSERT((channel.GetChannelType() & CHANNEL_HIDDEN) == CHANNEL_DEFAULT ||
+             (GetUserRights() & (USERRIGHT_VIEW_ALL_USERS | USERRIGHT_VIEW_HIDDEN_CHANNELS)) == (USERRIGHT_VIEW_ALL_USERS | USERRIGHT_VIEW_HIDDEN_CHANNELS) ||
+             GetChannel().get() == &channel);
+    
     ACE_TString command;
     command = ACE_TString(SERVER_REMOVEUSER);
     AppendProperty(TT_USERID, user.GetUserID(), command);
@@ -1398,6 +1409,9 @@ void ServerUser::DoRemoveUser(const ServerUser& user, const ServerChannel& chann
 void ServerUser::DoAddChannel(const ServerChannel& channel, bool encrypted)
 {
     TTASSERT(IsAuthorized());
+
+    TTASSERT((channel.GetChannelType() & CHANNEL_HIDDEN) == CHANNEL_DEFAULT ||
+             (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_VIEW_HIDDEN_CHANNELS);
 
     const std::set<int>& setOps = channel.GetOperators();
     ACE_TString command;
@@ -1464,6 +1478,10 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
 {
     TTASSERT(IsAuthorized());
 
+    TTASSERT((channel.GetChannelType() & CHANNEL_HIDDEN) == CHANNEL_DEFAULT ||
+             (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_VIEW_HIDDEN_CHANNELS ||
+             GetChannel().get() == &channel);
+    
     const std::set<int>& setOps = channel.GetOperators();
 
     ACE_TString command;
@@ -1519,6 +1537,9 @@ void ServerUser::DoRemoveChannel(const ServerChannel& channel)
 {
     TTASSERT(IsAuthorized());
 
+    TTASSERT((channel.GetChannelType() & CHANNEL_HIDDEN) == CHANNEL_DEFAULT ||
+             (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_VIEW_HIDDEN_CHANNELS);
+    
     ACE_TString command;
     command = ACE_TString(SERVER_REMOVECHANNEL);
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
