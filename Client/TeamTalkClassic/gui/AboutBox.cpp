@@ -115,25 +115,25 @@ BOOL CAboutBox::OnInitDialog()
     cfDefault.crTextColor = RGB(0, 0, 0);
 
     const CString EOL(_T("\r\n"));
-    AddLine(_T("Credits") + EOL + EOL, cfDefault);
+    AddLine(LoadText(IDS_ABOUT_CREDITS, _T("Credits")) + EOL + EOL, cfDefault);
 
     cfDefault.dwEffects = CFE_BOLD;
-    AddLine(_T("Contributors") + EOL, cfDefault);
+    AddLine(LoadText(IDS_ABOUT_CONTRIB, _T("Contributors")) + EOL, cfDefault);
 
     cfDefault.dwEffects = 0;
-    AddLine(_T("Bjørn Damstedt Rasmussen, developer") + EOL, cfDefault);
-    AddLine(_T("Beqa Gozalishvili, developer") + EOL, cfDefault);
-    AddLine(_T("Corentin Bacqué-Cazenave, developer") + EOL, cfDefault);
+    AddLine(_T("Bjørn Damstedt Rasmussen, ") + LoadText(IDS_ABOUT_DEV, _T("developer")) + EOL, cfDefault);
+    AddLine(_T("Beqa Gozalishvili, ") + LoadText(IDS_ABOUT_DEV, _T("developer")) + EOL, cfDefault);
+    AddLine(_T("Oreonan, ") + LoadText(IDS_ABOUT_DEV, _T("developer")) + EOL, cfDefault);
 
     cfDefault.dwEffects = CFE_BOLD;
-    AddLine(EOL + _T("Translators") + EOL, cfDefault);
+    AddLine(EOL + LoadText(IDS_ABOUT_TRANSLATORS, _T("Translators")) + EOL, cfDefault);
     cfDefault.dwEffects = 0;
     AddLine(LoadText(IDC_STATIC_TRANSLATOR, _T("Translated by Bjørn Damstedt Rasmussen")) + EOL, cfDefault);
 
     cfDefault.dwEffects = CFE_BOLD;
-    AddLine(EOL + _T("Libraries") + EOL, cfDefault);
+    AddLine(EOL + LoadText(IDS_ABOUT_LIB, _T("Libraries")) + EOL, cfDefault);
     cfDefault.dwEffects = 0;
-    AddLine(_T("TeamTalk uses the following libraries:") + EOL, cfDefault);
+    AddLine(LoadText(IDS_ABOUT_LIBUSE, _T("TeamTalk uses the following libraries:")) + EOL, cfDefault);
     AddLine(_T("ACE") + EOL, cfDefault);
     AddLine(_T("FFmpeg") + EOL, cfDefault);
     AddLine(_T("OGG") + EOL, cfDefault);
