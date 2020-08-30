@@ -23,6 +23,7 @@
 
 package dk.bearware.gui;
 
+import dk.bearware.ClientEvent;
 import dk.bearware.StreamType;
 import dk.bearware.Subscription;
 import dk.bearware.TeamTalkBase;
@@ -165,6 +166,7 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                         StreamType.STREAMTYPE_MEDIAFILE_AUDIO,
                         Utils.refVolume(progress));
                 }
+                ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
             }
 
             @Override
@@ -196,10 +198,14 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         CompoundButton.OnCheckedChangeListener muteListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton btn, boolean checked) {
-                if(btn == voiceMute)
+                if(btn == voiceMute) {
                     ttclient.setUserMute(user.nUserID, StreamType.STREAMTYPE_VOICE, checked);
-                else if(btn == mediaMute)
+                    ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
+                }
+                else if(btn == mediaMute) {
                     ttclient.setUserMute(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, checked);
+                    ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
+                }
                 else if(btn == subscribeTxtmsg)
                     if (checked) {
                         ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_USER_MSG);
