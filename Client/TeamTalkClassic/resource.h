@@ -457,6 +457,12 @@
 #define IDS_DEFAULTNICKNAME             556
 #define IDS_TREECTRLLAB                 557
 #define IDS_FILESLISTLAB                558
+#define IDS_ABOUT_CREDITS               900
+#define IDS_ABOUT_CONTRIB               901
+#define IDS_ABOUT_DEV                   902
+#define IDS_ABOUT_TRANSLATORS           903
+#define IDS_ABOUT_LIB                   904
+#define IDS_ABOUT_LIBUSE                905
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
