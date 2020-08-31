@@ -348,5 +348,10 @@
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
     <string name="pref_title_facebook_summary">仅当此服务器已启用Facebook登录时可勾选</string>
+    <string name="pref_cat_about">关于</string>
+    <string name="pref_title_contrib">贡献者</string>
+    <string name="pref_title_translator">翻译者</string>
+    <string name="pref_title_libraries">第三方库</string>
+
 
 </resources>
