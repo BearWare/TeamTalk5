@@ -18,7 +18,7 @@
         <EditTextPreference
             android:enabled="false"
             android:singleLine="true"
-            android:title="Corentin Bacqué-Cazenave, developer" />
+            android:title="Oreonan, developer" />
         <EditTextPreference
             android:enabled="false"
             android:singleLine="true"
