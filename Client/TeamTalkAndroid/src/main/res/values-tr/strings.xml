@@ -59,9 +59,9 @@
   <string name="pref_title_transmitready_icon">Özel kip değişikliği</string>
   <string name="pref_summary_transmitready_icon">\"Söz Kesintisi Yok\" kanalı iletime hazır olduğunda ses oynat</string>
   <string name="pref_title_userjoin_icon">Kullanıcı kanala katıldı</string>
-  <string name="pref_summary_userjoin_icon">Kullanıcı geçerli kanala katıldığında ses oynat</string>
+  <string name="pref_summary_userjoin_icon">Kullanıcı şu anki kanala katıldığında ses oynat</string>
   <string name="pref_title_userleft_icon">Kullanıcı kanaldan ayrıldı</string>
-  <string name="pref_summary_userleft_icon">Kullanıcı geçerli kanaldan ayrıldığında ses oynat</string>
+  <string name="pref_summary_userleft_icon">Kullanıcı şu anki kanaldan ayrıldığında ses oynat</string>
   <string name="pref_header_connection">Bağlantı</string>
   <string name="pref_title_sub_txtmsg">Metin İletileri</string>
   <string name="pref_summary_sub_txtmsg">Kullanıcılardan gelen metin iletilerine abone ol</string>
@@ -128,11 +128,11 @@
   <string name="button_tx">İlet</string>
   <string name="button_remove">Kaldır</string>
   <string name="button_edit">Düzenle</string>
-  <string name="action_banchan">Geçerli kanaldan yasakla</string>
+  <string name="action_banchan">Şu anki kanaldan yasakla</string>
   <string name="action_bansrv">Sunucudan yasakla</string>
   <string name="action_edit">Kanalı Düzenle</string>
   <string name="action_join">Katıl</string>
-  <string name="action_kickchan">Geçerli kanaldan uzaklaştır</string>
+  <string name="action_kickchan">Şu anki kanaldan uzaklaştır</string>
   <string name="action_kicksrv">Sunucudan uzaklaştır</string>
   <string name="action_move">Buraya Taşı</string>
   <string name="action_select">Taşıma için Seç</string>
@@ -310,8 +310,8 @@
   <string name="weblogin_prop_title_create_web_login_id">BearWare.dk Oturum Açma Kimliği Oluştur</string>
   <string name="weblogin_prop_title_reset_web_login_id">BearWare.dk Oturum Açma Kimliğini Sıfırla</string>
   <string name="text_bearwarelogin_success">%1$s %2$s kullanıcı adınız onaylandı</string>
-  <string name="text_bearwarelogin_failed">%1$s kullanıcı adının kimliğini doğrulama başarısız (%2$s)</string>
-  <string name="text_weblogin_authfailure">BearWare.dk web oturum açma kimliğinin doğrulanması başarısız</string>
+  <string name="text_bearwarelogin_failed">%1$s kullanıcı adı kimliğini doğrulama başarısız (%2$s)</string>
+  <string name="text_weblogin_authfailure">BearWare.dk Web Oturumu kimliğini doğrulama başarısız. Tercihler\'den BearWare.dk Web Oturumu\'nu denetleyin</string>
   <string name="editmsg">İleti:</string>
   <string name="filepathlab">Dosya:</string>
   <string name="channamelab">Kanalın adı:</string>
@@ -325,4 +325,8 @@
   <string name="ttversion">TeamTalk v</string>
   <string name="ttdllversion">TeamTalk DLL v</string>
   <string name="pref_title_facebook_summary">Yalnızca bu sunucu Facebook oturumunu etkinleştirdiyse işaretleyin</string>
+  <string name="pref_cat_about">Hakkında</string>
+  <string name="pref_title_contrib">Katkıda Bulunanlar</string>
+  <string name="pref_title_translator">Çeviren</string>
+  <string name="pref_title_libraries">Üçüncü Taraf Kitaplıklar</string>
 </resources>
