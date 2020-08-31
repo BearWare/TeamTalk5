@@ -2903,7 +2903,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     //notify users that new user has joined
     ServerChannel::users_t notifyusers;
     if (newchan->GetChannelType() & CHANNEL_HIDDEN)
-        notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, newchan);
+        notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS | USERRIGHT_VIEW_ALL_USERS, newchan);
     else
         notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, newchan);
 
@@ -2985,7 +2985,7 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     //notify admins and "show-all" users
     ServerChannel::users_t notifyusers;
     if (chan->GetChannelType() & CHANNEL_HIDDEN)
-        notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, chan);
+        notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS | USERRIGHT_VIEW_ALL_USERS, chan);
     else
         notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, chan);
     
