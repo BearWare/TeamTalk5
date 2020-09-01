@@ -243,7 +243,7 @@ int RefGain(double percent)
     if(percent == 0)
         return 0;
 
-    return int(82.832 * std::exp(0.0508 * percent) - 50);
+    return int(82.832 * exp(0.0508 * percent) - 50);
 }
 
 CString GetVersion(const User& user)

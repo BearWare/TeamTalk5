@@ -32,6 +32,7 @@ import java.util.Vector;
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
+import dk.bearware.ClientEvent;
 import dk.bearware.ClientFlag;
 import dk.bearware.DesktopInput;
 import dk.bearware.FileTransfer;
@@ -49,11 +50,13 @@ import dk.bearware.TextMsgType;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.MediaFileStatus;
+import dk.bearware.UserRight;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.License;
 import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
+import dk.bearware.data.UserCached;
 import dk.bearware.events.ClientListener;
 import dk.bearware.events.CommandListener;
 import dk.bearware.events.ConnectionListener;
@@ -422,10 +425,37 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         }
     }
 
+    public void syncToUserCache(User user) {
+        String cacheid = UserCached.getCacheID(user);
+        if (!cacheid.isEmpty()) {
+            usercache.put(cacheid, new UserCached(user));
+        }
+    }
+
+    public void syncToUserCache() {
+        // sync user settings to cache
+        for (Map.Entry<Integer, User> entry : users.entrySet()) {
+            syncToUserCache(entry.getValue());
+        }
+    }
+
+    public void syncFromUserCache(User user) {
+        String cacheid = UserCached.getCacheID(user);
+        if (cacheid.isEmpty())
+            return;
+
+        UserCached userprop = usercache.get(cacheid);
+        if (userprop != null) {
+            userprop.sync(ttclient, user);
+        }
+    }
+
     public boolean reconnect() {
         if(ttserver == null || ttclient == null)
             return false;
-        
+
+        syncToUserCache();
+
         ttclient.disconnect();
         
         if(!ttclient.connect(ttserver.ipaddr, ttserver.tcpport,
@@ -443,6 +473,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     Map<Integer, User> users = new HashMap<Integer, User>();
     Map<Integer, Vector<MyTextMessage>> usertxtmsgs = new HashMap<Integer, Vector<MyTextMessage>>();
     Vector<MyTextMessage> chatlogtxtmsgs = new Vector<MyTextMessage>();
+    Map<String, UserCached> usercache = new HashMap<String, UserCached>();
 
     public Map<Integer, Channel> getChannels() {
         return channels;
@@ -485,6 +516,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     public void resetState() {
         reconnectHandler.removeCallbacks(reconnectTimer);
         disablePhoneCallReaction();
+
+        syncToUserCache();
 
         if(ttclient != null)
             ttclient.disconnect();
@@ -750,6 +783,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
             if(cmdid > 0)
                 activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_UNSUBSCRIBE);
         }
+
+        // sync weblogin user settings from cache
+        syncFromUserCache(user);
     }
 
     @Override
@@ -763,6 +799,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
                 name + " " + getResources().getString(R.string.text_cmd_userleftchan));
             getUserTextMsgs(user.nUserID).add(msg);
         }
+
+        // sync user settings to cache
+        syncToUserCache(user);
     }
 
     @Override
@@ -808,6 +847,16 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         int mf_volume = pref.getInt(Preferences.PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME, 100);
         mf_volume = Utils.refVolume(mf_volume);
         ttclient.setUserVolume(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, mf_volume);
+        ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
+
+        // sync user settings from cache
+        if (!UserCached.getCacheID(user).isEmpty()) {
+            UserAccount myaccount = new UserAccount();
+            if (ttclient.getMyUserAccount(myaccount) && (myaccount.uUserRights & UserRight.USERRIGHT_VIEW_ALL_USERS) == UserRight.USERRIGHT_NONE) {
+                // sync weblogin user settings from cache
+                syncFromUserCache(user);
+            }
+        }
     }
 
     @Override
@@ -840,6 +889,15 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         
         if(user.nUserID == ttclient.getMyUserID()) {
             curchannel = null;
+        }
+
+        // sync user settings to cache
+        String cacheid = UserCached.getCacheID(user);
+        if (!cacheid.isEmpty()) {
+            UserAccount myaccount = new UserAccount();
+            if (ttclient.getMyUserAccount(myaccount) && (myaccount.uUserRights & UserRight.USERRIGHT_VIEW_ALL_USERS) == UserRight.USERRIGHT_NONE) {
+                syncToUserCache(user);
+            }
         }
     }
 

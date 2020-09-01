@@ -18,6 +18,10 @@
         <EditTextPreference
             android:enabled="false"
             android:singleLine="true"
+            android:title="Oreonan, developer" />
+        <EditTextPreference
+            android:enabled="false"
+            android:singleLine="true"
             android:title="Igor B. Poretsky, developer" />
     </PreferenceCategory>
 

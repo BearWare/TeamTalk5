@@ -1524,8 +1524,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,6,1,5007
- PRODUCTVERSION 5,6,1,5007
+ FILEVERSION 5,6,1,5008
+ PRODUCTVERSION 5,6,1,5008
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1542,12 +1542,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 6, 1, 5007"
+            VALUE "FileVersion", "5, 6, 1, 5008"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2005-2020, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 6, 1, 5007"
+            VALUE "ProductVersion", "5, 6, 1, 5008"
         END
     END
     BLOCK "VarFileInfo"
@@ -2114,7 +2114,16 @@ BEGIN
     IDS_VIDEOCAPTUREFAILED  "Failed to start selected device Test Selected"
     IDS_WEBLOGINFBLOGOUT    "Do Facebook logout?"
     IDS_WEBLOGINFBLOGIN     "Facebook Login"
+    IDS_MVUE                "Voice for %s enabled"
+    IDS_USERISVIDEOTX       "Webcam"
     IDS_USERADMIN           "Administrator"
+    IDS_UNSELECTFORMOVE     "%s deselected for move"
+    IDS_MOVESELECTED        "Selected for move"
+    IDS_MVD                 "Master volume disabled"
+    IDS_MVE                 "Master volume enabled"
+    IDS_MVUD                "Voice for %s disabled"
+    IDS_MMFUE               "Media files for %s enabled"
+    IDS_MMFUD               "Media files for %s disabled"
 END
 
 STRINGTABLE
@@ -2268,6 +2277,7 @@ BEGIN
     IDS_CMDERR_USER_NOT_FOUND "User not found"
     IDS_CHANHISTORYLAB      "History"
     IDS_CHANMESSAGELAB      "Message"
+    IDS_DEFAULTNICKNAME     "NoName"
     IDS_TREECTRLLAB         "Channels list"
     IDS_FILESLISTLAB        "Files list"
 END
@@ -2331,8 +2341,16 @@ BEGIN
     IDS_LOCALECHARS         "Uses local character set.\r\n"
     IDS_TTDLLVER            "TeamTalk 64-bit DLL version: "
     IDS_TTDLLVERS           "TeamTalk 32-bit DLL version: "
+    IDS_ABOUT_CREDITS       "Credits"
+    IDS_ABOUT_CONTRIB       "Contributors"
+    IDS_ABOUT_DEV           "developer"
+    IDS_ABOUT_TRANSLATORS   "Translators"
+    IDS_ABOUT_LIB           "Libraries"
+    IDS_ABOUT_LIBUSE        "TeamTalk use the following libraries:"
+    IDS_FILEREMOVEDBY       "Removed file %s created by %s"
     IDS_RXTXPING            "RX: %.2fKB TX: %.2fKB PING: %u %s"
     IDS_RXTX                "RX: %.2fKB TX: %.2fKB %s"
+    IDS_USERSMOVED          "Selected users has been moved to channel %s"
 END
 
 STRINGTABLE
@@ -2392,6 +2410,7 @@ BEGIN
     IDS_STREAMDLGFAILEDSTARTPB "Failed to start playback"
     IDS_LOADFILECLIENTSET   "Load %s File"
     IDS_ADDTOFWEXCEP        "Add %s to Windows Firewall exceptions?"
+    IDS_SELECTFORMOVE       "%s selected for move"
 END
 
 STRINGTABLE
@@ -2474,6 +2493,21 @@ BEGIN
     IDS_USERDESKTOPLOCALDESKTOP "Local Desktop"
     IDS_USERDESKTOPDESKTOP  "Desktop - "
     IDS_USERVIDEOLOCALVIDEO "Local Video"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DECVOLUMEMFUSER     "Media files volume for %s decreased to %d"
+    IDS_USERISAWAY          "Away"
+    IDS_USERISQUESTION      "Question"
+    IDS_USERISSTREAMINGMDFILE "Streaming media file"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_INCVOLUMEVOICEUSER  "Voice volume for %s increased to %d"
+    IDS_DECVOLUMEVOICEUSER  "Voice volume for %s decreased to %d"
+    IDS_INCVOLUMEMFUSER     "Media files volume for %s increased to %d"
 END
 
 STRINGTABLE

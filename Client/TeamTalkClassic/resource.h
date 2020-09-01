@@ -375,7 +375,6 @@
 #define IDS_HOSTMANAGERDELHOST          471
 #define IDS_HOSTMANAGERPUBLIC           472
 #define IDS_HOSTMANAGERHOSTFILES        473
-#define IDS_HOSTMANAGERALLFILES         474
 #define IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY 475
 #define IDS_KEYCOMPERROR                476
 #define IDS_MEDIASTORAGEWAVEFORMAT      477
@@ -464,7 +463,6 @@
 #define IDS_ABOUT_TRANSLATORS           903
 #define IDS_ABOUT_LIB                   904
 #define IDS_ABOUT_LIBUSE                905
-#define IDS_SERVCONFSAVED               910
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
