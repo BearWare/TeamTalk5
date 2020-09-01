@@ -2824,7 +2824,18 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     serverchannel_t newchan = GetChannel(chanprop.channelid);
-    if(!newchan)//user is trying to create a new channel
+    if (!newchan)
+    {
+        // handle case where channel already exists but ID is unknown
+        // to use, e.g. CHANNEL_HIDDEN.
+        newchan = GetChannel(chanprop.parentid);
+        if (newchan && chanprop.name.length())
+            newchan = newchan->GetSubChannel(chanprop.name);
+        else
+            newchan.reset();
+    }
+
+    if (!newchan)//user is trying to create a new channel
     {
         if((user->GetUserRights() & USERRIGHT_CREATE_TEMPORARY_CHANNEL) == 0 &&
            (user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
@@ -2885,14 +2896,22 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         TTASSERT(err.errorno == TT_CMDERR_SUCCESS);
         newchan->SetChannelType(chantype);
     }
+
     //add user to channel
     newchan->AddUser(user->GetUserID(), user);
 
-    //notify user of new channel
-    user->DoJoinedChannel(*newchan, IsEncrypted());
-
     //set new channel
     user->SetChannel(newchan);
+
+    // forward hidden channel to user if user cannot see it
+    if ((newchan->GetChannelType() & CHANNEL_HIDDEN) &&
+        (user->GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
+    {
+        user->DoAddChannel(*newchan, IsEncrypted());
+    }
+    
+    //notify user of new channel
+    user->DoJoinedChannel(*newchan, IsEncrypted());
 
     //check if user should automatically become operator of channel
     UserAccount useraccount = user->GetUserAccount();
@@ -3000,7 +3019,8 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
         StopDesktopTransmitter(*user, *users[i], false);
     }
 
-    if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) ==  USERRIGHT_NONE)
+    // remove users in channel so they are not visible to user after exiting
+    if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
     {
         for (auto u : chan->GetUsers())
         {
@@ -3015,6 +3035,13 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
 
     if(upd_chan)
         UpdateChannel(*chan, chan->GetUsers());
+
+    // forward hidden channel to user
+    if ((chan->GetChannelType() & CHANNEL_HIDDEN) &&
+        (user->GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
+    {
+        user->DoRemoveChannel(*chan);
+    }
 
     serverchannel_t nullc;
     user->SetChannel(nullc);
@@ -3682,11 +3709,16 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
         }
         else
         {
-            const ServerChannel::users_t& users = chan->GetUsers();
-            for(size_t i=0;i<users.size();i++)
-                UserKick(0, users[i]->GetUserID(), chan->GetChannelID(), true);
+            ServerChannel::users_t users = chan->GetUsers(); //copy because mutates during UserKick()
+            for (auto u : users)
+            {
+                ErrorMsg err = UserKick(0, u->GetUserID(), chan->GetChannelID(), true);
+                TTASSERT(err.success());
+            }
+            TTASSERT(chan->GetUsers().empty());
+            TTASSERT(chan->GetSubChannels().empty());
 
-            //check if channel still exists (kick may have removed it
+            //check if channel still exists (kick may have removed it)
             if (!GetChannel(chan->GetChannelID()))
                 continue;
 
