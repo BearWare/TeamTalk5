@@ -1408,8 +1408,27 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
         assertTrue(VIEW_NONE + " kicked from hidden channel", view_none.getMyChannelID() == 0);
 
-        //TODO: Toggle CHANNEL_HIDDEN property
-        //TODO: Only hidden sub channels in hidden channel
+        // check CHANNEL_HIDDEN cannot be toggled
+        assertTrue("get root chan", admin.getChannel(admin.getRootChannelID(), chan));
+        chan.uChannelType |= ChannelType.CHANNEL_HIDDEN;
+        assertTrue("cannot set hidden on existing channel", waitCmdError(admin, admin.doUpdateChannel(chan), DEF_WAIT, interleave));
+        chan = buildDefaultChannel(admin, "Foo");
+        assertTrue("admin make new channel", waitCmdSuccess(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+        int foo_id = admin.getChannelIDFromPath(chan.szName);
+        assertTrue("Got new channel in admin", admin.getChannel(foo_id, chan));
+        chan.uChannelType |= ChannelType.CHANNEL_HIDDEN;
+        assertTrue("cannot set hidden on existing channel", waitCmdError(admin, admin.doUpdateChannel(chan), DEF_WAIT, interleave));
+
+        // check CHANNEL_HIDDEN cannot contain subchannel
+        hidden = buildDefaultChannel(admin, "Hidden channel");
+        hidden.uChannelType |= (ChannelType.CHANNEL_HIDDEN | ChannelType.CHANNEL_PERMANENT);
+        assertTrue("admin make hidden channel", waitCmdSuccess(admin, admin.doMakeChannel(hidden), DEF_WAIT, interleave));
+        hidden_id = admin.getChannelIDFromPath(hidden.szName);
+        assertTrue("Got hidden channel in admin", hidden_id > 0);
+        hidden.nParentID = hidden_id;
+        assertTrue("cannot create hidden subchannel in hidden channel", waitCmdError(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+        hidden.uChannelType = ChannelType.CHANNEL_DEFAULT;
+        assertTrue("cannot create subchannel in hidden channel", waitCmdError(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
     }
     
     // @Test
