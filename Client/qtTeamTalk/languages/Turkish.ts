@@ -601,7 +601,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="98"/>
         <source>yyyy-MM-dd HH:mm:ss</source>
-        <translation>yyyy-AA-gg SS:dd:ss</translation>
+        <translation>yyyy/AA/gg SS:dd:ss</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="117"/>
