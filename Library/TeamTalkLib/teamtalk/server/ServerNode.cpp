@@ -2841,8 +2841,8 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
            (user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
-        if((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0 &&
-            (chanprop.chantype & CHANNEL_PERMANENT) )
+        if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0 &&
+            (chanprop.chantype & (CHANNEL_PERMANENT | CHANNEL_HIDDEN)))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         //ensure users cannot create channels which is not direct subchannel of current
@@ -3397,21 +3397,29 @@ ErrorMsg ServerNode::UserUpdateChannel(int userid, const ChannelProp& chanprop)
     if (!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
-    int c = chan->GetUsersCount();
-    if(chan->GetUsersCount() && 
-       memcmp(&chanprop.audiocodec, &chan->GetAudioCodec(), sizeof(chanprop.audiocodec)) != 0)
+    // don't allow codec change in channel with users
+    if (chan->GetUsersCount() && chanprop.audiocodec != chan->GetAudioCodec())
         return ErrorMsg(TT_CMDERR_CHANNEL_HAS_USERS);
+
+    //don't allow change of hidden channel property
+    if ((chanprop.chantype & CHANNEL_HIDDEN) != (chan->GetChannelType() & CHANNEL_HIDDEN))
+    {
+        if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS))
+            return ErrorMsg(TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN);
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    }
 
     //user can update channel if either admin or operator of channel
     if((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS))
         return UpdateChannel(chanprop, user.get());
     else if(chan->IsOperator(userid))
     {
-        //don't allow user to change static channel property
+        //don't allow operator to change static channel property
         if( (chanprop.chantype & CHANNEL_PERMANENT) !=
             (chan->GetChannelType() & CHANNEL_PERMANENT))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
-        //don't allow user to change name of static channel
+
+        //don't allow operator to change name of static channel
         if( (chan->GetChannelType() & CHANNEL_PERMANENT) &&
             chanprop.name != chan->GetName())
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
@@ -3488,14 +3496,19 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
         parent = GetChannel(chanprop.parentid);
         if (!parent)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
+
         if (parent->GetSubChannel(chanprop.name))
             return ErrorMsg(TT_CMDERR_CHANNEL_ALREADY_EXISTS);
-        if(chanprop.name.empty())
+
+        if (chanprop.name.empty())
             return ErrorMsg(TT_CMDERR_CHANNEL_ALREADY_EXISTS);
 
         if(parent->GetChannelPath().length() + chanprop.name.length() + 
             ACE_TString(CHANNEL_SEPARATOR).length() >= MAX_STRING_LENGTH)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
+
+        if (parent->GetChannelType() & CHANNEL_HIDDEN)
+            return ErrorMsg(TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN);
     }
 
     if(chanprop.passwd.length() >= MAX_STRING_LENGTH)
@@ -3516,14 +3529,16 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     if (!parent)
     {
         TTASSERT(!GetRootChannel());
-        ServerChannel* newchan = new ServerChannel(chanid);
-        chan = serverchannel_t(newchan);
+
+        if (chanprop.chantype & CHANNEL_HIDDEN)
+            return ErrorMsg(TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN);
+        
+        chan.reset(new ServerChannel(chanid));
         m_rootchannel = chan;
     }
     else
     {
-        ServerChannel* newchan = new ServerChannel(parent, chanid, chanprop.name);
-        chan = serverchannel_t(newchan);
+        chan.reset(new ServerChannel(parent, chanid, chanprop.name));
         parent->AddSubChannel(chan);
     }
     chan->SetPassword(chanprop.passwd);
@@ -3770,8 +3785,8 @@ void ServerNode::UpdateChannel(const ServerChannel& chan, const ServerChannel::u
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    for(auto u=users.begin();u!=users.end();++u)
-        (*u)->DoUpdateChannel(chan, IsEncrypted());
+    for (auto u : users)
+        u->DoUpdateChannel(chan, IsEncrypted());
 }
 
 ErrorMsg ServerNode::UserMove(int userid, int moveuserid, int channelid)

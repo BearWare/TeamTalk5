@@ -2859,8 +2859,14 @@ namespace BearWare
         /** @brief The login service is currently unavailable.
          *
          * Added in TeamTalk v5.3 to support web-logins. */
-        CMDERR_LOGINSERVICE_UNAVAILABLE = 3016,
+        CMDERR_LOGINSERVICE_UNAVAILABLE         = 3016,
 
+        /** @brief Cannot apply #ChannelType.CHANNEL_HIDDEN to #Channel's channel type.
+         *
+         * A hidden channel cannot contain subchannels or have it
+         * #CHANNEL_HIDDEN property toggled. */
+        CMDERR_CHANNEL_CANNOT_BE_HIDDEN         = 3017,
+            
         /* ERRORS 10000-10999 ARE NOT COMMAND ERRORS BUT INSTEAD
          * ERRORS IN THE CLIENT INSTANCE. */
 

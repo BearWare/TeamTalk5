@@ -66,6 +66,7 @@ public class ClientError {
     public static final int CMDERR_FILESHARING_DISABLED             = 3013;
     public static final int CMDERR_CHANNEL_HAS_USERS                = 3015;
     public static final int CMDERR_LOGINSERVICE_UNAVAILABLE         = 3016;
+    public static final int CMDERR_CHANNEL_CANNOT_BE_HIDDEN         = 3017;
 
     public static final int INTERR_SNDINPUT_FAILURE                 = 10000;
     public static final int INTERR_SNDOUTPUT_FAILURE                = 10001;
