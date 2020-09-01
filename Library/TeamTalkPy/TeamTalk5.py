@@ -6,6 +6,7 @@ from enum import IntEnum
 from ctypes import *
 from ctypes.util import find_library
 
+os.add_dll_directory(os.getcwd())
 if sys.platform == "win32":
     dll = cdll.TeamTalk5
     TTCHAR = c_wchar
