@@ -1355,6 +1355,16 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue(VIEW_HIDDEN_CHANNELS + " can see hidden channel", view_hidden_channels.getChannel(hidden_id, chan));
         assertTrue(VIEW_ALL_USERS_HIDDEN_CHANNELS + " can see hidden channel", view_all_users_hidden_channels.getChannel(hidden_id, chan));
 
+        // check initial login with hidden channels
+        for (TeamTalkBase client : clients) {
+            assertTrue("logout/login", waitCmdComplete(client, client.doLogout(), DEF_WAIT, interleave));
+        }
+        login(server, admin, ADMIN + getTestMethodName(), ADMIN, ADMIN);
+        login(server, view_none, VIEW_NONE + getTestMethodName(), VIEW_NONE, VIEW_NONE);
+        login(server, view_all_users, VIEW_ALL_USERS + getTestMethodName(), VIEW_ALL_USERS, VIEW_ALL_USERS);
+        login(server, view_hidden_channels, VIEW_HIDDEN_CHANNELS + getTestMethodName(), VIEW_HIDDEN_CHANNELS, VIEW_HIDDEN_CHANNELS);
+        login(server, view_all_users_hidden_channels, VIEW_ALL_USERS_HIDDEN_CHANNELS + getTestMethodName(), VIEW_ALL_USERS_HIDDEN_CHANNELS, VIEW_ALL_USERS_HIDDEN_CHANNELS);
+
         // check user in hidden channel visibility
         assertTrue("admin join hidden", waitCmdSuccess(admin, admin.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave));
         for (TeamTalkBase client : clients)

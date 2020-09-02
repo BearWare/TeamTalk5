@@ -145,6 +145,9 @@ void ServerUser::ForwardChannels(const serverchannel_t& root, bool encrypted)
         for(size_t i=0;i<subs.size();i++)
             chanqueue.push(subs[i]);
 
+        if ((ch->GetChannelType() & CHANNEL_HIDDEN) && (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
+            continue;
+        
         DoAddChannel(*ch.get(), encrypted);
     }
 }

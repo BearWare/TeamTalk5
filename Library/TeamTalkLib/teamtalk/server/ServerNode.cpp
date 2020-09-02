@@ -2668,6 +2668,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
 
     //forward all channels
     user->ForwardChannels(GetRootChannel(), IsEncrypted());
+
     //send all files to user if admin
     if(user->GetUserType() & USERTYPE_ADMIN)
         user->ForwardFiles(GetRootChannel(), true);
