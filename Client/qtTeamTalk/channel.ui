@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>801</width>
+    <width>899</width>
     <height>602</height>
    </rect>
   </property>
@@ -205,6 +205,13 @@
            <widget class="QCheckBox" name="norecordBox">
             <property name="text">
              <string>No audio recording allowed (save to disk not allowed)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="hiddenchannelBox">
+            <property name="text">
+             <string>Hidden channel (invisible and only known by name)</string>
             </property>
            </widget>
           </item>
@@ -854,6 +861,7 @@
   <tabstop>oprecvonlychanBox</tabstop>
   <tabstop>novoiceactBox</tabstop>
   <tabstop>norecordBox</tabstop>
+  <tabstop>hiddenchannelBox</tabstop>
   <tabstop>audiocodecBox</tabstop>
   <tabstop>spx_srateBox</tabstop>
   <tabstop>spx_qualitySlider</tabstop>

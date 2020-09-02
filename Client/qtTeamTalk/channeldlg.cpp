@@ -219,6 +219,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.oprecvonlychanBox->setChecked(m_channel.uChannelType & CHANNEL_OPERATOR_RECVONLY);
     ui.novoiceactBox->setChecked(m_channel.uChannelType & CHANNEL_NO_VOICEACTIVATION);
     ui.norecordBox->setChecked(m_channel.uChannelType & CHANNEL_NO_RECORDING);
+    ui.hiddenchannelBox->setChecked(m_channel.uChannelType & CHANNEL_HIDDEN);
 
     //codec
     switch(m_channel.audiocodec.nCodec)
@@ -297,6 +298,11 @@ Channel ChannelDlg::GetChannel() const
         newchannel.uChannelType |= CHANNEL_NO_RECORDING;
     else
         newchannel.uChannelType &= ~CHANNEL_NO_RECORDING;
+
+    if (ui.hiddenchannelBox->isChecked())
+        newchannel.uChannelType |= CHANNEL_HIDDEN;
+    else
+        newchannel.uChannelType &= ~CHANNEL_HIDDEN;
 
     newchannel.audiocodec.nCodec = (Codec)ui.audiocodecBox->itemData(ui.audiocodecBox->currentIndex()).toInt();
     switch(newchannel.audiocodec.nCodec)
