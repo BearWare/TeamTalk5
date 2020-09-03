@@ -49,9 +49,9 @@ let DEFAULT_SUBSCRIPTION_USERMSG = true
 let DEFAULT_SUBSCRIPTION_CHANMSG = true
 let DEFAULT_SUBSCRIPTION_BCASTMSG = true
 let DEFAULT_SUBSCRIPTION_VOICE = true
-let DEFAULT_SUBSCRIPTION_VIDEOCAP = false
+let DEFAULT_SUBSCRIPTION_VIDEOCAP = true
 let DEFAULT_SUBSCRIPTION_MEDIAFILE = true
-let DEFAULT_SUBSCRIPTION_DESKTOP = false
+let DEFAULT_SUBSCRIPTION_DESKTOP = true
 let DEFAULT_SUBSCRIPTION_DESKTOPINPUT = false
 
 func getDefaultSubscriptions() -> Subscriptions {
@@ -447,6 +447,68 @@ func speakTextMessage(_ msgtype: TextMsgType, mymsg: MyTextMessage) {
         newUtterance(ttsmsg)
     }
 }
+
+func userCacheID(user: User) -> String {
+    let username = getUser(user, strprop: USERNAME)
+    if username.hasSuffix(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX) {
+        return username + "|" + getUser(user, strprop: CLIENTNAME)
+    }
+    return ""
+}
+
+class UserCached {
+    var subscriptions : UINT32
+    var voiceMute : Bool
+    var mediaMute : Bool
+    var voiceVolume : INT32
+    var mediaVolume : INT32
+    var voiceLeftSpeaker, voiceRightSpeaker,
+    mediaLeftSpeaker, mediaRightSpeaker : TTBOOL
+    
+    init(user : User) {
+        subscriptions = user.uLocalSubscriptions
+        voiceMute = (user.uUserState & USERSTATE_MUTE_VOICE.rawValue) == USERSTATE_MUTE_VOICE.rawValue
+        mediaMute = (user.uUserState & USERSTATE_MUTE_MEDIAFILE.rawValue) == USERSTATE_MUTE_MEDIAFILE.rawValue
+        voiceVolume = user.nVolumeVoice
+        mediaVolume = user.nVolumeMediaFile
+        voiceLeftSpeaker = user.stereoPlaybackVoice.0
+        voiceRightSpeaker = user.stereoPlaybackVoice.1
+        mediaLeftSpeaker = user.stereoPlaybackMediaFile.0
+        mediaRightSpeaker = user.stereoPlaybackMediaFile.1
+    }
+    
+    func sync(user: User) {
+        TT_SetUserMute(ttInst, user.nUserID, STREAMTYPE_VOICE, voiceMute ? TRUE : FALSE)
+        TT_SetUserMute(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, mediaMute ? TRUE : FALSE)
+        TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_VOICE, voiceVolume)
+        TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, mediaVolume)
+        TT_SetUserStereo(ttInst, user.nUserID, STREAMTYPE_VOICE, voiceLeftSpeaker, voiceRightSpeaker)
+        TT_SetUserStereo(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, mediaLeftSpeaker, mediaRightSpeaker)
+        if subscriptions != user.uLocalSubscriptions {
+            TT_DoUnsubscribe(ttInst, user.nUserID, user.uLocalSubscriptions ^ subscriptions)
+            TT_DoSubscribe(ttInst, user.nUserID, subscriptions)
+        }
+        TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, user.nUserID)
+    }
+}
+
+func syncFromUserCache(user: User) {
+    let cacheid = userCacheID(user: user)
+    if cacheid.isEmpty == false {
+        if let cache = userCache[cacheid] {
+            cache.sync(user: user)
+        }
+    }
+}
+
+func syncToUserCache(user: User) {
+    let cacheid = userCacheID(user: user)
+    if cacheid.isEmpty == false {
+        userCache[cacheid] = UserCached(user: user)
+    }
+}
+
+var userCache = [String : UserCached]()
 
 let DEFAULT_NICKNAME = NSLocalizedString("Noname", comment: "default nickname")
 

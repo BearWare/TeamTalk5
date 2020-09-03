@@ -98,6 +98,8 @@ const TTCHAR* getUserString(UExt e, const User* u) {
             return u->szStatusMsg;
         case IPADDR :
             return u->szIPAddress;
+        case CLIENTNAME :
+            return u->szClientName;
     }
     return "";
 }
