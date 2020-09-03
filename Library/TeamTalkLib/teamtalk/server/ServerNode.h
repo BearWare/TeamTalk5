@@ -137,7 +137,6 @@ namespace teamtalk {
         ACE_Time_Value GetUptime() const;
         serverchannel_t& GetRootChannel();
         void CheckKeepAlive();
-        int GetAuthUserCount();
         int GetActiveFileTransfers(int& uploads, int& downloads);
         bool IsEncrypted() const;
         bool LoginsExceeded(const ServerUser& user);

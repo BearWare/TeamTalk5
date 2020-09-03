@@ -113,18 +113,17 @@ ACE_TString ServerNode::GetMessageOfTheDay(int ignore_userid/* = 0*/)
     GUARD_OBJ(this, lock());
 
     //%users% %uptime% %voicetx% %voicerx% %admins% %lastuser%
-    const ServerChannel::users_t& userslst = GetAuthorizedUsers(true);
-    size_t users = GetAuthorizedUsers().size();
-    size_t admins = users - userslst.size();
+    size_t users = GetAuthorizedUsers(true).size();
+    size_t admins = GetAdministrators().size();
     ACE_TString uptime = UptimeHours(GetUptime());
 
     ACE_TString lastuser;
     ACE_Time_Value duration = ACE_Time_Value::max_time;
-    for(size_t i=0;i<userslst.size();i++)
+    for (auto u : GetAuthorizedUsers(false))
     {
-        if(userslst[i]->GetDuration() < duration &&
-           userslst[i]->GetUserID() != ignore_userid)
-            lastuser = userslst[i]->GetNickname();
+        if (u->GetDuration() < duration &&
+            u->GetUserID() != ignore_userid)
+            lastuser = u->GetNickname();
     }
     ACE_TString motd = m_properties.motd;
     replace_all(motd, ACE_TEXT("%users%"), i2string((int)users));
@@ -183,17 +182,14 @@ ServerChannel::users_t ServerNode::GetAdministrators(const ServerChannel& exclud
     ASSERT_REACTOR_LOCKED(this);
 
     ServerChannel::users_t users;
-    for(mapusers_t::const_iterator i=m_mUsers.begin(); i != m_mUsers.end(); i++)
+    for (auto au : GetAdministrators())
     {
-        if(((*i).second->GetUserType() & USERTYPE_ADMIN) && 
-            (!(*i).second->GetChannel() ||
-            (*i).second->GetChannel()->GetChannelID() != excludeChannel.GetChannelID()))
-            users.push_back((*i).second);
+        if (au->GetChannel().get() != &excludeChannel)
+            users.push_back(au);
     }
 
     return users;
 }
-
 
 ServerChannel::users_t ServerNode::GetAuthorizedUsers(bool excludeAdmins/* = false*/)
 {
@@ -295,22 +291,6 @@ int ServerNode::GetActiveFileTransfers(int& uploads, int& downloads)
 bool ServerNode::IsEncrypted() const
 {
     return m_def_acceptors.empty();
-}
-
-int ServerNode::GetAuthUserCount()
-{
-    ASSERT_REACTOR_LOCKED(this);
-
-    int nUserCount = 0;
-
-    // get number of connected users
-    for(mapusers_t::iterator ite = m_mUsers.begin();
-        ite != m_mUsers.end();
-        ite++)
-        if(ite->second->IsAuthorized())
-            nUserCount++;
-
-    return nUserCount;
 }
 
 int ServerNode::GetChannelID(const ACE_TString& chanpath)
@@ -1770,73 +1750,70 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
     ServerChannel::users_t result;
     uint16_t dest_userid = packet.GetDestUserID();
     int fromuserid = user.GetUserID();
-    const ServerChannel::users_t& users = channel.GetUsers();
 
-    if(dest_userid) //the packet is only for certain users
+    if (dest_userid) //the packet is only for certain users
     {
-        for(size_t i=0; i < users.size(); i++)
+        for (auto u : channel.GetUsers())
         {
-            if(users[i]->GetUserID() == dest_userid &&
-                (users[i]->GetSubscriptions(user) & subscrip_check) &&
-                users[i]->GetPacketProtocol() >= pp_min)
+            if (u->GetUserID() == dest_userid &&
+                (u->GetSubscriptions(user) & subscrip_check) &&
+                u->GetPacketProtocol() >= pp_min)
             {
-                result.push_back(users[i]);
+                result.push_back(u);
             }
         }
 
         //admins can also subscribe outside their channels
-        const ServerChannel::users_t& admins = GetAdministrators();
-        for(size_t i=0;i<admins.size();i++)
+        for (auto au : GetAdministrators())
         {
-            if( (admins[i]->GetSubscriptions(user) & intercept_check) &&
-                !channel.UserExists(admins[i]->GetUserID()) &&
-                admins[i]->GetPacketProtocol() >= pp_min)
+            if ((au->GetSubscriptions(user) & intercept_check) &&
+                !channel.UserExists(au->GetUserID()) &&
+                au->GetPacketProtocol() >= pp_min)
             {
-                result.push_back(users[i]);
+                result.push_back(au);
             }
         }
     }
-    else if(packet.GetChannel())
+    else if (packet.GetChannel())
     {
-        if((channel.GetChannelType() & CHANNEL_OPERATOR_RECVONLY) &&
+        if ((channel.GetChannelType() & CHANNEL_OPERATOR_RECVONLY) &&
             !channel.IsOperator(fromuserid) && 
             (user.GetUserType() & USERTYPE_ADMIN) == 0)
         {
             //only operators and admins will receive from default users
             //in channel type CHANNEL_OPERATOR_RECVONLY
-            for(size_t i=0;i<users.size();i++)
+            for (auto u : channel.GetUsers())
             {
-                if((channel.IsOperator(users[i]->GetUserID()) ||
-                    users[i]->GetUserType() & USERTYPE_ADMIN) &&
-                    (users[i]->GetSubscriptions(user) & subscrip_check) &&
-                    users[i]->GetPacketProtocol() >= pp_min)
+                if ((channel.IsOperator(u->GetUserID()) ||
+                     u->GetUserType() & USERTYPE_ADMIN) &&
+                    (u->GetSubscriptions(user) & subscrip_check) &&
+                    u->GetPacketProtocol() >= pp_min)
                 {
-                    result.push_back(users[i]);
+                    result.push_back(u);
                 }
             }
         }
         else
         {
             //forward to all users in same channel
-            for(size_t i=0; i < users.size(); i++)
+            for (auto u : channel.GetUsers())
             {
-                if((users[i]->GetSubscriptions(user) & subscrip_check) &&
-                   users[i]->GetPacketProtocol() >= pp_min)
+                if ((u->GetSubscriptions(user) & subscrip_check) &&
+                    u->GetPacketProtocol() >= pp_min)
                 {
-                    result.push_back(users[i]);
+                    result.push_back(u);
                 }
             }
         }
 
         //admins can also subscribe outside their channels
-        const ServerChannel::users_t& admins = GetAdministrators();
-        for(size_t i=0;i<admins.size();i++)
+        for (auto au : GetAdministrators())
         {
-            if( (admins[i]->GetSubscriptions(user) & intercept_check) &&
-                !channel.UserExists(admins[i]->GetUserID()) &&
-                admins[i]->GetPacketProtocol() >= pp_min)
+            if ((au->GetSubscriptions(user) & intercept_check) &&
+                !channel.UserExists(au->GetUserID()) &&
+                au->GetPacketProtocol() >= pp_min)
             {
-                result.push_back(admins[i]);
+                result.push_back(au);
             }
         }
     }
@@ -2620,7 +2597,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
         return ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
     }
 
-    int user_count = GetAuthUserCount();
+    int user_count = int(GetAuthorizedUsers(false).size());
     if(user_count+1 > m_properties.maxusers && 
        (useraccount.usertype & USERTYPE_ADMIN) == 0)
         return ErrorMsg(TT_CMDERR_MAX_SERVER_USERS_EXCEEDED); //user limit
@@ -2628,12 +2605,11 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     //check for double login
     if((useraccount.userrights & USERRIGHT_MULTI_LOGIN) == 0)
     {
-        ServerChannel::users_t users = GetAuthorizedUsers();
-        for(size_t i=0;i<users.size();i++)
+        for (auto u : GetAuthorizedUsers())
         {
-            TTASSERT(users[i] != user);
-            if(users[i]->GetUsername() == username)
-                UserKick(user->GetUserID(), users[i]->GetUserID(), 0, true);
+            TTASSERT(u != user);
+            if (u->GetUsername() == username)
+                UserKick(user->GetUserID(), u->GetUserID(), 0, true);
         }
     }
 
@@ -2642,10 +2618,9 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
        (useraccount.usertype & USERTYPE_ADMIN) == 0)
     {
         int logins = 1; //include self
-        ServerChannel::users_t users = GetAuthorizedUsers();
-        for(size_t i=0;i<users.size();i++)
+        for (auto u : GetAuthorizedUsers())
         {
-            if(users[i]->GetIpAddress() == user->GetIpAddress())
+            if (u->GetIpAddress() == user->GetIpAddress())
                 logins++;
         }
         if(logins > m_properties.max_logins_per_ipaddr)
@@ -2674,19 +2649,17 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
         user->ForwardFiles(GetRootChannel(), true);
 
     //notify other users of new user
-    ServerChannel::users_t users = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS);
-    for(size_t i=0;i<users.size();i++)
+    for (auto u : GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS))
     {
-        if(users[i]->GetUserID() != userid)
-            users[i]->DoLoggedIn(*user);
+        if(u->GetUserID() != userid)
+            u->DoLoggedIn(*user);
     }
 
     //forward users if USERRIGHT_VIEW_ALL_USERS enabled
     if(user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS)
     {
-        users = GetAuthorizedUsers();
-        for(size_t i=0;i<users.size();i++)
-            user->DoLoggedIn(*users[i]);
+        for (auto u : GetAuthorizedUsers())
+            user->DoLoggedIn(*u);
 
         user->ForwardUsers(GetRootChannel(), true);
     }
@@ -2744,9 +2717,8 @@ ErrorMsg ServerNode::UserLogout(int userid)
     }
 
     //notify users of logout
-    ServerChannel::users_t users = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS);
-    for(size_t i=0;i<users.size();i++)
-        users[i]->DoLoggedOut(*user);
+    for (auto u : GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS))
+        u->DoLoggedOut(*user);
 
     m_srvguard->OnUserLoggedOut(*user);
 
@@ -3013,11 +2985,10 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
         u->DoRemoveUser(*user, *chan);
 
     //close active desktop transmissions
-    const ServerChannel::users_t& users = chan->GetUsers();
-    for(size_t i=0;i<users.size();i++)
+    for (auto u : chan->GetUsers())
     {
-        StopDesktopTransmitter(*users[i], *user, false);
-        StopDesktopTransmitter(*user, *users[i], false);
+        StopDesktopTransmitter(*u, *user, false);
+        StopDesktopTransmitter(*user, *u, false);
     }
 
     // remove users in channel so they are not visible to user after exiting
@@ -3067,9 +3038,8 @@ void ServerNode::UserDisconnected(int userid)
             UserLogout(userid);
 
         //if users have modified any subscriptions to this user, clear it
-        const ServerChannel::users_t& users = GetAuthorizedUsers();
-        for(size_t i=0;i<users.size();i++)
-            users[i]->ClearUserSubscription(*user);
+        for (auto u : GetAuthorizedUsers())
+            u->ClearUserSubscription(*user);
 
         //notify listener (if any)
         m_srvguard->OnUserDisconnected(*user);
@@ -3466,9 +3436,8 @@ ErrorMsg ServerNode::UpdateServer(const ServerSettings& properties)
 {
     SetServerProperties(properties);
 
-    ServerChannel::users_t users = GetAuthorizedUsers();
-    for(size_t i=0;i<users.size();i++)
-        users[i]->DoServerUpdate(m_properties);
+    for (auto u : GetAuthorizedUsers())
+        u->DoServerUpdate(m_properties);
 
     if(IsAutoSaving())
         m_srvguard->OnSaveConfiguration(*this);
@@ -3619,7 +3588,6 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
     //close active desktop sessions
     if(chan->GetDesktopUsers() != chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP))
     {
-        const ServerChannel::users_t& users = chan->GetUsers();
         set<int>::const_iterator ii = chan->GetDesktopUsers().begin();
         for(;ii!=chan->GetDesktopUsers().end();ii++)
         {
@@ -3630,8 +3598,8 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
                 if (!src_user || !src_user->GetDesktopSession())
                     continue;
                 //TODO: this doesn't handle users who're intercepting packets
-                for(size_t i=0;i<users.size();i++)
-                    StopDesktopTransmitter(*src_user, *users[i], true);
+                for (auto u : chan->GetUsers())
+                    StopDesktopTransmitter(*src_user, *u, true);
             }
         }
     }
@@ -3839,13 +3807,14 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         to_user->DoTextMessage(*from, msg);
 
         //notify administrators for user2user message
-        const ServerChannel::users_t& admins = GetAdministrators();
-        for(size_t i=0;i<admins.size();i++)
+        for (auto au : GetAdministrators())
         {
-            if((admins[i]->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_USER_MSG) &&
-                admins[i]->GetUserID() != msg.to_userid && 
-                admins[i]->GetUserID() != msg.from_userid )
-                admins[i]->DoTextMessage(*from, msg);
+            if ((au->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_USER_MSG) &&
+                au->GetUserID() != msg.to_userid && 
+                au->GetUserID() != msg.from_userid)
+            {
+                au->DoTextMessage(*from, msg);
+            }
         }
 
         //log text message
@@ -3866,13 +3835,14 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         to_user->DoTextMessage(*from, msg);
 
         //notify administrators for user2user message
-        const ServerChannel::users_t& admins = GetAdministrators();
-        for(size_t i=0;i<admins.size();i++)
+        for (auto au : GetAdministrators())
         {
-            if((admins[i]->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_CUSTOM_MSG) &&
-                admins[i]->GetUserID() != msg.to_userid && 
-                admins[i]->GetUserID() != msg.from_userid )
-                admins[i]->DoTextMessage(*from, msg);
+            if ((au->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_CUSTOM_MSG) &&
+                au->GetUserID() != msg.to_userid && 
+                au->GetUserID() != msg.from_userid)
+            {
+                au->DoTextMessage(*from, msg);
+            }
         }
 
         //log text message
@@ -3891,22 +3861,21 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         //forward message to all users of that channel
-        const ServerChannel::users_t& chanusers = chan->GetUsers();
         intset_t already_recv;
-        for(size_t i=0;i<chanusers.size();i++)
+        for (auto cu : chan->GetUsers())
         {
-            already_recv.insert(chanusers[i]->GetUserID());
-            if(chanusers[i]->GetSubscriptions(*from) & SUBSCRIBE_CHANNEL_MSG)
-                chanusers[i]->DoTextMessage(*from, msg);
+            already_recv.insert(cu->GetUserID());
+            if (cu->GetSubscriptions(*from) & SUBSCRIBE_CHANNEL_MSG)
+                cu->DoTextMessage(*from, msg);
         }
+
         //notify administrators of user2channel message                
-        const ServerChannel::users_t& admins = GetAdministrators(*chan);
-        for(size_t i=0;i<admins.size();i++)
+        for (auto au : GetAdministrators(*chan))
         {
-            if(already_recv.find(admins[i]->GetUserID()) != already_recv.end())
+            if (already_recv.find(au->GetUserID()) != already_recv.end())
                 continue;
-            if(admins[i]->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_CHANNEL_MSG)
-                admins[i]->DoTextMessage(*from, msg);
+            if (au->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_CHANNEL_MSG)
+                au->DoTextMessage(*from, msg);
         }
 
         //log text message
@@ -3919,11 +3888,10 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         if((from->GetUserRights() & USERRIGHT_TEXTMESSAGE_BROADCAST) == 0)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
-        const ServerChannel::users_t& users = GetAuthorizedUsers();
-        for(size_t i=0;i<users.size();i++)
+        for (auto u : GetAuthorizedUsers())
         {
-            if( users[i]->GetSubscriptions(*from) & SUBSCRIBE_BROADCAST_MSG )
-                users[i]->DoTextMessage(*from, msg);
+            if (u->GetSubscriptions(*from) & SUBSCRIBE_BROADCAST_MSG)
+                u->DoTextMessage(*from, msg);
         }
 
         //log text message
@@ -4089,12 +4057,10 @@ ErrorMsg ServerNode::AddFileToChannel(const RemoteFile& remotefile)
 
     channel->AddFile(remotefile);
 
-    ServerChannel::users_t users = channel->GetUsers(); //do copy
-    const ServerChannel::users_t& admins = GetAdministrators(*channel);
-    users.insert(users.end(), admins.begin(), admins.end());
-
-    for(size_t i=0;i<users.size();i++)
-        users[i]->DoAddFile(remotefile);
+    for (auto u : channel->GetUsers())
+        u->DoAddFile(remotefile);
+    for (auto au : GetAdministrators(*channel))
+        au->DoAddFile(remotefile);
 
     return ErrorMsg();
 }
@@ -4118,12 +4084,11 @@ ErrorMsg ServerNode::RemoveFileFromChannel(const ACE_TString& filename, int chan
         if(con.connect(file, ACE_FILE_Addr(internalpath.c_str())) >= 0)
             file.remove();
 
-        ServerChannel::users_t users = channel->GetUsers(); //do copy
-        const ServerChannel::users_t& admins = GetAdministrators(*channel);
-        users.insert(users.end(), admins.begin(), admins.end());
+        for (auto u : channel->GetUsers())
+            u->DoRemoveFile(filename, *channel);
 
-        for(size_t i=0;i<users.size();i++)
-            users[i]->DoRemoveFile(filename, *channel);
+        for (auto au : GetAdministrators(*channel))
+            au->DoRemoveFile(filename, *channel);
     }
     return ErrorMsg();
 }
@@ -4158,19 +4123,17 @@ ErrorMsg ServerNode::SendTextMessage(const TextMessage& msg)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
         //forward message to all users of that channel
-        const ServerChannel::users_t& chanusers = chan->GetUsers();
-        for(size_t i=0;i<chanusers.size();i++)
+        for (auto u : chan->GetUsers())
         {
-            chanusers[i]->DoTextMessage(msg);
+            u->DoTextMessage(msg);
         }
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }
     case TTBroadcastMsg :
     {
-        const ServerChannel::users_t& users = GetAuthorizedUsers();
-        for(size_t i=0;i<users.size();i++)
+        for (auto u : GetAuthorizedUsers())
         {
-            users[i]->DoTextMessage(msg);
+            u->DoTextMessage(msg);
         }
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }
