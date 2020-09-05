@@ -3500,6 +3500,11 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../preferencesdlg.cpp" line="432"/>
+        <source>&amp;Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../preferencesdlg.cpp" line="935"/>
         <location filename="../preferencesdlg.cpp" line="947"/>
         <location filename="../preferencesdlg.cpp" line="1491"/>

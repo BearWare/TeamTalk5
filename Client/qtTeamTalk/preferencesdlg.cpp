@@ -429,7 +429,7 @@ void PreferencesDlg::slotTabChange(int index)
         QString bearwareid = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
         ui.bearwareidEdit->setText(bearwareid);
         if (bearwareid.size())
-            ui.setupBearWareLoginButton->setText("&Reset");
+            ui.setupBearWareLoginButton->setText(tr("&Reset"));
         ui.syncWebUserCheckBox->setChecked(ttSettings->value(SETTINGS_GENERAL_RESTOREUSERSETTINGS,
                                                              SETTINGS_GENERAL_RESTOREUSERSETTINGS_DEFAULT).toBool());
 
