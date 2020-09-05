@@ -222,9 +222,9 @@ CString CChatRichEditCtrl::AddMessage(CString szNick, CString szMessage)
     int nOldLineCount = GetLineCount();
     CString name;
     if(m_bShowTimeStamp)
-        name.Format(_T("\r\n%s <%s> "), GetChatTime(), szNick);
+        name.Format(_T("\r\n%s <%s>\r\n"), GetChatTime(), szNick);
     else
-        name.Format(_T("\r\n<%s> "), szNick);
+        name.Format(_T("\r\n<%s>\r\n"), szNick);
     //insert name
     SetSel(GetTextLength(),GetTextLength());
     SetSelectionCharFormat(cf); 

@@ -91,7 +91,7 @@ public abstract class TeamTalkTestCaseBase {
 
             @Override
             protected void finished(long nanos, Description description) {
-                System.out.println("Duration: " + description + " " + (nanos / 1000000) + " msec");
+                System.out.println(description + " Duration: " + (nanos / 1000000) + " msec");
             }
         };
 
@@ -254,16 +254,16 @@ public abstract class TeamTalkTestCaseBase {
                                 String passwd, String clientname, ServerInterleave server)
     {
         int cmdid = ttclient.doLoginEx(nick, username, passwd, clientname);
-        assertTrue("do login", cmdid > 0);
+        assertTrue("do login for " + username, cmdid > 0);
 
         TTMessage msg = new TTMessage();
-        assertTrue("wait login", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg, server));
+        assertTrue("wait login for " + username + " cmdid: " + cmdid, waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg, server));
 
         UserAccount account = msg.useraccount;
         assertEquals("username set", username, account.szUsername);
         //Assert.AreEqual(passwd, account.szPassword, "password set");
-        assertTrue("Wait login complete", waitCmdComplete(ttclient, cmdid, DEF_WAIT));
-        assertTrue("Authorized", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
+        assertTrue("Wait login complete for " + username, waitCmdComplete(ttclient, cmdid, DEF_WAIT));
+        assertTrue("Authorized for " + username, hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
     }
 
     protected void resetServerProperties() {

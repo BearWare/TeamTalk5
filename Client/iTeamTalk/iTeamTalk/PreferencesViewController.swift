@@ -561,6 +561,8 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         let vol = refVolume(100.0 * Double(sender.value))
         for u in users {
             TT_SetUserVolume(ttInst, u, STREAMTYPE_MEDIAFILE_AUDIO, INT32(vol))
+            // tell TeamTalk event loop to send us an updated User-struct
+            TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, u)
         }
         
     }

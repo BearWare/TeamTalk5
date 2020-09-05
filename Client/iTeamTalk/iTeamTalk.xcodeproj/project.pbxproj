@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2501A9C11C59254A00C729B3 /* SpeechListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */; };
-		2516CB6C1BA8818B00EF9A17 /* UserTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */; };
+		2516CB6C1BA8818B00EF9A17 /* UIUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6B1BA8818B00EF9A17 /* UIUtil.swift */; };
 		2516CB6E1BA9EE9900EF9A17 /* ChannelDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */; };
 		2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */; };
 		251997F41EBA5FD3003C94B1 /* txqueue_start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F31EBA5FD3003C94B1 /* txqueue_start.mp3 */; };
@@ -73,7 +73,7 @@
 		2501A9BB1C52A36800C729B3 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Main.strings; sourceTree = "<group>"; };
 		2501A9BD1C52A36800C729B3 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechListViewController.swift; sourceTree = "<group>"; };
-		2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableCell.swift; sourceTree = "<group>"; };
+		2516CB6B1BA8818B00EF9A17 /* UIUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIUtil.swift; sourceTree = "<group>"; };
 		2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDetailViewController.swift; sourceTree = "<group>"; };
 		2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		251997F01EB911FA003C94B1 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
@@ -224,7 +224,7 @@
 				251F61351BD68F6700617C43 /* TextMsgTableCell.swift */,
 				25BA014621557109003C836D /* TextToSpeechViewController.swift */,
 				2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */,
-				2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */,
+				2516CB6B1BA8818B00EF9A17 /* UIUtil.swift */,
 				251B87C8225000E8009DC5AC /* WebLoginViewController.swift */,
 				254B7A501B98BAA300BE0DEF /* Main.storyboard */,
 				254B7A531B98BAA300BE0DEF /* Images.xcassets */,
@@ -437,7 +437,7 @@
 				25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */,
 				251F61361BD68F6700617C43 /* TextMsgTableCell.swift in Sources */,
 				2537133C1BCA59E600A7ADB3 /* TextMessageViewController.swift in Sources */,
-				2516CB6C1BA8818B00EF9A17 /* UserTableCell.swift in Sources */,
+				2516CB6C1BA8818B00EF9A17 /* UIUtil.swift in Sources */,
 				2501A9C11C59254A00C729B3 /* SpeechListViewController.swift in Sources */,
 				254B7A6D1B98BCFC00BE0DEF /* ServerTableCell.swift in Sources */,
 				254B7A821B9F73F300BE0DEF /* ServerDetailViewController.swift in Sources */,
@@ -643,7 +643,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QF4DLGWC27;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = FacebookSDK;
@@ -654,7 +654,7 @@
 					"$(inherited)",
 					../../Library/TeamTalk_DLL/,
 				);
-				MARKETING_VERSION = 5.6;
+				MARKETING_VERSION = 5.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = BearWare.dk.iTeamTalk5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "iTeamTalk/iTeamTalk-Bridging-Header.h";
@@ -671,7 +671,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QF4DLGWC27;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = FacebookSDK;
@@ -682,7 +682,7 @@
 					"$(inherited)",
 					../../Library/TeamTalk_DLL/,
 				);
-				MARKETING_VERSION = 5.6;
+				MARKETING_VERSION = 5.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = BearWare.dk.iTeamTalk5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "iTeamTalk/iTeamTalk-Bridging-Header.h";
