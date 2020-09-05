@@ -37,11 +37,11 @@ FilesView::FilesView(QWidget* parent)
     setAcceptDrops(true);
 }
 
-QTable<int> FilesView::selectedFiles(QStringTable* fileNames/* = nullptr*/)
+QList<int> FilesView::selectedFiles(QStringList* fileNames/* = nullptr*/)
 {
     QItemSelectionModel* sel = selectionModel();
     QModelIndexList indexes = sel->selectedRows();//selectedIndexes ();
-    QTable<int> files;
+    QList<int> files;
     for(int i=0;i<indexes.size();i++)
     {
         files.push_back(indexes[i].internalId());
