@@ -967,7 +967,7 @@
          </item>
          <item>
 //          <widget class="FilesView" name="filesView">
-          <widget class="QListView" name="filesView"/>
+          <widget class="QTableView" name="filesView"/>
            <property name="accessibleName">
             <string>Files list</string>
            </property>
@@ -1001,6 +1001,9 @@
            <property name="expandsOnDoubleClick">
             <bool>false</bool>
            </property>-->
+           <property name="tabKeyNavigation">
+            <bool>false</bool>
+           </property>
           </widget>
          </item>
          <item>
@@ -2105,7 +2108,7 @@
   <tabstop>addDesktopButton</tabstop>
   <tabstop>removeDesktopButton</tabstop>
   <tabstop>desktopaccessButton</tabstop>
-
+  <tabstop>filesView</tabstop>
   <tabstop>uploadButton</tabstop>
   <tabstop>downloadButton</tabstop>
   <tabstop>deleteButton</tabstop>
