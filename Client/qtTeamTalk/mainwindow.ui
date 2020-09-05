@@ -2105,7 +2105,7 @@
   <tabstop>addDesktopButton</tabstop>
   <tabstop>removeDesktopButton</tabstop>
   <tabstop>desktopaccessButton</tabstop>
-  <tabstop>filesView</tabstop>
+<!--  <tabstop>filesView</tabstop>-->
   <tabstop>uploadButton</tabstop>
   <tabstop>downloadButton</tabstop>
   <tabstop>deleteButton</tabstop>
