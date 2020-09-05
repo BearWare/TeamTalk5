@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -13,55 +11,65 @@
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:600;&quot;&gt;Credits&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;Contributors&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Bjørn Damstedt Rasmussen, developer&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Oreonan, developer&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;Translators&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Oreonan, French&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Steffen Schultz, German&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Michał Ciołek, Polish&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Ozancan Karataş, Turkish&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;Libraries&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;TeamTalk uses the following libraries:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:12pt; font-weight:600;&quot;&gt;Credits&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:12pt; font-weight:600;&quot;&gt;Yapımcılar&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Contributors&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Bjørn Damstedt Rasmussen, developer&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Oreonan, developer&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Katkıda Bulunanlar&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Bjørn Damstedt Rasmussen, geliştirici&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Oreonan, geliştirici&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Translators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Oreonan, French&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Steffen Schultz, German&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Michał Ciołek, Polish&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Ozancan Karataş, Turkish&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Çevirenler&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Oreonan, Fransızca&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Steffen Schultz, Almanca&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Michał Ciołek, Lehçe&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Ozancan Karataş, Türkçe&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Libraries&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;TeamTalk uses the following libraries:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Kitaplıklar&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;TeamTalk aşağıdaki kitaplıkları kullanır:&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS araçları&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Written by Bjoern D. Rasmussen</source>
-        <translation type="vanished">Bjoern D. Rasmussen tarafından yazıldı</translation>
-    </message>
-    <message>
-        <source>Translated by Bjoern D. Rasmussen</source>
-        <translation type="vanished">Ozancan Karataş tarafından çevrildi</translation>
-    </message>
-    <message>
-        <source>Speex codec developed by Jean-Marc Valin, www.speex.org</source>
-        <translation type="vanished">Speex kodlayıcı/çözücüsü Jean-Marc Valin tarafından geliştirildi, www.speex.org</translation>
-    </message>
-    <message>
-        <source>OPUS codec developed by Opus project, www.opus-codec.org</source>
-        <translation type="vanished">OPUS kodlayıcı/çözücüsü Opus projesi tarafından geliştirildi, www.opus-codec.org</translation>
-    </message>
-    <message>
-        <source>WebM VP8 codec developed by WebM project, www.webmproject.org</source>
-        <translation type="vanished">WebM VP8 kodlayıcı/çözücüsü WebM projesi tarafından geliştirildi, www.webmproject.org</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="34"/>
@@ -560,32 +568,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>, Away</source>
-        <translation type="unfinished"></translation>
+        <translation>, Uzakta</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="963"/>
         <source>, Question</source>
-        <translation type="unfinished"></translation>
+        <translation>, Soru</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="968"/>
         <source>, Streaming media file</source>
-        <translation type="unfinished"></translation>
+        <translation>, Ortam dosyası akıtılıyor</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="971"/>
         <source>, Webcam</source>
-        <translation type="unfinished"></translation>
+        <translation>, Web kamerası</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="982"/>
         <source> (Administrator)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Yönetici)</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="985"/>
         <source> (Channel operator)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Kanal işletmecisi)</translation>
     </message>
 </context>
 <context>
@@ -593,7 +601,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="98"/>
         <source>yyyy-MM-dd HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>yyyy/AA/gg SS:dd:ss</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="117"/>
@@ -1080,7 +1088,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycomp.ui" line="50"/>
         <source>Current key combination</source>
-        <translation>Geçerli tuş birleşimi</translation>
+        <translation>Şu anki tuş birleşimi</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="72"/>
@@ -1139,10 +1147,6 @@ p, li { white-space: pre-wrap; }
         <translation>Ses etkinleştirme düzeyi</translation>
     </message>
     <message>
-        <source>Chat</source>
-        <translation type="vanished">Sohbet</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="338"/>
         <location filename="../mainwindow.ui" line="622"/>
         <location filename="../mainwindow.ui" line="890"/>
@@ -1199,10 +1203,6 @@ p, li { white-space: pre-wrap; }
         <translation>Web Kamerasını Başlat/Durdur</translation>
     </message>
     <message>
-        <source>Desktops</source>
-        <translation type="vanished">Masaüstleri</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="721"/>
         <source>Detach selected window</source>
         <translation>Seçilen pencereyi ayır</translation>
@@ -1230,30 +1230,26 @@ p, li { white-space: pre-wrap; }
         <translation>Masaüstü erişimi iste</translation>
     </message>
     <message>
-        <source>Files</source>
-        <translation type="vanished">Dosyalar</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="317"/>
         <source>Ch&amp;at</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sohbet</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="666"/>
         <location filename="../mainwindow.cpp" line="5424"/>
         <source>&amp;Desktops</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Masaüstleri</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="934"/>
         <location filename="../mainwindow.cpp" line="2438"/>
         <source>&amp;Files</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Dosyalar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="959"/>
         <source>Files list</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosyalar listesi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1001"/>
@@ -1574,11 +1570,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1981"/>
         <source>Ctrl+Alt+Shift+M</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+K</source>
-        <translation type="vanished">Ctrl+Shift+K</translation>
+        <translation>Ctrl+Alt+Shift+M</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1516"/>
@@ -1736,26 +1728,14 @@ p, li { white-space: pre-wrap; }
         <translation>İleti &amp;Yayınla</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+B</source>
-        <translation type="vanished">Ctrl+Alt+B</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1715"/>
         <source>&amp;Increase Voice Volume</source>
         <translation>Ses Düzeyini &amp;Artır</translation>
     </message>
     <message>
-        <source>Ctrl+Right</source>
-        <translation type="vanished">Ctrl+Right</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1723"/>
         <source>&amp;Lower Voice Volume</source>
         <translation>Ses Düzeyini A&amp;zalt</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left</source>
-        <translation type="vanished">Ctrl+Left</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1731"/>
@@ -1780,7 +1760,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1751"/>
         <source>&amp;BearWare.dk Website</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;BearWare.dk Web Sitesi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1759"/>
@@ -1958,10 +1938,6 @@ p, li { white-space: pre-wrap; }
         <translation>Ortam Dosyasını Sessize Al</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+Μ</source>
-        <translation type="vanished">Ctrl+Alt+Μ</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1986"/>
         <source>Kick From Channel</source>
         <translation>Kanaldan Uzaklaştır</translation>
@@ -1987,17 +1963,9 @@ p, li { white-space: pre-wrap; }
         <translation>Ortam Dosyası Düzeyini Artır</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+Right</source>
-        <translation type="vanished">Ctrl+Shift+Right</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2010"/>
         <source>Lower Media File Volume</source>
         <translation>Ortam Dosyası Düzeyini Azalt</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+Left</source>
-        <translation type="vanished">Ctrl+Shift+Left</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2018"/>
@@ -2059,12 +2027,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="121"/>
         <source>DLL load error</source>
-        <translation type="unfinished"></translation>
+        <translation>DLL yükleme hatası</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="122"/>
         <source>This %3 executable is built for DLL version %1 but the loaded DLL reports it&apos;s version %2. Loading an incorrect DLL for %3 may cause problems and crash the application. Please reinstall to solve this problem.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu %3 yürütülebilir dosyası, %1 DLL sürümü için yapıldı ama yüklenen DLL %2 sürümünü raporladı. %3 için yanlış bir DLL&apos;nin yüklenmesi, uygulamada sorunlara ya da çökmeye neden olabilir. Bu sorunu çözmek için lütfen yeniden kurun.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="826"/>
@@ -2094,38 +2062,38 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="926"/>
         <source>%1 has logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 oturum açtı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="942"/>
         <source>%1 has logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 oturumu kapattı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="962"/>
         <location filename="../mainwindow.cpp" line="989"/>
         <source>root</source>
-        <translation type="unfinished"></translation>
+        <translation>kök</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1047"/>
         <source>File %1 added</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dosyası eklendi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1052"/>
         <source>File %1 added by %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dosyası %2 tarafından eklendi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1072"/>
         <source>File %1 removed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dosyası kaldırıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1076"/>
         <source>File %1 removed by %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dosyası %2 tarafından kaldırıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1110"/>
@@ -2172,7 +2140,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1173"/>
         <source>Streaming from %1 started</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kullanıcısından gelen akış başladı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
@@ -2397,16 +2365,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5418"/>
         <source>&amp;Video (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Video (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5426"/>
         <source>&amp;Desktops (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Away</source>
-        <translation type="vanished">Uzakta</translation>
+        <translation>&amp;Masaüstleri (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2114"/>
@@ -2450,13 +2414,9 @@ p, li { white-space: pre-wrap; }
         <translation>Kanaldaki dosyalar: %1</translation>
     </message>
     <message>
-        <source>Files (%1)</source>
-        <translation type="vanished">Dosyalar (%1)</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2490"/>
         <source>Failed to start recording</source>
-        <translation>Kaydı başlatma başarısız</translation>
+        <translation>Kayda başlama başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2494"/>
@@ -2544,7 +2504,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3620"/>
         <source>Failed to start desktop sharing</source>
-        <translation>Masaüstü paylaşımını başlatma başarısız</translation>
+        <translation>Masaüstü paylaşımına başlama başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3990"/>
@@ -2709,7 +2669,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2442"/>
         <source>&amp;Files (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Dosyalar (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5302"/>
@@ -2757,18 +2717,6 @@ p, li { white-space: pre-wrap; }
         <translation>Kapalı</translation>
     </message>
     <message>
-        <source>Video</source>
-        <translation type="vanished">Video</translation>
-    </message>
-    <message>
-        <source>Video (%1)</source>
-        <translation type="vanished">Video (%1)</translation>
-    </message>
-    <message>
-        <source>Desktops (%1)</source>
-        <translation type="vanished">Masaüstleri (%1)</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="5477"/>
         <location filename="../mainwindow.cpp" line="5486"/>
         <location filename="../mainwindow.cpp" line="5496"/>
@@ -2801,12 +2749,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5517"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">%1 dosyası %2 ayarlama bilgisi içeriyor.
+        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.&lt;byte value=&quot;xd&quot;/&gt;
 Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
@@ -3018,12 +2961,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="231"/>
         <source>BearWare.dk Web Login</source>
-        <translation type="unfinished">BearWare.dk Web Oturumu</translation>
+        <translation>BearWare.dk Web Oturumu</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="278"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
-        <translation type="unfinished"></translation>
+        <translation>Web Oturumu kullanıcıları için oturum açmada düzey ayarlarını ve abonelikleri geri yükle</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="288"/>
@@ -4065,7 +4008,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../streammediafile.ui" line="42"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Gözat</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="45"/>
@@ -4076,7 +4019,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../streammediafile.ui" line="52"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Yenile</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="70"/>
@@ -4181,7 +4124,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../streammediafiledlg.cpp" line="79"/>
         <source>No video</source>
-        <translation type="unfinished"></translation>
+        <translation>Video yok</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="130"/>
