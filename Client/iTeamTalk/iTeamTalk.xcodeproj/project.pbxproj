@@ -643,7 +643,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QF4DLGWC27;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = FacebookSDK;
@@ -654,7 +654,7 @@
 					"$(inherited)",
 					../../Library/TeamTalk_DLL/,
 				);
-				MARKETING_VERSION = 5.6;
+				MARKETING_VERSION = 5.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = BearWare.dk.iTeamTalk5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "iTeamTalk/iTeamTalk-Bridging-Header.h";
@@ -671,7 +671,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QF4DLGWC27;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = FacebookSDK;
@@ -682,7 +682,7 @@
 					"$(inherited)",
 					../../Library/TeamTalk_DLL/,
 				);
-				MARKETING_VERSION = 5.6;
+				MARKETING_VERSION = 5.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = BearWare.dk.iTeamTalk5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "iTeamTalk/iTeamTalk-Bridging-Header.h";
