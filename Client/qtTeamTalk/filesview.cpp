@@ -32,7 +32,7 @@
 extern TTInstance* ttInst;
 
 FilesView::FilesView(QWidget* parent)
-: QListView(parent)
+: QTableView(parent)
 {
     setAcceptDrops(true);
 }
@@ -86,7 +86,7 @@ void FilesView::dropEvent(QDropEvent *event)
 
 void FilesView::mousePressEvent(QMouseEvent* event )
 {
-    QListView::mousePressEvent(event);
+    QTableView::mousePressEvent(event);
 
     //QDrag* drag = new QDrag(this);
     //QMimeData* mimedata = new QMimeData();;
