@@ -135,7 +135,6 @@ public:
 
     void AddStatusText(LPCTSTR szText);
     void AddLogMessage(LPCTSTR szMsg);
-    void AddVoiceMessage(LPCTSTR szMsg);
 
     void RunWizard();
     void Translate();
@@ -176,7 +175,6 @@ protected:
     BOOL m_bTwoPanes;
     BOOL m_bIgnoreResize;
     BOOL m_bMinimized;
-    BOOL m_bSpeech;
     HACCEL m_hAccel; // accelerator table
     int m_nLastMoveChannel;
     HWND m_hShareWnd;

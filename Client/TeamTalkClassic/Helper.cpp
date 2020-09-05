@@ -555,3 +555,13 @@ BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings)
     }
     return bSuccess;
 }
+
+extern BOOL g_bSpeech;
+
+void AddTextToSpeechMessage(const CString& szMsg)
+{
+#if defined(ENABLE_TOLK)
+    if(g_bSpeech)
+        Tolk_Output(szMsg);
+#endif
+}
