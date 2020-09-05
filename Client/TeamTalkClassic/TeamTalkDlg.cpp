@@ -1064,8 +1064,13 @@ void CTeamTalkDlg::OnLoggedOut(const TTMessage& msg)
 void CTeamTalkDlg::OnKicked(const TTMessage& msg)
 {
     PlaySoundEvent(SOUNDEVENT_CONNECTION_LOST);
-
-    AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from the channel.")));
+    if(msg.ttType == __USER) {
+        CString szMsg;
+        szMsg.Format(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from channel by %s.")), GetDisplayName(msg.user));
+        AfxMessageBox(szMsg);
+    } else {
+        AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from the channel.")));
+    }
 }
 
 void CTeamTalkDlg::OnServerUpdate(const TTMessage& msg)
@@ -1498,12 +1503,18 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
 
     CString szName = GetDisplayName(user);
     CString szText, szFormat;
+    CString szSub;
 
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_USER_MSG) !=
         (user.uPeerSubscriptions & SUBSCRIBE_USER_MSG))
     {
+    if((user.uPeerSubscriptions & SUBSCRIBE_USER_MSG) == '0') {
+        szSub = _T("disable");
+    } else {
+        szSub = _T("enable");
+    }
         szFormat = LoadText(IDS_SUB_TEXTMSG);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG) != SUBSCRIBE_NONE);
+        szText.Format(szFormat, szName, szSub);
         AddStatusText(szText);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE)
             AddVoiceMessage(szText);

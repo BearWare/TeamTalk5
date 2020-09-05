@@ -463,6 +463,7 @@
 #define IDS_ABOUT_TRANSLATORS           903
 #define IDS_ABOUT_LIB                   904
 #define IDS_ABOUT_LIBUSE                905
+#define IDS_SERVCONFSAVED               910
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
