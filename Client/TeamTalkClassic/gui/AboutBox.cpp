@@ -147,6 +147,7 @@ BOOL CAboutBox::OnInitDialog()
     AddLine(_T("Zlib") + EOL, cfDefault);
 
     TRANSLATE(*this, IDD);
+    SetAccessibleName(m_wndCredits, LoadText(IDS_ABOUT_CREDITS, _T("Credits")));
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
