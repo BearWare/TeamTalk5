@@ -3906,6 +3906,11 @@ Should these settings be applied?</source>
         <translation>Wave 檔 (*.wav)</translation>
     </message>
     <message>
+        <location filename="../preferencesdlg.cpp" line="432"/>
+        <source>&amp;Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../preferencesdlg.cpp" line="715"/>
         <location filename="../preferencesdlg.cpp" line="722"/>
         <source>Windows Firewall</source>
