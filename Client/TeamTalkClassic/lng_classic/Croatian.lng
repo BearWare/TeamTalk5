@@ -238,7 +238,7 @@
     <item id="371">jeste li sigurni da želite izbrisati kanal %s</item>
     <item id="372">Brisanje kanala</item>
     <item id="373">Lozinka kanala</item>
-    <item id="374">%s je dodao datoteku %s </item>
+    <item id="374">%s je dodao datoteku %s</item>
     <item id="375">Kompilirano datuma</item>
     <item id="376">Unicode -&gt; UTF-8 konverzija je omogućena.&#x0D;&#x0A;</item>
     <item id="377">Koristi lokalnu kodnu stranicu.&#x0D;&#x0A;</item>
@@ -418,6 +418,12 @@
     <item id="556">Anonimus</item>
     <item id="557">Spisak kanala</item>
     <item id="558">Popis datoteka</item>
+    <item id="559">Zahvala</item>
+    <item id="560">Doprinositelji</item>
+    <item id="561">Razvojni programer</item>
+    <item id="562">Prevoditelji</item>
+    <item id="563">Biblioteke</item>
+    <item id="564">TeamTalk Koristi sljedeće biblioteke:</item>
     <item id="1006">Popis datoteka</item>
     <item id="1009">Automatski se pridruži glavnom kanalu prilikom povezivanja</item>
     <item id="1012">TCP port hosta</item>
