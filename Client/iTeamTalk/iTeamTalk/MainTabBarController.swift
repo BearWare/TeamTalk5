@@ -414,17 +414,35 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                 TT_DoUnsubscribe(ttInst, user.nUserID, user.uLocalSubscriptions ^ subs)
             }
             
+            // restore from user cache
+            syncFromUserCache(user: user)
+
+        case CLIENTEVENT_CMD_USER_LOGGEDOUT :
+            // sync user settings to cache
+            syncToUserCache(user: getUser(&m).pointee)
+
         case CLIENTEVENT_CMD_USER_JOINED :
+            let user = getUser(&m).pointee
             let defaults = UserDefaults.standard
             if let mfvol = defaults.object(forKey: PREF_MEDIAFILE_VOLUME) {
                 let mfvol_double = mfvol as! Double
-                let user = getUser(&m).pointee
                 let vol = refVolume(100.0 * mfvol_double)
                 TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, INT32(vol))
+
+                // tell TeamTalk event loop to send us an updated User-struct
+                TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, user.nUserID)
             }
             
-            let user = getUser(&m).pointee
-            if TT_GetMyUserID(ttInst) == user.nUserID {
+            // restore from user cache
+            if (TT_GetMyUserRights(ttInst) & USERRIGHT_VIEW_ALL_USERS.rawValue) != USERRIGHT_VIEW_ALL_USERS.rawValue {
+                syncFromUserCache(user: user)
+            }
+
+        case CLIENTEVENT_CMD_USER_LEFT :
+
+            // sync user settings from cache
+            if (TT_GetMyUserRights(ttInst) & USERRIGHT_VIEW_ALL_USERS.rawValue) != USERRIGHT_VIEW_ALL_USERS.rawValue {
+                syncToUserCache(user: getUser(&m).pointee)
             }
             
         case CLIENTEVENT_CMD_USER_TEXTMSG :

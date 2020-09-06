@@ -658,18 +658,32 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
             return;
         }
 
-        // authenticate 'bearware.dk'
-        UserAccount sharedaccount;
+        // First try specific weblogin account and afterwards try
+        // 'bearware' weblogin
+        UserAccount sharedaccount, copyaccount;
         sharedaccount.username = ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME);
-        if(!m_settings.AuthenticateUser(sharedaccount))
+        copyaccount.username = useraccount.username;
+        if (!m_settings.AuthenticateUser(copyaccount))
         {
-            err.errorno = TT_CMDERR_INVALID_ACCOUNT;
-            WebLoginComplete(servernode, userid, useraccount, err);
-            return;
-        }
+            if (!m_settings.AuthenticateUser(sharedaccount))
+            {
+                err.errorno = TT_CMDERR_INVALID_ACCOUNT;
+                WebLoginComplete(servernode, userid, useraccount, err);
+                return;
+            }
 
-        //notice 'bearware' is now username, so swap it back
-        useraccount = sharedaccount;
+            // User account properties now applied to 'sharedaccount'
+
+            // Notice 'bearware' is now username, so swap it back later on
+            useraccount = sharedaccount;
+        }
+        else
+        {
+            // User account properties now applied to 'copyaccount'.
+            // The AuthenticateUser() is actually applied again in
+            // WebLoginPostAuthenticate()
+            useraccount = copyaccount;
+        }
     }
 
 

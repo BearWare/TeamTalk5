@@ -58,7 +58,8 @@ typedef enum {
     NICKNAME,
     USERNAME,
     STATUSMSG,
-    IPADDR
+    IPADDR,
+    CLIENTNAME
 } UExt;
 
 typedef enum {

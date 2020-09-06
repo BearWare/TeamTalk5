@@ -31,6 +31,10 @@ Default QT Client:
 - User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
 Android client
 - User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
+iOS client
+- User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
+Server
+- Allow BearWare.dk Web Login without "bearware" user account
 
 Version 5.6, 2020/08/04
 Accessible Windows client

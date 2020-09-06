@@ -29,16 +29,25 @@ transmit audio.
   - This option selects whether other users should see you as a Male
     or Female.
 
+- **Set away status after...**
+  - If non-zero this option will automatically set you as away after
+    the specified number of seconds.
+   
 - **BearWare.dk Web Login ID**
   - A BearWare.dk web login is required if a TeamTalk server specifies
     that you must [log on with the username \"bearware\"](@ref connectdlg).
 	You can create a BearWare.dk web login by clicking
     the *Activate* button.
 
-- **Set away status after...**
-  - If non-zero this option will automatically set you as away after
-    the specified number of seconds.
-   
+- **Restore volume settings and subscriptions on login for Web Login users**
+  - When a remote user is using BearWare.dk web login it's possible to
+    restore the volume levels and [subscriptions](@ref subscriptionsmenu)
+    of that user.
+  - A remote user is identified by its BearWare.dk Web Login ID and
+    client application. The client application is included in the
+    identification so the same volume levels are not restored on the
+    remote user's mobile device and desktop PC.
+
 - **Push To Talk**
   - A so-called Push To Talk key combination can be set up so one has
     to hold down a set of keys in order to transmit audio data. This is

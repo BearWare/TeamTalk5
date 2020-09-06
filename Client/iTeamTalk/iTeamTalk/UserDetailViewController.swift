@@ -143,18 +143,26 @@ class UserDetailViewController : UITableViewController, TeamTalkEvent {
 
     @objc func voiceVolumeChanged(_ sender: UISlider) {
         TT_SetUserVolume(ttInst, userid, STREAMTYPE_VOICE, INT32(refVolume(Double(sender.value))))
+        // tell TeamTalk event loop to send us an updated User-struct
+        TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userid)
     }
     
     @objc func mediaVolumeChanged(_ sender: UISlider) {
         TT_SetUserVolume(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO, INT32(refVolume(Double(sender.value))))
+        // tell TeamTalk event loop to send us an updated User-struct
+        TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userid)
     }
     
     @objc func muteVoice(_ sender: UISwitch) {
         TT_SetUserMute(ttInst, userid, STREAMTYPE_VOICE, (sender.isOn ? TRUE : FALSE))
+        // tell TeamTalk event loop to send us an updated User-struct
+        TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userid)
     }
     
     @objc func muteMediaStream(_ sender: UISwitch) {
         TT_SetUserMute(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO, (sender.isOn ? TRUE : FALSE))
+        // tell TeamTalk event loop to send us an updated User-struct
+        TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userid)
     }
     
     @objc func subscriptionChanged(_ sender: UISwitch) {

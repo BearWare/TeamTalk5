@@ -5258,7 +5258,6 @@ void MainWindow::slotUserJoin(int channelid, const User& user)
     if(m_mychannel.nChannelID == channelid && m_current_cmdid == 0)
     {
         playSoundEvent(SOUNDEVENT_NEWUSER);
-        addStatusMsg(tr("%1 joined channel").arg(getDisplayName(user)));
     }
 
     //set use to mute if enabled
@@ -5280,7 +5279,6 @@ void MainWindow::slotUserLeft(int channelid, const User& user)
     if(m_mychannel.nChannelID == channelid && m_current_cmdid == 0)
     {
         playSoundEvent(SOUNDEVENT_REMOVEUSER);
-        addStatusMsg(tr("%1 left channel").arg(getDisplayName(user)));
     }
 
     //we cannot get user from channels-widget since user has left channel

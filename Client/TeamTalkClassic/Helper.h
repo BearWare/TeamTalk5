@@ -26,6 +26,10 @@
 
 #include "settings/ClientXML.h"
 
+#if defined(ENABLE_TOLK)
+#include <Tolk.h>
+#endif
+
 typedef struct
 {
     CString szFaceName;
@@ -97,4 +101,5 @@ int GetSoundInputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDev
 int GetSoundOutputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDev = NULL);
 BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings);
 
+void AddTextToSpeechMessage(const CString& szMsg);
 #endif
