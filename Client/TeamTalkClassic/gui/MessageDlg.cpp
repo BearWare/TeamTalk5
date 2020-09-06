@@ -181,7 +181,9 @@ void CMessageDlg::OnButtonSend()
         if( TT_DoTextMessage(ttInst, &usermsg)>0) {
             AppendMessage(usermsg, TRUE);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE) {
-                AddTextToSpeechMessage(_T("MP sent")); }
+                CString szMsg;
+                szMsg.Format(LoadText(IDS_MPSEND, _T("Private message sent: %s")), usermsg.szMessage);
+                AddTextToSpeechMessage(szMsg); }
         } else {
             AfxMessageBox(LoadText(IDS_MSGDLGFAILEDTOSEND, _T("Failed to send message!")));
         }
