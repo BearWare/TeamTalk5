@@ -70,6 +70,7 @@ public:
     CEdit m_wndPassword;
     CButton m_wndAdminUser;
     CButton m_wndDefaultUser;
+    CButton m_wndDisabledUser;
     afx_msg void OnBnClickedButtonNew();
     afx_msg void OnBnClickedButtonAdd();
     afx_msg void OnBnClickedButtonDel();
@@ -108,4 +109,5 @@ public:
     BOOL m_bResizeReady;
     CButton m_wndChangeNickname;
     CButton m_wndRecordVoice;
+    afx_msg void OnBnClickedRadioDisableduser();
 };

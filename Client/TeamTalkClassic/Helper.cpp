@@ -459,6 +459,13 @@ BOOL StartsWith(const CString& szText, LPCTSTR szStart, BOOL bCaseSensitive)
     return bCaseSensitive ? szText.Left(int(_tcslen(szStart))) == szStart : szText.Left(int(_tcslen(szStart))).CompareNoCase(szStart) == 0;
 }
 
+BOOL IsWebLogin(const CString& szUsername)
+{
+    return szUsername == WEBLOGIN_FACEBOOK_USERNAME || EndsWith(szUsername, WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX) ||
+        szUsername == WEBLOGIN_BEARWARE_USERNAME || EndsWith(szUsername, _T(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX));
+}
+
+
 // The horror... initguid.h must be included before oleacc.h but oleacc.h is included
 // by afxwin.h which has to be the first include file in a MFC project...
 #undef INITGUID
