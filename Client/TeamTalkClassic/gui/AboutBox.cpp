@@ -106,6 +106,7 @@ BOOL CAboutBox::OnInitDialog()
     m_wndVersion.SetFont(&font2);
 
     TRANSLATE(*this, IDD);
+    SetAccessibleName(m_wndCredits, LoadText(IDS_ABOUT_CREDITS, _T("Credits")));
 
     CHARFORMAT cfDefault = {};
 
