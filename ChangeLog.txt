@@ -19,6 +19,7 @@ Accessible Windows Client:
 - Messages timestamp now return also dates
 - Messages timestamps are now translatables
 - User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
+- Specific TTS events when sending a MP or a channel message
 Default QT Client:
 - Update window title at login with server name
 - Status mode is now displayed for Away, Question, Streaming media file and Webcam
