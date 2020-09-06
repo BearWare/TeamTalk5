@@ -2043,9 +2043,15 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
                 WriteLogMsg(m_logChan, szLine);
             
             CString szFmt, szMsg;
-            szFmt.LoadString(IDS_CHANTEXTMSG);
-            TRANSLATE_ITEM(IDS_CHANTEXTMSG, szFmt);
-            szMsg.Format(szFmt, szName, textmsg.szMessage);
+            if(textmsg.nFromUserID == TT_GetMyUserID(ttInst)) {
+                szFmt.LoadString(IDS_CHANTEXTMSGSEND);
+                TRANSLATE_ITEM(IDS_CHANTEXTMSGSEND, szFmt);
+                szMsg.Format(szFmt, textmsg.szMessage);
+            } else {
+                szFmt.LoadString(IDS_CHANTEXTMSG);
+                TRANSLATE_ITEM(IDS_CHANTEXTMSG, szFmt);
+                szMsg.Format(szFmt, szName, textmsg.szMessage);
+            }
             if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_TEXTMSG_CHANNEL)
                 AddTextToSpeechMessage(szMsg);
         }
