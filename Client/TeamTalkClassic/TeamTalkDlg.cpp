@@ -369,7 +369,7 @@ CMessageDlg* CTeamTalkDlg::GetUsersMessageSession(int nUserID, BOOL bCreateNew, 
 
         CString szLogFolder = STR_UTF8(m_xmlSettings.GetUserTextLogStorage());
 
-        CMessageDlg* pMsgDlg = new CMessageDlg(this, myself, user, szLogFolder);
+        CMessageDlg* pMsgDlg = new CMessageDlg(m_xmlSettings, this, myself, user, szLogFolder);
         pMsgDlg->m_messages = m_wndTree.GetUserMessages(nUserID);
         m_mUserDlgs[user.nUserID] = pMsgDlg;
         MyFont font;
@@ -5824,7 +5824,7 @@ void CTeamTalkDlg::OnServerSaveconfiguration()
     CString szMsg = LoadText(IDS_SERVCONFSAVED, _T("Server configuration saved"));
     AddStatusText(szMsg);
     if(m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
-        AddVoiceMessage(szMsg);
+        AddTextToSpeechMessage(szMsg);
     }
 }
 

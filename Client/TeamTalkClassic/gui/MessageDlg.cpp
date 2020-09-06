@@ -42,9 +42,10 @@ extern TTInstance* ttInst;
 /////////////////////////////////////////////////////////////////////////////
 // CSendMessageDlg dialog
 
-CMessageDlg::CMessageDlg(CWnd* pParent, const User& myself, const User& user,
+CMessageDlg::CMessageDlg(teamtalk::ClientXML& xmlSettings, CWnd* pParent, const User& myself, const User& user,
                          LPCTSTR szLogFolder/* = NULL*/)
 : CDialog(CMessageDlg::IDD, pParent)
+, m_xmlSettings(xmlSettings)
 , m_myself(myself)
 , m_user(user)
 , m_bUserAlive(TRUE)
@@ -177,10 +178,13 @@ void CMessageDlg::OnButtonSend()
         usermsg.nToUserID = m_user.nUserID;
         _tcsncpy(usermsg.szMessage, msg.GetBuffer(), TT_STRLEN - 1);
 
-        if( TT_DoTextMessage(ttInst, &usermsg)>0)
+        if( TT_DoTextMessage(ttInst, &usermsg)>0) {
             AppendMessage(usermsg, TRUE);
-        else
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE) {
+                AddTextToSpeechMessage(_T("MP sent")); }
+        } else {
             AfxMessageBox(LoadText(IDS_MSGDLGFAILEDTOSEND, _T("Failed to send message!")));
+        }
     }
 }
 
