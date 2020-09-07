@@ -355,6 +355,7 @@
     <string name="pref_title_contrib">Contributors</string>
     <string name="pref_title_translator">Translator</string>
     <string name="pref_title_libraries">Third Party Libraries</string>
+    <string name="pref_title_dev">developer</string>
 
 
 </resources>
