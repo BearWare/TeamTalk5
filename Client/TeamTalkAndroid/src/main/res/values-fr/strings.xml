@@ -352,7 +352,6 @@
     <string name="pref_title_contrib">Contributeurs</string>
     <string name="pref_title_translator">Traducteur</string>
     <string name="pref_title_libraries">Librairies tierces</string>
-    <string name="pref_title_dev">développeur</string>
 
 
 </resources>
