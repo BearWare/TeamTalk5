@@ -40,6 +40,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <iostream>
 #include <assert.h>
 
 using namespace std;
@@ -183,56 +184,41 @@ ACE_TString stringtolower(const ACE_TString& str)
 
 #if defined(_DEBUG)
 
-#if defined(WIN32)
-
-#include <windows.h>
-
 #define MYTRACE_TIMESTAMP 1
 
-void MYTRACE(const ACE_TCHAR* trace_str, ...)
-{
-    va_list args;
-    va_start(args, trace_str);
-    static ACE_UINT32 begin = GETTIMESTAMP(), next;
-    next = GETTIMESTAMP();
-    ACE_TCHAR str_buf[512] = ACE_TEXT(""), tmp_str[512] = ACE_TEXT("");
-
-#if (MYTRACE_TIMESTAMP)
-    ACE_OS::snprintf(tmp_str, 512, ACE_TEXT("%08u: %s"), next - begin, trace_str);
-    int nBuf = ACE_OS::vsnprintf(str_buf, 512, tmp_str, args);
-#else
-    int nBuf = ACE_OS::vsnprintf(str_buf, 512, trace_str, args);
+#if defined(__ANDROID_API__)
+#include <android/log.h>
 #endif
 
-    if (nBuf > -1)
-        OutputDebugString(str_buf);
-    else
-        OutputDebugString( ACE_TEXT("MYTRACE buffer overflow\n") );
-
-    va_end(args);
-}
-
-#elif defined(__ANDROID_API__)
-
-#include <android/log.h>
+#if defined(WIN32)
+#include <windows.h>
+#endif
 
 void MYTRACE(const ACE_TCHAR* trace_str, ...)
 {
     va_list args;
     va_start(args, trace_str);
-    ACE_TCHAR str_buf[1024];
-    int nBuf = ACE_OS::vsnprintf(str_buf, 1024, trace_str, args);
+    ACE_TCHAR str_buf[512] = ACE_TEXT("MYTRACE buffer overflow\n"), tmp_str[512] = ACE_TEXT("");
+    static ACE_UINT32 begin = GETTIMESTAMP(), next;
+    next = GETTIMESTAMP();
 
-    if (nBuf > -1)
-        __android_log_write(ANDROID_LOG_INFO, "bearware", str_buf);
-    else
-        __android_log_write(ANDROID_LOG_INFO, "bearware",
-                            ACE_TEXT("MYTRACE buffer overflow\n"));
+#if (MYTRACE_TIMESTAMP) && !defined(__ANDROID_API__)
+    ACE_OS::snprintf(tmp_str, 512, ACE_TEXT("%08u: %s"), next - begin, trace_str);
+    ACE_OS::vsnprintf(str_buf, 512, tmp_str, args);
+#else
+    ACE_OS::vsnprintf(str_buf, 512, trace_str, args);
+#endif
+    
+#if defined(__ANDROID_API__)
+    __android_log_write(ANDROID_LOG_INFO, "bearware", str_buf);
+#elif defined(WIN32)
+    OutputDebugString(str_buf);
+#else
+    std::cout << str_buf;
+#endif
+
     va_end(args);
 }
-
-#endif /* WIN32 */
-
 #endif /* _DEBUG */
 
 bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against)

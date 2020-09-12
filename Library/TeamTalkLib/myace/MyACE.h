@@ -107,11 +107,7 @@ bool ValidUtf8(const ACE_CString& utf8_str);
 
 #if defined(_DEBUG)
 
-#if defined(WIN32) || defined(__ANDROID_API__)
 void MYTRACE(const ACE_TCHAR* trace_str, ...);
-#else
-#define MYTRACE printf
-#endif /* WIN32 */
 
 #define MYTRACE_COND(check, trace_str, ...)         \
     do {                                            \

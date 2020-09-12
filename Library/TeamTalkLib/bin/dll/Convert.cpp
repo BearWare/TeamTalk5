@@ -1586,6 +1586,7 @@ void Convert(const teamtalk::ClientStats& stats, ClientStatistics& result)
     result.nUdpPingTimeMs = stats.udpping_time;
     result.nTcpServerSilenceSec = stats.tcp_silence_sec;
     result.nUdpServerSilenceSec = stats.udp_silence_sec;
+    result.nSoundInputDeviceDelayMSec = stats.streamcapture_delay_msec;
 }
 
 void Convert(const ClientKeepAlive& ka, teamtalk::ClientKeepAlive& result)
