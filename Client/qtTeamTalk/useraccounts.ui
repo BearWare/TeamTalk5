@@ -111,6 +111,13 @@
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QRadioButton" name="disableduserBtn">
+               <property name="text">
+                <string>Disabled (inactive)</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
            <item row="1" column="0">
@@ -676,6 +683,7 @@
   <tabstop>usersTreeView</tabstop>
   <tabstop>defaultuserBtn</tabstop>
   <tabstop>adminBtn</tabstop>
+  <tabstop>disableduserBtn</tabstop>
   <tabstop>usernameEdit</tabstop>
   <tabstop>passwordEdit</tabstop>
   <tabstop>noteEdit</tabstop>

@@ -3848,6 +3848,80 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
     }
 
+    @Test
+    public void testTransmissionTime() {
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+        Vector<String> files = new Vector<>();
+        
+        for (int i = 0; i < 3; i++) {
+            TeamTalkBase txclient = newClientInstance();
+            TeamTalkBase rxclient = newClientInstance();
+
+            initSound(txclient);
+            connect(txclient);
+            login(txclient, NICKNAME, USERNAME, PASSWORD);
+
+            initSound(rxclient);
+            connect(rxclient);
+            login(rxclient, NICKNAME, USERNAME, PASSWORD);
+
+            Channel chan = buildDefaultChannel(txclient, "Opus", Codec.OPUS_CODEC);
+            chan.audiocodec.nCodec = Codec.OPUS_CODEC;
+            chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_VOIP;
+            chan.audiocodec.opus.nTxIntervalMSec = 240;
+            chan.audiocodec.opus.nFrameSizeMSec = 10;
+            chan.audiocodec.opus.nBitRate = OpusConstants.OPUS_MIN_BITRATE;
+            chan.audiocodec.opus.nChannels = 2;
+            chan.audiocodec.opus.nComplexity = 10;
+            chan.audiocodec.opus.nSampleRate = 48000;
+            chan.audiocodec.opus.bDTX = true;
+            chan.audiocodec.opus.bFEC = true;
+            chan.audiocodec.opus.bVBR = false;
+            chan.audiocodec.opus.bVBRConstraint = false;
+
+            assertTrue("txclient join channel", waitCmdSuccess(txclient, txclient.doJoinChannel(chan), DEF_WAIT));
+            assertTrue("rxclient join channel", waitCmdSuccess(rxclient, rxclient.doJoinChannelByID(txclient.getMyChannelID(), ""), DEF_WAIT));
+                   
+            assertTrue("txclient tone", txclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 600));
+            String filename = getTestMethodName()+"_"+i;
+            files.add(STORAGEFOLDER + File.separator + filename + ".wav");
+            assertTrue("rxclient storage", rxclient.setUserMediaStorageDir(txclient.getMyUserID(), STORAGEFOLDER, filename, AudioFileFormat.AFF_WAVE_FORMAT));
+
+            assertTrue("enable tx", txclient.enableVoiceTransmission(true));
+            /*
+             * A duration which ends on a third of a package size, will
+             * produce different wav outputs (files are generated which
+             * last 1220 ms (5x nTxIntervalMSec) and files are generated
+             * which last 1440ms (6x nTxIntervalMSec)
+             */
+            int duration = (int)(chan.audiocodec.opus.nTxIntervalMSec * 5 + chan.audiocodec.opus.nTxIntervalMSec * 0.33);
+            waitForEvent(txclient, ClientEvent.CLIENTEVENT_NONE, duration);
+            assertTrue("Disable tx", txclient.enableVoiceTransmission(false));
+
+            TTMessage msg = new TTMessage();
+            while(waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg)) {
+                if (msg.user.nUserID == txclient.getMyUserID() &&
+                    (msg.user.uUserState & UserState.USERSTATE_VOICE) == 0)
+                    break;
+            }
+            txclient.closeTeamTalk();
+            rxclient.closeTeamTalk();
+        }
+
+        int duration = -1;
+        for(String filename : files) {
+            MediaFileInfo mfi = new MediaFileInfo();
+            assertTrue("Get media file info", TeamTalkBase.getMediaFileInfo(filename, mfi));
+            if (duration < 0)
+                duration = mfi.uDurationMSec;
+            assertEquals("same file sizes", duration, mfi.uDurationMSec);
+        }
+    }
+
     /* cannot test output levels since a user is muted by sound system after decoding and callback.
 
     @Test

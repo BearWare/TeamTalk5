@@ -85,8 +85,12 @@ QVariant UserAccountsModel::data ( const QModelIndex & index, int role /*= Qt::D
         case COLUMN_INDEX_USERTYPE :
             if(m_users[index.row()].uUserType & USERTYPE_ADMIN)
                 return tr("Administrator");
-            else
+            else if(m_users[index.row()].uUserType & USERTYPE_DEFAULT)
                 return tr("Default User");
+            else if(m_users[index.row()].uUserType == USERTYPE_NONE)
+                return tr("Disabled");
+            else
+                return tr("Unknown");
         case COLUMN_INDEX_NOTE :
             return _Q(m_users[index.row()].szNote);
         case COLUMN_INDEX_CHANNEL :
@@ -235,6 +239,7 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     connect(ui.closeBtn, SIGNAL(clicked()), SLOT(close()));
     connect(ui.defaultuserBtn, SIGNAL(clicked()), SLOT(slotUserTypeChanged()));
     connect(ui.adminBtn, SIGNAL(clicked()), SLOT(slotUserTypeChanged()));
+    connect(ui.disableduserBtn, SIGNAL(clicked()), SLOT(slotUserTypeChanged()));
     connect(ui.usernameEdit, SIGNAL(textChanged(const QString&)), SLOT(slotUsernameChanged(const QString&)));
 
     connect(ui.usersTreeView, SIGNAL(clicked(const QModelIndex&)), 
@@ -308,10 +313,12 @@ void UserAccountsDlg::showUserAccount(const UserAccount& useraccount)
 {
     ui.usernameEdit->setText(_Q(useraccount.szUsername));
     ui.passwordEdit->setText(_Q(useraccount.szPassword));
-    if(useraccount.uUserType & USERTYPE_ADMIN)
+    if (useraccount.uUserType & USERTYPE_ADMIN)
         ui.adminBtn->setChecked(useraccount.uUserType & USERTYPE_ADMIN);
-    if(useraccount.uUserType & USERTYPE_DEFAULT)
+    else if (useraccount.uUserType & USERTYPE_DEFAULT)
         ui.defaultuserBtn->setChecked(useraccount.uUserType & USERTYPE_DEFAULT);
+    else if (useraccount.uUserType == USERTYPE_NONE)
+        ui.disableduserBtn->setChecked(true);
 
     ui.noteEdit->setPlainText(_Q(useraccount.szNote));
     ui.channelComboBox->lineEdit()->setText(_Q(useraccount.szInitChannel));
@@ -467,10 +474,13 @@ void UserAccountsDlg::slotAddUser()
     ZERO_STRUCT(m_add_user);
     COPY_TTSTR(m_add_user.szUsername, ui.usernameEdit->text().trimmed());
     COPY_TTSTR(m_add_user.szPassword, ui.passwordEdit->text());
-    if(ui.adminBtn->isChecked())
+    if (ui.adminBtn->isChecked())
         m_add_user.uUserType = USERTYPE_ADMIN;
-    else
+    else if (ui.defaultuserBtn->isChecked())
         m_add_user.uUserType = USERTYPE_DEFAULT;
+    else if (ui.disableduserBtn->isChecked())
+        m_add_user.uUserType = USERTYPE_NONE;
+
     if(ui.multiloginBox->isChecked())
         m_add_user.uUserRights |= USERRIGHT_MULTI_LOGIN;
     else
@@ -612,14 +622,19 @@ void UserAccountsDlg::slotEdited(const QString&)
 
 void UserAccountsDlg::slotUserTypeChanged()
 {
-    if(ui.adminBtn->isChecked())
+    if (ui.adminBtn->isChecked())
     {
         m_add_user.uUserType = USERTYPE_ADMIN;
-        m_add_user.uUserRights = 0;
+        m_add_user.uUserRights = USERRIGHT_NONE;
     }
-    if(ui.defaultuserBtn->isChecked())
+    else if (ui.defaultuserBtn->isChecked())
     {
         m_add_user.uUserType = USERTYPE_DEFAULT;
+        m_add_user.uUserRights = USERRIGHT_DEFAULT;
+    }
+    else
+    {
+        m_add_user.uUserType = USERTYPE_NONE;
         m_add_user.uUserRights = USERRIGHT_DEFAULT;
     }
     updateUserRights(m_add_user);

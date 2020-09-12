@@ -151,7 +151,6 @@
 #define IDS_SUBINT_MEDIAFILE            244
 #define IDS_DESKTOPINPUT_GRANTED        245
 #define IDD_WIZARD_COMPLETIONPAGE       246
-#define IDS_MPSEND                      247
 #define IDS_DESKTOPINPUT_ACTIVE         248
 #define IDD_DIALOG_KEYCOMP              249
 #define IDR_MENU_MSGPOPUP               250
@@ -376,7 +375,6 @@
 #define IDS_HOSTMANAGERDELHOST          471
 #define IDS_HOSTMANAGERPUBLIC           472
 #define IDS_HOSTMANAGERHOSTFILES        473
-#define IDS_CHANTEXTMSGSEND                 474
 #define IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY 475
 #define IDS_KEYCOMPERROR                476
 #define IDS_MEDIASTORAGEWAVEFORMAT      477
@@ -465,7 +463,6 @@
 #define IDS_ABOUT_TRANSLATORS           562
 #define IDS_ABOUT_LIB                   563
 #define IDS_ABOUT_LIBUSE                564
-#define IDS_SERVCONFSAVED               910
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
@@ -964,6 +961,7 @@
 #define IDC_RICHEDIT2_CREDITS           1597
 #define IDC_CHECK_WEBLOGIN              1598
 #define IDC_STATIC_BEARWARELOGIN        1599
+#define IDC_RADIO_DISABLEDUSER          1600
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -1080,7 +1078,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        565
 #define _APS_NEXT_COMMAND_VALUE         32955
-#define _APS_NEXT_CONTROL_VALUE         1600
+#define _APS_NEXT_CONTROL_VALUE         1601
 #define _APS_NEXT_SYMED_VALUE           413
 #endif
 #endif
