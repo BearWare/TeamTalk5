@@ -326,7 +326,7 @@
   <string name="ttdllversion">TeamTalk DLL v</string>
   <string name="pref_title_facebook_summary">Yalnızca bu sunucu Facebook oturumunu etkinleştirdiyse işaretleyin</string>
   <string name="pref_cat_about">Hakkında</string>
-  <string name="pref_title_contrib">Katkıda Bulunanlar</string>
+  <string name="pref_title_contrib">Geliştiriciler</string>
   <string name="pref_title_translator">Çeviren</string>
   <string name="pref_title_libraries">Üçüncü Taraf Kitaplıklar</string>
 </resources>

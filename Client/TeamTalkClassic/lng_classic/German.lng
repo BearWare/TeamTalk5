@@ -115,6 +115,7 @@
     <item id="224">Soundsystem</item>
     <item id="226">%s hat den Empfang beobachteter Videodaten auf %d gesetzt</item>
     <item id="227">benutzerinformationen</item>
+    <item id="233">%Y-%m-%d %H:%M:%S</item>
     <item id="234">%s hat den Empfang beobachteter Desktops auf %d gesetzt</item>
     <item id="243">Adressbuch</item>
     <item id="244">%s hat den Empfang beobachteter Medien-Streams auf %d gesetzt</item>
@@ -208,6 +209,7 @@
     <item id="342">%s kann jetzt Desktops übertragen!</item>
     <item id="343">%s kann keine Mediendateien mehr übertragen!</item>
     <item id="344">%s kann jetzt Mediendateien übertragen!</item>
+    <item id="345">Menübefehle</item>
     <item id="346">Audio-Datei für %s konnte nicht gespeichert werden</item>
     <item id="347">Dateiübertragung konnte nicht gestartet werden. Dateiname: %s</item>
     <item id="348">Fehler beim streamen der Mediendatei in den Raum</item>
@@ -236,11 +238,13 @@
     <item id="371">Möchtest du den Raum %s wirklich löschen?</item>
     <item id="372">Raum löschen</item>
     <item id="373">Raum-Passwort</item>
+    <item id="374">Datei %s wurde von %s hinzugefügt</item>
     <item id="375">Kompiliert mit</item>
     <item id="376">Unicode -&gt; UTF-8 Konvertierung aktiv.</item>
     <item id="377">Der lokale Zeichensatz wird benutzt.</item>
     <item id="378">TeamTalk 64-bit DLL-Version:</item>
     <item id="379">TeamTalk 32-bit DLL-Version:</item>
+    <item id="380">Datei %s von %s wurde entfernt</item>
     <item id="381">RX: %.2fKB TX: %.2fKB PING: %u %s</item>
     <item id="382">RX: %.2fKB TX: %.2fKB %s</item>
     <item id="383">abwesend</item>
@@ -290,6 +294,7 @@
     <item id="428">Fehler beim Start des Playback</item>
     <item id="429">Lade %s Datei</item>
     <item id="430">Soll %s zu den Ausnahmen der Windows-Firewall hinzugefügt werden?</item>
+    <item id="431">%s zum verschieben ausgewählt</item>
     <item id="432">Sperre IP-Adresse</item>
     <item id="433">Sperre Benutzername</item>
     <item id="434">Kein Audio</item>
@@ -358,6 +363,16 @@
     <item id="498">Der Test des ausgewählten Gerätes ist fehlgeschlagen</item>
     <item id="499">Facebook-Abmeldung durchführen?</item>
     <item id="500">Facebook-Login</item>
+    <item id="501">Sprache für %s eingeschaltet</item>
+    <item id="502">Webcam</item>
+    <item id="503">Administrator</item>
+    <item id="504">%s ist nicht mehr zum verschieben gewählt</item>
+    <item id="505">zum verschieben gewählt</item>
+    <item id="506">Hauptlautstärke aus</item>
+    <item id="507">Hauptlautstärke an</item>
+    <item id="508">Sprache für %s ausgeschaltet</item>
+    <item id="509">Mediendateien für %s eingeschaltet</item>
+    <item id="510">Mediendateien für %s ausgeschaltet</item>
     <item id="512">- unveröffentlicht</item>
     <item id="513">TeamTalk 5 Classic Professional v.</item>
     <item id="514">TeamTalk 5 Classic Professional</item>
@@ -403,6 +418,12 @@
     <item id="556">Unbekannt</item>
     <item id="557">Raumliste</item>
     <item id="558">Dateiliste</item>
+    <item id="559">Danksagung</item>
+    <item id="560">Mitwirkende</item>
+    <item id="561">Entwickler</item>
+    <item id="562">Übersetzer</item>
+    <item id="563">Bibliotheken</item>
+    <item id="564">TeamTalk benutzt die folgenden Bibliotheken:</item>
     <item id="1006">Dateiliste</item>
     <item id="1009">Bei Verbindung automatisch Hauptraum betreten</item>
     <item id="1012">Host TCP-Port</item>
@@ -416,12 +437,15 @@
     <item id="1023">Medienlautstärke für %s auf %d%% erhöht</item>
     <item id="1024">Öffne die Schnellstartanleitung für Informationen zum Einrichten eines Servers und das anschließende Verbinden</item>
     <item id="1025">Medienlautstärke für %s auf %d%% verringert</item>
+    <item id="1026">abwesend</item>
     <item id="1028">Lautstärke</item>
     <item id="1030">&amp;Verbinden</item>
     <item id="1034">0=ausgeschaltet</item>
     <item id="1035">Benutzer-ID</item>
     <item id="1036">Nickname</item>
     <item id="1037">0=ausgeschaltet</item>
+    <item id="1038">Frage</item>
+    <item id="1039">Streame Mediendatei</item>
     <item id="1042">Dieser Assistent führt dich durch die Schritte zur Einrichtung des Konferenz-Systems TeamTalk. Drücke auf &quot;Weiter&quot;, um disen Assistenten fortzusetzen. Wenn du auf &quot;Abbrechen&quot; drückst, musst du TeamTalk manuell einrichten.</item>
     <item id="1044">Gehe auf www.bearware.dk, um nach öffentlichen TeamTalk-Servern zu suchen</item>
     <item id="1045">Paketverlust</item>
@@ -737,6 +761,8 @@
     <item id="1594">Startposition</item>
     <item id="1595">Audio-Vorverarbeitung</item>
     <item id="1596">Playback testen</item>
+    <item id="1598">Lautstärken und Empfangseinstellungen beim Login für Web-Login-Benutzer wiederherstellen</item>
+    <item id="1599">BearWare.dk Web Login ID</item>
     <item id="32791">Wie lautet meine &amp;IP-Adresse?</item>
     <item id="32798">&amp;Operator\tSTRG+O</item>
     <item id="32801">Raumnachrichten &amp;zeigen\tF10</item>
