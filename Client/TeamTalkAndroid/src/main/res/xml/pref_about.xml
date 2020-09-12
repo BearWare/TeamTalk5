@@ -10,19 +10,19 @@
         <EditTextPreference
             android:enabled="false"
             android:singleLine="true"
-            android:title="Beqa Gozalishvili, developer" />
+            android:title="Beqa Gozalishvili" />
         <EditTextPreference
             android:enabled="false"
             android:singleLine="true"
-            android:title="Bjørn Damstedt Rasmussen, developer" />
+            android:title="Bjørn Damstedt Rasmussen" />
         <EditTextPreference
             android:enabled="false"
             android:singleLine="true"
-            android:title="Oreonan, developer" />
+            android:title="Oreonan" />
         <EditTextPreference
             android:enabled="false"
             android:singleLine="true"
-            android:title="Igor B. Poretsky, developer" />
+            android:title="Igor B. Poretsky" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_translator">

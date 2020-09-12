@@ -352,7 +352,7 @@
     <string name="ttdllversion">TeamTalk DLL v</string>
     <string name="pref_title_facebook_summary">Check only if this server has enabled Facebook login</string>
     <string name="pref_cat_about">About</string>
-    <string name="pref_title_contrib">Contributors</string>
+    <string name="pref_title_contrib">Developers</string>
     <string name="pref_title_translator">Translator</string>
     <string name="pref_title_libraries">Third Party Libraries</string>
 
