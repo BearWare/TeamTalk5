@@ -242,7 +242,7 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     connect(ui.disableduserBtn, SIGNAL(clicked()), SLOT(slotUserTypeChanged()));
     connect(ui.usernameEdit, SIGNAL(textChanged(const QString&)), SLOT(slotUsernameChanged(const QString&)));
 
-    connect(ui.usersTreeView, SIGNAL(clicked(const QModelIndex&)), 
+    connect(ui.usersTreeView, SIGNAL(itemSelectionChanged(const QModelIndex&)), 
             SLOT(slotUserSelected(const QModelIndex&)));
 
     if(m_uad == UAD_READONLY)
