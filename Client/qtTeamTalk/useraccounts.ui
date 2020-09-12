@@ -52,7 +52,7 @@
          <enum>QAbstractItemView::ExtendedSelection</enum>
         </property>
         <property name="selectionBehavior">
-         <enum>QAbstractItemView::SelectItem</enum>
+         <enum>QAbstractItemView::SelectItems</enum>
         </property>
         <property name="rootIsDecorated">
          <bool>false</bool>
