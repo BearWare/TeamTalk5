@@ -19,6 +19,9 @@ Accessible Windows Client:
 - Messages timestamp now return also dates
 - Messages timestamps are now translatables
 - User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
+- New TTS option to enable messages from menu actions (move users, change volume...)
+- Correct TTS message when join/left root channel
+- Contributors area on about dialog
 Default QT Client:
 - Update window title at login with server name
 - Status mode is now displayed for Away, Question, Streaming media file and Webcam
@@ -29,8 +32,13 @@ Default QT Client:
 - Ctrl+Alt+B to kick and ban
 - Ctrl+Shift+Alt+M to mute/unmute media files of an user
 - User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
+- Message area hide when we aren't in a channel
+- Shortcuts to switch tabs of main window
+- Some new events (user logged in/out, user join/left a channel...)
+- Contributors area on about dialog
 Android client
 - User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
+- About dialog in preferences
 iOS client
 - User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
 Server
