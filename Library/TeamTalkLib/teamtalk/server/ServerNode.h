@@ -137,7 +137,6 @@ namespace teamtalk {
         ACE_Time_Value GetUptime() const;
         serverchannel_t& GetRootChannel();
         void CheckKeepAlive();
-        int GetAuthUserCount();
         int GetActiveFileTransfers(int& uploads, int& downloads);
         bool IsEncrypted() const;
         bool LoginsExceeded(const ServerUser& user);
@@ -265,10 +264,7 @@ namespace teamtalk {
         ServerChannel::users_t GetAdministrators(const ServerChannel& excludeChannel);
         //get all authorized users
         ServerChannel::users_t GetAuthorizedUsers(bool excludeAdmins = false);
-        //get users who should be notified of users changing channels
-        ServerChannel::users_t GetNotificationUsers(const ServerChannel& excludeChannel);
-        //get users who should be notified of user changes
-        ServerChannel::users_t GetNotificationUsers();
+        ServerChannel::users_t GetNotificationUsers(UserRights urights, const serverchannel_t& chan = nullptr);
 
         //////////////////////////////////////////
         /// User performing action
@@ -330,7 +326,7 @@ namespace teamtalk {
         void OnClosed(ACE_HANDLE h);
         bool OnReceive(ACE_HANDLE h, const char* buff, int len);
         //notify users of channel update
-        void UpdateChannel(const ServerChannel& chan);
+        void UpdateChannel(const serverchannel_t& chan);
         void UpdateChannel(const ServerChannel& chan, const ServerChannel::users_t& users);
         void CleanChannels(serverchannel_t& channel);
         void UpdateSoloTransmitChannels();

@@ -183,6 +183,7 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     m_proxyModel = new QSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_model);
     ui.usersTreeView->setModel(m_proxyModel);
+    ui.checkBox->hide();
 
 #if defined(Q_OS_MAC)
     auto font = ui.usersTreeView->font();
@@ -398,6 +399,7 @@ void UserAccountsDlg::updateUserRights(const UserAccount& useraccount)
     ui.multiloginBox->setChecked(useraccount.uUserRights & USERRIGHT_MULTI_LOGIN);
     ui.chnickBox->setChecked((useraccount.uUserRights & USERRIGHT_LOCKED_NICKNAME) == USERRIGHT_NONE);
     ui.viewallusersBox->setChecked(useraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS);
+    ui.viewhiddenchanBox->setChecked(useraccount.uUserRights & USERRIGHT_VIEW_HIDDEN_CHANNELS);
     ui.permchannelsBox->setChecked(useraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS);
     ui.tempchannelsBox->setChecked(useraccount.uUserRights & USERRIGHT_CREATE_TEMPORARY_CHANNEL);
     ui.clientbroadcastBox->setChecked(useraccount.uUserRights & USERRIGHT_TEXTMESSAGE_BROADCAST);
@@ -419,6 +421,7 @@ void UserAccountsDlg::updateUserRights(const UserAccount& useraccount)
     ui.multiloginBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.chnickBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.viewallusersBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
+    ui.viewhiddenchanBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.permchannelsBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.tempchannelsBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.clientbroadcastBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
@@ -493,6 +496,10 @@ void UserAccountsDlg::slotAddUser()
         m_add_user.uUserRights |= USERRIGHT_VIEW_ALL_USERS;
     else
         m_add_user.uUserRights &= ~USERRIGHT_VIEW_ALL_USERS;
+    if (ui.viewhiddenchanBox->isChecked())
+        m_add_user.uUserRights |= USERRIGHT_VIEW_HIDDEN_CHANNELS;
+    else
+        m_add_user.uUserRights &= ~USERRIGHT_VIEW_HIDDEN_CHANNELS;
     if(ui.permchannelsBox->isChecked())
         m_add_user.uUserRights |= USERRIGHT_MODIFY_CHANNELS;
     else
