@@ -2384,10 +2384,10 @@ void MainWindow::processMyselfJoined(int channelid)
 
     ui.msgEdit->setVisible(true);
     ui.sendButton->setVisible(true);
-    ui.desktopmsgEdit->setVisible(true);
-    ui.desktopsendButton->setVisible(true);
     ui.videomsgEdit->setVisible(true);
     ui.videosendButton->setVisible(true);
+    ui.desktopmsgEdit->setVisible(true);
+    ui.desktopsendButton->setVisible(true);
     updateWindowTitle();
 }
 
@@ -2413,10 +2413,10 @@ void MainWindow::processMyselfLeft(int channelid)
     addStatusMsg(tr("Left channel %1").arg(_Q(buff)));
     ui.msgEdit->setVisible(false);
     ui.sendButton->setVisible(false);
-    ui.desktopmsgEdit->setVisible(false);
-    ui.desktopsendButton->setVisible(false);
     ui.videomsgEdit->setVisible(false);
     ui.videosendButton->setVisible(false);
+    ui.desktopmsgEdit->setVisible(false);
+    ui.desktopsendButton->setVisible(false);
     updateWindowTitle();
 }
 
