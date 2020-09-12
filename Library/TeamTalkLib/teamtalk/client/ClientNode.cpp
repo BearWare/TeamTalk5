@@ -1167,7 +1167,6 @@ void ClientNode::QueueAudioCapture(media::AudioFrame& audframe)
         m_clientstats.streamcapture_delay_msec = std::max(delay, 1); // put minimum 1 to indicate it was set
         m_soundprop.samples_delay_msec = 0;
     }
-    MYTRACE(ACE_TEXT("%p Samples recorded: %u. PTT close %d\n"), this, m_soundprop.samples_recorded, int(ptt_close));
 
     if (!m_audioinput_voice)
         QueueVoiceFrame(audframe);
@@ -1305,7 +1304,6 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
     AudioUserCallback(LOCAL_TX_USERID, STREAMTYPE_VOICE, cpyframe);
     
     m_soundprop.samples_transmitted += org_frame.input_samples;
-    MYTRACE(ACE_TEXT("%p Samples transmitted %u\n"), this, m_soundprop.samples_transmitted);
 
     MYTRACE_COND(enc_length > MAX_ENC_FRAMESIZE,
                  ACE_TEXT("Queue voice packet #%d at TS: %u, pkt time: %u, size: %d\n"),
