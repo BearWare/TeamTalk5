@@ -120,6 +120,7 @@
     <item id="243">Gestionnaire d'hôtes</item>
     <item id="244">%s a réglé l&apos;abonnement &quot;interception des fichiers média&quot; sur %d</item>
     <item id="245">%s a accordé l&apos;accès au bureau</item>
+    <item id="247">Message privé envoyé: %s</item>
     <item id="248">%s a maintenant un accès au bureau</item>
     <item id="249">Combinaison de touches</item>
     <item id="251">Positionner les participants (cartes son 3D)</item>
@@ -337,6 +338,7 @@
     <item id="471">Supprimer l'hôte</item>
     <item id="472">Public: </item>
     <item id="473">Fichiers d'hôte (*%s)|*%s|Tous les fichiers (*.*)|*.*|</item>
+    <item id="474">Message de canal envoyé: %s</item>
     <item id="475">Le fichier %s ne contient aucune entrée d'hôte %s valide.&#xD;&#xA;Message d'erreur: %s</item>
     <item id="476">Erreur au paramétrage de la combinaison de touches. Essayez de redémarrer le programme.</item>
     <item id="477">Format WAV</item>

@@ -47,6 +47,8 @@ public interface UserRight
     public static final int USERRIGHT_TRANSMIT_MEDIAFILE          = USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO | USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO;
     public static final int USERRIGHT_LOCKED_NICKNAME             = 0x00040000;
     public static final int USERRIGHT_LOCKED_STATUS               = 0x00080000;
+    public static final int USERRIGHT_RECORD_VOICE                = 0x00100000;
+    public static final int USERRIGHT_VIEW_HIDDEN_CHANNELS        = 0x00200000;
 
     public static final int USERRIGHT_ALL                         = 0xFFFFFFFF & ~USERRIGHT_LOCKED_NICKNAME & ~USERRIGHT_LOCKED_STATUS;
     

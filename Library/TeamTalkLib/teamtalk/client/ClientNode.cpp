@@ -1167,7 +1167,6 @@ void ClientNode::QueueAudioCapture(media::AudioFrame& audframe)
         m_clientstats.streamcapture_delay_msec = std::max(delay, 1); // put minimum 1 to indicate it was set
         m_soundprop.samples_delay_msec = 0;
     }
-    MYTRACE(ACE_TEXT("%p Samples recorded: %u. PTT close %d\n"), this, m_soundprop.samples_recorded, int(ptt_close));
 
     if (!m_audioinput_voice)
         QueueVoiceFrame(audframe);
@@ -1305,7 +1304,6 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
     AudioUserCallback(LOCAL_TX_USERID, STREAMTYPE_VOICE, cpyframe);
     
     m_soundprop.samples_transmitted += org_frame.input_samples;
-    MYTRACE(ACE_TEXT("%p Samples transmitted %u\n"), this, m_soundprop.samples_transmitted);
 
     MYTRACE_COND(enc_length > MAX_ENC_FRAMESIZE,
                  ACE_TEXT("Queue voice packet #%d at TS: %u, pkt time: %u, size: %d\n"),
@@ -3024,18 +3022,17 @@ bool ClientNode::EnableVoiceTransmission(bool enable)
         m_flags |= CLIENT_TX_VOICE;
 
         //don't increment stream id if voice activated and voice active
-        if((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) == CLIENT_CLOSED ||
-           ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) &&
-            (m_flags & CLIENT_SNDINPUT_VOICEACTIVE)))
+        if ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) == CLIENT_CLOSED ||
+            ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) &&
+             (m_flags & CLIENT_SNDINPUT_VOICEACTIVE)))
+        {
             GEN_NEXT_ID(m_voice_stream_id);
-
-        MYTRACE(ACE_TEXT("%p PTT on at samples transmitted %u\n"), this, m_soundprop.samples_transmitted);
+        }
     }
     else
     {
         m_voice_tx_closed = (m_flags & CLIENT_TX_VOICE);
         m_flags &= ~CLIENT_TX_VOICE;
-        MYTRACE(ACE_TEXT("%p PTT off at samples transmitted %u\n"), this, m_soundprop.samples_transmitted);
     }
     
     return true;
@@ -5308,15 +5305,17 @@ void ClientNode::HandleServerUpdate(const mstrings_t& properties)
 
     if(m_serverinfo.hostaddrs.size())
     {
-        int newtcpport, tcpport = m_serverinfo.hostaddrs[0].get_port_number();
-        int newudpport, udpport = m_serverinfo.udpaddr.get_port_number();
+        int newtcpport = 0, tcpport = m_serverinfo.hostaddrs[0].get_port_number();
+        int newudpport = 0, udpport = m_serverinfo.udpaddr.get_port_number();
         
         GetProperty(properties, TT_TCPPORT, newtcpport);
-        MYTRACE_COND(newtcpport != tcpport, ACE_TEXT("TCP port is different. Indicates server is behind NAT.\n"));
+        MYTRACE_COND(newtcpport && newtcpport != tcpport,
+                     ACE_TEXT("TCP port is different. Indicates server is behind NAT.\n"));
         // don't change m_serverinfo.udpaddr. This will not work for
         // servers behind NAT
         GetProperty(properties, TT_UDPPORT, newudpport);
-        MYTRACE_COND(newudpport != udpport, ACE_TEXT("UDP port is different. Indicates server is behind NAT.\n"));
+        MYTRACE_COND(newudpport && newudpport != udpport,
+                     ACE_TEXT("UDP port is different. Indicates server is behind NAT.\n"));
     }
     GetProperty(properties, TT_MOTD, m_serverinfo.motd);
     GetProperty(properties, TT_MOTDRAW, m_serverinfo.motd_raw);
