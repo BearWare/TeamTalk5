@@ -25,6 +25,7 @@ Accessible Windows Client:
 - Fixed TTS message when join/left root channel
 - Contributors area on about dialog
 - User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
+- Specific TTS events when sending a MP or a channel message
 Default QT Client:
 - Update window title at login with server name
 - Status mode for Away, Question, Streaming media file and Webcam is now displayed as text 
