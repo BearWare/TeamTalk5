@@ -465,6 +465,8 @@
 #define IDS_ABOUT_TRANSLATORS           562
 #define IDS_ABOUT_LIB                   563
 #define IDS_ABOUT_LIBUSE                564
+#define IDS_UNBAN                       565
+#define IDS_IPADDRBAN                   566
 #define IDS_SERVCONFSAVED               910
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
@@ -1079,7 +1081,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        565
+#define _APS_NEXT_RESOURCE_VALUE        567
 #define _APS_NEXT_COMMAND_VALUE         32955
 #define _APS_NEXT_CONTROL_VALUE         1601
 #define _APS_NEXT_SYMED_VALUE           413
