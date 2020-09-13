@@ -71,8 +71,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,6,1,5010
- PRODUCTVERSION 5,6,1,5010
+ FILEVERSION 5,6,2,5011
+ PRODUCTVERSION 5,6,2,5011
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -93,7 +93,7 @@ BEGIN
 #else
             VALUE "FileDescription", "TeamTalk Conferencing Server"
 #endif
-            VALUE "FileVersion", "5, 6, 1, 5010"
+            VALUE "FileVersion", "5, 6, 2, 5011"
             VALUE "InternalName", "tt5srv.exe"
             VALUE "LegalCopyright", "Copyright (c) 2002-2020, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "tt5srv.exe"
@@ -102,7 +102,7 @@ BEGIN
 #else
             VALUE "ProductName", "TeamTalk Conferencing Server"
 #endif
-            VALUE "ProductVersion", "5, 6, 1, 5010"
+            VALUE "ProductVersion", "5, 6, 2, 5011"
         END
     END
     BLOCK "VarFileInfo"

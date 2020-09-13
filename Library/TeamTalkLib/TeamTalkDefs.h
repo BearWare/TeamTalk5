@@ -24,9 +24,9 @@
 #if !defined(TEAMTALKDEFS_H)
 #define TEAMTALKDEFS_H
 
-#define TEAMTALK_VERSION            "5.6.1.5010"
-#define TEAMTALK_RC_VERSION         5,6,1,5010
-#define TEAMTALK_RC_FILEVERSION     "5, 6, 1, 5010"
+#define TEAMTALK_VERSION            "5.6.2.5011"
+#define TEAMTALK_RC_VERSION         5,6,2,5011
+#define TEAMTALK_RC_FILEVERSION     "5, 6, 2, 5011"
 #define TEAMTALK_VERSION_POSTFIX    ""
 
 #if defined(ENABLE_TEAMTALKPRO)
