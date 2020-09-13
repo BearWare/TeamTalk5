@@ -858,6 +858,12 @@ bool Convert(const AudioCodec& codec, teamtalk::AudioCodec& result)
                                                     codec.opus.nTxIntervalMSec);
             result.opus.frames_per_packet = 1;
         }
+
+        // clamp to max bitrate
+        int maxbitrate = GetAudioCodecMaxPacketBitrate(result);
+        if (result.opus.bitrate > maxbitrate)
+            result.opus.bitrate = maxbitrate;
+
         VALID_INT_CODEC(result, result.opus);
 
         return teamtalk::ValidAudioCodec(result);
