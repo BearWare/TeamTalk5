@@ -111,6 +111,13 @@
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QRadioButton" name="disableduserBtn">
+               <property name="text">
+                <string>Disabled (inactive)</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
            <item row="1" column="0">
@@ -436,24 +443,24 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
+         <item row="2" column="0">
           <widget class="QCheckBox" name="chnickBox">
            <property name="text">
             <string>User can change nickname</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
+         <item row="2" column="1">
           <widget class="QCheckBox" name="downloadfilesBox">
            <property name="text">
             <string>User can download files</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
+         <item row="4" column="0">
           <widget class="QCheckBox" name="viewallusersBox">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -463,17 +470,45 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
+         <item row="4" column="1">
+          <widget class="QCheckBox" name="recordBox">
+           <property name="text">
+            <string>User can record voice in all channels</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QCheckBox" name="viewhiddenchanBox">
+           <property name="text">
+            <string>User can see hidden channels</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QCheckBox" name="srvpropBox">
+           <property name="text">
+            <string>User can update server properties</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0">
           <widget class="QCheckBox" name="permchannelsBox">
            <property name="text">
             <string>User can create/modify all channels</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="0">
+         <item row="8" column="1">
+          <widget class="QCheckBox" name="transmitvoiceBox">
+           <property name="text">
+            <string>User can transmit voice data (microphone)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="0">
           <widget class="QCheckBox" name="tempchannelsBox">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -483,10 +518,17 @@
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
+         <item row="10" column="1">
+          <widget class="QCheckBox" name="transmitvideoBox">
+           <property name="text">
+            <string>User can transmit video data (webcam)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="12" column="0">
           <widget class="QCheckBox" name="clientbroadcastBox">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -496,87 +538,66 @@
            </property>
           </widget>
          </item>
-         <item row="6" column="0">
-          <widget class="QCheckBox" name="kickusersBox">
-           <property name="text">
-            <string>User can kick users off the server</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0">
-          <widget class="QCheckBox" name="banusersBox">
-           <property name="text">
-            <string>User can ban users from server</string>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="0">
-          <widget class="QCheckBox" name="moveusersBox">
-           <property name="text">
-            <string>User can move users between channels</string>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="0">
-          <widget class="QCheckBox" name="chanopBox">
-           <property name="text">
-            <string>User can make other users channel operator</string>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="1">
-          <widget class="QCheckBox" name="transmitdesktopaccessBox">
-           <property name="text">
-            <string>User can get remote access to desktop sessions</string>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="1">
-          <widget class="QCheckBox" name="transmitdesktopBox">
-           <property name="text">
-            <string>User can transmit desktop sessions (shared desktop)</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QCheckBox" name="transmitvideofileBox">
-           <property name="text">
-            <string>User can transmit video files (avi, mp4 files)</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="1">
+         <item row="12" column="1">
           <widget class="QCheckBox" name="transmitaudiofileBox">
            <property name="text">
             <string>User can transmit audio files (wav, mp3 files)</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="1">
-          <widget class="QCheckBox" name="transmitvideoBox">
+         <item row="14" column="0">
+          <widget class="QCheckBox" name="kickusersBox">
            <property name="text">
-            <string>User can transmit video data (webcam)</string>
+            <string>User can kick users off the server</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
-          <widget class="QCheckBox" name="transmitvoiceBox">
+         <item row="14" column="1">
+          <widget class="QCheckBox" name="transmitvideofileBox">
            <property name="text">
-            <string>User can transmit voice data (microphone)</string>
+            <string>User can transmit video files (avi, mp4 files)</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
-          <widget class="QCheckBox" name="srvpropBox">
+         <item row="16" column="0">
+          <widget class="QCheckBox" name="banusersBox">
            <property name="text">
-            <string>User can update server properties</string>
+            <string>User can ban users from server</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QCheckBox" name="recordBox">
+         <item row="16" column="1">
+          <widget class="QCheckBox" name="transmitdesktopBox">
            <property name="text">
-            <string>User can record voice in all channels</string>
+            <string>User can transmit desktop sessions (shared desktop)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="18" column="0">
+          <widget class="QCheckBox" name="moveusersBox">
+           <property name="text">
+            <string>User can move users between channels</string>
+           </property>
+          </widget>
+         </item>
+         <item row="18" column="1">
+          <widget class="QCheckBox" name="transmitdesktopaccessBox">
+           <property name="text">
+            <string>User can get remote access to desktop sessions</string>
+           </property>
+          </widget>
+         </item>
+         <item row="20" column="0">
+          <widget class="QCheckBox" name="chanopBox">
+           <property name="text">
+            <string>User can make other users channel operator</string>
+           </property>
+          </widget>
+         </item>
+         <item row="20" column="1">
+          <widget class="QCheckBox" name="checkBox">
+           <property name="text">
+            <string>CheckBox</string>
            </property>
           </widget>
          </item>
@@ -676,6 +697,7 @@
   <tabstop>usersTreeView</tabstop>
   <tabstop>defaultuserBtn</tabstop>
   <tabstop>adminBtn</tabstop>
+  <tabstop>disableduserBtn</tabstop>
   <tabstop>usernameEdit</tabstop>
   <tabstop>passwordEdit</tabstop>
   <tabstop>noteEdit</tabstop>
@@ -685,21 +707,9 @@
   <tabstop>viewallusersBox</tabstop>
   <tabstop>permchannelsBox</tabstop>
   <tabstop>tempchannelsBox</tabstop>
-  <tabstop>clientbroadcastBox</tabstop>
-  <tabstop>kickusersBox</tabstop>
-  <tabstop>banusersBox</tabstop>
-  <tabstop>moveusersBox</tabstop>
-  <tabstop>chanopBox</tabstop>
   <tabstop>uploadfilesBox</tabstop>
   <tabstop>downloadfilesBox</tabstop>
   <tabstop>recordBox</tabstop>
-  <tabstop>srvpropBox</tabstop>
-  <tabstop>transmitvoiceBox</tabstop>
-  <tabstop>transmitvideoBox</tabstop>
-  <tabstop>transmitaudiofileBox</tabstop>
-  <tabstop>transmitvideofileBox</tabstop>
-  <tabstop>transmitdesktopBox</tabstop>
-  <tabstop>transmitdesktopaccessBox</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>opchannelsListWidget</tabstop>
   <tabstop>opchanComboBox</tabstop>

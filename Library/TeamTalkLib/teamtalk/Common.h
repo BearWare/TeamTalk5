@@ -164,6 +164,7 @@ namespace teamtalk {
         USERRIGHT_LOCKED_NICKNAME                       = 0x00040000,
         USERRIGHT_LOCKED_STATUS                         = 0x00080000,
         USERRIGHT_RECORD_VOICE                          = 0x00100000,
+        USERRIGHT_VIEW_HIDDEN_CHANNELS                  = 0x00200000,
 
         USERRIGHT_DEFAULT = USERRIGHT_MULTI_LOGIN |
                             USERRIGHT_VIEW_ALL_USERS |
@@ -177,7 +178,7 @@ namespace teamtalk {
                             USERRIGHT_TRANSMIT_MEDIAFILE,
                                
 
-        USERRIGHT_ALL                       = 0x0013FFFF,
+        USERRIGHT_ALL                       = 0x0033FFFF,
         USERRIGHT_KNOWN_MASK                = 0x001FFFFF
     };
     
@@ -569,7 +570,8 @@ namespace teamtalk {
         CHANNEL_CLASSROOM           = 0x0004,
         CHANNEL_OPERATOR_RECVONLY   = 0x0008,
         CHANNEL_NO_VOICEACTIVATION  = 0x0010,
-        CHANNEL_NO_RECORDING        = 0x0020
+        CHANNEL_NO_RECORDING        = 0x0020,
+        CHANNEL_HIDDEN              = 0x0040,
     };
 
     typedef ACE_UINT32 ChannelTypes;

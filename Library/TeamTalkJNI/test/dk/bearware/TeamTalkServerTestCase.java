@@ -1260,6 +1260,186 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         connect(server, client);
         login(server, client, NICKNAME, USERNAME, PASSWORD);
     }
+
+    @Test
+    public void testHiddenChannel() {
+
+        final String ADMIN = "admin";
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = ADMIN;
+        useraccount.szPassword = ADMIN;
+        useraccount.uUserType = UserType.USERTYPE_ADMIN;
+        useraccounts.add(useraccount);
+
+        final String VIEW_NONE = "view_none";
+        useraccount = new UserAccount();
+        useraccount.szUsername = VIEW_NONE;
+        useraccount.szPassword = VIEW_NONE;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;;        
+        useraccount.uUserRights = UserRight.USERRIGHT_TRANSMIT_VOICE;
+        useraccounts.add(useraccount);
+        
+        final String VIEW_ALL_USERS = "view_all_users";
+        useraccount = new UserAccount();
+        useraccount.szUsername = VIEW_ALL_USERS;
+        useraccount.szPassword = VIEW_ALL_USERS;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;;        
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_VOICE;
+        useraccounts.add(useraccount);
+
+        final String VIEW_HIDDEN_CHANNELS = "view_hidden_channels";
+        useraccount = new UserAccount();
+        useraccount.szUsername = VIEW_HIDDEN_CHANNELS;
+        useraccount.szPassword = VIEW_HIDDEN_CHANNELS;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;;        
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS | UserRight.USERRIGHT_TRANSMIT_VOICE;
+        useraccounts.add(useraccount);
+
+        final String VIEW_ALL_USERS_HIDDEN_CHANNELS = "view_all_users_hidden_channels";
+        useraccount = new UserAccount();
+        useraccount.szUsername = VIEW_ALL_USERS_HIDDEN_CHANNELS;
+        useraccount.szPassword = VIEW_ALL_USERS_HIDDEN_CHANNELS;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;;        
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS | UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_VOICE;
+        useraccounts.add(useraccount);
+        
+        TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
+
+        TeamTalkBase admin = newClientInstance();
+        connect(server, admin);
+        login(server, admin, ADMIN + getTestMethodName(), ADMIN, ADMIN);
+
+        UserAccount adminaccount = new UserAccount();
+        assertTrue("get account", admin.getMyUserAccount(adminaccount));
+        assertEquals("admin has hidden chan rights", UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS, adminaccount.uUserRights & UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS);
+
+        TeamTalkBase view_none = newClientInstance();
+        connect(server, view_none);
+        login(server, view_none, VIEW_NONE + getTestMethodName(), VIEW_NONE, VIEW_NONE);
+
+        TeamTalkBase view_all_users = newClientInstance();
+        connect(server, view_all_users);
+        login(server, view_all_users, VIEW_ALL_USERS + getTestMethodName(), VIEW_ALL_USERS, VIEW_ALL_USERS);
+
+        TeamTalkBase view_hidden_channels = newClientInstance();
+        connect(server, view_hidden_channels);
+        login(server, view_hidden_channels, VIEW_HIDDEN_CHANNELS + getTestMethodName(), VIEW_HIDDEN_CHANNELS, VIEW_HIDDEN_CHANNELS);
+
+        TeamTalkBase view_all_users_hidden_channels = newClientInstance();
+        connect(server, view_all_users_hidden_channels);
+        login(server, view_all_users_hidden_channels, VIEW_ALL_USERS_HIDDEN_CHANNELS + getTestMethodName(), VIEW_ALL_USERS_HIDDEN_CHANNELS, VIEW_ALL_USERS_HIDDEN_CHANNELS);
+
+        Vector<TeamTalkBase> clients = new Vector<TeamTalkBase>();
+        clients.add(admin);
+        clients.add(view_none);
+        clients.add(view_all_users);
+        clients.add(view_hidden_channels);
+        clients.add(view_all_users_hidden_channels);
+
+        Channel hidden = buildDefaultChannel(admin, "Hidden channel");
+        hidden.uChannelType |= (ChannelType.CHANNEL_HIDDEN | ChannelType.CHANNEL_PERMANENT);
+        assertTrue("admin make hidden channel", waitCmdSuccess(admin, admin.doMakeChannel(hidden), DEF_WAIT, interleave));
+
+        for (TeamTalkBase client : clients)
+            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+
+        int hidden_id = admin.getChannelIDFromPath(hidden.szName);
+        assertTrue("Got hidden channel in admin", hidden_id > 0);
+
+        // check hidden channel visibility
+        Channel chan = new Channel();
+        assertTrue(ADMIN + " can see hidden channel", admin.getChannel(hidden_id, chan));
+        assertFalse(VIEW_NONE + " cannot see hidden channel", view_none.getChannel(hidden_id, chan));
+        assertFalse(VIEW_ALL_USERS + " cannot see hidden channel", view_all_users.getChannel(hidden_id, chan));
+        assertTrue(VIEW_HIDDEN_CHANNELS + " can see hidden channel", view_hidden_channels.getChannel(hidden_id, chan));
+        assertTrue(VIEW_ALL_USERS_HIDDEN_CHANNELS + " can see hidden channel", view_all_users_hidden_channels.getChannel(hidden_id, chan));
+
+        // check initial login with hidden channels
+        for (TeamTalkBase client : clients) {
+            assertTrue("logout/login", waitCmdComplete(client, client.doLogout(), DEF_WAIT, interleave));
+        }
+        login(server, admin, ADMIN + getTestMethodName(), ADMIN, ADMIN);
+        login(server, view_none, VIEW_NONE + getTestMethodName(), VIEW_NONE, VIEW_NONE);
+        login(server, view_all_users, VIEW_ALL_USERS + getTestMethodName(), VIEW_ALL_USERS, VIEW_ALL_USERS);
+        login(server, view_hidden_channels, VIEW_HIDDEN_CHANNELS + getTestMethodName(), VIEW_HIDDEN_CHANNELS, VIEW_HIDDEN_CHANNELS);
+        login(server, view_all_users_hidden_channels, VIEW_ALL_USERS_HIDDEN_CHANNELS + getTestMethodName(), VIEW_ALL_USERS_HIDDEN_CHANNELS, VIEW_ALL_USERS_HIDDEN_CHANNELS);
+
+        // check user in hidden channel visibility
+        assertTrue("admin join hidden", waitCmdSuccess(admin, admin.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave));
+        for (TeamTalkBase client : clients)
+            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+        User user = new User();
+        assertTrue(ADMIN + " can see user in channel", admin.getUser(admin.getMyUserID(), user) && user.nChannelID == hidden_id);
+        assertFalse(VIEW_NONE + " cannot see user inside/outside channel", view_none.getUser(admin.getMyUserID(), user));
+        assertTrue(VIEW_ALL_USERS + " cannot see user in hidden channel", view_all_users.getUser(admin.getMyUserID(), user) && user.nChannelID == 0);
+        assertFalse(VIEW_HIDDEN_CHANNELS + " cannot see user in hidden channel", view_hidden_channels.getUser(admin.getMyUserID(), user));
+        assertTrue(VIEW_ALL_USERS_HIDDEN_CHANNELS + " can see user in hidden channel", view_all_users_hidden_channels.getUser(admin.getMyUserID(), user) && user.nChannelID == hidden_id);
+
+        // check user leave hidden channel visibility
+        assertTrue("admin leave hidden channel", waitCmdSuccess(admin, admin.doLeaveChannel(), DEF_WAIT, interleave));
+        for (TeamTalkBase client : clients)
+            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+        assertTrue(ADMIN + " can see user", admin.getUser(admin.getMyUserID(), user) && user.nChannelID == 0);
+        assertFalse(VIEW_NONE + " cannot see user", view_none.getUser(admin.getMyUserID(), user));
+        assertTrue(VIEW_ALL_USERS + " see user", view_all_users.getUser(admin.getMyUserID(), user) && user.nChannelID == 0);
+        assertFalse(VIEW_HIDDEN_CHANNELS + " cannot see user", view_hidden_channels.getUser(admin.getMyUserID(), user));
+        assertTrue(VIEW_ALL_USERS_HIDDEN_CHANNELS + " can see user", view_all_users_hidden_channels.getUser(admin.getMyUserID(), user) && user.nChannelID == 0);
+
+        // check USERRIGHT_VIEW_HIDDEN_CHANNELS when joining hidden channel
+        assertTrue(VIEW_HIDDEN_CHANNELS + " join hidden channel", waitCmdSuccess(view_hidden_channels, view_hidden_channels.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave));
+        assertTrue(VIEW_HIDDEN_CHANNELS + " can see self", view_hidden_channels.getUser(view_hidden_channels.getMyUserID(), user) && user.nChannelID == hidden_id);
+        assertTrue("admin join hidden channel", waitCmdSuccess(admin, admin.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave));
+        for (TeamTalkBase client : clients)
+            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+        assertTrue(VIEW_HIDDEN_CHANNELS + " can see admin in hidden channel", view_hidden_channels.getUser(admin.getMyUserID(), user) && user.nChannelID == hidden_id);
+        assertTrue("admin leave hidden channel", waitCmdSuccess(admin, admin.doLeaveChannel(), DEF_WAIT, interleave));
+        for (TeamTalkBase client : clients)
+            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+        assertFalse(VIEW_HIDDEN_CHANNELS + " cannot see admin", view_hidden_channels.getUser(admin.getMyUserID(), user));
+        assertTrue(VIEW_HIDDEN_CHANNELS + "leave hidden channel", waitCmdSuccess(view_hidden_channels, view_hidden_channels.doLeaveChannel(), DEF_WAIT, interleave));
+        assertTrue(VIEW_HIDDEN_CHANNELS + " join hidden channel again", waitCmdSuccess(view_hidden_channels, view_hidden_channels.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave));
+
+        // check USERRIGHT_NONE can join hidden channel
+        assertTrue(VIEW_NONE + " join hidden", waitCmdSuccess(view_none, view_none.doJoinChannel(hidden), DEF_WAIT, interleave));
+        for (TeamTalkBase client : clients)
+            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+        assertFalse(VIEW_NONE + " cannot see admin", view_none.getUser(admin.getMyUserID(), user));
+        assertTrue(VIEW_NONE + " can see self", view_none.getUser(view_none.getMyUserID(), user) && user.nChannelID == hidden_id);
+        assertTrue(VIEW_NONE + " can see " + view_hidden_channels, view_none.getUser(view_hidden_channels.getMyUserID(), user) && user.nChannelID == hidden_id);
+        assertTrue(VIEW_NONE + "leave hidden channel", waitCmdSuccess(view_none, view_none.doLeaveChannel(), DEF_WAIT, interleave));
+        assertFalse(VIEW_NONE + " cannot see hidden channel", view_none.getChannel(hidden_id, chan));
+        assertFalse(VIEW_NONE + " cannot see " + view_hidden_channels, view_none.getUser(view_hidden_channels.getMyUserID(), user));
+
+        // check removal of hidden channel
+        assertTrue(VIEW_NONE + " join hidden", waitCmdSuccess(view_none, view_none.doJoinChannel(hidden), DEF_WAIT, interleave));
+        assertTrue("admin remove hidden channel", waitCmdSuccess(admin, admin.doRemoveChannel(hidden_id), DEF_WAIT, interleave));
+        for (TeamTalkBase client : clients)
+            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+        assertTrue(VIEW_NONE + " kicked from hidden channel", view_none.getMyChannelID() == 0);
+
+        // check CHANNEL_HIDDEN cannot be toggled
+        assertTrue("get root chan", admin.getChannel(admin.getRootChannelID(), chan));
+        chan.uChannelType |= ChannelType.CHANNEL_HIDDEN;
+        assertTrue("cannot set hidden on existing channel", waitCmdError(admin, admin.doUpdateChannel(chan), DEF_WAIT, interleave));
+        chan = buildDefaultChannel(admin, "Foo");
+        assertTrue("admin make new channel", waitCmdSuccess(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+        int foo_id = admin.getChannelIDFromPath(chan.szName);
+        assertTrue("Got new channel in admin", admin.getChannel(foo_id, chan));
+        chan.uChannelType |= ChannelType.CHANNEL_HIDDEN;
+        assertTrue("cannot set hidden on existing channel", waitCmdError(admin, admin.doUpdateChannel(chan), DEF_WAIT, interleave));
+
+        // check CHANNEL_HIDDEN cannot contain subchannel
+        hidden = buildDefaultChannel(admin, "Hidden channel");
+        hidden.uChannelType |= (ChannelType.CHANNEL_HIDDEN | ChannelType.CHANNEL_PERMANENT);
+        assertTrue("admin make hidden channel", waitCmdSuccess(admin, admin.doMakeChannel(hidden), DEF_WAIT, interleave));
+        hidden_id = admin.getChannelIDFromPath(hidden.szName);
+        assertTrue("Got hidden channel in admin", hidden_id > 0);
+        hidden.nParentID = hidden_id;
+        assertTrue("cannot create hidden subchannel in hidden channel", waitCmdError(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+        hidden.uChannelType = ChannelType.CHANNEL_DEFAULT;
+        assertTrue("cannot create subchannel in hidden channel", waitCmdError(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+    }
     
     // @Test
     public void _testRunServer() {

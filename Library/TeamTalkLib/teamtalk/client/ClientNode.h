@@ -177,6 +177,7 @@ namespace teamtalk {
         ACE_Time_Value ping_issue_time;
         bool udp_ping_dirty;
         bool tcp_ping_dirty;
+        int streamcapture_delay_msec = 0;
         ClientStats()
         {
             udpbytes_sent = udpbytes_recv = 
@@ -221,7 +222,7 @@ namespace teamtalk {
         ACE_UINT32 samples_transmitted;
         //total samples recorded
         ACE_UINT32 samples_recorded;
-
+        uint32_t samples_delay_msec;
         SoundDeviceEffects effects;
 
         SoundProperties()
@@ -231,6 +232,7 @@ namespace teamtalk {
             dereverb = true;
             samples_transmitted = 0;
             samples_recorded = 0;
+            samples_delay_msec = 0;
             // default to TT Audio preprocessor to be compatible with
             // SetVoiceGainLevel()
             preprocessor.preprocessor = AUDIOPREPROCESSOR_TEAMTALK;

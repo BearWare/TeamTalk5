@@ -85,8 +85,12 @@ QVariant UserAccountsModel::data ( const QModelIndex & index, int role /*= Qt::D
         case COLUMN_INDEX_USERTYPE :
             if(m_users[index.row()].uUserType & USERTYPE_ADMIN)
                 return tr("Administrator");
-            else
+            else if(m_users[index.row()].uUserType & USERTYPE_DEFAULT)
                 return tr("Default User");
+            else if(m_users[index.row()].uUserType == USERTYPE_NONE)
+                return tr("Disabled");
+            else
+                return tr("Unknown");
         case COLUMN_INDEX_NOTE :
             return _Q(m_users[index.row()].szNote);
         case COLUMN_INDEX_CHANNEL :
@@ -179,6 +183,7 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     m_proxyModel = new QSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_model);
     ui.usersTreeView->setModel(m_proxyModel);
+    ui.checkBox->hide();
 
 #if defined(Q_OS_MAC)
     auto font = ui.usersTreeView->font();
@@ -235,6 +240,7 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     connect(ui.closeBtn, SIGNAL(clicked()), SLOT(close()));
     connect(ui.defaultuserBtn, SIGNAL(clicked()), SLOT(slotUserTypeChanged()));
     connect(ui.adminBtn, SIGNAL(clicked()), SLOT(slotUserTypeChanged()));
+    connect(ui.disableduserBtn, SIGNAL(clicked()), SLOT(slotUserTypeChanged()));
     connect(ui.usernameEdit, SIGNAL(textChanged(const QString&)), SLOT(slotUsernameChanged(const QString&)));
 
     connect(ui.usersTreeView, SIGNAL(clicked(const QModelIndex&)), 
@@ -308,10 +314,12 @@ void UserAccountsDlg::showUserAccount(const UserAccount& useraccount)
 {
     ui.usernameEdit->setText(_Q(useraccount.szUsername));
     ui.passwordEdit->setText(_Q(useraccount.szPassword));
-    if(useraccount.uUserType & USERTYPE_ADMIN)
+    if (useraccount.uUserType & USERTYPE_ADMIN)
         ui.adminBtn->setChecked(useraccount.uUserType & USERTYPE_ADMIN);
-    if(useraccount.uUserType & USERTYPE_DEFAULT)
+    else if (useraccount.uUserType & USERTYPE_DEFAULT)
         ui.defaultuserBtn->setChecked(useraccount.uUserType & USERTYPE_DEFAULT);
+    else if (useraccount.uUserType == USERTYPE_NONE)
+        ui.disableduserBtn->setChecked(true);
 
     ui.noteEdit->setPlainText(_Q(useraccount.szNote));
     ui.channelComboBox->lineEdit()->setText(_Q(useraccount.szInitChannel));
@@ -391,6 +399,7 @@ void UserAccountsDlg::updateUserRights(const UserAccount& useraccount)
     ui.multiloginBox->setChecked(useraccount.uUserRights & USERRIGHT_MULTI_LOGIN);
     ui.chnickBox->setChecked((useraccount.uUserRights & USERRIGHT_LOCKED_NICKNAME) == USERRIGHT_NONE);
     ui.viewallusersBox->setChecked(useraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS);
+    ui.viewhiddenchanBox->setChecked(useraccount.uUserRights & USERRIGHT_VIEW_HIDDEN_CHANNELS);
     ui.permchannelsBox->setChecked(useraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS);
     ui.tempchannelsBox->setChecked(useraccount.uUserRights & USERRIGHT_CREATE_TEMPORARY_CHANNEL);
     ui.clientbroadcastBox->setChecked(useraccount.uUserRights & USERRIGHT_TEXTMESSAGE_BROADCAST);
@@ -412,6 +421,7 @@ void UserAccountsDlg::updateUserRights(const UserAccount& useraccount)
     ui.multiloginBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.chnickBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.viewallusersBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
+    ui.viewhiddenchanBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.permchannelsBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.tempchannelsBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.clientbroadcastBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
@@ -467,10 +477,13 @@ void UserAccountsDlg::slotAddUser()
     ZERO_STRUCT(m_add_user);
     COPY_TTSTR(m_add_user.szUsername, ui.usernameEdit->text().trimmed());
     COPY_TTSTR(m_add_user.szPassword, ui.passwordEdit->text());
-    if(ui.adminBtn->isChecked())
+    if (ui.adminBtn->isChecked())
         m_add_user.uUserType = USERTYPE_ADMIN;
-    else
+    else if (ui.defaultuserBtn->isChecked())
         m_add_user.uUserType = USERTYPE_DEFAULT;
+    else if (ui.disableduserBtn->isChecked())
+        m_add_user.uUserType = USERTYPE_NONE;
+
     if(ui.multiloginBox->isChecked())
         m_add_user.uUserRights |= USERRIGHT_MULTI_LOGIN;
     else
@@ -483,6 +496,10 @@ void UserAccountsDlg::slotAddUser()
         m_add_user.uUserRights |= USERRIGHT_VIEW_ALL_USERS;
     else
         m_add_user.uUserRights &= ~USERRIGHT_VIEW_ALL_USERS;
+    if (ui.viewhiddenchanBox->isChecked())
+        m_add_user.uUserRights |= USERRIGHT_VIEW_HIDDEN_CHANNELS;
+    else
+        m_add_user.uUserRights &= ~USERRIGHT_VIEW_HIDDEN_CHANNELS;
     if(ui.permchannelsBox->isChecked())
         m_add_user.uUserRights |= USERRIGHT_MODIFY_CHANNELS;
     else
@@ -612,14 +629,19 @@ void UserAccountsDlg::slotEdited(const QString&)
 
 void UserAccountsDlg::slotUserTypeChanged()
 {
-    if(ui.adminBtn->isChecked())
+    if (ui.adminBtn->isChecked())
     {
         m_add_user.uUserType = USERTYPE_ADMIN;
-        m_add_user.uUserRights = 0;
+        m_add_user.uUserRights = USERRIGHT_NONE;
     }
-    if(ui.defaultuserBtn->isChecked())
+    else if (ui.defaultuserBtn->isChecked())
     {
         m_add_user.uUserType = USERTYPE_DEFAULT;
+        m_add_user.uUserRights = USERRIGHT_DEFAULT;
+    }
+    else
+    {
+        m_add_user.uUserType = USERTYPE_NONE;
         m_add_user.uUserRights = USERRIGHT_DEFAULT;
     }
     updateUserRights(m_add_user);

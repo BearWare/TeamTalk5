@@ -32,7 +32,7 @@
 #include <ace/SString.h>
 #include "Common.h"
 
-#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.7")
+#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.8")
 
 /* parameter names */
 #define TT_USERID ACE_TEXT("userid")
@@ -257,6 +257,7 @@ namespace teamtalk {
         TT_CMDERR_FILESHARING_DISABLED = 3013,
         TT_CMDERR_CHANNEL_HAS_USERS = 3015,
         TT_CMDERR_LOGINSERVICE_UNAVAILABLE = 3016,
+        TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN = 3017,
 
         TT_SRVERR_COMMAND_SUSPEND = 4000,
 

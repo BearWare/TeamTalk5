@@ -746,8 +746,10 @@ ErrorMsg ServerGuard::WebLoginPostAuthenticate(UserAccount& useraccount)
     else
     {
         // authenticate if web-login username exists in db
-        m_settings.AuthenticateUser(useraccount);
-        return ErrorMsg(TT_CMDERR_SUCCESS);
+        if (m_settings.AuthenticateUser(useraccount) &&
+            useraccount.usertype != USERTYPE_NONE)
+            return ErrorMsg(TT_CMDERR_SUCCESS);
+        return ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
     }
 }
 

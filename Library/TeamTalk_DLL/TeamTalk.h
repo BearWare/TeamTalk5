@@ -1545,6 +1545,8 @@ extern "C" {
         /** @brief User can record voice in all channels. Even channels
          * with #CHANNEL_NO_RECORDING. */
         USERRIGHT_RECORD_VOICE              = 0x00100000,
+        /** @brief User can see hidden channels, #CHANNEL_HIDDEN. */
+        USERRIGHT_VIEW_HIDDEN_CHANNELS      = 0x00200000
     } UserRight;
 
     /** 
@@ -2210,7 +2212,10 @@ extern "C" {
          * voice activation. @see TT_EnableVoiceActivation() */
         CHANNEL_NO_VOICEACTIVATION  = 0x0010,
         /** @brief Don't allow recording to files in the channel. */
-        CHANNEL_NO_RECORDING        = 0x0020
+        CHANNEL_NO_RECORDING        = 0x0020,
+        /** @brief Hidden channel which can only be seen with
+         * #USERRIGHT_VIEW_HIDDEN_CHANNELS. */
+        CHANNEL_HIDDEN              = 0x0040
     } ChannelType;
 
     /** 
@@ -2526,6 +2531,18 @@ extern "C" {
         /** @brief The number of seconds nothing has been received by
          * the client on UDP. @see ClientKeepAlive */
         INT32 nUdpServerSilenceSec;
+        /** @brief Delay of sound input device until the first audio 
+         * frame is delivered (in msec).
+         *
+         * The time from when the sound input device is started and until the first
+         * audio frame is delived (not including the time of the initial audio frame).
+         *
+         * @c nSoundInputDeviceDelayMSec is only updated when #TTInstance is in
+         * a channel. @c nSoundInputDeviceDelayMSec will remain zero until the
+         * first audio frame is delived.
+         *
+         * @see TT_InitSoundInputDevice() */
+        INT32 nSoundInputDeviceDelayMSec;
     } ClientStatistics;
 
     /** @addtogroup errorhandling
@@ -2774,6 +2791,12 @@ extern "C" {
          *
          * Added in TeamTalk v5.3 to support web-logins. */
         CMDERR_LOGINSERVICE_UNAVAILABLE = 3016,
+
+        /** @brief Cannot apply #CHANNEL_HIDDEN to #Channel's type.
+         *
+         * A hidden channel cannot contain subchannels or have it
+         * #CHANNEL_HIDDEN property toggled. */
+        CMDERR_CHANNEL_CANNOT_BE_HIDDEN = 3017,
 
         /* ERRORS 10000-10999 ARE NOT COMMAND ERRORS BUT INSTEAD
          * ERRORS IN THE CLIENT INSTANCE. */
