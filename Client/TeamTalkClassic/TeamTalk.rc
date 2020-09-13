@@ -2197,10 +2197,11 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_USERTEXTMSG         "Text message from %s. %s."
-    IDS_BCASTTEXTMSG        "Broadcast message from %s. %s."
-    IDS_USERLOGIN           "%s logged on to the server"
-    IDS_USERLOGOUT          "%s logged out of the server"
+    IDS_USERTEXTMSG         "Text message from %s. %s"
+    IDS_MPSEND                 "Private message sent: %s"
+    IDS_BCASTTEXTMSG        "Broadcast message from %s. %s"
+    IDS_USERLOGIN           "%s has logged in"
+    IDS_USERLOGOUT          "%s has logged out"
     IDS_PROPPAGE_USEREVENTS "User events"
     IDS_PROPPAGE_USERLOGIN  "User logged in"
     IDS_PROPPAGE_USERLOGOUT "User logged out"
@@ -2244,7 +2245,8 @@ BEGIN
     IDS_MASTERVOL           "Master Volume"
     IDS_MICGAIN             "Microphone gain"
     IDS_VOICEACTLEVEL       "Voice Activation Level"
-    IDS_CHANTEXTMSG         "Channel message from %s. %s."
+    IDS_CHANTEXTMSG         "Channel message from %s. %s"
+    IDS_CHANTEXTMSGSEND            "Channel message sent: %s"
 END
 
 STRINGTABLE
