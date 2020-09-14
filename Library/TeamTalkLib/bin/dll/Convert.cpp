@@ -858,6 +858,12 @@ bool Convert(const AudioCodec& codec, teamtalk::AudioCodec& result)
                                                     codec.opus.nTxIntervalMSec);
             result.opus.frames_per_packet = 1;
         }
+
+        // clamp to max bitrate
+        int maxbitrate = GetAudioCodecMaxPacketBitrate(result);
+        if (result.opus.bitrate > maxbitrate)
+            result.opus.bitrate = maxbitrate;
+
         VALID_INT_CODEC(result, result.opus);
 
         return teamtalk::ValidAudioCodec(result);
@@ -1586,6 +1592,7 @@ void Convert(const teamtalk::ClientStats& stats, ClientStatistics& result)
     result.nUdpPingTimeMs = stats.udpping_time;
     result.nTcpServerSilenceSec = stats.tcp_silence_sec;
     result.nUdpServerSilenceSec = stats.udp_silence_sec;
+    result.nSoundInputDeviceDelayMSec = stats.streamcapture_delay_msec;
 }
 
 void Convert(const ClientKeepAlive& ka, teamtalk::ClientKeepAlive& result)

@@ -113,18 +113,17 @@ ACE_TString ServerNode::GetMessageOfTheDay(int ignore_userid/* = 0*/)
     GUARD_OBJ(this, lock());
 
     //%users% %uptime% %voicetx% %voicerx% %admins% %lastuser%
-    const ServerChannel::users_t& userslst = GetAuthorizedUsers(true);
-    size_t users = GetAuthorizedUsers().size();
-    size_t admins = users - userslst.size();
+    size_t users = GetAuthorizedUsers(true).size();
+    size_t admins = GetAdministrators().size();
     ACE_TString uptime = UptimeHours(GetUptime());
 
     ACE_TString lastuser;
     ACE_Time_Value duration = ACE_Time_Value::max_time;
-    for(size_t i=0;i<userslst.size();i++)
+    for (auto u : GetAuthorizedUsers(false))
     {
-        if(userslst[i]->GetDuration() < duration &&
-           userslst[i]->GetUserID() != ignore_userid)
-            lastuser = userslst[i]->GetNickname();
+        if (u->GetDuration() < duration &&
+            u->GetUserID() != ignore_userid)
+            lastuser = u->GetNickname();
     }
     ACE_TString motd = m_properties.motd;
     replace_all(motd, ACE_TEXT("%users%"), i2string((int)users));
@@ -183,17 +182,14 @@ ServerChannel::users_t ServerNode::GetAdministrators(const ServerChannel& exclud
     ASSERT_REACTOR_LOCKED(this);
 
     ServerChannel::users_t users;
-    for(mapusers_t::const_iterator i=m_mUsers.begin(); i != m_mUsers.end(); i++)
+    for (auto au : GetAdministrators())
     {
-        if(((*i).second->GetUserType() & USERTYPE_ADMIN) && 
-            (!(*i).second->GetChannel() ||
-            (*i).second->GetChannel()->GetChannelID() != excludeChannel.GetChannelID()))
-            users.push_back((*i).second);
+        if (au->GetChannel().get() != &excludeChannel)
+            users.push_back(au);
     }
 
     return users;
 }
-
 
 ServerChannel::users_t ServerNode::GetAuthorizedUsers(bool excludeAdmins/* = false*/)
 {
@@ -213,34 +209,17 @@ ServerChannel::users_t ServerNode::GetAuthorizedUsers(bool excludeAdmins/* = fal
     return users;
 }
 
-ServerChannel::users_t ServerNode::GetNotificationUsers(const ServerChannel& excludeChannel)
+ServerChannel::users_t ServerNode::GetNotificationUsers(UserRights urights, const serverchannel_t& chan)
 {
-    ASSERT_REACTOR_LOCKED(this);
+    ServerChannel::users_t notifyusers;
+    if (chan)
+        notifyusers = chan->GetUsers();
 
-    //vector with users who'll be notified of changes on server
-    ServerChannel::users_t notifyusers = GetAdministrators(excludeChannel);
-
-    const ServerChannel::users_t& users = GetAuthorizedUsers(true); //get all users except admins
-    for(size_t i=0;i<users.size();i++)
+    ServerChannel::users_t users = GetAuthorizedUsers(false);
+    for (auto u : users)
     {
-        if((users[i]->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) &&
-            !excludeChannel.UserExists(users[i]->GetUserID()))
-            notifyusers.push_back(users[i]);
-    }
-    return notifyusers;
-}
-
-ServerChannel::users_t ServerNode::GetNotificationUsers()
-{
-    ASSERT_REACTOR_LOCKED(this);
-
-    //vector with users who'll be notified of changes on server
-    ServerChannel::users_t notifyusers = GetAdministrators();
-    const ServerChannel::users_t& users = GetAuthorizedUsers(true); //get all users except admins
-    for(size_t i=0;i<users.size();i++)
-    {
-        if(users[i]->GetUserRights() & USERRIGHT_VIEW_ALL_USERS)
-            notifyusers.push_back(users[i]);
+        if ((u->GetUserRights() & urights) == urights && (!chan || chan != u->GetChannel()))
+            notifyusers.push_back(u);
     }
     return notifyusers;
 }
@@ -312,22 +291,6 @@ int ServerNode::GetActiveFileTransfers(int& uploads, int& downloads)
 bool ServerNode::IsEncrypted() const
 {
     return m_def_acceptors.empty();
-}
-
-int ServerNode::GetAuthUserCount()
-{
-    ASSERT_REACTOR_LOCKED(this);
-
-    int nUserCount = 0;
-
-    // get number of connected users
-    for(mapusers_t::iterator ite = m_mUsers.begin();
-        ite != m_mUsers.end();
-        ite++)
-        if(ite->second->IsAuthorized())
-            nUserCount++;
-
-    return nUserCount;
 }
 
 int ServerNode::GetChannelID(const ACE_TString& chanpath)
@@ -1787,73 +1750,70 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
     ServerChannel::users_t result;
     uint16_t dest_userid = packet.GetDestUserID();
     int fromuserid = user.GetUserID();
-    const ServerChannel::users_t& users = channel.GetUsers();
 
-    if(dest_userid) //the packet is only for certain users
+    if (dest_userid) //the packet is only for certain users
     {
-        for(size_t i=0; i < users.size(); i++)
+        for (auto u : channel.GetUsers())
         {
-            if(users[i]->GetUserID() == dest_userid &&
-                (users[i]->GetSubscriptions(user) & subscrip_check) &&
-                users[i]->GetPacketProtocol() >= pp_min)
+            if (u->GetUserID() == dest_userid &&
+                (u->GetSubscriptions(user) & subscrip_check) &&
+                u->GetPacketProtocol() >= pp_min)
             {
-                result.push_back(users[i]);
+                result.push_back(u);
             }
         }
 
         //admins can also subscribe outside their channels
-        const ServerChannel::users_t& admins = GetAdministrators();
-        for(size_t i=0;i<admins.size();i++)
+        for (auto au : GetAdministrators())
         {
-            if( (admins[i]->GetSubscriptions(user) & intercept_check) &&
-                !channel.UserExists(admins[i]->GetUserID()) &&
-                admins[i]->GetPacketProtocol() >= pp_min)
+            if ((au->GetSubscriptions(user) & intercept_check) &&
+                !channel.UserExists(au->GetUserID()) &&
+                au->GetPacketProtocol() >= pp_min)
             {
-                result.push_back(users[i]);
+                result.push_back(au);
             }
         }
     }
-    else if(packet.GetChannel())
+    else if (packet.GetChannel())
     {
-        if((channel.GetChannelType() & CHANNEL_OPERATOR_RECVONLY) &&
+        if ((channel.GetChannelType() & CHANNEL_OPERATOR_RECVONLY) &&
             !channel.IsOperator(fromuserid) && 
             (user.GetUserType() & USERTYPE_ADMIN) == 0)
         {
             //only operators and admins will receive from default users
             //in channel type CHANNEL_OPERATOR_RECVONLY
-            for(size_t i=0;i<users.size();i++)
+            for (auto u : channel.GetUsers())
             {
-                if((channel.IsOperator(users[i]->GetUserID()) ||
-                    users[i]->GetUserType() & USERTYPE_ADMIN) &&
-                    (users[i]->GetSubscriptions(user) & subscrip_check) &&
-                    users[i]->GetPacketProtocol() >= pp_min)
+                if ((channel.IsOperator(u->GetUserID()) ||
+                     u->GetUserType() & USERTYPE_ADMIN) &&
+                    (u->GetSubscriptions(user) & subscrip_check) &&
+                    u->GetPacketProtocol() >= pp_min)
                 {
-                    result.push_back(users[i]);
+                    result.push_back(u);
                 }
             }
         }
         else
         {
             //forward to all users in same channel
-            for(size_t i=0; i < users.size(); i++)
+            for (auto u : channel.GetUsers())
             {
-                if((users[i]->GetSubscriptions(user) & subscrip_check) &&
-                   users[i]->GetPacketProtocol() >= pp_min)
+                if ((u->GetSubscriptions(user) & subscrip_check) &&
+                    u->GetPacketProtocol() >= pp_min)
                 {
-                    result.push_back(users[i]);
+                    result.push_back(u);
                 }
             }
         }
 
         //admins can also subscribe outside their channels
-        const ServerChannel::users_t& admins = GetAdministrators();
-        for(size_t i=0;i<admins.size();i++)
+        for (auto au : GetAdministrators())
         {
-            if( (admins[i]->GetSubscriptions(user) & intercept_check) &&
-                !channel.UserExists(admins[i]->GetUserID()) &&
-                admins[i]->GetPacketProtocol() >= pp_min)
+            if ((au->GetSubscriptions(user) & intercept_check) &&
+                !channel.UserExists(au->GetUserID()) &&
+                au->GetPacketProtocol() >= pp_min)
             {
-                result.push_back(admins[i]);
+                result.push_back(au);
             }
         }
     }
@@ -2637,7 +2597,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
         return ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
     }
 
-    int user_count = GetAuthUserCount();
+    int user_count = int(GetAuthorizedUsers(false).size());
     if(user_count+1 > m_properties.maxusers && 
        (useraccount.usertype & USERTYPE_ADMIN) == 0)
         return ErrorMsg(TT_CMDERR_MAX_SERVER_USERS_EXCEEDED); //user limit
@@ -2645,12 +2605,11 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     //check for double login
     if((useraccount.userrights & USERRIGHT_MULTI_LOGIN) == 0)
     {
-        ServerChannel::users_t users = GetAuthorizedUsers();
-        for(size_t i=0;i<users.size();i++)
+        for (auto u : GetAuthorizedUsers())
         {
-            TTASSERT(users[i] != user);
-            if(users[i]->GetUsername() == username)
-                UserKick(user->GetUserID(), users[i]->GetUserID(), 0, true);
+            TTASSERT(u != user);
+            if (u->GetUsername() == username)
+                UserKick(user->GetUserID(), u->GetUserID(), 0, true);
         }
     }
 
@@ -2659,10 +2618,9 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
        (useraccount.usertype & USERTYPE_ADMIN) == 0)
     {
         int logins = 1; //include self
-        ServerChannel::users_t users = GetAuthorizedUsers();
-        for(size_t i=0;i<users.size();i++)
+        for (auto u : GetAuthorizedUsers())
         {
-            if(users[i]->GetIpAddress() == user->GetIpAddress())
+            if (u->GetIpAddress() == user->GetIpAddress())
                 logins++;
         }
         if(logins > m_properties.max_logins_per_ipaddr)
@@ -2685,24 +2643,23 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
 
     //forward all channels
     user->ForwardChannels(GetRootChannel(), IsEncrypted());
+
     //send all files to user if admin
     if(user->GetUserType() & USERTYPE_ADMIN)
         user->ForwardFiles(GetRootChannel(), true);
 
     //notify other users of new user
-    ServerChannel::users_t users = GetNotificationUsers();
-    for(size_t i=0;i<users.size();i++)
+    for (auto u : GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS))
     {
-        if(users[i]->GetUserID() != userid)
-            users[i]->DoLoggedIn(*user);
+        if(u->GetUserID() != userid)
+            u->DoLoggedIn(*user);
     }
 
     //forward users if USERRIGHT_VIEW_ALL_USERS enabled
     if(user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS)
     {
-        users = GetAuthorizedUsers();
-        for(size_t i=0;i<users.size();i++)
-            user->DoLoggedIn(*users[i]);
+        for (auto u : GetAuthorizedUsers())
+            user->DoLoggedIn(*u);
 
         user->ForwardUsers(GetRootChannel(), true);
     }
@@ -2743,7 +2700,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
         serverchannel_t chan = GetChannel(*i);
         TTASSERT(chan);
         if(chan)
-            UpdateChannel(*chan);
+            UpdateChannel(chan);
     }
 
     user->DoLoggedOut();
@@ -2760,9 +2717,8 @@ ErrorMsg ServerNode::UserLogout(int userid)
     }
 
     //notify users of logout
-    ServerChannel::users_t users = GetNotificationUsers();
-    for(size_t i=0;i<users.size();i++)
-        users[i]->DoLoggedOut(*user);
+    for (auto u : GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS))
+        u->DoLoggedOut(*user);
 
     m_srvguard->OnUserLoggedOut(*user);
 
@@ -2816,25 +2772,10 @@ ErrorMsg ServerNode::UserUpdate(int userid)
     if(!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
-    const serverchannel_t& chan = user->GetChannel();
-    if(chan)
-    {
-        const ServerChannel::users_t& users = chan->GetUsers();
-        for(size_t i=0;i<users.size();i++)
-            users[i]->DoUpdateUser(*user);
-
-        //notify admins and show-all-users
-        ServerChannel::users_t notifyusers = GetNotificationUsers(*chan);
-        for(size_t i=0;i<notifyusers.size();i++)
-            notifyusers[i]->DoUpdateUser(*user);
-    }
-    else
-    {
-        //notify admins and show-all-users
-        ServerChannel::users_t notifyusers = GetNotificationUsers();
-        for(size_t i=0;i<notifyusers.size();i++)
-            notifyusers[i]->DoUpdateUser(*user);
-    }
+    ServerChannel::users_t notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS,
+                                                              user->GetChannel());
+    for (auto u : notifyusers)
+        u->DoUpdateUser(*user);
 
     m_srvguard->OnUserUpdated(*user);
 
@@ -2856,14 +2797,25 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     serverchannel_t newchan = GetChannel(chanprop.channelid);
-    if(!newchan)//user is trying to create a new channel
+    if (!newchan)
+    {
+        // handle case where channel already exists but ID is unknown
+        // to use, e.g. CHANNEL_HIDDEN.
+        newchan = GetChannel(chanprop.parentid);
+        if (newchan && chanprop.name.length())
+            newchan = newchan->GetSubChannel(chanprop.name);
+        else
+            newchan.reset();
+    }
+
+    if (!newchan)//user is trying to create a new channel
     {
         if((user->GetUserRights() & USERRIGHT_CREATE_TEMPORARY_CHANNEL) == 0 &&
            (user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
-        if((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0 &&
-            (chanprop.chantype & CHANNEL_PERMANENT) )
+        if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0 &&
+            (chanprop.chantype & (CHANNEL_PERMANENT | CHANNEL_HIDDEN)))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         //ensure users cannot create channels which is not direct subchannel of current
@@ -2917,14 +2869,22 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         TTASSERT(err.errorno == TT_CMDERR_SUCCESS);
         newchan->SetChannelType(chantype);
     }
+
     //add user to channel
     newchan->AddUser(user->GetUserID(), user);
 
-    //notify user of new channel
-    user->DoJoinedChannel(*newchan, IsEncrypted());
-
     //set new channel
     user->SetChannel(newchan);
+
+    // forward hidden channel to user if user cannot see it
+    if ((newchan->GetChannelType() & CHANNEL_HIDDEN) &&
+        (user->GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
+    {
+        user->DoAddChannel(*newchan, IsEncrypted());
+    }
+    
+    //notify user of new channel
+    user->DoJoinedChannel(*newchan, IsEncrypted());
 
     //check if user should automatically become operator of channel
     UserAccount useraccount = user->GetUserAccount();
@@ -2932,32 +2892,32 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         useraccount.auto_op_channels.end())
         makeop = true;
 
-    //vector with users who'll be notified of the new user
-    ServerChannel::users_t notifyusers = GetNotificationUsers(*newchan);
-    for(size_t i=0;i<notifyusers.size();i++)
-        notifyusers[i]->DoAddUser(*user, *newchan);
-
-    //notify users in new channel that new user has joined
-    const ServerChannel::users_t& users = newchan->GetUsers();
-    if(user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS)
-    {
-        for(size_t i=0;i<users.size();i++)
-            users[i]->DoAddUser(*user, *newchan);
-    }
+    //notify users that new user has joined
+    ServerChannel::users_t notifyusers;
+    if (newchan->GetChannelType() & CHANNEL_HIDDEN)
+        notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS | USERRIGHT_VIEW_ALL_USERS, newchan);
     else
+        notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, newchan);
+
+    for (auto u : notifyusers)
     {
-        for(size_t i=0;i<users.size();i++)
+        u->DoAddUser(*user, *newchan);
+    }
+
+    // notify new user of other users in same channel if not visible
+    if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
+    {
+        for (auto cu : newchan->GetUsers())
         {
-            users[i]->DoAddUser(*user, *newchan);
-            if(user->GetUserID() != users[i]->GetUserID())
-                user->DoAddUser(*users[i], *newchan);
+            if (cu != user)
+                user->DoAddUser(*cu, *newchan);
         }
     }
 
     if(makeop)
     {
         newchan->AddOperator(user->GetUserID());
-        UpdateChannel(*newchan); //notify users of new operator
+        UpdateChannel(newchan); //notify users of new operator
     }
 
     //send channel's file list
@@ -2965,16 +2925,16 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         user->ForwardFiles(newchan, false);
 
     //start active desktop transmissions
-    for(size_t i=0;i<users.size();i++)
+    for (auto cu : newchan->GetUsers())
     {
-        if (users[i]->GetDesktopSession() && 
-           (user->GetSubscriptions(*users[i]) & SUBSCRIBE_DESKTOP))
+        if (cu->GetDesktopSession() && 
+           (user->GetSubscriptions(*cu) & SUBSCRIBE_DESKTOP))
         {
             //Start delayed timers for desktop transmission, so the new 
             //user will have received the channel's channel-key.
             TimerHandler* th;
             timer_userdata tm_data;
-            tm_data.src_userid = users[i]->GetUserID();
+            tm_data.src_userid = cu->GetUserID();
             tm_data.dest_userid = user->GetUserID();
             ACE_NEW_NORETURN(th, TimerHandler(*this, TIMER_START_DESKTOPTX_ID,
                                               tm_data.userdata));
@@ -2983,8 +2943,8 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         }
         //TODO: user could actually reuse the desktop session (but restarts at the moment)
 //         if (user->GetDesktopSession() && 
-//            users[i]->GetUserID() != user->GetUserID())
-//             StartDesktopTransmitter(*user, *users[i], *newchan);
+//            cu->GetUserID() != user->GetUserID())
+//             StartDesktopTransmitter(*user, cu, *newchan);
     }
 
     //notify listener
@@ -3015,32 +2975,29 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     user->DoLeftChannel(*chan);
 
     //notify admins and "show-all" users
-    ServerChannel::users_t notifyusers = GetNotificationUsers(*chan);
-    for(size_t i=0;i<notifyusers.size();i++)
-        notifyusers[i]->DoRemoveUser(*user, *chan);
-
-    //notify channel users
-    const ServerChannel::users_t& users = chan->GetUsers();
+    ServerChannel::users_t notifyusers;
+    if (chan->GetChannelType() & CHANNEL_HIDDEN)
+        notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS | USERRIGHT_VIEW_ALL_USERS, chan);
+    else
+        notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, chan);
+    
+    for (auto u : notifyusers)
+        u->DoRemoveUser(*user, *chan);
 
     //close active desktop transmissions
-    for(size_t i=0;i<users.size();i++)
+    for (auto u : chan->GetUsers())
     {
-        StopDesktopTransmitter(*users[i], *user, false);
-        StopDesktopTransmitter(*user, *users[i], false);
+        StopDesktopTransmitter(*u, *user, false);
+        StopDesktopTransmitter(*user, *u, false);
     }
 
-    if(user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS)
+    // remove users in channel so they are not visible to user after exiting
+    if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
     {
-        for(size_t i=0;i<users.size();i++)
-            users[i]->DoRemoveUser(*user, *chan);
-    }
-    else
-    {
-        for(size_t i=0;i<users.size();i++)
+        for (auto u : chan->GetUsers())
         {
-            users[i]->DoRemoveUser(*user, *chan);
-            if(user->GetUserID() != users[i]->GetUserID())
-                user->DoRemoveUser(*users[i], *chan);
+            if(user->GetUserID() != u->GetUserID())
+                user->DoRemoveUser(*u, *chan);
         }
     }
 
@@ -3049,7 +3006,14 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     chan->RemoveUser(user->GetUserID());
 
     if(upd_chan)
-        UpdateChannel(*chan);
+        UpdateChannel(*chan, chan->GetUsers());
+
+    // forward hidden channel to user
+    if ((chan->GetChannelType() & CHANNEL_HIDDEN) &&
+        (user->GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
+    {
+        user->DoRemoveChannel(*chan);
+    }
 
     serverchannel_t nullc;
     user->SetChannel(nullc);
@@ -3074,9 +3038,8 @@ void ServerNode::UserDisconnected(int userid)
             UserLogout(userid);
 
         //if users have modified any subscriptions to this user, clear it
-        const ServerChannel::users_t& users = GetAuthorizedUsers();
-        for(size_t i=0;i<users.size();i++)
-            users[i]->ClearUserSubscription(*user);
+        for (auto u : GetAuthorizedUsers())
+            u->ClearUserSubscription(*user);
 
         //notify listener (if any)
         m_srvguard->OnUserDisconnected(*user);
@@ -3112,7 +3075,8 @@ ErrorMsg ServerNode::UserOpDeOp(int userid, int channelid,
             chan->AddOperator(op_userid);
         else
             chan->RemoveOperator(op_userid);
-        UpdateChannel(*chan);
+
+        UpdateChannel(chan);
 
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }
@@ -3404,21 +3368,29 @@ ErrorMsg ServerNode::UserUpdateChannel(int userid, const ChannelProp& chanprop)
     if (!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
-    int c = chan->GetUsersCount();
-    if(chan->GetUsersCount() && 
-       memcmp(&chanprop.audiocodec, &chan->GetAudioCodec(), sizeof(chanprop.audiocodec)) != 0)
+    // don't allow codec change in channel with users
+    if (chan->GetUsersCount() && chanprop.audiocodec != chan->GetAudioCodec())
         return ErrorMsg(TT_CMDERR_CHANNEL_HAS_USERS);
+
+    //don't allow change of hidden channel property
+    if ((chanprop.chantype & CHANNEL_HIDDEN) != (chan->GetChannelType() & CHANNEL_HIDDEN))
+    {
+        if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS))
+            return ErrorMsg(TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN);
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    }
 
     //user can update channel if either admin or operator of channel
     if((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS))
         return UpdateChannel(chanprop, user.get());
     else if(chan->IsOperator(userid))
     {
-        //don't allow user to change static channel property
+        //don't allow operator to change static channel property
         if( (chanprop.chantype & CHANNEL_PERMANENT) !=
             (chan->GetChannelType() & CHANNEL_PERMANENT))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
-        //don't allow user to change name of static channel
+
+        //don't allow operator to change name of static channel
         if( (chan->GetChannelType() & CHANNEL_PERMANENT) &&
             chanprop.name != chan->GetName())
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
@@ -3464,9 +3436,8 @@ ErrorMsg ServerNode::UpdateServer(const ServerSettings& properties)
 {
     SetServerProperties(properties);
 
-    ServerChannel::users_t users = GetAuthorizedUsers();
-    for(size_t i=0;i<users.size();i++)
-        users[i]->DoServerUpdate(m_properties);
+    for (auto u : GetAuthorizedUsers())
+        u->DoServerUpdate(m_properties);
 
     if(IsAutoSaving())
         m_srvguard->OnSaveConfiguration(*this);
@@ -3495,14 +3466,19 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
         parent = GetChannel(chanprop.parentid);
         if (!parent)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
+
         if (parent->GetSubChannel(chanprop.name))
             return ErrorMsg(TT_CMDERR_CHANNEL_ALREADY_EXISTS);
-        if(chanprop.name.empty())
+
+        if (chanprop.name.empty())
             return ErrorMsg(TT_CMDERR_CHANNEL_ALREADY_EXISTS);
 
         if(parent->GetChannelPath().length() + chanprop.name.length() + 
             ACE_TString(CHANNEL_SEPARATOR).length() >= MAX_STRING_LENGTH)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
+
+        if (parent->GetChannelType() & CHANNEL_HIDDEN)
+            return ErrorMsg(TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN);
     }
 
     if(chanprop.passwd.length() >= MAX_STRING_LENGTH)
@@ -3523,14 +3499,16 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     if (!parent)
     {
         TTASSERT(!GetRootChannel());
-        ServerChannel* newchan = new ServerChannel(chanid);
-        chan = serverchannel_t(newchan);
+
+        if (chanprop.chantype & CHANNEL_HIDDEN)
+            return ErrorMsg(TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN);
+        
+        chan.reset(new ServerChannel(chanid));
         m_rootchannel = chan;
     }
     else
     {
-        ServerChannel* newchan = new ServerChannel(parent, chanid, chanprop.name);
-        chan = serverchannel_t(newchan);
+        chan.reset(new ServerChannel(parent, chanid, chanprop.name));
         parent->AddSubChannel(chan);
     }
     chan->SetPassword(chanprop.passwd);
@@ -3547,12 +3525,16 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     chan->SetDesktopUsers(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP));
     chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
 
-    //forward new channel to all connected users
-    const ServerChannel::users_t& users = GetAuthorizedUsers();
-    for(size_t i=0;i<users.size();i++)
+    //forward new channel to users
+    ServerChannel::users_t users;
+    if (chan->GetChannelType() & CHANNEL_HIDDEN)
+        users = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, chan);
+    else
+        users = GetAuthorizedUsers();
+
+    for (auto u : users)
     {
-        if(users[i]->IsAuthorized())
-            users[i]->DoAddChannel(*chan, IsEncrypted());
+        u->DoAddChannel(*chan, IsEncrypted());
     }
 
     //notify listener if any
@@ -3606,7 +3588,6 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
     //close active desktop sessions
     if(chan->GetDesktopUsers() != chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP))
     {
-        const ServerChannel::users_t& users = chan->GetUsers();
         set<int>::const_iterator ii = chan->GetDesktopUsers().begin();
         for(;ii!=chan->GetDesktopUsers().end();ii++)
         {
@@ -3617,8 +3598,8 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
                 if (!src_user || !src_user->GetDesktopSession())
                     continue;
                 //TODO: this doesn't handle users who're intercepting packets
-                for(size_t i=0;i<users.size();i++)
-                    StopDesktopTransmitter(*src_user, *users[i], true);
+                for (auto u : chan->GetUsers())
+                    StopDesktopTransmitter(*src_user, *u, true);
             }
         }
     }
@@ -3626,7 +3607,7 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
     chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
     chan->SetTransmitQueue(chanprop.transmitqueue);
 
-    UpdateChannel(*chan);
+    UpdateChannel(chan);
 
     //notify listener if any
     m_srvguard->OnChannelUpdated(*chan, user);
@@ -3712,11 +3693,16 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
         }
         else
         {
-            const ServerChannel::users_t& users = chan->GetUsers();
-            for(size_t i=0;i<users.size();i++)
-                UserKick(0, users[i]->GetUserID(), chan->GetChannelID(), true);
+            ServerChannel::users_t users = chan->GetUsers(); //copy because mutates during UserKick()
+            for (auto u : users)
+            {
+                ErrorMsg err = UserKick(0, u->GetUserID(), chan->GetChannelID(), true);
+                TTASSERT(err.success());
+            }
+            TTASSERT(chan->GetUsers().empty());
+            TTASSERT(chan->GetSubChannels().empty());
 
-            //check if channel still exists (kick may have removed it
+            //check if channel still exists (kick may have removed it)
             if (!GetChannel(chan->GetChannelID()))
                 continue;
 
@@ -3731,12 +3717,14 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
             if (parent)
             {
                 //notify users
-                for(mapusers_t::iterator ite=m_mUsers.begin(); 
-                    ite != m_mUsers.end(); ite++)
-                {
-                    if((*ite).second->IsAuthorized())
-                        (*ite).second->DoRemoveChannel(*chan);
-                }
+                ServerChannel::users_t notifyusers;
+                if (chan->GetChannelType() & CHANNEL_HIDDEN)
+                    notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS);
+                else
+                    notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS);
+
+                for (auto u : notifyusers)
+                    u->DoRemoveChannel(*chan);
 
                 parent->RemoveSubChannel(chan->GetName());
                 //notify listener if any
@@ -3751,28 +3739,23 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
-void ServerNode::UpdateChannel(const ServerChannel& chan)
+void ServerNode::UpdateChannel(const serverchannel_t& chan)
 {
     ASSERT_REACTOR_LOCKED(this);
+    TTASSERT(chan);
 
-    //don't show channel updates when show-all-users is disabled.
-    for( mapusers_t::iterator ite = m_mUsers.begin(); 
-        ite != m_mUsers.end();
-        ite++ )
-    {
-        if( (*ite).second->IsAuthorized() && 
-            ((ite->second->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) || 
-             &chan == ite->second->GetChannel().get()) )
-            (*ite).second->DoUpdateChannel(chan, IsEncrypted());
-    }
+    if (chan->GetChannelType() & CHANNEL_HIDDEN)
+        UpdateChannel(*chan, GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, chan));
+    else
+        UpdateChannel(*chan, GetAuthorizedUsers());
 }
 
 void ServerNode::UpdateChannel(const ServerChannel& chan, const ServerChannel::users_t& users)
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    for(auto u=users.begin();u!=users.end();++u)
-        (*u)->DoUpdateChannel(chan, IsEncrypted());
+    for (auto u : users)
+        u->DoUpdateChannel(chan, IsEncrypted());
 }
 
 ErrorMsg ServerNode::UserMove(int userid, int moveuserid, int channelid)
@@ -3824,13 +3807,14 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         to_user->DoTextMessage(*from, msg);
 
         //notify administrators for user2user message
-        const ServerChannel::users_t& admins = GetAdministrators();
-        for(size_t i=0;i<admins.size();i++)
+        for (auto au : GetAdministrators())
         {
-            if((admins[i]->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_USER_MSG) &&
-                admins[i]->GetUserID() != msg.to_userid && 
-                admins[i]->GetUserID() != msg.from_userid )
-                admins[i]->DoTextMessage(*from, msg);
+            if ((au->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_USER_MSG) &&
+                au->GetUserID() != msg.to_userid && 
+                au->GetUserID() != msg.from_userid)
+            {
+                au->DoTextMessage(*from, msg);
+            }
         }
 
         //log text message
@@ -3851,13 +3835,14 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         to_user->DoTextMessage(*from, msg);
 
         //notify administrators for user2user message
-        const ServerChannel::users_t& admins = GetAdministrators();
-        for(size_t i=0;i<admins.size();i++)
+        for (auto au : GetAdministrators())
         {
-            if((admins[i]->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_CUSTOM_MSG) &&
-                admins[i]->GetUserID() != msg.to_userid && 
-                admins[i]->GetUserID() != msg.from_userid )
-                admins[i]->DoTextMessage(*from, msg);
+            if ((au->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_CUSTOM_MSG) &&
+                au->GetUserID() != msg.to_userid && 
+                au->GetUserID() != msg.from_userid)
+            {
+                au->DoTextMessage(*from, msg);
+            }
         }
 
         //log text message
@@ -3876,22 +3861,21 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         //forward message to all users of that channel
-        const ServerChannel::users_t& chanusers = chan->GetUsers();
         intset_t already_recv;
-        for(size_t i=0;i<chanusers.size();i++)
+        for (auto cu : chan->GetUsers())
         {
-            already_recv.insert(chanusers[i]->GetUserID());
-            if(chanusers[i]->GetSubscriptions(*from) & SUBSCRIBE_CHANNEL_MSG)
-                chanusers[i]->DoTextMessage(*from, msg);
+            already_recv.insert(cu->GetUserID());
+            if (cu->GetSubscriptions(*from) & SUBSCRIBE_CHANNEL_MSG)
+                cu->DoTextMessage(*from, msg);
         }
+
         //notify administrators of user2channel message                
-        const ServerChannel::users_t& admins = GetAdministrators(*chan);
-        for(size_t i=0;i<admins.size();i++)
+        for (auto au : GetAdministrators(*chan))
         {
-            if(already_recv.find(admins[i]->GetUserID()) != already_recv.end())
+            if (already_recv.find(au->GetUserID()) != already_recv.end())
                 continue;
-            if(admins[i]->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_CHANNEL_MSG)
-                admins[i]->DoTextMessage(*from, msg);
+            if (au->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_CHANNEL_MSG)
+                au->DoTextMessage(*from, msg);
         }
 
         //log text message
@@ -3904,11 +3888,10 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         if((from->GetUserRights() & USERRIGHT_TEXTMESSAGE_BROADCAST) == 0)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
-        const ServerChannel::users_t& users = GetAuthorizedUsers();
-        for(size_t i=0;i<users.size();i++)
+        for (auto u : GetAuthorizedUsers())
         {
-            if( users[i]->GetSubscriptions(*from) & SUBSCRIBE_BROADCAST_MSG )
-                users[i]->DoTextMessage(*from, msg);
+            if (u->GetSubscriptions(*from) & SUBSCRIBE_BROADCAST_MSG)
+                u->DoTextMessage(*from, msg);
         }
 
         //log text message
@@ -4074,12 +4057,10 @@ ErrorMsg ServerNode::AddFileToChannel(const RemoteFile& remotefile)
 
     channel->AddFile(remotefile);
 
-    ServerChannel::users_t users = channel->GetUsers(); //do copy
-    const ServerChannel::users_t& admins = GetAdministrators(*channel);
-    users.insert(users.end(), admins.begin(), admins.end());
-
-    for(size_t i=0;i<users.size();i++)
-        users[i]->DoAddFile(remotefile);
+    for (auto u : channel->GetUsers())
+        u->DoAddFile(remotefile);
+    for (auto au : GetAdministrators(*channel))
+        au->DoAddFile(remotefile);
 
     return ErrorMsg();
 }
@@ -4103,12 +4084,11 @@ ErrorMsg ServerNode::RemoveFileFromChannel(const ACE_TString& filename, int chan
         if(con.connect(file, ACE_FILE_Addr(internalpath.c_str())) >= 0)
             file.remove();
 
-        ServerChannel::users_t users = channel->GetUsers(); //do copy
-        const ServerChannel::users_t& admins = GetAdministrators(*channel);
-        users.insert(users.end(), admins.begin(), admins.end());
+        for (auto u : channel->GetUsers())
+            u->DoRemoveFile(filename, *channel);
 
-        for(size_t i=0;i<users.size();i++)
-            users[i]->DoRemoveFile(filename, *channel);
+        for (auto au : GetAdministrators(*channel))
+            au->DoRemoveFile(filename, *channel);
     }
     return ErrorMsg();
 }
@@ -4143,19 +4123,17 @@ ErrorMsg ServerNode::SendTextMessage(const TextMessage& msg)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
         //forward message to all users of that channel
-        const ServerChannel::users_t& chanusers = chan->GetUsers();
-        for(size_t i=0;i<chanusers.size();i++)
+        for (auto u : chan->GetUsers())
         {
-            chanusers[i]->DoTextMessage(msg);
+            u->DoTextMessage(msg);
         }
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }
     case TTBroadcastMsg :
     {
-        const ServerChannel::users_t& users = GetAuthorizedUsers();
-        for(size_t i=0;i<users.size();i++)
+        for (auto u : GetAuthorizedUsers())
         {
-            users[i]->DoTextMessage(msg);
+            u->DoTextMessage(msg);
         }
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }

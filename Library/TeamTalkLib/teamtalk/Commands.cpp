@@ -111,6 +111,8 @@ namespace teamtalk {
             errmsg = ACE_TEXT("Channel has active users"); break;
         case TT_CMDERR_LOGINSERVICE_UNAVAILABLE :
             errmsg = ACE_TEXT("Login service unavailable"); break;
+        case TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN :
+            errmsg = ACE_TEXT("Cannot apply hidden property to channel"); break;
 
             /***** Internal TeamTalk errors not related to commands ********/
         case TT_INTERR_SNDINPUT_FAILURE :

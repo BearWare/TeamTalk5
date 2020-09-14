@@ -61,6 +61,7 @@ void CUserAccountsDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_EDIT_PASSWORD, m_wndPassword);
     DDX_Control(pDX, IDC_RADIO_ADMIN, m_wndAdminUser);
     DDX_Control(pDX, IDC_RADIO_DEFAULTUSER, m_wndDefaultUser);
+    DDX_Control(pDX, IDC_RADIO_DISABLEDUSER, m_wndDisabledUser);
     DDX_Control(pDX, IDC_COMBO_INITCHANNEL, m_wndInitChannel);
     DDX_Control(pDX, IDC_EDIT_NOTE, m_wndNote);
     DDX_Control(pDX, IDC_CHECK_DOUBLELOGIN, m_wndDoubleLogin);
@@ -160,6 +161,7 @@ BEGIN_MESSAGE_MAP(CUserAccountsDlg, CDialog)
     ON_BN_CLICKED(IDC_RADIO_DEFAULTUSER, &CUserAccountsDlg::OnBnClickedRadioDefaultuser)
     ON_BN_CLICKED(IDC_RADIO_ADMIN, &CUserAccountsDlg::OnBnClickedRadioAdmin)
     ON_WM_SIZE()
+    ON_BN_CLICKED(IDC_RADIO_DISABLEDUSER, &CUserAccountsDlg::OnBnClickedRadioDisableduser)
 END_MESSAGE_MAP()
 
 
@@ -192,7 +194,13 @@ void CUserAccountsDlg::OnBnClickedButtonAdd()
                   LoadText(IDS_USERACCOUNTADDUPDATE, _T("Add/Update User Account")), MB_YESNO) != IDYES)
         return;
 
-    account.uUserType = (m_wndAdminUser.GetCheck() == BST_CHECKED)? USERTYPE_ADMIN : USERTYPE_DEFAULT;
+    if (m_wndAdminUser.GetCheck() == BST_CHECKED)
+        account.uUserType = USERTYPE_ADMIN;
+    else if (m_wndDefaultUser.GetCheck() == BST_CHECKED)
+        account.uUserType = USERTYPE_DEFAULT;
+    else // m_wndDisabledUser
+        account.uUserType = USERTYPE_NONE;
+
     if(m_wndDoubleLogin.GetCheck() == BST_CHECKED)
         account.uUserRights |= USERRIGHT_MULTI_LOGIN;
     if(m_wndChangeNickname.GetCheck() == BST_UNCHECKED)
@@ -323,7 +331,7 @@ void CUserAccountsDlg::UpdateControls()
     m_wndUsername.GetWindowText(szUsername);
 
     BOOL bWrite = m_uad == UAD_READWRITE;
-    BOOL bCheck = m_wndDefaultUser.GetCheck() == BST_CHECKED && bWrite;
+    BOOL bCheck = (m_wndDefaultUser.GetCheck() == BST_CHECKED || m_wndDisabledUser.GetCheck() == BST_CHECKED) && bWrite;
     m_wndDoubleLogin.EnableWindow(bCheck);
     m_wndChangeNickname.EnableWindow(bCheck);
     m_wndViewAllUsers.EnableWindow(bCheck);
@@ -346,10 +354,11 @@ void CUserAccountsDlg::UpdateControls()
     m_wndRecordVoice.EnableWindow(bCheck);
 
     m_wndUsername.SetReadOnly(!bWrite);
-    m_wndPassword.SetReadOnly(!bWrite || szUsername == WEBLOGIN_FACEBOOK_USERNAME || EndsWith(szUsername, WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX));
+    m_wndPassword.SetReadOnly(!bWrite || IsWebLogin(szUsername));
     m_wndNote.SetReadOnly(!bWrite);
     m_wndAdminUser.EnableWindow(bWrite);
     m_wndDefaultUser.EnableWindow(bWrite);
+    m_wndDisabledUser.EnableWindow(bWrite);
     m_wndInitChannel.EnableWindow(bWrite);
     m_wndChanOpTab.m_btnAddChan.EnableWindow(bWrite);
     m_wndChanOpTab.m_btnRmChan.EnableWindow(bWrite);
@@ -365,8 +374,9 @@ void CUserAccountsDlg::ShowUserAccount(const UserAccount& useraccount)
 {
     m_wndUsername.SetWindowText(useraccount.szUsername);
     m_wndPassword.SetWindowText(useraccount.szPassword);
-    m_wndAdminUser.SetCheck((useraccount.uUserType & USERTYPE_ADMIN)?BST_CHECKED:BST_UNCHECKED);
-    m_wndDefaultUser.SetCheck((useraccount.uUserType & USERTYPE_DEFAULT)?BST_CHECKED:BST_UNCHECKED);
+    m_wndAdminUser.SetCheck((useraccount.uUserType & USERTYPE_ADMIN) ? BST_CHECKED : BST_UNCHECKED);
+    m_wndDefaultUser.SetCheck((useraccount.uUserType & USERTYPE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+    m_wndDisabledUser.SetCheck((useraccount.uUserType == USERTYPE_NONE) ? BST_CHECKED : BST_UNCHECKED);
 
     m_wndDoubleLogin.SetCheck((useraccount.uUserRights & USERRIGHT_MULTI_LOGIN)?BST_CHECKED:BST_UNCHECKED);
     m_wndChangeNickname.SetCheck((useraccount.uUserRights & USERRIGHT_LOCKED_NICKNAME) ? BST_UNCHECKED : BST_CHECKED);
@@ -452,6 +462,10 @@ void CUserAccountsDlg::OnBnClickedRadioAdmin()
     UpdateControls();
 }
 
+void CUserAccountsDlg::OnBnClickedRadioDisableduser()
+{
+    UpdateControls();
+}
 
 void CUserAccountsDlg::OnSize(UINT nType, int cx, int cy)
 {

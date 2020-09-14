@@ -42,7 +42,7 @@ class CMessageDlg : public CDialog
 {
 // Construction
 public:
-    CMessageDlg(CWnd* pParent, const User& myself, const User& user,
+    CMessageDlg(teamtalk::ClientXML& xmlSettings, CWnd* pParent, const User& myself, const User& user,
                 LPCTSTR szLogFolder = NULL);   // standard constructor
 
     void AppendMessage(const MyTextMessage& msg, BOOL bStore = TRUE);
@@ -82,6 +82,8 @@ protected:
     //}}AFX_MSG
 
     DECLARE_MESSAGE_MAP()
+
+    teamtalk::ClientXML& m_xmlSettings;
 
 private:
     virtual ~CMessageDlg(){}

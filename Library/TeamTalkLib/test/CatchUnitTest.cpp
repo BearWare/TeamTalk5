@@ -970,7 +970,7 @@ TEST_CASE("Last voice packet - wav files")
     }
     REQUIRE(dir);
 
-    if (ACE_OS::stat(curdir, &fileInfo) == -1);
+    if (ACE_OS::stat(curdir, &fileInfo) == -1)
     {
         ACE_OS::mkdir(curdir);
         dir = ACE_OS::opendir(curdir);
@@ -1001,6 +1001,25 @@ TEST_CASE("Last voice packet - wav files")
 
     ACE_OS::closedir(dir);
 
+    SoundDevice indev, outdev;
+    REQUIRE(GetSoundDevices(indev, outdev));
+    class SharedInputReset
+    {
+        SoundDevice indev;
+    public:
+        SharedInputReset(SoundDevice in) : indev(in)
+        {
+            // By default a shared device uses default sample rate, max channels and 40 msec framesize.
+            // We reduce it to 20 msec in order to get the 240 msec frame faster.
+            REQUIRE(TT_InitSoundInputSharedDevice(indev.nDefaultSampleRate, indev.nMaxInputChannels, int(indev.nDefaultSampleRate * 0.02)));
+        }
+        ~SharedInputReset()
+        {
+            // reset back to default
+            REQUIRE(TT_InitSoundInputSharedDevice(indev.nDefaultSampleRate, indev.nMaxInputChannels, int(indev.nDefaultSampleRate * 0.04)));
+        }
+    } a(indev);
+
     //run multiple times to get the wav output files with different number of frames.
     //running 10 times, gives me 1-4 files with a missing frame, sometimes I get no file with a missing frame, but then you can run this test again or increase the number
     //of runs from 10 to e.g. 20.
@@ -1012,11 +1031,11 @@ TEST_CASE("Last voice packet - wav files")
         clients.push_back(txclient);
         clients.push_back(rxclient);
 
-        REQUIRE(InitSound(txclient, SHARED_INPUT));
+        REQUIRE(InitSound(txclient, SHARED_INPUT, indev.nDeviceID, outdev.nDeviceID));
         REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
         REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
 
-        REQUIRE(InitSound(rxclient, SHARED_INPUT));
+        REQUIRE(InitSound(rxclient, SHARED_INPUT, indev.nDeviceID, outdev.nDeviceID));
         REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
         REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
 
@@ -1064,8 +1083,23 @@ TEST_CASE("Last voice packet - wav files")
          */
         int duration = int(audiocodec.opus.nTxIntervalMSec * 5 + audiocodec.opus.nTxIntervalMSec * 0.33);
         WaitForEvent(txclient, CLIENTEVENT_NONE, duration);
+        ClientStatistics stats = {};
+        REQUIRE(TT_GetClientStatistics(txclient, &stats));
+        // take sound device start into account before stopping PTT
+        WaitForEvent(txclient, CLIENTEVENT_NONE, stats.nSoundInputDeviceDelayMSec);
+
         REQUIRE(TT_EnableVoiceTransmission(txclient, false));
+
+        std::cout << "Initial audio frame delay: " << stats.nSoundInputDeviceDelayMSec << " msec. ";
+
         REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
+
+        REQUIRE(TT_GetClientStatistics(txclient, &stats));
+        std::cout << "Encoded voice sent: " << stats.nVoiceBytesSent << " bytes. ";
+
+        UserStatistics ustats;
+        REQUIRE(TT_GetUserStatistics(rxclient, TT_GetMyUserID(txclient), &ustats));
+        std::cout << "Voice packets received: " << ustats.nVoicePacketsRecv << std::endl;
     }
 
     //check file sizes. All files should hvae the same size (but some are missing the last frame, so this test fails)
