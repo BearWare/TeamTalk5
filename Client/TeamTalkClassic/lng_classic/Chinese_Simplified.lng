@@ -120,6 +120,7 @@
     <item id="243">主机管理器</item>
     <item id="244">%s更改订阅&quot;拦截媒体文件流&quot;为: %d</item>
     <item id="245">%s 已授予桌面访问权限</item>
+    <item id="247">私人信息已发送： %s</item>
     <item id="248">%s 现在拥有桌面访问权限</item>
     <item id="249">按键组合</item>
     <item id="251">定位参与者（3D声卡）</item>
@@ -337,6 +338,7 @@
     <item id="471">删除主机</item>
     <item id="472">公共： </item>
     <item id="473">主机文件 (*%s)|*%s|所有文件 (*.*)|*.*|</item>
+    <item id="474">频道消息已发送： %s</item>
     <item id="475">文件 %s&#xD;&#xA;不包含有效的 %s 主机条目。&#xD;&#xA;错误信息： %s</item>
     <item id="476">设置键盘钩子时出错。请尝试重新启动程序。</item>
     <item id="477">Wav</item>
@@ -418,6 +420,12 @@
     <item id="556">无名</item>
     <item id="557">频道列表</item>
     <item id="558">文件列表</item>
+    <item id="559">荣誉名单</item>
+    <item id="560">贡献者</item>
+    <item id="561">开发者</item>
+    <item id="562">翻译者</item>
+    <item id="563">第三方库</item>
+    <item id="564">TeamTalk 使用以下第三方库：</item>
     <item id="1006">文件列表</item>
     <item id="1009">连接后自动加入跟频道</item>
     <item id="1012">主机TCP端口</item>
@@ -537,7 +545,7 @@
     <item id="1236">欢迎使用TeamTalk设置向导</item>
     <item id="1237">完成TeamTalk设置向导</item>
     <item id="1238">回放设置</item>
-    <item id="1240">由星空、海浪翻译</item>
+    <item id="1240">星空、海浪</item>
     <item id="1241">用户界面语言</item>
     <item id="1243">混音设备</item>
     <item id="1244">TeamTalk Classic 项目贡献者: Beqa Gozalishvili</item>
