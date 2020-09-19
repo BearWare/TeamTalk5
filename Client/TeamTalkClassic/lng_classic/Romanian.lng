@@ -174,7 +174,6 @@
     <item id="307">Ascendent</item>
     <item id="308">Popularitate</item>
     <item id="309">Oricine</item>
-    <item id="310">%s a adăugat fișierul %s</item>
     <item id="311">Fișierul %s a fost eliminat</item>
     <item id="312">Evenimente fișier</item>
     <item id="313">Fișier adăugat</item>
@@ -295,7 +294,7 @@
     <item id="434">Fără Audio</item>
     <item id="435">Speex Bitrate Variabil</item>
     <item id="436">Introdu un nume de canal</item>
-    <item id="437">Un nume de canal nu poate conține un '/'</item>
+    <item id="437">Un nume de canal nu poate conține un &apos;/&apos;</item>
     <item id="438">VoIP</item>
     <item id="439">Muzică</item>
     <item id="440">Anunț: %s&#xD;&#xA;</item>
@@ -823,10 +822,10 @@
     <item id="32929">Pune fișierul media &amp;pe mut\tCtrl+Alt+M</item>
     <item id="32930">&amp;Dă afară de pe canal\tCtrl+K</item>
     <item id="32931">Dă afară de pe &amp;server\tCtrl+Alt+K</item>
-    <item id="32932">&amp;Mărește volumul vocii (+10)\tCtrl+Alt+Right</item>
-    <item id="32933">&amp;Micșorează volumul vocii (-10)\tCtrl+Alt+Left</item>
-    <item id="32934">Mărește volumul fișierului &amp;media (+10)\tCtrl+Shift+dreapta</item>
-    <item id="32935">Micșorează vo&amp;lumul fișierului media (-10)\tCtrl+Shift+stânga</item>
+    <item id="32932">&amp;Mărește volumul vocii\tCtrl+Y</item>
+    <item id="32933">&amp;Micșorează volumul vocii\tCtrl+H</item>
+    <item id="32934">Mărește volumul fișierului &amp;media\tCtrl+Shift+Y</item>
+    <item id="32935">Micșorează vo&amp;lumul fișierului media\tCtrl+Shift+H</item>
     <item id="32936">Permite transmisia des&amp;ktop\tCtrl+Alt+E</item>
     <item id="32937">Permite transmisia fișierelor m&amp;edia\tCtrl+Alt+R</item>
     <item id="32938">&amp;Transmisie fișier media\tCtrl+8</item>
