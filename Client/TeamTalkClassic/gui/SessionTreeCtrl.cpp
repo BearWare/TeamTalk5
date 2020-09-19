@@ -1010,8 +1010,6 @@ CString CSessionTreeCtrl::GetUserText(int nUserID) const
     if(userclient != "iTeamTalk" && userclient != "TeamTalk5Droid") {
         if(user.nStatusMode & STATUSMODE_FEMALE)
             szText += _T(" \U0001f469");
-        else
-            szText += _T(" \U0001f468");
     }
 
     return LimitText(szText);
