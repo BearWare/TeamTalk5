@@ -433,7 +433,7 @@
     <item id="32903">Szerver &amp;statisztika\tShift+F9</item>
     <item id="32904">&amp;Elérhető felhasználók\tCtrl+Shift+U</item>
     <item id="32905">&amp;Kidobás\tCtrl+K</item>
-    <item id="32906">&amp;Kidobás és kitiltás\tCtrl+Alt+B</item>
+    <item id="32906">&amp;Kidobás és kitiltás\tCtrl+Shift+K</item>
     <item id="32907">&amp;Op\tCtrl+O</item>
     <item id="32908">&amp;Üzenet közzététele\tCtrl+Shift+E</item>
     <item id="32909">Videoátvitel engedélyezése</item>

@@ -170,7 +170,6 @@
     <item id="307">Daftar</item>
     <item id="308">Popularitas</item>
     <item id="309">Semua orang</item>
-    <item id="310">%s menambahkan berkas %s</item>
     <item id="311">berkas dihapus %s</item>
     <item id="312">Peristiwa berkas</item>
     <item id="313">Berkas ditambahkan</item>
@@ -532,7 +531,7 @@
     <item id="32903">Statistik S&amp;erver\tShift+F9</item>
     <item id="32904">&amp;Pengguna Online\tCtrl+Shift+U</item>
     <item id="32905">&amp;Keluarkan\tCtrl+K</item>
-    <item id="32906">Keluarkan dan &amp;Larang\tCtrl+Alt+B</item>
+    <item id="32906">Keluarkan dan &amp;Larang\tCtrl+Shift+K</item>
     <item id="32907">&amp;Op\tCtrl+O</item>
     <item id="32908">P&amp;esan Siaran\tCtrl+Shift+E</item>
     <item id="32909">Aktifkan T&amp;ransmisi Vidio\tCtrl+Shift+V</item>

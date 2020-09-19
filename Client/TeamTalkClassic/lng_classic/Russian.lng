@@ -174,7 +174,6 @@
     <item id="307">По возрастанию</item>
     <item id="308">По количеству пользователей</item>
     <item id="309">Всем</item>
-    <item id="310">%s добавил файл %s</item>
     <item id="311">удалён файл %s</item>
     <item id="312">События файлов</item>
     <item id="313">Файл добавлен</item>
@@ -295,7 +294,7 @@
     <item id="434">Без Звука</item>
     <item id="435">Speex Переменный Битрейт</item>
     <item id="436">Введите название канала</item>
-    <item id="437">Название канала не может содержать '/'</item>
+    <item id="437">Название канала не может содержать &apos;/&apos;</item>
     <item id="438">VoIP</item>
     <item id="439">Музыка</item>
     <item id="440">Сетевое сообщение: %s&#xD;&#xA;</item>
@@ -790,7 +789,6 @@
     <item id="32877">Добавить Пользователя Для Перемещения\tCtrl+Alt+X</item>
     <item id="32878">&amp;Переместить Пользователя\tCtrl+Alt+V</item>
     <item id="32882">&amp;Заблокированные Пользователи\tCtrl+Shift+B</item>
-    <item id="32885">Выгнать с Сервера и &amp;Заблокировать\tCtrl+Shift+K</item>
     <item id="32888">Запис&amp;ать Беседы\tCtrl+Alt+A</item>
     <item id="32890">Диалог Перемещения &amp;Пользователя\tCtrl+Alt+M</item>
     <item id="32892">&amp;Сообщения Пользователя\tCtrl+1</item>
@@ -809,7 +807,7 @@
     <item id="32905">&amp;Выгнать\tCtrl+K</item>
     <item id="32906">Выгнать и &amp;Заблокировать\tCtrl+Shift+K</item>
     <item id="32907">&amp;Передать права Оператора\tCtrl+O</item>
-    <item id="32908">Отправить С&amp;етевое Сообщение\tCtrl+Alt+B</item>
+    <item id="32908">Отправить С&amp;етевое Сообщение\tCtrl+Shift+E</item>
     <item id="32909">Разрешить П&amp;ередачу Видео\tCtrl+Shift+V</item>
     <item id="32914">&amp;Рабочий стол\tCtrl+6</item>
     <item id="32915">Перехватить Р&amp;абочий стол\tCtrl+Shift+6</item>
@@ -820,13 +818,13 @@
     <item id="32924">Разрешить Доступ к &amp;Рабочему столу\tCtrl+7</item>
     <item id="32925">&amp;Запрос Доступа к Рабочему столу</item>
     <item id="32928">В&amp;ыключить Голос\tCtrl+Shift+M</item>
-    <item id="32929">Выключить Медиа &amp;Файл\tCtrl+Alt+M</item>
+    <item id="32929">Выключить Медиа &amp;Файл\tCtrl+Shift+Alt+M</item>
     <item id="32930">&amp;Выгнать Из Канала\tCtrl+K</item>
     <item id="32931">Выгнать С &amp;Сервера\tCtrl+Alt+K</item>
-    <item id="32932">&amp;Увеличить Громкость Голоса (+10)\tCtrl+Alt+Right</item>
-    <item id="32933">У&amp;меньшить Громкость Голоса (-10)\tCtrl+Alt+Left</item>
-    <item id="32934">Увеличить Громкость М&amp;едиа Файла (+10)\tCtrl+Shift+Right</item>
-    <item id="32935">Уменьшить Гром&amp;кость Медиафайла (-10)\tCtrl+Shift+Left</item>
+    <item id="32932">&amp;Увеличить Громкость Голоса\tCtrl+Y</item>
+    <item id="32933">У&amp;меньшить Громкость Голоса\tCtrl+H</item>
+    <item id="32934">Увеличить Громкость М&amp;едиа Файла\tCtrl+Shift+Y</item>
+    <item id="32935">Уменьшить Гром&amp;кость Медиафайла\tCtrl+Shift+H</item>
     <item id="32936">Допускать Передачу Ра&amp;бочего стола\tCtrl+Alt+E</item>
     <item id="32937">Допускать Передачу М&amp;едиа Файла\tCtrl+Alt+R</item>
     <item id="32938">&amp;Поток Медиафайла\tCtrl+8</item>
