@@ -174,7 +174,6 @@
     <item id="307">Ascendente</item>
     <item id="308">Popularidad</item>
     <item id="309">Todo el mundo</item>
-    <item id="310">%s agregó el archivo %s</item>
     <item id="311">Eliminó el archivo %s</item>
     <item id="312">Eventos de archivo</item>
     <item id="313">Archivo añadido</item>
@@ -788,7 +787,6 @@
     <item id="32877">Agregar para Mover\tCtrl+Alt+X</item>
     <item id="32878">Mover Usuarios\tCtrl+Alt+V</item>
     <item id="32882">Usuarios Excluidos\tCtrl+Shift+B</item>
-    <item id="32885">Expulsar y excluir del Servidor\tCtrl+Shift+K</item>
     <item id="32888">Grabar Conversaciones\tCtrl+Alt+A</item>
     <item id="32890">Diálogo para Mover Usuarios\tCtrl+Alt+M</item>
     <item id="32892">Mensajes del Usuario\tCtrl+1</item>
@@ -807,7 +805,7 @@
     <item id="32905">&amp;Expulsar\tCtrl+K</item>
     <item id="32906">Expulsar y &amp;Excluir\tCtrl+Shift+K</item>
     <item id="32907">&amp;Op\tCtrl+O</item>
-    <item id="32908">Transmitir mensaje\tCtrl+Alt+B</item>
+    <item id="32908">Transmitir mensaje\tCtrl+Shift+E</item>
     <item id="32909">Habilitar la transmisión de vídeo\tCtrl+Shift+V</item>
     <item id="32914">&amp;Escritorio\tCtrl+6</item>
     <item id="32915">Intercepción para el escritorio\tCtrl+Shift+6</item>
@@ -818,13 +816,13 @@
     <item id="32924">Permitir Acceso al Escritorio\tCtrl+7</item>
     <item id="32925">&amp;Solicitar Acceso al Escritorio</item>
     <item id="32928">Silenciar Voz\tCtrl+Shift+M</item>
-    <item id="32929">Silenciar Archivos Multimedia\tCtrl+Alt+M</item>
+    <item id="32929">Silenciar Archivos Multimedia\tCtrl+Shift+Alt+M</item>
     <item id="32930">&amp;Expulsar del Canal\tCtrl+K</item>
     <item id="32931">Expulsar del servidor\tCtrl+Alt+K</item>
-    <item id="32932">&amp;Incrementar Volumen de Voz (+10)\tCtrl+Alt+Right</item>
-    <item id="32933">Disminuir volumen de voz (-10)\tCtrl+Alt+Left</item>
-    <item id="32934">Incrementar Volumen Multimedia (+10)\tCtrl+Shift+Right</item>
-    <item id="32935">Disminuir Volumen Multimedia (-10)\tCtrl+Shift+Left</item>
+    <item id="32932">&amp;Incrementar Volumen de Voz\tCtrl+Y</item>
+    <item id="32933">Disminuir volumen de voz\tCtrl+H</item>
+    <item id="32934">Incrementar Volumen Multimedia\tCtrl+Shift+Y</item>
+    <item id="32935">Disminuir Volumen Multimedia\tCtrl+Shift+H</item>
     <item id="32936">Permitir Transmisión de Escritorio \tCtrl+Alt+E</item>
     <item id="32937">Permitir Transmisión Multimedia \tCtrl+Alt+R</item>
     <item id="32938">Transmisión de Archivos Multimedia \tCtrl+8</item>

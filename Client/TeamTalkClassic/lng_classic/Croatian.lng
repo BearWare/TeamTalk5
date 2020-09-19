@@ -175,7 +175,6 @@
     <item id="307">Uzlazno</item>
     <item id="308">Popularnost</item>
     <item id="309">Svatko</item>
-    <item id="310">%s je dodao datoteku %s</item>
     <item id="311">je izbrisao datoteku %s</item>
     <item id="312">Događaji datoteka</item>
     <item id="313">Datoteka je dodana</item>
@@ -822,7 +821,7 @@
     <item id="32903">&amp;Statistike Servera\tShift+F9</item>
     <item id="32904">&amp;Korisnici koji su na mreži\tCtrl+Shift+U</item>
     <item id="32905">&amp;Protjeraj\tCtrl+K</item>
-    <item id="32906">Istjeraj i &amp;baniraj\tCtrl+Alt+B</item>
+    <item id="32906">Istjeraj i &amp;baniraj\tCtrl+Shift+K</item>
     <item id="32907">&amp;Op\tCtrl+O</item>
     <item id="32908">&amp;Javna Poruka\tCtrl+Shift+E</item>
     <item id="32909">&amp;Omogući Video Prijenos\tCtrl+Shift+V</item>
