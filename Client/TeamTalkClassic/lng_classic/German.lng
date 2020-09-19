@@ -175,7 +175,6 @@
     <item id="307">Aufsteigend</item>
     <item id="308">Beliebtheit</item>
     <item id="309">Jeder</item>
-    <item id="310">%s hat die Datei %s hinzugefügt</item>
     <item id="311">Datei %s entfernt</item>
     <item id="312">Dateiereignisse</item>
     <item id="313">Datei hinzugefügt</item>
@@ -827,7 +826,7 @@
     <item id="32903">Servers&amp;tatistiken\tUmsch+F9</item>
     <item id="32904">Benutzer &amp;online\tSTRG+Umsch+U</item>
     <item id="32905">&amp;Rauswerfen\tSTRG+K</item>
-    <item id="32906">Rauswerfen und s&amp;perren\tSTRG+Alt+B</item>
+    <item id="32906">Rauswerfen und s&amp;perren\tSTRG+Umsch+K</item>
     <item id="32907">&amp;Operator\tSTRG+O</item>
     <item id="32908">Serve&amp;rnachricht\tSTRG+Umsch+E</item>
     <item id="32909">V&amp;ideo ein/aus\tSTRG+Umsch+V</item>

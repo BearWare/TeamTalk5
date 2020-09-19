@@ -835,7 +835,7 @@
     <item id="32903">服务器统计信息(&amp;T)\tShift+F9</item>
     <item id="32904">在线用户(&amp;O)\tCtrl+Shift+U</item>
     <item id="32905">踢出(&amp;K)\tCtrl+K</item>
-    <item id="32906">踢出并禁止(&amp;B)\tCtrl+Alt+B</item>
+    <item id="32906">踢出并禁止(&amp;B)\tCtrl+Shift+K</item>
     <item id="32907">设为频道管理员(&amp;O)\tCtrl+O</item>
     <item id="32908">发送广播消息(&amp;R)\tCtrl+Shift+E</item>
     <item id="32909">启用视频传输(&amp;I)\tCtrl+Shift+V</item>

@@ -174,7 +174,6 @@
     <item id="307">Crescente</item>
     <item id="308">Popularidade</item>
     <item id="309">Todos</item>
-    <item id="310">%s adicionou arquivo %s.</item>
     <item id="311">Arquivo %s removido.</item>
     <item id="312">Eventos de arquivo</item>
     <item id="313">Arquivo adicionado</item>
@@ -243,7 +242,6 @@
     <item id="377">Usar tabela de caracteres definida.&#xD;&#xA;</item>
     <item id="378">Versão da dll de 64 bits do TeamTalk:&#x0D;&#x0A;</item>
     <item id="379">Versão da dll de 32 bits do TeamTalk:&#x0D;&#x0A;</item>
-    <item id="380">Abrir</item>
     <item id="381">Recebido: %.2fKB Transferência: %.2fKB PING: %u %s</item>
     <item id="382">Recebido: %.2fKB Transferido: %.2fKB %s</item>
     <item id="383">Ausente</item>
@@ -804,7 +802,7 @@
     <item id="32903">Estatísticas do servidor\tShift+F9</item>
     <item id="32904">Usuários conectados\tCtrl+Shift+U</item>
     <item id="32905">&amp;Expulsar\tCtrl+K</item>
-    <item id="32906">Expulsar e banir\tCtrl+Alt+B</item>
+    <item id="32906">Expulsar e banir\tCtrl+Shift+K</item>
     <item id="32907">&amp;Tornar operador\tCtrl+O</item>
     <item id="32908">Mensagem global\tCtrl+Shift+E</item>
     <item id="32909">Ativar transmissão de vídeo\tCtrl+Shift+V</item>
