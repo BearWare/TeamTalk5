@@ -1007,10 +1007,13 @@ CString CSessionTreeCtrl::GetUserText(int nUserID) const
         szText += _T(", ") + LoadText(IDS_USERISVIDEOTX, _T("Webcam"));
     if (_tcslen(user.szStatusMsg) > 0)
         szText += _T(" - ") + CString(user.szStatusMsg);
-    if(user.nStatusMode & STATUSMODE_FEMALE)
-        szText += _T(" \U0001f469");
-    else
-        szText += _T(" \U0001f468");
+    CString userclient = user.szClientName;
+    if(userclient != "iTeamTalk" && userclient != "TeamTalk5Droid") {
+        if(user.nStatusMode & STATUSMODE_FEMALE)
+            szText += _T(" \U0001f469");
+        else
+            szText += _T(" \U0001f468");
+    }
 
     return LimitText(szText);
 }
