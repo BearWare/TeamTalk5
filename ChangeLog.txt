@@ -5,6 +5,13 @@ Version 5.7, unreleased
 Accessible Windows Client:
 - Specific TTS events when sending a private or channel message
 
+Version 5.6.3, 2020/09/20
+Accessible Windows Client:
+- Fixed crash issue due to changes in translations
+- Gender emoji only shown for female
+Default QT Client:
+- Gender emoji only shown for female
+
 Version 5.6.2, 2020/09/13
 Default QT Client:
 - Fixed broken accessibility on macOS due to Qt 5.14 (now Qt 5.15.0)
