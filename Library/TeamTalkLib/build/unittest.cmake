@@ -8,5 +8,5 @@ option (CATCH_UNITTEST "Build Catch Unit Tests" OFF)
 if (CATCH_UNITTEST)
   set (CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchUnitTest.cpp
     ${TEAMTALKLIB_ROOT}/test/CatchMain.cpp ${TEAMTALKLIB_ROOT}/test/TTUnitTest.cpp
-    ${TEAMTALKLIB_ROOT}/test/TTUnitTest.h)
+    ${TEAMTALKLIB_ROOT}/test/CatchWebRTC.cpp ${TEAMTALKLIB_ROOT}/test/TTUnitTest.h)
 endif()
