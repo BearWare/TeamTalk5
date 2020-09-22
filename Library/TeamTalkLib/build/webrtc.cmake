@@ -8,7 +8,10 @@ set (WEBRTC_LINK_FLAGS
   ${TTLIBS_ROOT}/webrtc/obj/common_audio/libcommon_audio_avx2.a
   ${TTLIBS_ROOT}/webrtc/obj/common_audio/libcommon_audio_sse2.a
   ${TTLIBS_ROOT}/webrtc/obj/common_audio/libcommon_audio_c.a
+  ${TTLIBS_ROOT}/webrtc/obj/common_audio/third_party/ooura/libfft_size_128.a
+  ${TTLIBS_ROOT}/webrtc/obj/common_audio/third_party/ooura/libfft_size_256.a
   ${TTLIBS_ROOT}/webrtc/obj/modules/audio_processing/libaudio_buffer.a
+  ${TTLIBS_ROOT}/webrtc/obj/modules/audio_processing/ns/libns.a
   ${TTLIBS_ROOT}/webrtc/obj/rtc_base/libchecks.a
   ${TTLIBS_ROOT}/webrtc/obj/rtc_base/memory/libaligned_malloc.a
   ${TTLIBS_ROOT}/webrtc/obj/system_wrappers/libsystem_wrappers.a)

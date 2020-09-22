@@ -8,7 +8,7 @@
 
 TEST_CASE("webrtc-audiobuf") {
 
-    const int IN_SR = 16000, OUT_SR = 24000, IN_CH = 1, OUT_CH = 1;
+    const int IN_SR = 16000, OUT_SR = 48000, IN_CH = 1, OUT_CH = 1;
 
     const int IN_SAMPLES = 5 * IN_SR, OUT_SAMPLES = 5 * OUT_SR;
     std::vector<short> in_buff(IN_SAMPLES * IN_CH), out_buff(OUT_SAMPLES * OUT_CH);
@@ -37,4 +37,28 @@ TEST_CASE("webrtc-audiobuf") {
     }
 
     REQUIRE(outwavfile.AppendSamples(out_af.input_buffer, out_af.input_samples));
+}
+
+TEST_CASE("webrtc-noise") {
+
+    WavePCMFile infile, outfile;
+    REQUIRE(infile.OpenFile(ACE_TEXT("in_noise_16khz.wav"), true));
+    int IN_SR = infile.GetSampleRate(), IN_CH = infile.GetChannels();
+    REQUIRE(outfile.NewFile(ACE_TEXT("out_noise.wav"), IN_SR, IN_CH));
+
+    webrtc::StreamConfig in_cfg(IN_SR, IN_CH);
+    webrtc::AudioBuffer in_ab(IN_SR, IN_CH, IN_SR, IN_CH, IN_SR, IN_CH), out_ab(IN_SR, IN_CH, IN_SR, IN_CH, IN_SR, IN_CH);
+    std::vector<int16_t> in_buff(in_ab.num_frames() * IN_CH), out_buff(in_ab.num_frames() * IN_CH);
+
+    webrtc::NsConfig nscfg;
+    webrtc::NoiseSuppressor ns(nscfg, IN_SR, IN_CH);
+    
+    while (infile.ReadSamples(&in_buff[0], in_ab.num_frames()) > 0)
+    {
+        in_ab.CopyFrom(&in_buff[0], in_cfg);
+        ns.Analyze(in_ab);
+        ns.Process(&in_ab);
+        in_ab.CopyTo(in_cfg, &out_buff[0]);
+        REQUIRE(outfile.AppendSamples(&out_buff[0], in_ab.num_frames()));
+    }
 }
