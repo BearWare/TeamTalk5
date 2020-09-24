@@ -5,6 +5,8 @@
 
 #include <modules/audio_processing/audio_buffer.h>
 #include <modules/audio_processing/ns/noise_suppressor.h>
+#include <modules/audio_processing/agc/agc.h>
+#include <modules/audio_processing/gain_control_impl.h>
 
 TEST_CASE("webrtc-audiobuf") {
 
@@ -61,4 +63,49 @@ TEST_CASE("webrtc-noise") {
         in_ab.CopyTo(in_cfg, &out_buff[0]);
         REQUIRE(outfile.AppendSamples(&out_buff[0], in_ab.num_frames()));
     }
+}
+
+// webrtc::GainControlImpl queries this feature. Field trials is
+// excluded by passing rtc_exclude_field_trial_default=true to GN.
+namespace webrtc { namespace field_trial {
+std::string FindFullName(const std::string& trial)
+{
+    std::cout << "Querying feature: " << trial << std::endl;
+    return "Disabled";
+}
+} }
+
+TEST_CASE("webrtc-agc")
+{
+    const int IN_SR = 16000, IN_CH = 1;
+    const int IN_SAMPLES = 5 * IN_SR;
+    
+    WavePCMFile rawfile, agcfile;
+    REQUIRE(rawfile.NewFile(ACE_TEXT("agcnone.wav"), IN_SR, IN_CH));
+    REQUIRE(agcfile.NewFile(ACE_TEXT("agcfile.wav"), IN_SR, IN_CH));
+
+    std::vector<int16_t> in_buff(IN_SAMPLES * IN_CH);
+    media::AudioFrame af(media::AudioFormat(IN_SR, IN_CH), &in_buff[0], IN_SAMPLES);
+    REQUIRE(GenerateTone(af, 0, 500));
+
+    REQUIRE(rawfile.AppendSamples(&in_buff[0], IN_SAMPLES));
+
+    webrtc::AudioBuffer ab(IN_SR, IN_CH, IN_SR, IN_CH, IN_SR, IN_CH);
+    webrtc::StreamConfig in_cfg(IN_SR, IN_CH);
+    std::vector<int16_t> agc_buff = in_buff;
+    webrtc::GainControlImpl gain;
+    gain.Initialize(IN_CH, IN_SR);
+    REQUIRE(gain.set_mode(webrtc::GainControl::kAdaptiveDigital) == webrtc::AudioProcessing::kNoError);
+    REQUIRE(gain.set_target_level_dbfs(1) == webrtc::AudioProcessing::kNoError);
+    int index = 0;
+    while (index + ab.num_frames() < IN_SAMPLES)
+    {
+        ab.CopyFrom(&in_buff[index * IN_CH], in_cfg);
+        REQUIRE(gain.AnalyzeCaptureAudio(ab) == webrtc::AudioProcessing::kNoError);
+        REQUIRE(gain.ProcessCaptureAudio(&ab, false) == webrtc::AudioProcessing::kNoError);
+        ab.CopyTo(in_cfg, &agc_buff[index]);
+        index += ab.num_frames();
+    }
+
+    REQUIRE(agcfile.AppendSamples(&agc_buff[0], IN_SAMPLES));
 }
