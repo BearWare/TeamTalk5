@@ -77,7 +77,7 @@ std::string FindFullName(const std::string& trial)
 
 TEST_CASE("webrtc-agc")
 {
-    const int IN_SR = 16000, IN_CH = 1;
+    const int IN_SR = 48000, IN_CH = 1;
     const int IN_SAMPLES = 5 * IN_SR;
     
     WavePCMFile rawfile, agcfile;
@@ -101,8 +101,10 @@ TEST_CASE("webrtc-agc")
     while (index + ab.num_frames() < IN_SAMPLES)
     {
         ab.CopyFrom(&in_buff[index * IN_CH], in_cfg);
+        ab.SplitIntoFrequencyBands();
         REQUIRE(gain.AnalyzeCaptureAudio(ab) == webrtc::AudioProcessing::kNoError);
         REQUIRE(gain.ProcessCaptureAudio(&ab, false) == webrtc::AudioProcessing::kNoError);
+        ab.MergeFrequencyBands();
         ab.CopyTo(in_cfg, &agc_buff[index]);
         index += ab.num_frames();
     }
