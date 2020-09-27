@@ -128,4 +128,6 @@ public:
     CButton m_wndVBR;
     CComboBox m_wndOpusFrameSizes;
     CStatic m_wndFrmSizeStatic;
+    BOOL m_bJoinChannel;
+    CButton m_wndJoinChannel;
 };

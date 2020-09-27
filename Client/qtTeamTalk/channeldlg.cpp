@@ -96,13 +96,12 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.opus_framesizeComboBox->addItem("100", 100);
     ui.opus_framesizeComboBox->addItem("120", OPUS_REALMAX_FRAMESIZE);
 
-    ui.staticchanBox->setEnabled(TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS);
-    
-    if( (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) == 0)
-    {
-        ui.diskquotaSpinBox->setEnabled(false);
-        ui.maxusersSpinBox->setEnabled(false);
-    }
+    bool modchannels = (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_MODIFY_CHANNELS;
+    ui.staticchanBox->setEnabled(modchannels);
+    ui.diskquotaSpinBox->setEnabled(modchannels);
+    ui.maxusersSpinBox->setEnabled(modchannels);
+    ui.joinchanBox->setEnabled(modchannels);
+    ui.joinchanBox->setChecked(true);
 
     //default settings for Speex
     setCurrentItemData(ui.spx_srateBox, DEFAULT_SPEEX_BANDMODE);
@@ -348,6 +347,11 @@ Channel ChannelDlg::GetChannel() const
     }
 
     return newchannel;
+}
+
+bool ChannelDlg::joinChannel() const
+{
+    return ui.joinchanBox->isChecked();
 }
 
 void ChannelDlg::slotAudioCodecChanged(int index)
