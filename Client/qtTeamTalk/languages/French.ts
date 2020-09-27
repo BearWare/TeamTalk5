@@ -1692,7 +1692,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1661"/>
         <source>Ctrl+Shift+1</source>
-        <translation>Ctrl+Shift+1</translation>
+        <translation>Ctrl+Alt+1</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1669"/>
@@ -1702,7 +1702,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1672"/>
         <source>Ctrl+Shift+2</source>
-        <translation>Ctrl+Shift+2</translation>
+        <translation>Ctrl+Alt+2</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1684"/>
@@ -1712,7 +1712,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1687"/>
         <source>Ctrl+Shift+4</source>
-        <translation>Ctrl+Shift+4</translation>
+        <translation>Ctrl+Alt+4</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1699"/>
@@ -1722,7 +1722,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1702"/>
         <source>Ctrl+Shift+5</source>
-        <translation>Ctrl+Shift+5</translation>
+        <translation>Ctrl+Alt+5</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1707"/>
@@ -1862,7 +1862,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1871"/>
         <source>Ctrl+Shift+6</source>
-        <translation>Ctrl+Shift+6</translation>
+        <translation>Ctrl+Alt+6</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1883"/>
@@ -1912,7 +1912,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1951"/>
         <source>Ctrl+Shift+8</source>
-        <translation>Ctrl+Shift+8</translation>
+        <translation>Ctrl+Alt+8</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1956"/>

@@ -353,12 +353,12 @@ BEGIN
     CONTROL         "",IDC_TAB_CTRL,"SysTabControl32",WS_TABSTOP,134,3,120,96
 END
 
-IDD_DIALOG_CHANNEL DIALOGEX 0, 0, 463, 253
+IDD_DIALOG_CHANNEL DIALOGEX 0, 0, 463, 261
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Title"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "New channel information",IDC_STATIC_GRPCHANNEL,7,7,449,239
+    GROUPBOX        "New channel information",IDC_STATIC_GRPCHANNEL,7,7,449,247
     LTEXT           "Channel name",IDC_STATIC_CHNAME,12,23,92,8
     EDITTEXT        IDC_EDIT_CHANNAME,105,20,105,14,ES_AUTOHSCROLL
     LTEXT           "Topic",IDC_STATIC_CHTOPIC,12,38,89,8
@@ -408,14 +408,15 @@ BEGIN
     LTEXT           "msec",IDC_STATIC_TXI1,343,154,24,8
     LTEXT           "Frame size",IDC_STATIC_OPUSFRMSIZE,365,154,35,8
     COMBOBOX        IDC_COMBO_OPUSFRAMESIZES,407,152,40,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Audio configuration",IDC_STATIC_AUDCFG,223,178,209,52
+    GROUPBOX        "Audio configuration",IDC_STATIC_AUDCFG,223,178,228,52
     CONTROL         "Enable fixed audio volume for all users",IDC_CHECK_FORCEAGC,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,232,192,139,10
     LTEXT           "Volume level",IDC_STATIC_VOLLEVEL,232,209,40,8
     CONTROL         "",IDC_SLIDER_GAINLEVEL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP | 0x400,286,206,107,15
     LTEXT           "Static",IDC_STATIC_GAINLEVEL,397,209,25,8
-    DEFPUSHBUTTON   "OK",IDOK,175,227,35,14
-    PUSHBUTTON      "Cancel",IDCANCEL,12,227,35,14
+    DEFPUSHBUTTON   "OK",IDOK,416,235,35,14
+    PUSHBUTTON      "Cancel",IDCANCEL,12,235,35,14
+    CONTROL         "&Join channel on exit",IDC_CHECK_JOINCHANNEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,308,237,99,10
 END
 
 IDD_DIALOG_USERINFO DIALOGEX 0, 0, 235, 174
@@ -1107,9 +1108,10 @@ BEGIN
         VERTGUIDE, 12
         VERTGUIDE, 210
         VERTGUIDE, 216
+        VERTGUIDE, 451
         TOPMARGIN, 7
-        BOTTOMMARGIN, 246
-        HORZGUIDE, 241
+        BOTTOMMARGIN, 254
+        HORZGUIDE, 249
     END
 
     IDD_DIALOG_USERINFO, DIALOG
@@ -2064,6 +2066,7 @@ STRINGTABLE
 BEGIN
     IDS_SUBINT_MEDIAFILE    "%s changed subscription ""Intercept Media File Stream"" to: %d"
     IDS_DESKTOPINPUT_GRANTED "%s has granted desktop access"
+    IDS_MPSEND              "Private message sent: %s"
     IDS_DESKTOPINPUT_ACTIVE "%s now has desktop access"
 END
 
@@ -2198,7 +2201,6 @@ END
 STRINGTABLE
 BEGIN
     IDS_USERTEXTMSG         "Text message from %s. %s"
-    IDS_MPSEND                 "Private message sent: %s"
     IDS_BCASTTEXTMSG        "Broadcast message from %s. %s"
     IDS_USERLOGIN           "%s has logged in"
     IDS_USERLOGOUT          "%s has logged out"
@@ -2246,7 +2248,28 @@ BEGIN
     IDS_MICGAIN             "Microphone gain"
     IDS_VOICEACTLEVEL       "Voice Activation Level"
     IDS_CHANTEXTMSG         "Channel message from %s. %s"
-    IDS_CHANTEXTMSGSEND            "Channel message sent: %s"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_FILETRANSFERFAILED  " - Failed"
+    IDS_GENERATETTFILEANY   "Any"
+    IDS_GENERATETTFILEEXTFILE ".tt Files (*.tt)|*.tt||"
+    IDS_GENERATETTFILEFAILEDTOSAVE "Failed to save .tt file."
+    IDS_GENERATETTFILESAVE  "Save .tt File"
+    IDS_HOSTMANAGERFILLALLFIELDS 
+                            "Please fill in all the required fields.\r\n- Entry name\r\n- Host address\r\n- TCP port\r\n- UDP port\r\n"
+    IDS_HOSTMANAGERCANNOTDELPUBSERV "Cannot delete public servers"
+    IDS_HOSTMANAGERDELHOST  "Delete Host"
+    IDS_HOSTMANAGERPUBLIC   "Public: "
+    IDS_HOSTMANAGERHOSTFILES "Host files (*%s)|*%s|All files (*.*)|*.*|"
+    IDS_CHANTEXTMSGSEND     "Channel message sent: %s"
+    IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY 
+                            "The file %s\r\ndoes not contain a valid %s host entry.\r\nError message: %s"
+    IDS_KEYCOMPERROR        "Error setting keyboard hook. Try restarting the program."
+    IDS_MEDIASTORAGEWAVEFORMAT "Wave-format"
+    IDS_MEDIASTORAGEOGGFORMAT "Ogg-format"
+    IDS_MEDIASTORAGEMP3FORMAT16 "MP3-format (16 kbit)"
 END
 
 STRINGTABLE
@@ -2281,6 +2304,7 @@ BEGIN
     IDS_DEFAULTNICKNAME     "NoName"
     IDS_TREECTRLLAB         "Channels list"
     IDS_FILESLISTLAB        "Files list"
+    IDS_ABOUT_CREDITS       "Credits"
 END
 
 STRINGTABLE
@@ -2350,7 +2374,6 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_ABOUT_CREDITS       "Credits"
     IDS_ABOUT_CONTRIB       "Contributors"
     IDS_ABOUT_DEV           "developer"
     IDS_ABOUT_TRANSLATORS   "Translators"
@@ -2456,27 +2479,6 @@ BEGIN
     IDS_FILETRANSFERSPEEDB  "%I64d bytes/sec, %I64d bytes last sec."
     IDS_FILETRANSFERBYTESSEC "%I64d bytes/sec"
     IDS_FILETRANSFERPROGRESSCOMPLETED " - Completed"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_FILETRANSFERFAILED  " - Failed"
-    IDS_GENERATETTFILEANY   "Any"
-    IDS_GENERATETTFILEEXTFILE ".tt Files (*.tt)|*.tt||"
-    IDS_GENERATETTFILEFAILEDTOSAVE "Failed to save .tt file."
-    IDS_GENERATETTFILESAVE  "Save .tt File"
-    IDS_HOSTMANAGERFILLALLFIELDS 
-                            "Please fill in all the required fields.\r\n- Entry name\r\n- Host address\r\n- TCP port\r\n- UDP port\r\n"
-    IDS_HOSTMANAGERCANNOTDELPUBSERV "Cannot delete public servers"
-    IDS_HOSTMANAGERDELHOST  "Delete Host"
-    IDS_HOSTMANAGERPUBLIC   "Public: "
-    IDS_HOSTMANAGERHOSTFILES "Host files (*%s)|*%s|All files (*.*)|*.*|"
-    IDS_HOSTMANAGERFILENOTCONTAINVALIDENTRY 
-                            "The file %s\r\ndoes not contain a valid %s host entry.\r\nError message: %s"
-    IDS_KEYCOMPERROR        "Error setting keyboard hook. Try restarting the program."
-    IDS_MEDIASTORAGEWAVEFORMAT "Wave-format"
-    IDS_MEDIASTORAGEOGGFORMAT "Ogg-format"
-    IDS_MEDIASTORAGEMP3FORMAT16 "MP3-format (16 kbit)"
 END
 
 STRINGTABLE

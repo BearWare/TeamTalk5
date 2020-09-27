@@ -4352,7 +4352,7 @@ void CTeamTalkDlg::OnChannelsCreatechannel()
         chan.transmitUsers[0][TT_CLASSROOM_USERID_INDEX] = TT_CLASSROOM_FREEFORALL;
         chan.transmitUsers[0][TT_CLASSROOM_STREAMTYPE_INDEX] = STREAMTYPE_CLASSROOM_ALL;
 
-        if(bEnableChan)
+        if (!dlg.m_bJoinChannel)
             TT_DoMakeChannel(ttInst, &chan);
         else
         {
