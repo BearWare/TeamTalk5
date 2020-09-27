@@ -823,13 +823,13 @@ void CWMAudioAECCapture::Run()
     const int SAMPLERATE = 22050;
     const int CHANNELS = 1;
     media::AudioFormat infmt(SAMPLERATE, CHANNELS);
-    const size_t BUFSIZE = PCM16_BYTES(SAMPLERATE * 3, CHANNELS);
-
-    m_input_queue.high_water_mark(BUFSIZE);
-    m_input_queue.low_water_mark(BUFSIZE);
 
     int inputsamples = CalcSamples(m_streamer->samplerate, m_streamer->framesize, SAMPLERATE);
     m_input_buffer.resize(inputsamples * CHANNELS);
+
+    const size_t BUFSIZE = PCM16_BYTES(inputsamples * 2, CHANNELS);
+    m_input_queue.high_water_mark(BUFSIZE);
+    m_input_queue.low_water_mark(BUFSIZE);
 
     m_resampler = MakeAudioResampler(infmt, media::AudioFormat(m_streamer->samplerate, m_streamer->input_channels), inputsamples);
     if (!m_resampler)
@@ -946,6 +946,9 @@ void CWMAudioAECCapture::Run()
     uint64_t processedBytes = 0;
     do
     {
+        // Drain as much as we can to 'm_input_buffer'
+        ProcessAudioQueue();
+
         CComPtr<IMediaBuffer> ioutputbuf;
         HRESULT hr = CMediaBuffer::CreateBuffer(&outputbuf[0], 0, outputbuf.size(), (void**)&ioutputbuf);
         MYTRACE_COND(FAILED(hr), ACE_TEXT("Failed to create AEC output buffer\n"));
@@ -1033,11 +1036,13 @@ void CWMAudioAECCapture::QueueAudioFrame(const media::AudioFrame& frm)
         if (m_input_queue.enqueue_tail(mb, &tv) < 0)
         {
             mb->release();
-            MYTRACE(ACE_TEXT("Failed to queue echo cancelled audio\n"));
+            MYTRACE(ACE_TEXT("Failed to queue echo cancelled audio. %d msec\n"),
+                    PCM16_SAMPLES_DURATION(frm.input_samples, frm.inputfmt.samplerate));
         }
     }
     else
     {
+        // reduce copying by writing directly to 'm_input_buffer'
         ProcessAudioFrame(frm);
     }
 }
