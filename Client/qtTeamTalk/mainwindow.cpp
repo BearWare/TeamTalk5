@@ -3991,7 +3991,7 @@ void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
 
     //only admins can create channels. Users can only create a new channel
     //if they at the same time join it.
-    if(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN)
+    if (!dlg.joinChannel())
     {
         if(TT_DoMakeChannel(ttInst, &chan)<0)
             QMessageBox::critical(this, MENUTEXT(ui.actionCreateChannel->text()), 
