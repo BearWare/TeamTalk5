@@ -1041,16 +1041,14 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         //set checkboxes if it's a CHANNEL_CLASSROOM
         if(chan.nChannelID == mychanid)
         {
-            bool opadmin = TT_IsChannelOperator(ttInst, 
-                                                TT_GetMyUserID(ttInst), 
-                                                user.nChannelID);
-            opadmin |= (bool)(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
+            bool modifychan = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user.nChannelID);
+            modifychan |= ((TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE);
 
             bool txvoice = userCanVoiceTx(userid, chan);
             bool txvideo = userCanVideoTx(userid, chan);
             bool txdesktop = userCanDesktopTx(userid, chan);
             bool txmediafile = userCanMediaFileTx(userid, chan);
-            if(opadmin)
+            if (modifychan)
             {
                 if(!item->icon(COLUMN_VOICE).isNull())
                     item->setIcon(COLUMN_VOICE, QIcon());

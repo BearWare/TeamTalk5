@@ -55,6 +55,7 @@ CChannelDlg::CChannelDlg(CChannelDlg::ChannelDlgType dlgType, CWnd* pParent /*=N
 , m_bNoVoiceAct(FALSE)
 , m_bNoRecord(FALSE)
 , m_bVBR(FALSE)
+, m_bJoinChannel(FALSE)
 {
     InitDefaultAudioCodec(m_codec);
 }
@@ -122,6 +123,8 @@ void CChannelDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECK_VBR, m_wndVBR);
     DDX_Control(pDX, IDC_COMBO_OPUSFRAMESIZES, m_wndOpusFrameSizes);
     DDX_Control(pDX, IDC_STATIC_OPUSFRMSIZE, m_wndFrmSizeStatic);
+    DDX_Check(pDX, IDC_CHECK_JOINCHANNEL, m_bJoinChannel);
+    DDX_Control(pDX, IDC_CHECK_JOINCHANNEL, m_wndJoinChannel);
 }
 
 
@@ -161,12 +164,12 @@ BOOL CChannelDlg::OnInitDialog()
 
     m_btnStaticChannel.EnableWindow(TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS);
     
-    BOOL bEnableChan = (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE;
-    if(!bEnableChan)
-    {
-        m_wndDiskQuota.EnableWindow(FALSE);
-        m_wndMaxUsers.EnableWindow(FALSE);
-    }
+    BOOL bEnableModify = (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE;
+
+    m_wndDiskQuota.EnableWindow(bEnableModify);
+    m_wndMaxUsers.EnableWindow(bEnableModify);
+    m_wndJoinChannel.EnableWindow(bEnableModify);
+    m_wndJoinChannel.SetCheck(TRUE);
 
     if(m_nType == CREATE_CHANNEL)
     {

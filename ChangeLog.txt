@@ -4,6 +4,9 @@
 Version 5.7, unreleased
 Accessible Windows Client:
 - Specific TTS events when sending a private or channel message
+- Option to join channel immediately in create channel dialog
+Default QT Client:
+- Option to join channel immediately in create channel dialog
 
 Version 5.6.3, 2020/09/20
 Accessible Windows Client:

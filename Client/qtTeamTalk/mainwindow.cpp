@@ -4024,7 +4024,7 @@ void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
     Channel chan;
     ZERO_STRUCT(chan);
 
-    if(ui.channelsWidget->selectedChannel() && (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN))
+    if(ui.channelsWidget->selectedChannel() && (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS))
         chan.nParentID = ui.channelsWidget->selectedChannel();
     else
     {
@@ -4039,7 +4039,7 @@ void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
 
     //only admins can create channels. Users can only create a new channel
     //if they at the same time join it.
-    if(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN)
+    if (!dlg.joinChannel())
     {
         if(TT_DoMakeChannel(ttInst, &chan)<0)
             QMessageBox::critical(this, MENUTEXT(ui.actionCreateChannel->text()), 
@@ -4458,9 +4458,9 @@ void MainWindow::slotUsersOp(int userid, int chanid)
 {
     bool op = (bool)TT_IsChannelOperator(ttInst, userid, chanid);
 
-    bool me_opadmin = (bool)TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), chanid);
-    me_opadmin |= (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) != 0;
-    if(me_opadmin) //don't need password in this case
+    bool openable = (bool)TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), chanid);
+    openable |= ((TT_GetMyUserRights(ttInst) & USERRIGHT_OPERATOR_ENABLE) != USERRIGHT_NONE);
+    if (openable) //don't need password in this case
         TT_DoChannelOp(ttInst, userid, chanid, !op);
     else
     {
@@ -4497,8 +4497,7 @@ void MainWindow::slotTreeSelectionChanged()
 {
     slotUpdateUI();
     int channelid = ui.channelsWidget->selectedChannel(true);
-    if(m_filesmodel->getChannelID() != channelid &&
-       (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN))
+    if (m_filesmodel->getChannelID() != channelid && ((TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) != USERTYPE_NONE))
     {
         //if admin changed selection change files view to new channel.
         //if not admin then keep joined channel as file view.
