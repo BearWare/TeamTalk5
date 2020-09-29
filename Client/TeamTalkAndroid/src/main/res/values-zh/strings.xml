@@ -207,7 +207,7 @@
     <string name="action_connect">连接</string>
     <string name="action_new_server">添加新服务器</string>
     <string name="action_refresh">刷新</string>
-    <string name="action_import_serverlist">从文件导入</string>
+    <string name="action_import_serverlist">从 .tt 文件导入</string>
 
     <string name="pref_title_server_props">TeamTalk 5 服务器属性</string>
     <string name="pref_title_server_info">服务器信息</string>
