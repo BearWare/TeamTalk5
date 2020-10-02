@@ -131,6 +131,8 @@ if (MSVC)
   endif()
 endif()
 
+option (WEBRTC "Build using WebRTC libraries" ON)
+
 if (WEBRTC)
   list (APPEND AVSTREAM_INCLUDE_DIR ${WEBRTC_INCLUDE_DIR})
   list (APPEND AVSTREAM_LINK_FLAGS ${WEBRTC_LINK_FLAGS})

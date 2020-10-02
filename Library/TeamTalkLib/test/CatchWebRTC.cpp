@@ -111,3 +111,9 @@ TEST_CASE("webrtc-agc")
 
     REQUIRE(agcfile.AppendSamples(&agc_buff[0], IN_SAMPLES));
 }
+
+TEST_CASE("webrtc-apm")
+{
+    webrtc::AudioProcessing* apm = webrtc::AudioProcessingBuilder().Create();
+    apm->Initialize();
+}
