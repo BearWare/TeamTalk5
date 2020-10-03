@@ -4624,6 +4624,7 @@ void MainWindow::slotUpdateUI()
     else
     {
         ui.actionJoinChannel->setText(tr("&Join Channel"));
+        ui.actionJoinChannel->setShortcut(tr("CTRL+J"));
     }
 
     ui.actionJoinChannel->setEnabled(chanid>0);
