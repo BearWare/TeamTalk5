@@ -4617,9 +4617,14 @@ void MainWindow::slotUpdateUI()
     }
 
     if(user_chanid == mychannel)
+    {
         ui.actionJoinChannel->setText(tr("&Leave Channel"));
+        ui.actionJoinChannel->setShortcut("CTRL+L");
+    }
     else
+    {
         ui.actionJoinChannel->setText(tr("&Join Channel"));
+    }
 
     ui.actionJoinChannel->setEnabled(chanid>0);
     ui.actionViewChannelInfo->setEnabled(chanid>0);
