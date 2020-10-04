@@ -6,6 +6,8 @@ Accessible Windows Client:
 - Specific TTS events when sending a private or channel message
 Android client:
 - Change default stream volume from 100 to 50
+iOS Client:
+- Change default stream volume from 100 to 50
 
 Version 5.6.3, 2020/09/20
 Accessible Windows Client:
