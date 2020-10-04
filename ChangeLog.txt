@@ -4,6 +4,10 @@
 Version 5.7, unreleased
 Accessible Windows Client:
 - Specific TTS events when sending a private or channel message
+- Option to join channel immediately in create channel dialog
+Default QT Client:
+- Option to join channel immediately in create channel dialog
+- CTRL+L to leave a channel
 Android client:
 - Change default stream volume from 100 to 50
 iOS Client:

@@ -120,6 +120,7 @@
     <item id="243">Upravitelj hostova</item>
     <item id="244">%s je izmjenio pretplatu praćenja multimedije na: %d</item>
     <item id="245">%s je dodjelio pristup radnoj površini</item>
+    <item id="247">Poslana privatna poruka: %s</item>
     <item id="248">%s sada ima pristup radnoj površini</item>
     <item id="249">Kombinacija tipaka</item>
     <item id="251">Pozicioniraj učesnike podržano samo na 3d zvučnim karticama</item>
@@ -175,6 +176,7 @@
     <item id="307">Uzlazno</item>
     <item id="308">Popularnost</item>
     <item id="309">Svatko</item>
+    <item id="310">Datoteka %s dodana</item>
     <item id="311">je izbrisao datoteku %s</item>
     <item id="312">Događaji datoteka</item>
     <item id="313">Datoteka je dodana</item>
@@ -237,7 +239,7 @@
     <item id="371">jeste li sigurni da želite izbrisati kanal %s</item>
     <item id="372">Brisanje kanala</item>
     <item id="373">Lozinka kanala</item>
-    <item id="374">%s je dodao datoteku %s </item>
+    <item id="374">%s je dodao datoteku %s</item>
     <item id="375">Kompilirano datuma</item>
     <item id="376">Unicode -&gt; UTF-8 konverzija je omogućena.&#x0D;&#x0A;</item>
     <item id="377">Koristi lokalnu kodnu stranicu.&#x0D;&#x0A;</item>
@@ -336,6 +338,7 @@
     <item id="471">Izbriši poslužitelj</item>
     <item id="472">Javan:</item>
     <item id="473">Datoteke hostova (*%s)|*%s|sve datoteke (*.*)|*.*|</item>
+    <item id="474">Poruka na kanal je poslana: %s</item>
     <item id="475">Datoteka%s&#x0D;&#x0A;ne sadrži valjani zapis o poslužitelju.&#x0D;&#x0A;Kod pogreške: %s</item>
     <item id="476">Greška prilikom dohvaćanja tipkovnice. Pokušajte ponovno pokrenuti program</item>
     <item id="477">Wav format</item>
@@ -417,6 +420,12 @@
     <item id="556">Anonimus</item>
     <item id="557">Spisak kanala</item>
     <item id="558">Popis datoteka</item>
+    <item id="559">Zahvala</item>
+    <item id="560">Doprinositelji</item>
+    <item id="561">Razvojni programer</item>
+    <item id="562">Prevoditelji</item>
+    <item id="563">Biblioteke</item>
+    <item id="564">TeamTalk Koristi sljedeće biblioteke:</item>
     <item id="1006">Popis datoteka</item>
     <item id="1009">Automatski se pridruži glavnom kanalu prilikom povezivanja</item>
     <item id="1012">TCP port hosta</item>
@@ -751,6 +760,8 @@
     <item id="1596">Testiranje reprodukcjie</item>
     <item id="1598">Restore volume lVrati na zadane vrijednosti glasnoću i usluge za korisnike Web login</item>
     <item id="1599">BearWare.dk Web Login identifikator</item>
+    <item id="1600">Onemogućeno (neaktivno)</item>
+    <item id="1601">&amp;Pri izlazu pridruži se kanalu</item>
     <item id="32791">Koja je moja &amp;IP adresa_</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">&amp;Pregledaj poruke kanala\tF10</item>
