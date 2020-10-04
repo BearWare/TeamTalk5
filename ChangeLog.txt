@@ -7,6 +7,7 @@ Accessible Windows Client:
 - Option to join channel immediately in create channel dialog
 Default QT Client:
 - Option to join channel immediately in create channel dialog
+- CTRL+L to leave a channel
 Android client:
 - Change default media file volume from 100 to 50
 

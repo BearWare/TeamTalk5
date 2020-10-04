@@ -207,7 +207,7 @@
     <string name="action_connect">Connexion</string>
     <string name="action_new_server">Nouveau serveur</string>
     <string name="action_refresh">Actualiser</string>
-    <string name="action_import_serverlist">Importer depuis un fichier</string>
+    <string name="action_import_serverlist">Importer depuis un fichier .tt</string>
 
     <string name="pref_title_server_props">Propriétés du serveur TeamTalk 5</string>
     <string name="pref_title_server_info">Informations du serveur</string>
