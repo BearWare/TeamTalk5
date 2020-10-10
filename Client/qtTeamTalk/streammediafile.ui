@@ -22,20 +22,17 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0,0">
-        <item>
+<!--        <item>
          <widget class="QLabel" name="label">
           <property name="text">
            <string>Media file</string>
           </property>
          </widget>
-        </item>
+        </item>-->
         <item>
-         <widget class="QComboBox" name="mediafileComboBox">
-          <property name="currentText">
-           <string />
-          </property>
-          <property name="editable">
-           <bool>true</bool>
+         <widget class="ChatLineEdit" name="mediafileComboBox">
+          <property name="accessibleName">
+           <string>Media file</string>
           </property>
          </widget>
         </item>
