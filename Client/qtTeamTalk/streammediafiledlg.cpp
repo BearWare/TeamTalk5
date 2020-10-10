@@ -81,13 +81,13 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
     ui.vp8bitrateSpinBox->setValue(m_videocodec.webm_vp8.nRcTargetBitrate);
     setCurrentItemData(ui.vidcodecBox, m_videocodec.nCodec);
 
-/*    int i = 0;
+    int i = 0;
     QString item;
     while ((item = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i++)).toString()).size())
     {
         ui.mediafileComboBox->addItem(item);
     }
-    ui.mediafileComboBox->setCurrentIndex(0); // generates showMediaFormatInfo()*/
+    ui.mediafileComboBox->setCurrentIndex(0); // generates showMediaFormatInfo()
 
     updateControls();
 }
