@@ -48,8 +48,8 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
     //connect(ui.vidcodecBox, &QComboBox::currentIndexChanged, ui.vidcodecStackedWidget, &QStackedWidget::setCurrentIndex);
     connect(ui.stopToolButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotStopMediaFile);
     connect(ui.startToolButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotPlayMediaFile);
-    connect(ui.mediafileComboBox->lineEdit(), &QLineEdit::editingFinished, this, &StreamMediaFileDlg::showMediaFormatInfo);
-    connect(ui.mediafileComboBox, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(slotSelectionFile(const QString&)));
+/*    connect(ui.mediafileComboBox->lineEdit(), &QLineEdit::editingFinished, this, &StreamMediaFileDlg::showMediaFormatInfo);
+    connect(ui.mediafileComboBox, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(slotSelectionFile(const QString&)));*/
     connect(ui.preprocessorComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangePreprocessor(int)));
     connect(ui.preprocessButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotSetupPreprocessor);
     connect(ui.playbackOffsetSlider, &QSlider::sliderMoved, this, &StreamMediaFileDlg::slotChangePlayOffset);
@@ -88,7 +88,6 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
         ui.mediafileComboBox->addItem(item);
     }
     ui.mediafileComboBox->setCurrentIndex(0); // generates showMediaFormatInfo()
-    ui.mediafileComboBox->setCurrentText(tr(""));
 
     updateControls();
 }
