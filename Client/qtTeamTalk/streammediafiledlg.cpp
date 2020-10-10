@@ -87,7 +87,8 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
     {
         ui.mediafileComboBox->addItem(item);
     }
-    //ui.mediafileComboBox->setCurrentIndex(0); // generates showMediaFormatInfo()
+    ui.mediafileComboBox->setCurrentIndex(0); // generates showMediaFormatInfo()
+    ui.mediafileComboBox->setCurrentText(ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(0)).toString()));
 
     updateControls();
 }
