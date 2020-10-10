@@ -31,6 +31,9 @@
         </item>
         <item>
          <widget class="QComboBox" name="mediafileComboBox">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
           <property name="editable">
            <bool>true</bool>
           </property>
