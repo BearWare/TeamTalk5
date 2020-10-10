@@ -145,7 +145,7 @@ void StreamMediaFileDlg::slotSelectionFile(const QString&)
 
 void StreamMediaFileDlg::showMediaFormatInfo()
 {
-    QString filename = ui.mediafileComboBox->QLineEdit()->text();
+    QString filename = ui.mediafileComboBox->lineEdit()->text();
     QString audio, video, duration;
 
     if (_Q(m_mediaFile.szFileName) == filename)
