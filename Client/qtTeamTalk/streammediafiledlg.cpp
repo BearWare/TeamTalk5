@@ -261,7 +261,7 @@ void StreamMediaFileDlg::slotPlayMediaFile()
         m_mfp.uOffsetMSec = 0;
         double percent = ui.playbackOffsetSlider->value() / double(ui.playbackOffsetSlider->maximum());
         m_mfp.uOffsetMSec =  UINT32(m_mediaFile.uDurationMSec * percent);
-        m_playbackid = TT_InitLocalPlayback(ttInst, _W(ui.mediafileComboBox->qlineEdit()->text()), &m_mfp);
+        m_playbackid = TT_InitLocalPlayback(ttInst, _W(ui.mediafileComboBox->QLineEdit()->text()), &m_mfp);
         if (m_playbackid <= 0)
         {
             QMessageBox::critical(this, tr("Play"), tr("Failed to play media file"));
