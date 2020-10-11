@@ -44,6 +44,7 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
 
     connect(this, &QDialog::accepted, this, &StreamMediaFileDlg::slotAccepted);
     connect(ui.toolButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotSelectFile);
+    connect(ui.delButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotDeleteItem);
     connect(ui.refreshBtn, &QAbstractButton::clicked, this, &StreamMediaFileDlg::showMediaFormatInfo);
     //connect(ui.vidcodecBox, &QComboBox::currentIndexChanged, ui.vidcodecStackedWidget, &QStackedWidget::setCurrentIndex);
     connect(ui.stopToolButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotStopMediaFile);
@@ -136,6 +137,12 @@ void StreamMediaFileDlg::slotSelectFile()
         ui.mediafileComboBox->insertItem(0, fileName);
         ui.mediafileComboBox->setCurrentIndex(0); // generates showMediaFormatInfo()
     }
+}
+
+void StreamMediaFileDlg::slotDeleteItem()
+{
+    QString filename = ui.mediafileCombobox->currentItem()
+    ttSettings->remove(filename);
 }
 
 void StreamMediaFileDlg::slotSelectionFile(const QString&)
