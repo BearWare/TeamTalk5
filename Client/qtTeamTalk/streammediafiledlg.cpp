@@ -143,7 +143,7 @@ void StreamMediaFileDlg::slotDeleteItem()
 {
     int i = ui.mediafileComboBox->currentIndex();
     ttSettings->remove(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i));
-    ui.mediafileComboBox->setIndex(i+1);
+    ui.mediafileComboBox->setCurrentIndex(i+1);
 }
 
 void StreamMediaFileDlg::slotSelectionFile(const QString&)
