@@ -141,7 +141,7 @@ void StreamMediaFileDlg::slotSelectFile()
 
 void StreamMediaFileDlg::slotDeleteItem()
 {
-    QString filename = ui.mediafileCombobox->currentItem()
+    QString filename = ui.mediafileComboBox->currentItem()
     ttSettings->remove(filename);
 }
 
