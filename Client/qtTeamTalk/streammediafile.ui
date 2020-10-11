@@ -50,6 +50,16 @@
          </widget>
         </item>
         <item>
+         <widget class="QToolButton" name="delButton">
+          <property name="accessibleName">
+           <string>Delete from list</string>
+          </property>
+          <property name="text">
+           <string>Delete</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QToolButton" name="refreshBtn">
           <property name="accessibleName">
            <string>Refresh</string>
@@ -432,6 +442,7 @@
  <tabstops>
   <tabstop>mediafileComboBox</tabstop>
   <tabstop>toolButton</tabstop>
+  <tabstop>delButton</tabstop>
   <tabstop>refreshBtn</tabstop>
   <tabstop>loopChkBox</tabstop>
   <tabstop>preprocessorComboBox</tabstop>
