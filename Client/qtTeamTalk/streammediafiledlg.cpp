@@ -141,9 +141,9 @@ void StreamMediaFileDlg::slotSelectFile()
 
 void StreamMediaFileDlg::slotDeleteItem()
 {
-    QString filename = ui.mediafileComboBox->lineEdit()->text();
+//    QString filename = ui.mediafileComboBox->lineEdit()->text();
     int i = ui.mediafileComboBox->currentIndex();
-    ttSettings->remove(i + "_stream-media-filename");
+    ttSettings->remove(QString(SETTINGS_STREAM-MEDIA_stream-media-filename).arg(i));
 }
 
 void StreamMediaFileDlg::slotSelectionFile(const QString&)
