@@ -114,6 +114,39 @@ TEST_CASE("webrtc-agc")
 
 TEST_CASE("webrtc-apm")
 {
+    const int IN_SR = 48000, IN_CH = 1;
+    const int IN_SAMPLES = 5 * IN_SR;
+    
+    WavePCMFile rawfile, apmfile;
+    REQUIRE(rawfile.NewFile(ACE_TEXT("apmnone.wav"), IN_SR, IN_CH));
+    REQUIRE(apmfile.NewFile(ACE_TEXT("apmfile.wav"), IN_SR, IN_CH));
+
+    std::vector<int16_t> in_buff(IN_SAMPLES * IN_CH);
+    media::AudioFrame af(media::AudioFormat(IN_SR, IN_CH), &in_buff[0], IN_SAMPLES);
+    REQUIRE(GenerateTone(af, 0, 500));
+
+    REQUIRE(rawfile.AppendSamples(&in_buff[0], IN_SAMPLES));
+
+    webrtc::AudioBuffer ab(IN_SR, IN_CH, IN_SR, IN_CH, IN_SR, IN_CH);
+    webrtc::StreamConfig in_cfg(IN_SR, IN_CH), out_cfg = in_cfg;
+    std::vector<int16_t> apm_buff = in_buff;
+
     webrtc::AudioProcessing* apm = webrtc::AudioProcessingBuilder().Create();
-    apm->Initialize();
+    REQUIRE(apm->Initialize() == webrtc::AudioProcessing::kNoError);
+
+    webrtc::AudioProcessing::Config apm_cfg;
+    apm_cfg.gain_controller1.enabled = true;
+    apm_cfg.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
+    apm_cfg.gain_controller1.target_level_dbfs = 1;
+
+    apm->ApplyConfig(apm_cfg);
+
+    int index = 0;
+    while (index + ab.num_frames() < IN_SAMPLES)
+    {
+        REQUIRE(apm->ProcessStream(&in_buff[index], in_cfg, out_cfg, &apm_buff[index]) == webrtc::AudioProcessing::kNoError);
+        index += ab.num_frames();
+    }
+
+    REQUIRE(apmfile.AppendSamples(&apm_buff[0], IN_SAMPLES));
 }
