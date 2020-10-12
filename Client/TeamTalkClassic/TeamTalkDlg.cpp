@@ -1350,6 +1350,7 @@ void CTeamTalkDlg::OnUserLogin(const TTMessage& msg)
         CString szMsg, szFormat;
         szFormat = LoadText(IDS_USERLOGIN);
         szMsg.Format(szFormat, GetDisplayName(user));
+        AddStatusText(szMsg);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDIN)
             AddTextToSpeechMessage(szMsg);
     }
@@ -1380,6 +1381,7 @@ void CTeamTalkDlg::OnUserLogout(const TTMessage& msg)
     CString szMsg, szFormat;
     szFormat = LoadText(IDS_USERLOGOUT);
     szMsg.Format(szFormat, GetDisplayName(user));
+    AddStatusText(szMsg);
     if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDOUT)
         AddTextToSpeechMessage(szMsg);
 
