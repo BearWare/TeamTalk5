@@ -1084,7 +1084,6 @@ void Convert(const WebRTCAudioPreprocessor& webrtc, teamtalk::WebRTCAudioPreproc
 #else
 void Convert(const WebRTCAudioPreprocessor& webrtc, teamtalk::WebRTCAudioPreprocessor& result)
 {
-    webrtc = {};
 }
 #endif
 
