@@ -1138,3 +1138,51 @@ TEST_CASE("Last voice packet - wav files")
 
     ACE_OS::closedir(dir);
 }
+
+TEST_CASE("SoundLoopback")
+{
+    SoundDevice indev, outdev;
+    REQUIRE(GetSoundDevices(indev, outdev));
+
+    std::cout << "input: " << indev.nDeviceID << " name: " << indev.szDeviceName
+              << " channels: " << indev.nMaxInputChannels << " samplerate: " << indev.nDefaultSampleRate
+              << " output: " << outdev.nDeviceID << " name: " << outdev.szDeviceName << std::endl;
+    ttinst ttclient(TT_InitTeamTalkPoll());
+
+    AudioPreprocessor preprocess = {};
+
+    auto sndloop = TT_StartSoundLoopbackTestEx(indev.nDeviceID, outdev.nDeviceID, indev.nDefaultSampleRate,
+                                               1, TRUE, &preprocess, nullptr);
+    REQUIRE(sndloop);
+
+    std::cout << "Recording...." << std::endl;
+
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 10000);
+
+    REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
+
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    preprocess.webrtc.bEnableGainCtl1 = TRUE;
+    preprocess.webrtc.nGainCtl1TargetLevelDbFS = 1;
+
+    sndloop = TT_StartSoundLoopbackTestEx(indev.nDeviceID, outdev.nDeviceID, indev.nDefaultSampleRate,
+                                          1, TRUE, &preprocess, nullptr);
+    REQUIRE(sndloop);
+
+    std::cout << "Recording...." << std::endl;
+
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 10000);
+
+    REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
+
+    preprocess.webrtc.nGainCtl1TargetLevelDbFS = 30;
+    sndloop = TT_StartSoundLoopbackTestEx(indev.nDeviceID, outdev.nDeviceID, indev.nDefaultSampleRate,
+                                          1, TRUE, &preprocess, nullptr);
+    REQUIRE(sndloop);
+
+    std::cout << "Recording...." << std::endl;
+
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 10000);
+
+    REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
+}

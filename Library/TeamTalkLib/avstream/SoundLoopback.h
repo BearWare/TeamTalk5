@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -29,6 +29,11 @@
 #if defined(ENABLE_SPEEXDSP)
 #include <avstream/SpeexPreprocess.h>
 #endif
+
+#if defined(ENABLE_WEBRTC)
+#include <avstream/WebRTCPreprocess.h>
+#endif
+
 #include <avstream/AudioResampler.h>
 #include <codec/MediaUtil.h>
 
@@ -64,32 +69,36 @@ public:
                          bool denoise, int denoise_level,
                          bool enable_aec, const SpeexAEC& aec
 #endif
+#if defined(ENABLE_WEBRTC)
+                         , const webrtc::AudioProcessing::Config& apm_cfg
+#endif
                          , int gainlevel, StereoMask stereo,
                          soundsystem::SoundDeviceFeatures sndfeatures);
+
     bool StopTest();
 
     void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                          const short* buffer, int samples);
-    bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer, 
+    bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                         short* buffer, int samples);
 
     void StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
-                            const short* input_buffer, 
+                            const short* input_buffer,
                             const short* prev_output_buffer, int samples);
     void StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
-                        const short* input_buffer, 
+                        const short* input_buffer,
                         short* output_buffer, int samples);
 
     soundsystem::SoundDeviceFeatures GetCaptureFeatures();
     soundsystem::SoundDeviceFeatures GetDuplexFeatures();
-    
+
 private:
 #if defined(ENABLE_SPEEXDSP)
     bool SetAGC(int samplerate, int samples, int channels,
                 bool enable_agc,
                 const SpeexAGC& agc,
                 bool denoise, int denoise_level,
-                bool enable_aec, 
+                bool enable_aec,
                 const SpeexAEC& aec);
 #endif
     bool m_active;
@@ -100,6 +109,9 @@ private:
     soundsystem::SoundDeviceFeatures m_features = soundsystem::SOUNDDEVICEFEATURE_NONE;
 #if defined(ENABLE_SPEEXDSP)
     SpeexPreprocess m_preprocess_left, m_preprocess_right;
+#endif
+#if defined(ENABLE_WEBRTC)
+    std::unique_ptr<webrtc::AudioProcessing> m_apm;
 #endif
     std::vector<short> m_preprocess_buffer_left, m_preprocess_buffer_right;
     std::queue< std::vector<short> > m_buf_queue;

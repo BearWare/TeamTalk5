@@ -35,6 +35,9 @@
 #if defined(ENABLE_OPUS)
 #include <codec/OpusEncoder.h>
 #endif
+#if defined(ENABLE_WEBRTC)
+#include <audio_processing.h>
+#endif
 
 #include <codec/MediaUtil.h>
 #include <teamtalk/Common.h>

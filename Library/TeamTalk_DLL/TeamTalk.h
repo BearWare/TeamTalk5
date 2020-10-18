@@ -1212,6 +1212,16 @@ extern "C" {
         TTBOOL bMuteRightSpeaker;
     } TTAudioPreprocessor;
 
+    typedef struct WebRTCAudioPreprocessor
+    {
+        TTBOOL bEnableGainCtl1;
+        /** Decibels from digital full-scale. Default: 3 */
+        INT32 nGainCtl1TargetLevelDbFS;
+        TTBOOL bEnableNoiseSuppression;
+        /** 0 = Low, 1 = Moderate, 2 = High, 3 = VeryHigh. Default: 1 */
+        INT32 nNoiseSuppressLevel;
+    } WebRTCAudioPreprocessor;
+
     /** @brief The types of supported audio preprocessors.
      *
      * @see TT_InitLocalPlayback() */
@@ -1224,6 +1234,7 @@ extern "C" {
         SPEEXDSP_AUDIOPREPROCESSOR  = 1,
         /** @brief Use TeamTalk's internal audio preprocessor #TTAudioPreprocessor. */
         TEAMTALK_AUDIOPREPROCESSOR  = 2,
+        WEBRTC_AUDIOPREPROCESSOR    = 3,
     } AudioPreprocessorType;
 
     /** @brief Configure the audio preprocessor specified by @c nPreprocessor. */
@@ -1237,6 +1248,7 @@ extern "C" {
             SpeexDSP speexdsp;
             /** @brief Used when @c nPreprocessor is #TEAMTALK_AUDIOPREPROCESSOR. */
             TTAudioPreprocessor ttpreprocessor;
+            WebRTCAudioPreprocessor webrtc;
         };
     } AudioPreprocessor;
     

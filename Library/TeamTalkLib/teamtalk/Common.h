@@ -464,11 +464,12 @@ namespace teamtalk {
         TTAudioPreprocessor() { }
     };
 
-    struct SoundDeviceEffects
+    struct WebRTCAudioPreprocessor
     {
-        bool enable_agc = false;
-        bool enable_aec = false;
-        bool enable_denoise = false;
+        bool enable_gainctl1 = false;
+        int gainctl1_target_level_dbfs = 3;
+        bool enable_noisesuppression = false;
+        int noisesuppress_level = 1;
     };
 
     enum AudioPreprocessorType
@@ -476,6 +477,7 @@ namespace teamtalk {
         AUDIOPREPROCESSOR_NONE      = 0,
         AUDIOPREPROCESSOR_SPEEXDSP  = 1,
         AUDIOPREPROCESSOR_TEAMTALK  = 2,
+        AUDIOPREPROCESSOR_WEBRTC    = 3,
     };
     
     struct AudioPreprocessor
@@ -485,8 +487,16 @@ namespace teamtalk {
         {
             SpeexDSP speexdsp;
             TTAudioPreprocessor ttpreprocessor;
+            WebRTCAudioPreprocessor webrtc;
         };
         AudioPreprocessor() {}
+    };
+
+    struct SoundDeviceEffects
+    {
+        bool enable_agc = false;
+        bool enable_aec = false;
+        bool enable_denoise = false;
     };
 
     struct WebMVP8Codec

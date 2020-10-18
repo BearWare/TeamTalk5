@@ -65,16 +65,6 @@ TEST_CASE("webrtc-noise") {
     }
 }
 
-// webrtc::GainControlImpl queries this feature. Field trials is
-// excluded by passing rtc_exclude_field_trial_default=true to GN.
-namespace webrtc { namespace field_trial {
-std::string FindFullName(const std::string& trial)
-{
-    std::cout << "Querying feature: " << trial << std::endl;
-    return "Disabled";
-}
-} }
-
 TEST_CASE("webrtc-agc")
 {
     const int IN_SR = 48000, IN_CH = 1;
@@ -114,12 +104,14 @@ TEST_CASE("webrtc-agc")
 
 TEST_CASE("webrtc-apm")
 {
-    const int IN_SR = 48000, IN_CH = 1;
+    const int IN_SR = 16000, IN_CH = 2;
     const int IN_SAMPLES = 5 * IN_SR;
+    const int OUT_SR = 48000, OUT_CH = 2;
+    const int OUT_SAMPLES = 5 * OUT_SR;
     
     WavePCMFile rawfile, apmfile;
     REQUIRE(rawfile.NewFile(ACE_TEXT("apmnone.wav"), IN_SR, IN_CH));
-    REQUIRE(apmfile.NewFile(ACE_TEXT("apmfile.wav"), IN_SR, IN_CH));
+    REQUIRE(apmfile.NewFile(ACE_TEXT("apmfile.wav"), OUT_SR, OUT_CH));
 
     std::vector<int16_t> in_buff(IN_SAMPLES * IN_CH);
     media::AudioFrame af(media::AudioFormat(IN_SR, IN_CH), &in_buff[0], IN_SAMPLES);
@@ -127,12 +119,10 @@ TEST_CASE("webrtc-apm")
 
     REQUIRE(rawfile.AppendSamples(&in_buff[0], IN_SAMPLES));
 
-    webrtc::AudioBuffer ab(IN_SR, IN_CH, IN_SR, IN_CH, IN_SR, IN_CH);
-    webrtc::StreamConfig in_cfg(IN_SR, IN_CH), out_cfg = in_cfg;
-    std::vector<int16_t> apm_buff = in_buff;
+    webrtc::StreamConfig in_cfg(IN_SR, IN_CH), out_cfg(OUT_SR, OUT_CH);
+    std::vector<int16_t> apm_buff(OUT_SAMPLES * OUT_CH);
 
-    webrtc::AudioProcessing* apm = webrtc::AudioProcessingBuilder().Create();
-    REQUIRE(apm->Initialize() == webrtc::AudioProcessing::kNoError);
+    std::unique_ptr<webrtc::AudioProcessing> apm(webrtc::AudioProcessingBuilder().Create());
 
     webrtc::AudioProcessing::Config apm_cfg;
     apm_cfg.gain_controller1.enabled = true;
@@ -141,12 +131,16 @@ TEST_CASE("webrtc-apm")
 
     apm->ApplyConfig(apm_cfg);
 
-    int index = 0;
-    while (index + ab.num_frames() < IN_SAMPLES)
+    int in_index = 0, out_index = 0;
+    while (in_index + in_cfg.num_frames() <= IN_SAMPLES)
     {
-        REQUIRE(apm->ProcessStream(&in_buff[index], in_cfg, out_cfg, &apm_buff[index]) == webrtc::AudioProcessing::kNoError);
-        index += ab.num_frames();
+        REQUIRE(apm->ProcessStream(&in_buff[in_index * in_cfg.num_channels()],
+                                   in_cfg, out_cfg, &apm_buff[out_index * out_cfg.num_channels()])
+                == webrtc::AudioProcessing::kNoError);
+
+        in_index += in_cfg.num_frames();
+        out_index += out_cfg.num_frames();
     }
 
-    REQUIRE(apmfile.AppendSamples(&apm_buff[0], IN_SAMPLES));
+    REQUIRE(apmfile.AppendSamples(&apm_buff[0], OUT_SAMPLES));
 }

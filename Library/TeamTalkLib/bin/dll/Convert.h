@@ -55,6 +55,12 @@ void Convert(const TTAudioPreprocessor& ttpreprocess, teamtalk::TTAudioPreproces
 void Convert(const teamtalk::TTAudioPreprocessor& ttpreprocess, TTAudioPreprocessor& result);
 void Convert(const SpeexDSP& spxdsp, teamtalk::SpeexDSP& result);
 void Convert(const teamtalk::SpeexDSP& dspdsp, SpeexDSP& result);
+void Convert(const WebRTCAudioPreprocessor& webrtc, teamtalk::WebRTCAudioPreprocessor& result);
+void Convert(const teamtalk::WebRTCAudioPreprocessor& webrtc, WebRTCAudioPreprocessor& result);
+#if defined(ENABLE_WEBRTC)
+void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Config& result);
+void Convert(const webrtc::AudioProcessing::Config& cfg, teamtalk::WebRTCAudioPreprocessor& result);
+#endif
 
 bool Convert(const teamtalk::ChannelProp& chanprop, Channel& channel);
 bool Convert(const Channel& channel, teamtalk::ChannelProp& chanprop);

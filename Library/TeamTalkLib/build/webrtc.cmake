@@ -1,4 +1,5 @@
-set (WEBRTC_INCLUDE_DIR ${TTLIBS_ROOT}/build/webrtc/src
+set (WEBRTC_INCLUDE_DIR ${TTLIBS_ROOT}/build/webrtc/src/modules/audio_processing/include
+  ${TTLIBS_ROOT}/build/webrtc/src
   ${TTLIBS_ROOT}/build/webrtc/src/third_party/abseil-cpp)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
