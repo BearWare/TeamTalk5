@@ -1208,13 +1208,13 @@ TEST_CASE("SoundLoopbackDefault")
     AudioPreprocessor preprocess = {};
 
     preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
-    // preprocess.webrtc.gaincontroller1.bEnable = TRUE;
-    // preprocess.webrtc.gaincontroller1.nTargetLevelDbFS = 1;
+    preprocess.webrtc.gaincontroller1.bEnable = FALSE;
+    preprocess.webrtc.gaincontroller1.nTargetLevelDbFS = 10;
     preprocess.webrtc.gaincontroller2.bEnable = TRUE;
-    preprocess.webrtc.gaincontroller2.fGainDb = 20;
-    preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable = FALSE;
+    preprocess.webrtc.gaincontroller2.fGainDb = 10;
+    preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable = TRUE;
 
-    preprocess.webrtc.noisesuppression.bEnable = TRUE;
+    preprocess.webrtc.noisesuppression.bEnable = FALSE;
     preprocess.webrtc.noisesuppression.nLevel = 3;
 
     auto sndloop = TT_StartSoundLoopbackTestEx(indev.nDeviceID, outdev.nDeviceID, indev.nDefaultSampleRate,
@@ -1223,7 +1223,7 @@ TEST_CASE("SoundLoopbackDefault")
 
     std::cout << "Recording...." << std::endl;
 
-    WaitForEvent(ttclient, CLIENTEVENT_NONE, 10000);
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 30000);
 
     REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
 }
