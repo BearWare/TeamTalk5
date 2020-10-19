@@ -613,6 +613,9 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
                                        aec_enable, 
                                        aec
 #endif
+#if defined(ENABLE_WEBRTC)
+                                      , apm_cfg
+#endif
                                       , gainlevel, stereo,
                                       sndfeatures);
     }

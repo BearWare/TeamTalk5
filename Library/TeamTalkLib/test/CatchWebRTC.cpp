@@ -109,9 +109,10 @@ TEST_CASE("webrtc-apm")
     const int OUT_SR = 48000, OUT_CH = 2;
     const int OUT_SAMPLES = 5 * OUT_SR;
     
-    WavePCMFile rawfile, apmfile;
+    WavePCMFile rawfile, apmfile_gain1, apmfile_gain2;
     REQUIRE(rawfile.NewFile(ACE_TEXT("apmnone.wav"), IN_SR, IN_CH));
-    REQUIRE(apmfile.NewFile(ACE_TEXT("apmfile.wav"), OUT_SR, OUT_CH));
+    REQUIRE(apmfile_gain1.NewFile(ACE_TEXT("apmfile_gain1.wav"), OUT_SR, OUT_CH));
+    REQUIRE(apmfile_gain2.NewFile(ACE_TEXT("apmfile_gain2.wav"), OUT_SR, OUT_CH));
 
     std::vector<int16_t> in_buff(IN_SAMPLES * IN_CH);
     media::AudioFrame af(media::AudioFormat(IN_SR, IN_CH), &in_buff[0], IN_SAMPLES);
@@ -124,11 +125,12 @@ TEST_CASE("webrtc-apm")
 
     std::unique_ptr<webrtc::AudioProcessing> apm(webrtc::AudioProcessingBuilder().Create());
 
+    // first try gain_controller1
+    
     webrtc::AudioProcessing::Config apm_cfg;
     apm_cfg.gain_controller1.enabled = true;
-    apm_cfg.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
-    apm_cfg.gain_controller1.target_level_dbfs = 1;
-
+    apm_cfg.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kFixedDigital;
+    apm_cfg.gain_controller1.target_level_dbfs = 30;
     apm->ApplyConfig(apm_cfg);
 
     int in_index = 0, out_index = 0;
@@ -142,5 +144,25 @@ TEST_CASE("webrtc-apm")
         out_index += out_cfg.num_frames();
     }
 
-    REQUIRE(apmfile.AppendSamples(&apm_buff[0], OUT_SAMPLES));
+    REQUIRE(apmfile_gain1.AppendSamples(&apm_buff[0], OUT_SAMPLES));
+
+    // now try gain_controller2
+    apm_cfg = webrtc::AudioProcessing::Config();
+    apm_cfg.gain_controller2.enabled = true;
+    apm_cfg.gain_controller2.fixed_digital.gain_db = 2;
+    apm->ApplyConfig(apm_cfg);
+    apm->Initialize();
+
+    in_index = 0, out_index = 0;
+    while (in_index + in_cfg.num_frames() <= IN_SAMPLES)
+    {
+        REQUIRE(apm->ProcessStream(&in_buff[in_index * in_cfg.num_channels()],
+                                   in_cfg, out_cfg, &apm_buff[out_index * out_cfg.num_channels()])
+                == webrtc::AudioProcessing::kNoError);
+
+        in_index += in_cfg.num_frames();
+        out_index += out_cfg.num_frames();
+    }
+
+    REQUIRE(apmfile_gain2.AppendSamples(&apm_buff[0], OUT_SAMPLES));    
 }

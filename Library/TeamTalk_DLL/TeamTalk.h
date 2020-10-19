@@ -1214,12 +1214,27 @@ extern "C" {
 
     typedef struct WebRTCAudioPreprocessor
     {
-        TTBOOL bEnableGainCtl1;
-        /** Decibels from digital full-scale. Default: 3 */
-        INT32 nGainCtl1TargetLevelDbFS;
-        TTBOOL bEnableNoiseSuppression;
-        /** 0 = Low, 1 = Moderate, 2 = High, 3 = VeryHigh. Default: 1 */
-        INT32 nNoiseSuppressLevel;
+        struct
+        {
+            TTBOOL bEnable;
+            /** Decibels from digital full-scale. Default: 3 */
+            INT32 nTargetLevelDbFS;
+        } gaincontroller1;
+        struct
+        {
+            TTBOOL bEnable;
+            float fGainDb;
+            struct
+            {
+                TTBOOL bEnable;
+            } adaptivedigital;
+        } gaincontroller2;
+        struct
+        {
+            TTBOOL bEnable;
+            /** 0 = Low, 1 = Moderate, 2 = High, 3 = VeryHigh. Default: 1 */
+            INT32 nLevel;
+        } noisesuppression;
     } WebRTCAudioPreprocessor;
 
     /** @brief The types of supported audio preprocessors.

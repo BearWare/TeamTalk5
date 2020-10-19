@@ -53,11 +53,13 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
                               bool denoise, int denoise_level,
                               bool enable_aec, const SpeexAEC& aec
 #endif
+#if defined(ENABLE_WEBRTC)
+                              , const webrtc::AudioProcessing::Config& apm_cfg
+#endif
                               , int gainlevel, StereoMask stereo,
                               soundsystem::SoundDeviceFeatures sndfeatures)
 {
-    assert(!m_active);
-    if(m_active)
+    if (m_active)
         return false;
 
 #if defined(ENABLE_SPEEXDSP)
@@ -115,6 +117,20 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
     }
 #endif
 
+#if defined(ENABLE_WEBRTC)
+    if (IsEnabled(apm_cfg))
+    {
+        m_apm.reset(webrtc::AudioProcessingBuilder().Create());
+        if (!m_apm)
+        {
+            StopTest();
+            return false;
+        }
+
+        m_apm->ApplyConfig(apm_cfg);
+    }
+#endif
+
     m_features = sndfeatures;
     m_gainlevel = gainlevel;
     m_stereo = stereo;
@@ -158,6 +174,9 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
                                     , int gainlevel, StereoMask stereo,
                                     soundsystem::SoundDeviceFeatures sndfeatures)
 {
+    if (m_active)
+        return false;
+
     DeviceInfo in_dev, out_dev;
     if (!m_soundsystem->GetDevice(outputdevid, out_dev) ||
         !m_soundsystem->GetDevice(inputdevid, in_dev))
@@ -217,6 +236,9 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
         StopTest();
         return false;
     }
+
+    m_active = true;
+    
     return true;
 }
 

@@ -59,6 +59,9 @@ public:
                    bool denoise, int denoise_level,
                    bool enable_aec, const SpeexAEC& aec
 #endif
+#if defined(ENABLE_WEBRTC)
+                   , const webrtc::AudioProcessing::Config& apm_cfg
+#endif
                    , int gainlevel, StereoMask stereo,
                    soundsystem::SoundDeviceFeatures sndfeatures);
 

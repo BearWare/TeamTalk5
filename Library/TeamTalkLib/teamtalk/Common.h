@@ -466,10 +466,25 @@ namespace teamtalk {
 
     struct WebRTCAudioPreprocessor
     {
-        bool enable_gainctl1 = false;
-        int gainctl1_target_level_dbfs = 3;
-        bool enable_noisesuppression = false;
-        int noisesuppress_level = 1;
+        struct
+        {
+            bool enable = false;
+            int target_level_dbfs = 3;
+        } gainctl1;
+        struct
+        {
+            bool enable = false;
+            float gain_db = .0f;
+            struct
+            {
+                bool enable = false;
+            } adaptivedigital;
+        } gainctl2;
+        struct
+        {
+            bool enable = false;
+            int level = 1;
+        } noisesuppression;
     };
 
     enum AudioPreprocessorType
