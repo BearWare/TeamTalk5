@@ -2379,6 +2379,7 @@ BEGIN
     IDS_ABOUT_TRANSLATORS   "Translators"
     IDS_ABOUT_LIB           "Libraries"
     IDS_ABOUT_LIBUSE        "TeamTalk use the following libraries:"
+    IDS_INACTDELAYLAB              "Define away status after %d seconds"
 END
 
 STRINGTABLE
