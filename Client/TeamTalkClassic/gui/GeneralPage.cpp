@@ -93,6 +93,9 @@ BOOL CGeneralPage::OnInitDialog()
     CPropertyPage::OnInitDialog();
 
     TRANSLATE(*this, IDD);
+    CString Lab1;
+    Lab1.Format(LoadText(IDS_INACTDELAYLAB, _T("Define away status after %d seconds")), m_nInactivity);
+    SetAccessibleName(m_wndInactivity, Lab1);
 
     m_KeyEdit.SetWindowText(CKeyCompDlg::GetHotkeyString(m_Hotkey));
 

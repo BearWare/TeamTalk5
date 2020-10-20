@@ -427,6 +427,7 @@
     <item id="563">Libraries</item>
     <item id="564">TeamTalk uses the following libraries:</item>
     <item id="565">Server configuration saved</item>
+    <item id="566">Define away status after %d seconds</item>
     <item id="1006">Files list</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>

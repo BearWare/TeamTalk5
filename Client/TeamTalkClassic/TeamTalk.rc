@@ -2382,6 +2382,7 @@ BEGIN
     IDS_ABOUT_LIB           "Libraries"
     IDS_ABOUT_LIBUSE        "TeamTalk use the following libraries:"
     IDS_SERVCONFSAVED       "Server configuration saved"
+    IDS_INACTDELAYLAB              "Define away status after %d seconds"
 END
 
 STRINGTABLE

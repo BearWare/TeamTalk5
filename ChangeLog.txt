@@ -7,7 +7,7 @@ Accessible Windows Client:
 - Option to join channel immediately in create channel dialog
 - Event for configuration server saved
 - Users logged in/out display in chat history
-- Fix some labels on server properties dialog
+- Fix some labels on server properties dialog and preferences
 - Correctly move focus to first field visible with tab when opening server properties dialog
 Default QT Client:
 - Option to join channel immediately in create channel dialog
