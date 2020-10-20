@@ -6814,6 +6814,10 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
 
         CString szChannel, szPasswd, szClassroom, szTopic;
         szChannel.LoadString(IDS_CHANNEL);
+        if(TT_GetRootChannelID(ttInst) == chan.nChannelID) {
+            szChannel += _T(" ");
+            szChannel += LoadText(IDS_ROOTCHANNEL, _T("Root"));
+        }
         szPasswd.LoadString(IDS_PASSWORD_PROTECTED);
         szClassroom.LoadString(IDS_CLASSROOMCHANNEL);
 
