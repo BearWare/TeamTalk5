@@ -2381,6 +2381,7 @@ BEGIN
     IDS_ABOUT_TRANSLATORS   "Translators"
     IDS_ABOUT_LIB           "Libraries"
     IDS_ABOUT_LIBUSE        "TeamTalk use the following libraries:"
+    IDS_SERVCONFSAVED       "Server configuration saved"
 END
 
 STRINGTABLE
