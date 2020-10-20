@@ -280,22 +280,13 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
         apm_buf.resize(samples * streamer.channels);
         input_buffer = &apm_buf[0];
 
-        webrtc::StreamConfig in_cfg(streamer.samplerate, streamer.channels),
-            out_cfg(streamer.samplerate, streamer.channels);
-        int in_index = 0, out_index = 0;
-        while (in_index + in_cfg.num_frames() <= samples)
+        media::AudioFormat fmt(streamer.samplerate, streamer.channels);
+        media::AudioFrame infrm(fmt, const_cast<short*>(buffer), samples);
+        media::AudioFrame outfrm(fmt, &apm_buf[0], samples);
+
+        if (WebRTCPreprocess(*m_apm, infrm, outfrm) != samples)
         {
-            int ret = m_apm->ProcessStream(&buffer[in_index * in_cfg.num_channels()],
-                                           in_cfg, out_cfg, &apm_buf[out_index * out_cfg.num_channels()]);
-            MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
-                         ACE_TEXT("WebRTC failed to process duplex stream. Result: %d\n"), ret);
-
-            in_index += in_cfg.num_frames();
-            out_index += out_cfg.num_frames();
-
-            auto apm_cfg = m_apm->GetConfig();
-            MYTRACE("Gain1: %d val: %d: mode: %d\n",
-                    apm_cfg.gain_controller1.enabled, apm_cfg.gain_controller1.target_level_dbfs, apm_cfg.gain_controller1.mode);
+            MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
         }
     }
 #endif
@@ -474,22 +465,14 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
 #if defined(ENABLE_WEBRTC)
     if (m_apm)
     {
-        webrtc::StreamConfig in_cfg(streamer.samplerate, streamer.input_channels),
-            out_cfg(streamer.samplerate, streamer.output_channels);
-        int in_index = 0, out_index = 0;
-        while (in_index + in_cfg.num_frames() <= samples)
+        media::AudioFormat infmt(streamer.samplerate, streamer.input_channels);
+        media::AudioFormat outfmt(streamer.samplerate, streamer.output_channels);
+        media::AudioFrame infrm(infmt, const_cast<short*>(input_buffer), samples);
+        media::AudioFrame outfrm(outfmt, output_buffer, samples);
+
+        if (WebRTCPreprocess(*m_apm, infrm, outfrm) != samples)
         {
-            int ret = m_apm->ProcessStream(&input_buffer[in_index * in_cfg.num_channels()],
-                                           in_cfg, out_cfg, &output_buffer[out_index * out_cfg.num_channels()]);
-            MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
-                         ACE_TEXT("WebRTC failed to process duplex stream. Result: %d\n"), ret);
-
-            in_index += in_cfg.num_frames();
-            out_index += out_cfg.num_frames();
-
-            auto apm_cfg = m_apm->GetConfig();
-            MYTRACE("Gain1: %d val: %d: mode: %d\n",
-                    apm_cfg.gain_controller1.enabled, apm_cfg.gain_controller1.target_level_dbfs, apm_cfg.gain_controller1.mode);
+            MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
         }
     }
     else

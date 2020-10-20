@@ -28,14 +28,10 @@
 
 #include <audio_processing.h>
 
-class WebRTCPreprocess : NonCopyable
-{
-public:
-    WebRTCPreprocess();
-    ~WebRTCPreprocess();
-
-private:
-};
+#include <codec/MediaUtil.h>
 
 bool IsEnabled(const webrtc::AudioProcessing::Config& cfg);
+
+int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infrm,
+                     media::AudioFrame& outfrm);
 #endif

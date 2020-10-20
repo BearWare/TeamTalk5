@@ -35,18 +35,33 @@ std::string FindFullName(const std::string& trial)
 }
 } }
 
-
-WebRTCPreprocess::WebRTCPreprocess()
-{
-}
-
-WebRTCPreprocess::~WebRTCPreprocess()
-{
-}
-
 bool IsEnabled(const webrtc::AudioProcessing::Config& cfg)
 {
     return cfg.gain_controller1.enabled ||
-        cfg.result.gain_controller2.enabled ||
+        cfg.gain_controller2.enabled ||
         cfg.noise_suppression.enabled;
+}
+
+int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infrm,
+                     media::AudioFrame& outfrm)
+{
+    webrtc::StreamConfig in_cfg(infrm.inputfmt.samplerate, infrm.inputfmt.channels),
+        out_cfg(infrm.inputfmt.samplerate, infrm.inputfmt.channels);
+
+    int in_index = 0, out_index = 0;
+    while (in_index + in_cfg.num_frames() <= infrm.input_samples)
+    {
+        int ret = apm.ProcessStream(&infrm.input_buffer[in_index * in_cfg.num_channels()],
+                                    in_cfg, out_cfg, &outfrm.input_buffer[out_index * out_cfg.num_channels()]);
+        MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
+                     ACE_TEXT("WebRTC failed to process audio frame. Result: %d\n"), ret);
+
+        if (ret != webrtc::AudioProcessing::kNoError)
+            return -1;
+
+        in_index += in_cfg.num_frames();
+        out_index += out_cfg.num_frames();
+    }
+
+    return infrm.input_samples;
 }
