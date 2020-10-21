@@ -1227,4 +1227,37 @@ TEST_CASE("SoundLoopbackDefault")
 
     REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
 }
+
+TEST_CASE("WebRTCPreprocessor")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoSubscribe(ttclient, TT_GetMyUserID(ttclient), SUBSCRIBE_VOICE)));
+
+    TTCHAR curdir[1024] = {};
+    ACE_OS::getcwd(curdir, 1024);
+    REQUIRE(TT_SetUserMediaStorageDir(ttclient, TT_GetMyUserID(ttclient), curdir, ACE_TEXT(""), AFF_WAVE_FORMAT));
+
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, true));
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
+
+    AudioPreprocessor preprocess = {};
+
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    // preprocess.webrtc.gaincontroller2.bEnable = FALSE;
+    // preprocess.webrtc.gaincontroller2.fGainDb = 10;
+    // preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable = TRUE;
+
+    preprocess.webrtc.noisesuppression.bEnable = TRUE;
+    preprocess.webrtc.noisesuppression.nLevel = 3;
+
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
+    
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, false));
+    
+}
 #endif

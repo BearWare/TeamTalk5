@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -49,7 +49,7 @@ AudioThread::~AudioThread()
 {
 }
 
-bool AudioThread::StartEncoder(audioencodercallback_t callback, 
+bool AudioThread::StartEncoder(audioencodercallback_t callback,
                                const teamtalk::AudioCodec& codec,
                                bool spawn_thread)
 {
@@ -79,7 +79,7 @@ bool AudioThread::StartEncoder(audioencodercallback_t callback,
         TTASSERT(channels);
 
         m_speex.reset(new SpeexEncoder());
-        if(!m_speex->Initialize(codec.speex.bandmode, 
+        if(!m_speex->Initialize(codec.speex.bandmode,
                                 DEFAULT_SPEEX_COMPLEXITY,
                                 codec.speex.quality))
         {
@@ -99,7 +99,7 @@ bool AudioThread::StartEncoder(audioencodercallback_t callback,
         TTASSERT(channels);
 
         m_speex.reset(new SpeexEncoder());
-        if(!m_speex->Initialize(codec.speex_vbr.bandmode, 
+        if(!m_speex->Initialize(codec.speex_vbr.bandmode,
                                 DEFAULT_SPEEX_COMPLEXITY,
                                 (float)codec.speex_vbr.vbr_quality,
                                 codec.speex_vbr.bitrate,
@@ -148,31 +148,6 @@ bool AudioThread::StartEncoder(audioencodercallback_t callback,
     if(!sample_rate || !callback_samples)
         return false;
 
-#if defined(ENABLE_SPEEXDSP)
-    if(channels == 2)
-    {
-        if(!m_preprocess_left.Initialize(sample_rate, callback_samples) ||
-           !m_preprocess_right.Initialize(sample_rate, callback_samples))
-        {
-            StopEncoder();
-            return false;
-        }
-        
-        //Speex has denoise on by default, so disable
-        m_preprocess_left.EnableDenoise(false);
-        m_preprocess_right.EnableDenoise(false);
-    }
-    else
-    {
-        if(!m_preprocess_left.Initialize(sample_rate, callback_samples))
-        {
-            StopEncoder();
-            return false;
-        }
-        m_preprocess_left.EnableDenoise(false);
-    }
-#endif
-
     m_codec = codec;
     m_callback = callback;
 
@@ -204,7 +179,7 @@ bool AudioThread::StartEncoder(audioencodercallback_t callback,
                  ACE_TEXT("Launched OPUS VBR encoder, samplerate %d, bitrate %d, cb %d, channels %d\n"),
                  GetAudioCodecSampleRate(codec), GetAudioCodecBitRate(codec),
                  GetAudioCodecFrameSize(codec), GetAudioCodecChannels(codec));
-        
+
     return true;
 }
 
@@ -215,8 +190,12 @@ void AudioThread::StopEncoder()
     wait();
 
 #if defined(ENABLE_SPEEXDSP)
-    m_preprocess_left.Close();
-    m_preprocess_right.Close();
+    m_preprocess_left.reset();
+    m_preprocess_right.reset();
+#endif
+
+#if defined(ENABLE_WEBRTC)
+    m_apm.reset();
 #endif
 
 #if defined(ENABLE_SPEEX)
@@ -247,33 +226,91 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
     //set AGC
     std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
 
+    if (preprocess.preprocessor != AUDIOPREPROCESSOR_TEAMTALK)
+        MuteSound(false, false);
+
+#if defined(ENABLE_SPEEXDSP)
+    if (preprocess.preprocessor != AUDIOPREPROCESSOR_SPEEXDSP)
+    {
+        m_preprocess_left.reset();
+        m_preprocess_right.reset();
+    }
+#endif
+
+#if defined(ENABLE_WEBRTC)
+    if (preprocess.preprocessor != AUDIOPREPROCESSOR_WEBRTC)
+        m_apm.reset();
+#endif
+
+    // just ignore preprocessor if not audio codec is set
+    if (codec().codec == CODEC_NO_CODEC)
+        return true;
+
     switch (preprocess.preprocessor)
     {
     case AUDIOPREPROCESSOR_NONE :
-        MuteSound(false, false);
-        UpdatePreprocess(teamtalk::SpeexDSP());
+        // 'm_gainlevel' should not be reset
         return true;
     case AUDIOPREPROCESSOR_SPEEXDSP :
-        MuteSound(false, false);
+        // 'm_gainlevel' should not be reset
         return UpdatePreprocess(preprocess.speexdsp);
     case AUDIOPREPROCESSOR_TEAMTALK :
         MuteSound(preprocess.ttpreprocessor.muteleft, preprocess.ttpreprocessor.muteright);
         m_gainlevel = preprocess.ttpreprocessor.gainlevel;
-        UpdatePreprocess(teamtalk::SpeexDSP()); // disable SpeexDSP
+        return true;
+    case AUDIOPREPROCESSOR_WEBRTC :
+        // WebRTC requires 10 msec audio frames
+        if (GetAudioCodecCbMillis(m_codec) % 10 != 0)
+            return false;
+        
+        if (!m_apm)
+            m_apm.reset(webrtc::AudioProcessingBuilder().Create());
+        m_apm->ApplyConfig(preprocess.webrtc);
         return true;
     }
-    
+
     return false;
 }
 
 bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
 {
 #if defined(ENABLE_SPEEXDSP)
-    //if audio thread isn't running, then Speex preprocess is not set up
-    if(codec().codec == CODEC_NO_CODEC)
-        return true;
+    assert(codec().codec != CODEC_NO_CODEC);
 
+    int callback_samples = GetAudioCodecCbSamples(codec());
+    int sample_rate = GetAudioCodecSampleRate(codec());
     int channels = GetAudioCodecChannels(codec());
+
+    if (!m_preprocess_left)
+    {
+        if (channels == 2)
+        {
+            m_preprocess_left.reset(new SpeexPreprocess());
+            m_preprocess_right.reset(new SpeexPreprocess());
+
+            if (!m_preprocess_left->Initialize(sample_rate, callback_samples) ||
+                !m_preprocess_right->Initialize(sample_rate, callback_samples))
+            {
+                m_preprocess_left.reset();
+                m_preprocess_right.reset();
+                return false;
+            }
+
+            //Speex has denoise on by default, so disable
+            m_preprocess_left->EnableDenoise(false);
+            m_preprocess_right->EnableDenoise(false);
+        }
+        else
+        {
+            m_preprocess_left.reset(new SpeexPreprocess());
+            if (!m_preprocess_left->Initialize(sample_rate, callback_samples))
+            {
+                m_preprocess_left.reset();
+                return false;
+            }
+            m_preprocess_left->EnableDenoise(false);
+        }
+    }
 
     SpeexAGC agc;
     agc.gain_level = (float)speexdsp.agc_gainlevel;
@@ -283,33 +320,33 @@ bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
 
     //AGC
     bool agc_success = true;
-    agc_success &= m_preprocess_left.EnableAGC(speexdsp.enable_agc);
-    agc_success &= (channels == 1 || m_preprocess_right.EnableAGC(speexdsp.enable_agc));
-    agc_success &= m_preprocess_left.SetAGCSettings(agc);
-    agc_success &= (channels == 1 || m_preprocess_right.SetAGCSettings(agc));
+    agc_success &= m_preprocess_left->EnableAGC(speexdsp.enable_agc);
+    agc_success &= (channels == 1 || m_preprocess_right->EnableAGC(speexdsp.enable_agc));
+    agc_success &= m_preprocess_left->SetAGCSettings(agc);
+    agc_success &= (channels == 1 || m_preprocess_right->SetAGCSettings(agc));
 
     //denoise
     bool denoise_success = true;
-    denoise_success &= m_preprocess_left.EnableDenoise(speexdsp.enable_denoise);
-    denoise_success &= (channels == 1 || m_preprocess_right.EnableDenoise(speexdsp.enable_denoise));
-    denoise_success &= m_preprocess_left.SetDenoiseLevel(speexdsp.maxnoisesuppressdb);
-    denoise_success &= (channels == 1 || m_preprocess_right.SetDenoiseLevel(speexdsp.maxnoisesuppressdb));
+    denoise_success &= m_preprocess_left->EnableDenoise(speexdsp.enable_denoise);
+    denoise_success &= (channels == 1 || m_preprocess_right->EnableDenoise(speexdsp.enable_denoise));
+    denoise_success &= m_preprocess_left->SetDenoiseLevel(speexdsp.maxnoisesuppressdb);
+    denoise_success &= (channels == 1 || m_preprocess_right->SetDenoiseLevel(speexdsp.maxnoisesuppressdb));
 
     //set AEC
     bool aec_success = true;
-    aec_success &= m_preprocess_left.EnableEchoCancel(speexdsp.enable_aec);
-    aec_success &= (channels == 1 || m_preprocess_right.EnableEchoCancel(speexdsp.enable_aec));
+    aec_success &= m_preprocess_left->EnableEchoCancel(speexdsp.enable_aec);
+    aec_success &= (channels == 1 || m_preprocess_right->EnableEchoCancel(speexdsp.enable_aec));
 
-    aec_success &= m_preprocess_left.SetEchoSuppressLevel(speexdsp.aec_suppress_level);
-    aec_success &= (channels == 1 || m_preprocess_right.SetEchoSuppressLevel(speexdsp.aec_suppress_level));
-    aec_success &= m_preprocess_left.SetEchoSuppressActive(speexdsp.aec_suppress_active);
-    aec_success &= (channels == 1 || m_preprocess_right.SetEchoSuppressActive(speexdsp.aec_suppress_active));
+    aec_success &= m_preprocess_left->SetEchoSuppressLevel(speexdsp.aec_suppress_level);
+    aec_success &= (channels == 1 || m_preprocess_right->SetEchoSuppressLevel(speexdsp.aec_suppress_level));
+    aec_success &= m_preprocess_left->SetEchoSuppressActive(speexdsp.aec_suppress_active);
+    aec_success &= (channels == 1 || m_preprocess_right->SetEchoSuppressActive(speexdsp.aec_suppress_active));
 
     //set dereverb
     bool dereverb = true;
-    m_preprocess_left.EnableDereverb(dereverb);
+    m_preprocess_left->EnableDereverb(dereverb);
     if(channels == 2)
-        m_preprocess_right.EnableDereverb(dereverb);
+        m_preprocess_right->EnableDereverb(dereverb);
 
     MYTRACE_COND(!agc_success && speexdsp.enable_agc,
                  ACE_TEXT("Failed to set SpeexDSP AGC settings\n"));
@@ -365,8 +402,8 @@ void AudioThread::QueueAudio(ACE_Message_Block* mb_audio)
 
 
 bool AudioThread::IsVoiceActive() const
-{ 
-    return m_voicelevel >= m_voiceactlevel || 
+{
+    return m_voicelevel >= m_voiceactlevel ||
         m_lastActive + m_voiceact_delay > ACE_OS::gettimeofday();
 }
 
@@ -375,11 +412,11 @@ void AudioThread::ProcessQueue(ACE_Time_Value* tm)
     TTASSERT(m_codec.codec != CODEC_NO_CODEC);
     TTASSERT(m_callback);
     ACE_Message_Block* mb;
-    while(getq(mb, tm) >= 0)
+    while (getq(mb, tm) >= 0)
     {
-        media::AudioFrame* audframe = reinterpret_cast<media::AudioFrame*>(mb->rd_ptr());
-        ProcessAudioFrame(*audframe);
-        mb->release();
+        MBGuard g(mb);
+        media::AudioFrame af(mb);
+        ProcessAudioFrame(af);
     }
 }
 
@@ -394,11 +431,15 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
     if(m_tone_frequency)
          m_tone_sample_index = GenerateTone(audblock, m_tone_sample_index, m_tone_frequency);
 
-    SOFTGAIN(audblock.input_buffer, audblock.input_samples, 
+    SOFTGAIN(audblock.input_buffer, audblock.input_samples,
              audblock.inputfmt.channels, m_gainlevel, GAIN_NORMAL);
 
 #if defined(ENABLE_SPEEXDSP)
-    PreprocessAudioFrame(audblock);
+    PreprocessSpeex(audblock);
+#endif
+
+#if defined(ENABLE_WEBRTC)
+    PreprocessWebRTC(audblock);
 #endif
 
     /*  Measure voice activity */
@@ -501,78 +542,94 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
 }
 
 #if defined(ENABLE_SPEEXDSP)
-void AudioThread::PreprocessAudioFrame(media::AudioFrame& audblock)
+void AudioThread::PreprocessSpeex(media::AudioFrame& audblock)
 {
     std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
 
     bool preprocess = false;
 
-    preprocess |= m_preprocess_left.IsEchoCancel();
-    preprocess |= m_preprocess_left.IsDenoising();
+    if (!m_preprocess_left)
+        return;
+
+    preprocess |= m_preprocess_left->IsEchoCancel();
+    preprocess |= m_preprocess_left->IsDenoising();
     //don't include dereverb since it's not user configurable
-//    preprocess |= m_preprocess_left.IsDereverbing();
-    preprocess |= m_preprocess_left.IsAGC();
+//    preprocess |= m_preprocess_left->IsDereverbing();
+    preprocess |= m_preprocess_left->IsAGC();
 
     if(!preprocess)
         return;
 
     if(audblock.inputfmt.channels == 1)
     {
-        if(m_preprocess_left.IsEchoCancel() &&
-           audblock.outputfmt.channels == 1 && audblock.output_buffer)
+        if (m_preprocess_left->IsEchoCancel() &&
+            audblock.outputfmt.channels == 1 && audblock.output_buffer)
         {
             if(m_echobuf.size() != (size_t)audblock.input_samples)
                 m_echobuf.resize(audblock.input_samples);
 
-            m_preprocess_left.EchoCancel(audblock.input_buffer,
-                                         audblock.output_buffer,
-                                         &m_echobuf[0]);
+            m_preprocess_left->EchoCancel(audblock.input_buffer,
+                                          audblock.output_buffer,
+                                          &m_echobuf[0]);
             audblock.input_buffer = &m_echobuf[0];
         }
-        m_preprocess_left.Preprocess(audblock.input_buffer); //denoise, AGC, etc
+        m_preprocess_left->Preprocess(audblock.input_buffer); //denoise, AGC, etc
     }
     else if(audblock.inputfmt.channels == 2)
     {
-        vector<short> in_leftchan(audblock.input_samples), 
+        assert(m_preprocess_right);
+        vector<short> in_leftchan(audblock.input_samples),
                       in_rightchan(audblock.input_samples);
         SplitStereo(audblock.input_buffer, audblock.input_samples, in_leftchan, in_rightchan);
 
-        if(m_preprocess_left.IsEchoCancel() && m_preprocess_right.IsEchoCancel() &&
+        if(m_preprocess_left->IsEchoCancel() && m_preprocess_right->IsEchoCancel() &&
            audblock.outputfmt.channels == 2 && audblock.output_buffer)
         {
             assert(audblock.input_samples == audblock.output_samples);
 
-            vector<short> out_leftchan(audblock.output_samples), 
+            vector<short> out_leftchan(audblock.output_samples),
                           out_rightchan(audblock.output_samples),
                           echobuf_left(audblock.output_samples),
                           echobuf_right(audblock.output_samples);
             SplitStereo(audblock.output_buffer, audblock.output_samples,
                         out_leftchan, out_rightchan);
 
-            m_preprocess_left.EchoCancel(&in_leftchan[0], &out_leftchan[0], 
+            m_preprocess_left->EchoCancel(&in_leftchan[0], &out_leftchan[0],
                                          &echobuf_left[0]);
             in_leftchan.swap(echobuf_left);
-            m_preprocess_right.EchoCancel(&in_rightchan[0], &out_rightchan[0], 
+            m_preprocess_right->EchoCancel(&in_rightchan[0], &out_rightchan[0],
                                          &echobuf_right[0]);
             in_rightchan.swap(echobuf_right);
         }
 
-        m_preprocess_left.Preprocess(&in_leftchan[0]); //denoise, AGC, etc
-        m_preprocess_right.Preprocess(&in_rightchan[0]); //denoise, AGC, etc
+        m_preprocess_left->Preprocess(&in_leftchan[0]); //denoise, AGC, etc
+        m_preprocess_right->Preprocess(&in_rightchan[0]); //denoise, AGC, etc
 
-        MergeStereo(in_leftchan, in_rightchan, audblock.input_buffer, 
+        MergeStereo(in_leftchan, in_rightchan, audblock.input_buffer,
                     audblock.input_samples);
     }
 }
 #endif
 
+#if defined(ENABLE_WEBRTC)
+void AudioThread::PreprocessWebRTC(media::AudioFrame& audblock)
+{
+    if (!m_apm)
+        return;
+
+    if (WebRTCPreprocess(*m_apm, audblock, audblock) != audblock.input_samples)
+    {
+        MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
+    }
+}
+#endif
 
 #if defined(ENABLE_SPEEX)
 const char* AudioThread::ProcessSpeex(const media::AudioFrame& audblock,
                                       std::vector<int>& enc_frame_sizes)
 {
     TTASSERT(m_speex);
-    
+
     int framesize = GetAudioCodecFrameSize(m_codec);
     int nbBytes = 0, n_processed = 0, ret;
     int fpp = GetAudioCodecFramesPerPacket(m_codec);
@@ -588,7 +645,7 @@ const char* AudioThread::ProcessSpeex(const media::AudioFrame& audblock,
     while(n_processed < audblock.input_samples)
     {
         assert(nbBytes + enc_frm_size <= m_encbuf.size());
-        ret = m_speex->Encode(&audblock.input_buffer[n_processed], 
+        ret = m_speex->Encode(&audblock.input_buffer[n_processed],
                               &m_encbuf[nbBytes], enc_frm_size);
         assert(ret>0);
         if(ret <= 0)
@@ -604,7 +661,7 @@ const char* AudioThread::ProcessSpeex(const media::AudioFrame& audblock,
 #endif
 
 #if defined(ENABLE_OPUS)
-const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock, 
+const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
                                      std::vector<int>& enc_frame_sizes)
 {
     TTASSERT(m_opus);
@@ -621,11 +678,11 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
         return nullptr;
 
     enc_frm_size = int(m_encbuf.size()) / fpp;
-    
+
     while(n_processed < audblock.input_samples)
     {
         assert(nbBytes + enc_frm_size <= m_encbuf.size());
-        ret = m_opus->Encode(&audblock.input_buffer[n_processed*channels], 
+        ret = m_opus->Encode(&audblock.input_buffer[n_processed*channels],
                              framesize, &m_encbuf[nbBytes], enc_frm_size);
         assert(ret>0);
         if(ret <= 0)

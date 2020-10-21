@@ -959,7 +959,11 @@ void Convert(const AudioPreprocessor& audpreprocess, teamtalk::AudioPreprocessor
         Convert(audpreprocess.ttpreprocessor, result.ttpreprocessor);
         break;
     case WEBRTC_AUDIOPREPROCESSOR :
+#if defined(ENABLE_WEBRTC)
         Convert(audpreprocess.webrtc, result.webrtc);
+#else
+        result.preprocessor = teamtalk::AUDIOPREPROCESSOR_NONE;
+#endif
         break;
     }
 }
@@ -978,7 +982,11 @@ void Convert(const teamtalk::AudioPreprocessor& audpreprocess, AudioPreprocessor
         Convert(audpreprocess.ttpreprocessor, result.ttpreprocessor);
         break;
     case teamtalk::AUDIOPREPROCESSOR_WEBRTC :
+#if defined(ENABLE_WEBRTC)
         Convert(audpreprocess.webrtc, result.webrtc);
+#else
+        result.nPreprocessor = NO_AUDIOPREPROCESSOR;
+#endif
         break;
     }
 }
@@ -1031,19 +1039,6 @@ void Convert(const teamtalk::SpeexDSP& spxdsp, SpeexDSP& result)
     result.nEchoSuppressActive = spxdsp.aec_suppress_active;
 }
 
-void Convert(const teamtalk::WebRTCAudioPreprocessor& webrtc, WebRTCAudioPreprocessor& result)
-{
-    result.gaincontroller1.bEnable = webrtc.gainctl1.enable;
-    result.gaincontroller1.nTargetLevelDbFS = webrtc.gainctl1.target_level_dbfs;
-
-    result.gaincontroller2.bEnable = webrtc.gainctl2.enable;
-    result.gaincontroller2.fGainDb = webrtc.gainctl2.gain_db;
-    result.gaincontroller2.adaptivedigital.bEnable = webrtc.gainctl2.adaptivedigital.enable;
-
-    result.noisesuppression.bEnable = webrtc.noisesuppression.enable;
-    result.noisesuppression.nLevel = webrtc.noisesuppression.level;
-}
-
 #if defined(ENABLE_WEBRTC)
 void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Config& result)
 {
@@ -1076,33 +1071,19 @@ void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Con
     }
 }
 
-void Convert(const webrtc::AudioProcessing::Config& cfg, teamtalk::WebRTCAudioPreprocessor& result)
+void Convert(const webrtc::AudioProcessing::Config& cfg, WebRTCAudioPreprocessor& result)
 {
-    result.gainctl1.enable = cfg.gain_controller1.enabled;
-    result.gainctl1.target_level_dbfs = cfg.gain_controller1.target_level_dbfs;
+    result.gaincontroller1.bEnable = cfg.gain_controller1.enabled;
+    result.gaincontroller1.nTargetLevelDbFS = cfg.gain_controller1.target_level_dbfs;
 
-    result.gainctl2.enable = cfg.gain_controller2.enabled;
-    result.gainctl2.gain_db = cfg.gain_controller2.fixed_digital.gain_db;
-    result.gainctl2.adaptivedigital.enable = cfg.gain_controller2.adaptive_digital.enabled;
+    result.gaincontroller2.bEnable = cfg.gain_controller2.enabled;
+    result.gaincontroller2.fGainDb = cfg.gain_controller2.fixed_digital.gain_db;
+    result.gaincontroller2.adaptivedigital.bEnable = cfg.gain_controller2.adaptive_digital.enabled;
 
-    result.noisesuppression.enable = cfg.noise_suppression.enabled;
-    result.noisesuppression.level = cfg.noise_suppression.level;
-}
-
-void Convert(const WebRTCAudioPreprocessor& webrtc, teamtalk::WebRTCAudioPreprocessor& result)
-{
-    webrtc::AudioProcessing::Config cfg;
-    Convert(webrtc, cfg);
-    Convert(cfg, result);
-}
-#else
-void Convert(const WebRTCAudioPreprocessor& webrtc, teamtalk::WebRTCAudioPreprocessor& result)
-{
-    result = teamtalk::WebRTCAudioPreprocessor();
+    result.noisesuppression.bEnable = cfg.noise_suppression.enabled;
+    result.noisesuppression.nLevel = cfg.noise_suppression.level;
 }
 #endif
-
-
 
 void Convert(const SoundDeviceEffects& effects, teamtalk::SoundDeviceEffects& result)
 {
