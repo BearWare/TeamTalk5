@@ -259,6 +259,7 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
         m_gainlevel = preprocess.ttpreprocessor.gainlevel;
         return true;
     case AUDIOPREPROCESSOR_WEBRTC :
+#if defined(ENABLE_WEBRTC)
         // WebRTC requires 10 msec audio frames
         if (GetAudioCodecCbMillis(m_codec) % 10 != 0)
             return false;
@@ -267,6 +268,9 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
             m_apm.reset(webrtc::AudioProcessingBuilder().Create());
         m_apm->ApplyConfig(preprocess.webrtc);
         return true;
+#else
+        return false;
+#endif
     }
 
     return false;
