@@ -267,6 +267,11 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
         if (!m_apm)
             m_apm.reset(webrtc::AudioProcessingBuilder().Create());
         m_apm->ApplyConfig(preprocess.webrtc);
+        if (m_apm->Initialize() != webrtc::AudioProcessing::kNoError)
+        {
+            m_apm.reset();
+            return false;
+        }
         return true;
 #else
         return false;

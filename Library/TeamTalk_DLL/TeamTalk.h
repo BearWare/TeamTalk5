@@ -1415,9 +1415,10 @@ extern "C" {
     typedef struct MediaFilePlayback
     {
         /** @brief Offset in milliseconds in the media file where to
-         * start playback. Pass -1 (0xffffffff) to ignore this value when 
-         * using TT_UpdateLocalPlayback() or TT_UpdateStreamingMediaFileToChannel().
-         * @c uOffsetMSec must be less than @c uDurationMSec in #MediaFileInfo. */
+         * start playback. Pass #TT_MEDIAPLAYBACK_OFFSET_IGNORE to
+         * ignore this value when using TT_UpdateLocalPlayback() or
+         * TT_UpdateStreamingMediaFileToChannel().  @c uOffsetMSec
+         * must be less than @c uDurationMSec in #MediaFileInfo. */
         UINT32 uOffsetMSec;
         /** @brief Start or pause media file playback. */
         TTBOOL bPaused;
@@ -4913,9 +4914,14 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_StopStreamingMediaFileToChannel(IN TTInstance* lpTTInstance);
 
     /**
-     * Play media file using settings from @c lpTTInstance,
-     * i.e. TT_SetSoundOutputMute(), TT_SetSoundOutputVolume() and
-     * TT_InitSoundOutputDevice().
+     * @brief Play media file using settings from #TTInstance.
+     *
+     * The sound system properties of the @c lpTTInstance will be used
+     * for playback, i.e. TT_SetSoundOutputMute(),
+     * TT_SetSoundOutputVolume() and TT_InitSoundOutputDevice().
+     *
+     * Monitor progress of playback by checking for event
+     * #CLIENTEVENT_LOCAL_MEDIAFILE.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 

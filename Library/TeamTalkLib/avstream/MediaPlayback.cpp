@@ -110,7 +110,7 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speex
         soundsystem::DeviceInfo devinfo;
         if (!m_sndsys->GetDevice(outputdeviceid, devinfo))
             return false;
-        
+
         outframesize = CalcSamples(inprop.audio.samplerate, inframesize,
                                    devinfo.default_samplerate);
         int outchannels = std::min(devinfo.max_output_channels, inprop.audio.channels);
@@ -195,6 +195,22 @@ bool MediaPlayback::SetupSpeexPreprocess(bool enableagc, const SpeexAGC& agc,
 }
 #endif
 
+#if defined(ENABLE_WEBRTC)
+bool MediaPlayback::SetupWebRTCPreprocess(const webrtc::AudioProcessing::Config& webrtc)
+{
+    if (!m_apm)
+        m_apm.reset(webrtc::AudioProcessingBuilder().Create());
+
+    m_apm->ApplyConfig(webrtc);
+    if (m_apm->Initialize() != webrtc::AudioProcessing::kNoError)
+    {
+        m_apm.reset();
+        return false;
+    }
+    return true;
+}
+#endif
+
 bool MediaPlayback::MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                              ACE_Message_Block* mb_video)
 {
@@ -250,7 +266,7 @@ void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,
         m_statusfunc(m_userdata, mfp, status);
 }
 
-bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer, 
+bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                                    short* buffer, int samples)
 {
     ACE_Message_Block* mb = nullptr;
@@ -309,6 +325,13 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         }
 #endif
 
+#if defined(ENABLE_WEBRTC)
+        if (m_apm && WebRTCPreprocess(*m_apm, frm, frm) != frm.input_samples)
+        {
+            MYTRACE(ACE_TEXT("WebRTC in media file playback failed to process audio\n"));
+        }
+#endif
+
         // mute left or right speaker (if enabled)
         if (streamer.channels == 2)
             SelectStereo(m_stereo, buffer, streamer.framesize);
@@ -317,7 +340,6 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
     {
         std::memset(buffer, 0, PCM16_BYTES(streamer.channels, streamer.framesize));
     }
-    
+
     return true;
 }
-

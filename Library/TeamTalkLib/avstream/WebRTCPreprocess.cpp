@@ -45,6 +45,8 @@ bool IsEnabled(const webrtc::AudioProcessing::Config& cfg)
 int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infrm,
                      media::AudioFrame& outfrm)
 {
+    assert(!outfrm.inputfmt.IsValid() || infrm.inputfmt == outfrm.inputfmt);
+    
     webrtc::StreamConfig in_cfg(infrm.inputfmt.samplerate, infrm.inputfmt.channels),
         out_cfg(infrm.inputfmt.samplerate, infrm.inputfmt.channels);
 
@@ -56,6 +58,8 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
         MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
                      ACE_TEXT("WebRTC failed to process audio frame. Result: %d\n"), ret);
 
+        MYTRACE(ACE_TEXT("Gain2=%d, gain: %g\n"), int(apm.GetConfig().gain_controller2.enabled),
+                apm.GetConfig().gain_controller2.fixed_digital.gain_db);
         if (ret != webrtc::AudioProcessing::kNoError)
             return -1;
 

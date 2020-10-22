@@ -3515,6 +3515,7 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
         playback->SetGainLevel(preprocessor.ttpreprocessor.gainlevel);
         break;
     case AUDIOPREPROCESSOR_SPEEXDSP:
+    {
 #if defined(ENABLE_SPEEXDSP)
         SpeexAGC agc(float(preprocessor.speexdsp.agc_gainlevel), preprocessor.speexdsp.agc_maxincdbsec,
                      preprocessor.speexdsp.agc_maxdecdbsec, preprocessor.speexdsp.agc_maxgaindb);
@@ -3522,6 +3523,12 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
         if(!playback->SetupSpeexPreprocess(preprocessor.speexdsp.enable_agc, agc,
                                            preprocessor.speexdsp.enable_denoise,
                                            preprocessor.speexdsp.maxnoisesuppressdb))
+            return false;
+#endif
+    }
+    case AUDIOPREPROCESSOR_WEBRTC :
+#if defined(ENABLE_WEBRTC)
+        if (!playback->SetupWebRTCPreprocess(preprocessor.webrtc))
             return false;
 #endif
         break;
