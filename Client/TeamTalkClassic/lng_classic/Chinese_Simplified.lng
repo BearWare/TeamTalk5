@@ -426,6 +426,7 @@
     <item id="562">翻译者</item>
     <item id="563">第三方库</item>
     <item id="564">TeamTalk 使用以下第三方库：</item>
+    <item id="566">%d 秒后定义离开状态</item>
     <item id="1006">文件列表</item>
     <item id="1009">连接后自动加入跟频道</item>
     <item id="1012">主机TCP端口</item>
