@@ -965,7 +965,8 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             itemtext += tr(", Question");
             break;
         }
-
+        if(user.uUserState & USERSTATE_VOICE)
+            itemtext += "🎤";
         if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
             itemtext += tr(", Streaming media file");
 
