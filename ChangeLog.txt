@@ -13,6 +13,8 @@ Default QT Client:
 - Option to join channel immediately in create channel dialog
 - CTRL+L to leave a channel
 - Event for configuration server saved
+- Fix some navigation problems using tabulation
+- Add emojis for unread messages and now speaking in channels tree
 Android client:
 - Change default stream volume from 100 to 50
 iOS Client:
