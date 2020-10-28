@@ -3555,8 +3555,10 @@ void MainWindow::slotMeEnableVoiceActivation(bool checked)
         disableHotKey(HOTKEY_PUSHTOTALK);
         ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, false);
         playSoundEvent(SOUNDEVENT_VOICEACTON);
+        addStatusMsg(tr("Micro enabled"));
     } else {
         playSoundEvent(SOUNDEVENT_VOICEACTOFF);
+        addStatusMsg(tr("Micro disabled"));
     }
     slotUpdateUI();
 }
