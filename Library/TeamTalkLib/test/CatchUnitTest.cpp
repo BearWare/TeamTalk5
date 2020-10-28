@@ -1211,8 +1211,8 @@ TEST_CASE("SoundLoopbackDefault")
     preprocess.webrtc.gaincontroller1.bEnable = FALSE;
     preprocess.webrtc.gaincontroller1.nTargetLevelDbFS = 10;
     preprocess.webrtc.gaincontroller2.bEnable = TRUE;
-    preprocess.webrtc.gaincontroller2.fGainDb = 10;
-    preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable = TRUE;
+    preprocess.webrtc.gaincontroller2.fGainDb = 1;
+    preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable = FALSE;
 
     preprocess.webrtc.noisesuppression.bEnable = FALSE;
     preprocess.webrtc.noisesuppression.nLevel = 3;
@@ -1259,5 +1259,58 @@ TEST_CASE("WebRTCPreprocessor")
     
     REQUIRE(TT_EnableVoiceTransmission(ttclient, false));
     
+}
+
+TEST_CASE("WebRTCPlayback")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+
+    const int SAMPLERATE = 32000, CHANNELS = 2, SAMPLES = SAMPLERATE * 5;
+    WavePCMFile rawfile;
+    REQUIRE(rawfile.NewFile(ACE_TEXT("tone.wav"), SAMPLERATE, CHANNELS));
+    std::vector<int16_t> in_buff(SAMPLES * CHANNELS);
+    media::AudioFrame af(media::AudioFormat(SAMPLERATE, CHANNELS), &in_buff[0], SAMPLES);
+    REQUIRE(GenerateTone(af, 0, 500));
+
+    REQUIRE(rawfile.AppendSamples(&in_buff[0], SAMPLES));
+    rawfile.Close();
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    mfp.audioPreprocessor.webrtc.gaincontroller2.bEnable = TRUE;
+    mfp.audioPreprocessor.webrtc.gaincontroller2.fGainDb = 32;
+    mfp.audioPreprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable = TRUE;
+
+    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input.wav"), &mfp);
+    REQUIRE(session > 0);
+
+    bool success = false, toggled = false, stop = false;
+    TTMessage msg;
+    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, 5000) && !stop)
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_PLAYING :
+            if (msg.mediafileinfo.uElapsedMSec >= 10000 && !toggled)
+            {
+                mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+                mfp.audioPreprocessor.webrtc.gaincontroller2.fGainDb = 10;
+                REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+                toggled = true;
+            }
+            if (msg.mediafileinfo.uElapsedMSec >= 20000)
+            {
+                std::cout << "Elapsed: " << msg.mediafileinfo.uElapsedMSec << std::endl;
+                stop = true;
+            }
+            break;
+        case MFS_FINISHED :
+            success = true;
+            break;
+        }
+    }
+    REQUIRE(toggled);
+    REQUIRE(success);
 }
 #endif
