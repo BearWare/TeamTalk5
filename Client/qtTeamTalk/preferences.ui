@@ -430,6 +430,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="emojiChkBox">
+              <property name="text">
+               <string>Show emojis for channel/user state</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="msgpopupChkBox">
               <property name="text">
                <string>Popup dialog when receiving text message</string>
@@ -450,13 +457,6 @@
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="QCheckBox" name="desktopdlgChkBox">
-              <property name="text">
-               <string>Start desktops in popup dialog</string>
-              </property>
-             </widget>
-            </item>
            </layout>
           </item>
           <item>
@@ -474,6 +474,13 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QCheckBox" name="desktopdlgChkBox">
+              <property name="text">
+               <string>Start desktops in popup dialog</string>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QCheckBox" name="msgtimestampChkBox">
               <property name="text">
@@ -2026,6 +2033,7 @@
   <tabstop>usercountChkBox</tabstop>
   <tabstop>showusernameChkBox</tabstop>
   <tabstop>lasttalkChkBox</tabstop>
+  <tabstop>emojiChkBox</tabstop>
   <tabstop>msgpopupChkBox</tabstop>
   <tabstop>videodlgChkBox</tabstop>
   <tabstop>returnvidChkBox</tabstop>
