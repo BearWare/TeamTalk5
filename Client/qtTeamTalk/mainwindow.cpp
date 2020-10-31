@@ -1681,7 +1681,7 @@ void MainWindow::Disconnect()
             m_usercache[userCacheID(u)] = UserCached(u);
     }
 
-    ui.channelsWidget->reset();
+//    ui.channelsWidget->reset();
     ui.videogridWidget->ResetGrid();
     ui.desktopgridWidget->ResetGrid();
 
