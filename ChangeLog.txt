@@ -10,6 +10,7 @@ Accessible Windows Client:
 - Correctly move focus to first field visible with tab when opening server properties dialog
 Default QT Client:
 - Option to join channel immediately in create channel dialog
+- Option to disable emojis for channel/user states
 - CTRL+L to leave a channel
 - Fix some navigation problems using tabulation
 

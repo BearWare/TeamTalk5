@@ -72,6 +72,8 @@
 #define SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT       false
 #define SETTINGS_DISPLAY_LASTTALK                   "display/display-last-talk"
 #define SETTINGS_DISPLAY_LASTTALK_DEFAULT           true
+#define SETTINGS_DISPLAY_EMOJI                     "display/show-emoji"
+#define SETTINGS_DISPLAY_EMOJI_DEFAULT              true
 #define SETTINGS_DISPLAY_MSGTIMESTAMP               "display/msgtimestamp"
 #define SETTINGS_DISPLAY_STARTMINIMIZED             "display/startminimized"
 #define SETTINGS_DISPLAY_WINDOWPOS                  "display/windowposition"
