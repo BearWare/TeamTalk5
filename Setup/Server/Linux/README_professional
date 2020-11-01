@@ -19,7 +19,7 @@ Server which uses encrypted connections and BearWare.dk WebLogins.
 First create a server certificate and private key for your TeamTalk
 server by running the following command:
 
-$ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -out ttservercert.pem -outform PEM
+$ openssl req -newkey rsa:4096 -keyout ttserverkey.pem -nodes -x509 -days 3650 -out ttservercert.pem -outform PEM
 
 Remember the location of the generated private key file
 "ttserverkey.pem" and certificate file "ttservercert.pem".
