@@ -287,22 +287,24 @@ BEGIN
     CONTROL         "Double-click for joining channels",IDC_CHECK_DBCLICKJOIN,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,114,117,16
     CONTROL         "Enable VU-meter updates",IDC_CHECK_VUMETER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,135,112,10
-    CONTROL         "Show username instead of nickname",IDC_CHECK_SHOWUSERNAME,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,150,110,16
     CONTROL         "Show number of users in channels",IDC_CHECK_SHOWUSERCOUNT,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,171,114,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,152,114,16
+    CONTROL         "Show username instead of nickname",IDC_CHECK_SHOWUSERNAME,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,173,110,16
+    CONTROL         "Show emojis for user and channel states",IDC_CHECK_EMOJI,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,51,112,16
     CONTROL         "Clear channels when quitting",IDC_CHECK_QUITCLEAR,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,51,114,16
-    CONTROL         "Popup message dialog on incoming message",IDC_CHECK_POPUPMSG,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,72,114,16
-    CONTROL         "Timestamp on messages",IDC_CHECK_MSGTIMESTAMP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,93,114,16
+    CONTROL         "Popup message dialog on incoming message",IDC_CHECK_POPUPMSG,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,93,114,16
+    CONTROL         "Timestamp on messages",IDC_CHECK_MSGTIMESTAMP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,114,114,16
     CONTROL         "Check for program updates",IDC_CHECK_CHECKUPDATES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,117,114,10
-    LTEXT           "Maximum text length",IDC_STATIC_LIMITTEXT,134,136,77,8
-    EDITTEXT        IDC_EDIT_LIMITTEXT,208,133,35,14,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPIN_TEXTLEN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,232,133,11,14
-    LTEXT           "Sort channels",IDC_STATIC_SORTCHANNELS,134,154,59,8
-    COMBOBOX        IDC_COMBO_SORTCHANNELS,195,152,48,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,135,114,10
+    LTEXT           "Maximum text length",IDC_STATIC_LIMITTEXT,134,156,77,8
+    EDITTEXT        IDC_EDIT_LIMITTEXT,208,153,35,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_TEXTLEN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,232,151,11,14
+    LTEXT           "Sort channels",IDC_STATIC_SORTCHANNELS,134,177,59,8
+    COMBOBOX        IDC_COMBO_SORTCHANNELS,195,175,48,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_TAB_CHAT DIALOGEX 0, 0, 176, 142
@@ -2382,7 +2384,7 @@ BEGIN
     IDS_ABOUT_LIB           "Libraries"
     IDS_ABOUT_LIBUSE        "TeamTalk use the following libraries:"
     IDS_SERVCONFSAVED       "Server configuration saved"
-    IDS_INACTDELAYLAB              "Define away status after %d seconds"
+    IDS_INACTDELAYLAB       "Define away status after %d seconds"
 END
 
 STRINGTABLE

@@ -1169,6 +1169,15 @@ namespace teamtalk {
         return GetValue(true, "window/sort-channels", 0);
     }
 
+    void ClientXML::SetShowEmojis(bool bEnable)
+    {
+        SetValueBool("window/show-emojis", bEnable);
+    }
+
+    bool ClientXML::GetShowEmojis(bool bDefault)
+    {
+        return GetValueBool(true, "window/show-emojis", bDefault);
+    }
 
     /***********************************/
     /*********** <client> **************/
