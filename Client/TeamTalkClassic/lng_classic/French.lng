@@ -674,6 +674,7 @@
     <item id="1451">Canaux sélectionnés</item>
     <item id="1452">Canaux disponibles</item>
     <item id="1453">Auto-opérateur de canal</item>
+    <item id="1454">Afficher les emojis pour les états des canaux/utilisateurs</item>
     <item id="1456">Activer l&apos;annulation d&apos;écho (supprimer l&apos;écho des haut-parleurs)</item>
     <item id="1460">L&apos;opérateur reçoit uniquement (seuls les opérateurs voient et entendent)</item>
     <item id="1463">Taux d&apos;échantillonnage de sortie</item>
