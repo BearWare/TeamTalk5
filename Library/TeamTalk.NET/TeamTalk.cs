@@ -1554,7 +1554,7 @@ namespace BearWare
         /** @brief User can record voice in all channels. Even channels
          * with #ChannelType.CHANNEL_NO_RECORDING. */
         USERRIGHT_RECORD_VOICE                      = 0x00100000,
-        /** @brief User can see hidden channels, #CHANNEL_HIDDEN. */
+        /** @brief User can see hidden channels, #ChannelType.CHANNEL_HIDDEN. */
         USERRIGHT_VIEW_HIDDEN_CHANNELS              = 0x00200000,
         /** @brief User with all rights.*/
         USERRIGHT_ALL                               = 0xFFFFFFFF & ~USERRIGHT_LOCKED_NICKNAME & ~USERRIGHT_LOCKED_STATUS
@@ -2861,10 +2861,10 @@ namespace BearWare
          * Added in TeamTalk v5.3 to support web-logins. */
         CMDERR_LOGINSERVICE_UNAVAILABLE         = 3016,
 
-        /** @brief Cannot apply #ChannelType.CHANNEL_HIDDEN to #Channel's channel type.
+        /** @brief Cannot apply #ChannelType.CHANNEL_HIDDEN to #BearWare.Channel's channel type.
          *
          * A hidden channel cannot contain subchannels or have it
-         * #CHANNEL_HIDDEN property toggled. */
+         * #ChannelType.CHANNEL_HIDDEN property toggled. */
         CMDERR_CHANNEL_CANNOT_BE_HIDDEN         = 3017,
             
         /* ERRORS 10000-10999 ARE NOT COMMAND ERRORS BUT INSTEAD
