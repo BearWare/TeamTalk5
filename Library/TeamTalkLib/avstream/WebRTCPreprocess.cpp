@@ -30,8 +30,14 @@
 namespace webrtc { namespace field_trial {
 std::string FindFullName(const std::string& trial)
 {
-    MYTRACE(ACE_TEXT("Querying feature: %s\n"), trial.c_str());
+#if defined(UNICODE)
+    ACE_TString str = LocalToUnicode(trial.c_str());
+#else
+    ACE_TString str = trial.c_str();
+#endif
+    MYTRACE(ACE_TEXT("Querying feature: %s\n"), str.c_str());
     return "Disabled";
+    //return "Enabled";
 }
 } }
 
@@ -58,8 +64,12 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
         MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
                      ACE_TEXT("WebRTC failed to process audio frame. Result: %d\n"), ret);
 
-        MYTRACE(ACE_TEXT("Gain2=%d, gain: %g\n"), int(apm.GetConfig().gain_controller2.enabled),
-                apm.GetConfig().gain_controller2.fixed_digital.gain_db);
+        //MYTRACE(ACE_TEXT("Gain1=%d, gain %d. Gain2=%d, gain: %g\n"),
+        //        int(apm.GetConfig().gain_controller1.enabled),
+        //        apm.GetConfig().gain_controller1.target_level_dbfs,
+        //        int(apm.GetConfig().gain_controller2.enabled),
+        //        apm.GetConfig().gain_controller2.fixed_digital.gain_db);
+        assert(ret == webrtc::AudioProcessing::kNoError);
         if (ret != webrtc::AudioProcessing::kNoError)
             return -1;
 
