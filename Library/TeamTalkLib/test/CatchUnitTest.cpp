@@ -1266,23 +1266,17 @@ TEST_CASE("WebRTCPlayback")
     ttinst ttclient(TT_InitTeamTalkPoll());
     REQUIRE(InitSound(ttclient));
 
-    const int SAMPLERATE = 32000, CHANNELS = 2, SAMPLES = SAMPLERATE * 5;
-    WavePCMFile rawfile;
-    REQUIRE(rawfile.NewFile(ACE_TEXT("tone.wav"), SAMPLERATE, CHANNELS));
-    std::vector<int16_t> in_buff(SAMPLES * CHANNELS);
-    media::AudioFrame af(media::AudioFormat(SAMPLERATE, CHANNELS), &in_buff[0], SAMPLES);
-    REQUIRE(GenerateTone(af, 0, 500));
-
-    REQUIRE(rawfile.AppendSamples(&in_buff[0], SAMPLES));
-    rawfile.Close();
-
     MediaFilePlayback mfp = {};
     mfp.audioPreprocessor.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
-    mfp.audioPreprocessor.webrtc.gaincontroller2.bEnable = TRUE;
-    mfp.audioPreprocessor.webrtc.gaincontroller2.fGainDb = 32;
-    mfp.audioPreprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable = TRUE;
+    mfp.audioPreprocessor.webrtc.gaincontroller1.bEnable = TRUE;
+    mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDbFS = 25;
+    mfp.audioPreprocessor.webrtc.gaincontroller2.bEnable = FALSE;
+    mfp.audioPreprocessor.webrtc.gaincontroller2.fGainDb = 0;
+    mfp.audioPreprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable = FALSE;
+    mfp.audioPreprocessor.webrtc.noisesuppression.bEnable = TRUE;
+    mfp.audioPreprocessor.webrtc.noisesuppression.nLevel = 3;
 
-    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input.wav"), &mfp);
+    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input_16k_mono.wav"), &mfp);
     REQUIRE(session > 0);
 
     bool success = false, toggled = false, stop = false;
@@ -1292,14 +1286,15 @@ TEST_CASE("WebRTCPlayback")
         switch(msg.mediafileinfo.nStatus)
         {
         case MFS_PLAYING :
-            if (msg.mediafileinfo.uElapsedMSec >= 10000 && !toggled)
+            if (msg.mediafileinfo.uElapsedMSec >= 5000 && !toggled)
             {
                 mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
-                mfp.audioPreprocessor.webrtc.gaincontroller2.fGainDb = 10;
+                mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDbFS = 0;
                 REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
                 toggled = true;
+                std::cout << "Toggled: " << msg.mediafileinfo.uElapsedMSec << std::endl;
             }
-            if (msg.mediafileinfo.uElapsedMSec >= 20000)
+            if (msg.mediafileinfo.uElapsedMSec >= 10000)
             {
                 std::cout << "Elapsed: " << msg.mediafileinfo.uElapsedMSec << std::endl;
                 stop = true;

@@ -86,7 +86,7 @@ TEST_CASE("webrtc-agc")
     webrtc::GainControlImpl gain;
     gain.Initialize(IN_CH, IN_SR);
     REQUIRE(gain.set_mode(webrtc::GainControl::kAdaptiveDigital) == webrtc::AudioProcessing::kNoError);
-    REQUIRE(gain.set_target_level_dbfs(1) == webrtc::AudioProcessing::kNoError);
+    REQUIRE(gain.set_target_level_dbfs(30) == webrtc::AudioProcessing::kNoError);
     int index = 0;
     while (index + ab.num_frames() < IN_SAMPLES)
     {
@@ -98,6 +98,8 @@ TEST_CASE("webrtc-agc")
         ab.CopyTo(in_cfg, &agc_buff[index]);
         index += ab.num_frames();
     }
+    std::cout << "Compression gainDb: " << gain.compression_gain_db() << " "
+        << "limiter: " << gain.is_limiter_enabled() << std::endl;
 
     REQUIRE(agcfile.AppendSamples(&agc_buff[0], IN_SAMPLES));
 }
