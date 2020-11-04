@@ -49,9 +49,6 @@
 #include <avstream/FFMpeg3Streamer.h>
 #endif
 
-
-using namespace std;
-
 #if defined(WIN32)
 #include <ace/Init_ACE.h>
 #include <assert.h>
@@ -412,7 +409,6 @@ TEST_CASE( "Opus Read File" )
     REQUIRE(op.body_len>0);
     pages++;
     while (of.ReadOggPage(op))pages++;
-    cout << "pages: " << pages << endl;
 }
 #endif
 
@@ -1200,22 +1196,25 @@ TEST_CASE("SoundLoopbackDefault")
     SoundDevice indev, outdev;
     REQUIRE(GetSoundDevices(indev, outdev));
 
-    std::cout << "input: " << indev.nDeviceID << " name: " << indev.szDeviceName
+#if defined(UNICODE)
+    std::wcout <<
+#else
+    std::ccout <<
+#endif
+              "input: " << indev.nDeviceID << " name: " << indev.szDeviceName
               << " channels: " << indev.nMaxInputChannels << " samplerate: " << indev.nDefaultSampleRate
               << " output: " << outdev.nDeviceID << " name: " << outdev.szDeviceName << std::endl;
+
     ttinst ttclient(TT_InitTeamTalkPoll());
 
     AudioPreprocessor preprocess = {};
 
     preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
-    preprocess.webrtc.gaincontroller1.bEnable = FALSE;
-    preprocess.webrtc.gaincontroller1.nTargetLevelDbFS = 10;
     preprocess.webrtc.gaincontroller2.bEnable = TRUE;
-    preprocess.webrtc.gaincontroller2.fGainDb = 1;
-    preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable = FALSE;
+    preprocess.webrtc.gaincontroller2.fGainDb = 25;
 
     preprocess.webrtc.noisesuppression.bEnable = FALSE;
-    preprocess.webrtc.noisesuppression.nLevel = 3;
+    preprocess.webrtc.noisesuppression.nLevel = 2;
 
     auto sndloop = TT_StartSoundLoopbackTestEx(indev.nDeviceID, outdev.nDeviceID, indev.nDefaultSampleRate,
                                           1, FALSE, &preprocess, nullptr);
@@ -1247,12 +1246,15 @@ TEST_CASE("WebRTCPreprocessor")
     AudioPreprocessor preprocess = {};
 
     preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
-    // preprocess.webrtc.gaincontroller2.bEnable = FALSE;
-    // preprocess.webrtc.gaincontroller2.fGainDb = 10;
-    // preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable = TRUE;
 
     preprocess.webrtc.noisesuppression.bEnable = TRUE;
     preprocess.webrtc.noisesuppression.nLevel = 3;
+
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
+
+    preprocess.webrtc.gaincontroller2.bEnable = TRUE;
+    preprocess.webrtc.gaincontroller2.fGainDb = 10;
 
     REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
     WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
