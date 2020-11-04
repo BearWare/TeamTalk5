@@ -1256,9 +1256,9 @@ TEST_CASE("WebRTCPreprocessor")
 
     REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
     WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
-    
+
     REQUIRE(TT_EnableVoiceTransmission(ttclient, false));
-    
+
 }
 
 TEST_CASE("WebRTCPlayback")
@@ -1268,15 +1268,16 @@ TEST_CASE("WebRTCPlayback")
 
     MediaFilePlayback mfp = {};
     mfp.audioPreprocessor.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
-    mfp.audioPreprocessor.webrtc.gaincontroller1.bEnable = TRUE;
+    mfp.audioPreprocessor.webrtc.gaincontroller1.bEnable = FALSE;
     mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDbFS = 25;
+
     mfp.audioPreprocessor.webrtc.gaincontroller2.bEnable = FALSE;
     mfp.audioPreprocessor.webrtc.gaincontroller2.fGainDb = 0;
-    mfp.audioPreprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable = FALSE;
-    mfp.audioPreprocessor.webrtc.noisesuppression.bEnable = TRUE;
+
+    mfp.audioPreprocessor.webrtc.noisesuppression.bEnable = FALSE;
     mfp.audioPreprocessor.webrtc.noisesuppression.nLevel = 3;
 
-    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input_16k_mono.wav"), &mfp);
+    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input_16k_mono_low.wav"), &mfp);
     REQUIRE(session > 0);
 
     bool success = false, toggled = false, stop = false;
@@ -1286,10 +1287,11 @@ TEST_CASE("WebRTCPlayback")
         switch(msg.mediafileinfo.nStatus)
         {
         case MFS_PLAYING :
-            if (msg.mediafileinfo.uElapsedMSec >= 5000 && !toggled)
+            if (msg.mediafileinfo.uElapsedMSec >= 3000 && !toggled)
             {
                 mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
-                mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDbFS = 0;
+                mfp.audioPreprocessor.webrtc.gaincontroller2.bEnable = TRUE;
+                mfp.audioPreprocessor.webrtc.gaincontroller2.fGainDb = 25;
                 REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
                 toggled = true;
                 std::cout << "Toggled: " << msg.mediafileinfo.uElapsedMSec << std::endl;

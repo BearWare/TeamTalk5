@@ -299,6 +299,15 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
             std::memcpy(buffer, frm.input_buffer, PCM16_BYTES(streamer.channels, streamer.framesize));
         }
 
+#if defined(ENABLE_WEBRTC)
+        media::AudioFrame apm_frm(media::AudioFormat(streamer.samplerate, streamer.channels),
+                                  buffer, streamer.framesize);
+        if (m_apm && WebRTCPreprocess(*m_apm, apm_frm, apm_frm) != streamer.framesize)
+        {
+            MYTRACE(ACE_TEXT("WebRTC in media file playback failed to process audio\n"));
+        }
+#endif
+
         SOFTGAIN(buffer, streamer.framesize, streamer.channels, m_gainlevel, GAIN_NORMAL);
 
 #if defined(ENABLE_SPEEXDSP)
@@ -322,13 +331,6 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                 m_preprocess_right->Preprocess(&in_rightchan[0]); //denoise, AGC, etc
                 MergeStereo(in_leftchan, in_rightchan, buffer, streamer.framesize);
             }
-        }
-#endif
-
-#if defined(ENABLE_WEBRTC)
-        if (m_apm && WebRTCPreprocess(*m_apm, frm, frm) != frm.input_samples)
-        {
-            MYTRACE(ACE_TEXT("WebRTC in media file playback failed to process audio\n"));
         }
 #endif
 

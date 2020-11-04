@@ -20,14 +20,14 @@ TEST_CASE("webrtc-audiobuf") {
     WavePCMFile inwavfile, outwavfile;
     REQUIRE(inwavfile.NewFile(ACE_TEXT("in_tone.wav"), IN_SR, IN_CH));
     REQUIRE(outwavfile.NewFile(ACE_TEXT("out_tone.wav"), OUT_SR, OUT_CH));
-    
+
     REQUIRE(GenerateTone(in_af, 0, 500));
 
     REQUIRE(inwavfile.AppendSamples(in_af.input_buffer, in_af.input_samples));
 
     webrtc::StreamConfig in_cfg(IN_SR, IN_CH), out_cfg(OUT_SR, OUT_CH);
     webrtc::AudioBuffer in_ab(IN_SR, IN_CH, IN_SR, IN_CH, OUT_SR, OUT_CH);
-    
+
     size_t in_index = 0, out_index = 0;
     while (in_index + in_cfg.num_frames() < IN_SAMPLES)
     {
@@ -54,7 +54,7 @@ TEST_CASE("webrtc-noise") {
 
     webrtc::NsConfig nscfg;
     webrtc::NoiseSuppressor ns(nscfg, IN_SR, IN_CH);
-    
+
     while (infile.ReadSamples(&in_buff[0], in_ab.num_frames()) > 0)
     {
         in_ab.CopyFrom(&in_buff[0], in_cfg);
@@ -69,7 +69,7 @@ TEST_CASE("webrtc-agc")
 {
     const int IN_SR = 48000, IN_CH = 1;
     const int IN_SAMPLES = 5 * IN_SR;
-    
+
     WavePCMFile rawfile, agcfile;
     REQUIRE(rawfile.NewFile(ACE_TEXT("agcnone.wav"), IN_SR, IN_CH));
     REQUIRE(agcfile.NewFile(ACE_TEXT("agcfile.wav"), IN_SR, IN_CH));
@@ -106,65 +106,55 @@ TEST_CASE("webrtc-agc")
 
 TEST_CASE("webrtc-apm")
 {
-    const int IN_SR = 16000, IN_CH = 2;
-    const int IN_SAMPLES = 5 * IN_SR;
-    const int OUT_SR = 48000, OUT_CH = 2;
-    const int OUT_SAMPLES = 5 * OUT_SR;
-    
     WavePCMFile rawfile, apmfile_gain1, apmfile_gain2;
-    REQUIRE(rawfile.NewFile(ACE_TEXT("apmnone.wav"), IN_SR, IN_CH));
-    REQUIRE(apmfile_gain1.NewFile(ACE_TEXT("apmfile_gain1.wav"), OUT_SR, OUT_CH));
-    REQUIRE(apmfile_gain2.NewFile(ACE_TEXT("apmfile_gain2.wav"), OUT_SR, OUT_CH));
+    auto FILENAME = ACE_TEXT("input_16k_mono_low.wav");
+    REQUIRE(rawfile.OpenFile(FILENAME, true));
 
-    std::vector<int16_t> in_buff(IN_SAMPLES * IN_CH);
-    media::AudioFrame af(media::AudioFormat(IN_SR, IN_CH), &in_buff[0], IN_SAMPLES);
-    REQUIRE(GenerateTone(af, 0, 500));
+    REQUIRE(apmfile_gain1.NewFile(ACE_TEXT("apmfile_gain1.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
+    REQUIRE(apmfile_gain2.NewFile(ACE_TEXT("apmfile_gain2.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
 
-    REQUIRE(rawfile.AppendSamples(&in_buff[0], IN_SAMPLES));
+    media::AudioFormat af(rawfile.GetSampleRate(), rawfile.GetChannels());
 
-    webrtc::StreamConfig in_cfg(IN_SR, IN_CH), out_cfg(OUT_SR, OUT_CH);
-    std::vector<int16_t> apm_buff(OUT_SAMPLES * OUT_CH);
+    webrtc::StreamConfig in_cfg(af.samplerate, af.channels), out_cfg(af.samplerate, af.channels);
+
+    std::vector<int16_t> in_buff(af.channels * in_cfg.num_frames()), apm_buff(af.channels * out_cfg.num_frames());
 
     std::unique_ptr<webrtc::AudioProcessing> apm(webrtc::AudioProcessingBuilder().Create());
 
     // first try gain_controller1
-    
+
     webrtc::AudioProcessing::Config apm_cfg;
     apm_cfg.gain_controller1.enabled = true;
     apm_cfg.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kFixedDigital;
-    apm_cfg.gain_controller1.target_level_dbfs = 30;
+    apm_cfg.gain_controller1.target_level_dbfs = 15;
+    apm_cfg.gain_controller1.analog_gain_controller.enabled = false;
     apm->ApplyConfig(apm_cfg);
+    apm->Initialize();
 
-    int in_index = 0, out_index = 0;
-    while (in_index + in_cfg.num_frames() <= IN_SAMPLES)
+    while (rawfile.ReadSamples(&in_buff[0], in_cfg.num_frames()))
     {
-        REQUIRE(apm->ProcessStream(&in_buff[in_index * in_cfg.num_channels()],
-                                   in_cfg, out_cfg, &apm_buff[out_index * out_cfg.num_channels()])
+        REQUIRE(apm->ProcessStream(&in_buff[0], in_cfg, out_cfg, &apm_buff[0])
                 == webrtc::AudioProcessing::kNoError);
 
-        in_index += in_cfg.num_frames();
-        out_index += out_cfg.num_frames();
+        REQUIRE(apmfile_gain1.AppendSamples(&apm_buff[0], out_cfg.num_frames()));
     }
 
-    REQUIRE(apmfile_gain1.AppendSamples(&apm_buff[0], OUT_SAMPLES));
+    rawfile.Close();
+    REQUIRE(rawfile.OpenFile(FILENAME, true));
 
     // now try gain_controller2
     apm_cfg = webrtc::AudioProcessing::Config();
     apm_cfg.gain_controller2.enabled = true;
-    apm_cfg.gain_controller2.fixed_digital.gain_db = 2;
+    apm_cfg.gain_controller2.fixed_digital.gain_db = 20;
     apm->ApplyConfig(apm_cfg);
     apm->Initialize();
 
-    in_index = 0, out_index = 0;
-    while (in_index + in_cfg.num_frames() <= IN_SAMPLES)
+    while (rawfile.ReadSamples(&in_buff[0], in_cfg.num_frames()))
     {
-        REQUIRE(apm->ProcessStream(&in_buff[in_index * in_cfg.num_channels()],
-                                   in_cfg, out_cfg, &apm_buff[out_index * out_cfg.num_channels()])
+        REQUIRE(apm->ProcessStream(&in_buff[0], in_cfg, out_cfg, &apm_buff[0])
                 == webrtc::AudioProcessing::kNoError);
 
-        in_index += in_cfg.num_frames();
-        out_index += out_cfg.num_frames();
+        REQUIRE(apmfile_gain2.AppendSamples(&apm_buff[0], out_cfg.num_frames()));
     }
 
-    REQUIRE(apmfile_gain2.AppendSamples(&apm_buff[0], OUT_SAMPLES));    
 }
