@@ -1249,6 +1249,8 @@ extern "C" {
         SPEEXDSP_AUDIOPREPROCESSOR  = 1,
         /** @brief Use TeamTalk's internal audio preprocessor #TTAudioPreprocessor. */
         TEAMTALK_AUDIOPREPROCESSOR  = 2,
+        /** @brief Use WebRTC's audio preprocessor from
+         * #WebRTCAudioPreprocessor. https://webrtc.org */
         WEBRTC_AUDIOPREPROCESSOR    = 3,
     } AudioPreprocessorType;
 
@@ -1263,6 +1265,7 @@ extern "C" {
             SpeexDSP speexdsp;
             /** @brief Used when @c nPreprocessor is #TEAMTALK_AUDIOPREPROCESSOR. */
             TTAudioPreprocessor ttpreprocessor;
+            /** @brief Used when @c nPreprocessor is #WEBRTC_AUDIOPREPROCESSOR. */
             WebRTCAudioPreprocessor webrtc;
         };
     } AudioPreprocessor;
