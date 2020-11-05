@@ -1199,11 +1199,11 @@ TEST_CASE("SoundLoopbackDefault")
 #if defined(UNICODE)
     std::wcout <<
 #else
-    std::ccout <<
+    std::cout <<
 #endif
-              "input: " << indev.nDeviceID << " name: " << indev.szDeviceName
-              << " channels: " << indev.nMaxInputChannels << " samplerate: " << indev.nDefaultSampleRate
-              << " output: " << outdev.nDeviceID << " name: " << outdev.szDeviceName << std::endl;
+        "input: " << indev.nDeviceID << " name: " << indev.szDeviceName
+               << " channels: " << indev.nMaxInputChannels << " samplerate: " << indev.nDefaultSampleRate
+               << " output: " << outdev.nDeviceID << " name: " << outdev.szDeviceName << std::endl;
 
     ttinst ttclient(TT_InitTeamTalkPoll());
 
