@@ -50,6 +50,7 @@ CWindowPage::CWindowPage()
     , m_nTextLen(TT_STRLEN)
     , m_bShowUsername(FALSE)
     , m_nSorting(0)
+    , m_bEmoji(FALSE)
 {
     m_bTray = FALSE;
     m_bStartMinimized = FALSE;
@@ -84,6 +85,7 @@ void CWindowPage::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK_SHOWUSERNAME, m_bShowUsername);
     DDX_Control(pDX, IDC_COMBO_SORTCHANNELS, m_wndSorting);
     DDX_CBIndex(pDX, IDC_COMBO_SORTCHANNELS, m_nSorting);
+    DDX_Check(pDX, IDC_CHECK_EMOJI, m_bEmoji);
 }
 
 void CWindowPage::ShowFont()

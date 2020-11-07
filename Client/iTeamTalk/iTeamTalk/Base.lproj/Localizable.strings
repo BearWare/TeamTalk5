@@ -665,3 +665,6 @@
 
 /* Dialog message */
 "Cancel" = "Cancel";
+
+/* server entry */
+"Check only if this server has enabled Facebook login" = "Check only if this server has enabled Facebook login";
