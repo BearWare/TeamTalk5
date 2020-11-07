@@ -2754,6 +2754,8 @@ BOOL CTeamTalkDlg::OnInitDialog()
     //show username instead of nickname
     bShowUsernames = m_xmlSettings.GetShowUsernames();
 
+    m_wndTree.ShowEmojis(m_xmlSettings.GetShowEmojis());
+
     //timestamp on messages?
     m_tabChat.m_wndRichEdit.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
 
@@ -3427,6 +3429,7 @@ void CTeamTalkDlg::OnFilePreferences()
     windowpage.m_nTextLen = m_xmlSettings.GetMaxTextLength(DEFAULT_MAX_STRING_LENGTH);
     windowpage.m_bShowUsername = m_xmlSettings.GetShowUsernames();
     windowpage.m_nSorting = m_xmlSettings.GetSortOrder();
+    windowpage.m_bEmoji = m_xmlSettings.GetShowEmojis();
 
     ///////////////////////
     // client settings
@@ -3616,7 +3619,12 @@ void CTeamTalkDlg::OnFilePreferences()
         }
         m_xmlSettings.SetShowUserCount(windowpage.m_bShowUserCount);
         m_wndTree.ShowUserCount(windowpage.m_bShowUserCount);
+
         m_xmlSettings.SetShowUsernames(windowpage.m_bShowUsername);
+
+        m_xmlSettings.SetShowEmojis(windowpage.m_bEmoji);
+        m_wndTree.ShowEmojis(windowpage.m_bEmoji);
+
         m_xmlSettings.SetJoinDoubleClick(windowpage.m_bDBClickJoin);
         m_xmlSettings.SetQuitClearChannels(windowpage.m_bQuitClearChannels);
         m_xmlSettings.SetMessageTimeStamp(windowpage.m_bTimeStamp);
