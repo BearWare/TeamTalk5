@@ -461,7 +461,7 @@ sc.exe delete "TeamTalk Server 2"
  * Run the following command line using OpenSSL to generate the
  * certificate and privte key:
 @verbatim
-$ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -out ttservercert.pem -outform PEM
+$ openssl req -newkey rsa:4096 -keyout ttserverkey.pem -nodes -x509 -days 3650 -out ttservercert.pem -outform PEM
 @endverbatim
  *
  * Now run the server's setup wizard to specify the location of the

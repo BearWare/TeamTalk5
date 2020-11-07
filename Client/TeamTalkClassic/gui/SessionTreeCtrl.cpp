@@ -189,6 +189,41 @@ void CSessionTreeCtrl::UpdateParentChannels(int nChannelID)
     }
 }
 
+void CSessionTreeCtrl::UpdateAll()
+{
+    CString szName;
+    std::queue<HTREEITEM> qItems;
+    HTREEITEM hItem = GetRootItem();
+    if(hItem)
+    {
+        qItems.push(hItem);
+        while(!qItems.empty())
+        {
+            hItem = qItems.front();
+            qItems.pop();
+
+            auto dwItemData = GetItemData(hItem);
+            auto dwID = int(dwItemData & ID_ITEMDATA);
+            switch (dwItemData & TYPE_ITEMDATA)
+            {
+            case CHANNEL_ITEMDATA :
+                SetItemText(hItem, GetChannelText(dwID));
+                break;
+            case USER_ITEMDATA :
+                SetItemText(hItem, GetUserText(dwID));
+                break;
+            }
+
+            hItem = GetChildItem(hItem);
+            while (hItem)
+            {
+                qItems.push(hItem);
+                hItem = GetNextSiblingItem(hItem);
+            }
+        }
+    }
+}
+
 void CSessionTreeCtrl::UpdServerName(const ServerProperties& prop)
 {
     Channel chan;
@@ -852,46 +887,27 @@ void CSessionTreeCtrl::ChannelItemMinus(HTREEITEM hItem, ChannelStates minusStat
     ASSERT(nImg >= CHANNEL_INDEX_START && nImg <= CHANNEL_INDEX_END); //within channels
 }
 
-BOOL CSessionTreeCtrl::IsShowingUserCount() const
-{
-    return m_bShowUserCount;
-}
-
 void CSessionTreeCtrl::ShowUserCount(BOOL bShow)
 {
+    BOOL bRefresh = m_bShowUserCount != bShow;
     m_bShowUserCount = bShow;
 
-    CString szName;
-    std::queue<HTREEITEM> qItems;
-    HTREEITEM hItem = GetRootItem();
-    if(hItem)
-    {
-        qItems.push(hItem);
-        while(!qItems.empty())
-        {
-            hItem = qItems.front();
-            qItems.pop();
-
-            int nChannelID = (GetItemData(hItem) & ID_ITEMDATA);
-            SetItemText(hItem, GetChannelText(nChannelID));
-            hItem = GetChildItem(hItem);
-
-            while(hItem)
-            {
-                int nImg1 = 0, nImg2 = 0;
-                GetItemImage(hItem, nImg1, nImg2);
-                if(IsChannel(nImg1))
-                    qItems.push(hItem);
-
-                hItem = GetNextSiblingItem(hItem);
-            }
-        }
-    }
+    if (bRefresh)
+        UpdateAll();
 }
 
 void CSessionTreeCtrl::SetSortOrder(SortOrder order)
 {
     m_sortOrder = order;
+}
+
+void CSessionTreeCtrl::ShowEmojis(BOOL bShow)
+{
+    BOOL bRefresh = m_bShowEmojis != bShow;
+    m_bShowEmojis = bShow;
+
+    if (bRefresh)
+        UpdateAll();
 }
 
 BOOL CSessionTreeCtrl::GetChannel(int nChannelID, Channel& outChan) const
@@ -1006,7 +1022,7 @@ CString CSessionTreeCtrl::GetUserText(int nUserID) const
         szText += _T(", ") + LoadText(IDS_USERISVIDEOTX, _T("Webcam"));
     if (_tcslen(user.szStatusMsg) > 0)
         szText += _T(" - ") + CString(user.szStatusMsg);
-    if(user.nStatusMode & STATUSMODE_FEMALE)
+    if (m_bShowEmojis && (user.nStatusMode & STATUSMODE_FEMALE))
         szText += _T(" \U0001f469");
 
     return LimitText(szText);
@@ -1020,7 +1036,7 @@ CString CSessionTreeCtrl::GetChannelText(int nChannelID) const
     {
         ServerProperties prop = {};
         TT_GetServerProperties(ttInst, &prop); 
-        if(IsShowingUserCount())
+        if (m_bShowUserCount)
         {
             HTREEITEM hItem = GetChannelItem(nChannelID);
             int nCount = (int)GetChannelUsers(m_users, nChannelID).size();
@@ -1053,10 +1069,13 @@ CString CSessionTreeCtrl::GetChannelText(int nChannelID) const
         }
     }
 
-    if(ite->second.bPassword) {
+    if (m_bShowEmojis && ite->second.bPassword)
+    {
         CString szPwd = _T(" - \U0001f512");
         return LimitText(szText) + szPwd;
-    } else {
+    }
+    else
+    {
         return LimitText(szText);
     }
 }

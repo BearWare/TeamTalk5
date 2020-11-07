@@ -24,11 +24,6 @@
 #if !defined(AFX_SESSIONTREECTRL_H__A952C6AA_A0CD_4E65_94BF_6DC748E035D2__INCLUDED_)
 #define AFX_SESSIONTREECTRL_H__A952C6AA_A0CD_4E65_94BF_6DC748E035D2__INCLUDED_
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-// SessionTreeCtrl.h : header file
-//
 #include <queue>
 #include <vector>
 
@@ -81,9 +76,11 @@
 #define WM_SESSIONTREECTRL_MOVEUSER (WM_USER+801)
 
 //used for item data
-#define CHANNEL_ITEMDATA 0x10000
-#define USER_ITEMDATA 0x20000
-#define ID_ITEMDATA 0xFFFF
+#define CHANNEL_ITEMDATA    0x00010000
+#define USER_ITEMDATA       0x00020000
+#define TYPE_ITEMDATA       0xFFFF0000
+
+#define ID_ITEMDATA         0x0000FFFF
 
 /////////////////////////////////////////////////////////////////////////////
 // CSessionTreeCtrl window
@@ -172,10 +169,10 @@ public:
     void ExpandAll();
     void CollapseAll();
 
-    BOOL IsShowingUserCount() const;
     void ShowUserCount(BOOL bShow);
     void SetSortOrder(SortOrder order);
     SortOrder GetSortOrder() const { return m_sortOrder; }
+    void ShowEmojis(BOOL bShow);
 
     // Generated message map functions
 protected:
@@ -191,6 +188,7 @@ protected:
 
     BOOL IsUserOperator(int nUserID, int nChannelID) const;
     void UpdateParentChannels(int nChannelID);
+    void UpdateAll();
 
     CImageList m_ImageList;
     CBitmap m_bmp;
@@ -198,6 +196,7 @@ protected:
     users_t m_users;
     msgmap_t m_messages;
     BOOL m_bShowUserCount;
+    BOOL m_bShowEmojis = TRUE;
     SortOrder m_sortOrder = SORT_TREE_ASCENDING;
     int m_nMyChannel;
 
