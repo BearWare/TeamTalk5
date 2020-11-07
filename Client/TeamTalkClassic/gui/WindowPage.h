@@ -67,4 +67,5 @@ public:
     BOOL m_bShowUsername;
     CComboBox m_wndSorting;
     int m_nSorting;
-};
+    BOOL m_bEmoji;
+ };
