@@ -54,6 +54,7 @@ enum
 };
 
 extern TTInstance* ttInst;
+extern QSettings* ttSettings;
        
 #define COLOR_TALK      QColor(133,229,141)
 #define COLOR_LASTTALK  QColor(255,232,61)
@@ -726,6 +727,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
     m_ignore_item_changes = true;
 
     int mychanid = TT_GetMyChannelID(ttInst);
+    bool emoji = ttSettings->value(SETTINGS_DISPLAY_EMOJI, SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool();
 
     if(item->type() & CHANNEL_TYPE)
     {
@@ -740,8 +742,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if(channelid == TT_GetRootChannelID(ttInst))
         {
             //make server servername appear as the root channel name
-            ServerProperties prop;
-            ZERO_STRUCT(prop);
+            ServerProperties prop = {};
             TT_GetServerProperties(ttInst, &prop);
             channame = _Q(prop.szServerName);
             if(item->isExpanded())
@@ -776,7 +777,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             }
             channame = QString("%1 (%2)").arg(channame).arg(count);
         }
-        if(ite->bPassword)
+        if (emoji && ite->bPassword)
             channame += " - 🔒";
         item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
         QPixmap img(QString::fromUtf8(img_name));
@@ -972,7 +973,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         if(_Q(user.szStatusMsg).size())
             itemtext += QString(" - ") + _Q(user.szStatusMsg);
-        if(user.nStatusMode & STATUSMODE_FEMALE)
+        if (emoji && (user.nStatusMode & STATUSMODE_FEMALE))
             itemtext += " 👩";
 
         if(user.uUserType & USERTYPE_ADMIN)

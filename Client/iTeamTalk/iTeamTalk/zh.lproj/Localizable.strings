@@ -665,3 +665,6 @@
 
 /* speech */
 "You have selected %@" = "您已选择 %@";
+
+/* server entry */
+"Check only if this server has enabled Facebook login" = "应仅在服务器已启用 Facebook 登录时选中";
