@@ -17,6 +17,7 @@ Default QT Client:
 - Event for configuration server saved
 - Fix some navigation problems using tabulation
 - Add emojis for unread messages and now speaking in channels tree
+- More items displayed when using up arrow in message area
 Android client:
 - Change default stream volume from 100 to 50
 iOS Client:
