@@ -954,7 +954,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         QString itemtext;
         QString name = getDisplayName(user);
-        if(item->data(COLUMN_ITEM, Qt::UserRole).toInt() & MESSAGED_TYPE)
+        if(emoji && item->data(COLUMN_ITEM, Qt::UserRole).toInt() & MESSAGED_TYPE)
             itemtext += "✉ ";
         itemtext += name;
         switch (user.nStatusMode & STATUSMODE_MODE)
@@ -966,7 +966,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             itemtext += tr(", Question");
             break;
         }
-        if(user.uUserState & USERSTATE_VOICE)
+        if(emoji && user.uUserState & USERSTATE_VOICE)
             itemtext += "🎤";
         if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
             itemtext += tr(", Streaming media file");
