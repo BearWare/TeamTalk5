@@ -3710,16 +3710,17 @@ void MainWindow::slotUsersMuteVoice(bool checked /*=false */)
 
 void MainWindow::slotUsersMuteMediaFile(bool checked /*=false */)
 {
-    foreach(int userid, ui.channelsWidget->selectedUsers()) {
-/*        User user;
+/*    foreach(int userid, ui.channelsWidget->selectedUsers()) {
+        slotUsersMuteMediaFile(userid, checked);*/
+    foreach(int userid, ui.channelsWidget->selectedUsers())
+    {
+        User user;
         if( TT_GetUser(ttInst, userid, &user) )
         {
             TT_SetUserMute(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO,
                            !(user.uUserState & USERSTATE_MUTE_MEDIAFILE));
         }
-        ui.actionMuteMediaFile->setChecked(checked);*/
-        slotUsersMuteMediaFile(userid, checked);
-        slotUpdateUI();
+        ui.actionMuteMediaFile->setChecked(checked);
     }
 }
 
