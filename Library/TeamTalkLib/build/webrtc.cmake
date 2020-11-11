@@ -8,9 +8,16 @@ if (MSVC)
   set (WEBRTC_LINK_FLAGS optimized ${TTLIBS_ROOT}/../webrtc/release/obj/modules/audio_processing/teamtalk.lib
     debug ${TTLIBS_ROOT}/../webrtc/debug/obj/modules/audio_processing/teamtalk.lib)
 else()
-  set (WEBRTC_INCLUDE_DIR ${TTLIBS_ROOT}/build/webrtc/src/modules/audio_processing/include
-    ${TTLIBS_ROOT}/build/webrtc/src
-    ${TTLIBS_ROOT}/build/webrtc/src/third_party/abseil-cpp)
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+    set (WEBRTC_INCLUDE_DIR ${TTLIBS_ROOT}/../build/webrtc/src/modules/audio_processing/include
+      ${TTLIBS_ROOT}/../build/webrtc/src
+      ${TTLIBS_ROOT}/../build/webrtc/src/third_party/abseil-cpp)
+  else()
+    set (WEBRTC_INCLUDE_DIR ${TTLIBS_ROOT}/build/webrtc/src/modules/audio_processing/include
+      ${TTLIBS_ROOT}/build/webrtc/src
+      ${TTLIBS_ROOT}/build/webrtc/src/third_party/abseil-cpp)
+  endif()
+
   # $ find toolchain/webrtc/obj/ -name *.a -exec nm -A -C {} \; | grep webrtc::rnn_vad::RnnBasedVad::RnnBasedVad
   set (WEBRTC_LINK_FLAGS
     ${TTLIBS_ROOT}/webrtc/obj/modules/audio_processing/libteamtalk.a)
