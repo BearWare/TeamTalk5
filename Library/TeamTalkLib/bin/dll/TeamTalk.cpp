@@ -182,6 +182,8 @@ struct ClientInstance
 
     ClientInstance(TTMsgQueue* eh)
     {
+        MYTRACE(ACE_TEXT("ClientInstance() - %p\n"), this);
+
 #if defined(ENABLE_MEDIAFOUNDATION)
         static class MFInit {
         public:
@@ -221,6 +223,7 @@ struct ClientInstance
                      ACE_TEXT("ERROR: Leaking %d DesktopWindow structs\n"), (int)desktop_windows.size());
         MYTRACE_COND(audio_blocks.size(),
                      ACE_TEXT("ERROR: Leaking %d AudioBlock structs\n"), (int)audio_blocks.size());
+        MYTRACE(ACE_TEXT("~ClientInstance() - %p\n"), this);
     }
 };
 
@@ -298,6 +301,8 @@ clientinst_t GET_CLIENT(TTInstance* pInstance)
         if (c.get() == pInstance)
             return c;
     }
+
+    MYTRACE(ACE_TEXT("TTInstance %p not found.\n"), pInstance);
     return clientinst_t();
 }
 
