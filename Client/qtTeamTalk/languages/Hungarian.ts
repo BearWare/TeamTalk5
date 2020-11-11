@@ -557,32 +557,32 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ChannelsTree</name>
     <message>
-        <location filename="../channelstree.cpp" line="963"/>
+        <location filename="../channelstree.cpp" line="965"/>
         <source>, Away</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="966"/>
+        <location filename="../channelstree.cpp" line="968"/>
         <source>, Question</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="972"/>
+        <location filename="../channelstree.cpp" line="974"/>
         <source>, Streaming media file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="975"/>
+        <location filename="../channelstree.cpp" line="977"/>
         <source>, Webcam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="983"/>
+        <location filename="../channelstree.cpp" line="987"/>
         <source> (Administrator)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="986"/>
+        <location filename="../channelstree.cpp" line="990"/>
         <source> (Channel operator)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1179,7 +1179,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="397"/>
         <location filename="../mainwindow.ui" line="1597"/>
-        <location filename="../mainwindow.cpp" line="5493"/>
+        <location filename="../mainwindow.cpp" line="5494"/>
         <source>&amp;Video</source>
         <translation>&amp;Video</translation>
     </message>
@@ -1248,7 +1248,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="672"/>
-        <location filename="../mainwindow.cpp" line="5501"/>
+        <location filename="../mainwindow.cpp" line="5502"/>
         <source>&amp;Desktops</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1440,7 +1440,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1395"/>
-        <location filename="../mainwindow.cpp" line="4628"/>
+        <location filename="../mainwindow.cpp" line="4629"/>
         <source>&amp;Join Channel</source>
         <translation>Csa&amp;tlakozás a csatornához</translation>
     </message>
@@ -2141,13 +2141,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1116"/>
-        <location filename="../mainwindow.cpp" line="4204"/>
+        <location filename="../mainwindow.cpp" line="4205"/>
         <source>Failed to download file %1</source>
         <translation>A %1 fájl letöltése sikertelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1120"/>
-        <location filename="../mainwindow.cpp" line="4699"/>
+        <location filename="../mainwindow.cpp" line="4700"/>
         <source>Failed to upload file %1</source>
         <translation>A %1 fájl feltöltése sikertelen</translation>
     </message>
@@ -2453,7 +2453,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2355"/>
-        <location filename="../mainwindow.cpp" line="3808"/>
+        <location filename="../mainwindow.cpp" line="3809"/>
         <source>%1 granted desktop access</source>
         <translation>%1 engedélyezte az asztaii hozzáférést</translation>
     </message>
@@ -2559,7 +2559,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3578"/>
-        <location filename="../mainwindow.cpp" line="4935"/>
+        <location filename="../mainwindow.cpp" line="4936"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
         <translation>A videoeszköz helytelenűl lett configurálva.Ellenőrizze a beállításokat a &apos;Beállítások&apos;-nál</translation>
     </message>
@@ -2579,185 +2579,185 @@ p, li { white-space: pre-wrap; }
         <translation>Az asztalmegosztás nem sikerűlt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4048"/>
-        <location filename="../mainwindow.cpp" line="4057"/>
+        <location filename="../mainwindow.cpp" line="4049"/>
+        <location filename="../mainwindow.cpp" line="4058"/>
         <source>Failed to issue command to create channel</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4071"/>
+        <location filename="../mainwindow.cpp" line="4072"/>
         <source>Failed to issue command to update channel</source>
         <translation>A cstorna frissítésére kiadott parancs sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4084"/>
+        <location filename="../mainwindow.cpp" line="4085"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
         <translation>Biztos benne, hogy törölni akarja a &quot;%1&quot; csatornát?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4090"/>
+        <location filename="../mainwindow.cpp" line="4091"/>
         <source>Failed to issue command to delete channel</source>
         <translation>Csatornatörlés parancs kiadása sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4111"/>
-        <location filename="../mainwindow.cpp" line="4471"/>
+        <location filename="../mainwindow.cpp" line="4112"/>
+        <location filename="../mainwindow.cpp" line="4472"/>
         <source>Specify password</source>
         <translation>A jelszó megadása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4126"/>
+        <location filename="../mainwindow.cpp" line="4127"/>
         <source>Failed to issue command to join channel</source>
         <translation>Csatorna csatlkoztatására kiadott parancs  sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4175"/>
+        <location filename="../mainwindow.cpp" line="4176"/>
         <source>Open File</source>
         <translation>Fájl megnyitása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4195"/>
+        <location filename="../mainwindow.cpp" line="4196"/>
         <source>Save File</source>
         <translation>Fájl mentése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4219"/>
+        <location filename="../mainwindow.cpp" line="4220"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
         <translation>Biztos benne, hogy a &quot;%1&quot;-et törölni akarja?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4224"/>
+        <location filename="../mainwindow.cpp" line="4225"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>Biztos benne, hogy törölni akarja a %1 fájl(oka)t?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4312"/>
+        <location filename="../mainwindow.cpp" line="4313"/>
         <source>Message to broadcast:</source>
         <translation>A következő üzenet közzététele:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4331"/>
+        <location filename="../mainwindow.cpp" line="4332"/>
         <source>Server configuration saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4355"/>
+        <location filename="../mainwindow.cpp" line="4356"/>
         <source>Are you sure you want to delete your existing settings?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4364"/>
+        <location filename="../mainwindow.cpp" line="4365"/>
         <source>Cannot find %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4371"/>
+        <location filename="../mainwindow.cpp" line="4372"/>
         <source>Cannot remove %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4378"/>
+        <location filename="../mainwindow.cpp" line="4379"/>
         <source>Failed to copy %1 to %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4484"/>
+        <location filename="../mainwindow.cpp" line="4485"/>
         <source>IP-address</source>
         <translation type="unfinished">IP-cím</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4484"/>
+        <location filename="../mainwindow.cpp" line="4485"/>
         <source>Username</source>
         <translation type="unfinished">Felhasználónév</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4486"/>
+        <location filename="../mainwindow.cpp" line="4487"/>
         <source>Ban User From Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4486"/>
+        <location filename="../mainwindow.cpp" line="4487"/>
         <source>Ban user&apos;s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4623"/>
+        <location filename="../mainwindow.cpp" line="4624"/>
         <source>&amp;Leave Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4624"/>
+        <location filename="../mainwindow.cpp" line="4625"/>
         <source>CTRL+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4629"/>
+        <location filename="../mainwindow.cpp" line="4630"/>
         <source>CTRL+J</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4854"/>
+        <location filename="../mainwindow.cpp" line="4855"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Az átviteli lehetőséggel bíró felhasználók maximális száma %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4892"/>
+        <location filename="../mainwindow.cpp" line="4893"/>
         <source>You can now transmit audio!</source>
         <translation>Most lehetséges a hangátvitel!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4894"/>
+        <location filename="../mainwindow.cpp" line="4895"/>
         <source>You can no longer transmit audio!</source>
         <translation>Most már nem lehetséges a hangátvitel!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4902"/>
+        <location filename="../mainwindow.cpp" line="4903"/>
         <source>You can now transmit video!</source>
         <translation>Most lehetséges a video átvitel!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4904"/>
+        <location filename="../mainwindow.cpp" line="4905"/>
         <source>You can no longer transmit video!</source>
         <translation>Most már nem lehetséges a video átvitel!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4912"/>
+        <location filename="../mainwindow.cpp" line="4913"/>
         <source>You can now transmit desktop windows!</source>
         <translation>Most továbbíthatja az asztali ablakokat!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4914"/>
+        <location filename="../mainwindow.cpp" line="4915"/>
         <source>You can no longer transmit desktop windows!</source>
         <translation>Most már nem továbbíthatja az asztali ablakokat!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4922"/>
+        <location filename="../mainwindow.cpp" line="4923"/>
         <source>You can now transmit media files!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4924"/>
+        <location filename="../mainwindow.cpp" line="4925"/>
         <source>You can no longer transmit media files!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4934"/>
+        <location filename="../mainwindow.cpp" line="4935"/>
         <source>Start Webcam</source>
         <translation>A Webkamera indítása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4957"/>
-        <location filename="../mainwindow.cpp" line="5009"/>
+        <location filename="../mainwindow.cpp" line="4958"/>
+        <location filename="../mainwindow.cpp" line="5010"/>
         <source>Myself</source>
         <translation>Én</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5495"/>
+        <location filename="../mainwindow.cpp" line="5496"/>
         <source>&amp;Video (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5503"/>
+        <location filename="../mainwindow.cpp" line="5504"/>
         <source>&amp;Desktops (%1)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2782,47 +2782,47 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5379"/>
-        <location filename="../mainwindow.cpp" line="5388"/>
-        <location filename="../mainwindow.cpp" line="5397"/>
-        <location filename="../mainwindow.cpp" line="5406"/>
-        <location filename="../mainwindow.cpp" line="5415"/>
-        <location filename="../mainwindow.cpp" line="5424"/>
-        <location filename="../mainwindow.cpp" line="5433"/>
-        <location filename="../mainwindow.cpp" line="5442"/>
-        <location filename="../mainwindow.cpp" line="5451"/>
-        <location filename="../mainwindow.cpp" line="5460"/>
-        <location filename="../mainwindow.cpp" line="5469"/>
+        <location filename="../mainwindow.cpp" line="5380"/>
+        <location filename="../mainwindow.cpp" line="5389"/>
+        <location filename="../mainwindow.cpp" line="5398"/>
+        <location filename="../mainwindow.cpp" line="5407"/>
+        <location filename="../mainwindow.cpp" line="5416"/>
+        <location filename="../mainwindow.cpp" line="5425"/>
+        <location filename="../mainwindow.cpp" line="5434"/>
+        <location filename="../mainwindow.cpp" line="5443"/>
+        <location filename="../mainwindow.cpp" line="5452"/>
+        <location filename="../mainwindow.cpp" line="5461"/>
+        <location filename="../mainwindow.cpp" line="5470"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
         <translation>%1 megváltoztatta az aláírást &quot;%2&quot;-ről %3-ra</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5383"/>
-        <location filename="../mainwindow.cpp" line="5392"/>
-        <location filename="../mainwindow.cpp" line="5401"/>
-        <location filename="../mainwindow.cpp" line="5410"/>
-        <location filename="../mainwindow.cpp" line="5419"/>
-        <location filename="../mainwindow.cpp" line="5428"/>
-        <location filename="../mainwindow.cpp" line="5437"/>
-        <location filename="../mainwindow.cpp" line="5446"/>
-        <location filename="../mainwindow.cpp" line="5455"/>
-        <location filename="../mainwindow.cpp" line="5464"/>
-        <location filename="../mainwindow.cpp" line="5473"/>
+        <location filename="../mainwindow.cpp" line="5384"/>
+        <location filename="../mainwindow.cpp" line="5393"/>
+        <location filename="../mainwindow.cpp" line="5402"/>
+        <location filename="../mainwindow.cpp" line="5411"/>
+        <location filename="../mainwindow.cpp" line="5420"/>
+        <location filename="../mainwindow.cpp" line="5429"/>
+        <location filename="../mainwindow.cpp" line="5438"/>
+        <location filename="../mainwindow.cpp" line="5447"/>
+        <location filename="../mainwindow.cpp" line="5456"/>
+        <location filename="../mainwindow.cpp" line="5465"/>
+        <location filename="../mainwindow.cpp" line="5474"/>
         <source>On</source>
         <translation>Be</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5383"/>
-        <location filename="../mainwindow.cpp" line="5392"/>
-        <location filename="../mainwindow.cpp" line="5401"/>
-        <location filename="../mainwindow.cpp" line="5410"/>
-        <location filename="../mainwindow.cpp" line="5419"/>
-        <location filename="../mainwindow.cpp" line="5428"/>
-        <location filename="../mainwindow.cpp" line="5437"/>
-        <location filename="../mainwindow.cpp" line="5446"/>
-        <location filename="../mainwindow.cpp" line="5455"/>
-        <location filename="../mainwindow.cpp" line="5464"/>
-        <location filename="../mainwindow.cpp" line="5473"/>
+        <location filename="../mainwindow.cpp" line="5384"/>
+        <location filename="../mainwindow.cpp" line="5393"/>
+        <location filename="../mainwindow.cpp" line="5402"/>
+        <location filename="../mainwindow.cpp" line="5411"/>
+        <location filename="../mainwindow.cpp" line="5420"/>
+        <location filename="../mainwindow.cpp" line="5429"/>
+        <location filename="../mainwindow.cpp" line="5438"/>
+        <location filename="../mainwindow.cpp" line="5447"/>
+        <location filename="../mainwindow.cpp" line="5456"/>
+        <location filename="../mainwindow.cpp" line="5465"/>
+        <location filename="../mainwindow.cpp" line="5474"/>
         <source>Off</source>
         <translation>Ki</translation>
     </message>
@@ -2839,36 +2839,36 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Asztal (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5554"/>
-        <location filename="../mainwindow.cpp" line="5563"/>
-        <location filename="../mainwindow.cpp" line="5573"/>
-        <location filename="../mainwindow.cpp" line="5584"/>
+        <location filename="../mainwindow.cpp" line="5555"/>
+        <location filename="../mainwindow.cpp" line="5564"/>
+        <location filename="../mainwindow.cpp" line="5574"/>
+        <location filename="../mainwindow.cpp" line="5585"/>
         <source>Load File</source>
         <translation>Fájlletöltés</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5555"/>
-        <location filename="../mainwindow.cpp" line="5564"/>
+        <location filename="../mainwindow.cpp" line="5556"/>
+        <location filename="../mainwindow.cpp" line="5565"/>
         <source>Failed to load file %1</source>
         <translation>A %1 fájl letöltése sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5574"/>
+        <location filename="../mainwindow.cpp" line="5575"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>A %1 fájl nem kompatibilis a %2-vel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5585"/>
+        <location filename="../mainwindow.cpp" line="5586"/>
         <source>Failed to extract host-information from %1</source>
         <translation>A host információ kinyerése a %1-ből sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5593"/>
+        <location filename="../mainwindow.cpp" line="5594"/>
         <source>Load %1 File</source>
         <translation>Töltse le a %1 fájlt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5594"/>
+        <location filename="../mainwindow.cpp" line="5595"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
@@ -2880,7 +2880,7 @@ Should these settings be applied?</source>
 Alkalmazzuk ezeket a beállításokat?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5664"/>
+        <location filename="../mainwindow.cpp" line="5665"/>
         <source>New version available: %1</source>
         <translation>Új verzió elérhető: %1</translation>
     </message>
@@ -3174,11 +3174,6 @@ Alkalmazzuk ezeket a beállításokat?</translation>
     <message>
         <location filename="../preferences.ui" line="428"/>
         <source>Show last to talk in yellow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../preferences.ui" line="435"/>
-        <source>Show emojis for channel/user state</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3537,6 +3532,11 @@ Alkalmazzuk ezeket a beállításokat?</translation>
         <location filename="../preferences.ui" line="1209"/>
         <source>User entered question-mode</source>
         <translation>A felhasználó által megadott kérdés-mód</translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="435"/>
+        <source>Show emojis and text for channel/user state</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1472"/>
