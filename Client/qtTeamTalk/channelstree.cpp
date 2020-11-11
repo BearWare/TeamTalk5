@@ -957,33 +957,38 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if(emoji && item->data(COLUMN_ITEM, Qt::UserRole).toInt() & MESSAGED_TYPE)
             itemtext += "✉ ";
         itemtext += name;
-        switch (user.nStatusMode & STATUSMODE_MODE)
+        if (emoji)
         {
-        case STATUSMODE_AWAY :
-            itemtext += tr(", Away");
-            break;
-        case STATUSMODE_QUESTION :
-            itemtext += tr(", Question");
-            break;
-        }
-        if(emoji && user.uUserState & USERSTATE_VOICE)
-            itemtext += "🎤";
-        if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
-            itemtext += tr(", Streaming media file");
+            switch (user.nStatusMode & STATUSMODE_MODE)
+            {
+            case STATUSMODE_AWAY :
+                itemtext += tr(", Away");
+                break;
+            case STATUSMODE_QUESTION :
+                itemtext += tr(", Question");
+                break;
+            }
+            if(user.uUserState & USERSTATE_VOICE)
+                itemtext += "🎤";
+            if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
+                itemtext += tr(", Streaming media file");
 
-        if (user.nStatusMode & STATUSMODE_VIDEOTX)
-            itemtext += tr(", Webcam");
+            if (user.nStatusMode & STATUSMODE_VIDEOTX)
+                itemtext += tr(", Webcam");
+        }
 
         if(_Q(user.szStatusMsg).size())
             itemtext += QString(" - ") + _Q(user.szStatusMsg);
         if (emoji && (user.nStatusMode & STATUSMODE_FEMALE))
             itemtext += " 👩";
+        if (emoji)
+        {
+            if(user.uUserType & USERTYPE_ADMIN)
+                itemtext += tr(" (Administrator)");
 
-        if(user.uUserType & USERTYPE_ADMIN)
-            itemtext += tr(" (Administrator)");
-
-        if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
-            itemtext += tr(" (Channel operator)");
+            if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
+                itemtext += tr(" (Channel operator)");
+        }
 
         if (itemtext.size() > m_strlen)
         {
