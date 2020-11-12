@@ -222,6 +222,8 @@ namespace teamtalk {
         bool SetSortOrder(int nSorting);
         int GetSortOrder();
 
+        void SetShowEmojis(bool bEnable);
+        bool GetShowEmojis(bool bDefault = true);
         /******** </window> *******/
 
 

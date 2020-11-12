@@ -465,6 +465,7 @@
 #define IDS_ABOUT_TRANSLATORS           562
 #define IDS_ABOUT_LIB                   563
 #define IDS_ABOUT_LIBUSE                564
+#define IDS_INACTDELAYLAB               566
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
@@ -825,6 +826,7 @@
 #define IDC_STATIC_SELCHANNELS          1451
 #define IDC_STATIC_AVAILCHANNELS        1452
 #define IDC_STATIC_GRPAUTOOP            1453
+#define IDC_CHECK_EMOJI                 1454
 #define IDC_CHECK_ECHOCANCEL            1456
 #define IDC_CHECK_OPRECVONLY            1460
 #define IDC_STATIC_INPUT_SAMPLERATES    1461
@@ -964,6 +966,7 @@
 #define IDC_CHECK_WEBLOGIN              1598
 #define IDC_STATIC_BEARWARELOGIN        1599
 #define IDC_RADIO_DISABLEDUSER          1600
+#define IDC_CHECK_JOINCHANNEL           1601
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -1078,9 +1081,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        565
+#define _APS_NEXT_RESOURCE_VALUE        567
 #define _APS_NEXT_COMMAND_VALUE         32955
-#define _APS_NEXT_CONTROL_VALUE         1601
+#define _APS_NEXT_CONTROL_VALUE         1602
 #define _APS_NEXT_SYMED_VALUE           413
 #endif
 #endif

@@ -116,6 +116,10 @@ BOOL CServerPropertiesDlg::OnInitDialog()
     CDialog::OnInitDialog();
 
     TRANSLATE(*this, IDD);
+    CString ANameLoginBan = LoadText(IDC_STATIC_MAXLOGINSBAN, _T("Max login attempts before ban")) + _T(" (") + LoadText(IDC_STATIC_DISABLED0, _T("0=disabled")) + _T(")");
+    SetAccessibleName(m_wndLoginBan, ANameLoginBan);
+    CString ANameMaxIP = LoadText(IDC_STATIC_MAXLOGINSIP, _T("Max logins per IP-address")) + _T(" (") + LoadText(IDC_STATIC_DISABLED0, _T("0=disabled")) + _T(")");
+    SetAccessibleName(m_wndIPLogins, ANameMaxIP);
 
     m_wndSrvName.SetReadOnly(m_bReadOnly);
     m_wndMaxUsers.SetReadOnly(m_bReadOnly);
@@ -139,7 +143,8 @@ BOOL CServerPropertiesDlg::OnInitDialog()
         OnBnClickedCheckShowmotd();
     }
     
-    return TRUE;  // return TRUE unless you set the focus to a control
+    m_wndMediaFileTx.SetFocus();    
+    return FALSE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
 

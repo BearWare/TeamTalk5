@@ -54,6 +54,7 @@ enum
 };
 
 extern TTInstance* ttInst;
+extern QSettings* ttSettings;
        
 #define COLOR_TALK      QColor(133,229,141)
 #define COLOR_LASTTALK  QColor(255,232,61)
@@ -726,6 +727,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
     m_ignore_item_changes = true;
 
     int mychanid = TT_GetMyChannelID(ttInst);
+    bool emoji = ttSettings->value(SETTINGS_DISPLAY_EMOJI, SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool();
 
     if(item->type() & CHANNEL_TYPE)
     {
@@ -740,8 +742,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if(channelid == TT_GetRootChannelID(ttInst))
         {
             //make server servername appear as the root channel name
-            ServerProperties prop;
-            ZERO_STRUCT(prop);
+            ServerProperties prop = {};
             TT_GetServerProperties(ttInst, &prop);
             channame = _Q(prop.szServerName);
             if(item->isExpanded())
@@ -776,7 +777,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             }
             channame = QString("%1 (%2)").arg(channame).arg(count);
         }
-        if(ite->bPassword)
+        if (emoji && ite->bPassword)
             channame += " - 🔒";
         item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
         QPixmap img(QString::fromUtf8(img_name));
@@ -954,35 +955,37 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         QString itemtext;
         QString name = getDisplayName(user);
         itemtext = name;
-        switch (user.nStatusMode & STATUSMODE_MODE)
+        if (emoji)
         {
-        case STATUSMODE_AWAY :
-            itemtext += tr(", Away");
-            break;
-        case STATUSMODE_QUESTION :
-            itemtext += tr(", Question");
-            break;
+            switch (user.nStatusMode & STATUSMODE_MODE)
+            {
+            case STATUSMODE_AWAY :
+                itemtext += tr(", Away");
+                break;
+            case STATUSMODE_QUESTION :
+                itemtext += tr(", Question");
+                break;
+            }
+
+            if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
+                itemtext += tr(", Streaming media file");
+
+            if (user.nStatusMode & STATUSMODE_VIDEOTX)
+                itemtext += tr(", Webcam");
         }
-
-        if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
-            itemtext += tr(", Streaming media file");
-
-        if (user.nStatusMode & STATUSMODE_VIDEOTX)
-            itemtext += tr(", Webcam");
 
         if(_Q(user.szStatusMsg).size())
             itemtext += QString(" - ") + _Q(user.szStatusMsg);
-
-        if(user.nStatusMode & STATUSMODE_FEMALE)
+        if (emoji && (user.nStatusMode & STATUSMODE_FEMALE))
             itemtext += " 👩";
-        else
-            itemtext += " 👨";
+        if (emoji)
+        {
+            if(user.uUserType & USERTYPE_ADMIN)
+                itemtext += tr(" (Administrator)");
 
-        if(user.uUserType & USERTYPE_ADMIN)
-            itemtext += tr(" (Administrator)");
-
-        if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
-            itemtext += tr(" (Channel operator)");
+            if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
+                itemtext += tr(" (Channel operator)");
+        }
 
         if (itemtext.size() > m_strlen)
         {
@@ -1044,16 +1047,14 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         //set checkboxes if it's a CHANNEL_CLASSROOM
         if(chan.nChannelID == mychanid)
         {
-            bool opadmin = TT_IsChannelOperator(ttInst, 
-                                                TT_GetMyUserID(ttInst), 
-                                                user.nChannelID);
-            opadmin |= (bool)(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
+            bool modifychan = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user.nChannelID);
+            modifychan |= ((TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE);
 
             bool txvoice = userCanVoiceTx(userid, chan);
             bool txvideo = userCanVideoTx(userid, chan);
             bool txdesktop = userCanDesktopTx(userid, chan);
             bool txmediafile = userCanMediaFileTx(userid, chan);
-            if(opadmin)
+            if (modifychan)
             {
                 if(!item->icon(COLUMN_VOICE).isNull())
                     item->setIcon(COLUMN_VOICE, QIcon());

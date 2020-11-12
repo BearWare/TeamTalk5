@@ -171,7 +171,6 @@
     <item id="307">Podle počtu uživatelů</item>
     <item id="308">Vzestupně</item>
     <item id="309">Všichni</item>
-    <item id="310">%s přidává soubor %s</item>
     <item id="311">soubor %s smazán</item>
     <item id="312">Události souborů</item>
     <item id="313">Soubor přidán</item>
@@ -555,7 +554,7 @@
     <item id="32903">Statistiky &amp;serveru\tShift+F9</item>
     <item id="32904">Přip&amp;ojení uživatelé\tCtrl+Shift+U</item>
     <item id="32905">Vy&amp;kopnout\tCtrl+K</item>
-    <item id="32906">Vykopnout a &amp;zakázat přístup\tCtrl+Alt+B</item>
+    <item id="32906">Vykopnout a &amp;zakázat přístup\tCtrl+Shift+K</item>
     <item id="32907">Udělit právo &amp;operátora\tCtrl+O</item>
     <item id="32908">Poslat administrátorskou zp&amp;rávu pro celý server\tCtrl+Shift+E</item>
     <item id="32909">Spustit &amp;video\tCtrl+Shift+V</item>
