@@ -529,7 +529,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         mfp.uOffsetMSec = (int)(mfi.uDurationMSec * 0.9);
         mfp.bPaused = false;
         mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR;
-        mfp.audioPreprocessor.speexdsp = new SpeexDSP(true);
+        mfp.audioPreprocessor.speexdsp = new SpeexDSP(SPEEXDSP_AVAILABLE);
 
         assertTrue("Start with offset", ttclient.startStreamingMediaFileToChannel(MEDIAFILE_VIDEO, mfp, vidcodec));
 
@@ -591,7 +591,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         mfp.uOffsetMSec = (int)(mfi.uDurationMSec * 0.9);
         mfp.bPaused = false;
         mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR;
-        mfp.audioPreprocessor.speexdsp = new SpeexDSP(true);
+        mfp.audioPreprocessor.speexdsp = new SpeexDSP(SPEEXDSP_AVAILABLE);
 
         assertTrue("Start with offset", ttclient.startStreamingMediaFileToChannel(MEDIAFILE_VIDEO, mfp, vidcodec));
 
@@ -839,7 +839,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     @Test
     public void testMediaStorage_OpusOutput() {
 
-        if (!OPUSTOOLS) {
+        if (!OPUSTOOLS_AVAILABLE) {
             System.err.println(getTestMethodName() + " skipped due to OPUS tools disabled.");
             return;
         }
@@ -2312,7 +2312,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("get updated AP with SpeexDSP preprocessor after join", ttclient.getSoundInputPreprocess(preprocess));
         assertEquals("SpeexDSP and AudioPreprocessor are still equal", 7777, preprocess.speexdsp.nGainLevel);
 
-        SpeexDSP spxdsp = new SpeexDSP(true), spxdsp2 = new SpeexDSP();
+        SpeexDSP spxdsp = new SpeexDSP(SPEEXDSP_AVAILABLE), spxdsp2 = new SpeexDSP();
         assertTrue("set Speex DSP", ttclient.setSoundInputPreprocess(spxdsp));
 
         assertTrue("get Speex DSP", ttclient.getSoundInputPreprocess(spxdsp2));
@@ -2337,17 +2337,19 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         preprocess.webrtc.noisesuppression.bEnable = true;
         preprocess.webrtc.noisesuppression.nLevel = 2;
 
-        assertTrue("Enable WebRTC", ttclient.setSoundInputPreprocess(preprocess));
-        AudioPreprocessor preprocess2 = new AudioPreprocessor();
-        assertTrue("get WebRTC", ttclient.getSoundInputPreprocess(preprocess2));
+        if (WEBRTC_AVAILABLE) {
+            assertTrue("Enable WebRTC", ttclient.setSoundInputPreprocess(preprocess));
+            AudioPreprocessor preprocess2 = new AudioPreprocessor();
+            assertTrue("get WebRTC", ttclient.getSoundInputPreprocess(preprocess2));
 
-        assertEquals("webrtc1", preprocess.webrtc.gaincontroller1.bEnable, preprocess2.webrtc.gaincontroller1.bEnable);
-        assertEquals("webrtc2", preprocess.webrtc.gaincontroller1.nTargetLevelDbFS, preprocess2.webrtc.gaincontroller1.nTargetLevelDbFS);
-        assertEquals("webrtc3", preprocess.webrtc.gaincontroller2.bEnable, preprocess2.webrtc.gaincontroller2.bEnable);
-        assertEquals("webrtc4", (int)preprocess.webrtc.gaincontroller2.fGainDb, (int)preprocess2.webrtc.gaincontroller2.fGainDb);
-        assertEquals("webrtc5", preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable, preprocess2.webrtc.gaincontroller2.adaptivedigital.bEnable);
-        assertEquals("webrtc6", preprocess.webrtc.noisesuppression.bEnable, preprocess2.webrtc.noisesuppression.bEnable);
-        assertEquals("webrtc7", preprocess.webrtc.noisesuppression.nLevel, preprocess2.webrtc.noisesuppression.nLevel);
+            assertEquals("webrtc1", preprocess.webrtc.gaincontroller1.bEnable, preprocess2.webrtc.gaincontroller1.bEnable);
+            assertEquals("webrtc2", preprocess.webrtc.gaincontroller1.nTargetLevelDbFS, preprocess2.webrtc.gaincontroller1.nTargetLevelDbFS);
+            assertEquals("webrtc3", preprocess.webrtc.gaincontroller2.bEnable, preprocess2.webrtc.gaincontroller2.bEnable);
+            assertEquals("webrtc4", (int)preprocess.webrtc.gaincontroller2.fGainDb, (int)preprocess2.webrtc.gaincontroller2.fGainDb);
+            assertEquals("webrtc5", preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable, preprocess2.webrtc.gaincontroller2.adaptivedigital.bEnable);
+            assertEquals("webrtc6", preprocess.webrtc.noisesuppression.bEnable, preprocess2.webrtc.noisesuppression.bEnable);
+            assertEquals("webrtc7", preprocess.webrtc.noisesuppression.nLevel, preprocess2.webrtc.noisesuppression.nLevel);
+        }
     }
 
     @Test

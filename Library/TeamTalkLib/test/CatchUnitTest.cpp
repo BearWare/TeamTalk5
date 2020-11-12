@@ -1312,4 +1312,4 @@ TEST_CASE("WebRTCPlayback")
     REQUIRE(toggled);
     REQUIRE(success);
 }
-#endif
+#endif /* ENABLE_WEBRTC */
