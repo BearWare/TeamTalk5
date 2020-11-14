@@ -3317,7 +3317,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
     killLocalTimer(TIMER_RECONNECT);
 
     //reset last channel, since we're starting a new connection
-    ZERO_STRUCT(m_last_channel);
+//    ZERO_STRUCT(m_last_channel);
 
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
         Disconnect();
