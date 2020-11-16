@@ -1006,21 +1006,22 @@ CString CSessionTreeCtrl::GetUserText(int nUserID) const
 
     User user = ite->second;
     szText = GetDisplayName(user);
-    switch (user.nStatusMode & STATUSMODE_MASK)
+    if(m_bShowEmojis)
     {
-    case STATUSMODE_AWAY:
-        szText += _T(", ") + LoadText(IDS_USERISAWAY, _T("Away"));
-        break;
-    case STATUSMODE_QUESTION:
-        szText += _T(", ") + LoadText(IDS_USERISQUESTION, _T("Question"));
-        break;
+        switch (user.nStatusMode & STATUSMODE_MASK)
+        {
+        case STATUSMODE_AWAY:
+            szText += _T(", ") + LoadText(IDS_USERISAWAY, _T("Away"));
+            break;
+        case STATUSMODE_QUESTION:
+            szText += _T(", ") + LoadText(IDS_USERISQUESTION, _T("Question"));
+            break;
+        }
+        if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
+            szText += _T(", ") + LoadText(IDS_USERISSTREAMINGMDFILE, _T("Streaming media file"));
+        if (user.nStatusMode & STATUSMODE_VIDEOTX)
+            szText += _T(", ") + LoadText(IDS_USERISVIDEOTX, _T("Webcam"));
     }
-
-    if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
-        szText += _T(", ") + LoadText(IDS_USERISSTREAMINGMDFILE, _T("Streaming media file"));
-
-    if (user.nStatusMode & STATUSMODE_VIDEOTX)
-        szText += _T(", ") + LoadText(IDS_USERISVIDEOTX, _T("Webcam"));
     if (_tcslen(user.szStatusMsg) > 0)
         szText += _T(" - ") + CString(user.szStatusMsg);
     if (m_bShowEmojis && (user.nStatusMode & STATUSMODE_FEMALE))
