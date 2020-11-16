@@ -667,7 +667,7 @@
     <item id="1451">Selected Channels</item>
     <item id="1452">Available Channels</item>
     <item id="1453">Auto-Operator Channels</item>
-    <item id="1454">Show emojis for user and channel states</item>
+    <item id="1454">Show emojis and text for user and channel states</item>
     <item id="1456">Enable echo cancellation (remove echo from speakers)</item>
     <item id="1460">Operator receive only (only operators see and hear)</item>
     <item id="1463">Output sample rates</item>
