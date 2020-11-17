@@ -13,9 +13,9 @@ else()
       ${TTLIBS_ROOT}/../build/webrtc/src
       ${TTLIBS_ROOT}/../build/webrtc/src/third_party/abseil-cpp)
   else()
-    set (WEBRTC_INCLUDE_DIR ${TTLIBS_ROOT}/build/webrtc/src/modules/audio_processing/include
-      ${TTLIBS_ROOT}/build/webrtc/src
-      ${TTLIBS_ROOT}/build/webrtc/src/third_party/abseil-cpp)
+    set (WEBRTC_INCLUDE_DIR ${TTLIBS_ROOT}/webrtc/include
+      ${TTLIBS_ROOT}/webrtc/include/modules/audio_processing/include
+      ${TTLIBS_ROOT}/webrtc/include/third_party/abseil-cpp)
   endif()
 
   # $ find toolchain/webrtc/obj/ -name *.a -exec nm -A -C {} \; | grep webrtc::rnn_vad::RnnBasedVad::RnnBasedVad
