@@ -1217,7 +1217,7 @@ extern "C" {
         struct
         {
             TTBOOL bEnable;
-            /** Decibels from digital full-scale. Default: 3 */
+            /** Decibels from digital full-scale. Range 0 - 31. Default: 3. */
             INT32 nTargetLevelDbFS;
         } gaincontroller1;
         struct
@@ -1226,13 +1226,14 @@ extern "C" {
             float fGainDb;
             struct
             {
+                /* Enable saturation protector where saturation margin is 2 dB. */
                 TTBOOL bEnable;
             } adaptivedigital;
         } gaincontroller2;
         struct
         {
             TTBOOL bEnable;
-            /** 0 = Low, 1 = Moderate, 2 = High, 3 = VeryHigh. Default: 1 */
+            /** 0 = Low, 1 = Moderate, 2 = High, 3 = VeryHigh. Default: 1. */
             INT32 nLevel;
         } noisesuppression;
     } WebRTCAudioPreprocessor;
