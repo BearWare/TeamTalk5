@@ -1214,7 +1214,7 @@ TEST_CASE("SoundLoopbackDefault")
     preprocess.webrtc.gaincontroller2.fGainDb = 25;
 
     preprocess.webrtc.noisesuppression.bEnable = FALSE;
-    preprocess.webrtc.noisesuppression.nLevel = 2;
+    preprocess.webrtc.noisesuppression.nLevel = LOW;
 
     auto sndloop = TT_StartSoundLoopbackTestEx(indev.nDeviceID, outdev.nDeviceID, indev.nDefaultSampleRate,
                                           1, FALSE, &preprocess, nullptr);
@@ -1263,7 +1263,51 @@ TEST_CASE("WebRTCPreprocessor")
 
 }
 
-TEST_CASE("WebRTCPlayback")
+TEST_CASE("WebRTC_gaincontroller1")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    mfp.audioPreprocessor.webrtc.gaincontroller1.bEnable = TRUE;
+    mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDbFS = 25;
+
+    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input_low.wav"), &mfp);
+    REQUIRE(session > 0);
+
+    bool success = false, toggled = false, stop = false;
+    TTMessage msg;
+    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, 5000) && !stop)
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_PLAYING :
+            if (msg.mediafileinfo.uElapsedMSec >= 3000 && !toggled)
+            {
+                mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+                mfp.audioPreprocessor.webrtc.gaincontroller1.bEnable = TRUE;
+                mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDbFS = 0;
+                REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+                toggled = true;
+                std::cout << "Toggled: " << msg.mediafileinfo.uElapsedMSec << std::endl;
+            }
+            if (msg.mediafileinfo.uElapsedMSec >= 10000)
+            {
+                std::cout << "Elapsed: " << msg.mediafileinfo.uElapsedMSec << std::endl;
+                stop = true;
+            }
+            break;
+        case MFS_FINISHED :
+            success = true;
+            break;
+        }
+    }
+    REQUIRE(toggled);
+    REQUIRE(success);
+}
+
+TEST_CASE("WebRTC_gaincontroller2")
 {
     ttinst ttclient(TT_InitTeamTalkPoll());
     REQUIRE(InitSound(ttclient));
@@ -1279,7 +1323,7 @@ TEST_CASE("WebRTCPlayback")
     mfp.audioPreprocessor.webrtc.noisesuppression.bEnable = FALSE;
     mfp.audioPreprocessor.webrtc.noisesuppression.nLevel = 3;
 
-    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input_16k_mono_low.wav"), &mfp);
+    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input_low.wav"), &mfp);
     REQUIRE(session > 0);
 
     bool success = false, toggled = false, stop = false;
