@@ -1222,8 +1222,13 @@ extern "C" {
         } gaincontroller1;
         struct
         {
+            /* Enable fixed digital gain */
             TTBOOL bEnable;
-            float fGainDb;
+            struct
+            {
+                /* Range 0 - 49.9. Default: 0. */
+                float fGainDb;
+            } fixeddigital;
             struct
             {
                 /* Enable saturation protector where saturation margin is 2 dB. */

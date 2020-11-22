@@ -34,13 +34,19 @@ public class WebRTCAudioPreprocessor {
     
     class GainController2 {
         public boolean bEnable = false;
-        public float fGainDb = 0.0f;
+
+        class FixedDigital {
+            public float fGainDb = 0.0f;
+            public FixedDigital() {
+            }
+        }
 
         class AdaptiveDigital {
             public boolean bEnable = false;
             public AdaptiveDigital() {
             }
         }
+        public FixedDigital fixeddigital = new FixedDigital();
         public AdaptiveDigital adaptivedigital = new AdaptiveDigital();
     }
 

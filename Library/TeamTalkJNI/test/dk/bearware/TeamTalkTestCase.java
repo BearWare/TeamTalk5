@@ -2332,7 +2332,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         preprocess.webrtc.gaincontroller1.bEnable = true;
         preprocess.webrtc.gaincontroller1.nTargetLevelDbFS = 29;
         preprocess.webrtc.gaincontroller2.bEnable = true;
-        preprocess.webrtc.gaincontroller2.fGainDb = 20;
+        preprocess.webrtc.gaincontroller2.fixeddigital.fGainDb = 20;
         preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable = true;
         preprocess.webrtc.noisesuppression.bEnable = true;
         preprocess.webrtc.noisesuppression.nLevel = 2;
@@ -2345,7 +2345,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             assertEquals("webrtc1", preprocess.webrtc.gaincontroller1.bEnable, preprocess2.webrtc.gaincontroller1.bEnable);
             assertEquals("webrtc2", preprocess.webrtc.gaincontroller1.nTargetLevelDbFS, preprocess2.webrtc.gaincontroller1.nTargetLevelDbFS);
             assertEquals("webrtc3", preprocess.webrtc.gaincontroller2.bEnable, preprocess2.webrtc.gaincontroller2.bEnable);
-            assertEquals("webrtc4", (int)preprocess.webrtc.gaincontroller2.fGainDb, (int)preprocess2.webrtc.gaincontroller2.fGainDb);
+            assertEquals("webrtc4", (int)preprocess.webrtc.gaincontroller2.fixeddigital.fGainDb, (int)preprocess2.webrtc.gaincontroller2.fixeddigital.fGainDb);
             assertEquals("webrtc5", preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable, preprocess2.webrtc.gaincontroller2.adaptivedigital.bEnable);
             assertEquals("webrtc6", preprocess.webrtc.noisesuppression.bEnable, preprocess2.webrtc.noisesuppression.bEnable);
             assertEquals("webrtc7", preprocess.webrtc.noisesuppression.nLevel, preprocess2.webrtc.noisesuppression.nLevel);

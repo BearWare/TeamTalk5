@@ -1054,7 +1054,7 @@ void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Con
     result.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
 
     result.gain_controller2.enabled = webrtc.gaincontroller2.bEnable;
-    result.gain_controller2.fixed_digital.gain_db = webrtc.gaincontroller2.fGainDb;
+    result.gain_controller2.fixed_digital.gain_db = webrtc.gaincontroller2.fixeddigital.fGainDb;
     result.gain_controller2.adaptive_digital.enabled = webrtc.gaincontroller2.adaptivedigital.bEnable;
 
     result.noise_suppression.enabled = webrtc.noisesuppression.bEnable;
@@ -1084,7 +1084,7 @@ void Convert(const webrtc::AudioProcessing::Config& cfg, WebRTCAudioPreprocessor
     result.gaincontroller1.nTargetLevelDbFS = cfg.gain_controller1.target_level_dbfs;
 
     result.gaincontroller2.bEnable = cfg.gain_controller2.enabled;
-    result.gaincontroller2.fGainDb = cfg.gain_controller2.fixed_digital.gain_db;
+    result.gaincontroller2.fixeddigital.fGainDb = cfg.gain_controller2.fixed_digital.gain_db;
     result.gaincontroller2.adaptivedigital.bEnable = cfg.gain_controller2.adaptive_digital.enabled;
 
     result.noisesuppression.bEnable = cfg.noise_suppression.enabled;

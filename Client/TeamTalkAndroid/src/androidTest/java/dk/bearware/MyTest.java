@@ -563,7 +563,7 @@ public class MyTest extends TeamTalkTestCase {
         preprocess = new AudioPreprocessor();
         preprocess.nPreprocessor = AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR;
         preprocess.webrtc.gaincontroller2.bEnable = true;
-        preprocess.webrtc.gaincontroller2.fGainDb = 20;
+        preprocess.webrtc.gaincontroller2.fixeddigital.fGainDb = 20;
 
         assertTrue("Enable WebRTC", ttclient.setSoundInputPreprocess(preprocess));
 

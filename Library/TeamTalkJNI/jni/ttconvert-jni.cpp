@@ -954,7 +954,7 @@ void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocess
     jfieldID fid_gain1_enable = env->GetFieldID(cls_gain1, "bEnable", "Z");
     jfieldID fid_gain1_targetlevel = env->GetFieldID(cls_gain1, "nTargetLevelDbFS", "I");
     jfieldID fid_gain2_enable = env->GetFieldID(cls_gain2, "bEnable", "Z");
-    jfieldID fid_gain2_gain = env->GetFieldID(cls_gain2, "fGainDb", "F");
+    jfieldID fid_gain2_fixed = env->GetFieldID(cls_gain2, "fixeddigital", "Ldk/bearware/WebRTCAudioPreprocessor$GainController2$FixedDigital;");
     jfieldID fid_gain2_adap = env->GetFieldID(cls_gain2, "adaptivedigital", "Ldk/bearware/WebRTCAudioPreprocessor$GainController2$AdaptiveDigital;");
     jfieldID fid_ns_enable = env->GetFieldID(cls_ns, "bEnable", "Z");
     jfieldID fid_ns_level = env->GetFieldID(cls_ns, "nLevel", "I");
@@ -962,10 +962,16 @@ void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocess
     assert(fid_gain1_enable);
     assert(fid_gain1_targetlevel);
     assert(fid_gain2_enable);
-    assert(fid_gain2_gain);
+    assert(fid_gain2_fixed);
     assert(fid_gain2_adap);
     assert(fid_ns_enable);
     assert(fid_ns_level);
+
+    jobject fixed = env->GetObjectField(gain2, fid_gain2_fixed);
+    jclass cls_fixed = env->GetObjectClass(fixed);
+    jfieldID fid_gain2_gain = env->GetFieldID(cls_fixed, "fGainDb", "F");
+
+    assert(fid_gain2_gain);
 
     jobject adap = env->GetObjectField(gain2, fid_gain2_adap);
     jclass cls_adap = env->GetObjectClass(adap);
@@ -977,7 +983,7 @@ void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocess
         env->SetBooleanField(gain1, fid_gain1_enable, preprocessor.gaincontroller1.bEnable);
         env->SetIntField(gain1, fid_gain1_targetlevel, preprocessor.gaincontroller1.nTargetLevelDbFS);
         env->SetBooleanField(gain2, fid_gain2_enable, preprocessor.gaincontroller2.bEnable);
-        env->SetFloatField(gain2, fid_gain2_gain, preprocessor.gaincontroller2.fGainDb);
+        env->SetFloatField(gain2, fid_gain2_gain, preprocessor.gaincontroller2.fixeddigital.fGainDb);
         env->SetBooleanField(adap, fid_adap_enable, preprocessor.gaincontroller2.adaptivedigital.bEnable);
 
         env->SetBooleanField(ns, fid_ns_enable, preprocessor.noisesuppression.bEnable);
@@ -987,7 +993,7 @@ void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocess
         preprocessor.gaincontroller1.bEnable = env->GetBooleanField(gain1, fid_gain1_enable);
         preprocessor.gaincontroller1.nTargetLevelDbFS = env->GetIntField(gain1, fid_gain1_targetlevel);
         preprocessor.gaincontroller2.bEnable = env->GetBooleanField(gain2, fid_gain2_enable);
-        preprocessor.gaincontroller2.fGainDb = env->GetFloatField(gain2, fid_gain2_gain);
+        preprocessor.gaincontroller2.fixeddigital.fGainDb = env->GetFloatField(gain2, fid_gain2_gain);
         preprocessor.gaincontroller2.adaptivedigital.bEnable = env->GetBooleanField(adap, fid_adap_enable);
 
         preprocessor.noisesuppression.bEnable = env->GetBooleanField(ns, fid_ns_enable);
