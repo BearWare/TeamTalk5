@@ -53,8 +53,8 @@ deb64:
 	$(MAKE) BUILDDIR=build-$@ generic
 
 ubuntu64:
-	# Need to specify JAVA_HOME to help CMake find Java SDK
-	$(MAKE) JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON" generic
+	# May need to specify JAVA_HOME to help CMake find Java SDK
+	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON" generic
 
 centos7:
 	# TeamTalk depends on CMake 3.1 or later.
@@ -65,7 +65,7 @@ centos7:
 	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DSTATICCPP=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_CORE=ON" BUILDDIR=build-$@ buildlib
 
 rasp:
-	$(MAKE) JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf BUILDDIR=build-$@ generic
+	$(MAKE) BUILDDIR=build-$@ generic
 
 mac:
 	$(MAKE) BUILDDIR=build-$@ generic
