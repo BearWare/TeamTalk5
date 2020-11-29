@@ -195,7 +195,7 @@
   <string name="action_connect">Bağlan</string>
   <string name="action_new_server">Yeni Sunucu</string>
   <string name="action_refresh">Yenile</string>
-  <string name="action_import_serverlist">Dosyadan İçe Aktar</string>
+  <string name="action_import_serverlist">Bir .tt Dosyasından İçe Aktar</string>
   <string name="pref_title_server_props">TeamTalk 5 Sunucu Özellikleri</string>
   <string name="pref_title_server_info">Sunucu Bilgileri</string>
   <string name="pref_title_server_name">Sunucu Adı</string>
