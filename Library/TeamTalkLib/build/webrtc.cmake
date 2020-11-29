@@ -4,7 +4,7 @@ if (MSVC)
   set (WEBRTC_INCLUDE_DIR ${TTLIBS_ROOT}/webrtc/include
      ${TTLIBS_ROOT}/webrtc/include/modules/audio_processing/include
      ${TTLIBS_ROOT}/webrtc/include/third_party/abseil-cpp)
-  set (WEBRTC_COMPILE_FLAGS -DRTC_DISABLE_CHECK_MSG)
+  # set (WEBRTC_COMPILE_FLAGS -DRTC_DISABLE_CHECK_MSG)
   set (WEBRTC_LINK_FLAGS optimized ${TTLIBS_ROOT}/webrtc/release/obj/modules/audio_processing/teamtalk.lib
     debug ${TTLIBS_ROOT}/webrtc/debug/obj/modules/audio_processing/teamtalk.lib)
 else()
