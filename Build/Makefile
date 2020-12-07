@@ -20,10 +20,10 @@ toolchain-env:
 
 genlib:
 	mkdir -p $(BUILDDIR)
-	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) ../../
+	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) -G Ninja ../../
 
 buildlib: genlib
-	$(MAKE) -C $(BUILDDIR) VERBOSE=1 all -j$(JOBS)
+	ninja -v -C $(BUILDDIR) all
 
 android-build:
 	@echo "Testing if NDK environment variable is set: $(NDK)"
