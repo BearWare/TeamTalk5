@@ -106,7 +106,7 @@ channels_t getSubChannels(int channelid, const channels_t& channels, bool recurs
         {
             subchannels[ite.key()] = ite.value();
             if(recursive)
-                subchannels.unite(getSubChannels(ite.value().nChannelID, channels, recursive));
+                subchannels.insert(getSubChannels(ite.value().nChannelID, channels, recursive));
         }
     }
     return subchannels;

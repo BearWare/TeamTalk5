@@ -74,6 +74,7 @@
 
 #include <functional>
 #include <algorithm>
+using namespace std::placeholders;
 
 #ifdef _MSC_VER
 #pragma warning(disable:4800)
@@ -671,38 +672,45 @@ bool MainWindow::parseArgs(const QStringList& args)
         {
             //Slash is removed by Qt 5.3.1 by mistake, therefore /+ for slashes
             //Bug: https://bugreports.qt.io/browse/QTBUG-39972
-            QRegExp rx(QString("%1/+([^\\??!/]*)/?\\??").arg(TTLINK_PREFIX));
-            if(rx.indexIn(args[i])>=0)
+            QRegularExpression rx(QString("%1/+([^\\??!/]*)/?\\??").arg(TTLINK_PREFIX));
+            QRegularExpressionMatch m = rx.match(args[i]);
+            if (m.hasMatch())
             {
                 HostEntry entry;
-                entry.ipaddr = rx.cap(1);
+                entry.ipaddr = m.captured(1);
                 entry.tcpport = DEFAULT_TCPPORT;
                 entry.udpport = DEFAULT_UDPPORT;
-                QString prop = args[i].mid(rx.matchedLength());
+                QString prop = args[i].mid(m.capturedLength());
                 //&?tcpport=(\d+)&?
                 rx.setPattern("&?tcpport=(\\d+)&?");
-                if(rx.indexIn(prop)>=0)
-                    entry.tcpport = rx.cap(1).toInt();
+                m = rx.match(prop);
+                if (m.hasMatch())
+                    entry.tcpport = m.captured(1).toInt();
                 //&?udpport=(\d+)&?
                 rx.setPattern("&?udpport=(\\d+)&?");
-                if(rx.indexIn(prop)>=0)
-                    entry.udpport = rx.cap(1).toInt();
+                m = rx.match(prop);
+                if (m.hasMatch())
+                    entry.udpport = m.captured(1).toInt();
                 //&?username=([^&]*)&?
                 rx.setPattern("&?username=([^&]*)&?");
-                if(rx.indexIn(prop)>=0)
-                    entry.username = rx.cap(1);
+                m = rx.match(prop);
+                if (m.hasMatch())
+                    entry.username = m.captured(1);
                 //&?password=([^&]*)&?
                 rx.setPattern("&?password=([^&]*)&?");
-                if(rx.indexIn(prop)>=0)
-                    entry.password = rx.cap(1);
+                m = rx.match(prop);
+                if (m.hasMatch())
+                    entry.password = m.captured(1);
                 //&?channel=([^&]*)&?
                 rx.setPattern("&?channel=([^&]*)&?");
-                if(rx.indexIn(prop)>=0)
-                    entry.channel = rx.cap(1);
+                m = rx.match(prop);
+                if (m.hasMatch())
+                    entry.channel = m.captured(1);
                 //&?chanpasswd=([^&]*)&?
                 rx.setPattern("&?chanpasswd=([^&]*)&?");
-                if(rx.indexIn(prop)>=0)
-                    entry.chanpasswd = rx.cap(1);
+                m = rx.match(prop);
+                if (m.hasMatch())
+                    entry.chanpasswd = m.captured(1);
 
                 addLatestHost(entry);
                 m_host = entry;
@@ -954,7 +962,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __USER);
         if(msg.user.nUserID == TT_GetMyUserID(ttInst))
             processMyselfJoined(msg.user.nChannelID);
-        emit(userJoined(msg.user.nChannelID, msg.user));
+
+        emit (userJoined(msg.user.nChannelID, msg.user));
+
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
             if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
                 Channel chan = {};
@@ -3227,7 +3237,7 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
     // check if we are creating a new profile from a profile
     if(ttSettings->value(SETTINGS_GENERAL_PROFILENAME).toString().size())
     {
-        inipath.remove(QRegExp(".\\d{1,2}$"));
+        inipath.remove(QRegularExpression(".\\d{1,2}$"));
     }
 
     // load existing profiles
@@ -3813,38 +3823,28 @@ void MainWindow::slotUsersSubscriptionsInterceptMediaFile(bool checked /*=false*
 void MainWindow::slotUsersAdvancedIncVolumeVoice()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
-    std::for_each(users.begin(), users.end(),
-                  std::bind2nd(std::ptr_fun(&incVolume),
-                               STREAMTYPE_VOICE));
-
+    std::for_each(users.begin(), users.end(), std::bind(incVolume, _1, STREAMTYPE_VOICE));
     slotUpdateUI();
 }
 
 void MainWindow::slotUsersAdvancedDecVolumeVoice()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
-    std::for_each(users.begin(), users.end(),
-                  std::bind2nd(std::ptr_fun(&decVolume),
-                               STREAMTYPE_VOICE));
-    
+    std::for_each(users.begin(), users.end(), std::bind(decVolume, _1, STREAMTYPE_VOICE));
     slotUpdateUI();
 }
 
 void MainWindow::slotUsersAdvancedIncVolumeMediaFile()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
-    std::for_each(users.begin(), users.end(), 
-                  std::bind2nd(std::ptr_fun(&incVolume),
-                               STREAMTYPE_MEDIAFILE_AUDIO));
+    std::for_each(users.begin(), users.end(), std::bind(incVolume, _1, STREAMTYPE_MEDIAFILE_AUDIO));
     slotUpdateUI();
 }
 
 void MainWindow::slotUsersAdvancedDecVolumeMediaFile()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
-    std::for_each(users.begin(), users.end(), 
-                  std::bind2nd(std::ptr_fun(&decVolume),
-                               STREAMTYPE_MEDIAFILE_AUDIO));
+    std::for_each(users.begin(), users.end(), std::bind(decVolume, _1, STREAMTYPE_MEDIAFILE_AUDIO));
     slotUpdateUI();
 }
 
