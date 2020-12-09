@@ -26,7 +26,9 @@
 #include "appinfo.h"
 #include <math.h>
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QSound>
+#endif
 #include <QDateTime>
 #include <QDialog>
 #include <QStack>
@@ -882,8 +884,11 @@ void playSoundEvent(SoundEvent event)
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS).toString();
         break;
     }
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     if(filename.size())
         QSound::play(filename);
+#endif
 }
 
 void addLatestHost(const HostEntry& host)
