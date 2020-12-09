@@ -232,7 +232,11 @@ void UserImageWidget::focusOutEvent(QFocusEvent* event)
         emit(userWidgetFocused(m_userid, event->gotFocus()));
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+void UserImageWidget::enterEvent(QEnterEvent* event)
+#else
 void UserImageWidget::enterEvent(QEvent* event)
+#endif
 {
     QWidget::enterEvent(event);
 
