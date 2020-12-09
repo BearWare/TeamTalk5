@@ -173,6 +173,9 @@ QModelIndex OnlineUsersModel::index(int row, int column, const QModelIndex&/*par
     if(m_users.empty())
         return QModelIndex();
     
-    return createIndex(row, column, (m_users.begin()+row)->nUserID);
+    auto i = m_users.begin();
+    int x = row;
+    while (x--) i++;
+    return createIndex(row, column, i->nUserID);
 }
 
