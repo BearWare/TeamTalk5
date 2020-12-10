@@ -103,6 +103,7 @@ lipo-arch: toolchain-env teamtalk-env
 	$(TTLIBS_ROOT)/ACE/lib/libACE_INet_SSL.a \
 	$(TTLIBS_ROOT)/openssl/lib/libcrypto.a \
 	$(TTLIBS_ROOT)/openssl/lib/libssl.a \
+	${TTLIBS_ROOT}/webrtc/obj/modules/audio_processing/libteamtalk.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/$(ARCH)/libTeamTalk5.a
 
 	libtool -static -o $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-$(ARCH).a \
@@ -116,6 +117,7 @@ lipo-arch: toolchain-env teamtalk-env
 	$(TTLIBS_ROOT)/ACE/lib/libACE_INet_SSL.a \
 	$(TTLIBS_ROOT)/openssl/lib/libcrypto.a \
 	$(TTLIBS_ROOT)/openssl/lib/libssl.a \
+	${TTLIBS_ROOT}/webrtc/obj/modules/audio_processing/libteamtalk.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/$(ARCH)/libTeamTalk5Pro.a
 
 lipo: teamtalk-env
