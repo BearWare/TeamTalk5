@@ -605,7 +605,7 @@
 /* server entry
    user detail
    Web Login Controller */
-"Username" = "Kullanıcı adı";
+"Username" = "Kullanıcı Adı";
 
 /* Web Login Controller */
 "Username or password incorrect" = "Kullanıcı adı ya da parola yanlış";
@@ -665,3 +665,6 @@
 
 /* speech */
 "You have selected %@" = "Seçtiğiniz: %@";
+
+/* server entry */
+"Check only if this server has enabled Facebook login" = "Yalnızca bu sunucu Facebook Oturumu'nu etkinleştirdiyse işaretleyin";
