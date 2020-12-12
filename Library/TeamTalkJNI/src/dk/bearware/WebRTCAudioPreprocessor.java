@@ -27,7 +27,7 @@ public class WebRTCAudioPreprocessor {
 
     class GainController1 {
         public boolean bEnable = false;
-        public int nTargetLevelDbFS = 3;
+        public int nTargetLevelDBFS = 3;
     }
 
     public GainController1 gaincontroller1 = new GainController1();
@@ -36,7 +36,7 @@ public class WebRTCAudioPreprocessor {
         public boolean bEnable = false;
 
         class FixedDigital {
-            public float fGainDb = 0.0f;
+            public float fGainDB = 0.0f;
             public FixedDigital() {
             }
         }

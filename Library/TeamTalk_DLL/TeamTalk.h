@@ -1218,7 +1218,7 @@ extern "C" {
         {
             TTBOOL bEnable;
             /** Decibels from digital full-scale. Range 0 - 31. Default: 3. */
-            INT32 nTargetLevelDbFS;
+            INT32 nTargetLevelDBFS;
         } gaincontroller1;
         struct
         {
@@ -1227,12 +1227,20 @@ extern "C" {
             struct
             {
                 /* Range 0 - 49.9. Default: 0. */
-                float fGainDb;
+                float fGainDB;
             } fixeddigital;
             struct
             {
                 /* Enable saturation protector where saturation margin is 2 dB. */
                 TTBOOL bEnable;
+                /* Default: 20 dB */
+                float fInitialSaturationMarginDB;
+                /* Default: 2 dB */
+                float fExtraSaturationMarginDB;
+                /* Default: 3 dB/sec */
+                float fMaxGainChangeDBPerSecond;
+                /* Default: -50 */
+                float fMaxOutputNoiseLevelDBFS;
             } adaptivedigital;
         } gaincontroller2;
         struct

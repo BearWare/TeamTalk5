@@ -1137,7 +1137,7 @@ TEST_CASE("Last voice packet - wav files")
 
 #if defined(ENABLE_WEBRTC)
 
-TEST_CASE("SoundLoopbackDuplexDbFS1")
+TEST_CASE("SoundLoopbackDuplexDBFS1")
 {
     SoundDevice indev, outdev;
     REQUIRE(GetSoundDevices(indev, outdev));
@@ -1151,7 +1151,7 @@ TEST_CASE("SoundLoopbackDuplexDbFS1")
 
     preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
     preprocess.webrtc.gaincontroller1.bEnable = TRUE;
-    preprocess.webrtc.gaincontroller1.nTargetLevelDbFS = 1;
+    preprocess.webrtc.gaincontroller1.nTargetLevelDBFS = 1;
 
     auto sndloop = TT_StartSoundLoopbackTestEx(indev.nDeviceID, outdev.nDeviceID, indev.nDefaultSampleRate,
                                           1, TRUE, &preprocess, nullptr);
@@ -1164,7 +1164,7 @@ TEST_CASE("SoundLoopbackDuplexDbFS1")
     REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
 }
 
-TEST_CASE("SoundLoopbackDuplexDbFS30")
+TEST_CASE("SoundLoopbackDuplexDBFS30")
 {
     SoundDevice indev, outdev;
     REQUIRE(GetSoundDevices(indev, outdev));
@@ -1178,7 +1178,7 @@ TEST_CASE("SoundLoopbackDuplexDbFS30")
 
     preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
     preprocess.webrtc.gaincontroller1.bEnable = TRUE;
-    preprocess.webrtc.gaincontroller1.nTargetLevelDbFS = 30;
+    preprocess.webrtc.gaincontroller1.nTargetLevelDBFS = 30;
 
     auto sndloop = TT_StartSoundLoopbackTestEx(indev.nDeviceID, outdev.nDeviceID, indev.nDefaultSampleRate,
                                           1, TRUE, &preprocess, nullptr);
@@ -1211,7 +1211,7 @@ TEST_CASE("SoundLoopbackDefault")
 
     preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
     preprocess.webrtc.gaincontroller2.bEnable = TRUE;
-    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDb = 25;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
 
     preprocess.webrtc.noisesuppression.bEnable = FALSE;
     preprocess.webrtc.noisesuppression.nLevel = 0;
@@ -1254,7 +1254,7 @@ TEST_CASE("WebRTCPreprocessor")
     WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
 
     preprocess.webrtc.gaincontroller2.bEnable = TRUE;
-    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDb = 10;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 10;
 
     REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
     WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
@@ -1271,7 +1271,7 @@ TEST_CASE("WebRTC_gaincontroller1")
     MediaFilePlayback mfp = {};
     mfp.audioPreprocessor.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
     mfp.audioPreprocessor.webrtc.gaincontroller1.bEnable = TRUE;
-    mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDbFS = 25;
+    mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDBFS = 25;
 
     auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input_low.wav"), &mfp);
     REQUIRE(session > 0);
@@ -1287,7 +1287,7 @@ TEST_CASE("WebRTC_gaincontroller1")
             {
                 mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
                 mfp.audioPreprocessor.webrtc.gaincontroller1.bEnable = TRUE;
-                mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDbFS = 0;
+                mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDBFS = 0;
                 REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
                 toggled = true;
                 std::cout << "Toggled: " << msg.mediafileinfo.uElapsedMSec << std::endl;
@@ -1315,10 +1315,10 @@ TEST_CASE("WebRTC_gaincontroller2")
     MediaFilePlayback mfp = {};
     mfp.audioPreprocessor.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
     mfp.audioPreprocessor.webrtc.gaincontroller1.bEnable = FALSE;
-    mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDbFS = 25;
+    mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDBFS = 25;
 
     mfp.audioPreprocessor.webrtc.gaincontroller2.bEnable = FALSE;
-    mfp.audioPreprocessor.webrtc.gaincontroller2.fixeddigital.fGainDb = 0;
+    mfp.audioPreprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = 0;
 
     mfp.audioPreprocessor.webrtc.noisesuppression.bEnable = FALSE;
     mfp.audioPreprocessor.webrtc.noisesuppression.nLevel = 3;
@@ -1337,7 +1337,7 @@ TEST_CASE("WebRTC_gaincontroller2")
             {
                 mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
                 mfp.audioPreprocessor.webrtc.gaincontroller2.bEnable = TRUE;
-                mfp.audioPreprocessor.webrtc.gaincontroller2.fixeddigital.fGainDb = 25;
+                mfp.audioPreprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
                 REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
                 toggled = true;
                 std::cout << "Toggled: " << msg.mediafileinfo.uElapsedMSec << std::endl;
