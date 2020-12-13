@@ -1347,29 +1347,67 @@ TEST_CASE("WebRTC_gaincontroller2")
 TEST_CASE("WebRTC_echocancel")
 {
     ttinst ttclient(TT_InitTeamTalkPoll());
+    SoundDeviceEffects effects = {};
+    effects.bEnableEchoCancellation = FALSE;
+    REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
     REQUIRE(InitSound(ttclient, DUPLEX));
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
-    REQUIRE(JoinRoot(ttclient));
+    // REQUIRE(JoinRoot(ttclient));
+
+    AudioCodec codec = {};
+    codec.nCodec = SPEEX_VBR_CODEC;
+    codec.speex_vbr.nBandmode = 2;
+    codec.speex_vbr.nBitRate = 16000;
+    codec.speex_vbr.nMaxBitRate = SPEEX_UWB_MAX_BITRATE;
+    codec.speex_vbr.nQuality = 10;
+    codec.speex_vbr.nTxIntervalMSec = 40;
+    Channel chan = MakeChannel(ttclient, ACE_TEXT("speex"), TT_GetRootChannelID(ttclient), codec);
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoJoinChannel(ttclient, &chan)));
 
     AudioPreprocessor preprocess = {};
 
     preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
 
-    preprocess.webrtc.echocanceller.bEnable = TRUE;
+    switch (preprocess.nPreprocessor)
+    {
+    case WEBRTC_AUDIOPREPROCESSOR :
+        preprocess.webrtc.echocanceller.bEnable = TRUE;
 
-    preprocess.webrtc.noisesuppression.bEnable = TRUE;
-    preprocess.webrtc.noisesuppression.nLevel = 2;
+        preprocess.webrtc.noisesuppression.bEnable = TRUE;
+        preprocess.webrtc.noisesuppression.nLevel = 2;
 
-    preprocess.webrtc.gaincontroller2.bEnable = TRUE;
-    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+        preprocess.webrtc.gaincontroller2.bEnable = TRUE;
+        preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+#define DEFAULT_AGC_ENABLE              TRUE
+#define DEFAULT_AGC_GAINLEVEL           8000
+#define DEFAULT_AGC_INC_MAXDB           12
+#define DEFAULT_AGC_DEC_MAXDB           -40
+#define DEFAULT_AGC_GAINMAXDB           30
+#define DEFAULT_DENOISE_ENABLE          TRUE
+#define DEFAULT_DENOISE_SUPPRESS        -30
+#define DEFAULT_ECHO_ENABLE             TRUE
+#define DEFAULT_ECHO_SUPPRESS           -40
+#define DEFAULT_ECHO_SUPPRESSACTIVE     -15
+        preprocess.speexdsp.bEnableAGC = DEFAULT_AGC_ENABLE;
+        preprocess.speexdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+        preprocess.speexdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
+        preprocess.speexdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
+        preprocess.speexdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
+        preprocess.speexdsp.bEnableDenoise = DEFAULT_DENOISE_ENABLE;
+        preprocess.speexdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
+        preprocess.speexdsp.bEnableEchoCancellation = DEFAULT_ECHO_ENABLE;
+        preprocess.speexdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
+        preprocess.speexdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+        break;
+    }
 
     REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
 
     REQUIRE(TT_EnableVoiceTransmission(ttclient, true));
 
     WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
-
-
 }
 #endif /* ENABLE_WEBRTC */
