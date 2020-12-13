@@ -1394,9 +1394,9 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     QueueAudioCapture(audframe);
 }
 
-void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
+void ClientNode::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
                                     const short* input_buffer, 
-                                    const short* prev_output_buffer, int n_samples)
+                                    short* output_buffer, int n_samples)
 {
     rguard_t g_snd(lock_sndprop());
 
@@ -1426,7 +1426,7 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
     if (m_playback_resampler)
     {
         assert((int)m_playback_buffer.size() == codec_samples * codec_channels);
-        int ret = m_playback_resampler->Resample(prev_output_buffer, n_samples, 
+        int ret = m_playback_resampler->Resample(output_buffer, n_samples, 
                                                  &m_playback_buffer[0],
                                                  codec_samples);
         assert(ret>0);
@@ -1438,7 +1438,7 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
         playback_buffer = &m_playback_buffer[0];
     }
     else
-        playback_buffer = prev_output_buffer;
+        playback_buffer = output_buffer;
 
     AudioFrame audframe(AudioFormat(codec_samplerate, codec_channels),
                         const_cast<short*>(capture_buffer), codec_samples);

@@ -1217,6 +1217,16 @@ extern "C" {
         struct
         {
             TTBOOL bEnable;
+        } echocanceller;
+        struct
+        {
+            TTBOOL bEnable;
+            /** 0 = Low, 1 = Moderate, 2 = High, 3 = VeryHigh. Default: 1. */
+            INT32 nLevel;
+        } noisesuppression;
+        struct
+        {
+            TTBOOL bEnable;
             /** Decibels from digital full-scale. Range 0 - 31. Default: 3. */
             INT32 nTargetLevelDBFS;
         } gaincontroller1;
@@ -1243,12 +1253,6 @@ extern "C" {
                 float fMaxOutputNoiseLevelDBFS;
             } adaptivedigital;
         } gaincontroller2;
-        struct
-        {
-            TTBOOL bEnable;
-            /** 0 = Low, 1 = Moderate, 2 = High, 3 = VeryHigh. Default: 1. */
-            INT32 nLevel;
-        } noisesuppression;
     } WebRTCAudioPreprocessor;
 
     /** @brief The types of supported audio preprocessors.

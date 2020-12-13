@@ -238,7 +238,7 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
     }
 
     m_active = true;
-    
+
     return true;
 }
 
@@ -388,73 +388,6 @@ bool SoundLoopback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
     return true;
 }
 
-void SoundLoopback::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
-                                       const short* input_buffer,
-                                       const short* prev_output_buffer, int samples)
-{
-    int output_samples = int(m_preprocess_buffer_left.size());
-    int output_channels = m_preprocess_buffer_right.size()? 2 : 1;
-
-    const short* tmp_input_buffer = input_buffer;
-    if (m_capture_resampler)
-    {
-        int ret = 0;
-        tmp_input_buffer = m_capture_resampler->Resample(input_buffer, &ret);
-        assert(tmp_input_buffer);
-        assert(ret <= output_samples);
-        MYTRACE_COND(ret != output_samples,
-                     ACE_TEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
-                     output_samples, ret);
-    }
-
-    if (output_channels == 1)
-    {
-        assert((int)m_preprocess_buffer_left.size() == streamer.framesize);
-
-#if defined(ENABLE_SPEEXDSP)
-        if (m_preprocess_left.IsEchoCancel())
-        {
-            m_preprocess_left.EchoCancel(tmp_input_buffer, prev_output_buffer,
-                                         &m_preprocess_buffer_left[0]);
-        }
-        else
-#endif
-        {
-            m_preprocess_buffer_left.assign(tmp_input_buffer, tmp_input_buffer + streamer.framesize);
-        }
-    }
-    else if (output_channels == 2)
-    {
-#if defined(ENABLE_SPEEXDSP)
-        if (m_preprocess_left.IsEchoCancel() && m_preprocess_right.IsEchoCancel())
-        {
-            vector<short> in_leftchan(output_samples), in_rightchan(output_samples);
-            SplitStereo(tmp_input_buffer, output_samples, in_leftchan, in_rightchan);
-
-            vector<short> out_leftchan(output_samples), out_rightchan(output_samples);
-            if(streamer.output_channels == 1)
-            {
-                out_leftchan.assign(prev_output_buffer, prev_output_buffer+output_samples);
-                out_rightchan.assign(prev_output_buffer, prev_output_buffer+output_samples);
-            }
-            else
-            {
-                SplitStereo(prev_output_buffer, streamer.framesize, out_leftchan, out_rightchan);
-            }
-            m_preprocess_left.EchoCancel(&in_leftchan[0], &out_leftchan[0],
-                                         &m_preprocess_buffer_left[0]);
-            m_preprocess_right.EchoCancel(&in_rightchan[0], &out_rightchan[0],
-                                          &m_preprocess_buffer_right[0]);
-        }
-        else
-#endif
-        {
-            SplitStereo(tmp_input_buffer, output_samples, m_preprocess_buffer_left,
-                        m_preprocess_buffer_right);
-        }
-    }
-}
-
 void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
                                    const short* input_buffer,
                                    short* output_buffer, int samples)
@@ -474,12 +407,38 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
         {
             MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
         }
+        return;
     }
-    else
 #endif
+
+    // resample stereo vs. mono
+    const short* tmp_input_buffer = input_buffer;
+    if (m_capture_resampler)
+    {
+        int ret = 0;
+        tmp_input_buffer = m_capture_resampler->Resample(input_buffer, &ret);
+        assert(tmp_input_buffer);
+        assert(ret <= output_samples);
+        MYTRACE_COND(ret != output_samples,
+                     ACE_TEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
+                     output_samples, ret);
+    }
+
     if (output_channels == 1)
     {
         assert((int)m_preprocess_buffer_left.size() == streamer.framesize);
+
+#if defined(ENABLE_SPEEXDSP)
+        if (m_preprocess_left.IsEchoCancel())
+        {
+            m_preprocess_left.EchoCancel(tmp_input_buffer, output_buffer,
+                                         &m_preprocess_buffer_left[0]);
+        }
+        else
+#endif
+        {
+            m_preprocess_buffer_left.assign(tmp_input_buffer, tmp_input_buffer + streamer.framesize);
+        }
 
 #if defined(ENABLE_SPEEXDSP)
         m_preprocess_left.Preprocess(&m_preprocess_buffer_left[0]);
@@ -496,6 +455,34 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
     {
         assert((int)m_preprocess_buffer_left.size() == streamer.framesize);
         assert((int)m_preprocess_buffer_right.size() == streamer.framesize);
+
+#if defined(ENABLE_SPEEXDSP)
+        if (m_preprocess_left.IsEchoCancel() && m_preprocess_right.IsEchoCancel())
+        {
+            vector<short> in_leftchan(output_samples), in_rightchan(output_samples);
+            SplitStereo(tmp_input_buffer, output_samples, in_leftchan, in_rightchan);
+
+            vector<short> out_leftchan(output_samples), out_rightchan(output_samples);
+            if(streamer.output_channels == 1)
+            {
+                out_leftchan.assign(output_buffer, output_buffer+output_samples);
+                out_rightchan.assign(output_buffer, output_buffer+output_samples);
+            }
+            else
+            {
+                SplitStereo(output_buffer, streamer.framesize, out_leftchan, out_rightchan);
+            }
+            m_preprocess_left.EchoCancel(&in_leftchan[0], &out_leftchan[0],
+                                         &m_preprocess_buffer_left[0]);
+            m_preprocess_right.EchoCancel(&in_rightchan[0], &out_rightchan[0],
+                                          &m_preprocess_buffer_right[0]);
+        }
+        else
+#endif
+        {
+            SplitStereo(tmp_input_buffer, output_samples, m_preprocess_buffer_left,
+                        m_preprocess_buffer_right);
+        }
 
 #if defined(ENABLE_SPEEXDSP)
         m_preprocess_left.Preprocess(&m_preprocess_buffer_left[0]);

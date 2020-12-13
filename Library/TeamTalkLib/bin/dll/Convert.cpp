@@ -1042,24 +1042,7 @@ void Convert(const teamtalk::SpeexDSP& spxdsp, SpeexDSP& result)
 #if defined(ENABLE_WEBRTC)
 void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Config& result)
 {
-    //result.gain_controller1.compression_gain_db = 80;
-    //result.high_pass_filter.enabled = true;
-    //result.voice_detection.enabled = true;
-    //result.level_estimation.enabled = true;
-    //result.residual_echo_detector.enabled = false;
-
-    result.gain_controller1.enabled = webrtc.gaincontroller1.bEnable;
-    result.gain_controller1.target_level_dbfs = webrtc.gaincontroller1.nTargetLevelDBFS;
-    result.gain_controller1.analog_gain_controller.enabled = false;
-    result.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
-
-    result.gain_controller2.enabled = webrtc.gaincontroller2.bEnable;
-    result.gain_controller2.fixed_digital.gain_db = webrtc.gaincontroller2.fixeddigital.fGainDB;
-    result.gain_controller2.adaptive_digital.enabled = webrtc.gaincontroller2.adaptivedigital.bEnable;
-    result.gain_controller2.adaptive_digital.initial_saturation_margin_db = webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB;
-    result.gain_controller2.adaptive_digital.extra_saturation_margin_db = webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB;
-    result.gain_controller2.adaptive_digital.max_gain_change_db_per_second = webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond;
-    result.gain_controller2.adaptive_digital.max_output_noise_level_dbfs = webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS;
+    result.echo_canceller.enabled = webrtc.echocanceller.bEnable;
 
     result.noise_suppression.enabled = webrtc.noisesuppression.bEnable;
     switch (webrtc.noisesuppression.nLevel)
@@ -1080,10 +1063,28 @@ void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Con
         result.noise_suppression.enabled = false;
         break;
     }
+    
+    result.gain_controller1.enabled = webrtc.gaincontroller1.bEnable;
+    result.gain_controller1.target_level_dbfs = webrtc.gaincontroller1.nTargetLevelDBFS;
+    result.gain_controller1.analog_gain_controller.enabled = false;
+    result.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
+
+    result.gain_controller2.enabled = webrtc.gaincontroller2.bEnable;
+    result.gain_controller2.fixed_digital.gain_db = webrtc.gaincontroller2.fixeddigital.fGainDB;
+    result.gain_controller2.adaptive_digital.enabled = webrtc.gaincontroller2.adaptivedigital.bEnable;
+    result.gain_controller2.adaptive_digital.initial_saturation_margin_db = webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB;
+    result.gain_controller2.adaptive_digital.extra_saturation_margin_db = webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB;
+    result.gain_controller2.adaptive_digital.max_gain_change_db_per_second = webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond;
+    result.gain_controller2.adaptive_digital.max_output_noise_level_dbfs = webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS;
 }
 
 void Convert(const webrtc::AudioProcessing::Config& cfg, WebRTCAudioPreprocessor& result)
 {
+    result.echocanceller.bEnable = cfg.echo_canceller.enabled;
+    
+    result.noisesuppression.bEnable = cfg.noise_suppression.enabled;
+    result.noisesuppression.nLevel = cfg.noise_suppression.level;
+
     result.gaincontroller1.bEnable = cfg.gain_controller1.enabled;
     result.gaincontroller1.nTargetLevelDBFS = cfg.gain_controller1.target_level_dbfs;
 
@@ -1094,9 +1095,6 @@ void Convert(const webrtc::AudioProcessing::Config& cfg, WebRTCAudioPreprocessor
     result.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = cfg.gain_controller2.adaptive_digital.extra_saturation_margin_db;
     result.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = cfg.gain_controller2.adaptive_digital.max_gain_change_db_per_second;
     result.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = cfg.gain_controller2.adaptive_digital.max_output_noise_level_dbfs;
-
-    result.noisesuppression.bEnable = cfg.noise_suppression.enabled;
-    result.noisesuppression.nLevel = cfg.noise_suppression.level;
 }
 #endif
 
