@@ -1343,4 +1343,33 @@ TEST_CASE("WebRTC_gaincontroller2")
     REQUIRE(toggled);
     REQUIRE(success);
 }
+
+TEST_CASE("WebRTC_echocancel")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient, DUPLEX));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    AudioPreprocessor preprocess = {};
+
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+
+    preprocess.webrtc.echocanceller.bEnable = TRUE;
+
+    preprocess.webrtc.noisesuppression.bEnable = TRUE;
+    preprocess.webrtc.noisesuppression.nLevel = 2;
+
+    preprocess.webrtc.gaincontroller2.bEnable = TRUE;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, true));
+
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
+
+
+}
 #endif /* ENABLE_WEBRTC */
