@@ -81,19 +81,16 @@ public:
     bool StopTest();
 
     void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
-                         const short* buffer, int samples);
+                         const short* buffer, int samples) override;
     bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
-                        short* buffer, int samples);
+                        short* buffer, int samples) override;
 
-    void StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
-                            const short* input_buffer,
-                            const short* prev_output_buffer, int samples);
     void StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
                         const short* input_buffer,
-                        short* output_buffer, int samples);
+                        short* output_buffer, int samples) override;
 
-    soundsystem::SoundDeviceFeatures GetCaptureFeatures();
-    soundsystem::SoundDeviceFeatures GetDuplexFeatures();
+    soundsystem::SoundDeviceFeatures GetCaptureFeatures() override;
+    soundsystem::SoundDeviceFeatures GetDuplexFeatures() override;
 
 private:
 #if defined(ENABLE_SPEEXDSP)

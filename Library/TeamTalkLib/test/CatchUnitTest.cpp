@@ -583,21 +583,16 @@ TEST_CASE("CWMAudioAEC_Callback")
     {
     public:
         int callbacks = 0;
-        void StreamDuplexEchoCb(const DuplexStreamer& streamer,
-                                const short* input_buffer,
-                                const short* prev_output_buffer, int samples)
-        {
-        }
 
         void StreamDuplexCb(const DuplexStreamer& streamer,
                             const short* input_buffer,
-                            short* output_buffer, int samples)
+                            short* output_buffer, int samples) override
         {
             MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
             callbacks++;
         }
 
-        soundsystem::SoundDeviceFeatures GetDuplexFeatures()
+        soundsystem::SoundDeviceFeatures GetDuplexFeatures() override
         {
             return soundsystem::SOUNDDEVICEFEATURE_NONE;
         }
@@ -621,7 +616,6 @@ TEST_CASE("CWMAudioAEC_Callback")
             if (recorded)
             {
                 std::vector<short> playback(paduplex.framesize * paduplex.output_channels);
-                paduplex.duplex->StreamDuplexEchoCb(paduplex, recorded, &playback[0], paduplex.framesize);
                 paduplex.duplex->StreamDuplexCb(paduplex, recorded, &playback[0], paduplex.framesize);
                 paduplex.winaec->ReleaseBuffer();
             }
@@ -641,7 +635,6 @@ TEST_CASE("CWMAudioAEC_Callback")
             if(recorded)
             {
                 std::vector<short> playback(paduplex2.framesize * paduplex2.output_channels);
-                paduplex2.duplex->StreamDuplexEchoCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
                 paduplex2.duplex->StreamDuplexCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
                 paduplex2.winaec->ReleaseBuffer();
             }
@@ -658,7 +651,6 @@ TEST_CASE("CWMAudioAEC_Callback")
             if(recorded)
             {
                 std::vector<short> playback(paduplex2.framesize * paduplex2.output_channels);
-                paduplex2.duplex->StreamDuplexEchoCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
                 paduplex2.duplex->StreamDuplexCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
                 paduplex2.winaec->ReleaseBuffer();
             }
@@ -724,15 +716,10 @@ TEST_CASE("CWMAudioAEC_DuplexMode")
                     m_playbuffer.resize(m_playframesize * m_playfile.GetChannels());
                 }
                 int callbacks = 0;
-                void StreamDuplexEchoCb(const DuplexStreamer& streamer,
-                    const short* input_buffer,
-                    const short* prev_output_buffer, int samples)
-                {
-                }
 
                 void StreamDuplexCb(const DuplexStreamer& streamer,
                     const short* input_buffer,
-                    short* output_buffer, int samples)
+                    short* output_buffer, int samples) override
                 {
                     //MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
                     callbacks++;
@@ -743,7 +730,7 @@ TEST_CASE("CWMAudioAEC_DuplexMode")
                     REQUIRE(resampled <= samples);
                 }
 
-                soundsystem::SoundDeviceFeatures GetDuplexFeatures()
+                soundsystem::SoundDeviceFeatures GetDuplexFeatures() override
                 {
                     return soundsystem::SOUNDDEVICEFEATURE_AEC | soundsystem::SOUNDDEVICEFEATURE_AGC | soundsystem::SOUNDDEVICEFEATURE_DENOISE;
                 }

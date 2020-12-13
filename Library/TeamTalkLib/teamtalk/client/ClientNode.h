@@ -457,13 +457,12 @@ namespace teamtalk {
 
         // SoundSystem listener - separate thread
         void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
-                             const short* buffer, int n_samples);
-        void StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
-                                const short* input_buffer, 
-                                const short* prev_output_buffer, 
-                                int n_samples);
-        soundsystem::SoundDeviceFeatures GetCaptureFeatures();
-        soundsystem::SoundDeviceFeatures GetDuplexFeatures();
+                             const short* buffer, int n_samples) override;
+        void StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
+                            const short* input_buffer, short* prev_output_buffer, 
+                            int n_samples) override;
+        soundsystem::SoundDeviceFeatures GetCaptureFeatures() override;
+        soundsystem::SoundDeviceFeatures GetDuplexFeatures() override;
 
         //VideoCapture listener - separate thread
         bool VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
