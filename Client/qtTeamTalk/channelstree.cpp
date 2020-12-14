@@ -106,7 +106,7 @@ channels_t getSubChannels(int channelid, const channels_t& channels, bool recurs
         {
             subchannels[ite.key()] = ite.value();
             if(recursive)
-                subchannels.unite(getSubChannels(ite.value().nChannelID, channels, recursive));
+                subchannels.insert(getSubChannels(ite.value().nChannelID, channels, recursive));
         }
     }
     return subchannels;
@@ -955,32 +955,37 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         QString itemtext;
         QString name = getDisplayName(user);
         itemtext = name;
-        switch (user.nStatusMode & STATUSMODE_MODE)
+        if (emoji)
         {
-        case STATUSMODE_AWAY :
-            itemtext += tr(", Away");
-            break;
-        case STATUSMODE_QUESTION :
-            itemtext += tr(", Question");
-            break;
+            switch (user.nStatusMode & STATUSMODE_MODE)
+            {
+            case STATUSMODE_AWAY :
+                itemtext += tr(", Away");
+                break;
+            case STATUSMODE_QUESTION :
+                itemtext += tr(", Question");
+                break;
+            }
+
+            if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
+                itemtext += tr(", Streaming media file");
+
+            if (user.nStatusMode & STATUSMODE_VIDEOTX)
+                itemtext += tr(", Webcam");
         }
-
-        if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
-            itemtext += tr(", Streaming media file");
-
-        if (user.nStatusMode & STATUSMODE_VIDEOTX)
-            itemtext += tr(", Webcam");
 
         if(_Q(user.szStatusMsg).size())
             itemtext += QString(" - ") + _Q(user.szStatusMsg);
         if (emoji && (user.nStatusMode & STATUSMODE_FEMALE))
             itemtext += " 👩";
+        if (emoji)
+        {
+            if(user.uUserType & USERTYPE_ADMIN)
+                itemtext += tr(" (Administrator)");
 
-        if(user.uUserType & USERTYPE_ADMIN)
-            itemtext += tr(" (Administrator)");
-
-        if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
-            itemtext += tr(" (Channel operator)");
+            if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
+                itemtext += tr(" (Channel operator)");
+        }
 
         if (itemtext.size() > m_strlen)
         {
