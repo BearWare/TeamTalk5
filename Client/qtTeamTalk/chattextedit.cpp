@@ -34,14 +34,14 @@ extern QSettings* ttSettings;
 
 QString urlFound(const QString& text, int& index, int& length)
 {
-    static QRegExp expression("(http[s]?://\\S+)");
-    expression.setCaseSensitivity(Qt::CaseInsensitive);
-    int i = text.indexOf(expression, index);
-    if(i>=0)
+    QRegularExpression expression("(http[s]?://\\S+)", QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch m;
+    int i = text.indexOf(expression, index, &m);
+    if (i >= 0)
     {
         index = i;
-        length = expression.matchedLength();
-        return expression.cap(1);
+        length = m.capturedLength();
+        return m.captured(1);
     }
     return QString();
 }
