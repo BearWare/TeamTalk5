@@ -432,7 +432,7 @@
             <item>
              <widget class="QCheckBox" name="emojiChkBox">
               <property name="text">
-               <string>Show emojis for channel/user state</string>
+               <string>Show emojis and text for channel/user state</string>
               </property>
              </widget>
             </item>

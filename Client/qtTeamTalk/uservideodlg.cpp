@@ -71,7 +71,7 @@ void UserVideoDlg::initCommon(int userid)
     //set black as background color
     uservideoWidget->setAutoFillBackground(true);
     QPalette p = uservideoWidget->palette();
-    p.setBrush(QPalette::Background, QBrush(Qt::black));
+    p.setBrush(QPalette::Window, QBrush(Qt::black));
     uservideoWidget->setPalette(p);
 
     
