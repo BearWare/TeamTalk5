@@ -5,7 +5,7 @@ Version 5.7, unreleased
 Accessible Windows Client:
 - Specific TTS events when sending a private or channel message
 - Option to join channel immediately in create channel dialog
-- Option to disable emojis for channel/user states
+- Option to disable emojis and text for channel/user states
 - Users logged in/out display in chat history
 - Fix some labels on server properties dialog and preferences
 - Correctly move focus to first field visible with tab when opening server properties dialog

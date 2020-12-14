@@ -64,7 +64,7 @@ void UserDesktopDlg::initBackground()
     //set black as background color
     ui.userdesktopWidget->setAutoFillBackground(true);
     QPalette p = ui.userdesktopWidget->palette();
-    p.setBrush(QPalette::Background, QBrush(Qt::black));
+    p.setBrush(QPalette::Window, QBrush(Qt::black));
     ui.userdesktopWidget->setPalette(p);
 }
 

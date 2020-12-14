@@ -181,9 +181,10 @@ namespace soundsystem
         bool FindDevs(LONG& indevindex, LONG& outdevindex);
         void Run();
         void ProcessAudioQueue();
+        void QueueAudioFrame(const media::AudioFrame& frm);
         // true means audio frame was consumed, false means audio frame
         // was queued
-        bool QueueAudioInput(const media::AudioFrame& frm);
+        bool ProcessAudioFrame(const media::AudioFrame& frm);
 
         // signaling semaphores
         std::promise<bool> m_started, m_stop;
@@ -193,7 +194,7 @@ namespace soundsystem
         msg_queue_t m_input_queue; // audio from input device that didn't fit in 'm_input_buffer'
         audio_resampler_t m_resampler;
         short* m_resampled_input = nullptr;
-        std::mutex m_mutex;
+        std::recursive_mutex m_mutex;
         SoundDeviceFeatures m_features;
     public:
         CWMAudioAECCapture(PaDuplexStreamer* duplex, SoundDeviceFeatures features);

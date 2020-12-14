@@ -294,7 +294,7 @@ void UserDesktopWidget::mousePressEvent(QMouseEvent* event)
     case Qt::LeftButton :
         key_code = TT_DESKTOPINPUT_KEYCODE_LMOUSEBTN;
         break;
-    case Qt::MidButton :
+    case Qt::MiddleButton :
         key_code = TT_DESKTOPINPUT_KEYCODE_MMOUSEBTN;
         break;
     case Qt::RightButton :
@@ -317,7 +317,7 @@ void UserDesktopWidget::mouseReleaseEvent(QMouseEvent* event)
     case Qt::LeftButton :
         key_code = TT_DESKTOPINPUT_KEYCODE_LMOUSEBTN;
         break;
-    case Qt::MidButton :
+    case Qt::MiddleButton :
         key_code = TT_DESKTOPINPUT_KEYCODE_MMOUSEBTN;
         break;
     case Qt::RightButton :

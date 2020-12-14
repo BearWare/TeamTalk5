@@ -26,7 +26,7 @@
 
 #include <QUrl>
 #include <QIcon>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QDebug>
 #include <QKeyEvent>
 #include <QMessageBox>
@@ -100,16 +100,18 @@ void WebLoginDlg::slotUrlChanged(const QUrl &url)
     QString urlstr = url.toString();
     if (urlstr.startsWith(WEBLOGIN_FACEBOOK_REDIRECT))
     {
-        QRegExp rxtoken("#access_token=([A-Za-z0-9\\-_]*)");
-        if(rxtoken.indexIn(urlstr) >= 0)
+        QRegularExpression rxtoken("#access_token=([A-Za-z0-9\\-_]*)");
+        QRegularExpressionMatch m = rxtoken.match(urlstr);
+        if (m.hasMatch())
         {
-            m_token = rxtoken.cap(1);
+            m_token = m.captured(1);
         }
 
-        QRegExp rxcode("&code=([A-Za-z0-9\\-_]*)");
-        if(rxcode.indexIn(urlstr) >= 0)
+        QRegularExpression rxcode("&code=([A-Za-z0-9\\-_]*)");
+        m = rxcode.match(urlstr);
+        if (m.hasMatch())
         {
-            m_password = WEBLOGIN_FACEBOOK_PASSWDPREFIX + rxcode.cap(1);
+            m_password = WEBLOGIN_FACEBOOK_PASSWDPREFIX + m.captured(1);
             m_timerid = startTimer(1000);
             // Web control has focus so hitting escape has no effect. 
             // Therefore set focus to dialog.

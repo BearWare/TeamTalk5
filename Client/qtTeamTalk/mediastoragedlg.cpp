@@ -123,7 +123,7 @@ void MediaStorageDlg::slotSetUserLogFolder()
 QString MediaStorageDlg::getFolder()
 {
     QFileDialog dlg(this);
-    dlg.setFileMode(QFileDialog::DirectoryOnly);
+    dlg.setFileMode(QFileDialog::Directory);
 
     if(!dlg.exec())
         return QString();
