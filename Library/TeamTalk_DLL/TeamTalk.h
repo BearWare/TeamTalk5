@@ -1222,6 +1222,11 @@ extern "C" {
 
     /** @brief WebRTC's audio preprocessor.
      *
+     * Use WebRTC's audio preprocessor, https://webrtc.org
+     *
+     * Note that WebRTC's can only operate on 10 msec audio frame, so
+     * @c nTxIntervalMSec in #AudioCodec must a multiple of 10.
+     *
      * #WebRTCAudioPreprocessor is recommended to
      * TT_SetSoundDeviceEffects() on desktop platforms. */
     typedef struct WebRTCAudioPreprocessor
