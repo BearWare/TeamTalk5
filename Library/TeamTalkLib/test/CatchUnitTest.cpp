@@ -1214,6 +1214,29 @@ TEST_CASE("SoundLoopbackDefault")
     REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
 }
 
+TEST_CASE("WebRTC_SampleRates")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+
+    AudioPreprocessor preprocess = {};
+
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    preprocess.webrtc.gaincontroller2.bEnable = TRUE;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+
+    const std::vector<int> standardSampleRates = {8000, 12000, 16000, 24000, 32000, 44100, 48000};
+
+    for (auto samplerate : standardSampleRates)
+    {
+        auto sndloop = TT_StartSoundLoopbackTestEx(TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
+                                                   TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
+                                                   samplerate, 2, TRUE, &preprocess, nullptr);
+        REQUIRE(sndloop);
+
+        REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
+    }
+}
+
 TEST_CASE("WebRTCPreprocessor")
 {
     ttinst ttclient(TT_InitTeamTalkPoll());
