@@ -45,7 +45,8 @@ bool IsEnabled(const webrtc::AudioProcessing::Config& cfg)
 {
     return cfg.gain_controller1.enabled ||
         cfg.gain_controller2.enabled ||
-        cfg.noise_suppression.enabled;
+        cfg.noise_suppression.enabled ||
+        cfg.echo_canceller.enabled;
 }
 
 int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infrm,
