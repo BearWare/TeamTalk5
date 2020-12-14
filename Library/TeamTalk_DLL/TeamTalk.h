@@ -967,7 +967,11 @@ extern "C" {
      * @{ */
 
     /** @brief Speex audio codec settings for Constant Bitrate mode
-     * (CBR). @see SpeexVBRCodec */
+     * (CBR).
+     *
+     * @deprecated Use #OPUSCodec.
+     *
+     * @see SpeexVBRCodec */
     typedef struct SpeexCodec
     {
         /** @brief Set to 0 for 8 KHz (narrow band), set to 1 for 16 KHz 
@@ -995,7 +999,9 @@ extern "C" {
     } SpeexCodec;
 
     /** @brief Speex audio codec settings for Variable Bitrate mode
-     * (VBR). */
+     * (VBR).
+     *
+     * @deprecated Use #OPUSCodec. */
     typedef struct SpeexVBRCodec
     {
         /** @brief Set to 0 for 8 KHz (narrow band), set to 1 for 16 KHz 
@@ -1127,6 +1133,8 @@ extern "C" {
      * from a sound input device should be preprocessed before
      * transmission.
      *
+     * @deprecated Use #WebRTCAudioPreprocessor.
+     *
      * Users' audio levels may be diffent due to how their microphone
      * is configured in their OS. Automatic Gain Control (AGC) can be
      * used to ensure all users in the same channel have the same
@@ -1212,16 +1220,31 @@ extern "C" {
         TTBOOL bMuteRightSpeaker;
     } TTAudioPreprocessor;
 
+    /** @brief WebRTC's audio preprocessor.
+     *
+     * #WebRTCAudioPreprocessor is recommended to
+     * TT_SetSoundDeviceEffects() on desktop platforms. */
     typedef struct WebRTCAudioPreprocessor
     {
+        /** @brief Configuration of WebRTC's echo canceller. See also
+         * TT_SetSoundDeviceEffects() */
         struct
         {
+            /** @brief Enable WebRTC echo canceller. The WebRTC echo
+             * canceller requires sound input and output devices are
+             * initialized using TT_InitSoundDuplexDevices(). This is
+             * because both input and output device must use the same
+             * sample rate. */
             TTBOOL bEnable;
         } echocanceller;
+        /** @brief Configuration of WebRTC's noise suppression. See
+         * also #SpeexDSP. */
         struct
         {
+            /** @brief Enable WebRTC noise suppression. */
             TTBOOL bEnable;
-            /** 0 = Low, 1 = Moderate, 2 = High, 3 = VeryHigh. Default: 1. */
+            /** @brief Noise suppression level. 0 = Low, 1 = Moderate,
+             * 2 = High, 3 = VeryHigh. Default: 1. */
             INT32 nLevel;
         } noisesuppression;
         struct
@@ -1230,18 +1253,26 @@ extern "C" {
             /** Decibels from digital full-scale. Range 0 - 31. Default: 3. */
             INT32 nTargetLevelDBFS;
         } gaincontroller1;
+        /** @brief Configuration of WebRTC's gain controller 2 for
+         * AGC. */
         struct
         {
-            /* Enable fixed digital gain */
+            /** @brief Enable WebRTC's fixed digital gain. WebRTC's
+             * automatic gain control (AGC) */
             TTBOOL bEnable;
+            /** @brief Gain level for AGC. Only active when @c bEnable
+             * is true. */
             struct
             {
-                /* Range 0 - 49.9. Default: 0. */
+                /** @brief Gain level in dB. Range 0 - 49.9. Default:
+                 * 0. */
                 float fGainDB;
             } fixeddigital;
+            /** @brief Configuration for fine tuning gain level. */
             struct
             {
-                /* Enable saturation protector where saturation margin is 2 dB. */
+                /* @brief Enable saturation protector where saturation
+                 * margin is 2 dB. */
                 TTBOOL bEnable;
                 /* Default: 20 dB */
                 float fInitialSaturationMarginDB;
