@@ -1580,7 +1580,7 @@ void MainWindow::cmdLoggedIn(int myuserid)
         initDefaultAudioCodec(chan.audiocodec);
 
         chan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG;
-        chan.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+        chan.audiocfg.nGainLevel = DEFAULT_SPEEXDSP_AGC_GAINLEVEL;
 
         COPY_TTSTR(chan.szName, name);
         COPY_TTSTR(chan.szPassword, m_host.chanpasswd);
@@ -2547,19 +2547,19 @@ void MainWindow::updateAudioConfig()
 
     //set default values for audio config
     spxdsp.bEnableAGC = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
-    spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-    spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-    spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-    spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
+    spxdsp.nGainLevel = DEFAULT_SPEEXDSP_AGC_GAINLEVEL;
+    spxdsp.nMaxIncDBSec = DEFAULT_SPEEXDSP_AGC_INC_MAXDB;
+    spxdsp.nMaxDecDBSec = DEFAULT_SPEEXDSP_AGC_DEC_MAXDB;
+    spxdsp.nMaxGainDB = DEFAULT_SPEEXDSP_AGC_GAINMAXDB;
 
     spxdsp.bEnableDenoise = ttSettings->value(SETTINGS_SOUND_DENOISING, 
                                               SETTINGS_SOUND_DENOISING_DEFAULT).toBool();
-    spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
+    spxdsp.nMaxNoiseSuppressDB = DEFAULT_SPEEXDSP_DENOISE_SUPPRESS;
 
     spxdsp.bEnableEchoCancellation = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL,
                                                        SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool();
-    spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-    spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+    spxdsp.nEchoSuppress = DEFAULT_SPEEXDSP_ECHO_SUPPRESS;
+    spxdsp.nEchoSuppressActive = DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE;
 
     //check if channel AGC settings should override default settings
     if(m_mychannel.audiocfg.bEnableAGC)

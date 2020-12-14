@@ -1120,17 +1120,17 @@ void PreferencesDlg::slotSoundTestDevices(bool checked)
             SpeexDSP spxdsp;
             ZERO_STRUCT(spxdsp);
             spxdsp.bEnableAGC = ui.agcBox->isChecked();
-            spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-            spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-            spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-            spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
+            spxdsp.nGainLevel = DEFAULT_SPEEXDSP_AGC_GAINLEVEL;
+            spxdsp.nMaxIncDBSec = DEFAULT_SPEEXDSP_AGC_INC_MAXDB;
+            spxdsp.nMaxDecDBSec = DEFAULT_SPEEXDSP_AGC_DEC_MAXDB;
+            spxdsp.nMaxGainDB = DEFAULT_SPEEXDSP_AGC_GAINMAXDB;
 
             spxdsp.bEnableDenoise = ui.denoisingBox->isChecked();
-            spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
+            spxdsp.nMaxNoiseSuppressDB = DEFAULT_SPEEXDSP_DENOISE_SUPPRESS;
 
             spxdsp.bEnableEchoCancellation = ui.echocancelBox->isChecked();
-            spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-            spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+            spxdsp.nEchoSuppress = DEFAULT_SPEEXDSP_ECHO_SUPPRESS;
+            spxdsp.nEchoSuppressActive = DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE;
 
             //input and output devices MUST support the specified 'samplerate' in duplex mode
             m_sndloop = TT_StartSoundLoopbackTest(inputid, outputid, 
@@ -1169,8 +1169,8 @@ void PreferencesDlg::slotSoundDefaults()
     
     ui.sndduplexBox->setChecked(DEFAULT_SOUND_DUPLEXMODE);
     ui.echocancelBox->setChecked(DEFAULT_ECHO_ENABLE);
-    ui.agcBox->setChecked(DEFAULT_AGC_ENABLE);
-    ui.denoisingBox->setChecked(DEFAULT_DENOISE_ENABLE);
+    ui.agcBox->setChecked(DEFAULT_SPEEXDSP_AGC_ENABLE);
+    ui.denoisingBox->setChecked(DEFAULT_SPEEXDSP_DENOISE_ENABLE);
     ui.mediavsvoiceSlider->setValue(SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT);
 }
 

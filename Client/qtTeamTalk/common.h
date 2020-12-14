@@ -108,15 +108,15 @@
 //Client spefic VU max SOUND_VU_MAX (voice act slider)
 #define DEFAULT_SOUND_VU_MAX            20
 
-#define DEFAULT_AGC_ENABLE              TRUE
-#define DEFAULT_AGC_GAINLEVEL           8000
-#define DEFAULT_AGC_INC_MAXDB           12
-#define DEFAULT_AGC_DEC_MAXDB           -40
-#define DEFAULT_AGC_GAINMAXDB           30
-#define DEFAULT_DENOISE_ENABLE          TRUE
-#define DEFAULT_DENOISE_SUPPRESS        -30
-#define DEFAULT_ECHO_SUPPRESS           -40
-#define DEFAULT_ECHO_SUPPRESSACTIVE     -15
+#define DEFAULT_SPEEXDSP_AGC_ENABLE             TRUE
+#define DEFAULT_SPEEXDSP_AGC_GAINLEVEL          8000
+#define DEFAULT_SPEEXDSP_AGC_INC_MAXDB          12
+#define DEFAULT_SPEEXDSP_AGC_DEC_MAXDB          -40
+#define DEFAULT_SPEEXDSP_AGC_GAINMAXDB          30
+#define DEFAULT_SPEEXDSP_DENOISE_ENABLE         TRUE
+#define DEFAULT_SPEEXDSP_DENOISE_SUPPRESS       -30
+#define DEFAULT_SPEEXDSP_ECHO_SUPPRESS          -40
+#define DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE    -15
 
 //Default audio config settings
 #if defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
