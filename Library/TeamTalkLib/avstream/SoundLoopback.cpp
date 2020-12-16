@@ -398,15 +398,24 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
 #if defined(ENABLE_WEBRTC)
     if (m_apm)
     {
+        size_t totalsamples = samples * streamer.output_channels;
+        if (m_prev_buffer.size() != totalsamples)
+            m_prev_buffer.resize(totalsamples);
+
         media::AudioFormat infmt(streamer.samplerate, streamer.input_channels);
         media::AudioFormat outfmt(streamer.samplerate, streamer.output_channels);
         media::AudioFrame infrm(infmt, const_cast<short*>(input_buffer), samples);
         media::AudioFrame outfrm(outfmt, output_buffer, samples);
+        // insert echo cancel buffer
+        infrm.output_buffer = &m_prev_buffer[0];
+        infrm.output_samples = samples;
+        infrm.outputfmt = outfmt;
 
         if (WebRTCPreprocess(*m_apm, infrm, outfrm) != samples)
         {
             MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
         }
+        std::memcpy(&m_prev_buffer[0], output_buffer, PCM16_BYTES(samples, streamer.output_channels));
         return;
     }
 #endif
