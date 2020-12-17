@@ -1291,6 +1291,9 @@ extern "C" {
         } gaincontroller2;
     } WebRTCAudioPreprocessor;
 
+/** @brief Max value for fGainDB in #WebRTCAudioPreprocessor's @c gaincontroller2 */
+#define WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX 49.9
+
     /** @brief The types of supported audio preprocessors.
      *
      * @see TT_InitLocalPlayback() */
