@@ -108,25 +108,36 @@
 //Client spefic VU max SOUND_VU_MAX (voice act slider)
 #define DEFAULT_SOUND_VU_MAX            20
 
-#define DEFAULT_SPEEXDSP_AGC_ENABLE             TRUE
+// Channel-struct's AudioConfig
+#define CHANNEL_AUDIOCONFIG_MAX             32000
+#define DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE  FALSE
+#define DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL   16000
+
+#define DEFAULT_ECHO_ENABLE             FALSE
+#define DEFAULT_AGC_ENABLE              FALSE
+#define DEFAULT_DENOISE_ENABLE          FALSE
+
+#define DEFAULT_SPEEXDSP_AGC_ENABLE             DEFAULT_AGC_ENABLE
 #define DEFAULT_SPEEXDSP_AGC_GAINLEVEL          8000
 #define DEFAULT_SPEEXDSP_AGC_INC_MAXDB          12
 #define DEFAULT_SPEEXDSP_AGC_DEC_MAXDB          -40
 #define DEFAULT_SPEEXDSP_AGC_GAINMAXDB          30
-#define DEFAULT_SPEEXDSP_DENOISE_ENABLE         TRUE
+#define DEFAULT_SPEEXDSP_DENOISE_ENABLE         DEFAULT_DENOISE_ENABLE
 #define DEFAULT_SPEEXDSP_DENOISE_SUPPRESS       -30
+#define DEFAULT_SPEEXDSP_ECHO_ENABLE            FALSE
 #define DEFAULT_SPEEXDSP_ECHO_SUPPRESS          -40
 #define DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE    -15
 
-//Default audio config settings
-#if defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
-#define DEFAULT_SOUND_DUPLEXMODE        TRUE
-#define DEFAULT_ECHO_ENABLE             TRUE
-#else
-//Windows performs poorly with echo cancel so disable it
-#define DEFAULT_SOUND_DUPLEXMODE        FALSE
-#define DEFAULT_ECHO_ENABLE             FALSE
-#endif
+#define DEFAULT_WEBRTC_GAINCTL_ENABLE           DEFAULT_AGC_ENABLE
+#define DEFAULT_WEBRTC_GAINDB                   25
+#define DEFAULT_WEBRTC_SAT_PROT_ENABLE          TRUE
+#define DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB       20
+#define DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB      2
+#define DEFAULT_WEBRTC_MAXGAIN_DBSEC            3
+#define DEFAULT_WEBRTC_MAX_OUT_NOISE            -50
+#define DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE     DEFAULT_DENOISE_ENABLE
+#define DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL      1
+#define DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE       DEFAULT_ECHO_ENABLE
 
 #define DEFAULT_MSEC_PER_PACKET         40
 
@@ -183,9 +194,6 @@
                              USERRIGHT_TRANSMIT_DESKTOPINPUT |      \
                              USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |   \
                              USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO)
-
-// Channel dialog
-#define DEFAULT_CHANNEL_AUDIOCONFIG     FALSE
 
 #define DEFAULT_MAX_STRING_LENGTH       50
 
@@ -349,8 +357,8 @@ QStringList getCustomCommand(const TextMessage& msg);
 void initDefaultAudioCodec(AudioCodec& codec);
 bool getVideoCaptureCodec(VideoCodec& vidcodec);
 void initDefaultVideoFormat(VideoFormat& vidfmt);
-void initDefaultAudioPreprocessor(AudioPreprocessor& preprocessor);
-void loadAudioPreprocessor(AudioPreprocessor& preprocessor);
+void initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor);
+void loadAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor);
 
 bool initVideoCaptureFromSettings();
 bool initVideoCapture(const QString& devid, const VideoFormat& fmt);
@@ -359,6 +367,7 @@ bool isValid(const VideoFormat& fmt);
 QVector<SoundDevice> getSoundDevices();
 bool getSoundDevice(int deviceid, const QVector<SoundDevice>& devs, SoundDevice& dev);
 bool getSoundDevice(const QString& devid, const QVector<SoundDevice>& devs, SoundDevice& dev);
+int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev);
 
 int getDefaultSndInputDevice();
 int getDefaultSndOutputDevice();
@@ -369,8 +378,8 @@ int getSoundOutputFromUID(int outputid, const QString& uid);
 int getSelectedSndInputDevice();
 int getSelectedSndOutputDevice();
 
-QStringList initSelectedSoundDevices();
-QStringList initDefaultSoundDevices();
+QStringList initSelectedSoundDevices(SoundDevice& indev, SoundDevice& outdev);
+QStringList initDefaultSoundDevices(SoundDevice& indev, SoundDevice& outdev);
 
 QString getHotKeyText(const hotkey_t& hotkey);
 

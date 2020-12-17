@@ -36,7 +36,7 @@ class PreferencesDlg : public QDialog
     Q_OBJECT
 
 public:
-    PreferencesDlg(QWidget * parent = 0);
+    PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget * parent = 0);
     ~PreferencesDlg();
 
     enum
@@ -52,6 +52,7 @@ public:
 
 private:
     Ui::PreferencesDlg ui;
+    SoundDevice& m_devin, &m_devout;
     /* hotkey tab */
     hotkey_t m_hotkey;
     /* sound tab */

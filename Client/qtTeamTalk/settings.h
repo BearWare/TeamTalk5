@@ -114,7 +114,7 @@
 #define SETTINGS_SOUND_MASTERVOLUME                 "soundsystem/mastervolume"
 #define SETTINGS_SOUND_MASTERVOLUME_DEFAULT         50
 #define SETTINGS_SOUND_MICROPHONEGAIN               "soundsystem/microphonegain"
-#define SETTINGS_SOUND_MICROPHONEGAIN_AGC_DEFAULT   (100 * DEFAULT_SPEEXDSP_AGC_GAINLEVEL / SOUND_GAIN_MAX)
+#define SETTINGS_SOUND_MICROPHONEGAIN_AGC_DEFAULT   (100 * DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL / CHANNEL_AUDIOCONFIG_MAX)
 #define SETTINGS_SOUND_MICROPHONEGAIN_GAIN_DEFAULT  50
 #define SETTINGS_SOUND_MEDIASTREAM_VOLUME           "soundsystem/mediastream"
 #define SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT   100
@@ -122,12 +122,10 @@
 #define SETTINGS_SOUND_VOICEACTIVATIONLEVEL_DEFAULT 2
 #define SETTINGS_SOUND_ECHOCANCEL                   "soundsystem/echocancellation"
 #define SETTINGS_SOUND_ECHOCANCEL_DEFAULT           DEFAULT_ECHO_ENABLE
-#define SETTINGS_SOUND_DUPLEXMODE                   "soundsystem/duplex-mode"
-#define SETTINGS_SOUND_DUPLEXMODE_DEFAULT           DEFAULT_SOUND_DUPLEXMODE
 #define SETTINGS_SOUND_AGC                          "soundsystem/agc"
-#define SETTINGS_SOUND_AGC_DEFAULT                  DEFAULT_SPEEXDSP_AGC_ENABLE
+#define SETTINGS_SOUND_AGC_DEFAULT                  DEFAULT_AGC_ENABLE
 #define SETTINGS_SOUND_DENOISING                    "soundsystem/denoising"
-#define SETTINGS_SOUND_DENOISING_DEFAULT            DEFAULT_SPEEXDSP_DENOISE_ENABLE
+#define SETTINGS_SOUND_DENOISING_DEFAULT            DEFAULT_DENOISE_ENABLE
 #define SETTINGS_SOUND_SOUNDOUT_MUTE_LEFT           "soundsystem/sndoutput-mute-left"
 #define SETTINGS_SOUND_SOUNDOUT_MUTE_LEFT_DEFAULT   false
 #define SETTINGS_SOUND_SOUNDOUT_MUTE_RIGHT          "soundsystem/sndoutput-mute-right"
@@ -194,6 +192,15 @@
 #define SETTINGS_STREAMMEDIA_SPX_AGC_GAINMAXDB      "stream-media/spxaudiopreprocessor/agc-gainmaxdb"
 #define SETTINGS_STREAMMEDIA_SPX_DENOISE_ENABLE     "stream-media/spxaudiopreprocessor/denoise-enable"
 #define SETTINGS_STREAMMEDIA_SPX_DENOISE_SUPPRESS   "stream-media/spxaudiopreprocessor/denoise-suppress"
+#define SETTINGS_STREAMMEDIA_WEBRTC_GAINCTL_ENABLE          "stream-media/webrtcaudiopreprocessor/gain-enable"
+#define SETTINGS_STREAMMEDIA_WEBRTC_GAINDB                  "stream-media/webrtcaudiopreprocessor/gain-db"
+#define SETTINGS_STREAMMEDIA_WEBRTC_SAT_PROT_ENABLE         "stream-media/webrtcaudiopreprocessor/sat-protection-enable"
+#define SETTINGS_STREAMMEDIA_WEBRTC_INIT_SAT_MARGIN_DB      "stream-media/webrtcaudiopreprocessor/init-sat-margin-db"
+#define SETTINGS_STREAMMEDIA_WEBRTC_EXTRA_SAT_MARGIN_DB     "stream-media/webrtcaudiopreprocessor/extra-sat-margin-db"
+#define SETTINGS_STREAMMEDIA_WEBRTC_MAXGAIN_DBSEC           "stream-media/webrtcaudiopreprocessor/maxgain-dbsec"
+#define SETTINGS_STREAMMEDIA_WEBRTC_MAX_OUT_NOISE           "stream-media/webrtcaudiopreprocessor/max-out-noise"
+#define SETTINGS_STREAMMEDIA_WEBRTC_NOISESUPPRESS_ENABLE    "stream-media/webrtcaudiopreprocessor/noise-suppress-enable"
+#define SETTINGS_STREAMMEDIA_WEBRTC_NOISESUPPRESS_LEVEL     "stream-media/webrtcaudiopreprocessor/noise-suppress-level"
 
 #define SETTINGS_DESKTOPSHARE_MODE                  "desktop-share/desktop-share-mode"
 #define SETTINGS_DESKTOPSHARE_BMPMODE               "desktop-share/desktop-bmp-mode"
