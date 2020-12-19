@@ -5465,7 +5465,7 @@ void MainWindow::slotMasterVolumeChanged(int value)
 
 void MainWindow::slotMicrophoneGainChanged(int value)
 {
-    float percent = value;
+    float percent = float(value);
     percent /= 100.;
 
     AudioPreprocessor preprocessor;

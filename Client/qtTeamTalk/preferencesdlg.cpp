@@ -374,8 +374,9 @@ void PreferencesDlg::slotUpdateSoundCheckBoxes()
     getSoundDevice(inputid, m_sounddevices, in_dev);
     getSoundDevice(outputid, m_sounddevices, out_dev);
 
-    bool duplex = getSoundDuplexSampleRate(in_dev, out_dev) > 0;
-    ui.echocancelBox->setEnabled(duplex || (in_dev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC));
+    bool echocapable = isSoundDeviceEchoCapable(in_dev, out_dev);
+    ui.echocancelBox->setEnabled(echocapable);
+    ui.echocancelBox->setChecked(ui.echocancelBox->isEnabled() && ui.echocancelBox->isChecked());
 }
 
 bool PreferencesDlg::getSoundFile(QString& filename)
@@ -1084,23 +1085,25 @@ void PreferencesDlg::slotSoundTestDevices(bool checked)
             samplerate = out_dev.nDefaultSampleRate;
         int channels = 1;
 
-        if (!duplex && out_dev.nSoundSystem == SOUNDSYSTEM_WASAPI)
+        AudioPreprocessor preprocessor = {};
+        initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+
+        if (!duplex && (in_dev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC))
         {
             SoundDeviceEffects effects = {};
-            effects.bEnableAGC = ui.agcBox->isChecked();
-            effects.bEnableDenoise = ui.denoisingBox->isChecked();
             effects.bEnableEchoCancellation = ui.echocancelBox->isChecked();
+            preprocessor.webrtc.echocanceller.bEnable = FALSE;
+            preprocessor.webrtc.gaincontroller2.bEnable = ui.agcBox->isChecked();
+            preprocessor.webrtc.noisesuppression.bEnable = ui.denoisingBox->isChecked();
 
-            bool duplex = (effects.bEnableAGC || effects.bEnableDenoise || effects.bEnableEchoCancellation);
+            duplex = effects.bEnableEchoCancellation && in_dev.nSoundSystem == SOUNDSYSTEM_WASAPI;
 
             m_sndloop = TT_StartSoundLoopbackTestEx(inputid, outputid, samplerate,
-                                                    channels, duplex, nullptr, &effects);
+                                                    channels, duplex, &preprocessor, &effects);
         }
         else
         {
-            AudioPreprocessor preprocessor = {};
-            initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
-
+            Q_ASSERT((ui.echocancelBox->isChecked() && duplex) || !ui.echocancelBox->isChecked());
             preprocessor.webrtc.echocanceller.bEnable = ui.echocancelBox->isChecked();
             preprocessor.webrtc.gaincontroller2.bEnable = ui.agcBox->isChecked();
             preprocessor.webrtc.noisesuppression.bEnable = ui.denoisingBox->isChecked();
@@ -1128,18 +1131,16 @@ void PreferencesDlg::slotSoundDefaults()
     int default_inputid = 0, default_outputid = 0;
     TT_GetDefaultSoundDevices(&default_inputid, &default_outputid);
 
-    SoundDevice dev;
-    if(getSoundDevice(default_outputid, m_sounddevices, dev))
-        showDevices(dev.nSoundSystem);
+    SoundDevice indev, outdev;
+    getSoundDevice(default_inputid, m_sounddevices, indev);
+    if (getSoundDevice(default_outputid, m_sounddevices, outdev))
+        showDevices(outdev.nSoundSystem);
 
-    int index = ui.inputdevBox->findData(default_inputid);
-    if(index>=0)
-        ui.inputdevBox->setCurrentIndex(index);
-    index = ui.outputdevBox->findData(default_outputid);
-    if(index>=0)
-        ui.outputdevBox->setCurrentIndex(index);
+    setCurrentItemData(ui.inputdevBox, default_inputid);
+    setCurrentItemData(ui.outputdevBox, default_outputid);
     
-    ui.echocancelBox->setChecked(DEFAULT_ECHO_ENABLE);
+    bool echocapable = isSoundDeviceEchoCapable(indev, outdev);
+    ui.echocancelBox->setChecked(DEFAULT_ECHO_ENABLE && echocapable);
     ui.agcBox->setChecked(DEFAULT_AGC_ENABLE);
     ui.denoisingBox->setChecked(DEFAULT_DENOISE_ENABLE);
     ui.mediavsvoiceSlider->setValue(SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT);

@@ -283,10 +283,15 @@ bool getSoundDevice(const QString& devid, const QVector<SoundDevice>& devs,
 
 int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev)
 {
-    auto isend = indev.inputSampleRates+sizeof(indev.inputSampleRates);
+    auto isend = indev.inputSampleRates + sizeof(indev.inputSampleRates);
     auto isr = std::find_if(indev.inputSampleRates, isend,
                             [outdev] (int sr) { return sr == outdev.nDefaultSampleRate; });
     return isr != isend ? outdev.nDefaultSampleRate : 0;
+}
+
+bool isSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outdev)
+{
+    return getSoundDuplexSampleRate(indev, outdev) > 0 || (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC);
 }
 
 int getDefaultSndInputDevice()
@@ -396,12 +401,11 @@ QStringList initSelectedSoundDevices(SoundDevice& indev, SoundDevice& outdev)
     int samplerate = getSoundDuplexSampleRate(indev, outdev);
     bool duplex = samplerate > 0 && echocancel;
 
+    // prefer WebRTC to echo cancel if duplex is available
     if (echocancel && !duplex)
     {
         // toggle sound device effect if it's supported by input device
-        effects.bEnableAGC = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AGC) && ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
-        effects.bEnableDenoise = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DENOISE) && ttSettings->value(SETTINGS_SOUND_DENOISING, SETTINGS_SOUND_DENOISING_DEFAULT).toBool();
-        effects.bEnableEchoCancellation = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC) && ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool();
+        effects.bEnableEchoCancellation = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC) && echocancel;
 
         // WASAPI must know input and output device to echo cancel
         duplex = outdev.nSoundSystem == SOUNDSYSTEM_WASAPI;

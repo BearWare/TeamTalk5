@@ -368,6 +368,7 @@ QVector<SoundDevice> getSoundDevices();
 bool getSoundDevice(int deviceid, const QVector<SoundDevice>& devs, SoundDevice& dev);
 bool getSoundDevice(const QString& devid, const QVector<SoundDevice>& devs, SoundDevice& dev);
 int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev);
+bool isSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outdev);
 
 int getDefaultSndInputDevice();
 int getDefaultSndOutputDevice();
