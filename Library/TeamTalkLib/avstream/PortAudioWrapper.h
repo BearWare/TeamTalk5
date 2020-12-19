@@ -49,6 +49,29 @@ namespace soundsystem
         {
             MYTRACE(ACE_TEXT("~PaStreamer()\n"));
         }
+
+        uint32_t DurationMSec()
+        {
+            assert(!initialcallback);
+            return GETTIMESTAMP() - starttime;
+        }
+        uint32_t DurationSamplesMSec(int samplerate)
+        {
+            return uint32_t(PCM16_SAMPLES_DURATION(processedsamples, samplerate));
+        }
+        bool Tick(int samples)
+        {
+            bool b = initialcallback;
+            if (initialcallback)
+                starttime = GETTIMESTAMP();
+            initialcallback = false;
+            processedsamples += samples;
+            return b;
+        }
+    private:
+        uint64_t processedsamples = 0;
+        uint32_t starttime = 0;
+        bool initialcallback = true;
     };
 
     struct PaInputStreamer : InputStreamer, PaStreamer
@@ -68,13 +91,6 @@ namespace soundsystem
     struct PaDuplexStreamer : DuplexStreamer, PaStreamer
     {
         // Pa_OpenStream doesn't return until DuplexCallback is called at least once
-        bool initialcallback = true;
-        uint32_t playedsamples_msec = 0;
-        uint32_t starttime = 0;
-#if defined(WIN32)
-        std::shared_ptr<class CWMAudioAECCapture> winaec;
-        uint32_t echosamples_msec = 0;
-#endif
         PaDuplexStreamer(StreamDuplex* d, int sg, int fs, int sr, int inchs, int outchs,
                          SoundAPI out_sndsys, int inputdeviceid, int outputdeviceid)
             : DuplexStreamer(d, sg, fs, sr, inchs, outchs, out_sndsys, inputdeviceid, outputdeviceid)
@@ -82,6 +98,20 @@ namespace soundsystem
         ~PaDuplexStreamer()
         {
         }
+#if defined(WIN32)
+        std::shared_ptr<class CWMAudioAECCapture> winaec;
+        void TickEcho(int echosamples)
+        {
+            echosamples22050 += echosamples;
+        }
+        uint32_t DurationEchoSamplesMSec(int samplerate)
+        {
+            assert(samplerate == 22050);
+            return uint32_t(PCM16_SAMPLES_DURATION(echosamples22050, samplerate));
+        }
+    private:
+        uint64_t echosamples22050 = 0;
+#endif
     };
 
     struct PaSoundGroup : SoundGroup
