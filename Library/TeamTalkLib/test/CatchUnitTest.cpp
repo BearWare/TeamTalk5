@@ -49,6 +49,10 @@
 #include <avstream/FFMpeg3Streamer.h>
 #endif
 
+#if defined (ENABLE_PORTAUDIO)
+#include <avstream/PortAudioWrapper.h>
+#endif
+
 #if defined(WIN32)
 #include <ace/Init_ACE.h>
 #include <assert.h>
@@ -1434,3 +1438,123 @@ TEST_CASE("WebRTC_echocancel")
     WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
 }
 #endif /* ENABLE_WEBRTC */
+
+#if defined(ENABLE_PORTAUDIO)
+
+int samples = 0;
+uint32_t paTimeStamp = 0;
+
+int Foo_StreamCallback(const void* inputBuffer, void* outputBuffer,
+    unsigned long framesPerBuffer,
+    const PaStreamCallbackTimeInfo* timeInfo,
+    PaStreamCallbackFlags statusFlags,
+    void* pUserData)
+{
+    samples += framesPerBuffer;
+    if (!paTimeStamp)
+        paTimeStamp = GETTIMESTAMP();
+
+    return paContinue;
+}
+
+TEST_CASE("PortAudioRaw_SamplesPerSec")
+{
+    PaError err = Pa_Initialize();
+
+    PaDeviceIndex inputdeviceid = -1, outputdeviceid = -1;
+    PaHostApiIndex hostApi = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+    if (hostApi != paHostApiNotFound)
+    {
+        const PaHostApiInfo* hostapi = Pa_GetHostApiInfo(hostApi);
+        if (hostapi)
+        {
+            inputdeviceid = hostapi->defaultInputDevice;
+            outputdeviceid = hostapi->defaultOutputDevice;
+        }
+    }
+    REQUIRE(outputdeviceid >= 0);
+
+    const PaDeviceInfo* ininfo = Pa_GetDeviceInfo(outputdeviceid);
+    REQUIRE(ininfo);
+    PaStreamParameters outputParameters = {};
+    outputParameters.device = outputdeviceid;
+    outputParameters.channelCount = 1;
+    outputParameters.hostApiSpecificStreamInfo = NULL;
+    outputParameters.sampleFormat = paInt16;
+    outputParameters.suggestedLatency = ininfo->defaultLowOutputLatency;
+
+    PaStream* outstream;
+    err = Pa_OpenStream(&outstream, nullptr, &outputParameters,
+                        ininfo->defaultSampleRate, ininfo->defaultSampleRate * .04,
+                        paClipOff, Foo_StreamCallback, static_cast<void*> (0));
+
+    REQUIRE(Pa_StartStream(outstream) == paNoError);
+    while (samples < ininfo->defaultSampleRate * 500)
+    {
+        Pa_Sleep(1000);
+
+        auto samplesDurationMSec = PCM16_SAMPLES_DURATION(samples, int(ininfo->defaultSampleRate));
+        auto durationMSec = GETTIMESTAMP() - paTimeStamp;
+        auto skew = int(samplesDurationMSec - durationMSec);
+        std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
+
+        REQUIRE(skew < 0.08 * 1000);
+    }
+
+    Pa_Terminate();
+}
+
+TEST_CASE("PortAudio_SamplesPerSec")
+{
+    auto snd = soundsystem::GetInstance();
+    auto grp = snd->OpenSoundGroup();
+    
+    int inputdeviceid, outputdeviceid;
+    REQUIRE(snd->GetDefaultDevices(soundsystem::SOUND_API_WASAPI, inputdeviceid, outputdeviceid));
+    soundsystem::devices_t devs;
+    REQUIRE(snd->GetSoundDevices(devs));
+
+    auto ioutdev = std::find_if(devs.begin(), devs.end(), [outputdeviceid](soundsystem::DeviceInfo& d)
+        {
+            return d.id == outputdeviceid;
+        });
+
+    REQUIRE(ioutdev != devs.end());
+    
+    soundsystem::DeviceInfo& outdev = *ioutdev;
+
+    uint32_t samples = 0, starttime = 0;
+    const int SAMPLERATE = 48000, CHANNELS = 1;
+
+    class MyStream : public soundsystem::StreamPlayer
+    {
+        uint32_t& samples, &starttime;
+    public:
+        MyStream(uint32_t& s, uint32_t& st) : samples(s), starttime(st) {}
+        bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer, short* buffer, int framesPerBuffer)
+        {
+            if (!starttime)
+                starttime = GETTIMESTAMP();
+            samples += framesPerBuffer;
+            return true;
+        }
+    } player(samples, starttime);
+
+    REQUIRE(snd->OpenOutputStream(&player, outputdeviceid, grp, SAMPLERATE, CHANNELS, SAMPLERATE * 0.04));
+    REQUIRE(snd->StartStream(&player));
+
+    while (samples < outdev.default_samplerate * 500)
+    {
+        Pa_Sleep(1000);
+
+        auto samplesDurationMSec = PCM16_SAMPLES_DURATION(samples, int(outdev.default_samplerate));
+        auto durationMSec = GETTIMESTAMP() - starttime;
+        auto skew = int(samplesDurationMSec - durationMSec);
+
+        std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
+
+        REQUIRE(skew < 0.08 * 1000);
+    }
+}
+
+#endif
