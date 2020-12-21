@@ -2042,12 +2042,12 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
                 szFmt.LoadString(IDS_CHANTEXTMSG);
                 TRANSLATE_ITEM(IDS_CHANTEXTMSG, szFmt);
                 szMsg.Format(szFmt, szName, textmsg.szMessage);
+                PlaySoundEvent(SOUNDEVENT_USER_CHANNEL_TEXTMSG);
             }
             if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_TEXTMSG_CHANNEL)
                 AddTextToSpeechMessage(szMsg);
         }
 
-        PlaySoundEvent(SOUNDEVENT_USER_CHANNEL_TEXTMSG);
     }
     break;
     case MSGTYPE_BROADCAST :
