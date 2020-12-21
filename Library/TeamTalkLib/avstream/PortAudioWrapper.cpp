@@ -332,8 +332,8 @@ int InputStreamCallback(const void *inputBuffer, void *outputBuffer,
     uint32_t samplesMSec = inputStreamer->DurationSamplesMSec(inputStreamer->samplerate);
     uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, inputStreamer->samplerate);
 
-    MYTRACE_COND(std::abs(int(durationMSec - samplesMSec)) > int(cbMSec) * 3,
-        ACE_TEXT("Input callback is off by %u msec\n"), durationMSec - samplesMSec);
+    int skewMSec = std::abs(int(durationMSec - samplesMSec));
+    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Input callback is off by %d msec\n"), skewMSec);
 
     MYTRACE_COND(inputStreamer->soundsystem == SOUND_API_NOSOUND,
                  ACE_TEXT("No sound input callback"));
@@ -434,9 +434,8 @@ int OutputStreamCallback(const void *inputBuffer, void *outputBuffer,
     uint32_t durationMSec = streamer->DurationMSec();
     uint32_t samplesMSec = streamer->DurationSamplesMSec(streamer->samplerate);
     uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, streamer->samplerate);
-
-    MYTRACE_COND(std::abs(int(durationMSec - samplesMSec)) > int(cbMSec) * 3,
-        ACE_TEXT("Output callback is off by %u msec\n"), durationMSec - samplesMSec);
+    int skewMSec = std::abs(int(durationMSec - samplesMSec));
+    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Output callback is off by %d msec\n"), skewMSec);
 
     if(bContinue)
         return paContinue;
@@ -636,8 +635,8 @@ int DuplexStreamCallback(const void *inputBuffer,
     uint32_t durationMSec = dpxStream->DurationMSec();
     uint32_t samplesMSec = dpxStream->DurationSamplesMSec(dpxStream->samplerate);
     uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, dpxStream->samplerate);
-    MYTRACE_COND(std::abs(int(durationMSec - samplesMSec)) > int(cbMSec) * 3,
-                 ACE_TEXT("Duplex callback is off my %u msec\n"), durationMSec - samplesMSec);
+    int skewMSec = std::abs(int(durationMSec - samplesMSec));
+    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Duplex callback is off my %d msec\n"), skewMSec);
 
 #if defined(WIN32)
     if (dpxStream->winaec)
