@@ -967,7 +967,11 @@ extern "C" {
      * @{ */
 
     /** @brief Speex audio codec settings for Constant Bitrate mode
-     * (CBR). @see SpeexVBRCodec */
+     * (CBR).
+     *
+     * @deprecated Use #OPUSCodec.
+     *
+     * @see SpeexVBRCodec */
     typedef struct SpeexCodec
     {
         /** @brief Set to 0 for 8 KHz (narrow band), set to 1 for 16 KHz 
@@ -995,7 +999,9 @@ extern "C" {
     } SpeexCodec;
 
     /** @brief Speex audio codec settings for Variable Bitrate mode
-     * (VBR). */
+     * (VBR).
+     *
+     * @deprecated Use #OPUSCodec. */
     typedef struct SpeexVBRCodec
     {
         /** @brief Set to 0 for 8 KHz (narrow band), set to 1 for 16 KHz 
@@ -1127,6 +1133,8 @@ extern "C" {
      * from a sound input device should be preprocessed before
      * transmission.
      *
+     * @deprecated Use #WebRTCAudioPreprocessor.
+     *
      * Users' audio levels may be diffent due to how their microphone
      * is configured in their OS. Automatic Gain Control (AGC) can be
      * used to ensure all users in the same channel have the same
@@ -1212,6 +1220,74 @@ extern "C" {
         TTBOOL bMuteRightSpeaker;
     } TTAudioPreprocessor;
 
+    /** @brief WebRTC's audio preprocessor.
+     *
+     * Use WebRTC's audio preprocessor, https://webrtc.org
+     *
+     * Note that WebRTC's can only operate on 10 msec audio frame, so
+     * @c nTxIntervalMSec in #AudioCodec must a multiple of 10.
+     *
+     * #WebRTCAudioPreprocessor is recommended to
+     * TT_SetSoundDeviceEffects() on desktop platforms. */
+    typedef struct WebRTCAudioPreprocessor
+    {
+        /** @brief Configuration of WebRTC's echo canceller. See also
+         * TT_SetSoundDeviceEffects() */
+        struct
+        {
+            /** @brief Enable WebRTC echo canceller. The WebRTC echo
+             * canceller requires sound input and output devices are
+             * initialized using TT_InitSoundDuplexDevices(). This is
+             * because both input and output device must use the same
+             * sample rate. */
+            TTBOOL bEnable;
+        } echocanceller;
+        /** @brief Configuration of WebRTC's noise suppression. See
+         * also #SpeexDSP. */
+        struct
+        {
+            /** @brief Enable WebRTC noise suppression. */
+            TTBOOL bEnable;
+            /** @brief Noise suppression level. 0 = Low, 1 = Moderate,
+             * 2 = High, 3 = VeryHigh. Default: 1. */
+            INT32 nLevel;
+        } noisesuppression;
+        /** @brief Configuration of WebRTC's gain controller 2 for
+         * AGC. */
+        struct
+        {
+            /** @brief Enable WebRTC's fixed digital gain. WebRTC's
+             * automatic gain control (AGC) */
+            TTBOOL bEnable;
+            /** @brief Gain level for AGC. Only active when @c bEnable
+             * is true. */
+            struct
+            {
+                /** @brief Gain level in dB. Range 0 - 49.9. Default:
+                 * 0. */
+                float fGainDB;
+            } fixeddigital;
+            /** @brief Configuration for fine tuning gain level. */
+            struct
+            {
+                /* @brief Enable saturation protector where saturation
+                 * margin is 2 dB. */
+                TTBOOL bEnable;
+                /* Default: 20 dB */
+                float fInitialSaturationMarginDB;
+                /* Default: 2 dB */
+                float fExtraSaturationMarginDB;
+                /* Default: 3 dB/sec */
+                float fMaxGainChangeDBPerSecond;
+                /* Default: -50 */
+                float fMaxOutputNoiseLevelDBFS;
+            } adaptivedigital;
+        } gaincontroller2;
+    } WebRTCAudioPreprocessor;
+
+/** @brief Max value for fGainDB in #WebRTCAudioPreprocessor's @c gaincontroller2 */
+#define WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX 49.9f
+
     /** @brief The types of supported audio preprocessors.
      *
      * @see TT_InitLocalPlayback() */
@@ -1224,6 +1300,9 @@ extern "C" {
         SPEEXDSP_AUDIOPREPROCESSOR  = 1,
         /** @brief Use TeamTalk's internal audio preprocessor #TTAudioPreprocessor. */
         TEAMTALK_AUDIOPREPROCESSOR  = 2,
+        /** @brief Use WebRTC's audio preprocessor from
+         * #WebRTCAudioPreprocessor. https://webrtc.org */
+        WEBRTC_AUDIOPREPROCESSOR    = 3,
     } AudioPreprocessorType;
 
     /** @brief Configure the audio preprocessor specified by @c nPreprocessor. */
@@ -1237,6 +1316,8 @@ extern "C" {
             SpeexDSP speexdsp;
             /** @brief Used when @c nPreprocessor is #TEAMTALK_AUDIOPREPROCESSOR. */
             TTAudioPreprocessor ttpreprocessor;
+            /** @brief Used when @c nPreprocessor is #WEBRTC_AUDIOPREPROCESSOR. */
+            WebRTCAudioPreprocessor webrtc;
         };
     } AudioPreprocessor;
     
@@ -1388,9 +1469,10 @@ extern "C" {
     typedef struct MediaFilePlayback
     {
         /** @brief Offset in milliseconds in the media file where to
-         * start playback. Pass -1 (0xffffffff) to ignore this value when 
-         * using TT_UpdateLocalPlayback() or TT_UpdateStreamingMediaFileToChannel().
-         * @c uOffsetMSec must be less than @c uDurationMSec in #MediaFileInfo. */
+         * start playback. Pass #TT_MEDIAPLAYBACK_OFFSET_IGNORE to
+         * ignore this value when using TT_UpdateLocalPlayback() or
+         * TT_UpdateStreamingMediaFileToChannel().  @c uOffsetMSec
+         * must be less than @c uDurationMSec in #MediaFileInfo. */
         UINT32 uOffsetMSec;
         /** @brief Start or pause media file playback. */
         TTBOOL bPaused;
@@ -4886,9 +4968,14 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_StopStreamingMediaFileToChannel(IN TTInstance* lpTTInstance);
 
     /**
-     * Play media file using settings from @c lpTTInstance,
-     * i.e. TT_SetSoundOutputMute(), TT_SetSoundOutputVolume() and
-     * TT_InitSoundOutputDevice().
+     * @brief Play media file using settings from #TTInstance.
+     *
+     * The sound system properties of the @c lpTTInstance will be used
+     * for playback, i.e. TT_SetSoundOutputMute(),
+     * TT_SetSoundOutputVolume() and TT_InitSoundOutputDevice().
+     *
+     * Monitor progress of playback by checking for event
+     * #CLIENTEVENT_LOCAL_MEDIAFILE.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 

@@ -49,8 +49,9 @@
 #include <avstream/FFMpeg3Streamer.h>
 #endif
 
-
-using namespace std;
+#if defined (ENABLE_PORTAUDIO)
+#include <avstream/PortAudioWrapper.h>
+#endif
 
 #if defined(WIN32)
 #include <ace/Init_ACE.h>
@@ -412,7 +413,6 @@ TEST_CASE( "Opus Read File" )
     REQUIRE(op.body_len>0);
     pages++;
     while (of.ReadOggPage(op))pages++;
-    cout << "pages: " << pages << endl;
 }
 #endif
 
@@ -587,21 +587,16 @@ TEST_CASE("CWMAudioAEC_Callback")
     {
     public:
         int callbacks = 0;
-        void StreamDuplexEchoCb(const DuplexStreamer& streamer,
-                                const short* input_buffer,
-                                const short* prev_output_buffer, int samples)
-        {
-        }
 
         void StreamDuplexCb(const DuplexStreamer& streamer,
                             const short* input_buffer,
-                            short* output_buffer, int samples)
+                            short* output_buffer, int samples) override
         {
             MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
             callbacks++;
         }
 
-        soundsystem::SoundDeviceFeatures GetDuplexFeatures()
+        soundsystem::SoundDeviceFeatures GetDuplexFeatures() override
         {
             return soundsystem::SOUNDDEVICEFEATURE_NONE;
         }
@@ -625,7 +620,6 @@ TEST_CASE("CWMAudioAEC_Callback")
             if (recorded)
             {
                 std::vector<short> playback(paduplex.framesize * paduplex.output_channels);
-                paduplex.duplex->StreamDuplexEchoCb(paduplex, recorded, &playback[0], paduplex.framesize);
                 paduplex.duplex->StreamDuplexCb(paduplex, recorded, &playback[0], paduplex.framesize);
                 paduplex.winaec->ReleaseBuffer();
             }
@@ -645,7 +639,6 @@ TEST_CASE("CWMAudioAEC_Callback")
             if(recorded)
             {
                 std::vector<short> playback(paduplex2.framesize * paduplex2.output_channels);
-                paduplex2.duplex->StreamDuplexEchoCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
                 paduplex2.duplex->StreamDuplexCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
                 paduplex2.winaec->ReleaseBuffer();
             }
@@ -662,7 +655,6 @@ TEST_CASE("CWMAudioAEC_Callback")
             if(recorded)
             {
                 std::vector<short> playback(paduplex2.framesize * paduplex2.output_channels);
-                paduplex2.duplex->StreamDuplexEchoCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
                 paduplex2.duplex->StreamDuplexCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
                 paduplex2.winaec->ReleaseBuffer();
             }
@@ -728,15 +720,10 @@ TEST_CASE("CWMAudioAEC_DuplexMode")
                     m_playbuffer.resize(m_playframesize * m_playfile.GetChannels());
                 }
                 int callbacks = 0;
-                void StreamDuplexEchoCb(const DuplexStreamer& streamer,
-                    const short* input_buffer,
-                    const short* prev_output_buffer, int samples)
-                {
-                }
 
                 void StreamDuplexCb(const DuplexStreamer& streamer,
                     const short* input_buffer,
-                    short* output_buffer, int samples)
+                    short* output_buffer, int samples) override
                 {
                     //MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
                     callbacks++;
@@ -747,7 +734,7 @@ TEST_CASE("CWMAudioAEC_DuplexMode")
                     REQUIRE(resampled <= samples);
                 }
 
-                soundsystem::SoundDeviceFeatures GetDuplexFeatures()
+                soundsystem::SoundDeviceFeatures GetDuplexFeatures() override
                 {
                     return soundsystem::SOUNDDEVICEFEATURE_AEC | soundsystem::SOUNDDEVICEFEATURE_AGC | soundsystem::SOUNDDEVICEFEATURE_DENOISE;
                 }
@@ -1138,3 +1125,436 @@ TEST_CASE("Last voice packet - wav files")
 
     ACE_OS::closedir(dir);
 }
+
+#if defined(ENABLE_WEBRTC)
+
+TEST_CASE("SoundLoopbackDuplexDBFS1")
+{
+    SoundDevice indev, outdev;
+    REQUIRE(GetSoundDevices(indev, outdev));
+
+    std::cout << "input: " << indev.nDeviceID << " name: " << indev.szDeviceName
+              << " channels: " << indev.nMaxInputChannels << " samplerate: " << indev.nDefaultSampleRate
+              << " output: " << outdev.nDeviceID << " name: " << outdev.szDeviceName << std::endl;
+    ttinst ttclient(TT_InitTeamTalkPoll());
+
+    AudioPreprocessor preprocess = {};
+
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    preprocess.webrtc.gaincontroller1.bEnable = TRUE;
+    preprocess.webrtc.gaincontroller1.nTargetLevelDBFS = 1;
+
+    auto sndloop = TT_StartSoundLoopbackTestEx(indev.nDeviceID, outdev.nDeviceID, indev.nDefaultSampleRate,
+                                          1, TRUE, &preprocess, nullptr);
+    REQUIRE(sndloop);
+
+    std::cout << "Recording...." << std::endl;
+
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 10000);
+
+    REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
+}
+
+TEST_CASE("SoundLoopbackDuplexDBFS30")
+{
+    SoundDevice indev, outdev;
+    REQUIRE(GetSoundDevices(indev, outdev));
+
+    std::cout << "input: " << indev.nDeviceID << " name: " << indev.szDeviceName
+              << " channels: " << indev.nMaxInputChannels << " samplerate: " << indev.nDefaultSampleRate
+              << " output: " << outdev.nDeviceID << " name: " << outdev.szDeviceName << std::endl;
+    ttinst ttclient(TT_InitTeamTalkPoll());
+
+    AudioPreprocessor preprocess = {};
+
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    preprocess.webrtc.gaincontroller1.bEnable = TRUE;
+    preprocess.webrtc.gaincontroller1.nTargetLevelDBFS = 30;
+
+    auto sndloop = TT_StartSoundLoopbackTestEx(indev.nDeviceID, outdev.nDeviceID, indev.nDefaultSampleRate,
+                                          1, TRUE, &preprocess, nullptr);
+    REQUIRE(sndloop);
+
+    std::cout << "Recording...." << std::endl;
+
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 10000);
+
+    REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
+}
+
+TEST_CASE("SoundLoopbackDefault")
+{
+    SoundDevice indev, outdev;
+    REQUIRE(GetSoundDevices(indev, outdev));
+
+#if defined(UNICODE)
+    std::wcout <<
+#else
+    std::cout <<
+#endif
+        "input: " << indev.nDeviceID << " name: " << indev.szDeviceName
+               << " channels: " << indev.nMaxInputChannels << " samplerate: " << indev.nDefaultSampleRate
+               << " output: " << outdev.nDeviceID << " name: " << outdev.szDeviceName << std::endl;
+
+    ttinst ttclient(TT_InitTeamTalkPoll());
+
+    AudioPreprocessor preprocess = {};
+
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    preprocess.webrtc.gaincontroller2.bEnable = TRUE;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+
+    preprocess.webrtc.noisesuppression.bEnable = FALSE;
+    preprocess.webrtc.noisesuppression.nLevel = 0;
+
+    auto sndloop = TT_StartSoundLoopbackTestEx(indev.nDeviceID, outdev.nDeviceID, indev.nDefaultSampleRate,
+                                          1, FALSE, &preprocess, nullptr);
+    REQUIRE(sndloop);
+
+    std::cout << "Recording...." << std::endl;
+
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 30000);
+
+    REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
+}
+
+TEST_CASE("WebRTC_SampleRates")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+
+    AudioPreprocessor preprocess = {};
+
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    preprocess.webrtc.gaincontroller2.bEnable = TRUE;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+
+    const std::vector<int> standardSampleRates = {8000, 12000, 16000, 24000, 32000, 44100, 48000};
+
+    for (auto samplerate : standardSampleRates)
+    {
+        auto sndloop = TT_StartSoundLoopbackTestEx(TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
+                                                   TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
+                                                   samplerate, 2, TRUE, &preprocess, nullptr);
+        REQUIRE(sndloop);
+
+        REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
+    }
+}
+
+TEST_CASE("WebRTCPreprocessor")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoSubscribe(ttclient, TT_GetMyUserID(ttclient), SUBSCRIBE_VOICE)));
+
+    TTCHAR curdir[1024] = {};
+    ACE_OS::getcwd(curdir, 1024);
+    REQUIRE(TT_SetUserMediaStorageDir(ttclient, TT_GetMyUserID(ttclient), curdir, ACE_TEXT(""), AFF_WAVE_FORMAT));
+
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, true));
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
+
+    AudioPreprocessor preprocess = {};
+
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+
+    preprocess.webrtc.noisesuppression.bEnable = TRUE;
+    preprocess.webrtc.noisesuppression.nLevel = 3;
+
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
+
+    preprocess.webrtc.gaincontroller2.bEnable = TRUE;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 10;
+
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
+
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, false));
+
+}
+
+TEST_CASE("WebRTC_gaincontroller1")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    mfp.audioPreprocessor.webrtc.gaincontroller1.bEnable = TRUE;
+    mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDBFS = 25;
+
+    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input_low.wav"), &mfp);
+    REQUIRE(session > 0);
+
+    bool success = false, toggled = false, stop = false;
+    TTMessage msg;
+    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, 5000) && !stop)
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_PLAYING :
+            if (msg.mediafileinfo.uElapsedMSec >= 3000 && !toggled)
+            {
+                mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+                mfp.audioPreprocessor.webrtc.gaincontroller1.bEnable = TRUE;
+                mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDBFS = 0;
+                REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+                toggled = true;
+                std::cout << "Toggled: " << msg.mediafileinfo.uElapsedMSec << std::endl;
+            }
+            if (msg.mediafileinfo.uElapsedMSec >= 10000)
+            {
+                std::cout << "Elapsed: " << msg.mediafileinfo.uElapsedMSec << std::endl;
+                stop = true;
+            }
+            break;
+        case MFS_FINISHED :
+            success = true;
+            break;
+        }
+    }
+    REQUIRE(toggled);
+    REQUIRE(success);
+}
+
+TEST_CASE("WebRTC_gaincontroller2")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    mfp.audioPreprocessor.webrtc.gaincontroller1.bEnable = FALSE;
+    mfp.audioPreprocessor.webrtc.gaincontroller1.nTargetLevelDBFS = 25;
+
+    mfp.audioPreprocessor.webrtc.gaincontroller2.bEnable = FALSE;
+    mfp.audioPreprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = 0;
+
+    mfp.audioPreprocessor.webrtc.noisesuppression.bEnable = FALSE;
+    mfp.audioPreprocessor.webrtc.noisesuppression.nLevel = 3;
+
+    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input_low.wav"), &mfp);
+    REQUIRE(session > 0);
+
+    bool success = false, toggled = false, stop = false;
+    TTMessage msg;
+    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, 5000) && !stop)
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_PLAYING :
+            if (msg.mediafileinfo.uElapsedMSec >= 3000 && !toggled)
+            {
+                mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+                mfp.audioPreprocessor.webrtc.gaincontroller2.bEnable = TRUE;
+                mfp.audioPreprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+                REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+                toggled = true;
+                std::cout << "Toggled: " << msg.mediafileinfo.uElapsedMSec << std::endl;
+            }
+            if (msg.mediafileinfo.uElapsedMSec >= 10000)
+            {
+                std::cout << "Elapsed: " << msg.mediafileinfo.uElapsedMSec << std::endl;
+                stop = true;
+            }
+            break;
+        case MFS_FINISHED :
+            success = true;
+            break;
+        }
+    }
+    REQUIRE(toggled);
+    REQUIRE(success);
+}
+
+TEST_CASE("WebRTC_echocancel")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    SoundDeviceEffects effects = {};
+    effects.bEnableEchoCancellation = FALSE;
+    REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
+    REQUIRE(InitSound(ttclient, DUPLEX));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    // REQUIRE(JoinRoot(ttclient));
+
+    AudioCodec codec = {};
+    codec.nCodec = SPEEX_VBR_CODEC;
+    codec.speex_vbr.nBandmode = 2;
+    codec.speex_vbr.nBitRate = 16000;
+    codec.speex_vbr.nMaxBitRate = SPEEX_UWB_MAX_BITRATE;
+    codec.speex_vbr.nQuality = 10;
+    codec.speex_vbr.nTxIntervalMSec = 40;
+    Channel chan = MakeChannel(ttclient, ACE_TEXT("speex"), TT_GetRootChannelID(ttclient), codec);
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoJoinChannel(ttclient, &chan)));
+
+    AudioPreprocessor preprocess = {};
+
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+
+    switch (preprocess.nPreprocessor)
+    {
+    case WEBRTC_AUDIOPREPROCESSOR :
+        preprocess.webrtc.echocanceller.bEnable = TRUE;
+
+        preprocess.webrtc.noisesuppression.bEnable = TRUE;
+        preprocess.webrtc.noisesuppression.nLevel = 2;
+
+        preprocess.webrtc.gaincontroller2.bEnable = TRUE;
+        preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+#define DEFAULT_AGC_ENABLE              TRUE
+#define DEFAULT_AGC_GAINLEVEL           8000
+#define DEFAULT_AGC_INC_MAXDB           12
+#define DEFAULT_AGC_DEC_MAXDB           -40
+#define DEFAULT_AGC_GAINMAXDB           30
+#define DEFAULT_DENOISE_ENABLE          TRUE
+#define DEFAULT_DENOISE_SUPPRESS        -30
+#define DEFAULT_ECHO_ENABLE             TRUE
+#define DEFAULT_ECHO_SUPPRESS           -40
+#define DEFAULT_ECHO_SUPPRESSACTIVE     -15
+        preprocess.speexdsp.bEnableAGC = DEFAULT_AGC_ENABLE;
+        preprocess.speexdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+        preprocess.speexdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
+        preprocess.speexdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
+        preprocess.speexdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
+        preprocess.speexdsp.bEnableDenoise = DEFAULT_DENOISE_ENABLE;
+        preprocess.speexdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
+        preprocess.speexdsp.bEnableEchoCancellation = DEFAULT_ECHO_ENABLE;
+        preprocess.speexdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
+        preprocess.speexdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+        break;
+    }
+
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, true));
+
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
+}
+#endif /* ENABLE_WEBRTC */
+
+#if defined(ENABLE_PORTAUDIO)
+
+int samples = 0;
+uint32_t paTimeStamp = 0;
+
+int Foo_StreamCallback(const void* inputBuffer, void* outputBuffer,
+    unsigned long framesPerBuffer,
+    const PaStreamCallbackTimeInfo* timeInfo,
+    PaStreamCallbackFlags statusFlags,
+    void* pUserData)
+{
+    samples += framesPerBuffer;
+    if (!paTimeStamp)
+        paTimeStamp = GETTIMESTAMP();
+
+    return paContinue;
+}
+
+TEST_CASE("PortAudioRaw_SamplesPerSec")
+{
+    PaError err = Pa_Initialize();
+
+    PaDeviceIndex inputdeviceid = -1, outputdeviceid = -1;
+    PaHostApiIndex hostApi = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+    if (hostApi != paHostApiNotFound)
+    {
+        const PaHostApiInfo* hostapi = Pa_GetHostApiInfo(hostApi);
+        if (hostapi)
+        {
+            inputdeviceid = hostapi->defaultInputDevice;
+            outputdeviceid = hostapi->defaultOutputDevice;
+        }
+    }
+    REQUIRE(outputdeviceid >= 0);
+
+    const PaDeviceInfo* ininfo = Pa_GetDeviceInfo(outputdeviceid);
+    REQUIRE(ininfo);
+    PaStreamParameters outputParameters = {};
+    outputParameters.device = outputdeviceid;
+    outputParameters.channelCount = 1;
+    outputParameters.hostApiSpecificStreamInfo = NULL;
+    outputParameters.sampleFormat = paInt16;
+    outputParameters.suggestedLatency = ininfo->defaultLowOutputLatency;
+
+    PaStream* outstream;
+    err = Pa_OpenStream(&outstream, nullptr, &outputParameters,
+                        ininfo->defaultSampleRate, ininfo->defaultSampleRate * .04,
+                        paClipOff, Foo_StreamCallback, static_cast<void*> (0));
+
+    REQUIRE(Pa_StartStream(outstream) == paNoError);
+    while (samples < ininfo->defaultSampleRate * 500)
+    {
+        Pa_Sleep(1000);
+
+        auto samplesDurationMSec = PCM16_SAMPLES_DURATION(samples, int(ininfo->defaultSampleRate));
+        auto durationMSec = GETTIMESTAMP() - paTimeStamp;
+        auto skew = int(samplesDurationMSec - durationMSec);
+        std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
+
+        REQUIRE(skew < 0.08 * 1000);
+    }
+
+    Pa_Terminate();
+}
+
+TEST_CASE("PortAudio_SamplesPerSec")
+{
+    auto snd = soundsystem::GetInstance();
+    auto grp = snd->OpenSoundGroup();
+    
+    int inputdeviceid, outputdeviceid;
+    REQUIRE(snd->GetDefaultDevices(soundsystem::SOUND_API_WASAPI, inputdeviceid, outputdeviceid));
+    soundsystem::devices_t devs;
+    REQUIRE(snd->GetSoundDevices(devs));
+
+    auto ioutdev = std::find_if(devs.begin(), devs.end(), [outputdeviceid](soundsystem::DeviceInfo& d)
+        {
+            return d.id == outputdeviceid;
+        });
+
+    REQUIRE(ioutdev != devs.end());
+    
+    soundsystem::DeviceInfo& outdev = *ioutdev;
+
+    uint32_t samples = 0, starttime = 0;
+    const int SAMPLERATE = 48000, CHANNELS = 1;
+
+    class MyStream : public soundsystem::StreamPlayer
+    {
+        uint32_t& samples, &starttime;
+    public:
+        MyStream(uint32_t& s, uint32_t& st) : samples(s), starttime(st) {}
+        bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer, short* buffer, int framesPerBuffer)
+        {
+            if (!starttime)
+                starttime = GETTIMESTAMP();
+            samples += framesPerBuffer;
+            return true;
+        }
+    } player(samples, starttime);
+
+    REQUIRE(snd->OpenOutputStream(&player, outputdeviceid, grp, SAMPLERATE, CHANNELS, SAMPLERATE * 0.04));
+    REQUIRE(snd->StartStream(&player));
+
+    while (samples < outdev.default_samplerate * 500)
+    {
+        Pa_Sleep(1000);
+
+        auto samplesDurationMSec = PCM16_SAMPLES_DURATION(samples, int(outdev.default_samplerate));
+        auto durationMSec = GETTIMESTAMP() - starttime;
+        auto skew = int(samplesDurationMSec - durationMSec);
+
+        std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
+
+        REQUIRE(skew < 0.08 * 1000);
+    }
+}
+
+#endif

@@ -38,6 +38,10 @@
 #include <propsys.h>
 #include <atlbase.h>
 #include <MMDeviceApi.h>
+
+const int WINAEC_SAMPLERATE = 22050;
+const int WINAEC_CHANNELS = 1;
+
 #endif
 
 using namespace std;
@@ -320,6 +324,17 @@ int InputStreamCallback(const void *inputBuffer, void *outputBuffer,
     assert(inputStreamer);
     inputStreamer->recorder->StreamCaptureCb(*inputStreamer,
                                              recorded, framesPerBuffer);
+    
+    inputStreamer->Tick(framesPerBuffer);
+
+    // check if callback is over or underflowing
+    uint32_t durationMSec = inputStreamer->DurationMSec();
+    uint32_t samplesMSec = inputStreamer->DurationSamplesMSec(inputStreamer->samplerate);
+    uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, inputStreamer->samplerate);
+
+    int skewMSec = std::abs(int(durationMSec - samplesMSec));
+    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Input callback is off by %d msec\n"), skewMSec);
+
     MYTRACE_COND(inputStreamer->soundsystem == SOUND_API_NOSOUND,
                  ACE_TEXT("No sound input callback"));
     return paContinue;
@@ -412,6 +427,15 @@ int OutputStreamCallback(const void *inputBuffer, void *outputBuffer,
 
     MYTRACE_COND(streamer->soundsystem == SOUND_API_NOSOUND,
                  ACE_TEXT("No sound output callback"));
+
+    streamer->Tick(framesPerBuffer);
+
+    // check if callback is over or underflowing
+    uint32_t durationMSec = streamer->DurationMSec();
+    uint32_t samplesMSec = streamer->DurationSamplesMSec(streamer->samplerate);
+    uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, streamer->samplerate);
+    int skewMSec = std::abs(int(durationMSec - samplesMSec));
+    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Output callback is off by %d msec\n"), skewMSec);
 
     if(bContinue)
         return paContinue;
@@ -602,29 +626,17 @@ int DuplexStreamCallback(const void *inputBuffer,
 
     assert(framesPerBuffer == dpxStream->framesize);
 
-    /*
-    static uint32_t cbsamples = 0, tick = GETTIMESTAMP();
-    cbsamples += framesPerBuffer;
-    auto now = GETTIMESTAMP();
-    auto total = now - tick;
-    auto duration = PCM16_SAMPLES_DURATION(cbsamples, dpxStream->samplerate);
-    MYTRACE(ACE_TEXT("Samples duration: %u msec. Total: %u msec. Diff: %d msec\n"), duration, total, total - duration);
-    */
-
-    if (dpxStream->initialcallback)
-    {
-        // allow Pa_OpenStream() to return
-        dpxStream->initialcallback = false;
-        dpxStream->starttime = GETTIMESTAMP();
+    // return if initial callback because this call will be in context of NewStream()
+    if (dpxStream->Tick(0))
         return paContinue;
-    }
 
     // check if duplex callback is over or underflowing
+    dpxStream->Tick(framesPerBuffer);
+    uint32_t durationMSec = dpxStream->DurationMSec();
+    uint32_t samplesMSec = dpxStream->DurationSamplesMSec(dpxStream->samplerate);
     uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, dpxStream->samplerate);
-    uint32_t durationMSec = GETTIMESTAMP() - dpxStream->starttime;
-    dpxStream->playedsamples_msec += cbMSec;
-    MYTRACE_COND(std::abs(int(durationMSec - dpxStream->playedsamples_msec)) > cbMSec * 3,
-                 ACE_TEXT("Duplex callback is off my %d msec\n"), durationMSec - dpxStream->playedsamples_msec);
+    int skewMSec = std::abs(int(durationMSec - samplesMSec));
+    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Duplex callback is off my %d msec\n"), skewMSec);
 
 #if defined(WIN32)
     if (dpxStream->winaec)
@@ -644,10 +656,11 @@ int DuplexStreamCallback(const void *inputBuffer,
             DuplexCallback(PortAudio::getInstance().get(), *dpxStream, recorded, playback);
         }
 
-        auto echodiff_msec = dpxStream->playedsamples_msec - dpxStream->echosamples_msec;
-        MYTRACE_COND(std::abs(int(echodiff_msec)) > cbMSec * 3,
+        uint32_t echosamplesMSec = dpxStream->DurationEchoSamplesMSec(WINAEC_SAMPLERATE);
+        uint32_t echosamples_diff = uint32_t(std::abs(int(samplesMSec - echosamplesMSec)));
+        MYTRACE_COND(echosamples_diff > cbMSec * 3,
                      ACE_TEXT("Duplex callback shows player is off by %d msec compared to echo cancellor\n"),
-                     echodiff_msec);
+                     echosamples_diff);
     }
     else
     {
@@ -820,14 +833,12 @@ void CWMAudioAECCapture::Run()
         return;
     }
 
-    const int SAMPLERATE = 22050;
-    const int CHANNELS = 1;
-    media::AudioFormat infmt(SAMPLERATE, CHANNELS);
+    media::AudioFormat infmt(WINAEC_SAMPLERATE, WINAEC_CHANNELS);
 
-    int inputsamples = CalcSamples(m_streamer->samplerate, m_streamer->framesize, SAMPLERATE);
-    m_input_buffer.resize(inputsamples * CHANNELS);
+    int inputsamples = CalcSamples(m_streamer->samplerate, m_streamer->framesize, WINAEC_SAMPLERATE);
+    m_input_buffer.resize(inputsamples * WINAEC_CHANNELS);
 
-    const size_t BUFSIZE = PCM16_BYTES(inputsamples * 2, CHANNELS);
+    const size_t BUFSIZE = PCM16_BYTES(inputsamples * 2, WINAEC_CHANNELS);
     m_input_queue.high_water_mark(BUFSIZE);
     m_input_queue.low_water_mark(BUFSIZE);
 
@@ -908,7 +919,7 @@ void CWMAudioAECCapture::Run()
         return;
     }
 
-    if (!SetWaveMediaType(SAMPLEFORMAT_INT16, CHANNELS, SAMPLERATE, mt))
+    if (!SetWaveMediaType(SAMPLEFORMAT_INT16, WINAEC_CHANNELS, WINAEC_SAMPLERATE, mt))
     {
         m_started.set_value(false);
         return;
@@ -940,8 +951,8 @@ void CWMAudioAECCapture::Run()
     iFrameSize = pvFrameSize.lVal;
     PropVariantClear(&pvFrameSize);
 
-    std::vector<BYTE> outputbuf(PCM16_BYTES(SAMPLERATE, CHANNELS));
-    auto delayMSec = std::chrono::milliseconds(iFrameSize * 1000 / SAMPLERATE);
+    std::vector<BYTE> outputbuf(PCM16_BYTES(WINAEC_SAMPLERATE, WINAEC_CHANNELS));
+    auto delayMSec = std::chrono::milliseconds(iFrameSize * 1000 / WINAEC_SAMPLERATE);
     bool error = false;
     uint64_t processedBytes = 0;
     do
@@ -971,9 +982,9 @@ void CWMAudioAECCapture::Run()
             if (SUCCEEDED(ioutputbuf->GetBufferAndLength(&outputbufptr, &dwOutputLen)))
             {
                 //MYTRACE(ACE_TEXT("Audio callback with %d msec\n"), PCM16_BYTES_DURATION(dwOutputLen, CHANNELS, SAMPLERATE));
-                int samples = dwOutputLen / sizeof(short) / CHANNELS;
+                int samples = dwOutputLen / sizeof(short) / WINAEC_CHANNELS;
                 processedBytes += dwOutputLen;
-                m_streamer->echosamples_msec = PCM16_BYTES_DURATION(processedBytes, CHANNELS, SAMPLERATE);
+                m_streamer->TickEcho(samples);
 
                 QueueAudioFrame(media::AudioFrame(infmt, reinterpret_cast<short*>(outputbufptr), samples));
             }

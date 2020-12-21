@@ -529,7 +529,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         mfp.uOffsetMSec = (int)(mfi.uDurationMSec * 0.9);
         mfp.bPaused = false;
         mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR;
-        mfp.audioPreprocessor.speexdsp = new SpeexDSP(true);
+        mfp.audioPreprocessor.speexdsp = new SpeexDSP(SPEEXDSP_AVAILABLE);
 
         assertTrue("Start with offset", ttclient.startStreamingMediaFileToChannel(MEDIAFILE_VIDEO, mfp, vidcodec));
 
@@ -591,7 +591,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         mfp.uOffsetMSec = (int)(mfi.uDurationMSec * 0.9);
         mfp.bPaused = false;
         mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR;
-        mfp.audioPreprocessor.speexdsp = new SpeexDSP(true);
+        mfp.audioPreprocessor.speexdsp = new SpeexDSP(SPEEXDSP_AVAILABLE);
 
         assertTrue("Start with offset", ttclient.startStreamingMediaFileToChannel(MEDIAFILE_VIDEO, mfp, vidcodec));
 
@@ -839,7 +839,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     @Test
     public void testMediaStorage_OpusOutput() {
 
-        if (!OPUSTOOLS) {
+        if (!OPUSTOOLS_AVAILABLE) {
             System.err.println(getTestMethodName() + " skipped due to OPUS tools disabled.");
             return;
         }
@@ -2312,7 +2312,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("get updated AP with SpeexDSP preprocessor after join", ttclient.getSoundInputPreprocess(preprocess));
         assertEquals("SpeexDSP and AudioPreprocessor are still equal", 7777, preprocess.speexdsp.nGainLevel);
 
-        SpeexDSP spxdsp = new SpeexDSP(true), spxdsp2 = new SpeexDSP();
+        SpeexDSP spxdsp = new SpeexDSP(SPEEXDSP_AVAILABLE), spxdsp2 = new SpeexDSP();
         assertTrue("set Speex DSP", ttclient.setSoundInputPreprocess(spxdsp));
 
         assertTrue("get Speex DSP", ttclient.getSoundInputPreprocess(spxdsp2));
@@ -2325,6 +2325,27 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("agc7", spxdsp.nMaxNoiseSuppressDB, spxdsp2.nMaxNoiseSuppressDB);
         assertEquals("agc8", spxdsp.nEchoSuppress, spxdsp2.nEchoSuppress);
         assertEquals("agc9", spxdsp.nEchoSuppressActive, spxdsp2.nEchoSuppressActive);
+
+        // test WebRTC
+        preprocess = new AudioPreprocessor();
+        preprocess.nPreprocessor = AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR;
+        preprocess.webrtc.gaincontroller2.bEnable = true;
+        preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 20;
+        preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable = true;
+        preprocess.webrtc.noisesuppression.bEnable = true;
+        preprocess.webrtc.noisesuppression.nLevel = 2;
+
+        if (WEBRTC_AVAILABLE) {
+            assertTrue("Enable WebRTC", ttclient.setSoundInputPreprocess(preprocess));
+            AudioPreprocessor preprocess2 = new AudioPreprocessor();
+            assertTrue("get WebRTC", ttclient.getSoundInputPreprocess(preprocess2));
+
+            assertEquals("webrtc3", preprocess.webrtc.gaincontroller2.bEnable, preprocess2.webrtc.gaincontroller2.bEnable);
+            assertEquals("webrtc4", (int)preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB, (int)preprocess2.webrtc.gaincontroller2.fixeddigital.fGainDB);
+            assertEquals("webrtc5", preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable, preprocess2.webrtc.gaincontroller2.adaptivedigital.bEnable);
+            assertEquals("webrtc6", preprocess.webrtc.noisesuppression.bEnable, preprocess2.webrtc.noisesuppression.bEnable);
+            assertEquals("webrtc7", preprocess.webrtc.noisesuppression.nLevel, preprocess2.webrtc.noisesuppression.nLevel);
+        }
     }
 
     @Test

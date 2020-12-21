@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -301,7 +301,7 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
             env->DeleteLocalRef(intArr);
         }
         env->SetObjectField(lpChannel, fid_txusers, outer);
-        
+
         intArr = env->NewIntArray(TT_TRANSMITQUEUE_MAX);
         jint tmp[TT_TRANSMITQUEUE_MAX] = {};
         env->SetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, TO_JINT_ARRAY(chan.transmitUsersQueue, tmp, TT_TRANSMITQUEUE_MAX));
@@ -388,7 +388,7 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     assert(fid_mfbuf);
     assert(fid_vbuf);
     assert(fid_cltname);
-    
+
     env->SetIntField(lpUser, fid_userid, user.nUserID);
     env->SetObjectField(lpUser, fid_username, NEW_JSTRING(env, user.szUsername));
     env->SetIntField(lpUser, fid_userdata, user.nUserData);
@@ -571,7 +571,7 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
         jclass cls_obj = env->FindClass("dk/bearware/BannedUser");
         jobject newObj = newObject(env, cls_obj);
         setBannedUser(env, msg.banneduser, newObj, N2J);
-        env->SetObjectField(pMsg, fid_ban, newObj);        
+        env->SetObjectField(pMsg, fid_ban, newObj);
     }
     break;
     case __TTBOOL :
@@ -654,7 +654,7 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
                                                 "nBandmode", "I");
         jfieldID fid_quality = env->GetFieldID(cls_spx,
                                                "nQuality", "I");
-        jfieldID fid_msec = env->GetFieldID(cls_spx, 
+        jfieldID fid_msec = env->GetFieldID(cls_spx,
                                             "nTxIntervalMSec", "I");
         jfieldID fid_stereo = env->GetFieldID(cls_spx,
                                               "bStereoPlayback", "Z");
@@ -696,11 +696,11 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
                                                 "nBandmode", "I");
         jfieldID fid_quality = env->GetFieldID(cls_spx,
                                                "nQuality", "I");
-        jfieldID fid_bitrate = env->GetFieldID(cls_spx, 
+        jfieldID fid_bitrate = env->GetFieldID(cls_spx,
                                                "nBitRate", "I");
-        jfieldID fid_maxbitrate = env->GetFieldID(cls_spx, 
+        jfieldID fid_maxbitrate = env->GetFieldID(cls_spx,
                                                   "nMaxBitRate", "I");
-        jfieldID fid_msec = env->GetFieldID(cls_spx, 
+        jfieldID fid_msec = env->GetFieldID(cls_spx,
                                             "nTxIntervalMSec", "I");
         jfieldID fid_dtx = env->GetFieldID(cls_spx,
                                            "bDTX", "Z");
@@ -932,24 +932,85 @@ void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobj
     }
 }
 
+void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv) {
+
+    jclass cls = env->GetObjectClass(lpPreprocessor);
+    jfieldID fid_gain2 = env->GetFieldID(cls, "gaincontroller2", "Ldk/bearware/WebRTCAudioPreprocessor$GainController2;");
+    jfieldID fid_ns = env->GetFieldID(cls, "noisesuppression", "Ldk/bearware/WebRTCAudioPreprocessor$NoiseSuppression;");
+
+    assert(fid_gain2);
+    assert(fid_ns);
+
+    jobject gain2 = env->GetObjectField(lpPreprocessor, fid_gain2);
+    jobject ns = env->GetObjectField(lpPreprocessor, fid_ns);
+
+    jclass cls_gain2 = env->GetObjectClass(gain2);
+    jclass cls_ns = env->GetObjectClass(ns);
+
+    jfieldID fid_gain2_enable = env->GetFieldID(cls_gain2, "bEnable", "Z");
+    jfieldID fid_gain2_fixed = env->GetFieldID(cls_gain2, "fixeddigital", "Ldk/bearware/WebRTCAudioPreprocessor$GainController2$FixedDigital;");
+    jfieldID fid_gain2_adap = env->GetFieldID(cls_gain2, "adaptivedigital", "Ldk/bearware/WebRTCAudioPreprocessor$GainController2$AdaptiveDigital;");
+    jfieldID fid_ns_enable = env->GetFieldID(cls_ns, "bEnable", "Z");
+    jfieldID fid_ns_level = env->GetFieldID(cls_ns, "nLevel", "I");
+
+    assert(fid_gain2_enable);
+    assert(fid_gain2_fixed);
+    assert(fid_gain2_adap);
+    assert(fid_ns_enable);
+    assert(fid_ns_level);
+
+    jobject fixed = env->GetObjectField(gain2, fid_gain2_fixed);
+    jclass cls_fixed = env->GetObjectClass(fixed);
+    jfieldID fid_gain2_gain = env->GetFieldID(cls_fixed, "fGainDB", "F");
+
+    assert(fid_gain2_gain);
+
+    jobject adap = env->GetObjectField(gain2, fid_gain2_adap);
+    jclass cls_adap = env->GetObjectClass(adap);
+    jfieldID fid_adap_enable = env->GetFieldID(cls_adap, "bEnable", "Z");
+
+    assert(fid_adap_enable);
+
+    if (conv == N2J) {
+        env->SetBooleanField(gain2, fid_gain2_enable, preprocessor.gaincontroller2.bEnable);
+        env->SetFloatField(gain2, fid_gain2_gain, preprocessor.gaincontroller2.fixeddigital.fGainDB);
+        env->SetBooleanField(adap, fid_adap_enable, preprocessor.gaincontroller2.adaptivedigital.bEnable);
+
+        env->SetBooleanField(ns, fid_ns_enable, preprocessor.noisesuppression.bEnable);
+        env->SetIntField(ns, fid_ns_level, preprocessor.noisesuppression.nLevel);
+    }
+    else {
+        preprocessor.gaincontroller2.bEnable = env->GetBooleanField(gain2, fid_gain2_enable);
+        preprocessor.gaincontroller2.fixeddigital.fGainDB = env->GetFloatField(gain2, fid_gain2_gain);
+        preprocessor.gaincontroller2.adaptivedigital.bEnable = env->GetBooleanField(adap, fid_adap_enable);
+
+        preprocessor.noisesuppression.bEnable = env->GetBooleanField(ns, fid_ns_enable);
+        preprocessor.noisesuppression.nLevel = env->GetIntField(ns, fid_ns_level);
+    }
+
+}
+
 void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv) {
     jclass cls = env->GetObjectClass(lpPreprocessor);
     jfieldID fid_type = env->GetFieldID(cls, "nPreprocessor", "I");
     jfieldID fid_spx = env->GetFieldID(cls, "speexdsp", "Ldk/bearware/SpeexDSP;");
     jfieldID fid_ttp = env->GetFieldID(cls, "ttpreprocessor", "Ldk/bearware/TTAudioPreprocessor;");
+    jfieldID fid_web = env->GetFieldID(cls, "webrtc", "Ldk/bearware/WebRTCAudioPreprocessor;");
 
     assert(fid_type);
     assert(fid_spx);
     assert(fid_ttp);
+    assert(fid_web);
 
     if (conv == N2J)
         env->SetIntField(lpPreprocessor, fid_type, preprocessor.nPreprocessor);
     else
         preprocessor.nPreprocessor = AudioPreprocessorType(env->GetIntField(lpPreprocessor, fid_type));
-    
+
     jobject spx = env->GetObjectField(lpPreprocessor, fid_spx);
     jobject ttp = env->GetObjectField(lpPreprocessor, fid_ttp);
-    
+    jobject web = env->GetObjectField(lpPreprocessor, fid_web);
+
     switch (preprocessor.nPreprocessor) {
     case NO_AUDIOPREPROCESSOR :
         break;
@@ -959,13 +1020,16 @@ void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject 
     case TEAMTALK_AUDIOPREPROCESSOR :
         setTTAudioPreprocessor(env, preprocessor.ttpreprocessor, ttp, conv);
         break;
+    case WEBRTC_AUDIOPREPROCESSOR :
+        setWebRTCAudioPreprocessor(env, preprocessor.webrtc, web, conv);
+        break;
     }
 }
 
 void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServerProperties, JConvert conv)
 {
     jclass cls_srv = env->GetObjectClass(lpServerProperties);
-    
+
     jfieldID fid_name = env->GetFieldID(cls_srv, "szServerName", "Ljava/lang/String;");
     jfieldID fid_motd = env->GetFieldID(cls_srv, "szMOTD", "Ljava/lang/String;");
     jfieldID fid_motdraw = env->GetFieldID(cls_srv, "szMOTDRaw", "Ljava/lang/String;");
@@ -1143,7 +1207,7 @@ void setClientKeepAlive(JNIEnv* env, ClientKeepAlive& ka, jobject lpClientKeepAl
 void setTextMessage(JNIEnv* env, TextMessage& msg, jobject lpTextMessage, JConvert conv)
 {
     jclass cls_txtmsg = env->GetObjectClass(lpTextMessage);
-    
+
     jfieldID fid_type = env->GetFieldID(cls_txtmsg, "nMsgType", "I");
     jfieldID fid_fromid = env->GetFieldID(cls_txtmsg, "nFromUserID", "I");
     jfieldID fid_username = env->GetFieldID(cls_txtmsg, "szFromUsername", "Ljava/lang/String;");
@@ -1182,7 +1246,7 @@ void setTextMessage(JNIEnv* env, TextMessage& msg, jobject lpTextMessage, JConve
 void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConvert conv)
 {
     jclass cls_account = env->GetObjectClass(lpAccount);
-    
+
     jfieldID fid_user = env->GetFieldID(cls_account, "szUsername", "Ljava/lang/String;");
     jfieldID fid_passwd = env->GetFieldID(cls_account, "szPassword", "Ljava/lang/String;");
     jfieldID fid_type = env->GetFieldID(cls_account, "uUserType", "I");
@@ -1219,7 +1283,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         env->SetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, TO_JINT_ARRAY(account.autoOperatorChannels, tmp, TT_CHANNELS_OPERATOR_MAX));
         env->SetObjectField(lpAccount, fid_op, intArr);
         env->SetIntField(lpAccount, fid_audbps, account.nAudioCodecBpsLimit);
-        
+
         jobject ap_obj = newAbusePrevention(env, &account.abusePrevent);
         assert(ap_obj);
         setAbusePrevention(env, account.abusePrevent, ap_obj, conv);
@@ -1249,7 +1313,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
 void setServerStatistics(JNIEnv* env, ServerStatistics& stats, jobject lpServerStatistics, JConvert conv)
 {
     jclass cls_srvstats = env->GetObjectClass(lpServerStatistics);
-    
+
     jfieldID fid_totaltx = env->GetFieldID(cls_srvstats, "nTotalBytesTX", "J");
     jfieldID fid_totalrx = env->GetFieldID(cls_srvstats, "nTotalBytesRX", "J");
     jfieldID fid_voicetx = env->GetFieldID(cls_srvstats, "nVoiceBytesTX", "J");
@@ -1308,7 +1372,7 @@ void setServerStatistics(JNIEnv* env, ServerStatistics& stats, jobject lpServerS
 void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JConvert conv)
 {
     jclass cls_finfo = env->GetObjectClass(lpRemoteFile);
-    
+
     jfieldID fid_id = env->GetFieldID(cls_finfo, "nFileID", "I");
     jfieldID fid_cid = env->GetFieldID(cls_finfo, "nChannelID", "I");
     jfieldID fid_name = env->GetFieldID(cls_finfo, "szFileName", "Ljava/lang/String;");
@@ -1341,7 +1405,7 @@ void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JCon
 void setUserStatistics(JNIEnv* env, UserStatistics& stats, jobject lpUserStatistics)
 {
     jclass cls_stats = env->GetObjectClass(lpUserStatistics);
-    
+
     jfieldID fid_voirx = env->GetFieldID(cls_stats, "nVoicePacketsRecv", "J");
     jfieldID fid_voilost = env->GetFieldID(cls_stats, "nVoicePacketsLost", "J");
     jfieldID fid_vidrx = env->GetFieldID(cls_stats, "nVideoCapturePacketsRecv", "J");
@@ -1616,7 +1680,7 @@ jbyteArray setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock
             memcpy(bufptr, audblock.lpRawAudio, size);
             env->ReleaseByteArrayElements(buf, bufptr, 0);
         }
-        
+
         env->SetIntField(lpAudioBlock, fid_sid, audblock.nStreamID);
         env->SetIntField(lpAudioBlock, fid_sr, audblock.nSampleRate);
         env->SetIntField(lpAudioBlock, fid_ch, audblock.nChannels);
@@ -1663,7 +1727,7 @@ void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo, 
    if (conv == N2J) {
        env->SetIntField(lpMediaFileInfo, fid_status, mfi.nStatus);
        env->SetObjectField(lpMediaFileInfo, fid_fname, NEW_JSTRING(env, mfi.szFileName));
-   
+
        jobject audfmt_obj = newObject(env, cls_audfmt);
        jobject vidfmt_obj = newObject(env, cls_vidfmt);
        setAudioFormat(env, mfi.audioFmt, audfmt_obj, conv);
@@ -1691,7 +1755,7 @@ void setAudioFormat(JNIEnv* env, AudioFormat& fmt, jobject lpAudioFormat, JConve
     jfieldID fid_audfmt = env->GetFieldID(cls, "nAudioFmt", "I");
     jfieldID fid_sr = env->GetFieldID(cls, "nSampleRate", "I");
     jfieldID fid_ch = env->GetFieldID(cls, "nChannels", "I");
-    
+
     assert(fid_audfmt);
     assert(fid_sr);
     assert(fid_ch);
@@ -1716,7 +1780,7 @@ void setVideoFormat(JNIEnv* env, VideoFormat& fmt, jobject lpVideoFormat, JConve
     jfieldID fid_fpsN = env->GetFieldID(cls, "nFPS_Numerator", "I");
     jfieldID fid_fpsD = env->GetFieldID(cls, "nFPS_Denominator", "I");
     jfieldID fid_fcc = env->GetFieldID(cls, "picFourCC", "I");
-    
+
     assert(fid_w);
     assert(fid_h);
     assert(fid_fpsN);
@@ -1831,7 +1895,7 @@ void setMediaFilePlayback(JNIEnv* env, MediaFilePlayback& playback, jobject lpMe
     assert(fid_pre);
 
     jobject pre = env->GetObjectField(lpMediaPlayback, fid_pre);
-    
+
     if (conv == N2J) {
         env->SetIntField(lpMediaPlayback, fid_off, playback.uOffsetMSec);
         env->SetBooleanField(lpMediaPlayback, fid_pause, playback.bPaused);

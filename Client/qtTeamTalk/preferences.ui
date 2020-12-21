@@ -1074,13 +1074,6 @@
            </layout>
           </item>
           <item>
-           <widget class="QCheckBox" name="sndduplexBox">
-            <property name="text">
-             <string>Enable duplex mode (required for echo cancellation)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QCheckBox" name="echocancelBox">
             <property name="text">
              <string>Enable echo cancellation (remove echo from speakers)</string>
@@ -2203,7 +2196,6 @@
   <tabstop>outputdevBox</tabstop>
   <tabstop>refreshoutputButton</tabstop>
   <tabstop>sndtestButton</tabstop>
-  <tabstop>sndduplexBox</tabstop>
   <tabstop>echocancelBox</tabstop>
   <tabstop>agcBox</tabstop>
   <tabstop>denoisingBox</tabstop>

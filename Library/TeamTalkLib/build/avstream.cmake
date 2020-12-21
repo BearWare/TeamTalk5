@@ -3,6 +3,7 @@ include (ffmpeg)
 include (dshow)
 include (vidcap)
 include (speexdsp)
+include (webrtc)
 
 set (AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/MediaStreamer.cpp)
 set (AVSTREAM_HEADERS ${TEAMTALKLIB_ROOT}/avstream/MediaStreamer.h)
@@ -77,6 +78,16 @@ if (FFMPEG)
   endif()
 endif()
 
+option (WEBRTC "Build using WebRTC libraries" ON)
+
+if (WEBRTC)
+  list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/WebRTCPreprocess.cpp)
+  list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/WebRTCPreprocess.h)
+  list (APPEND AVSTREAM_INCLUDE_DIR ${WEBRTC_INCLUDE_DIR})
+  list (APPEND AVSTREAM_COMPILE_FLAGS -DENABLE_WEBRTC ${WEBRTC_COMPILE_FLAGS})
+  list (APPEND AVSTREAM_LINK_FLAGS ${WEBRTC_LINK_FLAGS})
+endif()
+
 if (MSVC)
   
   option (MSDMO "Build Microsoft DirectX Media Objects (DMO) Resampler classes" ON)
@@ -129,4 +140,3 @@ if (MSVC)
     list (APPEND AVSTREAM_COMPILE_FLAGS -DWINVER=0x0601 -DENABLE_MEDIAFOUNDATION) # WINVER=_WIN32_WINNT_WIN7
   endif()
 endif()
-

@@ -43,8 +43,10 @@ extern QTranslator* ttTranslator;
 
 #define CUSTOMVIDEOFORMAT_INDEX -2
 
-PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
+PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
+, m_devin(devin)
+, m_devout(devout)
 , m_uservideo(nullptr)
 , m_sndloop(nullptr)
 {
@@ -118,8 +120,6 @@ PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
             SLOT(slotSoundTestDevices(bool)));
     connect(ui.snddefaultButton, SIGNAL(clicked()),
             SLOT(slotSoundDefaults()));
-    connect(ui.sndduplexBox, SIGNAL(clicked()),
-            SLOT(slotUpdateSoundCheckBoxes()));
 
     //sound events
     connect(ui.newuserButton, SIGNAL(clicked()),
@@ -243,8 +243,6 @@ void PreferencesDlg::initDevices()
 
     showDevices(sndsys);
 
-    ui.sndduplexBox->setChecked(ttSettings->value(SETTINGS_SOUND_DUPLEXMODE,
-                                                  SETTINGS_SOUND_DUPLEXMODE_DEFAULT).toBool());
     ui.echocancelBox->setChecked(ttSettings->value(SETTINGS_SOUND_ECHOCANCEL,
                                                    SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool());
     ui.agcBox->setChecked(ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool());
@@ -370,9 +368,9 @@ void PreferencesDlg::slotUpdateSoundCheckBoxes()
 {
     int inputid = TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, outputid = TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
     if(ui.inputdevBox->count())
-        inputid = ui.inputdevBox->itemData(ui.inputdevBox->currentIndex()).toInt();
+        inputid = getCurrentItemData(ui.inputdevBox, inputid).toInt();
     if(ui.outputdevBox->count())
-        outputid = ui.outputdevBox->itemData(ui.outputdevBox->currentIndex()).toInt();
+        outputid = getCurrentItemData(ui.outputdevBox, outputid).toInt();
 
     //if user selected SOUNDDEVICEID_DEFAULT then get the default device
     if(inputid == SOUNDDEVICEID_DEFAULT)
@@ -384,28 +382,9 @@ void PreferencesDlg::slotUpdateSoundCheckBoxes()
     getSoundDevice(inputid, m_sounddevices, in_dev);
     getSoundDevice(outputid, m_sounddevices, out_dev);
 
-    if (out_dev.nSoundSystem == SOUNDSYSTEM_WASAPI)
-    {
-        // WASAPI has its own echo cancellor, AGC and denoiser so duplex mode doesn't apply
-        ui.sndduplexBox->hide();
-        ui.sndduplexBox->setChecked(false);
-        ui.echocancelBox->setEnabled(true);
-    }
-    else
-    {
-        //sound duplex mode requires a valid input and output device with same sample rate
-        ui.sndduplexBox->show();
-        bool same_samplerate = false;
-        for(int i=0;i<TT_SAMPLERATES_MAX && out_dev.outputSampleRates[i]>0;i++)
-            same_samplerate |= in_dev.nDefaultSampleRate == out_dev.outputSampleRates[i];
-        ui.sndduplexBox->setEnabled(inputid>=0 && outputid>=0 && same_samplerate);
-        ui.sndduplexBox->setChecked(ui.sndduplexBox->isEnabled() &&
-                                    ui.sndduplexBox->isChecked());
-        //echo cancel only works in sound duplex mode
-        ui.echocancelBox->setEnabled(ui.sndduplexBox->isChecked());
-        ui.echocancelBox->setChecked(ui.echocancelBox->isEnabled() &&
-                                     ui.echocancelBox->isChecked());
-    }
+    bool echocapable = isSoundDeviceEchoCapable(in_dev, out_dev);
+    ui.echocancelBox->setEnabled(echocapable);
+    ui.echocancelBox->setChecked(ui.echocancelBox->isEnabled() && ui.echocancelBox->isChecked());
 }
 
 bool PreferencesDlg::getSoundFile(QString& filename)
@@ -823,7 +802,6 @@ void PreferencesDlg::slotSaveChanges()
         bool sndsysinit = oldsndsys != ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM).toInt();
         sndsysinit |= ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, SETTINGS_SOUND_INPUTDEVICE_DEFAULT).toInt() != inputid;
         sndsysinit |= ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, SETTINGS_SOUND_OUTPUTDEVICE_DEFAULT).toInt() != outputid;
-        sndsysinit |= ttSettings->value(SETTINGS_SOUND_DUPLEXMODE, SETTINGS_SOUND_DUPLEXMODE_DEFAULT).toBool() != ui.sndduplexBox->isChecked();
         // Sound devices that has SoundDeviceEffects must also be restarted if AGC, AEC or denoise has changed
         sndsysinit |= ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool() != ui.echocancelBox->isChecked();
         sndsysinit |= ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool() != ui.agcBox->isChecked();
@@ -831,7 +809,6 @@ void PreferencesDlg::slotSaveChanges()
 
         ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE, inputid);
         ttSettings->setValue(SETTINGS_SOUND_OUTPUTDEVICE, outputid);
-        ttSettings->setValue(SETTINGS_SOUND_DUPLEXMODE, ui.sndduplexBox->isChecked());
         ttSettings->setValue(SETTINGS_SOUND_ECHOCANCEL, ui.echocancelBox->isChecked());
         ttSettings->setValue(SETTINGS_SOUND_AGC, ui.agcBox->isChecked());
         ttSettings->setValue(SETTINGS_SOUND_DENOISING, ui.denoisingBox->isChecked());
@@ -840,14 +817,16 @@ void PreferencesDlg::slotSaveChanges()
 
         if (sndsysinit)
         {
-            QStringList errs = initSelectedSoundDevices();
+            QStringList errs = initSelectedSoundDevices(m_devin, m_devout);
             for (QString err : errs)
             {
                 QMessageBox::critical(this, tr("Sound System"), err);
             }
 
             if (errs.size())
-                initDefaultSoundDevices();
+            {
+                initDefaultSoundDevices(m_devin, m_devout);
+            }
         }
     }
     if(m_modtab.find(SOUNDEVENTS_TAB) != m_modtab.end())
@@ -1085,11 +1064,11 @@ void PreferencesDlg::slotSoundRestart()
         TT_CloseSoundOutputDevice(ttInst);
 
     bool success = true;
-    if(TT_RestartSoundSystem())
+    if (TT_RestartSoundSystem())
     {
         initDevices();
 
-        success = initSelectedSoundDevices().empty();
+        success = initSelectedSoundDevices(m_devin, m_devout).empty();
     }
     
     if(!success)
@@ -1111,50 +1090,46 @@ void PreferencesDlg::slotSoundTestDevices(bool checked)
         if(outputid == SOUNDDEVICEID_DEFAULT)
             TT_GetDefaultSoundDevicesEx(sndsys, nullptr, &outputid);
 
-        int samplerate = 16000;
+        //adapt to output device's sample rate (required for WASAPI)
+        SoundDevice in_dev = {}, out_dev = {};
+        getSoundDevice(inputid, m_sounddevices, in_dev);
+        getSoundDevice(outputid, m_sounddevices, out_dev);
+
+        int samplerate = getSoundDuplexSampleRate(in_dev, out_dev);
+        bool duplex = samplerate != 0;
+        if (samplerate == 0)
+            samplerate = out_dev.nDefaultSampleRate;
         int channels = 1;
 
-        //adapt to output device's sample rate (required for WASAPI)
-        SoundDevice out_dev;
-        if (getSoundDevice(outputid, m_sounddevices, out_dev))
-            samplerate = out_dev.nDefaultSampleRate;
+        AudioPreprocessor preprocessor = {};
+        initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
 
-        if (out_dev.nSoundSystem == SOUNDSYSTEM_WASAPI)
+        if (!duplex && (in_dev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC))
         {
             SoundDeviceEffects effects = {};
-            effects.bEnableAGC = ui.agcBox->isChecked();
-            effects.bEnableDenoise = ui.denoisingBox->isChecked();
             effects.bEnableEchoCancellation = ui.echocancelBox->isChecked();
+            preprocessor.webrtc.echocanceller.bEnable = FALSE;
+            preprocessor.webrtc.gaincontroller2.bEnable = ui.agcBox->isChecked();
+            preprocessor.webrtc.noisesuppression.bEnable = ui.denoisingBox->isChecked();
 
-            bool duplex = (effects.bEnableAGC || effects.bEnableDenoise || effects.bEnableEchoCancellation);
+            duplex = effects.bEnableEchoCancellation && in_dev.nSoundSystem == SOUNDSYSTEM_WASAPI;
 
             m_sndloop = TT_StartSoundLoopbackTestEx(inputid, outputid, samplerate,
-                                                    channels, duplex, nullptr, &effects);
+                                                    channels, duplex, &preprocessor, &effects);
         }
         else
         {
-            SpeexDSP spxdsp;
-            ZERO_STRUCT(spxdsp);
-            spxdsp.bEnableAGC = ui.agcBox->isChecked();
-            spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-            spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-            spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-            spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-
-            spxdsp.bEnableDenoise = ui.denoisingBox->isChecked();
-            spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
-
-            spxdsp.bEnableEchoCancellation = ui.echocancelBox->isChecked();
-            spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-            spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+            Q_ASSERT((ui.echocancelBox->isChecked() && duplex) || !ui.echocancelBox->isChecked());
+            preprocessor.webrtc.echocanceller.bEnable = ui.echocancelBox->isChecked();
+            preprocessor.webrtc.gaincontroller2.bEnable = ui.agcBox->isChecked();
+            preprocessor.webrtc.noisesuppression.bEnable = ui.denoisingBox->isChecked();
 
             //input and output devices MUST support the specified 'samplerate' in duplex mode
-            m_sndloop = TT_StartSoundLoopbackTest(inputid, outputid, 
-                                                  samplerate, channels, 
-                                                  ui.sndduplexBox->isChecked(), 
-                                                  &spxdsp);
+            m_sndloop = TT_StartSoundLoopbackTestEx(inputid, outputid, samplerate, channels,
+                                                    duplex, &preprocessor, nullptr);
         }
-        if(!m_sndloop)
+
+        if (!m_sndloop)
         {
             QMessageBox::critical(this, tr("Sound Initialization"),
                                   tr("Failed to initialize new sound devices"));
@@ -1172,19 +1147,16 @@ void PreferencesDlg::slotSoundDefaults()
     int default_inputid = 0, default_outputid = 0;
     TT_GetDefaultSoundDevices(&default_inputid, &default_outputid);
 
-    SoundDevice dev;
-    if(getSoundDevice(default_outputid, m_sounddevices, dev))
-        showDevices(dev.nSoundSystem);
+    SoundDevice indev, outdev;
+    getSoundDevice(default_inputid, m_sounddevices, indev);
+    if (getSoundDevice(default_outputid, m_sounddevices, outdev))
+        showDevices(outdev.nSoundSystem);
 
-    int index = ui.inputdevBox->findData(default_inputid);
-    if(index>=0)
-        ui.inputdevBox->setCurrentIndex(index);
-    index = ui.outputdevBox->findData(default_outputid);
-    if(index>=0)
-        ui.outputdevBox->setCurrentIndex(index);
+    setCurrentItemData(ui.inputdevBox, default_inputid);
+    setCurrentItemData(ui.outputdevBox, default_outputid);
     
-    ui.sndduplexBox->setChecked(DEFAULT_SOUND_DUPLEXMODE);
-    ui.echocancelBox->setChecked(DEFAULT_ECHO_ENABLE);
+    bool echocapable = isSoundDeviceEchoCapable(indev, outdev);
+    ui.echocancelBox->setChecked(DEFAULT_ECHO_ENABLE && echocapable);
     ui.agcBox->setChecked(DEFAULT_AGC_ENABLE);
     ui.denoisingBox->setChecked(DEFAULT_DENOISE_ENABLE);
     ui.mediavsvoiceSlider->setValue(SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT);

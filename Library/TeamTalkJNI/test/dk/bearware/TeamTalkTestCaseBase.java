@@ -58,13 +58,13 @@ public abstract class TeamTalkTestCaseBase {
     public static String MEDIAFILE_AUDIO = "";
     public static String MEDIAFILE_VIDEO = "";
     public static String HTTPS_MEDIAFILE = "";
-    public static boolean OPUSTOOLS = true;
+    public static boolean OPUSTOOLS_AVAILABLE = true, SPEEXDSP_AVAILABLE = true, WEBRTC_AVAILABLE = true;
 
     public static final String CRYPTO_SERVER_CERT_FILE = "ttservercert.pem", CRYPTO_SERVER_KEY_FILE = "ttserverkey.pem";
     public static final String CRYPTO_CLIENT_CERT_FILE = "ttclientcert.pem", CRYPTO_CLIENT_KEY_FILE = "ttclientkey.pem";
     public static final String CRYPTO_SERVER_CERT2_FILE = "ttservercert2.pem", CRYPTO_SERVER_KEY2_FILE = "ttserverkey2.pem";
     public static final String CRYPTO_CA_FILE = "ca.cer";
-    
+
     public static final String MUXEDMEDIAFILE_WAVE = "muxwavefile.wav";
     public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
     public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
@@ -131,8 +131,16 @@ public abstract class TeamTalkTestCaseBase {
             this.HTTPS_MEDIAFILE = prop;
 
         prop = System.getProperty("dk.bearware.opustools");
-        if(prop != null && !prop.isEmpty())
-            this.OPUSTOOLS = Integer.parseInt(prop) != 0;
+        if(prop != null)
+            this.OPUSTOOLS_AVAILABLE = "1".equals(prop);
+
+        prop = System.getProperty("dk.bearware.speexdsp");
+        if(prop != null)
+            this.SPEEXDSP_AVAILABLE = "1".equals(prop);
+
+        prop = System.getProperty("dk.bearware.webrtc");
+        if(prop != null)
+            this.WEBRTC_AVAILABLE = "1".equals(prop);
 
         if(TCPPORT == 0 && UDPPORT == 0) {
             if(this.ENCRYPTED) {
@@ -319,11 +327,11 @@ public abstract class TeamTalkTestCaseBase {
                 break;
             }
         }
-        
+
         for (UserAccount account : accounts) {
             if (account.szUsername.equals(ADMIN_USERNAME))
                 continue;
-            
+
             assertTrue("del account", waitCmdSuccess(ttclient, ttclient.doDeleteUserAccount(account.szUsername), DEF_WAIT));
         }
 
@@ -357,7 +365,7 @@ public abstract class TeamTalkTestCaseBase {
             assertTrue("del ban", waitCmdSuccess(ttclient, ttclient.doUnBanUserEx(ban), DEF_WAIT));
         }
     }
-    
+
     protected void makeUserAccount(String nickname, String username, String password, int userrights)
     {
         TeamTalkBase ttclient = newClientInstance();

@@ -37,8 +37,6 @@
 
 #include <assert.h>
 
-#define DEBUG_MEDIASTREAMER 1
-
 using namespace media;
 
 bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)

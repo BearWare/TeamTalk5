@@ -303,12 +303,9 @@ namespace soundsystem {
     public:
         virtual ~StreamDuplex() {}
 
-        virtual void StreamDuplexEchoCb(const DuplexStreamer& streamer,
-                                        const short* input_buffer,
-                                        const short* prev_output_buffer, int samples){}
         virtual void StreamDuplexCb(const DuplexStreamer& streamer,
                                     const short* input_buffer,
-                                    short* output_buffer, int samples){}
+                                    short* output_buffer, int samples) = 0;
         virtual SoundDeviceFeatures GetDuplexFeatures() = 0;
     };
 

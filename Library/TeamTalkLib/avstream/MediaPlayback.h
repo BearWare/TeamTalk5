@@ -31,6 +31,9 @@
 #if defined(ENABLE_SPEEXDSP)
 #include "SpeexPreprocess.h"
 #endif
+#if defined(ENABLE_WEBRTC)
+#include <avstream/WebRTCPreprocess.h>
+#endif
 
 #include <queue>
 #include <mutex>
@@ -65,7 +68,9 @@ public:
     bool SetupSpeexPreprocess(bool enableagc, const SpeexAGC& agc,
                               bool enabledenoise, int denoisesuppress);
 #endif
-
+#if defined(ENABLE_WEBRTC)
+    bool SetupWebRTCPreprocess(const webrtc::AudioProcessing::Config& webrtc);
+#endif
     // MediaStreamListener
     bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                   ACE_Message_Block* mb_video);
@@ -92,6 +97,9 @@ private:
     StereoMask m_stereo = STEREO_BOTH;
 #if defined(ENABLE_SPEEXDSP)
     std::shared_ptr<SpeexPreprocess> m_preprocess_left, m_preprocess_right;
+#endif
+#if defined(ENABLE_WEBRTC)
+    std::unique_ptr<webrtc::AudioProcessing> m_apm;
 #endif
     bool m_finished = false;
     ACE_Future<bool> m_drained;

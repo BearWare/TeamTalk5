@@ -1394,9 +1394,9 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     QueueAudioCapture(audframe);
 }
 
-void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
+void ClientNode::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
                                     const short* input_buffer, 
-                                    const short* prev_output_buffer, int n_samples)
+                                    short* output_buffer, int n_samples)
 {
     rguard_t g_snd(lock_sndprop());
 
@@ -1426,7 +1426,7 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
     if (m_playback_resampler)
     {
         assert((int)m_playback_buffer.size() == codec_samples * codec_channels);
-        int ret = m_playback_resampler->Resample(prev_output_buffer, n_samples, 
+        int ret = m_playback_resampler->Resample(output_buffer, n_samples, 
                                                  &m_playback_buffer[0],
                                                  codec_samples);
         assert(ret>0);
@@ -1438,7 +1438,7 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
         playback_buffer = &m_playback_buffer[0];
     }
     else
-        playback_buffer = prev_output_buffer;
+        playback_buffer = output_buffer;
 
     AudioFrame audframe(AudioFormat(codec_samplerate, codec_channels),
                         const_cast<short*>(capture_buffer), codec_samples);
@@ -3209,6 +3209,7 @@ bool ClientNode::SetVoiceGainLevel(int gainlevel)
         m_soundprop.preprocessor.ttpreprocessor.gainlevel = gainlevel; //cache vvalue
         return SetSoundPreprocess(m_soundprop.preprocessor);
     case AUDIOPREPROCESSOR_NONE :
+    case AUDIOPREPROCESSOR_WEBRTC :
     case AUDIOPREPROCESSOR_SPEEXDSP : // maybe only denoising is used
                                       // in SpeexDSP but gain should
                                       // still be allowed.
@@ -3514,6 +3515,7 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
         playback->SetGainLevel(preprocessor.ttpreprocessor.gainlevel);
         break;
     case AUDIOPREPROCESSOR_SPEEXDSP:
+    {
 #if defined(ENABLE_SPEEXDSP)
         SpeexAGC agc(float(preprocessor.speexdsp.agc_gainlevel), preprocessor.speexdsp.agc_maxincdbsec,
                      preprocessor.speexdsp.agc_maxdecdbsec, preprocessor.speexdsp.agc_maxgaindb);
@@ -3521,6 +3523,12 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
         if(!playback->SetupSpeexPreprocess(preprocessor.speexdsp.enable_agc, agc,
                                            preprocessor.speexdsp.enable_denoise,
                                            preprocessor.speexdsp.maxnoisesuppressdb))
+            return false;
+#endif
+    }
+    case AUDIOPREPROCESSOR_WEBRTC :
+#if defined(ENABLE_WEBRTC)
+        if (!playback->SetupWebRTCPreprocess(preprocessor.webrtc))
             return false;
 #endif
         break;

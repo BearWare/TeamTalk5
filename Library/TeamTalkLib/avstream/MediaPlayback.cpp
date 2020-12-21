@@ -110,7 +110,7 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speex
         soundsystem::DeviceInfo devinfo;
         if (!m_sndsys->GetDevice(outputdeviceid, devinfo))
             return false;
-        
+
         outframesize = CalcSamples(inprop.audio.samplerate, inframesize,
                                    devinfo.default_samplerate);
         int outchannels = std::min(devinfo.max_output_channels, inprop.audio.channels);
@@ -195,6 +195,22 @@ bool MediaPlayback::SetupSpeexPreprocess(bool enableagc, const SpeexAGC& agc,
 }
 #endif
 
+#if defined(ENABLE_WEBRTC)
+bool MediaPlayback::SetupWebRTCPreprocess(const webrtc::AudioProcessing::Config& webrtc)
+{
+    if (!m_apm)
+        m_apm.reset(webrtc::AudioProcessingBuilder().Create());
+
+    m_apm->ApplyConfig(webrtc);
+    if (m_apm->Initialize() != webrtc::AudioProcessing::kNoError)
+    {
+        m_apm.reset();
+        return false;
+    }
+    return true;
+}
+#endif
+
 bool MediaPlayback::MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                              ACE_Message_Block* mb_video)
 {
@@ -250,7 +266,7 @@ void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,
         m_statusfunc(m_userdata, mfp, status);
 }
 
-bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer, 
+bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                                    short* buffer, int samples)
 {
     ACE_Message_Block* mb = nullptr;
@@ -282,6 +298,15 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
             assert(streamer.framesize == samples);
             std::memcpy(buffer, frm.input_buffer, PCM16_BYTES(streamer.channels, streamer.framesize));
         }
+
+#if defined(ENABLE_WEBRTC)
+        media::AudioFrame apm_frm(media::AudioFormat(streamer.samplerate, streamer.channels),
+                                  buffer, streamer.framesize);
+        if (m_apm && WebRTCPreprocess(*m_apm, apm_frm, apm_frm) != streamer.framesize)
+        {
+            MYTRACE(ACE_TEXT("WebRTC in media file playback failed to process audio\n"));
+        }
+#endif
 
         SOFTGAIN(buffer, streamer.framesize, streamer.channels, m_gainlevel, GAIN_NORMAL);
 
@@ -317,7 +342,6 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
     {
         std::memset(buffer, 0, PCM16_BYTES(streamer.channels, streamer.framesize));
     }
-    
+
     return true;
 }
-

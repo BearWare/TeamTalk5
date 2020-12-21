@@ -35,6 +35,10 @@
 #include "PacketLayout.h"
 #include <codec/MediaUtil.h>
 
+#if defined(ENABLE_WEBRTC)
+#include <avstream/WebRTCPreprocess.h>
+#endif
+
 namespace teamtalk {
 
     struct ServerProperties
@@ -464,18 +468,12 @@ namespace teamtalk {
         TTAudioPreprocessor() { }
     };
 
-    struct SoundDeviceEffects
-    {
-        bool enable_agc = false;
-        bool enable_aec = false;
-        bool enable_denoise = false;
-    };
-
     enum AudioPreprocessorType
     {
         AUDIOPREPROCESSOR_NONE      = 0,
         AUDIOPREPROCESSOR_SPEEXDSP  = 1,
         AUDIOPREPROCESSOR_TEAMTALK  = 2,
+        AUDIOPREPROCESSOR_WEBRTC    = 3,
     };
     
     struct AudioPreprocessor
@@ -486,7 +484,17 @@ namespace teamtalk {
             SpeexDSP speexdsp;
             TTAudioPreprocessor ttpreprocessor;
         };
+#if defined(ENABLE_WEBRTC)
+        webrtc::AudioProcessing::Config webrtc;
+#endif
         AudioPreprocessor() {}
+    };
+
+    struct SoundDeviceEffects
+    {
+        bool enable_agc = false;
+        bool enable_aec = false;
+        bool enable_denoise = false;
     };
 
     struct WebMVP8Codec
