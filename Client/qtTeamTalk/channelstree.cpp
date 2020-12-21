@@ -105,8 +105,12 @@ channels_t getSubChannels(int channelid, const channels_t& channels, bool recurs
         if(ite.value().nParentID == channelid)
         {
             subchannels[ite.key()] = ite.value();
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
             if(recursive)
+                subchannels.unite(getSubChannels(ite.value().nChannelID, channels, recursive));
+#else
                 subchannels.insert(getSubChannels(ite.value().nChannelID, channels, recursive));
+#endif
         }
     }
     return subchannels;

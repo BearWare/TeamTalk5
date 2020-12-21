@@ -67,6 +67,10 @@
 #include <QScreen>
 #include <QGuiApplication>
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#include <QDesktopWidget>
+#endif
+
 #ifdef Q_OS_LINUX //For hotkeys on X11
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -632,10 +636,17 @@ void MainWindow::loadSettings()
         int w = windowpos[2].toInt();
         int h = windowpos[3].toInt();
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        int desktopW = QApplication::desktop()->width();
+        int desktopH = QApplication::desktop()->height();
+        if(x <= desktopW && y <= desktopH)
+            setGeometry(x, y, w, h);
+#else
         // check that we are within bounds
         QScreen* screen = QGuiApplication::screenAt(QPoint(x, y));
         if (screen)
             setGeometry(x, y, w, h);
+#endif
         ui.splitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_SPLITTER).toByteArray());
         ui.videosplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_VIDEOSPLITTER).toByteArray());
         ui.desktopsplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_DESKTOPSPLITTER).toByteArray());
