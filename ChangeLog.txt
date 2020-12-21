@@ -9,7 +9,7 @@ Accessible Windows Client:
 - Event for configuration server saved
 - Users logged in/out display in chat history
 - Fix some labels on server properties dialog and preferences
-- Correctly move focus to first field visible with tab when opening server properties dialog
+- Fix tab index on server properties dialog
 - Some improvements to CTRL+S dialog
 - Don't play sound for our channel messages
 Default QT Client:
