@@ -25,13 +25,6 @@ package dk.bearware;
 
 public class WebRTCAudioPreprocessor {
 
-    class GainController1 {
-        public boolean bEnable = false;
-        public int nTargetLevelDBFS = 3;
-    }
-
-    public GainController1 gaincontroller1 = new GainController1();
-    
     class GainController2 {
         public boolean bEnable = false;
 

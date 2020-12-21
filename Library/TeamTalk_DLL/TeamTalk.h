@@ -1252,12 +1252,6 @@ extern "C" {
              * 2 = High, 3 = VeryHigh. Default: 1. */
             INT32 nLevel;
         } noisesuppression;
-        struct
-        {
-            TTBOOL bEnable;
-            /** Decibels from digital full-scale. Range 0 - 31. Default: 3. */
-            INT32 nTargetLevelDBFS;
-        } gaincontroller1;
         /** @brief Configuration of WebRTC's gain controller 2 for
          * AGC. */
         struct

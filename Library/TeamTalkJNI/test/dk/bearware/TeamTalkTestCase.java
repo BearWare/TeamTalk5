@@ -2329,8 +2329,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         // test WebRTC
         preprocess = new AudioPreprocessor();
         preprocess.nPreprocessor = AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR;
-        preprocess.webrtc.gaincontroller1.bEnable = true;
-        preprocess.webrtc.gaincontroller1.nTargetLevelDBFS = 29;
         preprocess.webrtc.gaincontroller2.bEnable = true;
         preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 20;
         preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable = true;
@@ -2342,8 +2340,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             AudioPreprocessor preprocess2 = new AudioPreprocessor();
             assertTrue("get WebRTC", ttclient.getSoundInputPreprocess(preprocess2));
 
-            assertEquals("webrtc1", preprocess.webrtc.gaincontroller1.bEnable, preprocess2.webrtc.gaincontroller1.bEnable);
-            assertEquals("webrtc2", preprocess.webrtc.gaincontroller1.nTargetLevelDBFS, preprocess2.webrtc.gaincontroller1.nTargetLevelDBFS);
             assertEquals("webrtc3", preprocess.webrtc.gaincontroller2.bEnable, preprocess2.webrtc.gaincontroller2.bEnable);
             assertEquals("webrtc4", (int)preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB, (int)preprocess2.webrtc.gaincontroller2.fixeddigital.fGainDB);
             assertEquals("webrtc5", preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable, preprocess2.webrtc.gaincontroller2.adaptivedigital.bEnable);
