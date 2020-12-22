@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -71,6 +71,7 @@ namespace teamtalk {
             m_transmitusers[STREAMTYPE_VIDEOCAPTURE] = std::set<int>();
             m_transmitusers[STREAMTYPE_DESKTOP] = std::set<int>();
             m_transmitusers[STREAMTYPE_MEDIAFILE] = std::set<int>();
+            m_transmitusers[STREAMTYPE_CHANNELMSG] = std::set<int>();
         }
 
     public:
@@ -115,7 +116,7 @@ namespace teamtalk {
         ChannelTypes GetChannelType() const { return m_chantype; }
         void SetUserData(int userdata) { m_userdata = userdata; }
         int GetUserData() const { return m_userdata; }
-        ACE_TString GetChannelPath() const 
+        ACE_TString GetChannelPath() const
         {
             ACE_TString pwc = GetName() + ACE_TString(CHANNEL_SEPARATOR);
             channel_t channel = GetParentChannel();
@@ -279,7 +280,7 @@ namespace teamtalk {
                 {
                     m_subChannels.erase(m_subChannels.begin()+i);
                     break;
-                }        
+                }
             }
         }
         int GetSubChannelCount(bool recursive = false) const
@@ -423,6 +424,9 @@ namespace teamtalk {
 
         void SetMediaFileUsers(const std::set<int>& userids) { m_transmitusers[STREAMTYPE_MEDIAFILE] = userids; }
         const std::set<int>& GetMediaFileUsers() const { return m_transmitusers.at(STREAMTYPE_MEDIAFILE); }
+
+        void SetChannelTextMsgUsers(const std::set<int>& userids) { m_transmitusers[STREAMTYPE_CHANNELMSG] = userids; }
+        const std::set<int>& GetChannelTextMsgUsers() const { return m_transmitusers.at(STREAMTYPE_CHANNELMSG); }
 
         bool CanTransmit(int userid, StreamType txtype)
         {

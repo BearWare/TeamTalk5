@@ -1445,6 +1445,15 @@ extern "C" {
         /** @brief Shortcut to allow both audio and video media files. */
         STREAMTYPE_MEDIAFILE                = STREAMTYPE_MEDIAFILE_AUDIO |
                                               STREAMTYPE_MEDIAFILE_VIDEO,
+        /** @brief Channel text messages as stream type.
+         *
+         * A channel text message is not a stream but is only included
+         * as a stream type in order to be able to block messages
+         * using @c transmitUsers in #Channel struct.
+         *
+         * @see TT_DoUpdateChannel()  
+         * @see CHANNEL_CLASSROOM. */
+        STREAMTYPE_CHANNELMSG               = 0x00000040,
 
         /** @brief Shortcut to allow voice, media files, desktop and webcamera. */
         STREAMTYPE_CLASSROOM_ALL            = STREAMTYPE_VOICE |
