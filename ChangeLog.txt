@@ -12,6 +12,7 @@ Accessible Windows Client:
 - Fix tab index on server properties dialog
 - Some improvements to CTRL+S dialog
 - Don't play sound for our channel messages
+- Change some sounds
 Default QT Client:
 - Option to join channel immediately in create channel dialog
 - Option to disable emojis and text for channel/user states
@@ -20,6 +21,7 @@ Default QT Client:
 - Fix some navigation problems using tabulation
 - Add emojis for unread messages and now speaking in channels tree
 - More items displayed when using up arrow in message area
+- Change some sounds
 Android client:
 - Change default stream volume from 100 to 50
 iOS Client:
