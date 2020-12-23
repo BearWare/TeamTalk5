@@ -46,7 +46,6 @@
 #include "uservideodlg.h"
 #include "userdesktopdlg.h"
 #include "appinfo.h"
-#include "weblogindlg.h"
 #include "bearwarelogindlg.h"
 
 #include <QMessageBox>
@@ -814,16 +813,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
             QNetworkRequest request(url);
             networkMgr->get(request);
-        }
-        else if (m_host.username.compare(WEBLOGIN_FACEBOOK_USERNAME, Qt::CaseInsensitive) == 0 ||
-            m_host.username.endsWith(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX, Qt::CaseInsensitive))
-        {
-            WebLoginDlg dlg(this);
-            if(dlg.exec() != QDialog::Accepted)
-                return;
-            m_host.password = dlg.m_password;
-
-            login();
         }
         else
         {

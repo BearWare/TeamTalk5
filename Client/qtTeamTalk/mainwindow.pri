@@ -13,7 +13,7 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              userimagewidget.h userdesktopdlg.h desktopsharedlg.h \
              sendtextedit.h streammediafiledlg.h videotextdlg.h \
              desktopaccessdlg.h appinfo.h settings.h generatettfiledlg.h \
-             customvideofmtdlg.h weblogindlg.h license.h bearwarelogindlg.h \
+             customvideofmtdlg.h license.h bearwarelogindlg.h \
              audiopreprocessordlg.h
 
 SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
@@ -28,7 +28,7 @@ SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              userdesktopwidget.cpp gridwidget.cpp userimagewidget.cpp \
              userdesktopdlg.cpp desktopsharedlg.cpp sendtextedit.cpp \
              streammediafiledlg.cpp videotextdlg.cpp desktopaccessdlg.cpp \
-             generatettfiledlg.cpp customvideofmtdlg.cpp weblogindlg.cpp \
+             generatettfiledlg.cpp customvideofmtdlg.cpp \
              bearwarelogindlg.cpp audiopreprocessordlg.cpp
 
 FORMS      = mainwindow.ui channel.ui preferences.ui \
@@ -37,7 +37,7 @@ FORMS      = mainwindow.ui channel.ui preferences.ui \
              filetransfer.ui uservolume.ui changestatus.ui about.ui \
              serverstats.ui onlineusers.ui mediastorage.ui userdesktop.ui \
              desktopshare.ui streammediafile.ui videotext.ui desktopaccess.ui \
-             generatettfile.ui customvideofmt.ui weblogin.ui bearwarelogindlg.ui \
+             generatettfile.ui customvideofmt.ui bearwarelogindlg.ui \
              audiopreprocessor.ui
 
 RESOURCES += resources.qrc
@@ -66,20 +66,6 @@ mac {
     # Use 'iconutil' to convert between icns and pngs
     ICON = images/teamtalk.icns
     LIBS += -framework IOKit -framework Carbon
-}
-
-mac | linux {
-    nowebengine {
-        # QWebView introduced in Qt 4.4
-        QT += webkitwidgets
-    } else {
-    
-        # QWebEngineView introduced in Qt 5.4
-        greaterThan(QT_MAJOR_VERSION, 4) {
-            QT += webenginewidgets
-        }
-    }
-
 }
 
 # install
