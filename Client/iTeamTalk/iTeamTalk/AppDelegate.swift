@@ -22,7 +22,6 @@
  */
 
 import UIKit
-import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -67,8 +66,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.synchronize()
         }
         
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-
         // fix linker problems unit-tests
         if TT_GetRootChannelID(nil) == TRUE {
             TT_CloseSoundOutputDevice(nil)
@@ -97,10 +94,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             nav.popToRootViewController(animated: true)
             let svc = nav.topViewController as! ServerListViewController
             svc.openUrl(url)
-        }
-        else {
-            FBSDKApplicationDelegate.sharedInstance()
-                .application(app, open: url, options: opt)
         }
         
         return true
