@@ -319,11 +319,11 @@ void ChannelsTree::getTransmitUsers(int channelid,
         return;
     Q_ASSERT(parent->data(COLUMN_ITEM, Qt::UserRole).toInt() == channelid);
 
-
+    transmitUsers[TT_CLASSROOM_FREEFORALL] = STREAMTYPE_NONE;
     if (parent->checkState(COLUMN_CHANMSG) == Qt::Checked)
-        transmitUsers[TT_CLASSROOM_FREEFORALL] = STREAMTYPE_CHANNELMSG;
+        transmitUsers[TT_CLASSROOM_FREEFORALL] |= STREAMTYPE_CHANNELMSG;
     if (parent->checkState(COLUMN_VOICE) == Qt::Checked)
-        transmitUsers[TT_CLASSROOM_FREEFORALL] = STREAMTYPE_VOICE;
+        transmitUsers[TT_CLASSROOM_FREEFORALL] |= STREAMTYPE_VOICE;
     if (parent->checkState(COLUMN_VIDEO) == Qt::Checked)
         transmitUsers[TT_CLASSROOM_FREEFORALL] |= STREAMTYPE_VIDEOCAPTURE;
     if (parent->checkState(COLUMN_DESKTOP) == Qt::Checked)
