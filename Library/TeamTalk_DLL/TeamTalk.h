@@ -1455,11 +1455,13 @@ extern "C" {
          * @see CHANNEL_CLASSROOM. */
         STREAMTYPE_CHANNELMSG               = 0x00000040,
 
-        /** @brief Shortcut to allow voice, media files, desktop and webcamera. */
+        /** @brief Shortcut to allow voice, media files, desktop,
+         * webcamera and channel messages. */
         STREAMTYPE_CLASSROOM_ALL            = STREAMTYPE_VOICE |
                                               STREAMTYPE_VIDEOCAPTURE |
                                               STREAMTYPE_DESKTOP |
-                                              STREAMTYPE_MEDIAFILE,
+                                              STREAMTYPE_MEDIAFILE |
+                                              STREAMTYPE_CHANNELMSG,
     } StreamType;
 
     /** @brief Mask of #StreamType. */
