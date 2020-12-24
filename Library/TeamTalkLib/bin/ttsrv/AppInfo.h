@@ -61,5 +61,4 @@
 
 #define TEAMTALK_XML_ROOTNAME "teamtalk"
 
-#define WEBLOGIN_FACEBOOK               "facebook"
 #define WEBLOGIN_BEARWARE               "bearware"
