@@ -5826,6 +5826,11 @@ void CTeamTalkDlg::OnUpdateServerSaveconfiguration(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnServerSaveconfiguration()
 {
     TT_DoSaveConfig(ttInst);
+    CString szMsg = LoadText(IDS_SERVCONFSAVED, _T("Server configuration saved"));
+    AddStatusText(szMsg);
+    if(m_xmlSettings.GetEventTTSEvents() & TTS_MENU_ACTIONS) {
+        AddTextToSpeechMessage(szMsg);
+    }
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedStoreformove(CCmdUI *pCmdUI)
