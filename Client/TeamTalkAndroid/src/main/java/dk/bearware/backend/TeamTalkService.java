@@ -89,8 +89,6 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
 
-import com.facebook.login.LoginManager;
-
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

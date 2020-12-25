@@ -39,9 +39,6 @@ public class AppInfo {
     public static final String APPVERSION_POSTFIX = "";
     public static final String OSTYPE = "Android";
 
-    public static final String WEBLOGIN_FACEBOOK_USERNAME = "facebook";
-    public static final String WEBLOGIN_FACEBOOK_PASSWDPREFIX = "token=";
-
     public static final String WEBLOGIN_BEARWARE_USERNAME = "bearware";
     public static final String WEBLOGIN_BEARWARE_USERNAMEPOSTFIX = "@bearware.dk";
 

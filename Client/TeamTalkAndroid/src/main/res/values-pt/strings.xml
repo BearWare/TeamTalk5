@@ -321,9 +321,7 @@
     <string name="user_prop_title_subscribe_vid">Subscrever em transmissão de vídeo por este usuário</string>
     <string name="user_prop_title_subscribe_desk">Subscrever em capturas de tela deste usuário</string>
     <string name="user_prop_title_subscribe_media">Subscrever em transmissão de mídia deste usuário</string>
-    <string name="err_facebooklogin">Erro ao logar com o Facebook</string>
     <string name="err_stream_media">Erro ao transmitir arquivo de mídia</string>
-    <string name="pref_title_facebook">Login pelo Facebook</string>
     <string name="ban_confirmation">Você tem certeza que quer banir %1$s?</string>
     <string name="kick_confirmation">Você tem certeza que quer expulsar %1$s?</string>
     <string name="editmsg">Mensagem:</string>
@@ -338,6 +336,4 @@
     <string name="bwpswlab">Senha do usuário:</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
-    <string name="pref_title_facebook_summary">Marque apenas se o servidor permite login através do Facebook</string>
-
 </resources>

@@ -55,12 +55,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-
 public class ServerEntryActivity
 extends AppCompatActivity
 implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListener {
@@ -72,8 +66,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     TeamTalkBase ttclient;
     ServerEntry serverentry;
 
-    CallbackManager callbackManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +73,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             .replace(android.R.id.content, new ServerPreferencesFragment())
             .commit();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        callbackManager = CallbackManager.Factory.create();
     }
 
     @Override
@@ -99,7 +90,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         findPreference(ServerEntry.KEY_ENCRYPTED).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_USERNAME).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_PASSWORD).setOnPreferenceChangeListener(this);
-        findPreference(ServerEntry.KEY_FACEBOOK).setOnPreferenceChangeListener(this);
+        findPreference(ServerEntry.KEY_WEBLOGIN).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_NICKNAME).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_CHANNEL).setOnPreferenceChangeListener(this);
@@ -184,7 +175,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -193,19 +183,9 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             case R.id.action_connect : {
                 serverentry = getServerEntry();
 
-                //unregister so delayed facebook login will not cancel new login session
-                LoginManager.getInstance().unregisterCallback(callbackManager);
-                if(serverentry.isFacebookLogin()) {
-                    LoginManager.getInstance().registerCallback(callbackManager,
-                            Utils.createFacebookLogin(this, ttservice, serverentry));
-
-                    Utils.facebookLogin(this);
-                }
-                else {
-                    ttservice.setServerEntry(serverentry);
-                    if (!ttservice.reconnect())
-                        Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
-                }
+                ttservice.setServerEntry(serverentry);
+                if (!ttservice.reconnect())
+                    Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
             }
             break;
             case R.id.action_saveserver : {
@@ -260,12 +240,12 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
 
         // auth
         PreferenceCategory authcat = (PreferenceCategory)findPreference("auth_info");
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), entry.username, entry.username, entry.isFacebookLogin());
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), entry.password, entry.password, entry.isFacebookLogin());
+        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), entry.username, entry.username, entry.isWebLoginLogin());
+        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), entry.password, entry.password, entry.isWebLoginLogin());
 
-        findPreference(ServerEntry.KEY_USERNAME).setEnabled(!entry.isFacebookLogin());
-        findPreference(ServerEntry.KEY_PASSWORD).setEnabled(!entry.isFacebookLogin());
-        ((CheckBoxPreference)findPreference(ServerEntry.KEY_FACEBOOK)).setChecked(entry.isFacebookLogin());
+        findPreference(ServerEntry.KEY_USERNAME).setEnabled(!entry.isWebLoginLogin());
+        findPreference(ServerEntry.KEY_PASSWORD).setEnabled(!entry.isWebLoginLogin());
+        ((CheckBoxPreference)findPreference(ServerEntry.KEY_WEBLOGIN)).setChecked(entry.isWebLoginLogin());
 
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_NICKNAME), entry.nickname, entry.nickname);
 
@@ -283,22 +263,22 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             editTextPreference.setSummary(newValue.toString());
         }
 
-        if(findPreference(ServerEntry.KEY_FACEBOOK) == preference) {
-            boolean fblogin = (Boolean)newValue;
+        if(findPreference(ServerEntry.KEY_WEBLOGIN) == preference) {
+            boolean weblogin = (Boolean)newValue;
             CheckBoxPreference cbp = (CheckBoxPreference)preference;
-            findPreference(ServerEntry.KEY_USERNAME).setEnabled(!fblogin);
-            findPreference(ServerEntry.KEY_PASSWORD).setEnabled(!fblogin);
+            findPreference(ServerEntry.KEY_USERNAME).setEnabled(!weblogin);
+            findPreference(ServerEntry.KEY_PASSWORD).setEnabled(!weblogin);
 
             ServerEntry entry = serverentry == null? Utils.getServerEntry(this.getIntent()) : serverentry;
             if(entry != null) {
-                String username = fblogin? AppInfo.WEBLOGIN_FACEBOOK_USERNAME : entry.username;
-                String password = fblogin? "" : entry.password;
-                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), username, username, fblogin);
-                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), password, password, fblogin);
+                String username = weblogin? AppInfo.WEBLOGIN_BEARWARE_USERNAME : entry.username;
+                String password = weblogin? "" : entry.password;
+                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), username, username, weblogin);
+                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), password, password, weblogin);
             }
-            else if(fblogin){
-                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), AppInfo.WEBLOGIN_FACEBOOK_USERNAME, AppInfo.WEBLOGIN_FACEBOOK_USERNAME);
-                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), "", "", fblogin);
+            else if(weblogin){
+                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), AppInfo.WEBLOGIN_BEARWARE_USERNAME, AppInfo.WEBLOGIN_BEARWARE_USERNAME);
+                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), "", "", weblogin);
             }
         }
 

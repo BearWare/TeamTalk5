@@ -199,7 +199,6 @@
     <string name="err_retrieve_public_server_list">Échec à la récupération de la liste des serveurs publics</string>
     <string name="err_send_text_message">Échec à l\'envoi du message texte</string>
     <string name="err_connection">La connexion a échoué</string>
-    <string name="err_facebooklogin">La connexion Facebook a échoué</string>
     <string name="err_stream_media">Échec à la diffusion du fichier média</string>
 
     <string name="action_new_channel">Nouveau canal</string>
@@ -219,7 +218,6 @@
     <string name="pref_title_authentication">Authentification</string>
     <string name="pref_title_username">Nom d\'utilisateur</string>
     <string name="pref_title_password">Mot de passe</string>
-    <string name="pref_title_facebook">Connexion Facebook</string>
     <string name="pref_title_join_channel">Rejoindre le canal</string>
     <string name="pref_title_channel">Canal</string>
     <string name="pref_title_channel_password">Mot de passe du canal</string>
@@ -347,7 +345,6 @@
     <string name="bwpswlab">Mot de passe :</string>
     <string name="ttversion">TeamTalk V</string>
     <string name="ttdllversion">DLL TeamTalk V</string>
-    <string name="pref_title_facebook_summary">À ne cocher que si ce serveur a activé la connexion Facebook</string>
     <string name="pref_cat_about">À propos</string>
     <string name="pref_title_contrib">Développeurs</string>
     <string name="pref_title_translator">Traducteur</string>

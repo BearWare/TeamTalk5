@@ -199,7 +199,6 @@
     <string name="err_retrieve_public_server_list">Failed to retrieve public server list</string>
     <string name="err_send_text_message">Failed to send text message</string>
     <string name="err_connection">Connection failed</string>
-    <string name="err_facebooklogin">Facebook login failed</string>
     <string name="err_stream_media">Failed to stream a media file</string>
 
     <string name="action_new_channel">New Channel</string>
@@ -219,7 +218,7 @@
     <string name="pref_title_authentication">Authentication</string>
     <string name="pref_title_username">Username</string>
     <string name="pref_title_password">Password</string>
-    <string name="pref_title_facebook">Facebook Login</string>
+    <string name="pref_title_bearware">BearWare.dk Web Login</string>
     <string name="pref_title_join_channel">Join Channel</string>
     <string name="pref_title_channel">Channel</string>
     <string name="pref_title_channel_password">Channel Password</string>
@@ -325,9 +324,6 @@
     <string name="permission_read_phone_state">Incoming phone call detection will be impossible</string>
     <string name="permission_bluetooth">Bluetooth headset microphone usage will be impossible</string>
 
-    <string translatable="false" name="facebook_app_id">611833262539381</string>
-    <string translatable="false" name="fb_login_protocol_scheme">fb611833262539381</string>
-
     <string name="title_activity_web_login">WebLoginActivity</string>
     <string name="weblogin_prop_title_bearwareid">Username</string>
     <string name="weblogin_prop_title_bearwarepasswd">Password</string>
@@ -350,7 +346,7 @@
     <string name="bwpswlab">Password:</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
-    <string name="pref_title_facebook_summary">Check only if this server has enabled Facebook login</string>
+    <string name="pref_title_bearware_summary">Check only if this server has enabled BearWare.dk Web Login</string>
     <string name="pref_cat_about">About</string>
     <string name="pref_title_contrib">Developers</string>
     <string name="pref_title_translator">Translator</string>
