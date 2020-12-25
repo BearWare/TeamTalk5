@@ -41,7 +41,7 @@ void ChatLineEdit::keyPressEvent ( QKeyEvent * event )
             break;
 
         m_history.push_back(text());
-        while(m_history.size() > 10)
+        while(m_history.size() > 50)
             m_history.erase(m_history.begin());
         m_history_pos = m_history.end();
         break;

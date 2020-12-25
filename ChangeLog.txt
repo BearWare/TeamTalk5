@@ -16,6 +16,7 @@ Default QT Client:
 - CTRL+L to leave a channel
 - Event for configuration server saved
 - Fix some navigation problems using tabulation
+- More items displayed when using up arrow in message area
 - Add emojis for unread messages and now speaking in channels tree
 
 Version 5.6.3, 2020/09/20
