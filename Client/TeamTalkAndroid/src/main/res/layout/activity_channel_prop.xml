@@ -198,6 +198,12 @@
             android:layout_height="wrap_content"
             android:text="@string/channel_prop_title_noaudiorecord" />
 
+        <CheckBox
+            android:id="@+id/chan_hidden"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/channel_prop_title_hiddenchannel" />
+
         </LinearLayout>
 
 </LinearLayout>
