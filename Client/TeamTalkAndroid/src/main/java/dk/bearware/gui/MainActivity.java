@@ -805,10 +805,14 @@ implements TeamTalkConnectionListener,
             sendBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
+                    String text = newmsg.getText().toString();
+                    if (text.isEmpty())
+                        return;
+                    
                     TextMessage textmsg = new TextMessage();
                     textmsg.nMsgType = TextMsgType.MSGTYPE_CHANNEL;
                     textmsg.nChannelID = mainActivity.ttclient.getMyChannelID();
-                    textmsg.szMessage = newmsg.getText().toString();
+                    textmsg.szMessage = text;
                     int cmdid = mainActivity.ttclient.doTextMessage(textmsg);
                     if(cmdid>0) {
                         mainActivity.activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_TEXTMSG);

@@ -839,6 +839,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     {
         Disconnect();
 
+        killLocalTimer(TIMER_RECONNECT);
+        if (ttSettings->value(SETTINGS_CONNECTION_RECONNECT, true).toBool())
+        {
+            m_timers[startTimer(5000)] = TIMER_RECONNECT;
+        }
+
         addStatusMsg(tr("Failed to connect to %1 TCP port %2 UDP port %3")
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     }

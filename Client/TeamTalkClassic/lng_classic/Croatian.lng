@@ -426,6 +426,8 @@
     <item id="562">Prevoditelji</item>
     <item id="563">Biblioteke</item>
     <item id="564">TeamTalk Koristi sljedeće biblioteke:</item>
+    <item id="565">Konfiguracija poslužitelja je pospremljena</item>
+    <item id="566">Definiraj status otsutnosti poslije %d sekundi</item>
     <item id="1006">Popis datoteka</item>
     <item id="1009">Automatski se pridruži glavnom kanalu prilikom povezivanja</item>
     <item id="1012">TCP port hosta</item>
@@ -673,6 +675,7 @@
     <item id="1451">označeni kanali</item>
     <item id="1452">dostupni kanali</item>
     <item id="1453">auto operatorski kanali</item>
+    <item id="1454">Pokazuj emoji pri prikazivanju statusa kanala i korisnika</item>
     <item id="1456">omogući poništavanje jeke /ukloni jeku iz zvučnika</item>
     <item id="1460">operator prima podatke samo od operatora vidi i slušaj</item>
     <item id="1463">brzina uzorkovanja izlaza</item>
