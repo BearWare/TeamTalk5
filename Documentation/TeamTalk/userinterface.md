@@ -411,23 +411,23 @@ Each of the menu items in the Me-menu are described here:
       you are talking. Using a [Push To Talk](@ref pttdlg) key combination
       is especially usefull if you are using speakers and have
       problems with echos. To transmit voice data from microphone
-      requires the *user-right*
+      requires the *User Right*
       [User can transmit voice data](@ref useraccountsdlg).
 - **Enable Voice Activation**
     - Instead of using Push To Talk one can have TeamTalk detect when
       you are talking and then start transmitting. To transmit voice
-      data from microphone requires the *user-right*
+      data from microphone requires the *User Right*
       [User can transmit voice data](@ref useraccountsdlg).
 - **Enable Video Transmission**
     - Enable this item to start transmitting video to other users in
       your channel. Note that you need to configure your web camera
       before doing this. To transmit video data from webcam requires
-      the *user-right* [User can transmit video data](@ref useraccountsdlg).
+      the *User Right* [User can transmit video data](@ref useraccountsdlg).
 - **Enable Desktop Sharing**
     - Share an application on your desktop with other users in your
       channel. This can e.g. be used for doing a presentation. See the
       [Desktop Sharing dialog](@ref desktopsharedlg) for more information.
-      To transmit shared desktops requires the *user-right*
+      To transmit shared desktops requires the *User Right*
       [User can transmit desktop sessions](@ref useraccountsdlg).
 
 ## Enable Push To Talk Dialog {#pttdlg}
@@ -454,7 +454,7 @@ The Desktop Sharing dialog is shown here:
 
 ![Desktop Sharing Dialog](dlg_desktopshare.png "Desktop Sharing")
 
-To be able to share a desktop window requires the *user-right*
+To be able to share a desktop window requires the *User Right*
 [User can transmit desktop sessions](@ref useraccountsdlg).
 
 Each of the items in the dialog are explained here:
@@ -545,7 +545,7 @@ active.
         - Kick the user off the server and ban the user's username or
           IP-address. Only users with the
           [User can ban users from server](@ref useraccountsdlg)
-          *user-right* can do this.
+          *User Right* can do this.
 - **Subscriptions**
     - See [Subscriptions-menu](@ref subscriptionsmenu).
 - **Advanced**
@@ -560,7 +560,7 @@ A channel operator is typically a channel owner, i.e. the user who
 initially created the channel. As channel operator one can kick people
 out of the channel and make changes to the channel's properties.
 
-Being channel operator is similar to having the *user-right*
+Being channel operator is similar to having the *User Right*
 [User can create/modify all channels](@ref useraccountsdlg) but
 instead of "all channels" the user can only make changes to the
 channels which the user is operator of.
@@ -687,7 +687,12 @@ channel in the channels view. All the channel options are shown here:
 Each of the menu items in the Channels menu are described here.
 
 - **Join Channel**
-    - Join the currently selected channel.
+    - Join the currently selected channel. An alternative way to join
+      a channel is to use the [Create Channel Dialog](@ref createchandlg)
+      and type the name and the password of the channel to join while
+      being in its parent channel. All properties specified in the
+      *Create Channel Dialog* will be ignored if the channel already
+      exists.
 
 - **View Channel Info**
     - View channel information about the selected channel. Details
@@ -696,14 +701,14 @@ Each of the menu items in the Channels menu are described here.
 
 - **Create Channel**
     - Create a new channel. To create a new channel a user must have
-      either the *user-right*
+      either the *User Right*
       [User can create temporary channels](@ref useraccountsdlg) or
       [User can create/modify all channels](@ref useraccountsdlg). Details
       about a channel are described in
       [Create Channel Dialog](@ref createchandlg).
 - **Update Channel**
     - Update an existing channel. Only [channel-operators](@ref op) or
-      users with *user-right*
+      users with *User Right*
       [User can create/modify all channels](@ref useraccountsdlg) can
       update a channel's properties. Note that it is not possible to
       change the audio codec of a channel when there are users in the
@@ -712,7 +717,7 @@ Each of the menu items in the Channels menu are described here.
 - **Delete Channel**
     - Delete the selected channel and any sub-channels. If there's
       users in the channel then they will be kicked out. Only users
-      with *user-right*
+      with *User Right*
       [User can create/modify all channels](@ref useraccountsdlg) can
       delete a channel.
 
@@ -726,13 +731,13 @@ Each of the menu items in the Channels menu are described here.
     - A [dialog](@ref streammediadlg) will pop up where it's possible to
       specify which file to stream to a channel. The media file can
       contain both audio and video. To stream a media file to a
-      channel your account must have the *user-right*
+      channel your account must have the *User Right*
       [User can transmit audio files](@ref useraccountsdlg) and/or
       [User can transmit video files](@ref useraccountsdlg).
 
 - **Upload File**
     - Upload a file to a channel. To upload a file a user must have a
-      user account on the server and the *user-right*
+      user account on the server and the *User Right*
       [User can upload files](@ref useraccountsdlg). An *Administrator*
       can upload a file to any channel whereas *Default user* can only
       upload to their current channel. Read section
@@ -742,7 +747,7 @@ Each of the menu items in the Channels menu are described here.
       [Create Channel Dialog](@ref createchandlg).
 - **Download File**
     - Download the file selected in [Files-tab](@ref filestab). To
-      download a file a user must have the *user-right*
+      download a file a user must have the *User Right*
       [User can download files](@ref useraccountsdlg).
 - **Delete File**
     - Delete the file selected in [Files-tab](@ref filestab). Only the
@@ -782,13 +787,13 @@ Each of the fields in the create channel dialog are described here:
 - **Disk quota (KBytes)**
     - The maximum number of KBytes available for file storage in the
       channel when [uploading files](@ref channelsmenu). This field can only
-      be modified if user has *user-right*
+      be modified if user has *User Right*
       [User can create/modify all channels](@ref useraccountsdlg). The
       default *Disk Quota* is set up when
       [configuring the TeamTalk server](@ref teamtalkserver).
       
 - **Permanent channel (stored on server)**
-    - Only users with *user-right*
+    - Only users with *User Right*
       [User can create/modify all channels](@ref useraccountsdlg) can
       create permanent channels.
 - **No interruptions (no simultaneous voice transmission)**
@@ -805,7 +810,7 @@ Each of the fields in the create channel dialog are described here:
       information.
 - **Operator receive only (only operator see and hear users)**
     - This channel type can be used for reducing network traffic when
-      e.g. TeamTalk is used for teaching. Only user's with *user-right*
+      e.g. TeamTalk is used for teaching. Only user's with *User Right*
       [User can create/modify all channels](@ref useraccountsdlg) and
       [operators](@ref op) of a channel will see and hear users in the
       channel.
@@ -814,6 +819,15 @@ Each of the fields in the create channel dialog are described here:
 - **No audio recording allowed (save to disk not allowed)**
     - Don't allow users to use the
       [Record Conversations to Disk](@ref recorddlg) option.
+- **Hidden channel**
+    - Create a hidden channel that can only be seen by users with
+      *User Right* [User can see hidden channels](@ref useraccountsdlg).
+      Creating a hidden channel requires *User Right*
+      [User can create/modify all channels](@ref useraccountsdlg).
+      To join a hidden channel that cannot be seen use the *Create
+      Channel Dialog* and type the name of the channel, its password
+      and press OK. Ensure to be in the parent channel of the hidden
+      channel while doing this.
 
 - **Audio Codec**
     - **Codec Type**
@@ -960,7 +974,7 @@ Each of the menu items in the Server-menu are described here.
       banned based on their IP-address. Since user's IP-addresses
       often change from day to day it might be that a user who was
       previously banned can log on to the server again a day or two
-      later. Only users with *user-right*
+      later. Only users with *User Right*
       [User can ban users from server](@ref useraccountsdlg)
       can list the banned users on a server. More is
       explained in section [Banned Users Dialog](@ref bannedusersdlg).
@@ -970,13 +984,13 @@ Each of the menu items in the Server-menu are described here.
 
 - **Broadcast Message**
     - Broadcast a message to all users on the server. The message will
-      appear in the Chat-window. Only users with *user-right*
+      appear in the Chat-window. Only users with *User Right*
       [User can broadcast text messages](@ref useraccountsdlg) can
       broadcast text messages.
 
 - **Server Properties**
     - See the server's properties and change them if user has
-      *user-right*
+      *User Right*
       [User can update server properties](@ref useraccountsdlg). More is
       explained in section
       [Server Properties Dialog](@ref serverpropertiesdlg).
@@ -1062,6 +1076,10 @@ The remaining items are explained in the following sections.
       more information on using Facebook accounts.
 - **User can see users in all channels**
     - If unchecked the user can only see users in the current channel.
+- **User can see hidden channels**
+    - Hidden channels will be visible to the user. See
+      [Hidden channel](@ref createchandlg) on how to create hidden
+      channels.
 - **User can create/modify all channels**
     - User can create/update/delete all channels on the server. User
       can also create permanent channels. If unchecked user can only
@@ -1193,7 +1211,7 @@ as well as text messaging users.
 ## Server Properties Dialog {#serverpropertiesdlg}
 
 The Server Properties-dialog shows what rights users who are logged on
-to the server has. An example is shown here where user has *user-right*
+to the server has. An example is shown here where user has *User Right*
 [User can update server properties](@ref useraccountsdlg):
 
 ![Server Properties Dialog](dlg_serverproperties.png "Server Properties")
