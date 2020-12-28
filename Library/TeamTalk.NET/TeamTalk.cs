@@ -1457,11 +1457,22 @@ namespace BearWare
         /** @brief Shortcut to allow both audio and video media files. */
         STREAMTYPE_MEDIAFILE                = STREAMTYPE_MEDIAFILE_AUDIO |
                                               STREAMTYPE_MEDIAFILE_VIDEO,
-        /** @brief Shortcut to allow voice, media files, desktop and webcamera. */
+        /** @brief Channel text messages as stream type.
+         *
+         * A channel text message is not a stream but is only included
+         * as a stream type in order to be able to block messages
+         * using @c transmitUsers in #BearWare.Channel struct.
+         *
+         * @see TeamTalkBase.DoUpdateChannel()  
+         * @see ChannelType.CHANNEL_CLASSROOM. */
+        STREAMTYPE_CHANNELMSG               = 0x00000040,
+        /** @brief Shortcut to allow voice, media files, desktop,
+         * webcamera and channel messages. */
         STREAMTYPE_CLASSROOM_ALL            = STREAMTYPE_VOICE |
                                               STREAMTYPE_VIDEOCAPTURE |
                                               STREAMTYPE_DESKTOP |
-                                              STREAMTYPE_MEDIAFILE,
+                                              STREAMTYPE_MEDIAFILE |
+                                              STREAMTYPE_CHANNELMSG,
     }
     /** @} */
 
