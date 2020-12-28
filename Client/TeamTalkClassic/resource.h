@@ -454,7 +454,9 @@
 #define IDS_CMDERR_CHANNEL_HAS_USERS    549
 #define IDS_CMDERR_LOGINSERVICE_UNAVAILABLE 550
 #define IDS_CMDERR_USER_NOT_FOUND       551
+#define IDS_UNBAN                       552
 #define IDS_CHANHISTORYLAB              553
+#define IDS_IPADDRBAN                   554
 #define IDS_CHANMESSAGELAB              555
 #define IDS_DEFAULTNICKNAME             556
 #define IDS_TREECTRLLAB                 557
@@ -968,6 +970,7 @@
 #define IDC_STATIC_BEARWARELOGIN        1599
 #define IDC_RADIO_DISABLEDUSER          1600
 #define IDC_CHECK_JOINCHANNEL           1601
+#define IDC_STARTPOSLAB                 1602
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -1086,7 +1089,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        567
 #define _APS_NEXT_COMMAND_VALUE         32959
-#define _APS_NEXT_CONTROL_VALUE         1602
+#define _APS_NEXT_CONTROL_VALUE         1603
 #define _APS_NEXT_SYMED_VALUE           413
 #endif
 #endif
