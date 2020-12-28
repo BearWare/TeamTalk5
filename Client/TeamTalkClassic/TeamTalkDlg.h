@@ -489,6 +489,10 @@ public:
     afx_msg void OnAdvancedAllowdesktoptransmission();
     afx_msg void OnUpdateAdvancedAllowmediafiletransmission(CCmdUI *pCmdUI);
     afx_msg void OnAdvancedAllowmediafiletransmission();
+    afx_msg void OnUpdateAdvancedAllowallchannel(CCmdUI* pCmdUI);
+    afx_msg void OnAdvancedAllowallchannel();
+    afx_msg void OnUpdateAdvancedAllowchanneltextmessage(CCmdUI* pCmdUI);
+    afx_msg void OnAdvancedAllowchanneltextmessage();
     afx_msg void OnUpdateSubscriptionsMediafilestream(CCmdUI *pCmdUI);
     afx_msg void OnSubscriptionsMediafilestream();
     afx_msg void OnUpdateSubscriptionsInterceptmediafilestream(CCmdUI *pCmdUI);
