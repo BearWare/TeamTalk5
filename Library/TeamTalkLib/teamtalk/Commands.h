@@ -131,6 +131,7 @@
 #define TT_BANTYPE ACE_TEXT("type") // v5.3
 #define TT_LOGINDELAY ACE_TEXT("logindelay") // v5.5
 #define TT_ACCESSTOKEN ACE_TEXT("accesstoken") // v5.6
+#define TT_CHANMSGUSERS ACE_TEXT("chanmsgusers") // v5.8
 
 //    Client ---> Server
 //    -------------------------

@@ -399,6 +399,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             SLOT(slotUsersAdvancedStoreForMove()));
     connect(ui.actionMoveUser, SIGNAL(triggered()),
             SLOT(slotUsersAdvancedMoveUsers()));
+    connect(ui.actionAllowChannelTextMessages, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedChanMsgAllowed);
     connect(ui.actionAllowVoiceTransmission, SIGNAL(triggered(bool)),
             SLOT(slotUsersAdvancedVoiceAllowed(bool)));
     connect(ui.actionAllowVideoTransmission, SIGNAL(triggered(bool)),
@@ -3271,6 +3273,22 @@ void MainWindow::checkAppUpdate()
     networkMgr->get(request);
 }
 
+void MainWindow::toggleAllowStreamType(bool checked, StreamType st)
+{
+    int userid = ui.channelsWidget->selectedUser();
+    int channelid = ui.channelsWidget->selectedChannel(true);
+    if (userid > 0 && channelid > 0)
+    {
+        QMap<int,StreamTypes> transmitUsers;
+        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
+        if (checked)
+            transmitUsers[userid] |= st;
+        else
+            transmitUsers[userid] &= ~st;
+        slotTransmitUsersChanged(channelid, transmitUsers);
+    }
+}
+
 void MainWindow::slotClientNewInstance(bool /*checked=false*/)
 {
     QString inipath = ttSettings->fileName();
@@ -3952,68 +3970,29 @@ void MainWindow::slotUsersAdvancedMoveUsers()
     slotUpdateUI();
 }
 
+void MainWindow::slotUsersAdvancedChanMsgAllowed(bool checked/*=false*/)
+{
+    toggleAllowStreamType(checked, STREAMTYPE_CHANNELMSG);
+}
+
 void MainWindow::slotUsersAdvancedVoiceAllowed(bool checked/*=false*/)
 {
-    int userid = ui.channelsWidget->selectedUser();
-    int channelid = ui.channelsWidget->selectedChannel(true);
-    if(userid>0 && channelid>0)
-    {
-        QMap<int,StreamTypes> transmitUsers;
-        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
-        if(checked)
-            transmitUsers[userid] |= STREAMTYPE_VOICE;
-        else
-            transmitUsers[userid] &= ~STREAMTYPE_VOICE;
-        slotTransmitUsersChanged(channelid, transmitUsers);
-    }
+    toggleAllowStreamType(checked, STREAMTYPE_VOICE);
 }
 
 void MainWindow::slotUsersAdvancedVideoAllowed(bool checked/*=false*/)
 {
-    int userid = ui.channelsWidget->selectedUser();
-    int channelid = ui.channelsWidget->selectedChannel(true);
-    if(userid>0 && channelid>0)
-    {
-        QMap<int,StreamTypes> transmitUsers;
-        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
-        if(checked)
-            transmitUsers[userid] |= STREAMTYPE_VIDEOCAPTURE;
-        else
-            transmitUsers[userid] &= ~STREAMTYPE_VIDEOCAPTURE;
-        slotTransmitUsersChanged(channelid, transmitUsers);
-    }
+    toggleAllowStreamType(checked, STREAMTYPE_VIDEOCAPTURE);
 }
 
 void MainWindow::slotUsersAdvancedDesktopAllowed(bool checked/*=false*/)
 {
-    int userid = ui.channelsWidget->selectedUser();
-    int channelid = ui.channelsWidget->selectedChannel(true);
-    if(userid>0 && channelid>0)
-    {
-        QMap<int,StreamTypes> transmitUsers;
-        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
-        if(checked)
-            transmitUsers[userid] |= STREAMTYPE_DESKTOP;
-        else
-            transmitUsers[userid] &= ~STREAMTYPE_DESKTOP;
-        slotTransmitUsersChanged(channelid, transmitUsers);
-    }
+    toggleAllowStreamType(checked, STREAMTYPE_DESKTOP);
 }
 
 void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
 {
-    int userid = ui.channelsWidget->selectedUser();
-    int channelid = ui.channelsWidget->selectedChannel(true);
-    if(userid>0 && channelid>0)
-    {
-        QMap<int,StreamTypes> transmitUsers;
-        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
-        if(checked)
-            transmitUsers[userid] |= STREAMTYPE_MEDIAFILE;
-        else
-            transmitUsers[userid] &= ~STREAMTYPE_MEDIAFILE;
-        slotTransmitUsersChanged(channelid, transmitUsers);
-    }
+    toggleAllowStreamType(checked, STREAMTYPE_MEDIAFILE);
 }
 
 void MainWindow::slotUsersStoreAudioToDisk(bool/* checked*/)
@@ -4684,6 +4663,8 @@ void MainWindow::slotUpdateUI()
     ui.actionDeleteFile->setEnabled(filescount>0);
 
     //Users-menu items dependent on Channel
+    ui.actionAllowChannelTextMessages->setChecked(userCanChanMessage(userid, chan));
+    ui.actionAllowChannelTextMessages->setEnabled(userid > 0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
     ui.actionAllowVoiceTransmission->setChecked(userCanVoiceTx(userid, chan));
     ui.actionAllowVoiceTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
     ui.actionAllowVideoTransmission->setChecked(userCanVideoTx(userid, chan));

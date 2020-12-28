@@ -3524,6 +3524,7 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     chan->SetVideoUsers(chanprop.GetTransmitUsers(STREAMTYPE_VIDEOCAPTURE));
     chan->SetDesktopUsers(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP));
     chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
+    chan->SetChannelTextMsgUsers(chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG));
 
     //forward new channel to users
     ServerChannel::users_t users;
@@ -3605,6 +3606,7 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
     }
     chan->SetDesktopUsers(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP));
     chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
+    chan->SetChannelTextMsgUsers(chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG));
     chan->SetTransmitQueue(chanprop.transmitqueue);
 
     UpdateChannel(chan);
@@ -3858,6 +3860,9 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
 
         if(from->GetChannel() != chan &&
            (from->GetUserType() & USERTYPE_ADMIN) == 0)
+            return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+
+        if (!chan->CanTransmit(from->GetUserID(), STREAMTYPE_CHANNELMSG, 0))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         //forward message to all users of that channel

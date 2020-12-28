@@ -628,6 +628,7 @@ ErrorMsg ServerUser::HandleJoinChannel(const mstrings_t& properties)
     GetProperty(properties, TT_VIDEOUSERS, chanprop.transmitusers[STREAMTYPE_VIDEOCAPTURE]);
     GetProperty(properties, TT_DESKTOPUSERS, chanprop.transmitusers[STREAMTYPE_DESKTOP]);
     GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.transmitusers[STREAMTYPE_MEDIAFILE]);
+    GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     GetProperty(properties, TT_PASSWORD, chanprop.passwd);
 
     if(chanprop.name.find(CHANNEL_SEPARATOR) != ACE_TString::npos)
@@ -703,6 +704,7 @@ ErrorMsg ServerUser::HandleMakeChannel(const mstrings_t& properties)
     GetProperty(properties, TT_VIDEOUSERS, chanprop.transmitusers[STREAMTYPE_VIDEOCAPTURE]);
     GetProperty(properties, TT_DESKTOPUSERS, chanprop.transmitusers[STREAMTYPE_DESKTOP]);
     GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.transmitusers[STREAMTYPE_MEDIAFILE]);
+    GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
 
     if(chanprop.name.find(CHANNEL_SEPARATOR) != ACE_TString::npos)
     {
@@ -742,6 +744,9 @@ ErrorMsg ServerUser::HandleUpdateChannel(const mstrings_t& properties)
     if(HasProperty(properties, TT_MEDIAFILEUSERS))
         chanprop.transmitusers[STREAMTYPE_MEDIAFILE].clear();
     GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.transmitusers[STREAMTYPE_MEDIAFILE]);
+    if (HasProperty(properties, TT_CHANMSGUSERS))
+        chanprop.transmitusers[STREAMTYPE_CHANNELMSG].clear();
+    GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
 
     if(GetUserRights() & USERRIGHT_MODIFY_CHANNELS)
     {
@@ -1473,6 +1478,8 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool encrypted)
         AppendProperty(TT_DESKTOPUSERS, channel.GetDesktopUsers(), command);
     if (channel.GetMediaFileUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
         AppendProperty(TT_MEDIAFILEUSERS, channel.GetMediaFileUsers(), command);
+    if (channel.GetChannelTextMsgUsers().size())
+        AppendProperty(TT_CHANMSGUSERS, channel.GetChannelTextMsgUsers(), command);
     command += ACE_TString(EOL);
 
     TransmitCommand(command);
@@ -1527,6 +1534,8 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
         AppendProperty(TT_DESKTOPUSERS, channel.GetDesktopUsers(), command);
     if (channel.GetMediaFileUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
         AppendProperty(TT_MEDIAFILEUSERS, channel.GetMediaFileUsers(), command);
+    if (channel.GetChannelTextMsgUsers().size())
+        AppendProperty(TT_CHANMSGUSERS, channel.GetChannelTextMsgUsers(), command);
 
     if(channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT)
     {

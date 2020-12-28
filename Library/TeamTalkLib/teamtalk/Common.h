@@ -307,6 +307,7 @@ namespace teamtalk {
                                               STREAMTYPE_MEDIAFILE_VIDEO,
         STREAMTYPE_DESKTOP                  = 0x00000010,
         STREAMTYPE_DESKTOPINPUT             = 0x00000020,
+        STREAMTYPE_CHANNELMSG               = 0x00000040,
     };
 
     typedef ACE_UINT32 StreamTypes;
@@ -631,6 +632,7 @@ namespace teamtalk {
             transmitusers[STREAMTYPE_VIDEOCAPTURE] = std::set<int>();
             transmitusers[STREAMTYPE_DESKTOP] = std::set<int>();
             transmitusers[STREAMTYPE_MEDIAFILE] = std::set<int>();
+            transmitusers[STREAMTYPE_CHANNELMSG] = std::set<int>();
         }
     };
 

@@ -79,7 +79,7 @@
            <bool>true</bool>
           </property>
           <property name="columnCount">
-           <number>5</number>
+           <number>6</number>
           </property>
           <attribute name="headerVisible">
            <bool>false</bool>
@@ -116,6 +116,11 @@
           <column>
            <property name="text">
             <string notr="true">5</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string notr="true">6</string>
            </property>
           </column>
          </widget>
@@ -355,11 +360,11 @@
           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
            <item>
             <widget class="ChatLineEdit" name="msgEdit">
-             <property name="accessibleName">
-              <string>Message</string>
-             </property>
              <property name="visible">
               <bool>false</bool>
+             </property>
+             <property name="accessibleName">
+              <string>Message</string>
              </property>
             </widget>
            </item>
@@ -371,14 +376,14 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="visible">
+              <bool>false</bool>
+             </property>
              <property name="toolTip">
               <string>Send text message</string>
              </property>
              <property name="text">
               <string>Sen&amp;d</string>
-             </property>
-             <property name="visible">
-              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -1092,7 +1097,7 @@
      <x>0</x>
      <y>0</y>
      <width>637</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuClient">
@@ -1156,6 +1161,7 @@
      <addaction name="actionStoreForMove"/>
      <addaction name="actionMoveUser"/>
      <addaction name="separator"/>
+     <addaction name="actionAllowChannelTextMessages"/>
      <addaction name="actionAllowVoiceTransmission"/>
      <addaction name="actionAllowVideoTransmission"/>
      <addaction name="actionAllowDesktopTransmission"/>
@@ -2054,6 +2060,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+Shift+B</string>
+   </property>
+  </action>
+  <action name="actionAllowChannelTextMessages">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Allow Channel Text Messages</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+T</string>
    </property>
   </action>
  </widget>

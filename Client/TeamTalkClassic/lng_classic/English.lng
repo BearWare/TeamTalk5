@@ -880,4 +880,6 @@
     <item id="32952">&amp;Banned Users From Channel\tCtrl+Alt+Shift+B</item>
     <item id="32953">&amp;New Client Instance\tCtrl+N</item>
     <item id="32954">&amp;Store for Move\tCtrl+Alt+X</item>
+    <item id="32955">Allow &amp;Channel Text Message\tCtrl+Alt+T</item>
+    <item id="32956">Allow All Channel &amp;Text Messages\tCtrl+Alt+Shift+T</item>
 </language>

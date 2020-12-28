@@ -1133,6 +1133,8 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
     userids.insert(tmp.begin(), tmp.end());
     tmp = chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_MEDIAFILE);
     userids.insert(tmp.begin(), tmp.end());
+    tmp = chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_CHANNELMSG);
+    userids.insert(tmp.begin(), tmp.end());
     
     ACE_OS::memset(result.transmitUsers, 0, sizeof(result.transmitUsers));
     size_t i=0;
@@ -1147,6 +1149,8 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_DESKTOP;
         if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_MEDIAFILE).count(*ii))
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_MEDIAFILE;
+        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_CHANNELMSG).count(*ii))
+            result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_CHANNELMSG;
     }
 
     for(i=0;i<TT_TRANSMITQUEUE_MAX;i++)
@@ -1188,6 +1192,8 @@ bool Convert(const Channel& channel, teamtalk::ChannelProp& chanprop)
             chanprop.transmitusers[teamtalk::STREAMTYPE_DESKTOP].insert(userid);
         if(channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & (STREAMTYPE_MEDIAFILE))
             chanprop.transmitusers[teamtalk::STREAMTYPE_MEDIAFILE].insert(userid);
+        if (channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & (STREAMTYPE_CHANNELMSG))
+            chanprop.transmitusers[teamtalk::STREAMTYPE_CHANNELMSG].insert(userid);
     }
 
     for(int i=0;i<TT_TRANSMITQUEUE_MAX;i++)

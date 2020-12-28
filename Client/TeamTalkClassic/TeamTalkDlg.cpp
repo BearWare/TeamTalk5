@@ -812,6 +812,10 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
         ON_UPDATE_COMMAND_UI(ID_CHANNELS_BANNEDUSERSINCHANNEL, &CTeamTalkDlg::OnUpdateChannelsBannedusersinchannel)
         ON_COMMAND(ID_CHANNELS_BANNEDUSERSINCHANNEL, &CTeamTalkDlg::OnChannelsBannedusersinchannel)
         ON_COMMAND(ID_CLIENT_NEWCLIENTINSTANCE, &CTeamTalkDlg::OnClientNewclientinstance)
+        ON_UPDATE_COMMAND_UI(ID_ADVANCED_ALLOWALLCHANNEL, &CTeamTalkDlg::OnUpdateAdvancedAllowallchannel)
+        ON_COMMAND(ID_ADVANCED_ALLOWALLCHANNEL, &CTeamTalkDlg::OnAdvancedAllowallchannel)
+        ON_UPDATE_COMMAND_UI(ID_ADVANCED_ALLOWCHANNELTEXTMESSAGE, &CTeamTalkDlg::OnUpdateAdvancedAllowchanneltextmessage)
+        ON_COMMAND(ID_ADVANCED_ALLOWCHANNELTEXTMESSAGE, &CTeamTalkDlg::OnAdvancedAllowchanneltextmessage)
         END_MESSAGE_MAP()
 
 
@@ -6442,6 +6446,18 @@ void CTeamTalkDlg::OnAdvancedAllowmediafiletransmission()
     ToggleTransmitUsers(m_wndTree.GetSelectedUser(), STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO);
 }
 
+void CTeamTalkDlg::OnUpdateAdvancedAllowchanneltextmessage(CCmdUI* pCmdUI)
+{
+    UpdateAllowTransmitMenuItem(m_wndTree.GetSelectedUser(),
+        m_wndTree.GetSelChannel(),
+        STREAMTYPE_CHANNELMSG, pCmdUI);
+}
+
+void CTeamTalkDlg::OnAdvancedAllowchanneltextmessage()
+{
+    ToggleTransmitUsers(m_wndTree.GetSelectedUser(), STREAMTYPE_CHANNELMSG);
+}
+
 void CTeamTalkDlg::OnUpdateAdvancedAllowallvoicetransmission(CCmdUI *pCmdUI)
 {
     UpdateAllowTransmitMenuItem(TT_CLASSROOM_FREEFORALL, 
@@ -6488,6 +6504,18 @@ void CTeamTalkDlg::OnUpdateAdvancedAllowalldesktoptransmission(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnAdvancedAllowalldesktoptransmission()
 {
     ToggleTransmitUsers(TT_CLASSROOM_FREEFORALL, STREAMTYPE_DESKTOP);
+}
+
+void CTeamTalkDlg::OnUpdateAdvancedAllowallchannel(CCmdUI* pCmdUI)
+{
+    UpdateAllowTransmitMenuItem(TT_CLASSROOM_FREEFORALL,
+        m_wndTree.GetSelChannel(),
+        STREAMTYPE_CHANNELMSG, pCmdUI);
+}
+
+void CTeamTalkDlg::OnAdvancedAllowallchannel()
+{
+    ToggleTransmitUsers(TT_CLASSROOM_FREEFORALL, STREAMTYPE_CHANNELMSG);
 }
 
 void CTeamTalkDlg::OnUpdateServerServerstatistics(CCmdUI *pCmdUI)

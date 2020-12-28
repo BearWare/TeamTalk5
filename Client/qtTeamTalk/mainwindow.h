@@ -257,6 +257,7 @@ private:
     void enableHotKey(HotKeyID id, const hotkey_t& hk);
     void disableHotKey(HotKeyID id);
     void checkAppUpdate();
+    void toggleAllowStreamType(bool checked, StreamType st);
 #if defined(Q_OS_LINUX)
     void executeDesktopInput(const DesktopInput& input);
 #endif
@@ -322,6 +323,7 @@ private slots:
     void slotUsersAdvancedDecVolumeMediaFile();
     void slotUsersAdvancedStoreForMove();
     void slotUsersAdvancedMoveUsers();
+    void slotUsersAdvancedChanMsgAllowed(bool checked=false);
     void slotUsersAdvancedVoiceAllowed(bool checked=false);
     void slotUsersAdvancedVideoAllowed(bool checked=false);
     void slotUsersAdvancedDesktopAllowed(bool checked=false);
