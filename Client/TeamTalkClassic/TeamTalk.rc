@@ -1,5 +1,4 @@
 // Microsoft Visual C++ generated resource script.
-// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -417,9 +416,9 @@ BEGIN
     LTEXT           "Volume level",IDC_STATIC_VOLLEVEL,232,209,40,8
     CONTROL         "",IDC_SLIDER_GAINLEVEL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP | 0x400,286,206,107,15
     LTEXT           "Static",IDC_STATIC_GAINLEVEL,397,209,25,8
+    CONTROL         "&Join channel on exit",IDC_CHECK_JOINCHANNEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,308,237,99,10
     DEFPUSHBUTTON   "OK",IDOK,416,235,35,14
     PUSHBUTTON      "Cancel",IDCANCEL,12,235,35,14
-    CONTROL         "&Join channel on exit",IDC_CHECK_JOINCHANNEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,308,237,99,10
 END
 
 IDD_DIALOG_USERINFO DIALOGEX 0, 0, 235, 174
