@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -78,7 +78,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccount.uUserType = UserType.USERTYPE_ADMIN;
         useraccount.szNote = "An example administrator user account with all user-rights";
         useraccount.uUserRights = UserRight.USERRIGHT_ALL;
-          
+
         useraccounts.add(useraccount);
 
     }
@@ -170,7 +170,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
                 switch(lpUser.uUserType) {
                 case UserType.USERTYPE_ADMIN :
-                    
+
                     // remove existing user account
                     UserAccount ua = null;
                     for(UserAccount u : useraccounts) {
@@ -236,7 +236,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                     lpClientErrorMsg.szErrorMsg = "Hell no!";
                 }
             }
-    
+
             public void userAddServerBanIPAddress(ClientErrorMsg lpClientErrorMsg,
                                                   User lpBanner, String szIPAddress) {
 
@@ -254,7 +254,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
             public void userDeleteServerBan(ClientErrorMsg lpClientErrorMsg,
                                             User lpUser, String szIPAddress) {
-                
+
                 UserAccount ua = getUserAccount(lpUser.szUsername);
 
                 if((ua.uUserRights & UserRight.USERRIGHT_BAN_USERS) != 0) {
@@ -267,17 +267,17 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                 }
             }
 
-            
+
         };
 
     ServerLogger logger = new ServerLogger() {
-            
+
             public void userConnected(User lpUser) {
                 String str = String.format("User with IP-address %s connected",
                                            lpUser.szIPAddress);
                 System.out.println(str);
             }
-    
+
             public void userLoggedIn(User lpUser) {
                 String str = String.format("User %s logged in with nickname %s",
                                            lpUser.szUsername, lpUser.szNickname);
@@ -313,7 +313,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                                            lpBanner.szUsername, lpBanee.szUsername);
                 System.out.println(str);
             }
-    
+
             public void userUnbanned(User lpUnbanner, String szIPAddress) {
                 String str = String.format("User %s unbanned IP-address %s",
                                            lpUnbanner.szUsername, szIPAddress);
@@ -331,7 +331,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                                            lpUser.szUsername, lpChannel.nChannelID);
                 System.out.println(str);
             }
-    
+
             public void userLeftChannel(User lpUser, Channel lpChannel) {
                 String str = String.format("User %s left channel #%d",
                                            lpUser.szUsername, lpChannel.nChannelID);
@@ -362,7 +362,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                                            lpChannel.nChannelID);
                 System.out.println(str);
             }
-    
+
             public void channelRemoved(Channel lpChannel, User lpUser) {
                 String str = String.format("Channel #%d removed",
                                            lpChannel.nChannelID);
@@ -403,7 +403,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public void testUserLogin() {
 
         UserAccount useraccount = new UserAccount();
-        
+
         useraccount.szUsername = "guest";
         useraccount.szPassword = "guest";
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
@@ -448,9 +448,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         int cmdid;
         TTMessage msg = new TTMessage();
-        
+
         UserAccount useraccount = new UserAccount();
-        
+
         useraccount.szUsername = "guest";
         useraccount.szPassword = "guest";
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
@@ -478,7 +478,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public void testDeleteAccount() {
 
         UserAccount useraccount = new UserAccount();
-        
+
         useraccount.szUsername = "guest";
         useraccount.szPassword = "guest";
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
@@ -523,7 +523,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public void testBanUser() {
 
         UserAccount useraccount = new UserAccount();
-        
+
         useraccount.szUsername = "guest";
         useraccount.szPassword = "guest";
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
@@ -569,7 +569,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
 
         assertEquals("Banned user", n_banned + 1, banned_ipaddr.size());
-        
+
     }
 
     @Test
@@ -602,7 +602,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         final ServerInterleave interleave = new RunServer(server);
 
         final TeamTalkBase client = newClientInstance();
-        
+
         if (ENCRYPTED) {
             // SSL client uses blocking connect, so we have to connect
             // in separate thread otherwise we cannot run the client
@@ -630,7 +630,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     @Test
     public void testMoveUser() {
         UserAccount useraccount = new UserAccount();
-        
+
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         useraccount.szUsername = USERNAME;
@@ -638,7 +638,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
         useraccount.szNote = "An example user account with limited user-rights";
         useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
-            UserRight.USERRIGHT_MULTI_LOGIN | 
+            UserRight.USERRIGHT_MULTI_LOGIN |
             UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
             UserRight.USERRIGHT_MOVE_USERS;
 
@@ -672,7 +672,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("join channel", waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave));
 
         cmdid = client1.doPing();
-        
+
         assertTrue("drain client1", waitCmdComplete(client1, cmdid, DEF_WAIT, interleave));
 
         cmdid = client2.doMoveUser(client1.getMyUserID(), client2.getMyChannelID());
@@ -719,11 +719,11 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         chan.szName = "foo2";
         assertEquals("Update sub channel", ClientError.CMDERR_SUCCESS, server.updateChannel(chan));
-        
+
         interleave.interleave();
 
         assertEquals("Remove sub channel", ClientError.CMDERR_SUCCESS, server.removeChannel(chan.nChannelID));
-        
+
         interleave.interleave();
     }
 
@@ -747,7 +747,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         connect(server, client1);
         login(server, client1, NICKNAME, USERNAME, PASSWORD);
         joinRoot(server, client1);
-        
+
         TeamTalkBase client2 = newClientInstance();
         connect(server, client2);
         login(server, client2, NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
@@ -776,7 +776,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("remove channel event", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_CHANNEL_REMOVE,
                                                         DEF_WAIT, new TTMessage(), interleave));
-    
+
         assertEquals("No channel", 0, client1.getMyChannelID());
 
         assertTrue("Kick cmd", client2.doKickUser(client1.getMyUserID(), 0)>0);
@@ -891,7 +891,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("Error message", 4568, msg.clienterrormsg.nErrorNo);
     }
 
-    private void uploadDownloadTest(TeamTalkSrv server, UserAccount ua, 
+    private void uploadDownloadTest(TeamTalkSrv server, UserAccount ua,
                                     String NICKNAME, int filesize) {
 
         ServerInterleave interleave = new RunServer(server);
@@ -1001,7 +1001,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             System.out.println("Skipping testDnsResolve in encrypted mode");
             return;
         }
-        
+
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;
         useraccount.szPassword = PASSWORD;
@@ -1014,7 +1014,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             System.out.println(a + " Binding to " + a.getHostAddress());
             if (a.isLinkLocalAddress())
                 continue; // e.g. cannot bind to fe80:0:0:0:0:0:0:1%1
-            
+
             TeamTalkSrv s = newServerInstance(SYSTEMID, a.getHostAddress());
             TeamTalkBase c = newClientInstance();
             connect(s, c, SYSTEMID, "localhost", TCPPORT, UDPPORT);
@@ -1027,7 +1027,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     @Test
     public void testInterceptVoice() {
-        
+
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
@@ -1069,7 +1069,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     @Test
     public void testTransmitUsers() {
-        
+
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
@@ -1087,7 +1087,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         connect(server, client);
         login(server, client, NICKNAME, USERNAME, PASSWORD);
 
-        Channel chan = buildDefaultChannel(client, "Some channel");
+        Channel chan = buildDefaultChannel(client, "Classroom channel");
         chan.uChannelType |= ChannelType.CHANNEL_CLASSROOM;
         assertTrue("join channel", waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT, interleave));
 
@@ -1097,20 +1097,55 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                                                                                 Subscription.SUBSCRIBE_VOICE), DEF_WAIT, interleave));
 
         assertTrue(client.enableVoiceTransmission(true));
-        
+
         assertTrue("enable aud cb", client.enableAudioBlockEvent(client.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
 
         assertFalse("no voice audioblock", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000, interleave));
-        
+
         chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX] = client.getMyUserID();
         chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX] = StreamType.STREAMTYPE_VOICE;
 
         assertTrue("update channel", waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave));
-        
+
         assertEquals("Tx user ID set", client.getMyUserID(), chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX]);
         assertEquals("Tx streamtype set", StreamType.STREAMTYPE_VOICE, chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX]);
 
         assertTrue("voice audioblock", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, interleave));
+
+        // check that cannot send channel-text message in classroom channel
+        TextMessage textmsg = new TextMessage();
+        textmsg.nMsgType = TextMsgType.MSGTYPE_CHANNEL;
+        textmsg.nChannelID = client.getMyChannelID();
+        textmsg.nToUserID = 0;
+        textmsg.szMessage = "Some message";
+
+        assertTrue("cannot send chanmsg", waitCmdError(client, client.doTextMessage(textmsg), DEF_WAIT, interleave));
+
+        // unblock classroom channel for channel message
+        assertTrue("get updated chan", client.getChannel(client.getMyChannelID(), chan));
+        chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX] = client.getMyUserID();
+        chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= StreamType.STREAMTYPE_CHANNELMSG;
+        assertTrue("update channel", waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave));
+
+        assertTrue("can send chanmsg", waitCmdSuccess(client, client.doTextMessage(textmsg), DEF_WAIT, interleave));
+
+        // check that we can block channel message in channel
+        chan = buildDefaultChannel(client, "Default channel");
+        assertTrue("join channel", waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT, interleave));
+        textmsg.nChannelID = client.getMyChannelID();
+
+        assertTrue("get chan", client.getChannel(client.getMyChannelID(), chan));
+        assertTrue("can send chanmsg", waitCmdSuccess(client, client.doTextMessage(textmsg), DEF_WAIT, interleave));
+        chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX] = client.getMyUserID();
+        chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= StreamType.STREAMTYPE_CHANNELMSG;
+        assertTrue("block chanmsg", waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave));
+        assertTrue("cannot send chanmsg", waitCmdError(client, client.doTextMessage(textmsg), DEF_WAIT, interleave));
+
+        // unblock channel message type
+        chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX] = 0;
+        chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX] = StreamType.STREAMTYPE_NONE;
+        assertTrue("unblock chanmsg", waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave));
+        assertTrue("can send chanmsg", waitCmdSuccess(client, client.doTextMessage(textmsg), DEF_WAIT, interleave));
     }
 
     @Test
@@ -1138,12 +1173,12 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue(client.getServerProperties(srvprop));
 
         assertEquals("tcp ping is half of user timeout (default)", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
-        
+
         srvprop.nUserTimeout = 4;
         assertTrue(waitCmdSuccess(client, client.doUpdateServer(srvprop), DEF_WAIT, interleave));
 
         assertTrue(client.getServerProperties(srvprop));
-        
+
         assertTrue("get keepalive", client.getClientKeepAlive(ka));
 
         assertEquals("tcp ping is half of user timeout, 4 sec", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
@@ -1209,7 +1244,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         while (t.isAlive()) {
             server.runEventLoop(0);
         }
-        
+
         assertTrue("Stop server", server.stopServer());
         assertTrue("Disconnect client", client.disconnect());
 
@@ -1253,7 +1288,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         context.szCAFile = CRYPTO_CA_FILE;
         context.bVerifyPeer = true;
         context.nVerifyDepth = 0;
-        assertTrue("Set client encryption context", client.setEncryptionContext(context));        
+        assertTrue("Set client encryption context", client.setEncryptionContext(context));
 
         assertTrue("Start server", server.startServer(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED));
 
@@ -1275,15 +1310,15 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccount = new UserAccount();
         useraccount.szUsername = VIEW_NONE;
         useraccount.szPassword = VIEW_NONE;
-        useraccount.uUserType = UserType.USERTYPE_DEFAULT;;        
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;;
         useraccount.uUserRights = UserRight.USERRIGHT_TRANSMIT_VOICE;
         useraccounts.add(useraccount);
-        
+
         final String VIEW_ALL_USERS = "view_all_users";
         useraccount = new UserAccount();
         useraccount.szUsername = VIEW_ALL_USERS;
         useraccount.szPassword = VIEW_ALL_USERS;
-        useraccount.uUserType = UserType.USERTYPE_DEFAULT;;        
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;;
         useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_VOICE;
         useraccounts.add(useraccount);
 
@@ -1291,7 +1326,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccount = new UserAccount();
         useraccount.szUsername = VIEW_HIDDEN_CHANNELS;
         useraccount.szPassword = VIEW_HIDDEN_CHANNELS;
-        useraccount.uUserType = UserType.USERTYPE_DEFAULT;;        
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;;
         useraccount.uUserRights = UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS | UserRight.USERRIGHT_TRANSMIT_VOICE;
         useraccounts.add(useraccount);
 
@@ -1299,10 +1334,10 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccount = new UserAccount();
         useraccount.szUsername = VIEW_ALL_USERS_HIDDEN_CHANNELS;
         useraccount.szPassword = VIEW_ALL_USERS_HIDDEN_CHANNELS;
-        useraccount.uUserType = UserType.USERTYPE_DEFAULT;;        
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;;
         useraccount.uUserRights = UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS | UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_VOICE;
         useraccounts.add(useraccount);
-        
+
         TeamTalkSrv server = newServerInstance();
         ServerInterleave interleave = new RunServer(server);
 
@@ -1440,12 +1475,12 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         hidden.uChannelType = ChannelType.CHANNEL_DEFAULT;
         assertTrue("cannot create subchannel in hidden channel", waitCmdError(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
     }
-    
+
     // @Test
     public void _testRunServer() {
 
         UserAccount useraccount = new UserAccount();
-        
+
         useraccount.szUsername = "guest";
         useraccount.szPassword = "guest";
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
@@ -1469,7 +1504,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public TeamTalkSrv newServerInstance(String systemid) {
         return newServerInstance(systemid, SERVERBINDIP);
     }
-    
+
     public TeamTalkSrv newServerInstance(String systemid, String bindip) {
 
         TeamTalkSrv server = new TeamTalk5Srv(cmdcallback, logger);
@@ -1524,7 +1559,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                                   final String hostaddr, final int tcpport, final int udpport) {
 
         if (ENCRYPTED) {
-            
+
             // SSL client uses blocking connect, so we have to connect
             // in separate thread otherwise we cannot run the client
             // and server event-loop at the same time
@@ -1543,14 +1578,14 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             connect(ttclient, systemID, hostaddr, tcpport, udpport, new RunServer(server));
         }
     }
-    
-    protected static void login(TeamTalkSrv server, TeamTalkBase ttclient, 
+
+    protected static void login(TeamTalkSrv server, TeamTalkBase ttclient,
                                 String nick, String username, String passwd) {
         login(server, ttclient, nick, username, passwd, "");
     }
 
-    protected static void login(TeamTalkSrv server, TeamTalkBase ttclient, 
-                                String nick, String username, String passwd, 
+    protected static void login(TeamTalkSrv server, TeamTalkBase ttclient,
+                                String nick, String username, String passwd,
                                 String clientname) {
         login(ttclient, nick, username, passwd, clientname, new RunServer(server));
     }

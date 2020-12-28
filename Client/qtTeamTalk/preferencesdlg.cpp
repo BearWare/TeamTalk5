@@ -248,7 +248,10 @@ void PreferencesDlg::initDevices()
 SoundSystem PreferencesDlg::getSoundSystem()
 {
     SoundSystem sndsys = SOUNDSYSTEM_NONE;
-    Q_ASSERT(ui.tabWidget->currentIndex() == SOUND_TAB);
+
+    // ensure tab has been initialized, otherwise sound system will end up as 'none'
+    Q_ASSERT(m_modtab.find(SOUND_TAB) != m_modtab.end());
+    
     if(ui.dsoundButton->isChecked())
         sndsys = SOUNDSYSTEM_DSOUND;
     if(ui.winmmButton->isChecked())

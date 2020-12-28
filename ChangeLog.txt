@@ -9,15 +9,17 @@ Accessible Windows Client:
 - Option to disable emojis and text for channel/user states
 - Users logged in/out display in chat history
 - Fix some labels on server properties dialog and preferences
-- Correctly move focus to first field visible with tab when opening server properties dialog
-- Change some sounds
+- New audio files for default sound events
+- Fix tab index on server properties dialog
 Default QT Client:
 - Option to join channel immediately in create channel dialog
 - Option to disable emojis and text for channel/user states
 - CTRL+L to leave a channel
 - Event for configuration server saved
 - Fix some navigation problems using tabulation
-- Change some sounds
+- New audio files for default sound events
+- More items displayed when using up arrow in message area
+- Add emojis for unread messages and now speaking in channels tree
 
 Version 5.6.3, 2020/09/20
 Accessible Windows Client:

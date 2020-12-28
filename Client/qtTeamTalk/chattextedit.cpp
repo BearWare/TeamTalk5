@@ -23,6 +23,7 @@
 
 #include "chattextedit.h"
 #include "settings.h"
+#include "appinfo.h"
 #include <QDateTime>
 #include <QTextCursor>
 #include <QSyntaxHighlighter>
@@ -34,15 +35,26 @@ extern QSettings* ttSettings;
 
 QString urlFound(const QString& text, int& index, int& length)
 {
-    QRegularExpression expression("(http[s]?://\\S+)", QRegularExpression::CaseInsensitiveOption);
-    QRegularExpressionMatch m;
-    int i = text.indexOf(expression, index, &m);
+    QRegularExpression httpExpression("(http[s]?://\\S+)", QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch httpMatch;
+    int i = text.indexOf(httpExpression, index, &httpMatch);
     if (i >= 0)
     {
         index = i;
-        length = m.capturedLength();
-        return m.captured(1);
+        length = httpMatch.capturedLength();
+        return httpMatch.captured(1);
     }
+
+    QRegularExpression tturlExpression(QString("(%1//\\S+)").arg(TTLINK_PREFIX), QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch tturlMatch;
+    i = text.indexOf(tturlExpression, index, &tturlMatch);
+    if (i >= 0)
+    {
+        index = i;
+        length = tturlMatch.capturedLength();
+        return tturlMatch.captured(1);
+    }
+
     return QString();
 }
 
