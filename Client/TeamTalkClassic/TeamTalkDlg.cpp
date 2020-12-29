@@ -1007,12 +1007,12 @@ void CTeamTalkDlg::OnConnectFailed(const TTMessage& msg)
     s.Format(LoadText(IDS_CONNFAILED, _T("Failed to connect to %s TCP port %d UDP port %d")), STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
     AddStatusText(s);
 
-    if(!m_nReconnectTimerID)
+    //reconnect to latest?
+    if (m_xmlSettings.GetReconnectOnDropped())
     {
-        CString szError;
-        szError.Format(LoadText(IDS_CONFAILED, _T("Failed to connect to host %s TCP port %d UDP port %d.\r\nCheck that the server is running on the specified address\r\nand that a firewall isn't preventing clients from connecting.")),
-            STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
-        AfxMessageBox(szError);
+        if (m_nReconnectTimerID)
+            KillTimer(m_nReconnectTimerID);
+        m_nReconnectTimerID = SetTimer(TIMER_RECONNECT_ID, RECONNECT_TIMEOUT, NULL);
     }
 }
 
