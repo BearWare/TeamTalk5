@@ -1007,12 +1007,12 @@ void CTeamTalkDlg::OnConnectFailed(const TTMessage& msg)
     s.Format(LoadText(IDS_CONNFAILED, _T("Failed to connect to %s TCP port %d UDP port %d")), STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
     AddStatusText(s);
 
-    if(!m_nReconnectTimerID)
+    //reconnect to latest?
+    if (m_xmlSettings.GetReconnectOnDropped())
     {
-        CString szError;
-        szError.Format(LoadText(IDS_CONFAILED, _T("Failed to connect to host %s TCP port %d UDP port %d.\r\nCheck that the server is running on the specified address\r\nand that a firewall isn't preventing clients from connecting.")),
-            STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
-        AfxMessageBox(szError);
+        if (m_nReconnectTimerID)
+            KillTimer(m_nReconnectTimerID);
+        m_nReconnectTimerID = SetTimer(TIMER_RECONNECT_ID, RECONNECT_TIMEOUT, NULL);
     }
 }
 
@@ -4362,6 +4362,8 @@ void CTeamTalkDlg::OnChannelsCreatechannel()
             chan.uChannelType |= CHANNEL_NO_VOICEACTIVATION;
         if(dlg.m_bNoRecord)
             chan.uChannelType |= CHANNEL_NO_RECORDING;
+        if (dlg.m_bHiddenChannel)
+            chan.uChannelType |= CHANNEL_HIDDEN;
 
         chan.audiocodec = dlg.m_codec;
         chan.audiocfg.bEnableAGC = dlg.m_bEnableAGC;
@@ -4412,6 +4414,7 @@ void CTeamTalkDlg::OnChannelsUpdatechannel()
     dlg.m_bOpRecvOnly = (chan.uChannelType & CHANNEL_OPERATOR_RECVONLY) != CHANNEL_DEFAULT;
     dlg.m_bNoVoiceAct = (chan.uChannelType & CHANNEL_NO_VOICEACTIVATION) != CHANNEL_DEFAULT;
     dlg.m_bNoRecord = (chan.uChannelType & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT;
+    dlg.m_bHiddenChannel = (chan.uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT;
 
     dlg.m_codec = chan.audiocodec;
     dlg.m_bEnableAGC = chan.audiocfg.bEnableAGC;
@@ -4448,6 +4451,11 @@ void CTeamTalkDlg::OnChannelsUpdatechannel()
             chan.uChannelType |= CHANNEL_NO_RECORDING;
         else
             chan.uChannelType &= ~CHANNEL_NO_RECORDING;
+        if (dlg.m_bHiddenChannel)
+            chan.uChannelType |= CHANNEL_HIDDEN;
+        else
+            chan.uChannelType &= ~CHANNEL_HIDDEN;
+
         chan.audiocodec = dlg.m_codec;
         
         chan.audiocfg.bEnableAGC = dlg.m_bEnableAGC;
@@ -4544,6 +4552,7 @@ void CTeamTalkDlg::OnChannelsViewchannelinfo()
         dlg.m_bOpRecvOnly = (chan.uChannelType & CHANNEL_OPERATOR_RECVONLY)?TRUE:FALSE;
         dlg.m_bNoVoiceAct = (chan.uChannelType & CHANNEL_NO_VOICEACTIVATION)?TRUE:FALSE;
         dlg.m_bNoRecord = (chan.uChannelType & CHANNEL_NO_RECORDING)?TRUE:FALSE;
+        dlg.m_bHiddenChannel = (chan.uChannelType & CHANNEL_HIDDEN) ? TRUE : FALSE;
 
         dlg.m_codec = chan.audiocodec;
         dlg.m_bEnableAGC = chan.audiocfg.bEnableAGC;

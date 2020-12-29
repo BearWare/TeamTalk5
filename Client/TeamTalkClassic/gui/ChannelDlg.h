@@ -130,4 +130,6 @@ public:
     CStatic m_wndFrmSizeStatic;
     BOOL m_bJoinChannel;
     CButton m_wndJoinChannel;
+    CButton m_wndHiddenChannel;
+    BOOL m_bHiddenChannel;
 };

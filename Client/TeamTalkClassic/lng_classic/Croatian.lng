@@ -881,4 +881,6 @@
     <item id="32952">Banirani korisnici s kanala\tCtrl+Alt+Shift+B</item>
     <item id="32953">&amp;Nova instanca klijenta\tCtrl+N</item>
     <item id="32954">&amp;Pripremi za premještanje\tCtrl+Alt+X</item>
+    <item id="32955">Dozvoli tekstualne poruke na kanalu\tCtrl+Alt+T</item>
+    <item id="32956">Dopusti sve tekstualne poruke na kanalu\tCtrl+Alt+Shift+T</item>
 </language>
