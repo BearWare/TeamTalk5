@@ -13,6 +13,7 @@ Accessible Windows Client:
 - Don't play sound for our channel messages
 - New audio files for default sound events
 - Fix tab index on server properties dialog
+- Don't play sound for our channel messages
 Default QT Client:
 - Option to join channel immediately in create channel dialog
 - Option to disable emojis and text for channel/user states
@@ -22,6 +23,7 @@ Default QT Client:
 - New audio files for default sound events
 - More items displayed when using up arrow in message area
 - Add emojis for unread messages and now speaking in channels tree
+- Don't play sound for our channel messages
 Android client:
 - Change default stream volume from 100 to 50
 - New audio files for default sound events
