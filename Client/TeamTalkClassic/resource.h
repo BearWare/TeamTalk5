@@ -968,6 +968,8 @@
 #define IDC_STATIC_BEARWARELOGIN        1599
 #define IDC_RADIO_DISABLEDUSER          1600
 #define IDC_CHECK_JOINCHANNEL           1601
+#define IDC_CHECK_HIDDENCHANNEL         1602
+#define IDC_STATIC_GRPCHANTYPE          1603
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -1086,7 +1088,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        567
 #define _APS_NEXT_COMMAND_VALUE         32959
-#define _APS_NEXT_CONTROL_VALUE         1602
+#define _APS_NEXT_CONTROL_VALUE         1604
 #define _APS_NEXT_SYMED_VALUE           413
 #endif
 #endif
