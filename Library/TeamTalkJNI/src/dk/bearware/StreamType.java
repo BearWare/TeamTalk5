@@ -31,4 +31,5 @@ public interface StreamType {
     public static int STREAMTYPE_MEDIAFILE_VIDEO          = 0x0008;
     public static int STREAMTYPE_DESKTOP                  = 0x0010;
     public static int STREAMTYPE_DESKTOPINPUT             = 0x0020;
+    public static int STREAMTYPE_CHANNELMSG               = 0x0040;
 }

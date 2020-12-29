@@ -181,6 +181,7 @@ implements TeamTalkConnectionListener, CommandListener {
         CheckBox chanOpRecvOnly = (CheckBox)findViewById(R.id.chan_oprecvonly);
         CheckBox chanNoVoiceAct = (CheckBox)findViewById(R.id.chan_novoiceact);
         CheckBox chanNoAudioRec = (CheckBox)findViewById(R.id.chan_noaudiorecord);
+        CheckBox chanHidden = findViewById(R.id.chan_hidden);
 
         if (store) {
             channel.szName = chanName.getText().toString();
@@ -215,6 +216,10 @@ implements TeamTalkConnectionListener, CommandListener {
                 channel.uChannelType |= ChannelType.CHANNEL_NO_RECORDING;
             else
                 channel.uChannelType &= ~ChannelType.CHANNEL_NO_RECORDING;
+            if(chanHidden.isChecked())
+                channel.uChannelType |= ChannelType.CHANNEL_HIDDEN;
+            else
+                channel.uChannelType &= ~ChannelType.CHANNEL_HIDDEN;
         }
         else {
             chanName.setFocusable(channel.nParentID > 0);
@@ -231,6 +236,7 @@ implements TeamTalkConnectionListener, CommandListener {
             chanOpRecvOnly.setChecked((channel.uChannelType & ChannelType.CHANNEL_OPERATOR_RECVONLY) != 0);
             chanNoVoiceAct.setChecked((channel.uChannelType & ChannelType.CHANNEL_NO_VOICEACTIVATION) != 0);
             chanNoAudioRec.setChecked((channel.uChannelType & ChannelType.CHANNEL_NO_RECORDING) != 0);
+            chanHidden.setChecked((channel.uChannelType & ChannelType.CHANNEL_HIDDEN) != 0);
         }
     }
 

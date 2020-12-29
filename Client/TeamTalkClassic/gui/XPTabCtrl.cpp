@@ -142,7 +142,6 @@ void CXPTabCtrl::OnPaint()
     if(!nTab) return;                                // no tab pages added
 
     // 2nd paint the inactive tabs
-    CRect ;
     TCHITTESTINFO hti;    hti.flags=0;
     ::GetCursorPos(&hti.pt); ScreenToClient(&hti.pt);
     int ixHot=HitTest(&hti);

@@ -42,6 +42,7 @@ class ChannelDetailViewController :
     var nointerruptionsswitch: UISwitch?
     var novoiceactivationswitch: UISwitch?
     var noaudiorecordingswitch: UISwitch?
+    var hiddenswitch: UISwitch?
     
     var chan_items = [UITableViewCell]()
     var cmd_items = [UITableViewCell]()
@@ -92,7 +93,11 @@ class ChannelDetailViewController :
         let noaudiorecordcell = UITableViewCell(style: .default, reuseIdentifier: nil)
         noaudiorecordingswitch = newTableCellSwitch(noaudiorecordcell, label: NSLocalizedString("No Audio Recording", comment: "create channel"), initial: (channel.uChannelType & CHANNEL_NO_RECORDING.rawValue) != 0)
         chan_items.append(noaudiorecordcell)
-        
+
+        let hiddencell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        hiddenswitch = newTableCellSwitch(hiddencell, label: NSLocalizedString("Hidden Channel", comment: "hidden channel"), initial: (channel.uChannelType & CHANNEL_HIDDEN.rawValue) != 0)
+        chan_items.append(hiddencell)
+
         if channel.nChannelID != 0 {
             let joinchan = tableView.dequeueReusableCell(withIdentifier: "Join Channel")!
             cmd_items.append(joinchan)
@@ -327,7 +332,12 @@ class ChannelDetailViewController :
         else {
             channel.uChannelType &= ~CHANNEL_NO_RECORDING.rawValue
         }
-        
+        if hiddenswitch!.isOn {
+            channel.uChannelType |= CHANNEL_HIDDEN.rawValue
+        }
+        else {
+            channel.uChannelType &= ~CHANNEL_HIDDEN.rawValue
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

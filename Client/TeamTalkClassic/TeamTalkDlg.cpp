@@ -812,6 +812,10 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
         ON_UPDATE_COMMAND_UI(ID_CHANNELS_BANNEDUSERSINCHANNEL, &CTeamTalkDlg::OnUpdateChannelsBannedusersinchannel)
         ON_COMMAND(ID_CHANNELS_BANNEDUSERSINCHANNEL, &CTeamTalkDlg::OnChannelsBannedusersinchannel)
         ON_COMMAND(ID_CLIENT_NEWCLIENTINSTANCE, &CTeamTalkDlg::OnClientNewclientinstance)
+        ON_UPDATE_COMMAND_UI(ID_ADVANCED_ALLOWALLCHANNEL, &CTeamTalkDlg::OnUpdateAdvancedAllowallchannel)
+        ON_COMMAND(ID_ADVANCED_ALLOWALLCHANNEL, &CTeamTalkDlg::OnAdvancedAllowallchannel)
+        ON_UPDATE_COMMAND_UI(ID_ADVANCED_ALLOWCHANNELTEXTMESSAGE, &CTeamTalkDlg::OnUpdateAdvancedAllowchanneltextmessage)
+        ON_COMMAND(ID_ADVANCED_ALLOWCHANNELTEXTMESSAGE, &CTeamTalkDlg::OnAdvancedAllowchanneltextmessage)
         END_MESSAGE_MAP()
 
 
@@ -1003,12 +1007,12 @@ void CTeamTalkDlg::OnConnectFailed(const TTMessage& msg)
     s.Format(LoadText(IDS_CONNFAILED, _T("Failed to connect to %s TCP port %d UDP port %d")), STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
     AddStatusText(s);
 
-    if(!m_nReconnectTimerID)
+    //reconnect to latest?
+    if (m_xmlSettings.GetReconnectOnDropped())
     {
-        CString szError;
-        szError.Format(LoadText(IDS_CONFAILED, _T("Failed to connect to host %s TCP port %d UDP port %d.\r\nCheck that the server is running on the specified address\r\nand that a firewall isn't preventing clients from connecting.")),
-            STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, m_host.nUdpPort);
-        AfxMessageBox(szError);
+        if (m_nReconnectTimerID)
+            KillTimer(m_nReconnectTimerID);
+        m_nReconnectTimerID = SetTimer(TIMER_RECONNECT_ID, RECONNECT_TIMEOUT, NULL);
     }
 }
 
@@ -4347,6 +4351,8 @@ void CTeamTalkDlg::OnChannelsCreatechannel()
             chan.uChannelType |= CHANNEL_NO_VOICEACTIVATION;
         if(dlg.m_bNoRecord)
             chan.uChannelType |= CHANNEL_NO_RECORDING;
+        if (dlg.m_bHiddenChannel)
+            chan.uChannelType |= CHANNEL_HIDDEN;
 
         chan.audiocodec = dlg.m_codec;
         chan.audiocfg.bEnableAGC = dlg.m_bEnableAGC;
@@ -4397,6 +4403,7 @@ void CTeamTalkDlg::OnChannelsUpdatechannel()
     dlg.m_bOpRecvOnly = (chan.uChannelType & CHANNEL_OPERATOR_RECVONLY) != CHANNEL_DEFAULT;
     dlg.m_bNoVoiceAct = (chan.uChannelType & CHANNEL_NO_VOICEACTIVATION) != CHANNEL_DEFAULT;
     dlg.m_bNoRecord = (chan.uChannelType & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT;
+    dlg.m_bHiddenChannel = (chan.uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT;
 
     dlg.m_codec = chan.audiocodec;
     dlg.m_bEnableAGC = chan.audiocfg.bEnableAGC;
@@ -4433,6 +4440,11 @@ void CTeamTalkDlg::OnChannelsUpdatechannel()
             chan.uChannelType |= CHANNEL_NO_RECORDING;
         else
             chan.uChannelType &= ~CHANNEL_NO_RECORDING;
+        if (dlg.m_bHiddenChannel)
+            chan.uChannelType |= CHANNEL_HIDDEN;
+        else
+            chan.uChannelType &= ~CHANNEL_HIDDEN;
+
         chan.audiocodec = dlg.m_codec;
         
         chan.audiocfg.bEnableAGC = dlg.m_bEnableAGC;
@@ -4529,6 +4541,7 @@ void CTeamTalkDlg::OnChannelsViewchannelinfo()
         dlg.m_bOpRecvOnly = (chan.uChannelType & CHANNEL_OPERATOR_RECVONLY)?TRUE:FALSE;
         dlg.m_bNoVoiceAct = (chan.uChannelType & CHANNEL_NO_VOICEACTIVATION)?TRUE:FALSE;
         dlg.m_bNoRecord = (chan.uChannelType & CHANNEL_NO_RECORDING)?TRUE:FALSE;
+        dlg.m_bHiddenChannel = (chan.uChannelType & CHANNEL_HIDDEN) ? TRUE : FALSE;
 
         dlg.m_codec = chan.audiocodec;
         dlg.m_bEnableAGC = chan.audiocfg.bEnableAGC;
@@ -6431,6 +6444,18 @@ void CTeamTalkDlg::OnAdvancedAllowmediafiletransmission()
     ToggleTransmitUsers(m_wndTree.GetSelectedUser(), STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO);
 }
 
+void CTeamTalkDlg::OnUpdateAdvancedAllowchanneltextmessage(CCmdUI* pCmdUI)
+{
+    UpdateAllowTransmitMenuItem(m_wndTree.GetSelectedUser(),
+        m_wndTree.GetSelChannel(),
+        STREAMTYPE_CHANNELMSG, pCmdUI);
+}
+
+void CTeamTalkDlg::OnAdvancedAllowchanneltextmessage()
+{
+    ToggleTransmitUsers(m_wndTree.GetSelectedUser(), STREAMTYPE_CHANNELMSG);
+}
+
 void CTeamTalkDlg::OnUpdateAdvancedAllowallvoicetransmission(CCmdUI *pCmdUI)
 {
     UpdateAllowTransmitMenuItem(TT_CLASSROOM_FREEFORALL, 
@@ -6477,6 +6502,18 @@ void CTeamTalkDlg::OnUpdateAdvancedAllowalldesktoptransmission(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnAdvancedAllowalldesktoptransmission()
 {
     ToggleTransmitUsers(TT_CLASSROOM_FREEFORALL, STREAMTYPE_DESKTOP);
+}
+
+void CTeamTalkDlg::OnUpdateAdvancedAllowallchannel(CCmdUI* pCmdUI)
+{
+    UpdateAllowTransmitMenuItem(TT_CLASSROOM_FREEFORALL,
+        m_wndTree.GetSelChannel(),
+        STREAMTYPE_CHANNELMSG, pCmdUI);
+}
+
+void CTeamTalkDlg::OnAdvancedAllowallchannel()
+{
+    ToggleTransmitUsers(TT_CLASSROOM_FREEFORALL, STREAMTYPE_CHANNELMSG);
 }
 
 void CTeamTalkDlg::OnUpdateServerServerstatistics(CCmdUI *pCmdUI)

@@ -352,6 +352,7 @@
     <string name="pref_title_contrib">Développeurs</string>
     <string name="pref_title_translator">Traducteur</string>
     <string name="pref_title_libraries">Librairies tierces</string>
+    <string name="channel_prop_title_hiddenchannel">Masquer</string>
 
 
 </resources>
