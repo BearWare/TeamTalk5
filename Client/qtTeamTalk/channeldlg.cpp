@@ -52,6 +52,8 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
 
     ServerProperties prop = {};
     TT_GetServerProperties(ttInst, &prop);
+    if (!versionSameOrLater(_Q(prop.szServerProtocolVersion), "5.8"))
+        ui.hiddenchannelBox->hide();
 
     ui.audiocodecBox->addItem(tr("No Audio"), NO_CODEC);
 
