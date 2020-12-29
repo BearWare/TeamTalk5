@@ -72,18 +72,24 @@ bool UpdateWaveFileHeader(ACE_FILE_IO& file)
         return false;
 
     bool success = false;
+    char riff[4], wavefmt[8], data[4];
 
     ACE_OFF_T end = file.tell();
-    if (file.seek(strlen("RIFF"), SEEK_SET) >= 0 && end < 0x100000000)
+    if (file.seek(0, SEEK_SET) >= 0 &&
+        file.recv(riff, strlen("RIFF")) >= 0 && end < 0x100000000)
     {
+        assert(memcmp(riff, "RIFF", 4) == 0);
+
         uint32_t wavedatasize = uint32_t(end) - 8 /* don't include RIFF and size field in total size */;
         uint32_t headersize = 0;
         if (file.send_n(&wavedatasize, 4) >= 0 &&
-            file.seek(8, SEEK_CUR) >= 0 /* past 'WAVEfmt ' */ &&
+            file.recv(wavefmt, 8) >= 0 /* past 'WAVEfmt ' */ &&
             file.recv(&headersize, 4) >= 0 &&
             file.seek(headersize, SEEK_CUR) >= 0 /* past extra header size */ &&
-            file.seek(4, SEEK_CUR) >= 0 /* past 'data' */)
+            file.recv(data, 4) >= 0 /* past 'data' */)
         {
+            assert(memcmp(wavefmt, "WAVEfmt ", 8) == 0);
+            assert(memcmp(data, "data", 4) == 0);
             wavedatasize = uint32_t(end - file.tell());
             wavedatasize -= 4; // don't include size-field as part of data size
             if (file.send_n(&wavedatasize, 4) >= 0)

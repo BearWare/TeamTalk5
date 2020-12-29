@@ -180,6 +180,8 @@ private:
     Channel m_mychannel;
     //channel log file
     QFile m_logChan;
+    // active sound devices
+    SoundDevice m_devin = {}, m_devout = {};
 
     //op text messsage dialogs (userid -> dlg)
     typedef QMap<int, class TextMessageDlg*> usermsg_t;
@@ -217,6 +219,9 @@ private:
     QPoint m_lastCursorPos;
     //list of desktop access users
     QVector<DesktopAccessEntry> m_desktopaccess_entries;
+
+    // init selected sound devices
+    void initSound();
 
     //current command reply processing
     void commandProcessing(int cmdid, bool complete);

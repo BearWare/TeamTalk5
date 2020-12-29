@@ -234,16 +234,6 @@ void StreamMediaFileDlg::updateProgress(quint32 elapsed, bool setvalue)
 
 void StreamMediaFileDlg::slotPlayMediaFile()
 {
-    auto flags = TT_GetFlags(ttInst);
-    if ((flags & (CLIENT_SNDOUTPUT_READY & CLIENT_SNDINOUTPUT_DUPLEX)) == CLIENT_CLOSED)
-    {
-        QStringList errors = initSelectedSoundDevices();
-        for (auto s : errors)
-            QMessageBox::critical(this, tr("Play"), s);
-        if (errors.size())
-            return;
-    }
-
     if (m_playbackid) // pause
     {
         m_mfp.bPaused = !m_mfp.bPaused;
@@ -316,8 +306,8 @@ void StreamMediaFileDlg::slotChangePlayOffset(int value)
 
 void StreamMediaFileDlg::slotChangePreprocessor(int /*index*/)
 {
-    m_mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(ui.preprocessorComboBox->currentData().toInt());
-    loadAudioPreprocessor(m_mfp.audioPreprocessor);
+    auto apt = AudioPreprocessorType(ui.preprocessorComboBox->currentData().toInt());
+    loadAudioPreprocessor(apt, m_mfp.audioPreprocessor);
 }
 
 void StreamMediaFileDlg::slotSetupPreprocessor(bool)

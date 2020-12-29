@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2018, BearWare.dk
+ * Copyright (c) 2005-2020, BearWare.dk
  * 
  * Contact Information:
  *
@@ -21,16 +21,17 @@
  *
  */
 
-package dk.bearware;
+#if !defined(WEBRTCPREPROCESS_H)
+#define WEBRTCPREPROCESS_H
 
-public class AudioPreprocessor {
+#include <mystd/MyStd.h>
 
-    int nPreprocessor = AudioPreprocessorType.NO_AUDIOPREPROCESSOR;
+#include <audio_processing.h>
 
-    public SpeexDSP speexdsp = new SpeexDSP();
-    public TTAudioPreprocessor ttpreprocessor = new TTAudioPreprocessor();
-    public WebRTCAudioPreprocessor webrtc = new WebRTCAudioPreprocessor();
-    
-    AudioPreprocessor() {
-    }
-}
+#include <codec/MediaUtil.h>
+
+bool IsEnabled(const webrtc::AudioProcessing::Config& cfg);
+
+int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infrm,
+                     media::AudioFrame& outfrm);
+#endif

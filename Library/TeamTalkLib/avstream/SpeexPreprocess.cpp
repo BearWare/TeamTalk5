@@ -36,6 +36,7 @@ SpeexPreprocess::SpeexPreprocess()
 
 SpeexPreprocess::~SpeexPreprocess()
 {
+    Close();
 }
 
 bool SpeexPreprocess::Initialize(int samplerate, int framesize)
