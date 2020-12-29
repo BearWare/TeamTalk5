@@ -61,6 +61,7 @@ using namespace std;
 #include <MMDeviceApi.h>
 #include <avstream/DMOResampler.h>
 #include <avstream/PortAudioWrapper.h>
+#include <mfapi.h>
 
 static class WinInit
 {
@@ -69,6 +70,10 @@ public:
     {
         int ret = ACE::init();
         assert(ret >= 0);
+#if defined(ENABLE_MEDIAFOUNDATION)
+        HRESULT hr = MFStartup(MF_VERSION, MFSTARTUP_FULL);
+        assert(SUCCEEDED(hr));
+#endif
     }
     ~WinInit()
     {
@@ -413,6 +418,22 @@ TEST_CASE( "Opus Read File" )
     pages++;
     while (of.ReadOggPage(op))pages++;
     cout << "pages: " << pages << endl;
+}
+#endif
+
+#if defined(ENABLE_ENCRYPTION) && 0 /* doesn't work on GitHub */
+TEST_CASE("TestHTTPS")
+{
+    //ACE::HTTPS::Context::set_default_ssl_mode(ACE_SSL_Context::SSLv23);
+    //ACE::HTTPS::Context::set_default_verify_mode(true);
+    //ACE::HTTPS::Context::instance().use_default_ca();
+    //ACE::INet::SSL_CallbackManager::instance()->set_certificate_callback(new ACE::INet::SSL_CertificateAcceptor);
+
+    std::string response1, response2, response3;
+    REQUIRE(1 == HttpRequest("http://www.bearware.dk/teamtalk/weblogin.php?ping=1", response1));
+    REQUIRE(1 == HttpRequest("https://www.bearware.dk/teamtalk/weblogin.php?ping=1", response2));
+    REQUIRE(response1 == response2);
+    REQUIRE(1 == HttpRequest("https://www.google.com", response3));
 }
 #endif
 
