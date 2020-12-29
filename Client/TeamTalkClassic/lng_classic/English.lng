@@ -200,7 +200,7 @@
     <item id="332">Connection lost to %s TCP port %d UDP port %d</item>
     <item id="333">Successfully logged in</item>
     <item id="334">Successfully logged out</item>
-    <item id="335">You have been kicked from the channel.</item>
+    <item id="335">You have been kicked from the channel by %s</item>
     <item id="336">An unknown error occurred. Check that the action you&#xD;&#xA;performed is supported by the server. This error is most&#xD;&#xA;likely caused by an incompability issue between the server&#xD;&#xA;and your client.</item>
     <item id="337">%s can no longer transmit voice!</item>
     <item id="338">%s can now transmit voice!</item>
@@ -375,6 +375,7 @@
     <item id="508">Voice for %s disabled</item>
     <item id="509">Media files for %s enabled</item>
     <item id="510">Media files for %s disabled</item>
+    <item id="511">You have been kicked from the channel</item>
     <item id="512"> - Unreleased</item>
     <item id="513">TeamTalk 5 Classic Professional v. </item>
     <item id="514">TeamTalk 5 Classic Professional</item>

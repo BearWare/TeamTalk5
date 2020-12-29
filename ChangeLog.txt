@@ -14,6 +14,7 @@ Accessible Windows Client:
 - New audio files for default sound events
 - Fix tab index on server properties dialog
 - Don't play sound for our channel messages
+- Correctly return who has kicked when available
 Default QT Client:
 - Option to join channel immediately in create channel dialog
 - Option to disable emojis and text for channel/user states
