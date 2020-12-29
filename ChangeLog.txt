@@ -24,8 +24,10 @@ Default QT Client:
 - Add emojis for unread messages and now speaking in channels tree
 Android client:
 - Change default stream volume from 100 to 50
+- New audio files for default sound events
 iOS Client:
 - Change default stream volume from 100 to 50
+- New audio files for default sound events
 
 Version 5.6.3, 2020/09/20
 Accessible Windows Client:
