@@ -2333,8 +2333,8 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
                 openLogFile(m_logChan, chanlog, _Q(m_mychannel.szName) + ".clog");
             writeLogEntry(m_logChan, line);
         }
-
-        playSoundEvent(SOUNDEVENT_CHANNELMSG);
+        if(textmsg.nFromUserID == TT_GetMyUserID(ttInst))
+            playSoundEvent(SOUNDEVENT_CHANNELMSG);
         break;
     }
     case MSGTYPE_BROADCAST :
