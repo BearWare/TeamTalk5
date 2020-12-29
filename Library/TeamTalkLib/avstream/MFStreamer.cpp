@@ -319,8 +319,7 @@ void MFStreamer::Run()
     bool error = false, initialread = true;
     while(!m_stop && !error && (llAudioTimestamp >= 0 || llVideoTimestamp >= 0))
     {
-        MYTRACE_COND(DEBUG_MEDIASTREAMER, 
-                     ACE_TEXT("Sync. Audio %u, Video %u\n"), unsigned(llAudioTimestamp/10000), unsigned(llVideoTimestamp/10000));
+        MYTRACE(ACE_TEXT("Sync. Audio %u, Video %u\n"), unsigned(llAudioTimestamp/10000), unsigned(llVideoTimestamp/10000));
 
         if (llAudioTimestamp >= 0)
             m_media_in.elapsed_ms = ACE_UINT32(llAudioTimestamp / 10000);

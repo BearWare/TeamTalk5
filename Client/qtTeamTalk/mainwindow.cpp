@@ -67,10 +67,6 @@
 #include <QScreen>
 #include <QGuiApplication>
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QDesktopWidget>
-#endif
-
 #ifdef Q_OS_LINUX //For hotkeys on X11
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -643,17 +639,10 @@ void MainWindow::loadSettings()
         int w = windowpos[2].toInt();
         int h = windowpos[3].toInt();
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-        int desktopW = QApplication::desktop()->width();
-        int desktopH = QApplication::desktop()->height();
-        if(x <= desktopW && y <= desktopH)
-            setGeometry(x, y, w, h);
-#else
         // check that we are within bounds
         QScreen* screen = QGuiApplication::screenAt(QPoint(x, y));
         if (screen)
             setGeometry(x, y, w, h);
-#endif
         ui.splitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_SPLITTER).toByteArray());
         ui.videosplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_VIDEOSPLITTER).toByteArray());
         ui.desktopsplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_DESKTOPSPLITTER).toByteArray());
@@ -1015,7 +1004,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __USER);
         if(msg.user.nUserID == TT_GetMyUserID(ttInst))
             processMyselfLeft(msg.nSource);
-        emit (userLeft(msg.nSource, msg.user));
+        emit(userLeft(msg.nSource, msg.user));
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
             if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
                 Channel chan = {};
@@ -1605,13 +1594,14 @@ void MainWindow::cmdLoggedIn(int myuserid)
         if(subchannels.size())
             name = subchannels.last();
 
-        Channel chan = {};
+        Channel chan;
+        ZERO_STRUCT(chan);
         chan.nParentID = parentid;
         chan.nMaxUsers = m_srvprop.nMaxUsers;
         initDefaultAudioCodec(chan.audiocodec);
 
-        chan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE;
-        chan.audiocfg.nGainLevel = DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL;
+        chan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG;
+        chan.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
 
         COPY_TTSTR(chan.szName, name);
         COPY_TTSTR(chan.szPassword, m_host.chanpasswd);
@@ -1659,32 +1649,21 @@ void MainWindow::addStatusMsg(const QString& msg)
         m_timers[startTimer(1000)] = TIMER_STATUSMSG;
 }
 
-void MainWindow::initSound()
+void MainWindow::Connect()
 {
-    QStringList errors = initSelectedSoundDevices(m_devin, m_devout);
+    Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0);
+
+    QStringList errors = initSelectedSoundDevices();
     for (auto s : errors)
         addStatusMsg(s);
 
     //choose default sound devices if configuration failed
     if (errors.size())
     {
-        errors = initDefaultSoundDevices(m_devin, m_devout);
+        errors = initDefaultSoundDevices();
         for (auto s : errors)
             addStatusMsg(s);
     }
-
-    if (errors.empty())
-    {
-        addStatusMsg(tr("Using sound input: %1").arg(_Q(m_devin.szDeviceName)));
-        addStatusMsg(tr("Using sound output: %2").arg(_Q(m_devout.szDeviceName)));
-    }
-}
-
-void MainWindow::Connect()
-{
-    Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0);
-
-    initSound();
 
     int localtcpport = ttSettings->value(SETTINGS_CONNECTION_TCPPORT, 0).toInt();
     int localudpport = ttSettings->value(SETTINGS_CONNECTION_UDPPORT, 0).toInt();
@@ -2584,47 +2563,45 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
 
 void MainWindow::updateAudioConfig()
 {
-    bool denoise = ttSettings->value(SETTINGS_SOUND_DENOISING,
-                                     SETTINGS_SOUND_DENOISING_DEFAULT).toBool();
-    bool echocancel = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL,
-                                     SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool();
-    bool agc = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
+    SpeexDSP spxdsp = {};
 
-    bool duplex = getSoundDuplexSampleRate(m_devin, m_devout) > 0;
+    //set default values for audio config
+    spxdsp.bEnableAGC = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
+    spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+    spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
+    spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
+    spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
+
+    spxdsp.bEnableDenoise = ttSettings->value(SETTINGS_SOUND_DENOISING, 
+                                              SETTINGS_SOUND_DENOISING_DEFAULT).toBool();
+    spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
+
+    spxdsp.bEnableEchoCancellation = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL,
+                                                       SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool();
+    spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
+    spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+
     //check if channel AGC settings should override default settings
-    if (m_mychannel.audiocfg.bEnableAGC)
+    if(m_mychannel.audiocfg.bEnableAGC)
     {
-        AudioPreprocessor preprocessor;
-        initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
-
-        preprocessor.webrtc.noisesuppression.bEnable = denoise;
-        preprocessor.webrtc.echocanceller.bEnable = echocancel && duplex;
-
-        preprocessor.webrtc.gaincontroller2.bEnable = true;
-        float gainlevel = float(m_mychannel.audiocfg.nGainLevel) / CHANNEL_AUDIOCONFIG_MAX;
-        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * gainlevel;
-
+        spxdsp.bEnableAGC = m_mychannel.audiocfg.bEnableAGC;
+        spxdsp.nGainLevel = m_mychannel.audiocfg.nGainLevel;
         //override preset sound gain
         TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
-        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
         ui.micSlider->setToolTip(tr("Microphone gain is controlled by channel"));
     }
     else
     {
-        AudioPreprocessor preprocessor;
-        if (denoise || agc || echocancel)
-        {
-            initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
-            preprocessor.webrtc.noisesuppression.bEnable = denoise;
-            preprocessor.webrtc.echocanceller.bEnable = echocancel && duplex;
-            preprocessor.webrtc.gaincontroller2.bEnable = agc;
-        }
-        else
-        {
-            initDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR, preprocessor);
-        }
-        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        SoundDeviceEffects effects = {};
+        TT_GetSoundDeviceEffects(ttInst, &effects);
+        
+        // If sound device provides AGC, AEC and denoise then use these instead
+        spxdsp.bEnableAGC &= !effects.bEnableAGC;
+        spxdsp.bEnableEchoCancellation &= !effects.bEnableEchoCancellation;
+        spxdsp.bEnableDenoise &= !effects.bEnableDenoise;
 
+        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
         slotMicrophoneGainChanged(ui.micSlider->value());
         ui.micSlider->setToolTip(tr("Microphone gain"));
     }
@@ -2975,9 +2952,9 @@ void MainWindow::startStreamMediaFile()
     }
 
     MediaFilePlayback mfp = {};
-    AudioPreprocessorType apt = AudioPreprocessorType(ttSettings->value(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR,
-                                                      SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT).toInt());
-    loadAudioPreprocessor(apt, mfp.audioPreprocessor);
+    mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(ttSettings->value(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR,
+        SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT).toInt());
+    loadAudioPreprocessor(mfp.audioPreprocessor);
     mfp.bPaused = false;
     mfp.uOffsetMSec = ttSettings->value(SETTINGS_STREAMMEDIA_OFFSET, SETTINGS_STREAMMEDIA_OFFSET_DEFAULT).toUInt();
     if (!TT_StartStreamingMediaFileToChannelEx(ttInst, _W(fileName), &mfp, &vidcodec))
@@ -3397,7 +3374,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
 
 void MainWindow::slotClientPreferences(bool /*checked =false */)
 {
-    PreferencesDlg dlg(m_devin, m_devout, this);
+    PreferencesDlg dlg(this);
 
     //we need to be able to process local frames (userid 0),
     //so ensure these video frames are not being displayed elsewhere
@@ -4164,15 +4141,11 @@ void MainWindow::slotChannelsListBans(bool /*checked=false*/)
 
 void MainWindow::slotChannelsStreamMediaFile(bool checked/*=false*/)
 {
-    if (!checked)
+    if(!checked)
     {
         stopStreamMediaFile();
         return;
     }
-
-    auto flags = TT_GetFlags(ttInst);
-    if ((flags & (CLIENT_SNDOUTPUT_READY | CLIENT_SNDINOUTPUT_DUPLEX)) == CLIENT_CLOSED)
-        initSound();
 
     StreamMediaFileDlg dlg(this);
     connect(this, &MainWindow::mediaStreamUpdate, &dlg, &StreamMediaFileDlg::slotMediaStreamProgress);
@@ -5536,32 +5509,22 @@ void MainWindow::slotMasterVolumeChanged(int value)
 
 void MainWindow::slotMicrophoneGainChanged(int value)
 {
-    float percent = float(value);
-    percent /= 100.;
-
-    AudioPreprocessor preprocessor;
-    initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
-
-    bool agc = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
-
-    TT_GetSoundInputPreprocessEx(ttInst, &preprocessor);
-    switch (preprocessor.nPreprocessor)
+    SpeexDSP spxdsp;
+    ZERO_STRUCT(spxdsp);
+    if(TT_GetSoundInputPreprocess(ttInst, &spxdsp) && spxdsp.bEnableAGC)
     {
-    case TEAMTALK_AUDIOPREPROCESSOR :
-        break;
-    case NO_AUDIOPREPROCESSOR :
-    case SPEEXDSP_AUDIOPREPROCESSOR :
-        // Only no audio preprocessor or webrtc is currently supported.
-        Q_ASSERT(preprocessor.nPreprocessor == WEBRTC_AUDIOPREPROCESSOR);
-        break;
-    case WEBRTC_AUDIOPREPROCESSOR :
-        preprocessor.webrtc.gaincontroller2.bEnable = agc;
-        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = INT32(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
-        break;
+        double percent = value;
+        percent /= 100.;
+        spxdsp.nGainLevel = (INT32)(SOUND_GAIN_MAX * percent);
+        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
+        TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
     }
-
-    TT_SetSoundInputGainLevel(ttInst, agc? SOUND_GAIN_DEFAULT : INT32(SOUND_GAIN_MAX * percent));
-    TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+    else
+    {
+        int gain = refGain(value);
+//        qDebug() << "Gain is " << gain << " and percent is " << value;
+        TT_SetSoundInputGainLevel(ttInst, gain);
+    }
 }
 
 void MainWindow::slotVoiceActivationLevelChanged(int value)

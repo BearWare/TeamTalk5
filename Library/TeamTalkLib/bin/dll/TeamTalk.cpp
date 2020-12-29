@@ -182,8 +182,6 @@ struct ClientInstance
 
     ClientInstance(TTMsgQueue* eh)
     {
-        MYTRACE(ACE_TEXT("ClientInstance() - %p\n"), this);
-
 #if defined(ENABLE_MEDIAFOUNDATION)
         static class MFInit {
         public:
@@ -223,7 +221,6 @@ struct ClientInstance
                      ACE_TEXT("ERROR: Leaking %d DesktopWindow structs\n"), (int)desktop_windows.size());
         MYTRACE_COND(audio_blocks.size(),
                      ACE_TEXT("ERROR: Leaking %d AudioBlock structs\n"), (int)audio_blocks.size());
-        MYTRACE(ACE_TEXT("~ClientInstance() - %p\n"), this);
     }
 };
 
@@ -233,7 +230,7 @@ typedef std::vector< clientinst_t > clients_t;
 clients_t clients;
 std::mutex clients_mutex;
 
-typedef std::set< std::shared_ptr<SoundLoopback> > soundloops_t;
+typedef std::set<SoundLoopback*> soundloops_t;
 std::mutex soundloops_mutex;
 soundloops_t soundloops;
 
@@ -301,8 +298,6 @@ clientinst_t GET_CLIENT(TTInstance* pInstance)
         if (c.get() == pInstance)
             return c;
     }
-
-    MYTRACE(ACE_TEXT("TTInstance %p not found.\n"), pInstance);
     return clientinst_t();
 }
 
@@ -531,10 +526,6 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
     SpeexAEC aec;
 #endif
 
-#if defined(ENABLE_WEBRTC)
-    webrtc::AudioProcessing::Config apm_cfg;
-#endif
-    
     int gainlevel = GAIN_NORMAL;
     StereoMask stereo = ToStereoMask(false, false);
 
@@ -557,7 +548,10 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
             aec.suppress_level = lpAudioPreprocessor->speexdsp.nEchoSuppress;
             aec.suppress_active = lpAudioPreprocessor->speexdsp.nEchoSuppressActive;
 #else
-            return FALSE;
+            if (lpAudioPreprocessor->speexdsp.bEnableAGC ||
+                lpAudioPreprocessor->speexdsp.bEnableDenoise ||
+                lpAudioPreprocessor->speexdsp.bEnableEchoCancellation)
+                return FALSE;
 #endif
             break;
         case TEAMTALK_AUDIOPREPROCESSOR :
@@ -565,13 +559,6 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
             
             stereo = ToStereoMask(lpAudioPreprocessor->ttpreprocessor.bMuteLeftSpeaker,
                                   lpAudioPreprocessor->ttpreprocessor.bMuteRightSpeaker);
-            break;
-        case WEBRTC_AUDIOPREPROCESSOR :
-#if defined(ENABLE_WEBRTC)
-            Convert(lpAudioPreprocessor->webrtc, apm_cfg);
-#else
-            return FALSE;
-#endif
             break;
         case NO_AUDIOPREPROCESSOR :
             break;
@@ -585,7 +572,8 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
         sndfeatures = teamtalk::GetSoundDeviceFeatures(effects);
     }
 
-    std::shared_ptr<SoundLoopback> pSoundLoopBack(new SoundLoopback());
+    SoundLoopback* pSoundLoopBack;
+    ACE_NEW_RETURN(pSoundLoopBack, SoundLoopback(), NULL);
 
     TTBOOL b;
     if (bDuplexMode)
@@ -599,9 +587,6 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
                                             noisesuppressdb,
                                             aec_enable, 
                                             aec
-#endif
-#if defined(ENABLE_WEBRTC)
-                                            , apm_cfg
 #endif
                                             , gainlevel, stereo,
                                             sndfeatures);
@@ -618,15 +603,13 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
                                        aec_enable, 
                                        aec
 #endif
-#if defined(ENABLE_WEBRTC)
-                                      , apm_cfg
-#endif
                                       , gainlevel, stereo,
                                       sndfeatures);
     }
 
-    if (!b)
+    if(!b)
     {
+        delete pSoundLoopBack;
         return NULL;
     }
     else
@@ -634,22 +617,19 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
         std::lock_guard<std::mutex> g(soundloops_mutex);
         soundloops.insert(pSoundLoopBack);
     }
-    return pSoundLoopBack.get();
+    return pSoundLoopBack;
 }
 
 
 TEAMTALKDLL_API TTBOOL TT_CloseSoundLoopbackTest(IN TTSoundLoop* lpTTSoundLoop)
 {
     std::lock_guard<std::mutex> g(soundloops_mutex);
-    auto i = std::find_if(soundloops.begin(), soundloops.end(),
-                          [lpTTSoundLoop](std::shared_ptr<SoundLoopback> ptr)
-                          {
-                              return ptr.get() == lpTTSoundLoop;
-                          });
-    if (i != soundloops.end())
+    SoundLoopback* pSoundLoopBack = reinterpret_cast<SoundLoopback*>(lpTTSoundLoop);
+    if(soundloops.find(pSoundLoopBack) != soundloops.end())
     {
-        TTBOOL b = (*i)->StopTest();
-        soundloops.erase(i);
+        TTBOOL b = pSoundLoopBack->StopTest();
+        delete pSoundLoopBack;
+        soundloops.erase(pSoundLoopBack);
         return b;
     }
 

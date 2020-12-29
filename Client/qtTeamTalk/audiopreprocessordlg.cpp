@@ -75,13 +75,15 @@ void AudioPreprocessorDlg::showSettings()
 
 void AudioPreprocessorDlg::slotDefaultTTPreprocessor(bool)
 {
-    initDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR, m_preprocess);
+    m_preprocess.nPreprocessor = TEAMTALK_AUDIOPREPROCESSOR;
+    initDefaultAudioPreprocessor(m_preprocess);
     showSettings();
 }
 
 void AudioPreprocessorDlg::slotDefaultSpeexDSP(bool)
 {
-    initDefaultAudioPreprocessor(SPEEXDSP_AUDIOPREPROCESSOR, m_preprocess);
+    m_preprocess.nPreprocessor = SPEEXDSP_AUDIOPREPROCESSOR;
+    initDefaultAudioPreprocessor(m_preprocess);
     showSettings();
 }
 

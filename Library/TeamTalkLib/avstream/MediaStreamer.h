@@ -35,8 +35,6 @@
 #include <thread>
 #include <mutex>
 
-#define DEBUG_MEDIASTREAMER 0
-
 struct MediaStream
 {
     media::AudioFormat audio;

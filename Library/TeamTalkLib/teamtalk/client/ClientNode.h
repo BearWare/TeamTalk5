@@ -271,10 +271,10 @@ namespace teamtalk {
         ClientNode(const ACE_TString& version, ClientListener* listener);
         virtual ~ClientNode();
 
-        int svc(void) override;
+        int svc(void);
 
-        void SuspendEventHandling(bool quit = false) override;
-        void ResumeEventHandling() override;
+        void SuspendEventHandling(bool quit = false);
+        void ResumeEventHandling();
 
         ACE_Lock& reactor_lock();
 #if defined(_DEBUG)
@@ -410,15 +410,15 @@ namespace teamtalk {
         
         //StreamListener
 #if defined(ENABLE_ENCRYPTION)
-        void OnOpened(CryptStreamHandler::StreamHandler_t& handler) override;
-        void OnClosed(CryptStreamHandler::StreamHandler_t& handler) override;
-        bool OnReceive(CryptStreamHandler::StreamHandler_t& handler, const char* buff, int len) override;
-        bool OnSend(CryptStreamHandler::StreamHandler_t& handler) override;
+        void OnOpened(CryptStreamHandler::StreamHandler_t& handler);
+        void OnClosed(CryptStreamHandler::StreamHandler_t& handler);
+        bool OnReceive(CryptStreamHandler::StreamHandler_t& handler, const char* buff, int len);
+        bool OnSend(CryptStreamHandler::StreamHandler_t& handler);
 #endif
-        void OnOpened(DefaultStreamHandler::StreamHandler_t& handler) override;
-        void OnClosed(DefaultStreamHandler::StreamHandler_t& handler) override;
-        bool OnReceive(DefaultStreamHandler::StreamHandler_t& handler, const char* buff, int len) override;
-        bool OnSend(DefaultStreamHandler::StreamHandler_t& handler) override;
+        void OnOpened(DefaultStreamHandler::StreamHandler_t& handler);
+        void OnClosed(DefaultStreamHandler::StreamHandler_t& handler);
+        bool OnReceive(DefaultStreamHandler::StreamHandler_t& handler, const char* buff, int len);
+        bool OnSend(DefaultStreamHandler::StreamHandler_t& handler);
 
         //set keep alive timer intervals
         void UpdateKeepAlive(const ClientKeepAlive& keepalive);
@@ -432,7 +432,7 @@ namespace teamtalk {
         bool TimerExists(ACE_UINT32 timer_id);
         bool TimerExists(ACE_UINT32 timer_id, int userid);
         //TimerListener - reactor thread
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
+        int TimerEvent(ACE_UINT32 timer_event_id, long userdata);
 
         //Audio encoder callback - separate thread
         void EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
@@ -457,12 +457,13 @@ namespace teamtalk {
 
         // SoundSystem listener - separate thread
         void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
-                             const short* buffer, int n_samples) override;
-        void StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
-                            const short* input_buffer, short* prev_output_buffer, 
-                            int n_samples) override;
-        soundsystem::SoundDeviceFeatures GetCaptureFeatures() override;
-        soundsystem::SoundDeviceFeatures GetDuplexFeatures() override;
+                             const short* buffer, int n_samples);
+        void StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
+                                const short* input_buffer, 
+                                const short* prev_output_buffer, 
+                                int n_samples);
+        soundsystem::SoundDeviceFeatures GetCaptureFeatures();
+        soundsystem::SoundDeviceFeatures GetDuplexFeatures();
 
         //VideoCapture listener - separate thread
         bool VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
@@ -492,7 +493,7 @@ namespace teamtalk {
                                const media::AudioFrame& audio_frame);
 
         // FileNode listener - reactor thread
-        void OnFileTransferStatus(const teamtalk::FileTransfer& transfer) override;
+        void OnFileTransferStatus(const teamtalk::FileTransfer& transfer);
 
         bool GetTransferInfo(int transferid, FileTransfer& transfer);
         bool CancelFileTransfer(int transferid);
@@ -500,8 +501,8 @@ namespace teamtalk {
         //PacketListener - reactor thread
         void ReceivedPacket(PacketHandler* ph,
                             const char* packet_data, int packet_size, 
-                            const ACE_INET_Addr& addr) override;
-        void SendPackets() override; //send packets - reactor thread
+                            const ACE_INET_Addr& addr);
+        void SendPackets(); //send packets - reactor thread
 
         bool QueuePacket(FieldPacket* packet);
 

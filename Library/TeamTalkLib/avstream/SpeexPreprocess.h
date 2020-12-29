@@ -27,8 +27,6 @@
 #include <speex/speex_preprocess.h>
 #include <speex/speex_echo.h>
 
-#include <mystd/MyStd.h>
-
 #define SPEEX_DENOISE_LEVEL_DEFAULT -15
 
 struct SpeexAGC
@@ -62,7 +60,7 @@ struct SpeexAEC
     }
 };
 
-class SpeexPreprocess : NonCopyable
+class SpeexPreprocess
 {
 public:
     SpeexPreprocess(const SpeexPreprocess&) = delete;

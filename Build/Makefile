@@ -62,10 +62,10 @@ centos7:
 	# $ yum --enablerepo=extras install epel-release
 	# Setup CMake 3 as default cmake:
 	# $ ln -s /bin/cmake3 /bin/cmake
-	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DSTATICCPP=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_CORE=ON -DWEBRTC=OFF" BUILDDIR=build-$@ buildlib
+	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DSTATICCPP=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_CORE=ON" BUILDDIR=build-$@ buildlib
 
 rasp:
-	$(MAKE) CMAKE_EXTRA+="-DWEBRTC=OFF" BUILDDIR=build-$@ generic
+	$(MAKE) BUILDDIR=build-$@ generic
 
 mac:
 	$(MAKE) BUILDDIR=build-$@ generic
@@ -103,7 +103,6 @@ lipo-arch: toolchain-env teamtalk-env
 	$(TTLIBS_ROOT)/ACE/lib/libACE_INet_SSL.a \
 	$(TTLIBS_ROOT)/openssl/lib/libcrypto.a \
 	$(TTLIBS_ROOT)/openssl/lib/libssl.a \
-	${TTLIBS_ROOT}/webrtc/obj/modules/audio_processing/libteamtalk.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/$(ARCH)/libTeamTalk5.a
 
 	libtool -static -o $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-$(ARCH).a \
@@ -117,7 +116,6 @@ lipo-arch: toolchain-env teamtalk-env
 	$(TTLIBS_ROOT)/ACE/lib/libACE_INet_SSL.a \
 	$(TTLIBS_ROOT)/openssl/lib/libcrypto.a \
 	$(TTLIBS_ROOT)/openssl/lib/libssl.a \
-	${TTLIBS_ROOT}/webrtc/obj/modules/audio_processing/libteamtalk.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/$(ARCH)/libTeamTalk5Pro.a
 
 lipo: teamtalk-env
