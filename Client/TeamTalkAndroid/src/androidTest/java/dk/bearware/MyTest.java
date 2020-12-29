@@ -86,7 +86,7 @@ public class MyTest extends TeamTalkTestCase {
         connect(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
         joinRoot(ttclient);
-        assertTrue("sub voice", ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE)>0);
+        assertTrue("sub voice", ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE) > 0);
         ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 600);
         assertTrue("tx voice", ttclient.enableVoiceTransmission(true));
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT);
@@ -127,7 +127,7 @@ public class MyTest extends TeamTalkTestCase {
         SoundDevice shareddev = null;
         Vector<SoundDevice> devs = new Vector<>();
         TeamTalkBase.getSoundDevices(devs);
-        for(SoundDevice d : devs) {
+        for (SoundDevice d : devs) {
             System.out.println("Sound Device #" + d.nDeviceID + " name: " + d.szDeviceName);
             if (d.nDeviceID == SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT)
                 shareddev = d;
@@ -164,7 +164,7 @@ public class MyTest extends TeamTalkTestCase {
 
         Vector<Long> sndloops = new Vector<>();
         // now go through all sample rates
-        for(int samplerate : shareddev.inputSampleRates) {
+        for (int samplerate : shareddev.inputSampleRates) {
             if (samplerate <= 0)
                 continue;
             long sndloop = ttclient1.startSoundLoopbackTest(shareddev.nDeviceID, shareddev.nDeviceID, samplerate, 1, false, null);
@@ -174,7 +174,7 @@ public class MyTest extends TeamTalkTestCase {
 
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
 
-        for(long sndloop : sndloops) {
+        for (long sndloop : sndloops) {
             assertTrue("Close sndloop", ttclient1.closeSoundLoopbackTest(sndloop));
         }
     }
@@ -355,7 +355,7 @@ public class MyTest extends TeamTalkTestCase {
 
         // create 4 clients which will toggle PTT and open/close sound device
         Vector<TeamTalkBase> clients = new Vector<>();
-        for (int i=0;i<4;++i) {
+        for (int i = 0; i < 4; ++i) {
             TeamTalkBase ttclient = newClientInstance();
             assertTrue("Init ttclient sound output device", ttclient.initSoundOutputDevice(sndoutputdevid));
 
@@ -379,7 +379,7 @@ public class MyTest extends TeamTalkTestCase {
         // create 4 simulator clients which join in each of the clients's
         // channels
         Vector<TeamTalkBase> simclients = new Vector<>();
-        for (int i=0;i<4;++i) {
+        for (int i = 0; i < 4; ++i) {
             TeamTalkBase sclient = newClientInstance();
             assertTrue("Init sclient sound input device", sclient.initSoundInputDevice(sndinputdevid));
             assertTrue("Init sclient sound output device", sclient.initSoundOutputDevice(sndoutputdevid));
@@ -402,7 +402,7 @@ public class MyTest extends TeamTalkTestCase {
 
         // now loop where the simulator clients are transmitting all
         // the time and the clients are PTT'ing every 15 seconds
-        for (int x=0;x<3;x++) {
+        for (int x = 0; x < 3; x++) {
             for (TeamTalkBase sclient : simclients) {
                 assertTrue("enable sim voice tx", sclient.enableVoiceTransmission(true));
             }
@@ -473,13 +473,13 @@ public class MyTest extends TeamTalkTestCase {
                 assertTrue("wait for audio start event", ttclient.getMessage(msg, DEF_WAIT));
 
                 switch (msg.nClientEvent) {
-                    case ClientEvent.CLIENTEVENT_USER_STATECHANGE :
+                    case ClientEvent.CLIENTEVENT_USER_STATECHANGE:
                         if (msg.user.nUserID == sclient.getMyUserID() && (msg.user.uUserState & UserState.USERSTATE_VOICE) != 0) {
                             outputok = true;
                             outputs++;
                         }
                         break;
-                    case ClientEvent.CLIENTEVENT_INTERNAL_ERROR :
+                    case ClientEvent.CLIENTEVENT_INTERNAL_ERROR:
                         assertEquals("new user stopped audio output", ClientError.INTERR_SNDOUTPUT_FAILURE, msg.clienterrormsg.nErrorNo);
                         outputfailed = true;
                         break;
@@ -494,7 +494,7 @@ public class MyTest extends TeamTalkTestCase {
 
         // now destroy clients and see that audio output resurrects
 
-        for (int i=0;i<simclients.size()-1;++i) {
+        for (int i = 0; i < simclients.size() - 1; ++i) {
             simclients.elementAt(i).closeTeamTalk();
             assertTrue("wait logout", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDOUT, DEF_WAIT));
         }
@@ -523,12 +523,54 @@ public class MyTest extends TeamTalkTestCase {
         do {
             assertTrue("user update event", ttclient.getMessage(msg, DEF_WAIT));
             switch (msg.nClientEvent) {
-                case ClientEvent.CLIENTEVENT_USER_STATECHANGE :
+                case ClientEvent.CLIENTEVENT_USER_STATECHANGE:
                     outputrestarted = (msg.user.uUserState & UserState.USERSTATE_VOICE) != 0;
                     break;
             }
         } while (!outputrestarted);
 
         assertEquals("correct old user restarted", simclients.lastElement().getMyUserID(), msg.user.nUserID);
+    }
+
+    @Test
+    public void testWebRTCAudioPreprocessor() {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN |
+                UserRight.USERRIGHT_TRANSMIT_VOICE;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+        initSound(ttclient);
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+        assertTrue("sub voice", ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE) > 0);
+        ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 600);
+        assertTrue("enable tx", ttclient.enableVoiceTransmission(true));
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        // test WebRTC
+        AudioPreprocessor preprocess = new AudioPreprocessor();
+        preprocess.nPreprocessor = AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR;
+        preprocess.webrtc.noisesuppression.bEnable = true;
+        preprocess.webrtc.noisesuppression.nLevel = 2;
+
+        assertTrue("Enable WebRTC", ttclient.setSoundInputPreprocess(preprocess));
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        preprocess = new AudioPreprocessor();
+        preprocess.nPreprocessor = AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR;
+        preprocess.webrtc.gaincontroller2.bEnable = true;
+        preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 20;
+
+        assertTrue("Enable WebRTC", ttclient.setSoundInputPreprocess(preprocess));
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        preprocess = new AudioPreprocessor();
+        assertTrue("Enable WebRTC", ttclient.setSoundInputPreprocess(preprocess));
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
     }
 }

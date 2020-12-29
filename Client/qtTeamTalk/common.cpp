@@ -115,47 +115,79 @@ void initDefaultVideoFormat(VideoFormat& vidfmt)
     vidfmt.picFourCC = DEFAULT_VIDEO_FOURCC;
 }
 
-void initDefaultAudioPreprocessor(AudioPreprocessor& preprocessor)
+void initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor)
 {
+    preprocessor.nPreprocessor = preprocessortype;
     switch (preprocessor.nPreprocessor)
     {
     case NO_AUDIOPREPROCESSOR :
         break;
     case SPEEXDSP_AUDIOPREPROCESSOR :
-        preprocessor.speexdsp.bEnableAGC = DEFAULT_AGC_ENABLE;
-        preprocessor.speexdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-        preprocessor.speexdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-        preprocessor.speexdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-        preprocessor.speexdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-        preprocessor.speexdsp.bEnableDenoise = DEFAULT_DENOISE_ENABLE;
-        preprocessor.speexdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
+        preprocessor.speexdsp.bEnableAGC = DEFAULT_SPEEXDSP_AGC_ENABLE;
+        preprocessor.speexdsp.nGainLevel = DEFAULT_SPEEXDSP_AGC_GAINLEVEL;
+        preprocessor.speexdsp.nMaxIncDBSec = DEFAULT_SPEEXDSP_AGC_INC_MAXDB;
+        preprocessor.speexdsp.nMaxDecDBSec = DEFAULT_SPEEXDSP_AGC_DEC_MAXDB;
+        preprocessor.speexdsp.nMaxGainDB = DEFAULT_SPEEXDSP_AGC_GAINMAXDB;
+        preprocessor.speexdsp.bEnableDenoise = DEFAULT_SPEEXDSP_DENOISE_ENABLE;
+        preprocessor.speexdsp.nMaxNoiseSuppressDB = DEFAULT_SPEEXDSP_DENOISE_SUPPRESS;
+        preprocessor.speexdsp.bEnableAGC = DEFAULT_SPEEXDSP_ECHO_ENABLE;
+        preprocessor.speexdsp.nEchoSuppress = DEFAULT_SPEEXDSP_ECHO_SUPPRESS;
+        preprocessor.speexdsp.nEchoSuppressActive = DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE;
         break;
     case TEAMTALK_AUDIOPREPROCESSOR :
         preprocessor.ttpreprocessor.nGainLevel = SOUND_GAIN_DEFAULT;
         preprocessor.ttpreprocessor.bMuteLeftSpeaker = preprocessor.ttpreprocessor.bMuteRightSpeaker = FALSE;
         break;
+    case WEBRTC_AUDIOPREPROCESSOR :
+        preprocessor.webrtc.gaincontroller2.bEnable = DEFAULT_WEBRTC_GAINCTL_ENABLE;
+        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = DEFAULT_WEBRTC_GAINDB;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable = DEFAULT_WEBRTC_SAT_PROT_ENABLE;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = DEFAULT_WEBRTC_MAXGAIN_DBSEC;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = DEFAULT_WEBRTC_MAX_OUT_NOISE;
+        preprocessor.webrtc.noisesuppression.bEnable = DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE;
+        preprocessor.webrtc.noisesuppression.nLevel = DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL;
+        preprocessor.webrtc.echocanceller.bEnable = DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE;
+        break;
     }
 }
 
-void loadAudioPreprocessor(AudioPreprocessor& preprocessor)
+void loadAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor)
 {
-    switch(preprocessor.nPreprocessor)
+    preprocessor.nPreprocessor = preprocessortype;
+    switch (preprocessor.nPreprocessor)
     {
     case NO_AUDIOPREPROCESSOR:
         break;
     case SPEEXDSP_AUDIOPREPROCESSOR:
-        preprocessor.speexdsp.bEnableAGC = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_ENABLE, DEFAULT_AGC_ENABLE).toBool();
-        preprocessor.speexdsp.nGainLevel = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_GAINLEVEL, DEFAULT_AGC_GAINLEVEL).toInt();
-        preprocessor.speexdsp.nMaxIncDBSec = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_INC_MAXDB, DEFAULT_AGC_INC_MAXDB).toInt();
-        preprocessor.speexdsp.nMaxDecDBSec = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_DEC_MAXDB, DEFAULT_AGC_DEC_MAXDB).toInt();
-        preprocessor.speexdsp.nMaxGainDB = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_GAINMAXDB, DEFAULT_AGC_GAINMAXDB).toInt();
-        preprocessor.speexdsp.bEnableDenoise = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_DENOISE_ENABLE, DEFAULT_DENOISE_ENABLE).toBool();
-        preprocessor.speexdsp.nMaxNoiseSuppressDB = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_DENOISE_SUPPRESS, DEFAULT_DENOISE_SUPPRESS).toInt();
+        preprocessor.speexdsp.bEnableAGC = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_ENABLE, DEFAULT_SPEEXDSP_AGC_ENABLE).toBool();
+        preprocessor.speexdsp.nGainLevel = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_GAINLEVEL, DEFAULT_SPEEXDSP_AGC_GAINLEVEL).toInt();
+        preprocessor.speexdsp.nMaxIncDBSec = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_INC_MAXDB, DEFAULT_SPEEXDSP_AGC_INC_MAXDB).toInt();
+        preprocessor.speexdsp.nMaxDecDBSec = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_DEC_MAXDB, DEFAULT_SPEEXDSP_AGC_DEC_MAXDB).toInt();
+        preprocessor.speexdsp.nMaxGainDB = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_GAINMAXDB, DEFAULT_SPEEXDSP_AGC_GAINMAXDB).toInt();
+        preprocessor.speexdsp.bEnableDenoise = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_DENOISE_ENABLE, DEFAULT_SPEEXDSP_DENOISE_ENABLE).toBool();
+        preprocessor.speexdsp.nMaxNoiseSuppressDB = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_DENOISE_SUPPRESS, DEFAULT_SPEEXDSP_DENOISE_SUPPRESS).toInt();
+        preprocessor.speexdsp.bEnableEchoCancellation = FALSE; // unusable for streaming
+        preprocessor.speexdsp.nEchoSuppress = DEFAULT_SPEEXDSP_ECHO_SUPPRESS;
+        preprocessor.speexdsp.nEchoSuppressActive = DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE;
         break;
     case TEAMTALK_AUDIOPREPROCESSOR:
         preprocessor.ttpreprocessor.bMuteLeftSpeaker = ttSettings->value(SETTINGS_STREAMMEDIA_TTAP_MUTELEFT, false).toBool();
         preprocessor.ttpreprocessor.bMuteRightSpeaker = ttSettings->value(SETTINGS_STREAMMEDIA_TTAP_MUTERIGHT, false).toBool();
         preprocessor.ttpreprocessor.nGainLevel = ttSettings->value(SETTINGS_STREAMMEDIA_TTAP_GAINLEVEL, SOUND_GAIN_DEFAULT).toInt();
+        break;
+    case WEBRTC_AUDIOPREPROCESSOR :
+        preprocessor.webrtc.gaincontroller2.bEnable = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_GAINCTL_ENABLE, DEFAULT_WEBRTC_GAINCTL_ENABLE).toBool();
+        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_GAINDB, DEFAULT_WEBRTC_GAINDB).toFloat();
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_SAT_PROT_ENABLE, DEFAULT_WEBRTC_SAT_PROT_ENABLE).toBool();
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_INIT_SAT_MARGIN_DB, DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB).toFloat();
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_EXTRA_SAT_MARGIN_DB, DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB).toFloat();
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_MAXGAIN_DBSEC, DEFAULT_WEBRTC_MAXGAIN_DBSEC).toFloat();
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_MAX_OUT_NOISE, DEFAULT_WEBRTC_MAX_OUT_NOISE).toFloat();
+        preprocessor.webrtc.noisesuppression.bEnable = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_NOISESUPPRESS_ENABLE, DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE).toBool();
+        preprocessor.webrtc.noisesuppression.nLevel = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_NOISESUPPRESS_LEVEL, DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL).toFloat();
+        preprocessor.webrtc.echocanceller.bEnable = FALSE;
         break;
     }
 }
@@ -249,6 +281,19 @@ bool getSoundDevice(const QString& devid, const QVector<SoundDevice>& devs,
     return false;
 }
 
+int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev)
+{
+    auto isend = indev.inputSampleRates + sizeof(indev.inputSampleRates);
+    auto isr = std::find_if(indev.inputSampleRates, isend,
+                            [outdev] (int sr) { return sr == outdev.nDefaultSampleRate; });
+    return isr != isend ? outdev.nDefaultSampleRate : 0;
+}
+
+bool isSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outdev)
+{
+    return getSoundDuplexSampleRate(indev, outdev) > 0 || (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC);
+}
+
 int getDefaultSndInputDevice()
 {
     SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
@@ -332,7 +377,7 @@ int getSelectedSndOutputDevice()
     return outputid;
 }
 
-QStringList initSelectedSoundDevices()
+QStringList initSelectedSoundDevices(SoundDevice& indev, SoundDevice& outdev)
 {
     QStringList result;
 
@@ -347,26 +392,33 @@ QStringList initSelectedSoundDevices()
     int outputid = getSelectedSndOutputDevice();
 
     QVector<SoundDevice> devs = getSoundDevices();
-    SoundDevice indev = {};
     getSoundDevice(inputid, devs, indev);
+    getSoundDevice(outputid, devs, outdev);
 
-    // toggle sound device effect if it's supported by input device
     SoundDeviceEffects effects = {};
-    effects.bEnableAGC = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AGC) && ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
-    effects.bEnableDenoise = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DENOISE) && ttSettings->value(SETTINGS_SOUND_DENOISING, SETTINGS_SOUND_DENOISING_DEFAULT).toBool();
-    effects.bEnableEchoCancellation = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC) && ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool();
+    bool echocancel = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool();
+
+    int samplerate = getSoundDuplexSampleRate(indev, outdev);
+    bool duplex = samplerate > 0 && echocancel;
+
+    // prefer WebRTC to echo cancel if duplex is available
+    if (echocancel && !duplex)
+    {
+        // toggle sound device effect if it's supported by input device
+        effects.bEnableEchoCancellation = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC) && echocancel;
+
+        // WASAPI must know input and output device to echo cancel
+        duplex = outdev.nSoundSystem == SOUNDSYSTEM_WASAPI;
+    }
 
     TT_SetSoundDeviceEffects(ttInst, &effects);
-
-    bool duplex = ttSettings->value(SETTINGS_SOUND_DUPLEXMODE, SETTINGS_SOUND_DUPLEXMODE_DEFAULT).toBool();
-    // WASAPI has to know which speaker device to echo cancel therefore force duplex mode
-    duplex |= (indev.nSoundSystem == SOUNDSYSTEM_WASAPI && (effects.bEnableAGC || effects.bEnableDenoise || effects.bEnableEchoCancellation));
 
     if (duplex)
     {
         if (!TT_InitSoundDuplexDevices(ttInst, inputid, outputid))
         {
             result.append(QObject::tr("Failed to initialize sound duplex mode"));
+            indev = {}, outdev = {};
         }
     }
     else
@@ -374,16 +426,18 @@ QStringList initSelectedSoundDevices()
         if (!TT_InitSoundInputDevice(ttInst, inputid))
         {
             result.append(QObject::tr("Failed to initialize sound input device"));
+            indev = {};
         }
         if (!TT_InitSoundOutputDevice(ttInst, outputid))
         {
             result.append(QObject::tr("Failed to initialize sound output device"));
+            outdev = {};
         }
     }
     return result;
 }
 
-QStringList initDefaultSoundDevices()
+QStringList initDefaultSoundDevices(SoundDevice& indev, SoundDevice& outdev)
 {
     QStringList result;
 
@@ -392,6 +446,10 @@ QStringList initDefaultSoundDevices()
     TT_CloseSoundDuplexDevices(ttInst);
 
     result.append(QObject::tr("Switching to default sound devices"));
+
+    //Restart sound system so we have the latest sound devices
+    TT_RestartSoundSystem();
+
     int inputid, outputid;
     if (!TT_GetDefaultSoundDevices(&inputid, &outputid))
     {
@@ -399,21 +457,29 @@ QStringList initDefaultSoundDevices()
     }
     else
     {
+        QVector<SoundDevice> devs = getSoundDevices();
+        getSoundDevice(inputid, devs, indev);
+        getSoundDevice(outputid, devs, outdev);
+
         // reset sound device effects
         SoundDeviceEffects effects = {};
         TT_SetSoundDeviceEffects(ttInst, &effects);
 
-        if (!TT_InitSoundInputDevice(ttInst, inputid) || !TT_InitSoundOutputDevice(ttInst, outputid))
+        if (!TT_InitSoundInputDevice(ttInst, inputid))
         {
-            TT_CloseSoundInputDevice(ttInst);
-            TT_CloseSoundOutputDevice(ttInst);
-            result.append(QObject::tr("Failed to initialize default sound devices"));
+            result.append(QObject::tr("Failed to initialize default sound input device"));
+            indev = {};
+        }
+        if (!TT_InitSoundOutputDevice(ttInst, outputid))
+        {
+            result.append(QObject::tr("Failed to initialize default sound output device"));
+            outdev = {};
         }
     }
     return result;
 }
 
-#ifdef Q_OS_DARWIN
+#if defined(Q_OS_DARWIN)
 QString QCFStringToQString(CFStringRef str)
 {
     if(!str)
