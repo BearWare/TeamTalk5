@@ -108,7 +108,7 @@ int CPlaySoundThread::Run()
             m_mutex.Unlock();
             
             if(szFilename.GetLength())
-                PlayWaveFile(szFilename, FALSE);
+                PlayWaveFile(szFilename, TRUE);
             break;
         }
         case KILL_EVENT:

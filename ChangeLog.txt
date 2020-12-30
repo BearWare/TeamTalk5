@@ -13,6 +13,7 @@ Accessible Windows Client
 - New audio files for default sound events
 - Fix tab index on server properties dialog
 - Don't play sound for own channel messages
+- Event sounds are no longer played in full if several follow one another
 Default QT Client
 - Option to join channel immediately in create channel dialog
 - Option to disable emojis and text for channel/user states
