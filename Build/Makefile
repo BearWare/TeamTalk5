@@ -62,10 +62,10 @@ centos7:
 	# $ yum --enablerepo=extras install epel-release
 	# Setup CMake 3 as default cmake:
 	# $ ln -s /bin/cmake3 /bin/cmake
-	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DSTATICCPP=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_CORE=ON" BUILDDIR=build-$@ buildlib
+	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DSTATICCPP=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_CORE=ON -DWEBRTC=OFF" BUILDDIR=build-$@ buildlib
 
 rasp:
-	$(MAKE) BUILDDIR=build-$@ generic
+	$(MAKE) CMAKE_EXTRA+="-DWEBRTC=OFF" BUILDDIR=build-$@ generic
 
 mac:
 	$(MAKE) BUILDDIR=build-$@ generic
@@ -103,6 +103,7 @@ lipo-arch: toolchain-env teamtalk-env
 	$(TTLIBS_ROOT)/ACE/lib/libACE_INet_SSL.a \
 	$(TTLIBS_ROOT)/openssl/lib/libcrypto.a \
 	$(TTLIBS_ROOT)/openssl/lib/libssl.a \
+	${TTLIBS_ROOT}/webrtc/obj/modules/audio_processing/libteamtalk.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/$(ARCH)/libTeamTalk5.a
 
 	libtool -static -o $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-$(ARCH).a \
@@ -116,6 +117,7 @@ lipo-arch: toolchain-env teamtalk-env
 	$(TTLIBS_ROOT)/ACE/lib/libACE_INet_SSL.a \
 	$(TTLIBS_ROOT)/openssl/lib/libcrypto.a \
 	$(TTLIBS_ROOT)/openssl/lib/libssl.a \
+	${TTLIBS_ROOT}/webrtc/obj/modules/audio_processing/libteamtalk.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/$(ARCH)/libTeamTalk5Pro.a
 
 lipo: teamtalk-env
@@ -144,8 +146,8 @@ teamtalk-jar:
 
 ubuntu18-depend:
 	# TeamTalk 5 dependencies
-	apt install qt5-default libqt5x11extras5-dev qtwebengine5-dev qtmultimedia5-dev doxygen openjdk-11-jdk qttools5-dev-tools
+	apt install qt5-default libqt5x11extras5-dev qtwebengine5-dev qtmultimedia5-dev doxygen openjdk-11-jdk qttools5-dev-tools ninja-build
 
 debian9-depend:
 	# TeamTalk 5 dependencies
-	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev qtwebengine5-dev doxygen g++ openjdk-8-jdk qttools5-dev-tools
+	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev qtwebengine5-dev doxygen g++ openjdk-8-jdk qttools5-dev-tools ninja-build

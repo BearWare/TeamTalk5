@@ -167,7 +167,6 @@
     <item id="298">Number of commands to allow (0 = disabled)</item>
     <item id="299">Timeframe to allow %d commands (in seconds)</item>
     <item id="300">Anonymous</item>
-    <item id="301">Web Login</item>
     <item id="302">Ban User Properties</item>
     <item id="303">New profile</item>
     <item id="304">Delete profile</item>
@@ -363,8 +362,6 @@
     <item id="496">Video - </item>
     <item id="497">Volume for </item>
     <item id="498">Failed to start selected device Test Selected</item>
-    <item id="499">Do Facebook logout?</item>
-    <item id="500">Facebook Login</item>
     <item id="501">Voice for %s enabled</item>
     <item id="502">Webcam</item>
     <item id="503">Administrator</item>
@@ -736,7 +733,6 @@
     <item id="1547">Flood Protection</item>
     <item id="1548">Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</item>
     <item id="1550">Limit issued commands</item>
-    <item id="1553">Profile</item>
     <item id="1554">User can change nickname</item>
     <item id="1558">User can record voice in all channels</item>
     <item id="1561">&amp;Activate</item>
@@ -764,6 +760,8 @@
 	<item id="1599">BearWare.dk Web Login ID</item>
 	<item id="1600">Disabled (inactive)</item>
 	<item id="1601">&amp;Join channel on exit</item>
+	<item id="1602">Hidden channel (invisible and only known by name)</item>
+	<item id="1603">Channel type</item>
     <item id="32791">What is my &amp;IP-address?</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">Vie&amp;w Channel Messages\tF10</item>
@@ -873,4 +871,6 @@
     <item id="32952">&amp;Banned Users From Channel\tCtrl+Alt+Shift+B</item>
     <item id="32953">&amp;New Client Instance\tCtrl+N</item>
     <item id="32954">&amp;Store for Move\tCtrl+Alt+X</item>
+    <item id="32955">Allow &amp;Channel Text Message\tCtrl+Alt+T</item>
+    <item id="32956">Allow All Channel &amp;Text Messages\tCtrl+Alt+Shift+T</item>
 </language>

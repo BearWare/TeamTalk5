@@ -56,6 +56,7 @@ CChannelDlg::CChannelDlg(CChannelDlg::ChannelDlgType dlgType, CWnd* pParent /*=N
 , m_bNoRecord(FALSE)
 , m_bVBR(FALSE)
 , m_bJoinChannel(FALSE)
+, m_bHiddenChannel(FALSE)
 {
     InitDefaultAudioCodec(m_codec);
 }
@@ -125,6 +126,8 @@ void CChannelDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_STATIC_OPUSFRMSIZE, m_wndFrmSizeStatic);
     DDX_Check(pDX, IDC_CHECK_JOINCHANNEL, m_bJoinChannel);
     DDX_Control(pDX, IDC_CHECK_JOINCHANNEL, m_wndJoinChannel);
+    DDX_Control(pDX, IDC_CHECK_HIDDENCHANNEL, m_wndHiddenChannel);
+    DDX_Check(pDX, IDC_CHECK_HIDDENCHANNEL, m_bHiddenChannel);
 }
 
 
@@ -151,8 +154,10 @@ BOOL CChannelDlg::OnInitDialog()
 
     TRANSLATE(*this, IDD);
 
-    ServerProperties prop;
+    ServerProperties prop = {};
     TT_GetServerProperties(ttInst, &prop);
+
+    m_wndHiddenChannel.ShowWindow(VersionSameOrLater(prop.szServerProtocolVersion, _T("5.8")) ? SW_SHOW : SW_HIDE);
 
     AddString(m_wndCodec, LoadText(IDS_CHANDLGNOAUDIO, _T("No Audio")), NO_CODEC);
     AddString(m_wndCodec, _T("Speex"), SPEEX_CODEC);
@@ -211,6 +216,7 @@ BOOL CChannelDlg::OnInitDialog()
         m_btnSingleChannel.EnableWindow(FALSE);
         m_btnClassRoom.EnableWindow(FALSE);
         m_wndAudioChannels.EnableWindow(FALSE);
+        m_wndHiddenChannel.EnableWindow(FALSE);
         m_btnForceAGC.EnableWindow(FALSE);
         m_wndGainSlider.EnableWindow(FALSE);
         m_wndCodec.EnableWindow(FALSE);

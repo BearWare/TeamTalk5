@@ -167,7 +167,6 @@
     <item id="298">允许的命令数（0 =禁用）</item>
     <item id="299">允许％d个命令的时间（以秒为单位）</item>
     <item id="300">匿名</item>
-    <item id="301">网页登录</item>
     <item id="302">禁止用户属性</item>
     <item id="303">新建配置</item>
     <item id="304">删除配置</item>
@@ -363,8 +362,6 @@
     <item id="496">视频 - </item>
     <item id="497">音量 - </item>
     <item id="498">无法测试您选择的设备</item>
-    <item id="499">登出Facebook账户吗？</item>
-    <item id="500">Facebook 登录</item>
     <item id="501">%s 的语音已启用</item>
     <item id="502">摄像头</item>
     <item id="503">管理员</item>
@@ -742,7 +739,6 @@
     <item id="1547">防洪保护</item>
     <item id="1548">防止用户从例如通过限制在给定时间范围内可以发出的命令数来发送短信。</item>
     <item id="1550">限制发出命令</item>
-    <item id="1553">个人资料</item>
     <item id="1554">用户可更改昵称</item>
     <item id="1558">用户可在所有频道录音</item>
     <item id="1561">激活(&amp;A)</item>

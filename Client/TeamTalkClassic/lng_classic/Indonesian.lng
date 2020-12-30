@@ -166,7 +166,6 @@
     <item id="298">Jumlah perintah yang diizinkan (0 = dinonaktifkan)</item>
     <item id="299">Jangka waktu untuk mengizinkan perintah %d (dalam detik)</item>
     <item id="300">Anonim</item>
-    <item id="301">Web Login</item>
     <item id="302">tindakan larang pengguna</item>
     <item id="303">Profil baru</item>
     <item id="304">Hapus profil</item>
@@ -361,8 +360,6 @@
     <item id="496">Video -</item>
     <item id="497">Volume untuk</item>
     <item id="498">Gagal memulai Tes perangkat yang dipilih Dipilih</item>
-    <item id="499">keluar dari facebook?</item>
-    <item id="500">Login dengan Facebook</item>
     <item id="501">Suara untuk %s diaktifkan</item>
     <item id="502">Webcam</item>
     <item id="503">Administrator</item>
@@ -731,7 +728,6 @@
     <item id="1547">Proteksi banjir</item>
     <item id="1548">Mencegah pengguna untuk spam pesan text dengan cara membatasi berapa banyak perintah yang dapat dikirim dalam jangka waktu tertentu.</item>
     <item id="1550">Batasi perintah yang dikirim</item>
-    <item id="1553">Profil</item>
     <item id="1554">Pengguna dapat mengubah nama panggilan</item>
     <item id="1558">Pengguna dapat merekam suara di semua saluran</item>
     <item id="1561">&amp;Aktifkan</item>

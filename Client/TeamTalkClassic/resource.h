@@ -205,7 +205,6 @@
 #define IDS_CMDNO                       298
 #define IDS_CMDTIMEFRAME                299
 #define IDS_ANONYMOUS                   300
-#define IDD_DIALOG_WEBLOGIN             301
 #define IDD_DIALOG_BANTYPE              302
 #define IDS_NEWPROFILE                  303
 #define IDS_DELETEPROFILE               304
@@ -401,8 +400,6 @@
 #define IDS_USERVIDEOVIDEO              496
 #define IDS_USERVOLUMETITLEWINDOW       497
 #define IDS_VIDEOCAPTUREFAILED          498
-#define IDS_WEBLOGINFBLOGOUT            499
-#define IDS_WEBLOGINFBLOGIN             500
 #define IDS_MVUE                        501
 #define IDS_USERISVIDEOTX               502
 #define IDS_USERADMIN                   503
@@ -918,8 +915,6 @@
 #define IDC_COMBO_CMDLIMIT              1549
 #define IDC_STATIC_CMDLIMIT             1550
 #define IDC_COMBO_USERNAME              1551
-#define IDC_EXPLORER1                   1552
-#define IDC_BUTTON_PROFILE              1553
 #define IDC_CHECK_CHANGENICKNAME        1554
 #define IDC_COMBO_BANTYPE               1555
 #define IDC_COMBO_INPUT                 1556
@@ -968,6 +963,8 @@
 #define IDC_STATIC_BEARWARELOGIN        1599
 #define IDC_RADIO_DISABLEDUSER          1600
 #define IDC_CHECK_JOINCHANNEL           1601
+#define IDC_CHECK_HIDDENCHANNEL         1602
+#define IDC_STATIC_GRPCHANTYPE          1603
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -1076,6 +1073,8 @@
 #define ID_CHANNELS_BANNEDUSERSINCHANNEL 32952
 #define ID_CLIENT_NEWCLIENTINSTANCE     32953
 #define ID_POPUP_STOREFORMOVE           32954
+#define ID_ADVANCED_ALLOWCHANNELTEXTMESSAGE 32955
+#define ID_ADVANCED_ALLOWALLCHANNEL     32956
 #define TT_MAX_ID                       0xFFFF
 
 // Next default values for new objects
@@ -1083,8 +1082,8 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        567
-#define _APS_NEXT_COMMAND_VALUE         32955
-#define _APS_NEXT_CONTROL_VALUE         1602
+#define _APS_NEXT_COMMAND_VALUE         32959
+#define _APS_NEXT_CONTROL_VALUE         1604
 #define _APS_NEXT_SYMED_VALUE           413
 #endif
 #endif

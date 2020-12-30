@@ -958,6 +958,13 @@ void Convert(const AudioPreprocessor& audpreprocess, teamtalk::AudioPreprocessor
     case TEAMTALK_AUDIOPREPROCESSOR :
         Convert(audpreprocess.ttpreprocessor, result.ttpreprocessor);
         break;
+    case WEBRTC_AUDIOPREPROCESSOR :
+#if defined(ENABLE_WEBRTC)
+        Convert(audpreprocess.webrtc, result.webrtc);
+#else
+        result.preprocessor = teamtalk::AUDIOPREPROCESSOR_NONE;
+#endif
+        break;
     }
 }
 
@@ -973,6 +980,13 @@ void Convert(const teamtalk::AudioPreprocessor& audpreprocess, AudioPreprocessor
         break;
     case teamtalk::AUDIOPREPROCESSOR_TEAMTALK :
         Convert(audpreprocess.ttpreprocessor, result.ttpreprocessor);
+        break;
+    case teamtalk::AUDIOPREPROCESSOR_WEBRTC :
+#if defined(ENABLE_WEBRTC)
+        Convert(audpreprocess.webrtc, result.webrtc);
+#else
+        result.nPreprocessor = NO_AUDIOPREPROCESSOR;
+#endif
         break;
     }
 }
@@ -1025,6 +1039,57 @@ void Convert(const teamtalk::SpeexDSP& spxdsp, SpeexDSP& result)
     result.nEchoSuppressActive = spxdsp.aec_suppress_active;
 }
 
+#if defined(ENABLE_WEBRTC)
+void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Config& result)
+{
+    result.echo_canceller.enabled = webrtc.echocanceller.bEnable;
+
+    result.noise_suppression.enabled = webrtc.noisesuppression.bEnable;
+    switch (webrtc.noisesuppression.nLevel)
+    {
+    case 0 :
+        result.noise_suppression.level = webrtc::AudioProcessing::Config::NoiseSuppression::kLow;
+        break;
+    case 1 :
+        result.noise_suppression.level = webrtc::AudioProcessing::Config::NoiseSuppression::kModerate;
+        break;
+    case 2 :
+        result.noise_suppression.level = webrtc::AudioProcessing::Config::NoiseSuppression::kHigh;
+        break;
+    case 3 :
+        result.noise_suppression.level = webrtc::AudioProcessing::Config::NoiseSuppression::kVeryHigh;
+        break;
+    default :
+        result.noise_suppression.enabled = false;
+        break;
+    }
+    
+    result.gain_controller2.enabled = webrtc.gaincontroller2.bEnable;
+    result.gain_controller2.fixed_digital.gain_db = webrtc.gaincontroller2.fixeddigital.fGainDB;
+    result.gain_controller2.adaptive_digital.enabled = webrtc.gaincontroller2.adaptivedigital.bEnable;
+    result.gain_controller2.adaptive_digital.initial_saturation_margin_db = webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB;
+    result.gain_controller2.adaptive_digital.extra_saturation_margin_db = webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB;
+    result.gain_controller2.adaptive_digital.max_gain_change_db_per_second = webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond;
+    result.gain_controller2.adaptive_digital.max_output_noise_level_dbfs = webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS;
+}
+
+void Convert(const webrtc::AudioProcessing::Config& cfg, WebRTCAudioPreprocessor& result)
+{
+    result.echocanceller.bEnable = cfg.echo_canceller.enabled;
+    
+    result.noisesuppression.bEnable = cfg.noise_suppression.enabled;
+    result.noisesuppression.nLevel = cfg.noise_suppression.level;
+
+    result.gaincontroller2.bEnable = cfg.gain_controller2.enabled;
+    result.gaincontroller2.fixeddigital.fGainDB = cfg.gain_controller2.fixed_digital.gain_db;
+    result.gaincontroller2.adaptivedigital.bEnable = cfg.gain_controller2.adaptive_digital.enabled;
+    result.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = cfg.gain_controller2.adaptive_digital.initial_saturation_margin_db;
+    result.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = cfg.gain_controller2.adaptive_digital.extra_saturation_margin_db;
+    result.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = cfg.gain_controller2.adaptive_digital.max_gain_change_db_per_second;
+    result.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = cfg.gain_controller2.adaptive_digital.max_output_noise_level_dbfs;
+}
+#endif
+
 void Convert(const SoundDeviceEffects& effects, teamtalk::SoundDeviceEffects& result)
 {
     result.enable_agc = effects.bEnableAGC;
@@ -1068,6 +1133,8 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
     userids.insert(tmp.begin(), tmp.end());
     tmp = chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_MEDIAFILE);
     userids.insert(tmp.begin(), tmp.end());
+    tmp = chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_CHANNELMSG);
+    userids.insert(tmp.begin(), tmp.end());
     
     ACE_OS::memset(result.transmitUsers, 0, sizeof(result.transmitUsers));
     size_t i=0;
@@ -1082,6 +1149,8 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_DESKTOP;
         if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_MEDIAFILE).count(*ii))
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_MEDIAFILE;
+        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_CHANNELMSG).count(*ii))
+            result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_CHANNELMSG;
     }
 
     for(i=0;i<TT_TRANSMITQUEUE_MAX;i++)
@@ -1123,6 +1192,8 @@ bool Convert(const Channel& channel, teamtalk::ChannelProp& chanprop)
             chanprop.transmitusers[teamtalk::STREAMTYPE_DESKTOP].insert(userid);
         if(channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & (STREAMTYPE_MEDIAFILE))
             chanprop.transmitusers[teamtalk::STREAMTYPE_MEDIAFILE].insert(userid);
+        if (channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & (STREAMTYPE_CHANNELMSG))
+            chanprop.transmitusers[teamtalk::STREAMTYPE_CHANNELMSG].insert(userid);
     }
 
     for(int i=0;i<TT_TRANSMITQUEUE_MAX;i++)

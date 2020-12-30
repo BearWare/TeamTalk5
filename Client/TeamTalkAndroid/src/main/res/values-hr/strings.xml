@@ -197,7 +197,6 @@
     <string name="err_retrieve_public_server_list">Greška pri dohvaćanju popisa javnih poslućitelja</string>
     <string name="err_send_text_message">Greška pri slanju tekstualne poruke</string>
     <string name="err_connection">Greška pri povezivanju</string>
-    <string name="err_facebooklogin">greška pri prijavi putem Facebooka</string>
     <string name="err_stream_media">Greška pri reproduciranju multimedije</string>
 
     <string name="action_new_channel">Novi kanal</string>
@@ -217,7 +216,6 @@
     <string name="pref_title_authentication">Autentifikacija</string>
     <string name="pref_title_username">Korisničko ime</string>
     <string name="pref_title_password">Lozinka</string>
-    <string name="pref_title_facebook">Prijava putem Facebooka</string>
     <string name="pref_title_join_channel">Pridruži se kanalu</string>
     <string name="pref_title_channel">Kanal</string>
     <string name="pref_title_channel_password">Lozinka kanala</string>

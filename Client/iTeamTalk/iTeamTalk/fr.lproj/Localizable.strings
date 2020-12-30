@@ -668,3 +668,6 @@
 
 /* server entry */
 "Check only if this server has enabled Facebook login" = "À ne cocher que si ce serveur a activé la connexion Facebook";
+
+/* hidden channel */
+"Hidden channel" = "Canal masqué"

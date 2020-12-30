@@ -35,6 +35,10 @@
 #include "PacketLayout.h"
 #include <codec/MediaUtil.h>
 
+#if defined(ENABLE_WEBRTC)
+#include <avstream/WebRTCPreprocess.h>
+#endif
+
 namespace teamtalk {
 
     struct ServerProperties
@@ -303,6 +307,7 @@ namespace teamtalk {
                                               STREAMTYPE_MEDIAFILE_VIDEO,
         STREAMTYPE_DESKTOP                  = 0x00000010,
         STREAMTYPE_DESKTOPINPUT             = 0x00000020,
+        STREAMTYPE_CHANNELMSG               = 0x00000040,
     };
 
     typedef ACE_UINT32 StreamTypes;
@@ -464,18 +469,12 @@ namespace teamtalk {
         TTAudioPreprocessor() { }
     };
 
-    struct SoundDeviceEffects
-    {
-        bool enable_agc = false;
-        bool enable_aec = false;
-        bool enable_denoise = false;
-    };
-
     enum AudioPreprocessorType
     {
         AUDIOPREPROCESSOR_NONE      = 0,
         AUDIOPREPROCESSOR_SPEEXDSP  = 1,
         AUDIOPREPROCESSOR_TEAMTALK  = 2,
+        AUDIOPREPROCESSOR_WEBRTC    = 3,
     };
     
     struct AudioPreprocessor
@@ -486,7 +485,17 @@ namespace teamtalk {
             SpeexDSP speexdsp;
             TTAudioPreprocessor ttpreprocessor;
         };
+#if defined(ENABLE_WEBRTC)
+        webrtc::AudioProcessing::Config webrtc;
+#endif
         AudioPreprocessor() {}
+    };
+
+    struct SoundDeviceEffects
+    {
+        bool enable_agc = false;
+        bool enable_aec = false;
+        bool enable_denoise = false;
     };
 
     struct WebMVP8Codec
@@ -623,6 +632,7 @@ namespace teamtalk {
             transmitusers[STREAMTYPE_VIDEOCAPTURE] = std::set<int>();
             transmitusers[STREAMTYPE_DESKTOP] = std::set<int>();
             transmitusers[STREAMTYPE_MEDIAFILE] = std::set<int>();
+            transmitusers[STREAMTYPE_CHANNELMSG] = std::set<int>();
         }
     };
 

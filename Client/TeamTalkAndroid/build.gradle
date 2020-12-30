@@ -15,7 +15,7 @@ buildscript {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28 // Facebook needs minimum 25
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId "dk.bearware.gui"
@@ -58,9 +58,6 @@ dependencies {
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation files('libs/TeamTalk5.jar')
-
-    // Facebook login
-    implementation 'com.facebook.android:facebook-android-sdk:5.8.0'
 
     // Required -- JUnit 4 framework
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

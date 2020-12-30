@@ -23,8 +23,6 @@
 
 import UIKit
 import AVFoundation
-import FBSDKCoreKit
-import FBSDKLoginKit
 
 class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEvent {
 
@@ -103,12 +101,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         
         center.addObserver(self, selector: #selector(MainTabBarController.audioInterruption(_:)), name: AVAudioSession.interruptionNotification, object: nil)
         
-        if server.username == AppInfo.WEBLOGIN_FACEBOOK {
-            facebookLogin()
-        }
-        else {
-            connectToServer()
-        }
+        connectToServer()
     }
     
     deinit {
@@ -172,34 +165,6 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
     
     func setTeamTalkServer(_ server: Server) {
         self.server = server
-    }
-    
-    func facebookLogin() {
-        if FBSDKAccessToken.current() != nil {
-            FBSDKLoginManager().logOut()
-        }
-        
-        let login:FBSDKLoginManager = FBSDKLoginManager()
-        login.logIn(withReadPermissions: ["public_profile"], from: self,
-                    handler: { (result:FBSDKLoginManagerLoginResult?, error:Error?) in
-            
-            if error != nil {
-                FBSDKLoginManager().logOut()
-            } else if (result?.isCancelled)! {
-                FBSDKLoginManager().logOut()
-                
-                let alertView = UIAlertView(title: NSLocalizedString("Facebook login was cancelled", comment: "Dialog message"),
-                                            message: NSLocalizedString("Try again?", comment: "Dialog message"), delegate: self,
-                                            cancelButtonTitle: NSLocalizedString("No", comment: "Dialog message"),
-                                            otherButtonTitles: NSLocalizedString("Yes", comment: "Dialog message"))
-                alertView.tag = self.ALERTVIEW_FACEBOOK
-                alertView.show()
-            } else {
-                
-                self.server.password = AppInfo.WEBLOGIN_FACEBOOK_PASSWDPREFIX + FBSDKAccessToken.current().tokenString
-                self.connectToServer()
-            }
-        } )
     }
     
     func startReconnectTimer() {
@@ -324,8 +289,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             
         case CLIENTEVENT_CON_SUCCESS :
 
-            if self.server.username == AppInfo.WEBLOGIN_BEARWARE_USERNAME ||
-               self.server.username.hasSuffix(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX) {
+            if AppInfo.isBearWareWebLogin(self.server.username) {
                 
                 var srvprop = ServerProperties()
                 TT_GetServerProperties(ttInst, &srvprop)
@@ -550,7 +514,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         }
     }
 
-    let ALERTVIEW_SAVESERVER = 1, ALERTVIEW_FACEBOOK = 2
+    let ALERTVIEW_SAVESERVER = 1
     
     func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         
@@ -570,13 +534,6 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                 saveLocalServers(servers)
             }
             self.navigationController!.popViewController(animated: true)
-        case ALERTVIEW_FACEBOOK :
-            if buttonIndex == 1 {
-                facebookLogin()
-            }
-            else {
-                self.navigationController!.popViewController(animated: true)
-            }
         default : break
         }
     }

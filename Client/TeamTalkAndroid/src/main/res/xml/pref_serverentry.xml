@@ -60,10 +60,10 @@
             android:persistent="false" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="fblogin"
+            android:key="bearwarelogin"
             android:persistent="false"
-            android:summary="@string/pref_title_facebook_summary"
-            android:title="@string/pref_title_facebook" />
+            android:summary="@string/pref_title_bearware_summary"
+            android:title="@string/pref_title_bearware" />
         <EditTextPreference
             android:key="nickname"
             android:title="@string/pref_title_nickname"

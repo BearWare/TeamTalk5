@@ -167,7 +167,6 @@
     <item id="298">Nombre de commandes à autoriser (0 = désactivé)</item>
     <item id="299">Délai pour autoriser %d commandes (en secondes)</item>
     <item id="300">Anonyme</item>
-    <item id="301">Connexion Web</item>
     <item id="302">Propriétés de l&apos;utilisateur banni</item>
     <item id="303">Nouveau profil</item>
     <item id="304">Supprimer le profil</item>
@@ -363,8 +362,6 @@
     <item id="496">Vidéo - </item>
     <item id="497">Volume de </item>
     <item id="498">Impossible de démarrer le périphérique sélectionné. Tester la sélection</item>
-    <item id="499">Se déconnecter de Facebook?</item>
-    <item id="500">Connexion Facebook</item>
     <item id="501">Voix de %s activée</item>
     <item id="502">Webcam</item>
     <item id="503">Administrateur</item>
@@ -736,7 +733,6 @@
     <item id="1547">Protection contre le flood</item>
     <item id="1548">Empêcher un utilisateur de, par exemple, spammer avec des messages en limitant le nombre de commandes qu&apos;ils peut émettre dans un délai donné.</item>
     <item id="1550">Limite des commandes émises</item>
-    <item id="1553">Profil</item>
     <item id="1554">L&apos;utilisateur peut changer de pseudo</item>
     <item id="1558">L&apos;utilisateur peut enregistrer la voix sur tous les canaux</item>
     <item id="1561">Activer</item>
@@ -764,6 +760,8 @@
     <item id="1599">ID de connexion Web BearWare.dk</item>
     <item id="1600">Désactivé (Inactif)</item>
     <item id="1601">&amp;Rejoindre le canal une fois créé</item>
+    <item id="1602">Canal masqué (invisible et seulement connu par son nom)</item>
+    <item id="1603">Type de canal</item>
     <item id="32791">Quelle est mon adresse IP?</item>
     <item id="32798">Définir comme opérateur de canal\tCTRL-O</item>
     <item id="32801">Afficher les messages du canal\tF10</item>
@@ -873,4 +871,6 @@
     <item id="32952">Utilisateurs bannis du canal\tCTRL-Alt-Maj-B</item>
     <item id="32953">Nouvelle instance du client\tCTRL-N</item>
     <item id="32954">Sélectionner pour déplacer\tCTRL-Alt-X</item>
+    <item id="32955">Autoriser les messages de &amp;canaux\tCtrl-Alt-T</item>
+    <item id="32956">Autoriser les messages de canaux de &amp;tout le monde\tCtrl-Alt-Maj-T</item>
 </language>

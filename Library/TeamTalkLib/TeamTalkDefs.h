@@ -24,9 +24,9 @@
 #if !defined(TEAMTALKDEFS_H)
 #define TEAMTALKDEFS_H
 
-#define TEAMTALK_VERSION            "5.7.0.5014"
-#define TEAMTALK_RC_VERSION         5,7,0,5014
-#define TEAMTALK_RC_FILEVERSION     "5, 7, 0, 5014"
+#define TEAMTALK_VERSION            "5.7.0.5015"
+#define TEAMTALK_RC_VERSION         5,7,0,5015
+#define TEAMTALK_RC_FILEVERSION     "5, 7, 0, 5015"
 #define TEAMTALK_VERSION_POSTFIX    " - Unreleased"
 
 #if defined(ENABLE_TEAMTALKPRO)
@@ -41,9 +41,6 @@
 #define MAX_USERS 1000
 #define MAX_USERS_IN_CHANNEL MAX_USERS
 #define MAX_CHANNELS TT_MAX_ID
-
-#define WEBLOGIN_FACEBOOK_USERNAME  "facebook"
-#define WEBLOGIN_FACEBOOK_POSTFIX   "@facebook.com"
 
 #define WEBLOGIN_BEARWARE_USERNAME  "bearware"
 #define WEBLOGIN_BEARWARE_POSTFIX   "@bearware.dk"

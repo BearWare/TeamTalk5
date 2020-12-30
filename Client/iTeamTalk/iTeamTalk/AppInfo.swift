@@ -32,12 +32,14 @@ class AppInfo {
     static let DEFAULT_TCPPORT = 10333
     static let DEFAULT_UDPPORT = 10333
     
-    static let WEBLOGIN_FACEBOOK = "facebook"
-    static let WEBLOGIN_FACEBOOK_PASSWDPREFIX = "token="
-    
     static let WEBLOGIN_BEARWARE_USERNAME = "bearware"
     static let WEBLOGIN_BEARWARE_USERNAMEPOSTFIX = "@bearware.dk"
     static let WEBLOGIN_BEARWARE_PASSWDPREFIX = "token="
+    
+    static func isBearWareWebLogin(_ username: String) -> Bool {
+        	return username == AppInfo.WEBLOGIN_BEARWARE_USERNAME ||
+                username.hasSuffix(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX)
+    }
     
     enum BundleInfo {
         case name, version_NO

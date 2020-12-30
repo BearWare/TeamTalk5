@@ -61,7 +61,6 @@ set (TTCLASSIC_SOURCES
   gui/UserVideoDlg.cpp
   gui/UserVolumeDlg.cpp
   gui/VideoCapturePage.cpp
-  gui/WebLoginDlg.cpp
   gui/WindowPage.cpp
   gui/XPTabCtrl.cpp
   Helper.cpp
@@ -167,7 +166,6 @@ set (TTCLASSIC_HEADERS
   gui/UserVideoDlg.h
   gui/UserVolumeDlg.h
   gui/VideoCapturePage.h
-  gui/WebLoginDlg.h
   gui/WindowPage.h
   gui/XPTabCtrl.h
   Helper.h

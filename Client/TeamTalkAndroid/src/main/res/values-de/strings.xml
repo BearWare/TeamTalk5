@@ -197,7 +197,6 @@
     <string name="err_retrieve_public_server_list">Fehler beim Abrufen der öffentlichen Serverliste</string>
     <string name="err_send_text_message">Fehler beim Senden der Textnachricht</string>
     <string name="err_connection">Verbindung fehlgeschlagen</string>
-    <string name="err_facebooklogin">Facebook-Login fehlgeschlagen</string>
     <string name="err_stream_media">Fehler beim Streamen einer Mediendatei</string>
 
     <string name="action_new_channel">Neuer Raum</string>
@@ -217,7 +216,6 @@
     <string name="pref_title_authentication">Anmeldung</string>
     <string name="pref_title_username">Benutzername</string>
     <string name="pref_title_password">Passwort</string>
-    <string name="pref_title_facebook">Facebook-Login</string>
     <string name="pref_title_join_channel">Raum betreten</string>
     <string name="pref_title_channel">Raum</string>
     <string name="pref_title_channel_password">Raumpasswort</string>

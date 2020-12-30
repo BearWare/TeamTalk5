@@ -52,6 +52,8 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
 
     ServerProperties prop = {};
     TT_GetServerProperties(ttInst, &prop);
+    if (!versionSameOrLater(_Q(prop.szServerProtocolVersion), "5.8"))
+        ui.hiddenchannelBox->hide();
 
     ui.audiocodecBox->addItem(tr("No Audio"), NO_CODEC);
 
@@ -133,8 +135,8 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         m_channel.nMaxUsers = prop.nMaxUsers;
         m_channel.uChannelType = CHANNEL_DEFAULT;
         //set AGC
-        m_channel.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG;
-        m_channel.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+        m_channel.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE;
+        m_channel.audiocfg.nGainLevel = DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL;
 
         m_channel.transmitUsers[0][TT_CLASSROOM_USERID_INDEX] = TT_CLASSROOM_FREEFORALL;
         m_channel.transmitUsers[0][TT_CLASSROOM_STREAMTYPE_INDEX] = STREAMTYPE_CLASSROOM_ALL;

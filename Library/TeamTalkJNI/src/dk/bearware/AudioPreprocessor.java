@@ -29,6 +29,7 @@ public class AudioPreprocessor {
 
     public SpeexDSP speexdsp = new SpeexDSP();
     public TTAudioPreprocessor ttpreprocessor = new TTAudioPreprocessor();
+    public WebRTCAudioPreprocessor webrtc = new WebRTCAudioPreprocessor();
     
     AudioPreprocessor() {
     }

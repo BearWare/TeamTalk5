@@ -716,8 +716,6 @@ void UserAccountsDlg::slotCustomCmdLimit(int index)
     }
 }
 
-void UserAccountsDlg::slotUsernameChanged(const QString& text)
+void UserAccountsDlg::slotUsernameChanged(const QString& /*text*/)
 {
-    ui.passwordEdit->setReadOnly(text == WEBLOGIN_FACEBOOK_USERNAME ||
-        text.endsWith(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX));
 }

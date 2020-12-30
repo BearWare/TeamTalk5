@@ -546,96 +546,6 @@ void ServerGuard::OnShutdown(const ServerStats& stats)
 
 #if defined(ENABLE_HTTP_AUTH)
 
-void ServerGuard::WebLoginFacebook(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount)
-{
-    int ret;
-    ErrorMsg err;
-    strings_t tokens = tokenize(useraccount.passwd, ACE_TEXT("="));
-    useraccount.passwd.clear();
-    ACE_CString url = WEBLOGIN_URL;
-
-    {
-        GUARD_OBJ_NAME(g, servernode, servernode->lock());
-
-        // authenticate 'facebook'
-        if(m_settings.AuthenticateUser(useraccount) && tokens.size() >= 2)
-        {
-            url += "client=" TEAMTALK_LIB_NAME;
-            url += "&version=" TEAMTALK_VERSION;
-            url += "&service=facebook";
-
-            if(tokens[0] == ACE_TEXT("code"))
-            {
-#if defined(UNICODE)
-                url += "&code=" + UnicodeToUtf8(tokens[1]);
-#else
-                url += "&code=" + tokens[1];
-#endif
-            }
-            else if(tokens[0] == ACE_TEXT("token"))
-            {
-#if defined(UNICODE)
-                url += "&token=" + UnicodeToUtf8(tokens[1]);
-#else
-                url += "&token=" + tokens[1];
-#endif
-            }
-            else
-            {
-                err = TT_CMDERR_INVALID_ACCOUNT;
-            }
-        }
-        else
-        {
-            err = TT_CMDERR_INVALID_ACCOUNT;
-        }
-
-        if (!err.success())
-        {
-            WebLoginComplete(servernode, userid, useraccount, err);
-            return;
-        }
-    }
-
-    std::string utf8;
-    ret = HttpRequest(url, utf8);
-
-    GUARD_OBJ_NAME(g, servernode, servernode->lock());
-
-    switch(ret)
-    {
-    case -1:
-        err = ErrorMsg(TT_CMDERR_LOGINSERVICE_UNAVAILABLE);
-        break;
-    case 0:
-        err = ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
-        break;
-    case 1:
-        teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
-        if(xmldoc.Parse(utf8))
-        {
-            std::string name = xmldoc.GetValue(false, "teamtalk/facebook/name", "");
-            std::string id = xmldoc.GetValue(false, "teamtalk/facebook/id", "");
-            id += WEBLOGIN_FACEBOOK_POSTFIX;
-#if defined(UNICODE)
-            useraccount.username = Utf8ToUnicode(id.c_str());
-            useraccount.nickname = Utf8ToUnicode(name.c_str());
-#else
-            useraccount.username = id.c_str();
-            useraccount.nickname = name.c_str();
-#endif
-            err = WebLoginPostAuthenticate(useraccount);
-        }
-        else
-        {
-            err = ErrorMsg(TT_CMDERR_LOGINSERVICE_UNAVAILABLE);
-        }
-        break;
-    } // switch
-
-    WebLoginComplete(servernode, userid, useraccount, err);
-}
-
 void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount)
 {
     ErrorMsg err;
@@ -777,7 +687,7 @@ void ServerGuard::WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid,
     TTASSERT(ret >= 0);
 }
 
-#endif
+#endif /* ENABLE_HTTP_AUTH */
 
 ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user, UserAccount& useraccount)
 {
@@ -791,14 +701,6 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
 
 #if defined(ENABLE_HTTP_AUTH)
     
-    bool facebook = useraccount.username == ACE_TEXT(WEBLOGIN_FACEBOOK_USERNAME);
-    ACE_TString fbregex = ACE_TEXT(WEBLOGIN_FACEBOOK_POSTFIX) + ACE_TString(ACE_TEXT("$"));
-#if defined(UNICODE)
-    facebook |= std::regex_search(useraccount.username.c_str(), std::wregex(fbregex.c_str()));
-#else
-    facebook |= std::regex_search(useraccount.username.c_str(), std::regex(fbregex.c_str()));
-#endif
-
     bool bearware = false;
 #if defined(ENABLE_TEAMTALKPRO)
     ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
@@ -812,7 +714,7 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
 
 #endif /* ENABLE_TEAMTALKPRO */
 
-    if (bearware || facebook)
+    if (bearware)
     {
         auto i = m_pendinglogin.find(user.GetUserID());
         if(i != m_pendinglogin.end())
@@ -828,16 +730,8 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
             return TT_CMDERR_IGNORE;
         }
 
-        if (facebook)
-        {
-            std::thread mythr(&ServerGuard::WebLoginFacebook, this, servernode, ACE_UINT32(user.GetUserID()), useraccount);
-            mythr.detach();
-        }
-        else if (bearware)
-        {
-            std::thread mythr(&ServerGuard::WebLoginBearWare, this, servernode, ACE_UINT32(user.GetUserID()), useraccount);
-            mythr.detach();
-        }
+        std::thread mythr(&ServerGuard::WebLoginBearWare, this, servernode, ACE_UINT32(user.GetUserID()), useraccount);
+        mythr.detach();
 
         return TT_SRVERR_COMMAND_SUSPEND;
     }

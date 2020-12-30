@@ -167,7 +167,6 @@
     <item id="298">Ilość pozwolonych komend (0 = wyłączone)</item>
     <item id="299">Czas dopuszczonych %d poleceń (w sekundach)</item>
     <item id="300">Anonimowy</item>
-    <item id="301">Web logowanie</item>
     <item id="302">Właściwości banowania uzytkownia</item>
     <item id="303">Nowy profil</item>
     <item id="304">Usuń profil</item>
@@ -363,8 +362,6 @@
     <item id="496">Wideo</item>
     <item id="497">Głośność dla</item>
     <item id="498">Nie można uruchomić testowania wybranego urządzenia</item>
-    <item id="499">Czy chcesz wylogować się z Facebooka?</item>
-    <item id="500">Logowanie przez Facebooka</item>
     <item id="501">głos dla %s włączony</item>
     <item id="502">Kamera</item>
     <item id="503">Administrator</item>
@@ -741,7 +738,6 @@
     <item id="1547">Ochrona antyflood</item>
     <item id="1548">Ogranicz możliwość smamowania użytkownika limitując liczbę wywołanych komend w ustawionym czasie.</item>
     <item id="1550">Ogranicz wywołane polecenia</item>
-    <item id="1553">Profil</item>
     <item id="1554">Użytkownik może zmienić nick</item>
     <item id="1558">Użytkownik może nagrywać w wszystkich kanałach</item>
     <item id="1561">&amp;Aktywuj</item>
@@ -765,7 +761,7 @@
     <item id="1594">P&amp;ozycja startowa</item>
     <item id="1595">Preprocesor dźwięku</item>
     <item id="1596">Testuj odtwarzanie</item>
-    <item id="1598">Zresetuj  poziomy głośności i subskrypcje dla użytkowników Web Login</item>
+    <item id="1598">Zresetuj poziomy głośności i subskrypcje dla użytkowników Web Login</item>
     <item id="1599">ID BearWare.dk Web Login</item>
     <item id="1600">Wyłączony (nieaktywny)</item>
     <item id="1601">&amp;Dołącz do kanału przy przerwaniu połączenia</item>
@@ -878,4 +874,6 @@
     <item id="32952">&amp;Zbanowani użytkownicy z kanału\tCtrl+Alt+Shift+B</item>
     <item id="32953">&amp;Nowy profil\tCtrl+N</item>
     <item id="32954">&amp;Zaznacz w celu przeniesienia\tCtrl+Alt+X</item>
+    <item id="32955">Zezwól wiadomości kanału\tCtrl+Alt+T</item>
+    <item id="32956">Zezwól wszystkie wiadomości kanału\tCtrl+Alt+Shift+T</item>
 </language>

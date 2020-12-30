@@ -165,7 +165,6 @@
     <item id="298">Números de comandos permitidos. 0=desativado.</item>
     <item id="299">Campo para permitir %d comandos (em segundos)</item>
     <item id="300">Anônimo</item>
-    <item id="301">Web Login</item>
     <item id="302">Propriedades para banir usuário</item>
     <item id="303">Novo perfil</item>
     <item id="304">Deletar perfil</item>
@@ -357,8 +356,6 @@
     <item id="496">Vídeo</item>
     <item id="497">Volume de</item>
     <item id="498">Erro ao iniciar dispositivo selecionado para teste</item>
-    <item id="499">Desconectar do Facebook</item>
-    <item id="500">Entrar no Facebook</item>
     <item id="512">- não lançado</item>
     <item id="513">TeamTalk 5 Proficional Clássico v.</item>
     <item id="514">TeamTalk 5 Proficional Clássico</item>
@@ -708,7 +705,6 @@
     <item id="1547">Proteção contra spam</item>
     <item id="1548">Impedir o usuário de, por exemplo, enviar mensagens de texto, limitando o número de comandos que podem ser emitidos dentro de um determinado período de tempo.&#x0D;&#x0A;</item>
     <item id="1550">Limite de comandos emitidos</item>
-    <item id="1553">Perfil</item>
     <item id="1554">O usuário pode mudar o apelido</item>
     <item id="1558">O usuário pode gravar voz em todos os canais</item>
     <item id="1561">Ativar</item>

@@ -180,6 +180,8 @@ private:
     Channel m_mychannel;
     //channel log file
     QFile m_logChan;
+    // active sound devices
+    SoundDevice m_devin = {}, m_devout = {};
 
     //op text messsage dialogs (userid -> dlg)
     typedef QMap<int, class TextMessageDlg*> usermsg_t;
@@ -218,6 +220,9 @@ private:
     //list of desktop access users
     QVector<DesktopAccessEntry> m_desktopaccess_entries;
 
+    // init selected sound devices
+    void initSound();
+
     //current command reply processing
     void commandProcessing(int cmdid, bool complete);
     //command replies
@@ -252,6 +257,7 @@ private:
     void enableHotKey(HotKeyID id, const hotkey_t& hk);
     void disableHotKey(HotKeyID id);
     void checkAppUpdate();
+    void toggleAllowStreamType(bool checked, StreamType st);
 #if defined(Q_OS_LINUX)
     void executeDesktopInput(const DesktopInput& input);
 #endif
@@ -317,6 +323,7 @@ private slots:
     void slotUsersAdvancedDecVolumeMediaFile();
     void slotUsersAdvancedStoreForMove();
     void slotUsersAdvancedMoveUsers();
+    void slotUsersAdvancedChanMsgAllowed(bool checked=false);
     void slotUsersAdvancedVoiceAllowed(bool checked=false);
     void slotUsersAdvancedVideoAllowed(bool checked=false);
     void slotUsersAdvancedDesktopAllowed(bool checked=false);

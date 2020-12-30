@@ -461,8 +461,7 @@ BOOL StartsWith(const CString& szText, LPCTSTR szStart, BOOL bCaseSensitive)
 
 BOOL IsWebLogin(const CString& szUsername)
 {
-    return szUsername == WEBLOGIN_FACEBOOK_USERNAME || EndsWith(szUsername, WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX) ||
-        szUsername == WEBLOGIN_BEARWARE_USERNAME || EndsWith(szUsername, _T(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX));
+    return szUsername == WEBLOGIN_BEARWARE_USERNAME || EndsWith(szUsername, _T(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX));
 }
 
 

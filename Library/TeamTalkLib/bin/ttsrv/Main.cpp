@@ -1005,7 +1005,6 @@ void RunWizard(ServerXML& xmlSettings)
     cout << "User account administration." << endl;
     int input = 0;
     enum UserAccountOptions {LIST_USERACCOUNTS = 1, CREATE_USERACCOUNT,
-                             CREATE_USERACCOUNT_FACEBOOK,
 #if defined(ENABLE_TEAMTALKPRO)
                              CREATE_USERACCOUNT_BEARWARE,
 #endif
@@ -1023,7 +1022,6 @@ void RunWizard(ServerXML& xmlSettings)
         cout << "Currently there's " << count << " user accounts." << endl;
         cout << LIST_USERACCOUNTS << ") List user accounts." << endl;
         cout << CREATE_USERACCOUNT << ") Create new user account." << endl;
-        cout << CREATE_USERACCOUNT_FACEBOOK << ") Create Facebook login account." << endl;
 #if defined(ENABLE_TEAMTALKPRO)
         cout << CREATE_USERACCOUNT_BEARWARE << ") Create BearWare.dk web-login account." << endl;
 #endif
@@ -1063,29 +1061,6 @@ void RunWizard(ServerXML& xmlSettings)
             cout << "Type password: ";
             user.passwd = LocalToUnicode(printGetString("").c_str());
             goto useraccountcfg;
-#if defined(ENABLE_HTTP_AUTH)
-        case CREATE_USERACCOUNT_FACEBOOK :
-            cout << "Creating Facebook login account." << endl;
-            user.username = ACE_TEXT( WEBLOGIN_FACEBOOK );
-            user.passwd = ACE_TEXT("");
-            cout << "Testing Facebook login service..." << endl;
-
-            url += "client=" TEAMTALK_LIB_NAME;
-            url += "&version=" TEAMTALK_VERSION;
-            url += "&ping=true";
-            switch(HttpRequest(url, xml))
-            {
-            case -1 :
-                cout << "Failed to query " << WEBLOGIN_URL;
-                break;
-            case 0 :
-                cout << "Invalid response from Facebook login service" << endl;
-                break;
-            case 1 :
-                cout << "Got valid response from Facebook login service. Continuing..." << endl;
-                break;
-            }
-            goto useraccountcfg;
 #if defined(ENABLE_TEAMTALKPRO)
         case CREATE_USERACCOUNT_BEARWARE :
 
@@ -1117,7 +1092,6 @@ void RunWizard(ServerXML& xmlSettings)
             }
             goto useraccountcfg;
 #endif /* ENABLE_TEAMTALKPRO */
-#endif /* ENABLE_HTTP_AUTH */
         useraccountcfg:
             cout << "Available user types:" << endl;
             cout << "\t1. Default user." << endl;

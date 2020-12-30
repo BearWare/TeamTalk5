@@ -33,7 +33,6 @@ void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream,
                     const short* recorded, short* playback)
 {
     size_t bytes = PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels);
-    dpxStream.duplex->StreamDuplexEchoCb(dpxStream, recorded, &dpxStream.tmpOutputBuffer[0], dpxStream.framesize);
 
     //now mix all active players
     std::memset(playback, 0, bytes);

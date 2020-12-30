@@ -2,40 +2,47 @@
                  TeamTalk
 ----------------------------------------------
 Version 5.7, unreleased
-Accessible Windows Client:
+Accessible Windows Client
 - Specific TTS events when sending a private or channel message
 - Option to join channel immediately in create channel dialog
 - Event for configuration server saved
 - Option to disable emojis and text for channel/user states
 - Users logged in/out display in chat history
 - Fix some labels on server properties dialog and preferences
-- Correctly move focus to first field visible with tab when opening server properties dialog
-Default QT Client:
+- New audio files for default sound events
+- Fix tab index on server properties dialog
+- Don't play sound for own channel messages
+- Event sounds are no longer played in full if several follow one another
+Default QT Client
 - Option to join channel immediately in create channel dialog
 - Option to disable emojis and text for channel/user states
 - CTRL+L to leave a channel
 - Event for configuration server saved
 - Fix some navigation problems using tabulation
+- New audio files for default sound events
 - More items displayed when using up arrow in message area
 - Add emojis for unread messages and now speaking in channels tree
-Android client:
+- Don't play sound for own channel messages
+Android client
+- New audio files for default sound events
 - Change default stream volume from 100 to 50
-iOS Client:
+iOS client
+- New audio files for default sound events
 - Change default stream volume from 100 to 50
 
 Version 5.6.3, 2020/09/20
-Accessible Windows Client:
+Accessible Windows Client
 - Fixed crash issue due to changes in translations
 - Gender emoji only shown for female
-Default QT Client:
+Default QT Client
 - Gender emoji only shown for female
 
 Version 5.6.2, 2020/09/13
-Default QT Client:
+Default QT Client
 - Fixed broken accessibility on macOS due to Qt 5.14 (now Qt 5.15.0)
 
 Version 5.6.1, 2020/09/12
-Accessible Windows Client:
+Accessible Windows Client
 - Fixed translation for development of WebM VP8 codec on about dialog
 - Update window title at login with server name
 - It's now possible to use numpad keys for subscriptions shortcuts
@@ -55,7 +62,7 @@ Accessible Windows Client:
 - Fixed TTS message when join/left root channel
 - Contributors area on about dialog
 - User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
-Default QT Client:
+Default QT Client
 - Update window title at login with server name
 - Status mode for Away, Question, Streaming media file and Webcam is now displayed as text 
 - Away is displayed when switching automatically to Away-mode due to inactivity, and also when manually switching to this mode

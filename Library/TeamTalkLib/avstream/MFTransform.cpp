@@ -48,6 +48,7 @@ class MFTransformImpl : public MFTransform
     media::VideoFormat m_outputvideofmt;
     media::AudioFormat m_outputaudiofmt;
     int m_audio_samples = 0; // samples in audio output buffer
+    LONGLONG m_audio_duration = 0;
     wavefile_t m_audiofile;
 
 public:
@@ -163,7 +164,8 @@ public:
         m_ready = true;
     }
 
-    MFTransformImpl(IMFMediaType* pInputType, IMFMediaType* pOutputType, int nAudioOutputSamples)
+    MFTransformImpl(IMFMediaType* pInputType, IMFMediaType* pOutputType, int nAudioOutputSamples,
+                    const ACE_TCHAR* szOutputFilename = nullptr)
     {
         HRESULT hr;
         MFT_REGISTER_TYPE_INFO tininfo, toutinfo;
@@ -229,6 +231,15 @@ public:
         m_outputaudiofmt = media::AudioFormat(int(uOutputSampleRate), int(uOutputChannels));
         m_audio_samples = nAudioOutputSamples;
 
+        if (szOutputFilename)
+        {
+            m_audiofile.reset(new WaveFile());
+            std::vector<char> header;
+            auto lpWaveFormatEx = MediaTypeToWaveFormatEx(GetOutputType(), header);
+            if (header.empty() || !m_audiofile->NewFile(szOutputFilename, lpWaveFormatEx, int(header.size())))
+                return;
+        }
+
         assert(m_outputaudiofmt.IsValid());
 
         hr = m_pMFT->ProcessMessage(MFT_MESSAGE_NOTIFY_BEGIN_STREAMING, 0);
@@ -284,8 +295,8 @@ public:
             if(FAILED(hr))
                 continue;
             
-            UINT uCurBytesPerSecond = 0;
-            MYTRACE(ACE_TEXT("%u@%u Requested bitrate: %u. Available bitrates: "), uInputChannels, uInputSampleRate, uBitrate);
+            UINT uSelectedBytesPerSecond = 0;
+            MYTRACE(ACE_TEXT("%u@%u Requested bitrate: %u. Available bitrates:\n"), uInputChannels, uInputSampleRate, uBitrate);
             while(SUCCEEDED(m_pMFT->GetOutputAvailableType(m_dwOutputID, dwTypeIndex, &pTmpMedia)))
             {
                 UINT uChannels, uSampleRate, uBytesPerSecond;
@@ -300,13 +311,17 @@ public:
 
                 if(uInputSampleRate == uSampleRate && uInputChannels == uChannels)
                 {
-                    MYTRACE(ACE_TEXT("%u,"), uBytesPerSecond * 8);
+                    MYTRACE(ACE_TEXT("%u bps\n"), uBytesPerSecond * 8);
                     if (!pOutputType)
                         pOutputType = pTmpMedia;
 
                     // select higher bitrate if available
-                    hr = pOutputType->GetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, &uCurBytesPerSecond);
-                    if (uBytesPerSecond >= uBitrate / 8 && uBytesPerSecond < uCurBytesPerSecond)
+                    hr = pOutputType->GetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, &uSelectedBytesPerSecond);
+                    if (uBytesPerSecond >= uBitrate / 8 && uBytesPerSecond < uSelectedBytesPerSecond)
+                    {
+                        pOutputType = pTmpMedia;
+                    }
+                    else if (uSelectedBytesPerSecond < uBitrate / 8 && uBytesPerSecond > uSelectedBytesPerSecond)
                     {
                         pOutputType = pTmpMedia;
                     }
@@ -319,8 +334,8 @@ public:
             if (!pOutputType)
                 continue;
 
-            hr = pOutputType->GetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, &uCurBytesPerSecond);
-            MYTRACE(ACE_TEXT(". Selected %u.\n"), uCurBytesPerSecond * 8);
+            hr = pOutputType->GetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, &uSelectedBytesPerSecond);
+            MYTRACE(ACE_TEXT(". Selected %u.\n"), uSelectedBytesPerSecond * 8);
 
             hr = m_pMFT->SetOutputType(m_dwOutputID, pOutputType, 0);
             if(FAILED(hr))
@@ -452,7 +467,7 @@ public:
         if(FAILED(hr))
             goto fail;
 
-        hr = pSample->SetSampleTime(frame.timestamp * 10000);
+        hr = pSample->SetSampleTime(LONGLONG(frame.timestamp) * 10000);
         if(FAILED(hr))
             goto fail;
 
@@ -499,7 +514,9 @@ public:
         auto pSample = CreateSample(frame);
 
         if (pSample)
+        {
             return SubmitSample(pSample);
+        }
 
         return TRANSFORM_ERROR;
     }
@@ -790,6 +807,15 @@ public:
         if(!pSample)
             return result;
 
+        // AAC requires IMFSample::SetSampleTime() and IMFSample::SetSampleDuration()
+        LONGLONG llSampleDuration = 0;
+        if (SUCCEEDED(pSample->GetSampleDuration(&llSampleDuration)))
+        {
+            HRESULT hr = pSample->SetSampleTime(m_audio_duration);
+            m_audio_duration += llSampleDuration;
+            assert(SUCCEEDED(hr));
+        }
+
         auto outputsamples = ProcessSample(pSample);
 
         for(auto& pOutSample : outputsamples)
@@ -952,7 +978,7 @@ mftransform_t MFTransform::Create(media::AudioFormat inputfmt, media::AudioForma
     return result;
 }
 
-mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename/* = nullptr*/)
+mftransform_t MFTransform::Create(const media::AudioFormat& inputfmt, const GUID& audioSubType, UINT uBitrate, const ACE_TCHAR* szOutputFilename)
 {
     std::unique_ptr<MFTransformImpl> result;
 
@@ -961,12 +987,17 @@ mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, UINT uB
     if (!pInputType)
         return result;
 
-    result.reset(new MFTransformImpl(pInputType, MFAudioFormat_MP3, uBitrate, szOutputFilename));
+    result.reset(new MFTransformImpl(pInputType, audioSubType, uBitrate, szOutputFilename));
 
     if(!result->Ready())
         result.reset();
 
     return result;
+}
+
+mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename/* = nullptr*/)
+{
+    return MFTransform::Create(inputfmt, MFAudioFormat_MP3, uBitrate, szOutputFilename);
 
     //HRESULT hr;
     //CComPtr<IMFMediaType> pOutputType;
@@ -1019,19 +1050,33 @@ mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, UINT uB
 mftransform_t MFTransform::CreateWMA(const media::AudioFormat& inputfmt, UINT uBitrate,
                                      const ACE_TCHAR* szOutputFilename/* = nullptr*/)
 {
+    return MFTransform::Create(inputfmt, MFAudioFormat_WMAudioV9, uBitrate, szOutputFilename);
+}
+
+mftransform_t MFTransform::CreateAAC(const media::AudioFormat& inputfmt, UINT uBitrate,
+                                     const ACE_TCHAR* szOutputFilename /*= nullptr*/)
+{
+    return MFTransform::Create(inputfmt, MFAudioFormat_AAC, uBitrate, szOutputFilename);
+}
+
+mftransform_t MFTransform::CreateWav(const media::AudioFormat& inputfmt, const media::AudioFormat& outputfmt, const ACE_TCHAR* szOutputFilename)
+{
     std::unique_ptr<MFTransformImpl> result;
 
-    CComPtr<IMFMediaType> pInputType = ConvertAudioFormat(inputfmt);
-    if(!pInputType)
-        return nullptr;
+    CComPtr<IMFMediaType> pInputType = ConvertAudioFormat(inputfmt), pOutputType = ConvertAudioFormat(outputfmt);
 
-    result.reset(new MFTransformImpl(pInputType, MFAudioFormat_WMAudioV9, uBitrate, szOutputFilename));
-    
-    if(!result->Ready())
+    if (!pInputType || !pOutputType)
+        return result;
+
+    // 
+    result.reset(new MFTransformImpl(pInputType, pOutputType, inputfmt.samplerate * .02, szOutputFilename));
+
+    if (!result->Ready())
         result.reset();
 
     return result;
 }
+
 
 media::FourCC ConvertSubType(const GUID& native_subtype)
 {
@@ -1338,13 +1383,10 @@ CComPtr<IMFSample> CreateSample(const media::AudioFrame& frame)
     if(FAILED(hr))
         goto fail;
 
-    //hr = pSample->SetSampleTime(frame.timestamp * 10000);
-    //if(FAILED(hr))
-    //    goto fail;
-
-    //hr = pSample->SetSampleDuration((1000 / 30) * 10000);
-    //if(FAILED(hr))
-    //    goto fail;
+    LONGLONG hnsSampleDuration = (frame.input_samples * (LONGLONG)10000000 ) / frame.inputfmt.samplerate;
+    hr = pSample->SetSampleDuration(hnsSampleDuration);
+    if (FAILED(hr))
+        goto fail;
 
     hr = MFCreateMemoryBuffer(dwBufSize, &pMediaBuffer);
     if(FAILED(hr))

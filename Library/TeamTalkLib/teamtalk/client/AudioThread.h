@@ -32,6 +32,9 @@
 #if defined(ENABLE_SPEEXDSP)
 #include <avstream/SpeexPreprocess.h>
 #endif
+#if defined(ENABLE_WEBRTC)
+#include <avstream/WebRTCPreprocess.h>
+#endif
 #if defined(ENABLE_OPUS)
 #include <codec/OpusEncoder.h>
 #endif
@@ -88,7 +91,10 @@ private:
     void MuteSound(bool leftchannel, bool rightchannel);
     bool UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp);
 #if defined(ENABLE_SPEEXDSP)
-    void PreprocessAudioFrame(media::AudioFrame& audblock);
+    void PreprocessSpeex(media::AudioFrame& audblock);
+#endif
+#if defined(ENABLE_WEBRTC)
+    void PreprocessWebRTC(media::AudioFrame& audblock);
 #endif
 #if defined(ENABLE_SPEEX)
     const char* ProcessSpeex(const media::AudioFrame& audblock,
@@ -101,7 +107,10 @@ private:
     audioencodercallback_t m_callback;
     std::recursive_mutex m_preprocess_lock;
 #if defined(ENABLE_SPEEXDSP)
-    SpeexPreprocess m_preprocess_left, m_preprocess_right;
+    std::unique_ptr<SpeexPreprocess> m_preprocess_left, m_preprocess_right;
+#endif
+#if defined(ENABLE_WEBRTC)
+    std::unique_ptr<webrtc::AudioProcessing> m_apm;
 #endif
 #if defined(ENABLE_SPEEX)
     std::unique_ptr<SpeexEncoder> m_speex;
