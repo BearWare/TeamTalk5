@@ -2730,13 +2730,13 @@ namespace teamtalk {
     SpeexDSP ClientXML::GetSpeexDSPAudioPreprocessor()
     {
         SpeexDSP dsp = {};
-        dsp.bEnableAGC = GetValueBool(true, "streammedia/speexdspaudiopreprocessor/agc", DEFAULT_AGC_ENABLE);
-        dsp.nGainLevel = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-level", DEFAULT_AGC_GAINLEVEL);
-        dsp.nMaxGainDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-max", DEFAULT_AGC_GAINMAXDB);
-        dsp.nMaxIncDBSec = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-inc-sec", DEFAULT_AGC_INC_MAXDB);
-        dsp.nMaxDecDBSec = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-dec-sec", DEFAULT_AGC_DEC_MAXDB);
-        dsp.bEnableDenoise = GetValueBool(true, "streammedia/speexdspaudiopreprocessor/denoise", DEFAULT_DENOISE_ENABLE);
-        dsp.nMaxNoiseSuppressDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/denoise-max", DEFAULT_DENOISE_SUPPRESS);
+        dsp.bEnableAGC = GetValueBool(true, "streammedia/speexdspaudiopreprocessor/agc", DEFAULT_SPEEXDSP_AGC_ENABLE);
+        dsp.nGainLevel = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-level", DEFAULT_SPEEXDSP_AGC_GAINLEVEL);
+        dsp.nMaxGainDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-max", DEFAULT_SPEEXDSP_AGC_GAINMAXDB);
+        dsp.nMaxIncDBSec = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-inc-sec", DEFAULT_SPEEXDSP_AGC_INC_MAXDB);
+        dsp.nMaxDecDBSec = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-dec-sec", DEFAULT_SPEEXDSP_AGC_DEC_MAXDB);
+        dsp.bEnableDenoise = GetValueBool(true, "streammedia/speexdspaudiopreprocessor/denoise", DEFAULT_SPEEXDSP_DENOISE_ENABLE);
+        dsp.nMaxNoiseSuppressDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/denoise-max", DEFAULT_SPEEXDSP_DENOISE_SUPPRESS);
         return dsp;
     }
 

@@ -246,9 +246,6 @@ void PreferencesDlg::initDevices()
 SoundSystem PreferencesDlg::getSoundSystem()
 {
     SoundSystem sndsys = SOUNDSYSTEM_NONE;
-
-    // ensure tab has been initialized, otherwise sound system will end up as 'none'
-    Q_ASSERT(m_modtab.find(SOUND_TAB) != m_modtab.end());
     
     if(ui.dsoundButton->isChecked())
         sndsys = SOUNDSYSTEM_DSOUND;
@@ -260,6 +257,10 @@ SoundSystem PreferencesDlg::getSoundSystem()
         sndsys = SOUNDSYSTEM_ALSA;
     if(ui.coreaudioButton->isChecked())
         sndsys = SOUNDSYSTEM_COREAUDIO;
+
+    // ensure tab has been initialized, otherwise sound system will end up as 'none'
+    Q_ASSERT(sndsys != SOUNDSYSTEM_NONE);
+
     return sndsys;
 }
 
@@ -1090,16 +1091,19 @@ void PreferencesDlg::slotSoundTestDevices(bool checked)
 
         AudioPreprocessor preprocessor = {};
         initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+        preprocessor.webrtc.gaincontroller2.bEnable = ui.agcBox->isChecked();
+        preprocessor.webrtc.noisesuppression.bEnable = ui.denoisingBox->isChecked();
 
         if (!duplex && (in_dev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC))
         {
             SoundDeviceEffects effects = {};
             effects.bEnableEchoCancellation = ui.echocancelBox->isChecked();
             preprocessor.webrtc.echocanceller.bEnable = FALSE;
-            preprocessor.webrtc.gaincontroller2.bEnable = ui.agcBox->isChecked();
-            preprocessor.webrtc.noisesuppression.bEnable = ui.denoisingBox->isChecked();
 
             duplex = effects.bEnableEchoCancellation && in_dev.nSoundSystem == SOUNDSYSTEM_WASAPI;
+
+            QMessageBox::information(this, tr("Test Selected"),
+                tr("This sound device configuration gives suboptimal echo cancellation. Check manual for details."));
 
             m_sndloop = TT_StartSoundLoopbackTestEx(inputid, outputid, samplerate,
                                                     channels, duplex, &preprocessor, &effects);
@@ -1108,8 +1112,6 @@ void PreferencesDlg::slotSoundTestDevices(bool checked)
         {
             Q_ASSERT((ui.echocancelBox->isChecked() && duplex) || !ui.echocancelBox->isChecked());
             preprocessor.webrtc.echocanceller.bEnable = ui.echocancelBox->isChecked();
-            preprocessor.webrtc.gaincontroller2.bEnable = ui.agcBox->isChecked();
-            preprocessor.webrtc.noisesuppression.bEnable = ui.denoisingBox->isChecked();
 
             //input and output devices MUST support the specified 'samplerate' in duplex mode
             m_sndloop = TT_StartSoundLoopbackTestEx(inputid, outputid, samplerate, channels,
