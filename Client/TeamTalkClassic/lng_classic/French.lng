@@ -387,7 +387,7 @@
     <item id="524">Compte invalide</item>
     <item id="525">Nombre maximal d&apos;utilisateurs sur le serveur dépassé</item>
     <item id="526">Nombre maximal d&apos;utilisateurs dans le canal dépassé</item>
-    <item id="527">Bani du serveur</item>
+    <item id="527">Banni du serveur</item>
     <item id="528">Non autorisé</item>
     <item id="529">Utilisation maximale du disque dépassée</item>
     <item id="530">Mot de passe de l&apos;opérateur incorrect</item>
@@ -395,14 +395,14 @@
     <item id="532">Connexions maximales par adresse IP dépassées</item>
     <item id="533">Nombre maximal de canaux dépassé</item>
     <item id="534">Trop de commandes</item>
-    <item id="535">Bani du canal</item>
+    <item id="535">Banni du canal</item>
     <item id="536">Non identifié</item>
     <item id="537">Déjà identifié</item>
     <item id="538">Pas dans un canal</item>
     <item id="539">Déjà dans le canal</item>
     <item id="540">Le canal existe déjà</item>
     <item id="541">Canal introuvable</item>
-    <item id="542">Bani introuvable</item>
+    <item id="542">Banni introuvable</item>
     <item id="543">Transfert de fichier introuvable</item>
     <item id="544">Ouverture du fichier échouée</item>
     <item id="545">Compte introuvable</item>
