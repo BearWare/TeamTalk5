@@ -115,9 +115,9 @@ void CBannedDlg::Update()
         BannedUser& ban = m_vecBanned[i];
         CString bantype;
         if(ban.uBanTypes & BANTYPE_USERNAME) {
-            bantype += LoadText(IDS_UNBAN, _T("Username banned"));
+            bantype += LoadText(IDS_UNBAN, _T("User"));
         } else if (ban.uBanTypes & BANTYPE_IPADDR) {
-            bantype += LoadText(IDS_IPADDRBAN, _T("IP-address banned"));
+            bantype += LoadText(IDS_IPADDRBAN, _T("IP"));
         }
         szUser.Format(_T("%s (%s): %s, %s, %s"), ban.szNickname, ban.szUsername, bantype, 
             ban.szIPAddress, ban.szBanTime);
