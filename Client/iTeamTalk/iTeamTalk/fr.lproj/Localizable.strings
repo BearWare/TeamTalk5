@@ -91,10 +91,10 @@
 "Ban user" = "Bannir l'utilisateur";
 
 /* server entry */
-"BearWare.dk Web Login" = "BearWare.dk Web Login";
+"BearWare.dk Web Login" = "Connexion Web BearWare.dk";
 
 /* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences";
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "Échec d'authentification pour la connexion Web BearWare.dk. Vérifiez la connexion Web BearWare.dk dans les préférences";
 
 /* codec detail */
 "Bitrate" = "Débit";
@@ -139,7 +139,7 @@
 "Channel. %d users" = "Canal : %d utilisateurs";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
+"Check only if this server has enabled BearWare.dk Web Login" = "À ne cocher que si ce serveur a activé la connexion Web BearWare.dk";
 
 /* server entry */
 "Check only if this server has enabled Facebook login" = "À ne cocher que si ce serveur a activé la connexion Facebook";
@@ -233,7 +233,7 @@
 "Headset TX Toggle" = "Bascule de la transmission par le casque";
 
 /* hidden channel */
-"Hidden Channel" = "Hidden Channel";
+"Hidden Channel" = "Canal masqué";
 
 /* server entry */
 "Host address" = "Adresse de l'hôte";
@@ -680,6 +680,3 @@
 
 /* speech */
 "You have selected %@" = "Vous avez sélectionné %@";
-
-/* hidden channel */
-"Hidden channel" = "";
