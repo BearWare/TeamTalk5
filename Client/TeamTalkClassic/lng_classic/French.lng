@@ -425,6 +425,9 @@
     <item id="564">TeamTalk utilise les librairies suivantes:</item>
     <item id="565">Configuration serveur sauvegardée</item>
     <item id="566">Définir le statut absent après %d secondes</item>
+    <item id="567">Cette sélection de périphériques audio entraîne une annulation d'écho non optimale. Consultez le manuel pour plus de détails.</item>
+    <item id="568">Utilisation du périphérique sonnore d&apos;entrée: %s</item>
+    <item id="569">Utilisation du périphérique sonnore de sortie: %s</item>
     <item id="1006">Liste des fichiers</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>

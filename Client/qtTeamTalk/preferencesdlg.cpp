@@ -256,9 +256,6 @@ void PreferencesDlg::initDevices()
 SoundSystem PreferencesDlg::getSoundSystem()
 {
     SoundSystem sndsys = SOUNDSYSTEM_NONE;
-
-    // ensure tab has been initialized, otherwise sound system will end up as 'none'
-    Q_ASSERT(m_modtab.find(SOUND_TAB) != m_modtab.end());
     
     if(ui.dsoundButton->isChecked())
         sndsys = SOUNDSYSTEM_DSOUND;
@@ -270,6 +267,10 @@ SoundSystem PreferencesDlg::getSoundSystem()
         sndsys = SOUNDSYSTEM_ALSA;
     if(ui.coreaudioButton->isChecked())
         sndsys = SOUNDSYSTEM_COREAUDIO;
+
+    // ensure tab has been initialized, otherwise sound system will end up as 'none'
+    Q_ASSERT(sndsys != SOUNDSYSTEM_NONE);
+
     return sndsys;
 }
 
@@ -1114,50 +1115,47 @@ void PreferencesDlg::slotSoundTestDevices(bool checked)
         if(outputid == SOUNDDEVICEID_DEFAULT)
             TT_GetDefaultSoundDevicesEx(sndsys, nullptr, &outputid);
 
-        int samplerate = 16000;
+        //adapt to output device's sample rate (required for WASAPI)
+        SoundDevice in_dev = {}, out_dev = {};
+        getSoundDevice(inputid, m_sounddevices, in_dev);
+        getSoundDevice(outputid, m_sounddevices, out_dev);
+
+        int samplerate = getSoundDuplexSampleRate(in_dev, out_dev);
+        bool duplex = samplerate != 0;
+        if (samplerate == 0)
+            samplerate = out_dev.nDefaultSampleRate;
         int channels = 1;
 
-        //adapt to output device's sample rate (required for WASAPI)
-        SoundDevice out_dev;
-        if (getSoundDevice(outputid, m_sounddevices, out_dev))
-            samplerate = out_dev.nDefaultSampleRate;
+        AudioPreprocessor preprocessor = {};
+        initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+        preprocessor.webrtc.gaincontroller2.bEnable = ui.agcBox->isChecked();
+        preprocessor.webrtc.noisesuppression.bEnable = ui.denoisingBox->isChecked();
 
-        if (out_dev.nSoundSystem == SOUNDSYSTEM_WASAPI)
+        if (!duplex && (in_dev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC))
         {
             SoundDeviceEffects effects = {};
-            effects.bEnableAGC = ui.agcBox->isChecked();
-            effects.bEnableDenoise = ui.denoisingBox->isChecked();
             effects.bEnableEchoCancellation = ui.echocancelBox->isChecked();
+            preprocessor.webrtc.echocanceller.bEnable = FALSE;
 
-            bool duplex = (effects.bEnableAGC || effects.bEnableDenoise || effects.bEnableEchoCancellation);
+            duplex = effects.bEnableEchoCancellation && in_dev.nSoundSystem == SOUNDSYSTEM_WASAPI;
+
+            QMessageBox::information(this, tr("Test Selected"),
+                tr("This sound device configuration gives suboptimal echo cancellation. Check manual for details."));
 
             m_sndloop = TT_StartSoundLoopbackTestEx(inputid, outputid, samplerate,
-                                                    channels, duplex, nullptr, &effects);
+                                                    channels, duplex, &preprocessor, &effects);
         }
         else
         {
-            SpeexDSP spxdsp;
-            ZERO_STRUCT(spxdsp);
-            spxdsp.bEnableAGC = ui.agcBox->isChecked();
-            spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-            spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-            spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-            spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-
-            spxdsp.bEnableDenoise = ui.denoisingBox->isChecked();
-            spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
-
-            spxdsp.bEnableEchoCancellation = ui.echocancelBox->isChecked();
-            spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-            spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+            Q_ASSERT((ui.echocancelBox->isChecked() && duplex) || !ui.echocancelBox->isChecked());
+            preprocessor.webrtc.echocanceller.bEnable = ui.echocancelBox->isChecked();
 
             //input and output devices MUST support the specified 'samplerate' in duplex mode
-            m_sndloop = TT_StartSoundLoopbackTest(inputid, outputid, 
-                                                  samplerate, channels, 
-                                                  ui.sndduplexBox->isChecked(), 
-                                                  &spxdsp);
+            m_sndloop = TT_StartSoundLoopbackTestEx(inputid, outputid, samplerate, channels,
+                                                    duplex, &preprocessor, nullptr);
         }
-        if(!m_sndloop)
+
+        if (!m_sndloop)
         {
             QMessageBox::critical(this, tr("Sound Initialization"),
                                   tr("Failed to initialize new sound devices"));

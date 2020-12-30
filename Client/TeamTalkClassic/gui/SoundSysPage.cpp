@@ -254,12 +254,14 @@ void CSoundSysPage::OnBnClickedButtonTest()
 {
     if(m_nInputDevice == UNDEFINED)
     {
-        AfxMessageBox(LoadText(IDS_SOUNDSYSTEMNOINPUTDEVICESEL, _T("No input device selected")));
+        MessageBox(LoadText(IDS_SOUNDSYSTEMNOINPUTDEVICESEL, _T("No input device selected")),
+                   LoadText(IDS_TESTSELECTED, _T("Start")));
         return;
     }
     if(m_nOutputDevice == UNDEFINED)
     {
-        AfxMessageBox(LoadText(IDS_SOUNDSYSTEMNOOUTPUTDEVICESEL, _T("No output device selected")));
+        MessageBox(LoadText(IDS_SOUNDSYSTEMNOOUTPUTDEVICESEL, _T("No output device selected")),
+                   LoadText(IDS_TESTSELECTED, _T("Start")));
         return;
     }
 
@@ -269,8 +271,7 @@ void CSoundSysPage::OnBnClickedButtonTest()
         m_bTesting = StartTest();
         if(m_bTesting)
         {
-            szTest.LoadString(IDS_STOP);
-            TRANSLATE_ITEM(IDS_STOP, szTest);
+            szTest = LoadText(IDS_STOP, _T("Stop"));
             m_wndTestBtn.SetWindowText(szTest);
             m_DxButton.EnableWindow(FALSE);
             m_WasApiButton.EnableWindow(FALSE);
@@ -281,8 +282,7 @@ void CSoundSysPage::OnBnClickedButtonTest()
     else
     {
         StopTest();
-        szTest.LoadString(IDS_TESTSELECTED);
-        TRANSLATE_ITEM(IDS_TESTSELECTED, szTest);
+        szTest = LoadText(IDS_TESTSELECTED, _T("Start"));
         m_wndTestBtn.SetWindowText(szTest);
         m_DxButton.EnableWindow(TRUE);
         m_WasApiButton.EnableWindow(TRUE);
@@ -324,49 +324,44 @@ BOOL CSoundSysPage::StartTest()
     int nChannels = 1;
     const SoundDevice& in_dev = ii->second, out_dev = io->second;
     ASSERT(in_dev.nSoundSystem == out_dev.nSoundSystem);
-    switch (in_dev.nSoundSystem)
+    int nSampleRate = GetSoundDuplexSampleRate(in_dev, out_dev);
+
+    AudioPreprocessor ap = {};
+    InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, ap);
+    ap.webrtc.gaincontroller2.bEnable = m_bAGC;
+    ap.webrtc.noisesuppression.bEnable = m_bDenoise;
+
+    if (nSampleRate > 0)
     {
-    case SOUNDSYSTEM_DSOUND :
-    {
-        SpeexDSP spxdsp = {};
-        spxdsp.bEnableAGC = m_bAGC;
-        spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-        spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-        spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-        spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-
-        spxdsp.bEnableDenoise = m_bDenoise;
-        spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
-
-        spxdsp.bEnableEchoCancellation = m_bEchoCancel;
-        spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-        spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
-
-        m_SndLoopBack = TT_StartSoundLoopbackTest(m_nInputDevice,
-                                                  m_nOutputDevice,
-                                                  in_dev.nDefaultSampleRate,
-                                                  nChannels,
-                                                  m_bEchoCancel,
-                                                  &spxdsp);
+        ap.webrtc.echocanceller.bEnable = m_bEchoCancel;
+        m_SndLoopBack = TT_StartSoundLoopbackTestEx(in_dev.nDeviceID, out_dev.nDeviceID,
+                                                    nSampleRate, nChannels, TRUE, &ap, nullptr);
     }
-    break;
-    case SOUNDSYSTEM_WASAPI :
+    else if (m_bEchoCancel && (in_dev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC))
     {
-        SoundDeviceEffects effects = {};
-        effects.bEnableAGC = m_bAGC;
-        effects.bEnableDenoise = m_bDenoise;
-        effects.bEnableEchoCancellation = m_bEchoCancel;
-        BOOL bDuplex = (m_bAGC || m_bDenoise || m_bEchoCancel);
-        m_SndLoopBack = TT_StartSoundLoopbackTestEx(m_nInputDevice, m_nOutputDevice,
+        MessageBox(LoadText(IDS_SUBOPTECHOCANCEL, _T("This sound device configuration gives suboptimal echo cancellation")),
+                   LoadText(IDS_TESTSELECTED, _T("Start")));
+
+        SoundDeviceEffects sde = {};
+        sde.bEnableEchoCancellation = m_bEchoCancel;
+        m_SndLoopBack = TT_StartSoundLoopbackTestEx(in_dev.nDeviceID, out_dev.nDeviceID,
+                                                    out_dev.nDefaultSampleRate, nChannels, TRUE,
+                                                    &ap, &sde);
+    }
+    else
+    {
+        ASSERT(!m_bEchoCancel);
+        ASSERT(!ap.webrtc.echocanceller.bEnable);
+
+        m_SndLoopBack = TT_StartSoundLoopbackTestEx(in_dev.nDeviceID, out_dev.nDeviceID,
                                                     out_dev.nDefaultSampleRate, nChannels,
-                                                    bDuplex, nullptr, &effects);
-    }
-    break;
+                                                    FALSE, &ap, nullptr);
     }
 
     if (!m_SndLoopBack)
     {
-        AfxMessageBox(LoadText(IDS_SOUNDSYSTEMFAILEDTOINITIALIZE, _T("Failed to initialize sound devices. Check your selected input and output devices.")));
+        MessageBox(LoadText(IDS_SOUNDSYSTEMFAILEDTOINITIALIZE, _T("Failed to initialize sound devices. Check your selected input and output devices.")),
+                   LoadText(IDS_TESTSELECTED, _T("Start")));
         return FALSE;
     }
 
@@ -428,14 +423,12 @@ void CSoundSysPage::UpdateSoundControls()
         out_dev = ii->second;
         if(out_dev.bSupports3D)
         {
-            sound3d.LoadString(IDS_SUPPORTS3D);
-            TRANSLATE_ITEM(IDS_SUPPORTS3D, sound3d);
+            sound3d = LoadText(IDS_SUPPORTS3D, _T("Output device supports 3D sound"));
             m_wndPositionBtn.EnableWindow(TRUE);
         }
         else
         {
-            sound3d.LoadString(IDS_NOSUPPORTS3D);
-            TRANSLATE_ITEM(IDS_NOSUPPORTS3D, sound3d);
+            sound3d = LoadText(IDS_NOSUPPORTS3D, _T("Output device does not support 3D sound"));
             m_wndPositionBtn.EnableWindow(TRUE);
         }
         szOutputSampleRates.Format(_T("%d"), out_dev.outputSampleRates[0]);

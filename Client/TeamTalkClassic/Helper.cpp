@@ -515,32 +515,76 @@ int GetSoundOutputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDe
     return nOutputDevice;
 }
 
-BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings)
+BOOL GetSoundDevice(int nSoundDeviceID, const CString& szDeviceID, SoundDevice& dev)
+{
+    int count = 25;
+    std::vector<SoundDevice> devices(count);
+    TT_GetSoundDevices(&devices[0], &count);
+    if (count == 25)
+    {
+        TT_GetSoundDevices(NULL, &count);
+        devices.resize(count);
+        TT_GetSoundDevices(&devices[0], &count);
+    }
+    devices.resize(count);
+    size_t i;
+    for (i = 0; i < devices.size() && szDeviceID.GetLength(); i++)
+    {
+        if (devices[i].szDeviceID == szDeviceID)
+        {
+            dev = devices[i];
+            return true;
+        }
+    }
+    for (i = 0; i < devices.size(); i++)
+    {
+        if (devices[i].nDeviceID == nSoundDeviceID)
+        {
+            dev = devices[i];
+            return true;
+        }
+    }
+    return false;
+}
+
+int GetSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev)
+{
+    auto isend = indev.inputSampleRates + sizeof(indev.inputSampleRates);
+    auto isr = std::find_if(indev.inputSampleRates, isend,
+        [outdev](int sr) { return sr == outdev.nDefaultSampleRate; });
+    return isr != isend ? outdev.nDefaultSampleRate : 0;
+}
+
+BOOL IsSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outdev)
+{
+    return GetSoundDuplexSampleRate(indev, outdev) > 0 || (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC);
+}
+
+BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings, SoundDevice& indev, SoundDevice& outdev)
 {
     TT_CloseSoundInputDevice(ttInst);
     TT_CloseSoundOutputDevice(ttInst);
     TT_CloseSoundDuplexDevices(ttInst);
 
-    SoundDevice indev = {};
+    //Restart sound system so we have the latest sound devices
+    TT_RestartSoundSystem();
+
     int nInputDevice = GetSoundInputDevice(xmlSettings, &indev);
-    int nOutputDevice = GetSoundOutputDevice(xmlSettings);
+    int nOutputDevice = GetSoundOutputDevice(xmlSettings, &outdev);
+
+    BOOL bEchoCancel = xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
+    BOOL bDuplex = GetSoundDuplexSampleRate(indev, outdev) > 0;
 
     SoundDeviceEffects effects = {};
-    effects.bEnableAGC = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AGC) && xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
-    effects.bEnableDenoise = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DENOISE) && xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
-    effects.bEnableEchoCancellation = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC) && xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
 
+    if (!bDuplex && bEchoCancel && (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC))
+        effects.bEnableEchoCancellation = bEchoCancel;
     TT_SetSoundDeviceEffects(ttInst, &effects);
+
     BOOL bSuccess = FALSE;
 
-    if ((effects.bEnableAGC || effects.bEnableEchoCancellation || effects.bEnableDenoise) &&
-        (indev.nSoundSystem == SOUNDSYSTEM_WASAPI))
+    if (bDuplex || (effects.bEnableEchoCancellation && (indev.nSoundSystem == SOUNDSYSTEM_WASAPI)))
     {
-        bSuccess = TT_InitSoundDuplexDevices(ttInst, nInputDevice, nOutputDevice);
-    }
-    else if (xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE))
-    {
-        // Echo cancel requires duplex mode when using SpeexDSP
         bSuccess = TT_InitSoundDuplexDevices(ttInst, nInputDevice, nOutputDevice);
     }
     else
@@ -553,10 +597,18 @@ BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings)
     {
         TT_CloseSoundInputDevice(ttInst);
         TT_CloseSoundOutputDevice(ttInst);
+        TT_CloseSoundDuplexDevices(ttInst);
+
+        indev = {};
+        outdev = {};
+
         if (TT_GetDefaultSoundDevices(&nInputDevice, &nOutputDevice))
         {
-            TT_InitSoundInputDevice(ttInst, nInputDevice);
-            TT_InitSoundOutputDevice(ttInst, nOutputDevice);
+            if (TT_InitSoundInputDevice(ttInst, nInputDevice))
+                GetSoundDevice(nInputDevice, _T(""), indev);
+
+            if (TT_InitSoundOutputDevice(ttInst, nOutputDevice))
+                GetSoundDevice(nOutputDevice, _T(""), outdev);
         }
     }
     return bSuccess;

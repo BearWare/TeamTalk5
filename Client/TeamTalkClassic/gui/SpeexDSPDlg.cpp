@@ -12,13 +12,13 @@ IMPLEMENT_DYNAMIC(CSpeexDSPDlg, CDialogEx)
 
 CSpeexDSPDlg::CSpeexDSPDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_DIALOG_SPEEXDSP, pParent)
-    , m_bAGC(DEFAULT_AGC_ENABLE)
-    , m_nGainLevel(DEFAULT_AGC_GAINLEVEL)
-    , m_nMaxGainLevel(DEFAULT_AGC_GAINMAXDB)
-    , m_nGainInc(DEFAULT_AGC_INC_MAXDB)
-    , m_nGainDec(DEFAULT_AGC_DEC_MAXDB)
-    , m_nDenoiseLevel(DEFAULT_DENOISE_SUPPRESS)
-    , m_bDenoise(DEFAULT_DENOISE_ENABLE)
+    , m_bAGC(DEFAULT_SPEEXDSP_AGC_ENABLE)
+    , m_nGainLevel(DEFAULT_SPEEXDSP_AGC_GAINLEVEL)
+    , m_nMaxGainLevel(DEFAULT_SPEEXDSP_AGC_GAINMAXDB)
+    , m_nGainInc(DEFAULT_SPEEXDSP_AGC_INC_MAXDB)
+    , m_nGainDec(DEFAULT_SPEEXDSP_AGC_DEC_MAXDB)
+    , m_nDenoiseLevel(DEFAULT_SPEEXDSP_DENOISE_SUPPRESS)
+    , m_bDenoise(DEFAULT_SPEEXDSP_DENOISE_ENABLE)
 {
 
 }
@@ -78,15 +78,15 @@ BOOL CSpeexDSPDlg::OnInitDialog()
 
 void CSpeexDSPDlg::OnBnClickedButtonDefault()
 {
-    m_wndAGC.SetCheck(DEFAULT_AGC_ENABLE ? BST_CHECKED : BST_UNCHECKED);
-    SetWindowNumber(m_wndGainLevel, DEFAULT_AGC_GAINLEVEL);
-    SetWindowNumber(m_wndGainMax, DEFAULT_AGC_GAINMAXDB);
-    SetWindowNumber(m_wndGainInc, DEFAULT_AGC_INC_MAXDB);
-    SetWindowNumber(m_wndGainDec, DEFAULT_AGC_DEC_MAXDB);
+    m_wndAGC.SetCheck(DEFAULT_SPEEXDSP_AGC_ENABLE ? BST_CHECKED : BST_UNCHECKED);
+    SetWindowNumber(m_wndGainLevel, DEFAULT_SPEEXDSP_AGC_GAINLEVEL);
+    SetWindowNumber(m_wndGainMax, DEFAULT_SPEEXDSP_AGC_GAINMAXDB);
+    SetWindowNumber(m_wndGainInc, DEFAULT_SPEEXDSP_AGC_INC_MAXDB);
+    SetWindowNumber(m_wndGainDec, DEFAULT_SPEEXDSP_AGC_DEC_MAXDB);
 }
 
 void CSpeexDSPDlg::OnBnClickedButtonDefault2()
 {
-    m_wndDenoiseEnable.SetCheck(DEFAULT_DENOISE_ENABLE ? BST_CHECKED : BST_UNCHECKED);
-    SetWindowNumber(m_wndDenoise, DEFAULT_DENOISE_SUPPRESS);
+    m_wndDenoiseEnable.SetCheck(DEFAULT_SPEEXDSP_DENOISE_ENABLE ? BST_CHECKED : BST_UNCHECKED);
+    SetWindowNumber(m_wndDenoise, DEFAULT_SPEEXDSP_DENOISE_SUPPRESS);
 }
