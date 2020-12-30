@@ -165,7 +165,6 @@
     <item id="298">Número de comandos permitidos (0 deshabilitado)</item>
     <item id="299">Lapso para permitir %d comandos (en segundos)</item>
     <item id="300">Anónimo</item>
-    <item id="301">Acceso Web</item>
     <item id="302">Propiedades para usuarios excluidos</item>
     <item id="303">Nuevo perfil&#x0D;&#x0A;</item>
     <item id="304">Eliminar perfil</item>
@@ -355,8 +354,6 @@
     <item id="496">Vídeo -</item>
     <item id="497">Volumen para</item>
     <item id="498">Falló al iniciar prueba en el dispositivo seleccionado</item>
-    <item id="499">¿Cerrar sesión en Facebook?</item>
-    <item id="500">Inicio de sesión en Facebook</item>
     <item id="512">- no se ha liberado</item>
     <item id="513">TeamTalk 5 Classic Professional</item>
     <item id="514">TeamTalk 5 Classic Professional</item>
@@ -712,7 +709,6 @@
     <item id="1547">Protección contra excesos</item>
     <item id="1548">Previene que los usuarios envíen mensajes no deseados limitando el número de comandos que pueden emitir dentro de un lapso dado.</item>
     <item id="1550">Limitar emisión de comandos</item>
-    <item id="1553">Perfil</item>
     <item id="1554">El usuario puede cambiar de alias</item>
     <item id="1558">El usuario puede grabar voz en todos los canales</item>
     <item id="1561">&amp;Activar</item>

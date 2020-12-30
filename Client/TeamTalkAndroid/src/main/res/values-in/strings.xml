@@ -167,7 +167,6 @@
     <string name="err_retrieve_public_server_list">Gagal untuk mengambil daftar server publik</string>
     <string name="err_send_text_message">Gagal untuk mengirim pesan teks</string>
     <string name="err_connection">Koneksi gagal</string>
-    <string name="err_facebooklogin">Gagal Masuk Ke Facebook</string>
 
     <string name="action_new_channel">Buat saluran baru</string>
     <string name="action_save">Simpan</string>
@@ -186,7 +185,6 @@
     <string name="pref_title_authentication">Otentikasi</string>
     <string name="pref_title_username">Nama pengguna</string>
     <string name="pref_title_password">Kata sandi</string>
-    <string name="pref_title_facebook">Masuk Dengan Facebook</string>
     <string name="pref_title_join_channel">Gabung saluran</string>
     <string name="pref_title_channel">Saluran</string>
     <string name="pref_title_channel_password">Kata sandi saluran</string>

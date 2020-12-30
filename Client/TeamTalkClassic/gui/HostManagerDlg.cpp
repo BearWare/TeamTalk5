@@ -126,8 +126,6 @@ BEGIN_MESSAGE_MAP(CHostManagerDlg, CDialog)
     ON_CBN_SELCHANGE(IDC_COMBO_HOSTADDRESS, &CHostManagerDlg::OnCbnSelchangeComboHostaddress)
     ON_BN_CLICKED(IDC_BUTTON_IMPORTTTILE, &CHostManagerDlg::OnBnClickedButtonImportttile)
     ON_CBN_EDITCHANGE(IDC_COMBO_USERNAME, &CHostManagerDlg::OnCbnEditchangeComboUsername)
-//    ON_CBN_SELCHANGE(IDC_COMBO_USERNAME, &CHostManagerDlg::OnCbnSelchangeComboUsername)
-//    ON_CBN_EDITUPDATE(IDC_COMBO_USERNAME, &CHostManagerDlg::OnCbnEditupdateComboUsername)
     ON_CBN_KILLFOCUS(IDC_COMBO_USERNAME, &CHostManagerDlg::OnCbnKillfocusComboUsername)
     ON_EN_SETFOCUS(IDC_EDIT_ENTRYNAME, &CHostManagerDlg::OnEnSetfocusEditEntryname)
 END_MESSAGE_MAP()
@@ -144,7 +142,6 @@ BOOL CHostManagerDlg::OnInitDialog()
     m_wndDelete.EnableWindow(FALSE);
 
     m_wndUsername.AddString(_T(WEBLOGIN_BEARWARE_USERNAME));
-    m_wndUsername.AddString(WEBLOGIN_FACEBOOK_USERNAME);
 
     if(m_bPubServers)
         ShowPublicServers();
@@ -555,8 +552,8 @@ void CHostManagerDlg::OnCbnEditchangeComboUsername()
 {
     CString szUsername;
     m_wndUsername.GetWindowText(szUsername);
-    m_wndPassword.EnableWindow(szUsername != WEBLOGIN_FACEBOOK_USERNAME);
-    if(szUsername == WEBLOGIN_FACEBOOK_USERNAME)
+    m_wndPassword.EnableWindow(!IsWebLogin(szUsername));
+    if (IsWebLogin(szUsername))
         m_wndPassword.SetWindowText(_T(""));
 }
 
@@ -564,7 +561,6 @@ void CHostManagerDlg::OnCbnKillfocusComboUsername()
 {
     OnCbnEditchangeComboUsername();
 }
-
 
 void CHostManagerDlg::OnEnSetfocusEditEntryname()
 {

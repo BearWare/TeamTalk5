@@ -40,7 +40,7 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
     var encryptedfield : UISwitch?
     var usernamefield : UITextField?
     var passwdfield : UITextField?
-    var fbloginfield : UISwitch?
+    var webloginfield : UISwitch?
     var chanfield : UITextField?
     var chpasswdfield : UITextField?
     
@@ -80,7 +80,7 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         conItems.append(encryptedcell)
 
         // create auth items
-        refreshAuthorizationItems(facebook: self.server.username == AppInfo.WEBLOGIN_FACEBOOK)
+        refreshAuthorizationItems(weblogin: AppInfo.isBearWareWebLogin(self.server.username))
         
         //initial channel
         let chancell = UITableViewCell(style: .default, reuseIdentifier: nil)
@@ -110,36 +110,36 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         tableView.delegate = self
     }
     
-    func refreshAuthorizationItems(facebook: Bool) {
+    func refreshAuthorizationItems(weblogin: Bool) {
         self.authItems.removeAll()
         
         // Authentication section
         let usernamecell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        usernamefield = newTableCellTextField(usernamecell, label: NSLocalizedString("Username", comment: "server entry"), initial: facebook ? AppInfo.WEBLOGIN_FACEBOOK : server.username)
+        usernamefield = newTableCellTextField(usernamecell, label: NSLocalizedString("Username", comment: "server entry"), initial: weblogin ? AppInfo.WEBLOGIN_BEARWARE_USERNAME : server.username)
         usernamefield!.delegate = self
         usernamefield!.autocorrectionType = .no
         usernamefield!.spellCheckingType = .no
         usernamefield!.autocapitalizationType = .none
-        if facebook == false {
+        if weblogin == false {
             authItems.append(usernamecell)
         }
         
         let passwdcell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "server entry"), initial: facebook ? "" : server.password)
+        passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "server entry"), initial: weblogin ? "" : server.password)
         passwdfield!.delegate = self
         passwdfield!.autocorrectionType = .no
         passwdfield!.spellCheckingType = .no
         passwdfield!.autocapitalizationType = .none
         passwdfield!.isSecureTextEntry = true
-        if facebook == false {
+        if weblogin == false {
             authItems.append(passwdcell)
         }
         
-        let fbcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        fbloginfield = newTableCellSwitch(fbcell, label: NSLocalizedString("Facebook Login", comment: "server entry"), initial: facebook)
-        fbcell.detailTextLabel?.text = NSLocalizedString("Check only if this server has enabled Facebook login", comment: "server entry")
-        fbloginfield?.addTarget(self, action: #selector(facebookLogin(_:)), for: .valueChanged)
-        authItems.append(fbcell)
+        let weblogincell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        webloginfield = newTableCellSwitch(weblogincell, label: NSLocalizedString("BearWare.dk Web Login", comment: "server entry"), initial: weblogin)
+        weblogincell.detailTextLabel?.text = NSLocalizedString("Check only if this server has enabled BearWare.dk Web Login", comment: "server entry")
+        webloginfield?.addTarget(self, action: #selector(bearwareWebLogin(_:)), for: .valueChanged)
+        authItems.append(weblogincell)
     }
     
     func saveServerDetail() {
@@ -166,8 +166,8 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         return false
     }
     
-    @objc func facebookLogin(_ sender: UISwitch) {
-        refreshAuthorizationItems(facebook: sender.isOn)
+    @objc func bearwareWebLogin(_ sender: UISwitch) {
+        refreshAuthorizationItems(weblogin: sender.isOn)
         tableView.reloadData()
     }
     

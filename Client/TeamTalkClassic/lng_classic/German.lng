@@ -166,7 +166,6 @@
     <item id="298">Anzahl erlaubter Befehle (0 = ausgeschaltet)</item>
     <item id="299">Zeitfenster für erlaubte %d Befehle (in Sekunden)</item>
     <item id="300">Anonym</item>
-    <item id="301">Web-Login</item>
     <item id="302">Gesperrte Benutzer</item>
     <item id="303">Neues Profil</item>
     <item id="304">Profil löschen</item>
@@ -360,8 +359,6 @@
     <item id="496">Video -</item>
     <item id="497">Lautstärke für</item>
     <item id="498">Der Test des ausgewählten Gerätes ist fehlgeschlagen</item>
-    <item id="499">Facebook-Abmeldung durchführen?</item>
-    <item id="500">Facebook-Login</item>
     <item id="501">Sprache für %s eingeschaltet</item>
     <item id="502">Webcam</item>
     <item id="503">Administrator</item>
@@ -736,7 +733,6 @@
     <item id="1547">Überflutungsschutz</item>
     <item id="1548">Verhindert beispielsweise das Spammen mit Textnachrichten eines Benutzers, indem die Anzahl Befehle in einem Zeitfenster begrenzt wird.</item>
     <item id="1550">Befehle begrenzen</item>
-    <item id="1553">Profil</item>
     <item id="1554">kann Nicknamen ändern</item>
     <item id="1558">kann Sprache in allen Räumen aufzeichnen</item>
     <item id="1561">&amp;Aktivieren</item>

@@ -162,7 +162,6 @@
     <item id="298">Počet povolených příkazů (0 = vypnuto)</item>
     <item id="299">Časový úsek pro povolení %d příkazů (v sekundách)</item>
     <item id="300">Anonymní</item>
-    <item id="301">Webové přihlášení</item>
     <item id="302">Zakázat vlastnosti uživatele</item>
     <item id="303">Nový profil</item>
     <item id="304">Odstranit profil</item>
@@ -477,7 +476,6 @@
     <item id="1547">Ochrana před záplavou zpráv</item>
     <item id="1548">Zabraňte uživateli např. v posílání nevyžádaných správ omezením počtu příkazů, které může poslat během určitého časového úseku.</item>
     <item id="1550">Omezit poslané příkazy</item>
-    <item id="1553">Profil</item>
     <item id="1554">Uživatel může měnit přezdívku</item>
     <item id="1558">Uživatel může nahrávat zvuk na všech kanálech</item>
     <item id="1561">&amp;Aktivovat</item>

@@ -32,7 +32,7 @@ public class ServerEntry {
                                KEY_UDPPORT = "udpport",
                                KEY_USERNAME = "username",
                                KEY_PASSWORD = "password",
-                               KEY_FACEBOOK = "fblogin",
+                               KEY_WEBLOGIN = "bearwarelogin",
                                KEY_NICKNAME = "nickname",
                                KEY_CHANNEL = "channel",
                                KEY_CHANPASSWD = "chanpasswd",
@@ -49,32 +49,6 @@ public class ServerEntry {
     public boolean encrypted = false;
     public boolean public_server = false;
 
-    public boolean isFacebookLogin() { return username.equals(AppInfo.WEBLOGIN_FACEBOOK_USERNAME); }
-//    
-//    public void putBundle(Bundle bundle) {
-//        bundle.putString(KEY_SERVERNAME, servername);
-//        bundle.putString(KEY_IPADDR, ipaddr);
-//        bundle.putInt(KEY_TCPPORT, tcpport);
-//        bundle.putInt(KEY_UDPPORT, udpport);
-//        bundle.putString(KEY_USERNAME, username);
-//        bundle.putString(KEY_PASSWORD, password);
-//        bundle.putString(KEY_CHANNEL, channel);
-//        bundle.putString(KEY_CHANPASSWD, chanpasswd);
-//    }
-//    
-//    public static ServerEntry fromBundle(Bundle bundle) {
-//        if(bundle.getString(KEY_IPADDR, "").isEmpty())
-//            return null;
-//        
-//        ServerEntry entry = new ServerEntry();
-//        entry.servername = bundle.getString(KEY_SERVERNAME, "");
-//        entry.ipaddr = bundle.getString(KEY_IPADDR, "");
-//        entry.tcpport = bundle.getInt(KEY_TCPPORT, 10333);
-//        entry.udpport = bundle.getInt(KEY_UDPPORT, 10333);
-//        entry.username = bundle.getString(KEY_USERNAME, ""); 
-//        entry.password = bundle.getString(KEY_PASSWORD, "");
-//        entry.channel = bundle.getString(KEY_CHANNEL, "/");
-//        entry.chanpasswd = bundle.getString(KEY_CHANPASSWD, "");
-//        return entry;
-//    }
+    public boolean isWebLoginLogin() { return username.equals(AppInfo.WEBLOGIN_BEARWARE_USERNAME) ||
+            username.endsWith(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX); }
 }

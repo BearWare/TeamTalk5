@@ -73,16 +73,12 @@ void CUserInfoDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_STATIC_MFAUDIOLOSS, m_wndMFAudioLoss);
     DDX_Control(pDX, IDC_STATIC_MFVIDEOLOSS, m_wndMFVideoLoss);
     DDX_Text(pDX, IDC_EDIT_CLIENTNAME, m_szClientName);
-    DDX_Control(pDX, IDC_BUTTON_PROFILE, m_wndProfileBtn);
 }
-
 
 BEGIN_MESSAGE_MAP(CUserInfoDlg, CDialog)
     ON_BN_CLICKED(IDOK, &CUserInfoDlg::OnBnClickedOk)
     ON_WM_TIMER()
-    ON_BN_CLICKED(IDC_BUTTON_PROFILE, &CUserInfoDlg::OnBnClickedButtonProfile)
 END_MESSAGE_MAP()
-
 
 // CUserInfoDlg message handlers
 
@@ -96,17 +92,13 @@ BOOL CUserInfoDlg::OnInitDialog()
 
     SetTimer(0, 1000, NULL);
 
-    m_wndProfileBtn.ShowWindow(EndsWith(m_szUsername, WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX)?
-        SW_SHOW : SW_HIDE);
     return TRUE;
 }
-
 
 void CUserInfoDlg::OnBnClickedOk()
 {
     CDialog::OnOK();
 }
-
 
 void CUserInfoDlg::OnTimer(UINT_PTR nIDEvent)
 {
@@ -127,16 +119,5 @@ void CUserInfoDlg::UpdateStats()
         m_wndMFAudioLoss.SetWindowText(s);
         s.Format(_T("%I64d/%I64d"), stats.nMediaFileVideoFramesLost, stats.nMediaFileVideoFramesRecv + stats.nMediaFileVideoFramesLost);
         m_wndMFVideoLoss.SetWindowText(s);
-    }
-}
-
-void CUserInfoDlg::OnBnClickedButtonProfile()
-{
-    int nStart = 0;
-    CString szProfileid = m_szUsername.Tokenize(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX, nStart);
-    if(!szProfileid.IsEmpty())
-    {
-        CString szUrl = WEBLOGIN_FACEBOOK_PROFILE_URL + szProfileid;
-        HINSTANCE i = ShellExecute(this->m_hWnd, _T("open"), szUrl, _T(""), _T(""), SW_SHOW);
     }
 }

@@ -167,7 +167,6 @@
     <item id="298">Ilość pozwolonych komend (0 = wyłączone)</item>
     <item id="299">Czas dopuszczonych %d poleceń (w sekundach)</item>
     <item id="300">Anonimowy</item>
-    <item id="301">Web logowanie</item>
     <item id="302">Właściwości banowania uzytkownia</item>
     <item id="303">Nowy profil</item>
     <item id="304">Usuń profil</item>
@@ -363,8 +362,6 @@
     <item id="496">Wideo</item>
     <item id="497">Głośność dla</item>
     <item id="498">Nie można uruchomić testowania wybranego urządzenia</item>
-    <item id="499">Czy chcesz wylogować się z Facebooka?</item>
-    <item id="500">Logowanie przez Facebooka</item>
     <item id="501">głos dla %s włączony</item>
     <item id="502">Kamera</item>
     <item id="503">Administrator</item>
@@ -742,7 +739,6 @@
     <item id="1547">Ochrona antyflood</item>
     <item id="1548">Ogranicz możliwość smamowania użytkownika limitując liczbę wywołanych komend w ustawionym czasie.</item>
     <item id="1550">Ogranicz wywołane polecenia</item>
-    <item id="1553">Profil</item>
     <item id="1554">Użytkownik może zmienić nick</item>
     <item id="1558">Użytkownik może nagrywać w wszystkich kanałach</item>
     <item id="1561">&amp;Aktywuj</item>

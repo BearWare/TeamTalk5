@@ -57,7 +57,6 @@
 #include "gui/UserDesktopDlg.h"
 #include "gui/DesktopShareDlg.h"
 #include "gui/StreamMediaDlg.h"
-#include "gui/WebLoginDlg.h"
 #include "gui/BanTypeDlg.h"
 #include "gui/BearWareLoginDlg.h"
 
@@ -285,15 +284,6 @@ void CTeamTalkDlg::Disconnect()
 
 void CTeamTalkDlg::Login()
 {
-    if(STR_UTF8(m_host.szUsername) == WEBLOGIN_FACEBOOK_USERNAME)
-    {
-        CWebLoginDlg dlg;
-        if(dlg.DoModal() == IDOK)
-        {
-            m_host.szPassword = STR_UTF8(dlg.m_szPassword);
-        }
-    }
-
     int cmd = TT_DoLoginEx(ttInst,
         STR_UTF8(m_xmlSettings.GetNickname(STR_UTF8(LoadText(IDS_DEFAULTNICKNAME, DEFAULT_NICKNAME))).c_str()),
         STR_UTF8(m_host.szUsername.c_str()),
