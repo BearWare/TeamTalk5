@@ -60,10 +60,9 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
 * **TeamTalkApp.NET** (dependency: **TeamTalk.NET**)
   * TeamTalk 5 .NET client application written in C#
   * Requires **TeamTalk.NET** project for DLL dependency
-* **iTeamTalk** (dependency: **TeamTalk_DLL**, **FacebookSDK**)
+* **iTeamTalk** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 iOS client application written in Swift
   * Requires **TeamTalk_DLL** project for bridging header
-  * Requires **[FacebookSDK](https://developers.facebook.com/docs/ios)**
   * Open project in [Xcode](https://developer.apple.com/xcode/)
 * **TeamTalkAndroid** (dependency: **TeamTalkJNI**)
   * TeamTalk 5 Android client application written in Java
