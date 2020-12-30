@@ -67,6 +67,43 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec)
     }
 }
 
+void InitDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor)
+{
+    preprocessor.nPreprocessor = preprocessortype;
+    switch (preprocessor.nPreprocessor)
+    {
+    case NO_AUDIOPREPROCESSOR:
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR:
+        preprocessor.speexdsp.bEnableAGC = DEFAULT_SPEEXDSP_AGC_ENABLE;
+        preprocessor.speexdsp.nGainLevel = DEFAULT_SPEEXDSP_AGC_GAINLEVEL;
+        preprocessor.speexdsp.nMaxIncDBSec = DEFAULT_SPEEXDSP_AGC_INC_MAXDB;
+        preprocessor.speexdsp.nMaxDecDBSec = DEFAULT_SPEEXDSP_AGC_DEC_MAXDB;
+        preprocessor.speexdsp.nMaxGainDB = DEFAULT_SPEEXDSP_AGC_GAINMAXDB;
+        preprocessor.speexdsp.bEnableDenoise = DEFAULT_SPEEXDSP_DENOISE_ENABLE;
+        preprocessor.speexdsp.nMaxNoiseSuppressDB = DEFAULT_SPEEXDSP_DENOISE_SUPPRESS;
+        preprocessor.speexdsp.bEnableAGC = DEFAULT_SPEEXDSP_ECHO_ENABLE;
+        preprocessor.speexdsp.nEchoSuppress = DEFAULT_SPEEXDSP_ECHO_SUPPRESS;
+        preprocessor.speexdsp.nEchoSuppressActive = DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE;
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR:
+        preprocessor.ttpreprocessor.nGainLevel = SOUND_GAIN_DEFAULT;
+        preprocessor.ttpreprocessor.bMuteLeftSpeaker = preprocessor.ttpreprocessor.bMuteRightSpeaker = FALSE;
+        break;
+    case WEBRTC_AUDIOPREPROCESSOR:
+        preprocessor.webrtc.gaincontroller2.bEnable = DEFAULT_WEBRTC_GAINCTL_ENABLE;
+        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = DEFAULT_WEBRTC_GAINDB;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable = DEFAULT_WEBRTC_SAT_PROT_ENABLE;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = DEFAULT_WEBRTC_MAXGAIN_DBSEC;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = DEFAULT_WEBRTC_MAX_OUT_NOISE;
+        preprocessor.webrtc.noisesuppression.bEnable = DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE;
+        preprocessor.webrtc.noisesuppression.nLevel = DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL;
+        preprocessor.webrtc.echocanceller.bEnable = DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE;
+        break;
+    }
+}
 channels_t GetSubChannels(int nChannelID, const channels_t& channels, BOOL bRecursive/* = FALSE*/)
 {
     channels_t subchannels;
@@ -184,38 +221,6 @@ messages_t GetMessages(int nFromUserID, const messages_t& messages)
             result.push_back(messages[i]);
     }
     return result;
-}
-
-BOOL GetSoundDevice(int nSoundDeviceID, const CString& szDeviceID, SoundDevice& dev)
-{
-    int count = 25;
-    std::vector<SoundDevice> devices(count);
-    TT_GetSoundDevices(&devices[0], &count);
-    if(count == 25)
-    {
-        TT_GetSoundDevices(NULL, &count);
-        devices.resize(count);
-        TT_GetSoundDevices(&devices[0], &count);
-    }
-    devices.resize(count);
-    size_t i;
-    for(i=0;i<devices.size() && szDeviceID.GetLength();i++)
-    {
-        if(devices[i].szDeviceID == szDeviceID)
-        {
-            dev = devices[i];
-            return true;
-        }
-    }
-    for(i=0;i<devices.size();i++)
-    {
-        if(devices[i].nDeviceID == nSoundDeviceID)
-        {
-            dev = devices[i];
-            return true;
-        }
-    }
-    return false;
 }
 
 int RefVolume(double percent)
