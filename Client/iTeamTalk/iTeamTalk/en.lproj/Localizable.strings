@@ -90,6 +90,12 @@
 /* channel list */
 "Ban user" = "Ban user";
 
+/* server entry */
+"BearWare.dk Web Login" = "BearWare.dk Web Login";
+
+/* weblogin event */
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences";
+
 /* codec detail */
 "Bitrate" = "Bitrate";
 
@@ -131,6 +137,12 @@
 
 /* channel list */
 "Channel. %d users" = "Channel. %d users";
+
+/* server entry */
+"Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
+
+/* server entry */
+"Check only if this server has enabled Facebook login" = "Check only if this server has enabled Facebook login";
 
 /* create channel */
 "Commands" = "Commands";
@@ -219,6 +231,12 @@
 
 /* preferences */
 "Headset TX Toggle" = "Headset TX Toggle";
+
+/* hidden channel */
+"Hidden channel" = "Hidden channel";
+
+/* hidden channel */
+"Hidden Channel" = "Hidden Channel";
 
 /* server entry */
 "Host address" = "Host address";
@@ -665,9 +683,3 @@
 
 /* speech */
 "You have selected %@" = "You have selected %@";
-
-/* server entry */
-"Check only if this server has enabled Facebook login" = "Check only if this server has enabled Facebook login";
-
-/* hidden channel */
-"Hidden channel" = "Hidden channel";
