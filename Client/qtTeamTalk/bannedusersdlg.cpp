@@ -83,7 +83,7 @@ QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::Di
             return _Q(m_users[index.row()].szUsername);
         case COLUMN_INDEX_BANTYPE :
             if(m_users[index.row()].uBanTypes & BANTYPE_USERNAME)
-                return tr("Username");
+                return tr("User");
             else if (m_users[index.row()].uBanTypes & BANTYPE_IPADDR)
                 return tr("IP");
         case COLUMN_INDEX_BANTIME :
