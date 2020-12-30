@@ -193,6 +193,7 @@
     <item id="325">Traitement audio Speex</item>
     <item id="326">Aucun traitement audio</item>
     <item id="327">Connecté… Identifié</item>
+    <item id="328">Position initiale</item>
     <item id="329">Impossible de se connecter à l&apos;hôte &quot;%s&quot;, Port TCP %d, Port UDP %d.&#xD;&#xA;Vérifiez que le serveur est démarré sur l&apos;adresse spécifiée et qu&apos;un pare-feu n&apos;empêche pas les clients de se connecter.</item>
     <item id="330">Une erreur est survenue lors de l&apos;exécution d&apos;une commande:&#xD;&#xA;</item>
     <item id="331">Impossible de se connecter à l&apos;hôte %s, port TCP %d, port UDP %d</item>
