@@ -100,7 +100,10 @@ void SetAccessibleName(CWnd& wnd, LPCTSTR szHint);
 
 int GetSoundInputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDev = NULL);
 int GetSoundOutputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDev = NULL);
-BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings);
+BOOL GetSoundDevice(int nSoundDeviceID, const CString& szDeviceID, SoundDevice& dev);
+int GetSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev);
+BOOL IsSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outdev);
+BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings, SoundDevice& indev, SoundDevice& outdev);
 
 void AddTextToSpeechMessage(const CString& szMsg);
 #endif

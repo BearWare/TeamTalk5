@@ -324,44 +324,38 @@ BOOL CSoundSysPage::StartTest()
     int nChannels = 1;
     const SoundDevice& in_dev = ii->second, out_dev = io->second;
     ASSERT(in_dev.nSoundSystem == out_dev.nSoundSystem);
-    switch (in_dev.nSoundSystem)
+    int nSampleRate = GetSoundDuplexSampleRate(in_dev, out_dev);
+
+    AudioPreprocessor ap = {};
+    InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, ap);
+    ap.webrtc.gaincontroller2.bEnable = m_bAGC;
+    ap.webrtc.noisesuppression.bEnable = m_bDenoise;
+
+    if (nSampleRate > 0)
     {
-    case SOUNDSYSTEM_DSOUND :
-    {
-        SpeexDSP spxdsp = {};
-        spxdsp.bEnableAGC = m_bAGC;
-        spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-        spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-        spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-        spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-
-        spxdsp.bEnableDenoise = m_bDenoise;
-        spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
-
-        spxdsp.bEnableEchoCancellation = m_bEchoCancel;
-        spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-        spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
-
-        m_SndLoopBack = TT_StartSoundLoopbackTest(m_nInputDevice,
-                                                  m_nOutputDevice,
-                                                  in_dev.nDefaultSampleRate,
-                                                  nChannels,
-                                                  m_bEchoCancel,
-                                                  &spxdsp);
+        ap.webrtc.echocanceller.bEnable = m_bEchoCancel;
+        m_SndLoopBack = TT_StartSoundLoopbackTestEx(in_dev.nDeviceID, out_dev.nDeviceID,
+                                                    nSampleRate, nChannels, TRUE, &ap, nullptr);
     }
-    break;
-    case SOUNDSYSTEM_WASAPI :
+    else if (m_bEchoCancel && (in_dev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC))
     {
-        SoundDeviceEffects effects = {};
-        effects.bEnableAGC = m_bAGC;
-        effects.bEnableDenoise = m_bDenoise;
-        effects.bEnableEchoCancellation = m_bEchoCancel;
-        BOOL bDuplex = (m_bAGC || m_bDenoise || m_bEchoCancel);
-        m_SndLoopBack = TT_StartSoundLoopbackTestEx(m_nInputDevice, m_nOutputDevice,
+        MessageBox(LoadText(IDS_SUBOPTECHOCANCEL, _T("This sound device configuration gives suboptimal echo cancellation")),
+                   LoadText(IDS_TESTSELECTED, _T("Start")));
+
+        SoundDeviceEffects sde = {};
+        sde.bEnableEchoCancellation = m_bEchoCancel;
+        m_SndLoopBack = TT_StartSoundLoopbackTestEx(in_dev.nDeviceID, out_dev.nDeviceID,
+                                                    out_dev.nDefaultSampleRate, nChannels, TRUE,
+                                                    &ap, &sde);
+    }
+    else
+    {
+        ASSERT(!m_bEchoCancel);
+        ASSERT(!ap.webrtc.echocanceller.bEnable);
+
+        m_SndLoopBack = TT_StartSoundLoopbackTestEx(in_dev.nDeviceID, out_dev.nDeviceID,
                                                     out_dev.nDefaultSampleRate, nChannels,
-                                                    bDuplex, nullptr, &effects);
-    }
-    break;
+                                                    FALSE, &ap, nullptr);
     }
 
     if (!m_SndLoopBack)
