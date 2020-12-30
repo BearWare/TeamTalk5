@@ -188,6 +188,7 @@
   <string name="err_retrieve_public_server_list">Kamu sunucusu listesini getirme başarısız</string>
   <string name="err_send_text_message">Metin iletisini gönderme başarısız</string>
   <string name="err_connection">Bağlantı başarısız</string>
+  <string name="err_facebooklogin">Facebook oturumu başarısız</string>
   <string name="err_stream_media">Bir ortam dosyası akıtma başarısız</string>
   <string name="action_new_channel">Yeni Kanal</string>
   <string name="action_save">Kaydet</string>
@@ -205,6 +206,7 @@
   <string name="pref_title_authentication">Kimlik Doğrulama</string>
   <string name="pref_title_username">Kullanıcı Adı</string>
   <string name="pref_title_password">Parola</string>
+  <string name="pref_title_facebook">Facebook Oturumu</string>
   <string name="pref_title_join_channel">Kanala Katıl</string>
   <string name="pref_title_channel">Kanal</string>
   <string name="pref_title_channel_password">Kanal Parolası</string>
@@ -322,8 +324,10 @@
   <string name="bwpswlab">Parola:</string>
   <string name="ttversion">TeamTalk v</string>
   <string name="ttdllversion">TeamTalk DLL v</string>
+  <string name="pref_title_facebook_summary">Yalnızca bu sunucu Facebook oturumunu etkinleştirdiyse işaretleyin</string>
   <string name="pref_cat_about">Hakkında</string>
   <string name="pref_title_contrib">Geliştiriciler</string>
   <string name="pref_title_translator">Çeviren</string>
   <string name="pref_title_libraries">Üçüncü Taraf Kitaplıklar</string>
+  <string name="channel_prop_title_hiddenchannel">Gizli</string>
 </resources>
