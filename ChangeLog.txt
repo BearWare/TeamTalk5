@@ -29,6 +29,7 @@ Android client:
 - New audio files for default sound events
 iOS Client:
 - Change default stream volume from 100 to 50
+- New audio files for default sound events
 
 Version 5.6.3, 2020/09/20
 Accessible Windows Client
