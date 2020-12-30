@@ -165,7 +165,6 @@
     <item id="298">Număr de comenzi permise (0 = dezactivat)</item>
     <item id="299">Perioadă de timp pentru a permite%d comenzi (în secunde)</item>
     <item id="300">Anonim</item>
-    <item id="301">Logare web</item>
     <item id="302">Proprietăți de banare a utilizatorului</item>
     <item id="303">Profil nou</item>
     <item id="304">Ștergere profil</item>
@@ -355,8 +354,6 @@
     <item id="496">Video - </item>
     <item id="497">Volum pentru </item>
     <item id="498">Dispozitivul selectat nu a pornit Test </item>
-    <item id="499">Te deconectezi prin Facebook?</item>
-    <item id="500">logare cu Facebook</item>
     <item id="512"> - Nelansat</item>
     <item id="513">TeamTalk 5 Clasic Profesional v. </item>
     <item id="514">TeamTalk 5 Clasic Profesional</item>
@@ -707,7 +704,6 @@
     <item id="1547">Protecție antiFlood</item>
     <item id="1548">Previne utilizatorii de la, de exemplu, mesaje spam prin limitarea numărului de comenzi pe care le pot introduce într-o anumită perioadă de timp.</item>
     <item id="1550">Limitează comenzile introduse</item>
-    <item id="1553">Profil</item>
     <item id="1554">Utilizatorul își poate schimba porecla</item>
     <item id="1558">Utilizatorul poate înregistra voce pe toate canalele</item>
     <item id="1561">&amp;Activează</item>

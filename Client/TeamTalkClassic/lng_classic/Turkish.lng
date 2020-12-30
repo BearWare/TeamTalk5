@@ -165,7 +165,6 @@
     <item id="298">Komut sayısı (0 = devre dışı)</item>
     <item id="299">Komut verme süresi %d</item>
     <item id="300">Anonim</item>
-    <item id="301">Web Girişi</item>
     <item id="302">Yasaklı Kullanıcı Özellikleri</item>
     <item id="303">Yeni profil</item>
     <item id="304">Profili sil</item>
@@ -358,8 +357,6 @@
     <item id="496">Video</item>
     <item id="497">Ses ayarlama</item>
     <item id="498">Seçilen test aygıdı başlatılamadı</item>
-    <item id="499">Facebook hesabından çıkış yapılsın mı?</item>
-    <item id="500">Facebook girişi</item>
     <item id="501">%s için ses etkinleştirildi</item>
     <item id="502">Kamera</item>
     <item id="503">Yönetici</item>
@@ -727,7 +724,6 @@
     <item id="1547">Taşma Koruması</item>
     <item id="1548">Belirli bir süre içinde komut sınırlayarak Kullanıcının spam mesajlar ve aktiviteler gerçekleştirmesini engelle.</item>
     <item id="1550">verilen komut sınırı</item>
-    <item id="1553">Profil</item>
     <item id="1554">Kullanıcı takma adını değiştirebilir</item>
     <item id="1558">Kullanıcı tüm kanallarda ses kaydedebilir</item>
     <item id="1561">&amp;Etkinleştir</item>
