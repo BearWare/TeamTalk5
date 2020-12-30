@@ -93,17 +93,8 @@
 
 #define ZERO_STRUCT(a) memset(&a, 0, sizeof(a))
 
-#ifdef ENABLE_TEAMTALKPRO
-
-#define DEFAULT_TCPPORT 10443
-#define DEFAULT_UDPPORT 10443
-
-#else
-
 #define DEFAULT_TCPPORT 10333
 #define DEFAULT_UDPPORT 10333
-
-#endif
 
 //Client spefic VU max SOUND_VU_MAX (voice act slider)
 #define DEFAULT_SOUND_VU_MAX            20
