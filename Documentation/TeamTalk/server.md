@@ -14,7 +14,6 @@ Here's an overview of this section:
   - [Installing multiple TeamTalk NT Services](@ref multintservice)
 - [TeamTalk Server for Linux](@ref tt5srvlinux)
 - [TeamTalk Server for Mac OS X](@ref tt5srvmac)
-- [TeamTalk Server with Facebook Login](@ref fbserver)
 
 # TeamTalk Server for Windows {#winserver}
 
@@ -128,15 +127,3 @@ To start the TeamTalk server setup-wizard type:\verbatim
 When running the setup-wizard then make sure the executable is run at
 a writable location so it's possible for the setup-wizard to save its
 changes to disk.
-
-# TeamTalk Server with Facebook Login {#fbserver}
-
-If a TeamTalk server is set up with a user account that has the
-username "facebook" then this will force the TeamTalk server to
-authenticate the user's credentials with Facebook's login service. For
-the TeamTalk server to do this it must have internet access and be
-able to do DNS lookups.
-
-Read section [Facebook Login](@ref fbuseraccount) for more information
-on how to set up a Facebook account.
-
