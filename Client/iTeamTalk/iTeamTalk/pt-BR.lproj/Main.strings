@@ -1,11 +1,10 @@
-
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
 "07s-AR-tvQ.title" = "Guia principal de controles";
 
 /* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
 "0EG-eF-WzS.title" = "Mensagem de texto";
 
-/* Class = "UILabel"; text = "Vazio"; ObjectID = "0QA-gn-V1p"; */
+/* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
 "0QA-gn-V1p.text" = "Vazio";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
@@ -32,10 +31,10 @@
 /* Class = "UIButton"; normalTitle = "Create Web Login ID"; ObjectID = "8Ls-H9-lri"; */
 "8Ls-H9-lri.normalTitle" = "Criar id de conexão web";
 
-/* Class = "UITextView"; text = "Vazio"; ObjectID = "9GN-82-2nL"; */
+/* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Vazio";
 
-/* Class = "UILabel"; text = "Vazio"; ObjectID = "ALe-1e-Au1"; */
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ALe-1e-Au1"; */
 "ALe-1e-Au1.text" = "Vazio";
 
 /* Class = "UITabBarItem"; title = "Channels"; ObjectID = "aX2-rZ-yEl"; */
@@ -74,13 +73,13 @@
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
 "DHN-DJ-cUp.normalTitle" = "Mensagem do usuário";
 
-/* Class = "UILabel"; text = "Vazio"; ObjectID = "EHj-xt-HhD"; */
+/* Class = "UILabel"; text = "Blank"; ObjectID = "EHj-xt-HhD"; */
 "EHj-xt-HhD.text" = "Vazio";
 
 /* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
 "eJb-Cn-ciJ.text" = "Escolha eventos para fazer teste";
 
-/* Class = "UILabel"; text = "Vazio"; ObjectID = "Fu9-tA-eYj"; */
+/* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "Vazio";
 
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
@@ -95,13 +94,13 @@
 /* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
 "j1c-gJ-hO8.title" = "Mensagens";
 
-/* Class = "UITextView"; text = "Vazio"; ObjectID = "JW6-jf-mbs"; */
+/* Class = "UITextView"; text = "Blank"; ObjectID = "JW6-jf-mbs"; */
 "JW6-jf-mbs.text" = "Vazio";
 
 /* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "JzB-tm-tld"; */
 "JzB-tm-tld.normalTitle" = "Editar";
 
-/* Class = "UILabel"; text = "Vazio"; ObjectID = "kRp-LE-RFh"; */
+/* Class = "UILabel"; text = "Blank"; ObjectID = "kRp-LE-RFh"; */
 "kRp-LE-RFh.text" = "Vazio";
 
 /* Class = "UITableViewController"; title = "Setup Sound Events"; ObjectID = "Ksa-x9-2Mq"; */
@@ -128,7 +127,7 @@
 /* Class = "UITableViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
 "NA0-UK-wve.title" = "Preferências";
 
-/* Class = "UILabel"; text = "Vazio"; ObjectID = "nVj-7w-Sta"; */
+/* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "Vazio";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
@@ -158,7 +157,7 @@
 /* Class = "UILabel"; text = "Login ID from BearWare.dk"; ObjectID = "SmF-8J-cWK"; */
 "SmF-8J-cWK.text" = "Id de login da BearWare.dk";
 
-/* Class = "UILabel"; text = "Vazio"; ObjectID = "Uc0-gP-wr1"; */
+/* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "Vazio";
 
 /* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
@@ -173,16 +172,16 @@
 /* Class = "UITableViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
 "VWP-v4-bY8.title" = "Selecionar voz";
 
-/* Class = "UILabel"; text = "Vazio"; ObjectID = "w6E-jf-09e"; */
+/* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
 "w6E-jf-09e.text" = "Vazio";
 
 /* Class = "UILabel"; text = "Select the text-to-speech voice to use"; ObjectID = "Wbh-f7-64c"; */
 "Wbh-f7-64c.text" = "Selecione o motor de voz que deseja usar";
 
-/* Class = "UILabel"; text = "Vazio"; ObjectID = "WcB-pN-blB"; */
+/* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
 "WcB-pN-blB.text" = "Vazio";
 
-/* Class = "UILabel"; text = "Vazio"; ObjectID = "WCf-u5-KkQ"; */
+/* Class = "UILabel"; text = "Blank"; ObjectID = "WCf-u5-KkQ"; */
 "WCf-u5-KkQ.text" = "Vazio";
 
 /* Class = "UIButton"; normalTitle = "Kick User"; ObjectID = "WFB-kl-uoS"; */
@@ -194,11 +193,11 @@
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
 "Y9o-rs-HCe.title" = "Desconectar";
 
-/* Class = "UILabel"; text = "Vazio"; ObjectID = "ydT-LM-DrB"; */
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ydT-LM-DrB"; */
 "ydT-LM-DrB.text" = "Vazio";
 
 /* Class = "UITabBarItem"; title = "Desktops"; ObjectID = "ZFj-Rn-XZn"; */
 "ZFj-Rn-XZn.title" = "Desktops";
 
-/* Class = "UILabel"; text = "Vazio"; ObjectID = "ZSZ-bY-VqA"; */
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ZSZ-bY-VqA"; */
 "ZSZ-bY-VqA.text" = "Vazio";
