@@ -1050,8 +1050,13 @@ void CTeamTalkDlg::OnLoggedOut(const TTMessage& msg)
 void CTeamTalkDlg::OnKicked(const TTMessage& msg)
 {
     PlaySoundEvent(SOUNDEVENT_CONNECTION_LOST);
-
-    AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from the channel.")));
+    if(msg.ttType == __USER) {
+        CString szMsg;
+        szMsg.Format(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from channel by %s.")), GetDisplayName(msg.user));
+        AfxMessageBox(szMsg);
+    } else {
+        AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNELBYUNK, _T("You have been kicked from channel by an unknown user.")));
+    }
 }
 
 void CTeamTalkDlg::OnServerUpdate(const TTMessage& msg)

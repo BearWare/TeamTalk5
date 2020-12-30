@@ -28,6 +28,7 @@ enum
 {
     COLUMN_INDEX_NICKNAME = 0,
     COLUMN_INDEX_USERNAME,
+    COLUMN_INDEX_BANTYPE,
     COLUMN_INDEX_BANTIME,
     COLUMN_INDEX_CHANPATH,
     COLUMN_INDEX_IPADDRESS,
@@ -51,6 +52,7 @@ QVariant BannedUsersModel::headerData ( int section, Qt::Orientation orientation
         {
             case COLUMN_INDEX_NICKNAME: return tr("Nickname");
             case COLUMN_INDEX_USERNAME: return tr("Username");
+            case COLUMN_INDEX_BANTYPE: return tr("Ban type");
             case COLUMN_INDEX_BANTIME: return tr("Ban Time");
             case COLUMN_INDEX_CHANPATH: return tr("Channel");
             case COLUMN_INDEX_IPADDRESS: return tr("IP-address");
@@ -79,6 +81,11 @@ QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::Di
             return _Q(m_users[index.row()].szNickname);
         case COLUMN_INDEX_USERNAME :
             return _Q(m_users[index.row()].szUsername);
+        case COLUMN_INDEX_BANTYPE :
+            if(m_users[index.row()].uBanTypes & BANTYPE_USERNAME)
+                return tr("User");
+            else if (m_users[index.row()].uBanTypes & BANTYPE_IPADDR)
+                return tr("IP");
         case COLUMN_INDEX_BANTIME :
             return _Q(m_users[index.row()].szBanTime);
         case COLUMN_INDEX_CHANPATH :

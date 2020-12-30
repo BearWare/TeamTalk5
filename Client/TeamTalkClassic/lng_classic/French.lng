@@ -167,6 +167,7 @@
     <item id="298">Nombre de commandes à autoriser (0 = désactivé)</item>
     <item id="299">Délai pour autoriser %d commandes (en secondes)</item>
     <item id="300">Anonyme</item>
+    <item id="301">Vous avez été exclu du canal par un utilisateur inconnu</item>
     <item id="302">Propriétés de l&apos;utilisateur banni</item>
     <item id="303">Nouveau profil</item>
     <item id="304">Supprimer le profil</item>
@@ -199,7 +200,7 @@
     <item id="332">Connexion à %s, port TCP %d, port UDP %d perdue</item>
     <item id="333">Connecté avec succès</item>
     <item id="334">Déconnecté avec succès</item>
-    <item id="335">Vous avez été exclu du canal.</item>
+    <item id="335">Vous avez été exclu du canal par %s</item>
     <item id="336">Une erreur inconnue est survenue.&#xD;&#xA;Vérifiez que l&apos;action que vous essayez d&apos;exécuter est supportée par le serveur.&#xD;&#xA;Cette erreur est souvent causée par une incompatibilité entre le serveur et votre client.</item>
     <item id="337">%s ne peut plus transmettre sa voix!</item>
     <item id="338">%s peut maintenant transmettre sa voix!</item>
@@ -412,7 +413,9 @@
     <item id="549">Le canal a des utilisateurs actifs</item>
     <item id="550">Service d&apos;identification indisponible</item>
     <item id="551">Utilisateur introuvable</item>
+    <item id="552">Utilisateur</item>
     <item id="553">Historique</item>
+    <item id="554">IP</item>
     <item id="555">Message</item>
     <item id="556">Sans nom</item>
     <item id="557">Liste de canaux</item>
@@ -872,5 +875,5 @@
     <item id="32953">Nouvelle instance du client\tCTRL-N</item>
     <item id="32954">Sélectionner pour déplacer\tCTRL-Alt-X</item>
     <item id="32955">Autoriser les messages de &amp;canaux\tCtrl-Alt-T</item>
-    <item id="32956">Autoriser les messages de canaux de &amp;tout le monde\tCtrl-Alt-Maj-T</item>
+    <item id="32956">Autoriser les messages de canau&amp;x de tout le monde\tCtrl-Alt-Maj-T</item>
 </language>
