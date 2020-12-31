@@ -167,6 +167,7 @@
     <item id="298">Nombre de commandes à autoriser (0 = désactivé)</item>
     <item id="299">Délai pour autoriser %d commandes (en secondes)</item>
     <item id="300">Anonyme</item>
+    <item id="301">Vous avez été exclu du canal par un utilisateur inconnu</item>
     <item id="302">Propriétés de l&apos;utilisateur banni</item>
     <item id="303">Nouveau profil</item>
     <item id="304">Supprimer le profil</item>
@@ -193,13 +194,14 @@
     <item id="325">Traitement audio Speex</item>
     <item id="326">Aucun traitement audio</item>
     <item id="327">Connecté… Identifié</item>
+    <item id="328">Position initiale</item>
     <item id="329">Impossible de se connecter à l&apos;hôte &quot;%s&quot;, Port TCP %d, Port UDP %d.&#xD;&#xA;Vérifiez que le serveur est démarré sur l&apos;adresse spécifiée et qu&apos;un pare-feu n&apos;empêche pas les clients de se connecter.</item>
     <item id="330">Une erreur est survenue lors de l&apos;exécution d&apos;une commande:&#xD;&#xA;</item>
     <item id="331">Impossible de se connecter à l&apos;hôte %s, port TCP %d, port UDP %d</item>
     <item id="332">Connexion à %s, port TCP %d, port UDP %d perdue</item>
     <item id="333">Connecté avec succès</item>
     <item id="334">Déconnecté avec succès</item>
-    <item id="335">Vous avez été exclu du canal.</item>
+    <item id="335">Vous avez été exclu du canal par %s</item>
     <item id="336">Une erreur inconnue est survenue.&#xD;&#xA;Vérifiez que l&apos;action que vous essayez d&apos;exécuter est supportée par le serveur.&#xD;&#xA;Cette erreur est souvent causée par une incompatibilité entre le serveur et votre client.</item>
     <item id="337">%s ne peut plus transmettre sa voix!</item>
     <item id="338">%s peut maintenant transmettre sa voix!</item>
@@ -412,7 +414,9 @@
     <item id="549">Le canal a des utilisateurs actifs</item>
     <item id="550">Service d&apos;identification indisponible</item>
     <item id="551">Utilisateur introuvable</item>
+    <item id="552">Utilisateur</item>
     <item id="553">Historique</item>
+    <item id="554">IP</item>
     <item id="555">Message</item>
     <item id="556">Sans nom</item>
     <item id="557">Liste de canaux</item>
@@ -534,25 +538,19 @@
     <item id="1211">Paramètres du système audio</item>
     <item id="1212">Aucune police sélectionnée</item>
     <item id="1213">Sélectionnez ici les périphériques audio que TeamTalk doit utiliser pour l&apos;enregistrement et la lecture audio. Choisir DirectSound est fortement recommandé car il offre une latence inférieure à celle du système audio par défaut de Windows.</item>
-    <item id="1214">Codec WebM VP8 développé par WebM project, www.webmproject.org</item>
     <item id="1215">En appuyant sur «Tester la sélection&quot;, vous pouvez tester les appareils actuellement sélectionnés et entendre si vous êtes en mesure de lire l&apos;audio enregistré par le périphérique d&apos;entrée sélectionné.</item>
     <item id="1217">L&apos;utilisateur peut créer des canaux temporaires</item>
     <item id="1218">L&apos;utilisateur peut créer/modifier tous les canaux</item>
     <item id="1221">Toujours au dessus</item>
     <item id="1225">&amp;Défaut</item>
     <item id="1226">Copyright (c) 2005-2020, BearWare.dk</item>
-    <item id="1228">Écrit par Bjoern D. Rasmussen</item>
-    <item id="1229">Codec Speex développé par Jean-Marc Valin, www.speex.org</item>
     <item id="1230">Nouvelles informations du canal</item>
     <item id="1231">&amp;Envoyer</item>
-    <item id="1232">Codec OPUS développé par Opus project, www.opus-codec.org</item>
     <item id="1236">Bienvenue dans l&apos;assistant de configuration de TeamTalk</item>
     <item id="1237">Terminé l&apos;assistant de configuration de TeamTalk</item>
     <item id="1238">Paramètres de lecture</item>
     <item id="1240">Traduit par Oreonan</item>
     <item id="1241">Langue de l&apos;interface utilisateur</item>
-    <item id="1243">Mélangeur</item>
-    <item id="1244">Contributeurs au projet TeamTalk Classic: Beqa Gozalishvili</item>
     <item id="1245">Utiliser une autre langue d&apos;installation</item>
     <item id="1246">Fermer quand terminé</item>
     <item id="1247">Annuler</item>
@@ -881,5 +879,5 @@
     <item id="32953">Nouvelle instance du client\tCTRL-N</item>
     <item id="32954">Sélectionner pour déplacer\tCTRL-Alt-X</item>
     <item id="32955">Autoriser les messages de &amp;canaux\tCtrl-Alt-T</item>
-    <item id="32956">Autoriser les messages de canaux de &amp;tout le monde\tCtrl-Alt-Maj-T</item>
+    <item id="32956">Autoriser les messages de canau&amp;x de tout le monde\tCtrl-Alt-Maj-T</item>
 </language>

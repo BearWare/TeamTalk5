@@ -213,6 +213,7 @@
     <string name="pref_title_authentication">Идентификация</string>
     <string name="pref_title_username">Имя Пользователя</string>
     <string name="pref_title_password">Пароль</string>
+    <string name="pref_title_bearware">Регистрация через BearWare.dk</string>
     <string name="pref_title_join_channel">Подключить Канал</string>
     <string name="pref_title_last_channel">Последний Посещенный Канал</string>
     <string name="pref_title_channel">Канал</string>
@@ -338,9 +339,11 @@
     <string name="diskquotalab">Дисковая квота:</string>
     <string name="bwidlab">Имя пользователя:</string>
     <string name="bwpswlab">Пароль:</string>
+    <string name="pref_title_bearware_summary">Только если для данного сервера разрешен вход через BearWare.dk</string>
     <string name="pref_cat_about">О программе</string>
     <string name="pref_title_contrib">Разработчики</string>
     <string name="pref_title_translator">Переводчик</string>
     <string name="pref_title_libraries">Сторонние Компоненты</string>
+    <string name="channel_prop_title_hiddenchannel">Скрытый</string>
 
 </resources>

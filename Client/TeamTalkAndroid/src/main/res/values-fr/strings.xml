@@ -350,6 +350,8 @@
     <string name="pref_title_translator">Traducteur</string>
     <string name="pref_title_libraries">Librairies tierces</string>
     <string name="channel_prop_title_hiddenchannel">Masquer</string>
+    <string name="pref_title_bearware">Connexion Web BearWare.dk</string>
+    <string name="pref_title_bearware_summary">À ne cocher que si ce serveur a activé la connexion Web BearWare.dk</string>
 
 
 </resources>

@@ -1052,7 +1052,7 @@ void CTeamTalkDlg::OnKicked(const TTMessage& msg)
         szMsg.Format(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from channel by %s.")), GetDisplayName(msg.user));
         AfxMessageBox(szMsg);
     } else {
-        AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNELBYUNK, _T("You have been kicked from the channel.")));
+        AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNELBYUNK, _T("You have been kicked from channel by an unknown user.")));
     }
 }
 
@@ -2758,6 +2758,8 @@ BOOL CTeamTalkDlg::OnInitDialog()
 
     m_wndTree.ShowEmojis(m_xmlSettings.GetShowEmojis());
 
+    m_szAwayMessage = STR_UTF8(m_xmlSettings.GetStatusMessage());
+
     //timestamp on messages?
     m_tabChat.m_wndRichEdit.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
 
@@ -3839,6 +3841,7 @@ void CTeamTalkDlg::OnMeChangestatus()
         m_nStatusMode = dlg.m_nStatusMode;
         m_szAwayMessage = dlg.m_szAwayMessage;
         TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
+        m_xmlSettings.SetStatusMessage(STR_UTF8(m_szAwayMessage));
     }
 }
 

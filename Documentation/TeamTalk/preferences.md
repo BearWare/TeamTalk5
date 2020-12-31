@@ -227,32 +227,19 @@ The items in the Sound System-tab are explained here:
 
 - **Windows Audio Session**
   - The preferred sound system on Windows.
-  - Echo cancellation, denoising and automatic gain control is
-    performed using Windows' built in functions.
-  - When enabling echo cancellation, denoising or automatic gain
-    control (AGC) the sound system automatically switches to mono at
-    22 KHz.
 
 - **DirectSound**
   - Provides best compatibility with sound devices.
-  - Echo cancellation, denoising and automatic gain control is
-    performed using Speex's audio processing.
 
 - **Windows Standard**
   - Windows default sound system. This typically is slower than
     DirectSound and Windows Audio Session.
-  - Echo cancellation, denoising and automatic gain control is
-    performed using Speex's audio processing.
   
 - **ALSA**
   - This sound system is only available on Linux.
-  - Echo cancellation, denoising and automatic gain control is
-    performed using Speex's audio processing.
 
 - **Core Audio**
   - This sound system is only available on Mac OS X.
-  - Echo cancellation, denoising and automatic gain control is
-    performed using Speex's audio processing.
 
 - **Input Device**
   - The sound device to use for recording audio. It is advised to use
@@ -267,20 +254,14 @@ The items in the Sound System-tab are explained here:
 - **Test Selected**
   - Use this to test the selected sound devices.
 
-- **Enable duplex mode (required for echo cancellation)**
-  - When this option is enabled all received audio is merged into a
-    single stream and played. Sound cards which cannot option multiple
-    streams can use this option and if you intend to use echo
-    cancellation this option is a requirement.
-
 - **Enable echo cancellation (remove echo from speakers)**
   - If you're using speakers instead of headphones when other users
     may be hearing themselves due to echo from speakers. Enabling this
-    option will remove the echo from speakers. It, however, requires a
-    lot of system resources and is therefore not enabled by
-    default. For best echo cancellation it's also advised to enable
-    the [Audio Configuration](@ref createchandlg) option when creating
-    channels.
+    option will remove the echo from speakers.
+  - Echo cancellation affects audio quality and is therefore not
+    enabled by default.
+  - For optimal configuration of echo cancellation please refer to
+    section [Optimal Echo Cancellation](@ref optimalechocancel)
 
 - **Enable automatic gain control (microphone level adjusted
   automatically)**
@@ -298,6 +279,38 @@ The items in the Sound System-tab are explained here:
 
 - **Default**
   - This button resets all sound system items to their default values.
+
+## Optimal Echo Cancellation {#optimalechocancel}
+
+Echo cancellation performs best if the selected sound input device and
+sound output device use the sample rate (typically 48000 Hz).
+
+On Windows 10 the default sample rate of sound devices can be
+configured in *Settings* (formerly Control Panel). *Sound* settings
+are found in *System* category. Here press *Sound Control Panel* in
+*Related Settings* and the following dialog will open:
+
+![Sound Control Panel on Windows 10](pref_soundctrl.png "Sound Control Panel")
+
+Click *Properties* on the selected sound output device, in
+*Playback*-tab, and select a sample rate that is also supported by the
+sound input device. The sample rates is located under *Advanced*-tab
+(see screenshot below). The sound input device is located in
+*Recording*-tab and also configurable using *Properties* button. The
+recommended setting is 2 channel (stereo), 16-bit at 48000 Hz.
+
+Below is shown "Headphones" playback device using the recommended
+settings:
+
+![Properties for a playback device on Windows 10](pref_wasapi.png "Sound Control Panel")
+
+If it is not possible to set up the same sample rate on sound input
+and output device then TeamTalk will try to use Windows' built-in echo
+canceller which is suboptimal. The Windows echo canceller converts
+recorded audio to mono at 22050 Hz.
+
+For best echo cancellation it is also advised to enable the
+[Audio Configuration](@ref createchandlg) option when creating channels.
 
 # Sound Events {#soundeventstab}
 

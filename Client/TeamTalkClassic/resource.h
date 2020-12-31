@@ -205,7 +205,7 @@
 #define IDS_CMDNO                       298
 #define IDS_CMDTIMEFRAME                299
 #define IDS_ANONYMOUS                   300
-#define IDS_KICKEDFROMCHANNELBYUNK      301
+#define IDS_KICKEDFROMCHANNELBYUNK                   301
 #define IDD_DIALOG_BANTYPE              302
 #define IDS_NEWPROFILE                  303
 #define IDS_DELETEPROFILE               304
@@ -232,6 +232,7 @@
 #define IDD_DIALOG_SPEEXDSP             325
 #define IDS_NOPREPROCESSOR              326
 #define IDS_CONLOGIN                    327
+#define IDC_STARTPOSLAB                 328
 #define IDS_CONFAILED                   329
 #define IDS_ERROROCCURREDCOMMAND        330
 #define IDS_CONNFAILED                  331
@@ -971,7 +972,6 @@
 #define IDC_CHECK_JOINCHANNEL           1601
 #define IDC_CHECK_HIDDENCHANNEL         1602
 #define IDC_STATIC_GRPCHANTYPE          1603
-#define IDC_STARTPOSLAB                 1604
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801

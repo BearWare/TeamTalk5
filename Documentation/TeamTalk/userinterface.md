@@ -302,20 +302,13 @@ checked.
 ### Authentication
 
 Most TeamTalk server owners set up their own usernames and passwords
-for users. Some TeamTalk server also support publicly available login
-systems provided by BearWare.dk and Facebook.
+for users. Some TeamTalk servers also support a publicly available login
+system provided by BearWare.dk.
 
 - BearWare.dk Web Login
   - If the username to log on to a server is "bearware" then you must
     register a username on BearWare.dk and use this to log on to the
     server.
-
-- Facebook Login
-  - If the username to log on to the server is "facebook" then a
-    dialog will pop up asking you to log into Facebook. For more
-    information on Facebook login read section @ref fbuseraccount. If
-    at some point you want to log into a different Facebook account
-    then hit Escape when the Facebook login dialog appears.
 
 Learn more about setting up user accounts by read the section on
 [configuring TeamTalk servers](@ref teamtalkserver) or the section
@@ -400,8 +393,8 @@ Each of the menu items in the Me-menu are described here:
       is simply a display name. It has no relation to your username
       (if you have a user account). In @ref useraccountsdlg it's
       possible to lock the nickname so it cannot be changed. This is
-      especially useful if you use a [Facebook login](@ref fbuseraccount)
-      and want to know who the people are.
+      especially useful if you use BearWare.dk Web Login
+      and want people to use their registered name.
 - **Change Status**
     - This is used to change your status mode, like e.g. Available,
       Away, Question-mode and set a message regarding your current
@@ -494,10 +487,7 @@ active.
 
 - **View User Information**
     - Use this menu item to get extended information about a user,
-    like e.g. username, user type and packet reception. If the user is
-    a Facebook user then it's possible open the user's profile
-    page. Read section [Facebook Login](@ref fbuseraccount) to learn
-    more about Facebook logins.
+    like e.g. username, user type and packet reception.
 - **Messages**
     - The menu item is for sending user to user text messages. A
       message dialog will pop up on the user's computer when you send
@@ -1013,10 +1003,6 @@ initially an administrator account can be set up so
 further user accounts can be created using this user accounts
 dialog.
 
-Note that a special account with the username "facebook" can be used
-to allow Facebook logins. More on this in
-[Facebook Login](@ref fbuseraccount) section.
-
 Here is shown the User Accounts-dialog.
 
 ![User Accounts Dialog](dlg_useraccounts.png "User Accounts")
@@ -1044,17 +1030,16 @@ The remaining items are explained in the following sections.
 - **Username**
     - The username for the user account. A client logging on to the
       TeamTalk server must provide this along with a password.
-    - If the username "facebook" is used then the clients using this
-      username will be asked to authenticate with
-      [Facebook](http://www.facebook.com) before logging in. Read
-      section [Facebook Login](@ref fbuseraccount) for more
-      information on setting up a Facebook login.
+    - To enable BearWare.dk Web Login on a TeamTalk 5 Pro Server then
+      create a user account with the username "bearware". Don't specify
+      a password.
+    - To create a user account for a specific BearWare.dk Web Login
+      user on a TeamTalk 5 Pro Server then create a user account with
+      the login name followed by @bearware.dk,
+      e.g. bear_dk@bearware.dk. Don't specify a password.
 - **Password**
     - The password of the new user account.
-    - For Facebook logins, i.e. username "facebook" or
-      postfix "@facebook.com", no password is required (the TeamTalk
-      server validates the user's authenticity with Facebook's login
-      service).
+    - Don't specify a password for BearWare.dk Web Login accounts.
 - **Note**
     - Information about the user account can be put here.
 - **Initial Channel**
@@ -1071,9 +1056,8 @@ The remaining items are explained in the following sections.
 - **User can change nickname**
     - If unchecked then the user cannot change the client's nickname
       using the [Change Nickname menu item](@ref memenu). This can
-      also be used if users show be force to use their Facebook
-      profile name as nickname.  See section @ref fbuseraccount for
-      more information on using Facebook accounts.
+      also be used if users should be forced to use their registered
+      profile name as nickname when using BearWare.dk Web Login.
 - **User can see users in all channels**
     - If unchecked the user can only see users in the current channel.
 - **User can see hidden channels**
@@ -1152,32 +1136,6 @@ The remaining items are explained in the following sections.
 - **Limit issued commands**
   - Prevent users from sending numerous commands to the server or
     other users.
-
-## Facebook Login {#fbuseraccount}
-
-By specifying the username "facebook" will force the clients using
-this user account to log in using their Facebook account. The TeamTalk
-server will then authenticate that the login is valid using Facebook's
-login service. Section @ref fbserver explains what is required for a
-TeamTalk server to handle Facebook logins.
-
-When a Facebook user is logged into the TeamTalk server then their
-username will appear as their Facebook user ID followed by
-@@facebook.com. Here's an example:
-
-![User Information Dialog](dlg_userinfo.png "User Information")
-
-If you want one Facebook user to have special user-rights on the
-TeamTalk server then you can create a user account with the Facebook
-user's account name. In the above example the username for the 
-account would be "10155659119756192@facebook.com".
-
-The dialog picture in section [User Accounts](@ref useraccountsdlg)
-shows 10155659119756192@facebook.com as an active user account.
-
-Note that by not allowing users to change nickname (when creating a
-Facebook user account) will cause their Facebook profile name to
-appear as their nickname on the TeamTalk server.
 
 ## Banned Users Dialog {#bannedusersdlg}
 
