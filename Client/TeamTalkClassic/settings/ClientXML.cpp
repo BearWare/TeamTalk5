@@ -466,6 +466,16 @@ namespace teamtalk {
         return def_nickname;
     }
 
+    void ClientXML::SetStatusMessage(const std::string& szStatusMsg)
+    {
+        SetValue("general/status-message", szStatusMsg);
+    }
+
+    std::string ClientXML::GetStatusMessage(std::string def_statusmsg/* = std::string()*/)
+    {
+        return GetValue(true, "general/status-message", def_statusmsg);
+    }
+
     void ClientXML::SetBearWareLogin(const std::string& szUsername, const std::string& szToken)
     {
         SetValue("general/bearwareid/username", szUsername);

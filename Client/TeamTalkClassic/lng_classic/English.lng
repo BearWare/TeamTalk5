@@ -167,6 +167,7 @@
     <item id="298">Number of commands to allow (0 = disabled)</item>
     <item id="299">Timeframe to allow %d commands (in seconds)</item>
     <item id="300">Anonymous</item>
+    <item id="301">You have been kicked from channel by an unknown user</item>
     <item id="302">Ban User Properties</item>
     <item id="303">New profile</item>
     <item id="304">Delete profile</item>
@@ -193,13 +194,14 @@
     <item id="325">Speex Audio Preprocessor</item>
     <item id="326">No Audio Preprocessor</item>
     <item id="327">Connected... logging in</item>
+    <item id="328">Start position</item>
     <item id="329">Failed to connect to host &quot;%s&quot; TCP port %d UDP port %d.&#xD;&#xA;Check that the server is running on the specified address&#xD;&#xA;and that a firewall isn&apos;t preventing clients from connecting.</item>
     <item id="330">An error occurred while perform a requested command:&#xD;&#xA;</item>
     <item id="331">Failed to connect to %s TCP port %d UDP port %d</item>
     <item id="332">Connection lost to %s TCP port %d UDP port %d</item>
     <item id="333">Successfully logged in</item>
     <item id="334">Successfully logged out</item>
-    <item id="335">You have been kicked from the channel.</item>
+    <item id="335">You have been kicked from channel by %s</item>
     <item id="336">An unknown error occurred. Check that the action you&#xD;&#xA;performed is supported by the server. This error is most&#xD;&#xA;likely caused by an incompability issue between the server&#xD;&#xA;and your client.</item>
     <item id="337">%s can no longer transmit voice!</item>
     <item id="338">%s can now transmit voice!</item>
@@ -412,7 +414,9 @@
     <item id="549">Channel has active users</item>
     <item id="550">Login service unavailable</item>
     <item id="551">User not found</item>
+    <item id="552">User</item>
     <item id="553">History</item>
+    <item id="554">IP</item>
     <item id="555">Message</item>
     <item id="556">NoName</item>
     <item id="557">Channel list</item>
@@ -428,6 +432,7 @@
     <item id="567">This sound device configuration gives suboptimal echo cancellation. Check manual for details.</item>
     <item id="568">Using sound input: %s</item>
     <item id="569">Using sound output: %s</item>
+    <item id="570">Channel</item>
     <item id="1006">Files list</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
