@@ -1488,18 +1488,12 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
 
     CString szName = GetDisplayName(user);
     CString szText, szFormat;
-    CString szSub;
 
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_USER_MSG) !=
         (user.uPeerSubscriptions & SUBSCRIBE_USER_MSG))
     {
-    if((user.uPeerSubscriptions & SUBSCRIBE_USER_MSG) == '0') {
-        szSub = _T("disable");
-    } else {
-        szSub = _T("enable");
-    }
         szFormat = LoadText(IDS_SUB_TEXTMSG);
-        szText.Format(szFormat, szName, szSub);
+        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG) != SUBSCRIBE_NONE);
         AddStatusText(szText);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE)
             AddTextToSpeechMessage(szText);
@@ -4188,7 +4182,7 @@ void CTeamTalkDlg::OnUsersPositionusers()
 
 void CTeamTalkDlg::OnUpdateAdvancedIncvolumevoice(CCmdUI *pCmdUI)
 {
-     User user;
+    User user;
     if(TT_GetUser(ttInst, m_wndTree.GetSelectedUser(), &user))
         pCmdUI->Enable(user.nVolumeVoice<SOUND_VOLUME_MAX);
     else
@@ -6876,10 +6870,6 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
 
         CString szChannel, szPasswd, szClassroom, szTopic;
         szChannel.LoadString(IDS_CHANNEL);
-        if(TT_GetRootChannelID(ttInst) == chan.nChannelID) {
-            szChannel += _T(" ");
-            szChannel += LoadText(IDS_ROOTCHANNEL, _T("Root"));
-        }
         szPasswd.LoadString(IDS_PASSWORD_PROTECTED);
         szClassroom.LoadString(IDS_CLASSROOMCHANNEL);
 

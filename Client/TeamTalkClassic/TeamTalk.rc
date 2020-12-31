@@ -1973,8 +1973,6 @@ BEGIN
     ID_USERS_KICKCHANNEL    "Kick the selected user"
     ID_ADVANCED_INCVOLUMEVOICE "Increase the user's voice volume"
     ID_ADVANCED_LOWERVOLUMEVOICE "Lower the user's voice volume"
-    ID_ADVANCED_INCVOLUMEMEDIAFILE "Increase the user's media files volume"
-    ID_ADVANCED_LOWERVOLUMEMEDIAFILE "Lower the user's media files volume"
     ID_USERS_USERINFO       "User In&fo"
     ID_CHANNELS_CHANNELINFO "Channel In&fo"
 END
