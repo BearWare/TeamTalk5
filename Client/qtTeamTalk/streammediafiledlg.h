@@ -43,7 +43,6 @@ public:
 private slots:
     void slotAccepted();
     void slotSelectFile();
-    void slotDeleteItem();
     void slotSelectionFile(const QString&);
     void showMediaFormatInfo();
     void updateControls();

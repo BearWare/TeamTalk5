@@ -759,7 +759,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             //make server servername appear as the root channel name
             ServerProperties prop = {};
             TT_GetServerProperties(ttInst, &prop);
-            channame += _Q(prop.szServerName);
+            channame = _Q(prop.szServerName);
             if(item->isExpanded())
                 img_name = ":/images/images/root_open.png";
             else
@@ -767,7 +767,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         }
         else
         {
-            channame += _Q(ite->szName);
+            channame = _Q(ite->szName);
             item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
             if(item->isExpanded())
                 img_name = ":/images/images/channel_open.png";

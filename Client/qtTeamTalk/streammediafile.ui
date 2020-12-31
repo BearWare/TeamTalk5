@@ -31,9 +31,6 @@
         </item>
         <item>
          <widget class="QComboBox" name="mediafileComboBox">
-          <property name="currentText">
-           <string />
-          </property>
           <property name="editable">
            <bool>true</bool>
           </property>
@@ -46,16 +43,6 @@
           </property>
           <property name="text">
            <string>...</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="delButton">
-          <property name="accessibleName">
-           <string>Delete from list</string>
-          </property>
-          <property name="text">
-           <string>Delete</string>
           </property>
          </widget>
         </item>
@@ -442,7 +429,6 @@
  <tabstops>
   <tabstop>mediafileComboBox</tabstop>
   <tabstop>toolButton</tabstop>
-  <tabstop>delButton</tabstop>
   <tabstop>refreshBtn</tabstop>
   <tabstop>loopChkBox</tabstop>
   <tabstop>preprocessorComboBox</tabstop>

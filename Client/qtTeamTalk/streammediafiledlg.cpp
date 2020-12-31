@@ -44,13 +44,12 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
 
     connect(this, &QDialog::accepted, this, &StreamMediaFileDlg::slotAccepted);
     connect(ui.toolButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotSelectFile);
-    connect(ui.delButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotDeleteItem);
     connect(ui.refreshBtn, &QAbstractButton::clicked, this, &StreamMediaFileDlg::showMediaFormatInfo);
     //connect(ui.vidcodecBox, &QComboBox::currentIndexChanged, ui.vidcodecStackedWidget, &QStackedWidget::setCurrentIndex);
     connect(ui.stopToolButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotStopMediaFile);
     connect(ui.startToolButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotPlayMediaFile);
-/*    connect(ui.mediafileComboBox->lineEdit(), &QLineEdit::editingFinished, this, &StreamMediaFileDlg::showMediaFormatInfo);
-    connect(ui.mediafileComboBox, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(slotSelectionFile(const QString&)));*/
+    connect(ui.mediafileComboBox->lineEdit(), &QLineEdit::editingFinished, this, &StreamMediaFileDlg::showMediaFormatInfo);
+    connect(ui.mediafileComboBox, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(slotSelectionFile(const QString&)));
     connect(ui.preprocessorComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangePreprocessor(int)));
     connect(ui.preprocessButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotSetupPreprocessor);
     connect(ui.playbackOffsetSlider, &QSlider::sliderMoved, this, &StreamMediaFileDlg::slotChangePlayOffset);
@@ -137,13 +136,6 @@ void StreamMediaFileDlg::slotSelectFile()
         ui.mediafileComboBox->insertItem(0, fileName);
         ui.mediafileComboBox->setCurrentIndex(0); // generates showMediaFormatInfo()
     }
-}
-
-void StreamMediaFileDlg::slotDeleteItem()
-{
-    int i = ui.mediafileComboBox->currentIndex();
-    ttSettings->remove(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i));
-    ui.mediafileComboBox->setCurrentIndex(i+1);
 }
 
 void StreamMediaFileDlg::slotSelectionFile(const QString&)
@@ -242,16 +234,6 @@ void StreamMediaFileDlg::updateProgress(quint32 elapsed, bool setvalue)
 
 void StreamMediaFileDlg::slotPlayMediaFile()
 {
-    auto flags = TT_GetFlags(ttInst);
-    if ((flags & (CLIENT_SNDOUTPUT_READY & CLIENT_SNDINOUTPUT_DUPLEX)) == CLIENT_CLOSED)
-    {
-        QStringList errors = initSelectedSoundDevices();
-        for (auto s : errors)
-            QMessageBox::critical(this, tr("Play"), s);
-        if (errors.size())
-            return;
-    }
-
     if (m_playbackid) // pause
     {
         m_mfp.bPaused = !m_mfp.bPaused;
@@ -324,8 +306,8 @@ void StreamMediaFileDlg::slotChangePlayOffset(int value)
 
 void StreamMediaFileDlg::slotChangePreprocessor(int /*index*/)
 {
-    m_mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(ui.preprocessorComboBox->currentData().toInt());
-    loadAudioPreprocessor(m_mfp.audioPreprocessor);
+    auto apt = AudioPreprocessorType(ui.preprocessorComboBox->currentData().toInt());
+    loadAudioPreprocessor(apt, m_mfp.audioPreprocessor);
 }
 
 void StreamMediaFileDlg::slotSetupPreprocessor(bool)

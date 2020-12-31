@@ -90,7 +90,6 @@ TRANSLATIONS = languages/Bulgarian.ts \
                languages/Dutch.ts \
                languages/English.ts \
                languages/French.ts \
-               languages/French-JP3.ts \
                languages/German.ts \
                languages/Hebrew.ts \
                languages/Hungarian.ts \

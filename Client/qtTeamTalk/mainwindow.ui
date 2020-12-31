@@ -647,18 +647,12 @@
                   <property name="accessibleName">
                    <string>Message</string>
                   </property>
-                  <property name="visible">
-                   <bool>false</bool>
-                  </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QToolButton" name="videosendButton">
                   <property name="text">
                    <string>Sen&amp;d</string>
-                  </property>
-                  <property name="visible">
-                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
@@ -921,18 +915,12 @@
                   <property name="accessibleName">
                    <string>Message</string>
                   </property>
-                  <property name="visible">
-                   <bool>false</bool>
-                  </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QToolButton" name="desktopsendButton">
                   <property name="text">
                    <string>Sen&amp;d</string>
-                  </property>
-                  <property name="visible">
-                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
@@ -971,8 +959,7 @@
           </widget>
          </item>
          <item>
-//          <widget class="FilesView" name="filesView">
-          <widget class="QTableView" name="filesView"/>
+          <widget class="FilesView" name="filesView">
            <property name="accessibleName">
             <string>Files list</string>
            </property>
@@ -994,7 +981,7 @@
            <property name="selectionBehavior">
             <enum>QAbstractItemView::SelectRows</enum>
            </property>
-<!--           <property name="indentation">
+           <property name="indentation">
             <number>0</number>
            </property>
            <property name="rootIsDecorated">
@@ -1004,9 +991,6 @@
             <bool>false</bool>
            </property>
            <property name="expandsOnDoubleClick">
-            <bool>false</bool>
-           </property>-->
-           <property name="tabKeyNavigation">
             <bool>false</bool>
            </property>
           </widget>
@@ -1237,7 +1221,6 @@
     <addaction name="actionManual"/>
     <addaction name="actionResetPreferencesToDefault"/>
     <addaction name="actionVisitBearWare"/>
-    <addaction name="actionVisitChangeLog"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
    </widget>
@@ -1774,11 +1757,6 @@
     <string>&amp;BearWare.dk Website</string>
    </property>
   </action>
-  <action name="actionVisitChangeLog">
-   <property name="text">
-    <string>&amp;Change Log</string>
-   </property>
-  </action>
   <action name="actionAllowVoiceTransmission">
    <property name="checkable">
     <bool>true</bool>
@@ -1995,7 +1973,7 @@
     <string>Mu&amp;te Voice</string>
    </property>
    <property name="shortcut">
-    <string notr="true">Ctrl+Shift+M</string>
+    <string>Ctrl+Shift+M</string>
    </property>
   </action>
   <action name="actionMuteMediaFile">
