@@ -242,7 +242,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="55"/>
         <source>Ban type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de bannissement</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="56"/>
@@ -263,22 +263,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="88"/>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="90"/>
         <source>,IP</source>
-        <translation type="unfinished"></translation>
+        <translation>, IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="90"/>
         <source>IP</source>
-        <translation type="unfinished"></translation>
+        <translation>IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="92"/>
         <source>,Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>, Canal</translation>
     </message>
 </context>
 <context>
@@ -2454,7 +2454,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5544"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Le fichier %1 contient les informations de configuration %2. Ces paramètres doivent-ils être appliqués?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2144"/>
@@ -2826,12 +2826,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.cpp" line="5543"/>
         <source>Load %1 File</source>
         <translation>Chargement du fichier %1</translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">Le fichier %1 contient des informations de configuration %2.
-Ces paramètres doivent-ils être appliqués?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5614"/>
@@ -3653,7 +3647,7 @@ Ces paramètres doivent-ils être appliqués?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1106"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette sélection de périphériques audio entraîne une annulation d&apos;écho non optimale. Consultez le manuel pour les détails.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1124"/>
@@ -4811,10 +4805,6 @@ Ces paramètres doivent-ils être appliqués?</translation>
         <translation>Nom d&apos;utilisateur</translation>
     </message>
     <message>
-        <source>Profile</source>
-        <translation type="vanished">Profil</translation>
-    </message>
-    <message>
         <location filename="../userinfo.ui" line="100"/>
         <source>Status mode</source>
         <translation>Mode de statut</translation>
@@ -5087,17 +5077,5 @@ Ces paramètres doivent-ils être appliqués?</translation>
 </context>
 <context>
     <name>WebLoginDlg</name>
-    <message>
-        <source>Web Login</source>
-        <translation type="vanished">Connexion Web</translation>
-    </message>
-    <message>
-        <source>Facebook Login</source>
-        <translation type="vanished">Connexion Facebook</translation>
-    </message>
-    <message>
-        <source>Do Facebook logout?</source>
-        <translation type="vanished">Se déconnecter de Facebook?</translation>
-    </message>
 </context>
 </TS>

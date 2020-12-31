@@ -13,8 +13,9 @@ LIBPATHNAME=LD_LIBRARY_PATH
 endif
 
 CLASSPATH ?= .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR)
-CLASSPATH_STD = $(CLASSPATH):$(PWD)/libs/TeamTalk5.jar
-CLASSPATH_PRO = $(CLASSPATH):$(PWD)/libs/TeamTalk5Pro.jar
+CLASSPATH_STD = $(CLASSPATH):$(PWD)/libs/TeamTalk5.jar:$(PWD)/libs/TeamTalk5Test.jar
+CLASSPATH_PRO = $(CLASSPATH):$(PWD)/libs/TeamTalk5Pro.jar:$(PWD)/libs/TeamTalk5ProTest.jar
+CLASSPATH_SRV = $(CLASSPATH):$(PWD)/libs/TeamTalk5Pro.jar:$(PWD)/libs/TeamTalk5SrvTest.jar
 
 # DYLD_LIBRARY_PATH has been removed in Mac OS Sierra, so use
 # -Djava.library.path instead
@@ -26,8 +27,8 @@ SRCTARGET=-source 1.7 -target 1.7
 JAVAPROP=-Djava.library.path=$(LIBPATH)
 JAVAPROP+=-Ddk.bearware.sndinputid=$(INPUTDEVICEID)
 JAVAPROP+=-Ddk.bearware.sndoutputid=$(OUTPUTDEVICEID)
-JAVAPROP+=-Ddk.bearware.encrypted=$(ENCRYPTED) 
-JAVAPROP+=-Ddk.bearware.videodevid=$(VIDEODEVICEID) 
+JAVAPROP+=-Ddk.bearware.encrypted=$(ENCRYPTED)
+JAVAPROP+=-Ddk.bearware.videodevid=$(VIDEODEVICEID)
 JAVAPROP+=-Ddk.bearware.serverip=$(SERVERIP)
 JAVAPROP+=-Ddk.bearware.serverbindip=$(SERVERBINDIP)
 JAVAPROP+=-Ddk.bearware.videofile=$(VIDEOFILE)
@@ -44,14 +45,6 @@ help:
 	@echo "  macnativepro"
 	@echo "    - Setup libTeamTalk5Pro-jni.$(SHARED_EXT) JNI DLL for TeamTalk5Pro DLL,"
 	@echo "      i.e. run install_name_tool to set dependency path (otool -L)"
-	@echo "  clean"
-	@echo "    - Remove all intermediate files"
-	@echo "  junit"
-	@echo "    - Build TeamTalk5Test.jar"
-	@echo "  junitpro"
-	@echo "    - Build TeamTalk5ProTest.jar"
-	@echo "  junitsrv"
-	@echo "    - Build TeamTalk5SrvTest.jar"
 	@echo "  runjunit"
 	@echo "    - Run JUnit test-cases in TeamTalkStdTestSuite"
 	@echo "  runjunitpro"
@@ -100,42 +93,20 @@ macnative:
 macnativepro:
 	install_name_tool -change @rpath/libTeamTalk5Pro.dylib $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro.dylib libs/libTeamTalk5Pro-jni.dylib
 
-clean:
-	cd test && find . -name \*.class -exec rm {} \;
-	rm -f libs/TeamTalk5Test.jar
-
-# Instantiates class dk.bearware.TeamTalk5
-junit:
-	cd test && javac $(SRCTARGET) -g -cp "$(CLASSPATH_STD)" -sourcepath ../src dk/bearware/TeamTalkStdTestCase.java \
-	dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkStdTestSuite.java SingleJUnitTestRunner.java
-	cd test && jar cf ../libs/TeamTalk5Test.jar ./dk/bearware/*.class
-
-# Instantiates class dk.bearware.TeamTalk5Pro
-junitpro:
-	cd test && javac $(SRCTARGET) -g -cp "$(CLASSPATH_PRO)" -sourcepath ../src dk/bearware/TeamTalkProTestCase.java \
-	dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkProTestSuite.java SingleJUnitTestRunner.java
-	cd test && jar cf ../libs/TeamTalk5ProTest.jar ./dk/bearware/*.class
-
-# Instantiates class dk.bearware.TeamTalk5Pro
-junitsrv:
-	cd test && javac $(SRCTARGET) -cp "$(CLASSPATH_PRO)" -sourcepath ../src dk/bearware/TeamTalkTestCaseBase.java \
-	dk/bearware/TeamTalkServerTestCase.java TeamTalkServerTestSuite.java SingleJUnitTestRunner.java
-	cd test && jar cf ../libs/TeamTalk5SrvTest.jar ./dk/bearware/*.class
-
-runjunit:  junit
+runjunit:
 	cd test && java -cp "$(CLASSPATH_STD)" $(JAVAPROP) org.junit.runner.JUnitCore TeamTalkStdTestSuite
 
-runjunitpro:  junitpro
+runjunitpro:
 	cd test && java -cp "$(CLASSPATH_PRO)" $(JAVAPROP) org.junit.runner.JUnitCore TeamTalkProTestSuite
 
-runjunitsrv:  junitsrv
-	cd test && java -cp "$(CLASSPATH_PRO)" $(JAVAPROP) org.junit.runner.JUnitCore TeamTalkServerTestSuite
+runjunitsrv:
+	cd test && java -cp "$(CLASSPATH_SRV)" $(JAVAPROP) org.junit.runner.JUnitCore TeamTalkServerTestSuite
 
-testcase: junit
+testcase:
 	cd test && java -cp "$(CLASSPATH_STD)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkStdTestCase#$(TARGET)
 
-testcasepro: junitpro
+testcasepro:
 	cd test && java -cp "$(CLASSPATH_PRO)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkProTestCase#$(TARGET)
 
-testcasesrv: junitsrv
-	cd test && java -cp "$(CLASSPATH_PRO)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkServerTestCase#$(TARGET)
+testcasesrv:
+	cd test && java -cp "$(CLASSPATH_SRV)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkServerTestCase#$(TARGET)

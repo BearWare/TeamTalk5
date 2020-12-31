@@ -52,6 +52,7 @@ set (JAVA_SOURCES
   src/dk/bearware/Codec.java
   src/dk/bearware/Constants.java
   src/dk/bearware/DesktopInput.java
+  src/dk/bearware/DesktopKeyStates.java
   src/dk/bearware/DesktopProtocol.java
   src/dk/bearware/DesktopWindow.java
   src/dk/bearware/EncryptionContext.java
@@ -92,6 +93,7 @@ set (JAVA_SOURCES
   src/dk/bearware/TextMessage.java
   src/dk/bearware/TextMsgType.java
   src/dk/bearware/TTAudioPreprocessor.java
+  src/dk/bearware/TTKeyTranslate.java
   src/dk/bearware/TTMessage.java
   src/dk/bearware/TTType.java
   src/dk/bearware/User.java
@@ -129,7 +131,7 @@ if (BUILD_TEAMTALKPRO_LIBRARY_JNI OR BUILD_TEAMTALK_LIBRARY_JNI)
 endif()
 
 if (BUILD_TEAMTALK_LIBRARY_JNI)
-  
+
   add_library (TeamTalk5-jni SHARED
     jni/teamtalk-jni.cpp
     jni/ttconvert-jni.cpp
@@ -152,7 +154,7 @@ if (BUILD_TEAMTALK_LIBRARY_JNI)
   else()
     set_output_dir(TeamTalk5-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs")
   endif()
-  
+
 endif()
 
 if (BUILD_TEAMTALKPRO_LIBRARY_JNI)
@@ -208,3 +210,42 @@ if (BUILD_TEAMTALKPRO_LIBRARY_JAR)
     OUTPUT_DIR libs)
 endif()
 
+# JUnit tests
+
+find_jar (junit NAMES junit4 junit
+          DOC "Find JUnit")
+
+if (NOT junit)
+  message(WARNING "Cannot find JUnit jar. Skipping JUnit tests.")
+else()
+
+  if (BUILD_TEAMTALK_LIBRARY_JAR)
+    add_jar (TeamTalk5Test INCLUDE_JARS TeamTalk5JAR ${junit}
+      ENTRY_POINT org/junit/runner/JUnitCore
+      SOURCES test/dk/bearware/TeamTalkTestCase.java
+      test/dk/bearware/TeamTalkTestCaseBase.java
+      test/dk/bearware/TeamTalkStdTestCase.java
+      test/TeamTalkStdTestSuite.java
+      test/SingleJUnitTestRunner.java
+      OUTPUT_DIR libs)
+  endif()
+
+  if (BUILD_TEAMTALKPRO_LIBRARY_JAR)
+    add_jar (TeamTalk5ProTest INCLUDE_JARS TeamTalk5ProJAR ${junit}
+      ENTRY_POINT org/junit/runner/JUnitCore
+      SOURCES test/dk/bearware/TeamTalkTestCase.java
+      test/dk/bearware/TeamTalkTestCaseBase.java
+      test/dk/bearware/TeamTalkProTestCase.java
+      test/TeamTalkProTestSuite.java
+      test/SingleJUnitTestRunner.java
+      OUTPUT_DIR libs)
+
+    add_jar (TeamTalk5SrvTest INCLUDE_JARS TeamTalk5ProJAR ${junit}
+      ENTRY_POINT org/junit/runner/JUnitCore
+      SOURCES test/dk/bearware/TeamTalkTestCaseBase.java
+      test/dk/bearware/TeamTalkServerTestCase.java
+      test/TeamTalkServerTestSuite.java
+      test/SingleJUnitTestRunner.java
+      OUTPUT_DIR libs)
+  endif()
+endif()
