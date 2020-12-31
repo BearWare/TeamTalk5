@@ -166,12 +166,12 @@ p, li { white-space: pre-wrap; }
         <translation>Забранени потребители</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="161"/>
+        <location filename="../bannedusersdlg.cpp" line="174"/>
         <source>Ban IP-address</source>
         <translation>Забрани IP-адрес</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="162"/>
+        <location filename="../bannedusersdlg.cpp" line="175"/>
         <source>Ban Username</source>
         <translation type="unfinished"></translation>
     </message>
@@ -204,28 +204,54 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>BannedUsersModel</name>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="52"/>
+        <location filename="../bannedusersdlg.cpp" line="53"/>
         <source>Nickname</source>
         <translation type="unfinished">Име (Nickname)</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="53"/>
+        <location filename="../bannedusersdlg.cpp" line="54"/>
         <source>Username</source>
         <translation type="unfinished">Потребителско име</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="54"/>
+        <location filename="../bannedusersdlg.cpp" line="55"/>
+        <source>Ban type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="56"/>
         <source>Ban Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="55"/>
+        <location filename="../bannedusersdlg.cpp" line="57"/>
+        <location filename="../bannedusersdlg.cpp" line="92"/>
         <source>Channel</source>
         <translation type="unfinished">Канал</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="56"/>
+        <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>IP-address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="88"/>
+        <source>User</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="90"/>
+        <source>,IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="90"/>
+        <source>IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="92"/>
+        <source>,Channel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2723,6 +2749,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="5544"/>
+        <source>The file %1 contains %2 setup information.
+Should these settings be applied?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="980"/>
         <source>%1 joined channel</source>
         <translation>%1 влезе в канала</translation>
@@ -2832,12 +2864,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5543"/>
         <source>Load %1 File</source>
         <translation>Зареди %1 файл</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5544"/>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The file %1 contains %2 setup information.
@@ -3307,7 +3333,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="875"/>
-        <location filename="../preferencesdlg.cpp" line="814"/>
+        <location filename="../preferencesdlg.cpp" line="815"/>
         <source>Sound System</source>
         <translation>Звук</translation>
     </message>
@@ -3555,6 +3581,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1799"/>
+        <location filename="../preferencesdlg.cpp" line="1105"/>
         <source>Test Selected</source>
         <translation>Тествай избраните</translation>
     </message>
@@ -3575,54 +3602,54 @@ Should these settings be applied?</source>
         <translation>Битрейт</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="299"/>
+        <location filename="../preferencesdlg.cpp" line="300"/>
         <source>Default Input Device</source>
         <translation>Входящо устройство по подразбиране</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="333"/>
+        <location filename="../preferencesdlg.cpp" line="334"/>
         <source>Default Output Device</source>
         <translation>Изходящо устройство по подразбиране</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="317"/>
-        <location filename="../preferencesdlg.cpp" line="348"/>
+        <location filename="../preferencesdlg.cpp" line="318"/>
+        <location filename="../preferencesdlg.cpp" line="349"/>
         <source>No Sound Device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="387"/>
+        <location filename="../preferencesdlg.cpp" line="388"/>
         <source>Open Wave File</source>
         <translation>Отвори Wave файл</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="389"/>
+        <location filename="../preferencesdlg.cpp" line="390"/>
         <source>Wave files (*.wav)</source>
         <translation>Wave файлове (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="414"/>
+        <location filename="../preferencesdlg.cpp" line="415"/>
         <source>&amp;Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="700"/>
-        <location filename="../preferencesdlg.cpp" line="707"/>
+        <location filename="../preferencesdlg.cpp" line="701"/>
+        <location filename="../preferencesdlg.cpp" line="708"/>
         <source>Windows Firewall</source>
         <translation>Защитна стена на Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="701"/>
+        <location filename="../preferencesdlg.cpp" line="702"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>Неуспех да добави %1 към изключенията на защитната стена на Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="708"/>
+        <location filename="../preferencesdlg.cpp" line="709"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>Неуспех да премахне %1 от изключенията на защитната стена на Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1121"/>
+        <location filename="../preferencesdlg.cpp" line="1123"/>
         <source>Sound Initialization</source>
         <translation>Звуково разпознаване</translation>
     </message>
@@ -3639,61 +3666,66 @@ Should these settings be applied?</source>
         <translation type="vanished">Неуспех да разпознае ново изходящо звуково устройство</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="919"/>
-        <location filename="../preferencesdlg.cpp" line="931"/>
+        <location filename="../preferencesdlg.cpp" line="920"/>
+        <location filename="../preferencesdlg.cpp" line="932"/>
         <source>Video Device</source>
         <translation>Видео устройство</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="920"/>
-        <location filename="../preferencesdlg.cpp" line="932"/>
-        <location filename="../preferencesdlg.cpp" line="1469"/>
+        <location filename="../preferencesdlg.cpp" line="921"/>
+        <location filename="../preferencesdlg.cpp" line="933"/>
+        <location filename="../preferencesdlg.cpp" line="1471"/>
         <source>Failed to initialize video device</source>
         <translation>Неуспех да разпознае видео устройство</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1009"/>
+        <location filename="../preferencesdlg.cpp" line="1010"/>
         <source>Max Input Channels %1</source>
         <translation>Максимален брой входящи канали %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1011"/>
-        <location filename="../preferencesdlg.cpp" line="1034"/>
+        <location filename="../preferencesdlg.cpp" line="1012"/>
+        <location filename="../preferencesdlg.cpp" line="1035"/>
         <source>Sample Rates:</source>
         <translation>Рейт на семплиране:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1032"/>
+        <location filename="../preferencesdlg.cpp" line="1033"/>
         <source>Max Output Channels %1</source>
         <translation>Максимален брой изходящи канали %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1062"/>
+        <location filename="../preferencesdlg.cpp" line="1063"/>
         <source>Refresh Sound Devices</source>
         <translation>Обнови звуковите устройства</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1063"/>
+        <location filename="../preferencesdlg.cpp" line="1064"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Неуспех да рестартира звуковата система. Моля рестартирайте програмата.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1122"/>
+        <location filename="../preferencesdlg.cpp" line="1106"/>
+        <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1124"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Неуспех да разпознае ново звуково устройство</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1427"/>
+        <location filename="../preferencesdlg.cpp" line="1429"/>
         <source>Custom video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1521"/>
+        <location filename="../preferencesdlg.cpp" line="1523"/>
         <source>Default Video Capture</source>
         <translation>Виде извличане по подразбиране</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1522"/>
+        <location filename="../preferencesdlg.cpp" line="1524"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Неможе да намери предпочитани настройки за видео извличане</translation>
     </message>
