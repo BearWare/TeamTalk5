@@ -13,8 +13,9 @@ LIBPATHNAME=LD_LIBRARY_PATH
 endif
 
 CLASSPATH ?= .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR)
-CLASSPATH_STD = $(CLASSPATH):$(PWD)/libs/TeamTalk5.jar
-CLASSPATH_PRO = $(CLASSPATH):$(PWD)/libs/TeamTalk5Pro.jar
+CLASSPATH_STD = $(CLASSPATH):$(PWD)/libs/TeamTalk5.jar:$(PWD)/libs/TeamTalk5Test.jar
+CLASSPATH_PRO = $(CLASSPATH):$(PWD)/libs/TeamTalk5Pro.jar:$(PWD)/libs/TeamTalk5ProTest.jar
+CLASSPATH_SRV = $(CLASSPATH):$(PWD)/libs/TeamTalk5Pro.jar:$(PWD)/libs/TeamTalk5SrvTest.jar
 
 # DYLD_LIBRARY_PATH has been removed in Mac OS Sierra, so use
 # -Djava.library.path instead
@@ -101,7 +102,7 @@ runjunitpro:
 	cd test && java -cp "$(CLASSPATH_PRO)" $(JAVAPROP) org.junit.runner.JUnitCore TeamTalkProTestSuite
 
 runjunitsrv:
-	cd test && java -cp "$(CLASSPATH_PRO)" $(JAVAPROP) org.junit.runner.JUnitCore TeamTalkServerTestSuite
+	cd test && java -cp "$(CLASSPATH_SRV)" $(JAVAPROP) org.junit.runner.JUnitCore TeamTalkServerTestSuite
 
 testcase:
 	cd test && java -cp "$(CLASSPATH_STD)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkStdTestCase#$(TARGET)
@@ -110,4 +111,4 @@ testcasepro:
 	cd test && java -cp "$(CLASSPATH_PRO)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkProTestCase#$(TARGET)
 
 testcasesrv:
-	cd test && java -cp "$(CLASSPATH_PRO)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkServerTestCase#$(TARGET)
+	cd test && java -cp "$(CLASSPATH_SRV)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkServerTestCase#$(TARGET)
