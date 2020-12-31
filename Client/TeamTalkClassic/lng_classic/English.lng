@@ -194,6 +194,7 @@
     <item id="325">Speex Audio Preprocessor</item>
     <item id="326">No Audio Preprocessor</item>
     <item id="327">Connected... logging in</item>
+    <item id="328">Start position</item>
     <item id="329">Failed to connect to host &quot;%s&quot; TCP port %d UDP port %d.&#xD;&#xA;Check that the server is running on the specified address&#xD;&#xA;and that a firewall isn&apos;t preventing clients from connecting.</item>
     <item id="330">An error occurred while perform a requested command:&#xD;&#xA;</item>
     <item id="331">Failed to connect to %s TCP port %d UDP port %d</item>

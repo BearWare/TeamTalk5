@@ -232,6 +232,7 @@
 #define IDD_DIALOG_SPEEXDSP             325
 #define IDS_NOPREPROCESSOR              326
 #define IDS_CONLOGIN                    327
+#define IDC_STARTPOSLAB                 328
 #define IDS_CONFAILED                   329
 #define IDS_ERROROCCURREDCOMMAND        330
 #define IDS_CONNFAILED                  331
