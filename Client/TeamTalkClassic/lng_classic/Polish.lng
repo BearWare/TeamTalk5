@@ -425,6 +425,9 @@
     <item id="564">TeamTalk używa następujących bibliotek:</item>
     <item id="565">Zachowano konfigurację serwera</item>
     <item id="566">Zdefiniuj stan nieobecności po %d sekund</item>
+    <item id="567">Ta konfiguracja urządzenia audio dostarcza najbardziej optymalne anulowanie echa. Proszęs prawdzić podręcznik użytkownika dla wiecej informacji.</item>
+    <item id="568">Używane urządzenie nagrywania: %s</item>
+    <item id="569">Używanie urządzenie do odtwarzania: %s</item>
     <item id="1006">Lista plików</item>
     <item id="1009">Automatycznie łącz z głównym kanałem po połączeniu</item>
     <item id="1012">Port TCP serwera</item>
@@ -765,6 +768,8 @@
     <item id="1599">ID BearWare.dk Web Login</item>
     <item id="1600">Wyłączony (nieaktywny)</item>
     <item id="1601">&amp;Dołącz do kanału przy przerwaniu połączenia</item>
+    <item id="1602">Kanał ukryty (niewidoczny i dostępny tylko dla użytkowników, którzy wiedzą nazwę kanału)</item>
+    <item id="1603">Typ kanału</item>
     <item id="32791">Jaki jest mój &amp;adres IP?</item>
     <item id="32798">&amp;Nadaj uprawnienia operatoraOp\tCtrl+O</item>
     <item id="32801">Pokaż wiadomości kanału\tF10</item>
