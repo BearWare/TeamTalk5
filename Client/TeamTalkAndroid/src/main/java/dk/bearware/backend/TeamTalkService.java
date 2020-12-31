@@ -632,8 +632,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         
         assert (ttserver != null);
 
-        if (ttserver.username.equals(AppInfo.WEBLOGIN_BEARWARE_USERNAME) ||
-            ttserver.username.endsWith(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX)) {
+        if (Utils.isWebLogin(ttserver.username)) {
             new WebLoginAccessToken().execute();
         }
         else {
