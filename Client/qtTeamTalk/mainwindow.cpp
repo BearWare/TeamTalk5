@@ -197,6 +197,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     ui.statusbar->addPermanentWidget(m_dtxprogress);
     ui.statusbar->addPermanentWidget(m_pinglabel);
     ui.statusbar->addPermanentWidget(m_pttlabel);
+
     connect(ui.sendButton, SIGNAL(clicked()),
             SLOT(slotSendChannelMessage()));
     connect(ui.msgEdit, SIGNAL(returnPressed()),
@@ -267,10 +268,6 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(selmodel, SIGNAL(selectionChanged(const QItemSelection&, 
                                               const QItemSelection&)),
             ui.filesView, SLOT(slotNewSelection(const QItemSelection&)));
-    connect(ui.filesView, SIGNAL(filesSelected(bool)), ui.actionDownloadFile, 
-            SLOT(setEnabled(bool)));
-    connect(ui.filesView, SIGNAL(filesSelected(bool)), ui.downloadButton, 
-            SLOT(setEnabled(bool)));
     connect(ui.filesView, SIGNAL(filesSelected(bool)), ui.actionDeleteFile, 
             SLOT(setEnabled(bool)));
     connect(ui.filesView, SIGNAL(filesSelected(bool)), ui.deleteButton, 
@@ -458,8 +455,6 @@ MainWindow::MainWindow(const QString& cfgfile)
             SLOT(slotHelpResetPreferences(bool)));
     connect(ui.actionVisitBearWare, SIGNAL(triggered(bool)),
             SLOT(slotHelpVisitBearWare(bool)));
-    connect(ui.actionVisitChangeLog, SIGNAL(triggered(bool)),
-            SLOT(slotHelpVisitChangeLog(bool)));
     connect(ui.actionAbout, SIGNAL(triggered(bool)),
             SLOT(slotHelpAbout(bool)));
     /* End - Help menu */
@@ -554,8 +549,8 @@ void MainWindow::loadSettings()
         else
         {
             QApplication::installTranslator(ttTranslator);
-            this->ui.retranslateUi(this);
             slotUpdateUI();
+            this->ui.retranslateUi(this);
         }
     }
 
@@ -658,7 +653,7 @@ void MainWindow::loadSettings()
         ui.desktopsplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_DESKTOPSPLITTER).toByteArray());
     }
     //set files header to last position
-//    ui.filesView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_FILESHEADER).toByteArray());
+    ui.filesView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_FILESHEADER).toByteArray());
 
     // http query for app updates
     checkAppUpdate();
@@ -1004,7 +999,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __USER);
         if(msg.user.nUserID == TT_GetMyUserID(ttInst))
             processMyselfLeft(msg.nSource);
-        emit(userLeft(msg.nSource, msg.user));
+        emit (userLeft(msg.nSource, msg.user));
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
             if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
                 Channel chan = {};
@@ -1104,7 +1099,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         }
 
     }
-    slotUpdateUI();
     break;
     case CLIENTEVENT_CMD_USERACCOUNT :
         Q_ASSERT(msg.ttType == __USERACCOUNT);
@@ -1223,18 +1217,10 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             stopStreamMediaFile();
             break;
         case MFS_STARTED :
-            if(!ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, true).toBool()) {
-                addStatusMsg(tr("Started streaming media file to channel"));
-            } /*else {
-                addStatusMsg(tr("Started streaming media file to channel (loop)"));
-            }*/
+            addStatusMsg(tr("Started streaming media file to channel"));
             break;
         case MFS_FINISHED :
-            if(!ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, true).toBool()) {
-                addStatusMsg(tr("Finished streaming media file to channel"));
-            } /*else {
-                addStatusMsg(tr("Finished streaming media file to channel (loop)"));
-            }*/
+            addStatusMsg(tr("Finished streaming media file to channel"));
             stopStreamMediaFile();
             break;
         case MFS_ABORTED :
@@ -1452,6 +1438,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         slotUpdateUI();
 }
 
+
 void MainWindow::commandProcessing(int cmdid, bool complete)
 {
     //command reply starting -> store command reply ID
@@ -1594,14 +1581,13 @@ void MainWindow::cmdLoggedIn(int myuserid)
         if(subchannels.size())
             name = subchannels.last();
 
-        Channel chan;
-        ZERO_STRUCT(chan);
+        Channel chan = {};
         chan.nParentID = parentid;
         chan.nMaxUsers = m_srvprop.nMaxUsers;
         initDefaultAudioCodec(chan.audiocodec);
 
-        chan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG;
-        chan.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+        chan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE;
+        chan.audiocfg.nGainLevel = DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL;
 
         COPY_TTSTR(chan.szName, name);
         COPY_TTSTR(chan.szPassword, m_host.chanpasswd);
@@ -1649,21 +1635,32 @@ void MainWindow::addStatusMsg(const QString& msg)
         m_timers[startTimer(1000)] = TIMER_STATUSMSG;
 }
 
-void MainWindow::Connect()
+void MainWindow::initSound()
 {
-    Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0);
-
-    QStringList errors = initSelectedSoundDevices();
+    QStringList errors = initSelectedSoundDevices(m_devin, m_devout);
     for (auto s : errors)
         addStatusMsg(s);
 
     //choose default sound devices if configuration failed
     if (errors.size())
     {
-        errors = initDefaultSoundDevices();
+        errors = initDefaultSoundDevices(m_devin, m_devout);
         for (auto s : errors)
             addStatusMsg(s);
     }
+
+    if (errors.empty())
+    {
+        addStatusMsg(tr("Using sound input: %1").arg(_Q(m_devin.szDeviceName)));
+        addStatusMsg(tr("Using sound output: %2").arg(_Q(m_devout.szDeviceName)));
+    }
+}
+
+void MainWindow::Connect()
+{
+    Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0);
+
+    initSound();
 
     int localtcpport = ttSettings->value(SETTINGS_CONNECTION_TCPPORT, 0).toInt();
     int localudpport = ttSettings->value(SETTINGS_CONNECTION_UDPPORT, 0).toInt();
@@ -2020,13 +2017,13 @@ void MainWindow::timerEvent(QTimerEvent *event)
             if(idle_time != 0)
             {
                 QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-                if(isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_AWAY) == 0)
+                if (isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_MODE) == STATUSMODE_AVAILABLE)
                 {
                     m_statusmode |= STATUSMODE_AWAY;
-                    TT_DoChangeStatus(ttInst, m_statusmode, _W(tr("Away")));
+                    TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
                     m_idled_out = true;
                 }
-                else if(m_idled_out && !isComputerIdle(idle_time))
+                else if (m_idled_out && !isComputerIdle(idle_time))
                 {
                     m_statusmode &= ~STATUSMODE_AWAY;
                     TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
@@ -2125,7 +2122,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
         ttSettings->setValue(SETTINGS_DISPLAY_DESKTOPSPLITTER, ui.desktopsplitter->saveState());
     }
 
-//    ttSettings->setValue(SETTINGS_DISPLAY_FILESHEADER, ui.filesView->header()->saveState());
+    ttSettings->setValue(SETTINGS_DISPLAY_FILESHEADER, ui.filesView->header()->saveState());
 
     return QMainWindow::closeEvent(event);
 }
@@ -2394,6 +2391,10 @@ void MainWindow::processMyselfJoined(int channelid)
     //Enable AGC, denoise etc.
     updateAudioConfig();
 
+    TTCHAR buff[TT_STRLEN] = {};
+    TT_GetChannelPath(ttInst, channelid, buff);
+    addStatusMsg(tr("Joined channel %1").arg(_Q(buff)));
+
     //store new muxed audio file if we're changing channel
     if(ui.actionMediaStorage->isChecked() &&
         (m_audiostorage_mode & AUDIOSTORAGE_SINGLEFILE))
@@ -2428,9 +2429,6 @@ void MainWindow::processMyselfLeft(int channelid)
         if(size == 0)
             QFile::remove(filename);
     }
-    TTCHAR buff[TT_STRLEN] = {};
-    TT_GetChannelPath(ttInst, channelid, buff);
-    addStatusMsg(tr("Left channel %1").arg(_Q(buff)));
     ui.msgEdit->setVisible(false);
     ui.sendButton->setVisible(false);
     ui.videomsgEdit->setVisible(false);
@@ -2563,45 +2561,47 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
 
 void MainWindow::updateAudioConfig()
 {
-    SpeexDSP spxdsp = {};
+    bool denoise = ttSettings->value(SETTINGS_SOUND_DENOISING,
+                                     SETTINGS_SOUND_DENOISING_DEFAULT).toBool();
+    bool echocancel = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL,
+                                     SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool();
+    bool agc = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
 
-    //set default values for audio config
-    spxdsp.bEnableAGC = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
-    spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-    spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-    spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-    spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-
-    spxdsp.bEnableDenoise = ttSettings->value(SETTINGS_SOUND_DENOISING, 
-                                              SETTINGS_SOUND_DENOISING_DEFAULT).toBool();
-    spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
-
-    spxdsp.bEnableEchoCancellation = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL,
-                                                       SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool();
-    spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-    spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
-
+    bool duplex = getSoundDuplexSampleRate(m_devin, m_devout) > 0;
     //check if channel AGC settings should override default settings
-    if(m_mychannel.audiocfg.bEnableAGC)
+    if (m_mychannel.audiocfg.bEnableAGC)
     {
-        spxdsp.bEnableAGC = m_mychannel.audiocfg.bEnableAGC;
-        spxdsp.nGainLevel = m_mychannel.audiocfg.nGainLevel;
+        AudioPreprocessor preprocessor;
+        initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+
+        preprocessor.webrtc.noisesuppression.bEnable = denoise;
+        preprocessor.webrtc.echocanceller.bEnable = echocancel && duplex;
+
+        preprocessor.webrtc.gaincontroller2.bEnable = true;
+        float gainlevel = float(m_mychannel.audiocfg.nGainLevel) / CHANNEL_AUDIOCONFIG_MAX;
+        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * gainlevel;
+
         //override preset sound gain
         TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
-        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
         ui.micSlider->setToolTip(tr("Microphone gain is controlled by channel"));
     }
     else
     {
-        SoundDeviceEffects effects = {};
-        TT_GetSoundDeviceEffects(ttInst, &effects);
-        
-        // If sound device provides AGC, AEC and denoise then use these instead
-        spxdsp.bEnableAGC &= !effects.bEnableAGC;
-        spxdsp.bEnableEchoCancellation &= !effects.bEnableEchoCancellation;
-        spxdsp.bEnableDenoise &= !effects.bEnableDenoise;
+        AudioPreprocessor preprocessor;
+        if (denoise || agc || echocancel)
+        {
+            initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+            preprocessor.webrtc.noisesuppression.bEnable = denoise;
+            preprocessor.webrtc.echocanceller.bEnable = echocancel && duplex;
+            preprocessor.webrtc.gaincontroller2.bEnable = agc;
+        }
+        else
+        {
+            initDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR, preprocessor);
+        }
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
 
-        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
         slotMicrophoneGainChanged(ui.micSlider->value());
         ui.micSlider->setToolTip(tr("Microphone gain"));
     }
@@ -2952,9 +2952,9 @@ void MainWindow::startStreamMediaFile()
     }
 
     MediaFilePlayback mfp = {};
-    mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(ttSettings->value(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR,
-        SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT).toInt());
-    loadAudioPreprocessor(mfp.audioPreprocessor);
+    AudioPreprocessorType apt = AudioPreprocessorType(ttSettings->value(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR,
+                                                      SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT).toInt());
+    loadAudioPreprocessor(apt, mfp.audioPreprocessor);
     mfp.bPaused = false;
     mfp.uOffsetMSec = ttSettings->value(SETTINGS_STREAMMEDIA_OFFSET, SETTINGS_STREAMMEDIA_OFFSET_DEFAULT).toUInt();
     if (!TT_StartStreamingMediaFileToChannelEx(ttInst, _W(fileName), &mfp, &vidcodec))
@@ -3353,7 +3353,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
     killLocalTimer(TIMER_RECONNECT);
 
     //reset last channel, since we're starting a new connection
-//    ZERO_STRUCT(m_last_channel);
+    ZERO_STRUCT(m_last_channel);
 
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
         Disconnect();
@@ -3374,7 +3374,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
 
 void MainWindow::slotClientPreferences(bool /*checked =false */)
 {
-    PreferencesDlg dlg(this);
+    PreferencesDlg dlg(m_devin, m_devout, this);
 
     //we need to be able to process local frames (userid 0),
     //so ensure these video frames are not being displayed elsewhere
@@ -3570,11 +3570,7 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
     {
         disableHotKey(HOTKEY_PUSHTOTALK);
     }
-    if(checked == true) {
-        TT_EnableVoiceActivation(ttInst, false);
-        ui.voiceactSlider->setVisible(false);
-        ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, false);
-    }
+
     ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, checked);
 
     slotUpdateUI();
@@ -3587,15 +3583,6 @@ void MainWindow::slotMeEnableVoiceActivation(bool checked)
     ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
         emit(updateMyself());
-    if(checked == true) {
-        disableHotKey(HOTKEY_PUSHTOTALK);
-        ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, false);
-        playSoundEvent(SOUNDEVENT_VOICEACTON);
-        addStatusMsg(tr("Micro enabled"));
-    } else {
-        playSoundEvent(SOUNDEVENT_VOICEACTOFF);
-        addStatusMsg(tr("Micro disabled"));
-    }
     slotUpdateUI();
 }
 
@@ -3731,33 +3718,14 @@ void MainWindow::slotUsersMessages(bool /*checked =false */)
 
 void MainWindow::slotUsersMuteVoice(bool checked /*=false */)
 {
-    foreach(int userid, ui.channelsWidget->selectedUsers()) {
-/*        User user;
-        if( TT_GetUser(ttInst, userid, &user) )
-        {
-            TT_SetUserMute(ttInst, userid, STREAMTYPE_VOICE,
-                           !(user.uUserState & USERSTATE_MUTE_VOICE));
-        }
-        ui.actionMuteVoice->setChecked(checked);*/
+    foreach(int userid, ui.channelsWidget->selectedUsers())
         slotUsersMuteVoice(userid, checked);
-        slotUpdateUI();
-    }
 }
 
 void MainWindow::slotUsersMuteMediaFile(bool checked /*=false */)
 {
-/*    foreach(int userid, ui.channelsWidget->selectedUsers()) {
-        slotUsersMuteMediaFile(userid, checked);*/
     foreach(int userid, ui.channelsWidget->selectedUsers())
-    {
-        User user;
-        if( TT_GetUser(ttInst, userid, &user) )
-        {
-            TT_SetUserMute(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO,
-                           !(user.uUserState & USERSTATE_MUTE_MEDIAFILE));
-        }
-        ui.actionMuteMediaFile->setChecked(checked);
-    }
+        slotUsersMuteMediaFile(userid, checked);
 }
 
 void MainWindow::slotUsersVolume(bool /*checked =false */)
@@ -3891,18 +3859,14 @@ void MainWindow::slotUsersSubscriptionsInterceptMediaFile(bool checked /*=false*
 void MainWindow::slotUsersAdvancedIncVolumeVoice()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
-    std::for_each(users.begin(), users.end(),
-                  std::bind2nd(std::ptr_fun(&incVolume),
-                               STREAMTYPE_VOICE));
+    std::for_each(users.begin(), users.end(), std::bind(incVolume, _1, STREAMTYPE_VOICE));
     slotUpdateUI();
 }
 
 void MainWindow::slotUsersAdvancedDecVolumeVoice()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
-    std::for_each(users.begin(), users.end(),
-                  std::bind2nd(std::ptr_fun(&decVolume),
-                               STREAMTYPE_VOICE));
+    std::for_each(users.begin(), users.end(), std::bind(decVolume, _1, STREAMTYPE_VOICE));
     slotUpdateUI();
 }
 
@@ -3925,15 +3889,6 @@ void MainWindow::slotUsersAdvancedStoreForMove()
     m_moveusers.clear();
     m_moveusers = ui.channelsWidget->selectedUsers();
     slotUpdateUI();
-/*    int nMoveUserID = m_wndTree.GetSelectedUser();
-    QInt nMoveUserID = ui.channelsWidget->getSelectedUser();
-    if(nMoveUserID) {
-        if(m_moveusers.find(nMoveUserID) != m_moveusers.end()) {
-            m_moveusers.erase(nMoveUserID);
-        } else {
-            m_moveusers.insert(nMoveUserID);
-        }
-    }*/
 }
 
 void MainWindow::slotUsersAdvancedMoveUsers()
@@ -4141,11 +4096,15 @@ void MainWindow::slotChannelsListBans(bool /*checked=false*/)
 
 void MainWindow::slotChannelsStreamMediaFile(bool checked/*=false*/)
 {
-    if(!checked)
+    if (!checked)
     {
         stopStreamMediaFile();
         return;
     }
+
+    auto flags = TT_GetFlags(ttInst);
+    if ((flags & (CLIENT_SNDOUTPUT_READY | CLIENT_SNDINOUTPUT_DUPLEX)) == CLIENT_CLOSED)
+        initSound();
 
     StreamMediaFileDlg dlg(this);
     connect(this, &MainWindow::mediaStreamUpdate, &dlg, &StreamMediaFileDlg::slotMediaStreamProgress);
@@ -4388,11 +4347,6 @@ void MainWindow::slotHelpManual(bool /*checked =false */)
 void MainWindow::slotHelpVisitBearWare(bool /*checked=false*/)
 {
    QDesktopServices::openUrl(QUrl(APPWEBSITE));
-}
-
-void MainWindow::slotHelpVisitChangeLog(bool /*checked=false*/)
-{
-   QDesktopServices::openUrl(QUrl("https://raw.githubusercontent.com/BearWare/TeamTalk5/master/ChangeLog.txt"));
 }
 
 void MainWindow::slotHelpAbout(bool /*checked =false */)
@@ -4908,16 +4862,6 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
             msg = tr("You can now transmit desktop windows!");
         else
             msg = tr("You can no longer transmit desktop windows!");
-        addStatusMsg(msg);
-    }
-    before = userCanMediaFileTx(TT_GetMyUserID(ttInst), oldchan);
-    after = userCanMediaFileTx(TT_GetMyUserID(ttInst), chan);
-    if(before != after)
-    {
-        if(after)
-            msg = tr("You can now transmit media files!");
-        else
-            msg = tr("You can no longer transmit media files!");
         addStatusMsg(msg);
     }
 }
@@ -5488,7 +5432,7 @@ void MainWindow::slotUpdateVideoCount(int count)
     if(count == 0)
         ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video"));
     else
-        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video (%1)") .arg(count));
+        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video (%1)").arg(count));
 }
 
 void MainWindow::slotUpdateDesktopCount(int count)
@@ -5496,7 +5440,7 @@ void MainWindow::slotUpdateDesktopCount(int count)
     if(count == 0)
         ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops"));
     else
-        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops (%1)") .arg(count));
+        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops (%1)").arg(count));
 }
 
 void MainWindow::slotMasterVolumeChanged(int value)
@@ -5509,22 +5453,32 @@ void MainWindow::slotMasterVolumeChanged(int value)
 
 void MainWindow::slotMicrophoneGainChanged(int value)
 {
-    SpeexDSP spxdsp;
-    ZERO_STRUCT(spxdsp);
-    if(TT_GetSoundInputPreprocess(ttInst, &spxdsp) && spxdsp.bEnableAGC)
+    float percent = float(value);
+    percent /= 100.;
+
+    AudioPreprocessor preprocessor;
+    initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+
+    bool agc = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
+
+    TT_GetSoundInputPreprocessEx(ttInst, &preprocessor);
+    switch (preprocessor.nPreprocessor)
     {
-        double percent = value;
-        percent /= 100.;
-        spxdsp.nGainLevel = (INT32)(SOUND_GAIN_MAX * percent);
-        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
-        TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        break;
+    case NO_AUDIOPREPROCESSOR :
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+        // Only no audio preprocessor or webrtc is currently supported.
+        Q_ASSERT(preprocessor.nPreprocessor == WEBRTC_AUDIOPREPROCESSOR);
+        break;
+    case WEBRTC_AUDIOPREPROCESSOR :
+        preprocessor.webrtc.gaincontroller2.bEnable = agc;
+        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = INT32(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
+        break;
     }
-    else
-    {
-        int gain = refGain(value);
-//        qDebug() << "Gain is " << gain << " and percent is " << value;
-        TT_SetSoundInputGainLevel(ttInst, gain);
-    }
+
+    TT_SetSoundInputGainLevel(ttInst, agc? SOUND_GAIN_DEFAULT : INT32(SOUND_GAIN_MAX * percent));
+    TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
 }
 
 void MainWindow::slotVoiceActivationLevelChanged(int value)

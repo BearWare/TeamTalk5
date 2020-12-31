@@ -1074,13 +1074,6 @@
            </layout>
           </item>
           <item>
-           <widget class="QCheckBox" name="sndduplexBox">
-            <property name="text">
-             <string>Enable duplex mode (required for echo cancellation)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QCheckBox" name="echocancelBox">
             <property name="text">
              <string>Enable echo cancellation (remove echo from speakers)</string>
@@ -1179,9 +1172,6 @@
            <layout class="QGridLayout" name="gridLayout_4">
             <item row="1" column="2">
              <widget class="QToolButton" name="rmuserButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -1194,9 +1184,6 @@
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
-              </property>
-              <property name="accessibleName">
-               <string>Browse</string>
               </property>
               <property name="text">
                <string notr="true">...</string>
@@ -1248,9 +1235,6 @@
             </item>
             <item row="6" column="2">
              <widget class="QToolButton" name="hotkeyButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -1258,29 +1242,20 @@
             </item>
             <item row="13" column="2">
              <widget class="QToolButton" name="desktopaccessBtn">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
-               <string notr="true">...</string>
+               <string>...</string>
               </property>
              </widget>
             </item>
             <item row="12" column="2">
              <widget class="QToolButton" name="questionmodeBtn">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
-               <string notr="true">...</string>
+               <string>...</string>
               </property>
              </widget>
             </item>
             <item row="10" column="2">
              <widget class="QToolButton" name="videosessionButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -1335,103 +1310,8 @@
               </property>
              </widget>
             </item>
-            <item row="20" column="1">
-             <widget class="QLineEdit" name="voiceactonEdit"/>
-            </item>
-            <item row="20" column="0">
-             <widget class="QLabel" name="label_320">
-              <property name="text">
-               <string>Voice activation enabled</string>
-              </property>
-              <property name="buddy">
-               <cstring>voiceactonEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="20" column="2">
-             <widget class="QToolButton" name="voiceactonButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="21" column="1">
-             <widget class="QLineEdit" name="voiceactoffEdit"/>
-            </item>
-            <item row="21" column="0">
-             <widget class="QLabel" name="label_321">
-              <property name="text">
-               <string>Voice activation disabled</string>
-              </property>
-              <property name="buddy">
-               <cstring>voiceactoffEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="21" column="2">
-             <widget class="QToolButton" name="voiceactoffButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="22" column="1">
-             <widget class="QLineEdit" name="voiceactongEdit"/>
-            </item>
-            <item row="22" column="0">
-             <widget class="QLabel" name="label_322">
-              <property name="text">
-               <string>Voice activation enabled via global shortcut</string>
-              </property>
-              <property name="buddy">
-               <cstring>voiceactongEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="22" column="2">
-             <widget class="QToolButton" name="voiceactongButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="23" column="1">
-             <widget class="QLineEdit" name="voiceactoffgEdit"/>
-            </item>
-            <item row="23" column="0">
-             <widget class="QLabel" name="label_323">
-              <property name="text">
-               <string>Voice activation disabled via global shortcut</string>
-              </property>
-              <property name="buddy">
-               <cstring>voiceactoffgEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="23" column="2">
-             <widget class="QToolButton" name="voiceactoffgButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
-             </widget>
-            </item>
             <item row="9" column="2">
              <widget class="QToolButton" name="transferdoneButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -1439,9 +1319,6 @@
             </item>
             <item row="2" column="2">
              <widget class="QToolButton" name="srvlostButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -1458,9 +1335,6 @@
             </item>
             <item row="11" column="2">
              <widget class="QToolButton" name="desktopsessionButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -1504,9 +1378,6 @@
             </item>
             <item row="3" column="2">
              <widget class="QToolButton" name="usermsgButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -1540,9 +1411,6 @@
             </item>
             <item row="7" column="2">
              <widget class="QToolButton" name="chansilentButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -1553,9 +1421,6 @@
             </item>
             <item row="8" column="2">
              <widget class="QToolButton" name="fileupdButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -1563,9 +1428,6 @@
             </item>
             <item row="4" column="2">
              <widget class="QToolButton" name="chanmsgButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -1586,9 +1448,6 @@
             </item>
             <item row="5" column="2">
              <widget class="QToolButton" name="bcastmsgButton">
-              <property name="accessibleName">
-               <string>Browse</string>
-              </property>
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -2203,7 +2062,6 @@
   <tabstop>outputdevBox</tabstop>
   <tabstop>refreshoutputButton</tabstop>
   <tabstop>sndtestButton</tabstop>
-  <tabstop>sndduplexBox</tabstop>
   <tabstop>echocancelBox</tabstop>
   <tabstop>agcBox</tabstop>
   <tabstop>denoisingBox</tabstop>
@@ -2237,16 +2095,6 @@
   <tabstop>questionmodeBtn</tabstop>
   <tabstop>desktopaccessEdit</tabstop>
   <tabstop>desktopaccessBtn</tabstop>
-  <tabstop>voiceactonEdit</tabstop>
-  <tabstop>voiceactonButton</tabstop>
-  <tabstop>voiceactoffEdit</tabstop>
-  <tabstop>voiceactoffButton</tabstop>
-  <tabstop>voiceactongEdit</tabstop>
-  <tabstop>voiceactongButton</tabstop>
-  <tabstop>voiceactoffgEdit</tabstop>
-  <tabstop>voiceactoffgButton</tabstop>
-  <tabstop>voiceacttrigEdit</tabstop>
-  <tabstop>voiceacttrigButton</tabstop>
   <tabstop>voiceactEdit</tabstop>
   <tabstop>voiceactButton</tabstop>
   <tabstop>volumeincEdit</tabstop>
