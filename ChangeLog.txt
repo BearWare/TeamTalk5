@@ -17,6 +17,7 @@ Accessible Windows Client
 - Return who has kicked when we are kicked from a channel
 - Change label of start position bar on CTRL+S
 - Return exacte duration of file on CTRL+S dialog
+- Status message is saved and reloaded on startup
 Default QT Client
 - Option to join channel immediately in create channel dialog
 - Option to disable emojis and text for channel/user states
