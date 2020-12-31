@@ -2304,6 +2304,7 @@ BEGIN
     IDS_KICKEDFROMCHANNELBYUNK   "You have been kicked from the channel by an unknown user"
     IDS_UNBAN "User"
     IDS_IPADDRBAN "IP"
+    IDS_CHANNELBAN "Channel"
 END
 
 STRINGTABLE

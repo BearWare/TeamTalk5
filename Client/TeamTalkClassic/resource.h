@@ -471,6 +471,7 @@
 #define IDS_SUBOPTECHOCANCEL            567
 #define IDS_SNDINPUTDEV                 568
 #define IDS_SNDOUTPUTDEV                569
+#define IDS_CHANNELBAN                  570
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
@@ -1088,7 +1089,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        570
+#define _APS_NEXT_RESOURCE_VALUE        571
 #define _APS_NEXT_COMMAND_VALUE         32959
 #define _APS_NEXT_CONTROL_VALUE         1604
 #define _APS_NEXT_SYMED_VALUE           413
