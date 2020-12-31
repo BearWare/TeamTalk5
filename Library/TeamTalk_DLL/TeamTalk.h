@@ -1406,9 +1406,9 @@ extern "C" {
      *
      * The audio configuration only supports same audio level
      * for all users by manually converting the values to the
-     * #SpeexDSP preprocessor.
+     * selected #AudioPreprocessor.
      *
-     * @see TT_SetSoundInputPreprocess()
+     * @see TT_SetSoundInputPreprocessEx()
      * @see TT_DoMakeChannel()
      * @see TT_DoJoinChannel() */
     typedef struct AudioConfig
