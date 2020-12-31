@@ -1,17 +1,10 @@
 ﻿  stdafx.cpp
-  Helper.cpp
-  HttpRequest.cpp
-  Languages.cpp
-  PlaySoundThread.cpp
-  TeamTalkApp.cpp
-  TeamTalkBase.cpp
-  TeamTalkDlg.cpp
   explorer1.cpp
   AboutBox.cpp
   AbuseTab.cpp
   AdvancedPage.cpp
-  BanTypeDlg.cpp
   BannedDlg.cpp
+  BanTypeDlg.cpp
   BearWareLoginDlg.cpp
   BitmapSlider.cpp
   ChangeStatusDlg.cpp
@@ -19,15 +12,17 @@
   ChannelOpTab.cpp
   ChatRichEditCtrl.cpp
   ChatTab.cpp
-  Génération de code en cours...
-  Compilation en cours...
   ClientPage.cpp
   CodecLimitTab.cpp
   DesktopShareDlg.cpp
+  ControlsEx.cpp
+  DialogEx.cpp
   ExListBox.cpp
-  FileTransferDlg.cpp
   FilesListCtrl.cpp
+  Génération de code en cours...
+  Compilation en cours...
   FilesTab.cpp
+  FileTransferDlg.cpp
   GeneralPage.cpp
   GenerateTTFileDlg.cpp
   HostManagerDlg.cpp
@@ -41,13 +36,13 @@
   MyPropertySheet.cpp
   MySliderCtrl.cpp
   MyTab.cpp
-  Génération de code en cours...
-  Compilation en cours...
   MyTabCtrl.cpp
   OnlineUsersDlg.cpp
   PositionUsersDlg.cpp
   Resizer.cpp
   RichEditThemed.cpp
+  Génération de code en cours...
+  Compilation en cours...
   RoomBox.cpp
   ServerPropertiesDlg.cpp
   ServerStatisticsDlg.cpp
@@ -57,33 +52,38 @@
   SoundEventsPage.cpp
   SoundSysPage.cpp
   SpeexDSPDlg.cpp
+  splitterbar.cpp
   StreamMediaDlg.cpp
   SysColStatic.cpp
   SystemTray.cpp
 C:\Git\teamtalk5\Client\TeamTalkClassic\gui\SystemTray.cpp(67): warning C4996: 'GetVersion': a été déclaré déconseillé
   C:\Program Files (x86)\Windows Kits\8.1\Include\um\sysinfoapi.h(110): note: voir la déclaration de 'GetVersion'
-  TTAudioPreprocessorDlg.cpp
   TextToSpeechPage.cpp
+  TTAudioPreprocessorDlg.cpp
   UserAccountsDlg.cpp
-  Génération de code en cours...
-  Compilation en cours...
   UserButton.cpp
   UserDesktopDlg.cpp
   UserInfoDlg.cpp
   UserVideoDlg.cpp
+  Génération de code en cours...
+  Compilation en cours...
   UserVolumeDlg.cpp
   VideoCapturePage.cpp
   WindowPage.cpp
   XPTabCtrl.cpp
 C:\Git\teamtalk5\Client\TeamTalkClassic\gui\XPTabCtrl.cpp(437): warning C4996: 'GetVersionExW': a été déclaré déconseillé
   C:\Program Files (x86)\Windows Kits\8.1\Include\um\sysinfoapi.h(442): note: voir la déclaration de 'GetVersionExW'
-  ControlsEx.cpp
-  DialogEx.cpp
-  splitterbar.cpp
+  Helper.cpp
+  HttpRequest.cpp
+  Languages.cpp
+  PlaySoundThread.cpp
   ClientXML.cpp
   MyStd.cpp
   Settings.cpp
   XMLLanguages.cpp
+  TeamTalkApp.cpp
+  TeamTalkBase.cpp
+  TeamTalkDlg.cpp
   BmpPalette.cpp
   DIBitmap.cpp
   NGWizard.cpp
