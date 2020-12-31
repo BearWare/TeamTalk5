@@ -130,6 +130,7 @@
     <item id="1211">Nastavenia zvukového systému</item>
     <item id="1212">Nie je vybraté žiadne písmo</item>
     <item id="1213">Tu môžete vybrať zvukové zariadenia, ktoré TeamTalk použije na nahrávanie a prehrávanie zvuku. Odporúča sa použiť systém DirectSound pretože tento má nižšiu odozvu ako predvolený zvukový systém Windows.</item>
+    <item id="1214">Povoliť vzdialenú správu</item>
     <item id="1215">Po stlačení tlačidla &quot;Testovať vybraté&quot; môžete otestovať práve zvolené zariadenia a uistiť sa, či počujete váš hlas nahratý vybratým vstupným zariadením.</item>
     <item id="1217">Používatelia môžu tvoriť miestnosti</item>
     <item id="1218">Používatelia môžu prenášať zvuk cez server</item>
@@ -138,11 +139,13 @@
     <item id="1225">&amp;Predvolené</item>
     <item id="1230">Informácie o novej miestnosti</item>
     <item id="1231">&amp;Odoslať</item>
+    <item id="1232">&amp;Aktualizovať</item>
     <item id="1235">Nastavenia servera</item>
     <item id="1236">Vitajte v sprievodcovi nastavením TeamTalk 4</item>
     <item id="1237">Sprievodca nastavením TeamTalk 4 je ukončený</item>
     <item id="1240">Preložil Peter Vágner</item>
     <item id="1241">Jazyk používateľského rozhrania</item>
+    <item id="1243">Zariadenie zmiešavača</item>
     <item id="1245">Použiť iný nainštalovaný jazyk</item>
     <item id="1260">Aktivácia hlasom</item>
     <item id="1261">Zvýšiť hlasitosť</item>

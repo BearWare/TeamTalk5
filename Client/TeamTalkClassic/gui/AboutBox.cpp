@@ -129,7 +129,7 @@ BOOL CAboutBox::OnInitDialog()
     cfDefault.dwEffects = CFE_BOLD;
     AddLine(EOL + LoadText(IDS_ABOUT_TRANSLATORS, _T("Translators")) + EOL, cfDefault);
     cfDefault.dwEffects = 0;
-    AddLine(LoadText(IDC_STATIC_TRANSLATOR, _T("Translated by Bjørn Damstedt Rasmussen")) + EOL, cfDefault);
+    AddLine(LoadText(IDC_STATIC_TRANSLATOR, _T("Translated by BjÃ¸rn Damstedt Rasmussen")) + EOL, cfDefault);
 
     cfDefault.dwEffects = CFE_BOLD;
     AddLine(EOL + LoadText(IDS_ABOUT_LIB, _T("Libraries")) + EOL, cfDefault);
@@ -148,6 +148,9 @@ BOOL CAboutBox::OnInitDialog()
     AddLine(_T("TinyXML") + EOL, cfDefault);
     AddLine(_T("WebM") + EOL, cfDefault);
     AddLine(_T("Zlib") + EOL, cfDefault);
+
+    TRANSLATE(*this, IDD);
+    SetAccessibleName(m_wndCredits, LoadText(IDS_ABOUT_CREDITS, _T("Credits")));
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -158,4 +161,3 @@ void CAboutBox::AddLine(const CString& szLine, CHARFORMAT& cf)
     m_wndCredits.SetSel(m_wndCredits.GetTextLength(), m_wndCredits.GetTextLength());
     m_wndCredits.ReplaceSel(szLine);
 }
-

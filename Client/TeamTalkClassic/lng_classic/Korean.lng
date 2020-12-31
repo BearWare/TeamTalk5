@@ -173,6 +173,7 @@
     <item id="1211">사운드 시스템 설정</item>
     <item id="1212">글꼴이 선택되지 않음</item>
     <item id="1213">TeamTalk에서 사용할 녹음, 오디오 재생 사운드 장치를 설정합니다.&#x0D;&#x0A;윈도우 사운드보다 딜레이가 적은 다이렉트 사운드를 추천합니다.</item>
+    <item id="1214">원격 관리 가능</item>
     <item id="1215">&quot;Test&quot;를 눌러 현재 선택된 장치를 테스트하고 선택된 입력장치로 녹음된 소리를 들을 수 있습니다.</item>
     <item id="1217">사용자가 채널을 생성</item>
     <item id="1218">사용자가 채널 만들기/수정 가능</item>
@@ -181,11 +182,13 @@
     <item id="1225">기본값 &amp;D</item>
     <item id="1230">새 채널 정보</item>
     <item id="1231">보내기 &amp;S</item>
+    <item id="1232">(&amp;U)갱신</item>
     <item id="1235">서버 설정</item>
     <item id="1236">TeamTalk 설치 마법사에 오신 것을 환영합니다.</item>
     <item id="1237">TeamTalk 설치 마법사를 완료했습니다.</item>
     <item id="1240">한글 번역: 나르길, 추가 수정: Kaisyu&#x0D;&#x0A;classic version 번역 advck1123</item>
     <item id="1241">사용자 언어 설정</item>
+    <item id="1243">믹서 장치</item>
     <item id="1245">다른 언어 사용</item>
     <item id="1246">완료 시 닫기</item>
     <item id="1253">파일 이름:</item>
