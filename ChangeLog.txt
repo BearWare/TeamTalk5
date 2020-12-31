@@ -13,6 +13,8 @@ Accessible Windows Client
 - Fix tab index on server properties dialog
 - Don't play sound for own channel messages
 - Event sounds are no longer played in full if several follow one another
+- Display ban type on banned users dialog
+- Return who has kicked when we are kicked from a channel
 - Change label of start position bar on CTRL+S
 - Return exacte duration of file on CTRL+S dialog
 Default QT Client
@@ -24,7 +26,8 @@ Default QT Client
 - New audio files for default sound events
 - More items displayed when using up arrow in message area
 - Add emojis for unread messages and now speaking in channels tree
-- Don't play sound for own channel messages
+- Don't play sound for own channel messages*
+- Display ban type on banned users dialog
 Android client
 - New audio files for default sound events
 iOS client

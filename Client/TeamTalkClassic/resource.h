@@ -205,6 +205,7 @@
 #define IDS_CMDNO                       298
 #define IDS_CMDTIMEFRAME                299
 #define IDS_ANONYMOUS                   300
+#define IDS_KICKEDFROMCHANNELBYUNK                   301
 #define IDD_DIALOG_BANTYPE              302
 #define IDS_NEWPROFILE                  303
 #define IDS_DELETEPROFILE               304
@@ -452,7 +453,9 @@
 #define IDS_CMDERR_CHANNEL_HAS_USERS    549
 #define IDS_CMDERR_LOGINSERVICE_UNAVAILABLE 550
 #define IDS_CMDERR_USER_NOT_FOUND       551
+#define IDS_UNBAN                       552
 #define IDS_CHANHISTORYLAB              553
+#define IDS_IPADDRBAN                   554
 #define IDS_CHANMESSAGELAB              555
 #define IDS_DEFAULTNICKNAME             556
 #define IDS_TREECTRLLAB                 557
