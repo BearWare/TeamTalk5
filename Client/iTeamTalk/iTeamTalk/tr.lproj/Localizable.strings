@@ -91,10 +91,10 @@
 "Ban user" = "Kullanıcıyı yasakla";
 
 /* server entry */
-"BearWare.dk Web Login" = "BearWare.dk Web Login";
+"BearWare.dk Web Login" = "BearWare.dk Web Oturumu";
 
 /* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences";
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Oturumu'nda kimlik doğrulama başarısız. Tercihler'den BearWare.dk Web Oturumu'nu denetleyin";
 
 /* codec detail */
 "Bitrate" = "Bit Hızı";
@@ -139,7 +139,7 @@
 "Channel. %d users" = "Kanal. %d kullanıcı";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
+"Check only if this server has enabled BearWare.dk Web Login" = "Yalnızca bu sunucu BearWare.dk Web Oturumu'nu etkinleştirdiyse işaretleyin";
 
 /* server entry */
 "Check only if this server has enabled Facebook login" = "Yalnızca bu sunucu Facebook Oturumu'nu etkinleştirdiyse işaretleyin";
@@ -233,7 +233,10 @@
 "Headset TX Toggle" = "Kulaklıktan İletim Değişikliği";
 
 /* hidden channel */
-"Hidden Channel" = "Hidden Channel";
+"Hidden channel" = "Gizli kanal";
+
+/* hidden channel */
+"Hidden Channel" = "Gizli Kanal";
 
 /* server entry */
 "Host address" = "Ana bilgisayar adresi";
@@ -680,6 +683,3 @@
 
 /* speech */
 "You have selected %@" = "Seçtiğiniz: %@";
-
-/* hidden channel */
-"Hidden channel" = "";
