@@ -1649,11 +1649,8 @@ void MainWindow::initSound()
             addStatusMsg(s);
     }
 
-    if (errors.empty())
-    {
-        addStatusMsg(tr("Using sound input: %1").arg(_Q(m_devin.szDeviceName)));
-        addStatusMsg(tr("Using sound output: %2").arg(_Q(m_devout.szDeviceName)));
-    }
+    addStatusMsg(tr("Using sound input: %1").arg(_Q(m_devin.szDeviceName)));
+    addStatusMsg(tr("Using sound output: %2").arg(_Q(m_devout.szDeviceName)));
 }
 
 void MainWindow::Connect()
