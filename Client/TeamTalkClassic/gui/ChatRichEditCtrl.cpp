@@ -203,7 +203,7 @@ void CChatRichEditCtrl::ScrollDown(int nOldLineCount)
 
 CString CChatRichEditCtrl::GetChatTime()
 {
-    CTime tm(CTime::GetCurrentTime());
+    CTime tm = CTime::GetCurrentTime();
     CString szTime;
     szTime = tm.Format(LoadText(IDS_TIMELOCALE, _T("%Y-%m-%d %H:%M:%S")));
     return szTime;
