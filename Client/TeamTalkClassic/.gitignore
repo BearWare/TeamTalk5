@@ -7,4 +7,5 @@ ipch
 *.VC.db
 *.sln
 TeamTalk.aps
+License.h
 
