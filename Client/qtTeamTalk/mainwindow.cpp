@@ -2202,7 +2202,8 @@ void MainWindow::updateWindowTitle()
     if(m_mychannel.nChannelID > 0 &&
        m_mychannel.nChannelID != TT_GetRootChannelID(ttInst))
     {
-        title = QString("%1 - %2").arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
+        TT_GetServerProperties(ttInst, &prop);
+        title = QString("%1/%2 - %3").arg(limitText(_Q(prop.szServerName))).arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
     }
     else if (TT_GetServerProperties(ttInst, &prop))
     {

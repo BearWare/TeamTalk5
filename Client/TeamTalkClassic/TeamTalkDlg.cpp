@@ -303,7 +303,8 @@ void CTeamTalkDlg::UpdateWindowTitle()
     CString szTitle = APPTITLE;
     if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID)
     {
-        szTitle.Format(_T("%s - %s"), LimitText(chan.szName), APPTITLE);
+        TT_GetServerProperties(ttInst, &prop);
+        szTitle.Format(_T("%s/%s - %s"), LimitText(prop.szServerName), LimitText(chan.szName), APPTITLE);
     }
     else if (TT_GetServerProperties(ttInst, &prop))
     {

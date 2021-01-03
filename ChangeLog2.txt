@@ -1,0 +1,4 @@
+Client accessible:
+- Affichage du nom du serveur en plus du nom du canal dans le titre de la fenêtre
+Client QT:
+- Affichage du nom du serveur en plus du nom du canal dans le titre de la fenêtre
