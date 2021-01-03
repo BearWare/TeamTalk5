@@ -150,6 +150,10 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             SLOT(slotEventQuestionMode()));
     connect(ui.desktopaccessBtn, SIGNAL(clicked()),
             SLOT(slotEventDesktopAccess()));
+    connect(ui.userloggedinButton, SIGNAL(clicked()),
+            SLOT(slotEventUserLoggedIn()));
+    connect(ui.userloggedoutButton, SIGNAL(clicked()),
+            SLOT(slotEventUserLoggedOut()));
 
     //keyboard shortcuts
     connect(ui.voiceactButton, SIGNAL(clicked(bool)), 
@@ -1251,6 +1255,20 @@ void PreferencesDlg::slotEventDesktopAccess()
     QString filename;
     if(getSoundFile(filename))
         ui.desktopaccessEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventUserLoggedIn()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.userloggedinEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventUserLoggedOut()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.userloggedoutEdit->setText(filename);
 }
 
 void PreferencesDlg::slotShortcutVoiceActivation(bool checked)

@@ -110,6 +110,8 @@ private slots:
     void slotEventFileTxDone();
     void slotEventQuestionMode();
     void slotEventDesktopAccess();
+    void slotEventUserLoggedIn();
+    void slotEventUserLoggedOut();
     //keyboard shortcuts
     void slotShortcutVoiceActivation(bool checked);
     void slotShortcutIncVolume(bool checked);

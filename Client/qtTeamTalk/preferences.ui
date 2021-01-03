@@ -1453,6 +1453,40 @@
               </property>
              </widget>
             </item>
+            <item row="14" column="0">
+             <widget class="QLabel" name="label_60">
+              <property name="text">
+               <string>User logged in</string>
+              </property>
+             </widget>
+            </item>
+            <item row="14" column="1">
+             <widget class="QLineEdit" name="userloggedinEdit"/>
+            </item>
+            <item row="14" column="2">
+             <widget class="QToolButton" name="userloggedinButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="15" column="0">
+             <widget class="QLabel" name="label_61">
+              <property name="text">
+               <string>User logged out</string>
+              </property>
+             </widget>
+            </item>
+            <item row="15" column="1">
+             <widget class="QLineEdit" name="userloggedoutEdit"/>
+            </item>
+            <item row="15" column="2">
+             <widget class="QToolButton" name="userloggedoutButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>
@@ -2095,6 +2129,10 @@
   <tabstop>questionmodeBtn</tabstop>
   <tabstop>desktopaccessEdit</tabstop>
   <tabstop>desktopaccessBtn</tabstop>
+  <tabstop>userloggedinEdit</tabstop>
+  <tabstop>userloggedinButton</tabstop>
+  <tabstop>userloggedoutEdit</tabstop>
+  <tabstop>userloggedoutButton</tabstop>
   <tabstop>voiceactEdit</tabstop>
   <tabstop>voiceactButton</tabstop>
   <tabstop>volumeincEdit</tabstop>
