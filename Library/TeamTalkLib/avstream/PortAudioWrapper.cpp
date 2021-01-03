@@ -636,7 +636,7 @@ int DuplexStreamCallback(const void *inputBuffer,
     uint32_t samplesMSec = dpxStream->DurationSamplesMSec(dpxStream->samplerate);
     uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, dpxStream->samplerate);
     int skewMSec = std::abs(int(durationMSec - samplesMSec));
-    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Duplex callback is off my %d msec\n"), skewMSec);
+    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Duplex callback is off by %d msec\n"), skewMSec);
 
 #if defined(WIN32)
     if (dpxStream->winaec)
