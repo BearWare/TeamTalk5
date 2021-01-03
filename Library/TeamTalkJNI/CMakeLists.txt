@@ -108,6 +108,7 @@ set (JAVA_SOURCES
   src/dk/bearware/VideoFrame.java
   src/dk/bearware/WebMVP8Codec.java
   src/dk/bearware/WebRTCAudioPreprocessor.java
+  src/dk/bearware/WebRTCConstants.java
   src/dk/bearware/WindowsHelper.java)
 
 if (MSVC)

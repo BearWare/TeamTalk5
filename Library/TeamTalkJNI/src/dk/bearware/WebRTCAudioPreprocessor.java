@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -25,16 +25,16 @@ package dk.bearware;
 
 public class WebRTCAudioPreprocessor {
 
-    class GainController2 {
+    public class GainController2 {
         public boolean bEnable = false;
 
-        class FixedDigital {
+        public class FixedDigital {
             public float fGainDB = 0.0f;
             public FixedDigital() {
             }
         }
 
-        class AdaptiveDigital {
+        public class AdaptiveDigital {
             public boolean bEnable = false;
             public AdaptiveDigital() {
             }
@@ -45,7 +45,7 @@ public class WebRTCAudioPreprocessor {
 
     public GainController2 gaincontroller2 = new GainController2();
 
-    class NoiseSuppression {
+    public class NoiseSuppression {
         public boolean bEnable = false;
         public int nLevel = 1;
     }
@@ -54,5 +54,15 @@ public class WebRTCAudioPreprocessor {
 
     public WebRTCAudioPreprocessor() {
     }
-    
+
+    public WebRTCAudioPreprocessor(boolean setDefaults) {
+        if (setDefaults) {
+            gaincontroller2.bEnable = WebRTCConstants.DEFAULT_WEBRTC_GAINCTL_ENABLE;
+            gaincontroller2.fixeddigital.fGainDB = WebRTCConstants.DEFAULT_WEBRTC_GAINDB;
+            gaincontroller2.adaptivedigital.bEnable = WebRTCConstants.DEFAULT_WEBRTC_SAT_PROT_ENABLE;
+
+            noisesuppression.bEnable = WebRTCConstants.DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE;
+            noisesuppression.nLevel = WebRTCConstants.DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL;
+        }
+    }
 }
