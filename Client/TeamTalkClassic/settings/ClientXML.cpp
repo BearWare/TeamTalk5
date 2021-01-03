@@ -1789,6 +1789,46 @@ namespace teamtalk {
         return szDefPath;
     }
 
+    bool ClientXML::SetEventUserLoggedIn(const std::string& szPath)
+    {
+        TiXmlElement* pParent = GetEventsElement();
+        if(pParent)
+        {
+            PutString(*pParent, "userloggedin", szPath);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    string ClientXML::GetEventUserLoggedIn(std::string szDefPath)
+    {
+        TiXmlElement* child = GetEventsElement();
+        if(child)
+            GetString(*child, "userloggedin", szDefPath);
+        return szDefPath;
+    }
+
+    bool ClientXML::SetEventUserLoggedOut(const std::string& szPath)
+    {
+        TiXmlElement* pParent = GetEventsElement();
+        if(pParent)
+        {
+            PutString(*pParent, "userloggedout", szPath);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    string ClientXML::GetEventUserLoggedOut(std::string szDefPath)
+    {
+        TiXmlElement* child = GetEventsElement();
+        if(child)
+            GetString(*child, "userloggedout", szDefPath);
+        return szDefPath;
+    }
+
     bool ClientXML::SetEventServerLost(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
