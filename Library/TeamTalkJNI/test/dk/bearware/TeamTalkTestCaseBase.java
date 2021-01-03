@@ -99,51 +99,51 @@ public abstract class TeamTalkTestCaseBase {
     public void setUp() throws Exception {
 
         String prop = System.getProperty("dk.bearware.sndinputid");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.INPUTDEVICEID = Integer.parseInt(prop);
 
         prop = System.getProperty("dk.bearware.sndoutputid");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.OUTPUTDEVICEID = Integer.parseInt(prop);
 
         prop = System.getProperty("dk.bearware.encrypted");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.ENCRYPTED = Integer.parseInt(prop) != 0;
 
         prop = System.getProperty("dk.bearware.serverip");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.IPADDR = prop;
 
         prop = System.getProperty("dk.bearware.videodevid");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.VIDEODEVICEID = prop;
 
         prop = System.getProperty("dk.bearware.videofile");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.MEDIAFILE_VIDEO = prop;
 
         prop = System.getProperty("dk.bearware.audiofile");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.MEDIAFILE_AUDIO = prop;
 
         prop = System.getProperty("dk.bearware.httpsfile");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.HTTPS_MEDIAFILE = prop;
 
         prop = System.getProperty("dk.bearware.opustools");
-        if(prop != null)
+        if (prop != null && !prop.isEmpty())
             this.OPUSTOOLS_AVAILABLE = "1".equals(prop);
 
         prop = System.getProperty("dk.bearware.speexdsp");
-        if(prop != null)
+        if (prop != null && !prop.isEmpty())
             this.SPEEXDSP_AVAILABLE = "1".equals(prop);
 
         prop = System.getProperty("dk.bearware.webrtc");
-        if(prop != null)
+        if (prop != null && !prop.isEmpty())
             this.WEBRTC_AVAILABLE = "1".equals(prop);
 
-        if(TCPPORT == 0 && UDPPORT == 0) {
-            if(this.ENCRYPTED) {
+        if (TCPPORT == 0 && UDPPORT == 0) {
+            if (this.ENCRYPTED) {
                 TCPPORT = Constants.DEFAULT_TCP_PORT_ENCRYPTED;
                 UDPPORT = Constants.DEFAULT_UDP_PORT_ENCRYPTED;
             }
