@@ -942,6 +942,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         updateUserSubscription(msg.user.nUserID);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
             addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
+            playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
         }
 
         // sync user settings from cache
@@ -958,6 +959,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         m_usermessages.remove(msg.user.nUserID);
         if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
             addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
+            playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
         }
 
         // sync user settings to cache
