@@ -472,6 +472,8 @@
 #define IDS_SNDINPUTDEV                 568
 #define IDS_SNDOUTPUTDEV                569
 #define IDS_CHANNELBAN                  570
+#define IDS_USER_LOGGED_IN              571
+#define IDS_USER_LOGGED_OUT             572
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
@@ -1089,7 +1091,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        571
+#define _APS_NEXT_RESOURCE_VALUE        573
 #define _APS_NEXT_COMMAND_VALUE         32959
 #define _APS_NEXT_CONTROL_VALUE         1604
 #define _APS_NEXT_SYMED_VALUE           413

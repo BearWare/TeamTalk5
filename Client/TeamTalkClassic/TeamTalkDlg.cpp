@@ -1348,6 +1348,7 @@ void CTeamTalkDlg::OnUserLogin(const TTMessage& msg)
         szFormat = LoadText(IDS_USERLOGIN);
         szMsg.Format(szFormat, GetDisplayName(user));
         AddStatusText(szMsg);
+        PlaySoundEvent(SOUNDEVENT_USER_LOGGED_IN);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDIN)
             AddTextToSpeechMessage(szMsg);
     }
@@ -1379,6 +1380,7 @@ void CTeamTalkDlg::OnUserLogout(const TTMessage& msg)
     szFormat = LoadText(IDS_USERLOGOUT);
     szMsg.Format(szFormat, GetDisplayName(user));
     AddStatusText(szMsg);
+    PlaySoundEvent(SOUNDEVENT_USER_LOGGED_OUT);
     if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDOUT)
         AddTextToSpeechMessage(szMsg);
 
@@ -3468,6 +3470,8 @@ void CTeamTalkDlg::OnFilePreferences()
     eventspage.m_uSoundEvents = m_xmlSettings.GetEventSoundsEnabled(SOUNDEVENT_DEFAULT);
     eventspage.m_SoundFiles[SOUNDEVENT_USER_JOIN] = STR_UTF8( m_xmlSettings.GetEventNewUser().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_LEFT] = STR_UTF8( m_xmlSettings.GetEventRemovedUser().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_IN] = STR_UTF8( m_xmlSettings.GetEventUserLoggedIn().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_OUT] = STR_UTF8( m_xmlSettings.GetEventUserLoggedOut().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSG] = STR_UTF8( m_xmlSettings.GetEventNewMessage().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_CHANNEL_TEXTMSG] = STR_UTF8(m_xmlSettings.GetEventChannelMsg().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_USER_BROADCAST_TEXTMSG] = STR_UTF8( m_xmlSettings.GetEventBroadcastMsg().c_str() );
@@ -3740,6 +3744,8 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventSoundsEnabled(eventspage.m_uSoundEvents);
         m_xmlSettings.SetEventNewUser(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_JOIN]));
         m_xmlSettings.SetEventRemovedUser(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_LEFT]));
+        m_xmlSettings.SetEventUserLoggedIn(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_IN]));
+        m_xmlSettings.SetEventUserLoggedOut(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_OUT]));
         m_xmlSettings.SetEventNewMessage(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSG]));
         m_xmlSettings.SetEventServerLost(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_CONNECTION_LOST]));
         m_xmlSettings.SetEventHotKey(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_PUSHTOTALK]));
@@ -6325,6 +6331,12 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
         break;
     case SOUNDEVENT_USER_LEFT :
         szFilename = STR_UTF8(m_xmlSettings.GetEventRemovedUser());
+        break;
+    case SOUNDEVENT_USER_LOGGED_IN :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventUserLoggedIn());
+        break;
+    case SOUNDEVENT_USER_LOGGED_OUT :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventUserLoggedOut());
         break;
     case SOUNDEVENT_USER_TEXTMSG :
         szFilename = STR_UTF8(m_xmlSettings.GetEventNewMessage());

@@ -1925,6 +1925,8 @@ BEGIN
     IDS_NOSOUNDDEVICE       "No Sound Device"
     IDS_USER_JOIN           "User joined channel"
     IDS_USER_LEFT           "User left channel"
+    IDS_USER_LOGGED_IN           "User logged in"
+    IDS_USER_LOGGED_OUT           "User logged out"
     IDS_USER_TEXTMSG        "Private text message"
     IDS_USER_CHANMSG        "Channel text message"
     IDC_STARTPOSLAB        "Start position"
