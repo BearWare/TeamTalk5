@@ -935,24 +935,32 @@ void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobj
 void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv) {
 
     jclass cls = env->GetObjectClass(lpPreprocessor);
+    jfieldID fid_echo = env->GetFieldID(cls, "echocanceller", "Ldk/bearware/WebRTCAudioPreprocessor$EchoCanceller;");
     jfieldID fid_gain2 = env->GetFieldID(cls, "gaincontroller2", "Ldk/bearware/WebRTCAudioPreprocessor$GainController2;");
     jfieldID fid_ns = env->GetFieldID(cls, "noisesuppression", "Ldk/bearware/WebRTCAudioPreprocessor$NoiseSuppression;");
 
+    assert(fid_echo);
     assert(fid_gain2);
     assert(fid_ns);
 
+    jobject echo = env->GetObjectField(lpPreprocessor, fid_echo);
     jobject gain2 = env->GetObjectField(lpPreprocessor, fid_gain2);
     jobject ns = env->GetObjectField(lpPreprocessor, fid_ns);
 
+    jclass cls_echo = env->GetObjectClass(echo);
     jclass cls_gain2 = env->GetObjectClass(gain2);
     jclass cls_ns = env->GetObjectClass(ns);
 
+    jfieldID fid_echo_enable = env->GetFieldID(cls_echo, "bEnable", "Z");
+    
     jfieldID fid_gain2_enable = env->GetFieldID(cls_gain2, "bEnable", "Z");
     jfieldID fid_gain2_fixed = env->GetFieldID(cls_gain2, "fixeddigital", "Ldk/bearware/WebRTCAudioPreprocessor$GainController2$FixedDigital;");
     jfieldID fid_gain2_adap = env->GetFieldID(cls_gain2, "adaptivedigital", "Ldk/bearware/WebRTCAudioPreprocessor$GainController2$AdaptiveDigital;");
+
     jfieldID fid_ns_enable = env->GetFieldID(cls_ns, "bEnable", "Z");
     jfieldID fid_ns_level = env->GetFieldID(cls_ns, "nLevel", "I");
 
+    assert(fid_echo_enable);
     assert(fid_gain2_enable);
     assert(fid_gain2_fixed);
     assert(fid_gain2_adap);
@@ -968,22 +976,46 @@ void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocess
     jobject adap = env->GetObjectField(gain2, fid_gain2_adap);
     jclass cls_adap = env->GetObjectClass(adap);
     jfieldID fid_adap_enable = env->GetFieldID(cls_adap, "bEnable", "Z");
+    jfieldID fid_adap_initsatmarg = env->GetFieldID(cls_adap, "fInitialSaturationMarginDB", "F");
+    jfieldID fid_adap_extrasatmarg = env->GetFieldID(cls_adap, "fExtraSaturationMarginDB", "F");
+    jfieldID fid_adap_maxgain = env->GetFieldID(cls_adap, "fMaxGainChangeDBPerSecond", "F");
+    jfieldID fid_adap_maxoutput = env->GetFieldID(cls_adap, "fMaxOutputNoiseLevelDBFS", "F");
 
     assert(fid_adap_enable);
+    assert(fid_adap_initsatmarg);
+    assert(fid_adap_extrasatmarg);
+    assert(fid_adap_maxgain);
+    assert(fid_adap_maxoutput);
 
     if (conv == N2J) {
+        // echo canceller
+        env->SetBooleanField(echo, fid_echo_enable, preprocessor.echocanceller.bEnable);
+        // fixed digital
         env->SetBooleanField(gain2, fid_gain2_enable, preprocessor.gaincontroller2.bEnable);
         env->SetFloatField(fixed, fid_gain2_gain, preprocessor.gaincontroller2.fixeddigital.fGainDB);
+        // adaptive digital
         env->SetBooleanField(adap, fid_adap_enable, preprocessor.gaincontroller2.adaptivedigital.bEnable);
-
+        env->SetFloatField(adap, fid_adap_initsatmarg, preprocessor.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB);
+        env->SetFloatField(adap, fid_adap_extrasatmarg, preprocessor.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB);
+        env->SetFloatField(adap, fid_adap_maxgain, preprocessor.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond);
+        env->SetFloatField(adap, fid_adap_maxoutput, preprocessor.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS);
+        // noise suppressor
         env->SetBooleanField(ns, fid_ns_enable, preprocessor.noisesuppression.bEnable);
         env->SetIntField(ns, fid_ns_level, preprocessor.noisesuppression.nLevel);
     }
     else {
+        // echo canceller
+        preprocessor.echocanceller.bEnable = env->GetBooleanField(echo, fid_echo_enable);
+        // fixed digital
         preprocessor.gaincontroller2.bEnable = env->GetBooleanField(gain2, fid_gain2_enable);
         preprocessor.gaincontroller2.fixeddigital.fGainDB = env->GetFloatField(fixed, fid_gain2_gain);
+        // adaptive digital
         preprocessor.gaincontroller2.adaptivedigital.bEnable = env->GetBooleanField(adap, fid_adap_enable);
-
+        preprocessor.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = env->GetFloatField(adap, fid_adap_initsatmarg);
+        preprocessor.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = env->GetFloatField(adap, fid_adap_extrasatmarg);
+        preprocessor.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = env->GetFloatField(adap, fid_adap_maxgain);
+        preprocessor.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = env->GetFloatField(adap, fid_adap_maxoutput);
+        // noise suppressor
         preprocessor.noisesuppression.bEnable = env->GetBooleanField(ns, fid_ns_enable);
         preprocessor.noisesuppression.nLevel = env->GetIntField(ns, fid_ns_level);
     }
