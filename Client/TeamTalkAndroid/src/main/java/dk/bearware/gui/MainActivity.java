@@ -168,7 +168,7 @@ implements TeamTalkConnectionListener,
 
     // The channel currently being displayed
     Channel curchannel;
-    // The channel we're currenlty in
+    // The channel we're currently in
     Channel mychannel;
 
     SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
@@ -500,7 +500,6 @@ implements TeamTalkConnectionListener,
         if (mConnection.isBound()) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, ttclient.getSoundOutputVolume());
-            editor.putInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, ttclient.getSoundInputGainLevel());
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, ttclient.getVoiceActivationLevel());
             editor.apply();
         }
@@ -734,10 +733,18 @@ implements TeamTalkConnectionListener,
         }
     }
 
+    // the channel currently being displayed
     private void setCurrentChannel(Channel channel) {
         curchannel = channel;
         getSupportActionBar().setSubtitle((channel != null) ? channel.szName : null);
         invalidateOptionsMenu();
+    }
+
+    // the channel we're currently in
+    private void setMyChannel(Channel channel) {
+        mychannel = channel;
+
+        adjustVoiceGain();
     }
 
     private boolean isVisibleChannel(int chanid) {
@@ -1468,6 +1475,19 @@ implements TeamTalkConnectionListener,
         accessibilityAssistant.unlockEvents();
     }
 
+    private void adjustVoiceGain() {
+
+        // if channel has audio configuration enabled then we should switch to AGC
+
+        boolean showIncDecButton = true;
+        if (mychannel != null && mychannel.audiocfg.bEnableAGC && ttservice != null && !ttservice.isVoiceActivationEnabled()) {
+            showIncDecButton = false;
+        }
+
+        findViewById(R.id.mikeDec).setVisibility(showIncDecButton ? View.VISIBLE : View.GONE);
+        findViewById(R.id.mikeInc).setVisibility(showIncDecButton ? View.VISIBLE : View.GONE);
+    }
+
     private interface OnButtonInteractionListener extends OnTouchListener, OnClickListener {
     }
 
@@ -1569,6 +1589,8 @@ implements TeamTalkConnectionListener,
             }
 
             boolean adjustLevel(View view) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
                 if(view == decVol) {
 
                     // pressing +/- aborts mute state
@@ -1630,6 +1652,11 @@ implements TeamTalkConnectionListener,
                         g = Utils.refGain(g-1);
                         if(g >= SoundLevel.SOUND_GAIN_MIN) {
                             ttclient.setSoundInputGainLevel(g);
+
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, g);
+                            editor.apply();
+
                             mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
                             mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
                             if(g == SoundLevel.SOUND_GAIN_DEFAULT)
@@ -1656,6 +1683,11 @@ implements TeamTalkConnectionListener,
                         g = Utils.refGain(g+1);
                         if(g <= SoundLevel.SOUND_GAIN_MAX) {
                             ttclient.setSoundInputGainLevel(g);
+
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, g);
+                            editor.apply();
+
                             mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
                             mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
                             if(g == SoundLevel.SOUND_VOLUME_DEFAULT)
@@ -1709,6 +1741,8 @@ implements TeamTalkConnectionListener,
                         if (ttservice.isVoiceTransmissionEnabled())
                             ttservice.enableVoiceTransmission(false);
                         ttservice.enableVoiceActivation(!ttservice.isVoiceActivationEnabled());
+
+                        adjustVoiceGain();
                     }
                 }
             });
@@ -1719,14 +1753,12 @@ implements TeamTalkConnectionListener,
         ttservice = service;
         ttclient = ttservice.getTTInstance();
 
-        //ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 440);
-
-        int mychannel = ttclient.getMyChannelID();
-        if(mychannel > 0) {
-            setCurrentChannel(ttservice.getChannels().get(mychannel));
+        int mychanid = ttclient.getMyChannelID();
+        if (mychanid > 0) {
+            setCurrentChannel(ttservice.getChannels().get(mychanid));
         }
 
-        this.mychannel = ttservice.getChannels().get(mychannel);
+        setMyChannel(ttservice.getChannels().get(mychanid));
 
         mSectionsPagerAdapter.onPageSelected(mViewPager.getCurrentItem());
 
@@ -1740,7 +1772,7 @@ implements TeamTalkConnectionListener,
         mediaAdapter.notifyDataSetChanged();
 
         filesAdapter.setTeamTalkService(service);
-        filesAdapter.update(mychannel);
+        filesAdapter.update(mychanid);
 
         int outsndid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
         // outsndid |= SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
@@ -1776,7 +1808,6 @@ implements TeamTalkConnectionListener,
             wakeLock.acquire();
 
         int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
-        int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
         int voxlevel = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5);
         boolean voxState = ttservice.isVoiceActivationEnabled();
         boolean txState = ttservice.isVoiceTransmitting();
@@ -1784,13 +1815,11 @@ implements TeamTalkConnectionListener,
         // only set volume and gain if tt-instance hasn't already been configured
         if (ttclient.getSoundOutputVolume() != mastervol)
             ttclient.setSoundOutputVolume(mastervol);
-        if (ttclient.getSoundInputGainLevel() != gain)
-            ttclient.setSoundInputGainLevel(gain);
         if (ttclient.getVoiceActivationLevel() != voxlevel)
             ttclient.setVoiceActivationLevel(voxlevel);
 
         adjustMuteButton((ImageButton) findViewById(R.id.speakerBtn));
-        adjustVoxState(voxState, voxState ? voxlevel : gain);
+        adjustVoxState(voxState, voxState ? voxlevel : ttclient.getSoundInputGainLevel());
         adjustTxState(txState);
 
         TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
@@ -1915,8 +1944,8 @@ implements TeamTalkConnectionListener,
             Channel chan = ttservice.getChannels().get(user.nChannelID);
             setCurrentChannel(chan);
             filesAdapter.update(curchannel);
-            //store copy of channel
-            mychannel = chan;
+
+            setMyChannel(chan);
 
             //update the displayed channel to the one we're currently in
             accessibilityAssistant.lockEvents();
@@ -1964,9 +1993,9 @@ implements TeamTalkConnectionListener,
             
             Channel chan = ttservice.getChannels().get(channelid);
             textmsgAdapter.notifyDataSetChanged();
-            
+
             setCurrentChannel(null);
-            mychannel = null;
+            setMyChannel(null);
         }
         else if(curchannel != null && channelid == curchannel.nChannelID){
             //other user left current channel
@@ -2096,7 +2125,7 @@ implements TeamTalkConnectionListener,
                 }
             }
 
-            mychannel = channel;
+            setMyChannel(channel);
         }
     }
 
