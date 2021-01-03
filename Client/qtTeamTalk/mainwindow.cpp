@@ -5447,9 +5447,6 @@ void MainWindow::slotMasterVolumeChanged(int value)
 
 void MainWindow::slotMicrophoneGainChanged(int value)
 {
-    float percent = float(value);
-    percent /= 100.;
-
     AudioPreprocessor preprocessor;
     initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
 
@@ -5459,10 +5456,10 @@ void MainWindow::slotMicrophoneGainChanged(int value)
     case NO_AUDIOPREPROCESSOR :
         initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
-        TT_SetSoundInputGainLevel(ttInst, INT32(SOUND_GAIN_MAX * percent));
+        TT_SetSoundInputGainLevel(ttInst, refGain(value));
         break;
     case TEAMTALK_AUDIOPREPROCESSOR :
-        preprocessor.ttpreprocessor.nGainLevel = INT32(SOUND_GAIN_MAX * percent);
+        preprocessor.ttpreprocessor.nGainLevel = refGain(value);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
         break;
     case SPEEXDSP_AUDIOPREPROCESSOR :
@@ -5472,10 +5469,12 @@ void MainWindow::slotMicrophoneGainChanged(int value)
     case WEBRTC_AUDIOPREPROCESSOR :
     {
         bool agc = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
+        float percent = float(value);
+        percent /= 100.;
         preprocessor.webrtc.gaincontroller2.bEnable = agc;
         preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = INT32(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
-        TT_SetSoundInputGainLevel(ttInst, agc ? SOUND_GAIN_DEFAULT : INT32(SOUND_GAIN_MAX * percent));
+        TT_SetSoundInputGainLevel(ttInst, agc ? SOUND_GAIN_DEFAULT : refGain(value));
         break;
     }
     }
