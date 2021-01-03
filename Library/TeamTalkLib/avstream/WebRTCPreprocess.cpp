@@ -25,6 +25,8 @@
 
 #include <myace/MyACE.h>
 
+#define DEBUG_WEBRTC 0
+
 // webrtc::GainControlImpl queries this feature. Field trials is
 // excluded by passing rtc_exclude_field_trial_default=true to GN.
 namespace webrtc { namespace field_trial {
@@ -94,11 +96,11 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
         MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
                      ACE_TEXT("WebRTC failed to process audio frame. Result: %d\n"), ret);
 
-        //MYTRACE(ACE_TEXT("Gain1=%d, gain %d. Gain2=%d, gain: %g\n"),
-        //        int(apm.GetConfig().gain_controller1.enabled),
-        //        apm.GetConfig().gain_controller1.target_level_dbfs,
-        //        int(apm.GetConfig().gain_controller2.enabled),
-        //        apm.GetConfig().gain_controller2.fixed_digital.gain_db);
+        MYTRACE_COND(DEBUG_WEBRTC, ACE_TEXT("Gain1=%d, gain %d. Gain2=%d, gain: %g\n"),
+                     int(apm.GetConfig().gain_controller1.enabled),
+                     apm.GetConfig().gain_controller1.target_level_dbfs,
+                     int(apm.GetConfig().gain_controller2.enabled),
+                     apm.GetConfig().gain_controller2.fixed_digital.gain_db);
         assert(ret == webrtc::AudioProcessing::kNoError);
         if (ret != webrtc::AudioProcessing::kNoError)
             return -1;
