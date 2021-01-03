@@ -48,7 +48,4 @@ public class ServerEntry {
     public boolean rememberLastChannel = true;
     public boolean encrypted = false;
     public boolean public_server = false;
-
-    public boolean isWebLoginLogin() { return username.equals(AppInfo.WEBLOGIN_BEARWARE_USERNAME) ||
-            username.endsWith(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX); }
 }

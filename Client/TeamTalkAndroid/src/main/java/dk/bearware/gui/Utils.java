@@ -439,4 +439,9 @@ public class Utils {
         return user.szNickname;
     }
 
+    public static boolean isWebLogin(String username) {
+        return username.equals(AppInfo.WEBLOGIN_BEARWARE_USERNAME) ||
+                username.endsWith(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX);
+    }
+
 }
