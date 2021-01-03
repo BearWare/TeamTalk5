@@ -587,10 +587,7 @@ void MainWindow::loadSettings()
 
     //default voice gain level depends on whether AGC or normal gain
     //is enabled
-    bool agc = ttSettings->value(SETTINGS_SOUND_AGC,
-                                 SETTINGS_SOUND_AGC_DEFAULT).toBool();
-    value = ttSettings->value(SETTINGS_SOUND_MICROPHONEGAIN, agc?
-                              SETTINGS_SOUND_MICROPHONEGAIN_AGC_DEFAULT :
+    value = ttSettings->value(SETTINGS_SOUND_MICROPHONEGAIN,
                               SETTINGS_SOUND_MICROPHONEGAIN_GAIN_DEFAULT).toInt();
     ui.micSlider->setValue(value);
     slotMicrophoneGainChanged(value); //force update on equal
@@ -5456,26 +5453,32 @@ void MainWindow::slotMicrophoneGainChanged(int value)
     AudioPreprocessor preprocessor;
     initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
 
-    bool agc = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
-
     TT_GetSoundInputPreprocessEx(ttInst, &preprocessor);
     switch (preprocessor.nPreprocessor)
     {
-    case TEAMTALK_AUDIOPREPROCESSOR :
-        break;
     case NO_AUDIOPREPROCESSOR :
+        initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        TT_SetSoundInputGainLevel(ttInst, INT32(SOUND_GAIN_MAX * percent));
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        preprocessor.ttpreprocessor.nGainLevel = INT32(SOUND_GAIN_MAX * percent);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        break;
     case SPEEXDSP_AUDIOPREPROCESSOR :
         // Only no audio preprocessor or webrtc is currently supported.
         Q_ASSERT(preprocessor.nPreprocessor == WEBRTC_AUDIOPREPROCESSOR);
         break;
     case WEBRTC_AUDIOPREPROCESSOR :
+    {
+        bool agc = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
         preprocessor.webrtc.gaincontroller2.bEnable = agc;
         preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = INT32(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        TT_SetSoundInputGainLevel(ttInst, agc ? SOUND_GAIN_DEFAULT : INT32(SOUND_GAIN_MAX * percent));
         break;
     }
-
-    TT_SetSoundInputGainLevel(ttInst, agc? SOUND_GAIN_DEFAULT : INT32(SOUND_GAIN_MAX * percent));
-    TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+    }
 }
 
 void MainWindow::slotVoiceActivationLevelChanged(int value)
