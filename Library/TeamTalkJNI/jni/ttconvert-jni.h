@@ -118,6 +118,7 @@ void setAudioConfig(JNIEnv* env, AudioConfig& audcfg, jobject lpAudioConfig, JCo
 void setSoundDeviceEffects(JNIEnv* env, SoundDeviceEffects& effects, jobject lpSoundDeviceEffects, JConvert conv);
 void setSpeexDSP(JNIEnv* env, SpeexDSP& spxdsp, jobject lpSpeexDSP, JConvert conv);
 void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv);
+void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv);
 void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv);
 void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServerProperties, JConvert conv);
 void setClientStatistics(JNIEnv* env, ClientStatistics& stats, jobject lpStats); //N2J

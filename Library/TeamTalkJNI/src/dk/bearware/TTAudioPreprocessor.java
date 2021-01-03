@@ -32,4 +32,12 @@ public class TTAudioPreprocessor {
     
     public TTAudioPreprocessor() {
     }
+
+    public TTAudioPreprocessor(boolean setDefaults) {
+        if (setDefaults) {
+            nGainLevel = SoundLevel.SOUND_GAIN_DEFAULT;
+            bMuteLeftSpeaker = false;
+            bMuteRightSpeaker = false;
+        }
+    }
 }

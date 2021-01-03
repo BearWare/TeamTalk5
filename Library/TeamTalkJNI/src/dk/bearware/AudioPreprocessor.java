@@ -25,11 +25,29 @@ package dk.bearware;
 
 public class AudioPreprocessor {
 
-    int nPreprocessor = AudioPreprocessorType.NO_AUDIOPREPROCESSOR;
+    public int nPreprocessor = AudioPreprocessorType.NO_AUDIOPREPROCESSOR;
 
     public SpeexDSP speexdsp = new SpeexDSP();
     public TTAudioPreprocessor ttpreprocessor = new TTAudioPreprocessor();
+    public WebRTCAudioPreprocessor webrtc = new WebRTCAudioPreprocessor();
     
-    AudioPreprocessor() {
+    public AudioPreprocessor() {
+    }
+
+    public AudioPreprocessor(int preprocessor, boolean setDefaults) {
+        this.nPreprocessor = preprocessor;
+        switch (preprocessor) {
+        case AudioPreprocessorType.NO_AUDIOPREPROCESSOR :
+            break;
+        case AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR :
+            speexdsp = new SpeexDSP(setDefaults);
+            break;
+        case AudioPreprocessorType.TEAMTALK_AUDIOPREPROCESSOR :
+            ttpreprocessor = new TTAudioPreprocessor(setDefaults);
+            break;
+        case AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR :
+            webrtc = new WebRTCAudioPreprocessor(setDefaults);
+            break;
+        }
     }
 }

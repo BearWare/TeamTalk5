@@ -58,13 +58,13 @@ public abstract class TeamTalkTestCaseBase {
     public static String MEDIAFILE_AUDIO = "";
     public static String MEDIAFILE_VIDEO = "";
     public static String HTTPS_MEDIAFILE = "";
-    public static boolean OPUSTOOLS = true;
+    public static boolean OPUSTOOLS_AVAILABLE = true, SPEEXDSP_AVAILABLE = true, WEBRTC_AVAILABLE = true;
 
     public static final String CRYPTO_SERVER_CERT_FILE = "ttservercert.pem", CRYPTO_SERVER_KEY_FILE = "ttserverkey.pem";
     public static final String CRYPTO_CLIENT_CERT_FILE = "ttclientcert.pem", CRYPTO_CLIENT_KEY_FILE = "ttclientkey.pem";
     public static final String CRYPTO_SERVER_CERT2_FILE = "ttservercert2.pem", CRYPTO_SERVER_KEY2_FILE = "ttserverkey2.pem";
     public static final String CRYPTO_CA_FILE = "ca.cer";
-    
+
     public static final String MUXEDMEDIAFILE_WAVE = "muxwavefile.wav";
     public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
     public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
@@ -99,43 +99,51 @@ public abstract class TeamTalkTestCaseBase {
     public void setUp() throws Exception {
 
         String prop = System.getProperty("dk.bearware.sndinputid");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.INPUTDEVICEID = Integer.parseInt(prop);
 
         prop = System.getProperty("dk.bearware.sndoutputid");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.OUTPUTDEVICEID = Integer.parseInt(prop);
 
         prop = System.getProperty("dk.bearware.encrypted");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.ENCRYPTED = Integer.parseInt(prop) != 0;
 
         prop = System.getProperty("dk.bearware.serverip");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.IPADDR = prop;
 
         prop = System.getProperty("dk.bearware.videodevid");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.VIDEODEVICEID = prop;
 
         prop = System.getProperty("dk.bearware.videofile");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.MEDIAFILE_VIDEO = prop;
 
         prop = System.getProperty("dk.bearware.audiofile");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.MEDIAFILE_AUDIO = prop;
 
         prop = System.getProperty("dk.bearware.httpsfile");
-        if(prop != null && !prop.isEmpty())
+        if (prop != null && !prop.isEmpty())
             this.HTTPS_MEDIAFILE = prop;
 
         prop = System.getProperty("dk.bearware.opustools");
-        if(prop != null && !prop.isEmpty())
-            this.OPUSTOOLS = Integer.parseInt(prop) != 0;
+        if (prop != null && !prop.isEmpty())
+            this.OPUSTOOLS_AVAILABLE = "1".equals(prop);
 
-        if(TCPPORT == 0 && UDPPORT == 0) {
-            if(this.ENCRYPTED) {
+        prop = System.getProperty("dk.bearware.speexdsp");
+        if (prop != null && !prop.isEmpty())
+            this.SPEEXDSP_AVAILABLE = "1".equals(prop);
+
+        prop = System.getProperty("dk.bearware.webrtc");
+        if (prop != null && !prop.isEmpty())
+            this.WEBRTC_AVAILABLE = "1".equals(prop);
+
+        if (TCPPORT == 0 && UDPPORT == 0) {
+            if (this.ENCRYPTED) {
                 TCPPORT = Constants.DEFAULT_TCP_PORT_ENCRYPTED;
                 UDPPORT = Constants.DEFAULT_UDP_PORT_ENCRYPTED;
             }
@@ -319,11 +327,11 @@ public abstract class TeamTalkTestCaseBase {
                 break;
             }
         }
-        
+
         for (UserAccount account : accounts) {
             if (account.szUsername.equals(ADMIN_USERNAME))
                 continue;
-            
+
             assertTrue("del account", waitCmdSuccess(ttclient, ttclient.doDeleteUserAccount(account.szUsername), DEF_WAIT));
         }
 
@@ -357,7 +365,7 @@ public abstract class TeamTalkTestCaseBase {
             assertTrue("del ban", waitCmdSuccess(ttclient, ttclient.doUnBanUserEx(ban), DEF_WAIT));
         }
     }
-    
+
     protected void makeUserAccount(String nickname, String username, String password, int userrights)
     {
         TeamTalkBase ttclient = newClientInstance();

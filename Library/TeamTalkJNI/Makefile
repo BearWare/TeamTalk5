@@ -36,6 +36,8 @@ JAVAPROP+=-Ddk.bearware.audiofile=$(AUDIOFILE)
 JAVAPROP+=-Ddk.bearware.httpsfile=$(HTTPSFILE)
 JAVAPROP+=-Ddk.bearware.opustools=$(OPUSTOOLS)
 JAVAPROP+=-Ddk.bearware.verbose=$(VERBOSE)
+JAVAPROP+=-Ddk.bearware.speexdsp=$(SPEEXDSP)
+JAVAPROP+=-Ddk.bearware.webrtc=$(WEBRTC)
 
 help:
 	@echo "Targets:"
