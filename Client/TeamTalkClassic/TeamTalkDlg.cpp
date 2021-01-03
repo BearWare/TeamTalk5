@@ -5389,23 +5389,41 @@ void CTeamTalkDlg::UpdateMasterVolume(int nVol)
 
 void CTeamTalkDlg::UpdateGainLevel(int nGain)
 {
-    if(m_wndGainSlider.GetPos() != nGain)
+    // m_wndGainSlider windows is disabled in AudioConfig-mode
+
+    if (m_wndGainSlider.GetPos() != nGain)
         m_wndGainSlider.SetPos(nGain);
 
-    // m_wndGainSlider windows is disabled in AudioConfig-mode
-    SpeexDSP spxdsp =  {};
-    if(TT_GetSoundInputPreprocess(ttInst, &spxdsp) && spxdsp.bEnableAGC)
+    AudioPreprocessor preprocessor;
+    InitDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+
+    TT_GetSoundInputPreprocessEx(ttInst, &preprocessor);
+
+    switch (preprocessor.nPreprocessor)
     {
-        double percent = nGain;
-        percent /= 100.;
-        spxdsp.nGainLevel = INT32(SOUND_GAIN_MAX * percent);
-        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
-        TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
+    case NO_AUDIOPREPROCESSOR:
+        InitDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        TT_SetSoundInputGainLevel(ttInst, RefGain(nGain));
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR:
+        preprocessor.ttpreprocessor.nGainLevel = RefGain(nGain);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR:
+        // Only no audio preprocessor or webrtc is currently supported.
+        ASSERT(preprocessor.nPreprocessor == WEBRTC_AUDIOPREPROCESSOR);
+        break;
+    case WEBRTC_AUDIOPREPROCESSOR:
+    {
+        bool agc = m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
+        float percent = m_wndGainSlider.GetPos() / float(m_wndGainSlider.GetRangeMax());
+        preprocessor.webrtc.gaincontroller2.bEnable = agc;
+        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = INT32(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        TT_SetSoundInputGainLevel(ttInst, agc ? SOUND_GAIN_DEFAULT : RefGain(nGain));
+        break;
     }
-    else
-    {
-        int gain = RefGain(nGain);
-        TT_SetSoundInputGainLevel(ttInst, gain);
     }
 }
 
