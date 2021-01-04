@@ -62,15 +62,13 @@ static int CALLBACK SortTree(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
         return -1;
     else if( (lParam1 & CHANNEL_ITEMDATA) && (lParam2 & CHANNEL_ITEMDATA) )
     {
-        HTREEITEM hItem1 = pTreeCtrl->GetChannelItem(lParam1 & ID_ITEMDATA);
-        HTREEITEM hItem2 = pTreeCtrl->GetChannelItem(lParam2 & ID_ITEMDATA);
-        ASSERT(hItem1 && hItem2);
+        int nChanID1 = (ID_ITEMDATA & lParam1);
+        int nChanID2 = (ID_ITEMDATA & lParam2);
+
         switch (pTreeCtrl->GetSortOrder())
         {
         case SORT_TREE_POLULATED :
         {
-            int nChanID1 = (ID_ITEMDATA & pTreeCtrl->GetItemData(hItem1));
-            int nChanID2 = (ID_ITEMDATA & pTreeCtrl->GetItemData(hItem2));
             size_t nCount1 = pTreeCtrl->GetUsers(nChanID1).size();
             size_t nCount2 = pTreeCtrl->GetUsers(nChanID2).size();
             if (nCount1 != nCount2)
@@ -78,19 +76,25 @@ static int CALLBACK SortTree(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
         }
         case SORT_TREE_ASCENDING :
         default :
-            CString szItem1 = pTreeCtrl->GetItemText(hItem1);
-            CString szItem2 = pTreeCtrl->GetItemText(hItem2);
-            return szItem1.CompareNoCase(szItem2);
+        {
+            Channel chan1, chan2;
+            BOOL b = pTreeCtrl->GetChannel(nChanID1, chan1);
+            b &= pTreeCtrl->GetChannel(nChanID2, chan2);
+            ASSERT(b);
+            return _tcsicmp(chan1.szName, chan2.szName);
+        }
         }
     }
     else if( (lParam1 & USER_ITEMDATA) && (lParam2 & USER_ITEMDATA) )
     {
-        HTREEITEM hItem1 = pTreeCtrl->GetUserItem(lParam1 & ID_ITEMDATA);
-        HTREEITEM hItem2 = pTreeCtrl->GetUserItem(lParam2 & ID_ITEMDATA);
-        ASSERT(hItem1 && hItem2);
-        CString szItem1 = pTreeCtrl->GetItemText(hItem1);
-        CString szItem2 = pTreeCtrl->GetItemText(hItem2);
-        return szItem1.CompareNoCase(szItem2);
+        int nUserID1 = (lParam1 & ID_ITEMDATA);
+        int nUserID2 = (lParam2 & ID_ITEMDATA);
+
+        User user1, user2;
+        BOOL b = pTreeCtrl->GetUser(nUserID1, user1);
+        b &= pTreeCtrl->GetUser(nUserID2, user2);
+        ASSERT(b);
+        return GetDisplayName(user1).CompareNoCase(GetDisplayName(user2));
     }
     else
     {

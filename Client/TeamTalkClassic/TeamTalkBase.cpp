@@ -139,7 +139,7 @@ channels_t GetParentChannels(int nChannelID, const channels_t& channels)
 int GetRootChannelID(const channels_t& channels)
 {
     channels_t::const_iterator ite;
-    for(ite = channels.begin(); ite != channels.end(); ite++)
+    for(ite = channels.begin(); ite != channels.end(); ++ite)
     {
         if(ite->second.nParentID == 0)
             return ite->second.nChannelID;
@@ -151,7 +151,7 @@ int GetMaxChannelID(const channels_t& channels)
 {
     int ret = 0;
     channels_t::const_iterator ite;
-    for(ite=channels.begin();ite!=channels.end();ite++)
+    for(ite=channels.begin();ite!=channels.end(); ++ite)
         ret = max(ite->first, ret);
     return ret;
 }
@@ -160,7 +160,7 @@ users_t GetChannelUsers(const users_t& users, int nChannelID)
 {
     users_t result;
     users_t::const_iterator ite;
-    for(ite=users.begin();ite!=users.end();ite++)
+    for(ite=users.begin();ite!=users.end();++ite)
     {
         if(ite->second.nChannelID == nChannelID || nChannelID == -1)
             result.insert(*ite);
