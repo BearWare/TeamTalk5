@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
-    <item id="1">Potwierdź</item>
-    <item id="2">Poniechaj</item>
+    <item id="1">Ok</item>
+    <item id="2">Anuluj</item>
     <item id="102">Kreator ustawień TeamTalk</item>
     <item id="104">Roz&amp;łącz\tF2</item>
     <item id="105">Dołącza się %s</item>
@@ -321,7 +321,7 @@
     <item id="453">Maksymalna (32-bitowe kolory)</item>
     <item id="454">%u KB</item>
     <item id="455">Nazwa</item>
-    <item id="456">Wielkość</item>
+    <item id="456">Rozmiar</item>
     <item id="457">Użytkownik</item>
     <item id="458">%I64d KB</item>
     <item id="459">%I64d B</item>
@@ -369,7 +369,7 @@
     <item id="503">Administrator</item>
     <item id="504">%s niezaznaczony dla przeniesienia</item>
     <item id="505">Zaznaczony dla przeniesienia</item>
-    <item id="506">Głośnośc głowna wyłączona</item>
+    <item id="506">Głośność główna wyłączona</item>
     <item id="507">głośność główna włączona</item>
     <item id="508">głos dla %s wyłączony</item>
     <item id="509">Pliki multymedialne dla %s włączone</item>
@@ -429,9 +429,9 @@
     <item id="564">TeamTalk używa następujących bibliotek:</item>
     <item id="565">Zachowano konfigurację serwera</item>
     <item id="566">Zdefiniuj stan nieobecności po %d sekund</item>
-    <item id="567">Ta konfiguracja urządzenia audio dostarcza najbardziej optymalne anulowanie echa. Proszęs prawdzić podręcznik użytkownika dla wiecej informacji.</item>
+    <item id="567">Ta konfiguracja urządzenia audio dostarcza najbardziej optymalną antyzwrotkę. Proszę sprawdzić podręcznik użytkownika dla wiecej informacji.</item>
     <item id="568">Używane urządzenie nagrywania: %s</item>
-    <item id="569">Używanie urządzenie do odtwarzania: %s</item>
+    <item id="569">Używane urządzenie do odtwarzania: %s</item>
     <item id="570">Kanał</item>
     <item id="1006">Lista plików</item>
     <item id="1009">Automatycznie łącz z głównym kanałem po połączeniu</item>
