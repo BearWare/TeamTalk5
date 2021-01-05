@@ -970,6 +970,12 @@ void playSoundEvent(SoundEvent event)
     case SOUNDEVENT_USERLOGGEDOUT:
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT).toString();
         break;
+    case SOUNDEVENT_VOICEACTON:
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON).toString();
+        break;
+    case SOUNDEVENT_VOICEACTOFF:
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF).toString();
+        break;
     }
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)

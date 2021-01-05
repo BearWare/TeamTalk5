@@ -3581,6 +3581,10 @@ void MainWindow::slotMeEnableVoiceActivation(bool checked)
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
         emit(updateMyself());
     slotUpdateUI();
+    if(checked == true)
+        playSoundEvent(SOUNDEVENT_VOICEACTON);
+    else
+        playSoundEvent(SOUNDEVENT_VOICEACTOFF);
 }
 
 void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
