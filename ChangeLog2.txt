@@ -1,6 +1,0 @@
-Client accessible:
-- Affichage du nom du serveur en plus du nom du canal dans le titre de la fenêtre (Branche servchan)
-- Ajout d'un évènement sonnore à la connexion/déconnexion d'un utilisateur (Branche snd)
-Client QT:
-- Affichage du nom du serveur en plus du nom du canal dans le titre de la fenêtre (Branche servchan)
-- Ajout de plusieurs évènements sonnores (Branche snd)
