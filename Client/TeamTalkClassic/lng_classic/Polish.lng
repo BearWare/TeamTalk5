@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
-    <item id="1">Potwierdź</item>
+    <item id="1">Ok</item>
     <item id="2">Anuluj</item>
     <item id="102">Kreator ustawień TeamTalk</item>
     <item id="104">Roz&amp;łącz\tF2</item>
@@ -431,7 +431,7 @@
     <item id="566">Zdefiniuj stan nieobecności po %d sekund</item>
     <item id="567">Ta konfiguracja urządzenia audio dostarcza najbardziej optymalną antyzwrotkę. Proszę sprawdzić podręcznik użytkownika dla wiecej informacji.</item>
     <item id="568">Używane urządzenie nagrywania: %s</item>
-    <item id="569">Używanie urządzenie do odtwarzania: %s</item>
+    <item id="569">Używane urządzenie do odtwarzania: %s</item>
     <item id="570">Kanał</item>
     <item id="1006">Lista plików</item>
     <item id="1009">Automatycznie łącz z głównym kanałem po połączeniu</item>
