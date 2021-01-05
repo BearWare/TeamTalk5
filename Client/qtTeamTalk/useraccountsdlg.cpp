@@ -291,11 +291,12 @@ void UserAccountsDlg::slotCmdError(int /*error*/, int cmdid)
 
 void UserAccountsDlg::lockUI(bool locked)
 {
-    ui.usersTreeView->setEnabled(!locked);
+    //ui.usersTreeView->setEnabled(!locked);
     ui.usernameEdit->setEnabled(!locked);
     ui.passwordEdit->setEnabled(!locked);
     ui.defaultuserBtn->setEnabled(!locked);
     ui.adminBtn->setEnabled(!locked);
+    ui.disableduserBtn->setEnabled(!locked);
     ui.noteEdit->setEnabled(!locked);
     ui.channelComboBox->setEnabled(!locked);
     ui.opchannelsListWidget->setEnabled(!locked);
