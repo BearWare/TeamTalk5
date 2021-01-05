@@ -169,6 +169,18 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_LEFT);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_LEFT) != 0);
 
+    szText.LoadString(IDS_USER_LOGGED_IN);
+    TRANSLATE_ITEM(IDS_USER_LOGGED_IN, szText);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_LOGGED_IN);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_LOGGED_IN) != 0);
+
+    szText.LoadString(IDS_USER_LOGGED_OUT);
+    TRANSLATE_ITEM(IDS_USER_LOGGED_OUT, szText);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_LOGGED_OUT);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_LOGGED_OUT) != 0);
+
     szText.LoadString(IDS_USER_TEXTMSG);
     TRANSLATE_ITEM(IDS_USER_TEXTMSG, szText);
     hItem = m_wndTree.InsertItem(szText);

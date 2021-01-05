@@ -306,7 +306,9 @@ enum SoundEvent
     SOUNDEVENT_NONE = 0,
     SOUNDEVENT_USER_JOIN                    = 0x00000001,
     SOUNDEVENT_USER_LEFT                    = 0x00000002,
+    SOUNDEVENT_USER_LOGGED_IN               = 0x00000003,
     SOUNDEVENT_USER_TEXTMSG                 = 0x00000004,
+    SOUNDEVENT_USER_LOGGED_OUT              = 0x00000005,
     SOUNDEVENT_USER_CHANNEL_TEXTMSG         = 0x00000008,
     SOUNDEVENT_USER_BROADCAST_TEXTMSG       = 0x00200000,
     SOUNDEVENT_USER_QUESTIONMODE            = 0x00000010,
@@ -338,6 +340,8 @@ enum SoundEvent
 
     SOUNDEVENT_DEFAULT                  = SOUNDEVENT_USER_JOIN |
                                           SOUNDEVENT_USER_LEFT |
+                                          SOUNDEVENT_USER_LOGGED_IN |
+                                          SOUNDEVENT_USER_LOGGED_OUT |
                                           SOUNDEVENT_USER_TEXTMSG |
                                           SOUNDEVENT_USER_CHANNEL_TEXTMSG |
                                           SOUNDEVENT_USER_BROADCAST_TEXTMSG |

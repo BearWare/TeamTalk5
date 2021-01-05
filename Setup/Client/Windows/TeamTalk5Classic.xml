@@ -35,5 +35,7 @@
         <me-disable-voice-activation>Sounds\vox_me_disable.wav</me-disable-voice-activation>
         <transmit-queue-front>Sounds\txqueue_start.wav</transmit-queue-front>
         <transmit-queue-stop>Sounds\txqueue_stop.wav</transmit-queue-stop>
+        <userloggedin>Sounds\logged_on.wav</userloggedin>
+        <userloggedout>Sounds\logged_off.wav</userloggedout>
     </events>
 </teamtalk>
