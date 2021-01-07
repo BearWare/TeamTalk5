@@ -3,39 +3,64 @@
 ----------------------------------------------
 Version 5.7, unreleased
 Accessible Windows Client
-- Specific TTS events when sending a private or channel message
+- SpeexDSP echo canceller replaced by WebRTC
+- SpeexDSP automatic gain control (AGC) replaced by WebRTC
+- SpeexDSP noise suppression replaced by WebRTC
+- Ability to create and join hidden channels
+- Channel messages can be blocked in classroom channels
+- TTS events when sending a private or channel message
 - Option to join channel immediately in create channel dialog
 - Option to disable emojis and text for channel/user states
-- Event for configuration server saved
-- Users logged in/out display in chat history
-- Fix some labels on server properties dialog and preferences
-- Some improvements to CTRL+S dialog
 - New audio files for default sound events
-- Fix tab index on server properties dialog
+- New sound events when user logs in/out
+- Sound events are no longer played in full if several follow one another
+- Faster login on servers with many users or channels
 - Don't play sound for own channel messages
-- Event sounds are no longer played in full if several follow one another
+- Users logged in/out displayed in chat history
+- Save server configuration displayed in chat history
+- Status message is saved and reloaded on startup
+- Some improvements to CTRL+S dialog
+- Fixed tab index on server properties dialog
+- Fixed labels on server properties dialog and preferences
 - Display ban type on banned users dialog
 - Return who has kicked when we are kicked from a channel
 - Change label of start position bar on CTRL+S
-- Return exacte duration of file on CTRL+S dialog
-- Status message is saved and reloaded on startup
-- Sounds at user logged in/out
+- Return exact duration of file on CTRL+S dialog
+- Reconnect if initial connection attempt fails
+- Facebook login no longer supported
 Default QT Client
+- SpeexDSP echo canceller replaced by WebRTC
+- SpeexDSP automatic gain control (AGC) replaced by WebRTC
+- SpeexDSP noise suppression replaced by WebRTC
+- Ability to create and join hidden channels
+- Channel messages can be blocked in classroom channels
+- New audio files for default sound events
+- New sound events when user logs in/out
 - Option to join channel immediately in create channel dialog
 - Option to disable emojis and text for channel/user states
 - CTRL+L to leave a channel
-- Event for configuration server saved
-- Fix some navigation problems using tabulation
-- New audio files for default sound events
+- Save server configuration displayed in chat history
+- Fix navigation problems using tabulation
 - More items displayed when using up arrow in message area
 - Add emojis for unread messages and now speaking in channels tree
 - Don't play sound for own channel messages
 - Display ban type on banned users dialog
-- New sound events
-Android client:
+- Reconnect if initial connection attempt fails
+- Facebook login no longer supported
+Android Client
+- SpeexDSP automatic gain control (AGC) replaced by WebRTC
+- Ability to create and join hidden channels
 - New audio files for default sound events
-iOS Client:
+- Facebook login no longer supported
+iOS Client
+- Ability to create and join hidden channels
 - New audio files for default sound events
+- Facebook login no longer supported
+Server
+- Support for hidden channels
+- Ability to disable user accounts
+- Channel messages can be blocked in classroom channels
+- Facebook login no longer supported
 
 Version 5.6.3, 2020/09/20
 Accessible Windows Client
