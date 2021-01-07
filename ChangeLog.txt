@@ -51,6 +51,7 @@ Android Client
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
 - Ability to create and join hidden channels
 - New audio files for default sound events
+- Change default stream volume from 100 to 50
 - Facebook login no longer supported
 iOS Client
 - Ability to create and join hidden channels
