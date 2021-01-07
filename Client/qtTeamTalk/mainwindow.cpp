@@ -939,6 +939,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         updateUserSubscription(msg.user.nUserID);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
             addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
+            playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
         }
 
         // sync user settings from cache
@@ -955,6 +956,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         m_usermessages.remove(msg.user.nUserID);
         if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
             addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
+            playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
         }
 
         // sync user settings to cache
@@ -2199,7 +2201,8 @@ void MainWindow::updateWindowTitle()
     if(m_mychannel.nChannelID > 0 &&
        m_mychannel.nChannelID != TT_GetRootChannelID(ttInst))
     {
-        title = QString("%1 - %2").arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
+        TT_GetServerProperties(ttInst, &prop);
+        title = QString("%1/%2 - %3").arg(limitText(_Q(prop.szServerName))).arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
     }
     else if (TT_GetServerProperties(ttInst, &prop))
     {
@@ -3578,6 +3581,10 @@ void MainWindow::slotMeEnableVoiceActivation(bool checked)
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
         emit(updateMyself());
     slotUpdateUI();
+    if(checked == true)
+        playSoundEvent(SOUNDEVENT_VOICEACTON);
+    else
+        playSoundEvent(SOUNDEVENT_VOICEACTOFF);
 }
 
 void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
