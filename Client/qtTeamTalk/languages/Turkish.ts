@@ -284,7 +284,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="14"/>
         <source>Activate BearWare.dk Web Login</source>
-        <translation>BearWare.dk Web Oturumunu Etkinleştir</translation>
+        <translation>BearWare.dk Web Oturumu&apos;nu Etkinleştir</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="20"/>
@@ -294,7 +294,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="26"/>
         <source>A BearWare.dk Web Login is used to identify a TeamTalk user. A login ID can be created on the BearWare.dk web site.</source>
-        <translation>Bir BearWare.dk Web Oturumu, bir TeamTalk kullanıcısının kimliğini saptamada kullanılır. BearWare.dk web sitesinde bir oturum açma kimliği oluşturulur.</translation>
+        <translation>Bir BearWare.dk Web Oturumu, bir TeamTalk kullanıcısının kimliğini saptamada kullanılır. BearWare.dk web sitesinde bir oturum kimliği oluşturulur.</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="51"/>
@@ -3015,7 +3015,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="239"/>
         <source>BearWare.dk Web Login ID</source>
-        <translation>BearWare.dk Web Oturum Açma Kimliği</translation>
+        <translation>BearWare.dk Web Oturumu Kimliği</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="256"/>

@@ -99,7 +99,7 @@
   <string name="pref_title_show_usernames">Kullanıcı adlarını göster</string>
   <string name="pref_summary_show_usernames">Rumuzların yerine kullanıcı adlarını göster</string>
   <string name="pref_title_bearwareid">BearWare.dk Web Oturumu</string>
-  <string name="pref_summary_bearwareid">BearWare.dk Web Oturumu Ayarlaması</string>
+  <string name="pref_summary_bearwareid">BearWare.dk Web Oturumu\'nu Ayarla</string>
   <string name="pref_title_mediafile_volume">Ortam dosyası düzeyi</string>
   <string name="pref_summary_mediafile_volume">Ortam dosyası-ses düzeyi oranı</string>
   <string name="pref_title_speakerphone_checkbox">Hoparlörlü telefonu etkinleştir</string>

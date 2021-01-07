@@ -94,7 +94,7 @@
 "BearWare.dk Web Login" = "BearWare.dk Web Oturumu";
 
 /* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Oturumu'nda kimlik doğrulama başarısız. Tercihler'den BearWare.dk Web Oturumu'nu denetleyin";
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Oturumu kimliğini doğrulama başarısız. Tercihler'den BearWare.dk Web Oturumu'nu denetleyin";
 
 /* codec detail */
 "Bitrate" = "Bit Hızı";
@@ -672,7 +672,7 @@
 "Volume Controls" = "Düzey Denetimleri";
 
 /* Web Login controller */
-"Web Login ID" = "Web Oturum Açma Kimliği";
+"Web Login ID" = "Web Oturumu Kimliği";
 
 /* preferences
    user detail */
