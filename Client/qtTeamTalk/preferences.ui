@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>758</width>
-    <height>621</height>
+    <height>640</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1204,6 +1204,9 @@
              <widget class="QLabel" name="label_36">
               <property name="text">
                <string>New broadcast message</string>
+              </property>
+              <property name="buddy">
+               <cstring>bcastmsgEdit</cstring>
               </property>
              </widget>
             </item>
