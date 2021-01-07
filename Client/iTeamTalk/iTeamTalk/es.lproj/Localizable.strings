@@ -89,6 +89,12 @@
 /* channel list */
 "Ban user" = "Banear usuario";
 
+/* server entry */
+"BearWare.dk Web Login" = "BearWare.dk Web Login";
+
+/* weblogin event */
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences";
+
 /* codec detail */
 "Bitrate" = "Velocidad de bits";
 
@@ -130,6 +136,9 @@
 
 /* channel list */
 "Channel. %d users" = "Canal. %d usuarios";
+
+/* server entry */
+"Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
 
 /* create channel */
 "Commands" = "Comandos";
@@ -218,6 +227,9 @@
 
 /* preferences */
 "Headset TX Toggle" = "Usar los auriculares para conmutar el estado del botón TX";
+
+/* hidden channel */
+"Hidden Channel" = "Hidden Channel";
 
 /* server entry */
 "Host address" = "Dirección";
@@ -661,3 +673,9 @@
 
 /* speech */
 "You have selected %@" = "Has seleccionado %@";
+
+/* server entry */
+"Check only if this server has enabled Facebook login" = "";
+
+/* hidden channel */
+"Hidden channel" = "";

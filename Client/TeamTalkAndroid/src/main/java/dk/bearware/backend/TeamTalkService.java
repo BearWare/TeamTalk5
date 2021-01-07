@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import dk.bearware.AudioPreprocessor;
+import dk.bearware.AudioPreprocessorType;
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
@@ -41,6 +43,7 @@ import dk.bearware.MediaFileInfo;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.SoundDeviceConstants;
+import dk.bearware.SoundLevel;
 import dk.bearware.StreamType;
 import dk.bearware.Subscription;
 import dk.bearware.TeamTalk5;
@@ -51,6 +54,7 @@ import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.MediaFileStatus;
 import dk.bearware.UserRight;
+import dk.bearware.WebRTCConstants;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.License;
 import dk.bearware.data.MyTextMessage;
@@ -200,7 +204,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     TeamTalkBase ttclient;
     ServerEntry ttserver;
     Channel joinchannel, /* the channel to join after login */
-            curchannel; /* the channel 'ttclient' is currently in */
+            mychannel; /* the channel 'ttclient' is currently in */
     OnVoiceTransmissionToggleListener onVoiceTransmissionToggleListener;
     CountDownTimer eventTimer;
     Notification.Builder widget = null;
@@ -208,8 +212,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
 
     private String getNotificationText() {
-        return (curchannel != null) ?
-            String.format("%s / %s", ttserver.servername, curchannel.szName) :
+        return (mychannel != null) ?
+            String.format("%s / %s", ttserver.servername, mychannel.szName) :
             ttserver.servername;
     }
 
@@ -339,6 +343,12 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         bluetoothHeadsetHelper.stop();
     }
 
+    private void setMyChannel(Channel chan) {
+        this.mychannel = chan;
+
+        setupAudioPreprocessor();
+    }
+
     public TeamTalkBase getTTInstance() {
         return ttclient;
     }
@@ -356,6 +366,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     public void setJoinChannel(Channel channel) {
         joinchannel = channel;
     }
+
+
 
     public void setOnVoiceTransmissionToggleListener(OnVoiceTransmissionToggleListener listener) {
         onVoiceTransmissionToggleListener = listener;
@@ -522,7 +534,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
 
         displayNotification(false);
         joinchannel = null;
-        curchannel = null;
+        setMyChannel(null);
         channels.clear();
         remoteFiles.clear();
         fileTransfers.clear();
@@ -627,13 +639,29 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         getChatLogTextMsgs().add(msg);
     }
 
+    private void setupAudioPreprocessor() {
+        if (mychannel != null && mychannel.audiocfg.bEnableAGC) {
+            AudioPreprocessor ap = new AudioPreprocessor(AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR, true);
+            ap.webrtc.gaincontroller2.bEnable = true;
+            float gainPercent = mychannel.audiocfg.nGainLevel / (float)TeamTalkConstants.CHANNEL_AUDIOCONFIG_MAX;
+            ap.webrtc.gaincontroller2.fixeddigital.fGainDB = WebRTCConstants.WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * gainPercent;
+            ttclient.setSoundInputPreprocess(ap);
+            ttclient.setSoundInputGainLevel(SoundLevel.SOUND_GAIN_DEFAULT);
+        }
+        else {
+            ttclient.setSoundInputPreprocess(new AudioPreprocessor());
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
+            ttclient.setSoundInputGainLevel(gain);
+        }
+    }
+
     @Override
     public void onConnectSuccess() {
         
         assert (ttserver != null);
 
-        if (ttserver.username.equals(AppInfo.WEBLOGIN_BEARWARE_USERNAME) ||
-            ttserver.username.endsWith(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX)) {
+        if (Utils.isWebLogin(ttserver.username)) {
             new WebLoginAccessToken().execute();
         }
         else {
@@ -817,21 +845,21 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         
         if(user.nUserID == ttclient.getMyUserID()) {
             //myself joined channel
-            curchannel = getChannels().get(user.nChannelID);
+            setMyChannel(getChannels().get(user.nChannelID));
             displayNotification(true);
 
             MyTextMessage msg;
-            if(curchannel.nParentID == 0) {
+            if (mychannel.nParentID == 0) {
                 msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
                     getResources().getString(R.string.text_cmd_joinroot));
             }
             else {
                 msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                    getResources().getString(R.string.text_cmd_joinchan) + " " + curchannel.szName);
+                    getResources().getString(R.string.text_cmd_joinchan) + " " + mychannel.szName);
             }
             getChatLogTextMsgs().add(msg);
         }
-        else if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
+        else if (mychannel != null && mychannel.nChannelID == user.nChannelID) {
             //other user joined current channel
             
             String name = Utils.getDisplayName(getBaseContext(), user);
@@ -861,7 +889,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     public void onCmdUserLeftChannel(int channelid, User user) {
         users.put(user.nUserID, user);
         
-        if(curchannel != null && curchannel.nChannelID == channelid) {
+        if (mychannel != null && mychannel.nChannelID == channelid) {
             
             Channel chan = getChannels().get(channelid);
             MyTextMessage msg;
@@ -886,7 +914,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         }
         
         if(user.nUserID == ttclient.getMyUserID()) {
-            curchannel = null;
+            setMyChannel(null);
         }
 
         // sync user settings to cache
@@ -926,6 +954,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     @Override
     public void onCmdChannelUpdate(Channel channel) {
         channels.put(channel.nChannelID, channel);
+
+        if (mychannel != null && mychannel.nChannelID == channel.nChannelID) {
+            setMyChannel(channel);
+        }
     }
 
     @Override
@@ -983,8 +1015,6 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
 
     @Override
     public void onUserAudioBlock(int nUserID, int nStreamType) {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override

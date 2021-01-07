@@ -14,10 +14,10 @@
 "4RU-K7-Yga.accessibilityHint" = "Özel metin iletisi gönder";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityLabel" = "Metin İletisi";
+"4RU-K7-Yga.accessibilityLabel" = "Metin İletileşmesi";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.normalTitle" = "Kullanıcıya ileti";
+"4RU-K7-Yga.normalTitle" = "İleti kullanıcısı";
 
 /* Class = "UITableViewController"; title = "Text To Speech Events"; ObjectID = "5K7-Hd-4h7"; */
 "5K7-Hd-4h7.title" = "Metin Okuma Olayları";
@@ -29,7 +29,7 @@
 "79c-sV-yxb.title" = "Metin Okuma Sesi";
 
 /* Class = "UIButton"; normalTitle = "Create Web Login ID"; ObjectID = "8Ls-H9-lri"; */
-"8Ls-H9-lri.normalTitle" = "Web Oturum Açma Kimliği Oluştur";
+"8Ls-H9-lri.normalTitle" = "Web Oturumu Kimliği Oluştur";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Boş";
@@ -47,7 +47,7 @@
 "B8t-mo-k8g.text" = "Konuşma";
 
 /* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
-"baE-IB-ajD.normalTitle" = "Web Oturum Açma Kimliğini Sıfırla";
+"baE-IB-ajD.normalTitle" = "Web Oturumu Kimliğini Sıfırla";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
 "bDf-Jp-1l5.normalTitle" = "Bağlan";
@@ -68,10 +68,10 @@
 "dcU-Nq-ioW.title" = "Sunucuya Bağlanıyor";
 
 /* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.accessibilityLabel" = "Özel metin iletisi";
+"DHN-DJ-cUp.accessibilityLabel" = "Özel metin iletileşmesi";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.normalTitle" = "Kullanıcıya ileti";
+"DHN-DJ-cUp.normalTitle" = "İleti kullanıcısı";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "EHj-xt-HhD"; */
 "EHj-xt-HhD.text" = "Boş";
@@ -89,7 +89,7 @@
 "Hcv-zz-riB.text" = "BearWare.dk Web Oturumu";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
-"hqu-CX-Vn4.accessibilityHint" = "Bu kanala özgü seçenekleri genişletmek için çift dokunun.";
+"hqu-CX-Vn4.accessibilityHint" = "Bu kanal için olan seçenekleri genişletmek üzere çift dokunun.";
 
 /* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
 "j1c-gJ-hO8.title" = "İletiler";

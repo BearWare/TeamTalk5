@@ -192,10 +192,7 @@ BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL
     UINT nLocalTcpPort = m_xmlSettings.GetClientTcpPort(0);
     UINT nLocalUdpPort = m_xmlSettings.GetClientUdpPort(0);
 
-    if (!InitSoundSystem(m_xmlSettings))
-    {
-        AddStatusText(LoadText(IDS_SNDINITFAILED));
-    }
+    InitSound();
 
     //clear session tree
     m_wndTree.ClearChannels();
@@ -306,7 +303,8 @@ void CTeamTalkDlg::UpdateWindowTitle()
     CString szTitle = APPTITLE;
     if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID)
     {
-        szTitle.Format(_T("%s - %s"), LimitText(chan.szName), APPTITLE);
+        TT_GetServerProperties(ttInst, &prop);
+        szTitle.Format(_T("%s/%s - %s"), LimitText(prop.szServerName), LimitText(chan.szName), APPTITLE);
     }
     else if (TT_GetServerProperties(ttInst, &prop))
     {
@@ -1050,8 +1048,13 @@ void CTeamTalkDlg::OnLoggedOut(const TTMessage& msg)
 void CTeamTalkDlg::OnKicked(const TTMessage& msg)
 {
     PlaySoundEvent(SOUNDEVENT_CONNECTION_LOST);
-
-    AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from the channel.")));
+    if(msg.ttType == __USER) {
+        CString szMsg;
+        szMsg.Format(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from channel by %s.")), GetDisplayName(msg.user));
+        AfxMessageBox(szMsg);
+    } else {
+        AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNELBYUNK, _T("You have been kicked from channel by an unknown user.")));
+    }
 }
 
 void CTeamTalkDlg::OnServerUpdate(const TTMessage& msg)
@@ -1275,8 +1278,8 @@ void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)
                 
                 InitDefaultAudioCodec(newchan.audiocodec);
 
-                newchan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG;
-                newchan.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+                newchan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE;
+                newchan.audiocfg.nGainLevel = DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL;
 
                 newchan.nMaxUsers = srvprop.nMaxUsers;
                 int nCmdID = TT_DoJoinChannel(ttInst, &newchan);
@@ -1345,6 +1348,7 @@ void CTeamTalkDlg::OnUserLogin(const TTMessage& msg)
         szFormat = LoadText(IDS_USERLOGIN);
         szMsg.Format(szFormat, GetDisplayName(user));
         AddStatusText(szMsg);
+        PlaySoundEvent(SOUNDEVENT_USER_LOGGED_IN);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDIN)
             AddTextToSpeechMessage(szMsg);
     }
@@ -1376,6 +1380,7 @@ void CTeamTalkDlg::OnUserLogout(const TTMessage& msg)
     szFormat = LoadText(IDS_USERLOGOUT);
     szMsg.Format(szFormat, GetDisplayName(user));
     AddStatusText(szMsg);
+    PlaySoundEvent(SOUNDEVENT_USER_LOGGED_OUT);
     if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDOUT)
         AddTextToSpeechMessage(szMsg);
 
@@ -2750,6 +2755,8 @@ BOOL CTeamTalkDlg::OnInitDialog()
 
     m_wndTree.ShowEmojis(m_xmlSettings.GetShowEmojis());
 
+    m_szAwayMessage = STR_UTF8(m_xmlSettings.GetStatusMessage());
+
     //timestamp on messages?
     m_tabChat.m_wndRichEdit.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
 
@@ -3463,6 +3470,8 @@ void CTeamTalkDlg::OnFilePreferences()
     eventspage.m_uSoundEvents = m_xmlSettings.GetEventSoundsEnabled(SOUNDEVENT_DEFAULT);
     eventspage.m_SoundFiles[SOUNDEVENT_USER_JOIN] = STR_UTF8( m_xmlSettings.GetEventNewUser().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_LEFT] = STR_UTF8( m_xmlSettings.GetEventRemovedUser().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_IN] = STR_UTF8( m_xmlSettings.GetEventUserLoggedIn().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_OUT] = STR_UTF8( m_xmlSettings.GetEventUserLoggedOut().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSG] = STR_UTF8( m_xmlSettings.GetEventNewMessage().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_CHANNEL_TEXTMSG] = STR_UTF8(m_xmlSettings.GetEventChannelMsg().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_USER_BROADCAST_TEXTMSG] = STR_UTF8( m_xmlSettings.GetEventBroadcastMsg().c_str() );
@@ -3720,7 +3729,7 @@ void CTeamTalkDlg::OnFilePreferences()
 
         if(bRestart && soundpage.m_nInputDevice != UNDEFINED && soundpage.m_nOutputDevice != UNDEFINED)
         {
-            if (!InitSoundSystem(m_xmlSettings))
+            if (!InitSound())
             {
                 MessageBox(LoadText(IDS_FAILEDTOINITIALIZENEWSD, _T("Failed to initialize new sound devices.")),
                     LoadText(IDS_RESTARTSS, _T("Restart Sound System")), MB_OK);
@@ -3735,6 +3744,8 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventSoundsEnabled(eventspage.m_uSoundEvents);
         m_xmlSettings.SetEventNewUser(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_JOIN]));
         m_xmlSettings.SetEventRemovedUser(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_LEFT]));
+        m_xmlSettings.SetEventUserLoggedIn(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_IN]));
+        m_xmlSettings.SetEventUserLoggedOut(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_OUT]));
         m_xmlSettings.SetEventNewMessage(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSG]));
         m_xmlSettings.SetEventServerLost(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_CONNECTION_LOST]));
         m_xmlSettings.SetEventHotKey(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_PUSHTOTALK]));
@@ -3831,6 +3842,7 @@ void CTeamTalkDlg::OnMeChangestatus()
         m_nStatusMode = dlg.m_nStatusMode;
         m_szAwayMessage = dlg.m_szAwayMessage;
         TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
+        m_xmlSettings.SetStatusMessage(STR_UTF8(m_szAwayMessage));
     }
 }
 
@@ -4310,8 +4322,8 @@ void CTeamTalkDlg::OnChannelsCreatechannel()
     ServerProperties prop = {};
     TT_GetServerProperties(ttInst, &prop);
     dlg.m_nMaxUsers = prop.nMaxUsers;
-    dlg.m_bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG;
-    dlg.m_nGainLevel = DEFAULT_AGC_GAINLEVEL/1000;
+    dlg.m_bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE;
+    dlg.m_nGainLevel = DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL / 1000;
     if(dlg.DoModal() == IDOK)
     {
         int nParentID = TT_GetMyChannelID(ttInst);
@@ -4367,7 +4379,6 @@ void CTeamTalkDlg::OnChannelsCreatechannel()
         }
     }
 }
-
 
 void CTeamTalkDlg::OnUpdateChannelsUpdatechannel(CCmdUI *pCmdUI)
 {
@@ -5378,57 +5389,86 @@ void CTeamTalkDlg::UpdateMasterVolume(int nVol)
 
 void CTeamTalkDlg::UpdateGainLevel(int nGain)
 {
-    if(m_wndGainSlider.GetPos() != nGain)
+    // m_wndGainSlider windows is disabled in AudioConfig-mode
+
+    if (m_wndGainSlider.GetPos() != nGain)
         m_wndGainSlider.SetPos(nGain);
 
-    // m_wndGainSlider windows is disabled in AudioConfig-mode
-    SpeexDSP spxdsp =  {};
-    if(TT_GetSoundInputPreprocess(ttInst, &spxdsp) && spxdsp.bEnableAGC)
+    AudioPreprocessor preprocessor;
+    InitDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+
+    TT_GetSoundInputPreprocessEx(ttInst, &preprocessor);
+
+    switch (preprocessor.nPreprocessor)
     {
-        double percent = nGain;
-        percent /= 100.;
-        spxdsp.nGainLevel = INT32(SOUND_GAIN_MAX * percent);
-        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
-        TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
+    case NO_AUDIOPREPROCESSOR:
+        InitDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        TT_SetSoundInputGainLevel(ttInst, RefGain(nGain));
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR:
+        preprocessor.ttpreprocessor.nGainLevel = RefGain(nGain);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR:
+        // Only no audio preprocessor or webrtc is currently supported.
+        ASSERT(preprocessor.nPreprocessor == WEBRTC_AUDIOPREPROCESSOR);
+        break;
+    case WEBRTC_AUDIOPREPROCESSOR:
+    {
+        bool agc = m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
+        float percent = m_wndGainSlider.GetPos() / float(m_wndGainSlider.GetRangeMax());
+        preprocessor.webrtc.gaincontroller2.bEnable = agc;
+        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = INT32(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        TT_SetSoundInputGainLevel(ttInst, agc ? SOUND_GAIN_DEFAULT : RefGain(nGain));
+        break;
     }
-    else
-    {
-        int gain = RefGain(nGain);
-        TT_SetSoundInputGainLevel(ttInst, gain);
     }
 }
 
 void CTeamTalkDlg::UpdateAudioConfig()
 {
-    SpeexDSP spxdsp = {};
-    spxdsp.bEnableAGC = m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
-    spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-    spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-    spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-    spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-    spxdsp.bEnableDenoise = m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
-    spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
-    spxdsp.bEnableEchoCancellation = m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
-    spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-    spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+    BOOL bDenoise = m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
+    BOOL bAGC = m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
+    BOOL bEchoCancel = m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
+
+    BOOL bDuplex = GetSoundDuplexSampleRate(m_SoundDeviceIn, m_SoundDeviceOut) > 0;
 
     //if in a channel then let AGC settings override local settings
     Channel chan;
-    if(m_wndTree.GetChannel(m_wndTree.GetMyChannelID(), chan) &&
-       chan.audiocfg.bEnableAGC)
+    if(m_wndTree.GetChannel(m_wndTree.GetMyChannelID(), chan) && chan.audiocfg.bEnableAGC)
     {
-        spxdsp.bEnableAGC = chan.audiocfg.bEnableAGC;
-        spxdsp.nGainLevel = chan.audiocfg.nGainLevel;
+        AudioPreprocessor preprocessor;
+        InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+
+        preprocessor.webrtc.noisesuppression.bEnable = bDenoise;
+        preprocessor.webrtc.echocanceller.bEnable = bEchoCancel && bDuplex;
+
+        preprocessor.webrtc.gaincontroller2.bEnable = TRUE;
+        float gainlevel = float(chan.audiocfg.nGainLevel) / CHANNEL_AUDIOCONFIG_MAX;
+        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * gainlevel;
+
+        //override preset sound gain
         TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
-        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
     }
     else
     {
-        // enable SpeexDSP if no AGC/AEC etc is enabled from sound device.
-        SoundDeviceEffects effects = {};
-        TT_GetSoundDeviceEffects(ttInst, &effects);
-        if (!effects.bEnableAGC && !effects.bEnableDenoise && !effects.bEnableEchoCancellation)
-            TT_SetSoundInputPreprocess(ttInst, &spxdsp);
+        // use local settings
+        AudioPreprocessor preprocessor;
+        if (bDenoise || bAGC || bEchoCancel)
+        {
+            InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+            preprocessor.webrtc.noisesuppression.bEnable = bDenoise;
+            preprocessor.webrtc.echocanceller.bEnable = bEchoCancel && bDuplex;
+            preprocessor.webrtc.gaincontroller2.bEnable = bAGC;
+        }
+        else
+        {
+            InitDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR, preprocessor);
+        }
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
 
         UpdateGainLevel(m_wndGainSlider.GetPos());
     }
@@ -5700,7 +5740,7 @@ void CTeamTalkDlg::OnChannelsStreamMediaFileToChannel()
         StopMediaStream();
     else
     {
-        m_pStreamMediaDlg.reset(new CStreamMediaDlg(m_xmlSettings, this));
+        m_pStreamMediaDlg.reset(new CStreamMediaDlg(m_xmlSettings, m_SoundDeviceIn, m_SoundDeviceOut, this));
         auto files = m_xmlSettings.GetLastMediaFiles();
         for (auto a : files)
             m_pStreamMediaDlg->m_fileList.AddTail(STR_UTF8(a));
@@ -6310,6 +6350,12 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
     case SOUNDEVENT_USER_LEFT :
         szFilename = STR_UTF8(m_xmlSettings.GetEventRemovedUser());
         break;
+    case SOUNDEVENT_USER_LOGGED_IN :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventUserLoggedIn());
+        break;
+    case SOUNDEVENT_USER_LOGGED_OUT :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventUserLoggedOut());
+        break;
     case SOUNDEVENT_USER_TEXTMSG :
         szFilename = STR_UTF8(m_xmlSettings.GetEventNewMessage());
         break;
@@ -6374,6 +6420,23 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
 
     if(szFilename.GetLength())
         m_pPlaySndThread->AddSoundEvent(szFilename);
+}
+
+BOOL CTeamTalkDlg::InitSound()
+{
+    BOOL bSuccess = InitSoundSystem(m_xmlSettings, m_SoundDeviceIn, m_SoundDeviceOut);
+    if (!bSuccess)
+    {
+        AddStatusText(LoadText(IDS_SNDINITFAILED));
+    }
+
+    CString szSndMsg;
+    szSndMsg.Format(LoadText(IDS_SNDINPUTDEV, _T("Sound input device: %s")), m_SoundDeviceIn.szDeviceName);
+    AddStatusText(szSndMsg);
+    szSndMsg.Format(LoadText(IDS_SNDOUTPUTDEV, _T("Sound output device: %s")), m_SoundDeviceOut.szDeviceName);
+    AddStatusText(szSndMsg);
+
+    return bSuccess;
 }
 
 void CTeamTalkDlg::RunAppUpdate()

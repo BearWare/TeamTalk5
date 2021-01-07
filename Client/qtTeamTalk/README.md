@@ -11,7 +11,6 @@ build the TeamTalk Qt Client application:
 * qtbase5-dev
 * libqt5x11extras5-dev
 * qtmultimedia5-dev
-* qtwebengine5-dev
 * g++
 
 Afterwards run the following command:
@@ -30,12 +29,11 @@ build the TeamTalk Qt Client application:
 * qt5-default
 * libqt5x11extras5-dev
 * qtmultimedia5-dev
-* libqt5webkit5-dev
 * g++
 
 Afterwards run the following command:
 
-```# qmake CONFIG+=nowebengine teamtalk5.pro```
+```# qmake teamtalk5.pro```
 
 Followed by:
 
@@ -49,7 +47,6 @@ build the TeamTalk Qt Client application:
 * qt5-default
 * libqt5x11extras5-dev
 * qtmultimedia5-dev
-* qtwebengine5-dev
 * g++
 
 Afterwards run the following command:

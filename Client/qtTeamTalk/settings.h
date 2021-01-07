@@ -114,7 +114,6 @@
 #define SETTINGS_SOUND_MASTERVOLUME                 "soundsystem/mastervolume"
 #define SETTINGS_SOUND_MASTERVOLUME_DEFAULT         50
 #define SETTINGS_SOUND_MICROPHONEGAIN               "soundsystem/microphonegain"
-#define SETTINGS_SOUND_MICROPHONEGAIN_AGC_DEFAULT   (100 * DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL / CHANNEL_AUDIOCONFIG_MAX)
 #define SETTINGS_SOUND_MICROPHONEGAIN_GAIN_DEFAULT  50
 #define SETTINGS_SOUND_MEDIASTREAM_VOLUME           "soundsystem/mediastream"
 #define SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT   100
@@ -145,6 +144,10 @@
 #define SETTINGS_SOUNDEVENT_FILETXDONE              "soundevents/file-tx-done"
 #define SETTINGS_SOUNDEVENT_QUESTIONMODE            "soundevents/question-mode"
 #define SETTINGS_SOUNDEVENT_DESKTOPACCESS           "soundevents/desktop-access-request"
+#define SETTINGS_SOUNDEVENT_USERLOGGEDIN           "soundevents/user-logged-in"
+#define SETTINGS_SOUNDEVENT_USERLOGGEDOUT           "soundevents/user-logged-out"
+#define SETTINGS_SOUNDEVENT_VOICEACTON           "soundevents/voice-act-on"
+#define SETTINGS_SOUNDEVENT_VOICEACTOFF           "soundevents/voice-act-off"
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"

@@ -466,6 +466,16 @@ namespace teamtalk {
         return def_nickname;
     }
 
+    void ClientXML::SetStatusMessage(const std::string& szStatusMsg)
+    {
+        SetValue("general/status-message", szStatusMsg);
+    }
+
+    std::string ClientXML::GetStatusMessage(std::string def_statusmsg/* = std::string()*/)
+    {
+        return GetValue(true, "general/status-message", def_statusmsg);
+    }
+
     void ClientXML::SetBearWareLogin(const std::string& szUsername, const std::string& szToken)
     {
         SetValue("general/bearwareid/username", szUsername);
@@ -1779,6 +1789,46 @@ namespace teamtalk {
         return szDefPath;
     }
 
+    bool ClientXML::SetEventUserLoggedIn(const std::string& szPath)
+    {
+        TiXmlElement* pParent = GetEventsElement();
+        if(pParent)
+        {
+            PutString(*pParent, "userloggedin", szPath);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    string ClientXML::GetEventUserLoggedIn(std::string szDefPath)
+    {
+        TiXmlElement* child = GetEventsElement();
+        if(child)
+            GetString(*child, "userloggedin", szDefPath);
+        return szDefPath;
+    }
+
+    bool ClientXML::SetEventUserLoggedOut(const std::string& szPath)
+    {
+        TiXmlElement* pParent = GetEventsElement();
+        if(pParent)
+        {
+            PutString(*pParent, "userloggedout", szPath);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    string ClientXML::GetEventUserLoggedOut(std::string szDefPath)
+    {
+        TiXmlElement* child = GetEventsElement();
+        if(child)
+            GetString(*child, "userloggedout", szDefPath);
+        return szDefPath;
+    }
+
     bool ClientXML::SetEventServerLost(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
@@ -2730,13 +2780,13 @@ namespace teamtalk {
     SpeexDSP ClientXML::GetSpeexDSPAudioPreprocessor()
     {
         SpeexDSP dsp = {};
-        dsp.bEnableAGC = GetValueBool(true, "streammedia/speexdspaudiopreprocessor/agc", DEFAULT_AGC_ENABLE);
-        dsp.nGainLevel = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-level", DEFAULT_AGC_GAINLEVEL);
-        dsp.nMaxGainDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-max", DEFAULT_AGC_GAINMAXDB);
-        dsp.nMaxIncDBSec = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-inc-sec", DEFAULT_AGC_INC_MAXDB);
-        dsp.nMaxDecDBSec = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-dec-sec", DEFAULT_AGC_DEC_MAXDB);
-        dsp.bEnableDenoise = GetValueBool(true, "streammedia/speexdspaudiopreprocessor/denoise", DEFAULT_DENOISE_ENABLE);
-        dsp.nMaxNoiseSuppressDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/denoise-max", DEFAULT_DENOISE_SUPPRESS);
+        dsp.bEnableAGC = GetValueBool(true, "streammedia/speexdspaudiopreprocessor/agc", DEFAULT_SPEEXDSP_AGC_ENABLE);
+        dsp.nGainLevel = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-level", DEFAULT_SPEEXDSP_AGC_GAINLEVEL);
+        dsp.nMaxGainDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-max", DEFAULT_SPEEXDSP_AGC_GAINMAXDB);
+        dsp.nMaxIncDBSec = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-inc-sec", DEFAULT_SPEEXDSP_AGC_INC_MAXDB);
+        dsp.nMaxDecDBSec = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-dec-sec", DEFAULT_SPEEXDSP_AGC_DEC_MAXDB);
+        dsp.bEnableDenoise = GetValueBool(true, "streammedia/speexdspaudiopreprocessor/denoise", DEFAULT_SPEEXDSP_DENOISE_ENABLE);
+        dsp.nMaxNoiseSuppressDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/denoise-max", DEFAULT_SPEEXDSP_DENOISE_SUPPRESS);
         return dsp;
     }
 

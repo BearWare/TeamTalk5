@@ -1521,8 +1521,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,7,0,5015
- PRODUCTVERSION 5,7,0,5015
+ FILEVERSION 5,7,0,5017
+ PRODUCTVERSION 5,7,0,5017
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1539,12 +1539,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 7, 0, 5015"
+            VALUE "FileVersion", "5, 7, 0, 5017"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2005-2020, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 7, 0, 5015"
+            VALUE "ProductVersion", "5, 7, 0, 5017"
         END
     END
     BLOCK "VarFileInfo"
@@ -1925,8 +1925,11 @@ BEGIN
     IDS_NOSOUNDDEVICE       "No Sound Device"
     IDS_USER_JOIN           "User joined channel"
     IDS_USER_LEFT           "User left channel"
+    IDS_USER_LOGGED_IN           "User logged in"
+    IDS_USER_LOGGED_OUT           "User logged out"
     IDS_USER_TEXTMSG        "Private text message"
     IDS_USER_CHANMSG        "Channel text message"
+    IDC_STARTPOSLAB        "Start position"
 END
 
 STRINGTABLE
@@ -2297,7 +2300,11 @@ BEGIN
     IDS_CONLOST             "Connection lost to %s TCP port %d UDP port %d"
     IDS_CONSUCCESS          "Successfully logged in"
     IDS_LOGOUTSUCCESS       "Successfully logged out"
-    IDS_KICKEDFROMCHANNEL   "You have been kicked from the channel."
+    IDS_KICKEDFROMCHANNEL   "You have been kicked from the channel by %s"
+    IDS_KICKEDFROMCHANNELBYUNK   "You have been kicked from the channel by an unknown user"
+    IDS_UNBAN "User"
+    IDS_IPADDRBAN "IP"
+    IDS_CHANNELBAN "Channel"
 END
 
 STRINGTABLE
@@ -2349,6 +2356,9 @@ BEGIN
     IDS_ABOUT_LIBUSE        "TeamTalk use the following libraries:"
     IDS_SERVCONFSAVED       "Server configuration saved"
     IDS_INACTDELAYLAB       "Define away status after %d seconds"
+    IDS_SUBOPTECHOCANCEL    "This sound device configuration gives suboptimal echo cancellation. Check manual for details."
+    IDS_SNDINPUTDEV         "Using sound input: %s"
+    IDS_SNDOUTPUTDEV        "Using sound output: %s"
 END
 
 STRINGTABLE

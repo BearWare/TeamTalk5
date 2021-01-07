@@ -246,6 +246,7 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
     if (codec().codec == CODEC_NO_CODEC)
         return true;
 
+    MYTRACE(ACE_TEXT("Setting up audio preprocessor: %d\n"), preprocess.preprocessor);
     switch (preprocess.preprocessor)
     {
     case AUDIOPREPROCESSOR_NONE :
@@ -262,15 +263,28 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
 #if defined(ENABLE_WEBRTC)
         // WebRTC requires 10 msec audio frames
         if (GetAudioCodecCbMillis(m_codec) % 10 != 0)
+        {
+            MYTRACE(ACE_TEXT("Failed to initialize WebRTC audio preprocessor. Not 10 msec frames.\n"));
             return false;
-        
+        }
+
         if (!m_apm)
             m_apm.reset(webrtc::AudioProcessingBuilder().Create());
         m_apm->ApplyConfig(preprocess.webrtc);
         if (m_apm->Initialize() != webrtc::AudioProcessing::kNoError)
         {
             m_apm.reset();
+            MYTRACE(ACE_TEXT("Failed to initialize WebRTC audio preprocessor\n"));
             return false;
+        }
+        else
+        {
+            MYTRACE(ACE_TEXT("Initialized WebRTC: gain2=%d level=%g, denoise=%d suppress=%d, echo%d\n"),
+                    int(m_apm->GetConfig().gain_controller2.enabled),
+                    double(m_apm->GetConfig().gain_controller2.fixed_digital.gain_db),
+                    int(m_apm->GetConfig().noise_suppression.enabled),
+                    int(m_apm->GetConfig().noise_suppression.level),
+                    int(m_apm->GetConfig().echo_canceller.enabled));
         }
         return true;
 #else

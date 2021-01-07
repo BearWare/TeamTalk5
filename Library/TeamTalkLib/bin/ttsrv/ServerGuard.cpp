@@ -564,34 +564,35 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
         if (authtoken.empty())
         {
             err = TT_CMDERR_INVALID_ACCOUNT;
+            MYTRACE(ACE_TEXT("Authentication token is empty\n"));
             WebLoginComplete(servernode, userid, useraccount, err);
             return;
         }
 
         // First try specific weblogin account and afterwards try
         // 'bearware' weblogin
-        UserAccount sharedaccount, copyaccount;
-        sharedaccount.username = ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME);
+        UserAccount copyaccount;
         copyaccount.username = useraccount.username;
         if (!m_settings.AuthenticateUser(copyaccount))
         {
+            UserAccount sharedaccount;
+            sharedaccount.username = ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME);
             if (!m_settings.AuthenticateUser(sharedaccount))
             {
                 err.errorno = TT_CMDERR_INVALID_ACCOUNT;
                 WebLoginComplete(servernode, userid, useraccount, err);
+                MYTRACE(ACE_TEXT("Shared 'bearware' account doesn't exist\n"));
                 return;
             }
 
-            // User account properties now applied to 'sharedaccount'
-
-            // Notice 'bearware' is now username, so swap it back later on
+            // Apply 'sharedaccount' to 'useraccount'
+            auto un = useraccount.username;
             useraccount = sharedaccount;
+            useraccount.username = un;
         }
         else
         {
             // User account properties now applied to 'copyaccount'.
-            // The AuthenticateUser() is actually applied again in
-            // WebLoginPostAuthenticate()
             useraccount = copyaccount;
         }
     }
@@ -605,11 +606,13 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
     url += ACE_CString("&username=") + authusername.c_str();
     url += ACE_CString("&accesstoken=") + authtoken.c_str();
 
+    MYTRACE(ACE_TEXT("Performing HTTP web authentication of %s\n"), useraccount.username.c_str());
     std::string utf8;
     int ret = HttpRequest(url, utf8);
 
     GUARD_OBJ_NAME(g, servernode, servernode->lock()); // lock required by WebLoginPostAuthenticate() and WebLoginComplete()
 
+    MYTRACE(ACE_TEXT("HTTP response code: %d\n"), ret);
     switch(ret)
     {
     default :
@@ -626,12 +629,11 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
             std::string nickname = xmldoc.GetValue(false, "teamtalk/bearware/nickname", "");
             std::string username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
 #if defined(UNICODE)
-            useraccount.username = Utf8ToUnicode(username.c_str());
             useraccount.nickname = Utf8ToUnicode(nickname.c_str());
 #else
-            useraccount.username = username.c_str();
             useraccount.nickname = nickname.c_str();
 #endif
+            TTASSERT(authusername == username.c_str());
             err = WebLoginPostAuthenticate(useraccount);
         }
         else
@@ -649,17 +651,14 @@ ErrorMsg ServerGuard::WebLoginPostAuthenticate(UserAccount& useraccount)
     // check that web-login username is not banned
     BannedUser ban;
     ban.username = useraccount.username;
-    if(m_settings.IsUserBanned(ban))
+    if (m_settings.IsUserBanned(ban))
     {
         return ErrorMsg(TT_CMDERR_SERVER_BANNED);
     }
     else
     {
-        // authenticate if web-login username exists in db
-        if (m_settings.AuthenticateUser(useraccount) &&
-            useraccount.usertype != USERTYPE_NONE)
-            return ErrorMsg(TT_CMDERR_SUCCESS);
-        return ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
+        return useraccount.usertype == USERTYPE_NONE ?
+            ErrorMsg(TT_CMDERR_INVALID_ACCOUNT) : ErrorMsg(TT_CMDERR_SUCCESS);
     }
 }
 
@@ -699,6 +698,7 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
         return ErrorMsg(TT_CMDERR_SERVER_BANNED);
     }
 
+    MYTRACE(ACE_TEXT("Authenticating %s\n"), useraccount.username.c_str());
 #if defined(ENABLE_HTTP_AUTH)
     
     bool bearware = false;
@@ -730,6 +730,7 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
             return TT_CMDERR_IGNORE;
         }
 
+        MYTRACE(ACE_TEXT("Starting BearWare.dk WebLogin for %s\n"), useraccount.username.c_str());
         std::thread mythr(&ServerGuard::WebLoginBearWare, this, servernode, ACE_UINT32(user.GetUserID()), useraccount);
         mythr.detach();
 

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -13,33 +11,33 @@
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:12pt; font-weight:600;&quot;&gt;Credits&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Contributors&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Bjørn Damstedt Rasmussen, developer&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Oreonan, developer&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Translators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Oreonan, French&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Steffen Schultz, German&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Michał Ciołek, Polish&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Ozancan Karataş, Turkish&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Libraries&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;TeamTalk uses the following libraries:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:600;&quot;&gt;Credits&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;Contributors&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Bjørn Damstedt Rasmussen, developer&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Oreonan, developer&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;Translators&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Oreonan, French&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Steffen Schultz, German&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Michał Ciołek, Polish&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Ozancan Karataş, Turkish&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;Libraries&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;TeamTalk uses the following libraries:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -192,12 +190,12 @@ p, li { white-space: pre-wrap; }
         <translation>Yasaklanan Kullanıcılar</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="161"/>
+        <location filename="../bannedusersdlg.cpp" line="174"/>
         <source>Ban IP-address</source>
         <translation>IP Adresini Yasakla</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="162"/>
+        <location filename="../bannedusersdlg.cpp" line="175"/>
         <source>Ban Username</source>
         <translation>Kullanıcı Adını Yasakla</translation>
     </message>
@@ -230,29 +228,55 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>BannedUsersModel</name>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="52"/>
+        <location filename="../bannedusersdlg.cpp" line="53"/>
         <source>Nickname</source>
         <translation>Rumuz</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="53"/>
+        <location filename="../bannedusersdlg.cpp" line="54"/>
         <source>Username</source>
         <translation>Kullanıcı Adı</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="54"/>
+        <location filename="../bannedusersdlg.cpp" line="55"/>
+        <source>Ban type</source>
+        <translation>Yasaklama türü</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="56"/>
         <source>Ban Time</source>
         <translation>Yasaklanma Zamanı</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="55"/>
+        <location filename="../bannedusersdlg.cpp" line="57"/>
+        <location filename="../bannedusersdlg.cpp" line="92"/>
         <source>Channel</source>
         <translation>Kanal</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="56"/>
+        <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>IP-address</source>
         <translation>IP Adresi</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="88"/>
+        <source>User</source>
+        <translation>Kullanıcı</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="90"/>
+        <source>,IP</source>
+        <translation>,IP</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="90"/>
+        <source>IP</source>
+        <translation>IP</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="92"/>
+        <source>,Channel</source>
+        <translation>,Kanal</translation>
     </message>
 </context>
 <context>
@@ -260,7 +284,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="14"/>
         <source>Activate BearWare.dk Web Login</source>
-        <translation>BearWare.dk Web Oturumunu Etkinleştir</translation>
+        <translation>BearWare.dk Web Oturumu&apos;nu Etkinleştir</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="20"/>
@@ -270,7 +294,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="26"/>
         <source>A BearWare.dk Web Login is used to identify a TeamTalk user. A login ID can be created on the BearWare.dk web site.</source>
-        <translation>Bir BearWare.dk Web Oturumu, bir TeamTalk kullanıcısının kimliğini saptamada kullanılır. BearWare.dk web sitesinde bir oturum açma kimliği oluşturulur.</translation>
+        <translation>Bir BearWare.dk Web Oturumu, bir TeamTalk kullanıcısının kimliğini saptamada kullanılır. BearWare.dk web sitesinde bir oturum kimliği oluşturulur.</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="51"/>
@@ -386,7 +410,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="172"/>
         <source>Channel type</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal türü</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="178"/>
@@ -421,7 +445,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="220"/>
         <source>Hidden channel (invisible and only known by name)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gizli kanal (görünmez ve yalnızca adıyla bilinir)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="234"/>
@@ -537,7 +561,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="863"/>
         <source>&amp;Join channel on exit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Çıkışta kanala katıl</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="58"/>
@@ -2012,12 +2036,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2048"/>
         <source>Allow Channel Text Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal İletilerine İzin Ver</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2051"/>
         <source>Ctrl+Alt+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+T</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="750"/>
@@ -2238,12 +2262,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1654"/>
         <source>Using sound input: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanılan ses girişi: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1655"/>
         <source>Using sound output: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanılan ses çıkışı: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1668"/>
@@ -2402,17 +2426,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4284"/>
         <source>Server configuration saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu yapılandırması kaydedildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4572"/>
         <source>CTRL+L</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+L</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4577"/>
         <source>CTRL+J</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+J</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5435"/>
@@ -2423,6 +2447,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5443"/>
         <source>&amp;Desktops (%1)</source>
         <translation>&amp;Masaüstleri (%1)</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5544"/>
+        <source>The file %1 contains %2 setup information.
+Should these settings be applied?</source>
+        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.
+Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2144"/>
@@ -2796,13 +2827,6 @@ p, li { white-space: pre-wrap; }
         <translation>%1 Dosyayı Yükle</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5544"/>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.&lt;byte value=&quot;xd&quot;/&gt;
-Bu ayarlar uygulansın mı?</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="5614"/>
         <source>New version available: %1</source>
         <translation>Yeni sürüm kullanılabilir: %1</translation>
@@ -2991,7 +3015,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="239"/>
         <source>BearWare.dk Web Login ID</source>
-        <translation>BearWare.dk Web Oturum Açma Kimliği</translation>
+        <translation>BearWare.dk Web Oturumu Kimliği</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="256"/>
@@ -3102,7 +3126,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="435"/>
         <source>Show emojis and text for channel/user state</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal/kullanıcı durumu için emojileri ve metni göster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="442"/>
@@ -3264,7 +3288,7 @@ Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="875"/>
-        <location filename="../preferencesdlg.cpp" line="814"/>
+        <location filename="../preferencesdlg.cpp" line="815"/>
         <source>Sound System</source>
         <translation>Ses Sistemi</translation>
     </message>
@@ -3318,10 +3342,6 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../preferences.ui" line="1054"/>
         <source>&amp;Test Selected</source>
         <translation>Seçilenleri &amp;Sına</translation>
-    </message>
-    <message>
-        <source>Enable duplex mode (required for echo cancellation)</source>
-        <translation type="vanished">İkili kipini etkinleştir (yankı iptali için gerekli)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1079"/>
@@ -3512,6 +3532,7 @@ Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1799"/>
+        <location filename="../preferencesdlg.cpp" line="1105"/>
         <source>Test Selected</source>
         <translation>Seçilenleri Sına</translation>
     </message>
@@ -3532,113 +3553,118 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>Bit Hızı</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="299"/>
+        <location filename="../preferencesdlg.cpp" line="300"/>
         <source>Default Input Device</source>
         <translation>Varsayılan Giriş Aygıtı</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="333"/>
+        <location filename="../preferencesdlg.cpp" line="334"/>
         <source>Default Output Device</source>
         <translation>Varsayılan Çıkış Aygıtı</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="317"/>
-        <location filename="../preferencesdlg.cpp" line="348"/>
+        <location filename="../preferencesdlg.cpp" line="318"/>
+        <location filename="../preferencesdlg.cpp" line="349"/>
         <source>No Sound Device</source>
         <translation>Ses Aygıtı Yok</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="387"/>
+        <location filename="../preferencesdlg.cpp" line="388"/>
         <source>Open Wave File</source>
         <translation>Dalga Dosyası Aç</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="389"/>
+        <location filename="../preferencesdlg.cpp" line="390"/>
         <source>Wave files (*.wav)</source>
         <translation>Dalga dosyaları (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="700"/>
-        <location filename="../preferencesdlg.cpp" line="707"/>
+        <location filename="../preferencesdlg.cpp" line="701"/>
+        <location filename="../preferencesdlg.cpp" line="708"/>
         <source>Windows Firewall</source>
         <translation>Windows Güvenlik Duvarı</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="701"/>
+        <location filename="../preferencesdlg.cpp" line="702"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>%1 öğesini Windows Güvenlik Duvarı ayrıcalık listesine ekleme başarısız</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="708"/>
+        <location filename="../preferencesdlg.cpp" line="709"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>%1 öğesini Windows Güvenlik Duvarı ayrıcalık listesinden kaldırma başarısız</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1121"/>
+        <location filename="../preferencesdlg.cpp" line="1123"/>
         <source>Sound Initialization</source>
         <translation>Ses Başlatma</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="919"/>
-        <location filename="../preferencesdlg.cpp" line="931"/>
+        <location filename="../preferencesdlg.cpp" line="920"/>
+        <location filename="../preferencesdlg.cpp" line="932"/>
         <source>Video Device</source>
         <translation>Video Aygıtı</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="414"/>
+        <location filename="../preferencesdlg.cpp" line="415"/>
         <source>&amp;Reset</source>
         <translation>&amp;Sıfırla</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="920"/>
-        <location filename="../preferencesdlg.cpp" line="932"/>
-        <location filename="../preferencesdlg.cpp" line="1469"/>
+        <location filename="../preferencesdlg.cpp" line="921"/>
+        <location filename="../preferencesdlg.cpp" line="933"/>
+        <location filename="../preferencesdlg.cpp" line="1471"/>
         <source>Failed to initialize video device</source>
         <translation>Video aygıtını başlatma başarısız</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1009"/>
+        <location filename="../preferencesdlg.cpp" line="1010"/>
         <source>Max Input Channels %1</source>
         <translation>En Fazla Giriş Kanalı %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1011"/>
-        <location filename="../preferencesdlg.cpp" line="1034"/>
+        <location filename="../preferencesdlg.cpp" line="1012"/>
+        <location filename="../preferencesdlg.cpp" line="1035"/>
         <source>Sample Rates:</source>
         <translation>Örnekleme Hızları:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1032"/>
+        <location filename="../preferencesdlg.cpp" line="1033"/>
         <source>Max Output Channels %1</source>
         <translation>En Fazla Çıkış Kanalı %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1062"/>
+        <location filename="../preferencesdlg.cpp" line="1063"/>
         <source>Refresh Sound Devices</source>
         <translation>Ses Aygıtlarını Yenile</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1063"/>
+        <location filename="../preferencesdlg.cpp" line="1064"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Ses sistemlerini yeniden başlatma başarısız. Lütfen uygulamayı yeniden başlatın.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1122"/>
+        <location filename="../preferencesdlg.cpp" line="1106"/>
+        <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
+        <translation>Bu ses aygıtı yapılandırması, yetersiz yankı iptali sağlıyor. Ayrıntılar için kılavuza bakın.</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1124"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Yeni ses aygıtlarını başlatma başarısız</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1427"/>
+        <location filename="../preferencesdlg.cpp" line="1429"/>
         <source>Custom video format</source>
         <translation>Özel video biçimi</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1521"/>
+        <location filename="../preferencesdlg.cpp" line="1523"/>
         <source>Default Video Capture</source>
         <translation>Varsayılan Video Yakalayıcısı</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1522"/>
+        <location filename="../preferencesdlg.cpp" line="1524"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Tercih edilen video yakalama ayarları bulunamadı</translation>
     </message>
@@ -3673,16 +3699,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../common.cpp" line="470"/>
         <source>Failed to initialize default sound input device</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan ses giriş aygıtını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="475"/>
         <source>Failed to initialize default sound output device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="vanished">Varsayılan ses aygıtlarını başlatma başarısız</translation>
+        <translation>Varsayılan ses çıkış aygıtını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="1723"/>
@@ -4371,7 +4393,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="117"/>
         <source>Disabled (inactive)</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkisizleştirildi (etkin değil)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="229"/>
@@ -4554,12 +4576,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="487"/>
         <source>User can see hidden channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı gizli kanalları görebilir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="604"/>
         <source>CheckBox</source>
-        <translation type="unfinished"></translation>
+        <translation>OnayKutusu</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="636"/>
@@ -4673,12 +4695,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="91"/>
         <source>Disabled</source>
-        <translation type="unfinished">Etkisizleştirildi</translation>
+        <translation>Etkisizleştirildi</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="93"/>
         <source>Unknown</source>
-        <translation type="unfinished">Bilinmeyen</translation>
+        <translation>Bilinmeyen</translation>
     </message>
 </context>
 <context>
@@ -4780,10 +4802,6 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../userinfo.ui" line="63"/>
         <source>Username</source>
         <translation>Kullanıcı adı</translation>
-    </message>
-    <message>
-        <source>Profile</source>
-        <translation type="vanished">Profil</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="100"/>
@@ -5054,21 +5072,6 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../videotextdlg.cpp" line="191"/>
         <source>Status message</source>
         <translation>Durum iletisi</translation>
-    </message>
-</context>
-<context>
-    <name>WebLoginDlg</name>
-    <message>
-        <source>Web Login</source>
-        <translation type="vanished">Web Oturumu</translation>
-    </message>
-    <message>
-        <source>Facebook Login</source>
-        <translation type="vanished">Facebook Oturumu</translation>
-    </message>
-    <message>
-        <source>Do Facebook logout?</source>
-        <translation type="vanished">Facebook oturumu kapatılsın mı?</translation>
     </message>
 </context>
 </TS>

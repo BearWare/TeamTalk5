@@ -39,8 +39,8 @@ public class SpeexDSP
     public SpeexDSP() {
     }
 
-    public SpeexDSP(boolean set_defaults) {
-        if(!set_defaults)
+    public SpeexDSP(boolean setDefaults) {
+        if(!setDefaults)
             return;
 
         bEnableAGC = SpeexDSPConstants.DEFAULT_AGC_ENABLE;

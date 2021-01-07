@@ -192,12 +192,12 @@ p, li { white-space: pre-wrap; }
         <translation>Utilisateurs bannis</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="161"/>
+        <location filename="../bannedusersdlg.cpp" line="174"/>
         <source>Ban IP-address</source>
         <translation>Bannir l&apos;adresse IP</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="162"/>
+        <location filename="../bannedusersdlg.cpp" line="175"/>
         <source>Ban Username</source>
         <translation>Bannir le nom d&apos;utilisateur</translation>
     </message>
@@ -230,29 +230,55 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>BannedUsersModel</name>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="52"/>
+        <location filename="../bannedusersdlg.cpp" line="53"/>
         <source>Nickname</source>
         <translation>Pseudo</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="53"/>
+        <location filename="../bannedusersdlg.cpp" line="54"/>
         <source>Username</source>
         <translation>Nom d&apos;utilisateur</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="54"/>
+        <location filename="../bannedusersdlg.cpp" line="55"/>
+        <source>Ban type</source>
+        <translation>Type de bannissement</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="56"/>
         <source>Ban Time</source>
         <translation>Temps de bannissement</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="55"/>
+        <location filename="../bannedusersdlg.cpp" line="57"/>
+        <location filename="../bannedusersdlg.cpp" line="92"/>
         <source>Channel</source>
         <translation>Canal</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="56"/>
+        <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>IP-address</source>
         <translation>Adresse IP</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="88"/>
+        <source>User</source>
+        <translation>Utilisateur</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="90"/>
+        <source>,IP</source>
+        <translation>, IP</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="90"/>
+        <source>IP</source>
+        <translation>IP</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="92"/>
+        <source>,Channel</source>
+        <translation>, Canal</translation>
     </message>
 </context>
 <context>
@@ -2425,6 +2451,12 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Bureaux (%1)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="5544"/>
+        <source>The file %1 contains %2 setup information.
+Should these settings be applied?</source>
+        <translation>Le fichier %1 contient les informations de configuration %2. Ces paramètres doivent-ils être appliqués?</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="2144"/>
         <source>&amp;Restore</source>
         <translation>&amp;Restaurer</translation>
@@ -2794,13 +2826,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5543"/>
         <source>Load %1 File</source>
         <translation>Chargement du fichier %1</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5544"/>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation>Le fichier %1 contient des informations de configuration %2.
-Ces paramètres doivent-ils être appliqués?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5614"/>
@@ -3264,7 +3289,7 @@ Ces paramètres doivent-ils être appliqués?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="875"/>
-        <location filename="../preferencesdlg.cpp" line="814"/>
+        <location filename="../preferencesdlg.cpp" line="815"/>
         <source>Sound System</source>
         <translation>Système audio</translation>
     </message>
@@ -3508,6 +3533,7 @@ Ces paramètres doivent-ils être appliqués?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1799"/>
+        <location filename="../preferencesdlg.cpp" line="1105"/>
         <source>Test Selected</source>
         <translation>Tester la sélection</translation>
     </message>
@@ -3528,113 +3554,118 @@ Ces paramètres doivent-ils être appliqués?</translation>
         <translation>Débit</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="299"/>
+        <location filename="../preferencesdlg.cpp" line="300"/>
         <source>Default Input Device</source>
         <translation>Périphérique d&apos;entrée par défaut</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="333"/>
+        <location filename="../preferencesdlg.cpp" line="334"/>
         <source>Default Output Device</source>
         <translation>Périphérique de sortie par défaut</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="317"/>
-        <location filename="../preferencesdlg.cpp" line="348"/>
+        <location filename="../preferencesdlg.cpp" line="318"/>
+        <location filename="../preferencesdlg.cpp" line="349"/>
         <source>No Sound Device</source>
         <translation>Pas de périphérique audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="387"/>
+        <location filename="../preferencesdlg.cpp" line="388"/>
         <source>Open Wave File</source>
         <translation>Ouvrir un fichier wave</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="389"/>
+        <location filename="../preferencesdlg.cpp" line="390"/>
         <source>Wave files (*.wav)</source>
         <translation>Fichiers wave (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="700"/>
-        <location filename="../preferencesdlg.cpp" line="707"/>
+        <location filename="../preferencesdlg.cpp" line="701"/>
+        <location filename="../preferencesdlg.cpp" line="708"/>
         <source>Windows Firewall</source>
         <translation>Pare-feu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="701"/>
+        <location filename="../preferencesdlg.cpp" line="702"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>Échec à l&apos;ajout de %1 dans la liste d&apos;exceptions du pare-feu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="708"/>
+        <location filename="../preferencesdlg.cpp" line="709"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>Échec au retrait de %1 de la liste d&apos;exceptions du pare-feu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1121"/>
+        <location filename="../preferencesdlg.cpp" line="1123"/>
         <source>Sound Initialization</source>
         <translation>Initialisation audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="919"/>
-        <location filename="../preferencesdlg.cpp" line="931"/>
+        <location filename="../preferencesdlg.cpp" line="920"/>
+        <location filename="../preferencesdlg.cpp" line="932"/>
         <source>Video Device</source>
         <translation>Périphérique vidéo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="414"/>
+        <location filename="../preferencesdlg.cpp" line="415"/>
         <source>&amp;Reset</source>
         <translation>&amp;Réinitialiser</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="920"/>
-        <location filename="../preferencesdlg.cpp" line="932"/>
-        <location filename="../preferencesdlg.cpp" line="1469"/>
+        <location filename="../preferencesdlg.cpp" line="921"/>
+        <location filename="../preferencesdlg.cpp" line="933"/>
+        <location filename="../preferencesdlg.cpp" line="1471"/>
         <source>Failed to initialize video device</source>
         <translation>Échec à l&apos;initialisation du périphérique vidéo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1009"/>
+        <location filename="../preferencesdlg.cpp" line="1010"/>
         <source>Max Input Channels %1</source>
         <translation>Maximum de canaux d&apos;entrée: %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1011"/>
-        <location filename="../preferencesdlg.cpp" line="1034"/>
+        <location filename="../preferencesdlg.cpp" line="1012"/>
+        <location filename="../preferencesdlg.cpp" line="1035"/>
         <source>Sample Rates:</source>
         <translation>Taux d&apos;échantillonnage</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1032"/>
+        <location filename="../preferencesdlg.cpp" line="1033"/>
         <source>Max Output Channels %1</source>
         <translation>Maximum de canaux de sortie: %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1062"/>
+        <location filename="../preferencesdlg.cpp" line="1063"/>
         <source>Refresh Sound Devices</source>
         <translation>Actualiser les périphériques audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1063"/>
+        <location filename="../preferencesdlg.cpp" line="1064"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Échec à la réinitialisation du système audio. Veuillez redémarrer l&apos;application.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1122"/>
+        <location filename="../preferencesdlg.cpp" line="1106"/>
+        <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
+        <translation>Cette sélection de périphériques audio entraîne une annulation d&apos;écho non optimale. Consultez le manuel pour les détails.</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1124"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Échec à l&apos;initialisation des nouveaux périphériques audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1427"/>
+        <location filename="../preferencesdlg.cpp" line="1429"/>
         <source>Custom video format</source>
         <translation>Format vidéo personnalisé</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1521"/>
+        <location filename="../preferencesdlg.cpp" line="1523"/>
         <source>Default Video Capture</source>
         <translation>Capture vidéo par défaut</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1522"/>
+        <location filename="../preferencesdlg.cpp" line="1524"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Impossible de trouver les paramètres de capture vidéo préférés</translation>
     </message>
@@ -4774,10 +4805,6 @@ Ces paramètres doivent-ils être appliqués?</translation>
         <translation>Nom d&apos;utilisateur</translation>
     </message>
     <message>
-        <source>Profile</source>
-        <translation type="vanished">Profil</translation>
-    </message>
-    <message>
         <location filename="../userinfo.ui" line="100"/>
         <source>Status mode</source>
         <translation>Mode de statut</translation>
@@ -5050,17 +5077,5 @@ Ces paramètres doivent-ils être appliqués?</translation>
 </context>
 <context>
     <name>WebLoginDlg</name>
-    <message>
-        <source>Web Login</source>
-        <translation type="vanished">Connexion Web</translation>
-    </message>
-    <message>
-        <source>Facebook Login</source>
-        <translation type="vanished">Connexion Facebook</translation>
-    </message>
-    <message>
-        <source>Do Facebook logout?</source>
-        <translation type="vanished">Se déconnecter de Facebook?</translation>
-    </message>
 </context>
 </TS>

@@ -43,6 +43,8 @@
 
 #define DEFAULT_SOUNDEVENT_USERJOINED               "Sounds\\newuser.wav"
 #define DEFAULT_SOUNDEVENT_USERLEFT                 "Sounds\\removeuser.wav"
+#define DEFAULT_SOUNDEVENT_USERLOGGEDIN               "Sounds\\logged_on.wav"
+#define DEFAULT_SOUNDEVENT_USERLOGGEDOUT               "Sounds\\logged_off.wav"
 #define DEFAULT_SOUNDEVENT_PRIVTEXTMSG              "Sounds\\user_msg.wav"
 #define DEFAULT_SOUNDEVENT_SERVERLOST               "Sounds\\serverlost.wav"
 #define DEFAULT_SOUNDEVENT_PTTHOTKEY                "Sounds\\hotkey.wav"
@@ -125,6 +127,9 @@ namespace teamtalk {
         /******** <general> *******/
         bool SetNickname(const std::string& szNickname);
         std::string GetNickname(std::string def_nickname = std::string());
+
+        void SetStatusMessage(const std::string& szStatusMsg);
+        std::string GetStatusMessage(std::string def_statusmsg = std::string());
 
         void SetBearWareLogin(const std::string& szUsername, const std::string& szToken);
         bool GetBearWareLogin(std::string& szUsername, std::string& szToken);
@@ -312,6 +317,12 @@ namespace teamtalk {
 
         bool SetEventRemovedUser(const std::string& szPath);
         std::string GetEventRemovedUser(std::string szDefPath = DEFAULT_SOUNDEVENT_USERLEFT);
+
+        bool SetEventUserLoggedIn(const std::string& szPath);
+        std::string GetEventUserLoggedIn(std::string szDefPath = DEFAULT_SOUNDEVENT_USERLOGGEDIN);
+
+        bool SetEventUserLoggedOut(const std::string& szPath);
+        std::string GetEventUserLoggedOut(std::string szDefPath = DEFAULT_SOUNDEVENT_USERLOGGEDOUT);
 
         bool SetEventServerLost(const std::string& szPath);
         std::string GetEventServerLost(std::string szDefPath = DEFAULT_SOUNDEVENT_SERVERLOST);

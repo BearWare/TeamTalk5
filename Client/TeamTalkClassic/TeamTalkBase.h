@@ -66,7 +66,6 @@ typedef std::vector< MyTextMessage > messages_t;
 typedef std::map< int, messages_t > msgmap_t;
 messages_t GetMessages(int nFromUserID, const messages_t& messages);
 
-BOOL GetSoundDevice(int nSoundDeviceID, const CString& szDeviceID, SoundDevice& dev);
 int RefVolume(double percent);
 int RefVolumeToPercent(int nVolume);
 int RefGain(double percent);
@@ -80,29 +79,44 @@ BOOL IsMyselfTalking();
 #define SPEEX_MODEID_UWB 2
 
 void InitDefaultAudioCodec(AudioCodec& audiocodec);
+void InitDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor);
 
-#ifdef ENABLE_TEAMTALKPRO
-#define DEFAULT_TEAMTALK_TCPPORT 10443
-#define DEFAULT_TEAMTALK_UDPPORT 10443
-#else
 #define DEFAULT_TEAMTALK_TCPPORT 10333
 #define DEFAULT_TEAMTALK_UDPPORT 10333
-#endif
 
 //Client spefic VU max SOUND_VU_MAX (voice act slider)
 #define DEFAULT_SOUND_VU_MAX            20
 
-//Automatic gain control settings
-#define DEFAULT_AGC_ENABLE              TRUE
-#define DEFAULT_AGC_GAINLEVEL           8000
-#define DEFAULT_AGC_INC_MAXDB           12
-#define DEFAULT_AGC_DEC_MAXDB           -40
-#define DEFAULT_AGC_GAINMAXDB           30
-#define DEFAULT_DENOISE_ENABLE          TRUE
-#define DEFAULT_DENOISE_SUPPRESS        -30
+// Channel-struct's AudioConfig
+#define CHANNEL_AUDIOCONFIG_MAX             32000
+#define DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE  FALSE
+#define DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL   16000
+
 #define DEFAULT_ECHO_ENABLE             FALSE
-#define DEFAULT_ECHO_SUPPRESS           -40
-#define DEFAULT_ECHO_SUPPRESSACTIVE     -15
+#define DEFAULT_AGC_ENABLE              FALSE
+#define DEFAULT_DENOISE_ENABLE          FALSE
+
+#define DEFAULT_SPEEXDSP_AGC_ENABLE             DEFAULT_AGC_ENABLE
+#define DEFAULT_SPEEXDSP_AGC_GAINLEVEL          8000
+#define DEFAULT_SPEEXDSP_AGC_INC_MAXDB          12
+#define DEFAULT_SPEEXDSP_AGC_DEC_MAXDB          -40
+#define DEFAULT_SPEEXDSP_AGC_GAINMAXDB          30
+#define DEFAULT_SPEEXDSP_DENOISE_ENABLE         DEFAULT_DENOISE_ENABLE
+#define DEFAULT_SPEEXDSP_DENOISE_SUPPRESS       -30
+#define DEFAULT_SPEEXDSP_ECHO_ENABLE            FALSE
+#define DEFAULT_SPEEXDSP_ECHO_SUPPRESS          -40
+#define DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE    -15
+
+#define DEFAULT_WEBRTC_GAINCTL_ENABLE           DEFAULT_AGC_ENABLE
+#define DEFAULT_WEBRTC_GAINDB                   25
+#define DEFAULT_WEBRTC_SAT_PROT_ENABLE          TRUE
+#define DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB       20
+#define DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB      2
+#define DEFAULT_WEBRTC_MAXGAIN_DBSEC            3
+#define DEFAULT_WEBRTC_MAX_OUT_NOISE            -50
+#define DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE     DEFAULT_DENOISE_ENABLE
+#define DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL      1
+#define DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE       FALSE /* requires duplex mode */
 
 #define DEFAULT_AUDIOCODEC              OPUS_CODEC
 #define DEFAULT_MSEC_PER_PACKET         40
@@ -156,9 +170,6 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec);
 #define DEFAULT_VIDEOCODEC              WEBM_VP8_CODEC
 #define DEFAULT_WEBMVP8_DEADLINE        WEBM_VPX_DL_REALTIME
 #define DEFAULT_WEBM_VP8_BITRATE        256
-
-// Channel dialog
-#define DEFAULT_CHANNEL_AUDIOCONFIG     FALSE
 
 //Default user right for default user-type
 #define USERRIGHT_DEFAULT   (USERRIGHT_MULTI_LOGIN |                \
@@ -295,7 +306,9 @@ enum SoundEvent
     SOUNDEVENT_NONE = 0,
     SOUNDEVENT_USER_JOIN                    = 0x00000001,
     SOUNDEVENT_USER_LEFT                    = 0x00000002,
+    SOUNDEVENT_USER_LOGGED_IN               = 0x00400000,
     SOUNDEVENT_USER_TEXTMSG                 = 0x00000004,
+    SOUNDEVENT_USER_LOGGED_OUT              = 0x00800000,
     SOUNDEVENT_USER_CHANNEL_TEXTMSG         = 0x00000008,
     SOUNDEVENT_USER_BROADCAST_TEXTMSG       = 0x00200000,
     SOUNDEVENT_USER_QUESTIONMODE            = 0x00000010,
@@ -327,6 +340,8 @@ enum SoundEvent
 
     SOUNDEVENT_DEFAULT                  = SOUNDEVENT_USER_JOIN |
                                           SOUNDEVENT_USER_LEFT |
+                                          SOUNDEVENT_USER_LOGGED_IN |
+                                          SOUNDEVENT_USER_LOGGED_OUT |
                                           SOUNDEVENT_USER_TEXTMSG |
                                           SOUNDEVENT_USER_CHANNEL_TEXTMSG |
                                           SOUNDEVENT_USER_BROADCAST_TEXTMSG |

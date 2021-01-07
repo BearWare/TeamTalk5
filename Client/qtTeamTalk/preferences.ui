@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>758</width>
-    <height>621</height>
+    <height>640</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1205,6 +1205,9 @@
               <property name="text">
                <string>New broadcast message</string>
               </property>
+              <property name="buddy">
+               <cstring>bcastmsgEdit</cstring>
+              </property>
              </widget>
             </item>
             <item row="2" column="0">
@@ -1448,6 +1451,86 @@
             </item>
             <item row="5" column="2">
              <widget class="QToolButton" name="bcastmsgButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="14" column="0">
+             <widget class="QLabel" name="label_60">
+              <property name="text">
+               <string>User logged in</string>
+              </property>
+              <property name="buddy">
+               <cstring>userloggedinEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="14" column="1">
+             <widget class="QLineEdit" name="userloggedinEdit"/>
+            </item>
+            <item row="14" column="2">
+             <widget class="QToolButton" name="userloggedinButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="15" column="0">
+             <widget class="QLabel" name="label_61">
+              <property name="text">
+               <string>User logged out</string>
+              </property>
+              <property name="buddy">
+               <cstring>userloggedoutEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="15" column="1">
+             <widget class="QLineEdit" name="userloggedoutEdit"/>
+            </item>
+            <item row="15" column="2">
+             <widget class="QToolButton" name="userloggedoutButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="16" column="0">
+             <widget class="QLabel" name="label_62">
+              <property name="text">
+               <string>Voice activation enabled</string>
+              </property>
+              <property name="buddy">
+               <cstring>voiceactonEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="16" column="1">
+             <widget class="QLineEdit" name="voiceactonEdit"/>
+            </item>
+            <item row="16" column="2">
+             <widget class="QToolButton" name="voiceactonButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="17" column="0">
+             <widget class="QLabel" name="label_63">
+              <property name="text">
+               <string>Voice activation disabled</string>
+              </property>
+              <property name="buddy">
+               <cstring>voiceactoffEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="17" column="1">
+             <widget class="QLineEdit" name="voiceactoffEdit"/>
+            </item>
+            <item row="17" column="2">
+             <widget class="QToolButton" name="voiceactoffButton">
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -2095,6 +2178,14 @@
   <tabstop>questionmodeBtn</tabstop>
   <tabstop>desktopaccessEdit</tabstop>
   <tabstop>desktopaccessBtn</tabstop>
+  <tabstop>userloggedinEdit</tabstop>
+  <tabstop>userloggedinButton</tabstop>
+  <tabstop>userloggedoutEdit</tabstop>
+  <tabstop>userloggedoutButton</tabstop>
+  <tabstop>voiceactonEdit</tabstop>
+  <tabstop>voiceactonButton</tabstop>
+  <tabstop>voiceactoffEdit</tabstop>
+  <tabstop>voiceactoffButton</tabstop>
   <tabstop>voiceactEdit</tabstop>
   <tabstop>voiceactButton</tabstop>
   <tabstop>volumeincEdit</tabstop>

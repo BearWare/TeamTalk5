@@ -39,9 +39,13 @@ extern TTInstance* ttInst;
 
 IMPLEMENT_DYNAMIC(CStreamMediaDlg, CDialog)
 
-CStreamMediaDlg::CStreamMediaDlg(teamtalk::ClientXML& xmlSettings, CWnd* pParent /*=NULL*/)
+CStreamMediaDlg::CStreamMediaDlg(teamtalk::ClientXML& xmlSettings,
+                                 SoundDevice& indev, SoundDevice& outdev,
+                                 CWnd* pParent /*=NULL*/)
 	: CDialog(CStreamMediaDlg::IDD, pParent)
     , m_xmlSettings(xmlSettings)
+    , m_SoundDeviceIn(indev)
+    , m_SoundDeviceOut(outdev)
     , m_nVidCodecBitrate(DEFAULT_WEBM_VP8_BITRATE)
 {
 
@@ -198,8 +202,13 @@ void CStreamMediaDlg::UpdateMediaFile(const CString szFileName)
 
     if (m_mfi.uDurationMSec)
     {
-        int nDurationSec = m_mfi.uDurationMSec / 1000;
-        szDuration.Format(_T("%d:%02d:%02d"), nDurationSec / 3600, (nDurationSec % 3600) / 60, nDurationSec % 60);
+        UINT32 uHours1 = m_mfi.uDurationMSec / (60 * 60 * 1000);
+        UINT32 uRemain1 = m_mfi.uDurationMSec - (60 * 60 * 1000 * uHours1);
+        UINT32 uMinutes1 = uRemain1 / (60 * 1000);
+        uRemain1 -= 60 * 1000 * uMinutes1;
+        UINT32 uSeconds1 = uRemain1 / 1000;
+        UINT32 uMSec1 = uRemain1 % 1000;
+        szDuration.Format(_T("%d:%02d:%02d.%03d"), uHours1, uMinutes1, uSeconds1, uMSec1);
     }
 
     m_wndAudioFormat.SetWindowText(szAudioFormat);
@@ -428,7 +437,7 @@ void CStreamMediaDlg::OnBnClickedButtonPlay()
 {
     if ((TT_GetFlags(ttInst) & (CLIENT_SNDINOUTPUT_DUPLEX | CLIENT_SNDOUTPUT_READY)) == CLIENT_CLOSED)
     {
-        if (!InitSoundSystem(m_xmlSettings))
+        if (!InitSoundSystem(m_xmlSettings, m_SoundDeviceIn, m_SoundDeviceOut))
         {
             MessageBox(LoadText(IDS_SNDINITFAILED), LoadText(IDS_PLAY));
         }
@@ -482,6 +491,8 @@ void CStreamMediaDlg::UpdateOffset()
     CString szElapsed;
     szElapsed.Format(_T("%d:%02d:%02d.%03d"), uHours, uMinutes, uSeconds, uMSec);
     m_wndTimeOffset.SetWindowText(szElapsed);
+    CString labelinitpos = LoadText(IDC_STARTPOSLAB, _T("Start position")) + _T(" (") + szElapsed + _T(")");
+    SetAccessibleName(m_wndOffset, labelinitpos);
 }
 
 void CStreamMediaDlg::OnCbnSelchangeComboAudiopreprocessor()

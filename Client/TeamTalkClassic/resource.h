@@ -205,6 +205,7 @@
 #define IDS_CMDNO                       298
 #define IDS_CMDTIMEFRAME                299
 #define IDS_ANONYMOUS                   300
+#define IDS_KICKEDFROMCHANNELBYUNK                   301
 #define IDD_DIALOG_BANTYPE              302
 #define IDS_NEWPROFILE                  303
 #define IDS_DELETEPROFILE               304
@@ -231,6 +232,7 @@
 #define IDD_DIALOG_SPEEXDSP             325
 #define IDS_NOPREPROCESSOR              326
 #define IDS_CONLOGIN                    327
+#define IDC_STARTPOSLAB                 328
 #define IDS_CONFAILED                   329
 #define IDS_ERROROCCURREDCOMMAND        330
 #define IDS_CONNFAILED                  331
@@ -451,7 +453,9 @@
 #define IDS_CMDERR_CHANNEL_HAS_USERS    549
 #define IDS_CMDERR_LOGINSERVICE_UNAVAILABLE 550
 #define IDS_CMDERR_USER_NOT_FOUND       551
+#define IDS_UNBAN                       552
 #define IDS_CHANHISTORYLAB              553
+#define IDS_IPADDRBAN                   554
 #define IDS_CHANMESSAGELAB              555
 #define IDS_DEFAULTNICKNAME             556
 #define IDS_TREECTRLLAB                 557
@@ -464,6 +468,12 @@
 #define IDS_ABOUT_LIBUSE                564
 #define IDS_SERVCONFSAVED               565
 #define IDS_INACTDELAYLAB               566
+#define IDS_SUBOPTECHOCANCEL            567
+#define IDS_SNDINPUTDEV                 568
+#define IDS_SNDOUTPUTDEV                569
+#define IDS_CHANNELBAN                  570
+#define IDS_USER_LOGGED_IN              571
+#define IDS_USER_LOGGED_OUT             572
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
@@ -1081,7 +1091,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        567
+#define _APS_NEXT_RESOURCE_VALUE        573
 #define _APS_NEXT_COMMAND_VALUE         32959
 #define _APS_NEXT_CONTROL_VALUE         1604
 #define _APS_NEXT_SYMED_VALUE           413

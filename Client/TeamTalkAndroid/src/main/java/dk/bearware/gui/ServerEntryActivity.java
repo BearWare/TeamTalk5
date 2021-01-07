@@ -239,13 +239,14 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         p.setChecked(entry.encrypted);
 
         // auth
+        boolean weblogin = Utils.isWebLogin(entry.username);
         PreferenceCategory authcat = (PreferenceCategory)findPreference("auth_info");
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), entry.username, entry.username, entry.isWebLoginLogin());
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), entry.password, entry.password, entry.isWebLoginLogin());
+        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), entry.username, entry.username, weblogin);
+        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), entry.password, entry.password, weblogin);
 
-        findPreference(ServerEntry.KEY_USERNAME).setEnabled(!entry.isWebLoginLogin());
-        findPreference(ServerEntry.KEY_PASSWORD).setEnabled(!entry.isWebLoginLogin());
-        ((CheckBoxPreference)findPreference(ServerEntry.KEY_WEBLOGIN)).setChecked(entry.isWebLoginLogin());
+        findPreference(ServerEntry.KEY_USERNAME).setEnabled(!weblogin);
+        findPreference(ServerEntry.KEY_PASSWORD).setEnabled(!weblogin);
+        ((CheckBoxPreference)findPreference(ServerEntry.KEY_WEBLOGIN)).setChecked(weblogin);
 
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_NICKNAME), entry.nickname, entry.nickname);
 

@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.7.0.5015"
+#define TEAMTALK_VERSION "5.7.0.5017"
 
 
 #if defined(WIN32)
@@ -1263,7 +1263,7 @@ extern "C" {
              * is true. */
             struct
             {
-                /** @brief Gain level in dB. Range 0 - 49.9. Default:
+                /** @brief Gain level in dB. Range: 0 <= x < 50. Default:
                  * 0. */
                 float fGainDB;
             } fixeddigital;
@@ -1273,13 +1273,13 @@ extern "C" {
                 /* @brief Enable saturation protector where saturation
                  * margin is 2 dB. */
                 TTBOOL bEnable;
-                /* Default: 20 dB */
+                /* Range: 0 <= x <= 100. Default: 20 dB */
                 float fInitialSaturationMarginDB;
-                /* Default: 2 dB */
+                /* Range: 0 <= x <= 100. Default: 2 dB */
                 float fExtraSaturationMarginDB;
-                /* Default: 3 dB/sec */
+                /* Range: 0 < x < infinite. Default: 3 dB/sec */
                 float fMaxGainChangeDBPerSecond;
-                /* Default: -50 */
+                /* Range: -infinite < x < 0. Default: -50 */
                 float fMaxOutputNoiseLevelDBFS;
             } adaptivedigital;
         } gaincontroller2;
@@ -1406,9 +1406,9 @@ extern "C" {
      *
      * The audio configuration only supports same audio level
      * for all users by manually converting the values to the
-     * #SpeexDSP preprocessor.
+     * selected #AudioPreprocessor.
      *
-     * @see TT_SetSoundInputPreprocess()
+     * @see TT_SetSoundInputPreprocessEx()
      * @see TT_DoMakeChannel()
      * @see TT_DoJoinChannel() */
     typedef struct AudioConfig

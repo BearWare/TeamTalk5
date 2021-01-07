@@ -587,10 +587,7 @@ void MainWindow::loadSettings()
 
     //default voice gain level depends on whether AGC or normal gain
     //is enabled
-    bool agc = ttSettings->value(SETTINGS_SOUND_AGC,
-                                 SETTINGS_SOUND_AGC_DEFAULT).toBool();
-    value = ttSettings->value(SETTINGS_SOUND_MICROPHONEGAIN, agc?
-                              SETTINGS_SOUND_MICROPHONEGAIN_AGC_DEFAULT :
+    value = ttSettings->value(SETTINGS_SOUND_MICROPHONEGAIN,
                               SETTINGS_SOUND_MICROPHONEGAIN_GAIN_DEFAULT).toInt();
     ui.micSlider->setValue(value);
     slotMicrophoneGainChanged(value); //force update on equal
@@ -942,6 +939,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         updateUserSubscription(msg.user.nUserID);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
             addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
+            playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
         }
 
         // sync user settings from cache
@@ -958,6 +956,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         m_usermessages.remove(msg.user.nUserID);
         if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
             addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
+            playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
         }
 
         // sync user settings to cache
@@ -1649,11 +1648,8 @@ void MainWindow::initSound()
             addStatusMsg(s);
     }
 
-    if (errors.empty())
-    {
-        addStatusMsg(tr("Using sound input: %1").arg(_Q(m_devin.szDeviceName)));
-        addStatusMsg(tr("Using sound output: %2").arg(_Q(m_devout.szDeviceName)));
-    }
+    addStatusMsg(tr("Using sound input: %1").arg(_Q(m_devin.szDeviceName)));
+    addStatusMsg(tr("Using sound output: %2").arg(_Q(m_devout.szDeviceName)));
 }
 
 void MainWindow::Connect()
@@ -2205,7 +2201,8 @@ void MainWindow::updateWindowTitle()
     if(m_mychannel.nChannelID > 0 &&
        m_mychannel.nChannelID != TT_GetRootChannelID(ttInst))
     {
-        title = QString("%1 - %2").arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
+        TT_GetServerProperties(ttInst, &prop);
+        title = QString("%1/%2 - %3").arg(limitText(_Q(prop.szServerName))).arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
     }
     else if (TT_GetServerProperties(ttInst, &prop))
     {
@@ -3584,6 +3581,10 @@ void MainWindow::slotMeEnableVoiceActivation(bool checked)
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
         emit(updateMyself());
     slotUpdateUI();
+    if(checked == true)
+        playSoundEvent(SOUNDEVENT_VOICEACTON);
+    else
+        playSoundEvent(SOUNDEVENT_VOICEACTOFF);
 }
 
 void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
@@ -5453,32 +5454,37 @@ void MainWindow::slotMasterVolumeChanged(int value)
 
 void MainWindow::slotMicrophoneGainChanged(int value)
 {
-    float percent = float(value);
-    percent /= 100.;
-
     AudioPreprocessor preprocessor;
     initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
-
-    bool agc = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
 
     TT_GetSoundInputPreprocessEx(ttInst, &preprocessor);
     switch (preprocessor.nPreprocessor)
     {
-    case TEAMTALK_AUDIOPREPROCESSOR :
-        break;
     case NO_AUDIOPREPROCESSOR :
+        initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        TT_SetSoundInputGainLevel(ttInst, refGain(value));
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        preprocessor.ttpreprocessor.nGainLevel = refGain(value);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        break;
     case SPEEXDSP_AUDIOPREPROCESSOR :
         // Only no audio preprocessor or webrtc is currently supported.
         Q_ASSERT(preprocessor.nPreprocessor == WEBRTC_AUDIOPREPROCESSOR);
         break;
     case WEBRTC_AUDIOPREPROCESSOR :
+    {
+        bool agc = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
+        float percent = float(value);
+        percent /= 100.;
         preprocessor.webrtc.gaincontroller2.bEnable = agc;
         preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = INT32(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
+        TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+        TT_SetSoundInputGainLevel(ttInst, agc ? SOUND_GAIN_DEFAULT : refGain(value));
         break;
     }
-
-    TT_SetSoundInputGainLevel(ttInst, agc? SOUND_GAIN_DEFAULT : INT32(SOUND_GAIN_MAX * percent));
-    TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
+    }
 }
 
 void MainWindow::slotVoiceActivationLevelChanged(int value)

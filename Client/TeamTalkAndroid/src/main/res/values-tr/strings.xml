@@ -99,7 +99,7 @@
   <string name="pref_title_show_usernames">Kullanıcı adlarını göster</string>
   <string name="pref_summary_show_usernames">Rumuzların yerine kullanıcı adlarını göster</string>
   <string name="pref_title_bearwareid">BearWare.dk Web Oturumu</string>
-  <string name="pref_summary_bearwareid">BearWare.dk Web Oturumu Ayarlaması</string>
+  <string name="pref_summary_bearwareid">BearWare.dk Web Oturumu\'nu Ayarla</string>
   <string name="pref_title_mediafile_volume">Ortam dosyası düzeyi</string>
   <string name="pref_summary_mediafile_volume">Ortam dosyası-ses düzeyi oranı</string>
   <string name="pref_title_speakerphone_checkbox">Hoparlörlü telefonu etkinleştir</string>
@@ -205,6 +205,7 @@
   <string name="pref_title_authentication">Kimlik Doğrulama</string>
   <string name="pref_title_username">Kullanıcı Adı</string>
   <string name="pref_title_password">Parola</string>
+  <string name="pref_title_bearware">BearWare.dk Web Oturumu</string>
   <string name="pref_title_join_channel">Kanala Katıl</string>
   <string name="pref_title_channel">Kanal</string>
   <string name="pref_title_channel_password">Kanal Parolası</string>
@@ -322,8 +323,10 @@
   <string name="bwpswlab">Parola:</string>
   <string name="ttversion">TeamTalk v</string>
   <string name="ttdllversion">TeamTalk DLL v</string>
+  <string name="pref_title_bearware_summary">Yalnızca bu sunucu BearWare.dk Web Oturumu\'nu etkinleştirdiyse işaretleyin</string>
   <string name="pref_cat_about">Hakkında</string>
   <string name="pref_title_contrib">Geliştiriciler</string>
   <string name="pref_title_translator">Çeviren</string>
   <string name="pref_title_libraries">Üçüncü Taraf Kitaplıklar</string>
+  <string name="channel_prop_title_hiddenchannel">Gizli</string>
 </resources>

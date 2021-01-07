@@ -210,12 +210,12 @@ p, li { white-space: pre-wrap; }
         <translation>Użytkownicy zbanowani</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="161"/>
+        <location filename="../bannedusersdlg.cpp" line="174"/>
         <source>Ban IP-address</source>
         <translation>Zbanuj adres IP</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="162"/>
+        <location filename="../bannedusersdlg.cpp" line="175"/>
         <source>Ban Username</source>
         <translation>Zbanuj użytkownika</translation>
     </message>
@@ -248,29 +248,55 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>BannedUsersModel</name>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="52"/>
+        <location filename="../bannedusersdlg.cpp" line="53"/>
         <source>Nickname</source>
         <translation>Nick</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="53"/>
+        <location filename="../bannedusersdlg.cpp" line="54"/>
         <source>Username</source>
         <translation>Nazwa użytkownika</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="54"/>
+        <location filename="../bannedusersdlg.cpp" line="55"/>
+        <source>Ban type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="56"/>
         <source>Ban Time</source>
         <translation>Czas zbanowania</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="55"/>
+        <location filename="../bannedusersdlg.cpp" line="57"/>
+        <location filename="../bannedusersdlg.cpp" line="92"/>
         <source>Channel</source>
         <translation>Kanał</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="56"/>
+        <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>IP-address</source>
         <translation>Adres IP</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="88"/>
+        <source>User</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="90"/>
+        <source>,IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="90"/>
+        <source>IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="92"/>
+        <source>,Channel</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3648,7 +3674,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="875"/>
-        <location filename="../preferencesdlg.cpp" line="814"/>
+        <location filename="../preferencesdlg.cpp" line="815"/>
         <source>Sound System</source>
         <translation>System audio</translation>
     </message>
@@ -3919,6 +3945,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1799"/>
+        <location filename="../preferencesdlg.cpp" line="1105"/>
         <source>Test Selected</source>
         <translation>Testuj wybrane</translation>
     </message>
@@ -3942,54 +3969,59 @@ Should these settings be applied?</source>
         <translation type="obsolete">przepustowość</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="299"/>
+        <location filename="../preferencesdlg.cpp" line="300"/>
         <source>Default Input Device</source>
         <translation>Domyślne urządzenie wejściowe</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="333"/>
+        <location filename="../preferencesdlg.cpp" line="334"/>
         <source>Default Output Device</source>
         <translation>Domyślne urządzenie wyjściowe</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="317"/>
-        <location filename="../preferencesdlg.cpp" line="348"/>
+        <location filename="../preferencesdlg.cpp" line="318"/>
+        <location filename="../preferencesdlg.cpp" line="349"/>
         <source>No Sound Device</source>
         <translation>Brak urządzenia audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="387"/>
+        <location filename="../preferencesdlg.cpp" line="388"/>
         <source>Open Wave File</source>
         <translation>Otwórz plik wav</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="389"/>
+        <location filename="../preferencesdlg.cpp" line="390"/>
         <source>Wave files (*.wav)</source>
         <translation>Pliki *.wav</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="414"/>
+        <location filename="../preferencesdlg.cpp" line="415"/>
         <source>&amp;Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="700"/>
-        <location filename="../preferencesdlg.cpp" line="707"/>
+        <location filename="../preferencesdlg.cpp" line="701"/>
+        <location filename="../preferencesdlg.cpp" line="708"/>
         <source>Windows Firewall</source>
         <translation>Zapora systemu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="701"/>
+        <location filename="../preferencesdlg.cpp" line="702"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>Błąd dodawania %1 do lity wyjątków Zapory systemu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="708"/>
+        <location filename="../preferencesdlg.cpp" line="709"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>Błąd usuwania %1 z lity wyjątków Zapory systemu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1121"/>
+        <location filename="../preferencesdlg.cpp" line="1106"/>
+        <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1123"/>
         <source>Sound Initialization</source>
         <translation>Inicjalizacja dźwięku</translation>
     </message>
@@ -4010,36 +4042,36 @@ Should these settings be applied?</source>
         <translation type="obsolete">nie można uruchomić tłumienia echa</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="919"/>
-        <location filename="../preferencesdlg.cpp" line="931"/>
+        <location filename="../preferencesdlg.cpp" line="920"/>
+        <location filename="../preferencesdlg.cpp" line="932"/>
         <source>Video Device</source>
         <translation>Urządzenie wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="920"/>
-        <location filename="../preferencesdlg.cpp" line="932"/>
-        <location filename="../preferencesdlg.cpp" line="1469"/>
+        <location filename="../preferencesdlg.cpp" line="921"/>
+        <location filename="../preferencesdlg.cpp" line="933"/>
+        <location filename="../preferencesdlg.cpp" line="1471"/>
         <source>Failed to initialize video device</source>
         <translation>Nie można uruchomić urządzenia wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1009"/>
+        <location filename="../preferencesdlg.cpp" line="1010"/>
         <source>Max Input Channels %1</source>
         <translation>Maksymalna liczba kanałów wejściowych %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1011"/>
-        <location filename="../preferencesdlg.cpp" line="1034"/>
+        <location filename="../preferencesdlg.cpp" line="1012"/>
+        <location filename="../preferencesdlg.cpp" line="1035"/>
         <source>Sample Rates:</source>
         <translation>Szybkość próbkowania:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1032"/>
+        <location filename="../preferencesdlg.cpp" line="1033"/>
         <source>Max Output Channels %1</source>
         <translation>Maksymalna liczba kanałów wyjściowych %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1062"/>
+        <location filename="../preferencesdlg.cpp" line="1063"/>
         <source>Refresh Sound Devices</source>
         <translation>Odśwież urządzenia audio</translation>
     </message>
@@ -4048,27 +4080,27 @@ Should these settings be applied?</source>
         <translation type="obsolete">Aby odświeżyć urządzenia audio klient musi być rozłączony</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1063"/>
+        <location filename="../preferencesdlg.cpp" line="1064"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Nie można zrestartować systemu audio. Proszę zrestartować aplikację.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1122"/>
+        <location filename="../preferencesdlg.cpp" line="1124"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Nie można uruchomić nowego urządzenia audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1427"/>
+        <location filename="../preferencesdlg.cpp" line="1429"/>
         <source>Custom video format</source>
         <translation>Niestandardowy format wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1521"/>
+        <location filename="../preferencesdlg.cpp" line="1523"/>
         <source>Default Video Capture</source>
         <translation>Domyślne urządzenie przechwytywania wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1522"/>
+        <location filename="../preferencesdlg.cpp" line="1524"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Nie można znaleźć preferowanych ustawień urządzenia przechwytywania wideo</translation>
     </message>

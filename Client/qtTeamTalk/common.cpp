@@ -187,7 +187,7 @@ void loadAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreproce
         preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_MAX_OUT_NOISE, DEFAULT_WEBRTC_MAX_OUT_NOISE).toFloat();
         preprocessor.webrtc.noisesuppression.bEnable = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_NOISESUPPRESS_ENABLE, DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE).toBool();
         preprocessor.webrtc.noisesuppression.nLevel = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_NOISESUPPRESS_LEVEL, DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL).toFloat();
-        preprocessor.webrtc.echocanceller.bEnable = FALSE;
+        preprocessor.webrtc.echocanceller.bEnable = FALSE; // unusable for streaming
         break;
     }
 }
@@ -286,7 +286,9 @@ int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev
     auto isend = indev.inputSampleRates + sizeof(indev.inputSampleRates);
     auto isr = std::find_if(indev.inputSampleRates, isend,
                             [outdev] (int sr) { return sr == outdev.nDefaultSampleRate; });
-    return isr != isend ? outdev.nDefaultSampleRate : 0;
+    bool duplexmode = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE) &&
+        (outdev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE);
+    return (duplexmode && isr != isend) ? outdev.nDefaultSampleRate : 0;
 }
 
 bool isSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outdev)
@@ -465,15 +467,28 @@ QStringList initDefaultSoundDevices(SoundDevice& indev, SoundDevice& outdev)
         SoundDeviceEffects effects = {};
         TT_SetSoundDeviceEffects(ttInst, &effects);
 
-        if (!TT_InitSoundInputDevice(ttInst, inputid))
+        bool duplex = getSoundDuplexSampleRate(indev, outdev) > 0;
+
+        if (duplex)
         {
-            result.append(QObject::tr("Failed to initialize default sound input device"));
-            indev = {};
+            if (!TT_InitSoundDuplexDevices(ttInst, inputid, outputid))
+            {
+                result.append(QObject::tr("Failed to initialize sound duplex mode"));
+                indev = {}, outdev = {};
+            }
         }
-        if (!TT_InitSoundOutputDevice(ttInst, outputid))
+        else
         {
-            result.append(QObject::tr("Failed to initialize default sound output device"));
-            outdev = {};
+            if (!TT_InitSoundInputDevice(ttInst, inputid))
+            {
+                result.append(QObject::tr("Failed to initialize default sound input device"));
+                indev = {};
+            }
+            if (!TT_InitSoundOutputDevice(ttInst, outputid))
+            {
+                result.append(QObject::tr("Failed to initialize default sound output device"));
+                outdev = {};
+            }
         }
     }
     return result;
@@ -948,6 +963,18 @@ void playSoundEvent(SoundEvent event)
         break;
     case SOUNDEVENT_DESKTOPACCESS:
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS).toString();
+        break;
+    case SOUNDEVENT_USERLOGGEDIN:
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDIN).toString();
+        break;
+    case SOUNDEVENT_USERLOGGEDOUT:
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT).toString();
+        break;
+    case SOUNDEVENT_VOICEACTON:
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON).toString();
+        break;
+    case SOUNDEVENT_VOICEACTOFF:
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF).toString();
         break;
     }
 
