@@ -1376,20 +1376,20 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="1732"/>
+        <location filename="../mainwindow.cpp" line="1728"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เข้าใช้งานที่ %1 TCP port %2 UDP port %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="834"/>
-        <location filename="../mainwindow.cpp" line="1676"/>
+        <location filename="../mainwindow.cpp" line="831"/>
+        <location filename="../mainwindow.cpp" line="1672"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การเชื่อมต่อไปยัง %1 TCP port %2 UDP port %3 ไม่สำเร็จ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="844"/>
+        <location filename="../mainwindow.cpp" line="841"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การเชื่อมต่อกับ %1 TCP port %2 UDP port %3 หลุด</translation>
@@ -1415,31 +1415,31 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">%1 ไม่พร้อมให้ส่งภาพวีดีทัศน์ได้ </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="876"/>
+        <location filename="../mainwindow.cpp" line="873"/>
         <source>Logged in</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เข้าใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="881"/>
+        <location filename="../mainwindow.cpp" line="878"/>
         <source>Logged out</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ออกจากระบบ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2396"/>
+        <location filename="../mainwindow.cpp" line="2393"/>
         <source>Joined channel %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เข้าห้องสนทนา %1 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="889"/>
+        <location filename="../mainwindow.cpp" line="886"/>
         <source>Kicked by %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ถูกย้ายออกจากห้องโดย %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="892"/>
+        <location filename="../mainwindow.cpp" line="889"/>
         <source>Kicked by unknown user</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ถูกย้ายออกจากห้องโดยไม่ทราบว่าใคร</translation>
@@ -1465,45 +1465,45 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Peer to peer networking สำหรับภาพวีดีทัศน์ใช้งานไม่ได้!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="980"/>
+        <location filename="../mainwindow.cpp" line="979"/>
         <source>%1 joined channel</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>%1 เข้าร่วมห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1007"/>
+        <location filename="../mainwindow.cpp" line="1006"/>
         <source>%1 left channel</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>%1 ออกจากห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1130"/>
-        <location filename="../mainwindow.cpp" line="4157"/>
+        <location filename="../mainwindow.cpp" line="1129"/>
+        <location filename="../mainwindow.cpp" line="4158"/>
         <source>Failed to download file %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การดาวโหลดไฟล์ %1 ล้มเหลว</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1134"/>
-        <location filename="../mainwindow.cpp" line="4649"/>
+        <location filename="../mainwindow.cpp" line="1133"/>
+        <location filename="../mainwindow.cpp" line="4650"/>
         <source>Failed to upload file %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การอัพโหลดไฟล์ %1 ล้มเหลว</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1147"/>
+        <location filename="../mainwindow.cpp" line="1146"/>
         <source>Failed to initialize sound input device</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>อุปกรณ์รับเสียงเข้ามีปัญหาใช้การไม่ได้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1149"/>
+        <location filename="../mainwindow.cpp" line="1148"/>
         <source>Failed to initialize sound output device</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>อุปกรณ์ส่งเสียงออกมีปัญหาใช้การไม่ได้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1163"/>
+        <location filename="../mainwindow.cpp" line="1162"/>
         <source>Internal Error</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกิดความผิดพลาดภายใน</translation>
@@ -1529,38 +1529,38 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">ยกเลิกการส่งไฟล์เสียงไปยัง %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1216"/>
+        <location filename="../mainwindow.cpp" line="1215"/>
         <source>Error streaming media file to channel</source>
         <translation>เกิดความผิดพลาดในการถ่ายทอดไฟล์ไปยังห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1220"/>
+        <location filename="../mainwindow.cpp" line="1219"/>
         <source>Started streaming media file to channel</source>
         <translation>เริ่มถ่ายทอดไฟล์ไปยังห้องสนทนาแล้ว</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1223"/>
+        <location filename="../mainwindow.cpp" line="1222"/>
         <source>Finished streaming media file to channel</source>
         <translation>เสร็จสิ้นการถ่ายทอดไฟล์ไปยังห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1227"/>
+        <location filename="../mainwindow.cpp" line="1226"/>
         <source>Aborted streaming media file to channel</source>
         <translation>ยกเลิกการถ่ายทอดไฟล์ไปยังห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1282"/>
-        <location filename="../mainwindow.cpp" line="1312"/>
+        <location filename="../mainwindow.cpp" line="1281"/>
+        <location filename="../mainwindow.cpp" line="1311"/>
         <source>New video session from %1</source>
         <translation>หน้าต่างภาพวีดีทัศน์ใหม่จาก %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1337"/>
+        <location filename="../mainwindow.cpp" line="1336"/>
         <source>New desktop session from %1</source>
         <translation>หน้าต่างหน้าจอ desktop ใหม่จาก %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1363"/>
+        <location filename="../mainwindow.cpp" line="1362"/>
         <source>Your desktop session was cancelled</source>
         <translation>หน้าต่างหน้าจอ desktop ของท่านถูกยกเลิก</translation>
     </message>
@@ -1585,7 +1585,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">ไม่สามารถเริ่มต้นใช้งานอุปกรณ์เสียงที่ตั้งไว้ได้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1668"/>
+        <location filename="../mainwindow.cpp" line="1664"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>กำลังเชื่อมต่อไปยัง %1 TCP port %2 UDP port %3</translation>
@@ -1600,8 +1600,8 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">การเชื่อมต่อไปยังเซิฟเวอร์ล้มเหลว</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1742"/>
-        <location filename="../mainwindow.cpp" line="2528"/>
+        <location filename="../mainwindow.cpp" line="1738"/>
+        <location filename="../mainwindow.cpp" line="2525"/>
         <source>Error</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกิดความผิดพลาด</translation>
@@ -1612,10 +1612,10 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">ผู้ใช้งานนี้เข้าไม่ได้กับเซิฟเวอร์ (อาจต่างเวอร์ชั่นกัน) ดังนั้นกิจกรรมนี้ใช้งานไม่ได้.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1760"/>
-        <location filename="../mainwindow.cpp" line="1765"/>
-        <location filename="../mainwindow.cpp" line="1796"/>
-        <location filename="../mainwindow.cpp" line="1801"/>
+        <location filename="../mainwindow.cpp" line="1756"/>
+        <location filename="../mainwindow.cpp" line="1761"/>
+        <location filename="../mainwindow.cpp" line="1792"/>
+        <location filename="../mainwindow.cpp" line="1797"/>
         <source>Login error</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การเข้าใช้งานเกิดความผิดพลาด</translation>
@@ -1626,37 +1626,37 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">รหัสผ่านเซิฟเวอร์ไม่ถูกต้อง โปรดลองอีกครั้งหนึ่ง:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1761"/>
+        <location filename="../mainwindow.cpp" line="1757"/>
         <source>Invalid user account. Type username:</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่มีบัญชีผู้ใช้งานนี้ โปรดลองอีกครั้งหนึ่ง:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1766"/>
+        <location filename="../mainwindow.cpp" line="1762"/>
         <source>Invalid user account. Type password:</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>รหัสผ่านของผู้ใช้งานไม่ถูก โปรดลองอีกครั้งหนึ่ง:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1783"/>
+        <location filename="../mainwindow.cpp" line="1779"/>
         <source>Join channel error</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การเข้าใช้ห้องสนทนาเกิดความผิดพลาด</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1784"/>
+        <location filename="../mainwindow.cpp" line="1780"/>
         <source>Incorrect channel password. Try again:</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>รหัสผ่านเข้าห้องสนทนาผิดพลาด โปรดลองอีกครั้งหนึ่ง:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1797"/>
+        <location filename="../mainwindow.cpp" line="1793"/>
         <source>Banned from server</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ท่านถูกห้ามใช้งานเซิฟเวอร์นี้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1799"/>
+        <location filename="../mainwindow.cpp" line="1795"/>
         <source>Command not authorized</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>คำสั่งใช้งานไม่ได้</translation>
@@ -1667,19 +1667,19 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">ไม่อนุญาตให้สร้างห้อง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1802"/>
+        <location filename="../mainwindow.cpp" line="1798"/>
         <source>Maximum number of users on server exceeded</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกินจำนวนผู้ใช้งานสูงสุดที่กำหนดไว้ในเซิฟเวอร์นี้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1804"/>
+        <location filename="../mainwindow.cpp" line="1800"/>
         <source>Maximum disk usage exceeded</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกินพื้นที่ hard disk ที่กำหนดไว้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1806"/>
+        <location filename="../mainwindow.cpp" line="1802"/>
         <source>Maximum number of users in channel exceeded</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกินจำนวนสูงสุดที่กำหนดไว้ในห้องสนทนานี้</translation>
@@ -1690,78 +1690,78 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">ไม่อนุญาตให้เปลี่ยนแปลงข้อมูล</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1808"/>
+        <location filename="../mainwindow.cpp" line="1804"/>
         <source>Incorrect channel operator password</source>
         <translation>รหัสผ่านสำหรับผู้ดูแลห้องสนทนาไม่ถูกต้อง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1812"/>
+        <location filename="../mainwindow.cpp" line="1808"/>
         <source>Already logged in</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ท่านได้เข้าใช้งานแล้ว</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1814"/>
+        <location filename="../mainwindow.cpp" line="1810"/>
         <source>Cannot perform action because client is currently not logged in</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่สามารถใช้งานได้เพราะผู้ใช้งานไม่ได้ login</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1817"/>
+        <location filename="../mainwindow.cpp" line="1813"/>
         <source>Cannot join the same channel twice</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่สามารถเข้าห้องสนทนาเดียวกันได้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1819"/>
+        <location filename="../mainwindow.cpp" line="1815"/>
         <source>Channel already exists</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ห้องสนทนาได้ถูกสร้างไว้แล้ว</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1825"/>
+        <location filename="../mainwindow.cpp" line="1821"/>
         <source>User not found</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่พบผู้ใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1828"/>
+        <location filename="../mainwindow.cpp" line="1824"/>
         <source>Channel not found</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่พบห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1830"/>
+        <location filename="../mainwindow.cpp" line="1826"/>
         <source>Banned user not found</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่พบผู้ถูกระงับใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1832"/>
+        <location filename="../mainwindow.cpp" line="1828"/>
         <source>File transfer not found</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่พบการโอนย้ายไฟล์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1834"/>
+        <location filename="../mainwindow.cpp" line="1830"/>
         <source>User account not found</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่พบบัญชีผู้ใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1836"/>
+        <location filename="../mainwindow.cpp" line="1832"/>
         <source>File not found</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่พบไฟล์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1838"/>
+        <location filename="../mainwindow.cpp" line="1834"/>
         <source>File already exists</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไฟล์นี้มีอยู่แล้ว</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1840"/>
+        <location filename="../mainwindow.cpp" line="1836"/>
         <source>File sharing is disabled</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่สามารถใช้ไฟล์ร่วมกันได้</translation>
@@ -1772,62 +1772,62 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">เซิฟเวอร์มีผู้ใช้งานอยู่</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1842"/>
+        <location filename="../mainwindow.cpp" line="1838"/>
         <source>Channel has active users</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ห้องสนทนานี้มีผู้ใช้งานอยู่</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1847"/>
+        <location filename="../mainwindow.cpp" line="1843"/>
         <source>Unknown error occured</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกิดความผิดพลาดที่ไม่ทราบสาเหตุ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1854"/>
+        <location filename="../mainwindow.cpp" line="1850"/>
         <source>The server reported an error:</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เซิฟเวอร์รายงานความผิดพลาด:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2366"/>
+        <location filename="../mainwindow.cpp" line="2363"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 กำลังร้องขอการเข้าดูหน้าจอ Desktop</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2372"/>
-        <location filename="../mainwindow.cpp" line="3813"/>
+        <location filename="../mainwindow.cpp" line="2369"/>
+        <location filename="../mainwindow.cpp" line="3814"/>
         <source>%1 granted desktop access</source>
         <translation>%1 ยอมให้เข้าดูหน้าจอ Desktop</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2378"/>
+        <location filename="../mainwindow.cpp" line="2375"/>
         <source>%1 retracted desktop access</source>
         <translation>%1 ได้ยกเลิกการเข้าดูหน้า Desktop</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2480"/>
+        <location filename="../mainwindow.cpp" line="2477"/>
         <source>&amp;Files (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2964"/>
+        <location filename="../mainwindow.cpp" line="2961"/>
         <source>Failed to stream media file %1</source>
         <translation>ไม่สามารถถ่ายทอดไฟล์ %1 ได้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3676"/>
+        <location filename="../mainwindow.cpp" line="3677"/>
         <source>Failed to start desktop sharing</source>
         <translatorcomment>เกิดปัญหาขณะเริ่มใช้งานการแสดงหน้าจอ desktop ร่วมกัน</translatorcomment>
         <translation>ไม่สามารถแสดงภาพ desktop ร่วมกันได้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4172"/>
+        <location filename="../mainwindow.cpp" line="4173"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
         <translation>ท่านแน่ใจที่จะลบไฟล์ &quot;%1&quot;ไหม?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4177"/>
+        <location filename="../mainwindow.cpp" line="4178"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>ท่านแน่ใจที่จะลบไฟล์ %1 ไหม?</translation>
     </message>
@@ -1844,95 +1844,95 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">หน้าจอ desktop (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1601"/>
+        <location filename="../mainwindow.cpp" line="1600"/>
         <source>Cannot join channel %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่สามารถเข้าร่วมห้องสนทนา %1 ได้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2144"/>
+        <location filename="../mainwindow.cpp" line="2140"/>
         <source>&amp;Restore</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ดึงกลับมาใหม่</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5319"/>
-        <location filename="../mainwindow.cpp" line="5328"/>
-        <location filename="../mainwindow.cpp" line="5337"/>
-        <location filename="../mainwindow.cpp" line="5346"/>
-        <location filename="../mainwindow.cpp" line="5355"/>
-        <location filename="../mainwindow.cpp" line="5364"/>
-        <location filename="../mainwindow.cpp" line="5373"/>
-        <location filename="../mainwindow.cpp" line="5382"/>
-        <location filename="../mainwindow.cpp" line="5391"/>
-        <location filename="../mainwindow.cpp" line="5400"/>
-        <location filename="../mainwindow.cpp" line="5409"/>
+        <location filename="../mainwindow.cpp" line="5320"/>
+        <location filename="../mainwindow.cpp" line="5329"/>
+        <location filename="../mainwindow.cpp" line="5338"/>
+        <location filename="../mainwindow.cpp" line="5347"/>
+        <location filename="../mainwindow.cpp" line="5356"/>
+        <location filename="../mainwindow.cpp" line="5365"/>
+        <location filename="../mainwindow.cpp" line="5374"/>
+        <location filename="../mainwindow.cpp" line="5383"/>
+        <location filename="../mainwindow.cpp" line="5392"/>
+        <location filename="../mainwindow.cpp" line="5401"/>
+        <location filename="../mainwindow.cpp" line="5410"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
         <translation>%1 การบอกรับเปลี่ยนไป &quot;%2&quot; to: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5323"/>
-        <location filename="../mainwindow.cpp" line="5332"/>
-        <location filename="../mainwindow.cpp" line="5341"/>
-        <location filename="../mainwindow.cpp" line="5350"/>
-        <location filename="../mainwindow.cpp" line="5359"/>
-        <location filename="../mainwindow.cpp" line="5368"/>
-        <location filename="../mainwindow.cpp" line="5377"/>
-        <location filename="../mainwindow.cpp" line="5386"/>
-        <location filename="../mainwindow.cpp" line="5395"/>
-        <location filename="../mainwindow.cpp" line="5404"/>
-        <location filename="../mainwindow.cpp" line="5413"/>
+        <location filename="../mainwindow.cpp" line="5324"/>
+        <location filename="../mainwindow.cpp" line="5333"/>
+        <location filename="../mainwindow.cpp" line="5342"/>
+        <location filename="../mainwindow.cpp" line="5351"/>
+        <location filename="../mainwindow.cpp" line="5360"/>
+        <location filename="../mainwindow.cpp" line="5369"/>
+        <location filename="../mainwindow.cpp" line="5378"/>
+        <location filename="../mainwindow.cpp" line="5387"/>
+        <location filename="../mainwindow.cpp" line="5396"/>
+        <location filename="../mainwindow.cpp" line="5405"/>
+        <location filename="../mainwindow.cpp" line="5414"/>
         <source>On</source>
         <translation>เปิด</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5323"/>
-        <location filename="../mainwindow.cpp" line="5332"/>
-        <location filename="../mainwindow.cpp" line="5341"/>
-        <location filename="../mainwindow.cpp" line="5350"/>
-        <location filename="../mainwindow.cpp" line="5359"/>
-        <location filename="../mainwindow.cpp" line="5368"/>
-        <location filename="../mainwindow.cpp" line="5377"/>
-        <location filename="../mainwindow.cpp" line="5386"/>
-        <location filename="../mainwindow.cpp" line="5395"/>
-        <location filename="../mainwindow.cpp" line="5404"/>
-        <location filename="../mainwindow.cpp" line="5413"/>
+        <location filename="../mainwindow.cpp" line="5324"/>
+        <location filename="../mainwindow.cpp" line="5333"/>
+        <location filename="../mainwindow.cpp" line="5342"/>
+        <location filename="../mainwindow.cpp" line="5351"/>
+        <location filename="../mainwindow.cpp" line="5360"/>
+        <location filename="../mainwindow.cpp" line="5369"/>
+        <location filename="../mainwindow.cpp" line="5378"/>
+        <location filename="../mainwindow.cpp" line="5387"/>
+        <location filename="../mainwindow.cpp" line="5396"/>
+        <location filename="../mainwindow.cpp" line="5405"/>
+        <location filename="../mainwindow.cpp" line="5414"/>
         <source>Off</source>
         <translation>ปิด</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1313"/>
-        <location filename="../mainwindow.cpp" line="2146"/>
+        <location filename="../mainwindow.cpp" line="2142"/>
         <source>&amp;Exit</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ออก</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2473"/>
+        <location filename="../mainwindow.cpp" line="2470"/>
         <source>Files in channel: %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไฟล์ในห้องสนทนา: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3099"/>
+        <location filename="../mainwindow.cpp" line="3096"/>
         <source>Enable HotKey</source>
         <translation>เปิดการใช้งานปุ่มลัด</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3100"/>
+        <location filename="../mainwindow.cpp" line="3097"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
         <translatorcomment>ในกรณีที่ปุ่มที่เลือกใช้งานไม่ได้ โปรดเลือกปุ่มอื่นแทน</translatorcomment>
         <translation>การใช้งานปุ่มลัดล้มเหลว โปรดเลือกปุ่มอื่นแทน.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3535"/>
+        <location filename="../mainwindow.cpp" line="3532"/>
         <source>Specify new nickname</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>กำหนดชื่อเล่นใหม่</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3601"/>
-        <location filename="../mainwindow.cpp" line="4875"/>
+        <location filename="../mainwindow.cpp" line="3602"/>
+        <location filename="../mainwindow.cpp" line="4876"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>อุปกรณ์วีดีทัศน์ไม่ได้กำหนดค่าอย่างเหมาะสม ตรวจสอบการกำหนดค่าที่หัวข้อ การกำหนดค่า </translation>
@@ -1953,30 +1953,30 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">การส่งไฟล์เสียงล้มเหลว %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3997"/>
-        <location filename="../mainwindow.cpp" line="4006"/>
+        <location filename="../mainwindow.cpp" line="3998"/>
+        <location filename="../mainwindow.cpp" line="4007"/>
         <source>Failed to issue command to create channel</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การสั่งสร้างห้องสนทนาไม่สำเร็จ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2230"/>
+        <location filename="../mainwindow.cpp" line="2227"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
         <translation>ท่านต้องการเพิ่ม %1 ไว้ในรายการข้อยกเว้นของ Windows Firewall ไหม?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="750"/>
-        <location filename="../mainwindow.cpp" line="2238"/>
+        <location filename="../mainwindow.cpp" line="747"/>
+        <location filename="../mainwindow.cpp" line="2235"/>
         <source>Firewall exception</source>
         <translation>การยกเว้น Firewall</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2239"/>
+        <location filename="../mainwindow.cpp" line="2236"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>ไม่สามารถเพิ่ม %1 เข้าไว้ในการยกเว้นของ Windows Firewall.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="751"/>
+        <location filename="../mainwindow.cpp" line="748"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
         <translation>ไม่สามารถยกเลิก %1 จากการยกเว้นของ Windows Firewall.</translation>
     </message>
@@ -1991,113 +1991,113 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="767"/>
+        <location filename="../mainwindow.cpp" line="764"/>
         <source>Startup arguments</source>
         <translation>เริ่มใช้ข้อกำหนด</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="768"/>
+        <location filename="../mainwindow.cpp" line="765"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
         <translation>โปรแกรมข้อกำหนด %1 ไม่รู้จัก.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="944"/>
+        <location filename="../mainwindow.cpp" line="941"/>
         <source>%1 has logged in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="960"/>
+        <location filename="../mainwindow.cpp" line="958"/>
         <source>%1 has logged out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="982"/>
-        <location filename="../mainwindow.cpp" line="1009"/>
+        <location filename="../mainwindow.cpp" line="981"/>
+        <location filename="../mainwindow.cpp" line="1008"/>
         <source>root</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1067"/>
+        <location filename="../mainwindow.cpp" line="1066"/>
         <source>File %1 added</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1072"/>
+        <location filename="../mainwindow.cpp" line="1071"/>
         <source>File %1 added by %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1092"/>
+        <location filename="../mainwindow.cpp" line="1091"/>
         <source>File %1 removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1096"/>
+        <location filename="../mainwindow.cpp" line="1095"/>
         <source>File %1 removed by %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1151"/>
+        <location filename="../mainwindow.cpp" line="1150"/>
         <source>Failed to initialize audio codec</source>
         <translation>การเริ่มรหัสเสียงล้มเหลว</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1154"/>
+        <location filename="../mainwindow.cpp" line="1153"/>
         <source>Failed to initialize audio configuration</source>
         <translation>การตั้งค่าเสียงล้มเหลว</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1157"/>
+        <location filename="../mainwindow.cpp" line="1156"/>
         <source>Internal message queue overloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1193"/>
+        <location filename="../mainwindow.cpp" line="1192"/>
         <source>Streaming from %1 started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1382"/>
+        <location filename="../mainwindow.cpp" line="1381"/>
         <source>Writing audio file %1 for %2</source>
         <translation>กำลังเขียนไฟล์เสียง %1 สำหรับ %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1387"/>
+        <location filename="../mainwindow.cpp" line="1386"/>
         <source>Failed to write audio file %1 for %2</source>
         <translation>การเขียนไฟล์เสียง %1 สำหรับ %2 ล้มเหลว</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1392"/>
+        <location filename="../mainwindow.cpp" line="1391"/>
         <source>Finished audio file %1</source>
         <translation>ไฟล์เสียง %1 เสร็จสิ้น</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1396"/>
+        <location filename="../mainwindow.cpp" line="1395"/>
         <source>Aborted audio file %1</source>
         <translation>ยกเลืกไฟล์เสียง %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1477"/>
+        <location filename="../mainwindow.cpp" line="1476"/>
         <source>Banned Users in Channel %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1654"/>
+        <location filename="../mainwindow.cpp" line="1651"/>
         <source>Using sound input: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1655"/>
+        <location filename="../mainwindow.cpp" line="1652"/>
         <source>Using sound output: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1751"/>
+        <location filename="../mainwindow.cpp" line="1747"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1754"/>
+        <location filename="../mainwindow.cpp" line="1750"/>
         <source>The username is invalid</source>
         <translation>ผู้ใช้งานไม่ถูกต้อง</translation>
     </message>
@@ -2110,230 +2110,230 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">ไฟล์ (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2528"/>
+        <location filename="../mainwindow.cpp" line="2525"/>
         <source>Failed to start recording</source>
         <translation>ไม่สามารถเริ่มทำการบันทึกได้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2532"/>
+        <location filename="../mainwindow.cpp" line="2529"/>
         <source>Recording to file: %1</source>
         <translation>กำลังบันทึกลงไฟล์ %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2587"/>
+        <location filename="../mainwindow.cpp" line="2584"/>
         <source>Microphone gain is controlled by channel</source>
         <translation>การขยายสัญญาณไมค์ถูกควบคุมโดยห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3105"/>
+        <location filename="../mainwindow.cpp" line="3102"/>
         <source>Push To Talk: </source>
         <translation>กดเพื่อคุย:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3299"/>
-        <location filename="../mainwindow.cpp" line="3323"/>
+        <location filename="../mainwindow.cpp" line="3296"/>
+        <location filename="../mainwindow.cpp" line="3320"/>
         <source>New Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3299"/>
+        <location filename="../mainwindow.cpp" line="3296"/>
         <source>Delete Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3306"/>
-        <location filename="../mainwindow.cpp" line="3314"/>
+        <location filename="../mainwindow.cpp" line="3303"/>
+        <location filename="../mainwindow.cpp" line="3311"/>
         <source>New Client Instance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3307"/>
+        <location filename="../mainwindow.cpp" line="3304"/>
         <source>Select profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3315"/>
+        <location filename="../mainwindow.cpp" line="3312"/>
         <source>Delete profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3323"/>
+        <location filename="../mainwindow.cpp" line="3320"/>
         <source>Profile name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3612"/>
+        <location filename="../mainwindow.cpp" line="3613"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
         <translation>การตั้งค่ารหัสวีดีทัศน์ล้มเหลว กรุณาตรวจสอบที่ &apos;กำหนดค่าใช้งาน&apos;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3657"/>
+        <location filename="../mainwindow.cpp" line="3658"/>
         <source>Failed to open X11 display.</source>
         <translation>ไม่สามารถเปิดหน้าจอแสดง X11 ของลีนุกซ์ได้.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4020"/>
+        <location filename="../mainwindow.cpp" line="4021"/>
         <source>Failed to issue command to update channel</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การสั่งปรับปรุงห้องสนทนาไม่สำเร็จ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4033"/>
+        <location filename="../mainwindow.cpp" line="4034"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ท่านแน่ใจไหมที่จะลบห้องสนทนา &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4039"/>
+        <location filename="../mainwindow.cpp" line="4040"/>
         <source>Failed to issue command to delete channel</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การสั่งลบห้องสนทนาไม่สำเร็จ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4060"/>
-        <location filename="../mainwindow.cpp" line="4419"/>
+        <location filename="../mainwindow.cpp" line="4061"/>
+        <location filename="../mainwindow.cpp" line="4420"/>
         <source>Specify password</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>กำหนดรหัสผ่าน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4075"/>
+        <location filename="../mainwindow.cpp" line="4076"/>
         <source>Failed to issue command to join channel</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การสั่งเข้าร่วมห้องสนทนาล้มเหลว</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4128"/>
+        <location filename="../mainwindow.cpp" line="4129"/>
         <source>Open File</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เปิดไฟล์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4148"/>
+        <location filename="../mainwindow.cpp" line="4149"/>
         <source>Save File</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>บันทึกไฟล์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4265"/>
+        <location filename="../mainwindow.cpp" line="4266"/>
         <source>Message to broadcast:</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ข้อความที่ต้องการประกาศ:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4284"/>
+        <location filename="../mainwindow.cpp" line="4285"/>
         <source>Server configuration saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4308"/>
+        <location filename="../mainwindow.cpp" line="4309"/>
         <source>Are you sure you want to delete your existing settings?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4317"/>
+        <location filename="../mainwindow.cpp" line="4318"/>
         <source>Cannot find %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4324"/>
+        <location filename="../mainwindow.cpp" line="4325"/>
         <source>Cannot remove %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4331"/>
+        <location filename="../mainwindow.cpp" line="4332"/>
         <source>Failed to copy %1 to %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4432"/>
+        <location filename="../mainwindow.cpp" line="4433"/>
         <source>IP-address</source>
         <translation type="unfinished">หมายเลข IP</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4432"/>
+        <location filename="../mainwindow.cpp" line="4433"/>
         <source>Username</source>
         <translation type="unfinished">ชื่อผู้ใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4434"/>
+        <location filename="../mainwindow.cpp" line="4435"/>
         <source>Ban User From Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4434"/>
+        <location filename="../mainwindow.cpp" line="4435"/>
         <source>Ban user&apos;s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4571"/>
+        <location filename="../mainwindow.cpp" line="4572"/>
         <source>&amp;Leave Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4572"/>
+        <location filename="../mainwindow.cpp" line="4573"/>
         <source>CTRL+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4577"/>
+        <location filename="../mainwindow.cpp" line="4578"/>
         <source>CTRL+J</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4804"/>
+        <location filename="../mainwindow.cpp" line="4805"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>จำนวนผู้ใช้งานสูงสุดที่สามารถสื่อสารได้ %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4842"/>
+        <location filename="../mainwindow.cpp" line="4843"/>
         <source>You can now transmit audio!</source>
         <translation>ตอนนี้ท่านสามารถเส่งเสียงได้!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4844"/>
+        <location filename="../mainwindow.cpp" line="4845"/>
         <source>You can no longer transmit audio!</source>
         <translation>ท่านไม่สามารถส่งเสียงต่อไปได้!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4852"/>
+        <location filename="../mainwindow.cpp" line="4853"/>
         <source>You can now transmit video!</source>
         <translation>ตอนนี้ท่านสามารถส่งวีดีทัศน์ได้!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4854"/>
+        <location filename="../mainwindow.cpp" line="4855"/>
         <source>You can no longer transmit video!</source>
         <translation>ท่านไม่สามารถส่งวีดีทัศน์ได้อีก!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4862"/>
+        <location filename="../mainwindow.cpp" line="4863"/>
         <source>You can now transmit desktop windows!</source>
         <translation>ท่านสามารถส่งภาพแสดงหน้าจอ desktop ได้แล้ว!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4864"/>
+        <location filename="../mainwindow.cpp" line="4865"/>
         <source>You can no longer transmit desktop windows!</source>
         <translation>ท่านไม่สามารถส่งภาพแสดงหน้าจอ desktop ได้อีก!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4874"/>
+        <location filename="../mainwindow.cpp" line="4875"/>
         <source>Start Webcam</source>
         <translation>เริ่มการใช้งานกล้องวีดีโอผ่านอินเตอร์เน็ต</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4897"/>
-        <location filename="../mainwindow.cpp" line="4949"/>
+        <location filename="../mainwindow.cpp" line="4898"/>
+        <location filename="../mainwindow.cpp" line="4950"/>
         <source>Myself</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ตัวฉันเอง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5435"/>
+        <location filename="../mainwindow.cpp" line="5436"/>
         <source>&amp;Video (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5443"/>
+        <location filename="../mainwindow.cpp" line="5444"/>
         <source>&amp;Desktops (%1)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2347,44 +2347,44 @@ Should these settings be applied?</source>
         <translation type="obsolete">%1 ตั้งค่าการใช้งาน %2 ของท่านไปยัง %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5504"/>
-        <location filename="../mainwindow.cpp" line="5513"/>
-        <location filename="../mainwindow.cpp" line="5523"/>
-        <location filename="../mainwindow.cpp" line="5534"/>
+        <location filename="../mainwindow.cpp" line="5510"/>
+        <location filename="../mainwindow.cpp" line="5519"/>
+        <location filename="../mainwindow.cpp" line="5529"/>
+        <location filename="../mainwindow.cpp" line="5540"/>
         <source>Load File</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>โอนย้ายข้อมูล</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5505"/>
-        <location filename="../mainwindow.cpp" line="5514"/>
+        <location filename="../mainwindow.cpp" line="5511"/>
+        <location filename="../mainwindow.cpp" line="5520"/>
         <source>Failed to load file %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การโอนย้ายข้อมูล %1 ไม่สำเร็จ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5524"/>
+        <location filename="../mainwindow.cpp" line="5530"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>ไฟล์ %1 เข้ากันไม่ได้กับไฟล์ %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5535"/>
+        <location filename="../mainwindow.cpp" line="5541"/>
         <source>Failed to extract host-information from %1</source>
         <translation>การดึงข้อมูลจากโฮสท์ %1 ล้มเหลว</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5543"/>
+        <location filename="../mainwindow.cpp" line="5549"/>
         <source>Load %1 File</source>
         <translation>โหลดไฟล์ %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5544"/>
-        <source>The file %1 contains %2 setup information.
+        <location filename="../mainwindow.cpp" line="5550"/>
+        <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5614"/>
+        <location filename="../mainwindow.cpp" line="5620"/>
         <source>New version available: %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>มีโปรแกรมรุ่นใหม่แล้ว: %1</translation>
@@ -2408,7 +2408,7 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="218"/>
         <location filename="../mainwindow.ui" line="243"/>
         <location filename="../mainwindow.ui" line="246"/>
-        <location filename="../mainwindow.cpp" line="2606"/>
+        <location filename="../mainwindow.cpp" line="2603"/>
         <source>Microphone gain</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ขยายเสียงไมค์</translation>
@@ -2443,7 +2443,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="402"/>
         <location filename="../mainwindow.ui" line="1586"/>
-        <location filename="../mainwindow.cpp" line="5433"/>
+        <location filename="../mainwindow.cpp" line="5434"/>
         <source>&amp;Video</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;วีดีทัศน์</translation>
@@ -2698,7 +2698,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1384"/>
-        <location filename="../mainwindow.cpp" line="4576"/>
+        <location filename="../mainwindow.cpp" line="4577"/>
         <source>&amp;Join Channel</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เ&amp;ข้าร่วมห้องสนทนา</translation>
@@ -3124,13 +3124,13 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="671"/>
-        <location filename="../mainwindow.cpp" line="5441"/>
+        <location filename="../mainwindow.cpp" line="5442"/>
         <source>&amp;Desktops</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="939"/>
-        <location filename="../mainwindow.cpp" line="2476"/>
+        <location filename="../mainwindow.cpp" line="2473"/>
         <source>&amp;Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3661,12 +3661,12 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="307"/>
-        <location filename="../preferences.ui" line="1509"/>
-        <location filename="../preferences.ui" line="1536"/>
-        <location filename="../preferences.ui" line="1563"/>
-        <location filename="../preferences.ui" line="1590"/>
-        <location filename="../preferences.ui" line="1617"/>
-        <location filename="../preferences.ui" line="1644"/>
+        <location filename="../preferences.ui" line="1592"/>
+        <location filename="../preferences.ui" line="1619"/>
+        <location filename="../preferences.ui" line="1646"/>
+        <location filename="../preferences.ui" line="1673"/>
+        <location filename="../preferences.ui" line="1700"/>
+        <location filename="../preferences.ui" line="1727"/>
         <source>&amp;Setup Keys</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>กำ&amp;หนดปุ่มกดเพื่อพูด</translation>
@@ -3776,7 +3776,27 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1894"/>
+        <location filename="../preferences.ui" line="1462"/>
+        <source>User logged in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1482"/>
+        <source>User logged out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1502"/>
+        <source>Voice activation enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1522"/>
+        <source>Voice activation disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1977"/>
         <source>Bitrate</source>
         <translation>อัตราการส่งถ่ายข้อมูล</translation>
     </message>
@@ -3923,7 +3943,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="875"/>
-        <location filename="../preferencesdlg.cpp" line="815"/>
+        <location filename="../preferencesdlg.cpp" line="827"/>
         <source>Sound System</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ระบบเสียง</translation>
@@ -4003,7 +4023,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1136"/>
-        <location filename="../preferences.ui" line="1980"/>
+        <location filename="../preferences.ui" line="2063"/>
         <source>&amp;Default</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>&amp;ค่าที่กำหนดไว้แล้ว</translation>
@@ -4016,64 +4036,64 @@ Should these settings be applied?</source>
         <translation>เสียงตามเหตุการณ์</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1369"/>
+        <location filename="../preferences.ui" line="1372"/>
         <source>New user</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>เมื่อมีผู้ใช้งานเข้ามาใหม่</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1402"/>
+        <location filename="../preferences.ui" line="1405"/>
         <source>User removed</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ผู้ใช้งานถูกย้ายออกไป</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1213"/>
+        <location filename="../preferences.ui" line="1216"/>
         <source>Server lost</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>เซิฟเวอร์หล่ม</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1229"/>
+        <location filename="../preferences.ui" line="1232"/>
         <source>New user message</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>มีข้อความใหม่จากผู้ใช้งาน</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1389"/>
+        <location filename="../preferences.ui" line="1392"/>
         <source>New channel message</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>มีข้อความจากห้องสนทนาใหม่</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1267"/>
+        <location filename="../preferences.ui" line="1270"/>
         <source>Hotkey pressed</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>เมื่อกดปุ่มลัด</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1439"/>
+        <location filename="../preferences.ui" line="1442"/>
         <source>Channel silent</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>เมื่อห้องสนทนาเงียบ</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1277"/>
+        <location filename="../preferences.ui" line="1280"/>
         <source>Files updated</source>
         <translation>เมื่อไฟล์ถูกปรับปรุง</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1359"/>
+        <location filename="../preferences.ui" line="1362"/>
         <source>File transfer complete</source>
         <translation>เมื่อการโอนย้ายข้อมูลาำเร็จ</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1306"/>
+        <location filename="../preferences.ui" line="1309"/>
         <source>New video session</source>
         <translation>หน้าจอแสดงภาพวีดีทัศน์ใหม่</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1290"/>
+        <location filename="../preferences.ui" line="1293"/>
         <source>New desktop session</source>
         <translation>หน้าจอ desktop ใหม่</translation>
     </message>
@@ -4085,9 +4105,9 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="520"/>
         <location filename="../preferences.ui" line="732"/>
-        <location filename="../preferences.ui" line="1246"/>
-        <location filename="../preferences.ui" line="1253"/>
-        <location filename="../preferences.ui" line="1743"/>
+        <location filename="../preferences.ui" line="1249"/>
+        <location filename="../preferences.ui" line="1256"/>
+        <location filename="../preferences.ui" line="1826"/>
         <source>...</source>
         <translation>กดเลือกโฟลเดอร์...</translation>
     </message>
@@ -4112,115 +4132,115 @@ Should these settings be applied?</source>
         <translation>เปิดการลดเสียงรบกวนจากไมค์</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1346"/>
+        <location filename="../preferences.ui" line="1349"/>
         <source>Desktop access request</source>
         <translation>การร้องขอเพื่อดูหน้าจอ Desktop</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1478"/>
+        <location filename="../preferences.ui" line="1561"/>
         <source>Shortcuts</source>
         <translation>ปุมลัด</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1484"/>
+        <location filename="../preferences.ui" line="1567"/>
         <source>Keyboard Shortcuts</source>
         <translation>ปุ่มลัดบนแป้นพิมพ์</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1492"/>
+        <location filename="../preferences.ui" line="1575"/>
         <source>Enable/disable voice activation</source>
         <translation>เปิด/ปิดไมค์ด้วยการใช้เสียง</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1519"/>
+        <location filename="../preferences.ui" line="1602"/>
         <source>Increase volume</source>
         <translation>เร่งความดังเสียง</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1546"/>
+        <location filename="../preferences.ui" line="1629"/>
         <source>Lower volume</source>
         <translation>ลดความดังเสียง</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1573"/>
+        <location filename="../preferences.ui" line="1656"/>
         <source>Enable/disable mute all</source>
         <translation>เปิด/ปิด การปิดเสียงทุกคน</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1600"/>
+        <location filename="../preferences.ui" line="1683"/>
         <source>Increase microphone gain</source>
         <translation>เพิ่มอัตราการขยายไมค์</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1627"/>
+        <location filename="../preferences.ui" line="1710"/>
         <source>Lower microphone gain</source>
         <translation>ลดอัตราการขยายไมค์</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1654"/>
+        <location filename="../preferences.ui" line="1737"/>
         <source>Enable/disable video transmission</source>
         <translation>เปิด/ปิด การส่งภาพวีดีทัศน์</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1667"/>
+        <location filename="../preferences.ui" line="1750"/>
         <source>Setup Keys</source>
         <translation>กำหนดปุ่ม</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="703"/>
-        <location filename="../preferences.ui" line="1696"/>
+        <location filename="../preferences.ui" line="1779"/>
         <source>Video Capture</source>
         <translation>การจับภาพวีดีทัศน์</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1702"/>
+        <location filename="../preferences.ui" line="1785"/>
         <source>Video Capture Settings</source>
         <translation>ตั้งค่าการจับภาพด้วยวีดีทัศน์</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1708"/>
+        <location filename="../preferences.ui" line="1791"/>
         <source>Video Capture Device</source>
         <translation>อุปกรณ์จับภาพวีดีทัศน์</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1728"/>
+        <location filename="../preferences.ui" line="1811"/>
         <source>Video Resolution</source>
         <translation>ความละเอียดของภาพวีดีทัศน์</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1754"/>
+        <location filename="../preferences.ui" line="1837"/>
         <source>Image Format</source>
         <translation>ชนิดของภาพ</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1761"/>
+        <location filename="../preferences.ui" line="1844"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1768"/>
+        <location filename="../preferences.ui" line="1851"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1775"/>
+        <location filename="../preferences.ui" line="1858"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1799"/>
-        <location filename="../preferencesdlg.cpp" line="1105"/>
+        <location filename="../preferences.ui" line="1882"/>
+        <location filename="../preferencesdlg.cpp" line="1121"/>
         <source>Test Selected</source>
         <translation>ทดสอบค่าที่ตั้งไว้</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1827"/>
-        <location filename="../preferences.ui" line="1830"/>
+        <location filename="../preferences.ui" line="1910"/>
+        <location filename="../preferences.ui" line="1913"/>
         <source>Video Codec Settings</source>
         <translation>ตั้งค่าการบีบอัดภาพวีดีทัศน์</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1838"/>
+        <location filename="../preferences.ui" line="1921"/>
         <source>Codec</source>
         <translation>วิธีการบีบอัดภาพวีดีทัศน์</translation>
     </message>
@@ -4233,59 +4253,59 @@ Should these settings be applied?</source>
         <translation type="obsolete">อัตราการส่งถ่ายข้อมูล Bit Rate</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="300"/>
+        <location filename="../preferencesdlg.cpp" line="308"/>
         <source>Default Input Device</source>
         <translation>ค่าปกติของอุปกรณ์นำเสียงเข้าระบบ</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="334"/>
+        <location filename="../preferencesdlg.cpp" line="342"/>
         <source>Default Output Device</source>
         <translation>ค่าปกติของอุปกรณ์นำเสียงออกจากระบบ</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="318"/>
-        <location filename="../preferencesdlg.cpp" line="349"/>
+        <location filename="../preferencesdlg.cpp" line="326"/>
+        <location filename="../preferencesdlg.cpp" line="357"/>
         <source>No Sound Device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="388"/>
+        <location filename="../preferencesdlg.cpp" line="396"/>
         <source>Open Wave File</source>
         <translation>เปิดไฟล์เสียง</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="390"/>
+        <location filename="../preferencesdlg.cpp" line="398"/>
         <source>Wave files (*.wav)</source>
         <translation>ไฟล์เสียง (.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="415"/>
+        <location filename="../preferencesdlg.cpp" line="423"/>
         <source>&amp;Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="701"/>
-        <location filename="../preferencesdlg.cpp" line="708"/>
+        <location filename="../preferencesdlg.cpp" line="713"/>
+        <location filename="../preferencesdlg.cpp" line="720"/>
         <source>Windows Firewall</source>
         <translation>ระบบป้องกันการเข้าถึงคอมพิวเตอร์ของ Windows Firewall</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="702"/>
+        <location filename="../preferencesdlg.cpp" line="714"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>ไม่สามารถเพิ่ม %1 เข้าไปในรายชื่อข้อยกเว้น Windows Firewall</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="709"/>
+        <location filename="../preferencesdlg.cpp" line="721"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>ไม่สามารถลบ %1 ออกจากรายชื่อข้อยกเว้น Windows Firewall</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1106"/>
+        <location filename="../preferencesdlg.cpp" line="1122"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1123"/>
+        <location filename="../preferencesdlg.cpp" line="1139"/>
         <source>Sound Initialization</source>
         <translation>เริ่มการใช้เสียง</translation>
     </message>
@@ -4306,36 +4326,36 @@ Should these settings be applied?</source>
         <translation type="obsolete">การเปิดใช้งานการตัดเสียงสะท้อนล้มเหลว</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="920"/>
-        <location filename="../preferencesdlg.cpp" line="932"/>
+        <location filename="../preferencesdlg.cpp" line="936"/>
+        <location filename="../preferencesdlg.cpp" line="948"/>
         <source>Video Device</source>
         <translation>อุปกรณ์วีดีทัศน์</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="921"/>
-        <location filename="../preferencesdlg.cpp" line="933"/>
-        <location filename="../preferencesdlg.cpp" line="1471"/>
+        <location filename="../preferencesdlg.cpp" line="937"/>
+        <location filename="../preferencesdlg.cpp" line="949"/>
+        <location filename="../preferencesdlg.cpp" line="1515"/>
         <source>Failed to initialize video device</source>
         <translation>ไม่สามารถเริ่มการใช้งานอุปกรณ์วีดีทัศน์ได้</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1010"/>
+        <location filename="../preferencesdlg.cpp" line="1026"/>
         <source>Max Input Channels %1</source>
         <translation>จำนวนอุปกรณ์สูงสุดทีเข้าใช้ได้ %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1012"/>
-        <location filename="../preferencesdlg.cpp" line="1035"/>
+        <location filename="../preferencesdlg.cpp" line="1028"/>
+        <location filename="../preferencesdlg.cpp" line="1051"/>
         <source>Sample Rates:</source>
         <translation>อัตราการเก็บข้อมูล:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1033"/>
+        <location filename="../preferencesdlg.cpp" line="1049"/>
         <source>Max Output Channels %1</source>
         <translation>จำนวนอุปกรณ์สูงสุดทีส่งออกได้ %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1063"/>
+        <location filename="../preferencesdlg.cpp" line="1079"/>
         <source>Refresh Sound Devices</source>
         <translation>เรียกดูอุปกรณ์เสียงใหม่</translation>
     </message>
@@ -4344,27 +4364,27 @@ Should these settings be applied?</source>
         <translation type="obsolete">เพื่อที่จะเห็นอุปกรณ์เสียงที่ติดตั้งใหม่ ผู้ใช้งานต้องออกจากระบบก่อน.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1064"/>
+        <location filename="../preferencesdlg.cpp" line="1080"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>ไม่สามารถเริ่มใช้งานอุปกรณ์เสียงได้ กรุณาปิดแล้วเปิดโปรแกรมใหม่.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1124"/>
+        <location filename="../preferencesdlg.cpp" line="1140"/>
         <source>Failed to initialize new sound devices</source>
         <translation>ไม่สามารถเริ่มการทำงานกับอุปกรณ์เสียงใหม่ได้</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1429"/>
+        <location filename="../preferencesdlg.cpp" line="1473"/>
         <source>Custom video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1523"/>
+        <location filename="../preferencesdlg.cpp" line="1567"/>
         <source>Default Video Capture</source>
         <translation>การจับภาพวีดีทัศน์</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1524"/>
+        <location filename="../preferencesdlg.cpp" line="1568"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>ไม่สามารถหาค่าที่เหมาะสมในการจับภาพวีดีทัศน์ได้</translation>
     </message>
@@ -4372,37 +4392,38 @@ Should these settings be applied?</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../common.cpp" line="420"/>
+        <location filename="../common.cpp" line="422"/>
+        <location filename="../common.cpp" line="476"/>
         <source>Failed to initialize sound duplex mode</source>
         <translation type="unfinished">การใช้งานเสียงแบบดูเพล็กซ์ล้มเหลว</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="428"/>
+        <location filename="../common.cpp" line="430"/>
         <source>Failed to initialize sound input device</source>
         <translation type="unfinished">อุปกรณ์รับเสียงเข้ามีปัญหาใช้การไม่ได้</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="433"/>
+        <location filename="../common.cpp" line="435"/>
         <source>Failed to initialize sound output device</source>
         <translation type="unfinished">อุปกรณ์ส่งเสียงออกมีปัญหาใช้การไม่ได้</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="448"/>
+        <location filename="../common.cpp" line="450"/>
         <source>Switching to default sound devices</source>
         <translation type="unfinished">กำลังปรับไปยังอุปกรณ์เสียงที่ตั้งค่าไว้</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="456"/>
+        <location filename="../common.cpp" line="458"/>
         <source>Unable to get default sound devices</source>
         <translation type="unfinished">ไม่พบอุปกรณ์เสียงที่ตั้งค่าไว้ได้</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="470"/>
+        <location filename="../common.cpp" line="484"/>
         <source>Failed to initialize default sound input device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="475"/>
+        <location filename="../common.cpp" line="489"/>
         <source>Failed to initialize default sound output device</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4411,7 +4432,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">ไม่สามารถเริ่มต้นใช้งานอุปกรณ์เสียงที่ตั้งไว้ได้</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="1723"/>
+        <location filename="../common.cpp" line="1750"/>
         <source>Conference</source>
         <translation>ห้องประชุม</translation>
     </message>
@@ -5340,8 +5361,8 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="396"/>
-        <location filename="../useraccountsdlg.cpp" line="701"/>
-        <location filename="../useraccountsdlg.cpp" line="707"/>
+        <location filename="../useraccountsdlg.cpp" line="702"/>
+        <location filename="../useraccountsdlg.cpp" line="708"/>
         <source>Limit issued commands</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5510,33 +5531,33 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="470"/>
+        <location filename="../useraccountsdlg.cpp" line="471"/>
         <source>Add/Update</source>
         <translation>เพิ่ม/ปรับปรุงให้ทันสมัย</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="471"/>
+        <location filename="../useraccountsdlg.cpp" line="472"/>
         <source>Create anonymous user account?</source>
         <translation>สร้างบัญชีนิรนามไหม?</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="702"/>
+        <location filename="../useraccountsdlg.cpp" line="703"/>
         <source>Number of commands to allow (0 = disabled)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="708"/>
+        <location filename="../useraccountsdlg.cpp" line="709"/>
         <source>Timeframe to allow %1 commands (in seconds)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="223"/>
-        <location filename="../useraccountsdlg.cpp" line="654"/>
+        <location filename="../useraccountsdlg.cpp" line="655"/>
         <source>Channel Operator</source>
         <translation>ผู้ดูแลห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="655"/>
+        <location filename="../useraccountsdlg.cpp" line="656"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
         <translation>จำนวนห้องมากที่สุดที่ซึ่งยินยอมให้ผู้ใช้งานกลายเป็นผู้ดูแลได้ %1.</translation>
     </message>
