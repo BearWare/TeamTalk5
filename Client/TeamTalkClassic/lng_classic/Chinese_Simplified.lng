@@ -167,6 +167,7 @@
     <item id="298">允许的命令数（0 =禁用）</item>
     <item id="299">允许％d个命令的时间（以秒为单位）</item>
     <item id="300">匿名</item>
+    <item id="301">您已被未知用户踢出频道</item>
     <item id="302">禁止用户属性</item>
     <item id="303">新建配置</item>
     <item id="304">删除配置</item>
@@ -193,13 +194,14 @@
     <item id="325">Speex 音频预处理器</item>
     <item id="326">无音频预处理器</item>
     <item id="327">已连接...正在登录</item>
+    <item id="328">起始位置</item>
     <item id="329">无法连接至主机 &quot;%s&quot; TCP端口 %d UDP端口 %d。&#xD;&#xA;检查服务器是否在指定地址上运行，&#xD;&#xA;并且防火墙没有阻止客户端连接。</item>
     <item id="330">执行请求的命令时发生错误：&#xD;&#xA;</item>
     <item id="331">无法连接 %s TCP端口 %d UDP端口 %d</item>
     <item id="332">丢失与 %s TCP端口 %d UDP端口 %d 的连接</item>
     <item id="333">成功登录</item>
     <item id="334">成功登出</item>
-    <item id="335">您已被踢出频道。</item>
+    <item id="335">您已被 %s 踢出频道</item>
     <item id="336">发生未知错误。检查您执行的操作是否被服务器支持。&#xD;&#xA;此错误很可能是由于服务器与您的客户端不兼容导致。&#xD;&#xA;</item>
     <item id="337">%s 无法传输语音！</item>
     <item id="338">%s 现可传输语音！</item>
@@ -412,7 +414,9 @@
     <item id="549">频道中有活跃用户</item>
     <item id="550">登录服务不可用</item>
     <item id="551">用户未找到</item>
+    <item id="552">用户</item>
     <item id="553">历史消息</item>
+    <item id="554">IP</item>
     <item id="555">消息</item>
     <item id="556">无名</item>
     <item id="557">频道列表</item>
@@ -425,6 +429,12 @@
     <item id="564">TeamTalk 使用以下第三方库：</item>
     <item id="565">服务器配置已保存</item>
     <item id="566">%d 秒后定义离开状态</item>
+    <item id="567">这种声音设备的配置使回音消除效果欠佳。有关详细信息，请参见手册。</item>
+    <item id="568">使用声音输入： %s</item>
+    <item id="569">使用声音输出： %s</item>
+    <item id="570">频道</item>
+    <item id="571">用户登录</item>
+    <item id="572">用户登出</item>
     <item id="1006">文件列表</item>
     <item id="1009">连接后自动加入跟频道</item>
     <item id="1012">主机TCP端口</item>
@@ -766,6 +776,8 @@
     <item id="1599">BearWare.dk Web 登陆 ID</item>
     <item id="1600">禁用 (未激活)</item>
     <item id="1601">退出时加入频道(&amp;J)</item>
+    <item id="1602">隐藏频道（不可见，仅通过名称进入）</item>
+    <item id="1603">频道类型</item>
     <item id="32791">您的 &amp;IP 地址</item>
     <item id="32798">设维频道管理员(&amp;O)\tCtrl+O</item>
     <item id="32801">查看频道消息(&amp;W)\tF10</item>
@@ -875,4 +887,6 @@
     <item id="32952">频道已禁止用户(&amp;B)\tCtrl+Alt+Shift+B</item>
     <item id="32953">新建客户端实例(&amp;N)\tCtrl+N</item>
     <item id="32954">存储移动(&amp;S)\tCtrl+Alt+X</item>
+    <item id="32955">允许频道文本消息(&amp;C)\tCtrl+Alt+T</item>
+    <item id="32956">允许所有频道文本消息(&amp;T)\tCtrl+Alt+Shift+T</item>
 </language>

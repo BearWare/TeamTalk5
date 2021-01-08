@@ -128,7 +128,7 @@
     <string name="title_section_speexvbr">Speex 可变比特率</string>
     <string name="title_section_noaudio">无声</string>
     <string name="opus_application">应用</string>
-    
+
     <string name="button_tx">传输</string>
     <string name="button_remove">移除</string>
     <string name="button_edit">编辑</string>
@@ -153,14 +153,14 @@
     <string name="channel_prop_title_op_password">管理密码</string>
     <string name="channel_prop_title_maxusers">最大用户数</string>
     <string name="channel_prop_title_diskquota">磁盘配额 (千字节)</string>
-    
+
     <string name="channel_prop_title_permanent">永久频道</string>
     <string name="channel_prop_title_nointerrupt">无中断</string>
     <string name="channel_prop_title_classroom">教室</string>
     <string name="channel_prop_title_oprecvonly">仅频道管理员可接收</string>
     <string name="channel_prop_title_novoiceact">禁止语音激活</string>
     <string name="channel_prop_title_noaudiorecord">禁止录音</string>
-    
+
 
     <string name="user_prop_title_username">用户名</string>
     <string name="user_prop_title_clientname">客户端名称</string>
@@ -218,6 +218,7 @@
     <string name="pref_title_authentication">认证</string>
     <string name="pref_title_username">用户名</string>
     <string name="pref_title_password">密码</string>
+    <string name="pref_title_bearware">BearWare.dk Web 登录</string>
     <string name="pref_title_join_channel">加入频道</string>
     <string name="pref_title_channel">频道</string>
     <string name="pref_title_channel_password">频道密码</string>
@@ -345,10 +346,12 @@
     <string name="bwpswlab">密码：</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
+    <string name="pref_title_bearware_summary">仅当服务器已启用 BearWare.dk Web 登录时选中</string>
     <string name="pref_cat_about">关于</string>
     <string name="pref_title_contrib">开发者</string>
     <string name="pref_title_translator">翻译者</string>
     <string name="pref_title_libraries">第三方库</string>
+    <string name="channel_prop_title_hiddenchannel">隐藏</string>
 
 
 </resources>
