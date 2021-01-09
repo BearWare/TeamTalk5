@@ -42,6 +42,7 @@ CWindowPage::CWindowPage()
     , m_bAlwaysOnTop(FALSE)
   , m_bShowUserCount(FALSE)
     , m_bDBClickJoin(FALSE)
+    , m_bServnameDisp(FALSE)
     , m_bQuitClearChannels(FALSE)
     , m_bTimeStamp(FALSE)
     , m_szLanguage(_T(""))
@@ -73,6 +74,7 @@ void CWindowPage::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK_ALWAYSONTOP, m_bAlwaysOnTop);
     DDX_Check(pDX, IDC_CHECK_SHOWUSERCOUNT, m_bShowUserCount);
     DDX_Check(pDX, IDC_CHECK_DBCLICKJOIN, m_bDBClickJoin);
+    DDX_Check(pDX, IDC_CHECK_SERVNAMEDISP, m_bServnameDisp);
     DDX_Check(pDX, IDC_CHECK_QUITCLEAR, m_bQuitClearChannels);
     DDX_Check(pDX, IDC_CHECK_MSGTIMESTAMP, m_bTimeStamp);
     DDX_CBString(pDX, IDC_COMBO_LANGUAGE, m_szLanguage);

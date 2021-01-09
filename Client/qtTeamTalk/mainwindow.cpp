@@ -3521,6 +3521,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
     getDesktopAccessList(m_desktopaccess_entries, m_host.ipaddr, m_host.tcpport);
 
+    updateWindowTitle();
     slotUpdateUI();
 }
 

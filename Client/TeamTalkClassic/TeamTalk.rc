@@ -286,6 +286,8 @@ BEGIN
     CONTROL         "Always on top",IDC_CHECK_ALWAYSONTOP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,93,117,16
     CONTROL         "Double-click for joining channels",IDC_CHECK_DBCLICKJOIN,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,114,117,16
+    CONTROL         "Also display server name on window's title when in a channel",IDC_CHECK_SERVNAMEDISP,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,125,117,16
     CONTROL         "Enable VU-meter updates",IDC_CHECK_VUMETER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,135,112,10
     CONTROL         "Show number of users in channels",IDC_CHECK_SHOWUSERCOUNT,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,152,114,16

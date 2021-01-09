@@ -303,8 +303,15 @@ void CTeamTalkDlg::UpdateWindowTitle()
     CString szTitle = APPTITLE;
     if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID)
     {
-        TT_GetServerProperties(ttInst, &prop);
-        szTitle.Format(_T("%s/%s - %s"), LimitText(prop.szServerName), LimitText(chan.szName), APPTITLE);
+        if(m_xmlSettings.GetDisplayServerName())
+        {
+            TT_GetServerProperties(ttInst, &prop);
+            szTitle.Format(_T("%s/%s - %s"), LimitText(prop.szServerName), LimitText(chan.szName), APPTITLE);
+        }
+        else
+        {
+            szTitle.Format(_T("%s - %s"), LimitText(chan.szName), APPTITLE);
+        }
     }
     else if (TT_GetServerProperties(ttInst, &prop))
     {
@@ -3422,6 +3429,7 @@ void CTeamTalkDlg::OnFilePreferences()
     windowpage.m_bAlwaysOnTop = m_xmlSettings.GetAlwaysOnTop();    
     windowpage.m_bShowUserCount = m_xmlSettings.GetShowUserCount();
     windowpage.m_bDBClickJoin = m_xmlSettings.GetJoinDoubleClick();
+    windowpage.m_bServnameDisp = m_xmlSettings.GetDisplayServerName();
     windowpage.m_bQuitClearChannels = m_xmlSettings.GetQuitClearChannels();
     windowpage.m_bTimeStamp = m_xmlSettings.GetMessageTimeStamp();
     windowpage.m_szLanguage = STR_UTF8( m_xmlSettings.GetLanguageFile().c_str() );
@@ -3629,6 +3637,7 @@ void CTeamTalkDlg::OnFilePreferences()
         m_wndTree.ShowEmojis(windowpage.m_bEmoji);
 
         m_xmlSettings.SetJoinDoubleClick(windowpage.m_bDBClickJoin);
+        m_xmlSettings.SetDisplayServerName(windowpage.m_bServnameDisp);
         m_xmlSettings.SetQuitClearChannels(windowpage.m_bQuitClearChannels);
         m_xmlSettings.SetMessageTimeStamp(windowpage.m_bTimeStamp);
         m_tabChat.m_wndRichEdit.m_bShowTimeStamp = windowpage.m_bTimeStamp;

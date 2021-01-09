@@ -195,6 +195,8 @@ namespace teamtalk {
 
         bool SetJoinDoubleClick(bool bEnable);
         bool GetJoinDoubleClick();
+        bool SetDisplayServerName(bool bEnable);
+        bool GetDisplayServerName();
 
         bool SetQuitClearChannels(bool bEnable);
         bool GetQuitClearChannels();
