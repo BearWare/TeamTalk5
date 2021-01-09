@@ -2,6 +2,7 @@
 <language version="1.0">
     <item id="1">ok</item>
     <item id="2">annulla</item>
+    <item id="102">Configurazione guidata di TeamTalk</item>
     <item id="104">disconnetti\tF2</item>
     <item id="105">%s è entrato nel canale</item>
     <item id="106">%s ha lasciato il canale</item>
@@ -114,6 +115,7 @@
     <item id="224">sistema audio</item>
     <item id="226">%s ha cambiato la sottoscrizione intercetta video a: %d</item>
     <item id="227">informazione utente</item>
+    <item id="233">%Y-%m-%d %H:%M:%S</item>
     <item id="234">%s ha cambiato la sottoscrizione intercetta scrivania a: %d</item>
     <item id="243">Manager degli host</item>
     <item id="244">%s ha cambiato la sottoscrizione intercetta media file flusso a: %d</item>
@@ -209,6 +211,7 @@
     <item id="344">%s può trasmettere flussi media</item>
     <item id="345">azioni menù</item>
     <item id="346">fallito scrivere file audio per %s</item>
+    <item id="347">Impossibile avviare il trasferimento del file.&#x0D;&#x0A;Nome file:% s</item>
     <item id="348">errore flusso media file nel canale</item>
     <item id="349">iniziato flusso media file nel canale</item>
     <item id="350">finito media file flusso nel canale</item>
@@ -242,6 +245,8 @@
     <item id="378">team talk 64 bit dll versione</item>
     <item id="379">team talk 32 bit dll versione</item>
     <item id="380">file rimosso %s creato da %s</item>
+    <item id="381">RX ricezione: %.2fKB TX trasmissione: %.2fKB PING: %u %s</item>
+    <item id="382">RX ricezione: %.2fKB TX trasmissione: %.2fKB %s</item>
     <item id="383">l&apos;utente selezionato si è spostato nel canale %s</item>
     <item id="384">fallito connettere a %s</item>
     <item id="385">nuovo aggiornamento disponibile: %s</item>
@@ -249,7 +254,10 @@
     <item id="387">fallito connettere all&apos;host %s. controlla se l&apos;host è valido.</item>
     <item id="388">il file %s è incompatibile con %s</item>
     <item id="389">carica file</item>
+    <item id="390">il file&#x0D;&#x0A;non contiene una voce host% s valida.&#x0D;&#x0A;Messaggio di errore</item>
+    <item id="391">Impossibile analizzare l&apos;indirizzo del collegamento:</item>
     <item id="392">prego disconnettere prima di aprire il wizard</item>
+    <item id="393">Impossibile aggiungere l&apos;applicazione alle eccezioni di Windows Firewall.</item>
     <item id="394">impossibile iniziare la registrazione</item>
     <item id="395">errore</item>
     <item id="396">registrando nel file</item>
@@ -269,6 +277,7 @@
     <item id="410">ripristina preferenze</item>
     <item id="411">nuova istanza client</item>
     <item id="412">fallito eseguire</item>
+    <item id="414">ID</item>
     <item id="415">nome nic</item>
     <item id="416">messaggio di stato</item>
     <item id="417">nome utente</item>
@@ -277,13 +286,18 @@
     <item id="420">versione</item>
     <item id="421">formato sconosciuto</item>
     <item id="422">non specificato</item>
+    <item id="423">stereo</item>
+    <item id="424">mono</item>
+    <item id="425">File multimediali (*. *) | *. * |</item>
     <item id="426">fallito aggiornare preprocessore</item>
+    <item id="427">Impossibile riprendere</item>
     <item id="428">fallito iniziare la riproduzione</item>
     <item id="429">carica file</item>
     <item id="430">aggiungere alle eccezioni windows firewall?</item>
     <item id="431">%s selezionato per spostare</item>
     <item id="432">blocca indirizzo ip</item>
     <item id="433">blocca nome utente</item>
+    <item id="434">nessun codec audio</item>
     <item id="435">speex velocità in bit variabile</item>
     <item id="436">metti un nome al canale</item>
     <item id="437">il nome del canale non può contenere la /</item>
@@ -297,22 +311,34 @@
     <item id="445">canale:</item>
     <item id="446">messaggio argomento del canale</item>
     <item id="447">quota disco</item>
+    <item id="448">kilobytes</item>
     <item id="449">non puoi usare le stesse porte</item>
     <item id="450">basso colore 8 bit</item>
     <item id="451">medio colore 16 bit</item>
     <item id="452">grande superiore colore 24 bit</item>
     <item id="453">massimo 32 bit colore</item>
+    <item id="454">%u KB kilobyte</item>
     <item id="455">nome</item>
     <item id="456">altezza</item>
     <item id="457">utente</item>
+    <item id="458">%I64d KBytes kilobytes</item>
+    <item id="459">%I64d bytes</item>
+    <item id="460">% I64d KB / sec,% I64d KB ultimo sec.</item>
+    <item id="461">%I64d bytes/sec, %I64d bytes last sec.</item>
+    <item id="462">%I64d bytes/sec</item>
     <item id="463">completato</item>
     <item id="464">fallito</item>
     <item id="465">dei</item>
+    <item id="466">.tt Files (*.tt)|*.tt||</item>
     <item id="467">fallito salvare il file .tt</item>
     <item id="468">salva file .tt</item>
+    <item id="469">Si prega di compilare tutti i campi obbligatori.&#x0D;&#x0A;- Nome della voce nome del server&#x0D;&#x0A;- Indirizzo dell&apos;host&#x0D;&#x0A;- Porta TCP&#x0D;&#x0A;- Porta UDP</item>
     <item id="470">non puoi cancellare server pubblici</item>
     <item id="471">cancella host</item>
     <item id="472">pubblico</item>
+    <item id="473">Host files files dell&apos;host (*%s)|*%s|All files tutti i files (*.*)|*.*|</item>
+    <item id="475">Il file&#x0D;&#x0A;non contiene una voce host% s valida.&#x0D;&#x0A;Messaggio di errore</item>
+    <item id="476">Errore durante l&apos;impostazione del gancio della tastiera. Prova a riavviare il programma.</item>
     <item id="477">formato wave</item>
     <item id="478">formato ogg</item>
     <item id="479">formato mp3 16 kbit</item>
@@ -321,7 +347,9 @@
     <item id="482">formato mp3 128</item>
     <item id="483">formato mp3 256</item>
     <item id="484">fallito inviare il messaggio</item>
+    <item id="485">Distanza:% .2fm&#x0D;&#x0A;Coordinate: (% .2f,%. 2f)</item>
     <item id="486">pulisci</item>
+    <item id="487">File Wave (* .wav) | * .wav | Tutti i file (*. *) | *. * |</item>
     <item id="488">nessuna periferica selezionata</item>
     <item id="489">nessuna periferica di uscita selezionata</item>
     <item id="490">fallito inizializzare l&apos;audio. Controlla se le periferiche di ingresso ed uscita sono selezionate.</item>
@@ -330,6 +358,7 @@
     <item id="493">scrivania locale</item>
     <item id="494">scrivania</item>
     <item id="495">video locale</item>
+    <item id="496">video</item>
     <item id="497">volume per</item>
     <item id="498">fallito iniziare il test nella periferica selezionata</item>
     <item id="499">esci da facebook?</item>
@@ -347,6 +376,7 @@
     <item id="512">non ufficiale</item>
     <item id="513">team talk 5 classic professionale v.</item>
     <item id="514">team talk 5 classico professionale</item>
+    <item id="515">TeamTalk 5 Classico v.</item>
     <item id="516">team talk 5 classico</item>
     <item id="517">errore sintassi</item>
     <item id="518">comando sconosciuto</item>
@@ -415,6 +445,7 @@
     <item id="1035">ID utente</item>
     <item id="1036">Nickname</item>
     <item id="1037">0=disattivato</item>
+    <item id="1038">domanda</item>
     <item id="1039">media file flusso</item>
     <item id="1041">Porta numero</item>
     <item id="1042">questo wizard vi guiderà attraverso i passi richiesti a configurare l&apos;applicazione team talk per la conferenza se premi avanti continuerai con il wizard altrimenti se premerai cancella dovrai configurarlo manualmente</item>
@@ -443,6 +474,7 @@
     <item id="1078">applicazione</item>
     <item id="1079">Privilegi dell&apos;utente</item>
     <item id="1081">massimo livello di attenzioni dell&apos;accesso prima del blocco</item>
+    <item id="1082">Portata:</item>
     <item id="1083">nome utente</item>
     <item id="1084">autenticazione</item>
     <item id="1085">Hosts</item>
@@ -610,6 +642,8 @@
     <item id="1396">velocità in bit massima per i codecs audio</item>
     <item id="1397">kbps 0=disattivato</item>
     <item id="1398">kbps (0=disattivato)</item>
+    <item id="1399">KByte / sec (0 = disabilitato)</item>
+    <item id="1400">KBytes/sec (0 = disabilitato)</item>
     <item id="1401">trasmissione voce massima</item>
     <item id="1402">trasmissione video massima</item>
     <item id="1403">trasmissione totale massima</item>
@@ -631,6 +665,7 @@
     <item id="1422">formato immagine</item>
     <item id="1423">impostazioni codec video</item>
     <item id="1424">velocità in bit</item>
+    <item id="1425">kbps (0 = VBR bitrate variabile velocità in bit variabile)</item>
     <item id="1426">finestra da condividere</item>
     <item id="1427">modo colore</item>
     <item id="1428">millisecondo</item>
@@ -638,7 +673,10 @@
     <item id="1430">voce ricezione/trasmissione</item>
     <item id="1431">video trasmissione/ricezione</item>
     <item id="1432">kilobytes</item>
+    <item id="1433">kilobytes</item>
+    <item id="1434">kilobytes</item>
     <item id="1435">media file ricezione/trasmissione</item>
+    <item id="1436">kilobytes</item>
     <item id="1437">rimuovi</item>
     <item id="1438">trasmissione massima scrivania</item>
     <item id="1440">l&apos;utente può trasmettere sessioni scrivania (condividere scrivania)</item>
@@ -656,12 +694,16 @@
     <item id="1464">frequenza campionamento ingresso</item>
     <item id="1465">server protetto</item>
     <item id="1468">salva informazione server</item>
+    <item id="1469">kilobytes</item>
     <item id="1470">canali</item>
     <item id="1473">messaggio del giorno</item>
+    <item id="1474">KBytes/sec (0 = disabilitato)</item>
     <item id="1475">formato audio</item>
+    <item id="1476">formato video</item>
     <item id="1477">proprietà media file</item>
     <item id="1478">media file</item>
     <item id="1479">richiesta accesso desktop. Ok</item>
+    <item id="1480">KBytes/sec (0 = disahbilitato)</item>
     <item id="1481">utente default</item>
     <item id="1482">l&apos;utente può prendere l&apos;accesso remoto nella sessione scrivania</item>
     <item id="1483">l&apos;utente può cacciare gli utenti del server</item>
@@ -680,9 +722,12 @@
     <item id="1496">impostazioni media file volume</item>
     <item id="1497">silenzia sinistra</item>
     <item id="1498">silenzia destra</item>
+    <item id="1503">scrivania ricezione/trasmissione</item>
+    <item id="1504">files ricezione/trasmissione</item>
     <item id="1506">trasmissione media file massima</item>
     <item id="1507">abuso server</item>
     <item id="1510">picco utenti</item>
+    <item id="1511">kilobytes</item>
     <item id="1512">utenti serviti</item>
     <item id="1513">flusso media file</item>
     <item id="1514">guadagno automatico volume microfono abilitato</item>
@@ -735,6 +780,7 @@
     <item id="1595">preprocessore audio</item>
     <item id="1596">prova riproduzione</item>
     <item id="1598">ripristina livelli volume e sottoscrizioni all&apos;accesso per gli utenti accesso web</item>
+    <item id="1599">ID di accesso Web di BearWare.dk</item>
     <item id="32791">qual&apos;è il mio &amp;indirizzo IP?</item>
     <item id="32792">&amp;playback rate fissato\tCtrl+Shift+P</item>
     <item id="32794">Set Catch-up &amp;Delay\tCtrl+Shift+D</item>
@@ -752,6 +798,7 @@
     <item id="32822">E&amp;esci\tAlt-F4</item>
     <item id="32823">Usa &amp;premi e parla\tCtrl+Shift+T</item>
     <item id="32824">Usa &amp;attivazione vocale\tCtrl+Shift+A</item>
+    <item id="32825">BearWare.dk e sito web</item>
     <item id="32826">Cambia &amp;stato\tF6</item>
     <item id="32828">&amp;Caccia\tCtrl+K</item>
     <item id="32829">Ripristina</item>
