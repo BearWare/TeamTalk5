@@ -3810,6 +3810,7 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SaveFile();
     }
     m_bPreferencesOpen = FALSE;
+    UpdateWindowTitle();
 }
 
 void CTeamTalkDlg::OnFileExit()
