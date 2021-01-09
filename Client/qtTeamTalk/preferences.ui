@@ -437,6 +437,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="ServnameChkBox">
+              <property name="text">
+               <string>Also display server name on window's title when in a channel</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="msgpopupChkBox">
               <property name="text">
                <string>Popup dialog when receiving text message</string>
@@ -2110,6 +2117,7 @@
   <tabstop>showusernameChkBox</tabstop>
   <tabstop>lasttalkChkBox</tabstop>
   <tabstop>emojiChkBox</tabstop>
+  <tabstop>ServnameChkBox</tabstop>
   <tabstop>msgpopupChkBox</tabstop>
   <tabstop>videodlgChkBox</tabstop>
   <tabstop>returnvidChkBox</tabstop>
