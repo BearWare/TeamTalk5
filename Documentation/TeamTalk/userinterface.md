@@ -818,6 +818,10 @@ Each of the fields in the create channel dialog are described here:
       Channel Dialog* and type the name of the channel, its password
       and press OK. Ensure to be in the parent channel of the hidden
       channel while doing this.
+    - A hidden channel must be a sub channel with no other sub channels,
+      i.e. a leaf node.
+    - Note that it is not possible to update an existing channel to a
+      hidden channel, and vice versa.
 
 - **Audio Codec**
     - **Codec Type**
