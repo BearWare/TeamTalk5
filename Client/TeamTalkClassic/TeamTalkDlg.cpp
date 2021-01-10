@@ -2974,7 +2974,6 @@ void CTeamTalkDlg::Exit()
 		}
 	}
 
-    m_pPlaySndThread->AddSoundEvent(NULL);
     m_pPlaySndThread->KillThread();
 
 	CDialog::OnCancel();
@@ -6418,8 +6417,10 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
         break;
     }
 
-    if(szFilename.GetLength())
-        m_pPlaySndThread->AddSoundEvent(szFilename);
+    if (szFilename.GetLength())
+    {
+        m_pPlaySndThread->AddSoundEvent(szFilename, PLAYBACKMODE_TEAMTALK);
+    }
 }
 
 BOOL CTeamTalkDlg::InitSound()

@@ -28,6 +28,8 @@
 #include "PlaySoundThread.h"
 #include <Mmsystem.h>
 
+extern TTInstance* ttInst;
+
 // CPlaySoundThread
 
 IMPLEMENT_DYNCREATE(CPlaySoundThread, CWinThread)
@@ -44,7 +46,7 @@ CPlaySoundThread::~CPlaySoundThread()
 void CPlaySoundThread::KillThread()
 {
     m_mutex.Lock();
-    m_SoundQueue.RemoveAll();
+    while (m_SoundQueue.size())m_SoundQueue.pop();
     m_mutex.Unlock();
 
     ::SetEvent(m_handles[KILL_EVENT]);
@@ -67,19 +69,19 @@ int CPlaySoundThread::ExitInstance()
 	return CWinThread::ExitInstance();
 }
 
-void CPlaySoundThread::AddSoundEvent(LPCTSTR szFilename)
+void CPlaySoundThread::AddSoundEvent(LPCTSTR szFilename, PlaybackMode mode)
 {
     m_mutex.Lock();
     
-    m_SoundQueue.AddTail(szFilename);
+    PlaybackFile pf = {};
+    pf.mode = mode;
+    pf.szFilename = szFilename;
 
-    if(m_SoundQueue.GetCount()>5)
+    m_SoundQueue.push(pf);
+
+    if (m_SoundQueue.size()>5)
     {
-        //Cancel currently played file
-        //PlayWaveFile(NULL, TRUE);
-        //::PlaySound(NULL, NULL, 0); // doesn't work...
-
-        m_SoundQueue.RemoveHead();
+        m_SoundQueue.pop();
     }
     
     m_mutex.Unlock();
@@ -100,15 +102,36 @@ int CPlaySoundThread::Run()
         {
         case DATA_SEMAPHORE:
         {
-            CString szFilename;
-
+            PlaybackFile pf = {};
             m_mutex.Lock();
-            if(m_SoundQueue.GetSize())
-                szFilename = m_SoundQueue.RemoveHead();
+            if (m_SoundQueue.size())
+            {
+                pf = m_SoundQueue.front();
+                m_SoundQueue.pop();
+            }
             m_mutex.Unlock();
             
-            if(szFilename.GetLength())
-                PlayWaveFile(szFilename, FALSE);
+            switch (pf.mode)
+            {
+            case PLAYBACKMODE_NONE :
+                break;
+            case PLAYBACKMODE_SYNC :
+                PlayWaveFile(pf.szFilename, FALSE);
+                break;
+            case PLAYBACKMODE_ASYNC :
+                PlayWaveFile(pf.szFilename, TRUE);
+                break;
+            case PLAYBACKMODE_TEAMTALK :
+            {
+                MediaFilePlayback mfp = {};
+                mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+                mfp.bPaused = FALSE;
+                mfp.audioPreprocessor.nPreprocessor = TEAMTALK_AUDIOPREPROCESSOR;
+                mfp.audioPreprocessor.ttpreprocessor.nGainLevel = RefGain(DEFAULT_SOUND_GAIN_LEVEL);
+                auto inst = TT_InitLocalPlayback(ttInst, pf.szFilename, &mfp);
+                break;
+            }
+            }
             break;
         }
         case KILL_EVENT:
