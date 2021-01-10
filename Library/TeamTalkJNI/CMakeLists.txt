@@ -215,6 +215,7 @@ endif()
 # JUnit tests
 
 find_jar (junit NAMES junit4 junit
+          PATHS ENV JUNIT_HOME
           DOC "Find JUnit")
 
 if (NOT junit)
