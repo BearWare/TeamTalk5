@@ -13,7 +13,6 @@ Accessible Windows Client
 - Option to disable emojis and text for channel/user states
 - New audio files for default sound events
 - New sound events when user logs in/out
-- Sound events are no longer played in full if several follow one another
 - Faster login on servers with many users or channels
 - Don't play sound for own channel messages
 - Users logged in/out displayed in chat history
