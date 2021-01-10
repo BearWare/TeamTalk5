@@ -2609,7 +2609,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
         {
             TTASSERT(u != user);
             if (u->GetUsername() == username)
-                UserKick(user->GetUserID(), u->GetUserID(), 0, true);
+                UserKick(0, u->GetUserID(), 0, true);
         }
     }
 

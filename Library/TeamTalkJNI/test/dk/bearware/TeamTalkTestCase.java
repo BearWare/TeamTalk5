@@ -3930,6 +3930,43 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
     }
 
+    @Test
+    public void testMultiLoginDeny() {
+        String USERNAME = "tt_test", PASSWORD = "tt_test";
+        int USERRIGHTS = UserRight.USERRIGHT_NONE;
+        makeUserAccount(getTestMethodName(), USERNAME, PASSWORD, USERRIGHTS);
+
+        // test when client1 is in channel
+        TeamTalkBase client1 = newClientInstance();
+        connect(client1);
+        login(client1, "User1 " + getTestMethodName(), USERNAME, PASSWORD);
+        joinRoot(client1);
+
+        TeamTalkBase client2 = newClientInstance();
+        connect(client2);
+        login(client2, "User2 " + getTestMethodName(), USERNAME, PASSWORD);
+        
+        assertTrue("client1 logged out", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDOUT, DEF_WAIT));
+        
+        joinRoot(client2);
+
+        assertTrue("disconnect1", client1.disconnect());
+        assertTrue("disconnect2", client2.disconnect());
+
+        // test when client1 is not in channel
+        connect(client1);
+        login(client1, "User1 " + getTestMethodName(), USERNAME, PASSWORD);
+
+        connect(client2);
+        login(client2, "User2 " + getTestMethodName(), USERNAME, PASSWORD);
+        
+        assertTrue("client1 logged out", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDOUT, DEF_WAIT));
+        
+        joinRoot(client2);        
+    }
+
+    
+    
     /* cannot test output levels since a user is muted by sound system after decoding and callback.
 
     @Test
