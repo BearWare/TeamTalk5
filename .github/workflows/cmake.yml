@@ -24,6 +24,9 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: source env.sh
 
+    - name: Refresh Ubuntu-repo
+      run: sudo apt update
+
     - name: Install Dependencies
       run: sudo apt install libace-dev libace-ssl-dev libace-inet-dev libace-inet-ssl-dev libtinyxml-dev zlib1g-dev libssl-dev libopus-dev libspeex-dev libspeexdsp-dev libvpx-dev libogg-dev portaudio19-dev libasound2-dev libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev libavresample-dev libavutil-dev libswresample-dev libswscale-dev cmake python3-minimal junit4 catch ninja-build doxygen
 
