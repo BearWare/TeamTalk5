@@ -705,7 +705,11 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
                     if (!removefb)
                         break;
                 }
+#if defined(UNICODE)
                 std::string fbname = UnicodeToUtf8(ua.username.c_str()).c_str();
+#else
+                std::string fbname = ua.username.c_str();
+#endif
                 cout << "Removed: " << Utf8ToLocal(fbname.c_str()) << endl;
                 xmlSettings.RemoveUser(fbname.c_str());
             }
