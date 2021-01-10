@@ -27,6 +27,7 @@
 #include "StdAfx.h"
 #include "Resource.h"
 #include "MessageDlg.h"
+#include "../TeamTalkDlg.h"
 #include "Helper.h"
 
 #include <string>
@@ -42,7 +43,7 @@ extern TTInstance* ttInst;
 /////////////////////////////////////////////////////////////////////////////
 // CSendMessageDlg dialog
 
-CMessageDlg::CMessageDlg(teamtalk::ClientXML& xmlSettings, CWnd* pParent, const User& myself, const User& user,
+CMessageDlg::CMessageDlg(teamtalk::ClientXML& xmlSettings, CTeamTalkDlg* pParent, const User& myself, const User& user,
                          LPCTSTR szLogFolder/* = NULL*/)
 : CDialog(CMessageDlg::IDD, pParent)
 , m_xmlSettings(xmlSettings)
