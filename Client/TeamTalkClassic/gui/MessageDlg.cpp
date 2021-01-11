@@ -216,22 +216,6 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     if(bStore)
         m_messages.push_back(msg);
 
-    //insert enter
-    m_richHistory.SetSel(0,0);
-    m_richHistory.ReplaceSel(_T("\n"));
-
-    //insert msg
-    m_richHistory.SetSel(0,0);
-    m_richHistory.ReplaceSel(msg.szMessage);
-
-    CHARFORMAT cf = {};
-    cf.cbSize        = sizeof (CHARFORMAT);  
-    cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
-    cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
-    cf.crTextColor    = RGB(0, 0, 0); 
-    m_richHistory.SetSel(0, long(_tcslen(msg.szMessage)) + 1);
-    m_richHistory.SetSelectionCharFormat(cf); 
-
     CString szTime;
     szTime = msg.receiveTime.Format(LoadText(IDS_TIMELOCALE, _T("%Y-%m-%d %H:%M:%S")));
 
@@ -247,10 +231,9 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
         name = szTime + _T(" ") + name;
 
     //insert name
-    m_richHistory.SetSel(0,0);
+    m_richHistory.SetSel(m_richHistory.GetTextLength(),m_richHistory.GetTextLength());
     m_richHistory.ReplaceSel(name);
-
-    cf = {};
+    CHARFORMAT cf = {};
     cf.cbSize        = sizeof (CHARFORMAT);  
     cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
     cf.dwEffects    = CFE_UNDERLINE | CFE_BOLD;
@@ -266,6 +249,22 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     m_richHistory.SetSel(0,name.GetLength());
     m_richHistory.SetSelectionCharFormat(cf);
     m_richHistory.HideSelection(TRUE, FALSE);
+
+    //insert msg
+    m_richHistory.SetSel(m_richHistory.GetTextLength(),m_richHistory.GetTextLength());
+    m_richHistory.ReplaceSel(msg.szMessage);
+
+    cf = {};
+    cf.cbSize        = sizeof (CHARFORMAT);  
+    cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
+    cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
+    cf.crTextColor    = RGB(0, 0, 0); 
+    m_richHistory.SetSel(0, long(_tcslen(msg.szMessage)) + 1);
+    m_richHistory.SetSelectionCharFormat(cf);
+
+    //insert enter
+    m_richHistory.SetSel(m_richHistory.GetTextLength(),m_richHistory.GetTextLength());
+    m_richHistory.ReplaceSel(_T("\n"));
 
     if(bStore)
         WriteLogMsg(m_logFile, name + msg.szMessage + _T("\r\n"));
