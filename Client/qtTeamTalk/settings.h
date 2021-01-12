@@ -134,7 +134,9 @@
 #define SETTINGS_SOUNDEVENT_REMOVEUSER              "soundevents/removeuser"
 #define SETTINGS_SOUNDEVENT_SERVERLOST              "soundevents/server-lost"
 #define SETTINGS_SOUNDEVENT_USERMSG                 "soundevents/user-msg"
+#define SETTINGS_SOUNDEVENT_SENTSOUND             "soundevents/sound-send"
 #define SETTINGS_SOUNDEVENT_CHANNELMSG              "soundevents/channel-msg"
+#define SETTINGS_SOUNDEVENT_SENTCHANNELSOUND             "soundevents/sound-channel-send"
 #define SETTINGS_SOUNDEVENT_BROADCASTMSG            "soundevents/broadcast-msg"
 #define SETTINGS_SOUNDEVENT_HOTKEY                  "soundevents/hotkey-pressed"
 #define SETTINGS_SOUNDEVENT_SILENCE                 "soundevents/channel-silent"
@@ -148,7 +150,6 @@
 #define SETTINGS_SOUNDEVENT_USERLOGGEDOUT           "soundevents/user-logged-out"
 #define SETTINGS_SOUNDEVENT_VOICEACTON           "soundevents/voice-act-on"
 #define SETTINGS_SOUNDEVENT_VOICEACTOFF           "soundevents/voice-act-off"
-#define SETTINGS_SOUNDEVENT_SENTSOUND             "soundevents/sound-send"
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"

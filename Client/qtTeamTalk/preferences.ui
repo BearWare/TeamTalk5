@@ -1260,6 +1260,26 @@
              </widget>
             </item>
             <item row="4" column="0">
+             <widget class="QLabel" name="label_58">
+              <property name="text">
+               <string>Private message sent</string>
+              </property>
+              <property name="buddy">
+               <cstring>sentmsgEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="sentmsgEdit"/>
+            </item>
+            <item row="4" column="2">
+             <widget class="QToolButton" name="sentmsgButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
              <widget class="QLabel" name="label_20">
               <property name="text">
                <string>New channel message</string>
@@ -1269,17 +1289,37 @@
               </property>
              </widget>
             </item>
-            <item row="4" column="1">
+            <item row="5" column="1">
              <widget class="QLineEdit" name="chanmsgEdit"/>
             </item>
-            <item row="4" column="2">
+            <item row="5" column="2">
              <widget class="QToolButton" name="chanmsgButton">
               <property name="text">
                <string notr="true">...</string>
               </property>
              </widget>
             </item>
-            <item row="5" column="0">
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_59">
+              <property name="text">
+               <string>Channel message sent</string>
+              </property>
+              <property name="buddy">
+               <cstring>sentchannelmsgEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="sentchannelmsgEdit"/>
+            </item>
+            <item row="6" column="2">
+             <widget class="QToolButton" name="sentchannelmsgButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
              <widget class="QLabel" name="label_36">
               <property name="text">
                <string>New broadcast message</string>
@@ -1289,37 +1329,17 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="1">
+            <item row="7" column="1">
              <widget class="QLineEdit" name="bcastmsgEdit"/>
             </item>
-            <item row="5" column="2">
+            <item row="7" column="2">
              <widget class="QToolButton" name="bcastmsgButton">
               <property name="text">
                <string notr="true">...</string>
               </property>
              </widget>
             </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_58">
-              <property name="text">
-               <string>Sent message</string>
-              </property>
-              <property name="buddy">
-               <cstring>sentmsgEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLineEdit" name="sentmsgEdit"/>
-            </item>
-            <item row="6" column="2">
-             <widget class="QToolButton" name="sentmsgButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="0">
+            <item row="8" column="0">
              <widget class="QLabel" name="label_21">
               <property name="text">
                <string>Hotkey pressed</string>
@@ -1329,17 +1349,17 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="1">
+            <item row="8" column="1">
              <widget class="QLineEdit" name="hotkeyEdit"/>
             </item>
-            <item row="7" column="2">
+            <item row="8" column="2">
              <widget class="QToolButton" name="hotkeyButton">
               <property name="text">
                <string notr="true">...</string>
               </property>
              </widget>
             </item>
-            <item row="8" column="0">
+            <item row="9" column="0">
              <widget class="QLabel" name="label_22">
               <property name="text">
                <string>Channel silent</string>
@@ -1349,17 +1369,17 @@
               </property>
              </widget>
             </item>
-            <item row="8" column="1">
+            <item row="9" column="1">
              <widget class="QLineEdit" name="chansilentEdit"/>
             </item>
-            <item row="8" column="2">
+            <item row="9" column="2">
              <widget class="QToolButton" name="chansilentButton">
               <property name="text">
                <string notr="true">...</string>
               </property>
              </widget>
             </item>
-            <item row="9" column="0">
+            <item row="10" column="0">
              <widget class="QLabel" name="label_23">
               <property name="text">
                <string>Files updated</string>
@@ -1369,10 +1389,10 @@
               </property>
              </widget>
             </item>
-            <item row="9" column="1">
+            <item row="10" column="1">
              <widget class="QLineEdit" name="fileupdEdit"/>
             </item>
-            <item row="9" column="2">
+            <item row="10" column="2">
              <widget class="QToolButton" name="fileupdButton">
               <property name="text">
                <string notr="true">...</string>
@@ -2188,12 +2208,14 @@
   <tabstop>srvlostButton</tabstop>
   <tabstop>usermsgEdit</tabstop>
   <tabstop>usermsgButton</tabstop>
-  <tabstop>chanmsgEdit</tabstop>
-  <tabstop>chanmsgButton</tabstop>
-  <tabstop>bcastmsgEdit</tabstop>
-  <tabstop>bcastmsgButton</tabstop>
   <tabstop>sentmsgEdit</tabstop>
   <tabstop>sentmsgButton</tabstop>
+  <tabstop>chanmsgEdit</tabstop>
+  <tabstop>chanmsgButton</tabstop>
+  <tabstop>sentchannelmsgEdit</tabstop>
+  <tabstop>sentchannelmsgButton</tabstop>
+  <tabstop>bcastmsgEdit</tabstop>
+  <tabstop>bcastmsgButton</tabstop>
   <tabstop>hotkeyEdit</tabstop>
   <tabstop>hotkeyButton</tabstop>
   <tabstop>chansilentEdit</tabstop>
