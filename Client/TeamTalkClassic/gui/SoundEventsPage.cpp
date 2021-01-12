@@ -41,6 +41,7 @@ IMPLEMENT_DYNAMIC(CSoundEventsPage, CPropertyPage)
 CSoundEventsPage::CSoundEventsPage()
     : CPropertyPage(CSoundEventsPage::IDD)
   , m_uSoundEvents(SOUNDEVENT_NONE)
+  , m_bSoundSend(0)
 {
 }
 
@@ -52,6 +53,7 @@ void CSoundEventsPage::DoDataExchange(CDataExchange* pDX)
 {
     CPropertyPage::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_TREE_SOUNDEVENTS, m_wndTree);
+    DDX_Check(pDX, IDC_CHECK_SOUNDSEND, m_bSoundSend);
 }
 
 BOOL CSoundEventsPage::OnInitDialog()

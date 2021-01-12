@@ -65,6 +65,7 @@
 #define DEFAULT_SOUNDEVENT_ME_DISABLEVOICEACT       "Sounds\\vox_me_disable.wav"
 #define DEFAULT_SOUNDEVENT_TRANSMITQUEUE_READY      "Sounds\\txqueue_start.wav"
 #define DEFAULT_SOUNDEVENT_TRANSMITQUEUE_STOP       "Sounds\\txqueue_stop.wav"
+#define DEFAULT_SOUNDSEND                              0
 
 namespace teamtalk {
 
@@ -380,6 +381,9 @@ namespace teamtalk {
 
         bool SetEventTransmitQueueStop(std::string szPath);
         std::string GetEventTransmitQueueStop(std::string szDefPath = DEFAULT_SOUNDEVENT_TRANSMITQUEUE_STOP);
+
+        bool SetEventSoundSend(int nIndex);
+        int GetEventSoundSend();
 
         bool SetEventVibrateOnMsg(int nIndex);
         int GetEventVibrateOnMsg();

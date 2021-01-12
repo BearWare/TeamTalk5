@@ -2202,6 +2202,28 @@ namespace teamtalk {
         return szDefPath;
     }
 
+    bool ClientXML::SetEventSoundSend(int nIndex)
+    {
+        TiXmlElement* pParent = GetEventsElement();
+        if(pParent)
+        {
+            PutInteger(*pParent, "sound-send", nIndex);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    int ClientXML::GetEventSoundSend()
+    {
+        int ret = UNDEFINED;
+        TiXmlElement* child = GetEventsElement();
+        if(child)
+            GetInteger(*child, "sound-send", ret);
+
+        return ret;
+    }
+
     bool ClientXML::SetEventVibrateOnMsg(int nIndex)
     {
         TiXmlElement* pParent = GetEventsElement();

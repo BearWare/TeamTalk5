@@ -35,6 +35,7 @@ class CSoundEventsPage : public CPropertyPage
 public:
     CSoundEventsPage();
     virtual ~CSoundEventsPage();
+    BOOL m_bSoundSend;
 
     // Dialog Data
     enum { IDD = IDD_PROPPAGE_SOUNDEVENTSPAGE };
