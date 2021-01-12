@@ -102,6 +102,7 @@ private slots:
     void slotEventUserTextMsg();
     void slotEventChannelTextMsg();
     void slotEventBroadcastTextMsg();
+    void slotEventSentTextMsg();
     void slotEventHotKey();
     void slotEventSilence();
     void slotEventNewVideo();

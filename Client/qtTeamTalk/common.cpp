@@ -940,6 +940,9 @@ void playSoundEvent(SoundEvent event)
     case SOUNDEVENT_BROADCASTMSG :
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG).toString();
         break;
+    case SOUNDEVENT_SENTMSG :
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_SENTSOUND).toString();
+        break;
     case SOUNDEVENT_HOTKEY:
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY).toString();
         break;

@@ -134,6 +134,8 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             SLOT(slotEventChannelTextMsg()));
     connect(ui.bcastmsgButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventBroadcastTextMsg);
+    connect(ui.sentmsgButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventSentTextMsg);
     connect(ui.hotkeyButton, SIGNAL(clicked()),
             SLOT(slotEventHotKey()));
     connect(ui.chansilentButton, SIGNAL(clicked()),
@@ -521,8 +523,7 @@ void PreferencesDlg::slotTabChange(int index)
         ui.userloggedoutEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT).toString());
         ui.voiceactonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON).toString());
         ui.voiceactoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF).toString());
-        ui.soundsendChkBox->setChecked(ttSettings->value(SETTINGS_SOUNDEVENT_SOUNDSEND,
-                                                     SETTINGS_SOUNDEVENT_SOUNDSEND_DEFAULT).toBool());
+        ui.sentmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SENTSOUND).toString());
         break;
     case SHORTCUTS_TAB :  //shortcuts
     {
@@ -855,7 +856,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_USERLOGGEDOUT, ui.userloggedoutEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTON, ui.voiceactonEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTOFF, ui.voiceactoffEdit->text());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_SOUNDSEND, ui.soundsendChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_SENTSOUND, ui.sentmsgEdit->text());
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {
@@ -1210,6 +1211,13 @@ void PreferencesDlg::slotEventBroadcastTextMsg()
     QString filename;
     if(getSoundFile(filename))
         ui.bcastmsgEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventSentTextMsg()
+{
+    QString filename;
+    if (getSoundFile(filename))
+        ui.sentmsgEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventHotKey()

@@ -148,8 +148,7 @@
 #define SETTINGS_SOUNDEVENT_USERLOGGEDOUT           "soundevents/user-logged-out"
 #define SETTINGS_SOUNDEVENT_VOICEACTON           "soundevents/voice-act-on"
 #define SETTINGS_SOUNDEVENT_VOICEACTOFF           "soundevents/voice-act-off"
-#define SETTINGS_SOUNDEVENT_SOUNDSEND                     "soundevents/sound-send"
-#define SETTINGS_SOUNDEVENT_SOUNDSEND_DEFAULT             false
+#define SETTINGS_SOUNDEVENT_SENTSOUND             "soundevents/sound-send"
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"
