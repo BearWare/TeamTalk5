@@ -512,11 +512,12 @@
 #define IDC_STATIC_DISABLED1            1037
 #define IDS_USERISQUESTION              1038
 #define IDS_USERISSTREAMINGMDFILE       1039
-#define IDC_CHECK_SOUNDSEND             1041
+#define IDS_USER_TEXTMSGSEND            1041
 #define IDC_STATIC_INTRO                1042
 #define IDC_SLIDER_MEDIAFILEVOL         1043
 #define IDC_CHECK_WEBSITE               1044
 #define IDC_STATIC_PACKETLOSS           1045
+#define IDS_USER_CHANMSGSEND            1046
 #define IDC_STATIC_FILESIZE             1047
 #define IDC_CHECK_QUITCLEAR             1048
 #define IDC_SLIDER_VOICEVOL             1049

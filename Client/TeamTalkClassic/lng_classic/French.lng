@@ -457,10 +457,11 @@
     <item id="1037">0=désactivé</item>
     <item id="1038">Question</item>
     <item id="1039">Diffuse un fichier média</item>
-    <item id="1041">Jouer également les sons pour les messages sortants</item>
+    <item id="1041">Message privé envoyé</item>
     <item id="1042">Cet assistant vous guidera à travers les étapes nécessaires à la configuration&#x0D;&#x0A;de l&apos;application de conférence TeamTalk. Appuyez sur le bouton &quot;Suivant&quot; pour&#x0D;&#x0A;commencer à suivre les étapes pour terminer cet assistant. Si vous appuyez sur&#x0D;&#x0A;&quot;Annuler&quot;, vous devrez configurer TeamTalk manuellement.</item>
     <item id="1044">Consultez le site Web www.bearware.dk pour rechercher les serveurs TeamTalk</item>
     <item id="1045">Perte de paquets</item>
+    <item id="1046">Message de canal envoyé</item>
     <item id="1047">Taille du fichier:</item>
     <item id="1048">Effacer les canaux en quittant</item>
     <item id="1051">Double cliquer pour rejoindre les canaux</item>

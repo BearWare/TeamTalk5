@@ -41,7 +41,6 @@ IMPLEMENT_DYNAMIC(CSoundEventsPage, CPropertyPage)
 CSoundEventsPage::CSoundEventsPage()
     : CPropertyPage(CSoundEventsPage::IDD)
   , m_uSoundEvents(SOUNDEVENT_NONE)
-  , m_bSoundSend(0)
 {
 }
 
@@ -53,7 +52,6 @@ void CSoundEventsPage::DoDataExchange(CDataExchange* pDX)
 {
     CPropertyPage::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_TREE_SOUNDEVENTS, m_wndTree);
-    DDX_Check(pDX, IDC_CHECK_SOUNDSEND, m_bSoundSend);
 }
 
 BOOL CSoundEventsPage::OnInitDialog()
@@ -189,11 +187,23 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_TEXTMSG);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_TEXTMSG) != 0);
 
+    szText.LoadString(IDS_USER_TEXTMSGSEND);
+    TRANSLATE_ITEM(IDS_USER_TEXTMSGSEND, szText);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_TEXTMSGSEND);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_TEXTMSGSEND) != 0);
+
     szText.LoadString(IDS_USER_CHANMSG);
     TRANSLATE_ITEM(IDS_USER_CHANMSG, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_CHANNEL_TEXTMSG);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_CHANNEL_TEXTMSG) != 0);
+
+    szText.LoadString(IDS_USER_CHANMSGSEND);
+    TRANSLATE_ITEM(IDS_USER_CHANMSGSEND, szText);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_CHANNEL_TEXTMSGSEND);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_CHANNEL_TEXTMSGSEND) != 0);
 
     szText.LoadString(IDS_USER_BCASTMSG);
     TRANSLATE_ITEM(IDS_USER_BCASTMSG, szText);

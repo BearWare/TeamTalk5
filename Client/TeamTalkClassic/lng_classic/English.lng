@@ -457,10 +457,11 @@
     <item id="1037">0=disabled</item>
     <item id="1038">Question</item>
     <item id="1039">Streaming media file</item>
-    <item id="1041">Also play sounds for outgoing messages</item>
+    <item id="1041">Private message send</item>
     <item id="1042">This wizard will guide you through the steps required to setup the TeamTalk conference application. Press the &quot;Next&quot; button to start going through the steps to complete this wizard. If you press &quot;Cancel&quot; you&apos;ll have to setup TeamTalk manually.</item>
     <item id="1044">Check out the www.bearware.dk website to look for TeamTalk servers</item>
     <item id="1045">Packetloss</item>
+    <item id="1046">Channel message send</item>
     <item id="1047">File size:</item>
     <item id="1048">Clear channels when quitting</item>
     <item id="1051">Double-click for joining channels</item>

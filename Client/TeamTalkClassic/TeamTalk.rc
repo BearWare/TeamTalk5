@@ -237,8 +237,6 @@ FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Sound events",IDC_STATIC_GRPSNDEVENT,7,7,246,226
     CONTROL         "",IDC_TREE_SOUNDEVENTS,"SysTreeView32",TVS_SHOWSELALWAYS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,15,17,232,211
-    CONTROL         "Also play sounds for outgoing messages",IDC_CHECK_SOUNDSEND,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,197,193,101,12
 END
 
 IDD_PROPPAGE_SOUNDSYSPAGE DIALOGEX 0, 0, 260, 221
@@ -1930,7 +1928,9 @@ BEGIN
     IDS_USER_LOGGED_IN           "User logged in"
     IDS_USER_LOGGED_OUT           "User logged out"
     IDS_USER_TEXTMSG        "Private text message"
+    IDS_USER_TEXTMSGSEND        "Private message send"
     IDS_USER_CHANMSG        "Channel text message"
+    IDS_USER_CHANMSGSEND        "Channel message send"
     IDC_STARTPOSLAB        "Start position"
 END
 

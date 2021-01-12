@@ -1769,6 +1769,26 @@ namespace teamtalk {
         return szDefPath;
     }
 
+    bool ClientXML::SetEventNewMessageSend(const std::string& szPath)
+    {
+        TiXmlElement* pParent = GetEventsElement();
+        if(pParent)
+        {
+            PutString(*pParent, "newmessagesend", szPath);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    string ClientXML::GetEventNewMessageSend(std::string szDefPath)
+    {
+        TiXmlElement* child = GetEventsElement();
+        if(child)
+            GetString(*child, "newmessagesend", szDefPath);
+        return szDefPath;
+    }
+
     bool ClientXML::SetEventRemovedUser(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
@@ -1907,6 +1927,26 @@ namespace teamtalk {
         TiXmlElement* child = GetEventsElement();
         if(child)
             GetString(*child, "channelmessage", szDefPath);
+        return szDefPath;
+    }
+
+    bool ClientXML::SetEventChannelMsgSend(const std::string& szPath)
+    {
+        TiXmlElement* pParent = GetEventsElement();
+        if(pParent)
+        {
+            PutString(*pParent, "channelmessagesend", szPath);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    string ClientXML::GetEventChannelMsgSend(std::string szDefPath)
+    {
+        TiXmlElement* child = GetEventsElement();
+        if(child)
+            GetString(*child, "channelmessagesend", szDefPath);
         return szDefPath;
     }
 
@@ -2200,28 +2240,6 @@ namespace teamtalk {
         if(child)
             GetString(*child, "transmit-queue-stop", szDefPath);
         return szDefPath;
-    }
-
-    bool ClientXML::SetEventSoundSend(int nIndex)
-    {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutInteger(*pParent, "sound-send", nIndex);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    int ClientXML::GetEventSoundSend()
-    {
-        int ret = UNDEFINED;
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetInteger(*child, "sound-send", ret);
-
-        return ret;
     }
 
     bool ClientXML::SetEventVibrateOnMsg(int nIndex)
