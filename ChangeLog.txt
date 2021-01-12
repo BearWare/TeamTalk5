@@ -14,7 +14,7 @@ Accessible Windows Client
 - New audio files for default sound events
 - New sound events when user logs in/out
 - Faster login on servers with many users or channels
-- Don't play sound for own channel messages
+- New option to play sounds for outgoing messages (disabled by default)
 - Users logged in/out displayed in chat history
 - Save server configuration displayed in chat history
 - Status message is saved and reloaded on startup
@@ -42,7 +42,7 @@ Default QT Client
 - Fix navigation problems using tabulation
 - More items displayed when using up arrow in message area
 - Add emojis for unread messages and now speaking in channels tree
-- Don't play sound for own channel messages
+- New option to play sounds for outgoing messages (disabled by default)
 - Display ban type on banned users dialog
 - Reconnect if initial connection attempt fails
 - Facebook login no longer supported
