@@ -1536,6 +1536,13 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QCheckBox" name="soundsendChkBox">
+              <property name="text">
+               <string>Also play sounds for outgoing messages</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>
@@ -2186,6 +2193,7 @@
   <tabstop>voiceactonButton</tabstop>
   <tabstop>voiceactoffEdit</tabstop>
   <tabstop>voiceactoffButton</tabstop>
+  <tabstop>soundsendChkBox</tabstop>
   <tabstop>voiceactEdit</tabstop>
   <tabstop>voiceactButton</tabstop>
   <tabstop>volumeincEdit</tabstop>

@@ -521,6 +521,8 @@ void PreferencesDlg::slotTabChange(int index)
         ui.userloggedoutEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT).toString());
         ui.voiceactonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON).toString());
         ui.voiceactoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF).toString());
+        ui.soundsendChkBox->setChecked(ttSettings->value(SETTINGS_SOUNDEVENT_SOUNDSEND,
+                                                     SETTINGS_SOUNDEVENT_SOUNDSEND_DEFAULT).toBool());
         break;
     case SHORTCUTS_TAB :  //shortcuts
     {
@@ -853,6 +855,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_USERLOGGEDOUT, ui.userloggedoutEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTON, ui.voiceactonEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTOFF, ui.voiceactoffEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_SOUNDSEND, ui.soundsendChkBox->isChecked());
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {

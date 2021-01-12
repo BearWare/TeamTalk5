@@ -155,6 +155,8 @@ void TextMessageDlg::slotSendMsg(const QString& txt_msg)
         ui.newmsgTextEdit->setPlainText("");
         newMsg(msg, true);
         emit(newMyselfTextMessage(msg));
+        if(ttSettings->value(SETTINGS_SOUNDEVENT_SOUNDSEND, SETTINGS_SOUNDEVENT_SOUNDSEND_DEFAULT).toBool() == true)
+            playSoundEvent(SOUNDEVENT_USERMSG);
         m_textchanged = false;
     }
 }

@@ -2316,7 +2316,7 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
                 openLogFile(m_logChan, chanlog, _Q(m_mychannel.szName) + ".clog");
             writeLogEntry(m_logChan, line);
         }
-        if(textmsg.nFromUserID != TT_GetMyUserID(ttInst))
+        if(ttSettings->value(SETTINGS_SOUNDEVENT_SOUNDSEND, SETTINGS_SOUNDEVENT_SOUNDSEND_DEFAULT).toBool() == true || textmsg.nFromUserID != TT_GetMyUserID(ttInst))
             playSoundEvent(SOUNDEVENT_CHANNELMSG);
         break;
     }
