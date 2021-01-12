@@ -214,11 +214,11 @@
     <item id="345">Menu akcje</item>
     <item id="346">Nie można nagrać pliku audio dla %s</item>
     <item id="347">Nie można rozpocząć transfer pliku&#x0D;&#x0A;Nazwa pliku: %s</item>
-    <item id="348">Błąd strumieniowania pliku multymedialnego na kanal</item>
-    <item id="349">Rozpoczęto strumieniowanie pliku mulitymedialnego na kanał</item>
-    <item id="350">Zakończono strumieniowanie pliku multymedialnego na kanał</item>
+    <item id="348">Błąd strumieniowania pliku multimedialnego na kanal</item>
+    <item id="349">Rozpoczęto strumieniowanie pliku multimedialnego na kanał</item>
+    <item id="350">Zakończono strumieniowanie pliku multimedialnego na kanał</item>
     <item id="351">Anulowano strumieniowanie plików na kanał</item>
-    <item id="352">Nie można strumieniować pliku multymedialnego.</item>
+    <item id="352">Nie można strumieniować pliku multimedialnego.</item>
     <item id="353">Tablica skrótów nie jest załadowana</item>
     <item id="354">Nie można załadować ustawień:</item>
     <item id="355">Czy chcesz utworzyć nowy plik ustawień?</item>
@@ -226,7 +226,7 @@
     <item id="357">Nie można skopiować %s w %s</item>
     <item id="358">Zresetuj Ustawienia</item>
     <item id="359">Odłączono od %s port TCP %d port UDP %d</item>
-    <item id="360">Nie można inicjalizować nowych urządzeń dźwiękowych.</item>
+    <item id="360">Nie można zainicjalizować nowych urządzeń dźwiękowych.</item>
     <item id="361">Zresetuj system dźwięku</item>
     <item id="362">Zmień nick</item>
     <item id="363">Nowy nick</item>
@@ -290,7 +290,7 @@
     <item id="422">Nieokreślone</item>
     <item id="423">Stereo</item>
     <item id="424">Mono</item>
-    <item id="425">Pliki multymedialne (*.*)|*.*|</item>
+    <item id="425">Pliki multimedialne (*.*)|*.*|</item>
     <item id="426">Nie można zaktualizować preprocesora</item>
     <item id="427">Nie można wznowić</item>
     <item id="428">Nie można uruchomić odtwarzania</item>
@@ -372,8 +372,8 @@
     <item id="506">Głośność główna wyłączona</item>
     <item id="507">głośność główna włączona</item>
     <item id="508">głos dla %s wyłączony</item>
-    <item id="509">Pliki multymedialne dla %s włączone</item>
-    <item id="510">Pliki multymedialne dla %s wyłączone</item>
+    <item id="509">Pliki multimedialne dla %s włączone</item>
+    <item id="510">Pliki multimedialne dla %s wyłączone</item>
     <item id="512">- niewydane</item>
     <item id="513">TeamTalk 5 Classic Professional v.</item>
     <item id="514">TeamTalk 5 Classic Professional</item>
@@ -457,7 +457,7 @@
     <item id="1036">Nick</item>
     <item id="1037">0=wyłaczono</item>
     <item id="1038">Pytanie</item>
-    <item id="1039">Strumieniowanie pliku multymedialnego</item>
+    <item id="1039">Strumieniowanie pliku multimedialnego</item>
     <item id="1042">Kreator ten pomoże ci skonfigurować podstawy działania aplikacji konferencyjnej TeamTalk. Wciśnij przycisk &quot;Dalej&quot; by rozpocząć. Wciśnięcie przycisku &quot;Anuluj&quot; zamknie tego kreatora, a wszelkie opcje skonfigurować będzie należało ręcznie</item>
     <item id="1044">Dowiedz się więcej na www.bearware.dk</item>
     <item id="1045">Utrata pakietów</item>
@@ -465,7 +465,7 @@
     <item id="1048">Wyczyść kanały przy wyjściu</item>
     <item id="1051">Dołącz do kanału dwuklikiem</item>
     <item id="1053">Znacznik czasu przy wiadomościach</item>
-    <item id="1054">Push To Talk</item>
+    <item id="1054">Klawisz naciśnij i mów</item>
     <item id="1055">Nowy status</item>
     <item id="1056">Aktywacja głosem</item>
     <item id="1057">Wiadomość</item>
@@ -556,7 +556,7 @@
     <item id="1236">Witamy w kreatorze wstępnych ustawień TeamTalk.</item>
     <item id="1237">Gratulacje!</item>
     <item id="1238">Ustawienia odtwarzania</item>
-    <item id="1240">Tłumaczył Patryk patric3031@hotmail.com</item>
+    <item id="1240">Tłumaczył Zvonimir Stanecic 9a5dsz@gozaltech.org</item>
     <item id="1241">Język interfejsu użytkownika</item>
     <item id="1245">Używaj innego języka instalacji</item>
     <item id="1246">Zamknij to okno po ukończeniu</item>
@@ -613,7 +613,7 @@
     <item id="1350">Maxymalny bitrate</item>
     <item id="1351">Bitów/s</item>
     <item id="1352">bps (0 = ignoruj)</item>
-    <item id="1359">&amp;Przegladaj</item>
+    <item id="1359">&amp;Przeglądaj</item>
     <item id="1362">opóźnienie transmisji</item>
     <item id="1363">MS</item>
     <item id="1364">Pojedynczy plik dźwiękowy dla wszystkich użytkowników</item>
@@ -767,7 +767,7 @@
     <item id="1590">Domyślnie</item>
     <item id="1591">Wycisz lewy kanał</item>
     <item id="1592">Wycisz prawy kanał</item>
-    <item id="1593">Odtwarza&amp;j plik multymedialny płynnie</item>
+    <item id="1593">Odtwarza&amp;j plik multimedialny płynnie</item>
     <item id="1594">P&amp;ozycja startowa</item>
     <item id="1595">Preprocesor dźwięku</item>
     <item id="1596">Testuj odtwarzanie</item>
