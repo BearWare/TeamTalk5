@@ -2319,7 +2319,7 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
         if (textmsg.nFromUserID != TT_GetMyUserID(ttInst))
             playSoundEvent(SOUNDEVENT_CHANNELMSG);
         else
-            playSoundEvent(SOUNDEVENT_SENTMSG);
+            playSoundEvent(SOUNDEVENT_SENTCHANNELMSG);
         break;
     }
     case MSGTYPE_BROADCAST :
