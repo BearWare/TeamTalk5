@@ -1623,7 +1623,7 @@ bool ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
     audio_frame.force_enc = true;
     QueueVoiceFrame(audio_frame);
 
-    return true;
+    return false; // delete 'mb_audio'
 }
 
 void ClientNode::AudioInputStatusCallback(const AudioInputStatus& ais)

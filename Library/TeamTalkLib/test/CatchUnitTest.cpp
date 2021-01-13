@@ -1531,7 +1531,7 @@ TEST_CASE("PortAudio_SamplesPerSec")
 {
     auto snd = soundsystem::GetInstance();
     auto grp = snd->OpenSoundGroup();
-    
+
     int inputdeviceid, outputdeviceid;
     REQUIRE(snd->GetDefaultDevices(soundsystem::SOUND_API_WASAPI, inputdeviceid, outputdeviceid));
     soundsystem::devices_t devs;
@@ -1543,7 +1543,7 @@ TEST_CASE("PortAudio_SamplesPerSec")
         });
 
     REQUIRE(ioutdev != devs.end());
-    
+
     soundsystem::DeviceInfo& outdev = *ioutdev;
 
     uint32_t samples = 0, starttime = 0;
@@ -1579,5 +1579,40 @@ TEST_CASE("PortAudio_SamplesPerSec")
         REQUIRE(skew < 0.08 * 1000);
     }
 }
-
 #endif
+
+TEST_CASE("InjectAudio")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoSubscribe(ttclient, TT_GetMyUserID(ttclient), SUBSCRIBE_VOICE)));
+
+    int SAMPLERATE = 48000, CHANNELS = 2;
+    std::vector<short> buf(SAMPLERATE * CHANNELS);
+    AudioBlock ab = {};
+    ab.nStreamID = 1;
+    ab.nSampleRate = SAMPLERATE;
+    ab.nChannels = CHANNELS;
+    ab.lpRawAudio = &buf[0];
+    ab.nSamples = SAMPLERATE;
+
+    // 3 secs
+    int samples = SAMPLERATE * 3;
+
+    do
+    {
+        std::cout << "Insert Audio" << std::endl;
+        REQUIRE(TT_InsertAudioBlock(ttclient, &ab));
+
+        TTMessage msg;
+        do
+        {
+            REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_AUDIOINPUT, msg));
+        } while (msg.audioinputprogress.uQueueMSec > 0);
+
+    } while ((samples -= SAMPLERATE) > 0);
+}
