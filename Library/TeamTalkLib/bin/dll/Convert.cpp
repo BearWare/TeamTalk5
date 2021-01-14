@@ -1042,6 +1042,9 @@ void Convert(const teamtalk::SpeexDSP& spxdsp, SpeexDSP& result)
 #if defined(ENABLE_WEBRTC)
 void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Config& result)
 {
+    result.pre_amplifier.enabled = webrtc.preamplifier.bEnable;
+    result.pre_amplifier.fixed_gain_factor = webrtc.preamplifier.fFixedGainFactor;
+    
     result.echo_canceller.enabled = webrtc.echocanceller.bEnable;
 
     result.noise_suppression.enabled = webrtc.noisesuppression.bEnable;
@@ -1063,6 +1066,8 @@ void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Con
         result.noise_suppression.enabled = false;
         break;
     }
+
+    result.voice_detection.enabled = webrtc.voicedetection.bEnable;
     
     result.gain_controller2.enabled = webrtc.gaincontroller2.bEnable;
     result.gain_controller2.fixed_digital.gain_db = webrtc.gaincontroller2.fixeddigital.fGainDB;
@@ -1071,14 +1076,21 @@ void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Con
     result.gain_controller2.adaptive_digital.extra_saturation_margin_db = webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB;
     result.gain_controller2.adaptive_digital.max_gain_change_db_per_second = webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond;
     result.gain_controller2.adaptive_digital.max_output_noise_level_dbfs = webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS;
+
+    result.level_estimation.enabled = webrtc.voicedetection.bEnable;
 }
 
 void Convert(const webrtc::AudioProcessing::Config& cfg, WebRTCAudioPreprocessor& result)
 {
+    result.preamplifier.bEnable = cfg.pre_amplifier.enabled;
+    result.preamplifier.fFixedGainFactor = cfg.pre_amplifier.fixed_gain_factor;
+
     result.echocanceller.bEnable = cfg.echo_canceller.enabled;
     
     result.noisesuppression.bEnable = cfg.noise_suppression.enabled;
     result.noisesuppression.nLevel = cfg.noise_suppression.level;
+
+    result.voicedetection.bEnable = cfg.voice_detection.enabled;
 
     result.gaincontroller2.bEnable = cfg.gain_controller2.enabled;
     result.gaincontroller2.fixeddigital.fGainDB = cfg.gain_controller2.fixed_digital.gain_db;
@@ -1087,6 +1099,8 @@ void Convert(const webrtc::AudioProcessing::Config& cfg, WebRTCAudioPreprocessor
     result.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = cfg.gain_controller2.adaptive_digital.extra_saturation_margin_db;
     result.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = cfg.gain_controller2.adaptive_digital.max_gain_change_db_per_second;
     result.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = cfg.gain_controller2.adaptive_digital.max_output_noise_level_dbfs;
+
+    result.voicedetection.bEnable = cfg.level_estimation.enabled;
 }
 #endif
 

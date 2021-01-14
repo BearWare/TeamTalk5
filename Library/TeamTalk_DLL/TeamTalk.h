@@ -1231,6 +1231,12 @@ extern "C" {
      * TT_SetSoundDeviceEffects() on desktop platforms. */
     typedef struct WebRTCAudioPreprocessor
     {
+        struct
+        {
+            TTBOOL bEnable;
+            /* Default: 1 */
+            float fFixedGainFactor;
+        } preamplifier;
         /** @brief Configuration of WebRTC's echo canceller. See also
          * TT_SetSoundDeviceEffects() */
         struct
@@ -1252,6 +1258,10 @@ extern "C" {
              * 2 = High, 3 = VeryHigh. Default: 1. */
             INT32 nLevel;
         } noisesuppression;
+        struct
+        {
+            TTBOOL bEnable;
+        } voicedetection;
         /** @brief Configuration of WebRTC's gain controller 2 for
          * AGC. */
         struct
@@ -1283,6 +1293,10 @@ extern "C" {
                 float fMaxOutputNoiseLevelDBFS;
             } adaptivedigital;
         } gaincontroller2;
+        struct
+        {
+            TTBOOL bEnable;
+        } levelestimation;
     } WebRTCAudioPreprocessor;
 
 /** @brief Max value for fGainDB in #WebRTCAudioPreprocessor's @c gaincontroller2 */
