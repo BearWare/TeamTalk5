@@ -61,7 +61,7 @@ PortAudio::~PortAudio()
 bool PortAudio::Init()
 {
     PaError err = Pa_Initialize();
-    assert(err == paNoError);
+    MYTRACE_COND(err != paNoError, ACE_TEXT("PortAudio failed to initialize. Error: %d\n"), err);
     RefreshDevices();
     return err == paNoError;
 }
@@ -69,7 +69,7 @@ bool PortAudio::Init()
 void PortAudio::Close()
 {
     PaError err = Pa_Terminate();
-    assert(err == paNoError);
+    MYTRACE_COND(err != paNoError, ACE_TEXT("PortAudio closed incorrectly. Error: %d\n"), err);
 }
 
 std::shared_ptr<PortAudio> PortAudio::getInstance()
