@@ -1462,7 +1462,7 @@ TEST_CASE("WebRTC_echocancel")
 }
 #endif /* ENABLE_WEBRTC */
 
-#if defined(ENABLE_PORTAUDIO)
+#if defined(ENABLE_PORTAUDIO) && defined(WIN32)
 
 int samples = 0;
 uint32_t paTimeStamp = 0;
