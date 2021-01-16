@@ -345,9 +345,7 @@ enum SoundEvent
                                           SOUNDEVENT_USER_LOGGED_IN |
                                           SOUNDEVENT_USER_LOGGED_OUT |
                                           SOUNDEVENT_USER_TEXTMSG |
-                                          SOUNDEVENT_USER_TEXTMSGSENT |
                                           SOUNDEVENT_USER_CHANNEL_TEXTMSG |
-                                          SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT |
                                           SOUNDEVENT_USER_BROADCAST_TEXTMSG |
                                           SOUNDEVENT_USER_QUESTIONMODE |
                                           SOUNDEVENT_USER_DESKTOP_ACCESS |
