@@ -1769,7 +1769,7 @@ namespace teamtalk {
         return szDefPath;
     }
 
-    bool ClientXML::SetEventNewMessageSend(const std::string& szPath)
+    bool ClientXML::SetEventNewMessageSent(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1781,7 +1781,7 @@ namespace teamtalk {
             return false;
     }
 
-    string ClientXML::GetEventNewMessageSend(std::string szDefPath)
+    string ClientXML::GetEventNewMessageSent(std::string szDefPath)
     {
         TiXmlElement* child = GetEventsElement();
         if(child)
@@ -1930,7 +1930,7 @@ namespace teamtalk {
         return szDefPath;
     }
 
-    bool ClientXML::SetEventChannelMsgSend(const std::string& szPath)
+    bool ClientXML::SetEventChannelMsgSent(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1942,7 +1942,7 @@ namespace teamtalk {
             return false;
     }
 
-    string ClientXML::GetEventChannelMsgSend(std::string szDefPath)
+    string ClientXML::GetEventChannelMsgSent(std::string szDefPath)
     {
         TiXmlElement* child = GetEventsElement();
         if(child)

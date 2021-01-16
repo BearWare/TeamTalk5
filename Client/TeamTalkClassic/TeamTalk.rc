@@ -1928,9 +1928,9 @@ BEGIN
     IDS_USER_LOGGED_IN           "User logged in"
     IDS_USER_LOGGED_OUT           "User logged out"
     IDS_USER_TEXTMSG        "Private text message"
-    IDS_USER_TEXTMSGSEND        "Private message sent"
+    IDS_USER_TEXTMSGSENT        "Private text message sent"
     IDS_USER_CHANMSG        "Channel text message"
-    IDS_USER_CHANMSGSEND        "Channel message sent"
+    IDS_USER_CHANMSGSENT        "Channel text message sent"
     IDC_STARTPOSLAB        "Start position"
 END
 

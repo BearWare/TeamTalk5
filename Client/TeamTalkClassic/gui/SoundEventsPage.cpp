@@ -187,11 +187,11 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_TEXTMSG);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_TEXTMSG) != 0);
 
-    szText.LoadString(IDS_USER_TEXTMSGSEND);
-    TRANSLATE_ITEM(IDS_USER_TEXTMSGSEND, szText);
+    szText.LoadString(IDS_USER_TEXTMSGSENT);
+    TRANSLATE_ITEM(IDS_USER_TEXTMSGSENT, szText);
     hItem = m_wndTree.InsertItem(szText);
-    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_TEXTMSGSEND);
-    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_TEXTMSGSEND) != 0);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_TEXTMSGSENT);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_TEXTMSGSENT) != 0);
 
     szText.LoadString(IDS_USER_CHANMSG);
     TRANSLATE_ITEM(IDS_USER_CHANMSG, szText);
@@ -199,11 +199,11 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_CHANNEL_TEXTMSG);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_CHANNEL_TEXTMSG) != 0);
 
-    szText.LoadString(IDS_USER_CHANMSGSEND);
-    TRANSLATE_ITEM(IDS_USER_CHANMSGSEND, szText);
+    szText.LoadString(IDS_USER_CHANMSGSENT);
+    TRANSLATE_ITEM(IDS_USER_CHANMSGSENT, szText);
     hItem = m_wndTree.InsertItem(szText);
-    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_CHANNEL_TEXTMSGSEND);
-    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_CHANNEL_TEXTMSGSEND) != 0);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT) != 0);
 
     szText.LoadString(IDS_USER_BCASTMSG);
     TRANSLATE_ITEM(IDS_USER_BCASTMSG, szText);

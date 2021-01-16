@@ -46,11 +46,11 @@
 #define DEFAULT_SOUNDEVENT_USERLOGGEDIN               "Sounds\\logged_on.wav"
 #define DEFAULT_SOUNDEVENT_USERLOGGEDOUT               "Sounds\\logged_off.wav"
 #define DEFAULT_SOUNDEVENT_PRIVTEXTMSG              "Sounds\\user_msg.wav"
-#define DEFAULT_SOUNDEVENT_PRIVTEXTMSGSEND              ""
+#define DEFAULT_SOUNDEVENT_PRIVTEXTMSGSENT              ""
 #define DEFAULT_SOUNDEVENT_SERVERLOST               "Sounds\\serverlost.wav"
 #define DEFAULT_SOUNDEVENT_PTTHOTKEY                "Sounds\\hotkey.wav"
 #define DEFAULT_SOUNDEVENT_CHANTEXTMSG              "Sounds\\channel_msg.wav"
-#define DEFAULT_SOUNDEVENT_CHANTEXTMSGSEND                ""
+#define DEFAULT_SOUNDEVENT_CHANTEXTMSGSENT                ""
 #define DEFAULT_SOUNDEVENT_BCASTTEXTMSG              "Sounds\\broadcast_msg.wav"
 #define DEFAULT_SOUNDEVENT_FILESUPDATE              "Sounds\\fileupdate.wav"
 #define DEFAULT_SOUNDEVENT_FILETXCOMPLETE           "Sounds\\filetx_complete.wav"
@@ -317,8 +317,8 @@ namespace teamtalk {
         bool SetEventNewMessage(const std::string& szPath);
         std::string GetEventNewMessage(std::string szDefPath = DEFAULT_SOUNDEVENT_PRIVTEXTMSG);
 
-        bool SetEventNewMessageSend(const std::string& szPath);
-        std::string GetEventNewMessageSend(std::string szDefPath = DEFAULT_SOUNDEVENT_PRIVTEXTMSGSEND);
+        bool SetEventNewMessageSent(const std::string& szPath);
+        std::string GetEventNewMessageSent(std::string szDefPath = DEFAULT_SOUNDEVENT_PRIVTEXTMSGSENT);
 
         bool SetEventRemovedUser(const std::string& szPath);
         std::string GetEventRemovedUser(std::string szDefPath = DEFAULT_SOUNDEVENT_USERLEFT);
@@ -341,8 +341,8 @@ namespace teamtalk {
         bool SetEventChannelMsg(const std::string& szPath);
         std::string GetEventChannelMsg(std::string szDefPath = DEFAULT_SOUNDEVENT_CHANTEXTMSG);
 
-        bool SetEventChannelMsgSend(const std::string& szPath);
-        std::string GetEventChannelMsgSend(std::string szDefPath = DEFAULT_SOUNDEVENT_CHANTEXTMSGSEND);
+        bool SetEventChannelMsgSent(const std::string& szPath);
+        std::string GetEventChannelMsgSent(std::string szDefPath = DEFAULT_SOUNDEVENT_CHANTEXTMSGSENT);
 
         bool SetEventBroadcastMsg(const std::string& szPath);
         std::string GetEventBroadcastMsg(std::string szDefPath = DEFAULT_SOUNDEVENT_BCASTTEXTMSG);

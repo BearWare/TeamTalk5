@@ -474,6 +474,8 @@
 #define IDS_CHANNELBAN                  570
 #define IDS_USER_LOGGED_IN              571
 #define IDS_USER_LOGGED_OUT             572
+#define IDS_USER_TEXTMSGSENT            573
+#define IDS_USER_CHANMSGSENT            574
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
@@ -512,12 +514,10 @@
 #define IDC_STATIC_DISABLED1            1037
 #define IDS_USERISQUESTION              1038
 #define IDS_USERISSTREAMINGMDFILE       1039
-#define IDS_USER_TEXTMSGSEND            1041
 #define IDC_STATIC_INTRO                1042
 #define IDC_SLIDER_MEDIAFILEVOL         1043
 #define IDC_CHECK_WEBSITE               1044
 #define IDC_STATIC_PACKETLOSS           1045
-#define IDS_USER_CHANMSGSEND            1046
 #define IDC_STATIC_FILESIZE             1047
 #define IDC_CHECK_QUITCLEAR             1048
 #define IDC_SLIDER_VOICEVOL             1049
@@ -1093,7 +1093,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        573
+#define _APS_NEXT_RESOURCE_VALUE        575
 #define _APS_NEXT_COMMAND_VALUE         32959
 #define _APS_NEXT_CONTROL_VALUE         1604
 #define _APS_NEXT_SYMED_VALUE           413

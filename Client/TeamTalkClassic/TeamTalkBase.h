@@ -308,10 +308,10 @@ enum SoundEvent
     SOUNDEVENT_USER_LEFT                    = 0x00000002,
     SOUNDEVENT_USER_LOGGED_IN               = 0x00400000,
     SOUNDEVENT_USER_TEXTMSG                 = 0x00000004,
-    SOUNDEVENT_USER_TEXTMSGSEND                 = 0x0000009000,
+    SOUNDEVENT_USER_TEXTMSGSENT             = 0x01000000,
     SOUNDEVENT_USER_LOGGED_OUT              = 0x00800000,
     SOUNDEVENT_USER_CHANNEL_TEXTMSG         = 0x00000008,
-    SOUNDEVENT_USER_CHANNEL_TEXTMSGSEND         = 0x0000090000,
+    SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT     = 0x02000000,
     SOUNDEVENT_USER_BROADCAST_TEXTMSG       = 0x00200000,
     SOUNDEVENT_USER_QUESTIONMODE            = 0x00000010,
     SOUNDEVENT_USER_DESKTOP_ACCESS          = 0x00000020,
@@ -345,9 +345,9 @@ enum SoundEvent
                                           SOUNDEVENT_USER_LOGGED_IN |
                                           SOUNDEVENT_USER_LOGGED_OUT |
                                           SOUNDEVENT_USER_TEXTMSG |
-                                          SOUNDEVENT_USER_TEXTMSGSEND |
+                                          SOUNDEVENT_USER_TEXTMSGSENT |
                                           SOUNDEVENT_USER_CHANNEL_TEXTMSG |
-                                          SOUNDEVENT_USER_CHANNEL_TEXTMSGSEND |
+                                          SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT |
                                           SOUNDEVENT_USER_BROADCAST_TEXTMSG |
                                           SOUNDEVENT_USER_QUESTIONMODE |
                                           SOUNDEVENT_USER_DESKTOP_ACCESS |

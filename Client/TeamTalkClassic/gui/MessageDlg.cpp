@@ -181,7 +181,7 @@ void CMessageDlg::OnButtonSend()
 
         if( TT_DoTextMessage(ttInst, &usermsg)>0) {
             AppendMessage(usermsg, TRUE);
-            m_pParent->PlaySoundEvent(SOUNDEVENT_USER_TEXTMSGSEND);
+            m_pParent->PlaySoundEvent(SOUNDEVENT_USER_TEXTMSGSENT);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE) {
                 CString szMsg;
                 szMsg.Format(LoadText(IDS_MPSEND, _T("Private message sent: %s")), usermsg.szMessage);
