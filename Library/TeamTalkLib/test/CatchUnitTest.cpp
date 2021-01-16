@@ -1580,6 +1580,65 @@ TEST_CASE("PortAudio_SamplesPerSec")
     }
 }
 
+TEST_CASE("PortAudioRaw_DuplexSampleRate")
+{
+    PaError err = Pa_Initialize();
+
+    PaDeviceIndex inputdeviceid = -1, outputdeviceid = -1;
+    PaHostApiIndex hostApi = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+    if (hostApi != paHostApiNotFound)
+    {
+        const PaHostApiInfo* hostapi = Pa_GetHostApiInfo(hostApi);
+        if (hostapi)
+        {
+            inputdeviceid = hostapi->defaultInputDevice;
+            outputdeviceid = hostapi->defaultOutputDevice;
+        }
+    }
+    REQUIRE(inputdeviceid >= 0);
+    REQUIRE(outputdeviceid >= 0);
+
+    const PaDeviceInfo* ininfo = Pa_GetDeviceInfo(inputdeviceid);
+    const PaDeviceInfo* outinfo = Pa_GetDeviceInfo(outputdeviceid);
+    REQUIRE(ininfo);
+    REQUIRE(outinfo);
+    PaStreamParameters inputParameters = {}, outputParameters = {};
+
+    inputParameters.device = inputdeviceid;
+    inputParameters.channelCount = 1;
+    inputParameters.hostApiSpecificStreamInfo = nullptr;
+    inputParameters.sampleFormat = paInt16;
+    inputParameters.suggestedLatency = ininfo->defaultLowInputLatency;
+
+    outputParameters.device = outputdeviceid;
+    outputParameters.channelCount = 1;
+    outputParameters.hostApiSpecificStreamInfo = NULL;
+    outputParameters.sampleFormat = paInt16;
+    outputParameters.suggestedLatency = outinfo->defaultLowOutputLatency;
+
+    PaStream* stream;
+    err = Pa_OpenStream(&stream, &inputParameters, &outputParameters,
+        ininfo->defaultSampleRate, ininfo->defaultSampleRate * .04,
+        paClipOff, Foo_StreamCallback, static_cast<void*> (0));
+
+    REQUIRE(err == paNoError);
+    REQUIRE(stream);
+
+    REQUIRE(Pa_StartStream(stream) == paNoError);
+    while (paSamples < ininfo->defaultSampleRate * 500)
+    {
+        Pa_Sleep(1000);
+
+        auto samplesDurationMSec = PCM16_SAMPLES_DURATION(paSamples, int(ininfo->defaultSampleRate));
+        auto durationMSec = GETTIMESTAMP() - paTimeStamp;
+        auto skew = int(samplesDurationMSec - durationMSec);
+        std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
+
+        REQUIRE(skew < 0.08 * 1000);
+    }
+
+    Pa_Terminate();
+}
 
 #endif
 
