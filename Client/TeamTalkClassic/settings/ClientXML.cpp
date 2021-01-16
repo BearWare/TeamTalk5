@@ -1705,255 +1705,130 @@ namespace teamtalk {
 
     /**************** <events> ****************/
 
-    bool ClientXML::SetEventSoundsEnabled(unsigned uSoundEvents)
+    void ClientXML::SetEventSoundsEnabled(unsigned uSoundEvents)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutInteger(*pParent, "enabled-soundevents", int(uSoundEvents));
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/enabled-soundevents", int(uSoundEvents));
     }
 
     unsigned ClientXML::GetEventSoundsEnabled(unsigned uDefEvents)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-        {
-            int i = uDefEvents;
-            GetInteger(*child, "enabled-soundevents", i);
-            uDefEvents = i;
-        }
+        uDefEvents = GetValue(true, "events/enabled-soundevents", int(uDefEvents));
         return uDefEvents;
     }
 
-    bool ClientXML::SetEventNewUser(const std::string& szPath)
+    void ClientXML::SetEventNewUser(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "newuser", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/newuser", szPath);
     }
 
     string ClientXML::GetEventNewUser(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "newuser", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/newuser", szDefPath);
     }
 
-    bool ClientXML::SetEventNewMessage(const std::string& szPath)
+    void ClientXML::SetEventNewMessage(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "newmessage", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/newmessage", szPath);
     }
 
     string ClientXML::GetEventNewMessage(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "newmessage", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/newmessage", szDefPath);
     }
 
-    bool ClientXML::SetEventNewMessageSent(const std::string& szPath)
+    void ClientXML::SetEventNewMessageSent(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "newmessagesend", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/newmessagesent", szPath);
     }
 
     string ClientXML::GetEventNewMessageSent(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "newmessagesend", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/newmessagesent", szDefPath);
     }
 
-    bool ClientXML::SetEventRemovedUser(const std::string& szPath)
+    void ClientXML::SetEventRemovedUser(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "removeduser", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/removeduser", szPath);
     }
 
     string ClientXML::GetEventRemovedUser(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "removeduser", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/removeduser", szDefPath);
     }
 
-    bool ClientXML::SetEventUserLoggedIn(const std::string& szPath)
+    void ClientXML::SetEventUserLoggedIn(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "userloggedin", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/userloggedin", szPath);
     }
 
     string ClientXML::GetEventUserLoggedIn(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "userloggedin", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/userloggedin", szDefPath);
     }
 
-    bool ClientXML::SetEventUserLoggedOut(const std::string& szPath)
+    void ClientXML::SetEventUserLoggedOut(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "userloggedout", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/userloggedout", szPath);
     }
 
     string ClientXML::GetEventUserLoggedOut(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "userloggedout", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/userloggedout", szDefPath);
     }
 
-    bool ClientXML::SetEventServerLost(const std::string& szPath)
+    void ClientXML::SetEventServerLost(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "serverlost", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/serverlost", szPath);
     }
 
     string ClientXML::GetEventServerLost(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "serverlost", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/serverlost", szDefPath);
     }
 
-    bool ClientXML::SetEventChannelSilent(const std::string& szPath)
+    void ClientXML::SetEventChannelSilent(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "userstoppedtalking", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/userstoppedtalking", szPath);
     }
 
     std::string ClientXML::GetEventChannelSilent(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "userstoppedtalking", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/userstoppedtalking", szDefPath);
     }
 
-
-    bool ClientXML::SetEventHotKey(const std::string& szPath)
+    void ClientXML::SetEventHotKey(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "hotkeypressed", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/hotkeypressed", szPath);
     }
 
     string ClientXML::GetEventHotKey(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "hotkeypressed", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/hotkeypressed", szDefPath);
     }
 
-    bool ClientXML::SetEventChannelMsg(const std::string& szPath)
+    void ClientXML::SetEventChannelMsg(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "channelmessage", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/channelmessage", szPath);
     }
 
     string ClientXML::GetEventChannelMsg(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "channelmessage", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/channelmessage", szDefPath);
     }
 
-    bool ClientXML::SetEventChannelMsgSent(const std::string& szPath)
+    void ClientXML::SetEventChannelMsgSent(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "channelmessagesend", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/channelmessagesent", szPath);
     }
 
     string ClientXML::GetEventChannelMsgSent(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "channelmessagesend", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/channelmessagesent", szDefPath);
     }
 
-    bool ClientXML::SetEventBroadcastMsg(const std::string& szPath)
+    void ClientXML::SetEventBroadcastMsg(const std::string& szPath)
     {
         SetValue("events/broadcastmessage", szPath);
-        return true;
     }
 
     std::string ClientXML::GetEventBroadcastMsg(std::string szDefPath)
@@ -1961,353 +1836,155 @@ namespace teamtalk {
         return GetValue(true, "events/broadcastmessage", szDefPath);
     }
 
-    bool ClientXML::SetEventFilesUpd(const std::string& szPath)
+    void ClientXML::SetEventFilesUpd(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "filesupdates", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/filesupdates", szPath);
     }
 
     string ClientXML::GetEventFilesUpd(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "filesupdates", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/filesupdates", szDefPath);
     }
 
-
-    bool ClientXML::SetEventTransferEnd(const std::string& szPath)
+    void ClientXML::SetEventTransferEnd(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "transferend", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/transferend", szPath);
     }
 
     string ClientXML::GetEventTransferEnd(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "transferend", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/transferend", szDefPath);
     }
 
-    bool ClientXML::SetEventVideoSession(const std::string& szPath)
+    void ClientXML::SetEventVideoSession(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "new-video-session", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/new-video-session", szPath);
     }
 
     std::string ClientXML::GetEventVideoSession(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "new-video-session", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/new-video-session", szDefPath);
     }
 
-    bool ClientXML::SetEventDesktopSession(const std::string& szPath)
+    void ClientXML::SetEventDesktopSession(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "new-desktop-session", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/new-desktop-session", szPath);
     }
 
     std::string ClientXML::GetEventDesktopSession(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "new-desktop-session", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/new-desktop-session", szDefPath);
     }
 
-    bool ClientXML::SetEventQuestionMode(const std::string& szPath)
+    void ClientXML::SetEventQuestionMode(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "question-mode", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/question-mode", szPath);
     }
     
     std::string ClientXML::GetEventQuestionMode(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "question-mode", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/question-mode", szDefPath);
     }
 
-    bool ClientXML::SetEventDesktopAccessReq(const std::string& szPath)
+    void ClientXML::SetEventDesktopAccessReq(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "desktop-access-req", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/desktop-access-req", szPath);
     }
 
     std::string ClientXML::GetEventDesktopAccessReq(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "desktop-access-req", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/desktop-access-req", szDefPath);
     }
 
-    bool ClientXML::SetEventVoiceActivated(const std::string& szPath)
+    void ClientXML::SetEventVoiceActivated(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "voice-activated", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/voice-activated", szPath);
     }
 
     std::string ClientXML::GetEventVoiceActivated(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "voice-activated", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/voice-activated", szDefPath);
     }
 
-    bool ClientXML::SetEventVoiceDeactivated(const std::string& szPath)
+    void ClientXML::SetEventVoiceDeactivated(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "voice-deactivated", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/voice-deactivated", szPath);
     }
 
     std::string ClientXML::GetEventVoiceDeactivated(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "voice-deactivated", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/voice-deactivated", szDefPath);
     }
 
-    bool ClientXML::SetEventEnableVoiceActivation(const std::string& szPath)
+    void ClientXML::SetEventEnableVoiceActivation(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "enable-voice-activation", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/enable-voice-activation", szPath);
     }
 
     std::string ClientXML::GetEventEnableVoiceActivation(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "enable-voice-activation", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/enable-voice-activation", szDefPath);
     }
 
-    bool ClientXML::SetEventDisableVoiceActivation(const std::string& szPath)
+    void ClientXML::SetEventDisableVoiceActivation(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "disable-voice-activation", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/disable-voice-activation", szPath);
     }
 
     std::string ClientXML::GetEventDisableVoiceActivation(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "disable-voice-activation", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/disable-voice-activation", szDefPath);
     }
 
-    bool ClientXML::SetEventMeEnableVoiceActivation(const std::string& szPath)
+    void ClientXML::SetEventMeEnableVoiceActivation(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "me-enable-voice-activation", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/me-enable-voice-activation", szPath);
     }
 
     std::string ClientXML::GetEventMeEnableVoiceActivation(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "me-enable-voice-activation", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/me-enable-voice-activation", szDefPath);
     }
 
-    bool ClientXML::SetEventMeDisableVoiceActivation(const std::string& szPath)
+    void ClientXML::SetEventMeDisableVoiceActivation(const std::string& szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "me-disable-voice-activation", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/me-disable-voice-activation", szPath);
     }
 
     std::string ClientXML::GetEventMeDisableVoiceActivation(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "me-disable-voice-activation", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/me-disable-voice-activation", szDefPath);
     }
 
-    bool ClientXML::SetEventTransmitQueueHead(std::string szPath)
+    void ClientXML::SetEventTransmitQueueHead(std::string szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "transmit-queue-front", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/transmit-queue-front", szPath);
     }
     
     std::string ClientXML::GetEventTransmitQueueHead(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "transmit-queue-front", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/transmit-queue-front", szDefPath);
     }
 
-    bool ClientXML::SetEventTransmitQueueStop(std::string szPath)
+    void ClientXML::SetEventTransmitQueueStop(std::string szPath)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutString(*pParent, "transmit-queue-stop", szPath);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/transmit-queue-stop", szPath);
     }
 
     std::string ClientXML::GetEventTransmitQueueStop(std::string szDefPath)
     {
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetString(*child, "transmit-queue-stop", szDefPath);
-        return szDefPath;
+        return GetValue(true, "events/transmit-queue-stop", szDefPath);
     }
 
-    bool ClientXML::SetEventVibrateOnMsg(int nIndex)
+    void ClientXML::SetEventTTSEvents(TTSEvents uEvents)
     {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutInteger(*pParent, "msg-vibrate", nIndex);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    int ClientXML::GetEventVibrateOnMsg()
-    {
-        int ret = UNDEFINED;
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetInteger(*child, "msg-vibrate", ret);
-
-        return ret;
-    }
-
-    bool ClientXML::SetEventTTSEvents(TTSEvents uEvents)
-    {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutInteger(*pParent, "text-to-speech-events", uEvents);
-            return true;
-        }
-        else
-            return false;
+        SetValue("events/text-to-speech-events", int(uEvents));
     }
     
     TTSEvents ClientXML::GetEventTTSEvents()
     {
-        TTSEvents ret = TTS_ALL;
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetInteger(*child, "text-to-speech-events", ret);
-
-        return ret;
+        return TTSEvents(GetValue(true, "events/text-to-speech-events", TTS_ALL));
     }
-
-    bool ClientXML::SetEventFlashOnMsg(int nIndex)
-    {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutInteger(*pParent, "msg-flash", nIndex);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    int ClientXML::GetEventFlashOnMsg()
-    {
-        int ret = UNDEFINED;
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-            GetInteger(*child, "msg-flash", ret);
-
-        return ret;
-    }
-
 
     /********* <advanced> ************/
 
