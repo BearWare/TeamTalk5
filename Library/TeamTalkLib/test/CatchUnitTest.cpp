@@ -1464,7 +1464,7 @@ TEST_CASE("WebRTC_echocancel")
 
 #if defined(ENABLE_PORTAUDIO) && defined(WIN32)
 
-int samples = 0;
+int paSamples = 0;
 uint32_t paTimeStamp = 0;
 
 int Foo_StreamCallback(const void* inputBuffer, void* outputBuffer,
@@ -1473,7 +1473,7 @@ int Foo_StreamCallback(const void* inputBuffer, void* outputBuffer,
     PaStreamCallbackFlags statusFlags,
     void* pUserData)
 {
-    samples += framesPerBuffer;
+    paSamples += framesPerBuffer;
     if (!paTimeStamp)
         paTimeStamp = GETTIMESTAMP();
 
@@ -1512,11 +1512,11 @@ TEST_CASE("PortAudioRaw_SamplesPerSec")
                         paClipOff, Foo_StreamCallback, static_cast<void*> (0));
 
     REQUIRE(Pa_StartStream(outstream) == paNoError);
-    while (samples < ininfo->defaultSampleRate * 500)
+    while (paSamples < ininfo->defaultSampleRate * 500)
     {
         Pa_Sleep(1000);
 
-        auto samplesDurationMSec = PCM16_SAMPLES_DURATION(samples, int(ininfo->defaultSampleRate));
+        auto samplesDurationMSec = PCM16_SAMPLES_DURATION(paSamples, int(ininfo->defaultSampleRate));
         auto durationMSec = GETTIMESTAMP() - paTimeStamp;
         auto skew = int(samplesDurationMSec - durationMSec);
         std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
@@ -1579,6 +1579,8 @@ TEST_CASE("PortAudio_SamplesPerSec")
         REQUIRE(skew < 0.08 * 1000);
     }
 }
+
+
 #endif
 
 TEST_CASE("InjectAudio")
