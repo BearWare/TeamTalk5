@@ -173,12 +173,15 @@ implements AdapterView.OnItemClickListener, FileFilter, Comparator<File> {
         File parent = path.getParentFile();
         getSupportActionBar().setSubtitle(path.getAbsolutePath());
         files.clear();
-        files.addAll(path.listFiles(this));
-        files.sort(this);
-        if (parent != null)
-            files.insert(parent, 0);
-        currentDirectory = path;
-        getListFragment().setListAdapter(files);
+        File[] fileList = path.listFiles(this);
+        if (fileList != null) {
+            files.addAll(fileList);
+            files.sort(this);
+            if (parent != null)
+                files.insert(parent, 0);
+            currentDirectory = path;
+            getListFragment().setListAdapter(files);
+        }
     }
 
     private ListFragment getListFragment() {
