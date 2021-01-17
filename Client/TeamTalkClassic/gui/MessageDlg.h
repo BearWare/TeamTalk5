@@ -49,6 +49,8 @@ public:
     void SetAlive(BOOL state);
     BOOL IsAlive();
     LOGFONT m_lf;
+    CHARFORMAT m_defaultCF = {};
+
   //messages from previous session
     messages_t m_messages;
     BOOL m_bShowTimeStamp;

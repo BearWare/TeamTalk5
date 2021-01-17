@@ -102,6 +102,8 @@ BOOL CMessageDlg::OnInitDialog()
     if (!m_hAccel)
         MessageBox(LoadText(IDS_ACCELERATORNOTLOADDED, _T("The accelerator table was not loaded")));
 
+    m_richHistory.GetSelectionCharFormat(m_defaultCF);
+
     if(IsAlive())
     {
         for(size_t i=0;i<m_messages.size();i++)
@@ -216,55 +218,62 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     if(bStore)
         m_messages.push_back(msg);
 
-    CString szTime;
-    szTime = msg.receiveTime.Format(LoadText(IDS_TIMELOCALE, _T("%Y-%m-%d %H:%M:%S")));
-
-    CString name;
-    if(msg.nFromUserID == m_myself.nUserID)
-        name.Format(_T("<%s>\n"), GetDisplayName(m_myself));
-    else
+    // Insert Enter
+    long nPos = m_richHistory.GetTextLength();
+    if (nPos > 0)
     {
-        name.Format(_T("<%s>\n"), GetDisplayName(m_user));
+        m_richHistory.SetSel(nPos, nPos);
+        m_richHistory.SetSelectionCharFormat(m_defaultCF);
+        m_richHistory.ReplaceSel(_T("\r\n"));
     }
 
-    if(m_bShowTimeStamp)
-        name = szTime + _T(" ") + name;
-
-    //insert name
-    m_richHistory.SetSel(m_richHistory.GetTextLength(),m_richHistory.GetTextLength());
-    m_richHistory.ReplaceSel(name);
-    CHARFORMAT cf = {};
-    cf.cbSize        = sizeof (CHARFORMAT);  
-    cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
-    cf.dwEffects    = CFE_UNDERLINE | CFE_BOLD;
+    // Insert Name
+    CString name;
     if(msg.nFromUserID == m_myself.nUserID)
-        cf.crTextColor    = RGB(0, 0, 255); 
+        name.Format(_T("<%s>\r\n"), GetDisplayName(m_myself));
+    else
+    {
+        name.Format(_T("<%s>\r\n"), GetDisplayName(m_user));
+    }
+
+    if (m_bShowTimeStamp)
+    {
+        CString szTime;
+        szTime = msg.receiveTime.Format(LoadText(IDS_TIMELOCALE, _T("%Y-%m-%d %H:%M:%S")));
+        name = szTime + _T(" ") + name;
+    }
+
+    nPos = m_richHistory.GetTextLength();
+    m_richHistory.SetSel(nPos, nPos);
+    CHARFORMAT cf = m_defaultCF;
+    cf.dwMask = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
+    cf.dwEffects = ~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
+    if(msg.nFromUserID == m_myself.nUserID)
+        cf.crTextColor = RGB(0, 0, 255);
     else
     {
         if(m_user.uUserType & USERTYPE_ADMIN)
-            cf.crTextColor    = RGB(255, 117, 5);
+            cf.crTextColor = RGB(255, 117, 5);
         else
-            cf.crTextColor    = RGB(255, 0, 0); 
+            cf.crTextColor = RGB(255, 0, 0);
     }
-    m_richHistory.SetSel(0,name.GetLength());
     m_richHistory.SetSelectionCharFormat(cf);
+    m_richHistory.ReplaceSel(name);
+
+    //insert message
+    CString szMessage = msg.szMessage;
+    nPos = m_richHistory.GetTextLength();
+    m_richHistory.SetSel(nPos, nPos);
+
+    cf = m_defaultCF;
+    cf.dwMask = CFM_COLOR;
+    cf.dwEffects = ~(CFE_AUTOCOLOR);
+    cf.crTextColor = RGB(0, 0, 0);
+    m_richHistory.SetSelectionCharFormat(cf);
+    m_richHistory.ReplaceSel(szMessage);
+
+    m_richHistory.SetSel(m_richHistory.GetTextLength(), m_richHistory.GetTextLength());
     m_richHistory.HideSelection(TRUE, FALSE);
-
-    //insert msg
-    m_richHistory.SetSel(m_richHistory.GetTextLength(),m_richHistory.GetTextLength());
-    m_richHistory.ReplaceSel(msg.szMessage);
-
-    cf = {};
-    cf.cbSize        = sizeof (CHARFORMAT);  
-    cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
-    cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
-    cf.crTextColor    = RGB(0, 0, 0); 
-    m_richHistory.SetSel(0, long(_tcslen(msg.szMessage)) + 1);
-    m_richHistory.SetSelectionCharFormat(cf);
-
-    //insert enter
-    m_richHistory.SetSel(m_richHistory.GetTextLength(),m_richHistory.GetTextLength());
-    m_richHistory.ReplaceSel(_T("\n"));
 
     if(bStore)
         WriteLogMsg(m_logFile, name + msg.szMessage + _T("\r\n"));
