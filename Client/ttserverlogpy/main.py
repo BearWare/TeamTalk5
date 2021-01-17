@@ -65,6 +65,14 @@ result, msg = waitForCmdSuccess(ttclient, cmdid, DEF_WAIT)
 
 if result:
     print("Login completed")
+
+cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), b"")
+
+result, msg = waitForCmdSuccess(ttclient, cmdid, DEF_WAIT)
+if result:
+    print("Joined root channel")
+else:
+    sys.exit("Failed to join channel")
     
 ttclient.closeTeamTalk()
 
