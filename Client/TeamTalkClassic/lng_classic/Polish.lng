@@ -435,6 +435,8 @@
     <item id="570">Kanał</item>
     <item id="571">Użytkownik zalogowany</item>
     <item id="572">Użytkownik wylogowany</item>
+    <item id="573">Wysłano prywatną wiadomość</item>
+    <item id="574">Wysłano wiadomość publiczną</item>
     <item id="1006">Lista plików</item>
     <item id="1009">Automatycznie łącz z głównym kanałem po połączeniu</item>
     <item id="1012">Port TCP serwera</item>
