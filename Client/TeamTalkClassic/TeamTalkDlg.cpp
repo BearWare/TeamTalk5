@@ -1256,35 +1256,9 @@ void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)
             m_host.szChPasswd.clear();
         }
 
-        if(m_host.szChannel.size())
+        if (m_host.szChannel.size())
         {
-            int nChannelID = TT_GetChannelIDFromPath(ttInst,
-                STR_UTF8(m_host.szChannel.c_str()));
-            if(nChannelID>0) //join existing channel
-            {
-                int nCmdID = TT_DoJoinChannelByID(ttInst, nChannelID, 
-                                                  STR_UTF8(m_host.szChPasswd.c_str()));
-                m_commands[nCmdID] = CMD_COMPLETE_JOIN;
-            }
-            else //auto create channel
-            {
-                ServerProperties srvprop = {};
-                TT_GetServerProperties(ttInst, &srvprop);
-
-                Channel newchan = {};
-                newchan.nParentID = TT_GetRootChannelID(ttInst);
-                COPYTTSTR(newchan.szName, STR_UTF8(m_host.szChannel.c_str()));
-                COPYTTSTR(newchan.szPassword, STR_UTF8(m_host.szChPasswd.c_str()));
-                
-                InitDefaultAudioCodec(newchan.audiocodec);
-
-                newchan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE;
-                newchan.audiocfg.nGainLevel = DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL;
-
-                newchan.nMaxUsers = srvprop.nMaxUsers;
-                int nCmdID = TT_DoJoinChannel(ttInst, &newchan);
-                m_commands[nCmdID] = CMD_COMPLETE_JOIN;
-            }
+            JoinInitialChannel();
         }
         else if(m_xmlSettings.GetAutoJoinRootChannel())
         {
@@ -6449,6 +6423,49 @@ BOOL CTeamTalkDlg::InitSound()
     AddStatusText(szSndMsg);
 
     return bSuccess;
+}
+
+void CTeamTalkDlg::JoinInitialChannel()
+{
+    int nChannelID = TT_GetChannelIDFromPath(ttInst, STR_UTF8(m_host.szChannel.c_str()));
+    if (nChannelID > 0) //join existing channel
+    {
+        int nCmdID = TT_DoJoinChannelByID(ttInst, nChannelID,
+            STR_UTF8(m_host.szChPasswd.c_str()));
+        m_commands[nCmdID] = CMD_COMPLETE_JOIN;
+    }
+    else //auto create channel
+    {
+        nChannelID = TT_GetRootChannelID(ttInst);
+        CString szChanPath = STR_UTF8(m_host.szChannel.c_str());
+        CString szChanName = szChanPath;
+
+        // try find parent channel and create channel from there
+        int iIndex = szChanPath.ReverseFind('/');
+        if (iIndex >= 0)
+        {
+            szChanName = szChanPath.Mid(iIndex + 1);
+            szChanPath = szChanPath.Left(iIndex);
+            nChannelID = TT_GetChannelIDFromPath(ttInst, szChanPath.IsEmpty() ? _T("/") : szChanPath);
+        }
+
+        ServerProperties srvprop = {};
+        TT_GetServerProperties(ttInst, &srvprop);
+
+        Channel newchan = {};
+        newchan.nParentID = nChannelID;
+        COPYTTSTR(newchan.szName, szChanName);
+        COPYTTSTR(newchan.szPassword, STR_UTF8(m_host.szChPasswd.c_str()));
+
+        InitDefaultAudioCodec(newchan.audiocodec);
+
+        newchan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE;
+        newchan.audiocfg.nGainLevel = DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL;
+
+        newchan.nMaxUsers = srvprop.nMaxUsers;
+        int nCmdID = TT_DoJoinChannel(ttInst, &newchan);
+        m_commands[nCmdID] = CMD_COMPLETE_JOIN;
+    }
 }
 
 void CTeamTalkDlg::RunAppUpdate()

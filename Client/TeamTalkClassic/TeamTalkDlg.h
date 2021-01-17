@@ -157,6 +157,7 @@ public:
     void ToggleTransmitUsers(int nUserID, StreamTypes uStreamTypes);
     void PlaySoundEvent(SoundEvent event);
     BOOL InitSound();
+    void JoinInitialChannel();
     void RunAppUpdate();
 
     CString m_szTTLink;

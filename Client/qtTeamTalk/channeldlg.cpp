@@ -182,6 +182,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         ui.oprecvonlychanBox->setEnabled(false);
         ui.novoiceactBox->setEnabled(false);
         ui.norecordBox->setEnabled(false);
+        ui.hiddenchannelBox->setEnabled(false);
 
         ui.audiocodecBox->setEnabled(false);
 
