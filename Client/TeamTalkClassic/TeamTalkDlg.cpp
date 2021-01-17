@@ -2037,6 +2037,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
                 szFmt.LoadString(IDS_CHANTEXTMSGSEND);
                 TRANSLATE_ITEM(IDS_CHANTEXTMSGSEND, szFmt);
                 szMsg.Format(szFmt, textmsg.szMessage);
+                PlaySoundEvent(SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT);
             } else {
                 szFmt.LoadString(IDS_CHANTEXTMSG);
                 TRANSLATE_ITEM(IDS_CHANTEXTMSG, szFmt);
@@ -3472,7 +3473,9 @@ void CTeamTalkDlg::OnFilePreferences()
     eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_IN] = STR_UTF8( m_xmlSettings.GetEventUserLoggedIn().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_OUT] = STR_UTF8( m_xmlSettings.GetEventUserLoggedOut().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSG] = STR_UTF8( m_xmlSettings.GetEventNewMessage().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSGSENT] = STR_UTF8( m_xmlSettings.GetEventNewMessageSent().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_CHANNEL_TEXTMSG] = STR_UTF8(m_xmlSettings.GetEventChannelMsg().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT] = STR_UTF8(m_xmlSettings.GetEventChannelMsgSent().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_USER_BROADCAST_TEXTMSG] = STR_UTF8( m_xmlSettings.GetEventBroadcastMsg().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_QUESTIONMODE] = STR_UTF8( m_xmlSettings.GetEventQuestionMode().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_USER_DESKTOP_ACCESS] = STR_UTF8( m_xmlSettings.GetEventDesktopAccessReq().c_str());
@@ -3746,9 +3749,11 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventUserLoggedIn(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_IN]));
         m_xmlSettings.SetEventUserLoggedOut(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_OUT]));
         m_xmlSettings.SetEventNewMessage(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSG]));
+        m_xmlSettings.SetEventNewMessageSent(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSGSENT]));
         m_xmlSettings.SetEventServerLost(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_CONNECTION_LOST]));
         m_xmlSettings.SetEventHotKey(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_PUSHTOTALK]));
         m_xmlSettings.SetEventChannelMsg(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_CHANNEL_TEXTMSG]));
+        m_xmlSettings.SetEventChannelMsgSent(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT]));
         m_xmlSettings.SetEventBroadcastMsg(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_BROADCAST_TEXTMSG]));
         m_xmlSettings.SetEventChannelSilent(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_CHANNEL_SILENT]));
         m_xmlSettings.SetEventFilesUpd(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_FILES_UPDATED]));
@@ -6358,8 +6363,14 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
     case SOUNDEVENT_USER_TEXTMSG :
         szFilename = STR_UTF8(m_xmlSettings.GetEventNewMessage());
         break;
+    case SOUNDEVENT_USER_TEXTMSGSENT :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventNewMessageSent());
+        break;
     case SOUNDEVENT_USER_CHANNEL_TEXTMSG :
         szFilename = STR_UTF8(m_xmlSettings.GetEventChannelMsg());
+        break;
+    case SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventChannelMsgSent());
         break;
     case SOUNDEVENT_USER_BROADCAST_TEXTMSG:
         szFilename = STR_UTF8(m_xmlSettings.GetEventBroadcastMsg());

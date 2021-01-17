@@ -435,6 +435,8 @@
     <item id="570">Canal</item>
     <item id="571">Utilisateur connecté</item>
     <item id="572">Utilisateur déconnecté</item>
+    <item id="573">Message privé envoyé</item>
+    <item id="574">Message de canal envoyé</item>
     <item id="1006">Liste des fichiers</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
