@@ -218,65 +218,13 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     if(bStore)
         m_messages.push_back(msg);
 
-    // Insert Enter
-    long nPos = m_richHistory.GetTextLength();
-    if (nPos > 0)
-    {
-        m_richHistory.SetSel(nPos, nPos);
-        m_richHistory.SetSelectionCharFormat(m_defaultCF);
-        m_richHistory.ReplaceSel(_T("\r\n"));
-    }
-
     // Insert Name
-    CString name;
-    if(msg.nFromUserID == m_myself.nUserID)
-        name.Format(_T("<%s>\r\n"), GetDisplayName(m_myself));
-    else
-    {
-        name.Format(_T("<%s>\r\n"), GetDisplayName(m_user));
-    }
+    CString szName = (msg.nFromUserID == m_myself.nUserID) ? GetDisplayName(m_myself) : GetDisplayName(m_user);
 
-    if (m_bShowTimeStamp)
-    {
-        CString szTime;
-        szTime = msg.receiveTime.Format(LoadText(IDS_TIMELOCALE, _T("%Y-%m-%d %H:%M:%S")));
-        name = szTime + _T(" ") + name;
-    }
-
-    nPos = m_richHistory.GetTextLength();
-    m_richHistory.SetSel(nPos, nPos);
-    CHARFORMAT cf = m_defaultCF;
-    cf.dwMask = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
-    cf.dwEffects = ~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
-    if(msg.nFromUserID == m_myself.nUserID)
-        cf.crTextColor = RGB(0, 0, 255);
-    else
-    {
-        if(m_user.uUserType & USERTYPE_ADMIN)
-            cf.crTextColor = RGB(255, 117, 5);
-        else
-            cf.crTextColor = RGB(255, 0, 0);
-    }
-    m_richHistory.SetSelectionCharFormat(cf);
-    m_richHistory.ReplaceSel(name);
-
-    //insert message
-    CString szMessage = msg.szMessage;
-    nPos = m_richHistory.GetTextLength();
-    m_richHistory.SetSel(nPos, nPos);
-
-    cf = m_defaultCF;
-    cf.dwMask = CFM_COLOR;
-    cf.dwEffects = ~(CFE_AUTOCOLOR);
-    cf.crTextColor = RGB(0, 0, 0);
-    m_richHistory.SetSelectionCharFormat(cf);
-    m_richHistory.ReplaceSel(szMessage);
-
-    m_richHistory.SetSel(m_richHistory.GetTextLength(), m_richHistory.GetTextLength());
-    m_richHistory.HideSelection(TRUE, FALSE);
+    m_richHistory.AddMessage(szName, msg.szMessage);
 
     if(bStore)
-        WriteLogMsg(m_logFile, name + msg.szMessage + _T("\r\n"));
+        WriteLogMsg(m_logFile, szName + msg.szMessage + _T("\r\n"));
 }
 
 void CMessageDlg::OnSize(UINT nType, int cx, int cy)
