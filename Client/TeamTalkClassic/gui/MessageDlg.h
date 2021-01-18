@@ -48,12 +48,11 @@ public:
     void AppendMessage(const MyTextMessage& msg, BOOL bStore = TRUE);
     void SetAlive(BOOL state);
     BOOL IsAlive();
-    LOGFONT m_lf;
+    LOGFONT m_lf = {};
     CHARFORMAT m_defaultCF = {};
 
   //messages from previous session
     messages_t m_messages;
-    BOOL m_bShowTimeStamp;
 
 // Dialog Data
     //{{AFX_DATA(CSendMessageDlg)

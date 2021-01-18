@@ -51,13 +51,7 @@ CMessageDlg::CMessageDlg(teamtalk::ClientXML& xmlSettings, CTeamTalkDlg* pParent
 , m_user(user)
 , m_bUserAlive(TRUE)
 , m_pParent(pParent)
-, m_bShowTimeStamp(FALSE)
 {
-    //{{AFX_DATA_INIT(CSendMessageDlg)
-    //}}AFX_DATA_INIT
-
-    memset(&m_lf, 0, sizeof(LOGFONT));
-
     if(szLogFolder && _tcslen(szLogFolder))
         OpenLogFile(m_logFile, szLogFolder, GetDisplayName(user) + _T(".ulog"));
 }
@@ -103,6 +97,7 @@ BOOL CMessageDlg::OnInitDialog()
         MessageBox(LoadText(IDS_ACCELERATORNOTLOADDED, _T("The accelerator table was not loaded")));
 
     m_richHistory.GetSelectionCharFormat(m_defaultCF);
+    m_richHistory.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
 
     if(IsAlive())
     {
