@@ -30,7 +30,7 @@
 #if defined(ACE_WIN32)
 
 #include <avstream/DMOResampler.h> // need SetWaveMediaType()
-
+#include <pa_win_wasapi.h>
 #include <px_win_ds.h>    //the directx mixer
 
 #include <Objbase.h>
@@ -690,21 +690,34 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
         return duplexstreamer_t();
 
     //input device init
-    PaStreamParameters inputParameters;
+    PaStreamParameters inputParameters = {};
     inputParameters.device = inputdeviceid;
     inputParameters.channelCount = input_channels;
-    inputParameters.hostApiSpecificStreamInfo = NULL;
+    inputParameters.hostApiSpecificStreamInfo = nullptr;
     inputParameters.sampleFormat = paInt16;
     inputParameters.suggestedLatency = indev->defaultLowInputLatency;
     PaStreamParameters* tmpInputParameters = &inputParameters;
 
     //output device init
-    PaStreamParameters outputParameters;
+    PaStreamParameters outputParameters = {};
     outputParameters.device = outputdeviceid;
     outputParameters.channelCount = output_channels;
-    outputParameters.hostApiSpecificStreamInfo = NULL;
+    outputParameters.hostApiSpecificStreamInfo = nullptr;
     outputParameters.sampleFormat = paInt16;
     outputParameters.suggestedLatency = outdev->defaultLowOutputLatency;
+
+#if defined(WIN32)
+    PaWasapiStreamInfo wasapiConvert = {};
+    wasapiConvert.size = sizeof(wasapiConvert);
+    wasapiConvert.hostApiType = paWASAPI;
+    wasapiConvert.version = 1;
+    wasapiConvert.flags = paWinWasapiAutoConvert;
+    const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+    if (HOST_WASAPI == indev->hostApi)
+        inputParameters.hostApiSpecificStreamInfo = &wasapiConvert;
+    if (HOST_WASAPI == outdev->hostApi)
+        outputParameters.hostApiSpecificStreamInfo = &wasapiConvert;
+#endif
 
     duplexstreamer_t streamer(new PaDuplexStreamer(duplex, sndgrpid, framesize,
                                                    samplerate, input_channels,
