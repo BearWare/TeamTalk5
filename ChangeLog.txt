@@ -27,6 +27,7 @@ Accessible Windows Client
 - Return exact duration of file on CTRL+S dialog
 - Reconnect if initial connection attempt fails
 - Facebook login no longer supported
+- MP order has been fixed
 Default QT Client
 - SpeexDSP echo canceller replaced by WebRTC
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC

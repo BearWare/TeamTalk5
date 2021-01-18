@@ -373,7 +373,6 @@ CMessageDlg* CTeamTalkDlg::GetUsersMessageSession(int nUserID, BOOL bCreateNew, 
             font.szFaceName = STR_UTF8( szFaceName.c_str() );
             ConvertFont(font, pMsgDlg->m_lf);
         }
-        pMsgDlg->m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
         VERIFY(pMsgDlg->Create(CMessageDlg::IDD, GetDesktopWindow()));
 
         if(lpbNew)
@@ -3933,7 +3932,6 @@ void CTeamTalkDlg::OnUsersMessages(int nUserID)
         User myself;
         if(pMsgDlg && m_wndTree.GetUser(TT_GetMyUserID(ttInst), myself))
         {
-            pMsgDlg->m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
             pMsgDlg->ShowWindow(SW_SHOW);
             ::PostMessage(pMsgDlg->m_hWnd, WM_SETFOCUS, 0, 0);
         }
