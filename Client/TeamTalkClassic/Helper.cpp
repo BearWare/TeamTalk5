@@ -552,6 +552,11 @@ int GetSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev
     auto isend = indev.inputSampleRates + sizeof(indev.inputSampleRates);
     auto isr = std::find_if(indev.inputSampleRates, isend,
         [outdev](int sr) { return sr == outdev.nDefaultSampleRate; });
+
+    // WASAPI can automatically convert to desired sample rate
+    if (indev.nSoundSystem == SOUNDSYSTEM_WASAPI)
+        return outdev.nDefaultSampleRate;
+
     return isr != isend ? outdev.nDefaultSampleRate : 0;
 }
 

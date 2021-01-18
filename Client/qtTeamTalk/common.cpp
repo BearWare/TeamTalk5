@@ -288,6 +288,11 @@ int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev
                             [outdev] (int sr) { return sr == outdev.nDefaultSampleRate; });
     bool duplexmode = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE) &&
         (outdev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE);
+
+    // WASAPI can automatically convert to desired sample rate
+    if (duplexmode && indev.nSoundSystem == SOUNDSYSTEM_WASAPI)
+        return outdev.nDefaultSampleRate;
+
     return (duplexmode && isr != isend) ? outdev.nDefaultSampleRate : 0;
 }
 
@@ -298,8 +303,8 @@ bool isSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outde
 
 int getDefaultSndInputDevice()
 {
-    SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
-                                                        SOUNDSYSTEM_NONE).toInt();
+    SoundSystem sndsys = SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
+                                                        SOUNDSYSTEM_NONE).toInt());
     int inputid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
     if(sndsys != SOUNDSYSTEM_NONE)
         TT_GetDefaultSoundDevicesEx(sndsys, &inputid, nullptr);
