@@ -435,6 +435,8 @@
     <item id="570">频道</item>
     <item id="571">用户登录</item>
     <item id="572">用户登出</item>
+    <item id="573">私人消息已发送</item>
+    <item id="574">频道消息已发送</item>
     <item id="1006">文件列表</item>
     <item id="1009">连接后自动加入跟频道</item>
     <item id="1012">主机TCP端口</item>
