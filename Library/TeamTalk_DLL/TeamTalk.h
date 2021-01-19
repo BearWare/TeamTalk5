@@ -1231,10 +1231,13 @@ extern "C" {
      * TT_SetSoundDeviceEffects() on desktop platforms. */
     typedef struct WebRTCAudioPreprocessor
     {
+        /** @brief Configuration of WebRTC pre-amplifier. */
         struct
         {
+            /** @brief Enable pre-amplifier. Replacement for
+             * TT_SetSoundInputGainLevel() */
             TTBOOL bEnable;
-            /* Default: 1 */
+            /** @brief Gain factor. Default: 1. */
             float fFixedGainFactor;
         } preamplifier;
         /** @brief Configuration of WebRTC's echo canceller. See also
@@ -1258,8 +1261,18 @@ extern "C" {
              * 2 = High, 3 = VeryHigh. Default: 1. */
             INT32 nLevel;
         } noisesuppression;
+        /** @brief Configuration of WebRTC's voice detection. */
         struct
         {
+            /** @brief Use WebRTC's voice detection to trigger
+             * #CLIENTEVENT_VOICE_ACTIVATION.
+             *
+             * TT_EnableVoiceActivation() must still be called to
+             * activate voice detection event
+             * #CLIENTEVENT_VOICE_ACTIVATION.
+             *
+             * Enabling WebRTC's voice detection invalidates use of
+             * TT_SetVoiceActivationLevel() */
             TTBOOL bEnable;
         } voicedetection;
         /** @brief Configuration of WebRTC's gain controller 2 for
@@ -1293,8 +1306,14 @@ extern "C" {
                 float fMaxOutputNoiseLevelDBFS;
             } adaptivedigital;
         } gaincontroller2;
+        /** @brief Configuration of WebRTC's level estimater. */
         struct
         {
+            /** @brief Enable level estimater. When enabled
+             * TT_GetSoundInputLevel() will return a value based on
+             * WebRTC's level estimater. A WebRTC level estimater
+             * value of 0 will result in #SOUND_VU_MAX and level
+             * estimater value of 127 will return #SOUND_VU_MIN. */
             TTBOOL bEnable;
         } levelestimation;
     } WebRTCAudioPreprocessor;
@@ -4279,6 +4298,9 @@ extern "C" {
      * client instance joins a channel, i.e. it knows what sample rate
      * to use.
      *
+     * If #WebRTCAudioPreprocessor is active with @c levelestimation enabled
+     * then the current input level is based on WebRTC's level estimater.
+     *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
      * @return Returns a value between #SOUND_VU_MIN and #SOUND_VU_MAX. */
@@ -4592,7 +4614,12 @@ extern "C" {
      * @brief Set voice activation level.
      *
      * The current volume level can be queried calling
-     * #TT_GetSoundInputLevel.
+     * TT_GetSoundInputLevel(). When TT_GetSoundInputLevel() is
+     * greater or equal to voice activation level then
+     * #CLIENTEVENT_VOICE_ACTIVATION is triggered.
+     *
+     * If #WebRTCAudioPreprocessor is active with @c voicedetection
+     * enabled then TT_SetVoiceActivationLevel() is not applicable.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.

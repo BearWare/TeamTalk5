@@ -1077,7 +1077,7 @@ void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Con
     result.gain_controller2.adaptive_digital.max_gain_change_db_per_second = webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond;
     result.gain_controller2.adaptive_digital.max_output_noise_level_dbfs = webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS;
 
-    result.level_estimation.enabled = webrtc.voicedetection.bEnable;
+    result.level_estimation.enabled = webrtc.levelestimation.bEnable;
 }
 
 void Convert(const webrtc::AudioProcessing::Config& cfg, WebRTCAudioPreprocessor& result)
@@ -1100,7 +1100,7 @@ void Convert(const webrtc::AudioProcessing::Config& cfg, WebRTCAudioPreprocessor
     result.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = cfg.gain_controller2.adaptive_digital.max_gain_change_db_per_second;
     result.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = cfg.gain_controller2.adaptive_digital.max_output_noise_level_dbfs;
 
-    result.voicedetection.bEnable = cfg.level_estimation.enabled;
+    result.levelestimation.bEnable = cfg.level_estimation.enabled;
 }
 #endif
 

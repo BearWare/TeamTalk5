@@ -33,5 +33,5 @@
 bool IsEnabled(const webrtc::AudioProcessing::Config& cfg);
 
 int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infrm,
-                     media::AudioFrame& outfrm);
+                     media::AudioFrame& outfrm, webrtc::AudioProcessingStats* stats = nullptr);
 #endif

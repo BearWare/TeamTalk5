@@ -1460,7 +1460,83 @@ TEST_CASE("WebRTC_echocancel")
 
     WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
 }
+
+TEST_CASE("WebRTC_LevelEstimation")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 500));
+
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_USERID, STREAMTYPE_VOICE, TRUE));
+
+    AudioPreprocessor preprocess = {};
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    preprocess.webrtc.levelestimation.bEnable = TRUE;
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+    int n = 10;
+    do
+    {
+        REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK));
+        auto ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_USERID);
+        REQUIRE(ab);
+        REQUIRE(TT_ReleaseUserAudioBlock(ttclient, ab));
+        REQUIRE(TT_GetSoundInputLevel(ttclient) >= 88);
+    } while (n-- > 0);
+}
+
+TEST_CASE("WebRTC_VAD")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    AudioPreprocessor preprocess = {};
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    preprocess.webrtc.voicedetection.bEnable = TRUE;
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+
+    REQUIRE(TT_SetVoiceActivationStopDelay(ttclient, 200));
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 500));
+
+    REQUIRE(TT_EnableVoiceActivation(ttclient, TRUE));
+    TTMessage msg = {};
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_VOICE_ACTIVATION, msg));
+    REQUIRE(msg.bActive);
+
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 0));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_VOICE_ACTIVATION, msg));
+    REQUIRE(!msg.bActive);
+}
+
 #endif /* ENABLE_WEBRTC */
+
+TEST_CASE("TeamTalk_VAD")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    REQUIRE(TT_EnableVoiceActivation(ttclient, TRUE));
+    REQUIRE(TT_SetVoiceActivationLevel(ttclient, 63));
+    REQUIRE(TT_SetVoiceActivationStopDelay(ttclient, 100));
+
+    TTMessage msg = {};
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 500));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_VOICE_ACTIVATION, msg));
+    REQUIRE(msg.bActive);
+
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 0));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_VOICE_ACTIVATION, msg));
+    REQUIRE(!msg.bActive);
+}
 
 #if defined(ENABLE_PORTAUDIO) && defined(WIN32)
 

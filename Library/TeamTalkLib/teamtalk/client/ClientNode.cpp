@@ -3040,7 +3040,7 @@ bool ClientNode::EnableVoiceTransmission(bool enable)
 
 int ClientNode::GetCurrentVoiceLevel()
 {
-    return m_voice_thread.m_voicelevel;
+    return m_voice_thread.GetCurrentVoiceLevel();
 }
 
 bool ClientNode::EnableVoiceActivation(bool enable)
