@@ -1461,6 +1461,55 @@ TEST_CASE("WebRTC_echocancel")
     WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
 }
 
+TEST_CASE("WebRTC_Preamplifier")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    int level = 0;
+    
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, TRUE));
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 300));
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, TRUE));
+
+    // no gain
+    AudioPreprocessor preprocess = {};
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+
+    TTMessage msg = {};
+    int streamid = 0;
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+    auto ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
+    REQUIRE(ab);
+    streamid = ab->nStreamID;
+    level = TT_GetSoundInputLevel(ttclient);
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, FALSE));
+    REQUIRE(TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID) == nullptr);
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, FALSE));
+
+    // half gain
+    preprocess.webrtc.preamplifier.bEnable = TRUE;
+    preprocess.webrtc.preamplifier.fFixedGainFactor = .5f;
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+
+    REQUIRE(JoinRoot(ttclient));
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, TRUE));
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, TRUE));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK));
+    ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
+    REQUIRE(ab);
+    REQUIRE(streamid + 1 == ab->nStreamID);
+    REQUIRE(level / 2 == TT_GetSoundInputLevel(ttclient));
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, FALSE));
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, FALSE));
+}
+
 TEST_CASE("WebRTC_LevelEstimation")
 {
     ttinst ttclient(TT_InitTeamTalkPoll());
