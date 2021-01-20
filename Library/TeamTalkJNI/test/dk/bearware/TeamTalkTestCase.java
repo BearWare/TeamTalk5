@@ -2329,6 +2329,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         // test WebRTC
         preprocess = new AudioPreprocessor();
         preprocess.nPreprocessor = AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR;
+        preprocess.webrtc.preamplifier.bEnable = true;
+        preprocess.webrtc.preamplifier.fFixedGainFactor = 5;
+        preprocess.webrtc.voicedetection.bEnable = true;
         preprocess.webrtc.echocanceller.bEnable = false;
         preprocess.webrtc.gaincontroller2.bEnable = true;
         preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 4;
@@ -2339,6 +2342,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = 8;
         preprocess.webrtc.noisesuppression.bEnable = true;
         preprocess.webrtc.noisesuppression.nLevel = 2;
+        preprocess.webrtc.levelestimation.bEnable = true;
 
         if (WEBRTC_AVAILABLE) {
             assertTrue("Enable WebRTC", ttclient.setSoundInputPreprocess(preprocess));
@@ -2358,6 +2362,10 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
             assertEquals("webrtc8", preprocess.webrtc.noisesuppression.bEnable, preprocess2.webrtc.noisesuppression.bEnable);
             assertEquals("webrtc9", preprocess.webrtc.noisesuppression.nLevel, preprocess2.webrtc.noisesuppression.nLevel);
+            assertEquals("webrtc10", preprocess.webrtc.preamplifier.bEnable, preprocess2.webrtc.preamplifier.bEnable);
+            assertEquals("webrtc11", (int)preprocess.webrtc.preamplifier.fFixedGainFactor, (int)preprocess2.webrtc.preamplifier.fFixedGainFactor);
+            assertEquals("webrtc12", preprocess.webrtc.voicedetection.bEnable, preprocess2.webrtc.voicedetection.bEnable);
+            assertEquals("webrtc13", preprocess.webrtc.levelestimation.bEnable, preprocess2.webrtc.levelestimation.bEnable);
         }
     }
 

@@ -25,6 +25,10 @@ package dk.bearware;
 
 public interface WebRTCConstants
 {
+    public static final boolean DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE = false;
+    public static final float DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR = 1.0f;
+    public static final boolean DEFAULT_WEBRTC_VAD_ENABLE = false;
+    public static final boolean DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE = false;
     public static final boolean DEFAULT_WEBRTC_GAINCTL_ENABLE = false;
     public static final float DEFAULT_WEBRTC_GAINDB = 25;
     public static final boolean DEFAULT_WEBRTC_SAT_PROT_ENABLE = false;
