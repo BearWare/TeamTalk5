@@ -116,7 +116,6 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
             assert(!wstats.output_rms_dbfs.has_value() || wstats.output_rms_dbfs.value() <= 127);
             assert(!wstats.output_rms_dbfs.has_value() || wstats.output_rms_dbfs.value() >= 0);
             voice_detected |= wstats.voice_detected.value_or(false);
-            MYTRACE(ACE_TEXT("Voice detected: %d\n"), int(wstats.voice_detected.value_or(false)));
         }
 
         in_index += in_cfg.num_frames();
