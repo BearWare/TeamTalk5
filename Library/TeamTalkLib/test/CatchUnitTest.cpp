@@ -1485,6 +1485,7 @@ TEST_CASE("WebRTC_Preamplifier")
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
     auto ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
     REQUIRE(ab);
+    TT_ReleaseUserAudioBlock(ttclient, ab);
     streamid = ab->nStreamID;
     level = TT_GetSoundInputLevel(ttclient);
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
@@ -1503,6 +1504,7 @@ TEST_CASE("WebRTC_Preamplifier")
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK));
     ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
     REQUIRE(ab);
+    TT_ReleaseUserAudioBlock(ttclient, ab);
     REQUIRE(streamid + 1 == ab->nStreamID);
     REQUIRE(level / 2 == TT_GetSoundInputLevel(ttclient));
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
