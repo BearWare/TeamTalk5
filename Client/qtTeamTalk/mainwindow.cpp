@@ -2570,8 +2570,7 @@ void MainWindow::updateAudioConfig()
     //check if channel AGC settings should override default settings
     if (m_mychannel.audiocfg.bEnableAGC)
     {
-        AudioPreprocessor preprocessor;
-        initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+        AudioPreprocessor preprocessor = initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR);
 
         preprocessor.webrtc.noisesuppression.bEnable = denoise;
         preprocessor.webrtc.echocanceller.bEnable = echocancel && duplex;
@@ -2590,14 +2589,14 @@ void MainWindow::updateAudioConfig()
         AudioPreprocessor preprocessor;
         if (denoise || agc || echocancel)
         {
-            initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+            preprocessor = initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR);
             preprocessor.webrtc.noisesuppression.bEnable = denoise;
             preprocessor.webrtc.echocanceller.bEnable = echocancel && duplex;
             preprocessor.webrtc.gaincontroller2.bEnable = agc;
         }
         else
         {
-            initDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR, preprocessor);
+            preprocessor = initDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR);
         }
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
 
@@ -2953,7 +2952,7 @@ void MainWindow::startStreamMediaFile()
     MediaFilePlayback mfp = {};
     AudioPreprocessorType apt = AudioPreprocessorType(ttSettings->value(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR,
                                                       SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT).toInt());
-    loadAudioPreprocessor(apt, mfp.audioPreprocessor);
+    mfp.audioPreprocessor = loadAudioPreprocessor(apt);
     mfp.bPaused = false;
     mfp.uOffsetMSec = ttSettings->value(SETTINGS_STREAMMEDIA_OFFSET, SETTINGS_STREAMMEDIA_OFFSET_DEFAULT).toUInt();
     if (!TT_StartStreamingMediaFileToChannelEx(ttInst, _W(fileName), &mfp, &vidcodec))
@@ -5456,14 +5455,13 @@ void MainWindow::slotMasterVolumeChanged(int value)
 
 void MainWindow::slotMicrophoneGainChanged(int value)
 {
-    AudioPreprocessor preprocessor;
-    initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+    AudioPreprocessor preprocessor = initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR);
 
     TT_GetSoundInputPreprocessEx(ttInst, &preprocessor);
     switch (preprocessor.nPreprocessor)
     {
     case NO_AUDIOPREPROCESSOR :
-        initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+        preprocessor = initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
         TT_SetSoundInputGainLevel(ttInst, refGain(value));
         break;

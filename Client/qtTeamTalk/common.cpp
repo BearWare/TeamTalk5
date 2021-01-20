@@ -115,8 +115,9 @@ void initDefaultVideoFormat(VideoFormat& vidfmt)
     vidfmt.picFourCC = DEFAULT_VIDEO_FOURCC;
 }
 
-void initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor)
+AudioPreprocessor initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype)
 {
+    AudioPreprocessor preprocessor = {};
     preprocessor.nPreprocessor = preprocessortype;
     switch (preprocessor.nPreprocessor)
     {
@@ -139,6 +140,10 @@ void initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioP
         preprocessor.ttpreprocessor.bMuteLeftSpeaker = preprocessor.ttpreprocessor.bMuteRightSpeaker = FALSE;
         break;
     case WEBRTC_AUDIOPREPROCESSOR :
+        preprocessor.webrtc.preamplifier.bEnable = DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE;
+        preprocessor.webrtc.preamplifier.fFixedGainFactor = DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR;
+        preprocessor.webrtc.levelestimation.bEnable = DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE;
+        preprocessor.webrtc.voicedetection.bEnable = DEFAULT_WEBRTC_VAD_ENABLE;
         preprocessor.webrtc.gaincontroller2.bEnable = DEFAULT_WEBRTC_GAINCTL_ENABLE;
         preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = DEFAULT_WEBRTC_GAINDB;
         preprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable = DEFAULT_WEBRTC_SAT_PROT_ENABLE;
@@ -151,11 +156,12 @@ void initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioP
         preprocessor.webrtc.echocanceller.bEnable = DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE;
         break;
     }
+    return preprocessor;
 }
 
-void loadAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor)
+AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype)
 {
-    preprocessor.nPreprocessor = preprocessortype;
+    AudioPreprocessor preprocessor = initDefaultAudioPreprocessor(preprocessortype);
     switch (preprocessor.nPreprocessor)
     {
     case NO_AUDIOPREPROCESSOR:
@@ -190,6 +196,7 @@ void loadAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreproce
         preprocessor.webrtc.echocanceller.bEnable = FALSE; // unusable for streaming
         break;
     }
+    return preprocessor;
 }
 
 bool initVideoCaptureFromSettings()

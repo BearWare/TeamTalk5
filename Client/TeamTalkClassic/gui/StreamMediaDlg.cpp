@@ -356,7 +356,7 @@ void CStreamMediaDlg::OnBnClickedButtonAudiosetup()
         dlg.m_nDenoiseLevel = speexdsp.nMaxNoiseSuppressDB;
         if(dlg.DoModal() == IDOK)
         {
-            m_mfp.audioPreprocessor.nPreprocessor = SPEEXDSP_AUDIOPREPROCESSOR;
+            m_mfp.audioPreprocessor = InitDefaultAudioPreprocessor(SPEEXDSP_AUDIOPREPROCESSOR);
             m_mfp.audioPreprocessor.speexdsp.bEnableAGC = dlg.m_bAGC;
             m_mfp.audioPreprocessor.speexdsp.nGainLevel = dlg.m_nGainLevel;
             m_mfp.audioPreprocessor.speexdsp.nMaxGainDB = dlg.m_nMaxGainLevel;

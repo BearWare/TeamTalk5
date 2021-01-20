@@ -1113,8 +1113,7 @@ void PreferencesDlg::slotSoundTestDevices(bool checked)
             samplerate = out_dev.nDefaultSampleRate;
         int channels = 1;
 
-        AudioPreprocessor preprocessor = {};
-        initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+        AudioPreprocessor preprocessor = initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR);
         preprocessor.webrtc.gaincontroller2.bEnable = ui.agcBox->isChecked();
         preprocessor.webrtc.noisesuppression.bEnable = ui.denoisingBox->isChecked();
 

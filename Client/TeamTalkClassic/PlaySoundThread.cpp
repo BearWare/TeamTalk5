@@ -126,7 +126,7 @@ int CPlaySoundThread::Run()
                 MediaFilePlayback mfp = {};
                 mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
                 mfp.bPaused = FALSE;
-                mfp.audioPreprocessor.nPreprocessor = TEAMTALK_AUDIOPREPROCESSOR;
+                mfp.audioPreprocessor = InitDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR);
                 mfp.audioPreprocessor.ttpreprocessor.nGainLevel = RefGain(DEFAULT_SOUND_GAIN_LEVEL);
                 auto inst = TT_InitLocalPlayback(ttInst, pf.szFilename, &mfp);
                 break;

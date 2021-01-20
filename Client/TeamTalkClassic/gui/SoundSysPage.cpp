@@ -326,8 +326,7 @@ BOOL CSoundSysPage::StartTest()
     ASSERT(in_dev.nSoundSystem == out_dev.nSoundSystem);
     int nSampleRate = GetSoundDuplexSampleRate(in_dev, out_dev);
 
-    AudioPreprocessor ap = {};
-    InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, ap);
+    AudioPreprocessor ap = InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR);
     ap.webrtc.gaincontroller2.bEnable = m_bAGC;
     ap.webrtc.noisesuppression.bEnable = m_bDenoise;
 

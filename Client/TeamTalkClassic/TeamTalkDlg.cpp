@@ -5370,15 +5370,14 @@ void CTeamTalkDlg::UpdateGainLevel(int nGain)
     if (m_wndGainSlider.GetPos() != nGain)
         m_wndGainSlider.SetPos(nGain);
 
-    AudioPreprocessor preprocessor;
-    InitDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+    AudioPreprocessor preprocessor = InitDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR);
 
     TT_GetSoundInputPreprocessEx(ttInst, &preprocessor);
 
     switch (preprocessor.nPreprocessor)
     {
     case NO_AUDIOPREPROCESSOR:
-        InitDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+        preprocessor = InitDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
         TT_SetSoundInputGainLevel(ttInst, RefGain(nGain));
         break;
@@ -5415,8 +5414,7 @@ void CTeamTalkDlg::UpdateAudioConfig()
     Channel chan;
     if(m_wndTree.GetChannel(m_wndTree.GetMyChannelID(), chan) && chan.audiocfg.bEnableAGC)
     {
-        AudioPreprocessor preprocessor;
-        InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+        AudioPreprocessor preprocessor = InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR);
 
         preprocessor.webrtc.noisesuppression.bEnable = bDenoise;
         preprocessor.webrtc.echocanceller.bEnable = bEchoCancel && bDuplex;
@@ -5432,17 +5430,17 @@ void CTeamTalkDlg::UpdateAudioConfig()
     else
     {
         // use local settings
-        AudioPreprocessor preprocessor;
+        AudioPreprocessor preprocessor = {};
         if (bDenoise || bAGC || bEchoCancel)
         {
-            InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+            preprocessor = InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR);
             preprocessor.webrtc.noisesuppression.bEnable = bDenoise;
             preprocessor.webrtc.echocanceller.bEnable = bEchoCancel && bDuplex;
             preprocessor.webrtc.gaincontroller2.bEnable = bAGC;
         }
         else
         {
-            InitDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR, preprocessor);
+            preprocessor = InitDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR);
         }
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
 

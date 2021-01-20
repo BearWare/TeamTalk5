@@ -119,6 +119,10 @@
 #define DEFAULT_SPEEXDSP_ECHO_SUPPRESS          -40
 #define DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE    -15
 
+#define DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE      FALSE
+#define DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR  1.0f
+#define DEFAULT_WEBRTC_VAD_ENABLE               FALSE
+#define DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE   FALSE
 #define DEFAULT_WEBRTC_GAINCTL_ENABLE           DEFAULT_AGC_ENABLE
 #define DEFAULT_WEBRTC_GAINDB                   25
 #define DEFAULT_WEBRTC_SAT_PROT_ENABLE          TRUE
@@ -354,8 +358,8 @@ QStringList getCustomCommand(const TextMessage& msg);
 void initDefaultAudioCodec(AudioCodec& codec);
 bool getVideoCaptureCodec(VideoCodec& vidcodec);
 void initDefaultVideoFormat(VideoFormat& vidfmt);
-void initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor);
-void loadAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor);
+AudioPreprocessor initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype);
+AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype);
 
 bool initVideoCaptureFromSettings();
 bool initVideoCapture(const QString& devid, const VideoFormat& fmt);

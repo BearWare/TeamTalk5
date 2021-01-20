@@ -79,7 +79,7 @@ BOOL IsMyselfTalking();
 #define SPEEX_MODEID_UWB 2
 
 void InitDefaultAudioCodec(AudioCodec& audiocodec);
-void InitDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor);
+AudioPreprocessor InitDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype);
 
 #define DEFAULT_TEAMTALK_TCPPORT 10333
 #define DEFAULT_TEAMTALK_UDPPORT 10333
@@ -107,6 +107,10 @@ void InitDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioP
 #define DEFAULT_SPEEXDSP_ECHO_SUPPRESS          -40
 #define DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE    -15
 
+#define DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE      FALSE
+#define DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR  1.0f
+#define DEFAULT_WEBRTC_VAD_ENABLE               FALSE
+#define DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE   FALSE
 #define DEFAULT_WEBRTC_GAINCTL_ENABLE           DEFAULT_AGC_ENABLE
 #define DEFAULT_WEBRTC_GAINDB                   25
 #define DEFAULT_WEBRTC_SAT_PROT_ENABLE          TRUE
