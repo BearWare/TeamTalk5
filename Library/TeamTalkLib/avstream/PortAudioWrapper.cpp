@@ -47,8 +47,19 @@ const int WINAEC_CHANNELS = 1;
 using namespace std;
 namespace soundsystem {
 
+#if defined(WIN32)
+PaWasapiStreamInfo WASAPICONVERT = {};
+#endif
+
 PortAudio::PortAudio()
 {
+#if defined(WIN32)
+    WASAPICONVERT.size = sizeof(WASAPICONVERT);
+    WASAPICONVERT.hostApiType = paWASAPI;
+    WASAPICONVERT.version = 1;
+    WASAPICONVERT.flags = paWinWasapiAutoConvert;
+#endif
+
     Init();
 }
 
@@ -237,6 +248,9 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
         streamParameters.device = i;
         streamParameters.sampleFormat = paInt16;
         streamParameters.suggestedLatency = 0;
+#if defined(WIN32)
+        streamParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
+#endif
 
         for(size_t j=0;j<standardSampleRates.size();j++)
         {
@@ -355,12 +369,18 @@ inputstreamer_t PortAudio::NewStream(StreamCapture* capture, int inputdeviceid,
     streamer->duplex = false;
 #endif
 
-    PaStreamParameters inputParameters;
+    PaStreamParameters inputParameters = {};
     inputParameters.device = inputdeviceid;
     inputParameters.channelCount = channels;
-    inputParameters.hostApiSpecificStreamInfo = NULL;
+    inputParameters.hostApiSpecificStreamInfo = nullptr;
     inputParameters.sampleFormat = paInt16;
     inputParameters.suggestedLatency = indev->defaultLowInputLatency;
+
+#if defined(WIN32)
+    const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+    if (HOST_WASAPI == indev->hostApi)
+        inputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
+#endif
 
     PaError err = Pa_OpenStream(&streamer->stream, &inputParameters, NULL,
                                 (double)samplerate, framesize, paClipOff,
@@ -457,6 +477,12 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
         return outputstreamer_t();
 
     outputParameters.suggestedLatency = outdev->defaultLowOutputLatency;
+
+#if defined(WIN32)
+    const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+    if (HOST_WASAPI == outdev->hostApi)
+        outputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
+#endif
 
     //create stream holder
     outputstreamer_t streamer(new PaOutputStreamer(player, sndgrpid, framesize, samplerate,
@@ -707,16 +733,11 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
     outputParameters.suggestedLatency = outdev->defaultLowOutputLatency;
 
 #if defined(WIN32)
-    PaWasapiStreamInfo wasapiConvert = {};
-    wasapiConvert.size = sizeof(wasapiConvert);
-    wasapiConvert.hostApiType = paWASAPI;
-    wasapiConvert.version = 1;
-    wasapiConvert.flags = paWinWasapiAutoConvert;
     const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
     if (HOST_WASAPI == indev->hostApi)
-        inputParameters.hostApiSpecificStreamInfo = &wasapiConvert;
+        inputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
     if (HOST_WASAPI == outdev->hostApi)
-        outputParameters.hostApiSpecificStreamInfo = &wasapiConvert;
+        outputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
 #endif
 
     duplexstreamer_t streamer(new PaDuplexStreamer(duplex, sndgrpid, framesize,
