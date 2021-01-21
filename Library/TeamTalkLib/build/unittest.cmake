@@ -10,7 +10,7 @@ if (CATCH_UNITTEST)
     ${TEAMTALKLIB_ROOT}/test/CatchMain.cpp ${TEAMTALKLIB_ROOT}/test/TTUnitTest.cpp
     ${TEAMTALKLIB_ROOT}/test/TTUnitTest.h)
 
-  if (MSVS_UNITTEST)
+  if (MSVC)
     list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchUnitTestWin.cpp)
   endif()
   
