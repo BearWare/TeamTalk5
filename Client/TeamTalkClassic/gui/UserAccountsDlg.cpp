@@ -85,6 +85,7 @@ void CUserAccountsDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_TAB_USERACCOUNT, m_wndTabCtrl);
     DDX_Control(pDX, IDC_CHECK_CHANGENICKNAME, m_wndChangeNickname);
     DDX_Control(pDX, IDC_CHECK_RECORDVOICE, m_wndRecordVoice);
+    DDX_Control(pDX, IDC_CHECK_HIDDENCHAN, m_wndHiddenChan);
 }
 
 
@@ -207,6 +208,8 @@ void CUserAccountsDlg::OnBnClickedButtonAdd()
         account.uUserRights |= USERRIGHT_LOCKED_NICKNAME;
     if(m_wndViewAllUsers.GetCheck() == BST_CHECKED)
         account.uUserRights |= USERRIGHT_VIEW_ALL_USERS;
+    if (m_wndHiddenChan.GetCheck() == BST_CHECKED)
+        account.uUserRights |= USERRIGHT_VIEW_HIDDEN_CHANNELS;
     if(m_wndPermChannels.GetCheck() == BST_CHECKED)
         account.uUserRights |= USERRIGHT_MODIFY_CHANNELS;
     if(m_wndTempChannels.GetCheck() == BST_CHECKED)
@@ -335,6 +338,7 @@ void CUserAccountsDlg::UpdateControls()
     m_wndDoubleLogin.EnableWindow(bCheck);
     m_wndChangeNickname.EnableWindow(bCheck);
     m_wndViewAllUsers.EnableWindow(bCheck);
+    m_wndHiddenChan.EnableWindow(bCheck);
     m_wndPermChannels.EnableWindow(bCheck);
     m_wndTempChannels.EnableWindow(bCheck);
     m_wndUserBcast.EnableWindow(bCheck);
@@ -381,6 +385,7 @@ void CUserAccountsDlg::ShowUserAccount(const UserAccount& useraccount)
     m_wndDoubleLogin.SetCheck((useraccount.uUserRights & USERRIGHT_MULTI_LOGIN)?BST_CHECKED:BST_UNCHECKED);
     m_wndChangeNickname.SetCheck((useraccount.uUserRights & USERRIGHT_LOCKED_NICKNAME) ? BST_UNCHECKED : BST_CHECKED);
     m_wndViewAllUsers.SetCheck((useraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS)?BST_CHECKED:BST_UNCHECKED);
+    m_wndHiddenChan.SetCheck((useraccount.uUserRights & USERRIGHT_VIEW_HIDDEN_CHANNELS) ? BST_CHECKED : BST_UNCHECKED);
     m_wndPermChannels.SetCheck((useraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS)?BST_CHECKED:BST_UNCHECKED);
     m_wndTempChannels.SetCheck((useraccount.uUserRights & USERRIGHT_CREATE_TEMPORARY_CHANNEL)?BST_CHECKED:BST_UNCHECKED);
     m_wndUserBcast.SetCheck((useraccount.uUserRights & USERRIGHT_TEXTMESSAGE_BROADCAST)?BST_CHECKED:BST_UNCHECKED);

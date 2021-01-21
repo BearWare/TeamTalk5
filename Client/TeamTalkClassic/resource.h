@@ -205,7 +205,7 @@
 #define IDS_CMDNO                       298
 #define IDS_CMDTIMEFRAME                299
 #define IDS_ANONYMOUS                   300
-#define IDS_KICKEDFROMCHANNELBYUNK                   301
+#define IDS_KICKEDFROMCHANNELBYUNK      301
 #define IDD_DIALOG_BANTYPE              302
 #define IDS_NEWPROFILE                  303
 #define IDS_DELETEPROFILE               304
@@ -977,6 +977,8 @@
 #define IDC_CHECK_JOINCHANNEL           1601
 #define IDC_CHECK_HIDDENCHANNEL         1602
 #define IDC_STATIC_GRPCHANTYPE          1603
+#define IDC_CHECK1                      1604
+#define IDC_CHECK_HIDDENCHAN            1604
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -1095,7 +1097,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        575
 #define _APS_NEXT_COMMAND_VALUE         32959
-#define _APS_NEXT_CONTROL_VALUE         1604
+#define _APS_NEXT_CONTROL_VALUE         1605
 #define _APS_NEXT_SYMED_VALUE           413
 #endif
 #endif
