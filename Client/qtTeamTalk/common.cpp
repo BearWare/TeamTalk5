@@ -296,10 +296,6 @@ int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev
     bool duplexmode = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE) &&
         (outdev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE);
 
-    // WASAPI can automatically convert to desired sample rate
-    if (duplexmode && indev.nSoundSystem == SOUNDSYSTEM_WASAPI)
-        return outdev.nDefaultSampleRate;
-
     return (duplexmode && isr != isend) ? outdev.nDefaultSampleRate : 0;
 }
 
