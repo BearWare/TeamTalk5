@@ -119,7 +119,7 @@ AudioPreprocessor InitDefaultAudioPreprocessor(AudioPreprocessorType preprocesso
 #define DEFAULT_WEBRTC_MAXGAIN_DBSEC            3
 #define DEFAULT_WEBRTC_MAX_OUT_NOISE            -50
 #define DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE     DEFAULT_DENOISE_ENABLE
-#define DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL      1
+#define DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL      2
 #define DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE       FALSE /* requires duplex mode */
 
 #define DEFAULT_AUDIOCODEC              OPUS_CODEC

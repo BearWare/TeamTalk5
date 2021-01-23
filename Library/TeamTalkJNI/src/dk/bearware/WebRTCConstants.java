@@ -37,7 +37,7 @@ public interface WebRTCConstants
     public static final float DEFAULT_WEBRTC_MAXGAIN_DBSEC = 3;
     public static final float DEFAULT_WEBRTC_MAX_OUT_NOISE = -50;
     public static final boolean DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE = false;
-    public static final int DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL = 1;
+    public static final int DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL = 2;
     public static final boolean DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE = false;
     public static final float WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX = 49.9f;
 }
