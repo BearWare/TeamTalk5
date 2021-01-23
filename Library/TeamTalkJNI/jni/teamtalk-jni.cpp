@@ -1826,6 +1826,18 @@ extern "C" {
                                               nUserID, (StreamType)nStreamType, nDelayMSec);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserJitterControl(JNIEnv* env,
+                                                                                         jobject thiz,
+                                                                                         jlong lpTTInstance,
+                                                                                         jint nUserID,
+                                                                                         jint nStreamType,
+                                                                                         jint nFixedDelayMSec,
+                                                                                         jboolean bUseAdativeDejitter)
+    {
+        return TT_SetUserJitterControl(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                              nUserID, (StreamType)nStreamType, nFixedDelayMSec, bUseAdativeDejitter);
+    }
+
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserPosition(JNIEnv* env,
                                                                              jobject thiz,
                                                                              jlong lpTTInstance,

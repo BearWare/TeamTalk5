@@ -6915,6 +6915,34 @@ extern "C" {
                                                           IN StreamType nStreamType,
                                                           IN INT32 nDelayMSec);
 
+     /**
+     * @brief Set the configuration for de-jitter measures for a user.
+     *
+     * TeamTalk can add a fixed delay at the start of the playout of a user stream.
+     * This delay acts as a buffer to smooth out jittering (non-constant delays) 
+     * in the reception of network packets.
+     * The fixed delay is applied at the start of every new stream, such as a new PTT session.
+     * The default fixed delay is zero.
+     * 
+     * TeamTalk can also apply adaptive jitter buffering where the actual jitter is measured
+     * and the delay at the start of a stream is adapted based on those measurements.
+     * The adaptive delay will not go below the fixed delay.
+     * By default, the adaptive mechanism is OFF
+     * 
+     * By default, all jitter control is OFF
+     * 
+     * @param lpTTInstance Pointer to client instance created by #TT_InitTeamTalk.
+     * @param nUserID The user ID of the user to apply the configuration to.
+     * @param nStreamType The type of stream to change, currently only
+     * #STREAMTYPE_VOICE is supported. Other types are a no-op.
+     * @param nFixedDelayMSec The fixed delay in milliseconds. Default = 0.
+     * @param bMute Turns adaptive jitter buffering ON/OFF. Default is OFF.*/
+    TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
+                                                  IN INT32 nUserID,
+                                                  IN StreamType nStreamType,
+                                                  IN INT32 nFixedDelayMSec,
+                                                  IN TTBOOL bUseAdativeDejitter);
+
     /**
      * @brief Set the position of a user.
      *

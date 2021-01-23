@@ -97,6 +97,7 @@ namespace teamtalk {
         int TimerMonitorAudioFilePlayback();
         int TimerMonitorVideoFilePlayback();
         int TimerDesktopDelayedAck();
+        int TimerVoiceJitterBuffer();
 
         void SetChannel(clientchannel_t& chan);
         clientchannel_t GetChannel() const { return m_channel.lock(); }
@@ -128,12 +129,16 @@ namespace teamtalk {
         void AddPacket(const DesktopInputPacket& p,
                        const ClientChannel& chan);
 
+        void FeedVoicePacketToPlayer(const VoicePacket& audpkt);
+
         const ClientUserStats& GetStatistics() const { return m_stats; }
 
         bool IsAudioActive(StreamType stream_type) const;
 
         void SetPlaybackStoppedDelay(StreamType stream_type, int msec);
         int GetPlaybackStoppedDelay(StreamType stream_type) const;
+
+        void SetJitterControl(StreamType stream_type, int fixed_delay_msec, bool use_adaptive_jitter_control);
 
         void SetVolume(StreamType stream_type, int volume);
         int GetVolume(StreamType stream_type) const;
@@ -222,6 +227,11 @@ namespace teamtalk {
         audio_player_t m_voice_player;
         bool m_voice_active;
         int m_voice_buf_msec;
+        uint8_t m_current_stream = 0;
+        std::recursive_mutex m_jitterbuffer_mutex;
+        std::queue<VoicePacket*> m_jitterbuffer;
+        int m_fixed_jitter_delay_ms = 0;
+        int m_use_adaptive_jitter_control = false;
 
         //video playback
 #if defined(ENABLE_VPX)

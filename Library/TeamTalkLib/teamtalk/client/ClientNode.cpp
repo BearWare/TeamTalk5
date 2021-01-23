@@ -608,6 +608,15 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
             ret = -1;
     }
     break;
+    case USER_TIMER_JITTER_BUFFER_ID :
+    {
+        clientuser_t user = GetUser(userid);
+        if (user.get())
+            ret = user->TimerVoiceJitterBuffer();
+        else
+            ret = -1;
+    }
+    break;
     case USER_TIMER_MEDIAFILE_AUDIO_PLAYBACK_ID :
     {
         clientuser_t user = GetUser(userid);

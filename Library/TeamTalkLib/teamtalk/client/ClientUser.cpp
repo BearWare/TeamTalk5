@@ -76,6 +76,17 @@ ClientUser::ClientUser(int userid, ClientNode* clientnode,
 
 ClientUser::~ClientUser()
 {
+    // Delete any enqueued jitter buffer packets
+    std::unique_lock<std::recursive_mutex> g(m_jitterbuffer_mutex);
+    while (!m_jitterbuffer.empty())
+    {
+        VoicePacket* queuedVoicePacket = m_jitterbuffer.front();
+        m_jitterbuffer.pop();
+        delete queuedVoicePacket;
+    }
+    g.unlock();
+
+
     TTASSERT(!m_voice_player);
     TTASSERT(!m_audiofile_player);
 #if defined(ENABLE_VPX)
@@ -121,7 +132,6 @@ int ClientUser::TimerMonitorVoicePlayback()
 {
     if (!m_voice_player)
         return -1;
-
     bool talking = m_voice_player->IsTalking();
     bool changed = talking != IsAudioActive(STREAMTYPE_VOICE);
     m_voice_active = talking;
@@ -224,6 +234,23 @@ int ClientUser::TimerDesktopDelayedAck()
     return -1;
 }
 
+
+int ClientUser::TimerVoiceJitterBuffer()
+{
+    std::unique_lock<std::recursive_mutex> g(m_jitterbuffer_mutex);
+    while (!m_jitterbuffer.empty())
+    {
+        VoicePacket* queuedVoicePacket = m_jitterbuffer.front();
+        m_jitterbuffer.pop();
+        //MYTRACE(ACE_TEXT("Feed packet from jitter buffer to playout\n"));
+        FeedVoicePacketToPlayer(*queuedVoicePacket);
+        delete queuedVoicePacket;
+    }
+    //MYTRACE(ACE_TEXT("Jitter buffer emptied\n"));
+    return -1; //Single shot time
+}
+
+
 void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
                                 const struct SoundProperties& sndprop,
                                 VoiceLogger& voice_logger, bool allowrecord)
@@ -252,6 +279,66 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
         return;
 
     assert(m_voice_player->GetAudioCodec() == chan->GetAudioCodec());
+
+    // Jitter buffer implementation:
+    // Delay the playout of received packets at the start of a stream.
+    // This delay acts as a time buffer for network jitter
+    // The delay is a single-shot timer in which the entire jitter buffer is emptied into the playout buffer.
+    // This means that the actual buffering is done in the playout queue. The jitter buffer only delays the inital playout.
+    // After that initial delay, all received packets are directly fed into the playout buffer
+
+    // See if jitter buffer is enabled at all by the config
+    bool enqueueInJitterBuffer = ((m_fixed_jitter_delay_ms > 0) || m_use_adaptive_jitter_control);
+
+    // Put packets in the jitter buffer if we're already queueing or at the start of the stream
+    if (enqueueInJitterBuffer) 
+        enqueueInJitterBuffer = ((audpkt.GetStreamID() != m_current_stream) || (!m_jitterbuffer.empty()));
+
+    int jitter_delay = m_fixed_jitter_delay_ms; // TODO logic expand for adaptive jitter buffer    
+
+    MYTRACE(ACE_TEXT("Jitter delay %d.\n"), m_fixed_jitter_delay_ms);
+
+    std::unique_lock<std::recursive_mutex> g(m_jitterbuffer_mutex);
+    // Put packets in the jitter buffer if we're already queueing or at the start of the stream
+    if (enqueueInJitterBuffer)
+    {
+        //MYTRACE(ACE_TEXT("Enqueue Received voice packet. Start of stream %d, Already queueing %d \n"), (audpkt.GetStreamID() != m_current_stream), (!m_jitterbuffer.empty()));
+
+        VoicePacket* queuedVoicePacket = new VoicePacket(audpkt);
+
+        m_jitterbuffer.push(queuedVoicePacket);
+
+        // start timer to dequeue the buffered packets
+        if (!m_clientnode->TimerExists(USER_TIMER_JITTER_BUFFER_ID, GetUserID()))
+        {
+            ACE_Time_Value tm(jitter_delay / 1000, (jitter_delay % 1000) * 1000);
+            // Set up a single shot timer (interval = 0)
+            long timerid = m_clientnode->StartUserTimer(USER_TIMER_JITTER_BUFFER_ID, GetUserID(), 0, tm);
+            TTASSERT(timerid >= 0);
+        }
+        g.unlock();
+    }
+    else
+    {
+        // Immediate enqueueing into the playout buffer
+        //MYTRACE(ACE_TEXT("Direct playout of voice packet.\n"));
+        FeedVoicePacketToPlayer(audpkt);
+    }
+
+    m_current_stream = audpkt.GetStreamID();
+}
+
+void ClientUser::FeedVoicePacketToPlayer(const VoicePacket& audpkt)
+{
+    if (!m_voice_player)
+        return;
+
+    clientchannel_t chan = GetChannel();
+    VoiceLogger& voice_logger = m_clientnode->voicelogger();
+    
+    bool allowrecord = !(chan->GetChannelType() & CHANNEL_NO_RECORDING) &&
+        (m_clientnode->GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
+
     audiopacket_t reassem_pkt = m_voice_player->QueuePacket(audpkt);
 
     m_voice_player->SetNoRecording(!allowrecord);
@@ -828,6 +915,15 @@ int ClientUser::GetPlaybackStoppedDelay(StreamType stream_type) const
     default:
         return 0;
     }
+}
+
+void ClientUser::SetJitterControl(StreamType stream_type, int fixed_delay_msec, bool use_adaptive_jitter_control)
+{
+    if (stream_type != STREAMTYPE_VOICE)
+        return;
+
+    m_fixed_jitter_delay_ms = fixed_delay_msec;
+    m_use_adaptive_jitter_control = use_adaptive_jitter_control;
 }
 
 void ClientUser::SetVolume(StreamType stream_type, int volume)

@@ -1744,3 +1744,51 @@ TEST_CASE("InjectAudio")
 
     } while ((samples -= SAMPLERATE) > 0);
 }
+
+TEST_CASE("FixedJitterBuffer")
+{
+    std::vector<ttinst> clients;
+    auto txclient = TT_InitTeamTalkPoll();
+    auto rxclient = TT_InitTeamTalkPoll();
+    clients.push_back(txclient);
+    clients.push_back(rxclient);
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(txclient));
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    uint32_t fixeddelay = 240;
+
+    TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, fixeddelay, false);
+
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+
+    auto voicestart = [&](TTMessage msg)
+    {
+        if (msg.nClientEvent == CLIENTEVENT_USER_STATECHANGE &&
+            msg.user.nUserID == TT_GetMyUserID(txclient) &&
+            (msg.user.uUserState & USERSTATE_VOICE) == USERSTATE_VOICE)
+        {
+            return true;
+        }
+
+        return false;
+    };
+
+    uint32_t starttime = GETTIMESTAMP();
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestart));
+
+    uint32_t endtime = GETTIMESTAMP();
+    uint32_t delay = (endtime - starttime);
+    INFO("Measured voice delay is " << delay);
+
+    REQUIRE((delay >= fixeddelay));
+    //Measuring the maximum deviation of the delay is not reliably possible because the CLIENTEVENT_USER_STATECHANGE is detected/notified on it's own timer.
+}

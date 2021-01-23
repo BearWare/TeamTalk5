@@ -1985,6 +1985,25 @@ TEAMTALKDLL_API TTBOOL TT_SetUserStoppedPlaybackDelay(IN TTInstance* lpTTInstanc
     return FALSE;
 }
 
+TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
+                                               IN INT32 nUserID,
+                                               IN StreamType nStreamType,
+                                               IN INT32 nFixedDelayMSec,
+                                               IN TTBOOL bUseAdativeDejitter)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if (user)
+    {
+        user->SetJitterControl((teamtalk::StreamType)nStreamType, nFixedDelayMSec, bUseAdativeDejitter);
+        return TRUE;
+    }
+    return FALSE;
+
+}
+
 /// Set the position of a user
 TEAMTALKDLL_API TTBOOL TT_SetUserPosition(IN TTInstance* lpTTInstance,
                                           IN INT32 nUserID, 
