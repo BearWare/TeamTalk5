@@ -44,18 +44,6 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             addbtn.accessibilityHint = NSLocalizedString("Create new channel", comment: "main-tab")
         }
 
-//        let img = UIImage(named: "channel_pink.png")
-//        let tabImgSize = CGSize(width: 30, height: 30)
-//        UIGraphicsBeginImageContextWithOptions(tabImgSize, false, 0.0)
-//        img?.drawInRect(CGRectMake(0,0,tabImgSize.width, tabImgSize.height))
-//        let newImg = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        
-//        let tab0 = self.tabBar.items?.first
-//        
-//        tab0?.setBackgroundImage(newImg, forState: .Normal)
-//        tab0?.setBackgroundImage(newImg, forState: .Selected)
-        
         // Our one and only TT client instance
         ttInst = TT_InitTeamTalkPoll()
         
@@ -490,7 +478,6 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         
         reconnecttimer?.invalidate()
     }
-
     
     @IBAction func disconnectButtonPressed(_ sender: UIBarButtonItem) {
         let servers = loadLocalServers()
