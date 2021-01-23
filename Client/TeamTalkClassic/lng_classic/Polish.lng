@@ -779,6 +779,7 @@
     <item id="1601">&amp;Dołącz do kanału przy przerwaniu połączenia</item>
     <item id="1602">Kanał ukryty (niewidoczny i dostępny tylko dla użytkowników, którzy wiedzą nazwę kanału)</item>
     <item id="1603">Typ kanału</item>
+    <item id="1604">Użytkownik może widzieć kanały ukryte</item>
     <item id="32791">Jaki jest mój &amp;adres IP?</item>
     <item id="32798">&amp;Nadaj uprawnienia operatoraOp\tCtrl+O</item>
     <item id="32801">Pokaż wiadomości kanału\tF10</item>
