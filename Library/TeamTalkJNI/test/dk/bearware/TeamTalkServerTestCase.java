@@ -1474,6 +1474,23 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("cannot create hidden subchannel in hidden channel", waitCmdError(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
         hidden.uChannelType = ChannelType.CHANNEL_DEFAULT;
         assertTrue("cannot create subchannel in hidden channel", waitCmdError(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+
+        // test login after hidden channel has been created
+        hidden = buildDefaultChannel(admin, "Hidden channel 2");
+        hidden.uChannelType |= (ChannelType.CHANNEL_HIDDEN);
+        assertTrue("admin make hidden channel", waitCmdSuccess(admin, admin.doJoinChannel(hidden), DEF_WAIT, interleave));
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
+        useraccounts.add(useraccount);
+        TeamTalkBase ttclient = newClientInstance();
+        connect(server, ttclient);
+        login(server, ttclient, USERNAME + getTestMethodName(), USERNAME, PASSWORD);
+        joinRoot(server, ttclient);
     }
 
     // @Test
