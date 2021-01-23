@@ -1664,6 +1664,33 @@ TEST_CASE("StreamVideoFile")
 }
 #endif /* ENABLE_VPX */
 
+TEST_CASE("ReactorDeadlock")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nSampleRate = 48000;
+    wcsncpy(mfi.szFileName, _T("temp.wav"), TT_STRLEN);
+    mfi.uDurationMSec = 1000;
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+    mfp.bPaused = FALSE;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    auto playid = TT_InitLocalPlayback(ttclient, _T("temp.wav"), &mfp);
+    REQUIRE(playid > 0);
+    TTMessage msg;
+    while(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg) && (msg.mediafileinfo.nStatus != MFS_FINISHED));
+    REQUIRE(TT_Disconnect(ttclient));
+}
+
 TEST_CASE("StreamMediaToAudioBlock")
 {
     auto txclient = InitTeamTalk();
