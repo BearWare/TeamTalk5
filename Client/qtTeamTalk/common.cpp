@@ -136,8 +136,9 @@ AudioPreprocessor initDefaultAudioPreprocessor(AudioPreprocessorType preprocesso
         preprocessor.speexdsp.nEchoSuppressActive = DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE;
         break;
     case TEAMTALK_AUDIOPREPROCESSOR :
-        preprocessor.ttpreprocessor.nGainLevel = SOUND_GAIN_DEFAULT;
-        preprocessor.ttpreprocessor.bMuteLeftSpeaker = preprocessor.ttpreprocessor.bMuteRightSpeaker = FALSE;
+        preprocessor.ttpreprocessor.nGainLevel = DEFAULT_TEAMTALK_GAINLEVEL;
+        preprocessor.ttpreprocessor.bMuteLeftSpeaker = DEFAULT_TEAMTALK_MUTELEFT;
+        preprocessor.ttpreprocessor.bMuteRightSpeaker = DEFAULT_TEAMTALK_MUTERIGHT;
         break;
     case WEBRTC_AUDIOPREPROCESSOR :
         preprocessor.webrtc.preamplifier.bEnable = DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE;
