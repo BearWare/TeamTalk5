@@ -7292,6 +7292,9 @@ namespace BearWare
          *
          * By default, all jitter control is OFF
          *
+         * The result of jitter buffering is that playout frames will get buffered in the playout buffer.
+         * Make sure to also size the playout buffer for the expected jitter via #TT_SetUserAudioStreamBufferSize
+         *
          * @param nUserID The user ID of the user to apply the configuration to.
          * @param nStreamType The type of stream to change, currently only
          * #STREAMTYPE_VOICE is supported. Other types are a no-op.
