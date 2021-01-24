@@ -339,7 +339,7 @@
     <item id="471">Usuń serwer</item>
     <item id="472">Publiczny</item>
     <item id="473">Pliki hostów (*%s)|*%s|wszystkie pliki (*.*)|*.*|</item>
-    <item id="474">Wysłano wiadomość publiczną: %s</item>
+    <item id="474">Wysłano wiadomość czatu: %s</item>
     <item id="475">Plik %s&#x0D;&#x0A;nie zawiera prawidłowego wpisu hosta%s.&#x0D;&#x0A;Wiadomość błędu: %s</item>
     <item id="476">Błąd przy ustawianiu przechwytywania klawiatury. Spróbuj zrestartować program.</item>
     <item id="477">Format wav</item>
@@ -779,6 +779,7 @@
     <item id="1601">&amp;Dołącz do kanału przy przerwaniu połączenia</item>
     <item id="1602">Kanał ukryty (niewidoczny i dostępny tylko dla użytkowników, którzy wiedzą nazwę kanału)</item>
     <item id="1603">Typ kanału</item>
+    <item id="1604">Użytkownik może widzieć kanały ukryte</item>
     <item id="32791">Jaki jest mój &amp;adres IP?</item>
     <item id="32798">&amp;Nadaj uprawnienia operatoraOp\tCtrl+O</item>
     <item id="32801">Pokaż wiadomości kanału\tF10</item>
