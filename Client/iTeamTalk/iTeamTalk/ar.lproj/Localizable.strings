@@ -428,13 +428,13 @@
 "Private text message from %@. %@" = "رسالة نصية خاصة من %@: %@";
 
 /* preferences */
-"Proximity sensor" = "مستشعر القرب";
+"Proximity Sensor" = "مستشعر القرب";
 
 /* serverlist */
 "Public server" = "خادم عام";
 
 /* preferences */
-"Push to Talk lock" = "قفل إضغط وتحدث";
+"Push To Talk Lock" = "قفل إضغط وتحدث";
 
 /* codec detail */
 "Quality" = "الجودة";
@@ -500,10 +500,10 @@
 "Show public servers in server list" = "إظهار الخوادم العامة في قائمة الخوادم";
 
 /* preferences */
-"Show text messages instantly" = "عرض الرسائل النصية على الفور";
+"Show Text Messages Instantly" = "عرض الرسائل النصية على الفور";
 
 /* preferences */
-"Show usernames" = "عرض أسماء المستخدمين";
+"Show Usernames" = "عرض أسماء المستخدمين";
 
 /* preferences */
 "Show usernames instead of nicknames" = "عرض أسماء المستخدمين بدلا من الأسماء المستعارة";
@@ -512,7 +512,7 @@
 "Silent" = "صامت";
 
 /* preferences */
-"Sort channels" = "فرز القنوات";
+"Sort Channels" = "فرز القنوات";
 
 /* preferences
    text to speech */

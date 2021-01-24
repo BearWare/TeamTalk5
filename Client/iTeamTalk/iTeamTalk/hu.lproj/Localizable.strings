@@ -428,13 +428,13 @@
 "Private text message from %@. %@" = "Személyes üzenet a következőtöl: %@. %@";
 
 /* preferences */
-"Proximity sensor" = "Közelség Érzékelő";
+"Proximity Sensor" = "Közelség Érzékelő";
 
 /* serverlist */
 "Public server" = "nyilvános szerver";
 
 /* preferences */
-"Push to Talk lock" = "PTT zárolás";
+"Push To Talk Lock" = "PTT zárolás";
 
 /* codec detail */
 "Quality" = "Minőség";
@@ -500,10 +500,10 @@
 "Show public servers in server list" = "Nyilvános szerverek kijelzése a szerver listában";
 
 /* preferences */
-"Show text messages instantly" = "rögtöni személyes üzenet mutatás";
+"Show Text Messages Instantly" = "rögtöni személyes üzenet mutatás";
 
 /* preferences */
-"Show usernames" = "Felhasználónevek kijelzése";
+"Show Usernames" = "Felhasználónevek kijelzése";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Felhasználónevek kijelzése becenevek helyett";
@@ -512,7 +512,7 @@
 "Silent" = "Csendes";
 
 /* preferences */
-"Sort channels" = "Sort channels";
+"Sort Channels" = "Sort Channels";
 
 /* preferences
    text to speech */

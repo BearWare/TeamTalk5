@@ -428,13 +428,13 @@
 "Private text message from %@. %@" = "Privat tekstbesked fra %@. %@";
 
 /* preferences */
-"Proximity sensor" = "Nærhedssensor (ved øret)";
+"Proximity Sensor" = "Nærhedssensor (ved øret)";
 
 /* serverlist */
 "Public server" = "Offentlig server";
 
 /* preferences */
-"Push to Talk lock" = "Tryk vil låse stemmetransmission";
+"Push To Talk Lock" = "Tryk vil låse stemmetransmission";
 
 /* codec detail */
 "Quality" = "Kvalitet";
@@ -500,10 +500,10 @@
 "Show public servers in server list" = "Vis offentlige servere i serverlisten";
 
 /* preferences */
-"Show text messages instantly" = "Vis tekstbeskeder med det samme";
+"Show Text Messages Instantly" = "Vis tekstbeskeder med det samme";
 
 /* preferences */
-"Show usernames" = "Vis brugernavne";
+"Show Usernames" = "Vis brugernavne";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Vis brugernavne i stedet for kaldenavne";
@@ -512,7 +512,7 @@
 "Silent" = "Tavs";
 
 /* preferences */
-"Sort channels" = "Sortér kanaler";
+"Sort Channels" = "Sortér kanaler";
 
 /* preferences
    text to speech */

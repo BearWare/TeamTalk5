@@ -428,13 +428,13 @@
 "Private text message from %@. %@" = "Приватное сообщение от %@. %@";
 
 /* preferences */
-"Proximity sensor" = "Датчик приближения";
+"Proximity Sensor" = "Датчик приближения";
 
 /* serverlist */
 "Public server" = "Публичный сервер";
 
 /* preferences */
-"Push to Talk lock" = "Блокировать кнопку Передача";
+"Push To Talk Lock" = "Блокировать кнопку Передача";
 
 /* codec detail */
 "Quality" = "Качество";
@@ -500,10 +500,10 @@
 "Show public servers in server list" = "Показ публичных серверов в списке";
 
 /* preferences */
-"Show text messages instantly" = "Показать текстовые сообщения мгновенно";
+"Show Text Messages Instantly" = "Показать текстовые сообщения мгновенно";
 
 /* preferences */
-"Show usernames" = "Показ имён пользователей";
+"Show Usernames" = "Показ имён пользователей";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Показать имена пользователей вместо ников";
@@ -512,7 +512,7 @@
 "Silent" = "Молчит";
 
 /* preferences */
-"Sort channels" = "Сортировка каналов";
+"Sort Channels" = "Сортировка каналов";
 
 /* preferences
    text to speech */

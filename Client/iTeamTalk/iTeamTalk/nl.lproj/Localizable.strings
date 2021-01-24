@@ -428,13 +428,13 @@
 "Private text message from %@. %@" = "Privétekstbericht van %@. %@";
 
 /* preferences */
-"Proximity sensor" = "Nabijheids sensor";
+"Proximity Sensor" = "Nabijheids sensor";
 
 /* serverlist */
 "Public server" = "Publieke server";
 
 /* preferences */
-"Push to Talk lock" = "Push-to-talk-blokkade";
+"Push To Talk Lock" = "Push-to-talk-blokkade";
 
 /* codec detail */
 "Quality" = "Kwaliteit";
@@ -500,10 +500,10 @@
 "Show public servers in server list" = "Publieke servers weergeven in serverlijst";
 
 /* preferences */
-"Show text messages instantly" = "Tekstberichten direct weergeven";
+"Show Text Messages Instantly" = "Tekstberichten direct weergeven";
 
 /* preferences */
-"Show usernames" = "Gebruikersnamen weergeven";
+"Show Usernames" = "Gebruikersnamen weergeven";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Gebruikersnamen in plaats van bijnamen weergeven";
@@ -512,7 +512,7 @@
 "Silent" = "Stil";
 
 /* preferences */
-"Sort channels" = "Sort channels";
+"Sort Channels" = "Sort Channels";
 
 /* preferences
    text to speech */

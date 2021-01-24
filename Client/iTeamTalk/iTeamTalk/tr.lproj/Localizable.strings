@@ -434,13 +434,13 @@
 "Private text message from %@. %@" = "%@ kullanıcısından özel metin iletisi. %@";
 
 /* preferences */
-"Proximity sensor" = "Yakınlık algılayıcısı";
+"Proximity Sensor" = "Yakınlık algılayıcısı";
 
 /* serverlist */
 "Public server" = "Kamu sunucusu";
 
 /* preferences */
-"Push to Talk lock" = "Bas konuş kilidi";
+"Push To Talk Lock" = "Bas konuş kilidi";
 
 /* codec detail */
 "Quality" = "Kalite";
@@ -506,10 +506,10 @@
 "Show public servers in server list" = "Sunucu listesinde kamu sunucularını göster";
 
 /* preferences */
-"Show text messages instantly" = "Metin iletilerini anında göster";
+"Show Text Messages Instantly" = "Metin iletilerini anında göster";
 
 /* preferences */
-"Show usernames" = "Kullanıcı adlarını göster";
+"Show Usernames" = "Kullanıcı adlarını göster";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Rumuzların yerine kullanıcı adlarını göster";
@@ -518,7 +518,7 @@
 "Silent" = "Sessiz";
 
 /* preferences */
-"Sort channels" = "Kanalları sırala";
+"Sort Channels" = "Kanalları sırala";
 
 /* preferences
    text to speech */

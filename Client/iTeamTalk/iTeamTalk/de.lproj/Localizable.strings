@@ -428,13 +428,13 @@
 "Private text message from %@. %@" = "Private Textnachricht von %@. %@";
 
 /* preferences */
-"Proximity sensor" = "Annäherungssensor";
+"Proximity Sensor" = "Annäherungssensor";
 
 /* serverlist */
 "Public server" = "Öffentlicher Server";
 
 /* preferences */
-"Push to Talk lock" = "Push-to-Talk-Sperre";
+"Push To Talk Lock" = "Push-to-Talk-Sperre";
 
 /* codec detail */
 "Quality" = "Qualität";
@@ -500,10 +500,10 @@
 "Show public servers in server list" = "Öffentliche Server in Serverliste anzeigen";
 
 /* preferences */
-"Show text messages instantly" = "Textnachrichten sofort anzeigen";
+"Show Text Messages Instantly" = "Textnachrichten sofort anzeigen";
 
 /* preferences */
-"Show usernames" = "Benutzernamen anzeigen";
+"Show Usernames" = "Benutzernamen anzeigen";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Benutzernamen anstatt Nicknamen zeigen";
@@ -512,7 +512,7 @@
 "Silent" = "Still";
 
 /* preferences */
-"Sort channels" = "Räume sortieren";
+"Sort Channels" = "Räume sortieren";
 
 /* preferences
    text to speech */
