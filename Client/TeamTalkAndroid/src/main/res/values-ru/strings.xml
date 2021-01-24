@@ -348,5 +348,7 @@
     <string name="pref_title_translator">Переводчик</string>
     <string name="pref_title_libraries">Сторонние Компоненты</string>
     <string name="channel_prop_title_hiddenchannel">Скрытый</string>
+    <string name="pref_title_gender">Пол</string>
+    <string name="pref_summary_gender">Отображать как женский</string>
 
 </resources>
