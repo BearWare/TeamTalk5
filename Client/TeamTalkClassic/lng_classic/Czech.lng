@@ -435,6 +435,8 @@
     <item id="570">Kanál</item>
     <item id="571">Uživatel se přihlásil</item>
     <item id="572">Uživatel se odhlásil</item>
+    <item id="573">Soukromá zpráva odeslána</item>
+    <item id="574">Zpráva odeslána do chatu</item>
     <item id="1006">Soubory</item>
     <item id="1009">Po připojení ihned vstoupit na hlavní kanál</item>
     <item id="1011">Vlastnosti serveru</item>
@@ -777,6 +779,7 @@
     <item id="1601">&amp;Vstoupit na kanál po zavření</item>
     <item id="1602">Skrytý kanál (neviditelný, dostupný jen po zadání názvu)</item>
     <item id="1603">Typ kanálu</item>
+    <item id="1604">Uživatel může vidět skryté kanály</item>
     <item id="32791">Jaká je moje &amp;IP adresa?</item>
     <item id="32798">Udělit právo &amp;operátora\tCTRL+O</item>
     <item id="32801">Zobrazovat &amp;upozornění a zprávy na kanálu\tF10</item>
