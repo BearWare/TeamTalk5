@@ -210,8 +210,14 @@
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook oturumu iptal edildi";
 
+/* preferences */
+"Female" = "Female";
+
 /* codec detail */
 "Frame Size" = "Çerçeve Boyutu";
+
+/* preferences */
+"Gender" = "Gender";
 
 /* preferences
    user detail */
@@ -233,10 +239,7 @@
 "Headset TX Toggle" = "Kulaklıktan İletim Değişikliği";
 
 /* hidden channel */
-"Hidden channel" = "Gizli kanal";
-
-/* hidden channel */
-"Hidden Channel" = "Gizli Kanal";
+"Hidden Channel" = "Hidden Channel";
 
 /* server entry */
 "Host address" = "Ana bilgisayar adresi";
@@ -270,6 +273,9 @@
 
 /* log entry */
 "Logged on to server" = "Sunucuda oturum açıldı";
+
+/* preferences */
+"Male" = "Male";
 
 /* preferences */
 "Master Volume" = "Ana Düzey";
@@ -428,13 +434,13 @@
 "Private text message from %@. %@" = "%@ kullanıcısından özel metin iletisi. %@";
 
 /* preferences */
-"Proximity sensor" = "Yakınlık algılayıcısı";
+"Proximity Sensor" = "Yakınlık algılayıcısı";
 
 /* serverlist */
 "Public server" = "Kamu sunucusu";
 
 /* preferences */
-"Push to Talk lock" = "Bas konuş kilidi";
+"Push To Talk Lock" = "Bas konuş kilidi";
 
 /* codec detail */
 "Quality" = "Kalite";
@@ -491,16 +497,19 @@
 "Server List Entry" = "Sunucu Listesi Girişi";
 
 /* preferences */
+"Show male or female icon" = "Show male or female icon";
+
+/* preferences */
 "Show Public Servers" = "Kamu Sunucularını Göster";
 
 /* preferences */
 "Show public servers in server list" = "Sunucu listesinde kamu sunucularını göster";
 
 /* preferences */
-"Show text messages instantly" = "Metin iletilerini anında göster";
+"Show Text Messages Instantly" = "Metin iletilerini anında göster";
 
 /* preferences */
-"Show usernames" = "Kullanıcı adlarını göster";
+"Show Usernames" = "Kullanıcı adlarını göster";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Rumuzların yerine kullanıcı adlarını göster";
@@ -509,7 +518,7 @@
 "Silent" = "Sessiz";
 
 /* preferences */
-"Sort channels" = "Kanalları sırala";
+"Sort Channels" = "Kanalları sırala";
 
 /* preferences
    text to speech */
@@ -597,6 +606,9 @@
 
 /* channel list */
 "User" = "Kullanıcı";
+
+/* channel list */
+"User female" = "User female";
 
 /* preferences */
 "User Joins Channel" = "Kullanıcının Kanala Katılması";

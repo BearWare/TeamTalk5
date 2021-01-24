@@ -462,6 +462,11 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                 server.channel.removeAll()
                 server.chanpasswd.removeAll()
             }
+            
+            let settings = UserDefaults.standard
+            if settings.integer(forKey: PREF_GENERAL_GENDER) != 0 {
+                TT_DoChangeStatus(ttInst, INT32(StatusMode.STATUSMODE_FEMALE.rawValue), "")
+            }
         default :
             break
         }
@@ -471,7 +476,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         
         let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
         
-        let nickname = UserDefaults.standard.string(forKey: PREF_NICKNAME) ?? DEFAULT_NICKNAME
+        let nickname = UserDefaults.standard.string(forKey: PREF_GENERAL_NICKNAME) ?? DEFAULT_NICKNAME
         
         cmdid = TT_DoLoginEx(ttInst, nickname, server.username, server.password, AppInfo.getAppName())
         channelsTab.activeCommands[cmdid] = .loginCmd

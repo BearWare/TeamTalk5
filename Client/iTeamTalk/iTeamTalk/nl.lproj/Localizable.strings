@@ -206,8 +206,14 @@
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook login was cancelled";
 
+/* preferences */
+"Female" = "Female";
+
 /* codec detail */
 "Frame Size" = "Frame Size";
+
+/* preferences */
+"Gender" = "Gender";
 
 /* preferences
    user detail */
@@ -263,6 +269,9 @@
 
 /* log entry */
 "Logged on to server" = "Ingelogd op server";
+
+/* preferences */
+"Male" = "Male";
 
 /* preferences */
 "Master Volume" = "Hoofdvolume";
@@ -419,13 +428,13 @@
 "Private text message from %@. %@" = "Privétekstbericht van %@. %@";
 
 /* preferences */
-"Proximity sensor" = "Nabijheids sensor";
+"Proximity Sensor" = "Nabijheids sensor";
 
 /* serverlist */
 "Public server" = "Publieke server";
 
 /* preferences */
-"Push to Talk lock" = "Push-to-talk-blokkade";
+"Push To Talk Lock" = "Push-to-talk-blokkade";
 
 /* codec detail */
 "Quality" = "Kwaliteit";
@@ -482,16 +491,19 @@
 "Server List Entry" = "Serverlijstitem";
 
 /* preferences */
+"Show male or female icon" = "Show male or female icon";
+
+/* preferences */
 "Show Public Servers" = "Publieke servers weergeven";
 
 /* preferences */
 "Show public servers in server list" = "Publieke servers weergeven in serverlijst";
 
 /* preferences */
-"Show text messages instantly" = "Tekstberichten direct weergeven";
+"Show Text Messages Instantly" = "Tekstberichten direct weergeven";
 
 /* preferences */
-"Show usernames" = "Gebruikersnamen weergeven";
+"Show Usernames" = "Gebruikersnamen weergeven";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Gebruikersnamen in plaats van bijnamen weergeven";
@@ -500,7 +512,7 @@
 "Silent" = "Stil";
 
 /* preferences */
-"Sort channels" = "Sort channels";
+"Sort Channels" = "Sort Channels";
 
 /* preferences
    text to speech */
@@ -589,6 +601,9 @@
 /* channel list */
 "User" = "Gebruiker";
 
+/* channel list */
+"User female" = "User female";
+
 /* preferences */
 "User Joins Channel" = "Gebruiker komt kanaal binnen";
 
@@ -676,6 +691,3 @@
 
 /* server entry */
 "Check only if this server has enabled Facebook login" = "";
-
-/* hidden channel */
-"Hidden channel" = "";

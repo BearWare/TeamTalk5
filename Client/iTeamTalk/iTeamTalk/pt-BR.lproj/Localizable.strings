@@ -207,8 +207,14 @@
 /* Dialog message */
 "Facebook login was cancelled" = "O login com o Facebook foi cancelado";
 
+/* preferences */
+"Female" = "Female";
+
 /* codec detail */
 "Frame Size" = "Tamanho do quadro";
+
+/* preferences */
+"Gender" = "Gender";
 
 /* preferences
    user detail */
@@ -264,6 +270,9 @@
 
 /* log entry */
 "Logged on to server" = "Conectado ao servidor";
+
+/* preferences */
+"Male" = "Male";
 
 /* preferences */
 "Master Volume" = "Volume principal";
@@ -422,13 +431,13 @@
 "Private text message from %@. %@" = "Mensagem privada de %@: %@";
 
 /* preferences */
-"Proximity sensor" = "Sensor de proximidade";
+"Proximity Sensor" = "Sensor de proximidade";
 
 /* serverlist */
 "Public server" = "Servidor público";
 
 /* preferences */
-"Push to Talk lock" = "Pressionar para falar ativo";
+"Push To Talk Lock" = "Pressionar para falar ativo";
 
 /* codec detail */
 "Quality" = "Qualidade";
@@ -485,16 +494,19 @@
 "Server List Entry" = "Lista de servidores";
 
 /* preferences */
+"Show male or female icon" = "Show male or female icon";
+
+/* preferences */
 "Show Public Servers" = "Mostrar servidores públicos";
 
 /* preferences */
 "Show public servers in server list" = "Incluir os servidores públicos na lista";
 
 /* preferences */
-"Show text messages instantly" = "Mostrar mensagens de texto instantaneamente";
+"Show Text Messages Instantly" = "Mostrar mensagens de texto instantaneamente";
 
 /* preferences */
-"Show usernames" = "Mostrar nomes de usuário";
+"Show Usernames" = "Mostrar nomes de usuário";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Mostrar nomes de usuário invés de apelidos";
@@ -503,7 +515,7 @@
 "Silent" = "Silenciado";
 
 /* preferences */
-"Sort channels" = "Ordem de canais";
+"Sort Channels" = "Ordem de canais";
 
 /* preferences
    text to speech */
@@ -591,6 +603,9 @@
 
 /* channel list */
 "User" = "Usuário";
+
+/* channel list */
+"User female" = "User female";
 
 /* preferences */
 "User Joins Channel" = "Usuário entrou no canal";
@@ -680,6 +695,3 @@
 
 /* server entry */
 "Check only if this server has enabled Facebook login" = "";
-
-/* hidden channel */
-"Hidden channel" = "";

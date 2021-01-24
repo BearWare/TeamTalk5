@@ -25,6 +25,19 @@ import UIKit
 import Foundation
 import AVFoundation
 
+enum StatusMode : Int {
+    case STATUSMODE_AVAILABLE   = 0x00000000,
+    STATUSMODE_AWAY             = 0x00000001,
+    STATUSMODE_QUESTION         = 0x00000002,
+    STATUSMODE_MODE             = 0x000000FF,
+
+    STATUSMODE_FLAGS            = 0xFFFFFF00,
+    STATUSMODE_FEMALE           = 0x00000100,
+    STATUSMODE_VIDEOTX          = 0x00000200,
+    STATUSMODE_DESKTOP          = 0x00000400,
+    STATUSMODE_STREAM_MEDIAFILE = 0x00000800
+}
+
 func refVolume(_ percent: Double) -> Int {
     //82.832*EXP(0.0508*x) - 50
     if percent == 0 {
