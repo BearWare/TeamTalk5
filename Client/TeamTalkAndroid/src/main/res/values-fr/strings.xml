@@ -240,7 +240,7 @@
     <string name="upload_progress_title">Téléversement de %1$s …</string>
     <string name="upload_progress">%1$d%%, cliquer pour annuler</string>
     <string name="upload_started">Téléversement démarré</string>
-    <string name="transfer_stopped">Transfer interrompu</string>
+    <string name="transfer_stopped">Transfert interrompu</string>
     <string name="complete">Terminé</string>
     <string name="remote_file_exists">Le fichier %1$s existe déjà sur le serveur dans ce canal</string>
     <string name="remote_file_remove_confirmation">Souhaitez-vous vraiment supprimer le fichier %1$s du serveur ?</string>

@@ -3384,27 +3384,27 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1372"/>
         <source>New user</source>
-        <translation>Nouvel utilisateur</translation>
+        <translation>L&apos;utilisateur a rejoint le canal</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1405"/>
         <source>User removed</source>
-        <translation>Utilisateur supprimé</translation>
+        <translation>L&apos;utilisateur a quitté le canal</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1216"/>
         <source>Server lost</source>
-        <translation>Connexion au serveur perdue</translation>
+        <translation>Connexion perdue</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1232"/>
         <source>New user message</source>
-        <translation>Nouveau message utilisateur</translation>
+        <translation>Message privé</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1392"/>
         <source>New channel message</source>
-        <translation>Nouveau message de canal</translation>
+        <translation>Message de canal</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1270"/>
