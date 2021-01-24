@@ -146,7 +146,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         
         let pttlock = settings.object(forKey: PREF_GENERAL_PTTLOCK) != nil && settings.bool(forKey: PREF_GENERAL_PTTLOCK)
         let pttlockcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let pttlockswitch = newTableCellSwitch(pttlockcell, label: NSLocalizedString("Push to Talk lock", comment: "preferences"), initial: pttlock)
+        let pttlockswitch = newTableCellSwitch(pttlockcell, label: NSLocalizedString("Push To Talk Lock", comment: "preferences"), initial: pttlock)
         pttlockcell.detailTextLabel!.text = NSLocalizedString("Double tap to lock TX button", comment: "preferences")
         pttlockswitch.addTarget(self, action: #selector(PreferencesViewController.pttlockChanged(_:)), for: .valueChanged)
         general_items.append(pttlockcell)
@@ -162,14 +162,14 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
 
         let proximitycell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let proximity = settings.object(forKey: PREF_DISPLAY_PROXIMITY) != nil && settings.bool(forKey: PREF_DISPLAY_PROXIMITY)
-        let proximitywitch = newTableCellSwitch(proximitycell, label: NSLocalizedString("Proximity sensor", comment: "preferences"), initial: proximity)
+        let proximitywitch = newTableCellSwitch(proximitycell, label: NSLocalizedString("Proximity Sensor", comment: "preferences"), initial: proximity)
         proximitycell.detailTextLabel!.text = NSLocalizedString("Turn off screen when holding phone near ear", comment: "preferences")
         proximitywitch.addTarget(self, action: #selector(PreferencesViewController.proximityChanged(_:)), for: .valueChanged)
         display_items.append(proximitycell)
         
         let txtmsgpopcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let txtmsgpopup = settings.object(forKey: PREF_DISPLAY_POPUPTXTMSG) == nil || settings.bool(forKey: PREF_DISPLAY_POPUPTXTMSG)
-        let txtmsgswitch = newTableCellSwitch(txtmsgpopcell, label: NSLocalizedString("Show text messages instantly", comment: "preferences"), initial: txtmsgpopup)
+        let txtmsgswitch = newTableCellSwitch(txtmsgpopcell, label: NSLocalizedString("Show Text Messages Instantly", comment: "preferences"), initial: txtmsgpopup)
         txtmsgpopcell.detailTextLabel!.text = NSLocalizedString("Pop up text message when new messages are received", comment: "preferences")
         txtmsgswitch.addTarget(self, action: #selector(PreferencesViewController.showtextmessagesChanged(_:)), for: .valueChanged)
         display_items.append(txtmsgpopcell)
@@ -190,14 +190,14 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
 
         let showusernamecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let showusername = settings.object(forKey: PREF_DISPLAY_SHOWUSERNAME) != nil && settings.bool(forKey: PREF_DISPLAY_SHOWUSERNAME)
-        let showusernameswitch = newTableCellSwitch(showusernamecell, label: NSLocalizedString("Show usernames", comment: "preferences"), initial: showusername)
+        let showusernameswitch = newTableCellSwitch(showusernamecell, label: NSLocalizedString("Show Usernames", comment: "preferences"), initial: showusername)
         showusernamecell.detailTextLabel!.text = NSLocalizedString("Show usernames instead of nicknames", comment: "preferences")
         showusernameswitch.addTarget(self, action: #selector(PreferencesViewController.showusernameChanged(_:)), for: .valueChanged)
         display_items.append(showusernamecell)
         
         let sortchancell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let options = [ NSLocalizedString("Ascending", comment: "preferences"), NSLocalizedString("Popularity", comment: "preferences")]
-        let sortchansegctl = newTableCellSegCtrl(sortchancell, label: NSLocalizedString("Sort channels", comment: "preferences"), values: options)
+        let sortchansegctl = newTableCellSegCtrl(sortchancell, label: NSLocalizedString("Sort Channels", comment: "preferences"), values: options)
         let chansort = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.rawValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
         sortchansegctl.selectedSegmentIndex = chansort
         sortchancell.detailTextLabel!.text = NSLocalizedString("Order of channels in Channel List", comment: "preferences")
