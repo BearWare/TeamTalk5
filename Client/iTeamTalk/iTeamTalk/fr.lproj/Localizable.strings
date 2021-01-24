@@ -211,7 +211,7 @@
 "Facebook login was cancelled" = "La connexion Facebook a été annulée";
 
 /* preferences */
-"Female" = "Female";
+"Female" = "Femme";
 
 /* codec detail */
 "Frame Size" = "Taille du cadre";
@@ -275,7 +275,7 @@
 "Logged on to server" = "Connecté au serveur";
 
 /* preferences */
-"Male" = "Male";
+"Male" = "Homme";
 
 /* preferences */
 "Master Volume" = "Volume principal";
@@ -497,7 +497,7 @@
 "Server List Entry" = "Entrée de la liste de serveurs";
 
 /* preferences */
-"Show male or female icon" = "Show male or female icon";
+"Show male or female icon" = "Afficher les icônes homme/femme";
 
 /* preferences */
 "Show Public Servers" = "Afficher les serveurs publics";
@@ -608,7 +608,7 @@
 "User" = "Utilisateur";
 
 /* channel list */
-"User female" = "User female";
+"User female" = "Utilisatrice";
 
 /* preferences */
 "User Joins Channel" = "L'utilisateur rejoint le canal";
