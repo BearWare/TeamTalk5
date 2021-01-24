@@ -52,6 +52,7 @@ Android Client
 - Ability to create and join hidden channels
 - New audio files for default sound events
 - Change default stream volume from 100 to 50
+- Support for italian language
 - Facebook login no longer supported
 iOS Client
 - Ability to create and join hidden channels
