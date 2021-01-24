@@ -259,16 +259,24 @@ class ChannelListViewController :
             cell.nicknameLabel.text = name
             cell.statusmsgLabel.text = statusmsg
             
-            cell.userImage.accessibilityLabel = NSLocalizedString("User", comment: "channel list")
+            let female = Int(user.nStatusMode) & StatusMode.STATUSMODE_FEMALE.rawValue != 0
+            
+            if female {
+                cell.userImage.accessibilityLabel = NSLocalizedString("User female", comment: "channel list")
+            }
+            else {
+                cell.userImage.accessibilityLabel = NSLocalizedString("User", comment: "channel list")
+            }
+
             if user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
                 (TT_GetMyUserID(ttInst) == user.nUserID &&
                     isTransmitting(ttInst!, stream: STREAMTYPE_VOICE)) {
                         
-                cell.userImage.image = UIImage(named: "man_green.png")
+                cell.userImage.image = UIImage(named: female ? "woman_green.png" : "man_green.png")
                 cell.userImage.accessibilityHint = NSLocalizedString("Talking", comment: "channel list")
             }
             else {
-                cell.userImage.image = UIImage(named: "man_blue.png")
+                cell.userImage.image = UIImage(named: female ? "woman_blue.png" : "man_blue.png")
                 cell.userImage.accessibilityHint = NSLocalizedString("Silent", comment: "channel list")
             }
             

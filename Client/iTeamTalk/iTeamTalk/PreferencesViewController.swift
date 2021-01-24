@@ -24,12 +24,13 @@
 import UIKit
 import AVFoundation
 
-let PREF_NICKNAME = "nickname_preference"
-let PREF_JOINROOTCHANNEL = "joinroot_preference"
+let PREF_GENERAL_NICKNAME = "nickname_preference"
+let PREF_GENERAL_GENDER = "gender_preference"
 let PREF_GENERAL_BEARWARE_ID = "general_bearwareid_preference"
 let PREF_GENERAL_BEARWARE_TOKEN = "general_bearwaretoken_preference"
 let PREF_GENERAL_PTTLOCK = "general_pttlock_preference"
 let PREF_GENERAL_SENDONRETURN = "general_sendonreturn_preference"
+let PREF_JOINROOTCHANNEL = "joinroot_preference"
 
 let PREF_DISPLAY_SHOWUSERNAME = "display_showusername_preference"
 let PREF_DISPLAY_PROXIMITY = "display_proximity_sensor"
@@ -118,7 +119,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         
         let settings = UserDefaults.standard
         
-        var nickname = settings.string(forKey: PREF_NICKNAME)
+        var nickname = settings.string(forKey: PREF_GENERAL_NICKNAME)
         if nickname == nil {
             nickname = DEFAULT_NICKNAME
         }
@@ -131,6 +132,14 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         nicknamefield?.addTarget(self, action: #selector(PreferencesViewController.nicknameChanged(_:)), for: .editingDidEnd)
         nicknamefield?.delegate = self
         general_items.append(nicknamecell)
+        
+        let gendercell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let genderoptions = [ NSLocalizedString("Male", comment: "preferences"), NSLocalizedString("Female", comment: "preferences")]
+        let gendersegctl = newTableCellSegCtrl(gendercell, label: NSLocalizedString("Gender", comment: "preferences"), values: genderoptions)
+        gendersegctl.selectedSegmentIndex = settings.integer(forKey: PREF_GENERAL_GENDER)
+        gendercell.detailTextLabel!.text = NSLocalizedString("Show male or female icon", comment: "preferences")
+        gendersegctl.addTarget(self, action: #selector(PreferencesViewController.genderChanged(_:)), for: .valueChanged)
+        general_items.append(gendercell)
         
         let weblogincell = tableView.dequeueReusableCell(withIdentifier: "Web Login Cell")
         general_items.append(weblogincell!)
@@ -421,7 +430,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         }
         
         let defaults = UserDefaults.standard
-        defaults.setValue(sender.text!, forKey: PREF_NICKNAME)
+        defaults.setValue(sender.text!, forKey: PREF_GENERAL_NICKNAME)
     }
     
     @objc func pttlockChanged(_ sender: UISwitch) {
@@ -564,7 +573,6 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
             // tell TeamTalk event loop to send us an updated User-struct
             TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, u)
         }
-        
     }
     
     @objc func ttsrateChanged(_ sender: UISlider) {
@@ -591,6 +599,14 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         let defaults = UserDefaults.standard
         defaults.set(segctrl.selectedSegmentIndex == 0 ? ChanSort.ASCENDING.rawValue : ChanSort.POPULARITY.rawValue,
                      forKey: PREF_DISPLAY_SORTCHANNELS)
+    }
+
+    @IBAction func genderChanged(_ sender: UISegmentedControl) {
+        let defaults = UserDefaults.standard
+        defaults.set(sender.selectedSegmentIndex, forKey: PREF_GENERAL_GENDER)
+        
+        let gender = sender.selectedSegmentIndex != 0 ? StatusMode.STATUSMODE_FEMALE : StatusMode.STATUSMODE_AVAILABLE
+        TT_DoChangeStatus(ttInst, INT32(gender.rawValue), "")
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
