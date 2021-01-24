@@ -207,6 +207,8 @@
     <string name="action_new_server">New Server</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_import_serverlist">Import from a .tt File</string>
+    <string name="action_export_serverlist">Export server list</string>
+    <string name="serverlist_export_confirmation">Server list has been exported in %1$s</string>
 
     <string name="pref_title_server_props">TeamTalk 5 Server Properties</string>
     <string name="pref_title_server_info">Server Information</string>
@@ -235,6 +237,7 @@
     <string name="upload_failed">Failed to upload file %1$s</string>
     <string name="alert_file_override">File %1$s already exists, override it?</string>
     <string name="err_file_delete">Cannot delete file %1$s</string>
+    <string name="err_file_write">Cannot write file %1$s</string>
     <string name="err_channel_remove">Cannot delete channel %1$s</string>
     <string name="err_download_path">Download path %1$s is unavailable</string>
     <string name="download_progress">%1$d%% downloaded</string>

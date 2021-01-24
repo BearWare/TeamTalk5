@@ -27,5 +27,10 @@
         app:showAsAction="ifRoom|withText"
         android:title="@string/action_import_serverlist">
     </item>
+    <item
+        android:id="@+id/action_export_serverlist"
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/action_export_serverlist">
+    </item>
 
 </menu>

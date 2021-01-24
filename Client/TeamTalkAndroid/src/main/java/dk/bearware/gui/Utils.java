@@ -24,6 +24,7 @@
 package dk.bearware.gui;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -42,6 +43,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xmlpull.v1.XmlSerializer;
 
 import com.google.gson.Gson;
 
@@ -75,6 +77,7 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Xml;
 import android.widget.Toast;
 
 public class Utils {
@@ -357,6 +360,44 @@ public class Utils {
         }
         
         return servers;
+    }
+
+    public static boolean saveServers(Vector<ServerEntry> servers, String path) {
+        try {
+            FileOutputStream fos = new FileOutputStream(path);
+            XmlSerializer serializer = Xml.newSerializer();
+            serializer.setOutput(fos, "UTF-8");
+            serializer.startDocument(null, Boolean.valueOf(true));
+            serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+            serializer.startTag(null, "teamtalk").attribute(null, "version", "5.0");
+            for (ServerEntry server : servers) {
+                serializer.startTag(null, "host");
+                serializer.startTag(null, "name").text(server.servername).endTag(null, "name");
+                serializer.startTag(null, "address").text(server.ipaddr).endTag(null, "address");
+                serializer.startTag(null, "tcpport").text(String.valueOf(server.tcpport)).endTag(null, "tcpport");
+                serializer.startTag(null, "udpport").text(String.valueOf(server.udpport)).endTag(null, "udpport");
+                serializer.startTag(null, "encrypted").text(String.valueOf(server.encrypted)).endTag(null, "encrypted");
+                serializer.startTag(null, "auth");
+                serializer.startTag(null, "username").text(server.username).endTag(null, "username");
+                serializer.startTag(null, "password").text(server.password).endTag(null, "password");
+                serializer.endTag(null, "auth");
+                serializer.startTag(null, "join");
+                serializer.startTag(null, "channel").text(server.channel).endTag(null, "channel");
+                serializer.startTag(null, "password").text(server.chanpasswd).endTag(null, "password");
+                serializer.endTag(null, "join");
+                serializer.endTag(null, "host");
+            }
+            serializer.endTag(null, "teamtalk");
+            serializer.endDocument();
+            serializer.flush();
+            fos.close();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("BearWare Exception: " + e);
+            return false;
+        }
+        return true;
     }
 
     public static int refVolume(double percent)

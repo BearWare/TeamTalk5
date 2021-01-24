@@ -24,6 +24,7 @@
 package dk.bearware.gui;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.StringReader;
 import java.util.Collections;
@@ -70,6 +71,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import androidx.fragment.app.ListFragment;
 import androidx.appcompat.app.AppCompatActivity;
@@ -312,6 +314,11 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
                 if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
                     Intent filepicker = new Intent(this, FilePickerActivity.class);
                     startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".tt"), REQUEST_IMPORT_SERVERLIST);
+                }
+            break;
+            case R.id.action_export_serverlist :
+                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)) {
+                    exportServers();
                 }
             break;
             case R.id.action_settings : {
@@ -604,6 +611,9 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
                 Intent filepicker = new Intent(this, FilePickerActivity.class);
                 startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".tt"), REQUEST_IMPORT_SERVERLIST);
                 break;
+            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
+                exportServers();
+                break;
         }
     }
 
@@ -738,6 +748,51 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
             return s1.servername.compareToIgnoreCase(s2.servername);
         // order of public servers are determined by xml-reply
         return 0;
+    }
+
+    private void exportServers() {
+        Vector<ServerEntry> entries = new Vector<ServerEntry>();
+        synchronized(servers) {
+            for (ServerEntry entry : servers)
+                if (!entry.public_server)
+                    entries.add(entry);
+        }
+        File dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        if (dirPath.mkdirs() || dirPath.isDirectory()) {
+            final File ttFile = new File(dirPath, "tt5servers.tt");
+            final String filePath = ttFile.getAbsolutePath();
+            if (ttFile.exists()) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setMessage(getString(R.string.alert_file_override, filePath));
+                alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            if (ttFile.delete()) {
+                                int msgId = Utils.saveServers(entries, filePath) ?
+                                    R.string.serverlist_export_confirmation :
+                                    R.string.err_file_write;
+                                Toast.makeText(ServerListActivity.this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                Toast.makeText(ServerListActivity.this,
+                                               getString(R.string.err_file_delete, filePath),
+                                               Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+                alert.setNegativeButton(android.R.string.no, null);
+                alert.show();
+            }
+
+            else {
+                int msgId = Utils.saveServers(entries, filePath) ?
+                    R.string.serverlist_export_confirmation :
+                    R.string.err_file_write;
+                Toast.makeText(this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private ListFragment getListFragment() {
