@@ -210,8 +210,14 @@
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook oturumu iptal edildi";
 
+/* preferences */
+"Female" = "Female";
+
 /* codec detail */
 "Frame Size" = "Çerçeve Boyutu";
+
+/* preferences */
+"Gender" = "Gender";
 
 /* preferences
    user detail */
@@ -233,10 +239,7 @@
 "Headset TX Toggle" = "Kulaklıktan İletim Değişikliği";
 
 /* hidden channel */
-"Hidden channel" = "Gizli kanal";
-
-/* hidden channel */
-"Hidden Channel" = "Gizli Kanal";
+"Hidden Channel" = "Hidden Channel";
 
 /* server entry */
 "Host address" = "Ana bilgisayar adresi";
@@ -270,6 +273,9 @@
 
 /* log entry */
 "Logged on to server" = "Sunucuda oturum açıldı";
+
+/* preferences */
+"Male" = "Male";
 
 /* preferences */
 "Master Volume" = "Ana Düzey";
@@ -491,6 +497,9 @@
 "Server List Entry" = "Sunucu Listesi Girişi";
 
 /* preferences */
+"Show male or female icon" = "Show male or female icon";
+
+/* preferences */
 "Show Public Servers" = "Kamu Sunucularını Göster";
 
 /* preferences */
@@ -597,6 +606,9 @@
 
 /* channel list */
 "User" = "Kullanıcı";
+
+/* channel list */
+"User female" = "User female";
 
 /* preferences */
 "User Joins Channel" = "Kullanıcının Kanala Katılması";

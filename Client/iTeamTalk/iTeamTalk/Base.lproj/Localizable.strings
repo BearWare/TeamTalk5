@@ -680,3 +680,18 @@
 
 /* hidden channel */
 "Hidden Channel" = "Hidden Channel";
+
+/* preferences */
+"Female" = "Female";
+
+/* preferences */
+"Gender" = "Gender";
+
+/* preferences */
+"Male" = "Male";
+
+/* preferences */
+"Show male or female icon" = "Show male or female icon";
+
+/* channel list */
+"User female" = "User female";

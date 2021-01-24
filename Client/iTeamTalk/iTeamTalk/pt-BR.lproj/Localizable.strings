@@ -207,8 +207,14 @@
 /* Dialog message */
 "Facebook login was cancelled" = "O login com o Facebook foi cancelado";
 
+/* preferences */
+"Female" = "Female";
+
 /* codec detail */
 "Frame Size" = "Tamanho do quadro";
+
+/* preferences */
+"Gender" = "Gender";
 
 /* preferences
    user detail */
@@ -264,6 +270,9 @@
 
 /* log entry */
 "Logged on to server" = "Conectado ao servidor";
+
+/* preferences */
+"Male" = "Male";
 
 /* preferences */
 "Master Volume" = "Volume principal";
@@ -485,6 +494,9 @@
 "Server List Entry" = "Lista de servidores";
 
 /* preferences */
+"Show male or female icon" = "Show male or female icon";
+
+/* preferences */
 "Show Public Servers" = "Mostrar servidores públicos";
 
 /* preferences */
@@ -592,6 +604,9 @@
 /* channel list */
 "User" = "Usuário";
 
+/* channel list */
+"User female" = "User female";
+
 /* preferences */
 "User Joins Channel" = "Usuário entrou no canal";
 
@@ -680,6 +695,3 @@
 
 /* server entry */
 "Check only if this server has enabled Facebook login" = "";
-
-/* hidden channel */
-"Hidden channel" = "";

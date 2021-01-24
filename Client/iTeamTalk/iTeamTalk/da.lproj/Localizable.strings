@@ -206,8 +206,14 @@
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook login blev afbrudt";
 
+/* preferences */
+"Female" = "Female";
+
 /* codec detail */
 "Frame Size" = "Frame Size";
+
+/* preferences */
+"Gender" = "Gender";
 
 /* preferences
    user detail */
@@ -263,6 +269,9 @@
 
 /* log entry */
 "Logged on to server" = "Loggede på serveren";
+
+/* preferences */
+"Male" = "Male";
 
 /* preferences */
 "Master Volume" = "Hovedlydstyrke";
@@ -482,6 +491,9 @@
 "Server List Entry" = "Serverlisteelement";
 
 /* preferences */
+"Show male or female icon" = "Show male or female icon";
+
+/* preferences */
 "Show Public Servers" = "Vis Offentlige Servere";
 
 /* preferences */
@@ -589,6 +601,9 @@
 /* channel list */
 "User" = "Bruger";
 
+/* channel list */
+"User female" = "User female";
+
 /* preferences */
 "User Joins Channel" = "Ny bruger er i kanalen";
 
@@ -676,6 +691,3 @@
 
 /* server entry */
 "Check only if this server has enabled Facebook login" = "";
-
-/* hidden channel */
-"Hidden channel" = "";
