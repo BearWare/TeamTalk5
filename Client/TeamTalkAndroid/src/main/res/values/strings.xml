@@ -352,6 +352,8 @@
     <string name="pref_title_translator">Translator</string>
     <string name="pref_title_libraries">Third Party Libraries</string>
     <string name="channel_prop_title_hiddenchannel">Hidden</string>
+    <string name="pref_title_gender">Gender</string>
+    <string name="pref_summary_gender">Check for female icon</string>
 
 
 </resources>
