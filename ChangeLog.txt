@@ -28,6 +28,7 @@ Accessible Windows Client
 - Reconnect if initial connection attempt fails
 - Facebook login no longer supported
 - Private text messages now ordered the same as channel text messages
+- Display man emoji in channels tree
 Default QT Client
 - SpeexDSP echo canceller replaced by WebRTC
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
@@ -47,6 +48,7 @@ Default QT Client
 - Display ban type on banned users dialog
 - Reconnect if initial connection attempt fails
 - Facebook login no longer supported
+- Display man emoji in channels tree
 Android Client
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
 - Ability to create and join hidden channels
@@ -59,6 +61,7 @@ Android Client
 iOS Client
 - Ability to create and join hidden channels
 - New audio files for default sound events
+- Change default stream volume from 100 to 50
 - Option to specify gender
 - Facebook login no longer supported
 Server
