@@ -221,3 +221,34 @@ class MyCustomAction : UIAccessibilityCustomAction {
         self.tag = tag
     }
 }
+
+func hasPTTLock() -> Bool {
+    let defaults = UserDefaults.standard
+    return defaults.object(forKey: PREF_GENERAL_PTTLOCK) != nil && defaults.bool(forKey: PREF_GENERAL_PTTLOCK)
+}
+
+func limitText(_ s: String) -> String {
+    
+    let settings = UserDefaults.standard
+    let length = settings.object(forKey: PREF_DISPLAY_LIMITTEXT) == nil ? DEFAULT_LIMIT_TEXT : settings.integer(forKey: PREF_DISPLAY_LIMITTEXT)
+    
+    if s.count > length {
+        return String(s.prefix(length))
+    }
+    return s
+}
+
+func getDisplayName(_ user: User) -> String {
+    var user = user
+    let settings = UserDefaults.standard
+    if settings.object(forKey: PREF_DISPLAY_SHOWUSERNAME) != nil && settings.bool(forKey: PREF_DISPLAY_SHOWUSERNAME) {
+        return limitText(String(cString: getUserString(USERNAME, &user)))
+    }
+
+    let nickname = getUser(user, strprop: NICKNAME)
+    if nickname.isEmpty {
+        return DEFAULT_NICKNAME + " - #\(user.nUserID)"
+    }
+    
+    return limitText(nickname)
+}

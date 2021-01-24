@@ -859,6 +859,8 @@ class ChannelListViewController :
                 }
                 
                 mychannel = channel
+                
+                updateAudioConfig()
             }
             
             if currentCmdId == 0 {
@@ -917,7 +919,7 @@ class ChannelListViewController :
             if user.nUserID == TT_GetMyUserID(ttInst) {
                 curchannel = channels[user.nChannelID]!
                 mychannel = channels[user.nChannelID]!
-                
+
                 //store password if it's from initial login (Server-struct)
                 if rejoinchannel.nChannelID == 0 && chanpasswds[user.nChannelID] == nil {
                    chanpasswds[user.nChannelID] = getChannel(rejoinchannel, strprop: PASSWORD)
@@ -925,7 +927,10 @@ class ChannelListViewController :
                 rejoinchannel = channels[user.nChannelID]! //join this on connection lost
 
                 updateTitle()
+
+                updateAudioConfig()
             }
+
             if user.nChannelID == mychannel.nChannelID && mychannel.nChannelID > 0 {
                 playSound(.joined_CHAN)
                 let defaults = UserDefaults.standard
@@ -1044,6 +1049,24 @@ class ChannelListViewController :
             //print("Unhandled message \(m.nClientEvent.rawValue)")
             break
         }
+    }
 
+    func updateAudioConfig() {
+        if mychannel.audiocfg.bEnableAGC == TRUE {
+            TT_SetSoundInputGainLevel(ttInst, INT32(SOUND_GAIN_DEFAULT.rawValue))
+            var ap = newAudioPreprocessor(preprocessor: WEBRTC_AUDIOPREPROCESSOR)
+            let gain = Float(mychannel.audiocfg.nGainLevel) / Float(CHANNEL_AUDIOCONFIG_MAX)
+            ap.webrtc.gaincontroller2.fixeddigital.fGainDB = WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * gain
+            ap.webrtc.gaincontroller2.bEnable = TRUE
+            TT_SetSoundInputPreprocessEx(ttInst, &ap)
+        }
+        else {
+            var ap = newAudioPreprocessor(preprocessor: TEAMTALK_AUDIOPREPROCESSOR)
+            TT_SetSoundInputPreprocessEx(ttInst, &ap)
+            
+            let defaults = UserDefaults.standard
+            let vol = defaults.integer(forKey: PREF_MICROPHONE_GAIN)
+            TT_SetSoundInputGainLevel(ttInst, INT32(refVolume(Double(vol))))
+        }
     }
 }
