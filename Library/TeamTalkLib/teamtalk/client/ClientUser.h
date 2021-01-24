@@ -44,6 +44,31 @@
 
 namespace teamtalk {
 
+    class JitterCalculator
+    {
+    public:
+        JitterCalculator() {};
+
+        void SetConfig(const int fixed_delay_msec, const bool use_adaptive_jitter_control);
+        // Takes a new packet into the calculator and returns the number of msec the packet
+        // should be delayed for de-jitter
+        int PacketReceived(const int streamid, const int nominal_delay);
+
+    private:
+        // Dynamic stats
+        uint32_t            m_lastpacket_time = 0;
+        uint8_t             m_current_stream = 0;
+        int                 m_current_playout_buffer = 0;
+        int                 m_adaptive_delay = 0;
+
+        // Last jitter times for adaptive jitter control
+        std::deque<int>     m_last_jitters;
+
+        // Config
+        int                 m_fixed_jitter_delay_ms = 0;
+        int                 m_use_adaptive_jitter_control = false;
+    };
+
     struct ClientUserStats
     {
         ACE_INT64 voicepackets_recv;
@@ -227,11 +252,9 @@ namespace teamtalk {
         audio_player_t m_voice_player;
         bool m_voice_active;
         int m_voice_buf_msec;
-        uint8_t m_current_stream = 0;
+        JitterCalculator m_jitter_calculator;
         std::recursive_mutex m_jitterbuffer_mutex;
         std::queue<VoicePacket*> m_jitterbuffer;
-        int m_fixed_jitter_delay_ms = 0;
-        int m_use_adaptive_jitter_control = false;
 
         //video playback
 #if defined(ENABLE_VPX)
