@@ -1666,28 +1666,47 @@ TEST_CASE("StreamVideoFile")
 
 TEST_CASE("ReactorDeadlock")
 {
-    ttinst ttclient(TT_InitTeamTalkPoll());
-    REQUIRE(InitSound(ttclient));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
-    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
-    REQUIRE(JoinRoot(ttclient));
-
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
     mfi.audioFmt.nChannels = 2;
     mfi.audioFmt.nSampleRate = 48000;
-    wcsncpy(mfi.szFileName, _T("temp.wav"), TT_STRLEN);
+    ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("temp.wav"), TT_STRLEN);
     mfi.uDurationMSec = 1000;
     REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
-
+    
     MediaFilePlayback mfp = {};
     mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
     mfp.bPaused = FALSE;
     mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
-    auto playid = TT_InitLocalPlayback(ttclient, _T("temp.wav"), &mfp);
-    REQUIRE(playid > 0);
     TTMessage msg;
-    while(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg) && (msg.mediafileinfo.nStatus != MFS_FINISHED));
+    INT32 playid;
+
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+    playid = TT_InitLocalPlayback(ttclient, ACE_TEXT("temp.wav"), &mfp);
+    REQUIRE(playid > 0);
+    for (int i=0;i<10;++i)
+    {
+        REQUIRE(TT_InitLocalPlayback(ttclient, ACE_TEXT("temp.wav"), &mfp) > 0);
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, 10);
+    }
+
+    bool done = false;
+    while(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg) && !done)
+    {
+        switch (msg.mediafileinfo.nStatus)
+        {
+        default :
+        case MFS_FINISHED :
+            if (playid == msg.nSource)
+                done = true;
+            break;
+        case MFS_PLAYING :
+            break;
+        }
+    }
     REQUIRE(TT_Disconnect(ttclient));
 }
 
