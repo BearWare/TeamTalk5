@@ -1491,6 +1491,24 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         connect(server, ttclient);
         login(server, ttclient, USERNAME + getTestMethodName(), USERNAME, PASSWORD);
         joinRoot(server, ttclient);
+        user = new User();
+        assertTrue("get admin", ttclient.getUser(admin.getMyUserID(), user));
+        assertEquals("no chan specified", 0, user.nChannelID);
+        hidden.uChannelType = ChannelType.CHANNEL_DEFAULT;
+        assertTrue("join hidden", waitCmdSuccess(ttclient, ttclient.doJoinChannel(hidden), DEF_WAIT, interleave));
+        user = new User();
+        assertTrue("get admin", ttclient.getUser(admin.getMyUserID(), user));
+        assertEquals("chan specified", ttclient.getMyChannelID(), user.nChannelID);
+        assertTrue("admin change status", waitCmdSuccess(admin, admin.doChangeStatus(9, "hest"), DEF_WAIT, interleave));
+        assertTrue("sync", waitCmdComplete(ttclient, ttclient.doPing(), DEF_WAIT, interleave));
+        user = new User();
+        assertTrue("get admin", ttclient.getUser(admin.getMyUserID(), user));
+        assertEquals("admin state update for ttclient", 9, user.nStatusMode);
+        assertTrue("admin leave", waitCmdSuccess(admin, admin.doLeaveChannel(), DEF_WAIT, interleave));
+        assertTrue("sync", waitCmdComplete(ttclient, ttclient.doPing(), DEF_WAIT, interleave));
+        user = new User();
+        assertTrue("get admin", ttclient.getUser(admin.getMyUserID(), user));
+        assertEquals("no chan specified", 0, user.nChannelID);
     }
 
     // @Test

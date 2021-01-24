@@ -2905,7 +2905,8 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     }
 
     // notify new user of other users in same channel if not visible
-    if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
+    if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE ||
+        ((newchan->GetChannelType() & CHANNEL_HIDDEN) && (user->GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE))
     {
         for (auto cu : newchan->GetUsers())
         {
