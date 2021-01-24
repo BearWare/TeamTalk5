@@ -1004,10 +1004,12 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         if(_Q(user.szStatusMsg).size())
             itemtext += QString(" - ") + _Q(user.szStatusMsg);
-        if (emoji && (user.nStatusMode & STATUSMODE_FEMALE))
-            itemtext += " 👩";
         if (emoji)
         {
+            if (user.nStatusMode & STATUSMODE_FEMALE)
+                itemtext += " 👩";
+            else
+                itemtext += " 👨";
             if(user.uUserType & USERTYPE_ADMIN)
                 itemtext += tr(" (Administrator)");
 
