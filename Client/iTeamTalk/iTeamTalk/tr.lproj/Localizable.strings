@@ -211,13 +211,13 @@
 "Facebook login was cancelled" = "Facebook oturumu iptal edildi";
 
 /* preferences */
-"Female" = "Female";
+"Female" = "Kadın";
 
 /* codec detail */
 "Frame Size" = "Çerçeve Boyutu";
 
 /* preferences */
-"Gender" = "Gender";
+"Gender" = "Cinsiyet";
 
 /* preferences
    user detail */
@@ -239,7 +239,7 @@
 "Headset TX Toggle" = "Kulaklıktan İletim Değişikliği";
 
 /* hidden channel */
-"Hidden Channel" = "Hidden Channel";
+"Hidden Channel" = "Gizli Kanal";
 
 /* server entry */
 "Host address" = "Ana bilgisayar adresi";
@@ -275,7 +275,7 @@
 "Logged on to server" = "Sunucuda oturum açıldı";
 
 /* preferences */
-"Male" = "Male";
+"Male" = "Erkek";
 
 /* preferences */
 "Master Volume" = "Ana Düzey";
@@ -434,13 +434,13 @@
 "Private text message from %@. %@" = "%@ kullanıcısından özel metin iletisi. %@";
 
 /* preferences */
-"Proximity Sensor" = "Yakınlık algılayıcısı";
+"Proximity Sensor" = "Yakınlık Algılayıcısı";
 
 /* serverlist */
 "Public server" = "Kamu sunucusu";
 
 /* preferences */
-"Push To Talk Lock" = "Bas konuş kilidi";
+"Push To Talk Lock" = "Bas Konuş Kilidi";
 
 /* codec detail */
 "Quality" = "Kalite";
@@ -497,7 +497,7 @@
 "Server List Entry" = "Sunucu Listesi Girişi";
 
 /* preferences */
-"Show male or female icon" = "Show male or female icon";
+"Show male or female icon" = "Erkek ya da kadın simgesi göster";
 
 /* preferences */
 "Show Public Servers" = "Kamu Sunucularını Göster";
@@ -506,10 +506,10 @@
 "Show public servers in server list" = "Sunucu listesinde kamu sunucularını göster";
 
 /* preferences */
-"Show Text Messages Instantly" = "Metin iletilerini anında göster";
+"Show Text Messages Instantly" = "Metin İletilerini Anında Göster";
 
 /* preferences */
-"Show Usernames" = "Kullanıcı adlarını göster";
+"Show Usernames" = "Kullanıcı Adlarını Göster";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Rumuzların yerine kullanıcı adlarını göster";
@@ -518,7 +518,7 @@
 "Silent" = "Sessiz";
 
 /* preferences */
-"Sort Channels" = "Kanalları sırala";
+"Sort Channels" = "Kanalları Sırala";
 
 /* preferences
    text to speech */
@@ -553,7 +553,7 @@
 "Talking" = "Konuşuyor";
 
 /* server entry */
-"TCP Port" = "TCP bağlantı noktası";
+"TCP Port" = "TCP Bağlantı Noktası";
 
 /* preferences */
 "Text To Speech Events" = "Metin Okuma Olayları";
@@ -596,7 +596,7 @@
 "Type text here" = "Buraya metin yazın";
 
 /* server entry */
-"UDP Port" = "UDP bağlantı noktası";
+"UDP Port" = "UDP Bağlantı Noktası";
 
 /* preferences */
 "Use echo cancellation and automatic gain control" = "Yankı iptali ve otomatik kazanç denetimi kullan";
@@ -608,7 +608,7 @@
 "User" = "Kullanıcı";
 
 /* channel list */
-"User female" = "User female";
+"User female" = "Kullanıcı kadın";
 
 /* preferences */
 "User Joins Channel" = "Kullanıcının Kanala Katılması";
