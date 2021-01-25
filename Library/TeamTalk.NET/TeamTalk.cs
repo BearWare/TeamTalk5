@@ -7303,7 +7303,7 @@ namespace BearWare
          * @param nFixedDelayMSec The fixed delay in milliseconds. Default = 0.
          * @param bMute Turns adaptive jitter buffering ON/OFF. Default is OFF.
          * @param nMaxAdaptiveDelayMSec A hard maximum on the adaptive delay.*/
-        public bool TT_SetUserJitterControl(int nUserID,
+        public bool SetUserJitterControl(int nUserID,
                                                 StreamType nStreamType,
                                                 int nFixedDelayMSec,
                                                 bool bUseAdativeDejitter,
