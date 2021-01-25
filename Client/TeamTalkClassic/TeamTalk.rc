@@ -2175,6 +2175,8 @@ END
 STRINGTABLE
 BEGIN
     IDS_UNKNOWNERROR        "An unknown error occurred. Check that the action you\r\nperformed is supported by the server. This error is most\r\nlikely caused by an incompability issue between the server\r\nand your client."
+    IDS_NOLONGERTRANSMITCHANMSG    "%s can no longer transmit channel messages!"
+    IDS_CANNOWTRANSMITCHANMSG      "%s can now transmit channel messages!"
     IDS_NOLONGERTRANSMIT    "%s can no longer transmit voice!"
     IDS_CANNOWTRANSMIT      "%s can now transmit voice!"
     IDS_NOLONGERTRANSMITVIDEO "%s can no longer transmit video input!"

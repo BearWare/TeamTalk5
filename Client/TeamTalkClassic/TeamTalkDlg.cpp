@@ -1746,7 +1746,19 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         else
             szName = GetDisplayName(user);
 
-        int ret = TransmitToggled(chan, oldTransmit[userid], newTransmit[userid], STREAMTYPE_VOICE);
+        int ret = TransmitToggled(chan, oldTransmit[userid], newTransmit[userid], STREAMTYPE_CHANNELMSG);
+        if(ret != 0)
+        {
+            if (ret < 0)
+                szMsg.Format(LoadText(IDS_NOLONGERTRANSMITCHANMSG, _T("%s can no longer transmit channel messages!")), szName);
+            else
+                szMsg.Format(LoadText(IDS_CANNOWTRANSMITCHANMSG, _T("%s can now transmit channel messages!")), szName);
+
+            AddStatusText(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_CHANMSG_TX)
+                AddTextToSpeechMessage(szMsg);
+        }
+        ret = TransmitToggled(chan, oldTransmit[userid], newTransmit[userid], STREAMTYPE_VOICE);
         if(ret != 0)
         {
             if (ret < 0)

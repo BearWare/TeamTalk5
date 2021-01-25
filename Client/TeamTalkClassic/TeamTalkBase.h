@@ -252,6 +252,7 @@ enum
     TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT        = 0x00200000,
     TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE           = 0x00400000,
 
+    TTS_CLASSROOM_CHANMSG_TX                        = 0x01200000,
     TTS_CLASSROOM_VOICE_TX                          = 0x01000000,
     TTS_CLASSROOM_VIDEO_TX                          = 0x02000000,
     TTS_CLASSROOM_DESKTOP_TX                        = 0x04000000,
@@ -290,7 +291,8 @@ enum
                                 TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT        |
                                 TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE,
 
-    TTS_CLASSROOM_ALL         = TTS_CLASSROOM_VOICE_TX                          |
+    TTS_CLASSROOM_ALL         = TTS_CLASSROOM_CHANMSG_TX                          |
+                                TTS_CLASSROOM_VOICE_TX                          |
                                 TTS_CLASSROOM_VIDEO_TX                          |
                                 TTS_CLASSROOM_DESKTOP_TX                        |
                                 TTS_CLASSROOM_MEDIAFILE_TX,
