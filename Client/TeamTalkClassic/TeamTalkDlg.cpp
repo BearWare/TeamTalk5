@@ -6926,17 +6926,24 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         if(!m_wndTree.GetChannel(nID, chan))
             return;
 
-        CString szChannel, szPasswd, szClassroom, szTopic;
+        CString szChannel, szPasswd, szClassroom, szTopic, szRootChan;
         szChannel.LoadString(IDS_CHANNEL);
         szPasswd.LoadString(IDS_PASSWORD_PROTECTED);
         szClassroom.LoadString(IDS_CLASSROOMCHANNEL);
+        szRootChan.LoadString(IDS_ROOTCHANNEL);
 
         TRANSLATE_ITEM(IDS_CHANNEL, szChannel);
         TRANSLATE_ITEM(IDS_PASSWORD_PROTECTED, szPasswd);
         TRANSLATE_ITEM(IDS_CLASSROOMCHANNEL, szClassroom);
+        TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRootChan);
         TRANSLATE_ITEM(IDC_STATIC_CHTOPIC, szTopic);
-        szChannel += _T(": ");
-        szChannel += chan.szName;
+        if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) == chan.nChannelID)
+            szChannel += _T(" ") + szRootChan;
+        else
+        {
+            szChannel += _T(": ");
+            szChannel += chan.szName;
+        }
         szTopic += _T(": ");
         szTopic += chan.szTopic;
 

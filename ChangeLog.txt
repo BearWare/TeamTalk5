@@ -29,6 +29,8 @@ Accessible Windows Client
 - Facebook login no longer supported
 - Private text messages now ordered the same as channel text messages
 - Display man emoji in channels tree
+- Fix double event when we leave a channel
+- Return root channel when appropriate on CTRL+G
 Default QT Client
 - SpeexDSP echo canceller replaced by WebRTC
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
