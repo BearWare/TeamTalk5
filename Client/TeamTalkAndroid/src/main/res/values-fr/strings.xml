@@ -354,6 +354,9 @@
     <string name="pref_title_bearware_summary">À ne cocher que si ce serveur a activé la connexion Web BearWare.dk</string>
     <string name="pref_title_gender">Sexe</string>
     <string name="pref_summary_gender">Cocher pour l\'icône femme</string>
+    <string name="err_file_write">Impossible d\'écrire le fichier %1$s</string>
+    <string name="serverlist_export_confirmation">La liste de serveurs a été exportée dans %1$s</string>
+    <string name="action_export_serverlist">Exporter la liste de serveurs</string>
 
 
 </resources>
