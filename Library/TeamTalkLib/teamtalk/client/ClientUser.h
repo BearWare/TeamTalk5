@@ -49,7 +49,7 @@ namespace teamtalk {
     public:
         JitterCalculator() {};
 
-        void SetConfig(const int fixed_delay_msec, const bool use_adaptive_jitter_control);
+        void SetConfig(const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec);
         // Takes a new packet into the calculator and returns the number of msec the packet
         // should be delayed for de-jitter
         int PacketReceived(const int streamid, const int nominal_delay);
@@ -67,6 +67,7 @@ namespace teamtalk {
         // Config
         int                 m_fixed_jitter_delay_ms = 0;
         int                 m_use_adaptive_jitter_control = false;
+        int                 m_max_adaptive_delay_msec = 1000;
     };
 
     struct ClientUserStats
@@ -163,7 +164,7 @@ namespace teamtalk {
         void SetPlaybackStoppedDelay(StreamType stream_type, int msec);
         int GetPlaybackStoppedDelay(StreamType stream_type) const;
 
-        void SetJitterControl(StreamType stream_type, int fixed_delay_msec, bool use_adaptive_jitter_control);
+        void SetJitterControl(const StreamType stream_type, const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec);
 
         void SetVolume(StreamType stream_type, int volume);
         int GetVolume(StreamType stream_type) const;

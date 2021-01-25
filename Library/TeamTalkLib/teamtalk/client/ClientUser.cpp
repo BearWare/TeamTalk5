@@ -125,10 +125,12 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
 
 		if ((m_use_adaptive_jitter_control) && (jitter_last_packet > 0))
 		{
-            // Arbitrary: maximize the jitter delay to 8s. Some satcom links have sporadic delays of up to 20s.
-            // Those are too insane to compensate for, especially because it would take a long time to adjust downward
-            if (jitter_last_packet > 8000)
-                jitter_last_packet = 8000;
+            // Maximize the jitter delay to the configured max.
+            if (jitter_last_packet > m_max_adaptive_delay_msec)
+            {
+                MYTRACE(ACE_TEXT("Adaptive jitter delay capped to configured maximum of %d. Received jitter %d, .\n"), m_max_adaptive_delay_msec, jitter_last_packet);
+                jitter_last_packet = m_max_adaptive_delay_msec;
+            }
 
 			// Keep track of the last X positive jitters. (e.g. packets that were delayed compared to the nominal inter-packet time)
 			m_last_jitters.push_back(jitter_last_packet);
@@ -169,7 +171,7 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
     return jitter_delay;
 }
 
-void JitterCalculator::SetConfig(const int fixed_delay_msec, const bool use_adaptive_jitter_control)
+void JitterCalculator::SetConfig(const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec)
 {
     //Note: reentrancy is assumed to be guarded outside this function
     m_fixed_jitter_delay_ms = fixed_delay_msec;
@@ -179,6 +181,8 @@ void JitterCalculator::SetConfig(const int fixed_delay_msec, const bool use_adap
     m_current_stream = 0;
     m_current_playout_buffer = 0;
     m_adaptive_delay = 0;
+
+    m_max_adaptive_delay_msec = max_adaptive_delay_msec;
 
     m_last_jitters.clear();
 };
@@ -1055,13 +1059,13 @@ int ClientUser::GetPlaybackStoppedDelay(StreamType stream_type) const
     }
 }
 
-void ClientUser::SetJitterControl(StreamType stream_type, int fixed_delay_msec, bool use_adaptive_jitter_control)
+void ClientUser::SetJitterControl(const StreamType stream_type, const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec)
 {
     if (stream_type != STREAMTYPE_VOICE)
         return;
 
     std::unique_lock<std::recursive_mutex> g(m_jitterbuffer_mutex);
-    m_jitter_calculator.SetConfig(fixed_delay_msec, use_adaptive_jitter_control);
+    m_jitter_calculator.SetConfig(fixed_delay_msec, use_adaptive_jitter_control, max_adaptive_delay_msec);
 }
 
 void ClientUser::SetVolume(StreamType stream_type, int volume)

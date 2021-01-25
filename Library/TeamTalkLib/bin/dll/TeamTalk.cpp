@@ -1989,7 +1989,8 @@ TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
                                                IN INT32 nUserID,
                                                IN StreamType nStreamType,
                                                IN INT32 nFixedDelayMSec,
-                                               IN TTBOOL bUseAdativeDejitter)
+                                               IN TTBOOL bUseAdativeDejitter,
+                                               IN INT32 nMaxAdaptiveDelayMSec)
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
@@ -1997,7 +1998,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
     clientuser_t user = clientnode->GetUser(nUserID);
     if (user)
     {
-        user->SetJitterControl((teamtalk::StreamType)nStreamType, nFixedDelayMSec, bUseAdativeDejitter);
+        user->SetJitterControl((teamtalk::StreamType)nStreamType, nFixedDelayMSec, bUseAdativeDejitter, nMaxAdaptiveDelayMSec);
         return TRUE;
     }
     return FALSE;

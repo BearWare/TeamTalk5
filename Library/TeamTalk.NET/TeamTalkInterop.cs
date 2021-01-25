@@ -614,7 +614,8 @@ namespace c_tt
                                                                  int nUserID,
                                                                  BearWare.StreamType nStreamType,
                                                                  int nFixedDelayMSec,
-                                                                 bool bUseAdativeDejitter);
+                                                                 bool bUseAdativeDejitter,
+                                                                 int nMaxAdaptiveDelayMSec);
 
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_SetUserPosition(IntPtr lpTTInstance,
