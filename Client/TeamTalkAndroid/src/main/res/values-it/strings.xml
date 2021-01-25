@@ -330,6 +330,11 @@
     <string name="channel_prop_title_hiddenchannel">Nascondere</string>
     <string name="pref_title_bearware">BearWare.dk Web Connection</string>
     <string name="pref_title_bearware_summary">Controlla solo se questo server ha abilitato la connessione web BearWare.dk</string>
+    <string name="pref_title_gender">Sesso</string>
+    <string name="pref_summary_gender">Controlla l\'icona femminile</string>
+    <string name="err_file_write">Impossibile scrivere il file %1$s</string>
+    <string name="serverlist_export_confirmation">L\'elenco dei server è stato esportato in %1$s</string>
+    <string name="action_export_serverlist">Esporta l\'elenco dei server</string>
 
 
 </resources>
