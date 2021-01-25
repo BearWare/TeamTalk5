@@ -637,6 +637,13 @@ namespace c_tt
                                                    [MarshalAs(UnmanagedType.LPWStr)] string szFileNameVars,
                                                    BearWare.AudioFileFormat uAFF);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_SetUserMediaStorageDirEx(IntPtr lpTTInstance,
+                                                   int nUserID,
+                                                   [MarshalAs(UnmanagedType.LPWStr)] string szFolderPath,
+                                                   [MarshalAs(UnmanagedType.LPWStr)] string szFileNameVars,
+                                                   BearWare.AudioFileFormat uAFF,
+                                                   int nStopRecordingExtraDelayMSec);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_SetUserAudioStreamBufferSize(IntPtr lpTTInstance,
                                                             int nUserID,
                                                             BearWare.StreamType uStreamType,

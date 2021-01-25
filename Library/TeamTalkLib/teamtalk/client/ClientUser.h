@@ -166,6 +166,9 @@ namespace teamtalk {
         void SetPlaybackStoppedDelay(StreamType stream_type, int msec);
         int GetPlaybackStoppedDelay(StreamType stream_type) const;
 
+        void SetRecordingCloseExtraDelay(int msec) { m_recording_close_extra_delay = msec; }
+        int GetRecordingCloseExtraDelay() const { return m_recording_close_extra_delay; }
+
         void SetJitterControl(const StreamType stream_type, const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec);
 
         void SetVolume(StreamType stream_type, int volume);
@@ -299,6 +302,7 @@ namespace teamtalk {
         int m_voice_volume, m_audiofile_volume;
         bool m_voice_mute, m_audiofile_mute;
         int m_voice_stopped_delay, m_audiofile_stopped_delay;
+        int m_recording_close_extra_delay = 0;
         int m_voice_gain_level, m_audiofile_gain_level;
         StereoMask m_voice_stereo, m_audiofile_stereo;
 

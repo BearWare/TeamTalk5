@@ -1703,10 +1703,20 @@ TEAMTALKDLL_API TTBOOL TT_GetChannelUsers(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDir(IN TTInstance* lpTTInstance,
+                                                IN INT32 nUserID,
+                                                IN const TTCHAR* szFolderPath,
+                                                IN const TTCHAR* szFileNameVars,
+                                                IN AudioFileFormat uAFF)
+{
+    return TT_SetUserMediaStorageDirEx(lpTTInstance, nUserID, szFolderPath, szFileNameVars, uAFF, 0);
+}
+
+TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDirEx(IN TTInstance* lpTTInstance,
                                                  IN INT32 nUserID,
                                                  IN const TTCHAR* szFolderPath,
                                                  IN const TTCHAR* szFileNameVars,
-                                                 IN AudioFileFormat uAFF)
+                                                 IN AudioFileFormat uAFF,
+                                                 IN INT32 nStopRecordingExtraDelayMSec)
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
@@ -1722,6 +1732,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDir(IN TTInstance* lpTTInstance,
         user->SetAudioFolder(szFolderPath);
         user->SetAudioFileVariables(szFileNameVars);
         user->SetAudioFileFormat((teamtalk::AudioFileFormat)uAFF);
+        user->SetRecordingCloseExtraDelay(nStopRecordingExtraDelayMSec);
         return TRUE;
     }
 

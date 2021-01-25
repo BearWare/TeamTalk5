@@ -647,7 +647,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     VoiceLog* newlog;
     ACE_NEW(newlog, VoiceLog(from_user.GetUserID(), filepath,
                              codec, aff, stream_id,
-                             from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE)));
+                             (from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE) + from_user.GetRecordingCloseExtraDelay())));
     voicelog_t log (newlog);
 
     bool active = log->IsActive();

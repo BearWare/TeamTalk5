@@ -1504,6 +1504,8 @@ void ClientUser::SetDirtyProps()
     SetPlaybackStoppedDelay(STREAMTYPE_VOICE, GetPlaybackStoppedDelay(STREAMTYPE_VOICE));
     SetPlaybackStoppedDelay(STREAMTYPE_MEDIAFILE_AUDIO, GetPlaybackStoppedDelay(STREAMTYPE_MEDIAFILE_AUDIO));
 
+    SetRecordingCloseExtraDelay(GetRecordingCloseExtraDelay());
+
     SetStereo(STREAMTYPE_VOICE, m_voice_stereo & STEREO_LEFT, m_voice_stereo & STEREO_RIGHT);
     SetStereo(STREAMTYPE_MEDIAFILE_AUDIO, m_audiofile_stereo & STEREO_LEFT, m_audiofile_stereo & STEREO_RIGHT);
 }

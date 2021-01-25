@@ -7032,6 +7032,32 @@ extern "C" {
                                                      IN const TTCHAR* szFolderPath,
                                                      IN const TTCHAR* szFileNameVars,
                                                      IN AudioFileFormat uAFF);
+
+    /**
+     * @brief Store user's audio to disk.
+
+     * @see TT_SetUserMediaStorageDir
+     *
+     * This extension has an extra parameter for an aditional delay that will be waited
+     * before closing the per-user recording. This allows the recording to still capture
+     * all voice of a stream in a single file even if there's heavy network jitter.
+     * A recording will always be started if a different stream is received for the
+     * user. The delay is added on top of the standard playout delay that can be set via
+     *
+     * Note that the delay starts after the last packet was written to the playout and thus
+     * the delay is already 'counting' when the jitter-buffered playout is still playing
+     *
+     * Only supported for #STREAMTYPE_VOICE.
+     *
+     * @param nStopRecordingExtraDelayMSec Extra delay before closing the recording file
+     * default is 0.*/
+    TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDirEx(IN TTInstance* lpTTInstance,
+                                                       IN INT32 nUserID,
+                                                       IN const TTCHAR* szFolderPath,
+                                                       IN const TTCHAR* szFileNameVars,
+                                                       IN AudioFileFormat uAFF,
+                                                       IN INT32 nStopRecordingExtraDelayMSec);
+
     /**
      * @brief Change the amount of media data which can be buffered
      * in the user's playback queue.

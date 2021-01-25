@@ -1881,6 +1881,24 @@ extern "C" {
                                          (AudioFileFormat)uAFF);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserMediaStorageDirEx(JNIEnv* env,
+                                                                                    jobject thiz,
+                                                                                    jlong lpTTInstance,
+                                                                                    jint nUserID,
+                                                                                    jstring szFolderPath,
+                                                                                    jstring szFileNameVars,
+                                                                                    jint uAFF,
+                                                                                    jint nStopRecordingExtraDelayMSec)
+    {
+        THROW_NULLEX(env, szFolderPath, false);
+        THROW_NULLEX(env, szFileNameVars, false);
+
+        return TT_SetUserMediaStorageDirEx(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                         nUserID, ttstr(env, szFolderPath),
+                                         ttstr(env, szFileNameVars),
+                                         (AudioFileFormat)uAFF,
+                                         nStopRecordingExtraDelayMSec);
+    }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserAudioStreamBufferSize(JNIEnv* env,
                                                                                           jobject thiz,

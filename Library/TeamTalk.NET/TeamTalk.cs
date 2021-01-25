@@ -7387,6 +7387,31 @@ namespace BearWare
         {
             return TTDLL.TT_SetUserMediaStorageDir(m_ttInst, nUserID, szFolderPath, szFileNameVars, uAFF);
         }
+
+        /**
+         * @brief Store user's audio to disk.
+
+         * @see TT_SetUserMediaStorageDir
+         *
+         * This extension has an extra parameter for an aditional delay that will be waited
+         * before closing the per-user recording. This allows the recording to still capture
+         * all voice of a stream in a single file even if there's heavy network jitter.
+         * A recording will always be started if a different stream is received for the
+         * user. The delay is added on top of the standard playout delay that can be set via
+         *
+         * Note that the delay starts after the last packet was written to the playout and thus
+         * the delay is already 'counting' when the jitter-buffered playout is still playing
+         *
+         * Only supported for #STREAMTYPE_VOICE.
+         *
+         * @param nStopRecordingExtraDelayMSec Extra delay before closing the recording file
+         * default is 0.*/
+        public bool SetUserMediaStorageDirEx(int nUserID, string szFolderPath, string szFileNameVars,
+                                       AudioFileFormat uAFF, int nStopRecordingExtraDelayMSec)
+        {
+            return TTDLL.TT_SetUserMediaStorageDirEx(m_ttInst, nUserID, szFolderPath, szFileNameVars, uAFF, nStopRecordingExtraDelayMSec);
+        }
+
         /**
          * @brief Change the amount of media data which can be buffered
          * in the user's playback queue.
