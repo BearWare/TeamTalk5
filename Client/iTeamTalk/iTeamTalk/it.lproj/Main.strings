@@ -1,0 +1,203 @@
+/* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
+"07s-AR-tvQ.title" = "Controller scheda principale";
+
+/* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
+"0EG-eF-WzS.title" = "Messaggio testuale";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
+"0QA-gn-V1p.text" = "Vuoto";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
+"3NI-HT-A3N.normalTitle" = "Spedire";
+
+/* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
+"4RU-K7-Yga.accessibilityHint" = "Invia messaggio di testo privato";
+
+/* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
+"4RU-K7-Yga.accessibilityLabel" = "Messaggistica testuale";
+
+/* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
+"4RU-K7-Yga.normalTitle" = "Utente messaggio";
+
+/* Class = "UITableViewController"; title = "Text To Speech Events"; ObjectID = "5K7-Hd-4h7"; */
+"5K7-Hd-4h7.title" = "Eventi di sintesi vocale";
+
+/* Class = "UIButton"; normalTitle = "Login"; ObjectID = "5YA-rx-tGz"; */
+"5YA-rx-tGz.normalTitle" = "Accesso";
+
+/* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
+"79c-sV-yxb.title" = "Voce di sintesi vocale";
+
+/* Class = "UIButton"; normalTitle = "Create Web Login ID"; ObjectID = "8Ls-H9-lri"; */
+"8Ls-H9-lri.normalTitle" = "Crea ID di accesso Web";
+
+/* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
+"9GN-82-2nL.text" = "Vuoto";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ALe-1e-Au1"; */
+"ALe-1e-Au1.text" = "Vuoto";
+
+/* Class = "UITabBarItem"; title = "Channels"; ObjectID = "aX2-rZ-yEl"; */
+"aX2-rZ-yEl.title" = "Canali";
+
+/* Class = "UIButton"; normalTitle = "Use Speex VBR Codec"; ObjectID = "b6N-H7-SIe"; */
+"b6N-H7-SIe.normalTitle" = "Usa Speex VBR Codec";
+
+/* Class = "UILabel"; text = "Speech"; ObjectID = "B8t-mo-k8g"; */
+"B8t-mo-k8g.text" = "Discorso";
+
+/* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
+"baE-IB-ajD.normalTitle" = "Reimposta l'ID di accesso al Web";
+
+/* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
+"bDf-Jp-1l5.normalTitle" = "Collegare";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "BLM-fs-qcG"; */
+"BLM-fs-qcG.title" = "Indietro";
+
+/* Class = "UILabel"; text = "Setup Sound Events"; ObjectID = "bua-Pf-Vpn"; */
+"bua-Pf-Vpn.text" = "Imposta eventi sonori";
+
+/* Class = "UIButton"; normalTitle = "Use Speex Codec"; ObjectID = "cGm-Jp-0zI"; */
+"cGm-Jp-0zI.normalTitle" = "Usa Speex Codec";
+
+/* Class = "UIButton"; normalTitle = "Join this channel"; ObjectID = "ch0-Xf-hyX"; */
+"ch0-Xf-hyX.normalTitle" = "Unisciti a questo canale";
+
+/* Class = "UINavigationItem"; title = "Connecting to Server"; ObjectID = "dcU-Nq-ioW"; */
+"dcU-Nq-ioW.title" = "Connessione al server";
+
+/* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
+"DHN-DJ-cUp.accessibilityLabel" = "Messaggi di testo privati";
+
+/* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
+"DHN-DJ-cUp.normalTitle" = "Utente messaggio";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "EHj-xt-HhD"; */
+"EHj-xt-HhD.text" = "Vuoto";
+
+/* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
+"eJb-Cn-ciJ.text" = "Scegli gli eventi da riprodurre";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
+"Fu9-tA-eYj.text" = "Vuoto";
+
+/* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
+"gA8-TJ-0RU.title" = "Canale chat";
+
+/* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
+"Hcv-zz-riB.text" = "Accesso Web BearWare.dk";
+
+/* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
+"hqu-CX-Vn4.accessibilityHint" = "Tocca due volte per espandere le opzioni per questo canale.";
+
+/* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
+"j1c-gJ-hO8.title" = "Messaggi";
+
+/* Class = "UITextView"; text = "Blank"; ObjectID = "JW6-jf-mbs"; */
+"JW6-jf-mbs.text" = "Vuoto";
+
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "JzB-tm-tld"; */
+"JzB-tm-tld.normalTitle" = "Modificare";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "kRp-LE-RFh"; */
+"kRp-LE-RFh.text" = "Vuoto";
+
+/* Class = "UITableViewController"; title = "Setup Sound Events"; ObjectID = "Ksa-x9-2Mq"; */
+"Ksa-x9-2Mq.title" = "Imposta eventi sonori";
+
+/* Class = "UILabel"; text = "Choose sounds events to play"; ObjectID = "KsW-VX-Rtb"; */
+"KsW-VX-Rtb.text" = "Scegli gli eventi sonori da riprodurre";
+
+/* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
+"l6D-Hs-MdG.normalTitle" = "Entra nel canale";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "LPL-JY-xBM"; */
+"LPL-JY-xBM.normalTitle" = "Spedire";
+
+/* Class = "UIButton"; normalTitle = "Delete Server"; ObjectID = "m1N-Js-NXn"; */
+"m1N-Js-NXn.normalTitle" = "Elimina server";
+
+/* Class = "UINavigationItem"; title = "Server Entry"; ObjectID = "Me4-OJ-iZH"; */
+"Me4-OJ-iZH.title" = "Server voce";
+
+/* Class = "UINavigationItem"; title = "User Properties"; ObjectID = "N1w-a6-R3D"; */
+"N1w-a6-R3D.title" = "Proprietà utente";
+
+/* Class = "UITableViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
+"NA0-UK-wve.title" = "Preferenze";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
+"nVj-7w-Sta.text" = "Vuoto";
+
+/* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
+"o7z-cC-U4w.title" = "Accesso Web BearWare.dk";
+
+/* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
+"PaV-2Q-pt4.accessibilityLabel" = "Pulsante Connetti";
+
+/* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
+"PaV-2Q-pt4.normalTitle" = "Collegare";
+
+/* Class = "UITableViewController"; title = "Channel Detail"; ObjectID = "PhY-ED-cqF"; */
+"PhY-ED-cqF.title" = "Dettaglio canale";
+
+/* Class = "UINavigationItem"; title = "Server List"; ObjectID = "pQJ-c1-GEL"; */
+"pQJ-c1-GEL.title" = "Elenco dei server";
+
+/* Class = "UILabel"; text = "Setup Announcements"; ObjectID = "Q0w-pu-giG"; */
+"Q0w-pu-giG.text" = "Installazione di annunci";
+
+/* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
+"rNU-2J-hMO.normalTitle" = "Non utilizzare audio";
+
+/* Class = "UIButton"; normalTitle = "Use OPUS Codec"; ObjectID = "Rrg-2O-NzF"; */
+"Rrg-2O-NzF.normalTitle" = "Usa OPUS Codec";
+
+/* Class = "UILabel"; text = "Login ID from BearWare.dk"; ObjectID = "SmF-8J-cWK"; */
+"SmF-8J-cWK.text" = "ID di accesso da BearWare.dk";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
+"Uc0-gP-wr1.text" = "Vuoto";
+
+/* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
+"V6G-Gm-l2U.normalTitle" = "Trasmissione";
+
+/* Class = "UIButton"; normalTitle = "Delete Channel"; ObjectID = "vC1-lW-BtX"; */
+"vC1-lW-BtX.normalTitle" = "Elimina canale";
+
+/* Class = "UITabBarItem"; title = "Preferences"; ObjectID = "vIN-Uc-3Ms"; */
+"vIN-Uc-3Ms.title" = "Preferenze";
+
+/* Class = "UITableViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
+"VWP-v4-bY8.title" = "Seleziona Voce";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
+"w6E-jf-09e.text" = "Vuoto";
+
+/* Class = "UILabel"; text = "Select the text-to-speech voice to use"; ObjectID = "Wbh-f7-64c"; */
+"Wbh-f7-64c.text" = "Seleziona la voce di sintesi vocale da utilizzare";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
+"WcB-pN-blB.text" = "Vuoto";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "WCf-u5-KkQ"; */
+"WCf-u5-KkQ.text" = "Vuotok";
+
+/* Class = "UIButton"; normalTitle = "Kick User"; ObjectID = "WFB-kl-uoS"; */
+"WFB-kl-uoS.normalTitle" = "Escludi utente";
+
+/* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
+"WRa-tI-lpY.normalTitle" = "Escludi e ban l'utente";
+
+/* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
+"Y9o-rs-HCe.title" = "Disconnetti";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ydT-LM-DrB"; */
+"ydT-LM-DrB.text" = "Vuoto";
+
+/* Class = "UITabBarItem"; title = "Desktops"; ObjectID = "ZFj-Rn-XZn"; */
+"ZFj-Rn-XZn.title" = "Desktop";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ZSZ-bY-VqA"; */
+"ZSZ-bY-VqA.text" = "Vuoto";
