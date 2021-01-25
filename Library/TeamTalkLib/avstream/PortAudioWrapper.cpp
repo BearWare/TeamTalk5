@@ -249,7 +249,9 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
         streamParameters.sampleFormat = paInt16;
         streamParameters.suggestedLatency = 0;
 #if defined(WIN32)
-        streamParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
+        const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+        if (HOST_WASAPI == devinfo->hostApi)
+            streamParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
 #endif
 
         for(size_t j=0;j<standardSampleRates.size();j++)
