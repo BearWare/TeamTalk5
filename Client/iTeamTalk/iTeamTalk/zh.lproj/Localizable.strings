@@ -211,13 +211,13 @@
 "Facebook login was cancelled" = "Facebook 登录被取消";
 
 /* preferences */
-"Female" = "Female";
+"Female" = "女";
 
 /* codec detail */
 "Frame Size" = "帧大小";
 
 /* preferences */
-"Gender" = "Gender";
+"Gender" = "性别";
 
 /* preferences
    user detail */
@@ -275,7 +275,7 @@
 "Logged on to server" = "登录服务器";
 
 /* preferences */
-"Male" = "Male";
+"Male" = "男";
 
 /* preferences */
 "Master Volume" = "主音量";
@@ -497,7 +497,7 @@
 "Server List Entry" = "服务器列表入口";
 
 /* preferences */
-"Show male or female icon" = "Show male or female icon";
+"Show male or female icon" = "显示男性或女性图标";
 
 /* preferences */
 "Show Public Servers" = "显示公共服务器";
@@ -608,7 +608,7 @@
 "User" = "用户";
 
 /* channel list */
-"User female" = "User female";
+"User female" = "女性用户";
 
 /* preferences */
 "User Joins Channel" = "用户加入频道";
