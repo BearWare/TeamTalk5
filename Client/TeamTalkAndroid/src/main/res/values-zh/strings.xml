@@ -207,6 +207,8 @@
     <string name="action_new_server">添加新服务器</string>
     <string name="action_refresh">刷新</string>
     <string name="action_import_serverlist">从 .tt 文件导入</string>
+    <string name="action_export_serverlist">导出服务器列表</string>
+    <string name="serverlist_export_confirmation">服务器列表已导出至 %1$s</string>
 
     <string name="pref_title_server_props">TeamTalk 5 服务器属性</string>
     <string name="pref_title_server_info">服务器信息</string>
@@ -235,6 +237,7 @@
     <string name="upload_failed">无法上传文件 %1$s</string>
     <string name="alert_file_override">文件 %1$s 已存在，要覆盖吗？</string>
     <string name="err_file_delete">无法删除文件 %1$s</string>
+    <string name="err_file_write">无法写入文件 %1$s</string>
     <string name="err_channel_remove">无法删除频道 %1$s</string>
     <string name="err_download_path">下载路径 %1$s 不可用</string>
     <string name="download_progress">已下载 %1$d%%</string>
@@ -352,6 +355,8 @@
     <string name="pref_title_translator">翻译者</string>
     <string name="pref_title_libraries">第三方库</string>
     <string name="channel_prop_title_hiddenchannel">隐藏</string>
+    <string name="pref_title_gender">性别</string>
+    <string name="pref_summary_gender">选择女性图标</string>
 
 
 </resources>
