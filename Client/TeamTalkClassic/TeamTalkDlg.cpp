@@ -1635,34 +1635,36 @@ void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
         OnChannelLeft(chan);
     }
     m_wndTree.RemoveUser(user);
-
-    CString szMsg, szFormat;
-
-    if(TT_GetMyChannelID(ttInst) == msg.nSource)
+    if(user.nUserID != TT_GetMyUserID(ttInst))
     {
-        szFormat = LoadText(IDS_CHANNEL_LEFT);
-        szMsg.Format(szFormat, GetDisplayName(user));
+        CString szMsg, szFormat;
 
-        PlaySoundEvent(SOUNDEVENT_USER_LEFT);
+        if(TT_GetMyChannelID(ttInst) == msg.nSource)
+        {
+            szFormat = LoadText(IDS_CHANNEL_LEFT);
+            szMsg.Format(szFormat, GetDisplayName(user));
 
-        AddStatusText(szMsg);
-        if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT_SAME)
-            AddTextToSpeechMessage(szMsg);
-    }
-    else if (m_commands[m_nCurrentCmdID] == CMD_COMPLETE_NONE)
-    {
-        CString szRoot;
-        szRoot.LoadString(IDS_ROOTCHANNEL);
-        TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRoot);
+            PlaySoundEvent(SOUNDEVENT_USER_LEFT);
 
-        szFormat = LoadText(IDS_USERLEFTCHANNEL);
-        if(chan.nParentID == 0)
-            szMsg.Format(szFormat, GetDisplayName(user), szRoot);
-        else
-            szMsg.Format(szFormat, GetDisplayName(user), chan.szName);
+            AddStatusText(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT_SAME)
+                AddTextToSpeechMessage(szMsg);
+        }
+        else if (m_commands[m_nCurrentCmdID] == CMD_COMPLETE_NONE)
+        {
+            CString szRoot;
+            szRoot.LoadString(IDS_ROOTCHANNEL);
+            TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRoot);
 
-        if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT)
-            AddTextToSpeechMessage(szMsg);
+            szFormat = LoadText(IDS_USERLEFTCHANNEL);
+            if(chan.nParentID == 0)
+                szMsg.Format(szFormat, GetDisplayName(user), szRoot);
+            else
+                szMsg.Format(szFormat, GetDisplayName(user), chan.szName);
+
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT)
+                AddTextToSpeechMessage(szMsg);
+        }
     }
 
     if ((TT_GetMyUserRights(ttInst) & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
