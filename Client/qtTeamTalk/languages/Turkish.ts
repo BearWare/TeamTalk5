@@ -551,7 +551,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="784"/>
         <source>Enable fixed audio volume for all users</source>
-        <translation>Tüm kullanıcılar için sabitlenmiş ses düzeyini etkinleştir</translation>
+        <translation>Tüm kullanıcılar için sabit ses düzeyini etkinleştir</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="793"/>
@@ -819,7 +819,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="20"/>
         <source>Window to Share</source>
-        <translation>Paylaşmak için Pencere</translation>
+        <translation>Paylaşılacak Pencere</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="26"/>
@@ -2283,7 +2283,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1747"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
-        <translation>Bu istemci sunucuyla uyumlu değil, bu yüzden eylem yürütülemiyor.</translation>
+        <translation>Bu istemci sunucuyla uyumlu değil, bu nedenle eylem gerçekleştirilemiyor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1750"/>
@@ -2356,7 +2356,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1810"/>
         <source>Cannot perform action because client is currently not logged in</source>
-        <translation>Eylem yürütülemiyor çünkü istemci şu anda oturum açmış değil</translation>
+        <translation>Eylem gerçekleştirilemiyor çünkü istemci şu anda oturum açmış değil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1813"/>
@@ -2637,7 +2637,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4266"/>
         <source>Message to broadcast:</source>
-        <translation>Yayınlamak için ileti:</translation>
+        <translation>Yayınlanacak ileti:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4309"/>
@@ -2823,7 +2823,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5550"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.<byte value="xd"/>
+        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.&lt;byte value=&quot;xd&quot;/&gt;
 Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
@@ -4480,7 +4480,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="384"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation>Kullanıcının, verilen bir zaman aralığı içinde sonuçlandırabileceği komutların sayısını sınırlandırarak, örn. istenmeyen metin iletileri göndermesini önleyin.</translation>
+        <translation>Kullanıcının, verilen bir zaman aralığı içinde sonuçlandırabileceği komutların sayısını sınırlandırarak, ör. istenmeyen metin iletileri göndermesini önleyin.</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="396"/>
@@ -4657,7 +4657,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="703"/>
         <source>Number of commands to allow (0 = disabled)</source>
-        <translation>İzin vermek için komutların sayısı (0 = etkisizleştirildi)</translation>
+        <translation>İzin verilecek komutların sayısı (0 = etkisizleştirildi)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="709"/>
@@ -5006,7 +5006,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../videotext.ui" line="24"/>
         <source>Text to Show</source>
-        <translation>Göstermek için Metin</translation>
+        <translation>Gösterilecek Metin</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="30"/>

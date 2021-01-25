@@ -77,7 +77,7 @@
 "EHj-xt-HhD.text" = "Boş";
 
 /* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
-"eJb-Cn-ciJ.text" = "Kayıttan oynatmak için olayları seç";
+"eJb-Cn-ciJ.text" = "Kayıttan oynatılacak olayları seç";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "Boş";
@@ -107,7 +107,7 @@
 "Ksa-x9-2Mq.title" = "Ses Olaylarını Ayarla";
 
 /* Class = "UILabel"; text = "Choose sounds events to play"; ObjectID = "KsW-VX-Rtb"; */
-"KsW-VX-Rtb.text" = "Oynatmak için ses olayları seç";
+"KsW-VX-Rtb.text" = "Oynatılacak ses olaylarını seç";
 
 /* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
 "l6D-Hs-MdG.normalTitle" = "Kanala Katıl";
@@ -176,7 +176,7 @@
 "w6E-jf-09e.text" = "Boş";
 
 /* Class = "UILabel"; text = "Select the text-to-speech voice to use"; ObjectID = "Wbh-f7-64c"; */
-"Wbh-f7-64c.text" = "Kullanmak için metin okuma sesi seç";
+"Wbh-f7-64c.text" = "Kullanılacak metin okuma sesini seç";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
 "WcB-pN-blB.text" = "Boş";
