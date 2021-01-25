@@ -89,7 +89,7 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
         if (m_use_adaptive_jitter_control)
             jitter_delay += m_adaptive_delay;
 
-        MYTRACE_COND((jitter_delay > 0), ACE_TEXT("Jitter delay for new stream: %d.\n"), jitter_delay);
+        MYTRACE_COND((jitter_delay > 0), ACE_TEXT("Jitter delay for new stream of user #%d: %d.\n"), m_userid, jitter_delay);
     }
     else
     {
@@ -118,8 +118,8 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
 
             // Also, the remaining buffered time might also be interesing to notifiy via client events. Applications might
             // use that to visualize buffering.
-            MYTRACE(ACE_TEXT("Jitter exceeds buffered playout time. End-user experiences silence. Silence in msec: %d.\n"),
-                            m_current_playout_buffer);
+            MYTRACE(ACE_TEXT("Jitter exceeds buffered playout time of user #%d. End-user experiences silence for this user. Silence in msec: %d.\n"),
+                            m_userid, m_current_playout_buffer);
             m_current_playout_buffer = 0;
         }
 
@@ -128,7 +128,8 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
             // Maximize the jitter delay to the configured max.
             if (jitter_last_packet > m_max_adaptive_delay_msec)
             {
-                MYTRACE(ACE_TEXT("Adaptive jitter delay capped to configured maximum of %d. Received jitter %d, .\n"), m_max_adaptive_delay_msec, jitter_last_packet);
+                MYTRACE(ACE_TEXT("Adaptive jitter delay capped to configured maximum of %d for user #%d. Received jitter %d, .\n"),
+                                    m_max_adaptive_delay_msec, m_userid, jitter_last_packet);
                 jitter_last_packet = m_max_adaptive_delay_msec;
             }
 
@@ -151,7 +152,8 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
 						if (*ii > m_adaptive_delay)
 							m_adaptive_delay = *ii;
 					}
-					MYTRACE(ACE_TEXT("Adaptive delay was dequeued. New adaptive jitter delay determined: %d.\n"), m_adaptive_delay);
+					MYTRACE(ACE_TEXT("Adaptive delay was dequeued. New adaptive jitter delay determined: %d for user #%d.\n"),
+                                        m_adaptive_delay, m_userid);
 				}
 			}
 
@@ -159,7 +161,7 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
 			{
 				//Last jitter is the highest measured. This will be the new highest
 				m_adaptive_delay = jitter_last_packet;
-				MYTRACE(ACE_TEXT("New adaptive jitter delay jitter %d.\n"), m_adaptive_delay);
+				MYTRACE(ACE_TEXT("New adaptive jitter delay jitter for user #%d: %d.\n"), m_userid, m_adaptive_delay);
 			}
 		}
     }
@@ -199,6 +201,7 @@ ClientUser::ClientUser(int userid, ClientNode* clientnode,
                        , m_userdata(0)
                        , m_voice_active(false)
                        , m_voice_buf_msec(VOICE_BUFFER_MSEC)
+                       , m_jitter_calculator(userid)
                        , m_audiofile_active(false)
                        , m_media_buf_msec(MEDIAFILE_BUFFER_MSEC)
                        , m_desktop_packets_expected(0)

@@ -47,7 +47,8 @@ namespace teamtalk {
     class JitterCalculator
     {
     public:
-        JitterCalculator() {};
+        JitterCalculator(int userid):
+            m_userid(userid){ };
 
         void SetConfig(const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec);
         // Takes a new packet into the calculator and returns the number of msec the packet
@@ -65,6 +66,7 @@ namespace teamtalk {
         std::deque<int>     m_last_jitters;
 
         // Config
+        int                 m_userid = 0;
         int                 m_fixed_jitter_delay_ms = 0;
         int                 m_use_adaptive_jitter_control = false;
         int                 m_max_adaptive_delay_msec = 1000;
