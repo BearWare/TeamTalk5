@@ -291,30 +291,33 @@ extern "C" {
     {
         /** @brief No sound device features are available on this
          * sound device. */
-        SOUNDDEVICEFEATURE_NONE         = 0x0000,
+        SOUNDDEVICEFEATURE_NONE             = 0x0000,
         /** @brief The #SoundDevice can enable Acoustic 
          * Echo Canceler (AEC).
          * Enable AEC use property @c bEnableAEC on
          * #SoundDeviceEffects.
          * @see TT_SetSoundDeviceEffects() */
-        SOUNDDEVICEFEATURE_AEC          = 0x0001,
+        SOUNDDEVICEFEATURE_AEC              = 0x0001,
         /** @brief The #SoundDevice can enable Automatic
          * Gain Control (AGC).
          * Enable AGC use property @c bEnableAGC on
          * #SoundDeviceEffects.
          * @see TT_SetSoundDeviceEffects() */
-        SOUNDDEVICEFEATURE_AGC          = 0x0002,
+        SOUNDDEVICEFEATURE_AGC              = 0x0002,
         /** @brief The #SoundDevice can enable denoising.
          * Enable denoising use property @c bEnableDenoising on 
          * #SoundDeviceEffects.
          * @see TT_SetSoundDeviceEffects() */
-        SOUNDDEVICEFEATURE_DENOISE      = 0x0004,
+        SOUNDDEVICEFEATURE_DENOISE          = 0x0004,
         /** @brief The #SoundDevice can position user in 3D.
          * @see TT_SetUserPosition()  */
-        SOUNDDEVICEFEATURE_3DPOSITION   = 0x0008,
+        SOUNDDEVICEFEATURE_3DPOSITION       = 0x0008,
         /** @brief The #SoundDevice can run in duplex mode.
          * @see TT_InitSoundDuplexDevices() */
-        SOUNDDEVICEFEATURE_DUPLEXMODE   = 0x0010,
+        SOUNDDEVICEFEATURE_DUPLEXMODE       = 0x0010,
+        /** @brief The #SoundDevice is the default communication device.
+         * This feature is only supported on SOUNDSYSTEM_WASAPI. */
+        SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE = 0x0020,
     } SoundDeviceFeature;
 
     /** @brief A bitmask of available #SoundDeviceFeature. 

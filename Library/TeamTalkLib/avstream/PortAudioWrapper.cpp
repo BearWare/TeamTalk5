@@ -305,6 +305,37 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
 
         sounddevs[device.id] = device;
     }
+
+#if defined(WIN32)
+    // Find default communication device on Windows
+    CComPtr<IMMDeviceEnumerator> pEnumerator;
+    auto rclsid = __uuidof(MMDeviceEnumerator);
+    auto riid = __uuidof(IMMDeviceEnumerator);
+    HRESULT hr = CoCreateInstance(rclsid, NULL, CLSCTX_INPROC_SERVER, riid, (void**)&pEnumerator);
+    if (SUCCEEDED(hr))
+    {
+        EDataFlow flows[] = { eCapture, eRender };
+        for (auto flow : flows)
+        {
+            CComPtr<IMMDevice> device;
+            if (SUCCEEDED(pEnumerator->GetDefaultAudioEndpoint(flow, eCommunications, &device)))
+            {
+                WCHAR* deviceId = nullptr;
+                if (SUCCEEDED(device->GetId(&deviceId)))
+                {
+                    auto i = std::find_if(sounddevs.begin(), sounddevs.end(),
+                        [deviceId](const std::pair<int, DeviceInfo>& d)
+                        {
+                            return d.second.soundsystem == SOUND_API_WASAPI && d.second.deviceid == deviceId;
+                        });
+                    if (i != sounddevs.end())
+                        i->second.features |= SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE;
+                    CoTaskMemFree(deviceId);
+                }
+            }
+        }
+    }
+#endif
 }
 
 SoundAPI PortAudio::GetSoundSystem(const PaDeviceInfo* devinfo)
