@@ -65,16 +65,6 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
     // If a jitter is enqueued that is higher than the adaptive delay than the adaptive delay is immediately set
     // to that jitter.
     // This means that the adaptive delay adapts upwards very quickly and adapts slowly downwards.
-    //
-    // As an optional expansion, the adaptive control can also delay the voice playout if the
-    // jitter is such that it can determine that the end-user is experiencing jittering.
-    // This is can be measured by keeping trach of the enqueued delay in the playout buffer and
-    // the receiver jitter. If the accumulated jitter exceeds the playout buffer then the end-user
-    // will experience a silence in the playout.
-    // In that case, it might be a compromise to also delay the restart of that stream
-    // in order for the end-user to only experience a jitter once. The downside is that the
-    // jitter will be worse than it would have been. It's a 'take the pain right away' approach.
-    // This currently not done, but the measurement is already taken.
 
     int jitter_delay = 0;
     if (streamid != m_current_stream)
@@ -110,18 +100,6 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
 
         // Keep track of the actual jitter buffer in the playout buffer by adding/removing the last jitter (might be negative jitter)
         m_current_playout_buffer -= jitter_last_packet;
-        if (m_current_playout_buffer < 0)
-        {
-            // At this point the accumulated jitter during the stream exceeds the buffer set at the start.
-            // This will result is noticeable jitter for the end-user.
-            // This is not acted upon now, but in the future we might delay the audio again right away at this point.
-
-            // Also, the remaining buffered time might also be interesing to notifiy via client events. Applications might
-            // use that to visualize buffering.
-            MYTRACE(ACE_TEXT("Jitter exceeds buffered playout time of user #%d. End-user experiences silence for this user. Silence in msec: %d.\n"),
-                            m_userid, m_current_playout_buffer);
-            m_current_playout_buffer = 0;
-        }
 
 		if ((m_use_adaptive_jitter_control) && (jitter_last_packet > 0))
 		{
@@ -164,6 +142,23 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
 				MYTRACE(ACE_TEXT("New adaptive jitter delay jitter for user #%d: %d.\n"), m_userid, m_adaptive_delay);
 			}
 		}
+
+        if (m_current_playout_buffer < 0)
+        {
+            // At this point the accumulated jitter during the stream exceeds the buffer set at the start.
+            // This will result is noticeable jitter for the end-user.
+
+            // The remaining buffered time might also be interesting to notifiy via client events. Applications might
+            // use that to visualize buffering.
+            MYTRACE(ACE_TEXT("Jitter exceeds buffered playout time of user #%d. End-user experiences silence for this user. Silence in msec: %d.\n"),
+                m_userid, m_current_playout_buffer);
+            m_current_playout_buffer = 0;
+
+            // There's aleady silence now. Add the fixed delay as a new buffer into the playout to ensure some buffering for the remainder of this session.
+            // This makes the immediate jitter silence worst, but improves subsequent jitters
+            jitter_delay = m_fixed_jitter_delay_ms;
+        }
+
     }
 
     m_lastpacket_time = packet_reception_time;
