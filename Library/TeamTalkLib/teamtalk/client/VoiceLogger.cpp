@@ -569,6 +569,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     if(var.is_empty())
         var = DEFAULT_VOICELOG_VARS;
 
+    replace_all(var, ACE_TEXT("%starttick%"), i2string(GETTIMESTAMP()));
     replace_all(var, ACE_TEXT("%nickname%"), from_user.GetNickname());
     replace_all(var, ACE_TEXT("%username%"), from_user.GetUsername());
     replace_all(var, ACE_TEXT("%userid%"), i2string(from_user.GetUserID()));

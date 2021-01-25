@@ -7013,7 +7013,7 @@ extern "C" {
      * #User.  
      * @param szFileNameVars The file name used for audio files can
      * consist of the following variables: \%nickname\%, \%username\%,
-     * \%userid\%, \%counter\% and a specified time based on @c
+     * \%userid\%, \%counter\%, \%starttick\% and a specified time based on @c
      * strftime (google @c 'strftime' for a description of the
      * format. The default format used by TeamTalk is:
      * '\%Y\%m\%d-\%H\%M\%S #\%userid\% \%username\%'. The \%counter\%
