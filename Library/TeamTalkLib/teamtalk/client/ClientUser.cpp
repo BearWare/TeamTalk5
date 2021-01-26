@@ -393,7 +393,7 @@ int ClientUser::TimerVoiceJitterBuffer()
 
 void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
                                 const struct SoundProperties& sndprop,
-                                VoiceLogger& voice_logger, bool allowrecord)
+                                bool allowrecord)
 {
     ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
 
