@@ -792,7 +792,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             }
             channame = QString("%1 (%2)").arg(channame).arg(count);
         }
-        if (emoji && ite->uChannelType == CHANNEL_HIDDEN)
+        if (emoji && (ite->uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
             channame += ": 👻";
         if (emoji && ite->bPassword)
             channame += " - 🔒";
