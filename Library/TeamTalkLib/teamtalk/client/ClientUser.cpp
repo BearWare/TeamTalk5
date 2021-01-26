@@ -66,6 +66,11 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
     // to that jitter.
     // This means that the adaptive delay adapts upwards very quickly and adapts slowly downwards.
 
+    // A drawback of the current adaptive mechanism is that it assumes that the initial delay will overcome the
+    // accumulated jitter of a stream. This is typically geared towards short PTT-style voice streams.
+    // An alternative approach is to set the adaptive jitter delay to the highest accumulated jitter of a stream.
+    // This will result in even higher delays and can be explored as a future change
+
     int jitter_delay = 0;
     if (streamid != m_current_stream)
     {
@@ -104,7 +109,7 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
 		if ((m_use_adaptive_jitter_control) && (jitter_last_packet > 0))
 		{
             // Maximize the jitter delay to the configured max.
-            if (jitter_last_packet > m_max_adaptive_delay_msec)
+            if ((m_max_adaptive_delay_msec > 0) && (jitter_last_packet > m_max_adaptive_delay_msec))
             {
                 MYTRACE(ACE_TEXT("Adaptive jitter delay capped to configured maximum of %d for user #%d. Received jitter %d, .\n"),
                                     m_max_adaptive_delay_msec, m_userid, jitter_last_packet);
