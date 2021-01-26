@@ -230,14 +230,12 @@ ClientUser::ClientUser(int userid, ClientNode* clientnode,
 ClientUser::~ClientUser()
 {
     // Delete any enqueued jitter buffer packets
-    std::unique_lock<std::recursive_mutex> g(m_jitterbuffer_mutex);
     while (!m_jitterbuffer.empty())
     {
         VoicePacket* queuedVoicePacket = m_jitterbuffer.front();
         m_jitterbuffer.pop();
         delete queuedVoicePacket;
     }
-    g.unlock();
 
 
     TTASSERT(!m_voice_player);
@@ -390,7 +388,6 @@ int ClientUser::TimerDesktopDelayedAck()
 
 int ClientUser::TimerVoiceJitterBuffer()
 {
-    std::unique_lock<std::recursive_mutex> g(m_jitterbuffer_mutex);
     while (!m_jitterbuffer.empty())
     {
         VoicePacket* queuedVoicePacket = m_jitterbuffer.front();
@@ -441,7 +438,6 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     // After that initial delay, all received packets are directly fed into the playout buffer
 
     // Guard both the jitter-buffer and the jitter-calculator
-    std::unique_lock<std::recursive_mutex> g(m_jitterbuffer_mutex);
 
     int jitter_delay = m_jitter_calculator.PacketReceived(audpkt.GetStreamID(), GetAudioCodecCbMillis(chan->GetAudioCodec()));
 
@@ -463,7 +459,6 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
             long timerid = m_clientnode->StartUserTimer(USER_TIMER_JITTER_BUFFER_ID, GetUserID(), 0, tm);
             TTASSERT(timerid >= 0);
         }
-        g.unlock();
     }
     else
     {
@@ -1067,7 +1062,6 @@ void ClientUser::SetJitterControl(const StreamType stream_type, const int fixed_
     if (stream_type != STREAMTYPE_VOICE)
         return;
 
-    std::unique_lock<std::recursive_mutex> g(m_jitterbuffer_mutex);
     m_jitter_calculator.SetConfig(fixed_delay_msec, use_adaptive_jitter_control, max_adaptive_delay_msec);
 }
 
