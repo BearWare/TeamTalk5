@@ -1242,6 +1242,23 @@ void setClientStatistics(JNIEnv* env, ClientStatistics& stats, jobject lpStats)
     env->SetIntField(lpStats, fid_udpsilen, stats.nUdpServerSilenceSec);
 }
 
+void setJitterConfig(JNIEnv* env, JitterConfig& jitterconfig, jobject lpConfig)
+{
+    jclass cls_config = env->GetObjectClass(lpConfig);
+
+    jfieldID fid_fixeddelay = env->GetFieldID(cls_config, "nFixedDelayMSec", "I");
+    jfieldID fid_useadaptivejitter = env->GetFieldID(cls_config, "bUseAdativeDejitter", "Z");
+    jfieldID fid_adaptivedelay = env->GetFieldID(cls_config, "nMaxAdaptiveDelayMSec", "I");
+
+    assert(fid_fixeddelay);
+    assert(fid_useadaptivejitter);
+    assert(fid_adaptivedelay);
+
+    jitterconfig.nFixedDelayMSec = env->GetIntField(lpConfig, fid_fixeddelay);
+    jitterconfig.bUseAdativeDejitter = env->GetBooleanField(lpConfig, fid_useadaptivejitter);
+    jitterconfig.nMaxAdaptiveDelayMSec = env->GetIntField(lpConfig, fid_adaptivedelay);
+}
+
 void setClientKeepAlive(JNIEnv* env, ClientKeepAlive& ka, jobject lpClientKeepAlive, JConvert conv) {
 
     jclass cls_ka = env->GetObjectClass(lpClientKeepAlive);

@@ -2617,6 +2617,24 @@ namespace BearWare
         public int nUdpServerSilenceSec;
     }
 
+    /** @ingroup connectivity
+     * @brief Configuration parameters for the Jitter Buffer
+     *
+     * @see TeamTalkBase.SetUserJitterControl()
+     */
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct JitterConfig
+    {
+        /** @brief The fixed delay in milliseconds. Default = 0.*/
+        public int nFixedDelayMSec;
+        /** @brief Turns adaptive jitter buffering ON/OFF. Default is OFF.*/
+        public bool bUseAdativeDejitter;
+        /** @brief A hard maximum delay on the adaptive delay. 
+        Only valid when higher than zero. Default = 0.*/
+        public int nMaxAdaptiveDelayMSec;
+    }
+
+
     /** @addtogroup errorhandling
      * @{ */
 
@@ -3521,7 +3539,8 @@ namespace BearWare
         __MEDIAFILEPLAYBACK       = 37,
         __CLIENTKEEPALIVE         = 38,
         __UINT32                  = 39,
-        __AUDIOINPUTPROGRESS      = 40            
+        __AUDIOINPUTPROGRESS      = 40,
+        __JITTERCONFIG            = 41
     }
 
     /**
@@ -3933,6 +3952,7 @@ namespace BearWare
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__MEDIAFILEPLAYBACK) == Marshal.SizeOf(new MediaFilePlayback()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__CLIENTKEEPALIVE) == Marshal.SizeOf(new ClientKeepAlive()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__AUDIOINPUTPROGRESS) == Marshal.SizeOf(new AudioInputProgress()));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__JITTERCONFIG) == Marshal.SizeOf(new JitterConfig()));
 
             if (poll_based)
                 m_ttInst = TTDLL.TT_InitTeamTalkPoll();
@@ -7276,40 +7296,36 @@ namespace BearWare
             return TTDLL.TT_SetUserStoppedPlaybackDelay(m_ttInst, nUserID, nStreamType, nDelayMSec);
         }
 
-         /**
-         * @brief Set the configuration for de-jitter measures for a user.
-         *
-         * TeamTalk can add a fixed delay at the start of the playout of a user stream.
-         * This delay acts as a buffer to smooth out jittering (non-constant delays)
-         * in the reception of network packets.
-         * The fixed delay is applied at the start of every new stream, such as a new PTT session.
-         * The default fixed delay is zero.
-         *
-         * TeamTalk can also apply adaptive jitter buffering where the actual jitter is measured
-         * and the delay at the start of a stream is adapted based on those measurements.
-         * The adaptive delay will not go below the fixed delay.
-         * The parameter nMaxAdaptiveDelayMSec maximizes the total adaptive delay.
-         * By default, the adaptive mechanism is OFF
-         *
-         * By default, all jitter control is OFF
-         *
-         * The result of jitter buffering is that playout frames will get buffered in the playout buffer.
-         * Make sure to also size the playout buffer for the expected jitter via #TT_SetUserAudioStreamBufferSize
-         *
-         * @param lpTTInstance Pointer to client instance created by #TT_InitTeamTalk.
-         * @param nUserID The user ID of the user to apply the configuration to.
-         * @param nStreamType The type of stream to change, currently only
-         * #STREAMTYPE_VOICE is supported. Other types are a no-op.
-         * @param nFixedDelayMSec The fixed delay in milliseconds. Default = 0.
-         * @param bMute Turns adaptive jitter buffering ON/OFF. Default is OFF.
-         * @param nMaxAdaptiveDelayMSec A hard maximum on the adaptive delay.*/
+        /**
+        * @brief Set the configuration for de-jitter measures for a user.
+        *
+        * TeamTalk can add a fixed delay at the start of the playout of a user stream.
+        * This delay acts as a buffer to smooth out jittering (non-constant delays)
+        * in the reception of network packets.
+        * The fixed delay is applied at the start of every new stream, such as a new PTT session.
+        * The default fixed delay is zero.
+        *
+        * TeamTalk can also apply adaptive jitter buffering where the actual jitter is measured
+        * and the delay at the start of a stream is adapted based on those measurements.
+        * The adaptive delay will not go below the fixed delay.
+        * The parameter nMaxAdaptiveDelayMSec maximizes the total adaptive delay.
+        * By default, the adaptive mechanism is OFF
+        *
+        * By default, all jitter control is OFF
+        *
+        * The result of jitter buffering is that playout frames will get buffered in the playout buffer.
+        * Make sure to also size the playout buffer for the expected jitter via #TT_SetUserAudioStreamBufferSize
+        *
+        * @param lpTTInstance Pointer to client instance created by #TT_InitTeamTalk.
+        * @param nUserID The user ID of the user to apply the configuration to.
+        * @param nStreamType The type of stream to change, currently only
+        * #STREAMTYPE_VOICE is supported. Other types are a no-op.
+        * @param lpJitterConfig The jitter buffer configuration.*/
         public bool SetUserJitterControl(int nUserID,
                                                 StreamType nStreamType,
-                                                int nFixedDelayMSec,
-                                                bool bUseAdativeDejitter,
-                                                int nMaxAdaptiveDelayMSec)
+                                                ref JitterConfig lpJitterConfig)
         {
-            return TTDLL.TT_SetUserJitterControl(m_ttInst, nUserID, nStreamType, nFixedDelayMSec, bUseAdativeDejitter, nMaxAdaptiveDelayMSec);
+            return TTDLL.TT_SetUserJitterControl(m_ttInst, nUserID, nStreamType, ref lpJitterConfig);
         }
 
         /**

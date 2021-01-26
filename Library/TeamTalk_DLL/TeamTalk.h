@@ -2671,6 +2671,22 @@ extern "C" {
         INT32 nSoundInputDeviceDelayMSec;
     } ClientStatistics;
 
+    /** @ingroup connectivity
+         * @brief Configuration parameters for the Jitter Buffer
+         *
+         * @see TT_SetUserJitterControl()
+         */
+    typedef struct JitterConfig
+    {
+        /** @brief The fixed delay in milliseconds. Default = 0.*/
+        INT32 nFixedDelayMSec;
+        /** @brief Turns adaptive jitter buffering ON/OFF. Default is OFF.*/
+        TTBOOL bUseAdativeDejitter;
+        /** @brief A hard maximum delay on the adaptive delay. 
+        Only valid when higher than zero. Default = 0.*/
+        INT32 nMaxAdaptiveDelayMSec;
+    } JitterConfig;
+
     /** @addtogroup errorhandling
      * @{ */
 
@@ -6931,7 +6947,7 @@ extern "C" {
      * By default, the adaptive mechanism is OFF
      *
      * By default, all jitter control is OFF
-     * 
+     *
      * The result of jitter buffering is that playout frames will get buffered in the playout buffer.
      * Make sure to also size the playout buffer for the expected jitter via #TT_SetUserAudioStreamBufferSize
      *
@@ -6939,16 +6955,11 @@ extern "C" {
      * @param nUserID The user ID of the user to apply the configuration to.
      * @param nStreamType The type of stream to change, currently only
      * #STREAMTYPE_VOICE is supported. Other types are a no-op.
-     * @param nFixedDelayMSec The fixed delay in milliseconds. Default = 0.
-     * @param bMute Turns adaptive jitter buffering ON/OFF. Default is OFF.
-     * @param nMaxAdaptiveDelayMSec A hard maximum on the adaptive delay.*/
+     * @param lpJitterConfig The jitter buffer configuration.*/
      TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
                                                     IN INT32 nUserID,
                                                     IN StreamType nStreamType,
-                                                    IN INT32 nFixedDelayMSec,
-                                                    IN TTBOOL bUseAdativeDejitter,
-                                                    IN INT32 nMaxAdaptiveDelayMSec);
-
+                                                    IN JitterConfig* lpJitterConfig);
     /**
      * @brief Set the position of a user.
      *

@@ -1999,9 +1999,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserStoppedPlaybackDelay(IN TTInstance* lpTTInstanc
 TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
                                                IN INT32 nUserID,
                                                IN StreamType nStreamType,
-                                               IN INT32 nFixedDelayMSec,
-                                               IN TTBOOL bUseAdativeDejitter,
-                                               IN INT32 nMaxAdaptiveDelayMSec)
+                                               IN JitterConfig* lpJitterConfig)
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
@@ -2009,7 +2007,14 @@ TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
     clientuser_t user = clientnode->GetUser(nUserID);
     if (user)
     {
-        user->SetJitterControl((teamtalk::StreamType)nStreamType, nFixedDelayMSec, bUseAdativeDejitter, nMaxAdaptiveDelayMSec);
+        if (lpJitterConfig)
+        {
+            user->SetJitterControl((teamtalk::StreamType)nStreamType, lpJitterConfig->nFixedDelayMSec, lpJitterConfig->bUseAdativeDejitter, lpJitterConfig->nMaxAdaptiveDelayMSec);
+        }
+        else
+        {
+            user->SetJitterControl((teamtalk::StreamType)nStreamType, 0, false, 0);
+        }
         return TRUE;
     }
     return FALSE;

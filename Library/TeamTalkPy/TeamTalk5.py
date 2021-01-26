@@ -742,6 +742,15 @@ class ClientStatistics(Structure):
     def __init__(self):
         assert(DBG_SIZEOF(TTType.CLIENTSTATISTICS) == ctypes.sizeof(ClientStatistics))
 
+class JitterConfig(Structure):
+    _fields_ = [
+    ("nFixedDelayMSec", INT32),
+    ("bUseAdativeDejitter", BOOL),
+    ("nMaxAdaptiveDelayMSec", INT32)
+    ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.JitterConfig) == ctypes.sizeof(JitterConfig))
+
 class ClientError(INT32):
     CMDERR_SUCCESS = 0
     CMDERR_SYNTAX_ERROR = 1000
@@ -881,6 +890,7 @@ class TTType(INT32):
     CLIENTKEEPALIVE = 38
     UINT32 = 39
     AUDIOINPUTPROGRESS = 40
+    JITTERCONFIG = 41
 
 class TTMessageUnion(Union):
     _fields_ = [
@@ -1323,7 +1333,7 @@ _SetUserStoppedPlaybackDelay.restype = BOOL
 _SetUserStoppedPlaybackDelay.argtypes = [_TTInstance, INT32, INT32, INT32]
 _SetUserJitterControl = dll.TT_SetUserJitterControl
 _SetUserJitterControl.restype = BOOL
-_SetUserJitterControl.argtypes = [_TTInstance, INT32, INT32, INT32, BOOL]
+_SetUserJitterControl.argtypes = [_TTInstance, INT32, INT32, POINTER(JitterConfig)]
 _SetUserPosition = dll.TT_SetUserPosition
 _SetUserPosition.restype = BOOL
 _SetUserPosition.argtypes = [_TTInstance, INT32, INT32, c_float, c_float, c_float]
