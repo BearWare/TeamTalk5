@@ -4836,6 +4836,16 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
     //specific to classroom channel
     QString msg;
     bool before = false, after = false;
+    before = userCanChanMessage(TT_GetMyUserID(ttInst), oldchan);
+    after = userCanChanMessage(TT_GetMyUserID(ttInst), chan);
+    if(before != after)
+    {
+        if(after)
+            msg = tr("You can now transmit channel messages!");
+        else
+            msg = tr("You can no longer transmit channel messages!");
+        addStatusMsg(msg);
+    }
     before = userCanVoiceTx(TT_GetMyUserID(ttInst), oldchan);
     after = userCanVoiceTx(TT_GetMyUserID(ttInst), chan);
     if(before != after)
@@ -4864,6 +4874,16 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
             msg = tr("You can now transmit desktop windows!");
         else
             msg = tr("You can no longer transmit desktop windows!");
+        addStatusMsg(msg);
+    }
+    before = userCanMediaFileTx(TT_GetMyUserID(ttInst), oldchan);
+    after = userCanMediaFileTx(TT_GetMyUserID(ttInst), chan);
+    if(before != after)
+    {
+        if(after)
+            msg = tr("You can now transmit mediafiles!");
+        else
+            msg = tr("You can no longer transmit mediafiles!");
         addStatusMsg(msg);
     }
 }
