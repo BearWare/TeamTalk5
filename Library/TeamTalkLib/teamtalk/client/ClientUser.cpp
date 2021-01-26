@@ -106,8 +106,8 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
         // Keep track of the actual jitter buffer in the playout buffer by adding/removing the last jitter (might be negative jitter)
         m_current_playout_buffer -= jitter_last_packet;
 
-		if ((m_use_adaptive_jitter_control) && (jitter_last_packet > 0))
-		{
+        if ((m_use_adaptive_jitter_control) && (jitter_last_packet > 0))
+        {
             // Maximize the jitter delay to the configured max.
             if ((m_max_adaptive_delay_msec > 0) && (jitter_last_packet > m_max_adaptive_delay_msec))
             {
@@ -116,37 +116,37 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
                 jitter_last_packet = m_max_adaptive_delay_msec;
             }
 
-			// Keep track of the last X positive jitters. (e.g. packets that were delayed compared to the nominal inter-packet time)
-			m_last_jitters.push_back(jitter_last_packet);
+            // Keep track of the last X positive jitters. (e.g. packets that were delayed compared to the nominal inter-packet time)
+            m_last_jitters.push_back(jitter_last_packet);
 
-			if (m_last_jitters.size() > 100) // This max size is arbitrary. Might also be replaced by a maximum measured time
-			{
-				// If the queue exceeds size, remove the first one.
-				// If that was the current adaptive delay, calculate the new adaptive delay by finding the highest in the queue
-				int dequeuedjitter = m_last_jitters.front();
-				m_last_jitters.pop_front();
+            if (m_last_jitters.size() > 100) // This max size is arbitrary. Might also be replaced by a maximum measured time
+            {
+                // If the queue exceeds size, remove the first one.
+                // If that was the current adaptive delay, calculate the new adaptive delay by finding the highest in the queue
+                int dequeuedjitter = m_last_jitters.front();
+                m_last_jitters.pop_front();
 
-				if (dequeuedjitter == m_adaptive_delay)
-				{
-					m_adaptive_delay = 0;
-					deque<int>::iterator ii;
-					for (ii = m_last_jitters.begin(); ii != m_last_jitters.end(); ++ii)
-					{
-						if (*ii > m_adaptive_delay)
-							m_adaptive_delay = *ii;
-					}
-					MYTRACE(ACE_TEXT("Adaptive delay was dequeued. New adaptive jitter delay determined: %d for user #%d.\n"),
+                if (dequeuedjitter == m_adaptive_delay)
+                {
+                    m_adaptive_delay = 0;
+                    deque<int>::iterator ii;
+                    for (ii = m_last_jitters.begin(); ii != m_last_jitters.end(); ++ii)
+                    {
+                        if (*ii > m_adaptive_delay)
+                            m_adaptive_delay = *ii;
+                    }
+                    MYTRACE(ACE_TEXT("Adaptive delay was dequeued. New adaptive jitter delay determined: %d for user #%d.\n"),
                                         m_adaptive_delay, m_userid);
-				}
-			}
+                }
+            }
 
-			if (jitter_last_packet > m_adaptive_delay)
-			{
-				//Last jitter is the highest measured. This will be the new highest
-				m_adaptive_delay = jitter_last_packet;
-				MYTRACE(ACE_TEXT("New adaptive jitter delay jitter for user #%d: %d.\n"), m_userid, m_adaptive_delay);
-			}
-		}
+            if (jitter_last_packet > m_adaptive_delay)
+            {
+                //Last jitter is the highest measured. This will be the new highest
+                m_adaptive_delay = jitter_last_packet;
+                MYTRACE(ACE_TEXT("New adaptive jitter delay jitter for user #%d: %d.\n"), m_userid, m_adaptive_delay);
+            }
+        }
 
         if (m_current_playout_buffer < 0)
         {
