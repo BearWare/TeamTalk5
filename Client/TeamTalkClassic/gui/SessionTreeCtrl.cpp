@@ -1076,7 +1076,8 @@ CString CSessionTreeCtrl::GetChannelText(int nChannelID) const
                 szText.Format(_T("%s"), ite->second.szName);
         }
     }
-
+    if (m_bShowEmojis && ite->second.uChannelType == CHANNEL_HIDDEN)
+        szText += _T(": \U0001f47b");
     if (m_bShowEmojis && ite->second.bPassword)
     {
         CString szPwd = _T(" - \U0001f512");
