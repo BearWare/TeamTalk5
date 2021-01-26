@@ -223,7 +223,7 @@ enum AudioStorageMode
     AUDIOSTORAGE_SEPARATEFILES      = 0x2
 };
 
-enum
+enum TTSEvent
 {
     TTS_USER_LOGGEDIN                               = 0x00000001,
     TTS_USER_LOGGEDOUT                              = 0x00000002,
@@ -252,7 +252,7 @@ enum
     TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT        = 0x00200000,
     TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE           = 0x00400000,
 
-    TTS_CLASSROOM_CHANMSG_TX                        = 0x01200000,
+    TTS_CLASSROOM_CHANMSG_TX                        = 0x80000000,
     TTS_CLASSROOM_VOICE_TX                          = 0x01000000,
     TTS_CLASSROOM_VIDEO_TX                          = 0x02000000,
     TTS_CLASSROOM_DESKTOP_TX                        = 0x04000000,
@@ -291,16 +291,16 @@ enum
                                 TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT        |
                                 TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE,
 
-    TTS_CLASSROOM_ALL         = TTS_CLASSROOM_CHANMSG_TX                          |
+    TTS_CLASSROOM_ALL         = TTS_CLASSROOM_CHANMSG_TX                        |
                                 TTS_CLASSROOM_VOICE_TX                          |
                                 TTS_CLASSROOM_VIDEO_TX                          |
                                 TTS_CLASSROOM_DESKTOP_TX                        |
                                 TTS_CLASSROOM_MEDIAFILE_TX,
 
-    TTS_FILE_ALL         = TTS_FILE_ADD                          |
+    TTS_FILE_ALL              = TTS_FILE_ADD                                    |
                                 TTS_FILE_REMOVE,
 
-    TTS_MENU_ACTIONS_ALL        = TTS_MENU_ACTIONS,
+    TTS_MENU_ACTIONS_ALL      = TTS_MENU_ACTIONS,
 
     TTS_ALL                   = TTS_USER_ALL | TTS_SUBSCRIPTIONS_ALL | TTS_CLASSROOM_ALL | TTS_FILE_ALL | TTS_MENU_ACTIONS_ALL
 };
