@@ -1765,7 +1765,12 @@ TEST_CASE("FixedJitterBuffer")
 
     uint32_t fixeddelay = 240;
 
-    TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, fixeddelay, false, 0);
+    JitterConfig jitterconf{};
+    jitterconf.nFixedDelayMSec = fixeddelay;
+    jitterconf.bUseAdativeDejitter = false;
+    jitterconf.nMaxAdaptiveDelayMSec = 10000;
+
+    TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf);
 
     REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
