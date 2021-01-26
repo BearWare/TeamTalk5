@@ -259,7 +259,7 @@ namespace teamtalk {
         bool m_voice_active;
         int m_voice_buf_msec;
         JitterCalculator m_jitter_calculator;
-        std::queue<VoicePacket*> m_jitterbuffer;
+        std::queue<audiopacket_t> m_jitterbuffer;
 
         //video playback
 #if defined(ENABLE_VPX)

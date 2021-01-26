@@ -229,15 +229,6 @@ ClientUser::ClientUser(int userid, ClientNode* clientnode,
 
 ClientUser::~ClientUser()
 {
-    // Delete any enqueued jitter buffer packets
-    while (!m_jitterbuffer.empty())
-    {
-        VoicePacket* queuedVoicePacket = m_jitterbuffer.front();
-        m_jitterbuffer.pop();
-        delete queuedVoicePacket;
-    }
-
-
     TTASSERT(!m_voice_player);
     TTASSERT(!m_audiofile_player);
 #if defined(ENABLE_VPX)
@@ -390,11 +381,10 @@ int ClientUser::TimerVoiceJitterBuffer()
 {
     while (!m_jitterbuffer.empty())
     {
-        VoicePacket* queuedVoicePacket = m_jitterbuffer.front();
+        auto queuedVoicePacket = m_jitterbuffer.front();
         m_jitterbuffer.pop();
         //MYTRACE(ACE_TEXT("Feed packet from jitter buffer to playout\n"));
         FeedVoicePacketToPlayer(*queuedVoicePacket);
-        delete queuedVoicePacket;
     }
     //MYTRACE(ACE_TEXT("Jitter buffer emptied\n"));
     return -1; //Single shot time
@@ -449,7 +439,7 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
         //MYTRACE(ACE_TEXT("Enqueue Received voice packet. Start of stream %d, Already queueing %d \n"),
         //                      (audpkt.GetStreamID() != m_current_stream), (!m_jitterbuffer.empty()));
 
-        VoicePacket* queuedVoicePacket = new VoicePacket(audpkt);
+        audiopacket_t queuedVoicePacket(new VoicePacket(audpkt));
 
         m_jitterbuffer.push(queuedVoicePacket);
 
