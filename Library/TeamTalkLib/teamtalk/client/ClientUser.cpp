@@ -430,6 +430,8 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
 
     assert(m_voice_player->GetAudioCodec() == chan->GetAudioCodec());
 
+    m_voice_player->SetNoRecording(!allowrecord);
+    
     // Jitter buffer implementation:
     // Delay the playout of received packets at the start of a stream.
     // This delay acts as a time buffer for network jitter
@@ -476,15 +478,10 @@ void ClientUser::FeedVoicePacketToPlayer(const VoicePacket& audpkt)
     clientchannel_t chan = GetChannel();
     VoiceLogger& voice_logger = m_clientnode->voicelogger();
     
-    bool allowrecord = !(chan->GetChannelType() & CHANNEL_NO_RECORDING) &&
-        (m_clientnode->GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
-
     audiopacket_t reassem_pkt = m_voice_player->QueuePacket(audpkt);
 
-    m_voice_player->SetNoRecording(!allowrecord);
-
     //store in voicelog
-    if(GetAudioFolder().length() && allowrecord)
+    if (GetAudioFolder().length() && m_voice_player->IsRecordingAllowed())
     {
         if(audpkt.HasFragments())
         {
