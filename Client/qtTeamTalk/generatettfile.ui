@@ -173,6 +173,16 @@
               </widget>
              </item>
              <item>
+              <widget class="QRadioButton" name="neutralRadioButton">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Neutral</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <spacer name="horizontalSpacer_13">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -434,6 +444,7 @@
   <tabstop>nicknameEdit</tabstop>
   <tabstop>maleRadioButton</tabstop>
   <tabstop>femaleRadioButton</tabstop>
+  <tabstop>neutralRadioButton</tabstop>
   <tabstop>pttChkBox</tabstop>
   <tabstop>setupkeysButton</tabstop>
   <tabstop>keycompEdit</tabstop>

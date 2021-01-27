@@ -1530,9 +1530,14 @@ void MainWindow::cmdLoggedIn(int myuserid)
 
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
 
-    if(!ttSettings->value(SETTINGS_GENERAL_GENDER,
-                         SETTINGS_GENERAL_GENDER_DEFAULT).toBool())
+/*    if(!ttSettings->value(SETTINGS_GENERAL_GENDER,
+                         SETTINGS_GENERAL_GENDER_DEFAULT).toBool())*/
+    if(ttSettings->value(SETTINGS_GENERAL_GENDER) == "male")
+        m_statusmode |= STATUSMODE_MALE;
+    else if(ttSettings->value(SETTINGS_GENERAL_GENDER) == "female")
         m_statusmode |= STATUSMODE_FEMALE;
+    else
+        m_statusmode |= STATUSMODE_NEUTRAL;
 
     //set status mode flags
     if(m_statusmode || statusmsg.size())
@@ -3468,11 +3473,17 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
         //change to female if set
-        if(!ttSettings->value(SETTINGS_GENERAL_GENDER,
+/*        if(!ttSettings->value(SETTINGS_GENERAL_GENDER,
                               SETTINGS_GENERAL_GENDER_DEFAULT).toBool())
             m_statusmode |= STATUSMODE_FEMALE;
         else
-            m_statusmode &= ~STATUSMODE_FEMALE;
+            m_statusmode &= ~STATUSMODE_FEMALE;*/
+        if(ttSettings->value(SETTINGS_GENERAL_GENDER) == "male")
+            m_statusmode = STATUSMODE_MALE;
+        else if(ttSettings->value(SETTINGS_GENERAL_GENDER) == "female")
+            m_statusmode = STATUSMODE_FEMALE;
+        else
+            m_statusmode = STATUSMODE_NEUTRAL;
 
         //set status mode flags
         if(m_statusmode != myself.nStatusMode || statusmsg != _Q(myself.szStatusMsg))
@@ -5680,8 +5691,8 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
             ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, m_host.nickname);
 
         //if no gender specified use from .tt file
-        if(m_host.gender != GENDER_NONE)
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, m_host.gender != GENDER_FEMALE);
+/*        if(m_host.gender != GENDER_NONE)
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, m_host.gender != GENDER_FEMALE);*/
         
         //if no PTT-key specified use from .tt file
         hotkey_t hotkey;

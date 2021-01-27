@@ -50,6 +50,7 @@ GenerateTTFileDlg::GenerateTTFileDlg(const HostEntry& entry, QWidget * parent/* 
     connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.nicknameEdit, SLOT(setEnabled(bool)));
     connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.maleRadioButton, SLOT(setEnabled(bool)));
     connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.femaleRadioButton, SLOT(setEnabled(bool)));
+    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.neutralRadioButton, SLOT(setEnabled(bool)));
     connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.pttChkBox, SLOT(setEnabled(bool)));
     connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.voiceactChkBox, SLOT(setEnabled(bool)));
     connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.captureformatsBox, SLOT(setEnabled(bool)));
@@ -149,7 +150,13 @@ void GenerateTTFileDlg::slotSaveTTFile()
         m_hostentry.username = ui.usernameEdit->text();
         m_hostentry.password = ui.passwordEdit->text();
         m_hostentry.nickname = ui.nicknameEdit->text();
-        m_hostentry.gender = ui.femaleRadioButton->isChecked()?GENDER_FEMALE:GENDER_MALE;
+//        m_hostentry.gender = ui.femaleRadioButton->isChecked()?GENDER_FEMALE:GENDER_MALE;
+        if (ui.maleRadioButton->isChecked())
+            m_hostentry.gender = GENDER_MALE;
+        else if (ui.femaleRadioButton->isChecked())
+            m_hostentry.gender = GENDER_FEMALE;
+        else if (ui.neutralRadioButton->isChecked())
+            m_hostentry.gender = GENDER_NEUTRAL;
         if(!ui.pttChkBox->isChecked())
             m_hostentry.hotkey.clear();
         m_hostentry.voiceact = ui.voiceactChkBox->isChecked();

@@ -1217,8 +1217,24 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
         if(!tmp.isNull())
             entry.nickname = tmp.text();
         tmp = client.firstChildElement("gender");
+/*        if(!tmp.isNull())
+            entry.gender = tmp.text().toInt() == GENDER_FEMALE? GENDER_FEMALE : GENDER_MALE;*/
         if(!tmp.isNull())
-            entry.gender = tmp.text().toInt() == GENDER_FEMALE? GENDER_FEMALE : GENDER_MALE;
+        {
+            switch (tmp.text().toInt())
+            {
+            default :
+            case 0 :
+                entry.gender = GENDER_MALE;
+                break;
+            case 1 :
+                entry.gender = GENDER_FEMALE;
+                break;
+            case 2 :
+                entry.gender = GENDER_NEUTRAL;
+                break;
+            }
+        }
 #if defined(Q_OS_WIN32)
         tmp = client.firstChildElement("win-hotkey");
 #elif defined(Q_OS_DARWIN)

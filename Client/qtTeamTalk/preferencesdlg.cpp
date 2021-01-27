@@ -419,10 +419,22 @@ void PreferencesDlg::slotTabChange(int index)
     case GENERAL_TAB : //general
     {
         ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString());
-        ui.maleRadioButton->setChecked(ttSettings->value(SETTINGS_GENERAL_GENDER,
+/*        ui.maleRadioButton->setChecked(ttSettings->value(SETTINGS_GENERAL_GENDER,
                                                          SETTINGS_GENERAL_GENDER_DEFAULT).toBool());
         ui.femaleRadioButton->setChecked(!ttSettings->value(SETTINGS_GENERAL_GENDER,
-                                                            SETTINGS_GENERAL_GENDER_DEFAULT).toBool());
+                                                            SETTINGS_GENERAL_GENDER_DEFAULT).toBool());*/
+        switch(ttSettings->value(SETTINGS_GENERAL_GENDER)
+        {
+        case "male":
+            ui.maleRadioButton->setChecked();
+            break;
+        case "female":
+            ui.femaleRadioButton->setChecked();
+            break;
+        default:
+            ui.neutralRadioButton->setChecked();
+            break;
+        }
         QString bearwareid = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
         ui.bearwareidEdit->setText(bearwareid);
         if (bearwareid.size())
@@ -651,7 +663,13 @@ void PreferencesDlg::slotSaveChanges()
     if(m_modtab.find(GENERAL_TAB) != m_modtab.end())
     {
         ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, ui.nicknameEdit->text());
-        ttSettings->setValue(SETTINGS_GENERAL_GENDER, ui.maleRadioButton->isChecked());
+//        ttSettings->setValue(SETTINGS_GENERAL_GENDER, ui.maleRadioButton->isChecked());
+        if (ui.maleRadioButton->isChecked())
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, "male");
+        else if (ui.femaleRadioButton->isChecked())
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, "female");
+        else
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, "neutral");
         ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
         saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
         ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.pttChkBox->isChecked());
