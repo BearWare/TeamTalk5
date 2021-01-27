@@ -422,19 +422,25 @@ void PreferencesDlg::slotTabChange(int index)
 /*        ui.maleRadioButton->setChecked(ttSettings->value(SETTINGS_GENERAL_GENDER,
                                                          SETTINGS_GENERAL_GENDER_DEFAULT).toBool());
         ui.femaleRadioButton->setChecked(!ttSettings->value(SETTINGS_GENERAL_GENDER,
-                                                            SETTINGS_GENERAL_GENDER_DEFAULT).toBool());*/
-        switch(ttSettings->value(SETTINGS_GENERAL_GENDER)
+                                                            SETTINGS_GENERAL_GENDER_DEFAULT).toBool());
+        switch(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT))
         {
-        case "male":
-            ui.maleRadioButton->setChecked();
+        case 'male':
+            ui.maleRadioButton->setChecked(true);
             break;
-        case "female":
-            ui.femaleRadioButton->setChecked();
+        case 'female':
+            ui.femaleRadioButton->setChecked(true);
             break;
         default:
-            ui.neutralRadioButton->setChecked();
+            ui.neutralRadioButton->setChecked(true);
             break;
-        }
+        }*/
+        if (ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT) == "male")
+            ui.maleRadioButton->setChecked(true);
+        else if (ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT) == "female")
+            ui.femaleRadioButton->setChecked(true);
+        else
+            ui.neutralRadioButton->setChecked(true);
         QString bearwareid = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
         ui.bearwareidEdit->setText(bearwareid);
         if (bearwareid.size())

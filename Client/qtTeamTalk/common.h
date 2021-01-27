@@ -216,9 +216,10 @@ enum StatusMode
     STATUSMODE_MODE             = 0x000000FF,
 
     STATUSMODE_FLAGS            = 0xFFFFFF00,
+    STATUSMODE_MALE             = 0x00000000,
     STATUSMODE_FEMALE           = 0x00000100,
+    STATUSMODE_NEUTRAL          = 0x80000000,
     STATUSMODE_VIDEOTX          = 0x00000200,
-    STATUSMODE_NEUTRAL          = 0x00000300,
     STATUSMODE_DESKTOP          = 0x00000400,
     STATUSMODE_STREAM_MEDIAFILE = 0x00000800
 };
@@ -323,7 +324,7 @@ struct HostEntry
     VideoCodec vidcodec;
 
     HostEntry()
-    : tcpport(0), udpport(0), encrypted(false), gender(GENDER_NONE)
+    : tcpport(0), udpport(0), encrypted(false), gender(GENDER_NEUTRAL)
     , voiceact(-1), capformat(), vidcodec() {}
 };
 
