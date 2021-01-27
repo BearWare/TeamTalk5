@@ -437,6 +437,9 @@
     <item id="572">Użytkownik wylogowany</item>
     <item id="573">Wysłano prywatną wiadomość</item>
     <item id="574">Wysłano wiadomość publiczną</item>
+    <item id="575">%s Nie może wysyłać czat</item>
+    <item id="576">%s może wysyłać czat</item>
+    <item id="577">Dozwolone wysyłanie czatu</item>
     <item id="1006">Lista plików</item>
     <item id="1009">Automatycznie łącz z głównym kanałem po połączeniu</item>
     <item id="1012">Port TCP serwera</item>
