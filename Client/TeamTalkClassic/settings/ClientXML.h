@@ -31,7 +31,7 @@
 #define TEAMTALK_XML_VERSION_DEFAULT                "5.0"
 
 #define DEFAULT_NICKNAME                            _T("NoName")
-#define DEFAULT_GENDER                              1
+#define DEFAULT_GENDER                              2
 #define DEFAULT_PUSHTOTALK                          false
 #define DEFAULT_VOICEACTIVATED                      true
 #define DEFAULT_VOICEACTIVATE_LEVEL                 2

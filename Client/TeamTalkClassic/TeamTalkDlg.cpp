@@ -1025,15 +1025,21 @@ void CTeamTalkDlg::OnLoggedIn(const TTMessage& msg)
 {
     AddStatusText(LoadText(IDS_CONSUCCESS, _T("Successfully logged in")));
 
-    switch(m_xmlSettings.GetGender(GENDER_NONE))
+/*    switch(m_xmlSettings.GetGender(GENDER_NEUTRAL))
     {
     case GENDER_MALE :
-        m_nStatusMode &= ~STATUSMODE_FEMALE;
+        m_nStatusMode = STATUSMODE_MALE;
         break;
     case GENDER_FEMALE :
-        m_nStatusMode |= STATUSMODE_FEMALE;
+        m_nStatusMode = STATUSMODE_FEMALE;
         break;
-    }
+    }*/
+    if (m_xmlSettings.GetGender(DEFAULT_GENDER) == 0)
+        m_nStatusMode = STATUSMODE_MALE;
+    else if (m_xmlSettings.GetGender(DEFAULT_GENDER) == 1)
+        m_nStatusMode = STATUSMODE_FEMALE;
+    else
+        m_nStatusMode = STATUSMODE_NEUTRAL;
     TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
 }
 
@@ -3387,7 +3393,14 @@ void CTeamTalkDlg::OnFilePreferences()
     generalpage.m_szBearWareID = STR_UTF8(szBearWareID);
     generalpage.m_szBearWareToken = STR_UTF8(szToken);
     generalpage.m_bRestoreUser = m_xmlSettings.GetRestoreUserFromWebLogin();
-    generalpage.m_bFemale = m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_FEMALE;
+/*    generalpage.m_bGender = m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_FEMALE;
+    if (m_xmlSettings.GetGender(DEFAULT_GENDER) == 0)
+        generalpage.m_nGender = 0;
+    else if (m_xmlSettings.GetGender(DEFAULT_GENDER) == 1)
+        generalpage.m_nGender = 1;
+    else
+        generalpage.m_nGender = 2;*/
+    generalpage.m_nGender = m_xmlSettings.GetGender();
     generalpage.m_bVoiceAct = m_xmlSettings.GetVoiceActivated();
     generalpage.m_bPush = m_bHotKey;
     generalpage.m_Hotkey = hook;
@@ -3540,23 +3553,35 @@ void CTeamTalkDlg::OnFilePreferences()
                                        STR_UTF8(generalpage.m_szBearWareToken));
         m_xmlSettings.SetRestoreUserFromWebLogin(generalpage.m_bRestoreUser);
 
-        int nGender = (generalpage.m_bFemale?GENDER_FEMALE:GENDER_MALE);
-        if(m_xmlSettings.GetGender() != nGender)
-        {
+//        int nGender = (generalpage.m_bFemale?GENDER_FEMALE:GENDER_MALE);
+        if(m_xmlSettings.GetGender(DEFAULT_GENDER) == 0)
+            m_nStatusMode = STATUSMODE_MALE;
+        else if(m_xmlSettings.GetGender(DEFAULT_GENDER) == 1)
+            m_nStatusMode = STATUSMODE_FEMALE;
+        else
+            m_nStatusMode = STATUSMODE_NEUTRAL;
+/*        {
             if(nGender == GENDER_FEMALE)
                 m_nStatusMode |= STATUSMODE_FEMALE;
             else
-                m_nStatusMode &= ~STATUSMODE_FEMALE;
+                m_nStatusMode &= ~STATUSMODE_FEMALE;*/
 
             if( TT_GetFlags(ttInst) & CLIENT_AUTHORIZED )
                 TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
-        }
+//        }
 
         //////////////////////////////////////////////////
         //    write settings for General Page to ini file
         //////////////////////////////////////////////////
         m_xmlSettings.SetNickname( STR_UTF8( generalpage.m_sNickname.GetBuffer()));
-        m_xmlSettings.SetGender(nGender);
+/*        m_xmlSettings.SetGender(nGender);
+        if (generalpage.m_nGender.GetBuffer == 0)
+            m_xmlSettings.SetGender(0);
+        else if (generalpage.m_nGender.GetBuffer() == 1)
+            m_xmlSettings.SetGender(1);
+        else
+            m_xmlSettings.SetGender(2);*/
+        m_xmlSettings.SetGender(generalpage.m_nGender);
         m_xmlSettings.SetPushToTalk(generalpage.m_bPush);
         m_bHotKey = generalpage.m_bPush;
         HotKey hotkey = generalpage.m_Hotkey;
@@ -4914,7 +4939,7 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
                 m_xmlSettings.SetNickname(m_host.szNickname);
             }
 
-            if(m_host.nGender != GENDER_NONE)
+            if(m_host.nGender != 0)
             {
                 m_xmlSettings.SetGender(m_host.nGender);
             }

@@ -930,6 +930,7 @@
 #define IDC_COMBO_CMDLIMIT              1549
 #define IDC_STATIC_CMDLIMIT             1550
 #define IDC_COMBO_USERNAME              1551
+#define IDC_RADIO_NEUTRAL               1552
 #define IDC_CHECK_CHANGENICKNAME        1554
 #define IDC_COMBO_BANTYPE               1555
 #define IDC_COMBO_INPUT                 1556
