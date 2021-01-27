@@ -44,6 +44,34 @@
 
 namespace teamtalk {
 
+    class JitterCalculator
+    {
+    public:
+        JitterCalculator(int userid):
+            m_userid(userid){ };
+
+        void SetConfig(const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec);
+        // Takes a new packet into the calculator and returns the number of msec the packet
+        // should be delayed for de-jitter
+        int PacketReceived(const int streamid, const int nominal_delay);
+
+    private:
+        // Dynamic stats
+        uint32_t            m_lastpacket_time = 0;
+        uint8_t             m_current_stream = 0;
+        int                 m_current_playout_buffer = 0;
+        int                 m_adaptive_delay = 0;
+
+        // Last jitter times for adaptive jitter control
+        std::deque<int>     m_last_jitters;
+
+        // Config
+        int                 m_userid = 0;
+        int                 m_fixed_jitter_delay_ms = 0;
+        int                 m_use_adaptive_jitter_control = false;
+        int                 m_max_adaptive_delay_msec = 1000;
+    };
+
     struct ClientUserStats
     {
         ACE_INT64 voicepackets_recv;
@@ -97,6 +125,7 @@ namespace teamtalk {
         int TimerMonitorAudioFilePlayback();
         int TimerMonitorVideoFilePlayback();
         int TimerDesktopDelayedAck();
+        int TimerVoiceJitterBuffer();
 
         void SetChannel(clientchannel_t& chan);
         clientchannel_t GetChannel() const { return m_channel.lock(); }
@@ -112,7 +141,7 @@ namespace teamtalk {
 
         void AddVoicePacket(const VoicePacket& audpkt,
                             const struct SoundProperties& sndprop,
-                            class VoiceLogger& voice_logger, bool allowrecord);
+                            bool allowrecord);
         void AddAudioFilePacket(const AudioFilePacket& audpkt,
                                 const struct SoundProperties& sndprop);
         void AddVideoCapturePacket(const VideoCapturePacket& p,
@@ -128,12 +157,19 @@ namespace teamtalk {
         void AddPacket(const DesktopInputPacket& p,
                        const ClientChannel& chan);
 
+        void FeedVoicePacketToPlayer(const VoicePacket& audpkt);
+
         const ClientUserStats& GetStatistics() const { return m_stats; }
 
         bool IsAudioActive(StreamType stream_type) const;
 
         void SetPlaybackStoppedDelay(StreamType stream_type, int msec);
         int GetPlaybackStoppedDelay(StreamType stream_type) const;
+
+        void SetRecordingCloseExtraDelay(int msec) { m_recording_close_extra_delay = msec; }
+        int GetRecordingCloseExtraDelay() const { return m_recording_close_extra_delay; }
+
+        void SetJitterControl(const StreamType stream_type, const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec);
 
         void SetVolume(StreamType stream_type, int volume);
         int GetVolume(StreamType stream_type) const;
@@ -222,6 +258,8 @@ namespace teamtalk {
         audio_player_t m_voice_player;
         bool m_voice_active;
         int m_voice_buf_msec;
+        JitterCalculator m_jitter_calculator;
+        std::queue<audiopacket_t> m_jitterbuffer;
 
         //video playback
 #if defined(ENABLE_VPX)
@@ -263,6 +301,7 @@ namespace teamtalk {
         int m_voice_volume, m_audiofile_volume;
         bool m_voice_mute, m_audiofile_mute;
         int m_voice_stopped_delay, m_audiofile_stopped_delay;
+        int m_recording_close_extra_delay = 0;
         int m_voice_gain_level, m_audiofile_gain_level;
         StereoMask m_voice_stereo, m_audiofile_stereo;
 

@@ -569,6 +569,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     if(var.is_empty())
         var = DEFAULT_VOICELOG_VARS;
 
+    replace_all(var, ACE_TEXT("%starttick%"), i2string(GETTIMESTAMP()));
     replace_all(var, ACE_TEXT("%nickname%"), from_user.GetNickname());
     replace_all(var, ACE_TEXT("%username%"), from_user.GetUsername());
     replace_all(var, ACE_TEXT("%userid%"), i2string(from_user.GetUserID()));
@@ -646,7 +647,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     VoiceLog* newlog;
     ACE_NEW(newlog, VoiceLog(from_user.GetUserID(), filepath,
                              codec, aff, stream_id,
-                             from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE)));
+                             (from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE) + from_user.GetRecordingCloseExtraDelay())));
     voicelog_t log (newlog);
 
     bool active = log->IsActive();

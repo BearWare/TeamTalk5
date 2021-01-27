@@ -2674,6 +2674,22 @@ extern "C" {
         INT32 nSoundInputDeviceDelayMSec;
     } ClientStatistics;
 
+    /** @ingroup connectivity
+         * @brief Configuration parameters for the Jitter Buffer
+         *
+         * @see TT_SetUserJitterControl()
+         */
+    typedef struct JitterConfig
+    {
+        /** @brief The fixed delay in milliseconds. Default = 0.*/
+        INT32 nFixedDelayMSec;
+        /** @brief Turns adaptive jitter buffering ON/OFF. Default is OFF.*/
+        TTBOOL bUseAdativeDejitter;
+        /** @brief A hard maximum delay on the adaptive delay. 
+        Only valid when higher than zero. Default = 0.*/
+        INT32 nMaxAdaptiveDelayMSec;
+    } JitterConfig;
+
     /** @addtogroup errorhandling
      * @{ */
 
@@ -6918,6 +6934,35 @@ extern "C" {
                                                           IN StreamType nStreamType,
                                                           IN INT32 nDelayMSec);
 
+     /**
+     * @brief Set the configuration for de-jitter measures for a user.
+     *
+     * TeamTalk can add a fixed delay at the start of the playout of a user stream.
+     * This delay acts as a buffer to smooth out jittering (non-constant delays)
+     * in the reception of network packets.
+     * The fixed delay is applied at the start of every new stream, such as a new PTT session.
+     * The default fixed delay is zero.
+     *
+     * TeamTalk can also apply adaptive jitter buffering where the actual jitter is measured
+     * and the delay at the start of a stream is adapted based on those measurements.
+     * The adaptive delay will not go below the fixed delay.
+     * The parameter nMaxAdaptiveDelayMSec maximizes the total adaptive delay.
+     * By default, the adaptive mechanism is OFF
+     *
+     * By default, all jitter control is OFF
+     *
+     * The result of jitter buffering is that playout frames will get buffered in the playout buffer.
+     * Make sure to also size the playout buffer for the expected jitter via #TT_SetUserAudioStreamBufferSize
+     *
+     * @param lpTTInstance Pointer to client instance created by #TT_InitTeamTalk.
+     * @param nUserID The user ID of the user to apply the configuration to.
+     * @param nStreamType The type of stream to change, currently only
+     * #STREAMTYPE_VOICE is supported. Other types are a no-op.
+     * @param lpJitterConfig The jitter buffer configuration.*/
+     TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
+                                                    IN INT32 nUserID,
+                                                    IN StreamType nStreamType,
+                                                    IN JitterConfig* lpJitterConfig);
     /**
      * @brief Set the position of a user.
      *
@@ -6982,7 +7027,7 @@ extern "C" {
      * #User.  
      * @param szFileNameVars The file name used for audio files can
      * consist of the following variables: \%nickname\%, \%username\%,
-     * \%userid\%, \%counter\% and a specified time based on @c
+     * \%userid\%, \%counter\%, \%starttick\% and a specified time based on @c
      * strftime (google @c 'strftime' for a description of the
      * format. The default format used by TeamTalk is:
      * '\%Y\%m\%d-\%H\%M\%S #\%userid\% \%username\%'. The \%counter\%
@@ -7001,6 +7046,32 @@ extern "C" {
                                                      IN const TTCHAR* szFolderPath,
                                                      IN const TTCHAR* szFileNameVars,
                                                      IN AudioFileFormat uAFF);
+
+    /**
+     * @brief Store user's audio to disk.
+
+     * @see TT_SetUserMediaStorageDir
+     *
+     * This extension has an extra parameter for an aditional delay that will be waited
+     * before closing the per-user recording. This allows the recording to still capture
+     * all voice of a stream in a single file even if there's heavy network jitter.
+     * A recording will always be started if a different stream is received for the
+     * user. The delay is added on top of the standard playout delay that can be set via
+     *
+     * Note that the delay starts after the last packet was written to the playout and thus
+     * the delay is already 'counting' when the jitter-buffered playout is still playing
+     *
+     * Only supported for #STREAMTYPE_VOICE.
+     *
+     * @param nStopRecordingExtraDelayMSec Extra delay before closing the recording file
+     * default is 0.*/
+    TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDirEx(IN TTInstance* lpTTInstance,
+                                                       IN INT32 nUserID,
+                                                       IN const TTCHAR* szFolderPath,
+                                                       IN const TTCHAR* szFileNameVars,
+                                                       IN AudioFileFormat uAFF,
+                                                       IN INT32 nStopRecordingExtraDelayMSec);
+
     /**
      * @brief Change the amount of media data which can be buffered
      * in the user's playback queue.

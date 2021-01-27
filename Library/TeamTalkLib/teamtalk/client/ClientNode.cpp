@@ -608,6 +608,15 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
             ret = -1;
     }
     break;
+    case USER_TIMER_JITTER_BUFFER_ID :
+    {
+        clientuser_t user = GetUser(userid);
+        if (user.get())
+            ret = user->TimerVoiceJitterBuffer();
+        else
+            ret = -1;
+    }
+    break;
     case USER_TIMER_MEDIAFILE_AUDIO_PLAYBACK_ID :
     {
         clientuser_t user = GetUser(userid);
@@ -1809,7 +1818,7 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
         bool no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) &&
             (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
         if (user)
-            user->AddVoicePacket(*decrypt_pkt, m_soundprop, voicelogger(), !no_record);
+            user->AddVoicePacket(*decrypt_pkt, m_soundprop, !no_record);
     }
     break;
 #endif
@@ -1823,7 +1832,7 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
         bool no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) &&
             (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
         if (user)
-            user->AddVoicePacket(audio_pkt, m_soundprop, voicelogger(), !no_record);
+            user->AddVoicePacket(audio_pkt, m_soundprop, !no_record);
         break;
     }
 #ifdef ENABLE_ENCRYPTION

@@ -100,6 +100,7 @@ namespace teamtalk {
 
         void SetStereoMask(StereoMask stereo) { m_stereo = stereo; }
         void SetNoRecording(bool no_recording) { m_no_recording = no_recording; }
+        bool IsRecordingAllowed() const { return !m_no_recording; }
 
         void SetAudioBufferSize(int msec);
 

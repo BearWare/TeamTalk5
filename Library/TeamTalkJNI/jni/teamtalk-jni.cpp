@@ -1826,6 +1826,23 @@ extern "C" {
                                               nUserID, (StreamType)nStreamType, nDelayMSec);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserJitterControl(JNIEnv* env,
+                                                                                         jobject thiz,
+                                                                                         jlong lpTTInstance,
+                                                                                         jint nUserID,
+                                                                                         jint nStreamType,
+                                                                                         jobject lpJitterConfig)
+    {
+
+        JitterConfig config = {};
+
+        if (lpJitterConfig)
+            setJitterConfig(env, config, lpJitterConfig);
+
+        return TT_SetUserJitterControl(reinterpret_cast<TTInstance*>(lpTTInstance), nUserID, (StreamType)nStreamType,
+                                        (lpJitterConfig ? &config : nullptr));
+    }
+
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserPosition(JNIEnv* env,
                                                                              jobject thiz,
                                                                              jlong lpTTInstance,
@@ -1868,6 +1885,24 @@ extern "C" {
                                          (AudioFileFormat)uAFF);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserMediaStorageDirEx(JNIEnv* env,
+                                                                                    jobject thiz,
+                                                                                    jlong lpTTInstance,
+                                                                                    jint nUserID,
+                                                                                    jstring szFolderPath,
+                                                                                    jstring szFileNameVars,
+                                                                                    jint uAFF,
+                                                                                    jint nStopRecordingExtraDelayMSec)
+    {
+        THROW_NULLEX(env, szFolderPath, false);
+        THROW_NULLEX(env, szFileNameVars, false);
+
+        return TT_SetUserMediaStorageDirEx(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                         nUserID, ttstr(env, szFolderPath),
+                                         ttstr(env, szFileNameVars),
+                                         (AudioFileFormat)uAFF,
+                                         nStopRecordingExtraDelayMSec);
+    }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserAudioStreamBufferSize(JNIEnv* env,
                                                                                           jobject thiz,

@@ -1703,10 +1703,20 @@ TEAMTALKDLL_API TTBOOL TT_GetChannelUsers(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDir(IN TTInstance* lpTTInstance,
+                                                IN INT32 nUserID,
+                                                IN const TTCHAR* szFolderPath,
+                                                IN const TTCHAR* szFileNameVars,
+                                                IN AudioFileFormat uAFF)
+{
+    return TT_SetUserMediaStorageDirEx(lpTTInstance, nUserID, szFolderPath, szFileNameVars, uAFF, 0);
+}
+
+TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDirEx(IN TTInstance* lpTTInstance,
                                                  IN INT32 nUserID,
                                                  IN const TTCHAR* szFolderPath,
                                                  IN const TTCHAR* szFileNameVars,
-                                                 IN AudioFileFormat uAFF)
+                                                 IN AudioFileFormat uAFF,
+                                                 IN INT32 nStopRecordingExtraDelayMSec)
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
@@ -1722,6 +1732,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDir(IN TTInstance* lpTTInstance,
         user->SetAudioFolder(szFolderPath);
         user->SetAudioFileVariables(szFileNameVars);
         user->SetAudioFileFormat((teamtalk::AudioFileFormat)uAFF);
+        user->SetRecordingCloseExtraDelay(nStopRecordingExtraDelayMSec);
         return TRUE;
     }
 
@@ -1983,6 +1994,31 @@ TEAMTALKDLL_API TTBOOL TT_SetUserStoppedPlaybackDelay(IN TTInstance* lpTTInstanc
         return TRUE;
     }
     return FALSE;
+}
+
+TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
+                                               IN INT32 nUserID,
+                                               IN StreamType nStreamType,
+                                               IN JitterConfig* lpJitterConfig)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if (user)
+    {
+        if (lpJitterConfig)
+        {
+            user->SetJitterControl((teamtalk::StreamType)nStreamType, lpJitterConfig->nFixedDelayMSec, lpJitterConfig->bUseAdativeDejitter, lpJitterConfig->nMaxAdaptiveDelayMSec);
+        }
+        else
+        {
+            user->SetJitterControl((teamtalk::StreamType)nStreamType, 0, false, 0);
+        }
+        return TRUE;
+    }
+    return FALSE;
+
 }
 
 /// Set the position of a user
