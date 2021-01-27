@@ -1530,8 +1530,6 @@ void MainWindow::cmdLoggedIn(int myuserid)
 
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
 
-/*    if(!ttSettings->value(SETTINGS_GENERAL_GENDER,
-                         SETTINGS_GENERAL_GENDER_DEFAULT).toBool())*/
     if(ttSettings->value(SETTINGS_GENERAL_GENDER) == "male")
         m_statusmode |= STATUSMODE_MALE;
     else if(ttSettings->value(SETTINGS_GENERAL_GENDER) == "female")
@@ -3473,11 +3471,6 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
         //change to female if set
-/*        if(!ttSettings->value(SETTINGS_GENERAL_GENDER,
-                              SETTINGS_GENERAL_GENDER_DEFAULT).toBool())
-            m_statusmode |= STATUSMODE_FEMALE;
-        else
-            m_statusmode &= ~STATUSMODE_FEMALE;*/
         if(ttSettings->value(SETTINGS_GENERAL_GENDER) == "male")
             m_statusmode = STATUSMODE_MALE;
         else if(ttSettings->value(SETTINGS_GENERAL_GENDER) == "female")

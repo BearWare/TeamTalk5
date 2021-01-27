@@ -1217,8 +1217,6 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
         if(!tmp.isNull())
             entry.nickname = tmp.text();
         tmp = client.firstChildElement("gender");
-/*        if(!tmp.isNull())
-            entry.gender = tmp.text().toInt() == GENDER_FEMALE? GENDER_FEMALE : GENDER_MALE;*/
         if(!tmp.isNull())
         {
             switch (tmp.text().toInt())

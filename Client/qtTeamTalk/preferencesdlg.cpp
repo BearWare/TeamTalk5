@@ -419,22 +419,6 @@ void PreferencesDlg::slotTabChange(int index)
     case GENERAL_TAB : //general
     {
         ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString());
-/*        ui.maleRadioButton->setChecked(ttSettings->value(SETTINGS_GENERAL_GENDER,
-                                                         SETTINGS_GENERAL_GENDER_DEFAULT).toBool());
-        ui.femaleRadioButton->setChecked(!ttSettings->value(SETTINGS_GENERAL_GENDER,
-                                                            SETTINGS_GENERAL_GENDER_DEFAULT).toBool());
-        switch(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT))
-        {
-        case 'male':
-            ui.maleRadioButton->setChecked(true);
-            break;
-        case 'female':
-            ui.femaleRadioButton->setChecked(true);
-            break;
-        default:
-            ui.neutralRadioButton->setChecked(true);
-            break;
-        }*/
         if (ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT) == "male")
             ui.maleRadioButton->setChecked(true);
         else if (ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT) == "female")
