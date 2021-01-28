@@ -40,12 +40,13 @@ CGeneralPage::CGeneralPage()
 : CPropertyPage(CGeneralPage::IDD)
 , m_nInactivity(0)
 , m_bIdleVox(FALSE)
-, m_nGender(2)
+//, m_nGender(2)
 , m_szBearWareID(_T(""))
 , m_bRestoreUser(FALSE)
 {
     m_bPush = FALSE;
     m_sNickname = _T("");
+    m_nGender = 2;
     m_bVoiceAct = FALSE;
 }
 
@@ -101,6 +102,9 @@ void CGeneralPage::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CGeneralPage, CPropertyPage)
+    ON_BN_CLICKED(IDC_RADIO_MALE, OnBnClickedRadioMale)
+    ON_BN_CLICKED(IDC_RADIO_FEMALE, OnBnClickedRadioFemale)
+    ON_BN_CLICKED(IDC_RADIO_NEUTRAL, OnBnClickedRadioNeutral)
     ON_BN_CLICKED(IDC_CHECK_PUSHTOTALK, OnBnClickedCheckPushtotalk)
     ON_BN_CLICKED(IDC_BUTTON_SETUPKEYS, OnBnClickedSetupKeys)
     ON_EN_CHANGE(IDC_EDIT_INACTIVITY, OnEnChangeEditInactivity)
@@ -130,6 +134,21 @@ BOOL CGeneralPage::OnInitDialog()
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CGeneralPage::OnBnClickedRadioMale()
+{
+    m_nGender = 0;
+}
+
+void CGeneralPage::OnBnClickedRadioFemale()
+{
+    m_nGender = 1;
+}
+
+void CGeneralPage::OnBnClickedRadioNeutral()
+{
+    m_nGender = 2;
 }
 
 void CGeneralPage::OnBnClickedCheckPushtotalk()
