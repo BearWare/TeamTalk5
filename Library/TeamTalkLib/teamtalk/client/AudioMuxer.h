@@ -27,6 +27,7 @@
 #include <myace/MyACE.h>
 #include <myace/TimerHandler.h>
 #include <codec/WaveFile.h>
+#include <codec/MediaUtil.h>
 #if defined(ENABLE_MEDIAFOUNDATION)
 #include <avstream/MFTransform.h>
 #endif
@@ -65,12 +66,7 @@ public:
                   teamtalk::AudioFileFormat aff);
     void CloseFile();
 
-    void QueueUserAudio(int userid, const short* rawAudio,
-                        ACE_UINT32 sample_no, bool last,
-                        const teamtalk::AudioCodec& codec);
-    void QueueUserAudio(int userid, const short* rawAudio,
-                        ACE_UINT32 sample_no, bool last,
-                        int n_samples, int n_channels);
+    void QueueUserAudio(int userid, const media::AudioFrame& frm);
 
 private:
     bool Init(const teamtalk::AudioCodec& codec);
@@ -143,8 +139,6 @@ public:
     bool AddUser(int userid, int channelid);
     bool RemoveUser(int userid);
 
-    void QueueUserAudio(int userid, const short* rawAudio,
-                        ACE_UINT32 sample_no, bool last,
-                        int n_samples, int n_channels);
+    void QueueUserAudio(int userid, const media::AudioFrame& frm);
 };
 #endif

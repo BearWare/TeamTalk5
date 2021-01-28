@@ -1662,20 +1662,12 @@ void ClientNode::AudioUserCallback(int userid, StreamType st,
     {
     case STREAMTYPE_VOICE :
     {
-        m_channelrecord.QueueUserAudio(userid, audio_frame.input_buffer,
-                                       audio_frame.sample_no,
-                                       audio_frame.input_buffer == nullptr,
-                                       audio_frame.input_samples,
-                                       audio_frame.inputfmt.channels);
+        m_channelrecord.QueueUserAudio(userid, audio_frame);
         
         // make copy since we're in a separate thread
         auto streammuxer = m_audiomuxer_stream;
         if (streammuxer)
-            streammuxer->QueueUserAudio(userid, audio_frame.input_buffer,
-                                        audio_frame.sample_no,
-                                        audio_frame.input_buffer == nullptr,
-                                        audio_frame.input_samples,
-                                        audio_frame.inputfmt.channels);
+            streammuxer->QueueUserAudio(userid, audio_frame);
 
     }
     break;
