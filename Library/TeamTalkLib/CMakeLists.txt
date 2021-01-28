@@ -373,9 +373,8 @@ if (CATCH_UNITTEST)
   target_compile_options (catchtt PUBLIC
     ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
 
-  target_link_libraries (catchtt
-    ${TTCLIENTDLL_LINK_FLAGS}
-    ${LINK_LIBS})
+  target_link_libraries (catchtt ${TTCLIENTDLL_LINK_FLAGS}
+    ${LINK_LIBS} ${CATCH_LINK_FLAGS})
 
   set_output_dir(catchtt ${TEAMTALK_ROOT}/Library/TeamTalkLib/test)
 

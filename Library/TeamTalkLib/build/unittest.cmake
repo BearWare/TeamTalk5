@@ -17,4 +17,11 @@ if (CATCH_UNITTEST)
   if (WEBRTC)
     list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchWebRTC.cpp)
   endif()
+
+  # sudo apt install libpcap-dev
+  find_library(PCAP_LIBRARY pcap)
+  if (PCAP_LIBRARY)
+    list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchUnitTestPcap.cpp)
+    set (CATCH_LINK_FLAGS -lpcap)
+  endif()
 endif()
