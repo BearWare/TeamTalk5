@@ -40,13 +40,12 @@ CGeneralPage::CGeneralPage()
 : CPropertyPage(CGeneralPage::IDD)
 , m_nInactivity(0)
 , m_bIdleVox(FALSE)
-//, m_nGender(2)
+, m_nGender(2)
 , m_szBearWareID(_T(""))
 , m_bRestoreUser(FALSE)
 {
     m_bPush = FALSE;
     m_sNickname = _T("");
-    m_nGender = 2;
     m_bVoiceAct = FALSE;
 }
 
@@ -78,21 +77,18 @@ void CGeneralPage::DoDataExchange(CDataExchange* pDX)
         DDX_Check(pDX, IDC_RADIO_MALE, bDDXCHECK);
         DDX_Check(pDX, IDC_RADIO_FEMALE, bDDXCHECK1);
         DDX_Check(pDX, IDC_RADIO_NEUTRAL, bDDXCHECK1);
-        m_nGender = 0;
     }
     else if (m_nGender == 1)
     {
         DDX_Check(pDX, IDC_RADIO_MALE, bDDXCHECK1);
         DDX_Check(pDX, IDC_RADIO_FEMALE, bDDXCHECK);
         DDX_Check(pDX, IDC_RADIO_NEUTRAL, bDDXCHECK1);
-        m_nGender = 1;
     }
     else
     {
         DDX_Check(pDX, IDC_RADIO_MALE, bDDXCHECK1);
         DDX_Check(pDX, IDC_RADIO_FEMALE, bDDXCHECK1);
         DDX_Check(pDX, IDC_RADIO_NEUTRAL, bDDXCHECK);
-        m_nGender = 2;
     }
     DDX_Text(pDX, IDC_EDIT_BEARWAREID, m_szBearWareID);
     DDX_Control(pDX, IDC_EDIT_BEARWAREID, m_wndBearWareID);

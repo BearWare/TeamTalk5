@@ -203,7 +203,7 @@ enum StatusMode
     STATUSMODE_AWAY             = 0x00000001, 
     STATUSMODE_QUESTION         = 0x00000002, 
     STATUSMODE_MASK             = 0x000000FF,
-    STATUSMODE_MALE             = 0x00000000,
+    STATUSMODE_MALE             = 0x00000003,
     STATUSMODE_FEMALE           = 0x00000100,
     STATUSMODE_NEUTRAL          = 0x80000000,
     STATUSMODE_VIDEOTX          = 0x00000200,
@@ -214,8 +214,8 @@ enum StatusMode
 enum Gender
 {
     GENDER_MALE             = 0,
-    GENDER_FEMALE             = 1,
-    GENDER_NEUTRAL           = 2
+    GENDER_FEMALE           = 1,
+    GENDER_NEUTRAL          = 2
 };
 
 enum AudioStorageMode
