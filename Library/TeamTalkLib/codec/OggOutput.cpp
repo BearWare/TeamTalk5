@@ -464,8 +464,10 @@ bool OpusFile::Open(const ACE_TString& filename,
                     int channels, int samplerate,
                     int framesize)
 {
-
-    if(!m_ogg.Open('S') || !m_oggfile.NewFile(filename))
+    // Make the stream (ogg stream 'serialno') as unique as possible on the same machine by using the timestamp as id.
+    // Facilitates the subsequent handling of the recording with tooling like oggz-merge to mux the recordings.
+    // If we use the same stream for every recording then muxing of recording always involves rewritting the id.
+    if (!m_ogg.Open(GETTIMESTAMP()) || !m_oggfile.NewFile(filename))
     {
         Close();
         return false;
@@ -474,7 +476,7 @@ bool OpusFile::Open(const ACE_TString& filename,
     m_samplerate = samplerate;
     m_frame_size = framesize;
     OpusHeader header = {};
-    header.preskip = 0;
+    header.preskip = 3840;  // 80 ms @ 48kHz as per rfc7845 - 5.1 bullet 4
     header.channels = channels;
     header.channel_mapping = 0;
     header.input_sample_rate = samplerate;
@@ -533,9 +535,13 @@ int OpusFile::WriteEncoded(const char* enc_data, int enc_len, bool last)
     op.bytes = enc_len;
     op.b_o_s = 0;
     op.e_o_s = last? 1 : 0;
+    // As per rfc7845, the granule on the first data page must already
+    // include the samples in the page that's written.
+    // So, advance the granule before writing.
+    // https://tools.ietf.org/html/rfc7845#page-6
+    m_granule_pos += m_frame_size * 48000 / m_samplerate;
     op.granulepos = m_granule_pos;
     op.packetno = m_packet_no++;
-    m_granule_pos += m_frame_size * 48000 / m_samplerate;
 
     m_ogg.PutPacket(op);
 
