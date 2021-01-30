@@ -118,7 +118,7 @@ TEST_CASE("AudioMuxerJitter")
     auto ttpackets = GetTTPackets("netem.pcapng", "10.157.1.34", 10333, "10.157.1.40", 63915);
 
     const int FPP = 2;
-    const int SAMPLERATE = 48000, CHANNELS = 1;
+    const int SAMPLERATE = 48000, CHANNELS = 2;
     const double FRMDURATION = .120;
 
     OpusDecode decoder;
@@ -150,9 +150,9 @@ TEST_CASE("AudioMuxerJitter")
             int frameoffset = 0;
             for (int i=0; i < FPP; ++i)
             {
-                int ret = decoder.Decode(&opusenc[encoffset], enclen, &frame[0], frame.size());
-                REQUIRE(ret > 0);
-                encoffset += ret;
+                int ret = decoder.Decode(&opusenc[encoffset], enclen, &frame[0], frame.size() / CHANNELS);
+                REQUIRE(ret == frame.size() / CHANNELS);
+                encoffset += enclen;
                 wavefile.AppendSamples(&frame[0], frame.size() / CHANNELS);
             }
         }
