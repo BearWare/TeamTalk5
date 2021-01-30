@@ -6,12 +6,12 @@ endif()
 
 option (CATCH_UNITTEST "Build Catch Unit Tests" OFF)
 if (CATCH_UNITTEST)
-  set (CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchUnitTest.cpp
+  set (CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchDefault.cpp
     ${TEAMTALKLIB_ROOT}/test/CatchMain.cpp ${TEAMTALKLIB_ROOT}/test/TTUnitTest.cpp
     ${TEAMTALKLIB_ROOT}/test/TTUnitTest.h)
 
   if (MSVC)
-    list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchUnitTestWin.cpp)
+    list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchWin.cpp)
   endif()
   
   if (WEBRTC)
@@ -21,7 +21,7 @@ if (CATCH_UNITTEST)
   # sudo apt install libpcap-dev
   find_library(PCAP_LIBRARY pcap)
   if (PCAP_LIBRARY)
-    list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchUnitTestPcap.cpp)
+    list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchPcap.cpp)
     set (CATCH_LINK_FLAGS -lpcap)
   endif()
 endif()
