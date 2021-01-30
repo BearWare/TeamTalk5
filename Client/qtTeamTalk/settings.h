@@ -33,7 +33,7 @@
 #define SETTINGS_GENERAL_NICKNAME                   "general_/nickname"
 #define SETTINGS_GENERAL_NICKNAME_DEFAULT           "NoName"
 #define SETTINGS_GENERAL_GENDER                     "general_/gender"
-#define SETTINGS_GENERAL_GENDER_DEFAULT             "neutral"
+#define SETTINGS_GENERAL_GENDER_DEFAULT             GENDER_NEUTRAL
 #define SETTINGS_GENERAL_BEARWARE_USERNAME          "general_/bearwareid"
 #define SETTINGS_GENERAL_BEARWARE_TOKEN             "general_/bearwaretoken"
 #define SETTINGS_GENERAL_RESTOREUSERSETTINGS        "general_/restore-user-settings"

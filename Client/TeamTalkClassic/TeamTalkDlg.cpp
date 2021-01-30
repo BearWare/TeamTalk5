@@ -1025,9 +1025,9 @@ void CTeamTalkDlg::OnLoggedIn(const TTMessage& msg)
 {
     AddStatusText(LoadText(IDS_CONSUCCESS, _T("Successfully logged in")));
 
-    if (m_xmlSettings.GetGender(DEFAULT_GENDER) == 0)
+    if (m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_MALE)
         m_nStatusMode = STATUSMODE_MALE;
-    else if (m_xmlSettings.GetGender(DEFAULT_GENDER) == 1)
+    else if (m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_FEMALE)
         m_nStatusMode = STATUSMODE_FEMALE;
     else
         m_nStatusMode = STATUSMODE_NEUTRAL;
@@ -3384,7 +3384,12 @@ void CTeamTalkDlg::OnFilePreferences()
     generalpage.m_szBearWareID = STR_UTF8(szBearWareID);
     generalpage.m_szBearWareToken = STR_UTF8(szToken);
     generalpage.m_bRestoreUser = m_xmlSettings.GetRestoreUserFromWebLogin();
-    generalpage.m_nGender = m_xmlSettings.GetGender();
+    if(m_xmlSettings.GetGender() == 0)
+        generalpage.m_nGender = GENDER_MALE;
+    else if(m_xmlSettings.GetGender() == 1)
+        generalpage.m_nGender = GENDER_FEMALE;
+    else
+        generalpage.m_nGender = GENDER_NEUTRAL;
     generalpage.m_bVoiceAct = m_xmlSettings.GetVoiceActivated();
     generalpage.m_bPush = m_bHotKey;
     generalpage.m_Hotkey = hook;
@@ -3537,9 +3542,9 @@ void CTeamTalkDlg::OnFilePreferences()
                                        STR_UTF8(generalpage.m_szBearWareToken));
         m_xmlSettings.SetRestoreUserFromWebLogin(generalpage.m_bRestoreUser);
 
-        if(m_xmlSettings.GetGender(DEFAULT_GENDER) == 0)
+        if(m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_MALE)
             m_nStatusMode = STATUSMODE_MALE;
-        else if(m_xmlSettings.GetGender(DEFAULT_GENDER) == 1)
+        else if(m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_FEMALE)
             m_nStatusMode = STATUSMODE_FEMALE;
         else
             m_nStatusMode = STATUSMODE_NEUTRAL;
@@ -4909,7 +4914,7 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
                 m_xmlSettings.SetNickname(m_host.szNickname);
             }
 
-            if(m_host.nGender != 2)
+            if(m_host.nGender != GENDER_NEUTRAL)
             {
                 m_xmlSettings.SetGender(m_host.nGender);
             }

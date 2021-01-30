@@ -207,11 +207,11 @@ void CGenerateTTFileDlg::OnBnClickedButtonSavettfile()
         CString szNickname;
         m_wndNickname.GetWindowText(szNickname);
         m_hostentry.szNickname = STR_UTF8(szNickname);
-        m_hostentry.nGender = 2;
+        m_hostentry.nGender = GENDER_NEUTRAL;
         if(m_wndMale.GetCheck() == BST_CHECKED)
-            m_hostentry.nGender = 0;
+            m_hostentry.nGender = GENDER_MALE;
         else if(m_wndFemale.GetCheck() == BST_CHECKED)
-            m_hostentry.nGender = 1;
+            m_hostentry.nGender = GENDER_FEMALE;
         //PTT
         if(m_wndPttChkBox.GetCheck() == BST_CHECKED && m_Hotkey.size())
             m_hostentry.hotkey = m_Hotkey;
@@ -232,7 +232,7 @@ void CGenerateTTFileDlg::OnBnClickedButtonSavettfile()
     }
     else
     {
-        m_hostentry.nGender = 2;
+        m_hostentry.nGender = GENDER_NEUTRAL;
         m_hostentry.szNickname.clear();
         m_hostentry.hotkey.clear();
     }

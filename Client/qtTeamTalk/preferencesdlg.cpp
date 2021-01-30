@@ -419,9 +419,9 @@ void PreferencesDlg::slotTabChange(int index)
     case GENERAL_TAB : //general
     {
         ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString());
-        if (ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT) == "male")
+        if (ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT) == GENDER_MALE)
             ui.maleRadioButton->setChecked(true);
-        else if (ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT) == "female")
+        else if (ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT) == GENDER_FEMALE)
             ui.femaleRadioButton->setChecked(true);
         else
             ui.neutralRadioButton->setChecked(true);
@@ -653,13 +653,12 @@ void PreferencesDlg::slotSaveChanges()
     if(m_modtab.find(GENERAL_TAB) != m_modtab.end())
     {
         ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, ui.nicknameEdit->text());
-//        ttSettings->setValue(SETTINGS_GENERAL_GENDER, ui.maleRadioButton->isChecked());
         if (ui.maleRadioButton->isChecked())
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, "male");
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_MALE);
         else if (ui.femaleRadioButton->isChecked())
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, "female");
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_FEMALE);
         else
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, "neutral");
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_NEUTRAL);
         ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
         saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
         ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.pttChkBox->isChecked());

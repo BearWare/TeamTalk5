@@ -40,7 +40,7 @@ CGeneralPage::CGeneralPage()
 : CPropertyPage(CGeneralPage::IDD)
 , m_nInactivity(0)
 , m_bIdleVox(FALSE)
-, m_nGender(2)
+, m_nGender(GENDER_NEUTRAL)
 , m_szBearWareID(_T(""))
 , m_bRestoreUser(FALSE)
 {
@@ -68,17 +68,15 @@ void CGeneralPage::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_EDIT_INACTIVITY, m_wndInactivity);
     DDX_Control(pDX, IDC_CHECK_IDLEVOX, m_wndIdleVox);
     DDX_Check(pDX, IDC_CHECK_IDLEVOX, m_bIdleVox);
-/*    DDX_Check(pDX, IDC_RADIO_MALE, bMale);
-    DDX_Check(pDX, IDC_RADIO_FEMALE, m_bFemale);*/
     BOOL bDDXCHECK = TRUE;
     BOOL bDDXCHECK1 = FALSE;
-    if (m_nGender == 0)
+    if (m_nGender == GENDER_MALE)
     {
         DDX_Check(pDX, IDC_RADIO_MALE, bDDXCHECK);
         DDX_Check(pDX, IDC_RADIO_FEMALE, bDDXCHECK1);
         DDX_Check(pDX, IDC_RADIO_NEUTRAL, bDDXCHECK1);
     }
-    else if (m_nGender == 1)
+    else if (m_nGender == GENDER_FEMALE)
     {
         DDX_Check(pDX, IDC_RADIO_MALE, bDDXCHECK1);
         DDX_Check(pDX, IDC_RADIO_FEMALE, bDDXCHECK);
@@ -134,17 +132,17 @@ BOOL CGeneralPage::OnInitDialog()
 
 void CGeneralPage::OnBnClickedRadioMale()
 {
-    m_nGender = 0;
+    m_nGender = GENDER_MALE;
 }
 
 void CGeneralPage::OnBnClickedRadioFemale()
 {
-    m_nGender = 1;
+    m_nGender = GENDER_FEMALE;
 }
 
 void CGeneralPage::OnBnClickedRadioNeutral()
 {
-    m_nGender = 2;
+    m_nGender = GENDER_NEUTRAL;
 }
 
 void CGeneralPage::OnBnClickedCheckPushtotalk()
