@@ -379,4 +379,10 @@ if (CATCH_UNITTEST)
 
   set_output_dir(catchtt ${TEAMTALK_ROOT}/Library/TeamTalkLib/test)
 
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+      set_target_properties (catchtt PROPERTIES
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_INFO_PLIST ${TEAMTALK_ROOT}/Library/TeamTalkLib/test/Info.plist)
+  endif()
+
 endif()

@@ -30,6 +30,7 @@
 
 #include <myace/MyACE.h>
 #include <teamtalk/server/ServerNode.h>
+#include <avstream/VideoCapture.h>
 
 #include <map>
 #include <map>
@@ -1797,3 +1798,40 @@ TEST_CASE("FixedJitterBuffer")
     REQUIRE((delay >= fixeddelay));
     //Measuring the maximum deviation of the delay is not reliably possible because the CLIENTEVENT_USER_STATECHANGE is detected/notified on it's own timer.
 }
+
+#if defined(ENABLE_AVF)
+TEST_CASE("VideoCapture")
+{
+    using namespace vidcap;
+    videocapture_t capture = VideoCapture::Create();
+
+    auto devs = capture->GetDevices();
+    if (devs.empty() || devs.begin()->vidcapformats.empty())
+        return;
+
+    auto capformat = devs.begin()->vidcapformats.at(0);
+
+    std::condition_variable cv;
+
+    int frames = 10;
+    auto callback = [&] (media::VideoFrame& video_frame, ACE_Message_Block* mb_video)
+    {
+        frames--;
+        cv.notify_all();
+        std::cout << "Frame " << frames << std::endl;
+        return false;
+    };
+
+    REQUIRE(capture->InitVideoCapture(devs.begin()->deviceid, capformat));
+
+    REQUIRE(capture->RegisterVideoFormat(callback, capformat.fourcc));
+
+    REQUIRE(capture->StartVideoCapture());
+
+    do {
+        std::mutex mtx;
+        std::unique_lock<std::mutex> lck(mtx);
+        cv.wait(lck);
+    } while (frames >= 0);
+}
+#endif /* ENABLE_AVF */
