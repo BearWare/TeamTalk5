@@ -86,7 +86,6 @@ std::map< ACE_Time_Value, std::vector<char> > GetTTPackets(const ACE_CString& fi
         case 17: //UDP Protocol
         {
             struct udphdr *udph = (struct udphdr*)(data + iphdrlen + sizeof(struct ethhdr));
-            int udppayloadlen = ntohs(udph->len);
             if (srcport && srcport != ntohs(udph->source))
                 continue;
             if (destport && destport != ntohs(udph->dest))
@@ -94,7 +93,8 @@ std::map< ACE_Time_Value, std::vector<char> > GetTTPackets(const ACE_CString& fi
 
             int header_size =  sizeof(struct ethhdr) + iphdrlen + sizeof(struct udphdr);
             auto dataoffset = reinterpret_cast<const char*>(&data[header_size]);
-            std::vector<char> ttraw(dataoffset, dataoffset + udppayloadlen);
+            auto datalen = ntohs(udph->len) - sizeof(struct udphdr);
+            std::vector<char> ttraw(dataoffset, dataoffset + datalen);
             ACE_Time_Value tm(ACE_Time_Value(header->ts.tv_sec, header->ts.tv_usec));
             if (first == ACE_Time_Value())
                 first = tm;
@@ -107,6 +107,7 @@ std::map< ACE_Time_Value, std::vector<char> > GetTTPackets(const ACE_CString& fi
             break;
         }
     }
+    pcap_close(pcap);
     return result;
 }
 
@@ -137,7 +138,7 @@ TEST_CASE("AudioMuxerJitter")
         case teamtalk::PACKET_KIND_VOICE :
         {
             teamtalk::AudioPacket p(data, len);
-            // REQUIRE(p.ValidatePacket());
+            REQUIRE(p.ValidatePacket());
             REQUIRE(!p.HasFragments());
             REQUIRE(!p.HasFrameSizes());
             std::cout << "User ID " << p.GetSrcUserID() << " Packet No " << p.GetPacketNumber() << std::endl;
