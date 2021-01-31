@@ -323,14 +323,15 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     @Test
     public void testVideoCaptureDevs() {
 
-        if (VIDEODEVICEID.equals(VIDEODEVDISABLE)) {
-            System.err.println("Video capture test skipped due to device id: " + VIDEODEVDISABLE);
+        if (VIDEODEVICEID.equals(VIDEODEVICEID_DISABLED)) {
+            System.err.println("Video capture test skipped due to device id: " + VIDEODEVICEID_DISABLED);
             return;
         }
 
         TeamTalkBase ttclient = newClientInstance();
         Vector<VideoCaptureDevice> devs = new Vector<VideoCaptureDevice>();
-        assertTrue(ttclient.getVideoCaptureDevices(devs));
+        assertTrue("retrieve video capture devices", ttclient.getVideoCaptureDevices(devs));
+        assertTrue("video capture device available", devs.size() > 0);
         for(int i=0;i<devs.size();i++) {
             assertTrue(!devs.get(i).szDeviceID.isEmpty());
             assertTrue(!devs.get(i).szDeviceName.isEmpty());
@@ -374,8 +375,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     @Test
     public void testVideoCaptureStream() {
 
-        if (VIDEODEVICEID.equals(VIDEODEVDISABLE)) {
-            System.err.println("Video capture test skipped due to device id: " + VIDEODEVDISABLE);
+        if (VIDEODEVICEID.equals(VIDEODEVICEID_DISABLED)) {
+            System.err.println("Video capture test skipped due to device id: " + VIDEODEVICEID_DISABLED);
             return;
         }
 
@@ -390,7 +391,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         joinRoot(ttclient);
 
         Vector<VideoCaptureDevice> devs = new Vector<VideoCaptureDevice>();
-        assertTrue(ttclient.getVideoCaptureDevices(devs));
+        assertTrue("retrieve video capture devices", ttclient.getVideoCaptureDevices(devs));
+        assertTrue("video capture device available", devs.size() > 0);
 
         VideoCaptureDevice dev = devs.get(0);
         VideoFormat fmt = new VideoFormat();
