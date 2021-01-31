@@ -94,7 +94,7 @@
 "BearWare.dk Web Login" = "BearWare.dk Web Login";
 
 /* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences";
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "Erro ao autenticar usando o login bearware.dk. Por favor, verificar em preferências.";
 
 /* codec detail */
 "Bitrate" = "Bitrate";
@@ -113,7 +113,7 @@
 "Broadcast Text Message" = "Mensagem de texto global";
 
 /* Dialog message */
-"Cancel" = "Cancel";
+"Cancel" = "Cancelar";
 
 /* channel list
    server entry */
@@ -139,7 +139,7 @@
 "Channel. %d users" = "Canal. %d usuários";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
+"Check only if this server has enabled BearWare.dk Web Login" = "Verifique apenas se este servidor habilitou o login da Web BearWare.dk";
 
 /* create channel */
 "Commands" = "Comandos";
@@ -208,13 +208,13 @@
 "Facebook login was cancelled" = "O login com o Facebook foi cancelado";
 
 /* preferences */
-"Female" = "Female";
+"Female" = "Mulher";
 
 /* codec detail */
 "Frame Size" = "Tamanho do quadro";
 
 /* preferences */
-"Gender" = "Gender";
+"Gender" = "Gênero";
 
 /* preferences
    user detail */
@@ -236,7 +236,7 @@
 "Headset TX Toggle" = "TX Headset alternado";
 
 /* hidden channel */
-"Hidden Channel" = "Hidden Channel";
+"Hidden Channel" = "Canal invisível";
 
 /* server entry */
 "Host address" = "Endereço";
@@ -245,7 +245,7 @@
 "Join" = "Entrar";
 
 /* server entry */
-"Join Channel" = "Canal ao conectar";
+"Join Channel" = "Entrou no canal";
 
 /* channel list */
 "Join channel" = "Entrar no canal";
@@ -260,7 +260,7 @@
 "Joined %@" = "Entrou em %@";
 
 /* channel list */
-"Kick user" = "Expulsar jogador";
+"Kick user" = "Expulsar usuário";
 
 /* preferences */
 "Limit length of names in channel list to %d characters" = "O tamanho máximo de nomes na lista de canais é %d";
@@ -272,7 +272,7 @@
 "Logged on to server" = "Conectado ao servidor";
 
 /* preferences */
-"Male" = "Male";
+"Male" = "Homem";
 
 /* preferences */
 "Master Volume" = "Volume principal";
@@ -425,7 +425,7 @@
 "Private server" = "Servidor privado";
 
 /* preferences */
-"Private Text Message" = "Mensagem de texto privada";
+"Private Text Message" = "Mensagem de texto";
 
 /* TTS EVENT */
 "Private text message from %@. %@" = "Mensagem privada de %@: %@";
@@ -494,7 +494,7 @@
 "Server List Entry" = "Lista de servidores";
 
 /* preferences */
-"Show male or female icon" = "Show male or female icon";
+"Show male or female icon" = "Mostrar ícones de gêneros";
 
 /* preferences */
 "Show Public Servers" = "Mostrar servidores públicos";
@@ -586,7 +586,7 @@
 "Try again?" = "Tentar outra vez?";
 
 /* preferences */
-"Turn off screen when holding phone near ear" = "Turn off screen when holding phone near ear";
+"Turn off screen when holding phone near ear" = "Desligar a tela ao aproximar o telefone do ouvido";
 
 /* text field hint
    text message */
@@ -599,13 +599,13 @@
 "Use echo cancellation and automatic gain control" = "Usar cancelamento de eco e controle de ganho automático";
 
 /* preferences */
-"Use iPhone's speaker instead of earpiece" = "Use iPhone's speaker instead of earpiece";
+"Use iPhone's speaker instead of earpiece" = "Usar o alto-falante do iPhone em vez do fone de ouvido";
 
 /* channel list */
 "User" = "Usuário";
 
 /* channel list */
-"User female" = "User female";
+"User female" = "mulher";
 
 /* preferences */
 "User Joins Channel" = "Usuário entrou no canal";
@@ -694,4 +694,4 @@
 "You have selected %@" = "Você selecionou %@";
 
 /* server entry */
-"Check only if this server has enabled Facebook login" = "";
+"Check only if this server has enabled Facebook login" = "Apenas verificar se este servidor permitiu o login via Facebook";
