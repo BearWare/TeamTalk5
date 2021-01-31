@@ -1799,7 +1799,6 @@ TEST_CASE("FixedJitterBuffer")
     //Measuring the maximum deviation of the delay is not reliably possible because the CLIENTEVENT_USER_STATECHANGE is detected/notified on it's own timer.
 }
 
-#if defined(ENABLE_AVF)
 TEST_CASE("VideoCapture")
 {
     using namespace vidcap;
@@ -1834,4 +1833,3 @@ TEST_CASE("VideoCapture")
         cv.wait(lck);
     } while (frames >= 0);
 }
-#endif /* ENABLE_AVF */
