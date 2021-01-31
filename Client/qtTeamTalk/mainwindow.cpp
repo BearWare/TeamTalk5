@@ -720,6 +720,11 @@ bool MainWindow::parseArgs(const QStringList& args)
                 m = rx.match(prop);
                 if (m.hasMatch())
                     entry.chanpasswd = m.captured(1);
+                //&?encrypted=([^&]*)&?
+                rx.setPattern("&?encrypted=([^&]*)&?");
+                m = rx.match(prop);
+                if (m.hasMatch())
+                    entry.encrypted = (m.captured(1) == "true" || m.captured(1) == "1");
 
                 addLatestHost(entry);
                 m_host = entry;
