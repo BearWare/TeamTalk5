@@ -6,7 +6,7 @@ env:
   # TeamTalkJNI JUnit environment variables
   INPUTDEVICEID: 1978
   OUTPUTDEVICEID: 1978
-  VIDEODEVICEID: 1978
+  VIDEODEVICEID: None
   OPUSTOOLS: 0
   VERBOSE: 0
 
