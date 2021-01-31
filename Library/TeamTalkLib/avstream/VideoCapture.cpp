@@ -22,7 +22,8 @@
  */
 
 #include "VideoCapture.h"
-
+#include <assert.h>
+#include <algorithm>
 using namespace vidcap;
 
 #if defined(ENABLE_MEDIAFOUNDATION)
