@@ -607,16 +607,16 @@ int64_t FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
     else
     {
         MYTRACE_COND(!W32_GEQ(frame_timestamp, start_time),
-                     ACE_TEXT("Frame time: %u, start time: %u, diff: %d\n"),
-                     frame_timestamp, start_time, int(frame_timestamp - start_time));
+                     ACE_TEXT("Frame time: %u, start time: %u, diff: %d, pts: %.3f\n"),
+                     frame_timestamp, start_time, int(frame_timestamp - start_time), frame_sec);
             
         if (start_offset == MEDIASTREAMER_OFFSET_IGNORE)
         {
             // the first couple of frames we get might be from before 'start_time'
             if (W32_LT(frame_timestamp, start_time))
             {
-                MYTRACE(ACE_TEXT("Dropped video frame timestamped %u because it's before start time %u\n"),
-                        frame_timestamp, start_time);
+                MYTRACE(ACE_TEXT("Dropped video frame timestamped %u because it's before start time %u, pts: %.3f\n"),
+                        frame_timestamp, start_time, frame_sec);
                 av_frame_unref(filt_frame);
                 return 1;
             }
@@ -628,8 +628,8 @@ int64_t FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
 
     static int n_vidframe = 0;
     ACE_UINT32 ticks = GETTIMESTAMP();
-    MYTRACE(ACE_TEXT("Video frame %d at tick %u, frame time: %u, diff: %u, pts: %.3f.\n"),
-            n_vidframe++, ticks, frame_timestamp, ticks - frame_timestamp, frame_sec);
+    MYTRACE(ACE_TEXT("Video frame %d at tick %u, frame time: %u, pts: %.3f.\n"),
+            n_vidframe++, ticks, frame_timestamp, frame_sec);
 
     int bmp_size = filt_frame->height * filt_frame->linesize[0];
     VideoFrame media_frame(reinterpret_cast<char*>(filt_frame->data[0]),

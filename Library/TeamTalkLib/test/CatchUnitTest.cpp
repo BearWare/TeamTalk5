@@ -1805,10 +1805,19 @@ TEST_CASE("VideoCapture")
     videocapture_t capture = VideoCapture::Create();
 
     auto devs = capture->GetDevices();
-    if (devs.empty() || devs.begin()->vidcapformats.empty())
+
+    vidcap::VidCapDevice dev;
+
+    for (size_t i=0;i<devs.size() && dev.vidcapformats.empty();++i)
+    {
+        if (devs[i].vidcapformats.size())
+            dev = devs[i];
+    }
+
+    if (dev.deviceid.empty())
         return;
 
-    auto capformat = devs.begin()->vidcapformats.at(0);
+    auto capformat = dev.vidcapformats.at(0);
 
     std::condition_variable cv;
 
@@ -1821,7 +1830,7 @@ TEST_CASE("VideoCapture")
         return false;
     };
 
-    REQUIRE(capture->InitVideoCapture(devs.begin()->deviceid, capformat));
+    REQUIRE(capture->InitVideoCapture(dev.deviceid, capformat));
 
     REQUIRE(capture->RegisterVideoFormat(callback, capformat.fourcc));
 
