@@ -203,7 +203,7 @@ struct ClientInstance
         eventhandler.reset(eh);
         clientnode.reset(new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), eh));
         
-#if defined(USE_MINIDUMP)
+#if defined(ENABLE_MINIDUMP)
         static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
 #endif
 
