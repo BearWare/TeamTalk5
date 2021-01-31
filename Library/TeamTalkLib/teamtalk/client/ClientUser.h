@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -90,7 +90,7 @@ namespace teamtalk {
         ACE_INT64 mediafile_video_frames_lost;
         ACE_INT64 mediafile_video_frames_dropped;
 
-        ClientUserStats() 
+        ClientUserStats()
             : voicepackets_recv(0)
             , voicepackets_lost(0)
             , vidcappackets_recv(0)
@@ -111,7 +111,7 @@ namespace teamtalk {
     class ClientUser : public teamtalk::User
     {
     public:
-        ClientUser(int userid, 
+        ClientUser(int userid,
                    class ClientNode* clientnode,
                    class ClientListener* listener,
                    soundsystem::soundsystem_t sndsys);
@@ -119,7 +119,7 @@ namespace teamtalk {
 
         void ResetAllStreams();
         void ResetInactiveStreams();
-            
+
         //Timer* methods called by ClientNode's TimerEvent()
         int TimerMonitorVoicePlayback();
         int TimerMonitorAudioFilePlayback();
@@ -247,11 +247,13 @@ namespace teamtalk {
         ClientNode* m_clientnode;
         ClientListener* m_listener;
         soundsystem::soundsystem_t m_soundsystem;
-        
+
         ClientUserStats m_stats;
+        // public properties of user's UserAccount
         ACE_TString m_username;
         UserTypes m_usertype;
         int m_userdata;
+
         std::weak_ptr< ClientChannel > m_channel;
 
         //voice playback
@@ -283,7 +285,7 @@ namespace teamtalk {
         map_dup_blocks_t m_dup_blocks;
         uint16_t m_desktop_packets_expected;
         std::set<uint16_t> m_acked_desktoppackets;
-    
+
         //desktop input received from user (for ClientNode's desktop session)
         std::list<desktopinput_pkt_t> m_desktop_input_rx;
         uint8_t m_desktop_input_rx_pktno; //packet_no of next expect packet
@@ -306,7 +308,7 @@ namespace teamtalk {
         StereoMask m_voice_stereo, m_audiofile_stereo;
 
         Subscriptions m_localsubscriptions, m_peersubscriptions;
-            
+
         //audio storage
         ACE_TString m_audiofolder;
         ACE_TString m_vlog_vars;
