@@ -30,6 +30,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QFileDialog>
+#include <QPushButton>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
@@ -39,6 +40,8 @@ MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("Cancel"));
 
     connect(ui.audioToolButton, SIGNAL(clicked()),
             SLOT(slotSetMediaFolder()));

@@ -25,6 +25,7 @@
 #include "appinfo.h"
 
 #include <QMessageBox>
+#include <QPushButton>
 
 extern TTInstance* ttInst;
 
@@ -33,6 +34,8 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("Cancel"));
 
     bool editable = (TT_GetMyUserRights(ttInst) & USERRIGHT_UPDATE_SERVERPROPERTIES);
 

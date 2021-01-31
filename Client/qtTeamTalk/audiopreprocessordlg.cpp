@@ -22,12 +22,15 @@
  */
 
 #include "audiopreprocessordlg.h"
+#include <QPushButton>
 
 AudioPreprocessorDlg::AudioPreprocessorDlg(AudioPreprocessor preprocess, QWidget* parent)
     : QDialog(parent)
     , m_preprocess(preprocess)
 {
     ui.setupUi(this);
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("Cancel"));
 
     connect(this, &QDialog::accepted, this, &AudioPreprocessorDlg::slotAccepted);
     connect(ui.ttdefaultButton, &QAbstractButton::clicked, this, &AudioPreprocessorDlg::slotDefaultTTPreprocessor);

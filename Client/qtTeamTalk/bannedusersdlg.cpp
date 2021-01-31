@@ -23,6 +23,7 @@
 
 #include "bannedusersdlg.h"
 #include "appinfo.h"
+#include <QPushButton>
 
 enum
 {
@@ -146,6 +147,8 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("Cancel"));
 
     m_bannedmodel = new BannedUsersModel(this);
     m_bannedproxy = new QSortFilterProxyModel(this);
