@@ -395,31 +395,26 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("video capture device available", devs.size() > 0);
 
         VideoCaptureDevice dev = devs.get(0);
-        VideoFormat fmt = new VideoFormat();
-        fmt.nWidth = 320;
-        fmt.nHeight = 240;
-        fmt.nFPS_Numerator = 10;
-        fmt.nFPS_Denominator = 1;
-        fmt.picFourCC = FourCC.FOURCC_RGB32;
+        VideoFormat fmt = dev.videoFormats[0];
 
-        assertTrue(ttclient.initVideoCaptureDevice(dev.szDeviceID, fmt));
+        assertTrue("Init video capture", ttclient.initVideoCaptureDevice(dev.szDeviceID, fmt));
 
-        assertTrue(waitCmdComplete(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(),
-                                                                  Subscription.SUBSCRIBE_VIDEOCAPTURE),
-                                   DEF_WAIT));
+        assertTrue("subscribe own video", waitCmdComplete(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(),
+                                                                                         Subscription.SUBSCRIBE_VIDEOCAPTURE),
+                                                          DEF_WAIT));
 
         VideoCodec vidcodec = new VideoCodec();
         vidcodec.nCodec = Codec.WEBM_VP8_CODEC;
         vidcodec.webm_vp8.nRcTargetBitrate = 256;
 
-        assertTrue(ttclient.startVideoCaptureTransmission(vidcodec));
+        assertTrue("Start video capture", ttclient.startVideoCaptureTransmission(vidcodec));
 
         TTMessage msg = new TTMessage();
 
         int wait_frames = 100, frames_ok = 0;
 
         while(wait_frames-- > 0) {
-            assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_VIDEOCAPTURE, DEF_WAIT, msg));
+            assertTrue("get video frame", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_VIDEOCAPTURE, DEF_WAIT, msg));
             if(msg.nSource == 0) {
                 wait_frames++;
                 continue;
@@ -435,7 +430,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue(frames_ok>0);
 
-        assertTrue(ttclient.stopVideoCaptureTransmission());
+        assertTrue("stop video capture", ttclient.stopVideoCaptureTransmission());
 
         assertTrue(waitCmdComplete(ttclient, ttclient.doUnsubscribe(ttclient.getMyUserID(),
                                                                   Subscription.SUBSCRIBE_VIDEOCAPTURE),
