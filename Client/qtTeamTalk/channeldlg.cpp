@@ -34,8 +34,8 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
-    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Ok"));
-    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("Cancel"));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     connect(ui.audiocodecBox, SIGNAL(currentIndexChanged(int)), 
             SLOT(slotAudioCodecChanged(int)));

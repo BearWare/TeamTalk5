@@ -45,8 +45,8 @@ BearWareLoginDlg::BearWareLoginDlg(QWidget *parent) :
     ui(new Ui::BearWareLoginDlg)
 {
     ui->setupUi(this);
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Ok"));
-    ui->buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("Cancel"));
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui->buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     connect(ui->registerButton, SIGNAL(clicked(bool)), SLOT(slotRegister(bool)));
 }

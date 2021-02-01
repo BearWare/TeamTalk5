@@ -29,8 +29,8 @@ AudioPreprocessorDlg::AudioPreprocessorDlg(AudioPreprocessor preprocess, QWidget
     , m_preprocess(preprocess)
 {
     ui.setupUi(this);
-    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Ok"));
-    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("Cancel"));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     connect(this, &QDialog::accepted, this, &AudioPreprocessorDlg::slotAccepted);
     connect(ui.ttdefaultButton, &QAbstractButton::clicked, this, &AudioPreprocessorDlg::slotDefaultTTPreprocessor);

@@ -34,8 +34,8 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
-    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Ok"));
-    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("Cancel"));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     bool editable = (TT_GetMyUserRights(ttInst) & USERRIGHT_UPDATE_SERVERPROPERTIES);
 
@@ -96,10 +96,15 @@ void ServerPropertiesDlg::slotAccepted()
     if(_Q(m_srvprop.szMOTDRaw).size() &&
        _Q(m_srvprop.szMOTDRaw) != ui.motdTextEdit->toPlainText())
     {
-        if(QMessageBox::question(this,  tr("Message of the day"), 
-                    tr("Change message of the day?"), 
-                    QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
-           COPY_TTSTR(m_srvprop.szMOTDRaw, ui.motdTextEdit->toPlainText());
+        QMessageBox answer;
+        answer.setText(tr("Change message of the day?"));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Message of the day"));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+            COPY_TTSTR(m_srvprop.szMOTDRaw, ui.motdTextEdit->toPlainText());
     }
     m_srvprop.nTcpPort = ui.tcpportSpinBox->value();
     m_srvprop.nUdpPort = ui.udpportSpinBox->value();

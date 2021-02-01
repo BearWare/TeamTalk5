@@ -2227,13 +2227,15 @@ void MainWindow::firewallInstall()
     appPath = QDir::toNativeSeparators(appPath);
     if(!TT_Firewall_AppExceptionExists(_W(appPath)))
     {
-        QMessageBox::StandardButton answer = QMessageBox::question(this, 
-            APPTITLE, 
-            tr("Do you wish to add %1 to the Windows Firewall exception list?")
-            .arg(APPTITLE), 
-            QMessageBox::Yes | QMessageBox::No);
+        QMessageBox answer;
+        answer.setText(tr("Do you wish to add %1 to the Windows Firewall exception list?").arg(APPTITLE));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(APPTITLE);
+        answer.exec();
 
-        if(answer == QMessageBox::Yes &&
+        if(answer.clickedButton() == YesButton &&
             !TT_Firewall_AddAppException(_W(QString(APPTITLE)), 
                                         _W(appPath)))
         {
@@ -4036,9 +4038,14 @@ void MainWindow::slotChannelsDeleteChannel(bool /*checked =false */)
 
     TTCHAR buff[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, chanid, buff);
-    if(QMessageBox::information(this, MENUTEXT(ui.actionDeleteChannel->text()),
-        tr("Are you sure you want to delete channel \"%1\"?").arg(_Q(buff)), 
-        QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+    QMessageBox answer;
+    answer.setText(tr("Are you sure you want to delete channel \"%1\"?").arg(_Q(buff)));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    answer.setIcon(QMessageBox::Information);
+    answer.setWindowTitle(MENUTEXT(ui.actionDeleteChannel->text()));
+    answer.exec();
+    if(answer.clickedButton() == NoButton)
         return;
 
     if(TT_DoRemoveChannel(ttInst, chanid)<0)
@@ -4173,16 +4180,29 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
     QStringList filenames;
     QList<int> files = ui.filesView->selectedFiles(&filenames);
     bool delete_ok = false;
+    QMessageBox answer;
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    answer.setIcon(QMessageBox::Information);
+    answer.setWindowTitle(MENUTEXT(ui.actionDeleteFile->text()));
     if(filenames.size() == 1)
-        delete_ok = QMessageBox::information(this,
-                                             MENUTEXT(ui.actionDeleteFile->text()),
-                                             tr("Are you sure you want to delete \"%1\"?").arg(filenames[0]),
-                                             QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes;
+    {
+        answer.setText(tr("Are you sure you want to delete \"%1\"?").arg(filenames[0]));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+            delete_ok = = true;
+        else
+            delete_ok = = false;
+    }
     else if(filenames.size()>1)
-        delete_ok = QMessageBox::information(this,
-                                             MENUTEXT(ui.actionDeleteFile->text()),
-                                             tr("Are you sure you want to delete %1 file(s)?").arg(filenames.size()),
-                                             QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes;
+    {
+        answer.setText(tr("Are you sure you want to delete %1 file(s)?").arg(filenames.size()));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+            delete_ok = = true;
+        else
+            delete_ok = = false;
+    }
 
     for(int i=0;i<files.size() && delete_ok;i++)
         TT_DoDeleteFile(ttInst, channelid, files[i]);
@@ -4311,9 +4331,14 @@ void MainWindow::slotServerServerStatistics(bool /*checked=false*/)
 
 void MainWindow::slotHelpResetPreferences(bool /*checked=false*/)
 {
-    if (QMessageBox::question(this, MENUTEXT(ui.actionResetPreferencesToDefault->text()),
-        tr("Are you sure you want to delete your existing settings?"),
-        QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+    QMessageBox answer;
+    answer.setText(tr("Are you sure you want to delete your existing settings?"));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    answer.setIcon(QMessageBox::Question);
+    answer.setWindowTitle(MENUTEXT(ui.actionResetPreferencesToDefault->text()));
+    answer.exec();
+    if (answer.clickedButton() == YesButton)
     {
         QString cfgpath = ttSettings->fileName();
         QString defpath = QString(APPDEFAULTINIFILE);
@@ -5569,12 +5594,14 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
 
     addLatestHost(entry);
     m_host = entry;
-
-    if(!element.firstChildElement(CLIENTSETUP_TAG).isNull() &&
-        QMessageBox::question(this, tr("Load %1 File").arg(TTFILE_EXT),
-        tr("The file %1 contains %2 setup information.\r\nShould these settings be applied?")
-        .arg(filepath).arg(APPNAME_SHORT),
-        QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+    QMessageBox answer;
+    answer.setText(tr("The file %1 contains %2 setup information.\r\nShould these settings be applied?").arg(filepath).arg(APPNAME_SHORT),);
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    answer.setIcon(QMessageBox::Question);
+    answer.setWindowTitle(tr("Load %1 File").arg(TTFILE_EXT));
+    answer.exec();
+    if(!element.firstChildElement(CLIENTSETUP_TAG).isNull() && answer.clickedButton() == YesButton)
     {
         //if no nickname specified use from .tt file
         if(m_host.nickname.size())
