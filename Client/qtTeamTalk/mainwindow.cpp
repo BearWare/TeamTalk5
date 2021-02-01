@@ -1758,14 +1758,17 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     case CMDERR_INVALID_ACCOUNT :
         {
             bool ok = false;
-            m_host.username = QInputDialog::getText(this, tr("Login error"), 
+            QInputDialog inputDialog;
+            m_host.username = inputDialog.getText(this, tr("Login error"), 
                 tr("Invalid user account. Type username:"), 
                 QLineEdit::Normal, m_host.username, &ok);
             if(!ok)
                 return;
-            m_host.password = QInputDialog::getText(this, tr("Login error"), 
+            m_host.password = inputDialog.getText(this, tr("Login error"), 
                 tr("Invalid user account. Type password:"), 
                 QLineEdit::Password, m_host.password, &ok);
+            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setCancelButtonText(tr("&Cancel"));
             if(!ok)
                 return;
             
@@ -1781,9 +1784,12 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     case CMDERR_INCORRECT_CHANNEL_PASSWORD :
         {
             bool ok = false;
-            QString passwd = QInputDialog::getText(this, tr("Join channel error"), 
+            QInputDialog inputDialog;
+            QString passwd = inputDialog.getText(this, tr("Join channel error"), 
                 tr("Incorrect channel password. Try again:"), 
                 QLineEdit::Password, _Q(m_last_channel.szPassword), &ok);
+            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setCancelButtonText(tr("&Cancel"));
             if(!ok)
                 return;
             m_channel_passwd[m_last_channel.nChannelID] = passwd;
@@ -3308,25 +3314,32 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
         profilenames.push_back(delprofile);
 
     bool ok = false;
-    QString choice = QInputDialog::getItem(this, tr("New Client Instance"), 
+    QInputDialog inputDialog;
+    QString choice = inputDialog.getItem(this, tr("New Client Instance"), 
         tr("Select profile"), profilenames, 0, false, &ok);
-
+    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setCancelButtonText(tr("&Cancel"));
     if(choice == delprofile)
     {
         profilenames.removeAll(newprofile);
         profilenames.removeAll(delprofile);
-
-        QString choice = QInputDialog::getItem(this, tr("New Client Instance"),
+        QInputDialog inputDialog;
+        QString choice = inputDialog.getItem(this, tr("New Client Instance"),
             tr("Delete profile"), profilenames, 0, false, &ok);
+        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setCancelButtonText(tr("&Cancel"));
         if(ok && ttSettings->fileName() != profiles[choice])
             QFile::remove(profiles[choice]);
         return;
     }
     else if(choice == newprofile)
     {
-        QString newname = QInputDialog::getText(this,
+        QInputDialog inputDialog;
+        QString newname = inputDialog.getText(this,
             tr("New Profile"), tr("Profile name"), QLineEdit::Normal,
             QString("Profile %1").arg(freeno), &ok);
+        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setCancelButtonText(tr("&Cancel"));
         if(ok && newname.size())
         {
             inipath = QString("%1.%2").arg(inipath).arg(freeno);
@@ -3535,11 +3548,14 @@ void MainWindow::slotClientExit(bool /*checked =false */)
 void MainWindow::slotMeChangeNickname(bool /*checked =false */)
 {
     bool ok = false;
-    QString s = QInputDialog::getText(this, 
+    QInputDialog inputDialog;
+    QString s = inputDialog.getText(this, 
                                       MENUTEXT(ui.actionChangeNickname->text()), 
                                       tr("Specify new nickname"), QLineEdit::Normal, 
                                       ttSettings->value(SETTINGS_GENERAL_NICKNAME,
                                                         tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString(), &ok);
+    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setCancelButtonText(tr("&Cancel"));
     if(ok)
     {
         ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, s);
@@ -4070,8 +4086,11 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
     if(chan.bPassword)
     {
         bool ok = false;
-        password = QInputDialog::getText(this, MENUTEXT(ui.actionJoinChannel->text()), 
+        QInputDialog inputDialog;
+        password = inputDialog.getText(this, MENUTEXT(ui.actionJoinChannel->text()), 
             tr("Specify password"), QLineEdit::Password, password, &ok);
+        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setCancelButtonText(tr("&Cancel"));
         if(!ok)
             return;
     }
@@ -4287,9 +4306,12 @@ void MainWindow::slotServerOnlineUsers(bool /*checked=false*/)
 void MainWindow::slotServerBroadcastMessage(bool /*checked=false*/)
 {
     bool ok = false;
-    QString bcast = QInputDialog::getText(this, 
+    QInputDialog inputDialog;
+    QString bcast = inputDialog.getText(this, 
         MENUTEXT(ui.actionBroadcastMessage->text()), 
         tr("Message to broadcast:"), QLineEdit::Normal, "", &ok);
+    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setCancelButtonText(tr("&Cancel"));
     if(!ok)
         return;
     TextMessage msg;
@@ -4447,8 +4469,11 @@ void MainWindow::slotUsersOp(int userid, int chanid)
     else
     {
         bool ok = false;
-        QString oppasswd = QInputDialog::getText(this, MENUTEXT(ui.actionOp->text()), 
+        QInputDialog inputDialog;
+        QString oppasswd = inputDialog.getText(this, MENUTEXT(ui.actionOp->text()), 
             tr("Specify password"), QLineEdit::Password, "", &ok);
+        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setCancelButtonText(tr("&Cancel"));
         if(ok)
             TT_DoChannelOpEx(ttInst, userid, chanid, _W(oppasswd), !op);
     }
@@ -4463,7 +4488,10 @@ void MainWindow::slotUsersKickBan(int userid, int chanid)
 {
     QStringList items = { tr("IP-address"), tr("Username") };
     bool ok = false;
-    QString choice = QInputDialog::getItem(this, tr("Ban User From Channel"), tr("Ban user's"), items, 0, false, &ok);
+    QInputDialog inputDialog;
+    QString choice = inputDialog.getItem(this, tr("Ban User From Channel"), tr("Ban user's"), items, 0, false, &ok);
+    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setCancelButtonText(tr("&Cancel"));
     if (ok)
     {
         //ban first since the user will otherwise have disappeared

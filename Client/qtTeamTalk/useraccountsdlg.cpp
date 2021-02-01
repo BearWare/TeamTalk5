@@ -683,6 +683,7 @@ void UserAccountsDlg::slotRemoveOpChannel()
 
 void UserAccountsDlg::slotCustomCmdLimit(int index)
 {
+    QInputDialog inputDialog;
     switch(ui.limitcmdComboBox->itemData(index).toInt())
     {
     case LIMITCMD_DISABLED :
@@ -702,18 +703,20 @@ void UserAccountsDlg::slotCustomCmdLimit(int index)
         break;
     case LIMITCMD_CUSTOM :
         m_abuse.nCommandsLimit =
-                QInputDialog::getInt(this, tr("Limit issued commands"),
+                inputDialog.getInt(this, tr("Limit issued commands"),
                                      tr("Number of commands to allow (0 = disabled)"),
                                      m_abuse.nCommandsLimit, 0);
         if(m_abuse.nCommandsLimit)
         {
             m_abuse.nCommandsIntervalMSec =
-                    QInputDialog::getInt(this, tr("Limit issued commands"),
+                    inputDialog.getInt(this, tr("Limit issued commands"),
                                          tr("Timeframe to allow %1 commands (in seconds)")
                                          .arg(m_abuse.nCommandsLimit),
                                          m_abuse.nCommandsIntervalMSec/1000, 1);
             m_abuse.nCommandsIntervalMSec *= 1000;
         }
+        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setCancelButtonText(tr("&Cancel"));
         break;
     default :
         Q_ASSERT(0);
