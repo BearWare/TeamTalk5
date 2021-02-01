@@ -30,6 +30,7 @@ using namespace teamtalk;
 
 AudioMuxer::AudioMuxer()
 {
+    m_mux_interval = ToTimeValue(AUDIOBLOCK_QUEUE_MSEC / 3);
 }
 
 AudioMuxer::~AudioMuxer()
@@ -86,9 +87,6 @@ void AudioMuxer::StopThread()
         m_thread.reset();
 
         m_reactor.reset_reactor_event_loop();
-
-        //flush remaining data
-        ProcessAudioQueues(true);
     }
 
     m_codec = AudioCodec();
@@ -290,14 +288,21 @@ bool AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
     user_audio_queue_t::iterator ii = m_audio_queue.find(userid);
     if(ii == m_audio_queue.end())
     {
-        //allow buffer of one second audio
+        // setup audio buffer queue for user prior to mixing streams
+        
         int bytes = GetAudioCodecCbBytes(m_codec);
         int msec = GetAudioCodecCbMillis(m_codec);
-        if(!msec)
+        int chans = GetAudioCodecChannels(m_codec);
+        int sr = GetAudioCodecSampleRate(m_codec);
+        if (!msec)
             return false;
 
-        // 1 second of raw audio
-        int buffersize = bytes * ((AUDIOBLOCK_QUEUE_MSEC / msec) + 1);
+        // bytes between each mux interval
+        int buffersize = bytes * ((m_mux_interval.msec() / msec) + 1);
+        // allow double of mux interval
+        buffersize *= 2;
+        MYTRACE(ACE_TEXT("Buffer duration for user #%d, %d msec\n"),
+                userid, PCM16_BYTES_DURATION(buffersize, chans, sr));
         // add header size
         buffersize += (buffersize / bytes) * sizeof(media::AudioFrame);
         
@@ -329,15 +334,24 @@ bool AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
     return true;
 }
 
+void AudioMuxer::SetMuxInterval(int msec)
+{
+    // must be set prior to thread start
+    assert(!m_thread);
+
+    int cbmsec = GetAudioCodecCbMillis(m_codec);
+    cbmsec = std::max(msec, cbmsec);
+    m_mux_interval = ToTimeValue(cbmsec);
+}
+
 void AudioMuxer::Run()
 {
     m_reactor.owner (ACE_OS::thr_self ());
 
-    const time_t MUX_INTERVAL_MSEC = AUDIOBLOCK_QUEUE_MSEC / 3;
-    auto tv = ACE_Time_Value(MUX_INTERVAL_MSEC/1000, (MUX_INTERVAL_MSEC % 1000) * 1000);
-
+    MYTRACE(ACE_TEXT("AudioMuxer interval: %d msec\n"), m_mux_interval.msec());
+    
     TimerHandler th(*this, 577);
-    long timerid = m_reactor.schedule_timer(&th, 0, tv, tv);
+    int timerid = m_reactor.schedule_timer(&th, 0, m_mux_interval, m_mux_interval);
     TTASSERT(timerid >= 0);
     m_reactor.run_reactor_event_loop ();
 
@@ -346,6 +360,9 @@ void AudioMuxer::Run()
         int ret = m_reactor.cancel_timer(timerid);
         TTASSERT(ret >= 0);
     }
+
+    //flush remaining data
+    ProcessAudioQueues(true);
 }
 
 int AudioMuxer::TimerEvent(ACE_UINT32 timer_event_id, long userdata)

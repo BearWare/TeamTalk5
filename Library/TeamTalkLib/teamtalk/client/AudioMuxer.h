@@ -68,6 +68,8 @@ public:
 
     bool QueueUserAudio(int userid, const media::AudioFrame& frm);
 
+    void SetMuxInterval(int msec);
+    
 private:
     bool Init(const teamtalk::AudioCodec& codec);
     bool StartThread(const teamtalk::AudioCodec& codec);
@@ -91,6 +93,7 @@ private:
     std::vector<short> m_muxed_audio;
 
     ACE_Reactor m_reactor;
+    ACE_Time_Value m_mux_interval;
     std::recursive_mutex m_mutex;
     std::shared_ptr< std::thread > m_thread;
 
