@@ -37,9 +37,16 @@
 #include <ace/OS.h>
 #include <ace/Time_Value.h>
 
+namespace ttdll
+{
+#include <TeamTalk.h>
+}
+
 #include <teamtalk/PacketLayout.h>
 #include <teamtalk/client/AudioMuxer.h>
+#include <teamtalk/client/StreamPlayers.h>
 #include <codec/WaveFile.h>
+#include <avstream/SoundSystem.h>
 
 #if defined(ENABLE_OPUS)
 #include <codec/OpusDecoder.h>
@@ -116,14 +123,17 @@ std::map< ACE_Time_Value, std::vector<char> > GetTTPackets(const ACE_CString& fi
 
 TEST_CASE("AudioMuxerJitter")
 {
+    using namespace teamtalk;
+    
     auto ttpackets = GetTTPackets("netem.pcapng", "10.157.1.34", 10333, "10.157.1.40", 63915);
 
     const int FPP = 2;
     const int SAMPLERATE = 48000, CHANNELS = 2;
     const double FRMDURATION = .120;
+    const int PLAYBACKFRAMESIZE = FPP * FRMDURATION * SAMPLERATE;
 
-    teamtalk::AudioCodec codec;
-    codec.codec = teamtalk::CODEC_OPUS;
+    AudioCodec codec;
+    codec.codec = CODEC_OPUS;
     codec.opus.samplerate = SAMPLERATE;
     codec.opus.channels = CHANNELS;
     codec.opus.application = OPUS_APPLICATION_VOIP;
@@ -144,9 +154,25 @@ TEST_CASE("AudioMuxerJitter")
     REQUIRE(wavefile.NewFile(ACE_TEXT("netem.wav"), SAMPLERATE, CHANNELS));
     uint32_t sampleno = 0;
 
-    AudioMuxer recorder;
-    REQUIRE(recorder.SaveFile(codec, ACE_TEXT("netem_muxer.wav"), teamtalk::AFF_WAVE_FORMAT));
+#define DIRECTRECORDER 0
+#if DIRECTRECORDER
+    AudioMuxer directrecorder;
+    REQUIRE(directrecorder.SaveFile(codec, ACE_TEXT("netem_muxer_direct.wav"), teamtalk::AFF_WAVE_FORMAT));
+#endif
 
+    AudioMuxer playbackrecorder;
+    playbackrecorder.SetMuxInterval(1000 * 20);
+    REQUIRE(playbackrecorder.SaveFile(codec, ACE_TEXT("netem_muxer_playback.wav"), teamtalk::AFF_WAVE_FORMAT));
+
+    useraudio_callback_t audiocb = [&](int userid, StreamType stream_type, const media::AudioFrame& frm)
+    {
+        REQUIRE(playbackrecorder.QueueUserAudio(userid, frm));
+    };
+
+    std::shared_ptr<OpusPlayer> player;
+    auto snd = soundsystem::GetInstance();
+    int sndgrp = snd->OpenSoundGroup();
+    
     ACE_Time_Value last;
     for (auto i : ttpackets)
     {
@@ -160,7 +186,22 @@ TEST_CASE("AudioMuxerJitter")
             REQUIRE(p.ValidatePacket());
             REQUIRE(!p.HasFragments());
             REQUIRE(!p.HasFrameSizes());
-            std::cout << "User ID " << p.GetSrcUserID() << " Packet No " << p.GetPacketNumber() << std::endl;
+            std::cout << "User ID " << p.GetSrcUserID() << " Packet No " << p.GetPacketNumber() << " Stream ID " << int(p.GetStreamID()) << std::endl;
+
+            if (!player)
+            {
+                player.reset(new OpusPlayer(p.GetSrcUserID(), STREAMTYPE_VOICE,
+                                            audiocb, codec, audio_resampler_t()));
+                player->SetAudioBufferSize(5000);
+                player->SetStoppedTalkingDelay(5000);
+                REQUIRE(snd->OpenOutputStream(player.get(), TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
+                                              sndgrp, SAMPLERATE, CHANNELS, PLAYBACKFRAMESIZE));
+                REQUIRE(snd->StartStream(player.get()));
+            }
+
+            // no reassembly packets
+            REQUIRE(player->QueuePacket(p).get() == nullptr);
+            
             uint16_t opuslen = 0;
             auto opusenc = p.GetEncodedAudio(opuslen);
             REQUIRE(opusenc);
@@ -175,13 +216,15 @@ TEST_CASE("AudioMuxerJitter")
                 encoffset += enclen;
                 frameoffset += codec.opus.frame_size;
             }
-            REQUIRE(frameoffset == FPP * codec.opus.frame_size);
-            wavefile.AppendSamples(&frame[0], FPP * codec.opus.frame_size);
+            REQUIRE(frameoffset == PLAYBACKFRAMESIZE);
+            wavefile.AppendSamples(&frame[0], PLAYBACKFRAMESIZE);
 
+#if DIRECTRECORDER
             media::AudioFrame frm(media::AudioFormat(SAMPLERATE, CHANNELS),
-                                  &frame[0], FPP * codec.opus.frame_size, sampleno);
-            REQUIRE(recorder.QueueUserAudio(p.GetSrcUserID(), frm));
-            sampleno += FPP * codec.opus.frame_size;
+                                  &frame[0], PLAYBACKFRAMESIZE, sampleno);
+            REQUIRE(directrecorder.QueueUserAudio(p.GetSrcUserID(), frm));
+#endif
+            sampleno += PLAYBACKFRAMESIZE;
         }
         }
         ACE_Time_Value wait = i.first - last;
@@ -189,6 +232,9 @@ TEST_CASE("AudioMuxerJitter")
         ACE_OS::sleep(wait);
         last = i.first;
     }
+
+    REQUIRE(snd->CloseOutputStream(player.get()));
+    snd->RemoveSoundGroup(sndgrp);
 }
 
 #endif /* ENABLE_OPUS */
