@@ -467,11 +467,14 @@ void UserAccountsDlg::slotAddUser()
 {
     if(ui.usernameEdit->text().isEmpty())
     {
-        QMessageBox::StandardButton answer = 
-            QMessageBox::question(this, tr("Add/Update"), 
-                                  tr("Create anonymous user account?"),
-                                  QMessageBox::Yes | QMessageBox::No);
-        if(answer != QMessageBox::Yes)
+        QMessageBox answer;
+        answer.setText(tr("Create anonymous user account?"));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Add/Update"));
+        answer.exec();
+        if(answer.clickedButton() != YesButton)
             return;
     }
 

@@ -4190,18 +4190,18 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
         answer.setText(tr("Are you sure you want to delete \"%1\"?").arg(filenames[0]));
         answer.exec();
         if(answer.clickedButton() == YesButton)
-            delete_ok = = true;
+            delete_ok = true;
         else
-            delete_ok = = false;
+            delete_ok = false;
     }
     else if(filenames.size()>1)
     {
         answer.setText(tr("Are you sure you want to delete %1 file(s)?").arg(filenames.size()));
         answer.exec();
         if(answer.clickedButton() == YesButton)
-            delete_ok = = true;
+            delete_ok = true;
         else
-            delete_ok = = false;
+            delete_ok = false;
     }
 
     for(int i=0;i<files.size() && delete_ok;i++)
@@ -5595,7 +5595,7 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
     addLatestHost(entry);
     m_host = entry;
     QMessageBox answer;
-    answer.setText(tr("The file %1 contains %2 setup information.\r\nShould these settings be applied?").arg(filepath).arg(APPNAME_SHORT),);
+    answer.setText(tr("The file %1 contains %2 setup information.\r\nShould these settings be applied?").arg(filepath).arg(APPNAME_SHORT));
     QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
     answer.setIcon(QMessageBox::Question);
