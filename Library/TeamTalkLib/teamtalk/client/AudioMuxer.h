@@ -66,7 +66,7 @@ public:
                   teamtalk::AudioFileFormat aff);
     void CloseFile();
 
-    void QueueUserAudio(int userid, const media::AudioFrame& frm);
+    bool QueueUserAudio(int userid, const media::AudioFrame& frm);
 
 private:
     bool Init(const teamtalk::AudioCodec& codec);

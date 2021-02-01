@@ -262,21 +262,21 @@ void AudioMuxer::CloseFile()
 #endif
 }
 
-void AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
+bool AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
 {
     //if thread isn't running just ignore
     if (!m_thread)
-        return;
+        return false;
 
     //audio must be same format as 'm_codec' but allow 'n_samples' and
     //'n_channels' to be 0 to terminate a stream
     if (GetAudioCodecCbSamples(m_codec) != frm.input_samples && frm.input_samples != 0)
     {
-        return;
+        return false;
     }
     if (GetAudioCodecChannels(m_codec) != frm.inputfmt.channels && frm.inputfmt.channels != 0)
     {
-        return;
+        return false;
     }
 
     assert(GetAudioCodecCbTotalSamples(m_codec) == (frm.input_samples * frm.inputfmt.channels) || frm.input_samples == 0);
@@ -294,7 +294,7 @@ void AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
         int bytes = GetAudioCodecCbBytes(m_codec);
         int msec = GetAudioCodecCbMillis(m_codec);
         if(!msec)
-            return;
+            return false;
 
         // 1 second of raw audio
         int buffersize = bytes * ((AUDIOBLOCK_QUEUE_MSEC / msec) + 1);
@@ -325,6 +325,8 @@ void AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
         //clear sample no tracker
         m_user_queue.erase(userid);
     }
+    
+    return true;
 }
 
 void AudioMuxer::Run()

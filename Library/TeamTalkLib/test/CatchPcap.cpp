@@ -38,6 +38,7 @@
 #include <ace/Time_Value.h>
 
 #include <teamtalk/PacketLayout.h>
+#include <teamtalk/client/AudioMuxer.h>
 #include <codec/WaveFile.h>
 
 #if defined(ENABLE_OPUS)
@@ -45,10 +46,10 @@
 #endif
 
 std::map< ACE_Time_Value, std::vector<char> > GetTTPackets(const ACE_CString& filename,
-                                                               const ACE_CString& srcip,
-                                                               int srcport,
-                                                               const ACE_CString& destip,
-                                                               int destport)
+                                                           const ACE_CString& srcip,
+                                                           int srcport,
+                                                           const ACE_CString& destip,
+                                                           int destport)
 {
     std::map< ACE_Time_Value, std::vector<char> > result;
     ACE_Time_Value first;
@@ -121,12 +122,30 @@ TEST_CASE("AudioMuxerJitter")
     const int SAMPLERATE = 48000, CHANNELS = 2;
     const double FRMDURATION = .120;
 
+    teamtalk::AudioCodec codec;
+    codec.codec = teamtalk::CODEC_OPUS;
+    codec.opus.samplerate = SAMPLERATE;
+    codec.opus.channels = CHANNELS;
+    codec.opus.application = OPUS_APPLICATION_VOIP;
+    codec.opus.complexity = 10;
+    codec.opus.fec = true;
+    codec.opus.dtx = true;
+    codec.opus.bitrate = 6000;
+    codec.opus.vbr = false;
+    codec.opus.vbr_constraint = false;
+    codec.opus.frame_size = SAMPLERATE * FRMDURATION;
+    codec.opus.frames_per_packet = FPP;
+
     OpusDecode decoder;
     REQUIRE(decoder.Open(SAMPLERATE, CHANNELS));
-    std::vector<short> frame(CHANNELS * SAMPLERATE * FRMDURATION);
+    std::vector<short> frame(CHANNELS * SAMPLERATE * FRMDURATION * FPP);
 
     WavePCMFile wavefile;
-    REQUIRE(wavefile.NewFile("netem.wav", SAMPLERATE, CHANNELS));
+    REQUIRE(wavefile.NewFile(ACE_TEXT("netem.wav"), SAMPLERATE, CHANNELS));
+    uint32_t sampleno = 0;
+
+    AudioMuxer recorder;
+    REQUIRE(recorder.SaveFile(codec, ACE_TEXT("netem_muxer.wav"), teamtalk::AFF_WAVE_FORMAT));
 
     ACE_Time_Value last;
     for (auto i : ttpackets)
@@ -148,13 +167,21 @@ TEST_CASE("AudioMuxerJitter")
             int encoffset = 0;
             int enclen = opuslen / FPP;
             int frameoffset = 0;
+            
             for (int i=0; i < FPP; ++i)
             {
-                int ret = decoder.Decode(&opusenc[encoffset], enclen, &frame[0], frame.size() / CHANNELS);
-                REQUIRE(ret == frame.size() / CHANNELS);
+                int ret = decoder.Decode(&opusenc[encoffset], enclen, &frame[frameoffset * CHANNELS], codec.opus.frame_size);
+                REQUIRE(ret == codec.opus.frame_size);
                 encoffset += enclen;
-                wavefile.AppendSamples(&frame[0], frame.size() / CHANNELS);
+                frameoffset += codec.opus.frame_size;
             }
+            REQUIRE(frameoffset == FPP * codec.opus.frame_size);
+            wavefile.AppendSamples(&frame[0], FPP * codec.opus.frame_size);
+
+            media::AudioFrame frm(media::AudioFormat(SAMPLERATE, CHANNELS),
+                                  &frame[0], FPP * codec.opus.frame_size, sampleno);
+            REQUIRE(recorder.QueueUserAudio(p.GetSrcUserID(), frm));
+            sampleno += FPP * codec.opus.frame_size;
         }
         }
         ACE_Time_Value wait = i.first - last;
