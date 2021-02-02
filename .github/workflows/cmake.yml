@@ -59,6 +59,7 @@ jobs:
            ninja-build
            doxygen
            valgrind
+           libpcap-dev
 
     - name: Clone submodules
       working-directory: ${{runner.workspace}}/TeamTalk5
