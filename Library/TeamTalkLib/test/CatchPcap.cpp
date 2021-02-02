@@ -125,7 +125,7 @@ TEST_CASE("AudioMuxerJitter")
 {
     using namespace teamtalk;
     
-    auto ttpackets = GetTTPackets("netem.pcapng", "10.157.1.34", 10333, "10.157.1.40", 63915);
+    auto ttpackets = GetTTPackets("testdata/Jitter/netem.pcapng", "10.157.1.34", 10333, "10.157.1.40", 63915);
 
     const int FPP = 2;
     const int SAMPLERATE = 48000, CHANNELS = 2;
@@ -161,7 +161,7 @@ TEST_CASE("AudioMuxerJitter")
 #endif
 
     AudioMuxer playbackrecorder;
-    playbackrecorder.SetMuxInterval(1000 * 20);
+    playbackrecorder.SetMuxInterval(2000);
     REQUIRE(playbackrecorder.SaveFile(codec, ACE_TEXT("netem_muxer_playback.wav"), teamtalk::AFF_WAVE_FORMAT));
 
     useraudio_callback_t audiocb = [&](int userid, StreamType stream_type, const media::AudioFrame& frm)
