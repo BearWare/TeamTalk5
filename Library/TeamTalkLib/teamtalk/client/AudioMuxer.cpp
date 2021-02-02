@@ -508,7 +508,7 @@ bool AudioMuxer::MuxUserAudio()
             }
             //got the right audio block
             tm = ACE_Time_Value::zero;
-            if(ii->second->dequeue(mb, &tm)<0)
+            if (ii->second->dequeue(mb, &tm) < 0)
             {
                 TTASSERT(0);//this should never happen, since we already peeked.
                 ii++;
@@ -517,9 +517,12 @@ bool AudioMuxer::MuxUserAudio()
             m_user_queue[ii->first] = frm.sample_no;
             if (frm.input_buffer == nullptr)
             {
-                //no more audio will come, so remove
+                // remove expected sample-offset for next run
                 m_user_queue.erase(ii->first);
-                m_audio_queue.erase(ii++);
+
+                //stream ended from userid
+                if (m_audio_queue[ii->first]->is_empty())
+                    m_audio_queue.erase(ii++);
 
                 mb->release();
             }

@@ -86,9 +86,11 @@ private:
 
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;
 
+    // raw audio data from a user ID
     typedef std::map<int, message_queue_t> user_audio_queue_t;
     user_audio_queue_t m_audio_queue;
-    typedef std::map<int, ACE_UINT32> user_queued_audio_t;
+    // next sample number to expect from a user ID
+    typedef std::map<int, uint32_t> user_queued_audio_t;
     user_queued_audio_t m_user_queue;
     std::vector<short> m_muxed_audio;
 
