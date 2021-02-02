@@ -208,7 +208,7 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         if (stopped_talking || new_stream)
         {
             // send end-of-stream
-            media::AudioFrame frm(fmt, nullptr, input_samples);
+            media::AudioFrame frm(fmt, nullptr, 0);
             frm.sample_no = m_samples_played;
             frm.streamid = (stopped_talking? old_stream_id : m_stream_id);
             m_audio_callback(m_userid, m_streamtype, frm);
