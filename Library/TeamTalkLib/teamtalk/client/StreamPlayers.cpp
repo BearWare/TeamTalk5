@@ -170,16 +170,10 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
     int input_samplerate = GetAudioCodecSampleRate(m_codec);
     int input_samples = GetAudioCodecCbSamples(m_codec);
 
-    short* tmp_output_buffer;
-    bool played;
-    if (m_resampler)
-        tmp_output_buffer = &m_resample_buffer[0];
-    else
-        tmp_output_buffer = output_buffer;
+    short* tmp_output_buffer = (m_resampler ? &m_resample_buffer[0] : output_buffer);
+    bool played = PlayBuffer(tmp_output_buffer, input_samples);
 
-    played = PlayBuffer(tmp_output_buffer, input_samples);
-
-    if(played)
+    if (played)
     {
         m_last_playback = GETTIMESTAMP();
 
