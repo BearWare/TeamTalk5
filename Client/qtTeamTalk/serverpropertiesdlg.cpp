@@ -40,7 +40,10 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     bool editable = (TT_GetMyUserRights(ttInst) & USERRIGHT_UPDATE_SERVERPROPERTIES);
 
     if(!editable)
+    {
         ui.buttonBox->setStandardButtons(QDialogButtonBox::Close);
+        ui.buttonBox->button(QDialogButtonBox::Close)->setText(tr("&Close"));
+    }
 
     connect(ui.motdChkBox, SIGNAL(clicked(bool)), SLOT(slotShowMOTDVars(bool)));
     connect(this, SIGNAL(accepted()), SLOT(slotAccepted()));
