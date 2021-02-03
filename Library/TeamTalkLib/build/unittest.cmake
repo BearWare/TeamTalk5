@@ -18,10 +18,17 @@ if (CATCH_UNITTEST)
     list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchWebRTC.cpp)
   endif()
 
-  # sudo apt install libpcap-dev
-  find_library(PCAP_LIBRARY pcap)
-  if (PCAP_LIBRARY)
-    list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchPcap.cpp)
-    set (CATCH_LINK_FLAGS -lpcap)
+  # macOS finds 'libpcap.tbd' and assumes it's libpcap.so
+  if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
+    # sudo apt install libpcap-dev
+    find_library(PCAP_LIBRARY pcap)
+    if (PCAP_LIBRARY)
+      list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchPcap.cpp)
+      set (CATCH_LINK_FLAGS -lpcap)
+      message(" Here is it : ${PCAP_LIBRARY}")
+    else()
+      message("libpcap not found")
+    endif()
   endif()
 endif()
