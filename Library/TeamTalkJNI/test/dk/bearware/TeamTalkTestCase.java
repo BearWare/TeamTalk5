@@ -697,8 +697,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ttclient.getChannel(ttclient.getMyChannelID(), chan);
 
         assertEquals("OPUS codec running", Codec.OPUS_CODEC, chan.audiocodec.nCodec);
+        String opuswavefile = String.format("%s_opus.wav", getTestMethodName());
         assertTrue("Opus to muxed wave", ttclient.startRecordingMuxedAudioFile(chan.audiocodec,
-                                                                               STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
+                                                                               STORAGEFOLDER + File.separator + opuswavefile, AudioFileFormat.AFF_WAVE_FORMAT));
 
         assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(),
                                                                  Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
@@ -722,8 +723,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             assertTrue(waitCmdSuccess(clients.get(i), clients.get(i).doJoinChannelByID(ttclient.getMyChannelID(), ""), DEF_WAIT));
         }
 
+        String spxwavefile = String.format("%s_speex.wav", getTestMethodName());
         assertTrue("Speex to muxed wave", ttclient.startRecordingMuxedAudioFile(chan.audiocodec,
-                                                                                STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
+                                                                                STORAGEFOLDER + File.separator + spxwavefile, AudioFileFormat.AFF_WAVE_FORMAT));
 
 
         ttclient.enableVoiceTransmission(true);
@@ -819,8 +821,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         Channel chan = new Channel();
         ttclient.getChannel(ttclient.getMyChannelID(), chan);
+        String recfile = String.format("%s.wav", getTestMethodName());
         assertTrue("Record muxed audio file", ttclient.startRecordingMuxedAudioFile(chan.audiocodec,
-                                                                                    STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
+                                                                                    STORAGEFOLDER + File.separator + recfile, AudioFileFormat.AFF_WAVE_FORMAT));
 
         assertTrue("enable voice tx", ttclient.enableVoiceTransmission(true));
 
@@ -877,8 +880,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                                                                                    Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
         assertEquals("OPUS codec running", Codec.OPUS_CODEC, chan.audiocodec.nCodec);
+        String opusfile = String.format("%s.ogg", getTestMethodName());
         assertTrue("Mux to Opus file", ttclient1.startRecordingMuxedAudioFile(chan.audiocodec,
-                                                                              STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_OPUS, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
+                                                                              STORAGEFOLDER + File.separator + opusfile, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
 
         assertTrue("enable voice tx 1", ttclient1.enableVoiceTransmission(true));
 
@@ -944,8 +948,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ttclient2.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, freq += 300);
 
         // now store in Speex
+        String spxfile = String.format("%s_speex.ogg", getTestMethodName());
         assertTrue("Mux to Speex file", ttclient1.startRecordingMuxedAudioFile(chan.audiocodec,
-                                                                               STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_SPEEX, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
+                                                                               STORAGEFOLDER + File.separator + spxfile, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
 
         assertTrue(ttclient1.enableVoiceTransmission(true));
 
@@ -976,8 +981,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                                                                    Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
         // now store in Speex
+        String spxvbrfile = String.format("%s_speexvbr.ogg", getTestMethodName());
         assertTrue("Mux to Speex VBR file", ttclient2.startRecordingMuxedAudioFile(chan.audiocodec,
-                                                                                   STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_SPEEX_VBR, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
+                                                                                   STORAGEFOLDER + File.separator + spxvbrfile, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
 
         assertTrue("get channel spx vbr", ttclient2.getChannel(ttclient2.getMyChannelID(), chan));
 
@@ -1026,8 +1032,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         Channel chan = new Channel();
         ttclient.getChannel(ttclient.getMyChannelID(), chan);
+        String recfile = String.format("%s.wav", getTestMethodName());
         assertTrue(ttclient.startRecordingMuxedAudioFile(chan.audiocodec,
-                                                         STORAGEFOLDER + File.separator + MUXEDMEDIAFILE_WAVE, AudioFileFormat.AFF_WAVE_FORMAT));
+                                                         STORAGEFOLDER + File.separator + recfile, AudioFileFormat.AFF_WAVE_FORMAT));
 
         assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(),
                                                                  Subscription.SUBSCRIBE_VOICE), DEF_WAIT));

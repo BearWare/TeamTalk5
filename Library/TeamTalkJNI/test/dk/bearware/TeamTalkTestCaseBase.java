@@ -66,11 +66,6 @@ public abstract class TeamTalkTestCaseBase {
     public static final String CRYPTO_SERVER_CERT2_FILE = "ttservercert2.pem", CRYPTO_SERVER_KEY2_FILE = "ttserverkey2.pem";
     public static final String CRYPTO_CA_FILE = "ca.cer";
 
-    public static final String MUXEDMEDIAFILE_WAVE = "muxwavefile.wav";
-    public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
-    public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
-    public static final String MUXEDMEDIAFILE_OPUS = "muxwavefile_opus.ogg";
-
     public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
 
     public abstract TeamTalkBase newClientInstance();
