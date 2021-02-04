@@ -214,17 +214,14 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
             m_audio_callback(m_userid, m_streamtype, frm);
         }
 
-        if (played)
-        {
-            media::AudioFrame frm(fmt, tmp_output_buffer, input_samples);
-            frm.sample_no = m_samples_played;
-            frm.streamid = m_stream_id;
-            m_audio_callback(m_userid, m_streamtype, frm);
-            //increment samples played (used by AudioMuxer)
-            m_samples_played += input_samples;
-        }
+        media::AudioFrame frm(fmt, tmp_output_buffer, input_samples);
+        frm.sample_no = m_samples_played;
+        frm.streamid = m_stream_id;
+        m_audio_callback(m_userid, m_streamtype, frm);
     }
 
+    //increment samples played (used by AudioMuxer)
+    m_samples_played += input_samples;
 
     if (m_resampler)
     {
