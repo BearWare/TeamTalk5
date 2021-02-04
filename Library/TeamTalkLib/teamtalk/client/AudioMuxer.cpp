@@ -26,6 +26,8 @@
 
 #define AUDIOBLOCK_QUEUE_MSEC 1000
 
+#define DEBUG_AUDIOMUXER 0
+
 using namespace teamtalk;
 
 AudioMuxer::AudioMuxer()
@@ -301,8 +303,8 @@ bool AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
         int buffersize = bytes * ((m_mux_interval.msec() / msec) + 1);
         // allow double of mux interval
         buffersize *= 2;
-        MYTRACE(ACE_TEXT("Buffer duration for user #%d, %d msec\n"),
-                userid, PCM16_BYTES_DURATION(buffersize, chans, sr));
+        MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Buffer duration for user #%d, %d msec\n"),
+                     userid, PCM16_BYTES_DURATION(buffersize, chans, sr));
         // add header size
         buffersize += (buffersize / bytes) * sizeof(media::AudioFrame);
         
@@ -318,8 +320,9 @@ bool AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
     ACE_Time_Value tm;
     if (q->enqueue(mb, &tm) < 0)
     {
-        MYTRACE(ACE_TEXT("Buffer depleted for user #%d AudioMuxBlock %u, is last: %s. Dropped %u bytes\n"),
-                userid, frm.sample_no, (frm.input_buffer == nullptr ? ACE_TEXT("true"):ACE_TEXT("false")), (unsigned)q->message_bytes());
+        MYTRACE(ACE_TEXT("Buffer depleted for user #%d AudioMuxBlock %u, is last: %s. Dropping queue containing %d msec, %u/%u bytes\n"),
+                userid, frm.sample_no, (frm.input_buffer == nullptr ? ACE_TEXT("true"):ACE_TEXT("false")),
+                q->message_count() * GetAudioCodecCbMillis(m_codec), unsigned(q->message_bytes()), unsigned(q->high_water_mark()));
         q->flush();
         //insert after flush, so it will appear as a new stream
         if(q->enqueue(mb, &tm)<0)
@@ -348,7 +351,7 @@ void AudioMuxer::Run()
 {
     m_reactor.owner (ACE_OS::thr_self ());
 
-    MYTRACE(ACE_TEXT("AudioMuxer interval: %d msec\n"), m_mux_interval.msec());
+    MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("AudioMuxer interval: %d msec\n"), m_mux_interval.msec());
     
     TimerHandler th(*this, 577);
     int timerid = m_reactor.schedule_timer(&th, 0, m_mux_interval, m_mux_interval);
@@ -437,7 +440,14 @@ bool AudioMuxer::CanMuxUserAudio()
     while(ii != m_audio_queue.end())
     {
         if(ii->second->is_empty())
+        {
+            MYTRACE_COND(DEBUG_AUDIOMUXER && m_user_queue.find(ii->first) != m_user_queue.end(),
+                         ACE_TEXT("User #%d has submitted no audio to AudioMuxer. Delaying muxer at sample no %u\n"),
+                         ii->first, m_user_queue[ii->first]);
+            MYTRACE_COND(DEBUG_AUDIOMUXER && m_user_queue.find(ii->first) == m_user_queue.end(),
+                         ACE_TEXT("User #%d has submitted no audio to AudioMuxer. No sample no available\n"), ii->first);
             return false;
+        }
         ii++;
     }
     return m_audio_queue.size();
