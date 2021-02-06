@@ -2971,6 +2971,11 @@ bool ClientNode::CloseSoundDuplexDevices()
     return true;
 }
 
+bool ClientNode::SoundDuplexMode()
+{
+    return (GetFlags() & CLIENT_SNDINOUTPUT_DUPLEX) != CLIENT_CLOSED;
+}
+
 bool ClientNode::SetSoundDeviceEffects(const SoundDeviceEffects& effects)
 {
     {

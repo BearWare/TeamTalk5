@@ -1294,9 +1294,6 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     if( !ValidAudioCodec(codec) )
         return audio_player_t();
 
-    bool duplex_mode = (m_clientnode->GetFlags() & CLIENT_SNDINOUTPUT_DUPLEX) &&
-        m_clientnode->GetMyChannel() == GetChannel();
-
     int codec_samplerate = GetAudioCodecSampleRate(codec);
     int codec_samples = GetAudioCodecCbSamples(codec);
     int codec_channels = GetAudioCodecChannels(codec);
@@ -1376,16 +1373,16 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
 
     audio_player_t ret(audio_player);
 
-    m_snd_duplexmode = duplex_mode;
-
     //only launch in duplex mode if it's "my" channel
+    m_snd_duplexmode = (GetChannel() && GetChannel()->GetChannelID() == m_clientnode->GetChannelID());
+    m_snd_duplexmode &= m_clientnode->SoundDuplexMode();
+
     bool success;
-    if(m_snd_duplexmode)
+    if (m_snd_duplexmode)
     {
         MYTRACE(ACE_TEXT("Launching duplex player for #%d \"%s\", SampleRate %d, Channels %d, Callback %d\n"),
                 GetUserID(), GetNickname().c_str(), output_samplerate, output_channels, output_samples);
-        success = m_soundsystem->AddDuplexOutputStream(m_clientnode,
-                                                       audio_player);
+        success = m_soundsystem->AddDuplexOutputStream(m_clientnode, audio_player);
     }
     else
     {
@@ -1398,7 +1395,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
 
     MYTRACE_COND(!success, ACE_TEXT("Failed to launch player for #%d\n"), GetUserID());
     
-    if(success)
+    if (success)
     {
         // don't make sense to use auto position on duplex but just ignore return value
         m_soundsystem->SetAutoPositioning(audio_player, true);

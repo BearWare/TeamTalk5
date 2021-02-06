@@ -24,17 +24,16 @@
 #if !defined(CLIENTNODE_H)
 #define CLIENTNODE_H
 
+#include "ClientNodeBase.h"
 #include "Client.h"
 #include "ClientChannel.h"
 #include "ClientUser.h"
 #include "AudioThread.h"
 #include "FileNode.h"
 #include "VideoThread.h"
-#include "VoiceLogger.h"
 #include "AudioMuxer.h"
 #include "AudioContainer.h"
 #include "DesktopShare.h"
-#include <myace/TimerHandler.h>
 #include <myace/MyACE.h>
 #include <teamtalk/StreamHandler.h>
 #include <teamtalk/Common.h>
@@ -45,21 +44,8 @@
 #include <avstream/MediaStreamer.h>
 #include <avstream/AudioInputStreamer.h>
 
-// ACE
-#include <ace/Reactor.h>
 #include <ace/Recursive_Thread_Mutex.h>
 #include <ace/Thread_Mutex.h>
-#include <ace/INET_Addr.h>
-#include <ace/Time_Value.h>
-#include <ace/FILE_Connector.h>
-#include <ace/Connector.h> 
-#include <ace/SString.h>
-
-#if defined(ENABLE_ENCRYPTION)
-#include <ace/SSL/SSL_SOCK_Connector.h>
-#else
-#include <ace/SOCK_Connector.h>
-#endif
 
 #include <atomic>
 
@@ -72,7 +58,7 @@
 
 #define SOUNDDEVICE_IGNORE_ID -1
 
-#ifdef _DEBUG
+#if defined(_DEBUG)
 #define ASSERT_REACTOR_LOCKED(this_obj)                         \
     TTASSERT(this_obj->m_reactor_thr_id == ACE_Thread::self())
 #define GUARD_REACTOR(this_obj)                         \
@@ -256,15 +242,14 @@ namespace teamtalk {
     typedef std::shared_ptr< class FileNode > filenode_t;
 
     class ClientNode
-        : public ACE_Task<ACE_MT_SYNCH>
+        : public ClientNodeBase
+        , public ACE_Task<ACE_MT_SYNCH>
         , public PacketListener
         , public StreamListener<DefaultStreamHandler::StreamHandler_t>
 #if defined(ENABLE_ENCRYPTION)
         , public StreamListener<CryptStreamHandler::StreamHandler_t>
 #endif
-        , public TimerListener
         , public soundsystem::StreamCapture
-        , public soundsystem::StreamDuplex
         , public FileTransferListener
         , public EventSuspender
     {
@@ -273,6 +258,7 @@ namespace teamtalk {
         virtual ~ClientNode();
 
         int svc(void) override;
+        ACE_Reactor* GetEventLoop() override { return reactor(); }
 
         void SuspendEventHandling(bool quit = false) override;
         void ResumeEventHandling() override;
@@ -286,7 +272,7 @@ namespace teamtalk {
         
         ACE_Recursive_Thread_Mutex& lock_sndprop() { return m_sndgrp_lock; }
         ACE_Recursive_Thread_Mutex& lock_timers() { return m_timers_lock; }
-        VoiceLogger& voicelogger();
+        VoiceLogger& voicelogger() override;
         AudioContainer& audiocontainer();
 
         //server properties
@@ -294,7 +280,7 @@ namespace teamtalk {
         bool GetClientStatistics(ClientStats& stats);
 
         ClientFlags GetFlags() const { return m_flags; }
-        int GetUserID() const { return m_myuserid; }
+        int GetUserID() const override { return m_myuserid; }
         const UserAccount& GetMyUserAccount() const { return m_myuseraccount; }
 
         clientuser_t GetUser(int userid, bool include_local = false);
@@ -302,7 +288,7 @@ namespace teamtalk {
         void GetUsers(std::set<int>& userids);
         clientchannel_t GetRootChannel();
         clientchannel_t GetMyChannel();
-        int GetChannelID();
+        int GetChannelID() override;
         clientchannel_t GetChannel(int channelid);
         ACE_TString GetChannelPath(int channelid);
         bool GetChannelProp(int channelid, ChannelProp& prop);
@@ -314,6 +300,7 @@ namespace teamtalk {
         bool CloseSoundInputDevice();
         bool CloseSoundOutputDevice();
         bool CloseSoundDuplexDevices();
+        bool SoundDuplexMode() override;
         bool SetSoundDeviceEffects(const SoundDeviceEffects& effects);
         SoundDeviceEffects GetSoundDeviceEffects();
         const SoundProperties& GetSoundProperties() const { return m_soundprop; }
@@ -428,10 +415,10 @@ namespace teamtalk {
         //Start timer which is handled and terminated outside ClientNode
         long StartUserTimer(uint16_t timer_id, uint16_t userid, 
                             long userdata, const ACE_Time_Value& delay, 
-                            const ACE_Time_Value& interval = ACE_Time_Value::zero);
-        bool StopUserTimer(uint16_t timer_id, uint16_t userid);
-        bool TimerExists(ACE_UINT32 timer_id);
-        bool TimerExists(ACE_UINT32 timer_id, int userid);
+                            const ACE_Time_Value& interval = ACE_Time_Value::zero) override;
+        bool StopUserTimer(uint16_t timer_id, uint16_t userid) override;
+        bool TimerExists(ACE_UINT32 timer_id) override;
+        bool TimerExists(ACE_UINT32 timer_id, int userid) override;
         //TimerListener - reactor thread
         int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
 
@@ -490,7 +477,7 @@ namespace teamtalk {
         void AudioMuxCallback(const media::AudioFrame& audio_frame);
         // AudioPlayer listener - separate thread
         void AudioUserCallback(int userid, StreamType st,
-                               const media::AudioFrame& audio_frame);
+                               const media::AudioFrame& audio_frame) override;
 
         // FileNode listener - reactor thread
         void OnFileTransferStatus(const teamtalk::FileTransfer& transfer) override;
@@ -504,7 +491,7 @@ namespace teamtalk {
                             const ACE_INET_Addr& addr) override;
         void SendPackets() override; //send packets - reactor thread
 
-        bool QueuePacket(FieldPacket* packet);
+        bool QueuePacket(FieldPacket* packet) override;
 
         //Send packet to address
         int SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr);

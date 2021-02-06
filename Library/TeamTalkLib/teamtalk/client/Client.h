@@ -27,6 +27,7 @@
 #include <teamtalk/Common.h>
 
 #include <ace/Connector.h> 
+#include <ace/INET_Addr.h>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <ace/SSL/SSL_SOCK_Connector.h>
