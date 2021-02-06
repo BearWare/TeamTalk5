@@ -26,7 +26,6 @@
 
 #include "Client.h"
 
-#include <ace/Select_Reactor.h>
 #include <ace/FILE_IO.h>
 #include <ace/SString.h>
 

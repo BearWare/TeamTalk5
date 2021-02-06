@@ -395,7 +395,7 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
                                 const struct SoundProperties& sndprop,
                                 bool allowrecord)
 {
-    ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
+    ASSERT_REACTOR_THREAD(*m_clientnode->GetEventLoop());
 
     clientchannel_t chan = GetChannel();
     if (!chan || chan->GetChannelID() != audpkt.GetChannel())
@@ -497,7 +497,7 @@ void ClientUser::FeedVoicePacketToPlayer(const VoicePacket& audpkt)
 void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
                                     const struct SoundProperties& sndprop)
 {
-    ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
+    ASSERT_REACTOR_THREAD(*m_clientnode->GetEventLoop());
 
     clientchannel_t chan = GetChannel();
     if (!chan || chan->GetChannelID() != audpkt.GetChannel())
@@ -538,7 +538,7 @@ void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
 void ClientUser::AddVideoCapturePacket(const VideoCapturePacket& p,
                                        const ClientChannel& chan)
 {
-    ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
+    ASSERT_REACTOR_THREAD(*m_clientnode->GetEventLoop());
 
     //ignore packet if we're unsubscribed
     if(!LocalSubscribes(p))
@@ -582,7 +582,7 @@ void ClientUser::AddVideoCapturePacket(const VideoCapturePacket& p,
 void ClientUser::AddVideoFilePacket(const VideoFilePacket& p,
                                     const ClientChannel& chan)
 {
-    ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
+    ASSERT_REACTOR_THREAD(*m_clientnode->GetEventLoop());
 
     // MYTRACE("Received video packet %d fragment %d/%d from #%d\n",
     //         p.GetPacketNo(), p.GetFragmentNo(), p.GetFragmentCount(), GetUserID());
@@ -658,7 +658,7 @@ void ClientUser::AddVideoFilePacket(const VideoFilePacket& p,
 
 void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
 {
-    ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
+    ASSERT_REACTOR_THREAD(*m_clientnode->GetEventLoop());
 
     //ignore packet if we're unsubscribed
     if(!LocalSubscribes(p))

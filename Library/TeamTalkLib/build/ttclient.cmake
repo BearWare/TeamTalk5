@@ -57,6 +57,7 @@ set (TTCLIENT_HEADERS
   ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientChannel.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/Client.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientNode.h
+  ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientNodeBase.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientUser.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/FileNode.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/StreamPlayers.h
@@ -89,6 +90,7 @@ set ( TTCLIENT_SOURCES
   ${TEAMTALKLIB_ROOT}/teamtalk/client/AudioThread.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientChannel.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientNode.cpp
+  ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientNodeBase.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientUser.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/client/FileNode.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/client/StreamPlayers.cpp

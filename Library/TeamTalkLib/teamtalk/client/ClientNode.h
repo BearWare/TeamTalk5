@@ -84,7 +84,7 @@ enum ClientTimer
     TIMER_STOP_AUDIOINPUT                   = 12,
 
     //User instance timers (termination not handled by ClientNode::StopTimer())
-    USER_TIMER_MASK                         = 0x8000,
+    USER_TIMER_MASK                         = USER_TIMER_START,
 
     USER_TIMER_VOICE_PLAYBACK_ID            = USER_TIMER_MASK + 2,
     USER_TIMER_MEDIAFILE_AUDIO_PLAYBACK_ID  = USER_TIMER_MASK + 3,
@@ -98,13 +98,6 @@ enum ClientTimer
     USER_TIMER_REMOVE_LOCALPLAYBACK         = USER_TIMER_MASK + 11,
     USER_TIMER_JITTER_BUFFER_ID             = USER_TIMER_MASK + 12
 };
-
-#define TIMERID_MASK            0xFFFF
-#define USER_TIMER_USERID_MASK  0xFFFF0000
-#define USER_TIMER_USERID_SHIFT 16
-
-#define USER_TIMERID(timerid, userid) ((userid << USER_TIMER_USERID_SHIFT) | timerid)
-#define TIMER_USERID(timerid) ((timerid >> USER_TIMER_USERID_SHIFT) & 0xFFFF)
 
 namespace teamtalk {
 
@@ -230,20 +223,12 @@ namespace teamtalk {
 
     soundsystem::SoundDeviceFeatures GetSoundDeviceFeatures(const SoundDeviceEffects& effects);
 
-    class EventSuspender
-    {
-    public:
-        virtual void SuspendEventHandling(bool quit = false) = 0;
-        virtual void ResumeEventHandling() = 0;
-    };
-
     //forward decl.
     class ClientListener;
     typedef std::shared_ptr< class FileNode > filenode_t;
 
     class ClientNode
         : public ClientNodeBase
-        , public ACE_Task<ACE_MT_SYNCH>
         , public PacketListener
         , public StreamListener<DefaultStreamHandler::StreamHandler_t>
 #if defined(ENABLE_ENCRYPTION)
@@ -251,27 +236,17 @@ namespace teamtalk {
 #endif
         , public soundsystem::StreamCapture
         , public FileTransferListener
-        , public EventSuspender
     {
     public:
         ClientNode(const ACE_TString& version, ClientListener* listener);
         virtual ~ClientNode();
 
-        int svc(void) override;
-        ACE_Reactor* GetEventLoop() override { return reactor(); }
-
-        void SuspendEventHandling(bool quit = false) override;
-        void ResumeEventHandling() override;
-
-        ACE_Lock& reactor_lock();
 #if defined(_DEBUG)
         ACE_thread_t m_reactor_thr_id;
-        ACE_UINT32 m_active_timerid;
+        uint32_t m_active_timerid;
 #endif
-        ACE_Semaphore m_reactor_wait;
         
         ACE_Recursive_Thread_Mutex& lock_sndprop() { return m_sndgrp_lock; }
-        ACE_Recursive_Thread_Mutex& lock_timers() { return m_timers_lock; }
         VoiceLogger& voicelogger() override;
         AudioContainer& audiocontainer();
 
@@ -412,13 +387,6 @@ namespace teamtalk {
         void UpdateKeepAlive(const ClientKeepAlive& keepalive);
         ClientKeepAlive GetKeepAlive();
 
-        //Start timer which is handled and terminated outside ClientNode
-        long StartUserTimer(uint16_t timer_id, uint16_t userid, 
-                            long userdata, const ACE_Time_Value& delay, 
-                            const ACE_Time_Value& interval = ACE_Time_Value::zero) override;
-        bool StopUserTimer(uint16_t timer_id, uint16_t userid) override;
-        bool TimerExists(ACE_UINT32 timer_id) override;
-        bool TimerExists(ACE_UINT32 timer_id, int userid) override;
         //TimerListener - reactor thread
         int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
 
@@ -575,14 +543,6 @@ namespace teamtalk {
 
         void RecreateUdpSocket();
 
-        //Start/stop timers handled by ClientNode
-        long StartTimer(ACE_UINT32 timer_id, long userdata, 
-                        const ACE_Time_Value& delay, 
-                        const ACE_Time_Value& interval = ACE_Time_Value::zero);
-        bool StopTimer(ACE_UINT32 timer_id);
-        //remove timer from timer set (without stopping it)
-        void ClearTimer(ACE_UINT32 timer_id);
-
         int Timer_OneSecond();
         int Timer_UdpKeepAlive();
         int Timer_BuildDesktopPackets();
@@ -618,12 +578,7 @@ namespace teamtalk {
 
         // shared sound system instance
         soundsystem::soundsystem_t m_soundsystem;
-        //the reactor associated with this client instance
-        ACE_Reactor m_reactor;
         std::atomic<ClientFlags> m_flags; //Mask of ClientFlag-enum
-        //set of timers currently in use. Protected by lock_timers().
-        timer_handlers_t m_timers;
-        ACE_Recursive_Thread_Mutex m_timers_lock; //mutexes must be the last to be destroyed
         // active sound groups (shared master volume)
         ACE_Recursive_Thread_Mutex m_sndgrp_lock;
         SoundProperties m_soundprop;

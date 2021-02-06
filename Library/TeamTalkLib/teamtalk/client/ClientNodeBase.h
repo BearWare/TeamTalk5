@@ -33,23 +33,73 @@
 
 #include <ace/Reactor.h>
 
+#define TIMERID_MASK            0x0000FFFF
+#define USER_TIMER_START        0x00008000
+#define USER_TIMER_USERID_MASK  0xFFFF0000 // ((userid << 16) | USER_TIMER_START) + TIMERID
+#define USER_TIMER_USERID_SHIFT 16
+
+#define USER_TIMERID(timerid, userid) ((userid << USER_TIMER_USERID_SHIFT) | timerid)
+#define TIMER_USERID(timerid) ((timerid >> USER_TIMER_USERID_SHIFT) & 0xFFFF)
+
 namespace teamtalk {
 
-    // subclass must implement TimerEvent()
-    class ClientNodeBase : public TimerListener, public soundsystem::StreamDuplex
+    class EventSuspender
     {
     public:
-        virtual ~ClientNodeBase() {}
+        virtual void SuspendEventHandling(bool quit = false) = 0;
+        virtual void ResumeEventHandling() = 0;
+    };
+
+    // subclass must implement TimerEvent()
+    class ClientNodeBase : protected ACE_Task<ACE_MT_SYNCH>
+                         , public TimerListener
+                         , public soundsystem::StreamDuplex
+                         , public EventSuspender
+    {
+        // Thread func running ClientNode's main event-loop
+        int svc(void) override;
+
+        //the reactor associated with this client instance
+        ACE_Reactor m_reactor;
+
+        ACE_Recursive_Thread_Mutex m_timers_lock; //mutexes must be the last to be destroyed
+
+        //set of timers currently in use. Protected by lock_timers().
+        timer_handlers_t m_timers;
+
+        ACE_Recursive_Thread_Mutex& lock_timers() { return m_timers_lock; }
+
+    protected:
+        //Start/stop timers handled by ClientNode
+        long StartTimer(uint32_t timer_id, long userdata,
+                        const ACE_Time_Value& delay,
+                        const ACE_Time_Value& interval = ACE_Time_Value::zero);
+        bool StopTimer(uint32_t timer_id);
+        //remove timer from timer set (without stopping it)
+        void ClearTimer(uint32_t timer_id);
+        // Clear all timers in 'm_timers'
+        void ResetTimers();
+
+    public:
+        ClientNodeBase();
+        virtual ~ClientNodeBase();
+
+        void SuspendEventHandling(bool quit = false) override;
+        void ResumeEventHandling() override;
+
+        ACE_Lock& reactor_lock();
+        ACE_Semaphore m_reactor_wait;
 
         // Get reactor running timers
-        virtual ACE_Reactor* GetEventLoop() = 0;
+        ACE_Reactor* GetEventLoop() { return reactor(); }
+
         // Start timer running in GetEventLoop()
-        virtual long StartUserTimer(uint16_t timer_id, uint16_t userid, 
-                                    long userdata, const ACE_Time_Value& delay, 
-                                    const ACE_Time_Value& interval = ACE_Time_Value::zero) = 0;
-        virtual bool StopUserTimer(uint16_t timer_id, uint16_t userid) = 0;
-        virtual bool TimerExists(ACE_UINT32 timer_id) = 0;
-        virtual bool TimerExists(ACE_UINT32 timer_id, int userid) = 0;
+        virtual long StartUserTimer(uint16_t timer_id, uint16_t userid,
+                                    long userdata, const ACE_Time_Value& delay,
+                                    const ACE_Time_Value& interval = ACE_Time_Value::zero);
+        virtual bool StopUserTimer(uint16_t timer_id, uint16_t userid);
+        virtual bool TimerExists(uint32_t timer_id);
+        virtual bool TimerExists(uint32_t timer_id, int userid);
 
         // Sound system is running is duplex mode, soundsystem::OpenDuplexStream()
         virtual bool SoundDuplexMode() = 0;
@@ -67,7 +117,7 @@ namespace teamtalk {
         // Callback function for teamtalk::AudioPlayer-class
         virtual void AudioUserCallback(int userid, StreamType st,
                                        const media::AudioFrame& audio_frame) = 0;
-        
+
     };
 }
 
