@@ -437,6 +437,9 @@
     <item id="572">Utente disconnesso</item>
     <item id="573">Messaggio di testo privato inviato</item>
     <item id="574">Messaggio di testo del canale inviato</item>
+    <item id="575">%s non può più trasmettere messaggi di canale</item>
+    <item id="576">%s ora può trasmettere messaggi di canale</item>
+    <item id="577">È consentita la trasmissione di messaggi di canale</item>
     <item id="1006">lista files</item>
     <item id="1009">Collegati automaticamente al canale principale appena connesso</item>
     <item id="1012">Porta TCP dell&apos;host</item>
