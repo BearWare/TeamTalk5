@@ -280,9 +280,9 @@ void CChatRichEditCtrl::AddLogMesage(CString szMsg)
     int nOldLineCount = GetLineCount();
     CString szLine;
     if(m_bShowTimeStamp)
-        szLine.Format(_T("\r\n%s * %s"), GetChatTime(), szMsg);
+        szLine.Format(_T("%s%s * %s"), (nOldLineCount > 1 ? _T("\r\n") : _T("")), GetChatTime(), szMsg);
     else
-        szLine.Format(_T("\r\n* %s"), szMsg);
+        szLine.Format(_T("%s* %s"), (nOldLineCount > 1 ? _T("\r\n") : _T("")), szMsg);
 
     //insert msg
     SetSel(GetTextLength(), GetTextLength());
@@ -312,11 +312,6 @@ void CChatRichEditCtrl::SetServerInfo(CString szServerName, CString szMOTD)
     cf.crTextColor    = RGB(0, 0, 0);
     SetSelectionCharFormat(cf);
     ReplaceSel(szMsg);
-
-    //insert enter
-    SetSel(GetTextLength(), GetTextLength());
-    ReplaceSel(_T("\r\n"));
-    HideSelection(TRUE, FALSE);
 
     ScrollDown(nOldLineCount);
 }
