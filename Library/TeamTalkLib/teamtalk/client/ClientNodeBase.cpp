@@ -182,6 +182,8 @@ long ClientNodeBase::StartUserTimer(uint16_t timer_id, uint16_t userid,
 
 bool ClientNodeBase::StopUserTimer(uint16_t timer_id, uint16_t userid)
 {
+    TTASSERT(timer_id & USER_TIMER_START);
+
     return StopTimer(USER_TIMERID(timer_id, userid));
 }
 
