@@ -84,12 +84,12 @@ namespace teamtalk {
 
     enum ServerTimer
     {
-        TIMER_ONE_SECOND_ID                     = 1,
-        TIMER_DESKTOPACKPACKET_ID               = 2,
-        TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID      = 3,
-        TIMER_START_DESKTOPTX_ID                = 4,
-        TIMER_CLOSE_DESKTOPSESSION_ID           = 5,
-        TIMER_COMMAND_RESUME                    = 6
+        TIMERSRV_ONE_SECOND_ID                     = 1,
+        TIMERSRV_DESKTOPACKPACKET_ID               = 2,
+        TIMERSRV_DESKTOPPACKET_RTX_TIMEOUT_ID      = 3,
+        TIMERSRV_START_DESKTOPTX_ID                = 4,
+        TIMERSRV_CLOSE_DESKTOPSESSION_ID           = 5,
+        TIMERSRV_COMMAND_RESUME_ID                 = 6
     };
 
     class ServerNodeListener;
