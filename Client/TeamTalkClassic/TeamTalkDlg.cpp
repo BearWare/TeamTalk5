@@ -1025,12 +1025,20 @@ void CTeamTalkDlg::OnLoggedIn(const TTMessage& msg)
 {
     AddStatusText(LoadText(IDS_CONSUCCESS, _T("Successfully logged in")));
 
-    if (m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_MALE)
-        m_nStatusMode = STATUSMODE_MALE;
-    else if (m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_FEMALE)
-        m_nStatusMode = STATUSMODE_FEMALE;
-    else
-        m_nStatusMode = STATUSMODE_NEUTRAL;
+    m_nStatusMode &= ~STATUSMODE_GENDER_MASK;
+
+    switch (m_xmlSettings.GetGender(DEFAULT_GENDER))
+    {
+    case GENDER_MALE :
+        m_nStatusMode |= STATUSMODE_MALE;
+        break;
+    case GENDER_FEMALE :
+        m_nStatusMode |= STATUSMODE_FEMALE;
+        break;
+    case GENDER_NEUTRAL :
+        m_nStatusMode |= STATUSMODE_NEUTRAL;
+        break;
+    }
     TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
 }
 
@@ -3384,12 +3392,7 @@ void CTeamTalkDlg::OnFilePreferences()
     generalpage.m_szBearWareID = STR_UTF8(szBearWareID);
     generalpage.m_szBearWareToken = STR_UTF8(szToken);
     generalpage.m_bRestoreUser = m_xmlSettings.GetRestoreUserFromWebLogin();
-    if(m_xmlSettings.GetGender() == 0)
-        generalpage.m_nGender = GENDER_MALE;
-    else if(m_xmlSettings.GetGender() == 1)
-        generalpage.m_nGender = GENDER_FEMALE;
-    else
-        generalpage.m_nGender = GENDER_NEUTRAL;
+    generalpage.m_nGender = Gender(m_xmlSettings.GetGender(GENDER_MALE));
     generalpage.m_bVoiceAct = m_xmlSettings.GetVoiceActivated();
     generalpage.m_bPush = m_bHotKey;
     generalpage.m_Hotkey = hook;
@@ -3542,12 +3545,19 @@ void CTeamTalkDlg::OnFilePreferences()
                                        STR_UTF8(generalpage.m_szBearWareToken));
         m_xmlSettings.SetRestoreUserFromWebLogin(generalpage.m_bRestoreUser);
 
-        if(m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_MALE)
-            m_nStatusMode = STATUSMODE_MALE;
-        else if(m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_FEMALE)
-            m_nStatusMode = STATUSMODE_FEMALE;
-        else
-            m_nStatusMode = STATUSMODE_NEUTRAL;
+        m_nStatusMode &= ~STATUSMODE_GENDER_MASK;
+        switch (generalpage.m_nGender)
+        {
+        case GENDER_MALE:
+            m_nStatusMode |= STATUSMODE_MALE;
+            break;
+        case GENDER_FEMALE:
+            m_nStatusMode |= STATUSMODE_FEMALE;
+            break;
+        case GENDER_NEUTRAL:
+            m_nStatusMode |= STATUSMODE_NEUTRAL;
+            break;
+        }
 
         if( TT_GetFlags(ttInst) & CLIENT_AUTHORIZED )
             TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);

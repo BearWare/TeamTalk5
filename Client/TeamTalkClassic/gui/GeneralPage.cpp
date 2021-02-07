@@ -70,23 +70,23 @@ void CGeneralPage::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK_IDLEVOX, m_bIdleVox);
     BOOL bDDXCHECK = TRUE;
     BOOL bDDXCHECK1 = FALSE;
-    if (m_nGender == GENDER_MALE)
+    switch (m_nGender)
     {
+    case GENDER_MALE:
         DDX_Check(pDX, IDC_RADIO_MALE, bDDXCHECK);
         DDX_Check(pDX, IDC_RADIO_FEMALE, bDDXCHECK1);
         DDX_Check(pDX, IDC_RADIO_NEUTRAL, bDDXCHECK1);
-    }
-    else if (m_nGender == GENDER_FEMALE)
-    {
+        break;
+    case GENDER_FEMALE:
         DDX_Check(pDX, IDC_RADIO_MALE, bDDXCHECK1);
         DDX_Check(pDX, IDC_RADIO_FEMALE, bDDXCHECK);
         DDX_Check(pDX, IDC_RADIO_NEUTRAL, bDDXCHECK1);
-    }
-    else
-    {
+        break;
+    case GENDER_NEUTRAL:
         DDX_Check(pDX, IDC_RADIO_MALE, bDDXCHECK1);
         DDX_Check(pDX, IDC_RADIO_FEMALE, bDDXCHECK1);
         DDX_Check(pDX, IDC_RADIO_NEUTRAL, bDDXCHECK);
+        break;
     }
     DDX_Text(pDX, IDC_EDIT_BEARWAREID, m_szBearWareID);
     DDX_Control(pDX, IDC_EDIT_BEARWAREID, m_wndBearWareID);
