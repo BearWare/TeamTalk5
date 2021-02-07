@@ -164,7 +164,7 @@ namespace teamtalk {
         virtual bool TimerExists(uint32_t timer_id);
         virtual bool TimerExists(uint32_t timer_id, int userid);
 
-        // Sound system is running is duplex mode, soundsystem::OpenDuplexStream()
+        // Whether sound system is running is duplex mode, soundsystem::OpenDuplexStream()
         virtual bool SoundDuplexMode() = 0;
 
         // Get my user-ID (0 = not set)

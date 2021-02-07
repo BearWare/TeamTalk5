@@ -37,26 +37,27 @@
 #include <ace/OS.h>
 #include <ace/Time_Value.h>
 
-namespace ttdll
-{
 #include <TeamTalk.h>
-}
 
 #include <teamtalk/PacketLayout.h>
 #include <teamtalk/client/AudioMuxer.h>
 #include <teamtalk/client/StreamPlayers.h>
+#include <teamtalk/client/ClientNodeBase.h>
 #include <codec/WaveFile.h>
 #include <avstream/SoundSystem.h>
+#include <bin/dll/TTClientMsg.h>
 
 #if defined(ENABLE_OPUS)
 #include <codec/OpusDecoder.h>
 #endif
 
-std::map< ACE_Time_Value, std::vector<char> > GetTTPackets(const ACE_CString& filename,
-                                                           const ACE_CString& srcip,
-                                                           int srcport,
-                                                           const ACE_CString& destip,
-                                                           int destport)
+typedef std::map< ACE_Time_Value, std::vector<char> > ttpackets_t;
+
+ttpackets_t GetTTPackets(const ACE_CString& filename,
+                         const ACE_CString& srcip,
+                         int srcport,
+                         const ACE_CString& destip,
+                         int destport)
 {
     std::map< ACE_Time_Value, std::vector<char> > result;
     ACE_Time_Value first;
@@ -123,8 +124,6 @@ std::map< ACE_Time_Value, std::vector<char> > GetTTPackets(const ACE_CString& fi
 
 TEST_CASE("AudioMuxerJitter")
 {
-    using namespace teamtalk;
-    
     auto ttpackets = GetTTPackets("testdata/Jitter/netem.pcapng", "10.157.1.34", 10333, "10.157.1.40", 63915);
 
     const int FPP = 2;
@@ -132,8 +131,8 @@ TEST_CASE("AudioMuxerJitter")
     const double FRMDURATION = .120;
     const int PLAYBACKFRAMESIZE = FPP * FRMDURATION * SAMPLERATE;
 
-    AudioCodec codec;
-    codec.codec = CODEC_OPUS;
+    teamtalk::AudioCodec codec;
+    codec.codec = teamtalk::CODEC_OPUS;
     codec.opus.samplerate = SAMPLERATE;
     codec.opus.channels = CHANNELS;
     codec.opus.application = OPUS_APPLICATION_VOIP;
@@ -164,15 +163,15 @@ TEST_CASE("AudioMuxerJitter")
     // playbackrecorder.SetMuxInterval(2000);
     REQUIRE(playbackrecorder.SaveFile(codec, ACE_TEXT("netem_muxer_playback.wav"), teamtalk::AFF_WAVE_FORMAT));
 
-    useraudio_callback_t audiocb = [&](int userid, StreamType stream_type, const media::AudioFrame& frm)
+    teamtalk::useraudio_callback_t audiocb = [&](int userid, teamtalk::StreamType stream_type, const media::AudioFrame& frm)
     {
         REQUIRE(playbackrecorder.QueueUserAudio(userid, frm));
     };
 
-    std::shared_ptr<OpusPlayer> player;
+    std::shared_ptr<teamtalk::OpusPlayer> player;
     auto snd = soundsystem::GetInstance();
     int sndgrp = snd->OpenSoundGroup();
-    
+
     ACE_Time_Value last;
     for (auto i : ttpackets)
     {
@@ -190,8 +189,8 @@ TEST_CASE("AudioMuxerJitter")
 
             if (!player)
             {
-                player.reset(new OpusPlayer(p.GetSrcUserID(), STREAMTYPE_VOICE,
-                                            audiocb, codec, audio_resampler_t()));
+                player.reset(new teamtalk::OpusPlayer(p.GetSrcUserID(), teamtalk::STREAMTYPE_VOICE,
+                                                      audiocb, codec, audio_resampler_t()));
                 player->SetAudioBufferSize(5000);
                 player->SetStoppedTalkingDelay(5000);
                 REQUIRE(snd->OpenOutputStream(player.get(), TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
@@ -201,14 +200,14 @@ TEST_CASE("AudioMuxerJitter")
 
             // no reassembly packets
             REQUIRE(player->QueuePacket(p).get() == nullptr);
-            
+
             uint16_t opuslen = 0;
             auto opusenc = p.GetEncodedAudio(opuslen);
             REQUIRE(opusenc);
             int encoffset = 0;
             int enclen = opuslen / FPP;
             int frameoffset = 0;
-            
+
             for (int i=0; i < FPP; ++i)
             {
                 int ret = decoder.Decode(&opusenc[encoffset], enclen, &frame[frameoffset * CHANNELS], codec.opus.frame_size);
@@ -238,3 +237,141 @@ TEST_CASE("AudioMuxerJitter")
 }
 
 #endif /* ENABLE_OPUS */
+
+TEST_CASE("PlaybackJitter")
+{
+    auto ttpackets = GetTTPackets("testdata/Jitter/netem.pcapng", "10.157.1.34", 10333, "10.157.1.40", 63915);
+    REQUIRE(ttpackets.size());
+
+    // Setup ClientNode's own 'ClientChannel'
+    const int FPP = 2;
+    const int SAMPLERATE = 48000, CHANNELS = 2;
+    const double FRMDURATION = .120;
+    const int PLAYBACKFRAMESIZE = FPP * FRMDURATION * SAMPLERATE;
+
+    teamtalk::AudioCodec codec;
+    codec.codec = teamtalk::CODEC_OPUS;
+    codec.opus.samplerate = SAMPLERATE;
+    codec.opus.channels = CHANNELS;
+    codec.opus.application = OPUS_APPLICATION_VOIP;
+    codec.opus.complexity = 10;
+    codec.opus.fec = true;
+    codec.opus.dtx = true;
+    codec.opus.bitrate = 6000;
+    codec.opus.vbr = false;
+    codec.opus.vbr_constraint = false;
+    codec.opus.frame_size = SAMPLERATE * FRMDURATION;
+    codec.opus.frames_per_packet = FPP;
+
+    teamtalk::clientchannel_t mychan;
+    mychan.reset(new teamtalk::ClientChannel(25));
+    mychan->SetAudioCodec(codec);
+
+    // event listener for ClientUser and VoiceLogger
+    TTMsgQueue events;
+
+    // Create ClientNode
+    class MyClientNode : public teamtalk::ClientNodeBase
+    {
+        soundsystem::soundsystem_t m_snd;
+        int m_userid;
+        teamtalk::clientchannel_t m_mychan;
+        teamtalk::SoundProperties m_sndprop;
+
+        teamtalk::VoiceLogger m_vl;
+        std::map<int, teamtalk::clientuser_t> m_users;
+        const ttpackets_t& m_packets;
+        ttpackets_t::const_iterator m_nextpacket;
+        teamtalk::ClientListener* m_listener;
+
+    public:
+        MyClientNode(int myuserid, teamtalk::clientchannel_t mychan, teamtalk::ClientListener* listener, const ttpackets_t& packets)
+            : m_userid(myuserid), m_mychan(mychan), m_vl(listener), m_listener(listener), m_packets(packets)
+        {
+            // Setup Sound System
+            m_snd = soundsystem::GetInstance();
+            m_sndprop.soundgroupid = m_snd->OpenSoundGroup();
+            REQUIRE(m_snd->GetDefaultDevices(m_sndprop.inputdeviceid, m_sndprop.outputdeviceid));
+
+            m_nextpacket = m_packets.begin();
+
+            REQUIRE(StartUserTimer(teamtalk::USER_TIMER_MASK, 0, 0, ACE_Time_Value()) >= 0);
+        }
+
+        ~MyClientNode()
+        {
+            while (m_users.size())
+            {
+                m_users.begin()->second->ResetVoicePlayer();
+                m_users.erase(m_users.begin());
+            }
+            m_snd->RemoveSoundGroup(m_sndprop.soundgroupid);
+        }
+
+        int TimerEvent(ACE_UINT32 timer_event_id, long userdata)
+        {
+            REQUIRE(m_nextpacket != m_packets.end());
+            auto data = &m_nextpacket->second[0];
+            auto len = m_nextpacket->second.size();
+            switch (teamtalk::FieldPacket(data, len).GetKind())
+            {
+            case teamtalk::PACKET_KIND_VOICE :
+            {
+                teamtalk::AudioPacket p(data, len);
+                REQUIRE(p.ValidatePacket());
+                REQUIRE(!p.HasFragments());
+                REQUIRE(!p.HasFrameSizes());
+                REQUIRE(p.GetChannel() == m_mychan->GetChannelID());
+
+                if (m_users.find(p.GetSrcUserID()) == m_users.end())
+                {
+                    m_users[p.GetSrcUserID()].reset(new teamtalk::ClientUser(p.GetSrcUserID(), this, m_listener, m_snd));
+                    if (m_mychan->GetChannelID() == p.GetChannel())
+                        m_users[p.GetSrcUserID()]->SetChannel(m_mychan);
+                    m_users[p.GetSrcUserID()]->SetLocalSubscriptions(teamtalk::SUBSCRIBE_ALL);
+                }
+
+                REQUIRE(p.GetChannel() == m_mychan->GetChannelID());
+                std::cout << "User ID " << p.GetSrcUserID() << " Packet No " << p.GetPacketNumber() << " Stream ID " << int(p.GetStreamID()) << " Channel ID: " << p.GetChannel() << std::endl;
+                m_users[p.GetSrcUserID()]->AddVoicePacket(p, m_sndprop, true);
+            }
+            }
+
+            auto last = m_nextpacket->first;
+
+            m_nextpacket++;
+
+            if (m_nextpacket != m_packets.end())
+            {
+                // remove timer since we cannot have two with same ID
+                ClearTimer(timer_event_id);
+                // start timer for next packet arrival
+                REQUIRE(StartUserTimer(teamtalk::USER_TIMER_MASK, 0, 0, m_nextpacket->first - last) >= 0);
+            }
+            else
+            {
+                m_listener->OnConnectionLost(); // stop unit-test. No more packets
+            }
+            
+            return -1;
+        }
+
+        void StreamDuplexCb(const soundsystem::DuplexStreamer& streamer, const short* input_buffer, short* output_buffer, int samples) override {}
+        soundsystem::SoundDeviceFeatures GetDuplexFeatures() override { return SOUNDDEVICEFEATURE_NONE; }
+        // Sound system is running is duplex mode, soundsystem::OpenDuplexStream()
+        bool SoundDuplexMode() override { return false; }
+        // Get my user-ID (0 = not set)
+        int GetUserID() const override { return m_userid; }
+        // Get ID of current channel (0 = not set)
+        int GetChannelID() override { return m_mychan->GetChannelID(); }
+        // Queue packet for transmission
+        bool QueuePacket(teamtalk::FieldPacket* packet) override { return true; }
+        // Get logger for writing audio streams to disk (wav, ogg, etc)
+        teamtalk::VoiceLogger& voicelogger() override { return m_vl; }
+        // Callback function for teamtalk::AudioPlayer-class
+        void AudioUserCallback(int userid, teamtalk::StreamType st, const media::AudioFrame& audio_frame) override { }
+    } myclientnode(57, mychan, &events, ttpackets);
+
+    TTMessage msg;
+    while (events.GetMessage(msg, nullptr) && msg.nClientEvent != CLIENTEVENT_CON_LOST);
+}
