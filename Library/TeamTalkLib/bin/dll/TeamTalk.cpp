@@ -3581,8 +3581,9 @@ TEAMTALKDLL_API TTBOOL TT_PumpMessage(IN TTInstance* lpTTInstance,
 
     switch(nEvent) {
     case CLIENTEVENT_USER_STATECHANGE :
-        return clientnode->StartUserTimer(USER_TIMER_UPDATE_USER, nIdentifier, nIdentifier,
-                                           ACE_Time_Value(), ACE_Time_Value()) >= 0;
+        return clientnode->StartUserTimer(teamtalk::USER_TIMER_UPDATE_USER,
+                                          nIdentifier, nIdentifier,
+                                          ACE_Time_Value(), ACE_Time_Value()) >= 0;
     default :
         return false;
     }

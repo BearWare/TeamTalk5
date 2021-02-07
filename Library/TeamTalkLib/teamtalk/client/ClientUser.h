@@ -24,17 +24,12 @@
 #if !defined(CLIENTUSER_H)
 #define CLIENTUSER_H
 
-#include <myace/MyACE.h>
-#include <myace/TimerHandler.h>
-
-#include <ace/Recursive_Thread_Mutex.h>
-#include <ace/Guard_T.h>
-
-#include <teamtalk/User.h>
 #include "DesktopShare.h"
 #include "StreamPlayers.h"
-
 #include "ClientChannel.h"
+#include "ClientNodeBase.h"
+
+#include <teamtalk/User.h>
 
 #include <map>
 #include <queue>
@@ -112,7 +107,7 @@ namespace teamtalk {
     {
     public:
         ClientUser(int userid,
-                   class ClientNode* clientnode,
+                   class ClientNodeBase* clientnode,
                    class ClientListener* listener,
                    soundsystem::soundsystem_t sndsys);
         virtual ~ClientUser();
@@ -244,7 +239,7 @@ namespace teamtalk {
 
         void SetDirtyProps();
 
-        ClientNode* m_clientnode;
+        ClientNodeBase* m_clientnode;
         ClientListener* m_listener;
         soundsystem::soundsystem_t m_soundsystem;
 
@@ -296,6 +291,7 @@ namespace teamtalk {
 
         //sound state
         bool m_snddev_error;
+        // whether sound duplex mode was used by LaunchAudioPlayer()
         bool m_snd_duplexmode;
 
         //gaining audio

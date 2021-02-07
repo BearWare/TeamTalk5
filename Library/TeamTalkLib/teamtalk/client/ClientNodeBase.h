@@ -41,7 +41,70 @@
 #define USER_TIMERID(timerid, userid) ((userid << USER_TIMER_USERID_SHIFT) | timerid)
 #define TIMER_USERID(timerid) ((timerid >> USER_TIMER_USERID_SHIFT) & 0xFFFF)
 
+#define SOUNDDEVICE_IGNORE_ID -1
+
 namespace teamtalk {
+
+    enum ClientTimer
+    {
+        TIMER_ONE_SECOND_ID                     = 1, //timer for checking things every second
+        TIMER_TCPKEEPALIVE_ID                   = 2,
+        TIMER_UDPCONNECT_ID                     = 3, //connect to server with UDP
+        TIMER_UDPKEEPALIVE_ID                   = 4,
+        TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID      = 8,
+        TIMER_DESKTOPNAKPACKET_TIMEOUT_ID       = 9,
+        TIMER_BUILD_DESKTOPPACKETS_ID           = 10,
+        TIMER_QUERY_MTU_ID                      = 11,
+        TIMER_STOP_AUDIOINPUT                   = 12,
+
+        //User instance timers (termination not handled by ClientNode::StopTimer())
+        USER_TIMER_MASK                         = USER_TIMER_START,
+
+        USER_TIMER_VOICE_PLAYBACK_ID            = USER_TIMER_MASK + 2,
+        USER_TIMER_MEDIAFILE_AUDIO_PLAYBACK_ID  = USER_TIMER_MASK + 3,
+        USER_TIMER_MEDIAFILE_VIDEO_PLAYBACK_ID  = USER_TIMER_MASK + 4,
+        USER_TIMER_DESKTOPACKPACKET_ID          = USER_TIMER_MASK + 5,
+        USER_TIMER_STOP_STREAM_MEDIAFILE_ID     = USER_TIMER_MASK + 6,
+        USER_TIMER_DESKTOPINPUT_RTX_ID          = USER_TIMER_MASK + 7,
+        USER_TIMER_DESKTOPINPUT_ACK_ID          = USER_TIMER_MASK + 8,
+        USER_TIMER_REMOVE_FILETRANSFER_ID       = USER_TIMER_MASK + 9,
+        USER_TIMER_UPDATE_USER                  = USER_TIMER_MASK + 10,
+        USER_TIMER_REMOVE_LOCALPLAYBACK         = USER_TIMER_MASK + 11,
+        USER_TIMER_JITTER_BUFFER_ID             = USER_TIMER_MASK + 12
+    };
+
+    struct SoundProperties
+    {
+        int inputdeviceid;
+        int outputdeviceid;
+        //sound group for current instance
+        int soundgroupid;
+        // AGC, AEC and denoise settings
+        AudioPreprocessor preprocessor;
+        //dereverb
+        bool dereverb;
+        //count transmitted samples
+        uint32_t samples_transmitted;
+        //total samples recorded
+        uint32_t samples_recorded;
+        uint32_t samples_delay_msec;
+        SoundDeviceEffects effects;
+
+        SoundProperties()
+        {
+            inputdeviceid = outputdeviceid = SOUNDDEVICE_IGNORE_ID;
+            soundgroupid = 0;
+            dereverb = true;
+            samples_transmitted = 0;
+            samples_recorded = 0;
+            samples_delay_msec = 0;
+            // default to TT Audio preprocessor to be compatible with
+            // SetVoiceGainLevel()
+            preprocessor.preprocessor = AUDIOPREPROCESSOR_TEAMTALK;
+            preprocessor.ttpreprocessor.gainlevel = GAIN_NORMAL;
+            preprocessor.ttpreprocessor.muteleft = preprocessor.ttpreprocessor.muteright = false;
+        }
+    };
 
     class EventSuspender
     {
@@ -112,7 +175,7 @@ namespace teamtalk {
         // Queue packet for transmission
         virtual bool QueuePacket(FieldPacket* packet) = 0;
         // Get logger for writing audio streams to disk (wav, ogg, etc)
-        virtual VoiceLogger& voicelogger() = 0;
+        virtual class VoiceLogger& voicelogger() = 0;
 
         // Callback function for teamtalk::AudioPlayer-class
         virtual void AudioUserCallback(int userid, StreamType st,

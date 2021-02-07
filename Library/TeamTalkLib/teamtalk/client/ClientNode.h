@@ -25,7 +25,7 @@
 #define CLIENTNODE_H
 
 #include "ClientNodeBase.h"
-#include "Client.h"
+#include "ClientNodeEvent.h"
 #include "ClientChannel.h"
 #include "ClientUser.h"
 #include "AudioThread.h"
@@ -34,18 +34,13 @@
 #include "AudioMuxer.h"
 #include "AudioContainer.h"
 #include "DesktopShare.h"
+
 #include <myace/MyACE.h>
 #include <teamtalk/StreamHandler.h>
 #include <teamtalk/Common.h>
 #include <teamtalk/PacketHandler.h>
 #include <avstream/VideoCapture.h>
 #include <avstream/MediaPlayback.h>
-
-#include <avstream/MediaStreamer.h>
-#include <avstream/AudioInputStreamer.h>
-
-#include <ace/Recursive_Thread_Mutex.h>
-#include <ace/Thread_Mutex.h>
 
 #include <atomic>
 
@@ -55,8 +50,6 @@
 #define CLIENT_DESKTOPINPUT_ACK_DELAY       ACE_Time_Value(0, 10000)
 
 #define MTU_QUERY_RETRY_COUNT 20 //20 * 500ms = 10 seconds for MTU query (CLIENT_QUERY_MTU_INTERVAL)
-
-#define SOUNDDEVICE_IGNORE_ID -1
 
 #if defined(_DEBUG)
 #define ASSERT_REACTOR_LOCKED(this_obj)                         \
@@ -70,34 +63,6 @@
 #define GUARD_REACTOR(this_obj)                 \
     guard_t g(this_obj->reactor_lock())
 #endif
-
-enum ClientTimer
-{
-    TIMER_ONE_SECOND_ID                     = 1, //timer for checking things every second
-    TIMER_TCPKEEPALIVE_ID                   = 2,
-    TIMER_UDPCONNECT_ID                     = 3, //connect to server with UDP
-    TIMER_UDPKEEPALIVE_ID                   = 4,
-    TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID      = 8,
-    TIMER_DESKTOPNAKPACKET_TIMEOUT_ID       = 9,
-    TIMER_BUILD_DESKTOPPACKETS_ID           = 10,
-    TIMER_QUERY_MTU_ID                      = 11,
-    TIMER_STOP_AUDIOINPUT                   = 12,
-
-    //User instance timers (termination not handled by ClientNode::StopTimer())
-    USER_TIMER_MASK                         = USER_TIMER_START,
-
-    USER_TIMER_VOICE_PLAYBACK_ID            = USER_TIMER_MASK + 2,
-    USER_TIMER_MEDIAFILE_AUDIO_PLAYBACK_ID  = USER_TIMER_MASK + 3,
-    USER_TIMER_MEDIAFILE_VIDEO_PLAYBACK_ID  = USER_TIMER_MASK + 4,
-    USER_TIMER_DESKTOPACKPACKET_ID          = USER_TIMER_MASK + 5,
-    USER_TIMER_STOP_STREAM_MEDIAFILE_ID     = USER_TIMER_MASK + 6,
-    USER_TIMER_DESKTOPINPUT_RTX_ID          = USER_TIMER_MASK + 7,
-    USER_TIMER_DESKTOPINPUT_ACK_ID          = USER_TIMER_MASK + 8,
-    USER_TIMER_REMOVE_FILETRANSFER_ID       = USER_TIMER_MASK + 9,
-    USER_TIMER_UPDATE_USER                  = USER_TIMER_MASK + 10,
-    USER_TIMER_REMOVE_LOCALPLAYBACK         = USER_TIMER_MASK + 11,
-    USER_TIMER_JITTER_BUFFER_ID             = USER_TIMER_MASK + 12
-};
 
 namespace teamtalk {
 
@@ -188,43 +153,8 @@ namespace teamtalk {
         ACE_Time_Value udp_connect_timeout = ACE_Time_Value(10, 0);
     };
 
-    struct SoundProperties
-    {
-        int inputdeviceid;
-        int outputdeviceid;
-        //sound group for current instance
-        int soundgroupid;
-        // AGC, AEC and denoise settings
-        AudioPreprocessor preprocessor;
-        //dereverb
-        bool dereverb;
-        //count transmitted samples
-        ACE_UINT32 samples_transmitted;
-        //total samples recorded
-        ACE_UINT32 samples_recorded;
-        uint32_t samples_delay_msec;
-        SoundDeviceEffects effects;
-
-        SoundProperties()
-        {
-            inputdeviceid = outputdeviceid = SOUNDDEVICE_IGNORE_ID;
-            soundgroupid = 0;
-            dereverb = true;
-            samples_transmitted = 0;
-            samples_recorded = 0;
-            samples_delay_msec = 0;
-            // default to TT Audio preprocessor to be compatible with
-            // SetVoiceGainLevel()
-            preprocessor.preprocessor = AUDIOPREPROCESSOR_TEAMTALK;
-            preprocessor.ttpreprocessor.gainlevel = GAIN_NORMAL;
-            preprocessor.ttpreprocessor.muteleft = preprocessor.ttpreprocessor.muteright = false;
-        }
-    };
-
     soundsystem::SoundDeviceFeatures GetSoundDeviceFeatures(const SoundDeviceEffects& effects);
 
-    //forward decl.
-    class ClientListener;
     typedef std::shared_ptr< class FileNode > filenode_t;
 
     class ClientNode
@@ -688,84 +618,6 @@ namespace teamtalk {
 
         //The listener of the ClientNode instance
         ClientListener* m_listener;
-    };
-
-    class ClientListener 
-        : public VoiceLogListener //VoiceLogger
-    {
-    public:
-        virtual ~ClientListener() {}
-
-        virtual void RegisterEventSuspender(EventSuspender* suspender) = 0;
-
-        virtual void OnConnectSuccess() = 0;
-        virtual void OnConnectFailed() = 0;
-        virtual void OnConnectionLost() = 0;
-
-        virtual void OnAccepted(int myuserid, const teamtalk::UserAccount& account) = 0;
-        virtual void OnLoggedOut() = 0;
-
-        virtual void OnUserLoggedIn(const teamtalk::ClientUser& user) = 0;
-        virtual void OnUserLoggedOut(const teamtalk::ClientUser& user) = 0;
-        virtual void OnUserUpdate(const teamtalk::ClientUser& user) = 0;
-
-        virtual void OnUserJoinChannel(const teamtalk::ClientUser& user,
-                                       const teamtalk::ClientChannel& chan) = 0;
-        virtual void OnUserLeftChannel(const teamtalk::ClientUser& user,
-                                       const teamtalk::ClientChannel& chan) = 0;
-
-        virtual void OnAddChannel(const ClientChannel& chan) = 0;
-        virtual void OnUpdateChannel(const teamtalk::ClientChannel& chan) = 0;
-        virtual void OnRemoveChannel(const teamtalk::ClientChannel& chan) = 0;
-
-        virtual void OnJoinedChannel(int channelid) = 0;
-        virtual void OnLeftChannel(int channelid) = 0;
-
-        virtual void OnAddFile(const teamtalk::ClientChannel& chan,
-                               const teamtalk::RemoteFile& file) = 0;
-        virtual void OnRemoveFile(const teamtalk::ClientChannel& chan,
-                                  const teamtalk::RemoteFile& file) = 0;
-
-        virtual void OnUserAccount(const teamtalk::UserAccount& account) = 0;
-        virtual void OnBannedUser(const teamtalk::BannedUser& banuser) = 0;
-
-        virtual void OnTextMessage(const teamtalk::TextMessage& textmsg) = 0;
-
-        virtual void OnKicked(const teamtalk::clientuser_t& user, int channelid) = 0;
-        virtual void OnServerUpdate(const ServerInfo& serverinfo) = 0;
-        virtual void OnServerStatistics(const ServerStats& serverstats) = 0;
-
-        virtual void OnFileTransferStatus(const teamtalk::FileTransfer& transfer) = 0;
-
-        virtual void OnCommandError(int cmdid, int err_num, const ACE_TString& msg) = 0;
-        virtual void OnCommandSuccess(int cmdid) = 0;
-        virtual void OnCommandProcessing(int cmdid, bool begin_end) = 0;
-
-        virtual void OnInternalError(int err_num, const ACE_TString& msg) = 0;
-
-        virtual void OnVoiceActivated(bool enabled) = 0;
-
-        virtual void OnUserStateChange(const teamtalk::ClientUser& user) = 0;
-        virtual void OnUserVideoCaptureFrame(int userid, int stream_id) = 0;
-        virtual void OnUserMediaFileVideoFrame(int userid, int stream_id) = 0;
-
-        virtual void OnDesktopTransferUpdate(int session_id, int remain_bytes) = 0;
-
-        virtual void OnUserDesktopWindow(int userid, int session_id) = 0;
-        virtual void OnUserDesktopCursor(int src_userid, const teamtalk::DesktopInput& input) = 0;
-        virtual void OnUserDesktopInput(int src_userid, const teamtalk::DesktopInput& input) = 0;
-
-        virtual void OnChannelStreamMediaFile(const MediaFileProp& mfp,
-                                              MediaFileStatus status) = 0;
-
-        virtual void OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mfp,
-                                              MediaFileStatus status) = 0;
-
-        virtual void OnAudioInputStatus(int voicestreamid, const AudioInputStatus& progress) = 0;
-
-        virtual void OnUserAudioBlock(int userid, StreamType stream_type) = 0;
-
-        virtual void OnMTUQueryComplete(int payload_size) = 0;
     };
 }
 

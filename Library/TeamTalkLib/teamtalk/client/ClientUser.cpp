@@ -22,7 +22,7 @@
  */
 
 #include "ClientUser.h"
-#include "ClientNode.h"
+#include "ClientNodeEvent.h"
 
 #include <teamtalk/ttassert.h>
 #include <teamtalk/Commands.h>
@@ -190,7 +190,7 @@ void JitterCalculator::SetConfig(const int fixed_delay_msec, const bool use_adap
 };
 
 
-ClientUser::ClientUser(int userid, ClientNode* clientnode,
+ClientUser::ClientUser(int userid, ClientNodeBase* clientnode,
                        ClientListener* listener,
                        soundsystem::soundsystem_t sndsys)
                        : User(userid)
@@ -1334,7 +1334,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
         output_samples = codec_samples;
     }
 
-    auto audiofunc = std::bind(&ClientNode::AudioUserCallback, m_clientnode, _1, _2, _3);
+    auto audiofunc = std::bind(&ClientNodeBase::AudioUserCallback, m_clientnode, _1, _2, _3);
 
     AudioPlayer* audio_player = NULL;
     switch(codec.codec)
@@ -1659,9 +1659,6 @@ void ClientUser::SetLocalSubscriptions(Subscriptions mask)
 
 bool ClientUser::LocalSubscribes(const FieldPacket& packet) const
 {
-    clientchannel_t mychan = m_clientnode->GetMyChannel();
-    clientchannel_t userchan = GetChannel();
-
     Subscriptions local_subs = SUBSCRIBE_NONE;
     Subscriptions local_intercept_subs = SUBSCRIBE_NONE;
 
@@ -1702,16 +1699,19 @@ bool ClientUser::LocalSubscribes(const FieldPacket& packet) const
         assert(0);
     }
 
+    int mychanid = m_clientnode->GetChannelID();
+    int userchanid = (GetChannel() ? GetChannel()->GetChannelID() : 0);
+
     if(local_subs && local_intercept_subs)
     {
-        if((m_localsubscriptions & local_subs) && mychan)
+        if ((m_localsubscriptions & local_subs) && mychanid > 0)
         {
-            if(mychan->GetChannelID() == packet.GetChannel())
+            if (mychanid == packet.GetChannel())
                 return true;
         }
-        if((m_localsubscriptions & local_intercept_subs) && userchan)
+        if ((m_localsubscriptions & local_intercept_subs) && userchanid > 0)
         {
-            if(userchan->GetChannelID() == packet.GetChannel())
+            if (userchanid == packet.GetChannel())
                 return true;
         }
         return false;
