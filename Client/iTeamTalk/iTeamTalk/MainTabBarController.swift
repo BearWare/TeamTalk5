@@ -41,7 +41,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         super.viewDidLoad()
         
         if let addbtn = self.navigationItem.rightBarButtonItem {
-            addbtn.accessibilityHint = NSLocalizedString("Create new channel", comment: "main-tab")
+            addbtn.accessibilityLabel = NSLocalizedString("Create new channel", comment: "main-tab")
         }
 
         // Our one and only TT client instance

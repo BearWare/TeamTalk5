@@ -54,7 +54,7 @@ class TextMessageViewController :
         
         msgTextView.delegate = self
         
-        msgTextView.accessibilityHint = NSLocalizedString("Send empty message to close keyboard", comment: "text message")
+        msgTextView.accessibilityLabel = NSLocalizedString("Send empty message to close keyboard", comment: "text message")
     }
 
     override func viewDidDisappear(_ animated: Bool) {
