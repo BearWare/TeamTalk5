@@ -53,6 +53,7 @@ Default QT Client
 - Facebook login no longer supported
 - Display man emoji in channels tree
 - Correctly return speaking for ourself in channels tree
+- ALSA sound system on Linux is faster to initialize
 Android Client
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
 - Ability to create and join hidden channels
