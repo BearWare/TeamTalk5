@@ -451,18 +451,19 @@ int SpeexEncFile::Encode(const short* samples, bool last/*=false*/)
 
 #if defined(ENABLE_OPUSTOOLS)
 
-extern "C" {
-#include <opus_header.h>
-}
-
 OpusFile::OpusFile()
 {
     Close();
 }
 
-bool OpusFile::Open(const ACE_TString& filename,
-                    int channels, int samplerate,
-                    int framesize)
+OpusFile::~OpusFile()
+{
+    Close();
+}
+
+bool OpusFile::NewFile(const ACE_TString& filename,
+                       int channels, int samplerate,
+                       int framesize)
 {
     // Make the stream (ogg stream 'serialno') as unique as possible on the same machine by using the timestamp as id.
     // Facilitates the subsequent handling of the recording with tooling like oggz-merge to mux the recordings.
@@ -473,19 +474,18 @@ bool OpusFile::Open(const ACE_TString& filename,
         return false;
     }
 
-    m_samplerate = samplerate;
     m_frame_size = framesize;
-    OpusHeader header = {};
-    header.preskip = 3840;  // 80 ms @ 48kHz as per rfc7845 - 5.1 bullet 4
-    header.channels = channels;
-    header.channel_mapping = 0;
-    header.input_sample_rate = samplerate;
-    header.gain = 0;
-    header.nb_streams = 1;
-    header.nb_coupled = channels == 2? 1 : 0;
+
+    m_header.preskip = 3840;  // 80 ms @ 48kHz as per rfc7845 - 5.1 bullet 4
+    m_header.channels = channels;
+    m_header.channel_mapping = 0;
+    m_header.input_sample_rate = samplerate;
+    m_header.gain = 0;
+    m_header.nb_streams = 1;
+    m_header.nb_coupled = channels == 2? 1 : 0;
 
     unsigned char header_data[276];
-    int packet_size = opus_header_to_packet(&header, header_data, sizeof(header_data));
+    int packet_size = opus_header_to_packet(&m_header, header_data, sizeof(header_data));
     ogg_packet op = {};
     op.packet = header_data;
     op.bytes = packet_size;
@@ -520,12 +520,38 @@ bool OpusFile::Open(const ACE_TString& filename,
     return ret >= 0;
 }
 
+bool OpusFile::OpenFile(const ACE_TString& filename)
+{
+    if (!m_oggfile.Open(filename))
+        return false;
+
+    ogg_page og;
+    if (m_oggfile.ReadOggPage(og) != 1)
+    {
+        Close();
+        return false;
+    }
+
+    return true;
+}
+
 void OpusFile::Close()
 {
     m_oggfile.Close();
     m_ogg.Close();
-    m_samplerate = m_frame_size = 0;
+    m_frame_size = 0;
     m_granule_pos = m_packet_no = 0;
+    m_header = {};
+}
+
+int OpusFile::GetSampleRate() const
+{
+    return m_header.input_sample_rate;
+}
+
+int OpusFile::GetChannels() const
+{
+    return m_header.channels;
 }
 
 int OpusFile::WriteEncoded(const char* enc_data, int enc_len, bool last)
@@ -539,7 +565,7 @@ int OpusFile::WriteEncoded(const char* enc_data, int enc_len, bool last)
     // include the samples in the page that's written.
     // So, advance the granule before writing.
     // https://tools.ietf.org/html/rfc7845#page-6
-    m_granule_pos += m_frame_size * 48000 / m_samplerate;
+    m_granule_pos += m_frame_size * 48000 / m_header.input_sample_rate;
     op.granulepos = m_granule_pos;
     op.packetno = m_packet_no++;
 
@@ -570,7 +596,7 @@ bool OpusEncFile::Open(const ACE_TString& filename, int channels,
     if(!m_encoder.Open(samplerate, channels, app))
         return false;
 
-    if(!m_file.Open(filename, channels, samplerate, framesize))
+    if (!m_file.NewFile(filename, channels, samplerate, framesize))
     {
         Close();
         return false;

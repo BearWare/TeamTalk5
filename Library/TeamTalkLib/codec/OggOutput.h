@@ -161,20 +161,32 @@ typedef std::shared_ptr< SpeexEncFile > speexencfile_t;
 #endif /* ENABLE_SPEEX */
 
 #if defined(ENABLE_OPUSTOOLS)
+
+extern "C" {
+#include <opus_header.h>
+}
+
 class OpusFile : private NonCopyable
 {
 public:
     OpusFile();
+    ~OpusFile();
 
-    bool Open(const ACE_TString& filename,
-              int channels, int samplerate, int framesize);
+    bool NewFile(const ACE_TString& filename,
+                int channels, int samplerate, int framesize);
+    bool OpenFile(const ACE_TString& filename);
     void Close();
+
+    int GetSampleRate() const;
+    int GetChannels() const;
 
     int WriteEncoded(const char* enc_data, int enc_len, bool last=false);
 private:
     OggOutput m_ogg;
     OggFile m_oggfile;
-    int m_samplerate, m_frame_size;
+    OpusHeader m_header = {};
+
+    int m_frame_size;
     ogg_int64_t m_granule_pos, m_packet_no;
 };
 

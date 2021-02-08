@@ -97,7 +97,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
             ACE_NEW(opus_file, OpusFile());
             m_opusfile = opusfile_t(opus_file);
             int framesize = GetAudioCodecFrameSize(m_codec);
-            if(!m_opusfile->Open(filename, channels, samplerate, framesize))
+            if (!m_opusfile->NewFile(filename, channels, samplerate, framesize))
             {
                 ACE_TString error = ACE_TEXT("Failed to open OPUS file ") + filename;
                 TT_ERROR(error.c_str());
