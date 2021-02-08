@@ -6898,7 +6898,7 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         if(TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
             szSpeakList.AddTail(szChanOp);
 
-        if(user.uUserState & USERSTATE_VOICE)
+        if((user.uUserState & USERSTATE_VOICE) || (user.nUserID == TT_GetMyUserID(ttInst) && IsMyselfTalking() == TRUE))
             szSpeakList.AddTail(szVoice);
         switch(user.nStatusMode & STATUSMODE_MASK)
         {

@@ -31,6 +31,7 @@ Accessible Windows Client
 - Display man emoji in channels tree
 - Fix double event when we leave a channel
 - Return root channel when appropriate on CTRL+G
+- Correctly return speaking for ourself on CTRL+G
 Default QT Client
 - SpeexDSP echo canceller replaced by WebRTC
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
@@ -51,6 +52,7 @@ Default QT Client
 - Reconnect if initial connection attempt fails
 - Facebook login no longer supported
 - Display man emoji in channels tree
+- Correctly return speaking for ourself in channels tree
 Android Client
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
 - Ability to create and join hidden channels
