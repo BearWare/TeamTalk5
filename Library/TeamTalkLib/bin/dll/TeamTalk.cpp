@@ -45,6 +45,7 @@ HINSTANCE hInstance = NULL;
 #endif
 
 #include <ace/Init_ACE.h>
+#include <ace/OS.h>
 
 #include <teamtalk/client/ClientNode.h>
 #include <teamtalk/client/AudioContainer.h>
