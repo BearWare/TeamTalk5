@@ -259,7 +259,7 @@ class ChannelListViewController :
             cell.nicknameLabel.text = name
             cell.statusmsgLabel.text = statusmsg
             
-            let female = Int(user.nStatusMode) & StatusMode.STATUSMODE_FEMALE.rawValue != 0
+            let female = (UInt(user.nStatusMode) & StatusMode.STATUSMODE_FEMALE.rawValue) != 0
             
             if female {
                 cell.userImage.accessibilityLabel = NSLocalizedString("User female", comment: "channel list")

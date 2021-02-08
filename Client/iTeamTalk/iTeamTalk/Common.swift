@@ -25,7 +25,7 @@ import UIKit
 import Foundation
 import AVFoundation
 
-enum StatusMode : Int {
+enum StatusMode : UInt {
     case STATUSMODE_AVAILABLE   = 0x00000000,
     STATUSMODE_AWAY             = 0x00000001,
     STATUSMODE_QUESTION         = 0x00000002,
