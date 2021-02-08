@@ -552,6 +552,7 @@ int GetSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev
     auto isend = indev.inputSampleRates + sizeof(indev.inputSampleRates);
     auto isr = std::find_if(indev.inputSampleRates, isend,
         [outdev](int sr) { return sr == outdev.nDefaultSampleRate; });
+
     return isr != isend ? outdev.nDefaultSampleRate : 0;
 }
 

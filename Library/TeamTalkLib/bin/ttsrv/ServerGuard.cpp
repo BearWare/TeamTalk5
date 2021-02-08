@@ -682,7 +682,7 @@ void ServerGuard::WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid,
     timer_userdata usr = {};
     usr.src_userid = ACE_UINT16(userid);
 
-    int ret = servernode->StartTimer(TIMER_COMMAND_RESUME, usr, ACE_Time_Value::zero);
+    int ret = servernode->StartTimer(TIMERSRV_COMMAND_RESUME_ID, usr, ACE_Time_Value::zero);
     TTASSERT(ret >= 0);
 }
 

@@ -19,6 +19,15 @@ set (TTCLIENTDLL_SOURCES
   ${TEAMTALKLIB_ROOT}/bin/dll/ttdll.rc
   ${TEAMTALKLIB_ROOT}/bin/dll/TeamTalk.cpp)
 
+if (MSVC)
+  option (MINIDUMP "Build TeamTalk DLLs with MINIDUMP" OFF)
+  if (MINIDUMP)
+    list (APPEND TTCLIENTDLL_HEADERS ${TEAMTALKLIB_ROOT}/win32/mdump.h)
+    list (APPEND TTCLIENTDLL_SOURCES ${TEAMTALKLIB_ROOT}/win32/mdump.cpp)
+    list (APPEND TTCLIENTDLL_COMPILE_FLAGS -DENABLE_MINIDUMP)
+  endif()
+endif()
+
 # TeamTalk Professional shared library
 
 set (TTCLIENTPRODLL_INCLUDE_DIR ${TTCLIENTDLL_INCLUDE_DIR})

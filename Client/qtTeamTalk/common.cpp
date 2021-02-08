@@ -115,8 +115,9 @@ void initDefaultVideoFormat(VideoFormat& vidfmt)
     vidfmt.picFourCC = DEFAULT_VIDEO_FOURCC;
 }
 
-void initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor)
+AudioPreprocessor initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype)
 {
+    AudioPreprocessor preprocessor = {};
     preprocessor.nPreprocessor = preprocessortype;
     switch (preprocessor.nPreprocessor)
     {
@@ -130,15 +131,20 @@ void initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioP
         preprocessor.speexdsp.nMaxGainDB = DEFAULT_SPEEXDSP_AGC_GAINMAXDB;
         preprocessor.speexdsp.bEnableDenoise = DEFAULT_SPEEXDSP_DENOISE_ENABLE;
         preprocessor.speexdsp.nMaxNoiseSuppressDB = DEFAULT_SPEEXDSP_DENOISE_SUPPRESS;
-        preprocessor.speexdsp.bEnableAGC = DEFAULT_SPEEXDSP_ECHO_ENABLE;
+        preprocessor.speexdsp.bEnableEchoCancellation = DEFAULT_SPEEXDSP_ECHO_ENABLE;
         preprocessor.speexdsp.nEchoSuppress = DEFAULT_SPEEXDSP_ECHO_SUPPRESS;
         preprocessor.speexdsp.nEchoSuppressActive = DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE;
         break;
     case TEAMTALK_AUDIOPREPROCESSOR :
-        preprocessor.ttpreprocessor.nGainLevel = SOUND_GAIN_DEFAULT;
-        preprocessor.ttpreprocessor.bMuteLeftSpeaker = preprocessor.ttpreprocessor.bMuteRightSpeaker = FALSE;
+        preprocessor.ttpreprocessor.nGainLevel = DEFAULT_TEAMTALK_GAINLEVEL;
+        preprocessor.ttpreprocessor.bMuteLeftSpeaker = DEFAULT_TEAMTALK_MUTELEFT;
+        preprocessor.ttpreprocessor.bMuteRightSpeaker = DEFAULT_TEAMTALK_MUTERIGHT;
         break;
     case WEBRTC_AUDIOPREPROCESSOR :
+        preprocessor.webrtc.preamplifier.bEnable = DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE;
+        preprocessor.webrtc.preamplifier.fFixedGainFactor = DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR;
+        preprocessor.webrtc.levelestimation.bEnable = DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE;
+        preprocessor.webrtc.voicedetection.bEnable = DEFAULT_WEBRTC_VAD_ENABLE;
         preprocessor.webrtc.gaincontroller2.bEnable = DEFAULT_WEBRTC_GAINCTL_ENABLE;
         preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = DEFAULT_WEBRTC_GAINDB;
         preprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable = DEFAULT_WEBRTC_SAT_PROT_ENABLE;
@@ -151,11 +157,12 @@ void initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioP
         preprocessor.webrtc.echocanceller.bEnable = DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE;
         break;
     }
+    return preprocessor;
 }
 
-void loadAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor)
+AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype)
 {
-    preprocessor.nPreprocessor = preprocessortype;
+    AudioPreprocessor preprocessor = initDefaultAudioPreprocessor(preprocessortype);
     switch (preprocessor.nPreprocessor)
     {
     case NO_AUDIOPREPROCESSOR:
@@ -190,6 +197,7 @@ void loadAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreproce
         preprocessor.webrtc.echocanceller.bEnable = FALSE; // unusable for streaming
         break;
     }
+    return preprocessor;
 }
 
 bool initVideoCaptureFromSettings()
@@ -288,6 +296,7 @@ int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev
                             [outdev] (int sr) { return sr == outdev.nDefaultSampleRate; });
     bool duplexmode = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE) &&
         (outdev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE);
+
     return (duplexmode && isr != isend) ? outdev.nDefaultSampleRate : 0;
 }
 
@@ -298,8 +307,8 @@ bool isSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outde
 
 int getDefaultSndInputDevice()
 {
-    SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
-                                                        SOUNDSYSTEM_NONE).toInt();
+    SoundSystem sndsys = SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
+                                                        SOUNDSYSTEM_NONE).toInt());
     int inputid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
     if(sndsys != SOUNDSYSTEM_NONE)
         TT_GetDefaultSoundDevicesEx(sndsys, &inputid, nullptr);
@@ -934,8 +943,14 @@ void playSoundEvent(SoundEvent event)
     case SOUNDEVENT_USERMSG:
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG).toString();
         break;
+    case SOUNDEVENT_SENTMSG :
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_SENTSOUND).toString();
+        break;
     case SOUNDEVENT_CHANNELMSG:
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG).toString();
+        break;
+    case SOUNDEVENT_SENTCHANNELMSG :
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_SENTCHANNELSOUND).toString();
         break;
     case SOUNDEVENT_BROADCASTMSG :
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG).toString();

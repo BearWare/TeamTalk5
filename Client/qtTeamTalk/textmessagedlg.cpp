@@ -155,6 +155,7 @@ void TextMessageDlg::slotSendMsg(const QString& txt_msg)
         ui.newmsgTextEdit->setPlainText("");
         newMsg(msg, true);
         emit(newMyselfTextMessage(msg));
+        playSoundEvent(SOUNDEVENT_SENTMSG);
         m_textchanged = false;
     }
 }

@@ -1,4 +1,3 @@
-JOBS?=4
 TOOLCHAIN_ROOT?=$(PWD)/../Library/TeamTalkLib/toolchain
 TEAMTALK_ROOT?=$(PWD)/..
 CONFIGTYPE?=release
@@ -23,7 +22,7 @@ genlib:
 	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) -G Ninja ../../
 
 buildlib: genlib
-	ninja -v -C $(BUILDDIR) all
+	ninja $(NINJA_EXTRA) -v -C $(BUILDDIR) all
 
 android-build:
 	@echo "Testing if NDK environment variable is set: $(NDK)"

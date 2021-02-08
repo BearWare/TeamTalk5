@@ -202,6 +202,8 @@
     <string name="action_new_server">Новый Сервер</string>
     <string name="action_refresh">Обновить Список</string>
     <string name="action_import_serverlist">Импортировать из Файла</string>
+    <string name="action_export_serverlist">Экспортировать список серверов</string>
+    <string name="serverlist_export_confirmation">Список серверов сохранен в %1$s</string>
 
     <string name="pref_title_server_props">Свойства Сервера TeamTalk 5</string>
     <string name="pref_title_server_info">Информация о Сервере</string>
@@ -230,6 +232,7 @@
     <string name="upload_failed">Не удалось выложить файл %1$s</string>
     <string name="alert_file_override">Файл %1$s уже существует, перезаписать его?</string>
     <string name="err_file_delete">Невозможно удалить файл %1$s</string>
+    <string name="err_file_write">Невозможно записать файл %1$s</string>
     <string name="err_channel_remove">Невозможно удалить канал %1$s</string>
     <string name="err_download_path">Невозможно сохранить %1$s</string>
     <string name="download_progress">%1$d%% загружено</string>
@@ -345,5 +348,7 @@
     <string name="pref_title_translator">Переводчик</string>
     <string name="pref_title_libraries">Сторонние Компоненты</string>
     <string name="channel_prop_title_hiddenchannel">Скрытый</string>
+    <string name="pref_title_gender">Пол</string>
+    <string name="pref_summary_gender">Отображать как женский</string>
 
 </resources>

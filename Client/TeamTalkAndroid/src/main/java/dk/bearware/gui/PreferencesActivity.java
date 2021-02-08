@@ -57,6 +57,7 @@ import dk.bearware.TeamTalkBase;
 import dk.bearware.User;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
+import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.Preferences;
 import dk.bearware.data.TTSWrapper;
@@ -199,6 +200,10 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             if (!nickname.equals(myself.szNickname)) {
                 ttinst.doChangeNickname(nickname);
             }
+            int statusmode = (myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_FEMALE);
+            if (prefs.getBoolean(Preferences.PREF_GENERAL_GENDER, false))
+                statusmode |= TeamTalkConstants.STATUSMODE_FEMALE;
+            ttinst.doChangeStatus(statusmode, myself.szStatusMsg);
         }
         
         int mf_volume = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME, 100);

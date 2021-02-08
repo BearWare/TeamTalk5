@@ -67,8 +67,9 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec)
     }
 }
 
-void InitDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor)
+AudioPreprocessor InitDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype)
 {
+    AudioPreprocessor preprocessor = {};
     preprocessor.nPreprocessor = preprocessortype;
     switch (preprocessor.nPreprocessor)
     {
@@ -103,6 +104,7 @@ void InitDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioP
         preprocessor.webrtc.echocanceller.bEnable = DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE;
         break;
     }
+    return preprocessor;
 }
 channels_t GetSubChannels(int nChannelID, const channels_t& channels, BOOL bRecursive/* = FALSE*/)
 {

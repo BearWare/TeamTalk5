@@ -22,8 +22,23 @@
  */
 
 #pragma once
+#include <queue>
 
 // CPlaySoundThread
+
+enum PlaybackMode
+{
+    PLAYBACKMODE_NONE,
+    PLAYBACKMODE_SYNC,
+    PLAYBACKMODE_ASYNC,
+    PLAYBACKMODE_TEAMTALK,
+};
+
+struct PlaybackFile
+{
+    PlaybackMode mode = PLAYBACKMODE_NONE;
+    CString szFilename;
+};
 
 class CPlaySoundThread : public CWinThread
 {
@@ -36,7 +51,7 @@ public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 
-    void AddSoundEvent(LPCTSTR szFilename);
+    void AddSoundEvent(LPCTSTR szFilename, PlaybackMode mode);
     void KillThread();
 
 protected:
@@ -45,7 +60,7 @@ protected:
     enum { KILL_EVENT, DATA_SEMAPHORE };
     HANDLE m_handles[2];
     CMutex m_mutex;
-    CStringList m_SoundQueue;
+    std::queue<PlaybackFile> m_SoundQueue;
 public:
     virtual int Run();
 };

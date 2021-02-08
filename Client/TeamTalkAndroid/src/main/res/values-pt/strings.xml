@@ -336,4 +336,12 @@
     <string name="bwpswlab">Senha do usuário:</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
+    <string name="pref_title_bearware_summary">Apenas verificar se este servidor permitiu o login da web BearWare.dk</string>
+    <string name="pref_cat_about">Sobre</string>
+    <string name="pref_title_contrib">Desenvolvedores</string>
+    <string name="pref_title_translator">Tradutor</string>
+    <string name="pref_title_libraries">Bibliotecas de terceiros</string>
+    <string name="channel_prop_title_hiddenchannel">Oculto</string>
+    <string name="pref_title_gender">Gênero</string>
+    <string name="pref_summary_gender">Verifique se há ícone feminino</string>
 </resources>

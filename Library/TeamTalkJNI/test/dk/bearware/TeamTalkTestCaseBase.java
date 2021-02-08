@@ -54,7 +54,8 @@ public abstract class TeamTalkTestCaseBase {
     public static String STORAGEFOLDER = System.getProperty("user.dir");
 
     public static int INPUTDEVICEID = -1, OUTPUTDEVICEID = -1;
-    public static String VIDEODEVICEID = "None", VIDEODEVDISABLE="None"; //set to "None" to ignore video capture tests
+    public static String VIDEODEVICEID = "", //set to "None" to ignore video capture tests
+        VIDEODEVICEID_DISABLED = "None";
     public static String MEDIAFILE_AUDIO = "";
     public static String MEDIAFILE_VIDEO = "";
     public static String HTTPS_MEDIAFILE = "";
@@ -64,11 +65,6 @@ public abstract class TeamTalkTestCaseBase {
     public static final String CRYPTO_CLIENT_CERT_FILE = "ttclientcert.pem", CRYPTO_CLIENT_KEY_FILE = "ttclientkey.pem";
     public static final String CRYPTO_SERVER_CERT2_FILE = "ttservercert2.pem", CRYPTO_SERVER_KEY2_FILE = "ttserverkey2.pem";
     public static final String CRYPTO_CA_FILE = "ca.cer";
-
-    public static final String MUXEDMEDIAFILE_WAVE = "muxwavefile.wav";
-    public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
-    public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
-    public static final String MUXEDMEDIAFILE_OPUS = "muxwavefile_opus.ogg";
 
     public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
 

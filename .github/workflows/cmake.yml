@@ -6,9 +6,10 @@ env:
   # TeamTalkJNI JUnit environment variables
   INPUTDEVICEID: 1978
   OUTPUTDEVICEID: 1978
+  VIDEODEVICEID: None
   OPUSTOOLS: 0
   VERBOSE: 0
-  
+
 jobs:
   build:
     # The CMake configure and build commands are platform agnostic and should work equally
@@ -19,13 +20,50 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-  
+
     - name: Source environment
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: source env.sh
 
+    - name: Refresh Ubuntu-repo
+      run: sudo apt update
+
     - name: Install Dependencies
-      run: sudo apt install libace-dev libace-ssl-dev libace-inet-dev libace-inet-ssl-dev libtinyxml-dev zlib1g-dev libssl-dev libopus-dev libspeex-dev libspeexdsp-dev libvpx-dev libogg-dev portaudio19-dev libasound2-dev libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev libavresample-dev libavutil-dev libswresample-dev libswscale-dev cmake python3-minimal junit4 catch ninja-build doxygen
+      run: >-
+           sudo apt install libace-dev
+           libace-ssl-dev
+           libace-inet-dev
+           libace-inet-ssl-dev
+           libtinyxml-dev
+           zlib1g-dev
+           libssl-dev
+           libopus-dev
+           libspeex-dev
+           libspeexdsp-dev
+           libvpx-dev
+           libogg-dev
+           portaudio19-dev
+           libasound2-dev
+           libavcodec-dev
+           libavdevice-dev
+           libavfilter-dev
+           libavformat-dev
+           libavresample-dev
+           libavutil-dev
+           libswresample-dev
+           libswscale-dev
+           cmake
+           python3-minimal
+           junit4
+           catch
+           ninja-build
+           doxygen
+           valgrind
+           libpcap-dev
+
+    - name: Clone submodules
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: git submodule update --init Library/TeamTalkLib/test/testdata
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
@@ -37,10 +75,35 @@ jobs:
       # access regardless of the host operating system
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      # Note the current convention is to use the -S and -B options here to specify source 
-      # and build directories, but this is only available with CMake 3.13 and higher.  
+      # Note the current convention is to use the -S and -B options here to specify source
+      # and build directories, but this is only available with CMake 3.13 and higher.
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: cmake $GITHUB_WORKSPACE -G Ninja -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_STATIC=OFF -DBUILD_TEAMTALK_ACE=OFF -DSPEEXDSP_STATIC=OFF -DFFMPEG_STATIC=OFF -DAVF=OFF -DMSDMO=OFF -DDSHOW=OFF -DVIDCAP=OFF -DMEDIAFOUNDATION=OFF -DOPUS_STATIC=OFF -DLIBVPX_STATIC=OFF -DSPEEX_STATIC=OFF -DOGG_STATIC=OFF -DOPUSTOOLS=OFF -DLAMEMP3=OFF -DMSVS_UNITTEST=OFF -DACE_STATIC=OFF -DTINYXML_STATIC=OFF -DPORTAUDIO=OFF -DZLIB_STATIC=OFF -DWEBRTC=OFF -DCATCH_UNITTEST=ON
+      run: >-
+           cmake $GITHUB_WORKSPACE -G Ninja
+           -DBUILD_TEAMTALK_CORE=ON
+           -DBUILD_TEAMTALK_STATIC=OFF
+           -DBUILD_TEAMTALK_ACE=OFF
+           -DSPEEXDSP_STATIC=OFF
+           -DFFMPEG_STATIC=OFF
+           -DAVF=OFF
+           -DMSDMO=OFF
+           -DDSHOW=OFF
+           -DVIDCAP=OFF
+           -DMEDIAFOUNDATION=OFF
+           -DOPUS_STATIC=OFF
+           -DLIBVPX_STATIC=OFF
+           -DSPEEX_STATIC=OFF
+           -DOGG_STATIC=OFF
+           -DOPUSTOOLS=OFF
+           -DLAMEMP3=OFF
+           -DMSVS_UNITTEST=OFF
+           -DACE_STATIC=OFF
+           -DTINYXML_STATIC=OFF
+           -DPORTAUDIO=OFF
+           -DZLIB_STATIC=OFF
+           -DWEBRTC=OFF
+           -DV4L2=OFF
+           -DCATCH_UNITTEST=ON
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
@@ -50,7 +113,7 @@ jobs:
 
     - name: Java Server API Test (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
-      # Execute tests defined by the CMake configuration.  
+      # Execute tests defined by the CMake configuration.
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: |
         export ENCRYPTED=0 WEBRTC=0
@@ -61,7 +124,7 @@ jobs:
       run: |
         export ENCRYPTED=1 WEBRTC=0
         make runjunitsrv
-        
+
     - name: Start TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
@@ -75,7 +138,7 @@ jobs:
         cp Library/TeamTalkLib/test/ttservercert.pem Server/
         cp Library/TeamTalkLib/test/ttserverkey.pem Server/
         Server/tt5prosrv -d -wd Server/
-    
+
     - name: Run Python client
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
@@ -85,11 +148,11 @@ jobs:
     - name: Catch unit-test
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
       run: |
-        ./catchtt
+        valgrind --tool=memcheck --leak-check=full ./catchtt
 
     - name: Stop TeamTalk Pro Server
       run: killall tt5prosrv
-    
+
     - name: Java Unit-test (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: |
@@ -98,13 +161,13 @@ jobs:
 
     - name: Stop TeamTalk Standard Server
       run: killall tt5srv
-    
+
     - name: Start TeamTalk Pro Server (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
         cp -f Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
         Server/tt5prosrv -d -c Server/tt5srv.xml
-    
+
     - name: Java Unit-test with shared audio devices (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: |
@@ -112,10 +175,10 @@ jobs:
         export INPUTDEVICEID=4026
         export OUTPUTDEVICEID=4026
         make runjunitpro
-    
+
     - name: Stop TeamTalk Pro Server (non-encrypted)
       run: killall tt5prosrv
-    
+
     - name: Start TeamTalk Pro Server (encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
@@ -123,7 +186,7 @@ jobs:
         cp Library/TeamTalkLib/test/ttservercert.pem Server/
         cp Library/TeamTalkLib/test/ttserverkey.pem Server/
         Server/tt5prosrv -d -wd Server/
-    
+
     - name: Java Unit-test with virtual audio device (encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: |
@@ -131,10 +194,10 @@ jobs:
         export INPUTDEVICEID=1978
         export OUTPUTDEVICEID=1978
         make runjunitpro
-        
+
     - name: Stop TeamTalk Pro Server (encrypted)
       run: killall tt5prosrv
-          
+
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Documentation
       run: |

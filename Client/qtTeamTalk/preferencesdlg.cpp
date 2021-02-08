@@ -52,6 +52,8 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     initDefaultVideoFormat(m_vidfmt);
 
@@ -130,8 +132,12 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             SLOT(slotEventServerLost()));
     connect(ui.usermsgButton, SIGNAL(clicked()),
             SLOT(slotEventUserTextMsg()));
+    connect(ui.sentmsgButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventSentTextMsg);
     connect(ui.chanmsgButton, SIGNAL(clicked()),
             SLOT(slotEventChannelTextMsg()));
+    connect(ui.sentchannelmsgButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventSentChannelMsg);
     connect(ui.bcastmsgButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventBroadcastTextMsg);
     connect(ui.hotkeyButton, SIGNAL(clicked()),
@@ -509,7 +515,9 @@ void PreferencesDlg::slotTabChange(int index)
         ui.rmuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER).toString());
         ui.srvlostEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST).toString());
         ui.usermsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG).toString());
+        ui.sentmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SENTSOUND).toString());
         ui.chanmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG).toString());
+        ui.sentchannelmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SENTCHANNELSOUND).toString());
         ui.bcastmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG).toString());
         ui.hotkeyEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY).toString());
         ui.chansilentEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SILENCE).toString());
@@ -842,7 +850,9 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_REMOVEUSER, ui.rmuserEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_SERVERLOST, ui.srvlostEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_USERMSG, ui.usermsgEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_SENTSOUND, ui.sentmsgEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_CHANNELMSG, ui.chanmsgEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_SENTCHANNELSOUND, ui.sentchannelmsgEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_BROADCASTMSG, ui.bcastmsgEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_HOTKEY, ui.hotkeyEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_SILENCE, ui.chansilentEdit->text());
@@ -1108,8 +1118,7 @@ void PreferencesDlg::slotSoundTestDevices(bool checked)
             samplerate = out_dev.nDefaultSampleRate;
         int channels = 1;
 
-        AudioPreprocessor preprocessor = {};
-        initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+        AudioPreprocessor preprocessor = initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR);
         preprocessor.webrtc.gaincontroller2.bEnable = ui.agcBox->isChecked();
         preprocessor.webrtc.noisesuppression.bEnable = ui.denoisingBox->isChecked();
 
@@ -1198,11 +1207,25 @@ void PreferencesDlg::slotEventUserTextMsg()
         ui.usermsgEdit->setText(filename);
 }
 
+void PreferencesDlg::slotEventSentTextMsg()
+{
+    QString filename;
+    if (getSoundFile(filename))
+        ui.sentmsgEdit->setText(filename);
+}
+
 void PreferencesDlg::slotEventChannelTextMsg()
 {
     QString filename;
     if(getSoundFile(filename))
         ui.chanmsgEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventSentChannelMsg()
+{
+    QString filename;
+    if (getSoundFile(filename))
+        ui.sentchannelmsgEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventBroadcastTextMsg()

@@ -24,42 +24,23 @@
 #if !defined(CLIENTNODE_H)
 #define CLIENTNODE_H
 
-#include "Client.h"
+#include "ClientNodeBase.h"
+#include "ClientNodeEvent.h"
 #include "ClientChannel.h"
 #include "ClientUser.h"
 #include "AudioThread.h"
 #include "FileNode.h"
 #include "VideoThread.h"
-#include "VoiceLogger.h"
 #include "AudioMuxer.h"
 #include "AudioContainer.h"
 #include "DesktopShare.h"
-#include <myace/TimerHandler.h>
+
 #include <myace/MyACE.h>
 #include <teamtalk/StreamHandler.h>
 #include <teamtalk/Common.h>
 #include <teamtalk/PacketHandler.h>
 #include <avstream/VideoCapture.h>
 #include <avstream/MediaPlayback.h>
-
-#include <avstream/MediaStreamer.h>
-#include <avstream/AudioInputStreamer.h>
-
-// ACE
-#include <ace/Reactor.h>
-#include <ace/Recursive_Thread_Mutex.h>
-#include <ace/Thread_Mutex.h>
-#include <ace/INET_Addr.h>
-#include <ace/Time_Value.h>
-#include <ace/FILE_Connector.h>
-#include <ace/Connector.h> 
-#include <ace/SString.h>
-
-#if defined(ENABLE_ENCRYPTION)
-#include <ace/SSL/SSL_SOCK_Connector.h>
-#else
-#include <ace/SOCK_Connector.h>
-#endif
 
 #include <atomic>
 
@@ -70,9 +51,7 @@
 
 #define MTU_QUERY_RETRY_COUNT 20 //20 * 500ms = 10 seconds for MTU query (CLIENT_QUERY_MTU_INTERVAL)
 
-#define SOUNDDEVICE_IGNORE_ID -1
-
-#ifdef _DEBUG
+#if defined(_DEBUG)
 #define ASSERT_REACTOR_LOCKED(this_obj)                         \
     TTASSERT(this_obj->m_reactor_thr_id == ACE_Thread::self())
 #define GUARD_REACTOR(this_obj)                         \
@@ -84,40 +63,6 @@
 #define GUARD_REACTOR(this_obj)                 \
     guard_t g(this_obj->reactor_lock())
 #endif
-
-enum ClientTimer
-{
-    TIMER_ONE_SECOND_ID                     = 1, //timer for checking things every second
-    TIMER_TCPKEEPALIVE_ID                   = 2,
-    TIMER_UDPCONNECT_ID                     = 3, //connect to server with UDP
-    TIMER_UDPKEEPALIVE_ID                   = 4,
-    TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID      = 8,
-    TIMER_DESKTOPNAKPACKET_TIMEOUT_ID       = 9,
-    TIMER_BUILD_DESKTOPPACKETS_ID           = 10,
-    TIMER_QUERY_MTU_ID                      = 11,
-    TIMER_STOP_AUDIOINPUT                   = 12,
-
-    //User instance timers (termination not handled by ClientNode::StopTimer())
-    USER_TIMER_MASK                         = 0x8000,
-
-    USER_TIMER_VOICE_PLAYBACK_ID            = USER_TIMER_MASK + 2,
-    USER_TIMER_MEDIAFILE_AUDIO_PLAYBACK_ID  = USER_TIMER_MASK + 3,
-    USER_TIMER_MEDIAFILE_VIDEO_PLAYBACK_ID  = USER_TIMER_MASK + 4,
-    USER_TIMER_DESKTOPACKPACKET_ID          = USER_TIMER_MASK + 5,
-    USER_TIMER_STOP_STREAM_MEDIAFILE_ID     = USER_TIMER_MASK + 6,
-    USER_TIMER_DESKTOPINPUT_RTX_ID          = USER_TIMER_MASK + 7,
-    USER_TIMER_DESKTOPINPUT_ACK_ID          = USER_TIMER_MASK + 8,
-    USER_TIMER_REMOVE_FILETRANSFER_ID       = USER_TIMER_MASK + 9,
-    USER_TIMER_UPDATE_USER                  = USER_TIMER_MASK + 10,
-    USER_TIMER_REMOVE_LOCALPLAYBACK         = USER_TIMER_MASK + 11
-};
-
-#define TIMERID_MASK            0xFFFF
-#define USER_TIMER_USERID_MASK  0xFFFF0000
-#define USER_TIMER_USERID_SHIFT 16
-
-#define USER_TIMERID(timerid, userid) ((userid << USER_TIMER_USERID_SHIFT) | timerid)
-#define TIMER_USERID(timerid) ((timerid >> USER_TIMER_USERID_SHIFT) & 0xFFFF)
 
 namespace teamtalk {
 
@@ -208,84 +153,31 @@ namespace teamtalk {
         ACE_Time_Value udp_connect_timeout = ACE_Time_Value(10, 0);
     };
 
-    struct SoundProperties
-    {
-        int inputdeviceid;
-        int outputdeviceid;
-        //sound group for current instance
-        int soundgroupid;
-        // AGC, AEC and denoise settings
-        AudioPreprocessor preprocessor;
-        //dereverb
-        bool dereverb;
-        //count transmitted samples
-        ACE_UINT32 samples_transmitted;
-        //total samples recorded
-        ACE_UINT32 samples_recorded;
-        uint32_t samples_delay_msec;
-        SoundDeviceEffects effects;
-
-        SoundProperties()
-        {
-            inputdeviceid = outputdeviceid = SOUNDDEVICE_IGNORE_ID;
-            soundgroupid = 0;
-            dereverb = true;
-            samples_transmitted = 0;
-            samples_recorded = 0;
-            samples_delay_msec = 0;
-            // default to TT Audio preprocessor to be compatible with
-            // SetVoiceGainLevel()
-            preprocessor.preprocessor = AUDIOPREPROCESSOR_TEAMTALK;
-            preprocessor.ttpreprocessor.gainlevel = GAIN_NORMAL;
-            preprocessor.ttpreprocessor.muteleft = preprocessor.ttpreprocessor.muteright = false;
-        }
-    };
-
     soundsystem::SoundDeviceFeatures GetSoundDeviceFeatures(const SoundDeviceEffects& effects);
 
-    class EventSuspender
-    {
-    public:
-        virtual void SuspendEventHandling(bool quit = false) = 0;
-        virtual void ResumeEventHandling() = 0;
-    };
-
-    //forward decl.
-    class ClientListener;
     typedef std::shared_ptr< class FileNode > filenode_t;
 
     class ClientNode
-        : public ACE_Task<ACE_MT_SYNCH>
+        : public ClientNodeBase
         , public PacketListener
         , public StreamListener<DefaultStreamHandler::StreamHandler_t>
 #if defined(ENABLE_ENCRYPTION)
         , public StreamListener<CryptStreamHandler::StreamHandler_t>
 #endif
-        , public TimerListener
         , public soundsystem::StreamCapture
-        , public soundsystem::StreamDuplex
         , public FileTransferListener
-        , public EventSuspender
     {
     public:
         ClientNode(const ACE_TString& version, ClientListener* listener);
         virtual ~ClientNode();
 
-        int svc(void) override;
-
-        void SuspendEventHandling(bool quit = false) override;
-        void ResumeEventHandling() override;
-
-        ACE_Lock& reactor_lock();
 #if defined(_DEBUG)
         ACE_thread_t m_reactor_thr_id;
-        ACE_UINT32 m_active_timerid;
+        uint32_t m_active_timerid;
 #endif
-        ACE_Semaphore m_reactor_wait;
         
         ACE_Recursive_Thread_Mutex& lock_sndprop() { return m_sndgrp_lock; }
-        ACE_Recursive_Thread_Mutex& lock_timers() { return m_timers_lock; }
-        VoiceLogger& voicelogger();
+        VoiceLogger& voicelogger() override;
         AudioContainer& audiocontainer();
 
         //server properties
@@ -293,7 +185,7 @@ namespace teamtalk {
         bool GetClientStatistics(ClientStats& stats);
 
         ClientFlags GetFlags() const { return m_flags; }
-        int GetUserID() const { return m_myuserid; }
+        int GetUserID() const override { return m_myuserid; }
         const UserAccount& GetMyUserAccount() const { return m_myuseraccount; }
 
         clientuser_t GetUser(int userid, bool include_local = false);
@@ -301,7 +193,7 @@ namespace teamtalk {
         void GetUsers(std::set<int>& userids);
         clientchannel_t GetRootChannel();
         clientchannel_t GetMyChannel();
-        int GetChannelID();
+        int GetChannelID() override;
         clientchannel_t GetChannel(int channelid);
         ACE_TString GetChannelPath(int channelid);
         bool GetChannelProp(int channelid, ChannelProp& prop);
@@ -313,6 +205,7 @@ namespace teamtalk {
         bool CloseSoundInputDevice();
         bool CloseSoundOutputDevice();
         bool CloseSoundDuplexDevices();
+        bool SoundDuplexMode() override;
         bool SetSoundDeviceEffects(const SoundDeviceEffects& effects);
         SoundDeviceEffects GetSoundDeviceEffects();
         const SoundProperties& GetSoundProperties() const { return m_soundprop; }
@@ -424,13 +317,6 @@ namespace teamtalk {
         void UpdateKeepAlive(const ClientKeepAlive& keepalive);
         ClientKeepAlive GetKeepAlive();
 
-        //Start timer which is handled and terminated outside ClientNode
-        long StartUserTimer(uint16_t timer_id, uint16_t userid, 
-                            long userdata, const ACE_Time_Value& delay, 
-                            const ACE_Time_Value& interval = ACE_Time_Value::zero);
-        bool StopUserTimer(uint16_t timer_id, uint16_t userid);
-        bool TimerExists(ACE_UINT32 timer_id);
-        bool TimerExists(ACE_UINT32 timer_id, int userid);
         //TimerListener - reactor thread
         int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
 
@@ -489,7 +375,7 @@ namespace teamtalk {
         void AudioMuxCallback(const media::AudioFrame& audio_frame);
         // AudioPlayer listener - separate thread
         void AudioUserCallback(int userid, StreamType st,
-                               const media::AudioFrame& audio_frame);
+                               const media::AudioFrame& audio_frame) override;
 
         // FileNode listener - reactor thread
         void OnFileTransferStatus(const teamtalk::FileTransfer& transfer) override;
@@ -503,7 +389,7 @@ namespace teamtalk {
                             const ACE_INET_Addr& addr) override;
         void SendPackets() override; //send packets - reactor thread
 
-        bool QueuePacket(FieldPacket* packet);
+        bool QueuePacket(FieldPacket* packet) override;
 
         //Send packet to address
         int SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr);
@@ -587,14 +473,6 @@ namespace teamtalk {
 
         void RecreateUdpSocket();
 
-        //Start/stop timers handled by ClientNode
-        long StartTimer(ACE_UINT32 timer_id, long userdata, 
-                        const ACE_Time_Value& delay, 
-                        const ACE_Time_Value& interval = ACE_Time_Value::zero);
-        bool StopTimer(ACE_UINT32 timer_id);
-        //remove timer from timer set (without stopping it)
-        void ClearTimer(ACE_UINT32 timer_id);
-
         int Timer_OneSecond();
         int Timer_UdpKeepAlive();
         int Timer_BuildDesktopPackets();
@@ -630,12 +508,7 @@ namespace teamtalk {
 
         // shared sound system instance
         soundsystem::soundsystem_t m_soundsystem;
-        //the reactor associated with this client instance
-        ACE_Reactor m_reactor;
         std::atomic<ClientFlags> m_flags; //Mask of ClientFlag-enum
-        //set of timers currently in use. Protected by lock_timers().
-        timer_handlers_t m_timers;
-        ACE_Recursive_Thread_Mutex m_timers_lock; //mutexes must be the last to be destroyed
         // active sound groups (shared master volume)
         ACE_Recursive_Thread_Mutex m_sndgrp_lock;
         SoundProperties m_soundprop;
@@ -745,84 +618,6 @@ namespace teamtalk {
 
         //The listener of the ClientNode instance
         ClientListener* m_listener;
-    };
-
-    class ClientListener 
-        : public VoiceLogListener //VoiceLogger
-    {
-    public:
-        virtual ~ClientListener() {}
-
-        virtual void RegisterEventSuspender(EventSuspender* suspender) = 0;
-
-        virtual void OnConnectSuccess() = 0;
-        virtual void OnConnectFailed() = 0;
-        virtual void OnConnectionLost() = 0;
-
-        virtual void OnAccepted(int myuserid, const teamtalk::UserAccount& account) = 0;
-        virtual void OnLoggedOut() = 0;
-
-        virtual void OnUserLoggedIn(const teamtalk::ClientUser& user) = 0;
-        virtual void OnUserLoggedOut(const teamtalk::ClientUser& user) = 0;
-        virtual void OnUserUpdate(const teamtalk::ClientUser& user) = 0;
-
-        virtual void OnUserJoinChannel(const teamtalk::ClientUser& user,
-                                       const teamtalk::ClientChannel& chan) = 0;
-        virtual void OnUserLeftChannel(const teamtalk::ClientUser& user,
-                                       const teamtalk::ClientChannel& chan) = 0;
-
-        virtual void OnAddChannel(const ClientChannel& chan) = 0;
-        virtual void OnUpdateChannel(const teamtalk::ClientChannel& chan) = 0;
-        virtual void OnRemoveChannel(const teamtalk::ClientChannel& chan) = 0;
-
-        virtual void OnJoinedChannel(int channelid) = 0;
-        virtual void OnLeftChannel(int channelid) = 0;
-
-        virtual void OnAddFile(const teamtalk::ClientChannel& chan,
-                               const teamtalk::RemoteFile& file) = 0;
-        virtual void OnRemoveFile(const teamtalk::ClientChannel& chan,
-                                  const teamtalk::RemoteFile& file) = 0;
-
-        virtual void OnUserAccount(const teamtalk::UserAccount& account) = 0;
-        virtual void OnBannedUser(const teamtalk::BannedUser& banuser) = 0;
-
-        virtual void OnTextMessage(const teamtalk::TextMessage& textmsg) = 0;
-
-        virtual void OnKicked(const teamtalk::clientuser_t& user, int channelid) = 0;
-        virtual void OnServerUpdate(const ServerInfo& serverinfo) = 0;
-        virtual void OnServerStatistics(const ServerStats& serverstats) = 0;
-
-        virtual void OnFileTransferStatus(const teamtalk::FileTransfer& transfer) = 0;
-
-        virtual void OnCommandError(int cmdid, int err_num, const ACE_TString& msg) = 0;
-        virtual void OnCommandSuccess(int cmdid) = 0;
-        virtual void OnCommandProcessing(int cmdid, bool begin_end) = 0;
-
-        virtual void OnInternalError(int err_num, const ACE_TString& msg) = 0;
-
-        virtual void OnVoiceActivated(bool enabled) = 0;
-
-        virtual void OnUserStateChange(const teamtalk::ClientUser& user) = 0;
-        virtual void OnUserVideoCaptureFrame(int userid, int stream_id) = 0;
-        virtual void OnUserMediaFileVideoFrame(int userid, int stream_id) = 0;
-
-        virtual void OnDesktopTransferUpdate(int session_id, int remain_bytes) = 0;
-
-        virtual void OnUserDesktopWindow(int userid, int session_id) = 0;
-        virtual void OnUserDesktopCursor(int src_userid, const teamtalk::DesktopInput& input) = 0;
-        virtual void OnUserDesktopInput(int src_userid, const teamtalk::DesktopInput& input) = 0;
-
-        virtual void OnChannelStreamMediaFile(const MediaFileProp& mfp,
-                                              MediaFileStatus status) = 0;
-
-        virtual void OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mfp,
-                                              MediaFileStatus status) = 0;
-
-        virtual void OnAudioInputStatus(int voicestreamid, const AudioInputStatus& progress) = 0;
-
-        virtual void OnUserAudioBlock(int userid, StreamType stream_type) = 0;
-
-        virtual void OnMTUQueryComplete(int payload_size) = 0;
     };
 }
 

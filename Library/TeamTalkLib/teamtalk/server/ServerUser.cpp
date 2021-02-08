@@ -155,6 +155,7 @@ void ServerUser::ForwardChannels(const serverchannel_t& root, bool encrypted)
 void ServerUser::ForwardUsers(const serverchannel_t& channel, bool recursive)
 {
     TTASSERT(IsAuthorized());
+    TTASSERT(GetUserRights() & USERRIGHT_VIEW_ALL_USERS);
 
     TTASSERT(channel.get());
     std::queue<serverchannel_t> chanqueue;
@@ -166,9 +167,15 @@ void ServerUser::ForwardUsers(const serverchannel_t& channel, bool recursive)
         vector<serverchannel_t> subs = ch->GetSubChannels();
         for(size_t i=0;i<subs.size() && recursive;i++)
             chanqueue.push(subs[i]);
+
+        if ((ch->GetChannelType() & CHANNEL_HIDDEN) && (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
+            continue;
+        
         ServerChannel::users_t users = ch->GetUsers();
-        for(size_t i=0;i<users.size();i++)
-            DoAddUser(*users[i].get(), *ch.get());
+        for (auto u : users)
+        {
+            DoAddUser(*u, *ch.get());
+        }
     }
 }
 

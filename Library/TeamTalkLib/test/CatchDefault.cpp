@@ -30,6 +30,7 @@
 
 #include <myace/MyACE.h>
 #include <teamtalk/server/ServerNode.h>
+#include <avstream/VideoCapture.h>
 
 #include <map>
 #include <map>
@@ -1460,11 +1461,138 @@ TEST_CASE("WebRTC_echocancel")
 
     WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
 }
+
+TEST_CASE("WebRTC_Preamplifier")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    int level = 0;
+    
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, TRUE));
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 300));
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, TRUE));
+
+    // no gain
+    AudioPreprocessor preprocess = {};
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+
+    TTMessage msg = {};
+    int streamid = 0;
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+    auto ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
+    REQUIRE(ab);
+    TT_ReleaseUserAudioBlock(ttclient, ab);
+    streamid = ab->nStreamID;
+    level = TT_GetSoundInputLevel(ttclient);
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, FALSE));
+    REQUIRE(TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID) == nullptr);
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, FALSE));
+
+    // half gain
+    preprocess.webrtc.preamplifier.bEnable = TRUE;
+    preprocess.webrtc.preamplifier.fFixedGainFactor = .5f;
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+
+    REQUIRE(JoinRoot(ttclient));
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, TRUE));
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, TRUE));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK));
+    ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
+    REQUIRE(ab);
+    TT_ReleaseUserAudioBlock(ttclient, ab);
+    REQUIRE(streamid + 1 == ab->nStreamID);
+    REQUIRE(level / 2 == TT_GetSoundInputLevel(ttclient));
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, FALSE));
+    REQUIRE(TT_EnableVoiceTransmission(ttclient, FALSE));
+}
+
+TEST_CASE("WebRTC_LevelEstimation")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 500));
+
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_USERID, STREAMTYPE_VOICE, TRUE));
+
+    AudioPreprocessor preprocess = {};
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    preprocess.webrtc.levelestimation.bEnable = TRUE;
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+    int n = 10;
+    do
+    {
+        REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK));
+        auto ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_USERID);
+        REQUIRE(ab);
+        REQUIRE(TT_ReleaseUserAudioBlock(ttclient, ab));
+        REQUIRE(TT_GetSoundInputLevel(ttclient) >= 88);
+    } while (n-- > 0);
+}
+
+TEST_CASE("WebRTC_VAD")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    AudioPreprocessor preprocess = {};
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    preprocess.webrtc.voicedetection.bEnable = TRUE;
+    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+
+    REQUIRE(TT_SetVoiceActivationStopDelay(ttclient, 200));
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 500));
+
+    REQUIRE(TT_EnableVoiceActivation(ttclient, TRUE));
+    TTMessage msg = {};
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_VOICE_ACTIVATION, msg));
+    REQUIRE(msg.bActive);
+
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 0));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_VOICE_ACTIVATION, msg));
+    REQUIRE(!msg.bActive);
+}
+
 #endif /* ENABLE_WEBRTC */
 
-#if defined(ENABLE_PORTAUDIO)
+TEST_CASE("TeamTalk_VAD")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
 
-int samples = 0;
+    REQUIRE(TT_EnableVoiceActivation(ttclient, TRUE));
+    REQUIRE(TT_SetVoiceActivationLevel(ttclient, 63));
+    REQUIRE(TT_SetVoiceActivationStopDelay(ttclient, 100));
+
+    TTMessage msg = {};
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 500));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_VOICE_ACTIVATION, msg));
+    REQUIRE(msg.bActive);
+
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 0));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_VOICE_ACTIVATION, msg));
+    REQUIRE(!msg.bActive);
+}
+
+#if defined(ENABLE_PORTAUDIO) && defined(WIN32)
+
+int paSamples = 0;
 uint32_t paTimeStamp = 0;
 
 int Foo_StreamCallback(const void* inputBuffer, void* outputBuffer,
@@ -1473,7 +1601,7 @@ int Foo_StreamCallback(const void* inputBuffer, void* outputBuffer,
     PaStreamCallbackFlags statusFlags,
     void* pUserData)
 {
-    samples += framesPerBuffer;
+    paSamples += framesPerBuffer;
     if (!paTimeStamp)
         paTimeStamp = GETTIMESTAMP();
 
@@ -1512,11 +1640,11 @@ TEST_CASE("PortAudioRaw_SamplesPerSec")
                         paClipOff, Foo_StreamCallback, static_cast<void*> (0));
 
     REQUIRE(Pa_StartStream(outstream) == paNoError);
-    while (samples < ininfo->defaultSampleRate * 500)
+    while (paSamples < ininfo->defaultSampleRate * 500)
     {
         Pa_Sleep(1000);
 
-        auto samplesDurationMSec = PCM16_SAMPLES_DURATION(samples, int(ininfo->defaultSampleRate));
+        auto samplesDurationMSec = PCM16_SAMPLES_DURATION(paSamples, int(ininfo->defaultSampleRate));
         auto durationMSec = GETTIMESTAMP() - paTimeStamp;
         auto skew = int(samplesDurationMSec - durationMSec);
         std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
@@ -1531,7 +1659,7 @@ TEST_CASE("PortAudio_SamplesPerSec")
 {
     auto snd = soundsystem::GetInstance();
     auto grp = snd->OpenSoundGroup();
-    
+
     int inputdeviceid, outputdeviceid;
     REQUIRE(snd->GetDefaultDevices(soundsystem::SOUND_API_WASAPI, inputdeviceid, outputdeviceid));
     soundsystem::devices_t devs;
@@ -1543,7 +1671,7 @@ TEST_CASE("PortAudio_SamplesPerSec")
         });
 
     REQUIRE(ioutdev != devs.end());
-    
+
     soundsystem::DeviceInfo& outdev = *ioutdev;
 
     uint32_t samples = 0, starttime = 0;
@@ -1581,3 +1709,136 @@ TEST_CASE("PortAudio_SamplesPerSec")
 }
 
 #endif
+
+TEST_CASE("InjectAudio")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoSubscribe(ttclient, TT_GetMyUserID(ttclient), SUBSCRIBE_VOICE)));
+
+    int SAMPLERATE = 48000, CHANNELS = 2;
+    std::vector<short> buf(SAMPLERATE * CHANNELS);
+    AudioBlock ab = {};
+    ab.nStreamID = 1;
+    ab.nSampleRate = SAMPLERATE;
+    ab.nChannels = CHANNELS;
+    ab.lpRawAudio = &buf[0];
+    ab.nSamples = SAMPLERATE;
+
+    // 3 secs
+    int samples = SAMPLERATE * 3;
+
+    do
+    {
+        std::cout << "Insert Audio" << std::endl;
+        REQUIRE(TT_InsertAudioBlock(ttclient, &ab));
+
+        TTMessage msg;
+        do
+        {
+            REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_AUDIOINPUT, msg));
+        } while (msg.audioinputprogress.uQueueMSec > 0);
+
+    } while ((samples -= SAMPLERATE) > 0);
+}
+
+TEST_CASE("FixedJitterBuffer")
+{
+    std::vector<ttinst> clients;
+    auto txclient = TT_InitTeamTalkPoll();
+    auto rxclient = TT_InitTeamTalkPoll();
+    clients.push_back(txclient);
+    clients.push_back(rxclient);
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(txclient));
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    uint32_t fixeddelay = 240;
+
+    JitterConfig jitterconf{};
+    jitterconf.nFixedDelayMSec = fixeddelay;
+    jitterconf.bUseAdativeDejitter = false;
+    jitterconf.nMaxAdaptiveDelayMSec = 10000;
+
+    TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf);
+
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+
+    auto voicestart = [&](TTMessage msg)
+    {
+        if (msg.nClientEvent == CLIENTEVENT_USER_STATECHANGE &&
+            msg.user.nUserID == TT_GetMyUserID(txclient) &&
+            (msg.user.uUserState & USERSTATE_VOICE) == USERSTATE_VOICE)
+        {
+            return true;
+        }
+
+        return false;
+    };
+
+    uint32_t starttime = GETTIMESTAMP();
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestart));
+
+    uint32_t endtime = GETTIMESTAMP();
+    uint32_t delay = (endtime - starttime);
+    INFO("Measured voice delay is " << delay);
+
+    REQUIRE((delay >= fixeddelay));
+    //Measuring the maximum deviation of the delay is not reliably possible because the CLIENTEVENT_USER_STATECHANGE is detected/notified on it's own timer.
+}
+
+TEST_CASE("VideoCapture")
+{
+    using namespace vidcap;
+    videocapture_t capture = VideoCapture::Create();
+
+    auto devs = capture->GetDevices();
+
+    vidcap::VidCapDevice dev;
+
+    for (size_t i=0;i<devs.size() && dev.vidcapformats.empty();++i)
+    {
+        if (devs[i].vidcapformats.size())
+            dev = devs[i];
+    }
+
+    if (dev.deviceid.empty())
+        return;
+
+    auto capformat = dev.vidcapformats.at(0);
+
+    std::condition_variable cv;
+
+    int frames = 10;
+    auto callback = [&] (media::VideoFrame& video_frame, ACE_Message_Block* mb_video)
+    {
+        frames--;
+        cv.notify_all();
+        std::cout << "Frame " << frames << std::endl;
+        return false;
+    };
+
+    REQUIRE(capture->InitVideoCapture(dev.deviceid, capformat));
+
+    REQUIRE(capture->RegisterVideoFormat(callback, capformat.fourcc));
+
+    REQUIRE(capture->StartVideoCapture());
+
+    do {
+        std::mutex mtx;
+        std::unique_lock<std::mutex> lck(mtx);
+        cv.wait(lck);
+    } while (frames >= 0);
+}

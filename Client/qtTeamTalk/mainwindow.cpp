@@ -720,6 +720,11 @@ bool MainWindow::parseArgs(const QStringList& args)
                 m = rx.match(prop);
                 if (m.hasMatch())
                     entry.chanpasswd = m.captured(1);
+                //&?encrypted=([^&]*)&?
+                rx.setPattern("&?encrypted=([^&]*)&?");
+                m = rx.match(prop);
+                if (m.hasMatch())
+                    entry.encrypted = (m.captured(1) == "true" || m.captured(1) == "1");
 
                 addLatestHost(entry);
                 m_host = entry;
@@ -1753,14 +1758,22 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     case CMDERR_INVALID_ACCOUNT :
         {
             bool ok = false;
-            m_host.username = QInputDialog::getText(this, tr("Login error"), 
-                tr("Invalid user account. Type username:"), 
-                QLineEdit::Normal, m_host.username, &ok);
+            QInputDialog inputDialog;
+            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setCancelButtonText(tr("&Cancel"));
+            inputDialog.setInputMode(QInputDialog::TextInput);
+            inputDialog.setTextValue(m_host.username);
+            inputDialog.setWindowTitle(tr("Login error"));
+            inputDialog.setLabelText(tr("Invalid user account. Type username:"));
+            ok = inputDialog.exec();
+            m_host.username = inputDialog.textValue();
             if(!ok)
                 return;
-            m_host.password = QInputDialog::getText(this, tr("Login error"), 
-                tr("Invalid user account. Type password:"), 
-                QLineEdit::Password, m_host.password, &ok);
+            inputDialog.setTextEchoMode(QLineEdit::Password);
+            inputDialog.setTextValue(m_host.password);
+            inputDialog.setWindowTitle(tr("Login error"));
+            inputDialog.setLabelText(tr("Invalid user account. Type password:"));
+            ok = inputDialog.exec();
             if(!ok)
                 return;
             
@@ -1776,9 +1789,16 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     case CMDERR_INCORRECT_CHANNEL_PASSWORD :
         {
             bool ok = false;
-            QString passwd = QInputDialog::getText(this, tr("Join channel error"), 
-                tr("Incorrect channel password. Try again:"), 
-                QLineEdit::Password, _Q(m_last_channel.szPassword), &ok);
+            QInputDialog inputDialog;
+            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setCancelButtonText(tr("&Cancel"));
+            inputDialog.setInputMode(QInputDialog::TextInput);
+            inputDialog.setTextEchoMode(QLineEdit::Password);
+            inputDialog.setTextValue(_Q(m_last_channel.szPassword));
+            inputDialog.setWindowTitle(tr("Join channel error"));
+            inputDialog.setLabelText(tr("Incorrect channel password. Try again:"));
+            ok = inputDialog.exec();
+            QString passwd = inputDialog.textValue();
             if(!ok)
                 return;
             m_channel_passwd[m_last_channel.nChannelID] = passwd;
@@ -2230,13 +2250,15 @@ void MainWindow::firewallInstall()
     appPath = QDir::toNativeSeparators(appPath);
     if(!TT_Firewall_AppExceptionExists(_W(appPath)))
     {
-        QMessageBox::StandardButton answer = QMessageBox::question(this, 
-            APPTITLE, 
-            tr("Do you wish to add %1 to the Windows Firewall exception list?")
-            .arg(APPTITLE), 
-            QMessageBox::Yes | QMessageBox::No);
+        QMessageBox answer;
+        answer.setText(tr("Do you wish to add %1 to the Windows Firewall exception list?").arg(APPTITLE));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(APPTITLE);
+        answer.exec();
 
-        if(answer == QMessageBox::Yes &&
+        if(answer.clickedButton() == YesButton &&
             !TT_Firewall_AddAppException(_W(QString(APPTITLE)), 
                                         _W(appPath)))
         {
@@ -2324,8 +2346,10 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
                 openLogFile(m_logChan, chanlog, _Q(m_mychannel.szName) + ".clog");
             writeLogEntry(m_logChan, line);
         }
-        if(textmsg.nFromUserID != TT_GetMyUserID(ttInst))
+        if (textmsg.nFromUserID != TT_GetMyUserID(ttInst))
             playSoundEvent(SOUNDEVENT_CHANNELMSG);
+        else
+            playSoundEvent(SOUNDEVENT_SENTCHANNELMSG);
         break;
     }
     case MSGTYPE_BROADCAST :
@@ -2576,8 +2600,7 @@ void MainWindow::updateAudioConfig()
     //check if channel AGC settings should override default settings
     if (m_mychannel.audiocfg.bEnableAGC)
     {
-        AudioPreprocessor preprocessor;
-        initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+        AudioPreprocessor preprocessor = initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR);
 
         preprocessor.webrtc.noisesuppression.bEnable = denoise;
         preprocessor.webrtc.echocanceller.bEnable = echocancel && duplex;
@@ -2596,14 +2619,14 @@ void MainWindow::updateAudioConfig()
         AudioPreprocessor preprocessor;
         if (denoise || agc || echocancel)
         {
-            initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+            preprocessor = initDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR);
             preprocessor.webrtc.noisesuppression.bEnable = denoise;
             preprocessor.webrtc.echocanceller.bEnable = echocancel && duplex;
             preprocessor.webrtc.gaincontroller2.bEnable = agc;
         }
         else
         {
-            initDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR, preprocessor);
+            preprocessor = initDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR);
         }
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
 
@@ -2959,7 +2982,7 @@ void MainWindow::startStreamMediaFile()
     MediaFilePlayback mfp = {};
     AudioPreprocessorType apt = AudioPreprocessorType(ttSettings->value(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR,
                                                       SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT).toInt());
-    loadAudioPreprocessor(apt, mfp.audioPreprocessor);
+    mfp.audioPreprocessor = loadAudioPreprocessor(apt);
     mfp.bPaused = false;
     mfp.uOffsetMSec = ttSettings->value(SETTINGS_STREAMMEDIA_OFFSET, SETTINGS_STREAMMEDIA_OFFSET_DEFAULT).toUInt();
     if (!TT_StartStreamingMediaFileToChannelEx(ttInst, _W(fileName), &mfp, &vidcodec))
@@ -3308,25 +3331,44 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
         profilenames.push_back(delprofile);
 
     bool ok = false;
-    QString choice = QInputDialog::getItem(this, tr("New Client Instance"), 
-        tr("Select profile"), profilenames, 0, false, &ok);
+    QInputDialog inputDialog;
+    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setCancelButtonText(tr("&Cancel"));
+    inputDialog.setComboBoxItems(profilenames);
+    inputDialog.setComboBoxEditable(false);
+    inputDialog.setWindowTitle(tr("New Client Instance"));
+    inputDialog.setLabelText(tr("Select profile"));
+    ok = inputDialog.exec();
+    QString choice = inputDialog.textValue();
 
     if(choice == delprofile)
     {
         profilenames.removeAll(newprofile);
         profilenames.removeAll(delprofile);
-
-        QString choice = QInputDialog::getItem(this, tr("New Client Instance"),
-            tr("Delete profile"), profilenames, 0, false, &ok);
+        QInputDialog inputDialog;
+        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setCancelButtonText(tr("&Cancel"));
+        inputDialog.setComboBoxItems(profilenames);
+        inputDialog.setComboBoxEditable(false);
+        inputDialog.setWindowTitle(tr("New Client Instance"));
+        inputDialog.setLabelText(tr("Delete profile"));
+        ok = inputDialog.exec();
+        QString choice = inputDialog.textValue();
         if(ok && ttSettings->fileName() != profiles[choice])
             QFile::remove(profiles[choice]);
         return;
     }
     else if(choice == newprofile)
     {
-        QString newname = QInputDialog::getText(this,
-            tr("New Profile"), tr("Profile name"), QLineEdit::Normal,
-            QString("Profile %1").arg(freeno), &ok);
+        QInputDialog inputDialog;
+        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setCancelButtonText(tr("&Cancel"));
+        inputDialog.setInputMode(QInputDialog::TextInput);
+        inputDialog.setTextValue(QString("Profile %1").arg(freeno));
+        inputDialog.setWindowTitle(tr("New Profile"));
+        inputDialog.setLabelText(tr("Profile name"));
+        ok = inputDialog.exec();
+        QString newname = inputDialog.textValue();
         if(ok && newname.size())
         {
             inipath = QString("%1.%2").arg(inipath).arg(freeno);
@@ -3536,11 +3578,15 @@ void MainWindow::slotClientExit(bool /*checked =false */)
 void MainWindow::slotMeChangeNickname(bool /*checked =false */)
 {
     bool ok = false;
-    QString s = QInputDialog::getText(this, 
-                                      MENUTEXT(ui.actionChangeNickname->text()), 
-                                      tr("Specify new nickname"), QLineEdit::Normal, 
-                                      ttSettings->value(SETTINGS_GENERAL_NICKNAME,
-                                                        tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString(), &ok);
+    QInputDialog inputDialog;
+    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setCancelButtonText(tr("&Cancel"));
+    inputDialog.setInputMode(QInputDialog::TextInput);
+    inputDialog.setTextValue(ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString());
+    inputDialog.setWindowTitle(MENUTEXT(ui.actionChangeNickname->text()));
+    inputDialog.setLabelText(tr("Specify new nickname"));
+    ok = inputDialog.exec();
+    QString s = inputDialog.textValue();
     if(ok)
     {
         ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, s);
@@ -4039,9 +4085,14 @@ void MainWindow::slotChannelsDeleteChannel(bool /*checked =false */)
 
     TTCHAR buff[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, chanid, buff);
-    if(QMessageBox::information(this, MENUTEXT(ui.actionDeleteChannel->text()),
-        tr("Are you sure you want to delete channel \"%1\"?").arg(_Q(buff)), 
-        QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+    QMessageBox answer;
+    answer.setText(tr("Are you sure you want to delete channel \"%1\"?").arg(_Q(buff)));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    answer.setIcon(QMessageBox::Information);
+    answer.setWindowTitle(MENUTEXT(ui.actionDeleteChannel->text()));
+    answer.exec();
+    if(answer.clickedButton() == NoButton)
         return;
 
     if(TT_DoRemoveChannel(ttInst, chanid)<0)
@@ -4066,8 +4117,16 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
     if(chan.bPassword)
     {
         bool ok = false;
-        password = QInputDialog::getText(this, MENUTEXT(ui.actionJoinChannel->text()), 
-            tr("Specify password"), QLineEdit::Password, password, &ok);
+        QInputDialog inputDialog;
+        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setCancelButtonText(tr("&Cancel"));
+        inputDialog.setInputMode(QInputDialog::TextInput);
+        inputDialog.setTextEchoMode(QLineEdit::Password);
+        inputDialog.setTextValue(password);
+        inputDialog.setWindowTitle(MENUTEXT(ui.actionJoinChannel->text()));
+        inputDialog.setLabelText(tr("Specify password"));
+        ok = inputDialog.exec();
+        password = inputDialog.textValue();
         if(!ok)
             return;
     }
@@ -4176,16 +4235,29 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
     QStringList filenames;
     QList<int> files = ui.filesView->selectedFiles(&filenames);
     bool delete_ok = false;
+    QMessageBox answer;
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    answer.setIcon(QMessageBox::Information);
+    answer.setWindowTitle(MENUTEXT(ui.actionDeleteFile->text()));
     if(filenames.size() == 1)
-        delete_ok = QMessageBox::information(this,
-                                             MENUTEXT(ui.actionDeleteFile->text()),
-                                             tr("Are you sure you want to delete \"%1\"?").arg(filenames[0]),
-                                             QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes;
+    {
+        answer.setText(tr("Are you sure you want to delete \"%1\"?").arg(filenames[0]));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+            delete_ok = true;
+        else
+            delete_ok = false;
+    }
     else if(filenames.size()>1)
-        delete_ok = QMessageBox::information(this,
-                                             MENUTEXT(ui.actionDeleteFile->text()),
-                                             tr("Are you sure you want to delete %1 file(s)?").arg(filenames.size()),
-                                             QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes;
+    {
+        answer.setText(tr("Are you sure you want to delete %1 file(s)?").arg(filenames.size()));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+            delete_ok = true;
+        else
+            delete_ok = false;
+    }
 
     for(int i=0;i<files.size() && delete_ok;i++)
         TT_DoDeleteFile(ttInst, channelid, files[i]);
@@ -4270,9 +4342,14 @@ void MainWindow::slotServerOnlineUsers(bool /*checked=false*/)
 void MainWindow::slotServerBroadcastMessage(bool /*checked=false*/)
 {
     bool ok = false;
-    QString bcast = QInputDialog::getText(this, 
-        MENUTEXT(ui.actionBroadcastMessage->text()), 
-        tr("Message to broadcast:"), QLineEdit::Normal, "", &ok);
+    QInputDialog inputDialog;
+    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setCancelButtonText(tr("&Cancel"));
+    inputDialog.setInputMode(QInputDialog::TextInput);
+    inputDialog.setWindowTitle(MENUTEXT(ui.actionBroadcastMessage->text()));
+    inputDialog.setLabelText(tr("Message to broadcast:"));
+    ok = inputDialog.exec();
+    QString bcast = inputDialog.textValue();
     if(!ok)
         return;
     TextMessage msg;
@@ -4314,9 +4391,14 @@ void MainWindow::slotServerServerStatistics(bool /*checked=false*/)
 
 void MainWindow::slotHelpResetPreferences(bool /*checked=false*/)
 {
-    if (QMessageBox::question(this, MENUTEXT(ui.actionResetPreferencesToDefault->text()),
-        tr("Are you sure you want to delete your existing settings?"),
-        QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+    QMessageBox answer;
+    answer.setText(tr("Are you sure you want to delete your existing settings?"));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    answer.setIcon(QMessageBox::Question);
+    answer.setWindowTitle(MENUTEXT(ui.actionResetPreferencesToDefault->text()));
+    answer.exec();
+    if (answer.clickedButton() == YesButton)
     {
         QString cfgpath = ttSettings->fileName();
         QString defpath = QString(APPDEFAULTINIFILE);
@@ -4425,8 +4507,15 @@ void MainWindow::slotUsersOp(int userid, int chanid)
     else
     {
         bool ok = false;
-        QString oppasswd = QInputDialog::getText(this, MENUTEXT(ui.actionOp->text()), 
-            tr("Specify password"), QLineEdit::Password, "", &ok);
+        QInputDialog inputDialog;
+        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setCancelButtonText(tr("&Cancel"));
+        inputDialog.setInputMode(QInputDialog::TextInput);
+        inputDialog.setTextEchoMode(QLineEdit::Password);
+        inputDialog.setWindowTitle(MENUTEXT(ui.actionOp->text()));
+        inputDialog.setLabelText(tr("Specify password"));
+        ok = inputDialog.exec();
+        QString oppasswd = inputDialog.textValue();
         if(ok)
             TT_DoChannelOpEx(ttInst, userid, chanid, _W(oppasswd), !op);
     }
@@ -4441,7 +4530,15 @@ void MainWindow::slotUsersKickBan(int userid, int chanid)
 {
     QStringList items = { tr("IP-address"), tr("Username") };
     bool ok = false;
-    QString choice = QInputDialog::getItem(this, tr("Ban User From Channel"), tr("Ban user's"), items, 0, false, &ok);
+    QInputDialog inputDialog;
+    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setCancelButtonText(tr("&Cancel"));
+    inputDialog.setComboBoxItems(items);
+    inputDialog.setComboBoxEditable(false);
+    inputDialog.setWindowTitle(tr("Ban user's"));
+    inputDialog.setLabelText(tr("Ban User From Channel"));
+    ok = inputDialog.exec();
+    QString choice = inputDialog.textValue();
     if (ok)
     {
         //ban first since the user will otherwise have disappeared
@@ -4844,6 +4941,16 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
     //specific to classroom channel
     QString msg;
     bool before = false, after = false;
+    before = userCanChanMessage(TT_GetMyUserID(ttInst), oldchan);
+    after = userCanChanMessage(TT_GetMyUserID(ttInst), chan);
+    if(before != after)
+    {
+        if(after)
+            msg = tr("You can now transmit channel messages!");
+        else
+            msg = tr("You can no longer transmit channel messages!");
+        addStatusMsg(msg);
+    }
     before = userCanVoiceTx(TT_GetMyUserID(ttInst), oldchan);
     after = userCanVoiceTx(TT_GetMyUserID(ttInst), chan);
     if(before != after)
@@ -4872,6 +4979,16 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
             msg = tr("You can now transmit desktop windows!");
         else
             msg = tr("You can no longer transmit desktop windows!");
+        addStatusMsg(msg);
+    }
+    before = userCanMediaFileTx(TT_GetMyUserID(ttInst), oldchan);
+    after = userCanMediaFileTx(TT_GetMyUserID(ttInst), chan);
+    if(before != after)
+    {
+        if(after)
+            msg = tr("You can now transmit mediafiles!");
+        else
+            msg = tr("You can no longer transmit mediafiles!");
         addStatusMsg(msg);
     }
 }
@@ -5463,14 +5580,13 @@ void MainWindow::slotMasterVolumeChanged(int value)
 
 void MainWindow::slotMicrophoneGainChanged(int value)
 {
-    AudioPreprocessor preprocessor;
-    initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+    AudioPreprocessor preprocessor = initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR);
 
     TT_GetSoundInputPreprocessEx(ttInst, &preprocessor);
     switch (preprocessor.nPreprocessor)
     {
     case NO_AUDIOPREPROCESSOR :
-        initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+        preprocessor = initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
         TT_SetSoundInputGainLevel(ttInst, refGain(value));
         break;
@@ -5553,12 +5669,14 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
 
     addLatestHost(entry);
     m_host = entry;
-
-    if(!element.firstChildElement(CLIENTSETUP_TAG).isNull() &&
-        QMessageBox::question(this, tr("Load %1 File").arg(TTFILE_EXT),
-        tr("The file %1 contains %2 setup information.\r\nShould these settings be applied?")
-        .arg(filepath).arg(APPNAME_SHORT),
-        QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+    QMessageBox answer;
+    answer.setText(tr("The file %1 contains %2 setup information.\r\nShould these settings be applied?").arg(filepath).arg(APPNAME_SHORT));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    answer.setIcon(QMessageBox::Question);
+    answer.setWindowTitle(tr("Load %1 File").arg(TTFILE_EXT));
+    answer.exec();
+    if(!element.firstChildElement(CLIENTSETUP_TAG).isNull() && answer.clickedButton() == YesButton)
     {
         //if no nickname specified use from .tt file
         if(m_host.nickname.size())

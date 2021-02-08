@@ -66,10 +66,10 @@ public:
     void QueueAudio(const media::AudioFrame& audframe);
     void QueueAudio(ACE_Message_Block* mb_audio);
     bool IsVoiceActive() const;
+    int GetCurrentVoiceLevel() const;
 
     bool UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess);
 
-    int m_voicelevel;
     int m_voiceactlevel;
     ACE_Time_Value m_voiceact_delay;
 
@@ -88,6 +88,8 @@ private:
     int close(u_long);
     int svc(void);
     void ProcessAudioFrame(media::AudioFrame& audblock);
+    void MeasureVoiceLevel(const media::AudioFrame& audblock);
+
     void MuteSound(bool leftchannel, bool rightchannel);
     bool UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp);
 #if defined(ENABLE_SPEEXDSP)
@@ -111,6 +113,7 @@ private:
 #endif
 #if defined(ENABLE_WEBRTC)
     std::unique_ptr<webrtc::AudioProcessing> m_apm;
+    std::unique_ptr<webrtc::AudioProcessingStats> m_aps;
 #endif
 #if defined(ENABLE_SPEEX)
     std::unique_ptr<SpeexEncoder> m_speex;
@@ -122,6 +125,8 @@ private:
     std::vector<short> m_echobuf;
     teamtalk::AudioCodec m_codec;
 
+    int m_voicelevel;
+
     // TTAudioPreprocessor
     StereoMask m_stereo = STEREO_BOTH;
 
@@ -131,6 +136,7 @@ private:
     //voice activation
     ACE_Time_Value m_lastActive;
 
+    // tone generation
     ACE_UINT32 m_tone_sample_index, m_tone_frequency;
 };
 

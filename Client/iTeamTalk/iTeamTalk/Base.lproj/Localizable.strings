@@ -407,13 +407,13 @@
 "Private text message from %@. %@" = "Private text message from %@. %@";
 
 /* preferences */
-"Proximity sensor" = "Proximity sensor";
+"Proximity Sensor" = "Proximity Sensor";
 
 /* serverlist */
 "Public server" = "Public server";
 
 /* preferences */
-"Push to Talk lock" = "Push to Talk lock";
+"Push To Talk Lock" = "Push To Talk Lock";
 
 /* codec detail */
 "Quality" = "Quality";
@@ -476,10 +476,10 @@
 "Show public servers in server list" = "Show public servers in server list";
 
 /* preferences */
-"Show text messages instantly" = "Show text messages instantly";
+"Show Text Messages Instantly" = "Show Text Messages Instantly";
 
 /* preferences */
-"Show usernames" = "Show usernames";
+"Show Usernames" = "Show Usernames";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Show usernames instead of nicknames";
@@ -488,7 +488,7 @@
 "Silent" = "Silent";
 
 /* preferences */
-"Sort channels" = "Sort channels";
+"Sort Channels" = "Sort Channels";
 
 /* preferences
    text to speech */
@@ -680,3 +680,18 @@
 
 /* hidden channel */
 "Hidden Channel" = "Hidden Channel";
+
+/* preferences */
+"Female" = "Female";
+
+/* preferences */
+"Gender" = "Gender";
+
+/* preferences */
+"Male" = "Male";
+
+/* preferences */
+"Show male or female icon" = "Show male or female icon";
+
+/* channel list */
+"User female" = "User female";

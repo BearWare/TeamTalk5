@@ -15,12 +15,12 @@ buildscript {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "dk.bearware.gui"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 29
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

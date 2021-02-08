@@ -22,7 +22,7 @@
  */
 
 #include "ClientUser.h"
-#include "ClientNode.h"
+#include "ClientNodeEvent.h"
 
 #include <teamtalk/ttassert.h>
 #include <teamtalk/Commands.h>
@@ -38,7 +38,159 @@ using namespace std::placeholders;
 #define VOICE_BUFFER_MSEC              1000
 #define MEDIAFILE_BUFFER_MSEC          20000
 
-ClientUser::ClientUser(int userid, ClientNode* clientnode,
+
+int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay)
+{
+    //Note: reentrancy is assumed to be guarded outside this function
+
+    // Check if jitter control is configured at all
+    if ((m_fixed_jitter_delay_ms <= 0) && !m_use_adaptive_jitter_control)
+    {
+        return 0;
+    }
+
+    uint32_t packet_reception_time = GETTIMESTAMP();
+
+    // Adaptive jitter control.
+    // The basic idea is still to the delay playout at the start of a stream just like with only a fixed delay.
+    // The adaptive control only tries to make the delay match the expected jitter by measuring the actual jitters.
+    // So, the whole solution is still geared towards relatively short voice sessions (e.g. a PTT session or VAD session)
+    //
+    // The algorithm is agressive and aims to provide smooth playout even in the worst circumstances at the expense of
+    // of long delays. The idea is that end-users prefer delayed non-jittered voice over jittered voice with shorter delays
+    // The adaptive jitter is calculated as the highest measured jitter
+    // in the last X received packets with a positive jitter. X is arbitrary and currently 100;
+    // For this measurement, a queue of max X positive jitters is maintained. If the dequeued jitter is the
+    // adaptive delay then a adaptive delay is determined by finding the highest jitter in the queue.
+    // If a jitter is enqueued that is higher than the adaptive delay than the adaptive delay is immediately set
+    // to that jitter.
+    // This means that the adaptive delay adapts upwards very quickly and adapts slowly downwards.
+
+    // A drawback of the current adaptive mechanism is that it assumes that the initial delay will overcome the
+    // accumulated jitter of a stream. This is typically geared towards short PTT-style voice streams.
+    // An alternative approach is to set the adaptive jitter delay to the highest accumulated jitter of a stream.
+    // This will result in even higher delays and can be explored as a future change
+
+    int jitter_delay = 0;
+    if (streamid != m_current_stream)
+    {
+        //Start of new stream. Reset stream stats
+        m_current_playout_buffer = 0;
+
+        // A packet is only delayed when the stream changes.
+        // This might be updated later to include a determination if there's a jitter silence in which case
+        // packet  might also be delayed mid-stream
+        jitter_delay = m_fixed_jitter_delay_ms;
+        if (m_use_adaptive_jitter_control)
+            jitter_delay += m_adaptive_delay;
+
+        MYTRACE_COND((jitter_delay > 0), ACE_TEXT("Jitter delay for new stream of user #%d: %d.\n"), m_userid, jitter_delay);
+    }
+    else
+    {
+        // Measure the inter-packet delay and jitter
+        // Note that the inter-packet-time is likely to be zero. This typically happens on satelite links.
+        // These have high jitter that includes many seconds of non-reception, followed by a burst of delayed packets
+        // that are received all at once. The first packet in this burst has a high inter-packet-time and the subsequent ones
+        // have an inter-packet-time of zero.
+        int msec_since_last_packet = (packet_reception_time - m_lastpacket_time);
+
+        // Calculate the jitter for this packet
+        // NB: the timer resolution of some platforms is crappy and results in small positive of negative jitter
+        // even though the inter-packet delay was completely nominal.
+        // This makes the adaptive jitter delay downward adjustments slightly slower.
+        int jitter_last_packet = (msec_since_last_packet - nominal_delay);
+        //MYTRACE(ACE_TEXT("Jitter of last packet %d ms. Nominal delay %d msec_since_last: %d\n"),
+        //                    jitter_last_packet, nominal_delay, msec_since_last_packet);
+
+        // Keep track of the actual jitter buffer in the playout buffer by adding/removing the last jitter (might be negative jitter)
+        m_current_playout_buffer -= jitter_last_packet;
+
+        if ((m_use_adaptive_jitter_control) && (jitter_last_packet > 0))
+        {
+            // Maximize the jitter delay to the configured max.
+            if ((m_max_adaptive_delay_msec > 0) && (jitter_last_packet > m_max_adaptive_delay_msec))
+            {
+                MYTRACE(ACE_TEXT("Adaptive jitter delay capped to configured maximum of %d for user #%d. Received jitter %d, .\n"),
+                                    m_max_adaptive_delay_msec, m_userid, jitter_last_packet);
+                jitter_last_packet = m_max_adaptive_delay_msec;
+            }
+
+            // Keep track of the last X positive jitters. (e.g. packets that were delayed compared to the nominal inter-packet time)
+            m_last_jitters.push_back(jitter_last_packet);
+
+            if (m_last_jitters.size() > 100) // This max size is arbitrary. Might also be replaced by a maximum measured time
+            {
+                // If the queue exceeds size, remove the first one.
+                // If that was the current adaptive delay, calculate the new adaptive delay by finding the highest in the queue
+                int dequeuedjitter = m_last_jitters.front();
+                m_last_jitters.pop_front();
+
+                if (dequeuedjitter == m_adaptive_delay)
+                {
+                    m_adaptive_delay = 0;
+                    deque<int>::iterator ii;
+                    for (ii = m_last_jitters.begin(); ii != m_last_jitters.end(); ++ii)
+                    {
+                        if (*ii > m_adaptive_delay)
+                            m_adaptive_delay = *ii;
+                    }
+                    MYTRACE(ACE_TEXT("Adaptive delay was dequeued. New adaptive jitter delay determined: %d for user #%d.\n"),
+                                        m_adaptive_delay, m_userid);
+                }
+            }
+
+            if (jitter_last_packet > m_adaptive_delay)
+            {
+                //Last jitter is the highest measured. This will be the new highest
+                m_adaptive_delay = jitter_last_packet;
+                MYTRACE(ACE_TEXT("New adaptive jitter delay jitter for user #%d: %d.\n"), m_userid, m_adaptive_delay);
+            }
+        }
+
+        if (m_current_playout_buffer < 0)
+        {
+            // At this point the accumulated jitter during the stream exceeds the buffer set at the start.
+            // This will result is noticeable jitter for the end-user.
+
+            // The remaining buffered time might also be interesting to notifiy via client events. Applications might
+            // use that to visualize buffering.
+            MYTRACE(ACE_TEXT("Jitter exceeds buffered playout time of user #%d. End-user experiences silence for this user. Silence in msec: %d.\n"),
+                m_userid, m_current_playout_buffer);
+            m_current_playout_buffer = 0;
+
+            // There's aleady silence now. Add the fixed delay as a new buffer into the playout to ensure some buffering for the remainder of this session.
+            // This makes the immediate jitter silence worst, but improves subsequent jitters
+            jitter_delay = m_fixed_jitter_delay_ms;
+        }
+
+    }
+
+    m_lastpacket_time = packet_reception_time;
+    m_current_playout_buffer += jitter_delay;
+    m_current_stream = streamid;
+
+    return jitter_delay;
+}
+
+void JitterCalculator::SetConfig(const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec)
+{
+    //Note: reentrancy is assumed to be guarded outside this function
+    m_fixed_jitter_delay_ms = fixed_delay_msec;
+    m_use_adaptive_jitter_control = use_adaptive_jitter_control;
+    // Reset stats
+    m_lastpacket_time = 0;
+    m_current_stream = 0;
+    m_current_playout_buffer = 0;
+    m_adaptive_delay = 0;
+
+    m_max_adaptive_delay_msec = max_adaptive_delay_msec;
+
+    m_last_jitters.clear();
+};
+
+
+ClientUser::ClientUser(int userid, ClientNodeBase* clientnode,
                        ClientListener* listener,
                        soundsystem::soundsystem_t sndsys)
                        : User(userid)
@@ -49,6 +201,7 @@ ClientUser::ClientUser(int userid, ClientNode* clientnode,
                        , m_userdata(0)
                        , m_voice_active(false)
                        , m_voice_buf_msec(VOICE_BUFFER_MSEC)
+                       , m_jitter_calculator(userid)
                        , m_audiofile_active(false)
                        , m_media_buf_msec(MEDIAFILE_BUFFER_MSEC)
                        , m_desktop_packets_expected(0)
@@ -121,7 +274,6 @@ int ClientUser::TimerMonitorVoicePlayback()
 {
     if (!m_voice_player)
         return -1;
-
     bool talking = m_voice_player->IsTalking();
     bool changed = talking != IsAudioActive(STREAMTYPE_VOICE);
     m_voice_active = talking;
@@ -224,11 +376,26 @@ int ClientUser::TimerDesktopDelayedAck()
     return -1;
 }
 
+
+int ClientUser::TimerVoiceJitterBuffer()
+{
+    while (!m_jitterbuffer.empty())
+    {
+        auto queuedVoicePacket = m_jitterbuffer.front();
+        m_jitterbuffer.pop();
+        //MYTRACE(ACE_TEXT("Feed packet from jitter buffer to playout\n"));
+        FeedVoicePacketToPlayer(*queuedVoicePacket);
+    }
+    //MYTRACE(ACE_TEXT("Jitter buffer emptied\n"));
+    return -1; //Single shot time
+}
+
+
 void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
                                 const struct SoundProperties& sndprop,
-                                VoiceLogger& voice_logger, bool allowrecord)
+                                bool allowrecord)
 {
-    ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
+    ASSERT_REACTOR_THREAD(*m_clientnode->GetEventLoop());
 
     clientchannel_t chan = GetChannel();
     if (!chan || chan->GetChannelID() != audpkt.GetChannel())
@@ -252,12 +419,59 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
         return;
 
     assert(m_voice_player->GetAudioCodec() == chan->GetAudioCodec());
-    audiopacket_t reassem_pkt = m_voice_player->QueuePacket(audpkt);
 
     m_voice_player->SetNoRecording(!allowrecord);
+    
+    // Jitter buffer implementation:
+    // Delay the playout of received packets at the start of a stream.
+    // This delay acts as a time buffer for network jitter
+    // The delayed packets are enqueued at the start of a stream and then emptied into the playout buffer via a single-shot timer.
+    // This means that the actual buffering is done in the playout queue. The jitter buffer only delays the inital playout.
+    // After that initial delay, all received packets are directly fed into the playout buffer
+
+    // Guard both the jitter-buffer and the jitter-calculator
+
+    int jitter_delay = m_jitter_calculator.PacketReceived(audpkt.GetStreamID(), GetAudioCodecCbMillis(chan->GetAudioCodec()));
+
+    // Put packets in the jitter buffer if we're already queueing or if the jitter calculation resulted in a delay
+    if ((jitter_delay > 0) || (!m_jitterbuffer.empty()))
+    {
+        //MYTRACE(ACE_TEXT("Enqueue Received voice packet. Start of stream %d, Already queueing %d \n"),
+        //                      (audpkt.GetStreamID() != m_current_stream), (!m_jitterbuffer.empty()));
+
+        audiopacket_t queuedVoicePacket(new VoicePacket(audpkt));
+
+        m_jitterbuffer.push(queuedVoicePacket);
+
+        // start timer to dequeue the buffered packets
+        if ((jitter_delay > 0) && (!m_clientnode->TimerExists(USER_TIMER_JITTER_BUFFER_ID, GetUserID())))
+        {
+            ACE_Time_Value tm(jitter_delay / 1000, (jitter_delay % 1000) * 1000);
+            // Set up a single shot timer (interval = 0)
+            long timerid = m_clientnode->StartUserTimer(USER_TIMER_JITTER_BUFFER_ID, GetUserID(), 0, tm);
+            TTASSERT(timerid >= 0);
+        }
+    }
+    else
+    {
+        // Immediate enqueueing into the playout buffer
+        //MYTRACE(ACE_TEXT("Direct playout of voice packet.\n"));
+        FeedVoicePacketToPlayer(audpkt);
+    }
+}
+
+void ClientUser::FeedVoicePacketToPlayer(const VoicePacket& audpkt)
+{
+    if (!m_voice_player)
+        return;
+
+    clientchannel_t chan = GetChannel();
+    VoiceLogger& voice_logger = m_clientnode->voicelogger();
+    
+    audiopacket_t reassem_pkt = m_voice_player->QueuePacket(audpkt);
 
     //store in voicelog
-    if(GetAudioFolder().length() && allowrecord)
+    if (GetAudioFolder().length() && m_voice_player->IsRecordingAllowed())
     {
         if(audpkt.HasFragments())
         {
@@ -283,7 +497,7 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
 void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
                                     const struct SoundProperties& sndprop)
 {
-    ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
+    ASSERT_REACTOR_THREAD(*m_clientnode->GetEventLoop());
 
     clientchannel_t chan = GetChannel();
     if (!chan || chan->GetChannelID() != audpkt.GetChannel())
@@ -324,7 +538,7 @@ void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
 void ClientUser::AddVideoCapturePacket(const VideoCapturePacket& p,
                                        const ClientChannel& chan)
 {
-    ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
+    ASSERT_REACTOR_THREAD(*m_clientnode->GetEventLoop());
 
     //ignore packet if we're unsubscribed
     if(!LocalSubscribes(p))
@@ -368,7 +582,7 @@ void ClientUser::AddVideoCapturePacket(const VideoCapturePacket& p,
 void ClientUser::AddVideoFilePacket(const VideoFilePacket& p,
                                     const ClientChannel& chan)
 {
-    ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
+    ASSERT_REACTOR_THREAD(*m_clientnode->GetEventLoop());
 
     // MYTRACE("Received video packet %d fragment %d/%d from #%d\n",
     //         p.GetPacketNo(), p.GetFragmentNo(), p.GetFragmentCount(), GetUserID());
@@ -444,7 +658,7 @@ void ClientUser::AddVideoFilePacket(const VideoFilePacket& p,
 
 void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
 {
-    ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
+    ASSERT_REACTOR_THREAD(*m_clientnode->GetEventLoop());
 
     //ignore packet if we're unsubscribed
     if(!LocalSubscribes(p))
@@ -830,6 +1044,14 @@ int ClientUser::GetPlaybackStoppedDelay(StreamType stream_type) const
     }
 }
 
+void ClientUser::SetJitterControl(const StreamType stream_type, const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec)
+{
+    if (stream_type != STREAMTYPE_VOICE)
+        return;
+
+    m_jitter_calculator.SetConfig(fixed_delay_msec, use_adaptive_jitter_control, max_adaptive_delay_msec);
+}
+
 void ClientUser::SetVolume(StreamType stream_type, int volume)
 {
     switch(stream_type)
@@ -1072,9 +1294,6 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     if( !ValidAudioCodec(codec) )
         return audio_player_t();
 
-    bool duplex_mode = (m_clientnode->GetFlags() & CLIENT_SNDINOUTPUT_DUPLEX) &&
-        m_clientnode->GetMyChannel() == GetChannel();
-
     int codec_samplerate = GetAudioCodecSampleRate(codec);
     int codec_samples = GetAudioCodecCbSamples(codec);
     int codec_channels = GetAudioCodecChannels(codec);
@@ -1115,7 +1334,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
         output_samples = codec_samples;
     }
 
-    auto audiofunc = std::bind(&ClientNode::AudioUserCallback, m_clientnode, _1, _2, _3);
+    auto audiofunc = std::bind(&ClientNodeBase::AudioUserCallback, m_clientnode, _1, _2, _3);
 
     AudioPlayer* audio_player = NULL;
     switch(codec.codec)
@@ -1154,16 +1373,16 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
 
     audio_player_t ret(audio_player);
 
-    m_snd_duplexmode = duplex_mode;
-
     //only launch in duplex mode if it's "my" channel
+    m_snd_duplexmode = (GetChannel() && GetChannel()->GetChannelID() == m_clientnode->GetChannelID());
+    m_snd_duplexmode &= m_clientnode->SoundDuplexMode();
+
     bool success;
-    if(m_snd_duplexmode)
+    if (m_snd_duplexmode)
     {
         MYTRACE(ACE_TEXT("Launching duplex player for #%d \"%s\", SampleRate %d, Channels %d, Callback %d\n"),
                 GetUserID(), GetNickname().c_str(), output_samplerate, output_channels, output_samples);
-        success = m_soundsystem->AddDuplexOutputStream(m_clientnode,
-                                                       audio_player);
+        success = m_soundsystem->AddDuplexOutputStream(m_clientnode, audio_player);
     }
     else
     {
@@ -1176,7 +1395,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
 
     MYTRACE_COND(!success, ACE_TEXT("Failed to launch player for #%d\n"), GetUserID());
     
-    if(success)
+    if (success)
     {
         // don't make sense to use auto position on duplex but just ignore return value
         m_soundsystem->SetAutoPositioning(audio_player, true);
@@ -1267,6 +1486,8 @@ void ClientUser::SetDirtyProps()
 
     SetPlaybackStoppedDelay(STREAMTYPE_VOICE, GetPlaybackStoppedDelay(STREAMTYPE_VOICE));
     SetPlaybackStoppedDelay(STREAMTYPE_MEDIAFILE_AUDIO, GetPlaybackStoppedDelay(STREAMTYPE_MEDIAFILE_AUDIO));
+
+    SetRecordingCloseExtraDelay(GetRecordingCloseExtraDelay());
 
     SetStereo(STREAMTYPE_VOICE, m_voice_stereo & STEREO_LEFT, m_voice_stereo & STEREO_RIGHT);
     SetStereo(STREAMTYPE_MEDIAFILE_AUDIO, m_audiofile_stereo & STEREO_LEFT, m_audiofile_stereo & STEREO_RIGHT);
@@ -1438,9 +1659,6 @@ void ClientUser::SetLocalSubscriptions(Subscriptions mask)
 
 bool ClientUser::LocalSubscribes(const FieldPacket& packet) const
 {
-    clientchannel_t mychan = m_clientnode->GetMyChannel();
-    clientchannel_t userchan = GetChannel();
-
     Subscriptions local_subs = SUBSCRIBE_NONE;
     Subscriptions local_intercept_subs = SUBSCRIBE_NONE;
 
@@ -1481,16 +1699,19 @@ bool ClientUser::LocalSubscribes(const FieldPacket& packet) const
         assert(0);
     }
 
+    int mychanid = m_clientnode->GetChannelID();
+    int userchanid = (GetChannel() ? GetChannel()->GetChannelID() : 0);
+
     if(local_subs && local_intercept_subs)
     {
-        if((m_localsubscriptions & local_subs) && mychan)
+        if ((m_localsubscriptions & local_subs) && mychanid > 0)
         {
-            if(mychan->GetChannelID() == packet.GetChannel())
+            if (mychanid == packet.GetChannel())
                 return true;
         }
-        if((m_localsubscriptions & local_intercept_subs) && userchan)
+        if ((m_localsubscriptions & local_intercept_subs) && userchanid > 0)
         {
-            if(userchan->GetChannelID() == packet.GetChannel())
+            if (userchanid == packet.GetChannel())
                 return true;
         }
         return false;

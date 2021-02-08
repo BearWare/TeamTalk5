@@ -240,7 +240,7 @@
     <string name="upload_progress_title">Téléversement de %1$s …</string>
     <string name="upload_progress">%1$d%%, cliquer pour annuler</string>
     <string name="upload_started">Téléversement démarré</string>
-    <string name="transfer_stopped">Transfer interrompu</string>
+    <string name="transfer_stopped">Transfert interrompu</string>
     <string name="complete">Terminé</string>
     <string name="remote_file_exists">Le fichier %1$s existe déjà sur le serveur dans ce canal</string>
     <string name="remote_file_remove_confirmation">Souhaitez-vous vraiment supprimer le fichier %1$s du serveur ?</string>
@@ -289,7 +289,7 @@
 
     <string name="err_invalid_username">Nom d\'utilisateur invalide</string>
     <string name="err_incorrect_server_password">Mot de passe du serveur incorrect</string>
-    <string name="err_incorrect_channel_password">Mot de passe du canl incorrect</string>
+    <string name="err_incorrect_channel_password">Mot de passe du canal incorrect</string>
     <string name="err_invalid_account">Compte invalide</string>
     <string name="err_max_server_users_exceeded">Trop d\'utilisateurs sur le serveur</string>
     <string name="err_max_channel_users_exceeded">Trop d\'utilisateurs dans le canal</string>
@@ -299,7 +299,7 @@
     <string name="err_incorrect_op_password">Mot de passe d\'opérateur incorrect</string>
     <string name="err_max_logins_per_ipaddress_exceeded">Trop de connexions simultanées depuis la même adresse IP</string>
     <string name="err_max_channels_exceeded">Trop de canaux</string>
-    <string name="err_channel_already_exists">Le canal exise déjà</string>
+    <string name="err_channel_already_exists">Le canal existe déjà</string>
     <string name="err_user_not_found">Utilisateur introuvable</string>
     <string name="err_openfile_failed">Le serveur a échoué à ouvrir le fichier</string>
     <string name="err_filesharing_disabled">Le serveur n\'autorise pas le transfert de fichiers</string>
@@ -331,7 +331,7 @@
     <string name="weblogin_prop_title_create_web_login_id">Créer un identifiant de connexion Web BearWare.dk</string>
     <string name="weblogin_prop_title_reset_web_login_id">Réinitialiser l\'identifiant de connexion Web BearWare.dk</string>
     <string name="text_bearwarelogin_success">%1$s votre nom d\'utilisateur %2$s a été validé</string>
-    <string name="text_bearwarelogin_failed">Échec à l\'authentification de nom d\'utilisateur %1$s (%2$s)</string>
+    <string name="text_bearwarelogin_failed">Échec à l\'authentification du nom d\'utilisateur %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">Échec de connexion Web BearWare.dk. Vérifiez la connexion Web BearWare.dk dans les préférences.</string>
     <string name="editmsg">Message :</string>
     <string name="filepathlab">Fichier :</string>
@@ -352,6 +352,11 @@
     <string name="channel_prop_title_hiddenchannel">Masquer</string>
     <string name="pref_title_bearware">Connexion Web BearWare.dk</string>
     <string name="pref_title_bearware_summary">À ne cocher que si ce serveur a activé la connexion Web BearWare.dk</string>
+    <string name="pref_title_gender">Sexe</string>
+    <string name="pref_summary_gender">Cocher pour l\'icône femme</string>
+    <string name="err_file_write">Impossible d\'écrire le fichier %1$s</string>
+    <string name="serverlist_export_confirmation">La liste de serveurs a été exportée dans %1$s</string>
+    <string name="action_export_serverlist">Exporter la liste de serveurs</string>
 
 
 </resources>

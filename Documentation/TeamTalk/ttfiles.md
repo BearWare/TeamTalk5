@@ -50,7 +50,7 @@ example:
     <title>My TeamTalk Server Website</title>
     <body>
     
-        Click <a href="tt://tt5eu.bearware.dk?tcpport=10335&amp;udpport=10335&amp;username=guest&amp;password=guest">here</a> to join my TeamTalk Server.
+        Click <a href="tt://tt5eu.bearware.dk?tcpport=10335&amp;udpport=10335&amp;encrypted=false&amp;username=guest&amp;password=guest">here</a> to join my TeamTalk Server.
         
     </body>
 </html>
@@ -63,6 +63,9 @@ A tt:// URL supports the following properties:
 
 - udpport
   - Server's UDP port
+
+- encrypted
+  - Whether server uses encrypted, either "true" or "false"
 
 - username
   - Username for user account

@@ -61,20 +61,18 @@ using namespace std::placeholders;
 #endif
 
 ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
-                       : m_reactor(new ACE_Select_Reactor(), true) //Ensure we don't use ACE_WFMO_Reactor!!!
+                       : m_flags(CLIENT_CLOSED)
 #if defined(_DEBUG)
                        , m_reactor_thr_id(0)
                        , m_active_timerid(0)
 #endif
-                       , m_reactor_wait(0)
-                       , m_flags(CLIENT_CLOSED)
-                       , m_connector(&m_reactor, ACE_NONBLOCK)
+                       , m_connector(GetEventLoop(), ACE_NONBLOCK)
                        , m_def_stream(NULL)
 #if defined(ENABLE_ENCRYPTION)
-                       , m_crypt_connector(&m_reactor, ACE_NONBLOCK)
+                       , m_crypt_connector(GetEventLoop(), ACE_NONBLOCK)
                        , m_crypt_stream(NULL)
 #endif
-                       , m_packethandler(&m_reactor)
+                       , m_packethandler(GetEventLoop())
                        , m_listener(listener)
                        , m_myuserid(0)
                        , m_voice_stream_id(0)
@@ -89,9 +87,6 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
                        , m_mtu_max_payload_size(MAX_PACKET_PAYLOAD_SIZE)
                        , m_version(version)
 {
-
-    this->reactor(&m_reactor);
-
     m_listener->RegisterEventSuspender(this);
 
     m_soundsystem = soundsystem::GetInstance();
@@ -99,15 +94,10 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
 
     m_local_voicelog.reset(new ClientUser(LOCAL_USERID, this,
                                           m_listener, m_soundsystem));
-
-    ResumeEventHandling();
 }
 
 ClientNode::~ClientNode()
 {
-    //close reactor so no one can register new handlers
-    SuspendEventHandling(true);
-
     {
         //guard needed for disconnect since Logout and LeaveChannel are called
         GUARD_REACTOR(this);
@@ -124,71 +114,10 @@ ClientNode::~ClientNode()
     m_soundsystem->RemoveSoundGroup(m_soundprop.soundgroupid);
 
 #if defined(ENABLE_ENCRYPTION)
-    CryptStreamHandler::RemoveSSLContext(&m_reactor);
+    CryptStreamHandler::RemoveSSLContext(GetEventLoop());
 #endif
 
     MYTRACE( (ACE_TEXT("~ClientNode\n")) );
-}
-
-int ClientNode::svc(void)
-{
-    int ret = m_reactor.owner (ACE_OS::thr_self ());
-    assert(ret >= 0);
-
-    m_reactor_wait.release();
-
-    m_reactor.run_reactor_event_loop ();
-    MYTRACE( (ACE_TEXT("ClientNode reactor thread exited.\n")) );
-    return 0;
-}
-
-void ClientNode::SuspendEventHandling(bool quit)
-{
-    m_reactor.end_reactor_event_loop();
-
-    // don't wait for thread to die if SuspendEventHandling() is called from reactor loop
-    ACE_thread_t thr_id = 0;
-    m_reactor.owner(&thr_id);
-    if(thr_id != ACE_OS::thr_self())
-        this->wait();
-
-    MYTRACE(ACE_TEXT("ClientNode reactor thread %s.\n"), (quit ? ACE_TEXT("exited") : ACE_TEXT("suspended")));
-}
-
-void ClientNode::ResumeEventHandling()
-{
-    MYTRACE( (ACE_TEXT("ClientNode reactor thread activating.\n")) );
-
-    ACE_thread_t thr_id = 0;
-    m_reactor.owner(&thr_id);
-    if(thr_id != ACE_OS::thr_self())
-    {
-        MYTRACE( (ACE_TEXT("ClientNode reactor thread waiting.\n")) );
-        this->wait();
-    }
-
-    m_reactor.reset_reactor_event_loop();
-    int ret = this->activate();
-    assert(ret >= 0);
-
-    ret = m_reactor_wait.acquire();
-    assert(ret >= 0);
-
-    MYTRACE( (ACE_TEXT("ClientNode reactor thread activated.\n")) );
-}
-
-ACE_Lock& ClientNode::reactor_lock()
-{
-    // char name[100] = "";
-    // if(ACE_OS::thr_id(name, sizeof(name))>0)
-    // {
-    //     MYTRACE("Reactor lock obtained by %s\n", name);
-    // }
-    // else
-    // {
-    //     MYTRACE("Reactor lock obtained by %p\n", ACE_OS::thr_self());
-    // }
-    return m_reactor.lock();
 }
 
 VoiceLogger& ClientNode::voicelogger()
@@ -440,108 +369,12 @@ ClientKeepAlive ClientNode::GetKeepAlive()
     return m_keepalive;
 }
 
-long ClientNode::StartTimer(ACE_UINT32 timer_id, long userdata, 
-                            const ACE_Time_Value& delay, 
-                            const ACE_Time_Value& interval)
-{
-    TimerHandler* th;
-    ACE_NEW_RETURN(th, TimerHandler(*this, timer_id, userdata), -1);
-
-    //ensure we don't have duplicate timers
-    bool stoptimer = StopTimer(timer_id);
-    MYTRACE_COND(stoptimer, ACE_TEXT("Starting timer which was already active: %u\n"), timer_id);
-
-    //make sure we don't hold reactor lock when scheduling timer
-    {
-        //lock timer set
-        wguard_t g(lock_timers());
-        TTASSERT(m_timers.find(timer_id) == m_timers.end());
-        m_timers[timer_id] = th; //put in before schedule because timeout might be 0
-    }
-
-    long reactor_timerid = m_reactor.schedule_timer(th, 0, delay, interval);
-    TTASSERT(reactor_timerid>=0);
-    if(reactor_timerid<0)
-    {
-        //lock timer set
-        wguard_t g(lock_timers());
-        m_timers.erase(timer_id);
-        delete th;
-    }
-
-    return reactor_timerid;
-}
-
-bool ClientNode::StopTimer(ACE_UINT32 timer_id)
-{
-    wguard_t g(lock_timers());
-    
-#ifdef _DEBUG
-    //ensure timer isn't delete from inside a callback
-    TTASSERT(timer_id != m_active_timerid);
-#endif
-
-    timer_handlers_t::iterator ii = m_timers.find(timer_id);
-    if(ii != m_timers.end())
-    {
-        TimerHandler* th = ii->second;
-        m_timers.erase(ii);
-        g.release(); //don't hold reactor lock when cancelling
-
-        if(m_reactor.cancel_timer(th, 0) != -1)
-            return true;
-    }
-    return false;
-}
-
-void ClientNode::ClearTimer(ACE_UINT32 timer_id)
-{
-    //lock timer set
-    wguard_t g(lock_timers());
-
-    m_timers.erase(timer_id);
-}
-
-//Start/stop timers handled outside ClientNode
-long ClientNode::StartUserTimer(uint16_t timer_id, uint16_t userid, 
-                                long userdata, const ACE_Time_Value& delay, 
-                                const ACE_Time_Value& interval/* = ACE_Time_Value::zero*/)
-{
-    TTASSERT(timer_id & USER_TIMER_MASK);
-
-    return StartTimer(USER_TIMERID(timer_id, userid), userdata, delay, interval);
-}
-
-bool ClientNode::StopUserTimer(uint16_t timer_id, uint16_t userid)
-{
-    return StopTimer(USER_TIMERID(timer_id, userid));
-}
-
-bool ClientNode::TimerExists(ACE_UINT32 timer_id)
-{
-    TTASSERT((timer_id & USER_TIMER_MASK) == 0);
-
-    //lock timer set
-    rguard_t g(lock_timers());
-    
-    return m_timers.find(timer_id) != m_timers.end();
-}
-
-bool ClientNode::TimerExists(ACE_UINT32 timer_id, int userid)
-{
-    ACE_UINT32 tm_id = USER_TIMERID(timer_id, userid);
-    //lock timer set
-    rguard_t g(lock_timers());
-    
-    return m_timers.find(tm_id) != m_timers.end();
-}
-
 //TimerListener
 int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
 {
     GUARD_REACTOR(this);
 
-#ifdef _DEBUG
+#if defined(_DEBUG)
     //ensure timer isn't delete from inside a callback
     m_active_timerid = timer_event_id;
 #endif
@@ -604,6 +437,15 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         clientuser_t user = GetUser(userid);
         if(user.get())
             ret = user->TimerMonitorVoicePlayback();
+        else
+            ret = -1;
+    }
+    break;
+    case USER_TIMER_JITTER_BUFFER_ID :
+    {
+        clientuser_t user = GetUser(userid);
+        if (user.get())
+            ret = user->TimerVoiceJitterBuffer();
         else
             ret = -1;
     }
@@ -737,10 +579,11 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         TTASSERT(0);
         ret = -1;
     }
-    //ensure timer is still there otherwise there will be a double delete
-    TTASSERT(m_timers.find(timer_event_id) != m_timers.end());
 
-#ifdef _DEBUG
+    //ensure timer is still there otherwise there will be a double delete
+    TTASSERT(TimerExists(timer_event_id, userid));
+
+#if defined(_DEBUG)
     //ensure timer isn't delete from inside a callback
     m_active_timerid = 0;
 #endif
@@ -1623,7 +1466,7 @@ bool ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
     audio_frame.force_enc = true;
     QueueVoiceFrame(audio_frame);
 
-    return true;
+    return false; // delete 'mb_audio'
 }
 
 void ClientNode::AudioInputStatusCallback(const AudioInputStatus& ais)
@@ -1653,20 +1496,12 @@ void ClientNode::AudioUserCallback(int userid, StreamType st,
     {
     case STREAMTYPE_VOICE :
     {
-        m_channelrecord.QueueUserAudio(userid, audio_frame.input_buffer,
-                                       audio_frame.sample_no,
-                                       audio_frame.input_buffer == nullptr,
-                                       audio_frame.input_samples,
-                                       audio_frame.inputfmt.channels);
+        m_channelrecord.QueueUserAudio(userid, audio_frame);
         
         // make copy since we're in a separate thread
         auto streammuxer = m_audiomuxer_stream;
         if (streammuxer)
-            streammuxer->QueueUserAudio(userid, audio_frame.input_buffer,
-                                        audio_frame.sample_no,
-                                        audio_frame.input_buffer == nullptr,
-                                        audio_frame.input_samples,
-                                        audio_frame.inputfmt.channels);
+            streammuxer->QueueUserAudio(userid, audio_frame);
 
     }
     break;
@@ -1731,7 +1566,7 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
                                 const char* packet_data, int packet_size, 
                                 const ACE_INET_Addr& addr)
 {
-    ASSERT_REACTOR_THREAD(m_reactor);
+    ASSERT_REACTOR_THREAD(*GetEventLoop());
 
     GUARD_REACTOR(this);
 
@@ -1809,7 +1644,7 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
         bool no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) &&
             (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
         if (user)
-            user->AddVoicePacket(*decrypt_pkt, m_soundprop, voicelogger(), !no_record);
+            user->AddVoicePacket(*decrypt_pkt, m_soundprop, !no_record);
     }
     break;
 #endif
@@ -1823,7 +1658,7 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
         bool no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) &&
             (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
         if (user)
-            user->AddVoicePacket(audio_pkt, m_soundprop, voicelogger(), !no_record);
+            user->AddVoicePacket(audio_pkt, m_soundprop, !no_record);
         break;
     }
 #ifdef ENABLE_ENCRYPTION
@@ -2050,7 +1885,7 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
 void ClientNode::ReceivedHelloAckPacket(const HelloPacket& packet,
                                         const ACE_INET_Addr& addr)
 {
-    ASSERT_REACTOR_THREAD(m_reactor);
+    ASSERT_REACTOR_THREAD(*GetEventLoop());
     ASSERT_REACTOR_LOCKED(this);
 
     int userid = packet.GetSrcUserID();
@@ -2098,7 +1933,7 @@ void ClientNode::ReceivedHelloAckPacket(const HelloPacket& packet,
 void ClientNode::ReceivedKeepAliveReplyPacket(const KeepAlivePacket& packet,
                                               const ACE_INET_Addr& addr)
 {
-    ASSERT_REACTOR_THREAD(m_reactor);
+    ASSERT_REACTOR_THREAD(*GetEventLoop());
     ASSERT_REACTOR_LOCKED(this);
 
     int userid = packet.GetSrcUserID();
@@ -2228,7 +2063,7 @@ void ClientNode::ReceivedDesktopAckPacket(const DesktopAckPacket& ack_pkt)
 
 void ClientNode::ReceivedDesktopNakPacket(const DesktopNakPacket& nak_pkt)
 {
-    ASSERT_REACTOR_THREAD(m_reactor);
+    ASSERT_REACTOR_THREAD(*GetEventLoop());
 
     clientuser_t user = GetUser(nak_pkt.GetSrcUserID());
     MYTRACE_COND(!user, ACE_TEXT("Asked to delete desktop session #%d ")
@@ -2276,7 +2111,7 @@ void ClientNode::ReceivedDesktopCursorPacket(const DesktopCursorPacket& csr_pkt)
 
 void ClientNode::ReceivedDesktopInputPacket(const DesktopInputPacket& di_pkt)
 {
-    ASSERT_REACTOR_THREAD(m_reactor);
+    ASSERT_REACTOR_THREAD(*GetEventLoop());
 
     clientuser_t src_user = GetUser(di_pkt.GetSrcUserID());
     clientchannel_t chan = GetChannel(di_pkt.GetChannel());
@@ -2305,7 +2140,7 @@ void ClientNode::ReceivedDesktopInputPacket(const DesktopInputPacket& di_pkt)
 
 void ClientNode::ReceivedDesktopInputAckPacket(const DesktopInputAckPacket& ack_pkt)
 {
-    ASSERT_REACTOR_THREAD(m_reactor);
+    ASSERT_REACTOR_THREAD(*GetEventLoop());
 
     int userid = ack_pkt.GetSrcUserID();
     clientuser_t user = GetUser(userid);
@@ -2372,7 +2207,7 @@ void ClientNode::ReceivedDesktopInputAckPacket(const DesktopInputAckPacket& ack_
 
 void ClientNode::SendPackets()
 {
-    ASSERT_REACTOR_THREAD(m_reactor);
+    ASSERT_REACTOR_THREAD(*GetEventLoop());
 
     GUARD_REACTOR(this);
 
@@ -2728,8 +2563,8 @@ bool ClientNode::QueuePacket(FieldPacket* packet)
                  (int)packet->GetKind(), (int)packet->GetChannel());
 
     ACE_Time_Value tv;
-    int ret = m_reactor.notify(&m_packethandler, 
-                               ACE_Event_Handler::WRITE_MASK, &tv);
+    auto reactor = GetEventLoop();
+    int ret = reactor->notify(&m_packethandler, ACE_Event_Handler::WRITE_MASK, &tv);
     TTASSERT(ret>=0);
     return b;
 }
@@ -2970,6 +2805,11 @@ bool ClientNode::CloseSoundDuplexDevices()
     return true;
 }
 
+bool ClientNode::SoundDuplexMode()
+{
+    return (GetFlags() & CLIENT_SNDINOUTPUT_DUPLEX) != CLIENT_CLOSED;
+}
+
 bool ClientNode::SetSoundDeviceEffects(const SoundDeviceEffects& effects)
 {
     {
@@ -3040,7 +2880,7 @@ bool ClientNode::EnableVoiceTransmission(bool enable)
 
 int ClientNode::GetCurrentVoiceLevel()
 {
-    return m_voice_thread.m_voicelevel;
+    return m_voice_thread.GetCurrentVoiceLevel();
 }
 
 bool ClientNode::EnableVoiceActivation(bool enable)
@@ -4072,7 +3912,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
                          u_short local_udpport/* = 0*/)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     // can't double connect
     if ((m_flags & CLIENT_CONNECTION) || m_serverinfo.hostaddrs.size())
@@ -4124,7 +3964,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
 #if defined(ENABLE_ENCRYPTION)
     if(encrypted)
     {
-        ACE_NEW_RETURN(m_crypt_stream, CryptStreamHandler(0, 0, &m_reactor), false);
+        ACE_NEW_RETURN(m_crypt_stream, CryptStreamHandler(0, 0, GetEventLoop()), false);
         m_crypt_stream->SetListener(this);
 
         //ACE_Synch_Options options = ACE_Synch_Options::defaults;
@@ -4144,7 +3984,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
     else
 #endif
     {
-        ACE_NEW_RETURN(m_def_stream, DefaultStreamHandler(0, 0, &m_reactor), false);
+        ACE_NEW_RETURN(m_def_stream, DefaultStreamHandler(0, 0, GetEventLoop()), false);
         m_def_stream->SetListener(this);
         ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(0,0));
         if (localtcpaddr)
@@ -4162,16 +4002,12 @@ void ClientNode::Disconnect()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     MYTRACE(ACE_TEXT("Disconnecting #%d.\n"), GetUserID());
 
-    while(m_timers.size())
-    {
-        m_reactor.cancel_timer(m_timers.begin()->second, 0);
-        m_timers.erase(m_timers.begin());
-    }
-
+    ResetTimers();
+    
     ACE_HANDLE h = ACE_INVALID_HANDLE;
 #if defined(ENABLE_ENCRYPTION)
     if(m_crypt_stream)
@@ -4202,7 +4038,7 @@ void ClientNode::Disconnect()
         m_def_stream = NULL;
     }
 
-    TTASSERT(m_reactor.find_handler(h) == NULL);
+    TTASSERT(GetEventLoop()->find_handler(h) == NULL);
 
     m_recvbuffer.clear();
     m_sendbuffer.clear();
@@ -4236,7 +4072,7 @@ void ClientNode::Disconnect()
 
 void ClientNode::JoinChannel(clientchannel_t& chan)
 {
-    ASSERT_REACTOR_THREAD(m_reactor);
+    ASSERT_REACTOR_THREAD(*GetEventLoop());
     ASSERT_REACTOR_LOCKED(this);
 
     if (m_mychannel)
@@ -4395,7 +4231,7 @@ int ClientNode::DoLogin(const ACE_TString& nickname,
                         const ACE_TString& clientname)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
     
     //now do login
     ACE_TString command = CLIENT_LOGIN;
@@ -4414,7 +4250,7 @@ int ClientNode::DoLogin(const ACE_TString& nickname,
 int ClientNode::DoLogout()
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_LOGOUT;
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
@@ -4425,7 +4261,7 @@ int ClientNode::DoLogout()
 int ClientNode::DoChangeNickname(const ACE_TString& newnick)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_CHANGENICK;
     AppendProperty(TT_NICKNAME, newnick, command);
@@ -4438,7 +4274,7 @@ int ClientNode::DoChangeNickname(const ACE_TString& newnick)
 int ClientNode::DoChangeStatus(int statusmode, const ACE_TString& statusmsg)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_CHANGESTATUS;
     AppendProperty(TT_STATUSMODE, statusmode, command);
@@ -4452,7 +4288,7 @@ int ClientNode::DoChangeStatus(int statusmode, const ACE_TString& statusmsg)
 int ClientNode::DoTextMessage(const TextMessage& msg)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_MESSAGE;
     AppendProperty(TT_MSGTYPE, (int)msg.msgType, command);
@@ -4499,7 +4335,7 @@ int ClientNode::DoPing(bool issue_cmdid)
 int ClientNode::DoJoinChannel(const ChannelProp& chanprop, bool forceexisting)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_JOINCHANNEL;
     if (!GetChannel(chanprop.channelid) && !forceexisting) //new channel
@@ -4535,7 +4371,7 @@ int ClientNode::DoJoinChannel(const ChannelProp& chanprop, bool forceexisting)
 int ClientNode::DoLeaveChannel()
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_LEAVECHANNEL;
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
@@ -4546,7 +4382,7 @@ int ClientNode::DoLeaveChannel()
 int ClientNode::DoKickUser(int userid, int channelid)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_KICK;
     if(channelid)
@@ -4563,7 +4399,7 @@ int ClientNode::DoChannelOperator(int userid, int channelid,
                                   const ACE_TString& oppasswd, bool op)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_CHANNELOP;
     AppendProperty(TT_CHANNELID, channelid, command);
@@ -4580,7 +4416,7 @@ int ClientNode::DoChannelOperator(int userid, int channelid,
 int ClientNode::DoFileSend(int channelid, const ACE_TString& localfilepath)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_INT64 filesize = ACE_OS::filesize(localfilepath.c_str());
     ACE_TString filename = localfilepath;
@@ -4616,7 +4452,7 @@ int ClientNode::DoFileRecv(int channelid,
                            const ACE_TString& remotefilename)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     FileTransfer transfer;
     transfer.channelid = channelid;
@@ -4643,7 +4479,7 @@ int ClientNode::DoFileRecv(int channelid,
 int ClientNode::DoFileDelete(int channelid, const ACE_TString& filename)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_DELETEFILE;
     AppendProperty(TT_CHANNELID, channelid, command);
@@ -4656,7 +4492,7 @@ int ClientNode::DoFileDelete(int channelid, const ACE_TString& filename)
 int ClientNode::DoSubscribe(int userid, Subscriptions subscript)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_SUBSCRIBE;
     AppendProperty(TT_USERID, userid, command);
@@ -4669,7 +4505,7 @@ int ClientNode::DoSubscribe(int userid, Subscriptions subscript)
 int ClientNode::DoUnsubscribe(int userid, Subscriptions subscript)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_UNSUBSCRIBE;
     AppendProperty(TT_USERID, userid, command);
@@ -4682,7 +4518,7 @@ int ClientNode::DoUnsubscribe(int userid, Subscriptions subscript)
 int ClientNode::DoQueryServerStats()
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_QUERYSTATS;
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
@@ -4693,7 +4529,7 @@ int ClientNode::DoQueryServerStats()
 int ClientNode::DoQuit()
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_QUIT;
     command += EOL;
@@ -4703,7 +4539,7 @@ int ClientNode::DoQuit()
 int ClientNode::DoMakeChannel(const ChannelProp& chanprop)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_MAKECHANNEL;
     AppendProperty(TT_PARENTID, chanprop.parentid, command);
@@ -4733,7 +4569,7 @@ int ClientNode::DoMakeChannel(const ChannelProp& chanprop)
 int ClientNode::DoUpdateChannel(const ChannelProp& chanprop)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_UPDATECHANNEL;
     AppendProperty(TT_CHANNELID, chanprop.channelid, command);
@@ -4763,7 +4599,7 @@ int ClientNode::DoUpdateChannel(const ChannelProp& chanprop)
 int ClientNode::DoRemoveChannel(int channelid)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_REMOVECHANNEL;
     AppendProperty(TT_CHANNELID, channelid, command);
@@ -4776,7 +4612,7 @@ int ClientNode::DoRemoveChannel(int channelid)
 int ClientNode::DoMoveUser(int userid, int channelid)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_MOVEUSER;
     AppendProperty(TT_USERID, userid, command);
@@ -4790,7 +4626,7 @@ int ClientNode::DoMoveUser(int userid, int channelid)
 int ClientNode::DoUpdateServer(const ServerInfo& serverprop)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_UPDATESERVER;
     AppendProperty(TT_SERVERNAME, serverprop.servername, command);
@@ -4820,7 +4656,7 @@ int ClientNode::DoUpdateServer(const ServerInfo& serverprop)
 int ClientNode::DoBanUser(int userid, const BannedUser& ban)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_BAN;
     if(userid>0)
@@ -4842,7 +4678,7 @@ int ClientNode::DoBanUser(int userid, const BannedUser& ban)
 int ClientNode::DoUnBanUser(const BannedUser& ban)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_UNBAN;
     AppendProperty(TT_IPADDR, ban.ipaddr, command);
@@ -4858,7 +4694,7 @@ int ClientNode::DoUnBanUser(const BannedUser& ban)
 int ClientNode::DoListBans(int chanid, int index, int count)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_LISTBANS;
     AppendProperty(TT_INDEX, index, command);
@@ -4874,7 +4710,7 @@ int ClientNode::DoListBans(int chanid, int index, int count)
 int ClientNode::DoListUserAccounts(int index, int count)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_LISTUSERACCOUNTS;
     AppendProperty(TT_INDEX, index, command);
@@ -4888,7 +4724,7 @@ int ClientNode::DoListUserAccounts(int index, int count)
 int ClientNode::DoNewUserAccount(const UserAccount& user)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_NEWUSERACCOUNT;
     AppendProperty(TT_USERNAME, user.username, command);
@@ -4910,7 +4746,7 @@ int ClientNode::DoNewUserAccount(const UserAccount& user)
 int ClientNode::DoDeleteUserAccount(const ACE_TString& username)
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_DELUSERACCOUNT;
     AppendProperty(TT_USERNAME, username, command);
@@ -4923,7 +4759,7 @@ int ClientNode::DoDeleteUserAccount(const ACE_TString& username)
 int ClientNode::DoSaveConfig()
 {
     ASSERT_REACTOR_LOCKED(this);
-    ASSERT_NOT_REACTOR_THREAD(m_reactor);
+    ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_SAVECONFIG;
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
@@ -4952,13 +4788,15 @@ int ClientNode::TransmitCommand(const ACE_TString& command, int cmdid)
 #if defined(ENABLE_ENCRYPTION)
     if (m_crypt_stream && empty)
     {
-        int ret = m_reactor.register_handler(m_crypt_stream, ACE_Event_Handler::WRITE_MASK);
+        auto reactor = m_crypt_stream->reactor();
+        int ret = reactor->register_handler(m_crypt_stream, ACE_Event_Handler::WRITE_MASK);
         TTASSERT(ret >= 0);
     }
 #endif
     if (m_def_stream && empty)
     {
-        int ret = m_reactor.register_handler(m_def_stream, ACE_Event_Handler::WRITE_MASK);
+        auto reactor = m_def_stream->reactor();
+        int ret = reactor->register_handler(m_def_stream, ACE_Event_Handler::WRITE_MASK);
         TTASSERT(ret >= 0);
     }
 
@@ -5000,9 +4838,9 @@ ACE_SSL_Context* ClientNode::SetupEncryptionContext()
     if (m_flags & CLIENT_CONNECTION)
         return nullptr;
     
-    CryptStreamHandler::RemoveSSLContext(&m_reactor);
+    CryptStreamHandler::RemoveSSLContext(GetEventLoop());
 
-    return CryptStreamHandler::AddSSLContext(&m_reactor);
+    return CryptStreamHandler::AddSSLContext(GetEventLoop());
 }
 #endif
 
@@ -5936,17 +5774,19 @@ void ClientNode::HandleFileAccepted(const mstrings_t& properties)
         if(m_crypt_stream && m_serverinfo.hostaddrs.size())
         {
             FileNode* f_ptr;
-            ACE_NEW(f_ptr, FileNode(m_reactor, true, m_serverinfo.hostaddrs[0],
+            auto reactor = m_crypt_stream->reactor();
+            ACE_NEW(f_ptr, FileNode(*reactor, true, m_serverinfo.hostaddrs[0],
                                     m_serverinfo, transfer, this));
             ptr = filenode_t(f_ptr);
         }
         else
 #endif
         {
-            if (m_serverinfo.hostaddrs.size())
+            if (m_def_stream && m_serverinfo.hostaddrs.size())
             {
                 FileNode* f_ptr;
-                ACE_NEW(f_ptr, FileNode(m_reactor, false, m_serverinfo.hostaddrs[0],
+                auto reactor = m_def_stream->reactor();
+                ACE_NEW(f_ptr, FileNode(*reactor, false, m_serverinfo.hostaddrs[0],
                                         m_serverinfo, transfer, this));
                 ptr = filenode_t(f_ptr);
             }

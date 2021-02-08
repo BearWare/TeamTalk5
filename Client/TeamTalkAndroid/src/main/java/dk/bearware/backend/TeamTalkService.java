@@ -722,6 +722,18 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
 
             //update status bar widget
             displayNotification(true);
+
+            // check whether to switch to female icon
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            int statusmode = TeamTalkConstants.STATUSMODE_AVAILABLE;
+            String msg = "";
+            User myself = users.get(ttclient.getMyUserID());
+            if (myself != null) {
+                statusmode = myself.nStatusMode;
+                msg = myself.szStatusMsg;
+            }
+            if (prefs.getBoolean(Preferences.PREF_GENERAL_GENDER, false))
+                ttclient.doChangeStatus(statusmode | TeamTalkConstants.STATUSMODE_FEMALE, msg);
         }
     }
 
@@ -740,7 +752,6 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
             return;
 
         if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
-
         }
 
         activecmds.delete(cmdId);

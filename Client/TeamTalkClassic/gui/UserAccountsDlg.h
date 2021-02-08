@@ -110,4 +110,5 @@ public:
     CButton m_wndChangeNickname;
     CButton m_wndRecordVoice;
     afx_msg void OnBnClickedRadioDisableduser();
+    CButton m_wndHiddenChan;
 };

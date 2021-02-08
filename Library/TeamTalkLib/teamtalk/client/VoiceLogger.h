@@ -24,16 +24,15 @@
 #if !defined(VOICELOGGER_H)
 #define VOICELOGGER_H
 
-#include <ace/Recursive_Thread_Mutex.h>
-#include <ace/Message_Queue.h>
+#include "ClientUser.h"
 
-#include <map>
-#include <memory>
+#include <myace/TimerHandler.h>
+#include <codec/WaveFile.h>
+#include <teamtalk/PacketLayout.h>
 
 #if defined(ENABLE_SPEEX)
 #include <codec/SpeexDecoder.h>
 #endif
-#include <codec/WaveFile.h>
 
 #if defined(ENABLE_OPUS)
 #include <codec/OpusDecoder.h>
@@ -47,8 +46,11 @@
 #include <codec/OggOutput.h>
 #endif
 
-#include <teamtalk/PacketLayout.h>
-#include "ClientUser.h"
+#include <ace/Recursive_Thread_Mutex.h>
+#include <ace/Message_Queue.h>
+
+#include <map>
+#include <memory>
 
 #define DEFAULT_VOICELOG_VARS ACE_TEXT("%Y%m%d-%H%M%S #%userid% %username%")
 

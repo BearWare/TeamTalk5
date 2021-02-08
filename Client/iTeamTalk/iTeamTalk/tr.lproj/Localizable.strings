@@ -210,8 +210,14 @@
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook oturumu iptal edildi";
 
+/* preferences */
+"Female" = "Kadın";
+
 /* codec detail */
 "Frame Size" = "Çerçeve Boyutu";
+
+/* preferences */
+"Gender" = "Cinsiyet";
 
 /* preferences
    user detail */
@@ -231,9 +237,6 @@
 
 /* preferences */
 "Headset TX Toggle" = "Kulaklıktan İletim Değişikliği";
-
-/* hidden channel */
-"Hidden channel" = "Gizli kanal";
 
 /* hidden channel */
 "Hidden Channel" = "Gizli Kanal";
@@ -270,6 +273,9 @@
 
 /* log entry */
 "Logged on to server" = "Sunucuda oturum açıldı";
+
+/* preferences */
+"Male" = "Erkek";
 
 /* preferences */
 "Master Volume" = "Ana Düzey";
@@ -428,13 +434,13 @@
 "Private text message from %@. %@" = "%@ kullanıcısından özel metin iletisi. %@";
 
 /* preferences */
-"Proximity sensor" = "Yakınlık algılayıcısı";
+"Proximity Sensor" = "Yakınlık Algılayıcısı";
 
 /* serverlist */
 "Public server" = "Kamu sunucusu";
 
 /* preferences */
-"Push to Talk lock" = "Bas konuş kilidi";
+"Push To Talk Lock" = "Bas Konuş Kilidi";
 
 /* codec detail */
 "Quality" = "Kalite";
@@ -491,16 +497,19 @@
 "Server List Entry" = "Sunucu Listesi Girişi";
 
 /* preferences */
+"Show male or female icon" = "Erkek ya da kadın simgesi göster";
+
+/* preferences */
 "Show Public Servers" = "Kamu Sunucularını Göster";
 
 /* preferences */
 "Show public servers in server list" = "Sunucu listesinde kamu sunucularını göster";
 
 /* preferences */
-"Show text messages instantly" = "Metin iletilerini anında göster";
+"Show Text Messages Instantly" = "Metin İletilerini Anında Göster";
 
 /* preferences */
-"Show usernames" = "Kullanıcı adlarını göster";
+"Show Usernames" = "Kullanıcı Adlarını Göster";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Rumuzların yerine kullanıcı adlarını göster";
@@ -509,7 +518,7 @@
 "Silent" = "Sessiz";
 
 /* preferences */
-"Sort channels" = "Kanalları sırala";
+"Sort Channels" = "Kanalları Sırala";
 
 /* preferences
    text to speech */
@@ -544,7 +553,7 @@
 "Talking" = "Konuşuyor";
 
 /* server entry */
-"TCP Port" = "TCP bağlantı noktası";
+"TCP Port" = "TCP Bağlantı Noktası";
 
 /* preferences */
 "Text To Speech Events" = "Metin Okuma Olayları";
@@ -587,7 +596,7 @@
 "Type text here" = "Buraya metin yazın";
 
 /* server entry */
-"UDP Port" = "UDP bağlantı noktası";
+"UDP Port" = "UDP Bağlantı Noktası";
 
 /* preferences */
 "Use echo cancellation and automatic gain control" = "Yankı iptali ve otomatik kazanç denetimi kullan";
@@ -597,6 +606,9 @@
 
 /* channel list */
 "User" = "Kullanıcı";
+
+/* channel list */
+"User female" = "Kullanıcı kadın";
 
 /* preferences */
 "User Joins Channel" = "Kullanıcının Kanala Katılması";

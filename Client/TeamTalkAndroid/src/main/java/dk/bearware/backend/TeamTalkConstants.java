@@ -46,5 +46,5 @@ public class TeamTalkConstants {
     // dk.bearware.AudioConfig - TeamTalk default values
     public static final int CHANNEL_AUDIOCONFIG_MAX = 32000;
     public static final boolean DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE = false;
-    public static final int DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL = 16000;
+    public static final int DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL = 9600; /* CHANNEL_AUDIOCONFIG_MAX * (DEFAULT_WEBRTC_GAINDB / WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX) */
 }

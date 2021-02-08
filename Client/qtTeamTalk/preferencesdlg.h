@@ -100,7 +100,9 @@ private slots:
     void slotEventRemoveUser();
     void slotEventServerLost();
     void slotEventUserTextMsg();
+    void slotEventSentTextMsg();
     void slotEventChannelTextMsg();
+    void slotEventSentChannelMsg();
     void slotEventBroadcastTextMsg();
     void slotEventHotKey();
     void slotEventSilence();

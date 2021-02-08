@@ -307,7 +307,7 @@ void StreamMediaFileDlg::slotChangePlayOffset(int value)
 void StreamMediaFileDlg::slotChangePreprocessor(int /*index*/)
 {
     auto apt = AudioPreprocessorType(ui.preprocessorComboBox->currentData().toInt());
-    loadAudioPreprocessor(apt, m_mfp.audioPreprocessor);
+    m_mfp.audioPreprocessor = loadAudioPreprocessor(apt);
 }
 
 void StreamMediaFileDlg::slotSetupPreprocessor(bool)

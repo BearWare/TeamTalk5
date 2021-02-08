@@ -380,7 +380,6 @@ CMessageDlg* CTeamTalkDlg::GetUsersMessageSession(int nUserID, BOOL bCreateNew, 
             font.szFaceName = STR_UTF8( szFaceName.c_str() );
             ConvertFont(font, pMsgDlg->m_lf);
         }
-        pMsgDlg->m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
         VERIFY(pMsgDlg->Create(CMessageDlg::IDD, GetDesktopWindow()));
 
         if(lpbNew)
@@ -1263,35 +1262,9 @@ void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)
             m_host.szChPasswd.clear();
         }
 
-        if(m_host.szChannel.size())
+        if (m_host.szChannel.size())
         {
-            int nChannelID = TT_GetChannelIDFromPath(ttInst,
-                STR_UTF8(m_host.szChannel.c_str()));
-            if(nChannelID>0) //join existing channel
-            {
-                int nCmdID = TT_DoJoinChannelByID(ttInst, nChannelID, 
-                                                  STR_UTF8(m_host.szChPasswd.c_str()));
-                m_commands[nCmdID] = CMD_COMPLETE_JOIN;
-            }
-            else //auto create channel
-            {
-                ServerProperties srvprop = {};
-                TT_GetServerProperties(ttInst, &srvprop);
-
-                Channel newchan = {};
-                newchan.nParentID = TT_GetRootChannelID(ttInst);
-                COPYTTSTR(newchan.szName, STR_UTF8(m_host.szChannel.c_str()));
-                COPYTTSTR(newchan.szPassword, STR_UTF8(m_host.szChPasswd.c_str()));
-                
-                InitDefaultAudioCodec(newchan.audiocodec);
-
-                newchan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE;
-                newchan.audiocfg.nGainLevel = DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL;
-
-                newchan.nMaxUsers = srvprop.nMaxUsers;
-                int nCmdID = TT_DoJoinChannel(ttInst, &newchan);
-                m_commands[nCmdID] = CMD_COMPLETE_JOIN;
-            }
+            JoinInitialChannel();
         }
         else if(m_xmlSettings.GetAutoJoinRootChannel())
         {
@@ -1669,34 +1642,36 @@ void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
         OnChannelLeft(chan);
     }
     m_wndTree.RemoveUser(user);
-
-    CString szMsg, szFormat;
-
-    if(TT_GetMyChannelID(ttInst) == msg.nSource)
+    if(user.nUserID != TT_GetMyUserID(ttInst))
     {
-        szFormat = LoadText(IDS_CHANNEL_LEFT);
-        szMsg.Format(szFormat, GetDisplayName(user));
+        CString szMsg, szFormat;
 
-        PlaySoundEvent(SOUNDEVENT_USER_LEFT);
+        if(TT_GetMyChannelID(ttInst) == msg.nSource)
+        {
+            szFormat = LoadText(IDS_CHANNEL_LEFT);
+            szMsg.Format(szFormat, GetDisplayName(user));
 
-        AddStatusText(szMsg);
-        if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT_SAME)
-            AddTextToSpeechMessage(szMsg);
-    }
-    else if (m_commands[m_nCurrentCmdID] == CMD_COMPLETE_NONE)
-    {
-        CString szRoot;
-        szRoot.LoadString(IDS_ROOTCHANNEL);
-        TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRoot);
+            PlaySoundEvent(SOUNDEVENT_USER_LEFT);
 
-        szFormat = LoadText(IDS_USERLEFTCHANNEL);
-        if(chan.nParentID == 0)
-            szMsg.Format(szFormat, GetDisplayName(user), szRoot);
-        else
-            szMsg.Format(szFormat, GetDisplayName(user), chan.szName);
+            AddStatusText(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT_SAME)
+                AddTextToSpeechMessage(szMsg);
+        }
+        else if (m_commands[m_nCurrentCmdID] == CMD_COMPLETE_NONE)
+        {
+            CString szRoot;
+            szRoot.LoadString(IDS_ROOTCHANNEL);
+            TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRoot);
 
-        if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT)
-            AddTextToSpeechMessage(szMsg);
+            szFormat = LoadText(IDS_USERLEFTCHANNEL);
+            if(chan.nParentID == 0)
+                szMsg.Format(szFormat, GetDisplayName(user), szRoot);
+            else
+                szMsg.Format(szFormat, GetDisplayName(user), chan.szName);
+
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT)
+                AddTextToSpeechMessage(szMsg);
+        }
     }
 
     if ((TT_GetMyUserRights(ttInst) & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
@@ -1778,7 +1753,19 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         else
             szName = GetDisplayName(user);
 
-        int ret = TransmitToggled(chan, oldTransmit[userid], newTransmit[userid], STREAMTYPE_VOICE);
+        int ret = TransmitToggled(chan, oldTransmit[userid], newTransmit[userid], STREAMTYPE_CHANNELMSG);
+        if(ret != 0)
+        {
+            if (ret < 0)
+                szMsg.Format(LoadText(IDS_NOLONGERTRANSMITCHANMSG, _T("%s can no longer transmit channel messages!")), szName);
+            else
+                szMsg.Format(LoadText(IDS_CANNOWTRANSMITCHANMSG, _T("%s can now transmit channel messages!")), szName);
+
+            AddStatusText(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_CHANMSG_TX)
+                AddTextToSpeechMessage(szMsg);
+        }
+        ret = TransmitToggled(chan, oldTransmit[userid], newTransmit[userid], STREAMTYPE_VOICE);
         if(ret != 0)
         {
             if (ret < 0)
@@ -2044,6 +2031,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
                 szFmt.LoadString(IDS_CHANTEXTMSGSEND);
                 TRANSLATE_ITEM(IDS_CHANTEXTMSGSEND, szFmt);
                 szMsg.Format(szFmt, textmsg.szMessage);
+                PlaySoundEvent(SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT);
             } else {
                 szFmt.LoadString(IDS_CHANTEXTMSG);
                 TRANSLATE_ITEM(IDS_CHANTEXTMSG, szFmt);
@@ -2981,7 +2969,6 @@ void CTeamTalkDlg::Exit()
 		}
 	}
 
-    m_pPlaySndThread->AddSoundEvent(NULL);
     m_pPlaySndThread->KillThread();
 
 	CDialog::OnCancel();
@@ -3481,7 +3468,9 @@ void CTeamTalkDlg::OnFilePreferences()
     eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_IN] = STR_UTF8( m_xmlSettings.GetEventUserLoggedIn().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_OUT] = STR_UTF8( m_xmlSettings.GetEventUserLoggedOut().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSG] = STR_UTF8( m_xmlSettings.GetEventNewMessage().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSGSENT] = STR_UTF8( m_xmlSettings.GetEventNewMessageSent().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_CHANNEL_TEXTMSG] = STR_UTF8(m_xmlSettings.GetEventChannelMsg().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT] = STR_UTF8(m_xmlSettings.GetEventChannelMsgSent().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_USER_BROADCAST_TEXTMSG] = STR_UTF8( m_xmlSettings.GetEventBroadcastMsg().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_QUESTIONMODE] = STR_UTF8( m_xmlSettings.GetEventQuestionMode().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_USER_DESKTOP_ACCESS] = STR_UTF8( m_xmlSettings.GetEventDesktopAccessReq().c_str());
@@ -3756,9 +3745,11 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventUserLoggedIn(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_IN]));
         m_xmlSettings.SetEventUserLoggedOut(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_LOGGED_OUT]));
         m_xmlSettings.SetEventNewMessage(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSG]));
+        m_xmlSettings.SetEventNewMessageSent(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSGSENT]));
         m_xmlSettings.SetEventServerLost(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_CONNECTION_LOST]));
         m_xmlSettings.SetEventHotKey(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_PUSHTOTALK]));
         m_xmlSettings.SetEventChannelMsg(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_CHANNEL_TEXTMSG]));
+        m_xmlSettings.SetEventChannelMsgSent(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT]));
         m_xmlSettings.SetEventBroadcastMsg(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_BROADCAST_TEXTMSG]));
         m_xmlSettings.SetEventChannelSilent(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_CHANNEL_SILENT]));
         m_xmlSettings.SetEventFilesUpd(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_FILES_UPDATED]));
@@ -3965,7 +3956,6 @@ void CTeamTalkDlg::OnUsersMessages(int nUserID)
         User myself;
         if(pMsgDlg && m_wndTree.GetUser(TT_GetMyUserID(ttInst), myself))
         {
-            pMsgDlg->m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
             pMsgDlg->ShowWindow(SW_SHOW);
             ::PostMessage(pMsgDlg->m_hWnd, WM_SETFOCUS, 0, 0);
         }
@@ -5404,15 +5394,14 @@ void CTeamTalkDlg::UpdateGainLevel(int nGain)
     if (m_wndGainSlider.GetPos() != nGain)
         m_wndGainSlider.SetPos(nGain);
 
-    AudioPreprocessor preprocessor;
-    InitDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+    AudioPreprocessor preprocessor = InitDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR);
 
     TT_GetSoundInputPreprocessEx(ttInst, &preprocessor);
 
     switch (preprocessor.nPreprocessor)
     {
     case NO_AUDIOPREPROCESSOR:
-        InitDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR, preprocessor);
+        preprocessor = InitDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
         TT_SetSoundInputGainLevel(ttInst, RefGain(nGain));
         break;
@@ -5449,8 +5438,7 @@ void CTeamTalkDlg::UpdateAudioConfig()
     Channel chan;
     if(m_wndTree.GetChannel(m_wndTree.GetMyChannelID(), chan) && chan.audiocfg.bEnableAGC)
     {
-        AudioPreprocessor preprocessor;
-        InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+        AudioPreprocessor preprocessor = InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR);
 
         preprocessor.webrtc.noisesuppression.bEnable = bDenoise;
         preprocessor.webrtc.echocanceller.bEnable = bEchoCancel && bDuplex;
@@ -5466,17 +5454,17 @@ void CTeamTalkDlg::UpdateAudioConfig()
     else
     {
         // use local settings
-        AudioPreprocessor preprocessor;
+        AudioPreprocessor preprocessor = {};
         if (bDenoise || bAGC || bEchoCancel)
         {
-            InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR, preprocessor);
+            preprocessor = InitDefaultAudioPreprocessor(WEBRTC_AUDIOPREPROCESSOR);
             preprocessor.webrtc.noisesuppression.bEnable = bDenoise;
             preprocessor.webrtc.echocanceller.bEnable = bEchoCancel && bDuplex;
             preprocessor.webrtc.gaincontroller2.bEnable = bAGC;
         }
         else
         {
-            InitDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR, preprocessor);
+            preprocessor = InitDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR);
         }
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
 
@@ -6369,8 +6357,14 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
     case SOUNDEVENT_USER_TEXTMSG :
         szFilename = STR_UTF8(m_xmlSettings.GetEventNewMessage());
         break;
+    case SOUNDEVENT_USER_TEXTMSGSENT :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventNewMessageSent());
+        break;
     case SOUNDEVENT_USER_CHANNEL_TEXTMSG :
         szFilename = STR_UTF8(m_xmlSettings.GetEventChannelMsg());
+        break;
+    case SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventChannelMsgSent());
         break;
     case SOUNDEVENT_USER_BROADCAST_TEXTMSG:
         szFilename = STR_UTF8(m_xmlSettings.GetEventBroadcastMsg());
@@ -6428,8 +6422,10 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
         break;
     }
 
-    if(szFilename.GetLength())
-        m_pPlaySndThread->AddSoundEvent(szFilename);
+    if (szFilename.GetLength())
+    {
+        m_pPlaySndThread->AddSoundEvent(szFilename, PLAYBACKMODE_TEAMTALK);
+    }
 }
 
 BOOL CTeamTalkDlg::InitSound()
@@ -6447,6 +6443,49 @@ BOOL CTeamTalkDlg::InitSound()
     AddStatusText(szSndMsg);
 
     return bSuccess;
+}
+
+void CTeamTalkDlg::JoinInitialChannel()
+{
+    int nChannelID = TT_GetChannelIDFromPath(ttInst, STR_UTF8(m_host.szChannel.c_str()));
+    if (nChannelID > 0) //join existing channel
+    {
+        int nCmdID = TT_DoJoinChannelByID(ttInst, nChannelID,
+            STR_UTF8(m_host.szChPasswd.c_str()));
+        m_commands[nCmdID] = CMD_COMPLETE_JOIN;
+    }
+    else //auto create channel
+    {
+        nChannelID = TT_GetRootChannelID(ttInst);
+        CString szChanPath = STR_UTF8(m_host.szChannel.c_str());
+        CString szChanName = szChanPath;
+
+        // try find parent channel and create channel from there
+        int iIndex = szChanPath.ReverseFind('/');
+        if (iIndex >= 0)
+        {
+            szChanName = szChanPath.Mid(iIndex + 1);
+            szChanPath = szChanPath.Left(iIndex);
+            nChannelID = TT_GetChannelIDFromPath(ttInst, szChanPath.IsEmpty() ? _T("/") : szChanPath);
+        }
+
+        ServerProperties srvprop = {};
+        TT_GetServerProperties(ttInst, &srvprop);
+
+        Channel newchan = {};
+        newchan.nParentID = nChannelID;
+        COPYTTSTR(newchan.szName, szChanName);
+        COPYTTSTR(newchan.szPassword, STR_UTF8(m_host.szChPasswd.c_str()));
+
+        InitDefaultAudioCodec(newchan.audiocodec);
+
+        newchan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE;
+        newchan.audiocfg.nGainLevel = DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL;
+
+        newchan.nMaxUsers = srvprop.nMaxUsers;
+        int nCmdID = TT_DoJoinChannel(ttInst, &newchan);
+        m_commands[nCmdID] = CMD_COMPLETE_JOIN;
+    }
 }
 
 void CTeamTalkDlg::RunAppUpdate()
@@ -6909,17 +6948,24 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         if(!m_wndTree.GetChannel(nID, chan))
             return;
 
-        CString szChannel, szPasswd, szClassroom, szTopic;
+        CString szChannel, szPasswd, szClassroom, szTopic, szRootChan;
         szChannel.LoadString(IDS_CHANNEL);
         szPasswd.LoadString(IDS_PASSWORD_PROTECTED);
         szClassroom.LoadString(IDS_CLASSROOMCHANNEL);
+        szRootChan.LoadString(IDS_ROOTCHANNEL);
 
         TRANSLATE_ITEM(IDS_CHANNEL, szChannel);
         TRANSLATE_ITEM(IDS_PASSWORD_PROTECTED, szPasswd);
         TRANSLATE_ITEM(IDS_CLASSROOMCHANNEL, szClassroom);
+        TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRootChan);
         TRANSLATE_ITEM(IDC_STATIC_CHTOPIC, szTopic);
-        szChannel += _T(": ");
-        szChannel += chan.szName;
+        if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) == chan.nChannelID)
+            szChannel += _T(" ") + szRootChan;
+        else
+        {
+            szChannel += _T(": ");
+            szChannel += chan.szName;
+        }
         szTopic += _T(": ");
         szTopic += chan.szTopic;
 

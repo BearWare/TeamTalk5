@@ -435,6 +435,11 @@
     <item id="570">Canal</item>
     <item id="571">Utilisateur connecté</item>
     <item id="572">Utilisateur déconnecté</item>
+    <item id="573">Message privé envoyé</item>
+    <item id="574">Message de canal envoyé</item>
+    <item id="575">%s ne peut plus transmettre de messages de canal</item>
+    <item id="576">%s peut maintenant transmettre des messages de canal</item>
+    <item id="577">Transmission de messages de canal autorisée</item>
     <item id="1006">Liste des fichiers</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
@@ -772,6 +777,7 @@
     <item id="1601">&amp;Rejoindre le canal une fois créé</item>
     <item id="1602">Canal masqué (invisible et seulement connu par son nom)</item>
     <item id="1603">Type de canal</item>
+    <item id="1604">L&apos;utilisateur peut voir les canaux masqués</item>
     <item id="32791">Quelle est mon adresse IP?</item>
     <item id="32798">Définir comme opérateur de canal\tCTRL-O</item>
     <item id="32801">Afficher les messages du canal\tF10</item>

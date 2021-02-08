@@ -130,6 +130,8 @@ BOOL CTextToSpeechPage::OnInitDialog()
     szText = LoadText(IDS_PROPPAGE_CLASSROOM_CHANGE);
     HTREEITEM hClassroom = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hClassroom, TTS_CLASSROOM_ALL);
+    szText = LoadText(IDS_PROPPAGE_CLASSROOM_CHANMSG);
+    m_wndTree.SetItemData(m_wndTree.InsertItem(szText, hClassroom), TTS_CLASSROOM_CHANMSG_TX);
     szText = LoadText(IDS_PROPPAGE_CLASSROOM_VOICE);
     m_wndTree.SetItemData(m_wndTree.InsertItem(szText, hClassroom), TTS_CLASSROOM_VOICE_TX);
     szText = LoadText(IDS_PROPPAGE_CLASSROOM_VIDEO);

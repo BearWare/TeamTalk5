@@ -510,7 +510,7 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
 
     switch(timer_event_id)
     {
-    case TIMER_ONE_SECOND_ID :
+    case TIMERSRV_ONE_SECOND_ID :
     {
         CheckKeepAlive();
 
@@ -547,10 +547,10 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         }
         break;
     }
-    case TIMER_DESKTOPACKPACKET_ID :
+    case TIMERSRV_DESKTOPACKPACKET_ID :
         SendDesktopAckPacket(userdata);
         return -1;
-    case TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID :
+    case TIMERSRV_DESKTOPPACKET_RTX_TIMEOUT_ID :
     {
         timer_userdata tm_data;
         tm_data.userdata = userdata;
@@ -566,7 +566,7 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
 //                 tm_data.dest_userid);
         return 0;
     }
-    case TIMER_START_DESKTOPTX_ID :
+    case TIMERSRV_START_DESKTOPTX_ID :
     {
         timer_userdata tm_data;
         tm_data.userdata = userdata;
@@ -580,7 +580,7 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         }
         return -1;
     }
-    case TIMER_CLOSE_DESKTOPSESSION_ID :
+    case TIMERSRV_CLOSE_DESKTOPSESSION_ID :
     {
         //continously notify the user that the desktop session has
         //ended
@@ -618,7 +618,7 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         }
         return -1;
     }
-    case TIMER_COMMAND_RESUME :
+    case TIMERSRV_COMMAND_RESUME_ID :
     {
         timer_userdata tm_data;
         tm_data.userdata = userdata;
@@ -853,7 +853,7 @@ bool ServerNode::StartDesktopTransmitter(const ServerUser& src_user,
     //start RTX timer
     TimerHandler* th;
     ACE_NEW_NORETURN(th, TimerHandler(*this,
-                                      TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID,
+                                      TIMERSRV_DESKTOPPACKET_RTX_TIMEOUT_ID,
                                       tm_data.userdata));
     if(th)
     {
@@ -891,7 +891,7 @@ void ServerNode::StopDesktopTransmitter(const ServerUser& src_user,
         timer_userdata tm_data;
         tm_data.src_userid = src_user.GetUserID();
         tm_data.dest_userid = dest_user.GetUserID();
-        ACE_NEW_NORETURN(th, TimerHandler(*this, TIMER_CLOSE_DESKTOPSESSION_ID,
+        ACE_NEW_NORETURN(th, TimerHandler(*this, TIMERSRV_CLOSE_DESKTOPSESSION_ID,
                                           tm_data.userdata));
         long timerid = m_timer_reactor->schedule_timer(th, 0, ACE_Time_Value(1));
         TTASSERT(timerid>=0);
@@ -941,7 +941,7 @@ bool ServerNode::StartServer(bool encrypted, const ACE_TString& sysid)
 
         //start keepalive timer
         ACE_Time_Value interval(SERVER_KEEPALIVE_DELAY);
-        TimerHandler* th = new TimerHandler(*this, TIMER_ONE_SECOND_ID);
+        TimerHandler* th = new TimerHandler(*this, TIMERSRV_ONE_SECOND_ID);
         m_onesec_timerid = m_timer_reactor->schedule_timer(th, 0, interval, interval);
         TTASSERT(m_onesec_timerid>=0);
 
@@ -2074,7 +2074,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
     {
         ACE_Time_Value interval(0, 2000); //delayed ack time
         TimerHandler* th;
-        ACE_NEW(th, TimerHandler(*this, TIMER_DESKTOPACKPACKET_ID, userid));
+        ACE_NEW(th, TimerHandler(*this, TIMERSRV_DESKTOPACKPACKET_ID, userid));
         long timerid = m_timer_reactor->schedule_timer(th, 0, interval, interval);
         if(timerid >= 0)
             m_desktop_ack_timers[userid] = timerid;
@@ -2609,7 +2609,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
         {
             TTASSERT(u != user);
             if (u->GetUsername() == username)
-                UserKick(user->GetUserID(), u->GetUserID(), 0, true);
+                UserKick(0, u->GetUserID(), 0, true);
         }
     }
 
@@ -2905,7 +2905,8 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     }
 
     // notify new user of other users in same channel if not visible
-    if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
+    if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE ||
+        ((newchan->GetChannelType() & CHANNEL_HIDDEN) && (user->GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE))
     {
         for (auto cu : newchan->GetUsers())
         {
@@ -2936,7 +2937,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
             timer_userdata tm_data;
             tm_data.src_userid = cu->GetUserID();
             tm_data.dest_userid = user->GetUserID();
-            ACE_NEW_NORETURN(th, TimerHandler(*this, TIMER_START_DESKTOPTX_ID,
+            ACE_NEW_NORETURN(th, TimerHandler(*this, TIMERSRV_START_DESKTOPTX_ID,
                                               tm_data.userdata));
             long timerid = m_timer_reactor->schedule_timer(th, 0, ACE_Time_Value(1));
             TTASSERT(timerid>=0);

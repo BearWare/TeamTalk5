@@ -142,9 +142,6 @@ const WORD _wVerMinor = 0;
 BOOL CTeamTalkApp::InitInstance()
 {
 	AfxOleInit();
-#if defined(USE_MINIDUMP)
-    MiniDumper dump( _T("TeamTalk") );
-#endif
     // InitCommonControls() is required on Windows XP if an application
     // manifest specifies use of ComCtl32.dll version 6 or later to enable
     // visual styles.  Otherwise, any window creation will fail.

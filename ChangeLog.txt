@@ -13,9 +13,8 @@ Accessible Windows Client
 - Option to disable emojis and text for channel/user states
 - New audio files for default sound events
 - New sound events when user logs in/out
-- Sound events are no longer played in full if several follow one another
 - Faster login on servers with many users or channels
-- Don't play sound for own channel messages
+- New option to play sounds for outgoing messages (disabled by default)
 - Users logged in/out displayed in chat history
 - Save server configuration displayed in chat history
 - Status message is saved and reloaded on startup
@@ -28,6 +27,10 @@ Accessible Windows Client
 - Return exact duration of file on CTRL+S dialog
 - Reconnect if initial connection attempt fails
 - Facebook login no longer supported
+- Private text messages now ordered the same as channel text messages
+- Display man emoji in channels tree
+- Fix double event when we leave a channel
+- Return root channel when appropriate on CTRL+G
 Default QT Client
 - SpeexDSP echo canceller replaced by WebRTC
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
@@ -43,19 +46,26 @@ Default QT Client
 - Fix navigation problems using tabulation
 - More items displayed when using up arrow in message area
 - Add emojis for unread messages and now speaking in channels tree
-- Don't play sound for own channel messages
+- New option to play sounds for outgoing messages (disabled by default)
 - Display ban type on banned users dialog
 - Reconnect if initial connection attempt fails
 - Facebook login no longer supported
+- Display man emoji in channels tree
 Android Client
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
 - Ability to create and join hidden channels
 - New audio files for default sound events
 - Change default stream volume from 100 to 50
+- Support for italian language
+- Option to specify gender
 - Facebook login no longer supported
+- Server list export facility
 iOS Client
 - Ability to create and join hidden channels
 - New audio files for default sound events
+- Change default stream volume from 100 to 50
+- Support for italian language
+- Option to specify gender
 - Facebook login no longer supported
 Server
 - Support for hidden channels

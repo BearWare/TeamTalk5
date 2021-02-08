@@ -27,6 +27,7 @@
 #include "StdAfx.h"
 #include "Resource.h"
 #include "MessageDlg.h"
+#include "../TeamTalkDlg.h"
 #include "Helper.h"
 
 #include <string>
@@ -42,7 +43,7 @@ extern TTInstance* ttInst;
 /////////////////////////////////////////////////////////////////////////////
 // CSendMessageDlg dialog
 
-CMessageDlg::CMessageDlg(teamtalk::ClientXML& xmlSettings, CWnd* pParent, const User& myself, const User& user,
+CMessageDlg::CMessageDlg(teamtalk::ClientXML& xmlSettings, CTeamTalkDlg* pParent, const User& myself, const User& user,
                          LPCTSTR szLogFolder/* = NULL*/)
 : CDialog(CMessageDlg::IDD, pParent)
 , m_xmlSettings(xmlSettings)
@@ -50,13 +51,7 @@ CMessageDlg::CMessageDlg(teamtalk::ClientXML& xmlSettings, CWnd* pParent, const 
 , m_user(user)
 , m_bUserAlive(TRUE)
 , m_pParent(pParent)
-, m_bShowTimeStamp(FALSE)
 {
-    //{{AFX_DATA_INIT(CSendMessageDlg)
-    //}}AFX_DATA_INIT
-
-    memset(&m_lf, 0, sizeof(LOGFONT));
-
     if(szLogFolder && _tcslen(szLogFolder))
         OpenLogFile(m_logFile, szLogFolder, GetDisplayName(user) + _T(".ulog"));
 }
@@ -100,6 +95,9 @@ BOOL CMessageDlg::OnInitDialog()
     m_hAccel = ::LoadAccelerators(AfxGetResourceHandle(), (LPCTSTR)IDR_ACCELERATOR1);
     if (!m_hAccel)
         MessageBox(LoadText(IDS_ACCELERATORNOTLOADDED, _T("The accelerator table was not loaded")));
+
+    m_richHistory.GetSelectionCharFormat(m_defaultCF);
+    m_richHistory.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
 
     if(IsAlive())
     {
@@ -180,6 +178,7 @@ void CMessageDlg::OnButtonSend()
 
         if( TT_DoTextMessage(ttInst, &usermsg)>0) {
             AppendMessage(usermsg, TRUE);
+            m_pParent->PlaySoundEvent(SOUNDEVENT_USER_TEXTMSGSENT);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE) {
                 CString szMsg;
                 szMsg.Format(LoadText(IDS_MPSEND, _T("Private message sent: %s")), usermsg.szMessage);
@@ -215,59 +214,13 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     if(bStore)
         m_messages.push_back(msg);
 
-    //insert enter
-    m_richHistory.SetSel(0,0);
-    m_richHistory.ReplaceSel(_T("\n"));
+    // Insert Name
+    CString szName = (msg.nFromUserID == m_myself.nUserID) ? GetDisplayName(m_myself) : GetDisplayName(m_user);
 
-    //insert msg
-    m_richHistory.SetSel(0,0);
-    m_richHistory.ReplaceSel(msg.szMessage);
-
-    CHARFORMAT cf = {};
-    cf.cbSize        = sizeof (CHARFORMAT);  
-    cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
-    cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
-    cf.crTextColor    = RGB(0, 0, 0); 
-    m_richHistory.SetSel(0, long(_tcslen(msg.szMessage)) + 1);
-    m_richHistory.SetSelectionCharFormat(cf); 
-
-    CString szTime;
-    szTime = msg.receiveTime.Format(LoadText(IDS_TIMELOCALE, _T("%Y-%m-%d %H:%M:%S")));
-
-    CString name;
-    if(msg.nFromUserID == m_myself.nUserID)
-        name.Format(_T("<%s>\n"), GetDisplayName(m_myself));
-    else
-    {
-        name.Format(_T("<%s>\n"), GetDisplayName(m_user));
-    }
-
-    if(m_bShowTimeStamp)
-        name = szTime + _T(" ") + name;
-
-    //insert name
-    m_richHistory.SetSel(0,0);
-    m_richHistory.ReplaceSel(name);
-
-    cf = {};
-    cf.cbSize        = sizeof (CHARFORMAT);  
-    cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
-    cf.dwEffects    = CFE_UNDERLINE | CFE_BOLD;
-    if(msg.nFromUserID == m_myself.nUserID)
-        cf.crTextColor    = RGB(0, 0, 255); 
-    else
-    {
-        if(m_user.uUserType & USERTYPE_ADMIN)
-            cf.crTextColor    = RGB(255, 117, 5);
-        else
-            cf.crTextColor    = RGB(255, 0, 0); 
-    }
-    m_richHistory.SetSel(0,name.GetLength());
-    m_richHistory.SetSelectionCharFormat(cf);
-    m_richHistory.HideSelection(TRUE, FALSE);
+    m_richHistory.AddMessage(szName, msg.szMessage);
 
     if(bStore)
-        WriteLogMsg(m_logFile, name + msg.szMessage + _T("\r\n"));
+        WriteLogMsg(m_logFile, szName + msg.szMessage + _T("\r\n"));
 }
 
 void CMessageDlg::OnSize(UINT nType, int cx, int cy)

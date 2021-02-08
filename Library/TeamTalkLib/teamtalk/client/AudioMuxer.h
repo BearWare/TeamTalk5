@@ -27,6 +27,7 @@
 #include <myace/MyACE.h>
 #include <myace/TimerHandler.h>
 #include <codec/WaveFile.h>
+#include <codec/MediaUtil.h>
 #if defined(ENABLE_MEDIAFOUNDATION)
 #include <avstream/MFTransform.h>
 #endif
@@ -65,13 +66,10 @@ public:
                   teamtalk::AudioFileFormat aff);
     void CloseFile();
 
-    void QueueUserAudio(int userid, const short* rawAudio,
-                        ACE_UINT32 sample_no, bool last,
-                        const teamtalk::AudioCodec& codec);
-    void QueueUserAudio(int userid, const short* rawAudio,
-                        ACE_UINT32 sample_no, bool last,
-                        int n_samples, int n_channels);
+    bool QueueUserAudio(int userid, const media::AudioFrame& frm);
 
+    void SetMuxInterval(int msec);
+    
 private:
     bool Init(const teamtalk::AudioCodec& codec);
     bool StartThread(const teamtalk::AudioCodec& codec);
@@ -88,13 +86,16 @@ private:
 
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;
 
+    // raw audio data from a user ID
     typedef std::map<int, message_queue_t> user_audio_queue_t;
     user_audio_queue_t m_audio_queue;
-    typedef std::map<int, ACE_UINT32> user_queued_audio_t;
+    // next sample number to expect from a user ID
+    typedef std::map<int, uint32_t> user_queued_audio_t;
     user_queued_audio_t m_user_queue;
     std::vector<short> m_muxed_audio;
 
     ACE_Reactor m_reactor;
+    ACE_Time_Value m_mux_interval;
     std::recursive_mutex m_mutex;
     std::shared_ptr< std::thread > m_thread;
 
@@ -143,8 +144,6 @@ public:
     bool AddUser(int userid, int channelid);
     bool RemoveUser(int userid);
 
-    void QueueUserAudio(int userid, const short* rawAudio,
-                        ACE_UINT32 sample_no, bool last,
-                        int n_samples, int n_channels);
+    void QueueUserAudio(int userid, const media::AudioFrame& frm);
 };
 #endif

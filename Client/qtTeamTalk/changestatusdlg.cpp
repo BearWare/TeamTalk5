@@ -24,6 +24,7 @@
 #include "changestatusdlg.h"
 #include "appinfo.h"
 #include "settings.h"
+#include <QPushButton>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
@@ -33,6 +34,8 @@ ChangeStatusDlg::ChangeStatusDlg(QWidget* parent/* = 0*/)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     connect(this, SIGNAL(accepted()), SLOT(slotAccepted()));
 

@@ -1030,6 +1030,8 @@ CString CSessionTreeCtrl::GetUserText(int nUserID) const
         szText += _T(" - ") + CString(user.szStatusMsg);
     if (m_bShowEmojis && (user.nStatusMode & STATUSMODE_FEMALE))
         szText += _T(" \U0001f469");
+    else if (m_bShowEmojis)
+        szText += _T(" \U0001f468");
 
     return LimitText(szText);
 }
@@ -1074,7 +1076,8 @@ CString CSessionTreeCtrl::GetChannelText(int nChannelID) const
                 szText.Format(_T("%s"), ite->second.szName);
         }
     }
-
+    if (m_bShowEmojis && (ite->second.uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
+        szText += _T(": \U0001f47b");
     if (m_bShowEmojis && ite->second.bPassword)
     {
         CString szPwd = _T(" - \U0001f512");

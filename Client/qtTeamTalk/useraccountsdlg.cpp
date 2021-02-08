@@ -467,11 +467,14 @@ void UserAccountsDlg::slotAddUser()
 {
     if(ui.usernameEdit->text().isEmpty())
     {
-        QMessageBox::StandardButton answer = 
-            QMessageBox::question(this, tr("Add/Update"), 
-                                  tr("Create anonymous user account?"),
-                                  QMessageBox::Yes | QMessageBox::No);
-        if(answer != QMessageBox::Yes)
+        QMessageBox answer;
+        answer.setText(tr("Create anonymous user account?"));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Add/Update"));
+        answer.exec();
+        if(answer.clickedButton() != YesButton)
             return;
     }
 
@@ -680,6 +683,7 @@ void UserAccountsDlg::slotRemoveOpChannel()
 
 void UserAccountsDlg::slotCustomCmdLimit(int index)
 {
+    QInputDialog inputDialog;
     switch(ui.limitcmdComboBox->itemData(index).toInt())
     {
     case LIMITCMD_DISABLED :
@@ -698,17 +702,23 @@ void UserAccountsDlg::slotCustomCmdLimit(int index)
         m_abuse.nCommandsIntervalMSec = 60000;
         break;
     case LIMITCMD_CUSTOM :
-        m_abuse.nCommandsLimit =
-                QInputDialog::getInt(this, tr("Limit issued commands"),
-                                     tr("Number of commands to allow (0 = disabled)"),
-                                     m_abuse.nCommandsLimit, 0);
+        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setCancelButtonText(tr("&Cancel"));
+        inputDialog.setInputMode(QInputDialog::IntInput);
+        inputDialog.setIntValue(m_abuse.nCommandsLimit);
+        inputDialog.setWindowTitle(tr("Limit issued commands"));
+        inputDialog.setLabelText(tr("Number of commands to allow (0 = disabled)"));
+        inputDialog.setIntMinimum(0);
+        inputDialog.exec();
+        m_abuse.nCommandsLimit = inputDialog.intValue();
         if(m_abuse.nCommandsLimit)
         {
-            m_abuse.nCommandsIntervalMSec =
-                    QInputDialog::getInt(this, tr("Limit issued commands"),
-                                         tr("Timeframe to allow %1 commands (in seconds)")
-                                         .arg(m_abuse.nCommandsLimit),
-                                         m_abuse.nCommandsIntervalMSec/1000, 1);
+            inputDialog.setIntValue(m_abuse.nCommandsIntervalMSec/1000);
+            inputDialog.setIntMinimum(1);
+            inputDialog.setWindowTitle(tr("Limit issued commands"));
+            inputDialog.setLabelText(tr("Timeframe to allow %1 commands (in seconds)").arg(m_abuse.nCommandsLimit));
+            inputDialog.exec();
+            m_abuse.nCommandsIntervalMSec = inputDialog.intValue();
             m_abuse.nCommandsIntervalMSec *= 1000;
         }
         break;

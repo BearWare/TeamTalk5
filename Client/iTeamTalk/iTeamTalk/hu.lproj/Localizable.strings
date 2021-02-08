@@ -206,8 +206,14 @@
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook login was cancelled";
 
+/* preferences */
+"Female" = "Female";
+
 /* codec detail */
 "Frame Size" = "Frame Size";
+
+/* preferences */
+"Gender" = "Gender";
 
 /* preferences
    user detail */
@@ -263,6 +269,9 @@
 
 /* log entry */
 "Logged on to server" = "Bejelentkeztünk a szerverre";
+
+/* preferences */
+"Male" = "Male";
 
 /* preferences */
 "Master Volume" = "fő hangerő";
@@ -419,13 +428,13 @@
 "Private text message from %@. %@" = "Személyes üzenet a következőtöl: %@. %@";
 
 /* preferences */
-"Proximity sensor" = "Közelség Érzékelő";
+"Proximity Sensor" = "Közelség Érzékelő";
 
 /* serverlist */
 "Public server" = "nyilvános szerver";
 
 /* preferences */
-"Push to Talk lock" = "PTT zárolás";
+"Push To Talk Lock" = "PTT zárolás";
 
 /* codec detail */
 "Quality" = "Minőség";
@@ -482,16 +491,19 @@
 "Server List Entry" = "Szerver beírási pont";
 
 /* preferences */
+"Show male or female icon" = "Show male or female icon";
+
+/* preferences */
 "Show Public Servers" = "Nyilvános Szerverek kijelzése";
 
 /* preferences */
 "Show public servers in server list" = "Nyilvános szerverek kijelzése a szerver listában";
 
 /* preferences */
-"Show text messages instantly" = "rögtöni személyes üzenet mutatás";
+"Show Text Messages Instantly" = "rögtöni személyes üzenet mutatás";
 
 /* preferences */
-"Show usernames" = "Felhasználónevek kijelzése";
+"Show Usernames" = "Felhasználónevek kijelzése";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Felhasználónevek kijelzése becenevek helyett";
@@ -500,7 +512,7 @@
 "Silent" = "Csendes";
 
 /* preferences */
-"Sort channels" = "Sort channels";
+"Sort Channels" = "Sort Channels";
 
 /* preferences
    text to speech */
@@ -589,6 +601,9 @@
 /* channel list */
 "User" = "Felhasználó";
 
+/* channel list */
+"User female" = "User female";
+
 /* preferences */
 "User Joins Channel" = "tag Kapcsolódott a Csatornához";
 
@@ -676,6 +691,3 @@
 
 /* server entry */
 "Check only if this server has enabled Facebook login" = "";
-
-/* hidden channel */
-"Hidden channel" = "";

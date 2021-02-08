@@ -30,7 +30,7 @@
 #if defined(ACE_WIN32)
 
 #include <avstream/DMOResampler.h> // need SetWaveMediaType()
-
+#include <pa_win_wasapi.h>
 #include <px_win_ds.h>    //the directx mixer
 
 #include <Objbase.h>
@@ -47,8 +47,19 @@ const int WINAEC_CHANNELS = 1;
 using namespace std;
 namespace soundsystem {
 
+#if defined(WIN32)
+PaWasapiStreamInfo WASAPICONVERT = {};
+#endif
+
 PortAudio::PortAudio()
 {
+#if defined(WIN32)
+    WASAPICONVERT.size = sizeof(WASAPICONVERT);
+    WASAPICONVERT.hostApiType = paWASAPI;
+    WASAPICONVERT.version = 1;
+    WASAPICONVERT.flags = paWinWasapiAutoConvert;
+#endif
+
     Init();
 }
 
@@ -61,7 +72,7 @@ PortAudio::~PortAudio()
 bool PortAudio::Init()
 {
     PaError err = Pa_Initialize();
-    assert(err == paNoError);
+    MYTRACE_COND(err != paNoError, ACE_TEXT("PortAudio failed to initialize. Error: %d\n"), err);
     RefreshDevices();
     return err == paNoError;
 }
@@ -69,7 +80,7 @@ bool PortAudio::Init()
 void PortAudio::Close()
 {
     PaError err = Pa_Terminate();
-    assert(err == paNoError);
+    MYTRACE_COND(err != paNoError, ACE_TEXT("PortAudio closed incorrectly. Error: %d\n"), err);
 }
 
 std::shared_ptr<PortAudio> PortAudio::getInstance()
@@ -237,6 +248,11 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
         streamParameters.device = i;
         streamParameters.sampleFormat = paInt16;
         streamParameters.suggestedLatency = 0;
+#if defined(WIN32)
+        const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+        if (HOST_WASAPI == devinfo->hostApi)
+            streamParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
+#endif
 
         for(size_t j=0;j<standardSampleRates.size();j++)
         {
@@ -289,6 +305,37 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
 
         sounddevs[device.id] = device;
     }
+
+#if defined(WIN32)
+    // Find default communication device on Windows
+    CComPtr<IMMDeviceEnumerator> pEnumerator;
+    auto rclsid = __uuidof(MMDeviceEnumerator);
+    auto riid = __uuidof(IMMDeviceEnumerator);
+    HRESULT hr = CoCreateInstance(rclsid, NULL, CLSCTX_INPROC_SERVER, riid, (void**)&pEnumerator);
+    if (SUCCEEDED(hr))
+    {
+        EDataFlow flows[] = { eCapture, eRender };
+        for (auto flow : flows)
+        {
+            CComPtr<IMMDevice> device;
+            if (SUCCEEDED(pEnumerator->GetDefaultAudioEndpoint(flow, eCommunications, &device)))
+            {
+                WCHAR* deviceId = nullptr;
+                if (SUCCEEDED(device->GetId(&deviceId)))
+                {
+                    auto i = std::find_if(sounddevs.begin(), sounddevs.end(),
+                        [deviceId](const std::pair<int, DeviceInfo>& d)
+                        {
+                            return d.second.soundsystem == SOUND_API_WASAPI && d.second.deviceid == deviceId;
+                        });
+                    if (i != sounddevs.end())
+                        i->second.features |= SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE;
+                    CoTaskMemFree(deviceId);
+                }
+            }
+        }
+    }
+#endif
 }
 
 SoundAPI PortAudio::GetSoundSystem(const PaDeviceInfo* devinfo)
@@ -355,12 +402,18 @@ inputstreamer_t PortAudio::NewStream(StreamCapture* capture, int inputdeviceid,
     streamer->duplex = false;
 #endif
 
-    PaStreamParameters inputParameters;
+    PaStreamParameters inputParameters = {};
     inputParameters.device = inputdeviceid;
     inputParameters.channelCount = channels;
-    inputParameters.hostApiSpecificStreamInfo = NULL;
+    inputParameters.hostApiSpecificStreamInfo = nullptr;
     inputParameters.sampleFormat = paInt16;
     inputParameters.suggestedLatency = indev->defaultLowInputLatency;
+
+#if defined(WIN32)
+    const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+    if (HOST_WASAPI == indev->hostApi)
+        inputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
+#endif
 
     PaError err = Pa_OpenStream(&streamer->stream, &inputParameters, NULL,
                                 (double)samplerate, framesize, paClipOff,
@@ -457,6 +510,12 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
         return outputstreamer_t();
 
     outputParameters.suggestedLatency = outdev->defaultLowOutputLatency;
+
+#if defined(WIN32)
+    const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+    if (HOST_WASAPI == outdev->hostApi)
+        outputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
+#endif
 
     //create stream holder
     outputstreamer_t streamer(new PaOutputStreamer(player, sndgrpid, framesize, samplerate,
@@ -690,21 +749,29 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
         return duplexstreamer_t();
 
     //input device init
-    PaStreamParameters inputParameters;
+    PaStreamParameters inputParameters = {};
     inputParameters.device = inputdeviceid;
     inputParameters.channelCount = input_channels;
-    inputParameters.hostApiSpecificStreamInfo = NULL;
+    inputParameters.hostApiSpecificStreamInfo = nullptr;
     inputParameters.sampleFormat = paInt16;
     inputParameters.suggestedLatency = indev->defaultLowInputLatency;
     PaStreamParameters* tmpInputParameters = &inputParameters;
 
     //output device init
-    PaStreamParameters outputParameters;
+    PaStreamParameters outputParameters = {};
     outputParameters.device = outputdeviceid;
     outputParameters.channelCount = output_channels;
-    outputParameters.hostApiSpecificStreamInfo = NULL;
+    outputParameters.hostApiSpecificStreamInfo = nullptr;
     outputParameters.sampleFormat = paInt16;
     outputParameters.suggestedLatency = outdev->defaultLowOutputLatency;
+
+#if defined(WIN32)
+    const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+    if (HOST_WASAPI == indev->hostApi)
+        inputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
+    if (HOST_WASAPI == outdev->hostApi)
+        outputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
+#endif
 
     duplexstreamer_t streamer(new PaDuplexStreamer(duplex, sndgrpid, framesize,
                                                    samplerate, input_channels,

@@ -102,11 +102,15 @@
 // Channel-struct's AudioConfig
 #define CHANNEL_AUDIOCONFIG_MAX             32000
 #define DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE  FALSE
-#define DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL   16000
+#define DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL   9600 /* CHANNEL_AUDIOCONFIG_MAX * (DEFAULT_WEBRTC_GAINDB / WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX) */
 
 #define DEFAULT_ECHO_ENABLE             FALSE
 #define DEFAULT_AGC_ENABLE              FALSE
 #define DEFAULT_DENOISE_ENABLE          FALSE
+
+#define DEFAULT_TEAMTALK_GAINLEVEL              SOUND_GAIN_DEFAULT
+#define DEFAULT_TEAMTALK_MUTELEFT               FALSE
+#define DEFAULT_TEAMTALK_MUTERIGHT              FALSE
 
 #define DEFAULT_SPEEXDSP_AGC_ENABLE             DEFAULT_AGC_ENABLE
 #define DEFAULT_SPEEXDSP_AGC_GAINLEVEL          8000
@@ -119,15 +123,19 @@
 #define DEFAULT_SPEEXDSP_ECHO_SUPPRESS          -40
 #define DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE    -15
 
+#define DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE      FALSE
+#define DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR  1.0f
+#define DEFAULT_WEBRTC_VAD_ENABLE               FALSE
+#define DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE   FALSE
 #define DEFAULT_WEBRTC_GAINCTL_ENABLE           DEFAULT_AGC_ENABLE
-#define DEFAULT_WEBRTC_GAINDB                   25
+#define DEFAULT_WEBRTC_GAINDB                   15
 #define DEFAULT_WEBRTC_SAT_PROT_ENABLE          TRUE
 #define DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB       20
 #define DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB      2
 #define DEFAULT_WEBRTC_MAXGAIN_DBSEC            3
 #define DEFAULT_WEBRTC_MAX_OUT_NOISE            -50
 #define DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE     DEFAULT_DENOISE_ENABLE
-#define DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL      1
+#define DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL      2
 #define DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE       FALSE /* requires duplex mode */
 
 #define DEFAULT_MSEC_PER_PACKET         40
@@ -227,7 +235,9 @@ enum SoundEvent
     SOUNDEVENT_REMOVEUSER,
     SOUNDEVENT_SERVERLOST,
     SOUNDEVENT_USERMSG,
+    SOUNDEVENT_SENTMSG,
     SOUNDEVENT_CHANNELMSG,
+    SOUNDEVENT_SENTCHANNELMSG,
     SOUNDEVENT_BROADCASTMSG,
     SOUNDEVENT_HOTKEY,
     SOUNDEVENT_SILENCE,   
@@ -352,8 +362,8 @@ QStringList getCustomCommand(const TextMessage& msg);
 void initDefaultAudioCodec(AudioCodec& codec);
 bool getVideoCaptureCodec(VideoCodec& vidcodec);
 void initDefaultVideoFormat(VideoFormat& vidfmt);
-void initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor);
-void loadAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor);
+AudioPreprocessor initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype);
+AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype);
 
 bool initVideoCaptureFromSettings();
 bool initVideoCapture(const QString& devid, const VideoFormat& fmt);

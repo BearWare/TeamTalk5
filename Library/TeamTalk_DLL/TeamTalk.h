@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.7.0.5017"
+#define TEAMTALK_VERSION "5.7.0.5022"
 
 
 #if defined(WIN32)
@@ -291,30 +291,33 @@ extern "C" {
     {
         /** @brief No sound device features are available on this
          * sound device. */
-        SOUNDDEVICEFEATURE_NONE         = 0x0000,
+        SOUNDDEVICEFEATURE_NONE             = 0x0000,
         /** @brief The #SoundDevice can enable Acoustic 
          * Echo Canceler (AEC).
          * Enable AEC use property @c bEnableAEC on
          * #SoundDeviceEffects.
          * @see TT_SetSoundDeviceEffects() */
-        SOUNDDEVICEFEATURE_AEC          = 0x0001,
+        SOUNDDEVICEFEATURE_AEC              = 0x0001,
         /** @brief The #SoundDevice can enable Automatic
          * Gain Control (AGC).
          * Enable AGC use property @c bEnableAGC on
          * #SoundDeviceEffects.
          * @see TT_SetSoundDeviceEffects() */
-        SOUNDDEVICEFEATURE_AGC          = 0x0002,
+        SOUNDDEVICEFEATURE_AGC              = 0x0002,
         /** @brief The #SoundDevice can enable denoising.
          * Enable denoising use property @c bEnableDenoising on 
          * #SoundDeviceEffects.
          * @see TT_SetSoundDeviceEffects() */
-        SOUNDDEVICEFEATURE_DENOISE      = 0x0004,
+        SOUNDDEVICEFEATURE_DENOISE          = 0x0004,
         /** @brief The #SoundDevice can position user in 3D.
          * @see TT_SetUserPosition()  */
-        SOUNDDEVICEFEATURE_3DPOSITION   = 0x0008,
+        SOUNDDEVICEFEATURE_3DPOSITION       = 0x0008,
         /** @brief The #SoundDevice can run in duplex mode.
          * @see TT_InitSoundDuplexDevices() */
-        SOUNDDEVICEFEATURE_DUPLEXMODE   = 0x0010,
+        SOUNDDEVICEFEATURE_DUPLEXMODE       = 0x0010,
+        /** @brief The #SoundDevice is the default communication device.
+         * This feature is only supported on SOUNDSYSTEM_WASAPI. */
+        SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE = 0x0020,
     } SoundDeviceFeature;
 
     /** @brief A bitmask of available #SoundDeviceFeature. 
@@ -1231,6 +1234,15 @@ extern "C" {
      * TT_SetSoundDeviceEffects() on desktop platforms. */
     typedef struct WebRTCAudioPreprocessor
     {
+        /** @brief Configuration of WebRTC pre-amplifier. */
+        struct
+        {
+            /** @brief Enable pre-amplifier. Replacement for
+             * TT_SetSoundInputGainLevel() */
+            TTBOOL bEnable;
+            /** @brief Gain factor. Default: 1. */
+            float fFixedGainFactor;
+        } preamplifier;
         /** @brief Configuration of WebRTC's echo canceller. See also
          * TT_SetSoundDeviceEffects() */
         struct
@@ -1252,6 +1264,20 @@ extern "C" {
              * 2 = High, 3 = VeryHigh. Default: 1. */
             INT32 nLevel;
         } noisesuppression;
+        /** @brief Configuration of WebRTC's voice detection. */
+        struct
+        {
+            /** @brief Use WebRTC's voice detection to trigger
+             * #CLIENTEVENT_VOICE_ACTIVATION.
+             *
+             * TT_EnableVoiceActivation() must still be called to
+             * activate voice detection event
+             * #CLIENTEVENT_VOICE_ACTIVATION.
+             *
+             * Enabling WebRTC's voice detection invalidates use of
+             * TT_SetVoiceActivationLevel() */
+            TTBOOL bEnable;
+        } voicedetection;
         /** @brief Configuration of WebRTC's gain controller 2 for
          * AGC. */
         struct
@@ -1283,6 +1309,16 @@ extern "C" {
                 float fMaxOutputNoiseLevelDBFS;
             } adaptivedigital;
         } gaincontroller2;
+        /** @brief Configuration of WebRTC's level estimater. */
+        struct
+        {
+            /** @brief Enable level estimater. When enabled
+             * TT_GetSoundInputLevel() will return a value based on
+             * WebRTC's level estimater. A WebRTC level estimater
+             * value of 0 will result in #SOUND_VU_MAX and level
+             * estimater value of 127 will return #SOUND_VU_MIN. */
+            TTBOOL bEnable;
+        } levelestimation;
     } WebRTCAudioPreprocessor;
 
 /** @brief Max value for fGainDB in #WebRTCAudioPreprocessor's @c gaincontroller2 */
@@ -2637,6 +2673,22 @@ extern "C" {
          * @see TT_InitSoundInputDevice() */
         INT32 nSoundInputDeviceDelayMSec;
     } ClientStatistics;
+
+    /** @ingroup connectivity
+         * @brief Configuration parameters for the Jitter Buffer
+         *
+         * @see TT_SetUserJitterControl()
+         */
+    typedef struct JitterConfig
+    {
+        /** @brief The fixed delay in milliseconds. Default = 0.*/
+        INT32 nFixedDelayMSec;
+        /** @brief Turns adaptive jitter buffering ON/OFF. Default is OFF.*/
+        TTBOOL bUseAdativeDejitter;
+        /** @brief A hard maximum delay on the adaptive delay. 
+        Only valid when higher than zero. Default = 0.*/
+        INT32 nMaxAdaptiveDelayMSec;
+    } JitterConfig;
 
     /** @addtogroup errorhandling
      * @{ */
@@ -4265,6 +4317,9 @@ extern "C" {
      * client instance joins a channel, i.e. it knows what sample rate
      * to use.
      *
+     * If #WebRTCAudioPreprocessor is active with @c levelestimation enabled
+     * then the current input level is based on WebRTC's level estimater.
+     *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
      * @return Returns a value between #SOUND_VU_MIN and #SOUND_VU_MAX. */
@@ -4578,7 +4633,12 @@ extern "C" {
      * @brief Set voice activation level.
      *
      * The current volume level can be queried calling
-     * #TT_GetSoundInputLevel.
+     * TT_GetSoundInputLevel(). When TT_GetSoundInputLevel() is
+     * greater or equal to voice activation level then
+     * #CLIENTEVENT_VOICE_ACTIVATION is triggered.
+     *
+     * If #WebRTCAudioPreprocessor is active with @c voicedetection
+     * enabled then TT_SetVoiceActivationLevel() is not applicable.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
@@ -6874,6 +6934,35 @@ extern "C" {
                                                           IN StreamType nStreamType,
                                                           IN INT32 nDelayMSec);
 
+     /**
+     * @brief Set the configuration for de-jitter measures for a user.
+     *
+     * TeamTalk can add a fixed delay at the start of the playout of a user stream.
+     * This delay acts as a buffer to smooth out jittering (non-constant delays)
+     * in the reception of network packets.
+     * The fixed delay is applied at the start of every new stream, such as a new PTT session.
+     * The default fixed delay is zero.
+     *
+     * TeamTalk can also apply adaptive jitter buffering where the actual jitter is measured
+     * and the delay at the start of a stream is adapted based on those measurements.
+     * The adaptive delay will not go below the fixed delay.
+     * The parameter nMaxAdaptiveDelayMSec maximizes the total adaptive delay.
+     * By default, the adaptive mechanism is OFF
+     *
+     * By default, all jitter control is OFF
+     *
+     * The result of jitter buffering is that playout frames will get buffered in the playout buffer.
+     * Make sure to also size the playout buffer for the expected jitter via #TT_SetUserAudioStreamBufferSize
+     *
+     * @param lpTTInstance Pointer to client instance created by #TT_InitTeamTalk.
+     * @param nUserID The user ID of the user to apply the configuration to.
+     * @param nStreamType The type of stream to change, currently only
+     * #STREAMTYPE_VOICE is supported. Other types are a no-op.
+     * @param lpJitterConfig The jitter buffer configuration.*/
+     TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
+                                                    IN INT32 nUserID,
+                                                    IN StreamType nStreamType,
+                                                    IN JitterConfig* lpJitterConfig);
     /**
      * @brief Set the position of a user.
      *
@@ -6938,7 +7027,7 @@ extern "C" {
      * #User.  
      * @param szFileNameVars The file name used for audio files can
      * consist of the following variables: \%nickname\%, \%username\%,
-     * \%userid\%, \%counter\% and a specified time based on @c
+     * \%userid\%, \%counter\%, \%starttick\% and a specified time based on @c
      * strftime (google @c 'strftime' for a description of the
      * format. The default format used by TeamTalk is:
      * '\%Y\%m\%d-\%H\%M\%S #\%userid\% \%username\%'. The \%counter\%
@@ -6957,6 +7046,32 @@ extern "C" {
                                                      IN const TTCHAR* szFolderPath,
                                                      IN const TTCHAR* szFileNameVars,
                                                      IN AudioFileFormat uAFF);
+
+    /**
+     * @brief Store user's audio to disk.
+
+     * @see TT_SetUserMediaStorageDir
+     *
+     * This extension has an extra parameter for an aditional delay that will be waited
+     * before closing the per-user recording. This allows the recording to still capture
+     * all voice of a stream in a single file even if there's heavy network jitter.
+     * A recording will always be started if a different stream is received for the
+     * user. The delay is added on top of the standard playout delay that can be set via
+     *
+     * Note that the delay starts after the last packet was written to the playout and thus
+     * the delay is already 'counting' when the jitter-buffered playout is still playing
+     *
+     * Only supported for #STREAMTYPE_VOICE.
+     *
+     * @param nStopRecordingExtraDelayMSec Extra delay before closing the recording file
+     * default is 0.*/
+    TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDirEx(IN TTInstance* lpTTInstance,
+                                                       IN INT32 nUserID,
+                                                       IN const TTCHAR* szFolderPath,
+                                                       IN const TTCHAR* szFileNameVars,
+                                                       IN AudioFileFormat uAFF,
+                                                       IN INT32 nStopRecordingExtraDelayMSec);
+
     /**
      * @brief Change the amount of media data which can be buffered
      * in the user's playback queue.

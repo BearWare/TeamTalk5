@@ -206,8 +206,14 @@
 /* Dialog message */
 "Facebook login was cancelled" = "Вход через Facebook был отменён";
 
+/* preferences */
+"Female" = "Female";
+
 /* codec detail */
 "Frame Size" = "Frame Size";
+
+/* preferences */
+"Gender" = "Gender";
 
 /* preferences
    user detail */
@@ -263,6 +269,9 @@
 
 /* log entry */
 "Logged on to server" = "Вход на сервер";
+
+/* preferences */
+"Male" = "Male";
 
 /* preferences */
 "Master Volume" = "Громкость Динамиков";
@@ -419,13 +428,13 @@
 "Private text message from %@. %@" = "Приватное сообщение от %@. %@";
 
 /* preferences */
-"Proximity sensor" = "Датчик приближения";
+"Proximity Sensor" = "Датчик приближения";
 
 /* serverlist */
 "Public server" = "Публичный сервер";
 
 /* preferences */
-"Push to Talk lock" = "Блокировать кнопку Передача";
+"Push To Talk Lock" = "Блокировать кнопку Передача";
 
 /* codec detail */
 "Quality" = "Качество";
@@ -482,16 +491,19 @@
 "Server List Entry" = "Запись  Сервера";
 
 /* preferences */
+"Show male or female icon" = "Show male or female icon";
+
+/* preferences */
 "Show Public Servers" = "Показать Публичные Серверы";
 
 /* preferences */
 "Show public servers in server list" = "Показ публичных серверов в списке";
 
 /* preferences */
-"Show text messages instantly" = "Показать текстовые сообщения мгновенно";
+"Show Text Messages Instantly" = "Показать текстовые сообщения мгновенно";
 
 /* preferences */
-"Show usernames" = "Показ имён пользователей";
+"Show Usernames" = "Показ имён пользователей";
 
 /* preferences */
 "Show usernames instead of nicknames" = "Показать имена пользователей вместо ников";
@@ -500,7 +512,7 @@
 "Silent" = "Молчит";
 
 /* preferences */
-"Sort channels" = "Сортировка каналов";
+"Sort Channels" = "Сортировка каналов";
 
 /* preferences
    text to speech */
@@ -589,6 +601,9 @@
 /* channel list */
 "User" = "Пользователь";
 
+/* channel list */
+"User female" = "User female";
+
 /* preferences */
 "User Joins Channel" = "Пользователь Подключается К Каналу";
 
@@ -676,6 +691,3 @@
 
 /* server entry */
 "Check only if this server has enabled Facebook login" = "";
-
-/* hidden channel */
-"Hidden channel" = "";

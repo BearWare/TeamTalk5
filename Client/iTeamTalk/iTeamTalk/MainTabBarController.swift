@@ -44,18 +44,6 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             addbtn.accessibilityHint = NSLocalizedString("Create new channel", comment: "main-tab")
         }
 
-//        let img = UIImage(named: "channel_pink.png")
-//        let tabImgSize = CGSize(width: 30, height: 30)
-//        UIGraphicsBeginImageContextWithOptions(tabImgSize, false, 0.0)
-//        img?.drawInRect(CGRectMake(0,0,tabImgSize.width, tabImgSize.height))
-//        let newImg = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        
-//        let tab0 = self.tabBar.items?.first
-//        
-//        tab0?.setBackgroundImage(newImg, forState: .Normal)
-//        tab0?.setBackgroundImage(newImg, forState: .Selected)
-        
         // Our one and only TT client instance
         ttInst = TT_InitTeamTalkPoll()
         
@@ -474,6 +462,11 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                 server.channel.removeAll()
                 server.chanpasswd.removeAll()
             }
+            
+            let settings = UserDefaults.standard
+            if settings.integer(forKey: PREF_GENERAL_GENDER) != 0 {
+                TT_DoChangeStatus(ttInst, INT32(StatusMode.STATUSMODE_FEMALE.rawValue), "")
+            }
         default :
             break
         }
@@ -483,14 +476,13 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         
         let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
         
-        let nickname = UserDefaults.standard.string(forKey: PREF_NICKNAME) ?? DEFAULT_NICKNAME
+        let nickname = UserDefaults.standard.string(forKey: PREF_GENERAL_NICKNAME) ?? DEFAULT_NICKNAME
         
         cmdid = TT_DoLoginEx(ttInst, nickname, server.username, server.password, AppInfo.getAppName())
         channelsTab.activeCommands[cmdid] = .loginCmd
         
         reconnecttimer?.invalidate()
     }
-
     
     @IBAction func disconnectButtonPressed(_ sender: UIBarButtonItem) {
         let servers = loadLocalServers()

@@ -196,6 +196,7 @@ void AudioThread::StopEncoder()
 
 #if defined(ENABLE_WEBRTC)
     m_apm.reset();
+    m_aps.reset();
 #endif
 
 #if defined(ENABLE_SPEEX)
@@ -239,7 +240,10 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
 
 #if defined(ENABLE_WEBRTC)
     if (preprocess.preprocessor != AUDIOPREPROCESSOR_WEBRTC)
+    {
         m_apm.reset();
+        m_aps.reset();
+    }
 #endif
 
     // just ignore preprocessor if not audio codec is set
@@ -286,6 +290,7 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
                     int(m_apm->GetConfig().noise_suppression.level),
                     int(m_apm->GetConfig().echo_canceller.enabled));
         }
+        m_aps.reset(new webrtc::AudioProcessingStats());
         return true;
 #else
         return false;
@@ -423,11 +428,38 @@ void AudioThread::QueueAudio(ACE_Message_Block* mb_audio)
     }
 }
 
-
 bool AudioThread::IsVoiceActive() const
 {
+#if defined(ENABLE_WEBRTC)
+    if (m_apm && m_apm->GetConfig().voice_detection.enabled)
+    {
+        assert(m_aps);
+        return m_aps->voice_detected.value_or(false) ||
+            m_lastActive + m_voiceact_delay > ACE_OS::gettimeofday();
+    }
+#endif
     return m_voicelevel >= m_voiceactlevel ||
         m_lastActive + m_voiceact_delay > ACE_OS::gettimeofday();
+}
+
+int AudioThread::GetCurrentVoiceLevel() const
+{
+#if defined(ENABLE_WEBRTC)
+    if (m_apm)
+    {
+        assert(m_aps);
+        auto cfg = m_apm->GetConfig();
+        if (cfg.level_estimation.enabled)
+        {
+            // WebRTC's maximum value for dB from digital full scale
+            float value = 127.f - m_aps->output_rms_dbfs.value_or(0);
+            value /= 127.f;
+            return int(VU_METER_MAX * value);
+        }
+    }
+#endif
+
+    return m_voicelevel;
 }
 
 void AudioThread::ProcessQueue(ACE_Time_Value* tm)
@@ -463,49 +495,17 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
 
 #if defined(ENABLE_WEBRTC)
     PreprocessWebRTC(audblock);
-#endif
-
-    /*  Measure voice activity */
-    const int VU_MAX_VOLUME = 8000; //real maximum is if all samples are 32768
-    const int VOICEACT_STOPDELAY = 1500;//msecs to wait before stopping after voiceact has been disabled
-
-    int lsum = 0, rsum = 0, sum = 0;
-    int samples_total = audblock.input_samples * audblock.inputfmt.channels;
-    if (audblock.inputfmt.channels == 2)
+    if (m_apm && m_apm->GetConfig().voice_detection.enabled)
     {
-        for(int i=0;i<samples_total;i+=2)
-        {
-            lsum += abs(audblock.input_buffer[i]);
-            rsum += abs(audblock.input_buffer[i+1]);
-        }
-        switch (m_stereo)
-        {
-        case STEREO_BOTH :
-            sum = (lsum + rsum) / 2;
-            break;
-        case STEREO_LEFT :
-            sum = lsum;
-            break;
-        case STEREO_RIGHT :
-            sum = rsum;
-            break;
-        case STEREO_NONE :
-            sum = 0;
-            break;
-        }
+        assert(m_aps);
+        if (m_aps->voice_detected.value_or(false))
+            m_lastActive = ACE_OS::gettimeofday();
     }
     else
+#endif
     {
-        for(int i=0;i<samples_total;++i)
-            sum += abs(audblock.input_buffer[i]);
+        MeasureVoiceLevel(audblock);
     }
-    int avg = sum / audblock.input_samples;
-    avg = 100 * avg / VU_MAX_VOLUME;
-    this->m_voicelevel = avg>VU_METER_MAX? VU_METER_MAX : avg;
-
-    if(this->m_voicelevel >= this->m_voiceactlevel)
-        m_lastActive = ACE_OS::gettimeofday();
-    /*  Measure voice activity - end */
 
     // mute left or right speaker (if enabled)
     if(audblock.inputfmt.channels == 2)
@@ -562,6 +562,49 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
 
         m_callback(m_codec, NULL, 0, std::vector<int>(), audblock);
     }
+}
+
+void AudioThread::MeasureVoiceLevel(const media::AudioFrame& audblock)
+{
+    const int VU_MAX_VOLUME = 8000; //real maximum is if all samples are 32768
+    const int VOICEACT_STOPDELAY = 1500;//msecs to wait before stopping after voiceact has been disabled
+
+    int lsum = 0, rsum = 0, sum = 0;
+    int samples_total = audblock.input_samples * audblock.inputfmt.channels;
+    if (audblock.inputfmt.channels == 2)
+    {
+        for (int i = 0; i < samples_total; i += 2)
+        {
+            lsum += abs(audblock.input_buffer[i]);
+            rsum += abs(audblock.input_buffer[i + 1]);
+        }
+        switch (m_stereo)
+        {
+        case STEREO_BOTH:
+            sum = (lsum + rsum) / 2;
+            break;
+        case STEREO_LEFT:
+            sum = lsum;
+            break;
+        case STEREO_RIGHT:
+            sum = rsum;
+            break;
+        case STEREO_NONE:
+            sum = 0;
+            break;
+        }
+    }
+    else
+    {
+        for (int i = 0; i < samples_total; ++i)
+            sum += abs(audblock.input_buffer[i]);
+    }
+    int avg = sum / audblock.input_samples;
+    avg = 100 * avg / VU_MAX_VOLUME;
+    this->m_voicelevel = avg > VU_METER_MAX ? VU_METER_MAX : avg;
+
+    if (this->m_voicelevel >= this->m_voiceactlevel)
+        m_lastActive = ACE_OS::gettimeofday();
 }
 
 #if defined(ENABLE_SPEEXDSP)
@@ -640,7 +683,7 @@ void AudioThread::PreprocessWebRTC(media::AudioFrame& audblock)
     if (!m_apm)
         return;
 
-    if (WebRTCPreprocess(*m_apm, audblock, audblock) != audblock.input_samples)
+    if (WebRTCPreprocess(*m_apm, audblock, audblock, m_aps.get()) != audblock.input_samples)
     {
         MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
     }

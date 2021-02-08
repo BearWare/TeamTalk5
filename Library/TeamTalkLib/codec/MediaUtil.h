@@ -165,7 +165,7 @@ namespace media
         bool top_down;
         bool key_frame;
         int stream_id;
-        ACE_UINT32 timestamp;
+        uint32_t timestamp;
 
         VideoFrame(char* frm_data, int frm_len,
                    int w, int h, FourCC pic_type, bool top_down_bmp)

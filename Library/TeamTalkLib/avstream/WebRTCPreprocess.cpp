@@ -52,7 +52,7 @@ bool IsEnabled(const webrtc::AudioProcessing::Config& cfg)
 }
 
 int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infrm,
-                     media::AudioFrame& outfrm)
+                     media::AudioFrame& outfrm, webrtc::AudioProcessingStats* stats /*= nullptr*/)
 {
     assert(!outfrm.inputfmt.IsValid() || infrm.inputfmt == outfrm.inputfmt);
 
@@ -77,7 +77,11 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
         }
     }
 
-    int in_index = 0, out_index = 0;
+    // AudioProcessingStats
+    int output_rms_dbfs = 0;
+    bool voice_detected = false;
+
+    int in_index = 0, out_index = 0, n = 0;
     while (in_index + in_cfg.num_frames() <= infrm.input_samples)
     {
         int ret;
@@ -105,8 +109,24 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
         if (ret != webrtc::AudioProcessing::kNoError)
             return -1;
 
+        if (stats)
+        {
+            auto wstats = apm.GetStatistics();
+            output_rms_dbfs += wstats.output_rms_dbfs.value_or(0);
+            assert(!wstats.output_rms_dbfs.has_value() || wstats.output_rms_dbfs.value() <= 127);
+            assert(!wstats.output_rms_dbfs.has_value() || wstats.output_rms_dbfs.value() >= 0);
+            voice_detected |= wstats.voice_detected.value_or(false);
+        }
+
         in_index += in_cfg.num_frames();
         out_index += out_cfg.num_frames();
+        n++;
+    }
+
+    if (stats && n > 0)
+    {
+        stats->output_rms_dbfs = output_rms_dbfs / n;
+        stats->voice_detected = voice_detected;
     }
 
     return infrm.input_samples;

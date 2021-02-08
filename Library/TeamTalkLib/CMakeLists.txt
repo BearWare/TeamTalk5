@@ -373,10 +373,15 @@ if (CATCH_UNITTEST)
   target_compile_options (catchtt PUBLIC
     ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
 
-  target_link_libraries (catchtt
-    ${TTCLIENTDLL_LINK_FLAGS}
-    ${LINK_LIBS})
+  target_link_libraries (catchtt ${TTCLIENTDLL_LINK_FLAGS}
+    ${LINK_LIBS} ${CATCH_LINK_FLAGS})
 
   set_output_dir(catchtt ${TEAMTALK_ROOT}/Library/TeamTalkLib/test)
+
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+      set_target_properties (catchtt PROPERTIES
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_INFO_PLIST ${TEAMTALK_ROOT}/Library/TeamTalkLib/test/Info.plist)
+  endif()
 
 endif()

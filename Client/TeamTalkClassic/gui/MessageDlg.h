@@ -42,16 +42,17 @@ class CMessageDlg : public CDialog
 {
 // Construction
 public:
-    CMessageDlg(teamtalk::ClientXML& xmlSettings, CWnd* pParent, const User& myself, const User& user,
+    CMessageDlg(teamtalk::ClientXML& xmlSettings, class CTeamTalkDlg* pParent, const User& myself, const User& user,
                 LPCTSTR szLogFolder = NULL);   // standard constructor
 
     void AppendMessage(const MyTextMessage& msg, BOOL bStore = TRUE);
     void SetAlive(BOOL state);
     BOOL IsAlive();
-    LOGFONT m_lf;
+    LOGFONT m_lf = {};
+    CHARFORMAT m_defaultCF = {};
+
   //messages from previous session
     messages_t m_messages;
-    BOOL m_bShowTimeStamp;
 
 // Dialog Data
     //{{AFX_DATA(CSendMessageDlg)
@@ -90,7 +91,7 @@ private:
     BOOL m_bUserAlive;
     User m_user;
     User m_myself;
-    CWnd* m_pParent;
+    class CTeamTalkDlg* m_pParent;
     CResizer m_resizer;
     CFont m_Font;
     HACCEL m_hAccel; // accelerator table

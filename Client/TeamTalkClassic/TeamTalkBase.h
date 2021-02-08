@@ -79,7 +79,7 @@ BOOL IsMyselfTalking();
 #define SPEEX_MODEID_UWB 2
 
 void InitDefaultAudioCodec(AudioCodec& audiocodec);
-void InitDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioPreprocessor& preprocessor);
+AudioPreprocessor InitDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype);
 
 #define DEFAULT_TEAMTALK_TCPPORT 10333
 #define DEFAULT_TEAMTALK_UDPPORT 10333
@@ -90,7 +90,7 @@ void InitDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioP
 // Channel-struct's AudioConfig
 #define CHANNEL_AUDIOCONFIG_MAX             32000
 #define DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE  FALSE
-#define DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL   16000
+#define DEFAULT_CHANNEL_AUDIOCONFIG_LEVEL   9600 /* CHANNEL_AUDIOCONFIG_MAX * (DEFAULT_WEBRTC_GAINDB / WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX) */
 
 #define DEFAULT_ECHO_ENABLE             FALSE
 #define DEFAULT_AGC_ENABLE              FALSE
@@ -107,15 +107,19 @@ void InitDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype, AudioP
 #define DEFAULT_SPEEXDSP_ECHO_SUPPRESS          -40
 #define DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE    -15
 
+#define DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE      FALSE
+#define DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR  1.0f
+#define DEFAULT_WEBRTC_VAD_ENABLE               FALSE
+#define DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE   FALSE
 #define DEFAULT_WEBRTC_GAINCTL_ENABLE           DEFAULT_AGC_ENABLE
-#define DEFAULT_WEBRTC_GAINDB                   25
+#define DEFAULT_WEBRTC_GAINDB                   15
 #define DEFAULT_WEBRTC_SAT_PROT_ENABLE          TRUE
 #define DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB       20
 #define DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB      2
 #define DEFAULT_WEBRTC_MAXGAIN_DBSEC            3
 #define DEFAULT_WEBRTC_MAX_OUT_NOISE            -50
 #define DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE     DEFAULT_DENOISE_ENABLE
-#define DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL      1
+#define DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL      2
 #define DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE       FALSE /* requires duplex mode */
 
 #define DEFAULT_AUDIOCODEC              OPUS_CODEC
@@ -219,7 +223,7 @@ enum AudioStorageMode
     AUDIOSTORAGE_SEPARATEFILES      = 0x2
 };
 
-enum
+enum TTSEvent
 {
     TTS_USER_LOGGEDIN                               = 0x00000001,
     TTS_USER_LOGGEDOUT                              = 0x00000002,
@@ -248,6 +252,7 @@ enum
     TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT        = 0x00200000,
     TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE           = 0x00400000,
 
+    TTS_CLASSROOM_CHANMSG_TX                        = 0x80000000,
     TTS_CLASSROOM_VOICE_TX                          = 0x01000000,
     TTS_CLASSROOM_VIDEO_TX                          = 0x02000000,
     TTS_CLASSROOM_DESKTOP_TX                        = 0x04000000,
@@ -286,15 +291,16 @@ enum
                                 TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT        |
                                 TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE,
 
-    TTS_CLASSROOM_ALL         = TTS_CLASSROOM_VOICE_TX                          |
+    TTS_CLASSROOM_ALL         = TTS_CLASSROOM_CHANMSG_TX                        |
+                                TTS_CLASSROOM_VOICE_TX                          |
                                 TTS_CLASSROOM_VIDEO_TX                          |
                                 TTS_CLASSROOM_DESKTOP_TX                        |
                                 TTS_CLASSROOM_MEDIAFILE_TX,
 
-    TTS_FILE_ALL         = TTS_FILE_ADD                          |
+    TTS_FILE_ALL              = TTS_FILE_ADD                                    |
                                 TTS_FILE_REMOVE,
 
-    TTS_MENU_ACTIONS_ALL        = TTS_MENU_ACTIONS,
+    TTS_MENU_ACTIONS_ALL      = TTS_MENU_ACTIONS,
 
     TTS_ALL                   = TTS_USER_ALL | TTS_SUBSCRIPTIONS_ALL | TTS_CLASSROOM_ALL | TTS_FILE_ALL | TTS_MENU_ACTIONS_ALL
 };
@@ -308,8 +314,10 @@ enum SoundEvent
     SOUNDEVENT_USER_LEFT                    = 0x00000002,
     SOUNDEVENT_USER_LOGGED_IN               = 0x00400000,
     SOUNDEVENT_USER_TEXTMSG                 = 0x00000004,
+    SOUNDEVENT_USER_TEXTMSGSENT             = 0x01000000,
     SOUNDEVENT_USER_LOGGED_OUT              = 0x00800000,
     SOUNDEVENT_USER_CHANNEL_TEXTMSG         = 0x00000008,
+    SOUNDEVENT_USER_CHANNEL_TEXTMSGSENT     = 0x02000000,
     SOUNDEVENT_USER_BROADCAST_TEXTMSG       = 0x00200000,
     SOUNDEVENT_USER_QUESTIONMODE            = 0x00000010,
     SOUNDEVENT_USER_DESKTOP_ACCESS          = 0x00000020,

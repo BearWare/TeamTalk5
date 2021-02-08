@@ -169,17 +169,16 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         input_channels = 2;
     int input_samplerate = GetAudioCodecSampleRate(m_codec);
     int input_samples = GetAudioCodecCbSamples(m_codec);
+    media::AudioFormat fmt = GetAudioCodecAudioFormat(m_codec);
 
-    short* tmp_output_buffer;
-    bool played;
-    if (m_resampler)
-        tmp_output_buffer = &m_resample_buffer[0];
-    else
-        tmp_output_buffer = output_buffer;
+    short* tmp_output_buffer = (m_resampler ? &m_resample_buffer[0] : output_buffer);
+    int old_stream_id = m_stream_id;
+    bool new_stream = (old_stream_id != 0 && m_stream_id != 0 && old_stream_id != m_stream_id);
+    bool stopped_talking = false;
 
-    played = PlayBuffer(tmp_output_buffer, input_samples);
-
-    if(played)
+    bool played = PlayBuffer(tmp_output_buffer, input_samples);
+    
+    if (played)
     {
         m_last_playback = GETTIMESTAMP();
 
@@ -191,23 +190,31 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
 
         m_talking = true;
     }
-    else if(m_talking && W32_GEQ(GETTIMESTAMP(), (m_last_playback+m_play_stopped_delay)))
+    else if (m_talking && W32_GEQ(GETTIMESTAMP(), (m_last_playback+m_play_stopped_delay)))
     {
         //stop playing if no new sound packet has been received for some time
         MYTRACE(ACE_TEXT("Stopped playing stream after %u for #%d\n"), 
                 GETTIMESTAMP() - m_last_playback, m_userid);
         m_talking = false;
+        stopped_talking = true;
 
         //reset packet numbers
         Reset();
     }
 
-    // store in muxer before resampling
-    if (!m_no_recording || !played)
+    // store in AudioMuxer before resampling
+    if (!m_no_recording)
     {
-        //store in muxer (if enabled)
-        media::AudioFormat fmt = GetAudioCodecAudioFormat(m_codec);
-        media::AudioFrame frm(fmt, tmp_output_buffer, GetAudioCodecCbSamples(m_codec));
+        if (stopped_talking || new_stream)
+        {
+            // send end-of-stream
+            media::AudioFrame frm(fmt, nullptr, 0);
+            frm.sample_no = m_samples_played;
+            frm.streamid = (stopped_talking? old_stream_id : m_stream_id);
+            m_audio_callback(m_userid, m_streamtype, frm);
+        }
+
+        media::AudioFrame frm(fmt, tmp_output_buffer, input_samples);
         frm.sample_no = m_samples_played;
         frm.streamid = m_stream_id;
         m_audio_callback(m_userid, m_streamtype, frm);

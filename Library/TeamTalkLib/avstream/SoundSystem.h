@@ -65,13 +65,14 @@ namespace soundsystem {
 
     enum SoundDeviceFeature
     {
-        SOUNDDEVICEFEATURE_NONE         = 0x0000,
+        SOUNDDEVICEFEATURE_NONE                 = 0x0000,
 
-        SOUNDDEVICEFEATURE_AEC          = 0x0001,
-        SOUNDDEVICEFEATURE_AGC          = 0x0002,
-        SOUNDDEVICEFEATURE_DENOISE      = 0x0004,
-        SOUNDDEVICEFEATURE_3DPOSITION   = 0x0008,
-        SOUNDDEVICEFEATURE_DUPLEXMODE   = 0x0010,
+        SOUNDDEVICEFEATURE_AEC                  = 0x0001,
+        SOUNDDEVICEFEATURE_AGC                  = 0x0002,
+        SOUNDDEVICEFEATURE_DENOISE              = 0x0004,
+        SOUNDDEVICEFEATURE_3DPOSITION           = 0x0008,
+        SOUNDDEVICEFEATURE_DUPLEXMODE           = 0x0010,
+        SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE     = 0x0020,
     };
 
     typedef uint32_t SoundDeviceFeatures;

@@ -10,6 +10,11 @@
 #include <avstream/MFTransform.h>
 #endif
 
+#if defined (ENABLE_PORTAUDIO)
+#include <avstream/PortAudioWrapper.h>
+#include <pa_win_wasapi.h>
+#endif
+
 #include <codec/WaveFile.h>
 #include <ace/FILE_Connector.h>
 #include <iostream>
@@ -304,5 +309,83 @@ TEST_CASE("TestAudioTransformMP3")
         inwavefile.AppendSamples(frame.input_buffer, frame.input_samples);
         transformmp3->ProcessAudioEncoder(frame, true);
     }
+}
+#endif
+
+#if defined (ENABLE_PORTAUDIO)
+
+int duplexSamples = 0;
+int Foo_StreamDuplexCallback(const void* inputBuffer, void* outputBuffer,
+    unsigned long framesPerBuffer,
+    const PaStreamCallbackTimeInfo* timeInfo,
+    PaStreamCallbackFlags statusFlags,
+    void* pUserData)
+{
+    memcpy(outputBuffer, inputBuffer, framesPerBuffer * sizeof(short));
+    duplexSamples += framesPerBuffer;
+    return paContinue;
+}
+
+TEST_CASE("PortAudio_ExclusiveMode")
+{
+    PaError err = Pa_Initialize();
+
+    PaDeviceIndex inputdeviceid = -1, outputdeviceid = -1;
+    PaHostApiIndex hostApi = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+    if (hostApi != paHostApiNotFound)
+    {
+        const PaHostApiInfo* hostapi = Pa_GetHostApiInfo(hostApi);
+        if (hostapi)
+        {
+            inputdeviceid = hostapi->defaultInputDevice;
+            outputdeviceid = hostapi->defaultOutputDevice;
+        }
+    }
+    REQUIRE(inputdeviceid >= 0);
+    REQUIRE(outputdeviceid >= 0);
+
+    const PaDeviceInfo* ininfo = Pa_GetDeviceInfo(inputdeviceid);
+    const PaDeviceInfo* outinfo = Pa_GetDeviceInfo(outputdeviceid);
+    REQUIRE(ininfo);
+    REQUIRE(outinfo);
+    PaStreamParameters inputParameters = {}, outputParameters = {};
+
+    inputParameters.device = inputdeviceid;
+    inputParameters.channelCount = 1;
+    inputParameters.hostApiSpecificStreamInfo = nullptr;
+    inputParameters.sampleFormat = paInt16;
+    inputParameters.suggestedLatency = ininfo->defaultLowInputLatency;
+
+    PaWasapiStreamInfo outputWasapi = {};
+    outputWasapi.size = sizeof(outputWasapi);
+    outputWasapi.hostApiType = paWASAPI;
+    outputWasapi.version = 1;
+    outputWasapi.flags = paWinWasapiAutoConvert;
+
+    outputParameters.device = outputdeviceid;
+    outputParameters.channelCount = 1;
+    outputParameters.hostApiSpecificStreamInfo = &outputWasapi;
+    outputParameters.sampleFormat = paInt16;
+    outputParameters.suggestedLatency = outinfo->defaultLowOutputLatency;
+
+    std::cout << "Input sample rate: " << ininfo->defaultSampleRate << std::endl;
+    std::cout << "Output sample rate: " << outinfo->defaultSampleRate << std::endl;
+
+
+    PaStream* stream;
+    err = Pa_OpenStream(&stream, &inputParameters, &outputParameters,
+        ininfo->defaultSampleRate, ininfo->defaultSampleRate * .04,
+        paClipOff, Foo_StreamDuplexCallback, static_cast<void*> (0));
+
+    REQUIRE(err == paNoError);
+    REQUIRE(stream);
+
+    REQUIRE(Pa_StartStream(stream) == paNoError);
+    while (duplexSamples < ininfo->defaultSampleRate * 50)
+    {
+        Pa_Sleep(1000);
+    }
+
+    Pa_Terminate();
 }
 #endif

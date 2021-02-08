@@ -26,6 +26,7 @@
 #include "settings.h"
 
 #include <QSortFilterProxyModel>
+#include <QPushButton>
 
 #if defined(Q_OS_LINUX)
 #include <X11/Xlib.h>
@@ -50,6 +51,8 @@ DesktopShareDlg::DesktopShareDlg(QWidget* parent)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
 #if defined(Q_OS_WIN32)
     HWND hWnd = nullptr;

@@ -792,6 +792,8 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             }
             channame = QString("%1 (%2)").arg(channame).arg(count);
         }
+        if (emoji && (ite->uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
+            channame += ": 👻";
         if (emoji && ite->bPassword)
             channame += " - 🔒";
         item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
@@ -994,7 +996,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
                 break;
             }
             if(user.uUserState & USERSTATE_VOICE)
-                itemtext += "🎤";
+                itemtext += " 🎤";
             if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
                 itemtext += tr(", Streaming media file");
 
@@ -1004,10 +1006,12 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         if(_Q(user.szStatusMsg).size())
             itemtext += QString(" - ") + _Q(user.szStatusMsg);
-        if (emoji && (user.nStatusMode & STATUSMODE_FEMALE))
-            itemtext += " 👩";
         if (emoji)
         {
+            if (user.nStatusMode & STATUSMODE_FEMALE)
+                itemtext += " 👩";
+            else
+                itemtext += " 👨";
             if(user.uUserType & USERTYPE_ADMIN)
                 itemtext += tr(" (Administrator)");
 

@@ -195,6 +195,8 @@
   <string name="action_new_server">Yeni Sunucu</string>
   <string name="action_refresh">Yenile</string>
   <string name="action_import_serverlist">Bir .tt Dosyasından İçe Aktar</string>
+  <string name="action_export_serverlist">Sunucu listesini dışa aktar</string>
+  <string name="serverlist_export_confirmation">Sunucu listesi %1$s üzerinde dışa aktarıldı</string>
   <string name="pref_title_server_props">TeamTalk 5 Sunucu Özellikleri</string>
   <string name="pref_title_server_info">Sunucu Bilgileri</string>
   <string name="pref_title_server_name">Sunucu Adı</string>
@@ -220,6 +222,7 @@
   <string name="upload_failed">%1$s dosyasını yükleme başarısız</string>
   <string name="alert_file_override">%1$s dosyası zaten var, değiştirilsin mi?</string>
   <string name="err_file_delete">%1$s dosyası silinemiyor</string>
+  <string name="err_file_write">%1$s dosyası yazılamıyor</string>
   <string name="err_channel_remove">%1$s kanalı silinemiyor</string>
   <string name="err_download_path">%1$s indirme yolu kullanım dışı</string>
   <string name="download_progress">%1$d%% indirildi</string>
@@ -329,4 +332,6 @@
   <string name="pref_title_translator">Çeviren</string>
   <string name="pref_title_libraries">Üçüncü Taraf Kitaplıklar</string>
   <string name="channel_prop_title_hiddenchannel">Gizli</string>
+  <string name="pref_title_gender">Cinsiyet</string>
+  <string name="pref_summary_gender">Kadın simgesi için denetim</string>
 </resources>
