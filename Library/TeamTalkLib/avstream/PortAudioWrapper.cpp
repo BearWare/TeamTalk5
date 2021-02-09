@@ -259,13 +259,13 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
             if (devinfo->maxInputChannels > 0)
             {
                 device.input_samplerates.insert(devinfo->defaultSampleRate);
-                for (int c=1; c < std::min(devinfo->maxInputChannels, 2); ++c)
+                for (int c=1; c <= std::min(devinfo->maxInputChannels, 2); ++c)
                     device.input_channels.insert(c);
             }
             if (devinfo->maxOutputChannels > 0)
             {
                 device.output_samplerates.insert(devinfo->defaultSampleRate);
-                for (int c=1; c < std::min(devinfo->maxOutputChannels, 2); ++c)
+                for (int c=1; c <= std::min(devinfo->maxOutputChannels, 2); ++c)
                     device.output_channels.insert(c);
             }
         }
