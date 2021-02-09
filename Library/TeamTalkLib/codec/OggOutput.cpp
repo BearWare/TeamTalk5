@@ -61,6 +61,45 @@ int OggOutput::FlushPageOut(ogg_page& og)
     return ogg_stream_flush(&m_os,&og);
 }
 
+OggInput::OggInput()
+    : m_os()
+{
+    Close();
+}
+
+OggInput::~OggInput()
+{
+    Close();
+}
+
+bool OggInput::Open(const ogg_page& og)
+{
+    return ogg_stream_init(&m_os, ogg_page_serialno(&og)) >= 0;
+}
+
+void OggInput::Close()
+{
+    ogg_stream_clear(&m_os);
+    m_os = {};
+    m_ready = false;
+}
+
+int OggInput::PutPage(ogg_page& og)
+{
+    assert(ogg_stream_check(&m_os) == 0);
+
+    if (ogg_page_serialno(&og) != m_os.serialno)
+        ogg_stream_reset_serialno(&m_os, ogg_page_serialno(&og));
+
+    return ogg_stream_pagein(&m_os, &og);
+}
+
+int OggInput::GetPacket(ogg_packet& op)
+{
+    return ogg_stream_packetout(&m_os, &op);
+}
+
+
 OggFile::OggFile()
 {
 }
@@ -468,7 +507,7 @@ bool OpusFile::NewFile(const ACE_TString& filename,
     // Make the stream (ogg stream 'serialno') as unique as possible on the same machine by using the timestamp as id.
     // Facilitates the subsequent handling of the recording with tooling like oggz-merge to mux the recordings.
     // If we use the same stream for every recording then muxing of recording always involves rewritting the id.
-    if (!m_ogg.Open(GETTIMESTAMP()) || !m_oggfile.NewFile(filename))
+    if (!m_oggout.Open(GETTIMESTAMP()) || !m_oggfile.NewFile(filename))
     {
         Close();
         return false;
@@ -494,7 +533,7 @@ bool OpusFile::NewFile(const ACE_TString& filename,
     op.granulepos = 0;
     op.packetno = 0;
 
-    m_ogg.PutPacket(op);
+    m_oggout.PutPacket(op);
 
     unsigned char comment_data[] = {'O', 'p', 'u', 's', 'T', 'a', 'g', 's',
                                     /* Vendor String Length */
@@ -508,11 +547,11 @@ bool OpusFile::NewFile(const ACE_TString& filename,
     op.granulepos = 0;
     op.packetno = 1;
 
-    m_ogg.PutPacket(op);
+    m_oggout.PutPacket(op);
 
     ogg_page og;
     int ret;
-    while((ret = m_ogg.FlushPageOut(og))>0)
+    while((ret = m_oggout.FlushPageOut(og))>0)
     {
         m_oggfile.WriteOggPage(og);
     }
@@ -526,19 +565,60 @@ bool OpusFile::OpenFile(const ACE_TString& filename)
         return false;
 
     ogg_page og;
-    if (m_oggfile.ReadOggPage(og) != 1)
+    if (m_oggfile.ReadOggPage(og) != 1 || !m_oggin.Open(og) || m_oggin.PutPage(og) != 0)
     {
         Close();
         return false;
     }
 
-    return true;
+    int ret;
+    m_packet_no = -1;
+    ogg_packet op = {};
+    while (true)
+    {
+        if (m_oggin.GetPacket(op) == 1)
+        {
+            if (op.b_o_s && op.bytes >= 8 && memcmp(op.packet, "OpusHead", 8) == 0 &&
+                opus_header_parse(op.packet, op.bytes, &m_header) == 1)
+            {
+                // found opus header
+                m_packet_no = 0;
+            }
+            else if (m_packet_no == 0)
+            {
+                // skip comments
+                ++m_packet_no;
+                break;
+            }
+        }
+
+        ret = m_oggfile.ReadOggPage(og);
+        if (ret > 0)
+        {
+            ret = m_oggin.PutPage(og);
+            assert(ret == 0);
+        }
+        else if (ret == 0)
+            break; // no page - eof
+        else if (ret < 0)
+            break; // file read error
+    }
+
+    // packet number 2 is where the first encoded OPUS data exists
+    if (m_packet_no == 1)
+        return true;
+
+    Close();
+
+    return false;
 }
 
 void OpusFile::Close()
 {
     m_oggfile.Close();
-    m_ogg.Close();
+    m_oggout.Close();
+    m_oggin.Close();
+
     m_frame_size = 0;
     m_granule_pos = m_packet_no = 0;
     m_header = {};
@@ -569,17 +649,42 @@ int OpusFile::WriteEncoded(const char* enc_data, int enc_len, bool last)
     op.granulepos = m_granule_pos;
     op.packetno = m_packet_no++;
 
-    m_ogg.PutPacket(op);
+    m_oggout.PutPacket(op);
 
     ogg_page og;
     int ret;
-    while((ret = m_ogg.FlushPageOut(og)) > 0)
+    while((ret = m_oggout.FlushPageOut(og)) > 0)
     {
         ret = m_oggfile.WriteOggPage(og);
+        assert(ret >= 0);
     }
     assert(ret >= 0);
 
     return ret;
+}
+
+const unsigned char* OpusFile::ReadEncoded(int& bytes, ogg_int64_t* sampleoffset /*= nullptr*/)
+{
+    ogg_packet op;
+    ogg_page og;
+
+    while (m_oggin.GetPacket(op) != 1)
+    {
+        int ret = m_oggfile.ReadOggPage(og);
+        if (ret > 0)
+        {
+            ret = m_oggin.PutPage(og);
+            assert(ret == 0);
+        }
+        else if (ret == 0)
+            return nullptr; // no page - eof
+        else if (ret < 0)
+            return nullptr; // file read error
+    }
+
+    ++m_packet_no;
+    bytes = op.bytes;
+    return op.packet;
 }
 
 #endif /* ENABLE_OPUSTOOLS */

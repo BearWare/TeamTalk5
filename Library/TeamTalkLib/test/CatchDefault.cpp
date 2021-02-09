@@ -43,6 +43,7 @@
 
 #if defined(ENABLE_OPUS)
 #include <codec/OpusEncoder.h>
+#include <codec/OpusDecoder.h>
 #endif
 #include <codec/WaveFile.h>
 
@@ -1600,3 +1601,53 @@ TEST_CASE("VideoCapture")
         cv.wait(lck);
     } while (frames >= 0);
 }
+
+#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
+
+TEST_CASE("OPUSFile")
+{
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nSampleRate = 48000;
+    ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("opusencfile.wav"), TT_STRLEN);
+    mfi.uDurationMSec = 10 * 1000;
+
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.OpenFile(mfi.szFileName, true));
+
+    OpusEncFile opusenc;
+    const int FRAMESIZE = int(mfi.audioFmt.nSampleRate * .04);
+    REQUIRE(opusenc.Open(ACE_TEXT("opusencfile.ogg"), mfi.audioFmt.nChannels, mfi.audioFmt.nSampleRate, FRAMESIZE, OPUS_APPLICATION_AUDIO));
+
+    std::vector<short> buf(mfi.audioFmt.nChannels * FRAMESIZE);
+    int samples;
+    while ((samples = wavfile.ReadSamples(&buf[0], FRAMESIZE)) > 0)
+    {
+        REQUIRE(opusenc.Encode(&buf[0], FRAMESIZE, samples != FRAMESIZE) >= 0);
+    }
+    opusenc.Close();
+    wavfile.Close();
+
+    OpusFile opusread;
+    REQUIRE(opusread.OpenFile(ACE_TEXT("opusencfile.ogg")));
+
+    OpusDecode opusdec;
+    REQUIRE(opusdec.Open(opusread.GetSampleRate(), opusread.GetChannels()));
+
+    REQUIRE(wavfile.NewFile(ACE_TEXT("opusencfile2.wav"), opusread.GetSampleRate(), opusread.GetChannels()));
+
+    while (true)
+    {
+        int bytes;
+        auto opusbuf = opusread.ReadEncoded(bytes);
+        if (!opusbuf)
+            break;
+
+        REQUIRE(opusdec.Decode(reinterpret_cast<const char*>(opusbuf), bytes, &buf[0], FRAMESIZE) == FRAMESIZE);
+        wavfile.AppendSamples(&buf[0], FRAMESIZE);
+    }
+}
+#endif

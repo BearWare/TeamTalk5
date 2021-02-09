@@ -51,6 +51,23 @@ protected:
     ogg_stream_state m_os;
 };
 
+class OggInput : private NonCopyable
+{
+public:
+    OggInput();
+    ~OggInput();
+
+    bool Open(const ogg_page& og);
+    void Close();
+
+    int PutPage(ogg_page& og);
+    int GetPacket(ogg_packet& op);
+
+private:
+    ogg_stream_state m_os;
+    bool m_ready;
+};
+
 class OggFile : private NonCopyable
 {
 public:
@@ -181,8 +198,12 @@ public:
     int GetChannels() const;
 
     int WriteEncoded(const char* enc_data, int enc_len, bool last=false);
+
+    const unsigned char* ReadEncoded(int& bytes, ogg_int64_t* sampleoffset = nullptr);
+
 private:
-    OggOutput m_ogg;
+    OggInput m_oggin;
+    OggOutput m_oggout;
     OggFile m_oggfile;
     OpusHeader m_header = {};
 
