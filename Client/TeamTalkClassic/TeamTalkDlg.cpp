@@ -192,8 +192,6 @@ BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL
     UINT nLocalTcpPort = m_xmlSettings.GetClientTcpPort(0);
     UINT nLocalUdpPort = m_xmlSettings.GetClientUdpPort(0);
 
-    InitSound();
-
     //clear session tree
     m_wndTree.ClearChannels();
 
@@ -2637,6 +2635,89 @@ BOOL CTeamTalkDlg::OnInitDialog()
     //set vumeter and voice act-settings
     m_wndVoiceSlider.SetPos(m_xmlSettings.GetVoiceActivationLevel());
 
+    UpdateWindowTitle();
+
+    //load fonts
+    MyFont font;
+    string szFaceName;
+    int nSize;
+    bool bBold, bUnderline, bItalic;
+    if (m_xmlSettings.GetFont(szFaceName, nSize, bBold, bUnderline, bItalic))
+    {
+        if (nSize > 0)
+        {
+            font.szFaceName = STR_UTF8(szFaceName.c_str());
+            font.nSize = nSize;
+            font.bBold = bBold;
+            font.bUnderline = bUnderline;
+            font.bItalic = bItalic;
+            LOGFONT lfont;
+
+            ConvertFont(font, lfont);
+            m_Font.CreateFontIndirect(&lfont);
+            SwitchFont();
+        }
+    }
+
+    m_brush.CreateSolidBrush(RGB(244, 244, 244));
+
+    BOOL b = m_tabChat.Create(IDD_TAB_CHAT, &m_wndTabCtrl);
+    CString szChat = LoadText(IDS_CHAT, _T("Chat"));
+    TRANSLATE_ITEM(IDS_CHAT, szChat);
+    m_wndTabCtrl.AddTab(&m_tabChat, szChat, 0);
+    b &= m_tabFiles.Create(IDD_TAB_FILES, &m_wndTabCtrl);
+    CString szFiles = LoadText(IDS_FILES, _T("Files"));
+    TRANSLATE_ITEM(IDS_FILES, szFiles);
+    m_wndTabCtrl.AddTab(&m_tabFiles, szFiles, 0);
+    m_tabChat.m_hAccel = m_hAccel;
+    m_tabFiles.m_hAccel = m_hAccel;
+    m_wndTabCtrl.SetOrientation(e_tabTop);
+
+    //set splitter panes
+    m_wndSplitter.Create(WS_CHILD | WS_DLGFRAME | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_VERT_SPLITTER);
+    m_wndSplitter.SetPanes(&m_wndTree, &m_wndTabCtrl);
+
+    m_bResizeReady = TRUE;
+
+    //1 or 2 panes (2 panes is default)
+    if (!m_xmlSettings.GetWindowExtended())
+        OnChannelsViewchannelmessages();
+    else
+        OnSplitterMoved(0, 0);
+
+    //sizing
+    int left, top, width, height;
+    if (m_xmlSettings.GetWindowPlacement(left, top, width, height))
+    {
+        int nWidth = GetSystemMetrics(SM_CXSCREEN);
+        int nHeight = GetSystemMetrics(SM_CYSCREEN);
+
+        if (left > 0 && left < nWidth && top > 0 && top < nHeight)
+            MoveWindow(left, top, width, height);
+    }
+
+    //always on top?
+    if (m_xmlSettings.GetAlwaysOnTop())
+        SetWindowPos(&this->wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
+    //timestamp on messages?
+    m_tabChat.m_wndRichEdit.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
+
+    m_wndVUProgress.ShowWindow(m_xmlSettings.GetVuMeterUpdate() ? SW_SHOW : SW_HIDE);
+
+    //show user count in treectrl
+    m_wndTree.ShowUserCount(m_xmlSettings.GetShowUserCount());
+
+    m_wndTree.SetSortOrder((SortOrder)m_xmlSettings.GetSortOrder());
+
+    //show username instead of nickname
+    bShowUsernames = m_xmlSettings.GetShowUsernames();
+
+    m_wndTree.ShowEmojis(m_xmlSettings.GetShowEmojis());
+
+    // initialize sound devices so sound events can play initially
+    InitSound();
+
     //load hotkey
     ASSERT(IsWindow(GetSafeHwnd()));
 
@@ -2657,8 +2738,6 @@ BOOL CTeamTalkDlg::OnInitDialog()
     //voice activation
     EnableVoiceActivation(m_xmlSettings.GetVoiceActivated());
 
-    UpdateWindowTitle();
-
     if(m_xmlSettings.GetFirewallInstall(true))
     {
         FirewallInstall();
@@ -2670,85 +2749,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
 
     EnableSpeech(m_xmlSettings.GetEventTTSEvents() != 0);
 
-    //load fonts
-    MyFont font;
-    string szFaceName;
-    int nSize;
-    bool bBold, bUnderline, bItalic;
-    if( m_xmlSettings.GetFont(szFaceName, nSize, bBold, bUnderline, bItalic) )
-    {
-        if(nSize>0)
-        {
-            font.szFaceName = STR_UTF8( szFaceName.c_str() );
-            font.nSize = nSize;
-            font.bBold = bBold;
-            font.bUnderline = bUnderline;
-            font.bItalic = bItalic;
-            LOGFONT lfont;
-
-            ConvertFont( font, lfont);
-            m_Font.CreateFontIndirect(&lfont);
-            SwitchFont();
-        }
-    }
-
-    m_brush.CreateSolidBrush(RGB(244,244,244));
-
-    BOOL b = m_tabChat.Create(IDD_TAB_CHAT, &m_wndTabCtrl);
-    CString szChat = LoadText(IDS_CHAT, _T("Chat"));
-    TRANSLATE_ITEM(IDS_CHAT, szChat);
-    m_wndTabCtrl.AddTab(&m_tabChat, szChat, 0);
-    b &= m_tabFiles.Create(IDD_TAB_FILES, &m_wndTabCtrl);
-    CString szFiles = LoadText(IDS_FILES, _T("Files"));
-    TRANSLATE_ITEM(IDS_FILES, szFiles);
-    m_wndTabCtrl.AddTab(&m_tabFiles, szFiles, 0);
-    m_tabChat.m_hAccel = m_hAccel;
-    m_tabFiles.m_hAccel = m_hAccel;
-    m_wndTabCtrl.SetOrientation(e_tabTop);
-
-    //set splitter panes
-    m_wndSplitter.Create(WS_CHILD | WS_DLGFRAME | WS_VISIBLE, CRect(0,0,0,0), this, IDC_VERT_SPLITTER);
-    m_wndSplitter.SetPanes(&m_wndTree, &m_wndTabCtrl);
-
-    m_bResizeReady = TRUE;
-
-    //1 or 2 panes (2 panes is default)
-    if(!m_xmlSettings.GetWindowExtended())
-        OnChannelsViewchannelmessages();
-    else
-        OnSplitterMoved(0,0);
-
-    //sizing
-    int left,top,width,height;
-    if(m_xmlSettings.GetWindowPlacement(left, top, width, height))
-    {
-        int nWidth = GetSystemMetrics(SM_CXSCREEN);
-        int nHeight = GetSystemMetrics(SM_CYSCREEN);
-
-        if(left > 0 && left < nWidth && top > 0 && top < nHeight)
-            MoveWindow(left, top, width, height);
-    }
-
-    //always on top?
-    if( m_xmlSettings.GetAlwaysOnTop() )
-        SetWindowPos(&this->wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-
-    //show user count in treectrl
-    m_wndTree.ShowUserCount(m_xmlSettings.GetShowUserCount());
-
-    m_wndTree.SetSortOrder((SortOrder)m_xmlSettings.GetSortOrder());
-
-    //show username instead of nickname
-    bShowUsernames = m_xmlSettings.GetShowUsernames();
-
-    m_wndTree.ShowEmojis(m_xmlSettings.GetShowEmojis());
-
     m_szAwayMessage = STR_UTF8(m_xmlSettings.GetStatusMessage());
-
-    //timestamp on messages?
-    m_tabChat.m_wndRichEdit.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
-
-    m_wndVUProgress.ShowWindow(m_xmlSettings.GetVuMeterUpdate()?SW_SHOW : SW_HIDE);
 
     RunAppUpdate();
     SetTimer(TIMER_APPUPDATE_ID, 24 * 60 * 60 * 1000, NULL);
@@ -5408,7 +5409,7 @@ void CTeamTalkDlg::UpdateGainLevel(int nGain)
         bool agc = m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
         float percent = m_wndGainSlider.GetPos() / float(m_wndGainSlider.GetRangeMax());
         preprocessor.webrtc.gaincontroller2.bEnable = agc;
-        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = INT32(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
+        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = float(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
         TT_SetSoundInputGainLevel(ttInst, agc ? SOUND_GAIN_DEFAULT : RefGain(nGain));
         break;
@@ -5728,7 +5729,7 @@ void CTeamTalkDlg::OnChannelsStreamMediaFileToChannel()
         StopMediaStream();
     else
     {
-        m_pStreamMediaDlg.reset(new CStreamMediaDlg(m_xmlSettings, m_SoundDeviceIn, m_SoundDeviceOut, this));
+        m_pStreamMediaDlg.reset(new CStreamMediaDlg(m_xmlSettings, this));
         auto files = m_xmlSettings.GetLastMediaFiles();
         for (auto a : files)
             m_pStreamMediaDlg->m_fileList.AddTail(STR_UTF8(a));

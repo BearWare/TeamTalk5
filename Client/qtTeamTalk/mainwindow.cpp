@@ -2246,6 +2246,7 @@ void MainWindow::firewallInstall()
         answer.setText(tr("Do you wish to add %1 to the Windows Firewall exception list?").arg(APPTITLE));
         QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
         QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
         answer.setIcon(QMessageBox::Question);
         answer.setWindowTitle(APPTITLE);
         answer.exec();
@@ -4080,6 +4081,7 @@ void MainWindow::slotChannelsDeleteChannel(bool /*checked =false */)
     answer.setText(tr("Are you sure you want to delete channel \"%1\"?").arg(_Q(buff)));
     QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(YesButton);
     answer.setIcon(QMessageBox::Information);
     answer.setWindowTitle(MENUTEXT(ui.actionDeleteChannel->text()));
     answer.exec();
@@ -4229,6 +4231,7 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
     QMessageBox answer;
     QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(NoButton);
     answer.setIcon(QMessageBox::Information);
     answer.setWindowTitle(MENUTEXT(ui.actionDeleteFile->text()));
     if(filenames.size() == 1)
@@ -4386,6 +4389,7 @@ void MainWindow::slotHelpResetPreferences(bool /*checked=false*/)
     answer.setText(tr("Are you sure you want to delete your existing settings?"));
     QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(NoButton);
     answer.setIcon(QMessageBox::Question);
     answer.setWindowTitle(MENUTEXT(ui.actionResetPreferencesToDefault->text()));
     answer.exec();
@@ -5595,7 +5599,7 @@ void MainWindow::slotMicrophoneGainChanged(int value)
         float percent = float(value);
         percent /= 100.;
         preprocessor.webrtc.gaincontroller2.bEnable = agc;
-        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = INT32(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
+        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = float(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
         TT_SetSoundInputGainLevel(ttInst, agc ? SOUND_GAIN_DEFAULT : refGain(value));
         break;
@@ -5664,6 +5668,7 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
     answer.setText(tr("The file %1 contains %2 setup information.\r\nShould these settings be applied?").arg(filepath).arg(APPNAME_SHORT));
     QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(NoButton);
     answer.setIcon(QMessageBox::Question);
     answer.setWindowTitle(tr("Load %1 File").arg(TTFILE_EXT));
     answer.exec();
