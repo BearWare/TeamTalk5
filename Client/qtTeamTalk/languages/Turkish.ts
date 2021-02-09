@@ -2148,14 +2148,12 @@ p, li { white-space: pre-wrap; }
         <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanma başarısız</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="126"/>
         <source>DLL load error</source>
-        <translation>DLL yükleme hatası</translation>
+        <translation type="vanished">DLL yükleme hatası</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="127"/>
         <source>This %3 executable is built for DLL version %1 but the loaded DLL reports it&apos;s version %2. Loading an incorrect DLL for %3 may cause problems and crash the application. Please reinstall to solve this problem.</source>
-        <translation>Bu %3 yürütülebilir dosyası, %1 DLL sürümü için yapıldı ama yüklenen DLL %2 sürümünü raporladı. %3 için yanlış bir DLL&apos;nin yüklenmesi, uygulamada sorunlara ya da çökmeye neden olabilir. Bu sorunu çözmek için lütfen yeniden kurun.</translation>
+        <translation type="vanished">Bu %3 yürütülebilir dosyası, %1 DLL sürümü için yapıldı ama yüklenen DLL %2 sürümünü raporladı. %3 için yanlış bir DLL&apos;nin yüklenmesi, uygulamada sorunlara ya da çökmeye neden olabilir. Bu sorunu çözmek için lütfen yeniden kurun.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="846"/>

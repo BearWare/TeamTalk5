@@ -2146,16 +2146,6 @@ p, li { white-space: pre-wrap; }
         <translation>Неуспех да се свърже към %1 TCP port %2 UDP port %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="126"/>
-        <source>DLL load error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="127"/>
-        <source>This %3 executable is built for DLL version %1 but the loaded DLL reports it&apos;s version %2. Loading an incorrect DLL for %3 may cause problems and crash the application. Please reinstall to solve this problem.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="846"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Връзката изгубена към %1 TCP port %2 UDP port %3</translation>

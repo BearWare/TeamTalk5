@@ -2148,16 +2148,6 @@ p, li { white-space: pre-wrap; }
         <translation>Échec à la connexion à %1, port TCP %2, port UDP %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="126"/>
-        <source>DLL load error</source>
-        <translation>Erreur de chargement DLL</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="127"/>
-        <source>This %3 executable is built for DLL version %1 but the loaded DLL reports it&apos;s version %2. Loading an incorrect DLL for %3 may cause problems and crash the application. Please reinstall to solve this problem.</source>
-        <translation>Cet exécutable de %3 est conçu pour la version %1 de la DLL, mais la version de la DLL actuelle est %2. Exécuter un exécutable de %3 incompatible avec la DLL peut causer des problèmes et des plantages de l&apos;application. Veuillez réinstaller le programme pour corriger ce problème.</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="846"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Connexion perdue à %1, port TCP %2, port UDP %3</translation>
