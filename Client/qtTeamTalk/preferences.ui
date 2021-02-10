@@ -439,7 +439,7 @@
             <item>
              <widget class="QCheckBox" name="ServnameChkBox">
               <property name="text">
-               <string>Also display server name on window's title when in a channel</string>
+               <string>In channels, show the name of the server in the window's title</string>
               </property>
              </widget>
             </item>
