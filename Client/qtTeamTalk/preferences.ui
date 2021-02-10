@@ -503,6 +503,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="loggedinoutChkBox">
+              <property name="text">
+               <string>Display users logs in/out in chat history</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="updatesChkBox">
               <property name="text">
                <string>Check for program updates at startup</string>
@@ -2174,6 +2181,7 @@
   <tabstop>desktopdlgChkBox</tabstop>
   <tabstop>msgtimestampChkBox</tabstop>
   <tabstop>logstatusbarChkBox</tabstop>
+  <tabstop>loggedinoutChkBox</tabstop>
   <tabstop>updatesChkBox</tabstop>
   <tabstop>vidtextChkBox</tabstop>
   <tabstop>vidtextsrcToolBtn</tabstop>

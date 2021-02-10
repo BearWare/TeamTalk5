@@ -475,6 +475,8 @@ void PreferencesDlg::slotTabChange(int index)
                                                             SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool());
         ui.emojiChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_EMOJI,
                                                      SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool());
+        ui.loggedinoutChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT,
+                                                     SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT).toBool());
 
         ui.languageBox->clear();
         ui.languageBox->addItem("");
@@ -692,6 +694,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_MAX_STRING, ui.maxtextSpinBox->value());
         ttSettings->setValue(SETTINGS_DISPLAY_SHOWUSERNAME, ui.showusernameChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_EMOJI, ui.emojiChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_LOGGEDINOUT, ui.loggedinoutChkBox->isChecked());
 
         int index = ui.languageBox->currentIndex();
         if(index >= 0)

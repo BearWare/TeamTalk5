@@ -952,7 +952,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         updateUserSubscription(msg.user.nUserID);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
-            addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
+            if (ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT, true).toBool())
+                addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
             playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
         }
 
@@ -969,7 +970,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         //remove text-message history from this user
         m_usermessages.remove(msg.user.nUserID);
         if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
-            addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
+            if (ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT, true).toBool())
+                addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
             playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
         }
 
