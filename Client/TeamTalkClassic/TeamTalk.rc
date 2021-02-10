@@ -2247,6 +2247,7 @@ BEGIN
     IDS_PROPPAGE_SUBINT_DESKTOPINPUT "Intercept desktop access subscription"
     IDS_PROPPAGE_SUBINT_MEDIAFILE "Intercept media file stream subscription"
     IDS_PROPPAGE_CLASSROOM_CHANGE "Classroom changes"
+    IDS_PROPPAGE_CLASSROOM_CHANMSG "Channel messages transmission allowed"
     IDS_PROPPAGE_CLASSROOM_VOICE "Voice transmission allowed"
     IDS_PROPPAGE_CLASSROOM_VIDEO "Video transmission allowed"
 END
