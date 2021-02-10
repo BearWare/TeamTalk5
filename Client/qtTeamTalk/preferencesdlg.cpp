@@ -73,6 +73,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             SLOT(slotLanguageChange(int)));
     connect(ui.vidtextsrcToolBtn, SIGNAL(clicked()),
             SLOT(slotSelectVideoText()));
+    connect(ui.logstatusbarChkBox, SIGNAL(clicked(bool)), SLOT(slotUpdateLIOChkBox(bool)));
     
     //connection tab
     connect(ui.subdeskinputBtn, SIGNAL(clicked()),
@@ -1025,6 +1026,11 @@ void PreferencesDlg::slotSelectVideoText()
 {
     VideoTextDlg dlg(this);
     dlg.exec();
+}
+
+void PreferencesDlg::slotUpdateLIOChkBox(bool checked)
+{
+    ui.loggedinoutChkBox->setEnabled(checked);
 }
 
 void PreferencesDlg::slotDesktopAccess()
