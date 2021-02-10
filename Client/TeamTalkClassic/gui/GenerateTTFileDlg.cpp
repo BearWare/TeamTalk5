@@ -232,7 +232,7 @@ void CGenerateTTFileDlg::OnBnClickedButtonSavettfile()
     }
     else
     {
-        m_hostentry.nGender = GENDER_NEUTRAL;
+        m_hostentry.nGender = GENDER_NONE;
         m_hostentry.szNickname.clear();
         m_hostentry.hotkey.clear();
     }

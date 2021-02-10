@@ -215,6 +215,7 @@ enum StatusMode
 
 enum Gender
 {
+    GENDER_NONE             = 0,
     GENDER_MALE             = 1,
     GENDER_FEMALE           = 2,
     GENDER_NEUTRAL          = 3

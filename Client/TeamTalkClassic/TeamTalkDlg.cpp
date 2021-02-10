@@ -1036,6 +1036,7 @@ void CTeamTalkDlg::OnLoggedIn(const TTMessage& msg)
         m_nStatusMode |= STATUSMODE_FEMALE;
         break;
     case GENDER_NEUTRAL :
+    default :
         m_nStatusMode |= STATUSMODE_NEUTRAL;
         break;
     }
@@ -4924,7 +4925,8 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
                 m_xmlSettings.SetNickname(m_host.szNickname);
             }
 
-            if(m_host.nGender != GENDER_NEUTRAL)
+            // override only gender if specified
+            if(m_host.nGender != GENDER_NONE)
             {
                 m_xmlSettings.SetGender(m_host.nGender);
             }

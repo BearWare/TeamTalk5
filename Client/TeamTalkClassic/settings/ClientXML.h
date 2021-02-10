@@ -95,7 +95,7 @@ namespace teamtalk {
         : nTcpPort(0)
         , nUdpPort(0)
         , bEncrypted(FALSE)
-        , nGender(0)
+        , nGender(GENDER_NONE)
         , nVoiceAct(-1)
         , capformat()
         , vidcodec() { }
