@@ -924,6 +924,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             m_mychannel = msg.channel;
             //update AGC, denoise, etc. if changed
             updateAudioConfig();
+            updateWindowTitle();
         }
         emit(updateChannel(msg.channel));
     }

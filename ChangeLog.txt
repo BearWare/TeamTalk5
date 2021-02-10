@@ -32,6 +32,7 @@ Accessible Windows Client
 - Fix double event when we leave a channel
 - Return root channel when appropriate on CTRL+G
 - Correctly return speaking for ourself on CTRL+G
+- Window's title is now updated if channel name is changing
 Default QT Client
 - SpeexDSP echo canceller replaced by WebRTC
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
@@ -54,6 +55,7 @@ Default QT Client
 - Display man emoji in channels tree
 - Correctly return speaking for ourself in channels tree
 - ALSA sound system on Linux is faster to initialize
+- Window's title is now updated if channel name is changing
 Android Client
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
 - Ability to create and join hidden channels

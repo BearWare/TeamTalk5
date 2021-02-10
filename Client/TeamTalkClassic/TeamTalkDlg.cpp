@@ -1705,7 +1705,10 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
     m_wndTree.UpdateChannel(chan);
 
     if(chan.nChannelID == TT_GetMyChannelID(ttInst))
+    {
         UpdateAudioConfig();
+        UpdateWindowTitle();
+    }
 
     // Solo transmission
     if(chan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst) &&
