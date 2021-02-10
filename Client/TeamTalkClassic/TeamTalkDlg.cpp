@@ -1325,7 +1325,8 @@ void CTeamTalkDlg::OnUserLogin(const TTMessage& msg)
         CString szMsg, szFormat;
         szFormat = LoadText(IDS_USERLOGIN);
         szMsg.Format(szFormat, GetDisplayName(user));
-        AddStatusText(szMsg);
+        if (m_xmlSettings.GetShowLoggedInOut())
+            AddStatusText(szMsg);
         PlaySoundEvent(SOUNDEVENT_USER_LOGGED_IN);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDIN)
             AddTextToSpeechMessage(szMsg);
@@ -1357,7 +1358,8 @@ void CTeamTalkDlg::OnUserLogout(const TTMessage& msg)
     CString szMsg, szFormat;
     szFormat = LoadText(IDS_USERLOGOUT);
     szMsg.Format(szFormat, GetDisplayName(user));
-    AddStatusText(szMsg);
+    if (m_xmlSettings.GetShowLoggedInOut())
+        AddStatusText(szMsg);
     PlaySoundEvent(SOUNDEVENT_USER_LOGGED_OUT);
     if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDOUT)
         AddTextToSpeechMessage(szMsg);
@@ -3431,6 +3433,7 @@ void CTeamTalkDlg::OnFilePreferences()
     windowpage.m_bShowUsername = m_xmlSettings.GetShowUsernames();
     windowpage.m_nSorting = m_xmlSettings.GetSortOrder();
     windowpage.m_bEmoji = m_xmlSettings.GetShowEmojis();
+    windowpage.m_bLoggedinout = m_xmlSettings.GetShowLoggedInOut();
 
     ///////////////////////
     // client settings
@@ -3636,6 +3639,7 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetShowEmojis(windowpage.m_bEmoji);
         m_wndTree.ShowEmojis(windowpage.m_bEmoji);
 
+        m_xmlSettings.SetShowLoggedInOut(windowpage.m_bLoggedinout);
         m_xmlSettings.SetJoinDoubleClick(windowpage.m_bDBClickJoin);
         m_xmlSettings.SetQuitClearChannels(windowpage.m_bQuitClearChannels);
         m_xmlSettings.SetMessageTimeStamp(windowpage.m_bTimeStamp);

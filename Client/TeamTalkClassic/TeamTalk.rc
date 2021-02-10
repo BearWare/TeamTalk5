@@ -296,8 +296,10 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,173,110,16
     CONTROL         "Show emojis for user and channel states",IDC_CHECK_EMOJI,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,51,112,16
+    CONTROL         "Display users logs in/out in chat history",IDC_CHECK_LOGGEDINOUT,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,51,112,16
     CONTROL         "Clear channels when quitting",IDC_CHECK_QUITCLEAR,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,72,114,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,62,113,16
     CONTROL         "Popup message dialog on incoming message",IDC_CHECK_POPUPMSG,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,93,114,16
     CONTROL         "Timestamp on messages",IDC_CHECK_MSGTIMESTAMP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,114,114,16
