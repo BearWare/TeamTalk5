@@ -21,7 +21,7 @@
  *
  */
 
-#include "OggOutput.h"
+#include "OggFileIO.h"
 #include <assert.h>
 #include <myace/MyACE.h>
 

@@ -38,7 +38,7 @@
 #include <future>
 
 #if defined(ENABLE_OGG)
-#include <codec/OggOutput.h>
+#include <codec/OggFileIO.h>
 #endif
 
 #if defined(ENABLE_OPUS)
