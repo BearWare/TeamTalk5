@@ -1639,15 +1639,17 @@ TEST_CASE("OPUSFile")
 
     REQUIRE(wavfile.NewFile(ACE_TEXT("opusencfile2.wav"), opusread.GetSampleRate(), opusread.GetChannels()));
 
+    ogg_int64_t samplesduration = 0;
     while (true)
     {
         int bytes;
-        auto opusbuf = opusread.ReadEncoded(bytes);
+        auto opusbuf = opusread.ReadEncoded(bytes, &samplesduration);
         if (!opusbuf)
             break;
 
         REQUIRE(opusdec.Decode(reinterpret_cast<const char*>(opusbuf), bytes, &buf[0], FRAMESIZE) == FRAMESIZE);
         wavfile.AppendSamples(&buf[0], FRAMESIZE);
     }
+    REQUIRE(PCM16_SAMPLES_DURATION(samplesduration, mfi.audioFmt.nSampleRate) == mfi.uDurationMSec);
 }
 #endif

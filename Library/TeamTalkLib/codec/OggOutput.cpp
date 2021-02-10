@@ -663,7 +663,7 @@ int OpusFile::WriteEncoded(const char* enc_data, int enc_len, bool last)
     return ret;
 }
 
-const unsigned char* OpusFile::ReadEncoded(int& bytes, ogg_int64_t* sampleoffset /*= nullptr*/)
+const unsigned char* OpusFile::ReadEncoded(int& bytes, ogg_int64_t* sampleduration /*= nullptr*/)
 {
     ogg_packet op;
     ogg_page og;
@@ -684,6 +684,10 @@ const unsigned char* OpusFile::ReadEncoded(int& bytes, ogg_int64_t* sampleoffset
 
     ++m_packet_no;
     bytes = op.bytes;
+
+    if (sampleduration)
+        *sampleduration = (op.granulepos / (48000 / m_header.input_sample_rate));
+
     return op.packet;
 }
 

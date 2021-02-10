@@ -199,7 +199,7 @@ public:
 
     int WriteEncoded(const char* enc_data, int enc_len, bool last=false);
 
-    const unsigned char* ReadEncoded(int& bytes, ogg_int64_t* sampleoffset = nullptr);
+    const unsigned char* ReadEncoded(int& bytes, ogg_int64_t* sampleduration = nullptr);
 
 private:
     OggInput m_oggin;
