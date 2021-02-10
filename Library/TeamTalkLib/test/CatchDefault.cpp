@@ -1052,6 +1052,8 @@ TEST_CASE("WebRTC_gaincontroller2")
         case MFS_FINISHED :
             success = true;
             break;
+        default :
+            break;
         }
     }
     REQUIRE(toggled);
@@ -1115,6 +1117,10 @@ TEST_CASE("WebRTC_echocancel")
         preprocess.speexdsp.bEnableEchoCancellation = DEFAULT_ECHO_ENABLE;
         preprocess.speexdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
         preprocess.speexdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+        break;
+    case NO_AUDIOPREPROCESSOR :
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        REQUIRE(false);
         break;
     }
 
@@ -1581,7 +1587,7 @@ TEST_CASE("VideoCapture")
     std::condition_variable cv;
 
     int frames = 10;
-    auto callback = [&] (media::VideoFrame& video_frame, ACE_Message_Block* mb_video)
+    auto callback = [&] (media::VideoFrame& /*video_frame*/, ACE_Message_Block* /*mb_video*/)
     {
         frames--;
         cv.notify_all();
