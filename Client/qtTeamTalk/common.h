@@ -218,17 +218,19 @@ enum StatusMode
     STATUSMODE_FLAGS            = 0xFFFFFF00,
     STATUSMODE_MALE             = 0x00000000,
     STATUSMODE_FEMALE           = 0x00000100,
-    STATUSMODE_NEUTRAL          = 0x80000000,
+    STATUSMODE_NEUTRAL          = 0x00001000,
     STATUSMODE_VIDEOTX          = 0x00000200,
     STATUSMODE_DESKTOP          = 0x00000400,
-    STATUSMODE_STREAM_MEDIAFILE = 0x00000800
+    STATUSMODE_STREAM_MEDIAFILE = 0x00000800,
+    STATUSMODE_GENDER_MASK = (STATUSMODE_MALE | STATUSMODE_FEMALE | STATUSMODE_NEUTRAL),
 };
 
 enum Gender
 {
-    GENDER_MALE               = 0,
-    GENDER_FEMALE             = 1,
-    GENDER_NEUTRAL            = 2
+    GENDER_NONE               = 0,
+    GENDER_MALE               = 1,
+    GENDER_FEMALE             = 2,
+    GENDER_NEUTRAL            = 3
 };
 
 enum SoundEvent
@@ -324,7 +326,7 @@ struct HostEntry
     VideoCodec vidcodec;
 
     HostEntry()
-    : tcpport(0), udpport(0), encrypted(false), gender(GENDER_NEUTRAL)
+    : tcpport(0), udpport(0), encrypted(false), gender(GENDER_NONE)
     , voiceact(-1), capformat(), vidcodec() {}
 };
 

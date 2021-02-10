@@ -527,11 +527,18 @@ void MainWindow::loadSettings()
 
     QString iniversion = ttSettings->value(SETTINGS_GENERAL_VERSION,
                                            SETTINGS_GENERAL_VERSION_DEFAULT).toString();
-    if(!versionSameOrLater(iniversion, SETTINGS_VERSION))
+    if (!versionSameOrLater(iniversion, "5.1"))
     {
         // Volume defaults changed in 5.1 format
         ttSettings->remove(SETTINGS_SOUND_MASTERVOLUME);
         ttSettings->remove(SETTINGS_SOUND_MICROPHONEGAIN);
+        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
+    }
+    if (!versionSameOrLater(iniversion, "5.2"))
+    {
+        // Gender changed in 5.2 format
+        Gender gender = ttSettings->value(SETTINGS_GENERAL_GENDER).toBool() ? GENDER_MALE : GENDER_FEMALE;
+        ttSettings->setValue(SETTINGS_GENERAL_GENDER, gender);
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
 
@@ -1529,13 +1536,20 @@ void MainWindow::cmdLoggedIn(int myuserid)
     //login command completed
 
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-
-    if(ttSettings->value(SETTINGS_GENERAL_GENDER) == GENDER_MALE)
+    m_statusmode &= ~STATUSMODE_GENDER_MASK;
+    switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
+    {
+    case GENDER_MALE :
         m_statusmode |= STATUSMODE_MALE;
-    else if(ttSettings->value(SETTINGS_GENERAL_GENDER) == GENDER_FEMALE)
+        break;
+    case GENDER_FEMALE :
         m_statusmode |= STATUSMODE_FEMALE;
-    else
+        break;
+    case GENDER_NEUTRAL :
+    default:
         m_statusmode |= STATUSMODE_NEUTRAL;
+        break;
+    }
 
     //set status mode flags
     if(m_statusmode || statusmsg.size())
@@ -3470,13 +3484,19 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
             TT_DoChangeNickname(ttInst, _W(nickname));
 
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-        //change to female if set
-        if(ttSettings->value(SETTINGS_GENERAL_GENDER) == GENDER_MALE)
-            m_statusmode = STATUSMODE_MALE;
-        else if(ttSettings->value(SETTINGS_GENERAL_GENDER) == GENDER_FEMALE)
-            m_statusmode = STATUSMODE_FEMALE;
-        else
-            m_statusmode = STATUSMODE_NEUTRAL;
+        m_statusmode &= ~STATUSMODE_GENDER_MASK;
+        switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER).toInt()))
+        {
+        case GENDER_MALE :
+            m_statusmode |= STATUSMODE_MALE;
+            break;
+        case GENDER_FEMALE :
+            m_statusmode |= STATUSMODE_FEMALE;
+            break;
+        case GENDER_NEUTRAL :
+        default :
+            m_statusmode |= STATUSMODE_NEUTRAL;
+        }
 
         //set status mode flags
         if(m_statusmode != myself.nStatusMode || statusmsg != _Q(myself.szStatusMsg))
@@ -5684,8 +5704,8 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
             ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, m_host.nickname);
 
         //if no gender specified use from .tt file
-/*        if(m_host.gender != GENDER_NONE)
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, m_host.gender != GENDER_FEMALE);*/
+        if (m_host.gender != GENDER_NONE)
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, m_host.gender);
         
         //if no PTT-key specified use from .tt file
         hotkey_t hotkey;

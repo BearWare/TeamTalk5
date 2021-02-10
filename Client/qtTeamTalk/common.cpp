@@ -1221,14 +1221,14 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
         {
             switch (tmp.text().toInt())
             {
-            default :
-            case 0 :
+            case GENDER_MALE :
                 entry.gender = GENDER_MALE;
                 break;
-            case 1 :
+            case GENDER_FEMALE :
                 entry.gender = GENDER_FEMALE;
                 break;
-            case 2 :
+            case GENDER_NEUTRAL :
+            default:
                 entry.gender = GENDER_NEUTRAL;
                 break;
             }

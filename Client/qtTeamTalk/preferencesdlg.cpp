@@ -419,12 +419,20 @@ void PreferencesDlg::slotTabChange(int index)
     case GENERAL_TAB : //general
     {
         ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString());
-        if (ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT) == GENDER_MALE)
+        switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
+        {
+        case GENDER_MALE :
             ui.maleRadioButton->setChecked(true);
-        else if (ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT) == GENDER_FEMALE)
+            break;
+        case GENDER_FEMALE:
             ui.femaleRadioButton->setChecked(true);
-        else
+            break;
+        case GENDER_NEUTRAL:
+        default:
             ui.neutralRadioButton->setChecked(true);
+            break;
+        }
+
         QString bearwareid = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
         ui.bearwareidEdit->setText(bearwareid);
         if (bearwareid.size())

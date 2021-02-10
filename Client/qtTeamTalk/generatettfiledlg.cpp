@@ -150,13 +150,14 @@ void GenerateTTFileDlg::slotSaveTTFile()
         m_hostentry.username = ui.usernameEdit->text();
         m_hostentry.password = ui.passwordEdit->text();
         m_hostentry.nickname = ui.nicknameEdit->text();
-//        m_hostentry.gender = ui.femaleRadioButton->isChecked()?GENDER_FEMALE:GENDER_MALE;
+
         if (ui.maleRadioButton->isChecked())
             m_hostentry.gender = GENDER_MALE;
         else if (ui.femaleRadioButton->isChecked())
             m_hostentry.gender = GENDER_FEMALE;
         else if (ui.neutralRadioButton->isChecked())
             m_hostentry.gender = GENDER_NEUTRAL;
+
         if(!ui.pttChkBox->isChecked())
             m_hostentry.hotkey.clear();
         m_hostentry.voiceact = ui.voiceactChkBox->isChecked();
