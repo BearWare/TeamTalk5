@@ -3393,7 +3393,7 @@ void CTeamTalkDlg::OnFilePreferences()
     generalpage.m_szBearWareID = STR_UTF8(szBearWareID);
     generalpage.m_szBearWareToken = STR_UTF8(szToken);
     generalpage.m_bRestoreUser = m_xmlSettings.GetRestoreUserFromWebLogin();
-    generalpage.m_nGender = Gender(m_xmlSettings.GetGender(GENDER_MALE));
+    generalpage.m_nGender = Gender(m_xmlSettings.GetGender(DEFAULT_GENDER));
     generalpage.m_bVoiceAct = m_xmlSettings.GetVoiceActivated();
     generalpage.m_bPush = m_bHotKey;
     generalpage.m_Hotkey = hook;
@@ -3556,6 +3556,7 @@ void CTeamTalkDlg::OnFilePreferences()
             m_nStatusMode |= STATUSMODE_FEMALE;
             break;
         case GENDER_NEUTRAL:
+        default :
             m_nStatusMode |= STATUSMODE_NEUTRAL;
             break;
         }

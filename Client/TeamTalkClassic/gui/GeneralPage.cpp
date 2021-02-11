@@ -83,6 +83,7 @@ void CGeneralPage::DoDataExchange(CDataExchange* pDX)
         DDX_Check(pDX, IDC_RADIO_NEUTRAL, bDDXCHECK1);
         break;
     case GENDER_NEUTRAL:
+    default :
         DDX_Check(pDX, IDC_RADIO_MALE, bDDXCHECK1);
         DDX_Check(pDX, IDC_RADIO_FEMALE, bDDXCHECK1);
         DDX_Check(pDX, IDC_RADIO_NEUTRAL, bDDXCHECK);
