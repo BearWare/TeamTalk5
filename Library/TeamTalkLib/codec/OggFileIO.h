@@ -84,7 +84,12 @@ public:
     int ReadOggPage(ogg_page& og);
     int WriteOggPage(const ogg_page& og);
 
+    bool Seek(ogg_int64_t granulepos);
+
+    ogg_int64_t LastGranulePos();
+
 private:
+    bool SyncPage(ogg_page& og);
     ACE_FILE_IO m_file;
     ogg_sync_state m_state = {};
 };
@@ -200,6 +205,8 @@ public:
     int WriteEncoded(const char* enc_data, int enc_len, bool last=false);
 
     const unsigned char* ReadEncoded(int& bytes, ogg_int64_t* sampleduration = nullptr);
+
+    bool Seek(ogg_int64_t samplesoffset);
 
 private:
     OggInput m_oggin;

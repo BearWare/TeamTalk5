@@ -1610,7 +1610,7 @@ TEST_CASE("VideoCapture")
 
 #if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
 
-TEST_CASE("OPUSFile")
+TEST_CASE("OPUSFileEncDec")
 {
     for (auto SAMPLERATE : {8000, 12000, 24000, 48000})
     {
@@ -1673,5 +1673,44 @@ TEST_CASE("OPUSFile")
             REQUIRE(std::abs(durationmsec - mfi.uDurationMSec) <= FRAMESIZE_SEC * 1000);
         }
     }
+}
+
+TEST_CASE("OPUSFileSeek")
+{
+    const auto SAMPLERATE = 12000;
+    const auto FRAMESIZE_SEC = .04;
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nSampleRate = SAMPLERATE;
+    mfi.uDurationMSec = 10 * 1000;
+    const int FRAMESIZE = int(mfi.audioFmt.nSampleRate * FRAMESIZE_SEC);
+    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("orgseekfile_%d_%dmsec.wav"),
+                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.OpenFile(mfi.szFileName, true));
+
+    OpusEncFile opusenc;
+    ACE_TCHAR opusencfilename[TT_STRLEN];
+    ACE_OS::snprintf(opusencfilename, TT_STRLEN, ACE_TEXT("opusseekfile_%d_%dmsec.ogg"),
+                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+    REQUIRE(opusenc.Open(opusencfilename, mfi.audioFmt.nChannels, mfi.audioFmt.nSampleRate, FRAMESIZE, OPUS_APPLICATION_AUDIO));
+
+    std::vector<short> buf(mfi.audioFmt.nChannels * FRAMESIZE);
+    int samples;
+    while ((samples = wavfile.ReadSamples(&buf[0], FRAMESIZE)) > 0)
+    {
+        REQUIRE(opusenc.Encode(&buf[0], FRAMESIZE, samples != FRAMESIZE) >= 0);
+    }
+    opusenc.Close();
+    wavfile.Close();
+
+    OggFile of;
+    REQUIRE(of.Open(opusencfilename));
+    std::cout << of.LastGranulePos() << std::endl;
+    REQUIRE(of.Seek(555));
 }
 #endif

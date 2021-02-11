@@ -180,6 +180,142 @@ int OggFile::WriteOggPage(const ogg_page& og)
     return int(bytes_out);
 }
 
+bool OggFile::Seek(ogg_int64_t granulepos)
+{
+    assert(m_file.get_handle() != ACE_INVALID_HANDLE);
+    assert(ogg_sync_check(&m_state) == 0);
+
+    const auto ORIGIN = m_file.tell();
+    if (m_file.seek(0, SEEK_END) < 0)
+        return false;
+    const auto FILESIZE = m_file.tell();
+    if (m_file.seek(ORIGIN, SEEK_SET) < 0)
+        return false;
+
+    ogg_page og;
+
+    if (SyncPage(og))
+    {
+        auto remain = FILESIZE;
+        auto gp = ogg_page_granulepos(&og);
+        auto closest_pos = m_file.tell();
+        while (granulepos != gp)
+        {
+            auto half = remain / 2;
+            if (half == 0)
+                break;
+
+            half = (granulepos > gp ? half : -half);
+
+            m_file.seek(half, SEEK_CUR);
+            if (!SyncPage(og))
+                break;
+            closest_pos = m_file.tell();
+            gp = ogg_page_granulepos(&og);
+        }
+
+        m_file.seek(closest_pos, SEEK_SET);
+        return SyncPage(og);
+    }
+
+    int ret;
+    char buff[256] = "";
+//    m_file.seek(0, SEEK_SET);
+//    ret = SyncPage(og);
+
+//    m_file.seek(FILESIZE / 2, SEEK_SET);
+//    ret = SyncPage(og);
+//    assert(ret == 0);
+//    m_file.recv(buff, 256);
+//    ret = ret;
+
+//    m_file.seek(0, SEEK_END);
+//    ret = SyncPage(og);
+//    assert(ret == 0);
+//    m_file.recv(buff, 256);
+//    ret = ret;
+    return false;
+}
+
+ogg_int64_t OggFile::LastGranulePos()
+{
+    assert(m_file.get_handle() != ACE_INVALID_HANDLE);
+    assert(ogg_sync_check(&m_state) == 0);
+
+    if (m_file.seek(0, SEEK_END) < 0)
+        return -1;
+
+    ogg_page og;
+    if (SyncPage(og))
+        return ogg_page_granulepos(&og);
+
+    return -1;
+}
+
+
+bool OggFile::SyncPage(ogg_page& og)
+{
+    assert(m_file.get_handle() != ACE_INVALID_HANDLE);
+    assert(ogg_sync_check(&m_state) == 0);
+
+    const auto SIZE = 0x1000;
+    const auto ORIGIN = m_file.tell();
+
+    // first seek forwards
+    long skip = 0, n_read;
+    do
+    {
+        ogg_sync_reset(&m_state);
+        auto buffer = ogg_sync_buffer(&m_state, SIZE);
+        n_read = m_file.recv(buffer, SIZE);
+        if (n_read > 0)
+        {
+            int ret = ogg_sync_wrote(&m_state, n_read);
+            assert(ret == 0);
+        }
+        else break;
+
+        skip = ogg_sync_pageseek(&m_state, &og);
+    } while (skip == 0);
+
+    // now try backwards if failed
+    if (skip == 0)
+    {
+        if (m_file.seek(ORIGIN, SEEK_SET) < 0)
+            return false;
+
+        auto backwards = ORIGIN;
+
+        do
+        {
+            if (backwards == 0)
+                return false; // already at begining last time
+
+            ogg_sync_reset(&m_state);
+            backwards = std::max(backwards - SIZE, ACE_OFF_T(0));;
+            if (m_file.seek(backwards, SEEK_SET) < 0)
+                return false;
+
+            auto buffer = ogg_sync_buffer(&m_state, SIZE);
+            n_read = m_file.recv(buffer, SIZE);
+            if (n_read > 0)
+            {
+                int ret = ogg_sync_wrote(&m_state, n_read);
+                assert(ret == 0);
+            }
+            else break;
+
+            skip = ogg_sync_pageseek(&m_state, &og);
+        } while (skip == 0);
+    }
+
+    long offset = -n_read + -skip;
+    if (m_file.seek(offset, SEEK_CUR) < 0)
+        return false;
+
+    return true;
+}
+
 #if defined(ENABLE_SPEEX)
 
 #include "SpeexDecoder.h"
@@ -682,13 +818,23 @@ const unsigned char* OpusFile::ReadEncoded(int& bytes, ogg_int64_t* sampledurati
             return nullptr; // file read error
     }
 
-    ++m_packet_no;
+    m_packet_no = op.packetno; // unused
+    m_granule_pos = op.granulepos; // unused
     bytes = op.bytes;
 
     if (sampleduration)
         *sampleduration = (op.granulepos / (48000 / m_header.input_sample_rate));
 
     return op.packet;
+}
+
+bool OpusFile::Seek(ogg_int64_t samplesoffset)
+{
+    ogg_page og;
+    while (m_oggfile.ReadOggPage(og) > 0)
+    {
+        m_granule_pos = ogg_page_granulepos(&og);
+    }
 }
 
 #endif /* ENABLE_OPUSTOOLS */
