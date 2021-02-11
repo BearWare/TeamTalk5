@@ -748,6 +748,7 @@
     <item id="1547">Flood Protection</item>
     <item id="1548">Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</item>
     <item id="1550">Limit issued commands</item>
+    <item id="1552">Neutral</item>
     <item id="1554">User can change nickname</item>
     <item id="1558">User can record voice in all channels</item>
     <item id="1561">&amp;Activate</item>

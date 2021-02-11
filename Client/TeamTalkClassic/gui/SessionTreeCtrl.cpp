@@ -1030,7 +1030,7 @@ CString CSessionTreeCtrl::GetUserText(int nUserID) const
         szText += _T(" - ") + CString(user.szStatusMsg);
     if (m_bShowEmojis && (user.nStatusMode & STATUSMODE_FEMALE))
         szText += _T(" \U0001f469");
-    else if (m_bShowEmojis)
+    else if (m_bShowEmojis && (user.nStatusMode & STATUSMODE_MALE))
         szText += _T(" \U0001f468");
 
     return LimitText(szText);

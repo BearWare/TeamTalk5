@@ -1010,7 +1010,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         {
             if (user.nStatusMode & STATUSMODE_FEMALE)
                 itemtext += " 👩";
-            else
+            else if (user.nStatusMode & STATUSMODE_MALE)
                 itemtext += " 👨";
             if(user.uUserType & USERTYPE_ADMIN)
                 itemtext += tr(" (Administrator)");

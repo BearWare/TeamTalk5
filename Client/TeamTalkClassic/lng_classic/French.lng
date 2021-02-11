@@ -748,6 +748,7 @@
     <item id="1547">Protection contre le flood</item>
     <item id="1548">Empêcher un utilisateur de, par exemple, spammer avec des messages en limitant le nombre de commandes qu&apos;ils peut émettre dans un délai donné.</item>
     <item id="1550">Limite des commandes émises</item>
+    <item id="1552">Neutre</item>
     <item id="1554">L&apos;utilisateur peut changer de pseudo</item>
     <item id="1558">L&apos;utilisateur peut enregistrer la voix sur tous les canaux</item>
     <item id="1561">Activer</item>
