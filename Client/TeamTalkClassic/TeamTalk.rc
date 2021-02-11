@@ -1914,6 +1914,7 @@ BEGIN
     IDC_RADIO_PBMODEASYNC "Each sound must stop the previous one"
     IDC_STATIC_GRPCLIENTSOUNDSYSTEM "Client sounds events settings"
     IDC_STATIC_CLIENTSOUNDSVOL "Sound events vs. voice volume"
+END
 
 STRINGTABLE
 BEGIN
