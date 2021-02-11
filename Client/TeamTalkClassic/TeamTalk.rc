@@ -272,9 +272,8 @@ BEGIN
     PUSHBUTTON      "Refresh devices",IDC_BUTTON_REFRESHSND,132,193,60,12
     PUSHBUTTON      "&Default",IDC_BUTTON_DEFAULT,197,193,51,12
     GROUPBOX        "Client sounds events settings",IDC_STATIC_GRPCLIENTSOUNDSYSTEM,200,7,246,207
-    CONTROL         "Play all sounds simultaneously",IDC_RADIO_PBMODETT,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,41,22,95,10
-    CONTROL         "Play all sounds fully",IDC_RADIO_PBMODESYNC,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,160,22,56,10
-    CONTROL         "Each sound must stop the previous one",IDC_RADIO_PBMODEASYNC,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,160,22,56,10
+    LTEXT           "Sound events playing mode",IDC_STATIC_PLAYBACK_MODE,134,177,59,8
+    COMBOBOX        IDC_COMBO_PLAYBACK_MODE,195,175,48,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Sound events vs. voice volume",IDC_STATIC_CLIENTSOUNDSVOL,205,180,104,8
     CONTROL         "",IDC_SLIDER_CLIENTSOUNDS_VOL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP | 0x400,117,176,131,15    
 END
@@ -1909,11 +1908,12 @@ END
 
 STRINGTABLE
 BEGIN
-    IDC_RADIO_PBMODETT "Play all sounds simultaneously"
-    IDC_RADIO_PBMODESYNC "Play all sounds fully"
-    IDC_RADIO_PBMODEASYNC "Each sound must stop the previous one"
+    IDS_SIMULTANEOUSLY "Play all sounds simultaneously"
+    IDS_FULLY "Play all sounds fully"
+    IDS_STOPPREVIOUS "Each sound must stop the previous one"
     IDC_STATIC_GRPCLIENTSOUNDSYSTEM "Client sounds events settings"
     IDC_STATIC_CLIENTSOUNDSVOL "Sound events vs. voice volume"
+    IDC_STATIC_PLAYBACK_MODE "Sound events playing mode"
 END
 
 STRINGTABLE

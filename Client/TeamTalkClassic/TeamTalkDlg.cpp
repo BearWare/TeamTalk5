@@ -6439,11 +6439,11 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
     }
     if (szFilename.GetLength())
     {
-        if (PlaybackMode == 1)
+        if (PlaybackMode == 2)
             m_pPlaySndThread->AddSoundEvent(szFilename, PLAYBACKMODE_TEAMTALK, sndVol);
-        else if (PlaybackMode == 2)
+        else if (PlaybackMode == 1)
             m_pPlaySndThread->AddSoundEvent(szFilename, PLAYBACKMODE_SYNC);
-        else if (PlaybackMode == 3)
+        else if (PlaybackMode == 0)
             m_pPlaySndThread->AddSoundEvent(szFilename, PLAYBACKMODE_ASYNC);
     }
 }

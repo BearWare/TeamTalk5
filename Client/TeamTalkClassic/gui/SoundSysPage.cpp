@@ -51,7 +51,7 @@ CSoundSysPage::CSoundSysPage()
 , m_bAGC(DEFAULT_AGC_ENABLE)
 , m_nMediaVsVoice(DEFAULT_MEDIA_VS_VOICE)
 , m_nClientSoundsVsVoice(DEFAULT_CLIENT_SOUNDS_VS_VOICE)
-, m_nPlaybackMode(1)
+, m_nPlaybackMode(2)
 {
     TT_GetDefaultSoundDevices(&m_nInputDevice, &m_nOutputDevice);
 }
@@ -88,26 +88,8 @@ void CSoundSysPage::DoDataExchange(CDataExchange* pDX)
     DDV_MinMaxInt(pDX, m_nClientSoundsVsVoice, 0, 100);
     DDX_Slider(pDX, IDC_SLIDER_CLIENTSOUNDS_VOL, m_nClientSoundsVsVoice);
     DDX_Control(pDX, IDC_SLIDER_CLIENTSOUNDS_VOL, m_wndClientSoundsVsVoice);
-    BOOL bDDXCHECK = TRUE;
-    BOOL bDDXCHECK1 = FALSE;
-    switch (m_nPlaybackMode)
-    {
-    case 1 :
-        DDX_Check(pDX, IDC_RADIO_PBMODETT, bDDXCHECK);
-        DDX_Check(pDX, IDC_RADIO_PBMODESYNC, bDDXCHECK1);
-        DDX_Check(pDX, IDC_RADIO_PBMODEASYNC, bDDXCHECK1);
-        break;
-    case 2 :
-        DDX_Check(pDX, IDC_RADIO_PBMODETT, bDDXCHECK1);
-        DDX_Check(pDX, IDC_RADIO_PBMODESYNC, bDDXCHECK);
-        DDX_Check(pDX, IDC_RADIO_PBMODEASYNC, bDDXCHECK1);
-        break;
-    case 3 :
-        DDX_Check(pDX, IDC_RADIO_PBMODETT, bDDXCHECK1);
-        DDX_Check(pDX, IDC_RADIO_PBMODESYNC, bDDXCHECK1);
-        DDX_Check(pDX, IDC_RADIO_PBMODEASYNC, bDDXCHECK);
-        break;
-    }
+    DDX_Control(pDX, IDC_COMBO_PLAYBACK_MODE, m_wndPlaybackMode);
+    DDX_CBIndex(pDX, IDC_COMBO_PLAYBACK_MODE, m_nPlaybackMode);
 }
 
 
@@ -122,9 +104,7 @@ BEGIN_MESSAGE_MAP(CSoundSysPage, CPropertyPage)
     ON_BN_CLICKED(IDC_RADIO_WASAPI, &CSoundSysPage::OnBnClickedRadioWasapi)
     ON_BN_CLICKED(IDC_BUTTON_REFRESHSND, &CSoundSysPage::OnBnClickedButtonRefreshsnd)
     ON_BN_CLICKED(IDC_CHECK_AGC, &CSoundSysPage::OnBnClickedCheckAgc)
-    ON_BN_CLICKED(IDC_RADIO_PBMODETT, OnBnClickedRadioPbModeTt)
-    ON_BN_CLICKED(IDC_RADIO_PBMODESYNC, OnBnClickedRadioPbModeSync)
-    ON_BN_CLICKED(IDC_RADIO_PBMODEASYNC, OnBnClickedRadioPbModeASync)
+    ON_CBN_SELCHANGE(IDC_COMBO_PLAYBACK_MODE, OnCbnSelchangeComboPBMode)
 END_MESSAGE_MAP()
 
 
@@ -132,6 +112,15 @@ END_MESSAGE_MAP()
 BOOL CSoundSysPage::OnInitDialog()
 {
     CPropertyPage::OnInitDialog();
+
+    CString szSim = LoadText(IDS_SIMULTANEOUSLY, _T("Play all sounds simultaneously"));
+    CString szFul = LoadText(IDS_FULLY, _T("Play all sounds fully"));
+    CString szEac = LoadText(IDS_STOPPREVIOUS, _T("Each sound must stop the previous one"));
+
+    m_wndPlaybackMode.AddString(szSim);
+    m_wndPlaybackMode.AddString(szFul);
+    m_wndPlaybackMode.AddString(szEac);
+    m_wndPlaybackMode.SetCurSel(m_nPlaybackMode);
 
     TRANSLATE(*this, IDD);
 
@@ -155,19 +144,12 @@ void CSoundSysPage::OnBnClickedRadioDirectsound()
     ShowDrivers(SOUNDSYSTEM_DSOUND);
 }
 
-void CSoundSysPage::OnBnClickedRadioPbModeTt()
+void CSoundSysPage::OnCbnSelchangeComboPBMode()
 {
-    m_nPlaybackMode = 1;
-}
-
-void CSoundSysPage::OnBnClickedRadioPbModeSync()
-{
-    m_nPlaybackMode = 2;
-}
-
-void CSoundSysPage::OnBnClickedRadioPbModeASync()
-{
-    m_nPlaybackMode = 3;
+    if (m_wndPlaybackMode.GetCurSel() == 2)
+        m_wndClientSoundsVsVoice.EnableWindow(TRUE);
+    else
+        m_wndClientSoundsVsVoice.EnableWindow(FALSE);
 }
 
 void CSoundSysPage::OnBnClickedRadioWasapi()

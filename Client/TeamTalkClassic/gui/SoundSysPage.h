@@ -80,9 +80,7 @@ protected:
 public:
     virtual BOOL OnInitDialog();
     afx_msg void OnBnClickedRadioDirectsound();
-    afx_msg void OnBnClickedRadioPbModeTt();
-    afx_msg void OnBnClickedRadioPbModeSync();
-    afx_msg void OnBnClickedRadioPbModeASync();
+    afx_msg void OnCbnSelchangeComboPBMode();
     afx_msg void OnCbnSelchangeComboInputdriver();
     afx_msg void OnCbnSelchangeComboOutputdriver();
     afx_msg void OnBnClickedButtonTest();
@@ -108,6 +106,7 @@ public:
     CSliderCtrl m_wndMediaVsVoice;
     int m_nClientSoundsVsVoice;
     CSliderCtrl m_wndClientSoundsVsVoice;
-    int m_nPlaybackMode;
     afx_msg void OnBnClickedCheckAgc();
+    CComboBox m_wndPlaybackMode;
+    int m_nPlaybackMode;
 };
