@@ -174,9 +174,9 @@ BEGIN
     LTEXT           "Nickname",IDC_STATIC_NICKNAME,15,22,49,8
     EDITTEXT        IDC_EDIT_NICKNAME,67,19,76,14,ES_AUTOHSCROLL
     LTEXT           "Gender",IDC_STATIC_GENDER,15,38,49,8
-    CONTROL         "Male",IDC_RADIO_MALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,75,37,31,10
-    CONTROL         "Female",IDC_RADIO_FEMALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,127,37,39,10
-    CONTROL         "Neutral",IDC_RADIO_NEUTRAL,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,167,37,47,10
+    CONTROL         "Male",IDC_RADIO_MALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,75,37,42,10
+    CONTROL         "Female",IDC_RADIO_FEMALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,121,37,42,10
+    CONTROL         "Neutral",IDC_RADIO_NEUTRAL,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,167,37,42,10
     LTEXT           "Set away status after ",IDC_STATIC_SETAWAY,15,54,93,8
     EDITTEXT        IDC_EDIT_INACTIVITY,112,51,19,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "sec. of inactivity (0=disabled)",IDC_STATIC_SECINACT,134,54,114,8
@@ -1950,6 +1950,7 @@ BEGIN
     IDS_USER_LOGGED_OUT     "User logged out"
     IDS_USER_TEXTMSGSENT    "Private text message sent"
     IDS_USER_CHANMSGSENT    "Channel text message sent"
+    IDS_NOLONGERTRANSMITCHANMSG "%s can no longer transmit channel messages!"
 END
 
 STRINGTABLE
@@ -2177,8 +2178,6 @@ END
 STRINGTABLE
 BEGIN
     IDS_UNKNOWNERROR        "An unknown error occurred. Check that the action you\r\nperformed is supported by the server. This error is most\r\nlikely caused by an incompability issue between the server\r\nand your client."
-    IDS_NOLONGERTRANSMITCHANMSG    "%s can no longer transmit channel messages!"
-    IDS_CANNOWTRANSMITCHANMSG      "%s can now transmit channel messages!"
     IDS_NOLONGERTRANSMIT    "%s can no longer transmit voice!"
     IDS_CANNOWTRANSMIT      "%s can now transmit voice!"
     IDS_NOLONGERTRANSMITVIDEO "%s can no longer transmit video input!"
@@ -2195,6 +2194,12 @@ BEGIN
     IDS_STREAMINGTOCHANNELSTART "Started streaming media file to channel"
     IDS_STREAMINGTOCHANNELFINISH "Finished streaming media file to channel"
     IDS_STREAMINGTOCHANNELABORT "Aborted streaming media file to channel"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CANNOWTRANSMITCHANMSG "%s can now transmit channel messages!"
+    IDS_PROPPAGE_CLASSROOM_CHANMSG "Channel messages transmission allowed"
 END
 
 STRINGTABLE
@@ -2249,7 +2254,6 @@ BEGIN
     IDS_PROPPAGE_SUBINT_DESKTOPINPUT "Intercept desktop access subscription"
     IDS_PROPPAGE_SUBINT_MEDIAFILE "Intercept media file stream subscription"
     IDS_PROPPAGE_CLASSROOM_CHANGE "Classroom changes"
-    IDS_PROPPAGE_CLASSROOM_CHANMSG "Channel messages transmission allowed"
     IDS_PROPPAGE_CLASSROOM_VOICE "Voice transmission allowed"
     IDS_PROPPAGE_CLASSROOM_VIDEO "Video transmission allowed"
 END
