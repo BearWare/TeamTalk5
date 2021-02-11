@@ -42,7 +42,7 @@ public:
     BOOL    m_bPush;
     BOOL    m_bVoiceAct;
     CString    m_sNickname;
-    BOOL m_bFemale;
+    Gender m_nGender;
     int m_nInactivity;
     BOOL m_bIdleVox;
 
@@ -65,6 +65,9 @@ public:
     afx_msg void OnBnClickedCheckPushtotalk();
     virtual BOOL OnInitDialog();
 public:
+    afx_msg void OnBnClickedRadioMale();
+    afx_msg void OnBnClickedRadioFemale();
+    afx_msg void OnBnClickedRadioNeutral();
     afx_msg void OnBnClickedSetupKeys();
     afx_msg void OnEnChangeEditInactivity();
     afx_msg void OnBnClickedButtonSetupbearware();

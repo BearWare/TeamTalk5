@@ -31,7 +31,7 @@
 #define TEAMTALK_XML_VERSION_DEFAULT                "5.0"
 
 #define DEFAULT_NICKNAME                            _T("NoName")
-#define DEFAULT_GENDER                              1
+#define DEFAULT_GENDER                              GENDER_NEUTRAL
 #define DEFAULT_PUSHTOTALK                          false
 #define DEFAULT_VOICEACTIVATED                      true
 #define DEFAULT_VOICEACTIVATE_LEVEL                 2
@@ -95,7 +95,7 @@ namespace teamtalk {
         : nTcpPort(0)
         , nUdpPort(0)
         , bEncrypted(FALSE)
-        , nGender(0)
+        , nGender(GENDER_NONE)
         , nVoiceAct(-1)
         , capformat()
         , vidcodec() { }
