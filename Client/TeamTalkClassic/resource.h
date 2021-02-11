@@ -539,9 +539,12 @@
 #define IDC_STATIC_CHTOPIC              1061
 #define IDC_STATIC_CHPASSWORD           1063
 #define IDC_RADIO_WASAPI                1065
+#define IDC_RADIO_PBMODETT              1066
 #define IDC_STATIC_MAXLOGINSIP          1067
 #define IDC_RADIO_DIRECTSOUND           1068
+#define IDC_RADIO_PBMODESYNC            1069
 #define IDC_COMBO_INPUTDRIVER           1070
+#define IDC_RADIO_PBMODEASYNC           1071
 #define IDC_COMBO_OUTPUTDRIVER          1072
 #define IDC_STATIC_PASSWORD             1073
 #define IDC_COMBO_SRATE                 1074
@@ -637,6 +640,7 @@
 #define IDC_STATIC_GRPSOUNDSYSTEM       1211
 #define IDC_STATIC_FONTNAME             1212
 #define IDC_STATIC_SOUNDSYSDESCRIP      1213
+#define IDC_STATIC_GRPCLIENTSOUNDSYSTEM 1214
 #define IDC_STATIC_TESTDESCRIP          1215
 #define IDC_EDIT_USERTYPE               1216
 #define IDC_CHECK_CHANNELSTEMP          1217
@@ -859,6 +863,7 @@
 #define IDC_STATIC_VIDFMT               1476
 #define IDC_STATIC_MEDIAGRP             1477
 #define IDC_STATIC_MEDIAFILE            1478
+#define IDC_SLIDER_CLIENTSOUNDS_VOL     1479
 #define IDC_STATIC_KBYPS5               1480
 #define IDC_RADIO_DEFAULTUSER           1481
 #define IDC_CHECK_TRANSMITDESKTOPINPUT  1482
@@ -932,6 +937,7 @@
 #define IDC_STATIC_CMDLIMIT             1550
 #define IDC_COMBO_USERNAME              1551
 #define IDC_RADIO_NEUTRAL               1552
+#define IDC_STATIC_CLIENTSOUNDSVOL      1553
 #define IDC_CHECK_CHANGENICKNAME        1554
 #define IDC_COMBO_BANTYPE               1555
 #define IDC_COMBO_INPUT                 1556

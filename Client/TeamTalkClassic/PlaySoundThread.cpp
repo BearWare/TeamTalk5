@@ -69,13 +69,14 @@ int CPlaySoundThread::ExitInstance()
 	return CWinThread::ExitInstance();
 }
 
-void CPlaySoundThread::AddSoundEvent(LPCTSTR szFilename, PlaybackMode mode)
+void CPlaySoundThread::AddSoundEvent(LPCTSTR szFilename, PlaybackMode mode, int sndVol)
 {
     m_mutex.Lock();
     
     PlaybackFile pf = {};
     pf.mode = mode;
     pf.szFilename = szFilename;
+    pf.sndVol = sndVol;
 
     m_SoundQueue.push(pf);
 
@@ -127,7 +128,7 @@ int CPlaySoundThread::Run()
                 mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
                 mfp.bPaused = FALSE;
                 mfp.audioPreprocessor = InitDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR);
-                mfp.audioPreprocessor.ttpreprocessor.nGainLevel = RefGain(DEFAULT_SOUND_GAIN_LEVEL);
+                mfp.audioPreprocessor.ttpreprocessor.nGainLevel = RefGain(pf.sndVol);
                 auto inst = TT_InitLocalPlayback(ttInst, pf.szFilename, &mfp);
                 break;
             }

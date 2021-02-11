@@ -38,6 +38,7 @@ struct PlaybackFile
 {
     PlaybackMode mode = PLAYBACKMODE_NONE;
     CString szFilename;
+    int sndVol;
 };
 
 class CPlaySoundThread : public CWinThread
@@ -51,7 +52,7 @@ public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 
-    void AddSoundEvent(LPCTSTR szFilename, PlaybackMode mode);
+    void AddSoundEvent(LPCTSTR szFilename, PlaybackMode mode, int sndVol = 50);
     void KillThread();
 
 protected:

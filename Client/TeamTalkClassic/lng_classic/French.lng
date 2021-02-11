@@ -478,7 +478,10 @@
     <item id="1060">Réduire l&apos;affichage</item>
     <item id="1061">Objet</item>
     <item id="1063">Mot de passe</item>
+    <item id="1066">Jouer tous les sons simultanément</item>
     <item id="1067">Maximum de connexions simultanées par adresse IP</item>
+    <item id="1069">Jouer intégralement tous les sons</item>
+    <item id="1071">Chaque son doit couper le précédent</item>
     <item id="1073">Mot de passe</item>
     <item id="1075">Adresse de l&apos;hôte</item>
     <item id="1077">Canal audio</item>
@@ -547,6 +550,7 @@
     <item id="1211">Paramètres du système audio</item>
     <item id="1212">Aucune police sélectionnée</item>
     <item id="1213">Sélectionnez ici les périphériques audio que TeamTalk doit utiliser pour l&apos;enregistrement et la lecture audio. Choisir DirectSound est fortement recommandé car il offre une latence inférieure à celle du système audio par défaut de Windows.</item>
+    <item id="1214">Paramètres du son des évènements du client</item>
     <item id="1215">En appuyant sur «Tester la sélection&quot;, vous pouvez tester les appareils actuellement sélectionnés et entendre si vous êtes en mesure de lire l&apos;audio enregistré par le périphérique d&apos;entrée sélectionné.</item>
     <item id="1217">L&apos;utilisateur peut créer des canaux temporaires</item>
     <item id="1218">L&apos;utilisateur peut créer/modifier tous les canaux</item>
@@ -750,6 +754,7 @@
     <item id="1548">Empêcher un utilisateur de, par exemple, spammer avec des messages en limitant le nombre de commandes qu&apos;ils peut émettre dans un délai donné.</item>
     <item id="1550">Limite des commandes émises</item>
     <item id="1552">Neutre</item>
+    <item id="1553">Évènements sonnores vs. volume de la voix</item>
     <item id="1554">L&apos;utilisateur peut changer de pseudo</item>
     <item id="1558">L&apos;utilisateur peut enregistrer la voix sur tous les canaux</item>
     <item id="1561">Activer</item>

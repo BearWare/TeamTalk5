@@ -50,6 +50,8 @@ CSoundSysPage::CSoundSysPage()
 , m_SndLoopBack(NULL)
 , m_bAGC(DEFAULT_AGC_ENABLE)
 , m_nMediaVsVoice(DEFAULT_MEDIA_VS_VOICE)
+, m_nClientSoundsVsVoice(DEFAULT_CLIENT_SOUNDS_VS_VOICE)
+, m_nPlaybackMode(1)
 {
     TT_GetDefaultSoundDevices(&m_nInputDevice, &m_nOutputDevice);
 }
@@ -83,6 +85,29 @@ void CSoundSysPage::DoDataExchange(CDataExchange* pDX)
     DDV_MinMaxInt(pDX, m_nMediaVsVoice, 0, 200);
     DDX_Slider(pDX, IDC_SLIDER_MEDIASTREAM_VOL, m_nMediaVsVoice);
     DDX_Control(pDX, IDC_SLIDER_MEDIASTREAM_VOL, m_wndMediaVsVoice);
+    DDV_MinMaxInt(pDX, m_nClientSoundsVsVoice, 0, 100);
+    DDX_Slider(pDX, IDC_SLIDER_CLIENTSOUNDS_VOL, m_nClientSoundsVsVoice);
+    DDX_Control(pDX, IDC_SLIDER_CLIENTSOUNDS_VOL, m_wndClientSoundsVsVoice);
+    BOOL bDDXCHECK = TRUE;
+    BOOL bDDXCHECK1 = FALSE;
+    switch (m_nPlaybackMode)
+    {
+    case 1 :
+        DDX_Check(pDX, IDC_RADIO_PBMODETT, bDDXCHECK);
+        DDX_Check(pDX, IDC_RADIO_PBMODESYNC, bDDXCHECK1);
+        DDX_Check(pDX, IDC_RADIO_PBMODEASYNC, bDDXCHECK1);
+        break;
+    case 2 :
+        DDX_Check(pDX, IDC_RADIO_PBMODETT, bDDXCHECK1);
+        DDX_Check(pDX, IDC_RADIO_PBMODESYNC, bDDXCHECK);
+        DDX_Check(pDX, IDC_RADIO_PBMODEASYNC, bDDXCHECK1);
+        break;
+    case 3 :
+        DDX_Check(pDX, IDC_RADIO_PBMODETT, bDDXCHECK1);
+        DDX_Check(pDX, IDC_RADIO_PBMODESYNC, bDDXCHECK1);
+        DDX_Check(pDX, IDC_RADIO_PBMODEASYNC, bDDXCHECK);
+        break;
+    }
 }
 
 
@@ -97,6 +122,9 @@ BEGIN_MESSAGE_MAP(CSoundSysPage, CPropertyPage)
     ON_BN_CLICKED(IDC_RADIO_WASAPI, &CSoundSysPage::OnBnClickedRadioWasapi)
     ON_BN_CLICKED(IDC_BUTTON_REFRESHSND, &CSoundSysPage::OnBnClickedButtonRefreshsnd)
     ON_BN_CLICKED(IDC_CHECK_AGC, &CSoundSysPage::OnBnClickedCheckAgc)
+    ON_BN_CLICKED(IDC_RADIO_PBMODETT, OnBnClickedRadioPbModeTt)
+    ON_BN_CLICKED(IDC_RADIO_PBMODESYNC, OnBnClickedRadioPbModeSync)
+    ON_BN_CLICKED(IDC_RADIO_PBMODEASYNC, OnBnClickedRadioPbModeASync)
 END_MESSAGE_MAP()
 
 
@@ -114,6 +142,9 @@ BOOL CSoundSysPage::OnInitDialog()
 
     m_wndMediaVsVoice.SetRange(0, 200, TRUE);
     m_wndMediaVsVoice.SetPos(m_nMediaVsVoice);
+
+    m_wndClientSoundsVsVoice.SetRange(0, 100, TRUE);
+    m_wndClientSoundsVsVoice.SetPos(m_nClientSoundsVsVoice);
     
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -122,6 +153,21 @@ BOOL CSoundSysPage::OnInitDialog()
 void CSoundSysPage::OnBnClickedRadioDirectsound()
 {
     ShowDrivers(SOUNDSYSTEM_DSOUND);
+}
+
+void CSoundSysPage::OnBnClickedRadioPbModeTt()
+{
+    m_nPlaybackMode = 1;
+}
+
+void CSoundSysPage::OnBnClickedRadioPbModeSync()
+{
+    m_nPlaybackMode = 2;
+}
+
+void CSoundSysPage::OnBnClickedRadioPbModeASync()
+{
+    m_nPlaybackMode = 3;
 }
 
 void CSoundSysPage::OnBnClickedRadioWasapi()
@@ -461,6 +507,7 @@ void CSoundSysPage::OnBnClickedDefault()
     m_btnEchoCancel.SetCheck(DEFAULT_ECHO_ENABLE? BST_CHECKED : BST_UNCHECKED);
     m_wndAGC.SetCheck(DEFAULT_AGC_ENABLE? BST_CHECKED : BST_UNCHECKED);
     m_wndMediaVsVoice.SetPos(DEFAULT_MEDIA_VS_VOICE);
+    m_wndClientSoundsVsVoice.SetPos(DEFAULT_CLIENT_SOUNDS_VS_VOICE);
 }
 
 void CSoundSysPage::OnBnClickedCheckEchochannel()
