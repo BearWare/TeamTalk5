@@ -3451,9 +3451,9 @@ void CTeamTalkDlg::OnFilePreferences()
     ////////////////////
     // sound output page
     ///////////////////
-    soundpage.m_nOutputDevice = m_xmlSettings.GetSoundOutputDevice(UNDEFINED);
+    soundpage.m_nOutputDevice = m_xmlSettings.GetSoundOutputDevice(m_SoundDeviceOut.nDeviceID);
     soundpage.m_szOutputDeviceID = STR_UTF8(m_xmlSettings.GetSoundOutputDevice());
-    soundpage.m_nInputDevice = m_xmlSettings.GetSoundInputDevice(UNDEFINED);
+    soundpage.m_nInputDevice = m_xmlSettings.GetSoundInputDevice(m_SoundDeviceIn.nDeviceID);
     soundpage.m_szInputDeviceID = STR_UTF8(m_xmlSettings.GetSoundInputDevice());
     soundpage.m_bPositioning = m_xmlSettings.GetAutoPositioning();
     soundpage.m_bEchoCancel = m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
