@@ -128,6 +128,7 @@ BOOL CSoundSysPage::OnInitDialog()
     m_nOrgOutputDevice = m_nOutputDevice;
 
     RefreshSoundDevices();
+    OnCbnSelchangeComboPBMode();
 
     m_wndMediaVsVoice.SetRange(0, 200, TRUE);
     m_wndMediaVsVoice.SetPos(m_nMediaVsVoice);
