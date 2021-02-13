@@ -94,9 +94,9 @@ int OggInput::PutPage(ogg_page& og)
     return ogg_stream_pagein(&m_os, &og);
 }
 
-int OggInput::GetPacket(ogg_packet& op)
+int OggInput::GetPacket(ogg_packet& op, bool peek/* = false*/)
 {
-    return ogg_stream_packetout(&m_os, &op);
+    return peek ? ogg_stream_packetpeek(&m_os, &op) : ogg_stream_packetout(&m_os, &op);
 }
 
 
@@ -703,19 +703,21 @@ bool OpusFile::OpenFile(const ACE_TString& filename)
 {
     if (!m_oggfile.Open(filename))
         return false;
-
-    ogg_page og;
-    if (m_oggfile.ReadOggPage(og) != 1 || !m_oggin.Open(og) || m_oggin.PutPage(og) != 0)
+    else
     {
-        Close();
-        return false;
+        ogg_page og;
+        if (m_oggfile.ReadOggPage(og) != 1 || !m_oggin.Open(og) || m_oggin.PutPage(og) != 0)
+        {
+            Close();
+            return false;
+        }
     }
 
     int ret;
     m_packet_no = -1;
-    ogg_packet op = {};
     while (true)
     {
+        ogg_packet op;
         if (m_oggin.GetPacket(op) == 1)
         {
             if (op.b_o_s && op.bytes >= 8 && memcmp(op.packet, "OpusHead", 8) == 0 &&
@@ -732,6 +734,7 @@ bool OpusFile::OpenFile(const ACE_TString& filename)
             }
         }
 
+        ogg_page og;
         ret = m_oggfile.ReadOggPage(og);
         if (ret > 0)
         {
@@ -746,7 +749,22 @@ bool OpusFile::OpenFile(const ACE_TString& filename)
 
     // packet number 2 is where the first encoded OPUS data exists
     if (m_packet_no == 1)
-        return true;
+    {
+        // detect frame size
+        ogg_page og;
+        ret = m_oggfile.ReadOggPage(og);
+        if (ret > 0)
+        {
+            ret = m_oggin.PutPage(og);
+            assert(ret == 0);
+            ogg_packet op;
+            if (m_oggin.GetPacket(op) == 1)
+            {
+                m_frame_size = op.granulepos / (48000 / m_header.input_sample_rate);
+                return true;
+            }
+        }
+    }
 
     Close();
 
@@ -772,6 +790,11 @@ int OpusFile::GetSampleRate() const
 int OpusFile::GetChannels() const
 {
     return m_header.channels;
+}
+
+int OpusFile::GetFrameSize() const
+{
+    return m_frame_size;
 }
 
 int OpusFile::WriteEncoded(const char* enc_data, int enc_len, bool last)
@@ -838,7 +861,10 @@ bool OpusFile::Seek(ogg_int64_t samplesoffset)
     while (m_oggfile.ReadOggPage(og) > 0)
     {
         m_granule_pos = ogg_page_granulepos(&og);
+        if (m_granule_pos / (48000 / m_header.input_sample_rate) >= samplesoffset)
+            return true;
     }
+    return false;
 }
 
 #endif /* ENABLE_OPUSTOOLS */
@@ -881,4 +907,43 @@ int OpusEncFile::Encode(const short* input_buffer, int input_samples,
     return 0;
 }
 
-#endif
+bool OpusDecFile::Open(const ACE_TString& filename)
+{
+    return m_file.OpenFile(filename);
+}
+
+void OpusDecFile::Close()
+{
+    m_file.Close();
+    m_decoder.Close();
+}
+
+int OpusDecFile::GetSampleRate() const
+{
+    return m_file.GetSampleRate();
+}
+
+int OpusDecFile::GetChannels() const
+{
+    return m_file.GetChannels();
+}
+
+int OpusDecFile::GetFrameSize() const
+{
+    return m_file.GetFrameSize();
+}
+
+int OpusDecFile::Decode(short* input_buffer, int input_samples)
+{
+    int bytes;
+    ogg_int64_t samples_read;
+    auto opusbuf = m_file.ReadEncoded(bytes, &samples_read);
+    if (!opusbuf)
+        return 0;
+
+    assert(input_samples >= GetFrameSize());
+
+    return m_decoder.Decode(reinterpret_cast<const char*>(opusbuf), bytes, input_buffer, input_samples);
+}
+
+#endif /* ENABLE_OPUSTOOLS && ENABLE_OPUS */
