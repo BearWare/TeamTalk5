@@ -192,31 +192,35 @@ bool OggFile::Seek(ogg_int64_t granulepos)
     if (m_file.seek(ORIGIN, SEEK_SET) < 0)
         return false;
 
+
     ogg_page og;
+    auto half = FILESIZE / 2;
+    auto closest_pos = m_file.tell();
+    if (!SyncPage(og))
+        return false;
 
-    if (SyncPage(og))
+    auto gp = ogg_page_granulepos(&og);
+    do
     {
-        auto remain = FILESIZE;
-        auto gp = ogg_page_granulepos(&og);
-        auto closest_pos = m_file.tell();
-        while (granulepos != gp)
-        {
-            auto half = remain / 2;
-            if (half == 0)
-                break;
+        if (half == 0)
+            break;
 
-            half = (granulepos > gp ? half : -half);
+        m_file.seek(half, SEEK_CUR);
 
-            m_file.seek(half, SEEK_CUR);
-            if (!SyncPage(og))
-                break;
-            closest_pos = m_file.tell();
-            gp = ogg_page_granulepos(&og);
-        }
+        if (!SyncPage(og))
+            break;
 
-        m_file.seek(closest_pos, SEEK_SET);
-        return SyncPage(og);
+        closest_pos = m_file.tell();
+
+        gp = ogg_page_granulepos(&og);
+
+        half = std::abs(half / 2);
+        half *= (granulepos > gp ? 1 : -1);
     }
+    while (granulepos != gp);
+
+    m_file.seek(closest_pos, SEEK_SET);
+    return SyncPage(og);
 
     int ret;
     char buff[256] = "";
