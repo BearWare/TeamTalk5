@@ -90,7 +90,7 @@ public:
     ogg_int64_t LastGranulePos();
 
 private:
-    bool SyncPage(ogg_page& og);
+    bool SyncPage();
     ACE_FILE_IO m_file;
     ogg_sync_state m_state = {};
 };
@@ -209,6 +209,8 @@ public:
     const unsigned char* ReadEncoded(int& bytes, ogg_int64_t* sampleduration = nullptr);
 
     bool Seek(ogg_int64_t samplesoffset);
+
+    ogg_int64_t GetTotalSamples();
 
 private:
     OggInput m_oggin;

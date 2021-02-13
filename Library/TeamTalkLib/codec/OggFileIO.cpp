@@ -193,10 +193,13 @@ bool OggFile::Seek(ogg_int64_t granulepos)
         return false;
 
 
-    ogg_page og;
     auto half = FILESIZE / 2;
     auto closest_pos = m_file.tell();
-    if (!SyncPage(og))
+    if (!SyncPage())
+        return false;
+
+    ogg_page og;
+    if (ReadOggPage(og) != 1)
         return false;
 
     auto gp = ogg_page_granulepos(&og);
@@ -207,7 +210,7 @@ bool OggFile::Seek(ogg_int64_t granulepos)
 
         m_file.seek(half, SEEK_CUR);
 
-        if (!SyncPage(og))
+        if (!SyncPage())
             break;
 
         closest_pos = m_file.tell();
@@ -220,7 +223,7 @@ bool OggFile::Seek(ogg_int64_t granulepos)
     while (granulepos != gp);
 
     m_file.seek(closest_pos, SEEK_SET);
-    return SyncPage(og);
+    return SyncPage();
 
     int ret;
     char buff[256] = "";
@@ -246,18 +249,29 @@ ogg_int64_t OggFile::LastGranulePos()
     assert(m_file.get_handle() != ACE_INVALID_HANDLE);
     assert(ogg_sync_check(&m_state) == 0);
 
+    const auto ORIGIN = m_file.tell();
+
     if (m_file.seek(0, SEEK_END) < 0)
         return -1;
 
-    ogg_page og;
-    if (SyncPage(og))
-        return ogg_page_granulepos(&og);
+    ogg_int64_t gp = -1;
+    if (SyncPage())
+    {
+        ogg_page og;
+        while (ReadOggPage(og) > 0)
+        {
+            gp = ogg_page_granulepos(&og);
+        }
+        ogg_sync_reset(&m_state);
+    }
 
-    return -1;
+    // rewind to origin
+    m_file.seek(ORIGIN, SEEK_SET);
+    return gp;
 }
 
 
-bool OggFile::SyncPage(ogg_page& og)
+bool OggFile::SyncPage()
 {
     assert(m_file.get_handle() != ACE_INVALID_HANDLE);
     assert(ogg_sync_check(&m_state) == 0);
@@ -279,6 +293,7 @@ bool OggFile::SyncPage(ogg_page& og)
         }
         else break;
 
+        ogg_page og;
         skip = ogg_sync_pageseek(&m_state, &og);
     } while (skip == 0);
 
@@ -309,6 +324,7 @@ bool OggFile::SyncPage(ogg_page& og)
             }
             else break;
 
+            ogg_page og;
             skip = ogg_sync_pageseek(&m_state, &og);
         } while (skip == 0);
     }
@@ -317,6 +333,7 @@ bool OggFile::SyncPage(ogg_page& og)
     if (m_file.seek(offset, SEEK_CUR) < 0)
         return false;
 
+    ogg_sync_reset(&m_state);
     return true;
 }
 
@@ -866,6 +883,13 @@ bool OpusFile::Seek(ogg_int64_t samplesoffset)
     }
     return false;
 }
+
+ogg_int64_t OpusFile::GetTotalSamples()
+{
+    auto lastgp = m_oggfile.LastGranulePos();
+    return lastgp / (48000 / m_header.input_sample_rate);
+}
+
 
 #endif /* ENABLE_OPUSTOOLS */
 
