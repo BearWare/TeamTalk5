@@ -1827,6 +1827,7 @@ void CTeamTalkDlg::OnChannelJoined(const Channel& chan)
     m_tabFiles.UpdateFiles(chan.nChannelID);
 
     m_tabChat.m_wndRichEdit.SetChannelInfo(chan.nChannelID);
+    m_tabChat.m_wndChanMessage.EnableWindow(TRUE);
 
     CString szMsg, szFormat;
     if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID) {
@@ -1870,6 +1871,7 @@ void CTeamTalkDlg::OnChannelJoined(const Channel& chan)
 void CTeamTalkDlg::OnChannelLeft(const Channel& chan)
 {
     m_tabFiles.UpdateFiles(-1);
+    m_tabChat.m_wndChanMessage.EnableWindow(FALSE);
     UpdateWindowTitle();
 
     CString szMsg, szFormat;
