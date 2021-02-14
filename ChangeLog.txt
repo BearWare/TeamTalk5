@@ -34,6 +34,7 @@ Accessible Windows Client
 - Correctly return speaking for ourself on CTRL+G
 - Window's title is now updated if channel name is changing
 - Support for neutral status
+- Text message area disable when client is not in a channel
 Default QT Client
 - SpeexDSP echo canceller replaced by WebRTC
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
