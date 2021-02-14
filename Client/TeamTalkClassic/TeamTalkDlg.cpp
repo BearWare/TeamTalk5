@@ -6990,7 +6990,7 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
     {
         szSpeak += szSpeakList.GetNext(pos);
         if(pos != NULL)
-            szSpeak += _T(" ");
+            szSpeak += _T(", ");
     }
     if(szSpeak.GetLength())
         AddTextToSpeechMessage(szSpeak);
@@ -7034,7 +7034,7 @@ void CTeamTalkDlg::OnChannelinfoSpeakchannelstate()
     {
         szVoice.LoadString(IDS_TALKING);
         TRANSLATE_ITEM(IDS_TALKING, szVoice);
-        szVoice += _T(". ");
+        szVoice += _T(": ");
         for(auto i=voice.begin();i!=voice.end();++i)    
             szVoice += GetDisplayName(users.find(*i)->second) + _T(", ");
         AddTextToSpeechMessage(szVoice);
@@ -7043,7 +7043,7 @@ void CTeamTalkDlg::OnChannelinfoSpeakchannelstate()
     {
         szMediaFile.LoadString(IDS_STREAMING_MEDIAFILE);
         TRANSLATE_ITEM(IDS_STREAMING_MEDIAFILE, szMediaFile);
-        szMediaFile += _T(". ");
+        szMediaFile += _T(": ");
         for(auto i=mediafile.begin();i!=mediafile.end();++i)    
             szMediaFile += GetDisplayName(users.find(*i)->second) + _T(", ");
         AddTextToSpeechMessage(szMediaFile);
@@ -7052,7 +7052,7 @@ void CTeamTalkDlg::OnChannelinfoSpeakchannelstate()
     {
         szVideoCapture.LoadString(IDS_VIDEOCAPTURE);
         TRANSLATE_ITEM(IDS_VIDEOCAPTURE, szVideoCapture);
-        szVideoCapture += _T(". ");
+        szVideoCapture += _T(": ");
         for(auto i=vidcap.begin();i!=vidcap.end();++i)    
             szVideoCapture += GetDisplayName(users.find(*i)->second) + _T(", ");
         AddTextToSpeechMessage(szVideoCapture);
@@ -7061,7 +7061,7 @@ void CTeamTalkDlg::OnChannelinfoSpeakchannelstate()
     {
         szDesktop.LoadString(IDS_DESKTOP);
         TRANSLATE_ITEM(IDS_DESKTOP, szDesktop);
-        szDesktop += _T(". ");
+        szDesktop += _T(": ");
         for(auto i=desktop.begin();i!=desktop.end();++i)    
             szDesktop += GetDisplayName(users.find(*i)->second) + _T(", ");
         AddTextToSpeechMessage(szDesktop);
