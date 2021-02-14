@@ -266,7 +266,8 @@ public:
     int GetChannels() const;
     int GetFrameSize() const;
     int Decode(short* input_buffer, int input_samples);
-
+    bool Seek(uint32_t offset_msec);
+    uint32_t GetDurationMSec();
 private:
     OpusDecode m_decoder;
     OpusFile m_file;

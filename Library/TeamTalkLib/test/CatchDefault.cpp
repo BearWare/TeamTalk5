@@ -1679,9 +1679,10 @@ TEST_CASE("OPUSFileSeek")
 {
     const auto SAMPLERATE = 12000;
     const auto FRAMESIZE_SEC = .04;
+    const auto CHANNELS = 2;
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
-    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nChannels = CHANNELS;
     mfi.audioFmt.nSampleRate = SAMPLERATE;
     mfi.uDurationMSec = 10 * 1000;
     const int FRAMESIZE = int(mfi.audioFmt.nSampleRate * FRAMESIZE_SEC);
@@ -1713,16 +1714,13 @@ TEST_CASE("OPUSFileSeek")
     ogg_page og, og1;
     REQUIRE(of.Open(opusencfilename));
     REQUIRE(of1.Open(opusencfilename));
-
     int count = 10;
     while(count--)
     {
         REQUIRE(of.ReadOggPage(og) == 1);
         REQUIRE(of1.ReadOggPage(og1) == 1);
     }
-
     REQUIRE(of.LastGranulePos() == 48000 * mfi.uDurationMSec / 1000);
-
     REQUIRE(of.ReadOggPage(og) == 1);
     REQUIRE(of1.ReadOggPage(og1) == 1);
     REQUIRE(ogg_page_granulepos(&og) == ogg_page_granulepos(&og1));
@@ -1733,10 +1731,29 @@ TEST_CASE("OPUSFileSeek")
 
     std::cout << "Granpos: " << ogg_page_granulepos(&og) << std::endl;
 
+    // validate frame-size and total number of samples
     OpusFile opfile;
     REQUIRE(opfile.OpenFile(opusencfilename));
     REQUIRE(PCM16_SAMPLES_DURATION(opfile.GetFrameSize(), opfile.GetSampleRate()) == 1000 * FRAMESIZE_SEC);
     double duration_sec = mfi.uDurationMSec / 1000.;
     REQUIRE(opfile.GetTotalSamples() == SAMPLERATE * duration_sec);
+
+    ogg_int64_t halfsamples = (duration_sec * mfi.audioFmt.nSampleRate) / 2;
+    REQUIRE(opfile.Seek(halfsamples));
+    ogg_int64_t samplesduration;
+    int bytes;
+    REQUIRE(opfile.ReadEncoded(bytes, &samplesduration));
+    REQUIRE(std::abs(halfsamples - samplesduration) <= FRAMESIZE);
+
+    OpusDecFile opusdecfile;
+    REQUIRE(opusdecfile.Open(opusencfilename));
+    auto offset_msec = .9 * mfi.uDurationMSec;
+    REQUIRE(opusdecfile.Seek(offset_msec));
+    std::vector<short> frame(FRAMESIZE * CHANNELS);
+    int frames = 0;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE))frames++;
+    uint32_t duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
+    REQUIRE(duration_msec == mfi.uDurationMSec - offset_msec);
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
 }
 #endif
