@@ -255,10 +255,8 @@ bool OggFile::SeekLog2(ogg_int64_t granulepos)
 
         half = std::abs(half / 2);
         half *= (granulepos > gp ? 1 : -1);
-        std::cout << "Half " << half << std::endl;
         if (m_file.seek(half, SEEK_CUR) < 0)
             return false;
-        std::cout << "New pos: " << m_file.tell() << std::endl;
     }
     while (granulepos != gp);
 
