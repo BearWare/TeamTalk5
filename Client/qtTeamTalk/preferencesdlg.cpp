@@ -476,6 +476,7 @@ void PreferencesDlg::slotTabChange(int index)
                                                             SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool());
         ui.emojiChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_EMOJI,
                                                      SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool());
+        ui.loggedinoutChkBox->setEnabled(ui.logstatusbarChkBox->isChecked());
         ui.loggedinoutChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT,
                                                      SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT).toBool());
 
