@@ -84,15 +84,19 @@ public:
     int ReadOggPage(ogg_page& og);
     int WriteOggPage(const ogg_page& og);
 
-    // not working
     bool Seek(ogg_int64_t granulepos);
-    // not working
     ogg_int64_t LastGranulePos();
+
+    // not working
+    bool SeekLog2(ogg_int64_t granulepos);
+    // not working
+    ogg_int64_t LastGranulePosLog2();
 
 private:
     bool SyncPage();
     ACE_FILE_IO m_file;
     ogg_sync_state m_state = {};
+    ogg_int64_t m_last_gp = -1;
 };
 
 #if defined(ENABLE_SPEEX)

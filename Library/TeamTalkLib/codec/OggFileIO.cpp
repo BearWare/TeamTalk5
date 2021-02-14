@@ -139,6 +139,7 @@ void OggFile::Close()
     {
         ogg_sync_clear(&m_state);
     }
+    m_last_gp = -1;
 }
 
 int OggFile::ReadOggPage(ogg_page& og)
@@ -159,7 +160,13 @@ int OggFile::ReadOggPage(ogg_page& og)
         }
         else break;
     }
-    
+
+    if (pages > 0)
+    {
+        // store for seek
+        m_last_gp = ogg_page_granulepos(&og);
+    }
+
     return pages;
 }
 
@@ -170,6 +177,7 @@ int OggFile::WriteOggPage(const ogg_page& og)
     auto bytes_out = m_file.send(og.header, og.header_len);
     if (bytes_out > 0)
     {
+        m_last_gp = ogg_page_granulepos(&og);
         auto ret = m_file.send(og.body, og.body_len);
         if (ret > 0)
             bytes_out += ret;
@@ -182,21 +190,48 @@ int OggFile::WriteOggPage(const ogg_page& og)
 
 bool OggFile::Seek(ogg_int64_t granulepos)
 {
+    if (m_file.seek(0, SEEK_SET) < 0)
+        return false;
+
+    ogg_sync_reset(&m_state);
+    ogg_page og;
+    // <= so "granulepos = 0" are skipped
+    while (ReadOggPage(og) > 0 && ogg_page_granulepos(&og) < granulepos);
+
+    return true;
+}
+
+ogg_int64_t OggFile::LastGranulePos()
+{
+    auto origin_gp = m_last_gp;
+    if (!Seek(0))
+        return -1;
+
+    ogg_page og;
+    while(ReadOggPage(og) > 0);
+    auto lastgp = m_last_gp;
+    if (!Seek(origin_gp))
+        return false;
+
+    return lastgp;
+}
+
+bool OggFile::SeekLog2(ogg_int64_t granulepos)
+{
     assert(m_file.get_handle() != ACE_INVALID_HANDLE);
     assert(ogg_sync_check(&m_state) == 0);
 
-    const auto ORIGIN = m_file.tell();
     if (m_file.seek(0, SEEK_END) < 0)
         return false;
     const auto FILESIZE = m_file.tell();
-    if (m_file.seek(ORIGIN, SEEK_SET) < 0)
+    auto half = FILESIZE / 2;
+
+    if (m_file.seek(half, SEEK_SET) < 0)
         return false;
 
-
-    auto half = FILESIZE / 2;
-    auto closest_pos = m_file.tell();
     if (!SyncPage())
         return false;
+    auto closest_pos = m_file.tell();
 
     ogg_page og;
     if (ReadOggPage(og) != 1)
@@ -208,17 +243,22 @@ bool OggFile::Seek(ogg_int64_t granulepos)
         if (half == 0)
             break;
 
-        m_file.seek(half, SEEK_CUR);
-
         if (!SyncPage())
             break;
 
         closest_pos = m_file.tell();
 
+        if (ReadOggPage(og) != 1)
+            break;
+
         gp = ogg_page_granulepos(&og);
 
         half = std::abs(half / 2);
         half *= (granulepos > gp ? 1 : -1);
+        std::cout << "Half " << half << std::endl;
+        if (m_file.seek(half, SEEK_CUR) < 0)
+            return false;
+        std::cout << "New pos: " << m_file.tell() << std::endl;
     }
     while (granulepos != gp);
 
@@ -244,7 +284,7 @@ bool OggFile::Seek(ogg_int64_t granulepos)
     return false;
 }
 
-ogg_int64_t OggFile::LastGranulePos()
+ogg_int64_t OggFile::LastGranulePosLog2()
 {
     assert(m_file.get_handle() != ACE_INVALID_HANDLE);
     assert(ogg_sync_check(&m_state) == 0);
@@ -329,7 +369,10 @@ bool OggFile::SyncPage()
         } while (skip == 0);
     }
 
-    long offset = -n_read + -skip;
+    long offset = -n_read;
+    if (skip < 0)
+        offset += skip;
+
     if (m_file.seek(offset, SEEK_CUR) < 0)
         return false;
 

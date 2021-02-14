@@ -1708,14 +1708,35 @@ TEST_CASE("OPUSFileSeek")
     opusenc.Close();
     wavfile.Close();
 
-    OggFile of;
+    // ensure we come back to file's origin after search
+    OggFile of, of1;
+    ogg_page og, og1;
     REQUIRE(of.Open(opusencfilename));
-    std::cout << of.LastGranulePos() << std::endl;
-//    REQUIRE(of.Seek(555));
+    REQUIRE(of1.Open(opusencfilename));
+
+    int count = 10;
+    while(count--)
+    {
+        REQUIRE(of.ReadOggPage(og) == 1);
+        REQUIRE(of1.ReadOggPage(og1) == 1);
+    }
+
+    REQUIRE(of.LastGranulePos() == 48000 * mfi.uDurationMSec / 1000);
+
+    REQUIRE(of.ReadOggPage(og) == 1);
+    REQUIRE(of1.ReadOggPage(og1) == 1);
+    REQUIRE(ogg_page_granulepos(&og) == ogg_page_granulepos(&og1));
+
+    REQUIRE(of.Seek(555));
+
+    REQUIRE(of.ReadOggPage(og) == 1);
+
+    std::cout << "Granpos: " << ogg_page_granulepos(&og) << std::endl;
 
     OpusFile opfile;
     REQUIRE(opfile.OpenFile(opusencfilename));
     REQUIRE(PCM16_SAMPLES_DURATION(opfile.GetFrameSize(), opfile.GetSampleRate()) == 1000 * FRAMESIZE_SEC);
-
+    double duration_sec = mfi.uDurationMSec / 1000.;
+    REQUIRE(opfile.GetTotalSamples() == SAMPLERATE * duration_sec);
 }
 #endif
