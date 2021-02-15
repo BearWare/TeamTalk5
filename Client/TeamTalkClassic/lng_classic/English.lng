@@ -440,6 +440,7 @@
     <item id="575">%s can no longer transmit channel messages</item>
     <item id="576">%s can now transmit channel messages</item>
     <item id="577">Channel messages transmission allowed</item>
+    <item id="578">Hidden</item>
     <item id="1006">Files list</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>

@@ -440,6 +440,7 @@
     <item id="575">%s ne peut plus transmettre de messages de canal</item>
     <item id="576">%s peut maintenant transmettre des messages de canal</item>
     <item id="577">Transmission de messages de canal autorisée</item>
+    <item id="578">Masqué</item>
     <item id="1006">Liste des fichiers</item>
     <item id="1009">Rejoindre le canal principal lors de la connexion</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
