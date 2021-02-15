@@ -916,6 +916,21 @@ const unsigned char* OpusFile::ReadEncoded(int& bytes, ogg_int64_t* sampledurati
 bool OpusFile::Seek(ogg_int64_t samplesoffset)
 {
     ogg_int64_t granulepos = samplesoffset * (48000 / m_header.input_sample_rate);
+
+    // special handling of "granulepos == 0" because we need to
+    // skip "OpusHead" packet #0 and "OpusTags packet #1 in OggFile.
+    if (granulepos == 0)
+    {
+        if (!m_oggfile.Seek(0)) //skip 1 "OpusHead"
+            return false;
+
+        ogg_page og;
+        if (m_oggfile.ReadOggPage(og) != 1)  //skip 1 "OpusTags"
+            return false;
+
+        return true;
+    }
+
     return m_oggfile.Seek(granulepos);
 }
 

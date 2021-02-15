@@ -1751,9 +1751,16 @@ TEST_CASE("OPUSFileSeek")
     REQUIRE(opusdecfile.Seek(offset_msec));
     std::vector<short> frame(FRAMESIZE * CHANNELS);
     int frames = 0;
-    while (opusdecfile.Decode(&frame[0], FRAMESIZE))frames++;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
     uint32_t duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
     REQUIRE(duration_msec == mfi.uDurationMSec - offset_msec);
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+
+    REQUIRE(opusdecfile.Seek(0));
+    frames = 0;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
+    duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
+    REQUIRE(duration_msec == mfi.uDurationMSec);
     REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
 }
 #endif
