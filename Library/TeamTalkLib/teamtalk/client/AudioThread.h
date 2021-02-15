@@ -65,8 +65,8 @@ public:
 
     void QueueAudio(const media::AudioFrame& audframe);
     void QueueAudio(ACE_Message_Block* mb_audio);
-    bool IsVoiceActive() const;
-    int GetCurrentVoiceLevel() const;
+    bool IsVoiceActive();
+    int GetCurrentVoiceLevel();
 
     bool UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess);
 
@@ -96,7 +96,7 @@ private:
     void PreprocessSpeex(media::AudioFrame& audblock);
 #endif
 #if defined(ENABLE_WEBRTC)
-    void PreprocessWebRTC(media::AudioFrame& audblock);
+    void PreprocessWebRTC(media::AudioFrame& audblock, bool& vad);
 #endif
 #if defined(ENABLE_SPEEX)
     const char* ProcessSpeex(const media::AudioFrame& audblock,
