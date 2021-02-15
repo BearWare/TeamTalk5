@@ -1361,7 +1361,7 @@ TEST_CASE("WebRTC_gaincontroller2")
     mfp.audioPreprocessor.webrtc.noisesuppression.bEnable = FALSE;
     mfp.audioPreprocessor.webrtc.noisesuppression.nLevel = 3;
 
-    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input_low.wav"), &mfp);
+    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/AGC/input_16k_mono_low.wav"), &mfp);
     REQUIRE(session > 0);
 
     bool success = false, toggled = false, stop = false;
@@ -1505,8 +1505,8 @@ TEST_CASE("WebRTC_Preamplifier")
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK));
     ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
     REQUIRE(ab);
-    TT_ReleaseUserAudioBlock(ttclient, ab);
     REQUIRE(streamid + 1 == ab->nStreamID);
+    TT_ReleaseUserAudioBlock(ttclient, ab);
     REQUIRE(level / 2 == TT_GetSoundInputLevel(ttclient));
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
     REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, FALSE));
