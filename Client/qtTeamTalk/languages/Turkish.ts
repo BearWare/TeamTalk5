@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -13,33 +11,33 @@
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:12pt; font-weight:600;&quot;&gt;Credits&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Contributors&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Bjørn Damstedt Rasmussen, developer&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Oreonan, developer&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Translators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Oreonan, French&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Steffen Schultz, German&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Michał Ciołek, Polish&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Ozancan Karataş, Turkish&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Libraries&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;TeamTalk uses the following libraries:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:600;&quot;&gt;Credits&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;Contributors&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Bjørn Damstedt Rasmussen, developer&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Oreonan, developer&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;Translators&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Oreonan, French&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Steffen Schultz, German&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Michał Ciołek, Polish&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Ozancan Karataş, Turkish&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;Libraries&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;TeamTalk uses the following libraries:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -170,12 +168,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="32"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="33"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="56"/>
@@ -204,12 +202,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="150"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="151"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="177"/>
@@ -341,12 +339,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.cpp" line="48"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="49"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="113"/>
@@ -394,12 +392,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatusdlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="38"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
 </context>
 <context>
@@ -608,12 +606,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="38"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="60"/>
@@ -845,12 +843,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccessdlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="38"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="122"/>
@@ -926,12 +924,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopsharedlg.cpp" line="54"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="55"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="163"/>
@@ -1097,7 +1095,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="181"/>
         <source>Neutral</source>
-        <translation type="unfinished"></translation>
+        <translation>Cinsiyetsiz</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="206"/>
@@ -2153,14 +2151,6 @@ p, li { white-space: pre-wrap; }
         <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanma başarısız</translation>
     </message>
     <message>
-        <source>DLL load error</source>
-        <translation type="vanished">DLL yükleme hatası</translation>
-    </message>
-    <message>
-        <source>This %3 executable is built for DLL version %1 but the loaded DLL reports it&apos;s version %2. Loading an incorrect DLL for %3 may cause problems and crash the application. Please reinstall to solve this problem.</source>
-        <translation type="vanished">Bu %3 yürütülebilir dosyası, %1 DLL sürümü için yapıldı ama yüklenen DLL %2 sürümünü raporladı. %3 için yanlış bir DLL&apos;nin yüklenmesi, uygulamada sorunlara ya da çökmeye neden olabilir. Bu sorunu çözmek için lütfen yeniden kurun.</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="853"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 bağlantısı kaybedildi</translation>
@@ -2377,7 +2367,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4531"/>
         <location filename="../mainwindow.cpp" line="4554"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1784"/>
@@ -2519,7 +2509,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4415"/>
         <location filename="../mainwindow.cpp" line="5694"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Evet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2266"/>
@@ -2528,7 +2518,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4416"/>
         <location filename="../mainwindow.cpp" line="5695"/>
         <source>&amp;No</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hayır</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4390"/>
@@ -2548,22 +2538,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4969"/>
         <source>You can now transmit channel messages!</source>
-        <translation type="unfinished"></translation>
+        <translation>Şimdi kanal iletileri iletebilirsiniz!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4971"/>
         <source>You can no longer transmit channel messages!</source>
-        <translation type="unfinished"></translation>
+        <translation>Artık kanal iletileri iletemezsiniz!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5009"/>
         <source>You can now transmit mediafiles!</source>
-        <translation type="unfinished"></translation>
+        <translation>Şimdi ortam dosyaları iletebilirsiniz!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5011"/>
         <source>You can no longer transmit mediafiles!</source>
-        <translation type="unfinished"></translation>
+        <translation>Artık ortam dosyaları iletemezsiniz!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5582"/>
@@ -2592,7 +2582,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4532"/>
         <location filename="../mainwindow.cpp" line="4555"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2264"/>
@@ -3036,12 +3026,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../mediastoragedlg.cpp" line="43"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="44"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="93"/>
@@ -3181,7 +3171,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="172"/>
         <source>Neutral</source>
-        <translation type="unfinished"></translation>
+        <translation>Cinsiyetsiz</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="213"/>
@@ -3534,12 +3524,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1272"/>
         <source>Private message sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel ileti gönderildi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1312"/>
         <source>Channel message sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal iletisi gönderildi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1332"/>
@@ -3794,12 +3784,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="55"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="56"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="439"/>
@@ -4184,17 +4174,17 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="38"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="45"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Kapat</translation>
+        <translation>&amp;Kapat</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="103"/>
@@ -4204,12 +4194,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="104"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Evet</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="105"/>
         <source>&amp;No</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hayır</translation>
     </message>
 </context>
 <context>
@@ -4848,12 +4838,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="472"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Evet</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="473"/>
         <source>&amp;No</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hayır</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="475"/>
@@ -4868,12 +4858,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="705"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="706"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="710"/>
@@ -5303,12 +5293,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../videotextdlg.cpp" line="41"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="42"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="188"/>
