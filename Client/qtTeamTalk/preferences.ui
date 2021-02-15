@@ -505,7 +505,7 @@
             <item>
              <widget class="QCheckBox" name="loggedinoutChkBox">
               <property name="text">
-               <string>Include users logs in/out</string>
+               <string>Show user logs in/out in chat history</string>
               </property>
              </widget>
             </item>
