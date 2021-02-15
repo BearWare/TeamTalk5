@@ -910,6 +910,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         emit(serverUpdate(msg.serverproperties));
 
         m_srvprop = msg.serverproperties;
+        updateWindowTitle();
     }
     break;
     case CLIENTEVENT_CMD_SERVERSTATISTICS :

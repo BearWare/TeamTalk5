@@ -1067,6 +1067,7 @@ void CTeamTalkDlg::OnServerUpdate(const TTMessage& msg)
     m_wndTree.UpdServerName(msg.serverproperties);
     m_tabChat.m_wndRichEdit.SetServerInfo(msg.serverproperties.szServerName,
                                           msg.serverproperties.szMOTD);
+    UpdateWindowTitle();
 }
 
 void CTeamTalkDlg::OnServerStatistics(const TTMessage& msg)
