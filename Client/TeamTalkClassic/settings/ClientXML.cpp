@@ -1189,6 +1189,16 @@ namespace teamtalk {
         return GetValueBool(true, "window/show-emojis", bDefault);
     }
 
+    void ClientXML::SetShowLoggedInOut(bool bEnable)
+    {
+        SetValueBool("window/show-logged-in-out", bEnable);
+    }
+
+    bool ClientXML::GetShowLoggedInOut(bool bDefault)
+    {
+        return GetValueBool(true, "window/show-logged-in-out", bDefault);
+    }
+
     /***********************************/
     /*********** <client> **************/
     /***********************************/
