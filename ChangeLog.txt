@@ -32,7 +32,7 @@ Accessible Windows Client
 - Fix double event when we leave a channel
 - Return root channel when appropriate on CTRL+G
 - Correctly return speaking for ourself on CTRL+G
-- Window's title is now updated if channel name is changing
+- Window's title is now updated if channel or server name is changing
 - Support for neutral status
 - Text message area disable when client is not in a channel
 Default QT Client
@@ -56,7 +56,7 @@ Default QT Client
 - Facebook login no longer supported
 - Display man emoji in channels tree
 - ALSA sound system on Linux is faster to initialize
-- Window's title is now updated if channel name is changing
+- Window's title is now updated if channel or server name is changing
 - Support for neutral status
 Android Client
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
