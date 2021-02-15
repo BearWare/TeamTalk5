@@ -2823,7 +2823,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4979"/>
         <source>You can now transmit audio!</source>
-        <translation>Artık ses iletebilirsiniz!</translation>
+        <translation>Şimdi ses iletebilirsiniz!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4981"/>
@@ -2833,7 +2833,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4989"/>
         <source>You can now transmit video!</source>
-        <translation>Artık video iletebilirsiniz!</translation>
+        <translation>Şimdi video iletebilirsiniz!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4991"/>
@@ -2843,7 +2843,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4999"/>
         <source>You can now transmit desktop windows!</source>
-        <translation>Artık masaüstü pencereleri iletebilirsiniz!</translation>
+        <translation>Şimdi masaüstü pencereleri iletebilirsiniz!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5001"/>
