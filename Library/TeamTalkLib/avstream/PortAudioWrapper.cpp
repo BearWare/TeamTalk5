@@ -44,6 +44,8 @@ const int WINAEC_CHANNELS = 1;
 
 #endif
 
+#define DEBUG_PORTAUDIO 0
+
 using namespace std;
 namespace soundsystem {
 
@@ -394,7 +396,7 @@ int InputStreamCallback(const void *inputBuffer, void *outputBuffer,
     uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, inputStreamer->samplerate);
 
     int skewMSec = std::abs(int(durationMSec - samplesMSec));
-    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Input callback is off by %d msec\n"), skewMSec);
+    MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Input callback is off by %d msec\n"), skewMSec);
 
     MYTRACE_COND(inputStreamer->soundsystem == SOUND_API_NOSOUND,
                  ACE_TEXT("No sound input callback"));
@@ -502,7 +504,7 @@ int OutputStreamCallback(const void *inputBuffer, void *outputBuffer,
     uint32_t samplesMSec = streamer->DurationSamplesMSec(streamer->samplerate);
     uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, streamer->samplerate);
     int skewMSec = std::abs(int(durationMSec - samplesMSec));
-    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Output callback is off by %d msec\n"), skewMSec);
+    MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Output callback is off by %d msec\n"), skewMSec);
 
     if(bContinue)
         return paContinue;
@@ -709,7 +711,7 @@ int DuplexStreamCallback(const void *inputBuffer,
     uint32_t samplesMSec = dpxStream->DurationSamplesMSec(dpxStream->samplerate);
     uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, dpxStream->samplerate);
     int skewMSec = std::abs(int(durationMSec - samplesMSec));
-    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Duplex callback is off by %d msec\n"), skewMSec);
+    MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Duplex callback is off by %d msec\n"), skewMSec);
 
 #if defined(WIN32)
     if (dpxStream->winaec)
