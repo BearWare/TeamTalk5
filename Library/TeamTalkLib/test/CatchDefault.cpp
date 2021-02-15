@@ -1725,12 +1725,6 @@ TEST_CASE("OPUSFileSeek")
     REQUIRE(of1.ReadOggPage(og1) == 1);
     REQUIRE(ogg_page_granulepos(&og) == ogg_page_granulepos(&og1));
 
-    REQUIRE(of.Seek(555));
-
-    REQUIRE(of.ReadOggPage(og) == 1);
-
-    std::cout << "Granpos: " << ogg_page_granulepos(&og) << std::endl;
-
     // validate frame-size and total number of samples
     OpusFile opfile;
     REQUIRE(opfile.OpenFile(opusencfilename));
@@ -1745,6 +1739,7 @@ TEST_CASE("OPUSFileSeek")
     REQUIRE(opfile.ReadEncoded(bytes, &samplesduration));
     REQUIRE(std::abs(halfsamples - samplesduration) <= FRAMESIZE);
 
+    // decode from 90% onwards
     OpusDecFile opusdecfile;
     REQUIRE(opusdecfile.Open(opusencfilename));
     auto offset_msec = .9 * mfi.uDurationMSec;
@@ -1756,6 +1751,7 @@ TEST_CASE("OPUSFileSeek")
     REQUIRE(duration_msec == mfi.uDurationMSec - offset_msec);
     REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
 
+    // check special handling of seeking to granule position 0 in Ogg file
     REQUIRE(opusdecfile.Seek(0));
     frames = 0;
     while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
