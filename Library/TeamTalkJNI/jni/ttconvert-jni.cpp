@@ -1248,15 +1248,38 @@ void setJitterConfig(JNIEnv* env, JitterConfig& jitterconfig, jobject lpConfig)
 
     jfieldID fid_fixeddelay = env->GetFieldID(cls_config, "nFixedDelayMSec", "I");
     jfieldID fid_useadaptivejitter = env->GetFieldID(cls_config, "bUseAdativeDejitter", "Z");
-    jfieldID fid_adaptivedelay = env->GetFieldID(cls_config, "nMaxAdaptiveDelayMSec", "I");
+    jfieldID fid_maxadaptivedelay = env->GetFieldID(cls_config, "nMaxAdaptiveDelayMSec", "I");
+    jfieldID fid_activeadaptivedelay = env->GetFieldID(cls_config, "nActiveAdaptiveDelayMSec", "I");
 
     assert(fid_fixeddelay);
     assert(fid_useadaptivejitter);
-    assert(fid_adaptivedelay);
+    assert(fid_maxadaptivedelay);
+    assert(fid_activeadaptivedelay);
 
     jitterconfig.nFixedDelayMSec = env->GetIntField(lpConfig, fid_fixeddelay);
     jitterconfig.bUseAdativeDejitter = env->GetBooleanField(lpConfig, fid_useadaptivejitter);
-    jitterconfig.nMaxAdaptiveDelayMSec = env->GetIntField(lpConfig, fid_adaptivedelay);
+    jitterconfig.nMaxAdaptiveDelayMSec = env->GetIntField(lpConfig, fid_maxadaptivedelay);
+    jitterconfig.nActiveAdaptiveDelayMSec = env->GetIntField(lpConfig, fid_activeadaptivedelay);
+}
+
+void setJitterConfig(JNIEnv* env, jobject lpConfig, JitterConfig& jitterconfig)
+{
+    jclass cls_config = env->GetObjectClass(lpConfig);
+
+    jfieldID fid_fixeddelay = env->GetFieldID(cls_config, "nFixedDelayMSec", "I");
+    jfieldID fid_useadaptivejitter = env->GetFieldID(cls_config, "bUseAdativeDejitter", "Z");
+    jfieldID fid_maxadaptivedelay = env->GetFieldID(cls_config, "nMaxAdaptiveDelayMSec", "I");
+    jfieldID fid_activeadaptivedelay = env->GetFieldID(cls_config, "nActiveAdaptiveDelayMSec", "I");
+
+    assert(fid_fixeddelay);
+    assert(fid_useadaptivejitter);
+    assert(fid_maxadaptivedelay);
+    assert(fid_activeadaptivedelay);
+
+    env->SetIntField(lpConfig, fid_fixeddelay, jitterconfig.nFixedDelayMSec);
+    env->SetBooleanField(lpConfig, fid_useadaptivejitter, jitterconfig.bUseAdativeDejitter);
+    env->SetIntField(lpConfig, fid_maxadaptivedelay, jitterconfig.nMaxAdaptiveDelayMSec);
+    env->SetIntField(lpConfig, fid_activeadaptivedelay, jitterconfig.nActiveAdaptiveDelayMSec);
 }
 
 void setClientKeepAlive(JNIEnv* env, ClientKeepAlive& ka, jobject lpClientKeepAlive, JConvert conv) {

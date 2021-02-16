@@ -7329,6 +7329,24 @@ namespace BearWare
         }
 
         /**
+        * @brief Get the de-jitter configuration for a user.
+        *
+        * @see TT_SetUserJitterControl()
+        *
+        * @param lpTTInstance Pointer to client instance created by #TT_InitTeamTalk.
+        * @param nUserID The user ID of the user to apply the configuration to.
+        * @param nStreamType The type of stream to change, currently only
+        * #STREAMTYPE_VOICE is supported. Other types are a no-op.
+        * @param lpJitterConfig Pointer to an application-provided jitter buffer
+        configuration that will be filled upon return.*/
+        public bool GetUserJitterControl(int nUserID,
+                                                StreamType nStreamType,
+                                                ref JitterConfig lpJitterConfig)
+        {
+            return TTDLL.TT_GetUserJitterControl(m_ttInst, nUserID, nStreamType, ref lpJitterConfig);
+        }
+
+        /**
          * @brief Set the position of a user.
          *
          * 3D sound position requires #SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION.

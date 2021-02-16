@@ -1718,6 +1718,21 @@ void Convert(const DesktopInput& input, teamtalk::DesktopInput& result)
     result.keystate = input.uKeyState;
 }
 
+void Convert(const JitterConfig& input, teamtalk::JitterControlConfig& result)
+{
+    result.fixedDelayMSec = input.nFixedDelayMSec;
+    result.useAdativeDejitter = input.bUseAdativeDejitter;
+    result.maxAdaptiveDelayMSec = input.nMaxAdaptiveDelayMSec;
+    result.activeAdaptiveDelayMSec = input.nActiveAdaptiveDelayMSec;
+}
+
+void Convert(const teamtalk::JitterControlConfig& input, JitterConfig& result)
+{
+    result.nFixedDelayMSec = input.fixedDelayMSec;
+    result.bUseAdativeDejitter = input.useAdativeDejitter;
+    result.nMaxAdaptiveDelayMSec = input.maxAdaptiveDelayMSec;
+    result.nActiveAdaptiveDelayMSec = input.activeAdaptiveDelayMSec;
+}
 
 void Convert(const std::set<int>& intset, int* int_array, int max_elements)
 {
