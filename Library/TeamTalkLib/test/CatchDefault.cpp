@@ -1361,7 +1361,7 @@ TEST_CASE("WebRTC_gaincontroller2")
     mfp.audioPreprocessor.webrtc.noisesuppression.bEnable = FALSE;
     mfp.audioPreprocessor.webrtc.noisesuppression.nLevel = 3;
 
-    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input_low.wav"), &mfp);
+    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/AGC/input_16k_mono_low.wav"), &mfp);
     REQUIRE(session > 0);
 
     bool success = false, toggled = false, stop = false;
@@ -1505,8 +1505,8 @@ TEST_CASE("WebRTC_Preamplifier")
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK));
     ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
     REQUIRE(ab);
-    TT_ReleaseUserAudioBlock(ttclient, ab);
     REQUIRE(streamid + 1 == ab->nStreamID);
+    TT_ReleaseUserAudioBlock(ttclient, ab);
     REQUIRE(level / 2 == TT_GetSoundInputLevel(ttclient));
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
     REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, FALSE));
@@ -1566,6 +1566,63 @@ TEST_CASE("WebRTC_VAD")
     REQUIRE(!msg.bActive);
 }
 
+TEST_CASE("WebRTC-reinit")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    SoundDeviceEffects effects = {};
+    effects.bEnableEchoCancellation = FALSE;
+    REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
+    REQUIRE(InitSound(ttclient, DUPLEX));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    // REQUIRE(JoinRoot(ttclient));
+
+    AudioCodec audiocodec = {};
+    audiocodec.nCodec = OPUS_CODEC;
+    audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
+    audiocodec.opus.nTxIntervalMSec = 240;
+#if defined(OPUS_FRAMESIZE_120_MS)
+    audiocodec.opus.nFrameSizeMSec = 120;
+#else
+    audiocodec.opus.nFrameSizeMSec = 40;
+#endif
+    audiocodec.opus.nBitRate = OPUS_MIN_BITRATE;
+    audiocodec.opus.nChannels = 2;
+    audiocodec.opus.nComplexity = 10;
+    audiocodec.opus.nSampleRate = 48000;
+    audiocodec.opus.bDTX = true;
+    audiocodec.opus.bFEC = true;
+    audiocodec.opus.bVBR = false;
+    audiocodec.opus.bVBRConstraint = false;
+
+    Channel chan = MakeChannel(ttclient, ACE_TEXT("speex"), TT_GetRootChannelID(ttclient), audiocodec);
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoJoinChannel(ttclient, &chan)));
+
+    AudioPreprocessor preprocess = {};
+
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    preprocess.webrtc.echocanceller.bEnable = TRUE;
+
+    preprocess.webrtc.noisesuppression.bEnable = TRUE;
+    preprocess.webrtc.noisesuppression.nLevel = 2;
+
+    preprocess.webrtc.gaincontroller2.bEnable = TRUE;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+
+
+    AudioPreprocessor preprocess_reinit = {};
+    preprocess_reinit.nPreprocessor = NO_AUDIOPREPROCESSOR;
+
+    for (int i = 0; i < 100; i++)
+    {
+        REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, 20);
+
+        REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess_reinit));
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, 20);
+
+    }
+}
 #endif /* ENABLE_WEBRTC */
 
 TEST_CASE("TeamTalk_VAD")

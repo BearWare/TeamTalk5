@@ -44,7 +44,7 @@ TEST_CASE("webrtc-audiobuf") {
 TEST_CASE("webrtc-noise") {
 
     WavePCMFile infile, outfile;
-    REQUIRE(infile.OpenFile(ACE_TEXT("in_noise_16khz.wav"), true));
+    REQUIRE(infile.OpenFile(ACE_TEXT("testdata/Noise/in_noise_16khz.wav"), true));
     int IN_SR = infile.GetSampleRate(), IN_CH = infile.GetChannels();
     REQUIRE(outfile.NewFile(ACE_TEXT("out_noise.wav"), IN_SR, IN_CH));
 
@@ -53,6 +53,7 @@ TEST_CASE("webrtc-noise") {
     std::vector<int16_t> in_buff(in_ab.num_frames() * IN_CH), out_buff(in_ab.num_frames() * IN_CH);
 
     webrtc::NsConfig nscfg;
+    nscfg.target_level = webrtc::NsConfig::SuppressionLevel::k21dB;
     webrtc::NoiseSuppressor ns(nscfg, IN_SR, IN_CH);
 
     while (infile.ReadSamples(&in_buff[0], in_ab.num_frames()) > 0)
@@ -107,11 +108,12 @@ TEST_CASE("webrtc-agc")
 TEST_CASE("webrtc-apm")
 {
     WavePCMFile rawfile, apmfile_gain1, apmfile_gain2;
-    auto FILENAME = ACE_TEXT("input_16k_mono_low.wav");
+    auto FILENAME = ACE_TEXT("testdata/AGC/input_16k_mono_low.wav");
     REQUIRE(rawfile.OpenFile(FILENAME, true));
+    REQUIRE(rawfile.GetChannels() == 1);
 
-    REQUIRE(apmfile_gain1.NewFile(ACE_TEXT("apmfile_gain1.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
-    REQUIRE(apmfile_gain2.NewFile(ACE_TEXT("apmfile_gain2.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
+    REQUIRE(apmfile_gain1.NewFile(ACE_TEXT("apmfile_gainctl1.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
+    REQUIRE(apmfile_gain2.NewFile(ACE_TEXT("apmfile_gainctl2.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
 
     media::AudioFormat af(rawfile.GetSampleRate(), rawfile.GetChannels());
 
@@ -162,8 +164,9 @@ TEST_CASE("webrtc-apm")
 TEST_CASE("webrtc-double-gain")
 {
     WavePCMFile rawfile, apmfile_gain1, apmfile_gain2;
-    auto FILENAME = ACE_TEXT("input_16k_mono_low.wav");
+    auto FILENAME = ACE_TEXT("testdata/AGC/input_16k_mono_low.wav");
     REQUIRE(rawfile.OpenFile(FILENAME, true));
+    REQUIRE(rawfile.GetChannels() == 1);
     REQUIRE(apmfile_gain1.NewFile(ACE_TEXT("apmfile_gain1.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
     REQUIRE(apmfile_gain2.NewFile(ACE_TEXT("apmfile_gain2.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
 

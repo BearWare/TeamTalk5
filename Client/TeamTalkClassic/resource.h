@@ -841,6 +841,7 @@
 #define IDC_STATIC_AVAILCHANNELS        1452
 #define IDC_STATIC_GRPAUTOOP            1453
 #define IDC_CHECK_EMOJI                 1454
+#define IDC_CHECK_LOGGEDINOUT           1455
 #define IDC_CHECK_ECHOCANCEL            1456
 #define IDC_CHECK_OPRECVONLY            1460
 #define IDC_STATIC_INPUT_SAMPLERATES    1461

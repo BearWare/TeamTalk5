@@ -231,6 +231,9 @@ namespace teamtalk {
 
         void SetShowEmojis(bool bEnable);
         bool GetShowEmojis(bool bDefault = true);
+
+        void SetShowLoggedInOut(bool bEnable);
+        bool GetShowLoggedInOut(bool bDefault = true);
         /******** </window> *******/
 
 
