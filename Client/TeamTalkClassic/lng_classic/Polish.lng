@@ -440,6 +440,7 @@
     <item id="575">%s Nie może wysyłać czat</item>
     <item id="576">%s może wysyłać czat</item>
     <item id="577">Dozwolone wysyłanie czatu</item>
+    <item id="578">Ukryty</item>
     <item id="1006">Lista plików</item>
     <item id="1009">Automatycznie łącz z głównym kanałem po połączeniu</item>
     <item id="1012">Port TCP serwera</item>
@@ -686,6 +687,7 @@
     <item id="1452">Dostępne kanały</item>
     <item id="1453">Ustawienia kanałów auto-Operator</item>
     <item id="1454">Pokazuj emoji dla stanu użytkowników i kanałów</item>
+    <item id="1455">Pokazuj wchodzenie i wychodzenie użytkowników w czacie</item>
     <item id="1456">Włącz antyzwrotkę (redukuje echo z głośników mogące prowadzić do sprzężeń zwrotnych)</item>
     <item id="1460">Tylko operatorzy słyszą i widzą wysyłane dane</item>
     <item id="1463">Częstotliwości próbkowania urządzenia odtwarzającego</item>
