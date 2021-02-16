@@ -2694,7 +2694,7 @@ extern "C" {
         Default = 0, meaning the value will not be used.
         When returned via TT_GetUserJitterControl, it contains the currently
         active adaptive jitter delay.*/
-        INT nActiveAdaptiveDelayMSec;
+        INT32 nActiveAdaptiveDelayMSec;
     } JitterConfig;
 
     /** @addtogroup errorhandling
