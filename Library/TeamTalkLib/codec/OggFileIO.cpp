@@ -1048,15 +1048,23 @@ bool OpusDecFile::Seek(uint32_t offset_msec)
 uint32_t OpusDecFile::GetDurationMSec()
 {
     auto samplestotal = m_file.GetTotalSamples();
-    samplestotal *= 1000;
-    return samplestotal / GetSampleRate();
+    if (samplestotal >= 0)
+    {
+        samplestotal *= 1000;
+        return samplestotal / GetSampleRate();
+    }
+    return 0;
 }
 
 uint32_t OpusDecFile::GetElapsedMSec()
 {
     auto samplestotal = m_file.GetSamplesPosition();
-    samplestotal *= 1000;
-    return samplestotal / GetSampleRate();
+    if (samplestotal >= 0)
+    {
+        samplestotal *= 1000;
+        return samplestotal / GetSampleRate();
+    }
+    return 0;
 }
 
 #endif /* ENABLE_OPUSTOOLS && ENABLE_OPUS */
