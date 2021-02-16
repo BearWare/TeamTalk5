@@ -216,6 +216,11 @@ ogg_int64_t OggFile::LastGranulePos()
     return lastgp;
 }
 
+ogg_int64_t OggFile::CurrentGranulePos()
+{
+    return m_last_gp;
+}
+
 bool OggFile::SeekLog2(ogg_int64_t granulepos)
 {
     assert(m_file.get_handle() != ACE_INVALID_HANDLE);
@@ -940,6 +945,16 @@ ogg_int64_t OpusFile::GetTotalSamples()
     return lastgp / (48000 / m_header.input_sample_rate);
 }
 
+ogg_int64_t OpusFile::GetSamplesPosition()
+{
+    auto gp = m_oggfile.CurrentGranulePos();
+    if (gp > 0)
+    {
+        auto samples = gp / (48000 / m_header.input_sample_rate);
+        return samples - GetFrameSize();
+    }
+    return gp == 0 ? 0 : -1;
+}
 
 #endif /* ENABLE_OPUSTOOLS */
 
@@ -1033,6 +1048,13 @@ bool OpusDecFile::Seek(uint32_t offset_msec)
 uint32_t OpusDecFile::GetDurationMSec()
 {
     auto samplestotal = m_file.GetTotalSamples();
+    samplestotal *= 1000;
+    return samplestotal / GetSampleRate();
+}
+
+uint32_t OpusDecFile::GetElapsedMSec()
+{
+    auto samplestotal = m_file.GetSamplesPosition();
     samplestotal *= 1000;
     return samplestotal / GetSampleRate();
 }

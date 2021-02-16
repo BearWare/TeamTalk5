@@ -86,6 +86,7 @@ public:
 
     bool Seek(ogg_int64_t granulepos);
     ogg_int64_t LastGranulePos();
+    ogg_int64_t CurrentGranulePos();
 
     // not working
     bool SeekLog2(ogg_int64_t granulepos);
@@ -215,6 +216,7 @@ public:
     bool Seek(ogg_int64_t samplesoffset);
 
     ogg_int64_t GetTotalSamples();
+    ogg_int64_t GetSamplesPosition();
 
 private:
     OggInput m_oggin;
@@ -268,10 +270,13 @@ public:
     int Decode(short* input_buffer, int input_samples);
     bool Seek(uint32_t offset_msec);
     uint32_t GetDurationMSec();
+    uint32_t GetElapsedMSec();
 private:
     OpusDecode m_decoder;
     OpusFile m_file;
 };
+
+typedef std::shared_ptr< OpusDecFile > opusdecfile_t;
 
 #endif
 
