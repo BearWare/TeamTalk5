@@ -595,6 +595,7 @@ class User(Structure):
     ("stereoPlaybackMediaFile", BOOL*2),
     ("nBufferMSecVoice", INT32),
     ("nBufferMSecMediaFile", INT32),
+    ("nActiveAdaptiveDelayMSec", INT32),
     ("szClientName", TTCHAR * TT_STRLEN)
     ]
     def __init__(self):

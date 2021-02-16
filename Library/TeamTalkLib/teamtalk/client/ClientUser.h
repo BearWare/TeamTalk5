@@ -55,6 +55,7 @@ namespace teamtalk {
 
         void SetConfig(const JitterControlConfig& config);
         bool GetConfig(JitterControlConfig& config);
+        int32_t GetActiveAdaptiveJitterDelay() const { return m_adaptive_delay; };
         // Takes a new packet into the calculator and returns the number of msec the packet
         // should be delayed for de-jitter
         int PacketReceived(const int streamid, const int nominal_delay);
@@ -175,7 +176,7 @@ namespace teamtalk {
 
         void SetJitterControl(const StreamType stream_type, const JitterControlConfig& config);
         bool GetJitterControl(const StreamType stream_type, JitterControlConfig& config);
-
+        int32_t GetActiveAdaptiveJitterDelayVoice() const { return m_jitter_calculator.GetActiveAdaptiveJitterDelay(); }
 
         void SetVolume(StreamType stream_type, int volume);
         int GetVolume(StreamType stream_type) const;

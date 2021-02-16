@@ -1294,6 +1294,8 @@ void Convert(const teamtalk::ClientUser& clientuser, User& result)
     result.stereoPlaybackMediaFile[1] = r;
     result.nBufferMSecVoice = clientuser.GetAudioStreamBufferSize(teamtalk::STREAMTYPE_VOICE);
     result.nBufferMSecMediaFile = clientuser.GetAudioStreamBufferSize(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO);
+    
+    result.nActiveAdaptiveDelayMSec = clientuser.GetActiveAdaptiveJitterDelayVoice();
 }
 
 #if defined(ENABLE_TEAMTALKPRO)

@@ -2113,6 +2113,10 @@ namespace BearWare
          * content.
          * @see TeamTalkBase.SetUserAudioStreamBufferSize() */
         public int nBufferMSecMediaFile;
+        /** @brief the currently active adaptive jitter delay for
+        received voice streams for this user.
+        * @see TT_SetUserJitterControl */
+        public int nActiveAdaptiveDelayMSec;
         /** @brief The name of the client application which the user
          * is using. This is the value passed as @c szClientName in
          * TeamTalkBase.DoLoginEx() */
