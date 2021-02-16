@@ -478,10 +478,10 @@
     <item id="1060">Minimize to tray</item>
     <item id="1061">Topic</item>
     <item id="1063">Password</item>
-    <item id="1066">Play all sounds simultaneously</item>
+    <item id="1066">All at once</item>
     <item id="1067">Max logins per IP-address</item>
-    <item id="1069">Play all sounds fully</item>
-    <item id="1071">Each sound must stop the previous one</item>
+    <item id="1069">One by one</item>
+    <item id="1071">Interrupt previous</item>
     <item id="1073">Password</item>
     <item id="1075">Host address</item>
     <item id="1077">Audio channels</item>
