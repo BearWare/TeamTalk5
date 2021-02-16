@@ -114,8 +114,6 @@ int CPlaySoundThread::Run()
             
             switch (pf.mode)
             {
-            case PLAYBACKMODE_NONE :
-                break;
             case PLAYBACKMODE_SYNC :
                 PlayWaveFile(pf.szFilename, FALSE);
                 break;

@@ -50,8 +50,6 @@ CSoundSysPage::CSoundSysPage()
 , m_SndLoopBack(NULL)
 , m_bAGC(DEFAULT_AGC_ENABLE)
 , m_nMediaVsVoice(DEFAULT_MEDIA_VS_VOICE)
-, m_nClientSoundsVsVoice(DEFAULT_CLIENT_SOUNDS_VS_VOICE)
-, m_nPlaybackMode(2)
 {
     TT_GetDefaultSoundDevices(&m_nInputDevice, &m_nOutputDevice);
 }
@@ -85,11 +83,6 @@ void CSoundSysPage::DoDataExchange(CDataExchange* pDX)
     DDV_MinMaxInt(pDX, m_nMediaVsVoice, 0, 200);
     DDX_Slider(pDX, IDC_SLIDER_MEDIASTREAM_VOL, m_nMediaVsVoice);
     DDX_Control(pDX, IDC_SLIDER_MEDIASTREAM_VOL, m_wndMediaVsVoice);
-    DDV_MinMaxInt(pDX, m_nClientSoundsVsVoice, 0, 100);
-    DDX_Slider(pDX, IDC_SLIDER_CLIENTSOUNDS_VOL, m_nClientSoundsVsVoice);
-    DDX_Control(pDX, IDC_SLIDER_CLIENTSOUNDS_VOL, m_wndClientSoundsVsVoice);
-    DDX_Control(pDX, IDC_COMBO_PLAYBACK_MODE, m_wndPlaybackMode);
-    DDX_CBIndex(pDX, IDC_COMBO_PLAYBACK_MODE, m_nPlaybackMode);
 }
 
 
@@ -104,7 +97,6 @@ BEGIN_MESSAGE_MAP(CSoundSysPage, CPropertyPage)
     ON_BN_CLICKED(IDC_RADIO_WASAPI, &CSoundSysPage::OnBnClickedRadioWasapi)
     ON_BN_CLICKED(IDC_BUTTON_REFRESHSND, &CSoundSysPage::OnBnClickedButtonRefreshsnd)
     ON_BN_CLICKED(IDC_CHECK_AGC, &CSoundSysPage::OnBnClickedCheckAgc)
-    ON_CBN_SELCHANGE(IDC_COMBO_PLAYBACK_MODE, OnCbnSelchangeComboPBMode)
 END_MESSAGE_MAP()
 
 
@@ -113,28 +105,15 @@ BOOL CSoundSysPage::OnInitDialog()
 {
     CPropertyPage::OnInitDialog();
 
-    CString szSim = LoadText(IDS_SIMULTANEOUSLY, _T("Play all sounds simultaneously"));
-    CString szFul = LoadText(IDS_FULLY, _T("Play all sounds fully"));
-    CString szEac = LoadText(IDS_STOPPREVIOUS, _T("Each sound must stop the previous one"));
-
-    m_wndPlaybackMode.AddString(szSim);
-    m_wndPlaybackMode.AddString(szFul);
-    m_wndPlaybackMode.AddString(szEac);
-    m_wndPlaybackMode.SetCurSel(m_nPlaybackMode);
-
     TRANSLATE(*this, IDD);
 
     m_nOrgInputDevice = m_nInputDevice;
     m_nOrgOutputDevice = m_nOutputDevice;
 
     RefreshSoundDevices();
-    OnCbnSelchangeComboPBMode();
 
     m_wndMediaVsVoice.SetRange(0, 200, TRUE);
     m_wndMediaVsVoice.SetPos(m_nMediaVsVoice);
-
-    m_wndClientSoundsVsVoice.SetRange(0, 100, TRUE);
-    m_wndClientSoundsVsVoice.SetPos(m_nClientSoundsVsVoice);
     
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -143,14 +122,6 @@ BOOL CSoundSysPage::OnInitDialog()
 void CSoundSysPage::OnBnClickedRadioDirectsound()
 {
     ShowDrivers(SOUNDSYSTEM_DSOUND);
-}
-
-void CSoundSysPage::OnCbnSelchangeComboPBMode()
-{
-    if (m_wndPlaybackMode.GetCurSel() == 2)
-        m_wndClientSoundsVsVoice.EnableWindow(TRUE);
-    else
-        m_wndClientSoundsVsVoice.EnableWindow(FALSE);
 }
 
 void CSoundSysPage::OnBnClickedRadioWasapi()
@@ -490,7 +461,6 @@ void CSoundSysPage::OnBnClickedDefault()
     m_btnEchoCancel.SetCheck(DEFAULT_ECHO_ENABLE? BST_CHECKED : BST_UNCHECKED);
     m_wndAGC.SetCheck(DEFAULT_AGC_ENABLE? BST_CHECKED : BST_UNCHECKED);
     m_wndMediaVsVoice.SetPos(DEFAULT_MEDIA_VS_VOICE);
-    m_wndClientSoundsVsVoice.SetPos(DEFAULT_CLIENT_SOUNDS_VS_VOICE);
 }
 
 void CSoundSysPage::OnBnClickedCheckEchochannel()

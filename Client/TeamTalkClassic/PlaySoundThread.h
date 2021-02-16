@@ -28,7 +28,6 @@
 
 enum PlaybackMode
 {
-    PLAYBACKMODE_NONE,
     PLAYBACKMODE_SYNC,
     PLAYBACKMODE_ASYNC,
     PLAYBACKMODE_TEAMTALK,
@@ -36,7 +35,7 @@ enum PlaybackMode
 
 struct PlaybackFile
 {
-    PlaybackMode mode = PLAYBACKMODE_NONE;
+    PlaybackMode mode = PLAYBACKMODE_SYNC;
     CString szFilename;
     int sndVol;
 };

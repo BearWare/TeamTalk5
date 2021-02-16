@@ -1573,46 +1573,6 @@ namespace teamtalk {
         return nDefPercent;
     }
 
-    bool ClientXML::SetClientSoundsVsVoice(int nPercent)
-    {
-        TiXmlElement* pParent = GetSoundSystemElement();
-        if(pParent)
-        {
-            PutInteger(*pParent, "client-sounds-vs-voice", nPercent);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    int ClientXML::GetClientSoundsVsVoice(int nDefPercent)
-    {
-        TiXmlElement* child = GetSoundSystemElement();
-        if(child)
-            GetInteger(*child, "client-sounds-vs-voice", nDefPercent);
-        return nDefPercent;
-    }
-
-    bool ClientXML::SetSoundPlaybackMode(int pbmode)
-    {
-        TiXmlElement* pParent = GetSoundSystemElement();
-        if(pParent)
-        {
-            PutInteger(*pParent, "playback-mode", pbmode);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    int ClientXML::GetSoundPlaybackMode(int nDefPbMode)
-    {
-        TiXmlElement* child = GetSoundSystemElement();
-        if(child)
-            GetInteger(*child, "playback-mode", nDefPbMode);
-        return nDefPbMode;
-    }
-
     bool ClientXML::SetAutoPositioning(bool bEnable)
     {
         TiXmlElement* pParent = GetSoundSystemElement();
@@ -2024,6 +1984,26 @@ namespace teamtalk {
     TTSEvents ClientXML::GetEventTTSEvents()
     {
         return TTSEvents(GetValue(true, "events/text-to-speech-events", TTS_ALL));
+    }
+
+    void ClientXML::SetClientSoundsVsVoice(int nPercent)
+    {
+        SetValue("events/client-sounds-vs-voice", nPercent);
+    }
+
+    int ClientXML::GetClientSoundsVsVoice(int nDefPercent)
+    {
+        return GetValue(true, "events/client-sounds-vs-voice", nDefPercent);
+    }
+
+    void ClientXML::SetSoundPlaybackMode(int pbmode)
+    {
+        SetValue("events/playback-mode", pbmode);
+    }
+
+    int ClientXML::GetSoundPlaybackMode(int nDefPbMode)
+    {
+        return GetValue(true, "events/playback-mode", nDefPbMode);
     }
 
     /********* <advanced> ************/
