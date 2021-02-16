@@ -374,6 +374,8 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, 
     AudioFrame* media_frame = reinterpret_cast<AudioFrame*>(out_mb->wr_ptr());
     *media_frame = *first_frame; //use original AudioFrame as base for construction
 
+    assert(media_frame->inputfmt == m_media_out.audio);
+
     //set output properties
     media_frame->timestamp = first_frame->timestamp + starttime;
     media_frame->input_buffer =
