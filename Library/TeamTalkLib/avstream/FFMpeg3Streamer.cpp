@@ -209,7 +209,8 @@ bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop)
 }
 
 
-FFMpegStreamer::FFMpegStreamer()
+FFMpegStreamer::FFMpegStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
+    : MediaFileStreamer(filename, out_prop)
 {
     InitAVConv();
 }
