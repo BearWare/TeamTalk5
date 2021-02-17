@@ -885,14 +885,27 @@ class ChannelListViewController :
             }
             
         case CLIENTEVENT_CMD_MYSELF_KICKED :
-            playSound(.srv_LOST)
             tableView.reloadData()
-            if #available(iOS 8.0, *) {
-                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: NSLocalizedString("You have been kicked from channel", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            } else {
-                // Fallback on earlier versions
+            if (msg.nSource == 0)
+            {
+                playSound(.srv_LOST)
+                if #available(iOS 8.0, *) {
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: NSLocalizedString("You have been kicked from server", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                } else {
+                    // Fallback on earlier versions
+                }
+            }
+            else
+            {
+                if #available(iOS 8.0, *) {
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: NSLocalizedString("You have been kicked from channel", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                } else {
+                    // Fallback on earlier versions
+                }
             }
 
         case CLIENTEVENT_CMD_USER_LOGGEDIN :
