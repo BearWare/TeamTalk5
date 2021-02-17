@@ -24,6 +24,19 @@
 #include "OpusFileStreamer.h"
 #include <assert.h>
 
+bool GetOpusFileMediaFileProp(const ACE_TString& filename, MediaFileProp& mfp)
+{
+    OpusDecFile odf;
+    if (odf.Open(filename))
+    {
+        mfp.audio = media::AudioFormat(odf.GetSampleRate(), odf.GetChannels());
+        mfp.duration_ms = odf.GetDurationMSec();
+        mfp.filename = filename;
+        return true;
+    }
+    return false;
+}
+
 OpusFileStreamer::OpusFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
     : MediaFileStreamer(filename, out_prop)
 {
@@ -75,7 +88,7 @@ void OpusFileStreamer::Run()
 
     MediaStreamStatus status = MEDIASTREAM_STARTED;
     uint32_t sampleindex = 0;
-    uint32_t starttime = GETTIMESTAMP(), totalpausetime = 0;
+    uint32_t starttime = GETTIMESTAMP(), totalpausetime = 0, startoffset = 0;
 
     while (!m_stop)
     {
@@ -110,6 +123,7 @@ void OpusFileStreamer::Run()
                 ClearBuffers();
 
                 m_media_in.elapsed_ms = m_decoder.GetElapsedMSec();
+                startoffset = m_media_in.elapsed_ms;
                 sampleindex = m_media_in.elapsed_ms / PCM16_SAMPLES_DURATION(FRAMESIZE, infmt.samplerate);
                 sampleindex *= FRAMESIZE;
                 starttime = GETTIMESTAMP();
@@ -147,13 +161,13 @@ void OpusFileStreamer::Run()
             assert(resampled);
             media::AudioFrame frm(m_media_out.audio, resampled, outsamples,
                                   outsamples * (sampleindex / FRAMESIZE));
-            frm.timestamp = m_media_in.elapsed_ms;
+            frm.timestamp = m_media_in.elapsed_ms - startoffset;
             submitted = QueueAudio(frm);
         }
         else
         {
             media::AudioFrame frm(infmt, &framebuf[0], FRAMESIZE, sampleindex);
-            frm.timestamp = m_media_in.elapsed_ms;
+            frm.timestamp = m_media_in.elapsed_ms - startoffset;
             submitted = QueueAudio(frm);
         }
 

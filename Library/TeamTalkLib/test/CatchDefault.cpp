@@ -1857,4 +1857,81 @@ TEST_CASE("OPUSStreamer")
     REQUIRE(ofs->StartStream());
     REQUIRE(cv_finished.wait_for(lck, std::chrono::milliseconds(mfi.uDurationMSec * 2)) == std::cv_status::no_timeout);
 }
+
+TEST_CASE("TTPlayOpusOgg")
+{
+    const auto IN_SAMPLERATE = 48000;
+    const auto IN_CHANNELS = 2;
+    const auto IN_FRAMESIZE = int(IN_SAMPLERATE * .01);
+
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = IN_CHANNELS;
+    mfi.audioFmt.nSampleRate = IN_SAMPLERATE;
+    mfi.uDurationMSec = 5 * 1000;
+    ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("TTPlayOpusOgg.wav"), TT_STRLEN);
+
+    TTCHAR szFilename[TT_STRLEN] = ACE_TEXT("TTPlayOpusOgg.ogg");
+    CreateOpusFile(mfi, szFilename, IN_FRAMESIZE);
+
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+    mfp.bPaused = FALSE;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+
+    bool stop = false, started = false;
+    TTMessage msg;
+    INT32 session;
+
+    session = TT_InitLocalPlayback(ttclient, szFilename, &mfp);
+    REQUIRE(session > 0);
+
+    while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_STARTED :
+            REQUIRE(msg.mediafileinfo.uElapsedMSec == 0);
+            started = true;
+            break;
+        case MFS_PLAYING :
+            break;
+        case MFS_FINISHED :
+            stop = true;
+            break;
+        }
+    }
+    REQUIRE(started);
+    REQUIRE(stop);
+
+    mfp.uOffsetMSec = mfi.uDurationMSec / 2;
+    session = TT_InitLocalPlayback(ttclient, szFilename, &mfp);
+    REQUIRE(session > 0);
+    auto durationMSec = GETTIMESTAMP();
+    stop = false;
+    started = false;
+    while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_STARTED :
+            REQUIRE(std::abs(int(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= PCM16_SAMPLES_DURATION(IN_FRAMESIZE, IN_SAMPLERATE));
+            started = true;
+            break;
+        case MFS_PLAYING :
+            break;
+        case MFS_FINISHED :
+            stop = true;
+            break;
+        }
+    }
+    REQUIRE(started);
+    REQUIRE(stop);
+    durationMSec = GETTIMESTAMP() - durationMSec;
+    REQUIRE(std::abs(int(mfi.uDurationMSec / 2) - int(durationMSec)) < 500);
+}
+
 #endif

@@ -29,6 +29,8 @@
 
 #include <codec/OggFileIO.h>
 
+bool GetOpusFileMediaFileProp(const ACE_TString& filename, MediaFileProp& mfp);
+
 class OpusFileStreamer : public MediaFileStreamer
 {
 public:
