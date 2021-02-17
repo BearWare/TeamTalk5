@@ -1148,8 +1148,8 @@ TEST_CASE("WebRTC_Preamplifier")
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
     auto ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
     REQUIRE(ab);
-    TT_ReleaseUserAudioBlock(ttclient, ab);
     streamid = ab->nStreamID;
+    TT_ReleaseUserAudioBlock(ttclient, ab);
     level = TT_GetSoundInputLevel(ttclient);
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
     REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, FALSE));
@@ -1359,7 +1359,7 @@ TEST_CASE("PortAudioRaw_SamplesPerSec")
                         paClipOff, Foo_StreamCallback, static_cast<void*> (0));
 
     REQUIRE(Pa_StartStream(outstream) == paNoError);
-    while (paSamples < ininfo->defaultSampleRate * 500)
+    while (paSamples < ininfo->defaultSampleRate * 5)
     {
         Pa_Sleep(1000);
 
