@@ -95,8 +95,11 @@ void MediaStreamer::RegisterAudioCallback(mediastream_audiocallback_t cb, bool e
 
 bool MediaStreamer::Open()
 {
-    if (GetMediaOutput().IsValid())
+    if (!GetMediaOutput().IsValid())
+    {
+        MYTRACE(ACE_TEXT("Invalid media output format\n"));
         return false;
+    }
 
     m_thread.reset(new std::thread(&MediaStreamer::Run, this));
 
