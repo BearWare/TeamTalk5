@@ -1996,6 +1996,26 @@ namespace teamtalk {
         return TTSEvents(GetValue(true, "events/text-to-speech-events", TTS_ALL));
     }
 
+    void ClientXML::SetClientSoundsVsVoice(int nPercent)
+    {
+        SetValue("events/client-sounds-vs-voice", nPercent);
+    }
+
+    int ClientXML::GetClientSoundsVsVoice(int nDefPercent)
+    {
+        return GetValue(true, "events/client-sounds-vs-voice", nDefPercent);
+    }
+
+    void ClientXML::SetSoundPlaybackMode(int pbmode)
+    {
+        SetValue("events/playback-mode", pbmode);
+    }
+
+    int ClientXML::GetSoundPlaybackMode(int nDefPbMode)
+    {
+        return GetValue(true, "events/playback-mode", nDefPbMode);
+    }
+
     /********* <advanced> ************/
 
     bool ClientXML::SetLowLevelMouseHook(bool bEnable)
