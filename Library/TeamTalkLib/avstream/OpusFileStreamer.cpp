@@ -29,6 +29,11 @@ OpusFileStreamer::OpusFileStreamer(const ACE_TString& filename, const MediaStrea
 {
 }
 
+OpusFileStreamer::~OpusFileStreamer()
+{
+    Close();
+}
+
 void OpusFileStreamer::Run()
 {
     if (!m_decoder.Open(m_media_in.filename))
@@ -142,11 +147,13 @@ void OpusFileStreamer::Run()
             assert(resampled);
             media::AudioFrame frm(m_media_out.audio, resampled, outsamples,
                                   outsamples * (sampleindex / FRAMESIZE));
+            frm.timestamp = m_media_in.elapsed_ms;
             submitted = QueueAudio(frm);
         }
         else
         {
             media::AudioFrame frm(infmt, &framebuf[0], FRAMESIZE, sampleindex);
+            frm.timestamp = m_media_in.elapsed_ms;
             submitted = QueueAudio(frm);
         }
 
