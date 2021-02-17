@@ -466,29 +466,8 @@ bool MediaStreamer::ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime)
         return false;
 
     int ret;
-    //ACE_UINT32 last = -1;
     ACE_Message_Block* mb;
     ACE_Time_Value tm_zero;
-    //if (m_video_frames.dequeue_tail(mb, &tm_zero) >= 0)
-    //{
-    //    VideoFrame last_frm(mb);
-    //    last = last_frm.timestamp;
-
-    //    ret = m_video_frames.enqueue_tail(mb, &tm_zero);
-    //    if (ret < 0)
-    //    {
-    //        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Video %u - Failed to reenqueue %u\n"), NOW - starttime, last_frm.timestamp);
-    //        mb->release();
-    //        return true;
-    //    }
-
-    //    uint32_t duration = NOW - starttime;
-    //    if (W32_GEQ(last_frm.timestamp, duration))
-    //    {
-    //        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Video %u - Until %u\n"), NOW - starttime, last_frm.timestamp);
-    //    }
-    //}
-
     if (m_video_frames.peek_dequeue_head(mb, &tm_zero) >= 0)
     {
         VideoFrame* media_frame = reinterpret_cast<VideoFrame*>(mb->rd_ptr());
