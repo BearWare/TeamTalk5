@@ -51,19 +51,23 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
     return false;
 }
 
-mediafile_streamer_t MakeMediaFileStreamer()
+mediafile_streamer_t MakeMediaFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
 {
     mediafile_streamer_t streamer;
 
 #if defined(ENABLE_MEDIAFOUNDATION)
-    streamer.reset(new MFStreamer());
+    streamer.reset(new MFStreamer(filename, out_prop));
 #elif defined(ENABLE_DSHOW)
     streamer.reset(new DSWrapperThread());
 #elif defined(ENABLE_FFMPEG3)
-    streamer.reset(new FFMpegStreamer());
+    streamer.reset(new FFMpegStreamer(filename, out_prop));
 #endif
 
     return streamer;
+}
+
+MediaStreamer::MediaStreamer(const MediaStreamOutput& out_prop) : m_media_out(out_prop)
+{
 }
 
 MediaStreamer::~MediaStreamer()
@@ -89,12 +93,10 @@ void MediaStreamer::RegisterAudioCallback(mediastream_audiocallback_t cb, bool e
         m_audiocallback = {};
 }
 
-bool MediaStreamer::Open(const MediaStreamOutput& out_prop)
+bool MediaStreamer::Open()
 {
     if (GetMediaOutput().IsValid())
         return false;
-
-    m_media_out = out_prop;
 
     m_thread.reset(new std::thread(&MediaStreamer::Run, this));
 
@@ -538,6 +540,12 @@ bool MediaStreamer::ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime)
     return m_video_frames.message_count() == 0;
 }
 
+MediaFileStreamer::MediaFileStreamer(const ACE_TString& filename,
+                                     const MediaStreamOutput& out_prop)
+: MediaStreamer(out_prop)
+{
+    m_media_in.filename = filename;
+}
 
 void MediaFileStreamer::Reset()
 {
@@ -545,22 +553,6 @@ void MediaFileStreamer::Reset()
 
     m_media_in = MediaFileProp();
     m_offset = MEDIASTREAMER_OFFSET_IGNORE;
-}
-
-bool MediaFileStreamer::OpenFile(const ACE_TString& filename,
-                                 const MediaStreamOutput& out_prop)
-{
-    Close();
-
-    m_media_in.filename = filename;
-
-    if (!Open(out_prop))
-    {
-        Close();
-        return false;
-    }
-    
-    return true;
 }
 
 void MediaFileStreamer::RegisterStatusCallback(mediastream_statuscallback_t cb, bool enable)

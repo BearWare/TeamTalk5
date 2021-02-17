@@ -24,9 +24,9 @@
 #include "OpusFileStreamer.h"
 #include <assert.h>
 
-OpusFileStreamer::OpusFileStreamer()
+OpusFileStreamer::OpusFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
+    : MediaFileStreamer(filename, out_prop)
 {
-
 }
 
 void OpusFileStreamer::Run()

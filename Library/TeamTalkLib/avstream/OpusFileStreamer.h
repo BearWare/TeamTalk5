@@ -32,7 +32,7 @@
 class OpusFileStreamer : public MediaFileStreamer
 {
 public:
-    OpusFileStreamer();
+    OpusFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
 
 protected:
     void Run();
