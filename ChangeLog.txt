@@ -18,7 +18,6 @@ Accessible Windows Client
 - Users logged in/out displayed in chat history
 - Save server configuration displayed in chat history
 - Status message is saved and reloaded on startup
-- Some improvements to CTRL+S dialog
 - Fixed tab index on server properties dialog
 - Fixed labels on server properties dialog and preferences
 - Display ban type on banned users dialog
@@ -34,6 +33,7 @@ Accessible Windows Client
 - Correctly return speaking for ourself on CTRL+G
 - Window's title is now updated if channel or server name is changing
 - Support for neutral status
+- New option to choose playback mode of sound events
 - Text message area disable when client is not in a channel
 Default QT Client
 - SpeexDSP echo canceller replaced by WebRTC

@@ -539,9 +539,12 @@
 #define IDC_STATIC_CHTOPIC              1061
 #define IDC_STATIC_CHPASSWORD           1063
 #define IDC_RADIO_WASAPI                1065
+#define IDS_SIMULTANEOUSLY              1066
 #define IDC_STATIC_MAXLOGINSIP          1067
 #define IDC_RADIO_DIRECTSOUND           1068
+#define IDS_FULLY            1069
 #define IDC_COMBO_INPUTDRIVER           1070
+#define IDS_STOPPREVIOUS           1071
 #define IDC_COMBO_OUTPUTDRIVER          1072
 #define IDC_STATIC_PASSWORD             1073
 #define IDC_COMBO_SRATE                 1074
@@ -637,6 +640,7 @@
 #define IDC_STATIC_GRPSOUNDSYSTEM       1211
 #define IDC_STATIC_FONTNAME             1212
 #define IDC_STATIC_SOUNDSYSDESCRIP      1213
+#define IDC_STATIC_GRPCLIENTSOUNDSYSTEM 1214
 #define IDC_STATIC_TESTDESCRIP          1215
 #define IDC_EDIT_USERTYPE               1216
 #define IDC_CHECK_CHANNELSTEMP          1217
@@ -860,6 +864,7 @@
 #define IDC_STATIC_VIDFMT               1476
 #define IDC_STATIC_MEDIAGRP             1477
 #define IDC_STATIC_MEDIAFILE            1478
+#define IDC_SLIDER_CLIENTSOUNDS_VOL     1479
 #define IDC_STATIC_KBYPS5               1480
 #define IDC_RADIO_DEFAULTUSER           1481
 #define IDC_CHECK_TRANSMITDESKTOPINPUT  1482
@@ -933,6 +938,7 @@
 #define IDC_STATIC_CMDLIMIT             1550
 #define IDC_COMBO_USERNAME              1551
 #define IDC_RADIO_NEUTRAL               1552
+#define IDC_STATIC_CLIENTSOUNDSVOL      1553
 #define IDC_CHECK_CHANGENICKNAME        1554
 #define IDC_COMBO_BANTYPE               1555
 #define IDC_COMBO_INPUT                 1556
@@ -985,6 +991,8 @@
 #define IDC_STATIC_GRPCHANTYPE          1603
 #define IDC_CHECK1                      1604
 #define IDC_CHECK_HIDDENCHAN            1604
+#define IDC_STATIC_PLAYBACK_MODE        1606
+#define IDC_COMBO_PLAYBACK_MODE         1607
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -1103,7 +1111,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        579
 #define _APS_NEXT_COMMAND_VALUE         32959
-#define _APS_NEXT_CONTROL_VALUE         1605
+#define _APS_NEXT_CONTROL_VALUE         1608
 #define _APS_NEXT_SYMED_VALUE           413
 #endif
 #endif

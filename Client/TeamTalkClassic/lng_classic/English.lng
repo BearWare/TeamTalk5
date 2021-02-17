@@ -478,7 +478,10 @@
     <item id="1060">Minimize to tray</item>
     <item id="1061">Topic</item>
     <item id="1063">Password</item>
+    <item id="1066">All at once</item>
     <item id="1067">Max logins per IP-address</item>
+    <item id="1069">One by one</item>
+    <item id="1071">Interrupt previous</item>
     <item id="1073">Password</item>
     <item id="1075">Host address</item>
     <item id="1077">Audio channels</item>
@@ -547,6 +550,7 @@
     <item id="1211">Sound system settings</item>
     <item id="1212">No font selected</item>
     <item id="1213">Here you select the sound devices which TeamTalk should use for recording and playing audio. Choosing DirectSound is highly recommended since it provides lower latency than Windows&apos; default sound system.</item>
+    <item id="1214">Client sounds events settings</item>
     <item id="1215">By pressing &quot;Test selected&quot; you can test the currently selected devices and hear whether you&apos;re able to play the audio recorded by the selected input device.</item>
     <item id="1217">User can create temporary channels</item>
     <item id="1218">User can create/modify all channels</item>
@@ -751,6 +755,7 @@
     <item id="1548">Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</item>
     <item id="1550">Limit issued commands</item>
     <item id="1552">Neutral</item>
+    <item id="1553">Sound events vs. voice volume</item>
     <item id="1554">User can change nickname</item>
     <item id="1558">User can record voice in all channels</item>
     <item id="1561">&amp;Activate</item>
@@ -781,6 +786,7 @@
 	<item id="1602">Hidden channel (invisible and only known by name)</item>
 	<item id="1603">Channel type</item>
     <item id="1604">User can see hidden channels</item>
+    <item id="1606">Sound events playing mode</item>
     <item id="32791">What is my &amp;IP-address?</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">Vie&amp;w Channel Messages\tF10</item>

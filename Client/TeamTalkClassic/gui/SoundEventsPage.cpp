@@ -40,7 +40,9 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNAMIC(CSoundEventsPage, CPropertyPage)
 CSoundEventsPage::CSoundEventsPage()
     : CPropertyPage(CSoundEventsPage::IDD)
-  , m_uSoundEvents(SOUNDEVENT_NONE)
+    , m_uSoundEvents(SOUNDEVENT_NONE)
+    , m_nClientSoundsVsVoice(DEFAULT_CLIENT_SOUNDS_VS_VOICE)
+    , m_nPlaybackMode(PLAYBACKMODE_SYNC)
 {
 }
 
@@ -52,6 +54,13 @@ void CSoundEventsPage::DoDataExchange(CDataExchange* pDX)
 {
     CPropertyPage::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_TREE_SOUNDEVENTS, m_wndTree);
+    DDV_MinMaxInt(pDX, m_nClientSoundsVsVoice, 0, 100);
+    DDX_Slider(pDX, IDC_SLIDER_CLIENTSOUNDS_VOL, m_nClientSoundsVsVoice);
+    DDX_Control(pDX, IDC_SLIDER_CLIENTSOUNDS_VOL, m_wndClientSoundsVsVoice);
+    DDX_Control(pDX, IDC_COMBO_PLAYBACK_MODE, m_wndPlaybackMode);
+    int nVal = int(m_nPlaybackMode);
+    DDX_CBIndex(pDX, IDC_COMBO_PLAYBACK_MODE, nVal);
+    m_nPlaybackMode = PlaybackMode(nVal);
 }
 
 BOOL CSoundEventsPage::OnInitDialog()
@@ -68,7 +77,20 @@ BOOL CSoundEventsPage::OnInitDialog()
             m_uSoundEvents &= ~i->first;
     }
 
+    // Hack for refresh in CTreeCtrl
     SetTimer(1, 0, NULL);
+
+    int nPos = m_wndPlaybackMode.AddString(LoadText(IDS_FULLY, _T("One by one")));
+    ASSERT(nPos == PLAYBACKMODE_SYNC);
+    nPos = m_wndPlaybackMode.AddString(LoadText(IDS_STOPPREVIOUS, _T("Interrupt previous")));
+    ASSERT(nPos == PLAYBACKMODE_ASYNC);
+    nPos = m_wndPlaybackMode.AddString(LoadText(IDS_SIMULTANEOUSLY, _T("All at once")));
+    ASSERT(nPos == PLAYBACKMODE_TEAMTALK);
+    m_wndPlaybackMode.SetCurSel(m_nPlaybackMode);
+
+    m_wndClientSoundsVsVoice.SetRange(0, 100, TRUE);
+    m_wndClientSoundsVsVoice.SetPos(m_nClientSoundsVsVoice);
+    OnCbnSelchangeComboPBMode();
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -111,6 +133,7 @@ void CSoundEventsPage::ToggleItem(HTREEITEM hItem)
 BEGIN_MESSAGE_MAP(CSoundEventsPage, CPropertyPage)
     ON_NOTIFY(TVN_KEYDOWN, IDC_TREE_SOUNDEVENTS, &CSoundEventsPage::OnTvnKeydownTreeSoundevents)
     ON_NOTIFY(NM_CLICK, IDC_TREE_SOUNDEVENTS, &CSoundEventsPage::OnNMClickTreeSoundevents)
+    ON_CBN_SELCHANGE(IDC_COMBO_PLAYBACK_MODE, OnCbnSelchangeComboPBMode)
     ON_WM_TIMER()
 END_MESSAGE_MAP()
 
@@ -290,4 +313,12 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
     hItem = GetItemDataItem(m_wndTree, dwItemData);
     if(hItem)
         m_wndTree.SelectItem(hItem);
+}
+
+void CSoundEventsPage::OnCbnSelchangeComboPBMode()
+{
+    if (m_wndPlaybackMode.GetCurSel() == PLAYBACKMODE_TEAMTALK)
+        m_wndClientSoundsVsVoice.EnableWindow(TRUE);
+    else
+        m_wndClientSoundsVsVoice.EnableWindow(FALSE);
 }
