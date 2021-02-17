@@ -550,7 +550,7 @@
     <item id="1211">Paramètres du système audio</item>
     <item id="1212">Aucune police sélectionnée</item>
     <item id="1213">Sélectionnez ici les périphériques audio que TeamTalk doit utiliser pour l&apos;enregistrement et la lecture audio. Choisir DirectSound est fortement recommandé car il offre une latence inférieure à celle du système audio par défaut de Windows.</item>
-    <item id="1214">Paramètres du son des évènements du client</item>
+    <item id="1214">Lecture des évènements sonnores</item>
     <item id="1215">En appuyant sur «Tester la sélection&quot;, vous pouvez tester les appareils actuellement sélectionnés et entendre si vous êtes en mesure de lire l&apos;audio enregistré par le périphérique d&apos;entrée sélectionné.</item>
     <item id="1217">L&apos;utilisateur peut créer des canaux temporaires</item>
     <item id="1218">L&apos;utilisateur peut créer/modifier tous les canaux</item>
@@ -786,7 +786,7 @@
     <item id="1602">Canal masqué (invisible et seulement connu par son nom)</item>
     <item id="1603">Type de canal</item>
     <item id="1604">L&apos;utilisateur peut voir les canaux masqués</item>
-    <item id="1606">Mode de lecture des évènements sonnores</item>
+    <item id="1606">Mode de lecture</item>
     <item id="32791">Quelle est mon adresse IP?</item>
     <item id="32798">Définir comme opérateur de canal\tCTRL-O</item>
     <item id="32801">Afficher les messages du canal\tF10</item>
