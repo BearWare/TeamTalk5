@@ -440,6 +440,7 @@
     <item id="575">%s ne može slati tekstualne poruke u javno čavrljanje</item>
     <item id="576">%s može slati tekstualne poruke u javno čavrljanje</item>
     <item id="577">Dozvoljeno slanje poruka u javno čavrljanje</item>
+    <item id="578">Skriven</item>
     <item id="1006">Popis datoteka</item>
     <item id="1009">Automatski se pridruži glavnom kanalu prilikom povezivanja</item>
     <item id="1012">TCP port hosta</item>
@@ -477,7 +478,10 @@
     <item id="1060">Minimiziraj u područje obavijesti</item>
     <item id="1061">Tema</item>
     <item id="1063">Lozinka</item>
+    <item id="1066">Sve od jedamput</item>
     <item id="1067">Maksimalna prijava po ip adresi</item>
+    <item id="1069">Jedan po jedan</item>
+    <item id="1071">Prekini prethodni</item>
     <item id="1073">lozinka</item>
     <item id="1075">adresa hosta</item>
     <item id="1077">audiokanali</item>
@@ -546,6 +550,7 @@
     <item id="1211">postavke sustava zvuka</item>
     <item id="1212">nema označenog fonta</item>
     <item id="1213">Ovdje odabirete uređaje zvuka koje teamtalk treba koristiti za snimanje i reprodukciju zvuka odabir izravnog zvuka je jako preporučljivo zato što daje manje kašnjenje na izlazu od windows podrazumjevanog zvučnog sustava</item>
+    <item id="1214">Reprodukcija zvukova</item>
     <item id="1215">Kada pritisnete testiraj označeno, možete testirati trenutno odabrane uređaje i čuti rade li uređaji ispravno</item>
     <item id="1217">korisnici mogu stvarati kanale</item>
     <item id="1218">korisnici mogu stvarati / modificirati sve kanale</item>
@@ -682,6 +687,7 @@
     <item id="1452">dostupni kanali</item>
     <item id="1453">auto operatorski kanali</item>
     <item id="1454">Pokazuj emoji pri prikazivanju statusa kanala i korisnika</item>
+    <item id="1455">Pokazuj prijavu&amp;odjavu korisnika u čavrljanju</item>
     <item id="1456">omogući poništavanje jeke /ukloni jeku iz zvučnika</item>
     <item id="1460">operator prima podatke samo od operatora vidi i slušaj</item>
     <item id="1463">brzina uzorkovanja izlaza</item>
@@ -750,6 +756,7 @@
     <item id="1548">Onemogućava korisniku spamanje tekstualnim porukama određivanjem broja komandi koje korisnik može izvršiti u zadanom vremenskom intervalu.</item>
     <item id="1550">Ogranići izvršavane komande</item>
     <item id="1552">Neodređeno</item>
+    <item id="1553">Glasnoća zvukova u odnosu na glas</item>
     <item id="1554">Korisnik može mjenjati nadimak</item>
     <item id="1558">Korisnik može snimati razgovore u svim kanalima</item>
     <item id="1561">&amp;Aktiviraj</item>
@@ -780,6 +787,7 @@
     <item id="1602">Skriveni kanal nevidljiv i poznat samo po imenu)</item>
     <item id="1603">Tip kanala</item>
     <item id="1604">Korisnik može vidjeti skrivene kanale</item>
+    <item id="1606">Način reprodukcije</item>
     <item id="32791">Koja je moja &amp;IP adresa_</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">&amp;Pregledaj poruke kanala\tF10</item>
