@@ -1359,7 +1359,7 @@ TEST_CASE("PortAudioRaw_SamplesPerSec")
                         paClipOff, Foo_StreamCallback, static_cast<void*> (0));
 
     REQUIRE(Pa_StartStream(outstream) == paNoError);
-    while (paSamples < ininfo->defaultSampleRate * 5)
+    while (paSamples < ininfo->defaultSampleRate * 2)
     {
         Pa_Sleep(1000);
 
@@ -1413,7 +1413,7 @@ TEST_CASE("PortAudio_SamplesPerSec")
     REQUIRE(snd->OpenOutputStream(&player, outputdeviceid, grp, SAMPLERATE, CHANNELS, SAMPLERATE * 0.04));
     REQUIRE(snd->StartStream(&player));
 
-    while (samples < outdev.default_samplerate * 500)
+    while (samples < outdev.default_samplerate * 2)
     {
         Pa_Sleep(1000);
 
@@ -1425,6 +1425,8 @@ TEST_CASE("PortAudio_SamplesPerSec")
 
         REQUIRE(skew < 0.08 * 1000);
     }
+    REQUIRE(snd->CloseOutputStream(&player));
+    snd->RemoveSoundGroup(grp);
 }
 
 #endif
