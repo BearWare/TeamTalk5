@@ -824,7 +824,8 @@ bool OpusFile::OpenFile(const ACE_TString& filename)
             if (m_oggin.GetPacket(op) == 1)
             {
                 m_frame_size = int(op.granulepos / (48000 / m_header.input_sample_rate));
-                return true;
+                if (m_frame_size > 0)
+                    return true;
             }
         }
     }
@@ -988,12 +989,13 @@ void OpusEncFile::Close()
 int OpusEncFile::Encode(const short* input_buffer, int input_samples,
                         bool last)
 {
+    assert(input_buffer);
     int ret = m_encoder.Encode(input_buffer, input_samples,
                                &m_buffer[0], int(m_buffer.size()));
-    if(ret > 0)
+    if (ret > 0)
         return m_file.WriteEncoded(&m_buffer[0], ret, last);
 
-    return 0;
+    return ret;
 }
 
 bool OpusDecFile::Open(const ACE_TString& filename)
