@@ -122,7 +122,6 @@ void MediaStreamer::Close()
         m_thread->join();
         m_thread.reset();
     }
-    Reset();
 
     m_open.cancel();
     m_run.cancel();
@@ -152,15 +151,6 @@ bool MediaStreamer::Pause()
         return m_run.cancel() >= 0;
 
     return true;
-}
-
-void MediaStreamer::Reset()
-{
-    m_media_out = MediaStreamOutput();
-    m_stop = m_pause = false;
-
-    m_audio_frames.close();
-    m_video_frames.close();
 }
 
 bool MediaStreamer::QueueAudio(const media::AudioFrame& frame)
@@ -548,14 +538,6 @@ MediaFileStreamer::MediaFileStreamer(const ACE_TString& filename,
 : MediaStreamer(out_prop)
 {
     m_media_in.filename = filename;
-}
-
-void MediaFileStreamer::Reset()
-{
-    MediaStreamer::Reset();
-
-    m_media_in = MediaFileProp();
-    m_offset = MEDIASTREAMER_OFFSET_IGNORE;
 }
 
 void MediaFileStreamer::RegisterStatusCallback(mediastream_statuscallback_t cb, bool enable)

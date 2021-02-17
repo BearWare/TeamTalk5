@@ -124,7 +124,6 @@ protected:
     void Close();
 
     virtual void Run() = 0;
-    virtual void Reset();
     virtual void AudioProgress(uint32_t queuedmsec, uint32_t elapsedmsec) {}
 
     bool QueueAudio(const media::AudioFrame& frame);
@@ -171,8 +170,6 @@ public:
     const MediaFileProp& GetMediaFile() const { return m_media_in; }
     
 protected:
-    virtual void Reset();
-
     MediaFileProp m_media_in;
     
     mediastream_statuscallback_t m_statuscallback;
