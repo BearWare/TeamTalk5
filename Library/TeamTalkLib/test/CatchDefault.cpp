@@ -1882,10 +1882,12 @@ TEST_CASE("TTPlayOpusOgg")
     mfp.bPaused = FALSE;
     mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
 
-    bool stop = false, started = false;
+    bool stop = false, started = false, paused = false;
     TTMessage msg;
     INT32 session;
+    uint32_t durationMSec;
 
+    // test duration of OpusFileStreamer playback
     session = TT_InitLocalPlayback(ttclient, szFilename, &mfp);
     REQUIRE(session > 0);
 
@@ -1902,15 +1904,18 @@ TEST_CASE("TTPlayOpusOgg")
         case MFS_FINISHED :
             stop = true;
             break;
+        default :
+            break;
         }
     }
     REQUIRE(started);
     REQUIRE(stop);
 
+    // test seek-feature of OpusFileStreamer playback
     mfp.uOffsetMSec = mfi.uDurationMSec / 2;
     session = TT_InitLocalPlayback(ttclient, szFilename, &mfp);
     REQUIRE(session > 0);
-    auto durationMSec = GETTIMESTAMP();
+    durationMSec = GETTIMESTAMP();
     stop = false;
     started = false;
     while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
@@ -1926,12 +1931,57 @@ TEST_CASE("TTPlayOpusOgg")
         case MFS_FINISHED :
             stop = true;
             break;
+        default :
+            break;
         }
     }
     REQUIRE(started);
     REQUIRE(stop);
     durationMSec = GETTIMESTAMP() - durationMSec;
     REQUIRE(std::abs(int(mfi.uDurationMSec / 2) - int(durationMSec)) < 500);
+
+    // test pause-feature of OpusFileStreamer playback
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    session = TT_InitLocalPlayback(ttclient, szFilename, &mfp);
+    REQUIRE(session > 0);
+    stop = false;
+    started = false;
+    paused = false;
+    durationMSec = GETTIMESTAMP();
+    while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_STARTED :
+            started = true;
+            break;
+        case MFS_PLAYING :
+            if (!paused && msg.mediafileinfo.uElapsedMSec >= mfi.uDurationMSec / 2)
+            {
+                mfp.bPaused = TRUE;
+                REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+            }
+            break;
+        case MFS_PAUSED :
+            REQUIRE(!paused);
+            paused = true;
+            WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, 1000);
+            mfp.bPaused = FALSE;
+            REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+            started = false;
+            break;
+        case MFS_FINISHED :
+            stop = true;
+            break;
+        default :
+            break;
+        }
+    }
+    REQUIRE(started);
+    REQUIRE(stop);
+    REQUIRE(paused);
+    durationMSec = GETTIMESTAMP() - durationMSec;
+    REQUIRE(std::abs(int(durationMSec) - int(mfi.uDurationMSec + 1000)) < 500);
 }
 
 #endif
