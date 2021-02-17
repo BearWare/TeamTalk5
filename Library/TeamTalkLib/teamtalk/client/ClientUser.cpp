@@ -173,20 +173,44 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
     return jitter_delay;
 }
 
-void JitterCalculator::SetConfig(const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec)
+void JitterCalculator::SetConfig(const JitterControlConfig& config)
 {
     //Note: reentrancy is assumed to be guarded outside this function
-    m_fixed_jitter_delay_ms = fixed_delay_msec;
-    m_use_adaptive_jitter_control = use_adaptive_jitter_control;
+    m_fixed_jitter_delay_ms = config.fixedDelayMSec;
+    m_use_adaptive_jitter_control = config.useAdativeDejitter;
+    m_max_adaptive_delay_msec = config.maxAdaptiveDelayMSec;
     // Reset stats
     m_lastpacket_time = 0;
     m_current_stream = 0;
     m_current_playout_buffer = 0;
-    m_adaptive_delay = 0;
-
-    m_max_adaptive_delay_msec = max_adaptive_delay_msec;
 
     m_last_jitters.clear();
+
+    m_adaptive_delay = 0;
+
+    //Set and queue the current active adaptive delay
+    if (config.activeAdaptiveDelayMSec > 0)
+    {
+        if (config.activeAdaptiveDelayMSec > config.maxAdaptiveDelayMSec)
+        {
+            m_adaptive_delay = config.maxAdaptiveDelayMSec;
+        }
+        else
+        {
+            m_adaptive_delay = config.activeAdaptiveDelayMSec;
+        }
+        m_last_jitters.push_back(m_adaptive_delay);
+    }
+};
+
+bool JitterCalculator::GetConfig(JitterControlConfig& config)
+{
+    //Note: reentrancy is assumed to be guarded outside this function
+    config.fixedDelayMSec = m_fixed_jitter_delay_ms;
+    config.useAdativeDejitter = m_use_adaptive_jitter_control;
+    config.maxAdaptiveDelayMSec = m_max_adaptive_delay_msec;
+    config.activeAdaptiveDelayMSec = m_adaptive_delay;
+    return true;
 };
 
 
@@ -1044,12 +1068,20 @@ int ClientUser::GetPlaybackStoppedDelay(StreamType stream_type) const
     }
 }
 
-void ClientUser::SetJitterControl(const StreamType stream_type, const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec)
+void ClientUser::SetJitterControl(const StreamType stream_type, const JitterControlConfig& config)
 {
     if (stream_type != STREAMTYPE_VOICE)
         return;
 
-    m_jitter_calculator.SetConfig(fixed_delay_msec, use_adaptive_jitter_control, max_adaptive_delay_msec);
+    m_jitter_calculator.SetConfig(config);
+}
+
+bool ClientUser::GetJitterControl(const StreamType stream_type, JitterControlConfig& config)
+{
+    if (stream_type != STREAMTYPE_VOICE)
+        return false;
+
+    return m_jitter_calculator.GetConfig(config);
 }
 
 void ClientUser::SetVolume(StreamType stream_type, int volume)

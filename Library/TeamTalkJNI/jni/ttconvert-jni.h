@@ -123,6 +123,7 @@ void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject 
 void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServerProperties, JConvert conv);
 void setClientStatistics(JNIEnv* env, ClientStatistics& stats, jobject lpStats); //N2J
 void setJitterConfig(JNIEnv* env, JitterConfig& jitterconfig, jobject lpConfig); //J2N
+void setJitterConfig(JNIEnv* env, jobject lpConfig, JitterConfig& jitterconfig); //N2J
 void setClientKeepAlive(JNIEnv* env, ClientKeepAlive& ka, jobject lpClientKeepAlive, JConvert conv);
 void setTextMessage(JNIEnv* env, TextMessage& msg, jobject lpTextMessage, JConvert conv);
 void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConvert conv);

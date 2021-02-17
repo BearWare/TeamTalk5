@@ -1520,6 +1520,43 @@ TEST_CASE("FixedJitterBuffer")
     //Measuring the maximum deviation of the delay is not reliably possible because the CLIENTEVENT_USER_STATECHANGE is detected/notified on it's own timer.
 }
 
+TEST_CASE("SetGetJitterBufferControl")
+{
+    std::vector<ttinst> clients;
+    auto txclient = TT_InitTeamTalkPoll();
+    auto rxclient = TT_InitTeamTalkPoll();
+    clients.push_back(txclient);
+    clients.push_back(rxclient);
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(txclient));
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    uint32_t fixeddelay = 240;
+
+    JitterConfig jitterconf_in{};
+    jitterconf_in.nFixedDelayMSec = fixeddelay;
+    jitterconf_in.bUseAdativeDejitter = false;
+    jitterconf_in.nMaxAdaptiveDelayMSec = 10000;
+    jitterconf_in.nActiveAdaptiveDelayMSec = 800;
+
+    TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf_in);
+
+    JitterConfig jitterconf_out{};
+    TT_GetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf_out);
+
+    REQUIRE(jitterconf_out.nFixedDelayMSec == jitterconf_out.nFixedDelayMSec);
+    REQUIRE(jitterconf_out.bUseAdativeDejitter == jitterconf_out.bUseAdativeDejitter);
+    REQUIRE(jitterconf_out.nMaxAdaptiveDelayMSec == jitterconf_out.nMaxAdaptiveDelayMSec);
+    REQUIRE(jitterconf_out.nActiveAdaptiveDelayMSec == jitterconf_out.nActiveAdaptiveDelayMSec);
+}
+
 TEST_CASE("VideoCapture")
 {
     using namespace vidcap;

@@ -595,6 +595,7 @@ class User(Structure):
     ("stereoPlaybackMediaFile", BOOL*2),
     ("nBufferMSecVoice", INT32),
     ("nBufferMSecMediaFile", INT32),
+    ("nActiveAdaptiveDelayMSec", INT32),
     ("szClientName", TTCHAR * TT_STRLEN)
     ]
     def __init__(self):
@@ -1334,6 +1335,9 @@ _SetUserStoppedPlaybackDelay.argtypes = [_TTInstance, INT32, INT32, INT32]
 _SetUserJitterControl = dll.TT_SetUserJitterControl
 _SetUserJitterControl.restype = BOOL
 _SetUserJitterControl.argtypes = [_TTInstance, INT32, INT32, POINTER(JitterConfig)]
+_GetUserJitterControl = dll.TT_GetUserJitterControl
+_GetUserJitterControl.restype = BOOL
+_GetUserJitterControl.argtypes = [_TTInstance, INT32, INT32, POINTER(JitterConfig)]
 _SetUserPosition = dll.TT_SetUserPosition
 _SetUserPosition.restype = BOOL
 _SetUserPosition.argtypes = [_TTInstance, INT32, INT32, c_float, c_float, c_float]

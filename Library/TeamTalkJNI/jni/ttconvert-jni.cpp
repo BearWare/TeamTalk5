@@ -363,6 +363,7 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     jfieldID fid_pbmf = env->GetFieldID(cls_user, "stereoPlaybackMediaFile", "[Z");
     jfieldID fid_mfbuf = env->GetFieldID(cls_user, "nBufferMSecMediaFile", "I");
     jfieldID fid_vbuf = env->GetFieldID(cls_user, "nBufferMSecVoice", "I");
+    jfieldID fid_actjitbuf = env->GetFieldID(cls_user, "nActiveAdaptiveDelayMSec", "I");
     jfieldID fid_cltname = env->GetFieldID(cls_user, "szClientName", "Ljava/lang/String;");
 
     assert(fid_userid);
@@ -387,6 +388,7 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     assert(fid_pbmf);
     assert(fid_mfbuf);
     assert(fid_vbuf);
+    assert(fid_actjitbuf);
     assert(fid_cltname);
 
     env->SetIntField(lpUser, fid_userid, user.nUserID);
@@ -420,6 +422,7 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     env->SetObjectField(lpUser, fid_pbmf, boolArray);
     env->SetIntField(lpUser, fid_mfbuf, user.nBufferMSecMediaFile);
     env->SetIntField(lpUser, fid_vbuf, user.nBufferMSecVoice);
+    env->SetIntField(lpUser, fid_actjitbuf, user.nActiveAdaptiveDelayMSec);
     env->SetObjectField(lpUser, fid_cltname, NEW_JSTRING(env, user.szClientName));
 }
 
@@ -1248,15 +1251,38 @@ void setJitterConfig(JNIEnv* env, JitterConfig& jitterconfig, jobject lpConfig)
 
     jfieldID fid_fixeddelay = env->GetFieldID(cls_config, "nFixedDelayMSec", "I");
     jfieldID fid_useadaptivejitter = env->GetFieldID(cls_config, "bUseAdativeDejitter", "Z");
-    jfieldID fid_adaptivedelay = env->GetFieldID(cls_config, "nMaxAdaptiveDelayMSec", "I");
+    jfieldID fid_maxadaptivedelay = env->GetFieldID(cls_config, "nMaxAdaptiveDelayMSec", "I");
+    jfieldID fid_activeadaptivedelay = env->GetFieldID(cls_config, "nActiveAdaptiveDelayMSec", "I");
 
     assert(fid_fixeddelay);
     assert(fid_useadaptivejitter);
-    assert(fid_adaptivedelay);
+    assert(fid_maxadaptivedelay);
+    assert(fid_activeadaptivedelay);
 
     jitterconfig.nFixedDelayMSec = env->GetIntField(lpConfig, fid_fixeddelay);
     jitterconfig.bUseAdativeDejitter = env->GetBooleanField(lpConfig, fid_useadaptivejitter);
-    jitterconfig.nMaxAdaptiveDelayMSec = env->GetIntField(lpConfig, fid_adaptivedelay);
+    jitterconfig.nMaxAdaptiveDelayMSec = env->GetIntField(lpConfig, fid_maxadaptivedelay);
+    jitterconfig.nActiveAdaptiveDelayMSec = env->GetIntField(lpConfig, fid_activeadaptivedelay);
+}
+
+void setJitterConfig(JNIEnv* env, jobject lpConfig, JitterConfig& jitterconfig)
+{
+    jclass cls_config = env->GetObjectClass(lpConfig);
+
+    jfieldID fid_fixeddelay = env->GetFieldID(cls_config, "nFixedDelayMSec", "I");
+    jfieldID fid_useadaptivejitter = env->GetFieldID(cls_config, "bUseAdativeDejitter", "Z");
+    jfieldID fid_maxadaptivedelay = env->GetFieldID(cls_config, "nMaxAdaptiveDelayMSec", "I");
+    jfieldID fid_activeadaptivedelay = env->GetFieldID(cls_config, "nActiveAdaptiveDelayMSec", "I");
+
+    assert(fid_fixeddelay);
+    assert(fid_useadaptivejitter);
+    assert(fid_maxadaptivedelay);
+    assert(fid_activeadaptivedelay);
+
+    env->SetIntField(lpConfig, fid_fixeddelay, jitterconfig.nFixedDelayMSec);
+    env->SetBooleanField(lpConfig, fid_useadaptivejitter, jitterconfig.bUseAdativeDejitter);
+    env->SetIntField(lpConfig, fid_maxadaptivedelay, jitterconfig.nMaxAdaptiveDelayMSec);
+    env->SetIntField(lpConfig, fid_activeadaptivedelay, jitterconfig.nActiveAdaptiveDelayMSec);
 }
 
 void setClientKeepAlive(JNIEnv* env, ClientKeepAlive& ka, jobject lpClientKeepAlive, JConvert conv) {
