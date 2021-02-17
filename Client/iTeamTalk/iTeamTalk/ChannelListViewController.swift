@@ -793,7 +793,6 @@ class ChannelListViewController :
 
         case CLIENTEVENT_CON_LOST :
             
-            playSound(.srv_LOST)
             channels.removeAll()
             users.removeAll()
             curchannel = Channel()
