@@ -1972,6 +1972,7 @@ BEGIN
     IDS_CONSUCCESS          "Successfully logged in"
     IDS_LOGOUTSUCCESS       "Successfully logged out"
     IDS_KICKEDFROMCHANNEL   "You have been kicked from the channel by %s"
+    IDS_KICKEDFROMSERVER   "You have been kicked from the server by %s"
 END
 
 STRINGTABLE
@@ -2155,6 +2156,8 @@ BEGIN
     IDS_ANONYMOUS           "Anonymous"
     IDS_KICKEDFROMCHANNELBYUNK 
                             "You have been kicked from the channel by an unknown user"
+    IDS_KICKEDFROMSERVERBYUNK 
+                            "You have been kicked from the server by an unknown user"
     IDS_NEWPROFILE          "New profile"
 END
 
