@@ -478,10 +478,10 @@
     <item id="1060">Réduire l&apos;affichage</item>
     <item id="1061">Objet</item>
     <item id="1063">Mot de passe</item>
-    <item id="1066">Jouer tous les sons simultanément</item>
+    <item id="1066">Tous en même temps</item>
     <item id="1067">Maximum de connexions simultanées par adresse IP</item>
-    <item id="1069">Jouer intégralement tous les sons</item>
-    <item id="1071">Chaque son doit couper le précédent</item>
+    <item id="1069">Un par un</item>
+    <item id="1071">Interrompre le précédent</item>
     <item id="1073">Mot de passe</item>
     <item id="1075">Adresse de l&apos;hôte</item>
     <item id="1077">Canal audio</item>
