@@ -25,13 +25,19 @@
 
 #if defined(ENABLE_MEDIAFOUNDATION)
 #include "MFStreamer.h"
-#endif
+#endif /* ENABLE_MEDIAFOUNDATION */
+
 #if defined(ENABLE_DSHOW)
 #include "WinMedia.h"
-#endif
+#endif /* ENABLE_DSHOW */
+
 #if defined(ENABLE_FFMPEG3)
 #include "FFMpeg3Streamer.h"
-#endif
+#endif /* ENABLE_FFMPEG3*/
+
+#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
+#include "OpusFileStreamer.h"
+#endif /* ENABLE_OPUSTOOLS && ENABLE_OPUS */
 
 #include <codec/MediaUtil.h>
 
@@ -41,6 +47,11 @@ using namespace media;
 
 bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
+#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
+    if (GetOpusFileMediaFileProp(filename, fileprop))
+        return true;
+#endif
+
 #if defined(ENABLE_MEDIAFOUNDATION)
     return GetMFMediaFileProp(filename, fileprop);
 #elif defined(ENABLE_DSHOW)
@@ -54,6 +65,12 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 mediafile_streamer_t MakeMediaFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
 {
     mediafile_streamer_t streamer;
+
+#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
+    MediaFileProp fileprop;
+    if (GetOpusFileMediaFileProp(filename, fileprop))
+        return mediafile_streamer_t(new OpusFileStreamer(filename, out_prop));
+#endif
 
 #if defined(ENABLE_MEDIAFOUNDATION)
     streamer.reset(new MFStreamer(filename, out_prop));
