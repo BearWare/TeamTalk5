@@ -719,7 +719,7 @@ const char* AudioThread::ProcessSpeex(const media::AudioFrame& audblock,
 
     while(n_processed < audblock.input_samples)
     {
-        assert(nbBytes + enc_frm_size <= m_encbuf.size());
+        assert(nbBytes + enc_frm_size <= int(m_encbuf.size()));
         ret = m_speex->Encode(&audblock.input_buffer[n_processed],
                               &m_encbuf[nbBytes], enc_frm_size);
         assert(ret>0);
@@ -756,7 +756,7 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
 
     while(n_processed < audblock.input_samples)
     {
-        assert(nbBytes + enc_frm_size <= m_encbuf.size());
+        assert(nbBytes + enc_frm_size <= int(m_encbuf.size()));
         ret = m_opus->Encode(&audblock.input_buffer[n_processed*channels],
                              framesize, &m_encbuf[nbBytes], enc_frm_size);
         assert(ret>0);

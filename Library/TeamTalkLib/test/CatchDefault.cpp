@@ -1362,7 +1362,7 @@ TEST_CASE("PortAudioRaw_SamplesPerSec")
 
     PaStream* outstream;
     err = Pa_OpenStream(&outstream, nullptr, &outputParameters,
-                        ininfo->defaultSampleRate, ininfo->defaultSampleRate * .04,
+                        ininfo->defaultSampleRate, uint32_t(ininfo->defaultSampleRate * .04),
                         paClipOff, Foo_StreamCallback, static_cast<void*> (0));
 
     REQUIRE(Pa_StartStream(outstream) == paNoError);
@@ -1417,10 +1417,10 @@ TEST_CASE("PortAudio_SamplesPerSec")
         }
     } player(samples, starttime);
 
-    REQUIRE(snd->OpenOutputStream(&player, outputdeviceid, grp, SAMPLERATE, CHANNELS, SAMPLERATE * 0.04));
+    REQUIRE(snd->OpenOutputStream(&player, outputdeviceid, grp, SAMPLERATE, CHANNELS, uint32_t(SAMPLERATE * 0.04)));
     REQUIRE(snd->StartStream(&player));
 
-    while (samples < outdev.default_samplerate * 2)
+    while (samples < uint32_t(outdev.default_samplerate * 2))
     {
         Pa_Sleep(1000);
 
@@ -1732,7 +1732,7 @@ TEST_CASE("OPUSFileSeek")
     double duration_sec = mfi.uDurationMSec / 1000.;
     REQUIRE(opfile.GetTotalSamples() == SAMPLERATE * duration_sec);
 
-    ogg_int64_t halfsamples = (duration_sec * mfi.audioFmt.nSampleRate) / 2;
+    ogg_int64_t halfsamples = ogg_int64_t((duration_sec * mfi.audioFmt.nSampleRate) / 2);
     REQUIRE(opfile.Seek(halfsamples));
     ogg_int64_t samplesduration;
     int bytes;
@@ -1743,7 +1743,7 @@ TEST_CASE("OPUSFileSeek")
     OpusDecFile opusdecfile;
     REQUIRE(opusdecfile.Open(opusencfilename));
     auto offset_msec = .9 * mfi.uDurationMSec;
-    REQUIRE(opusdecfile.Seek(offset_msec));
+    REQUIRE(opusdecfile.Seek(uint32_t(offset_msec)));
     std::vector<short> frame(FRAMESIZE * CHANNELS);
     int frames = 0;
     while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;

@@ -22,6 +22,7 @@
  */
 
 #include "OpusFileStreamer.h"
+#include <assert.h>
 
 OpusFileStreamer::OpusFileStreamer()
 {

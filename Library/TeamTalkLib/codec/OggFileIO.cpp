@@ -268,8 +268,8 @@ bool OggFile::SeekLog2(ogg_int64_t granulepos)
     m_file.seek(closest_pos, SEEK_SET);
     return SyncPage();
 
-    int ret;
-    char buff[256] = "";
+    //int ret;
+    //char buff[256] = "";
 //    m_file.seek(0, SEEK_SET);
 //    ret = SyncPage(og);
 
@@ -823,7 +823,7 @@ bool OpusFile::OpenFile(const ACE_TString& filename)
             ogg_packet op;
             if (m_oggin.GetPacket(op) == 1)
             {
-                m_frame_size = op.granulepos / (48000 / m_header.input_sample_rate);
+                m_frame_size = int(op.granulepos / (48000 / m_header.input_sample_rate));
                 return true;
             }
         }
@@ -1042,7 +1042,7 @@ int OpusDecFile::Decode(short* input_buffer, int input_samples)
 bool OpusDecFile::Seek(uint32_t offset_msec)
 {
     double offset_sec = offset_msec / 1000.;
-    return m_file.Seek(GetSampleRate() * offset_sec);
+    return m_file.Seek(ogg_int64_t(GetSampleRate() * offset_sec));
 }
 
 uint32_t OpusDecFile::GetDurationMSec()
@@ -1051,7 +1051,7 @@ uint32_t OpusDecFile::GetDurationMSec()
     if (samplestotal >= 0)
     {
         samplestotal *= 1000;
-        return samplestotal / GetSampleRate();
+        return uint32_t(samplestotal / GetSampleRate());
     }
     return 0;
 }
@@ -1062,7 +1062,7 @@ uint32_t OpusDecFile::GetElapsedMSec()
     if (samplestotal >= 0)
     {
         samplestotal *= 1000;
-        return samplestotal / GetSampleRate();
+        return uint32_t(samplestotal / GetSampleRate());
     }
     return 0;
 }
