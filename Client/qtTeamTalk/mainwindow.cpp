@@ -893,13 +893,23 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     case CLIENTEVENT_CMD_MYSELF_KICKED :
     {
         Q_ASSERT(msg.ttType == __USER || msg.ttType == __NONE);
-
-        if(msg.ttType == __USER)
-            addStatusMsg(tr("Kicked by %1")
+        if(msg.nSource == 0)
+        {
+            playSoundEvent(SOUNDEVENT_SERVERLOST);
+            if(msg.ttType == __USER)
+                addStatusMsg(tr("Kicked from server by %1")
                          .arg(getDisplayName(msg.user)));
+            else
+                addStatusMsg(tr("Kicked from server by unknown user"));
+        }
         else
-            addStatusMsg(tr("Kicked by unknown user"));
-    }
+        {
+            if(msg.ttType == __USER)
+                addStatusMsg(tr("Kicked from channel by %1")
+                         .arg(getDisplayName(msg.user)));
+            else
+                addStatusMsg(tr("Kicked from channel by unknown user"));
+        }
     break;
     case CLIENTEVENT_CMD_SERVER_UPDATE :
     {
