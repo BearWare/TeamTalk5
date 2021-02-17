@@ -1759,10 +1759,11 @@ TEST_CASE("OPUSFileSeek")
     REQUIRE(duration_msec == mfi.uDurationMSec);
     REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
 
+    // check seek offsets
     REQUIRE(opusdecfile.Seek(555));
     REQUIRE(opusdecfile.GetElapsedMSec() == (555 / int(FRAMESIZE_SEC * 1000)) * int(FRAMESIZE_SEC * 1000));
-
     REQUIRE(opusdecfile.Seek(0));
     REQUIRE(opusdecfile.GetElapsedMSec() == 0);
 }
+
 #endif
