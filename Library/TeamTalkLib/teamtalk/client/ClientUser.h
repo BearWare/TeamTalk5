@@ -58,7 +58,7 @@ namespace teamtalk {
         int32_t GetActiveAdaptiveJitterDelay() const { return m_adaptive_delay; };
         // Takes a new packet into the calculator and returns the number of msec the packet
         // should be delayed for de-jitter
-        int PacketReceived(const int streamid, const int nominal_delay);
+        int PacketReceived(const int streamid, const int nominal_delay, bool& isfirststreampacket);
 
     private:
         // Dynamic stats

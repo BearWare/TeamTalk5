@@ -3558,6 +3558,26 @@ extern "C" {
          * be refilled as long as the audio input should remain active.
          */
         CLIENTEVENT_AUDIOINPUT = CLIENTEVENT_NONE + 1080,
+        /**
+        * @brief The first voice packet of a new voice stream
+        * has been received.
+        *
+        * This time of this event may differ significantly from the start
+        * of the voice playout that is notified via
+        * #CLIENTEVENT_USER_STATECHANGE due to jitter buffering.
+        *
+        * The time between #CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET
+        * and #CLIENTEVENT_USER_STATECHANGE is the fixed jitter delay
+        * configuration plus the currently active adaptive jitter
+        * buffering in the nActiveAdaptiveDelayMSec member of the
+        * User struct
+        *
+        * @param nSource 0
+        * @param ttType #__USER.
+        * @param user Placed in union of #TTMessage.
+        *
+        * @see TT_SetUserJitterControl */
+        CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET = CLIENTEVENT_NONE + 1090,
     } ClientEvent;
 
     /* List of structures used internally by TeamTalk. */

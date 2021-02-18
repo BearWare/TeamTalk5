@@ -89,6 +89,7 @@ namespace teamtalk {
 
         virtual void OnVoiceActivated(bool enabled) = 0;
 
+        virtual void OnUserFirstStreamVoicePacket(const teamtalk::ClientUser& user) = 0;
         virtual void OnUserStateChange(const teamtalk::ClientUser& user) = 0;
         virtual void OnUserVideoCaptureFrame(int userid, int stream_id) = 0;
         virtual void OnUserMediaFileVideoFrame(int userid, int stream_id) = 0;

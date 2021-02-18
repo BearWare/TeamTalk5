@@ -2748,6 +2748,7 @@ namespace TeamTalkTest.NET
 
                 Assert.IsTrue(ttclient.EnableVoiceTransmission(true));
 
+                Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, 1000, ref msg));
                 Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, 1000, ref msg));
                 Assert.IsTrue(((User)msg.DataToObject()).uUserState.HasFlag(UserState.USERSTATE_VOICE));
 
@@ -2762,7 +2763,8 @@ namespace TeamTalkTest.NET
 
                 Assert.IsTrue(ttclient.EnableVoiceTransmission(false));
 
-                Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, 5000, ref msg));
+                Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, 5000, ref msg));
+                Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, 1000, ref msg));
                 Assert.IsFalse(((User)msg.DataToObject()).uUserState.HasFlag(UserState.USERSTATE_VOICE));
 
                 WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, SILENCE_DURATION);

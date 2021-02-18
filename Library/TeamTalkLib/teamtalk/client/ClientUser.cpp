@@ -39,9 +39,16 @@ using namespace std::placeholders;
 #define MEDIAFILE_BUFFER_MSEC          20000
 
 
-int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay)
+int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay, bool& isfirststreampacket)
 {
     //Note: reentrancy is assumed to be guarded outside this function
+
+    isfirststreampacket = false;
+    if (streamid != m_current_stream)
+    {
+        m_current_stream = streamid;
+        isfirststreampacket = true;
+    }
 
     // Check if jitter control is configured at all
     if ((m_fixed_jitter_delay_ms <= 0) && !m_use_adaptive_jitter_control)
@@ -83,7 +90,7 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
     // is more likely and vice versa on networks where a very fast packet rate is used. 
 
     int jitter_delay = 0;
-    if (streamid != m_current_stream)
+    if (isfirststreampacket)
     {
         //Start of new stream. Reset stream stats
         m_current_playout_buffer = 0;
@@ -198,7 +205,6 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
     m_current_playout_buffer += jitter_delay;
     m_stream_delay += jitter_delay;
     m_current_stream = streamid;
-
     return jitter_delay;
 }
 
@@ -485,8 +491,11 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     // After that initial delay, all received packets are directly fed into the playout buffer
 
     // Guard both the jitter-buffer and the jitter-calculator
+    bool isfirststeampacket = false;
+    int jitter_delay = m_jitter_calculator.PacketReceived(audpkt.GetStreamID(), GetAudioCodecCbMillis(chan->GetAudioCodec()), isfirststeampacket);
 
-    int jitter_delay = m_jitter_calculator.PacketReceived(audpkt.GetStreamID(), GetAudioCodecCbMillis(chan->GetAudioCodec()));
+    if (isfirststeampacket)
+        m_listener->OnUserFirstStreamVoicePacket(*this);
 
     // Put packets in the jitter buffer if we're already queueing or if the jitter calculation resulted in a delay
     if ((jitter_delay > 0) || (!m_jitterbuffer.empty()))
