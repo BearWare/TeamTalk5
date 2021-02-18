@@ -47,7 +47,7 @@ using namespace media;
 
 bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
-#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
+#if defined(WIN32) && defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
     if (GetOpusFileMediaFileProp(filename, fileprop))
         return true;
 #endif
@@ -66,7 +66,7 @@ mediafile_streamer_t MakeMediaFileStreamer(const ACE_TString& filename, const Me
 {
     mediafile_streamer_t streamer;
 
-#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
+#if defined(WIN32) && defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
     MediaFileProp fileprop;
     if (GetOpusFileMediaFileProp(filename, fileprop))
         return mediafile_streamer_t(new OpusFileStreamer(filename, out_prop));
