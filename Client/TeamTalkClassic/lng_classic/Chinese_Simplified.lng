@@ -478,7 +478,10 @@
     <item id="1060">最小化到托盘</item>
     <item id="1061">主题</item>
     <item id="1063">密码</item>
+    <item id="1066">同时播放</item>
     <item id="1067">每个IP地址的最大登录人数</item>
+    <item id="1069">依次播放</item>
+    <item id="1071">中断前者</item>
     <item id="1073">密码</item>
     <item id="1075">主机地址</item>
     <item id="1077">声道</item>
@@ -547,6 +550,7 @@
     <item id="1211">声音系统设置</item>
     <item id="1212">未选择字体</item>
     <item id="1213">请您在这里为 TeamTalk 选择可以录音和播放音频的设备。 推荐选择 DirectSound ，它能提供比 Windows 默认声音系统更低的延迟。</item>
+    <item id="1214">播放声音事件</item>
     <item id="1215">通过点击 “测试所选项”，您可以测试当前选定的设备，并听取您是否能够播放所选输入设备录制的音频。</item>
     <item id="1217">用户可创建临时频道</item>
     <item id="1218">用户可创建/修改所有频道</item>
@@ -757,6 +761,7 @@
     <item id="1548">防止用户从例如通过限制在给定时间范围内可以发出的命令数来发送短信。</item>
     <item id="1550">限制发出命令</item>
     <item id="1552">中性</item>
+    <item id="1553">声音事件相对与语音音量</item>
     <item id="1554">用户可更改昵称</item>
     <item id="1558">用户可在所有频道录音</item>
     <item id="1561">激活(&amp;A)</item>
@@ -787,6 +792,7 @@
     <item id="1602">隐藏频道（不可见，仅通过名称进入）</item>
     <item id="1603">频道类型</item>
     <item id="1604">用户可看到隐藏频道</item>
+    <item id="1606">播放模式</item>
     <item id="32791">您的 &amp;IP 地址</item>
     <item id="32798">设维频道管理员(&amp;O)\tCtrl+O</item>
     <item id="32801">查看频道消息(&amp;W)\tF10</item>
