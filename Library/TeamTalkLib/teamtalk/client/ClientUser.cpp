@@ -53,46 +53,61 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
 
     // Adaptive jitter control.
     // The basic idea is still to the delay playout at the start of a stream just like with only a fixed delay.
-    // The adaptive control only tries to make the delay match the expected jitter by measuring the actual jitters.
-    // So, the whole solution is still geared towards relatively short voice sessions (e.g. a PTT session or VAD session)
+    // The adaptive control only tries to make the delay match the expected jitter of an entire voice stream by measuring the actual jitters.
+    // So the whole solution is still geared towards relatively short voice sessions (e.g. a PTT session or VAD session)
     //
-    // The algorithm is agressive and aims to provide smooth playout even in the worst circumstances at the expense of
-    // of long delays. The idea is that end-users prefer delayed non-jittered voice over jittered voice with shorter delays
-    // The adaptive jitter is calculated as the highest measured jitter
-    // in the last X received packets with a positive jitter. X is arbitrary and currently 100;
-    // For this measurement, a queue of max X positive jitters is maintained. If the dequeued jitter is the
-    // adaptive delay then a adaptive delay is determined by finding the highest jitter in the queue.
+    // The algorithm is aggressive and aims to provide smooth playout even in the worst circumstances at the expense of long delays
+    // The idea is that end-users prefer delayed non-jittered voice over jittered voice with shorter delays
+    //
+    // The adaptive jitter is calculated in two ways:
+    // 1. The maximum measured jitter in the last X received packets.
+    // 2. The total accumulated jitter of a stream in case the buffers during the stream where insufficient.
+    //
+    // Both measurements are treated the same way: they are enqueued in a queue of max X deep.
+    // X means "number of packets" here and is arbitrarily set to 100 currently.
+    // X is important bcause it determines the amount of time (number of packets) it takes to scale down the delay.
+    //
+    // If the queue reaches X packets, an item is dequeued for every received packet.
+    // if the the dequeued jitter is the adaptive delay then a new adaptive delay is determined by finding the highest value in the queue.
     // If a jitter is enqueued that is higher than the adaptive delay than the adaptive delay is immediately set
-    // to that jitter.
-    // This means that the adaptive delay adapts upwards very quickly and adapts slowly downwards.
+    // to that jitter. This means that the adaptive delay adapts upwards very quickly and adapts slowly downwards.
 
-    // A drawback of the current adaptive mechanism is that it assumes that the initial delay will overcome the
-    // accumulated jitter of a stream. This is typically geared towards short PTT-style voice streams.
-    // An alternative approach is to set the adaptive jitter delay to the highest accumulated jitter of a stream.
-    // This will result in even higher delays and can be explored as a future change
+    // Note that jitters are tracked on a per-packet basis whereas the goal of the adaptive delay is to set a sufficient buffer
+    // for the entire stream. It would be better and easier to queue the accumulated jitter per stream.
+    // The reason that's not done is because there is no good heuristic for when to dequeue items as the number
+    // of voice streams is much more unpredictable and unreliable as a measurement than the number of packets.
+    // Other, time-based, approaches add too much complexity and ultimately have the same problem.
+    // At the same time, using the packet rate seems a sufficient approximation and this has at least been proven to work really well on 
+    // extremely high-jitter networks. It for example creates a jitter window of 1s if 10ms voice packets are used and 24s with a 240ms packet-rate. 
+    // It is likely that networks on which TeamTalk is configured with a slow packets rate are also networks on which prolonged jitter
+    // is more likely and vice versa on networks where a very fast packet rate is used. 
 
     int jitter_delay = 0;
     if (streamid != m_current_stream)
     {
         //Start of new stream. Reset stream stats
         m_current_playout_buffer = 0;
+        m_stream_silence = 0;
+        m_stream_delay = 0;
 
-        // A packet is only delayed when the stream changes.
-        // This might be updated later to include a determination if there's a jitter silence in which case
-        // packet  might also be delayed mid-stream
+        // This is the main point of jitter control where we delay the initial stream playout.
+        // A large delay here is not noticable at jitter by the end-users as jitter because the playout hasn't started yet.
+        // They just experience delays in their conversation
+        // If this initial delay/buffer is insufficient then that is detected and those packets are then delayed
+        // mid-stream (duration: fixed jitter buffer delay)
         jitter_delay = m_fixed_jitter_delay_ms;
         if (m_use_adaptive_jitter_control)
             jitter_delay += m_adaptive_delay;
 
-        MYTRACE_COND((jitter_delay > 0), ACE_TEXT("Jitter delay for new stream of user #%d: %d.\n"), m_userid, jitter_delay);
+        MYTRACE_COND((jitter_delay > 0), ACE_TEXT("Jitter delay for new stream of user #%d: %d ms.\n"), m_userid, jitter_delay);
     }
-    else
+    else if (m_use_adaptive_jitter_control)
     {
         // Measure the inter-packet delay and jitter
         // Note that the inter-packet-time is likely to be zero. This typically happens on satelite links.
         // These have high jitter that includes many seconds of non-reception, followed by a burst of delayed packets
         // that are received all at once. The first packet in this burst has a high inter-packet-time and the subsequent ones
-        // have an inter-packet-time of zero.
+        // have an inter-packet-time of (near-)zero.
         int msec_since_last_packet = (packet_reception_time - m_lastpacket_time);
 
         // Calculate the jitter for this packet
@@ -106,68 +121,82 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
         // Keep track of the actual jitter buffer in the playout buffer by adding/removing the last jitter (might be negative jitter)
         m_current_playout_buffer -= jitter_last_packet;
 
-        if ((m_use_adaptive_jitter_control) && (jitter_last_packet > 0))
-        {
-            // Maximize the jitter delay to the configured max.
-            if ((m_max_adaptive_delay_msec > 0) && (jitter_last_packet > m_max_adaptive_delay_msec))
-            {
-                MYTRACE(ACE_TEXT("Adaptive jitter delay capped to configured maximum of %d for user #%d. Received jitter %d, .\n"),
-                                    m_max_adaptive_delay_msec, m_userid, jitter_last_packet);
-                jitter_last_packet = m_max_adaptive_delay_msec;
-            }
-
-            // Keep track of the last X positive jitters. (e.g. packets that were delayed compared to the nominal inter-packet time)
-            m_last_jitters.push_back(jitter_last_packet);
-
-            if (m_last_jitters.size() > 100) // This max size is arbitrary. Might also be replaced by a maximum measured time
-            {
-                // If the queue exceeds size, remove the first one.
-                // If that was the current adaptive delay, calculate the new adaptive delay by finding the highest in the queue
-                int dequeuedjitter = m_last_jitters.front();
-                m_last_jitters.pop_front();
-
-                if (dequeuedjitter == m_adaptive_delay)
-                {
-                    m_adaptive_delay = 0;
-                    deque<int>::iterator ii;
-                    for (ii = m_last_jitters.begin(); ii != m_last_jitters.end(); ++ii)
-                    {
-                        if (*ii > m_adaptive_delay)
-                            m_adaptive_delay = *ii;
-                    }
-                    MYTRACE(ACE_TEXT("Adaptive delay was dequeued. New adaptive jitter delay determined: %d for user #%d.\n"),
-                                        m_adaptive_delay, m_userid);
-                }
-            }
-
-            if (jitter_last_packet > m_adaptive_delay)
-            {
-                //Last jitter is the highest measured. This will be the new highest
-                m_adaptive_delay = jitter_last_packet;
-                MYTRACE(ACE_TEXT("New adaptive jitter delay jitter for user #%d: %d.\n"), m_userid, m_adaptive_delay);
-            }
-        }
 
         if (m_current_playout_buffer < 0)
         {
             // At this point the accumulated jitter during the stream exceeds the buffer set at the start.
-            // This will result is noticeable jitter for the end-user.
+            // This will result in noticeable jitter for the end-user.
 
-            // The remaining buffered time might also be interesting to notifiy via client events. Applications might
-            // use that to visualize buffering.
-            MYTRACE(ACE_TEXT("Jitter exceeds buffered playout time of user #%d. End-user experiences silence for this user. Silence in msec: %d.\n"),
-                m_userid, m_current_playout_buffer);
+            m_stream_silence += std::abs(m_current_playout_buffer);
+
+            MYTRACE(ACE_TEXT("Jitter exceeds buffered playout time of user #%d. Silence: %d ms. Accumulated silence: %d ms. Accumulated delay %d ms\n"),
+                m_userid, std::abs(m_current_playout_buffer), m_stream_silence, m_stream_delay);
+
+            //Set the playout buffer tracker to zero (ignore the underrun)
             m_current_playout_buffer = 0;
 
             // There's aleady silence now. Add the fixed delay as a new buffer into the playout to ensure some buffering for the remainder of this session.
-            // This makes the immediate jitter silence worst, but improves subsequent jitters
+            // This makes the immediate jitter silence worse, but improves subsequent jitters
             jitter_delay = m_fixed_jitter_delay_ms;
+
+            //The buffering so far was inadequate for this stream. Adapt the new adaptive delay for the next stream.
+            //The next stream should be initially delayed by the accumulated silence in this stream plus already inserted delay in this stream so-far.
+            //Do this by changing the packet jitter so it is processed below as the new max.
+            jitter_last_packet = m_stream_delay + m_stream_silence;
+
+            // Add the in-stream inserted delay to the total delay in the stream
+            m_stream_delay += m_fixed_jitter_delay_ms;
         }
 
+        // At this point, the jitter_last_packet contains the jitter that will be stored and processed.
+        // Note that the jitter_last_packet does not *have* to be modified in the IF statement above to lead to a new adaptive delay.
+        // it is perfectly possible for an unmodified jitter_last_packet to become the new adaptive delay. This typically happens if the current adaptive delay
+        // is dequeued during the stream and a new (lower) adaptive delay is chosen. This doesn't affect the playout buffer, so a high jitter that
+        // is within the current playout buffer but above the (new) current adaptive delay will still become the next adaptive delay.
+
+        // Cap the jitter delay to the configured max.
+        if ((m_max_adaptive_delay_msec > 0) && (jitter_last_packet > m_max_adaptive_delay_msec))
+        {
+            MYTRACE(ACE_TEXT("Adaptive jitter delay capped to configured maximum of %d for user #%d. Received jitter %d, .\n"),
+                m_max_adaptive_delay_msec, m_userid, jitter_last_packet);
+            jitter_last_packet = m_max_adaptive_delay_msec;
+        }
+
+        // Keep track of the jitters in the last X packets
+        m_last_jitters.push_back(jitter_last_packet);
+
+        if (m_last_jitters.size() > 100) // This max size is arbitrary but determines the scale down time
+        {
+            // If the queue exceeds size, remove the first one.
+            // If that was the current adaptive delay, calculate the new adaptive delay by finding the highest in the queue
+            int dequeuedjitter = m_last_jitters.front();
+            m_last_jitters.pop_front();
+
+            if (dequeuedjitter == m_adaptive_delay)
+            {
+                m_adaptive_delay = 0;
+                deque<int>::iterator ii;
+                for (ii = m_last_jitters.begin(); ii != m_last_jitters.end(); ++ii)
+                {
+                    if (*ii > m_adaptive_delay)
+                        m_adaptive_delay = *ii;
+                }
+                MYTRACE(ACE_TEXT("Adaptive delay was dequeued. New adaptive jitter delay determined: %d ms for user #%d.\n"),
+                                    m_adaptive_delay, m_userid);
+            }
+        }
+
+        if (jitter_last_packet > m_adaptive_delay)
+        {
+            //Last jitter is the highest measured. This will be the new highest
+            m_adaptive_delay = jitter_last_packet;
+            MYTRACE(ACE_TEXT("New adaptive jitter delay for user #%d: %d ms.\n"), m_userid, m_adaptive_delay);
+        }
     }
 
     m_lastpacket_time = packet_reception_time;
     m_current_playout_buffer += jitter_delay;
+    m_stream_delay += jitter_delay;
     m_current_stream = streamid;
 
     return jitter_delay;
@@ -183,6 +212,8 @@ void JitterCalculator::SetConfig(const JitterControlConfig& config)
     m_lastpacket_time = 0;
     m_current_stream = 0;
     m_current_playout_buffer = 0;
+    m_stream_silence = 0;
+    m_stream_delay = 0;
 
     m_last_jitters.clear();
 

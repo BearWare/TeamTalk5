@@ -64,7 +64,9 @@ namespace teamtalk {
         // Dynamic stats
         uint32_t            m_lastpacket_time = 0;
         uint8_t             m_current_stream = 0;
-        int                 m_current_playout_buffer = 0;
+        int                 m_current_playout_buffer = 0;   //The currently buffered ms of voice in the playout buffer
+        int                 m_stream_silence = 0;           //The accumulated silence in ms experienced during a stream
+        int                 m_stream_delay = 0;             //The total delay in ms added to a stream (initial + in-stream)
         int                 m_adaptive_delay = 0;
 
         // Last jitter times for adaptive jitter control
