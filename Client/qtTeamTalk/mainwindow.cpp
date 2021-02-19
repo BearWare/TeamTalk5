@@ -4263,7 +4263,7 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
     Q_UNUSED(NoButton);
     answer.setIcon(QMessageBox::Information);
-    answer.setWindowTitle(MENUTEXT(ui.actionDeleteFile->text()));
+    answer.setWindowTitle(tr("Delete %1 files").arg(filenames.size()));
     if(filenames.size() == 1)
     {
         answer.setText(tr("Are you sure you want to delete \"%1\"?").arg(filenames[0]));
