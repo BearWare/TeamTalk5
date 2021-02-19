@@ -1735,7 +1735,7 @@ TEST_CASE("OPUSFileSeek")
     // validate frame-size and total number of samples
     OpusFile opfile;
     REQUIRE(opfile.OpenFile(opusencfilename));
-    REQUIRE(PCM16_SAMPLES_DURATION(opfile.GetFrameSize(), opfile.GetSampleRate()) == 1000 * FRAMESIZE_SEC);
+    REQUIRE(PCM16_SAMPLES_DURATION(FRAMESIZE, opfile.GetSampleRate()) == 1000 * FRAMESIZE_SEC);
     double duration_sec = mfi.uDurationMSec / 1000.;
     REQUIRE(opfile.GetTotalSamples() == SAMPLERATE * duration_sec);
 
@@ -1746,15 +1746,24 @@ TEST_CASE("OPUSFileSeek")
     REQUIRE(opfile.ReadEncoded(bytes, &samplesduration));
     REQUIRE(std::abs(halfsamples - samplesduration) <= FRAMESIZE);
 
-    // decode from 90% onwards
+    // decode from 0% onwards
     OpusDecFile opusdecfile;
     REQUIRE(opusdecfile.Open(opusencfilename));
-    auto offset_msec = .9 * mfi.uDurationMSec;
-    REQUIRE(opusdecfile.Seek(uint32_t(offset_msec)));
     std::vector<short> frame(FRAMESIZE * CHANNELS);
     int frames = 0;
     while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
     uint32_t duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
+    REQUIRE(duration_msec == mfi.uDurationMSec);
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+    opusdecfile.Close();
+
+    // decode from 90% onwards
+    REQUIRE(opusdecfile.Open(opusencfilename));
+    auto offset_msec = .9 * mfi.uDurationMSec;
+    REQUIRE(opusdecfile.Seek(uint32_t(offset_msec)));
+    frames = 0;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
+    duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
     REQUIRE(duration_msec == mfi.uDurationMSec - offset_msec);
     REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
 
@@ -1768,9 +1777,20 @@ TEST_CASE("OPUSFileSeek")
 
     // check seek offsets
     REQUIRE(opusdecfile.Seek(555));
-    REQUIRE(opusdecfile.GetElapsedMSec() == (555 / int(FRAMESIZE_SEC * 1000)) * int(FRAMESIZE_SEC * 1000));
+    auto diffMSec = opusdecfile.GetElapsedMSec() - (555 / int(FRAMESIZE_SEC * 1000)) * int(FRAMESIZE_SEC * 1000);
+    REQUIRE(std::abs(int(diffMSec)) <= PCM16_SAMPLES_DURATION(FRAMESIZE, SAMPLERATE));
     REQUIRE(opusdecfile.Seek(0));
     REQUIRE(opusdecfile.GetElapsedMSec() == 0);
+
+    // check decode output after initial duration check
+    opusdecfile.Close();
+    REQUIRE(opusdecfile.Open(opusencfilename));
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+    frames = 0;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
+    duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
+    REQUIRE(duration_msec == mfi.uDurationMSec);
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
 }
 
 #include <avstream/OpusFileStreamer.h>
@@ -1984,4 +2004,28 @@ TEST_CASE("TTPlayOpusOgg")
     REQUIRE(std::abs(int(durationMSec) - int(mfi.uDurationMSec + 1000)) < 500);
 }
 
+TEST_CASE("TTPlayFFmpegOpus")
+{
+    TTCHAR filename[TT_STRLEN] = ACE_TEXT("testdata/Opus/giana.ogg");
+    OpusDecFile odf;
+    REQUIRE(odf.Open(filename));
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.NewFile(ACE_TEXT("giana.wav"), odf.GetSampleRate(), odf.GetChannels()));
+    std::vector<short> buf(odf.GetSampleRate() * odf.GetChannels());
+    int samples, framesize = 0;
+    while ((samples = odf.Decode(&buf[0], odf.GetSampleRate())) > 0)
+    {
+        wavfile.AppendSamples(&buf[0], samples);
+        REQUIRE((framesize == 0 || framesize == samples)); // assume same framesize
+        framesize = samples;
+    }
+    wavfile.Close();
+
+    MediaFileInfo mfi;
+    REQUIRE(TT_GetMediaFileInfo(ACE_TEXT("giana.wav"), &mfi));
+    REQUIRE(std::abs(int(mfi.uDurationMSec - odf.GetDurationMSec())) < PCM16_SAMPLES_DURATION(framesize, odf.GetSampleRate()));
+    REQUIRE(TT_GetMediaFileInfo(filename, &mfi));
+    REQUIRE(mfi.uDurationMSec == odf.GetDurationMSec());
+}
 #endif

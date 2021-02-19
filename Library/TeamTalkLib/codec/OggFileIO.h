@@ -59,6 +59,7 @@ public:
 
     bool Open(const ogg_page& og);
     void Close();
+    void Reset();
 
     int PutPage(ogg_page& og);
     int GetPacket(ogg_packet& op, bool peek = false);
@@ -84,9 +85,9 @@ public:
     int ReadOggPage(ogg_page& og);
     int WriteOggPage(const ogg_page& og);
 
-    bool Seek(ogg_int64_t granulepos);
+    bool Seek(ogg_int64_t granulepos, ogg_page& og);
     ogg_int64_t LastGranulePos();
-    ogg_int64_t CurrentGranulePos();
+    ogg_int64_t CurrentGranulePos() const;
 
     // not working
     bool SeekLog2(ogg_int64_t granulepos);
@@ -207,16 +208,15 @@ public:
 
     int GetSampleRate() const;
     int GetChannels() const;
-    int GetFrameSize() const;
 
-    int WriteEncoded(const char* enc_data, int enc_len, bool last=false);
+    int WriteEncoded(const char* enc_data, int enc_len, int framesize, bool last);
 
     const unsigned char* ReadEncoded(int& bytes, ogg_int64_t* sampleduration = nullptr);
 
     bool Seek(ogg_int64_t samplesoffset);
 
-    ogg_int64_t GetTotalSamples();
-    ogg_int64_t GetSamplesPosition();
+    ogg_int64_t GetTotalSamples() const;
+    ogg_int64_t GetSamplesPosition() const;
 
 private:
     OggInput m_oggin;
@@ -224,8 +224,10 @@ private:
     OggFile m_oggfile;
     OpusHeader m_header = {};
 
-    int m_frame_size;
+    // for encoding
     ogg_int64_t m_granule_pos, m_packet_no;
+    // for decoding
+    ogg_int64_t m_last_granule_pos;
 };
 
 typedef std::shared_ptr< OpusFile > opusfile_t;
@@ -244,7 +246,7 @@ public:
     bool Open(const ACE_TString& filename, int channels, 
               int samplerate, int framesize, int app);
     void Close();
-    int Encode(const short* input_buffer, int input_samples, bool last=false);
+    int Encode(const short* input_buffer, int input_samples, bool last);
 
     OpusEncode& getEncoder() { return m_encoder; }
 
@@ -266,7 +268,6 @@ public:
 
     int GetSampleRate() const;
     int GetChannels() const;
-    int GetFrameSize() const;
     int Decode(short* input_buffer, int input_samples);
     bool Seek(uint32_t offset_msec);
     uint32_t GetDurationMSec();
@@ -274,6 +275,7 @@ public:
 private:
     OpusDecode m_decoder;
     OpusFile m_file;
+    ogg_int64_t m_samples_decoded = 0;
 };
 
 typedef std::shared_ptr< OpusDecFile > opusdecfile_t;

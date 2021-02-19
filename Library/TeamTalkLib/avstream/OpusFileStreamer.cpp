@@ -56,17 +56,19 @@ void OpusFileStreamer::Run()
     }
 
     media::AudioFormat infmt = media::AudioFormat(m_decoder.GetSampleRate(), m_decoder.GetChannels());
-    const int FRAMESIZE = m_decoder.GetFrameSize();
-    std::vector<short> framebuf(FRAMESIZE * m_decoder.GetChannels());
+    // max opus frame size is 120 msec
+    std::vector<short> framebuf(m_decoder.GetSampleRate() * m_decoder.GetChannels());
+    std::vector<short> resample_framebuf;
 
     if (infmt != m_media_out.audio)
     {
-        m_resampler = MakeAudioResampler(infmt, m_media_out.audio, FRAMESIZE);
+        m_resampler = MakeAudioResampler(infmt, m_media_out.audio);
         if (!m_resampler)
         {
             m_open.set(false);
             return;
         }
+        resample_framebuf.resize(m_media_out.audio.samplerate * m_media_out.audio.channels);
     }
 
     // setup the audio format of input file
@@ -124,8 +126,6 @@ void OpusFileStreamer::Run()
 
                 m_media_in.elapsed_ms = m_decoder.GetElapsedMSec();
                 startoffset = m_media_in.elapsed_ms;
-                sampleindex = m_media_in.elapsed_ms / PCM16_SAMPLES_DURATION(FRAMESIZE, infmt.samplerate);
-                sampleindex *= FRAMESIZE;
                 starttime = GETTIMESTAMP();
                 totalpausetime = 0;
                 status = MEDIASTREAM_STARTED;
@@ -147,7 +147,8 @@ void OpusFileStreamer::Run()
             status = MEDIASTREAM_NONE;
         }
 
-        if (m_decoder.Decode(&framebuf[0], FRAMESIZE) != FRAMESIZE)
+        int framesize = m_decoder.Decode(&framebuf[0], m_decoder.GetSampleRate());
+        if (framesize <= 0)
         {
             break; // eof
         }
@@ -156,17 +157,17 @@ void OpusFileStreamer::Run()
         bool submitted;
         if (m_resampler)
         {
-            int outsamples = 0;
-            short* resampled = m_resampler->Resample(&framebuf[0], &outsamples);
-            assert(resampled);
-            media::AudioFrame frm(m_media_out.audio, resampled, outsamples,
-                                  outsamples * (sampleindex / FRAMESIZE));
+            assert(resample_framebuf.size());
+            int outsamples = m_resampler->Resample(&framebuf[0], framesize, &resample_framebuf[0], m_media_out.audio.samplerate);
+            assert(outsamples > 0);
+            auto resampleindex = CalcSamples(infmt.samplerate, sampleindex, m_media_out.audio.samplerate);
+            media::AudioFrame frm(m_media_out.audio, &resample_framebuf[0], outsamples, resampleindex);
             frm.timestamp = m_media_in.elapsed_ms - startoffset;
             submitted = QueueAudio(frm);
         }
         else
         {
-            media::AudioFrame frm(infmt, &framebuf[0], FRAMESIZE, sampleindex);
+            media::AudioFrame frm(infmt, &framebuf[0], framesize, sampleindex);
             frm.timestamp = m_media_in.elapsed_ms - startoffset;
             submitted = QueueAudio(frm);
         }
@@ -175,8 +176,8 @@ void OpusFileStreamer::Run()
                      m_media_in.filename.c_str(), m_media_in.elapsed_ms);
 
         // update elapsed
-        sampleindex += FRAMESIZE;
-        m_media_in.elapsed_ms += PCM16_SAMPLES_DURATION(FRAMESIZE, infmt.samplerate);
+        sampleindex += framesize;
+        m_media_in.elapsed_ms += PCM16_SAMPLES_DURATION(framesize, infmt.samplerate);
 
         // Notify progress
         if (m_statuscallback)

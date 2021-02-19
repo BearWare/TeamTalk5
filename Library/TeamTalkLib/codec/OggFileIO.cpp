@@ -84,6 +84,13 @@ void OggInput::Close()
     m_ready = false;
 }
 
+void OggInput::Reset()
+{
+    assert(ogg_stream_check(&m_os) == 0);
+
+    ogg_stream_reset(&m_os);
+}
+
 int OggInput::PutPage(ogg_page& og)
 {
     assert(ogg_stream_check(&m_os) == 0);
@@ -164,7 +171,9 @@ int OggFile::ReadOggPage(ogg_page& og)
     if (pages > 0)
     {
         // store for seek
-        m_last_gp = ogg_page_granulepos(&og);
+        auto gp = ogg_page_granulepos(&og);
+        if (gp >= 0)
+            m_last_gp = gp;
     }
 
     return pages;
@@ -188,35 +197,39 @@ int OggFile::WriteOggPage(const ogg_page& og)
     return int(bytes_out);
 }
 
-bool OggFile::Seek(ogg_int64_t granulepos)
+bool OggFile::Seek(ogg_int64_t granulepos, ogg_page& og)
 {
     if (m_file.seek(0, SEEK_SET) < 0)
         return false;
 
     ogg_sync_reset(&m_state);
-    ogg_page og;
-    // <= so "granulepos = 0" are skipped
-    while (ReadOggPage(og) > 0 && ogg_page_granulepos(&og) < granulepos);
+    
+    while (ReadOggPage(og) > 0)
+    {
+        auto gp = ogg_page_granulepos(&og);
+        if (gp >= granulepos)
+            return true;
+    }
 
-    return true;
+    return false;
 }
 
 ogg_int64_t OggFile::LastGranulePos()
 {
     auto origin_gp = m_last_gp;
-    if (!Seek(0))
+    ogg_page og;
+    if (!Seek(0, og))
         return -1;
 
-    ogg_page og;
     while(ReadOggPage(og) > 0);
     auto lastgp = m_last_gp;
-    if (!Seek(origin_gp))
+    if (!Seek(origin_gp, og))
         return false;
 
     return lastgp;
 }
 
-ogg_int64_t OggFile::CurrentGranulePos()
+ogg_int64_t OggFile::CurrentGranulePos() const
 {
     return m_last_gp;
 }
@@ -716,8 +729,6 @@ bool OpusFile::NewFile(const ACE_TString& filename,
         return false;
     }
 
-    m_frame_size = framesize;
-
     m_header.preskip = 3840;  // 80 ms @ 48kHz as per rfc7845 - 5.1 bullet 4
     m_header.channels = channels;
     m_header.channel_mapping = 0;
@@ -768,8 +779,17 @@ bool OpusFile::OpenFile(const ACE_TString& filename)
         return false;
     else
     {
+        // first store duration of file. Needed by GetTotalSamples()
+        m_last_granule_pos = m_oggfile.LastGranulePos();
+        // rewind and find first page (again)
         ogg_page og;
-        if (m_oggfile.ReadOggPage(og) != 1 || !m_oggin.Open(og) || m_oggin.PutPage(og) != 0)
+        if (m_last_granule_pos < 0 || !m_oggfile.Seek(0, og))
+        {
+            Close();
+            return false;
+        }
+
+        if (!m_oggin.Open(og) || m_oggin.PutPage(og) != 0)
         {
             Close();
             return false;
@@ -787,12 +807,12 @@ bool OpusFile::OpenFile(const ACE_TString& filename)
                 opus_header_parse(op.packet, op.bytes, &m_header) == 1)
             {
                 // found opus header
-                m_packet_no = 0;
+                m_packet_no = op.packetno;
             }
             else if (m_packet_no == 0)
             {
                 // skip comments
-                ++m_packet_no;
+                m_packet_no = op.packetno;
                 break;
             }
         }
@@ -803,6 +823,8 @@ bool OpusFile::OpenFile(const ACE_TString& filename)
         {
             ret = m_oggin.PutPage(og);
             assert(ret == 0);
+            if (ret != 0)
+                break;
         }
         else if (ret == 0)
             break; // no page - eof
@@ -812,23 +834,7 @@ bool OpusFile::OpenFile(const ACE_TString& filename)
 
     // packet number 2 is where the first encoded OPUS data exists
     if (m_packet_no == 1)
-    {
-        // detect frame size
-        ogg_page og;
-        ret = m_oggfile.ReadOggPage(og);
-        if (ret > 0)
-        {
-            ret = m_oggin.PutPage(og);
-            assert(ret == 0);
-            ogg_packet op;
-            if (m_oggin.GetPacket(op) == 1)
-            {
-                m_frame_size = int(op.granulepos / (48000 / m_header.input_sample_rate));
-                if (m_frame_size > 0)
-                    return true;
-            }
-        }
-    }
+        return true;
 
     Close();
 
@@ -841,8 +847,7 @@ void OpusFile::Close()
     m_oggout.Close();
     m_oggin.Close();
 
-    m_frame_size = 0;
-    m_granule_pos = m_packet_no = 0;
+    m_last_granule_pos = m_granule_pos = m_packet_no = 0;
     m_header = {};
 }
 
@@ -856,12 +861,7 @@ int OpusFile::GetChannels() const
     return m_header.channels;
 }
 
-int OpusFile::GetFrameSize() const
-{
-    return m_frame_size;
-}
-
-int OpusFile::WriteEncoded(const char* enc_data, int enc_len, bool last)
+int OpusFile::WriteEncoded(const char* enc_data, int enc_len, int framesize, bool last)
 {
     ogg_packet op = {};
     op.packet = reinterpret_cast<unsigned char*>(const_cast<char*>(enc_data));
@@ -872,7 +872,7 @@ int OpusFile::WriteEncoded(const char* enc_data, int enc_len, bool last)
     // include the samples in the page that's written.
     // So, advance the granule before writing.
     // https://tools.ietf.org/html/rfc7845#page-6
-    m_granule_pos += m_frame_size * 48000 / m_header.input_sample_rate;
+    m_granule_pos += framesize * 48000 / m_header.input_sample_rate;
     op.granulepos = m_granule_pos;
     op.packetno = m_packet_no++;
 
@@ -894,6 +894,7 @@ const unsigned char* OpusFile::ReadEncoded(int& bytes, ogg_int64_t* sampledurati
 {
     ogg_packet op;
     ogg_page og;
+    op.packet = nullptr;
 
     while (m_oggin.GetPacket(op) != 1)
     {
@@ -909,52 +910,70 @@ const unsigned char* OpusFile::ReadEncoded(int& bytes, ogg_int64_t* sampledurati
             return nullptr; // file read error
     }
 
-    m_packet_no = op.packetno; // unused
-    m_granule_pos = op.granulepos; // unused
-    bytes = op.bytes;
+    if (op.packet)
+    {
+        m_packet_no = op.packetno; // unused by decoder
+        m_granule_pos = op.granulepos; // unused by decoder
+        bytes = op.bytes;
 
-    if (sampleduration)
-        *sampleduration = (op.granulepos / (48000 / m_header.input_sample_rate));
+        if (sampleduration)
+        {
+            if (op.granulepos >= 0)
+                *sampleduration = (op.granulepos / (48000 / m_header.input_sample_rate));
+            else
+                *sampleduration = -1;
+        }
+    }
 
     return op.packet;
 }
 
 bool OpusFile::Seek(ogg_int64_t samplesoffset)
 {
+    ogg_page og;
     ogg_int64_t granulepos = samplesoffset * (48000 / m_header.input_sample_rate);
 
     // special handling of "granulepos == 0" because we need to
     // skip "OpusHead" packet #0 and "OpusTags packet #1 in OggFile.
     if (granulepos == 0)
     {
-        if (!m_oggfile.Seek(0)) //skip 1 "OpusHead"
+        if (!m_oggfile.Seek(0, og)) //skip 1 "OpusHead"
             return false;
 
-        ogg_page og;
         if (m_oggfile.ReadOggPage(og) != 1)  //skip 1 "OpusTags"
             return false;
+
+        // flush whatever we already have
+        m_oggin.Reset();
 
         return true;
     }
 
-    return m_oggfile.Seek(granulepos);
+    if (m_oggfile.Seek(granulepos, og))
+    {
+        // flush whatever we already have
+        m_oggin.Reset();
+
+        return true;
+    }
+    return false;
 }
 
-ogg_int64_t OpusFile::GetTotalSamples()
+ogg_int64_t OpusFile::GetTotalSamples() const
 {
-    auto lastgp = m_oggfile.LastGranulePos();
-    return lastgp / (48000 / m_header.input_sample_rate);
+    if (m_last_granule_pos >= 0)
+        return m_last_granule_pos / (48000 / m_header.input_sample_rate);
+    return -1;
 }
 
-ogg_int64_t OpusFile::GetSamplesPosition()
+ogg_int64_t OpusFile::GetSamplesPosition() const
 {
     auto gp = m_oggfile.CurrentGranulePos();
-    if (gp > 0)
+    if (gp >= 0)
     {
-        auto samples = gp / (48000 / m_header.input_sample_rate);
-        return samples - GetFrameSize();
+        return gp / (48000 / m_header.input_sample_rate);
     }
-    return gp == 0 ? 0 : -1;
+    return -1;
 }
 
 #endif /* ENABLE_OPUSTOOLS */
@@ -986,14 +1005,13 @@ void OpusEncFile::Close()
     m_encoder.Close();
 }
 
-int OpusEncFile::Encode(const short* input_buffer, int input_samples,
-                        bool last)
+int OpusEncFile::Encode(const short* input_buffer, int input_samples, bool last)
 {
     assert(input_buffer);
     int ret = m_encoder.Encode(input_buffer, input_samples,
                                &m_buffer[0], int(m_buffer.size()));
     if (ret > 0)
-        return m_file.WriteEncoded(&m_buffer[0], ret, last);
+        return m_file.WriteEncoded(&m_buffer[0], ret, input_samples, last);
 
     return ret;
 }
@@ -1011,6 +1029,7 @@ void OpusDecFile::Close()
 {
     m_file.Close();
     m_decoder.Close();
+    m_samples_decoded = 0;
 }
 
 int OpusDecFile::GetSampleRate() const
@@ -1023,11 +1042,6 @@ int OpusDecFile::GetChannels() const
     return m_file.GetChannels();
 }
 
-int OpusDecFile::GetFrameSize() const
-{
-    return m_file.GetFrameSize();
-}
-
 int OpusDecFile::Decode(short* input_buffer, int input_samples)
 {
     int bytes;
@@ -1036,15 +1050,25 @@ int OpusDecFile::Decode(short* input_buffer, int input_samples)
     if (!opusbuf)
         return 0;
 
-    assert(input_samples >= GetFrameSize());
-
-    return m_decoder.Decode(reinterpret_cast<const char*>(opusbuf), bytes, input_buffer, input_samples);
+    int samples = m_decoder.Decode(reinterpret_cast<const char*>(opusbuf), bytes, input_buffer, input_samples);
+    if (samples > 0)
+        m_samples_decoded += samples;
+    return samples;
 }
 
 bool OpusDecFile::Seek(uint32_t offset_msec)
 {
     double offset_sec = offset_msec / 1000.;
-    return m_file.Seek(ogg_int64_t(GetSampleRate() * offset_sec));
+    if (m_file.Seek(ogg_int64_t(GetSampleRate() * offset_sec)))
+    {
+        auto samples = m_file.GetSamplesPosition();
+        if (samples >= 0)
+            m_samples_decoded = samples;
+
+        return true;
+    }
+
+    return false;
 }
 
 uint32_t OpusDecFile::GetDurationMSec()
@@ -1060,13 +1084,7 @@ uint32_t OpusDecFile::GetDurationMSec()
 
 uint32_t OpusDecFile::GetElapsedMSec()
 {
-    auto samplestotal = m_file.GetSamplesPosition();
-    if (samplestotal >= 0)
-    {
-        samplestotal *= 1000;
-        return uint32_t(samplestotal / GetSampleRate());
-    }
-    return 0;
+    return uint32_t((m_samples_decoded * 1000) / GetSampleRate());
 }
 
 #endif /* ENABLE_OPUSTOOLS && ENABLE_OPUS */

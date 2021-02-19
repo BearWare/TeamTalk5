@@ -257,7 +257,8 @@ void VoiceLog::WritePacket(int packet_no)
     //AFF_CHANNELCODEC_FORMAT
 
     int fpp = GetAudioCodecFramesPerPacket(m_codec);
-    vector<uint16_t> frame_sizes;
+    int framesize = GetAudioCodecFrameSize(m_codec);
+    vector<uint16_t> enc_sizes;
     uint16_t enc_len = 0;
     const char* enc_data = NULL;
 
@@ -265,12 +266,12 @@ void VoiceLog::WritePacket(int packet_no)
     if(ite != m_mFlushPackets.end())
     {
         AudioPacket& packet = *ite->second;
-        frame_sizes = GetAudioPacketFrameSizes(packet, m_codec);
+        enc_sizes = GetAudioPacketFrameSizes(packet, m_codec);
         enc_data = packet.GetEncodedAudio(enc_len);
     }
     else
     {
-        frame_sizes.resize(fpp);
+        enc_sizes.resize(fpp);
     }
     
     switch(m_codec.codec)
@@ -282,12 +283,12 @@ void VoiceLog::WritePacket(int packet_no)
         if (m_speexfile)
         {
             int pos = 0;
-            for(size_t i=0;i<frame_sizes.size();i++)
+            for(size_t i=0;i<enc_sizes.size();i++)
             {
-                m_speexfile->WriteEncoded(enc_data?&enc_data[pos]:NULL, frame_sizes[i],
+                m_speexfile->WriteEncoded(enc_data ? &enc_data[pos] : nullptr, enc_sizes[i],
                                           m_mFlushPackets.size() == 1 &&
-                                          m_closing && i+1 == frame_sizes.size());
-                pos += frame_sizes[i];
+                                          m_closing && i+1 == enc_sizes.size());
+                pos += enc_sizes[i];
             }
         }
 #endif /* ENABLE_OGG && ENABLE_SPEEX */
@@ -298,12 +299,12 @@ void VoiceLog::WritePacket(int packet_no)
         if (m_opusfile)
         {
             int pos = 0;
-            for(size_t i=0;i<frame_sizes.size();i++)
+            for(size_t i=0;i<enc_sizes.size();i++)
             {
-                m_opusfile->WriteEncoded(enc_data?&enc_data[pos]:NULL, frame_sizes[i],
-                                         m_mFlushPackets.size() == 1 &&
-                                         m_closing && i+1 == frame_sizes.size());
-                pos += frame_sizes[i];
+                m_opusfile->WriteEncoded(enc_data ? &enc_data[pos] : nullptr, enc_sizes[i],
+                                         framesize, m_mFlushPackets.size() == 1 &&
+                                         m_closing && i+1 == enc_sizes.size());
+                pos += enc_sizes[i];
             }
             
         }
