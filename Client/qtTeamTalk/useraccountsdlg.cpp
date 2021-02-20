@@ -471,6 +471,7 @@ void UserAccountsDlg::slotAddUser()
         answer.setText(tr("Create anonymous user account?"));
         QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
         QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
         answer.setIcon(QMessageBox::Question);
         answer.setWindowTitle(tr("Add/Update"));
         answer.exec();
