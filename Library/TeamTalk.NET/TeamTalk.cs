@@ -2113,6 +2113,10 @@ namespace BearWare
          * content.
          * @see TeamTalkBase.SetUserAudioStreamBufferSize() */
         public int nBufferMSecMediaFile;
+        /** @brief the currently active adaptive jitter delay for
+        received voice streams for this user.
+        * @see TT_SetUserJitterControl */
+        public int nActiveAdaptiveDelayMSec;
         /** @brief The name of the client application which the user
          * is using. This is the value passed as @c szClientName in
          * TeamTalkBase.DoLoginEx() */
@@ -7326,6 +7330,24 @@ namespace BearWare
                                                 ref JitterConfig lpJitterConfig)
         {
             return TTDLL.TT_SetUserJitterControl(m_ttInst, nUserID, nStreamType, ref lpJitterConfig);
+        }
+
+        /**
+        * @brief Get the de-jitter configuration for a user.
+        *
+        * @see TT_SetUserJitterControl()
+        *
+        * @param lpTTInstance Pointer to client instance created by #TT_InitTeamTalk.
+        * @param nUserID The user ID of the user to apply the configuration to.
+        * @param nStreamType The type of stream to change, currently only
+        * #STREAMTYPE_VOICE is supported. Other types are a no-op.
+        * @param lpJitterConfig Pointer to an application-provided jitter buffer
+        configuration that will be filled upon return.*/
+        public bool GetUserJitterControl(int nUserID,
+                                                StreamType nStreamType,
+                                                ref JitterConfig lpJitterConfig)
+        {
+            return TTDLL.TT_GetUserJitterControl(m_ttInst, nUserID, nStreamType, ref lpJitterConfig);
         }
 
         /**

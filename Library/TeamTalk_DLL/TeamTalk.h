@@ -2211,6 +2211,10 @@ extern "C" {
          * content.
          * @see TT_SetUserAudioStreamBufferSize() */
         INT32 nBufferMSecMediaFile;
+        /** @brief the currently active adaptive jitter delay for
+        received voice streams for this user.
+        * @see TT_SetUserJitterControl */
+        INT32 nActiveAdaptiveDelayMSec;
         /** @brief The name of the client application which the user
          * is using. This is the value passed as @c szClientName in
          * TT_DoLoginEx() */
@@ -2688,6 +2692,13 @@ extern "C" {
         /** @brief A hard maximum delay on the adaptive delay. 
         Only valid when higher than zero. Default = 0.*/
         INT32 nMaxAdaptiveDelayMSec;
+        /** @brief The current adaptive delay.
+        When used with TT_SetUserJitterControl, this value is used as the
+        adaptive jitter delay starting at the next voice stream of the user.
+        Default = 0, meaning the value will not be used.
+        When returned via TT_GetUserJitterControl, it contains the currently
+        active adaptive jitter delay.*/
+        INT32 nActiveAdaptiveDelayMSec;
     } JitterConfig;
 
     /** @addtogroup errorhandling
@@ -6963,7 +6974,24 @@ extern "C" {
                                                     IN INT32 nUserID,
                                                     IN StreamType nStreamType,
                                                     IN JitterConfig* lpJitterConfig);
-    /**
+
+     /**
+     * @brief Get the de-jitter configuration for a user.
+     *
+     * @see TT_SetUserJitterControl()
+     *
+     * @param lpTTInstance Pointer to client instance created by #TT_InitTeamTalk.
+     * @param nUserID The user ID of the user to apply the configuration to.
+     * @param nStreamType The type of stream to change, currently only
+     * #STREAMTYPE_VOICE is supported. Other types are a no-op.
+     * @param lpJitterConfig Pointer to an application-provided jitter buffer
+     configuration that will be filled upon return.*/
+     TEAMTALKDLL_API TTBOOL TT_GetUserJitterControl(IN TTInstance* lpTTInstance,
+                                                    IN INT32 nUserID,
+                                                    IN StreamType nStreamType,
+                                                    IN JitterConfig* lpJitterConfig);
+
+     /**
      * @brief Set the position of a user.
      *
      * 3D sound position requires #SOUNDDEVICEFEATURE_3DPOSITION.

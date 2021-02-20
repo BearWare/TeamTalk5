@@ -3510,6 +3510,8 @@ void CTeamTalkDlg::OnFilePreferences()
     eventspage.m_SoundFiles[SOUNDEVENT_ME_DISABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventMeDisableVoiceActivation().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_HEAD] = STR_UTF8( m_xmlSettings.GetEventTransmitQueueHead().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_STOP] = STR_UTF8( m_xmlSettings.GetEventTransmitQueueStop().c_str() );
+    eventspage.m_nClientSoundsVsVoice = m_xmlSettings.GetClientSoundsVsVoice(DEFAULT_CLIENT_SOUNDS_VS_VOICE);
+    eventspage.m_nPlaybackMode = PlaybackMode(m_xmlSettings.GetSoundPlaybackMode(DEFAULT_SOUNDEVENT_PLAYBACKMODE));
 
     ////////////////////////
     // Text to Speech
@@ -3793,6 +3795,8 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventMeDisableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_ME_DISABLE_VOICEACTIVATION]));
         m_xmlSettings.SetEventTransmitQueueHead(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_HEAD]));
         m_xmlSettings.SetEventTransmitQueueStop(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_STOP]));
+        m_xmlSettings.SetClientSoundsVsVoice(eventspage.m_nClientSoundsVsVoice);
+        m_xmlSettings.SetSoundPlaybackMode(eventspage.m_nPlaybackMode);
 
         ///////////////////////////////////////
         // write settings for Text to speech
@@ -6451,7 +6455,9 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
 
     if (szFilename.GetLength())
     {
-        m_pPlaySndThread->AddSoundEvent(szFilename, PLAYBACKMODE_TEAMTALK);
+        PlaybackMode pbMode = PlaybackMode(m_xmlSettings.GetSoundPlaybackMode(DEFAULT_SOUNDEVENT_PLAYBACKMODE));
+        int sndVol = m_xmlSettings.GetClientSoundsVsVoice(DEFAULT_CLIENT_SOUNDS_VS_VOICE);
+        m_pPlaySndThread->AddSoundEvent(szFilename, pbMode, sndVol);
     }
 }
 

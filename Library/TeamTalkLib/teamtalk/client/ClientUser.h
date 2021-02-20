@@ -39,13 +39,23 @@
 
 namespace teamtalk {
 
+    struct JitterControlConfig
+    {
+        int32_t fixedDelayMSec = 0;
+        bool useAdativeDejitter = false;
+        int32_t maxAdaptiveDelayMSec = 0;
+        int32_t activeAdaptiveDelayMSec = 0;
+    };
+
     class JitterCalculator
     {
     public:
         JitterCalculator(int userid):
             m_userid(userid){ };
 
-        void SetConfig(const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec);
+        void SetConfig(const JitterControlConfig& config);
+        bool GetConfig(JitterControlConfig& config);
+        int32_t GetActiveAdaptiveJitterDelay() const { return m_adaptive_delay; };
         // Takes a new packet into the calculator and returns the number of msec the packet
         // should be delayed for de-jitter
         int PacketReceived(const int streamid, const int nominal_delay);
@@ -164,7 +174,9 @@ namespace teamtalk {
         void SetRecordingCloseExtraDelay(int msec) { m_recording_close_extra_delay = msec; }
         int GetRecordingCloseExtraDelay() const { return m_recording_close_extra_delay; }
 
-        void SetJitterControl(const StreamType stream_type, const int fixed_delay_msec, const bool use_adaptive_jitter_control, const int max_adaptive_delay_msec);
+        void SetJitterControl(const StreamType stream_type, const JitterControlConfig& config);
+        bool GetJitterControl(const StreamType stream_type, JitterControlConfig& config);
+        int32_t GetActiveAdaptiveJitterDelayVoice() const { return m_jitter_calculator.GetActiveAdaptiveJitterDelay(); }
 
         void SetVolume(StreamType stream_type, int volume);
         int GetVolume(StreamType stream_type) const;
