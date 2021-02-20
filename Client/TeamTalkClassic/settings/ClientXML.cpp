@@ -1209,6 +1209,16 @@ namespace teamtalk {
         return GetValueBool(true, "window/show-emojis", bDefault);
     }
 
+    void ClientXML::SetShowLoggedInOut(bool bEnable)
+    {
+        SetValueBool("window/show-logged-in-out", bEnable);
+    }
+
+    bool ClientXML::GetShowLoggedInOut(bool bDefault)
+    {
+        return GetValueBool(true, "window/show-logged-in-out", bDefault);
+    }
+
     /***********************************/
     /*********** <client> **************/
     /***********************************/
@@ -2004,6 +2014,26 @@ namespace teamtalk {
     TTSEvents ClientXML::GetEventTTSEvents()
     {
         return TTSEvents(GetValue(true, "events/text-to-speech-events", TTS_ALL));
+    }
+
+    void ClientXML::SetClientSoundsVsVoice(int nPercent)
+    {
+        SetValue("events/client-sounds-vs-voice", nPercent);
+    }
+
+    int ClientXML::GetClientSoundsVsVoice(int nDefPercent)
+    {
+        return GetValue(true, "events/client-sounds-vs-voice", nDefPercent);
+    }
+
+    void ClientXML::SetSoundPlaybackMode(int pbmode)
+    {
+        SetValue("events/playback-mode", pbmode);
+    }
+
+    int ClientXML::GetSoundPlaybackMode(int nDefPbMode)
+    {
+        return GetValue(true, "events/playback-mode", nDefPbMode);
     }
 
     /********* <advanced> ************/

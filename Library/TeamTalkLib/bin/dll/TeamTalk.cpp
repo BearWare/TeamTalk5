@@ -45,6 +45,7 @@ HINSTANCE hInstance = NULL;
 #endif
 
 #include <ace/Init_ACE.h>
+#include <ace/OS.h>
 
 #include <teamtalk/client/ClientNode.h>
 #include <teamtalk/client/AudioContainer.h>
@@ -2007,14 +2008,40 @@ TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
     clientuser_t user = clientnode->GetUser(nUserID);
     if (user)
     {
+        teamtalk::JitterControlConfig config = {};
+
         if (lpJitterConfig)
         {
-            user->SetJitterControl((teamtalk::StreamType)nStreamType, lpJitterConfig->nFixedDelayMSec, lpJitterConfig->bUseAdativeDejitter, lpJitterConfig->nMaxAdaptiveDelayMSec);
+            Convert(*lpJitterConfig, config);
         }
-        else
+        user->SetJitterControl((teamtalk::StreamType)nStreamType, config);
+        return TRUE;
+    }
+    return FALSE;
+
+}
+
+TEAMTALKDLL_API TTBOOL TT_GetUserJitterControl(IN TTInstance* lpTTInstance,
+                                                IN INT32 nUserID,
+                                                IN StreamType nStreamType,
+                                                IN JitterConfig* lpJitterConfig)
+{
+    if (!lpJitterConfig)
+        return FALSE;
+
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    clientuser_t user = clientnode->GetUser(nUserID);
+    if (user)
+    {
+        teamtalk::JitterControlConfig config = {};
+        if (!user->GetJitterControl((teamtalk::StreamType)nStreamType, config))
         {
-            user->SetJitterControl((teamtalk::StreamType)nStreamType, 0, false, 0);
+            return FALSE;
         }
+
+        Convert(config, *lpJitterConfig);
         return TRUE;
     }
     return FALSE;

@@ -167,6 +167,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QRadioButton" name="neutralRadioButton">
+              <property name="text">
+               <string>Neutral</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer_13">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -499,6 +506,13 @@
              <widget class="QCheckBox" name="logstatusbarChkBox">
               <property name="text">
                <string>Show statusbar events in chat-window</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="loggedinoutChkBox">
+              <property name="text">
+               <string>Show user logs in/out in chat history</string>
               </property>
              </widget>
             </item>
@@ -2150,6 +2164,7 @@
   <tabstop>nicknameEdit</tabstop>
   <tabstop>maleRadioButton</tabstop>
   <tabstop>femaleRadioButton</tabstop>
+  <tabstop>neutralRadioButton</tabstop>
   <tabstop>awaySpinBox</tabstop>
   <tabstop>bearwareidEdit</tabstop>
   <tabstop>setupBearWareLoginButton</tabstop>
@@ -2174,6 +2189,7 @@
   <tabstop>desktopdlgChkBox</tabstop>
   <tabstop>msgtimestampChkBox</tabstop>
   <tabstop>logstatusbarChkBox</tabstop>
+  <tabstop>loggedinoutChkBox</tabstop>
   <tabstop>updatesChkBox</tabstop>
   <tabstop>vidtextChkBox</tabstop>
   <tabstop>vidtextsrcToolBtn</tabstop>

@@ -31,6 +31,7 @@
 #include <teamtalk/PacketHelper.h>
 #include <myace/MyACE.h>
 
+#include <ace/OS.h>
 #include <ace/Synch_Options.h>
 
 using namespace teamtalk;

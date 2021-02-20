@@ -118,6 +118,9 @@ void Convert(const teamtalk::ClientKeepAlive& ka, ClientKeepAlive& result);
 void Convert(const teamtalk::DesktopInput& input, DesktopInput& result);
 void Convert(const DesktopInput& input, teamtalk::DesktopInput& result);
 
+void Convert(const JitterConfig& input, teamtalk::JitterControlConfig& result);
+void Convert(const teamtalk::JitterControlConfig& input, JitterConfig& result);
+
 void Convert(const std::set<int>& intset, int* int_array, int max_elements);
 void Convert(const int* int_array, int max_elements, std::set<int>& intset);
 

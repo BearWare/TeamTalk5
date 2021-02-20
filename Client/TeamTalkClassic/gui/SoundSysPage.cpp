@@ -107,9 +107,8 @@ BOOL CSoundSysPage::OnInitDialog()
 
     TRANSLATE(*this, IDD);
 
-    ClientFlags uFlags = TT_GetFlags(ttInst);
-    m_wndRefreshDevs.EnableWindow((uFlags &
-        (CLIENT_SNDINPUT_READY | CLIENT_SNDOUTPUT_READY | CLIENT_SNDINOUTPUT_DUPLEX)) == 0);
+    m_nOrgInputDevice = m_nInputDevice;
+    m_nOrgOutputDevice = m_nOutputDevice;
 
     RefreshSoundDevices();
 
@@ -481,6 +480,33 @@ void CSoundSysPage::OnBnClickedCheckAgc()
 
 void CSoundSysPage::OnBnClickedButtonRefreshsnd()
 {
+    ClientFlags uFlags = TT_GetFlags(ttInst);
+
+    TT_CloseSoundInputDevice(ttInst);
+    TT_CloseSoundOutputDevice(ttInst);
+    TT_CloseSoundDuplexDevices(ttInst);
+
     TT_RestartSoundSystem();
+
+    BOOL bDuplex = (uFlags & CLIENT_SNDINOUTPUT_DUPLEX) == CLIENT_SNDINOUTPUT_DUPLEX;
+
+    BOOL bSuccess = TRUE;
+    if (m_nOrgInputDevice != UNDEFINED && !bDuplex &&
+        ((uFlags & CLIENT_SNDINPUT_READY) == CLIENT_SNDINPUT_READY))
+        bSuccess &= TT_InitSoundInputDevice(ttInst, m_nOrgInputDevice);
+
+    if (m_nOrgOutputDevice != UNDEFINED && !bDuplex &&
+        ((uFlags & CLIENT_SNDOUTPUT_READY) == CLIENT_SNDOUTPUT_READY))
+        bSuccess &= TT_InitSoundOutputDevice(ttInst, m_nOrgOutputDevice);
+
+    if (bDuplex)
+        bSuccess &= TT_InitSoundDuplexDevices(ttInst, m_nOrgInputDevice, m_nOutputDevice);
+    
+    if (!bSuccess)
+    {
+        CString szError = LoadText(IDS_RESTARTAPPLICATION);
+        CString szCaption = LoadText(IDS_SNDINITFAILED);
+        MessageBox(szError, szCaption, MB_OK);
+    }
     RefreshSoundDevices();
 }

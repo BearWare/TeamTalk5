@@ -259,7 +259,7 @@ class ChannelListViewController :
             cell.nicknameLabel.text = name
             cell.statusmsgLabel.text = statusmsg
             
-            let female = Int(user.nStatusMode) & StatusMode.STATUSMODE_FEMALE.rawValue != 0
+            let female = (UInt(user.nStatusMode) & StatusMode.STATUSMODE_FEMALE.rawValue) != 0
             
             if female {
                 cell.userImage.accessibilityLabel = NSLocalizedString("User female", comment: "channel list")
@@ -273,11 +273,11 @@ class ChannelListViewController :
                     isTransmitting(ttInst!, stream: STREAMTYPE_VOICE)) {
                         
                 cell.userImage.image = UIImage(named: female ? "woman_green.png" : "man_green.png")
-                cell.userImage.accessibilityHint = NSLocalizedString("Talking", comment: "channel list")
+                cell.userImage.accessibilityLabel = NSLocalizedString("Talking", comment: "channel list")
             }
             else {
                 cell.userImage.image = UIImage(named: female ? "woman_blue.png" : "man_blue.png")
-                cell.userImage.accessibilityHint = NSLocalizedString("Silent", comment: "channel list")
+                cell.userImage.accessibilityLabel = NSLocalizedString("Silent", comment: "channel list")
             }
             
             cell.messageBtn.tag = Int(user.nUserID)
@@ -343,11 +343,11 @@ class ChannelListViewController :
             
             if channel.bPassword != 0 {
                 cell.chanimage.image = UIImage(named: "channel_pink.png")
-                cell.chanimage.accessibilityHint = NSLocalizedString("Password protected", comment: "channel list")
+                cell.chanimage.accessibilityLabel = NSLocalizedString("Password protected", comment: "channel list")
             }
             else {
                 cell.chanimage.image = UIImage(named: "channel_orange.png")
-                cell.chanimage.accessibilityHint = NSLocalizedString("No password", comment: "channel list")
+                cell.chanimage.accessibilityLabel = NSLocalizedString("No password", comment: "channel list")
             }
         }
         else if chan_index == 0 && show_parent {
@@ -366,7 +366,7 @@ class ChannelListViewController :
             
             textcolor = UIColor.gray
             cell.chanimage.image = UIImage(named: "back_orange.png")
-            cell.chanimage.accessibilityHint = NSLocalizedString("Return to previous channel", comment: "channel list")
+            cell.chanimage.accessibilityLabel = NSLocalizedString("Return to previous channel", comment: "channel list")
         }
         else {
             
@@ -387,11 +387,11 @@ class ChannelListViewController :
             
             if channel.bPassword != 0 {
                 cell.chanimage.image = UIImage(named: "channel_pink.png")
-                cell.chanimage.accessibilityHint = NSLocalizedString("Password protected", comment: "channel list")
+                cell.chanimage.accessibilityLabel = NSLocalizedString("Password protected", comment: "channel list")
             }
             else {
                 cell.chanimage.image = UIImage(named: "channel_orange.png")
-                cell.chanimage.accessibilityHint = NSLocalizedString("No password", comment: "channel list")
+                cell.chanimage.accessibilityLabel = NSLocalizedString("No password", comment: "channel list")
             }
             
             cell.chanimage.accessibilityLabel =
@@ -752,10 +752,10 @@ class ChannelListViewController :
         }
         
         if hasPTTLock() {
-            txButton.accessibilityHint = NSLocalizedString("Double tap and hold to transmit. Triple tap fast to lock transmission.", comment: "channel list")
+            txButton.accessibilityLabel = NSLocalizedString("Double tap and hold to transmit. Triple tap fast to lock transmission.", comment: "channel list")
         }
         else {
-            txButton.accessibilityHint = NSLocalizedString("Toggle to enable/disable transmission", comment: "channel list")
+            txButton.accessibilityLabel = NSLocalizedString("Toggle to enable/disable transmission", comment: "channel list")
         }
         
         tableView.reloadData()

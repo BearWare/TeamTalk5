@@ -25,6 +25,7 @@
 #include "afxwin.h"
 #include "afxcmn.h"
 
+#include <PlaySoundThread.h>
 
 // CSoundEventsPage dialog
 
@@ -49,10 +50,15 @@ protected:
 public:
     virtual BOOL OnInitDialog();
     CTreeCtrl m_wndTree;
+    int m_nClientSoundsVsVoice;
+    CSliderCtrl m_wndClientSoundsVsVoice;
+    CComboBox m_wndPlaybackMode;
+    PlaybackMode m_nPlaybackMode;
 
     SoundEvents m_uSoundEvents;
     std::map<SoundEvent, CString> m_SoundFiles;
     afx_msg void OnTvnKeydownTreeSoundevents(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnNMClickTreeSoundevents(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnTimer(UINT_PTR nIDEvent);
+    afx_msg void OnCbnSelchangeComboPBMode();
 };

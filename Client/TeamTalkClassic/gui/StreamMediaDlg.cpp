@@ -40,12 +40,9 @@ extern TTInstance* ttInst;
 IMPLEMENT_DYNAMIC(CStreamMediaDlg, CDialog)
 
 CStreamMediaDlg::CStreamMediaDlg(teamtalk::ClientXML& xmlSettings,
-                                 SoundDevice& indev, SoundDevice& outdev,
                                  CWnd* pParent /*=NULL*/)
 	: CDialog(CStreamMediaDlg::IDD, pParent)
     , m_xmlSettings(xmlSettings)
-    , m_SoundDeviceIn(indev)
-    , m_SoundDeviceOut(outdev)
     , m_nVidCodecBitrate(DEFAULT_WEBM_VP8_BITRATE)
 {
 
@@ -435,14 +432,6 @@ void CStreamMediaDlg::OnBnClickedButtonStop()
 
 void CStreamMediaDlg::OnBnClickedButtonPlay()
 {
-    if ((TT_GetFlags(ttInst) & (CLIENT_SNDINOUTPUT_DUPLEX | CLIENT_SNDOUTPUT_READY)) == CLIENT_CLOSED)
-    {
-        if (!InitSoundSystem(m_xmlSettings, m_SoundDeviceIn, m_SoundDeviceOut))
-        {
-            MessageBox(LoadText(IDS_SNDINITFAILED), LoadText(IDS_PLAY));
-        }
-    }
-
     if(m_mfi.nStatus == MFS_PAUSED)
     {
         double percent = m_wndOffset.GetPos() / double(m_wndOffset.GetRangeMax());

@@ -377,6 +377,8 @@ if (CATCH_UNITTEST)
     ${LINK_LIBS} ${CATCH_LINK_FLAGS})
 
   set_output_dir(catchtt ${TEAMTALK_ROOT}/Library/TeamTalkLib/test)
+  
+  set_property(TARGET catchtt PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/test")
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       set_target_properties (catchtt PROPERTIES

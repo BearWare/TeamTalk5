@@ -57,6 +57,7 @@ void CGenerateTTFileDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_EDIT_KEYCOMB, m_wndKeyComb);
     DDX_Control(pDX, IDC_RADIO_MALE, m_wndMale);
     DDX_Control(pDX, IDC_RADIO_FEMALE, m_wndFemale);
+    DDX_Control(pDX, IDC_RADIO_NEUTRAL, m_wndNeutral);
     DDX_Control(pDX, IDC_CHECK_CLIENTOVERRIDE, m_wndOverrideClient);
     DDX_Text(pDX, IDC_EDIT_USERNAME, STR_UTF8(m_hostentry.szUsername));
     DDX_Text(pDX, IDC_EDIT_PASSWORD, STR_UTF8(m_hostentry.szPassword));
@@ -164,6 +165,7 @@ void CGenerateTTFileDlg::OnBnClickedCheckClientoverride()
     m_wndNickname.EnableWindow(bEnable);
     m_wndMale.EnableWindow(bEnable);
     m_wndFemale.EnableWindow(bEnable);
+    m_wndNeutral.EnableWindow(bEnable);
     m_wndPttChkBox.EnableWindow(bEnable);
     m_wndVox.EnableWindow(bEnable);
     m_wndCapfmt.EnableWindow(bEnable);
@@ -205,10 +207,10 @@ void CGenerateTTFileDlg::OnBnClickedButtonSavettfile()
         CString szNickname;
         m_wndNickname.GetWindowText(szNickname);
         m_hostentry.szNickname = STR_UTF8(szNickname);
-        m_hostentry.nGender = GENDER_NONE;
+        m_hostentry.nGender = GENDER_NEUTRAL;
         if(m_wndMale.GetCheck() == BST_CHECKED)
             m_hostentry.nGender = GENDER_MALE;
-        if(m_wndFemale.GetCheck() == BST_CHECKED)
+        else if(m_wndFemale.GetCheck() == BST_CHECKED)
             m_hostentry.nGender = GENDER_FEMALE;
         //PTT
         if(m_wndPttChkBox.GetCheck() == BST_CHECKED && m_Hotkey.size())

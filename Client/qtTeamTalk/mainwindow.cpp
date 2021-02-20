@@ -123,8 +123,8 @@ MainWindow::MainWindow(const QString& cfgfile)
 {
     //Ensure the correct version of the DLL is loaded
     if(QString(TEAMTALK_VERSION) != _Q(TT_GetVersion()))
-        QMessageBox::warning(nullptr, (tr("DLL load error")),
-                             QString(tr("This %3 executable is built for DLL version %1 but the loaded DLL reports it's version %2. Loading an incorrect DLL for %3 may cause problems and crash the application. Please reinstall to solve this problem."))
+        QMessageBox::warning(nullptr, "DLL load error",
+                             QString("This %3 executable is built for DLL version %1 but the loaded DLL reports it's version %2. Loading an incorrect DLL for %3 may cause problems and crash the application. Please reinstall to solve this problem.")
                                      .arg(TEAMTALK_VERSION).
                                      arg(_Q(TT_GetVersion())).
                                      arg(APPNAME_SHORT));
@@ -527,11 +527,18 @@ void MainWindow::loadSettings()
 
     QString iniversion = ttSettings->value(SETTINGS_GENERAL_VERSION,
                                            SETTINGS_GENERAL_VERSION_DEFAULT).toString();
-    if(!versionSameOrLater(iniversion, SETTINGS_VERSION))
+    if (!versionSameOrLater(iniversion, "5.1"))
     {
         // Volume defaults changed in 5.1 format
         ttSettings->remove(SETTINGS_SOUND_MASTERVOLUME);
         ttSettings->remove(SETTINGS_SOUND_MICROPHONEGAIN);
+        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
+    }
+    if (!versionSameOrLater(iniversion, "5.2"))
+    {
+        // Gender changed in 5.2 format
+        Gender gender = ttSettings->value(SETTINGS_GENERAL_GENDER).toBool() ? GENDER_MALE : GENDER_FEMALE;
+        ttSettings->setValue(SETTINGS_GENERAL_GENDER, gender);
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
 
@@ -903,6 +910,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         emit(serverUpdate(msg.serverproperties));
 
         m_srvprop = msg.serverproperties;
+        updateWindowTitle();
     }
     break;
     case CLIENTEVENT_CMD_SERVERSTATISTICS :
@@ -924,6 +932,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             m_mychannel = msg.channel;
             //update AGC, denoise, etc. if changed
             updateAudioConfig();
+            updateWindowTitle();
         }
         emit(updateChannel(msg.channel));
     }
@@ -942,8 +951,10 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             TT_SetUserMediaStorageDir(ttInst, msg.user.nUserID, _W(audiofolder), nullptr, aff);
 
         updateUserSubscription(msg.user.nUserID);
-        if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
-            addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
+        if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN)
+        {
+            if (ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT, SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT).toBool())
+                addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
             playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
         }
 
@@ -959,8 +970,10 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         emit(userLogout(msg.user));
         //remove text-message history from this user
         m_usermessages.remove(msg.user.nUserID);
-        if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
-            addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
+        if(msg.user.nUserID != TT_GetMyUserID(ttInst))
+        {
+            if (ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT, SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT).toBool())
+                addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
             playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
         }
 
@@ -1528,10 +1541,20 @@ void MainWindow::cmdLoggedIn(int myuserid)
     //login command completed
 
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-
-    if(!ttSettings->value(SETTINGS_GENERAL_GENDER,
-                         SETTINGS_GENERAL_GENDER_DEFAULT).toBool())
+    m_statusmode &= ~STATUSMODE_GENDER_MASK;
+    switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
+    {
+    case GENDER_MALE :
+        m_statusmode |= STATUSMODE_MALE;
+        break;
+    case GENDER_FEMALE :
         m_statusmode |= STATUSMODE_FEMALE;
+        break;
+    case GENDER_NEUTRAL :
+    default:
+        m_statusmode |= STATUSMODE_NEUTRAL;
+        break;
+    }
 
     //set status mode flags
     if(m_statusmode || statusmsg.size())
@@ -2254,6 +2277,7 @@ void MainWindow::firewallInstall()
         answer.setText(tr("Do you wish to add %1 to the Windows Firewall exception list?").arg(APPTITLE));
         QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
         QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
         answer.setIcon(QMessageBox::Question);
         answer.setWindowTitle(APPTITLE);
         answer.exec();
@@ -3473,12 +3497,19 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
             TT_DoChangeNickname(ttInst, _W(nickname));
 
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-        //change to female if set
-        if(!ttSettings->value(SETTINGS_GENERAL_GENDER,
-                              SETTINGS_GENERAL_GENDER_DEFAULT).toBool())
+        m_statusmode &= ~STATUSMODE_GENDER_MASK;
+        switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER).toInt()))
+        {
+        case GENDER_MALE :
+            m_statusmode |= STATUSMODE_MALE;
+            break;
+        case GENDER_FEMALE :
             m_statusmode |= STATUSMODE_FEMALE;
-        else
-            m_statusmode &= ~STATUSMODE_FEMALE;
+            break;
+        case GENDER_NEUTRAL :
+        default :
+            m_statusmode |= STATUSMODE_NEUTRAL;
+        }
 
         //set status mode flags
         if(m_statusmode != myself.nStatusMode || statusmsg != _Q(myself.szStatusMsg))
@@ -4089,6 +4120,7 @@ void MainWindow::slotChannelsDeleteChannel(bool /*checked =false */)
     answer.setText(tr("Are you sure you want to delete channel \"%1\"?").arg(_Q(buff)));
     QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(YesButton);
     answer.setIcon(QMessageBox::Information);
     answer.setWindowTitle(MENUTEXT(ui.actionDeleteChannel->text()));
     answer.exec();
@@ -4238,8 +4270,9 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
     QMessageBox answer;
     QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(NoButton);
     answer.setIcon(QMessageBox::Information);
-    answer.setWindowTitle(MENUTEXT(ui.actionDeleteFile->text()));
+    answer.setWindowTitle(tr("Delete %1 files").arg(filenames.size()));
     if(filenames.size() == 1)
     {
         answer.setText(tr("Are you sure you want to delete \"%1\"?").arg(filenames[0]));
@@ -4395,6 +4428,7 @@ void MainWindow::slotHelpResetPreferences(bool /*checked=false*/)
     answer.setText(tr("Are you sure you want to delete your existing settings?"));
     QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(NoButton);
     answer.setIcon(QMessageBox::Question);
     answer.setWindowTitle(MENUTEXT(ui.actionResetPreferencesToDefault->text()));
     answer.exec();
@@ -5604,7 +5638,7 @@ void MainWindow::slotMicrophoneGainChanged(int value)
         float percent = float(value);
         percent /= 100.;
         preprocessor.webrtc.gaincontroller2.bEnable = agc;
-        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = INT32(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
+        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = float(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
         TT_SetSoundInputGainLevel(ttInst, agc ? SOUND_GAIN_DEFAULT : refGain(value));
         break;
@@ -5673,6 +5707,7 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
     answer.setText(tr("The file %1 contains %2 setup information.\r\nShould these settings be applied?").arg(filepath).arg(APPNAME_SHORT));
     QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(NoButton);
     answer.setIcon(QMessageBox::Question);
     answer.setWindowTitle(tr("Load %1 File").arg(TTFILE_EXT));
     answer.exec();
@@ -5683,8 +5718,8 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
             ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, m_host.nickname);
 
         //if no gender specified use from .tt file
-        if(m_host.gender != GENDER_NONE)
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, m_host.gender != GENDER_FEMALE);
+        if (m_host.gender != GENDER_NONE)
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, m_host.gender);
         
         //if no PTT-key specified use from .tt file
         hotkey_t hotkey;

@@ -616,6 +616,12 @@ namespace c_tt
                                                                  ref BearWare.JitterConfig lpJitterConfig);
 
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_GetUserJitterControl(IntPtr lpTTInstance,
+                                                                 int nUserID,
+                                                                 BearWare.StreamType nStreamType,
+                                                                 ref BearWare.JitterConfig lpJitterConfig);
+
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_SetUserPosition(IntPtr lpTTInstance,
                                                 int nUserID,
                                                 BearWare.StreamType nStreamType,

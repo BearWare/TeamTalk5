@@ -1252,62 +1252,67 @@ p, li { white-space: pre-wrap; }
         <translation>Žena</translation>
     </message>
     <message>
-        <location filename="../generatettfile.ui" line="196"/>
+        <location filename="../generatettfile.ui" line="181"/>
+        <source>Neutral</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../generatettfile.ui" line="206"/>
         <source>Voice Transmission Mode</source>
         <translation>Režim prenosu hlasu</translation>
     </message>
     <message>
-        <location filename="../generatettfile.ui" line="211"/>
+        <location filename="../generatettfile.ui" line="221"/>
         <source>Push To Talk</source>
         <translation>Stlač a hovor</translation>
     </message>
     <message>
-        <location filename="../generatettfile.ui" line="221"/>
+        <location filename="../generatettfile.ui" line="231"/>
         <source>&amp;Setup Keys</source>
         <translation>&amp;Nastavenie kláves</translation>
     </message>
     <message>
-        <location filename="../generatettfile.ui" line="228"/>
+        <location filename="../generatettfile.ui" line="238"/>
         <source>Key Combination</source>
         <translation>Kombinácia kláves</translation>
     </message>
     <message>
-        <location filename="../generatettfile.ui" line="251"/>
+        <location filename="../generatettfile.ui" line="261"/>
         <source>Voice activated</source>
         <translation>Aktivácia hlasom</translation>
     </message>
     <message>
-        <location filename="../generatettfile.ui" line="271"/>
+        <location filename="../generatettfile.ui" line="281"/>
         <source>Video Codec Settings</source>
         <translation>Nastavenie kodeku videa</translation>
     </message>
     <message>
-        <location filename="../generatettfile.ui" line="274"/>
+        <location filename="../generatettfile.ui" line="284"/>
         <source>Video Capture Settings</source>
         <translation>Nastavenie zachytávania videa</translation>
     </message>
     <message>
-        <location filename="../generatettfile.ui" line="283"/>
+        <location filename="../generatettfile.ui" line="293"/>
         <source>Video Resolution</source>
         <translation>Rozlíšenie videa</translation>
     </message>
     <message>
-        <location filename="../generatettfile.ui" line="300"/>
+        <location filename="../generatettfile.ui" line="310"/>
         <source>Codec</source>
         <translation>Kodek</translation>
     </message>
     <message>
-        <location filename="../generatettfile.ui" line="323"/>
+        <location filename="../generatettfile.ui" line="333"/>
         <source>Bitrate</source>
         <translation>Rýchlosť prenosu</translation>
     </message>
     <message>
-        <location filename="../generatettfile.ui" line="415"/>
+        <location filename="../generatettfile.ui" line="425"/>
         <source>&amp;Save .tt File</source>
         <translation>&amp;Uložiť .tt súbor</translation>
     </message>
     <message>
-        <location filename="../generatettfile.ui" line="422"/>
+        <location filename="../generatettfile.ui" line="432"/>
         <source>&amp;Close</source>
         <translation>&amp;Zavrieť</translation>
     </message>
@@ -1315,24 +1320,24 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>GenerateTTFileDlg</name>
     <message>
-        <location filename="../generatettfiledlg.cpp" line="66"/>
-        <location filename="../generatettfiledlg.cpp" line="77"/>
+        <location filename="../generatettfiledlg.cpp" line="67"/>
+        <location filename="../generatettfiledlg.cpp" line="78"/>
         <source>Any</source>
         <translation>Akýkoľvek</translation>
     </message>
     <message>
-        <location filename="../generatettfiledlg.cpp" line="176"/>
         <location filename="../generatettfiledlg.cpp" line="184"/>
+        <location filename="../generatettfiledlg.cpp" line="192"/>
         <source>Save File</source>
         <translation>Uložiť súbor</translation>
     </message>
     <message>
-        <location filename="../generatettfiledlg.cpp" line="177"/>
+        <location filename="../generatettfiledlg.cpp" line="185"/>
         <source>%1 File (*%1)</source>
         <translation>%1 súbor (*%1)</translation>
     </message>
     <message>
-        <location filename="../generatettfiledlg.cpp" line="184"/>
+        <location filename="../generatettfiledlg.cpp" line="192"/>
         <source>Unable to save file</source>
         <translation>Nemožno uložiť súbor</translation>
     </message>
@@ -1388,18 +1393,18 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="1733"/>
+        <location filename="../mainwindow.cpp" line="1756"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
         <translation>Pripojené k: %1     TCP port: %2     UDP port:%3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="836"/>
-        <location filename="../mainwindow.cpp" line="1677"/>
+        <location filename="../mainwindow.cpp" line="843"/>
+        <location filename="../mainwindow.cpp" line="1700"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
         <translation>Nepodarilo sa pripojiť k  %1     TCP port: %2     UDP port: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="846"/>
+        <location filename="../mainwindow.cpp" line="853"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Odpojené od: %1     TCP port: %2     UDP port:%3</translation>
     </message>
@@ -1420,27 +1425,27 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">%1 nedostupný video prenos</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="878"/>
+        <location filename="../mainwindow.cpp" line="885"/>
         <source>Logged in</source>
         <translation>Prihlásený</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="883"/>
+        <location filename="../mainwindow.cpp" line="890"/>
         <source>Logged out</source>
         <translation>Odhlásený</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2417"/>
+        <location filename="../mainwindow.cpp" line="2441"/>
         <source>Joined channel %1</source>
         <translation>Pripojený kanál: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="891"/>
+        <location filename="../mainwindow.cpp" line="898"/>
         <source>Kicked by %1</source>
         <translation>Vykopol: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="894"/>
+        <location filename="../mainwindow.cpp" line="901"/>
         <source>Kicked by unknown user</source>
         <translation>Vykopnutý neznámym užívateľom</translation>
     </message>
@@ -1461,39 +1466,39 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">P2P spojenie pre video je zablokované!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="984"/>
+        <location filename="../mainwindow.cpp" line="997"/>
         <source>%1 joined channel</source>
         <translation>%1 sa pripojil na kanál</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1011"/>
+        <location filename="../mainwindow.cpp" line="1024"/>
         <source>%1 left channel</source>
         <translation>%1 opustil kanál</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1134"/>
-        <location filename="../mainwindow.cpp" line="4217"/>
+        <location filename="../mainwindow.cpp" line="1147"/>
+        <location filename="../mainwindow.cpp" line="4249"/>
         <source>Failed to download file %1</source>
         <translation>Zlyhalo sťahovanie súboru %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1138"/>
-        <location filename="../mainwindow.cpp" line="4747"/>
+        <location filename="../mainwindow.cpp" line="1151"/>
+        <location filename="../mainwindow.cpp" line="4781"/>
         <source>Failed to upload file %1</source>
         <translation>Zlyhalo nahrávanie súboru %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1151"/>
+        <location filename="../mainwindow.cpp" line="1164"/>
         <source>Failed to initialize sound input device</source>
         <translation>Zlyhala inicializácia vstupného zvukového zariadenia</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1153"/>
+        <location filename="../mainwindow.cpp" line="1166"/>
         <source>Failed to initialize sound output device</source>
         <translation>Zlyhala inicializácia výstupného zvukového zariadenia</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1167"/>
+        <location filename="../mainwindow.cpp" line="1180"/>
         <source>Internal Error</source>
         <translation>Vnútorná chyba</translation>
     </message>
@@ -1514,38 +1519,38 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Prerušené sťahovanie zvukového súboru do %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1220"/>
+        <location filename="../mainwindow.cpp" line="1233"/>
         <source>Error streaming media file to channel</source>
         <translation>Chyba prúdenia mediálneho súboru do kanála</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1224"/>
+        <location filename="../mainwindow.cpp" line="1237"/>
         <source>Started streaming media file to channel</source>
         <translation>Spustenie prúdenia mediálneho súboru do kanála</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1227"/>
+        <location filename="../mainwindow.cpp" line="1240"/>
         <source>Finished streaming media file to channel</source>
         <translation>Ukončenie prúdenia mediálneho súboru do kanála</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1231"/>
+        <location filename="../mainwindow.cpp" line="1244"/>
         <source>Aborted streaming media file to channel</source>
         <translation>Prerušené prúdenie mediálneho súboru do kanála</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1286"/>
-        <location filename="../mainwindow.cpp" line="1316"/>
+        <location filename="../mainwindow.cpp" line="1299"/>
+        <location filename="../mainwindow.cpp" line="1329"/>
         <source>New video session from %1</source>
         <translation>Nové video sedenie užívateľa %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1341"/>
+        <location filename="../mainwindow.cpp" line="1354"/>
         <source>New desktop session from %1</source>
         <translation>Nové sedenie pracovnej plochy užívateľa %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1367"/>
+        <location filename="../mainwindow.cpp" line="1380"/>
         <source>Your desktop session was cancelled</source>
         <translation>Vaše sedenie pracovnej plochy bolo zrušené</translation>
     </message>
@@ -1570,7 +1575,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Nepodarilo sa inicializovať predvolené zvukové zariadenie</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1669"/>
+        <location filename="../mainwindow.cpp" line="1692"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Pripájanie k: %1     TCP port: %2     UDP port:%3</translation>
     </message>
@@ -1583,8 +1588,8 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Zlyhalo pripojenie k serveru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1743"/>
-        <location filename="../mainwindow.cpp" line="2549"/>
+        <location filename="../mainwindow.cpp" line="1766"/>
+        <location filename="../mainwindow.cpp" line="2573"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
@@ -1593,10 +1598,10 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Tento klient nie je kompatibilný so serverom, preto túto akciu nemožno vykonať.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1766"/>
-        <location filename="../mainwindow.cpp" line="1774"/>
-        <location filename="../mainwindow.cpp" line="1812"/>
-        <location filename="../mainwindow.cpp" line="1817"/>
+        <location filename="../mainwindow.cpp" line="1789"/>
+        <location filename="../mainwindow.cpp" line="1797"/>
+        <location filename="../mainwindow.cpp" line="1835"/>
+        <location filename="../mainwindow.cpp" line="1840"/>
         <source>Login error</source>
         <translation>Chyba prihlásenia</translation>
     </message>
@@ -1605,32 +1610,32 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Nesprávne heslo servera. Skúste to znova:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1767"/>
+        <location filename="../mainwindow.cpp" line="1790"/>
         <source>Invalid user account. Type username:</source>
         <translation>Neplatný užívateľský účet. Zadajte užívateľské meno:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1775"/>
+        <location filename="../mainwindow.cpp" line="1798"/>
         <source>Invalid user account. Type password:</source>
         <translation>Neplatný užívateľský účet. Zadajte heslo:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1798"/>
+        <location filename="../mainwindow.cpp" line="1821"/>
         <source>Join channel error</source>
         <translation>Chyba spojenia s kanálom</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1799"/>
+        <location filename="../mainwindow.cpp" line="1822"/>
         <source>Incorrect channel password. Try again:</source>
         <translation>Nesprávne heslo kanála. Skúste to znova:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1813"/>
+        <location filename="../mainwindow.cpp" line="1836"/>
         <source>Banned from server</source>
         <translation>Zakázaný serverom</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1815"/>
+        <location filename="../mainwindow.cpp" line="1838"/>
         <source>Command not authorized</source>
         <translation>Neautorizovaný príkaz</translation>
     </message>
@@ -1639,17 +1644,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Vytvorenie kanála nie je povolené</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1818"/>
+        <location filename="../mainwindow.cpp" line="1841"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>Prekročený maximálny počet uživateľov na serveri</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1820"/>
+        <location filename="../mainwindow.cpp" line="1843"/>
         <source>Maximum disk usage exceeded</source>
         <translation>Prekročený maximálny diskový limit</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1822"/>
+        <location filename="../mainwindow.cpp" line="1845"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>Prekročený maximálny počet užívateľov na kanáli</translation>
     </message>
@@ -1658,67 +1663,67 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Zmena nastavení nie je povolená</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1824"/>
+        <location filename="../mainwindow.cpp" line="1847"/>
         <source>Incorrect channel operator password</source>
         <translation>Nesprávne heslo operátora kanála</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1828"/>
+        <location filename="../mainwindow.cpp" line="1851"/>
         <source>Already logged in</source>
         <translation>Už prihlásený</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1830"/>
+        <location filename="../mainwindow.cpp" line="1853"/>
         <source>Cannot perform action because client is currently not logged in</source>
         <translation>Príkaz nemožno vykonať, pretože klient už nie je v súčasnej dobe prihlásený</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1833"/>
+        <location filename="../mainwindow.cpp" line="1856"/>
         <source>Cannot join the same channel twice</source>
         <translation>Nedá sa prihlásiť na rovnaký kanál dvakrát</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1835"/>
+        <location filename="../mainwindow.cpp" line="1858"/>
         <source>Channel already exists</source>
         <translation>Kanál už existuje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1841"/>
+        <location filename="../mainwindow.cpp" line="1864"/>
         <source>User not found</source>
         <translation>Užívateľ nebol nájdený</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1844"/>
+        <location filename="../mainwindow.cpp" line="1867"/>
         <source>Channel not found</source>
         <translation>Kanál nebol nájdený</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1846"/>
+        <location filename="../mainwindow.cpp" line="1869"/>
         <source>Banned user not found</source>
         <translation>Zablokovaný užívateľ nebol nájdený</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1848"/>
+        <location filename="../mainwindow.cpp" line="1871"/>
         <source>File transfer not found</source>
         <translation>Prenos súboru nebol nájdený</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1850"/>
+        <location filename="../mainwindow.cpp" line="1873"/>
         <source>User account not found</source>
         <translation>Užívateľský účet nebol nájdený</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1852"/>
+        <location filename="../mainwindow.cpp" line="1875"/>
         <source>File not found</source>
         <translation>Súbor nebol nájdený</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1854"/>
+        <location filename="../mainwindow.cpp" line="1877"/>
         <source>File already exists</source>
         <translation>Súbor už existuje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1856"/>
+        <location filename="../mainwindow.cpp" line="1879"/>
         <source>File sharing is disabled</source>
         <translation>Zdieľanie súborov je zakázané</translation>
     </message>
@@ -1727,76 +1732,76 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Na serveri sú aktívni užívatelia</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1858"/>
+        <location filename="../mainwindow.cpp" line="1881"/>
         <source>Channel has active users</source>
         <translation>Na kanáli sú aktívni užívatelia</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1863"/>
+        <location filename="../mainwindow.cpp" line="1886"/>
         <source>Unknown error occured</source>
         <translation>Vyskytla sa neznáma chyba</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1870"/>
+        <location filename="../mainwindow.cpp" line="1893"/>
         <source>The server reported an error:</source>
         <translation>Server ohlásil chybu:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2247"/>
-        <location filename="../mainwindow.cpp" line="4081"/>
-        <location filename="../mainwindow.cpp" line="4230"/>
-        <location filename="../mainwindow.cpp" line="4387"/>
-        <location filename="../mainwindow.cpp" line="5665"/>
+        <location filename="../mainwindow.cpp" line="2270"/>
+        <location filename="../mainwindow.cpp" line="4112"/>
+        <location filename="../mainwindow.cpp" line="4262"/>
+        <location filename="../mainwindow.cpp" line="4420"/>
+        <location filename="../mainwindow.cpp" line="5699"/>
         <source>&amp;Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2248"/>
-        <location filename="../mainwindow.cpp" line="4082"/>
-        <location filename="../mainwindow.cpp" line="4231"/>
-        <location filename="../mainwindow.cpp" line="4388"/>
-        <location filename="../mainwindow.cpp" line="5666"/>
+        <location filename="../mainwindow.cpp" line="2271"/>
+        <location filename="../mainwindow.cpp" line="4113"/>
+        <location filename="../mainwindow.cpp" line="4263"/>
+        <location filename="../mainwindow.cpp" line="4421"/>
+        <location filename="../mainwindow.cpp" line="5700"/>
         <source>&amp;No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2387"/>
+        <location filename="../mainwindow.cpp" line="2411"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 požaduje prístup k pracovnej ploche</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2393"/>
-        <location filename="../mainwindow.cpp" line="3860"/>
+        <location filename="../mainwindow.cpp" line="2417"/>
+        <location filename="../mainwindow.cpp" line="3891"/>
         <source>%1 granted desktop access</source>
         <translation>%1 udelil prístup k pracovnej ploche</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2399"/>
+        <location filename="../mainwindow.cpp" line="2423"/>
         <source>%1 retracted desktop access</source>
         <translation>%1 zrušil prístup k pracovnej ploche</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2501"/>
+        <location filename="../mainwindow.cpp" line="2525"/>
         <source>&amp;Files (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2984"/>
+        <location filename="../mainwindow.cpp" line="3008"/>
         <source>Failed to stream media file %1</source>
         <translation>Zlyhalo prúdenie mediálneho súboru %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3723"/>
+        <location filename="../mainwindow.cpp" line="3754"/>
         <source>Failed to start desktop sharing</source>
         <translation>Zlyhalo spustenie zdielania pracovnej plochy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4236"/>
+        <location filename="../mainwindow.cpp" line="4269"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
         <translation>Ste si istí, že chcete odstrániť &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4245"/>
+        <location filename="../mainwindow.cpp" line="4278"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>Ste si istí, že chcete odstrániť súbor(y) %1?</translation>
     </message>
@@ -1813,117 +1818,117 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Pracovné plochy (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1605"/>
+        <location filename="../mainwindow.cpp" line="1628"/>
         <source>Cannot join channel %1</source>
         <translation>Nedá sa prihlásiť na kanál %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1762"/>
-        <location filename="../mainwindow.cpp" line="1793"/>
-        <location filename="../mainwindow.cpp" line="3327"/>
-        <location filename="../mainwindow.cpp" line="3341"/>
-        <location filename="../mainwindow.cpp" line="3356"/>
-        <location filename="../mainwindow.cpp" line="3573"/>
-        <location filename="../mainwindow.cpp" line="4112"/>
-        <location filename="../mainwindow.cpp" line="4337"/>
-        <location filename="../mainwindow.cpp" line="4502"/>
-        <location filename="../mainwindow.cpp" line="4525"/>
+        <location filename="../mainwindow.cpp" line="1785"/>
+        <location filename="../mainwindow.cpp" line="1816"/>
+        <location filename="../mainwindow.cpp" line="3351"/>
+        <location filename="../mainwindow.cpp" line="3365"/>
+        <location filename="../mainwindow.cpp" line="3380"/>
+        <location filename="../mainwindow.cpp" line="3604"/>
+        <location filename="../mainwindow.cpp" line="4144"/>
+        <location filename="../mainwindow.cpp" line="4370"/>
+        <location filename="../mainwindow.cpp" line="4536"/>
+        <location filename="../mainwindow.cpp" line="4559"/>
         <source>&amp;Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1763"/>
-        <location filename="../mainwindow.cpp" line="1794"/>
-        <location filename="../mainwindow.cpp" line="3328"/>
-        <location filename="../mainwindow.cpp" line="3342"/>
-        <location filename="../mainwindow.cpp" line="3357"/>
-        <location filename="../mainwindow.cpp" line="3574"/>
-        <location filename="../mainwindow.cpp" line="4113"/>
-        <location filename="../mainwindow.cpp" line="4338"/>
-        <location filename="../mainwindow.cpp" line="4503"/>
-        <location filename="../mainwindow.cpp" line="4526"/>
+        <location filename="../mainwindow.cpp" line="1786"/>
+        <location filename="../mainwindow.cpp" line="1817"/>
+        <location filename="../mainwindow.cpp" line="3352"/>
+        <location filename="../mainwindow.cpp" line="3366"/>
+        <location filename="../mainwindow.cpp" line="3381"/>
+        <location filename="../mainwindow.cpp" line="3605"/>
+        <location filename="../mainwindow.cpp" line="4145"/>
+        <location filename="../mainwindow.cpp" line="4371"/>
+        <location filename="../mainwindow.cpp" line="4537"/>
+        <location filename="../mainwindow.cpp" line="4560"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2160"/>
+        <location filename="../mainwindow.cpp" line="2183"/>
         <source>&amp;Restore</source>
         <translation>&amp;Vrátiť</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5437"/>
-        <location filename="../mainwindow.cpp" line="5446"/>
-        <location filename="../mainwindow.cpp" line="5455"/>
-        <location filename="../mainwindow.cpp" line="5464"/>
-        <location filename="../mainwindow.cpp" line="5473"/>
-        <location filename="../mainwindow.cpp" line="5482"/>
-        <location filename="../mainwindow.cpp" line="5491"/>
-        <location filename="../mainwindow.cpp" line="5500"/>
-        <location filename="../mainwindow.cpp" line="5509"/>
-        <location filename="../mainwindow.cpp" line="5518"/>
-        <location filename="../mainwindow.cpp" line="5527"/>
+        <location filename="../mainwindow.cpp" line="5471"/>
+        <location filename="../mainwindow.cpp" line="5480"/>
+        <location filename="../mainwindow.cpp" line="5489"/>
+        <location filename="../mainwindow.cpp" line="5498"/>
+        <location filename="../mainwindow.cpp" line="5507"/>
+        <location filename="../mainwindow.cpp" line="5516"/>
+        <location filename="../mainwindow.cpp" line="5525"/>
+        <location filename="../mainwindow.cpp" line="5534"/>
+        <location filename="../mainwindow.cpp" line="5543"/>
+        <location filename="../mainwindow.cpp" line="5552"/>
+        <location filename="../mainwindow.cpp" line="5561"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
         <translation>%1 zmenil predvoľbu &quot;%2&quot;  na: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5441"/>
-        <location filename="../mainwindow.cpp" line="5450"/>
-        <location filename="../mainwindow.cpp" line="5459"/>
-        <location filename="../mainwindow.cpp" line="5468"/>
-        <location filename="../mainwindow.cpp" line="5477"/>
-        <location filename="../mainwindow.cpp" line="5486"/>
-        <location filename="../mainwindow.cpp" line="5495"/>
-        <location filename="../mainwindow.cpp" line="5504"/>
-        <location filename="../mainwindow.cpp" line="5513"/>
-        <location filename="../mainwindow.cpp" line="5522"/>
-        <location filename="../mainwindow.cpp" line="5531"/>
+        <location filename="../mainwindow.cpp" line="5475"/>
+        <location filename="../mainwindow.cpp" line="5484"/>
+        <location filename="../mainwindow.cpp" line="5493"/>
+        <location filename="../mainwindow.cpp" line="5502"/>
+        <location filename="../mainwindow.cpp" line="5511"/>
+        <location filename="../mainwindow.cpp" line="5520"/>
+        <location filename="../mainwindow.cpp" line="5529"/>
+        <location filename="../mainwindow.cpp" line="5538"/>
+        <location filename="../mainwindow.cpp" line="5547"/>
+        <location filename="../mainwindow.cpp" line="5556"/>
+        <location filename="../mainwindow.cpp" line="5565"/>
         <source>On</source>
         <translation>Zapnúť</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5441"/>
-        <location filename="../mainwindow.cpp" line="5450"/>
-        <location filename="../mainwindow.cpp" line="5459"/>
-        <location filename="../mainwindow.cpp" line="5468"/>
-        <location filename="../mainwindow.cpp" line="5477"/>
-        <location filename="../mainwindow.cpp" line="5486"/>
-        <location filename="../mainwindow.cpp" line="5495"/>
-        <location filename="../mainwindow.cpp" line="5504"/>
-        <location filename="../mainwindow.cpp" line="5513"/>
-        <location filename="../mainwindow.cpp" line="5522"/>
-        <location filename="../mainwindow.cpp" line="5531"/>
+        <location filename="../mainwindow.cpp" line="5475"/>
+        <location filename="../mainwindow.cpp" line="5484"/>
+        <location filename="../mainwindow.cpp" line="5493"/>
+        <location filename="../mainwindow.cpp" line="5502"/>
+        <location filename="../mainwindow.cpp" line="5511"/>
+        <location filename="../mainwindow.cpp" line="5520"/>
+        <location filename="../mainwindow.cpp" line="5529"/>
+        <location filename="../mainwindow.cpp" line="5538"/>
+        <location filename="../mainwindow.cpp" line="5547"/>
+        <location filename="../mainwindow.cpp" line="5556"/>
+        <location filename="../mainwindow.cpp" line="5565"/>
         <source>Off</source>
         <translation>Vypnúť</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1313"/>
-        <location filename="../mainwindow.cpp" line="2162"/>
+        <location filename="../mainwindow.cpp" line="2185"/>
         <source>&amp;Exit</source>
         <translation>&amp;Koniec</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2494"/>
+        <location filename="../mainwindow.cpp" line="2518"/>
         <source>Files in channel: %1</source>
         <translation>Súbory v kanáli: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3119"/>
+        <location filename="../mainwindow.cpp" line="3143"/>
         <source>Enable HotKey</source>
         <translation>Povoliť klávesovú skratku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3120"/>
+        <location filename="../mainwindow.cpp" line="3144"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
         <translation>Nepodarilo sa zaregistrovať klávesovú skratku. Skúste prosím inú kombináciu kláves.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3578"/>
+        <location filename="../mainwindow.cpp" line="3609"/>
         <source>Specify new nickname</source>
         <translation>Zadať novú prezývku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3648"/>
-        <location filename="../mainwindow.cpp" line="4993"/>
+        <location filename="../mainwindow.cpp" line="3679"/>
+        <location filename="../mainwindow.cpp" line="5027"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
         <translation>Video zariadenie nie je nakonfigurované. Skontrolujte nastavenia v &apos;Predvoľbách&apos;</translation>
     </message>
@@ -1940,150 +1945,140 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Zlyhal prenos súboru %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4044"/>
-        <location filename="../mainwindow.cpp" line="4053"/>
+        <location filename="../mainwindow.cpp" line="4075"/>
+        <location filename="../mainwindow.cpp" line="4084"/>
         <source>Failed to issue command to create channel</source>
         <translation>Zlyhalo vydanie príkazu na vytvorenie kanála</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2246"/>
+        <location filename="../mainwindow.cpp" line="2269"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
         <translation>Prajete si pridať %1 do zoznamu výnimiek Windows Firewall?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="752"/>
-        <location filename="../mainwindow.cpp" line="2257"/>
+        <location filename="../mainwindow.cpp" line="759"/>
+        <location filename="../mainwindow.cpp" line="2281"/>
         <source>Firewall exception</source>
         <translation>Výnimka Firewall</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2258"/>
+        <location filename="../mainwindow.cpp" line="2282"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>Zlyhalo pridanie %1 do výnimiek Windows Firewall.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="753"/>
+        <location filename="../mainwindow.cpp" line="760"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
         <translation>Zlyhalo odstránenie %1 z výnimiek Windows Firewall.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="126"/>
-        <source>DLL load error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="127"/>
-        <source>This %3 executable is built for DLL version %1 but the loaded DLL reports it&apos;s version %2. Loading an incorrect DLL for %3 may cause problems and crash the application. Please reinstall to solve this problem.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="769"/>
+        <location filename="../mainwindow.cpp" line="776"/>
         <source>Startup arguments</source>
         <translation>Štartovacie parametre</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="770"/>
+        <location filename="../mainwindow.cpp" line="777"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
         <translation>Parameter programu &quot;%1&quot; nebol rozpoznaný.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="946"/>
+        <location filename="../mainwindow.cpp" line="957"/>
         <source>%1 has logged in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="963"/>
+        <location filename="../mainwindow.cpp" line="976"/>
         <source>%1 has logged out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="986"/>
-        <location filename="../mainwindow.cpp" line="1013"/>
+        <location filename="../mainwindow.cpp" line="999"/>
+        <location filename="../mainwindow.cpp" line="1026"/>
         <source>root</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1071"/>
+        <location filename="../mainwindow.cpp" line="1084"/>
         <source>File %1 added</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1076"/>
+        <location filename="../mainwindow.cpp" line="1089"/>
         <source>File %1 added by %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1096"/>
+        <location filename="../mainwindow.cpp" line="1109"/>
         <source>File %1 removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1100"/>
+        <location filename="../mainwindow.cpp" line="1113"/>
         <source>File %1 removed by %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1155"/>
+        <location filename="../mainwindow.cpp" line="1168"/>
         <source>Failed to initialize audio codec</source>
         <translation>Zlyhala inicializácia zvukového kodeku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1158"/>
+        <location filename="../mainwindow.cpp" line="1171"/>
         <source>Failed to initialize audio configuration</source>
         <translation>Zlyhala inicializácia konfigurácie zvuku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1161"/>
+        <location filename="../mainwindow.cpp" line="1174"/>
         <source>Internal message queue overloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1197"/>
+        <location filename="../mainwindow.cpp" line="1210"/>
         <source>Streaming from %1 started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1386"/>
+        <location filename="../mainwindow.cpp" line="1399"/>
         <source>Writing audio file %1 for %2</source>
         <translation>Zápis zvukového súboru %1 do %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1391"/>
+        <location filename="../mainwindow.cpp" line="1404"/>
         <source>Failed to write audio file %1 for %2</source>
         <translation>Nepodarilo sa zapísať zvukový súbor %1 do %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1396"/>
+        <location filename="../mainwindow.cpp" line="1409"/>
         <source>Finished audio file %1</source>
         <translation>Dokončený zvukový súbor %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1400"/>
+        <location filename="../mainwindow.cpp" line="1413"/>
         <source>Aborted audio file %1</source>
         <translation>Zrušený zvukový súbor %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1481"/>
+        <location filename="../mainwindow.cpp" line="1494"/>
         <source>Banned Users in Channel %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1656"/>
+        <location filename="../mainwindow.cpp" line="1679"/>
         <source>Using sound input: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1657"/>
+        <location filename="../mainwindow.cpp" line="1680"/>
         <source>Using sound output: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1752"/>
+        <location filename="../mainwindow.cpp" line="1775"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1755"/>
+        <location filename="../mainwindow.cpp" line="1778"/>
         <source>The username is invalid</source>
         <translation>Užívateľské meno nie je platné</translation>
     </message>
@@ -2096,241 +2091,246 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Súbory (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2549"/>
+        <location filename="../mainwindow.cpp" line="2573"/>
         <source>Failed to start recording</source>
         <translation>Zlyhalo spustenie nahrávania</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2553"/>
+        <location filename="../mainwindow.cpp" line="2577"/>
         <source>Recording to file: %1</source>
         <translation>Nahrávanie do súboru: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2607"/>
+        <location filename="../mainwindow.cpp" line="2631"/>
         <source>Microphone gain is controlled by channel</source>
         <translation>Zosilenie mikrofónu je riadené kanálom</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3125"/>
+        <location filename="../mainwindow.cpp" line="3149"/>
         <source>Push To Talk: </source>
         <translation>Stlač a hovor: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3319"/>
-        <location filename="../mainwindow.cpp" line="3360"/>
+        <location filename="../mainwindow.cpp" line="3343"/>
+        <location filename="../mainwindow.cpp" line="3384"/>
         <source>New Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3319"/>
+        <location filename="../mainwindow.cpp" line="3343"/>
         <source>Delete Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3331"/>
-        <location filename="../mainwindow.cpp" line="3345"/>
+        <location filename="../mainwindow.cpp" line="3355"/>
+        <location filename="../mainwindow.cpp" line="3369"/>
         <source>New Client Instance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3332"/>
+        <location filename="../mainwindow.cpp" line="3356"/>
         <source>Select profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3346"/>
+        <location filename="../mainwindow.cpp" line="3370"/>
         <source>Delete profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3361"/>
+        <location filename="../mainwindow.cpp" line="3385"/>
         <source>Profile name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3659"/>
+        <location filename="../mainwindow.cpp" line="3690"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
         <translation>Nepodarilo sa nastaviť video kodek. Skontrolujte nastavenia v &apos;Predvoľbách&apos;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3704"/>
+        <location filename="../mainwindow.cpp" line="3735"/>
         <source>Failed to open X11 display.</source>
         <translation>Zlyhalo otvorenie obrazovky X11.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4067"/>
+        <location filename="../mainwindow.cpp" line="4098"/>
         <source>Failed to issue command to update channel</source>
         <translation>Zlyhalo vydanie príkazu na aktualizáciu kanála</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4080"/>
+        <location filename="../mainwindow.cpp" line="4111"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
         <translation>Naozaj chcete odstrániť kanál &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4091"/>
+        <location filename="../mainwindow.cpp" line="4123"/>
         <source>Failed to issue command to delete channel</source>
         <translation>Zlyhalo vydanie príkazu na odstránenie kanála</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4118"/>
-        <location filename="../mainwindow.cpp" line="4507"/>
+        <location filename="../mainwindow.cpp" line="4150"/>
+        <location filename="../mainwindow.cpp" line="4541"/>
         <source>Specify password</source>
         <translation>Zadajte heslo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4135"/>
+        <location filename="../mainwindow.cpp" line="4167"/>
         <source>Failed to issue command to join channel</source>
         <translation>Zlyhalo vydanie príkazu na pripojenie ku kanálu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4188"/>
+        <location filename="../mainwindow.cpp" line="4220"/>
         <source>Open File</source>
         <translation>Otvoriť súbor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4208"/>
+        <location filename="../mainwindow.cpp" line="4240"/>
         <source>Save File</source>
         <translation>Uložiť súbor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4341"/>
+        <location filename="../mainwindow.cpp" line="4266"/>
+        <source>Delete %1 files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4374"/>
         <source>Message to broadcast:</source>
         <translation>Správa pre vysielanie:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4362"/>
+        <location filename="../mainwindow.cpp" line="4395"/>
         <source>Server configuration saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4386"/>
+        <location filename="../mainwindow.cpp" line="4419"/>
         <source>Are you sure you want to delete your existing settings?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4400"/>
+        <location filename="../mainwindow.cpp" line="4434"/>
         <source>Cannot find %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4407"/>
+        <location filename="../mainwindow.cpp" line="4441"/>
         <source>Cannot remove %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4414"/>
+        <location filename="../mainwindow.cpp" line="4448"/>
         <source>Failed to copy %1 to %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4522"/>
+        <location filename="../mainwindow.cpp" line="4556"/>
         <source>IP-address</source>
         <translation type="unfinished">IP adresa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4522"/>
+        <location filename="../mainwindow.cpp" line="4556"/>
         <source>Username</source>
         <translation type="unfinished">Užívateľské meno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4530"/>
+        <location filename="../mainwindow.cpp" line="4564"/>
         <source>Ban User From Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4529"/>
+        <location filename="../mainwindow.cpp" line="4563"/>
         <source>Ban user&apos;s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4669"/>
+        <location filename="../mainwindow.cpp" line="4703"/>
         <source>&amp;Leave Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4670"/>
+        <location filename="../mainwindow.cpp" line="4704"/>
         <source>CTRL+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4675"/>
+        <location filename="../mainwindow.cpp" line="4709"/>
         <source>CTRL+J</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4902"/>
+        <location filename="../mainwindow.cpp" line="4936"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Maximálny počet užívateľov, ktorí môžu prenášať je %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4940"/>
+        <location filename="../mainwindow.cpp" line="4974"/>
         <source>You can now transmit channel messages!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4942"/>
+        <location filename="../mainwindow.cpp" line="4976"/>
         <source>You can no longer transmit channel messages!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4950"/>
+        <location filename="../mainwindow.cpp" line="4984"/>
         <source>You can now transmit audio!</source>
         <translation>Teraz môžete prenášať zvuk!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4952"/>
+        <location filename="../mainwindow.cpp" line="4986"/>
         <source>You can no longer transmit audio!</source>
         <translation>Už nemôžete prenášať zvuk!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4960"/>
+        <location filename="../mainwindow.cpp" line="4994"/>
         <source>You can now transmit video!</source>
         <translation>Teraz môžete prenášať video!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4962"/>
+        <location filename="../mainwindow.cpp" line="4996"/>
         <source>You can no longer transmit video!</source>
         <translation>Už nemôžete prenášať video!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4970"/>
+        <location filename="../mainwindow.cpp" line="5004"/>
         <source>You can now transmit desktop windows!</source>
         <translation>Teraz môžete prenášať pracovnú plochu!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4972"/>
+        <location filename="../mainwindow.cpp" line="5006"/>
         <source>You can no longer transmit desktop windows!</source>
         <translation>Už nemôžete prenášať pracovnú plochu!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4980"/>
+        <location filename="../mainwindow.cpp" line="5014"/>
         <source>You can now transmit mediafiles!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4982"/>
+        <location filename="../mainwindow.cpp" line="5016"/>
         <source>You can no longer transmit mediafiles!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4992"/>
+        <location filename="../mainwindow.cpp" line="5026"/>
         <source>Start Webcam</source>
         <translation>Spustiť webkameru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5015"/>
-        <location filename="../mainwindow.cpp" line="5067"/>
+        <location filename="../mainwindow.cpp" line="5049"/>
+        <location filename="../mainwindow.cpp" line="5101"/>
         <source>Myself</source>
         <translation>Osobne</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5553"/>
+        <location filename="../mainwindow.cpp" line="5587"/>
         <source>&amp;Video (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5561"/>
+        <location filename="../mainwindow.cpp" line="5595"/>
         <source>&amp;Desktops (%1)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2345,42 +2345,42 @@ Chcete toto nastavenie použiť?</translation>
         <translation type="obsolete">%1 nastaviť odber &quot;%2&quot; od Vás pre: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5626"/>
-        <location filename="../mainwindow.cpp" line="5635"/>
-        <location filename="../mainwindow.cpp" line="5645"/>
-        <location filename="../mainwindow.cpp" line="5656"/>
+        <location filename="../mainwindow.cpp" line="5660"/>
+        <location filename="../mainwindow.cpp" line="5669"/>
+        <location filename="../mainwindow.cpp" line="5679"/>
+        <location filename="../mainwindow.cpp" line="5690"/>
         <source>Load File</source>
         <translation>Načítať súbor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5627"/>
-        <location filename="../mainwindow.cpp" line="5636"/>
+        <location filename="../mainwindow.cpp" line="5661"/>
+        <location filename="../mainwindow.cpp" line="5670"/>
         <source>Failed to load file %1</source>
         <translation>Zlyhalo načítanie súboru %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5646"/>
+        <location filename="../mainwindow.cpp" line="5680"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>Súbor %1 nie je kompatiblný s %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5657"/>
+        <location filename="../mainwindow.cpp" line="5691"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Nepodarilo sa získať informácie hostiteľa z %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5668"/>
+        <location filename="../mainwindow.cpp" line="5703"/>
         <source>Load %1 File</source>
         <translation>Načítanie súboru %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5664"/>
+        <location filename="../mainwindow.cpp" line="5698"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5738"/>
+        <location filename="../mainwindow.cpp" line="5773"/>
         <source>New version available: %1</source>
         <translation>Nová verzia k dispozícii: %1</translation>
     </message>
@@ -2401,7 +2401,7 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="218"/>
         <location filename="../mainwindow.ui" line="243"/>
         <location filename="../mainwindow.ui" line="246"/>
-        <location filename="../mainwindow.cpp" line="2626"/>
+        <location filename="../mainwindow.cpp" line="2650"/>
         <source>Microphone gain</source>
         <translation>Citlivosť mikrofónu</translation>
     </message>
@@ -2431,7 +2431,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="402"/>
         <location filename="../mainwindow.ui" line="1586"/>
-        <location filename="../mainwindow.cpp" line="5551"/>
+        <location filename="../mainwindow.cpp" line="5585"/>
         <source>&amp;Video</source>
         <translation>&amp;Video</translation>
     </message>
@@ -2659,7 +2659,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1384"/>
-        <location filename="../mainwindow.cpp" line="4674"/>
+        <location filename="../mainwindow.cpp" line="4708"/>
         <source>&amp;Join Channel</source>
         <translation>P&amp;ripojiť sa na kanál</translation>
     </message>
@@ -3073,13 +3073,13 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="671"/>
-        <location filename="../mainwindow.cpp" line="5559"/>
+        <location filename="../mainwindow.cpp" line="5593"/>
         <source>&amp;Desktops</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="939"/>
-        <location filename="../mainwindow.cpp" line="2497"/>
+        <location filename="../mainwindow.cpp" line="2521"/>
         <source>&amp;Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3548,264 +3548,274 @@ Should these settings be applied?</source>
         <translation>Žena</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="239"/>
+        <location filename="../preferences.ui" line="246"/>
         <source>BearWare.dk Web Login ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="256"/>
+        <location filename="../preferences.ui" line="263"/>
         <source>&amp;Activate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="189"/>
+        <location filename="../preferences.ui" line="196"/>
         <source>Set away status after</source>
         <translation>Nastaviť stav &apos;Som preč&apos; po</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="206"/>
+        <location filename="../preferences.ui" line="172"/>
+        <source>Neutral</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="213"/>
         <source>seconds of inactivity (0 means disabled)</source>
         <translation>sekundách nečinnosti (0 znamená vypnuté)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="231"/>
+        <location filename="../preferences.ui" line="238"/>
         <source>BearWare.dk Web Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="278"/>
+        <location filename="../preferences.ui" line="285"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="288"/>
+        <location filename="../preferences.ui" line="295"/>
         <source>Voice Transmission Mode</source>
         <translation>Nastavenie vysielania zvuku</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="300"/>
+        <location filename="../preferences.ui" line="307"/>
         <source>Push To Talk</source>
         <translation>Stlač a hovor</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="307"/>
-        <location filename="../preferences.ui" line="1639"/>
-        <location filename="../preferences.ui" line="1666"/>
-        <location filename="../preferences.ui" line="1693"/>
-        <location filename="../preferences.ui" line="1720"/>
-        <location filename="../preferences.ui" line="1747"/>
-        <location filename="../preferences.ui" line="1774"/>
+        <location filename="../preferences.ui" line="314"/>
+        <location filename="../preferences.ui" line="1653"/>
+        <location filename="../preferences.ui" line="1680"/>
+        <location filename="../preferences.ui" line="1707"/>
+        <location filename="../preferences.ui" line="1734"/>
+        <location filename="../preferences.ui" line="1761"/>
+        <location filename="../preferences.ui" line="1788"/>
         <source>&amp;Setup Keys</source>
         <translation>&amp;Nastavenie klávesy</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="314"/>
+        <location filename="../preferences.ui" line="321"/>
         <source>Key Combination</source>
         <translation>Kombinácia kláves</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="331"/>
+        <location filename="../preferences.ui" line="338"/>
         <source>Voice activated</source>
         <translation>Aktivácia hlasom</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="355"/>
+        <location filename="../preferences.ui" line="362"/>
         <source>Display</source>
         <translation>Zobrazenie</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="361"/>
+        <location filename="../preferences.ui" line="368"/>
         <source>User Interface Settings</source>
         <translation>Nastavenie rozhrania užívateľa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="371"/>
+        <location filename="../preferences.ui" line="378"/>
         <source>User interface language</source>
         <translation>Jazyk rozhrania užívateľa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="386"/>
+        <location filename="../preferences.ui" line="393"/>
         <source>Start minimized</source>
         <translation>Spustiť minimalizovaný</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="393"/>
+        <location filename="../preferences.ui" line="400"/>
         <source>Minimize to tray icon</source>
         <translation>Minimalizovať na lištu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="400"/>
+        <location filename="../preferences.ui" line="407"/>
         <source>&amp;Always on top</source>
         <translation>&amp;Vždy navrchu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="407"/>
+        <location filename="../preferences.ui" line="414"/>
         <source>Enable VU-meter updates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="414"/>
+        <location filename="../preferences.ui" line="421"/>
         <source>Show number of users in channel</source>
         <translation>Zobraziť počet užívateľov v kanáli</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="421"/>
+        <location filename="../preferences.ui" line="428"/>
         <source>Show username instead of nickname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="428"/>
+        <location filename="../preferences.ui" line="435"/>
         <source>Show last to talk in yellow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="435"/>
+        <location filename="../preferences.ui" line="442"/>
         <source>Show emojis and text for channel/user state</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="442"/>
+        <location filename="../preferences.ui" line="449"/>
         <source>Popup dialog when receiving text message</source>
         <translation>Upozorniť vyskakovacím oknom na príchod textovej správy</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="487"/>
+        <location filename="../preferences.ui" line="494"/>
         <source>Timestamp text messages</source>
         <translation>Časové značky v správach</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="494"/>
+        <location filename="../preferences.ui" line="501"/>
         <source>Show statusbar events in chat-window</source>
         <translation>Zobraziť udalosti stavovej lišty v okne chatu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="501"/>
+        <location filename="../preferences.ui" line="508"/>
+        <source>Show user logs in/out in chat history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="515"/>
         <source>Check for program updates at startup</source>
         <translation>Skontrolovať aktualizácie programu po spustení</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1102"/>
+        <location filename="../preferences.ui" line="1116"/>
         <source>Media file vs. voice volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1265"/>
+        <location filename="../preferences.ui" line="1279"/>
         <source>Private message sent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1305"/>
+        <location filename="../preferences.ui" line="1319"/>
         <source>Channel message sent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1325"/>
+        <location filename="../preferences.ui" line="1339"/>
         <source>New broadcast message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1509"/>
+        <location filename="../preferences.ui" line="1523"/>
         <source>User logged in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1529"/>
+        <location filename="../preferences.ui" line="1543"/>
         <source>User logged out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1549"/>
+        <location filename="../preferences.ui" line="1563"/>
         <source>Voice activation enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1569"/>
+        <location filename="../preferences.ui" line="1583"/>
         <source>Voice activation disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2027"/>
+        <location filename="../preferences.ui" line="2041"/>
         <source>Bitrate</source>
         <translation>Rýchlosť prenosu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="449"/>
+        <location filename="../preferences.ui" line="456"/>
         <source>Start video in popup dialog</source>
         <translation>Spustiť video v novom okne</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="480"/>
+        <location filename="../preferences.ui" line="487"/>
         <source>Start desktops in popup dialog</source>
         <translation>Spustiť vzdialenú pracovnú plochu v novom okne</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="456"/>
+        <location filename="../preferences.ui" line="463"/>
         <source>Closed video dialog should return to video-tab</source>
         <translation>Uzavretý dialóg videa by sa mal vrátiť na záložku videa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="513"/>
+        <location filename="../preferences.ui" line="527"/>
         <source>Show source in corner of video window</source>
         <translation>Zobraziť zdroj v rohu okna videa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="544"/>
+        <location filename="../preferences.ui" line="558"/>
         <source>Maximum text length in channel list</source>
         <translation>Maximálna dĺžka textu v zozname kanálov</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="617"/>
+        <location filename="../preferences.ui" line="631"/>
         <source>Connection</source>
         <translation>Pripojenie</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="623"/>
+        <location filename="../preferences.ui" line="637"/>
         <source>Client Connection</source>
         <translation>Pripojenie klienta</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="629"/>
+        <location filename="../preferences.ui" line="643"/>
         <source>Connect to latest host on startup</source>
         <translation>Po spustení sa pripojiť k poslednému serveru</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="636"/>
+        <location filename="../preferences.ui" line="650"/>
         <source>Reconnect on connection dropped</source>
         <translation>Pripojiť sa znova po výpadku spojenia</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="643"/>
+        <location filename="../preferences.ui" line="657"/>
         <source>Join root channel upon connection</source>
         <translation>Pripojiť koreňový kanál počas pripojenia</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="650"/>
+        <location filename="../preferences.ui" line="664"/>
         <source>Query server&apos;s maximum payload upon connection</source>
         <translation>Vypýtať od servera maximálne užitočné zaťaženie po pripojení</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="657"/>
+        <location filename="../preferences.ui" line="671"/>
         <source>Add application to Windows Firewall exceptions list</source>
         <translation>Pridať program do zoznamu výnimiek Windows Firewall</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="664"/>
-        <location filename="../preferences.ui" line="667"/>
+        <location filename="../preferences.ui" line="678"/>
+        <location filename="../preferences.ui" line="681"/>
         <source>Default Subscriptions upon Connection</source>
         <translation>Predvolené povolenia počas pripojennia</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="675"/>
+        <location filename="../preferences.ui" line="689"/>
         <source>User Messages</source>
         <translation>Správy užívateľa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="682"/>
+        <location filename="../preferences.ui" line="696"/>
         <source>Channel Messages</source>
         <translation>Správy kanála</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="689"/>
+        <location filename="../preferences.ui" line="703"/>
         <source>Broadcast Messages</source>
         <translation>Správy vysielania</translation>
     </message>
@@ -3818,12 +3828,12 @@ Should these settings be applied?</source>
         <translation type="obsolete">Video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="710"/>
+        <location filename="../preferences.ui" line="724"/>
         <source>Desktop</source>
         <translation>Pracovná plocha</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="722"/>
+        <location filename="../preferences.ui" line="736"/>
         <source>Desktop Access</source>
         <translation>Prístup k pracovnej ploche</translation>
     </message>
@@ -3840,81 +3850,81 @@ Should these settings be applied?</source>
         <translation type="obsolete">P2P prenos videa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="766"/>
-        <location filename="../preferences.ui" line="769"/>
+        <location filename="../preferences.ui" line="780"/>
+        <location filename="../preferences.ui" line="783"/>
         <source>Local Socket Settings</source>
         <translation>Lokálne nastavenie portov</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="775"/>
+        <location filename="../preferences.ui" line="789"/>
         <source>TCP port</source>
         <translation>TCP port</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="785"/>
-        <location filename="../preferences.ui" line="802"/>
+        <location filename="../preferences.ui" line="799"/>
+        <location filename="../preferences.ui" line="816"/>
         <source>Default: 0</source>
         <translation>Predvolené: 0</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="792"/>
+        <location filename="../preferences.ui" line="806"/>
         <source>UDP port</source>
         <translation>UDP port</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="875"/>
-        <location filename="../preferencesdlg.cpp" line="835"/>
+        <location filename="../preferences.ui" line="889"/>
+        <location filename="../preferencesdlg.cpp" line="855"/>
         <source>Sound System</source>
         <translation>Nastavenie zvuku</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="881"/>
+        <location filename="../preferences.ui" line="895"/>
         <source>Sound System Settings</source>
         <translation>Nastavenie zvukového systému</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="902"/>
+        <location filename="../preferences.ui" line="916"/>
         <source>Windows Audio Session</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="909"/>
+        <location filename="../preferences.ui" line="923"/>
         <source>DirectSound</source>
         <translation>DirectSound</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="916"/>
+        <location filename="../preferences.ui" line="930"/>
         <source>Windows Standard</source>
         <translation>Windows Standard</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="923"/>
+        <location filename="../preferences.ui" line="937"/>
         <source>ALSA</source>
         <translation>ALSA</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="930"/>
+        <location filename="../preferences.ui" line="944"/>
         <source>CoreAudio</source>
         <translation>CoreAudio</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="954"/>
+        <location filename="../preferences.ui" line="968"/>
         <source>Input device</source>
         <translation>Vstupné zariadenie</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="980"/>
+        <location filename="../preferences.ui" line="994"/>
         <source>Output device</source>
         <translation>Výstupné zariadenie</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1003"/>
-        <location filename="../preferences.ui" line="1020"/>
+        <location filename="../preferences.ui" line="1017"/>
+        <location filename="../preferences.ui" line="1034"/>
         <source>Refresh devices</source>
         <translation>Obnoviť zariadenie</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1054"/>
+        <location filename="../preferences.ui" line="1068"/>
         <source>&amp;Test Selected</source>
         <translation>&amp;Spustiť test</translation>
     </message>
@@ -3923,7 +3933,7 @@ Should these settings be applied?</source>
         <translation type="vanished">Povoliť obojsmerný režim (potrebný pre potlačenie ozveny)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1079"/>
+        <location filename="../preferences.ui" line="1093"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>Povoliť ozvenu (odstrániť ozvenu z reproduktorov)</translation>
     </message>
@@ -3936,216 +3946,216 @@ Should these settings be applied?</source>
         <translation type="obsolete">Povoliť šumový filter</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1139"/>
-        <location filename="../preferences.ui" line="2113"/>
+        <location filename="../preferences.ui" line="1153"/>
+        <location filename="../preferences.ui" line="2127"/>
         <source>&amp;Default</source>
         <translation>&amp;Predvolené nastavenie</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1165"/>
-        <location filename="../preferences.ui" line="1171"/>
+        <location filename="../preferences.ui" line="1179"/>
+        <location filename="../preferences.ui" line="1185"/>
         <source>Sound Events</source>
         <translation>Zvukové udalosti</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1179"/>
+        <location filename="../preferences.ui" line="1193"/>
         <source>New user</source>
         <translation>Nový užívateľ</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1205"/>
+        <location filename="../preferences.ui" line="1219"/>
         <source>User removed</source>
         <translation>Užívateľ odpojený</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1225"/>
+        <location filename="../preferences.ui" line="1239"/>
         <source>Server lost</source>
         <translation>Server je nedostupný</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1245"/>
+        <location filename="../preferences.ui" line="1259"/>
         <source>New user message</source>
         <translation>Nová správa užívateľa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1285"/>
+        <location filename="../preferences.ui" line="1299"/>
         <source>New channel message</source>
         <translation>Nová správa kanála</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1345"/>
+        <location filename="../preferences.ui" line="1359"/>
         <source>Hotkey pressed</source>
         <translation>Stlačená klávesová skratka</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1365"/>
+        <location filename="../preferences.ui" line="1379"/>
         <source>Channel silent</source>
         <translation>Zvuk na kanáli vypnutý</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1385"/>
+        <location filename="../preferences.ui" line="1399"/>
         <source>Files updated</source>
         <translation>Súbory aktualizované</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1409"/>
+        <location filename="../preferences.ui" line="1423"/>
         <source>File transfer complete</source>
         <translation>Prenos súboru dokončený</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1429"/>
+        <location filename="../preferences.ui" line="1443"/>
         <source>New video session</source>
         <translation>Nové video sedenie</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1449"/>
+        <location filename="../preferences.ui" line="1463"/>
         <source>New desktop session</source>
         <translation>Nové sedenie pracovnej plochy</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1469"/>
+        <location filename="../preferences.ui" line="1483"/>
         <source>User entered question-mode</source>
         <translation>Užívateľ zadal opytovací režim</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="520"/>
-        <location filename="../preferences.ui" line="732"/>
-        <location filename="../preferences.ui" line="1482"/>
-        <location filename="../preferences.ui" line="1502"/>
-        <location filename="../preferences.ui" line="1873"/>
+        <location filename="../preferences.ui" line="534"/>
+        <location filename="../preferences.ui" line="746"/>
+        <location filename="../preferences.ui" line="1496"/>
+        <location filename="../preferences.ui" line="1516"/>
+        <location filename="../preferences.ui" line="1887"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="696"/>
+        <location filename="../preferences.ui" line="710"/>
         <source>Voice</source>
         <translation>Hlas</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="741"/>
+        <location filename="../preferences.ui" line="755"/>
         <source>Media Files</source>
         <translation>Mediálne súbory</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1086"/>
+        <location filename="../preferences.ui" line="1100"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
         <translation>Povoliť automatické riadenie hlasitosti (úroveň mikrofónu sa nastaví automaticky)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1093"/>
+        <location filename="../preferences.ui" line="1107"/>
         <source>Enable denoising (suppress noise from microphone)</source>
         <translation>Povoliť náhodný šum (potlačenie šumu z mikrofónu)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1489"/>
+        <location filename="../preferences.ui" line="1503"/>
         <source>Desktop access request</source>
         <translation>Žiadosť o prístup k pracovnej ploche</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1608"/>
+        <location filename="../preferences.ui" line="1622"/>
         <source>Shortcuts</source>
         <translation>Klávesové skratky</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1614"/>
+        <location filename="../preferences.ui" line="1628"/>
         <source>Keyboard Shortcuts</source>
         <translation>Klávesové skratky</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1622"/>
+        <location filename="../preferences.ui" line="1636"/>
         <source>Enable/disable voice activation</source>
         <translation>Povoliť/Zakázať aktiváciu hlasom</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1649"/>
+        <location filename="../preferences.ui" line="1663"/>
         <source>Increase volume</source>
         <translation>Zvýšiť hlasitosť reproduktora</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1676"/>
+        <location filename="../preferences.ui" line="1690"/>
         <source>Lower volume</source>
         <translation>Znížiť hlasitosť reproduktora</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1703"/>
+        <location filename="../preferences.ui" line="1717"/>
         <source>Enable/disable mute all</source>
         <translation>Povoliť/Zakázať stĺmiť všetkých</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1730"/>
+        <location filename="../preferences.ui" line="1744"/>
         <source>Increase microphone gain</source>
         <translation>Zvýšiť citlivosť mikrofónu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1757"/>
+        <location filename="../preferences.ui" line="1771"/>
         <source>Lower microphone gain</source>
         <translation>Znížiť citlivosť mikrofónu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1784"/>
+        <location filename="../preferences.ui" line="1798"/>
         <source>Enable/disable video transmission</source>
         <translation>Povoliť/Zakázať prenos videa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1797"/>
+        <location filename="../preferences.ui" line="1811"/>
         <source>Setup Keys</source>
         <translation>Nastavenie klávesy</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="703"/>
-        <location filename="../preferences.ui" line="1826"/>
+        <location filename="../preferences.ui" line="717"/>
+        <location filename="../preferences.ui" line="1840"/>
         <source>Video Capture</source>
         <translation>Zachytávanie videa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1832"/>
+        <location filename="../preferences.ui" line="1846"/>
         <source>Video Capture Settings</source>
         <translation>Nastavenie zachytávania videa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1838"/>
+        <location filename="../preferences.ui" line="1852"/>
         <source>Video Capture Device</source>
         <translation>Video zariadenie</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1858"/>
+        <location filename="../preferences.ui" line="1872"/>
         <source>Video Resolution</source>
         <translation>Rozlíšenie videa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1884"/>
+        <location filename="../preferences.ui" line="1898"/>
         <source>Image Format</source>
         <translation>Obrazový formát</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1894"/>
+        <location filename="../preferences.ui" line="1908"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1901"/>
+        <location filename="../preferences.ui" line="1915"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1908"/>
+        <location filename="../preferences.ui" line="1922"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1932"/>
-        <location filename="../preferencesdlg.cpp" line="1130"/>
+        <location filename="../preferences.ui" line="1946"/>
+        <location filename="../preferencesdlg.cpp" line="1155"/>
         <source>Test Selected</source>
         <translation>Test výberu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1960"/>
-        <location filename="../preferences.ui" line="1963"/>
+        <location filename="../preferences.ui" line="1974"/>
+        <location filename="../preferences.ui" line="1977"/>
         <source>Video Codec Settings</source>
         <translation>Nastavenie kodeku videa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1971"/>
+        <location filename="../preferences.ui" line="1985"/>
         <source>Codec</source>
         <translation>Kodek</translation>
     </message>
@@ -4158,18 +4168,18 @@ Should these settings be applied?</source>
         <translation type="obsolete">Prenosová rýchlosť</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="314"/>
+        <location filename="../preferencesdlg.cpp" line="315"/>
         <source>Default Input Device</source>
         <translation>Predvolené vstupné zariadenie</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="348"/>
+        <location filename="../preferencesdlg.cpp" line="349"/>
         <source>Default Output Device</source>
         <translation>Predvolené výstupné zariadenie</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="332"/>
-        <location filename="../preferencesdlg.cpp" line="363"/>
+        <location filename="../preferencesdlg.cpp" line="333"/>
+        <location filename="../preferencesdlg.cpp" line="364"/>
         <source>No Sound Device</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4184,43 +4194,43 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="402"/>
+        <location filename="../preferencesdlg.cpp" line="403"/>
         <source>Open Wave File</source>
         <translation>Otvoriť súbor WAV</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="404"/>
+        <location filename="../preferencesdlg.cpp" line="405"/>
         <source>Wave files (*.wav)</source>
         <translation>Súbory WAV (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="429"/>
+        <location filename="../preferencesdlg.cpp" line="440"/>
         <source>&amp;Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="721"/>
-        <location filename="../preferencesdlg.cpp" line="728"/>
+        <location filename="../preferencesdlg.cpp" line="741"/>
+        <location filename="../preferencesdlg.cpp" line="748"/>
         <source>Windows Firewall</source>
         <translation>Windows Firewall</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="722"/>
+        <location filename="../preferencesdlg.cpp" line="742"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>%1 sa nepodarilo pridať do zoznamu výnimiek Windows Firewall</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="729"/>
+        <location filename="../preferencesdlg.cpp" line="749"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>%1 sa nepodarilo odstrániť zo zoznamu výnimiek Windows Firewall</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1131"/>
+        <location filename="../preferencesdlg.cpp" line="1156"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1148"/>
+        <location filename="../preferencesdlg.cpp" line="1173"/>
         <source>Sound Initialization</source>
         <translation>Inicializácia zvuku</translation>
     </message>
@@ -4241,36 +4251,36 @@ Should these settings be applied?</source>
         <translation type="obsolete">Zlyhalo povolenie potlačenia ozveny</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="946"/>
-        <location filename="../preferencesdlg.cpp" line="958"/>
+        <location filename="../preferencesdlg.cpp" line="966"/>
+        <location filename="../preferencesdlg.cpp" line="978"/>
         <source>Video Device</source>
         <translation>Video zariadenie</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="947"/>
-        <location filename="../preferencesdlg.cpp" line="959"/>
-        <location filename="../preferencesdlg.cpp" line="1538"/>
+        <location filename="../preferencesdlg.cpp" line="967"/>
+        <location filename="../preferencesdlg.cpp" line="979"/>
+        <location filename="../preferencesdlg.cpp" line="1563"/>
         <source>Failed to initialize video device</source>
         <translation>Zlyhala inicializácia video zariadenia</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1036"/>
+        <location filename="../preferencesdlg.cpp" line="1061"/>
         <source>Max Input Channels %1</source>
         <translation>Maximálny počet vstupných kanálov %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1038"/>
-        <location filename="../preferencesdlg.cpp" line="1061"/>
+        <location filename="../preferencesdlg.cpp" line="1063"/>
+        <location filename="../preferencesdlg.cpp" line="1086"/>
         <source>Sample Rates:</source>
         <translation>Vzorkovacia frekvencia:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1059"/>
+        <location filename="../preferencesdlg.cpp" line="1084"/>
         <source>Max Output Channels %1</source>
         <translation>Maximálny počet výstupných kanálov %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1089"/>
+        <location filename="../preferencesdlg.cpp" line="1114"/>
         <source>Refresh Sound Devices</source>
         <translation>Obnoviť zvukové zariadenia</translation>
     </message>
@@ -4279,27 +4289,27 @@ Should these settings be applied?</source>
         <translation type="obsolete">Pre obnovenie zvukových zariadení musí byť klient odpojený.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1090"/>
+        <location filename="../preferencesdlg.cpp" line="1115"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Nepodarilo sa reštartovať zvukové systémy. Reštartujte prosím aplikáciu.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1149"/>
+        <location filename="../preferencesdlg.cpp" line="1174"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Zlyhala inicializácia nového zvukového zariadenia</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1496"/>
+        <location filename="../preferencesdlg.cpp" line="1521"/>
         <source>Custom video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1590"/>
+        <location filename="../preferencesdlg.cpp" line="1615"/>
         <source>Default Video Capture</source>
         <translation>Predvolené video zariadenie</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1591"/>
+        <location filename="../preferencesdlg.cpp" line="1616"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Nemožno nájsť uprednostňované nastavenia pre digitalizáciu videa</translation>
     </message>
@@ -4347,7 +4357,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">Nepodarilo sa inicializovať predvolené zvukové zariadenie</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="1765"/>
+        <location filename="../common.cpp" line="1779"/>
         <source>Conference</source>
         <translation>Konferencia</translation>
     </message>

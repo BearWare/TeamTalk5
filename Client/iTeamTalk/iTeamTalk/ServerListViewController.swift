@@ -109,7 +109,7 @@ class ServerListViewController : UITableViewController,
         // Do any additional setup after loading the view, typically from a nib.
         
         if let addbtn = self.navigationItem.rightBarButtonItem {
-            addbtn.accessibilityHint = NSLocalizedString("Add new server entry", comment: "serverlist")
+            addbtn.accessibilityLabel = NSLocalizedString("Add new server entry", comment: "serverlist")
         }
         if let setupbtn = self.navigationItem.leftBarButtonItem {
             setupbtn.accessibilityLabel = NSLocalizedString("Preferences", comment: "serverlist")

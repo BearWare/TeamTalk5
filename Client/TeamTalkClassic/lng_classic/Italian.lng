@@ -440,6 +440,7 @@
     <item id="575">%s non può più trasmettere messaggi di canale</item>
     <item id="576">%s ora può trasmettere messaggi di canale</item>
     <item id="577">È consentita la trasmissione di messaggi di canale</item>
+    <item id="578">Nascosto</item>
     <item id="1006">lista files</item>
     <item id="1009">Collegati automaticamente al canale principale appena connesso</item>
     <item id="1012">Porta TCP dell&apos;host</item>
@@ -477,7 +478,10 @@
     <item id="1060">Riduci a icona</item>
     <item id="1061">Messaggio o consiglio</item>
     <item id="1063">parola chiave</item>
+    <item id="1066">Tutto in una volta</item>
     <item id="1067">numero massimo di registrazione per indirizzo ip</item>
+    <item id="1069">Uno per uno</item>
+    <item id="1071">Interrompi precedente</item>
     <item id="1073">parola chiave</item>
     <item id="1075">Indirizzo Host</item>
     <item id="1077">canali audio</item>
@@ -546,6 +550,7 @@
     <item id="1211">Settaggi per il suono</item>
     <item id="1212">Nessun font selezionato</item>
     <item id="1213">Qui puoi selezionare le periferiche usate da TeamTalk per la registrazione e la riproduzione dell&apos;audio. L&apos;uso del DirectSound è vivamente consigliato perchè garantisce una minore latenza rispetto al sistema usato normalmente da windows.</item>
+    <item id="1214">Riproduzione di eventi sonori</item>
     <item id="1215">Premendo &quot;Prova selezione&quot; potrai testare le periferiche selezionate e sentire se si sente quello che hai registrato tramite l&apos;imput scelto</item>
     <item id="1217">Gli utenti possono creare canali temporanei</item>
     <item id="1218">gli utenti possono creare/modificare tutti i canali</item>
@@ -681,6 +686,7 @@
     <item id="1452">canali disponibili</item>
     <item id="1453">canali auto operatore</item>
     <item id="1454">Mostra emoji e testo per gli stati dell&apos;utente e del canale</item>
+    <item id="1455">Mostra gli accessi / disconnessioni degli utenti nella cronologia chat</item>
     <item id="1456">abilita la cancellazione dell&apos;eco (rimuove l&apos;eco dagli altoparlanti)</item>
     <item id="1460">solo l&apos;operatore riceve (solo gli operatori vedono e sentono)</item>
     <item id="1463">frequenza campionamento uscita</item>
@@ -748,6 +754,8 @@
     <item id="1547">protezione</item>
     <item id="1548">previeni utente da limitando i comandi</item>
     <item id="1550">limita comandi</item>
+    <item id="1552">Neutro</item>
+    <item id="1553">Eventi sonori rispetto al volume della voce</item>
     <item id="1554">l&apos;utente può cambiare nome nic</item>
     <item id="1558">l&apos;utente può registrare la voce in tutti i canali</item>
     <item id="1561">attivato</item>
@@ -778,6 +786,7 @@
     <item id="1602">Canale nascosto (invisibile e conosciuto solo per nome)</item>
     <item id="1603">Tipo di canale</item>
     <item id="1604">L&apos;utente può vedere i canali nascosti</item>
+    <item id="1606">Modalità di riproduzione</item>
     <item id="32791">qual&apos;è il mio &amp;indirizzo IP?</item>
     <item id="32798">&amp;Op\tCtrl+O operatore</item>
     <item id="32801">&amp;Guarda i messaggi di questo canale\tF10</item>

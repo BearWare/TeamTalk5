@@ -85,6 +85,7 @@ private slots:
     //display tab
     void slotLanguageChange(int index);
     void slotSelectVideoText();
+    void slotUpdateLIOChkBox(bool checked);
     //connection tab
     void slotDesktopAccess();
     //sound tab

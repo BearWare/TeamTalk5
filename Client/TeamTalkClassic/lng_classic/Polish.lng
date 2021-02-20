@@ -440,6 +440,7 @@
     <item id="575">%s Nie może wysyłać czat</item>
     <item id="576">%s może wysyłać czat</item>
     <item id="577">Dozwolone wysyłanie czatu</item>
+    <item id="578">Ukryty</item>
     <item id="1006">Lista plików</item>
     <item id="1009">Automatycznie łącz z głównym kanałem po połączeniu</item>
     <item id="1012">Port TCP serwera</item>
@@ -479,7 +480,10 @@
     <item id="1061">Temat</item>
     <item id="1063">Hasło</item>
     <item id="1065">WASapi</item>
+    <item id="1066">Wszystkie razem</item>
     <item id="1067">Maksymalna liczba sesji na adres IP</item>
+    <item id="1069">Każde oddzielnie</item>
+    <item id="1071">Przerwij poprzednie</item>
     <item id="1073">Hasło</item>
     <item id="1075">Adres serwera</item>
     <item id="1077">Kanały audio</item>
@@ -550,6 +554,7 @@
     <item id="1211">Ustawienia systemu dźwięku</item>
     <item id="1212">Nie wybrano czcionki</item>
     <item id="1213">Ta strona pozwala wybrać urządzenia wejścia oraz wyjścia, których TeamTalk użyje do odtwarzania i nagrywania dźwięku. Dla najmniejszego opóźnienia zalecamy po ukończeniu kreatora ręcznie wybrać standard WASapi, jednak dla większej kompatybilności standard DirectSound będzie lepszym wyjściem.</item>
+    <item id="1214">Odtwarzanie zdarzeń dźwiękowych</item>
     <item id="1215">wciskając &quot;Testuj&quot; będziesz w stanie przetestować aktualne ustawienia dźwięku.</item>
     <item id="1217">Użytkownicy mogą tworzyć kanały</item>
     <item id="1218">Użytkownik może modyfikować wszystkie kanały</item>
@@ -686,6 +691,7 @@
     <item id="1452">Dostępne kanały</item>
     <item id="1453">Ustawienia kanałów auto-Operator</item>
     <item id="1454">Pokazuj emoji dla stanu użytkowników i kanałów</item>
+    <item id="1455">Pokazuj wchodzenie i wychodzenie użytkowników w czacie</item>
     <item id="1456">Włącz antyzwrotkę (redukuje echo z głośników mogące prowadzić do sprzężeń zwrotnych)</item>
     <item id="1460">Tylko operatorzy słyszą i widzą wysyłane dane</item>
     <item id="1463">Częstotliwości próbkowania urządzenia odtwarzającego</item>
@@ -753,6 +759,8 @@
     <item id="1547">Ochrona antyflood</item>
     <item id="1548">Ogranicz możliwość smamowania użytkownika limitując liczbę wywołanych komend w ustawionym czasie.</item>
     <item id="1550">Ogranicz wywołane polecenia</item>
+    <item id="1552">Nieokreślony</item>
+    <item id="1553">Głośność zdarzeń dźwiękowych względem głosu</item>
     <item id="1554">Użytkownik może zmienić nick</item>
     <item id="1558">Użytkownik może nagrywać w wszystkich kanałach</item>
     <item id="1561">&amp;Aktywuj</item>
@@ -783,6 +791,7 @@
     <item id="1602">Kanał ukryty (niewidoczny i dostępny tylko dla użytkowników, którzy wiedzą nazwę kanału)</item>
     <item id="1603">Typ kanału</item>
     <item id="1604">Użytkownik może widzieć kanały ukryte</item>
+    <item id="1606">Tryb odtwarzania</item>
     <item id="32791">Jaki jest mój &amp;adres IP?</item>
     <item id="32798">&amp;Nadaj uprawnienia operatoraOp\tCtrl+O</item>
     <item id="32801">Pokaż wiadomości kanału\tF10</item>

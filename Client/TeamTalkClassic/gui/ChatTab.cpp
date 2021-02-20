@@ -88,6 +88,7 @@ BOOL CChatTab::OnInitDialog()
     m_wndRichEdit.SetEventMask(m_wndRichEdit.GetEventMask() | ENM_LINK) ;
 
     TRANSLATE(*this, IDD);
+    m_wndChanMessage.EnableWindow(FALSE);
     SetAccessibleName(m_wndRichEdit, LoadText(IDS_CHANHISTORYLAB, _T("History")));
     SetAccessibleName(m_wndChanMessage, LoadText(IDS_CHANMESSAGELAB, _T("Message")));
 
