@@ -31,7 +31,7 @@
 #define TEAMTALK_XML_VERSION_DEFAULT                "5.0"
 
 #define DEFAULT_NICKNAME                            _T("NoName")
-#define DEFAULT_GENDER                              1
+#define DEFAULT_GENDER                              GENDER_NEUTRAL
 #define DEFAULT_PUSHTOTALK                          false
 #define DEFAULT_VOICEACTIVATED                      true
 #define DEFAULT_VOICEACTIVATE_LEVEL                 2
@@ -40,6 +40,8 @@
 #define DEFAULT_SOUND_OUTPUT_VOLUME                 50
 #define DEFAULT_SOUND_GAIN_LEVEL                    50
 #define DEFAULT_MEDIA_VS_VOICE                      100
+#define DEFAULT_CLIENT_SOUNDS_VS_VOICE              50
+#define DEFAULT_SOUNDEVENT_PLAYBACKMODE             PLAYBACKMODE_TEAMTALK
 
 #define DEFAULT_SOUNDEVENT_USERJOINED               "Sounds\\newuser.wav"
 #define DEFAULT_SOUNDEVENT_USERLEFT                 "Sounds\\removeuser.wav"
@@ -95,7 +97,7 @@ namespace teamtalk {
         : nTcpPort(0)
         , nUdpPort(0)
         , bEncrypted(FALSE)
-        , nGender(0)
+        , nGender(GENDER_NONE)
         , nVoiceAct(-1)
         , capformat()
         , vidcodec() { }
@@ -231,6 +233,9 @@ namespace teamtalk {
 
         void SetShowEmojis(bool bEnable);
         bool GetShowEmojis(bool bDefault = true);
+
+        void SetShowLoggedInOut(bool bEnable);
+        bool GetShowLoggedInOut(bool bDefault = true);
         /******** </window> *******/
 
 
@@ -391,6 +396,12 @@ namespace teamtalk {
 
         void SetEventTTSEvents(TTSEvents uEvents);
         TTSEvents GetEventTTSEvents();
+
+        void SetClientSoundsVsVoice(int nPercent);
+        int GetClientSoundsVsVoice(int nDefPercent);
+
+        void SetSoundPlaybackMode(int pbmode);
+        int GetSoundPlaybackMode(int nDefPbMode);
         /********* </events> ************/
 
         /********* <advanced> ***********/

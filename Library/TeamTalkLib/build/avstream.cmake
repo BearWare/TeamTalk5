@@ -3,6 +3,8 @@ include (ffmpeg)
 include (dshow)
 include (vidcap)
 include (speexdsp)
+include (opus)
+include (opustools)
 include (webrtc)
 
 set (AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/MediaStreamer.cpp)
@@ -139,4 +141,9 @@ if (MSVC)
     list (APPEND AVSTREAM_LINK_FLAGS mf mfplat mfreadwrite mfuuid shlwapi propsys)
     list (APPEND AVSTREAM_COMPILE_FLAGS -DWINVER=0x0601 -DENABLE_MEDIAFOUNDATION) # WINVER=_WIN32_WINNT_WIN7
   endif()
+endif()
+
+if (OPUSTOOLS AND OPUS)
+    list (APPEND AVSTREAM_HEADERS ${TEAMTALKLIB_ROOT}/avstream/OpusFileStreamer.h)
+    list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/OpusFileStreamer.cpp)
 endif()

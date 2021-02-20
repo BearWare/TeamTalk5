@@ -24,9 +24,10 @@
 #include "AudioInputStreamer.h"
 #include <assert.h>
 
-AudioInputStreamer::AudioInputStreamer(int streamid)
-: m_streamid(streamid)
+AudioInputStreamer::AudioInputStreamer(int streamid, const MediaStreamOutput& out_prop)
+: MediaStreamer(out_prop), m_streamid(streamid)
 {
+
 }
 
 AudioInputStreamer::~AudioInputStreamer()

@@ -104,14 +104,13 @@ typedef std::function< void (const MediaFileProp& mfp,
 class MediaStreamer
 {
 public:
-    MediaStreamer() { }
+    MediaStreamer(const MediaStreamOutput& out_prop);
     virtual ~MediaStreamer();
 
     void RegisterVideoCallback(mediastream_videocallback_t cb, bool enable);
     void RegisterAudioCallback(mediastream_audiocallback_t cb, bool enable);
     
-    bool Open(const MediaStreamOutput& out_prop);
-    void Close();
+    bool Open();
 
     bool StartStream();
 
@@ -122,8 +121,9 @@ public:
 protected:
     const int BUF_SECS = 3;
 
+    void Close();
+
     virtual void Run() = 0;
-    virtual void Reset();
     virtual void AudioProgress(uint32_t queuedmsec, uint32_t elapsedmsec) {}
 
     bool QueueAudio(const media::AudioFrame& frame);
@@ -160,8 +160,7 @@ private:
 class MediaFileStreamer : public MediaStreamer
 {
 public:
-    bool OpenFile(const ACE_TString& filename,
-                  const MediaStreamOutput& out_prop);
+    MediaFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
     
     void RegisterStatusCallback(mediastream_statuscallback_t cb, bool enable);
     
@@ -171,8 +170,6 @@ public:
     const MediaFileProp& GetMediaFile() const { return m_media_in; }
     
 protected:
-    virtual void Reset();
-
     MediaFileProp m_media_in;
     
     mediastream_statuscallback_t m_statuscallback;
@@ -184,6 +181,6 @@ protected:
 
 typedef std::shared_ptr< MediaFileStreamer > mediafile_streamer_t;
 
-mediafile_streamer_t MakeMediaFileStreamer();
+mediafile_streamer_t MakeMediaFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
 
 #endif

@@ -793,7 +793,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             channame = QString("%1 (%2)").arg(channame).arg(count);
         }
         if (emoji && (ite->uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
-            channame += ": 👻";
+            channame += " - 👻";
         if (emoji && ite->bPassword)
             channame += " - 🔒";
         item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
@@ -1010,7 +1010,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         {
             if (user.nStatusMode & STATUSMODE_FEMALE)
                 itemtext += " 👩";
-            else
+            else if ((user.nStatusMode & STATUSMODE_GENDER_MASK) == STATUSMODE_MALE)
                 itemtext += " 👨";
             if(user.uUserType & USERTYPE_ADMIN)
                 itemtext += tr(" (Administrator)");

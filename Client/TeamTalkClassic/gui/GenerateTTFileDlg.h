@@ -54,6 +54,7 @@ public:
     CEdit m_wndNickname;
     CButton m_wndMale;
     CButton m_wndFemale;
+    CButton m_wndNeutral;
     CButton m_wndPttChkBox;
     CButton m_wndSetupKeys;
     CEdit m_wndKeyComb;

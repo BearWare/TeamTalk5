@@ -479,7 +479,7 @@ bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
         std::vector<int> frmsizes = ConvertFrameSizes(enc_frame.enc_frame_sizes);
         int totalsize = SumFrameSizes(frmsizes);
         assert(totalsize == enc_frame.enc_frames.size());
-        if (totalsize > enc_frame.enc_frames.size())
+        if (totalsize > int(enc_frame.enc_frames.size()))
             return false;
 
         m_decoder.DecodeMultiple(&enc_frame.enc_frames[0], 
@@ -561,7 +561,7 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
         // first do bounds check
         int frmsizes = SumFrameSizes(enc_frame.enc_frame_sizes);
         assert(frmsizes == enc_frame.enc_frames.size());
-        if (frmsizes > enc_frame.enc_frames.size())
+        if (frmsizes > int(enc_frame.enc_frames.size()))
             return false;
 
         int encoffset = 0, decoffset = 0;

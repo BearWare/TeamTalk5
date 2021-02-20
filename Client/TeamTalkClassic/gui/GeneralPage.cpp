@@ -40,7 +40,7 @@ CGeneralPage::CGeneralPage()
 : CPropertyPage(CGeneralPage::IDD)
 , m_nInactivity(0)
 , m_bIdleVox(FALSE)
-, m_bFemale(FALSE)
+, m_nGender(GENDER_NEUTRAL)
 , m_szBearWareID(_T(""))
 , m_bRestoreUser(FALSE)
 {
@@ -68,9 +68,27 @@ void CGeneralPage::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_EDIT_INACTIVITY, m_wndInactivity);
     DDX_Control(pDX, IDC_CHECK_IDLEVOX, m_wndIdleVox);
     DDX_Check(pDX, IDC_CHECK_IDLEVOX, m_bIdleVox);
-    BOOL bMale = !m_bFemale;
-    DDX_Check(pDX, IDC_RADIO_MALE, bMale);
-    DDX_Check(pDX, IDC_RADIO_FEMALE, m_bFemale);
+    BOOL bDDXCHECK = TRUE;
+    BOOL bDDXCHECK1 = FALSE;
+    switch (m_nGender)
+    {
+    case GENDER_MALE:
+        DDX_Check(pDX, IDC_RADIO_MALE, bDDXCHECK);
+        DDX_Check(pDX, IDC_RADIO_FEMALE, bDDXCHECK1);
+        DDX_Check(pDX, IDC_RADIO_NEUTRAL, bDDXCHECK1);
+        break;
+    case GENDER_FEMALE:
+        DDX_Check(pDX, IDC_RADIO_MALE, bDDXCHECK1);
+        DDX_Check(pDX, IDC_RADIO_FEMALE, bDDXCHECK);
+        DDX_Check(pDX, IDC_RADIO_NEUTRAL, bDDXCHECK1);
+        break;
+    case GENDER_NEUTRAL:
+    default :
+        DDX_Check(pDX, IDC_RADIO_MALE, bDDXCHECK1);
+        DDX_Check(pDX, IDC_RADIO_FEMALE, bDDXCHECK1);
+        DDX_Check(pDX, IDC_RADIO_NEUTRAL, bDDXCHECK);
+        break;
+    }
     DDX_Text(pDX, IDC_EDIT_BEARWAREID, m_szBearWareID);
     DDX_Control(pDX, IDC_EDIT_BEARWAREID, m_wndBearWareID);
     DDX_Control(pDX, IDC_BUTTON_SETUPBEARWARE, m_wndSetupBearWare);
@@ -79,6 +97,9 @@ void CGeneralPage::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CGeneralPage, CPropertyPage)
+    ON_BN_CLICKED(IDC_RADIO_MALE, OnBnClickedRadioMale)
+    ON_BN_CLICKED(IDC_RADIO_FEMALE, OnBnClickedRadioFemale)
+    ON_BN_CLICKED(IDC_RADIO_NEUTRAL, OnBnClickedRadioNeutral)
     ON_BN_CLICKED(IDC_CHECK_PUSHTOTALK, OnBnClickedCheckPushtotalk)
     ON_BN_CLICKED(IDC_BUTTON_SETUPKEYS, OnBnClickedSetupKeys)
     ON_EN_CHANGE(IDC_EDIT_INACTIVITY, OnEnChangeEditInactivity)
@@ -108,6 +129,21 @@ BOOL CGeneralPage::OnInitDialog()
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CGeneralPage::OnBnClickedRadioMale()
+{
+    m_nGender = GENDER_MALE;
+}
+
+void CGeneralPage::OnBnClickedRadioFemale()
+{
+    m_nGender = GENDER_FEMALE;
+}
+
+void CGeneralPage::OnBnClickedRadioNeutral()
+{
+    m_nGender = GENDER_NEUTRAL;
 }
 
 void CGeneralPage::OnBnClickedCheckPushtotalk()

@@ -41,7 +41,7 @@ typedef std::function< void(const AudioInputStatus& ais) > audioinput_statuscall
 class AudioInputStreamer : public MediaStreamer
 {
 public:
-    AudioInputStreamer(int streamid);
+    AudioInputStreamer(int streamid, const MediaStreamOutput& out_prop);
     ~AudioInputStreamer();
 
     void RegisterAudioInputStatusCallback(audioinput_statuscallback_t cb, bool enable);

@@ -26,14 +26,14 @@
 
 #include <QSettings>
 
-#define SETTINGS_VERSION                            "5.1"
+#define SETTINGS_VERSION                            "5.2"
 #define SETTINGS_GENERAL_VERSION                    "version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            "5.0"
 
 #define SETTINGS_GENERAL_NICKNAME                   "general_/nickname"
 #define SETTINGS_GENERAL_NICKNAME_DEFAULT           "NoName"
 #define SETTINGS_GENERAL_GENDER                     "general_/gender"
-#define SETTINGS_GENERAL_GENDER_DEFAULT             true
+#define SETTINGS_GENERAL_GENDER_DEFAULT             GENDER_NEUTRAL
 #define SETTINGS_GENERAL_BEARWARE_USERNAME          "general_/bearwareid"
 #define SETTINGS_GENERAL_BEARWARE_TOKEN             "general_/bearwaretoken"
 #define SETTINGS_GENERAL_RESTOREUSERSETTINGS        "general_/restore-user-settings"
@@ -74,6 +74,8 @@
 #define SETTINGS_DISPLAY_LASTTALK_DEFAULT           true
 #define SETTINGS_DISPLAY_EMOJI                     "display/show-emoji"
 #define SETTINGS_DISPLAY_EMOJI_DEFAULT              true
+#define SETTINGS_DISPLAY_LOGGEDINOUT                     "display/show-logged-in-out"
+#define SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT              true
 #define SETTINGS_DISPLAY_MSGTIMESTAMP               "display/msgtimestamp"
 #define SETTINGS_DISPLAY_STARTMINIMIZED             "display/startminimized"
 #define SETTINGS_DISPLAY_WINDOWPOS                  "display/windowposition"

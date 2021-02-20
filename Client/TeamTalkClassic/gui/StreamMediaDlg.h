@@ -35,7 +35,7 @@ class CStreamMediaDlg : public CDialog
 	DECLARE_DYNAMIC(CStreamMediaDlg)
 
 public:
-	CStreamMediaDlg(teamtalk::ClientXML& xmlSettings, SoundDevice& indev, SoundDevice& outdev, CWnd* pParent = NULL);   // standard constructor
+	CStreamMediaDlg(teamtalk::ClientXML& xmlSettings, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CStreamMediaDlg();
 
 // Dialog Data
@@ -52,7 +52,6 @@ protected:
     void UpdateControls();
 
     teamtalk::ClientXML& m_xmlSettings;
-    SoundDevice& m_SoundDeviceIn, & m_SoundDeviceOut;
     int m_nPlaybackID = 0;
     MediaFilePlayback m_mfp = {};
     MediaFileInfo m_mfi = {};

@@ -44,6 +44,8 @@ const int WINAEC_CHANNELS = 1;
 
 #endif
 
+#define DEBUG_PORTAUDIO 0
+
 using namespace std;
 namespace soundsystem {
 
@@ -258,14 +260,14 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
         {
             if (devinfo->maxInputChannels > 0)
             {
-                device.input_samplerates.insert(devinfo->defaultSampleRate);
-                for (int c=1; c < std::min(devinfo->maxInputChannels, 2); ++c)
+                device.input_samplerates.insert(int(devinfo->defaultSampleRate));
+                for (int c=1; c <= std::min(devinfo->maxInputChannels, 2); ++c)
                     device.input_channels.insert(c);
             }
             if (devinfo->maxOutputChannels > 0)
             {
-                device.output_samplerates.insert(devinfo->defaultSampleRate);
-                for (int c=1; c < std::min(devinfo->maxOutputChannels, 2); ++c)
+                device.output_samplerates.insert(int(devinfo->defaultSampleRate));
+                for (int c=1; c <= std::min(devinfo->maxOutputChannels, 2); ++c)
                     device.output_channels.insert(c);
             }
         }
@@ -394,7 +396,7 @@ int InputStreamCallback(const void *inputBuffer, void *outputBuffer,
     uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, inputStreamer->samplerate);
 
     int skewMSec = std::abs(int(durationMSec - samplesMSec));
-    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Input callback is off by %d msec\n"), skewMSec);
+    MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Input callback is off by %d msec\n"), skewMSec);
 
     MYTRACE_COND(inputStreamer->soundsystem == SOUND_API_NOSOUND,
                  ACE_TEXT("No sound input callback"));
@@ -502,7 +504,7 @@ int OutputStreamCallback(const void *inputBuffer, void *outputBuffer,
     uint32_t samplesMSec = streamer->DurationSamplesMSec(streamer->samplerate);
     uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, streamer->samplerate);
     int skewMSec = std::abs(int(durationMSec - samplesMSec));
-    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Output callback is off by %d msec\n"), skewMSec);
+    MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Output callback is off by %d msec\n"), skewMSec);
 
     if(bContinue)
         return paContinue;
@@ -709,7 +711,7 @@ int DuplexStreamCallback(const void *inputBuffer,
     uint32_t samplesMSec = dpxStream->DurationSamplesMSec(dpxStream->samplerate);
     uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, dpxStream->samplerate);
     int skewMSec = std::abs(int(durationMSec - samplesMSec));
-    MYTRACE_COND(skewMSec > int(cbMSec) * 3, ACE_TEXT("Duplex callback is off by %d msec\n"), skewMSec);
+    MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Duplex callback is off by %d msec\n"), skewMSec);
 
 #if defined(WIN32)
     if (dpxStream->winaec)

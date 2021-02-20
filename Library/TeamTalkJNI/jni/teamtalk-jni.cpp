@@ -1843,6 +1843,26 @@ extern "C" {
                                         (lpJitterConfig ? &config : nullptr));
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getUserJitterControl(JNIEnv* env,
+                                                                                        jobject thiz,
+                                                                                        jlong lpTTInstance,
+                                                                                        jint nUserID,
+                                                                                        jint nStreamType,
+                                                                                        jobject lpJitterConfig)
+    {
+        THROW_NULLEX(env, lpJitterConfig, false);
+
+        JitterConfig config = {};
+
+        if (TT_GetUserJitterControl(reinterpret_cast<TTInstance*>(lpTTInstance), nUserID, (StreamType)nStreamType,
+            (lpJitterConfig ? &config : nullptr)))
+        {
+            setJitterConfig(env, lpJitterConfig, config);
+            return true;
+        }
+        return false;
+    }
+
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserPosition(JNIEnv* env,
                                                                              jobject thiz,
                                                                              jlong lpTTInstance,

@@ -48,5 +48,6 @@ public class User
     public boolean[] stereoPlaybackMediaFile;
     public int nBufferMSecVoice;
     public int nBufferMSecMediaFile;
+    public int nActiveAdaptiveDelayMSec;
     public String szClientName;
 }

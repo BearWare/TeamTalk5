@@ -29,6 +29,7 @@
 
 #define WAVEHEADERSIZE 44
 
+#define DEBUG_WAVEFILE 0
 
 bool WriteWaveFileHeader(ACE_FILE_IO& file, const media::AudioFormat& fmt)
 {
@@ -99,7 +100,7 @@ bool UpdateWaveFileHeader(ACE_FILE_IO& file)
         }
         else
         {
-            MYTRACE(ACE_TEXT("Failed to update wave-file header\n"));
+            MYTRACE_COND(DEBUG_WAVEFILE, ACE_TEXT("Failed to update wave-file header\n"));
         }
     }
 
@@ -150,7 +151,7 @@ WavePCMFile::WavePCMFile()
 WavePCMFile::~WavePCMFile()
 {
     Close();
-    MYTRACE(ACE_TEXT("Closing wave-file %s\n"), m_filepath.c_str());
+    MYTRACE_COND(DEBUG_WAVEFILE, ACE_TEXT("Closing wave-file %s\n"), m_filepath.c_str());
 }
 
 bool WavePCMFile::OpenFile(const ACE_TString& filename, bool readonly)

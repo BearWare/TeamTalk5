@@ -51,6 +51,24 @@ protected:
     ogg_stream_state m_os;
 };
 
+class OggInput : private NonCopyable
+{
+public:
+    OggInput();
+    ~OggInput();
+
+    bool Open(const ogg_page& og);
+    void Close();
+    void Reset();
+
+    int PutPage(ogg_page& og);
+    int GetPacket(ogg_packet& op, bool peek = false);
+
+private:
+    ogg_stream_state m_os;
+    bool m_ready;
+};
+
 class OggFile : private NonCopyable
 {
 public:
@@ -59,7 +77,7 @@ public:
     
     // write
     bool NewFile(const ACE_TString& filename);
-    // read
+    // read only
     bool Open(const ACE_TString& filename);
     
     void Close();
@@ -67,9 +85,20 @@ public:
     int ReadOggPage(ogg_page& og);
     int WriteOggPage(const ogg_page& og);
 
+    bool Seek(ogg_int64_t granulepos, ogg_page& og);
+    ogg_int64_t LastGranulePos();
+    ogg_int64_t CurrentGranulePos() const;
+
+    // not working
+    bool SeekLog2(ogg_int64_t granulepos);
+    // not working
+    ogg_int64_t LastGranulePosLog2();
+
 private:
+    bool SyncPage();
     ACE_FILE_IO m_file;
     ogg_sync_state m_state = {};
+    ogg_int64_t m_last_gp = -1;
 };
 
 #if defined(ENABLE_SPEEX)
@@ -161,21 +190,44 @@ typedef std::shared_ptr< SpeexEncFile > speexencfile_t;
 #endif /* ENABLE_SPEEX */
 
 #if defined(ENABLE_OPUSTOOLS)
+
+extern "C" {
+#include <opus_header.h>
+}
+
 class OpusFile : private NonCopyable
 {
 public:
     OpusFile();
+    ~OpusFile();
 
-    bool Open(const ACE_TString& filename,
-              int channels, int samplerate, int framesize);
+    bool NewFile(const ACE_TString& filename,
+                int channels, int samplerate, int framesize);
+    bool OpenFile(const ACE_TString& filename);
     void Close();
 
-    int WriteEncoded(const char* enc_data, int enc_len, bool last=false);
+    int GetSampleRate() const;
+    int GetChannels() const;
+
+    int WriteEncoded(const char* enc_data, int enc_len, int framesize, bool last);
+
+    const unsigned char* ReadEncoded(int& bytes, ogg_int64_t* sampleduration = nullptr);
+
+    bool Seek(ogg_int64_t samplesoffset);
+
+    ogg_int64_t GetTotalSamples() const;
+    ogg_int64_t GetSamplesPosition() const;
+
 private:
-    OggOutput m_ogg;
+    OggInput m_oggin;
+    OggOutput m_oggout;
     OggFile m_oggfile;
-    int m_samplerate, m_frame_size;
+    OpusHeader m_header = {};
+
+    // for encoding
     ogg_int64_t m_granule_pos, m_packet_no;
+    // for decoding
+    ogg_int64_t m_last_granule_pos;
 };
 
 typedef std::shared_ptr< OpusFile > opusfile_t;
@@ -194,7 +246,7 @@ public:
     bool Open(const ACE_TString& filename, int channels, 
               int samplerate, int framesize, int app);
     void Close();
-    int Encode(const short* input_buffer, int input_samples, bool last=false);
+    int Encode(const short* input_buffer, int input_samples, bool last);
 
     OpusEncode& getEncoder() { return m_encoder; }
 
@@ -205,6 +257,28 @@ private:
 };
 
 typedef std::shared_ptr< OpusEncFile > opusencfile_t;
+
+#include "OpusDecoder.h"
+
+class OpusDecFile : private NonCopyable
+{
+public:
+    bool Open(const ACE_TString& filename);
+    void Close();
+
+    int GetSampleRate() const;
+    int GetChannels() const;
+    int Decode(short* input_buffer, int input_samples);
+    bool Seek(uint32_t offset_msec);
+    uint32_t GetDurationMSec();
+    uint32_t GetElapsedMSec();
+private:
+    OpusDecode m_decoder;
+    OpusFile m_file;
+    ogg_int64_t m_samples_decoded = 0;
+};
+
+typedef std::shared_ptr< OpusDecFile > opusdecfile_t;
 
 #endif
 
