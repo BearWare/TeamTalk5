@@ -35,6 +35,7 @@ Accessible Windows Client
 - Support for neutral status
 - New option to choose playback mode of sound events
 - Text message area disable when client is not in a channel
+- Specific message when kicked from server
 - Ability to play OPUS .ogg files
 Default QT Client
 - SpeexDSP echo canceller replaced by WebRTC
@@ -59,6 +60,7 @@ Default QT Client
 - ALSA sound system on Linux is faster to initialize
 - Window's title is now updated if channel or server name is changing
 - Support for neutral status
+- Specific message when kicked from server
 - Ability to play OPUS .ogg files on Windows
 Android Client
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC

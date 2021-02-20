@@ -1050,13 +1050,32 @@ void CTeamTalkDlg::OnLoggedOut(const TTMessage& msg)
 
 void CTeamTalkDlg::OnKicked(const TTMessage& msg)
 {
-    PlaySoundEvent(SOUNDEVENT_CONNECTION_LOST);
-    if(msg.ttType == __USER) {
-        CString szMsg;
-        szMsg.Format(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from channel by %s.")), GetDisplayName(msg.user));
-        AfxMessageBox(szMsg);
-    } else {
-        AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNELBYUNK, _T("You have been kicked from channel by an unknown user.")));
+    if(msg.nSource == 0)
+    {
+        PlaySoundEvent(SOUNDEVENT_CONNECTION_LOST);
+        if(msg.ttType == __USER)
+        {
+            CString szMsg;
+            szMsg.Format(LoadText(IDS_KICKEDFROMSERVER, _T("You have been kicked from server by %s.")), GetDisplayName(msg.user));
+            AfxMessageBox(szMsg);
+        }
+        else
+        {
+            AfxMessageBox(LoadText(IDS_KICKEDFROMSERVERBYUNK, _T("You have been kicked from server by an unknown user.")));
+        }
+    }
+    else
+    {
+        if (msg.ttType == __USER)
+        {
+            CString szMsg;
+            szMsg.Format(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from channel by %s.")), GetDisplayName(msg.user));
+            AfxMessageBox(szMsg);
+        }
+        else
+        {
+            AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNELBYUNK, _T("You have been kicked from channel by an unknown user.")));
+        }
     }
 }
 
