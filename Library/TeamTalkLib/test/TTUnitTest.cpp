@@ -116,14 +116,14 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/
     return true;
 }
 
-bool Connect(TTInstance* ttClient, const TTCHAR hostname[TT_STRLEN], INT32 tcpport, INT32 udpport, TTBOOL encrypted)
+bool Connect(TTInstance* ttClient, const TTCHAR* hostname, INT32 tcpport, INT32 udpport, TTBOOL encrypted)
 {
     if (!TT_Connect(ttClient, hostname, tcpport, udpport, 0, 0, encrypted))
         return false;
     return WaitForEvent(ttClient, CLIENTEVENT_CON_SUCCESS);
 }
 
-bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR username[TT_STRLEN], const TTCHAR passwd[TT_STRLEN])
+bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR* username, const TTCHAR* passwd)
 {
     return WaitForCmdSuccess(ttClient, TT_DoLogin(ttClient, nickname, username, passwd));
 }
