@@ -30,6 +30,13 @@
 using namespace std::placeholders;
 using namespace vidcap;
 
+FFMpegVideoInput::FFMpegVideoInput(const VidCapDevice& viddevice,
+                                   const media::VideoFormat& fmt)
+    : FFMpegStreamer(viddevice.deviceid, MediaStreamOutput(fmt)), m_dev(viddevice), m_vidfmt(fmt)
+{
+}
+
+
 FFMpeg3Capture::FFMpeg3Capture()
 {
     InitAVConv();
@@ -57,11 +64,7 @@ bool FFMpeg3Capture::InitVideoCapture(const ACE_TString& deviceid,
                                               this, _1, _2), true);
     streamer->RegisterStatusCallback(std::bind(&FFMpeg3Capture::MediaStreamStatusCallback,
                                                this, _1, _2), true);
-
-    MediaStreamOutput out_prop;
-    out_prop.video = vidfmt;
-
-    if(!streamer->OpenFile(deviceid, out_prop))
+    if (!streamer->Open())
         return false;
 
     m_videoinput.swap(streamer);
@@ -125,7 +128,7 @@ bool FFMpeg3Capture::MediaStreamVideoCallback(media::VideoFrame& video_frame,
     return false;
 }
 
-void FFMpeg3Capture::MediaStreamStatusCallback(const MediaFileProp& mfp,
-                                               MediaStreamStatus status)
+void FFMpeg3Capture::MediaStreamStatusCallback(const MediaFileProp& /*mfp*/,
+                                               MediaStreamStatus /*status*/)
 {
 }

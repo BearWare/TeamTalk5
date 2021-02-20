@@ -428,9 +428,11 @@ void AudioThread::QueueAudio(ACE_Message_Block* mb_audio)
     }
 }
 
-bool AudioThread::IsVoiceActive() const
+bool AudioThread::IsVoiceActive()
 {
 #if defined(ENABLE_WEBRTC)
+    std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
+
     if (m_apm && m_apm->GetConfig().voice_detection.enabled)
     {
         assert(m_aps);
@@ -442,9 +444,11 @@ bool AudioThread::IsVoiceActive() const
         m_lastActive + m_voiceact_delay > ACE_OS::gettimeofday();
 }
 
-int AudioThread::GetCurrentVoiceLevel() const
+int AudioThread::GetCurrentVoiceLevel()
 {
 #if defined(ENABLE_WEBRTC)
+    std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
+
     if (m_apm)
     {
         assert(m_aps);
@@ -494,14 +498,9 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
 #endif
 
 #if defined(ENABLE_WEBRTC)
-    PreprocessWebRTC(audblock);
-    if (m_apm && m_apm->GetConfig().voice_detection.enabled)
-    {
-        assert(m_aps);
-        if (m_aps->voice_detected.value_or(false))
-            m_lastActive = ACE_OS::gettimeofday();
-    }
-    else
+    bool vad = false;
+    PreprocessWebRTC(audblock, vad);
+    if (!vad)
 #endif
     {
         MeasureVoiceLevel(audblock);
@@ -511,7 +510,7 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
     if(audblock.inputfmt.channels == 2)
         SelectStereo(m_stereo, audblock.input_buffer, audblock.input_samples);
 
-    if((this->IsVoiceActive() && audblock.voiceact_enc) || audblock.force_enc)
+    if ((IsVoiceActive() && audblock.voiceact_enc) || audblock.force_enc)
     {
         //encode
         const char* enc_data = NULL;
@@ -678,14 +677,24 @@ void AudioThread::PreprocessSpeex(media::AudioFrame& audblock)
 #endif
 
 #if defined(ENABLE_WEBRTC)
-void AudioThread::PreprocessWebRTC(media::AudioFrame& audblock)
+void AudioThread::PreprocessWebRTC(media::AudioFrame& audblock, bool& vad)
 {
+    std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
+
     if (!m_apm)
         return;
 
     if (WebRTCPreprocess(*m_apm, audblock, audblock, m_aps.get()) != audblock.input_samples)
     {
         MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
+    }
+
+    vad = m_apm->GetConfig().voice_detection.enabled;
+    if (vad)
+    {
+        assert(m_aps);
+        if (m_aps->voice_detected.value_or(false))
+            m_lastActive = ACE_OS::gettimeofday();
     }
 }
 #endif
@@ -710,7 +719,7 @@ const char* AudioThread::ProcessSpeex(const media::AudioFrame& audblock,
 
     while(n_processed < audblock.input_samples)
     {
-        assert(nbBytes + enc_frm_size <= m_encbuf.size());
+        assert(nbBytes + enc_frm_size <= int(m_encbuf.size()));
         ret = m_speex->Encode(&audblock.input_buffer[n_processed],
                               &m_encbuf[nbBytes], enc_frm_size);
         assert(ret>0);
@@ -747,7 +756,7 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
 
     while(n_processed < audblock.input_samples)
     {
-        assert(nbBytes + enc_frm_size <= m_encbuf.size());
+        assert(nbBytes + enc_frm_size <= int(m_encbuf.size()));
         ret = m_opus->Encode(&audblock.input_buffer[n_processed*channels],
                              framesize, &m_encbuf[nbBytes], enc_frm_size);
         assert(ret>0);

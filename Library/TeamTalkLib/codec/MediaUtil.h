@@ -102,9 +102,14 @@ namespace media
         }
     };
 
+// Returns number of bytes from number of 'samples' with 'channels'
 #define PCM16_BYTES(samples, channels) ((samples) * (channels) * sizeof(short))
+// Returns number of msec from number of 'bytes' with 'channels' at given 'samplerate'
 #define PCM16_BYTES_DURATION(bytes, channels, samplerate) ((((bytes) / (channels) / sizeof(short)) * 1000) / (samplerate))
+// Returns number of msec from number of 'samples' at given 'samplerate'
 #define PCM16_SAMPLES_DURATION(samples, samplerate) ((((samples) / (samplerate)) * 1000) + ((((samples) % (samplerate)) * 1000) / (samplerate)))
+// Returns number of samples from 'duration' msec at given 'samplerate'
+#define PCM16_DURATION_SAMPLES(duration, samplerate) (((duration) / 1000) * (samplerate) + (((samplerate) * 1000) / ((duration) % 1000)))
 
     struct AudioFrame
     {

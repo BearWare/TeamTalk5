@@ -38,11 +38,12 @@
 #include <future>
 
 #if defined(ENABLE_OGG)
-#include <codec/OggOutput.h>
+#include <codec/OggFileIO.h>
 #endif
 
 #if defined(ENABLE_OPUS)
 #include <codec/OpusEncoder.h>
+#include <codec/OpusDecoder.h>
 #endif
 #include <codec/WaveFile.h>
 
@@ -439,344 +440,6 @@ TEST_CASE("TestHTTPS")
 #endif
 
 #if defined(WIN32)
-
-TEST_CASE("CLSID_CWMAudioAEC")
-{
-    std::vector<SoundDevice> devs(100);
-    INT32 nDevs = 100, indev, outdev;
-    REQUIRE(TT_GetSoundDevices(&devs[0], &nDevs));
-    nDevs = nDevs;
-    REQUIRE(TT_GetDefaultSoundDevicesEx(SOUNDSYSTEM_WASAPI, &indev, &outdev));
-
-    CComPtr<IMMDeviceEnumerator> spEnumerator;
-    CComPtr<IMMDeviceCollection> spEndpoints;
-    UINT dwCount;
-
-    REQUIRE(SUCCEEDED(spEnumerator.CoCreateInstance(__uuidof(MMDeviceEnumerator))));
-
-    std::map<std::wstring, UINT> capdevs, spkdevs;
-
-    REQUIRE(SUCCEEDED(spEnumerator->EnumAudioEndpoints(eCapture, DEVICE_STATE_ACTIVE, &spEndpoints)));
-    REQUIRE(SUCCEEDED(spEndpoints->GetCount(&dwCount)));
-    for (UINT index = 0; index < dwCount; index++)
-    {
-        WCHAR* pszDeviceId = NULL;
-        PROPVARIANT value;
-        CComPtr<IMMDevice> spDevice;
-        CComPtr<IPropertyStore> spProperties;
-
-        PropVariantInit(&value);
-        REQUIRE(SUCCEEDED(spEndpoints->Item(index, &spDevice)));
-        REQUIRE(SUCCEEDED(spDevice->GetId(&pszDeviceId)));
-
-        capdevs[pszDeviceId] = index;
-
-        PropVariantClear(&value);
-        CoTaskMemFree(pszDeviceId);
-    }
-    spEndpoints.Release();
-
-    REQUIRE(SUCCEEDED(spEnumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &spEndpoints)));
-    REQUIRE(SUCCEEDED(spEndpoints->GetCount(&dwCount)));
-    for(UINT index = 0; index < dwCount; index++)
-    {
-        WCHAR* pszDeviceId = NULL;
-        PROPVARIANT value;
-        CComPtr<IMMDevice> spDevice;
-        CComPtr<IPropertyStore> spProperties;
-
-        PropVariantInit(&value);
-        REQUIRE(SUCCEEDED(spEndpoints->Item(index, &spDevice)));
-        REQUIRE(SUCCEEDED(spDevice->GetId(&pszDeviceId)));
-
-        spkdevs[pszDeviceId] = index;
-
-        PropVariantClear(&value);
-        CoTaskMemFree(pszDeviceId);
-    }
-
-    CComPtr<IMediaObject> pDMO;
-    CComPtr<IPropertyStore> pPS;
-
-    REQUIRE(SUCCEEDED(CoCreateInstance(CLSID_CWMAudioAEC, NULL, CLSCTX_INPROC_SERVER, IID_IMediaObject, (LPVOID*)&pDMO)));
-    REQUIRE(SUCCEEDED(pDMO->QueryInterface(IID_IPropertyStore, (LPVOID*)&pPS)));
-
-    PROPVARIANT pvSysMode;
-    PropVariantInit(&pvSysMode);
-    pvSysMode.vt = VT_I4;
-    pvSysMode.lVal = SINGLE_CHANNEL_AEC;
-    REQUIRE(SUCCEEDED(pPS->SetValue(MFPKEY_WMAAECMA_SYSTEM_MODE, pvSysMode)));
-    REQUIRE(SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_SYSTEM_MODE, &pvSysMode)));
-    PropVariantClear(&pvSysMode);
-
-    REQUIRE(capdevs.find(devs[indev].szDeviceID) != capdevs.end());
-    REQUIRE(spkdevs.find(devs[outdev].szDeviceID) != spkdevs.end());
-
-    indev = capdevs[devs[indev].szDeviceID];
-    outdev = spkdevs[devs[outdev].szDeviceID];
-
-    PROPVARIANT pvDeviceId;
-    PropVariantInit(&pvDeviceId);
-    pvDeviceId.vt = VT_I4;
-    pvDeviceId.lVal = (outdev << 16) | indev;
-    REQUIRE(SUCCEEDED(pPS->SetValue(MFPKEY_WMAAECMA_DEVICE_INDEXES, pvDeviceId)));
-    REQUIRE(SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_DEVICE_INDEXES, &pvDeviceId)));
-    PropVariantClear(&pvDeviceId);
-
-    // Turn on feature modes
-    PROPVARIANT pvFeatrModeOn;
-    PropVariantInit(&pvFeatrModeOn);
-    pvFeatrModeOn.vt = VT_BOOL;
-    pvFeatrModeOn.boolVal = VARIANT_TRUE;
-    REQUIRE(SUCCEEDED(pPS->SetValue(MFPKEY_WMAAECMA_FEATURE_MODE, pvFeatrModeOn)));
-    REQUIRE(SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_FEATURE_MODE, &pvFeatrModeOn)));
-    PropVariantClear(&pvFeatrModeOn);
-
-    const int SAMPLERATE = 22050;
-    const int CHANNELS = 1;
-
-    DMO_MEDIA_TYPE mt = {};
-    HRESULT hr = MoInitMediaType(&mt, sizeof(WAVEFORMATEX));
-    REQUIRE(SUCCEEDED(hr));
-    REQUIRE(SetWaveMediaType(SAMPLEFORMAT_INT16, CHANNELS, SAMPLERATE, mt));
-
-    REQUIRE(SUCCEEDED(pDMO->SetOutputType(0, &mt, 0)));
-    REQUIRE(SUCCEEDED(MoFreeMediaType(&mt)));
-
-    REQUIRE(SUCCEEDED(pDMO->AllocateStreamingResources()));
-
-    int iFrameSize;
-    PROPVARIANT pvFrameSize;
-    PropVariantInit(&pvFrameSize);
-    REQUIRE(SUCCEEDED(pPS->GetValue(MFPKEY_WMAAECMA_FEATR_FRAME_SIZE, &pvFrameSize)));
-    iFrameSize = pvFrameSize.lVal;
-    PropVariantClear(&pvFrameSize);
-
-    WavePCMFile wavefile;
-    REQUIRE(wavefile.NewFile(ACE_TEXT("Echo_cancelled.wav"), SAMPLERATE, CHANNELS));
-
-    int delay = iFrameSize * 1000 / SAMPLERATE;
-    int waitMSec = 10000;
-    std::vector<BYTE> outputbuf(PCM16_BYTES(SAMPLERATE, CHANNELS));
-    do
-    {
-        CComPtr<IMediaBuffer> ioutputbuf;
-        REQUIRE(SUCCEEDED(CMediaBuffer::CreateBuffer(&outputbuf[0], 0, outputbuf.size(), (void**)&ioutputbuf)));
-        DMO_OUTPUT_DATA_BUFFER dmodatabuf = {};
-        dmodatabuf.pBuffer = ioutputbuf;
-        DWORD dwStatus, dwOutputLen = 0;
-        hr = pDMO->ProcessOutput(0, 1, &dmodatabuf, &dwStatus);
-
-        BYTE* outputbufptr;
-        switch (hr)
-        {
-            case S_FALSE :
-                dwOutputLen = 0;
-                break;
-            case S_OK :
-                hr = ioutputbuf->GetBufferAndLength(&outputbufptr, &dwOutputLen);
-                REQUIRE(SUCCEEDED(hr));
-                REQUIRE(wavefile.AppendSamples(reinterpret_cast<const short*>(outputbufptr), dwOutputLen / sizeof(short) / CHANNELS));
-                break;
-            case E_FAIL :
-                REQUIRE(SUCCEEDED(hr));
-                break;
-            case E_INVALIDARG :
-                REQUIRE(SUCCEEDED(hr));
-                break;
-            case E_POINTER :
-                REQUIRE(SUCCEEDED(hr));
-                break;
-            case WMAAECMA_E_NO_ACTIVE_RENDER_STREAM :
-                MYTRACE(ACE_TEXT("No audio rendered on device: %s\n"), devs[outdev].szDeviceID);
-                REQUIRE(SUCCEEDED(hr));
-                break;
-            default :
-                MYTRACE(ACE_TEXT("Unknown HRESULT from echo cancellor 0x%x\n"), hr);
-                REQUIRE(SUCCEEDED(hr));
-                break;
-        }
-
-        Sleep(delay);
-
-    } while ((waitMSec -= delay) > 0);
-}
-
-TEST_CASE("CWMAudioAEC_Callback")
-{
-    using namespace soundsystem;
-    class MyClass : public StreamDuplex
-    {
-    public:
-        int callbacks = 0;
-
-        void StreamDuplexCb(const DuplexStreamer& streamer,
-                            const short* input_buffer,
-                            short* output_buffer, int samples) override
-        {
-            MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
-            callbacks++;
-        }
-
-        soundsystem::SoundDeviceFeatures GetDuplexFeatures() override
-        {
-            return soundsystem::SOUNDDEVICEFEATURE_NONE;
-        }
-
-    } myduplex, myduplex2;
-
-    media::AudioFormat fmt(48000, 1);
-    auto sndsys = soundsystem::GetInstance();
-    int sndgrpid = sndsys->OpenSoundGroup();
-    int indev, outdev;
-    REQUIRE(sndsys->GetDefaultDevices(SOUND_API_WASAPI, indev, outdev));
-    // test when framesize > CWMAudioAEC framesize
-    {
-        PaDuplexStreamer paduplex(&myduplex, sndgrpid, fmt.samplerate * .1, fmt.samplerate, fmt.channels, fmt.channels, SOUND_API_WASAPI, indev, outdev);
-        paduplex.winaec.reset(new CWMAudioAECCapture(&paduplex, soundsystem::SOUNDDEVICEFEATURE_AEC));
-        REQUIRE(paduplex.winaec->Open());
-        while (myduplex.callbacks <= 10)
-        {
-            Sleep(PCM16_SAMPLES_DURATION(paduplex.framesize, fmt.samplerate));
-            short* recorded = paduplex.winaec->AcquireBuffer();
-            if (recorded)
-            {
-                std::vector<short> playback(paduplex.framesize * paduplex.output_channels);
-                paduplex.duplex->StreamDuplexCb(paduplex, recorded, &playback[0], paduplex.framesize);
-                paduplex.winaec->ReleaseBuffer();
-            }
-        }
-    }
-
-    // test when framesize < CWMAudioAEC framesize
-    {
-        fmt = media::AudioFormat(32000, 2);
-        PaDuplexStreamer paduplex2(&myduplex2, sndgrpid, fmt.samplerate * .005, fmt.samplerate, fmt.channels, fmt.channels, SOUND_API_WASAPI, indev, outdev);
-        paduplex2.winaec.reset(new CWMAudioAECCapture(&paduplex2, soundsystem::SOUNDDEVICEFEATURE_AEC));
-        REQUIRE(paduplex2.winaec->Open());
-        while(myduplex2.callbacks <= 200)
-        {
-            Sleep(PCM16_SAMPLES_DURATION(paduplex2.framesize, fmt.samplerate));
-            short* recorded = paduplex2.winaec->AcquireBuffer();
-            if(recorded)
-            {
-                std::vector<short> playback(paduplex2.framesize * paduplex2.output_channels);
-                paduplex2.duplex->StreamDuplexCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
-                paduplex2.winaec->ReleaseBuffer();
-            }
-        }
-        // Ensure queue is used instead of direct callback
-        Sleep(1000);
-
-        // Ensure we can resume
-        myduplex2.callbacks = 0;
-        while(myduplex2.callbacks <= 200)
-        {
-            Sleep(PCM16_SAMPLES_DURATION(paduplex2.framesize, fmt.samplerate));
-            short* recorded = paduplex2.winaec->AcquireBuffer();
-            if(recorded)
-            {
-                std::vector<short> playback(paduplex2.framesize * paduplex2.output_channels);
-                paduplex2.duplex->StreamDuplexCb(paduplex2, recorded, &playback[0], paduplex2.framesize);
-                paduplex2.winaec->ReleaseBuffer();
-            }
-        }
-
-    }
-
-    sndsys->RemoveSoundGroup(sndgrpid);
-}
-
-#define ECHOPLAYBACKFILENAME ACE_TEXT("playfile.wav")
-TEST_CASE("CWMAudioAEC_DuplexMode")
-{
-    using namespace soundsystem;
-
-    {
-        // Ensure wave file exists before running unit-test (otherwise SoundSystemBase destructor will complain with abort)
-        WavePCMFile ww;
-        REQUIRE(ww.OpenFile(ECHOPLAYBACKFILENAME, true));
-    }
-
-    auto sndsys = soundsystem::GetInstance();
-    int sndgrpid = sndsys->OpenSoundGroup();
-    int indev, outdev;
-    REQUIRE(sndsys->GetDefaultDevices(SOUND_API_WASAPI, indev, outdev));
-    INT32 n_devs = 25;
-    std::vector<SoundDevice> devs(n_devs);
-    REQUIRE(TT_GetSoundDevices(&devs[0], &n_devs));
-    auto idev = std::find_if(devs.begin(), devs.end(), [outdev] (SoundDevice d) { return d.nDeviceID == outdev; });
-    REQUIRE(idev != devs.end());
-
-    std::vector<int> channels = {1, 2};
-    std::vector<double> frmdurations = { 0.02, 0.04, 0.1, 0.24, 0.5, };
-    for (auto chans : channels)
-    {
-        for (auto frmduration : frmdurations)
-        {
-            media::AudioFormat fmt(idev->nDefaultSampleRate, chans);
-            int framesize = fmt.samplerate * frmduration;
-
-            class MyClass : public StreamDuplex
-            {
-                WavePCMFile m_echofile, m_playfile;
-                audio_resampler_t m_resampler;
-                int m_playframesize;
-                std::vector<short> m_playbuffer;
-
-            public:
-                MyClass(media::AudioFormat fmt, int framesize)
-                {
-                    TTCHAR filename[MAX_PATH];
-                    ACE_OS::snprintf(filename, MAX_PATH, ACE_TEXT("EchoCancel_%dHz_%s_txinterval_%03dmsec.wav"),
-                                     fmt.samplerate, (fmt.channels == 2?ACE_TEXT("Stereo"):ACE_TEXT("Mono")),
-                                         PCM16_SAMPLES_DURATION(framesize, fmt.samplerate));
-                    REQUIRE(m_echofile.NewFile(filename, fmt.samplerate, fmt.channels));
-
-                    REQUIRE(m_playfile.OpenFile(ECHOPLAYBACKFILENAME, true));
-
-                    media::AudioFormat filefmt(m_playfile.GetSampleRate(), m_playfile.GetChannels());
-                    m_playframesize = CalcSamples(fmt.samplerate, framesize, filefmt.samplerate);
-                    m_resampler = MakeAudioResampler(filefmt, fmt, m_playframesize);
-                    REQUIRE(m_resampler);
-                    m_playbuffer.resize(m_playframesize * m_playfile.GetChannels());
-                }
-                int callbacks = 0;
-
-                void StreamDuplexCb(const DuplexStreamer& streamer,
-                    const short* input_buffer,
-                    short* output_buffer, int samples) override
-                {
-                    //MYTRACE(ACE_TEXT("Callback of %d samples\n"), samples);
-                    callbacks++;
-                    REQUIRE(m_echofile.AppendSamples(input_buffer, samples));
-
-                    REQUIRE(m_playfile.ReadSamples(&m_playbuffer[0], m_playframesize)>0);
-                    int resampled = m_resampler->Resample(&m_playbuffer[0], output_buffer);
-                    REQUIRE(resampled <= samples);
-                }
-
-                soundsystem::SoundDeviceFeatures GetDuplexFeatures() override
-                {
-                    return soundsystem::SOUNDDEVICEFEATURE_AEC | soundsystem::SOUNDDEVICEFEATURE_AGC | soundsystem::SOUNDDEVICEFEATURE_DENOISE;
-                }
-
-            } myduplex(fmt, framesize);
-
-            REQUIRE(sndsys->OpenDuplexStream(&myduplex, indev, outdev, sndgrpid, fmt.samplerate, fmt.channels, fmt.channels, framesize));
-
-            int frameduration = PCM16_SAMPLES_DURATION(framesize, fmt.samplerate);
-            while(myduplex.callbacks * frameduration <= 10000)
-            {
-                Sleep(frameduration);
-            }
-
-            sndsys->CloseDuplexStream(&myduplex);
-        }
-    }
-
-    sndsys->RemoveSoundGroup(sndgrpid);
-}
 
 TEST_CASE("TT_AEC")
 {
@@ -1361,7 +1024,7 @@ TEST_CASE("WebRTC_gaincontroller2")
     mfp.audioPreprocessor.webrtc.noisesuppression.bEnable = FALSE;
     mfp.audioPreprocessor.webrtc.noisesuppression.nLevel = 3;
 
-    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("input_low.wav"), &mfp);
+    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/AGC/input_16k_mono_low.wav"), &mfp);
     REQUIRE(session > 0);
 
     bool success = false, toggled = false, stop = false;
@@ -1388,6 +1051,8 @@ TEST_CASE("WebRTC_gaincontroller2")
             break;
         case MFS_FINISHED :
             success = true;
+            break;
+        default :
             break;
         }
     }
@@ -1453,6 +1118,10 @@ TEST_CASE("WebRTC_echocancel")
         preprocess.speexdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
         preprocess.speexdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
         break;
+    case NO_AUDIOPREPROCESSOR :
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        REQUIRE(false);
+        break;
     }
 
     REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
@@ -1486,8 +1155,8 @@ TEST_CASE("WebRTC_Preamplifier")
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
     auto ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
     REQUIRE(ab);
-    TT_ReleaseUserAudioBlock(ttclient, ab);
     streamid = ab->nStreamID;
+    TT_ReleaseUserAudioBlock(ttclient, ab);
     level = TT_GetSoundInputLevel(ttclient);
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
     REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, FALSE));
@@ -1505,8 +1174,8 @@ TEST_CASE("WebRTC_Preamplifier")
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK));
     ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
     REQUIRE(ab);
-    TT_ReleaseUserAudioBlock(ttclient, ab);
     REQUIRE(streamid + 1 == ab->nStreamID);
+    TT_ReleaseUserAudioBlock(ttclient, ab);
     REQUIRE(level / 2 == TT_GetSoundInputLevel(ttclient));
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
     REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, FALSE));
@@ -1566,6 +1235,63 @@ TEST_CASE("WebRTC_VAD")
     REQUIRE(!msg.bActive);
 }
 
+TEST_CASE("WebRTC-reinit")
+{
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    SoundDeviceEffects effects = {};
+    effects.bEnableEchoCancellation = FALSE;
+    REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
+    REQUIRE(InitSound(ttclient, DUPLEX));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    // REQUIRE(JoinRoot(ttclient));
+
+    AudioCodec audiocodec = {};
+    audiocodec.nCodec = OPUS_CODEC;
+    audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
+    audiocodec.opus.nTxIntervalMSec = 240;
+#if defined(OPUS_FRAMESIZE_120_MS)
+    audiocodec.opus.nFrameSizeMSec = 120;
+#else
+    audiocodec.opus.nFrameSizeMSec = 40;
+#endif
+    audiocodec.opus.nBitRate = OPUS_MIN_BITRATE;
+    audiocodec.opus.nChannels = 2;
+    audiocodec.opus.nComplexity = 10;
+    audiocodec.opus.nSampleRate = 48000;
+    audiocodec.opus.bDTX = true;
+    audiocodec.opus.bFEC = true;
+    audiocodec.opus.bVBR = false;
+    audiocodec.opus.bVBRConstraint = false;
+
+    Channel chan = MakeChannel(ttclient, ACE_TEXT("speex"), TT_GetRootChannelID(ttclient), audiocodec);
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoJoinChannel(ttclient, &chan)));
+
+    AudioPreprocessor preprocess = {};
+
+    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
+    preprocess.webrtc.echocanceller.bEnable = TRUE;
+
+    preprocess.webrtc.noisesuppression.bEnable = TRUE;
+    preprocess.webrtc.noisesuppression.nLevel = 2;
+
+    preprocess.webrtc.gaincontroller2.bEnable = TRUE;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+
+
+    AudioPreprocessor preprocess_reinit = {};
+    preprocess_reinit.nPreprocessor = NO_AUDIOPREPROCESSOR;
+
+    for (int i = 0; i < 100; i++)
+    {
+        REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, 20);
+
+        REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess_reinit));
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, 20);
+
+    }
+}
 #endif /* ENABLE_WEBRTC */
 
 TEST_CASE("TeamTalk_VAD")
@@ -1636,11 +1362,11 @@ TEST_CASE("PortAudioRaw_SamplesPerSec")
 
     PaStream* outstream;
     err = Pa_OpenStream(&outstream, nullptr, &outputParameters,
-                        ininfo->defaultSampleRate, ininfo->defaultSampleRate * .04,
+                        ininfo->defaultSampleRate, uint32_t(ininfo->defaultSampleRate * .04),
                         paClipOff, Foo_StreamCallback, static_cast<void*> (0));
 
     REQUIRE(Pa_StartStream(outstream) == paNoError);
-    while (paSamples < ininfo->defaultSampleRate * 500)
+    while (paSamples < ininfo->defaultSampleRate * 2)
     {
         Pa_Sleep(1000);
 
@@ -1691,10 +1417,10 @@ TEST_CASE("PortAudio_SamplesPerSec")
         }
     } player(samples, starttime);
 
-    REQUIRE(snd->OpenOutputStream(&player, outputdeviceid, grp, SAMPLERATE, CHANNELS, SAMPLERATE * 0.04));
+    REQUIRE(snd->OpenOutputStream(&player, outputdeviceid, grp, SAMPLERATE, CHANNELS, uint32_t(SAMPLERATE * 0.04)));
     REQUIRE(snd->StartStream(&player));
 
-    while (samples < outdev.default_samplerate * 500)
+    while (samples < uint32_t(outdev.default_samplerate * 2))
     {
         Pa_Sleep(1000);
 
@@ -1706,6 +1432,8 @@ TEST_CASE("PortAudio_SamplesPerSec")
 
         REQUIRE(skew < 0.08 * 1000);
     }
+    REQUIRE(snd->CloseOutputStream(&player));
+    snd->RemoveSoundGroup(grp);
 }
 
 #endif
@@ -1859,7 +1587,7 @@ TEST_CASE("VideoCapture")
     std::condition_variable cv;
 
     int frames = 10;
-    auto callback = [&] (media::VideoFrame& video_frame, ACE_Message_Block* mb_video)
+    auto callback = [&] (media::VideoFrame& /*video_frame*/, ACE_Message_Block* /*mb_video*/)
     {
         frames--;
         cv.notify_all();
@@ -2006,3 +1734,425 @@ TEST_CASE("FirstVoiceStreamPacket")
     REQUIRE(delay < (fixeddelay + adaptivedelay + 200)); //Large offset allowance here because timing is unreliable in debug and VMs
 
 }
+
+#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
+
+void CreateOpusFile(const MediaFileInfo& mfi, const ACE_TString& oggfilename, const int FRAMESIZE)
+{
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.OpenFile(mfi.szFileName, true));
+
+    OpusEncFile opusenc;
+    REQUIRE(opusenc.Open(oggfilename, mfi.audioFmt.nChannels, mfi.audioFmt.nSampleRate, FRAMESIZE, OPUS_APPLICATION_AUDIO));
+
+    std::vector<short> buf(mfi.audioFmt.nChannels * FRAMESIZE);
+    int samples;
+    while ((samples = wavfile.ReadSamples(&buf[0], FRAMESIZE)) > 0)
+    {
+        REQUIRE(opusenc.Encode(&buf[0], FRAMESIZE, samples != FRAMESIZE) >= 0);
+    }
+    opusenc.Close();
+    wavfile.Close();
+}
+
+TEST_CASE("OPUSFileEncDec")
+{
+    for (auto SAMPLERATE : {8000, 12000, 24000, 48000})
+    {
+        for (auto FRAMESIZE_SEC : {.0025, .005, .01, .02, .04, .06, .08, .1, .12})
+        {
+            MediaFileInfo mfi = {};
+            mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+            mfi.audioFmt.nChannels = 2;
+            mfi.audioFmt.nSampleRate = SAMPLERATE;
+            mfi.uDurationMSec = 10 * 1000;
+            const int FRAMESIZE = int(mfi.audioFmt.nSampleRate * FRAMESIZE_SEC);
+            ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("originalfile_%d_%dmsec.wav"),
+                             mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+
+            REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+            WavePCMFile wavfile;
+            REQUIRE(wavfile.OpenFile(mfi.szFileName, true));
+
+            OpusEncFile opusenc;
+            ACE_TCHAR opusencfilename[TT_STRLEN];
+            ACE_OS::snprintf(opusencfilename, TT_STRLEN, ACE_TEXT("opusencfile_%d_%dmsec.ogg"),
+                             mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+            REQUIRE(opusenc.Open(opusencfilename, mfi.audioFmt.nChannels, mfi.audioFmt.nSampleRate, FRAMESIZE, OPUS_APPLICATION_AUDIO));
+
+            std::vector<short> buf(mfi.audioFmt.nChannels * FRAMESIZE);
+            int samples;
+            while ((samples = wavfile.ReadSamples(&buf[0], FRAMESIZE)) > 0)
+            {
+                REQUIRE(opusenc.Encode(&buf[0], FRAMESIZE, samples != FRAMESIZE) >= 0);
+            }
+            opusenc.Close();
+            wavfile.Close();
+
+            OpusFile opusread;
+            REQUIRE(opusread.OpenFile(opusencfilename));
+
+            OpusDecode opusdec;
+            REQUIRE(opusdec.Open(opusread.GetSampleRate(), opusread.GetChannels()));
+
+            ACE_TCHAR opusdecfilename[TT_STRLEN];
+            ACE_OS::snprintf(opusdecfilename, TT_STRLEN, ACE_TEXT("opusdecfile_%d_%dmsec.wav"),
+                             mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+            REQUIRE(wavfile.NewFile(opusdecfilename, opusread.GetSampleRate(), opusread.GetChannels()));
+
+            ogg_int64_t samplesduration = 0;
+            while (true)
+            {
+                int bytes;
+                auto opusbuf = opusread.ReadEncoded(bytes, &samplesduration);
+                if (!opusbuf)
+                    break;
+
+                REQUIRE(opusdec.Decode(reinterpret_cast<const char*>(opusbuf), bytes, &buf[0], FRAMESIZE) == FRAMESIZE);
+                wavfile.AppendSamples(&buf[0], FRAMESIZE);
+            }
+
+            auto durationmsec = PCM16_SAMPLES_DURATION(samplesduration, mfi.audioFmt.nSampleRate);
+            std::cout << SAMPLERATE << "@" << FRAMESIZE_SEC << " diff: " << mfi.uDurationMSec - durationmsec << std::endl;
+            REQUIRE(std::abs(durationmsec - mfi.uDurationMSec) <= FRAMESIZE_SEC * 1000);
+        }
+    }
+}
+
+TEST_CASE("OPUSFileSeek")
+{
+    const auto SAMPLERATE = 12000;
+    const auto FRAMESIZE_SEC = .04;
+    const auto CHANNELS = 2;
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = CHANNELS;
+    mfi.audioFmt.nSampleRate = SAMPLERATE;
+    mfi.uDurationMSec = 10 * 1000;
+
+    const int FRAMESIZE = int(mfi.audioFmt.nSampleRate * FRAMESIZE_SEC);
+    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("orgseekfile_%d_%dmsec.wav"),
+                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+
+    ACE_TCHAR opusencfilename[TT_STRLEN];
+    ACE_OS::snprintf(opusencfilename, TT_STRLEN, ACE_TEXT("opusseekfile_%d_%dmsec.ogg"),
+                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+
+    CreateOpusFile(mfi, opusencfilename, FRAMESIZE);
+
+    // ensure we come back to file's origin after search
+    OggFile of, of1;
+    ogg_page og, og1;
+    REQUIRE(of.Open(opusencfilename));
+    REQUIRE(of1.Open(opusencfilename));
+    int count = 10;
+    while(count--)
+    {
+        REQUIRE(of.ReadOggPage(og) == 1);
+        REQUIRE(of1.ReadOggPage(og1) == 1);
+    }
+    REQUIRE(of.LastGranulePos() == 48000 * mfi.uDurationMSec / 1000);
+    REQUIRE(of.ReadOggPage(og) == 1);
+    REQUIRE(of1.ReadOggPage(og1) == 1);
+    REQUIRE(ogg_page_granulepos(&og) == ogg_page_granulepos(&og1));
+
+    // validate frame-size and total number of samples
+    OpusFile opfile;
+    REQUIRE(opfile.OpenFile(opusencfilename));
+    REQUIRE(PCM16_SAMPLES_DURATION(FRAMESIZE, opfile.GetSampleRate()) == 1000 * FRAMESIZE_SEC);
+    double duration_sec = mfi.uDurationMSec / 1000.;
+    REQUIRE(opfile.GetTotalSamples() == SAMPLERATE * duration_sec);
+
+    ogg_int64_t halfsamples = ogg_int64_t((duration_sec * mfi.audioFmt.nSampleRate) / 2);
+    REQUIRE(opfile.Seek(halfsamples));
+    ogg_int64_t samplesduration;
+    int bytes;
+    REQUIRE(opfile.ReadEncoded(bytes, &samplesduration));
+    REQUIRE(std::abs(halfsamples - samplesduration) <= FRAMESIZE);
+
+    // decode from 0% onwards
+    OpusDecFile opusdecfile;
+    REQUIRE(opusdecfile.Open(opusencfilename));
+    std::vector<short> frame(FRAMESIZE * CHANNELS);
+    int frames = 0;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
+    uint32_t duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
+    REQUIRE(duration_msec == mfi.uDurationMSec);
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+    opusdecfile.Close();
+
+    // decode from 90% onwards
+    REQUIRE(opusdecfile.Open(opusencfilename));
+    auto offset_msec = .9 * mfi.uDurationMSec;
+    REQUIRE(opusdecfile.Seek(uint32_t(offset_msec)));
+    frames = 0;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
+    duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
+    REQUIRE(duration_msec == mfi.uDurationMSec - offset_msec);
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+
+    // check special handling of seeking to granule position 0 in Ogg file
+    REQUIRE(opusdecfile.Seek(0));
+    frames = 0;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
+    duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
+    REQUIRE(duration_msec == mfi.uDurationMSec);
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+
+    // check seek offsets
+    REQUIRE(opusdecfile.Seek(555));
+    auto diffMSec = opusdecfile.GetElapsedMSec() - (555 / int(FRAMESIZE_SEC * 1000)) * int(FRAMESIZE_SEC * 1000);
+    REQUIRE(std::abs(int(diffMSec)) <= PCM16_SAMPLES_DURATION(FRAMESIZE, SAMPLERATE));
+    REQUIRE(opusdecfile.Seek(0));
+    REQUIRE(opusdecfile.GetElapsedMSec() == 0);
+
+    // check decode output after initial duration check
+    opusdecfile.Close();
+    REQUIRE(opusdecfile.Open(opusencfilename));
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+    frames = 0;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
+    duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
+    REQUIRE(duration_msec == mfi.uDurationMSec);
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+}
+
+#include <avstream/OpusFileStreamer.h>
+
+TEST_CASE("OPUSStreamer")
+{
+    const auto IN_SAMPLERATE = 12000;
+    const auto IN_FRAMESIZE_SEC = .04;
+    const auto IN_CHANNELS = 2;
+
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = IN_CHANNELS;
+    mfi.audioFmt.nSampleRate = IN_SAMPLERATE;
+    mfi.uDurationMSec = 3 * 1000;
+
+    const int IN_FRAMESIZE = int(mfi.audioFmt.nSampleRate * IN_FRAMESIZE_SEC);
+    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("opusstreamer_inputfile_%d_%dmsec.wav"),
+                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(IN_FRAMESIZE, mfi.audioFmt.nSampleRate));
+    ACE_TCHAR opusencfilename[TT_STRLEN];
+    ACE_OS::snprintf(opusencfilename, TT_STRLEN, ACE_TEXT("opusstreamer_inputfile_%d_%dmsec.ogg"),
+                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(IN_FRAMESIZE, mfi.audioFmt.nSampleRate));
+    CreateOpusFile(mfi, opusencfilename, IN_FRAMESIZE);
+
+    const auto OUT_SAMPLERATE = 48000;
+    const auto OUT_CHANNELS = 1;
+    const auto OUT_FRAMESIZE = int(OUT_SAMPLERATE * .06);
+
+    ACE_TCHAR opusstreamerfilename[TT_STRLEN];
+    ACE_OS::snprintf(opusstreamerfilename, TT_STRLEN, ACE_TEXT("opusstreamer_outputfile_%d_%dmsec.wav"),
+                     OUT_SAMPLERATE, PCM16_SAMPLES_DURATION(OUT_FRAMESIZE, OUT_SAMPLERATE));
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.NewFile(opusstreamerfilename, OUT_SAMPLERATE, OUT_CHANNELS));
+
+    MediaStreamOutput mso(media::AudioFormat(OUT_SAMPLERATE, OUT_CHANNELS), OUT_FRAMESIZE);
+
+    std::condition_variable cv_finished, cv_started, cv_paused, cv_playing, cv_error;
+    std::mutex mtx;
+
+    auto statusfunc = [&](const MediaFileProp& mfp, MediaStreamStatus status)
+    {
+        switch (status)
+        {
+        case MEDIASTREAM_STARTED :
+            cv_started.notify_all();
+            MYTRACE(ACE_TEXT("Started\n"));
+            break;
+        case MEDIASTREAM_ERROR :
+            REQUIRE(false);
+            cv_error.notify_all();
+            break;
+        case MEDIASTREAM_PLAYING :
+            cv_playing.notify_all();
+            MYTRACE(ACE_TEXT("Playing %u msec\n"), mfp.elapsed_ms);
+            break;
+        case MEDIASTREAM_PAUSED :
+            REQUIRE(false);
+            cv_paused.notify_all();
+            break;
+        case MEDIASTREAM_FINISHED :
+            cv_finished.notify_all();
+            MYTRACE(ACE_TEXT("Finished %u msec\n"), mfp.elapsed_ms);
+            break;
+        default :
+            REQUIRE(false);
+            break;
+        }
+    };
+
+    auto audiofunc = [&](media::AudioFrame& audio_frame, ACE_Message_Block* /*mb_audio*/)
+    {
+        wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
+        return true;
+    };
+
+    std::unique_lock<std::mutex> lck(mtx);
+
+    std::unique_ptr<OpusFileStreamer> ofs;
+    ofs.reset(new OpusFileStreamer(opusencfilename, mso));
+    ofs->RegisterStatusCallback(statusfunc, true);
+    ofs->RegisterAudioCallback(audiofunc, true);
+    REQUIRE(ofs->Open());
+    REQUIRE(ofs->StartStream());
+    REQUIRE(cv_finished.wait_for(lck, std::chrono::milliseconds(mfi.uDurationMSec * 2)) == std::cv_status::no_timeout);
+}
+
+TEST_CASE("TTPlayOpusOgg")
+{
+    const auto IN_SAMPLERATE = 48000;
+    const auto IN_CHANNELS = 2;
+    const auto IN_FRAMESIZE = int(IN_SAMPLERATE * .01);
+
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = IN_CHANNELS;
+    mfi.audioFmt.nSampleRate = IN_SAMPLERATE;
+    mfi.uDurationMSec = 5 * 1000;
+    ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("TTPlayOpusOgg.wav"), TT_STRLEN);
+
+    TTCHAR szFilename[TT_STRLEN] = ACE_TEXT("TTPlayOpusOgg.ogg");
+    CreateOpusFile(mfi, szFilename, IN_FRAMESIZE);
+
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+    mfp.bPaused = FALSE;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+
+    bool stop = false, started = false, paused = false;
+    TTMessage msg;
+    INT32 session;
+    uint32_t durationMSec;
+
+    // test duration of OpusFileStreamer playback
+    session = TT_InitLocalPlayback(ttclient, szFilename, &mfp);
+    REQUIRE(session > 0);
+
+    while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_STARTED :
+            REQUIRE(msg.mediafileinfo.uElapsedMSec == 0);
+            started = true;
+            break;
+        case MFS_PLAYING :
+            break;
+        case MFS_FINISHED :
+            stop = true;
+            break;
+        default :
+            break;
+        }
+    }
+    REQUIRE(started);
+    REQUIRE(stop);
+
+    // test seek-feature of OpusFileStreamer playback
+    mfp.uOffsetMSec = mfi.uDurationMSec / 2;
+    session = TT_InitLocalPlayback(ttclient, szFilename, &mfp);
+    REQUIRE(session > 0);
+    durationMSec = GETTIMESTAMP();
+    stop = false;
+    started = false;
+    while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_STARTED :
+            REQUIRE(std::abs(int(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= PCM16_SAMPLES_DURATION(IN_FRAMESIZE, IN_SAMPLERATE));
+            started = true;
+            break;
+        case MFS_PLAYING :
+            break;
+        case MFS_FINISHED :
+            stop = true;
+            break;
+        default :
+            break;
+        }
+    }
+    REQUIRE(started);
+    REQUIRE(stop);
+    durationMSec = GETTIMESTAMP() - durationMSec;
+    REQUIRE(std::abs(int(mfi.uDurationMSec / 2) - int(durationMSec)) < 500);
+
+    // test pause-feature of OpusFileStreamer playback
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    session = TT_InitLocalPlayback(ttclient, szFilename, &mfp);
+    REQUIRE(session > 0);
+    stop = false;
+    started = false;
+    paused = false;
+    durationMSec = GETTIMESTAMP();
+    while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_STARTED :
+            started = true;
+            break;
+        case MFS_PLAYING :
+            if (!paused && msg.mediafileinfo.uElapsedMSec >= mfi.uDurationMSec / 2)
+            {
+                mfp.bPaused = TRUE;
+                REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+            }
+            break;
+        case MFS_PAUSED :
+            REQUIRE(!paused);
+            paused = true;
+            WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, 1000);
+            mfp.bPaused = FALSE;
+            REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+            started = false;
+            break;
+        case MFS_FINISHED :
+            stop = true;
+            break;
+        default :
+            break;
+        }
+    }
+    REQUIRE(started);
+    REQUIRE(stop);
+    REQUIRE(paused);
+    durationMSec = GETTIMESTAMP() - durationMSec;
+    REQUIRE(std::abs(int(durationMSec) - int(mfi.uDurationMSec + 1000)) < 500);
+}
+
+TEST_CASE("TTPlayFFmpegOpus")
+{
+    TTCHAR filename[TT_STRLEN] = ACE_TEXT("testdata/Opus/giana.ogg");
+    OpusDecFile odf;
+    REQUIRE(odf.Open(filename));
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.NewFile(ACE_TEXT("giana.wav"), odf.GetSampleRate(), odf.GetChannels()));
+    std::vector<short> buf(odf.GetSampleRate() * odf.GetChannels());
+    int samples, framesize = 0;
+    while ((samples = odf.Decode(&buf[0], odf.GetSampleRate())) > 0)
+    {
+        wavfile.AppendSamples(&buf[0], samples);
+        REQUIRE((framesize == 0 || framesize == samples)); // assume same framesize
+        framesize = samples;
+    }
+    wavfile.Close();
+
+    MediaFileInfo mfi;
+    REQUIRE(TT_GetMediaFileInfo(ACE_TEXT("giana.wav"), &mfi));
+    REQUIRE(std::abs(int(mfi.uDurationMSec - odf.GetDurationMSec())) < PCM16_SAMPLES_DURATION(framesize, odf.GetSampleRate()));
+    REQUIRE(TT_GetMediaFileInfo(filename, &mfi));
+    REQUIRE(mfi.uDurationMSec == odf.GetDurationMSec());
+}
+#endif

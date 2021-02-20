@@ -32,8 +32,8 @@
 
 bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
-    MFStreamer s;
-    if (s.OpenFile(filename, MediaStreamOutput()))
+    MFStreamer s(filename, MediaStreamOutput());
+    if (s.Open())
     {
         fileprop = s.GetMediaFile();
         return true;
@@ -41,7 +41,8 @@ bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
     return false;
 }
 
-MFStreamer::MFStreamer()
+MFStreamer::MFStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
+    : MediaFileStreamer(filename, out_prop)
 {
 }
 

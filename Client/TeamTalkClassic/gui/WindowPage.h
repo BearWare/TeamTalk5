@@ -68,4 +68,5 @@ public:
     CComboBox m_wndSorting;
     int m_nSorting;
     BOOL m_bEmoji;
+    BOOL m_bLoggedinout;
  };

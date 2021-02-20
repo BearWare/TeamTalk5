@@ -40,12 +40,12 @@
 
 
 #if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS) && defined(ENABLE_OGG)
-#include <codec/OggOutput.h>
+#include <codec/OggFileIO.h>
 #define ENABLE_OPUSFILE 1
 #endif
 
 #if defined(ENABLE_SPEEX) && defined(ENABLE_OGG)
-#include <codec/OggOutput.h>
+#include <codec/OggFileIO.h>
 #define ENABLE_SPEEXFILE 1
 #endif
 

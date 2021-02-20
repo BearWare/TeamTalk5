@@ -192,8 +192,6 @@ BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL
     UINT nLocalTcpPort = m_xmlSettings.GetClientTcpPort(0);
     UINT nLocalUdpPort = m_xmlSettings.GetClientUdpPort(0);
 
-    InitSound();
-
     //clear session tree
     m_wndTree.ClearChannels();
 
@@ -1027,13 +1025,19 @@ void CTeamTalkDlg::OnLoggedIn(const TTMessage& msg)
 {
     AddStatusText(LoadText(IDS_CONSUCCESS, _T("Successfully logged in")));
 
-    switch(m_xmlSettings.GetGender(GENDER_NONE))
+    m_nStatusMode &= ~STATUSMODE_GENDER_MASK;
+
+    switch (m_xmlSettings.GetGender(DEFAULT_GENDER))
     {
     case GENDER_MALE :
-        m_nStatusMode &= ~STATUSMODE_FEMALE;
+        m_nStatusMode |= STATUSMODE_MALE;
         break;
     case GENDER_FEMALE :
         m_nStatusMode |= STATUSMODE_FEMALE;
+        break;
+    case GENDER_NEUTRAL :
+    default :
+        m_nStatusMode |= STATUSMODE_NEUTRAL;
         break;
     }
     TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
@@ -1046,13 +1050,32 @@ void CTeamTalkDlg::OnLoggedOut(const TTMessage& msg)
 
 void CTeamTalkDlg::OnKicked(const TTMessage& msg)
 {
-    PlaySoundEvent(SOUNDEVENT_CONNECTION_LOST);
-    if(msg.ttType == __USER) {
-        CString szMsg;
-        szMsg.Format(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from channel by %s.")), GetDisplayName(msg.user));
-        AfxMessageBox(szMsg);
-    } else {
-        AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNELBYUNK, _T("You have been kicked from channel by an unknown user.")));
+    if(msg.nSource == 0)
+    {
+        PlaySoundEvent(SOUNDEVENT_CONNECTION_LOST);
+        if(msg.ttType == __USER)
+        {
+            CString szMsg;
+            szMsg.Format(LoadText(IDS_KICKEDFROMSERVER, _T("You have been kicked from server by %s.")), GetDisplayName(msg.user));
+            AfxMessageBox(szMsg);
+        }
+        else
+        {
+            AfxMessageBox(LoadText(IDS_KICKEDFROMSERVERBYUNK, _T("You have been kicked from server by an unknown user.")));
+        }
+    }
+    else
+    {
+        if (msg.ttType == __USER)
+        {
+            CString szMsg;
+            szMsg.Format(LoadText(IDS_KICKEDFROMCHANNEL, _T("You have been kicked from channel by %s.")), GetDisplayName(msg.user));
+            AfxMessageBox(szMsg);
+        }
+        else
+        {
+            AfxMessageBox(LoadText(IDS_KICKEDFROMCHANNELBYUNK, _T("You have been kicked from channel by an unknown user.")));
+        }
     }
 }
 
@@ -1063,6 +1086,7 @@ void CTeamTalkDlg::OnServerUpdate(const TTMessage& msg)
     m_wndTree.UpdServerName(msg.serverproperties);
     m_tabChat.m_wndRichEdit.SetServerInfo(msg.serverproperties.szServerName,
                                           msg.serverproperties.szMOTD);
+    UpdateWindowTitle();
 }
 
 void CTeamTalkDlg::OnServerStatistics(const TTMessage& msg)
@@ -1320,7 +1344,8 @@ void CTeamTalkDlg::OnUserLogin(const TTMessage& msg)
         CString szMsg, szFormat;
         szFormat = LoadText(IDS_USERLOGIN);
         szMsg.Format(szFormat, GetDisplayName(user));
-        AddStatusText(szMsg);
+        if (m_xmlSettings.GetShowLoggedInOut())
+            AddStatusText(szMsg);
         PlaySoundEvent(SOUNDEVENT_USER_LOGGED_IN);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDIN)
             AddTextToSpeechMessage(szMsg);
@@ -1352,7 +1377,8 @@ void CTeamTalkDlg::OnUserLogout(const TTMessage& msg)
     CString szMsg, szFormat;
     szFormat = LoadText(IDS_USERLOGOUT);
     szMsg.Format(szFormat, GetDisplayName(user));
-    AddStatusText(szMsg);
+    if (m_xmlSettings.GetShowLoggedInOut())
+        AddStatusText(szMsg);
     PlaySoundEvent(SOUNDEVENT_USER_LOGGED_OUT);
     if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDOUT)
         AddTextToSpeechMessage(szMsg);
@@ -1707,7 +1733,10 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
     m_wndTree.UpdateChannel(chan);
 
     if(chan.nChannelID == TT_GetMyChannelID(ttInst))
+    {
         UpdateAudioConfig();
+        UpdateWindowTitle();
+    }
 
     // Solo transmission
     if(chan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst) &&
@@ -1820,6 +1849,7 @@ void CTeamTalkDlg::OnChannelJoined(const Channel& chan)
     m_tabFiles.UpdateFiles(chan.nChannelID);
 
     m_tabChat.m_wndRichEdit.SetChannelInfo(chan.nChannelID);
+    m_tabChat.m_wndChanMessage.EnableWindow(TRUE);
 
     CString szMsg, szFormat;
     if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID) {
@@ -1863,6 +1893,7 @@ void CTeamTalkDlg::OnChannelJoined(const Channel& chan)
 void CTeamTalkDlg::OnChannelLeft(const Channel& chan)
 {
     m_tabFiles.UpdateFiles(-1);
+    m_tabChat.m_wndChanMessage.EnableWindow(FALSE);
     UpdateWindowTitle();
 
     CString szMsg, szFormat;
@@ -2637,6 +2668,89 @@ BOOL CTeamTalkDlg::OnInitDialog()
     //set vumeter and voice act-settings
     m_wndVoiceSlider.SetPos(m_xmlSettings.GetVoiceActivationLevel());
 
+    UpdateWindowTitle();
+
+    //load fonts
+    MyFont font;
+    string szFaceName;
+    int nSize;
+    bool bBold, bUnderline, bItalic;
+    if (m_xmlSettings.GetFont(szFaceName, nSize, bBold, bUnderline, bItalic))
+    {
+        if (nSize > 0)
+        {
+            font.szFaceName = STR_UTF8(szFaceName.c_str());
+            font.nSize = nSize;
+            font.bBold = bBold;
+            font.bUnderline = bUnderline;
+            font.bItalic = bItalic;
+            LOGFONT lfont;
+
+            ConvertFont(font, lfont);
+            m_Font.CreateFontIndirect(&lfont);
+            SwitchFont();
+        }
+    }
+
+    m_brush.CreateSolidBrush(RGB(244, 244, 244));
+
+    BOOL b = m_tabChat.Create(IDD_TAB_CHAT, &m_wndTabCtrl);
+    CString szChat = LoadText(IDS_CHAT, _T("Chat"));
+    TRANSLATE_ITEM(IDS_CHAT, szChat);
+    m_wndTabCtrl.AddTab(&m_tabChat, szChat, 0);
+    b &= m_tabFiles.Create(IDD_TAB_FILES, &m_wndTabCtrl);
+    CString szFiles = LoadText(IDS_FILES, _T("Files"));
+    TRANSLATE_ITEM(IDS_FILES, szFiles);
+    m_wndTabCtrl.AddTab(&m_tabFiles, szFiles, 0);
+    m_tabChat.m_hAccel = m_hAccel;
+    m_tabFiles.m_hAccel = m_hAccel;
+    m_wndTabCtrl.SetOrientation(e_tabTop);
+
+    //set splitter panes
+    m_wndSplitter.Create(WS_CHILD | WS_DLGFRAME | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDC_VERT_SPLITTER);
+    m_wndSplitter.SetPanes(&m_wndTree, &m_wndTabCtrl);
+
+    m_bResizeReady = TRUE;
+
+    //1 or 2 panes (2 panes is default)
+    if (!m_xmlSettings.GetWindowExtended())
+        OnChannelsViewchannelmessages();
+    else
+        OnSplitterMoved(0, 0);
+
+    //sizing
+    int left, top, width, height;
+    if (m_xmlSettings.GetWindowPlacement(left, top, width, height))
+    {
+        int nWidth = GetSystemMetrics(SM_CXSCREEN);
+        int nHeight = GetSystemMetrics(SM_CYSCREEN);
+
+        if (left > 0 && left < nWidth && top > 0 && top < nHeight)
+            MoveWindow(left, top, width, height);
+    }
+
+    //always on top?
+    if (m_xmlSettings.GetAlwaysOnTop())
+        SetWindowPos(&this->wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
+    //timestamp on messages?
+    m_tabChat.m_wndRichEdit.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
+
+    m_wndVUProgress.ShowWindow(m_xmlSettings.GetVuMeterUpdate() ? SW_SHOW : SW_HIDE);
+
+    //show user count in treectrl
+    m_wndTree.ShowUserCount(m_xmlSettings.GetShowUserCount());
+
+    m_wndTree.SetSortOrder((SortOrder)m_xmlSettings.GetSortOrder());
+
+    //show username instead of nickname
+    bShowUsernames = m_xmlSettings.GetShowUsernames();
+
+    m_wndTree.ShowEmojis(m_xmlSettings.GetShowEmojis());
+
+    // initialize sound devices so sound events can play initially
+    InitSound();
+
     //load hotkey
     ASSERT(IsWindow(GetSafeHwnd()));
 
@@ -2657,8 +2771,6 @@ BOOL CTeamTalkDlg::OnInitDialog()
     //voice activation
     EnableVoiceActivation(m_xmlSettings.GetVoiceActivated());
 
-    UpdateWindowTitle();
-
     if(m_xmlSettings.GetFirewallInstall(true))
     {
         FirewallInstall();
@@ -2670,85 +2782,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
 
     EnableSpeech(m_xmlSettings.GetEventTTSEvents() != 0);
 
-    //load fonts
-    MyFont font;
-    string szFaceName;
-    int nSize;
-    bool bBold, bUnderline, bItalic;
-    if( m_xmlSettings.GetFont(szFaceName, nSize, bBold, bUnderline, bItalic) )
-    {
-        if(nSize>0)
-        {
-            font.szFaceName = STR_UTF8( szFaceName.c_str() );
-            font.nSize = nSize;
-            font.bBold = bBold;
-            font.bUnderline = bUnderline;
-            font.bItalic = bItalic;
-            LOGFONT lfont;
-
-            ConvertFont( font, lfont);
-            m_Font.CreateFontIndirect(&lfont);
-            SwitchFont();
-        }
-    }
-
-    m_brush.CreateSolidBrush(RGB(244,244,244));
-
-    BOOL b = m_tabChat.Create(IDD_TAB_CHAT, &m_wndTabCtrl);
-    CString szChat = LoadText(IDS_CHAT, _T("Chat"));
-    TRANSLATE_ITEM(IDS_CHAT, szChat);
-    m_wndTabCtrl.AddTab(&m_tabChat, szChat, 0);
-    b &= m_tabFiles.Create(IDD_TAB_FILES, &m_wndTabCtrl);
-    CString szFiles = LoadText(IDS_FILES, _T("Files"));
-    TRANSLATE_ITEM(IDS_FILES, szFiles);
-    m_wndTabCtrl.AddTab(&m_tabFiles, szFiles, 0);
-    m_tabChat.m_hAccel = m_hAccel;
-    m_tabFiles.m_hAccel = m_hAccel;
-    m_wndTabCtrl.SetOrientation(e_tabTop);
-
-    //set splitter panes
-    m_wndSplitter.Create(WS_CHILD | WS_DLGFRAME | WS_VISIBLE, CRect(0,0,0,0), this, IDC_VERT_SPLITTER);
-    m_wndSplitter.SetPanes(&m_wndTree, &m_wndTabCtrl);
-
-    m_bResizeReady = TRUE;
-
-    //1 or 2 panes (2 panes is default)
-    if(!m_xmlSettings.GetWindowExtended())
-        OnChannelsViewchannelmessages();
-    else
-        OnSplitterMoved(0,0);
-
-    //sizing
-    int left,top,width,height;
-    if(m_xmlSettings.GetWindowPlacement(left, top, width, height))
-    {
-        int nWidth = GetSystemMetrics(SM_CXSCREEN);
-        int nHeight = GetSystemMetrics(SM_CYSCREEN);
-
-        if(left > 0 && left < nWidth && top > 0 && top < nHeight)
-            MoveWindow(left, top, width, height);
-    }
-
-    //always on top?
-    if( m_xmlSettings.GetAlwaysOnTop() )
-        SetWindowPos(&this->wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-
-    //show user count in treectrl
-    m_wndTree.ShowUserCount(m_xmlSettings.GetShowUserCount());
-
-    m_wndTree.SetSortOrder((SortOrder)m_xmlSettings.GetSortOrder());
-
-    //show username instead of nickname
-    bShowUsernames = m_xmlSettings.GetShowUsernames();
-
-    m_wndTree.ShowEmojis(m_xmlSettings.GetShowEmojis());
-
     m_szAwayMessage = STR_UTF8(m_xmlSettings.GetStatusMessage());
-
-    //timestamp on messages?
-    m_tabChat.m_wndRichEdit.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
-
-    m_wndVUProgress.ShowWindow(m_xmlSettings.GetVuMeterUpdate()?SW_SHOW : SW_HIDE);
 
     RunAppUpdate();
     SetTimer(TIMER_APPUPDATE_ID, 24 * 60 * 60 * 1000, NULL);
@@ -3383,7 +3417,7 @@ void CTeamTalkDlg::OnFilePreferences()
     generalpage.m_szBearWareID = STR_UTF8(szBearWareID);
     generalpage.m_szBearWareToken = STR_UTF8(szToken);
     generalpage.m_bRestoreUser = m_xmlSettings.GetRestoreUserFromWebLogin();
-    generalpage.m_bFemale = m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_FEMALE;
+    generalpage.m_nGender = Gender(m_xmlSettings.GetGender(DEFAULT_GENDER));
     generalpage.m_bVoiceAct = m_xmlSettings.GetVoiceActivated();
     generalpage.m_bPush = m_bHotKey;
     generalpage.m_Hotkey = hook;
@@ -3418,6 +3452,7 @@ void CTeamTalkDlg::OnFilePreferences()
     windowpage.m_bShowUsername = m_xmlSettings.GetShowUsernames();
     windowpage.m_nSorting = m_xmlSettings.GetSortOrder();
     windowpage.m_bEmoji = m_xmlSettings.GetShowEmojis();
+    windowpage.m_bLoggedinout = m_xmlSettings.GetShowLoggedInOut();
 
     ///////////////////////
     // client settings
@@ -3441,9 +3476,9 @@ void CTeamTalkDlg::OnFilePreferences()
     ////////////////////
     // sound output page
     ///////////////////
-    soundpage.m_nOutputDevice = m_xmlSettings.GetSoundOutputDevice(UNDEFINED);
+    soundpage.m_nOutputDevice = m_xmlSettings.GetSoundOutputDevice(m_SoundDeviceOut.nDeviceID);
     soundpage.m_szOutputDeviceID = STR_UTF8(m_xmlSettings.GetSoundOutputDevice());
-    soundpage.m_nInputDevice = m_xmlSettings.GetSoundInputDevice(UNDEFINED);
+    soundpage.m_nInputDevice = m_xmlSettings.GetSoundInputDevice(m_SoundDeviceIn.nDeviceID);
     soundpage.m_szInputDeviceID = STR_UTF8(m_xmlSettings.GetSoundInputDevice());
     soundpage.m_bPositioning = m_xmlSettings.GetAutoPositioning();
     soundpage.m_bEchoCancel = m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
@@ -3481,6 +3516,8 @@ void CTeamTalkDlg::OnFilePreferences()
     eventspage.m_SoundFiles[SOUNDEVENT_ME_DISABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventMeDisableVoiceActivation().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_HEAD] = STR_UTF8( m_xmlSettings.GetEventTransmitQueueHead().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_STOP] = STR_UTF8( m_xmlSettings.GetEventTransmitQueueStop().c_str() );
+    eventspage.m_nClientSoundsVsVoice = m_xmlSettings.GetClientSoundsVsVoice(DEFAULT_CLIENT_SOUNDS_VS_VOICE);
+    eventspage.m_nPlaybackMode = PlaybackMode(m_xmlSettings.GetSoundPlaybackMode(DEFAULT_SOUNDEVENT_PLAYBACKMODE));
 
     ////////////////////////
     // Text to Speech
@@ -3536,23 +3573,29 @@ void CTeamTalkDlg::OnFilePreferences()
                                        STR_UTF8(generalpage.m_szBearWareToken));
         m_xmlSettings.SetRestoreUserFromWebLogin(generalpage.m_bRestoreUser);
 
-        int nGender = (generalpage.m_bFemale?GENDER_FEMALE:GENDER_MALE);
-        if(m_xmlSettings.GetGender() != nGender)
+        m_nStatusMode &= ~STATUSMODE_GENDER_MASK;
+        switch (generalpage.m_nGender)
         {
-            if(nGender == GENDER_FEMALE)
-                m_nStatusMode |= STATUSMODE_FEMALE;
-            else
-                m_nStatusMode &= ~STATUSMODE_FEMALE;
-
-            if( TT_GetFlags(ttInst) & CLIENT_AUTHORIZED )
-                TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
+        case GENDER_MALE:
+            m_nStatusMode |= STATUSMODE_MALE;
+            break;
+        case GENDER_FEMALE:
+            m_nStatusMode |= STATUSMODE_FEMALE;
+            break;
+        case GENDER_NEUTRAL:
+        default :
+            m_nStatusMode |= STATUSMODE_NEUTRAL;
+            break;
         }
+
+        if( TT_GetFlags(ttInst) & CLIENT_AUTHORIZED )
+            TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
 
         //////////////////////////////////////////////////
         //    write settings for General Page to ini file
         //////////////////////////////////////////////////
         m_xmlSettings.SetNickname( STR_UTF8( generalpage.m_sNickname.GetBuffer()));
-        m_xmlSettings.SetGender(nGender);
+        m_xmlSettings.SetGender(generalpage.m_nGender);
         m_xmlSettings.SetPushToTalk(generalpage.m_bPush);
         m_bHotKey = generalpage.m_bPush;
         HotKey hotkey = generalpage.m_Hotkey;
@@ -3617,6 +3660,7 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetShowEmojis(windowpage.m_bEmoji);
         m_wndTree.ShowEmojis(windowpage.m_bEmoji);
 
+        m_xmlSettings.SetShowLoggedInOut(windowpage.m_bLoggedinout);
         m_xmlSettings.SetJoinDoubleClick(windowpage.m_bDBClickJoin);
         m_xmlSettings.SetQuitClearChannels(windowpage.m_bQuitClearChannels);
         m_xmlSettings.SetMessageTimeStamp(windowpage.m_bTimeStamp);
@@ -3757,6 +3801,8 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventMeDisableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_ME_DISABLE_VOICEACTIVATION]));
         m_xmlSettings.SetEventTransmitQueueHead(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_HEAD]));
         m_xmlSettings.SetEventTransmitQueueStop(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_STOP]));
+        m_xmlSettings.SetClientSoundsVsVoice(eventspage.m_nClientSoundsVsVoice);
+        m_xmlSettings.SetSoundPlaybackMode(eventspage.m_nPlaybackMode);
 
         ///////////////////////////////////////
         // write settings for Text to speech
@@ -4910,6 +4956,7 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
                 m_xmlSettings.SetNickname(m_host.szNickname);
             }
 
+            // override only gender if specified
             if(m_host.nGender != GENDER_NONE)
             {
                 m_xmlSettings.SetGender(m_host.nGender);
@@ -5408,7 +5455,7 @@ void CTeamTalkDlg::UpdateGainLevel(int nGain)
         bool agc = m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
         float percent = m_wndGainSlider.GetPos() / float(m_wndGainSlider.GetRangeMax());
         preprocessor.webrtc.gaincontroller2.bEnable = agc;
-        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = INT32(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
+        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = float(WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * percent);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
         TT_SetSoundInputGainLevel(ttInst, agc ? SOUND_GAIN_DEFAULT : RefGain(nGain));
         break;
@@ -5728,7 +5775,7 @@ void CTeamTalkDlg::OnChannelsStreamMediaFileToChannel()
         StopMediaStream();
     else
     {
-        m_pStreamMediaDlg.reset(new CStreamMediaDlg(m_xmlSettings, m_SoundDeviceIn, m_SoundDeviceOut, this));
+        m_pStreamMediaDlg.reset(new CStreamMediaDlg(m_xmlSettings, this));
         auto files = m_xmlSettings.GetLastMediaFiles();
         for (auto a : files)
             m_pStreamMediaDlg->m_fileList.AddTail(STR_UTF8(a));
@@ -6414,7 +6461,9 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
 
     if (szFilename.GetLength())
     {
-        m_pPlaySndThread->AddSoundEvent(szFilename, PLAYBACKMODE_TEAMTALK);
+        PlaybackMode pbMode = PlaybackMode(m_xmlSettings.GetSoundPlaybackMode(DEFAULT_SOUNDEVENT_PLAYBACKMODE));
+        int sndVol = m_xmlSettings.GetClientSoundsVsVoice(DEFAULT_CLIENT_SOUNDS_VS_VOICE);
+        m_pPlaySndThread->AddSoundEvent(szFilename, pbMode, sndVol);
     }
 }
 
@@ -6938,7 +6987,7 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         if(!m_wndTree.GetChannel(nID, chan))
             return;
 
-        CString szChannel, szPasswd, szClassroom, szTopic, szRootChan;
+        CString szChannel, szPasswd, szClassroom, szTopic, szRootChan, szHidden = LoadText(IDS_HIDDEN, _T("Hidden"));
         szChannel.LoadString(IDS_CHANNEL);
         szPasswd.LoadString(IDS_PASSWORD_PROTECTED);
         szClassroom.LoadString(IDS_CLASSROOMCHANNEL);
@@ -6962,6 +7011,8 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         szSpeakList.AddTail(szChannel);
         if(chan.uChannelType & CHANNEL_CLASSROOM)
             szSpeakList.AddTail(szClassroom);
+        if(chan.uChannelType & CHANNEL_HIDDEN)
+            szSpeakList.AddTail(szHidden);
         if(chan.bPassword)
             szSpeakList.AddTail(szPasswd);
         if (_tcslen(chan.szTopic))
@@ -6973,7 +7024,7 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
     {
         szSpeak += szSpeakList.GetNext(pos);
         if(pos != NULL)
-            szSpeak += _T(" ");
+            szSpeak += _T(", ");
     }
     if(szSpeak.GetLength())
         AddTextToSpeechMessage(szSpeak);
@@ -7017,7 +7068,7 @@ void CTeamTalkDlg::OnChannelinfoSpeakchannelstate()
     {
         szVoice.LoadString(IDS_TALKING);
         TRANSLATE_ITEM(IDS_TALKING, szVoice);
-        szVoice += _T(". ");
+        szVoice += _T(": ");
         for(auto i=voice.begin();i!=voice.end();++i)    
             szVoice += GetDisplayName(users.find(*i)->second) + _T(", ");
         AddTextToSpeechMessage(szVoice);
@@ -7026,7 +7077,7 @@ void CTeamTalkDlg::OnChannelinfoSpeakchannelstate()
     {
         szMediaFile.LoadString(IDS_STREAMING_MEDIAFILE);
         TRANSLATE_ITEM(IDS_STREAMING_MEDIAFILE, szMediaFile);
-        szMediaFile += _T(". ");
+        szMediaFile += _T(": ");
         for(auto i=mediafile.begin();i!=mediafile.end();++i)    
             szMediaFile += GetDisplayName(users.find(*i)->second) + _T(", ");
         AddTextToSpeechMessage(szMediaFile);
@@ -7035,7 +7086,7 @@ void CTeamTalkDlg::OnChannelinfoSpeakchannelstate()
     {
         szVideoCapture.LoadString(IDS_VIDEOCAPTURE);
         TRANSLATE_ITEM(IDS_VIDEOCAPTURE, szVideoCapture);
-        szVideoCapture += _T(". ");
+        szVideoCapture += _T(": ");
         for(auto i=vidcap.begin();i!=vidcap.end();++i)    
             szVideoCapture += GetDisplayName(users.find(*i)->second) + _T(", ");
         AddTextToSpeechMessage(szVideoCapture);
@@ -7044,7 +7095,7 @@ void CTeamTalkDlg::OnChannelinfoSpeakchannelstate()
     {
         szDesktop.LoadString(IDS_DESKTOP);
         TRANSLATE_ITEM(IDS_DESKTOP, szDesktop);
-        szDesktop += _T(". ");
+        szDesktop += _T(": ");
         for(auto i=desktop.begin();i!=desktop.end();++i)    
             szDesktop += GetDisplayName(users.find(*i)->second) + _T(", ");
         AddTextToSpeechMessage(szDesktop);

@@ -1069,7 +1069,7 @@ mftransform_t MFTransform::CreateWav(const media::AudioFormat& inputfmt, const m
         return result;
 
     // 
-    result.reset(new MFTransformImpl(pInputType, pOutputType, inputfmt.samplerate * .02, szOutputFilename));
+    result.reset(new MFTransformImpl(pInputType, pOutputType, int(inputfmt.samplerate * .02), szOutputFilename));
 
     if (!result->Ready())
         result.reset();

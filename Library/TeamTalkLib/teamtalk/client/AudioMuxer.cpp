@@ -630,7 +630,7 @@ void AudioMuxer::WriteAudio(int cb_samples)
     {
         int ret = 0;
         for(int i=0;i<cb_samples/framesize && ret >= 0;i++)
-            ret = m_opusfile->Encode(&m_muxed_audio[i*framesize*channels], framesize);
+            ret = m_opusfile->Encode(&m_muxed_audio[i*framesize*channels], framesize, false);
     }
 #endif
 

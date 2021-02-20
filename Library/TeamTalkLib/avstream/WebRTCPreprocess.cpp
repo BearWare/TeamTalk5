@@ -82,7 +82,7 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
     bool voice_detected = false;
 
     int in_index = 0, out_index = 0, n = 0;
-    while (in_index + in_cfg.num_frames() <= infrm.input_samples)
+    while (in_index + int(in_cfg.num_frames()) <= infrm.input_samples)
     {
         int ret;
 

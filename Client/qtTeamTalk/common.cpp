@@ -1218,7 +1218,21 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
             entry.nickname = tmp.text();
         tmp = client.firstChildElement("gender");
         if(!tmp.isNull())
-            entry.gender = tmp.text().toInt() == GENDER_FEMALE? GENDER_FEMALE : GENDER_MALE;
+        {
+            switch (tmp.text().toInt())
+            {
+            case GENDER_MALE :
+                entry.gender = GENDER_MALE;
+                break;
+            case GENDER_FEMALE :
+                entry.gender = GENDER_FEMALE;
+                break;
+            case GENDER_NEUTRAL :
+            default:
+                entry.gender = GENDER_NEUTRAL;
+                break;
+            }
+        }
 #if defined(Q_OS_WIN32)
         tmp = client.firstChildElement("win-hotkey");
 #elif defined(Q_OS_DARWIN)
@@ -1551,7 +1565,7 @@ QByteArray generateTTFile(const HostEntry& entry)
         nickname.appendChild(doc.createTextNode(entry.nickname));
         client.appendChild(nickname);
     }
-    if(entry.gender != GENDER_NONE)
+    if(!entry.gender)
     {
         QDomElement gender = doc.createElement("gender");
         gender.appendChild(doc.createTextNode(QString::number(entry.gender)));

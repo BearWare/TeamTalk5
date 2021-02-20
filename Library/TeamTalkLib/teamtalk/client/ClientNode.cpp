@@ -3007,15 +3007,15 @@ bool ClientNode::QueueAudioInput(const media::AudioFrame& frm, int streamid)
 
     if (!m_audioinput_voice)
     {
-        m_audioinput_voice.reset(new AudioInputStreamer(streamid));
+        media::AudioFormat infmt = GetAudioCodecAudioFormat(m_mychannel->GetAudioCodec());
+        int cbsamples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());
+
+        m_audioinput_voice.reset(new AudioInputStreamer(streamid, MediaStreamOutput(infmt, cbsamples)));
 
         m_audioinput_voice->RegisterAudioCallback(std::bind(&ClientNode::AudioInputCallback, this, _1, _2), true);
         m_audioinput_voice->RegisterAudioInputStatusCallback(std::bind(&ClientNode::AudioInputStatusCallback, this, _1), true);
 
-        media::AudioFormat infmt = GetAudioCodecAudioFormat(m_mychannel->GetAudioCodec());
-        int cbsamples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());
-        if (!m_audioinput_voice->Open(MediaStreamOutput(infmt, cbsamples)) ||
-            !m_audioinput_voice->StartStream())
+        if (!m_audioinput_voice->Open() || !m_audioinput_voice->StartStream())
         {
             m_audioinput_voice.reset();
             return false;
@@ -3160,17 +3160,6 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     if ((m_flags & CLIENT_STREAM_VIDEOFILE) || (m_flags & CLIENT_STREAM_AUDIOFILE))
         return false;
 
-    m_mediafile_streamer = MakeMediaFileStreamer();
-    if (!m_mediafile_streamer)
-        return false;
-
-    m_mediafile_streamer->RegisterVideoCallback(std::bind(&ClientNode::MediaStreamVideoCallback,
-                                                      this, _1, _2), true);
-    m_mediafile_streamer->RegisterAudioCallback(std::bind(&ClientNode::MediaStreamAudioCallback,
-                                                      this, _1, _2), true);
-    m_mediafile_streamer->RegisterStatusCallback(std::bind(&ClientNode::MediaStreamStatusCallback,
-                                                       this, _1, _2), true);
-
     MediaStreamOutput media_out;
     bool videooutput = vid_codec.codec != CODEC_NO_CODEC;
     if (videooutput)
@@ -3183,7 +3172,18 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     media_out.audio.samplerate = GetAudioCodecSampleRate(m_mychannel->GetAudioCodec());
     media_out.audio_samples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());
 
-    if (!m_mediafile_streamer->OpenFile(filename, media_out))
+    m_mediafile_streamer = MakeMediaFileStreamer(filename, media_out);
+    if (!m_mediafile_streamer)
+        return false;
+
+    m_mediafile_streamer->RegisterVideoCallback(std::bind(&ClientNode::MediaStreamVideoCallback,
+                                                      this, _1, _2), true);
+    m_mediafile_streamer->RegisterAudioCallback(std::bind(&ClientNode::MediaStreamAudioCallback,
+                                                      this, _1, _2), true);
+    m_mediafile_streamer->RegisterStatusCallback(std::bind(&ClientNode::MediaStreamStatusCallback,
+                                                       this, _1, _2), true);
+
+    if (!m_mediafile_streamer->Open())
     {
         StopStreamingMediaFile();
         return false;
@@ -3279,7 +3279,6 @@ void ClientNode::StopStreamingMediaFile()
     {
         clear_video = m_mediafile_streamer->GetMediaOutput().HasVideo();
         clear_audio = m_mediafile_streamer->GetMediaOutput().HasAudio();
-        m_mediafile_streamer->Close();
         m_mediafile_streamer.reset();
     }
 

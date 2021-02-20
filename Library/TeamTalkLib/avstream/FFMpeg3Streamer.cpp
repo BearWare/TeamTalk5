@@ -209,7 +209,8 @@ bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop)
 }
 
 
-FFMpegStreamer::FFMpegStreamer()
+FFMpegStreamer::FFMpegStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
+    : MediaFileStreamer(filename, out_prop)
 {
     InitAVConv();
 }
@@ -292,6 +293,10 @@ void FFMpegStreamer::Run()
         if(!video_filter_graph)
         {
             m_open.set(false);
+            MYTRACE("Failed to create video filter. Device: %s, fmt %dx%d@%d fourCC: %u\n",
+                    m_media_in.filename.c_str(), m_media_out.video.width, m_media_out.video.height,
+                    (m_media_out.video.fps_denominator ? m_media_out.video.fps_numerator / m_media_out.video.fps_denominator : -1),
+                    m_media_out.video.fourcc);
             goto end;
         }
 

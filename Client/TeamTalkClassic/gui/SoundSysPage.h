@@ -44,9 +44,9 @@ public:
     CSoundSysPage();
     virtual ~CSoundSysPage();
     void ShowDrivers(SoundSystem nSoundSystem);
-    int m_nInputDevice;
+    int m_nInputDevice, m_nOrgInputDevice;
     CString m_szInputDeviceID;
-    int m_nOutputDevice;
+    int m_nOutputDevice, m_nOrgOutputDevice;
     CString m_szOutputDeviceID;
 
     CComboBox m_InputDriversCombo;

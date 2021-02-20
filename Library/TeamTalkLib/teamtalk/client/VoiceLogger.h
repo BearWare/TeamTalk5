@@ -43,7 +43,7 @@
 #endif
 
 #if defined(ENABLE_OGG)
-#include <codec/OggOutput.h>
+#include <codec/OggFileIO.h>
 #endif
 
 #include <ace/Recursive_Thread_Mutex.h>

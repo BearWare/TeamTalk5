@@ -174,8 +174,9 @@ BEGIN
     LTEXT           "Nickname",IDC_STATIC_NICKNAME,15,22,49,8
     EDITTEXT        IDC_EDIT_NICKNAME,67,19,76,14,ES_AUTOHSCROLL
     LTEXT           "Gender",IDC_STATIC_GENDER,15,38,49,8
-    CONTROL         "Male",IDC_RADIO_MALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,75,37,31,10
-    CONTROL         "Female",IDC_RADIO_FEMALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,127,37,39,10
+    CONTROL         "Male",IDC_RADIO_MALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,75,37,42,10
+    CONTROL         "Female",IDC_RADIO_FEMALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,121,37,42,10
+    CONTROL         "Neutral",IDC_RADIO_NEUTRAL,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,167,37,42,10
     LTEXT           "Set away status after ",IDC_STATIC_SETAWAY,15,54,93,8
     EDITTEXT        IDC_EDIT_INACTIVITY,112,51,19,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "sec. of inactivity (0=disabled)",IDC_STATIC_SECINACT,134,54,114,8
@@ -237,8 +238,13 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Sound Events"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Sound events",IDC_STATIC_GRPSNDEVENT,7,7,246,226
-    CONTROL         "",IDC_TREE_SOUNDEVENTS,"SysTreeView32",TVS_SHOWSELALWAYS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,15,17,232,211
+    GROUPBOX        "Sound events",IDC_STATIC_GRPSNDEVENT,7,7,246,175
+    CONTROL         "",IDC_TREE_SOUNDEVENTS,"SysTreeView32",TVS_SHOWSELALWAYS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,15,17,232,158
+    GROUPBOX        "Playback of sound events",IDC_STATIC_GRPCLIENTSOUNDSYSTEM,7,184,246,49
+    LTEXT           "Playback mode",IDC_STATIC_PLAYBACK_MODE,15,200,99,8
+    COMBOBOX        IDC_COMBO_PLAYBACK_MODE,120,198,127,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Sound events vs. voice volume",IDC_STATIC_CLIENTSOUNDSVOL,15,214,130,8
+    CONTROL         "",IDC_SLIDER_CLIENTSOUNDS_VOL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP | 0x400,148,211,99,15
 END
 
 IDD_PROPPAGE_SOUNDSYSPAGE DIALOGEX 0, 0, 260, 221
@@ -280,23 +286,25 @@ BEGIN
     GROUPBOX        "User interface settings",IDC_STATIC_GRPWINDOW,7,7,246,226
     LTEXT           "User interface language",IDC_STATIC_UILANGUAGE,15,23,94,8
     COMBOBOX        IDC_COMBO_LANGUAGE,111,21,130,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Font ",IDC_STATIC_FONT,15,37,53,8
+    LTEXT           "Font ",IDC_STATIC_FONT,15,36,53,8
     LTEXT           "No font selected",IDC_STATIC_FONTNAME,71,37,150,8
     PUSHBUTTON      "...",IDC_BUTTON_FONT,226,34,15,14
-    CONTROL         "Start minimized",IDC_CHECK_STARTMINIMIZED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,51,117,16
-    CONTROL         "Minimize to tray",IDC_CHECK_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,72,117,16
-    CONTROL         "Always on top",IDC_CHECK_ALWAYSONTOP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,93,117,16
+    CONTROL         "Start minimized",IDC_CHECK_STARTMINIMIZED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,49,117,16
+    CONTROL         "Minimize to tray",IDC_CHECK_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,70,117,16
+    CONTROL         "Always on top",IDC_CHECK_ALWAYSONTOP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,91,117,16
     CONTROL         "Double-click for joining channels",IDC_CHECK_DBCLICKJOIN,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,114,117,16
-    CONTROL         "Enable VU-meter updates",IDC_CHECK_VUMETER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,135,112,10
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,112,117,16
+    CONTROL         "Enable VU-meter updates",IDC_CHECK_VUMETER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,133,112,10
     CONTROL         "Show number of users in channels",IDC_CHECK_SHOWUSERCOUNT,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,152,114,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,148,114,16
     CONTROL         "Show username instead of nickname",IDC_CHECK_SHOWUSERNAME,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,173,110,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,169,110,16
+    CONTROL         "Show user logs in/out in chat history",IDC_CHECK_LOGGEDINOUT,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,191,112,16
     CONTROL         "Show emojis for user and channel states",IDC_CHECK_EMOJI,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,51,112,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,49,112,16
     CONTROL         "Clear channels when quitting",IDC_CHECK_QUITCLEAR,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,72,114,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,70,113,16
     CONTROL         "Popup message dialog on incoming message",IDC_CHECK_POPUPMSG,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,93,114,16
     CONTROL         "Timestamp on messages",IDC_CHECK_MSGTIMESTAMP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,114,114,16
@@ -848,6 +856,7 @@ BEGIN
     LTEXT           "Gender",IDC_STATIC_GENDER,23,122,49,8
     CONTROL         "Male",IDC_RADIO_MALE,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,77,121,35,10
     CONTROL         "Female",IDC_RADIO_FEMALE,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,113,121,39,10
+    CONTROL         "Neutral",IDC_RADIO_NEUTRAL,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,143,121,43,10
     GROUPBOX        "Speech transmission mode",IDC_STATIC_GRPSPEECH,178,65,186,74
     CONTROL         "Push to talk",IDC_CHECK_PUSHTOTALK,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,186,83,78,10
     PUSHBUTTON      "&Setup keys",IDC_BUTTON_SETUPKEYS,270,81,59,13,WS_DISABLED
@@ -1056,8 +1065,11 @@ BEGIN
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 253
+        VERTGUIDE, 15
+        VERTGUIDE, 247
         TOPMARGIN, 7
         BOTTOMMARGIN, 233
+        HORZGUIDE, 226
     END
 
     IDD_PROPPAGE_SOUNDSYSPAGE, DIALOG
@@ -1901,6 +1913,28 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_SIMULTANEOUSLY      "All at once"
+    IDS_FULLY               "One by one"
+    IDS_STOPPREVIOUS        "Interrupt previous"
+END
+
+STRINGTABLE
+BEGIN
+    IDC_STATIC_GRPCLIENTSOUNDSYSTEM "Playback of sound events"
+END
+
+STRINGTABLE
+BEGIN
+    IDC_STATIC_CLIENTSOUNDSVOL "Sound events vs. voice volume"
+END
+
+STRINGTABLE
+BEGIN
+    IDC_STATIC_PLAYBACK_MODE "Playback mode"
+END
+
+STRINGTABLE
+BEGIN
     IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
     IDS_ABOUTBOX            "&About TeamTalk..."
     IDS_WIZCAPTION          "Wizard"
@@ -1948,6 +1982,7 @@ BEGIN
     IDS_USER_LOGGED_OUT     "User logged out"
     IDS_USER_TEXTMSGSENT    "Private text message sent"
     IDS_USER_CHANMSGSENT    "Channel text message sent"
+    IDS_NOLONGERTRANSMITCHANMSG "%s can no longer transmit channel messages!"
 END
 
 STRINGTABLE
@@ -1967,6 +2002,7 @@ BEGIN
     IDS_CONSUCCESS          "Successfully logged in"
     IDS_LOGOUTSUCCESS       "Successfully logged out"
     IDS_KICKEDFROMCHANNEL   "You have been kicked from the channel by %s"
+    IDS_KICKEDFROMSERVER   "You have been kicked from the server by %s"
 END
 
 STRINGTABLE
@@ -2150,6 +2186,8 @@ BEGIN
     IDS_ANONYMOUS           "Anonymous"
     IDS_KICKEDFROMCHANNELBYUNK 
                             "You have been kicked from the channel by an unknown user"
+    IDS_KICKEDFROMSERVERBYUNK 
+                            "You have been kicked from the server by an unknown user"
     IDS_NEWPROFILE          "New profile"
 END
 
@@ -2175,8 +2213,6 @@ END
 STRINGTABLE
 BEGIN
     IDS_UNKNOWNERROR        "An unknown error occurred. Check that the action you\r\nperformed is supported by the server. This error is most\r\nlikely caused by an incompability issue between the server\r\nand your client."
-    IDS_NOLONGERTRANSMITCHANMSG    "%s can no longer transmit channel messages!"
-    IDS_CANNOWTRANSMITCHANMSG      "%s can now transmit channel messages!"
     IDS_NOLONGERTRANSMIT    "%s can no longer transmit voice!"
     IDS_CANNOWTRANSMIT      "%s can now transmit voice!"
     IDS_NOLONGERTRANSMITVIDEO "%s can no longer transmit video input!"
@@ -2193,6 +2229,12 @@ BEGIN
     IDS_STREAMINGTOCHANNELSTART "Started streaming media file to channel"
     IDS_STREAMINGTOCHANNELFINISH "Finished streaming media file to channel"
     IDS_STREAMINGTOCHANNELABORT "Aborted streaming media file to channel"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CANNOWTRANSMITCHANMSG "%s can now transmit channel messages!"
+    IDS_PROPPAGE_CLASSROOM_CHANMSG "Channel messages transmission allowed"
 END
 
 STRINGTABLE

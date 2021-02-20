@@ -73,6 +73,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             SLOT(slotLanguageChange(int)));
     connect(ui.vidtextsrcToolBtn, SIGNAL(clicked()),
             SLOT(slotSelectVideoText()));
+    connect(ui.logstatusbarChkBox, SIGNAL(clicked(bool)), SLOT(slotUpdateLIOChkBox(bool)));
     
     //connection tab
     connect(ui.subdeskinputBtn, SIGNAL(clicked()),
@@ -419,10 +420,20 @@ void PreferencesDlg::slotTabChange(int index)
     case GENERAL_TAB : //general
     {
         ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString());
-        ui.maleRadioButton->setChecked(ttSettings->value(SETTINGS_GENERAL_GENDER,
-                                                         SETTINGS_GENERAL_GENDER_DEFAULT).toBool());
-        ui.femaleRadioButton->setChecked(!ttSettings->value(SETTINGS_GENERAL_GENDER,
-                                                            SETTINGS_GENERAL_GENDER_DEFAULT).toBool());
+        switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
+        {
+        case GENDER_MALE :
+            ui.maleRadioButton->setChecked(true);
+            break;
+        case GENDER_FEMALE:
+            ui.femaleRadioButton->setChecked(true);
+            break;
+        case GENDER_NEUTRAL:
+        default:
+            ui.neutralRadioButton->setChecked(true);
+            break;
+        }
+
         QString bearwareid = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
         ui.bearwareidEdit->setText(bearwareid);
         if (bearwareid.size())
@@ -465,6 +476,9 @@ void PreferencesDlg::slotTabChange(int index)
                                                             SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool());
         ui.emojiChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_EMOJI,
                                                      SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool());
+        ui.loggedinoutChkBox->setEnabled(ui.logstatusbarChkBox->isChecked());
+        ui.loggedinoutChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT,
+                                                     SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT).toBool());
 
         ui.languageBox->clear();
         ui.languageBox->addItem("");
@@ -651,7 +665,12 @@ void PreferencesDlg::slotSaveChanges()
     if(m_modtab.find(GENERAL_TAB) != m_modtab.end())
     {
         ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, ui.nicknameEdit->text());
-        ttSettings->setValue(SETTINGS_GENERAL_GENDER, ui.maleRadioButton->isChecked());
+        if (ui.maleRadioButton->isChecked())
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_MALE);
+        else if (ui.femaleRadioButton->isChecked())
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_FEMALE);
+        else
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_NEUTRAL);
         ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
         saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
         ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.pttChkBox->isChecked());
@@ -677,6 +696,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_MAX_STRING, ui.maxtextSpinBox->value());
         ttSettings->setValue(SETTINGS_DISPLAY_SHOWUSERNAME, ui.showusernameChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_EMOJI, ui.emojiChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_LOGGEDINOUT, ui.loggedinoutChkBox->isChecked());
 
         int index = ui.languageBox->currentIndex();
         if(index >= 0)
@@ -1007,6 +1027,11 @@ void PreferencesDlg::slotSelectVideoText()
 {
     VideoTextDlg dlg(this);
     dlg.exec();
+}
+
+void PreferencesDlg::slotUpdateLIOChkBox(bool checked)
+{
+    ui.loggedinoutChkBox->setEnabled(checked);
 }
 
 void PreferencesDlg::slotDesktopAccess()
