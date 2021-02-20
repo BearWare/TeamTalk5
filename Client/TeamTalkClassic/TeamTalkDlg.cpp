@@ -240,9 +240,6 @@ void CTeamTalkDlg::Disconnect()
     }
 
     TT_Disconnect(ttInst);
-    TT_CloseSoundDuplexDevices(ttInst);
-    TT_CloseSoundInputDevice(ttInst);
-    TT_CloseSoundOutputDevice(ttInst);
 
     TTMessage msg;
     INT32 nZero = 0;
