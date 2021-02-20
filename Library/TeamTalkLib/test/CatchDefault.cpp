@@ -38,11 +38,12 @@
 #include <future>
 
 #if defined(ENABLE_OGG)
-#include <codec/OggOutput.h>
+#include <codec/OggFileIO.h>
 #endif
 
 #if defined(ENABLE_OPUS)
 #include <codec/OpusEncoder.h>
+#include <codec/OpusDecoder.h>
 #endif
 #include <codec/WaveFile.h>
 
@@ -1051,6 +1052,8 @@ TEST_CASE("WebRTC_gaincontroller2")
         case MFS_FINISHED :
             success = true;
             break;
+        default :
+            break;
         }
     }
     REQUIRE(toggled);
@@ -1114,6 +1117,10 @@ TEST_CASE("WebRTC_echocancel")
         preprocess.speexdsp.bEnableEchoCancellation = DEFAULT_ECHO_ENABLE;
         preprocess.speexdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
         preprocess.speexdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+        break;
+    case NO_AUDIOPREPROCESSOR :
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        REQUIRE(false);
         break;
     }
 
@@ -1355,7 +1362,7 @@ TEST_CASE("PortAudioRaw_SamplesPerSec")
 
     PaStream* outstream;
     err = Pa_OpenStream(&outstream, nullptr, &outputParameters,
-                        ininfo->defaultSampleRate, ininfo->defaultSampleRate * .04,
+                        ininfo->defaultSampleRate, uint32_t(ininfo->defaultSampleRate * .04),
                         paClipOff, Foo_StreamCallback, static_cast<void*> (0));
 
     REQUIRE(Pa_StartStream(outstream) == paNoError);
@@ -1410,10 +1417,10 @@ TEST_CASE("PortAudio_SamplesPerSec")
         }
     } player(samples, starttime);
 
-    REQUIRE(snd->OpenOutputStream(&player, outputdeviceid, grp, SAMPLERATE, CHANNELS, SAMPLERATE * 0.04));
+    REQUIRE(snd->OpenOutputStream(&player, outputdeviceid, grp, SAMPLERATE, CHANNELS, uint32_t(SAMPLERATE * 0.04)));
     REQUIRE(snd->StartStream(&player));
 
-    while (samples < outdev.default_samplerate * 2)
+    while (samples < uint32_t(outdev.default_samplerate * 2))
     {
         Pa_Sleep(1000);
 
@@ -1580,7 +1587,7 @@ TEST_CASE("VideoCapture")
     std::condition_variable cv;
 
     int frames = 10;
-    auto callback = [&] (media::VideoFrame& video_frame, ACE_Message_Block* mb_video)
+    auto callback = [&] (media::VideoFrame& /*video_frame*/, ACE_Message_Block* /*mb_video*/)
     {
         frames--;
         cv.notify_all();
@@ -1600,3 +1607,425 @@ TEST_CASE("VideoCapture")
         cv.wait(lck);
     } while (frames >= 0);
 }
+
+#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
+
+void CreateOpusFile(const MediaFileInfo& mfi, const ACE_TString& oggfilename, const int FRAMESIZE)
+{
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.OpenFile(mfi.szFileName, true));
+
+    OpusEncFile opusenc;
+    REQUIRE(opusenc.Open(oggfilename, mfi.audioFmt.nChannels, mfi.audioFmt.nSampleRate, FRAMESIZE, OPUS_APPLICATION_AUDIO));
+
+    std::vector<short> buf(mfi.audioFmt.nChannels * FRAMESIZE);
+    int samples;
+    while ((samples = wavfile.ReadSamples(&buf[0], FRAMESIZE)) > 0)
+    {
+        REQUIRE(opusenc.Encode(&buf[0], FRAMESIZE, samples != FRAMESIZE) >= 0);
+    }
+    opusenc.Close();
+    wavfile.Close();
+}
+
+TEST_CASE("OPUSFileEncDec")
+{
+    for (auto SAMPLERATE : {8000, 12000, 24000, 48000})
+    {
+        for (auto FRAMESIZE_SEC : {.0025, .005, .01, .02, .04, .06, .08, .1, .12})
+        {
+            MediaFileInfo mfi = {};
+            mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+            mfi.audioFmt.nChannels = 2;
+            mfi.audioFmt.nSampleRate = SAMPLERATE;
+            mfi.uDurationMSec = 10 * 1000;
+            const int FRAMESIZE = int(mfi.audioFmt.nSampleRate * FRAMESIZE_SEC);
+            ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("originalfile_%d_%dmsec.wav"),
+                             mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+
+            REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+            WavePCMFile wavfile;
+            REQUIRE(wavfile.OpenFile(mfi.szFileName, true));
+
+            OpusEncFile opusenc;
+            ACE_TCHAR opusencfilename[TT_STRLEN];
+            ACE_OS::snprintf(opusencfilename, TT_STRLEN, ACE_TEXT("opusencfile_%d_%dmsec.ogg"),
+                             mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+            REQUIRE(opusenc.Open(opusencfilename, mfi.audioFmt.nChannels, mfi.audioFmt.nSampleRate, FRAMESIZE, OPUS_APPLICATION_AUDIO));
+
+            std::vector<short> buf(mfi.audioFmt.nChannels * FRAMESIZE);
+            int samples;
+            while ((samples = wavfile.ReadSamples(&buf[0], FRAMESIZE)) > 0)
+            {
+                REQUIRE(opusenc.Encode(&buf[0], FRAMESIZE, samples != FRAMESIZE) >= 0);
+            }
+            opusenc.Close();
+            wavfile.Close();
+
+            OpusFile opusread;
+            REQUIRE(opusread.OpenFile(opusencfilename));
+
+            OpusDecode opusdec;
+            REQUIRE(opusdec.Open(opusread.GetSampleRate(), opusread.GetChannels()));
+
+            ACE_TCHAR opusdecfilename[TT_STRLEN];
+            ACE_OS::snprintf(opusdecfilename, TT_STRLEN, ACE_TEXT("opusdecfile_%d_%dmsec.wav"),
+                             mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+            REQUIRE(wavfile.NewFile(opusdecfilename, opusread.GetSampleRate(), opusread.GetChannels()));
+
+            ogg_int64_t samplesduration = 0;
+            while (true)
+            {
+                int bytes;
+                auto opusbuf = opusread.ReadEncoded(bytes, &samplesduration);
+                if (!opusbuf)
+                    break;
+
+                REQUIRE(opusdec.Decode(reinterpret_cast<const char*>(opusbuf), bytes, &buf[0], FRAMESIZE) == FRAMESIZE);
+                wavfile.AppendSamples(&buf[0], FRAMESIZE);
+            }
+
+            auto durationmsec = PCM16_SAMPLES_DURATION(samplesduration, mfi.audioFmt.nSampleRate);
+            std::cout << SAMPLERATE << "@" << FRAMESIZE_SEC << " diff: " << mfi.uDurationMSec - durationmsec << std::endl;
+            REQUIRE(std::abs(durationmsec - mfi.uDurationMSec) <= FRAMESIZE_SEC * 1000);
+        }
+    }
+}
+
+TEST_CASE("OPUSFileSeek")
+{
+    const auto SAMPLERATE = 12000;
+    const auto FRAMESIZE_SEC = .04;
+    const auto CHANNELS = 2;
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = CHANNELS;
+    mfi.audioFmt.nSampleRate = SAMPLERATE;
+    mfi.uDurationMSec = 10 * 1000;
+
+    const int FRAMESIZE = int(mfi.audioFmt.nSampleRate * FRAMESIZE_SEC);
+    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("orgseekfile_%d_%dmsec.wav"),
+                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+
+    ACE_TCHAR opusencfilename[TT_STRLEN];
+    ACE_OS::snprintf(opusencfilename, TT_STRLEN, ACE_TEXT("opusseekfile_%d_%dmsec.ogg"),
+                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+
+    CreateOpusFile(mfi, opusencfilename, FRAMESIZE);
+
+    // ensure we come back to file's origin after search
+    OggFile of, of1;
+    ogg_page og, og1;
+    REQUIRE(of.Open(opusencfilename));
+    REQUIRE(of1.Open(opusencfilename));
+    int count = 10;
+    while(count--)
+    {
+        REQUIRE(of.ReadOggPage(og) == 1);
+        REQUIRE(of1.ReadOggPage(og1) == 1);
+    }
+    REQUIRE(of.LastGranulePos() == 48000 * mfi.uDurationMSec / 1000);
+    REQUIRE(of.ReadOggPage(og) == 1);
+    REQUIRE(of1.ReadOggPage(og1) == 1);
+    REQUIRE(ogg_page_granulepos(&og) == ogg_page_granulepos(&og1));
+
+    // validate frame-size and total number of samples
+    OpusFile opfile;
+    REQUIRE(opfile.OpenFile(opusencfilename));
+    REQUIRE(PCM16_SAMPLES_DURATION(FRAMESIZE, opfile.GetSampleRate()) == 1000 * FRAMESIZE_SEC);
+    double duration_sec = mfi.uDurationMSec / 1000.;
+    REQUIRE(opfile.GetTotalSamples() == SAMPLERATE * duration_sec);
+
+    ogg_int64_t halfsamples = ogg_int64_t((duration_sec * mfi.audioFmt.nSampleRate) / 2);
+    REQUIRE(opfile.Seek(halfsamples));
+    ogg_int64_t samplesduration;
+    int bytes;
+    REQUIRE(opfile.ReadEncoded(bytes, &samplesduration));
+    REQUIRE(std::abs(halfsamples - samplesduration) <= FRAMESIZE);
+
+    // decode from 0% onwards
+    OpusDecFile opusdecfile;
+    REQUIRE(opusdecfile.Open(opusencfilename));
+    std::vector<short> frame(FRAMESIZE * CHANNELS);
+    int frames = 0;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
+    uint32_t duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
+    REQUIRE(duration_msec == mfi.uDurationMSec);
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+    opusdecfile.Close();
+
+    // decode from 90% onwards
+    REQUIRE(opusdecfile.Open(opusencfilename));
+    auto offset_msec = .9 * mfi.uDurationMSec;
+    REQUIRE(opusdecfile.Seek(uint32_t(offset_msec)));
+    frames = 0;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
+    duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
+    REQUIRE(duration_msec == mfi.uDurationMSec - offset_msec);
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+
+    // check special handling of seeking to granule position 0 in Ogg file
+    REQUIRE(opusdecfile.Seek(0));
+    frames = 0;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
+    duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
+    REQUIRE(duration_msec == mfi.uDurationMSec);
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+
+    // check seek offsets
+    REQUIRE(opusdecfile.Seek(555));
+    auto diffMSec = opusdecfile.GetElapsedMSec() - (555 / int(FRAMESIZE_SEC * 1000)) * int(FRAMESIZE_SEC * 1000);
+    REQUIRE(std::abs(int(diffMSec)) <= PCM16_SAMPLES_DURATION(FRAMESIZE, SAMPLERATE));
+    REQUIRE(opusdecfile.Seek(0));
+    REQUIRE(opusdecfile.GetElapsedMSec() == 0);
+
+    // check decode output after initial duration check
+    opusdecfile.Close();
+    REQUIRE(opusdecfile.Open(opusencfilename));
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+    frames = 0;
+    while (opusdecfile.Decode(&frame[0], FRAMESIZE) == FRAMESIZE)frames++;
+    duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
+    REQUIRE(duration_msec == mfi.uDurationMSec);
+    REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+}
+
+#include <avstream/OpusFileStreamer.h>
+
+TEST_CASE("OPUSStreamer")
+{
+    const auto IN_SAMPLERATE = 12000;
+    const auto IN_FRAMESIZE_SEC = .04;
+    const auto IN_CHANNELS = 2;
+
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = IN_CHANNELS;
+    mfi.audioFmt.nSampleRate = IN_SAMPLERATE;
+    mfi.uDurationMSec = 3 * 1000;
+
+    const int IN_FRAMESIZE = int(mfi.audioFmt.nSampleRate * IN_FRAMESIZE_SEC);
+    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("opusstreamer_inputfile_%d_%dmsec.wav"),
+                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(IN_FRAMESIZE, mfi.audioFmt.nSampleRate));
+    ACE_TCHAR opusencfilename[TT_STRLEN];
+    ACE_OS::snprintf(opusencfilename, TT_STRLEN, ACE_TEXT("opusstreamer_inputfile_%d_%dmsec.ogg"),
+                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(IN_FRAMESIZE, mfi.audioFmt.nSampleRate));
+    CreateOpusFile(mfi, opusencfilename, IN_FRAMESIZE);
+
+    const auto OUT_SAMPLERATE = 48000;
+    const auto OUT_CHANNELS = 1;
+    const auto OUT_FRAMESIZE = int(OUT_SAMPLERATE * .06);
+
+    ACE_TCHAR opusstreamerfilename[TT_STRLEN];
+    ACE_OS::snprintf(opusstreamerfilename, TT_STRLEN, ACE_TEXT("opusstreamer_outputfile_%d_%dmsec.wav"),
+                     OUT_SAMPLERATE, PCM16_SAMPLES_DURATION(OUT_FRAMESIZE, OUT_SAMPLERATE));
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.NewFile(opusstreamerfilename, OUT_SAMPLERATE, OUT_CHANNELS));
+
+    MediaStreamOutput mso(media::AudioFormat(OUT_SAMPLERATE, OUT_CHANNELS), OUT_FRAMESIZE);
+
+    std::condition_variable cv_finished, cv_started, cv_paused, cv_playing, cv_error;
+    std::mutex mtx;
+
+    auto statusfunc = [&](const MediaFileProp& mfp, MediaStreamStatus status)
+    {
+        switch (status)
+        {
+        case MEDIASTREAM_STARTED :
+            cv_started.notify_all();
+            MYTRACE(ACE_TEXT("Started\n"));
+            break;
+        case MEDIASTREAM_ERROR :
+            REQUIRE(false);
+            cv_error.notify_all();
+            break;
+        case MEDIASTREAM_PLAYING :
+            cv_playing.notify_all();
+            MYTRACE(ACE_TEXT("Playing %u msec\n"), mfp.elapsed_ms);
+            break;
+        case MEDIASTREAM_PAUSED :
+            REQUIRE(false);
+            cv_paused.notify_all();
+            break;
+        case MEDIASTREAM_FINISHED :
+            cv_finished.notify_all();
+            MYTRACE(ACE_TEXT("Finished %u msec\n"), mfp.elapsed_ms);
+            break;
+        default :
+            REQUIRE(false);
+            break;
+        }
+    };
+
+    auto audiofunc = [&](media::AudioFrame& audio_frame, ACE_Message_Block* /*mb_audio*/)
+    {
+        wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
+        return true;
+    };
+
+    std::unique_lock<std::mutex> lck(mtx);
+
+    std::unique_ptr<OpusFileStreamer> ofs;
+    ofs.reset(new OpusFileStreamer(opusencfilename, mso));
+    ofs->RegisterStatusCallback(statusfunc, true);
+    ofs->RegisterAudioCallback(audiofunc, true);
+    REQUIRE(ofs->Open());
+    REQUIRE(ofs->StartStream());
+    REQUIRE(cv_finished.wait_for(lck, std::chrono::milliseconds(mfi.uDurationMSec * 2)) == std::cv_status::no_timeout);
+}
+
+TEST_CASE("TTPlayOpusOgg")
+{
+    const auto IN_SAMPLERATE = 48000;
+    const auto IN_CHANNELS = 2;
+    const auto IN_FRAMESIZE = int(IN_SAMPLERATE * .01);
+
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = IN_CHANNELS;
+    mfi.audioFmt.nSampleRate = IN_SAMPLERATE;
+    mfi.uDurationMSec = 5 * 1000;
+    ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("TTPlayOpusOgg.wav"), TT_STRLEN);
+
+    TTCHAR szFilename[TT_STRLEN] = ACE_TEXT("TTPlayOpusOgg.ogg");
+    CreateOpusFile(mfi, szFilename, IN_FRAMESIZE);
+
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+    mfp.bPaused = FALSE;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+
+    bool stop = false, started = false, paused = false;
+    TTMessage msg;
+    INT32 session;
+    uint32_t durationMSec;
+
+    // test duration of OpusFileStreamer playback
+    session = TT_InitLocalPlayback(ttclient, szFilename, &mfp);
+    REQUIRE(session > 0);
+
+    while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_STARTED :
+            REQUIRE(msg.mediafileinfo.uElapsedMSec == 0);
+            started = true;
+            break;
+        case MFS_PLAYING :
+            break;
+        case MFS_FINISHED :
+            stop = true;
+            break;
+        default :
+            break;
+        }
+    }
+    REQUIRE(started);
+    REQUIRE(stop);
+
+    // test seek-feature of OpusFileStreamer playback
+    mfp.uOffsetMSec = mfi.uDurationMSec / 2;
+    session = TT_InitLocalPlayback(ttclient, szFilename, &mfp);
+    REQUIRE(session > 0);
+    durationMSec = GETTIMESTAMP();
+    stop = false;
+    started = false;
+    while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_STARTED :
+            REQUIRE(std::abs(int(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= PCM16_SAMPLES_DURATION(IN_FRAMESIZE, IN_SAMPLERATE));
+            started = true;
+            break;
+        case MFS_PLAYING :
+            break;
+        case MFS_FINISHED :
+            stop = true;
+            break;
+        default :
+            break;
+        }
+    }
+    REQUIRE(started);
+    REQUIRE(stop);
+    durationMSec = GETTIMESTAMP() - durationMSec;
+    REQUIRE(std::abs(int(mfi.uDurationMSec / 2) - int(durationMSec)) < 500);
+
+    // test pause-feature of OpusFileStreamer playback
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    session = TT_InitLocalPlayback(ttclient, szFilename, &mfp);
+    REQUIRE(session > 0);
+    stop = false;
+    started = false;
+    paused = false;
+    durationMSec = GETTIMESTAMP();
+    while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
+    {
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_STARTED :
+            started = true;
+            break;
+        case MFS_PLAYING :
+            if (!paused && msg.mediafileinfo.uElapsedMSec >= mfi.uDurationMSec / 2)
+            {
+                mfp.bPaused = TRUE;
+                REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+            }
+            break;
+        case MFS_PAUSED :
+            REQUIRE(!paused);
+            paused = true;
+            WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, 1000);
+            mfp.bPaused = FALSE;
+            REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+            started = false;
+            break;
+        case MFS_FINISHED :
+            stop = true;
+            break;
+        default :
+            break;
+        }
+    }
+    REQUIRE(started);
+    REQUIRE(stop);
+    REQUIRE(paused);
+    durationMSec = GETTIMESTAMP() - durationMSec;
+    REQUIRE(std::abs(int(durationMSec) - int(mfi.uDurationMSec + 1000)) < 500);
+}
+
+TEST_CASE("TTPlayFFmpegOpus")
+{
+    TTCHAR filename[TT_STRLEN] = ACE_TEXT("testdata/Opus/giana.ogg");
+    OpusDecFile odf;
+    REQUIRE(odf.Open(filename));
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.NewFile(ACE_TEXT("giana.wav"), odf.GetSampleRate(), odf.GetChannels()));
+    std::vector<short> buf(odf.GetSampleRate() * odf.GetChannels());
+    int samples, framesize = 0;
+    while ((samples = odf.Decode(&buf[0], odf.GetSampleRate())) > 0)
+    {
+        wavfile.AppendSamples(&buf[0], samples);
+        REQUIRE((framesize == 0 || framesize == samples)); // assume same framesize
+        framesize = samples;
+    }
+    wavfile.Close();
+
+    MediaFileInfo mfi;
+    REQUIRE(TT_GetMediaFileInfo(ACE_TEXT("giana.wav"), &mfi));
+    REQUIRE(std::abs(int(mfi.uDurationMSec - odf.GetDurationMSec())) < PCM16_SAMPLES_DURATION(framesize, odf.GetSampleRate()));
+    REQUIRE(TT_GetMediaFileInfo(filename, &mfi));
+    REQUIRE(mfi.uDurationMSec == odf.GetDurationMSec());
+}
+#endif

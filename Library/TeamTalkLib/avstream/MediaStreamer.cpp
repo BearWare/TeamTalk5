@@ -25,13 +25,19 @@
 
 #if defined(ENABLE_MEDIAFOUNDATION)
 #include "MFStreamer.h"
-#endif
+#endif /* ENABLE_MEDIAFOUNDATION */
+
 #if defined(ENABLE_DSHOW)
 #include "WinMedia.h"
-#endif
+#endif /* ENABLE_DSHOW */
+
 #if defined(ENABLE_FFMPEG3)
 #include "FFMpeg3Streamer.h"
-#endif
+#endif /* ENABLE_FFMPEG3*/
+
+#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
+#include "OpusFileStreamer.h"
+#endif /* ENABLE_OPUSTOOLS && ENABLE_OPUS */
 
 #include <codec/MediaUtil.h>
 
@@ -41,6 +47,11 @@ using namespace media;
 
 bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
+#if defined(WIN32) && defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
+    if (GetOpusFileMediaFileProp(filename, fileprop))
+        return true;
+#endif
+
 #if defined(ENABLE_MEDIAFOUNDATION)
     return GetMFMediaFileProp(filename, fileprop);
 #elif defined(ENABLE_DSHOW)
@@ -51,19 +62,29 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
     return false;
 }
 
-mediafile_streamer_t MakeMediaFileStreamer()
+mediafile_streamer_t MakeMediaFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
 {
     mediafile_streamer_t streamer;
 
+#if defined(WIN32) && defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
+    MediaFileProp fileprop;
+    if (GetOpusFileMediaFileProp(filename, fileprop))
+        return mediafile_streamer_t(new OpusFileStreamer(filename, out_prop));
+#endif
+
 #if defined(ENABLE_MEDIAFOUNDATION)
-    streamer.reset(new MFStreamer());
+    streamer.reset(new MFStreamer(filename, out_prop));
 #elif defined(ENABLE_DSHOW)
     streamer.reset(new DSWrapperThread());
 #elif defined(ENABLE_FFMPEG3)
-    streamer.reset(new FFMpegStreamer());
+    streamer.reset(new FFMpegStreamer(filename, out_prop));
 #endif
 
     return streamer;
+}
+
+MediaStreamer::MediaStreamer(const MediaStreamOutput& out_prop) : m_media_out(out_prop)
+{
 }
 
 MediaStreamer::~MediaStreamer()
@@ -89,13 +110,8 @@ void MediaStreamer::RegisterAudioCallback(mediastream_audiocallback_t cb, bool e
         m_audiocallback = {};
 }
 
-bool MediaStreamer::Open(const MediaStreamOutput& out_prop)
+bool MediaStreamer::Open()
 {
-    if (GetMediaOutput().IsValid())
-        return false;
-
-    m_media_out = out_prop;
-
     m_thread.reset(new std::thread(&MediaStreamer::Run, this));
 
     bool ret = false;
@@ -117,7 +133,6 @@ void MediaStreamer::Close()
         m_thread->join();
         m_thread.reset();
     }
-    Reset();
 
     m_open.cancel();
     m_run.cancel();
@@ -147,15 +162,6 @@ bool MediaStreamer::Pause()
         return m_run.cancel() >= 0;
 
     return true;
-}
-
-void MediaStreamer::Reset()
-{
-    m_media_out = MediaStreamOutput();
-    m_stop = m_pause = false;
-
-    m_audio_frames.close();
-    m_video_frames.close();
 }
 
 bool MediaStreamer::QueueAudio(const media::AudioFrame& frame)
@@ -374,6 +380,8 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, 
     AudioFrame* media_frame = reinterpret_cast<AudioFrame*>(out_mb->wr_ptr());
     *media_frame = *first_frame; //use original AudioFrame as base for construction
 
+    assert(media_frame->inputfmt == m_media_out.audio);
+
     //set output properties
     media_frame->timestamp = first_frame->timestamp + starttime;
     media_frame->input_buffer =
@@ -469,29 +477,8 @@ bool MediaStreamer::ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime)
         return false;
 
     int ret;
-    //ACE_UINT32 last = -1;
     ACE_Message_Block* mb;
     ACE_Time_Value tm_zero;
-    //if (m_video_frames.dequeue_tail(mb, &tm_zero) >= 0)
-    //{
-    //    VideoFrame last_frm(mb);
-    //    last = last_frm.timestamp;
-
-    //    ret = m_video_frames.enqueue_tail(mb, &tm_zero);
-    //    if (ret < 0)
-    //    {
-    //        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Video %u - Failed to reenqueue %u\n"), NOW - starttime, last_frm.timestamp);
-    //        mb->release();
-    //        return true;
-    //    }
-
-    //    uint32_t duration = NOW - starttime;
-    //    if (W32_GEQ(last_frm.timestamp, duration))
-    //    {
-    //        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Video %u - Until %u\n"), NOW - starttime, last_frm.timestamp);
-    //    }
-    //}
-
     if (m_video_frames.peek_dequeue_head(mb, &tm_zero) >= 0)
     {
         VideoFrame* media_frame = reinterpret_cast<VideoFrame*>(mb->rd_ptr());
@@ -536,29 +523,11 @@ bool MediaStreamer::ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime)
     return m_video_frames.message_count() == 0;
 }
 
-
-void MediaFileStreamer::Reset()
+MediaFileStreamer::MediaFileStreamer(const ACE_TString& filename,
+                                     const MediaStreamOutput& out_prop)
+: MediaStreamer(out_prop)
 {
-    MediaStreamer::Reset();
-
-    m_media_in = MediaFileProp();
-    m_offset = MEDIASTREAMER_OFFSET_IGNORE;
-}
-
-bool MediaFileStreamer::OpenFile(const ACE_TString& filename,
-                                 const MediaStreamOutput& out_prop)
-{
-    Close();
-
     m_media_in.filename = filename;
-
-    if (!Open(out_prop))
-    {
-        Close();
-        return false;
-    }
-    
-    return true;
 }
 
 void MediaFileStreamer::RegisterStatusCallback(mediastream_statuscallback_t cb, bool enable)

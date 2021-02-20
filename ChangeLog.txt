@@ -36,6 +36,7 @@ Accessible Windows Client
 - New option to choose playback mode of sound events
 - Text message area disable when client is not in a channel
 - Specific message when kicked from server
+- Ability to play OPUS .ogg files
 Default QT Client
 - SpeexDSP echo canceller replaced by WebRTC
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
@@ -60,6 +61,7 @@ Default QT Client
 - Window's title is now updated if channel or server name is changing
 - Support for neutral status
 - Specific message when kicked from server
+- Ability to play OPUS .ogg files on Windows
 Android Client
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
 - Ability to create and join hidden channels
@@ -69,6 +71,7 @@ Android Client
 - Option to specify gender
 - Facebook login no longer supported
 - Server list export facility
+- Ability to play OPUS .ogg files
 iOS Client
 - Ability to create and join hidden channels
 - New audio files for default sound events

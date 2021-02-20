@@ -123,8 +123,6 @@ int SpeexResampler::Resample(const short* input_samples, int input_samples_size,
     }
     else { assert(0); return 0; }
     
-    MYTRACE_COND(output_samples_size != (int)output_size,
-                 ACE_TEXT("Unexpect number of samples %d!=%d\n"), output_samples_size, output_size);
     assert((int)output_size <= output_samples_size);
     if((int)output_size < output_samples_size)
     {

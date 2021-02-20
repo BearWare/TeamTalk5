@@ -204,8 +204,6 @@ int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
     {
         FillOutput(pOutputWav->nChannels, output_samples, ret, output_samples_cnt);
     }
-    MYTRACE_COND(ret != output_samples_cnt,
-                 ACE_TEXT("Unexpect number of samples %d!=%d, %d\n"), ret, output_samples_cnt, (int)output_samples[output_samples_cnt-1]);
 
 fail:
     if(input_mb)

@@ -40,8 +40,7 @@ namespace vidcap {
 
     public:
         FFMpegVideoInput(const VidCapDevice& viddevice,
-                         const media::VideoFormat& fmt)
-            : m_dev(viddevice), m_vidfmt(fmt) { }
+                         const media::VideoFormat& fmt);
         virtual media::VideoFormat GetVideoFormat() = 0;
 
         bool AddStartTime() const override { return false; }

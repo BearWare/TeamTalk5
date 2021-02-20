@@ -141,7 +141,7 @@ TEST_CASE("TestAACEncoder")
     std::vector<short> buf(mfi.audioFmt.nChannels * mfi.audioFmt.nSampleRate);
     media::AudioFrame frm(aacout, &buf[0], mfi.audioFmt.nSampleRate);
     int samples;
-    while ((samples = wavfile.ReadSamples(&buf[0], mfi.audioFmt.nSampleRate * 0.01)) > 0)
+    while ((samples = wavfile.ReadSamples(&buf[0], int(mfi.audioFmt.nSampleRate * 0.01))) > 0)
     {
         frm.input_samples = samples;
         transform->ProcessAudioEncoder(frm, true);
@@ -171,7 +171,7 @@ TEST_CASE("TestWavEncoder")
     std::vector<short> buf(mfi.audioFmt.nChannels * mfi.audioFmt.nSampleRate);
     media::AudioFrame frm(aacout, &buf[0], mfi.audioFmt.nSampleRate);
     int samples;
-    while ((samples = wavfile.ReadSamples(&buf[0], mfi.audioFmt.nSampleRate * 0.01)) > 0)
+    while ((samples = wavfile.ReadSamples(&buf[0], int(mfi.audioFmt.nSampleRate * 0.01))) > 0)
     {
         frm.input_samples = samples;
         transform->ProcessAudioEncoder(frm, true);
@@ -374,7 +374,7 @@ TEST_CASE("PortAudio_ExclusiveMode")
 
     PaStream* stream;
     err = Pa_OpenStream(&stream, &inputParameters, &outputParameters,
-        ininfo->defaultSampleRate, ininfo->defaultSampleRate * .04,
+        ininfo->defaultSampleRate, uint32_t(ininfo->defaultSampleRate * .04),
         paClipOff, Foo_StreamDuplexCallback, static_cast<void*> (0));
 
     REQUIRE(err == paNoError);
