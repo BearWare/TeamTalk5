@@ -495,7 +495,7 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     int jitter_delay = m_jitter_calculator.PacketReceived(audpkt.GetStreamID(), GetAudioCodecCbMillis(chan->GetAudioCodec()), isfirststeampacket);
 
     if (isfirststeampacket)
-        m_listener->OnUserFirstStreamVoicePacket(*this);
+        m_listener->OnUserFirstStreamVoicePacket(*this, audpkt.GetStreamID());
 
     // Put packets in the jitter buffer if we're already queueing or if the jitter calculation resulted in a delay
     if ((jitter_delay > 0) || (!m_jitterbuffer.empty()))

@@ -110,7 +110,7 @@ public:
 
     void OnVoiceActivated(bool enabled);
 
-    void OnUserFirstStreamVoicePacket(const teamtalk::ClientUser& user);
+    void OnUserFirstStreamVoicePacket(const teamtalk::ClientUser& user, int streamid) override;
     void OnUserStateChange(const teamtalk::ClientUser& user);
     void OnUserVideoCaptureFrame(int userid, int stream_id);
     void OnUserMediaFileVideoFrame(int userid, int stream_id);

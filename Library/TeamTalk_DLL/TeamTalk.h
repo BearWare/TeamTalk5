@@ -3572,7 +3572,7 @@ extern "C" {
         * buffering in the nActiveAdaptiveDelayMSec member of the
         * User struct
         *
-        * @param nSource 0
+        * @param nSource Stream ID. This can be mapped to #AudioBlock.
         * @param ttType #__USER.
         * @param user Placed in union of #TTMessage.
         *

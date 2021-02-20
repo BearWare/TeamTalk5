@@ -811,6 +811,37 @@ TEST_CASE("Last voice packet - wav files")
     ACE_OS::closedir(dir);
 }
 
+TEST_CASE("NewVoiceStreamMatch")
+{
+    auto txclient = TT_InitTeamTalkPoll();
+    auto rxclient = TT_InitTeamTalkPoll();
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
+    REQUIRE(JoinRoot(txclient));
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
+
+    REQUIRE(TT_EnableAudioBlockEvent(txclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, TRUE));
+
+    REQUIRE(TT_EnableVoiceTransmission(txclient, TRUE));
+    TTMessage msg;
+    REQUIRE(WaitForEvent(txclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+    auto ab = TT_AcquireUserAudioBlock(txclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
+    int streamid = ab->nStreamID;
+    REQUIRE(TT_ReleaseUserAudioBlock(txclient, ab));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, FALSE));
+
+    REQUIRE(JoinRoot(rxclient));
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, TRUE));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, TRUE));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, msg));
+    REQUIRE(msg.nSource == streamid + 1);
+}
+
 #if defined(ENABLE_WEBRTC)
 
 #if 0 /* gain_controller1 doesn't work */
