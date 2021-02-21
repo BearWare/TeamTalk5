@@ -1696,7 +1696,7 @@ TEST_CASE("FirstVoiceStreamPacket")
     TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf);
 
     /************************************************/
-    /* Part one - time with fixed jitter buffer
+    /* Part one - fixed jitter buffer
     /************************************************/
 
     //start voice
@@ -1704,23 +1704,14 @@ TEST_CASE("FirstVoiceStreamPacket")
 
     //Wait for first packet notification
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, firstvoicepacket));
-    //Time the start of the playout. Must be fixed_delay
-    uint32_t start = GETTIMESTAMP();
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestart));
-    uint32_t delay = (GETTIMESTAMP() - start);
-
-    INFO("Delay for fixed jitter buffer: " << delay);
-    //allow small time difference due to clock resolution
-    REQUIRE(delay >= fixeddelay);
-    REQUIRE(delay < (fixeddelay + 200)); //Large offset allowance here because timing is unreliable in debug and VMs
 
     //Close voice and wait for it to end
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE));
 
     /************************************************/
-    /* Part Two - time with fixed jitter buffer
-                  but set active adaptive control
+    /* Part Two - fixed jitter buffer but set active adaptive control
     /************************************************/
 
     //Set fixed + adaptive Jitter buffer config but don't allow adaptive jitter control
@@ -1733,21 +1724,14 @@ TEST_CASE("FirstVoiceStreamPacket")
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
     //Wait for first packet notification
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, firstvoicepacket));
-    //Time the start of the playout. Must be fixed_delay
-    start = GETTIMESTAMP();
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestart));
-    delay = (GETTIMESTAMP() - start);
-
-    INFO("Delay for fixed buffer: " << delay);
-    REQUIRE(delay >= fixeddelay);
-    REQUIRE(delay < (fixeddelay + 200)); //Large offset allowance here because timing is unreliable in debug and VMs
 
     //Close voice and wait for it to end
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE));
 
     /************************************************/
-    /* Part Three - Allow adaptive jitter buffer and time it
+    /* Part Three - Allow adaptive jitter buffer
     /************************************************/
 
     //Set fixed + adaptive Jitter buffer config but don't allow adaptive jitter control
@@ -1759,15 +1743,7 @@ TEST_CASE("FirstVoiceStreamPacket")
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
     //Wait for first packet notification
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, firstvoicepacket));
-    //Time the start of the playout. Must be fixed_delay
-    start = GETTIMESTAMP();
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestart));
-    delay = (GETTIMESTAMP() - start);
-
-    INFO("Delay for fixed + adaptive jitter buffer: " << delay);
-    //allow small time difference due to clock resolution
-    REQUIRE(delay >= (fixeddelay + adaptivedelay));
-    REQUIRE(delay < (fixeddelay + adaptivedelay + 200)); //Large offset allowance here because timing is unreliable in debug and VMs
 
 }
 
