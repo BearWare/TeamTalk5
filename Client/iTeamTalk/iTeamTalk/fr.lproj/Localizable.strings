@@ -694,10 +694,10 @@
 "Yes" = "Oui";
 
 /* Dialog */
-"You have been kicked from channel" = "You have been kicked from channel";
+"You have been kicked from channel" = "Vous avez été exclu du canal";
 
 /* Dialog */
-"You have been kicked from server" = "You have been kicked from server";
+"You have been kicked from server" = "Vous avez été exclu du serveur";
 
 /* speech */
 "You have selected %@" = "Vous avez sélectionné %@";
