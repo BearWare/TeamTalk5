@@ -113,7 +113,7 @@
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0,0,0,0">
+           <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0,0,0,0,0">
             <property name="leftMargin">
              <number>0</number>
             </property>
@@ -440,6 +440,13 @@
              <widget class="QCheckBox" name="emojiChkBox">
               <property name="text">
                <string>Show emojis and text for channel/user state</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="ServnameChkBox">
+              <property name="text">
+               <string>Show both server and channel name in window title</string>
               </property>
              </widget>
             </item>
@@ -2175,6 +2182,7 @@
   <tabstop>showusernameChkBox</tabstop>
   <tabstop>lasttalkChkBox</tabstop>
   <tabstop>emojiChkBox</tabstop>
+  <tabstop>ServnameChkBox</tabstop>
   <tabstop>msgpopupChkBox</tabstop>
   <tabstop>videodlgChkBox</tabstop>
   <tabstop>returnvidChkBox</tabstop>

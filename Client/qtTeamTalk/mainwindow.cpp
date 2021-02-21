@@ -2251,11 +2251,19 @@ void MainWindow::updateWindowTitle()
         profilename = ttSettings->value(SETTINGS_GENERAL_PROFILENAME).toString();
 
     ServerProperties prop = {};
+    bool Servname = ttSettings->value(SETTINGS_DISPLAY_SERVNAME, SETTINGS_DISPLAY_SERVNAME_DEFAULT).toBool();
     if(m_mychannel.nChannelID > 0 &&
        m_mychannel.nChannelID != TT_GetRootChannelID(ttInst))
     {
-        TT_GetServerProperties(ttInst, &prop);
-        title = QString("%1/%2 - %3").arg(limitText(_Q(prop.szServerName))).arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
+        if (Servname)
+        {
+            TT_GetServerProperties(ttInst, &prop);
+            title = QString("%1/%2 - %3").arg(limitText(_Q(prop.szServerName))).arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
+        }
+        else
+        {
+            title = QString("%1 - %2").arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
+        }
     }
     else if (TT_GetServerProperties(ttInst, &prop))
     {
@@ -3596,6 +3604,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
     getDesktopAccessList(m_desktopaccess_entries, m_host.ipaddr, m_host.tcpport);
 
+    updateWindowTitle();
     slotUpdateUI();
 }
 
