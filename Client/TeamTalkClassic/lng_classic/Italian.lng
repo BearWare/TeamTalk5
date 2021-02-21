@@ -441,6 +441,8 @@
     <item id="576">%s ora può trasmettere messaggi di canale</item>
     <item id="577">È consentita la trasmissione di messaggi di canale</item>
     <item id="578">Nascosto</item>
+    <item id="579">Sei stato espulso dal server da un utente sconosciuto</item>
+    <item id="580">Sei stato espulso dal server da %s</item>
     <item id="1006">lista files</item>
     <item id="1009">Collegati automaticamente al canale principale appena connesso</item>
     <item id="1012">Porta TCP dell&apos;host</item>
@@ -463,6 +465,7 @@
     <item id="1037">0=disattivato</item>
     <item id="1038">domanda</item>
     <item id="1039">media file flusso</item>
+    <item id="1040">Mostra il nome del server e del canale nel titolo della finestra</item>
     <item id="1042">questo wizard vi guiderà attraverso i passi richiesti a configurare l&apos;applicazione team talk per la conferenza se premi avanti continuerai con il wizard altrimenti se premerai cancella dovrai configurarlo manualmente</item>
     <item id="1044">Vai al sito www.bearware.dk per vedere la lista dei server TeamTalk</item>
     <item id="1045">Perdita pacchetto</item>
