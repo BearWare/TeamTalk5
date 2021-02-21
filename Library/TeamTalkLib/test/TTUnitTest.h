@@ -43,8 +43,8 @@ enum SoundMode
 
 bool InitSound(TTInstance* ttClient, SoundMode mode = DEFAULT, INT32 indev = SOUNDDEVICEID_DEFAULT, INT32 outdev = SOUNDDEVICEID_DEFAULT);
 bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev = SOUNDDEVICEID_DEFAULT, INT32 outdev = SOUNDDEVICEID_DEFAULT);
-bool Connect(TTInstance* ttClient, const TTCHAR hostname[TT_STRLEN], INT32 tcpport, INT32 udpport, TTBOOL encrypted = FALSE);
-bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR username[TT_STRLEN], const TTCHAR passwd[TT_STRLEN]);
+bool Connect(TTInstance* ttClient, const TTCHAR* hostname = ACE_TEXT("127.0.0.1"), INT32 tcpport = 10333, INT32 udpport = 10333, TTBOOL encrypted = FALSE);
+bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR* username = ACE_TEXT("guest"), const TTCHAR* passwd = ACE_TEXT("guest"));
 bool JoinRoot(TTInstance* ttClient);
 Channel MakeChannel(TTInstance* ttClient, const TTCHAR* name, int parentid, const AudioCodec& codec);
 bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage* outmsg = nullptr, int timeout = DEFWAIT);

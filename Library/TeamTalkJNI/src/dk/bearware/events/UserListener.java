@@ -37,4 +37,5 @@ public interface UserListener {
     public void onUserDesktopInput(int nUserID, DesktopInput desktopinput);
     public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo);
     public void onUserAudioBlock(int nUserID, int nStreamType);
+    public void onUserFirstVoiceStreamPacket(User user, int nStreamID);
 }

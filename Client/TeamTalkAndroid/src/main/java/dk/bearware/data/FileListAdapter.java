@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import dk.bearware.AudioInputProgress;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.FileTransfer;
@@ -349,6 +350,11 @@ implements ClientListener, Comparator<RemoteFile> {
 
     @Override
     public void onLocalMediaFile(MediaFileInfo mediaFileInfo) {
+
+    }
+
+    @Override
+    public void onAudioInput(AudioInputProgress audioInputProgress, int i) {
 
     }
 

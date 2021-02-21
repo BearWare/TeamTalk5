@@ -811,6 +811,42 @@ TEST_CASE("Last voice packet - wav files")
     ACE_OS::closedir(dir);
 }
 
+TEST_CASE("NewVoiceStreamMatch")
+{
+    auto txclient = TT_InitTeamTalkPoll();
+    auto rxclient = TT_InitTeamTalkPoll();
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
+    REQUIRE(JoinRoot(txclient));
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
+
+    REQUIRE(TT_EnableAudioBlockEvent(txclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, TRUE));
+
+    REQUIRE(TT_EnableVoiceTransmission(txclient, TRUE));
+    TTMessage msg;
+    REQUIRE(WaitForEvent(txclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+    auto ab = TT_AcquireUserAudioBlock(txclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
+    REQUIRE(ab);
+    int streamid = ab->nStreamID;
+    REQUIRE(TT_ReleaseUserAudioBlock(txclient, ab));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, FALSE));
+
+    REQUIRE(JoinRoot(rxclient));
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, TRUE));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, TRUE));
+    auto firststream = [streamid] (TTMessage msg)
+    {
+        return msg.nSource == streamid + 1;
+    };
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, firststream, &msg));
+    REQUIRE(msg.nSource == streamid + 1);
+}
+
 #if defined(ENABLE_WEBRTC)
 
 #if 0 /* gain_controller1 doesn't work */
@@ -1606,6 +1642,109 @@ TEST_CASE("VideoCapture")
         std::unique_lock<std::mutex> lck(mtx);
         cv.wait(lck);
     } while (frames >= 0);
+}
+
+TEST_CASE("FirstVoiceStreamPacket")
+{
+    std::vector<ttinst> clients;
+    auto txclient = TT_InitTeamTalkPoll();
+    auto rxclient = TT_InitTeamTalkPoll();
+    clients.push_back(txclient);
+    clients.push_back(rxclient);
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(txclient));
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    auto firstvoicepacket = [&](TTMessage msg)
+    {
+        if (msg.nClientEvent == CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET &&
+            msg.user.nUserID == TT_GetMyUserID(txclient))
+        {
+            return true;
+        }
+
+        return false;
+    };
+
+    auto voicestart = [&](TTMessage msg)
+    {
+        if (msg.nClientEvent == CLIENTEVENT_USER_STATECHANGE &&
+            msg.user.nUserID == TT_GetMyUserID(txclient) &&
+            (msg.user.uUserState & USERSTATE_VOICE) == USERSTATE_VOICE)
+        {
+            return true;
+        }
+
+        return false;
+    };
+
+    //Set fixed Jitter buffer config
+    uint32_t fixeddelay = 240;
+    JitterConfig jitterconf = {};
+    jitterconf.nFixedDelayMSec = fixeddelay;
+    jitterconf.bUseAdativeDejitter = false;
+    jitterconf.nMaxAdaptiveDelayMSec = 10000;
+    jitterconf.nActiveAdaptiveDelayMSec = 800;
+
+    TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf);
+
+    /************************************************/
+    /* Part one - fixed jitter buffer
+    /************************************************/
+
+    //start voice
+    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+
+    //Wait for first packet notification
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, firstvoicepacket));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestart));
+
+    //Close voice and wait for it to end
+    REQUIRE(TT_EnableVoiceTransmission(txclient, false));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE));
+
+    /************************************************/
+    /* Part Two - fixed jitter buffer but set active adaptive control
+    /************************************************/
+
+    //Set fixed + adaptive Jitter buffer config but don't allow adaptive jitter control
+    uint32_t adaptivedelay = 760;
+    jitterconf.nActiveAdaptiveDelayMSec = adaptivedelay;
+
+    TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf);
+
+    //start voice
+    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+    //Wait for first packet notification
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, firstvoicepacket));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestart));
+
+    //Close voice and wait for it to end
+    REQUIRE(TT_EnableVoiceTransmission(txclient, false));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE));
+
+    /************************************************/
+    /* Part Three - Allow adaptive jitter buffer
+    /************************************************/
+
+    //Set fixed + adaptive Jitter buffer config but don't allow adaptive jitter control
+    jitterconf.bUseAdativeDejitter = true;
+
+    TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf);
+
+    //start voice
+    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+    //Wait for first packet notification
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, firstvoicepacket));
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestart));
+
 }
 
 #if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)

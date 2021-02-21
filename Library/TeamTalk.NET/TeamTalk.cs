@@ -3496,7 +3496,27 @@ namespace BearWare
          * Tells how much audio remains in queue. The queue should 
          * be refilled as long as the audio input should remain active.
          */
-        CLIENTEVENT_AUDIOINPUT = CLIENTEVENT_NONE + 1080,            
+        CLIENTEVENT_AUDIOINPUT = CLIENTEVENT_NONE + 1080,
+        /**
+        * @brief The first voice packet of a new voice stream
+        * has been received.
+        *
+        * This time of this event may differ significantly from the start
+        * of the voice playout that is notified via
+        * #CLIENTEVENT_USER_STATECHANGE due to jitter buffering.
+        *
+        * The time between #CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET
+        * and #CLIENTEVENT_USER_STATECHANGE is the fixed jitter delay
+        * configuration plus the currently active adaptive jitter
+        * buffering in the nActiveAdaptiveDelayMSec member of the
+        * User struct
+        *
+        * @param nSource 0
+        * @param ttType #__USER.
+        * @param user Placed in union of #TTMessage.
+        *
+        * @see TT_SetUserJitterControl */
+        CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET = CLIENTEVENT_NONE + 1090,
     }
 
 
@@ -4271,6 +4291,10 @@ namespace BearWare
                 case ClientEvent.CLIENTEVENT_AUDIOINPUT:
                     if (OnAudioInput != null)
                         OnAudioInput((AudioInputProgress)msg.DataToObject());
+                    break;
+                case ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET:
+                    if (OnUserFirstVoiceStreamPacket != null)
+                        OnUserFirstVoiceStreamPacket((User)msg.DataToObject(), msg.nSource);
                     break;
             }
         }
@@ -7839,6 +7863,11 @@ namespace BearWare
          * @param user The user. */
         public delegate void UserUpdate(User user);
 
+        /** @brief Delegate for events #OnUserFirstVoiceStreamPacket.
+         * @param user The user. 
+         * @param nStreamID Stream ID of the newly opened stream. */
+        public delegate void UserStreamUpdate(User user, int nStreamID);
+
         /**
          * @brief A new user logged on to the server.
          *
@@ -7960,6 +7989,12 @@ namespace BearWare
         /** @brief A new banned user has been listed by the server.
          * Event handler for #ClientEvent.CLIENTEVENT_CMD_BANNEDUSER */
         public event ListBannedUser OnCmdBannedUser;
+
+        /** @brief The first voice packet of a new voice stream
+         * has been received.
+         *
+         * Event handler for #ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET */
+        public event UserStreamUpdate OnUserFirstVoiceStreamPacket;
 
         /** @brief A user's state has been updated.
          * 
