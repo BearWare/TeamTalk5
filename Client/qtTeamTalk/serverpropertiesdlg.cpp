@@ -103,6 +103,7 @@ void ServerPropertiesDlg::slotAccepted()
         answer.setText(tr("Change message of the day?"));
         QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
         QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
         answer.setIcon(QMessageBox::Question);
         answer.setWindowTitle(tr("Message of the day"));
         answer.exec();

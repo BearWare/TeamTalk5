@@ -1476,7 +1476,7 @@ extern "C" {
             n_users = std::min(n_users, (INT32)getIntPtr(env, lpnHowMany));
             setIntPtr(env, lpnHowMany, n_users);
 
-            for(jsize i=0;i<(size_t)n_users;i++)
+            for(jsize i=0; i < jsize(n_users); i++)
             {
                 jclass cls = env->FindClass("dk/bearware/User");
                 jobject user_obj = newObject(env, cls);
@@ -1573,7 +1573,7 @@ extern "C" {
         {
             n_users = std::min(n_users, (INT32)getIntPtr(env, lpnHowMany));
             setIntPtr(env, lpnHowMany, n_users);
-            for(jsize i=0;i<(size_t)n_users;i++)
+            for(jsize i=0; i < jsize(n_users); i++)
             {
                 jclass cls = env->FindClass("dk/bearware/User");
                 jobject user_obj = newObject(env, cls);
@@ -1619,7 +1619,7 @@ extern "C" {
             {
                 std::vector<jobject> jfiles(n_files);
                 jclass cls = env->FindClass("dk/bearware/RemoteFile");
-                for(jsize i=0;i<(size_t)n_files;i++)
+                for(jsize i=0; i < jsize(n_files); i++)
                 {
                     jobject file_obj = newObject(env, cls);
                     setRemoteFile(env, files[i], file_obj, N2J);
