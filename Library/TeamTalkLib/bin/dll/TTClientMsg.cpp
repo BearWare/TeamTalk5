@@ -432,6 +432,15 @@ void TTMsgQueue::OnVoiceActivated(bool enabled)
     EnqueueMsg(mb);
 }
 
+void TTMsgQueue::OnUserFirstStreamVoicePacket(const teamtalk::ClientUser& user, int streamid)
+{
+    ACE_Message_Block* mb;
+    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET,
+        streamid, __USER);
+    Convert(user, *msg->user);
+    EnqueueMsg(mb);
+}
+
 void TTMsgQueue::OnUserStateChange(const teamtalk::ClientUser& user)
 {
     ACE_Message_Block* mb;

@@ -56,6 +56,7 @@ public:
     BOOL m_bAlwaysOnTop;
   BOOL m_bShowUserCount;
     BOOL m_bDBClickJoin;
+    BOOL m_bServnameDisp;
     BOOL m_bQuitClearChannels;
     BOOL m_bTimeStamp;
     CString m_szLanguage;

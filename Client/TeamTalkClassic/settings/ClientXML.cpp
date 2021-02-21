@@ -967,6 +967,26 @@ namespace teamtalk {
 
         return bEnabled;
     }
+    bool ClientXML::SetDisplayServerName(bool bEnable)
+    {
+        TiXmlElement* pParent = GetWindowElement();
+        if(pParent)
+        {
+            PutBoolean(*pParent, "display-servname", bEnable);
+            return true;
+        }
+        else
+            return false;
+    }
+    bool ClientXML::GetDisplayServerName()
+    {
+        bool bEnabled = true;
+        TiXmlElement* child = GetWindowElement();
+        if(child)
+            GetBoolean(*child, "display-servname", bEnabled);
+
+        return bEnabled;
+    }
     bool ClientXML::SetQuitClearChannels(bool bEnable)
     {
         TiXmlElement* pParent = GetWindowElement();
