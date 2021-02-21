@@ -31,6 +31,7 @@ import java.util.Locale;
 import java.util.List;
 import java.util.Vector;
 
+import dk.bearware.AudioInputProgress;
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
@@ -2233,6 +2234,11 @@ implements TeamTalkConnectionListener,
     }
 
     @Override
+    public void onUserFirstVoiceStreamPacket(User user, int i) {
+
+    }
+
+    @Override
     public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled, boolean isSuspended) {
         adjustTxState(voiceTransmissionEnabled);
 
@@ -2298,6 +2304,11 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onLocalMediaFile(MediaFileInfo mediaFileInfo) {
+
+    }
+
+    @Override
+    public void onAudioInput(AudioInputProgress audioInputProgress, int i) {
 
     }
 

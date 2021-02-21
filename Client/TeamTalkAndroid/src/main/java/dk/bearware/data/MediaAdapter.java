@@ -488,4 +488,9 @@ implements UserListener {
 	public void onUserAudioBlock(int nUserID, int nStreamType) {
 	}
 
+    @Override
+    public void onUserFirstVoiceStreamPacket(User user, int i) {
+
+    }
+
 }
