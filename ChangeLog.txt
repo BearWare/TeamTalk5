@@ -37,6 +37,7 @@ Accessible Windows Client
 - Text message area disable when client is not in a channel
 - Specific message when kicked from server
 - Ability to play OPUS .ogg files
+- Option to display both server and channel name on window title
 Default QT Client
 - SpeexDSP echo canceller replaced by WebRTC
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
@@ -62,6 +63,7 @@ Default QT Client
 - Support for neutral status
 - Specific message when kicked from server
 - Ability to play OPUS .ogg files on Windows
+- Option to display both server and channel name on window title
 Android Client
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
 - Ability to create and join hidden channels
