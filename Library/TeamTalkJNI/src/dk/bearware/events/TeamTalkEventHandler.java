@@ -26,6 +26,7 @@ package dk.bearware.events;
 import java.util.List;
 import java.util.Vector;
 
+import dk.bearware.AudioInputProgress;
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
@@ -408,6 +409,22 @@ public class TeamTalkEventHandler {
                     l.onLocalMediaFile(mediafileinfo);
             }
             break;
+        case ClientEvent.CLIENTEVENT_AUDIOINPUT : {
+            assert(pMsg.ttType == TTType.__AUDIOINPUTPROGRESS);
+
+            AudioInputProgress aip = pMsg.audioinputprogress;
+            for (ClientListener l : clientListener)
+                l.onAudioInput(aip, pMsg.nSource);
+            break;
+        }
+        case ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET : {
+            assert(pMsg.ttType == TTType.__USER);
+
+            User user = pMsg.user;
+            for (UserListener l : userListener)
+                l.onUserFirstVoiceStreamPacket(user, pMsg.nSource);
+            break;
+        }
         }
         
         return true;

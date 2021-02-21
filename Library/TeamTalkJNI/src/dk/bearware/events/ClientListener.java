@@ -23,6 +23,7 @@
 
 package dk.bearware.events;
 
+import dk.bearware.AudioInputProgress;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.FileTransfer;
 import dk.bearware.MediaFileInfo;
@@ -37,4 +38,5 @@ public interface ClientListener {
     public void onDesktopWindowTransfer(int nSessionID, int nTransferRemaining);
     public void onStreamMediaFile(MediaFileInfo mediafileinfo);
     public void onLocalMediaFile(MediaFileInfo mediafileinfo);
+    public void onAudioInput(AudioInputProgress aip, int nStreamID);
 }
