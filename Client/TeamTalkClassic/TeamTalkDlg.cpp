@@ -6473,9 +6473,7 @@ BOOL CTeamTalkDlg::InitSound()
     }
 
     CString szSndMsg;
-    szSndMsg.Format(LoadText(IDS_SNDINPUTDEV, _T("Sound input device: %s")), m_SoundDeviceIn.szDeviceName);
-    AddStatusText(szSndMsg);
-    szSndMsg.Format(LoadText(IDS_SNDOUTPUTDEV, _T("Sound output device: %s")), m_SoundDeviceOut.szDeviceName);
+    szSndMsg.Format(LoadText(IDS_SNDINPUTDEV, _T("Sound input device: %s")) + _T("\r\n") + LoadText(IDS_SNDOUTPUTDEV, _T("Sound output device: %s")), m_SoundDeviceIn.szDeviceName, m_SoundDeviceOut.szDeviceName);
     AddStatusText(szSndMsg);
 
     return bSuccess;
