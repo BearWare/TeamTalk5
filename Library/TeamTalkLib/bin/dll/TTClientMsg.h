@@ -60,93 +60,93 @@ public:
     TTBOOL GetMessage(TTMessage& msg, ACE_Time_Value* tv);
 
     //ClientListener
-    void RegisterEventSuspender(teamtalk::EventSuspender* suspender);
+    void RegisterEventSuspender(teamtalk::EventSuspender* suspender) override;
 
-    void OnConnectSuccess();
-    void OnConnectFailed();
-    void OnConnectionLost();
+    void OnConnectSuccess() override;
+    void OnConnectFailed() override;
+    void OnConnectionLost() override;
 
-    void OnAccepted(int myuserid, const teamtalk::UserAccount& account);
-    void OnLoggedOut();
+    void OnAccepted(int myuserid, const teamtalk::UserAccount& account) override;
+    void OnLoggedOut() override;
 
-    void OnUserLoggedIn(const teamtalk::ClientUser& user);
-    void OnUserLoggedOut(const teamtalk::ClientUser& user);
-    void OnUserUpdate(const teamtalk::ClientUser& user);
+    void OnUserLoggedIn(const teamtalk::ClientUser& user) override;
+    void OnUserLoggedOut(const teamtalk::ClientUser& user) override;
+    void OnUserUpdate(const teamtalk::ClientUser& user) override;
 
     void OnUserJoinChannel(const teamtalk::ClientUser& user,
-                           const teamtalk::ClientChannel& chan);
+                           const teamtalk::ClientChannel& chan) override;
     void OnUserLeftChannel(const teamtalk::ClientUser& user,
-                           const teamtalk::ClientChannel& chan);
+                           const teamtalk::ClientChannel& chan) override;
 
-    void OnAddChannel(const teamtalk::ClientChannel& chan);
-    void OnUpdateChannel(const teamtalk::ClientChannel& chan);
-    void OnRemoveChannel(const teamtalk::ClientChannel& chan);
+    void OnAddChannel(const teamtalk::ClientChannel& chan) override;
+    void OnUpdateChannel(const teamtalk::ClientChannel& chan) override;
+    void OnRemoveChannel(const teamtalk::ClientChannel& chan) override;
 
-    void OnJoinedChannel(int channelid);
-    void OnLeftChannel(int channelid);
+    void OnJoinedChannel(int channelid) override;
+    void OnLeftChannel(int channelid) override;
 
     void OnAddFile(const teamtalk::ClientChannel& chan,
-                   const teamtalk::RemoteFile& file);
+                   const teamtalk::RemoteFile& file) override;
     void OnRemoveFile(const teamtalk::ClientChannel& chan,
-                      const teamtalk::RemoteFile& file);
+                      const teamtalk::RemoteFile& file) override;
 
-    void OnUserAccount(const teamtalk::UserAccount& account);
-    void OnBannedUser(const teamtalk::BannedUser& banuser);
+    void OnUserAccount(const teamtalk::UserAccount& account) override;
+    void OnBannedUser(const teamtalk::BannedUser& banuser) override;
 
-    void OnTextMessage(const teamtalk::TextMessage& textmsg);
+    void OnTextMessage(const teamtalk::TextMessage& textmsg) override;
 
-    void OnFileTransferStatus(const teamtalk::FileTransfer& transfer);
+    void OnFileTransferStatus(const teamtalk::FileTransfer& transfer) override;
 
-    void OnKicked(const teamtalk::clientuser_t& user, int channelid);
-    void OnServerUpdate(const teamtalk::ServerInfo& serverinfo);
+    void OnKicked(const teamtalk::clientuser_t& user, int channelid) override;
+    void OnServerUpdate(const teamtalk::ServerInfo& serverinfo) override;
 
-    void OnServerStatistics(const teamtalk::ServerStats& serverstats);
+    void OnServerStatistics(const teamtalk::ServerStats& serverstats) override;
 
-    void OnCommandError(int cmdid, int err_num, const ACE_TString& msg);
-    void OnCommandSuccess(int cmdid);
-    void OnCommandProcessing(int cmdid, bool begin_end);
+    void OnCommandError(int cmdid, int err_num, const ACE_TString& msg) override;
+    void OnCommandSuccess(int cmdid) override;
+    void OnCommandProcessing(int cmdid, bool begin_end) override;
 
-    void OnInternalError(int errorno, const ACE_TString& msg);
+    void OnInternalError(int errorno, const ACE_TString& msg) override;
 
-    void OnVoiceActivated(bool enabled);
+    void OnVoiceActivated(bool enabled) override;
 
     void OnUserFirstStreamVoicePacket(const teamtalk::ClientUser& user, int streamid) override;
-    void OnUserStateChange(const teamtalk::ClientUser& user);
-    void OnUserVideoCaptureFrame(int userid, int stream_id);
-    void OnUserMediaFileVideoFrame(int userid, int stream_id);
+    void OnUserStateChange(const teamtalk::ClientUser& user) override;
+    void OnUserVideoCaptureFrame(int userid, int stream_id) override;
+    void OnUserMediaFileVideoFrame(int userid, int stream_id) override;
 
-    void OnDesktopTransferUpdate(int session_id, int remain_bytes);
+    void OnDesktopTransferUpdate(int session_id, int remain_bytes) override;
 
-    void OnUserDesktopWindow(int userid, int session_id);
-    void OnUserDesktopCursor(int src_userid, const teamtalk::DesktopInput& input);
-    void OnUserDesktopInput(int src_userid, const teamtalk::DesktopInput& input);
+    void OnUserDesktopWindow(int userid, int session_id) override;
+    void OnUserDesktopCursor(int src_userid, const teamtalk::DesktopInput& input) override;
+    void OnUserDesktopInput(int src_userid, const teamtalk::DesktopInput& input) override;
 
     void OnChannelStreamMediaFile(const MediaFileProp& mfp,
-                                  teamtalk::MediaFileStatus active);
+                                  teamtalk::MediaFileStatus active) override;
 
     void OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mfp,
-                                  teamtalk::MediaFileStatus status);
+                                  teamtalk::MediaFileStatus status) override;
 
-    void OnAudioInputStatus(int voicestreamid, const AudioInputStatus& ais);
+    void OnAudioInputStatus(int voicestreamid, const AudioInputStatus& ais) override;
 
-    void OnUserAudioBlock(int userid, teamtalk::StreamType stream_type);
+    void OnUserAudioBlock(int userid, teamtalk::StreamType stream_type) override;
 
-    void OnMTUQueryComplete(int payload_size);
+    void OnMTUQueryComplete(int payload_size) override;
 
     //VoiceLogListener
     void OnMediaFileStatus(int userid, teamtalk::MediaFileStatus status, 
-                           const teamtalk::VoiceLogFile& vlog);
+                           const teamtalk::VoiceLogFile& vlog) override;
 
     /* HotKeyListener events */
 #if defined(WIN32)
     void SetKeyHWND(HWND hKeyWnd, UINT eventMsg)
     { m_hKeyWnd = hKeyWnd; m_EventHKeyWndMsg = eventMsg; }
 
-    void OnHotKeyActive(int hotkeyid);
-    void OnHotKeyInactive(int hotkeyid);
+    void OnHotKeyActive(int hotkeyid) override;
+    void OnHotKeyInactive(int hotkeyid) override;
 
-    void OnKeyDown(UINT nVK);
-    void OnKeyUp(UINT nVK);
+    void OnKeyDown(UINT nVK) override;
+    void OnKeyUp(UINT nVK) override;
 #endif
 };
 

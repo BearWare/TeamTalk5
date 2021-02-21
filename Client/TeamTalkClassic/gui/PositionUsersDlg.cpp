@@ -164,7 +164,7 @@ void CPositionUsersDlg::UpdatePosition(int nUserID, CUserButton* pBtn)
     float b = float(center.y - btnPoint.y);
     b /= 100.0f;
     float c = a*a+b*b;
-    c = sqrt(c);
+    c = float(sqrt(c));
 
     CString s;
     s.Format(LoadText(IDS_POSUSERDISTCOORDO, _T("Distance: %.2fm\r\nCoordinates: (%.2f,%.2f)")), c, a, b);

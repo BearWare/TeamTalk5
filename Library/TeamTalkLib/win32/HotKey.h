@@ -29,6 +29,7 @@
 class HotKeyListener
 {
 public:
+    virtual ~HotKeyListener() {}
     virtual void OnHotKeyActive(int hotkeyid) = 0;
     virtual void OnHotKeyInactive(int hotkeyid) = 0;
     virtual void OnKeyDown(UINT nVK) = 0;
