@@ -441,6 +441,8 @@
     <item id="576">%s może wysyłać czat</item>
     <item id="577">Dozwolone wysyłanie czatu</item>
     <item id="578">Ukryty</item>
+    <item id="579">Zostałeś wykopany z serwera przez nieznanego użytkownika</item>
+    <item id="580">Zostałeś wykopany z serwera przez użytkownika %s</item>
     <item id="1006">Lista plików</item>
     <item id="1009">Automatycznie łącz z głównym kanałem po połączeniu</item>
     <item id="1012">Port TCP serwera</item>

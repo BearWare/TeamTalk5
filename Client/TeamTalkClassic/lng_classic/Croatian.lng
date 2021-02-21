@@ -441,6 +441,8 @@
     <item id="576">%s može slati tekstualne poruke u javno čavrljanje</item>
     <item id="577">Dozvoljeno slanje poruka u javno čavrljanje</item>
     <item id="578">Skriven</item>
+    <item id="579">Nepoznati korisnik vas je istjerao sa servera</item>
+    <item id="580">Sa servera vas je istjerao korisnik %s</item>
     <item id="1006">Popis datoteka</item>
     <item id="1009">Automatski se pridruži glavnom kanalu prilikom povezivanja</item>
     <item id="1012">TCP port hosta</item>
