@@ -141,6 +141,9 @@
 /* server entry */
 "Check only if this server has enabled BearWare.dk Web Login" = "Verifique apenas se este servidor habilitou o login da Web BearWare.dk";
 
+/* server entry */
+"Check only if this server has enabled Facebook login" = "Apenas verificar se este servidor permitiu o login via Facebook";
+
 /* create channel */
 "Commands" = "Comandos";
 
@@ -690,8 +693,11 @@
 /* Dialog message */
 "Yes" = "Sim";
 
+/* Dialog */
+"You have been kicked from channel" = "You have been kicked from channel";
+
+/* Dialog */
+"You have been kicked from server" = "You have been kicked from server";
+
 /* speech */
 "You have selected %@" = "Você selecionou %@";
-
-/* server entry */
-"Check only if this server has enabled Facebook login" = "Apenas verificar se este servidor permitiu o login via Facebook";

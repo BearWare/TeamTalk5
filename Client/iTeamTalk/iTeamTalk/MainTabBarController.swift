@@ -344,8 +344,34 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             if initchan.isEmpty == false {
                 server.channel = initchan
             }
-            break
-            
+
+        case CLIENTEVENT_CMD_MYSELF_KICKED :
+            if (m.nSource == 0)
+            {
+                playSound(.srv_LOST)
+                if #available(iOS 8.0, *) {
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
+                                                  message: NSLocalizedString("You have been kicked from server", comment: "Dialog"),
+                                                  preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                } else {
+                    // Fallback on earlier versions
+                }
+            }
+            else
+            {
+                if #available(iOS 8.0, *) {
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
+                                                  message: NSLocalizedString("You have been kicked from channel", comment: "Dialog"),
+                                                  preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                } else {
+                    // Fallback on earlier versions
+                }
+            }
+
         case CLIENTEVENT_CMD_ERROR :
             if m.nSource == cmdid {
                 var errmsg = getClientErrorMsg(&m).pointee

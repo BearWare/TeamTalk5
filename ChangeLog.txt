@@ -81,6 +81,7 @@ iOS Client
 - Support for italian language
 - Option to specify gender
 - Facebook login no longer supported
+- Alert when kicked
 Server
 - Support for hidden channels
 - Ability to disable user accounts

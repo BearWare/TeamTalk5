@@ -695,3 +695,9 @@
 
 /* channel list */
 "User female" = "User female";
+
+/* Dialog */
+"You have been kicked from channel" = "You have been kicked from channel";
+
+/* Dialog */
+"You have been kicked from server" = "You have been kicked from server";

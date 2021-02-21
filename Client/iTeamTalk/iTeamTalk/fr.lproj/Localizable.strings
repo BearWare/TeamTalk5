@@ -693,5 +693,11 @@
 /* Dialog message */
 "Yes" = "Oui";
 
+/* Dialog */
+"You have been kicked from channel" = "You have been kicked from channel";
+
+/* Dialog */
+"You have been kicked from server" = "You have been kicked from server";
+
 /* speech */
 "You have selected %@" = "Vous avez sélectionné %@";
