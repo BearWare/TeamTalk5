@@ -4294,7 +4294,7 @@ namespace BearWare
                     break;
                 case ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET:
                     if (OnUserFirstVoiceStreamPacket != null)
-                        OnUserFirstVoiceStreamPacket((User)msg.DataToObject());
+                        OnUserFirstVoiceStreamPacket((User)msg.DataToObject(), msg.nSource);
                     break;
             }
         }
@@ -7863,6 +7863,11 @@ namespace BearWare
          * @param user The user. */
         public delegate void UserUpdate(User user);
 
+        /** @brief Delegate for events #OnUserFirstVoiceStreamPacket.
+         * @param user The user. 
+         * @param nStreamID Stream ID of the newly opened stream. */
+        public delegate void UserStreamUpdate(User user, int nStreamID);
+
         /**
          * @brief A new user logged on to the server.
          *
@@ -7989,7 +7994,7 @@ namespace BearWare
          * has been received.
          *
          * Event handler for #ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET */
-        public event UserUpdate OnUserFirstVoiceStreamPacket;
+        public event UserStreamUpdate OnUserFirstVoiceStreamPacket;
 
         /** @brief A user's state has been updated.
          * 
