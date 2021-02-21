@@ -15,9 +15,17 @@ function(set_output_dir target dir)
     ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${dir})
 endfunction()
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+  # CMake cannot find JNI package in Android NDK
+  set(JAVA_AWT_LIBRARY "")
+  set(JAVA_JVM_LIBRARY "")
+  set(JAVA_INCLUDE_PATH2 "")
+  set(JAVA_AWT_INCLUDE_PATH "")
+endif()
+
 find_package(JNI)
 
-if (JNI_FOUND)
+if (JNI_FOUND OR ${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
     include_directories (../../Library/TeamTalk_DLL ${JNI_INCLUDE_DIRS})
 
@@ -94,15 +102,6 @@ if (JNI_FOUND)
 
 else()
   message("Specify JAVA_HOME environment variable to help cmake")
-
-  if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
-    # CMake cannot find JNI package in Android NDK
-    set(JAVA_AWT_LIBRARY "")
-    set(JAVA_JVM_LIBRARY "")
-    set(JAVA_INCLUDE_PATH2 "")
-    set(JAVA_AWT_INCLUDE_PATH "")
-  endif()
-
 endif()
 
 find_package (Java)
