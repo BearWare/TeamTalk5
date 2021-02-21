@@ -441,6 +441,8 @@
     <item id="576">%s może wysyłać czat</item>
     <item id="577">Dozwolone wysyłanie czatu</item>
     <item id="578">Ukryty</item>
+    <item id="579">Zostałeś wykopany z serwera przez nieznanego użytkownika</item>
+    <item id="580">Zostałeś wykopany z serwera przez użytkownika %s</item>
     <item id="1006">Lista plików</item>
     <item id="1009">Automatycznie łącz z głównym kanałem po połączeniu</item>
     <item id="1012">Port TCP serwera</item>
@@ -464,6 +466,7 @@
     <item id="1037">0=wyłaczono</item>
     <item id="1038">Pytanie</item>
     <item id="1039">Strumieniowanie pliku multimedialnego</item>
+    <item id="1040">Pokazuj nazwę serwera i kanału w pasku tytułu</item>
     <item id="1042">Kreator ten pomoże ci skonfigurować podstawy działania aplikacji konferencyjnej TeamTalk. Wciśnij przycisk &quot;Dalej&quot; by rozpocząć. Wciśnięcie przycisku &quot;Anuluj&quot; zamknie tego kreatora, a wszelkie opcje skonfigurować będzie należało ręcznie</item>
     <item id="1044">Dowiedz się więcej na www.bearware.dk</item>
     <item id="1045">Utrata pakietów</item>
