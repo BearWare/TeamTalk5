@@ -289,32 +289,32 @@ BEGIN
     LTEXT           "Font ",IDC_STATIC_FONT,15,36,53,8
     LTEXT           "No font selected",IDC_STATIC_FONTNAME,71,37,150,8
     PUSHBUTTON      "...",IDC_BUTTON_FONT,226,34,15,14
-    CONTROL         "Start minimized",IDC_CHECK_STARTMINIMIZED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,49,117,16
-    CONTROL         "Minimize to tray",IDC_CHECK_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,70,117,16
-    CONTROL         "Always on top",IDC_CHECK_ALWAYSONTOP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,91,117,16
+    CONTROL         "Start minimized",IDC_CHECK_STARTMINIMIZED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,49,112,10
+    CONTROL         "Minimize to tray",IDC_CHECK_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,66,117,10
+    CONTROL         "Always on top",IDC_CHECK_ALWAYSONTOP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,83,117,10
     CONTROL         "Double-click for joining channels",IDC_CHECK_DBCLICKJOIN,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,114,117,16
-    CONTROL         "In channels, show the name of the server in the window's title",IDC_CHECK_SERVNAMEDISP,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,112,117,16
-    CONTROL         "Enable VU-meter updates",IDC_CHECK_VUMETER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,133,112,10
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,100,118,10
+    CONTROL         "Enable VU-meter updates",IDC_CHECK_VUMETER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,117,112,10
     CONTROL         "Show number of users in channels",IDC_CHECK_SHOWUSERCOUNT,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,148,114,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,134,114,16
     CONTROL         "Show username instead of nickname",IDC_CHECK_SHOWUSERNAME,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,169,110,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,157,110,16
     CONTROL         "Show user logs in/out in chat history",IDC_CHECK_LOGGEDINOUT,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,191,112,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,180,112,16
     CONTROL         "Show emojis for user and channel states",IDC_CHECK_EMOJI,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,49,112,16
+    CONTROL         "Show both server and channel name in window title",IDC_CHECK_SERVNAMEDISP,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,71,112,16
     CONTROL         "Clear channels when quitting",IDC_CHECK_QUITCLEAR,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,70,113,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,93,112,10
     CONTROL         "Popup message dialog on incoming message",IDC_CHECK_POPUPMSG,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,93,114,16
-    CONTROL         "Timestamp on messages",IDC_CHECK_MSGTIMESTAMP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,114,114,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,109,112,16
+    CONTROL         "Timestamp on messages",IDC_CHECK_MSGTIMESTAMP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,131,112,10
     CONTROL         "Check for program updates",IDC_CHECK_CHECKUPDATES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,135,114,10
-    LTEXT           "Maximum text length",IDC_STATIC_LIMITTEXT,134,156,77,8
-    EDITTEXT        IDC_EDIT_LIMITTEXT,208,153,35,14,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPIN_TEXTLEN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,232,151,11,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,147,112,10
+    LTEXT           "Maximum text length",IDC_STATIC_LIMITTEXT,134,163,77,8
+    EDITTEXT        IDC_EDIT_LIMITTEXT,208,160,35,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_TEXTLEN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,232,160,11,14
     LTEXT           "Sort channels",IDC_STATIC_SORTCHANNELS,134,177,59,8
     COMBOBOX        IDC_COMBO_SORTCHANNELS,195,175,48,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
