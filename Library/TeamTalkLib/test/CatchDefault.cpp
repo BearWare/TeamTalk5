@@ -831,6 +831,7 @@ TEST_CASE("NewVoiceStreamMatch")
     TTMessage msg;
     REQUIRE(WaitForEvent(txclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
     auto ab = TT_AcquireUserAudioBlock(txclient, STREAMTYPE_VOICE, TT_LOCAL_TX_USERID);
+    REQUIRE(ab);
     int streamid = ab->nStreamID;
     REQUIRE(TT_ReleaseUserAudioBlock(txclient, ab));
     REQUIRE(TT_EnableVoiceTransmission(txclient, FALSE));
@@ -838,7 +839,11 @@ TEST_CASE("NewVoiceStreamMatch")
     REQUIRE(JoinRoot(rxclient));
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, TRUE));
     REQUIRE(TT_EnableVoiceTransmission(txclient, TRUE));
-    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, msg));
+    auto firststream = [streamid] (TTMessage msg)
+    {
+        return msg.nSource == streamid + 1;
+    };
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, firststream, &msg));
     REQUIRE(msg.nSource == streamid + 1);
 }
 
