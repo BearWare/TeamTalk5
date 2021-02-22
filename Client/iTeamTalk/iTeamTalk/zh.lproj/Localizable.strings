@@ -694,10 +694,10 @@
 "Yes" = "是";
 
 /* Dialog */
-"You have been kicked from channel" = "You have been kicked from channel";
+"You have been kicked from channel" = "您已被踢出频道";
 
 /* Dialog */
-"You have been kicked from server" = "You have been kicked from server";
+"You have been kicked from server" = "您已被踢出服务器";
 
 /* speech */
 "You have selected %@" = "您已选择 %@";
