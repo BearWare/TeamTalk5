@@ -745,17 +745,17 @@ class ChannelListViewController :
         switch flags & CLIENT_TX_VOICE.rawValue {
         case CLIENT_TX_VOICE.rawValue :
             txButton.backgroundColor = UIColor.red
-            txButton.accessibilityLabel = NSLocalizedString("Transmitting", comment: "channel list")
+            txButton.accessibilityHint = NSLocalizedString("Transmitting", comment: "channel list")
         default :
             txButton.backgroundColor = UIColor.green
-            txButton.accessibilityLabel = NSLocalizedString("Transmit inactive", comment: "channel list")
+            txButton.accessibilityHint = NSLocalizedString("Transmit inactive", comment: "channel list")
         }
         
         if hasPTTLock() {
-            txButton.accessibilityLabel = NSLocalizedString("Double tap and hold to transmit. Triple tap fast to lock transmission.", comment: "channel list")
+            txButton.accessibilityHint = NSLocalizedString("Double tap and hold to transmit. Triple tap fast to lock transmission.", comment: "channel list")
         }
         else {
-            txButton.accessibilityLabel = NSLocalizedString("Toggle to enable/disable transmission", comment: "channel list")
+            txButton.accessibilityHint = NSLocalizedString("Toggle to enable/disable transmission", comment: "channel list")
         }
         
         tableView.reloadData()
