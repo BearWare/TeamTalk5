@@ -36,6 +36,7 @@
 #include <map>
 #include <iostream>
 #include <future>
+#include <thread>
 
 #if defined(ENABLE_OGG)
 #include <codec/OggFileIO.h>
@@ -1708,6 +1709,27 @@ TEST_CASE("ReactorDeadlock")
         }
     }
     REQUIRE(TT_Disconnect(ttclient));
+}
+
+TEST_CASE("ReactorDeadlock2")
+{
+    ACE_SOCK_Acceptor acceptor(ACE_INET_Addr(u_short(0), "127.0.0.1"));
+    ACE_INET_Addr bindd;
+    REQUIRE(acceptor.get_local_addr(bindd) == 0);
+    u_short port = bindd.get_port_number();
+
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    auto threadfunc = [&]()
+    {
+        Connect(ttclient, ACE_TEXT("127.0.0.1"), port, 10333, TRUE);
+    };
+
+    std::thread tr(threadfunc);
+    tr.detach();
+
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, 1000);
+    TT_Disconnect(ttclient);
+    TT_CloseTeamTalk(ttclient);
 }
 
 TEST_CASE("StreamMediaToAudioBlock")
