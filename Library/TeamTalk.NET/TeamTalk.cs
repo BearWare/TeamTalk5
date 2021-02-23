@@ -493,7 +493,7 @@ namespace BearWare
     }
 
     /**
-     * @brief Struct describing the audio format used by a
+     * @brief Struct describing the audio format used by a
      * media file.
      *
      * @see TeamTalkBase.GetMediaFileInfo()
@@ -3503,17 +3503,17 @@ namespace BearWare
         *
         * This time of this event may differ significantly from the start
         * of the voice playout that is notified via
-        * #CLIENTEVENT_USER_STATECHANGE due to jitter buffering.
+        * TeamTalkBase.OnUserStateChange() due to jitter buffering.
         *
-        * The time between #CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET
-        * and #CLIENTEVENT_USER_STATECHANGE is the fixed jitter delay
+        * The time between TeamTalkBase.OnUserFirstVoiceStreamPacket()
+        * and TeamTalkBase.OnUserStateChange() is the fixed jitter delay
         * configuration plus the currently active adaptive jitter
-        * buffering in the nActiveAdaptiveDelayMSec member of the
-        * User struct
+        * buffering in the @c nActiveAdaptiveDelayMSec member of the
+        * #BearWare.User-struct
         *
-        * @param nSource 0
-        * @param ttType #__USER.
-        * @param user Placed in union of #TTMessage.
+        * @param nSource Stream ID. This can be mapped to #BearWare.AudioBlock.
+        * @param ttType #TTType.__USER.
+        * @param user Placed in union of #BearWare.TTMessage.
         *
         * @see TT_SetUserJitterControl */
         CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET = CLIENTEVENT_NONE + 1090,
@@ -7342,16 +7342,15 @@ namespace BearWare
         * By default, all jitter control is OFF
         *
         * The result of jitter buffering is that playout frames will get buffered in the playout buffer.
-        * Make sure to also size the playout buffer for the expected jitter via #TT_SetUserAudioStreamBufferSize
+        * Make sure to also size the playout buffer for the expected jitter via TeamTalkBase.SetUserAudioStreamBufferSize()
         *
-        * @param lpTTInstance Pointer to client instance created by #TT_InitTeamTalk.
         * @param nUserID The user ID of the user to apply the configuration to.
         * @param nStreamType The type of stream to change, currently only
-        * #STREAMTYPE_VOICE is supported. Other types are a no-op.
+        * #StreamType.STREAMTYPE_VOICE is supported. Other types are a no-op.
         * @param lpJitterConfig The jitter buffer configuration.*/
         public bool SetUserJitterControl(int nUserID,
-                                                StreamType nStreamType,
-                                                ref JitterConfig lpJitterConfig)
+                                         StreamType nStreamType,
+                                         ref JitterConfig lpJitterConfig)
         {
             return TTDLL.TT_SetUserJitterControl(m_ttInst, nUserID, nStreamType, ref lpJitterConfig);
         }
@@ -7359,17 +7358,16 @@ namespace BearWare
         /**
         * @brief Get the de-jitter configuration for a user.
         *
-        * @see TT_SetUserJitterControl()
+        * @see TeamTakBase.SetUserJitterControl()
         *
-        * @param lpTTInstance Pointer to client instance created by #TT_InitTeamTalk.
         * @param nUserID The user ID of the user to apply the configuration to.
         * @param nStreamType The type of stream to change, currently only
-        * #STREAMTYPE_VOICE is supported. Other types are a no-op.
+        * #StreamType.STREAMTYPE_VOICE is supported. Other types are a no-op.
         * @param lpJitterConfig Pointer to an application-provided jitter buffer
         configuration that will be filled upon return.*/
         public bool GetUserJitterControl(int nUserID,
-                                                StreamType nStreamType,
-                                                ref JitterConfig lpJitterConfig)
+                                         StreamType nStreamType,
+                                         ref JitterConfig lpJitterConfig)
         {
             return TTDLL.TT_GetUserJitterControl(m_ttInst, nUserID, nStreamType, ref lpJitterConfig);
         }
@@ -7445,7 +7443,7 @@ namespace BearWare
          * @see BearWare.User
          * @see OnUserRecordMediaFile */
         public bool SetUserMediaStorageDir(int nUserID, string szFolderPath, string szFileNameVars,
-                                       AudioFileFormat uAFF)
+                                           AudioFileFormat uAFF)
         {
             return TTDLL.TT_SetUserMediaStorageDir(m_ttInst, nUserID, szFolderPath, szFileNameVars, uAFF);
         }
@@ -7464,12 +7462,18 @@ namespace BearWare
          * Note that the delay starts after the last packet was written to the playout and thus
          * the delay is already 'counting' when the jitter-buffered playout is still playing
          *
-         * Only supported for #STREAMTYPE_VOICE.
+         * Only supported for #StreamType.STREAMTYPE_VOICE.
          *
+         * @param nUserID See description in TeamTalkBase.SetUserMediaStorageDir()
+         * @param szFolderPath See description in TeamTalkBase.SetUserMediaStorageDir()
+         * @param szFileNameVars See description in TeamTalkBase.SetUserMediaStorageDir()
+         * @param uAFF See description in TeamTalkBase.SetUserMediaStorageDir()
          * @param nStopRecordingExtraDelayMSec Extra delay before closing the recording file
-         * default is 0.*/
-        public bool SetUserMediaStorageDirEx(int nUserID, string szFolderPath, string szFileNameVars,
-                                       AudioFileFormat uAFF, int nStopRecordingExtraDelayMSec)
+         * default is 0.
+         * @return FALSE if path is invalid, otherwise TRUE.
+         * @see TeamTalkBase.SetUserMediaStorageDir() */
+        public bool SetUserMediaStorageDir(int nUserID, string szFolderPath, string szFileNameVars,
+                                           AudioFileFormat uAFF, int nStopRecordingExtraDelayMSec)
         {
             return TTDLL.TT_SetUserMediaStorageDirEx(m_ttInst, nUserID, szFolderPath, szFileNameVars, uAFF, nStopRecordingExtraDelayMSec);
         }

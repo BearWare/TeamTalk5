@@ -972,7 +972,7 @@ extern "C" {
     /** @brief Speex audio codec settings for Constant Bitrate mode
      * (CBR).
      *
-     * @deprecated Use #OPUSCodec.
+     * @deprecated Use #OpusCodec.
      *
      * @see SpeexVBRCodec */
     typedef struct SpeexCodec
@@ -1004,7 +1004,7 @@ extern "C" {
     /** @brief Speex audio codec settings for Variable Bitrate mode
      * (VBR).
      *
-     * @deprecated Use #OPUSCodec. */
+     * @deprecated Use #OpusCodec. */
     typedef struct SpeexVBRCodec
     {
         /** @brief Set to 0 for 8 KHz (narrow band), set to 1 for 16 KHz 
@@ -7097,8 +7097,6 @@ extern "C" {
 
     /**
      * @brief Store user's audio to disk.
-
-     * @see TT_SetUserMediaStorageDir
      *
      * This extension has an extra parameter for an aditional delay that will be waited
      * before closing the per-user recording. This allows the recording to still capture
@@ -7111,8 +7109,16 @@ extern "C" {
      *
      * Only supported for #STREAMTYPE_VOICE.
      *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     * @param nUserID See description in TT_SetUserMediaStorageDir()
+     * @param szFolderPath See description in TT_SetUserMediaStorageDir()
+     * @param szFileNameVars See description in TT_SetUserMediaStorageDir()
+     * @param uAFF See description in TT_SetUserMediaStorageDir()
      * @param nStopRecordingExtraDelayMSec Extra delay before closing the recording file
-     * default is 0.*/
+     * default is 0.
+     * @return FALSE if path is invalid, otherwise TRUE.
+     * @see TT_SetUserMediaStorageDir() */
     TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDirEx(IN TTInstance* lpTTInstance,
                                                        IN INT32 nUserID,
                                                        IN const TTCHAR* szFolderPath,
