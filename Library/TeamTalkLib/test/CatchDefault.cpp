@@ -30,6 +30,7 @@
 
 #include <myace/MyACE.h>
 #include <teamtalk/server/ServerNode.h>
+#include <teamtalk/client/ClientNodeBase.h>
 #include <avstream/VideoCapture.h>
 
 #include <map>
@@ -1665,7 +1666,7 @@ TEST_CASE("StreamVideoFile")
 }
 #endif /* ENABLE_VPX */
 
-TEST_CASE("ReactorDeadlock")
+TEST_CASE("ReactorDeadlock_BUG")
 {
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
@@ -1730,6 +1731,79 @@ TEST_CASE("ReactorDeadlock2")
     WaitForEvent(ttclient, CLIENTEVENT_NONE, 1000);
     TT_Disconnect(ttclient);
     TT_CloseTeamTalk(ttclient);
+}
+
+TEST_CASE("ReactorLockedTimerStart_BUG")
+{
+    using namespace teamtalk;
+    using namespace soundsystem;
+
+    class MyClientNode : public ClientNodeBase
+                       , public VoiceLogListener
+    {
+        VoiceLogger m_vlog;
+    public:
+        MyClientNode() : m_vlog(this) {}
+        void OnMediaFileStatus(int userid, teamtalk::MediaFileStatus status,
+            const teamtalk::VoiceLogFile& vlog) {}
+
+        bool SoundDuplexMode() override { return false; }
+
+        int GetUserID() const override { return 0; }
+        // Get ID of current channel (0 = not set)
+        int GetChannelID() override { return 0; }
+
+        bool QueuePacket(FieldPacket* packet) override { return 0; }
+        VoiceLogger& voicelogger() override { return m_vlog; }
+
+        void AudioUserCallback(int userid, teamtalk::StreamType st,
+                               const media::AudioFrame & audio_frame) override {}
+
+        int TimerEvent(ACE_UINT32 timerid, long userdata) override
+        {
+            return 0;
+        }
+        void soundsystem::StreamDuplex::StreamDuplexCb(const soundsystem::DuplexStreamer&, const short*, short*, int) {}
+        soundsystem::SoundDeviceFeatures soundsystem::StreamDuplex::GetDuplexFeatures(void) { return soundsystem::SOUNDDEVICEFEATURE_NONE; }
+    } myclient;
+
+    std::condition_variable cv_locked, cv_hold;;
+    std::mutex mtx;
+    bool locked = false;
+    auto reactorlock = [&]()
+    {
+        guard_t g(myclient.reactor_lock());
+        {
+            std::unique_lock<std::mutex> lck(mtx);
+            cv_locked.notify_all();
+            locked = true;
+        }
+
+        std::unique_lock<std::mutex> lck(mtx);
+        REQUIRE(cv_hold.wait_for(lck, std::chrono::milliseconds(DEFWAIT)) == std::cv_status::no_timeout);
+    };
+
+    std::thread tr(reactorlock);
+    tr.detach();
+
+    {
+        std::unique_lock<std::mutex> lck(mtx);
+        REQUIRE(cv_locked.wait_for(lck, std::chrono::milliseconds(DEFWAIT), [&locked]() { return locked; }));
+    }
+
+    auto reactor = myclient.GetEventLoop();
+    // Cannot schedule_timer because ClientNode::reactor_lock() is locked by 'tr'-thread
+    myclient.StartUserTimer(1 | USER_TIMER_MASK, 123, 0, ACE_Time_Value::zero, ACE_Time_Value::zero);
+
+    std::unique_lock<std::mutex> lck(mtx);
+    cv_hold.notify_all();
+
+    // Basically starting a timer should only be allowed by 
+    // ACE_Reactor-thread or another thread currently holding ACE_Reactor's lock.
+    //
+    // This issue is currently present in:
+    // - ClientNode::MediaPlaybackStatus()
+    // - ClientNode::MediaStreamStatusCallback()
 }
 
 TEST_CASE("StreamMediaToAudioBlock")
