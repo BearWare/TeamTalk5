@@ -1744,8 +1744,8 @@ TEST_CASE("ReactorLockedTimerStart_BUG")
         VoiceLogger m_vlog;
     public:
         MyClientNode() : m_vlog(this) {}
-        void OnMediaFileStatus(int userid, teamtalk::MediaFileStatus status,
-            const teamtalk::VoiceLogFile& vlog) {}
+        void OnMediaFileStatus(int , teamtalk::MediaFileStatus ,
+            const teamtalk::VoiceLogFile& ) override {}
 
         bool SoundDuplexMode() override { return false; }
 
@@ -1753,18 +1753,18 @@ TEST_CASE("ReactorLockedTimerStart_BUG")
         // Get ID of current channel (0 = not set)
         int GetChannelID() override { return 0; }
 
-        bool QueuePacket(FieldPacket* packet) override { return 0; }
+        bool QueuePacket(FieldPacket* ) override { return 0; }
         VoiceLogger& voicelogger() override { return m_vlog; }
 
-        void AudioUserCallback(int userid, teamtalk::StreamType st,
-                               const media::AudioFrame & audio_frame) override {}
+        void AudioUserCallback(int , teamtalk::StreamType ,
+                               const media::AudioFrame & ) override {}
 
-        int TimerEvent(ACE_UINT32 timerid, long userdata) override
+        int TimerEvent(ACE_UINT32 , long ) override
         {
             return 0;
         }
-        void soundsystem::StreamDuplex::StreamDuplexCb(const soundsystem::DuplexStreamer&, const short*, short*, int) {}
-        soundsystem::SoundDeviceFeatures soundsystem::StreamDuplex::GetDuplexFeatures(void) { return soundsystem::SOUNDDEVICEFEATURE_NONE; }
+        void StreamDuplexCb(const DuplexStreamer&, const short*, short*, int) override {}
+        SoundDeviceFeatures GetDuplexFeatures() override { return soundsystem::SOUNDDEVICEFEATURE_NONE; }
     } myclient;
 
     std::condition_variable cv_locked, cv_hold;;
@@ -1960,7 +1960,7 @@ TEST_CASE("FirstVoiceStreamPacket")
     TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf);
 
     /************************************************/
-    /* Part one - fixed jitter buffer
+    /*  Part one - fixed jitter buffer              */
     /************************************************/
 
     //start voice
@@ -1975,7 +1975,7 @@ TEST_CASE("FirstVoiceStreamPacket")
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE));
 
     /************************************************/
-    /* Part Two - fixed jitter buffer but set active adaptive control
+    /* Part Two - fixed jitter buffer but set active adaptive control */
     /************************************************/
 
     //Set fixed + adaptive Jitter buffer config but don't allow adaptive jitter control
@@ -1995,7 +1995,7 @@ TEST_CASE("FirstVoiceStreamPacket")
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE));
 
     /************************************************/
-    /* Part Three - Allow adaptive jitter buffer
+    /* Part Three - Allow adaptive jitter buffer    */
     /************************************************/
 
     //Set fixed + adaptive Jitter buffer config but don't allow adaptive jitter control
