@@ -1039,7 +1039,7 @@ The remaining items are explained in the following sections.
       a password.
     - To create a user account for a specific BearWare.dk Web Login
       user on a TeamTalk 5 Pro Server then create a user account with
-      the login name followed by @bearware.dk,
+      the login name followed by \@bearware.dk,
       e.g. bear_dk@bearware.dk. Don't specify a password.
 - **Password**
     - The password of the new user account.
