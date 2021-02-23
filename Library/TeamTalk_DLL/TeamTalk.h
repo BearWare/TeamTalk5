@@ -6993,7 +6993,7 @@ extern "C" {
      TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
                                                     IN INT32 nUserID,
                                                     IN StreamType nStreamType,
-                                                    IN JitterConfig* lpJitterConfig);
+                                                    IN const JitterConfig* lpJitterConfig);
 
      /**
      * @brief Get the de-jitter configuration for a user.

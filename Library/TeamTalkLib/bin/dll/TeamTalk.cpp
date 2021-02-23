@@ -2000,7 +2000,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserStoppedPlaybackDelay(IN TTInstance* lpTTInstanc
 TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
                                                IN INT32 nUserID,
                                                IN StreamType nStreamType,
-                                               IN JitterConfig* lpJitterConfig)
+                                               IN const JitterConfig* lpJitterConfig)
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
