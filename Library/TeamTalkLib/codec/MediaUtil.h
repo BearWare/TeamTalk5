@@ -109,7 +109,7 @@ namespace media
 // Returns number of msec from number of 'samples' at given 'samplerate'
 #define PCM16_SAMPLES_DURATION(samples, samplerate) ((((samples) / (samplerate)) * 1000) + ((((samples) % (samplerate)) * 1000) / (samplerate)))
 // Returns number of samples from 'duration' msec at given 'samplerate'
-#define PCM16_DURATION_SAMPLES(duration, samplerate) (((duration) / 1000) * (samplerate) + (((samplerate) * 1000) / ((duration) % 1000)))
+#define PCM16_DURATION_SAMPLES(duration, samplerate) (((duration) / 1000) * (samplerate) + (((duration) % 1000) ? (((samplerate) * 1000) / ((duration) % 1000)) : 0))
 
     struct AudioFrame
     {
