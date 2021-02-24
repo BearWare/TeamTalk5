@@ -368,8 +368,8 @@ void FFMpegStreamer::Run()
             totalpausetime += pausetime;
         }
 
+        // check if we should seek
         auto newoffset = SetOffset(MEDIASTREAMER_OFFSET_IGNORE);
-
         if (newoffset != MEDIASTREAMER_OFFSET_IGNORE)
         {
             double offset_sec = newoffset;
@@ -435,7 +435,7 @@ void FFMpegStreamer::Run()
             status = MEDIASTREAM_NONE;
         }
         
-        if ((ret = av_read_frame(fmt_ctx, &packet)) < 0)
+        if (av_read_frame(fmt_ctx, &packet) < 0)
             break;
 
         if (packet.stream_index == audio_stream_index)
@@ -556,6 +556,9 @@ int64_t FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
 
     int64_t frame_tm = av_frame_get_best_effort_timestamp(filt_frame);
     double frame_sec = frame_tm * av_q2d(aud_stream->time_base);
+    // initial frame may be -0.000072
+    MYTRACE_COND(frame_sec < 0., ACE_TEXT("Frame time is less than 0: %g\n"), frame_sec);
+    frame_sec = std::max(0., frame_sec);
     ACE_UINT32 frame_timestamp = ACE_UINT32(frame_sec * 1000.0); //msec
 
     if (AddStartTime())
