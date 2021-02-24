@@ -234,52 +234,55 @@ ogg_int64_t OggFile::CurrentGranulePos() const
     return m_last_gp;
 }
 
-bool OggFile::SeekLog2(ogg_int64_t granulepos)
+bool OggFile::SeekLog2(ogg_int64_t granulepos, ogg_page& og)
 {
     assert(m_file.get_handle() != ACE_INVALID_HANDLE);
     assert(ogg_sync_check(&m_state) == 0);
 
     if (m_file.seek(0, SEEK_END) < 0)
         return false;
+
     const auto FILESIZE = m_file.tell();
     auto half = FILESIZE / 2;
+    auto nextpos = half;
+    ACE_OFF_T closestpos = 0;
 
-    if (m_file.seek(half, SEEK_SET) < 0)
-        return false;
-
-    if (!SyncPage())
-        return false;
-    auto closest_pos = m_file.tell();
-
-    ogg_page og;
-    if (ReadOggPage(og) != 1)
-        return false;
-
-    auto gp = ogg_page_granulepos(&og);
+    ogg_int64_t gp;
     do
     {
         if (half == 0)
             break;
 
+        if (m_file.seek(nextpos, SEEK_SET) < 0)
+            return false;
+
         if (!SyncPage())
             break;
 
-        closest_pos = m_file.tell();
-
         if (ReadOggPage(og) != 1)
             break;
+
+        closestpos = nextpos;
+
+        //std::cout << "New pos: " << closestpos << "/" << FILESIZE << std::endl;
 
         gp = ogg_page_granulepos(&og);
 
         half = std::abs(half / 2);
         half *= (granulepos > gp ? 1 : -1);
-        if (m_file.seek(half, SEEK_CUR) < 0)
-            return false;
+        nextpos += half;
+
+        assert(closestpos >= 0);
+        assert(closestpos < FILESIZE);
     }
     while (granulepos != gp);
 
-    m_file.seek(closest_pos, SEEK_SET);
-    return SyncPage();
+    if (closestpos <= 0)
+        return false;
+
+    m_file.seek(closestpos, SEEK_SET);
+
+    return SyncPage() && ReadOggPage(og) > 0;
 
     //int ret;
     //char buff[256] = "";

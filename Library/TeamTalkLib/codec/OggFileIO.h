@@ -89,9 +89,7 @@ public:
     ogg_int64_t LastGranulePos();
     ogg_int64_t CurrentGranulePos() const;
 
-    // not working
-    bool SeekLog2(ogg_int64_t granulepos);
-    // not working
+    bool SeekLog2(ogg_int64_t granulepos, ogg_page& og);
     ogg_int64_t LastGranulePosLog2();
 
 private:

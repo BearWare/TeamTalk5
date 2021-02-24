@@ -1885,6 +1885,30 @@ TEST_CASE("OPUSFileSeek")
     REQUIRE(opfile.ReadEncoded(bytes, &samplesduration));
     REQUIRE(std::abs(halfsamples - samplesduration) <= FRAMESIZE);
 
+    // seek using log2
+    REQUIRE(of.Seek((FRAMESIZE * 10) * (48000 / SAMPLERATE), og));
+    REQUIRE(of.CurrentGranulePos() / (48000 / SAMPLERATE) == FRAMESIZE * 10);
+    REQUIRE(of1.SeekLog2((FRAMESIZE * 10) * (48000 / SAMPLERATE), og));
+    REQUIRE(of1.CurrentGranulePos() / (48000 / SAMPLERATE) == FRAMESIZE * 10);
+    REQUIRE(of.LastGranulePos() == of1.LastGranulePosLog2());
+    REQUIRE(of.Seek(((FRAMESIZE * 10) + FRAMESIZE / 3) * (48000 / SAMPLERATE), og));
+    REQUIRE(of1.SeekLog2(((FRAMESIZE * 10) + FRAMESIZE / 3) * (48000 / SAMPLERATE), og));
+    REQUIRE(of.LastGranulePos() == of1.LastGranulePosLog2());
+    std::vector<uint32_t> seekpositions = { uint32_t(mfi.uDurationMSec * 0.31),
+                                            uint32_t(mfi.uDurationMSec * 0.0),
+                                            uint32_t(mfi.uDurationMSec * 1.0),
+                                            uint32_t(mfi.uDurationMSec * 0.777),
+                                            uint32_t(mfi.uDurationMSec * 0.333),
+                                            uint32_t(mfi.uDurationMSec * 1.0),
+                                            uint32_t(mfi.uDurationMSec * 0.0)};
+
+    for (uint32_t sp : seekpositions)
+    {
+        REQUIRE(of.Seek(48000 * sp / 1000, og));
+        REQUIRE(of1.SeekLog2(48000 * sp / 1000, og));
+        REQUIRE(of.LastGranulePos() == of1.LastGranulePosLog2());
+    }
+
     // decode from 0% onwards
     OpusDecFile opusdecfile;
     REQUIRE(opusdecfile.Open(opusencfilename));
