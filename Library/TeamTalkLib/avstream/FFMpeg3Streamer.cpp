@@ -339,9 +339,9 @@ void FFMpegStreamer::Run()
         MYTRACE(ACE_TEXT("Sync. Audio %u, Video %u\n"), ACE_UINT32(curaudiotime),
                 ACE_UINT32(curvideotime));
 
-        if (curaudiotime > 0)
+        if (curaudiotime >= 0)
             m_media_in.elapsed_ms = ACE_UINT32(curaudiotime);
-        else if (curvideotime > 0)
+        else if (curvideotime >= 0)
             m_media_in.elapsed_ms = ACE_UINT32(curvideotime);
 
         if (start_offset != MEDIASTREAMER_OFFSET_IGNORE)

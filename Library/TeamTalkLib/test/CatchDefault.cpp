@@ -2192,3 +2192,60 @@ TEST_CASE("TTPlayFFmpegOpus")
     REQUIRE(mfi.uDurationMSec == odf.GetDurationMSec());
 }
 #endif
+
+TEST_CASE("SeekPrecision")
+{
+    TTCHAR filename[TT_STRLEN] = ACE_TEXT("testdata/Opus/giana.ogg");
+
+    auto ttclient = TT_InitTeamTalkPoll();
+    REQUIRE(InitSound(ttclient));
+
+    MediaFilePlayback mfp = {};
+    mfp.bPaused = FALSE;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+
+    auto session = TT_InitLocalPlayback(ttclient, filename, &mfp);
+    REQUIRE(session > 0);
+
+    uint32_t lasttm = ~0;
+    TTMessage msg;
+    bool stop = false;
+    while (!stop)
+    {
+        REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+        switch (msg.mediafileinfo.nStatus)
+        {
+        case MFS_PLAYING :
+            std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
+            if (msg.mediafileinfo.uElapsedMSec >= 2440)
+            {
+                mfp.bPaused = TRUE;
+                REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+            }
+            break;
+        case MFS_PAUSED :
+            lasttm = msg.mediafileinfo.uElapsedMSec;
+            mfp.bPaused = FALSE;
+            mfp.uOffsetMSec = 988;
+            REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+            stop = true;
+            std::cout << "Paused at " << msg.mediafileinfo.uElapsedMSec << std::endl;
+            break;
+        default :
+            break;
+        }
+    }
+
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+    REQUIRE(msg.mediafileinfo.nStatus == MFS_STARTED);
+    REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= 120);
+    std::cout << "Started at " << msg.mediafileinfo.uElapsedMSec << std::endl;
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+    REQUIRE(msg.mediafileinfo.nStatus == MFS_PLAYING);
+    REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= 240);
+    std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+    REQUIRE(msg.mediafileinfo.nStatus == MFS_PLAYING);
+    REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= 360);
+    std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
+}
