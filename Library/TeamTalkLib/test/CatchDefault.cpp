@@ -1640,7 +1640,7 @@ TEST_CASE("VideoCapture")
     do {
         std::mutex mtx;
         std::unique_lock<std::mutex> lck(mtx);
-        cv.wait(lck);
+        REQUIRE(cv.wait_for(lck, std::chrono::milliseconds(DEFWAIT)) == std::cv_status::no_timeout);
     } while (frames >= 0);
 }
 
@@ -2207,7 +2207,6 @@ TEST_CASE("SeekPrecision")
     auto session = TT_InitLocalPlayback(ttclient, filename, &mfp);
     REQUIRE(session > 0);
 
-    uint32_t lasttm = ~0;
     TTMessage msg;
     bool stop = false;
     while (!stop)
@@ -2224,7 +2223,6 @@ TEST_CASE("SeekPrecision")
             }
             break;
         case MFS_PAUSED :
-            lasttm = msg.mediafileinfo.uElapsedMSec;
             mfp.bPaused = FALSE;
             mfp.uOffsetMSec = 988;
             REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));

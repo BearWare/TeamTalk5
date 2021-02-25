@@ -557,7 +557,7 @@ int64_t FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
     int64_t frame_tm = av_frame_get_best_effort_timestamp(filt_frame);
     double frame_sec = frame_tm * av_q2d(aud_stream->time_base);
     // initial frame may be -0.000072
-    MYTRACE_COND(frame_sec < 0., ACE_TEXT("Frame time is less than 0: %g\n"), frame_sec);
+    MYTRACE_COND(frame_sec < 0., ACE_TEXT("Audio frame time is less than 0: %g\n"), frame_sec);
     frame_sec = std::max(0., frame_sec);
     ACE_UINT32 frame_timestamp = ACE_UINT32(frame_sec * 1000.0); //msec
 
@@ -603,6 +603,8 @@ int64_t FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
 
     int64_t frame_tm = av_frame_get_best_effort_timestamp(filt_frame);
     double frame_sec = frame_tm * av_q2d(vid_stream->time_base);
+    MYTRACE_COND(frame_sec < 0., ACE_TEXT("Video frame time is less than 0: %g\n"), frame_sec);
+    frame_sec = std::max(0., frame_sec);
     ACE_UINT32 frame_timestamp = ACE_UINT32(frame_sec * 1000.0); //msec
 
     if (AddStartTime())
