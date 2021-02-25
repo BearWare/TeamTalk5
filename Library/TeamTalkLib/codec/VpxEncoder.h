@@ -30,10 +30,11 @@
 
 #include <vpx/vpx_encoder.h>
 
-class VpxEncoder
+#include <mystd/MyStd.h>
+
+class VpxEncoder : private NonCopyable
 {
 public:
-    VpxEncoder(const VpxEncoder&) = delete;
     VpxEncoder();
     ~VpxEncoder();
 

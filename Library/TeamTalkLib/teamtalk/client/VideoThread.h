@@ -52,6 +52,7 @@ class VideoThread : protected ACE_Task<ACE_MT_SYNCH>
 {
 public:
     VideoThread();
+    virtual ~VideoThread();
 
     bool StartEncoder(videoencodercallback_t m_callback,
                       const media::VideoFormat& cap_format,

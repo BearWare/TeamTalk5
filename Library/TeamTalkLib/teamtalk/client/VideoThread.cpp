@@ -37,6 +37,11 @@ VideoThread::VideoThread()
     m_codec.codec = CODEC_NO_CODEC;
 }
 
+VideoThread::~VideoThread()
+{
+    StopEncoder();
+}
+
 bool VideoThread::StartEncoder(videoencodercallback_t callback,
                                const media::VideoFormat& cap_format,
                                const teamtalk::VideoCodec& codec,
@@ -104,8 +109,7 @@ void VideoThread::StopEncoder()
     int ret;
     ret = this->msg_queue()->close();
     TTASSERT(ret>=0);
-    ret = wait();
-    TTASSERT(ret>=0);
+    wait();
 
     switch(m_codec.codec)
     {

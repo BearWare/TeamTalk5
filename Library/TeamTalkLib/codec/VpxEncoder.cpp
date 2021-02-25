@@ -43,6 +43,7 @@ VpxEncoder::VpxEncoder()
 
 VpxEncoder::~VpxEncoder()
 {
+    Close();
 }
 
 bool VpxEncoder::Open(int width, int height, int target_bitrate, int fps)
