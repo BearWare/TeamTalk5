@@ -674,7 +674,7 @@ class ChannelListViewController :
 
         let src_vc = segue.source as! UserDetailViewController
         
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: format("Message - %@", getDisplayName(src_vc.userid)) as! TextMessageViewController
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Text Message") as! TextMessageViewController
         openTextMessages(vc, userid: src_vc.userid)
         self.navigationController?.pushViewController(vc, animated: true)
 
@@ -1024,7 +1024,7 @@ class ChannelListViewController :
                 }
                 
                 if settings.object(forKey: PREF_DISPLAY_POPUPTXTMSG) == nil || settings.bool(forKey: PREF_DISPLAY_POPUPTXTMSG) {
-                    let vc = self.storyboard?.instantiateViewController(withIdentifier: format("Message - %@", getDisplayName(txtmsg.nFromUserID))) as! TextMessageViewController
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "Text Message") as! TextMessageViewController
                     openTextMessages(vc, userid: txtmsg.nFromUserID)
                     self.navigationController?.pushViewController(vc, animated: true)
                     if vc.messages.count > 0 {
