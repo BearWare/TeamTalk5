@@ -762,16 +762,16 @@ TEST_CASE("Last voice packet - wav files")
 
         REQUIRE(TT_EnableVoiceTransmission(txclient, false));
 
-        std::cout << "Initial audio frame delay: " << stats.nSoundInputDeviceDelayMSec << " msec. ";
+        // std::cout << "Initial audio frame delay: " << stats.nSoundInputDeviceDelayMSec << " msec. ";
 
         REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
 
         REQUIRE(TT_GetClientStatistics(txclient, &stats));
-        std::cout << "Encoded voice sent: " << stats.nVoiceBytesSent << " bytes. ";
+        // std::cout << "Encoded voice sent: " << stats.nVoiceBytesSent << " bytes. ";
 
         UserStatistics ustats;
         REQUIRE(TT_GetUserStatistics(rxclient, TT_GetMyUserID(txclient), &ustats));
-        std::cout << "Voice packets received: " << ustats.nVoicePacketsRecv << std::endl;
+        // std::cout << "Voice packets received: " << ustats.nVoicePacketsRecv << std::endl;
     }
 
     //check file sizes. All files should hvae the same size (but some are missing the last frame, so this test fails)
@@ -910,6 +910,7 @@ TEST_CASE("SoundLoopbackDefault")
     SoundDevice indev, outdev;
     REQUIRE(GetSoundDevices(indev, outdev));
 
+/*
 #if defined(UNICODE)
     std::wcout <<
 #else
@@ -918,7 +919,7 @@ TEST_CASE("SoundLoopbackDefault")
         "input: " << indev.nDeviceID << " name: " << indev.szDeviceName
                << " channels: " << indev.nMaxInputChannels << " samplerate: " << indev.nDefaultSampleRate
                << " output: " << outdev.nDeviceID << " name: " << outdev.szDeviceName << std::endl;
-
+*/
     ttinst ttclient(TT_InitTeamTalkPoll());
 
     AudioPreprocessor preprocess = {};
@@ -1077,11 +1078,11 @@ TEST_CASE("WebRTC_gaincontroller2")
                 mfp.audioPreprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
                 REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
                 toggled = true;
-                std::cout << "Toggled: " << msg.mediafileinfo.uElapsedMSec << std::endl;
+                // std::cout << "Toggled: " << msg.mediafileinfo.uElapsedMSec << std::endl;
             }
             if (msg.mediafileinfo.uElapsedMSec >= 10000)
             {
-                std::cout << "Elapsed: " << msg.mediafileinfo.uElapsedMSec << std::endl;
+                // std::cout << "Elapsed: " << msg.mediafileinfo.uElapsedMSec << std::endl;
                 stop = true;
             }
             break;
@@ -1409,7 +1410,7 @@ TEST_CASE("PortAudioRaw_SamplesPerSec")
         auto samplesDurationMSec = PCM16_SAMPLES_DURATION(paSamples, int(ininfo->defaultSampleRate));
         auto durationMSec = GETTIMESTAMP() - paTimeStamp;
         auto skew = int(samplesDurationMSec - durationMSec);
-        std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
+        // std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
 
         REQUIRE(skew < 0.08 * 1000);
     }
@@ -1464,7 +1465,7 @@ TEST_CASE("PortAudio_SamplesPerSec")
         auto durationMSec = GETTIMESTAMP() - starttime;
         auto skew = int(samplesDurationMSec - durationMSec);
 
-        std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
+        // std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
 
         REQUIRE(skew < 0.08 * 1000);
     }
@@ -1498,7 +1499,6 @@ TEST_CASE("InjectAudio")
 
     do
     {
-        std::cout << "Insert Audio" << std::endl;
         REQUIRE(TT_InsertAudioBlock(ttclient, &ab));
 
         TTMessage msg;
@@ -1627,7 +1627,6 @@ TEST_CASE("VideoCapture")
     {
         frames--;
         cv.notify_all();
-        std::cout << "Frame " << frames << std::endl;
         return false;
     };
 
@@ -1878,7 +1877,7 @@ TEST_CASE("OPUSFileEncDec")
             }
 
             auto durationmsec = PCM16_SAMPLES_DURATION(samplesduration, mfi.audioFmt.nSampleRate);
-            std::cout << SAMPLERATE << "@" << FRAMESIZE_SEC << " diff: " << mfi.uDurationMSec - durationmsec << std::endl;
+            // std::cout << SAMPLERATE << "@" << FRAMESIZE_SEC << " diff: " << mfi.uDurationMSec - durationmsec << std::endl;
             REQUIRE(std::abs(durationmsec - mfi.uDurationMSec) <= FRAMESIZE_SEC * 1000);
         }
     }
@@ -2265,7 +2264,7 @@ TEST_CASE("SeekPrecision")
         switch (msg.mediafileinfo.nStatus)
         {
         case MFS_PLAYING :
-            std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
+            // std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
             if (msg.mediafileinfo.uElapsedMSec >= 2440)
             {
                 mfp.bPaused = TRUE;
@@ -2277,7 +2276,7 @@ TEST_CASE("SeekPrecision")
             mfp.uOffsetMSec = 988;
             REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
             stop = true;
-            std::cout << "Paused at " << msg.mediafileinfo.uElapsedMSec << std::endl;
+            // std::cout << "Paused at " << msg.mediafileinfo.uElapsedMSec << std::endl;
             break;
         default :
             break;
@@ -2287,13 +2286,13 @@ TEST_CASE("SeekPrecision")
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
     REQUIRE(msg.mediafileinfo.nStatus == MFS_STARTED);
     REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= 120);
-    std::cout << "Started at " << msg.mediafileinfo.uElapsedMSec << std::endl;
+    // std::cout << "Started at " << msg.mediafileinfo.uElapsedMSec << std::endl;
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
     REQUIRE(msg.mediafileinfo.nStatus == MFS_PLAYING);
     REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= 240);
-    std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
+    // std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
     REQUIRE(msg.mediafileinfo.nStatus == MFS_PLAYING);
     REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= 360);
-    std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
+    // std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
 }
