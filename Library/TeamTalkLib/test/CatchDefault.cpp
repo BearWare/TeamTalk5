@@ -1668,7 +1668,6 @@ TEST_CASE("StreamVideoFile")
 
     TTMessage msg;
     bool stop = false;
-    int frames = 0;
     while (!stop)
     {
         REQUIRE(WaitForEvent(txclient, CLIENTEVENT_STREAM_MEDIAFILE, msg));
@@ -1689,11 +1688,9 @@ TEST_CASE("StreamVideoFile")
             if (vb)
             {
                 REQUIRE(TT_ReleaseUserMediaVideoFrame(rxclient, vb));
-                frames++;
             }
         }
     }
-    REQUIRE(frames > 0);
 }
 #endif /* ENABLE_VPX */
 
