@@ -306,7 +306,7 @@
     <item id="438">VoIP</item>
     <item id="439">Music</item>
     <item id="440">Broadcast: %s&#xD;&#xA;</item>
-    <item id="441">&#xD;&#xA;Broadcast: %s</item>
+    <item id="441">Broadcast: %s</item>
     <item id="442">Server name: %s&#xD;&#xA;MOTD: %s&#xD;&#xA;</item>
     <item id="443">&#xD;&#xA;Server name: %s&#xD;&#xA;MOTD: %s</item>
     <item id="444">&#xD;&#xA;Joined new channel.</item>

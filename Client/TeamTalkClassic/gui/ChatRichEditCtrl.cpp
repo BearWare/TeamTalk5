@@ -201,16 +201,15 @@ void CChatRichEditCtrl::ScrollDown(int nOldLineCount)
     LineScroll(nScroll,0);
 }
 
-CString CChatRichEditCtrl::GetChatTime()
+CString CChatRichEditCtrl::GetChatTime(const CTime& tm)
 {
-    CTime tm = CTime::GetCurrentTime();
     CString szTime;
     szTime = tm.Format(LoadText(IDS_TIMELOCALE, _T("%Y-%m-%d %H:%M:%S")));
     return szTime;
 }
 
 
-CString CChatRichEditCtrl::AddMessage(CString szNick, CString szMessage)
+CString CChatRichEditCtrl::AddMessage(CString szNick, const MyTextMessage& msg)
 {
     CHARFORMAT cf;
     memset(&cf,0,sizeof (CHARFORMAT));
@@ -222,7 +221,7 @@ CString CChatRichEditCtrl::AddMessage(CString szNick, CString szMessage)
     int nOldLineCount = GetLineCount();
     CString name;
     if(m_bShowTimeStamp)
-        name.Format(_T("%s%s <%s>\r\n"), (nOldLineCount > 1 ? _T("\r\n") : _T("")), GetChatTime(), szNick);
+        name.Format(_T("%s%s <%s>\r\n"), (nOldLineCount > 1 ? _T("\r\n") : _T("")), GetChatTime(msg.receiveTime), szNick);
     else
         name.Format(_T("%s<%s>\r\n"), (nOldLineCount > 1 ? _T("\r\n") : _T("")), szNick);
     //insert name
@@ -232,14 +231,14 @@ CString CChatRichEditCtrl::AddMessage(CString szNick, CString szMessage)
 
     //insert msg
     SetSel(GetTextLength(), GetTextLength());
-    ReplaceSel(szMessage);
+    ReplaceSel(msg.szMessage);
 
     ScrollDown(nOldLineCount);
 
-    return name + szMessage;
+    return name + msg.szMessage;
 }
 
-void CChatRichEditCtrl::AddBroadcastMessage(CString szMessage)
+void CChatRichEditCtrl::AddBroadcastMessage(const MyTextMessage& msg)
 {
     CHARFORMAT cf;
     memset(&cf,0,sizeof (CHARFORMAT));
@@ -250,11 +249,16 @@ void CChatRichEditCtrl::AddBroadcastMessage(CString szMessage)
 
     int nOldLineCount = GetLineCount();
     //insert ServerInfo
-    CString szMsg;
-    if(GetLineCount()<=1)
-        szMsg.Format(LoadText(IDS_CHATRICHBROADCAST, _T("Broadcast: %s\r\n")), szMessage);
+    CString szMsg, szTimeStamp = (m_bShowTimeStamp ? GetChatTime(msg.receiveTime) + _T(" ") : _T(""));
+    if (GetLineCount() <= 1)
+    {
+        szMsg.Format(szTimeStamp + LoadText(IDS_CHATRICHBROADCAST, _T("Broadcast: %s\r\n")), msg.szMessage);
+    }
     else
-        szMsg.Format(LoadText(IDS_CHATRICHBROADCASTT, _T("\r\nBroadcast: %s")), szMessage);
+    {
+        szMsg.Format(_T("\r\n") + szTimeStamp + LoadText(IDS_CHATRICHBROADCASTT, _T("Broadcast: %s")), msg.szMessage);
+    }
+
     SetSel(GetTextLength(),GetTextLength());
     cf.crTextColor    = RGB(255, 117, 5);
     SetSelectionCharFormat(cf);
@@ -280,7 +284,7 @@ void CChatRichEditCtrl::AddLogMesage(CString szMsg)
     int nOldLineCount = GetLineCount();
     CString szLine;
     if(m_bShowTimeStamp)
-        szLine.Format(_T("%s%s * %s"), (nOldLineCount > 1 ? _T("\r\n") : _T("")), GetChatTime(), szMsg);
+        szLine.Format(_T("%s%s * %s"), (nOldLineCount > 1 ? _T("\r\n") : _T("")), GetChatTime(CTime::GetCurrentTime()), szMsg);
     else
         szLine.Format(_T("%s* %s"), (nOldLineCount > 1 ? _T("\r\n") : _T("")), szMsg);
 

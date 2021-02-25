@@ -306,7 +306,7 @@
     <item id="438">VoIP</item>
     <item id="439">Música</item>
     <item id="440">Mensagem global: %s\r\n</item>
-    <item id="441">&#x0D;&#x0A;Mensagem global: %s</item>
+    <item id="441">Mensagem global: %s</item>
     <item id="442">Nome do servidor: %s&#x0D;&#x0A;Mensagem: %s&#x0D;&#x0A;</item>
     <item id="443">&#x0D;&#x0A;Nome do servidor: %s&#x0D;&#x0A;Mensagem: %s</item>
     <item id="444">&#x0D;&#x0A;Entrou em um novo canal.</item>

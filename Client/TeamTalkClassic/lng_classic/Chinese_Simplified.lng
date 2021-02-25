@@ -306,7 +306,7 @@
     <item id="438">网络电话</item>
     <item id="439">音乐</item>
     <item id="440">广播： %s&#xD;&#xA;</item>
-    <item id="441">&#xD;&#xA;广播： %s</item>
+    <item id="441">广播： %s</item>
     <item id="442">服务器名称： %s&#xD;&#xA;每日消息： %s&#xD;&#xA;</item>
     <item id="443">&#xD;&#xA;服务器名称： %s&#xD;&#xA;每日消息： %s</item>
     <item id="444">&#xD;&#xA;加入新频道。</item>

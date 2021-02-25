@@ -33,8 +33,8 @@ class CChatRichEditCtrl : public CRichEditCtrl
 public:
     CChatRichEditCtrl();
     virtual ~CChatRichEditCtrl();
-    CString AddMessage(CString szNick, CString szMessage);
-    void AddBroadcastMessage(CString szMessage);
+    CString AddMessage(CString szNick, const MyTextMessage& msg);
+    void AddBroadcastMessage(const MyTextMessage& msg);
     void AddLogMesage(CString szMsg);
     void SetServerInfo(CString szServerName, CString szMOTD);
     void SetChannelInfo(int nChannelID);
@@ -49,7 +49,7 @@ protected:
 
     BOOL m_bMinimized;
 
-    CString GetChatTime();
+    CString GetChatTime(const CTime& tm);
 
 public:
     afx_msg void OnEnLink(NMHDR *pNMHDR, LRESULT *pResult);

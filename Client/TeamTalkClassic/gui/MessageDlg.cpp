@@ -217,7 +217,7 @@ void CMessageDlg::AppendMessage(const MyTextMessage& msg, BOOL bStore/* = TRUE*/
     // Insert Name
     CString szName = (msg.nFromUserID == m_myself.nUserID) ? GetDisplayName(m_myself) : GetDisplayName(m_user);
 
-    m_richHistory.AddMessage(szName, msg.szMessage);
+    m_richHistory.AddMessage(szName, msg);
 
     if(bStore)
         WriteLogMsg(m_logFile, szName + msg.szMessage + _T("\r\n"));

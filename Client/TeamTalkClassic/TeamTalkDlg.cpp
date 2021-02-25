@@ -2044,8 +2044,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
         if(TT_GetUser(ttInst, textmsg.nFromUserID, &user))
         {
             CString szName = GetDisplayName(user);
-            CString szLine = m_tabChat.m_wndRichEdit.AddMessage(szName,
-                                                                textmsg.szMessage);
+            CString szLine = m_tabChat.m_wndRichEdit.AddMessage(szName, textmsg);
 
             if(!m_bTwoPanes)
                 m_wndTree.SetChannelMessage(textmsg.nFromUserID, TRUE);
@@ -2078,7 +2077,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
         if(!TT_GetUser(ttInst, textmsg.nFromUserID, &user))
             break;
         CString szName = GetDisplayName(user);
-        m_tabChat.m_wndRichEdit.AddBroadcastMessage(textmsg.szMessage);
+        m_tabChat.m_wndRichEdit.AddBroadcastMessage(textmsg);
 
         PlaySoundEvent(SOUNDEVENT_USER_BROADCAST_TEXTMSG);
 

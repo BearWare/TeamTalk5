@@ -306,7 +306,7 @@
     <item id="438">Voix</item>
     <item id="439">Musique</item>
     <item id="440">Diffusé: %s&#xD;&#xA;</item>
-    <item id="441">&#xD;&#xA;Diffusé: %s</item>
+    <item id="441">Diffusé: %s</item>
     <item id="442">Nom du serveur: %s&#xD;&#xA;Message du jour: %s&#xD;&#xA;</item>
     <item id="443">&#xD;&#xA;Nom du serveur: %s&#xD;&#xA;Message du jour: %s</item>
     <item id="444">&#xD;&#xA;Nouveau canal rejoint.</item>
