@@ -29,6 +29,10 @@
 
 #include <assert.h>
 
+#if defined(__APPLE__)
+#include <mach/mach_time.h>
+#endif
+
 // FFMpeg type collides with AVFoundation, so keep in cpp file
 extern "C" {
 #include <libavutil/rational.h>
@@ -40,6 +44,8 @@ extern "C" {
 #include <libavfilter/buffersrc.h>
 #include <libavutil/opt.h>
 }
+
+#define DEBUG_FFMPEG 0
 
 using namespace media;
 
@@ -561,7 +567,7 @@ int64_t FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
     frame_sec = std::max(0., frame_sec);
     ACE_UINT32 frame_timestamp = ACE_UINT32(frame_sec * 1000.0); //msec
 
-    if (AddStartTime())
+    if (!IsSystemTime())
     {
         // initial frame should be timestamp = 0 msec. HTTP streams
         // can start in the middle of a long session
@@ -607,7 +613,7 @@ int64_t FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
     frame_sec = std::max(0., frame_sec);
     ACE_UINT32 frame_timestamp = ACE_UINT32(frame_sec * 1000.0); //msec
 
-    if (AddStartTime())
+    if (!IsSystemTime())
     {
         // initial frame should be timestamp = 0 msec
         if (start_offset == MEDIASTREAMER_OFFSET_IGNORE)
@@ -616,10 +622,14 @@ int64_t FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
     }
     else
     {
-        MYTRACE_COND(!W32_GEQ(frame_timestamp, start_time),
-                     ACE_TEXT("Frame time: %u, start time: %u, diff: %d, pts: %.3f\n"),
-                     frame_timestamp, start_time, int(frame_timestamp - start_time), frame_sec);
-            
+#if defined(__APPLE__)
+        // System time on Apple doesn't increase when computer
+        // sleeps so we need to add the difference between
+        // system time and monotonic time
+        uint32_t monotonicDiffMSec = GETTIMESTAMP() - (mach_absolute_time() / 1000000);
+        frame_timestamp += monotonicDiffMSec;
+        frame_sec += (monotonicDiffMSec / 1000) + ((monotonicDiffMSec % 1000) / 1000.);
+#endif
         if (start_offset == MEDIASTREAMER_OFFSET_IGNORE)
         {
             // the first couple of frames we get might be from before 'start_time'
@@ -636,10 +646,9 @@ int64_t FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
         frame_timestamp -= start_time;
     }
 
-    static int n_vidframe = 0;
-    ACE_UINT32 ticks = GETTIMESTAMP();
-    MYTRACE(ACE_TEXT("Video frame %d at tick %u, frame time: %u, pts: %.3f.\n"),
-            n_vidframe++, ticks, frame_timestamp, frame_sec);
+    MYTRACE_COND(DEBUG_FFMPEG,
+                 ACE_TEXT("Frame time: %u, Tick: %u. Duration: %u msec, pts: %.3f\n"),
+                 frame_timestamp, GETTIMESTAMP(), GETTIMESTAMP() - start_time, frame_sec);
 
     int bmp_size = filt_frame->height * filt_frame->linesize[0];
     VideoFrame media_frame(reinterpret_cast<char*>(filt_frame->data[0]),

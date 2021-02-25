@@ -43,7 +43,7 @@ namespace vidcap {
                          const media::VideoFormat& fmt);
         virtual media::VideoFormat GetVideoFormat() = 0;
 
-        bool AddStartTime() const override { return false; }
+        bool IsSystemTime() const override { return true; }
     };
 
     typedef std::unique_ptr<FFMpegVideoInput> ffmpegvideoinput_t;

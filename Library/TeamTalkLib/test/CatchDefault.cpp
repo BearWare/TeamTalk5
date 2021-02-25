@@ -1644,6 +1644,59 @@ TEST_CASE("VideoCapture")
     } while (frames >= 0);
 }
 
+#if defined(ENABLE_VPX)
+TEST_CASE("StreamVideoFile")
+{
+    auto txclient = TT_InitTeamTalkPoll();
+    auto rxclient = TT_InitTeamTalkPoll();
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
+    REQUIRE(JoinRoot(txclient));
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
+    REQUIRE(JoinRoot(rxclient));
+
+    VideoCodec vid = {};
+    vid.nCodec = WEBM_VP8_CODEC;
+    vid.webm_vp8.nRcTargetBitrate = 128;
+    vid.webm_vp8.nEncodeDeadline = WEBM_VPX_DL_REALTIME;
+    REQUIRE(TT_StartStreamingMediaFileToChannel(txclient, ACE_TEXT("testdata/Video/MOV03830.MPG"), &vid));
+
+    TTMessage msg;
+    bool stop = false;
+    int frames = 0;
+    while (!stop)
+    {
+        REQUIRE(WaitForEvent(txclient, CLIENTEVENT_STREAM_MEDIAFILE, msg));
+        switch(msg.mediafileinfo.nStatus)
+        {
+        case MFS_PLAYING :
+            break;
+        case MFS_FINISHED :
+            stop = true;
+            break;
+        default :
+            break;
+        }
+
+        if (WaitForEvent(rxclient, CLIENTEVENT_USER_MEDIAFILE_VIDEO, msg, 0))
+        {
+            auto vb = TT_AcquireUserMediaVideoFrame(rxclient, msg.nSource);
+            if (vb)
+            {
+                REQUIRE(TT_ReleaseUserMediaVideoFrame(rxclient, vb));
+                frames++;
+            }
+        }
+    }
+    REQUIRE(frames > 0);
+}
+#endif /* ENABLE_VPX */
+
 TEST_CASE("FirstVoiceStreamPacket")
 {
     std::vector<ttinst> clients;

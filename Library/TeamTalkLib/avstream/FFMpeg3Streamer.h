@@ -44,7 +44,7 @@ public:
     FFMpegStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
     virtual ~FFMpegStreamer();
     
-    virtual bool AddStartTime() const { return true; }
+    virtual bool IsSystemTime() const { return false; }
 
 protected:
     virtual bool SetupInput(struct AVInputFormat *iformat,
