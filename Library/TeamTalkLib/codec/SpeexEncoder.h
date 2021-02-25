@@ -28,6 +28,8 @@
 
 #include <cstddef>
 
+#include <mystd/MyStd.h>
+
 /****************************/
 /******* Win32/Linux ********/
 /****************************/
@@ -37,7 +39,7 @@
 #define SPEEX_COMPLEXITY_MIN 0
 #define SPEEX_COMPLEXITY_MAX 10
 
-class SpeexEncoder
+class SpeexEncoder : private NonCopyable
 {
 public:
     SpeexEncoder(const SpeexEncoder&) = delete;

@@ -30,13 +30,14 @@
 #include <opus/opus.h>
 #endif
 
+#include <mystd/MyStd.h>
+
 int OPUS_GetCbSize(int samplerate, int msec);
 int OPUS_GetCbMSec(int samplerate, int cb_samples);
 
-class OpusEncode
+class OpusEncode : private NonCopyable
 {
 public:
-    OpusEncode(const OpusEncode&) = delete;
     OpusEncode();
     ~OpusEncode();
     bool Open(int sample_rate, int channels, int app);

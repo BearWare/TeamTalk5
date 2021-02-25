@@ -32,10 +32,11 @@
 
 #include <vector>
 
-class OpusDecode
+#include <mystd/MyStd.h>
+
+class OpusDecode : private NonCopyable
 {
 public:
-    OpusDecode(const OpusDecode&) = delete;
     OpusDecode();
     ~OpusDecode();
 
