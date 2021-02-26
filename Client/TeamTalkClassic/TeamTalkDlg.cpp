@@ -3518,6 +3518,8 @@ void CTeamTalkDlg::OnFilePreferences()
     eventspage.m_SoundFiles[SOUNDEVENT_DISABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventDisableVoiceActivation().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_ME_ENABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventMeEnableVoiceActivation().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_ME_DISABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventMeDisableVoiceActivation().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_ENABLE_MUTE_ALL] = STR_UTF8(m_xmlSettings.GetEventEnableMuteAll().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_DISABLE_MUTE_ALL] = STR_UTF8(m_xmlSettings.GetEventDisableMuteAll().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_HEAD] = STR_UTF8( m_xmlSettings.GetEventTransmitQueueHead().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_STOP] = STR_UTF8( m_xmlSettings.GetEventTransmitQueueStop().c_str() );
     eventspage.m_nClientSoundsVsVoice = m_xmlSettings.GetClientSoundsVsVoice(DEFAULT_CLIENT_SOUNDS_VS_VOICE);
@@ -3804,6 +3806,8 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventDisableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_DISABLE_VOICEACTIVATION]));
         m_xmlSettings.SetEventMeEnableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_ME_ENABLE_VOICEACTIVATION]));
         m_xmlSettings.SetEventMeDisableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_ME_DISABLE_VOICEACTIVATION]));
+        m_xmlSettings.SetEventEnableMuteAll(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_ENABLE_MUTE_ALL]));
+        m_xmlSettings.SetEventDisableMuteAll(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_DISABLE_MUTE_ALL]));
         m_xmlSettings.SetEventTransmitQueueHead(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_HEAD]));
         m_xmlSettings.SetEventTransmitQueueStop(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_STOP]));
         m_xmlSettings.SetClientSoundsVsVoice(eventspage.m_nClientSoundsVsVoice);
@@ -4192,8 +4196,10 @@ void CTeamTalkDlg::OnUsersMuteVoiceall()
     if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_VOICE) {
         if((TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_MUTE) != CLIENT_CLOSED == 1) {
             AddTextToSpeechMessage(LoadText(IDS_MVD, _T("Master volume disabled")));
+            PlaySoundEvent(SOUNDEVENT_ENABLE_MUTE_ALL);
         } else {
             AddTextToSpeechMessage(LoadText(IDS_MVE, _T("Master volume enabled")));
+            PlaySoundEvent(SOUNDEVENT_DISABLE_MUTE_ALL);
         }
     }
 }
@@ -6456,6 +6462,12 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
         break;
     case SOUNDEVENT_ME_DISABLE_VOICEACTIVATION:
         szFilename = STR_UTF8(m_xmlSettings.GetEventMeDisableVoiceActivation());
+        break;
+    case SOUNDEVENT_ENABLE_MUTE_ALL:
+        szFilename = STR_UTF8(m_xmlSettings.GetEventEnableMuteAll());
+        break;
+    case SOUNDEVENT_DISABLE_MUTE_ALL:
+        szFilename = STR_UTF8(m_xmlSettings.GetEventDisableMuteAll());
         break;
     case SOUNDEVENT_TRANSMITQUEUE_HEAD :
         szFilename = STR_UTF8(m_xmlSettings.GetEventTransmitQueueHead());

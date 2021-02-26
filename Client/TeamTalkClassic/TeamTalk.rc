@@ -2177,6 +2177,8 @@ END
 STRINGTABLE
 BEGIN
     IDS_ME_DISABLEVOX       "Disable voice activation from Me-menu"
+    IDS_ENABLEMUTEALL       "Mute main volume"
+    IDS_DISABLEMUTEALL      "Unmute main volume"
     IDS_DISABLED            "Disabled"
     IDS_CMD10IN10           "10 commands in 10 sec."
     IDS_CMD10IN60           "10 commands in 1 minute"

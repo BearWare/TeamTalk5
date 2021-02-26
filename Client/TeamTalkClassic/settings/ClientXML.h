@@ -67,6 +67,8 @@
 #define DEFAULT_SOUNDEVENT_DISABLEVOICEACT          "Sounds\\vox_disable.wav"
 #define DEFAULT_SOUNDEVENT_ME_ENABLEVOICEACT        "Sounds\\vox_me_enable.wav"
 #define DEFAULT_SOUNDEVENT_ME_DISABLEVOICEACT       "Sounds\\vox_me_disable.wav"
+#define DEFAULT_SOUNDEVENT_ENABLEMUTEALL           "Sounds\\mute_all.wav"
+#define DEFAULT_SOUNDEVENT_DISABLEMUTEALL           "Sounds\\unmute_all.wav"
 #define DEFAULT_SOUNDEVENT_TRANSMITQUEUE_READY      "Sounds\\txqueue_start.wav"
 #define DEFAULT_SOUNDEVENT_TRANSMITQUEUE_STOP       "Sounds\\txqueue_stop.wav"
 
@@ -389,6 +391,12 @@ namespace teamtalk {
 
         void SetEventMeDisableVoiceActivation(const std::string& szPath);
         std::string GetEventMeDisableVoiceActivation(std::string szDefPath = DEFAULT_SOUNDEVENT_ME_DISABLEVOICEACT);
+
+        void SetEventEnableMuteAll(const std::string& szPath);
+        std::string GetEventEnableMuteAll(std::string szDefPath = DEFAULT_SOUNDEVENT_ENABLEMUTEALL);
+
+        void SetEventDisableMuteAll(const std::string& szPath);
+        std::string GetEventDisableMuteAll(std::string szDefPath = DEFAULT_SOUNDEVENT_DISABLEMUTEALL);
 
         void SetEventTransmitQueueHead(std::string szPath);
         std::string GetEventTransmitQueueHead(std::string szDefPath = DEFAULT_SOUNDEVENT_TRANSMITQUEUE_READY);

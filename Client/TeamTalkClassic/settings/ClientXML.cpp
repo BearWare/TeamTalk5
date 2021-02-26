@@ -1986,6 +1986,26 @@ namespace teamtalk {
         return GetValue(true, "events/me-disable-voice-activation", szDefPath);
     }
 
+    void ClientXML::SetEventEnableMuteAll(const std::string& szPath)
+    {
+        SetValue("events/enable-mute-all", szPath);
+    }
+
+    std::string ClientXML::GetEventEnableMuteAll(std::string szDefPath)
+    {
+        return GetValue(true, "events/enable-mute-all", szDefPath);
+    }
+
+    void ClientXML::SetEventDisableMuteAll(const std::string& szPath)
+    {
+        SetValue("events/disable-mute-all", szPath);
+    }
+
+    std::string ClientXML::GetEventDisableMuteAll(std::string szDefPath)
+    {
+        return GetValue(true, "events/disable-mute-all", szDefPath);
+    }
+
     void ClientXML::SetEventTransmitQueueHead(std::string szPath)
     {
         SetValue("events/transmit-queue-front", szPath);
