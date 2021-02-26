@@ -1607,7 +1607,7 @@
             <item row="9" column="0">
              <widget class="QLabel" name="label_64">
               <property name="text">
-               <string>Mute main volume</string>
+               <string>Mute master volume</string>
               </property>
               <property name="buddy">
                <cstring>muteallonEdit</cstring>
@@ -1627,7 +1627,7 @@
             <item row="10" column="0">
              <widget class="QLabel" name="label_65">
               <property name="text">
-               <string>Unmute main volume</string>
+               <string>Unmute master volume</string>
               </property>
               <property name="buddy">
                <cstring>mutealloffEdit</cstring>

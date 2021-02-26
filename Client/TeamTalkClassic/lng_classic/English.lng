@@ -790,8 +790,8 @@
 	<item id="1603">Channel type</item>
     <item id="1604">User can see hidden channels</item>
     <item id="1606">Playback mode</item>
-    <item id="1608">Mute main volume</item>
-    <item id="1609">Unmute main volume</item>
+    <item id="1608">Mute master volume</item>
+    <item id="1609">Unmute master volume</item>
     <item id="32791">What is my &amp;IP-address?</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">Vie&amp;w Channel Messages\tF10</item>
