@@ -117,6 +117,8 @@ private slots:
     void slotEventUserLoggedOut();
     void slotEventVoiceActOn();
     void slotEventVoiceActOff();
+    void slotEventMuteAllOn();
+    void slotEventMuteAllOff();
     //keyboard shortcuts
     void slotShortcutVoiceActivation(bool checked);
     void slotShortcutIncVolume(bool checked);

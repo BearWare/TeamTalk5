@@ -3834,6 +3834,10 @@ void MainWindow::slotUsersVolume(bool /*checked =false */)
 void MainWindow::slotUsersMuteVoiceAll(bool checked /*=false */)
 {
     TT_SetSoundOutputMute(ttInst, checked);
+    if(checked == true)
+        playSoundEvent(SOUNDEVENT_MUTEALLON);
+    else
+        playSoundEvent(SOUNDEVENT_MUTEALLOFF);
 }
 
 void MainWindow::slotUsersOp(bool /*checked =false */)
