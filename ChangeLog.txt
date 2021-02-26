@@ -12,7 +12,7 @@ Accessible Windows Client
 - Option to join channel immediately in create channel dialog
 - Option to disable emojis and text for channel/user states
 - New audio files for default sound events
-- New sound events when user logs in/out
+- New sound events when user logs in/out and for mute/unmute main volume
 - Faster login on servers with many users or channels
 - New option to play sounds for outgoing messages (disabled by default)
 - Users logged in/out displayed in chat history
@@ -45,7 +45,7 @@ Default QT Client
 - Ability to create and join hidden channels
 - Channel messages can be blocked in classroom channels
 - New audio files for default sound events
-- New sound events when user logs in/out
+- New sound events when user logs in/out and for mute/unmute main volume
 - Option to join channel immediately in create channel dialog
 - Option to disable emojis and text for channel/user states
 - CTRL+L to leave a channel
