@@ -351,6 +351,9 @@ enum SoundEvent
     SOUNDEVENT_ME_ENABLE_VOICEACTIVATION    = 0x00080000,
     SOUNDEVENT_ME_DISABLE_VOICEACTIVATION   = 0x00100000,
 
+    SOUNDEVENT_ENABLE_MUTE_ALL              = 0x04000000,
+    SOUNDEVENT_DISABLE_MUTE_ALL             = 0x08000000,
+
     SOUNDEVENT_MAX                          = SOUNDEVENT_USER_BROADCAST_TEXTMSG,
 
     SOUNDEVENT_DEFAULT                  = SOUNDEVENT_USER_JOIN |
@@ -374,6 +377,8 @@ enum SoundEvent
                                           SOUNDEVENT_TRANSMITQUEUE_STOP |
                                           SOUNDEVENT_ENABLE_VOICEACTIVATION |
                                           SOUNDEVENT_DISABLE_VOICEACTIVATION |
+                                          SOUNDEVENT_ENABLE_MUTE_ALL |
+                                          SOUNDEVENT_DISABLE_MUTE_ALL |
                                           SOUNDEVENT_ME_ENABLE_VOICEACTIVATION |
                                           SOUNDEVENT_ME_DISABLE_VOICEACTIVATION,
 

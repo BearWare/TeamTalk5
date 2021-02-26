@@ -165,6 +165,10 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             SLOT(slotEventVoiceActOn()));
     connect(ui.voiceactoffButton, SIGNAL(clicked()),
             SLOT(slotEventVoiceActOff()));
+    connect(ui.muteallonButton, SIGNAL(clicked()),
+            SLOT(slotEventMuteAllOn()));
+    connect(ui.mutealloffButton, SIGNAL(clicked()),
+            SLOT(slotEventMuteAllOff()));
 
     //keyboard shortcuts
     connect(ui.voiceactButton, SIGNAL(clicked(bool)), 
@@ -545,6 +549,8 @@ void PreferencesDlg::slotTabChange(int index)
         ui.userloggedoutEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT).toString());
         ui.voiceactonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON).toString());
         ui.voiceactoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF).toString());
+        ui.muteallonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON).toString());
+        ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF).toString());
         break;
     case SHORTCUTS_TAB :  //shortcuts
     {
@@ -886,6 +892,8 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_USERLOGGEDOUT, ui.userloggedoutEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTON, ui.voiceactonEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTOFF, ui.voiceactoffEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLON, ui.muteallonEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLOFF, ui.mutealloffEdit->text());
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {
@@ -1342,6 +1350,20 @@ void PreferencesDlg::slotEventVoiceActOff()
     QString filename;
     if(getSoundFile(filename))
         ui.voiceactoffEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventMuteAllOn()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.muteallonEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventMuteAllOff()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.mutealloffEdit->setText(filename);
 }
 
 void PreferencesDlg::slotShortcutVoiceActivation(bool checked)

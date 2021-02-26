@@ -154,6 +154,8 @@
 #define SETTINGS_SOUNDEVENT_USERLOGGEDOUT           "soundevents/user-logged-out"
 #define SETTINGS_SOUNDEVENT_VOICEACTON           "soundevents/voice-act-on"
 #define SETTINGS_SOUNDEVENT_VOICEACTOFF           "soundevents/voice-act-off"
+#define SETTINGS_SOUNDEVENT_MUTEALLON           "soundevents/mute-all"
+#define SETTINGS_SOUNDEVENT_MUTEALLOFF           "soundevents/unmute-all"
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"

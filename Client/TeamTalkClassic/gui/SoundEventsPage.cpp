@@ -285,6 +285,16 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
     m_wndTree.SetItemData(hItem, SOUNDEVENT_ME_DISABLE_VOICEACTIVATION);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_ME_DISABLE_VOICEACTIVATION) != 0);
 
+    szText = LoadText(IDS_ENABLEMUTEALL);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_ENABLE_MUTE_ALL);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_ENABLE_MUTE_ALL) != 0);
+
+    szText = LoadText(IDS_DISABLEMUTEALL);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_DISABLE_MUTE_ALL);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_DISABLE_MUTE_ALL) != 0);
+
     szText = LoadText(IDS_FILES_UPDATED);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_FILES_UPDATED);

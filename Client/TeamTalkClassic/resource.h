@@ -996,6 +996,8 @@
 #define IDC_CHECK_HIDDENCHAN            1604
 #define IDC_STATIC_PLAYBACK_MODE        1606
 #define IDC_COMBO_PLAYBACK_MODE         1607
+#define IDS_ENABLEMUTEALL               1608
+#define IDS_DISABLEMUTEALL              1609
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -1114,7 +1116,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        581
 #define _APS_NEXT_COMMAND_VALUE         32959
-#define _APS_NEXT_CONTROL_VALUE         1608
+#define _APS_NEXT_CONTROL_VALUE         1610
 #define _APS_NEXT_SYMED_VALUE           413
 #endif
 #endif
