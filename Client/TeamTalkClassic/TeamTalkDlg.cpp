@@ -1976,7 +1976,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
 {
     //wParam = userid, lParam = message index
 
-    const TextMessage& textmsg = msg.textmessage;
+    const MyTextMessage textmsg = MyTextMessage(msg.textmessage);
 
     switch(textmsg.nMsgType)
     {

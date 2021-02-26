@@ -170,7 +170,7 @@ void CMessageDlg::OnButtonSend()
     {
         m_richMessage.SetWindowText(_T(""));
 
-        TextMessage usermsg = {};
+        MyTextMessage usermsg;
         usermsg.nMsgType = MSGTYPE_USER;
         usermsg.nFromUserID = m_myself.nUserID;
         usermsg.nToUserID = m_user.nUserID;

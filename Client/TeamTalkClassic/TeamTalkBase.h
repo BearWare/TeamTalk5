@@ -48,9 +48,11 @@ struct MyTextMessage : public TextMessage
     MyTextMessage()
     {
         receiveTime = CTime::GetCurrentTime();
+        _tcsncpy_s(this->szFromUsername, _T(""), TT_STRLEN);
+        _tcsncpy_s(this->szMessage, _T(""), TT_STRLEN);
     }
     
-    MyTextMessage(const TextMessage& msg)
+    explicit MyTextMessage(const TextMessage& msg)
     : MyTextMessage()
     {
         this->nChannelID = msg.nChannelID;
