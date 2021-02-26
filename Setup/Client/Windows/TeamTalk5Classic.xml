@@ -33,6 +33,8 @@
         <disable-voice-activation>Sounds\vox_disable.wav</disable-voice-activation>
         <me-enable-voice-activation>Sounds\vox_me_enable.wav</me-enable-voice-activation>
         <me-disable-voice-activation>Sounds\vox_me_disable.wav</me-disable-voice-activation>
+        <enable-mute-all>Sounds\mute_all.wav</enable-mute-all>
+        <disable-mute-all>Sounds\unmute_all.wav</disable-mute-all>
         <transmit-queue-front>Sounds\txqueue_start.wav</transmit-queue-front>
         <transmit-queue-stop>Sounds\txqueue_stop.wav</transmit-queue-stop>
         <userloggedin>Sounds\logged_on.wav</userloggedin>
