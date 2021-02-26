@@ -39,7 +39,7 @@ public:
 
     void joinedChannel(int channelid);
 
-    QString addTextMessage(const TextMessage& msg);
+    QString addTextMessage(const MyTextMessage& msg);
     void addLogMessage(const QString& msg);
 
 protected:
@@ -47,7 +47,7 @@ protected:
 	void mouseReleaseEvent(QMouseEvent *e);
 
 private:
-    static QString getTimeStamp(bool force_ts = false);
+    static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
     void limitText();
     QString currentUrl(QMouseEvent* e) const;
 };

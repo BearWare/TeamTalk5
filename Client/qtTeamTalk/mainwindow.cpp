@@ -2368,9 +2368,9 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
     case MSGTYPE_CHANNEL :
     {
         QString line;
-        line = ui.chatEdit->addTextMessage(textmsg);
-        ui.videochatEdit->addTextMessage(textmsg);
-        ui.desktopchatEdit->addTextMessage(textmsg);
+        line = ui.chatEdit->addTextMessage(MyTextMessage(textmsg));
+        ui.videochatEdit->addTextMessage(MyTextMessage(textmsg));
+        ui.desktopchatEdit->addTextMessage(MyTextMessage(textmsg));
 
         //setup channel text logging
         QString chanlog = ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString();
@@ -2387,9 +2387,9 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
         break;
     }
     case MSGTYPE_BROADCAST :
-        ui.chatEdit->addTextMessage(textmsg);
-        ui.videochatEdit->addTextMessage(textmsg);
-        ui.desktopchatEdit->addTextMessage(textmsg);
+        ui.chatEdit->addTextMessage(MyTextMessage(textmsg));
+        ui.videochatEdit->addTextMessage(MyTextMessage(textmsg));
+        ui.desktopchatEdit->addTextMessage(MyTextMessage(textmsg));
         playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
     case MSGTYPE_USER :
@@ -4904,11 +4904,11 @@ void MainWindow::slotNewTextMessage(const TextMessage& textmsg)
 
     usermessages_t::iterator ii = m_usermessages.find(textmsg.nFromUserID);
     if(ii != m_usermessages.end())
-        ii.value().push_back(textmsg);
+        ii.value().push_back(MyTextMessage(textmsg));
     else
     {
         textmessages_t msgs;
-        msgs.push_back(textmsg);
+        msgs.push_back(MyTextMessage(textmsg));
         m_usermessages.insert(textmsg.nFromUserID, msgs);
     }
 }
@@ -4920,11 +4920,11 @@ void MainWindow::slotNewMyselfTextMessage(const TextMessage& textmsg)
 
     usermessages_t::iterator ii = m_usermessages.find(textmsg.nToUserID);
     if(ii != m_usermessages.end())
-        ii.value().push_back(textmsg);
+        ii.value().push_back(MyTextMessage(textmsg));
     else
     {
         textmessages_t msgs;
-        msgs.push_back(textmsg);
+        msgs.push_back(MyTextMessage(textmsg));
         m_usermessages.insert(textmsg.nToUserID, msgs);
     }
 }

@@ -82,7 +82,7 @@ void TextMessageDlg::slotUpdateUser(const User& user)
         this->setWindowTitle(tr("Messages") + " - " + getDisplayName(user));
 }
 
-void TextMessageDlg::slotNewMessage(const TextMessage& textmsg)
+void TextMessageDlg::slotNewMessage(const MyTextMessage& textmsg)
 {
     if(textmsg.nFromUserID == m_userid)
     {
@@ -143,8 +143,7 @@ void TextMessageDlg::slotSendMsg(const QString& txt_msg)
     if(txt_msg.isEmpty())
         return;
 
-    TextMessage msg;
-    ZERO_STRUCT(msg);
+    MyTextMessage msg;
     msg.nFromUserID = TT_GetMyUserID(ttInst);
     msg.nChannelID = 0;
     msg.nMsgType = MSGTYPE_USER;
@@ -166,7 +165,7 @@ void TextMessageDlg::slotTextChanged()
     m_textchanged = true;
 }
 
-void TextMessageDlg::newMsg(const TextMessage& msg, bool store)
+void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
 {
     switch(msg.nMsgType)
     {

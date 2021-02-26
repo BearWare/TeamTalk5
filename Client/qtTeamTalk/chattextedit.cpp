@@ -103,11 +103,11 @@ ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
     viewport()->setMouseTracking(true);
 }
    
-QString ChatTextEdit::getTimeStamp(bool force_ts)
+QString ChatTextEdit::getTimeStamp(const QDateTime& tm, bool force_ts)
 {
     QString dt;
     if(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool() || force_ts)
-        dt = QDateTime::currentDateTime().toString(tr("yyyy-MM-dd HH:mm:ss")) + QString(" ");
+        dt = tm.toString(tr("yyyy-MM-dd HH:mm:ss")) + QString(" ");
     return dt;
 }
 
@@ -115,7 +115,7 @@ void ChatTextEdit::updateServer(const ServerProperties& srvprop)
 {
     appendPlainText("");
 
-    QString dt = getTimeStamp();
+    QString dt = getTimeStamp(QDateTime::currentDateTime());
     
     QTextCharFormat format = textCursor().charFormat();
     QTextCharFormat original = format;
@@ -157,7 +157,7 @@ void ChatTextEdit::joinedChannel(int channelid)
 
     appendPlainText("");
 
-    QString dt = getTimeStamp();
+    QString dt = getTimeStamp(QDateTime::currentDateTime());
     
     QTextCharFormat format = textCursor().charFormat();
     QTextCharFormat original = format;
@@ -202,13 +202,13 @@ void ChatTextEdit::joinedChannel(int channelid)
     limitText();
 }
 
-QString ChatTextEdit::addTextMessage(const TextMessage& msg)
+QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
 {
     User user;
     if(!TT_GetUser(ttInst, msg.nFromUserID, &user))
         return QString();
 
-    QString dt = getTimeStamp();
+    QString dt = getTimeStamp(msg.receiveTime);
     QString line = dt;
 
     switch(msg.nMsgType)
@@ -256,7 +256,7 @@ QString ChatTextEdit::addTextMessage(const TextMessage& msg)
 
 void ChatTextEdit::addLogMessage(const QString& msg)
 {
-    QString line = QString("%1 * %2").arg(getTimeStamp()).arg(msg);
+    QString line = QString("%1 * %2").arg(getTimeStamp(QDateTime::currentDateTime())).arg(msg);
     QTextCharFormat format = textCursor().charFormat();
     QTextCharFormat original = format;
     format.setForeground(QBrush(Qt::gray));

@@ -32,6 +32,7 @@
 #include <QLayout>
 #include <QComboBox>
 #include <QFile>
+#include <QDateTime>
 
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS 1
@@ -358,7 +359,33 @@ struct UserCached
 #define TT_INTCMD_TYPING_TEXT         "typing"
 #define TT_INTCMD_DESKTOP_ACCESS      "desktopaccess"
 
-typedef QList<TextMessage> textmessages_t;
+struct MyTextMessage : TextMessage
+{
+    QDateTime receiveTime;
+    MyTextMessage()
+    {
+        this->szFromUsername[0] = '\0';
+        this->szMessage[0] = '\0';
+        receiveTime = QDateTime::currentDateTime();
+    }
+
+    explicit MyTextMessage(const TextMessage& msg)
+        : MyTextMessage()
+    {
+        this->nChannelID = msg.nChannelID;
+        this->nFromUserID = msg.nFromUserID;
+        this->nMsgType = msg.nMsgType;
+        this->nToUserID = msg.nToUserID;
+#if defined(Q_OS_WIN32)
+        wcsncpy(this->szFromUsername, msg.szFromUsername, TT_STRLEN);
+        wcsncpy(this->szMessage, msg.szMessage, TT_STRLEN);
+#else
+        strncpy(this->szFromUsername, msg.szFromUsername, TT_STRLEN);
+        strncpy(this->szMessage, msg.szMessage, TT_STRLEN);
+#endif
+    }
+};
+typedef QList<MyTextMessage> textmessages_t;
 
 QString makeCustomCommand(const QString& cmd, const QString& value);
 QStringList getCustomCommand(const TextMessage& msg);

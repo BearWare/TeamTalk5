@@ -42,7 +42,7 @@ public:
 
 public slots:
     void slotUpdateUser(const User& user);
-    void slotNewMessage(const TextMessage& textmsg);
+    void slotNewMessage(const MyTextMessage& textmsg);
     void slotUserLogout(const User& user);
 
 signals:
@@ -57,7 +57,7 @@ private:
 
     Ui::TextMessageDlg ui;
     int m_userid;
-    void newMsg(const TextMessage& msg, bool store);
+    void newMsg(const MyTextMessage& msg, bool store);
     bool m_textchanged;
     int  m_local_typing_id, m_remote_typing_id;
     QFile m_logFile;
