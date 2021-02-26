@@ -349,26 +349,56 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             if (m.nSource == 0)
             {
                 playSound(.srv_LOST)
-                if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
-                                                  message: NSLocalizedString("You have been kicked from server", comment: "Dialog"),
-                                                  preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                } else {
-                    // Fallback on earlier versions
+                if (m.ttType == __USER)
+                {
+                    if #available(iOS 8.0, *) {
+                        let msg = String(format: NSLocalizedString("You have been kicked from server by %@", comment: "Dialog"), getDisplayName(m.user))
+                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
+                                                      message: msg, preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                }
+                else
+                {
+                    if #available(iOS 8.0, *) {
+                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
+                                                      message: NSLocalizedString("You have been kicked from server", comment: "Dialog"),
+                                                      preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }
             }
             else
             {
-                if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
-                                                  message: NSLocalizedString("You have been kicked from channel", comment: "Dialog"),
-                                                  preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                } else {
-                    // Fallback on earlier versions
+                if (m.ttType == __USER)
+                {
+                    if #available(iOS 8.0, *) {
+                        let msg = String(format: NSLocalizedString("You have been kicked from channel by %@", comment: "Dialog"), getDisplayName(m.user))
+                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
+                                                      message: msg, preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                }
+                else
+                {
+                    if #available(iOS 8.0, *) {
+                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
+                                                      message: NSLocalizedString("You have been kicked from channel by", comment: "Dialog"),
+                                                      preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }
             }
 

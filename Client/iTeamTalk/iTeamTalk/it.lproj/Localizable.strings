@@ -41,6 +41,9 @@
    user detail */
 "Actions" = "Azioni";
 
+/* channel list */
+"Active" = "Active";
+
 /* serverlist */
 "Add new server entry" = "Aggiungi una nuova voce del server";
 
@@ -243,6 +246,9 @@
 
 /* server entry */
 "Host address" = "Indirizzo dell'host";
+
+/* channel list */
+"Inactive" = "Inactive";
 
 /* Dialog message */
 "Join" = "Aderire";
@@ -697,7 +703,16 @@
 "You have been kicked from channel" = "Sei stato espulso dal canale";
 
 /* Dialog */
+"You have been kicked from channel by" = "You have been kicked from channel by";
+
+/* Dialog */
+"You have been kicked from channel by %@" = "You have been kicked from channel by %@";
+
+/* Dialog */
 "You have been kicked from server" = "Sei stato espulso dal server";
+
+/* Dialog */
+"You have been kicked from server by %@" = "You have been kicked from server by %@";
 
 /* speech */
 "You have selected %@" = "Hai selezionato %@";

@@ -41,6 +41,9 @@
    user detail */
 "Actions" = "Eylemler";
 
+/* channel list */
+"Active" = "Active";
+
 /* serverlist */
 "Add new server entry" = "Yeni sunucu girişi ekle";
 
@@ -243,6 +246,9 @@
 
 /* server entry */
 "Host address" = "Ana bilgisayar adresi";
+
+/* channel list */
+"Inactive" = "Inactive";
 
 /* Dialog message */
 "Join" = "Katıl";
@@ -697,7 +703,16 @@
 "You have been kicked from channel" = "Kanaldan uzaklaştırıldınız";
 
 /* Dialog */
+"You have been kicked from channel by" = "You have been kicked from channel by";
+
+/* Dialog */
+"You have been kicked from channel by %@" = "You have been kicked from channel by %@";
+
+/* Dialog */
 "You have been kicked from server" = "Sunucudan uzaklaştırıldınız";
+
+/* Dialog */
+"You have been kicked from server by %@" = "You have been kicked from server by %@";
 
 /* speech */
 "You have selected %@" = "Seçtiğiniz: %@";
