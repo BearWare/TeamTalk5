@@ -41,6 +41,9 @@
    user detail */
 "Actions" = "操作";
 
+/* channel list */
+"Active" = "Active";
+
 /* serverlist */
 "Add new server entry" = "添加新服务器";
 
@@ -243,6 +246,9 @@
 
 /* server entry */
 "Host address" = "主机地址";
+
+/* channel list */
+"Inactive" = "Inactive";
 
 /* Dialog message */
 "Join" = "加入";
@@ -697,7 +703,16 @@
 "You have been kicked from channel" = "您已被踢出频道";
 
 /* Dialog */
+"You have been kicked from channel by" = "You have been kicked from channel by";
+
+/* Dialog */
+"You have been kicked from channel by %@" = "You have been kicked from channel by %@";
+
+/* Dialog */
 "You have been kicked from server" = "您已被踢出服务器";
+
+/* Dialog */
+"You have been kicked from server by %@" = "You have been kicked from server by %@";
 
 /* speech */
 "You have selected %@" = "您已选择 %@";

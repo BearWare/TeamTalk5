@@ -701,3 +701,18 @@
 
 /* Dialog */
 "You have been kicked from server" = "You have been kicked from server";
+
+/* channel list */
+"Active" = "Active";
+
+/* channel list */
+"Inactive" = "Inactive";
+
+/* Dialog */
+"You have been kicked from channel by" = "You have been kicked from channel by";
+
+/* Dialog */
+"You have been kicked from channel by %@" = "You have been kicked from channel by %@";
+
+/* Dialog */
+"You have been kicked from server by %@" = "You have been kicked from server by %@";
