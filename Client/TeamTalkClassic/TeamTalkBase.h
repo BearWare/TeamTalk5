@@ -352,9 +352,7 @@ enum SoundEvent
     SOUNDEVENT_ME_DISABLE_VOICEACTIVATION   = 0x00100000,
 
     SOUNDEVENT_ENABLE_MUTE_ALL              = 0x04000000,
-    SOUNDEVENT_DISABLE_MUTE_ALL             = 0x08000000,
-
-    SOUNDEVENT_MAX                          = SOUNDEVENT_USER_BROADCAST_TEXTMSG,
+    SOUNDEVENT_DISABLE_MUTE_ALL             = 0x08000000, // < current max
 
     SOUNDEVENT_DEFAULT                  = SOUNDEVENT_USER_JOIN |
                                           SOUNDEVENT_USER_LEFT |
