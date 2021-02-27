@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <teamtalk version="5.0">
     <general>
         <voice-activation-level>2</voice-activation-level>
@@ -14,30 +14,30 @@
         <auto-join-root>true</auto-join-root>
     </client>
     <events>
-        <newuser>Sounds\newuser.wav</newuser>
-        <removeduser>Sounds\removeuser.wav</removeduser>
-        <newmessage>Sounds\user_msg.wav</newmessage>
-        <serverlost>Sounds\serverlost.wav</serverlost>
-        <hotkeypressed>Sounds\hotkey.wav</hotkeypressed>
-        <channelmessage>Sounds\channel_msg.wav</channelmessage>
         <broadcastmessage>Sounds\broadcast_msg.wav</broadcastmessage>
-        <filesupdates>Sounds\fileupdate.wav</filesupdates>
-        <transferend>Sounds\filetx_complete.wav</transferend>
-        <new-video-session>Sounds\videosession.wav</new-video-session>
-        <new-desktop-session>Sounds\desktopsession.wav</new-desktop-session>
-        <question-mode>Sounds\questionmode.wav</question-mode>
+        <channelmessage>Sounds\channel_msg.wav</channelmessage>
         <desktop-access-req>Sounds\desktopaccessreq.wav</desktop-access-req>
-        <voice-activated>Sounds\voiceact_on.wav</voice-activated>
-        <voice-deactivated>Sounds\voiceact_off.wav</voice-deactivated>
-        <enable-voice-activation>Sounds\vox_enable.wav</enable-voice-activation>
-        <disable-voice-activation>Sounds\vox_disable.wav</disable-voice-activation>
-        <me-enable-voice-activation>Sounds\vox_me_enable.wav</me-enable-voice-activation>
-        <me-disable-voice-activation>Sounds\vox_me_disable.wav</me-disable-voice-activation>
+        <new-desktop-session>Sounds\desktopsession.wav</new-desktop-session>
+        <transferend>Sounds\filetx_complete.wav</transferend>
+        <filesupdates>Sounds\fileupdate.wav</filesupdates>
+        <hotkeypressed>Sounds\hotkey.wav</hotkeypressed>
+        <userloggedout>Sounds\logged_off.wav</userloggedout>
+        <userloggedin>Sounds\logged_on.wav</userloggedin>
         <enable-mute-all>Sounds\mute_all.wav</enable-mute-all>
-        <disable-mute-all>Sounds\unmute_all.wav</disable-mute-all>
+        <newuser>Sounds\newuser.wav</newuser>
+        <question-mode>Sounds\questionmode.wav</question-mode>
+        <removeduser>Sounds\removeuser.wav</removeduser>
+        <serverlost>Sounds\serverlost.wav</serverlost>
         <transmit-queue-front>Sounds\txqueue_start.wav</transmit-queue-front>
         <transmit-queue-stop>Sounds\txqueue_stop.wav</transmit-queue-stop>
-        <userloggedin>Sounds\logged_on.wav</userloggedin>
-        <userloggedout>Sounds\logged_off.wav</userloggedout>
+        <disable-mute-all>Sounds\unmute_all.wav</disable-mute-all>
+        <newmessage>Sounds\user_msg.wav</newmessage>
+        <new-video-session>Sounds\videosession.wav</new-video-session>
+        <voice-deactivated>Sounds\voiceact_off.wav</voice-deactivated>
+        <voice-activated>Sounds\voiceact_on.wav</voice-activated>        
+        <disable-voice-activation>Sounds\vox_disable.wav</disable-voice-activation>
+        <enable-voice-activation>Sounds\vox_enable.wav</enable-voice-activation>
+        <me-disable-voice-activation>Sounds\vox_me_disable.wav</me-disable-voice-activation>
+        <me-enable-voice-activation>Sounds\vox_me_enable.wav</me-enable-voice-activation>
     </events>
 </teamtalk>
