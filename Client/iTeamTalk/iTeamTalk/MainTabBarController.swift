@@ -392,7 +392,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                 {
                     if #available(iOS 8.0, *) {
                         let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
-                                                      message: NSLocalizedString("You have been kicked from channel by", comment: "Dialog"),
+                                                      message: NSLocalizedString("You have been kicked from channel", comment: "Dialog"),
                                                       preferredStyle: UIAlertController.Style.alert)
                         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
                         self.present(alert, animated: true, completion: nil)
