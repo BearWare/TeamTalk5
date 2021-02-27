@@ -796,6 +796,8 @@
     <item id="1603">频道类型</item>
     <item id="1604">用户可看到隐藏频道</item>
     <item id="1606">播放模式</item>
+    <item id="1608">静音主音量</item>
+    <item id="1609">取消主音量静音</item>
     <item id="32791">您的 &amp;IP 地址</item>
     <item id="32798">设维频道管理员(&amp;O)\tCtrl+O</item>
     <item id="32801">查看频道消息(&amp;W)\tF10</item>
