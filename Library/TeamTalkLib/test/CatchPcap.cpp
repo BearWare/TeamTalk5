@@ -185,7 +185,7 @@ TEST_CASE("AudioMuxerJitter")
             REQUIRE(p.ValidatePacket());
             REQUIRE(!p.HasFragments());
             REQUIRE(!p.HasFrameSizes());
-            std::cout << "User ID " << p.GetSrcUserID() << " Packet No " << p.GetPacketNumber() << " Stream ID " << int(p.GetStreamID()) << std::endl;
+            // std::cout << "User ID " << p.GetSrcUserID() << " Packet No " << p.GetPacketNumber() << " Stream ID " << int(p.GetStreamID()) << std::endl;
 
             if (!player)
             {
@@ -227,7 +227,7 @@ TEST_CASE("AudioMuxerJitter")
         }
         }
         ACE_Time_Value wait = i.first - last;
-        std::cout << "Sleeping " << wait << std::endl;
+        // std::cout << "Sleeping " << wait << std::endl;
         ACE_OS::sleep(wait);
         last = i.first;
     }
@@ -332,7 +332,7 @@ TEST_CASE("PlaybackJitter")
                 }
 
                 REQUIRE(p.GetChannel() == m_mychan->GetChannelID());
-                std::cout << "User ID " << p.GetSrcUserID() << " Packet No " << p.GetPacketNumber() << " Stream ID " << int(p.GetStreamID()) << " Channel ID: " << p.GetChannel() << std::endl;
+                // std::cout << "User ID " << p.GetSrcUserID() << " Packet No " << p.GetPacketNumber() << " Stream ID " << int(p.GetStreamID()) << " Channel ID: " << p.GetChannel() << std::endl;
                 m_users[p.GetSrcUserID()]->AddVoicePacket(p, m_sndprop, true);
             }
             }
