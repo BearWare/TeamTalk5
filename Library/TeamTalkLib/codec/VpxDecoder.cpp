@@ -37,6 +37,7 @@ VpxDecoder::VpxDecoder()
 
 VpxDecoder::~VpxDecoder()
 {
+    Close();
 }
 
 bool VpxDecoder::Open(int width, int height)
