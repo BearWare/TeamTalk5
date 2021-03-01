@@ -145,6 +145,8 @@ vidcap_devices_t V4L2Capture::GetDevices()
 
         devs.push_back(newdev);
     }
+    if (device_list)
+        avdevice_free_list_devices(&device_list);
     return devs;
 }
 
