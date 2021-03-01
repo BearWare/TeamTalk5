@@ -501,8 +501,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             SLOT(slotUpdateMyself()));
     connect(this, SIGNAL(newVideoCaptureFrame(int,int)), ui.channelsWidget, 
             SLOT(slotUserVideoFrame(int,int)));
-    connect(this, SIGNAL(newTextMessage(const TextMessage&)),
-            SLOT(slotNewTextMessage(const TextMessage&)));
+    connect(this, SIGNAL(newTextMessage(const MyTextMessage&)),
+            SLOT(slotNewTextMessage(const MyTextMessage&)));
     /* End - CLIENTEVENT_* messages */
 
     m_timers.insert(startTimer(1000), TIMER_ONE_SECOND);
@@ -1077,7 +1077,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     break;
     case CLIENTEVENT_CMD_USER_TEXTMSG :
         Q_ASSERT(msg.ttType == __TEXTMESSAGE);
-        processTextMessage(msg.textmessage);
+        processTextMessage(MyTextMessage(msg.textmessage));
         break;
     case CLIENTEVENT_CMD_FILE_NEW :
     {
@@ -2350,27 +2350,27 @@ TextMessageDlg* MainWindow::getTextMessageDlg(int userid)
 
         dlg->setAttribute(Qt::WA_DeleteOnClose);
         m_usermsg.insert(userid, dlg);
-        connect(dlg, SIGNAL(newMyselfTextMessage(const TextMessage&)),
-                SLOT(slotNewMyselfTextMessage(const TextMessage&)));
+        connect(dlg, SIGNAL(newMyselfTextMessage(const MyTextMessage&)),
+                SLOT(slotNewMyselfTextMessage(const MyTextMessage&)));
         connect(dlg, SIGNAL(closedTextMessage(int)), SLOT(slotTextMessageClosed(int)));
         connect(this, SIGNAL(userUpdate(const User&)), dlg, SLOT(slotUpdateUser(const User&)));
-        connect(this, SIGNAL(newTextMessage(const TextMessage&)), dlg, 
-                SLOT(slotNewMessage(const TextMessage&)));
+        connect(this, SIGNAL(newTextMessage(const MyTextMessage&)), dlg,
+                SLOT(slotNewMessage(const MyTextMessage&)));
         connect(this, SIGNAL(userLogout(const User&)), dlg, SLOT(slotUserLogout(const User&)));
         return dlg;
     }
 }
 
-void MainWindow::processTextMessage(const TextMessage& textmsg)
+void MainWindow::processTextMessage(const MyTextMessage& textmsg)
 {
     switch(textmsg.nMsgType)
     {
     case MSGTYPE_CHANNEL :
     {
         QString line;
-        line = ui.chatEdit->addTextMessage(MyTextMessage(textmsg));
-        ui.videochatEdit->addTextMessage(MyTextMessage(textmsg));
-        ui.desktopchatEdit->addTextMessage(MyTextMessage(textmsg));
+        line = ui.chatEdit->addTextMessage(textmsg);
+        ui.videochatEdit->addTextMessage(textmsg);
+        ui.desktopchatEdit->addTextMessage(textmsg);
 
         //setup channel text logging
         QString chanlog = ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString();
@@ -2387,9 +2387,9 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
         break;
     }
     case MSGTYPE_BROADCAST :
-        ui.chatEdit->addTextMessage(MyTextMessage(textmsg));
-        ui.videochatEdit->addTextMessage(MyTextMessage(textmsg));
-        ui.desktopchatEdit->addTextMessage(MyTextMessage(textmsg));
+        ui.chatEdit->addTextMessage(textmsg);
+        ui.videochatEdit->addTextMessage(textmsg);
+        ui.desktopchatEdit->addTextMessage(textmsg);
         playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
     case MSGTYPE_USER :
@@ -4901,23 +4901,23 @@ void MainWindow::slotChannelDoubleClicked(int)
     slotChannelsJoinChannel(false);
 }
 
-void MainWindow::slotNewTextMessage(const TextMessage& textmsg)
+void MainWindow::slotNewTextMessage(const MyTextMessage& textmsg)
 {
     if(textmsg.nMsgType != MSGTYPE_USER)
         return;
 
     usermessages_t::iterator ii = m_usermessages.find(textmsg.nFromUserID);
     if(ii != m_usermessages.end())
-        ii.value().push_back(MyTextMessage(textmsg));
+        ii.value().push_back(textmsg);
     else
     {
         textmessages_t msgs;
-        msgs.push_back(MyTextMessage(textmsg));
+        msgs.push_back(textmsg);
         m_usermessages.insert(textmsg.nFromUserID, msgs);
     }
 }
 
-void MainWindow::slotNewMyselfTextMessage(const TextMessage& textmsg)
+void MainWindow::slotNewMyselfTextMessage(const MyTextMessage& textmsg)
 {
     if(textmsg.nMsgType != MSGTYPE_USER)
         return;

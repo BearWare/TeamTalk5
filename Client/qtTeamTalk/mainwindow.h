@@ -234,7 +234,7 @@ private:
     void firewallInstall();
 #endif
     void subscribeCommon(bool checked, Subscriptions subs, int userid = 0);
-    void processTextMessage(const TextMessage& textmsg);
+    void processTextMessage(const MyTextMessage& textmsg);
     void processMyselfJoined(int channelid);
     void processMyselfLeft(int channelid);
     TextMessageDlg* getTextMessageDlg(int userid);
@@ -375,8 +375,8 @@ private slots:
     void slotSendChannelMessage();
     void slotUserDoubleClicked(int userid);
     void slotChannelDoubleClicked(int channelid);
-    void slotNewTextMessage(const TextMessage& textmsg);
-    void slotNewMyselfTextMessage(const TextMessage& textmsg);
+    void slotNewTextMessage(const MyTextMessage& textmsg);
+    void slotNewMyselfTextMessage(const MyTextMessage& textmsg);
     void slotTextMessageClosed(int userid);
     void slotTransmitUsersChanged(int channelid, const QMap<int,StreamTypes>&);
     void slotChannelUpdate(const Channel& chan);
@@ -436,7 +436,7 @@ signals:
     void newMediaVideoFrame(int userid, int stream_id);
     void newDesktopWindow(int userid, int sessionid);
     void userDesktopCursor(int src_userid, const DesktopInput&);
-    void newTextMessage(const TextMessage& textmsg);
+    void newTextMessage(const MyTextMessage& textmsg);
     void filetransferUpdate(const FileTransfer& transfer);
     void mediaStreamUpdate(const MediaFileInfo& mfi);
     void mediaPlaybackUpdate(int sessionID, const MediaFileInfo& mfi);

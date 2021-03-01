@@ -105,8 +105,7 @@ void TextMessageDlg::timerEvent(QTimerEvent *event)
             ServerProperties srvprop;
             if(TT_GetServerProperties(ttInst, &srvprop))
             {
-                TextMessage msg;
-                ZERO_STRUCT(msg);
+                MyTextMessage msg;
                 msg.nFromUserID = TT_GetMyUserID(ttInst);
                 msg.nMsgType = MSGTYPE_CUSTOM;
                 msg.nToUserID = m_userid;

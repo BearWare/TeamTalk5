@@ -46,7 +46,7 @@ public slots:
     void slotUserLogout(const User& user);
 
 signals:
-    void newMyselfTextMessage(const TextMessage& textmsg);
+    void newMyselfTextMessage(const MyTextMessage& textmsg);
     void closedTextMessage(int userid);
 
 protected:
