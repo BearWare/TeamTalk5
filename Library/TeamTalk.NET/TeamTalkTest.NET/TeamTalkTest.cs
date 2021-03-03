@@ -1432,14 +1432,6 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, DEF_WAIT, ref msg));
             RemoteFile file = (RemoteFile)msg.DataToObject();
 
-            Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_FILETRANSFER, 10000, ref msg));
-            tx = (FileTransfer)msg.DataToObject();
-
-            Assert.IsFalse(tx.bInbound);
-            Assert.AreEqual(ttclient.GetMyChannelID(), tx.nChannelID);
-            Assert.AreEqual(UPLOADFILE, tx.szLocalFilePath);
-            Assert.AreEqual(FileTransferStatus.FILETRANSFER_FINISHED, tx.nStatus);
-
             RemoteFile[] files;
             Assert.IsTrue(ttclient.GetChannelFiles(ttclient.GetMyChannelID(), out files));
 
@@ -1483,6 +1475,24 @@ namespace TeamTalkTest.NET
 
             cmdid = ttclient.DoDeleteFile(ttclient.GetMyChannelID(), file.nFileID);
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, ref msg), "delete file success");
+
+            cmdid = ttclient.DoSendFile(ttclient.GetMyChannelID(), UPLOADFILE);
+            Assert.IsTrue(cmdid > 0, "file upload");
+            Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, ref msg), "reg upload success");
+
+            Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_FILETRANSFER, 10000, ref msg));
+            tx = (FileTransfer)msg.DataToObject();
+            Assert.AreEqual(FileTransferStatus.FILETRANSFER_ACTIVE, tx.nStatus);
+            Assert.IsFalse(tx.bInbound);
+            Assert.AreEqual(ttclient.GetMyChannelID(), tx.nChannelID);
+            Assert.AreEqual(UPLOADFILE, tx.szLocalFilePath);
+
+            Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_FILETRANSFER, 2000, ref msg));
+            tx = (FileTransfer)msg.DataToObject();
+            Assert.IsFalse(tx.bInbound);
+            Assert.AreEqual(ttclient.GetMyChannelID(), tx.nChannelID);
+            Assert.AreEqual(UPLOADFILE, tx.szLocalFilePath);
+            Assert.AreEqual(FileTransferStatus.FILETRANSFER_FINISHED, tx.nStatus);
         }
 
         [TestMethod]
