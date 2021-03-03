@@ -128,6 +128,9 @@ namespace BearWare
         /** @brief The #BearWare.SoundDevice can run in duplex mode.
          * @see TeamTalkBase.InitSoundDuplexDevices() */
         SOUNDDEVICEFEATURE_DUPLEXMODE = 0x0010,
+        /** @brief The #BearWare.SoundDevice is the default communication device.
+         * This feature is only supported on #SoundSystem.SOUNDSYSTEM_WASAPI. */
+        SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE = 0x0020,
     }
 
     /**
@@ -822,7 +825,11 @@ namespace BearWare
      * @{ */
 
     /** @brief Speex audio codec settings for Constant Bitrate mode
-     * (CBR). @see SpeexVBRCodec */
+     * (CBR).
+     *
+     * @deprecated Use #OpusCodec.
+     *
+     * @see SpeexVBRCodec */
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
     public struct SpeexCodec
     {
@@ -855,7 +862,10 @@ namespace BearWare
     }
 
     /** @brief Speex audio codec settings for Variable Bitrate mode
-     * (VBR). */
+     * (VBR).
+     *
+     * @deprecated Use #OpusCodec.
+     */
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SpeexVBRCodec
     {
@@ -1037,6 +1047,8 @@ namespace BearWare
 
     /** @brief Audio configuration specifying how recorded audio from
     * sound input device should be preprocessed before transmission.
+    *
+    * @deprecated Use #WebRTCAudioPreprocessor.
     *
     * Users' audio levels may be diffent due to how their microphone
     * is configured in their OS. Automatic Gain Control (AGC) can be used
