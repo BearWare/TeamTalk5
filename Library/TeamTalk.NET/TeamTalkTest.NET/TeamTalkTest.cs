@@ -2362,7 +2362,30 @@ namespace TeamTalkTest.NET
             Assert.AreEqual(spxdsp2.nEchoSuppressActive, spxdsp.nEchoSuppressActive);
 
             cmdid = ttclient.DoJoinChannel(chan);
+            WaitCmdSuccess(ttclient, cmdid, DEF_WAIT);
 
+            AudioPreprocessor preprocess = new AudioPreprocessor();
+            preprocess.nPreprocessor = AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR;
+            preprocess.webrtc = new WebRTCAudioPreprocessor(true);
+            Assert.IsTrue(ttclient.SetSoundInputPreprocess(preprocess));
+            AudioPreprocessor preprocess2 = new AudioPreprocessor();
+            Assert.IsTrue(ttclient.GetSoundInputPreprocess(ref preprocess2));
+
+            Assert.AreEqual(preprocess.nPreprocessor, AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR);
+            Assert.AreEqual(preprocess.webrtc.preamplifier.bEnable, preprocess2.webrtc.preamplifier.bEnable);
+            Assert.AreEqual(preprocess.webrtc.preamplifier.fFixedGainFactor, preprocess2.webrtc.preamplifier.fFixedGainFactor);
+            Assert.AreEqual(preprocess.webrtc.echocanceller.bEnable, preprocess2.webrtc.echocanceller.bEnable);
+            Assert.AreEqual(preprocess.webrtc.noisesuppression.bEnable, preprocess2.webrtc.noisesuppression.bEnable);
+            Assert.AreEqual(preprocess.webrtc.noisesuppression.nLevel, preprocess2.webrtc.noisesuppression.nLevel);
+            Assert.AreEqual(preprocess.webrtc.voicedetection.bEnable, preprocess2.webrtc.voicedetection.bEnable);
+            Assert.AreEqual(preprocess.webrtc.gaincontroller2.bEnable, preprocess2.webrtc.gaincontroller2.bEnable);
+            Assert.AreEqual(preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB, preprocess2.webrtc.gaincontroller2.fixeddigital.fGainDB);
+            Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB, preprocess2.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB);
+            Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB, preprocess2.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB);
+            Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond, preprocess2.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond);
+            Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS, preprocess2.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS);
+            Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable, preprocess2.webrtc.gaincontroller2.adaptivedigital.bEnable);
+            Assert.AreEqual(preprocess.webrtc.levelestimation.bEnable, preprocess2.webrtc.levelestimation.bEnable);
         }
 
         [TestMethod]
@@ -2638,6 +2661,47 @@ namespace TeamTalkTest.NET
             //VoiceTxRx(ttclient, 30000, 5000, 5000);
             //VoiceTxRx(ttclient, 60000, 5000, 30000);
             //VoiceTxRx(ttclient, 120000, 5000, 31000);
+        }
+
+        [TestMethod]
+        public void TestVoiceJitter()
+        {
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
+            const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+                                         UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
+            MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
+            TeamTalkBase ttclient = NewClientInstance();
+
+            Connect(ttclient);
+            InitSound(ttclient);
+            Login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+            Assert.IsTrue(ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 440));
+
+            Channel chan = BuildDefaultChannel(ttclient, "Opus");
+            Assert.AreEqual(chan.audiocodec.nCodec, Codec.OPUS_CODEC);
+
+            Assert.IsTrue(WaitCmdSuccess(ttclient, ttclient.DoJoinChannel(chan), DEF_WAIT));
+
+            Assert.IsTrue(WaitCmdSuccess(ttclient, ttclient.DoSubscribe(ttclient.UserID, Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+
+            JitterConfig jitter = new JitterConfig();
+            jitter.bUseAdativeDejitter = true;
+            jitter.nFixedDelayMSec = 1000;
+            jitter.nActiveAdaptiveDelayMSec = 1500;
+            jitter.nMaxAdaptiveDelayMSec = 3000;
+
+            Assert.IsTrue(ttclient.SetUserJitterControl(ttclient.UserID, StreamType.STREAMTYPE_VOICE, jitter));
+            JitterConfig jitter2 = new JitterConfig();
+            Assert.IsTrue(ttclient.GetUserJitterControl(ttclient.UserID, StreamType.STREAMTYPE_VOICE, ref jitter2));
+
+            Assert.AreEqual(jitter.bUseAdativeDejitter, jitter2.bUseAdativeDejitter);
+            Assert.AreEqual(jitter.nActiveAdaptiveDelayMSec, jitter2.nActiveAdaptiveDelayMSec);
+            Assert.AreEqual(jitter.nFixedDelayMSec, jitter2.nFixedDelayMSec);
+            Assert.AreEqual(jitter.nMaxAdaptiveDelayMSec, jitter2.nMaxAdaptiveDelayMSec);
+
+            Assert.IsTrue(ttclient.EnableVoiceTransmission(true));
+            Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, DEF_WAIT));
         }
 
         [TestMethod]
