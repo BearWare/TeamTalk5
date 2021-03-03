@@ -2578,7 +2578,7 @@ namespace BearWare
          * @see TeamTalkBase.DoChannelOp
          * @see TeamTalkBase.TT_CLASSROOM_FREEFORALL */
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = TeamTalkBase.TT_TRANSMITUSERS_MAX * 2)]
-        public int[,] transmitUsers;
+        public int[] transmitUsers;
         /** @brief The users currently queued for voice or media file transmission.
          *
          * This property only applied with channel is configured with
@@ -2586,45 +2586,31 @@ namespace BearWare
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = TeamTalkBase.TT_TRANSMITQUEUE_MAX)]
         public int[] transmitUsersQueue;
 
-        public Channel(bool set_defaults) : this()
-        {
-            if (set_defaults)
-            {
-                transmitUsers = new int[TeamTalkBase.TT_TRANSMITUSERS_MAX, 2];
-            }
-        }
-
         /** @brief Helper function for adding a user and
          * #BearWare.StreamType to @c transmitUsers */
         public void AddTransmitUser(int nUserID, StreamType uStreamType)
         {
-            if (transmitUsers.Rank == 1)
-                transmitUsers = new int[TeamTalkBase.TT_TRANSMITUSERS_MAX, 2];
-
             int i;
             for (i = 0; i < TeamTalkBase.TT_TRANSMITUSERS_MAX; i++)
             {
-                if (transmitUsers[i, 0] == 0 || transmitUsers[i, 0] == nUserID)
+                if (transmitUsers[i * 2] == 0 || transmitUsers[i * 2] == nUserID)
                     break;
             }
             if (i < TeamTalkBase.TT_TRANSMITUSERS_MAX)
             {
-                transmitUsers[i, 0] = nUserID;
-                transmitUsers[i, 1] |= (int)uStreamType;
+                transmitUsers[i * 2] = nUserID;
+                transmitUsers[i * 2 + 1] |= (int)uStreamType;
             }
         }
         /** @brief Helper function for getting the #StreamType a user
          * can transmit by querying @c transmitUsers. */
         public StreamType GetTransmitStreamTypes(int nUserID)
         {
-            if (transmitUsers.Rank == 1)
-                transmitUsers = new int[TeamTalkBase.TT_TRANSMITUSERS_MAX, 2];
-
             int i;
             for (i = 0; i < TeamTalkBase.TT_TRANSMITUSERS_MAX; i++)
             {
-                if (transmitUsers[i, 0] == nUserID)
-                    return (StreamType)transmitUsers[i, 1];
+                if (transmitUsers[i * 2] == nUserID)
+                    return (StreamType)transmitUsers[i * 2 + 1];
             }
             return StreamType.STREAMTYPE_NONE;
         }
@@ -2634,7 +2620,7 @@ namespace BearWare
             int i;
             for (i = 0; i < TeamTalkBase.TT_TRANSMITUSERS_MAX; i++)
             {
-                if (transmitUsers[i, 0] == 0)
+                if (transmitUsers[i * 2] == 0)
                     break;
             }
             return i;
@@ -2642,26 +2628,23 @@ namespace BearWare
         /** @brief Helper function for removing a #StreamType for a user in @c transmitUsers. */
         public void RemoveTransmitUser(int nUserID, StreamType uStreamType)
         {
-            if (transmitUsers.Rank == 1)
-                transmitUsers = new int[TeamTalkBase.TT_TRANSMITUSERS_MAX, 2];
-
             int i;
             for (i = 0; i < TeamTalkBase.TT_TRANSMITUSERS_MAX; i++)
             {
-                if (transmitUsers[i, 0] == nUserID)
+                if (transmitUsers[i * 2] == nUserID)
                     break;
             }
             if (i < TeamTalkBase.TT_TRANSMITUSERS_MAX)
             {
-                transmitUsers[i, 0] = nUserID;
-                transmitUsers[i, 1] &= (int)~uStreamType;
+                transmitUsers[i * 2] = nUserID;
+                transmitUsers[i * 2 + 1] &= (int)~uStreamType;
 
-                if (transmitUsers[i, 1] == (int)StreamType.STREAMTYPE_NONE)
+                if (transmitUsers[i * 2 + 1] == (int)StreamType.STREAMTYPE_NONE)
                 {
                     for (; i < TeamTalkBase.TT_TRANSMITUSERS_MAX - 1; i++)
                     {
-                        transmitUsers[i, 0] = transmitUsers[i + 1, 0];
-                        transmitUsers[i, 1] = transmitUsers[i + 1, 1];
+                        transmitUsers[i * 2] = transmitUsers[(i + 1) * 2 + 1];
+                        transmitUsers[i * 2 + 1] = transmitUsers[(i + 1) * 2 + 1];
                     }
                 }
             }

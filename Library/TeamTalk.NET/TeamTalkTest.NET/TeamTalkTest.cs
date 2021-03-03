@@ -3019,7 +3019,7 @@ namespace TeamTalkTest.NET
 
         private static Channel BuildDefaultChannel(TeamTalkBase ttclient, string name)
         {
-            Channel chan = new Channel(true);
+            Channel chan = new Channel();
             chan.nParentID = ttclient.GetRootChannelID();
             chan.szName = name;
             chan.szTopic = "a topic";
