@@ -1825,8 +1825,9 @@ namespace TeamTalkTest.NET
             Assert.AreEqual(prop.bAutoSave, prop2.bAutoSave);
             Assert.AreEqual(prop.szMOTDRaw, prop2.szMOTDRaw);
             Assert.AreEqual(prop.nMaxLoginAttempts, prop2.nMaxLoginAttempts);
-            Assert.AreEqual(prop.nTcpPort, prop2.nTcpPort);
-            Assert.AreEqual(prop.nUdpPort, prop2.nUdpPort);
+            // Cannot modify TCP/UDP port
+            //Assert.AreEqual(prop.nTcpPort, prop2.nTcpPort);
+            //Assert.AreEqual(prop.nUdpPort, prop2.nUdpPort);
 
             cmdid = ttclient2.DoUpdateServer(org_prop);
             Assert.IsTrue(cmdid > 0, "issued srv upd");
