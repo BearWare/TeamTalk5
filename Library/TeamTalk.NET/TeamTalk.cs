@@ -827,7 +827,7 @@ namespace BearWare
     /** @brief Speex audio codec settings for Constant Bitrate mode
      * (CBR).
      *
-     * @deprecated Use #OpusCodec.
+     * @deprecated Use #BearWare.OpusCodec.
      *
      * @see SpeexVBRCodec */
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
@@ -864,7 +864,7 @@ namespace BearWare
     /** @brief Speex audio codec settings for Variable Bitrate mode
      * (VBR).
      *
-     * @deprecated Use #OpusCodec.
+     * @deprecated Use #BearWare.OpusCodec.
      */
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SpeexVBRCodec
@@ -1048,7 +1048,7 @@ namespace BearWare
     /** @brief Audio configuration specifying how recorded audio from
     * sound input device should be preprocessed before transmission.
     *
-    * @deprecated Use #WebRTCAudioPreprocessor.
+    * @deprecated Use #BearWare.WebRTCAudioPreprocessor.
     *
     * Users' audio levels may be diffent due to how their microphone
     * is configured in their OS. Automatic Gain Control (AGC) can be used
@@ -1184,6 +1184,197 @@ namespace BearWare
         public bool bMuteRightSpeaker;
     }
 
+    /** @brief WebRTC's audio preprocessor.
+     *
+     * Use WebRTC's audio preprocessor, https://webrtc.org
+     *
+     * Note that WebRTC's can only operate on 10 msec audio frame, so
+     * @c nTxIntervalMSec in #BearWare.AudioCodec must a multiple of 10.
+     *
+     * #BearWare.WebRTCAudioPreprocessor is recommended to
+     * TeamTalkBase.SetSoundDeviceEffects() on desktop platforms. */
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct WebRTCAudioPreprocessor
+    {
+        /** @brief Configuration of WebRTC pre-amplifier. */
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct Preamplifier
+        {
+            /** @brief Enable pre-amplifier. Replacement for
+             * TT_SetSoundInputGainLevel() */
+            public bool bEnable;
+            /** @brief Gain factor. Default: 1. */
+            public float fFixedGainFactor;
+        }
+        public Preamplifier preamplifier;
+
+        /** @brief Configuration of WebRTC's echo canceller. See also
+         * TT_SetSoundDeviceEffects() */
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct EchoCanceller
+        {
+            /** @brief Enable WebRTC echo canceller. The WebRTC echo
+             * canceller requires sound input and output devices are
+             * initialized using TT_InitSoundDuplexDevices(). This is
+             * because both input and output device must use the same
+             * sample rate. */
+            public bool bEnable;
+        }
+        public EchoCanceller echocanceller;
+
+        /** @brief Configuration of WebRTC's noise suppression. See
+         * also #BearWare.SpeexDSP. */
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct NoiseSuppression
+        {
+            /** @brief Enable WebRTC noise suppression. */
+            public bool bEnable;
+            /** @brief Noise suppression level. 0 = Low, 1 = Moderate,
+             * 2 = High, 3 = VeryHigh. Default: 1. */
+            public int nLevel;
+        }
+        public NoiseSuppression noisesuppression;
+
+        /** @brief Configuration of WebRTC's voice detection. */
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct VoiceDetection
+        {
+            /** @brief Use WebRTC's voice detection to trigger
+             * #BearWare.TeamTalkBase.OnVoiceActivation.
+             *
+             * TeamTalkBase.EnableVoiceActivation() must still be called to
+             * activate voice detection event
+             * #BearWare.TeamTalkBase.OnVoiceActivation.
+             *
+             * Enabling WebRTC's voice detection invalidates use of
+             * TeamTalkBase.SetVoiceActivationLevel() */
+            public bool bEnable;
+        }
+        public VoiceDetection voicedetection;
+
+        /** @brief Configuration of WebRTC's gain controller 2 for
+         * AGC. */
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct GainController2
+        {
+            /** @brief Enable WebRTC's fixed digital gain. WebRTC's
+             * automatic gain control (AGC) */
+            public bool bEnable;
+            /** @brief Gain level for AGC. Only active when @c bEnable
+             * is true. */
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+            public struct FixedDigital
+            {
+                /** @brief Gain level in dB. Range: 0 <= x < 50. Default:
+                 * 0. */
+                public float fGainDB;
+            }
+            public FixedDigital fixeddigital;
+
+            /** @brief Configuration for fine tuning gain level. */
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+            public struct AdaptiveDigital
+            {
+                /* @brief Enable saturation protector where saturation
+                 * margin is 2 dB. */
+                public bool bEnable;
+                /* Range: 0 <= x <= 100. Default: 20 dB */
+                public float fInitialSaturationMarginDB;
+                /* Range: 0 <= x <= 100. Default: 2 dB */
+                public float fExtraSaturationMarginDB;
+                /* Range: 0 < x < infinite. Default: 3 dB/sec */
+                public float fMaxGainChangeDBPerSecond;
+                /* Range: -infinite < x < 0. Default: -50 */
+                public float fMaxOutputNoiseLevelDBFS;
+            }
+            public AdaptiveDigital adaptivedigital;
+        }
+        public GainController2 gaincontroller2;
+
+        /** @brief Configuration of WebRTC's level estimater. */
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct LevelEstimation
+        {
+            /** @brief Enable level estimater. When enabled
+             * TeamTalkBase.GetSoundInputLevel() will return a value based on
+             * WebRTC's level estimater. A WebRTC level estimater
+             * value of 0 will result in #BearWare.SoundLevel.SOUND_VU_MAX and level
+             * estimater value of 127 will return #BearWare.SoundLevel.SOUND_VU_MIN. */
+            public bool bEnable;
+        }
+        public LevelEstimation levelestimation;
+
+        public WebRTCAudioPreprocessor(bool set_defaults)
+        {
+            if (set_defaults)
+            {
+                preamplifier.bEnable = WebRTCConstants.DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE;
+                preamplifier.fFixedGainFactor = WebRTCConstants.DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR;
+
+                echocanceller.bEnable = WebRTCConstants.DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE;
+
+                noisesuppression.bEnable = WebRTCConstants.DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE;
+                noisesuppression.nLevel = WebRTCConstants.DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL;
+
+                voicedetection.bEnable = WebRTCConstants.DEFAULT_WEBRTC_VAD_ENABLE;
+
+                gaincontroller2.bEnable = WebRTCConstants.DEFAULT_WEBRTC_GAINCTL_ENABLE;
+                gaincontroller2.fixeddigital.fGainDB = WebRTCConstants.DEFAULT_WEBRTC_GAINDB;
+
+                gaincontroller2.adaptivedigital.bEnable = WebRTCConstants.DEFAULT_WEBRTC_SAT_PROT_ENABLE;
+                gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = WebRTCConstants.DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB;
+                gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = WebRTCConstants.DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB;
+                gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = WebRTCConstants.DEFAULT_WEBRTC_MAXGAIN_DBSEC;
+                gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = WebRTCConstants.DEFAULT_WEBRTC_MAX_OUT_NOISE;
+
+                levelestimation.bEnable = WebRTCConstants.DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE;
+            }
+            else
+            {
+                preamplifier.bEnable = false;
+                preamplifier.fFixedGainFactor = 0.0f;
+
+                echocanceller.bEnable = false;
+
+                noisesuppression.bEnable = false;
+                noisesuppression.nLevel = 0;
+
+                voicedetection.bEnable = false;
+
+                gaincontroller2.bEnable = false;
+                gaincontroller2.fixeddigital.fGainDB = 0.0f;
+
+                gaincontroller2.adaptivedigital.bEnable = false;
+                gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = 0.0f;
+                gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = 0.0f;
+                gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = 0.0f;
+                gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = 0.0f;
+
+                levelestimation.bEnable = false;
+            }
+        }
+    }
+
+    /** @brief Default values for #BearWare.WebRTCAudioPreprocessor. */
+    public struct WebRTCConstants
+    {
+        public const bool DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE = false;
+        public const float DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR = 1.0f;
+        public const bool DEFAULT_WEBRTC_VAD_ENABLE = false;
+        public const bool DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE = false;
+        public const bool DEFAULT_WEBRTC_GAINCTL_ENABLE = false;
+        public const float DEFAULT_WEBRTC_GAINDB = 15;
+        public const bool DEFAULT_WEBRTC_SAT_PROT_ENABLE = false;
+        public const float DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB = 20;
+        public const float DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB = 2;
+        public const float DEFAULT_WEBRTC_MAXGAIN_DBSEC = 3;
+        public const float DEFAULT_WEBRTC_MAX_OUT_NOISE = -50;
+        public const bool DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE = false;
+        public const int DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL = 2;
+        public const bool DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE = false;
+        public const float WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX = 49.9f;
+    }
+
     /** @brief The types of supported audio preprocessors.
      *
      * @see TeamTalkBase.InitLocalPlayback() */
@@ -1196,6 +1387,9 @@ namespace BearWare
         SPEEXDSP_AUDIOPREPROCESSOR = 1,
         /** @brief Use TeamTalk's internal audio preprocessor #BearWare.TTAudioPreprocessor. */
         TEAMTALK_AUDIOPREPROCESSOR = 2,
+        /** @brief Use WebRTC's audio preprocessor from
+         * #BearWare.WebRTCAudioPreprocessor. https://webrtc.org */
+        WEBRTC_AUDIOPREPROCESSOR = 3,
     };
 
     /** @brief Configure the audio preprocessor specified by @c nPreprocessor. */
@@ -1211,6 +1405,9 @@ namespace BearWare
         /** @brief Used when @c nPreprocessor is #AudioPreprocessorType.TEAMTALK_AUDIOPREPROCESSOR. */
         [FieldOffset(4)]
         public TTAudioPreprocessor ttpreprocessor;
+        /** @brief Used when @c nPreprocessor is #AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR. */
+        [FieldOffset(4)]
+        public WebRTCAudioPreprocessor webrtc;
     }
 
     /** @brief Default values for #BearWare.SpeexDSP. */
@@ -1321,7 +1518,7 @@ namespace BearWare
      *
      * The audio configuration only supports same audio level
      * for all users by manually converting the values to the
-     * #BearWare.SpeexDSP preprocessor.
+     * #BearWare.AudioPreprocessor preprocessor.
      *
      * @see TeamTalkBase.SetSoundInputPreprocess()
      * @see TeamTalkBase.DoMakeChannel()
@@ -1409,7 +1606,7 @@ namespace BearWare
     public struct MediaFilePlayback
     {
         /** @brief Offset in milliseconds in the media file where to
-         * start playback. Pass -1 (0xffffffff) to ignore this value when 
+         * start playback. Pass #BearWare.TeamTalkBase.TT_MEDIAPLAYBACK_OFFSET_IGNORE to ignore this value when 
          * using TeamTalkBase.UpdateLocalPlayback() or TeamTalkBase.UpdateStreamingMediaFileToChannel().
          * @c uOffsetMSec must be less than @c uDurationMSec in #BearWare.MediaFileInfo. */
         public uint uOffsetMSec;
@@ -2125,9 +2322,9 @@ namespace BearWare
          * content.
          * @see TeamTalkBase.SetUserAudioStreamBufferSize() */
         public int nBufferMSecMediaFile;
-        /** @brief the currently active adaptive jitter delay for
-        received voice streams for this user.
-        * @see TT_SetUserJitterControl */
+        /** @brief The currently active adaptive jitter delay for
+         * received voice streams for this user.
+         * @see TT_SetUserJitterControl */
         public int nActiveAdaptiveDelayMSec;
         /** @brief The name of the client application which the user
          * is using. This is the value passed as @c szClientName in
@@ -2269,7 +2466,7 @@ namespace BearWare
         CHANNEL_NO_RECORDING                                    = 0x0020,
         /** @brief Hidden channel which can only be seen with
          * #UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS. */
-        CHANNEL_HIDDEN                                          = 0x0040
+        CHANNEL_HIDDEN                                          = 0x0040,
     }
 
     /**
@@ -2631,6 +2828,18 @@ namespace BearWare
         /** @brief The number of seconds nothing has been received by
          * the client on UDP.  @see ClientKeepAlive */
         public int nUdpServerSilenceSec;
+        /** @brief Delay of sound input device until the first audio 
+         * frame is delivered (in msec).
+         *
+         * The time from when the sound input device is started and until the first
+         * audio frame is delived (not including the time of the initial audio frame).
+         *
+         * @c nSoundInputDeviceDelayMSec is only updated when #BearWare.TeamTalkBase instance is in
+         * a channel. @c nSoundInputDeviceDelayMSec will remain zero until the
+         * first audio frame is delived.
+         *
+         * @see TT_InitSoundInputDevice() */
+        public int nSoundInputDeviceDelayMSec;
     }
 
     /** @ingroup connectivity
@@ -2648,6 +2857,13 @@ namespace BearWare
         /** @brief A hard maximum delay on the adaptive delay. 
         Only valid when higher than zero. Default = 0.*/
         public int nMaxAdaptiveDelayMSec;
+        /** @brief The current adaptive delay.
+        When used with TeamTalkBase.SetUserJitterControl(), this value is used as the
+        adaptive jitter delay starting at the next voice stream of the user.
+        Default = 0, meaning the value will not be used.
+        When returned via TT_GetUserJitterControl, it contains the currently
+        active adaptive jitter delay.*/
+        public int nActiveAdaptiveDelayMSec;
     }
 
 
@@ -3527,7 +3743,7 @@ namespace BearWare
         * @param ttType #TTType.__USER.
         * @param user Placed in union of #BearWare.TTMessage.
         *
-        * @see TT_SetUserJitterControl */
+        * @see TeamTalkBase.SetUserJitterControl */
         CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET = CLIENTEVENT_NONE + 1090,
     }
 
@@ -3576,7 +3792,8 @@ namespace BearWare
         __CLIENTKEEPALIVE         = 38,
         __UINT32                  = 39,
         __AUDIOINPUTPROGRESS      = 40,
-        __JITTERCONFIG            = 41
+        __JITTERCONFIG            = 41,
+        __WEBRTCAUDIOPREPROCESSOR = 42,
     }
 
     /**
@@ -3983,8 +4200,9 @@ namespace BearWare
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__SPEEXDSP) == Marshal.SizeOf(new SpeexDSP()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__STREAMTYPE) == Marshal.SizeOf(Enum.GetUnderlyingType(typeof(StreamType))));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__AUDIOPREPROCESSORTYPE) == Marshal.SizeOf(Enum.GetUnderlyingType(typeof(AudioPreprocessorType))));
-            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__AUDIOPREPROCESSOR) == Marshal.SizeOf(new AudioPreprocessor()));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__WEBRTCAUDIOPREPROCESSOR) == Marshal.SizeOf(new WebRTCAudioPreprocessor()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__TTAUDIOPREPROCESSOR) == Marshal.SizeOf(new TTAudioPreprocessor()));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__AUDIOPREPROCESSOR) == Marshal.SizeOf(new AudioPreprocessor()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__MEDIAFILEPLAYBACK) == Marshal.SizeOf(new MediaFilePlayback()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__CLIENTKEEPALIVE) == Marshal.SizeOf(new ClientKeepAlive()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__AUDIOINPUTPROGRESS) == Marshal.SizeOf(new AudioInputProgress()));
@@ -4719,6 +4937,9 @@ namespace BearWare
          * client instance joins a channel, i.e. it knows what sample rate
          * to use.
          *
+         * If #BearWare.WebRTCAudioPreprocessor is active with @c levelestimation enabled
+         * then the current input level is based on WebRTC's level estimater.
+         *
          * @return Returns a value between
          * #BearWare.SoundLevel.SOUND_VU_MIN and
          * #BearWare.SoundLevel.SOUND_VU_MAX */
@@ -5018,7 +5239,12 @@ namespace BearWare
          * @brief Set voice activation level.
          *
          * The current volume level can be queried calling
-         * GetSoundInputLevel().
+         * GetSoundInputLevel(). When GetSoundInputLevel() is
+         * greater or equal to voice activation level then
+         * #OnVoiceActivation is triggered.
+         *
+         * If #BearWare.WebRTCAudioPreprocessor is active with @c voicedetection
+         * enabled then SetVoiceActivationLevel() is not applicable.
          *
          * @param nLevel Must be between #BearWare.SoundLevel.SOUND_VU_MIN and #BearWare.SoundLevel.SOUND_VU_MAX
          * @see TeamTalkBase.EnableVoiceActivation
@@ -5528,9 +5754,14 @@ namespace BearWare
         }
 
         /**
-         * Play media file using settings from TeamTalk instance.
-         * I.e. TeamTalkBase.SetSoundOutputMute(), TeamTalkBase.SetSoundOutputVolume() and
-         * TeamTalkBase.InitSoundOutputDevice().
+         * @brief Play media file using settings from #TeamTalkBase instance.
+         * 
+         * The sound system properties of the #TeamTalkBase instance will be used
+         * for playback, i.e. TeamTalkBase.SetSoundOutputMute(),
+         * TeamTalkBase.SetSoundOutputVolume() and TeamTalkBase.InitSoundOutputDevice().
+         *
+         * Monitor progress of playback by checking for event
+         * #OnLocalMediaFile.
          *
          * @param szMediaFilePath Path to media file.
          * @param lpMediaFilePlayback Playback settings to pause, seek and
@@ -7362,7 +7593,7 @@ namespace BearWare
         * @param lpJitterConfig The jitter buffer configuration.*/
         public bool SetUserJitterControl(int nUserID,
                                          StreamType nStreamType,
-                                         ref JitterConfig lpJitterConfig)
+                                         JitterConfig lpJitterConfig)
         {
             return TTDLL.TT_SetUserJitterControl(m_ttInst, nUserID, nStreamType, ref lpJitterConfig);
         }
