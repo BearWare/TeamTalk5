@@ -3410,6 +3410,10 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(ClientKeepAlive);
     case __AUDIOINPUTPROGRESS :
         return sizeof(AudioInputProgress);
+    case __JITTERCONFIG :
+        return sizeof(JitterConfig);
+    case __WEBRTCAUDIOPREPROCESSOR :
+        return sizeof(WebRTCAudioPreprocessor);
     }
     return 0;
 }

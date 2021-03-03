@@ -3623,7 +3623,9 @@ extern "C" {
         __MEDIAFILEPLAYBACK       = 37,
         __CLIENTKEEPALIVE         = 38,
         __UINT32                  = 39,
-        __AUDIOINPUTPROGRESS      = 40
+        __AUDIOINPUTPROGRESS      = 40,
+        __JITTERCONFIG            = 41,
+        __WEBRTCAUDIOPREPROCESSOR = 42,
     } TTType;
 
     /**
