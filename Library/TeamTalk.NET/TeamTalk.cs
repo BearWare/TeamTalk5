@@ -2726,7 +2726,7 @@ namespace BearWare
         /** @brief Path to SSL certificate in PEM format. 
          *
          * If server has enabled @c bVerifyPeer then the client
-         * (#TeamTalkBase) must have specified its certificate and
+         * (#BearWare.TeamTalkBase) must have specified its certificate and
          * private key. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szCertificateFile;
