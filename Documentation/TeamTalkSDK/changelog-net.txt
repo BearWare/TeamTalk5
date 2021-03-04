@@ -215,7 +215,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v57arelease TeamTalk 5 SDK v. 5.7a release
+ * @section v57arelease TeamTalk 5 SDK v. 5.7a release, March 4th 2021
  *
  * @subsection v57afeatures New features in v5.7a
  *
@@ -306,7 +306,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v56arelease TeamTalk 5 SDK v. 5.6a release, March 4th 2021
+ * @section v56arelease TeamTalk 5 SDK v. 5.6a release, August 9th 2020
  *
  * @subsection v56afeatures New features in v5.6a
  *
@@ -449,7 +449,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v55arelease TeamTalk 5 SDK v. 5.5a release
+ * @section v55arelease TeamTalk 5 SDK v. 5.5a release, April 13 2020
  *
  * @subsection v55afeatures New features in v5.5a
  *
@@ -649,7 +649,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v54arelease TeamTalk 5 SDK v. 5.4a release
+ * @section v54arelease TeamTalk 5 SDK v. 5.4a release, June 25th 2019
  *
  * @subsection v54afeatures New features in v5.4a
  *
@@ -690,7 +690,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v53brelease TeamTalk 5 SDK v. 5.3b release
+ * @section v53brelease TeamTalk 5 SDK v. 5.3b release, November 11th 2018
  *
  * @subsection v53bapi API changes in v5.3b
  *
@@ -717,7 +717,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v53arelease TeamTalk 5 SDK v. 5.3a release
+ * @section v53arelease TeamTalk 5 SDK v. 5.3a release, April 14th 2018
  *
  * @subsection v53aapi API changes in v5.3a
  *
@@ -738,7 +738,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v52drelease TeamTalk 5 SDK v. 5.2d release
+ * @section v52drelease TeamTalk 5 SDK v. 5.2d release, June 24th 2017
  *
  * @subsection v52dbugfixes Bugfixes in v5.2d
  *
@@ -747,7 +747,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v52crelease TeamTalk 5 SDK v. 5.2c release
+ * @section v52crelease TeamTalk 5 SDK v. 5.2c release, May 8th 2017
  *
  * @subsection v52cfeatures New features in v5.2c
  * 
@@ -814,7 +814,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v52brelease TeamTalk 5 SDK v. 5.2b release
+ * @section v52brelease TeamTalk 5 SDK v. 5.2b release, Jan 30th 2017
  *
  * @subsection v52bapi API changes in v.5.2b
  *
@@ -834,7 +834,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v52arelease TeamTalk 5 SDK v. 5.2a release
+ * @section v52arelease TeamTalk 5 SDK v. 5.2a release, January 8th 2017
  *
  * @subsection v52afeatures New features in v5.2a
  *
@@ -941,7 +941,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v51crelease TeamTalk 5 SDK v. 5.1c release
+ * @section v51crelease TeamTalk 5 SDK v. 5.1c release, February 29th 2016
  *
  * The TeamTalk C-API DLL has been moved to @c Library/TeamTalk_DLL
  * The TeamTalk .NET DLL project has been moved to @c
@@ -972,7 +972,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v51brelease TeamTalk 5 SDK v. 5.1b release
+ * @section v51brelease TeamTalk 5 SDK v. 5.1b release, October 3rd 2015
  *
  * A quite severe bug which caused files on the server to end up in
  * the wrong channels has been fixed in this minor release. The issue
@@ -997,7 +997,7 @@ namespace BearWare
  *
  * <hr>
  * 
- * @section v51arelease TeamTalk 5 SDK v. 5.1a release
+ * @section v51arelease TeamTalk 5 SDK v. 5.1a release, June 13th 2015
  *
  * The inclusion of the @ref serverapi has caused quite a bit of
  * reorganization of the TeamTalk SDK's file layout. Previously the
@@ -1060,7 +1060,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v50arelease TeamTalk 5 SDK v. 5.0a release
+ * @section v50arelease TeamTalk 5 SDK v. 5.0a release, March 15th 2015
  *
  * @subsection v50afeatures New features in v. 5.0a
  *
@@ -1591,7 +1591,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v46brelease TeamTalk 4 SDK v. 4.6b release
+ * @section v46brelease TeamTalk 4 SDK v. 4.6b release, June 28th 2014
  *
  * The TeamTalk 4 SDK is now also available for Mac OS X 64-bit.
  *
@@ -1610,7 +1610,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v46arelease TeamTalk 4 SDK v. 4.6a release
+ * @section v46arelease TeamTalk 4 SDK v. 4.6a release, February 20th 2014
  * 
  * Released on 2014/02/20.
  *
@@ -1638,7 +1638,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v45arelease TeamTalk 4 SDK v. 4.5a release
+ * @section v45arelease TeamTalk 4 SDK v. 4.5a release, May 12th 2013
  *
  * Released on 2013/05/13.
  *
@@ -1690,7 +1690,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v44arelease TeamTalk 4 SDK v. 4.4a release
+ * @section v44arelease TeamTalk 4 SDK v. 4.4a release, September 25th 2012
  *
  * Released on 2012/10/15.
  *
@@ -1755,7 +1755,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v43arelease TeamTalk 4 SDK v. 4.3a release
+ * @section v43arelease TeamTalk 4 SDK v. 4.3a release, March 18th 2012
  *
  * Released on 2012/03/26.
  *
@@ -1903,7 +1903,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v42arelease TeamTalk 4 SDK v. 4.2a release
+ * @section v42arelease TeamTalk 4 SDK v. 4.2a release, November 1st 2011
  *
  * Released on 2011/11/02.
  *
@@ -1986,8 +1986,8 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v41arelease TeamTalk 4 SDK v. 4.1a release
- * 
+ * @section v41arelease TeamTalk 4 SDK v. 4.1a release, October 30th 2010
+ *
  * Released on 2010/10/30.
  *
  * @subsection v41afeatures New Features in v. 4.1a release
@@ -2114,7 +2114,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v40crelease TeamTalk 4 SDK v. 4.0c release
+ * @section v40crelease TeamTalk 4 SDK v. 4.0c release, March 7th 2010
  *
  * Released on 2010/03/16.
  *
@@ -2167,7 +2167,7 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v40arelease TeamTalk 4 SDK v. 4.0a release
+ * @section v40arelease TeamTalk 4 SDK v. 4.0a release, November 22nd 2009
  *
  * Released on 2009/11/23.
  *
