@@ -40,7 +40,7 @@ namespace TeamTalk5ProServer.NET
         {
             // Instantiate server
             TeamTalk5Srv server = new TeamTalk5Srv();
-            TeamTalk5Srv.SetEncryptionContext("", "");
+            server.SetEncryptionContext("", "");
 
             if (server.SetChannelFilesRoot(FILESTORAGE_FOLDER, MAX_DISKUSAGE, DEFAULT_CHANNEL_QUOTA) != ClientError.SUCCESS)
             {
