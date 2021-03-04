@@ -2108,7 +2108,9 @@ void ServerUser::SendFile(ACE_Message_Queue_Base& msg_queue)
             ret = QueueStreamData(msg_queue, &m_filetransfer->readbuffer[0], (int)bytes, &tm);
             if(ret<0)
             {
-                static_assert(sizeof(ACE_OFF_T) > sizeof(uint32_t));
+#if !defined(WIN32)
+                static_assert(sizeof(ACE_OFF_T) > sizeof(uint32_t), "Unexpected size");
+#endif
                 m_filetransfer->file.seek(m_filetransfer->file.tell() - bytes, SEEK_SET);    //rewind since we didn't send
                 break;
             }
