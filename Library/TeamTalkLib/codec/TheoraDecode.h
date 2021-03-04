@@ -24,8 +24,6 @@
 #if !defined(THEORADECODE_H)
 #define THEORADECODE_H
 
-#include <ace/FILE_IO.h>
-
 #include <theora/codec.h>
 #include <theora/theoradec.h>
 
