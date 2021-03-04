@@ -58,3 +58,8 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   find_library (LOG_LIBRARY log)
   list (APPEND ACE_LINK_FLAGS ${LOG_LIBRARY})
 endif()
+
+# Special Raspberry Pi handling of 'off_t'
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND ${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "armv7l")
+  list (APPEND ACE_COMPILE_FLAGS -D_FILE_OFFSET_BITS=64)
+endif()
