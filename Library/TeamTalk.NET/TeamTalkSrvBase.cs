@@ -75,9 +75,31 @@ namespace BearWare
          *
          * @param szCertificateFile Path to server's certificate file. 
          * @param szPrivateKeyFile Path to server's private key file. */
-        public static bool SetEncryptionContext(string szCertificateFile, string szPrivateKeyFile)
+        public bool SetEncryptionContext(string szCertificateFile, string szPrivateKeyFile)
         {
             return TTProDLL.TTS_SetEncryptionContext(m_ttsInst, ref szCertificateFile, ref  szPrivateKeyFile);
+        }
+
+        /**
+         * @brief Set up encryption context for encrypted server.
+         *
+         * The encryption context for the server must be set prior to
+         * starting the server using StartServer().
+         *
+         * Minimal requirements for the encryption context is to set
+         * certificate and private key.
+         *
+         * Look in @ref serversetup on how to generate the certificate and
+         * private key file using OpenSSL.
+         *
+         * @param lpEncryptionContext The encryption context for the server,
+         * i.e. server certificate, private key and optionally certificate 
+         * authority.
+         *
+         * @see SetEncryptionContextEx() */
+        public bool SetEncryptionContext(EncryptionContext lpEncryptionContext)
+        {
+            return TTProDLL.TTS_SetEncryptionContextEx(m_ttsInst, ref lpEncryptionContext);
         }
 
         /**

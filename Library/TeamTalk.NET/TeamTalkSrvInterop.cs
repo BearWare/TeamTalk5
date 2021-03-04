@@ -63,6 +63,8 @@ namespace c_tt
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TTS_SetEncryptionContext(IntPtr lpTTSInstance, [In] ref string szCertificateFile, [In] ref string szPrivateKeyFile);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TTS_SetEncryptionContextEx(IntPtr lpTTInstance, ref BearWare.EncryptionContext lpEncryptionContext);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TTS_StopServer(IntPtr lpTTSInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern BearWare.ClientError TTS_AddFileToChannel(IntPtr lpTTSInstance, [In] ref string szLocalFilePath, [In] ref BearWare.RemoteFile lpRemoteFile);

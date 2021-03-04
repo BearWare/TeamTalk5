@@ -343,6 +343,11 @@ namespace c_tt
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_ReleaseUserDesktopWindow(IntPtr lpTTInstance,
                                                               IntPtr lpDesktopWindow);
+        
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_SetEncryptionContext(IntPtr lpTTInstance,
+                                                          ref BearWare.EncryptionContext lpEncryptionContext);
+
 
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_Connect(IntPtr lpTTInstance,

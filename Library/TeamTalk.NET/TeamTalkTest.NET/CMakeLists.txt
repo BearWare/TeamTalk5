@@ -12,6 +12,7 @@ if (MSVC)
     set_property (TARGET TeamTalk5Test.NET PROPERTY VS_DOTNET_REFERENCES
       "Microsoft.VisualStudio.QualityTools.UnitTestFramework"
       "System" "System.Core" "System.Drawing")
+    set_property(TARGET TeamTalk5Test.NET PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../../Library/TeamTalk_DLL")
     target_link_libraries (TeamTalk5Test.NET TeamTalk5.NET)
   endif()
 
@@ -21,6 +22,7 @@ if (MSVC)
     set_property (TARGET TeamTalk5ProTest.NET PROPERTY VS_DOTNET_REFERENCES
       "Microsoft.VisualStudio.QualityTools.UnitTestFramework"
       "System" "System.Core" "System.Drawing")
+      set_property(TARGET TeamTalk5ProTest.NET PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../../Library/TeamTalk_DLL")
     target_link_libraries (TeamTalk5ProTest.NET TeamTalk5Pro.NET)
   endif()
 endif()
