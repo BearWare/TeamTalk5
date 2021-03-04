@@ -6,6 +6,17 @@ namespace BearWare
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v57arelease
+ * - @ref v57afeatures
+ *   - @ref v57awebrtc
+ *   - @ref v57aclassroom
+ *   - @ref v57ahiddenchan
+ *   - @ref v57acrypt
+ *   - @ref v57ajitter
+ *   - @ref v57aopus
+ *   - @ref v57acryptcontext
+ * - @ref v57aapi
+ *
  * @ref v56arelease
  * - @ref v56afeatures
  *   - @ref v56avoicecom
@@ -204,7 +215,98 @@ namespace BearWare
  *
  * <hr>
  *
- * @section v56arelease TeamTalk 5 SDK v. 5.6a release
+ * @section v57arelease TeamTalk 5 SDK v. 5.7a release
+ *
+ * @subsection v57afeatures New features in v5.7a
+ *
+ * @subsubsection v57awebrtc WebRTC Audio Preprocessor
+ *
+ * Previously #BearWare.SpeexDSP was the only support audio preprocessor for
+ * noise suppression, echo cancellation and automatic gain control
+ * (AGC). In TeamTalk v5.7 it's now possible to use WebRTC's audio
+ * preprocessor which work significantly better than the echo
+ * cancellor in SpeexDSP and platform echo cancellors supported
+ * through #SoundDeviceFeature.SOUNDDEVICEFEATURE_AEC.
+ *
+ * Read more about WebRTC's audio preprocessor using the
+ * #BearWare.WebRTCAudioPreprocessor-struct.
+ *
+ * @subsubsection v57aclassroom Classroom support for channel text messages
+ *
+ * Previously it was only possible to control #StreamType.STREAMTYPE_VOICE,
+ * #StreamType.STREAMTYPE_MEDIAFILE, #StreamType.STREAMTYPE_VIDEOCAPTURE and
+ * #StreamType.STREAMTYPE_DESKTOP in a classroom using @c transmitUsers on
+ * #BearWare.Channel-struct. Now #StreamType.STREAMTYPE_CHANNELMSG has been added so it's
+ * also possible to enable/disable channel text messages sent through
+ * TeamTalkBase.DoTextMessage().
+ *
+ * @subsubsection v57ahiddenchan Hidden channels
+ *
+ * A new channel type #ChannelType.CHANNEL_HIDDEN has been introduced which makes
+ * a channel invisible to users who do not have
+ * #UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS. Users who cannot see the channel
+ * are still able to join it given that they know its name and
+ * password. Only users with #UserRight.USERRIGHT_MODIFY_CHANNELS are able to
+ * create hidden channels.
+ *
+ * Use TeamTalkBase.DoMakeChannel() or TeamTalkBase.DoJoinChannel() to create a hidden
+ * channel.
+ *
+ * @subsubsection v57acrypt Client/Server peer verification for encryption
+ *
+ * Both client and server are now able to verify that the remote end
+ * is a valid user using TLS peer verification. Peer verfication is
+ * set up in #BearWare.EncryptionContext and enable using
+ * TeamTalkBase.SetEncryptionContext() on the client and
+ * TeamTalkSrvBase.SetEncryptionContext() on the server.
+ *
+ * @subsubsection v57ajitter Jitter buffer for voice stream
+ *
+ * Compensation for network jitter can now be enabled using
+ * #BearWare.JitterConfig and activated using TeamTalkBase.SetUserJitterControl(). The
+ * jitter configuration allows a buffer to build up before playback
+ * starts. Remember to also increase the allowed buffer size by
+ * calling TeamTalkBase.SetUserAudioStreamBufferSize().
+ *
+ * @subsubsection v57aopus Stream OPUS .ogg files on Windows
+ *
+ * TeamTalkBase.StartStreamingMediaFileToChannel() now support OPUS .ogg files
+ * on Windows. This allows playback of files recorded using
+ * TeamTalkBase.SetUserMediaStorageDir() or TeamTalkBase.StartRecordingMuxedAudioFile().
+ *
+ * @subsubsection v57acryptcontext Multiple encryption contexts for TeamTalk server
+ *
+ * Previously it was only possible to set one #BearWare.EncryptionContext for
+ * all TeamTalk server instance, i.e. #BearWare.TeamTalkSrvBase, but now each
+ * server instance can have its own by calling
+ * TeamTalkSrvBase.SetEncryptionContext().
+ *
+ * @subsection v57aapi API changes in v5.7a
+ *
+ * - New enum value #SoundDeviceFeature.SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE to denote
+ *   default communication device on Windows.
+ * - New struct #BearWare.WebRTCAudioPreprocessor for configurating WebRTC audio preprocessor.
+ * - New enum value #AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR for #BearWare.WebRTCAudioPreprocessor.
+ * - New field @c webrtc in #BearWare.AudioPreprocessor for #BearWare.WebRTCAudioPreprocessor.
+ * - New enum value #StreamType.STREAMTYPE_CHANNELMSG for enable/disabling channel text messages.
+ * - New enum value #ChannelType.CHANNEL_HIDDEN for creating hidden channels. See @ref v57ahiddenchan.
+ * - New enum value #UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS for allowing a
+ *   user to view channels of type #ChannelType.CHANNEL_HIDDEN.
+ * - New field @c nSoundInputDeviceDelayMSec in #BearWare.ClientStatistics for showing audio device delay.
+ * - New enum value #ClientError.CMDERR_CHANNEL_CANNOT_BE_HIDDEN for given error when a channel cannot be hidden.
+ * - New event TeamTalkBase.OnUserFirstVoiceStreamPacket() for sending event when new voice stream starts.
+ * - New struct #BearWare.JitterConfig for configuring network jitter compensation. See @ref v57ajitter.
+ * - New function TeamTalkBase.SetUserJitterControl() for enabling #BearWare.JitterConfig on a #BearWare.User.
+ * - New function TeamTalkBase.GetUserJitterControl() for retrieving #BearWare.JitterConfig on a #BearWare.User.
+ * - New variable @c \%starttick\% for audio file names. See TeamTalkBase.SetUserMediaStorageDir().
+ * - New function TeamTalkBase.SetUserMediaStorageDir() for configuring when an audio log should be closed.
+ * - New struct #BearWare.EncryptionContext for setting up peer verification. See @ref v57acryptcontext.
+ * - New function TeamTalkBase.SetEncryptionContext() for setting up peer verification.
+ * - New function TeamTalkSrvBase.SetEncryptionContextEx() for setting up peer verification on a server.
+ *
+ * <hr>
+ *
+ * @section v56arelease TeamTalk 5 SDK v. 5.6a release, March 4th 2021
  *
  * @subsection v56afeatures New features in v5.6a
  *
