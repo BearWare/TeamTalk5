@@ -1231,7 +1231,10 @@ extern "C" {
      * @c nTxIntervalMSec in #AudioCodec must a multiple of 10.
      *
      * #WebRTCAudioPreprocessor is recommended to
-     * TT_SetSoundDeviceEffects() on desktop platforms. */
+     * TT_SetSoundDeviceEffects() on desktop platforms.
+     *
+     * Activate #WebRTCAudioPreprocessor by calling
+     * TT_SetSoundInputPreprocessEx(). */
     typedef struct WebRTCAudioPreprocessor
     {
         /** @brief Configuration of WebRTC pre-amplifier. */
