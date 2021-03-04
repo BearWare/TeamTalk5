@@ -2524,7 +2524,13 @@ extern "C" {
     /** @} */
 
     /** @ingroup connectivity
-     */
+     * @brief Configure peer verification for encrypted connection.
+     *
+     * Client and server can verify that the remote end is using a
+     * valid cerficate that has been issued by the same certification
+     * authority.
+     * 
+     * Call TT_SetEncryptionContext() to set up peer verification. */
     typedef struct EncryptionContext
     {
         /** @brief Path to SSL certificate in PEM format. 
@@ -3629,6 +3635,7 @@ extern "C" {
         __AUDIOINPUTPROGRESS      = 40,
         __JITTERCONFIG            = 41,
         __WEBRTCAUDIOPREPROCESSOR = 42,
+        __ENCRYPTIONCONTEXT       = 43,
     } TTType;
 
     /**

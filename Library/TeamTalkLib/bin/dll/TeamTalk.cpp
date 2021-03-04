@@ -3414,6 +3414,8 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(JitterConfig);
     case __WEBRTCAUDIOPREPROCESSOR :
         return sizeof(WebRTCAudioPreprocessor);
+    case __ENCRYPTIONCONTEXT:
+        return sizeof(EncryptionContext);
     }
     return 0;
 }
