@@ -199,9 +199,5 @@ jobs:
       run: killall tt5prosrv
 
     - name: Doxygen Documentation
-      working-directory: ${{runner.workspace}}/TeamTalk5/Documentation
-      run: |
-        doxygen TeamTalk/TeamTalk5.dox
-        doxygen TeamTalkSDK/TeamTalk.dox
-        doxygen TeamTalkSDK/TeamTalk.NET.dox
-        doxygen TeamTalkSDK/TeamTalk.Java.dox
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: make -C Build dox
