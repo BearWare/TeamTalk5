@@ -150,3 +150,9 @@ ubuntu18-depend:
 debian9-depend:
 	# TeamTalk 5 dependencies
 	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev doxygen g++ openjdk-8-jdk qttools5-dev-tools ninja-build
+
+dox: teamtalk-env
+	cd $(TEAMTALK_ROOT)/Documentation/TeamTalk && doxygen TeamTalk5.dox
+	cd $(TEAMTALK_ROOT)/Documentation/TeamTalkSDK && doxygen TeamTalk.dox
+	cd $(TEAMTALK_ROOT)/Documentation/TeamTalkSDK && doxygen TeamTalk.NET.dox
+	cd $(TEAMTALK_ROOT)/Documentation/TeamTalkSDK && doxygen TeamTalk.Java.dox
