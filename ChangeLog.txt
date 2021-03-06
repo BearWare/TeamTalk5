@@ -1,7 +1,19 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.7, unreleased
+Version 5.7.1, unreleased
+Accessible Windows Client
+-
+Default QT Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.7, 2021/03/06
 Accessible Windows Client
 - SpeexDSP echo canceller replaced by WebRTC
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
