@@ -25,6 +25,7 @@ Default QT Client
 Android Client
 - Fixed tt:// URLs not loading in running TeamTalk instance
 - Fixed missing "encrypted", "channel" and "chanpasswd" in tt:// URLs
+- Accessibility hint for away status
 iOS Client
 - Fixed tt:// URL decoding for percent (%) characters
 Server
