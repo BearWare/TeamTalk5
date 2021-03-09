@@ -23,46 +23,44 @@
 
 enum
 {
-    ROOT_USER_INDEX             = 0,
-    ROOT_SUBSCRIPTIONS_INDEX    = 1,
-    ROOT_CLASSROOM_INDEX        = 2,
-
-    ROOT_COUNT                  = 3
+    COLUMN_NAME = 0,
+    COLUMN_CHECK = 1,
+    COLUMN_COUNT,
 };
 
 TTSEventsModel::TTSEventsModel(QObject* parent)
 {
-    m_userevents.push_back(TTS_USER_LOGGEDIN);
-    m_userevents.push_back(TTS_USER_LOGGEDOUT);
-    m_userevents.push_back(TTS_USER_JOINED);
-    m_userevents.push_back(TTS_USER_LEFT);
-    m_userevents.push_back(TTS_USER_JOINED_SAME);
-    m_userevents.push_back(TTS_USER_LEFT_SAME);
-    m_userevents.push_back(TTS_USER_TEXTMSG_PRIVATE);
-    m_userevents.push_back(TTS_USER_TEXTMSG_CHANNEL);
-    m_userevents.push_back(TTS_USER_TEXTMSG_BROADCAST);
+    m_ttsevents.push_back(TTS_USER_LOGGEDIN);
+    m_ttsevents.push_back(TTS_USER_LOGGEDOUT);
+    m_ttsevents.push_back(TTS_USER_JOINED);
+    m_ttsevents.push_back(TTS_USER_LEFT);
+    m_ttsevents.push_back(TTS_USER_JOINED_SAME);
+    m_ttsevents.push_back(TTS_USER_LEFT_SAME);
+    m_ttsevents.push_back(TTS_USER_TEXTMSG_PRIVATE);
+    m_ttsevents.push_back(TTS_USER_TEXTMSG_CHANNEL);
+    m_ttsevents.push_back(TTS_USER_TEXTMSG_BROADCAST);
 
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_VOICE);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_VIDEO);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_DESKTOP);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_DESKTOPINPUT);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_MEDIAFILE);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_VOICE);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_VIDEO);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_DESKTOP);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_DESKTOPINPUT);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_MEDIAFILE);
 
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_VOICE);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT);
-    m_subevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_VOICE);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT);
+    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE);
 
-    m_clsevents.push_back(TTS_CLASSROOM_VOICE_TX);
-    m_clsevents.push_back(TTS_CLASSROOM_VIDEO_TX);
-    m_clsevents.push_back(TTS_CLASSROOM_DESKTOP_TX);
-    m_clsevents.push_back(TTS_CLASSROOM_MEDIAFILE_TX);
+    m_ttsevents.push_back(TTS_CLASSROOM_VOICE_TX);
+    m_ttsevents.push_back(TTS_CLASSROOM_VIDEO_TX);
+    m_ttsevents.push_back(TTS_CLASSROOM_DESKTOP_TX);
+    m_ttsevents.push_back(TTS_CLASSROOM_MEDIAFILE_TX);
 }
 
 QVariant TTSEventsModel::headerData ( int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/ ) const
@@ -72,7 +70,7 @@ QVariant TTSEventsModel::headerData ( int section, Qt::Orientation orientation, 
 
 int TTSEventsModel::columnCount ( const QModelIndex & parent /*= QModelIndex() */) const
 {
-    return 1;
+    return COLUMN_COUNT;
 }
 
 QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::DisplayRole*/ ) const
@@ -80,78 +78,78 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
     switch(role)
     {
     case Qt::DisplayRole :
-
-        switch(index.internalId())
+        switch(m_ttsevents[index.row()])
         {
-        case TTS_USER_ALL :
-            return tr("User events");
-        case TTS_SUBSCRIPTIONS_ALL :
-            return tr("Subscription changes");
-        case TTS_CLASSROOM_ALL :
-            return tr("Classroom changes");
-        case TTS_USER_JOINED :
-            return tr("User joined channel");
-        case TTS_USER_JOINED_SAME :
-            return tr("User joined current channel");
-        }
+        case TTS_USER_LOGGEDIN :
+            if (index.column() == COLUMN_NAME)
+                return tr("User logged in");
 
-        return tr("Hest");
+        case TTS_USER_LOGGEDOUT :
+            if (index.column() == COLUMN_NAME)
+            return tr("User logged out");
+        case TTS_USER_JOINED :
+            if (index.column() == COLUMN_NAME)
+            return tr("User join channel");
+        case TTS_USER_LEFT :
+            if (index.column() == COLUMN_NAME)
+            return tr("User left channel");
+        case TTS_USER_JOINED_SAME :
+        case TTS_USER_LEFT_SAME :
+        case TTS_USER_TEXTMSG_PRIVATE :
+        case TTS_USER_TEXTMSG_CHANNEL :
+        case TTS_USER_TEXTMSG_BROADCAST :
+
+        case TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE :
+        case TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL :
+        case TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST :
+        case TTS_SUBSCRIPTIONS_VOICE :
+        case TTS_SUBSCRIPTIONS_VIDEO :
+        case TTS_SUBSCRIPTIONS_DESKTOP :
+        case TTS_SUBSCRIPTIONS_DESKTOPINPUT :
+        case TTS_SUBSCRIPTIONS_MEDIAFILE :
+
+        case TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE :
+        case TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL :
+        case TTS_SUBSCRIPTIONS_INTERCEPT_VOICE :
+        case TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO :
+        case TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP :
+        case TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT :
+        case TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE :
+
+        case TTS_CLASSROOM_VOICE_TX :
+        case TTS_CLASSROOM_VIDEO_TX :
+        case TTS_CLASSROOM_DESKTOP_TX :
+        case TTS_CLASSROOM_MEDIAFILE_TX :
+            if (index.column() == COLUMN_NAME)
+                return ("TODO");
+        }
     }
     return QVariant();
 }
 
 QModelIndex TTSEventsModel::index ( int row, int column, const QModelIndex & parent /*= QModelIndex()*/ ) const
 {
-    if(!parent.isValid())
-    {
-        switch(row)
-        {
-        case ROOT_USER_INDEX :
-            return createIndex(row, column, TTS_USER_ALL);
-        case ROOT_SUBSCRIPTIONS_INDEX :
-            return createIndex(row, column, TTS_SUBSCRIPTIONS_ALL);
-        case ROOT_CLASSROOM_INDEX :
-            return createIndex(row, column, TTS_CLASSROOM_ALL);
-        }
-    }
-
-    switch(parent.internalId())
-    {
-    case TTS_USER_ALL :
-        return createIndex(row, column, m_userevents[row]);
-    case TTS_SUBSCRIPTIONS_ALL :
-        return createIndex(row, column, m_subevents[row]);
-    case TTS_CLASSROOM_ALL :
-        return createIndex(row, column, m_clsevents[row]);
-    }
-
-    return QModelIndex();
+    return createIndex(row, column, m_ttsevents[row]);
 }
 
 QModelIndex TTSEventsModel::parent ( const QModelIndex & index ) const
 {
-    if(index.internalId() & TTS_USER_ALL)
-        return createIndex(0, 0, TTS_USER_ALL);
-    if(index.internalId() & TTS_SUBSCRIPTIONS_ALL)
-        return createIndex(1, 0, TTS_SUBSCRIPTIONS_ALL);
-    if(index.internalId() & TTS_CLASSROOM_ALL)
-        return createIndex(2, 0, TTS_CLASSROOM_ALL);
     return QModelIndex();
 }
 
 int TTSEventsModel::rowCount ( const QModelIndex & parent /*= QModelIndex()*/ ) const
 {
-    if(!parent.isValid())
-        return ROOT_COUNT;
+    return int(m_ttsevents.size());
+}
 
-    switch(parent.internalId())
-    {
-    case TTS_USER_ALL :
-        return m_userevents.size();
-    case TTS_SUBSCRIPTIONS_ALL :
-        return m_subevents.size();
-    case TTS_CLASSROOM_ALL :
-        return m_clsevents.size();
-    }
-    return 0;
+void TTSEventsModel::setTTSEvents(TTSEvents ttsactive)
+{
+    this->beginResetModel();
+    m_ttsselected = ttsactive;
+    this->endResetModel();
+}
+
+TTSEvents TTSEventsModel::getTTSEvents()
+{
+    return m_ttsselected;
 }

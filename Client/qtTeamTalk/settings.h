@@ -179,6 +179,9 @@
 #define SETTINGS_VIDCAP_ENABLE                      "videocapture/enable"
 #define SETTINGS_VIDCAP_ENABLE_DEFAULT              false
 
+#define SETTINGS_TTS_ACTIVEEVENTS                   "texttospeech/active-events"
+#define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTS_NONE
+
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"
 #define SETTINGS_MEDIASTORAGE_FILEFORMAT            "media-storage/audio-storage-format"

@@ -38,8 +38,11 @@ public:
     QModelIndex parent ( const QModelIndex & index ) const;
     int rowCount ( const QModelIndex & parent = QModelIndex() ) const;
 
+    void setTTSEvents(TTSEvents ttsactive);
+    TTSEvents getTTSEvents();
 private:
-    QVector<TextToSpeechEvent> m_userevents, m_subevents, m_clsevents;
+    QVector<TextToSpeechEvent> m_ttsevents;
+    TTSEvents m_ttsselected = TTS_NONE;
 };
 
 #endif // TTSEVENTSMODEL_H
