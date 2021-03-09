@@ -68,6 +68,8 @@ private:
     /* video tab */
     QVector<VideoCaptureDevice> m_videodevices;
     UserVideoDlg* m_uservideo;
+    /* text-to-speech */
+    class TTSEventsModel* m_ttsmodel = nullptr;
 
     QSet<int> m_modtab;
     bool m_video_ready;

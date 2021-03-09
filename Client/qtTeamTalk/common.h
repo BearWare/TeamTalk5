@@ -260,6 +260,7 @@ enum SoundEvent
 
 enum TextToSpeechEvent
 {
+    TTS_NONE                                        = 0x00000000,
     TTS_USER_LOGGEDIN                               = 0x00000001,
     TTS_USER_LOGGEDOUT                              = 0x00000002,
     TTS_USER_JOINED                                 = 0x00000004,
@@ -327,6 +328,8 @@ enum TextToSpeechEvent
 
     TTS_ALL                   = TTS_USER_ALL | TTS_SUBSCRIPTIONS_ALL | TTS_CLASSROOM_ALL
 };
+
+typedef uint32_t TTSEvents;
 
 enum HotKeyID
 {

@@ -172,7 +172,8 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotEventMuteAllOff);
 
     //text to speech
-    ui.ttsListView->setModel(new TTSEventsModel(this));
+    m_ttsmodel = new TTSEventsModel(this);
+    ui.ttsListView->setModel(m_ttsmodel);
 
     //keyboard shortcuts
     connect(ui.voiceactButton, &QAbstractButton::clicked,
@@ -557,7 +558,11 @@ void PreferencesDlg::slotTabChange(int index)
         ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF).toString());
         break;
     case TTSEVENTS_TAB :
+    {
+        TTSEvents events = ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toUInt();
+        m_ttsmodel->setTTSEvents(events);
         break;
+    }
     case SHORTCUTS_TAB :  //shortcuts
     {
         hotkey_t hotkey;
@@ -983,6 +988,10 @@ void PreferencesDlg::slotSaveChanges()
                 QMessageBox::critical(this, tr("Video Device"), 
                 tr("Failed to initialize video device"));
         }
+    }
+    if (m_modtab.find(TTSEVENTS_TAB) != m_modtab.end())
+    {
+        ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, m_ttsmodel->getTTSEvents());
     }
 }
 
