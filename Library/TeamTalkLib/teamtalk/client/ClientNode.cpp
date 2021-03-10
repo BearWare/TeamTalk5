@@ -41,7 +41,8 @@ using namespace soundsystem;
 using namespace vidcap;
 using namespace std::placeholders;
 
-#define GEN_NEXT_ID(id) (++id==0?++id:id)
+#define GEN_NEXT_ID(id) (++id == 0 ? ++id : id)
+#define GEN_NEXT_ID_MAX(id, max) (id + 1 > max ? id = 1 : (++id == 0 ? ++id : id))
 
 #define VIDEOFILE_ENCODER_FRAMES_MAX 3
 #define VIDEOCAPTURE_ENCODER_FRAMES_MAX 3
@@ -50,9 +51,10 @@ using namespace std::placeholders;
 #define UDP_SOCKET_RECV_BUF_SIZE 0x20000
 #define UDP_SOCKET_SEND_BUF_SIZE 0x20000
 
-#define LOCAL_USERID    0 // Local user recording
-#define MUX_USERID      0x1001 // User ID for recording muxed stream
-#define LOCAL_TX_USERID 0x1002 // User ID for local user transmitting
+#define LOCAL_USERID                        0 // Local user recording
+#define MUX_USERID                          0x1001 // User ID for recording muxed stream
+#define LOCAL_TX_USERID                     0x1002 // User ID for local user transmitting
+#define LOCAL_MEDIAPLAYBACK_SESSIONID_MAX   0xFF // Max session id
 
 #define SIMULATE_RX_PACKETLOSS 0
 #define SIMULATE_TX_PACKETLOSS 0
@@ -1414,6 +1416,9 @@ bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
     TTASSERT(audio_frame.input_buffer);
     TTASSERT(audio_frame.inputfmt.samplerate);
     TTASSERT(audio_frame.input_samples);
+
+    if (m_audiocontainer.AddAudio(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, audio_frame))
+        m_listener->OnUserAudioBlock(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO);
 
     audio_frame.force_enc = true;
     audio_frame.userdata = STREAMTYPE_MEDIAFILE_AUDIO;
@@ -2952,9 +2957,9 @@ bool ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
     ASSERT_REACTOR_LOCKED(this);
 
     if(enable)
-        m_audiocontainer.AddSoundSource(userid, stream_type, outfmt);
+        m_audiocontainer.AddAudioSource(userid, stream_type, outfmt);
     else
-        m_audiocontainer.RemoveSoundSource(userid, stream_type);
+        m_audiocontainer.RemoveAudioSource(userid, stream_type);
 
     if (userid == MUX_USERID)
     {
@@ -3302,11 +3307,12 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    GEN_NEXT_ID(m_mediaplayback_counter);
+    GEN_NEXT_ID_MAX(m_mediaplayback_counter, LOCAL_MEDIAPLAYBACK_SESSIONID_MAX);
 
     mediaplayback_t playback;
-    playback.reset(new MediaPlayback(std::bind(&ClientNode::MediaPlaybackStatus, this, _1, _2, _3),
-                   m_mediaplayback_counter, m_soundsystem));
+    playback.reset(new MediaPlayback(m_mediaplayback_counter, m_soundsystem,
+                                     std::bind(&ClientNode::MediaPlaybackStatus, this, _1, _2, _3),
+                                     std::bind(&ClientNode::MediaPlaybackAudio, this, _1, _2)));
     
     if (!playback)
         return 0;
@@ -3439,6 +3445,14 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
     case MEDIASTREAM_NONE :
         assert(status != MEDIASTREAM_NONE);
         break;
+    }
+}
+
+void ClientNode::MediaPlaybackAudio(int id, const media::AudioFrame& frm)
+{
+    if (m_audiocontainer.AddAudio(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, frm))
+    {
+        m_listener->OnUserAudioBlock(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO);
     }
 }
 

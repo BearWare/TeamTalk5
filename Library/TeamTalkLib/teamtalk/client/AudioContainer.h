@@ -28,6 +28,7 @@
 #include <avstream/AudioResampler.h>
 
 #include <ace/Message_Queue.h>
+#include <mystd/MyStd.h>
 
 #include <set>
 #include <map>
@@ -51,14 +52,13 @@ struct AudioEntry
 
 typedef std::shared_ptr<AudioEntry> audioentry_t;
 
-class AudioContainer
+class AudioContainer : public NonCopyable
 {
 public:
-    AudioContainer(const AudioContainer&) = delete;
     AudioContainer();
 
-    void AddSoundSource(int userid, int stream_type, const media::AudioFormat& af);
-    void RemoveSoundSource(int userid, int stream_type);
+    void AddAudioSource(int userid, int stream_type, const media::AudioFormat& af);
+    void RemoveAudioSource(int userid, int stream_type);
 
     bool AddAudio(int userid, int stream_type, const media::AudioFrame& frame);
 

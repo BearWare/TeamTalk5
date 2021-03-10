@@ -1693,6 +1693,77 @@ TEST_CASE("StreamVideoFile")
 }
 #endif /* ENABLE_VPX */
 
+TEST_CASE("StreamMediaToAudioBlock")
+{
+
+    auto txclient = TT_InitTeamTalkPoll();
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
+    REQUIRE(JoinRoot(txclient));
+
+    // TODO: Uncommenting this causes crash on macOS
+//    auto rxclient = TT_InitTeamTalkPoll();
+//    REQUIRE(InitSound(rxclient));
+//    REQUIRE(Connect(rxclient));
+//    REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
+//    REQUIRE(JoinRoot(rxclient));
+
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nSampleRate = 48000;
+    mfi.uDurationMSec = 10 * 1000;
+    ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("streamfile.wav"), TT_STRLEN);
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    REQUIRE(TT_EnableAudioBlockEvent(txclient, TT_LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, TRUE));
+    REQUIRE(TT_StartStreamingMediaFileToChannel(txclient, mfi.szFileName, nullptr));
+
+    TTMessage msg;
+    REQUIRE(WaitForEvent(txclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+    REQUIRE(msg.nStreamType == STREAMTYPE_MEDIAFILE_AUDIO);
+    REQUIRE(msg.nSource == TT_LOCAL_USERID);
+    auto ab = TT_AcquireUserAudioBlock(txclient, STREAMTYPE_MEDIAFILE_AUDIO, TT_LOCAL_USERID);
+    REQUIRE(ab);
+    REQUIRE(TT_ReleaseUserAudioBlock(txclient, ab));
+}
+
+TEST_CASE("LocalPlaybackToAudioBlock")
+{
+    auto txclient = TT_InitTeamTalkPoll();
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
+    REQUIRE(JoinRoot(txclient));
+
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nSampleRate = 48000;
+    mfi.uDurationMSec = 10 * 1000;
+    ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("playbackfile.wav"), TT_STRLEN);
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    MediaFilePlayback mfp = {};
+    mfp.bPaused = TRUE;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    auto sessionid = TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp);
+    REQUIRE(sessionid > 0);
+    REQUIRE(TT_EnableAudioBlockEvent(txclient, sessionid, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, TRUE));
+
+    mfp.bPaused = FALSE;
+    REQUIRE(TT_UpdateLocalPlayback(txclient, sessionid, &mfp));
+
+    TTMessage msg;
+    REQUIRE(WaitForEvent(txclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+    REQUIRE(msg.nStreamType == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO);
+    REQUIRE(msg.nSource == sessionid);
+    auto ab = TT_AcquireUserAudioBlock(txclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, sessionid);
+    REQUIRE(ab);
+    REQUIRE(TT_ReleaseUserAudioBlock(txclient, ab));
+}
+
 TEST_CASE("FirstVoiceStreamPacket")
 {
     std::vector<ttinst> clients;

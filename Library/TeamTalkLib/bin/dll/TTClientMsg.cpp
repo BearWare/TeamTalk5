@@ -541,8 +541,6 @@ void TTMsgQueue::OnUserAudioBlock(int userid, teamtalk::StreamType stream_type)
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_AUDIOBLOCK,
                                      userid, __STREAMTYPE);
     *msg->streamtype = (StreamType)stream_type;
-    assert((StreamType)stream_type == STREAMTYPE_VOICE ||
-           (StreamType)stream_type == STREAMTYPE_MEDIAFILE_AUDIO);
     EnqueueMsg(mb);
 }
 

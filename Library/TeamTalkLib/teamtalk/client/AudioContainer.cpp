@@ -35,7 +35,7 @@ AudioContainer::AudioContainer()
 {
 }
 
-void AudioContainer::AddSoundSource(int userid, int stream_type,
+void AudioContainer::AddAudioSource(int userid, int stream_type,
                                     const media::AudioFormat& af)
 {
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
@@ -44,7 +44,7 @@ void AudioContainer::AddSoundSource(int userid, int stream_type,
     m_container[key] = entry;
 }
 
-void AudioContainer::RemoveSoundSource(int userid, int stream_type)
+void AudioContainer::RemoveAudioSource(int userid, int stream_type)
 {
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
     m_container.erase(GenKey(userid, stream_type));

@@ -31,10 +31,11 @@ using namespace std::placeholders;
 #define PB_FRAMEDURATION_MSEC 40
 #define PB_FRAMESIZE(samplerate) (samplerate * (PB_FRAMEDURATION_MSEC / 1000.0))
 
-MediaPlayback::MediaPlayback(mediaplayback_status_t statusfunc,
-                             int userdata,
-                             soundsystem::soundsystem_t sndsys)
+MediaPlayback::MediaPlayback(int userdata, soundsystem::soundsystem_t sndsys,
+                             mediaplayback_status_t statusfunc,
+                             mediaplayback_audio_t audiofunc)
     : m_statusfunc(statusfunc)
+    , m_audiofunc(audiofunc)
     , m_userdata(userdata)
     , m_sndsys(sndsys)
 {
@@ -337,6 +338,13 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         // mute left or right speaker (if enabled)
         if (streamer.channels == 2)
             SelectStereo(m_stereo, buffer, streamer.framesize);
+
+        if (m_audiofunc)
+        {
+            assert(samples == streamer.framesize);
+            m_audiofunc(m_userdata, media::AudioFrame(media::AudioFormat(streamer.samplerate, streamer.channels),
+                                                      buffer, streamer.framesize));
+        }
     }
     else
     {

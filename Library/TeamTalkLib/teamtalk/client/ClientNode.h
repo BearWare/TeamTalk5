@@ -267,6 +267,8 @@ namespace teamtalk {
         bool StopMediaPlayback(int id);
 
         void MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStreamStatus status);
+        void MediaPlaybackAudio(int id, const media::AudioFrame& frm);
+
 
         //video capture
         bool InitVideoCapture(const ACE_TString& src_id,

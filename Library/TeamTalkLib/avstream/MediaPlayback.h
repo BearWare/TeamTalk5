@@ -41,13 +41,14 @@
 
 typedef std::function< void(int userdata, const MediaFileProp& mfp,
                             MediaStreamStatus status) > mediaplayback_status_t;
+typedef std::function< void(int userdata, const media::AudioFrame& frm) > mediaplayback_audio_t;
 
 class MediaPlayback : public soundsystem::StreamPlayer
 {
 public:
-    MediaPlayback(mediaplayback_status_t statusfunc,
-                  int userdata,
-                  soundsystem::soundsystem_t sndsys);
+    MediaPlayback(int userdata, soundsystem::soundsystem_t sndsys,
+                  mediaplayback_status_t statusfunc,
+                  mediaplayback_audio_t audiofunc);
     ~MediaPlayback();
     
     bool OpenFile(const ACE_TString& filename);
@@ -88,6 +89,7 @@ public:
 private:
     mediafile_streamer_t m_streamer;
     mediaplayback_status_t m_statusfunc;
+    mediaplayback_audio_t m_audiofunc;
     int m_userdata = 0;
     int m_gainlevel = GAIN_NORMAL;
     soundsystem::soundsystem_t m_sndsys;

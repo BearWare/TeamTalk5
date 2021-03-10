@@ -51,7 +51,7 @@ int ClientNodeBase::svc(void)
     m_reactor_wait.release();
 
     m_reactor.run_reactor_event_loop ();
-    MYTRACE( (ACE_TEXT("ClientNode reactor thread exited.\n")) );
+    MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread exited.\n")) );
     return 0;
 }
 
@@ -65,18 +65,18 @@ void ClientNodeBase::SuspendEventHandling(bool quit)
     if(thr_id != ACE_OS::thr_self())
         this->wait();
 
-    MYTRACE(ACE_TEXT("ClientNode reactor thread %s.\n"), (quit ? ACE_TEXT("exited") : ACE_TEXT("suspended")));
+    MYTRACE(ACE_TEXT("ClientNodeBase reactor thread %s.\n"), (quit ? ACE_TEXT("exited") : ACE_TEXT("suspended")));
 }
 
 void ClientNodeBase::ResumeEventHandling()
 {
-    MYTRACE( (ACE_TEXT("ClientNode reactor thread activating.\n")) );
+    MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread activating.\n")) );
 
     ACE_thread_t thr_id = 0;
     m_reactor.owner(&thr_id);
     if(thr_id != ACE_OS::thr_self())
     {
-        MYTRACE( (ACE_TEXT("ClientNode reactor thread waiting.\n")) );
+        MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread waiting.\n")) );
         this->wait();
     }
 
@@ -87,7 +87,7 @@ void ClientNodeBase::ResumeEventHandling()
     ret = m_reactor_wait.acquire();
     assert(ret >= 0);
 
-    MYTRACE( (ACE_TEXT("ClientNode reactor thread activated.\n")) );
+    MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread activated.\n")) );
 }
 
 ACE_Lock& ClientNodeBase::reactor_lock()
