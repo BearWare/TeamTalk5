@@ -90,6 +90,8 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
                        , m_mtu_max_payload_size(MAX_PACKET_PAYLOAD_SIZE)
                        , m_version(version)
 {
+    MYTRACE(ACE_TEXT("ClientNode %p\n"), this);
+
     m_listener->RegisterEventSuspender(this);
 
     m_soundsystem = soundsystem::GetInstance();
@@ -97,6 +99,8 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
 
     m_local_voicelog.reset(new ClientUser(LOCAL_USERID, this,
                                           m_listener, m_soundsystem));
+
+    ResumeEventHandling();
 }
 
 ClientNode::~ClientNode()
@@ -120,7 +124,10 @@ ClientNode::~ClientNode()
     CryptStreamHandler::RemoveSSLContext(GetEventLoop());
 #endif
 
-    MYTRACE( (ACE_TEXT("~ClientNode\n")) );
+    //close reactor so no one can register new handlers
+    SuspendEventHandling(true);
+
+    MYTRACE(ACE_TEXT("~ClientNode %p\n"), this);
 }
 
 VoiceLogger& ClientNode::voicelogger()

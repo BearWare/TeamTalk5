@@ -33,14 +33,11 @@ ClientNodeBase::ClientNodeBase()
     , m_reactor_wait(0)
 {
     this->reactor(&m_reactor);
-
-    ResumeEventHandling();
 }
 
 ClientNodeBase::~ClientNodeBase()
 {
-    //close reactor so no one can register new handlers
-    SuspendEventHandling(true);
+    assert(thr_count() == 0);
 }
 
 int ClientNodeBase::svc(void)
@@ -65,7 +62,7 @@ void ClientNodeBase::SuspendEventHandling(bool quit)
     if(thr_id != ACE_OS::thr_self())
         this->wait();
 
-    MYTRACE(ACE_TEXT("ClientNodeBase reactor thread %s.\n"), (quit ? ACE_TEXT("exited") : ACE_TEXT("suspended")));
+    MYTRACE(ACE_TEXT("ClientNodeBase reactor thread %s.\n"), (quit ? ACE_TEXT("quit") : ACE_TEXT("suspended")));
 }
 
 void ClientNodeBase::ResumeEventHandling()
