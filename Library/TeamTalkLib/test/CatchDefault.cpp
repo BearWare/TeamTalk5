@@ -104,7 +104,7 @@ TEST_CASE( "Record mux") {
     std::vector<ttinst> clients(2);
     for (size_t i=0;i<clients.size();++i)
     {
-        REQUIRE((clients[i] = TT_InitTeamTalkPoll()));
+        REQUIRE((clients[i] = InitTeamTalk()));
         REQUIRE(InitSound(clients[i], SHARED_INPUT));
         REQUIRE(Connect(clients[i], ACE_TEXT("127.0.0.1"), 10333, 10333));
         REQUIRE(Login(clients[i], ACE_TEXT("MyNickname"), ACE_TEXT("guest"), ACE_TEXT("guest")));
@@ -166,11 +166,8 @@ TEST_CASE( "Record mux") {
 #if defined(ENABLE_OPUS)
 TEST_CASE( "Last voice packet" )
 {
-    std::vector<ttinst> clients;
-    auto txclient = TT_InitTeamTalkPoll();
-    auto rxclient = TT_InitTeamTalkPoll();
-    clients.push_back(txclient);
-    clients.push_back(rxclient);
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient, SHARED_INPUT));
     REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
@@ -237,11 +234,8 @@ TEST_CASE( "Last voice packet" )
 
 TEST_CASE( "MuxedAudioToFile" )
 {
-    std::vector<ttinst> clients;
-    auto txclient = TT_InitTeamTalkPoll();
-    auto rxclient = TT_InitTeamTalkPoll();
-    clients.push_back(txclient);
-    clients.push_back(rxclient);
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
@@ -298,11 +292,8 @@ TEST_CASE( "MuxedAudioToFile" )
 
 TEST_CASE( "MuxedAudioBlock" )
 {
-    std::vector<ttinst> clients;
-    auto txclient = TT_InitTeamTalkPoll();
-    auto rxclient = TT_InitTeamTalkPoll();
-    clients.push_back(txclient);
-    clients.push_back(rxclient);
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
@@ -321,11 +312,8 @@ TEST_CASE( "MuxedAudioBlock" )
 
 TEST_CASE( "MuxedAudioBlockUserEvent" )
 {
-    std::vector<ttinst> clients;
-    auto txclient = TT_InitTeamTalkPoll();
-    auto rxclient = TT_InitTeamTalkPoll();
-    clients.push_back(txclient);
-    clients.push_back(rxclient);
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
@@ -373,9 +361,7 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
 #if defined(ENABLE_OGG)
 TEST_CASE( "Opus Read File" )
 {
-    std::vector<ttinst> clients;
-    auto rxclient = TT_InitTeamTalkPoll();
-    clients.push_back(rxclient);
+    auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(rxclient));
     REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
@@ -443,9 +429,7 @@ TEST_CASE("TestHTTPS")
 
 TEST_CASE("TT_AEC")
 {
-    std::vector<ttinst> clients;
-    auto ttclient = TT_InitTeamTalkPoll();
-    clients.push_back(ttclient);
+    auto ttclient = InitTeamTalk();
 
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
@@ -535,9 +519,7 @@ TEST_CASE("TT_AEC")
 
 TEST_CASE("testMuxedAudioBlockSoundInputDisabled")
 {
-    std::vector<ttinst> clients;
-    auto ttclient = TT_InitTeamTalkPoll();
-    clients.push_back(ttclient);
+    auto ttclient = InitTeamTalk();
 
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
@@ -603,9 +585,7 @@ TEST_CASE("testThumbnail")
 // is meant for peer verification
 TEST_CASE("testSSLSetup")
 {
-    std::vector<ttinst> clients;
-    auto ttclient = TT_InitTeamTalkPoll();
-    clients.push_back(ttclient);
+    auto ttclient = InitTeamTalk();
 
     EncryptionContext context = {};
     ACE_OS::strsncpy(context.szCertificateFile, ACE_TEXT("ttclientcert.pem"), TT_STRLEN);
@@ -697,11 +677,8 @@ TEST_CASE("Last voice packet - wav files")
     //of runs from 10 to e.g. 20.
     for (int i = 0; i < 10; i++)
     {
-        std::vector<ttinst> clients;
-        auto txclient = TT_InitTeamTalkPoll();
-        auto rxclient = TT_InitTeamTalkPoll();
-        clients.push_back(txclient);
-        clients.push_back(rxclient);
+        auto txclient = InitTeamTalk();
+        auto rxclient = InitTeamTalk();
 
         REQUIRE(InitSound(txclient, SHARED_INPUT, indev.nDeviceID, outdev.nDeviceID));
         REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
@@ -813,8 +790,8 @@ TEST_CASE("Last voice packet - wav files")
 
 TEST_CASE("NewVoiceStreamMatch")
 {
-    auto txclient = TT_InitTeamTalkPoll();
-    auto rxclient = TT_InitTeamTalkPoll();
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient));
@@ -858,7 +835,7 @@ TEST_CASE("SoundLoopbackDuplexDBFS1")
     std::cout << "input: " << indev.nDeviceID << " name: " << indev.szDeviceName
               << " channels: " << indev.nMaxInputChannels << " samplerate: " << indev.nDefaultSampleRate
               << " output: " << outdev.nDeviceID << " name: " << outdev.szDeviceName << std::endl;
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
 
     AudioPreprocessor preprocess = {};
 
@@ -885,7 +862,7 @@ TEST_CASE("SoundLoopbackDuplexDBFS30")
     std::cout << "input: " << indev.nDeviceID << " name: " << indev.szDeviceName
               << " channels: " << indev.nMaxInputChannels << " samplerate: " << indev.nDefaultSampleRate
               << " output: " << outdev.nDeviceID << " name: " << outdev.szDeviceName << std::endl;
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
 
     AudioPreprocessor preprocess = {};
 
@@ -920,7 +897,7 @@ TEST_CASE("SoundLoopbackDefault")
                << " channels: " << indev.nMaxInputChannels << " samplerate: " << indev.nDefaultSampleRate
                << " output: " << outdev.nDeviceID << " name: " << outdev.szDeviceName << std::endl;
 */
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
 
     AudioPreprocessor preprocess = {};
 
@@ -944,7 +921,7 @@ TEST_CASE("SoundLoopbackDefault")
 
 TEST_CASE("WebRTC_SampleRates")
 {
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
 
     AudioPreprocessor preprocess = {};
 
@@ -967,7 +944,7 @@ TEST_CASE("WebRTC_SampleRates")
 
 TEST_CASE("WebRTCPreprocessor")
 {
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
@@ -1004,7 +981,7 @@ TEST_CASE("WebRTCPreprocessor")
 #if 0 /* gain_controller1 doesn't work */
 TEST_CASE("WebRTC_gaincontroller1")
 {
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
 
     MediaFilePlayback mfp = {};
@@ -1049,7 +1026,7 @@ TEST_CASE("WebRTC_gaincontroller1")
 
 TEST_CASE("WebRTC_gaincontroller2")
 {
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
 
     MediaFilePlayback mfp = {};
@@ -1099,7 +1076,7 @@ TEST_CASE("WebRTC_gaincontroller2")
 
 TEST_CASE("WebRTC_echocancel")
 {
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
     SoundDeviceEffects effects = {};
     effects.bEnableEchoCancellation = FALSE;
     REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
@@ -1170,7 +1147,7 @@ TEST_CASE("WebRTC_echocancel")
 
 TEST_CASE("WebRTC_Preamplifier")
 {
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
@@ -1221,7 +1198,7 @@ TEST_CASE("WebRTC_Preamplifier")
 
 TEST_CASE("WebRTC_LevelEstimation")
 {
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
@@ -1248,7 +1225,7 @@ TEST_CASE("WebRTC_LevelEstimation")
 
 TEST_CASE("WebRTC_VAD")
 {
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
@@ -1274,7 +1251,7 @@ TEST_CASE("WebRTC_VAD")
 
 TEST_CASE("WebRTC-reinit")
 {
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
     SoundDeviceEffects effects = {};
     effects.bEnableEchoCancellation = FALSE;
     REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
@@ -1333,7 +1310,7 @@ TEST_CASE("WebRTC-reinit")
 
 TEST_CASE("TeamTalk_VAD")
 {
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
@@ -1477,7 +1454,7 @@ TEST_CASE("PortAudio_SamplesPerSec")
 
 TEST_CASE("InjectAudio")
 {
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
@@ -1512,11 +1489,8 @@ TEST_CASE("InjectAudio")
 
 TEST_CASE("FixedJitterBuffer")
 {
-    std::vector<ttinst> clients;
-    auto txclient = TT_InitTeamTalkPoll();
-    auto rxclient = TT_InitTeamTalkPoll();
-    clients.push_back(txclient);
-    clients.push_back(rxclient);
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
@@ -1565,11 +1539,8 @@ TEST_CASE("FixedJitterBuffer")
 
 TEST_CASE("SetGetJitterBufferControl")
 {
-    std::vector<ttinst> clients;
-    auto txclient = TT_InitTeamTalkPoll();
-    auto rxclient = TT_InitTeamTalkPoll();
-    clients.push_back(txclient);
-    clients.push_back(rxclient);
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
@@ -1646,8 +1617,8 @@ TEST_CASE("VideoCapture")
 #if defined(ENABLE_VPX)
 TEST_CASE("StreamVideoFile")
 {
-    auto txclient = TT_InitTeamTalkPoll();
-    auto rxclient = TT_InitTeamTalkPoll();
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient));
@@ -1695,19 +1666,17 @@ TEST_CASE("StreamVideoFile")
 
 TEST_CASE("StreamMediaToAudioBlock")
 {
-
-    auto txclient = TT_InitTeamTalkPoll();
+    auto txclient = InitTeamTalk();
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
     REQUIRE(JoinRoot(txclient));
 
-    // TODO: Uncommenting this causes crash on macOS
-//    auto rxclient = TT_InitTeamTalkPoll();
-//    REQUIRE(InitSound(rxclient));
-//    REQUIRE(Connect(rxclient));
-//    REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
-//    REQUIRE(JoinRoot(rxclient));
+    auto rxclient = InitTeamTalk();
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
+    REQUIRE(JoinRoot(rxclient));
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
@@ -1731,7 +1700,7 @@ TEST_CASE("StreamMediaToAudioBlock")
 
 TEST_CASE("LocalPlaybackToAudioBlock")
 {
-    auto txclient = TT_InitTeamTalkPoll();
+    auto txclient = InitTeamTalk();
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
@@ -1766,11 +1735,8 @@ TEST_CASE("LocalPlaybackToAudioBlock")
 
 TEST_CASE("FirstVoiceStreamPacket")
 {
-    std::vector<ttinst> clients;
-    auto txclient = TT_InitTeamTalkPoll();
-    auto rxclient = TT_InitTeamTalkPoll();
-    clients.push_back(txclient);
-    clients.push_back(rxclient);
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
@@ -2177,7 +2143,7 @@ TEST_CASE("TTPlayOpusOgg")
     TTCHAR szFilename[TT_STRLEN] = ACE_TEXT("TTPlayOpusOgg.ogg");
     CreateOpusFile(mfi, szFilename, IN_FRAMESIZE);
 
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
 
     MediaFilePlayback mfp = {};
@@ -2317,7 +2283,7 @@ TEST_CASE("SeekPrecision")
 {
     TTCHAR filename[TT_STRLEN] = ACE_TEXT("testdata/Opus/giana.ogg");
 
-    auto ttclient = TT_InitTeamTalkPoll();
+    auto ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
 
     MediaFilePlayback mfp = {};

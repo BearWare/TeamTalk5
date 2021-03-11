@@ -27,6 +27,12 @@
 
 #include <myace/MyACE.h>
 
+ttinst InitTeamTalk()
+{
+    ttinst inst(TT_InitTeamTalkPoll());
+    return inst;
+}
+
 bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, INT32 outdev)
 {
     int selindev = indev, seloutdev = outdev;

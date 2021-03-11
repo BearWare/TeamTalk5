@@ -288,6 +288,8 @@ TEST_CASE("PlaybackJitter")
         MyClientNode(int myuserid, teamtalk::clientchannel_t mychan, teamtalk::ClientListener* listener, const ttpackets_t& packets)
             : m_userid(myuserid), m_mychan(mychan), m_vl(listener), m_listener(listener), m_packets(packets)
         {
+            ResumeEventHandling();
+
             // Setup Sound System
             m_snd = soundsystem::GetInstance();
             m_sndprop.soundgroupid = m_snd->OpenSoundGroup();
@@ -306,6 +308,8 @@ TEST_CASE("PlaybackJitter")
                 m_users.erase(m_users.begin());
             }
             m_snd->RemoveSoundGroup(m_sndprop.soundgroupid);
+
+            SuspendEventHandling(true);
         }
 
         int TimerEvent(ACE_UINT32 timer_event_id, long userdata)
