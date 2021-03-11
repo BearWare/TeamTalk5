@@ -54,7 +54,7 @@ using namespace std::placeholders;
 #define LOCAL_USERID                        0 // Local user recording
 #define MUX_USERID                          0x1001 // User ID for recording muxed stream
 #define LOCAL_TX_USERID                     0x1002 // User ID for local user transmitting
-#define LOCAL_MEDIAPLAYBACK_SESSIONID_MAX   0xFF // Max session id
+#define LOCAL_MEDIAPLAYBACK_SESSIONID_MAX   17 // Max session id. Should be small because we use all on STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
 
 #define SIMULATE_RX_PACKETLOSS 0
 #define SIMULATE_TX_PACKETLOSS 0
@@ -2963,10 +2963,30 @@ bool ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if(enable)
-        m_audiocontainer.AddAudioSource(userid, stream_type, outfmt);
+    if (enable)
+    {
+        if (userid == LOCAL_USERID && stream_type == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO)
+        {
+            for (int i=1;i<=LOCAL_MEDIAPLAYBACK_SESSIONID_MAX;++i)
+                m_audiocontainer.AddAudioSource(i, stream_type, outfmt);
+        }
+        else
+        {
+            m_audiocontainer.AddAudioSource(userid, stream_type, outfmt);
+        }
+    }
     else
-        m_audiocontainer.RemoveAudioSource(userid, stream_type);
+    {
+        if (userid == LOCAL_USERID && stream_type == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO)
+        {
+            for (int i=1;i<=LOCAL_MEDIAPLAYBACK_SESSIONID_MAX;++i)
+                m_audiocontainer.RemoveAudioSource(i, stream_type);
+        }
+        else
+        {
+            m_audiocontainer.RemoveAudioSource(userid, stream_type);
+        }
+    }
 
     if (userid == MUX_USERID)
     {
@@ -3314,7 +3334,16 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
 {
     ASSERT_REACTOR_LOCKED(this);
 
+    auto first = m_mediaplayback_counter;
     GEN_NEXT_ID_MAX(m_mediaplayback_counter, LOCAL_MEDIAPLAYBACK_SESSIONID_MAX);
+    while (m_mediaplayback_streams.find(m_mediaplayback_counter) != m_mediaplayback_streams.end())
+    {
+        if (m_mediaplayback_counter == first)
+            return 0;
+        GEN_NEXT_ID_MAX(m_mediaplayback_counter, LOCAL_MEDIAPLAYBACK_SESSIONID_MAX);
+    }
+
+    MYTRACE("New session %d\n", m_mediaplayback_counter);
 
     mediaplayback_t playback;
     playback.reset(new MediaPlayback(m_mediaplayback_counter, m_soundsystem,

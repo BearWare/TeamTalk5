@@ -5105,6 +5105,8 @@ extern "C" {
      * Raw audio from local media playback can be retrieved using
      * TT_EnableAudioBlockEvent().
      *
+     * A maximum of 16 simultaneous local media playbacks can be started.
+     *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
      * @param szMediaFilePath Path to media file.
@@ -5113,10 +5115,8 @@ extern "C" {
      * cancellation part of #SpeexDSP is unused. Only denoise and AGC
      * settings are applied.
      *
-     * @return A Session ID for identifing the media playback session.
-     * If Session ID is <= 0 indicates an error.
-     *
-     * @return A session ID identifier referred to as @c nPlaybackSessionID.
+     * @return A Session ID, @c nPlaybackSessionID, for identifing the
+     * media playback session. If Session ID is <= 0 indicates an error.
      * 
      * @see TT_UpdateLocalPlayback()
      * @see TT_StopLocalPlayback()

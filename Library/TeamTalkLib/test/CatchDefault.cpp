@@ -1731,6 +1731,42 @@ TEST_CASE("LocalPlaybackToAudioBlock")
     auto ab = TT_AcquireUserAudioBlock(txclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, sessionid);
     REQUIRE(ab);
     REQUIRE(TT_ReleaseUserAudioBlock(txclient, ab));
+    REQUIRE(TT_StopLocalPlayback(txclient, sessionid));
+
+    REQUIRE(TT_EnableAudioBlockEvent(txclient, sessionid, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, FALSE));
+
+    while (WaitForEvent(txclient, CLIENTEVENT_USER_AUDIOBLOCK, 0));
+
+    // get all playback sessions
+    REQUIRE(TT_EnableAudioBlockEvent(txclient, TT_LOCAL_USERID, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, TRUE));
+
+    std::set<INT32> allsessions;
+    std::set<INT32> sessions;
+    for (int i=0;i<10;i++)
+    {
+        sessionid = TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp);
+        REQUIRE(sessionid > 0);
+        sessions.insert(sessionid);
+        allsessions.insert(sessionid);
+    }
+
+    while (sessions.size())
+    {
+        REQUIRE(WaitForEvent(txclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+        REQUIRE(msg.nStreamType == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO);
+        ab = TT_AcquireUserAudioBlock(txclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, msg.nSource);
+        REQUIRE(ab);
+        REQUIRE(TT_ReleaseUserAudioBlock(txclient, ab));
+        sessions.erase(msg.nSource);
+    }
+
+    while (TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp) > 0);
+
+    REQUIRE(TT_StopLocalPlayback(txclient, *allsessions.rbegin()));
+    REQUIRE(TT_StopLocalPlayback(txclient, *allsessions.begin()));
+
+    REQUIRE(TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp) > 0);
+    REQUIRE(TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp) > 0);
 }
 
 TEST_CASE("FirstVoiceStreamPacket")
