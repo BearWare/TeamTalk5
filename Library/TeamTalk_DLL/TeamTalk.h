@@ -4543,7 +4543,7 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @param nUserID User ID has different meanings depending on
-     *  the #STREAMTYPE being passed.
+     *  the #StreamType being passed.
      *
      * For #STREAMTYPE_VOICE:
      * - Pass user ID to monitor for audio callback from voice stream.
