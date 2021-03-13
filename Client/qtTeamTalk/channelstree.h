@@ -122,12 +122,12 @@ private:
 
     bool m_ignore_item_changes;
 
-private slots:
+private:
     void slotItemDoubleClicked(QTreeWidgetItem* item, int column);
     void slotItemChanged(QTreeWidgetItem* item, int column);
     void slotUpdateTreeWidgetItem(QTreeWidgetItem* item);
 
-public slots:
+public:
     void slotServerUpdate(const ServerProperties& srvprop);
     void slotAddChannel(const Channel& chan);
     void slotUpdateChannel(const Channel& chan);

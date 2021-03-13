@@ -49,7 +49,7 @@ signals:
 protected:
     QString getEmptyGridText() const;
 
-public slots:
+public:
     void slotAddUser(int userid);
     void slotRemoveUser(int channelid, const User& user);
     void slotNewVideoFrame(int userid, int stream_id);

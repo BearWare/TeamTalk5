@@ -39,10 +39,10 @@ FileTransferDlg::FileTransferDlg(const FileTransfer& transfer, QWidget* parent)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-    connect(ui.cancelButton, SIGNAL(clicked()), 
-            SLOT(slotCancelTransfer()));
-    connect(ui.openButton, SIGNAL(clicked()),
-        SLOT(slotOpenFile()));
+    connect(ui.cancelButton, &QAbstractButton::clicked,
+            this, &FileTransferDlg::slotCancelTransfer);
+    connect(ui.openButton, &QAbstractButton::clicked,
+        this, &FileTransferDlg::slotOpenFile);
 
     m_start = QTime::currentTime();
 

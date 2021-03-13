@@ -176,10 +176,10 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
 
     ui.bantypeBox->addItem(tr("Ban IP-address"), BanTypes(BANTYPE_IPADDR));
     ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
-    connect(ui.newbanBtn, SIGNAL(clicked()), SLOT(slotNewBan()));
-    connect(ui.buttonBox, SIGNAL(accepted()), SLOT(slotClose()));
-    connect(ui.leftButton, SIGNAL(clicked()), SLOT(slotBanUser()));
-    connect(ui.rightButton, SIGNAL(clicked()), SLOT(slotUnbanUser()));
+    connect(ui.newbanBtn, &QAbstractButton::clicked, this, &BannedUsersDlg::slotNewBan);
+    connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &BannedUsersDlg::slotClose);
+    connect(ui.leftButton, &QAbstractButton::clicked, this, &BannedUsersDlg::slotBanUser);
+    connect(ui.rightButton, &QAbstractButton::clicked, this, &BannedUsersDlg::slotUnbanUser);
     connect(ui.bannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotUnbanUser);
     connect(ui.unbannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotBanUser);
 }
@@ -211,8 +211,7 @@ void BannedUsersDlg::slotBanUser()
 
 void BannedUsersDlg::slotNewBan()
 {
-    BannedUser ban;
-    ZERO_STRUCT(ban);
+    BannedUser ban = {};
     ban.uBanTypes = BanTypes(ui.bantypeBox->currentData().toInt());
     if (m_chanpath.size())
     {

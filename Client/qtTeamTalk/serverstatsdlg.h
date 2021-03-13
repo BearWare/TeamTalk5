@@ -35,15 +35,14 @@ class ServerStatisticsDlg : public QDialog
 public:
     ServerStatisticsDlg(QWidget * parent = 0);
 
-private slots:
-    void slotUpdateCmd();
     void slotCmdSuccess(int cmdid);
     void slotUpdateStats(const ServerStatistics& stats);
 
 private:
+    void slotUpdateCmd();
     Ui::ServerStatsDlg ui;
     int m_cmdid;
-    ServerStatistics m_lastStats;
+    ServerStatistics m_lastStats = {};
 };
 
 #endif

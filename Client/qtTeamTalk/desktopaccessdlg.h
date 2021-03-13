@@ -38,10 +38,10 @@ class DesktopAccessDlg : public QDialog
 public:
     DesktopAccessDlg(QWidget* parent);
 
-public slots:
+public:
     void accept();
 
-private slots:
+private:
     void slotDelEntry();
     void slotClearEntry();
     void slotAddEntry();

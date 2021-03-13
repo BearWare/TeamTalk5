@@ -48,7 +48,7 @@ BearWareLoginDlg::BearWareLoginDlg(QWidget *parent) :
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
     ui->buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
-    connect(ui->registerButton, SIGNAL(clicked(bool)), SLOT(slotRegister(bool)));
+    connect(ui->registerButton, &QAbstractButton::clicked, this, &BearWareLoginDlg::slotRegister);
 }
 
 BearWareLoginDlg::~BearWareLoginDlg()
@@ -72,8 +72,8 @@ void BearWareLoginDlg::accept()
 
     QUrl url(urlstr);
     auto http_manager = new QNetworkAccessManager(this);
-    connect(http_manager, SIGNAL(finished(QNetworkReply*)),
-            SLOT(slotHttpReply(QNetworkReply*)));
+    connect(http_manager, &QNetworkAccessManager::finished,
+            this, &BearWareLoginDlg::slotHttpReply);
 
     QNetworkRequest request(url);
     http_manager->get(request);

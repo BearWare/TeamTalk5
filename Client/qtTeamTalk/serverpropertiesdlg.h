@@ -35,13 +35,13 @@ class ServerPropertiesDlg : public QDialog
 public:
     ServerPropertiesDlg(QWidget * parent = 0);
 
-private slots:
+private:
     void slotAccepted();
     void slotShowMOTDVars(bool checked);
 
 private:
     Ui::ServerPropertiesDlg ui;
-    ServerProperties m_srvprop;
+    ServerProperties m_srvprop = {};
 };
 
 

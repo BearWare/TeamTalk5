@@ -41,7 +41,7 @@ public:
 
     void setUserID(int userid);
 
-public slots:
+public:
     void slotDesktopUpdate(int userid, int sessionid);
     void slotDesktopCursorUpdate(int src_userid, const DesktopInput& input);
     void slotUserUpdated(const User& user);
@@ -49,7 +49,7 @@ public slots:
 signals:
     void userDesktopWindowEnded(int userid);
 
-protected slots:
+protected:
     void slotContextMenu(const QPoint& p);
 
 protected:

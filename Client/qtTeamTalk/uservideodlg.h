@@ -40,7 +40,7 @@ public:
 
     UserVideoWidget *uservideoWidget;
 
-public slots:
+public:
     void slotUserUpdate(const User& user);
     void slotNewVideoFrame(int userid, int streamid);
 

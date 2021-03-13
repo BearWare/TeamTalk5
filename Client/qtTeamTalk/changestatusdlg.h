@@ -35,7 +35,7 @@ public:
     ChangeStatusDlg(QWidget* parent = 0);
     User m_user;
 
-private slots:
+private:
     void slotAccepted();
 
 private:

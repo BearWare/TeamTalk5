@@ -50,8 +50,8 @@ UserImageWidget::UserImageWidget(QWidget * parent/* = 0 */,
 
     setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
-            SLOT(slotContextMenu(const QPoint&)));
+    connect(this, &QWidget::customContextMenuRequested,
+            this, &UserImageWidget::slotContextMenu);
 }
 
 UserImageWidget::~UserImageWidget()

@@ -43,7 +43,7 @@ public:
 
     static QString registerUrl;
 
-private slots:
+private:
     void slotRegister(bool);
     void slotHttpReply(QNetworkReply* reply);
 

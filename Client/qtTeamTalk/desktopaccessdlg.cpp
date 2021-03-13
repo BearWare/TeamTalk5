@@ -37,24 +37,24 @@ DesktopAccessDlg::DesktopAccessDlg(QWidget* parent)
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
-    connect(ui.delBtn, SIGNAL(clicked()),
-            SLOT(slotDelEntry()));
-    connect(ui.clearBtn, SIGNAL(clicked()),
-            SLOT(slotClearEntry()));
-    connect(ui.addBtn, SIGNAL(clicked()),
-            SLOT(slotAddEntry()));
+    connect(ui.delBtn, &QAbstractButton::clicked,
+            this, &DesktopAccessDlg::slotDelEntry);
+    connect(ui.clearBtn, &QAbstractButton::clicked,
+            this, &DesktopAccessDlg::slotClearEntry);
+    connect(ui.addBtn, &QAbstractButton::clicked,
+            this, &DesktopAccessDlg::slotAddEntry);
 
-    connect(ui.addchanBtn, SIGNAL(clicked()),
-            SLOT(slotAddChannel()));
-    connect(ui.delchanBtn, SIGNAL(clicked()),
-            SLOT(slotDelChannel()));
-    connect(ui.adduserBtn, SIGNAL(clicked()),
-            SLOT(slotAddUsername()));
-    connect(ui.deluserBtn, SIGNAL(clicked()),
-            SLOT(slotDelUsername()));
+    connect(ui.addchanBtn, &QAbstractButton::clicked,
+            this, &DesktopAccessDlg::slotAddChannel);
+    connect(ui.delchanBtn, &QAbstractButton::clicked,
+            this, &DesktopAccessDlg::slotDelChannel);
+    connect(ui.adduserBtn, &QAbstractButton::clicked,
+            this, &DesktopAccessDlg::slotAddUsername);
+    connect(ui.deluserBtn, &QAbstractButton::clicked,
+            this, &DesktopAccessDlg::slotDelUsername);
 
-    connect(ui.listView, SIGNAL(clicked(const QModelIndex&)),
-            SLOT(slotServerSelected(const QModelIndex&)));
+    connect(ui.listView, &QAbstractItemView::clicked,
+            this, &DesktopAccessDlg::slotServerSelected);
 
     m_model = new DesktopAccessModel(this);
 

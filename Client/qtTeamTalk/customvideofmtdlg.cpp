@@ -40,7 +40,7 @@ CustomVideoFmtDlg::CustomVideoFmtDlg(QWidget* parent, VideoFormat& vidfmt)
     ui.heightEdit->setText(QString::number(vidfmt.nHeight));
 
 
-    connect(this, SIGNAL(accepted()), SLOT(slotAccept()));
+    connect(this, &QDialog::accepted, this, &CustomVideoFmtDlg::slotAccept);
 }
 
 void CustomVideoFmtDlg::slotAccept()

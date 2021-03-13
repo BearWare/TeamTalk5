@@ -40,7 +40,7 @@ public:
     void slotMediaStreamProgress(const MediaFileInfo& mfi);
     void slotMediaPlaybackProgress(int sessionid, const MediaFileInfo& mfi);
 
-private slots:
+private:
     void slotAccepted();
     void slotSelectFile();
     void slotSelectionFile(const QString&);

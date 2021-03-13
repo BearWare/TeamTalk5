@@ -41,16 +41,16 @@ void DesktopGridWidget::slotAddUser(int userid)
     UserDesktopWidget* userdesktop = new UserDesktopWidget(this, userid, BORDER_WIDTH);
     userdesktop->setFocusPolicy(Qt::StrongFocus); //so we can get keyboard input
     userdesktop->setAttribute(Qt::WA_DeleteOnClose);
-    connect(this, SIGNAL(userDesktopWindowUpdate(int,int)),
-            userdesktop, SLOT(slotDesktopUpdate(int,int)));
-    connect(userdesktop, SIGNAL(userDesktopWindowEnded(int)),
-            SIGNAL(userDesktopWindowEnded(int)));
-    connect(userdesktop, SIGNAL(userWidgetFocused(int, bool)), 
-            this, SLOT(slotDesktopWidgetFocused(int, bool)));
-    connect(this, SIGNAL(userDesktopCursorUpdate(int,const DesktopInput&)),
-            userdesktop, SLOT(slotDesktopCursorUpdate(int,const DesktopInput&)));
-    connect(this, SIGNAL(userUpdated(const User&)), userdesktop,
-            SLOT(slotUserUpdated(const User&)));
+    connect(this, &DesktopGridWidget::userDesktopWindowUpdate,
+            userdesktop, &UserDesktopWidget::slotDesktopUpdate);
+    connect(userdesktop, &UserDesktopWidget::userDesktopWindowEnded,
+            this, &DesktopGridWidget::userDesktopWindowEnded);
+    connect(userdesktop, &UserImageWidget::userWidgetFocused,
+            this, &DesktopGridWidget::slotDesktopWidgetFocused);
+    connect(this, &DesktopGridWidget::userDesktopCursorUpdate,
+            userdesktop, &UserDesktopWidget::slotDesktopCursorUpdate);
+    connect(this, &DesktopGridWidget::userUpdated, userdesktop,
+            &UserDesktopWidget::slotUserUpdated);
     addUserWidget(userid, userdesktop);
 
     emit(desktopCountChanged(getActiveUsersCount()));

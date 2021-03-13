@@ -92,8 +92,6 @@
     } while(0)
 #endif
 
-#define ZERO_STRUCT(a) memset(&a, 0, sizeof(a))
-
 #define DEFAULT_TCPPORT 10333
 #define DEFAULT_UDPPORT 10333
 

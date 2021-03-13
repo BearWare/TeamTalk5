@@ -35,16 +35,12 @@ ServerStatisticsDlg::ServerStatisticsDlg(QWidget * parent/* = 0*/)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-    connect(ui.closeBtn, SIGNAL(clicked()), SLOT(accept()));
-    connect(ui.updateChkBox, SIGNAL(clicked()),
-            SLOT(slotUpdateCmd()));
-    connect(ui.updateChkBox, SIGNAL(toggled(bool)), ui.msecSpinBox,
-            SLOT(setEnabled(bool)));
+    connect(ui.closeBtn, &QAbstractButton::clicked, this, &QDialog::accept);
+    connect(ui.updateChkBox, &QAbstractButton::clicked,
+            this, &ServerStatisticsDlg::slotUpdateCmd);
+    connect(ui.updateChkBox, &QAbstractButton::toggled, ui.msecSpinBox,
+            &QWidget::setEnabled);
 
-    ZERO_STRUCT(m_lastStats);
-
-    //ServerProperties prop;
-    //TT_GetServerProperties(ttInst, &prop);
     slotUpdateCmd();
 }
 
@@ -103,5 +99,5 @@ void ServerStatisticsDlg::slotUpdateStats(const ServerStatistics& stats)
     m_lastStats = stats;
 
     if(ui.updateChkBox->isChecked())
-        QTimer::singleShot(ui.msecSpinBox->value(), this, SLOT(slotUpdateCmd()));
+        QTimer::singleShot(ui.msecSpinBox->value(), this, &ServerStatisticsDlg::slotUpdateCmd);
 }

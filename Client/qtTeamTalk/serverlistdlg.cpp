@@ -45,37 +45,35 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     ui.usernameBox->addItem(WEBLOGIN_BEARWARE_USERNAME);
 
-    connect(ui.addupdButton, SIGNAL(clicked()),
-            SLOT(slotAddUpdServer()));
-    connect(ui.delButton, SIGNAL(clicked()),
-            SLOT(slotDeleteServer()));
-    connect(ui.listWidget, SIGNAL(currentRowChanged(int)),
-            SLOT(slotShowServer(int)));
-    connect(ui.connectButton, SIGNAL(clicked()),
-            SLOT(slotConnect()));
-    connect(ui.clearButton, SIGNAL(clicked()),
-            SLOT(slotClearServerClicked()));
-//    connect(ui.listWidget, SIGNAL(itemChanged(QListWidgetItem*)),
-//            SLOT(slotServerSelected(QListWidgetItem*)));
-    connect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-            SLOT(slotDoubleClicked(QListWidgetItem*)));
-    connect(ui.freeserverChkBox, SIGNAL(clicked(bool)),
-            SLOT(slotFreeServers(bool)));
-    connect(ui.genttButton, SIGNAL(clicked()),
-            SLOT(slotGenerateFile()));
-    connect(ui.hostaddrBox, SIGNAL(currentIndexChanged(int)),
-            SLOT(slotShowHost(int)));
-    connect(ui.nameEdit, SIGNAL(textChanged(const QString&)),
-            SLOT(slotSaveEntryChanged(const QString&)));
+    connect(ui.addupdButton, &QAbstractButton::clicked,
+            this, &ServerListDlg::slotAddUpdServer);
+    connect(ui.delButton, &QAbstractButton::clicked,
+            this, &ServerListDlg::slotDeleteServer);
+    connect(ui.listWidget, &QListWidget::currentRowChanged,
+            this, &ServerListDlg::slotShowServer);
+    connect(ui.connectButton, &QAbstractButton::clicked,
+            this, &ServerListDlg::slotConnect);
+    connect(ui.clearButton, &QAbstractButton::clicked,
+            this, &ServerListDlg::slotClearServerClicked);
+    connect(ui.listWidget, &QListWidget::itemDoubleClicked,
+            this, &ServerListDlg::slotDoubleClicked);
+    connect(ui.freeserverChkBox, &QAbstractButton::clicked,
+            this, &ServerListDlg::slotFreeServers);
+    connect(ui.genttButton, &QAbstractButton::clicked,
+            this, &ServerListDlg::slotGenerateFile);
+    connect(ui.hostaddrBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &ServerListDlg::slotShowHost);
+    connect(ui.nameEdit, &QLineEdit::textChanged,
+            this, &ServerListDlg::slotSaveEntryChanged);
 
-    connect(ui.hostaddrBox, SIGNAL(editTextChanged(const QString&)),
-            SLOT(slotGenerateEntryName(const QString&)));
-    connect(ui.deleteBtn, SIGNAL(clicked()),
-            SLOT(slotDeleteLatestHost()));
-    connect(ui.tcpportEdit, SIGNAL(textChanged(const QString&)),
-            SLOT(slotGenerateEntryName(const QString&)));
-    connect(ui.usernameBox, SIGNAL(editTextChanged(const QString&)),
-            SLOT(slotGenerateEntryName(const QString&)));
+    connect(ui.hostaddrBox, &QComboBox::editTextChanged,
+            this, &ServerListDlg::slotGenerateEntryName);
+    connect(ui.deleteBtn, &QAbstractButton::clicked,
+            this, &ServerListDlg::slotDeleteLatestHost);
+    connect(ui.tcpportEdit, &QLineEdit::textChanged,
+            this, &ServerListDlg::slotGenerateEntryName);
+    connect(ui.usernameBox, &QComboBox::editTextChanged,
+            this, &ServerListDlg::slotGenerateEntryName);
 
     clearServer();
 
@@ -279,8 +277,8 @@ void ServerListDlg::slotFreeServers(bool checked)
         m_http_manager = new QNetworkAccessManager(this);
 
     QUrl url(URL_FREESERVER);
-    connect(m_http_manager, SIGNAL(finished(QNetworkReply*)),
-            SLOT(slotFreeServerRequest(QNetworkReply*)));
+    connect(m_http_manager, &QNetworkAccessManager::finished,
+            this, &ServerListDlg::slotFreeServerRequest);
 
     QNetworkRequest request(url);
     m_http_manager->get(request);

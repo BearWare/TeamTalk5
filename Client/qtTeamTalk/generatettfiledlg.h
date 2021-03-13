@@ -35,7 +35,7 @@ class GenerateTTFileDlg : public QDialog
 public:
     GenerateTTFileDlg(const HostEntry& entry, QWidget * parent = 0);
 
-private slots:
+private:
     void slotSetupHotkey();
     void slotVideoCodecChange(int);
     void slotSaveTTFile();

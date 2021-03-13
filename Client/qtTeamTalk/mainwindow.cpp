@@ -198,311 +198,310 @@ MainWindow::MainWindow(const QString& cfgfile)
     ui.statusbar->addPermanentWidget(m_pinglabel);
     ui.statusbar->addPermanentWidget(m_pttlabel);
 
-    connect(ui.sendButton, SIGNAL(clicked()),
-            SLOT(slotSendChannelMessage()));
-    connect(ui.msgEdit, SIGNAL(returnPressed()),
-            SLOT(slotSendChannelMessage()));
-    connect(ui.videosendButton, SIGNAL(clicked()),
-            SLOT(slotSendChannelMessage()));
-    connect(ui.desktopsendButton, SIGNAL(clicked()),
-            SLOT(slotSendChannelMessage()));
-    connect(ui.videomsgEdit, SIGNAL(returnPressed()),
-            SLOT(slotSendChannelMessage()));
-    connect(ui.desktopmsgEdit, SIGNAL(returnPressed()),
-            SLOT(slotSendChannelMessage()));
-    connect(ui.micSlider, SIGNAL(valueChanged(int)), 
-            SLOT(slotMicrophoneGainChanged(int)));
-    connect(ui.volumeSlider, SIGNAL(valueChanged(int)),
-            SLOT(slotMasterVolumeChanged(int)));
-    connect(ui.voiceactSlider, SIGNAL(valueChanged(int)),
-            SLOT(slotVoiceActivationLevelChanged(int)));
+    connect(ui.sendButton, &QAbstractButton::clicked,
+            this, &MainWindow::slotSendChannelMessage);
+    connect(ui.msgEdit, &QLineEdit::returnPressed,
+            this, &MainWindow::slotSendChannelMessage);
+    connect(ui.videosendButton, &QAbstractButton::clicked,
+            this, &MainWindow::slotSendChannelMessage);
+    connect(ui.desktopsendButton, &QAbstractButton::clicked,
+            this, &MainWindow::slotSendChannelMessage);
+    connect(ui.videomsgEdit, &QLineEdit::returnPressed,
+            this, &MainWindow::slotSendChannelMessage);
+    connect(ui.desktopmsgEdit, &QLineEdit::returnPressed,
+            this, &MainWindow::slotSendChannelMessage);
+    connect(ui.micSlider, &QAbstractSlider::valueChanged,
+            this, &MainWindow::slotMicrophoneGainChanged);
+    connect(ui.volumeSlider, &QAbstractSlider::valueChanged,
+            this, &MainWindow::slotMasterVolumeChanged);
+    connect(ui.voiceactSlider, &QAbstractSlider::valueChanged,
+            this, &MainWindow::slotVoiceActivationLevelChanged);
 
     /* ui.channelsWidget */
-    connect(ui.channelsWidget, SIGNAL(itemSelectionChanged()),
-            SLOT(slotTreeSelectionChanged()));
-    connect(ui.channelsWidget, SIGNAL(customContextMenuRequested(const QPoint&)),
-            SLOT(slotTreeContextMenu(const QPoint&)));
-    connect(ui.channelsWidget, SIGNAL(userDoubleClicked(int)), 
-            SLOT(slotUserDoubleClicked(int)));
-    connect(ui.channelsWidget, SIGNAL(channelDoubleClicked(int)),
-            SLOT(slotChannelDoubleClicked(int)));
-    connect(ui.channelsWidget, SIGNAL(fileDropped(const QString&)),
-            SLOT(slotLoadTTFile(const QString&)));
+    connect(ui.channelsWidget, &QTreeWidget::itemSelectionChanged,
+            this, &MainWindow::slotTreeSelectionChanged);
+    connect(ui.channelsWidget, &QWidget::customContextMenuRequested,
+            this, &MainWindow::slotTreeContextMenu);
+    connect(ui.channelsWidget, &ChannelsTree::userDoubleClicked,
+            this, &MainWindow::slotUserDoubleClicked);
+    connect(ui.channelsWidget, &ChannelsTree::channelDoubleClicked,
+            this, &MainWindow::slotChannelDoubleClicked);
+    connect(ui.channelsWidget, &ChannelsTree::fileDropped,
+            this, &MainWindow::slotLoadTTFile);
     connect(ui.channelsWidget,
-            SIGNAL(transmitusersChanged(int, const QMap<int,StreamTypes>&)),
-            SLOT(slotTransmitUsersChanged(int, const QMap<int,StreamTypes>&)));
+            &ChannelsTree::transmitusersChanged,
+            this, &MainWindow::slotTransmitUsersChanged);
     /* Video-tab (video-grid) */
-    connect(this, SIGNAL(newVideoCaptureFrame(int,int)), ui.videogridWidget, 
-            SLOT(slotNewVideoFrame(int,int)));
-    connect(this, SIGNAL(newMediaVideoFrame(int,int)), ui.videogridWidget, 
-            SLOT(slotNewVideoFrame(int,int)));
-    connect(ui.videogridWidget, SIGNAL(userVideoEnded(int)),
-            SLOT(slotRemoveUserVideo(int)));
-    connect(ui.videogridWidget, SIGNAL(videoCountChanged(int)),
-            SLOT(slotUpdateVideoCount(int)));
-    connect(ui.videogridWidget, SIGNAL(videoCountChanged(int)),
-            SLOT(slotUpdateVideoTabUI()));
-    connect(ui.videogridWidget, SIGNAL(userVideoSelected(bool)),
-            SLOT(slotUpdateVideoTabUI()));            
+    connect(this, &MainWindow::newVideoCaptureFrame, ui.videogridWidget,
+            &VideoGridWidget::slotNewVideoFrame);
+    connect(this, &MainWindow::newMediaVideoFrame, ui.videogridWidget,
+            &VideoGridWidget::slotNewVideoFrame);
+    connect(ui.videogridWidget, &VideoGridWidget::userVideoEnded,
+            this, &MainWindow::slotRemoveUserVideo);
+    connect(ui.videogridWidget, &VideoGridWidget::videoCountChanged,
+            this, &MainWindow::slotUpdateVideoCount);
+    connect(ui.videogridWidget, &VideoGridWidget::videoCountChanged,
+            this, &MainWindow::slotUpdateVideoTabUI);
+    connect(ui.videogridWidget, &VideoGridWidget::userVideoSelected,
+            this, &MainWindow::slotUpdateVideoTabUI);
     /* Desktop-tab (desktop-grid) */
-    connect(this, SIGNAL(newDesktopWindow(int,int)), ui.desktopgridWidget,
-            SIGNAL(userDesktopWindowUpdate(int,int)));
-    connect(this, SIGNAL(userDesktopCursor(int,const DesktopInput&)),
-            ui.desktopgridWidget, SIGNAL(userDesktopCursorUpdate(int,const DesktopInput&)));
-    connect(this, SIGNAL(userUpdate(const User&)), ui.desktopgridWidget,
-            SIGNAL(userUpdated(const User&)));
-    connect(this, SIGNAL(userLeft(int,const User&)), ui.desktopgridWidget,
-            SLOT(slotRemoveUser(int,const User&)));
-    connect(ui.desktopgridWidget, SIGNAL(userDesktopWindowEnded(int)),
-            SLOT(slotRemoveUserDesktop(int)));
-    connect(ui.desktopgridWidget, SIGNAL(desktopCountChanged(int)),
-            SLOT(slotUpdateDesktopCount(int)));
-    connect(ui.desktopgridWidget, SIGNAL(desktopCountChanged(int)),
-            SLOT(slotUpdateDesktopTabUI()));
-    connect(ui.desktopgridWidget, SIGNAL(userDesktopSelected(bool)),
-            SLOT(slotUpdateDesktopTabUI()));            
+    connect(this, &MainWindow::newDesktopWindow, ui.desktopgridWidget,
+            &DesktopGridWidget::userDesktopWindowUpdate);
+    connect(this, &MainWindow::userDesktopCursor,
+            ui.desktopgridWidget, &DesktopGridWidget::userDesktopCursorUpdate);
+    connect(this, &MainWindow::userUpdate, ui.desktopgridWidget,
+            &DesktopGridWidget::userUpdated);
+    connect(this, &MainWindow::userLeft, ui.desktopgridWidget,
+            &DesktopGridWidget::slotRemoveUser);
+    connect(ui.desktopgridWidget, &DesktopGridWidget::userDesktopWindowEnded,
+            this, &MainWindow::slotRemoveUserDesktop);
+    connect(ui.desktopgridWidget, &DesktopGridWidget::desktopCountChanged,
+            this, &MainWindow::slotUpdateDesktopCount);
+    connect(ui.desktopgridWidget, &DesktopGridWidget::desktopCountChanged,
+            this, &MainWindow::slotUpdateDesktopTabUI);
+    connect(ui.desktopgridWidget, &DesktopGridWidget::userDesktopSelected,
+            this, &MainWindow::slotUpdateDesktopTabUI);
     /* Files-tab */
-    connect(ui.uploadButton, SIGNAL(clicked()), SLOT(slotChannelsUploadFile()));
-    connect(ui.downloadButton, SIGNAL(clicked()), SLOT(slotChannelsDownloadFile()));
-    connect(ui.deleteButton, SIGNAL(clicked()), SLOT(slotChannelsDeleteFile()));
-    connect(selmodel, SIGNAL(selectionChanged(const QItemSelection&, 
-                                              const QItemSelection&)),
-            ui.filesView, SLOT(slotNewSelection(const QItemSelection&)));
-    connect(ui.filesView, SIGNAL(filesSelected(bool)), ui.actionDeleteFile, 
-            SLOT(setEnabled(bool)));
-    connect(ui.filesView, SIGNAL(filesSelected(bool)), ui.deleteButton, 
-            SLOT(setEnabled(bool)));
-    connect(ui.filesView, SIGNAL(uploadFiles(const QStringList&)),
-            SLOT(slotUploadFiles(const QStringList&)));
+    connect(ui.uploadButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsUploadFile);
+    connect(ui.downloadButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsDownloadFile);
+    connect(ui.deleteButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsDeleteFile);
+    connect(selmodel, &QItemSelectionModel::selectionChanged,
+            ui.filesView, &FilesView::slotNewSelection);
+    connect(ui.filesView, &FilesView::filesSelected, ui.actionDeleteFile,
+            &QAction::setEnabled);
+    connect(ui.filesView, &FilesView::filesSelected, ui.deleteButton,
+            &QWidget::setEnabled);
+    connect(ui.filesView, &FilesView::uploadFiles,
+            this, &MainWindow::slotUploadFiles);
     /* Video-tab buttons */
-    connect(ui.initVideoButton, SIGNAL(clicked(bool)), 
-            ui.actionEnableVideoTransmission, SIGNAL(triggered(bool)));
-    connect(ui.addVideoButton, SIGNAL(clicked()), SLOT(slotAddUserVideo()));
-    connect(ui.removeVideoButton, SIGNAL(clicked()), SLOT(slotRemoveUserVideo()));
-    connect(ui.detachVideoButton, SIGNAL(clicked()), SLOT(slotDetachUserVideo()));
-    connect(ui.videogridWidget, SIGNAL(userVideoSelected(bool)),
-            ui.detachVideoButton, SLOT(setEnabled(bool)));
-    connect(this, SIGNAL(preferencesModified()),
-            ui.videogridWidget, SIGNAL(preferencesModified()));
+    connect(ui.initVideoButton, &QAbstractButton::clicked,
+            ui.actionEnableVideoTransmission, &QAction::triggered);
+    connect(ui.addVideoButton, &QAbstractButton::clicked, this, &MainWindow::slotAddUserVideo);
+    connect(ui.removeVideoButton, &QAbstractButton::clicked, this, &MainWindow::slotRemoveUserVideoGrid);
+    connect(ui.detachVideoButton, &QAbstractButton::clicked, this, &MainWindow::slotDetachUserVideo);
+    connect(ui.videogridWidget, &VideoGridWidget::userVideoSelected,
+            ui.detachVideoButton, &QWidget::setEnabled);
+    connect(this, &MainWindow::preferencesModified,
+            ui.videogridWidget, &VideoGridWidget::preferencesModified);
     /* Desktop-tab buttons */
-    connect(ui.detachDesktopButton, SIGNAL(clicked()),
-            SLOT(slotDetachUserDesktop()));
-    connect(ui.addDesktopButton, SIGNAL(clicked()),
-            SLOT(slotAddUserDesktop()));
-    connect(ui.removeDesktopButton, SIGNAL(clicked()),
-            SLOT(slotRemoveUserDesktop()));
-    connect(ui.desktopaccessButton, SIGNAL(clicked(bool)),
-            SLOT(slotAccessUserDesktop(bool)));
-    connect(ui.desktopgridWidget, SIGNAL(userDesktopSelected(bool)),
-            ui.detachDesktopButton, SLOT(setEnabled(bool)));
-    connect(ui.desktopgridWidget, SIGNAL(userDesktopSelected(bool)),
-            ui.desktopaccessButton, SLOT(setEnabled(bool)));
+    connect(ui.detachDesktopButton, &QAbstractButton::clicked,
+            this, &MainWindow::slotDetachUserDesktopGrid);
+    connect(ui.addDesktopButton, &QAbstractButton::clicked,
+            this, &MainWindow::slotAddUserDesktopGrid);
+    connect(ui.removeDesktopButton, &QAbstractButton::clicked,
+            this, &MainWindow::slotRemoveUserDesktopGrid);
+    connect(ui.desktopaccessButton, &QAbstractButton::clicked,
+            this, &MainWindow::slotAccessUserDesktop);
+    connect(ui.desktopgridWidget, &DesktopGridWidget::userDesktopSelected,
+            ui.detachDesktopButton, &QWidget::setEnabled);
+    connect(ui.desktopgridWidget, &DesktopGridWidget::userDesktopSelected,
+            ui.desktopaccessButton, &QWidget::setEnabled);
 
     /* Begin - File menu */
-    connect(ui.actionNewClient, SIGNAL(triggered(bool)),
-            SLOT(slotClientNewInstance(bool)));
-    connect(ui.actionConnect, SIGNAL(triggered(bool)),
-            SLOT(slotClientConnect(bool)));
-    connect(ui.actionPreferences, SIGNAL(triggered(bool)),
-            SLOT(slotClientPreferences(bool)));
-    connect(ui.actionExit, SIGNAL(triggered(bool)),
-            SLOT(slotClientExit(bool)));
+    connect(ui.actionNewClient, &QAction::triggered,
+            this, &MainWindow::slotClientNewInstance);
+    connect(ui.actionConnect, &QAction::triggered,
+            this, &MainWindow::slotClientConnect);
+    connect(ui.actionPreferences, &QAction::triggered,
+            this, &MainWindow::slotClientPreferences);
+    connect(ui.actionExit, &QAction::triggered,
+            this, &MainWindow::slotClientExit);
     /* End - File menu */
 
     /* Begin - Me menu */
-    connect(ui.actionChangeNickname, SIGNAL(triggered(bool)),
-            SLOT(slotMeChangeNickname(bool)));
-    connect(ui.actionChangeStatus, SIGNAL(triggered(bool)),
-            SLOT(slotMeChangeStatus(bool)));
-    connect(ui.actionEnablePushToTalk, SIGNAL(triggered(bool)),
-            SLOT(slotMeEnablePushToTalk(bool)));
-    connect(ui.actionEnableVoiceActivation, SIGNAL(triggered(bool)),
-            SLOT(slotMeEnableVoiceActivation(bool)));
-    connect(ui.actionEnableVideoTransmission, SIGNAL(triggered(bool)),
-            SLOT(slotMeEnableVideoTransmission(bool)));
-    connect(ui.actionEnableDesktopSharing, SIGNAL(triggered(bool)),
-            SLOT(slotMeEnableDesktopSharing(bool)));
+    connect(ui.actionChangeNickname, &QAction::triggered,
+            this, &MainWindow::slotMeChangeNickname);
+    connect(ui.actionChangeStatus, &QAction::triggered,
+            this, &MainWindow::slotMeChangeStatus);
+    connect(ui.actionEnablePushToTalk, &QAction::triggered,
+            this, &MainWindow::slotMeEnablePushToTalk);
+    connect(ui.actionEnableVoiceActivation, &QAction::triggered,
+            this, &MainWindow::slotMeEnableVoiceActivation);
+    connect(ui.actionEnableVideoTransmission, &QAction::triggered,
+            this, &MainWindow::slotMeEnableVideoTransmission);
+    connect(ui.actionEnableDesktopSharing, &QAction::triggered,
+            this, &MainWindow::slotMeEnableDesktopSharing);
     /* End - Me menu */
 
     /* Begin - Users menu */
-    connect(ui.actionViewUserInformation, SIGNAL(triggered(bool)),
-            SLOT(slotUsersViewUserInformation(bool)));
-    connect(ui.actionMessages, SIGNAL(triggered(bool)),
-            SLOT(slotUsersMessages(bool)));
-    connect(ui.actionMuteVoice, SIGNAL(triggered(bool)),
-            SLOT(slotUsersMuteVoice(bool)));
-    connect(ui.actionMuteMediaFile, SIGNAL(triggered(bool)),
-            SLOT(slotUsersMuteMediaFile(bool)));
-    connect(ui.actionVolume, SIGNAL(triggered(bool)),
-            SLOT(slotUsersVolume(bool)));
-    connect(ui.actionOp, SIGNAL(triggered(bool)),
-            SLOT(slotUsersOp(bool)));
-    connect(ui.actionKickFromChannel, SIGNAL(triggered(bool)),
-            SLOT(slotUsersKickFromChannel(bool)));
-    connect(ui.actionKickAndBanFromChannel, SIGNAL(triggered(bool)),
-        SLOT(slotUsersKickBanFromChannel(bool)));
-    connect(ui.actionKickFromServer, SIGNAL(triggered(bool)),
-            SLOT(slotUsersKickFromServer(bool)));
-    connect(ui.actionKickBan, SIGNAL(triggered(bool)),
-            SLOT(slotUsersKickBanFromServer(bool)));
-    connect(ui.actionMuteAll, SIGNAL(triggered(bool)),
-            SLOT(slotUsersMuteVoiceAll(bool)));
-    connect(ui.actionMediaStorage, SIGNAL(triggered(bool)),
-            SLOT(slotUsersStoreAudioToDisk(bool)));
+    connect(ui.actionViewUserInformation, &QAction::triggered,
+            this, &MainWindow::slotUsersViewUserInformationGrid);
+    connect(ui.actionMessages, &QAction::triggered,
+            this, &MainWindow::slotUsersMessages);
+    connect(ui.actionMuteVoice, &QAction::triggered,
+            this, &MainWindow::slotUsersMuteVoiceGrid);
+    connect(ui.actionMuteMediaFile, &QAction::triggered,
+            this, &MainWindow::slotUsersMuteMediaFileGrid);
+    connect(ui.actionVolume, &QAction::triggered,
+            this, &MainWindow::slotUsersVolumeGrid);
+    connect(ui.actionOp, &QAction::triggered,
+            this, &MainWindow::slotUsersOpGrid);
+    connect(ui.actionKickFromChannel, &QAction::triggered,
+            this, &MainWindow::slotUsersKickFromChannel);
+    connect(ui.actionKickAndBanFromChannel, &QAction::triggered,
+        this, &MainWindow::slotUsersKickBanFromChannel);
+    connect(ui.actionKickFromServer, &QAction::triggered,
+            this, &MainWindow::slotUsersKickFromServer);
+    connect(ui.actionKickBan, &QAction::triggered,
+            this, &MainWindow::slotUsersKickBanFromServer);
+    connect(ui.actionMuteAll, &QAction::triggered,
+            this, &MainWindow::slotUsersMuteVoiceAll);
+    connect(ui.actionMediaStorage, &QAction::triggered,
+            this, &MainWindow::slotUsersStoreAudioToDisk);
     //Desktop access
-    connect(ui.actionDesktopAccessAllow, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsDesktopInput(bool)));
+    connect(ui.actionDesktopAccessAllow, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsDesktopInput);
     //subscriptions
-    connect(ui.actionUserMessages, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsUserMsg(bool)));
-    connect(ui.actionChannelMessages, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsChannelMsg(bool)));
-    connect(ui.actionBroadcastMessages, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsBCastMsg(bool)));
-    connect(ui.actionVoice, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsVoice(bool)));
-    connect(ui.actionVideo, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsVideo(bool)));
-    connect(ui.actionDesktop, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsDesktop(bool)));
-    connect(ui.actionDesktopInput, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsDesktopInput(bool)));
-    connect(ui.actionMediaFile, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsMediaFile(bool)));
-    connect(ui.actionInterceptUserMessages, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsInterceptUserMsg(bool)));
-    connect(ui.actionInterceptChannelMessages, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsInterceptChannelMsg(bool)));
-    connect(ui.actionInterceptVoice, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsInterceptVoice(bool)));
-    connect(ui.actionInterceptVideo, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsInterceptVideo(bool)));
-    connect(ui.actionInterceptDesktop, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsInterceptDesktop(bool)));
-    connect(ui.actionInterceptMediaFile, SIGNAL(triggered(bool)),
-            SLOT(slotUsersSubscriptionsInterceptMediaFile(bool)));
+    connect(ui.actionUserMessages, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsUserMsg);
+    connect(ui.actionChannelMessages, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsChannelMsg);
+    connect(ui.actionBroadcastMessages, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsBCastMsg);
+    connect(ui.actionVoice, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsVoice);
+    connect(ui.actionVideo, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsVideo);
+    connect(ui.actionDesktop, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsDesktop);
+    connect(ui.actionDesktopInput, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsDesktopInput);
+    connect(ui.actionMediaFile, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsMediaFile);
+    connect(ui.actionInterceptUserMessages, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsInterceptUserMsg);
+    connect(ui.actionInterceptChannelMessages, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsInterceptChannelMsg);
+    connect(ui.actionInterceptVoice, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsInterceptVoice);
+    connect(ui.actionInterceptVideo, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsInterceptVideo);
+    connect(ui.actionInterceptDesktop, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsInterceptDesktop);
+    connect(ui.actionInterceptMediaFile, &QAction::triggered,
+            this, &MainWindow::slotUsersSubscriptionsInterceptMediaFile);
 
     //advanced
-    connect(ui.actionIncreaseVoiceVolume, SIGNAL(triggered()),
-            SLOT(slotUsersAdvancedIncVolumeVoice()));
-    connect(ui.actionLowerVoiceVolume, SIGNAL(triggered()),
-            SLOT(slotUsersAdvancedDecVolumeVoice()));
-    connect(ui.actionIncreaseMediaFileVolume, SIGNAL(triggered()),
-            SLOT(slotUsersAdvancedIncVolumeMediaFile()));
-    connect(ui.actionLowerMediaFileVolume, SIGNAL(triggered()),
-            SLOT(slotUsersAdvancedDecVolumeMediaFile()));
-    connect(ui.actionStoreForMove, SIGNAL(triggered()),
-            SLOT(slotUsersAdvancedStoreForMove()));
-    connect(ui.actionMoveUser, SIGNAL(triggered()),
-            SLOT(slotUsersAdvancedMoveUsers()));
+    connect(ui.actionIncreaseVoiceVolume, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedIncVolumeVoice);
+    connect(ui.actionLowerVoiceVolume, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedDecVolumeVoice);
+    connect(ui.actionIncreaseMediaFileVolume, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedIncVolumeMediaFile);
+    connect(ui.actionLowerMediaFileVolume, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedDecVolumeMediaFile);
+    connect(ui.actionStoreForMove, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedStoreForMove);
+    connect(ui.actionMoveUser, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedMoveUsers);
     connect(ui.actionAllowChannelTextMessages, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedChanMsgAllowed);
-    connect(ui.actionAllowVoiceTransmission, SIGNAL(triggered(bool)),
-            SLOT(slotUsersAdvancedVoiceAllowed(bool)));
-    connect(ui.actionAllowVideoTransmission, SIGNAL(triggered(bool)),
-            SLOT(slotUsersAdvancedVideoAllowed(bool)));
-    connect(ui.actionAllowDesktopTransmission, SIGNAL(triggered(bool)),
-            SLOT(slotUsersAdvancedDesktopAllowed(bool)));
-    connect(ui.actionAllowMediaFileTransmission, SIGNAL(triggered(bool)),
-            SLOT(slotUsersAdvancedMediaFileAllowed(bool)));
+    connect(ui.actionAllowVoiceTransmission, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedVoiceAllowed);
+    connect(ui.actionAllowVideoTransmission, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedVideoAllowed);
+    connect(ui.actionAllowDesktopTransmission, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedDesktopAllowed);
+    connect(ui.actionAllowMediaFileTransmission, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedMediaFileAllowed);
     /* End - Users menu */
 
     /* Begin - Channels menu */
-    connect(ui.actionCreateChannel, SIGNAL(triggered(bool)),
-            SLOT(slotChannelsCreateChannel(bool)));
-    connect(ui.actionUpdateChannel, SIGNAL(triggered(bool)),
-            SLOT(slotChannelsUpdateChannel(bool)));
-    connect(ui.actionDeleteChannel, SIGNAL(triggered(bool)),
-            SLOT(slotChannelsDeleteChannel(bool)));
-    connect(ui.actionJoinChannel, SIGNAL(triggered(bool)),
-            SLOT(slotChannelsJoinChannel(bool)));
-    connect(ui.actionViewChannelInfo, SIGNAL(triggered(bool)),
-            SLOT(slotChannelsViewChannelInfo(bool)));
-    connect(ui.actionBannedUsersInChannel, SIGNAL(triggered(bool)),
-            SLOT(slotChannelsListBans(bool)));
+    connect(ui.actionCreateChannel, &QAction::triggered,
+            this, &MainWindow::slotChannelsCreateChannel);
+    connect(ui.actionUpdateChannel, &QAction::triggered,
+            this, &MainWindow::slotChannelsUpdateChannel);
+    connect(ui.actionDeleteChannel, &QAction::triggered,
+            this, &MainWindow::slotChannelsDeleteChannel);
+    connect(ui.actionJoinChannel, &QAction::triggered,
+            this, &MainWindow::slotChannelsJoinChannel);
+    connect(ui.actionViewChannelInfo, &QAction::triggered,
+            this, &MainWindow::slotChannelsViewChannelInfo);
+    connect(ui.actionBannedUsersInChannel, &QAction::triggered,
+            this, &MainWindow::slotChannelsListBans);
 
-    connect(ui.actionStreamMediaFileToChannel, SIGNAL(triggered(bool)),
-            SLOT(slotChannelsStreamMediaFile(bool)));
-    connect(ui.actionUploadFile, SIGNAL(triggered(bool)),
-            SLOT(slotChannelsUploadFile(bool)));
-    connect(ui.actionDownloadFile, SIGNAL(triggered(bool)),
-            SLOT(slotChannelsDownloadFile(bool)));
-    connect(ui.actionDeleteFile, SIGNAL(triggered(bool)),
-            SLOT(slotChannelsDeleteFile(bool)));
+    connect(ui.actionStreamMediaFileToChannel, &QAction::triggered,
+            this, &MainWindow::slotChannelsStreamMediaFile);
+    connect(ui.actionUploadFile, &QAction::triggered,
+            this, &MainWindow::slotChannelsUploadFile);
+    connect(ui.actionDownloadFile, &QAction::triggered,
+            this, &MainWindow::slotChannelsDownloadFile);
+    connect(ui.actionDeleteFile, &QAction::triggered,
+            this, &MainWindow::slotChannelsDeleteFile);
     /* End - Channels menu */
 
     /* Begin - Server menu */
-    connect(ui.actionUserAccounts, SIGNAL(triggered(bool)),
-            SLOT(slotServerUserAccounts(bool)));
-    connect(ui.actionBannedUsers, SIGNAL(triggered(bool)),
-            SLOT(slotServerBannedUsers(bool)));
-    connect(ui.actionOnlineUsers, SIGNAL(triggered(bool)),
-            SLOT(slotServerOnlineUsers(bool)));
-    connect(ui.actionBroadcastMessage, SIGNAL(triggered(bool)),
-            SLOT(slotServerBroadcastMessage(bool)));
-    connect(ui.actionServerProperties, SIGNAL(triggered(bool)),
-            SLOT(slotServerServerProperties(bool)));
-    connect(ui.actionSaveConfiguration, SIGNAL(triggered(bool)),
-            SLOT(slotServerSaveConfiguration(bool)));
-    connect(ui.actionServerStatistics, SIGNAL(triggered(bool)),
-            SLOT(slotServerServerStatistics(bool)));
+    connect(ui.actionUserAccounts, &QAction::triggered,
+            this, &MainWindow::slotServerUserAccounts);
+    connect(ui.actionBannedUsers, &QAction::triggered,
+            this, &MainWindow::slotServerBannedUsers);
+    connect(ui.actionOnlineUsers, &QAction::triggered,
+            this, &MainWindow::slotServerOnlineUsers);
+    connect(ui.actionBroadcastMessage, &QAction::triggered,
+            this, &MainWindow::slotServerBroadcastMessage);
+    connect(ui.actionServerProperties, &QAction::triggered,
+            this, &MainWindow::slotServerServerProperties);
+    connect(ui.actionSaveConfiguration, &QAction::triggered,
+            this, &MainWindow::slotServerSaveConfiguration);
+    connect(ui.actionServerStatistics, &QAction::triggered,
+            this, &MainWindow::slotServerServerStatistics);
     /* End - Server menu */
 
     /* Begin - Help menu */
-    connect(ui.actionManual, SIGNAL(triggered(bool)),
-            SLOT(slotHelpManual(bool)));
-    connect(ui.actionResetPreferencesToDefault, SIGNAL(triggered(bool)),
-            SLOT(slotHelpResetPreferences(bool)));
-    connect(ui.actionVisitBearWare, SIGNAL(triggered(bool)),
-            SLOT(slotHelpVisitBearWare(bool)));
-    connect(ui.actionAbout, SIGNAL(triggered(bool)),
-            SLOT(slotHelpAbout(bool)));
+    connect(ui.actionManual, &QAction::triggered,
+            this, &MainWindow::slotHelpManual);
+    connect(ui.actionResetPreferencesToDefault, &QAction::triggered,
+            this, &MainWindow::slotHelpResetPreferences);
+    connect(ui.actionVisitBearWare, &QAction::triggered,
+            this, &MainWindow::slotHelpVisitBearWare);
+    connect(ui.actionAbout, &QAction::triggered,
+            this, &MainWindow::slotHelpAbout);
     /* End - Help menu */
 
     /* Begin - Extra toolbar buttons */
-    connect(ui.actionEnableQuestionMode, SIGNAL(triggered(bool)),
-            SLOT(slotEnableQuestionMode(bool)));
+    connect(ui.actionEnableQuestionMode, &QAction::triggered,
+            this, &MainWindow::slotEnableQuestionMode);
     /* End - Extra toolbar buttons */
 
     /* Begin - CLIENTEVENT_* messages */
-    connect(this, SIGNAL(serverUpdate(const ServerProperties&)), ui.channelsWidget,
-            SLOT(slotServerUpdate(const ServerProperties&)));
-    connect(this, SIGNAL(newChannel(const Channel&)),
-            ui.channelsWidget, SLOT(slotAddChannel(const Channel&)));
-    connect(this, SIGNAL(updateChannel(const Channel&)),
-            SLOT(slotChannelUpdate(const Channel&)));
-    connect(this, SIGNAL(updateChannel(const Channel&)),
-            ui.channelsWidget, SLOT(slotUpdateChannel(const Channel&)));
-    connect(this, SIGNAL(removeChannel(const Channel&)),
-            ui.channelsWidget, SLOT(slotRemoveChannel(const Channel&)));
-    connect(this, SIGNAL(userLogin(const User&)), ui.channelsWidget,
-            SLOT(slotUserLoggedIn(const User&)));
-    connect(this, SIGNAL(userLogout(const User&)), ui.channelsWidget,
-            SLOT(slotUserLoggedOut(const User&)));
+    connect(this, &MainWindow::serverUpdate, ui.channelsWidget,
+            &ChannelsTree::slotServerUpdate);
+    connect(this, &MainWindow::newChannel,
+            ui.channelsWidget, &ChannelsTree::slotAddChannel);
+    connect(this, &MainWindow::updateChannel,
+            this, &MainWindow::slotChannelUpdate);
+    connect(this, &MainWindow::updateChannel,
+            ui.channelsWidget, &ChannelsTree::slotUpdateChannel);
+    connect(this, &MainWindow::removeChannel,
+            ui.channelsWidget, &ChannelsTree::slotRemoveChannel);
+    connect(this, &MainWindow::userLogin, ui.channelsWidget,
+            &ChannelsTree::slotUserLoggedIn);
+    connect(this, &MainWindow::userLogout, ui.channelsWidget,
+            &ChannelsTree::slotUserLoggedOut);
     /* 'this' must be connected first since it needs to extract the old
      * user from channelswidget */
-    connect(this, SIGNAL(userUpdate(const User&)), this, 
-            SLOT(slotUserUpdate(const User&)));
-    connect(this, SIGNAL(userUpdate(const User&)), ui.channelsWidget, 
-            SLOT(slotUserUpdate(const User&)));
-    connect(this, SIGNAL(userJoined(int,const User&)), this,
-            SLOT(slotUserJoin(int,const User&)));
-    connect(this, SIGNAL(userJoined(int,const User&)), ui.channelsWidget, 
-            SLOT(slotUserJoin(int,const User&)));
-    connect(this, SIGNAL(userLeft(int,const User&)), this, 
-            SLOT(slotUserLeft(int,const User&)));
-    connect(this, SIGNAL(userLeft(int,const User&)), ui.channelsWidget, 
-            SLOT(slotUserLeft(int,const User&)));
-    connect(this, SIGNAL(userLeft(int,const User&)), ui.videogridWidget, 
-            SLOT(slotRemoveUser(int,const User&)));
-    connect(this, SIGNAL(userStateChange(const User&)), ui.channelsWidget, 
-            SLOT(slotUserStateChange(const User&)));
-    connect(this, SIGNAL(updateMyself()), ui.channelsWidget, 
-            SLOT(slotUpdateMyself()));
-    connect(this, SIGNAL(newVideoCaptureFrame(int,int)), ui.channelsWidget, 
-            SLOT(slotUserVideoFrame(int,int)));
-    connect(this, SIGNAL(newTextMessage(const MyTextMessage&)),
-            SLOT(slotNewTextMessage(const MyTextMessage&)));
+    connect(this, &MainWindow::userUpdate, this,
+            &MainWindow::slotUserUpdate);
+    connect(this, &MainWindow::userUpdate, ui.channelsWidget,
+            &ChannelsTree::slotUserUpdate);
+    connect(this, &MainWindow::userJoined, this,
+            &MainWindow::slotUserJoin);
+    connect(this, &MainWindow::userJoined, ui.channelsWidget,
+            &ChannelsTree::slotUserJoin);
+    connect(this, &MainWindow::userLeft, this,
+            &MainWindow::slotUserLeft);
+    connect(this, &MainWindow::userLeft, ui.channelsWidget,
+            &ChannelsTree::slotUserLeft);
+    connect(this, &MainWindow::userLeft, ui.videogridWidget,
+            &VideoGridWidget::slotRemoveUser);
+    connect(this, &MainWindow::userStateChange, ui.channelsWidget,
+            &ChannelsTree::slotUserStateChange);
+    connect(this, &MainWindow::updateMyself, ui.channelsWidget,
+            &ChannelsTree::slotUpdateMyself);
+    connect(this, &MainWindow::newVideoCaptureFrame, ui.channelsWidget,
+            &ChannelsTree::slotUserVideoFrame);
+    connect(this, &MainWindow::newTextMessage,
+            this, &MainWindow::slotNewTextMessage);
     /* End - CLIENTEVENT_* messages */
 
     m_timers.insert(startTimer(1000), TIMER_ONE_SECOND);
@@ -664,15 +663,13 @@ void MainWindow::loadSettings()
     m_timers.insert(startTimer(24 * 60 * 60 * 1000), TIMER_APP_UPDATE);
 
     if(ttSettings->value(SETTINGS_DISPLAY_STARTMINIMIZED, false).toBool())
-        QTimer::singleShot(0, this, SLOT(showMinimized()));
+        QTimer::singleShot(0, this, &MainWindow::showMinimized);
 
     //started from .tt file?
     bool connect_ok = parseArgs(QApplication::arguments());
 
     if(connect_ok)
-        QTimer::singleShot(0, this, SLOT(slotConnectToLatest()));
-
-     //TT_EnableAudioBlockEvent(ttInst, true);
+        QTimer::singleShot(0, this, &MainWindow::slotConnectToLatest);
 }
 
 bool MainWindow::parseArgs(const QStringList& args)
@@ -817,8 +814,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             QUrl url(urlReq);
 
             auto networkMgr = new QNetworkAccessManager(this);
-            connect(networkMgr, SIGNAL(finished(QNetworkReply*)),
-                SLOT(slotBearWareAuthReply(QNetworkReply*)));
+            connect(networkMgr, &QNetworkAccessManager::finished,
+                this, &MainWindow::slotBearWareAuthReply);
 
             QNetworkRequest request(url);
             networkMgr->get(request);
@@ -1054,8 +1051,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     {
         Q_ASSERT(msg.ttType == __USER);
 
-        User prev_user;
-        ZERO_STRUCT(prev_user);
+        User prev_user = {};
         ui.channelsWidget->getUser(msg.user.nUserID, prev_user);
         Q_ASSERT(prev_user.nUserID);
 
@@ -1145,8 +1141,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
            msg.filetransfer.nTransferred == 0)
         {
             FileTransferDlg* dlg = new FileTransferDlg(msg.filetransfer, nullptr);
-            connect(this, SIGNAL(filetransferUpdate(const FileTransfer&)), dlg, 
-                    SLOT(slotTransferUpdate(const FileTransfer&)));
+            connect(this, &MainWindow::filetransferUpdate, dlg,
+                    &FileTransferDlg::slotTransferUpdate);
             dlg->setAttribute(Qt::WA_DeleteOnClose);
             dlg->show();
         }
@@ -1503,8 +1499,8 @@ void MainWindow::commandProcessing(int cmdid, bool complete)
                 m_bannedusersdlg = new BannedUsersDlg(m_bannedusers, chanpath);
                 if (chanpath.size())
                     m_bannedusersdlg->setWindowTitle(tr("Banned Users in Channel %1").arg(chanpath));
-                connect(m_bannedusersdlg, SIGNAL(finished(int)),
-                        SLOT(slotClosedBannedUsersDlg(int)));
+                connect(m_bannedusersdlg, &QDialog::finished,
+                        this, &MainWindow::slotClosedBannedUsersDlg);
                 m_bannedusersdlg->setAttribute(Qt::WA_DeleteOnClose);
                 m_bannedusersdlg->show();
                 m_bannedusers.clear();
@@ -1518,12 +1514,12 @@ void MainWindow::commandProcessing(int cmdid, bool complete)
             if(!m_useraccountsdlg)
             {
                 m_useraccountsdlg = new UserAccountsDlg(m_useraccounts, UAD_READWRITE);
-                connect(this, SIGNAL(cmdSuccess(int)), m_useraccountsdlg, 
-                        SLOT(slotCmdSuccess(int)));
-                connect(this, SIGNAL(cmdError(int, int)), m_useraccountsdlg, 
-                        SLOT(slotCmdError(int,int)));
-                connect(m_useraccountsdlg, SIGNAL(finished(int)),
-                        SLOT(slotClosedUserAccountsDlg(int)));
+                connect(this, &MainWindow::cmdSuccess, m_useraccountsdlg,
+                        &UserAccountsDlg::slotCmdSuccess);
+                connect(this, &MainWindow::cmdError, m_useraccountsdlg,
+                        &UserAccountsDlg::slotCmdError);
+                connect(m_useraccountsdlg, &QDialog::finished,
+                        this, &MainWindow::slotClosedUserAccountsDlg);
                 m_useraccountsdlg->setAttribute(Qt::WA_DeleteOnClose);
                 m_useraccountsdlg->show();
                 m_useraccounts.clear();
@@ -1571,8 +1567,7 @@ void MainWindow::cmdLoggedIn(int myuserid)
     if(m_statusmode || statusmsg.size())
         TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
 
-    UserAccount account;
-    ZERO_STRUCT(account);
+    UserAccount account = {};
     TT_GetMyUserAccount(ttInst, &account);
 
     //join channel (if specified)
@@ -1742,8 +1737,8 @@ void MainWindow::Disconnect()
 
     updateWindowTitle();
 
-    ZERO_STRUCT(m_srvprop);
-    ZERO_STRUCT(m_mychannel);
+    m_srvprop = {};
+    m_mychannel = {};
 
     m_useraccounts.clear();
     m_bannedusers.clear();
@@ -2187,13 +2182,13 @@ void MainWindow::changeEvent(QEvent* event )
                 if(!m_sysicon)
                 {
                     m_sysicon = new QSystemTrayIcon(this);
-                    connect(m_sysicon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-                        SLOT(slotTrayIconChange(QSystemTrayIcon::ActivationReason)));
+                    connect(m_sysicon, &QSystemTrayIcon::activated,
+                        this, &MainWindow::slotTrayIconChange);
                     m_sysmenu = new QMenu(this);
                     QAction* restore = new QAction(tr("&Restore"), m_sysmenu);
-                    connect(restore, SIGNAL(triggered()), SLOT(showNormal()));
+                    connect(restore, &QAction::triggered, this, &QWidget::showNormal);
                     QAction* exit = new QAction(tr("&Exit"), m_sysmenu);
-                    connect(exit, SIGNAL(triggered(bool)), SLOT(slotClientExit(bool)));
+                    connect(exit, &QAction::triggered, this, &MainWindow::slotClientExit);
                     m_sysmenu->addAction(restore);
                     m_sysmenu->addSeparator();
                     m_sysmenu->addAction(exit);
@@ -2215,7 +2210,7 @@ void MainWindow::changeEvent(QEvent* event )
                 QApplication::setQuitOnLastWindowClosed(false);
                 m_sysicon->show();
 
-                QTimer::singleShot(0, this, SLOT(hide()));
+                QTimer::singleShot(0, this, &MainWindow::hide);
             }
             else if(m_sysicon)
             {
@@ -2350,13 +2345,13 @@ TextMessageDlg* MainWindow::getTextMessageDlg(int userid)
 
         dlg->setAttribute(Qt::WA_DeleteOnClose);
         m_usermsg.insert(userid, dlg);
-        connect(dlg, SIGNAL(newMyselfTextMessage(const MyTextMessage&)),
-                SLOT(slotNewMyselfTextMessage(const MyTextMessage&)));
-        connect(dlg, SIGNAL(closedTextMessage(int)), SLOT(slotTextMessageClosed(int)));
-        connect(this, SIGNAL(userUpdate(const User&)), dlg, SLOT(slotUpdateUser(const User&)));
-        connect(this, SIGNAL(newTextMessage(const MyTextMessage&)), dlg,
-                SLOT(slotNewMessage(const MyTextMessage&)));
-        connect(this, SIGNAL(userLogout(const User&)), dlg, SLOT(slotUserLogout(const User&)));
+        connect(dlg, &TextMessageDlg::newMyselfTextMessage,
+                this, &MainWindow::slotNewMyselfTextMessage);
+        connect(dlg, &TextMessageDlg::closedTextMessage, this, &MainWindow::slotTextMessageClosed);
+        connect(this, &MainWindow::userUpdate, dlg, &TextMessageDlg::slotUpdateUser);
+        connect(this, &MainWindow::newTextMessage, dlg,
+                &TextMessageDlg::slotNewMessage);
+        connect(this, &MainWindow::userLogout, dlg, &TextMessageDlg::slotUserLogout);
         return dlg;
     }
 }
@@ -2478,7 +2473,7 @@ void MainWindow::processMyselfJoined(int channelid)
 void MainWindow::processMyselfLeft(int channelid)
 {
     Q_UNUSED(channelid);
-    ZERO_STRUCT(m_mychannel);
+    m_mychannel = {};
 
     m_talking.clear();
     ui.videogridWidget->ResetGrid();
@@ -2728,8 +2723,7 @@ bool MainWindow::sendDesktopWindow()
     for(int i=0;i<H;i++)
         img.setPixel(W-1, i, 0x00F0);
 
-    DesktopWindow wnd;
-    ZERO_STRUCT(wnd);
+    DesktopWindow wnd = {};
     wnd.bmpFormat = BMP_RGB32;
     wnd.nProtocol = DESKTOPPROTOCOL_ZLIB_1;
     wnd.nWidth = W;
@@ -2753,8 +2747,7 @@ bool MainWindow::sendDesktopWindow()
                                 attr.height, -1, ZPixmap);
         if(img)
         {
-            DesktopWindow wnd;
-            ZERO_STRUCT(wnd);
+            DesktopWindow wnd = {};
             
             wnd.nProtocol = DESKTOPPROTOCOL_ZLIB_1;
             wnd.nWidth = img->width;
@@ -2811,8 +2804,7 @@ QRect MainWindow::getSharedWindowRect()
         return QRect(attr.x, attr.y, attr.x + attr.width, attr.y + attr.height);
 
 #elif defined(Q_OS_DARWIN)
-    ShareWindow wnd;
-    ZERO_STRUCT(wnd);
+    ShareWindow wnd = {};
 
     if(TT_MacOS_GetWindowFromWindowID(m_nCGShareWnd, &wnd))
         return QRect(wnd.nWindowX, wnd.nWindowY, wnd.nWindowX + wnd.nWidth,
@@ -2969,8 +2961,7 @@ void MainWindow::processDesktopInput(int userid, const DesktopInput& input)
         //for(int j=0;j<TT_DESKTOPINPUT_KEYS_MAX;j++)
         //    dbg2 << input.mouseInputs[i].buttonsDown[j] << ",";
 
-        DesktopInput trans_input;
-        ZERO_STRUCT(trans_input);
+        DesktopInput trans_input = {};
 
         if(key_trans == TTKEY_NO_TRANSLATE)
             executeInputs.push_back(inputs[i]);
@@ -3237,8 +3228,7 @@ void MainWindow::executeDesktopInput(const DesktopInput& input)
          XWarpPointer(m_display, None, (Window)m_nWindowShareWnd, 0, 0, 0, 0,
                       input.uMousePosX, input.uMousePosY);
 
-        XEvent event;
-        ZERO_STRUCT(event);
+         XEvent event = {};
         
         switch(input.uKeyState)
         {
@@ -3305,8 +3295,8 @@ void MainWindow::checkAppUpdate()
     QUrl url(URL_APPUPDATE);
 
     auto networkMgr = new QNetworkAccessManager(this);
-    connect(networkMgr, SIGNAL(finished(QNetworkReply*)),
-            SLOT(slotSoftwareUpdateReply(QNetworkReply*)));
+    connect(networkMgr, &QNetworkAccessManager::finished,
+            this, &MainWindow::slotSoftwareUpdateReply);
 
     QNetworkRequest request(url);
     networkMgr->get(request);
@@ -3434,7 +3424,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
     killLocalTimer(TIMER_RECONNECT);
 
     //reset last channel, since we're starting a new connection
-    ZERO_STRUCT(m_last_channel);
+    m_last_channel = {};
 
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
         Disconnect();
@@ -3461,18 +3451,18 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     //so ensure these video frames are not being displayed elsewhere
     int localvideo_userid = (0 | VIDEOTYPE_CAPTURE);
     bool ignore_set = m_vid_exclude.find(localvideo_userid) != m_vid_exclude.end();
-    disconnect(this, SIGNAL(newVideoCaptureFrame(int,int)),
-               ui.videogridWidget, SLOT(slotNewVideoFrame(int,int)));
+    disconnect(this, &MainWindow::newVideoCaptureFrame,
+               ui.videogridWidget, &VideoGridWidget::slotNewVideoFrame);
     m_vid_exclude.remove(localvideo_userid);
 
     uservideo_t::iterator local_ite = m_user_video.find(localvideo_userid);
     if(local_ite != m_user_video.end())
-        disconnect(this, SIGNAL(newVideoCaptureFrame(int,int)),
+        disconnect(this, &MainWindow::newVideoCaptureFrame,
                    (*local_ite)->uservideoWidget, 
-                   SLOT(slotNewVideoFrame(int,int)));
+                   &UserVideoWidget::slotNewVideoFrame);
 
-    connect(this, SIGNAL(newVideoCaptureFrame(int,int)), &dlg, 
-            SLOT(slotNewVideoFrame(int,int)));
+    connect(this, &MainWindow::newVideoCaptureFrame, &dlg,
+            &PreferencesDlg::slotNewVideoFrame);
 
     //see if we need to retranslate
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString();
@@ -3483,18 +3473,18 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     //show dialog
     bool b = dlg.exec();
 
-    disconnect(this, SIGNAL(newVideoCaptureFrame(int,int)), &dlg, 
-               SLOT(slotNewVideoFrame(int,int)));
+    disconnect(this, &MainWindow::newVideoCaptureFrame, &dlg,
+               &PreferencesDlg::slotNewVideoFrame);
 
     if(ignore_set)
         m_vid_exclude.insert(localvideo_userid);
     if(local_ite != m_user_video.end())
-        connect(this, SIGNAL(newVideoCaptureFrame(int,int)),
+        connect(this, &MainWindow::newVideoCaptureFrame,
                 (*local_ite)->uservideoWidget, 
-                SLOT(slotNewVideoFrame(int,int)));
+                &UserVideoWidget::slotNewVideoFrame);
 
-    connect(this, SIGNAL(newVideoCaptureFrame(int,int)),
-            ui.videogridWidget, SLOT(slotNewVideoFrame(int,int)));
+    connect(this, &MainWindow::newVideoCaptureFrame,
+            ui.videogridWidget, &VideoGridWidget::slotNewVideoFrame);
 
     if(!b)return;
 
@@ -3613,7 +3603,7 @@ void MainWindow::slotClientExit(bool /*checked =false */)
     //close using timer, otherwise gets a Qt assertion from the 
     //'setQuitOnLastWindowClosed' call.
     QApplication::setQuitOnLastWindowClosed(true);
-    QTimer::singleShot(0, this, SLOT(close()));
+    QTimer::singleShot(0, this, &MainWindow::close);
 }
 
 void MainWindow::slotMeChangeNickname(bool /*checked =false */)
@@ -3802,30 +3792,30 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
     }
 }
 
-void MainWindow::slotUsersViewUserInformation(bool /*checked =false */)
+void MainWindow::slotUsersViewUserInformationGrid(bool /*checked =false */)
 {
     slotUsersViewUserInformation(ui.channelsWidget->selectedUser());
 }
 
-void MainWindow::slotUsersMessages(bool /*checked =false */)
+void MainWindow::slotUsersMessagesGrid(bool /*checked =false */)
 {
     int userid = ui.channelsWidget->selectedUser();
     slotUsersMessages(userid);
 }
 
-void MainWindow::slotUsersMuteVoice(bool checked /*=false */)
+void MainWindow::slotUsersMuteVoiceGrid(bool checked /*=false */)
 {
     foreach(int userid, ui.channelsWidget->selectedUsers())
         slotUsersMuteVoice(userid, checked);
 }
 
-void MainWindow::slotUsersMuteMediaFile(bool checked /*=false */)
+void MainWindow::slotUsersMuteMediaFileGrid(bool checked /*=false */)
 {
     foreach(int userid, ui.channelsWidget->selectedUsers())
         slotUsersMuteMediaFile(userid, checked);
 }
 
-void MainWindow::slotUsersVolume(bool /*checked =false */)
+void MainWindow::slotUsersVolumeGrid(bool /*checked =false */)
 {
     int userid = ui.channelsWidget->selectedUser();
     slotUsersVolume(userid);
@@ -3840,7 +3830,7 @@ void MainWindow::slotUsersMuteVoiceAll(bool checked /*=false */)
         playSoundEvent(SOUNDEVENT_MUTEALLOFF);
 }
 
-void MainWindow::slotUsersOp(bool /*checked =false */)
+void MainWindow::slotUsersOpGrid(bool /*checked =false */)
 {
     foreach(User u, ui.channelsWidget->getSelectedUsers())
         slotUsersOp(u.nUserID, u.nChannelID);
@@ -4073,8 +4063,7 @@ void MainWindow::slotUsersStoreAudioToDisk(bool/* checked*/)
 
 void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
 {
-    Channel chan;
-    ZERO_STRUCT(chan);
+    Channel chan = {};
 
     if(ui.channelsWidget->selectedChannel() && (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS))
         chan.nParentID = ui.channelsWidget->selectedChannel();
@@ -4327,8 +4316,8 @@ void MainWindow::slotServerUserAccounts(bool /*checked =false */)
             TT_GetMyUserAccount(ttInst, &useraccounts[0]);
 
             m_useraccountsdlg = new UserAccountsDlg(useraccounts, UAD_READONLY);
-            connect(m_useraccountsdlg, SIGNAL(finished(int)),
-                SLOT(slotClosedUserAccountsDlg(int)));
+            connect(m_useraccountsdlg, &QDialog::finished,
+                this, &MainWindow::slotClosedUserAccountsDlg);
             m_useraccountsdlg->setAttribute(Qt::WA_DeleteOnClose);
             m_useraccountsdlg->show();
             m_useraccounts.clear();
@@ -4353,36 +4342,36 @@ void MainWindow::slotServerOnlineUsers(bool /*checked=false*/)
     else
     {
         m_onlineusersdlg = new OnlineUsersDlg();
-        connect(m_onlineusersdlg, SIGNAL(finished(int)),
-                SLOT(slotClosedOnlineUsersDlg(int)));
+        connect(m_onlineusersdlg, &QDialog::finished,
+                this, &MainWindow::slotClosedOnlineUsersDlg);
         m_onlineusersdlg->setAttribute(Qt::WA_DeleteOnClose);
     }
 
-    connect(this, SIGNAL(userLogin(const User&)), m_onlineusersdlg, 
-            SLOT(slotUserLoggedIn(const User&)));
-    connect(this, SIGNAL(userLogout(const User&)), m_onlineusersdlg, 
-            SLOT(slotUserLoggedOut(const User&)));
-    connect(this, SIGNAL(userUpdate(const User&)), m_onlineusersdlg, 
-            SLOT(slotUserUpdate(const User&)));
-    connect(this, SIGNAL(userJoined(int,const User&)), m_onlineusersdlg, 
-            SLOT(slotUserJoin(int,const User&)));
-    connect(this, SIGNAL(userLeft(int,const User&)), m_onlineusersdlg, 
-            SLOT(slotUserLeft(int,const User&)));
+    connect(this, &MainWindow::userLogin, m_onlineusersdlg,
+            &OnlineUsersDlg::slotUserLoggedIn);
+    connect(this, &MainWindow::userLogout, m_onlineusersdlg,
+            &OnlineUsersDlg::slotUserLoggedOut);
+    connect(this, &MainWindow::userUpdate, m_onlineusersdlg,
+            &OnlineUsersDlg::slotUserUpdate);
+    connect(this, &MainWindow::userJoined, m_onlineusersdlg,
+            &OnlineUsersDlg::slotUserJoin);
+    connect(this, &MainWindow::userLeft, m_onlineusersdlg,
+            &OnlineUsersDlg::slotUserLeft);
 
-    connect(m_onlineusersdlg, SIGNAL(viewUserInformation(int)), 
-            SLOT(slotUsersViewUserInformation(int)));
-    connect(m_onlineusersdlg, SIGNAL(sendUserMessage(int)), 
-            SLOT(slotUsersMessages(int)));
-    connect(m_onlineusersdlg, SIGNAL(muteUser(int,bool)), 
-            SLOT(slotUsersMuteVoice(int, bool)));
-    connect(m_onlineusersdlg, SIGNAL(changeUserVolume(int)), 
-            SLOT(slotUsersVolume(int)));
-    connect(m_onlineusersdlg, SIGNAL(opUser(int,int)), 
-            SLOT(slotUsersOp(int,int)));
-    connect(m_onlineusersdlg, SIGNAL(kickUser(int,int)), 
-            SLOT(slotUsersKick(int,int)));
-    connect(m_onlineusersdlg, SIGNAL(kickbanUser(int,int)), 
-            SLOT(slotUsersKickBan(int,int)));
+    connect(m_onlineusersdlg, &OnlineUsersDlg::viewUserInformation,
+            this, &MainWindow::slotUsersViewUserInformationGrid);
+    connect(m_onlineusersdlg, &OnlineUsersDlg::sendUserMessage,
+            this, &MainWindow::slotUsersMessages);
+    connect(m_onlineusersdlg, &OnlineUsersDlg::muteUser,
+            this, &MainWindow::slotUsersMuteVoice);
+    connect(m_onlineusersdlg, &OnlineUsersDlg::changeUserVolume,
+            this, &MainWindow::slotUsersVolume);
+    connect(m_onlineusersdlg, &OnlineUsersDlg::opUser,
+            this, &MainWindow::slotUsersOp);
+    connect(m_onlineusersdlg, &OnlineUsersDlg::kickUser,
+            this, &MainWindow::slotUsersKick);
+    connect(m_onlineusersdlg, &OnlineUsersDlg::kickbanUser,
+            this, &MainWindow::slotUsersKickBan);
     m_onlineusersdlg->show();
 }
 
@@ -4425,12 +4414,12 @@ void MainWindow::slotServerServerStatistics(bool /*checked=false*/)
     else
     {
         m_serverstatsdlg = new ServerStatisticsDlg();
-        connect(this, SIGNAL(cmdSuccess(int)), m_serverstatsdlg, 
-                SLOT(slotCmdSuccess(int)));
-        connect(m_serverstatsdlg, SIGNAL(finished(int)),
-                SLOT(slotClosedServerStatsDlg(int)));
-        connect(this, SIGNAL(serverStatistics(const ServerStatistics&)),
-                m_serverstatsdlg, SLOT(slotUpdateStats(const ServerStatistics&)));
+        connect(this, &MainWindow::cmdSuccess, m_serverstatsdlg,
+                &ServerStatisticsDlg::slotCmdSuccess);
+        connect(m_serverstatsdlg, &QDialog::finished,
+                this, &MainWindow::slotClosedServerStatsDlg);
+        connect(this, &MainWindow::serverStatistics,
+                m_serverstatsdlg, &ServerStatisticsDlg::slotUpdateStats);
         m_serverstatsdlg->setAttribute(Qt::WA_DeleteOnClose);
         m_serverstatsdlg->show();
     }
@@ -4651,9 +4640,8 @@ void MainWindow::slotUpdateUI()
     ui.actionEnableDesktopSharing->setEnabled(mychannel>0);
     ui.actionEnableDesktopSharing->setChecked(statemask & CLIENT_DESKTOP_ACTIVE);
 
-    User user;
-    ZERO_STRUCT(user);
-    if(TT_GetUser(ttInst, userid, &user))
+    User user  = {};
+    if (TT_GetUser(ttInst, userid, &user))
     {
         ui.actionMuteVoice->setChecked(user.uUserState & USERSTATE_MUTE_VOICE);
         ui.actionMuteMediaFile->setChecked(user.uUserState & USERSTATE_MUTE_MEDIAFILE);
@@ -4715,9 +4703,8 @@ void MainWindow::slotUpdateUI()
     ui.actionMediaStorage->setChecked(m_audiostorage_mode != AUDIOSTORAGE_NONE);
 
     //Channel-menu items
-    Channel chan;
-    ZERO_STRUCT(chan);
-    if(TT_GetChannel(ttInst, user_chanid, &chan))
+    Channel chan = {};
+    if (TT_GetChannel(ttInst, user_chanid, &chan))
     {
     }
 
@@ -4782,8 +4769,7 @@ void MainWindow::slotUpdateVideoTabUI()
 void MainWindow::slotUpdateDesktopTabUI()
 {
     int userid = ui.desktopgridWidget->selectedUser();
-    User user;
-    ZERO_STRUCT(user);
+    User user = {};
     ui.channelsWidget->getUser(userid, user);
     
     ui.detachDesktopButton->setEnabled(userid>0);
@@ -5112,7 +5098,7 @@ void MainWindow::slotAddUserVideo()
 }
 
 //TODO: remove this
-void MainWindow::slotRemoveUserVideo()
+void MainWindow::slotRemoveUserVideoGrid()
 {
     int userid = ui.videogridWidget->selectedUser();
     if(userid<0)
@@ -5175,8 +5161,8 @@ void MainWindow::slotDetachUserVideo(int userid)
 
 void MainWindow::slotNewUserVideoDlg(int userid, const QSize& size)
 {
-    User user;
-    ZERO_STRUCT(user);
+    User user = {};
+
     //user might not exist in channels tree since it can be local video (userid=0)
     ui.channelsWidget->getUser(userid & VIDEOTYPE_USERMASK, user);
 
@@ -5186,27 +5172,27 @@ void MainWindow::slotNewUserVideoDlg(int userid, const QSize& size)
     else
         dlg = new UserVideoDlg(userid, user, nullptr);
 
-    connect(this, SIGNAL(userUpdate(const User&)), dlg, 
-            SLOT(slotUserUpdate(const User&)));
-    connect(dlg, SIGNAL(userVideoDlgClosing(int)), 
-            SLOT(slotUserVideoDlgClosing(int)));
-    connect(this, SIGNAL(preferencesModified()), dlg->uservideoWidget,
-            SLOT(slotUpdateVideoTextBox()));
+    connect(this, &MainWindow::userUpdate, dlg,
+            &UserVideoDlg::slotUserUpdate);
+    connect(dlg, &UserVideoDlg::userVideoDlgClosing,
+            this, &MainWindow::slotUserVideoDlgClosing);
+    connect(this, &MainWindow::preferencesModified, dlg->uservideoWidget,
+            &UserVideoWidget::slotUpdateVideoTextBox);
     dlg->setAttribute(Qt::WA_DeleteOnClose);
     switch(userid & VIDEOTYPE_MASK)
     {
     case VIDEOTYPE_CAPTURE :
-        connect(this, SIGNAL(newVideoCaptureFrame(int,int)),
-                dlg->uservideoWidget, SLOT(slotNewVideoFrame(int,int)));
-        connect(this, SIGNAL(newVideoCaptureFrame(int,int)), dlg,
-                SLOT(slotNewVideoFrame(int,int)));
+        connect(this, &MainWindow::newVideoCaptureFrame,
+                dlg->uservideoWidget, &UserVideoWidget::slotNewVideoFrame);
+        connect(this, &MainWindow::newVideoCaptureFrame, dlg,
+                &UserVideoDlg::slotNewVideoFrame);
         m_user_video[userid] = dlg;
         break;
     case VIDEOTYPE_MEDIAFILE :
-        connect(this, SIGNAL(newMediaVideoFrame(int,int)),
-                dlg->uservideoWidget, SLOT(slotNewVideoFrame(int,int)));
-        connect(this, SIGNAL(newMediaVideoFrame(int,int)), dlg,
-                SLOT(slotNewVideoFrame(int,int)));
+        connect(this, &MainWindow::newMediaVideoFrame,
+                dlg->uservideoWidget, &UserVideoWidget::slotNewVideoFrame);
+        connect(this, &MainWindow::newMediaVideoFrame, dlg,
+                &UserVideoDlg::slotNewVideoFrame);
         m_user_video[userid] = dlg;
         break;
     }
@@ -5279,7 +5265,7 @@ void MainWindow::slotUserVideoDlgClosing(int userid)
     }
 }
 
-void MainWindow::slotAddUserDesktop()
+void MainWindow::slotAddUserDesktopGrid()
 {
     int chanid = TT_GetMyChannelID(ttInst);
     QVector<int> users = ui.channelsWidget->getUsersInChannel(chanid);
@@ -5317,7 +5303,7 @@ void MainWindow::slotAddUserDesktop()
     }
 }
 
-void MainWindow::slotRemoveUserDesktop()
+void MainWindow::slotRemoveUserDesktopGrid()
 {
     int userid = ui.desktopgridWidget->selectedUser();
     if(userid<0)
@@ -5374,7 +5360,7 @@ void MainWindow::slotAccessUserDesktop(bool enable)
     slotUpdateDesktopTabUI();
 }
 
-void MainWindow::slotDetachUserDesktop()
+void MainWindow::slotDetachUserDesktopGrid()
 {
     int userid = ui.desktopgridWidget->selectedUser();
     if(userid<0)
@@ -5403,18 +5389,18 @@ void MainWindow::slotDetachUserDesktop(int userid, const QSize& size)
         dlg = new UserDesktopDlg(user, QSize(640, 480), nullptr);
     }
 
-    connect(this, SIGNAL(newDesktopWindow(int,int)),
-            dlg, SIGNAL(userDesktopWindowUpdate(int,int)));
-    connect(this, SIGNAL(userUpdate(const User&)), dlg, 
-            SLOT(slotUserUpdate(const User&)));
-    connect(this, SIGNAL(userUpdate(const User&)), dlg, 
-            SIGNAL(userUpdated(const User&)));
-    connect(this, SIGNAL(userDesktopCursor(int,const DesktopInput&)),
-            dlg, SIGNAL(userDesktopCursorUpdate(int,const DesktopInput&)));
-    connect(dlg, SIGNAL(userDesktopDlgClosing(int)), 
-            SLOT(slotUserDesktopDlgClosing(int)));
-    connect(dlg, SIGNAL(userDesktopWindowEnded(int)),
-            SLOT(slotRemoveUserDesktop(int)));
+    connect(this, &MainWindow::newDesktopWindow,
+            dlg, &UserDesktopDlg::userDesktopWindowUpdate);
+    connect(this, &MainWindow::userUpdate, dlg,
+            &UserDesktopDlg::slotUserUpdate);
+    connect(this, &MainWindow::userUpdate, dlg,
+            &UserDesktopDlg::userUpdated);
+    connect(this, &MainWindow::userDesktopCursor,
+            dlg, &UserDesktopDlg::userDesktopCursorUpdate);
+    connect(dlg, &UserDesktopDlg::userDesktopDlgClosing,
+            this, &MainWindow::slotUserDesktopDlgClosing);
+    connect(dlg, &UserDesktopDlg::userDesktopWindowEnded,
+            this, &MainWindow::slotRemoveUserDesktop);
     dlg->setAttribute(Qt::WA_DeleteOnClose);
     m_userdesktop[userid] = dlg;
     dlg->show();

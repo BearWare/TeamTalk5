@@ -36,14 +36,14 @@ UserDesktopDlg::UserDesktopDlg(const User& user, const QSize& size,
 
     this->resize(size);
     ui.userdesktopWidget->setUserID(user.nUserID);
-    connect(this, SIGNAL(userDesktopWindowUpdate(int,int)),
-            ui.userdesktopWidget, SLOT(slotDesktopUpdate(int,int)));
-    connect(ui.userdesktopWidget, SIGNAL(userDesktopWindowEnded(int)),
-            SIGNAL(userDesktopWindowEnded(int)));
-    connect(this, SIGNAL(userDesktopCursorUpdate(int,const DesktopInput&)),
-            ui.userdesktopWidget, SLOT(slotDesktopCursorUpdate(int,const DesktopInput&)));
-    connect(this, SIGNAL(userUpdated(const User&)), ui.userdesktopWidget,
-            SLOT(slotUserUpdated(const User&)));
+    connect(this, &UserDesktopDlg::userDesktopWindowUpdate,
+            ui.userdesktopWidget, &UserDesktopWidget::slotDesktopUpdate);
+    connect(ui.userdesktopWidget, &UserDesktopWidget::userDesktopWindowEnded,
+            this, &UserDesktopDlg::userDesktopWindowEnded);
+    connect(this, &UserDesktopDlg::userDesktopCursorUpdate,
+            ui.userdesktopWidget, &UserDesktopWidget::slotDesktopCursorUpdate);
+    connect(this, &UserDesktopDlg::userUpdated, ui.userdesktopWidget,
+            &UserDesktopWidget::slotUserUpdated);
     ui.userdesktopWidget->slotDesktopUpdate(user.nUserID, -1);
     slotUserUpdate(user);
 

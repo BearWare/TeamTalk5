@@ -34,7 +34,7 @@ class CustomVideoFmtDlg : public QDialog
 public:
     CustomVideoFmtDlg(QWidget* parent, VideoFormat& vidfmt);
 
-private slots:
+private:
     void slotAccept();
 
 private:

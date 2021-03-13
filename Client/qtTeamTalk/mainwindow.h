@@ -279,7 +279,7 @@ private:
     INT64 m_nCGShareWnd;
 #endif
 
-private slots:
+private:
     /* menu items begin */
     void slotClientNewInstance(bool checked=false);
     void slotClientConnect(bool checked=false);
@@ -293,12 +293,12 @@ private slots:
     void slotMeEnableVideoTransmission(bool checked=false);
     void slotMeEnableDesktopSharing(bool checked=false);
 
-    void slotUsersViewUserInformation(bool checked=false);
-    void slotUsersMessages(bool checked=false);
-    void slotUsersMuteVoice(bool checked=false);
-    void slotUsersMuteMediaFile(bool checked=false);
-    void slotUsersVolume(bool checked=false);
-    void slotUsersOp(bool checked=false);
+    void slotUsersViewUserInformationGrid(bool checked=false);
+    void slotUsersMessagesGrid(bool checked=false);
+    void slotUsersMuteVoiceGrid(bool checked=false);
+    void slotUsersMuteMediaFileGrid(bool checked=false);
+    void slotUsersVolumeGrid(bool checked=false);
+    void slotUsersOpGrid(bool checked=false);
     void slotUsersKickFromChannel(bool checked=false);
     void slotUsersKickBanFromChannel(bool checked = false);
     void slotUsersKickFromServer(bool checked=false);
@@ -382,16 +382,16 @@ private slots:
     void slotChannelUpdate(const Channel& chan);
     void slotInitVideo();
     void slotAddUserVideo();
-    void slotRemoveUserVideo();
+    void slotRemoveUserVideoGrid();
     void slotRemoveUserVideo(int userid);
     void slotDetachUserVideo(int userid = 0);
     void slotNewUserVideoDlg(int userid, const QSize& size);
     void slotUserVideoDlgClosing(int userid);
-    void slotAddUserDesktop();
-    void slotRemoveUserDesktop();
+    void slotAddUserDesktopGrid();
+    void slotRemoveUserDesktopGrid();
     void slotRemoveUserDesktop(int userid);
     void slotAccessUserDesktop(bool enable);
-    void slotDetachUserDesktop();
+    void slotDetachUserDesktopGrid();
     void slotDetachUserDesktop(int userid, const QSize& size);
     void slotUserDesktopDlgClosing(int userid);
     void slotUserJoin(int channelid, const User& user);

@@ -40,7 +40,7 @@ public:
                    QWidget * parent = 0);
     ~TextMessageDlg();
 
-public slots:
+public:
     void slotUpdateUser(const User& user);
     void slotNewMessage(const MyTextMessage& textmsg);
     void slotUserLogout(const User& user);
@@ -62,10 +62,10 @@ private:
     int  m_local_typing_id, m_remote_typing_id;
     QFile m_logFile;
 
-private slots:
+private:
     void slotCancel();
     void slotSendMsg();
-    void slotSendMsg(const QString& txt_msg);
+    void slotSendTextMessage(const QString& txt_msg);
     void slotTextChanged();
 };
 

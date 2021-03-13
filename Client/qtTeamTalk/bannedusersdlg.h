@@ -67,7 +67,7 @@ private:
     QSortFilterProxyModel* m_bannedproxy, *m_unbannedproxy;
     QString m_chanpath;
 
-private slots:
+private:
     void slotClose();
     void slotUnbanUser();
     void slotBanUser();

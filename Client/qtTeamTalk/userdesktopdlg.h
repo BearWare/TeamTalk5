@@ -36,7 +36,7 @@ public:
     UserDesktopDlg(const User& user, const QSize& size, QWidget * parent = 0);
     ~UserDesktopDlg();
 
-public slots:
+public:
     void slotUserUpdate(const User& user);
 
 private:

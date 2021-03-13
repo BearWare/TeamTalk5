@@ -57,12 +57,12 @@ void VideoGridWidget::slotAddUser(int userid)
     {
         UserVideoWidget* newvideo = new UserVideoWidget(this, userid,
                                                         BORDER_WIDTH);
-        connect(newvideo, SIGNAL(userWidgetFocused(int, bool)), 
-                this, SLOT(slotVideoWidgetFocused(int, bool)));
-        connect(newvideo, SIGNAL(userVideoEnded(int)),
-                SIGNAL(userVideoEnded(int)));
-        connect(this, SIGNAL(preferencesModified()),
-                newvideo, SLOT(slotUpdateVideoTextBox()));
+        connect(newvideo, &UserImageWidget::userWidgetFocused,
+                this, &VideoGridWidget::slotVideoWidgetFocused);
+        connect(newvideo, &UserVideoWidget::userVideoEnded,
+                this, &VideoGridWidget::userVideoEnded);
+        connect(this, &VideoGridWidget::preferencesModified,
+                newvideo, &UserVideoWidget::slotUpdateVideoTextBox);
         newvideo->setFocusPolicy(Qt::StrongFocus);
         newvideo->setAttribute(Qt::WA_DeleteOnClose);
         addUserWidget(userid, newvideo);

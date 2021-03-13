@@ -37,7 +37,7 @@ public:
 
     void updateTitle();
 
-public slots:
+public:
     void slotUserLoggedIn(const User& user);
     void slotUserLoggedOut(const User& user);
     void slotUserUpdate(const User& user);
@@ -54,7 +54,7 @@ signals:
     void kickbanUser(int userid, int chanid);
     void streamfileToUser(int userid);
 
-private slots:
+private:
     void slotTreeContextMenu(const QPoint&);
 
 private:

@@ -33,9 +33,9 @@ class MediaStorageDlg : public QDialog
 public:
     MediaStorageDlg(QWidget * parent = 0);
 
-public slots:
+public:
     void accept();
-private slots:
+private:
     void slotSetMediaFolder();
     void slotSetChanLogFolder();
     void slotSetUserLogFolder();

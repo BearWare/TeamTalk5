@@ -49,10 +49,10 @@ private:
     int m_timerid;
     QString m_localfilename;
 
-public slots:
+public:
     void slotTransferUpdate(const FileTransfer& transfer);
 
-private slots:
+private:
     void slotOpenFile();
     void slotCancelTransfer();
 };

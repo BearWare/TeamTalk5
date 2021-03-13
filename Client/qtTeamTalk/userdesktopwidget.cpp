@@ -222,10 +222,7 @@ void UserDesktopWidget::slotDesktopCursorUpdate(int src_userid,
 
     m_desktop_updated = true;
 
-    if(input.uMousePosX < 0 || input.uMousePosY < 0)
-        m_cursorpos = QPoint();
-    else
-        m_cursorpos = QPoint(input.uMousePosX, input.uMousePosY);
+    m_cursorpos = QPoint(input.uMousePosX, input.uMousePosY);
 
     update();
 }
@@ -269,8 +266,7 @@ void UserDesktopWidget::slotContextMenu(const QPoint& p)
 #endif
     if(result == access)
     {
-        TextMessage msg;
-        ZERO_STRUCT(msg);
+        TextMessage msg = {};
         msg.nFromUserID = TT_GetMyUserID(ttInst);
         msg.nMsgType = MSGTYPE_CUSTOM;
         msg.nToUserID = m_userid;
@@ -374,8 +370,7 @@ void UserDesktopWidget::sendMouseEvent(const QPoint& p, quint32 keycode,
     //only queue desktop input events if user subscribes
     if(m_user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT)
     {
-        DesktopInput deskinput;
-        ZERO_STRUCT(deskinput);
+        DesktopInput deskinput = {};
         //qDebug() << "Offset : " << m_mouseinput_offset.x() << "," << m_mouseinput_offset.y();
         deskinput.uMousePosX = p.x() + m_img_offset.x() - m_paint_offset.x();
         deskinput.uMousePosY = p.y() + m_img_offset.y() - m_paint_offset.y();
@@ -458,8 +453,7 @@ void UserDesktopWidget::sendKeyEvent(quint32 keycode,
     //only queue desktop input events if user subscribes
     if(m_user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT)
     {
-        DesktopInput deskinput;
-        ZERO_STRUCT(deskinput);
+        DesktopInput deskinput = {};
     
         //terminate mouse
         deskinput.uMousePosX = TT_DESKTOPINPUT_MOUSEPOS_IGNORE;
@@ -475,8 +469,7 @@ void UserDesktopWidget::sendKeyEvent(quint32 keycode,
 
 void UserDesktopWidget::translateSend(const DesktopInput& deskinput)
 {
-    DesktopInput desksend;
-    ZERO_STRUCT(desksend);
+    DesktopInput desksend = {};
 
     TTKeyTranslate key_trans = TTKEY_NO_TRANSLATE;
 #if ENABLE_KEY_TRANSLATION

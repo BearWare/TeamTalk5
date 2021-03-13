@@ -50,7 +50,7 @@ public:
     int rowCount ( const QModelIndex & parent = QModelIndex() ) const;
 
     int getChannelID() const { return m_channelid; }
-public slots:
+public:
     void slotChannelUpdated(int channelid);
 
 private:

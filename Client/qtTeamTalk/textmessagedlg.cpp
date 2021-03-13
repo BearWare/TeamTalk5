@@ -60,11 +60,11 @@ void TextMessageDlg::init(const User& user)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-    connect(ui.cancelButton, SIGNAL(clicked()), SLOT(slotCancel()));
-    connect(ui.sendButton, SIGNAL(clicked()), SLOT(slotSendMsg()));
-    connect(ui.newmsgTextEdit, SIGNAL(textChanged()), SLOT(slotTextChanged()));
-    connect(ui.newmsgTextEdit, SIGNAL(sendTextMessage(const QString&)),
-            SLOT(slotSendMsg(const QString&)));
+    connect(ui.cancelButton, &QAbstractButton::clicked, this, &TextMessageDlg::slotCancel);
+    connect(ui.sendButton, &QAbstractButton::clicked, this, &TextMessageDlg::slotSendMsg);
+    connect(ui.newmsgTextEdit, &QPlainTextEdit::textChanged, this, &TextMessageDlg::slotTextChanged);
+    connect(ui.newmsgTextEdit, &SendTextEdit::sendTextMessage,
+            this, &TextMessageDlg::slotSendMsg);
     slotUpdateUser(user);
     slotTextChanged();
 
@@ -134,10 +134,10 @@ void TextMessageDlg::slotCancel()
 
 void TextMessageDlg::slotSendMsg()
 {
-    slotSendMsg(ui.newmsgTextEdit->toPlainText());
+    slotSendTextMessage(ui.newmsgTextEdit->toPlainText());
 }
 
-void TextMessageDlg::slotSendMsg(const QString& txt_msg)
+void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
 {
     if(txt_msg.isEmpty())
         return;

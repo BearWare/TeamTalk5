@@ -74,7 +74,7 @@ private:
 
     TTSoundLoop* m_sndloop;
 
-private slots:
+private:
     void slotTabChange(int index);
     void slotSaveChanges();
     void slotCancelChanges();
@@ -135,7 +135,7 @@ private slots:
     void slotCustomImageFormat();
     void slotDefaultVideoSettings();
 
-public slots:
+public:
     void slotNewVideoFrame(int userid, int stream_id);
 };
 

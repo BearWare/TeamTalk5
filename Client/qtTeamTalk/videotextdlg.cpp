@@ -85,30 +85,30 @@ VideoTextDlg::VideoTextDlg(QWidget* parent/* = 0*/)
                                   SETTINGS_DISPLAY_VIDEOTEXT_FGCOLOR_DEFAULT)
                                   .value<QColor>();
 
-    connect(ui.fontBtn, SIGNAL(clicked()),
-            SLOT(slotSelectFont()));
-    connect(ui.bgBtn, SIGNAL(clicked()),
-            SLOT(slotSelectBackground()));
-    connect(ui.nicknameRadioButton, SIGNAL(clicked()),
-            SLOT(slotUpdateExample()));
-    connect(ui.usernameRadioButton, SIGNAL(clicked()),
-            SLOT(slotUpdateExample()));
-    connect(ui.statusRadioButton, SIGNAL(clicked()),
-            SLOT(slotUpdateExample()));
-    connect(ui.pos_tlBtn, SIGNAL(clicked()),
-            SLOT(slotUpdateExample()));
-    connect(ui.pos_trBtn, SIGNAL(clicked()),
-            SLOT(slotUpdateExample()));
-    connect(ui.pos_blBtn, SIGNAL(clicked()),
-            SLOT(slotUpdateExample()));
-    connect(ui.pos_brBtn, SIGNAL(clicked()),
-            SLOT(slotUpdateExample()));
-    connect(ui.widthSpinBox, SIGNAL(valueChanged(int)),
-            SLOT(slotUpdateExample()));
-    connect(ui.heightSpinBox, SIGNAL(valueChanged(int)),
-            SLOT(slotUpdateExample()));
+    connect(ui.fontBtn, &QAbstractButton::clicked,
+            this, &VideoTextDlg::slotSelectFont);
+    connect(ui.bgBtn, &QAbstractButton::clicked,
+            this, &VideoTextDlg::slotSelectBackground);
+    connect(ui.nicknameRadioButton, &QAbstractButton::clicked,
+            this, &VideoTextDlg::slotUpdateExample);
+    connect(ui.usernameRadioButton, &QAbstractButton::clicked,
+            this, &VideoTextDlg::slotUpdateExample);
+    connect(ui.statusRadioButton, &QAbstractButton::clicked,
+            this, &VideoTextDlg::slotUpdateExample);
+    connect(ui.pos_tlBtn, &QAbstractButton::clicked,
+            this, &VideoTextDlg::slotUpdateExample);
+    connect(ui.pos_trBtn, &QAbstractButton::clicked,
+            this, &VideoTextDlg::slotUpdateExample);
+    connect(ui.pos_blBtn, &QAbstractButton::clicked,
+            this, &VideoTextDlg::slotUpdateExample);
+    connect(ui.pos_brBtn, &QAbstractButton::clicked,
+            this, &VideoTextDlg::slotUpdateExample);
+    connect(ui.widthSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
+            this, &VideoTextDlg::slotUpdateExample);
+    connect(ui.heightSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
+            this, &VideoTextDlg::slotUpdateExample);
 
-    QTimer::singleShot(0, this, SLOT(slotUpdateExample()));
+    QTimer::singleShot(0, this, &VideoTextDlg::slotUpdateExample);
 }
 
 void VideoTextDlg::accept()

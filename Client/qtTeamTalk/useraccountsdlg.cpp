@@ -222,8 +222,8 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     ui.limitcmdComboBox->addItem(tr("60 commands in 1 minute"), LIMITCMD_60_PER_MINUTE);
     ui.limitcmdComboBox->addItem(tr("Custom specified"), LIMITCMD_CUSTOM);
 
-    connect(ui.limitcmdComboBox, SIGNAL(activated(int)),
-            SLOT(slotCustomCmdLimit(int)));
+    connect(ui.limitcmdComboBox, QOverload<int>::of(&QComboBox::activated),
+            this, &UserAccountsDlg::slotCustomCmdLimit);
 
     for(int i=0;i<useraccounts.size();i++)
         m_model->addRegUser(useraccounts[i], i+1 == useraccounts.size());
@@ -232,19 +232,17 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
         ui.usersTreeView->resizeColumnToContents(i);
     ui.delButton->setEnabled(false);
 
-    connect(ui.addopBtn, SIGNAL(clicked()), SLOT(slotAddOpChannel()));
-    connect(ui.rmopBtn, SIGNAL(clicked()), SLOT(slotRemoveOpChannel()));
-    connect(ui.newButton, SIGNAL(clicked()), SLOT(slotClearUser()));
-    connect(ui.addButton, SIGNAL(clicked()), SLOT(slotAddUser()));
-    connect(ui.delButton, SIGNAL(clicked()), SLOT(slotDelUser()));
-    connect(ui.closeBtn, SIGNAL(clicked()), SLOT(close()));
-    connect(ui.defaultuserBtn, SIGNAL(clicked()), SLOT(slotUserTypeChanged()));
-    connect(ui.adminBtn, SIGNAL(clicked()), SLOT(slotUserTypeChanged()));
-    connect(ui.disableduserBtn, SIGNAL(clicked()), SLOT(slotUserTypeChanged()));
-    connect(ui.usernameEdit, SIGNAL(textChanged(const QString&)), SLOT(slotUsernameChanged(const QString&)));
-
-    connect(ui.usersTreeView, SIGNAL(clicked(const QModelIndex&)), 
-            SLOT(slotUserSelected(const QModelIndex&)));
+    connect(ui.addopBtn, &QAbstractButton::clicked, this, &UserAccountsDlg::slotAddOpChannel);
+    connect(ui.rmopBtn, &QAbstractButton::clicked, this, &UserAccountsDlg::slotRemoveOpChannel);
+    connect(ui.newButton, &QAbstractButton::clicked, this, &UserAccountsDlg::slotClearUser);
+    connect(ui.addButton, &QAbstractButton::clicked, this, &UserAccountsDlg::slotAddUser);
+    connect(ui.delButton, &QAbstractButton::clicked, this, &UserAccountsDlg::slotDelUser);
+    connect(ui.closeBtn, &QAbstractButton::clicked, this, &QWidget::close);
+    connect(ui.defaultuserBtn, &QAbstractButton::clicked, this, &UserAccountsDlg::slotUserTypeChanged);
+    connect(ui.adminBtn, &QAbstractButton::clicked, this, &UserAccountsDlg::slotUserTypeChanged);
+    connect(ui.disableduserBtn, &QAbstractButton::clicked, this, &UserAccountsDlg::slotUserTypeChanged);
+    connect(ui.usernameEdit, &QLineEdit::textChanged, this, &UserAccountsDlg::slotUsernameChanged);
+    connect(ui.usersTreeView, &QAbstractItemView::clicked, this, &UserAccountsDlg::slotUserSelected);
 
     if(m_uad == UAD_READONLY)
     {
@@ -262,7 +260,7 @@ void UserAccountsDlg::slotCmdSuccess(int cmdid)
     {
         m_model->addRegUser(m_add_user, true); //here we disregard that the command might fail
         m_add_cmdid = 0;
-        ZERO_STRUCT(m_add_user);
+        m_add_user = {};
         lockUI(false);
     }
     if(cmdid == m_del_cmdid)
@@ -279,7 +277,7 @@ void UserAccountsDlg::slotCmdError(int /*error*/, int cmdid)
     if(cmdid == m_add_cmdid)
     {
         m_add_cmdid = 0;
-        ZERO_STRUCT(m_add_user);
+        m_add_user = {};
         lockUI(false);
     }
     if(cmdid == m_del_cmdid)
@@ -454,9 +452,9 @@ void UserAccountsDlg::slotClearUser()
     ui.opchanComboBox->setCurrentIndex(0);
     ui.audmaxbpsSpinBox->setValue(0);
     ui.limitcmdComboBox->setCurrentIndex(0);
-    ZERO_STRUCT(m_abuse);
+    m_abuse = {};
 
-    ZERO_STRUCT(m_add_user);
+    m_add_user = {};
     slotUserTypeChanged();
     updateUserRights(m_add_user);
 
@@ -479,7 +477,7 @@ void UserAccountsDlg::slotAddUser()
             return;
     }
 
-    ZERO_STRUCT(m_add_user);
+    m_add_user = {};
     COPY_TTSTR(m_add_user.szUsername, ui.usernameEdit->text().trimmed());
     COPY_TTSTR(m_add_user.szPassword, ui.passwordEdit->text());
     if (ui.adminBtn->isChecked())

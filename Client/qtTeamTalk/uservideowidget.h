@@ -51,7 +51,7 @@ public:
 
     QSize imageSize() const;
 
-public slots:
+public:
     void slotNewVideoFrame(int userid, int stream_id);
     void slotUpdateVideoTextBox();
 

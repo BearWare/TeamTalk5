@@ -39,16 +39,16 @@ UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
     ui.voicevolSlider->setRange(0, 100);
     ui.mfvolSlider->setRange(0, 100);
 
-    connect(ui.voicevolSlider, SIGNAL(valueChanged(int)),
-            SLOT(slotVolumeChanged(int)));
-    connect(ui.voiceleftChkBox, SIGNAL(clicked()), SLOT(slotMuteChannel()));
-    connect(ui.voicerightChkBox, SIGNAL(clicked()), SLOT(slotMuteChannel()));
+    connect(ui.voicevolSlider, &QAbstractSlider::valueChanged,
+            this, &UserVolumeDlg::slotVolumeChanged);
+    connect(ui.voiceleftChkBox, &QAbstractButton::clicked, this, &UserVolumeDlg::slotMuteChannel);
+    connect(ui.voicerightChkBox, &QAbstractButton::clicked, this, &UserVolumeDlg::slotMuteChannel);
 
-    connect(ui.mfvolSlider, SIGNAL(valueChanged(int)),
-            SLOT(slotVolumeChanged(int)));
-    connect(ui.mfleftChkBox, SIGNAL(clicked()), SLOT(slotMuteChannel()));
-    connect(ui.mfrightChkBox, SIGNAL(clicked()), SLOT(slotMuteChannel()));
-    connect(ui.defaultsButton, SIGNAL(clicked()), SLOT(slotDefaults()));
+    connect(ui.mfvolSlider, &QAbstractSlider::valueChanged,
+            this, &UserVolumeDlg::slotVolumeChanged);
+    connect(ui.mfleftChkBox, &QAbstractButton::clicked, this, &UserVolumeDlg::slotMuteChannel);
+    connect(ui.mfrightChkBox, &QAbstractButton::clicked, this, &UserVolumeDlg::slotMuteChannel);
+    connect(ui.defaultsButton, &QAbstractButton::clicked, this, &UserVolumeDlg::slotDefaults);
 
     User user;
     if(TT_GetUser(ttInst, m_userid, &user))

@@ -37,7 +37,7 @@ ChangeStatusDlg::ChangeStatusDlg(QWidget* parent/* = 0*/)
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
-    connect(this, SIGNAL(accepted()), SLOT(slotAccepted()));
+    connect(this, &QDialog::accepted, this, &ChangeStatusDlg::slotAccepted);
 
     if(TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &m_user))
     {

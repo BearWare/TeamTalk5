@@ -43,12 +43,12 @@ MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
-    connect(ui.audioToolButton, SIGNAL(clicked()),
-            SLOT(slotSetMediaFolder()));
-    connect(ui.chanlogToolButton, SIGNAL(clicked()),
-            SLOT(slotSetChanLogFolder()));
-    connect(ui.usertextToolButton, SIGNAL(clicked()),
-            SLOT(slotSetUserLogFolder()));
+    connect(ui.audioToolButton, &QAbstractButton::clicked,
+            this, &MediaStorageDlg::slotSetMediaFolder);
+    connect(ui.chanlogToolButton, &QAbstractButton::clicked,
+            this, &MediaStorageDlg::slotSetChanLogFolder);
+    connect(ui.usertextToolButton, &QAbstractButton::clicked,
+            this, &MediaStorageDlg::slotSetUserLogFolder);
 
     ui.affComboBox->addItem("Wave-format", AFF_WAVE_FORMAT);
     ui.affComboBox->addItem("Ogg-format", AFF_CHANNELCODEC_FORMAT);

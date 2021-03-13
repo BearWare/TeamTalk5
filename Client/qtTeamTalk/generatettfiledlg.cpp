@@ -45,22 +45,22 @@ GenerateTTFileDlg::GenerateTTFileDlg(const HostEntry& entry, QWidget * parent/* 
     ui.usernameEdit->setText(m_hostentry.username);
     ui.passwordEdit->setText(m_hostentry.password);
 
-    connect(ui.saveBtn, SIGNAL(clicked()), SLOT(slotSaveTTFile()));
-    connect(ui.closeBtn, SIGNAL(clicked()), SLOT(accept()));
-    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.nicknameEdit, SLOT(setEnabled(bool)));
-    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.maleRadioButton, SLOT(setEnabled(bool)));
-    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.femaleRadioButton, SLOT(setEnabled(bool)));
-    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.neutralRadioButton, SLOT(setEnabled(bool)));
-    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.pttChkBox, SLOT(setEnabled(bool)));
-    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.voiceactChkBox, SLOT(setEnabled(bool)));
-    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.captureformatsBox, SLOT(setEnabled(bool)));
-    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.vidcodecBox, SLOT(setEnabled(bool)));
+    connect(ui.saveBtn, &QAbstractButton::clicked, this, &GenerateTTFileDlg::slotSaveTTFile);
+    connect(ui.closeBtn, &QAbstractButton::clicked, this, &QDialog::accept);
+    connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.nicknameEdit, &QWidget::setEnabled);
+    connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.maleRadioButton, &QWidget::setEnabled);
+    connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.femaleRadioButton, &QWidget::setEnabled);
+    connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.neutralRadioButton, &QWidget::setEnabled);
+    connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.pttChkBox, &QWidget::setEnabled);
+    connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.voiceactChkBox, &QWidget::setEnabled);
+    connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.captureformatsBox, &QWidget::setEnabled);
+    connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.vidcodecBox, &QWidget::setEnabled);
 
-    connect(ui.pttChkBox, SIGNAL(clicked(bool)), ui.setupkeysButton, SLOT(setEnabled(bool)));
-    connect(ui.pttChkBox, SIGNAL(clicked(bool)), ui.keycompEdit, SLOT(setEnabled(bool)));
-    connect(ui.setupkeysButton, SIGNAL(clicked()), SLOT(slotSetupHotkey()));
-    connect(ui.vidcodecBox, SIGNAL(currentIndexChanged(int)),
-            SLOT(slotVideoCodecChange(int)));
+    connect(ui.pttChkBox, &QAbstractButton::clicked, ui.setupkeysButton, &QWidget::setEnabled);
+    connect(ui.pttChkBox, &QAbstractButton::clicked, ui.keycompEdit, &QWidget::setEnabled);
+    connect(ui.setupkeysButton, &QAbstractButton::clicked, this, &GenerateTTFileDlg::slotSetupHotkey);
+    connect(ui.vidcodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &GenerateTTFileDlg::slotVideoCodecChange);
 
     loadVideoFormats();
 
@@ -82,8 +82,7 @@ GenerateTTFileDlg::GenerateTTFileDlg(const HostEntry& entry, QWidget * parent/* 
 
 void GenerateTTFileDlg::loadVideoFormats()
 {
-    VideoFormat fmt;
-    ZERO_STRUCT(fmt);
+    VideoFormat fmt = {};
     m_vidcap_fmts.push_back(fmt);
 
     fmt.picFourCC = FOURCC_RGB32;

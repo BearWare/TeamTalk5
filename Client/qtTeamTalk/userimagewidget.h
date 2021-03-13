@@ -54,7 +54,7 @@ public:
 signals:
     void userWidgetFocused(int userid, bool focused);
 
-protected slots:
+protected:
     virtual void slotContextMenu(const QPoint& p);
 
 protected:

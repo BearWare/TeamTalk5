@@ -37,20 +37,20 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
-    connect(ui.audiocodecBox, SIGNAL(currentIndexChanged(int)), 
-            SLOT(slotAudioCodecChanged(int)));
+    connect(ui.audiocodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &ChannelDlg::slotAudioCodecChanged);
 
-    connect(ui.spx_qualitySlider, SIGNAL(valueChanged(int)),
-            SLOT(slotUpdateSliderLabels()));
-    connect(ui.spxvbr_qualitySlider, SIGNAL(valueChanged(int)),
-            SLOT(slotUpdateSliderLabels()));
-    connect(ui.nameEdit, SIGNAL(textChanged(const QString&)),
-            SLOT(slotUpdateChannelPath(const QString&)));
+    connect(ui.spx_qualitySlider, &QAbstractSlider::valueChanged,
+            this, &ChannelDlg::slotUpdateSliderLabels);
+    connect(ui.spxvbr_qualitySlider, &QAbstractSlider::valueChanged,
+            this, &ChannelDlg::slotUpdateSliderLabels);
+    connect(ui.nameEdit, &QLineEdit::textChanged,
+            this, &ChannelDlg::slotUpdateChannelPath);
     
-    connect(ui.agcBox, SIGNAL(toggled(bool)),
-            ui.gainlevelSlider, SLOT(setEnabled(bool)));
-    connect(ui.gainlevelSlider, SIGNAL(valueChanged(int)),
-            SLOT(slotUpdateSliderLabels()));
+    connect(ui.agcBox, &QAbstractButton::toggled,
+            ui.gainlevelSlider, &QWidget::setEnabled);
+    connect(ui.gainlevelSlider, &QAbstractSlider::valueChanged,
+            this, &ChannelDlg::slotUpdateSliderLabels);
 
     ServerProperties prop = {};
     TT_GetServerProperties(ttInst, &prop);

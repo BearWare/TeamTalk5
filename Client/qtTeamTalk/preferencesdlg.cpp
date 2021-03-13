@@ -57,34 +57,34 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
 
     initDefaultVideoFormat(m_vidfmt);
 
-    connect(ui.tabWidget, SIGNAL(currentChanged(int)), SLOT(slotTabChange(int)));
-    connect(ui.buttonBox, SIGNAL(accepted()), SLOT(slotSaveChanges()));
-    connect(ui.buttonBox, SIGNAL(rejected()), SLOT(slotCancelChanges()));
+    connect(ui.tabWidget, &QTabWidget::currentChanged, this, &PreferencesDlg::slotTabChange);
+    connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &PreferencesDlg::slotSaveChanges);
+    connect(ui.buttonBox, &QDialogButtonBox::rejected, this, &PreferencesDlg::slotCancelChanges);
 
     //general tab
     connect(ui.setupBearWareLoginButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEnableBearWareID);
 
-    connect(ui.pttChkBox, SIGNAL(clicked(bool)), SLOT(slotEnablePushToTalk(bool)));
-    connect(ui.setupkeysButton, SIGNAL(clicked()), SLOT(slotSetupHotkey()));
+    connect(ui.pttChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotEnablePushToTalk);
+    connect(ui.setupkeysButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSetupHotkey);
 
     //display tab
-    connect(ui.languageBox, SIGNAL(currentIndexChanged(int)), 
-            SLOT(slotLanguageChange(int)));
-    connect(ui.vidtextsrcToolBtn, SIGNAL(clicked()),
-            SLOT(slotSelectVideoText()));
-    connect(ui.logstatusbarChkBox, SIGNAL(clicked(bool)), SLOT(slotUpdateLIOChkBox(bool)));
+    connect(ui.languageBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &PreferencesDlg::slotLanguageChange);
+    connect(ui.vidtextsrcToolBtn, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotSelectVideoText);
+    connect(ui.logstatusbarChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateLIOChkBox);
     
     //connection tab
-    connect(ui.subdeskinputBtn, SIGNAL(clicked()),
-            SLOT(slotDesktopAccess()));
+    connect(ui.subdeskinputBtn, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotDesktopAccess);
 
     //sound tab
-    connect(ui.winmmButton, SIGNAL(clicked()), SLOT(slotSoundSystemChange()));
-    connect(ui.dsoundButton, SIGNAL(clicked()), SLOT(slotSoundSystemChange()));
-    connect(ui.wasapiButton, SIGNAL(clicked()), SLOT(slotSoundSystemChange()));
-    connect(ui.alsaButton, SIGNAL(clicked()), SLOT(slotSoundSystemChange()));
-    connect(ui.coreaudioButton, SIGNAL(clicked()), SLOT(slotSoundSystemChange()));
+    connect(ui.winmmButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
+    connect(ui.dsoundButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
+    connect(ui.wasapiButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
+    connect(ui.alsaButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
+    connect(ui.coreaudioButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
 #if defined(Q_OS_WIN32)
     ui.alsaButton->setDisabled(true);
     ui.alsaButton->hide();
@@ -111,98 +111,98 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     ui.wasapiButton->hide();
     ui.winfwChkBox->hide();
 #endif
-    connect(ui.inputdevBox, SIGNAL(currentIndexChanged(int)), 
-            SLOT(slotSoundInputChange(int)));
-    connect(ui.outputdevBox, SIGNAL(currentIndexChanged(int)), 
-            SLOT(slotSoundOutputChange(int)));
-    connect(ui.refreshinputButton, SIGNAL(clicked()),
-            SLOT(slotSoundRestart()));
-    connect(ui.refreshoutputButton, SIGNAL(clicked()),
-            SLOT(slotSoundRestart()));
-    connect(ui.sndtestButton, SIGNAL(clicked(bool)),
-            SLOT(slotSoundTestDevices(bool)));
-    connect(ui.snddefaultButton, SIGNAL(clicked()),
-            SLOT(slotSoundDefaults()));
+    connect(ui.inputdevBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &PreferencesDlg::slotSoundInputChange);
+    connect(ui.outputdevBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &PreferencesDlg::slotSoundOutputChange);
+    connect(ui.refreshinputButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotSoundRestart);
+    connect(ui.refreshoutputButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotSoundRestart);
+    connect(ui.sndtestButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotSoundTestDevices);
+    connect(ui.snddefaultButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotSoundDefaults);
 
     //sound events
-    connect(ui.newuserButton, SIGNAL(clicked()),
-            SLOT(slotEventNewUser()));
-    connect(ui.rmuserButton, SIGNAL(clicked()),
-            SLOT(slotEventRemoveUser()));
-    connect(ui.srvlostButton, SIGNAL(clicked()),
-            SLOT(slotEventServerLost()));
-    connect(ui.usermsgButton, SIGNAL(clicked()),
-            SLOT(slotEventUserTextMsg()));
+    connect(ui.newuserButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventNewUser);
+    connect(ui.rmuserButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventRemoveUser);
+    connect(ui.srvlostButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventServerLost);
+    connect(ui.usermsgButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventUserTextMsg);
     connect(ui.sentmsgButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventSentTextMsg);
-    connect(ui.chanmsgButton, SIGNAL(clicked()),
-            SLOT(slotEventChannelTextMsg()));
+    connect(ui.chanmsgButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventChannelTextMsg);
     connect(ui.sentchannelmsgButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventSentChannelMsg);
     connect(ui.bcastmsgButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventBroadcastTextMsg);
-    connect(ui.hotkeyButton, SIGNAL(clicked()),
-            SLOT(slotEventHotKey()));
-    connect(ui.chansilentButton, SIGNAL(clicked()),
-            SLOT(slotEventSilence()));
-    connect(ui.videosessionButton, SIGNAL(clicked()),
-            SLOT(slotEventNewVideo()));
-    connect(ui.desktopsessionButton, SIGNAL(clicked()),
-            SLOT(slotEventNewDesktop()));
-    connect(ui.fileupdButton, SIGNAL(clicked()),
-            SLOT(slotEventFilesUpdated()));
-    connect(ui.transferdoneButton, SIGNAL(clicked()),
-            SLOT(slotEventFileTxDone()));
-    connect(ui.questionmodeBtn, SIGNAL(clicked()),
-            SLOT(slotEventQuestionMode()));
-    connect(ui.desktopaccessBtn, SIGNAL(clicked()),
-            SLOT(slotEventDesktopAccess()));
-    connect(ui.userloggedinButton, SIGNAL(clicked()),
-            SLOT(slotEventUserLoggedIn()));
-    connect(ui.userloggedoutButton, SIGNAL(clicked()),
-            SLOT(slotEventUserLoggedOut()));
-    connect(ui.voiceactonButton, SIGNAL(clicked()),
-            SLOT(slotEventVoiceActOn()));
-    connect(ui.voiceactoffButton, SIGNAL(clicked()),
-            SLOT(slotEventVoiceActOff()));
-    connect(ui.muteallonButton, SIGNAL(clicked()),
-            SLOT(slotEventMuteAllOn()));
-    connect(ui.mutealloffButton, SIGNAL(clicked()),
-            SLOT(slotEventMuteAllOff()));
+    connect(ui.hotkeyButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventHotKey);
+    connect(ui.chansilentButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventSilence);
+    connect(ui.videosessionButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventNewVideo);
+    connect(ui.desktopsessionButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventNewDesktop);
+    connect(ui.fileupdButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventFilesUpdated);
+    connect(ui.transferdoneButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventFileTxDone);
+    connect(ui.questionmodeBtn, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventQuestionMode);
+    connect(ui.desktopaccessBtn, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventDesktopAccess);
+    connect(ui.userloggedinButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventUserLoggedIn);
+    connect(ui.userloggedoutButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventUserLoggedOut);
+    connect(ui.voiceactonButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventVoiceActOn);
+    connect(ui.voiceactoffButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventVoiceActOff);
+    connect(ui.muteallonButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventMuteAllOn);
+    connect(ui.mutealloffButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventMuteAllOff);
 
     //keyboard shortcuts
-    connect(ui.voiceactButton, SIGNAL(clicked(bool)), 
-            SLOT(slotShortcutVoiceActivation(bool)));
-    connect(ui.volumeincButton, SIGNAL(clicked(bool)),
-            SLOT(slotShortcutIncVolume(bool)));
-    connect(ui.volumedecButton, SIGNAL(clicked(bool)),
-            SLOT(slotShortcutDecVolume(bool)));
-    connect(ui.muteallButton, SIGNAL(clicked(bool)),
-            SLOT(slotShortcutMuteAll(bool)));
-    connect(ui.voicegainincButton, SIGNAL(clicked(bool)),
-            SLOT(slotShortcutIncVoiceGain(bool)));
-    connect(ui.voicegaindecButton, SIGNAL(clicked(bool)),
-            SLOT(slotShortcutDecVoiceGain(bool)));
-    connect(ui.videotxButton, SIGNAL(clicked(bool)),
-            SLOT(slotShortcutVideoTx(bool)));
+    connect(ui.voiceactButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotShortcutVoiceActivation);
+    connect(ui.volumeincButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotShortcutIncVolume);
+    connect(ui.volumedecButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotShortcutDecVolume);
+    connect(ui.muteallButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotShortcutMuteAll);
+    connect(ui.voicegainincButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotShortcutIncVoiceGain);
+    connect(ui.voicegaindecButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotShortcutDecVoiceGain);
+    connect(ui.videotxButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotShortcutVideoTx);
 
     //video tab
-    connect(ui.vidcapdevicesBox, SIGNAL(currentIndexChanged(int)), 
-            SLOT(slotVideoCaptureDevChange(int)));
-    connect(ui.captureformatsBox, SIGNAL(currentIndexChanged(int)),
-            SLOT(slotVideoResolutionChange(int)));
-    connect(ui.vidtestButton, SIGNAL(clicked()), SLOT(slotTestVideoFormat()));
-    connect(ui.vidrgb32RadioButton, SIGNAL(clicked(bool)),
-            SLOT(slotImageFormatChange(bool)));
-    connect(ui.vidi420RadioButton, SIGNAL(clicked(bool)),
-            SLOT(slotImageFormatChange(bool)));
-    connect(ui.vidyuy2RadioButton, SIGNAL(clicked(bool)),
-            SLOT(slotImageFormatChange(bool)));
-    connect(ui.vidcodecBox, SIGNAL(currentIndexChanged(int)),
-            ui.vidcodecStackedWidget, SLOT(setCurrentIndex(int)));
-    connect(ui.vidfmtToolButton, SIGNAL(clicked()), SLOT(slotCustomImageFormat()));
-    connect(ui.viddefaultButton, SIGNAL(clicked()),
-            SLOT(slotDefaultVideoSettings()));
+    connect(ui.vidcapdevicesBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &PreferencesDlg::slotVideoCaptureDevChange);
+    connect(ui.captureformatsBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &PreferencesDlg::slotVideoResolutionChange);
+    connect(ui.vidtestButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTestVideoFormat);
+    connect(ui.vidrgb32RadioButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotImageFormatChange);
+    connect(ui.vidi420RadioButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotImageFormatChange);
+    connect(ui.vidyuy2RadioButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotImageFormatChange);
+    connect(ui.vidcodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            ui.vidcodecStackedWidget, &QStackedWidget::setCurrentIndex);
+    connect(ui.vidfmtToolButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotCustomImageFormat);
+    connect(ui.viddefaultButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotDefaultVideoSettings);
 
     m_video_ready = (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY);
 
@@ -1577,8 +1577,7 @@ void PreferencesDlg::slotTestVideoFormat()
         QSize size;
         size.setWidth(m_vidfmt.nWidth);
         size.setHeight(m_vidfmt.nHeight);
-        User user;
-        ZERO_STRUCT(user);
+        User user = {};
         m_uservideo = new UserVideoDlg(0 | VIDEOTYPE_CAPTURE, user, size, this);
         m_uservideo->exec();
     }

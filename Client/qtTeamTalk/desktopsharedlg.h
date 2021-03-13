@@ -49,7 +49,7 @@ public:
 #elif defined(Q_OS_LINUX)
     INT64 m_nWindowShareWnd;
 #endif
-public slots:
+public:
     void accept();
 
 private:

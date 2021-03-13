@@ -69,7 +69,7 @@ class UserAccountsDlg : public QDialog
 public:
     UserAccountsDlg(const useraccounts_t& useraccounts, UserAccountsDisplay uad, QWidget* parent = 0);
 
-public slots:
+public:
     void slotCmdSuccess(int cmdid);
     void slotCmdError(int error, int cmdid);
 
@@ -88,7 +88,7 @@ private:
     void updateUserRights(const UserAccount& useraccount);
     UserAccountsDisplay m_uad;
 
-private slots:
+private:
     void slotClearUser();
     void slotAddUser();
     void slotDelUser();

@@ -33,10 +33,10 @@ class VideoTextDlg : public QDialog
 public:
     VideoTextDlg(QWidget* parent = 0);
 
-public slots:
+public:
     void accept();
 
-private slots:
+private:
     void slotSelectFont();
     void slotSelectBackground();
     void slotUpdateExample();

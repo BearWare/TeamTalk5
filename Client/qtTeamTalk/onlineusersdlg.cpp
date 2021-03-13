@@ -36,8 +36,8 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
     setWindowIcon(QIcon(APPICON));
 
     ui.treeView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui.treeView, SIGNAL(customContextMenuRequested(const QPoint&)),
-            SLOT(slotTreeContextMenu(const QPoint&)));
+    connect(ui.treeView, &QWidget::customContextMenuRequested,
+            this, &OnlineUsersDlg::slotTreeContextMenu);
 
     m_model = new OnlineUsersModel(this);
     m_proxyModel = new QSortFilterProxyModel(this);

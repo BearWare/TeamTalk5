@@ -43,7 +43,7 @@ public:
     QModelIndex index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const;
     QModelIndex parent ( const QModelIndex & index ) const;
 
-public slots:
+public:
     void slotAddChannel(int channelid);
     void slotUpdateChannel(int channelid);
     void slotRemoveChannel(int channelid);

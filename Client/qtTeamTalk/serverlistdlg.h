@@ -46,7 +46,7 @@ private:
     void showHost(const HostEntry& entry);
     void clearServer();
 
-private slots:
+private:
     void slotShowHost(int index);
     void slotShowServer(int index);
     void slotAddUpdServer();

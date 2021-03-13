@@ -43,7 +43,8 @@ public:
 
     Channel GetChannel() const;
     bool joinChannel() const;
-private slots:
+
+private:
     void slotAudioCodecChanged(int index);
     void slotUpdateSliderLabels();
     void slotUpdateChannelPath(const QString &);

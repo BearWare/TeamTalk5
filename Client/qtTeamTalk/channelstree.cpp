@@ -174,16 +174,16 @@ ChannelsTree::ChannelsTree(QWidget* parent)
 #endif
     setAcceptDrops(true);
 
-    //connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
-    //        SLOT(slotItemDoubleClicked(QTreeWidgetItem*, int)));
-    connect(this, SIGNAL(itemChanged(QTreeWidgetItem*, int)),
-            SLOT(slotItemChanged(QTreeWidgetItem*, int)));
-    connect(this, SIGNAL(itemActivated(QTreeWidgetItem*, int)),
-            SLOT(slotItemDoubleClicked(QTreeWidgetItem*, int)));
-    connect(this, SIGNAL(itemExpanded(QTreeWidgetItem*)),
-            SLOT(slotUpdateTreeWidgetItem(QTreeWidgetItem*)));
-    connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem*)),
-            SLOT(slotUpdateTreeWidgetItem(QTreeWidgetItem*)));
+//    connect(this, &QTreeWidget::itemDoubleClicked,
+//            this, &ChannelsTree::slotItemDoubleClicked);
+    connect(this, &QTreeWidget::itemChanged,
+            this, &ChannelsTree::slotItemChanged);
+    connect(this, &QTreeWidget::itemActivated,
+            this, &ChannelsTree::slotItemDoubleClicked);
+    connect(this, &QTreeWidget::itemExpanded,
+            this, &ChannelsTree::slotUpdateTreeWidgetItem);
+    connect(this, &QTreeWidget::itemCollapsed,
+            this, &ChannelsTree::slotUpdateTreeWidgetItem);
 
     m_statTimerId = startTimer(500);
     m_questionTimerId = startTimer(1000);
@@ -1411,8 +1411,7 @@ void ChannelsTree::slotUserLeft(int channelid, const User& user)
 
 void ChannelsTree::slotUserStateChange(const User& user)
 {
-    User oldUser;
-    ZERO_STRUCT(oldUser);
+    User oldUser = {};
     getUser(user.nUserID, oldUser);
 
     if((user.uUserState & USERSTATE_VOICE) && user.nUserID != m_last_talker_id)

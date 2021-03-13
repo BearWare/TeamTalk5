@@ -47,7 +47,7 @@ signals:
     void filesSelected(bool);
     void uploadFiles(const QStringList& files);
 
-public slots:
+public:
     void slotNewSelection(const QItemSelection & selected);
 };
 #endif

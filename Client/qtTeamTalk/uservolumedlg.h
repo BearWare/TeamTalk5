@@ -33,7 +33,7 @@ class UserVolumeDlg : public QDialog
 public:
     UserVolumeDlg(int userid, QWidget * parent = 0);
 
-private slots:
+private:
     void slotVolumeChanged(int);
     void slotMuteChannel();
     void slotDefaults();

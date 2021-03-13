@@ -45,9 +45,8 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
         ui.buttonBox->button(QDialogButtonBox::Close)->setText(tr("&Close"));
     }
 
-    connect(ui.motdChkBox, SIGNAL(clicked(bool)), SLOT(slotShowMOTDVars(bool)));
-    connect(this, SIGNAL(accepted()), SLOT(slotAccepted()));
-    ZERO_STRUCT(m_srvprop);
+    connect(ui.motdChkBox, &QAbstractButton::clicked, this, &ServerPropertiesDlg::slotShowMOTDVars);
+    connect(this, &QDialog::accepted, this, &ServerPropertiesDlg::slotAccepted);
 
     TT_GetServerProperties(ttInst, &m_srvprop);
 
