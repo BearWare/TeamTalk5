@@ -17,6 +17,7 @@ if (BUILD_TEAMTALK_LIBRARIES)
 endif()
 
 if (BUILD_TEAMTALK_CLIENTS)
+  add_subdirectory (Client/qtTeamTalk)
   add_subdirectory (Client/ttserverlog)
 endif()
 
