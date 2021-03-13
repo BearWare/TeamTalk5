@@ -410,6 +410,7 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
         infrm.output_buffer = &m_prev_buffer[0];
         infrm.output_samples = samples;
         infrm.outputfmt = outfmt;
+        infrm.duplex_callback_delay = streamer.last_duplex_callback_delay;;
 
         if (WebRTCPreprocess(*m_apm, infrm, outfrm) != samples)
         {

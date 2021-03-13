@@ -254,6 +254,7 @@ namespace soundsystem {
         std::recursive_mutex players_mtx;
         int input_channels;
         int output_channels;
+        int last_duplex_callback_delay = 0; // The time between capture and expected rendering of the samples in the last duplex callback
         SoundAPI output_soundsystem;
         int inputdeviceid, outputdeviceid;
         std::vector<short> tmpOutputBuffer;

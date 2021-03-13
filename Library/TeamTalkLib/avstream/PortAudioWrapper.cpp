@@ -699,6 +699,12 @@ int DuplexStreamCallback(const void *inputBuffer,
     const short* recorded = reinterpret_cast<const short*>(inputBuffer);
     short* playback = reinterpret_cast<short*>(outputBuffer);
 
+    // Store the delay between the reported capture time and the expected output time in the streamer
+    // (outputBufferDacTime is a time in the future)
+    // It will be copied to the Audioblock and eventually used to dynamically set the delay for the WebRTC Echo Canceller
+    int delayms = (int)((timeInfo->outputBufferDacTime - timeInfo->inputBufferAdcTime) * 1000);
+    dpxStream->last_duplex_callback_delay = delayms;
+
     assert(framesPerBuffer == dpxStream->framesize);
 
     // return if initial callback because this call will be in context of NewStream()

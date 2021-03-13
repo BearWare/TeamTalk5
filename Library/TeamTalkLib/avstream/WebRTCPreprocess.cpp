@@ -66,15 +66,19 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
 
     if (echo)
     {
-        if (apm.stream_delay_ms() == 0)
+        // Set the delay for the AEC. The AEC can overcome mismatches in the delay but works best with a close match. 
+        // The amount of residual echo seems proportional to the accuracy of the delay
+        int delayms = infrm.duplex_callback_delay;
+        if (delayms == 0)
         {
-            int ms = PCM16_SAMPLES_DURATION(infrm.output_samples, infrm.outputfmt.samplerate);
-            int ret = apm.set_stream_delay_ms(ms);
-            MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
-                         ACE_TEXT("WebRTC failed to stream delay for echo cancellation. Result: %d\n"), ret);
-            if (ret != webrtc::AudioProcessing::kNoError)
-                return -1;
+            //delay not known (likely for loopback). Set it to minimum frame duration
+            delayms = PCM16_SAMPLES_DURATION(infrm.output_samples, infrm.outputfmt.samplerate);
         }
+        int ret = apm.set_stream_delay_ms(delayms);
+        MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
+                        ACE_TEXT("WebRTC failed to stream delay for echo cancellation. Result: %d, delay: %d\n"), ret, infrm.duplex_callback_delay);
+        if (ret != webrtc::AudioProcessing::kNoError)
+            return -1;
     }
 
     // AudioProcessingStats
