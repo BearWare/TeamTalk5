@@ -49,7 +49,11 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
     connect(ui.stopToolButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotStopMediaFile);
     connect(ui.startToolButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotPlayMediaFile);
     connect(ui.mediafileComboBox->lineEdit(), &QLineEdit::editingFinished, this, &StreamMediaFileDlg::showMediaFormatInfo);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     connect(ui.mediafileComboBox, QOverload<const QString&>::of(&QComboBox::currentIndexChanged), this, &StreamMediaFileDlg::slotSelectionFile);
+#else
+    connect(ui.mediafileComboBox, &QComboBox::currentTextChanged, this, &StreamMediaFileDlg::slotSelectionFile);
+#endif
     connect(ui.preprocessorComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &StreamMediaFileDlg::slotChangePreprocessor);
     connect(ui.preprocessButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotSetupPreprocessor);
     connect(ui.playbackOffsetSlider, &QSlider::sliderMoved, this, &StreamMediaFileDlg::slotChangePlayOffset);

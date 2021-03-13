@@ -74,8 +74,7 @@ DesktopShareDlg::DesktopShareDlg(QWidget* parent)
         i++;
     }
 #elif defined(Q_OS_DARWIN)
-    ShareWindow wnd;
-    ZERO_STRUCT(wnd);
+    ShareWindow wnd = {};
     int i=0;
     while(TT_MacOS_GetWindow(i++, &wnd))
     {
