@@ -1,26 +1,33 @@
 cmake_minimum_required(VERSION 3.1)
 
+if (CMAKE_VERSION VERSION_LESS "3.7.0")
+  set(CMAKE_INCLUDE_CURRENT_DIR ON)
+endif()
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  find_package (Qt5 COMPONENTS Widgets Xml Network Multimedia X11Extras)
+else()
+  find_package (Qt5 COMPONENTS Widgets Xml Network Multimedia)
+endif()
 find_package (Qt6 COMPONENTS Widgets Xml Network)
 
-if (Qt6_FOUND)
+if (Qt5_FOUND OR Qt6_FOUND)
+
   project (QtTeamTalk5 VERSION 1.0.0 LANGUAGES CXX)
 
-  set (CMAKE_CXX_STANDARD 17)
+  if (Qt6_FOUND)
+    set (CMAKE_CXX_STANDARD 17)
+  else()
+    set (CMAKE_CXX_STANDARD 11)
+  endif()
+  
   set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
   set (CMAKE_AUTOMOC ON)
   set (CMAKE_AUTORCC ON)
   set (CMAKE_AUTOUIC ON)
 
-  if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set (TEAMTALK_TARGET TeamTalk)
-  elseif (MSVC)
-    set (TEAMTALK_TARGET TeamTalk)
-  else()
-    set (TEAMTALK_TARGET teamtalk)
-  endif()
-
-  add_executable (${TEAMTALK_TARGET}
+  set (QTTEAMTALK_SOURCES
     mainwindow.h preferencesdlg.h uservideowidget.h
     channelstree.h channeldlg.h userinfodlg.h bannedusersdlg.h
     useraccountsdlg.h videogridwidget.h uservideodlg.h
@@ -60,10 +67,26 @@ if (Qt6_FOUND)
     resources.qrc mainwindow.rc
     )
 
-  target_include_directories (${TEAMTALK_TARGET} PRIVATE ../../Library/TeamTalk_DLL ./)
-  target_link_directories (${TEAMTALK_TARGET} PRIVATE ../../Library/TeamTalk_DLL)
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set (TEAMTALK_TARGET TeamTalk)
+    set (TEAMTALKPRO_TARGET TeamTalkPro)
+  elseif (MSVC)
+    set (TEAMTALK_TARGET TeamTalk)
+    set (TEAMTALKPRO_TARGET TeamTalkPro)
+  else()
+    set (TEAMTALK_TARGET teamtalk)
+    set (TEAMTALKPRO_TARGET teamtalkpro)
+  endif()
 
-  set (TEAMTALK_LINK_FLAGS Qt6::Widgets Qt6::Xml Qt6::Network TeamTalk5)
+  if (Qt6_FOUND)
+    set (TEAMTALK_LINK_FLAGS Qt6::Widgets Qt6::Xml Qt6::Network)
+  else()
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+      set (TEAMTALK_LINK_FLAGS Qt5::Widgets Qt5::Xml Qt5::Network Qt5::Multimedia Qt5::X11Extras -lX11)
+    else()
+      set (TEAMTALK_LINK_FLAGS Qt5::Widgets Qt5::Xml Qt5::Network Qt5::Multimedia)
+    endif()
+  endif()
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     find_library (CARBON_LIBRARY Carbon)
@@ -71,9 +94,45 @@ if (Qt6_FOUND)
 
     set (MACOSX_BUNDLE TRUE)
     set_source_files_properties(images/teamtalk.icns PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
-    set_target_properties(${TEAMTALK_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
+  endif()
+  
+  option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE "Build Qt Client for TeamTalk 5 Standard Edition" ON)
+  option (BUILD_TEAMTALKPRO_CLIENT_QT_EXAMPLE "Build Qt Client for TeamTalk 5 Professional Edition" ON)
+
+  if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE)
+
+    add_executable (${TEAMTALK_TARGET} ${QTTEAMTALK_SOURCES})
+
+    if (BUILD_TEAMTALK5DLL)
+      target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5DLL)
+    else()
+      find_library(TEAMTALK5_LIBRARY TeamTalk5 PATHS ../../Library/TeamTalk_DLL)
+      target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS} ${TEAMTALK5_LIBRARY})
+    endif()
+
+    target_include_directories (${TEAMTALK_TARGET} PUBLIC ../../Library/TeamTalk_DLL ./)
+    
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+      set_target_properties(${TEAMTALK_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
+    endif()
   endif()
 
-  target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS})
+  if (BUILD_TEAMTALKPRO_CLIENT_QT_EXAMPLE)
+
+    add_executable (${TEAMTALKPRO_TARGET} ${QTTEAMTALK_SOURCES})
+
+    if (BUILD_TEAMTALK5PRODLL)
+      target_link_libraries (${TEAMTALKPRO_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5ProDLL)
+    else()
+      find_library(TEAMTALK5PRO_LIBRARY TeamTalk5Pro PATHS ../../Library/TeamTalk_DLL)
+      target_link_libraries (${TEAMTALKPRO_TARGET} ${TEAMTALK_LINK_FLAGS} ${TEAMTALK5PRO_LIBRARY})
+    endif()
+
+    target_include_directories (${TEAMTALKPRO_TARGET} PUBLIC ../../Library/TeamTalk_DLL ./)
+    
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+      set_target_properties(${TEAMTALKPRO_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
+    endif()
+  endif()
 
 endif()
