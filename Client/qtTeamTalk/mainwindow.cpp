@@ -65,6 +65,7 @@
 #include <QNetworkReply>
 #include <QScreen>
 #include <QGuiApplication>
+#include <QTextToSpeech>
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
@@ -87,6 +88,7 @@ extern TTInstance* ttInst;
 
 QSettings* ttSettings = nullptr;
 QTranslator* ttTranslator = nullptr;
+QTextToSpeech* ttSpeech = nullptr;
 
 //strip ampersand from menutext
 #define MENUTEXT(text) text.replace("&", "")
@@ -174,8 +176,6 @@ MainWindow::MainWindow(const QString& cfgfile)
     m_filesmodel = new FilesModel(this);
     ui.filesView->setModel(m_filesmodel);
     QItemSelectionModel* selmodel = ui.filesView->selectionModel();
-
-    m_speech = new QTextToSpeech(this);
 
     ui.volumeSlider->setRange(0, 100);
     ui.micSlider->setRange(0, 100);
@@ -561,6 +561,9 @@ void MainWindow::loadSettings()
             this->ui.retranslateUi(this);
         }
     }
+
+    if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_QT)
+        ttSpeech = new QTextToSpeech(this);
 
     //load settings
     bool ptt = ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool();
@@ -1666,8 +1669,6 @@ void MainWindow::addStatusMsg(const QString& msg)
 
     if(!timerExists(TIMER_STATUSMSG))
         m_timers[startTimer(1000)] = TIMER_STATUSMSG;
-
-    m_speech->say(msg);
 }
 
 void MainWindow::initSound()
@@ -3539,6 +3540,14 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
             ui.videogridWidget, &VideoGridWidget::slotNewVideoFrame);
 
     if(!b)return;
+
+    if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_QT && ttSpeech == nullptr)
+        ttSpeech = new QTextToSpeech(this);
+    else
+    {
+        delete ttSpeech;
+        ttSpeech = nullptr;
+    }
 
     User myself;
     if((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) &&

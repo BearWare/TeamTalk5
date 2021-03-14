@@ -25,7 +25,7 @@ enum
 {
     COLUMN_NAME = 0,
     COLUMN_CHECK = 1,
-    COLUMN_COUNT,
+    COLUMN_COUNT = 2,
 };
 
 TTSEventsModel::TTSEventsModel(QObject* parent)
@@ -65,10 +65,25 @@ TTSEventsModel::TTSEventsModel(QObject* parent)
 
 QVariant TTSEventsModel::headerData ( int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/ ) const
 {
+    switch(role)
+    {
+    case Qt::DisplayRole :
+        if(orientation == Qt::Horizontal)
+        {
+            switch(section)
+            {
+            case COLUMN_NAME: return tr("Event");
+            case COLUMN_CHECK: return tr("Enabled");
+            }
+        }
+        break;
+    case Qt::TextAlignmentRole :
+        return Qt::AlignLeft;
+    }
     return QVariant();
 }
 
-int TTSEventsModel::columnCount ( const QModelIndex & parent /*= QModelIndex() */) const
+int TTSEventsModel::columnCount ( const QModelIndex & /*parent*/ /*= QModelIndex() */) const
 {
     return COLUMN_COUNT;
 }
@@ -78,66 +93,83 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
     switch(role)
     {
     case Qt::DisplayRole :
+        if (index.column() == COLUMN_CHECK)
+            return (m_ttsselected & m_ttsevents[index.row()])? tr("Enabled") : tr("Disabled");
+        Q_ASSERT(index.column() == COLUMN_NAME);
         switch(m_ttsevents[index.row()])
         {
         case TTS_USER_LOGGEDIN :
-            if (index.column() == COLUMN_NAME)
-                return tr("User logged in");
-
+            return tr("User logged in");
         case TTS_USER_LOGGEDOUT :
-            if (index.column() == COLUMN_NAME)
             return tr("User logged out");
         case TTS_USER_JOINED :
-            if (index.column() == COLUMN_NAME)
-            return tr("User join channel");
+            return tr("User joined channel");
         case TTS_USER_LEFT :
-            if (index.column() == COLUMN_NAME)
             return tr("User left channel");
         case TTS_USER_JOINED_SAME :
+            return tr("User join current channel");
         case TTS_USER_LEFT_SAME :
+            return tr("User left current channel");
         case TTS_USER_TEXTMSG_PRIVATE :
+            return tr("Received private text message");
         case TTS_USER_TEXTMSG_CHANNEL :
+            return tr("Received channel text message");
         case TTS_USER_TEXTMSG_BROADCAST :
-
+            return tr("Received broadcast text message");
         case TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE :
+            return tr("Subscription private text message changed");
         case TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL :
+            return tr("Subscription channel text message changed");
         case TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST :
+            return tr("Subscription broadcast text message changed");
         case TTS_SUBSCRIPTIONS_VOICE :
+            return tr("Subscription voice stream changed");
         case TTS_SUBSCRIPTIONS_VIDEO :
+            return tr("Subscription webcam stream changed");
         case TTS_SUBSCRIPTIONS_DESKTOP :
+            return tr("Subscription shared desktop stream changed");
         case TTS_SUBSCRIPTIONS_DESKTOPINPUT :
+            return tr("Subscription desktop access changed");
         case TTS_SUBSCRIPTIONS_MEDIAFILE :
-
+            return tr("Subscription media file stream changed");
         case TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE :
+            return tr("Subscription intercept private text message changed");
         case TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL :
+            return tr("Subscription intercept channel text message changed");
         case TTS_SUBSCRIPTIONS_INTERCEPT_VOICE :
+            return tr("Subscription intercept voice stream changed");
         case TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO :
+            return tr("Subscription intercept webcam stream changed");
         case TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP :
+            return tr("Subscription intercept desktop stream changed");
         case TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT :
+            return tr("Subscription intercept desktop access changed");
         case TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE :
-
+            return tr("Subscription intercept media file stream changed");
         case TTS_CLASSROOM_VOICE_TX :
+            return tr("Classroom allow voice transmission changed");
         case TTS_CLASSROOM_VIDEO_TX :
+            return tr("Classroom allow webcam transmission changed");
         case TTS_CLASSROOM_DESKTOP_TX :
+            return tr("Classroom allow desktop transmission changed");
         case TTS_CLASSROOM_MEDIAFILE_TX :
-            if (index.column() == COLUMN_NAME)
-                return ("TODO");
+            return tr("Classroom allow media file transmission changed");
         }
     }
     return QVariant();
 }
 
-QModelIndex TTSEventsModel::index ( int row, int column, const QModelIndex & parent /*= QModelIndex()*/ ) const
+QModelIndex TTSEventsModel::index ( int row, int column, const QModelIndex & /*parent*/ /*= QModelIndex()*/ ) const
 {
     return createIndex(row, column, m_ttsevents[row]);
 }
 
-QModelIndex TTSEventsModel::parent ( const QModelIndex & index ) const
+QModelIndex TTSEventsModel::parent ( const QModelIndex & /*index*/ ) const
 {
     return QModelIndex();
 }
 
-int TTSEventsModel::rowCount ( const QModelIndex & parent /*= QModelIndex()*/ ) const
+int TTSEventsModel::rowCount ( const QModelIndex & /*parent*/ /*= QModelIndex()*/ ) const
 {
     return int(m_ttsevents.size());
 }

@@ -173,7 +173,9 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
 
     //text to speech
     m_ttsmodel = new TTSEventsModel(this);
-    ui.ttsListView->setModel(m_ttsmodel);
+    ui.ttsTreeView->setModel(m_ttsmodel);
+    connect(ui.ttsTreeView, &QAbstractItemView::activated,
+            this, &PreferencesDlg::slotTTSEventToggled);
 
     //keyboard shortcuts
     connect(ui.voiceactButton, &QAbstractButton::clicked,
@@ -561,6 +563,21 @@ void PreferencesDlg::slotTabChange(int index)
     {
         TTSEvents events = ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toUInt();
         m_ttsmodel->setTTSEvents(events);
+#if defined(Q_OS_WIN)
+        ui.ttsengineComboBox->addItem(tr("None"), TTSENGINE_NONE);
+        // ui.ttsengineComboBox->addItem(tr("Tolk"), TTSENGINE_TOLK);
+#elif defined(Q_OS_LINUX)
+        ui.ttsengineComboBox->addItem(tr("None"), TTSENGINE_NONE);
+        ui.ttsengineComboBox->addItem(tr("Default"), TTSENGINE_QT);
+        if (QFile::exists(TTSENGINE_NOTIFY_PATH))
+            ui.ttsengineComboBox->addItem(tr("Libnotify"), TTSENGINE_NOTIFY);
+#else
+        ui.ttsengineComboBox->addItem(tr("None"), TTSENGINE_NONE);
+#endif
+
+        TextToSpeechEngine ttsEngine = TextToSpeechEngine(ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt());
+        setCurrentItemData(ui.ttsengineComboBox, ttsEngine);
+
         break;
     }
     case SHORTCUTS_TAB :  //shortcuts
@@ -992,6 +1009,7 @@ void PreferencesDlg::slotSaveChanges()
     if (m_modtab.find(TTSEVENTS_TAB) != m_modtab.end())
     {
         ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, m_ttsmodel->getTTSEvents());
+        ttSettings->setValue(SETTINGS_TTS_ENGINE, getCurrentItemData(ui.ttsengineComboBox, TTSENGINE_NONE));
     }
 }
 
@@ -1691,4 +1709,14 @@ void PreferencesDlg::slotDefaultVideoSettings()
     case NO_CODEC :
         break;
     }
+}
+
+void PreferencesDlg::slotTTSEventToggled(const QModelIndex &index)
+{
+    auto events = m_ttsmodel->getTTSEvents();
+    TextToSpeechEvent e = TextToSpeechEvent(index.internalId());
+    if (e & events)
+        m_ttsmodel->setTTSEvents(events & ~e);
+    else
+        m_ttsmodel->setTTSEvents(events | e);
 }
