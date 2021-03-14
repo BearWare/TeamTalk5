@@ -41,7 +41,8 @@ using namespace soundsystem;
 using namespace vidcap;
 using namespace std::placeholders;
 
-#define GEN_NEXT_ID(id) (++id==0?++id:id)
+#define GEN_NEXT_ID(id) (++id == 0 ? ++id : id)
+#define GEN_NEXT_ID_MAX(id, max) (id + 1 > max ? id = 1 : (++id == 0 ? ++id : id))
 
 #define VIDEOFILE_ENCODER_FRAMES_MAX 3
 #define VIDEOCAPTURE_ENCODER_FRAMES_MAX 3
@@ -50,9 +51,10 @@ using namespace std::placeholders;
 #define UDP_SOCKET_RECV_BUF_SIZE 0x20000
 #define UDP_SOCKET_SEND_BUF_SIZE 0x20000
 
-#define LOCAL_USERID    0 // Local user recording
-#define MUX_USERID      0x1001 // User ID for recording muxed stream
-#define LOCAL_TX_USERID 0x1002 // User ID for local user transmitting
+#define LOCAL_USERID                        0 // Local user recording
+#define MUX_USERID                          0x1001 // User ID for recording muxed stream
+#define LOCAL_TX_USERID                     0x1002 // User ID for local user transmitting
+#define LOCAL_MEDIAPLAYBACK_SESSIONID_MAX   17 // Max session id. Should be small because we use all on STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
 
 #define SIMULATE_RX_PACKETLOSS 0
 #define SIMULATE_TX_PACKETLOSS 0
@@ -88,6 +90,8 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
                        , m_mtu_max_payload_size(MAX_PACKET_PAYLOAD_SIZE)
                        , m_version(version)
 {
+    MYTRACE(ACE_TEXT("ClientNode %p\n"), this);
+
     m_listener->RegisterEventSuspender(this);
 
     m_soundsystem = soundsystem::GetInstance();
@@ -95,6 +99,8 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
 
     m_local_voicelog.reset(new ClientUser(LOCAL_USERID, this,
                                           m_listener, m_soundsystem));
+
+    ResumeEventHandling();
 }
 
 ClientNode::~ClientNode()
@@ -118,7 +124,10 @@ ClientNode::~ClientNode()
     CryptStreamHandler::RemoveSSLContext(GetEventLoop());
 #endif
 
-    MYTRACE( (ACE_TEXT("~ClientNode\n")) );
+    //close reactor so no one can register new handlers
+    SuspendEventHandling(true);
+
+    MYTRACE(ACE_TEXT("~ClientNode %p\n"), this);
 }
 
 VoiceLogger& ClientNode::voicelogger()
@@ -433,6 +442,25 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         m_audioinput_voice.reset();
         ret = -1;
         break;
+    case TIMER_REMOVE_LOCALPLAYBACK :
+        for (auto i=m_mediaplayback_streams.begin(); i != m_mediaplayback_streams.end();)
+        {
+            switch (i->second->GetStatus())
+            {
+            case MEDIASTREAM_ERROR :
+                m_mediaplayback_streams.erase(i++);
+                break;
+            case MEDIASTREAM_FINISHED :
+                if (i->second->Flushed())
+                    m_mediaplayback_streams.erase(i++);
+                break;
+            default :
+                ++i;
+                break;
+            }
+        }
+        ret = m_mediaplayback_streams.empty() ? -1 : 0;
+        break;
     case USER_TIMER_VOICE_PLAYBACK_ID :
     {
         clientuser_t user = GetUser(userid);
@@ -572,13 +600,10 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         ret = -1;
     }
     break;
-    case USER_TIMER_REMOVE_LOCALPLAYBACK :
-        m_mediaplayback_streams.erase(userid);
-        ret = -1;
-        break;
     default:
         TTASSERT(0);
         ret = -1;
+        break;
     }
 
     //ensure timer is still there otherwise there will be a double delete
@@ -1416,6 +1441,9 @@ bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
     TTASSERT(audio_frame.input_buffer);
     TTASSERT(audio_frame.inputfmt.samplerate);
     TTASSERT(audio_frame.input_samples);
+
+    if (m_audiocontainer.AddAudio(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, audio_frame))
+        m_listener->OnUserAudioBlock(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO);
 
     audio_frame.force_enc = true;
     audio_frame.userdata = STREAMTYPE_MEDIAFILE_AUDIO;
@@ -2953,10 +2981,30 @@ bool ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if(enable)
-        m_audiocontainer.AddSoundSource(userid, stream_type, outfmt);
+    if (enable)
+    {
+        if (userid == LOCAL_USERID && stream_type == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO)
+        {
+            for (int i=1;i<=LOCAL_MEDIAPLAYBACK_SESSIONID_MAX;++i)
+                m_audiocontainer.AddAudioSource(i, stream_type, outfmt);
+        }
+        else
+        {
+            m_audiocontainer.AddAudioSource(userid, stream_type, outfmt);
+        }
+    }
     else
-        m_audiocontainer.RemoveSoundSource(userid, stream_type);
+    {
+        if (userid == LOCAL_USERID && stream_type == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO)
+        {
+            for (int i=1;i<=LOCAL_MEDIAPLAYBACK_SESSIONID_MAX;++i)
+                m_audiocontainer.RemoveAudioSource(i, stream_type);
+        }
+        else
+        {
+            m_audiocontainer.RemoveAudioSource(userid, stream_type);
+        }
+    }
 
     if (userid == MUX_USERID)
     {
@@ -3304,11 +3352,19 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    GEN_NEXT_ID(m_mediaplayback_counter);
+    auto first = m_mediaplayback_counter;
+    GEN_NEXT_ID_MAX(m_mediaplayback_counter, LOCAL_MEDIAPLAYBACK_SESSIONID_MAX);
+    while (m_mediaplayback_streams.find(m_mediaplayback_counter) != m_mediaplayback_streams.end())
+    {
+        if (m_mediaplayback_counter == first)
+            return 0;
+        GEN_NEXT_ID_MAX(m_mediaplayback_counter, LOCAL_MEDIAPLAYBACK_SESSIONID_MAX);
+    }
 
     mediaplayback_t playback;
-    playback.reset(new MediaPlayback(std::bind(&ClientNode::MediaPlaybackStatus, this, _1, _2, _3),
-                   m_mediaplayback_counter, m_soundsystem));
+    playback.reset(new MediaPlayback(m_mediaplayback_counter, m_soundsystem,
+                                     std::bind(&ClientNode::MediaPlaybackStatus, this, _1, _2, _3),
+                                     std::bind(&ClientNode::MediaPlaybackAudio, this, _1, _2)));
     
     if (!playback)
         return 0;
@@ -3324,12 +3380,21 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
             return 0;
     }
 
+    bool first_playback = m_mediaplayback_streams.empty();
+
     m_mediaplayback_streams[m_mediaplayback_counter] = playback;
 
     if (!UpdateMediaPlayback(m_mediaplayback_counter, offset, paused, preprocessor))
     {
         m_mediaplayback_streams.erase(m_mediaplayback_counter);
         return 0;
+    }
+
+    if (first_playback)
+    {
+        TTASSERT(!TimerExists(TIMER_REMOVE_LOCALPLAYBACK));
+        long ret = StartTimer(TIMER_REMOVE_LOCALPLAYBACK,  0, ACE_Time_Value::zero, ToTimeValue(PB_FRAMEDURATION_MSEC));
+        TTASSERT(ret >= 0);
     }
 
     return m_mediaplayback_counter;
@@ -3410,6 +3475,7 @@ bool ClientNode::StopMediaPlayback(int id)
 
 void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStreamStatus status)
 {
+    // don't hold lock since it can cause a deadlock
     switch (status)
     {
     case MEDIASTREAM_STARTED :
@@ -3419,28 +3485,27 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_PLAYING);
         break;
     case MEDIASTREAM_ERROR :
-    {
+        // TIMER_REMOVE_LOCALPLAYBACK will destroy media playback
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_ERROR);
-        // issue playback destroy message
-        long ret = StartUserTimer(USER_TIMER_REMOVE_LOCALPLAYBACK, id, 0, ACE_Time_Value::zero);
-        TTASSERT(ret >= 0);
         break;
-    }
     case MEDIASTREAM_PAUSED :
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_PAUSED);
         break;
     case MEDIASTREAM_FINISHED :
-    {
-        // issue playback destroy message
+        // TIMER_REMOVE_LOCALPLAYBACK will destroy media playback
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_FINISHED);
-        ACE_Time_Value tm(1, 0); // allow system system to flush
-        long ret = StartUserTimer(USER_TIMER_REMOVE_LOCALPLAYBACK, id, 0, tm);
-        TTASSERT(ret >= 0);
         break;
-    }
     case MEDIASTREAM_NONE :
         assert(status != MEDIASTREAM_NONE);
         break;
+    }
+}
+
+void ClientNode::MediaPlaybackAudio(int id, const media::AudioFrame& frm)
+{
+    if (m_audiocontainer.AddAudio(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, frm))
+    {
+        m_listener->OnUserAudioBlock(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO);
     }
 }
 

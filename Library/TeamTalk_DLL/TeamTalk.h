@@ -1575,6 +1575,12 @@ extern "C" {
          * @see TT_DoUpdateChannel()  
          * @see CHANNEL_CLASSROOM. */
         STREAMTYPE_CHANNELMSG               = 0x00000040,
+        /** @brief Stream type for audio of local playback.
+         *
+         *  TT_EnableAudioBlockEvent() can be used to intercept audio
+         *  from a local media playback.
+         *  @see TT_InitLocalPlayback() */
+        STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO = 0x00000080,
 
         /** @brief Shortcut to allow voice, media files, desktop,
          * webcamera and channel messages. */
@@ -4534,17 +4540,27 @@ extern "C" {
      * time a new #AudioBlock is available the event
      * #CLIENTEVENT_USER_AUDIOBLOCK is generated.
      *
-     * @deprecated Use TT_EnableAudioBlockEventEx()
-     * 
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @param nUserID The user ID to monitor for audio callback. Pass
-     * special user ID #TT_LOCAL_USERID to monitor local recorded
-     * audio prior to encoding/processing. Pass special user ID
-     * #TT_MUXED_USERID to get a single audio stream of all audio that
-     * is being played from users.
-     * @param nStreamType Either #STREAMTYPE_VOICE or 
-     * #STREAMTYPE_MEDIAFILE_AUDIO.
+     * @param nUserID User ID has different meanings depending on
+     *  the #StreamType being passed.
+     *
+     * For #STREAMTYPE_VOICE:
+     * - Pass user ID to monitor for audio callback from voice stream.
+     * - Pass special user ID #TT_LOCAL_USERID to monitor
+     *   local recorded audio prior to encoding/processing.
+     * - Pass special user ID #TT_MUXED_USERID to get a single audio
+     *   stream of all audio that is being played from users.
+     * For #STREAMTYPE_MEDIAFILE_AUDIO:
+     * - Pass #TT_LOCAL_USERID to receive audio from media file being
+     *   streamed. @see TT_StartStreamingMediaFileToChannel().
+     * For #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO:
+     * - Pass session ID returned by TT_InitLocalPlayback() to receive
+     *   audio stream from local playback.
+     * - Pass #TT_LOCAL_USERID to receive audio stream from all local
+     *   playbacks.
+     * @param nStreamType Either #STREAMTYPE_VOICE,
+     * #STREAMTYPE_MEDIAFILE_AUDIO or #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
      * @param bEnable Whether to enable the #CLIENTEVENT_USER_AUDIOBLOCK event.
      * @see TT_AcquireUserAudioBlock()
      * @see TT_ReleaseUserAudioBlock()
@@ -4560,13 +4576,8 @@ extern "C" {
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @param nUserID The user ID to monitor for audio callback. Pass
-     * special user ID #TT_LOCAL_USERID to monitor local recorded
-     * audio prior to encoding/processing. Pass special user ID
-     * #TT_MUXED_USERID to get a single audio stream of all audio that
-     * is being played from users.
-     * @param nStreamType Either #STREAMTYPE_VOICE or 
-     * #STREAMTYPE_MEDIAFILE_AUDIO.
+     * @param nUserID See description in TT_EnableAudioBlockEvent()
+     * @param nStreamType See description in TT_EnableAudioBlockEvent()
      * @param lpAudioFormat Resample audio format from user to this #AudioFormat.
      * Currently only AFF_WAVE_FORMAT is supported.
      * Specify NULL to get original audio format.
@@ -5091,6 +5102,11 @@ extern "C" {
      * Monitor progress of playback by checking for event
      * #CLIENTEVENT_LOCAL_MEDIAFILE.
      *
+     * Raw audio from local media playback can be retrieved using
+     * TT_EnableAudioBlockEvent().
+     *
+     * A maximum of 16 simultaneous local media playbacks can be started.
+     *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
      * @param szMediaFilePath Path to media file.
@@ -5099,10 +5115,8 @@ extern "C" {
      * cancellation part of #SpeexDSP is unused. Only denoise and AGC
      * settings are applied.
      *
-     * @return A Session ID for identifing the media playback session.
-     * If Session ID is <= 0 indicates an error.
-     *
-     * @return A session ID identifier referred to as @c nPlaybackSessionID.
+     * @return A Session ID, @c nPlaybackSessionID, for identifing the
+     * media playback session. If Session ID is <= 0 indicates an error.
      * 
      * @see TT_UpdateLocalPlayback()
      * @see TT_StopLocalPlayback()

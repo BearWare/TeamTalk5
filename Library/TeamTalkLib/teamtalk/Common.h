@@ -308,6 +308,8 @@ namespace teamtalk {
         STREAMTYPE_DESKTOP                  = 0x00000010,
         STREAMTYPE_DESKTOPINPUT             = 0x00000020,
         STREAMTYPE_CHANNELMSG               = 0x00000040,
+
+        STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO = 0x00000080,
     };
 
     typedef ACE_UINT32 StreamTypes;

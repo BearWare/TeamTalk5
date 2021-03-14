@@ -71,4 +71,6 @@ public:
     operator TTInstance*() { return get()->ttInst; }
 };
 
+ttinst InitTeamTalk();
+
 #endif
