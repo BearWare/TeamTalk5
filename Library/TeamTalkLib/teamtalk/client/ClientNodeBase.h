@@ -56,6 +56,7 @@ namespace teamtalk {
         TIMER_BUILD_DESKTOPPACKETS_ID           = 10,
         TIMER_QUERY_MTU_ID                      = 11,
         TIMER_STOP_AUDIOINPUT                   = 12,
+        TIMER_REMOVE_LOCALPLAYBACK              = 13,
 
         //User instance timers (termination not handled by ClientNode::StopTimer())
         USER_TIMER_MASK                         = USER_TIMER_START,
@@ -69,8 +70,7 @@ namespace teamtalk {
         USER_TIMER_DESKTOPINPUT_ACK_ID          = USER_TIMER_MASK + 8,
         USER_TIMER_REMOVE_FILETRANSFER_ID       = USER_TIMER_MASK + 9,
         USER_TIMER_UPDATE_USER                  = USER_TIMER_MASK + 10,
-        USER_TIMER_REMOVE_LOCALPLAYBACK         = USER_TIMER_MASK + 11,
-        USER_TIMER_JITTER_BUFFER_ID             = USER_TIMER_MASK + 12
+        USER_TIMER_JITTER_BUFFER_ID             = USER_TIMER_MASK + 11,
     };
 
     struct SoundProperties

@@ -39,6 +39,8 @@
 #include <mutex>
 #include <memory>
 
+#define PB_FRAMEDURATION_MSEC 40
+
 typedef std::function< void(int userdata, const MediaFileProp& mfp,
                             MediaStreamStatus status) > mediaplayback_status_t;
 typedef std::function< void(int userdata, const media::AudioFrame& frm) > mediaplayback_audio_t;
@@ -82,15 +84,21 @@ public:
     void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                    MediaStreamStatus status);
 
+    MediaStreamStatus GetStatus() const;
+    bool Flushed();
+
     // StreamPlayer
     bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer, 
                         short* buffer, int samples);
-    
+
 private:
     mediafile_streamer_t m_streamer;
     mediaplayback_status_t m_statusfunc;
     mediaplayback_audio_t m_audiofunc;
     int m_userdata = 0;
+    MediaStreamStatus m_status = MEDIASTREAM_NONE;
+    uint32_t m_completiontime;
+
     int m_gainlevel = GAIN_NORMAL;
     soundsystem::soundsystem_t m_sndsys;
     audio_resampler_t m_resampler;

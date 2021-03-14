@@ -28,9 +28,6 @@
 
 using namespace std::placeholders;
 
-#define PB_FRAMEDURATION_MSEC 40
-#define PB_FRAMESIZE(samplerate) (samplerate * (PB_FRAMEDURATION_MSEC / 1000.0))
-
 MediaPlayback::MediaPlayback(int userdata, soundsystem::soundsystem_t sndsys,
                              mediaplayback_status_t statusfunc,
                              mediaplayback_audio_t audiofunc)
@@ -74,8 +71,8 @@ bool MediaPlayback::OpenFile(const ACE_TString& filename)
     if (!GetMediaFileProp(filename, inprop))
         return false;
 
-    MediaStreamOutput outprop(inprop.audio, int(PB_FRAMESIZE(inprop.audio.samplerate)),
-                              inprop.video);
+    int callbacksamples = int(PCM16_DURATION_SAMPLES(PB_FRAMEDURATION_MSEC, inprop.audio.samplerate));
+    MediaStreamOutput outprop(inprop.audio, callbacksamples, inprop.video);
 
     m_streamer = MakeMediaFileStreamer(filename, outprop);
     if (m_streamer && m_streamer->Open())
@@ -102,7 +99,7 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speex
     if (!inprop.HasAudio())
         return false;
 
-    int inframesize = int(PB_FRAMESIZE(inprop.audio.samplerate));
+    int inframesize = int(PCM16_DURATION_SAMPLES(PB_FRAMEDURATION_MSEC, inprop.audio.samplerate));
     int outframesize = inframesize;
     media::AudioFormat outformat(inprop.audio.samplerate, inprop.audio.channels);
 
@@ -256,6 +253,7 @@ void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,
     {
         std::lock_guard<std::mutex> g(m_mutex);
         m_finished = true;
+        m_completiontime = GETTIMESTAMP();
         break;
     }
     case MEDIASTREAM_NONE :
@@ -263,8 +261,22 @@ void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,
         break;
     }
 
+    m_status = status;
+
     if(m_statusfunc)
         m_statusfunc(m_userdata, mfp, status);
+}
+
+MediaStreamStatus MediaPlayback::GetStatus() const
+{
+    return m_status;
+}
+
+bool MediaPlayback::Flushed()
+{
+    // Give audio player time to submit and play the audio.
+    // Stopping at MEDIASTREAM_FINISHED may not have played everything.
+    return GetStatus() == MEDIASTREAM_FINISHED && W32_GEQ(GETTIMESTAMP(), m_completiontime + 1000);
 }
 
 bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
