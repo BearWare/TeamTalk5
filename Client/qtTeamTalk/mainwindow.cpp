@@ -65,10 +65,10 @@
 #include <QNetworkReply>
 #include <QScreen>
 #include <QGuiApplication>
-#include <QTextToSpeech>
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
+#include <QTextToSpeech>
 #endif
 
 #ifdef Q_OS_LINUX //For hotkeys on X11
@@ -88,7 +88,10 @@ extern TTInstance* ttInst;
 
 QSettings* ttSettings = nullptr;
 QTranslator* ttTranslator = nullptr;
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 QTextToSpeech* ttSpeech = nullptr;
+#endif
 
 //strip ampersand from menutext
 #define MENUTEXT(text) text.replace("&", "")
@@ -562,8 +565,10 @@ void MainWindow::loadSettings()
         }
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_QT)
         ttSpeech = new QTextToSpeech(this);
+#endif
 
     //load settings
     bool ptt = ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool();
@@ -3541,6 +3546,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
     if(!b)return;
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_QT && ttSpeech == nullptr)
         ttSpeech = new QTextToSpeech(this);
     else
@@ -3548,6 +3554,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         delete ttSpeech;
         ttSpeech = nullptr;
     }
+#endif
 
     User myself;
     if((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) &&

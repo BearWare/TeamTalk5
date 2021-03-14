@@ -563,16 +563,18 @@ void PreferencesDlg::slotTabChange(int index)
     {
         TTSEvents events = ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toUInt();
         m_ttsmodel->setTTSEvents(events);
-#if defined(Q_OS_WIN)
         ui.ttsengineComboBox->addItem(tr("None"), TTSENGINE_NONE);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        ui.ttsengineComboBox->addItem(tr("Default"), TTSENGINE_QT);
+#endif
+#if defined(Q_OS_WIN)
         // ui.ttsengineComboBox->addItem(tr("Tolk"), TTSENGINE_TOLK);
 #elif defined(Q_OS_LINUX)
         ui.ttsengineComboBox->addItem(tr("None"), TTSENGINE_NONE);
-        ui.ttsengineComboBox->addItem(tr("Default"), TTSENGINE_QT);
         if (QFile::exists(TTSENGINE_NOTIFY_PATH))
             ui.ttsengineComboBox->addItem(tr("Libnotify"), TTSENGINE_NOTIFY);
-#else
-        ui.ttsengineComboBox->addItem(tr("None"), TTSENGINE_NONE);
+#elif defined(Q_OS_MACX)
+
 #endif
 
         TextToSpeechEngine ttsEngine = TextToSpeechEngine(ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt());

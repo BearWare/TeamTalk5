@@ -26,18 +26,20 @@
 #include "appinfo.h"
 #include <math.h>
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QSound>
-#endif
 #include <QDateTime>
 #include <QDialog>
 #include <QStack>
-#include <QTextToSpeech>
 #include <QProcess>
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#include <QTextToSpeech>
+#include <QSound>
+#endif
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 extern QTextToSpeech* ttSpeech;
+#endif
 
 QString makeCustomCommand(const QString& cmd, const QString& value)
 {
@@ -1014,10 +1016,12 @@ void addTextToSpeechMessage(const QString& msg, TextToSpeechEvent event)
     {
         switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
         {
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
         case TTSENGINE_QT:
             Q_ASSERT(ttSpeech);
             ttSpeech->say(msg);
             break;
+#endif
         case TTSENGINE_NOTIFY :
         {
             QString noquote = msg;
