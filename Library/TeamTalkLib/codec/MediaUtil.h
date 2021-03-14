@@ -126,6 +126,8 @@ namespace media
         bool voiceact_enc; //encode if voice active
         uint32_t timestamp;
         uint32_t sample_no = 0;
+        int duplex_callback_delay = 0; // The time between capture and expected rendering of the samples, taken from the PortAudio duplex callback timing
+
         AudioFrame()
         : input_buffer(NULL)
         , output_buffer(NULL)

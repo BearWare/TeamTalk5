@@ -1290,6 +1290,8 @@ void ClientNode::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
     audframe.outputfmt = AudioFormat(codec_samplerate, codec_channels);
     audframe.output_buffer = playback_buffer;
     audframe.output_samples = codec_samples;
+    // Copy the last capture/render delay from the streamer will be used by WebRTC AEC
+    audframe.duplex_callback_delay = streamer.last_duplex_callback_delay;
 
     QueueAudioCapture(audframe);
 }
