@@ -570,7 +570,6 @@ void PreferencesDlg::slotTabChange(int index)
 #if defined(Q_OS_WIN)
         // ui.ttsengineComboBox->addItem(tr("Tolk"), TTSENGINE_TOLK);
 #elif defined(Q_OS_LINUX)
-        ui.ttsengineComboBox->addItem(tr("None"), TTSENGINE_NONE);
         if (QFile::exists(TTSENGINE_NOTIFY_PATH))
             ui.ttsengineComboBox->addItem(tr("Libnotify"), TTSENGINE_NOTIFY);
 #elif defined(Q_OS_MACX)
