@@ -60,6 +60,10 @@ jobs:
            doxygen
            valgrind
            libpcap-dev
+           qt5-default
+           qtmultimedia5-dev
+           libqt5x11extras5-dev
+           
 
     - name: Clone submodules
       working-directory: ${{runner.workspace}}/TeamTalk5
