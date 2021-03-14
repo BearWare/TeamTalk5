@@ -137,6 +137,8 @@ private:
     void slotImageFormatChange(bool checked);
     void slotCustomImageFormat();
     void slotDefaultVideoSettings();
+    //tts tab
+    void slotTTSEventToggled(const QModelIndex &index);
 
 public:
     void slotNewVideoFrame(int userid, int stream_id);

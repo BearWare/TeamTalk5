@@ -181,6 +181,8 @@
 
 #define SETTINGS_TTS_ACTIVEEVENTS                   "texttospeech/active-events"
 #define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTS_NONE
+#define SETTINGS_TTS_ENGINE                         "texttospeech/tts-engine"
+#define SETTINGS_TTS_ENGINE_DEFAULT                 TTSENGINE_NONE
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

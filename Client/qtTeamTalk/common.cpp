@@ -32,9 +32,12 @@
 #include <QDateTime>
 #include <QDialog>
 #include <QStack>
+#include <QTextToSpeech>
+#include <QProcess>
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
+extern QTextToSpeech* ttSpeech;
 
 QString makeCustomCommand(const QString& cmd, const QString& value)
 {
@@ -1003,6 +1006,32 @@ void playSoundEvent(SoundEvent event)
     if(filename.size())
         QSound::play(filename);
 #endif
+}
+
+void addTextToSpeechMessage(const QString& msg, TextToSpeechEvent event)
+{
+    if (ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toUInt() & event)
+    {
+        switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
+        {
+        case TTSENGINE_QT:
+            Q_ASSERT(ttSpeech);
+            ttSpeech->say(msg);
+            break;
+        case TTSENGINE_NOTIFY :
+        {
+            QString noquote = msg;
+            noquote.replace('"', ' ');
+            QProcess ps;
+            ps.start(QString("%1 -t 1 -a \"%2\" -u low \"%3: %4\"")
+                     .arg(TTSENGINE_NOTIFY_PATH)
+                     .arg(APPNAME_SHORT)
+                     .arg(APPNAME_SHORT)
+                     .arg(noquote));
+            break;
+        }
+        }
+    }
 }
 
 void addLatestHost(const HostEntry& host)

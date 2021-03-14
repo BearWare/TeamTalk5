@@ -331,6 +331,16 @@ enum TextToSpeechEvent
 
 typedef uint32_t TTSEvents;
 
+enum TextToSpeechEngine
+{
+    TTSENGINE_NONE          = 0,
+    TTSENGINE_QT            = 1,
+    TTSENGINE_TOLK          = 2,
+    TTSENGINE_NOTIFY        = 3,
+};
+
+#define TTSENGINE_NOTIFY_PATH "/usr/bin/notify-send"
+
 enum HotKeyID
 {
     HOTKEY_PUSHTOTALK,
@@ -507,6 +517,7 @@ void saveVideoFormat(const VideoFormat& vidfmt);
 bool loadVideoFormat(VideoFormat& vidfmt);
 
 void playSoundEvent(SoundEvent event);
+void addTextToSpeechMessage(const QString& msg, TextToSpeechEvent event);
 
 void addLatestHost(const HostEntry& host);
 void deleteLatestHost(int index);
