@@ -164,6 +164,11 @@ bool MediaStreamer::Pause()
     return true;
 }
 
+bool MediaStreamer::Completed() const
+{
+    return !m_thread || m_thread->get_id() == std::thread::id();
+}
+
 bool MediaStreamer::QueueAudio(const media::AudioFrame& frame)
 {
     assert(frame.inputfmt == GetMediaOutput().audio);

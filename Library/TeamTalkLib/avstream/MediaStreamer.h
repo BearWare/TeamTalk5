@@ -117,7 +117,9 @@ public:
     bool Pause();
 
     const MediaStreamOutput& GetMediaOutput() const { return m_media_out; }
-    
+
+    bool Completed() const;
+
 protected:
     const int BUF_SECS = 3;
 

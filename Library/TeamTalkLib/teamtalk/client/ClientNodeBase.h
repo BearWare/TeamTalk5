@@ -57,6 +57,7 @@ namespace teamtalk {
         TIMER_QUERY_MTU_ID                      = 11,
         TIMER_STOP_AUDIOINPUT                   = 12,
         TIMER_REMOVE_LOCALPLAYBACK              = 13,
+        TIMER_STOP_STREAM_MEDIAFILE_ID          = 14,
 
         //User instance timers (termination not handled by ClientNode::StopTimer())
         USER_TIMER_MASK                         = USER_TIMER_START,
@@ -65,7 +66,6 @@ namespace teamtalk {
         USER_TIMER_MEDIAFILE_AUDIO_PLAYBACK_ID  = USER_TIMER_MASK + 3,
         USER_TIMER_MEDIAFILE_VIDEO_PLAYBACK_ID  = USER_TIMER_MASK + 4,
         USER_TIMER_DESKTOPACKPACKET_ID          = USER_TIMER_MASK + 5,
-        USER_TIMER_STOP_STREAM_MEDIAFILE_ID     = USER_TIMER_MASK + 6,
         USER_TIMER_DESKTOPINPUT_RTX_ID          = USER_TIMER_MASK + 7,
         USER_TIMER_DESKTOPINPUT_ACK_ID          = USER_TIMER_MASK + 8,
         USER_TIMER_REMOVE_FILETRANSFER_ID       = USER_TIMER_MASK + 9,

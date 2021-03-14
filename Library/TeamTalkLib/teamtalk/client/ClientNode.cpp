@@ -461,6 +461,19 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         }
         ret = m_mediaplayback_streams.empty() ? -1 : 0;
         break;
+    case TIMER_STOP_STREAM_MEDIAFILE_ID :
+        if (!m_mediafile_streamer)
+            ret = -1;
+        else if (m_mediafile_streamer->Completed())
+        {
+            StopStreamingMediaFile();
+            ret = -1;
+        }
+        else
+        {
+            ret = 0;
+        }
+        break;
     case USER_TIMER_VOICE_PLAYBACK_ID :
     {
         clientuser_t user = GetUser(userid);
@@ -506,10 +519,6 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
             ret = -1;
     }
     break;
-    case USER_TIMER_STOP_STREAM_MEDIAFILE_ID :
-        StopStreamingMediaFile();
-        ret = -1;
-        break;
     case USER_TIMER_DESKTOPINPUT_RTX_ID :
     {
         clientuser_t user = GetUser(userid);
@@ -1471,13 +1480,9 @@ void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
         break;
     case MEDIASTREAM_ERROR :
         mfs = MFS_ERROR;
-        StartUserTimer(USER_TIMER_STOP_STREAM_MEDIAFILE_ID, 0, 0, 
-                       ACE_Time_Value::zero);
         break;
     case MEDIASTREAM_FINISHED :
         mfs = MFS_FINISHED;
-        StartUserTimer(USER_TIMER_STOP_STREAM_MEDIAFILE_ID, 0, 0, 
-                       ACE_Time_Value::zero);
         break;
     case MEDIASTREAM_PAUSED :
         mfs = MFS_PAUSED;
@@ -3283,6 +3288,12 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     {
         StopStreamingMediaFile();
         return false;
+    }
+
+    if (!TimerExists(TIMER_STOP_STREAM_MEDIAFILE_ID))
+    {
+        long ret = StartTimer(TIMER_STOP_STREAM_MEDIAFILE_ID,  0, ACE_Time_Value::zero, ToTimeValue(10));
+        TTASSERT(ret >= 0);
     }
 
     return true;
