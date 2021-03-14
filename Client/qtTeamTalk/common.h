@@ -292,41 +292,6 @@ enum TextToSpeechEvent
     TTS_CLASSROOM_VIDEO_TX                          = 0x02000000,
     TTS_CLASSROOM_DESKTOP_TX                        = 0x04000000,
     TTS_CLASSROOM_MEDIAFILE_TX                      = 0x08000000,
-
-    TTS_USER_ALL              = TTS_USER_LOGGEDIN                               |
-                                TTS_USER_LOGGEDOUT                              |
-                                TTS_USER_JOINED                                 |
-                                TTS_USER_LEFT                                   |
-                                TTS_USER_JOINED_SAME                            |
-                                TTS_USER_LEFT_SAME                              |
-                                TTS_USER_TEXTMSG_PRIVATE                        |
-                                TTS_USER_TEXTMSG_CHANNEL                        |
-                                TTS_USER_TEXTMSG_BROADCAST,
-
-
-    TTS_SUBSCRIPTIONS_ALL     = TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE               |
-                                TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL               |
-                                TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST             |
-                                TTS_SUBSCRIPTIONS_VOICE                         |
-                                TTS_SUBSCRIPTIONS_VIDEO                         |
-                                TTS_SUBSCRIPTIONS_DESKTOP                       |
-                                TTS_SUBSCRIPTIONS_DESKTOPINPUT                  |
-                                TTS_SUBSCRIPTIONS_MEDIAFILE                     |
-
-                                TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE     |
-                                TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL     |
-                                TTS_SUBSCRIPTIONS_INTERCEPT_VOICE               |
-                                TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO               |
-                                TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP             |
-                                TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT        |
-                                TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE,
-
-    TTS_CLASSROOM_ALL         = TTS_CLASSROOM_VOICE_TX                          |
-                                TTS_CLASSROOM_VIDEO_TX                          |
-                                TTS_CLASSROOM_DESKTOP_TX                        |
-                                TTS_CLASSROOM_MEDIAFILE_TX,
-
-    TTS_ALL                   = TTS_USER_ALL | TTS_SUBSCRIPTIONS_ALL | TTS_CLASSROOM_ALL
 };
 
 typedef uint32_t TTSEvents;
@@ -517,7 +482,7 @@ void saveVideoFormat(const VideoFormat& vidfmt);
 bool loadVideoFormat(VideoFormat& vidfmt);
 
 void playSoundEvent(SoundEvent event);
-void addTextToSpeechMessage(const QString& msg, TextToSpeechEvent event);
+void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg);
 
 void addLatestHost(const HostEntry& host);
 void deleteLatestHost(int index);

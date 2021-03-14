@@ -2392,6 +2392,15 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
             playSoundEvent(SOUNDEVENT_CHANNELMSG);
         else
             playSoundEvent(SOUNDEVENT_SENTCHANNELMSG);
+
+        User user;
+        if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
+        {
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL,
+                                   QString(tr("Channel text message from %1: %2")
+                                           .arg(getDisplayName(user))
+                                           .arg(_Q(textmsg.szMessage))));
+        }
         break;
     }
     case MSGTYPE_BROADCAST :

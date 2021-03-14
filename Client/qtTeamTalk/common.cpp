@@ -1010,7 +1010,7 @@ void playSoundEvent(SoundEvent event)
 #endif
 }
 
-void addTextToSpeechMessage(const QString& msg, TextToSpeechEvent event)
+void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
 {
     if (ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toUInt() & event)
     {
@@ -1027,11 +1027,11 @@ void addTextToSpeechMessage(const QString& msg, TextToSpeechEvent event)
             QString noquote = msg;
             noquote.replace('"', ' ');
             QProcess ps;
-            ps.start(QString("%1 -t 1 -a \"%2\" -u low \"%3: %4\"")
-                     .arg(TTSENGINE_NOTIFY_PATH)
-                     .arg(APPNAME_SHORT)
-                     .arg(APPNAME_SHORT)
-                     .arg(noquote));
+            ps.startDetached(QString("%1 -t 1 -a \"%2\" -u low \"%3: %4\"")
+                             .arg(TTSENGINE_NOTIFY_PATH)
+                             .arg(APPNAME_SHORT)
+                             .arg(APPNAME_SHORT)
+                             .arg(noquote));
             break;
         }
         }

@@ -29,6 +29,7 @@ enum
 };
 
 TTSEventsModel::TTSEventsModel(QObject* parent)
+    : QAbstractItemModel(parent)
 {
     m_ttsevents.push_back(TTS_USER_LOGGEDIN);
     m_ttsevents.push_back(TTS_USER_LOGGEDOUT);
@@ -154,6 +155,8 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
             return tr("Classroom allow desktop transmission changed");
         case TTS_CLASSROOM_MEDIAFILE_TX :
             return tr("Classroom allow media file transmission changed");
+        case TTS_NONE :
+            break;
         }
     }
     return QVariant();
