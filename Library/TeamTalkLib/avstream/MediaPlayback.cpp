@@ -28,6 +28,8 @@
 
 using namespace std::placeholders;
 
+#define DEBUG_MEDIAPLAYBACK 0
+
 MediaPlayback::MediaPlayback(int userdata, soundsystem::soundsystem_t sndsys,
                              mediaplayback_status_t statusfunc,
                              mediaplayback_audio_t audiofunc)
@@ -36,6 +38,7 @@ MediaPlayback::MediaPlayback(int userdata, soundsystem::soundsystem_t sndsys,
     , m_userdata(userdata)
     , m_sndsys(sndsys)
 {
+    MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("MediaPlayback - %p. ID: %d\n"), this, userdata);
 }
 
 MediaPlayback::~MediaPlayback()
@@ -49,6 +52,7 @@ MediaPlayback::~MediaPlayback()
     if (wait)
     {
         // block to ensure all audio has been played
+        MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("~MediaPlayback - %p. Waiting. ID: %d\n"), this, m_userdata);
         m_drained.get(wait);
     }
 
@@ -60,6 +64,7 @@ MediaPlayback::~MediaPlayback()
         m_audio_buffer.front()->release();
         m_audio_buffer.pop();
     }
+    MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("~MediaPlayback - %p. ID: %d\n"), this, m_userdata);
 }
 
 bool MediaPlayback::OpenFile(const ACE_TString& filename)
@@ -222,7 +227,7 @@ bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame& audio_frame,
     assert(!m_finished);
     if (m_audio_buffer.size() > 10)
     {
-        MYTRACE(ACE_TEXT("Media Playback buffer full. Discarding audio frame.\n"));
+        MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("Media Playback buffer full. Discarding audio frame.\n"));
         return false;
     }
 
@@ -294,7 +299,7 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
             m_drained.set(true);
     }
 
-    MYTRACE_COND(!mb, ACE_TEXT("Media playback underflow\n"));
+    MYTRACE_COND(DEBUG_MEDIAPLAYBACK && !mb, ACE_TEXT("Media playback underflow\n"));
 
     if (mb)
     {

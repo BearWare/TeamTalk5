@@ -342,7 +342,7 @@ void FFMpegStreamer::Run()
 
     while (!m_stop)
     {
-        MYTRACE(ACE_TEXT("Sync. Audio %u, Video %u\n"), ACE_UINT32(curaudiotime),
+        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Sync. Audio %u, Video %u\n"), ACE_UINT32(curaudiotime),
                 ACE_UINT32(curvideotime));
 
         if (curaudiotime >= 0)
