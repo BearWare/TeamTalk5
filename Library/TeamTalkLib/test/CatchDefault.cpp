@@ -1712,7 +1712,11 @@ TEST_CASE("ReactorDeadlock_BUG")
     REQUIRE(TT_Disconnect(ttclient));
 }
 
-TEST_CASE("ReactorDeadlock2")
+/* Known bugs */
+#define KNOWN_BUGS 0
+
+#if KNOWN_BUGS
+TEST_CASE("SSLBlocking_BUG")
 {
     ACE_SOCK_Acceptor acceptor(ACE_INET_Addr(u_short(0), "127.0.0.1"));
     ACE_INET_Addr bindd;
@@ -1805,6 +1809,7 @@ TEST_CASE("ReactorLockedTimerStart_BUG")
     // - ClientNode::MediaPlaybackStatus()
     // - ClientNode::MediaStreamStatusCallback()
 }
+#endif
 
 TEST_CASE("StreamMediaToAudioBlock")
 {
