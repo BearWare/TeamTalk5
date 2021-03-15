@@ -1,7 +1,8 @@
-*.lib
 *.a
-*.so
-*.dylib
 *.dll
-*.pdb
+*.dylib
 *.exp
+*.ilk
+*.lib
+*.pdb
+*.so
