@@ -3391,8 +3391,6 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
             return 0;
     }
 
-    bool first_playback = m_mediaplayback_streams.empty();
-
     m_mediaplayback_streams[m_mediaplayback_counter] = playback;
 
     if (!UpdateMediaPlayback(m_mediaplayback_counter, offset, paused, preprocessor))
@@ -3401,9 +3399,8 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
         return 0;
     }
 
-    if (first_playback)
+    if (!TimerExists(TIMER_REMOVE_LOCALPLAYBACK))
     {
-        TTASSERT(!TimerExists(TIMER_REMOVE_LOCALPLAYBACK));
         long ret = StartTimer(TIMER_REMOVE_LOCALPLAYBACK,  0, ACE_Time_Value::zero, ToTimeValue(PB_FRAMEDURATION_MSEC));
         TTASSERT(ret >= 0);
     }
