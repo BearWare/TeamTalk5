@@ -88,6 +88,9 @@ public:
 } wininit;
 #endif
 
+/* Known bugs */
+#define TEAMTALK_KNOWN_BUGS 0
+
 TEST_CASE( "Init TT", "" ) {
     TTInstance* ttinst;
     REQUIRE( (ttinst = TT_InitTeamTalkPoll()) );
@@ -1712,10 +1715,7 @@ TEST_CASE("ReactorDeadlock_BUG")
     REQUIRE(TT_Disconnect(ttclient));
 }
 
-/* Known bugs */
-#define KNOWN_BUGS 0
-
-#if KNOWN_BUGS
+#if TEAMTALK_KNOWN_BUGS
 TEST_CASE("SSLBlocking_BUG")
 {
     ACE_SOCK_Acceptor acceptor(ACE_INET_Addr(u_short(0), "127.0.0.1"));
@@ -1908,6 +1908,15 @@ TEST_CASE("LocalPlaybackToAudioBlock")
     }
 
     while (TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp) > 0);
+
+#if TEAMTALK_KNOWN_BUGS
+    // Drain message queue to avoid deadlock:
+    // ~MediaPlayback() -> MediaStreamer::Close() -> thread::wait()
+    // blocked by
+    // MediaPlayback::MediaStreamStatusCallback() -> TTMsgQueue::EnqueueMsg() -> ClientNodeBase::SuspendEventHandling() -> ACE_Reactor::end_reactor_event_loop()
+#else
+    WaitForEvent(txclient, CLIENTEVENT_NONE, 0);
+#endif
 
     REQUIRE(TT_StopLocalPlayback(txclient, *allsessions.rbegin()));
     REQUIRE(TT_StopLocalPlayback(txclient, *allsessions.begin()));
