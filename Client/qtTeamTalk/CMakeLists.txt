@@ -90,7 +90,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     find_library (CARBON_LIBRARY Carbon)
-    list (APPEND TEAMTALK_LINK_FLAGS ${CARBON_LIBRARY})
+    find_library (IOKIT_LIBRARY IOKit)
+    list (APPEND TEAMTALK_LINK_FLAGS ${CARBON_LIBRARY} ${IOKIT_LIBRARY})
 
     set (MACOSX_BUNDLE TRUE)
     set_source_files_properties(images/teamtalk.icns PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
