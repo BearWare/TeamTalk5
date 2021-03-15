@@ -1,11 +1,13 @@
+*.vcxproj*
+*_plugin_import.cpp
 .qmake.stash
 Makefile
 TeamTalk5.app
 TeamTalk5Pro.app
 build
-license.h
-*.vcxproj*
-*_plugin_import.cpp
-uic_wrapper.bat
 debug
+license.h
 release
+teamtalk5.pro.user
+teamtalk5pro.pro.user
+uic_wrapper.bat

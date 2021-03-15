@@ -1,5 +1,6 @@
 ./*.sln
 ./*.bat
-TAGS
-teamtalkd
+build-*
 CMakeFiles
+CMakeLists.txt.user
+TAGS
