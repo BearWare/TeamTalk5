@@ -168,6 +168,8 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
             ui.opus_dtxBox->setEnabled(false);
             ui.opus_txdelaySpinBox->setEnabled(false);
         }
+        // cannot modify hidden property
+        ui.hiddenchannelBox->setEnabled(false);
     }
     break;
     case CHANNEL_READONLY :

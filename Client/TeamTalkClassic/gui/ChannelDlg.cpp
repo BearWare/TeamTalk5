@@ -199,8 +199,8 @@ BOOL CChannelDlg::OnInitDialog()
         szUpdCh.LoadString(IDS_UPDEXISTINGCHANNEL);
         m_wndGrp.SetWindowText(szUpdCh);
         TRANSLATE(m_wndGrp, IDS_UPDEXISTINGCHANNEL);
-
-        TRANSLATE(m_wndGrp, IDS_UPDEXISTINGCHANNEL);
+        // cannot modify hidden property
+        m_wndHiddenChannel.EnableWindow(FALSE);
 
         OnBnClickedCheckForceagc();
     }
