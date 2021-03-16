@@ -1897,9 +1897,8 @@ TEST_CASE("LocalPlaybackToAudioBlock")
         allsessions.insert(sessionid);
     }
 
-    while (sessions.size())
+    while (sessions.size() && WaitForEvent(txclient, CLIENTEVENT_USER_AUDIOBLOCK, msg))
     {
-        REQUIRE(WaitForEvent(txclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
         REQUIRE(msg.nStreamType == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO);
         ab = TT_AcquireUserAudioBlock(txclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, msg.nSource);
         REQUIRE(ab);
@@ -1907,16 +1906,18 @@ TEST_CASE("LocalPlaybackToAudioBlock")
         sessions.erase(msg.nSource);
     }
 
-    while (TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp) > 0);
-
+    while (TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp) > 0)
+    {
 #if TEAMTALK_KNOWN_BUGS
-    // Drain message queue to avoid deadlock:
-    // ~MediaPlayback() -> MediaStreamer::Close() -> thread::wait()
-    // blocked by
-    // MediaPlayback::MediaStreamStatusCallback() -> TTMsgQueue::EnqueueMsg() -> ClientNodeBase::SuspendEventHandling() -> ACE_Reactor::end_reactor_event_loop()
+        // Drain message queue to avoid deadlock:
+        // ~MediaPlayback() -> MediaStreamer::Close() -> thread::wait()
+        // blocked by
+        // MediaPlayback::MediaStreamStatusCallback() -> TTMsgQueue::EnqueueMsg() -> ClientNodeBase::SuspendEventHandling() -> ACE_Reactor::end_reactor_event_loop()
 #else
-    WaitForEvent(txclient, CLIENTEVENT_NONE, 0);
+        WaitForEvent(txclient, CLIENTEVENT_NONE, 0);
 #endif
+    }
+
 
     REQUIRE(TT_StopLocalPlayback(txclient, *allsessions.rbegin()));
     REQUIRE(TT_StopLocalPlayback(txclient, *allsessions.begin()));
