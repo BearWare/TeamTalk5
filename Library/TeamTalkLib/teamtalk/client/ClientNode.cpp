@@ -54,7 +54,9 @@ using namespace std::placeholders;
 #define LOCAL_USERID                        0 // Local user recording
 #define MUX_USERID                          0x1001 // User ID for recording muxed stream
 #define LOCAL_TX_USERID                     0x1002 // User ID for local user transmitting
-#define LOCAL_MEDIAPLAYBACK_SESSIONID_MAX   17 // Max session id. Should be small because we use all on STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
+#define LOCAL_MEDIAPLAYBACK_SESSIONID_MAX   16 // Max session id. Should be small because we
+                                               // use all on STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
+                                               // in EnableAudioBlockCallback()
 
 #define SIMULATE_RX_PACKETLOSS 0
 #define SIMULATE_TX_PACKETLOSS 0
@@ -112,10 +114,10 @@ ClientNode::~ClientNode()
         Disconnect();
         StopStreamingMediaFile();
         CloseVideoCapture();
+        m_mediaplayback_streams.clear(); //clear all players before removing sound group
         CloseSoundInputDevice();
         CloseSoundOutputDevice();
         CloseSoundDuplexDevices();
-        m_mediaplayback_streams.clear(); //clear all players before removing sound group
     }
 
     m_soundsystem->RemoveSoundGroup(m_soundprop.soundgroupid);
@@ -443,6 +445,7 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         ret = -1;
         break;
     case TIMER_REMOVE_LOCALPLAYBACK :
+        assert(m_mediaplayback_streams.size() <= LOCAL_MEDIAPLAYBACK_SESSIONID_MAX);
         for (auto i=m_mediaplayback_streams.begin(); i != m_mediaplayback_streams.end();)
         {
             switch (i->second->GetStatus())
