@@ -3422,7 +3422,8 @@ extern "C" {
         /**
          * @brief A new audio block can be extracted.
          *
-         * The #AudioBlock can either be of #STREAMTYPE_VOICE or
+         * The #AudioBlock can either be of #STREAMTYPE_VOICE,
+         * STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO or
          * #STREAMTYPE_MEDIAFILE_AUDIO.
          *
          * This event is only generated if TT_EnableAudioBlockEvent()
