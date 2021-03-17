@@ -314,7 +314,6 @@ namespace teamtalk {
         bool m_voice_mute, m_audiofile_mute;
         int m_voice_stopped_delay, m_audiofile_stopped_delay;
         int m_recording_close_extra_delay = 0;
-        int m_voice_gain_level, m_audiofile_gain_level;
         StereoMask m_voice_stereo, m_audiofile_stereo;
 
         Subscriptions m_localsubscriptions, m_peersubscriptions;
