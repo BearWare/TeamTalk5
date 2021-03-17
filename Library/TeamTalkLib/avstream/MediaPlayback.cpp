@@ -46,7 +46,7 @@ MediaPlayback::~MediaPlayback()
     bool wait = false;
     {
         std::lock_guard<std::mutex> g(m_mutex);
-        wait = m_finished;
+        wait = (m_status == MEDIASTREAM_FINISHED);
     }
 
     if (wait)
@@ -224,7 +224,7 @@ bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame& audio_frame,
                                              ACE_Message_Block* mb_audio)
 {
     std::lock_guard<std::mutex> g(m_mutex);
-    assert(!m_finished);
+    assert(m_status != MEDIASTREAM_FINISHED);
     if (m_audio_buffer.size() > 10)
     {
         MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("Media Playback buffer full. Discarding audio frame.\n"));
@@ -256,8 +256,6 @@ void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,
         break;
     case MEDIASTREAM_FINISHED:
     {
-        std::lock_guard<std::mutex> g(m_mutex);
-        m_finished = true;
         m_completiontime = GETTIMESTAMP();
         break;
     }
@@ -266,7 +264,10 @@ void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,
         break;
     }
 
-    m_status = status;
+    {
+        std::lock_guard<std::mutex> g(m_mutex);
+        m_status = status;
+    }
 
     if(m_statusfunc)
         m_statusfunc(m_userdata, mfp, status);
@@ -295,7 +296,7 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
             mb = m_audio_buffer.front();
             m_audio_buffer.pop();
         }
-        else if (m_finished)
+        else if (m_status == MEDIASTREAM_FINISHED)
             m_drained.set(true);
     }
 

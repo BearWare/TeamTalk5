@@ -111,7 +111,6 @@ private:
 #if defined(ENABLE_WEBRTC)
     std::unique_ptr<webrtc::AudioProcessing> m_apm;
 #endif
-    bool m_finished = false;
     ACE_Future<bool> m_drained;
 };
 
