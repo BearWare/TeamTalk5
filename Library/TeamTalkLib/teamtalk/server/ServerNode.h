@@ -58,21 +58,21 @@
 
 #define GUARD_OBJ_NAME(name, this_obj, lock)            \
     guard_t name(lock);                                 \
-    (this_obj)->m_reactor_thr_id = ACE_Thread::self()
+    (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
 
 #define GUARD_OBJ_REACQUIRE(name, this_obj)             \
     (name).acquire();                                   \
-    (this_obj)->m_reactor_thr_id = ACE_Thread::self()
+    (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
 
 #define GUARD_OBJ_RELEASE(name, this_obj)               \
-    (this_obj)->m_reactor_thr_id = ACE_thread_t();      \
+    (this_obj)->m_reactorlock_thr_id = ACE_thread_t();      \
     (name).release()
 
 #define GUARD_OBJ(this_obj, lock)    GUARD_OBJ_NAME(g, this_obj, lock)
 
 #ifdef _DEBUG
 #define ASSERT_REACTOR_LOCKED(this_obj)                         \
-    TTASSERT(this_obj->m_reactor_thr_id == ACE_Thread::self())
+    TTASSERT(this_obj->m_reactorlock_thr_id == ACE_Thread::self())
 #else
 #define ASSERT_REACTOR_LOCKED(...)     (void)0
 #endif
@@ -129,7 +129,7 @@ namespace teamtalk {
         virtual ~ServerNode();
 
         ACE_Lock& lock();
-        ACE_thread_t m_reactor_thr_id;
+        ACE_thread_t m_reactorlock_thr_id;
 
         int GetNewUserID();
         serveruser_t GetUser(int userid, const ServerUser* caller);

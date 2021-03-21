@@ -28,9 +28,16 @@
 
 using namespace teamtalk;
 
+#if defined(ACE_WIN32)
+#define INVALID_THREAD_ID 0
+#else
+#define INVALID_THREAD_ID ACE_INVALID_HANDLE
+#endif
+
 ClientNodeBase::ClientNodeBase()
     : m_reactor(new ACE_Select_Reactor(), true) //Ensure we don't use ACE_WFMO_Reactor!!!
     , m_reactor_wait(0)
+    , m_reactor_thread(INVALID_THREAD_ID)
 {
     this->reactor(&m_reactor);
 }
@@ -42,24 +49,35 @@ ClientNodeBase::~ClientNodeBase()
 
 int ClientNodeBase::svc(void)
 {
-    int ret = m_reactor.owner (ACE_OS::thr_self ());
+    m_reactor_thread = ACE_OS::thr_self();
+    int ret = m_reactor.owner (ACE_OS::thr_self());
     assert(ret >= 0);
 
     m_reactor_wait.release();
 
     m_reactor.run_reactor_event_loop ();
-    MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread exited.\n")) );
+
+    m_reactor_thread = INVALID_THREAD_ID;
+
+    MYTRACE(ACE_TEXT("ClientNodeBase reactor thread exited.\n"));
+
     return 0;
+}
+
+bool ClientNodeBase::CanSuspend()
+{
+    return m_reactor_thread == ACE_OS::thr_self();
 }
 
 void ClientNodeBase::SuspendEventHandling(bool quit)
 {
+    MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread suspending.\n")) );
+
     m_reactor.end_reactor_event_loop();
 
     // don't wait for thread to die if SuspendEventHandling() is called from reactor loop
-    ACE_thread_t thr_id = 0;
-    m_reactor.owner(&thr_id);
-    if(thr_id != ACE_OS::thr_self())
+    assert(quit || m_reactor_thread == ACE_OS::thr_self());
+    if (m_reactor_thread != ACE_OS::thr_self())
         this->wait();
 
     MYTRACE(ACE_TEXT("ClientNodeBase reactor thread %s.\n"), (quit ? ACE_TEXT("quit") : ACE_TEXT("suspended")));
@@ -76,6 +94,7 @@ void ClientNodeBase::ResumeEventHandling()
         MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread waiting.\n")) );
         this->wait();
     }
+    assert(m_reactor_thread == INVALID_THREAD_ID);
 
     m_reactor.reset_reactor_event_loop();
     int ret = this->activate();

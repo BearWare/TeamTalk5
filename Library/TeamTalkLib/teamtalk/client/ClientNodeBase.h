@@ -109,7 +109,8 @@ namespace teamtalk {
     class EventSuspender
     {
     public:
-        virtual void SuspendEventHandling(bool quit = false) = 0;
+        virtual bool CanSuspend() = 0;
+        virtual void SuspendEventHandling(bool quit) = 0;
         virtual void ResumeEventHandling() = 0;
     };
 
@@ -124,6 +125,7 @@ namespace teamtalk {
 
         //the reactor associated with this client instance
         ACE_Reactor m_reactor;
+        ACE_thread_t m_reactor_thread;
 
         ACE_Recursive_Thread_Mutex m_timers_lock; //mutexes must be the last to be destroyed
 
@@ -147,7 +149,8 @@ namespace teamtalk {
         ClientNodeBase();
         virtual ~ClientNodeBase();
 
-        void SuspendEventHandling(bool quit = false) override;
+        bool CanSuspend();
+        void SuspendEventHandling(bool quit) override;
         void ResumeEventHandling() override;
 
         ACE_Lock& reactor_lock();

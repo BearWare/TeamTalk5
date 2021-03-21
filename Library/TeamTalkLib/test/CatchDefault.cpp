@@ -1850,15 +1850,12 @@ TEST_CASE("LocalPlaybackToAudioBlock")
 {
     auto txclient = InitTeamTalk();
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient));
-    REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
-    REQUIRE(JoinRoot(txclient));
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
     mfi.audioFmt.nChannels = 2;
     mfi.audioFmt.nSampleRate = 48000;
-    mfi.uDurationMSec = 10 * 1000;
+    mfi.uDurationMSec = 100 * 1000;
     ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("playbackfile.wav"), TT_STRLEN);
     REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
 
@@ -1883,7 +1880,11 @@ TEST_CASE("LocalPlaybackToAudioBlock")
 
     REQUIRE(TT_EnableAudioBlockEvent(txclient, sessionid, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, FALSE));
 
-    while (WaitForEvent(txclient, CLIENTEVENT_USER_AUDIOBLOCK, 0));
+    while (WaitForEvent(txclient, CLIENTEVENT_USER_AUDIOBLOCK, msg, 0))
+    {
+        REQUIRE(msg.nStreamType == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO);
+        REQUIRE(TT_AcquireUserAudioBlock(txclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, msg.nSource) == nullptr);
+    }
 
     // get all playback sessions
     REQUIRE(TT_EnableAudioBlockEvent(txclient, TT_LOCAL_USERID, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, TRUE));
@@ -1909,16 +1910,14 @@ TEST_CASE("LocalPlaybackToAudioBlock")
 
     while (TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp) > 0)
     {
-#if TEAMTALK_KNOWN_BUGS
-        // Drain message queue to avoid deadlock:
-        // ~MediaPlayback() -> MediaStreamer::Close() -> thread::wait()
-        // blocked by
-        // MediaPlayback::MediaStreamStatusCallback() -> TTMsgQueue::EnqueueMsg() -> ClientNodeBase::SuspendEventHandling() -> ACE_Reactor::end_reactor_event_loop()
-#else
-        WaitForEvent(txclient, CLIENTEVENT_NONE, 0);
-#endif
+        while (WaitForEvent(txclient, CLIENTEVENT_USER_AUDIOBLOCK, msg, 0))
+        {
+            REQUIRE(msg.nStreamType == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO);
+            ab = TT_AcquireUserAudioBlock(txclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, msg.nSource);
+            REQUIRE(ab);
+            REQUIRE(TT_ReleaseUserAudioBlock(txclient, ab));
+        }
     }
-
 
     REQUIRE(TT_StopLocalPlayback(txclient, *allsessions.rbegin()));
     REQUIRE(TT_StopLocalPlayback(txclient, *allsessions.begin()));

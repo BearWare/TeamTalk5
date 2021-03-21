@@ -67,10 +67,6 @@ using namespace std::placeholders;
 
 ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
                        : m_flags(CLIENT_CLOSED)
-#if defined(_DEBUG)
-                       , m_reactor_thr_id(0)
-                       , m_active_timerid(0)
-#endif
                        , m_connector(GetEventLoop(), ACE_NONBLOCK)
                        , m_def_stream(NULL)
 #if defined(ENABLE_ENCRYPTION)
@@ -78,7 +74,6 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
                        , m_crypt_stream(NULL)
 #endif
                        , m_packethandler(GetEventLoop())
-                       , m_listener(listener)
                        , m_myuserid(0)
                        , m_voice_stream_id(0)
                        , m_voice_pkt_counter(0)
@@ -91,6 +86,7 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
                        , m_mtu_data_size(MAX_PAYLOAD_DATA_SIZE)
                        , m_mtu_max_payload_size(MAX_PACKET_PAYLOAD_SIZE)
                        , m_version(version)
+                       , m_listener(listener)
 {
     MYTRACE(ACE_TEXT("ClientNode %p\n"), this);
 
@@ -3407,6 +3403,9 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
         long ret = StartTimer(TIMER_REMOVE_LOCALPLAYBACK,  0, ACE_Time_Value::zero, ToTimeValue(PB_FRAMEDURATION_MSEC));
         TTASSERT(ret >= 0);
     }
+
+    MYTRACE(ACE_TEXT("Opened local media playback #%d for file %s. Active %d \n"),
+            m_mediaplayback_counter, filename.c_str(), int(m_mediaplayback_streams.size()));
 
     return m_mediaplayback_counter;
 }

@@ -28,6 +28,8 @@
 #define INTMSG_MAX_SIZE (0x7F000000)
 #define INTMSG_SUSPEND_SIZE (1024*1024)
 
+#define DEBUG_TTMSGQUEUE 0
+
 struct IntTTMessage
 {
     ClientEvent event;
@@ -112,25 +114,53 @@ void TTMsgQueue::InitMsgQueue()
 
 void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
 {
-    size_t old_size = m_event_queue.message_bytes();
-    ACE_Time_Value tv;
-    int ret = m_event_queue.enqueue(mb, &tv);
-    TTASSERT(ret >= 0);
-    if(m_suspender &&
-       old_size < INTMSG_SUSPEND_SIZE &&
-       m_event_queue.message_bytes() >= INTMSG_SUSPEND_SIZE)
+    bool suspend = false;
     {
-        m_suspender->SuspendEventHandling();
+        std::unique_lock<std::mutex> g(m_mutex);
 
-        IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_INTERNAL_ERROR,
-                                         0, __CLIENTERRORMSG);
-        msg->clienterrmsg->nErrorNo = INTERR_TTMESSAGE_QUEUE_OVERFLOW;
+        size_t old_size = m_event_queue.message_bytes();
+        if (old_size < INTMSG_SUSPEND_SIZE &&
+            m_event_queue.message_bytes() + mb->size() > INTMSG_SUSPEND_SIZE)
+        {
+            mb->release();
 
-        ACE_OS::strsncpy(msg->clienterrmsg->szErrorMsg,
-                         ACE_TEXT("The internal message queue has overflowed"),
-                         TT_STRLEN);
-        ret = m_event_queue.enqueue(mb, &tv);
-        assert(ret >= 0);
+            IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_INTERNAL_ERROR,
+                                             0, __CLIENTERRORMSG);
+            msg->clienterrmsg->nErrorNo = INTERR_TTMESSAGE_QUEUE_OVERFLOW;
+
+            ACE_OS::strsncpy(msg->clienterrmsg->szErrorMsg,
+                             ACE_TEXT("The internal message queue has overflowed"),
+                             TT_STRLEN);
+            ACE_Time_Value tv;
+            int ret = m_event_queue.enqueue(mb, &tv);
+            assert(ret >= 0);
+            assert(!m_suspended);
+            if (m_suspender)
+                m_suspended = suspend = m_suspender->CanSuspend();
+            else
+                m_suspended = suspend = true;
+
+            MYTRACE(ACE_TEXT("TTMsgQueue message queue has overflowed\n"));
+        }
+        else if (m_event_queue.message_bytes() + mb->size() <= INTMSG_SUSPEND_SIZE)
+        {
+            ACE_Time_Value tv;
+            int ret = m_event_queue.enqueue(mb, &tv);
+            TTASSERT(ret >= 0);
+        }
+        else
+        {
+            mb->release();
+            MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("TTMsgQueue message queue is overflowed\n"));
+            if (!m_suspended && m_suspender && m_suspender->CanSuspend())
+                m_suspended = suspend = true;
+        }
+        MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Enqueue: Old size: %u, Cur size: %u\n"), old_size, m_event_queue.message_bytes());
+    }
+
+    if (suspend && m_suspender)
+    {
+        m_suspender->SuspendEventHandling(false);
     }
 
 #if defined(WIN32)
@@ -141,28 +171,38 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
 
 TTBOOL TTMsgQueue::GetMessage(TTMessage& msg, ACE_Time_Value* tv)
 {
-    size_t old_size = m_event_queue.message_bytes();
-    ACE_Message_Block* mb;
-
-    if(m_event_queue.dequeue(mb, tv)>=0)
+    bool resume = false;
+    ACE_Message_Block* mb = nullptr;
     {
-        IntTTMessage* intmsg = reinterpret_cast<IntTTMessage*>(mb->rd_ptr());
-        msg.nClientEvent = intmsg->event;
-        msg.nSource = intmsg->nSource;
-        msg.ttType = intmsg->ttType;
-        int size = TT_DBG_SIZEOF(intmsg->ttType);
-        TTASSERT(!size || intmsg->any);
-        if(size>0 && intmsg->any)
-            ACE_OS::memcpy(msg.data, intmsg->any, size);
-        mb->release();
+        if (m_event_queue.dequeue(mb, tv) >= 0)
+        {
+            std::unique_lock<std::mutex> g(m_mutex);
 
-        if(m_suspender &&
-            old_size >= INTMSG_SUSPEND_SIZE &&
-            m_event_queue.message_bytes()<INTMSG_SUSPEND_SIZE)
-            m_suspender->ResumeEventHandling();
-        return TRUE;
+            IntTTMessage* intmsg = reinterpret_cast<IntTTMessage*>(mb->rd_ptr());
+            msg.nClientEvent = intmsg->event;
+            msg.nSource = intmsg->nSource;
+            msg.ttType = intmsg->ttType;
+            int size = TT_DBG_SIZEOF(intmsg->ttType);
+            TTASSERT(!size || intmsg->any);
+            if(size>0 && intmsg->any)
+                ACE_OS::memcpy(msg.data, intmsg->any, size);
+            mb->release();
+
+            MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Dequeue: Cur size: %u\n"),
+                         m_event_queue.message_bytes());
+
+            if (m_suspended && m_event_queue.message_bytes() <= INTMSG_SUSPEND_SIZE)
+            {
+                resume = true;
+                m_suspended = false;
+            }
+        }
     }
-    return FALSE;
+
+    if (resume)
+        m_suspender->ResumeEventHandling();
+
+    return mb != nullptr;
 }
 
 void TTMsgQueue::RegisterEventSuspender(teamtalk::EventSuspender* suspender)
@@ -175,6 +215,7 @@ void TTMsgQueue::OnConnectSuccess()
     ACE_Message_Block* mb;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CON_SUCCESS,
                                      0, __NONE);
+    ACE_UNUSED_ARG(msg);
     EnqueueMsg(mb);
 }
 
@@ -183,6 +224,7 @@ void TTMsgQueue::OnConnectFailed()
     ACE_Message_Block* mb;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CON_FAILED,
                                      0, __NONE);
+    ACE_UNUSED_ARG(msg);
     EnqueueMsg(mb);
 }
 
@@ -191,6 +233,7 @@ void TTMsgQueue::OnConnectionLost()
     ACE_Message_Block* mb;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CON_LOST,
                                      0, __NONE);
+    ACE_UNUSED_ARG(msg);
     EnqueueMsg(mb);
 }
 
@@ -208,6 +251,7 @@ void TTMsgQueue::OnLoggedOut()
     ACE_Message_Block* mb;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_MYSELF_LOGGEDOUT,
                                      0, __NONE);
+    ACE_UNUSED_ARG(msg);
     EnqueueMsg(mb);
 }
 
@@ -246,6 +290,7 @@ void TTMsgQueue::OnUserJoinChannel(const teamtalk::ClientUser& user,
                                      0, __USER);
     Convert(user, *msg->user);
     EnqueueMsg(mb);
+    ACE_UNUSED_ARG(chan);
 }
 
 void TTMsgQueue::OnUserLeftChannel(const teamtalk::ClientUser& user,
@@ -298,6 +343,7 @@ void TTMsgQueue::OnAddFile(const teamtalk::ClientChannel& chan,
                                      __REMOTEFILE);
     Convert(file, *msg->remotefile);
     EnqueueMsg(mb);
+    ACE_UNUSED_ARG(chan);
 }
 
 void TTMsgQueue::OnRemoveFile(const teamtalk::ClientChannel& chan,
@@ -309,6 +355,7 @@ void TTMsgQueue::OnRemoveFile(const teamtalk::ClientChannel& chan,
                                      __REMOTEFILE);
     Convert(file, *msg->remotefile);
     EnqueueMsg(mb);
+    ACE_UNUSED_ARG(chan);
 }
 
 void TTMsgQueue::OnUserAccount(const teamtalk::UserAccount& account)
@@ -342,10 +389,12 @@ void TTMsgQueue::OnTextMessage(const teamtalk::TextMessage& textmsg)
 
 void TTMsgQueue::OnJoinedChannel(int channelid)
 {
+    ACE_UNUSED_ARG(channelid);
 }
 
 void TTMsgQueue::OnLeftChannel(int channelid)
 {
+    ACE_UNUSED_ARG(channelid);
 }
 
 void TTMsgQueue::OnKicked(const teamtalk::clientuser_t& user, int channelid)
@@ -411,6 +460,7 @@ void TTMsgQueue::OnCommandSuccess(int cmdid)
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_SUCCESS,
                                      cmdid, __NONE);
     EnqueueMsg(mb);
+    ACE_UNUSED_ARG(msg);
 }
 
 void TTMsgQueue::OnInternalError(int errorno, const ACE_TString& msg_)

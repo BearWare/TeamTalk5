@@ -53,11 +53,11 @@
 
 #if defined(_DEBUG)
 #define ASSERT_REACTOR_LOCKED(this_obj)                         \
-    TTASSERT(this_obj->m_reactor_thr_id == ACE_Thread::self())
+    TTASSERT(this_obj->m_reactorlock_thr_id == ACE_Thread::self())
 #define GUARD_REACTOR(this_obj)                         \
     guard_t g( this_obj->reactor_lock() );              \
     /*PROFILER_ST(ACE_TEXT("Thread"));*/                \
-    this_obj->m_reactor_thr_id = ACE_Thread::self()
+    this_obj->m_reactorlock_thr_id = ACE_Thread::self()
 #else
 #define ASSERT_REACTOR_LOCKED(...)     (void)0
 #define GUARD_REACTOR(this_obj)                 \
@@ -172,8 +172,8 @@ namespace teamtalk {
         virtual ~ClientNode();
 
 #if defined(_DEBUG)
-        ACE_thread_t m_reactor_thr_id;
-        uint32_t m_active_timerid;
+        ACE_thread_t m_reactorlock_thr_id = 0;
+        uint32_t m_active_timerid = 0;
 #endif
         
         ACE_Recursive_Thread_Mutex& lock_sndprop() { return m_sndgrp_lock; }

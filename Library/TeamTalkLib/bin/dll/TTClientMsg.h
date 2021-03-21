@@ -39,6 +39,8 @@ class TTMsgQueue
 {
     msg_queue_t m_event_queue;
     teamtalk::EventSuspender* m_suspender;
+    bool m_suspended = false;
+    std::mutex m_mutex;
 #if defined(WIN32)
     HWND m_hKeyWnd;
     HWND m_hWnd;
