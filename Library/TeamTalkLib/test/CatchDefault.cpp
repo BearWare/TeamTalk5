@@ -1845,7 +1845,6 @@ TEST_CASE("StreamMediaToAudioBlock")
     REQUIRE(TT_ReleaseUserAudioBlock(txclient, ab));
 }
 
-#if TEAMTALK_KNOWN_BUGS
 TEST_CASE("LocalPlaybackToAudioBlock")
 {
     auto txclient = InitTeamTalk();
@@ -1925,7 +1924,6 @@ TEST_CASE("LocalPlaybackToAudioBlock")
     REQUIRE(TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp) > 0);
     REQUIRE(TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp) > 0);
 }
-#endif
 
 TEST_CASE("FirstVoiceStreamPacket")
 {
