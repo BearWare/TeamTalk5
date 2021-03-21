@@ -149,7 +149,7 @@ namespace teamtalk {
         ClientNodeBase();
         virtual ~ClientNodeBase();
 
-        bool CanSuspend();
+        bool CanSuspend() override;
         void SuspendEventHandling(bool quit) override;
         void ResumeEventHandling() override;
 

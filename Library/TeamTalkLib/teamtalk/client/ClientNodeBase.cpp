@@ -30,6 +30,8 @@ using namespace teamtalk;
 
 #if defined(ACE_WIN32)
 #define INVALID_THREAD_ID 0
+#elif defined(__APPLE__)
+#define INVALID_THREAD_ID nullptr
 #else
 #define INVALID_THREAD_ID ACE_INVALID_HANDLE
 #endif
