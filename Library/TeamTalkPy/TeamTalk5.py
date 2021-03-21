@@ -28,6 +28,7 @@ else:
 INT32 = c_int
 INT64 = c_longlong
 UINT32 = c_uint
+FLOAT = c_float
 TT_STRLEN = 512
 TT_VIDEOFORMATS_MAX = 1024
 TT_TRANSMITUSERS_MAX = 128
@@ -57,6 +58,7 @@ class SoundDeviceFeature(UINT32):
     SOUNDDEVICEFEATURE_DENOISE = 0x0004
     SOUNDDEVICEFEATURE_3DPOSITION = 0x0008
     SOUNDDEVICEFEATURE_DUPLEXMODE = 0x0010
+    SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE = 0x0020
 
 class SoundDevice(Structure):
     _fields_ = [
@@ -284,7 +286,26 @@ class SpeexDSP(Structure):
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.SPEEXDSP) == ctypes.sizeof(SpeexDSP))
-        
+
+class WebRTCAudioPreprocessor(Structure):
+    _fields_ = [
+        ("preamplifier_bEnable", BOOL),
+        ("preamplifier_fFixedGainFactor", FLOAT),
+        ("echocanceller_bEnable", BOOL),
+        ("noisesuppression_bEnable", BOOL),
+        ("noisesuppression_nLevel", INT32),
+        ("voicedetection_bEnable", BOOL),
+        ("gaincontroller2_bEnable", BOOL),
+        ("gaincontroller2_fixeddigital_fGainDB", FLOAT),
+        ("gaincontroller2_adaptivedigital_bEnable", BOOL),
+        ("gaincontroller2_adaptivedigital_fInitialSaturationMarginDB", FLOAT),
+        ("gaincontroller2_adaptivedigital_fExtraSaturationMarginDB", FLOAT),
+        ("gaincontroller2_adaptivedigital_fMaxGainChangeDBPerSecond", FLOAT),
+        ("gaincontroller2_adaptivedigital_fMaxOutputNoiseLevelDBFS", FLOAT),
+        ("levelestimation_bEnable", BOOL)
+    ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.WEBRTCAUDIOPREPROCESSOR) == ctypes.sizeof(WebRTCAudioPreprocessor))
 
 class TTAudioPreprocessor(Structure):
     _fields_ = [
@@ -299,11 +320,13 @@ class AudioPreprocessorType(INT32):
     NO_AUDIOPREPROCESSOR = 0
     SPEEXDSP_AUDIOPREPROCESSOR = 1
     TEAMTALK_AUDIOPREPROCESSOR = 2
+    WEBRTC_AUDIOPREPROCESSOR = 3
 
 class AudioPreprocessorUnion(Union):
     _fields_ = [
     ("speexdsp", SpeexDSP),
-    ("ttpreprocessor", TTAudioPreprocessor)
+    ("ttpreprocessor", TTAudioPreprocessor),
+    ("webrtc", WebRTCAudioPreprocessor)
     ]
 
 class AudioPreprocessor(Structure):
@@ -445,6 +468,7 @@ class UserRight(UINT32):
     USERRIGHT_LOCKED_NICKNAME = 0x00040000
     USERRIGHT_LOCKED_STATUS = 0x00080000
     USERRIGHT_RECORD_VOICE = 0x00100000
+    USERRIGHT_VIEW_HIDDEN_CHANNELS = 0x00200000
 
 class ServerProperties(Structure):
     _fields_ = [
@@ -645,6 +669,7 @@ class ChannelType(UINT32):
     CHANNEL_OPERATOR_RECVONLY = 0x0008
     CHANNEL_NO_VOICEACTIVATION = 0x0010
     CHANNEL_NO_RECORDING = 0x0020
+    CHANNEL_HIDDEN = 0x0040
 
 class Channel(Structure):
     _fields_ = [
@@ -738,7 +763,8 @@ class ClientStatistics(Structure):
     ("nUdpPingTimeMs", INT32),
     ("nTcpPingTimeMs", INT32),
     ("nTcpServerSilenceSec", INT32),
-    ("nUdpServerSilenceSec", INT32)
+    ("nUdpServerSilenceSec", INT32),
+    ("nSoundInputDeviceDelayMSec", INT32)
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.CLIENTSTATISTICS) == ctypes.sizeof(ClientStatistics))
@@ -747,7 +773,8 @@ class JitterConfig(Structure):
     _fields_ = [
     ("nFixedDelayMSec", INT32),
     ("bUseAdativeDejitter", BOOL),
-    ("nMaxAdaptiveDelayMSec", INT32)
+    ("nMaxAdaptiveDelayMSec", INT32),
+    ("nActiveAdaptiveDelayMSec", INT32)
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.JitterConfig) == ctypes.sizeof(JitterConfig))
@@ -756,7 +783,8 @@ class ClientError(INT32):
     CMDERR_SUCCESS = 0
     CMDERR_SYNTAX_ERROR = 1000
     CMDERR_UNKNOWN_COMMAND = 1001
-    CMDERR_MISSING_PARAMETER = 1002    CMDERR_INCOMPATIBLE_PROTOCOLS = 1003
+    CMDERR_MISSING_PARAMETER = 1002
+    CMDERR_INCOMPATIBLE_PROTOCOLS = 1003
     CMDERR_UNKNOWN_AUDIOCODEC = 1004
     CMDERR_INVALID_USERNAME = 1005
     CMDERR_INCORRECT_CHANNEL_PASSWORD = 2001
@@ -788,6 +816,7 @@ class ClientError(INT32):
     CMDERR_FILESHARING_DISABLED = 3013
     CMDERR_CHANNEL_HAS_USERS = 3015
     CMDERR_LOGINSERVICE_UNAVAILABLE = 3016
+    CMDERR_CHANNEL_CANNOT_BE_HIDDEN = 3017
     INTERR_SNDINPUT_FAILURE = 10000
     INTERR_SNDOUTPUT_FAILURE = 10001
     INTERR_AUDIOCODEC_INIT_FAILED = 10002
@@ -847,6 +876,7 @@ class ClientEvent(UINT32):
     CLIENTEVENT_STREAM_MEDIAFILE = CLIENTEVENT_NONE + 1060
     CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070
     CLIENTEVENT_AUDIOINPUT = CLIENTEVENT_NONE + 1080
+    CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET = CLIENTEVENT_NONE + 1090
 
 # Underscore has special meaning in Python, so we remove it
 class TTType(INT32):
@@ -892,6 +922,8 @@ class TTType(INT32):
     UINT32 = 39
     AUDIOINPUTPROGRESS = 40
     JITTERCONFIG = 41
+    WEBRTCAUDIOPREPROCESSOR = 42
+    ENCRYPTIONCONTEXT = 43
 
 class TTMessageUnion(Union):
     _fields_ = [
