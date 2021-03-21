@@ -3736,13 +3736,12 @@ void CTeamTalkDlg::OnFilePreferences()
         ///////////////////////////////////////////////////
         //    write settings for Sound System
         //////////////////////////////////////////////////
-        BOOL bRestart = FALSE;
-        bRestart |= m_xmlSettings.GetSoundOutputDevice(UNDEFINED) != soundpage.m_nOutputDevice;
-        bRestart |= m_xmlSettings.GetSoundInputDevice(UNDEFINED) != soundpage.m_nInputDevice;
-        bRestart |= m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE) != (bool)soundpage.m_bAGC;
-        bRestart |= m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE) != (bool)soundpage.m_bEchoCancel;
-        bRestart |= m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE) != (bool)soundpage.m_bDenoise;
-        bRestart = bRestart && (TT_GetFlags(ttInst) & CLIENT_CONNECTION);
+        BOOL bRestartSound = FALSE;
+        bRestartSound |= m_xmlSettings.GetSoundOutputDevice(UNDEFINED) != soundpage.m_nOutputDevice;
+        bRestartSound |= m_xmlSettings.GetSoundInputDevice(UNDEFINED) != soundpage.m_nInputDevice;
+        bRestartSound |= m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE) != bool(soundpage.m_bAGC);
+        bRestartSound |= m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE) != bool(soundpage.m_bEchoCancel);
+        bRestartSound |= m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE) != bool(soundpage.m_bDenoise);
 
         m_xmlSettings.SetSoundOutputDevice(soundpage.m_nOutputDevice);
         m_xmlSettings.SetSoundOutputDevice(STR_UTF8(soundpage.m_szOutputDeviceID));
@@ -3767,7 +3766,7 @@ void CTeamTalkDlg::OnFilePreferences()
             }
         }
 
-        if(bRestart && soundpage.m_nInputDevice != UNDEFINED && soundpage.m_nOutputDevice != UNDEFINED)
+        if (bRestartSound)
         {
             if (!InitSound())
             {
