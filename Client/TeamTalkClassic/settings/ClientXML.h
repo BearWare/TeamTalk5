@@ -41,7 +41,7 @@
 #define DEFAULT_SOUND_GAIN_LEVEL                    50
 #define DEFAULT_MEDIA_VS_VOICE                      100
 #define DEFAULT_CLIENT_SOUNDS_VS_VOICE              50
-#define DEFAULT_SOUNDEVENT_PLAYBACKMODE             PLAYBACKMODE_TEAMTALK
+#define DEFAULT_SOUNDEVENT_PLAYBACKMODE             PLAYBACKMODE_SYNC
 
 #define DEFAULT_SOUNDEVENT_USERJOINED               "Sounds\\newuser.wav"
 #define DEFAULT_SOUNDEVENT_USERLEFT                 "Sounds\\removeuser.wav"
