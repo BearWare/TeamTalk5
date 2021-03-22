@@ -1128,14 +1128,6 @@ namespace soundsystem {
                 return;
 
             streamer->volume = volume;
-
-            if(!streamer->mute && !IsAllMute(streamer->sndgrpid))
-            {
-                //compensate for Master vol
-                int master = GetMasterVolume(streamer->sndgrpid);
-                int newvol = (int)((((float)master /(float)VOLUME_DEFAULT) * (float)volume)+0.5f);
-                float fVol = (float)newvol / (float)VOLUME_DEFAULT;
-            }
         }
 
         virtual int GetVolume(StreamPlayer* player)
