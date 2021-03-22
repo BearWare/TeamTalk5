@@ -38,12 +38,12 @@ AudioPlayer::AudioPlayer(int userid, StreamType stream_type,
                          audio_resampler_t& resampler)
 : m_userid(userid)
 , m_streamtype(stream_type)
+, m_audio_callback(audio_cb)
 , m_talking(false)
 , m_codec(codec)
 , m_last_playback(0)
 , m_play_stopped_delay(STOPPED_TALKING_DELAY)
 , m_played_packet_time(0)
-, m_audio_callback(audio_cb)
 , m_samples_played(0)
 , m_resampler(resampler)
 , m_stereo(STEREO_BOTH)
@@ -160,13 +160,12 @@ void AudioPlayer::Reset()
     //how long the player has been inactive.
 }
 
-bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
+bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& /*streamer*/,
                                  short* output_buffer, int output_samples)
 {
     int input_channels = GetAudioCodecChannels(m_codec);
     if(GetAudioCodecSimulateStereo(m_codec))
         input_channels = 2;
-    int input_samplerate = GetAudioCodecSampleRate(m_codec);
     int input_samples = GetAudioCodecCbSamples(m_codec);
     media::AudioFormat fmt = GetAudioCodecAudioFormat(m_codec);
 
@@ -466,7 +465,7 @@ void SpeexPlayer::Reset()
 }
 
 bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
-                              short* output_buffer, int n_samples)
+                              short* output_buffer, int /*n_samples*/)
 {
     if(enc_frame.enc_frames.size()) //packet available
     {
@@ -477,7 +476,7 @@ bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
         // first do bounds check
         std::vector<int> frmsizes = ConvertFrameSizes(enc_frame.enc_frame_sizes);
         int totalsize = SumFrameSizes(frmsizes);
-        assert(totalsize == enc_frame.enc_frames.size());
+        assert(totalsize == int(enc_frame.enc_frames.size()));
         if (totalsize > int(enc_frame.enc_frames.size()))
             return false;
 
@@ -553,13 +552,13 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
             m_decoder.Reset();
 
         int fpp = GetAudioCodecFramesPerPacket(m_codec);
-        assert(fpp == enc_frame.enc_frame_sizes.size());
-        if (fpp != enc_frame.enc_frame_sizes.size())
+        assert(fpp == int(enc_frame.enc_frame_sizes.size()));
+        if (fpp != int(enc_frame.enc_frame_sizes.size()))
             return false;
 
         // first do bounds check
         int frmsizes = SumFrameSizes(enc_frame.enc_frame_sizes);
-        assert(frmsizes == enc_frame.enc_frames.size());
+        assert(frmsizes == int(enc_frame.enc_frames.size()));
         if (frmsizes > int(enc_frame.enc_frames.size()))
             return false;
 
@@ -622,7 +621,7 @@ WebMPlayer::~WebMPlayer()
 }
 
 bool WebMPlayer::AddPacket(const VideoPacket& packet,
-                           size_t* n_packets/* = NULL*/)
+                           size_t* /*n_packets*//* = NULL*/)
 {
     m_local_timestamp = GETTIMESTAMP();
 
@@ -644,7 +643,6 @@ bool WebMPlayer::AddPacket(const VideoPacket& packet,
         m_decoder_ready = true;
     }
 
-    size_t n_frames = m_video_frames.size();
     ProcessVideoPacket(packet);
 
     // dumpFragments();

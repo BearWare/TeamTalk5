@@ -1239,7 +1239,7 @@ void ClientNode::EncodedAudioFileFrame(const teamtalk::AudioCodec& codec,
 }
 
 
-void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
+void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& /*streamer*/,
                                  const short* buffer, int n_samples)
 {
     rguard_t g_snd(lock_sndprop());
@@ -1410,7 +1410,7 @@ bool ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
     }
 }
 
-bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& video_frame,
+bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& /*video_frame*/,
                                           ACE_Message_Block* mb_video)
 {
     TTASSERT(m_flags & CLIENT_STREAM_VIDEOFILE);
@@ -1418,8 +1418,7 @@ bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& video_frame,
     if (!m_videofile_thread)
         return false;
 
-    VideoFormat cap_format = m_videofile_thread->GetVideoFormat();
-
+//    VideoFormat cap_format = m_videofile_thread->GetVideoFormat();
 //     static int x = 1;
 //     if((x++ % 200) == 0)
 //         WriteBitmap(i2string(x) + ACE_TString(".bmp"), video_frame.width, video_frame.height, 4,
@@ -1597,7 +1596,7 @@ bool ClientNode::CancelFileTransfer(int transferid)
     return false;
 }
 
-void ClientNode::ReceivedPacket(PacketHandler* ph,
+void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
                                 const char* packet_data, int packet_size, 
                                 const ACE_INET_Addr& addr)
 {
@@ -1918,12 +1917,10 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
 
 
 void ClientNode::ReceivedHelloAckPacket(const HelloPacket& packet,
-                                        const ACE_INET_Addr& addr)
+                                        const ACE_INET_Addr& /*addr*/)
 {
     ASSERT_REACTOR_THREAD(*GetEventLoop());
     ASSERT_REACTOR_LOCKED(this);
-
-    int userid = packet.GetSrcUserID();
 
     if( (m_flags & CLIENT_CONNECTING))//server ACK
     {
@@ -3411,7 +3408,7 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
 }
 
 bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused, 
-                                     const AudioPreprocessor& preprocessor, bool initial)
+                                     const AudioPreprocessor& preprocessor, bool /*initial*/)
 {
     ASSERT_REACTOR_LOCKED(this);
 
@@ -3679,7 +3676,7 @@ bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
     return false; //ignored 'org_frame'
 }
 
-bool ClientNode::EncodedVideoFileFrame(ACE_Message_Block* org_frame,
+bool ClientNode::EncodedVideoFileFrame(ACE_Message_Block* /*org_frame*/,
                                        const char* enc_data, int enc_len,
                                        ACE_UINT32 packet_no,
                                        ACE_UINT32 timestamp)
@@ -4282,7 +4279,7 @@ void ClientNode::LoggedOut()
         {
             m_channelrecord.CloseFile(channels.front()->GetChannelID());
             auto subs = channels.front()->GetSubChannels();
-            for (auto c : subs)
+            for (auto& c : subs)
                 channels.push(c);
 
             channels.pop();
@@ -4951,13 +4948,13 @@ void ClientNode::OnOpened()
 }
 
 #if defined(ENABLE_ENCRYPTION)
-void ClientNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
+void ClientNode::OnOpened(CryptStreamHandler::StreamHandler_t& /*handler*/)
 {
     OnOpened();
 }
 #endif
 
-void ClientNode::OnOpened(DefaultStreamHandler::StreamHandler_t& handler)
+void ClientNode::OnOpened(DefaultStreamHandler::StreamHandler_t& /*handler*/)
 {
     OnOpened();
 }
@@ -5002,13 +4999,13 @@ void ClientNode::OnClosed()
 }
 
 #if defined(ENABLE_ENCRYPTION)
-void ClientNode::OnClosed(CryptStreamHandler::StreamHandler_t& handler)
+void ClientNode::OnClosed(CryptStreamHandler::StreamHandler_t& /*handler*/)
 {
     OnClosed();
 }
 #endif
 
-void ClientNode::OnClosed(DefaultStreamHandler::StreamHandler_t& handler)
+void ClientNode::OnClosed(DefaultStreamHandler::StreamHandler_t& /*handler*/)
 {
     OnClosed();
 }
@@ -5031,13 +5028,13 @@ bool ClientNode::OnReceive(const char* buff, int len)
 }
 
 #if defined(ENABLE_ENCRYPTION)
-bool ClientNode::OnReceive(CryptStreamHandler::StreamHandler_t& handler, const char* buff, int len)
+bool ClientNode::OnReceive(CryptStreamHandler::StreamHandler_t& /*handler*/, const char* buff, int len)
 {
     return OnReceive(buff, len);
 }
 #endif
 
-bool ClientNode::OnReceive(DefaultStreamHandler::StreamHandler_t& handler, const char* buff, int len)
+bool ClientNode::OnReceive(DefaultStreamHandler::StreamHandler_t& /*handler*/, const char* buff, int len)
 {
     return OnReceive(buff, len);
 }
@@ -5253,7 +5250,7 @@ void ClientNode::HandleServerUpdate(const mstrings_t& properties)
     m_listener->OnServerUpdate(m_serverinfo);
 }
 
-void ClientNode::HandleKeepAlive(const mstrings_t& properties)
+void ClientNode::HandleKeepAlive(const mstrings_t& /*properties*/)
 {
     ASSERT_REACTOR_LOCKED(this);
 
@@ -5270,7 +5267,6 @@ void ClientNode::HandleLoggedIn(const mstrings_t& properties)
     ACE_TString nick, username;
     ACE_TString ipaddr, clientname;
     ACE_INET_Addr udpaddr;
-    int udpport = 0;
     int status = 0;
     ACE_TString statusmsg;
     ACE_TString version;
@@ -5422,7 +5418,6 @@ void ClientNode::HandleUpdateUser(const mstrings_t& properties)
     ACE_TString ipaddr, clientname;
     int statusmode = 0;
     ACE_TString statusmsg;
-    UserTypes type = USERTYPE_NONE;
     Subscriptions localsubscript = SUBSCRIBE_NONE, peersubscript = SUBSCRIBE_NONE;
 
     if(!GetProperty(properties, TT_USERID, userid))
@@ -5465,8 +5460,6 @@ void ClientNode::HandleRemoveUser(const mstrings_t& properties)
     ASSERT_REACTOR_LOCKED(this);
 
     int userid = 0, channelid = 0;
-    Subscriptions localsubscript = SUBSCRIBE_NONE, peersubscript = SUBSCRIBE_NONE;
-
     GetProperty(properties, TT_CHANNELID, channelid);
     GetProperty(properties, TT_USERID, userid);
 
@@ -5780,7 +5773,7 @@ void ClientNode::HandleCmdError(const mstrings_t& properties)
         m_listener->OnCommandError(m_current_cmdid, errnum, msg);
 }
 
-void ClientNode::HandleOk(const mstrings_t& properties)
+void ClientNode::HandleOk(const mstrings_t& /*properties*/)
 {
     ASSERT_REACTOR_LOCKED(this);
 
