@@ -89,20 +89,16 @@ void DuplexEnded(SoundSystem* sndsys, DuplexStreamer& dpxStream)
 void SoftVolume(SoundSystem* sndsys, const OutputStreamer& streamer,
                 short* buffer, int samples)
 {
-    int mastervolume = sndsys->GetMasterVolume(streamer.sndgrpid);
-    if (mastervolume == 0 || streamer.volume == 0 || streamer.mute ||
-        sndsys->IsAllMute(streamer.sndgrpid))
+    int mastervol = sndsys->GetMasterVolume(streamer.sndgrpid);
+    bool mastermute = sndsys->IsAllMute(streamer.sndgrpid);
+    auto rational = streamer.GetMasterVolumeGain(mastermute, mastervol);
+    if (rational.n == 0)
     {
         memset(buffer, 0, PCM16_BYTES(samples,streamer.channels));
     }
-    else
+    else if (rational.n != rational.d)
     {
-        if(streamer.volume != VOLUME_DEFAULT || mastervolume != VOLUME_DEFAULT)
-        {
-            int volfac = streamer.volume * mastervolume;
-            int powdef = VOLUME_DEFAULT * VOLUME_DEFAULT;
-            SOFTGAIN(buffer, samples, streamer.channels, volfac, powdef);
-        }
+        SOFTGAIN(buffer, samples, streamer.channels, rational.n, rational.d);
     }
 }
 

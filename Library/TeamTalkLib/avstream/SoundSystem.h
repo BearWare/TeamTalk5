@@ -245,6 +245,7 @@ namespace soundsystem {
         }
         bool IsVirtual() const { return outputdeviceid == SOUND_DEVICEID_VIRTUAL; }
         bool IsShared() const { return (outputdeviceid & SOUND_DEVICE_SHARED_FLAG) != 0; }
+        Rational GetMasterVolumeGain(bool mastermute, int mastervolume) const;
     };
 
     struct DuplexStreamer : public SoundStreamer
@@ -387,7 +388,6 @@ namespace soundsystem {
         virtual bool IsMute(StreamPlayer* player) = 0;
 
     };
-
 
     typedef std::shared_ptr< SoundSystem > soundsystem_t;
     soundsystem_t GetInstance();

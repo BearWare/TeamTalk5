@@ -58,5 +58,12 @@ private:
     NonCopyable& operator=(const NonCopyable &);
 };
 
+struct Rational
+{
+    int n;
+    int d;
+    Rational(int numerator, int denominator) { n = numerator; d = denominator; }
+};
+
 #endif
 

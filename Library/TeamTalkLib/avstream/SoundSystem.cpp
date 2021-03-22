@@ -118,4 +118,18 @@ namespace soundsystem {
 #endif
     }
 
+    Rational OutputStreamer::GetMasterVolumeGain(bool mastermute, int mastervolume) const
+    {
+        if (mastervolume == 0 || volume == 0 || mute || mastermute)
+        {
+            return Rational(0, 1);
+        }
+        else if (volume != VOLUME_DEFAULT || mastervolume != VOLUME_DEFAULT)
+        {
+            int volfac = volume * mastervolume;
+            int powdef = VOLUME_DEFAULT * VOLUME_DEFAULT;
+            return Rational(volfac, powdef);
+        }
+        return Rational(1, 1);
+    }
 }
