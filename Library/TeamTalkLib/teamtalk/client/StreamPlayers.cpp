@@ -51,10 +51,9 @@ AudioPlayer::AudioPlayer(int userid, StreamType stream_type,
 , m_stream_id(0)
 , m_audiopackets_recv(0)
 , m_audiopacket_lost(0)
+, m_play_pkt_no(0)
 {
     MYTRACE(ACE_TEXT("New AudioPlayer() - #%d\n"), m_userid);
-
-    Reset();
 
     int input_channels = GetAudioCodecChannels(m_codec);
     if(GetAudioCodecSimulateStereo(m_codec))
