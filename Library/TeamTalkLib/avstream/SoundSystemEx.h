@@ -28,9 +28,9 @@
 
 namespace soundsystem {
 
-    void SoftVolume(SoundSystem* sndsys, const OutputStreamer& streamer, short* buffer, int samples);
-    void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream, const short* recorded, short* playback);
-    void MuxPlayers(SoundSystem* sndsys, const std::vector<OutputStreamer*>& players, short* tmp_buffer, short* playback);
+    void SoftVolume(const OutputStreamer& streamer, short* buffer, int samples, int mastervol, bool mastermute);
+    void DuplexCallback(DuplexStreamer& dpxStream, const short* recorded, short* playback, int mastervol, bool mastermute);
+    void MuxPlayers(const std::vector<OutputStreamer*>& players, short* tmp_buffer, short* playback, int mastervol, bool mastermute);
     void DuplexEnded(SoundSystem* sndsys, DuplexStreamer& dpxStream);
 
     // audio input and output streamers for SOUND_DEVICEID_VIRTUAL
@@ -159,7 +159,9 @@ namespace soundsystem {
 
         bool StreamCallback(short* buffer)
         {
-            DuplexCallback(m_sndsys, *m_streamer, &m_inputbuffer[0], buffer);
+            int mastervol = m_sndsys->GetMasterVolume(m_streamer->sndgrpid);
+            bool mastermute = m_sndsys->IsAllMute(m_streamer->sndgrpid);
+            DuplexCallback(*m_streamer, &m_inputbuffer[0], buffer, mastervol, mastermute);
             return true;
         }
     };

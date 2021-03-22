@@ -430,7 +430,9 @@ namespace soundsystem {
                 {
                     assert(i.second->framesize == samples);
                     i.first->StreamPlayerCb(*i.second, &m_tmpbuffer[0], samples);
-                    SoftVolume(m_sndsys, *i.second, &m_tmpbuffer[0], samples);
+                    int mastervol = m_sndsys->GetMasterVolume(i.second->sndgrpid);
+                    bool mastermute = m_sndsys->IsAllMute(i.second->sndgrpid);
+                    SoftVolume(*i.second, &m_tmpbuffer[0], samples, mastervol, mastermute);
                     MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Same stream properties. Destination: %p\n"), i.first);
                 }
                 else
@@ -450,7 +452,9 @@ namespace soundsystem {
                     while (msgq->message_length() < reqbytes)
                     {
                         i.first->StreamPlayerCb(*streamer_resam, input, streamer_resam->framesize);
-                        SoftVolume(m_sndsys, *streamer_resam, input, streamer_resam->framesize);
+                        int mastervol = m_sndsys->GetMasterVolume(streamer_resam->sndgrpid);
+                        bool mastermute = m_sndsys->IsAllMute(streamer_resam->sndgrpid);
+                        SoftVolume(*streamer_resam, input, streamer_resam->framesize, mastervol, mastermute);
                         short* output = resampler->Resample(input);
 
                         ACE_Message_Block* mb;

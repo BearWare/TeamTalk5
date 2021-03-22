@@ -29,8 +29,9 @@
 
 namespace soundsystem {
 
-void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream,
-                    const short* recorded, short* playback)
+void DuplexCallback(DuplexStreamer& dpxStream,
+                    const short* recorded, short* playback,
+                    int mastervol, bool mastermute)
 {
     size_t bytes = PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels);
 
@@ -40,7 +41,7 @@ void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream,
         //lock 'players' so they're not removed during callback
         std::lock_guard<std::recursive_mutex> g(dpxStream.players_mtx);
         assert(dpxStream.tmpOutputBuffer.size());
-        MuxPlayers(sndsys, dpxStream.players, &dpxStream.tmpOutputBuffer[0], playback);
+        MuxPlayers(dpxStream.players, &dpxStream.tmpOutputBuffer[0], playback, mastervol, mastermute);
         if (dpxStream.players.empty())
         {
             std::memcpy(&dpxStream.tmpOutputBuffer[0], playback, bytes);
@@ -49,8 +50,9 @@ void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream,
     dpxStream.duplex->StreamDuplexCb(dpxStream, recorded, playback, dpxStream.framesize);
 }
 
-void MuxPlayers(SoundSystem* sndsys, const std::vector<OutputStreamer*>& players,
-                short* tmp_buffer, short* playback)
+void MuxPlayers(const std::vector<OutputStreamer*>& players,
+                short* tmp_buffer, short* playback,
+                int mastervol, bool mastermute)
 {
     for(size_t i=0;i<players.size();i++)
     {
@@ -59,7 +61,7 @@ void MuxPlayers(SoundSystem* sndsys, const std::vector<OutputStreamer*>& players
                                    tmp_buffer,
                                    players[i]->framesize))
         {
-            SoftVolume(sndsys, *players[i], tmp_buffer, players[i]->framesize);
+            SoftVolume(*players[i], tmp_buffer, players[i]->framesize, mastervol, mastermute);
             int samples = players[i]->framesize * players[i]->channels;
             for(int p=0;p<samples;p++)
             {
@@ -86,11 +88,10 @@ void DuplexEnded(SoundSystem* sndsys, DuplexStreamer& dpxStream)
     }
 }
 
-void SoftVolume(SoundSystem* sndsys, const OutputStreamer& streamer,
-                short* buffer, int samples)
+void SoftVolume(const OutputStreamer& streamer,
+                short* buffer, int samples,
+                int mastervol, bool mastermute)
 {
-    int mastervol = sndsys->GetMasterVolume(streamer.sndgrpid);
-    bool mastermute = sndsys->IsAllMute(streamer.sndgrpid);
     auto rational = streamer.GetMasterVolumeGain(mastermute, mastervol);
     if (rational.n == 0)
     {

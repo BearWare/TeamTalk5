@@ -814,7 +814,9 @@ static OSStatus AudioOutputCallback(void *userData, AudioUnitRenderActionFlags *
         assert(streamer->player);
         streamer->player->StreamPlayerCb(*streamer, &samples_buffer[0], streamer->framesize);
         //soft volume also handles mute
-        SoftVolume(soundsystem::getAudUnit().get(), *streamer, &samples_buffer[0], streamer->framesize);
+        int mastervol = soundsystem::getAudUnit()->GetMasterVolume(streamer->sndgrpid);
+        bool mastermute = soundsystem::getAudUnit()->IsAllMute(streamer->sndgrpid);
+        SoftVolume(*streamer, &samples_buffer[0], streamer->framesize, mastervol, mastermute);
         mb->wr_ptr(cbbytes);
         
         ACE_Time_Value tv;

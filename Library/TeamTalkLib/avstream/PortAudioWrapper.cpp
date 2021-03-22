@@ -492,7 +492,9 @@ int OutputStreamCallback(const void *inputBuffer, void *outputBuffer,
     short* playback = static_cast<short*>(outputBuffer);
 
     bContinue = streamer->player->StreamPlayerCb(*streamer, playback, framesPerBuffer);
-    SoftVolume(PortAudio::getInstance().get(), *streamer, playback, framesPerBuffer);
+    int mastervol = PortAudio::getInstance()->GetMasterVolume(streamer->sndgrpid);
+    bool mastermute = PortAudio::getInstance()->IsAllMute(streamer->sndgrpid);
+    SoftVolume(*streamer, playback, framesPerBuffer, mastervol, mastermute);
 
     MYTRACE_COND(streamer->soundsystem == SOUND_API_NOSOUND,
                  ACE_TEXT("No sound output callback"));
@@ -719,6 +721,8 @@ int DuplexStreamCallback(const void *inputBuffer,
     int skewMSec = std::abs(int(durationMSec - samplesMSec));
     MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Duplex callback is off by %d msec\n"), skewMSec);
 
+    int mastervol = PortAudio::getInstance()->GetMasterVolume(dpxStream->sndgrpid);
+    bool mastermute = PortAudio::getInstance()->IsAllMute(dpxStream->sndgrpid);
 #if defined(WIN32)
     if (dpxStream->winaec)
     {
@@ -727,14 +731,14 @@ int DuplexStreamCallback(const void *inputBuffer,
 
         if (recorded)
         {
-            DuplexCallback(PortAudio::getInstance().get(), *dpxStream, recorded, playback);
+            DuplexCallback(*dpxStream, recorded, playback, mastervol, mastermute);
             dpxStream->winaec->ReleaseBuffer();
         }
         else
         {
             std::vector<short> tmpbuf(dpxStream->framesize * dpxStream->input_channels);
             recorded = &tmpbuf[0];
-            DuplexCallback(PortAudio::getInstance().get(), *dpxStream, recorded, playback);
+            DuplexCallback(*dpxStream, recorded, playback, , mastervol, mastermute);
         }
 
         uint32_t echosamplesMSec = dpxStream->DurationEchoSamplesMSec(WINAEC_SAMPLERATE);
@@ -745,10 +749,10 @@ int DuplexStreamCallback(const void *inputBuffer,
     }
     else
     {
-        DuplexCallback(PortAudio::getInstance().get(), *dpxStream, recorded, playback);
+        DuplexCallback(*dpxStream, recorded, playback, mastervol, mastermute);
     }
 #else
-    DuplexCallback(PortAudio::getInstance().get(), *dpxStream, recorded, playback);
+    DuplexCallback(*dpxStream, recorded, playback, mastervol, mastermute);
 #endif
     return paContinue;
 }

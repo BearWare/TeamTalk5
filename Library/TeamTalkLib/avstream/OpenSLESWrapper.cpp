@@ -660,6 +660,8 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
     assert(streamer->channels);
     assert(streamer->framesize);
     int n_samples = streamer->buffers[buf_index].size() / streamer->channels;
+    int mastervol = OpenSLESWrapper::getInstance()->GetMasterVolume(streamer->sndgrpid);
+    bool mastermute = OpenSLESWrapper::getInstance()->IsAllMute(streamer->sndgrpid);
     // MYTRACE(ACE_TEXT("bqPlayerCallback, samples %d, framesize %d\n"), n_samples, streamer->framesize);
     for(int sample_index=0; more && sample_index<n_samples;
         sample_index += (streamer->framesize * streamer->channels))
@@ -668,9 +670,8 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
                                                 &streamer->buffers[buf_index][sample_index],
                                                 streamer->framesize);
         //soft volume also handles mute
-        SoftVolume(OpenSLESWrapper::getInstance().get(), *streamer,
-                   &streamer->buffers[buf_index][sample_index],
-                   streamer->framesize);
+        SoftVolume(&streamer->buffers[buf_index][sample_index],
+                   streamer->framesize, mastervol, mastermute);
     }
     result = (*bq)->Enqueue(bq, &streamer->buffers[buf_index][0],
                             streamer->buffers[buf_index].size()*sizeof(short));
