@@ -190,7 +190,7 @@ TEST_CASE("AudioMuxerJitter")
             if (!player)
             {
                 player.reset(new teamtalk::OpusPlayer(p.GetSrcUserID(), teamtalk::STREAMTYPE_VOICE,
-                                                      audiocb, codec, audio_resampler_t()));
+                                                      snd, audiocb, codec, audio_resampler_t()));
                 player->SetAudioBufferSize(5000);
                 player->SetStoppedTalkingDelay(5000);
                 REQUIRE(snd->OpenOutputStream(player.get(), TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
