@@ -738,7 +738,7 @@ int DuplexStreamCallback(const void *inputBuffer,
         {
             std::vector<short> tmpbuf(dpxStream->framesize * dpxStream->input_channels);
             recorded = &tmpbuf[0];
-            DuplexCallback(*dpxStream, recorded, playback, , mastervol, mastermute);
+            DuplexCallback(*dpxStream, recorded, playback, mastervol, mastermute);
         }
 
         uint32_t echosamplesMSec = dpxStream->DurationEchoSamplesMSec(WINAEC_SAMPLERATE);
