@@ -4,8 +4,10 @@
 Version 5.7.1, unreleased
 Accessible Windows Client
 - Fixed echo canceller being less effective over long duration
+- Recording to single file now applies user specific volume settings
 Default QT Client
 - Fixed echo canceller being less effective over long duration
+- Recording to single file now applies user specific volume settings
 Android Client
 -
 iOS Client
