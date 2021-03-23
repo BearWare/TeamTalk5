@@ -91,6 +91,7 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, int stream_type
     if (entry->mq.dequeue_head(mb, &tm) >= 0)
     {
         media::AudioFrame frm(mb);
+        frm.ApplyGain();
 
         if (entry->outfmt.IsValid() && frm.inputfmt != entry->outfmt)
         {

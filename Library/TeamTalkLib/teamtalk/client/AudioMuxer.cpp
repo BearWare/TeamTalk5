@@ -564,6 +564,7 @@ bool AudioMuxer::MuxUserAudio()
     else
     {
         media::AudioFrame frm(audio_blocks[0]);
+        frm.ApplyGain();
         TTASSERT((int)m_muxed_audio.size() == GetAudioCodecCbSamples(m_codec) * GetAudioCodecChannels(m_codec));
         TTASSERT(frm.input_samples);
         m_muxed_audio.assign(frm.input_buffer, frm.input_buffer + m_muxed_audio.size());
@@ -577,6 +578,7 @@ bool AudioMuxer::MuxUserAudio()
                 for(size_t a=1;a<audio_blocks.size();a++)
                 {
                     media::AudioFrame mfrm(audio_blocks[a]);
+                    mfrm.ApplyGain();
                     TTASSERT(mfrm.input_buffer);
                     val += mfrm.input_buffer[i];
                 }

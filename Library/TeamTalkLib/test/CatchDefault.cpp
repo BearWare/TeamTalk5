@@ -363,6 +363,133 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
 }
 
+TEST_CASE( "MuxedAudioBlockVolume" )
+{
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(txclient));
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
+    int txuserid = TT_GetMyUserID(txclient);
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+
+    TTMessage msg;
+    auto gainfunc = [&] (int userid)
+    {
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+        auto ab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_VOICE, userid);
+        REQUIRE(ab);
+        REQUIRE(ab->nChannels == 1);
+        short* audiobuf = reinterpret_cast<short*>(ab->lpRawAudio);
+        uint32_t sum_gain = 0;
+        for (int i=0;i<ab->nSamples;i++)
+            sum_gain += std::abs(audiobuf[i]);
+        REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
+        return sum_gain;
+    };
+
+    // calc default volume level of muxed audio block
+    REQUIRE((WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, msg) && (msg.user.uUserState & USERSTATE_VOICE) == USERSTATE_VOICE));
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
+
+    uint32_t sum_nogain = gainfunc(TT_MUXED_USERID);
+
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, FALSE));
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
+
+    // double volume level of user
+    User user;
+    REQUIRE(TT_GetUser(rxclient, txuserid, &user));
+    REQUIRE(TT_SetUserVolume(rxclient, txuserid, STREAMTYPE_VOICE, user.nVolumeVoice * 2));
+
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
+
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+
+    uint32_t sum_gain = gainfunc(TT_MUXED_USERID);
+
+    // volume level of muxed audio should now have doubled (roughly due to tone offset)
+    REQUIRE(sum_gain > sum_nogain * 1.9);
+
+    // reset
+    REQUIRE(TT_SetUserVolume(rxclient, txuserid, STREAMTYPE_VOICE, SOUND_VOLUME_DEFAULT));
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, FALSE));
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
+
+    // volume level of muxed audio when changing master volume
+    REQUIRE(TT_SetSoundOutputVolume(rxclient, SOUND_VOLUME_DEFAULT * 2));
+
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
+
+    sum_gain = gainfunc(TT_MUXED_USERID);
+
+    // volume level of muxed audio should now have doubled (roughly due to tone offset)
+    REQUIRE(sum_gain > sum_nogain * 1.9);
+
+    // reset
+    REQUIRE(TT_SetSoundOutputVolume(rxclient, SOUND_VOLUME_DEFAULT));
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, FALSE));
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
+
+    // calc default volume leve of single stream audioblock
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
+
+    sum_nogain = gainfunc(txuserid);
+
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, FALSE));
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
+
+    // double volume level
+    REQUIRE(TT_SetUserVolume(rxclient, txuserid, STREAMTYPE_VOICE, user.nVolumeVoice * 2));
+
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
+
+    sum_gain = gainfunc(txuserid);
+
+    // volume level of muxed audio should now have doubled (roughly due to tone offset)
+    REQUIRE(sum_gain > sum_nogain * 1.9);
+
+    // reset
+    REQUIRE(TT_SetUserVolume(rxclient, txuserid, STREAMTYPE_VOICE, SOUND_VOLUME_DEFAULT));
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, FALSE));
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
+
+    // test master mute
+    REQUIRE(TT_SetSoundOutputMute(rxclient, true));
+
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
+
+    sum_gain = gainfunc(txuserid);
+
+    // mute master gives 0 sum
+    REQUIRE(sum_gain == 0);
+
+    REQUIRE(TT_SetSoundOutputMute(rxclient, true));
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, FALSE));
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
+
+    // test user mute
+    REQUIRE(TT_SetUserMute(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
+
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
+
+    sum_gain = gainfunc(txuserid);
+
+    // mute user gives 0 sum
+    REQUIRE(sum_gain == 0);
+}
+
+
+
 #if defined(ENABLE_OGG)
 TEST_CASE( "Opus Read File" )
 {

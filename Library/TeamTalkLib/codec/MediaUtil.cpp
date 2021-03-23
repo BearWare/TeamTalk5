@@ -27,6 +27,19 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+namespace media {
+
+    void AudioFrame::ApplyGain()
+    {
+        assert(input_buffer || input_samples == 0);
+        assert(gain.denominator != 0);
+        SOFTGAIN(input_buffer, input_samples, inputfmt.channels,
+                 gain.numerator, gain.denominator);
+        gain = Rational(1, 1);
+    }
+
+}
+
 void SplitStereo(const short* input_buffer, int input_samples,
                  std::vector<short>& left_chan, std::vector<short>& right_chan)
 {

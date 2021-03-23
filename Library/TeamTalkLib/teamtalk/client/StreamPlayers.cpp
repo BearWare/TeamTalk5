@@ -33,11 +33,12 @@ using namespace media;
 
 namespace teamtalk {
 
-AudioPlayer::AudioPlayer(int userid, StreamType stream_type,
+AudioPlayer::AudioPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
                          useraudio_callback_t audio_cb, const AudioCodec& codec,
                          audio_resampler_t& resampler)
 : m_userid(userid)
 , m_streamtype(stream_type)
+, m_sndsys(sndsys)
 , m_audio_callback(audio_cb)
 , m_talking(false)
 , m_codec(codec)
@@ -160,7 +161,7 @@ void AudioPlayer::Reset()
     //how long the player has been inactive.
 }
 
-bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& /*streamer*/,
+bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                                  short* output_buffer, int output_samples)
 {
     int input_channels = GetAudioCodecChannels(m_codec);
@@ -212,9 +213,13 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& /*streamer*/
             m_audio_callback(m_userid, m_streamtype, frm);
         }
 
-        media::AudioFrame frm(fmt, tmp_output_buffer, input_samples);
-        frm.sample_no = m_samples_played;
+        media::AudioFrame frm(fmt, tmp_output_buffer, input_samples, m_samples_played);
         frm.streamid = m_stream_id;
+        // store gain from sound system
+        int mastervolume = m_sndsys->GetMasterVolume(streamer.sndgrpid);
+        bool mastermute = m_sndsys->IsAllMute(streamer.sndgrpid);
+        frm.gain = streamer.GetMasterVolumeGain(mastermute, mastervolume);
+
         m_audio_callback(m_userid, m_streamtype, frm);
     }
 
@@ -429,10 +434,10 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
 }
 
 #if defined(ENABLE_SPEEX)
-SpeexPlayer::SpeexPlayer(int userid, StreamType stream_type,
+SpeexPlayer::SpeexPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
                          useraudio_callback_t audio_cb, const AudioCodec& codec,
                          audio_resampler_t resampler)
-: AudioPlayer(userid, stream_type, audio_cb, codec, resampler)
+: AudioPlayer(userid, stream_type, sndsys, audio_cb, codec, resampler)
 {
     TTASSERT(codec.codec == CODEC_SPEEX || codec.codec == CODEC_SPEEX_VBR);
     bool b = false;
@@ -499,10 +504,10 @@ bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
 
 #if defined(ENABLE_OPUS)
 
-OpusPlayer::OpusPlayer(int userid, StreamType stream_type,
+OpusPlayer::OpusPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
                        useraudio_callback_t audio_cb, const AudioCodec& codec,
                        audio_resampler_t resampler)
-: AudioPlayer(userid, stream_type, audio_cb, codec, resampler)
+: AudioPlayer(userid, stream_type, sndsys, audio_cb, codec, resampler)
 {
     TTASSERT(codec.codec == CODEC_OPUS);
     bool b = false;

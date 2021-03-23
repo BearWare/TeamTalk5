@@ -113,8 +113,8 @@ namespace media
 
     struct AudioFrame
     {
-        short* input_buffer; //for recorded frame
-        const short* output_buffer; //for echo cancel frame
+        short* input_buffer = nullptr; //for recorded frame
+        const short* output_buffer = nullptr; //for echo cancel frame
         int input_samples;
         int output_samples;
         AudioFormat inputfmt;
@@ -127,10 +127,10 @@ namespace media
         uint32_t timestamp;
         uint32_t sample_no = 0;
         int duplex_callback_delay = 0; // The time between capture and expected rendering of the samples, taken from the PortAudio duplex callback timing
+        Rational gain; // if != 1 then apply gain
 
         AudioFrame()
-        : input_buffer(NULL)
-        , output_buffer(NULL)
+        : gain(1, 1)
         {
             input_samples = output_samples = 0;
             soundgrpid = 0;
@@ -149,6 +149,7 @@ namespace media
         }
 
         AudioFrame(ACE_Message_Block* mb)
+        : gain(1, 1)
         {
             AudioFrame* frm = reinterpret_cast<AudioFrame*>(mb->base());
             *this = *frm;
@@ -160,6 +161,8 @@ namespace media
                 return 0;
             return PCM16_SAMPLES_DURATION(input_samples, inputfmt.samplerate);
         }
+
+        void ApplyGain();
     };
 
     struct VideoFrame
@@ -255,7 +258,7 @@ int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq);
     if (gain_numerator == gain_denominator)                     \
         break;                                                  \
     float factor = float(gain_numerator) / float(gain_denominator);   \
-    int samples_total = channels*n_samples;                     \
+    int samples_total = (channels) * (n_samples);               \
     short* samplesbuffer = inputsamples;                        \
     if(samples_total % 4 == 0)                                  \
     {                                                           \

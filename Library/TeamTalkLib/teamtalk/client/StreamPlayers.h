@@ -75,7 +75,7 @@ namespace teamtalk {
         : public soundsystem::StreamPlayer
     {
     public:
-        AudioPlayer(int userid, StreamType stream_type,
+        AudioPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
                     useraudio_callback_t audio_cb, const AudioCodec& codec,
                     audio_resampler_t& resampler);
         virtual ~AudioPlayer();
@@ -117,6 +117,7 @@ namespace teamtalk {
 
         int m_userid;
         StreamType m_streamtype;
+        soundsystem::soundsystem_t m_sndsys;
         useraudio_callback_t m_audio_callback;
         bool m_talking;
         AudioCodec m_codec;
@@ -158,7 +159,7 @@ namespace teamtalk {
     class SpeexPlayer : public AudioPlayer
     {
     public:
-        SpeexPlayer(int userid, StreamType stream_type,
+        SpeexPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
                     useraudio_callback_t audio_cb, const AudioCodec& codec,
                     audio_resampler_t resampler);
         virtual ~SpeexPlayer();
@@ -176,7 +177,7 @@ namespace teamtalk {
     class OpusPlayer : public AudioPlayer
     {
     public:
-        OpusPlayer(int userid, StreamType stream_type,
+        OpusPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
                    useraudio_callback_t audio_cb, const AudioCodec& codec,
                    audio_resampler_t resampler);
         virtual ~OpusPlayer();

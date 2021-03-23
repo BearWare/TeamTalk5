@@ -60,9 +60,10 @@ private:
 
 struct Rational
 {
-    int n;
-    int d;
-    Rational(int numerator, int denominator) { n = numerator; d = denominator; }
+    int numerator;
+    int denominator;
+    Rational(int n, int d) { numerator = n; denominator = d; }
+    bool IsOne() const { return numerator == denominator; }
 };
 
 #endif

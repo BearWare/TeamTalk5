@@ -1414,23 +1414,23 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
 #if defined(ENABLE_SPEEX)
     case teamtalk::CODEC_SPEEX :
         ACE_NEW_RETURN(audio_player,
-                       SpeexPlayer(GetUserID(), stream_type, audiofunc,
-                                   codec, resampler),
+                       SpeexPlayer(GetUserID(), stream_type, m_soundsystem,
+                                   audiofunc, codec, resampler),
                         audio_player_t());
         break;
 #endif
 #if defined(ENABLE_SPEEX)
     case teamtalk::CODEC_SPEEX_VBR :
         ACE_NEW_RETURN(audio_player,
-                       SpeexPlayer(GetUserID(), stream_type, audiofunc,
-                                   codec, resampler), audio_player_t());
+                       SpeexPlayer(GetUserID(), stream_type, m_soundsystem,
+                                   audiofunc, codec, resampler), audio_player_t());
         break;
 #endif
 #if defined(ENABLE_OPUS)
     case teamtalk::CODEC_OPUS :
         ACE_NEW_RETURN(audio_player,
-                       OpusPlayer(GetUserID(), stream_type, audiofunc,
-                                  codec, resampler),
+                       OpusPlayer(GetUserID(), stream_type, m_soundsystem,
+                                  audiofunc, codec, resampler),
                        audio_player_t());
         break;
 #endif

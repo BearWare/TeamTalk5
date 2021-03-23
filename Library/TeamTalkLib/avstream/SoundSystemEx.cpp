@@ -93,13 +93,13 @@ void SoftVolume(const OutputStreamer& streamer,
                 int mastervol, bool mastermute)
 {
     auto rational = streamer.GetMasterVolumeGain(mastermute, mastervol);
-    if (rational.n == 0)
+    if (rational.numerator == 0)
     {
         memset(buffer, 0, PCM16_BYTES(samples,streamer.channels));
     }
-    else if (rational.n != rational.d)
+    else
     {
-        SOFTGAIN(buffer, samples, streamer.channels, rational.n, rational.d);
+        SOFTGAIN(buffer, samples, streamer.channels, rational.numerator, rational.denominator);
     }
 }
 
