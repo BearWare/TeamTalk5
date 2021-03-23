@@ -670,7 +670,7 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
                                                 &streamer->buffers[buf_index][sample_index],
                                                 streamer->framesize);
         //soft volume also handles mute
-        SoftVolume(&streamer->buffers[buf_index][sample_index],
+        SoftVolume(*streamer, &streamer->buffers[buf_index][sample_index],
                    streamer->framesize, mastervol, mastermute);
     }
     result = (*bq)->Enqueue(bq, &streamer->buffers[buf_index][0],
