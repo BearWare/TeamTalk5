@@ -1026,6 +1026,36 @@ namespace teamtalk {
                                  xmlSettings.GetCertificateVerifyDepth(0));
         return true;
     }
+
+    int LoginBearWareAccount(const ACE_CString& username, const ACE_CString& passwd)
+    {
+        std::string url = WEBLOGIN_URL;
+        url += "client=" TEAMTALK_LIB_NAME;
+        url += "&version=" TEAMTALK_VERSION;
+        url += "&service=bearware";
+        url += "&action=auth";
+        url += "&username=" + URLEncode(username.c_str());
+        url += "&password=" + URLEncode(passwd.c_str());
+        std::string utf8;
+        switch (HttpRequest(url.c_str(), utf8))
+        {
+        default :
+        case -1 :
+            return -1;
+        case 0 :
+            return 0;
+        case 1 :
+            teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
+            if (xmldoc.Parse(utf8))
+            {
+                std::string nickname = xmldoc.GetValue(false, "teamtalk/bearware/nickname", "");
+                std::string username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
+                std::string token = xmldoc.GetValue(false, "teamtalk/bearware/token", "");
+                return token.size() > 0;
+            }
+            return 0;
+        }
+    }
 #endif
     
     bool ConfigureServer(ServerNode& servernode, const ServerSettings& properties,

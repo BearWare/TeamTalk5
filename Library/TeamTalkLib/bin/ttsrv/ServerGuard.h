@@ -109,6 +109,7 @@ namespace teamtalk {
 
 #if defined(ENABLE_TEAMTALKPRO)
     bool SetupEncryption(ServerNode& servernode, ServerXML& xmlSettings);
+    int LoginBearWareAccount(const ACE_CString& username, const ACE_CString& passwd);
 #endif
 
     bool ConfigureServer(ServerNode& servernode, const ServerSettings& properties,

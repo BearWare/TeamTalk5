@@ -31,6 +31,7 @@
 #include <myace/MyACE.h>
 #include <teamtalk/server/ServerNode.h>
 #include <teamtalk/client/ClientNodeBase.h>
+#include <bin/ttsrv/ServerGuard.h>
 #include <avstream/VideoCapture.h>
 
 #include <map>
@@ -554,6 +555,11 @@ TEST_CASE("TestHTTPS")
     REQUIRE(1 == HttpRequest("https://www.bearware.dk/teamtalk/weblogin.php?ping=1", response2));
     REQUIRE(response1 == response2);
     REQUIRE(1 == HttpRequest("https://www.google.com", response3));
+}
+
+TEST_CASE("TestWebLogin")
+{
+    REQUIRE(teamtalk::LoginBearWareAccount("", "") > 0);
 }
 #endif
 
