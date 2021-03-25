@@ -359,22 +359,27 @@ endif()
 ####################
 
 if (CATCH_UNITTEST)
-  add_executable (catchtt ${CATCH_UNITTEST_SOURCES} ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
+
+  add_executable (catchtt ${CATCH_UNITTEST_SOURCES} ${TTCLIENTPRODLL_SOURCES} ${TTCLIENTPRODLL_HEADERS}
+      ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerGuard.cpp ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerGuard.h
+      ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerXML.cpp ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerXML.h
+      ${TEAMTALKLIB_ROOT}/bin/ttsrv/AppInfo.h ${TEAMTALKLIB_ROOT}/settings/Settings.cpp
+      ${TEAMTALKLIB_ROOT}/settings/Settings.h)
 
   if (BUILD_TEAMTALK_STATIC)
-    list (APPEND TTCLIENTDLL_INCLUDE_DIR ${TTLIBS_ROOT}/Catch2/include)
+    list (APPEND TTCLIENTPRODLL_INCLUDE_DIR ${TTLIBS_ROOT}/Catch2/include)
   else()
     # Assuming 'catch' package is installed
   endif()
   
   target_include_directories (catchtt PUBLIC
-    ${TTCLIENTDLL_INCLUDE_DIR})
+    ${TTCLIENTPRODLL_INCLUDE_DIR} ${TINYXML_INCLUDE_DIR})
 
   target_compile_options (catchtt PUBLIC
-    ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
+    ${TTCLIENTPRODLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
 
-  target_link_libraries (catchtt ${TTCLIENTDLL_LINK_FLAGS}
-    ${LINK_LIBS} ${CATCH_LINK_FLAGS})
+  target_link_libraries (catchtt ${TTCLIENTPRODLL_LINK_FLAGS}
+    ${LINK_LIBS} ${CATCH_LINK_FLAGS} ${TINYXML_LINK_FLAGS})
 
   set_output_dir(catchtt ${TEAMTALK_ROOT}/Library/TeamTalkLib/test)
   
