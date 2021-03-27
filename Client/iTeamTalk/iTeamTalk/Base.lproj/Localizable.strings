@@ -709,9 +709,6 @@
 "Inactive" = "Inactive";
 
 /* Dialog */
-"You have been kicked from channel by" = "You have been kicked from channel by";
-
-/* Dialog */
 "You have been kicked from channel by %@" = "You have been kicked from channel by %@";
 
 /* Dialog */

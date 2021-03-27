@@ -703,9 +703,6 @@
 "You have been kicked from channel" = "채널에서 쫓겨남";
 
 /* Dialog */
-"You have been kicked from channel by" = "채널에서 쫓겨남";
-
-/* Dialog */
 "You have been kicked from channel by %@" = "%@에 의해 채널에서 쫓겨남";
 
 /* Dialog */

@@ -703,9 +703,6 @@
 "You have been kicked from channel" = "您已被踢出频道";
 
 /* Dialog */
-"You have been kicked from channel by" = "您已被踢出频道";
-
-/* Dialog */
 "You have been kicked from channel by %@" = "您已被 %@ 踢出频道";
 
 /* Dialog */
