@@ -585,12 +585,12 @@ void TTMsgQueue::OnAudioInputStatus(int voicestreamid, const AudioInputStatus& a
     EnqueueMsg(mb);
 }
 
-void TTMsgQueue::OnUserAudioBlock(int userid, teamtalk::StreamType stream_type)
+void TTMsgQueue::OnUserAudioBlock(int userid, teamtalk::StreamTypes sts)
 {
     ACE_Message_Block* mb;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_AUDIOBLOCK,
                                      userid, __STREAMTYPE);
-    *msg->streamtype = (StreamType)stream_type;
+    *msg->streamtype = (StreamType)sts;
     EnqueueMsg(mb);
 }
 

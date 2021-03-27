@@ -24,38 +24,38 @@
 #include "AudioContainer.h"
 #include <assert.h>
 
-uint32_t GenKey(int userid, int streamtype)
+uint32_t GenKey(int userid, teamtalk::StreamTypes sts)
 {
     assert(userid < 0x10000);
-    assert(streamtype < 0x10000);
-    return (userid << 16) | streamtype;
+    assert(sts < 0x10000);
+    return (userid << 16) | sts;
 }
 
 AudioContainer::AudioContainer()
 {
 }
 
-void AudioContainer::AddAudioSource(int userid, int stream_type,
+void AudioContainer::AddAudioSource(int userid, teamtalk::StreamTypes sts,
                                     const media::AudioFormat& af)
 {
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
-    auto key = GenKey(userid, stream_type);
+    auto key = GenKey(userid, sts);
     audioentry_t entry(new AudioEntry(af));
     m_container[key] = entry;
 }
 
-void AudioContainer::RemoveAudioSource(int userid, int stream_type)
+void AudioContainer::RemoveAudioSource(int userid, teamtalk::StreamTypes sts)
 {
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
-    m_container.erase(GenKey(userid, stream_type));
+    m_container.erase(GenKey(userid, sts));
 }
 
-bool AudioContainer::AddAudio(int userid, int stream_type,
+bool AudioContainer::AddAudio(int userid, teamtalk::StreamTypes sts,
                               const media::AudioFrame& frame)
 {
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
 
-    audiostore_t::iterator ii = m_container.find(GenKey(userid, stream_type));
+    audiostore_t::iterator ii = m_container.find(GenKey(userid, sts));
 
     if (ii == m_container.end())
         return false;
@@ -76,11 +76,11 @@ bool AudioContainer::AddAudio(int userid, int stream_type,
     return true;
 }
 
-ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, int stream_type)
+ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::StreamTypes sts)
 {
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
 
-    audiostore_t::iterator ii = m_container.find(GenKey(userid, stream_type));
+    audiostore_t::iterator ii = m_container.find(GenKey(userid, sts));
     if (ii == m_container.end())
         return nullptr;
 

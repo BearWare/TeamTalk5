@@ -30,7 +30,15 @@
 
 using namespace teamtalk;
 
-AudioMuxer::AudioMuxer()
+uint32_t GenKey(int userid, teamtalk::StreamType streamtype)
+{
+    assert(userid < 0x10000);
+    assert((streamtype & 0xffff0000) == 0);
+    return (userid << 16) | streamtype;
+}
+
+AudioMuxer::AudioMuxer(teamtalk::StreamTypes sts)
+    : m_streamtypes(sts)
 {
     m_mux_interval = ToTimeValue(AUDIOBLOCK_QUEUE_MSEC / 3);
 }
@@ -262,10 +270,15 @@ void AudioMuxer::CloseFile()
 #endif
 }
 
-bool AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
+bool AudioMuxer::QueueUserAudio(int userid, teamtalk::StreamType st,
+                                const media::AudioFrame& frm)
 {
     //if thread isn't running just ignore
     if (!m_thread)
+        return false;
+
+    // check that this stream type has been selected for muxing
+    if ((m_streamtypes & st) == teamtalk::STREAMTYPE_NONE)
         return false;
 
     //audio must be same format as 'm_codec' but allow 'n_samples' and
@@ -286,8 +299,10 @@ bool AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
     // MYTRACE(ACE_TEXT("Add audio from #%d to audiomuxer %p. Offset %u. Samples %d\n"),
     //         userid, this, sample_no, n_samples);
 
+    int key = GenKey(userid, st);
+
     ACE_Message_Queue<ACE_MT_SYNCH>* q = nullptr;
-    user_audio_queue_t::iterator ii = m_audio_queue.find(userid);
+    user_audio_queue_t::iterator ii = m_audio_queue.find(key);
     if(ii == m_audio_queue.end())
     {
         // setup audio buffer queue for user prior to mixing streams
@@ -303,13 +318,13 @@ bool AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
         int buffersize = bytes * ((m_mux_interval.msec() / msec) + 1);
         // allow double of mux interval
         buffersize *= 2;
-        MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Buffer duration for user #%d, %d msec\n"),
-                     userid, PCM16_BYTES_DURATION(buffersize, chans, sr));
+        MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Buffer duration for user #%d, streamtype %d,  %d msec\n"),
+                     userid, st, PCM16_BYTES_DURATION(buffersize, chans, sr));
         // add header size
         buffersize += (buffersize / bytes) * sizeof(media::AudioFrame);
         
-        m_audio_queue[userid].reset(new ACE_Message_Queue<ACE_MT_SYNCH>());
-        q = m_audio_queue[userid].get();
+        m_audio_queue[key].reset(new ACE_Message_Queue<ACE_MT_SYNCH>());
+        q = m_audio_queue[key].get();
         q->high_water_mark(buffersize);
     }
     else
@@ -320,18 +335,18 @@ bool AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
     ACE_Time_Value tm;
     if (q->enqueue(mb, &tm) < 0)
     {
-        MYTRACE(ACE_TEXT("Buffer depleted for user #%d AudioMuxBlock %u, is last: %s. Dropping queue containing %d msec, %u/%u bytes\n"),
-                userid, frm.sample_no, (frm.input_buffer == nullptr ? ACE_TEXT("true"):ACE_TEXT("false")),
+        MYTRACE(ACE_TEXT("Buffer depleted for user #%d AudioMuxBlock %u, streamtype %d, is last: %s. Dropping queue containing %d msec, %u/%u bytes\n"),
+                userid, st, frm.sample_no, (frm.input_buffer == nullptr ? ACE_TEXT("true"):ACE_TEXT("false")),
                 q->message_count() * GetAudioCodecCbMillis(m_codec), unsigned(q->message_bytes()), unsigned(q->high_water_mark()));
         q->flush();
         //insert after flush, so it will appear as a new stream
         if(q->enqueue(mb, &tm)<0)
         {
             mb->release();
-            m_audio_queue.erase(userid);
+            m_audio_queue.erase(key);
         }
         //clear sample no tracker
-        m_user_queue.erase(userid);
+        m_user_queue.erase(key);
     }
     
     return true;
@@ -376,7 +391,7 @@ int AudioMuxer::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
 
 void AudioMuxer::ProcessAudioQueues(bool flush)
 {
-    //Make map of userid -> sample no.
+    //Make map of user -> sample no.
     //Check if all expected audio is there (from every user)
     //If there -> mux
     //Else wait until next round (what if dead??)
@@ -530,7 +545,7 @@ bool AudioMuxer::MuxUserAudio()
                 // remove expected sample-offset for next run
                 m_user_queue.erase(ii->first);
 
-                //stream ended from userid
+                //stream ended from user
                 if (m_audio_queue[ii->first]->is_empty())
                     m_audio_queue.erase(ii++);
 
@@ -613,7 +628,7 @@ void AudioMuxer::WriteAudio(int cb_samples)
 
     if (m_muxcallback)
     {
-        m_muxcallback(frame);
+        m_muxcallback(m_streamtypes, frame);
     }
 
 #if ENABLE_SPEEXFILE
@@ -659,6 +674,7 @@ ChannelAudioMuxer::~ChannelAudioMuxer()
 }
 
 bool ChannelAudioMuxer::SaveFile(int channelid, const teamtalk::AudioCodec& codec,
+                                 teamtalk::StreamTypes sts,
                                  const ACE_TString& filename,
                                  teamtalk::AudioFileFormat aff)
 {
@@ -667,7 +683,7 @@ bool ChannelAudioMuxer::SaveFile(int channelid, const teamtalk::AudioCodec& code
     if (m_muxers.find(channelid) != m_muxers.end())
         return false;
 
-    audiomuxer_t muxer(new AudioMuxer());
+    audiomuxer_t muxer(new AudioMuxer(sts));
     bool ret = muxer->SaveFile(codec, filename, aff);
     if (!ret)
         return false;
@@ -691,33 +707,39 @@ bool ChannelAudioMuxer::CloseFile(int channelid)
     return muxer.get();
 }
 
-bool ChannelAudioMuxer::AddUser(int userid, int channelid)
+bool ChannelAudioMuxer::AddUser(int userid, teamtalk::StreamType st, int channelid)
 {
     std::unique_lock<std::recursive_mutex> g(m_mutex);
-    assert(m_userchan.find(userid) == m_userchan.end());
+    int key = GenKey(userid, st);
 
-    if (m_userchan.find(userid) == m_userchan.end())
+    assert(m_userchan.find(key) == m_userchan.end());
+
+    if (m_userchan.find(key) == m_userchan.end())
     {
-        m_userchan[userid] = channelid;
+        m_userchan[key] = channelid;
         return true;
     }
     return false;
 }
 
-bool ChannelAudioMuxer::RemoveUser(int userid)
+bool ChannelAudioMuxer::RemoveUser(int userid, teamtalk::StreamType st)
 {
     std::unique_lock<std::recursive_mutex> g(m_mutex);
-    return m_userchan.erase(userid);
+    int key = GenKey(userid, st);
+    return m_userchan.erase(key);
 }
 
-void ChannelAudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
+void ChannelAudioMuxer::QueueUserAudio(int userid, teamtalk::StreamType st,
+                                       const media::AudioFrame& frm)
 {
     audiomuxer_t chanmuxer, fixedmuxer;
     {
+        int key = GenKey(userid, st);
+
         std::unique_lock<std::recursive_mutex> g(m_mutex);
-        if (m_userchan.find(userid) != m_userchan.end())
+        if (m_userchan.find(key) != m_userchan.end())
         {
-            int chanid = m_userchan[userid];
+            int chanid = m_userchan[key];
             
             // check for active channel recording
             auto im = m_muxers.find(chanid);
@@ -732,8 +754,8 @@ void ChannelAudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
     }
 
     if (chanmuxer)
-        chanmuxer->QueueUserAudio(userid, frm);
+        chanmuxer->QueueUserAudio(userid, st, frm);
 
     if (fixedmuxer)
-        fixedmuxer->QueueUserAudio(userid, frm);
+        fixedmuxer->QueueUserAudio(userid, st, frm);
 }

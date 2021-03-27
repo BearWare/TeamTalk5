@@ -108,7 +108,7 @@ namespace teamtalk {
 
         virtual void OnAudioInputStatus(int voicestreamid, const AudioInputStatus& progress) = 0;
 
-        virtual void OnUserAudioBlock(int userid, StreamType stream_type) = 0;
+        virtual void OnUserAudioBlock(int userid, StreamTypes sts) = 0;
 
         virtual void OnMTUQueryComplete(int payload_size) = 0;
     };

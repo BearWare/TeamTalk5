@@ -131,7 +131,7 @@ public:
 
     void OnAudioInputStatus(int voicestreamid, const AudioInputStatus& ais) override;
 
-    void OnUserAudioBlock(int userid, teamtalk::StreamType stream_type) override;
+    void OnUserAudioBlock(int userid, teamtalk::StreamTypes sts) override;
 
     void OnMTUQueryComplete(int payload_size) override;
 

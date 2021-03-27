@@ -310,6 +310,8 @@ namespace teamtalk {
         STREAMTYPE_CHANNELMSG               = 0x00000040,
 
         STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO = 0x00000080,
+
+        STREAMTYPE_ALL                      = 0x0000ffff,
     };
 
     typedef ACE_UINT32 StreamTypes;

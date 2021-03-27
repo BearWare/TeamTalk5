@@ -26,9 +26,10 @@
 
 #include <codec/MediaUtil.h>
 #include <avstream/AudioResampler.h>
+#include <mystd/MyStd.h>
+#include <teamtalk/Common.h>
 
 #include <ace/Message_Queue.h>
-#include <mystd/MyStd.h>
 
 #include <set>
 #include <map>
@@ -57,12 +58,12 @@ class AudioContainer : public NonCopyable
 public:
     AudioContainer();
 
-    void AddAudioSource(int userid, int stream_type, const media::AudioFormat& af);
-    void RemoveAudioSource(int userid, int stream_type);
+    void AddAudioSource(int userid, teamtalk::StreamTypes sts, const media::AudioFormat& af);
+    void RemoveAudioSource(int userid, teamtalk::StreamTypes sts);
 
-    bool AddAudio(int userid, int stream_type, const media::AudioFrame& frame);
+    bool AddAudio(int userid, teamtalk::StreamTypes sts, const media::AudioFrame& frame);
 
-    ACE_Message_Block* AcquireAudioFrame(int userid, int stream_type);
+    ACE_Message_Block* AcquireAudioFrame(int userid, teamtalk::StreamTypes sts);
     void ReleaseAllAudio();
 
 private:

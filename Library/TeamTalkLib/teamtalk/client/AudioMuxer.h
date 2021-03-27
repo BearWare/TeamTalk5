@@ -49,12 +49,12 @@
 #define ENABLE_SPEEXFILE 1
 #endif
 
-typedef std::function< void (const media::AudioFrame& frm) > audiomuxer_callback_t;
+typedef std::function< void (teamtalk::StreamTypes sts, const media::AudioFrame& frm) > audiomuxer_callback_t;
 
 class AudioMuxer : private TimerListener
 {
 public:
-    AudioMuxer();
+    AudioMuxer(teamtalk::StreamTypes sts);
     virtual ~AudioMuxer();
 
     bool RegisterMuxCallback(const teamtalk::AudioCodec& codec,
@@ -66,7 +66,7 @@ public:
                   teamtalk::AudioFileFormat aff);
     void CloseFile();
 
-    bool QueueUserAudio(int userid, const media::AudioFrame& frm);
+    bool QueueUserAudio(int userid, teamtalk::StreamType st, const media::AudioFrame& frm);
 
     void SetMuxInterval(int msec);
     
@@ -99,9 +99,10 @@ private:
     std::recursive_mutex m_mutex;
     std::shared_ptr< std::thread > m_thread;
 
-    ACE_UINT32 m_sample_no = 0;
-    ACE_UINT32 m_last_flush_time = 0;
+    uint32_t m_sample_no = 0;
+    uint32_t m_last_flush_time = 0;
     teamtalk::AudioCodec m_codec;
+    teamtalk::StreamTypes m_streamtypes = teamtalk::STREAMTYPE_NONE;
 
     wavepcmfile_t m_wavefile;
 #if defined(ENABLE_MEDIAFOUNDATION)
@@ -137,13 +138,14 @@ public:
     ~ChannelAudioMuxer();
 
     bool SaveFile(int channelid, const teamtalk::AudioCodec& codec,
+                  teamtalk::StreamTypes sts,
                   const ACE_TString& filename,
                   teamtalk::AudioFileFormat aff);
     bool CloseFile(int channelid);
 
-    bool AddUser(int userid, int channelid);
-    bool RemoveUser(int userid);
+    bool AddUser(int userid, teamtalk::StreamType st, int channelid);
+    bool RemoveUser(int userid, teamtalk::StreamType st);
 
-    void QueueUserAudio(int userid, const media::AudioFrame& frm);
+    void QueueUserAudio(int userid, teamtalk::StreamType st, const media::AudioFrame& frm);
 };
 #endif
