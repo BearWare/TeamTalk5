@@ -179,6 +179,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     ui.ttsTreeView->setModel(m_ttsmodel);
     connect(ui.ttsTreeView, &QAbstractItemView::activated,
             this, &PreferencesDlg::slotTTSEventToggled);
+    connect(ui.ttsengineComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &PreferencesDlg::slotUpdateTTSTab);
 
     //keyboard shortcuts
     connect(ui.voiceactButton, &QAbstractButton::clicked,
@@ -582,15 +583,7 @@ void PreferencesDlg::slotTabChange(int index)
         TextToSpeechEngine ttsEngine = TextToSpeechEngine(ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt());
         setCurrentItemData(ui.ttsengineComboBox, ttsEngine);
 
-        ui.voiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
-        ui.voiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
-
-        QVector<QVoice> Voices = ttSpeech->availableVoices();
-        foreach (const QVoice &voice, Voices)
-        {
-            ui.ttsVoiceComboBox->addItem(voice.name());
-        }
-        ui.ttsVoiceComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_VOICE).toInt());
+        slotUpdateTTSTab();
 
         break;
     }
@@ -1414,6 +1407,32 @@ void PreferencesDlg::slotEventMuteAllOff()
     QString filename;
     if(getSoundFile(filename))
         ui.mutealloffEdit->setText(filename);
+}
+
+void PreferencesDlg::slotUpdateTTSTab()
+{
+    if(ui.ttsengineComboBox->currentIndex() == 1)
+    {
+        delete ttSpeech;
+        ttSpeech = new QTextToSpeech(this);
+        ui.ttsVoiceComboBox->setEnabled(true);
+        ui.voiceRateSpinBox->setEnabled(true);
+        ui.voiceVolumeSpinBox->setEnabled(true);
+        ui.voiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
+        ui.voiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
+        QVector<QVoice> Voices = ttSpeech->availableVoices();
+        foreach (const QVoice &voice, Voices)
+        {
+            ui.ttsVoiceComboBox->addItem(voice.name());
+        }
+        ui.ttsVoiceComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_VOICE).toInt());
+    }
+    else
+    {
+        ui.ttsVoiceComboBox->setEnabled(false);
+        ui.voiceRateSpinBox->setEnabled(false);
+        ui.voiceVolumeSpinBox->setEnabled(false);
+    }
 }
 
 void PreferencesDlg::slotShortcutVoiceActivation(bool checked)

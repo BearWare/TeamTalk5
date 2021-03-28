@@ -125,6 +125,8 @@ private:
     void slotEventVoiceActOff();
     void slotEventMuteAllOn();
     void slotEventMuteAllOff();
+    //TTS
+    void slotUpdateTTSTab();
     //keyboard shortcuts
     void slotShortcutVoiceActivation(bool checked);
     void slotShortcutIncVolume(bool checked);
