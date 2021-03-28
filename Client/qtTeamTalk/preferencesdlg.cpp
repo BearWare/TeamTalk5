@@ -585,6 +585,13 @@ void PreferencesDlg::slotTabChange(int index)
         ui.voiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
         ui.voiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
 
+        QVector<QVoice> Voices = ttSpeech->availableVoices();
+        foreach (const QVoice &voice, Voices)
+        {
+            ui.ttsVoiceComboBox->addItem(voice.name());
+        }
+        ui.ttsVoiceComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_VOICE).toInt());
+
         break;
     }
     case SHORTCUTS_TAB :  //shortcuts
@@ -1017,6 +1024,7 @@ void PreferencesDlg::slotSaveChanges()
     {
         ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, m_ttsmodel->getTTSEvents());
         ttSettings->setValue(SETTINGS_TTS_ENGINE, getCurrentItemData(ui.ttsengineComboBox, TTSENGINE_NONE));
+        ttSettings->setValue(SETTINGS_TTS_VOICE, ui.ttsVoiceComboBox->currentIndex());
         ttSettings->setValue(SETTINGS_TTS_RATE, ui.voiceRateSpinBox->value());
         ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.voiceVolumeSpinBox->value());
     }

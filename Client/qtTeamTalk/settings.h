@@ -183,6 +183,7 @@
 #define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTS_NONE
 #define SETTINGS_TTS_ENGINE                         "texttospeech/tts-engine"
 #define SETTINGS_TTS_ENGINE_DEFAULT                 TTSENGINE_NONE
+#define SETTINGS_TTS_VOICE                         "texttospeech/tts-voice"
 #define SETTINGS_TTS_RATE                         "texttospeech/tts-rate"
 #define SETTINGS_TTS_RATE_DEFAULT                 0.0
 #define SETTINGS_TTS_VOLUME                         "texttospeech/tts-volume"

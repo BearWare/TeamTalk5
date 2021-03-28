@@ -5916,6 +5916,8 @@ void MainWindow::startTTS()
         ttSpeech = new QTextToSpeech(this);
         ttSpeech->setRate(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
         ttSpeech->setVolume(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
+        QVector<QVoice> Voices = ttSpeech->availableVoices();
+        ttSpeech->setVoice(Voices.at(ttSettings->value(SETTINGS_TTS_VOICE).toInt()));
     }
 #endif
 }
