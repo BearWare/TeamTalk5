@@ -53,7 +53,6 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
 , m_devout(devout)
 , m_uservideo(nullptr)
 , m_sndloop(nullptr)
-, m_speech(0)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
