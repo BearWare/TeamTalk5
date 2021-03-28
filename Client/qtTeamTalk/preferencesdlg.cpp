@@ -41,6 +41,9 @@
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 extern QTranslator* ttTranslator;
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+extern QTextToSpeech* ttSpeech;
+#endif
 
 #define CUSTOMVIDEOFORMAT_INDEX -2
 
@@ -50,6 +53,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
 , m_devout(devout)
 , m_uservideo(nullptr)
 , m_sndloop(nullptr)
+, m_speech(0)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
@@ -579,6 +583,9 @@ void PreferencesDlg::slotTabChange(int index)
         TextToSpeechEngine ttsEngine = TextToSpeechEngine(ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt());
         setCurrentItemData(ui.ttsengineComboBox, ttsEngine);
 
+        ui.voiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
+        ui.voiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
+
         break;
     }
     case SHORTCUTS_TAB :  //shortcuts
@@ -1011,6 +1018,8 @@ void PreferencesDlg::slotSaveChanges()
     {
         ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, m_ttsmodel->getTTSEvents());
         ttSettings->setValue(SETTINGS_TTS_ENGINE, getCurrentItemData(ui.ttsengineComboBox, TTSENGINE_NONE));
+        ttSettings->setValue(SETTINGS_TTS_RATE, ui.voiceRateSpinBox->value());
+        ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.voiceVolumeSpinBox->value());
     }
 }
 
