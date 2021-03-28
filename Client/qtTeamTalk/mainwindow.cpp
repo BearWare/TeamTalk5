@@ -565,10 +565,7 @@ void MainWindow::loadSettings()
         }
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_QT)
-        ttSpeech = new QTextToSpeech(this);
-#endif
+    startTTS();
 
     //load settings
     bool ptt = ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool();
@@ -3673,6 +3670,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
     updateWindowTitle();
     slotUpdateUI();
+    startTTS();
 }
 
 void MainWindow::slotClientExit(bool /*checked =false */)
@@ -5907,4 +5905,17 @@ void MainWindow::slotClosedUserAccountsDlg(int)
 void MainWindow::slotClosedBannedUsersDlg(int)
 {
     m_bannedusersdlg = nullptr;
+}
+
+void MainWindow::startTTS()
+{
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_QT)
+    {
+        delete ttSpeech;
+        ttSpeech = new QTextToSpeech(this);
+        ttSpeech->setRate(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
+        ttSpeech->setVolume(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
+    }
+#endif
 }
