@@ -3677,6 +3677,10 @@ void MainWindow::slotClientExit(bool /*checked =false */)
 {
     //close using timer, otherwise gets a Qt assertion from the 
     //'setQuitOnLastWindowClosed' call.
+#ifdef Q_OS_WIN32
+    if(Tolk_IsLoaded())
+        Tolk_Unload();
+#endif
     QApplication::setQuitOnLastWindowClosed(true);
     QTimer::singleShot(0, this, &MainWindow::close);
 }
@@ -5918,6 +5922,16 @@ void MainWindow::startTTS()
         ttSpeech->setVolume(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
         QVector<QVoice> Voices = ttSpeech->availableVoices();
         ttSpeech->setVoice(Voices.at(ttSettings->value(SETTINGS_TTS_VOICE).toInt()));
+    }
+#endif
+#ifdef Q_OS_WIN32
+    if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_TOLK)
+    {
+        if(!Tolk_IsLoaded())
+        {
+            Tolk_Load();
+            Tolk_TrySAPI(true);
+        }
     }
 #endif
 }

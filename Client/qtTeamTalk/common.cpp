@@ -1022,6 +1022,10 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
             ttSpeech->say(msg);
             break;
 #endif
+        case TTSENGINE_TOLK :
+        {
+            Tolk_Output(_W(msg));
+        }
         case TTSENGINE_NOTIFY :
         {
             QString noquote = msg;
