@@ -101,24 +101,5 @@ namespace teamtalk {
 #endif
         teamtalk::ServerXML& m_settings;
     };
-
-    bool LoadConfig(ServerXML& xmlSettings, const ACE_TString& cfgfile);
-
-    bool ReadServerProperties(ServerXML& xmlSettings, ServerSettings& properties,
-                              statchannels_t& channels);
-
-#if defined(ENABLE_TEAMTALKPRO)
-    bool SetupEncryption(ServerNode& servernode, ServerXML& xmlSettings);
-    int LoginBearWareAccount(const ACE_CString& username, const ACE_CString& passwd);
-#endif
-
-    bool ConfigureServer(ServerNode& servernode, const ServerSettings& properties,
-                         const statchannels_t& channels);
-
-    void ConvertChannels(const serverchannel_t& root, teamtalk::statchannels_t& channels, bool onlystatic = false);
-
-    void MakeStaticChannels(ServerNode& servernode, const statchannels_t& channels);
-
-    void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname, std::ofstream& logfile);
 }
 #endif

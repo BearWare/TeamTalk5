@@ -11,7 +11,9 @@ set (TTSRVPRO_LINK_FLAGS ${TTSRV_LINK_FLAGS})
     
 set (TTSRV_SOURCES
   ${TTSRVLIB_SOURCES}
+  ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerConfig.cpp
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerGuard.cpp
+  ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerUtil.cpp
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerXML.cpp
   ${TEAMTALKLIB_ROOT}/settings/Settings.cpp
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/Main.cpp
@@ -21,7 +23,9 @@ set (TTSRV_HEADERS
   ${TTSRVLIB_HEADERS}
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/AppInfo.h
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/resource.h
+  ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerConfig.h
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerGuard.h
+  ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerUtil.h
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerXML.h
   ${TEAMTALKLIB_ROOT}/settings/Settings.h)
 

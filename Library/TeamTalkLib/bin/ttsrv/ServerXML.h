@@ -167,6 +167,13 @@ namespace teamtalk {
         void ClearUserBans();
         std::vector<BannedUser> GetUserBans();
         /********** </serverbans> ************/
+
+        /******** <bearware-weblogin> *********/
+        void SetBearWareWebLogin(const std::string& username,
+                                 const std::string& token);
+        bool GetBearWareWebLogin(std::string& username,
+                                 std::string& token);
+        /******** </bearware-weblogin> *********/
     private:
         /**** Sections ****/
         TiXmlElement* GetGeneralElement();
