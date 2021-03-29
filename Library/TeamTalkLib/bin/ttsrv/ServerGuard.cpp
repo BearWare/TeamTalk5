@@ -111,7 +111,7 @@ void ServerGuard::OnUserLoggedOut(const ServerUser& user)
 
     TT_LOG(oss.str().c_str());
 
-#if defined(ENABLE_HTTP_AUTH)
+#if defined(ENABLE_TEAMTALKPRO)
     m_pendinglogin.erase(user.GetUserID());
 #endif
 }
@@ -541,7 +541,7 @@ void ServerGuard::OnShutdown(const ServerStats& stats)
     TT_LOG(oss.str().c_str());
 }
 
-#if defined(ENABLE_HTTP_AUTH)
+#if defined(ENABLE_TEAMTALKPRO)
 
 void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount)
 {
@@ -683,7 +683,7 @@ void ServerGuard::WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid,
     TTASSERT(ret >= 0);
 }
 
-#endif /* ENABLE_HTTP_AUTH */
+#endif /* ENABLE_TEAMTALKPRO */
 
 ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user, UserAccount& useraccount)
 {
@@ -696,10 +696,9 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
     }
 
     MYTRACE(ACE_TEXT("Authenticating %s\n"), useraccount.username.c_str());
-#if defined(ENABLE_HTTP_AUTH)
-    
-    bool bearware = false;
+
 #if defined(ENABLE_TEAMTALKPRO)
+    bool bearware = false;
     ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
     if (useraccount.username == ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME))
         return TT_CMDERR_INVALID_ACCOUNT;
@@ -708,8 +707,6 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
 #else
     bearware |= std::regex_search(useraccount.username.c_str(), std::regex(bwregex.c_str()));
 #endif
-
-#endif /* ENABLE_TEAMTALKPRO */
 
     if (bearware)
     {
@@ -733,7 +730,7 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
 
         return TT_SRVERR_COMMAND_SUSPEND;
     }
-#endif /* ENABLE_HTTP_AUTH */
+#endif /* ENABLE_TEAMTALKPRO */
 
     if(m_settings.AuthenticateUser(useraccount))
     {

@@ -48,10 +48,6 @@
 #define DEFAULT_TCPPORT 10333
 #define DEFAULT_UDPPORT 10333
 
-#define WEBLOGIN_BEARWARE_USERNAME  "bearware"
-#define WEBLOGIN_BEARWARE_POSTFIX   "@bearware.dk"
-#define WEBLOGIN_URL                "https://login.bearware.dk/teamtalk/weblogin.php?"
-
 // sanity check
 #if defined(ENABLE_TEAMTALKPRO)
 #if !defined(ENABLE_ENCRYPTION)

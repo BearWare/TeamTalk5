@@ -300,7 +300,9 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
                              CREATE_USERACCOUNT_BEARWARE,
                      #endif
                              DELETE_USERACCOUNT, QUIT_USERACCOUNTS};
+#if defined(ENABLE_TEAMTALKPRO)
     ACE_CString url = WEBLOGIN_URL;
+#endif
     std::string xml;
 
     while(input != QUIT_USERACCOUNTS)

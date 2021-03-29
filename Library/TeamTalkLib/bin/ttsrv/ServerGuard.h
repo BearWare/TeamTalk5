@@ -93,7 +93,7 @@ namespace teamtalk {
         ErrorMsg ChangeStatus(const ServerUser& user, int mode, const ACE_TString& status);
 
     private:
-#if defined(ENABLE_HTTP_AUTH)
+#if defined(ENABLE_TEAMTALKPRO)
         void WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount);
         ErrorMsg WebLoginPostAuthenticate(UserAccount& useraccount);
         void WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid, const UserAccount& useraccount, const ErrorMsg& err);

@@ -22,6 +22,7 @@
  */
 
 #include "ServerUtil.h"
+#include "AppInfo.h"
 
 #include <TeamTalkDefs.h>
 #include <teamtalk/ttassert.h>
