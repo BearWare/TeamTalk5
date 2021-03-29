@@ -7,7 +7,7 @@ mac:TARGET = TeamTalk5
 QMAKE_INFO_PLIST = Info.plist
 
 win32 {
-    LIBS += $${TEAMTALK_LIB}/TeamTalk5.lib
+    LIBS += $${TEAMTALK_LIB}/TeamTalk5.lib tolk/bin/win32/Tolk.lib
 }
 unix {
     LIBS += -L$${TEAMTALK_LIB} -lTeamTalk5

@@ -42,6 +42,7 @@
 #ifdef Q_OS_WIN32
 #define NOMINMAX //prevent std::...::min() collision
 #include <windows.h>
+#include <Tolk.h>
 #endif
 
 
