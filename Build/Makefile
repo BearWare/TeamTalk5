@@ -145,11 +145,15 @@ teamtalk-jar:
 
 depend-ubuntu18:
 	# TeamTalk 5 dependencies
-	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev doxygen openjdk-11-jdk qttools5-dev-tools ninja-build
+	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev doxygen \
+                    openjdk-11-jdk qttools5-dev-tools ninja-build libpcap-dev \
+                    junit4 cmake
 
 depend-debian9:
 	# TeamTalk 5 dependencies
-	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev doxygen g++ openjdk-8-jdk qttools5-dev-tools ninja-build
+	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
+                    doxygen g++ openjdk-8-jdk qttools5-dev-tools ninja-build libpcap-dev \
+                    junit4 cmake
 
 dox: teamtalk-env
 	cd $(TEAMTALK_ROOT)/Documentation/TeamTalk && doxygen TeamTalk5.dox

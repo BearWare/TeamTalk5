@@ -1,0 +1,43 @@
+name: iOS
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Init Toolchain submodule
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: git submodule update --init Library/TeamTalkLib/toolchain
+
+    - name: Init Toolchain's submodules
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
+      run: |
+        make prepare-github
+
+    - name: Install Toolchain Dependencies
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
+      run: |
+        make depend-mac
+
+    - name: Build Toolchain for iOS ARMv7
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain
+      shell: bash
+      run: |
+        source toolchain.sh ios armv7
+        cd build
+        make ios-armv7
+
+    - name: Install TeamTalk Library Dependencies
+      run: brew install openjdk ninja doxygen cmake
+
+    - name: Build TeamTalk Library and Apps
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+      run: make CMAKE_EXTRA="-DWEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=armv7 -DCMAKE_OSX_SYSROOT=iphoneos" BUILDDIR=build-ios-armv7 ios-build
+
+    - name: Doxygen Documentation
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+      run: make dox

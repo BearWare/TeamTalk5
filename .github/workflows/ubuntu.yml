@@ -1,119 +1,66 @@
-name: CMake
+name: Ubuntu 18
 
 on: [push]
 
 env:
-  # TeamTalkJNI JUnit environment variables
+  # TeamTalk unit test environment variables
   INPUTDEVICEID: 1978
   OUTPUTDEVICEID: 1978
   VIDEODEVICEID: None
-  OPUSTOOLS: 0
   VERBOSE: 0
 
 jobs:
   build:
-    # The CMake configure and build commands are platform agnostic and should work equally
-    # well on Windows or Mac.  You can convert this to a matrix build if you need
-    # cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Source environment
+    - name: Update packages
+      # Ensure FFmpeg doesn't detect additional dependencies
+      run: |
+        sudo apt remove libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev
+        sudo apt autoremove
+        sudo apt install valgrind
+        dpkg -l
+
+    - name: Init Toolchain submodule
       working-directory: ${{runner.workspace}}/TeamTalk5
-      run: source env.sh
+      run: git submodule update --init Library/TeamTalkLib/toolchain
 
-    - name: Refresh Ubuntu-repo
-      run: sudo apt update
+    - name: Init Toolchain's submodules
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
+      run: |
+        make prepare-github
 
-    - name: Install Dependencies
-      run: >-
-           sudo apt install libace-dev
-           libace-ssl-dev
-           libace-inet-dev
-           libace-inet-ssl-dev
-           libtinyxml-dev
-           zlib1g-dev
-           libssl-dev
-           libopus-dev
-           libspeex-dev
-           libspeexdsp-dev
-           libvpx-dev
-           libogg-dev
-           portaudio19-dev
-           libasound2-dev
-           libavcodec-dev
-           libavdevice-dev
-           libavfilter-dev
-           libavformat-dev
-           libavresample-dev
-           libavutil-dev
-           libswresample-dev
-           libswscale-dev
-           cmake
-           python3-minimal
-           junit4
-           catch
-           ninja-build
-           doxygen
-           valgrind
-           libpcap-dev
-           qt5-default
-           qtmultimedia5-dev
-           libqt5x11extras5-dev
-           
+    - name: Install Toolchain Dependencies
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
+      run: |
+        sudo make depend-ubuntu18
 
-    - name: Clone submodules
+    - name: Build Toolchain for Ubuntu 18
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain
+      shell: bash
+      run: |
+        source toolchain.sh linux
+        cd build
+        make deb64
+
+    - name: Init TeamTalk Library submodules
       working-directory: ${{runner.workspace}}/TeamTalk5
-      run: git submodule update --init Library/TeamTalkLib/test/testdata
+      run: |
+        git submodule update --init Library/TeamTalkLib/test/testdata
 
-    - name: Create Build Environment
-      # Some projects don't allow in-source building, so create a separate build directory
-      # We'll use this as our working directory for all subsequent commands
-      run: cmake -E make_directory ${{runner.workspace}}/build
+    - name: Install TeamTalk Library Dependencies
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: sudo make -C Build depend-ubuntu18
 
-    - name: Configure CMake
-      # Use a bash shell so we can use the same syntax for environment variable
-      # access regardless of the host operating system
+    - name: Build TeamTalk Library and Apps
+      working-directory: ${{runner.workspace}}/TeamTalk5
       shell: bash
-      working-directory: ${{runner.workspace}}/build
-      # Note the current convention is to use the -S and -B options here to specify source
-      # and build directories, but this is only available with CMake 3.13 and higher.
-      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: >-
-           cmake $GITHUB_WORKSPACE -G Ninja
-           -DBUILD_TEAMTALK_CORE=ON
-           -DBUILD_TEAMTALK_STATIC=OFF
-           -DBUILD_TEAMTALK_ACE=OFF
-           -DSPEEXDSP_STATIC=OFF
-           -DFFMPEG_STATIC=OFF
-           -DAVF=OFF
-           -DMSDMO=OFF
-           -DDSHOW=OFF
-           -DVIDCAP=OFF
-           -DMEDIAFOUNDATION=OFF
-           -DOPUS_STATIC=OFF
-           -DLIBVPX_STATIC=OFF
-           -DSPEEX_STATIC=OFF
-           -DOGG_STATIC=OFF
-           -DOPUSTOOLS=OFF
-           -DLAMEMP3=OFF
-           -DMSVS_UNITTEST=OFF
-           -DACE_STATIC=OFF
-           -DTINYXML_STATIC=OFF
-           -DPORTAUDIO=OFF
-           -DZLIB_STATIC=OFF
-           -DWEBRTC=OFF
-           -DV4L2=OFF
-           -DCATCH_UNITTEST=ON
-
-    - name: Build
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: cmake --build .
+      run: |
+        source env.sh
+        make CMAKE_EXTRA="-DWEBRTC=OFF -DCATCH_UNITTEST=ON" -C Build ubuntu64
 
     - name: Java Server API Test (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
@@ -151,8 +98,7 @@ jobs:
 
     - name: Catch unit-test
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
-      run: |
-        valgrind --tool=memcheck --leak-check=full ./catchtt
+      run: valgrind --tool=memcheck --leak-check=full ./catchtt
 
     - name: Stop TeamTalk Pro Server
       run: killall tt5prosrv
