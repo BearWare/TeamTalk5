@@ -64,21 +64,17 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
     assert(!echo || infrm.outputfmt.IsValid());
     assert(!echo || infrm.inputfmt == infrm.outputfmt);
 
+    int delayms = 0;
     if (echo)
     {
         // Set the delay for the AEC. The AEC can overcome mismatches in the delay but works best with a close match. 
         // The amount of residual echo seems proportional to the accuracy of the delay
-        int delayms = infrm.duplex_callback_delay;
+        delayms = infrm.duplex_callback_delay;
         if (delayms == 0)
         {
             //delay not known (likely for loopback). Set it to minimum frame duration
             delayms = PCM16_SAMPLES_DURATION(infrm.output_samples, infrm.outputfmt.samplerate);
         }
-        int ret = apm.set_stream_delay_ms(delayms);
-        MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
-                        ACE_TEXT("WebRTC failed to stream delay for echo cancellation. Result: %d, delay: %d\n"), ret, infrm.duplex_callback_delay);
-        if (ret != webrtc::AudioProcessing::kNoError)
-            return -1;
     }
 
     // AudioProcessingStats
@@ -97,6 +93,17 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
                                            const_cast<int16_t*>(&infrm.output_buffer[in_index * echo_cfg.num_channels()]));
             MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
                          ACE_TEXT("WebRTC failed to process reverse audio frame. Result: %d\n"), ret);
+
+            // As per audio_processing.h, set_stream_delay_ms should be called after ProcessReverseStream
+            int ret = apm.set_stream_delay_ms(delayms);
+
+            MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
+                ACE_TEXT("WebRTC failed to set stream delay for echo cancellation. Result: %d, delay: %d\n"), ret, infrm.duplex_callback_delay);
+            if (ret != webrtc::AudioProcessing::kNoError)
+                return -1;
+
+            //WebRTC is fed in 10ms frames, so increment the delay 10ms for every WebRTC frame
+            delayms += 10;
         }
 
         ret = apm.ProcessStream(&infrm.input_buffer[in_index * in_cfg.num_channels()],
