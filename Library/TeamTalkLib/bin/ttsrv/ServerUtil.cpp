@@ -170,15 +170,18 @@ void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname,
 
 #if defined(ENABLE_TEAMTALKPRO)
 
-int LoginBearWareAccount(const ACE_CString& username, const ACE_CString& passwd, ACE_CString& token)
+int LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd, ACE_TString& token)
 {
+    std::string usernameUtf8 = UnicodeToUtf8(username).c_str();
+    std::string passwdUtf8 = UnicodeToUtf8(passwd).c_str();
+
     std::string url = WEBLOGIN_URL;
     url += "client=" TEAMTALK_LIB_NAME;
     url += "&version=" TEAMTALK_VERSION;
     url += "&service=bearware";
     url += "&action=auth";
-    url += "&username=" + URLEncode(username.c_str());
-    url += "&password=" + URLEncode(passwd.c_str());
+    url += "&username=" + URLEncode(usernameUtf8);
+    url += "&password=" + URLEncode(passwdUtf8);
     std::string utf8;
     switch (HttpRequest(url.c_str(), utf8))
     {
@@ -193,22 +196,25 @@ int LoginBearWareAccount(const ACE_CString& username, const ACE_CString& passwd,
         {
             std::string nickname = xmldoc.GetValue(false, "teamtalk/bearware/nickname", "");
             std::string username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
-            token = xmldoc.GetValue(false, "teamtalk/bearware/token", "").c_str();
+            token = Utf8ToUnicode(xmldoc.GetValue(false, "teamtalk/bearware/token", "").c_str());
             return token.length() > 0;
         }
         return 0;
     }
 }
 
-int AuthBearWareAccount(const ACE_CString& username, const ACE_CString& token)
+int AuthBearWareAccount(const ACE_TString& username, const ACE_TString& token)
 {
+    std::string usernameUtf8 = UnicodeToUtf8(username).c_str();
+    std::string tokenUtf8 = UnicodeToUtf8(token).c_str();
+
     std::string url = WEBLOGIN_URL;
     url += "client=" TEAMTALK_LIB_NAME;
     url += "&version=" TEAMTALK_VERSION;
     url += "&service=bearware";
     url += "&action=clientauth";
-    url += "&username=" + URLEncode(username.c_str());
-    url += "&token=" + URLEncode(token.c_str());
+    url += "&username=" + URLEncode(usernameUtf8.c_str());
+    url += "&token=" + URLEncode(tokenUtf8.c_str());
     url += "&accesstoken=proserver";
     std::string utf8;
     switch (HttpRequest(url.c_str(), utf8))

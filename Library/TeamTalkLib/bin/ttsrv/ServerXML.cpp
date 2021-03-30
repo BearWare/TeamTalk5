@@ -659,7 +659,7 @@ namespace teamtalk{
     
     /***** </general> *****/
 
-    bool ServerXML::SetServerLogMaxSize(_INT64 maxsize)
+    bool ServerXML::SetServerLogMaxSize(int64_t maxsize)
     {
         TiXmlElement* pParent = GetLoggingElement();
         if(pParent)
@@ -671,9 +671,9 @@ namespace teamtalk{
             return false;
     }
 
-    _INT64 ServerXML::GetServerLogMaxSize()
+    int64_t ServerXML::GetServerLogMaxSize()
     {
-        _INT64 nValue = 0;
+        int64_t nValue = 0;
         TiXmlElement* hosting = GetLoggingElement();
         if(hosting)
             GetInteger(*hosting, "server-log-maxsize", nValue);
@@ -681,7 +681,7 @@ namespace teamtalk{
     }
 
     /***** <file-storage> *****/
-    bool ServerXML::SetMaxDiskUsage(_INT64 diskquota)
+    bool ServerXML::SetMaxDiskUsage(int64_t diskquota)
     {
         TiXmlElement* child = GetFileStorageElement();
         if(child)
@@ -692,16 +692,16 @@ namespace teamtalk{
         return false;
     }
 
-    _INT64 ServerXML::GetMaxDiskUsage()
+    int64_t ServerXML::GetMaxDiskUsage()
     {
-        _INT64 ret = 0;
+        int64_t ret = 0;
         TiXmlElement* child = GetFileStorageElement();
         if(child)
             GetInteger(*child, "max-diskusage", ret);
         return ret;
     }
 
-    bool ServerXML::SetDefaultDiskQuota(_INT64 diskquota)
+    bool ServerXML::SetDefaultDiskQuota(int64_t diskquota)
     {
         TiXmlElement* child = GetFileStorageElement();
         if(child)
@@ -712,9 +712,9 @@ namespace teamtalk{
         return false;
     }
 
-    _INT64 ServerXML::GetDefaultDiskQuota()
+    int64_t ServerXML::GetDefaultDiskQuota()
     {
-        _INT64 ret = 0;
+        int64_t ret = 0;
         TiXmlElement* child = GetFileStorageElement();
         if(child)
             GetInteger(*child, "channel-diskquota", ret);
@@ -780,7 +780,7 @@ namespace teamtalk{
                     PutString(xmlChan, "name", UnicodeToUtf8(chan.name).c_str());
                 PutString(xmlChan, "password", UnicodeToUtf8(chan.passwd).c_str());
                 PutString(xmlChan, "topic", UnicodeToUtf8(chan.topic).c_str());
-                PutInteger(xmlChan, "diskquota", (_INT64)chan.diskquota);
+                PutInteger(xmlChan, "diskquota", (int64_t)chan.diskquota);
                 PutString(xmlChan, "op-password", UnicodeToUtf8(chan.oppasswd).c_str());
                 PutInteger(xmlChan, "max-users", chan.maxusers);
                 PutInteger(xmlChan, "channel-type", (int)chan.chantype);
@@ -850,7 +850,7 @@ namespace teamtalk{
                         TiXmlElement fileElement("file");
                         fileElement.SetAttribute("name", UnicodeToUtf8(chan.files[i].filename).c_str());
                         PutString(fileElement, "internalname", UnicodeToUtf8(chan.files[i].internalname).c_str());
-                        PutInteger(fileElement, "filesize", (_INT64)chan.files[i].filesize);
+                        PutInteger(fileElement, "filesize", (int64_t)chan.files[i].filesize);
                         PutString(fileElement, "username", UnicodeToUtf8(chan.files[i].username).c_str());
                         ReplaceElement(filesElement, fileElement);
                     }
@@ -933,7 +933,7 @@ namespace teamtalk{
                     newchan.passwd = Utf8ToUnicode(value.c_str());
                 if(GetString(*child, "topic", value))
                     newchan.topic = Utf8ToUnicode(value.c_str());
-                GetInteger(*child, "diskquota", (_INT64&)newchan.diskquota);
+                GetInteger(*child, "diskquota", (int64_t&)newchan.diskquota);
                 if(GetString(*child, "op-password", value))
                     newchan.oppasswd = Utf8ToUnicode(value.c_str());
                 newchan.maxusers = MAX_USERS_IN_CHANNEL;
@@ -1026,7 +1026,7 @@ namespace teamtalk{
                         entry.filename = Utf8ToUnicode(nextfile->Attribute("name"));
                         if(GetString(*nextfile, "internalname", tmp))
                             entry.internalname = Utf8ToUnicode(tmp.c_str());
-                        GetInteger(*nextfile, "filesize", (_INT64&)entry.filesize);
+                        GetInteger(*nextfile, "filesize", (int64_t&)entry.filesize);
                         if(GetString(*nextfile, "username", tmp))
                             entry.username = Utf8ToUnicode(tmp.c_str());
                         newchan.files.push_back(entry);

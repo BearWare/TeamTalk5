@@ -21,6 +21,8 @@
  *
  */
 
+#include <ace/OS.h> // undef CreateFile() on Windows
+
 #include "ServerConfig.h"
 #include "ServerUtil.h"
 
@@ -31,6 +33,7 @@
 
 #include <sstream>
 #include <queue>
+#include <iostream>
 
 #if defined(UNICODE)
 typedef std::wostringstream tostringstream;
