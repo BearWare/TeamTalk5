@@ -969,6 +969,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             if (ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT, SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT).toBool())
                 addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
             playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
+            addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(tr("%1 has logged in") .arg(getDisplayName(msg.user))));
         }
 
         // sync user settings from cache
@@ -988,6 +989,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             if (ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT, SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT).toBool())
                 addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
             playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
+            addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(tr("%1 has logged out") .arg(getDisplayName(msg.user))));
         }
 
         // sync user settings to cache
