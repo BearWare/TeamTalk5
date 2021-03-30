@@ -739,7 +739,28 @@ bool SetupEncryption(teamtalk::ServerNode& servernode, teamtalk::ServerXML& xmlS
                              xmlSettings.GetCertificateVerifyDepth(0));
     return true;
 }
+
+bool HasBearWareWebLogin(teamtalk::ServerXML& xmlSettings)
+{
+    int i = 0;
+    UserAccount ua;
+    while (xmlSettings.GetNextUser(++i, ua))
+    {
+        if (ua.username == ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME))
+            return true;
+
+        const ACE_TString BWREGEX = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
+#if defined(UNICODE)
+        if (std::regex_search(ua.username.c_str(), std::wregex(BWREGEX.c_str())))
+            return true;
+#else
+        if (std::regex_search(ua.username.c_str(), std::regex(BWREGEX.c_str())))
+            return true;
 #endif
+    }
+    return false;
+}
+#endif /* ENABLE_TEAMTALKPRO */
 
 bool ConfigureServer(teamtalk::ServerNode& servernode,
                      const teamtalk::ServerSettings& properties,

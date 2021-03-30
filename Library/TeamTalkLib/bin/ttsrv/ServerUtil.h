@@ -28,6 +28,7 @@
 #include <fstream>
 
 std::string printGetString(const std::string& input);
+std::string printGetPassword(const std::string& input);
 bool printGetBool(bool value);
 int printGetInt(int value);
 int64_t printGetInt64(int64_t value);
@@ -35,5 +36,6 @@ int64_t printGetInt64(int64_t value);
 void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname, std::ofstream& logfile);
 
 #if defined(ENABLE_TEAMTALKPRO)
-int LoginBearWareAccount(const ACE_CString& username, const ACE_CString& passwd);
+int LoginBearWareAccount(const ACE_CString& username, const ACE_CString& passwd, ACE_CString& token);
+int AuthBearWareAccount(const ACE_CString& username, const ACE_CString& token);
 #endif

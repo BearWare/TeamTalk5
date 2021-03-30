@@ -164,8 +164,8 @@ bool daemon_pid = false;
 //setting files
 ServerXML xmlSettings(TEAMTALK_XML_ROOTNAME);
 
-bool bDaemon = false;
-bool bNonDaemon = false;
+bool _daemon = false;
+bool nondaemon = false;
 int rxloss = 0, txloss = 0;
 
 int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
@@ -383,7 +383,7 @@ int RunServer(
     service->report_status_foo(SERVICE_RUNNING);
     RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir, logstream, log_maxsize);
 #else
-    if(bDaemon)
+    if(_daemon)
     {
 #if defined(WIN32)
         cout << "Windows does not support daemon mode. Use -nd parameter instead." << endl;
@@ -437,7 +437,7 @@ int RunServer(
 
 #endif /* WIN32 */
     }
-    else if(bNonDaemon)
+    else if(nondaemon)
     {
         //TCP commands thread
         RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir, logstream, log_maxsize);
@@ -519,11 +519,11 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     }
     if(args.find(ACE_TEXT("-d")) != args.end())
     {
-        bDaemon = true;
+        _daemon = true;
     }
     if(args.find(ACE_TEXT("-nd")) != args.end())
     {
-        bNonDaemon = true;
+        nondaemon = true;
     }
     if(args.find(ACE_TEXT("-daemon-pid")) != args.end())
     {
@@ -721,10 +721,58 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     }
 
 #if !defined(BUILD_NT_SERVICE)
-    if(!bNonDaemon && !bDaemon)
+    if(!nondaemon && !_daemon)
     {
         TT_LOG(ACE_TEXT("Missing either -d or -nd parameter in order to start."));
         return 0;
+    }
+#endif
+
+#if defined(ENABLE_TEAMTALKPRO)
+    while (HasBearWareWebLogin(xmlSettings))
+    {
+        std::string bwid, token;
+        xmlSettings.GetBearWareWebLogin(bwid, token);
+        while (token.empty())
+        {
+            cout << "To use BearWare.dk WebLogin please provide your credentials." << endl;
+            cout << "Type username: ";
+            bwid = LocalToUnicode(printGetString(bwid));
+            cout << "Type password: ";
+            std::string passwd = LocalToUnicode(printGetPassword(""));
+            ACE_CString newtoken;
+            switch (LoginBearWareAccount(bwid.c_str(), passwd.c_str(), newtoken))
+            {
+            case 1 :
+                cout << endl << "Login successful." << endl << endl;
+                cout << "To avoid providing your credentials every time the server is started" << endl;
+                cout << "it is recommended to store your access token in the server's configuration" << endl;
+                cout << "file." << endl << endl;
+                cout << "Only do so if " << TEAMTALK_SETTINGSFILE << " is inaccessible to everyone but yourself." << endl << endl;
+                cout << "Store access token in " << TEAMTALK_SETTINGSFILE << "? ";
+                if (printGetBool(false))
+                {
+                    xmlSettings.SetBearWareWebLogin(bwid, newtoken.c_str());
+                    xmlSettings.SaveFile();
+                }
+                token = newtoken.c_str();
+                break;
+            case -1 :
+                cout << "Unable to contact BearWare.dk WebLogin" << endl;
+                break;
+            default :
+            case 0 :
+                cout << "Login failed. Please try again." << endl;
+                break;
+            }
+        }
+
+        if (AuthBearWareAccount(bwid.c_str(), token.c_str()) == 0)
+        {
+            xmlSettings.SetBearWareWebLogin(bwid, "");
+            continue;
+        }
+        break;
     }
 #endif
 

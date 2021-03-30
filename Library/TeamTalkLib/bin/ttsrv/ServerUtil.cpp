@@ -36,6 +36,13 @@
 #include <iostream>
 #include <sstream>
 
+#if defined(WIN32)
+#include <windows.h>
+#else
+#include <termios.h>
+#include <unistd.h>
+#endif
+
 #if defined(UNICODE)
 typedef std::wostringstream tostringstream;
 #else
@@ -57,6 +64,43 @@ std::string printGetString(const std::string& input)
     std::string tmp;
     std::getline(cin, tmp);
     return tmp.empty()? input : tmp.c_str();
+}
+
+std::string printGetPassword(const std::string& input)
+{
+    cout << "(\"" << input << "\") ";
+
+#if defined(WIN32)
+    HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+    DWORD dwMode;
+    if (GetConsoleMode(hStdin, &dwMode))
+    {
+        dwMode &= ~ENABLE_ECHO_INPUT;
+        SetConsoleMode(hStdin, dwMode);
+    }
+#else
+    struct termios tty;
+    if (tcgetattr(STDIN_FILENO, &tty) == 0)
+    {
+        tty.c_lflag &= ~ECHO;
+        tcsetattr(STDIN_FILENO, TCSANOW, &tty);
+    }
+#endif
+
+    std::string tmp;
+    std::getline(cin, tmp);
+    tmp =  tmp.empty()? input : tmp.c_str();
+
+#if defined(WIN32)
+    dwMode |= ENABLE_ECHO_INPUT;
+    SetConsoleMode(hStdin, dwMode);
+#else
+    tty.c_lflag |= ECHO;
+    tcsetattr(STDIN_FILENO, TCSANOW, &tty);
+#endif
+    cout << endl;
+
+    return tmp;
 }
 
 bool printGetBool(bool value)
@@ -126,7 +170,7 @@ void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname,
 
 #if defined(ENABLE_TEAMTALKPRO)
 
-int LoginBearWareAccount(const ACE_CString& username, const ACE_CString& passwd)
+int LoginBearWareAccount(const ACE_CString& username, const ACE_CString& passwd, ACE_CString& token)
 {
     std::string url = WEBLOGIN_URL;
     url += "client=" TEAMTALK_LIB_NAME;
@@ -149,8 +193,37 @@ int LoginBearWareAccount(const ACE_CString& username, const ACE_CString& passwd)
         {
             std::string nickname = xmldoc.GetValue(false, "teamtalk/bearware/nickname", "");
             std::string username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
-            std::string token = xmldoc.GetValue(false, "teamtalk/bearware/token", "");
-            return token.size() > 0;
+            token = xmldoc.GetValue(false, "teamtalk/bearware/token", "").c_str();
+            return token.length() > 0;
+        }
+        return 0;
+    }
+}
+
+int AuthBearWareAccount(const ACE_CString& username, const ACE_CString& token)
+{
+    std::string url = WEBLOGIN_URL;
+    url += "client=" TEAMTALK_LIB_NAME;
+    url += "&version=" TEAMTALK_VERSION;
+    url += "&service=bearware";
+    url += "&action=clientauth";
+    url += "&username=" + URLEncode(username.c_str());
+    url += "&token=" + URLEncode(token.c_str());
+    url += "&accesstoken=proserver";
+    std::string utf8;
+    switch (HttpRequest(url.c_str(), utf8))
+    {
+    default :
+    case -1 :
+        return -1;
+    case 0 :
+        return 0;
+    case 1 :
+        teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
+        if (xmldoc.Parse(utf8))
+        {
+            std::string username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
+            return username.size() > 0;
         }
         return 0;
     }

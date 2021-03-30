@@ -698,10 +698,11 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
     MYTRACE(ACE_TEXT("Authenticating %s\n"), useraccount.username.c_str());
 
 #if defined(ENABLE_TEAMTALKPRO)
-    bool bearware = false;
-    ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
     if (useraccount.username == ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME))
         return TT_CMDERR_INVALID_ACCOUNT;
+
+    bool bearware = false;
+    ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
 #if defined(UNICODE)
     bearware |= std::regex_search(useraccount.username.c_str(), std::wregex(bwregex.c_str()));
 #else

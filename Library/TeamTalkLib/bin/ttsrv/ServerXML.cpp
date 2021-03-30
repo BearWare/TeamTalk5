@@ -1237,8 +1237,8 @@ namespace teamtalk{
     bool ServerXML::GetBearWareWebLogin(std::string& username,
                                         std::string& token)
     {
-        username = GetValue(false, "bearware-weblogin/bearwareid", "");
-        token = GetValue(false, "bearware-weblogin/bearwaretoken", "");
+        username = GetValue(true, "bearware-weblogin/bearwareid", "");
+        token = GetValue(true, "bearware-weblogin/bearwaretoken", "");
         return username.size() && token.size();
     }
     /******** </bearware-weblogin> *********/
