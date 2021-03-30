@@ -499,7 +499,17 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
 
 #if defined(ENABLE_WEBRTC)
     bool vad = false;
-    PreprocessWebRTC(audblock, vad);
+    if (m_gainlevel > 0)
+    {
+        // WebRTC preprocessing (especially AEC) is very CPU-intensive
+        // Only do it if the input is not muted.
+        // This allows client apps that use PTT to close the MIC input when there's
+        // no PTT and thus prevent the processing hit.
+        // AEC still functions fine if it's activated like this, although there's
+        // minute echo fragment at the (re)start of the preprocessing
+        PreprocessWebRTC(audblock, vad);
+    }
+
     if (!vad)
 #endif
     {
