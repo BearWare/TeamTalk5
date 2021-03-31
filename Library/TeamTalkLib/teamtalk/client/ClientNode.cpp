@@ -3485,16 +3485,26 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_PLAYING);
         break;
     case MEDIASTREAM_ERROR :
+    {
+        media::AudioFrame frm;
+        AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, frm);
+
         // TIMER_REMOVE_LOCALPLAYBACK will destroy media playback
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_ERROR);
         break;
+    }
     case MEDIASTREAM_PAUSED :
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_PAUSED);
         break;
     case MEDIASTREAM_FINISHED :
+    {
+        media::AudioFrame frm;
+        AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, frm);
+
         // TIMER_REMOVE_LOCALPLAYBACK will destroy media playback
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_FINISHED);
         break;
+    }
     case MEDIASTREAM_NONE :
         assert(status != MEDIASTREAM_NONE);
         break;
@@ -3503,10 +3513,7 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
 
 void ClientNode::MediaPlaybackAudio(int id, const media::AudioFrame& frm)
 {
-    if (m_audiocontainer.AddAudio(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, frm))
-    {
-        m_listener->OnUserAudioBlock(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO);
-    }
+    AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, frm);
 }
 
 bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
