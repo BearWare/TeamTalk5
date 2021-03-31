@@ -98,6 +98,7 @@ private:
     int m_userdata = 0;
     MediaStreamStatus m_status = MEDIASTREAM_NONE;
     uint32_t m_completiontime;
+    uint32_t m_sampleindex = 0;
 
     int m_gainlevel = GAIN_NORMAL;
     soundsystem::soundsystem_t m_sndsys;

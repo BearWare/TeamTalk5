@@ -362,9 +362,13 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         if (m_audiofunc)
         {
             assert(samples == streamer.framesize);
-            m_audiofunc(m_userdata, media::AudioFrame(media::AudioFormat(streamer.samplerate, streamer.channels),
-                                                      buffer, streamer.framesize));
+            media::AudioFrame cbfrm(media::AudioFormat(streamer.samplerate, streamer.channels),
+                                    buffer, streamer.framesize, m_sampleindex);
+            cbfrm.streamid = m_userdata;
+            m_audiofunc(m_userdata, cbfrm);
         }
+
+        m_sampleindex += samples;
     }
     else
     {
