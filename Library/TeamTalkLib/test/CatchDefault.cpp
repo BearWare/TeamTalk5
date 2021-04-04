@@ -516,6 +516,65 @@ TEST_CASE( "MuxedAudioBlockVolume" )
     REQUIRE(sum_gain == 0);
 }
 
+TEST_CASE( "MuxedStreamTypesInAudioBlock" )
+{
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(txclient));
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nSampleRate = 48000;
+    mfi.uDurationMSec = 10 * 1000;
+    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("muxtone.wav"));
+
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    mfp.bPaused = FALSE;
+
+    auto session = TT_InitLocalPlayback(rxclient, mfi.szFileName, &mfp);
+    REQUIRE(session > 0);
+
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 800));
+
+    StreamTypes sts = /*STREAMTYPE_VOICE | */STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO;
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, sts, TRUE));
+
+    TTMessage msg;
+    auto gainfunc = [&] (int userid)
+    {
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+        REQUIRE(msg.nStreamType == sts);
+        auto ab = TT_AcquireUserAudioBlock(rxclient, sts, userid);
+        REQUIRE(ab);
+        REQUIRE(ab->nChannels == 1);
+        short* audiobuf = reinterpret_cast<short*>(ab->lpRawAudio);
+        uint32_t sum_gain = 0;
+        for (int i=0;i<ab->nSamples;i++)
+            sum_gain += std::abs(audiobuf[i]);
+        REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
+        return sum_gain;
+    };
+
+    int n_frames = 50;
+    while (n_frames--)
+    {
+        std::cout << "level: " << (gainfunc(TT_MUXED_USERID)) << std::endl;
+    }
+}
 
 
 #if defined(ENABLE_OGG)
