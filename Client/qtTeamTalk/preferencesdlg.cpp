@@ -225,6 +225,7 @@ PreferencesDlg::~PreferencesDlg()
     TT_CloseSoundLoopbackTest(m_sndloop);
 }
 
+
 void PreferencesDlg::initDevices()
 {
     int default_inputid = SOUNDDEVICEID_DEFAULT, default_outputid = SOUNDDEVICEID_DEFAULT;
