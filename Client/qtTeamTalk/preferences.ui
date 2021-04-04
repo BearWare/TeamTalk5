@@ -1748,7 +1748,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_23">
           <item>
-           <widget class="QTreeView" name="ttsTreeView">
+           <widget class="TTSEventsTreeView" name="ttsTreeView">
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
             </property>
@@ -1817,13 +1817,13 @@
           <item row="2" column="1">
            <widget class="QDoubleSpinBox" name="voiceRateSpinBox">
             <property name="minimum">
-             <double>-1.0</double>
+             <double>-1.000000000000000</double>
             </property>
             <property name="maximum">
-             <double>1.0</double>
+             <double>1.000000000000000</double>
             </property>
             <property name="singleStep">
-             <double>0.1</double>
+             <double>0.100000000000000</double>
             </property>
            </widget>
           </item>
@@ -1840,13 +1840,13 @@
           <item row="3" column="1">
            <widget class="QDoubleSpinBox" name="voiceVolumeSpinBox">
             <property name="minimum">
-             <double>0.0</double>
+             <double>0.000000000000000</double>
             </property>
             <property name="maximum">
-             <double>1.0</double>
+             <double>1.000000000000000</double>
             </property>
             <property name="singleStep">
-             <double>0.1</double>
+             <double>0.100000000000000</double>
             </property>
            </widget>
           </item>
@@ -2393,6 +2393,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TTSEventsTreeView</class>
+   <extends>QTreeView</extends>
+   <header>ttseventsmodel.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>tabWidget</tabstop>
   <tabstop>nicknameEdit</tabstop>

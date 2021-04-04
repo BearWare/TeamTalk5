@@ -25,6 +25,7 @@
 #include "common.h"
 #include <QAbstractItemModel>
 #include <QVector>
+#include <QTreeView>
 
 class TTSEventsModel : public QAbstractItemModel
 {
@@ -43,6 +44,18 @@ public:
 private:
     QVector<TextToSpeechEvent> m_ttsevents;
     TTSEvents m_ttsselected = TTS_NONE;
+};
+
+class TTSEventsTreeView : public QTreeView
+{
+    Q_OBJECT
+
+public:
+    TTSEventsTreeView(QWidget* parent = nullptr);
+
+protected:
+    void keyPressEvent(QKeyEvent* e) override;
+
 };
 
 #endif // TTSEVENTSMODEL_H
