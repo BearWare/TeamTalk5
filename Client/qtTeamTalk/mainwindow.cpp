@@ -2388,24 +2388,27 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
             writeLogEntry(m_logChan, line);
         }
         if (textmsg.nFromUserID != TT_GetMyUserID(ttInst))
-            playSoundEvent(SOUNDEVENT_CHANNELMSG);
-        else
-            playSoundEvent(SOUNDEVENT_SENTCHANNELMSG);
-
-        User user;
-        if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
         {
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL,
-                                   QString(tr("Channel text message from %1: %2")
-                                           .arg(getDisplayName(user))
-                                           .arg(_Q(textmsg.szMessage))));
+            User user;
+            if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
+                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message from %1: %2").arg(getDisplayName(user)).arg(_Q(textmsg.szMessage))));
+            playSoundEvent(SOUNDEVENT_CHANNELMSG);
         }
+        else
+        {
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message sent: %1").arg(_Q(textmsg.szMessage))));
+            playSoundEvent(SOUNDEVENT_SENTCHANNELMSG);
+        }
+
         break;
     }
     case MSGTYPE_BROADCAST :
         ui.chatEdit->addTextMessage(textmsg);
         ui.videochatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
+        User user;
+        if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, QString(tr("Broadcast message from %1: %2").arg(getDisplayName(user)).arg(_Q(textmsg.szMessage))));
         playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
     case MSGTYPE_USER :
@@ -2422,6 +2425,9 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         }
         ui.channelsWidget->setUserMessaged(textmsg.nFromUserID, true);
         emit(newTextMessage(textmsg));
+        User user;
+        if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, QString(tr("Private message from %1: %2").arg(getDisplayName(user)).arg(_Q(textmsg.szMessage))));
         playSoundEvent(SOUNDEVENT_USERMSG);
         break;
     }
