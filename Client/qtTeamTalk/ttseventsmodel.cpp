@@ -58,10 +58,16 @@ TTSEventsModel::TTSEventsModel(QObject* parent)
     m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT);
     m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE);
 
+    m_ttsevents.push_back(TTS_CLASSROOM_CHANMSG_TX);
     m_ttsevents.push_back(TTS_CLASSROOM_VOICE_TX);
     m_ttsevents.push_back(TTS_CLASSROOM_VIDEO_TX);
     m_ttsevents.push_back(TTS_CLASSROOM_DESKTOP_TX);
     m_ttsevents.push_back(TTS_CLASSROOM_MEDIAFILE_TX);
+
+    m_ttsevents.push_back(TTS_FILE_ADD);
+    m_ttsevents.push_back(TTS_FILE_REMOVE);
+
+    m_ttsevents.push_back(TTS_MENU_ACTIONS);
 }
 
 QVariant TTSEventsModel::headerData ( int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/ ) const
@@ -147,6 +153,8 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
             return tr("Subscription intercept desktop access changed");
         case TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE :
             return tr("Subscription intercept media file stream changed");
+        case TTS_CLASSROOM_CHANMSG_TX :
+            return tr("Classroom allow channel messages transmission changed");
         case TTS_CLASSROOM_VOICE_TX :
             return tr("Classroom allow voice transmission changed");
         case TTS_CLASSROOM_VIDEO_TX :
@@ -155,6 +163,12 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
             return tr("Classroom allow desktop transmission changed");
         case TTS_CLASSROOM_MEDIAFILE_TX :
             return tr("Classroom allow media file transmission changed");
+        case TTS_FILE_ADD :
+            return tr("File added");
+        case TTS_FILE_REMOVE :
+            return tr("File removed");
+        case TTS_MENU_ACTIONS :
+            return tr("Menu actions");
         case TTS_NONE :
             break;
         }

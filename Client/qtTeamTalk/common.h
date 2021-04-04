@@ -289,10 +289,16 @@ enum TextToSpeechEvent
     TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT        = 0x00200000,
     TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE           = 0x00400000,
 
+    TTS_CLASSROOM_CHANMSG_TX                        = 0x80000000,
     TTS_CLASSROOM_VOICE_TX                          = 0x01000000,
     TTS_CLASSROOM_VIDEO_TX                          = 0x02000000,
     TTS_CLASSROOM_DESKTOP_TX                        = 0x04000000,
     TTS_CLASSROOM_MEDIAFILE_TX                      = 0x08000000,
+
+    TTS_FILE_ADD                                    = 0x00000080,
+    TTS_FILE_REMOVE                                 = 0x00800000,
+
+    TTS_MENU_ACTIONS                                = 0x40000000,
 };
 
 typedef uint32_t TTSEvents;
