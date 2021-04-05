@@ -2490,6 +2490,7 @@ void MainWindow::processMyselfJoined(int channelid)
 
 void MainWindow::processMyselfLeft(int channelid)
 {
+    m_mychannel = {};
     TT_GetChannel(ttInst, channelid, &m_mychannel);
     QString statusleft;
     if(m_mychannel.nChannelID>0 && TT_GetRootChannelID(ttInst) != m_mychannel.nChannelID) {
