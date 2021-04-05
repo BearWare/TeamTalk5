@@ -3909,9 +3909,15 @@ void MainWindow::slotUsersMuteVoiceAll(bool checked /*=false */)
 {
     TT_SetSoundOutputMute(ttInst, checked);
     if(checked == true)
+    {
         playSoundEvent(SOUNDEVENT_MUTEALLON);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Master volume disabled"));
+    }
     else
+    {
         playSoundEvent(SOUNDEVENT_MUTEALLOFF);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Master volume enabled"));
+    }
 }
 
 void MainWindow::slotUsersOpGrid(bool /*checked =false */)
@@ -4035,6 +4041,12 @@ void MainWindow::slotUsersAdvancedIncVolumeVoice()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
     std::for_each(users.begin(), users.end(), std::bind(incVolume, _1, STREAMTYPE_VOICE));
+    for(int i=0; i<users.size(); i++)
+    {
+        User user;
+        TT_GetUser(ttInst, users.value(i), &user);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Voice volume for %1 increased to %2%").arg(getDisplayName(user)).arg(refVolumeToPercent(user.nVolumeVoice)));
+    }
     slotUpdateUI();
 }
 
@@ -4042,6 +4054,12 @@ void MainWindow::slotUsersAdvancedDecVolumeVoice()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
     std::for_each(users.begin(), users.end(), std::bind(decVolume, _1, STREAMTYPE_VOICE));
+    for(int i=0; i<users.size(); i++)
+    {
+        User user;
+        TT_GetUser(ttInst, users.value(i), &user);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Voice volume for %1 decreased to %2%").arg(getDisplayName(user)).arg(refVolumeToPercent(user.nVolumeVoice)));
+    }
     slotUpdateUI();
 }
 
@@ -4049,6 +4067,12 @@ void MainWindow::slotUsersAdvancedIncVolumeMediaFile()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
     std::for_each(users.begin(), users.end(), std::bind(incVolume, _1, STREAMTYPE_MEDIAFILE_AUDIO));
+    for(int i=0; i<users.size(); i++)
+    {
+        User user;
+        TT_GetUser(ttInst, users.value(i), &user);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Media files volume for %1 increased to %2%").arg(getDisplayName(user)).arg(refVolumeToPercent(user.nVolumeMediaFile)));
+    }
     slotUpdateUI();
 }
 
@@ -4056,6 +4080,12 @@ void MainWindow::slotUsersAdvancedDecVolumeMediaFile()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
     std::for_each(users.begin(), users.end(), std::bind(decVolume, _1, STREAMTYPE_MEDIAFILE_AUDIO));
+    for(int i=0; i<users.size(); i++)
+    {
+        User user;
+        TT_GetUser(ttInst, users.value(i), &user);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Voice volume for %1 decreased to %2%").arg(getDisplayName(user)).arg(refVolumeToPercent(user.nVolumeMediaFile)));
+    }
     slotUpdateUI();
 }
 
