@@ -22,7 +22,7 @@ genlib:
 	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) -G Ninja ../../
 
 buildlib: genlib
-	ninja $(NINJA_EXTRA) -v -C $(BUILDDIR) all
+	cmake --build $(BUILDDIR)
 
 android-build:
 	@echo "Testing if NDK environment variable is set: $(NDK)"
@@ -143,11 +143,11 @@ xcodeswap-toolchain: toolchain-env
 teamtalk-jar:
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_LIBRARY_JNI=OFF -DBUILD_TEAMTALKPRO_LIBRARY_JNI=OFF -DBUILD_TEAMTALK_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALKPRO_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALK_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALKPRO_LIBRARY_DOTNET=OFF" buildlib
 
-ubuntu18-depend:
+depend-ubuntu18:
 	# TeamTalk 5 dependencies
 	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev doxygen openjdk-11-jdk qttools5-dev-tools ninja-build
 
-debian9-depend:
+depend-debian9:
 	# TeamTalk 5 dependencies
 	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev doxygen g++ openjdk-8-jdk qttools5-dev-tools ninja-build
 
