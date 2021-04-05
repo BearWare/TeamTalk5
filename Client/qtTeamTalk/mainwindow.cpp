@@ -2449,9 +2449,6 @@ void MainWindow::processMyselfJoined(int channelid)
     //Enable AGC, denoise etc.
     updateAudioConfig();
 
-/*    TTCHAR buff[TT_STRLEN] = {};
-    TT_GetChannelPath(ttInst, channelid, buff);
-    addStatusMsg(tr("Joined channel %1").arg(_Q(buff)));*/
     QString statusjoin;
     if(m_mychannel.nChannelID>0 && TT_GetRootChannelID(ttInst) != m_mychannel.nChannelID) {
         if(m_mychannel.uChannelType & CHANNEL_CLASSROOM)
@@ -2493,8 +2490,6 @@ void MainWindow::processMyselfJoined(int channelid)
 
 void MainWindow::processMyselfLeft(int channelid)
 {
-/*    Q_UNUSED(channelid);
-    m_mychannel = {};*/
     TT_GetChannel(ttInst, channelid, &m_mychannel);
     QString statusleft;
     if(m_mychannel.nChannelID>0 && TT_GetRootChannelID(ttInst) != m_mychannel.nChannelID) {
