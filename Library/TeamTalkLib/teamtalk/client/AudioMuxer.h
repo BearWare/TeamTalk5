@@ -88,11 +88,11 @@ private:
 
     // raw audio data from a user ID
     typedef std::map<int, message_queue_t> user_audio_queue_t;
-    user_audio_queue_t m_audio_queue;
-    // next sample number to expect from a user ID
-    typedef std::map<int, uint32_t> user_queued_audio_t;
-    user_queued_audio_t m_user_queue;
-    std::vector<short> m_muxed_audio;
+    user_audio_queue_t m_usermux_queue;
+    // next sample number to expect for muxing from a user ID
+    typedef std::map<int, uint32_t> user_muxprogress_t;
+    user_muxprogress_t m_usermux_progress;
+    std::vector<short> m_muxed_buffer;
 
     ACE_Reactor m_reactor;
     ACE_Time_Value m_mux_interval;
