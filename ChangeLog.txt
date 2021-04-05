@@ -5,9 +5,13 @@ Version 5.7.1, unreleased
 Accessible Windows Client
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
+- Status event on channel join is no longer double displayed
 Default QT Client
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
+- Status event when leaving channel
+- Status event on channel join is no longer double displayed
+- Improve status event on channel joined
 Android Client
 -
 iOS Client
