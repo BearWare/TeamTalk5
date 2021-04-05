@@ -2473,7 +2473,6 @@ void MainWindow::processMyselfJoined(int channelid)
             statusjoin = tr("Joined channel %1").arg(root);
         }
     }
-    addStatusMsg(statusjoin);
 
     //store new muxed audio file if we're changing channel
     if(ui.actionMediaStorage->isChecked() &&
