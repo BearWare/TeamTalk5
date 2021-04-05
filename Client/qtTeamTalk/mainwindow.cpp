@@ -2488,12 +2488,13 @@ void MainWindow::processMyselfJoined(int channelid)
     updateWindowTitle();
 }
 
-void MainWindow::processMyselfLeft(int channelid)
+void MainWindow::processMyselfLeft(int /*channelid*/)
 {
-    m_mychannel = {};
-    TT_GetChannel(ttInst, channelid, &m_mychannel);
+    Q_ASSERT(m_mychannel.nChannelID > 0);
+
     QString statusleft;
-    if(m_mychannel.nChannelID>0 && TT_GetRootChannelID(ttInst) != m_mychannel.nChannelID) {
+    if (TT_GetRootChannelID(ttInst) != m_mychannel.nChannelID)
+    {
         if(m_mychannel.uChannelType & CHANNEL_CLASSROOM)
         {
             statusleft = tr("Left classroom channel %1").arg(_Q(m_mychannel.szName));
@@ -2502,9 +2503,11 @@ void MainWindow::processMyselfLeft(int channelid)
         {
             statusleft = tr("Left channel %1").arg(_Q(m_mychannel.szName));
         }
-    } else {
+    }
+    else
+    {
         QString root = tr("root");
-        if(m_mychannel.uChannelType & CHANNEL_CLASSROOM)
+        if (m_mychannel.uChannelType & CHANNEL_CLASSROOM)
         {
             statusleft = tr("Left classroom channel %1").arg(root);
         }
@@ -2514,6 +2517,8 @@ void MainWindow::processMyselfLeft(int channelid)
         }
     }
     addStatusMsg(statusleft);
+
+    m_mychannel = {};
 
     m_talking.clear();
     ui.videogridWidget->ResetGrid();
