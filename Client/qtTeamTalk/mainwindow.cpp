@@ -5649,6 +5649,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionUserMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionUserMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG))
@@ -5658,6 +5659,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionChannelMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionChannelMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG))
@@ -5667,6 +5669,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionBroadcastMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionBroadcastMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_VOICE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_VOICE))
@@ -5676,6 +5679,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionVoice->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_VOICE?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_VOICE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionVoice->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_VOICE?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE))
@@ -5685,6 +5689,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionVideo->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_VIDEO, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionVideo->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_DESKTOP) !=
             (user.uPeerSubscriptions & SUBSCRIBE_DESKTOP))
@@ -5694,6 +5699,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionDesktop->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_DESKTOP, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionDesktop->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT) !=
             (user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT))
@@ -5703,6 +5709,17 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionDesktopInput->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_DESKTOPINPUT, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionDesktopInput->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT?tr("On"):tr("Off")));
+        }
+        if((oldUser.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE) !=
+            (user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE))
+        {
+            addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                .arg(nickname)
+                .arg(MENUTEXT(ui.actionMediaFile->text()))
+                .arg(user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE?
+                     tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionMediaFile->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG))
@@ -5712,6 +5729,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionInterceptUserMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptUserMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG))
@@ -5721,6 +5739,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionInterceptChannelMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptChannelMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE))
@@ -5730,6 +5749,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionInterceptVoice->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_VOICE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptVoice->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE))
@@ -5739,6 +5759,27 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionInterceptVideo->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptVideo->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?tr("On"):tr("Off")));
+        }
+        if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) !=
+            (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP))
+        {
+            addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                .arg(nickname)
+                .arg(MENUTEXT(ui.actionInterceptDesktop->text()))
+                .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?
+                     tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptDesktop->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?tr("On"):tr("Off")));
+        }
+        if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) !=
+            (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE))
+        {
+            addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                .arg(nickname)
+                .arg(MENUTEXT(ui.actionInterceptMediaFile->text()))
+                .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?
+                     tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptMediaFile->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?tr("On"):tr("Off")));
         }
     }
 }
