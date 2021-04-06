@@ -1253,7 +1253,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="218"/>
         <location filename="../mainwindow.ui" line="243"/>
         <location filename="../mainwindow.ui" line="246"/>
-        <location filename="../mainwindow.cpp" line="2687"/>
+        <location filename="../mainwindow.cpp" line="2689"/>
         <source>Microphone gain</source>
         <translation>Volume du microphone</translation>
     </message>
@@ -1293,7 +1293,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="402"/>
         <location filename="../mainwindow.ui" line="1586"/>
-        <location filename="../mainwindow.cpp" line="5711"/>
+        <location filename="../mainwindow.cpp" line="5754"/>
         <source>&amp;Video</source>
         <translation>&amp;Vidéo</translation>
     </message>
@@ -1354,13 +1354,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="671"/>
-        <location filename="../mainwindow.cpp" line="5719"/>
+        <location filename="../mainwindow.cpp" line="5762"/>
         <source>&amp;Desktops</source>
         <translation>&amp;Bureaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="939"/>
-        <location filename="../mainwindow.cpp" line="2558"/>
+        <location filename="../mainwindow.cpp" line="2560"/>
         <source>&amp;Files</source>
         <translation>&amp;Fichiers</translation>
     </message>
@@ -1470,7 +1470,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1313"/>
-        <location filename="../mainwindow.cpp" line="2199"/>
+        <location filename="../mainwindow.cpp" line="2201"/>
         <source>&amp;Exit</source>
         <translation>&amp;Quitter</translation>
     </message>
@@ -1546,7 +1546,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1384"/>
-        <location filename="../mainwindow.cpp" line="4835"/>
+        <location filename="../mainwindow.cpp" line="4837"/>
         <source>&amp;Join Channel</source>
         <translation>Rejoindre le canal</translation>
     </message>
@@ -2122,7 +2122,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="763"/>
-        <location filename="../mainwindow.cpp" line="2303"/>
+        <location filename="../mainwindow.cpp" line="2305"/>
         <source>Firewall exception</source>
         <translation>Exception du pare-feu</translation>
     </message>
@@ -2142,13 +2142,13 @@ p, li { white-space: pre-wrap; }
         <translation>Le programme ne reconnaît pas l&apos;argument &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1770"/>
+        <location filename="../mainwindow.cpp" line="1772"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
         <translation>Connecté à %1, port TCP %2, port UDP %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="847"/>
-        <location filename="../mainwindow.cpp" line="1714"/>
+        <location filename="../mainwindow.cpp" line="1716"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
         <translation>Échec à la connexion à %1, port TCP %2, port UDP %3</translation>
     </message>
@@ -2182,7 +2182,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1016"/>
         <location filename="../mainwindow.cpp" line="1043"/>
-        <location filename="../mainwindow.cpp" line="4102"/>
+        <location filename="../mainwindow.cpp" line="4104"/>
         <source>root</source>
         <translation>principal</translation>
     </message>
@@ -2197,457 +2197,457 @@ p, li { white-space: pre-wrap; }
         <translation>Fichier %1 ajouté par %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1125"/>
+        <location filename="../mainwindow.cpp" line="1126"/>
         <source>File %1 removed</source>
         <translation>Fichier %1 supprimé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1129"/>
+        <location filename="../mainwindow.cpp" line="1130"/>
         <source>File %1 removed by %2</source>
         <translation>Fichier %1 supprimé par %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1163"/>
-        <location filename="../mainwindow.cpp" line="4378"/>
+        <location filename="../mainwindow.cpp" line="1165"/>
+        <location filename="../mainwindow.cpp" line="4380"/>
         <source>Failed to download file %1</source>
         <translation>Échec au téléchargement du fichier %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1167"/>
-        <location filename="../mainwindow.cpp" line="4907"/>
+        <location filename="../mainwindow.cpp" line="1169"/>
+        <location filename="../mainwindow.cpp" line="4909"/>
         <source>Failed to upload file %1</source>
         <translation>Échec au téléversement du fichier %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1180"/>
+        <location filename="../mainwindow.cpp" line="1182"/>
         <source>Failed to initialize sound input device</source>
         <translation>Échec à l&apos;initialisation du périphériques d&apos;entrée audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1182"/>
+        <location filename="../mainwindow.cpp" line="1184"/>
         <source>Failed to initialize sound output device</source>
         <translation>Échec à l&apos;initialisation du périphérique de sortie audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1184"/>
+        <location filename="../mainwindow.cpp" line="1186"/>
         <source>Failed to initialize audio codec</source>
         <translation>Échec à l&apos;initialisation du codec audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1187"/>
+        <location filename="../mainwindow.cpp" line="1189"/>
         <source>Failed to initialize audio configuration</source>
         <translation>Échec à l&apos;initialisation de la configuration audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1190"/>
+        <location filename="../mainwindow.cpp" line="1192"/>
         <source>Internal message queue overloaded</source>
         <translation>File d&apos;attente des messages interne pleine</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1196"/>
+        <location filename="../mainwindow.cpp" line="1198"/>
         <source>Internal Error</source>
         <translation>Erreur interne</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1226"/>
+        <location filename="../mainwindow.cpp" line="1228"/>
         <source>Streaming from %1 started</source>
         <translation>Diffusion de %1 démarrée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1249"/>
+        <location filename="../mainwindow.cpp" line="1251"/>
         <source>Error streaming media file to channel</source>
         <translation>Erreur à la diffusion du fichier media sur le canal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1253"/>
+        <location filename="../mainwindow.cpp" line="1255"/>
         <source>Started streaming media file to channel</source>
         <translation>Diffusion du fichier média sur le canal démarrée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1256"/>
+        <location filename="../mainwindow.cpp" line="1258"/>
         <source>Finished streaming media file to channel</source>
         <translation>Diffusion du fichier média sur le canal terminée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1260"/>
+        <location filename="../mainwindow.cpp" line="1262"/>
         <source>Aborted streaming media file to channel</source>
         <translation>Diffusion du fichier média sur le canal abandonnée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1315"/>
-        <location filename="../mainwindow.cpp" line="1345"/>
+        <location filename="../mainwindow.cpp" line="1317"/>
+        <location filename="../mainwindow.cpp" line="1347"/>
         <source>New video session from %1</source>
         <translation>Nouvelle session vidéo de %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1370"/>
+        <location filename="../mainwindow.cpp" line="1372"/>
         <source>New desktop session from %1</source>
         <translation>Nouvelle session de bureau de %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1396"/>
+        <location filename="../mainwindow.cpp" line="1398"/>
         <source>Your desktop session was cancelled</source>
         <translation>Votre session de bureau a été annulée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1415"/>
+        <location filename="../mainwindow.cpp" line="1417"/>
         <source>Writing audio file %1 for %2</source>
         <translation>Écriture du fichier audio %1 pour %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1420"/>
+        <location filename="../mainwindow.cpp" line="1422"/>
         <source>Failed to write audio file %1 for %2</source>
         <translation>Échec à l&apos;écriture du fichier audio %1 pour %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1425"/>
+        <location filename="../mainwindow.cpp" line="1427"/>
         <source>Finished audio file %1</source>
         <translation>Fichier audio %1 terminé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1429"/>
+        <location filename="../mainwindow.cpp" line="1431"/>
         <source>Aborted audio file %1</source>
         <translation>Fichier audio %1 abandonné</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1510"/>
+        <location filename="../mainwindow.cpp" line="1512"/>
         <source>Banned Users in Channel %1</source>
         <translation>Utilisateurs bannis dans le canal %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1643"/>
+        <location filename="../mainwindow.cpp" line="1645"/>
         <source>Cannot join channel %1</source>
         <translation>Impossible de rejoindre le canal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1693"/>
+        <location filename="../mainwindow.cpp" line="1695"/>
         <source>Using sound input: %1</source>
         <translation>Utilisation du périphérique sonnore d&apos;entrée: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1693"/>
+        <location filename="../mainwindow.cpp" line="1695"/>
         <source>Using sound output: %2</source>
         <translation>Utilisation du périphérique sonnore de sortie: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1706"/>
+        <location filename="../mainwindow.cpp" line="1708"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Connexion à %1, port TCP %2, port UDP %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1780"/>
-        <location filename="../mainwindow.cpp" line="2610"/>
+        <location filename="../mainwindow.cpp" line="1782"/>
+        <location filename="../mainwindow.cpp" line="2612"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1789"/>
+        <location filename="../mainwindow.cpp" line="1791"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
         <translation>Ce client est incompatible avec le serveur, l&apos;action ne peut donc être réalisée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1792"/>
+        <location filename="../mainwindow.cpp" line="1794"/>
         <source>The username is invalid</source>
         <translation>Le nom d&apos;utilisateur est invalide</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1799"/>
-        <location filename="../mainwindow.cpp" line="1830"/>
-        <location filename="../mainwindow.cpp" line="3383"/>
-        <location filename="../mainwindow.cpp" line="3397"/>
-        <location filename="../mainwindow.cpp" line="3412"/>
-        <location filename="../mainwindow.cpp" line="3652"/>
-        <location filename="../mainwindow.cpp" line="4273"/>
-        <location filename="../mainwindow.cpp" line="4499"/>
-        <location filename="../mainwindow.cpp" line="4665"/>
-        <location filename="../mainwindow.cpp" line="4688"/>
+        <location filename="../mainwindow.cpp" line="1801"/>
+        <location filename="../mainwindow.cpp" line="1832"/>
+        <location filename="../mainwindow.cpp" line="3385"/>
+        <location filename="../mainwindow.cpp" line="3399"/>
+        <location filename="../mainwindow.cpp" line="3414"/>
+        <location filename="../mainwindow.cpp" line="3654"/>
+        <location filename="../mainwindow.cpp" line="4275"/>
+        <location filename="../mainwindow.cpp" line="4501"/>
+        <location filename="../mainwindow.cpp" line="4667"/>
+        <location filename="../mainwindow.cpp" line="4690"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1803"/>
-        <location filename="../mainwindow.cpp" line="1811"/>
-        <location filename="../mainwindow.cpp" line="1849"/>
-        <location filename="../mainwindow.cpp" line="1854"/>
+        <location filename="../mainwindow.cpp" line="1805"/>
+        <location filename="../mainwindow.cpp" line="1813"/>
+        <location filename="../mainwindow.cpp" line="1851"/>
+        <location filename="../mainwindow.cpp" line="1856"/>
         <source>Login error</source>
         <translation>Erreur d&apos;identification</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1804"/>
+        <location filename="../mainwindow.cpp" line="1806"/>
         <source>Invalid user account. Type username:</source>
         <translation>Compte utilisateur invalide. Tapez le nom d&apos;utilisateur:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1812"/>
+        <location filename="../mainwindow.cpp" line="1814"/>
         <source>Invalid user account. Type password:</source>
         <translation>Compte utilisateur invalide. Tapez le mot de passe:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1835"/>
+        <location filename="../mainwindow.cpp" line="1837"/>
         <source>Join channel error</source>
         <translation>Erreur en joignant le canal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1836"/>
+        <location filename="../mainwindow.cpp" line="1838"/>
         <source>Incorrect channel password. Try again:</source>
         <translation>Mot de passe du canal incorrect. Réessayez:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1850"/>
+        <location filename="../mainwindow.cpp" line="1852"/>
         <source>Banned from server</source>
         <translation>Banni du serveur</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1852"/>
+        <location filename="../mainwindow.cpp" line="1854"/>
         <source>Command not authorized</source>
         <translation>Commande non-autorisée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1855"/>
+        <location filename="../mainwindow.cpp" line="1857"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>Nombre d&apos;utilisateurs maximal sur le serveur dépassé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1857"/>
+        <location filename="../mainwindow.cpp" line="1859"/>
         <source>Maximum disk usage exceeded</source>
         <translation>Usage disque maximal dépassé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1859"/>
+        <location filename="../mainwindow.cpp" line="1861"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>Nombre d&apos;utilisateurs maximal sur le canal dépassé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1861"/>
+        <location filename="../mainwindow.cpp" line="1863"/>
         <source>Incorrect channel operator password</source>
         <translation>Mot de passe de l&apos;opérateur du canal incorrect</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1865"/>
+        <location filename="../mainwindow.cpp" line="1867"/>
         <source>Already logged in</source>
         <translation>Déjà connecté</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1867"/>
+        <location filename="../mainwindow.cpp" line="1869"/>
         <source>Cannot perform action because client is currently not logged in</source>
         <translation>Impossible de réaliser l&apos;action car le client n&apos;est pas connecté actuellement</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1870"/>
+        <location filename="../mainwindow.cpp" line="1872"/>
         <source>Cannot join the same channel twice</source>
         <translation>Impossible de rejoindre 2 fois le même canal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1872"/>
+        <location filename="../mainwindow.cpp" line="1874"/>
         <source>Channel already exists</source>
         <translation>Le canal existe déjà</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1878"/>
+        <location filename="../mainwindow.cpp" line="1880"/>
         <source>User not found</source>
         <translation>Utilisateur introuvable</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1881"/>
+        <location filename="../mainwindow.cpp" line="1883"/>
         <source>Channel not found</source>
         <translation>Canal introuvable</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1883"/>
+        <location filename="../mainwindow.cpp" line="1885"/>
         <source>Banned user not found</source>
         <translation>Utilisateur banni introuvable</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1885"/>
+        <location filename="../mainwindow.cpp" line="1887"/>
         <source>File transfer not found</source>
         <translation>Transfert de fichier introuvable</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1887"/>
+        <location filename="../mainwindow.cpp" line="1889"/>
         <source>User account not found</source>
         <translation>Compte utilisateur introuvable</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1889"/>
+        <location filename="../mainwindow.cpp" line="1891"/>
         <source>File not found</source>
         <translation>Fichier introuvable</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1891"/>
+        <location filename="../mainwindow.cpp" line="1893"/>
         <source>File already exists</source>
         <translation>Le fichier existe déjà</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1893"/>
+        <location filename="../mainwindow.cpp" line="1895"/>
         <source>File sharing is disabled</source>
         <translation>Le partage de fichiers est désactivé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1895"/>
+        <location filename="../mainwindow.cpp" line="1897"/>
         <source>Channel has active users</source>
         <translation>Le canal comporte des utilisateurs actifs</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1900"/>
+        <location filename="../mainwindow.cpp" line="1902"/>
         <source>Unknown error occured</source>
         <translation>Erreur inconnue rencontrée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1907"/>
+        <location filename="../mainwindow.cpp" line="1909"/>
         <source>The server reported an error:</source>
         <translation>Le serveur a retourné une erreur:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2292"/>
-        <location filename="../mainwindow.cpp" line="4241"/>
-        <location filename="../mainwindow.cpp" line="4391"/>
-        <location filename="../mainwindow.cpp" line="4549"/>
-        <location filename="../mainwindow.cpp" line="5825"/>
+        <location filename="../mainwindow.cpp" line="2294"/>
+        <location filename="../mainwindow.cpp" line="4243"/>
+        <location filename="../mainwindow.cpp" line="4393"/>
+        <location filename="../mainwindow.cpp" line="4551"/>
+        <location filename="../mainwindow.cpp" line="5868"/>
         <source>&amp;Yes</source>
         <translation>&amp;Oui</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2293"/>
-        <location filename="../mainwindow.cpp" line="4242"/>
-        <location filename="../mainwindow.cpp" line="4392"/>
-        <location filename="../mainwindow.cpp" line="4550"/>
-        <location filename="../mainwindow.cpp" line="5826"/>
+        <location filename="../mainwindow.cpp" line="2295"/>
+        <location filename="../mainwindow.cpp" line="4244"/>
+        <location filename="../mainwindow.cpp" line="4394"/>
+        <location filename="../mainwindow.cpp" line="4552"/>
+        <location filename="../mainwindow.cpp" line="5869"/>
         <source>&amp;No</source>
         <translation>&amp;Non</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2391"/>
+        <location filename="../mainwindow.cpp" line="2393"/>
         <source>Channel message from %1: %2</source>
         <translation>Message de canal de %1: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2396"/>
+        <location filename="../mainwindow.cpp" line="2398"/>
         <source>Channel message sent: %1</source>
         <translation>Message de canal envoyé: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2408"/>
+        <location filename="../mainwindow.cpp" line="2410"/>
         <source>Broadcast message from %1: %2</source>
         <translation>Message général de %1: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2427"/>
+        <location filename="../mainwindow.cpp" line="2429"/>
         <source>Private message from %1: %2</source>
         <translation>Message privé de %1: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3858"/>
+        <location filename="../mainwindow.cpp" line="3860"/>
         <source>Voice for %1 disabled</source>
         <translation>Voix de %1 désactivée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3860"/>
+        <location filename="../mainwindow.cpp" line="3862"/>
         <source>Voice for %1 enabled</source>
         <translation>Voix de %1 activée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3877"/>
+        <location filename="../mainwindow.cpp" line="3879"/>
         <source>Media files for %1 disabled</source>
         <translation>Fichiers média de %1 désactivés</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3879"/>
+        <location filename="../mainwindow.cpp" line="3881"/>
         <source>Media files for %1 enabled</source>
         <translation>Fichiers média de %1 activés</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3895"/>
+        <location filename="../mainwindow.cpp" line="3897"/>
         <source>Master volume disabled</source>
         <translation>Volume principal désactivé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3900"/>
+        <location filename="../mainwindow.cpp" line="3902"/>
         <source>Master volume enabled</source>
         <translation>Volume principal activé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4029"/>
+        <location filename="../mainwindow.cpp" line="4031"/>
         <source>Voice volume for %1 increased to %2%</source>
         <translation>Volume de la voix de %1 augmenté à %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4042"/>
+        <location filename="../mainwindow.cpp" line="4044"/>
         <source>Voice volume for %1 decreased to %2%</source>
         <translation>Volume de la voix de %1 diminué à %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4055"/>
+        <location filename="../mainwindow.cpp" line="4057"/>
         <source>Media files volume for %1 increased to %2%</source>
         <translation>Volume des fichiers média de %1 augmenté à %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4068"/>
+        <location filename="../mainwindow.cpp" line="4070"/>
         <source>Media files volume for %1 decreased to %2%</source>
         <translation>VOlume des fichiers média de %1 diminué à %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4085"/>
+        <location filename="../mainwindow.cpp" line="4087"/>
         <source>%1 selected for move</source>
         <translation>%1 sélectionné pour déplacement</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4103"/>
-        <location filename="../mainwindow.cpp" line="4107"/>
+        <location filename="../mainwindow.cpp" line="4105"/>
+        <location filename="../mainwindow.cpp" line="4109"/>
         <source>Selected users has been moved to channel %1</source>
         <translation>Les utilisateurs sélectionnés ont été déplacés vers le canal %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4395"/>
+        <location filename="../mainwindow.cpp" line="4397"/>
         <source>Delete %1 files</source>
         <translation>Supprimer %1 fichiers</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4524"/>
+        <location filename="../mainwindow.cpp" line="4526"/>
         <source>Server configuration saved</source>
         <translation>Configuration serveur sauvegardée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4831"/>
+        <location filename="../mainwindow.cpp" line="4833"/>
         <source>CTRL+L</source>
         <translation>CTRL+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4836"/>
+        <location filename="../mainwindow.cpp" line="4838"/>
         <source>CTRL+J</source>
         <translation>CTRL+J</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5100"/>
+        <location filename="../mainwindow.cpp" line="5102"/>
         <source>You can now transmit channel messages!</source>
         <translation>Vous pouvez maintenant transmettre des messages de canal!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5102"/>
+        <location filename="../mainwindow.cpp" line="5104"/>
         <source>You can no longer transmit channel messages!</source>
         <translation>Vous ne pouvez plus transmettre de messages de canal!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5140"/>
+        <location filename="../mainwindow.cpp" line="5142"/>
         <source>You can now transmit mediafiles!</source>
         <translation>Vous pouvez maintenant transmettre des fichier média!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5142"/>
+        <location filename="../mainwindow.cpp" line="5144"/>
         <source>You can no longer transmit mediafiles!</source>
         <translation>Vous ne pouvez plus transmettre de fichiers média!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5713"/>
+        <location filename="../mainwindow.cpp" line="5756"/>
         <source>&amp;Video (%1)</source>
         <translation>&amp;Vidéos (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5721"/>
+        <location filename="../mainwindow.cpp" line="5764"/>
         <source>&amp;Desktops (%1)</source>
         <translation>&amp;Bureaux (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2197"/>
+        <location filename="../mainwindow.cpp" line="2199"/>
         <source>&amp;Restore</source>
         <translation>&amp;Restaurer</translation>
     </message>
@@ -2672,293 +2672,293 @@ p, li { white-space: pre-wrap; }
         <translation>Exclu du canal par un utilisateur inconnu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1800"/>
-        <location filename="../mainwindow.cpp" line="1831"/>
-        <location filename="../mainwindow.cpp" line="3384"/>
-        <location filename="../mainwindow.cpp" line="3398"/>
-        <location filename="../mainwindow.cpp" line="3413"/>
-        <location filename="../mainwindow.cpp" line="3653"/>
-        <location filename="../mainwindow.cpp" line="4274"/>
-        <location filename="../mainwindow.cpp" line="4500"/>
-        <location filename="../mainwindow.cpp" line="4666"/>
-        <location filename="../mainwindow.cpp" line="4689"/>
+        <location filename="../mainwindow.cpp" line="1802"/>
+        <location filename="../mainwindow.cpp" line="1833"/>
+        <location filename="../mainwindow.cpp" line="3386"/>
+        <location filename="../mainwindow.cpp" line="3400"/>
+        <location filename="../mainwindow.cpp" line="3415"/>
+        <location filename="../mainwindow.cpp" line="3655"/>
+        <location filename="../mainwindow.cpp" line="4276"/>
+        <location filename="../mainwindow.cpp" line="4502"/>
+        <location filename="../mainwindow.cpp" line="4668"/>
+        <location filename="../mainwindow.cpp" line="4691"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annuler</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2291"/>
+        <location filename="../mainwindow.cpp" line="2293"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
         <translation>Souhaitez-vous ajouter %1 à la liste des exceptions du pare-feu Windows?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2304"/>
+        <location filename="../mainwindow.cpp" line="2306"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>Échec à l&apos;ajout de %1 à la liste des exceptions du pare-feu Windows</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2448"/>
+        <location filename="../mainwindow.cpp" line="2450"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 requière un accès au bureau</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2454"/>
-        <location filename="../mainwindow.cpp" line="3975"/>
+        <location filename="../mainwindow.cpp" line="2456"/>
+        <location filename="../mainwindow.cpp" line="3977"/>
         <source>%1 granted desktop access</source>
         <translation>%1 a accordé l&apos;accès au bureau</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2460"/>
+        <location filename="../mainwindow.cpp" line="2462"/>
         <source>%1 retracted desktop access</source>
         <translation>%1 a retiré l&apos;accès au bureau</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2478"/>
+        <location filename="../mainwindow.cpp" line="2480"/>
         <source>Joined channel %1</source>
         <translation>%1 rejoint</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2555"/>
+        <location filename="../mainwindow.cpp" line="2557"/>
         <source>Files in channel: %1</source>
         <translation>Fichiers dans le canal: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2610"/>
+        <location filename="../mainwindow.cpp" line="2612"/>
         <source>Failed to start recording</source>
         <translation>Échec au démarrage de l&apos;enregistrement audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2614"/>
+        <location filename="../mainwindow.cpp" line="2616"/>
         <source>Recording to file: %1</source>
         <translation>Enregistrement dans le fichier: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2668"/>
+        <location filename="../mainwindow.cpp" line="2670"/>
         <source>Microphone gain is controlled by channel</source>
         <translation>Le volume du microphone est contrôlé par le canal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3041"/>
+        <location filename="../mainwindow.cpp" line="3043"/>
         <source>Failed to stream media file %1</source>
         <translation>Échec à la diffusion du fichier média %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3176"/>
+        <location filename="../mainwindow.cpp" line="3178"/>
         <source>Enable HotKey</source>
         <translation>Activer les raccourcis clavier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3177"/>
+        <location filename="../mainwindow.cpp" line="3179"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
         <translation>Impossible d&apos;enregistrer le raccourcis clavier. Veuillez essayer une autre combinaison</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3182"/>
+        <location filename="../mainwindow.cpp" line="3184"/>
         <source>Push To Talk: </source>
         <translation>Maintenir-pour-parler</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3375"/>
-        <location filename="../mainwindow.cpp" line="3416"/>
+        <location filename="../mainwindow.cpp" line="3377"/>
+        <location filename="../mainwindow.cpp" line="3418"/>
         <source>New Profile</source>
         <translation>Nouveau profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3375"/>
+        <location filename="../mainwindow.cpp" line="3377"/>
         <source>Delete Profile</source>
         <translation>Supprimer le profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3387"/>
-        <location filename="../mainwindow.cpp" line="3401"/>
+        <location filename="../mainwindow.cpp" line="3389"/>
+        <location filename="../mainwindow.cpp" line="3403"/>
         <source>New Client Instance</source>
         <translation>Nouvelle instance du client</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3388"/>
+        <location filename="../mainwindow.cpp" line="3390"/>
         <source>Select profile</source>
         <translation>Sélectionner le profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3402"/>
+        <location filename="../mainwindow.cpp" line="3404"/>
         <source>Delete profile</source>
         <translation>Supprimer le profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3417"/>
+        <location filename="../mainwindow.cpp" line="3419"/>
         <source>Profile name</source>
         <translation>Nom du profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3657"/>
+        <location filename="../mainwindow.cpp" line="3659"/>
         <source>Specify new nickname</source>
         <translation>Spécifier un nouveau pseudo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3727"/>
-        <location filename="../mainwindow.cpp" line="5153"/>
+        <location filename="../mainwindow.cpp" line="3729"/>
+        <location filename="../mainwindow.cpp" line="5155"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
         <translation>Le périphérique vidéo ne peut pas être configuré correctement. Veuillez vérifier les paramètres dans &quot;Préférences&quot;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3738"/>
+        <location filename="../mainwindow.cpp" line="3740"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
         <translation>Échec à la configuration du codec vidéo. Veuillez vérifier les paramètres dans &quot;Préférences&quot;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3783"/>
+        <location filename="../mainwindow.cpp" line="3785"/>
         <source>Failed to open X11 display.</source>
         <translation>Échec à l&apos;ouverture de l&apos;affichage X11</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3802"/>
+        <location filename="../mainwindow.cpp" line="3804"/>
         <source>Failed to start desktop sharing</source>
         <translation>Échec au démarrage du partage de bureau</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4204"/>
-        <location filename="../mainwindow.cpp" line="4213"/>
+        <location filename="../mainwindow.cpp" line="4206"/>
+        <location filename="../mainwindow.cpp" line="4215"/>
         <source>Failed to issue command to create channel</source>
         <translation>Échec de la commande de création du canal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4227"/>
+        <location filename="../mainwindow.cpp" line="4229"/>
         <source>Failed to issue command to update channel</source>
         <translation>Échec à la commande de mise à jour du canal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4240"/>
+        <location filename="../mainwindow.cpp" line="4242"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
         <translation>Êtes-vous sûr de vouloir supprimer le canal &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4252"/>
+        <location filename="../mainwindow.cpp" line="4254"/>
         <source>Failed to issue command to delete channel</source>
         <translation>Échec à la commande de suppression du canal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4279"/>
-        <location filename="../mainwindow.cpp" line="4670"/>
+        <location filename="../mainwindow.cpp" line="4281"/>
+        <location filename="../mainwindow.cpp" line="4672"/>
         <source>Specify password</source>
         <translation>Spécifier le mot de passe</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4296"/>
+        <location filename="../mainwindow.cpp" line="4298"/>
         <source>Failed to issue command to join channel</source>
         <translation>Échec à la commande pour joindre le canal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4349"/>
+        <location filename="../mainwindow.cpp" line="4351"/>
         <source>Open File</source>
         <translation>Ouvrir le fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4369"/>
+        <location filename="../mainwindow.cpp" line="4371"/>
         <source>Save File</source>
         <translation>Enregistrer le fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4398"/>
+        <location filename="../mainwindow.cpp" line="4400"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
         <translation>Êtes-vous sûr de vouloir supprimer &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4407"/>
+        <location filename="../mainwindow.cpp" line="4409"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>Êtes-vous sûr de vouloir supprimer %1 fichier(s)?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4503"/>
+        <location filename="../mainwindow.cpp" line="4505"/>
         <source>Message to broadcast:</source>
         <translation>Message à diffuser:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4548"/>
+        <location filename="../mainwindow.cpp" line="4550"/>
         <source>Are you sure you want to delete your existing settings?</source>
         <translation>Êtes-vous sûr de vouloir supprimer vos paramètres existants?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4563"/>
+        <location filename="../mainwindow.cpp" line="4565"/>
         <source>Cannot find %1</source>
         <translation>Impossible de trouver %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4570"/>
+        <location filename="../mainwindow.cpp" line="4572"/>
         <source>Cannot remove %1</source>
         <translation>Impossible de supprimer %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4577"/>
+        <location filename="../mainwindow.cpp" line="4579"/>
         <source>Failed to copy %1 to %2</source>
         <translation>Échec de la copie de %1 vers %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4685"/>
+        <location filename="../mainwindow.cpp" line="4687"/>
         <source>IP-address</source>
         <translation>Adresse IP</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4685"/>
+        <location filename="../mainwindow.cpp" line="4687"/>
         <source>Username</source>
         <translation>Nom d&apos;utilisateur</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4693"/>
+        <location filename="../mainwindow.cpp" line="4695"/>
         <source>Ban User From Channel</source>
         <translation>Bannir l&apos;utilisateur du canal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4692"/>
+        <location filename="../mainwindow.cpp" line="4694"/>
         <source>Ban user&apos;s</source>
         <translation>Bannir l&apos;utilisateur</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4830"/>
+        <location filename="../mainwindow.cpp" line="4832"/>
         <source>&amp;Leave Channel</source>
         <translation>&amp;Quitter le canal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5062"/>
+        <location filename="../mainwindow.cpp" line="5064"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Le maximum d&apos;utilisateurs pouvant transmettre est %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5110"/>
+        <location filename="../mainwindow.cpp" line="5112"/>
         <source>You can now transmit audio!</source>
         <translation>Vous pouvez maintenant transmettre de l&apos;audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5112"/>
+        <location filename="../mainwindow.cpp" line="5114"/>
         <source>You can no longer transmit audio!</source>
         <translation>Vous ne pouvez plus transmettre d&apos;audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5120"/>
+        <location filename="../mainwindow.cpp" line="5122"/>
         <source>You can now transmit video!</source>
         <translation>Vous pouvez maintenant transmettre de la vidéo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5122"/>
+        <location filename="../mainwindow.cpp" line="5124"/>
         <source>You can no longer transmit video!</source>
         <translation>Vous ne pouvez plus transmettre de vidéo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5130"/>
+        <location filename="../mainwindow.cpp" line="5132"/>
         <source>You can now transmit desktop windows!</source>
         <translation>Vous pouvez maintenant transmettre des fenêtres de bureau</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5132"/>
+        <location filename="../mainwindow.cpp" line="5134"/>
         <source>You can no longer transmit desktop windows!</source>
         <translation>Vous ne pouvez plus transmettre de fenêtres de bureau</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5152"/>
+        <location filename="../mainwindow.cpp" line="5154"/>
         <source>Start Webcam</source>
         <translation>Démarrer la caméra</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5175"/>
-        <location filename="../mainwindow.cpp" line="5227"/>
+        <location filename="../mainwindow.cpp" line="5177"/>
+        <location filename="../mainwindow.cpp" line="5229"/>
         <source>Myself</source>
         <translation>Mon état</translation>
     </message>
@@ -2973,92 +2973,143 @@ p, li { white-space: pre-wrap; }
         <translation>%1 a quitté le canal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2562"/>
+        <location filename="../mainwindow.cpp" line="2564"/>
         <source>&amp;Files (%1)</source>
         <translation>&amp;Fichiers (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5597"/>
-        <location filename="../mainwindow.cpp" line="5606"/>
-        <location filename="../mainwindow.cpp" line="5615"/>
+        <location filename="../mainwindow.cpp" line="5599"/>
+        <location filename="../mainwindow.cpp" line="5604"/>
+        <location filename="../mainwindow.cpp" line="5609"/>
+        <location filename="../mainwindow.cpp" line="5614"/>
+        <location filename="../mainwindow.cpp" line="5619"/>
         <location filename="../mainwindow.cpp" line="5624"/>
-        <location filename="../mainwindow.cpp" line="5633"/>
-        <location filename="../mainwindow.cpp" line="5642"/>
-        <location filename="../mainwindow.cpp" line="5651"/>
-        <location filename="../mainwindow.cpp" line="5660"/>
+        <location filename="../mainwindow.cpp" line="5629"/>
+        <location filename="../mainwindow.cpp" line="5634"/>
+        <location filename="../mainwindow.cpp" line="5639"/>
+        <location filename="../mainwindow.cpp" line="5644"/>
+        <location filename="../mainwindow.cpp" line="5649"/>
+        <location filename="../mainwindow.cpp" line="5654"/>
+        <location filename="../mainwindow.cpp" line="5659"/>
+        <location filename="../mainwindow.cpp" line="5664"/>
         <location filename="../mainwindow.cpp" line="5669"/>
-        <location filename="../mainwindow.cpp" line="5678"/>
-        <location filename="../mainwindow.cpp" line="5687"/>
+        <location filename="../mainwindow.cpp" line="5674"/>
+        <location filename="../mainwindow.cpp" line="5679"/>
+        <location filename="../mainwindow.cpp" line="5684"/>
+        <location filename="../mainwindow.cpp" line="5689"/>
+        <location filename="../mainwindow.cpp" line="5694"/>
+        <location filename="../mainwindow.cpp" line="5699"/>
+        <location filename="../mainwindow.cpp" line="5704"/>
+        <location filename="../mainwindow.cpp" line="5709"/>
+        <location filename="../mainwindow.cpp" line="5714"/>
+        <location filename="../mainwindow.cpp" line="5719"/>
+        <location filename="../mainwindow.cpp" line="5724"/>
+        <location filename="../mainwindow.cpp" line="5729"/>
+        <location filename="../mainwindow.cpp" line="5734"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
         <translation>%1 a changé l&apos;abonnement &quot;%2&quot; pour %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5601"/>
-        <location filename="../mainwindow.cpp" line="5610"/>
-        <location filename="../mainwindow.cpp" line="5619"/>
-        <location filename="../mainwindow.cpp" line="5628"/>
-        <location filename="../mainwindow.cpp" line="5637"/>
-        <location filename="../mainwindow.cpp" line="5646"/>
-        <location filename="../mainwindow.cpp" line="5655"/>
+        <location filename="../mainwindow.cpp" line="5603"/>
+        <location filename="../mainwindow.cpp" line="5604"/>
+        <location filename="../mainwindow.cpp" line="5613"/>
+        <location filename="../mainwindow.cpp" line="5614"/>
+        <location filename="../mainwindow.cpp" line="5623"/>
+        <location filename="../mainwindow.cpp" line="5624"/>
+        <location filename="../mainwindow.cpp" line="5633"/>
+        <location filename="../mainwindow.cpp" line="5634"/>
+        <location filename="../mainwindow.cpp" line="5643"/>
+        <location filename="../mainwindow.cpp" line="5644"/>
+        <location filename="../mainwindow.cpp" line="5653"/>
+        <location filename="../mainwindow.cpp" line="5654"/>
+        <location filename="../mainwindow.cpp" line="5663"/>
         <location filename="../mainwindow.cpp" line="5664"/>
         <location filename="../mainwindow.cpp" line="5673"/>
-        <location filename="../mainwindow.cpp" line="5682"/>
-        <location filename="../mainwindow.cpp" line="5691"/>
+        <location filename="../mainwindow.cpp" line="5674"/>
+        <location filename="../mainwindow.cpp" line="5683"/>
+        <location filename="../mainwindow.cpp" line="5684"/>
+        <location filename="../mainwindow.cpp" line="5693"/>
+        <location filename="../mainwindow.cpp" line="5694"/>
+        <location filename="../mainwindow.cpp" line="5703"/>
+        <location filename="../mainwindow.cpp" line="5704"/>
+        <location filename="../mainwindow.cpp" line="5713"/>
+        <location filename="../mainwindow.cpp" line="5714"/>
+        <location filename="../mainwindow.cpp" line="5723"/>
+        <location filename="../mainwindow.cpp" line="5724"/>
+        <location filename="../mainwindow.cpp" line="5733"/>
+        <location filename="../mainwindow.cpp" line="5734"/>
         <source>On</source>
         <translation>Activé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5601"/>
-        <location filename="../mainwindow.cpp" line="5610"/>
-        <location filename="../mainwindow.cpp" line="5619"/>
-        <location filename="../mainwindow.cpp" line="5628"/>
-        <location filename="../mainwindow.cpp" line="5637"/>
-        <location filename="../mainwindow.cpp" line="5646"/>
-        <location filename="../mainwindow.cpp" line="5655"/>
+        <location filename="../mainwindow.cpp" line="5603"/>
+        <location filename="../mainwindow.cpp" line="5604"/>
+        <location filename="../mainwindow.cpp" line="5613"/>
+        <location filename="../mainwindow.cpp" line="5614"/>
+        <location filename="../mainwindow.cpp" line="5623"/>
+        <location filename="../mainwindow.cpp" line="5624"/>
+        <location filename="../mainwindow.cpp" line="5633"/>
+        <location filename="../mainwindow.cpp" line="5634"/>
+        <location filename="../mainwindow.cpp" line="5643"/>
+        <location filename="../mainwindow.cpp" line="5644"/>
+        <location filename="../mainwindow.cpp" line="5653"/>
+        <location filename="../mainwindow.cpp" line="5654"/>
+        <location filename="../mainwindow.cpp" line="5663"/>
         <location filename="../mainwindow.cpp" line="5664"/>
         <location filename="../mainwindow.cpp" line="5673"/>
-        <location filename="../mainwindow.cpp" line="5682"/>
-        <location filename="../mainwindow.cpp" line="5691"/>
+        <location filename="../mainwindow.cpp" line="5674"/>
+        <location filename="../mainwindow.cpp" line="5683"/>
+        <location filename="../mainwindow.cpp" line="5684"/>
+        <location filename="../mainwindow.cpp" line="5693"/>
+        <location filename="../mainwindow.cpp" line="5694"/>
+        <location filename="../mainwindow.cpp" line="5703"/>
+        <location filename="../mainwindow.cpp" line="5704"/>
+        <location filename="../mainwindow.cpp" line="5713"/>
+        <location filename="../mainwindow.cpp" line="5714"/>
+        <location filename="../mainwindow.cpp" line="5723"/>
+        <location filename="../mainwindow.cpp" line="5724"/>
+        <location filename="../mainwindow.cpp" line="5733"/>
+        <location filename="../mainwindow.cpp" line="5734"/>
         <source>Off</source>
         <translation>Désactivé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5786"/>
-        <location filename="../mainwindow.cpp" line="5795"/>
-        <location filename="../mainwindow.cpp" line="5805"/>
-        <location filename="../mainwindow.cpp" line="5816"/>
+        <location filename="../mainwindow.cpp" line="5829"/>
+        <location filename="../mainwindow.cpp" line="5838"/>
+        <location filename="../mainwindow.cpp" line="5848"/>
+        <location filename="../mainwindow.cpp" line="5859"/>
         <source>Load File</source>
         <translation>Charger un fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5787"/>
-        <location filename="../mainwindow.cpp" line="5796"/>
+        <location filename="../mainwindow.cpp" line="5830"/>
+        <location filename="../mainwindow.cpp" line="5839"/>
         <source>Failed to load file %1</source>
         <translation>Échec au chargement du fichier %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5806"/>
+        <location filename="../mainwindow.cpp" line="5849"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>Le fichier &quot;%1&quot; est incompatible avec %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5817"/>
+        <location filename="../mainwindow.cpp" line="5860"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Échec à l&apos;extraction des informations de l&apos;hôte depuis %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5829"/>
+        <location filename="../mainwindow.cpp" line="5872"/>
         <source>Load %1 File</source>
         <translation>Chargement du fichier %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5824"/>
+        <location filename="../mainwindow.cpp" line="5867"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation>Le fichier %1 contient les informations de configuration %2. Ces paramètres doivent-ils être appliqués?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5899"/>
+        <location filename="../mainwindow.cpp" line="5942"/>
         <source>New version available: %1</source>
         <translation>Nouvelle version disponible: %1</translation>
     </message>
@@ -4663,178 +4714,173 @@ Should these settings be applied?</source>
 <context>
     <name>TTSEventsModel</name>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="84"/>
+        <location filename="../ttseventsmodel.cpp" line="83"/>
         <source>Event</source>
         <translation>Évènement</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="85"/>
-        <location filename="../ttseventsmodel.cpp" line="106"/>
+        <location filename="../ttseventsmodel.cpp" line="84"/>
+        <location filename="../ttseventsmodel.cpp" line="105"/>
         <source>Enabled</source>
         <translation>Activé</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="106"/>
+        <location filename="../ttseventsmodel.cpp" line="105"/>
         <source>Disabled</source>
         <translation>Désactivé</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="111"/>
+        <location filename="../ttseventsmodel.cpp" line="110"/>
         <source>User logged in</source>
         <translation>Utilisateur connecté</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="113"/>
+        <location filename="../ttseventsmodel.cpp" line="112"/>
         <source>User logged out</source>
         <translation>Utilisateur déconnecté</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="115"/>
+        <location filename="../ttseventsmodel.cpp" line="114"/>
         <source>User joined channel</source>
         <translation>Utilisateur joignant un canal</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="117"/>
+        <location filename="../ttseventsmodel.cpp" line="116"/>
         <source>User left channel</source>
         <translation>Utilisateur quittant un canal</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="119"/>
+        <location filename="../ttseventsmodel.cpp" line="118"/>
         <source>User join current channel</source>
         <translation>Utilisateur joignant le canal actuel</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="121"/>
+        <location filename="../ttseventsmodel.cpp" line="120"/>
         <source>User left current channel</source>
         <translation>Utilisateur quittant le canal actuel</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="123"/>
+        <location filename="../ttseventsmodel.cpp" line="122"/>
         <source>Private message received/sent</source>
         <translation>Message privé envoyé/reçu</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="125"/>
+        <location filename="../ttseventsmodel.cpp" line="124"/>
         <source>Channel message received/sent</source>
         <translation>Message de canal envoyé/reçu</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="127"/>
+        <location filename="../ttseventsmodel.cpp" line="126"/>
         <source>Received broadcast text message</source>
         <translation>Réception d&apos;un message général</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="129"/>
+        <location filename="../ttseventsmodel.cpp" line="128"/>
         <source>Subscription private text message changed</source>
         <translation>Changements d&apos;abonnement aux messages privés</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="131"/>
+        <location filename="../ttseventsmodel.cpp" line="130"/>
         <source>Subscription channel text message changed</source>
         <translation>Changements d&apos;abonnement aux messages de canal</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="133"/>
+        <location filename="../ttseventsmodel.cpp" line="132"/>
         <source>Subscription broadcast text message changed</source>
         <translation>Changements d&apos;abonnement aux messages généraux</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="135"/>
+        <location filename="../ttseventsmodel.cpp" line="134"/>
         <source>Subscription voice stream changed</source>
         <translation>Changements d&apos;abonnement au flux vocal</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="137"/>
+        <location filename="../ttseventsmodel.cpp" line="136"/>
         <source>Subscription webcam stream changed</source>
         <translation>Changements d&apos;abonnement au flux vidéo</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="139"/>
+        <location filename="../ttseventsmodel.cpp" line="138"/>
         <source>Subscription shared desktop stream changed</source>
         <translation>Changements d&apos;abonnements aux bureaux partagés</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="141"/>
+        <location filename="../ttseventsmodel.cpp" line="140"/>
         <source>Subscription desktop access changed</source>
         <translation>Changements d&apos;abonnement aux accès bureau</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="143"/>
+        <location filename="../ttseventsmodel.cpp" line="142"/>
         <source>Subscription media file stream changed</source>
         <translation>Changements d&apos;abonnement au flux de fichiers média</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="145"/>
+        <location filename="../ttseventsmodel.cpp" line="144"/>
         <source>Subscription intercept private text message changed</source>
         <translation>Changements d&apos;interception aux messages privés</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="147"/>
+        <location filename="../ttseventsmodel.cpp" line="146"/>
         <source>Subscription intercept channel text message changed</source>
         <translation>Changements d&apos;interception aux messages de canal</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="149"/>
+        <location filename="../ttseventsmodel.cpp" line="148"/>
         <source>Subscription intercept voice stream changed</source>
         <translation>Changements d&apos;interception au flux vocal</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="151"/>
+        <location filename="../ttseventsmodel.cpp" line="150"/>
         <source>Subscription intercept webcam stream changed</source>
         <translation>Changements d&apos;interception au flux vidéo</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="153"/>
+        <location filename="../ttseventsmodel.cpp" line="152"/>
         <source>Subscription intercept desktop stream changed</source>
         <translation>Changements d&apos;interception au flux de bureau</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="155"/>
-        <source>Subscription intercept desktop access changed</source>
-        <translation>Changements d&apos;interception aux accès bureau</translation>
-    </message>
-    <message>
-        <location filename="../ttseventsmodel.cpp" line="157"/>
+        <location filename="../ttseventsmodel.cpp" line="154"/>
         <source>Subscription intercept media file stream changed</source>
         <translation>Changements d&apos;interception au flux de fichiers média</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="159"/>
+        <location filename="../ttseventsmodel.cpp" line="156"/>
         <source>Classroom allow channel messages transmission changed</source>
         <translation>Changements d&apos;autorisation de transmission des messages de canal</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="161"/>
+        <location filename="../ttseventsmodel.cpp" line="158"/>
         <source>Classroom allow voice transmission changed</source>
         <translation>Changements d&apos;autorisation de transmission vocale</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="163"/>
+        <location filename="../ttseventsmodel.cpp" line="160"/>
         <source>Classroom allow webcam transmission changed</source>
         <translation>Changements d&apos;autorisation de transmission vidéo</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="165"/>
+        <location filename="../ttseventsmodel.cpp" line="162"/>
         <source>Classroom allow desktop transmission changed</source>
         <translation>Changements d&apos;autorisation de transmission de bureau</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="167"/>
+        <location filename="../ttseventsmodel.cpp" line="164"/>
         <source>Classroom allow media file transmission changed</source>
         <translation>Changements d&apos;autorisation de transmission de fichiers média</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="169"/>
+        <location filename="../ttseventsmodel.cpp" line="166"/>
         <source>File added</source>
         <translation>Fichier ajouté</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="171"/>
+        <location filename="../ttseventsmodel.cpp" line="168"/>
         <source>File removed</source>
         <translation>Fichier supprimé</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="173"/>
+        <location filename="../ttseventsmodel.cpp" line="170"/>
         <source>Menu actions</source>
         <translation>Actions de menu</translation>
     </message>

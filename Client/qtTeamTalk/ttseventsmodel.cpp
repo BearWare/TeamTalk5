@@ -57,7 +57,6 @@ TTSEventsModel::TTSEventsModel(QObject* parent)
     m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_VOICE);
     m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO);
     m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP);
-    m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT);
     m_ttsevents.push_back(TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE);
 
     m_ttsevents.push_back(TTS_CLASSROOM_CHANMSG_TX);
@@ -151,8 +150,6 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
             return tr("Subscription intercept webcam stream changed");
         case TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP :
             return tr("Subscription intercept desktop stream changed");
-        case TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT :
-            return tr("Subscription intercept desktop access changed");
         case TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE :
             return tr("Subscription intercept media file stream changed");
         case TTS_CLASSROOM_CHANMSG_TX :
