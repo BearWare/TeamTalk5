@@ -1010,11 +1010,19 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 Channel chan = {};
                 ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
                 QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(msg.user));
+                TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
                 if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst))
+                {
                     userjoinchan = userjoinchan + " " + tr("root");
+                    ttsType = TTS_USER_JOINED;
+                }
                 else if (msg.user.nChannelID != TT_GetMyChannelID(ttInst))
+                {
                     userjoinchan = userjoinchan + " " + _Q(chan.szName);
+                    ttsType = TTS_USER_JOINED;
+                }
                 addStatusMsg(userjoinchan);
+                addTextToSpeechMessage(ttsType, userjoinchan);
             }
         }
 
@@ -1037,12 +1045,16 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 Channel chan = {};
                 ui.channelsWidget->getChannel(msg.nSource, chan);
                 QString userleftchan = tr("%1 left channel").arg(getDisplayName(msg.user));
+                TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
                 if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
                     userleftchan = userleftchan + " " + tr("root");
+                    ttsType = TTS_USER_LEFT;
                 } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
                     userleftchan = userleftchan + " " + _Q(chan.szName);
+                    ttsType = TTS_USER_LEFT;
                 }
                 addStatusMsg(userleftchan);
+                addTextToSpeechMessage(ttsType, userleftchan);
             }
         }
 
