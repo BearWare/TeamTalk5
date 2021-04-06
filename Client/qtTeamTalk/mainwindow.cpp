@@ -2511,6 +2511,7 @@ void MainWindow::processMyselfJoined(int channelid)
             statusjoin = tr("Joined channel %1").arg(root);
         }
     }
+    addTextToSpeechMessage(TTS_USER_JOINED, statusjoin);
 
     //store new muxed audio file if we're changing channel
     if(ui.actionMediaStorage->isChecked() &&
@@ -2558,6 +2559,7 @@ void MainWindow::processMyselfLeft(int /*channelid*/)
         }
     }
     addStatusMsg(statusleft);
+    addTextToSpeechMessage(TTS_USER_LEFT, statusleft);
 
     m_mychannel = {};
 
