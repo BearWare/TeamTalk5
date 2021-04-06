@@ -4096,6 +4096,15 @@ void MainWindow::slotUsersAdvancedStoreForMove()
 {
     m_moveusers.clear();
     m_moveusers = ui.channelsWidget->selectedUsers();
+    QString listuser;
+    for(int i=0; i<m_moveusers.size(); i++)
+    {
+        User user;
+        TT_GetUser(ttInst, m_moveusers.value(i), &user);
+        listuser += getDisplayName(user) + ", ";
+    }
+    listuser.chop(2);
+    addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("%1 selected for move").arg(listuser));
     slotUpdateUI();
 }
 
@@ -4107,6 +4116,19 @@ void MainWindow::slotUsersAdvancedMoveUsers()
         for(int i=0;i<m_moveusers.size();i++)
             TT_DoMoveUser(ttInst, m_moveusers[i], chanid);
     }
+    Channel chan;
+    TT_GetChannel(ttInst, chanid, &chan);
+    QString usersmoved;
+    if(chan.nParentID == 0)
+    {
+        QString rootchan = tr("root");
+        usersmoved = tr("Selected users has been moved to %1 channel").arg(rootchan);
+    }
+    else
+    {
+        usersmoved = tr("Selected users has been moved to channel %1").arg(chan.szName);
+    }
+    addTextToSpeechMessage(TTS_MENU_ACTIONS, usersmoved);
     slotUpdateUI();
 }
 
