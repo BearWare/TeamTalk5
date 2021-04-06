@@ -177,7 +177,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     //text to speech
     m_ttsmodel = new TTSEventsModel(this);
     ui.ttsTreeView->setModel(m_ttsmodel);
-    connect(ui.ttsTreeView, &QAbstractItemView::activated,
+    connect(ui.ttsTreeView, &QAbstractItemView::doubleClicked,
             this, &PreferencesDlg::slotTTSEventToggled);
     connect(ui.ttsengineComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &PreferencesDlg::slotUpdateTTSTab);
 
