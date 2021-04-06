@@ -3892,14 +3892,40 @@ void MainWindow::slotUsersMessagesGrid(bool /*checked =false */)
 
 void MainWindow::slotUsersMuteVoiceGrid(bool checked /*=false */)
 {
+    QString listuser;
     foreach(int userid, ui.channelsWidget->selectedUsers())
+    {
+        User user;
+        TT_GetUser(ttInst, userid, &user);
+        listuser += getDisplayName(user) + ", ";
         slotUsersMuteVoice(userid, checked);
+    }
+    listuser.chop(2);
+    QString ttsevent;
+    if (checked == true)
+        ttsevent = tr("Voice for %1 disabled").arg(listuser);
+    else
+        ttsevent = tr("Voice for %1 enabled").arg(listuser);
+    addTextToSpeechMessage(TTS_MENU_ACTIONS, ttsevent);
 }
 
 void MainWindow::slotUsersMuteMediaFileGrid(bool checked /*=false */)
 {
+    QString listuser;
     foreach(int userid, ui.channelsWidget->selectedUsers())
+    {
+        User user;
+        TT_GetUser(ttInst, userid, &user);
+        listuser += getDisplayName(user) + ", ";
         slotUsersMuteMediaFile(userid, checked);
+    }
+    listuser.chop(2);
+    QString ttsevent;
+    if (checked == true)
+        ttsevent = tr("Media files for %1 disabled").arg(listuser);
+    else
+        ttsevent = tr("Media files for %1 enabled").arg(listuser);
+    addTextToSpeechMessage(TTS_MENU_ACTIONS, ttsevent);
 }
 
 void MainWindow::slotUsersVolumeGrid(bool /*checked =false */)
@@ -4087,7 +4113,7 @@ void MainWindow::slotUsersAdvancedDecVolumeMediaFile()
     {
         User user;
         TT_GetUser(ttInst, users.value(i), &user);
-        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Voice volume for %1 decreased to %2%").arg(getDisplayName(user)).arg(refVolumeToPercent(user.nVolumeMediaFile)));
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Media files volume for %1 decreased to %2%").arg(getDisplayName(user)).arg(refVolumeToPercent(user.nVolumeMediaFile)));
     }
     slotUpdateUI();
 }
@@ -4122,7 +4148,7 @@ void MainWindow::slotUsersAdvancedMoveUsers()
     if(chan.nParentID == 0)
     {
         QString rootchan = tr("root");
-        usersmoved = tr("Selected users has been moved to %1 channel").arg(rootchan);
+        usersmoved = tr("Selected users has been moved to channel %1").arg(rootchan);
     }
     else
     {
