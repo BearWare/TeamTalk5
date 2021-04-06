@@ -1103,6 +1103,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 fileadd = tr("File %1 added by %2").arg(file.szFileName).arg(getDisplayName(user));
             }
             addStatusMsg(fileadd);
+            addTextToSpeechMessage(TTS_FILE_ADD, fileadd);
         }
     }
     break;
@@ -1127,6 +1128,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 filerem = tr("File %1 removed by %2").arg(file.szFileName).arg(getDisplayName(user));
             }
             addStatusMsg(filerem);
+            addTextToSpeechMessage(TTS_FILE_REMOVE, filerem);
         }
 
     }
