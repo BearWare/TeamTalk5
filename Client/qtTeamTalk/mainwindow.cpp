@@ -4872,12 +4872,12 @@ void MainWindow::slotSendChannelMessage()
     TT_DoTextMessage(ttInst, &msg);
 }
 
-void MainWindow::slotUserDoubleClicked(int)
+void MainWindow::slotUserDoubleClicked(int id)
 {
     if(QApplication::keyboardModifiers() & Qt::ControlModifier)
     {
         User user;
-        if(!ui.channelsWidget->getSelectedUser(user))
+        if (!ui.channelsWidget->getUser(id, user))
             return;
 
         //first look through video capture
@@ -4924,7 +4924,7 @@ void MainWindow::slotUserDoubleClicked(int)
         }
     }
     else
-        slotUsersMessages(false);
+        slotUsersMessages(id);
 }
 
 void MainWindow::slotChannelDoubleClicked(int)
