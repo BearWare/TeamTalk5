@@ -2449,9 +2449,27 @@ void MainWindow::processMyselfJoined(int channelid)
     //Enable AGC, denoise etc.
     updateAudioConfig();
 
-    TTCHAR buff[TT_STRLEN] = {};
-    TT_GetChannelPath(ttInst, channelid, buff);
-    addStatusMsg(tr("Joined channel %1").arg(_Q(buff)));
+    QString statusjoin;
+    if(m_mychannel.nChannelID>0 && TT_GetRootChannelID(ttInst) != m_mychannel.nChannelID) {
+        if(m_mychannel.uChannelType & CHANNEL_CLASSROOM)
+        {
+            statusjoin = tr("Joined classroom channel %1").arg(_Q(m_mychannel.szName));
+        }
+        else
+        {
+            statusjoin = tr("Joined channel %1").arg(_Q(m_mychannel.szName));
+        }
+    } else {
+        QString root = tr("root");
+        if(m_mychannel.uChannelType & CHANNEL_CLASSROOM)
+        {
+            statusjoin = tr("Joined classroom channel %1").arg(root);
+        }
+        else
+        {
+            statusjoin = tr("Joined channel %1").arg(root);
+        }
+    }
 
     //store new muxed audio file if we're changing channel
     if(ui.actionMediaStorage->isChecked() &&
@@ -2470,9 +2488,36 @@ void MainWindow::processMyselfJoined(int channelid)
     updateWindowTitle();
 }
 
-void MainWindow::processMyselfLeft(int channelid)
+void MainWindow::processMyselfLeft(int /*channelid*/)
 {
-    Q_UNUSED(channelid);
+    Q_ASSERT(m_mychannel.nChannelID > 0);
+
+    QString statusleft;
+    if (TT_GetRootChannelID(ttInst) != m_mychannel.nChannelID)
+    {
+        if(m_mychannel.uChannelType & CHANNEL_CLASSROOM)
+        {
+            statusleft = tr("Left classroom channel %1").arg(_Q(m_mychannel.szName));
+        }
+        else
+        {
+            statusleft = tr("Left channel %1").arg(_Q(m_mychannel.szName));
+        }
+    }
+    else
+    {
+        QString root = tr("root");
+        if (m_mychannel.uChannelType & CHANNEL_CLASSROOM)
+        {
+            statusleft = tr("Left classroom channel %1").arg(root);
+        }
+        else
+        {
+            statusleft = tr("Left channel %1").arg(root);
+        }
+    }
+    addStatusMsg(statusleft);
+
     m_mychannel = {};
 
     m_talking.clear();

@@ -1883,7 +1883,6 @@ void CTeamTalkDlg::OnChannelJoined(const Channel& chan)
         }
     }
 
-    AddStatusText(szMsg);
     if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED)
         AddTextToSpeechMessage(szMsg);
 
