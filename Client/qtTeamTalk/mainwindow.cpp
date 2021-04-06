@@ -6068,8 +6068,19 @@ void MainWindow::startTTS()
         ttSpeech = new QTextToSpeech(this);
         ttSpeech->setRate(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
         ttSpeech->setVolume(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
-        QVector<QVoice> Voices = ttSpeech->availableVoices();
-        ttSpeech->setVoice(Voices.at(ttSettings->value(SETTINGS_TTS_VOICE).toInt()));
+        int voiceIndex = ttSettings->value(SETTINGS_TTS_VOICE).toInt();
+        QVector<QVoice> voices = ttSpeech->availableVoices();
+        if (voices.size())
+        {
+            if (voiceIndex < voices.size())
+                ttSpeech->setVoice(voices[voiceIndex]);
+            else
+                ttSpeech->setVoice(voices[voiceIndex]);
+        }
+        else
+        {
+            addStatusMsg(tr("No available voices found for Text-To-Speech"));
+        }
     }
 #endif
 #ifdef Q_OS_WIN32
