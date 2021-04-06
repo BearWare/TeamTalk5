@@ -212,8 +212,9 @@ void TTSEventsTreeView::keyPressEvent(QKeyEvent* e)
     if (e->key() == Qt::Key_Space)
     {
         auto i = currentIndex();
-        emit activated(i);
+        emit doubleClicked(i);
         setCurrentIndex(i);
     }
+
     QTreeView::keyPressEvent(e);
 }
