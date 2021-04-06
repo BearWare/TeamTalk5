@@ -5148,6 +5148,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
         else
             msg = tr("You can no longer transmit channel messages!");
         addStatusMsg(msg);
+        addTextToSpeechMessage(TTS_CLASSROOM_CHANMSG_TX, msg);
     }
     before = userCanVoiceTx(TT_GetMyUserID(ttInst), oldchan);
     after = userCanVoiceTx(TT_GetMyUserID(ttInst), chan);
@@ -5158,6 +5159,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
         else
             msg = tr("You can no longer transmit audio!");
         addStatusMsg(msg);
+        addTextToSpeechMessage(TTS_CLASSROOM_VOICE_TX, msg);
     }
     before = userCanVideoTx(TT_GetMyUserID(ttInst), oldchan);
     after = userCanVideoTx(TT_GetMyUserID(ttInst), chan);
@@ -5168,6 +5170,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
         else
             msg = tr("You can no longer transmit video!");
         addStatusMsg(msg);
+        addTextToSpeechMessage(TTS_CLASSROOM_VIDEO_TX, msg);
     }
     before = userCanDesktopTx(TT_GetMyUserID(ttInst), oldchan);
     after = userCanDesktopTx(TT_GetMyUserID(ttInst), chan);
@@ -5178,6 +5181,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
         else
             msg = tr("You can no longer transmit desktop windows!");
         addStatusMsg(msg);
+        addTextToSpeechMessage(TTS_CLASSROOM_DESKTOP_TX, msg);
     }
     before = userCanMediaFileTx(TT_GetMyUserID(ttInst), oldchan);
     after = userCanMediaFileTx(TT_GetMyUserID(ttInst), chan);
@@ -5188,6 +5192,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
         else
             msg = tr("You can no longer transmit mediafiles!");
         addStatusMsg(msg);
+        addTextToSpeechMessage(TTS_CLASSROOM_MEDIAFILE_TX, msg);
     }
 }
 
