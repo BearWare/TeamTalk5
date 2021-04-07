@@ -2158,11 +2158,6 @@ p, li { white-space: pre-wrap; }
         <translation>Connexion perdue à %1, port TCP %2, port UDP %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1751"/>
-        <source>Logged out</source>
-        <translation>Déconnecté</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="963"/>
         <source>%1 has logged in</source>
         <translation>%1 s&apos;est connecté</translation>
@@ -2327,6 +2322,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1695"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Connexion à %1, port TCP %2, port UDP %3</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1751"/>
+        <source>Logged out from %1, TCP port %2, UDP port %3</source>
+        <translation>Déconnecté de %1, port TCP %2, port UDP %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1774"/>

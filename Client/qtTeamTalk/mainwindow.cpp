@@ -1748,7 +1748,7 @@ void MainWindow::Disconnect()
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
 
-    addStatusMsg(tr("Logged out"));
+    addStatusMsg(tr("Logged out from %1, TCP port %2, UDP port %3").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     updateWindowTitle();
 }
 

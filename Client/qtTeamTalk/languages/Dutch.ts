@@ -1512,9 +1512,8 @@ p, li { white-space: pre-wrap; }
         <translation>Opstart parameter &quot;%1&quot;is niet herkend.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1751"/>
         <source>Logged out</source>
-        <translation>Uitgelogd</translation>
+        <translation type="vanished">Uitgelogd</translation>
     </message>
     <message>
         <source>Kicked by unknown user</source>
@@ -2079,6 +2078,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1682"/>
         <source>Using sound output: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1751"/>
+        <source>Logged out from %1, TCP port %2, UDP port %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

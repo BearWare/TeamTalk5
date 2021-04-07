@@ -1424,9 +1424,8 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Prijavljen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1751"/>
         <source>Logged out</source>
-        <translation>Odjavljen</translation>
+        <translation type="vanished">Odjavljen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2463"/>
@@ -2085,6 +2084,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1682"/>
         <source>Using sound output: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1751"/>
+        <source>Logged out from %1, TCP port %2, UDP port %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

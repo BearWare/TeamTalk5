@@ -2162,9 +2162,8 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Oturum açıldı</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1751"/>
         <source>Logged out</source>
-        <translation>Oturum kapatıldı</translation>
+        <translation type="vanished">Oturum kapatıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="963"/>
@@ -2331,6 +2330,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1695"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanıyor</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1751"/>
+        <source>Logged out from %1, TCP port %2, UDP port %3</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1774"/>
