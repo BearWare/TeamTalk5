@@ -890,7 +890,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         m_myuseraccount = msg.useraccount;
         break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDOUT :
-        addStatusMsg(tr("Logged out"));
         Disconnect();
         break;
     case CLIENTEVENT_CMD_MYSELF_KICKED :
@@ -1752,12 +1751,16 @@ void MainWindow::Disconnect()
     ui.channelsWidget->reset();
     ui.videogridWidget->ResetGrid();
     ui.desktopgridWidget->ResetGrid();
+    ui.msgEdit->setVisible(false);
+    ui.sendButton->setVisible(false);
+    ui.videomsgEdit->setVisible(false);
+    ui.videosendButton->setVisible(false);
+    ui.desktopmsgEdit->setVisible(false);
+    ui.desktopsendButton->setVisible(false);
 
     m_vid_exclude.clear();
 
     m_desktopaccess_entries.clear();
-
-    updateWindowTitle();
 
     m_srvprop = {};
     m_mychannel = {};
@@ -1768,6 +1771,7 @@ void MainWindow::Disconnect()
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
 
+    addStatusMsg(tr("Logged out from %1, TCP port %2, UDP port %3").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     updateWindowTitle();
 }
 
