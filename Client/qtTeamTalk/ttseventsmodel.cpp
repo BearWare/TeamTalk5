@@ -171,6 +171,8 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
         case TTS_NONE :
             break;
         }
+    case Qt::AccessibleDescriptionRole :
+        return (m_ttsselected & m_ttsevents[index.row()])? tr("Enabled") : tr("Disabled");
     }
     return QVariant();
 }
