@@ -879,7 +879,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
         //ui.chatEdit->updateServer();
-        addStatusMsg(tr("Logged in"));
         //store user account settings
         m_myuseraccount = msg.useraccount;
         break;
