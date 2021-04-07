@@ -884,7 +884,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         m_myuseraccount = msg.useraccount;
         break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDOUT :
-        addStatusMsg(tr("Logged out"));
         Disconnect();
         break;
     case CLIENTEVENT_CMD_MYSELF_KICKED :
@@ -1741,8 +1740,6 @@ void MainWindow::Disconnect()
 
     m_desktopaccess_entries.clear();
 
-    updateWindowTitle();
-
     m_srvprop = {};
     m_mychannel = {};
 
@@ -1752,6 +1749,7 @@ void MainWindow::Disconnect()
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
 
+    addStatusMsg(tr("Logged out"));
     updateWindowTitle();
 }
 
