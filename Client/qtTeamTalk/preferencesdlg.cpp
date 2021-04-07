@@ -1021,6 +1021,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_VOICE, ui.ttsVoiceComboBox->currentIndex());
         ttSettings->setValue(SETTINGS_TTS_RATE, ui.voiceRateSpinBox->value());
         ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.voiceVolumeSpinBox->value());
+        ttSettings->setValue(SETTINGS_TTS_TIMESTAMP, ui.notifTimestampSpinBox->value());
     }
 }
 
@@ -1427,12 +1428,24 @@ void PreferencesDlg::slotUpdateTTSTab()
             ui.ttsVoiceComboBox->addItem(voice.name());
         }
         ui.ttsVoiceComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_VOICE).toInt());
+        ui.notifTimestampSpinBox->setEnabled(false);
     }
+#if defined(Q_OS_LINUX)
+    else if(ui.ttsengineComboBox->currentIndex() == 2)
+    {
+        ui.ttsVoiceComboBox->setEnabled(false);
+        ui.voiceRateSpinBox->setEnabled(false);
+        ui.voiceVolumeSpinBox->setEnabled(false);
+        ui.notifTimestampSpinBox->setEnabled(true);
+        ui.notifTimestampSpinBox->setValue(ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt());
+    }
+#endif
     else
     {
         ui.ttsVoiceComboBox->setEnabled(false);
         ui.voiceRateSpinBox->setEnabled(false);
         ui.voiceVolumeSpinBox->setEnabled(false);
+        ui.notifTimestampSpinBox->setEnabled(false);
     }
 }
 

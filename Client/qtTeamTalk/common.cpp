@@ -1030,11 +1030,13 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
 #endif
         case TTSENGINE_NOTIFY :
         {
+            int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
             QString noquote = msg;
             noquote.replace('"', ' ');
             QProcess ps;
-            ps.startDetached(QString("%1 -t 1 -a \"%2\" -u low \"%3: %4\"")
+            ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
                              .arg(TTSENGINE_NOTIFY_PATH)
+                             .arg(timestamp)
                              .arg(APPNAME_SHORT)
                              .arg(APPNAME_SHORT)
                              .arg(noquote));

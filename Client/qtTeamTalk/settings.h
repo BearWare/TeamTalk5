@@ -188,6 +188,8 @@
 #define SETTINGS_TTS_RATE_DEFAULT                 0.0
 #define SETTINGS_TTS_VOLUME                         "texttospeech/tts-volume"
 #define SETTINGS_TTS_VOLUME_DEFAULT                 0.5
+#define SETTINGS_TTS_TIMESTAMP                         "texttospeech/tts-timestamp"
+#define SETTINGS_TTS_TIMESTAMP_DEFAULT                 1000
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"
