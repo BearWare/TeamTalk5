@@ -24,6 +24,8 @@
 #ifndef AUDIOMUXER_H
 #define AUDIOMUXER_H
 
+#include "AudioContainer.h"
+
 #include <myace/MyACE.h>
 #include <myace/TimerHandler.h>
 #include <codec/WaveFile.h>
@@ -51,6 +53,8 @@
 
 typedef std::function< void (teamtalk::StreamTypes sts, const media::AudioFrame& frm) > audiomuxer_callback_t;
 
+typedef std::function< void (teamtalk::StreamTypes sts, uint32_t sample_no) > audiomuxer_tick_t;
+
 class AudioMuxer : private TimerListener
 {
 public:
@@ -60,6 +64,9 @@ public:
     bool RegisterMuxCallback(const teamtalk::AudioCodec& codec,
                              audiomuxer_callback_t cb);
     void UnregisterMuxCallback();
+
+    // For debugging when ProcessAudioQueues() has been running
+    void RegisterMuxTick(audiomuxer_tick_t cb);
 
     bool SaveFile(const teamtalk::AudioCodec& codec,
                   const ACE_TString& filename,
@@ -85,6 +92,10 @@ private:
     bool FileActive();
 
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;
+    message_queue_t GetMuxQueue(int key);
+    void SubmitMuxAudioFrame(int key, const media::AudioFrame& frm);
+    void ProcessResampleAudio();
+    ACE_Message_Block* BuildMuxAudioFrame(std::vector<ACE_Message_Block*>& mbs);
 
     // raw audio data from a user ID
     typedef std::map<int, message_queue_t> user_audio_queue_t;
@@ -93,6 +104,11 @@ private:
     typedef std::map<int, uint32_t> user_muxprogress_t;
     user_muxprogress_t m_usermux_progress;
     std::vector<short> m_muxed_buffer;
+
+    // resample queue (audio that cannot go directly to m_usermux_queue)
+    AudioContainer m_userresample_queue;
+    // key -> media::AudioFrame
+    std::map<int, ACE_Message_Block*> m_userresample_block;
 
     ACE_Reactor m_reactor;
     ACE_Time_Value m_mux_interval;
@@ -118,6 +134,7 @@ private:
 #endif
 
     audiomuxer_callback_t m_muxcallback = {};
+    audiomuxer_tick_t m_tickcallback = {};
 };
 
 typedef std::shared_ptr< AudioMuxer > audiomuxer_t;

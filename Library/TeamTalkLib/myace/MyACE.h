@@ -48,13 +48,10 @@ typedef ACE_Thread_Timer_Queue_Adapter<ACE_Timer_Heap> ActiveTimer;
 
 typedef ACE_Message_Queue<ACE_MT_SYNCH> msg_queue_t;
 
-class MBGuard
+class MBGuard : NonCopyable
 {
     ACE_Message_Block* m_mb;
 public:
-    MBGuard(const MBGuard&) = delete;
-    void operator=(const MBGuard&) = delete;
-    
     explicit MBGuard(ACE_Message_Block* mb) : m_mb(mb) { }
     ~MBGuard() { m_mb->release(); }
 };

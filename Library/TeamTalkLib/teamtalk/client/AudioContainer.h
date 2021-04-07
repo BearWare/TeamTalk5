@@ -57,11 +57,13 @@ class AudioContainer : public NonCopyable
 {
 public:
     AudioContainer();
+    void Reset();
 
     void AddAudioSource(int userid, teamtalk::StreamTypes sts, const media::AudioFormat& af);
     void RemoveAudioSource(int userid, teamtalk::StreamTypes sts);
 
     bool AddAudio(int userid, teamtalk::StreamTypes sts, const media::AudioFrame& frame);
+    bool Exists(int userid, teamtalk::StreamTypes sts);
 
     ACE_Message_Block* AcquireAudioFrame(int userid, teamtalk::StreamTypes sts);
     void ReleaseAllAudio();

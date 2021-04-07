@@ -35,6 +35,12 @@ AudioContainer::AudioContainer()
 {
 }
 
+void AudioContainer::Reset()
+{
+    std::lock_guard<std::recursive_mutex> g(m_store_mtx);
+    m_container.clear();
+}
+
 void AudioContainer::AddAudioSource(int userid, teamtalk::StreamTypes sts,
                                     const media::AudioFormat& af)
 {
@@ -74,6 +80,13 @@ bool AudioContainer::AddAudio(int userid, teamtalk::StreamTypes sts,
         return false;
     }
     return true;
+}
+
+bool AudioContainer::Exists(int userid, teamtalk::StreamTypes sts)
+{
+    std::lock_guard<std::recursive_mutex> g(m_store_mtx);
+
+    return m_container.find(GenKey(userid, sts)) != m_container.end();
 }
 
 ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::StreamTypes sts)

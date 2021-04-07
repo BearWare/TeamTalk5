@@ -27,6 +27,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include <cstring>
+
 namespace media {
 
     void AudioFrame::ApplyGain()
@@ -133,7 +135,7 @@ media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb)
     return frm;
 }
 
-ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame)
+ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame, bool skip_copy)
 {
     ACE_Message_Block* mb;
     int frame_bytes = sizeof(frame);
@@ -157,6 +159,9 @@ ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame)
     ret = mb->copy(reinterpret_cast<const char*>(&copy_frame), frame_bytes);
     assert(ret >= 0);
 
+    if (skip_copy)
+        return mb;
+
     if (input_bytes > 0)
     {
         ret = mb->copy(reinterpret_cast<const char*>(frame.input_buffer), input_bytes);
@@ -174,6 +179,122 @@ media::AudioFrame* AudioFrameFromMsgBlock(ACE_Message_Block* mb)
 {
     media::AudioFrame* frm = reinterpret_cast<media::AudioFrame*>(mb->base());
     return frm;
+}
+
+ACE_Message_Block* AudioFramesMerge(const std::vector<ACE_Message_Block*>& mbs)
+{
+    assert(mbs.size());
+
+    const int IN_CHANNELS = media::AudioFrame(mbs[0]).inputfmt.channels;
+    // const int OUT_CHANNELS = media::AudioFrame(mbs[0]).outputfmt.channels;
+
+    int64_t in_samples = 0, out_samples = 0;
+    for (auto mb : mbs)
+    {
+        media::AudioFrame frm(mb);
+        assert(frm.inputfmt == media::AudioFrame(mbs[0]).inputfmt);
+        assert(frm.outputfmt == media::AudioFrame(mbs[0]).outputfmt);
+        in_samples += frm.input_samples;
+        out_samples += frm.output_samples;
+    }
+
+    assert(in_samples <= 0xffffffff);
+    assert(out_samples <= 0xffffffff);
+
+    media::AudioFrame frm(mbs[0]);
+    frm.input_samples = int(in_samples);
+    assert(out_samples == 0);
+    // frm.output_samples = int(out_samples);
+
+    ACE_Message_Block* mb = AudioFrameToMsgBlock(frm, true);
+    frm = media::AudioFrame(mb);
+
+    int in_copied = 0;
+    for (auto m : mbs)
+    {
+        media::AudioFrame newfrm(m);
+        size_t bytes = PCM16_BYTES(newfrm.input_samples, IN_CHANNELS);
+        std::memcpy(&frm.input_buffer[in_copied * IN_CHANNELS], newfrm.input_buffer, bytes);
+        in_copied += newfrm.input_samples;
+        mb->wr_ptr(bytes);
+        assert(newfrm.output_buffer == nullptr); // doesn't handle 'output_buffer'
+//        std::memcpy(&frm.output_buffer[out_copied * OUT_CHANNELS], newfrm.output_buffer, PCM16_BYTES(newfrm.output_samples, OUT_CHANNELS));
+//        in_copied += newfrm.input_samples;
+    }
+    return mb;
+}
+
+ACE_Message_Block* AudioFrameFromList(int samples_out, std::vector<ACE_Message_Block*>& mbs)
+{
+    if (mbs.empty())
+        return nullptr;
+
+    assert(media::AudioFrame(mbs[0]).output_buffer == nullptr);
+
+    auto fmt = media::AudioFrame(mbs[0]).inputfmt;
+    const int TOTALSAMPLES = samples_out * fmt.channels;
+
+    // check that there's enough samples to build an AudioFrame
+    int samples = 0;
+    for (auto mb : mbs)
+    {
+        media::AudioFrame frm(mb);
+        assert(frm.input_samples == 0 || frm.inputfmt == fmt);
+        samples += frm.input_samples;
+        if (frm.input_samples == 0 || samples >= samples_out)
+        {
+            samples = samples_out;
+            break;
+        }
+    }
+
+    if (samples != samples_out)
+        return nullptr;
+
+    // build AudioFrame
+    media::AudioFrame muxfrm(mbs[0]);
+    muxfrm.input_samples = 0;
+    std::vector<short> buffer(TOTALSAMPLES, 0);
+    muxfrm.input_buffer = &buffer[0];
+
+    while (muxfrm.input_samples < samples_out)
+    {
+        assert(mbs.size());
+        media::AudioFrame frm(mbs[0]);
+        // exit if terminator
+        if (frm.input_samples == 0)
+        {
+            mbs[0]->release();
+            mbs.erase(mbs.begin());
+            muxfrm.input_samples = samples_out;
+            break;
+        }
+
+        int copied = std::min(samples_out - muxfrm.input_samples, frm.input_samples);
+        size_t bytes = PCM16_BYTES(copied, fmt.channels);
+        std::memcpy(&muxfrm.input_buffer[muxfrm.input_samples * fmt.channels], frm.input_buffer, bytes);
+        muxfrm.input_samples += copied;
+
+        if (copied == frm.input_samples)
+        {
+            // 'frm' obsolete, all copied
+            mbs[0]->release();
+            mbs.erase(mbs.begin());
+        }
+        else
+        {
+            // 'frm' still has data
+            media::AudioFrame* rawfrm = AudioFrameFromMsgBlock(mbs[0]);
+            rawfrm->input_buffer = &rawfrm->input_buffer[copied * fmt.channels];
+            rawfrm->input_samples -= copied;
+            assert(rawfrm->input_samples > 0);
+            rawfrm->sample_no += copied;
+            break;
+        }
+    }
+    assert(muxfrm.input_samples <= samples_out);
+
+    return AudioFrameToMsgBlock(muxfrm);
 }
 
 int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq)
