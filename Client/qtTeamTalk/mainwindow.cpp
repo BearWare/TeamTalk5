@@ -1730,6 +1730,12 @@ void MainWindow::Disconnect()
     ui.channelsWidget->reset();
     ui.videogridWidget->ResetGrid();
     ui.desktopgridWidget->ResetGrid();
+    ui.msgEdit->setVisible(false);
+    ui.sendButton->setVisible(false);
+    ui.videomsgEdit->setVisible(false);
+    ui.videosendButton->setVisible(false);
+    ui.desktopmsgEdit->setVisible(false);
+    ui.desktopsendButton->setVisible(false);
 
     m_vid_exclude.clear();
 
