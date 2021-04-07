@@ -3763,12 +3763,12 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="314"/>
-        <location filename="../preferences.ui" line="1819"/>
-        <location filename="../preferences.ui" line="1846"/>
-        <location filename="../preferences.ui" line="1873"/>
-        <location filename="../preferences.ui" line="1900"/>
-        <location filename="../preferences.ui" line="1927"/>
-        <location filename="../preferences.ui" line="1954"/>
+        <location filename="../preferences.ui" line="1839"/>
+        <location filename="../preferences.ui" line="1866"/>
+        <location filename="../preferences.ui" line="1893"/>
+        <location filename="../preferences.ui" line="1920"/>
+        <location filename="../preferences.ui" line="1947"/>
+        <location filename="../preferences.ui" line="1974"/>
         <source>&amp;Setup Keys</source>
         <translation>&amp;Ustaw klawisze</translation>
     </message>
@@ -3948,7 +3948,12 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2207"/>
+        <location filename="../preferences.ui" line="1784"/>
+        <source>Display duration of notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="2227"/>
         <source>Bitrate</source>
         <translation>Przepływność</translation>
     </message>
@@ -4161,7 +4166,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1160"/>
-        <location filename="../preferences.ui" line="2293"/>
+        <location filename="../preferences.ui" line="2313"/>
         <source>&amp;Default</source>
         <translation>&amp;Domyślne</translation>
     </message>
@@ -4262,110 +4267,110 @@ Should these settings be applied?</source>
         <translation>Prośba o dostęp do pulpitu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1788"/>
+        <location filename="../preferences.ui" line="1808"/>
         <source>Shortcuts</source>
         <translation>Skróty</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1794"/>
+        <location filename="../preferences.ui" line="1814"/>
         <source>Keyboard Shortcuts</source>
         <translation>Skróty klawiszowe</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1802"/>
+        <location filename="../preferences.ui" line="1822"/>
         <source>Enable/disable voice activation</source>
         <translation>Włącz/wyłącz aktywację głosem</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1829"/>
+        <location filename="../preferences.ui" line="1849"/>
         <source>Increase volume</source>
         <translation>Zwiększ głośność</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1856"/>
+        <location filename="../preferences.ui" line="1876"/>
         <source>Lower volume</source>
         <translation>Zmniejsz głośność</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1883"/>
+        <location filename="../preferences.ui" line="1903"/>
         <source>Enable/disable mute all</source>
         <translation>Włącz/wyłącz wyciszenie wszystkiego</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1910"/>
+        <location filename="../preferences.ui" line="1930"/>
         <source>Increase microphone gain</source>
         <translation>Zwiększ wzmicnienie mikrofonu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1937"/>
+        <location filename="../preferences.ui" line="1957"/>
         <source>Lower microphone gain</source>
         <translation>Zmniejsz wzmocnienie mikrofonu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1964"/>
+        <location filename="../preferences.ui" line="1984"/>
         <source>Enable/disable video transmission</source>
         <translation>Włącz/wyłącz transmisję wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1977"/>
+        <location filename="../preferences.ui" line="1997"/>
         <source>Setup Keys</source>
         <translation>Ustawienia klawiszy</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="724"/>
-        <location filename="../preferences.ui" line="2006"/>
+        <location filename="../preferences.ui" line="2026"/>
         <source>Video Capture</source>
         <translation>Przechwytywanie wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2012"/>
+        <location filename="../preferences.ui" line="2032"/>
         <source>Video Capture Settings</source>
         <translation>Ustawienia przechwytywania wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2018"/>
+        <location filename="../preferences.ui" line="2038"/>
         <source>Video Capture Device</source>
         <translation>Urządzenia przechwytywania wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2038"/>
+        <location filename="../preferences.ui" line="2058"/>
         <source>Video Resolution</source>
         <translation>Rozdzielczość wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2064"/>
+        <location filename="../preferences.ui" line="2084"/>
         <source>Image Format</source>
         <translation>Format obrazu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2074"/>
+        <location filename="../preferences.ui" line="2094"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2081"/>
+        <location filename="../preferences.ui" line="2101"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2088"/>
+        <location filename="../preferences.ui" line="2108"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2112"/>
-        <location filename="../preferencesdlg.cpp" line="1210"/>
+        <location filename="../preferences.ui" line="2132"/>
+        <location filename="../preferencesdlg.cpp" line="1211"/>
         <source>Test Selected</source>
         <translation>Testuj wybrane</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2140"/>
-        <location filename="../preferences.ui" line="2143"/>
+        <location filename="../preferences.ui" line="2160"/>
+        <location filename="../preferences.ui" line="2163"/>
         <source>Video Codec Settings</source>
         <translation>Ustawienia kodeka wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2151"/>
+        <location filename="../preferences.ui" line="2171"/>
         <source>Codec</source>
         <translation>Kodek</translation>
     </message>
@@ -4455,12 +4460,12 @@ Should these settings be applied?</source>
         <translation>Błąd usuwania %1 z lity wyjątków Zapory systemu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1211"/>
+        <location filename="../preferencesdlg.cpp" line="1212"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1228"/>
+        <location filename="../preferencesdlg.cpp" line="1229"/>
         <source>Sound Initialization</source>
         <translation>Inicjalizacja dźwięku</translation>
     </message>
@@ -4482,35 +4487,35 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1013"/>
-        <location filename="../preferencesdlg.cpp" line="1033"/>
+        <location filename="../preferencesdlg.cpp" line="1034"/>
         <source>Video Device</source>
         <translation>Urządzenie wideo</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1014"/>
-        <location filename="../preferencesdlg.cpp" line="1034"/>
-        <location filename="../preferencesdlg.cpp" line="1657"/>
+        <location filename="../preferencesdlg.cpp" line="1035"/>
+        <location filename="../preferencesdlg.cpp" line="1670"/>
         <source>Failed to initialize video device</source>
         <translation>Nie można uruchomić urządzenia wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1116"/>
+        <location filename="../preferencesdlg.cpp" line="1117"/>
         <source>Max Input Channels %1</source>
         <translation>Maksymalna liczba kanałów wejściowych %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1118"/>
-        <location filename="../preferencesdlg.cpp" line="1141"/>
+        <location filename="../preferencesdlg.cpp" line="1119"/>
+        <location filename="../preferencesdlg.cpp" line="1142"/>
         <source>Sample Rates:</source>
         <translation>Szybkość próbkowania:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1139"/>
+        <location filename="../preferencesdlg.cpp" line="1140"/>
         <source>Max Output Channels %1</source>
         <translation>Maksymalna liczba kanałów wyjściowych %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1169"/>
+        <location filename="../preferencesdlg.cpp" line="1170"/>
         <source>Refresh Sound Devices</source>
         <translation>Odśwież urządzenia audio</translation>
     </message>
@@ -4519,27 +4524,27 @@ Should these settings be applied?</source>
         <translation type="obsolete">Aby odświeżyć urządzenia audio klient musi być rozłączony</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1170"/>
+        <location filename="../preferencesdlg.cpp" line="1171"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Nie można zrestartować systemu audio. Proszę zrestartować aplikację.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1229"/>
+        <location filename="../preferencesdlg.cpp" line="1230"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Nie można uruchomić nowego urządzenia audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1616"/>
+        <location filename="../preferencesdlg.cpp" line="1629"/>
         <source>Custom video format</source>
         <translation>Niestandardowy format wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1709"/>
+        <location filename="../preferencesdlg.cpp" line="1722"/>
         <source>Default Video Capture</source>
         <translation>Domyślne urządzenie przechwytywania wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1710"/>
+        <location filename="../preferencesdlg.cpp" line="1723"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Nie można znaleźć preferowanych ustawień urządzenia przechwytywania wideo</translation>
     </message>
@@ -4587,7 +4592,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">Nie można zainicjalizować domyślnego urządzenia audio</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="1824"/>
+        <location filename="../common.cpp" line="1826"/>
         <source>Conference</source>
         <translation>Konferencja</translation>
     </message>
@@ -5356,11 +5361,13 @@ Should these settings be applied?</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="84"/>
         <location filename="../ttseventsmodel.cpp" line="105"/>
+        <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="105"/>
+        <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Disabled</source>
         <translation type="unfinished">Zablokowane</translation>
     </message>

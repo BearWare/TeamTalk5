@@ -3764,12 +3764,12 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="314"/>
-        <location filename="../preferences.ui" line="1819"/>
-        <location filename="../preferences.ui" line="1846"/>
-        <location filename="../preferences.ui" line="1873"/>
-        <location filename="../preferences.ui" line="1900"/>
-        <location filename="../preferences.ui" line="1927"/>
-        <location filename="../preferences.ui" line="1954"/>
+        <location filename="../preferences.ui" line="1839"/>
+        <location filename="../preferences.ui" line="1866"/>
+        <location filename="../preferences.ui" line="1893"/>
+        <location filename="../preferences.ui" line="1920"/>
+        <location filename="../preferences.ui" line="1947"/>
+        <location filename="../preferences.ui" line="1974"/>
         <source>&amp;Setup Keys</source>
         <translation>&amp;Angiv Taster</translation>
     </message>
@@ -3951,7 +3951,12 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2207"/>
+        <location filename="../preferences.ui" line="1784"/>
+        <source>Display duration of notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="2227"/>
         <source>Bitrate</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4166,7 +4171,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1160"/>
-        <location filename="../preferences.ui" line="2293"/>
+        <location filename="../preferences.ui" line="2313"/>
         <source>&amp;Default</source>
         <translation>&amp;Standard</translation>
     </message>
@@ -4263,110 +4268,110 @@ Should these settings be applied?</source>
         <translation>Anmodning om skrivebordsadgang</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1788"/>
+        <location filename="../preferences.ui" line="1808"/>
         <source>Shortcuts</source>
         <translation>Genveje</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1794"/>
+        <location filename="../preferences.ui" line="1814"/>
         <source>Keyboard Shortcuts</source>
         <translation>Tastaturgenveje</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1802"/>
+        <location filename="../preferences.ui" line="1822"/>
         <source>Enable/disable voice activation</source>
         <translation>Aktiver/deaktiver stemmeaktivering</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1829"/>
+        <location filename="../preferences.ui" line="1849"/>
         <source>Increase volume</source>
         <translation>Forøg lydstyrke</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1856"/>
+        <location filename="../preferences.ui" line="1876"/>
         <source>Lower volume</source>
         <translation>Reducer lydstyrke</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1883"/>
+        <location filename="../preferences.ui" line="1903"/>
         <source>Enable/disable mute all</source>
         <translation>Aktiver/deaktiver lydlys for alle</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1910"/>
+        <location filename="../preferences.ui" line="1930"/>
         <source>Increase microphone gain</source>
         <translation>Forøg mikrofonforstærkning</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1937"/>
+        <location filename="../preferences.ui" line="1957"/>
         <source>Lower microphone gain</source>
         <translation>Reducer mikrofonforstærkning</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1964"/>
+        <location filename="../preferences.ui" line="1984"/>
         <source>Enable/disable video transmission</source>
         <translation>Aktiver/deaktiver video transmission</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1977"/>
+        <location filename="../preferences.ui" line="1997"/>
         <source>Setup Keys</source>
         <translation>Angiv Taster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="724"/>
-        <location filename="../preferences.ui" line="2006"/>
+        <location filename="../preferences.ui" line="2026"/>
         <source>Video Capture</source>
         <translation>Videoindspilning</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2012"/>
+        <location filename="../preferences.ui" line="2032"/>
         <source>Video Capture Settings</source>
         <translation>Videoindspilningsindstillinger</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2018"/>
+        <location filename="../preferences.ui" line="2038"/>
         <source>Video Capture Device</source>
         <translation>Videoindspilningsenhed</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2038"/>
+        <location filename="../preferences.ui" line="2058"/>
         <source>Video Resolution</source>
         <translation>Videoopløsning</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2064"/>
+        <location filename="../preferences.ui" line="2084"/>
         <source>Image Format</source>
         <translation>Billedeformat</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2074"/>
+        <location filename="../preferences.ui" line="2094"/>
         <source>RGB32</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2081"/>
+        <location filename="../preferences.ui" line="2101"/>
         <source>I420</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2088"/>
+        <location filename="../preferences.ui" line="2108"/>
         <source>YUY2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2112"/>
-        <location filename="../preferencesdlg.cpp" line="1210"/>
+        <location filename="../preferences.ui" line="2132"/>
+        <location filename="../preferencesdlg.cpp" line="1211"/>
         <source>Test Selected</source>
         <translation>Test Valgte</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2140"/>
-        <location filename="../preferences.ui" line="2143"/>
+        <location filename="../preferences.ui" line="2160"/>
+        <location filename="../preferences.ui" line="2163"/>
         <source>Video Codec Settings</source>
         <translation>Video Codec Indstillinger</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2151"/>
+        <location filename="../preferences.ui" line="2171"/>
         <source>Codec</source>
         <translation></translation>
     </message>
@@ -4452,7 +4457,7 @@ Should these settings be applied?</source>
         <translation>Fejl ved fjernelse af %1 fra Windows Firewall undtagelsesliste</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1228"/>
+        <location filename="../preferencesdlg.cpp" line="1229"/>
         <source>Sound Initialization</source>
         <translation>Lydinitialisering</translation>
     </message>
@@ -4474,65 +4479,65 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1013"/>
-        <location filename="../preferencesdlg.cpp" line="1033"/>
+        <location filename="../preferencesdlg.cpp" line="1034"/>
         <source>Video Device</source>
         <translation>Videoenhed</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1014"/>
-        <location filename="../preferencesdlg.cpp" line="1034"/>
-        <location filename="../preferencesdlg.cpp" line="1657"/>
+        <location filename="../preferencesdlg.cpp" line="1035"/>
+        <location filename="../preferencesdlg.cpp" line="1670"/>
         <source>Failed to initialize video device</source>
         <translation>Fejl ved initialisering af videoenhed</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1116"/>
+        <location filename="../preferencesdlg.cpp" line="1117"/>
         <source>Max Input Channels %1</source>
         <translation>Maks Indspilningskanaler %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1118"/>
-        <location filename="../preferencesdlg.cpp" line="1141"/>
+        <location filename="../preferencesdlg.cpp" line="1119"/>
+        <location filename="../preferencesdlg.cpp" line="1142"/>
         <source>Sample Rates:</source>
         <translation>Sample Rates:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1139"/>
+        <location filename="../preferencesdlg.cpp" line="1140"/>
         <source>Max Output Channels %1</source>
         <translation>Maks Afspilningskanaler %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1169"/>
+        <location filename="../preferencesdlg.cpp" line="1170"/>
         <source>Refresh Sound Devices</source>
         <translation>Opdater lydenheder</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1170"/>
+        <location filename="../preferencesdlg.cpp" line="1171"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Fejl ved genstart af lydsystem. Genstart programmet.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1211"/>
+        <location filename="../preferencesdlg.cpp" line="1212"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1229"/>
+        <location filename="../preferencesdlg.cpp" line="1230"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Fejl ved initialisering af nye lydenheder</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1616"/>
+        <location filename="../preferencesdlg.cpp" line="1629"/>
         <source>Custom video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1709"/>
+        <location filename="../preferencesdlg.cpp" line="1722"/>
         <source>Default Video Capture</source>
         <translation>Standard Videooptagning</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1710"/>
+        <location filename="../preferencesdlg.cpp" line="1723"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Ikke i stand til at finde fortrukne videoindspilningsindstillinger</translation>
     </message>
@@ -4580,7 +4585,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">Fejl ved initialisering af standard lydenheder</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="1824"/>
+        <location filename="../common.cpp" line="1826"/>
         <source>Conference</source>
         <translation>Konference</translation>
     </message>
@@ -5360,11 +5365,13 @@ Should these settings be applied?</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="84"/>
         <location filename="../ttseventsmodel.cpp" line="105"/>
+        <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="105"/>
+        <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Disabled</source>
         <translation type="unfinished"></translation>
     </message>
