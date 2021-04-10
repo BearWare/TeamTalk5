@@ -23,6 +23,8 @@
 
 #include "catch.hpp"
 
+#include "TTUnitTest.h"
+
 #include <iostream>
 #include <map>
 #include <vector>
@@ -293,7 +295,11 @@ TEST_CASE("PlaybackJitter")
             // Setup Sound System
             m_snd = soundsystem::GetInstance();
             m_sndprop.soundgroupid = m_snd->OpenSoundGroup();
-            REQUIRE(m_snd->GetDefaultDevices(m_sndprop.inputdeviceid, m_sndprop.outputdeviceid));
+
+            SoundDevice indev, outdev;
+            REQUIRE(GetSoundDevices(indev, outdev, SOUNDDEVICEID_DEFAULT, SOUNDDEVICEID_DEFAULT));
+            m_sndprop.inputdeviceid = indev.nDeviceID;
+            m_sndprop.outputdeviceid = outdev.nDeviceID;
 
             m_nextpacket = m_packets.begin();
 

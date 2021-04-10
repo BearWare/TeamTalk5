@@ -38,8 +38,11 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
     int selindev = indev, seloutdev = outdev;
     if (indev == SOUNDDEVICEID_DEFAULT || outdev == SOUNDDEVICEID_DEFAULT)
     {
-        if (!TT_GetDefaultSoundDevices(&indev, &outdev))
+        SoundDevice sndindev, sndoutdev;
+        if (!GetSoundDevices(sndindev, sndoutdev, indev, outdev))
             return false;
+        indev = sndindev.nDeviceID;
+        outdev = sndoutdev.nDeviceID;
     }
 
     if (selindev == SOUNDDEVICEID_DEFAULT)
@@ -88,9 +91,28 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/
     }
 
     int defaultin, defaultout;
-    if (!TT_GetDefaultSoundDevices(indev != SOUNDDEVICEID_IGNORE ? &defaultin : nullptr,
-                                   outdev != SOUNDDEVICEID_IGNORE ? &defaultout : nullptr))
-        return false;
+    
+    ACE_TCHAR* envindev = ACE_OS::getenv(ACE_TEXT("INPUTDEVICEID"));
+    ACE_TCHAR* envoutdev = ACE_OS::getenv(ACE_TEXT("OUTPUTDEVICEID"));
+    if (envindev || envoutdev)
+    {
+        if (envindev)
+            defaultin = ACE_OS::atoi(envindev);
+        else if (!TT_GetDefaultSoundDevices(indev != SOUNDDEVICEID_IGNORE ? &defaultin : nullptr, nullptr))
+            return false;
+
+        if (envoutdev)
+            defaultout = ACE_OS::atoi(envoutdev);
+        else if (!TT_GetDefaultSoundDevices(nullptr, outdev != SOUNDDEVICEID_IGNORE ? &defaultout : nullptr))
+            return false;
+    }
+    else
+    {
+        if (!TT_GetDefaultSoundDevices(indev != SOUNDDEVICEID_IGNORE ? &defaultin : nullptr,
+                                       outdev != SOUNDDEVICEID_IGNORE ? &defaultout : nullptr))
+            return false;
+    }
+    
 
     if (indev == SOUNDDEVICEID_DEFAULT)
         indev = defaultin;

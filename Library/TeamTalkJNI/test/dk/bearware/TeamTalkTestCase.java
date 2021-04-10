@@ -2354,7 +2354,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             assertTrue("get WebRTC", ttclient.getSoundInputPreprocess(preprocess2));
 
             assertEquals("webrtc0", preprocess.webrtc.echocanceller.bEnable, preprocess2.webrtc.echocanceller.bEnable);
-            
+
             assertEquals("webrtc1", preprocess.webrtc.gaincontroller2.bEnable, preprocess2.webrtc.gaincontroller2.bEnable);
             assertEquals("webrtc2", (int)preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB, (int)preprocess2.webrtc.gaincontroller2.fixeddigital.fGainDB);
 
@@ -2606,6 +2606,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
         boolean gotdevs = ttclient1.getDefaultSoundDevices(indev, outdev);
+        if (INPUTDEVICEID >= 0 && OUTPUTDEVICEID >= 0) {
+            indev.value = INPUTDEVICEID;
+            outdev.value = OUTPUTDEVICEID;
+        }
+
         // cannot assert since test system might not have a sound input or output device.
         //assertTrue("get default devs", ttclient1.getDefaultSoundDevices(indev, outdev));
 
@@ -3095,7 +3100,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     @Test
     public void testDesktopInput() {
-        
+
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_TRANSMIT_DESKTOP |
             UserRight.USERRIGHT_TRANSMIT_DESKTOPINPUT | UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN;
@@ -3605,7 +3610,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         for (int i=0;i<clients.length;++i) {
             clients[i] = newClientInstance();
             IntPtr indev = new IntPtr(), outdev = new IntPtr();
-            assertTrue("get default sound devices", clients[i].getDefaultSoundDevices(indev, outdev));
+            boolean gotdevs = clients[i].getDefaultSoundDevices(indev, outdev);
+            if (INPUTDEVICEID >= 0)
+                indev.value = INPUTDEVICEID;
+            if (OUTPUTDEVICEID >= 0)
+                outdev.value = OUTPUTDEVICEID;
             assertTrue("init output device", clients[i].initSoundOutputDevice(outdev.value));
             connect(clients[i]);
             login(clients[i], NICKNAME + "_" + i, USERNAME, PASSWORD);
@@ -3615,7 +3624,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         for (int i=0;i < 5; i++) {
             for (TeamTalkBase ttclient : clients) {
                 IntPtr indev = new IntPtr(), outdev = new IntPtr();
-                assertTrue("get default sound devices", ttclient.getDefaultSoundDevices(indev, outdev));
+                boolean gotdevs = ttclient.getDefaultSoundDevices(indev, outdev);
+                if (INPUTDEVICEID >= 0)
+                    indev.value = INPUTDEVICEID;
+                if (OUTPUTDEVICEID >= 0)
+                    outdev.value = OUTPUTDEVICEID;
                 assertTrue("client init sndinput", ttclient.initSoundInputDevice(indev.value));
                 assertTrue("client enable voice tx", ttclient.enableVoiceTransmission(true));
             }
@@ -3761,7 +3774,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("ttclient join channel", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
-        if(INPUTDEVICEID < 0 && OUTPUTDEVICEID < 0)
+        if (INPUTDEVICEID < 0 && OUTPUTDEVICEID < 0)
            assertTrue("get default devs", ttclient.getDefaultSoundDevices(indev, outdev));
         else
         {
@@ -3876,7 +3889,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
         Vector<String> files = new Vector<>();
-        
+
         for (int i = 0; i < 3; i++) {
             TeamTalkBase txclient = newClientInstance();
             TeamTalkBase rxclient = newClientInstance();
@@ -3905,7 +3918,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
             assertTrue("txclient join channel", waitCmdSuccess(txclient, txclient.doJoinChannel(chan), DEF_WAIT));
             assertTrue("rxclient join channel", waitCmdSuccess(rxclient, rxclient.doJoinChannelByID(txclient.getMyChannelID(), ""), DEF_WAIT));
-                   
+
             assertTrue("txclient tone", txclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 600));
             String filename = getTestMethodName()+"_"+i;
             files.add(STORAGEFOLDER + File.separator + filename + ".wav");
@@ -3957,9 +3970,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase client2 = newClientInstance();
         connect(client2);
         login(client2, "User2 " + getTestMethodName(), USERNAME, PASSWORD);
-        
+
         assertTrue("client1 logged out", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDOUT, DEF_WAIT));
-        
+
         joinRoot(client2);
 
         assertTrue("disconnect1", client1.disconnect());
@@ -3971,14 +3984,14 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         connect(client2);
         login(client2, "User2 " + getTestMethodName(), USERNAME, PASSWORD);
-        
+
         assertTrue("client1 logged out", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDOUT, DEF_WAIT));
-        
-        joinRoot(client2);        
+
+        joinRoot(client2);
     }
 
-    
-    
+
+
     /* cannot test output levels since a user is muted by sound system after decoding and callback.
 
     @Test
