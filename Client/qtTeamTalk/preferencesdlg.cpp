@@ -1422,6 +1422,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.voiceVolumeSpinBox->setEnabled(true);
         ui.voiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
         ui.voiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
+        ui.ttsVoiceComboBox->clear();
         QVector<QVoice> Voices = ttSpeech->availableVoices();
         foreach (const QVoice &voice, Voices)
         {
