@@ -3372,12 +3372,12 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="314"/>
-        <location filename="../preferences.ui" line="1848"/>
-        <location filename="../preferences.ui" line="1875"/>
-        <location filename="../preferences.ui" line="1902"/>
-        <location filename="../preferences.ui" line="1929"/>
-        <location filename="../preferences.ui" line="1956"/>
-        <location filename="../preferences.ui" line="1983"/>
+        <location filename="../preferences.ui" line="1839"/>
+        <location filename="../preferences.ui" line="1866"/>
+        <location filename="../preferences.ui" line="1893"/>
+        <location filename="../preferences.ui" line="1920"/>
+        <location filename="../preferences.ui" line="1947"/>
+        <location filename="../preferences.ui" line="1974"/>
         <source>&amp;Setup Keys</source>
         <translation>&amp;Configurer les touches</translation>
     </message>
@@ -3565,7 +3565,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="724"/>
-        <location filename="../preferences.ui" line="2035"/>
+        <location filename="../preferences.ui" line="2026"/>
         <source>Video Capture</source>
         <translation>Vidéo</translation>
     </message>
@@ -3685,7 +3685,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1160"/>
-        <location filename="../preferences.ui" line="2322"/>
+        <location filename="../preferences.ui" line="2313"/>
         <source>&amp;Default</source>
         <translation>&amp;Défaut</translation>
     </message>
@@ -3831,119 +3831,119 @@ Should these settings be applied?</source>
         <translation>Débit de la voix</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1764"/>
+        <location filename="../preferences.ui" line="1761"/>
         <source>Voice volume</source>
         <translation>Volume de la voix</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1790"/>
+        <location filename="../preferences.ui" line="1784"/>
         <source>Display duration of notifications</source>
         <translation>Durée d&apos;affichage des notifications (en ms)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1817"/>
+        <location filename="../preferences.ui" line="1808"/>
         <source>Shortcuts</source>
         <translation>Raccourcis</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1823"/>
+        <location filename="../preferences.ui" line="1814"/>
         <source>Keyboard Shortcuts</source>
         <translation>Raccourcis clavier</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1831"/>
+        <location filename="../preferences.ui" line="1822"/>
         <source>Enable/disable voice activation</source>
         <translation>Activer/désactiver l&apos;activation vocale</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1858"/>
+        <location filename="../preferences.ui" line="1849"/>
         <source>Increase volume</source>
         <translation>Augmenter le volume</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1885"/>
+        <location filename="../preferences.ui" line="1876"/>
         <source>Lower volume</source>
         <translation>Diminuer le volume</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1912"/>
+        <location filename="../preferences.ui" line="1903"/>
         <source>Enable/disable mute all</source>
         <translation>Activer/désactiver tous muets</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1939"/>
+        <location filename="../preferences.ui" line="1930"/>
         <source>Increase microphone gain</source>
         <translation>Activer le volume du microphone</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1966"/>
+        <location filename="../preferences.ui" line="1957"/>
         <source>Lower microphone gain</source>
         <translation>Diminuer le volume du microphone</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1993"/>
+        <location filename="../preferences.ui" line="1984"/>
         <source>Enable/disable video transmission</source>
         <translation>Activer/désactiver la transmission vidéo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2006"/>
+        <location filename="../preferences.ui" line="1997"/>
         <source>Setup Keys</source>
         <translation>Configurer les touches</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2041"/>
+        <location filename="../preferences.ui" line="2032"/>
         <source>Video Capture Settings</source>
         <translation>Paramètres de capture vidéo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2047"/>
+        <location filename="../preferences.ui" line="2038"/>
         <source>Video Capture Device</source>
         <translation>Périphérique de capture vidéo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2067"/>
+        <location filename="../preferences.ui" line="2058"/>
         <source>Video Resolution</source>
         <translation>Résolution vidéo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2093"/>
+        <location filename="../preferences.ui" line="2084"/>
         <source>Image Format</source>
         <translation>Format de l&apos;image</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2103"/>
+        <location filename="../preferences.ui" line="2094"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2110"/>
+        <location filename="../preferences.ui" line="2101"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2117"/>
+        <location filename="../preferences.ui" line="2108"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2141"/>
+        <location filename="../preferences.ui" line="2132"/>
         <location filename="../preferencesdlg.cpp" line="1211"/>
         <source>Test Selected</source>
         <translation>Tester la sélection</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2169"/>
-        <location filename="../preferences.ui" line="2172"/>
+        <location filename="../preferences.ui" line="2160"/>
+        <location filename="../preferences.ui" line="2163"/>
         <source>Video Codec Settings</source>
         <translation>Paramètres du codec vidéo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2180"/>
+        <location filename="../preferences.ui" line="2171"/>
         <source>Codec</source>
         <translation>Codec</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2236"/>
+        <location filename="../preferences.ui" line="2227"/>
         <source>Bitrate</source>
         <translation>Débit</translation>
     </message>
@@ -4038,7 +4038,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1014"/>
         <location filename="../preferencesdlg.cpp" line="1035"/>
-        <location filename="../preferencesdlg.cpp" line="1671"/>
+        <location filename="../preferencesdlg.cpp" line="1670"/>
         <source>Failed to initialize video device</source>
         <translation>Échec à l&apos;initialisation du périphérique vidéo</translation>
     </message>
@@ -4079,17 +4079,17 @@ Should these settings be applied?</source>
         <translation>Échec à l&apos;initialisation des nouveaux périphériques audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1630"/>
+        <location filename="../preferencesdlg.cpp" line="1629"/>
         <source>Custom video format</source>
         <translation>Format vidéo personnalisé</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1723"/>
+        <location filename="../preferencesdlg.cpp" line="1722"/>
         <source>Default Video Capture</source>
         <translation>Capture vidéo par défaut</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1724"/>
+        <location filename="../preferencesdlg.cpp" line="1723"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Impossible de trouver les paramètres de capture vidéo préférés</translation>
     </message>
@@ -4740,185 +4740,175 @@ Should these settings be applied?</source>
 <context>
     <name>TTSEventsModel</name>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="85"/>
+        <location filename="../ttseventsmodel.cpp" line="83"/>
         <source>Event</source>
         <translation>Évènement</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="86"/>
-        <location filename="../ttseventsmodel.cpp" line="107"/>
-        <location filename="../ttseventsmodel.cpp" line="181"/>
+        <location filename="../ttseventsmodel.cpp" line="84"/>
+        <location filename="../ttseventsmodel.cpp" line="105"/>
+        <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Enabled</source>
         <translation>Activé</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="107"/>
-        <location filename="../ttseventsmodel.cpp" line="181"/>
+        <location filename="../ttseventsmodel.cpp" line="105"/>
+        <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Disabled</source>
         <translation>Désactivé</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="112"/>
+        <location filename="../ttseventsmodel.cpp" line="110"/>
         <source>User logged in</source>
         <translation>Utilisateur connecté</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="114"/>
+        <location filename="../ttseventsmodel.cpp" line="112"/>
         <source>User logged out</source>
         <translation>Utilisateur déconnecté</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="116"/>
+        <location filename="../ttseventsmodel.cpp" line="114"/>
         <source>User joined channel</source>
         <translation>Utilisateur rejoignant un canal</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="118"/>
+        <location filename="../ttseventsmodel.cpp" line="116"/>
         <source>User left channel</source>
         <translation>Utilisateur quittant un canal</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="120"/>
+        <location filename="../ttseventsmodel.cpp" line="118"/>
         <source>User join current channel</source>
         <translation>Utilisateur rejoignant le canal actuel</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="122"/>
+        <location filename="../ttseventsmodel.cpp" line="120"/>
         <source>User left current channel</source>
         <translation>Utilisateur quittant le canal actuel</translation>
     </message>
     <message>
+        <location filename="../ttseventsmodel.cpp" line="122"/>
+        <source>Private message received/sent</source>
+        <translation>Message privé envoyé/reçu</translation>
+    </message>
+    <message>
         <location filename="../ttseventsmodel.cpp" line="124"/>
-        <source>Received private message</source>
-        <translation>Message privé reçu</translation>
+        <source>Channel message received/sent</source>
+        <translation>Message de canal envoyé/reçu</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="126"/>
-        <source>Sent private message</source>
-        <translation>Message privé envoyé</translation>
-    </message>
-    <message>
-        <location filename="../ttseventsmodel.cpp" line="128"/>
-        <source>Received channel message</source>
-        <translation>Message de canal reçu</translation>
-    </message>
-    <message>
-        <location filename="../ttseventsmodel.cpp" line="130"/>
-        <source>Sent channel message</source>
-        <translation>Message de canal envoyé</translation>
-    </message>
-    <message>
-        <location filename="../ttseventsmodel.cpp" line="132"/>
         <source>Received broadcast text message</source>
         <translation>Réception d&apos;un message général</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="134"/>
+        <location filename="../ttseventsmodel.cpp" line="128"/>
         <source>Subscription private text message changed</source>
         <translation>Changements d&apos;abonnements aux messages privés</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="136"/>
+        <location filename="../ttseventsmodel.cpp" line="130"/>
         <source>Subscription channel text message changed</source>
         <translation>Changements d&apos;abonnements aux messages de canal</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="138"/>
+        <location filename="../ttseventsmodel.cpp" line="132"/>
         <source>Subscription broadcast text message changed</source>
         <translation>Changements d&apos;abonnement aux messages généraux</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="140"/>
+        <location filename="../ttseventsmodel.cpp" line="134"/>
         <source>Subscription voice stream changed</source>
         <translation>Changements d&apos;abonnement à la voix</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="142"/>
+        <location filename="../ttseventsmodel.cpp" line="136"/>
         <source>Subscription webcam stream changed</source>
         <translation>Changements d&apos;abonnement aux vidéos</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="144"/>
+        <location filename="../ttseventsmodel.cpp" line="138"/>
         <source>Subscription shared desktop stream changed</source>
         <translation>Changements d&apos;abonnement aux bureaux partagés</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="146"/>
+        <location filename="../ttseventsmodel.cpp" line="140"/>
         <source>Subscription desktop access changed</source>
         <translation>Changements d&apos;abonnement aux demande d&apos;accès aux bureaux</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="148"/>
+        <location filename="../ttseventsmodel.cpp" line="142"/>
         <source>Subscription media file stream changed</source>
         <translation>Changements d&apos;abonnement aux fichiers média</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="150"/>
+        <location filename="../ttseventsmodel.cpp" line="144"/>
         <source>Subscription intercept private text message changed</source>
         <translation>Changements d&apos;interception aux messages privés</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="152"/>
+        <location filename="../ttseventsmodel.cpp" line="146"/>
         <source>Subscription intercept channel text message changed</source>
         <translation>Changements d&apos;interception aux messages de canal</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="154"/>
+        <location filename="../ttseventsmodel.cpp" line="148"/>
         <source>Subscription intercept voice stream changed</source>
         <translation>Changements d&apos;interception vocale</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="156"/>
+        <location filename="../ttseventsmodel.cpp" line="150"/>
         <source>Subscription intercept webcam stream changed</source>
         <translation>Changements d&apos;interception vidéo</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="158"/>
+        <location filename="../ttseventsmodel.cpp" line="152"/>
         <source>Subscription intercept desktop stream changed</source>
         <translation>Changements d&apos;interception des bureaux partagés</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="160"/>
+        <location filename="../ttseventsmodel.cpp" line="154"/>
         <source>Subscription intercept media file stream changed</source>
         <translation>Changements d&apos;interception des fichiers média</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="162"/>
+        <location filename="../ttseventsmodel.cpp" line="156"/>
         <source>Classroom allow channel messages transmission changed</source>
         <translation>Changements d&apos;autorisation de transmission des messages de canal</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="164"/>
+        <location filename="../ttseventsmodel.cpp" line="158"/>
         <source>Classroom allow voice transmission changed</source>
         <translation>Changements d&apos;autorisation de transmission vocale</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="166"/>
+        <location filename="../ttseventsmodel.cpp" line="160"/>
         <source>Classroom allow webcam transmission changed</source>
         <translation>Changements d&apos;autorisation de transmission vidéo</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="168"/>
+        <location filename="../ttseventsmodel.cpp" line="162"/>
         <source>Classroom allow desktop transmission changed</source>
         <translation>Changements d&apos;autorisation de transmission des bureaux</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="170"/>
+        <location filename="../ttseventsmodel.cpp" line="164"/>
         <source>Classroom allow media file transmission changed</source>
         <translation>Changements d&apos;autorisation de transmission des fichiers média</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="172"/>
+        <location filename="../ttseventsmodel.cpp" line="166"/>
         <source>File added</source>
         <translation>Fichier ajouté</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="174"/>
+        <location filename="../ttseventsmodel.cpp" line="168"/>
         <source>File removed</source>
         <translation>Fichier supprimé</translation>
     </message>
     <message>
-        <location filename="../ttseventsmodel.cpp" line="176"/>
+        <location filename="../ttseventsmodel.cpp" line="170"/>
         <source>Menu actions</source>
         <translation>Actions de menu</translation>
     </message>
