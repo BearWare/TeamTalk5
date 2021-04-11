@@ -1008,7 +1008,10 @@ void ClientNode::CloseAudioCapture()
 
     // submit ending of recording
     frm.sample_no = m_soundprop.samples_recorded;
-    AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
+    if (m_audiocontainer.AddAudio(LOCAL_USERID, STREAMTYPE_VOICE, frm))
+    {
+        m_listener->OnUserAudioBlock(LOCAL_USERID, STREAMTYPE_VOICE);
+    }
     
     m_soundprop.samples_transmitted = 0;
     m_soundprop.samples_recorded = 0;
@@ -1449,12 +1452,12 @@ bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
     TTASSERT(audio_frame.inputfmt.samplerate);
     TTASSERT(audio_frame.input_samples);
 
-    if (m_audiocontainer.AddAudio(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, audio_frame))
-        m_listener->OnUserAudioBlock(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO);
-
     audio_frame.force_enc = true;
     audio_frame.userdata = STREAMTYPE_MEDIAFILE_AUDIO;
     audio_frame.streamid = m_mediafile_stream_id;
+
+    AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, audio_frame);
+
     m_audiofile_thread.QueueAudio(mb_audio);
     // don't touch 'mb_audio' after this
 
@@ -1478,9 +1481,11 @@ void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
         break;
     case MEDIASTREAM_ERROR :
         mfs = MFS_ERROR;
+        AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, media::AudioFrame());
         break;
     case MEDIASTREAM_FINISHED :
         mfs = MFS_FINISHED;
+        AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, media::AudioFrame());
         break;
     case MEDIASTREAM_PAUSED :
         mfs = MFS_PAUSED;
@@ -1532,7 +1537,6 @@ void ClientNode::AudioUserCallback(int userid, StreamType st,
     auto streammuxer = m_audiomuxer_stream;
     if (streammuxer)
         streammuxer->QueueUserAudio(userid, st, audio_frame);
-
 
     // ignore "terminate" audio frames (i.e. null buffers) and "not
     // talking" audio frames (i.e. streamid=0)
@@ -3329,6 +3333,9 @@ void ClientNode::StopStreamingMediaFile()
     {
         clear_video = m_mediafile_streamer->GetMediaOutput().HasVideo();
         clear_audio = m_mediafile_streamer->GetMediaOutput().HasAudio();
+
+        AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, media::AudioFrame());
+
         m_mediafile_streamer.reset();
     }
 
@@ -3469,6 +3476,8 @@ bool ClientNode::StopMediaPlayback(int id)
     if(iplayback == m_mediaplayback_streams.end())
         return false;
 
+    AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, media::AudioFrame());
+
     m_mediaplayback_streams.erase(iplayback);
     return true;
 }
@@ -3486,8 +3495,7 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
         break;
     case MEDIASTREAM_ERROR :
     {
-        media::AudioFrame frm;
-        AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, frm);
+        AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, media::AudioFrame());
 
         // TIMER_REMOVE_LOCALPLAYBACK will destroy media playback
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_ERROR);
@@ -3498,8 +3506,7 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
         break;
     case MEDIASTREAM_FINISHED :
     {
-        media::AudioFrame frm;
-        AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, frm);
+        AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, media::AudioFrame());
 
         // TIMER_REMOVE_LOCALPLAYBACK will destroy media playback
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_FINISHED);
@@ -3513,6 +3520,7 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
 
 void ClientNode::MediaPlaybackAudio(int id, const media::AudioFrame& frm)
 {
+    assert(frm.streamid);
     AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, frm);
 }
 
