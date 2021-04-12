@@ -4177,19 +4177,53 @@ Should these settings be applied?</source>
         <translation>&amp;Сгенерировать .tt Файл</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="358"/>
+        <location filename="../serverlist.ui" line="336"/>
+        <source>&amp;Import .tt File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="365"/>
         <source>&amp;Save</source>
         <translation>&amp;Сохранить</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="213"/>
+        <location filename="../serverlistdlg.cpp" line="216"/>
         <source>Missing fields</source>
         <translation>Не хватает полей</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="214"/>
+        <location filename="../serverlistdlg.cpp" line="217"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Пожалуйста, заполните поля &apos;Host IP-Адрес&apos;, &apos;TCP порт&apos; и &apos;UDP порт&apos;</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="334"/>
+        <source>Open File</source>
+        <translation type="unfinished">Открыть Файл</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
+        <location filename="../serverlistdlg.cpp" line="365"/>
+        <location filename="../serverlistdlg.cpp" line="376"/>
+        <source>Load File</source>
+        <translation type="unfinished">Загрузить Файл</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="347"/>
+        <location filename="../serverlistdlg.cpp" line="356"/>
+        <source>Failed to load file %1</source>
+        <translation type="unfinished">Не удалось загрузить файл %1</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="366"/>
+        <source>The file &quot;%1&quot; is incompatible with %2</source>
+        <translation type="unfinished">Файл &quot;%1&quot; не совместим с %2</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="377"/>
+        <source>Failed to extract host-information from %1</source>
+        <translation type="unfinished">Не удалось извлечь информацию хоста из %1</translation>
     </message>
 </context>
 <context>

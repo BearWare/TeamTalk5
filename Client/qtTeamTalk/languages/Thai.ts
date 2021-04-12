@@ -4799,7 +4799,12 @@ Should these settings be applied?</source>
         <translation>ห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="358"/>
+        <location filename="../serverlist.ui" line="336"/>
+        <source>&amp;Import .tt File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="365"/>
         <source>&amp;Save</source>
         <translation>&amp;บันทึก</translation>
     </message>
@@ -4827,10 +4832,39 @@ Should these settings be applied?</source>
         <translation>&amp;สร้างไฟล์ .tt</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="213"/>
+        <location filename="../serverlistdlg.cpp" line="216"/>
         <source>Missing fields</source>
         <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>หัวข้อที่เรียกไม่มี</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="334"/>
+        <source>Open File</source>
+        <translation type="unfinished">เปิดไฟล์</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
+        <location filename="../serverlistdlg.cpp" line="365"/>
+        <location filename="../serverlistdlg.cpp" line="376"/>
+        <source>Load File</source>
+        <translation type="unfinished">โอนย้ายข้อมูล</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="347"/>
+        <location filename="../serverlistdlg.cpp" line="356"/>
+        <source>Failed to load file %1</source>
+        <translation type="unfinished">การโอนย้ายข้อมูล %1 ไม่สำเร็จ</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="366"/>
+        <source>The file &quot;%1&quot; is incompatible with %2</source>
+        <translation type="unfinished">ไฟล์ %1 เข้ากันไม่ได้กับไฟล์ %2</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="377"/>
+        <source>Failed to extract host-information from %1</source>
+        <translation type="unfinished">การดึงข้อมูลจากโฮสท์ %1 ล้มเหลว</translation>
     </message>
     <message>
         <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
@@ -4838,7 +4872,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">โปรดกรอกที่หัวข้อ ชื่อที่ตั้งไว้, Host IP-address, TCP port และ UDP port</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="214"/>
+        <location filename="../serverlistdlg.cpp" line="217"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>โปรดกรอกที่หัวข้อ &apos;Host IP-address&apos;, &apos;TCP port&apos; และ &apos;UDP port&apos;</translation>
     </message>

@@ -4519,7 +4519,12 @@ Should these settings be applied?</source>
         <translation>Kanal</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="358"/>
+        <location filename="../serverlist.ui" line="336"/>
+        <source>&amp;Import .tt File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="365"/>
         <source>&amp;Save</source>
         <translation>&amp;Gem</translation>
     </message>
@@ -4544,9 +4549,38 @@ Should these settings be applied?</source>
         <translation>&amp;Generer .tt Fil</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="213"/>
+        <location filename="../serverlistdlg.cpp" line="216"/>
         <source>Missing fields</source>
         <translation>Manglende felter</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="334"/>
+        <source>Open File</source>
+        <translation type="unfinished">Åben File</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
+        <location filename="../serverlistdlg.cpp" line="365"/>
+        <location filename="../serverlistdlg.cpp" line="376"/>
+        <source>Load File</source>
+        <translation type="unfinished">Indlæs Fil</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="347"/>
+        <location filename="../serverlistdlg.cpp" line="356"/>
+        <source>Failed to load file %1</source>
+        <translation type="unfinished">Fejl ved læsning af fil %1</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="366"/>
+        <source>The file &quot;%1&quot; is incompatible with %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="377"/>
+        <source>Failed to extract host-information from %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
@@ -4554,7 +4588,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">Sørg for at felterne &quot;Feltnavn&quot;, &quot;Server&apos;s IP-addresse&quot;, &quot;TCP port&quot; og &quot;UDP port&quot; er udfyldte</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="214"/>
+        <location filename="../serverlistdlg.cpp" line="217"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Udfyld felterne &apos;Server&apos;s IP-addresse&apos;, &apos;TCP port&apos; og &apos;UDP port&apos;</translation>
     </message>

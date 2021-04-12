@@ -4512,7 +4512,12 @@ Should these settings be applied?</source>
         <translation>Raum</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="358"/>
+        <location filename="../serverlist.ui" line="336"/>
+        <source>&amp;Import .tt File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="365"/>
         <source>&amp;Save</source>
         <translation>&amp;Speichern</translation>
     </message>
@@ -4536,16 +4541,45 @@ Should these settings be applied?</source>
         <translation>.tt-Datei &amp;generieren</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="213"/>
+        <location filename="../serverlistdlg.cpp" line="216"/>
         <source>Missing fields</source>
         <translation>Fehlende Eingaben</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="334"/>
+        <source>Open File</source>
+        <translation type="unfinished">Datei öffnen</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
+        <location filename="../serverlistdlg.cpp" line="365"/>
+        <location filename="../serverlistdlg.cpp" line="376"/>
+        <source>Load File</source>
+        <translation type="unfinished">Datei laden</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="347"/>
+        <location filename="../serverlistdlg.cpp" line="356"/>
+        <source>Failed to load file %1</source>
+        <translation type="unfinished">Fehler beim Laden der Datei %1</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="366"/>
+        <source>The file &quot;%1&quot; is incompatible with %2</source>
+        <translation type="unfinished">Die Datei &quot;%1&quot; ist mit %2 nicht kompatibel</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="377"/>
+        <source>Failed to extract host-information from %1</source>
+        <translation type="unfinished">Konnte Host-Informationen von %1 nicht extrahieren</translation>
     </message>
     <message>
         <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation type="obsolete">Bitte fülle die Felder &apos;Servername&apos;, &apos;Host/IP-Adresse&apos; sowie &apos;TCP-&apos;, und &apos;UDP-Port&apos; aus</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="214"/>
+        <location filename="../serverlistdlg.cpp" line="217"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Bitte fülle die Felder Host/IP, TCP- sowie UDP-Port aus</translation>
     </message>

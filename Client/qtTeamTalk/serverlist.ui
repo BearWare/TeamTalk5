@@ -331,6 +331,13 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="impttButton">
+            <property name="text">
+             <string>&amp;Import .tt File</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="horizontalSpacer_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -396,6 +403,7 @@
   <tabstop>nameEdit</tabstop>
   <tabstop>addupdButton</tabstop>
   <tabstop>genttButton</tabstop>
+  <tabstop>impttButton</tabstop>
   <tabstop>listWidget</tabstop>
   <tabstop>freeserverChkBox</tabstop>
   <tabstop>delButton</tabstop>

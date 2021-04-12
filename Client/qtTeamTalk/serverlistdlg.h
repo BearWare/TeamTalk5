@@ -58,6 +58,8 @@ private:
     void slotFreeServers(bool checked);
     void slotFreeServerRequest(QNetworkReply* reply);
     void slotGenerateFile();
+    void slotImportFile();
+    void slotLoadTTFile(const QString& filepath);
     void slotDeleteLatestHost();
 
     void slotSaveEntryChanged(const QString& text);

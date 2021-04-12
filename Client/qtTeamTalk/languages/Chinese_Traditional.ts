@@ -4513,7 +4513,12 @@ Should these settings be applied?</source>
         <translation>頻道</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="358"/>
+        <location filename="../serverlist.ui" line="336"/>
+        <source>&amp;Import .tt File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="365"/>
         <source>&amp;Save</source>
         <translation>儲存(&amp;S)</translation>
     </message>
@@ -4537,16 +4542,45 @@ Should these settings be applied?</source>
         <translation>產生 .tt 檔(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="213"/>
+        <location filename="../serverlistdlg.cpp" line="216"/>
         <source>Missing fields</source>
         <translation>欄位遺失</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="334"/>
+        <source>Open File</source>
+        <translation type="unfinished">開啟檔案</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
+        <location filename="../serverlistdlg.cpp" line="365"/>
+        <location filename="../serverlistdlg.cpp" line="376"/>
+        <source>Load File</source>
+        <translation type="unfinished">載入檔案</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="347"/>
+        <location filename="../serverlistdlg.cpp" line="356"/>
+        <source>Failed to load file %1</source>
+        <translation type="unfinished">載入檔案 %1 失敗</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="366"/>
+        <source>The file &quot;%1&quot; is incompatible with %2</source>
+        <translation type="unfinished">檔案%1與%2不相容</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="377"/>
+        <source>Failed to extract host-information from %1</source>
+        <translation type="unfinished">由%1展開主機資訊失敗</translation>
     </message>
     <message>
         <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation type="obsolete">請輸入下列欄位所需要的資訊 &apos;項目名稱&apos;, &apos;主機IP位址&apos;, &apos;TCP 埠號&apos; 以及 &apos;UDP 埠號&apos;</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="214"/>
+        <location filename="../serverlistdlg.cpp" line="217"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>請填入下列欄位 &apos;主機IP位址&apos;, &apos;TCP 埠號&apos; 以及 &apos;UDP 埠號&apos;</translation>
     </message>
