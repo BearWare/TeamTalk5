@@ -21,6 +21,7 @@ jobs:
     - name: Install Toolchain Dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
       run: |
+        brew update
         make depend-mac
 
     - name: Build Toolchain for iOS ARMv7
