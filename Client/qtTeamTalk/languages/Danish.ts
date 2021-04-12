@@ -4422,6 +4422,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlist.ui" line="71"/>
+        <location filename="../serverlist.ui" line="298"/>
         <source>Server Information</source>
         <translation>Serverinformation</translation>
     </message>
@@ -4436,9 +4437,8 @@ Should these settings be applied?</source>
         <translation>Nu&amp;lstil</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="298"/>
         <source>Save Server Information</source>
-        <translation>Gem Server Information</translation>
+        <translation type="vanished">Gem Server Information</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="306"/>
@@ -4519,7 +4519,12 @@ Should these settings be applied?</source>
         <translation>Kanal</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="358"/>
+        <location filename="../serverlist.ui" line="323"/>
+        <source>&amp;Import .tt File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="378"/>
         <source>&amp;Save</source>
         <translation>&amp;Gem</translation>
     </message>
@@ -4532,21 +4537,50 @@ Should these settings be applied?</source>
         <translation type="obsolete">&amp;Ryd</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="323"/>
-        <location filename="../serverlist.ui" line="326"/>
+        <location filename="../serverlist.ui" line="343"/>
+        <location filename="../serverlist.ui" line="346"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
         <translation>.tt filer kan dobbeltklikkes og få klienten til at starte automatisk og forbinde til den specificerede server</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="329"/>
+        <location filename="../serverlist.ui" line="349"/>
         <source>&amp;Generate .tt File</source>
         <oldsource>&amp;Generate .tt file</oldsource>
         <translation>&amp;Generer .tt Fil</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="213"/>
+        <location filename="../serverlistdlg.cpp" line="220"/>
         <source>Missing fields</source>
         <translation>Manglende felter</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="338"/>
+        <source>Open File</source>
+        <translation type="unfinished">Åben File</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="345"/>
+        <location filename="../serverlistdlg.cpp" line="354"/>
+        <location filename="../serverlistdlg.cpp" line="364"/>
+        <location filename="../serverlistdlg.cpp" line="375"/>
+        <source>Load File</source>
+        <translation type="unfinished">Indlæs Fil</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
+        <source>Failed to load file %1</source>
+        <translation type="unfinished">Fejl ved læsning af fil %1</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="365"/>
+        <source>The file &quot;%1&quot; is incompatible with %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="376"/>
+        <source>Failed to extract host-information from %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
@@ -4554,7 +4588,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">Sørg for at felterne &quot;Feltnavn&quot;, &quot;Server&apos;s IP-addresse&quot;, &quot;TCP port&quot; og &quot;UDP port&quot; er udfyldte</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="214"/>
+        <location filename="../serverlistdlg.cpp" line="221"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Udfyld felterne &apos;Server&apos;s IP-addresse&apos;, &apos;TCP port&apos; og &apos;UDP port&apos;</translation>
     </message>

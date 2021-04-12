@@ -33,6 +33,7 @@
 #include <QFile>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QFileDialog>
 
 extern QSettings* ttSettings;
 
@@ -61,6 +62,8 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
             this, &ServerListDlg::slotFreeServers);
     connect(ui.genttButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotGenerateFile);
+    connect(ui.impttButton, &QAbstractButton::clicked,
+            this, &ServerListDlg::slotLoadTTFile);
     connect(ui.hostaddrBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &ServerListDlg::slotShowHost);
     connect(ui.nameEdit, &QLineEdit::textChanged,
@@ -186,9 +189,11 @@ void ServerListDlg::slotAddUpdServer()
     HostEntry entry;
     if(getHostEntry(entry))
     {
+        int index = ui.listWidget->currentRow();
         deleteServerEntry(entry.name);
         addServerEntry(entry);
         showServers();
+        ui.listWidget->setCurrentRow(index);
     }
 }
 
@@ -197,10 +202,12 @@ void ServerListDlg::slotDeleteServer()
     QListWidgetItem* item = ui.listWidget->currentItem();
     if(item)
     {
+        int index = ui.listWidget->currentRow();
         deleteServerEntry(item->text());
         clearServer();
         showServers();
         ui.delButton->setEnabled(false);
+        ui.listWidget->setCurrentRow(index);
     }
 }
 
@@ -323,6 +330,55 @@ void ServerListDlg::slotGenerateFile()
 
     GenerateTTFileDlg dlg(entry, this);
     dlg.exec();
+}
+
+void ServerListDlg::slotLoadTTFile()
+{
+    QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY, QDir::homePath()).toString();
+    QString filepath = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                   start_dir/*, tr("TT Files (*.tt)")*/);
+    if(filepath.isEmpty())
+        return;
+    QFile ttfile(QDir::fromNativeSeparators(filepath));
+    if(!ttfile.open(QFile::ReadOnly))
+    {
+        QMessageBox::information(this, tr("Load File"), 
+            tr("Failed to load file %1").arg(filepath));
+        return;
+    }
+
+    QByteArray data = ttfile.readAll();
+    QDomDocument doc(TTFILE_ROOT);
+    if(!doc.setContent(data))
+    {
+        QMessageBox::information(this, tr("Load File"), 
+            tr("Failed to load file %1").arg(filepath));
+        return;
+    }
+
+    QDomElement rootElement(doc.documentElement());
+    QString version = rootElement.attribute("version");
+    
+    if(!versionSameOrLater(version, TTFILE_VERSION))
+    {
+        QMessageBox::information(this, tr("Load File"), 
+            tr("The file \"%1\" is incompatible with %2")
+            .arg(QDir::toNativeSeparators(filepath))
+            .arg(APPTITLE));
+        return;
+    }
+
+    QDomElement element = rootElement.firstChildElement("host");
+    HostEntry entry;
+    if(!getServerEntry(element, entry))
+    {
+        QMessageBox::information(this, tr("Load File"), 
+            tr("Failed to extract host-information from %1").arg(filepath));
+        return;
+    }
+
+    addServerEntry(entry);
+    showServers();
 }
 
 void ServerListDlg::slotDeleteLatestHost()

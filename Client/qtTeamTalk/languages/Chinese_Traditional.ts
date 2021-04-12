@@ -4427,13 +4427,13 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlist.ui" line="71"/>
+        <location filename="../serverlist.ui" line="298"/>
         <source>Server Information</source>
         <translation>伺服器資訊</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="298"/>
         <source>Save Server Information</source>
-        <translation>儲存伺服器資訊</translation>
+        <translation type="vanished">儲存伺服器資訊</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="306"/>
@@ -4513,7 +4513,12 @@ Should these settings be applied?</source>
         <translation>頻道</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="358"/>
+        <location filename="../serverlist.ui" line="323"/>
+        <source>&amp;Import .tt File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="378"/>
         <source>&amp;Save</source>
         <translation>儲存(&amp;S)</translation>
     </message>
@@ -4526,27 +4531,56 @@ Should these settings be applied?</source>
         <translation type="obsolete">清除(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="323"/>
-        <location filename="../serverlist.ui" line="326"/>
+        <location filename="../serverlist.ui" line="343"/>
+        <location filename="../serverlist.ui" line="346"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
         <translation>你可以用滑鼠雙擊 .tt檔, 客戶端程式會自動啟動並連線到指定的伺服器</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="329"/>
+        <location filename="../serverlist.ui" line="349"/>
         <source>&amp;Generate .tt File</source>
         <translation>產生 .tt 檔(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="213"/>
+        <location filename="../serverlistdlg.cpp" line="220"/>
         <source>Missing fields</source>
         <translation>欄位遺失</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="338"/>
+        <source>Open File</source>
+        <translation type="unfinished">開啟檔案</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="345"/>
+        <location filename="../serverlistdlg.cpp" line="354"/>
+        <location filename="../serverlistdlg.cpp" line="364"/>
+        <location filename="../serverlistdlg.cpp" line="375"/>
+        <source>Load File</source>
+        <translation type="unfinished">載入檔案</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
+        <source>Failed to load file %1</source>
+        <translation type="unfinished">載入檔案 %1 失敗</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="365"/>
+        <source>The file &quot;%1&quot; is incompatible with %2</source>
+        <translation type="unfinished">檔案%1與%2不相容</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="376"/>
+        <source>Failed to extract host-information from %1</source>
+        <translation type="unfinished">由%1展開主機資訊失敗</translation>
     </message>
     <message>
         <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation type="obsolete">請輸入下列欄位所需要的資訊 &apos;項目名稱&apos;, &apos;主機IP位址&apos;, &apos;TCP 埠號&apos; 以及 &apos;UDP 埠號&apos;</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="214"/>
+        <location filename="../serverlistdlg.cpp" line="221"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>請填入下列欄位 &apos;主機IP位址&apos;, &apos;TCP 埠號&apos; 以及 &apos;UDP 埠號&apos;</translation>
     </message>

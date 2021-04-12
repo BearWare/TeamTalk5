@@ -4229,13 +4229,9 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlist.ui" line="71"/>
+        <location filename="../serverlist.ui" line="298"/>
         <source>Server Information</source>
         <translation>הגדרות שרת</translation>
-    </message>
-    <message>
-        <location filename="../serverlist.ui" line="298"/>
-        <source>Save Server Information</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="306"/>
@@ -4315,7 +4311,12 @@ Should these settings be applied?</source>
         <translation>ערוץ</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="358"/>
+        <location filename="../serverlist.ui" line="323"/>
+        <source>&amp;Import .tt File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="378"/>
         <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4328,27 +4329,56 @@ Should these settings be applied?</source>
         <translation type="obsolete">&amp;נקה</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="323"/>
-        <location filename="../serverlist.ui" line="326"/>
+        <location filename="../serverlist.ui" line="343"/>
+        <location filename="../serverlist.ui" line="346"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
         <translation>קבצים אילו יאפשרו כניסה אוטומטית לשרת המוגדר</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="329"/>
+        <location filename="../serverlist.ui" line="349"/>
         <source>&amp;Generate .tt File</source>
         <translation>.tt יצר &amp;קובץ התחברות</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="213"/>
+        <location filename="../serverlistdlg.cpp" line="220"/>
         <source>Missing fields</source>
         <translation>הגדרות חסרות</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="338"/>
+        <source>Open File</source>
+        <translation type="unfinished">פתיחת קובץ</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="345"/>
+        <location filename="../serverlistdlg.cpp" line="354"/>
+        <location filename="../serverlistdlg.cpp" line="364"/>
+        <location filename="../serverlistdlg.cpp" line="375"/>
+        <source>Load File</source>
+        <translation type="unfinished">טעינת קובץ</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
+        <source>Failed to load file %1</source>
+        <translation type="unfinished">%1 כשל בטעינת קובץ </translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="365"/>
+        <source>The file &quot;%1&quot; is incompatible with %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="376"/>
+        <source>Failed to extract host-information from %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation type="obsolete">נא למלא שם כתובת ופורטים</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="214"/>
+        <location filename="../serverlistdlg.cpp" line="221"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation type="unfinished"></translation>
     </message>

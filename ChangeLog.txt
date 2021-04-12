@@ -12,6 +12,7 @@ Default QT Client
 - Status event when leaving channel
 - Status event on channel join is no longer double displayed
 - Improve status event on channel joined
+- "Import .tt file" button on servers list
 Android Client
 -
 iOS Client

@@ -4428,13 +4428,13 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlist.ui" line="71"/>
+        <location filename="../serverlist.ui" line="298"/>
         <source>Server Information</source>
         <translation>Informazioni Sul Server</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="298"/>
         <source>Save Server Information</source>
-        <translation>Salva informazioni server</translation>
+        <translation type="vanished">Salva informazioni server</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="306"/>
@@ -4514,7 +4514,12 @@ Should these settings be applied?</source>
         <translation>Canale</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="358"/>
+        <location filename="../serverlist.ui" line="323"/>
+        <source>&amp;Import .tt File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="378"/>
         <source>&amp;Save</source>
         <translation>&amp;Salva</translation>
     </message>
@@ -4527,27 +4532,56 @@ Should these settings be applied?</source>
         <translation type="obsolete">&amp;Pulisci</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="323"/>
-        <location filename="../serverlist.ui" line="326"/>
+        <location filename="../serverlist.ui" line="343"/>
+        <location filename="../serverlist.ui" line="346"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
         <translation>I File .tt Devono Essere Cliccati 2 Volte E Il Client Automaticamente Lancerà La Connessione Al Server Specificato</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="329"/>
+        <location filename="../serverlist.ui" line="349"/>
         <source>&amp;Generate .tt File</source>
         <translation>&amp;Genera File .tt</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="213"/>
+        <location filename="../serverlistdlg.cpp" line="220"/>
         <source>Missing fields</source>
         <translation>Campi Mancanti</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="338"/>
+        <source>Open File</source>
+        <translation type="unfinished">Apri File</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="345"/>
+        <location filename="../serverlistdlg.cpp" line="354"/>
+        <location filename="../serverlistdlg.cpp" line="364"/>
+        <location filename="../serverlistdlg.cpp" line="375"/>
+        <source>Load File</source>
+        <translation type="unfinished">Carica File</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
+        <source>Failed to load file %1</source>
+        <translation type="unfinished">Caricamento File %1 Fallito</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="365"/>
+        <source>The file &quot;%1&quot; is incompatible with %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="376"/>
+        <source>Failed to extract host-information from %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation type="obsolete">Per Favore Completa I Campi &apos;Inserisci Nome&apos;, &apos;Hostname Indirizzo IP&apos;, &apos;Porta TCP&apos; e &apos;Porta UDP&apos;</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="214"/>
+        <location filename="../serverlistdlg.cpp" line="221"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Per favore completa i campi &apos;Host IP-Address&apos;, &apos;Porta TCP&apos; e &apos;Porta UDP&apos;</translation>
     </message>

@@ -295,7 +295,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox_5">
        <property name="title">
-        <string>Save Server Information</string>
+        <string>Server Information</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
@@ -317,6 +317,26 @@
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="impttButton">
+            <property name="text">
+             <string>&amp;Import .tt File</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
           <item>
            <widget class="QPushButton" name="genttButton">
             <property name="toolTip">
@@ -394,8 +414,9 @@
   <tabstop>connectButton</tabstop>
   <tabstop>clearButton</tabstop>
   <tabstop>nameEdit</tabstop>
-  <tabstop>addupdButton</tabstop>
+  <tabstop>impttButton</tabstop>
   <tabstop>genttButton</tabstop>
+  <tabstop>addupdButton</tabstop>
   <tabstop>listWidget</tabstop>
   <tabstop>freeserverChkBox</tabstop>
   <tabstop>delButton</tabstop>
