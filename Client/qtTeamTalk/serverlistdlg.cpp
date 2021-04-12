@@ -63,7 +63,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.genttButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotGenerateFile);
     connect(ui.impttButton, &QAbstractButton::clicked,
-            this, &ServerListDlg::slotImportFile);
+            this, &ServerListDlg::slotLoadTTFile);
     connect(ui.hostaddrBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &ServerListDlg::slotShowHost);
     connect(ui.nameEdit, &QLineEdit::textChanged,
@@ -328,18 +328,13 @@ void ServerListDlg::slotGenerateFile()
     dlg.exec();
 }
 
-void ServerListDlg::slotImportFile()
+void ServerListDlg::slotLoadTTFile()
 {
     QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY, QDir::homePath()).toString();
-    QString filename = QFileDialog::getOpenFileName(this, tr("Open File"),
+    QString filepath = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                    start_dir/*, tr("TT Files (*.tt)")*/);
-    if(filename.isEmpty())
+    if(filepath.isEmpty())
         return;
-    slotLoadTTFile(filename);
-}
-
-void ServerListDlg::slotLoadTTFile(const QString& filepath)
-{
     QFile ttfile(QDir::fromNativeSeparators(filepath));
     if(!ttfile.open(QFile::ReadOnly))
     {
