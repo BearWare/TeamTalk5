@@ -44,6 +44,7 @@ TTSEventsModel::TTSEventsModel(QObject* parent)
     m_ttsevents.push_back(TTS_USER_TEXTMSG_CHANNEL);
     m_ttsevents.push_back(TTS_USER_TEXTMSG_CHANNEL_SEND);
     m_ttsevents.push_back(TTS_USER_TEXTMSG_BROADCAST);
+    m_ttsevents.push_back(TTS_USER_TEXTMSG_BROADCAST_SEND);
 
     m_ttsevents.push_back(TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE);
     m_ttsevents.push_back(TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL);
@@ -129,7 +130,9 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
         case TTS_USER_TEXTMSG_CHANNEL_SEND :
             return tr("Sent channel message");
         case TTS_USER_TEXTMSG_BROADCAST :
-            return tr("Received broadcast text message");
+            return tr("Received broadcast message");
+        case TTS_USER_TEXTMSG_BROADCAST_SEND :
+            return tr("Sent broadcast message");
         case TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE :
             return tr("Subscription private text message changed");
         case TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL :

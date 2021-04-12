@@ -4574,6 +4574,7 @@ void MainWindow::slotServerBroadcastMessage(bool /*checked=false*/)
     msg.nFromUserID = TT_GetMyUserID(ttInst);
     COPY_TTSTR(msg.szMessage, bcast);
     TT_DoTextMessage(ttInst, &msg);
+    addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST_SEND, tr("Broadcast message sent: %1").arg(msg.szMessage));
 }
 
 void MainWindow::slotServerServerProperties(bool /*checked =false */)
