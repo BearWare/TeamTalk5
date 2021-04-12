@@ -414,8 +414,9 @@
   <tabstop>connectButton</tabstop>
   <tabstop>clearButton</tabstop>
   <tabstop>nameEdit</tabstop>
-  <tabstop>addupdButton</tabstop>
+  <tabstop>impttButton</tabstop>
   <tabstop>genttButton</tabstop>
+  <tabstop>addupdButton</tabstop>
   <tabstop>listWidget</tabstop>
   <tabstop>freeserverChkBox</tabstop>
   <tabstop>delButton</tabstop>
