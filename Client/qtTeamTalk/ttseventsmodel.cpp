@@ -40,7 +40,9 @@ TTSEventsModel::TTSEventsModel(QObject* parent)
     m_ttsevents.push_back(TTS_USER_JOINED_SAME);
     m_ttsevents.push_back(TTS_USER_LEFT_SAME);
     m_ttsevents.push_back(TTS_USER_TEXTMSG_PRIVATE);
+    m_ttsevents.push_back(TTS_USER_TEXTMSG_PRIVATE_SEND);
     m_ttsevents.push_back(TTS_USER_TEXTMSG_CHANNEL);
+    m_ttsevents.push_back(TTS_USER_TEXTMSG_CHANNEL_SEND);
     m_ttsevents.push_back(TTS_USER_TEXTMSG_BROADCAST);
 
     m_ttsevents.push_back(TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE);
@@ -119,9 +121,13 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
         case TTS_USER_LEFT_SAME :
             return tr("User left current channel");
         case TTS_USER_TEXTMSG_PRIVATE :
-            return tr("Private message received/sent");
+            return tr("Received private message");
+        case TTS_USER_TEXTMSG_PRIVATE_SEND :
+            return tr("Sent private message");
         case TTS_USER_TEXTMSG_CHANNEL :
-            return tr("Channel message received/sent");
+            return tr("Received channel message");
+        case TTS_USER_TEXTMSG_CHANNEL_SEND :
+            return tr("Sent channel message");
         case TTS_USER_TEXTMSG_BROADCAST :
             return tr("Received broadcast text message");
         case TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE :
