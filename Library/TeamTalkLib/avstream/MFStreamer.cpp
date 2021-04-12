@@ -29,6 +29,7 @@
 #include <mfidl.h>
 #include <mfreadwrite.h>
 #include <propvarutil.h>
+#include <VersionHelpers.h>
 
 bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
@@ -193,7 +194,21 @@ void MFStreamer::Run()
         if(FAILED(hr))
             goto fail_open;
 
-        hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pAudioOutputType);
+        // Resampling is not supported prior to Windows 8.
+        // As a result, most of the WAV playout/streaming didn't work on Windows 7 because the output format was explicitly set.
+        // This is fixed by setting the output to the same format as the input on Windows versions below Win8.
+        // Do not use a compiler directive to check the version because the TeamTalk code is compiled with WINVER=0601 (e.g. Windows 7)
+        if (IsWindows8OrGreater())
+        {
+            MYTRACE_ALWAYS(ACE_TEXT("Windows HIGHER\n"));
+            hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pAudioOutputType);
+        }
+        else
+        {
+            MYTRACE_ALWAYS(ACE_TEXT("Windows 7\n"));
+            hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pInputAudioType);
+        }
+
         if(FAILED(hr))
             goto fail_open;
     }
