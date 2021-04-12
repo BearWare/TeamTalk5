@@ -4080,6 +4080,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlist.ui" line="71"/>
+        <location filename="../serverlist.ui" line="298"/>
         <source>Server Information</source>
         <translation>Szerver információk</translation>
     </message>
@@ -4158,9 +4159,8 @@ Should these settings be applied?</source>
         <translation>&amp;Csatlakozás</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="298"/>
         <source>Save Server Information</source>
-        <translation>Mentse a szerver információkat</translation>
+        <translation type="vanished">Mentse a szerver információkat</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="306"/>
@@ -4168,62 +4168,62 @@ Should these settings be applied?</source>
         <translation>Adja meg a mentendő fájl nevét</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="323"/>
-        <location filename="../serverlist.ui" line="326"/>
+        <location filename="../serverlist.ui" line="343"/>
+        <location filename="../serverlist.ui" line="346"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
         <translation>a .tt fájlokra duplán rákattintva az ügyfél automatikusan indul és kapcsolódik a meghatározott szerverhez</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="329"/>
+        <location filename="../serverlist.ui" line="349"/>
         <source>&amp;Generate .tt File</source>
         <translation>.tt fájl &amp;generálása</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="336"/>
+        <location filename="../serverlist.ui" line="323"/>
         <source>&amp;Import .tt File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="365"/>
+        <location filename="../serverlist.ui" line="378"/>
         <source>&amp;Save</source>
         <translation>&amp;Mentés</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="216"/>
+        <location filename="../serverlistdlg.cpp" line="220"/>
         <source>Missing fields</source>
         <translation>Kitöltetlen rovatok</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="217"/>
+        <location filename="../serverlistdlg.cpp" line="221"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Kérjük töltse ki a &apos;Host IP-cím&apos;,&apos;TCP-port&apos; és UDP-port&apos;  rovatokat</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="334"/>
+        <location filename="../serverlistdlg.cpp" line="338"/>
         <source>Open File</source>
         <translation type="unfinished">Fájl megnyitása</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="346"/>
-        <location filename="../serverlistdlg.cpp" line="355"/>
-        <location filename="../serverlistdlg.cpp" line="365"/>
-        <location filename="../serverlistdlg.cpp" line="376"/>
+        <location filename="../serverlistdlg.cpp" line="345"/>
+        <location filename="../serverlistdlg.cpp" line="354"/>
+        <location filename="../serverlistdlg.cpp" line="364"/>
+        <location filename="../serverlistdlg.cpp" line="375"/>
         <source>Load File</source>
         <translation type="unfinished">Fájlletöltés</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="347"/>
-        <location filename="../serverlistdlg.cpp" line="356"/>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
         <source>Failed to load file %1</source>
         <translation type="unfinished">A %1 fájl letöltése sikertelen</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="366"/>
+        <location filename="../serverlistdlg.cpp" line="365"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation type="unfinished">A %1 fájl nem kompatibilis a %2-vel</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="377"/>
+        <location filename="../serverlistdlg.cpp" line="376"/>
         <source>Failed to extract host-information from %1</source>
         <translation type="unfinished">A host információ kinyerése a %1-ből sikertelen</translation>
     </message>

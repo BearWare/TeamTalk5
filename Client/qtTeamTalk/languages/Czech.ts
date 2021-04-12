@@ -4442,13 +4442,13 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlist.ui" line="71"/>
+        <location filename="../serverlist.ui" line="298"/>
         <source>Server Information</source>
         <translation>Informace o Servru</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="298"/>
         <source>Save Server Information</source>
-        <translation>Ukládání nastavení servru</translation>
+        <translation type="vanished">Ukládání nastavení servru</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="306"/>
@@ -4528,12 +4528,12 @@ Should these settings be applied?</source>
         <translation>Kanál</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="336"/>
+        <location filename="../serverlist.ui" line="323"/>
         <source>&amp;Import .tt File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="365"/>
+        <location filename="../serverlist.ui" line="378"/>
         <source>&amp;Save</source>
         <translation>&amp;Ulož</translation>
     </message>
@@ -4546,47 +4546,47 @@ Should these settings be applied?</source>
         <translation type="obsolete">&amp;Smaž</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="323"/>
-        <location filename="../serverlist.ui" line="326"/>
+        <location filename="../serverlist.ui" line="343"/>
+        <location filename="../serverlist.ui" line="346"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
         <translation>.tt soubory automaticky spustí klienta i s nastavením obsaženým v souboru</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="329"/>
+        <location filename="../serverlist.ui" line="349"/>
         <source>&amp;Generate .tt File</source>
         <translation>&amp;Generuj .tt soubor</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="216"/>
+        <location filename="../serverlistdlg.cpp" line="220"/>
         <source>Missing fields</source>
         <translation>Chybí údaje</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="334"/>
+        <location filename="../serverlistdlg.cpp" line="338"/>
         <source>Open File</source>
         <translation type="unfinished">Otevři soubor</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="346"/>
-        <location filename="../serverlistdlg.cpp" line="355"/>
-        <location filename="../serverlistdlg.cpp" line="365"/>
-        <location filename="../serverlistdlg.cpp" line="376"/>
+        <location filename="../serverlistdlg.cpp" line="345"/>
+        <location filename="../serverlistdlg.cpp" line="354"/>
+        <location filename="../serverlistdlg.cpp" line="364"/>
+        <location filename="../serverlistdlg.cpp" line="375"/>
         <source>Load File</source>
         <translation type="unfinished">Nahrát soubor</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="347"/>
-        <location filename="../serverlistdlg.cpp" line="356"/>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
         <source>Failed to load file %1</source>
         <translation type="unfinished">Nelze stáhnout soubor %1</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="366"/>
+        <location filename="../serverlistdlg.cpp" line="365"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation type="unfinished">Soubor %1 je nekompatibilní s %2</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="377"/>
+        <location filename="../serverlistdlg.cpp" line="376"/>
         <source>Failed to extract host-information from %1</source>
         <translation type="unfinished">Chyba extrakce informací z %1</translation>
     </message>
@@ -4595,7 +4595,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">Prosím zadejte (Jméno servru), (Jeho adresu) a (Nastavení portů)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="217"/>
+        <location filename="../serverlistdlg.cpp" line="221"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Prosím vyplňte &apos;Host IP-adresu&apos;, &apos;TCP port&apos; a &apos;UDP port&apos;</translation>
     </message>

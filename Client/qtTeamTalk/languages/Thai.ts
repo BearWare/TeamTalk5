@@ -4703,14 +4703,14 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlist.ui" line="71"/>
+        <location filename="../serverlist.ui" line="298"/>
         <source>Server Information</source>
         <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>ข้อมูลเซิฟเวอร์</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="298"/>
         <source>Save Server Information</source>
-        <translation>บันทึกข้อมูลเซิฟเวอร์</translation>
+        <translation type="vanished">บันทึกข้อมูลเซิฟเวอร์</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="306"/>
@@ -4799,12 +4799,12 @@ Should these settings be applied?</source>
         <translation>ห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="336"/>
+        <location filename="../serverlist.ui" line="323"/>
         <source>&amp;Import .tt File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="365"/>
+        <location filename="../serverlist.ui" line="378"/>
         <source>&amp;Save</source>
         <translation>&amp;บันทึก</translation>
     </message>
@@ -4819,50 +4819,50 @@ Should these settings be applied?</source>
         <translation type="obsolete">&amp;ล้างข้อความที่กรอก</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="323"/>
-        <location filename="../serverlist.ui" line="326"/>
+        <location filename="../serverlist.ui" line="343"/>
+        <location filename="../serverlist.ui" line="346"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
         <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>ไฟล์ .tt สามารถเริ่มใช้งานได้ทันทีและผู้ใช้งานสามารถเข้าเซิฟเวอร์ที่กำหนดไว้เมื่อดับเบิลคลิก</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="329"/>
+        <location filename="../serverlist.ui" line="349"/>
         <source>&amp;Generate .tt File</source>
         <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>&amp;สร้างไฟล์ .tt</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="216"/>
+        <location filename="../serverlistdlg.cpp" line="220"/>
         <source>Missing fields</source>
         <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>หัวข้อที่เรียกไม่มี</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="334"/>
+        <location filename="../serverlistdlg.cpp" line="338"/>
         <source>Open File</source>
         <translation type="unfinished">เปิดไฟล์</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="346"/>
-        <location filename="../serverlistdlg.cpp" line="355"/>
-        <location filename="../serverlistdlg.cpp" line="365"/>
-        <location filename="../serverlistdlg.cpp" line="376"/>
+        <location filename="../serverlistdlg.cpp" line="345"/>
+        <location filename="../serverlistdlg.cpp" line="354"/>
+        <location filename="../serverlistdlg.cpp" line="364"/>
+        <location filename="../serverlistdlg.cpp" line="375"/>
         <source>Load File</source>
         <translation type="unfinished">โอนย้ายข้อมูล</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="347"/>
-        <location filename="../serverlistdlg.cpp" line="356"/>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
         <source>Failed to load file %1</source>
         <translation type="unfinished">การโอนย้ายข้อมูล %1 ไม่สำเร็จ</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="366"/>
+        <location filename="../serverlistdlg.cpp" line="365"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation type="unfinished">ไฟล์ %1 เข้ากันไม่ได้กับไฟล์ %2</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="377"/>
+        <location filename="../serverlistdlg.cpp" line="376"/>
         <source>Failed to extract host-information from %1</source>
         <translation type="unfinished">การดึงข้อมูลจากโฮสท์ %1 ล้มเหลว</translation>
     </message>
@@ -4872,7 +4872,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">โปรดกรอกที่หัวข้อ ชื่อที่ตั้งไว้, Host IP-address, TCP port และ UDP port</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="217"/>
+        <location filename="../serverlistdlg.cpp" line="221"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>โปรดกรอกที่หัวข้อ &apos;Host IP-address&apos;, &apos;TCP port&apos; และ &apos;UDP port&apos;</translation>
     </message>

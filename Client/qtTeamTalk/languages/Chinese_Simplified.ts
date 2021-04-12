@@ -4347,6 +4347,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlist.ui" line="71"/>
+        <location filename="../serverlist.ui" line="298"/>
         <source>Server Information</source>
         <translation>服务信息</translation>
     </message>
@@ -4358,11 +4359,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="266"/>
         <source>C&amp;lear</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../serverlist.ui" line="298"/>
-        <source>Save Server Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4443,12 +4439,12 @@ Should these settings be applied?</source>
         <translation>频道</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="336"/>
+        <location filename="../serverlist.ui" line="323"/>
         <source>&amp;Import .tt File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="365"/>
+        <location filename="../serverlist.ui" line="378"/>
         <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4461,47 +4457,47 @@ Should these settings be applied?</source>
         <translation type="obsolete">&amp;清除</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="323"/>
-        <location filename="../serverlist.ui" line="326"/>
+        <location filename="../serverlist.ui" line="343"/>
+        <location filename="../serverlist.ui" line="346"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
         <translation>双击.tt 文件，客户端自动连接到指定服务器</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="329"/>
+        <location filename="../serverlist.ui" line="349"/>
         <source>&amp;Generate .tt File</source>
         <translation>&amp;生成 .tt 文件</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="216"/>
+        <location filename="../serverlistdlg.cpp" line="220"/>
         <source>Missing fields</source>
         <translation>丢失域</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="334"/>
+        <location filename="../serverlistdlg.cpp" line="338"/>
         <source>Open File</source>
         <translation type="unfinished">打开文件</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="346"/>
-        <location filename="../serverlistdlg.cpp" line="355"/>
-        <location filename="../serverlistdlg.cpp" line="365"/>
-        <location filename="../serverlistdlg.cpp" line="376"/>
+        <location filename="../serverlistdlg.cpp" line="345"/>
+        <location filename="../serverlistdlg.cpp" line="354"/>
+        <location filename="../serverlistdlg.cpp" line="364"/>
+        <location filename="../serverlistdlg.cpp" line="375"/>
         <source>Load File</source>
         <translation type="unfinished">选择文件</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="347"/>
-        <location filename="../serverlistdlg.cpp" line="356"/>
+        <location filename="../serverlistdlg.cpp" line="346"/>
+        <location filename="../serverlistdlg.cpp" line="355"/>
         <source>Failed to load file %1</source>
         <translation type="unfinished">选择文件失败 %1</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="366"/>
+        <location filename="../serverlistdlg.cpp" line="365"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="377"/>
+        <location filename="../serverlistdlg.cpp" line="376"/>
         <source>Failed to extract host-information from %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4510,7 +4506,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">请在&apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;区域中填写</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="217"/>
+        <location filename="../serverlistdlg.cpp" line="221"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation type="unfinished"></translation>
     </message>
