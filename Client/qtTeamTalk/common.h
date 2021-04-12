@@ -273,6 +273,7 @@ enum TextToSpeechEvent
     TTS_USER_TEXTMSG_CHANNEL                        = 0x00000020,
     TTS_USER_TEXTMSG_CHANNEL_SEND                   = 0x000000FF,
     TTS_USER_TEXTMSG_BROADCAST                      = 0x00000040,
+    TTS_USER_TEXTMSG_BROADCAST_SEND                 = 0x000000F0,
 
     TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE               = 0x00000100,
     TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL               = 0x00000200,
