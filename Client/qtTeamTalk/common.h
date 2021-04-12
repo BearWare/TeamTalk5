@@ -269,7 +269,9 @@ enum TextToSpeechEvent
     TTS_USER_JOINED_SAME                            = 0x10000000,
     TTS_USER_LEFT_SAME                              = 0x20000000,
     TTS_USER_TEXTMSG_PRIVATE                        = 0x00000010,
+    TTS_USER_TEXTMSG_PRIVATE_SEND                   = 0x0000000F,
     TTS_USER_TEXTMSG_CHANNEL                        = 0x00000020,
+    TTS_USER_TEXTMSG_CHANNEL_SEND                   = 0x000000FF,
     TTS_USER_TEXTMSG_BROADCAST                      = 0x00000040,
 
     TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE               = 0x00000100,
