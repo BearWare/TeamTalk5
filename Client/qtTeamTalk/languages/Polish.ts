@@ -1180,6 +1180,11 @@ p, li { white-space: pre-wrap; }
         <source>Owner</source>
         <translation>Właściciel</translation>
     </message>
+    <message>
+        <location filename="../filesmodel.cpp" line="101"/>
+        <source>Name: %1, Size: %2, Owner: %3</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GenTTFileDlg</name>
@@ -3538,6 +3543,11 @@ Should these settings be applied?</source>
         <source>Version</source>
         <translation>Wersja</translation>
     </message>
+    <message>
+        <location filename="../onlineusersmodel.cpp" line="170"/>
+        <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDlg</name>
@@ -5382,8 +5392,8 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="396"/>
-        <location filename="../useraccountsdlg.cpp" line="708"/>
-        <location filename="../useraccountsdlg.cpp" line="717"/>
+        <location filename="../useraccountsdlg.cpp" line="722"/>
+        <location filename="../useraccountsdlg.cpp" line="731"/>
         <source>Limit issued commands</source>
         <translation>Limit komend</translation>
     </message>
@@ -5527,78 +5537,78 @@ Should these settings be applied?</source>
         <translation>&amp;Skasuj</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="219"/>
+        <location filename="../useraccountsdlg.cpp" line="233"/>
         <source>Disabled</source>
         <translation>Zablokowane</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="220"/>
+        <location filename="../useraccountsdlg.cpp" line="234"/>
         <source>10 commands in 10 sec.</source>
         <translation>10 komend na 10 s.</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="221"/>
+        <location filename="../useraccountsdlg.cpp" line="235"/>
         <source>10 commands in 1 minute</source>
         <translation>10 komend na 10 minutę</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="222"/>
+        <location filename="../useraccountsdlg.cpp" line="236"/>
         <source>60 commands in 1 minute</source>
         <translation>60 komend na 1 minutę</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="223"/>
+        <location filename="../useraccountsdlg.cpp" line="237"/>
         <source>Custom specified</source>
         <translation>Niestandardowe</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="470"/>
+        <location filename="../useraccountsdlg.cpp" line="484"/>
         <source>&amp;Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="471"/>
+        <location filename="../useraccountsdlg.cpp" line="485"/>
         <source>&amp;No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="474"/>
+        <location filename="../useraccountsdlg.cpp" line="488"/>
         <source>Add/Update</source>
         <translation>Dodaj/Uaktualnij</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="469"/>
+        <location filename="../useraccountsdlg.cpp" line="483"/>
         <source>Create anonymous user account?</source>
         <translation>Utworzyć konto anonimowego użytkownika?</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="704"/>
+        <location filename="../useraccountsdlg.cpp" line="718"/>
         <source>&amp;Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="705"/>
+        <location filename="../useraccountsdlg.cpp" line="719"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="709"/>
+        <location filename="../useraccountsdlg.cpp" line="723"/>
         <source>Number of commands to allow (0 = disabled)</source>
         <translation>Liczba dozwolonych komend (0 = zablokowane)</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="718"/>
+        <location filename="../useraccountsdlg.cpp" line="732"/>
         <source>Timeframe to allow %1 commands (in seconds)</source>
         <translation>Slot czasowy dla %1 komend (w sekundach)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="223"/>
-        <location filename="../useraccountsdlg.cpp" line="657"/>
+        <location filename="../useraccountsdlg.cpp" line="671"/>
         <source>Channel Operator</source>
         <translation>Operator kanału</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="658"/>
+        <location filename="../useraccountsdlg.cpp" line="672"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
         <translation>Maksymalna liczba kanałów gdzie użytkownik może stać się operatorem automatycznie: %1.</translation>
     </message>
@@ -5632,23 +5642,32 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="87"/>
+        <location filename="../useraccountsdlg.cpp" line="104"/>
         <source>Administrator</source>
         <translation>Administrator</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="89"/>
+        <location filename="../useraccountsdlg.cpp" line="106"/>
         <source>Default User</source>
         <translation>Domyślny użytkownik</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="91"/>
+        <location filename="../useraccountsdlg.cpp" line="108"/>
         <source>Disabled</source>
         <translation type="unfinished">Zablokowane</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="93"/>
+        <location filename="../useraccountsdlg.cpp" line="110"/>
         <source>Unknown</source>
         <translation type="unfinished">Nieznany</translation>
+    </message>
+    <message>
+        <location filename="../useraccountsdlg.cpp" line="111"/>
+        <source>Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

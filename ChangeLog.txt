@@ -15,6 +15,7 @@ Default QT Client
 - "Import .tt file" button on servers list
 - Add some access keys in CTRL+S dialog
 - Fix some labels in CTRL+S dialog
+- Better accessibility in some dialogs
 Android Client
 -
 iOS Client
