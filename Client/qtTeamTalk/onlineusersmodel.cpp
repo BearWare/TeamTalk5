@@ -164,6 +164,12 @@ QVariant OnlineUsersModel::data(const QModelIndex& index, int role) const
             return getVersion(user);
         }
         break;
+        case Qt::AccessibleTextRole :
+        {
+            TT_GetChannelPath(ttInst, user.nChannelID, channel);
+            return QString(tr("ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7").arg(user.nUserID).arg(_Q(user.szNickname)).arg(_Q(user.szStatusMsg)).arg(_Q(user.szUsername)).arg(_Q(channel)).arg(_Q(user.szIPAddress)).arg(getVersion(user)));
+        }
+        break;
     }
     return QVariant();
 }
