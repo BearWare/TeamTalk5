@@ -218,7 +218,7 @@
         <item>
          <widget class="QToolButton" name="stopToolButton">
           <property name="text">
-           <string>Stop</string>
+           <string>S&amp;top</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
@@ -229,7 +229,7 @@
         <item>
          <widget class="QToolButton" name="startToolButton">
           <property name="text">
-           <string>Play</string>
+           <string>&amp;Play</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">

@@ -4416,6 +4416,16 @@ Should these settings be applied?</source>
         <translation>Traitement audio</translation>
     </message>
     <message>
+        <location filename="../streammediafile.ui" line="221"/>
+        <source>S&amp;top</source>
+        <translation>A&amp;rrêter</translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="232"/>
+        <source>&amp;Play</source>
+        <translation>&amp;Lire</translation>
+    </message>
+    <message>
         <location filename="../streammediafile.ui" line="48"/>
         <source>... &amp;B</source>
         <translation>... &amp;P</translation>
@@ -4451,12 +4461,6 @@ Should these settings be applied?</source>
         <translation>Tester la lecture</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="221"/>
-        <source>Stop</source>
-        <translation>Arrêter</translation>
-    </message>
-    <message>
-        <location filename="../streammediafile.ui" line="232"/>
         <location filename="../streammediafiledlg.cpp" line="248"/>
         <location filename="../streammediafiledlg.cpp" line="261"/>
         <location filename="../streammediafiledlg.cpp" line="298"/>

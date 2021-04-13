@@ -5044,11 +5044,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="221"/>
-        <source>Stop</source>
+        <source>S&amp;top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="232"/>
+        <source>&amp;Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../streammediafiledlg.cpp" line="248"/>
         <location filename="../streammediafiledlg.cpp" line="261"/>
         <location filename="../streammediafiledlg.cpp" line="298"/>
