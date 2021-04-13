@@ -402,7 +402,9 @@ TEST_CASE( "MuxedAudioBlockVolume" )
     REQUIRE((WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, msg) && (msg.user.uUserState & USERSTATE_VOICE) == USERSTATE_VOICE));
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
-    uint32_t sum_nogain = gainfunc(TT_MUXED_USERID);
+    uint32_t sum_nogain;
+    for (int i=0;i<2;++i)
+        sum_nogain = gainfunc(TT_MUXED_USERID);
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, FALSE));
     WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
@@ -414,9 +416,13 @@ TEST_CASE( "MuxedAudioBlockVolume" )
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
-    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
-
-    uint32_t sum_gain = gainfunc(TT_MUXED_USERID);
+    int retries = 5;
+    uint32_t sum_gain;
+    do
+    {
+        sum_gain = gainfunc(TT_MUXED_USERID);
+    }
+    while (sum_gain <= sum_nogain * 1.9 && retries);
 
     // volume level of muxed audio should now have doubled (roughly due to tone offset)
     REQUIRE(sum_gain > sum_nogain * 1.9);
@@ -431,7 +437,12 @@ TEST_CASE( "MuxedAudioBlockVolume" )
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
-    sum_gain = gainfunc(TT_MUXED_USERID);
+    retries = 5;
+    do
+    {
+        sum_gain = gainfunc(TT_MUXED_USERID);
+    }
+    while (sum_gain <= sum_nogain * 1.9 && retries--);
 
     // volume level of muxed audio should now have doubled (roughly due to tone offset)
     REQUIRE(sum_gain > sum_nogain * 1.9);
@@ -444,7 +455,8 @@ TEST_CASE( "MuxedAudioBlockVolume" )
     // calc default volume leve of single stream audioblock
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
 
-    sum_nogain = gainfunc(txuserid);
+    for (int i=0;i<2;++i)
+        sum_nogain = gainfunc(txuserid);
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, FALSE));
     WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
@@ -454,7 +466,12 @@ TEST_CASE( "MuxedAudioBlockVolume" )
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
 
-    sum_gain = gainfunc(txuserid);
+    retries = 5;
+    do
+    {
+        sum_gain = gainfunc(txuserid);
+    }
+    while (sum_gain <= sum_nogain * 1.9 && retries--);
 
     // volume level of muxed audio should now have doubled (roughly due to tone offset)
     REQUIRE(sum_gain > sum_nogain * 1.9);
@@ -469,7 +486,12 @@ TEST_CASE( "MuxedAudioBlockVolume" )
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
 
-    sum_gain = gainfunc(txuserid);
+    retries = 5;
+    do
+    {
+        sum_gain = gainfunc(txuserid);
+    }
+    while (sum_gain != 0 && retries--);
 
     // mute master gives 0 sum
     REQUIRE(sum_gain == 0);
@@ -483,7 +505,12 @@ TEST_CASE( "MuxedAudioBlockVolume" )
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
 
-    sum_gain = gainfunc(txuserid);
+    retries = 5;
+    do
+    {
+        sum_gain = gainfunc(txuserid);
+    }
+    while (sum_gain != 0 && retries--);
 
     // mute user gives 0 sum
     REQUIRE(sum_gain == 0);
