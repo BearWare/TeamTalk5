@@ -13,6 +13,8 @@ Default QT Client
 - Status event on channel join is no longer double displayed
 - Improve status event on channel joined
 - "Import .tt file" button on servers list
+- Add some access keys in CTRL+S dialog
+- Fix some labels in CTRL+S dialog
 Android Client
 -
 iOS Client
