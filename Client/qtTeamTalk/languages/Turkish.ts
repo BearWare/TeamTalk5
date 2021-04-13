@@ -4466,26 +4466,22 @@ Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="183"/>
-        <source>&amp;Start position</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="193"/>
         <source>Start position</source>
         <translation>Başlangıç konumu</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="214"/>
+        <location filename="../streammediafile.ui" line="217"/>
         <source>Test playback</source>
         <translation>Kayıttan oynatmayı sına</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="221"/>
+        <location filename="../streammediafile.ui" line="224"/>
         <source>S&amp;top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="232"/>
+        <location filename="../streammediafile.ui" line="235"/>
         <source>&amp;Play</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4501,28 +4497,28 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>Oynat</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="270"/>
         <location filename="../streammediafile.ui" line="273"/>
+        <location filename="../streammediafile.ui" line="276"/>
         <source>Video Codec Settings</source>
         <translation>Video Kodlayıcı/Çözücüsü Ayarları</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="281"/>
+        <location filename="../streammediafile.ui" line="284"/>
         <source>Codec</source>
         <translation>Kodlayıcı/Çözücü</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="337"/>
+        <location filename="../streammediafile.ui" line="340"/>
         <source>Bitrate</source>
         <translation>Bit hızı</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="423"/>
+        <location filename="../streammediafile.ui" line="426"/>
         <source>&amp;OK</source>
         <translation>&amp;Tamam</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="430"/>
+        <location filename="../streammediafile.ui" line="433"/>
         <source>&amp;Cancel</source>
         <translation>&amp;İptal</translation>
     </message>

@@ -5021,26 +5021,22 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="183"/>
-        <source>&amp;Start position</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="193"/>
         <source>Start position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="214"/>
+        <location filename="../streammediafile.ui" line="217"/>
         <source>Test playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="221"/>
+        <location filename="../streammediafile.ui" line="224"/>
         <source>S&amp;top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="232"/>
+        <location filename="../streammediafile.ui" line="235"/>
         <source>&amp;Play</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5052,7 +5048,7 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="337"/>
+        <location filename="../streammediafile.ui" line="340"/>
         <source>Bitrate</source>
         <translation>位元率</translation>
     </message>
@@ -5079,13 +5075,13 @@ Should these settings be applied?</source>
         <translation type="vanished">連續播放媒體檔案</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="270"/>
         <location filename="../streammediafile.ui" line="273"/>
+        <location filename="../streammediafile.ui" line="276"/>
         <source>Video Codec Settings</source>
         <translation>視訊編碼解碼器設定</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="281"/>
+        <location filename="../streammediafile.ui" line="284"/>
         <source>Codec</source>
         <translation>編碼解碼器</translation>
     </message>
@@ -5098,12 +5094,12 @@ Should these settings be applied?</source>
         <translation type="obsolete">位元率</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="423"/>
+        <location filename="../streammediafile.ui" line="426"/>
         <source>&amp;OK</source>
         <translation>確定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="430"/>
+        <location filename="../streammediafile.ui" line="433"/>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
     </message>
