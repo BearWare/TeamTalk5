@@ -4811,8 +4811,8 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="402"/>
-        <location filename="../useraccountsdlg.cpp" line="722"/>
         <location filename="../useraccountsdlg.cpp" line="731"/>
+        <location filename="../useraccountsdlg.cpp" line="740"/>
         <source>Limit issued commands</source>
         <translation>Limiter le nombre de commandes</translation>
     </message>
@@ -4983,11 +4983,13 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="484"/>
+        <location filename="../useraccountsdlg.cpp" line="624"/>
         <source>&amp;Yes</source>
         <translation>&amp;Oui</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="485"/>
+        <location filename="../useraccountsdlg.cpp" line="625"/>
         <source>&amp;No</source>
         <translation>&amp;Non</translation>
     </message>
@@ -5002,33 +5004,43 @@ Should these settings be applied?</source>
         <translation>Créer un compte utilisateur anonyme</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="718"/>
+        <location filename="../useraccountsdlg.cpp" line="623"/>
+        <source>Are you sure you want to delete user &quot;%1&quot;?</source>
+        <translation>Êtes-vous sûr de vouloir supprimer l&apos;utilisateur &quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <location filename="../useraccountsdlg.cpp" line="628"/>
+        <source>Delete user</source>
+        <translation>Supprimer l&apos;utilisateur</translation>
+    </message>
+    <message>
+        <location filename="../useraccountsdlg.cpp" line="727"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="719"/>
+        <location filename="../useraccountsdlg.cpp" line="728"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annuler</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="723"/>
+        <location filename="../useraccountsdlg.cpp" line="732"/>
         <source>Number of commands to allow (0 = disabled)</source>
         <translation>Nombre de commandes à autoriser (0 = désactivé)</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="732"/>
+        <location filename="../useraccountsdlg.cpp" line="741"/>
         <source>Timeframe to allow %1 commands (in seconds)</source>
         <translation>Intervalle de temps où %1 commandes sont autorisées (en secondes)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="223"/>
-        <location filename="../useraccountsdlg.cpp" line="671"/>
+        <location filename="../useraccountsdlg.cpp" line="680"/>
         <source>Channel Operator</source>
         <translation>Opérateur de canal</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="672"/>
+        <location filename="../useraccountsdlg.cpp" line="681"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
         <translation>Le nombre maximal de canaux dans lesquels un utilisateur peut automatiquement être opérateur est %1.</translation>
     </message>
