@@ -16,6 +16,7 @@ Default QT Client
 - Add some access keys in CTRL+S dialog
 - Fix some labels in CTRL+S dialog
 - Better accessibility in some dialogs
+- Confirmation before removing an user account
 Android Client
 -
 iOS Client
