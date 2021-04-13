@@ -619,7 +619,16 @@ void UserAccountsDlg::slotDelUser()
     int index = m_proxyModel->mapToSource(proxySelection).row();
     if (index < 0)
         return;
-
+    QMessageBox answer;
+    answer.setText(tr("Are you sure you want to delete user \"%1\"?").arg(_Q(m_model->getUsers()[index].szUsername)));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(YesButton);
+    answer.setIcon(QMessageBox::Information);
+    answer.setWindowTitle(tr("Delete user"));
+    answer.exec();
+    if(answer.clickedButton() == NoButton)
+        return;
     m_del_cmdid = TT_DoDeleteUserAccount(ttInst, m_model->getUsers()[index].szUsername);
     m_del_username = _Q(m_model->getUsers()[index].szUsername);
 
