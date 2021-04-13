@@ -180,7 +180,7 @@
         <item>
          <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>Start position</string>
+           <string>&amp;Start position</string>
           </property>
          </widget>
         </item>
@@ -191,9 +191,6 @@
           </property>
           <property name="accessibleDescription">
            <string>Start position</string>
-          </property>
-          <property name="text">
-           <string notr="true">&amp;I</string>
           </property>
          </widget>
         </item>

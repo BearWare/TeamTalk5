@@ -5036,22 +5036,26 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="183"/>
+        <source>&amp;Start position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../streammediafile.ui" line="193"/>
         <source>Start position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="217"/>
+        <location filename="../streammediafile.ui" line="214"/>
         <source>Test playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="224"/>
+        <location filename="../streammediafile.ui" line="221"/>
         <source>S&amp;top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="235"/>
+        <location filename="../streammediafile.ui" line="232"/>
         <source>&amp;Play</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5063,7 +5067,7 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="340"/>
+        <location filename="../streammediafile.ui" line="337"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
@@ -5090,13 +5094,13 @@ Should these settings be applied?</source>
         <translation type="vanished">Nepřetržitě hrající media soubor</translation>
     </message>
     <message>
+        <location filename="../streammediafile.ui" line="270"/>
         <location filename="../streammediafile.ui" line="273"/>
-        <location filename="../streammediafile.ui" line="276"/>
         <source>Video Codec Settings</source>
         <translation>Nastavení kodeku</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="284"/>
+        <location filename="../streammediafile.ui" line="281"/>
         <source>Codec</source>
         <translation>Kodek</translation>
     </message>
@@ -5109,12 +5113,12 @@ Should these settings be applied?</source>
         <translation type="obsolete">Bit Rate</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="426"/>
+        <location filename="../streammediafile.ui" line="423"/>
         <source>&amp;OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="433"/>
+        <location filename="../streammediafile.ui" line="430"/>
         <source>&amp;Cancel</source>
         <translation></translation>
     </message>
