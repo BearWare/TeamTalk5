@@ -4971,58 +4971,76 @@ Should these settings be applied?</source>
         <translation>媒體檔案</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="42"/>
+        <location filename="../streammediafile.ui" line="45"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="45"/>
-        <location filename="../streammediafile.ui" line="55"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="vanished">...</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="52"/>
+        <location filename="../streammediafile.ui" line="55"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="70"/>
+        <location filename="../streammediafile.ui" line="73"/>
         <source>Audio format:</source>
         <translation>音訊格式:</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="132"/>
+        <location filename="../streammediafile.ui" line="135"/>
         <source>Playback Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="140"/>
+        <location filename="../streammediafile.ui" line="143"/>
         <source>Audio preprocessor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="150"/>
-        <source>Setup</source>
+        <location filename="../streammediafile.ui" line="48"/>
+        <source>... &amp;B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="177"/>
+        <location filename="../streammediafile.ui" line="58"/>
+        <source>... &amp;R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="125"/>
+        <source>&amp;Continuously play media file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="156"/>
+        <source>&amp;Setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="183"/>
+        <source>&amp;Start position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="193"/>
         <source>Start position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="205"/>
+        <location filename="../streammediafile.ui" line="214"/>
         <source>Test playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="212"/>
+        <location filename="../streammediafile.ui" line="221"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="223"/>
+        <location filename="../streammediafile.ui" line="232"/>
         <location filename="../streammediafiledlg.cpp" line="248"/>
         <location filename="../streammediafiledlg.cpp" line="261"/>
         <location filename="../streammediafiledlg.cpp" line="298"/>
@@ -5030,7 +5048,7 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="328"/>
+        <location filename="../streammediafile.ui" line="337"/>
         <source>Bitrate</source>
         <translation>位元率</translation>
     </message>
@@ -5039,7 +5057,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">串流音訊</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="88"/>
+        <location filename="../streammediafile.ui" line="91"/>
         <source>Video format:</source>
         <translation>視訊格式:</translation>
     </message>
@@ -5048,23 +5066,22 @@ Should these settings be applied?</source>
         <translation type="obsolete">串流視訊</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="106"/>
+        <location filename="../streammediafile.ui" line="109"/>
         <source>Duration:</source>
         <translation>長度:</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="122"/>
         <source>Continuously play media file</source>
-        <translation>連續播放媒體檔案</translation>
+        <translation type="vanished">連續播放媒體檔案</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="261"/>
-        <location filename="../streammediafile.ui" line="264"/>
+        <location filename="../streammediafile.ui" line="270"/>
+        <location filename="../streammediafile.ui" line="273"/>
         <source>Video Codec Settings</source>
         <translation>視訊編碼解碼器設定</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="272"/>
+        <location filename="../streammediafile.ui" line="281"/>
         <source>Codec</source>
         <translation>編碼解碼器</translation>
     </message>
@@ -5077,12 +5094,12 @@ Should these settings be applied?</source>
         <translation type="obsolete">位元率</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="414"/>
+        <location filename="../streammediafile.ui" line="423"/>
         <source>&amp;OK</source>
         <translation>確定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="421"/>
+        <location filename="../streammediafile.ui" line="430"/>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
     </message>

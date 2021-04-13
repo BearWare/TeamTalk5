@@ -4398,73 +4398,94 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>Ortam dosyası</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="42"/>
+        <location filename="../streammediafile.ui" line="45"/>
         <source>Browse</source>
         <translation>Gözat</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="45"/>
-        <location filename="../streammediafile.ui" line="55"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="vanished">...</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="52"/>
+        <location filename="../streammediafile.ui" line="55"/>
         <source>Refresh</source>
         <translation>Yenile</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="70"/>
+        <location filename="../streammediafile.ui" line="73"/>
         <source>Audio format:</source>
         <translation>Ses biçimi:</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="88"/>
+        <location filename="../streammediafile.ui" line="91"/>
         <source>Video format:</source>
         <translation>Video biçimi:</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="106"/>
+        <location filename="../streammediafile.ui" line="109"/>
         <source>Duration:</source>
         <translation>Süre:</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="122"/>
         <source>Continuously play media file</source>
-        <translation>Ortam dosyasını sürekli oynat</translation>
+        <translation type="vanished">Ortam dosyasını sürekli oynat</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="132"/>
+        <location filename="../streammediafile.ui" line="135"/>
         <source>Playback Settings</source>
         <translation>Kayıttan Oynatma Ayarları</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="140"/>
+        <location filename="../streammediafile.ui" line="143"/>
         <source>Audio preprocessor</source>
         <translation>Ses önişleyicisi</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="150"/>
         <source>Setup</source>
-        <translation>Ayarlama</translation>
+        <translation type="vanished">Ayarlama</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="177"/>
+        <location filename="../streammediafile.ui" line="48"/>
+        <source>... &amp;B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="58"/>
+        <source>... &amp;R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="125"/>
+        <source>&amp;Continuously play media file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="156"/>
+        <source>&amp;Setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="183"/>
+        <source>&amp;Start position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="193"/>
         <source>Start position</source>
         <translation>Başlangıç konumu</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="205"/>
+        <location filename="../streammediafile.ui" line="214"/>
         <source>Test playback</source>
         <translation>Kayıttan oynatmayı sına</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="212"/>
+        <location filename="../streammediafile.ui" line="221"/>
         <source>Stop</source>
         <translation>Durdur</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="223"/>
+        <location filename="../streammediafile.ui" line="232"/>
         <location filename="../streammediafiledlg.cpp" line="248"/>
         <location filename="../streammediafiledlg.cpp" line="261"/>
         <location filename="../streammediafiledlg.cpp" line="298"/>
@@ -4472,28 +4493,28 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>Oynat</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="261"/>
-        <location filename="../streammediafile.ui" line="264"/>
+        <location filename="../streammediafile.ui" line="270"/>
+        <location filename="../streammediafile.ui" line="273"/>
         <source>Video Codec Settings</source>
         <translation>Video Kodlayıcı/Çözücüsü Ayarları</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="272"/>
+        <location filename="../streammediafile.ui" line="281"/>
         <source>Codec</source>
         <translation>Kodlayıcı/Çözücü</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="328"/>
+        <location filename="../streammediafile.ui" line="337"/>
         <source>Bitrate</source>
         <translation>Bit hızı</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="414"/>
+        <location filename="../streammediafile.ui" line="423"/>
         <source>&amp;OK</source>
         <translation>&amp;Tamam</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="421"/>
+        <location filename="../streammediafile.ui" line="430"/>
         <source>&amp;Cancel</source>
         <translation>&amp;İptal</translation>
     </message>
