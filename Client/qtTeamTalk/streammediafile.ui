@@ -45,7 +45,11 @@
            <string>Browse</string>
           </property>
           <property name="text">
-           <string>... &amp;B</string>
+           <string>&amp;B</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/images/images/file_open.png</normaloff>:/images/images/file_open.png</iconset>
           </property>
          </widget>
         </item>
@@ -186,11 +190,11 @@
         </item>
         <item>
          <widget class="QSlider" name="playbackOffsetSlider">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
           <property name="accessibleDescription">
            <string>Start position</string>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
