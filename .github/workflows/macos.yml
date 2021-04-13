@@ -43,7 +43,7 @@ jobs:
         git submodule update --init Library/TeamTalkLib/test/testdata
 
     - name: Install TeamTalk Library Dependencies
-      run: brew install openjdk ninja doxygen cmake
+      run: brew install openjdk ninja doxygen
 
     - name: Build TeamTalk Library and Apps
       working-directory: ${{runner.workspace}}/TeamTalk5
