@@ -200,12 +200,10 @@ void MFStreamer::Run()
         // Do not use a compiler directive to check the version because the TeamTalk code is compiled with WINVER=0601 (e.g. Windows 7)
         if (IsWindows8OrGreater())
         {
-            MYTRACE_ALWAYS(ACE_TEXT("Windows HIGHER\n"));
             hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pAudioOutputType);
         }
         else
         {
-            MYTRACE_ALWAYS(ACE_TEXT("Windows 7\n"));
             hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pInputAudioType);
         }
 
