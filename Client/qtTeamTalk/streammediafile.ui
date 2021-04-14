@@ -59,7 +59,7 @@
            <string>Refresh</string>
           </property>
           <property name="text">
-           <string>... &amp;R</string>
+           <string>&amp;R</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
