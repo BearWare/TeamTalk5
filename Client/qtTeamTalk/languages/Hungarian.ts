@@ -176,49 +176,69 @@ p, li { white-space: pre-wrap; }
         <translation>Letiltott felhasználók</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="150"/>
+        <location filename="../bannedusersdlg.cpp" line="161"/>
         <source>&amp;Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="151"/>
+        <location filename="../bannedusersdlg.cpp" line="162"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished">&amp;Mégse</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="177"/>
+        <location filename="../bannedusersdlg.cpp" line="188"/>
         <source>Ban IP-address</source>
         <translation>IP-cím letiltása</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="178"/>
+        <location filename="../bannedusersdlg.cpp" line="189"/>
         <source>Ban Username</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../bannedusers.ui" line="75"/>
+        <location filename="../bannedusers.ui" line="63"/>
+        <source>Banned users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusers.ui" line="72"/>
+        <source>Ban type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusers.ui" line="79"/>
+        <source>Enter an IP or an username to ban</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusers.ui" line="86"/>
         <source>Add to list of banned users</source>
         <translation>Hozzáadás a letiltott felhasználók listájához</translation>
     </message>
     <message>
-        <location filename="../bannedusers.ui" line="78"/>
+        <location filename="../bannedusers.ui" line="89"/>
         <source>Add</source>
         <translation>Hozzáadás</translation>
     </message>
     <message>
-        <location filename="../bannedusers.ui" line="105"/>
+        <location filename="../bannedusers.ui" line="116"/>
         <source>Remove banned user</source>
         <translation>Letiltott felhasználó eltávolítása</translation>
     </message>
     <message>
-        <location filename="../bannedusers.ui" line="115"/>
+        <location filename="../bannedusers.ui" line="126"/>
         <source>Put back to banned users</source>
         <translation>Visszahelyezés a letiltott felhasználók listájára</translation>
     </message>
     <message>
-        <location filename="../bannedusers.ui" line="140"/>
+        <location filename="../bannedusers.ui" line="151"/>
         <source>Unbanned Users</source>
         <translation>Letiltatlan felhasználók</translation>
+    </message>
+    <message>
+        <location filename="../bannedusers.ui" line="180"/>
+        <source>Unbanned users</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -246,6 +266,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="58"/>
         <location filename="../bannedusersdlg.cpp" line="93"/>
+        <location filename="../bannedusersdlg.cpp" line="112"/>
         <source>Channel</source>
         <translation type="unfinished">Csatorna</translation>
     </message>
@@ -256,22 +277,31 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="89"/>
+        <location filename="../bannedusersdlg.cpp" line="108"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="91"/>
+        <location filename="../bannedusersdlg.cpp" line="110"/>
         <source>,IP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="91"/>
+        <location filename="../bannedusersdlg.cpp" line="110"/>
         <source>IP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="93"/>
+        <location filename="../bannedusersdlg.cpp" line="112"/>
         <source>,Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="113"/>
+        <source>Nickname: %1, Username: %2, Ban type: %3, Ban time: %4, Channel path: %5, IP address: %6</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

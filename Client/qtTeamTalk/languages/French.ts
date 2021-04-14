@@ -202,48 +202,68 @@ p, li { white-space: pre-wrap; }
         <translation>Utilisateurs bannis</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="150"/>
+        <location filename="../bannedusersdlg.cpp" line="161"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="151"/>
+        <location filename="../bannedusersdlg.cpp" line="162"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annuler</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="177"/>
+        <location filename="../bannedusersdlg.cpp" line="188"/>
         <source>Ban IP-address</source>
         <translation>Bannir l&apos;adresse IP</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="178"/>
+        <location filename="../bannedusersdlg.cpp" line="189"/>
         <source>Ban Username</source>
         <translation>Bannir le nom d&apos;utilisateur</translation>
     </message>
     <message>
-        <location filename="../bannedusers.ui" line="75"/>
+        <location filename="../bannedusers.ui" line="63"/>
+        <source>Banned users</source>
+        <translation>Utilisateurs bannis</translation>
+    </message>
+    <message>
+        <location filename="../bannedusers.ui" line="72"/>
+        <source>Ban type</source>
+        <translation>Type de bannissement</translation>
+    </message>
+    <message>
+        <location filename="../bannedusers.ui" line="79"/>
+        <source>Enter an IP or an username to ban</source>
+        <translation>Entrez une IP ou un nom d&apos;utilisateur à bannir</translation>
+    </message>
+    <message>
+        <location filename="../bannedusers.ui" line="86"/>
         <source>Add to list of banned users</source>
         <translation>Ajouter à la liste d&apos;utilisateurs bannis</translation>
     </message>
     <message>
-        <location filename="../bannedusers.ui" line="78"/>
+        <location filename="../bannedusers.ui" line="89"/>
         <source>Add</source>
         <translation>Ajouter</translation>
     </message>
     <message>
-        <location filename="../bannedusers.ui" line="105"/>
+        <location filename="../bannedusers.ui" line="116"/>
         <source>Remove banned user</source>
         <translation>Supprimer l&apos;utilisateur banni</translation>
     </message>
     <message>
-        <location filename="../bannedusers.ui" line="115"/>
+        <location filename="../bannedusers.ui" line="126"/>
         <source>Put back to banned users</source>
         <translation>Remettre dans les utilisateurs bannis</translation>
     </message>
     <message>
-        <location filename="../bannedusers.ui" line="140"/>
+        <location filename="../bannedusers.ui" line="151"/>
         <source>Unbanned Users</source>
+        <translation>Utilisateurs débannis</translation>
+    </message>
+    <message>
+        <location filename="../bannedusers.ui" line="180"/>
+        <source>Unbanned users</source>
         <translation>Utilisateurs débannis</translation>
     </message>
 </context>
@@ -272,6 +292,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="58"/>
         <location filename="../bannedusersdlg.cpp" line="93"/>
+        <location filename="../bannedusersdlg.cpp" line="112"/>
         <source>Channel</source>
         <translation>Canal</translation>
     </message>
@@ -282,23 +303,32 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="89"/>
+        <location filename="../bannedusersdlg.cpp" line="108"/>
         <source>User</source>
         <translation>Utilisateur</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="91"/>
+        <location filename="../bannedusersdlg.cpp" line="110"/>
         <source>,IP</source>
         <translation>, IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="91"/>
+        <location filename="../bannedusersdlg.cpp" line="110"/>
         <source>IP</source>
         <translation>IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="93"/>
+        <location filename="../bannedusersdlg.cpp" line="112"/>
         <source>,Channel</source>
         <translation>, Canal</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="113"/>
+        <source>Nickname: %1, Username: %2, Ban type: %3, Ban time: %4, Channel path: %5, IP address: %6</source>
+        <translation>Pseudo: %1, Nom d&apos;utilisateur: %2, Type de bannissement: %3, Date de bannissement: %4, Chemin du canal: %5, Adresse IP: %6</translation>
     </message>
 </context>
 <context>
