@@ -2927,7 +2927,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5609"/>
         <location filename="../mainwindow.cpp" line="5618"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
-        <translation>%1 a changé l&apos;abonnement &quot;%2&quot; pour %3</translation>
+        <translation>%1 a %3 l&apos;abonnement &quot;%2&quot;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5532"/>
@@ -2942,7 +2942,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5613"/>
         <location filename="../mainwindow.cpp" line="5622"/>
         <source>On</source>
-        <translation>Activé</translation>
+        <translation>activé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5532"/>
@@ -2957,7 +2957,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5613"/>
         <location filename="../mainwindow.cpp" line="5622"/>
         <source>Off</source>
-        <translation>Désactivé</translation>
+        <translation>désactivé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5717"/>
@@ -4678,7 +4678,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="100"/>
         <source>Default user</source>
-        <translation>Utilisateur par défaut</translation>
+        <translation>Utilisateur</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="82"/>
@@ -5007,7 +5007,7 @@ Should these settings be applied?</source>
         <location filename="../useraccountsdlg.cpp" line="89"/>
         <location filename="../useraccountsdlg.cpp" line="106"/>
         <source>Default User</source>
-        <translation>Utilisateur par défaut</translation>
+        <translation>Utilisateur</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="91"/>
@@ -5130,7 +5130,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../userinfo.ui" line="100"/>
         <source>Status mode</source>
-        <translation>Mode de statut</translation>
+        <translation>Statut</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="120"/>
@@ -5180,7 +5180,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../userinfodlg.cpp" line="65"/>
         <source>Available</source>
-        <translation>Disponible</translation>
+        <translation>Actif</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
