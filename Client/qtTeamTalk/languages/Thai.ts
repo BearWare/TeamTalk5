@@ -5617,179 +5617,199 @@ Should these settings be applied?</source>
         <translation>เพิ่ม</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="287"/>
+        <location filename="../useraccounts.ui" line="283"/>
+        <source>Set selected user auto operator for selected channels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccounts.ui" line="290"/>
         <source>Remove</source>
         <translation>ลบออก</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="313"/>
-        <source>Codec Limitations</source>
+        <location filename="../useraccounts.ui" line="293"/>
+        <source>No longer set selected user auto operator for selected channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="319"/>
+        <source>Codec Limitations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccounts.ui" line="325"/>
         <source>Audio Codec Limitations</source>
         <translation>ข้อจำกัดของการเข้ารหัสเสียง</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="325"/>
+        <location filename="../useraccounts.ui" line="331"/>
         <source>Max bitrate for audio codecs</source>
         <translation>อัตราการส่งถ่ายข้อมูลสูงสุดสำหรับการเข้ารหัสเสียง</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="348"/>
+        <location filename="../useraccounts.ui" line="354"/>
         <source>kbps (0 = disabled)</source>
         <translation>kbps (0 = ปิดการใช้งาน)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="372"/>
+        <location filename="../useraccounts.ui" line="378"/>
         <source>Abuse Prevention</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="378"/>
+        <location filename="../useraccounts.ui" line="384"/>
         <source>Flood Protection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="384"/>
+        <location filename="../useraccounts.ui" line="390"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="396"/>
+        <location filename="../useraccounts.ui" line="402"/>
         <location filename="../useraccountsdlg.cpp" line="722"/>
         <location filename="../useraccountsdlg.cpp" line="731"/>
         <source>Limit issued commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="433"/>
+        <location filename="../useraccounts.ui" line="439"/>
         <source>User Rights</source>
         <translation>สิทธิของผู้ใช้งาน</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="439"/>
+        <location filename="../useraccounts.ui" line="445"/>
         <source>User can log in multiple times</source>
         <translation>ผู้ใช้งานสามารถ log in ได้หลายครั้ง</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="446"/>
+        <location filename="../useraccounts.ui" line="452"/>
         <source>User can upload files</source>
         <translation>ผู้ใช้งานสามารถอัพโหลดไฟล์ได้</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="473"/>
+        <location filename="../useraccounts.ui" line="479"/>
         <source>User can see users in all channels</source>
         <translation>ผู้ใช้งานสามารถเห็นผู้ใช้งานอื่นในทุกห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="453"/>
+        <location filename="../useraccounts.ui" line="459"/>
         <source>User can change nickname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="460"/>
+        <location filename="../useraccounts.ui" line="466"/>
         <source>User can download files</source>
         <translation>ผู้ใช้งานสามารถดาวโหลดไฟล์ได้</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="501"/>
+        <location filename="../useraccounts.ui" line="507"/>
         <source>User can create/modify all channels</source>
         <translation>ผู้ใช้งานสามารถสร้าง/เปลี่ยนแปลงทุกห้องสนทนาได้</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="494"/>
+        <location filename="../useraccounts.ui" line="500"/>
         <source>User can update server properties</source>
         <translation>ผู้ใช้งานสามารถอัพเดทข้อมูลเซิฟเวอร์ได้</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="521"/>
+        <location filename="../useraccounts.ui" line="527"/>
         <source>User can create temporary channels</source>
         <translation>ผู้ใช้งานสามารถสร้างห้องสนทนาชั่วคราวได้</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="508"/>
+        <location filename="../useraccounts.ui" line="514"/>
         <source>User can transmit voice data (microphone)</source>
         <translation>ผู้ใช้งานสามารถส่งข้อมูลเสียงได้ (ไมค์)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="541"/>
+        <location filename="../useraccounts.ui" line="547"/>
         <source>User can broadcast text messages</source>
         <translation>ผู้ใช้งานสามารถเผยแพร่ข้อความได้</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="528"/>
+        <location filename="../useraccounts.ui" line="534"/>
         <source>User can transmit video data (webcam)</source>
         <translation>ผู้ใช้งานสามารถส่งข้อมูลวีดีทัศน์ได้ (webcam)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="555"/>
+        <location filename="../useraccounts.ui" line="561"/>
         <source>User can kick users off the server</source>
         <translation>ผู้ใช้งานสามารถเตะผู้ใช้งานอื่นออกจากเซิฟเวอร์ได้</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="548"/>
+        <location filename="../useraccounts.ui" line="554"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
         <translation>ผู้ใช้งานสามารถส่งไฟล์เสียงได้ (wav, mp3)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="569"/>
+        <location filename="../useraccounts.ui" line="575"/>
         <source>User can ban users from server</source>
         <translation>ผู้ใช้งานสามารถห้ามผู้ใช้งานอื่นเข้าใช้เซิฟเวอร์ได้</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="562"/>
+        <location filename="../useraccounts.ui" line="568"/>
         <source>User can transmit video files (avi, mp4 files)</source>
         <translation>ผู้ใช้งานสามารถส่งไฟล์วีดีทัศน์ได้ (avi, mp4)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="583"/>
+        <location filename="../useraccounts.ui" line="589"/>
         <source>User can move users between channels</source>
         <translation>ผู้ใช้งานสามารถย้ายผู้ใช้งานอื่นข้ามห้องสนทนาได้</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="576"/>
+        <location filename="../useraccounts.ui" line="582"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
         <translation>ผู้ใช้งานสามารถส่งหน้าจอ desktop ให้ชมได้</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="597"/>
+        <location filename="../useraccounts.ui" line="603"/>
         <source>User can make other users channel operator</source>
         <translation>ผู้ใช้งานสามารถกำหนดผู้ใช้งานอื่นเป็นผู้ดูแลห้องได้</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="590"/>
+        <location filename="../useraccounts.ui" line="596"/>
         <source>User can get remote access to desktop sessions</source>
         <translation>ผู้ใช้งานสามารถเข้าถึงหน้าจอ desktop จากระยะไกลได้</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="480"/>
+        <location filename="../useraccounts.ui" line="486"/>
         <source>User can record voice in all channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="487"/>
+        <location filename="../useraccounts.ui" line="493"/>
         <source>User can see hidden channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="604"/>
+        <location filename="../useraccounts.ui" line="610"/>
         <source>CheckBox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="636"/>
+        <location filename="../useraccounts.ui" line="625"/>
+        <source>Remove selected user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccounts.ui" line="645"/>
         <source>&amp;Clear</source>
         <translation>&amp;ยกเลิกการกรอก</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="656"/>
+        <location filename="../useraccounts.ui" line="665"/>
         <source>&amp;Add/Update</source>
         <translation>เ&amp;พิ่ม/ปรับปรุง</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="676"/>
+        <location filename="../useraccounts.ui" line="668"/>
+        <source>Add or update user with specified informations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccounts.ui" line="688"/>
         <source>C&amp;lose</source>
         <translation>&amp;ปิด</translation>
     </message>
@@ -5798,7 +5818,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">เ&amp;พิ่ม</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="616"/>
+        <location filename="../useraccounts.ui" line="622"/>
         <source>&amp;Delete</source>
         <translation>&amp;ลบทิ้ง</translation>
     </message>
