@@ -294,14 +294,19 @@ void PreferencesDlg::showDevices(SoundSystem snd)
     switch(snd)
     {
     case SOUNDSYSTEM_DSOUND :
+        ui.dsoundButton->setFocus();
         ui.dsoundButton->setChecked(true);break;
     case SOUNDSYSTEM_WINMM :
+        ui.winmmButton->setFocus();
         ui.winmmButton->setChecked(true);break;
     case SOUNDSYSTEM_WASAPI :
+        ui.wasapiButton->setFocus();
         ui.wasapiButton->setChecked(true);break;
     case SOUNDSYSTEM_ALSA :
+        ui.alsaButton->setFocus();
         ui.alsaButton->setChecked(true);break;
     case SOUNDSYSTEM_COREAUDIO :
+        ui.coreaudioButton->setFocus();
         ui.coreaudioButton->setChecked(true);break;
     case SOUNDSYSTEM_NONE :
     case SOUNDSYSTEM_OPENSLES_ANDROID :
@@ -427,13 +432,16 @@ void PreferencesDlg::slotTabChange(int index)
         switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
         {
         case GENDER_MALE :
+            ui.maleRadioButton->setFocus();
             ui.maleRadioButton->setChecked(true);
             break;
         case GENDER_FEMALE:
+            ui.femaleRadioButton->setFocus();
             ui.femaleRadioButton->setChecked(true);
             break;
         case GENDER_NEUTRAL:
         default:
+            ui.neutralRadioButton->setFocus();
             ui.neutralRadioButton->setChecked(true);
             break;
         }

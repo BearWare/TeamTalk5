@@ -328,11 +328,20 @@ void UserAccountsDlg::showUserAccount(const UserAccount& useraccount)
     ui.usernameEdit->setText(_Q(useraccount.szUsername));
     ui.passwordEdit->setText(_Q(useraccount.szPassword));
     if (useraccount.uUserType & USERTYPE_ADMIN)
+    {
+        ui.adminBtn->setFocus();
         ui.adminBtn->setChecked(useraccount.uUserType & USERTYPE_ADMIN);
+    }
     else if (useraccount.uUserType & USERTYPE_DEFAULT)
+    {
+        ui.defaultuserBtn->setFocus();
         ui.defaultuserBtn->setChecked(useraccount.uUserType & USERTYPE_DEFAULT);
+    }
     else if (useraccount.uUserType == USERTYPE_NONE)
+    {
+        ui.disableduserBtn->setFocus();
         ui.disableduserBtn->setChecked(true);
+    }
 
     ui.noteEdit->setPlainText(_Q(useraccount.szNote));
     ui.channelComboBox->lineEdit()->setText(_Q(useraccount.szInitChannel));
