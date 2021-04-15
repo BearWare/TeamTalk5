@@ -59,15 +59,26 @@
           <property name="expandsOnDoubleClick">
            <bool>false</bool>
           </property>
+          <property name="accessibleName">
+           <string>Banned users</string>
+          </property>
          </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QComboBox" name="bantypeBox"/>
+           <widget class="QComboBox" name="bantypeBox">
+            <property name="accessibleName">
+             <string>Ban type</string>
+            </property>
+           </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="banEdit"/>
+           <widget class="QLineEdit" name="banEdit">
+            <property name="accessibleName">
+             <string>Enter an IP or an username to ban</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QToolButton" name="newbanBtn">
@@ -164,6 +175,9 @@
           </property>
           <property name="expandsOnDoubleClick">
            <bool>false</bool>
+          </property>
+          <property name="accessibleName">
+           <string>Unbanned users</string>
           </property>
          </widget>
         </item>

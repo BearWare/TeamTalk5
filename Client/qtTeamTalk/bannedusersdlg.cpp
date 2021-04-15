@@ -101,6 +101,17 @@ QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::Di
             return _Q(m_users[index.row()].szIPAddress);
         }
         break;
+        case Qt::AccessibleTextRole :
+        {
+            QString bantype;
+            if (m_users[index.row()].uBanTypes & BANTYPE_USERNAME)
+                bantype += tr("User");
+            if (m_users[index.row()].uBanTypes & BANTYPE_IPADDR)
+                bantype += (bantype.size()? tr(",IP") : tr("IP"));
+            if (m_users[index.row()].uBanTypes & BANTYPE_CHANNEL)
+                bantype += (bantype.size()? tr(",Channel") : tr("Channel"));
+            return QString(tr("Nickname: %1, Username: %2, Ban type: %3, Ban time: %4, Channel path: %5, IP address: %6").arg(_Q(m_users[index.row()].szNickname)).arg(_Q(m_users[index.row()].szUsername)).arg(bantype).arg(_Q(m_users[index.row()].szBanTime)).arg(_Q(m_users[index.row()].szChannelPath)).arg(_Q(m_users[index.row()].szIPAddress)));
+        }
     }
     return QVariant();
 }
