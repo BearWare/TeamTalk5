@@ -5374,179 +5374,199 @@ Should these settings be applied?</source>
         <translation>Pridať</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="287"/>
+        <location filename="../useraccounts.ui" line="283"/>
+        <source>Set selected user auto operator for selected channels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccounts.ui" line="290"/>
         <source>Remove</source>
         <translation>Odstrániť</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="313"/>
-        <source>Codec Limitations</source>
+        <location filename="../useraccounts.ui" line="293"/>
+        <source>No longer set selected user auto operator for selected channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="319"/>
+        <source>Codec Limitations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccounts.ui" line="325"/>
         <source>Audio Codec Limitations</source>
         <translation>Obmedzenia zvukového kodeku</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="325"/>
+        <location filename="../useraccounts.ui" line="331"/>
         <source>Max bitrate for audio codecs</source>
         <translation>Maximálna rýchlosť prenosu pre zvukové kodeky</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="348"/>
+        <location filename="../useraccounts.ui" line="354"/>
         <source>kbps (0 = disabled)</source>
         <translation>kbps (0 = vypnuté)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="372"/>
+        <location filename="../useraccounts.ui" line="378"/>
         <source>Abuse Prevention</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="378"/>
+        <location filename="../useraccounts.ui" line="384"/>
         <source>Flood Protection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="384"/>
+        <location filename="../useraccounts.ui" line="390"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="396"/>
+        <location filename="../useraccounts.ui" line="402"/>
         <location filename="../useraccountsdlg.cpp" line="722"/>
         <location filename="../useraccountsdlg.cpp" line="731"/>
         <source>Limit issued commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="433"/>
+        <location filename="../useraccounts.ui" line="439"/>
         <source>User Rights</source>
         <translation>Užívateľské práva</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="439"/>
+        <location filename="../useraccounts.ui" line="445"/>
         <source>User can log in multiple times</source>
         <translation>Užívateľ sa môže prihlásiť viackrát</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="446"/>
+        <location filename="../useraccounts.ui" line="452"/>
         <source>User can upload files</source>
         <translation>Užívateľ môže nahrávať súbory</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="473"/>
+        <location filename="../useraccounts.ui" line="479"/>
         <source>User can see users in all channels</source>
         <translation>Užívateľ môže vidieť užívateľov vo všetkých kanáloch</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="453"/>
+        <location filename="../useraccounts.ui" line="459"/>
         <source>User can change nickname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="460"/>
+        <location filename="../useraccounts.ui" line="466"/>
         <source>User can download files</source>
         <translation>Užívateľ môže sťahovať súbory</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="501"/>
+        <location filename="../useraccounts.ui" line="507"/>
         <source>User can create/modify all channels</source>
         <translation>Užívateľ môže vytvárať/upravovať všetky kanály</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="494"/>
+        <location filename="../useraccounts.ui" line="500"/>
         <source>User can update server properties</source>
         <translation>Užívateľ môže aktualizovať predvoľby servera</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="521"/>
+        <location filename="../useraccounts.ui" line="527"/>
         <source>User can create temporary channels</source>
         <translation>Užívateľ môže vytvárať dočasné kanály</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="508"/>
+        <location filename="../useraccounts.ui" line="514"/>
         <source>User can transmit voice data (microphone)</source>
         <translation>Užívateľ môže vysielať zvuk (mikrofón)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="541"/>
+        <location filename="../useraccounts.ui" line="547"/>
         <source>User can broadcast text messages</source>
         <translation>Užívateľ môže vysielať textové správy</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="528"/>
+        <location filename="../useraccounts.ui" line="534"/>
         <source>User can transmit video data (webcam)</source>
         <translation>Užívateľ môže vysielať video (webkamera)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="555"/>
+        <location filename="../useraccounts.ui" line="561"/>
         <source>User can kick users off the server</source>
         <translation>Užívateľ môže vyhodiť užívateľov zo servera</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="548"/>
+        <location filename="../useraccounts.ui" line="554"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
         <translation>Užívateľ môže prenášať zvuky (súbory wav, mp3)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="569"/>
+        <location filename="../useraccounts.ui" line="575"/>
         <source>User can ban users from server</source>
         <translation>Užívateľ môže zakázať užívateľov na serveri</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="562"/>
+        <location filename="../useraccounts.ui" line="568"/>
         <source>User can transmit video files (avi, mp4 files)</source>
         <translation>Užívateľ môže prenášať videá (súbory avi, mp4)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="583"/>
+        <location filename="../useraccounts.ui" line="589"/>
         <source>User can move users between channels</source>
         <translation>Užívateľ môže presúvať užívateľov medzi kanálmi</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="576"/>
+        <location filename="../useraccounts.ui" line="582"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
         <translation>Užívateľ môže prenášať plochy sedení (zdieľať plochu)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="597"/>
+        <location filename="../useraccounts.ui" line="603"/>
         <source>User can make other users channel operator</source>
         <translation>Užívateľ môže určiť iných užívateľov za operátora kanála</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="590"/>
+        <location filename="../useraccounts.ui" line="596"/>
         <source>User can get remote access to desktop sessions</source>
         <translation>Užívateľ môže získať vzdialený prístup na plochy sedení</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="480"/>
+        <location filename="../useraccounts.ui" line="486"/>
         <source>User can record voice in all channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="487"/>
+        <location filename="../useraccounts.ui" line="493"/>
         <source>User can see hidden channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="604"/>
+        <location filename="../useraccounts.ui" line="610"/>
         <source>CheckBox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="636"/>
+        <location filename="../useraccounts.ui" line="625"/>
+        <source>Remove selected user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccounts.ui" line="645"/>
         <source>&amp;Clear</source>
         <translation>&amp;Vyčistiť</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="656"/>
+        <location filename="../useraccounts.ui" line="665"/>
         <source>&amp;Add/Update</source>
         <translation>&amp;Pridať/Aktualizovať</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="676"/>
+        <location filename="../useraccounts.ui" line="668"/>
+        <source>Add or update user with specified informations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccounts.ui" line="688"/>
         <source>C&amp;lose</source>
         <translation>&amp;Zavrieť</translation>
     </message>
@@ -5555,7 +5575,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">&amp;Pridať</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="616"/>
+        <location filename="../useraccounts.ui" line="622"/>
         <source>&amp;Delete</source>
         <translation>&amp;Odstrániť</translation>
     </message>

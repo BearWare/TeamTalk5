@@ -4661,7 +4661,7 @@ Should these settings be applied?</source>
         <translation>Utilisateurs actifs</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="616"/>
+        <location filename="../useraccounts.ui" line="622"/>
         <source>&amp;Delete</source>
         <translation>&amp;Supprimer</translation>
     </message>
@@ -4747,179 +4747,199 @@ Should these settings be applied?</source>
         <translation>Ajouter</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="287"/>
+        <location filename="../useraccounts.ui" line="283"/>
+        <source>Set selected user auto operator for selected channels</source>
+        <translation>Définir l&apos;utilisateur sélectionné comme opérateur automatique des canaux sélectionnés</translation>
+    </message>
+    <message>
+        <location filename="../useraccounts.ui" line="290"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="313"/>
+        <location filename="../useraccounts.ui" line="293"/>
+        <source>No longer set selected user auto operator for selected channels</source>
+        <translation>Ne plus définir l&apos;utilisateur sélectionné comme opérateur automatique des canaux sélectionnés</translation>
+    </message>
+    <message>
+        <location filename="../useraccounts.ui" line="319"/>
         <source>Codec Limitations</source>
         <translation>Limitation du codec</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="319"/>
+        <location filename="../useraccounts.ui" line="325"/>
         <source>Audio Codec Limitations</source>
         <translation>Limitation du codec audio</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="325"/>
+        <location filename="../useraccounts.ui" line="331"/>
         <source>Max bitrate for audio codecs</source>
         <translation>Débit maximal pour le codec audio</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="348"/>
+        <location filename="../useraccounts.ui" line="354"/>
         <source>kbps (0 = disabled)</source>
         <translation>kbps (0 = désactivé)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="372"/>
+        <location filename="../useraccounts.ui" line="378"/>
         <source>Abuse Prevention</source>
         <translation>Préventions d&apos;abus</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="378"/>
+        <location filename="../useraccounts.ui" line="384"/>
         <source>Flood Protection</source>
         <translation>Protection contre le spam</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="384"/>
+        <location filename="../useraccounts.ui" line="390"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
         <translation>Prévenir l&apos;utilisateur par exemple contre le spam de messages textes en limitant le nombre de commandes qu&apos;il peut émettre dans un intervalle de temps donné</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="396"/>
+        <location filename="../useraccounts.ui" line="402"/>
         <location filename="../useraccountsdlg.cpp" line="722"/>
         <location filename="../useraccountsdlg.cpp" line="731"/>
         <source>Limit issued commands</source>
         <translation>Limiter le nombre de commandes</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="433"/>
+        <location filename="../useraccounts.ui" line="439"/>
         <source>User Rights</source>
         <translation>Droits de l&apos;utilisateur</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="439"/>
+        <location filename="../useraccounts.ui" line="445"/>
         <source>User can log in multiple times</source>
         <translation>L&apos;utilisateur peut se connecter plusieurs fois simultanément</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="446"/>
+        <location filename="../useraccounts.ui" line="452"/>
         <source>User can upload files</source>
         <translation>L&apos;utilisateur peut uploader des fichiers</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="473"/>
+        <location filename="../useraccounts.ui" line="479"/>
         <source>User can see users in all channels</source>
         <translation>L&apos;utilisateur peut voir les utilisateurs dans tous les canaux</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="453"/>
+        <location filename="../useraccounts.ui" line="459"/>
         <source>User can change nickname</source>
         <translation>L&apos;utilisateur peut changer de pseudo</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="460"/>
+        <location filename="../useraccounts.ui" line="466"/>
         <source>User can download files</source>
         <translation>L&apos;utilisateur peut télécharger des fichiers</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="501"/>
+        <location filename="../useraccounts.ui" line="507"/>
         <source>User can create/modify all channels</source>
         <translation>L&apos;utilisateur peut créer des canaux et modifier tous les existants</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="494"/>
+        <location filename="../useraccounts.ui" line="500"/>
         <source>User can update server properties</source>
         <translation>L&apos;utilisateur peut mettre à jour les propriétés du serveur</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="521"/>
+        <location filename="../useraccounts.ui" line="527"/>
         <source>User can create temporary channels</source>
         <translation>L&apos;utilisateur peut créer des canaux temporaires</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="508"/>
+        <location filename="../useraccounts.ui" line="514"/>
         <source>User can transmit voice data (microphone)</source>
         <translation>L&apos;utilisateur peut transmettre des données vocales (microphone)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="541"/>
+        <location filename="../useraccounts.ui" line="547"/>
         <source>User can broadcast text messages</source>
         <translation>L&apos;utilisateur peut diffuser des messages textes</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="528"/>
+        <location filename="../useraccounts.ui" line="534"/>
         <source>User can transmit video data (webcam)</source>
         <translation>L&apos;utilisateur peut transmettre des données vidéo (caméra)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="555"/>
+        <location filename="../useraccounts.ui" line="561"/>
         <source>User can kick users off the server</source>
         <translation>L&apos;utilisateur peut exclure des utilisateurs du serveur</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="548"/>
+        <location filename="../useraccounts.ui" line="554"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
         <translation>L&apos;utilisateur peut transmettre des fichiers audio (fichiers wav, MP3)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="569"/>
+        <location filename="../useraccounts.ui" line="575"/>
         <source>User can ban users from server</source>
         <translation>L&apos;utilisateur peut bannir du serveur des utilisateurs</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="562"/>
+        <location filename="../useraccounts.ui" line="568"/>
         <source>User can transmit video files (avi, mp4 files)</source>
         <translation>L&apos;utilisateur peut transmettre des fichiers vidéo (fichiers AVI, MP4)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="583"/>
+        <location filename="../useraccounts.ui" line="589"/>
         <source>User can move users between channels</source>
         <translation>L&apos;utilisateur peut déplacer des utilisateurs entre les canaux</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="576"/>
+        <location filename="../useraccounts.ui" line="582"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
         <translation>L&apos;utilisateur peut transmettre des sessions de bureau (bureaux partagés)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="597"/>
+        <location filename="../useraccounts.ui" line="603"/>
         <source>User can make other users channel operator</source>
         <translation>L&apos;utilisateur peut faire d&apos;autres utilisateurs des opérateurs de canal</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="590"/>
+        <location filename="../useraccounts.ui" line="596"/>
         <source>User can get remote access to desktop sessions</source>
         <translation>L&apos;utilisateur peut obtenir un accès à des bureaux distants</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="480"/>
+        <location filename="../useraccounts.ui" line="486"/>
         <source>User can record voice in all channels</source>
         <translation>L&apos;utilisateur peut enregistrer la voix dans tous les canaux</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="487"/>
+        <location filename="../useraccounts.ui" line="493"/>
         <source>User can see hidden channels</source>
         <translation>L&apos;utilisateur peut voir les canaux masqués</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="604"/>
+        <location filename="../useraccounts.ui" line="610"/>
         <source>CheckBox</source>
         <translation>Case à cocher</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="636"/>
+        <location filename="../useraccounts.ui" line="625"/>
+        <source>Remove selected user</source>
+        <translation>Supprimer l&apos;utilisateur sélectionné</translation>
+    </message>
+    <message>
+        <location filename="../useraccounts.ui" line="645"/>
         <source>&amp;Clear</source>
         <translation>&amp;Vider</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="656"/>
+        <location filename="../useraccounts.ui" line="665"/>
         <source>&amp;Add/Update</source>
         <translation>&amp;Ajouter/mettre à jour</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="676"/>
+        <location filename="../useraccounts.ui" line="668"/>
+        <source>Add or update user with specified informations</source>
+        <translation>Ajouter ou mettre à jour l&apos;utilisateur avec les informations spécifiées</translation>
+    </message>
+    <message>
+        <location filename="../useraccounts.ui" line="688"/>
         <source>C&amp;lose</source>
         <translation>&amp;Fermer</translation>
     </message>

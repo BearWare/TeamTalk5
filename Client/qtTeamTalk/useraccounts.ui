@@ -279,12 +279,18 @@
                    <property name="text">
                     <string>Add</string>
                    </property>
+                   <property name="accessibleDescription">
+                    <string>Set selected user auto operator for selected channels</string>
+                   </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QToolButton" name="rmopBtn">
                    <property name="text">
                     <string>Remove</string>
+                   </property>
+                   <property name="accessibleDescription">
+                    <string>No longer set selected user auto operator for selected channels</string>
                    </property>
                   </widget>
                  </item>
@@ -615,6 +621,9 @@
           <property name="text">
            <string>&amp;Delete</string>
           </property>
+          <property name="accessibleDescription">
+           <string>Remove selected user</string>
+          </property>
          </widget>
         </item>
         <item>
@@ -654,6 +663,9 @@
          <widget class="QPushButton" name="addButton">
           <property name="text">
            <string>&amp;Add/Update</string>
+          </property>
+          <property name="accessibleDescription">
+           <string>Add or update user with specified informations</string>
           </property>
          </widget>
         </item>
