@@ -27,6 +27,9 @@
           <property name="text">
            <string>Media file</string>
           </property>
+          <property name="buddy">
+           <cstring>mediafileComboBox</cstring>
+          </property>
          </widget>
         </item>
         <item>
@@ -42,7 +45,11 @@
            <string>Browse</string>
           </property>
           <property name="text">
-           <string>...</string>
+           <string>&amp;B</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/images/images/file_open.png</normaloff>:/images/images/file_open.png</iconset>
           </property>
          </widget>
         </item>
@@ -52,7 +59,7 @@
            <string>Refresh</string>
           </property>
           <property name="text">
-           <string>...</string>
+           <string>&amp;R</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
@@ -119,7 +126,7 @@
       <item>
        <widget class="QCheckBox" name="loopChkBox">
         <property name="text">
-         <string>Continuously play media file</string>
+         <string>&amp;Continuously play media file</string>
         </property>
        </widget>
       </item>
@@ -139,6 +146,9 @@
           <property name="text">
            <string>Audio preprocessor</string>
           </property>
+          <property name="buddy">
+           <cstring>preprocessorComboBox</cstring>
+          </property>
          </widget>
         </item>
         <item>
@@ -147,7 +157,7 @@
         <item>
          <widget class="QPushButton" name="preprocessButton">
           <property name="text">
-           <string>Setup</string>
+           <string>&amp;Setup</string>
           </property>
           <property name="autoDefault">
            <bool>false</bool>
@@ -174,12 +184,15 @@
         <item>
          <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>Start position</string>
+           <string>&amp;Start position</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QSlider" name="playbackOffsetSlider">
+          <property name="accessibleDescription">
+           <string>Start position</string>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -209,7 +222,7 @@
         <item>
          <widget class="QToolButton" name="stopToolButton">
           <property name="text">
-           <string>Stop</string>
+           <string>S&amp;top</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
@@ -220,7 +233,7 @@
         <item>
          <widget class="QToolButton" name="startToolButton">
           <property name="text">
-           <string>Play</string>
+           <string>&amp;Play</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">

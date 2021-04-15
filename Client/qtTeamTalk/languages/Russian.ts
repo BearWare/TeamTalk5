@@ -4537,73 +4537,94 @@ Should these settings be applied?</source>
         <translation>Медиафайл</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="42"/>
+        <location filename="../streammediafile.ui" line="45"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="45"/>
-        <location filename="../streammediafile.ui" line="55"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="vanished">...</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="52"/>
+        <location filename="../streammediafile.ui" line="59"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="70"/>
+        <location filename="../streammediafile.ui" line="77"/>
         <source>Audio format:</source>
         <translation>Формат аудио:</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="88"/>
+        <location filename="../streammediafile.ui" line="95"/>
         <source>Video format:</source>
         <translation>Формат видео:</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="106"/>
+        <location filename="../streammediafile.ui" line="113"/>
         <source>Duration:</source>
         <translation>Длительность:</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="122"/>
         <source>Continuously play media file</source>
-        <translation>Непрерывное воспроизведение медиа-файла</translation>
+        <translation type="vanished">Непрерывное воспроизведение медиа-файла</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="132"/>
+        <location filename="../streammediafile.ui" line="139"/>
         <source>Playback Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="140"/>
+        <location filename="../streammediafile.ui" line="147"/>
         <source>Audio preprocessor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="150"/>
-        <source>Setup</source>
+        <location filename="../streammediafile.ui" line="48"/>
+        <source>&amp;B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="177"/>
+        <location filename="../streammediafile.ui" line="62"/>
+        <source>&amp;R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="129"/>
+        <source>&amp;Continuously play media file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="160"/>
+        <source>&amp;Setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="187"/>
+        <source>&amp;Start position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="194"/>
         <source>Start position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="205"/>
+        <location filename="../streammediafile.ui" line="218"/>
         <source>Test playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="212"/>
-        <source>Stop</source>
+        <location filename="../streammediafile.ui" line="225"/>
+        <source>S&amp;top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="223"/>
+        <location filename="../streammediafile.ui" line="236"/>
+        <source>&amp;Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../streammediafiledlg.cpp" line="248"/>
         <location filename="../streammediafiledlg.cpp" line="261"/>
         <location filename="../streammediafiledlg.cpp" line="298"/>
@@ -4611,28 +4632,28 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="261"/>
-        <location filename="../streammediafile.ui" line="264"/>
+        <location filename="../streammediafile.ui" line="274"/>
+        <location filename="../streammediafile.ui" line="277"/>
         <source>Video Codec Settings</source>
         <translation>Настройки Видео Кодека</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="272"/>
+        <location filename="../streammediafile.ui" line="285"/>
         <source>Codec</source>
         <translation>Кодек</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="328"/>
+        <location filename="../streammediafile.ui" line="341"/>
         <source>Bitrate</source>
         <translation>Битрейт</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="414"/>
+        <location filename="../streammediafile.ui" line="427"/>
         <source>&amp;OK</source>
         <translation>О&amp;К</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="421"/>
+        <location filename="../streammediafile.ui" line="434"/>
         <source>&amp;Cancel</source>
         <translation>О&amp;тмена</translation>
     </message>
