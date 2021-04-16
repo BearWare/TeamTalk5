@@ -3332,12 +3332,12 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="314"/>
-        <location filename="../preferences.ui" line="1700"/>
-        <location filename="../preferences.ui" line="1727"/>
-        <location filename="../preferences.ui" line="1754"/>
-        <location filename="../preferences.ui" line="1781"/>
-        <location filename="../preferences.ui" line="1808"/>
-        <location filename="../preferences.ui" line="1835"/>
+        <location filename="../preferences.ui" line="1772"/>
+        <location filename="../preferences.ui" line="1799"/>
+        <location filename="../preferences.ui" line="1826"/>
+        <location filename="../preferences.ui" line="1853"/>
+        <location filename="../preferences.ui" line="1880"/>
+        <location filename="../preferences.ui" line="1907"/>
         <source>&amp;Setup Keys</source>
         <translation>&amp;Настрой клавиши</translation>
     </message>
@@ -3457,168 +3457,178 @@ Should these settings be applied?</source>
         <translation>Показвай източника в ъгъла на видео прозореца</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="565"/>
+        <location filename="../preferences.ui" line="544"/>
+        <source>Video window settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="568"/>
         <source>Maximum text length in channel list</source>
         <translation>Максимална дължина на текста в списъка с каналите</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="638"/>
+        <location filename="../preferences.ui" line="641"/>
         <source>Connection</source>
         <translation>Свързване</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="644"/>
+        <location filename="../preferences.ui" line="647"/>
         <source>Client Connection</source>
         <translation>Свързване на клиента</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="650"/>
+        <location filename="../preferences.ui" line="653"/>
         <source>Connect to latest host on startup</source>
         <translation>Свържи към последния хост при стартиране</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="657"/>
+        <location filename="../preferences.ui" line="660"/>
         <source>Reconnect on connection dropped</source>
         <translation>Свързвай отново ако връзката е пропаднала</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="664"/>
+        <location filename="../preferences.ui" line="667"/>
         <source>Join root channel upon connection</source>
         <translation>Влизай в основните канали след свързване</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="671"/>
+        <location filename="../preferences.ui" line="674"/>
         <source>Query server&apos;s maximum payload upon connection</source>
         <translation>Проверявай максималното натоварване на сървъра след свързване</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="678"/>
+        <location filename="../preferences.ui" line="681"/>
         <source>Add application to Windows Firewall exceptions list</source>
         <translation>Добави като изключение към защитната стена на Windows</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="685"/>
         <location filename="../preferences.ui" line="688"/>
+        <location filename="../preferences.ui" line="691"/>
         <source>Default Subscriptions upon Connection</source>
         <translation>Абониране по подразбиране след свързване</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="696"/>
+        <location filename="../preferences.ui" line="699"/>
         <source>User Messages</source>
         <translation>Съобщения от потребители</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="703"/>
+        <location filename="../preferences.ui" line="706"/>
         <source>Channel Messages</source>
         <translation>Съобщения в канала</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="710"/>
+        <location filename="../preferences.ui" line="713"/>
         <source>Broadcast Messages</source>
         <translation>Излъчване съобщения</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="717"/>
+        <location filename="../preferences.ui" line="720"/>
         <source>Voice</source>
         <translation>Глас</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="724"/>
-        <location filename="../preferences.ui" line="1887"/>
+        <location filename="../preferences.ui" line="727"/>
+        <location filename="../preferences.ui" line="1959"/>
         <source>Video Capture</source>
         <translation>Видео</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="731"/>
+        <location filename="../preferences.ui" line="734"/>
         <source>Desktop</source>
         <translation>Работен плот</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="743"/>
+        <location filename="../preferences.ui" line="746"/>
         <source>Desktop Access</source>
         <translation>Достъп до работния плот</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="762"/>
+        <location filename="../preferences.ui" line="759"/>
+        <source>Configure trusted list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="768"/>
         <source>Media Files</source>
         <translation>Файлове от носител</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="787"/>
-        <location filename="../preferences.ui" line="790"/>
+        <location filename="../preferences.ui" line="793"/>
+        <location filename="../preferences.ui" line="796"/>
         <source>Local Socket Settings</source>
         <translation>Локални настройки</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="796"/>
+        <location filename="../preferences.ui" line="802"/>
         <source>TCP port</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="806"/>
-        <location filename="../preferences.ui" line="823"/>
+        <location filename="../preferences.ui" line="812"/>
+        <location filename="../preferences.ui" line="829"/>
         <source>Default: 0</source>
         <translation>По подразбиране: 0</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="813"/>
+        <location filename="../preferences.ui" line="819"/>
         <source>UDP port</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="896"/>
+        <location filename="../preferences.ui" line="902"/>
         <location filename="../preferencesdlg.cpp" line="864"/>
         <source>Sound System</source>
         <translation>Звук</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="902"/>
+        <location filename="../preferences.ui" line="908"/>
         <source>Sound System Settings</source>
         <translation>Настройки на звука</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="923"/>
+        <location filename="../preferences.ui" line="929"/>
         <source>Windows Audio Session</source>
         <translation>Аудио сесии на Windows</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="930"/>
+        <location filename="../preferences.ui" line="936"/>
         <source>DirectSound</source>
         <translation>Директен звук</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="937"/>
+        <location filename="../preferences.ui" line="943"/>
         <source>Windows Standard</source>
         <translation>Windows Стандарт</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="944"/>
+        <location filename="../preferences.ui" line="950"/>
         <source>ALSA</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="951"/>
+        <location filename="../preferences.ui" line="957"/>
         <source>CoreAudio</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="975"/>
+        <location filename="../preferences.ui" line="981"/>
         <source>Input device</source>
         <translation>Входно устройство</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1001"/>
+        <location filename="../preferences.ui" line="1007"/>
         <source>Output device</source>
         <translation>Изходно устройство</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1024"/>
-        <location filename="../preferences.ui" line="1041"/>
+        <location filename="../preferences.ui" line="1030"/>
+        <location filename="../preferences.ui" line="1047"/>
         <source>Refresh devices</source>
         <translation>Обнови устройства</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1075"/>
+        <location filename="../preferences.ui" line="1081"/>
         <source>&amp;Test Selected</source>
         <translation>&amp;Тествай  избраните</translation>
     </message>
@@ -3627,251 +3637,282 @@ Should these settings be applied?</source>
         <translation type="vanished">Разреши режим дуплекс (изисква се за отстраняване на ехото)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1100"/>
+        <location filename="../preferences.ui" line="1106"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>Разреши отстраняване на ехото (премахва ехото от говорителите)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1107"/>
+        <location filename="../preferences.ui" line="1113"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
         <translation>Разреши автоматичен контрол на силата на звука на микрофона</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1114"/>
+        <location filename="../preferences.ui" line="1120"/>
         <source>Enable denoising (suppress noise from microphone)</source>
         <translation>Разреши ограничаване на шума (подтиска шума от микрофона)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1123"/>
+        <location filename="../preferences.ui" line="1129"/>
         <source>Media file vs. voice volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1160"/>
-        <location filename="../preferences.ui" line="2174"/>
+        <location filename="../preferences.ui" line="1166"/>
+        <location filename="../preferences.ui" line="2249"/>
         <source>&amp;Default</source>
         <translation>&amp;По подразбиране</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1186"/>
         <location filename="../preferences.ui" line="1192"/>
+        <location filename="../preferences.ui" line="1198"/>
         <source>Sound Events</source>
         <translation>Звукови ефекти</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1346"/>
+        <location filename="../preferences.ui" line="1373"/>
         <source>New broadcast message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1200"/>
+        <location filename="../preferences.ui" line="1206"/>
         <source>New user</source>
         <translation>Нов потребител</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1226"/>
+        <location filename="../preferences.ui" line="1228"/>
+        <location filename="../preferences.ui" line="1251"/>
+        <location filename="../preferences.ui" line="1274"/>
+        <location filename="../preferences.ui" line="1297"/>
+        <location filename="../preferences.ui" line="1320"/>
+        <location filename="../preferences.ui" line="1343"/>
+        <location filename="../preferences.ui" line="1366"/>
+        <location filename="../preferences.ui" line="1389"/>
+        <location filename="../preferences.ui" line="1412"/>
+        <location filename="../preferences.ui" line="1435"/>
+        <location filename="../preferences.ui" line="1458"/>
+        <location filename="../preferences.ui" line="1485"/>
+        <location filename="../preferences.ui" line="1508"/>
+        <location filename="../preferences.ui" line="1531"/>
+        <location filename="../preferences.ui" line="1554"/>
+        <location filename="../preferences.ui" line="1577"/>
+        <location filename="../preferences.ui" line="1600"/>
+        <location filename="../preferences.ui" line="1623"/>
+        <location filename="../preferences.ui" line="1646"/>
+        <location filename="../preferences.ui" line="1669"/>
+        <location filename="../preferences.ui" line="1692"/>
+        <location filename="../preferences.ui" line="1715"/>
+        <source>Browse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1235"/>
         <source>User removed</source>
         <translation>Потребителят е премахнат</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1246"/>
+        <location filename="../preferences.ui" line="1258"/>
         <source>Server lost</source>
         <translation>Сървърът е изгубен</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1266"/>
+        <location filename="../preferences.ui" line="1281"/>
         <source>New user message</source>
         <translation>Нов потребител съобщение</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1286"/>
+        <location filename="../preferences.ui" line="1304"/>
         <source>Private message sent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1306"/>
+        <location filename="../preferences.ui" line="1327"/>
         <source>New channel message</source>
         <translation>Нов канал съобщение</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1326"/>
+        <location filename="../preferences.ui" line="1350"/>
         <source>Channel message sent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1366"/>
+        <location filename="../preferences.ui" line="1396"/>
         <source>Hotkey pressed</source>
         <translation>Горещ клавиш натиснат</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1386"/>
+        <location filename="../preferences.ui" line="1419"/>
         <source>Channel silent</source>
         <translation>Каналът е заглушен</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1406"/>
+        <location filename="../preferences.ui" line="1442"/>
         <source>Files updated</source>
         <translation>Файловете обновени</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1430"/>
+        <location filename="../preferences.ui" line="1469"/>
         <source>File transfer complete</source>
         <translation>Файловият трансфер завършен</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1450"/>
+        <location filename="../preferences.ui" line="1492"/>
         <source>New video session</source>
         <translation>Нова видео сесия</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1470"/>
+        <location filename="../preferences.ui" line="1515"/>
         <source>New desktop session</source>
         <translation>Нова сесия на работен плот</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1490"/>
+        <location filename="../preferences.ui" line="1538"/>
         <source>User entered question-mode</source>
         <translation>Потребител въвел режим Въпрос</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1510"/>
+        <location filename="../preferences.ui" line="1561"/>
         <source>Desktop access request</source>
         <translation>Искане за достъп до работен плот</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1530"/>
+        <location filename="../preferences.ui" line="1584"/>
         <source>User logged in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1550"/>
+        <location filename="../preferences.ui" line="1607"/>
         <source>User logged out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1570"/>
+        <location filename="../preferences.ui" line="1630"/>
         <source>Voice activation enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1590"/>
+        <location filename="../preferences.ui" line="1653"/>
         <source>Voice activation disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1610"/>
+        <location filename="../preferences.ui" line="1676"/>
         <source>Mute master volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1630"/>
+        <location filename="../preferences.ui" line="1699"/>
         <source>Unmute master volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1669"/>
+        <location filename="../preferences.ui" line="1741"/>
         <source>Shortcuts</source>
         <translation>Преки пътища</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1675"/>
+        <location filename="../preferences.ui" line="1747"/>
         <source>Keyboard Shortcuts</source>
         <translation>Преки пътища от клавиатурата</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1683"/>
+        <location filename="../preferences.ui" line="1755"/>
         <source>Enable/disable voice activation</source>
         <translation>Разреши/Забрани гласово активиране</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1710"/>
+        <location filename="../preferences.ui" line="1782"/>
         <source>Increase volume</source>
         <translation>Увеличи звука</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1737"/>
+        <location filename="../preferences.ui" line="1809"/>
         <source>Lower volume</source>
         <translation>Понижи звука</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1764"/>
+        <location filename="../preferences.ui" line="1836"/>
         <source>Enable/disable mute all</source>
         <translation>Разреши/Забрани Заглуши всички</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1791"/>
+        <location filename="../preferences.ui" line="1863"/>
         <source>Increase microphone gain</source>
         <translation>Увеличи силата на микрофона</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1818"/>
+        <location filename="../preferences.ui" line="1890"/>
         <source>Lower microphone gain</source>
         <translation>Понижи силата на микрофона</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1845"/>
+        <location filename="../preferences.ui" line="1917"/>
         <source>Enable/disable video transmission</source>
         <translation>Разреши/Забрани видео излъчването</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1858"/>
+        <location filename="../preferences.ui" line="1930"/>
         <source>Setup Keys</source>
         <translation>Настрой клавиши</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1893"/>
+        <location filename="../preferences.ui" line="1965"/>
         <source>Video Capture Settings</source>
         <translation>Настройки за видео извличане</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1899"/>
+        <location filename="../preferences.ui" line="1971"/>
         <source>Video Capture Device</source>
         <translation>Устройство за видео извличане</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1919"/>
+        <location filename="../preferences.ui" line="1991"/>
         <source>Video Resolution</source>
         <translation>Разделителна способност на Видео</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1945"/>
+        <location filename="../preferences.ui" line="2009"/>
+        <source>Customize video format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="2020"/>
         <source>Image Format</source>
         <translation>Формат на изображенията</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1955"/>
+        <location filename="../preferences.ui" line="2030"/>
         <source>RGB32</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1962"/>
+        <location filename="../preferences.ui" line="2037"/>
         <source>I420</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1969"/>
+        <location filename="../preferences.ui" line="2044"/>
         <source>YUY2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1993"/>
+        <location filename="../preferences.ui" line="2068"/>
         <location filename="../preferencesdlg.cpp" line="1166"/>
         <source>Test Selected</source>
         <translation>Тествай избраните</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2021"/>
-        <location filename="../preferences.ui" line="2024"/>
+        <location filename="../preferences.ui" line="2096"/>
+        <location filename="../preferences.ui" line="2099"/>
         <source>Video Codec Settings</source>
         <translation>Настройки на виде кодек</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2032"/>
+        <location filename="../preferences.ui" line="2107"/>
         <source>Codec</source>
         <translation>Кодек</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2088"/>
+        <location filename="../preferences.ui" line="2163"/>
         <source>Bitrate</source>
         <translation>Битрейт</translation>
     </message>
