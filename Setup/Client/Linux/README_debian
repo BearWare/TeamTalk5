@@ -1,5 +1,5 @@
 TeamTalk 5 for Debian 9 / Ubuntu 18.04
------------------------
+--------------------------------------
 
 TeamTalk 5 runs on Linux using ALSA sound system for audio and
 Video4Linux2 (V4L2) for video capture.
@@ -12,14 +12,9 @@ In order to run TeamTalk the following dependencies must be
 installed first:
 
 - libqt5x11extras5
-- libqt5webenginewidgets5
-- libqt5webenginecore5
-- libqt5quick5
 - libqt5widgets5
 - libqt5multimedia5
 - libqt5gui5
-- libqt5webchannel5
-- libqt5qml5
 - libqt5network5
 - libqt5xml5
 - libqt5core5a
@@ -27,10 +22,8 @@ installed first:
 
 To install the packages run the following command as 'root':
 
-apt install libqt5x11extras5 libqt5webenginewidgets5 \
-libqt5webenginecore5 libqt5quick5 libqt5widgets5 \
-libqt5multimedia5 libqt5gui5 libqt5webchannel5 \
-libqt5qml5 libqt5network5 libqt5xml5 libqt5core5a libasound2
+apt install libqt5x11extras5 libqt5widgets5 libqt5multimedia5 \
+  libqt5gui5 libqt5network5 libqt5xml5 libqt5core5a libasound2
 
 
 Run TeamTalk
