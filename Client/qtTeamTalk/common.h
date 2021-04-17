@@ -34,17 +34,19 @@
 #include <QFile>
 #include <QDateTime>
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #define _CRT_SECURE_NO_WARNINGS 1
 #pragma warning(disable:4800)
 #endif
 
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN32)
 #define NOMINMAX //prevent std::...::min() collision
 #include <windows.h>
-#include <Tolk.h>
 #endif
 
+#if defined(ENABLE_TOLK)
+#include <Tolk.h>
+#endif
 
 /*
  * The TeamTalk header and library files are located in 

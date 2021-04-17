@@ -48,7 +48,14 @@ win32 {
     QT += axcontainer
     # Prevent linking to api-ms-win-core-winrt-l1-1-0.dll (doesn't exist on Windows 7)
     QTPLUGIN.audio=qtaudio_windows
-    INCLUDEPATH += tolk/src
+
+    notolk {
+    
+    } else {
+        INCLUDEPATH += tolk/src
+        LIBS += tolk/bin/win32/Tolk.lib
+        DEFINES += ENABLE_TOLK
+    }
 }
 
 x11 {
