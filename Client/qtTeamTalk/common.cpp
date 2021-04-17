@@ -1022,11 +1022,10 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
             ttSpeech->say(msg);
             break;
 #endif
-#ifdef Q_OS_WIN32
+#if defined(ENABLE_TOLK)
         case TTSENGINE_TOLK :
-        {
             Tolk_Output(_W(msg));
-        }
+            break;
 #endif
         case TTSENGINE_NOTIFY :
         {

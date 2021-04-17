@@ -3701,7 +3701,7 @@ void MainWindow::slotClientExit(bool /*checked =false */)
 {
     //close using timer, otherwise gets a Qt assertion from the 
     //'setQuitOnLastWindowClosed' call.
-#ifdef Q_OS_WIN32
+#if defined(ENABLE_TOLK)
     if(Tolk_IsLoaded())
         Tolk_Unload();
 #endif
@@ -6062,8 +6062,10 @@ void MainWindow::slotClosedBannedUsersDlg(int)
 
 void MainWindow::startTTS()
 {
+    switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
+    {
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_QT)
+    case TTSENGINE_QT :
     {
         delete ttSpeech;
         ttSpeech = new QTextToSpeech(this);
@@ -6083,15 +6085,19 @@ void MainWindow::startTTS()
             addStatusMsg(tr("No available voices found for Text-To-Speech"));
         }
     }
+    break;
 #endif
-#ifdef Q_OS_WIN32
-    if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_TOLK)
+
+#if defined(ENABLE_TOLK)
+    case TTSENGINE_TOLK :
     {
-        if(!Tolk_IsLoaded())
+        if (!Tolk_IsLoaded())
         {
             Tolk_Load();
             Tolk_TrySAPI(true);
         }
     }
+    break;
 #endif
+    }
 }

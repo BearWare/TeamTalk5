@@ -7,7 +7,7 @@ mac:TARGET = TeamTalk5Pro
 DEFINES += ENABLE_TEAMTALKPRO
 
 win32 {
-    LIBS += $${TEAMTALK_LIB}/TeamTalk5Pro.lib tolk/bin/win32/Tolk.lib
+    LIBS += $${TEAMTALK_LIB}/TeamTalk5Pro.lib
 }
 unix {
     LIBS += -L$${TEAMTALK_LIB} -lTeamTalk5Pro
