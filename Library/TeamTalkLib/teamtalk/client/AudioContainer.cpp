@@ -23,6 +23,7 @@
 
 #include "AudioContainer.h"
 #include <assert.h>
+#include <cstring>
 
 uint32_t GenKey(int userid, teamtalk::StreamTypes sts)
 {
@@ -140,8 +141,10 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
             mb_resam->copy(reinterpret_cast<const char*>(&frm_resam), sizeof(frm_resam));
             int outputsamples = entry->resampler->Resample(frm.input_buffer, frm.input_samples, outputptr, samples);
             assert(outputsamples <= samples);
-            MYTRACE_COND(outputsamples != samples, ACE_TEXT("Resampled audio output doesn't match expected: %d != %d\n"),
+            MYTRACE_COND(outputsamples != samples, ACE_TEXT("Resampled audio output doesn't match expected: %d != %d. Zeroing remaining\n"),
                          outputsamples, samples);
+            if (outputsamples < samples)
+                std::memset(&outputptr[outputsamples * frm_resam.inputfmt.channels], 0, PCM16_BYTES(samples - outputsamples, frm_resam.inputfmt.channels));
             mb_resam->wr_ptr(audiobytes); //advance past resampled output
 
             mb->release();
