@@ -4813,7 +4813,13 @@ extern "C" {
                                                              IN INT32 nChannelID,
                                                              IN const TTCHAR* szAudioFileName,
                                                              IN AudioFileFormat uAFF);
-    
+
+    TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedStreams(IN TTInstance* lpTTInstance,
+                                                         IN StreamTypes uStreamTypes,
+                                                         IN const AudioCodec* lpAudioCodec,
+                                                         IN const TTCHAR* szAudioFileName,
+                                                         IN AudioFileFormat uAFF);
+
     /**
      * @brief Stop an active muxed audio recording.
      *

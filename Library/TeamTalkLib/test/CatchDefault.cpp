@@ -997,6 +997,123 @@ TEST_CASE( "MuxedStreamTypesInAudioBlock" )
     REQUIRE(sum_mux > sum_nomux * 1.2);
 }
 
+TEST_CASE( "MuxedStreamTypeRecording" )
+{
+    auto rxclient = InitTeamTalk();
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nSampleRate = 48000;
+    mfi.uDurationMSec = 1000;
+    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("tone_100.wav"));
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 100));
+    mfi.audioFmt.nChannels = 1;
+    mfi.audioFmt.nSampleRate = 44100;
+    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("tone_200.wav"));
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 200));
+    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nSampleRate = 12000;
+    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("tone_300.wav"));
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 300));
+
+    Channel chan;
+    REQUIRE(TT_GetChannel(rxclient, TT_GetRootChannelID(rxclient), &chan));
+    REQUIRE(TT_StartRecordingMuxedStreams(rxclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, &chan.audiocodec, ACE_TEXT("muxlocalplayback.wav"), AFF_WAVE_FORMAT));
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    mfp.bPaused = FALSE;
+
+    TTMessage msg;
+
+    auto session = TT_InitLocalPlayback(rxclient, ACE_TEXT("tone_100.wav"), &mfp);
+    REQUIRE(session > 0);
+    do
+    {
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+    }
+    while (msg.mediafileinfo.nStatus != MFS_FINISHED);
+
+    session = TT_InitLocalPlayback(rxclient, ACE_TEXT("tone_200.wav"), &mfp);
+    REQUIRE(session > 0);
+    do
+    {
+        WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg);
+    }
+    while (msg.mediafileinfo.nStatus != MFS_FINISHED);
+
+    session = TT_InitLocalPlayback(rxclient, ACE_TEXT("tone_300.wav"), &mfp);
+    REQUIRE(session > 0);
+    do
+    {
+        WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg);
+    }
+    while (msg.mediafileinfo.nStatus != MFS_FINISHED);
+
+    std::set<int> sessions;
+    session = TT_InitLocalPlayback(rxclient, ACE_TEXT("tone_100.wav"), &mfp);
+    REQUIRE(session > 0);
+    sessions.insert(session);
+    session = TT_InitLocalPlayback(rxclient, ACE_TEXT("tone_200.wav"), &mfp);
+    REQUIRE(session > 0);
+    sessions.insert(session);
+    session = TT_InitLocalPlayback(rxclient, ACE_TEXT("tone_300.wav"), &mfp);
+    REQUIRE(session > 0);
+    sessions.insert(session);
+
+    // mix streams at same time
+    while (sessions.size())
+    {
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+        if (msg.mediafileinfo.nStatus == MFS_FINISHED)
+            sessions.erase(msg.nSource);
+    }
+
+    // quit during playback
+    session = TT_InitLocalPlayback(rxclient, ACE_TEXT("tone_300.wav"), &mfp);
+    do
+    {
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+    }
+    while (msg.mediafileinfo.uElapsedMSec < msg.mediafileinfo.uDurationMSec / 2);
+    TT_StopLocalPlayback(rxclient, session);
+
+    // pause during playback
+    session = TT_InitLocalPlayback(rxclient, ACE_TEXT("tone_300.wav"), &mfp);
+    do
+    {
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+    }
+    while (msg.mediafileinfo.uElapsedMSec < msg.mediafileinfo.uDurationMSec / 2);
+    mfp.bPaused = TRUE;
+    REQUIRE(TT_UpdateLocalPlayback(rxclient, session, &mfp));
+
+    // resume playback
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, 1000);
+    mfp.bPaused = FALSE;
+    REQUIRE(TT_UpdateLocalPlayback(rxclient, session, &mfp));
+    do
+    {
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+        REQUIRE(msg.nSource == session);
+    }
+    while (msg.mediafileinfo.nStatus != MFS_FINISHED);
+
+    // quit during playback
+    session = TT_InitLocalPlayback(rxclient, ACE_TEXT("tone_300.wav"), &mfp);
+    do
+    {
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+    }
+    while (msg.mediafileinfo.uElapsedMSec < msg.mediafileinfo.uDurationMSec / 2);
+}
 
 #if defined(ENABLE_OGG)
 TEST_CASE( "Opus Read File" )

@@ -950,14 +950,23 @@ TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstan
                                                        IN const TTCHAR* szAudioFileName,
                                                        IN AudioFileFormat uAFF)
 {
+    return TT_StartRecordingMuxedStreams(lpTTInstance, STREAMTYPE_VOICE, lpAudioCodec, szAudioFileName, uAFF);
+}
+
+TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedStreams(IN TTInstance* lpTTInstance,
+                                                     IN StreamTypes uStreamTypes,
+                                                     IN const AudioCodec* lpAudioCodec,
+                                                     IN const TTCHAR* szAudioFileName,
+                                                     IN AudioFileFormat uAFF)
+{
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
-    
+
     teamtalk::AudioCodec codec;
     if(!lpAudioCodec || !Convert(*lpAudioCodec, codec))
         return FALSE;
 
-    return clientnode->StartRecordingMuxedAudioFile(codec, STREAMTYPE_VOICE, szAudioFileName,
+    return clientnode->StartRecordingMuxedAudioFile(codec, uStreamTypes, szAudioFileName,
                                                     teamtalk::AudioFileFormat(uAFF));
 }
 
