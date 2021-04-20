@@ -6,6 +6,7 @@ Accessible Windows Client
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
 - Status event on channel join is no longer double displayed
+- Added Ukranian language
 Default QT Client
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
