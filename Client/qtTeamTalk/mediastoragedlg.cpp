@@ -40,8 +40,17 @@ MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
-    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
-    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
+
+    connect(ui.singleCheckBox, &QAbstractButton::clicked,
+            this, &MediaStorageDlg::slotUpdateUI);
+    connect(ui.multipleCheckBox, &QAbstractButton::clicked,
+            this, &MediaStorageDlg::slotUpdateUI);
+    connect(ui.startButton, &QAbstractButton::clicked,
+            this, &MediaStorageDlg::accept);
+    connect(ui.stopButton, &QAbstractButton::clicked,
+            this, &MediaStorageDlg::slotStop);
+    connect(ui.cancelButton, &QAbstractButton::clicked,
+            this, &MediaStorageDlg::reject);
 
     connect(ui.audioToolButton, &QAbstractButton::clicked,
             this, &MediaStorageDlg::slotSetMediaFolder);
@@ -61,9 +70,15 @@ MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
 #endif
 
     quint32 audiostorage_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE, 
-                                              AUDIOSTORAGE_SINGLEFILE).toUInt();
+                                                  AUDIOSTORAGE_SINGLEFILE).toUInt();
+    ui.stopButton->setEnabled(audiostorage_mode != AUDIOSTORAGE_NONE);
     ui.singleCheckBox->setChecked(audiostorage_mode & AUDIOSTORAGE_SINGLEFILE);
     ui.multipleCheckBox->setChecked(audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES);
+
+    quint32 sts = ttSettings->value(SETTINGS_MEDIASTORAGE_STREAMTYPES,
+                                    SETTINGS_MEDIASTORAGE_STREAMTYPES_DEFAULT).toUInt();
+    ui.voicestreamCheckBox->setChecked(sts & STREAMTYPE_VOICE);
+    ui.mediafileCheckBox->setChecked(sts & STREAMTYPE_MEDIAFILE_AUDIO);
 
     AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, 
                                                              AFF_WAVE_FORMAT).toInt();
@@ -75,6 +90,8 @@ MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
     ui.audiopathEdit->setText(ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString());
     ui.chanlogEdit->setText(ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString());
     ui.usertextEdit->setText(ttSettings->value(SETTINGS_MEDIASTORAGE_USERLOGFOLDER).toString());
+
+    slotUpdateUI();
 }
 
 void MediaStorageDlg::accept()
@@ -94,11 +111,26 @@ void MediaStorageDlg::accept()
         return;
     }
 
+    StreamTypes sts = STREAMTYPE_NONE;
+    if (ui.voicestreamCheckBox->isChecked())
+        sts |= STREAMTYPE_VOICE;
+    if (ui.mediafileCheckBox->isChecked())
+        sts |= STREAMTYPE_MEDIAFILE_AUDIO;
+
+    if (sts == STREAMTYPE_NONE)
+    {
+        QMessageBox::information(this, tr("Stream type to store"),
+                                 tr("No stream type has been selected as audio input for recording"));
+        return;
+    }
+
     AudioFileFormat aff = (AudioFileFormat)ui.affComboBox->itemData(ui.affComboBox->currentIndex()).toInt();
 
     ttSettings->setValue(SETTINGS_MEDIASTORAGE_MODE, audiostorage_mode);
     ttSettings->setValue(SETTINGS_MEDIASTORAGE_AUDIOFOLDER, folder);
     ttSettings->setValue(SETTINGS_MEDIASTORAGE_FILEFORMAT, aff);
+
+    ttSettings->setValue(SETTINGS_MEDIASTORAGE_STREAMTYPES, sts);
 
     folder = ui.chanlogEdit->text();
     ttSettings->setValue(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER, folder);
@@ -133,4 +165,17 @@ QString MediaStorageDlg::getFolder()
 
     QDir dir = dlg.directory();
     return dir.toNativeSeparators(dir.absolutePath());
+}
+
+void MediaStorageDlg::slotStop()
+{
+    ui.multipleCheckBox->setChecked(false);
+    ui.singleCheckBox->setChecked(false);
+    accept();
+}
+
+void MediaStorageDlg::slotUpdateUI()
+{
+    ui.voicestreamCheckBox->setEnabled(ui.singleCheckBox->isChecked() || ui.multipleCheckBox->isChecked());
+    ui.mediafileCheckBox->setEnabled(ui.singleCheckBox->isChecked() || ui.multipleCheckBox->isChecked());
 }
