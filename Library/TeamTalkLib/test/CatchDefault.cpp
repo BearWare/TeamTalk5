@@ -813,12 +813,15 @@ TEST_CASE("BuildAudioFrame")
     }
 
     remain = media::AudioFrame(mbs[0]);
-    MBGuard g1(mbs[0]);
+
     for (int j=0;j<remain.input_samples*fmt.channels;++j)
         REQUIRE(remain.input_buffer[j] == v++);
     int remainsamples = 0;
     for (auto m : mbs)
+    {
         remainsamples += media::AudioFrame(m).input_samples;
+        m->release();
+    }
     REQUIRE(remainsamples == 77000 % 1554);
 }
 
@@ -986,14 +989,26 @@ TEST_CASE( "MuxedStreamTypesInAudioBlock" )
     uint32_t sum_nomux = 0, sum_mux = 0;
     int n_frames = 10;
     while (n_frames--)
+    {
         sum_nomux = gainfunc(TT_MUXED_USERID);
+        //std::cout << "No mux " << sum_nomux << std::endl;
+    }
+
+    while (WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, msg, 0))
+    {
+        auto ab = TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID);
+        REQUIRE(ab);
+        REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
+    }
 
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
 
     n_frames = 10;
     while (n_frames--)
+    {
         sum_mux = gainfunc(TT_MUXED_USERID);
-
+        //std::cout << "Level mux " << sum_mux << std::endl;
+    }
     REQUIRE(sum_mux > sum_nomux * 1.2);
 }
 
