@@ -64,6 +64,7 @@ public:
 
     bool AddAudio(int userid, teamtalk::StreamTypes sts, const media::AudioFrame& frame);
     bool Exists(int userid, teamtalk::StreamTypes sts);
+    bool IsEmpty(int userid, teamtalk::StreamTypes sts);
 
     ACE_Message_Block* AcquireAudioFrame(int userid, teamtalk::StreamTypes sts);
     void ReleaseAllAudio();

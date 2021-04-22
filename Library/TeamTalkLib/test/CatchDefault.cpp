@@ -535,6 +535,9 @@ TEST_CASE( "RawAudioMuxerSameStreamTypeSameAudioFormat" )
     const int FRAMEBYTES = teamtalk::GetAudioCodecCbBytes(ac);
 
     msg_queue_t mixed_frames;
+    mixed_frames.high_water_mark(1024 * 1024);
+    mixed_frames.low_water_mark(1024 * 1024);
+
     AudioMuxer muxer(teamtalk::STREAMTYPE_VOICE);
     int muxinterval_msec = teamtalk::GetAudioCodecCbMillis(ac) * 5;
     muxer.SetMuxInterval(muxinterval_msec);

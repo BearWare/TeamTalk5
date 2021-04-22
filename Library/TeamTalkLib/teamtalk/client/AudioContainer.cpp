@@ -90,6 +90,16 @@ bool AudioContainer::Exists(int userid, teamtalk::StreamTypes sts)
     return m_container.find(GenKey(userid, sts)) != m_container.end();
 }
 
+bool AudioContainer::IsEmpty(int userid, teamtalk::StreamTypes sts)
+{
+    std::lock_guard<std::recursive_mutex> g(m_store_mtx);
+    auto ii = m_container.find(GenKey(userid, sts));
+    if (ii == m_container.end())
+        return true;
+
+    return ii->second->mq.message_count() == 0;
+}
+
 ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::StreamTypes sts)
 {
     std::lock_guard<std::recursive_mutex> g(m_store_mtx);
@@ -105,6 +115,11 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
     if (entry->mq.dequeue_head(mb, &tm) >= 0)
     {
         media::AudioFrame frm(mb);
+
+        // Special handling required by 'AudioMuxer'. 
+        if (!frm.inputfmt.IsValid() && frm.input_samples == 0)
+            return mb;
+
         frm.ApplyGain();
 
         if (entry->outfmt.IsValid() && frm.inputfmt != entry->outfmt)

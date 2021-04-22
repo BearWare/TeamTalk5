@@ -94,8 +94,15 @@ private:
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;
     message_queue_t GetMuxQueue(int key);
     void SubmitMuxAudioFrame(int key, const media::AudioFrame& frm);
-    void ProcessResampleAudio();
+    // drain everything in 'm_preprocess_queue'
+    void SubmitPreprocessQueue();
     ACE_Message_Block* BuildMuxAudioFrame(std::vector<ACE_Message_Block*>& mbs);
+
+    // preprocess queue (audio that cannot yet to into 'm_usermux_queue')
+    AudioContainer m_preprocess_queue;
+    std::recursive_mutex m_preprocess_mutex;
+    // key -> media::AudioFrame. Audio block storing the remainder of 'm_preprocess_queue'
+    std::map<int, ACE_Message_Block*> m_preprocess_block;
 
     // raw audio data from a user ID
     typedef std::map<int, message_queue_t> user_audio_queue_t;
@@ -105,14 +112,9 @@ private:
     user_muxprogress_t m_usermux_progress;
     std::vector<short> m_muxed_buffer;
 
-    // resample queue (audio that cannot go directly to m_usermux_queue)
-    AudioContainer m_userresample_queue;
-    // key -> media::AudioFrame
-    std::map<int, ACE_Message_Block*> m_userresample_block;
-
     ACE_Reactor m_reactor;
     ACE_Time_Value m_mux_interval;
-    std::recursive_mutex m_mutex;
+    std::recursive_mutex m_mux_mutex;
     std::shared_ptr< std::thread > m_thread;
 
     uint32_t m_sample_no = 0;
