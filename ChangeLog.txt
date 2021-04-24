@@ -5,7 +5,7 @@ Version 5.7.1, unreleased
 Accessible Windows Client
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
-- Status event on channel join is no longer double displayed
+- Status event on channel join is no longer displayed twice
 - Added Ukranian language
 Default QT Client
 - Fixed echo canceller being less effective over long duration
@@ -14,12 +14,11 @@ Default QT Client
 - Status event on channel join is no longer double displayed
 - Improve status event on channel joined
 - "Import .tt file" button on servers list
-- Add some access keys in CTRL+S dialog
-- Fix some labels in CTRL+S dialog
-- Better accessibility in some dialogs
+- Corrected labels in Media Streaming dialog (CTRL+S dialog)
+- Better accessibility in several dialogs
 - Confirmation before removing an user account
 Android Client
--
+- 
 iOS Client
 -
 Server
