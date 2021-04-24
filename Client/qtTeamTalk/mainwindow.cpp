@@ -708,27 +708,27 @@ bool MainWindow::parseArgs(const QStringList& args)
                 rx.setPattern("&?username=([^&]*)&?");
                 m = rx.match(prop);
                 if (m.hasMatch())
-                    entry.username = m.captured(1);
+                    entry.username = QUrl::fromPercentEncoding(m.captured(1).toUtf8());
                 //&?password=([^&]*)&?
                 rx.setPattern("&?password=([^&]*)&?");
                 m = rx.match(prop);
                 if (m.hasMatch())
-                    entry.password = m.captured(1);
+                    entry.password = QUrl::fromPercentEncoding(m.captured(1).toUtf8());
                 //&?channel=([^&]*)&?
                 rx.setPattern("&?channel=([^&]*)&?");
                 m = rx.match(prop);
                 if (m.hasMatch())
-                    entry.channel = m.captured(1);
+                    entry.channel = QUrl::fromPercentEncoding(m.captured(1).toUtf8());
                 //&?chanpasswd=([^&]*)&?
                 rx.setPattern("&?chanpasswd=([^&]*)&?");
                 m = rx.match(prop);
                 if (m.hasMatch())
-                    entry.chanpasswd = m.captured(1);
+                    entry.chanpasswd = QUrl::fromPercentEncoding(m.captured(1).toUtf8());
                 //&?encrypted=([^&]*)&?
                 rx.setPattern("&?encrypted=([^&]*)&?");
                 m = rx.match(prop);
                 if (m.hasMatch())
-                    entry.encrypted = (m.captured(1) == "true" || m.captured(1) == "1");
+                    entry.encrypted = (m.captured(1).compare("true", Qt::CaseInsensitive) == 0 || m.captured(1) == "1");
 
                 addLatestHost(entry);
                 m_host = entry;
