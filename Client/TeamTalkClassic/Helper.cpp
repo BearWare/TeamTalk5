@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include <Mmsystem.h>
 #include <queue>
+#include <WinInet.h>
 
 extern TTInstance* ttInst;
 
@@ -464,6 +465,22 @@ BOOL IsWebLogin(const CString& szUsername)
     return szUsername == WEBLOGIN_BEARWARE_USERNAME || EndsWith(szUsername, _T(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX));
 }
 
+CString URLEncode(const CString& szText)
+{
+    TCHAR szEncodedText[INTERNET_MAX_URL_LENGTH] = _T("");
+    DWORD dwNewLen = INTERNET_MAX_URL_LENGTH;
+    UrlEscape(szText, szEncodedText, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
+    return szEncodedText;
+}
+
+CString URLDecode(const CString& szUrlText)
+{
+    TCHAR szDecodedText[INTERNET_MAX_URL_LENGTH] = _T("");
+    _tcsncpy(szDecodedText, szUrlText, INTERNET_MAX_URL_LENGTH);
+    DWORD dwNewLen = INTERNET_MAX_URL_LENGTH;
+    HRESULT hr = UrlUnescape(szDecodedText, szDecodedText, &dwNewLen, URL_UNESCAPE_INPLACE);
+    return szDecodedText;
+}
 
 // The horror... initguid.h must be included before oleacc.h but oleacc.h is included
 // by afxwin.h which has to be the first include file in a MFC project...

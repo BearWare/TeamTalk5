@@ -89,6 +89,8 @@ CString GetDisplayName(const User& user);
 BOOL EndsWith(const CString& szText, LPCTSTR szEnd, BOOL bCaseSensitive = TRUE);
 BOOL StartsWith(const CString& szText, LPCTSTR szStart, BOOL bCaseSensitive = TRUE);
 BOOL IsWebLogin(const CString& szUsername); // Facebook or BearWare.dk
+CString URLEncode(const CString& szText);
+CString URLDecode(const CString& szUrlText);
 
 CString GetLogTimeStamp();
 CString GetLogFileName(LPCTSTR szFolder, LPCTSTR szName);

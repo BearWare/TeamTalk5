@@ -72,7 +72,6 @@
 #include <string>
 #include <iterator>
 #include <regex>
-#include <WinInet.h>
 
 using namespace std;
 using namespace teamtalk;
@@ -967,17 +966,7 @@ void CTeamTalkDlg::OnConnectSuccess(const TTMessage& msg)
         TT_GetServerProperties(ttInst, &srvprop);
 
         CString szUsername = STR_UTF8(username), szToken = STR_UTF8(token);
-        TCHAR szUrlUsername[INTERNET_MAX_URL_LENGTH] = _T("");
-        TCHAR szUrlToken[INTERNET_MAX_URL_LENGTH] = _T("");
-        TCHAR szUrlAccessToken[INTERNET_MAX_URL_LENGTH] = _T("");
-        DWORD dwNewLen = INTERNET_MAX_URL_LENGTH;
-        UrlEscape(szUsername, szUrlUsername, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
-        dwNewLen = INTERNET_MAX_URL_LENGTH;
-        UrlEscape(szToken, szUrlToken, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
-        dwNewLen = INTERNET_MAX_URL_LENGTH;
-        UrlEscape(srvprop.szAccessToken, szUrlAccessToken, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
-
-        m_httpWebLogin.reset(new CHttpRequest(WEBLOGIN_BEARWARE_URLTOKEN(szUrlUsername, szUrlToken, szUrlAccessToken)));
+        m_httpWebLogin.reset(new CHttpRequest(WEBLOGIN_BEARWARE_URLTOKEN(URLEncode(szUsername), URLEncode(szToken), URLEncode(srvprop.szAccessToken))));
         SetTimer(TIMER_HTTPREQUEST_WEBLOGIN_ID, 500, NULL);
         SetTimer(TIMER_HTTPREQUEST_WEBLOGIN_TIMEOUT_ID, 10000, NULL);
     }
@@ -5088,14 +5077,30 @@ LRESULT CTeamTalkDlg::OnTeamTalkLink(WPARAM wParam, LPARAM lParam)
                         entry.nTcpPort = _ttoi(szToken.Tokenize(_T("="), j));
                     else if(szSubToken.CompareNoCase(_T("udpport")) == 0)
                         entry.nUdpPort = _ttoi(szToken.Tokenize(_T("="), j));
-                    else if(szSubToken.CompareNoCase(_T("channel")) == 0)
-                        entry.szChannel = STR_UTF8( szToken.Tokenize(_T("="), j) );
-                    else if(szSubToken.CompareNoCase(_T("chanpasswd")) == 0)
-                        entry.szChPasswd = STR_UTF8( szToken.Tokenize(_T("="), j) );
-                    else if(szSubToken.CompareNoCase(_T("username")) == 0)
-                        entry.szUsername = STR_UTF8( szToken.Tokenize(_T("="), j) );
-                    else if(szSubToken.CompareNoCase(_T("password")) == 0)
-                        entry.szPassword = STR_UTF8( szToken.Tokenize(_T("="), j) );
+                    else if (szSubToken.CompareNoCase(_T("channel")) == 0)
+                    {
+                        CString szValue = szToken.Tokenize(_T("="), j);
+                        szValue = URLDecode(szValue);
+                        entry.szChannel = STR_UTF8(szValue);
+                    }
+                    else if (szSubToken.CompareNoCase(_T("chanpasswd")) == 0)
+                    {
+                        CString szValue = szToken.Tokenize(_T("="), j);
+                        szValue = URLDecode(szValue);
+                        entry.szChPasswd = STR_UTF8(szValue);
+                    }
+                    else if (szSubToken.CompareNoCase(_T("username")) == 0)
+                    {
+                        CString szValue = szToken.Tokenize(_T("="), j);
+                        szValue = URLDecode(szValue);
+                        entry.szUsername = STR_UTF8(szValue);
+                    }
+                    else if (szSubToken.CompareNoCase(_T("password")) == 0)
+                    {
+                        CString szValue = szToken.Tokenize(_T("="), j);
+                        szValue = URLDecode(szValue);
+                        entry.szPassword = STR_UTF8(szValue);
+                    }
                     else if(szSubToken.CompareNoCase(_T("encrypted")) == 0)
                     {
                         CString szValue = szToken.Tokenize(_T("="), j);

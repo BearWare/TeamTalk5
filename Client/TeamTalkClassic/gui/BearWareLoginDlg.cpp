@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "BearWareLoginDlg.h"
 #include "afxdialogex.h"
-#include <WinInet.h>
 
 // CBearWareLoginDlg dialog
 
@@ -136,14 +135,7 @@ void CBearWareLoginDlg::OnOK()
         szUsername = szUsername.Left(szUsername.GetLength() - int(POSTFIXLEN));
     m_wndUsername.SetWindowText(szUsername);
 
-    TCHAR szUrlUsername[INTERNET_MAX_URL_LENGTH] = _T("");
-    TCHAR szUrlPassword[INTERNET_MAX_URL_LENGTH] = _T("");
-    DWORD dwNewLen = INTERNET_MAX_URL_LENGTH;
-    UrlEscape(szUsername, szUrlUsername, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
-    dwNewLen = INTERNET_MAX_URL_LENGTH;
-    UrlEscape(szPassword, szUrlPassword, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
-
-    CString szUrl = WEBLOGIN_BEARWARE_URLAUTH(szUrlUsername, szUrlPassword);
+    CString szUrl = WEBLOGIN_BEARWARE_URLAUTH(URLEncode(szUsername), URLEncode(szPassword));
 
     m_webLogin.reset(new CHttpRequest(szUrl));
 
