@@ -1933,6 +1933,8 @@ END
 STRINGTABLE
 BEGIN
     IDC_STATIC_PLAYBACK_MODE "Playback mode"
+    IDS_ENABLEMUTEALL       "Mute master volume"
+    IDS_DISABLEMUTEALL      "Unmute master volume"
 END
 
 STRINGTABLE
@@ -2004,7 +2006,15 @@ BEGIN
     IDS_CONSUCCESS          "Successfully logged in"
     IDS_LOGOUTSUCCESS       "Successfully logged out"
     IDS_KICKEDFROMCHANNEL   "You have been kicked from the channel by %s"
-    IDS_KICKEDFROMSERVER   "You have been kicked from the server by %s"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CANNOWTRANSMITCHANMSG "%s can now transmit channel messages!"
+    IDS_PROPPAGE_CLASSROOM_CHANMSG "Channel messages transmission allowed"
+    IDS_KICKEDFROMSERVERBYUNK 
+                            "You have been kicked from the server by an unknown user"
+    IDS_KICKEDFROMSERVER    "You have been kicked from the server by %s"
 END
 
 STRINGTABLE
@@ -2030,8 +2040,8 @@ END
 STRINGTABLE
 BEGIN
     ID_INDICATOR_STATS      "RX: 0.0KB TX: 0.0KB"
-    IDS_SUBINT_CHANTEXTMSG  "%s changed subscription ""Intercept Channel Messages"" to: %d"
-    IDS_SUBINT_VOICE        "%s changed subscription ""Intercept Voice"" to: %d"
+    IDS_SUBINT_CHANTEXTMSG  "%s changed subscription ""Intercept Channel Messages"" to: %s"
+    IDS_SUBINT_VOICE        "%s changed subscription ""Intercept Voice"" to: %s"
 END
 
 STRINGTABLE
@@ -2105,14 +2115,14 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_SUBINT_VIDEO        "%s changed subscription ""Intercept Video"" to: %d"
+    IDS_SUBINT_VIDEO        "%s changed subscription ""Intercept Video"" to: %s"
     IDS_TIMELOCALE          "%Y-%m-%d %H:%M:%S"
-    IDS_SUBINT_DESKTOP      "%s changed subscription ""Intercept Desktop"" to: %d"
+    IDS_SUBINT_DESKTOP      "%s changed subscription ""Intercept Desktop"" to: %s"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_SUBINT_MEDIAFILE    "%s changed subscription ""Intercept Media File Stream"" to: %d"
+    IDS_SUBINT_MEDIAFILE    "%s changed subscription ""Intercept Media File Stream"" to: %s"
     IDS_DESKTOPINPUT_GRANTED "%s has granted desktop access"
     IDS_MPSEND              "Private message sent: %s"
     IDS_DESKTOPINPUT_ACTIVE "%s now has desktop access"
@@ -2177,8 +2187,6 @@ END
 STRINGTABLE
 BEGIN
     IDS_ME_DISABLEVOX       "Disable voice activation from Me-menu"
-    IDS_ENABLEMUTEALL       "Mute master volume"
-    IDS_DISABLEMUTEALL      "Unmute master volume"
     IDS_DISABLED            "Disabled"
     IDS_CMD10IN10           "10 commands in 10 sec."
     IDS_CMD10IN60           "10 commands in 1 minute"
@@ -2190,8 +2198,6 @@ BEGIN
     IDS_ANONYMOUS           "Anonymous"
     IDS_KICKEDFROMCHANNELBYUNK 
                             "You have been kicked from the channel by an unknown user"
-    IDS_KICKEDFROMSERVERBYUNK 
-                            "You have been kicked from the server by an unknown user"
     IDS_NEWPROFILE          "New profile"
 END
 
@@ -2237,23 +2243,17 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_CANNOWTRANSMITCHANMSG "%s can now transmit channel messages!"
-    IDS_PROPPAGE_CLASSROOM_CHANMSG "Channel messages transmission allowed"
-END
-
-STRINGTABLE
-BEGIN
     IDS_PROPPAGE_CLASSROOM_DESKTOP "Desktop transmission allowed"
     IDS_PROPPAGE_CLASSROOM_MEDIAFILE "Media file transmission allowed"
-    IDS_SUB_TEXTMSG         "%s changed subscription ""User Messages"" to: %d"
-    IDS_SUB_CHANTEXTMSG     "%s changed subscription ""Channel Messages"" to: %d"
-    IDS_SUB_BCASTTEXTMSG    "%s changed subscription ""Broadcast Messages"" to: %d"
-    IDS_SUB_VOICE           "%s changed subscription ""Voice"" to: %d"
-    IDS_SUB_VIDEO           "%s changed subscription ""Video"" to: %d"
-    IDS_SUB_DESKTOP         "%s changed subscription ""Desktop"" to: %d"
-    IDS_SUB_DESKTOPINPUT    "%s changed subscription ""Desktop Access"" to: %d"
-    IDS_SUB_MEDIAFILE       "%s changed subscription ""Media File Stream"" to: %d"
-    IDS_SUBINT_TEXTMSG      "%s changed subscription ""Intercept User Messages"" to: %d"
+    IDS_SUB_TEXTMSG         "%s changed subscription ""User Messages"" to: %s"
+    IDS_SUB_CHANTEXTMSG     "%s changed subscription ""Channel Messages"" to: %s"
+    IDS_SUB_BCASTTEXTMSG    "%s changed subscription ""Broadcast Messages"" to: %s"
+    IDS_SUB_VOICE           "%s changed subscription ""Voice"" to: %s"
+    IDS_SUB_VIDEO           "%s changed subscription ""Video"" to: %s"
+    IDS_SUB_DESKTOP         "%s changed subscription ""Desktop"" to: %s"
+    IDS_SUB_DESKTOPINPUT    "%s changed subscription ""Desktop Access"" to: %s"
+    IDS_SUB_MEDIAFILE       "%s changed subscription ""Media File Stream"" to: %s"
+    IDS_SUBINT_TEXTMSG      "%s changed subscription ""Intercept User Messages"" to: %s"
 END
 
 STRINGTABLE
