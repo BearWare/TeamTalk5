@@ -18,7 +18,8 @@ Default QT Client
 - Better accessibility in several dialogs
 - Confirmation before removing an user account
 Android Client
-- 
+- Fixed tt:// URLs not loading in running TeamTalk instance
+- Fixed missing "encrypted", "channel" and "chanpasswd" in tt:// URLs
 iOS Client
 -
 Server
