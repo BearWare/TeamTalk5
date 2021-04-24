@@ -7,7 +7,7 @@ Accessible Windows Client
 - Recording to single file now applies user specific volume settings
 - Status event on channel join is no longer double displayed
 - Added Ukranian language
-- "Disabled"/"Enabled" instead of "0"/"1" at subscribtions changes
+- "Disabled"/"Enabled" instead of "0"/"1" at subscriptions changes
 Default QT Client
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
