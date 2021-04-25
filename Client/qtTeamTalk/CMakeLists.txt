@@ -20,7 +20,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
   else()
     set (CMAKE_CXX_STANDARD 11)
   endif()
-  
+
   set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
   set (CMAKE_AUTOMOC ON)
@@ -96,9 +96,25 @@ if (Qt5_FOUND OR Qt6_FOUND)
     set (MACOSX_BUNDLE TRUE)
     set_source_files_properties(images/teamtalk.icns PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
   endif()
-  
+
   option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE "Build Qt Client for TeamTalk 5 Standard Edition" ON)
   option (BUILD_TEAMTALKPRO_CLIENT_QT_EXAMPLE "Build Qt Client for TeamTalk 5 Professional Edition" ON)
+
+  # Try locating Tolk screen-reader abstraction layer
+  if (${CMAKE_GENERATOR_PLATFORM} MATCHES "x64")
+    find_library (TOLK_LIBRARY NAMES Tolk PATHS tolk/bin/x64)
+    message ("Looking for Tolk in tolk/bin/x64")
+  else()
+    find_library (TOLK_LIBRARY NAMES Tolk PATHS tolk/bin/win32)
+    message ("Looking for Tolk in tolk/bin/win32")
+  endif()
+
+  if (NOT TOLK_LIBRARY)
+    message ("Cannot find Tolk shared library in tolk/bin/$(PlatformName). Building without Tolk.")
+  else()
+    message("Tolk lib: ${TOLK_LIBRARY}")
+    list (APPEND TEAMTALK_LINK_FLAGS ${TOLK_LIBRARY})
+  endif()
 
   if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE)
 
@@ -108,16 +124,16 @@ if (Qt5_FOUND OR Qt6_FOUND)
       target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5DLL)
     else()
       find_library(TEAMTALK5_LIBRARY TeamTalk5 PATHS ../../Library/TeamTalk_DLL)
-      if (TEAMTALK5_LIBRARY_FOUND)
-        target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS} ${TEAMTALK5_LIBRARY})
+      if (NOT TEAMTALK5_LIBRARY)
+          message("Cannot find TeamTalk5 shared library in ../../Library/TeamTalk_DLL")
+          target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5)
       else()
-        message("Cannot find TeamTalk5 shared library in ../../Library/TeamTalk_DLL")
-        target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5)
+          target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS} ${TEAMTALK5_LIBRARY})
       endif()
     endif()
 
     target_include_directories (${TEAMTALK_TARGET} PUBLIC ../../Library/TeamTalk_DLL ./)
-    
+
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       set_target_properties(${TEAMTALK_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
     endif()
@@ -131,16 +147,16 @@ if (Qt5_FOUND OR Qt6_FOUND)
       target_link_libraries (${TEAMTALKPRO_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5ProDLL)
     else()
       find_library(TEAMTALK5PRO_LIBRARY TeamTalk5Pro PATHS ../../Library/TeamTalk_DLL)
-      if (TEAMTALK5PRO_LIBRARY_FOUND)
-        target_link_libraries (${TEAMTALKPRO_TARGET} ${TEAMTALK_LINK_FLAGS} ${TEAMTALK5PRO_LIBRARY})
+      if (NOT TEAMTALK5PRO_LIBRARY)
+          message("Cannot find TeamTalk5Pro shared library in ../../Library/TeamTalk_DLL")
+          target_link_libraries (${TEAMTALKPRO_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5Pro)
       else()
-        message("Cannot find TeamTalk5Pro shared library in ../../Library/TeamTalk_DLL")
-        target_link_libraries (${TEAMTALKPRO_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5Pro)
+          target_link_libraries (${TEAMTALKPRO_TARGET} ${TEAMTALK_LINK_FLAGS} ${TEAMTALK5PRO_LIBRARY})
       endif()
     endif()
 
     target_include_directories (${TEAMTALKPRO_TARGET} PUBLIC ../../Library/TeamTalk_DLL ./)
-    
+
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       set_target_properties(${TEAMTALKPRO_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
     endif()

@@ -50,7 +50,7 @@ win32 {
     QTPLUGIN.audio=qtaudio_windows
 
     notolk {
-    
+
     } else {
         INCLUDEPATH += tolk/src
         LIBS += tolk/bin/win32/Tolk.lib
@@ -61,10 +61,10 @@ win32 {
 x11 {
     LIBS += -lX11
 }
- 
+
 linux {
     LIBS += -lX11
-     
+
     greaterThan(QT_MAJOR_VERSION, 4): QT += x11extras
 }
 
@@ -111,4 +111,3 @@ TRANSLATIONS = languages/Bulgarian.ts \
                languages/Spanish.ts \
                languages/Thai.ts \
                languages/Turkish.ts
-
