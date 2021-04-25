@@ -8,6 +8,7 @@ Accessible Windows Client
 - Status event on channel join is no longer displayed twice
 - Added Ukranian language
 - "On"/"Off" instead of "0"/"1" when subscriptions changes
+- Alert when intercepted from another channel
 - Fixed tt:// URL decoding for percent (%) characters
 Default QT Client
 - Fixed echo canceller being less effective over long duration
@@ -20,6 +21,7 @@ Default QT Client
 - Better accessibility in several dialogs
 - Confirmation before removing an user account
 - Fixed tt:// URL decoding for percent (%) characters
+- Alert when intercepted from another channel
 Android Client
 - Fixed tt:// URLs not loading in running TeamTalk instance
 - Fixed missing "encrypted", "channel" and "chanpasswd" in tt:// URLs
