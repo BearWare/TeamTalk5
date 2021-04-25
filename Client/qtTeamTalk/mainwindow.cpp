@@ -68,6 +68,7 @@
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
+#include <QTextToSpeech>
 #endif
 
 #ifdef Q_OS_LINUX //For hotkeys on X11
@@ -87,6 +88,10 @@ extern TTInstance* ttInst;
 
 QSettings* ttSettings = nullptr;
 QTranslator* ttTranslator = nullptr;
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+QTextToSpeech* ttSpeech = nullptr;
+#endif
 
 //strip ampersand from menutext
 #define MENUTEXT(text) text.replace("&", "")
@@ -560,6 +565,8 @@ void MainWindow::loadSettings()
         }
     }
 
+    startTTS();
+
     //load settings
     bool ptt = ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool();
     slotMeEnablePushToTalk(ptt);
@@ -962,6 +969,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             if (ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT, SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT).toBool())
                 addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
             playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
+            addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(tr("%1 has logged in") .arg(getDisplayName(msg.user))));
         }
 
         // sync user settings from cache
@@ -981,6 +989,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             if (ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT, SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT).toBool())
                 addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
             playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
+            addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(tr("%1 has logged out") .arg(getDisplayName(msg.user))));
         }
 
         // sync user settings to cache
@@ -1001,11 +1010,19 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 Channel chan = {};
                 ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
                 QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(msg.user));
+                TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
                 if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst))
+                {
                     userjoinchan = userjoinchan + " " + tr("root");
+                    ttsType = TTS_USER_JOINED;
+                }
                 else if (msg.user.nChannelID != TT_GetMyChannelID(ttInst))
+                {
                     userjoinchan = userjoinchan + " " + _Q(chan.szName);
+                    ttsType = TTS_USER_JOINED;
+                }
                 addStatusMsg(userjoinchan);
+                addTextToSpeechMessage(ttsType, userjoinchan);
             }
         }
 
@@ -1028,12 +1045,16 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 Channel chan = {};
                 ui.channelsWidget->getChannel(msg.nSource, chan);
                 QString userleftchan = tr("%1 left channel").arg(getDisplayName(msg.user));
+                TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
                 if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
                     userleftchan = userleftchan + " " + tr("root");
+                    ttsType = TTS_USER_LEFT;
                 } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
                     userleftchan = userleftchan + " " + _Q(chan.szName);
+                    ttsType = TTS_USER_LEFT;
                 }
                 addStatusMsg(userleftchan);
+                addTextToSpeechMessage(ttsType, userleftchan);
             }
         }
 
@@ -1094,6 +1115,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 fileadd = tr("File %1 added by %2").arg(file.szFileName).arg(getDisplayName(user));
             }
             addStatusMsg(fileadd);
+            addTextToSpeechMessage(TTS_FILE_ADD, fileadd);
         }
     }
     break;
@@ -1118,6 +1140,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 filerem = tr("File %1 removed by %2").arg(file.szFileName).arg(getDisplayName(user));
             }
             addStatusMsg(filerem);
+            addTextToSpeechMessage(TTS_FILE_REMOVE, filerem);
         }
 
     }
@@ -2379,15 +2402,27 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
             writeLogEntry(m_logChan, line);
         }
         if (textmsg.nFromUserID != TT_GetMyUserID(ttInst))
+        {
+            User user;
+            if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
+                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message from %1: %2").arg(getDisplayName(user)).arg(_Q(textmsg.szMessage))));
             playSoundEvent(SOUNDEVENT_CHANNELMSG);
+        }
         else
+        {
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, QString(tr("Channel message sent: %1").arg(_Q(textmsg.szMessage))));
             playSoundEvent(SOUNDEVENT_SENTCHANNELMSG);
+        }
+
         break;
     }
     case MSGTYPE_BROADCAST :
         ui.chatEdit->addTextMessage(textmsg);
         ui.videochatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
+        User user;
+        if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, QString(tr("Broadcast message from %1: %2").arg(getDisplayName(user)).arg(_Q(textmsg.szMessage))));
         playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
     case MSGTYPE_USER :
@@ -2404,6 +2439,9 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         }
         ui.channelsWidget->setUserMessaged(textmsg.nFromUserID, true);
         emit(newTextMessage(textmsg));
+        User user;
+        if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, QString(tr("Private message from %1: %2").arg(getDisplayName(user)).arg(_Q(textmsg.szMessage))));
         playSoundEvent(SOUNDEVENT_USERMSG);
         break;
     }
@@ -2473,6 +2511,7 @@ void MainWindow::processMyselfJoined(int channelid)
             statusjoin = tr("Joined channel %1").arg(root);
         }
     }
+    addTextToSpeechMessage(TTS_USER_JOINED, statusjoin);
 
     //store new muxed audio file if we're changing channel
     if(ui.actionMediaStorage->isChecked() &&
@@ -2520,6 +2559,7 @@ void MainWindow::processMyselfLeft(int /*channelid*/)
         }
     }
     addStatusMsg(statusleft);
+    addTextToSpeechMessage(TTS_USER_LEFT, statusleft);
 
     m_mychannel = {};
 
@@ -3536,6 +3576,16 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
     if(!b)return;
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_QT && ttSpeech == nullptr)
+        ttSpeech = new QTextToSpeech(this);
+    else
+    {
+        delete ttSpeech;
+        ttSpeech = nullptr;
+    }
+#endif
+
     User myself;
     if((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) &&
         TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &myself))
@@ -3644,12 +3694,17 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
     updateWindowTitle();
     slotUpdateUI();
+    startTTS();
 }
 
 void MainWindow::slotClientExit(bool /*checked =false */)
 {
     //close using timer, otherwise gets a Qt assertion from the 
     //'setQuitOnLastWindowClosed' call.
+#if defined(ENABLE_TOLK)
+    if(Tolk_IsLoaded())
+        Tolk_Unload();
+#endif
     QApplication::setQuitOnLastWindowClosed(true);
     QTimer::singleShot(0, this, &MainWindow::close);
 }
@@ -3853,14 +3908,40 @@ void MainWindow::slotUsersMessagesGrid(bool /*checked =false */)
 
 void MainWindow::slotUsersMuteVoiceGrid(bool checked /*=false */)
 {
+    QString listuser;
     foreach(int userid, ui.channelsWidget->selectedUsers())
+    {
+        User user;
+        TT_GetUser(ttInst, userid, &user);
+        listuser += getDisplayName(user) + ", ";
         slotUsersMuteVoice(userid, checked);
+    }
+    listuser.chop(2);
+    QString ttsevent;
+    if (checked == true)
+        ttsevent = tr("Voice for %1 disabled").arg(listuser);
+    else
+        ttsevent = tr("Voice for %1 enabled").arg(listuser);
+    addTextToSpeechMessage(TTS_MENU_ACTIONS, ttsevent);
 }
 
 void MainWindow::slotUsersMuteMediaFileGrid(bool checked /*=false */)
 {
+    QString listuser;
     foreach(int userid, ui.channelsWidget->selectedUsers())
+    {
+        User user;
+        TT_GetUser(ttInst, userid, &user);
+        listuser += getDisplayName(user) + ", ";
         slotUsersMuteMediaFile(userid, checked);
+    }
+    listuser.chop(2);
+    QString ttsevent;
+    if (checked == true)
+        ttsevent = tr("Media files for %1 disabled").arg(listuser);
+    else
+        ttsevent = tr("Media files for %1 enabled").arg(listuser);
+    addTextToSpeechMessage(TTS_MENU_ACTIONS, ttsevent);
 }
 
 void MainWindow::slotUsersVolumeGrid(bool /*checked =false */)
@@ -3873,9 +3954,15 @@ void MainWindow::slotUsersMuteVoiceAll(bool checked /*=false */)
 {
     TT_SetSoundOutputMute(ttInst, checked);
     if(checked == true)
+    {
         playSoundEvent(SOUNDEVENT_MUTEALLON);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Master volume disabled"));
+    }
     else
+    {
         playSoundEvent(SOUNDEVENT_MUTEALLOFF);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Master volume enabled"));
+    }
 }
 
 void MainWindow::slotUsersOpGrid(bool /*checked =false */)
@@ -3999,6 +4086,12 @@ void MainWindow::slotUsersAdvancedIncVolumeVoice()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
     std::for_each(users.begin(), users.end(), std::bind(incVolume, _1, STREAMTYPE_VOICE));
+    for(int i=0; i<users.size(); i++)
+    {
+        User user;
+        TT_GetUser(ttInst, users.value(i), &user);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Voice volume for %1 increased to %2%").arg(getDisplayName(user)).arg(refVolumeToPercent(user.nVolumeVoice)));
+    }
     slotUpdateUI();
 }
 
@@ -4006,6 +4099,12 @@ void MainWindow::slotUsersAdvancedDecVolumeVoice()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
     std::for_each(users.begin(), users.end(), std::bind(decVolume, _1, STREAMTYPE_VOICE));
+    for(int i=0; i<users.size(); i++)
+    {
+        User user;
+        TT_GetUser(ttInst, users.value(i), &user);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Voice volume for %1 decreased to %2%").arg(getDisplayName(user)).arg(refVolumeToPercent(user.nVolumeVoice)));
+    }
     slotUpdateUI();
 }
 
@@ -4013,6 +4112,12 @@ void MainWindow::slotUsersAdvancedIncVolumeMediaFile()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
     std::for_each(users.begin(), users.end(), std::bind(incVolume, _1, STREAMTYPE_MEDIAFILE_AUDIO));
+    for(int i=0; i<users.size(); i++)
+    {
+        User user;
+        TT_GetUser(ttInst, users.value(i), &user);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Media files volume for %1 increased to %2%").arg(getDisplayName(user)).arg(refVolumeToPercent(user.nVolumeMediaFile)));
+    }
     slotUpdateUI();
 }
 
@@ -4020,6 +4125,12 @@ void MainWindow::slotUsersAdvancedDecVolumeMediaFile()
 {
     userids_t users = ui.channelsWidget->selectedUsers();
     std::for_each(users.begin(), users.end(), std::bind(decVolume, _1, STREAMTYPE_MEDIAFILE_AUDIO));
+    for(int i=0; i<users.size(); i++)
+    {
+        User user;
+        TT_GetUser(ttInst, users.value(i), &user);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Media files volume for %1 decreased to %2%").arg(getDisplayName(user)).arg(refVolumeToPercent(user.nVolumeMediaFile)));
+    }
     slotUpdateUI();
 }
 
@@ -4027,6 +4138,15 @@ void MainWindow::slotUsersAdvancedStoreForMove()
 {
     m_moveusers.clear();
     m_moveusers = ui.channelsWidget->selectedUsers();
+    QString listuser;
+    for(int i=0; i<m_moveusers.size(); i++)
+    {
+        User user;
+        TT_GetUser(ttInst, m_moveusers.value(i), &user);
+        listuser += getDisplayName(user) + ", ";
+    }
+    listuser.chop(2);
+    addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("%1 selected for move").arg(listuser));
     slotUpdateUI();
 }
 
@@ -4038,6 +4158,19 @@ void MainWindow::slotUsersAdvancedMoveUsers()
         for(int i=0;i<m_moveusers.size();i++)
             TT_DoMoveUser(ttInst, m_moveusers[i], chanid);
     }
+    Channel chan;
+    TT_GetChannel(ttInst, chanid, &chan);
+    QString usersmoved;
+    if(chan.nParentID == 0)
+    {
+        QString rootchan = tr("root");
+        usersmoved = tr("Selected users has been moved to channel %1").arg(rootchan);
+    }
+    else
+    {
+        usersmoved = tr("Selected users has been moved to channel %1").arg(chan.szName);
+    }
+    addTextToSpeechMessage(TTS_MENU_ACTIONS, usersmoved);
     slotUpdateUI();
 }
 
@@ -4441,6 +4574,7 @@ void MainWindow::slotServerBroadcastMessage(bool /*checked=false*/)
     msg.nFromUserID = TT_GetMyUserID(ttInst);
     COPY_TTSTR(msg.szMessage, bcast);
     TT_DoTextMessage(ttInst, &msg);
+    addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST_SEND, tr("Broadcast message sent: %1").arg(msg.szMessage));
 }
 
 void MainWindow::slotServerServerProperties(bool /*checked =false */)
@@ -5032,6 +5166,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
         else
             msg = tr("You can no longer transmit channel messages!");
         addStatusMsg(msg);
+        addTextToSpeechMessage(TTS_CLASSROOM_CHANMSG_TX, msg);
     }
     before = userCanVoiceTx(TT_GetMyUserID(ttInst), oldchan);
     after = userCanVoiceTx(TT_GetMyUserID(ttInst), chan);
@@ -5042,6 +5177,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
         else
             msg = tr("You can no longer transmit audio!");
         addStatusMsg(msg);
+        addTextToSpeechMessage(TTS_CLASSROOM_VOICE_TX, msg);
     }
     before = userCanVideoTx(TT_GetMyUserID(ttInst), oldchan);
     after = userCanVideoTx(TT_GetMyUserID(ttInst), chan);
@@ -5052,6 +5188,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
         else
             msg = tr("You can no longer transmit video!");
         addStatusMsg(msg);
+        addTextToSpeechMessage(TTS_CLASSROOM_VIDEO_TX, msg);
     }
     before = userCanDesktopTx(TT_GetMyUserID(ttInst), oldchan);
     after = userCanDesktopTx(TT_GetMyUserID(ttInst), chan);
@@ -5062,6 +5199,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
         else
             msg = tr("You can no longer transmit desktop windows!");
         addStatusMsg(msg);
+        addTextToSpeechMessage(TTS_CLASSROOM_DESKTOP_TX, msg);
     }
     before = userCanMediaFileTx(TT_GetMyUserID(ttInst), oldchan);
     after = userCanMediaFileTx(TT_GetMyUserID(ttInst), chan);
@@ -5072,6 +5210,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
         else
             msg = tr("You can no longer transmit mediafiles!");
         addStatusMsg(msg);
+        addTextToSpeechMessage(TTS_CLASSROOM_MEDIAFILE_TX, msg);
     }
 }
 
@@ -5530,6 +5669,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionUserMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionUserMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG))
@@ -5539,6 +5679,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionChannelMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionChannelMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG))
@@ -5548,6 +5689,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionBroadcastMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionBroadcastMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_VOICE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_VOICE))
@@ -5557,6 +5699,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionVoice->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_VOICE?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_VOICE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionVoice->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_VOICE?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE))
@@ -5566,6 +5709,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionVideo->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_VIDEO, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionVideo->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_DESKTOP) !=
             (user.uPeerSubscriptions & SUBSCRIBE_DESKTOP))
@@ -5575,6 +5719,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionDesktop->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_DESKTOP, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionDesktop->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT) !=
             (user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT))
@@ -5584,6 +5729,17 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionDesktopInput->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_DESKTOPINPUT, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionDesktopInput->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT?tr("On"):tr("Off")));
+        }
+        if((oldUser.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE) !=
+            (user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE))
+        {
+            addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                .arg(nickname)
+                .arg(MENUTEXT(ui.actionMediaFile->text()))
+                .arg(user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE?
+                     tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionMediaFile->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG))
@@ -5593,6 +5749,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionInterceptUserMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptUserMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG))
@@ -5602,6 +5759,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionInterceptChannelMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptChannelMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE))
@@ -5611,6 +5769,7 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionInterceptVoice->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_VOICE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptVoice->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?tr("On"):tr("Off")));
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE))
@@ -5620,6 +5779,27 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(MENUTEXT(ui.actionInterceptVideo->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?
                      tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptVideo->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?tr("On"):tr("Off")));
+        }
+        if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) !=
+            (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP))
+        {
+            addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                .arg(nickname)
+                .arg(MENUTEXT(ui.actionInterceptDesktop->text()))
+                .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?
+                     tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptDesktop->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?tr("On"):tr("Off")));
+        }
+        if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) !=
+            (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE))
+        {
+            addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                .arg(nickname)
+                .arg(MENUTEXT(ui.actionInterceptMediaFile->text()))
+                .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?
+                     tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptMediaFile->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?tr("On"):tr("Off")));
         }
     }
 }
@@ -5878,4 +6058,46 @@ void MainWindow::slotClosedUserAccountsDlg(int)
 void MainWindow::slotClosedBannedUsersDlg(int)
 {
     m_bannedusersdlg = nullptr;
+}
+
+void MainWindow::startTTS()
+{
+    switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
+    {
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    case TTSENGINE_QT :
+    {
+        delete ttSpeech;
+        ttSpeech = new QTextToSpeech(this);
+        ttSpeech->setRate(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
+        ttSpeech->setVolume(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
+        int voiceIndex = ttSettings->value(SETTINGS_TTS_VOICE).toInt();
+        QVector<QVoice> voices = ttSpeech->availableVoices();
+        if (voices.size())
+        {
+            if (voiceIndex < voices.size())
+                ttSpeech->setVoice(voices[voiceIndex]);
+            else
+                ttSpeech->setVoice(voices[voiceIndex]);
+        }
+        else
+        {
+            addStatusMsg(tr("No available voices found for Text-To-Speech"));
+        }
+    }
+    break;
+#endif
+
+#if defined(ENABLE_TOLK)
+    case TTSENGINE_TOLK :
+    {
+        if (!Tolk_IsLoaded())
+        {
+            Tolk_Load();
+            Tolk_TrySAPI(true);
+        }
+    }
+    break;
+#endif
+    }
 }

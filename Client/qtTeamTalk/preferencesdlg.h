@@ -30,6 +30,9 @@
 
 #include "common.h"
 #include "uservideodlg.h"
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#include <QTextToSpeech>
+#endif
 
 class PreferencesDlg : public QDialog
 {
@@ -46,6 +49,7 @@ public:
         CONNECTION_TAB,
         SOUND_TAB,
         SOUNDEVENTS_TAB,
+        TTSEVENTS_TAB,
         SHORTCUTS_TAB,
         VIDCAP_TAB
     };
@@ -67,6 +71,8 @@ private:
     /* video tab */
     QVector<VideoCaptureDevice> m_videodevices;
     UserVideoDlg* m_uservideo;
+    /* text-to-speech */
+    class TTSEventsModel* m_ttsmodel = nullptr;
 
     QSet<int> m_modtab;
     bool m_video_ready;
@@ -119,6 +125,8 @@ private:
     void slotEventVoiceActOff();
     void slotEventMuteAllOn();
     void slotEventMuteAllOff();
+    //TTS
+    void slotUpdateTTSTab();
     //keyboard shortcuts
     void slotShortcutVoiceActivation(bool checked);
     void slotShortcutIncVolume(bool checked);
@@ -134,6 +142,11 @@ private:
     void slotImageFormatChange(bool checked);
     void slotCustomImageFormat();
     void slotDefaultVideoSettings();
+    //tts tab
+    void slotTTSEventToggled(const QModelIndex &index);
+    void slotTTSEnableAll(bool checked);
+    void slotTTSClearAll(bool checked);
+    void slotTTSRevert(bool checked);
 
 public:
     void slotNewVideoFrame(int userid, int stream_id);

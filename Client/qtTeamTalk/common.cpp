@@ -26,15 +26,20 @@
 #include "appinfo.h"
 #include <math.h>
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QSound>
-#endif
 #include <QDateTime>
 #include <QDialog>
 #include <QStack>
+#include <QProcess>
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#include <QTextToSpeech>
+#include <QSound>
+#endif
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+extern QTextToSpeech* ttSpeech;
+#endif
 
 QString makeCustomCommand(const QString& cmd, const QString& value)
 {
@@ -1003,6 +1008,41 @@ void playSoundEvent(SoundEvent event)
     if(filename.size())
         QSound::play(filename);
 #endif
+}
+
+void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
+{
+    if (ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toUInt() & event)
+    {
+        switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
+        {
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        case TTSENGINE_QT:
+            Q_ASSERT(ttSpeech);
+            ttSpeech->say(msg);
+            break;
+#endif
+#if defined(ENABLE_TOLK)
+        case TTSENGINE_TOLK :
+            Tolk_Output(_W(msg));
+            break;
+#endif
+        case TTSENGINE_NOTIFY :
+        {
+            int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
+            QString noquote = msg;
+            noquote.replace('"', ' ');
+            QProcess ps;
+            ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
+                             .arg(TTSENGINE_NOTIFY_PATH)
+                             .arg(timestamp)
+                             .arg(APPNAME_SHORT)
+                             .arg(APPNAME_SHORT)
+                             .arg(noquote));
+            break;
+        }
+        }
+    }
 }
 
 void addLatestHost(const HostEntry& host)
