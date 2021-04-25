@@ -144,6 +144,9 @@ private:
     void slotDefaultVideoSettings();
     //tts tab
     void slotTTSEventToggled(const QModelIndex &index);
+    void slotTTSEnableAll(bool checked);
+    void slotTTSClearAll(bool checked);
+    void slotTTSRevert(bool checked);
 
 public:
     void slotNewVideoFrame(int userid, int stream_id);

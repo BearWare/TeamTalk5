@@ -177,9 +177,11 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     //text to speech
     m_ttsmodel = new TTSEventsModel(this);
     ui.ttsTreeView->setModel(m_ttsmodel);
-    connect(ui.ttsTreeView, &QAbstractItemView::doubleClicked,
-            this, &PreferencesDlg::slotTTSEventToggled);
+    connect(ui.ttsTreeView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotTTSEventToggled);
     connect(ui.ttsengineComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &PreferencesDlg::slotUpdateTTSTab);
+    connect(ui.ttsEnableallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSEnableAll);
+    connect(ui.ttsClearallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSClearAll);
+    connect(ui.ttsRevertButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSRevert);
 
     //keyboard shortcuts
     connect(ui.voiceactButton, &QAbstractButton::clicked,
@@ -1770,4 +1772,20 @@ void PreferencesDlg::slotTTSEventToggled(const QModelIndex &index)
         m_ttsmodel->setTTSEvents(events & ~e);
     else
         m_ttsmodel->setTTSEvents(events | e);
+}
+
+void PreferencesDlg::slotTTSEnableAll(bool /*checked*/)
+{
+    m_ttsmodel->setTTSEvents(~TTS_NONE);
+}
+
+void PreferencesDlg::slotTTSClearAll(bool /*checked*/)
+{
+    m_ttsmodel->setTTSEvents(TTS_NONE);
+}
+
+void PreferencesDlg::slotTTSRevert(bool /*checked*/)
+{
+    TTSEvents events = ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toUInt();
+    m_ttsmodel->setTTSEvents(events);
 }

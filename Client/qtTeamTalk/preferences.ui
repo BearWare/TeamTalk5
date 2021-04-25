@@ -537,11 +537,11 @@
               </item>
               <item>
                <widget class="QToolButton" name="vidtextsrcToolBtn">
-                <property name="text">
-                 <string notr="true">...</string>
-                </property>
                 <property name="accessibleName">
                  <string>Video window settings</string>
+                </property>
+                <property name="text">
+                 <string notr="true">...</string>
                 </property>
                </widget>
               </item>
@@ -752,11 +752,11 @@
                  </item>
                  <item>
                   <widget class="QToolButton" name="subdeskinputBtn">
-                   <property name="text">
-                    <string notr="true">...</string>
-                   </property>
                    <property name="accessibleName">
                     <string>Configure trusted list</string>
+                   </property>
+                   <property name="text">
+                    <string notr="true">...</string>
                    </property>
                   </widget>
                  </item>
@@ -1221,11 +1221,11 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1244,11 +1244,11 @@
             </item>
             <item row="1" column="2">
              <widget class="QToolButton" name="rmuserButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1267,11 +1267,11 @@
             </item>
             <item row="2" column="2">
              <widget class="QToolButton" name="srvlostButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1290,11 +1290,11 @@
             </item>
             <item row="3" column="2">
              <widget class="QToolButton" name="usermsgButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1313,11 +1313,11 @@
             </item>
             <item row="4" column="2">
              <widget class="QToolButton" name="sentmsgButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1336,11 +1336,11 @@
             </item>
             <item row="5" column="2">
              <widget class="QToolButton" name="chanmsgButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1359,11 +1359,11 @@
             </item>
             <item row="6" column="2">
              <widget class="QToolButton" name="sentchannelmsgButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1382,11 +1382,11 @@
             </item>
             <item row="7" column="2">
              <widget class="QToolButton" name="bcastmsgButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1405,11 +1405,11 @@
             </item>
             <item row="8" column="2">
              <widget class="QToolButton" name="hotkeyButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1428,11 +1428,11 @@
             </item>
             <item row="9" column="2">
              <widget class="QToolButton" name="chansilentButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1451,11 +1451,11 @@
             </item>
             <item row="10" column="2">
              <widget class="QToolButton" name="fileupdButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1478,11 +1478,11 @@
             </item>
             <item row="0" column="2">
              <widget class="QToolButton" name="transferdoneButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1501,11 +1501,11 @@
             </item>
             <item row="1" column="2">
              <widget class="QToolButton" name="videosessionButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1524,11 +1524,11 @@
             </item>
             <item row="2" column="2">
              <widget class="QToolButton" name="desktopsessionButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1547,11 +1547,11 @@
             </item>
             <item row="3" column="2">
              <widget class="QToolButton" name="questionmodeBtn">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1570,11 +1570,11 @@
             </item>
             <item row="4" column="2">
              <widget class="QToolButton" name="desktopaccessBtn">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1593,11 +1593,11 @@
             </item>
             <item row="5" column="2">
              <widget class="QToolButton" name="userloggedinButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1616,11 +1616,11 @@
             </item>
             <item row="6" column="2">
              <widget class="QToolButton" name="userloggedoutButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1639,11 +1639,11 @@
             </item>
             <item row="7" column="2">
              <widget class="QToolButton" name="voiceactonButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1662,11 +1662,11 @@
             </item>
             <item row="8" column="2">
              <widget class="QToolButton" name="voiceactoffButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1685,11 +1685,11 @@
             </item>
             <item row="9" column="2">
              <widget class="QToolButton" name="muteallonButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1708,11 +1708,11 @@
             </item>
             <item row="10" column="2">
              <widget class="QToolButton" name="mutealloffButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -1746,7 +1746,7 @@
          <property name="title">
           <string>Enable/disable Text to Speech Events</string>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_23">
+         <layout class="QVBoxLayout" name="verticalLayout_16">
           <item>
            <widget class="TTSEventsTreeView" name="ttsTreeView">
             <property name="editTriggers">
@@ -1768,6 +1768,57 @@
              <bool>false</bool>
             </property>
            </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_23">
+            <item>
+             <widget class="QPushButton" name="ttsEnableallButton">
+              <property name="text">
+               <string>Enable &amp;all</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_23">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="ttsClearallButton">
+              <property name="text">
+               <string>C&amp;lear all</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_25">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="ttsRevertButton">
+              <property name="text">
+               <string>&amp;Revert</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -2150,11 +2201,11 @@
             </item>
             <item>
              <widget class="QToolButton" name="vidfmtToolButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
               <property name="accessibleName">
                <string>Customize video format</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
@@ -2538,6 +2589,15 @@
   <tabstop>muteallonButton</tabstop>
   <tabstop>mutealloffEdit</tabstop>
   <tabstop>mutealloffButton</tabstop>
+  <tabstop>ttsTreeView</tabstop>
+  <tabstop>ttsEnableallButton</tabstop>
+  <tabstop>ttsClearallButton</tabstop>
+  <tabstop>ttsRevertButton</tabstop>
+  <tabstop>ttsengineComboBox</tabstop>
+  <tabstop>ttsVoiceComboBox</tabstop>
+  <tabstop>voiceRateSpinBox</tabstop>
+  <tabstop>voiceVolumeSpinBox</tabstop>
+  <tabstop>notifTimestampSpinBox</tabstop>
   <tabstop>voiceactEdit</tabstop>
   <tabstop>voiceactButton</tabstop>
   <tabstop>volumeincEdit</tabstop>
