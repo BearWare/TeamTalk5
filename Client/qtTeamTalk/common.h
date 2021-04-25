@@ -34,16 +34,19 @@
 #include <QFile>
 #include <QDateTime>
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #define _CRT_SECURE_NO_WARNINGS 1
 #pragma warning(disable:4800)
 #endif
 
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN32)
 #define NOMINMAX //prevent std::...::min() collision
 #include <windows.h>
 #endif
 
+#if defined(ENABLE_TOLK)
+#include <Tolk.h>
+#endif
 
 /*
  * The TeamTalk header and library files are located in 
@@ -258,6 +261,62 @@ enum SoundEvent
     SOUNDEVENT_MUTEALLOFF,
 };
 
+enum TextToSpeechEvent
+{
+    TTS_NONE                                        = 0x00000000,
+    TTS_USER_LOGGEDIN                               = 0x00000001,
+    TTS_USER_LOGGEDOUT                              = 0x00000002,
+    TTS_USER_JOINED                                 = 0x00000004,
+    TTS_USER_LEFT                                   = 0x00000008,
+    TTS_USER_JOINED_SAME                            = 0x10000000,
+    TTS_USER_LEFT_SAME                              = 0x20000000,
+    TTS_USER_TEXTMSG_PRIVATE                        = 0x00000010,
+    TTS_USER_TEXTMSG_PRIVATE_SEND                   = 0x00000003,
+    TTS_USER_TEXTMSG_CHANNEL                        = 0x00000020,
+    TTS_USER_TEXTMSG_CHANNEL_SEND                   = 0x00000005,
+    TTS_USER_TEXTMSG_BROADCAST                      = 0x00000040,
+    TTS_USER_TEXTMSG_BROADCAST_SEND                 = 0x00000007,
+
+    TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE               = 0x00000100,
+    TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL               = 0x00000200,
+    TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST             = 0x00000400,
+    TTS_SUBSCRIPTIONS_VOICE                         = 0x00000800,
+    TTS_SUBSCRIPTIONS_VIDEO                         = 0x00001000,
+    TTS_SUBSCRIPTIONS_DESKTOP                       = 0x00002000,
+    TTS_SUBSCRIPTIONS_DESKTOPINPUT                  = 0x00004000,
+    TTS_SUBSCRIPTIONS_MEDIAFILE                     = 0x00008000,
+
+    TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE     = 0x00010000,
+    TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL     = 0x00020000,
+    TTS_SUBSCRIPTIONS_INTERCEPT_VOICE               = 0x00040000,
+    TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO               = 0x00080000,
+    TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP             = 0x00100000,
+    TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE           = 0x00400000,
+
+    TTS_CLASSROOM_CHANMSG_TX                        = 0x80000000,
+    TTS_CLASSROOM_VOICE_TX                          = 0x01000000,
+    TTS_CLASSROOM_VIDEO_TX                          = 0x02000000,
+    TTS_CLASSROOM_DESKTOP_TX                        = 0x04000000,
+    TTS_CLASSROOM_MEDIAFILE_TX                      = 0x08000000,
+
+    TTS_FILE_ADD                                    = 0x00000080,
+    TTS_FILE_REMOVE                                 = 0x00800000,
+
+    TTS_MENU_ACTIONS                                = 0x40000000,
+};
+
+typedef uint32_t TTSEvents;
+
+enum TextToSpeechEngine
+{
+    TTSENGINE_NONE          = 0,
+    TTSENGINE_QT            = 1,
+    TTSENGINE_TOLK          = 2,
+    TTSENGINE_NOTIFY        = 3,
+};
+
+#define TTSENGINE_NOTIFY_PATH "/usr/bin/notify-send"
+
 enum HotKeyID
 {
     HOTKEY_PUSHTOTALK,
@@ -434,6 +493,7 @@ void saveVideoFormat(const VideoFormat& vidfmt);
 bool loadVideoFormat(VideoFormat& vidfmt);
 
 void playSoundEvent(SoundEvent event);
+void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg);
 
 void addLatestHost(const HostEntry& host);
 void deleteLatestHost(int index);

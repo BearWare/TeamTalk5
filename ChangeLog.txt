@@ -5,9 +5,11 @@ Version 5.7.1, unreleased
 Accessible Windows Client
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
-- Status event on channel join is no longer double displayed
+- Status event on channel join is no longer displayed twice
 - Added Ukranian language
 - Alert when intercepted from another channel
+- "On"/"Off" instead of "0"/"1" when subscriptions changes
+- Fixed tt:// URL decoding for percent (%) characters
 Default QT Client
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
@@ -15,15 +17,16 @@ Default QT Client
 - Status event on channel join is no longer double displayed
 - Improve status event on channel joined
 - "Import .tt file" button on servers list
-- Add some access keys in CTRL+S dialog
-- Fix some labels in CTRL+S dialog
-- Better accessibility in some dialogs
+- Corrected labels in Media Streaming dialog (CTRL+S dialog)
+- Better accessibility in several dialogs
 - Confirmation before removing an user account
 - Alert when intercepted from another channel
+- Fixed tt:// URL decoding for percent (%) characters
 Android Client
--
+- Fixed tt:// URLs not loading in running TeamTalk instance
+- Fixed missing "encrypted", "channel" and "chanpasswd" in tt:// URLs
 iOS Client
--
+- Fixed tt:// URL decoding for percent (%) characters
 Server
 -
 

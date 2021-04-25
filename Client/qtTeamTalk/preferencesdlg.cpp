@@ -30,6 +30,7 @@
 #include "customvideofmtdlg.h"
 #include "bearwarelogindlg.h"
 #include "settings.h"
+#include "ttseventsmodel.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -40,6 +41,9 @@
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 extern QTranslator* ttTranslator;
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+extern QTextToSpeech* ttSpeech;
+#endif
 
 #define CUSTOMVIDEOFORMAT_INDEX -2
 
@@ -170,6 +174,15 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.mutealloffButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventMuteAllOff);
 
+    //text to speech
+    m_ttsmodel = new TTSEventsModel(this);
+    ui.ttsTreeView->setModel(m_ttsmodel);
+    connect(ui.ttsTreeView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotTTSEventToggled);
+    connect(ui.ttsengineComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &PreferencesDlg::slotUpdateTTSTab);
+    connect(ui.ttsEnableallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSEnableAll);
+    connect(ui.ttsClearallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSClearAll);
+    connect(ui.ttsRevertButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSRevert);
+
     //keyboard shortcuts
     connect(ui.voiceactButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotShortcutVoiceActivation);
@@ -213,6 +226,7 @@ PreferencesDlg::~PreferencesDlg()
 {
     TT_CloseSoundLoopbackTest(m_sndloop);
 }
+
 
 void PreferencesDlg::initDevices()
 {
@@ -552,6 +566,30 @@ void PreferencesDlg::slotTabChange(int index)
         ui.muteallonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON).toString());
         ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF).toString());
         break;
+    case TTSEVENTS_TAB :
+    {
+        TTSEvents events = ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toUInt();
+        m_ttsmodel->setTTSEvents(events);
+        ui.ttsengineComboBox->addItem(tr("None"), TTSENGINE_NONE);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        ui.ttsengineComboBox->addItem(tr("Default"), TTSENGINE_QT);
+#endif
+#if defined(Q_OS_WIN)
+        ui.ttsengineComboBox->addItem(tr("Tolk"), TTSENGINE_TOLK);
+#elif defined(Q_OS_LINUX)
+        if (QFile::exists(TTSENGINE_NOTIFY_PATH))
+            ui.ttsengineComboBox->addItem(tr("Libnotify"), TTSENGINE_NOTIFY);
+#elif defined(Q_OS_MACX)
+
+#endif
+
+        TextToSpeechEngine ttsEngine = TextToSpeechEngine(ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt());
+        setCurrentItemData(ui.ttsengineComboBox, ttsEngine);
+
+        slotUpdateTTSTab();
+
+        break;
+    }
     case SHORTCUTS_TAB :  //shortcuts
     {
         hotkey_t hotkey;
@@ -978,6 +1016,15 @@ void PreferencesDlg::slotSaveChanges()
                 tr("Failed to initialize video device"));
         }
     }
+    if (m_modtab.find(TTSEVENTS_TAB) != m_modtab.end())
+    {
+        ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, m_ttsmodel->getTTSEvents());
+        ttSettings->setValue(SETTINGS_TTS_ENGINE, getCurrentItemData(ui.ttsengineComboBox, TTSENGINE_NONE));
+        ttSettings->setValue(SETTINGS_TTS_VOICE, ui.ttsVoiceComboBox->currentIndex());
+        ttSettings->setValue(SETTINGS_TTS_RATE, ui.voiceRateSpinBox->value());
+        ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.voiceVolumeSpinBox->value());
+        ttSettings->setValue(SETTINGS_TTS_TIMESTAMP, ui.notifTimestampSpinBox->value());
+    }
 }
 
 void PreferencesDlg::slotCancelChanges()
@@ -1366,6 +1413,45 @@ void PreferencesDlg::slotEventMuteAllOff()
         ui.mutealloffEdit->setText(filename);
 }
 
+void PreferencesDlg::slotUpdateTTSTab()
+{
+    if(ui.ttsengineComboBox->currentIndex() == 1)
+    {
+        delete ttSpeech;
+        ttSpeech = new QTextToSpeech(this);
+        ui.ttsVoiceComboBox->setEnabled(true);
+        ui.voiceRateSpinBox->setEnabled(true);
+        ui.voiceVolumeSpinBox->setEnabled(true);
+        ui.voiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
+        ui.voiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
+        ui.ttsVoiceComboBox->clear();
+        QVector<QVoice> Voices = ttSpeech->availableVoices();
+        foreach (const QVoice &voice, Voices)
+        {
+            ui.ttsVoiceComboBox->addItem(voice.name());
+        }
+        ui.ttsVoiceComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_VOICE).toInt());
+        ui.notifTimestampSpinBox->setEnabled(false);
+    }
+#if defined(Q_OS_LINUX)
+    else if(ui.ttsengineComboBox->currentIndex() == 2)
+    {
+        ui.ttsVoiceComboBox->setEnabled(false);
+        ui.voiceRateSpinBox->setEnabled(false);
+        ui.voiceVolumeSpinBox->setEnabled(false);
+        ui.notifTimestampSpinBox->setEnabled(true);
+        ui.notifTimestampSpinBox->setValue(ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt());
+    }
+#endif
+    else
+    {
+        ui.ttsVoiceComboBox->setEnabled(false);
+        ui.voiceRateSpinBox->setEnabled(false);
+        ui.voiceVolumeSpinBox->setEnabled(false);
+        ui.notifTimestampSpinBox->setEnabled(false);
+    }
+}
+
 void PreferencesDlg::slotShortcutVoiceActivation(bool checked)
 {
     if(checked)
@@ -1676,4 +1762,30 @@ void PreferencesDlg::slotDefaultVideoSettings()
     case NO_CODEC :
         break;
     }
+}
+
+void PreferencesDlg::slotTTSEventToggled(const QModelIndex &index)
+{
+    auto events = m_ttsmodel->getTTSEvents();
+    TextToSpeechEvent e = TextToSpeechEvent(index.internalId());
+    if (e & events)
+        m_ttsmodel->setTTSEvents(events & ~e);
+    else
+        m_ttsmodel->setTTSEvents(events | e);
+}
+
+void PreferencesDlg::slotTTSEnableAll(bool /*checked*/)
+{
+    m_ttsmodel->setTTSEvents(~TTS_NONE);
+}
+
+void PreferencesDlg::slotTTSClearAll(bool /*checked*/)
+{
+    m_ttsmodel->setTTSEvents(TTS_NONE);
+}
+
+void PreferencesDlg::slotTTSRevert(bool /*checked*/)
+{
+    TTSEvents events = ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toUInt();
+    m_ttsmodel->setTTSEvents(events);
 }

@@ -8,21 +8,9 @@ if (MSVC)
   option (BUILD_TEAMTALK_CLIENT_MFC_EXAMPLE "Build TeamTalk 5 Classic for TeamTalk 5 Standard Edition" ON)
   option (BUILD_TEAMTALKPRO_CLIENT_MFC_EXAMPLE "Build TeamTalk 5 Classic Pro for TeamTalk 5 Professional Edition" ON)
 
-  option (ENABLE_TOLK "Build TeamTalk 5 Classic with Tolk" ON)
-  
   set(CMAKE_MFC_FLAG 1)
 
-  include_directories (./ ../../Library/TeamTalk_DLL tinyxml tolk/src)
-
-  add_definitions (-DUNICODE -D_CRT_SECURE_NO_WARNINGS -D_WINSOCK_DEPRECATED_NO_WARNINGS -D_UNICODE -wd4800)
-
-  link_directories (../../Library/TeamTalk_DLL tolk/bin/$(PlatformName))
-
-  if (ENABLE_TOLK)
-    include_directories (tolk/src)
-    add_definitions (-DENABLE_TOLK)
-    link_directories (tolk/bin/$(PlatformName))
-  endif()
+  link_directories (../../Library/TeamTalk_DLL)
 
   foreach (flag_var
       CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
@@ -68,20 +56,48 @@ if (MSVC)
     endif()
   endif()
 
+  set (TTCLASSIC_COMPILE_FLAGS -DUNICODE -D_CRT_SECURE_NO_WARNINGS -D_WINSOCK_DEPRECATED_NO_WARNINGS -D_UNICODE -wd4800)
+
+  # Try locating Tolk screen-reader abstraction layer
+  if (${CMAKE_GENERATOR_PLATFORM} MATCHES "x64")
+    find_library (TOLK_LIBRARY NAMES Tolk PATHS tolk/bin/x64)
+    message ("Looking for Tolk in tolk/bin/x64")
+  else()
+    find_library (TOLK_LIBRARY NAMES Tolk PATHS tolk/bin/win32)
+    message ("Looking for Tolk in tolk/bin/win32")
+  endif()
+
+  if (NOT TOLK_LIBRARY)
+    message ("Cannot find Tolk shared library in tolk/bin/$(PlatformName). Building without Tolk.")
+  else()
+    message("Tolk lib: ${TOLK_LIBRARY}")
+  endif()
+
   if (BUILD_TEAMTALK_CLIENT_MFC_EXAMPLE)
-    target_link_libraries (TeamTalk5Classic TeamTalk5)
     set_property(TARGET TeamTalk5Classic PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL")
-    if (ENABLE_TOLK)
-      target_link_libraries (TeamTalk5Classic Tolk)
+
+    if (NOT TOLK_LIBRARY)
+      target_include_directories (TeamTalk5Classic PUBLIC ./ ../../Library/TeamTalk_DLL tinyxml)
+      target_compile_options (TeamTalk5Classic PUBLIC ${TTCLASSIC_COMPILE_FLAGS})
+      target_link_libraries (TeamTalk5Classic TeamTalk5)
+    else()
+      target_include_directories (TeamTalk5Classic PUBLIC ./ ../../Library/TeamTalk_DLL tinyxml tolk/src)
+      target_compile_options (TeamTalk5Classic PUBLIC -DENABLE_TOLK ${TTCLASSIC_COMPILE_FLAGS})
+      target_link_libraries (TeamTalk5Classic TeamTalk5 ${TOLK_LIBRARY})
     endif()
   endif()
 
   if (BUILD_TEAMTALKPRO_CLIENT_MFC_EXAMPLE)
-    target_link_libraries (TeamTalk5ClassicPro TeamTalk5Pro)
     set_property(TARGET TeamTalk5ClassicPro PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL")
-    if (ENABLE_TOLK)
-      target_link_libraries (TeamTalk5ClassicPro Tolk)
+
+    if (NOT TOLK_LIBRARY)
+      target_include_directories (TeamTalk5ClassicPro PUBLIC ./ ../../Library/TeamTalk_DLL tinyxml)
+      target_compile_options (TeamTalk5ClassicPro PUBLIC -DENABLE_TEAMTALKPRO ${TTCLASSIC_COMPILE_FLAGS})
+      target_link_libraries (TeamTalk5ClassicPro TeamTalk5Pro)
+    else()
+      target_include_directories (TeamTalk5ClassicPro PUBLIC ./ ../../Library/TeamTalk_DLL tinyxml tolk/src)
+      target_compile_options (TeamTalk5ClassicPro PUBLIC -DENABLE_TEAMTALKPRO -DENABLE_TOLK ${TTCLASSIC_COMPILE_FLAGS})
+      target_link_libraries (TeamTalk5ClassicPro TeamTalk5Pro ${TOLK_LIBRARY})
     endif()
-    target_compile_options (TeamTalk5ClassicPro PUBLIC -DENABLE_TEAMTALKPRO)
   endif()
 endif()
