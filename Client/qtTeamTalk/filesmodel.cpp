@@ -37,22 +37,26 @@ QVariant FilesModel::headerData ( int section, Qt::Orientation orientation, int 
     {
     case Qt::DisplayRole :
         if(orientation == Qt::Horizontal)
-            switch(section)
         {
+            switch(section)
+            {
             case COLUMN_INDEX_NAME: return tr("Name");
             case COLUMN_INDEX_SIZE: return tr("Size");
             case COLUMN_INDEX_OWNER: return tr("Owner");
+            }
         }
         break;
     case Qt::TextAlignmentRole :
         if(orientation == Qt::Horizontal)
-            switch(section)
         {
+            switch(section)
+            {
             case COLUMN_INDEX_NAME:
             case COLUMN_INDEX_OWNER:
                 return Qt::AlignLeft;
             default:
                 return Qt::AlignRight;
+            }
         }
     }
     return QVariant();

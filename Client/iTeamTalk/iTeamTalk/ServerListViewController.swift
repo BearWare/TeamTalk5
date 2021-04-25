@@ -350,7 +350,8 @@ class ServerListViewController : UITableViewController,
                 let username_regex = try NSRegularExpression(pattern: username, options: .caseInsensitive)
                 let username_matches = username_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = username_matches.first {
-                    currentServer.username = ns_str.substring(with: m.range(at: 1))
+                    let urlusername = ns_str.substring(with: m.range(at: 1))
+                    currentServer.username = urlusername.removingPercentEncoding!
                 }
                 
                 // password
@@ -358,7 +359,8 @@ class ServerListViewController : UITableViewController,
                 let password_regex = try NSRegularExpression(pattern: password, options: .caseInsensitive)
                 let password_matches = password_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = password_matches.first {
-                    currentServer.password = ns_str.substring(with: m.range(at: 1))
+                    let urlpasswd = ns_str.substring(with: m.range(at: 1))
+                    currentServer.password = urlpasswd.removingPercentEncoding!
                 }
                 
                 // channel
@@ -366,7 +368,8 @@ class ServerListViewController : UITableViewController,
                 let channel_regex = try NSRegularExpression(pattern: channel, options: .caseInsensitive)
                 let channel_matches = channel_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = channel_matches.first {
-                    currentServer.channel = ns_str.substring(with: m.range(at: 1))
+                    let urlchannel = ns_str.substring(with: m.range(at: 1))
+                    currentServer.channel = urlchannel.removingPercentEncoding!
                 }
                 
                 // channel password
@@ -374,7 +377,8 @@ class ServerListViewController : UITableViewController,
                 let chpasswd_regex = try NSRegularExpression(pattern: chpasswd, options: .caseInsensitive)
                 let chpasswd_matches = chpasswd_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = chpasswd_matches.first {
-                    currentServer.chanpasswd = ns_str.substring(with: m.range(at: 1))
+                    let urlchpasswd = ns_str.substring(with: m.range(at: 1))
+                    currentServer.chanpasswd = urlchpasswd.removingPercentEncoding!
                 }
             }
             catch {

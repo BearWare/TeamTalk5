@@ -417,6 +417,7 @@ private:
     void slotClosedServerStatsDlg(int);
     void slotClosedUserAccountsDlg(int);
     void slotClosedBannedUsersDlg(int);
+    void startTTS();
 
 signals:
     /* Begin - CLIENTEVENT_* based events */
