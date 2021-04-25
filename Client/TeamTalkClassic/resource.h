@@ -402,6 +402,8 @@
 #define IDS_USERVIDEOVIDEO              496
 #define IDS_USERVOLUMETITLEWINDOW       497
 #define IDS_VIDEOCAPTUREFAILED          498
+#define IDS_SUBON                       499
+#define IDS_SUBOFF                      500
 #define IDS_MVUE                        501
 #define IDS_USERISVIDEOTX               502
 #define IDS_USERADMIN                   503
