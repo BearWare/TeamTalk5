@@ -49,11 +49,9 @@ win32 {
     # Prevent linking to api-ms-win-core-winrt-l1-1-0.dll (doesn't exist on Windows 7)
     QTPLUGIN.audio=qtaudio_windows
 
-    notolk {
-
-    } else {
+    tolk {
         INCLUDEPATH += tolk/src
-        LIBS += tolk/bin/win32/Tolk.lib
+        LIBS += tolk/bin/\$(PlatformName)/Tolk.lib
         DEFINES += ENABLE_TOLK
     }
 }
