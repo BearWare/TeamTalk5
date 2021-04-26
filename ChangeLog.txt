@@ -11,6 +11,7 @@ Accessible Windows Client
 - Alert when intercepted from another channel
 - Fixed tt:// URL decoding for percent (%) characters
 Default QT Client
+- Text-to-Speech events now configurable in preferences (macOS, Linux and Windows)
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
 - Status event when leaving channel
