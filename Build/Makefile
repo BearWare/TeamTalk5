@@ -152,7 +152,7 @@ depend-ubuntu18:
 depend-debian9:
 	# TeamTalk 5 dependencies
 	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
-                    libqt5texttospeech5-dev doxygen g++ openjdk-8-jdk \
+                    doxygen g++ openjdk-8-jdk \
                     qttools5-dev-tools ninja-build libpcap-dev junit4 cmake
 
 dox: teamtalk-env
