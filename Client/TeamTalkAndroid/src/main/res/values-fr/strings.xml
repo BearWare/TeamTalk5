@@ -357,6 +357,7 @@
     <string name="err_file_write">Impossible d\'écrire le fichier %1$s</string>
     <string name="serverlist_export_confirmation">La liste de serveurs a été exportée dans %1$s</string>
     <string name="action_export_serverlist">Exporter la liste de serveurs</string>
+    <string name="user_state_away">Absent</string>
 
 
 </resources>
