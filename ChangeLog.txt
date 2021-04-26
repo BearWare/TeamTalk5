@@ -6,7 +6,7 @@ Accessible Windows Client
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
 - Status event on channel join is no longer displayed twice
-- Added Ukranian language
+- Added Ukrainian language
 - "On"/"Off" instead of "0"/"1" when subscriptions changes
 - Alert when intercepted from another channel
 - Fixed tt:// URL decoding for percent (%) characters
