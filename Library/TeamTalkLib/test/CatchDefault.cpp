@@ -1131,6 +1131,8 @@ TEST_CASE( "MuxedStreamTypeRecording" )
         REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
     }
     while (msg.mediafileinfo.uElapsedMSec < msg.mediafileinfo.uDurationMSec / 2);
+
+    REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
 }
 
 #if defined(ENABLE_OGG)
