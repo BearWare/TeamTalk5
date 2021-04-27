@@ -10,12 +10,13 @@ Accessible Windows Client
 - "On"/"Off" instead of "0"/"1" when subscriptions changes
 - Alert when intercepted from another channel
 - Fixed tt:// URL decoding for percent (%) characters
+- Change default sound events playback mode to "one by one"
 Default QT Client
 - Text-to-Speech events now configurable in preferences (macOS, Linux and Windows)
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
 - Status event when leaving channel
-- Status event on channel join is no longer double displayed
+- Status event on channel join is no longer displayed twice
 - Improve status event on channel joined
 - "Import .tt file" button on servers list
 - Corrected labels in Media Streaming dialog (CTRL+S dialog)
