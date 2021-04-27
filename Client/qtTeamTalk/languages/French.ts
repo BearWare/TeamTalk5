@@ -1102,7 +1102,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="85"/>
         <source>Override client&apos;s predefined settings</source>
-        <translation>Revenir aux paramètres prédéfinis du client</translation>
+        <translation>Remplacer les paramètres prédéfinis du client</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="94"/>
