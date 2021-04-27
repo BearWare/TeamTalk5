@@ -11,6 +11,7 @@ Accessible Windows Client
 - Alert when intercepted from another channel
 - Fixed tt:// URL decoding for percent (%) characters
 - Change default sound events playback mode to "one by one"
+- Decrease server lost sound volume
 Default QT Client
 - Text-to-Speech events now configurable in preferences (macOS, Linux and Windows)
 - Fixed echo canceller being less effective over long duration
@@ -24,12 +25,15 @@ Default QT Client
 - Confirmation before removing an user account
 - Fixed tt:// URL decoding for percent (%) characters
 - Alert when intercepted from another channel
+- Decrease server lost sound volume
 Android Client
 - Fixed tt:// URLs not loading in running TeamTalk instance
 - Fixed missing "encrypted", "channel" and "chanpasswd" in tt:// URLs
 - Accessibility hint for away status
+- Decrease server lost sound volume
 iOS Client
 - Fixed tt:// URL decoding for percent (%) characters
+- Decrease server lost sound volume
 Server
 -
 
