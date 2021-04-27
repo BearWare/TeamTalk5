@@ -357,6 +357,7 @@
     <string name="channel_prop_title_hiddenchannel">隐藏</string>
     <string name="pref_title_gender">性别</string>
     <string name="pref_summary_gender">选择女性图标</string>
+    <string name="user_state_away">离开</string>
 
 
 </resources>
