@@ -364,6 +364,8 @@
     <item id="496">video</item>
     <item id="497">volume per</item>
     <item id="498">fallito iniziare il test nella periferica selezionata</item>
+    <item id="499">Attivato</item>
+    <item id="500">Disabilitato</item>
     <item id="501">voce per %s attivata</item>
     <item id="502">camera web</item>
     <item id="503">amministratore</item>
