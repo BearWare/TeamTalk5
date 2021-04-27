@@ -101,6 +101,9 @@
                <property name="text">
                 <string>Nickname</string>
                </property>
+               <property name="buddy">
+                <cstring>nicknameEdit</cstring>
+               </property>
               </widget>
              </item>
              <item>
