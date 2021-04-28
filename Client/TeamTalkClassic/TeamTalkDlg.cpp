@@ -5776,6 +5776,8 @@ void CTeamTalkDlg::OnChannelsLeavechannel()
 {
     int nChannelID = m_wndTree.GetSelectedChannel();
     TT_DoLeaveChannel(ttInst);
+    m_host.szChannel.clear();
+    m_host.szChPasswd.clear();
 }
 
 void CTeamTalkDlg::OnUpdateChannelsStreamMediaFileToChannel(CCmdUI *pCmdUI)
