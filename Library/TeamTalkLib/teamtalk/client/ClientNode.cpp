@@ -109,6 +109,7 @@ ClientNode::~ClientNode()
 
         Disconnect();
         StopStreamingMediaFile();
+        StopRecordingMuxedAudioFile();
         CloseVideoCapture();
         m_mediaplayback_streams.clear(); //clear all players before removing sound group
         CloseSoundInputDevice();
@@ -3494,24 +3495,23 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_PLAYING);
         break;
     case MEDIASTREAM_ERROR :
-    {
         AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, media::AudioFrame());
 
         // TIMER_REMOVE_LOCALPLAYBACK will destroy media playback
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_ERROR);
         break;
-    }
     case MEDIASTREAM_PAUSED :
+        // appear as stream finished, otherwise AudioMuxer will be delayed
+        AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, media::AudioFrame());
+
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_PAUSED);
         break;
     case MEDIASTREAM_FINISHED :
-    {
         AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, media::AudioFrame());
 
         // TIMER_REMOVE_LOCALPLAYBACK will destroy media playback
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_FINISHED);
         break;
-    }
     case MEDIASTREAM_NONE :
         assert(status != MEDIASTREAM_NONE);
         break;

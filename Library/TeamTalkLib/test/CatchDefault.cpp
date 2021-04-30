@@ -1056,6 +1056,7 @@ TEST_CASE( "MuxedStreamTypeRecording" )
     do
     {
         REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+        REQUIRE(msg.nSource == session);
     }
     while (msg.mediafileinfo.nStatus != MFS_FINISHED);
 
@@ -1063,7 +1064,8 @@ TEST_CASE( "MuxedStreamTypeRecording" )
     REQUIRE(session > 0);
     do
     {
-        WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg);
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+        REQUIRE(msg.nSource == session);
     }
     while (msg.mediafileinfo.nStatus != MFS_FINISHED);
 
@@ -1071,7 +1073,8 @@ TEST_CASE( "MuxedStreamTypeRecording" )
     REQUIRE(session > 0);
     do
     {
-        WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg);
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+        REQUIRE(msg.nSource == session);
     }
     while (msg.mediafileinfo.nStatus != MFS_FINISHED);
 
@@ -2464,6 +2467,7 @@ TEST_CASE("ReactorDeadlock_BUG")
     INT32 playid;
 
     ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(ttclient));
@@ -2490,6 +2494,65 @@ TEST_CASE("ReactorDeadlock_BUG")
         }
     }
     REQUIRE(TT_Disconnect(ttclient));
+}
+
+TEST_CASE("LocalPlaybackEventOrder")
+{
+    std::vector<MediaFileInfo> mfis;
+    for (int duration : {10, 20, 50, 80, 120})
+    {
+        MediaFileInfo mfi = {};
+        mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+        mfi.audioFmt.nChannels = 2;
+        mfi.audioFmt.nSampleRate = 48000;
+        ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("temp_%d.wav"), duration);
+        mfi.uDurationMSec = duration;
+        REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+        mfis.push_back(mfi);
+    }
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+    mfp.bPaused = FALSE;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    ttinst ttclient(TT_InitTeamTalkPoll());
+    REQUIRE(InitSound(ttclient));
+
+    for (auto mfi : mfis)
+    {
+        TTMessage msg;
+        INT32 playid;
+        bool done = false, gotmsg;
+        int started = 0;
+        int waittime = DEFWAIT;
+
+        playid = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
+        REQUIRE(playid > 0);
+        while ((gotmsg = WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, waittime)))
+        {
+            REQUIRE(msg.nSource == playid);
+            switch (msg.mediafileinfo.nStatus)
+            {
+            case MFS_STARTED :
+                started++;
+                REQUIRE(started == 1);
+                REQUIRE(!done);
+                break;
+            case MFS_FINISHED :
+                REQUIRE(!done);
+                done = true;
+                waittime = mfi.uDurationMSec * 2;
+                break;
+            default :
+                // no event should take place after MFS_FINISHED
+                REQUIRE(!done);
+                break;
+            }
+        }
+        REQUIRE(!gotmsg);
+        REQUIRE(done);
+        REQUIRE(started == 1);
+    }
 }
 
 #if TEAMTALK_KNOWN_BUGS
