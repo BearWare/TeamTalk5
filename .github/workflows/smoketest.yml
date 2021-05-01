@@ -21,12 +21,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Refresh Ubuntu-repo
+      run: sudo apt update
+
     - name: Source environment
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: source env.sh
-
-    - name: Refresh Ubuntu-repo
-      run: sudo apt update
 
     - name: Install Dependencies
       run: >-
