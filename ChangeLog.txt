@@ -31,6 +31,7 @@ Android Client
 - Fixed missing "encrypted", "channel" and "chanpasswd" in tt:// URLs
 - Accessibility hint for away status
 - Decrease server lost sound volume
+- Option to play user logged in/off sound
 iOS Client
 - Fixed tt:// URL decoding for percent (%) characters
 - Decrease server lost sound volume

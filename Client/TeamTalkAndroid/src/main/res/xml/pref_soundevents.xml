@@ -61,5 +61,17 @@
         android:title="@string/pref_title_transmitready_icon"
         android:summary="@string/pref_summary_transmitready_icon"
         />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="userloggedin_icon"
+        android:title="@string/pref_title_userloggedin_icon"
+        android:summary="@string/pref_summary_userloggedin_icon"
+        />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="userloggedoff_icon"
+        android:title="@string/pref_title_userloggedoff_icon"
+        android:summary="@string/pref_summary_userloggedoff_icon"
+        />
 
 </PreferenceScreen>

@@ -203,7 +203,9 @@ implements TeamTalkConnectionListener,
               SOUND_TXREADY = 10,
               SOUND_TXSTOP = 11,
               SOUND_USERJOIN = 12,
-              SOUND_USERLEFT = 13;
+              SOUND_USERLEFT = 13,
+              SOUND_USERLOGGEDIN = 14,
+              SOUND_USERLOGGEDOFF = 15;
     
     SparseIntArray sounds = new SparseIntArray();
 
@@ -473,6 +475,12 @@ implements TeamTalkConnectionListener,
         }
         if (prefs.getBoolean("userleft_icon", true)) {
             sounds.put(SOUND_USERLEFT, audioIcons.load(getApplicationContext(), R.raw.user_left, 1));
+        }
+        if (prefs.getBoolean("userloggedin_icon", true)) {
+            sounds.put(SOUND_USERLOGGEDIN, audioIcons.load(getApplicationContext(), R.raw.logged_on, 1));
+        }
+        if (prefs.getBoolean("userloggedoff_icon", true)) {
+            sounds.put(SOUND_USERLOGGEDOFF, audioIcons.load(getApplicationContext(), R.raw.logged_off, 1));
         }
 
         getTextMessagesAdapter().showLogMessages(prefs.getBoolean("show_log_messages", true));
@@ -1916,6 +1924,8 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onCmdUserLoggedIn(User user) {
+        if (sounds.get(SOUND_USERLOGGEDIN) != 0)
+            audioIcons.play(sounds.get(SOUND_USERLOGGEDIN), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
             ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedin));
@@ -1924,6 +1934,8 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onCmdUserLoggedOut(User user) {
+        if (sounds.get(SOUND_USERLOGGEDOFF) != 0)
+            audioIcons.play(sounds.get(SOUND_USERLOGGEDOFF), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
             ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedout));
