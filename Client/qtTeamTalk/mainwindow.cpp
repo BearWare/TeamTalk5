@@ -2421,7 +2421,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         ui.videochatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
         User user;
-        if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
+        if (ui.channelsWidget->getUser(textmsg.nFromUserID, user) && user.nUserID != TT_GetMyUserID(ttInst))
             addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, QString(tr("Broadcast message from %1: %2").arg(getDisplayName(user)).arg(_Q(textmsg.szMessage))));
         playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
