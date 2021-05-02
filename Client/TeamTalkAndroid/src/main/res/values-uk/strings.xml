@@ -2,7 +2,7 @@
 	<resources>
 		<string name="app_name">TeamTalk</string>
 		<string name="title_activity_server_list">Сервери TeamTalk 5</string>
-		<string name="action_settings">Налаштування</string>
+		<string name="action_settings">Параметри</string>
 		<string name="action_exit">Вихід</string>
 		<string name="title_activity_server_entry">Властивості сервера TeamTalk 5</string>
 		<string name="title_activity_main">TeamTalk 5 для Android</string>
@@ -42,7 +42,7 @@
 		<string name="pref_title_vibrate">Вібрувати при натисканні «Затисніть і говоріть»</string>
 		<string name="pref_show_log_messages">Показувати журнал повідомлень в історії чату</string>
 		<string name="pref_title_audio_icons">Звуки подій</string>
-		<string name="pref_title_rx_tx_audio_icon">Увімкнути/вимкнути передачу голосу</string>
+		<string name="pref_title_rx_tx_audio_icon">Вмикання/вимикання передачі голосу</string>
 		<string name="pref_summary_rx_tx_audio_icon">Відтворювати звук під час натискання кнопки передачі</string>
 		<string name="pref_title_vox_triggered_icon">Активація голосом працює</string>
 		<string name="pref_summary_vox_triggered_icon">Відтворювати звук під час активації голосом</string>
@@ -72,7 +72,7 @@
 		<string name="pref_title_sub_voice">Голос</string>
 		<string name="pref_summary_sub_voice">Сповіщати про трансляції голосу</string>
 		<string name="pref_title_sub_video">Захоплення відео</string>
-		<string name="pref_summary_sub_video">Сповіщати про трансляцію захоплень відео</string>
+		<string name="pref_summary_sub_video">Сповіщати про трансляції захоплення відео</string>
 		<string name="pref_title_sub_desktop">Робочий стіл</string>
 		<string name="pref_summary_sub_desktop">Сповіщати про трансляції робочого столу</string>
 		<string name="pref_title_sub_mediafile">Медіафайл</string>
@@ -248,13 +248,13 @@
 		<string name="incgain">Збільшити підсилення мікрофона</string>
 		<string name="speaker_volume_description">Гучність динаміка становить  %1$s</string>
 		<string name="mic_gain_description">Підсилення мікрофона становить %1$s</string>
-		<string name="voice_activation_on">Активацію голосом увімкнено</string>
-		<string name="voice_activation_off">Активацію голосом вимкнено</string>
+		<string name="voice_activation_on">Увімкнути Активацію голосом</string>
+		<string name="voice_activation_off">Вимкнути активацію голосом</string>
 		<string name="decvoxlevel">Зменшити рівень активації голосом</string>
 		<string name="incvoxlevel">Збільшити рівень активації голосом</string>
 		<string name="vox_level_description">Рівень активації голосом становить %1$s</string>
-		<string name="tx_on">Трансляція</string>
-		<string name="tx_off">Трансляція неактивна</string>
+		<string name="tx_on">Передачу голосу увімкнено</string>
+		<string name="tx_off">Передачу голосу вимкнено</string>
 		<string name="text_samplerate">Частота дискретизації</string>
 		<string name="text_ignore_silence">Ігнорувати тишу (DTX)</string>
 		<string name="text_audchan">Аудіоканали</string>
@@ -329,7 +329,7 @@
 		<string name="pref_title_bearware_summary">Позначте, лише якщо на цьому сервері ввімкнено веб-вхід через BearWare.dk</string>
 		<string name="pref_cat_about">Про програму</string>
 		<string name="pref_title_contrib">Розробники</string>
-		<string name="pref_title_translator">Перекладачі</string>
+		<string name="pref_title_translator">Перекладач</string>
 		<string name="pref_title_libraries">Сторонні бібліотеки</string>
 		<string name="channel_prop_title_hiddenchannel">Приховано</string>
 		<string name="pref_title_gender">Стать</string>
