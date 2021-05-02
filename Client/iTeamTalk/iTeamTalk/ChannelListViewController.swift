@@ -886,6 +886,9 @@ class ChannelListViewController :
             }
             
         case CLIENTEVENT_CMD_USER_LOGGEDIN :
+            
+            playSound(.logged_IN)
+            
             let user = getUser(&m).pointee
             users[user.nUserID] = user
             
@@ -904,6 +907,9 @@ class ChannelListViewController :
             }
             
         case CLIENTEVENT_CMD_USER_LOGGEDOUT :
+            
+            playSound(.logged_OUT)
+            
             let user = getUser(&m).pointee
             users.removeValue(forKey: user.nUserID)
 

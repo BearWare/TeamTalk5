@@ -410,6 +410,12 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "Reproduzir som quando a transmissão sem interrupções estiver pronta no canal";
 
 /* preferences */
+"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+
+/* preferences */
+"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+
+/* preferences */
 "Play sound when voice activation is triggered" = "Reproduzir som quando a ativação por voz for detectada";
 
 /* preferences */
@@ -632,7 +638,13 @@
 "User logged in" = "Usuário conectou";
 
 /* preferences */
+"User Logged In" = "User Logged In";
+
+/* preferences */
 "User logged out" = "Usuário desconectou";
+
+/* preferences */
+"User Logged Out" = "User Logged Out";
 
 /* preferences
    user detail */

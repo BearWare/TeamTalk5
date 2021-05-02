@@ -410,6 +410,12 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "\"끊김 없는 말하기 채널\"에서 말하기 전송이 준비되면 소리로 알림";
 
 /* preferences */
+"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+
+/* preferences */
+"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+
+/* preferences */
 "Play sound when voice activation is triggered" = "말하기가 감지되면 소리로 알림";
 
 /* preferences */
@@ -632,7 +638,13 @@
 "User logged in" = "사용자가 로그인함";
 
 /* preferences */
+"User Logged In" = "User Logged In";
+
+/* preferences */
 "User logged out" = "사용자가 로그아웃함";
+
+/* preferences */
+"User Logged Out" = "User Logged Out";
 
 /* preferences
    user detail */

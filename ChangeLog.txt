@@ -36,6 +36,7 @@ Android Client
 iOS Client
 - Fixed tt:// URL decoding for percent (%) characters
 - Decrease server lost sound volume
+- Sound events for logged in/out
 Server
 -
 

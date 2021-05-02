@@ -410,6 +410,12 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "在无中断频道传输准备就绪时播放声音";
 
 /* preferences */
+"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+
+/* preferences */
+"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+
+/* preferences */
 "Play sound when voice activation is triggered" = "触发语音激活时播放声音";
 
 /* preferences */
@@ -632,7 +638,13 @@
 "User logged in" = "用户登录";
 
 /* preferences */
+"User Logged In" = "User Logged In";
+
+/* preferences */
 "User logged out" = "用户退出";
+
+/* preferences */
+"User Logged Out" = "User Logged Out";
 
 /* preferences
    user detail */

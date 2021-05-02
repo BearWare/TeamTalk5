@@ -164,7 +164,9 @@ enum Sounds : Int {
          voxtriggered_ON = 9,
          voxtriggered_OFF = 10,
          transmit_ON = 11,
-         transmit_OFF = 12
+         transmit_OFF = 12,
+         logged_IN = 13,
+         logged_OUT = 14
 }
 
 var player : AVAudioPlayer?
@@ -233,6 +235,16 @@ func getSoundFile(_ s: Sounds) -> String? {
         if settings.object(forKey: PREF_SNDEVENT_TRANSMITREADY) == nil ||
             settings.bool(forKey: PREF_SNDEVENT_TRANSMITREADY) {
             return "txqueue_stop"
+        }
+    case .logged_IN :
+        if settings.object(forKey: PREF_SNDEVENT_LOGGEDIN) != nil &&
+            settings.bool(forKey: PREF_SNDEVENT_LOGGEDIN) {
+            return "logged_on"
+        }
+    case .logged_OUT :
+        if settings.object(forKey: PREF_SNDEVENT_LOGGEDOUT) != nil &&
+            settings.bool(forKey: PREF_SNDEVENT_LOGGEDOUT) {
+            return "logged_off"
         }
     }
 

@@ -65,6 +65,20 @@ class SoundEventsViewController : UITableViewController {
         bcastmsgswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
         soundeventChanged(bcastmsgswitch)
         soundevents_items.append(bcastmsgcell)
+        
+        let loggedincell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let loggedinswitch = newTableCellSwitch(loggedincell, label: NSLocalizedString("User Logged In", comment: "preferences"), initial: getSoundFile(.logged_IN) != nil, tag: Sounds.logged_IN.rawValue)
+        loggedincell.detailTextLabel!.text = NSLocalizedString("Play sound when user logs on to the server", comment: "preferences")
+        loggedinswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
+        soundeventChanged(loggedinswitch)
+        soundevents_items.append(loggedincell)
+
+        let loggedoutcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let loggedoutswitch = newTableCellSwitch(loggedoutcell, label: NSLocalizedString("User Logged Out", comment: "preferences"), initial: getSoundFile(.logged_OUT) != nil, tag: Sounds.logged_OUT.rawValue)
+        loggedoutcell.detailTextLabel!.text = NSLocalizedString("Play sound when user logs off to the server", comment: "preferences")
+        loggedoutswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
+        soundeventChanged(loggedoutswitch)
+        soundevents_items.append(loggedoutcell)
 
         let joinedchancell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let joinedchanswitch = newTableCellSwitch(joinedchancell, label: NSLocalizedString("User Joins Channel", comment: "preferences"), initial: getSoundFile(.joined_CHAN) != nil, tag: Sounds.joined_CHAN.rawValue)
@@ -128,7 +142,6 @@ class SoundEventsViewController : UITableViewController {
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_BCASTMSG)
         case Sounds.joined_CHAN :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_JOINEDCHAN)
-            
         case Sounds.left_CHAN :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_LEFTCHAN)
         case Sounds.user_MSG :
@@ -137,6 +150,10 @@ class SoundEventsViewController : UITableViewController {
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_VOXTRIGGER)
         case Sounds.transmit_ON :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_TRANSMITREADY)
+        case Sounds.logged_IN :
+            defaults.set(sender.isOn, forKey: PREF_SNDEVENT_LOGGEDIN)
+        case Sounds.logged_OUT :
+            defaults.set(sender.isOn, forKey: PREF_SNDEVENT_LOGGEDOUT)
         default :
             break
         }
