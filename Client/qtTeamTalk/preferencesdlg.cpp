@@ -37,6 +37,8 @@
 #include <QFileDialog>
 #include <QDir>
 #include <QTranslator>
+#include <QVariant>
+#include "stdint.h"
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
@@ -568,7 +570,7 @@ void PreferencesDlg::slotTabChange(int index)
         break;
     case TTSEVENTS_TAB :
     {
-        TTSEvents events = ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toUInt();
+        TTSEvents events = ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong();
         m_ttsmodel->setTTSEvents(events);
         ui.ttsengineComboBox->addItem(tr("None"), TTSENGINE_NONE);
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
@@ -1786,6 +1788,6 @@ void PreferencesDlg::slotTTSClearAll(bool /*checked*/)
 
 void PreferencesDlg::slotTTSRevert(bool /*checked*/)
 {
-    TTSEvents events = ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toUInt();
+    TTSEvents events = ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong();
     m_ttsmodel->setTTSEvents(events);
 }
