@@ -45,12 +45,6 @@
 #include <string>
 #include <vector>
 
-#define DEFAULT_ENCRYPTED_TCPPORT 10443
-#define DEFAULT_ENCRYPTED_UDPPORT 10443
-
-#define DEFAULT_TCPPORT 10333
-#define DEFAULT_UDPPORT 10333
-
 #define SERVER_USERID 0
 
 #define SERVER_KEEPALIVE_DELAY 1  //keep alive delay (secs). Checks

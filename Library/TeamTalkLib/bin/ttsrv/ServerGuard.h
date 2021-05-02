@@ -93,7 +93,7 @@ namespace teamtalk {
         ErrorMsg ChangeStatus(const ServerUser& user, int mode, const ACE_TString& status);
 
     private:
-#if defined(ENABLE_HTTP_AUTH)
+#if defined(ENABLE_TEAMTALKPRO)
         void WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount);
         ErrorMsg WebLoginPostAuthenticate(UserAccount& useraccount);
         void WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid, const UserAccount& useraccount, const ErrorMsg& err);
@@ -101,23 +101,5 @@ namespace teamtalk {
 #endif
         teamtalk::ServerXML& m_settings;
     };
-
-    bool LoadConfig(ServerXML& xmlSettings, const ACE_TString& cfgfile);
-
-    bool ReadServerProperties(ServerXML& xmlSettings, ServerSettings& properties,
-                              statchannels_t& channels);
-
-#if defined(ENABLE_TEAMTALKPRO)
-    bool SetupEncryption(ServerNode& servernode, ServerXML& xmlSettings);
-#endif
-
-    bool ConfigureServer(ServerNode& servernode, const ServerSettings& properties,
-                         const statchannels_t& channels);
-
-    void ConvertChannels(const serverchannel_t& root, teamtalk::statchannels_t& channels, bool onlystatic = false);
-
-    void MakeStaticChannels(ServerNode& servernode, const statchannels_t& channels);
-
-    void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname, std::ofstream& logfile);
 }
 #endif

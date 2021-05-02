@@ -361,7 +361,9 @@ endif()
 if (CATCH_UNITTEST)
 
   add_executable (catchtt ${CATCH_UNITTEST_SOURCES} ${TTCLIENTPRODLL_SOURCES} ${TTCLIENTPRODLL_HEADERS}
+      ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerConfig.cpp ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerConfig.h
       ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerGuard.cpp ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerGuard.h
+      ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerUtil.cpp ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerUtil.h
       ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerXML.cpp ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerXML.h
       ${TEAMTALKLIB_ROOT}/bin/ttsrv/AppInfo.h ${TEAMTALKLIB_ROOT}/settings/Settings.cpp
       ${TEAMTALKLIB_ROOT}/settings/Settings.h)

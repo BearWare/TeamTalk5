@@ -42,9 +42,11 @@
 #define MAX_USERS_IN_CHANNEL MAX_USERS
 #define MAX_CHANNELS TT_MAX_ID
 
-#define WEBLOGIN_BEARWARE_USERNAME  "bearware"
-#define WEBLOGIN_BEARWARE_POSTFIX   "@bearware.dk"
-#define WEBLOGIN_URL                "https://login.bearware.dk/teamtalk/weblogin.php?"
+#define DEFAULT_ENCRYPTED_TCPPORT 10443
+#define DEFAULT_ENCRYPTED_UDPPORT 10443
+
+#define DEFAULT_TCPPORT 10333
+#define DEFAULT_UDPPORT 10333
 
 // sanity check
 #if defined(ENABLE_TEAMTALKPRO)

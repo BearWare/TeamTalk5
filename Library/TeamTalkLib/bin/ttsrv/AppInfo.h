@@ -36,6 +36,10 @@
 
 #define TEAMTALK_DESCRIPTION "TeamTalk Professional Conferencing Server"
 
+#define WEBLOGIN_BEARWARE_USERNAME  "bearware"
+#define WEBLOGIN_BEARWARE_POSTFIX   "@bearware.dk"
+#define WEBLOGIN_URL                "https://login.bearware.dk/teamtalk/weblogin.php?"
+
 #else
 
 #define TEAMTALK_SETTINGSFILE "tt5srv.xml"
@@ -60,5 +64,3 @@
 #define TEAMTALK_VERSION_FRIENDLY TEAMTALK_VERSION TEAMTALK_VERSION_POSTFIX
 
 #define TEAMTALK_XML_ROOTNAME "teamtalk"
-
-#define WEBLOGIN_BEARWARE               "bearware"

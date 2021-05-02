@@ -125,14 +125,14 @@ namespace teamtalk {
         int GetTotalTxLimit();
         /***** </bandwidth-limits> *****/
 
-        bool SetDefaultDiskQuota(_INT64 diskquota);
-        _INT64 GetDefaultDiskQuota();
+        bool SetDefaultDiskQuota(int64_t diskquota);
+        int64_t GetDefaultDiskQuota();
                 
         /***** </general> *****/
 
         /***** <logging> *****/
-        bool SetServerLogMaxSize(_INT64 maxsize);
-        _INT64 GetServerLogMaxSize();
+        bool SetServerLogMaxSize(int64_t maxsize);
+        int64_t GetServerLogMaxSize();
         /***** </logging> *****/
 
         /***** <static-channels> ****/
@@ -144,8 +144,8 @@ namespace teamtalk {
         bool SetFilesRoot(const std::string& filesroot);
         std::string GetFilesRoot();
 
-        bool SetMaxDiskUsage(_INT64 diskquota);
-        _INT64 GetMaxDiskUsage();
+        bool SetMaxDiskUsage(int64_t diskquota);
+        int64_t GetMaxDiskUsage();
         /***** </file-storage> *****/
 
         std::vector<std::string> GetAdminIPAccessList();
@@ -167,6 +167,13 @@ namespace teamtalk {
         void ClearUserBans();
         std::vector<BannedUser> GetUserBans();
         /********** </serverbans> ************/
+
+        /******** <bearware-weblogin> *********/
+        void SetBearWareWebLogin(const std::string& username,
+                                 const std::string& token);
+        bool GetBearWareWebLogin(std::string& username,
+                                 std::string& token);
+        /******** </bearware-weblogin> *********/
     private:
         /**** Sections ****/
         TiXmlElement* GetGeneralElement();

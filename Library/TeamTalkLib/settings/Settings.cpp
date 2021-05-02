@@ -252,7 +252,7 @@ namespace teamtalk {
             parent.InsertEndChild(newelement);
     }
 
-    void XMLDocument::PutInteger(TiXmlElement& parent, const string& szName, _INT64 nValue)
+    void XMLDocument::PutInteger(TiXmlElement& parent, const string& szName, int64_t nValue)
     {
         TiXmlElement newelement(szName.c_str());
         string s = i2str(nValue);
@@ -323,7 +323,7 @@ namespace teamtalk {
         return false;
     }
 
-    bool XMLDocument::GetInteger(const TiXmlElement& parent, const string& szName, _INT64& nValue) const
+    bool XMLDocument::GetInteger(const TiXmlElement& parent, const string& szName, int64_t& nValue) const
     {
         const TiXmlElement* item = parent.FirstChildElement(szName.c_str());
 

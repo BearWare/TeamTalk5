@@ -31,13 +31,7 @@
 
 #include <time.h>
 
-
-#if defined(_MSC_VER)
-#define _INT64 __int64
-#else
 #include <stdint.h>
-#define _INT64 int64_t
-#endif
 
 #ifndef UNDEFINED
 #define UNDEFINED -1
@@ -96,12 +90,12 @@ namespace teamtalk {
         void PutBoolean(TiXmlElement& parent, const std::string& szName, bool bValue);
         void PutString(TiXmlElement& parent, const std::string& szName, const std::string& szValue);
         void PutInteger(TiXmlElement& parent, const std::string& szName, int nValue);
-        void PutInteger(TiXmlElement& parent, const std::string& szName, _INT64 nValue);
+        void PutInteger(TiXmlElement& parent, const std::string& szName, int64_t nValue);
 
         bool GetBoolean(const TiXmlElement& parent, const std::string& szName, bool& bValue) const;
         bool GetString(const TiXmlElement& parent, const std::string& szName, std::string& szValue) const;
         bool GetInteger(const TiXmlElement& parent, const std::string& szName, int& nValue) const;
-        bool GetInteger(const TiXmlElement& parent, const std::string& szName, _INT64& nValue) const;
+        bool GetInteger(const TiXmlElement& parent, const std::string& szName, int64_t& nValue) const;
 
         TiXmlElement* AppendElement(TiXmlElement& parent, const TiXmlElement& newElement);
         TiXmlElement* ReplaceElement(TiXmlElement& target, const TiXmlElement& element);

@@ -628,3 +628,29 @@ int HttpRequest(const ACE_CString& url, std::string& doc)
     
     return status.is_ok() ? 1 : 0;
 }
+
+std::string URLEncode(const std::string& utf8)
+{
+    std::ostringstream escaped;
+    escaped.fill('0');
+    escaped << std::hex;
+
+    for (std::string::const_iterator i = utf8.begin(), n = utf8.end(); i != n; ++i)
+    {
+        std::string::value_type c = (*i);
+
+        // Keep alphanumeric and other accepted characters intact
+        if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~')
+        {
+            escaped << c;
+            continue;
+        }
+
+        // Any other characters are percent-encoded
+        escaped << uppercase;
+        escaped << '%' << setw(2) << int((unsigned char) c);
+        escaped << nouppercase;
+    }
+
+    return escaped.str();
+}
