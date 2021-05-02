@@ -4348,14 +4348,20 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
         password = inputDialog.textValue();
         if(!ok)
             return;
-        TT_GetChannelPath(ttInst, chan.nChannelID, chanpath);
-        m_host.channel = _Q(chanpath);
-        m_host.chanpasswd = password;
+        if(TT_GetRootChannelID(ttInst) == chan.nChannelID)
+        {
+            TT_GetChannelPath(ttInst, chan.nChannelID, chanpath);
+            m_host.channel = _Q(chanpath);
+            m_host.chanpasswd = password;
+        }
     }
     m_channel_passwd[chan.nChannelID] = password;
-    TT_GetChannelPath(ttInst, chan.nChannelID, chanpath);
-    m_host.channel = _Q(chanpath);
-    m_host.chanpasswd.clear();
+    if(TT_GetRootChannelID(ttInst) == chan.nChannelID)
+    {
+        TT_GetChannelPath(ttInst, chan.nChannelID, chanpath);
+        m_host.channel = _Q(chanpath);
+        m_host.chanpasswd.clear();
+    }
 
     int cmdid = TT_DoJoinChannelByID(ttInst, chan.nChannelID, _W(password));
     if(cmdid>0)
