@@ -3909,7 +3909,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1817"/>
         <source>&amp;Revert</source>
-        <translation>&amp;Inverser</translation>
+        <translation>&amp;Rétablir</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1829"/>
