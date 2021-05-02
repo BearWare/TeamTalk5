@@ -358,6 +358,10 @@
     <string name="serverlist_export_confirmation">La liste de serveurs a été exportée dans %1$s</string>
     <string name="action_export_serverlist">Exporter la liste de serveurs</string>
     <string name="user_state_away">Absent</string>
+    <string name="pref_title_userloggedin_icon">Utilisateur connecté</string>
+    <string name="pref_summary_userloggedin_icon">Jouer un son lorsqu\'un utilisateur se connecte</string>
+    <string name="pref_title_userloggedoff_icon">Utilisateur déconnecté</string>
+    <string name="pref_summary_userloggedoff_icon">Jouer un son lorsqu\'un utilisateur se déconnecte</string>
 
 
 </resources>
