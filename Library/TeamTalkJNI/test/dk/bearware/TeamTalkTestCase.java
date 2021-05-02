@@ -3990,6 +3990,44 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         joinRoot(client2);
     }
 
+   @Test
+   public void testJoinChannel() {
+        String USERNAME = "tt_test1", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_MODIFY_CHANNELS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        // try joining new sub channel in existing channel (requires USERRIGHT_MODIFY_CHANNELS)
+        TeamTalkBase ttclient = newClientInstance();
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        Channel chan = buildDefaultChannel(ttclient, "SubTest", Codec.OPUS_CODEC);
+        chan.uChannelType |= ChannelType.CHANNEL_PERMANENT;
+        assertTrue("Make sub", waitCmdSuccess(ttclient, ttclient.doMakeChannel(chan), DEF_WAIT));
+        int subchanid = ttclient.getChannelIDFromPath("/" + chan.szName);
+
+        chan = buildDefaultChannel(ttclient, "SubSubTest", Codec.OPUS_CODEC);
+        chan.nParentID = subchanid;
+
+        assertTrue("join new sub with USERRIGHT_MODIFY_CHANNELS", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+        assertTrue("disconnect", ttclient.disconnect());
+
+        // try joining new sub channel in existing channel (requires USERRIGHT_MODIFY_CHANNELS)
+        
+        USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        ttclient = newClientInstance();
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        chan = buildDefaultChannel(ttclient, "SubSubTest", Codec.OPUS_CODEC);
+        chan.nParentID = subchanid;
+
+        assertTrue("join new sub with USERRIGHT_CREATE_TEMPORARY_CHANNEL", waitCmdError(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+   }
 
 
     /* cannot test output levels since a user is muted by sound system after decoding and callback.
