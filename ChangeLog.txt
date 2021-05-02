@@ -39,7 +39,7 @@ iOS Client
 - Decrease server lost sound volume
 - Sound events for logged in/out
 Server
--
+- Using BearWare.dk WebLogin requires initial authentication in Pro-edition
 
 Version 5.7, 2021/03/06
 Accessible Windows Client
