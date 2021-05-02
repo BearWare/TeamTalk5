@@ -50,10 +50,8 @@ import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
-import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.data.Permissions;
 import dk.bearware.data.Preferences;
-import dk.bearware.gui.R;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
@@ -61,7 +59,6 @@ import dk.bearware.events.CommandListener;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.ServerEntry;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -119,44 +116,36 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
     protected void onResume() {
         super.onResume();
 
+        Intent intent = getIntent();
+        Uri uri = intent.getData();
+        if (uri != null) {
+            loadServerFromUri(uri);
+        }
+
         if (mConnection.isBound()) {
             // reset state since we're creating a new connection
             ttservice.resetState();
             ttclient.closeSoundInputDevice();
             ttclient.closeSoundOutputDevice();
             ttservice.registerCommandListener(this);
-        }
 
-        Intent intent = getIntent();
-        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            Uri uri = intent.getData();
-            ServerEntry entry = new ServerEntry();
-            String host = uri.getHost();
-            if (host != "") {
-                entry.servername = host;
-                entry.ipaddr = host;
+            // Connect to server if 'serverentry' is specified.
+            // Connection to server is either started here or in onServiceConnected()
+            if (this.serverentry != null) {
+                ttservice.setServerEntry(this.serverentry);
+
+                if (!ttservice.reconnect())
+                    Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
             }
-            String tcpPort = uri.getQueryParameter("tcpport");
-            if (tcpPort != "") {
-                entry.tcpport = Integer.parseInt(tcpPort);
-            } else {
-                entry.tcpport = Constants.DEFAULT_TCP_PORT;
-            }
-            String udpPort = uri.getQueryParameter("udpport");
-            if (udpPort != "") {
-                entry.udpport = Integer.parseInt(udpPort);
-            } else {
-                entry.udpport = Constants.DEFAULT_UDP_PORT;
-            }
-            String userName = uri.getQueryParameter("username");
-            if (userName != "") {
-                entry.username = userName;
-            }
-            String password = uri.getQueryParameter("password");
-            if (password != "") {
-                entry.password = password;
-            }
-            this.serverentry = entry;
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (intent.getData() != null) {
+            loadServerFromUri(intent.getData());
         }
     }
 
@@ -174,7 +163,6 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
 
         if ((serverentry != null) && serverentry.rememberLastChannel) {
             saveServers();
-            serverentry = null;
         }
 
         Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_INTERNET);
@@ -184,6 +172,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
         // Bind to LocalService if not already
         if (mConnection == null)
             mConnection = new TeamTalkConnection(this);
+
         if (!mConnection.isBound()) {
             Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
             if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
@@ -337,9 +326,9 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
 
     @Override
     public void onItemClick(AdapterView<?> l, View v, int position, long id) {
-        serverentry = servers.get(position);
 
-        ttservice.setServerEntry(serverentry);
+        this.serverentry = servers.get(position);
+        ttservice.setServerEntry(this.serverentry);
 
         if (!ttservice.reconnect())
             Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
@@ -354,6 +343,34 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
         startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position),
             REQUEST_EDITSERVER);
         return true;
+    }
+
+    void loadServerFromUri(Uri uri) {
+        ServerEntry entry = new ServerEntry();
+        String host = uri.getHost();
+        if (host != "") {
+            entry.ipaddr = host;
+        }
+        String tcpport = uri.getQueryParameter("tcpport");
+        entry.tcpport = tcpport != null ? Integer.parseInt(tcpport) : Constants.DEFAULT_TCP_PORT;
+        String udpport = uri.getQueryParameter("udpport");
+        entry.udpport = udpport != null ? Integer.parseInt(udpport) : Constants.DEFAULT_UDP_PORT;
+        String username = uri.getQueryParameter("username");
+        entry.username = username != null ? username : "";
+        String password = uri.getQueryParameter("password");
+        entry.password = password != null ? password : "";
+        String encrypted = uri.getQueryParameter("encrypted");
+        entry.encrypted = encrypted != null ? encrypted.equalsIgnoreCase("true") || encrypted.equals("1") : entry.encrypted;
+        String channel = uri.getQueryParameter("channel");
+        entry.channel = channel != null ? channel : entry.channel;
+        String chpasswd = uri.getQueryParameter("chanpasswd");
+        entry.chanpasswd = chpasswd != null ? chpasswd : entry.chanpasswd;
+
+        entry.servername = host + ":" + entry.tcpport;
+
+        this.serverentry = entry;
+
+        Log.i(TAG, "Connecting to " + entry.servername);
     }
 
     Vector<ServerEntry> servers = new Vector<ServerEntry>();
@@ -624,13 +641,13 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
 
         service.registerCommandListener(this);
 
+        // Connect to server if 'serverentry' is specified.
+        // Connection to server is either started here or in onResume()
         if (serverentry != null) {
             ttservice.setServerEntry(serverentry);
 
             if (!ttservice.reconnect())
                 Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
-
-            this.serverentry = null;
         }
 
         refreshServerList();
@@ -667,6 +684,8 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
         if (serverentry != null) {
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(intent.putExtra(ServerEntry.KEY_SERVERNAME, serverentry.servername));
+
+            serverentry = null;
         }
     }
 

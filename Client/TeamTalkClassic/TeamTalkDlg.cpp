@@ -1477,18 +1477,74 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
     if(m_pOnlineUsersDlg)
         m_pOnlineUsersDlg->AddUser(user);
 
+    CString szName = GetDisplayName(user);
+    CString szText, szFormat;
+    CString szSubOn = LoadText(IDS_SUBON, _T("On"));
+    CString szSubOff = LoadText(IDS_SUBOFF, _T("Off"));
+    
+    if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) !=
+        (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG))
+    {
+        szFormat = LoadText(IDS_SUBINT_TEXTMSG);
+        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) != SUBSCRIBE_NONE?szSubOn:szSubOff);
+        AddStatusText(szText);
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE)
+            AddTextToSpeechMessage(szText);
+    }
+    if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) !=
+        (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG))
+    {
+        szFormat = LoadText(IDS_SUBINT_CHANTEXTMSG);
+        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) != SUBSCRIBE_NONE?szSubOn:szSubOff);
+        AddStatusText(szText);
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL)
+            AddTextToSpeechMessage(szText);
+    }
+    if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) !=
+        (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE))
+    {
+        szFormat = LoadText(IDS_SUBINT_VOICE);
+        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) != SUBSCRIBE_NONE?szSubOn:szSubOff);
+        AddStatusText(szText);
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_INTERCEPT_VOICE)
+            AddTextToSpeechMessage(szText);
+    }
+    if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) !=
+        (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE))
+    {
+        szFormat = LoadText(IDS_SUBINT_VIDEO);
+        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != SUBSCRIBE_NONE?szSubOn:szSubOff);
+        AddStatusText(szText);
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO)
+            AddTextToSpeechMessage(szText);
+    }
+    if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) !=
+        (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP))
+    {
+        szFormat = LoadText(IDS_SUBINT_DESKTOP);
+        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) != SUBSCRIBE_NONE?szSubOn:szSubOff);
+        AddStatusText(szText);
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP)
+            AddTextToSpeechMessage(szText);
+    }
+    if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) !=
+        (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE))
+    {
+        szFormat = LoadText(IDS_SUBINT_MEDIAFILE);
+        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) != SUBSCRIBE_NONE?szSubOn:szSubOff);
+        AddStatusText(szText);
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE)
+            AddTextToSpeechMessage(szText);
+    }
     //if not in same channel, then ignore
     if(user.nChannelID != TT_GetMyChannelID(ttInst) || !user.nChannelID)
         return;
-
-    CString szName = GetDisplayName(user);
-    CString szText, szFormat;
 
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_USER_MSG) !=
         (user.uPeerSubscriptions & SUBSCRIBE_USER_MSG))
     {
         szFormat = LoadText(IDS_SUB_TEXTMSG);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG) != SUBSCRIBE_NONE);
+        szText.Format(szFormat, szName, (int(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG) != SUBSCRIBE_NONE?szSubOn:szSubOff));
         AddStatusText(szText);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE)
             AddTextToSpeechMessage(szText);
@@ -1497,7 +1553,7 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
         (user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG))
     {
         szFormat = LoadText(IDS_SUB_CHANTEXTMSG);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG) != SUBSCRIBE_NONE);
+        szText.Format(szFormat, szName, (int(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG) != SUBSCRIBE_NONE?szSubOn:szSubOff));
         AddStatusText(szText);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL)
             AddTextToSpeechMessage(szText);
@@ -1506,7 +1562,7 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
         (user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG))
     {
         szFormat = LoadText(IDS_SUB_BCASTTEXTMSG);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG) != SUBSCRIBE_NONE);
+        szText.Format(szFormat, szName, (int(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG) != SUBSCRIBE_NONE?szSubOn:szSubOff));
         AddStatusText(szText);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST)
             AddTextToSpeechMessage(szText);
@@ -1515,7 +1571,7 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
         (user.uPeerSubscriptions & SUBSCRIBE_VOICE))
     {
         szFormat = LoadText(IDS_SUB_VOICE);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_VOICE) != SUBSCRIBE_NONE);
+        szText.Format(szFormat, szName, (int(user.uPeerSubscriptions & SUBSCRIBE_VOICE) != SUBSCRIBE_NONE?szSubOn:szSubOff));
         AddStatusText(szText);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_VOICE)
             AddTextToSpeechMessage(szText);
@@ -1524,7 +1580,7 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
         (user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE))
     {
         szFormat = LoadText(IDS_SUB_VIDEO);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE) != SUBSCRIBE_NONE);
+        szText.Format(szFormat, szName, (int(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE) != SUBSCRIBE_NONE?szSubOn:szSubOff));
         AddStatusText(szText);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_VIDEO)
             AddTextToSpeechMessage(szText);
@@ -1533,7 +1589,7 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
         (user.uPeerSubscriptions & SUBSCRIBE_DESKTOP))
     {
         szFormat = LoadText(IDS_SUB_DESKTOP);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP) != SUBSCRIBE_NONE);
+        szText.Format(szFormat, szName, (int(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP) != SUBSCRIBE_NONE?szSubOn:szSubOff));
         AddStatusText(szText);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_DESKTOP)
             AddTextToSpeechMessage(szText);
@@ -1542,7 +1598,7 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
         (user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT))
     {
         szFormat = LoadText(IDS_SUB_DESKTOPINPUT);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT) != SUBSCRIBE_NONE);
+        szText.Format(szFormat, szName, (int(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT) != SUBSCRIBE_NONE?szSubOn:szSubOff));
         AddStatusText(szText);
         if(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT)
         {
@@ -1563,7 +1619,7 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
         (user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE))
     {
         szFormat = LoadText(IDS_SUB_MEDIAFILE);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE) != SUBSCRIBE_NONE);
+        szText.Format(szFormat, szName, (int(user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE) != SUBSCRIBE_NONE?szSubOn:szSubOff));
         AddStatusText(szText);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_MEDIAFILE)
             AddTextToSpeechMessage(szText);
@@ -1585,60 +1641,6 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
             if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_DESKTOPINPUT)
                 AddTextToSpeechMessage(szText);
         }
-    }
-    if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) !=
-        (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG))
-    {
-        szFormat = LoadText(IDS_SUBINT_TEXTMSG);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) != SUBSCRIBE_NONE);
-        AddStatusText(szText);
-        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE)
-            AddTextToSpeechMessage(szText);
-    }
-    if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) !=
-        (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG))
-    {
-        szFormat = LoadText(IDS_SUBINT_CHANTEXTMSG);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) != SUBSCRIBE_NONE);
-        AddStatusText(szText);
-        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL)
-            AddTextToSpeechMessage(szText);
-    }
-    if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) !=
-        (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE))
-    {
-        szFormat = LoadText(IDS_SUBINT_VOICE);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) != SUBSCRIBE_NONE);
-        AddStatusText(szText);
-        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_INTERCEPT_VOICE)
-            AddTextToSpeechMessage(szText);
-    }
-    if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) !=
-        (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE))
-    {
-        szFormat = LoadText(IDS_SUBINT_VIDEO);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != SUBSCRIBE_NONE);
-        AddStatusText(szText);
-        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO)
-            AddTextToSpeechMessage(szText);
-    }
-    if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) !=
-        (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP))
-    {
-        szFormat = LoadText(IDS_SUBINT_DESKTOP);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) != SUBSCRIBE_NONE);
-        AddStatusText(szText);
-        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP)
-            AddTextToSpeechMessage(szText);
-    }
-    if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) !=
-        (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE))
-    {
-        szFormat = LoadText(IDS_SUBINT_MEDIAFILE);
-        szText.Format(szFormat, szName, int(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) != SUBSCRIBE_NONE);
-        AddStatusText(szText);
-        if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE)
-            AddTextToSpeechMessage(szText);
     }
 }
 
@@ -5774,6 +5776,8 @@ void CTeamTalkDlg::OnChannelsLeavechannel()
 {
     int nChannelID = m_wndTree.GetSelectedChannel();
     TT_DoLeaveChannel(ttInst);
+    m_host.szChannel.clear();
+    m_host.szChPasswd.clear();
 }
 
 void CTeamTalkDlg::OnUpdateChannelsStreamMediaFileToChannel(CCmdUI *pCmdUI)

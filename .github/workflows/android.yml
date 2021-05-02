@@ -9,6 +9,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Refresh Ubuntu-repo
+      run: sudo apt update
+
     - name: Init Toolchain submodule
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: git submodule update --init Library/TeamTalkLib/toolchain

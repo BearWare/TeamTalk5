@@ -713,3 +713,15 @@
 
 /* Dialog */
 "You have been kicked from server by %@" = "You have been kicked from server by %@";
+
+/* preferences */
+"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+
+/* preferences */
+"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+
+/* preferences */
+"User Logged In" = "User Logged In";
+
+/* preferences */
+"User Logged Out" = "User Logged Out";

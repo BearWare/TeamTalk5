@@ -14,7 +14,7 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              sendtextedit.h streammediafiledlg.h videotextdlg.h \
              desktopaccessdlg.h appinfo.h settings.h generatettfiledlg.h \
              customvideofmtdlg.h license.h bearwarelogindlg.h \
-             audiopreprocessordlg.h
+             audiopreprocessordlg.h ttseventsmodel.h
 
 SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              channelstree.cpp channeldlg.cpp userinfodlg.cpp \
@@ -29,7 +29,7 @@ SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              userdesktopdlg.cpp desktopsharedlg.cpp sendtextedit.cpp \
              streammediafiledlg.cpp videotextdlg.cpp desktopaccessdlg.cpp \
              generatettfiledlg.cpp customvideofmtdlg.cpp \
-             bearwarelogindlg.cpp audiopreprocessordlg.cpp
+             bearwarelogindlg.cpp audiopreprocessordlg.cpp ttseventsmodel.cpp
 
 FORMS      = mainwindow.ui channel.ui preferences.ui \
              serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui \
@@ -48,15 +48,21 @@ win32 {
     QT += axcontainer
     # Prevent linking to api-ms-win-core-winrt-l1-1-0.dll (doesn't exist on Windows 7)
     QTPLUGIN.audio=qtaudio_windows
+
+    tolk {
+        INCLUDEPATH += tolk/src
+        LIBS += tolk/bin/\$(PlatformName)/Tolk.lib
+        DEFINES += ENABLE_TOLK
+    }
 }
 
 x11 {
     LIBS += -lX11
 }
- 
+
 linux {
     LIBS += -lX11
-     
+
     greaterThan(QT_MAJOR_VERSION, 4): QT += x11extras
 }
 
@@ -80,7 +86,7 @@ QT += xml network
 
 CONFIG += c++11
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia texttospeech
 
 TRANSLATIONS = languages/Bulgarian.ts \
                languages/Chinese_Simplified.ts \
@@ -103,4 +109,3 @@ TRANSLATIONS = languages/Bulgarian.ts \
                languages/Spanish.ts \
                languages/Thai.ts \
                languages/Turkish.ts
-

@@ -410,6 +410,12 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "\"Söz Kesintisi Yok\" kanalı iletime hazır olduğunda ses oynat";
 
 /* preferences */
+"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+
+/* preferences */
+"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+
+/* preferences */
 "Play sound when voice activation is triggered" = "Ses etkinleştirme tetiklendiğinde ses oynat";
 
 /* preferences */
@@ -632,7 +638,13 @@
 "User logged in" = "Kullanıcının oturum açması";
 
 /* preferences */
+"User Logged In" = "User Logged In";
+
+/* preferences */
 "User logged out" = "Kullanıcının oturumu kapatması";
+
+/* preferences */
+"User Logged Out" = "User Logged Out";
 
 /* preferences
    user detail */

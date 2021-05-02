@@ -1138,9 +1138,8 @@ implements TeamTalkConnectionListener,
                 if(user.nUserID == ttservice.getTTInstance().getMyUserID()) {
                     talking = ttservice.isVoiceTransmitting();
                 }
-                
+                String name1 = Utils.getDisplayName(getBaseContext(), user);
                 if(talking) {
-                    String name1 = Utils.getDisplayName(getBaseContext(), user);
                     nickname.setContentDescription(getString(R.string.user_state_now_speaking, name1));
                     if(female) {
                         icon_resource = R.drawable.woman_green;
@@ -1157,6 +1156,9 @@ implements TeamTalkConnectionListener,
                     else {
                         icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
                     }
+                }
+                if(away) {
+                    nickname.setContentDescription(getString(R.string.user_state_away, name1));
                 }
                 usericon.setImageResource(icon_resource);
                 usericon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);

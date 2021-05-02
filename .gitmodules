@@ -10,3 +10,6 @@
 [submodule "Library/TeamTalkLib/test/testdata"]
 	path = Library/TeamTalkLib/test/testdata
 	url = https://github.com/BearWare/testdata
+[submodule "Client/qtTeamTalk/tolk"]
+	path = Client/qtTeamTalk/tolk
+	url = https://github.com/bear101/tolk

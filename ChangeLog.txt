@@ -5,23 +5,38 @@ Version 5.7.1, unreleased
 Accessible Windows Client
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
-- Status event on channel join is no longer double displayed
-- Added Ukranian language
+- Status event on channel join is no longer displayed twice
+- Added Ukrainian language
+- "On"/"Off" instead of "0"/"1" when subscriptions changes
+- Alert when intercepted from another channel
+- Fixed tt:// URL decoding for percent (%) characters
+- Change default sound events playback mode to "one by one"
+- Decrease server lost sound volume
+- Don't join previous joined channel if connection is droped when not in a channel
 Default QT Client
+- Text-to-Speech events now configurable in preferences (macOS, Linux and Windows)
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
 - Status event when leaving channel
-- Status event on channel join is no longer double displayed
+- Status event on channel join is no longer displayed twice
 - Improve status event on channel joined
 - "Import .tt file" button on servers list
-- Add some access keys in CTRL+S dialog
-- Fix some labels in CTRL+S dialog
-- Better accessibility in some dialogs
+- Corrected labels in Media Streaming dialog (CTRL+S dialog)
+- Better accessibility in several dialogs
 - Confirmation before removing an user account
+- Fixed tt:// URL decoding for percent (%) characters
+- Alert when intercepted from another channel
+- Decrease server lost sound volume
+- Join last channel on reconnect after drop
 Android Client
--
+- Fixed tt:// URLs not loading in running TeamTalk instance
+- Fixed missing "encrypted", "channel" and "chanpasswd" in tt:// URLs
+- Accessibility hint for away status
+- Decrease server lost sound volume
 iOS Client
--
+- Fixed tt:// URL decoding for percent (%) characters
+- Decrease server lost sound volume
+- Sound events for logged in/out
 Server
 -
 
@@ -101,7 +116,7 @@ iOS Client
 - Ability to create and join hidden channels
 - New audio files for default sound events
 - Change default stream volume from 100 to 50
-- Support for italian language
+- Support for Italian language
 - Option to specify gender
 - Facebook login no longer supported
 - Alert when kicked

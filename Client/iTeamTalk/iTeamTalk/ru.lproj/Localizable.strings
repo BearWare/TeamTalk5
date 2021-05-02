@@ -404,6 +404,12 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "Воспроизводить звук, когда передача речи доступна в режиме \"Не Перебивать Говорящего\"";
 
 /* preferences */
+"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+
+/* preferences */
+"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+
+/* preferences */
 "Play sound when voice activation is triggered" = "Воспроизводить звук, когда срабатывает голосовая активация";
 
 /* preferences */
@@ -626,7 +632,13 @@
 "User logged in" = "Пользователь вошёл";
 
 /* preferences */
+"User Logged In" = "User Logged In";
+
+/* preferences */
 "User logged out" = "Пользователь вышел";
+
+/* preferences */
+"User Logged Out" = "User Logged Out";
 
 /* preferences
    user detail */

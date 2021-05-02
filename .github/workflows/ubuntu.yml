@@ -16,6 +16,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Refresh Ubuntu-repo
+      run: sudo apt update
+
     - name: Update packages
       # Ensure FFmpeg doesn't detect additional dependencies
       run: |
