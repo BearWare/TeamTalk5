@@ -37,6 +37,8 @@
 #include <QFileDialog>
 #include <QDir>
 #include <QTranslator>
+#include <QVariant>
+#include "stdint.h"
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
