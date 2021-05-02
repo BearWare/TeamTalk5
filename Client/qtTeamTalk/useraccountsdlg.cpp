@@ -256,7 +256,9 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     connect(ui.adminBtn, &QAbstractButton::clicked, this, &UserAccountsDlg::slotUserTypeChanged);
     connect(ui.disableduserBtn, &QAbstractButton::clicked, this, &UserAccountsDlg::slotUserTypeChanged);
     connect(ui.usernameEdit, &QLineEdit::textChanged, this, &UserAccountsDlg::slotUsernameChanged);
-    connect(ui.usersTreeView, &QAbstractItemView::clicked, this, &UserAccountsDlg::slotUserSelected);
+    connect(ui.usersTreeView, &QAbstractItemView::activated, this, &UserAccountsDlg::slotUserSelected);
+    connect(ui.usersTreeView->selectionModel(), &QItemSelectionModel::currentRowChanged,
+            this, &UserAccountsDlg::slotUserSelected);
 
     if(m_uad == UAD_READONLY)
     {
