@@ -2810,17 +2810,21 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
 
     if (!newchan)//user is trying to create a new channel
     {
+        // ensure user is allowed to create channels
         if((user->GetUserRights() & USERRIGHT_CREATE_TEMPORARY_CHANNEL) == 0 &&
            (user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
+        // CHANNEL_PERMANENT and CHANNEL_HIDDEN require USERRIGHT_MODIFY_CHANNELS
         if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0 &&
             (chanprop.chantype & (CHANNEL_PERMANENT | CHANNEL_HIDDEN)))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
-        //ensure users cannot create channels which is not direct subchannel of current
+        // ensure user cannot create channel which is not direct subchannel of current
+        // unless user has USERRIGHT_MODIFY_CHANNELS
         serverchannel_t parent = GetChannel(chanprop.parentid);
-        if(parent != m_rootchannel && user->GetChannel() != parent)
+        if (parent != m_rootchannel && user->GetChannel() != parent &&
+            (user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
      
         ErrorMsg err = MakeChannel(chanprop, user.get());
