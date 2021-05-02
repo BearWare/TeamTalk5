@@ -40,6 +40,7 @@ iOS Client
 - Sound events for logged in/out
 Server
 - Using BearWare.dk WebLogin requires initial authentication in Pro-edition
+- New sub-channels can be joined initially with user-right "Create/modify all channels"
 
 Version 5.7, 2021/03/06
 Accessible Windows Client
