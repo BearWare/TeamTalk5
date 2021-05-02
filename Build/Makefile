@@ -22,7 +22,7 @@ genlib:
 	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) -G Ninja ../../
 
 buildlib: genlib
-	cmake --build $(BUILDDIR)
+	cmake --build $(BUILDDIR) $(CMAKE_BUILD_EXTRA)
 
 android-build:
 	@echo "Testing if NDK environment variable is set: $(NDK)"
