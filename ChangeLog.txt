@@ -12,6 +12,7 @@ Accessible Windows Client
 - Fixed tt:// URL decoding for percent (%) characters
 - Change default sound events playback mode to "one by one"
 - Decrease server lost sound volume
+- Don't join previous joined channel if connection is droped when not in a channel
 Default QT Client
 - Text-to-Speech events now configurable in preferences (macOS, Linux and Windows)
 - Fixed echo canceller being less effective over long duration
