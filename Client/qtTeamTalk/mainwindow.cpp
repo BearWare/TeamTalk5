@@ -4361,8 +4361,6 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
     if(cmdid>0)
     {
         m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
-        m_last_channel = chan;
-        COPY_TTSTR(m_last_channel.szPassword, password);
     }
     else
         QMessageBox::critical(this, MENUTEXT(ui.actionJoinChannel->text()),
