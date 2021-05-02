@@ -4327,6 +4327,7 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
         int cmdid = TT_DoLeaveChannel(ttInst);
         m_host.channel.clear();
         m_host.chanpasswd.clear();
+        m_last_channel={};
         m_commands.insert(cmdid, CMD_COMPLETE_LEAVECHANNEL);
         return;
     }
