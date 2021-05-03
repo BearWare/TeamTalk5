@@ -350,5 +350,10 @@
     <string name="channel_prop_title_hiddenchannel">Скрытый</string>
     <string name="pref_title_gender">Пол</string>
     <string name="pref_summary_gender">Отображать как женский</string>
+    <string name="user_state_away">Отсутствует</string>
+    <string name="pref_title_userloggedin_icon">Вход пользователя</string>
+    <string name="pref_summary_userloggedin_icon">Звуковое оповещение о входе пользователя</string>
+    <string name="pref_title_userloggedoff_icon">Выход пользователя</string>
+    <string name="pref_summary_userloggedoff_icon">Звуковое оповещение о выходе пользователя</string>
 
 </resources>
