@@ -63,7 +63,7 @@
 "Announce user logged onto server" = "播报登录服务器的用户";
 
 /* preferences */
-"Announce user logged out of server" = "播报退出服务器的用户";
+"Announce user logged out of server" = "播报登出服务器的用户";
 
 /* text to speech */
 "Announcements" = "通知";
@@ -236,7 +236,7 @@
 "has logged on" = "已登录";
 
 /* TTS EVENT */
-"has logged out" = "已退出";
+"has logged out" = "已登出";
 
 /* preferences */
 "Headset TX Toggle" = "耳机传输切换";
@@ -410,10 +410,10 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "在无中断频道传输准备就绪时播放声音";
 
 /* preferences */
-"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+"Play sound when user logs off to the server" = "用户登出服务器时播放声音";
 
 /* preferences */
-"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+"Play sound when user logs on to the server" = "用户登录服务器时播放声音";
 
 /* preferences */
 "Play sound when voice activation is triggered" = "触发语音激活时播放声音";
@@ -638,13 +638,13 @@
 "User logged in" = "用户登录";
 
 /* preferences */
-"User Logged In" = "User Logged In";
+"User Logged In" = "用户登录";
 
 /* preferences */
-"User logged out" = "用户退出";
+"User logged out" = "用户登出";
 
 /* preferences */
-"User Logged Out" = "User Logged Out";
+"User Logged Out" = "用户登出";
 
 /* preferences
    user detail */

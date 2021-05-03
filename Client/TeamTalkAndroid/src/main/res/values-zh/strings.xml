@@ -83,8 +83,8 @@
     <string name="pref_summary_speech_engine">选择一个已安装的语音引擎，与系统设置不同</string>
     <string name="pref_title_server_login">用户登录服务器</string>
     <string name="pref_summary_server_login">播报登录用户的名字</string>
-    <string name="pref_title_server_logout">用户退出服务器</string>
-    <string name="pref_summary_server_logout">播报退出用户的名字</string>
+    <string name="pref_title_server_logout">用户登出服务器</string>
+    <string name="pref_summary_server_logout">播报登出用户的名字</string>
     <string name="pref_title_channel_join">用户加入频道</string>
     <string name="pref_summary_channel_join">播报加入频道用户的名字</string>
     <string name="pref_title_channel_leave">用户离开频道</string>
@@ -114,7 +114,7 @@
     <string name="pref_summary_public_servers">在服务器列表中包含公共服务器</string>
 
     <string name="text_tts_loggedin">已登录</string>
-    <string name="text_tts_loggedout">已退出</string>
+    <string name="text_tts_loggedout">已登出</string>
     <string name="text_tts_joined_chan">加入频道</string>
     <string name="text_tts_left_chan">离开频道</string>
     <string name="text_tts_private_message">私人消息 %1$s. %2$s</string>
@@ -358,6 +358,10 @@
     <string name="pref_title_gender">性别</string>
     <string name="pref_summary_gender">选择女性图标</string>
     <string name="user_state_away">离开</string>
+    <string name="pref_title_userloggedin_icon">用户登录</string>
+    <string name="pref_summary_userloggedin_icon">用户登录时播放声音</string>
+    <string name="pref_title_userloggedoff_icon">用户登出</string>
+    <string name="pref_summary_userloggedoff_icon">用户登出时播放声音</string>
 
 
 </resources>
