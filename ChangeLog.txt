@@ -27,7 +27,6 @@ Default QT Client
 - Fixed tt:// URL decoding for percent (%) characters
 - Alert when intercepted from another channel
 - Decrease server lost sound volume
-- Join last channel on reconnect after drop
 Android Client
 - Fixed tt:// URLs not loading in running TeamTalk instance
 - Fixed missing "encrypted", "channel" and "chanpasswd" in tt:// URLs
