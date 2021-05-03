@@ -180,7 +180,7 @@
 #define SETTINGS_VIDCAP_ENABLE_DEFAULT              false
 
 #define SETTINGS_TTS_ACTIVEEVENTS                   "texttospeech/active-events"
-#define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTSEvents(TTS_NONE)
+#define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTSEvents(TTS_USER_LOGGEDIN | TTS_USER_LOGGEDOUT | TTS_USER_JOINED_SAME | TTS_USER_LEFT_SAME | TTS_USER_TEXTMSG_PRIVATE | TTS_USER_TEXTMSG_CHANNEL | TTS_USER_TEXTMSG_BROADCAST | TTS_FILE_ADD | TTS_FILE_REMOVE | TTS_MENU_ACTIONS)
 #define SETTINGS_TTS_ENGINE                         "texttospeech/tts-engine"
 #define SETTINGS_TTS_ENGINE_DEFAULT                 TTSENGINE_NONE
 #define SETTINGS_TTS_VOICE                         "texttospeech/tts-voice"
