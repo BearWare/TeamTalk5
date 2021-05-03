@@ -334,4 +334,10 @@
 		<string name="channel_prop_title_hiddenchannel">Приховано</string>
 		<string name="pref_title_gender">Стать</string>
 		<string name="pref_summary_gender">Відображати іконку жіночої статі</string>
+		<string name="user_state_away">Відсутній</string>
+		<string name="pref_title_userloggedin_icon">Користувач увійшов</string>
+		<string name="pref_summary_userloggedin_icon">Відтворювати звук, коли користувач увійшов</string>
+		<string name="pref_title_userloggedoff_icon">Користувач вийшов</string>
+		<string name="pref_summary_userloggedoff_icon">Відтворювати звук, коли користувач вийшов</string>
+
 	</resources>
