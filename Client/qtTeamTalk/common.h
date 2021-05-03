@@ -262,7 +262,7 @@ enum SoundEvent
     SOUNDEVENT_MUTEALLOFF,
 };
 
-enum TextToSpeechEvent: quint64
+enum TextToSpeechEvent : qulonglong
 {
     TTS_NONE                                        = 0x0000000000000000,
     TTS_USER_LOGGEDIN                               = 0x0000000000000001,
@@ -306,7 +306,7 @@ enum TextToSpeechEvent: quint64
     TTS_MENU_ACTIONS                                = 0x0000000200000000,
 };
 
-typedef quint64 TTSEvents;
+typedef qulonglong TTSEvents;
 
 enum TextToSpeechEngine
 {
