@@ -684,8 +684,10 @@ class ChannelListViewController :
         sender.userid = userid
         sender.delegate = self
         addToTTMessages(sender)
-        if (self.textmessages[userid] != nil) {
-            sender.messages = self.textmessages[userid]!
+        if let msgs = self.textmessages[userid] {
+            for m in msgs {
+                sender.appendEventMessage(m)
+            }
         }
     }
     
@@ -1033,8 +1035,8 @@ class ChannelListViewController :
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "Text Message") as! TextMessageViewController
                     openTextMessages(vc, userid: txtmsg.nFromUserID)
                     self.navigationController?.pushViewController(vc, animated: true)
-                    if vc.messages.count > 0 {
-                        speakTextMessage(txtmsg.nMsgType, mymsg: vc.messages.last!)
+                    if let m = vc.getLastEventMessage() {
+                        speakTextMessage(txtmsg.nMsgType, mymsg: m)
                     }
                 }
             }

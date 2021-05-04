@@ -38,7 +38,8 @@ class TextMessageViewController :
 
     let initial_text = NSLocalizedString("Type text here", comment: "text message")
 
-    var messages : [MyTextMessage] = []
+    var messages = [Int : [MyTextMessage] ]()
+    var curMessageSection = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +68,36 @@ class TextMessageViewController :
 
     func showLogMessages() -> Bool {
         return userid == 0
+    }
+    
+    func appendEventMessage(_ m : MyTextMessage) {
+        if messages[curMessageSection] == nil ||
+            messages[curMessageSection]?.last?.fromuserid != m.fromuserid ||
+            messages[curMessageSection]?.last?.nickname != m.nickname  ||
+            messages[curMessageSection]?.last?.msgtype != m.msgtype {
+            curMessageSection += 1
+            messages[curMessageSection] = [ MyTextMessage ] ()
+        }
+        messages[curMessageSection]!.append(m)
+
+        if messages.values.count > MAX_TEXTMESSAGES {
+            
+            let key = messages.keys.sorted().first
+            messages[key!]!.removeFirst()
+            if messages[key!]!.isEmpty {
+                messages.removeValue(forKey: key!)
+            }
+        }
+    }
+    
+    func getEventMessage(_ indexPath : IndexPath) -> MyTextMessage {
+        let sortedKeys = messages.keys.sorted(by: <)
+        let key = sortedKeys[indexPath.section]
+        return messages[key]![indexPath.row]
+    }
+    
+    func getLastEventMessage() -> MyTextMessage? {
+        return messages[curMessageSection]?.last
     }
     
     func dismissKeyboard() {
@@ -169,8 +200,8 @@ class TextMessageViewController :
             TT_GetUser(ttInst, msg.nFromUserID, &user)
             let name = getDisplayName(user)
             let mymsg = MyTextMessage(m: msg, nickname: name, msgtype: .PRIV_IM_MYSELF)
-            
-            messages.append(mymsg)
+
+            appendEventMessage(mymsg)
 
             if delegate != nil {
                 delegate!.appendTextMessage(userid, txtmsg: mymsg)
@@ -252,13 +283,8 @@ class TextMessageViewController :
                     }
                     
                     let name = getDisplayName(user)
-                    let mymsg = MyTextMessage(m: txtmsg, nickname: name,
-                        msgtype: msgtype)
-                    messages.append(mymsg)
-                    
-                    if messages.count > MAX_TEXTMESSAGES {
-                        messages.removeFirst()
-                    }
+                    let mymsg = MyTextMessage(m: txtmsg, nickname: name, msgtype: msgtype)
+                    appendEventMessage(mymsg)
                     
                     if tableView != nil {
                         updateTableView()
@@ -271,7 +297,7 @@ class TextMessageViewController :
             let user = getUser(&m).pointee
             if showLogMessages() && TT_GetMyUserID(ttInst) == user.nUserID {
                 let logmsg = MyTextMessage(logmsg: NSLocalizedString("Logged on to server", comment: "log entry"))
-                messages.append(logmsg)
+                appendEventMessage(logmsg)
                 
                 if tableView != nil {
                     updateTableView()
@@ -301,7 +327,8 @@ class TextMessageViewController :
                     let txt = String(format: NSLocalizedString("%@ joined channel", comment: "log entry"), name)
                     logmsg = MyTextMessage(logmsg: txt)
                 }
-                messages.append(logmsg!)
+                
+                appendEventMessage(logmsg!)
                 
                 if tableView != nil {
                     updateTableView()
@@ -314,7 +341,7 @@ class TextMessageViewController :
                 let name = getDisplayName(user)
                 let txt = String(format: NSLocalizedString("%@ left channel", comment: "log entry"), name)
                 let logmsg = MyTextMessage(logmsg: txt)
-                messages.append(logmsg)
+                appendEventMessage(logmsg)
                 
                 if tableView != nil {
                     updateTableView()
@@ -325,29 +352,28 @@ class TextMessageViewController :
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+
+        return messages.keys.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        let sortedKeys = messages.keys.sorted()
+        let key = sortedKeys[section]
+        return messages[key]!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "Text Msg Cell") as! TextMsgTableCell
-        let txtmsg = messages[indexPath.row]
-        
-        txtmsg.drawCell(cell)
-        
-        //print("Cell height \(cell.frame.height) txt view height \(cell.messageTextView.frame.height)")
+        getEventMessage(indexPath).drawCell(cell)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "Text Msg Cell") as! TextMsgTableCell
-        let txtmsg = messages[indexPath.row]
-        cell.messageTextView.text = txtmsg.message
+
+        cell.messageTextView.text = getEventMessage(indexPath).message
         
         let fixedWidth = cell.messageTextView.frame.size.width
         let newSize = cell.messageTextView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
@@ -355,4 +381,21 @@ class TextMessageViewController :
         return newSize.height
     }
 
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let em = getEventMessage(IndexPath(row: 0, section: section))
+        switch em.msgtype {
+        case .PRIV_IM :
+            fallthrough
+        case .PRIV_IM_MYSELF :
+            fallthrough
+        case .CHAN_IM :
+            fallthrough
+        case .CHAN_IM_MYSELF :
+            fallthrough
+        case .BCAST :
+            return em.nickname
+        case .LOGMSG :
+            return NSLocalizedString("Status Event", comment: "Text message view")
+        }
+    }
 }

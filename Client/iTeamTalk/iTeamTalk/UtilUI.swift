@@ -136,12 +136,14 @@ struct MyTextMessage {
     var message : String
     var date = Date()
     var msgtype : MsgType
+    var fromuserid : INT32 = 0
     
     init(m: TextMessage, nickname: String, msgtype: MsgType) {
         var m = m
         message = String(cString: getTextMessageString(MESSAGE, &m))
         self.nickname = nickname
         self.msgtype = msgtype
+        self.fromuserid = m.nFromUserID
     }
     
     init(logmsg: String) {
