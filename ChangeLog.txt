@@ -37,6 +37,8 @@ iOS Client
 - Fixed tt:// URL decoding for percent (%) characters
 - Decrease server lost sound volume
 - Sound events for logged in/out
+- Name of sender shown in text messages
+- Number of users in channel is now sum of subchannel users as well
 Server
 - Using BearWare.dk WebLogin requires initial authentication in Pro-edition
 - New sub-channels can be joined initially with user-right "Create/modify all channels"
