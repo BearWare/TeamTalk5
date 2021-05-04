@@ -96,6 +96,8 @@ QTextToSpeech* ttSpeech = nullptr;
 //strip ampersand from menutext
 #define MENUTEXT(text) text.replace("&", "")
 
+#define CHANNELID_TEMPPASSWORD -1
+
 MainWindow::MainWindow(const QString& cfgfile)
 : m_sysicon(nullptr)
 , m_sysmenu(nullptr)
@@ -1593,7 +1595,9 @@ void MainWindow::cmdLoggedIn(int myuserid)
 
     //join channel (if specified)
     Channel tmpchan;
-    int channelid = TT_GetChannelIDFromPath(ttInst, _W(m_host.channel));
+    int channelid = 0;
+    if (m_host.channel.size())
+        channelid = TT_GetChannelIDFromPath(ttInst, _W(m_host.channel));
     int parentid = 0;
     int account_channelid = TT_GetChannelIDFromPath(ttInst, 
                                                     account.szInitChannel);
@@ -1608,10 +1612,11 @@ void MainWindow::cmdLoggedIn(int myuserid)
         parentid = TT_GetChannelIDFromPath(ttInst, _W(chanpath));
     }
 
-    if(m_last_channel.nChannelID && //join using last channel
-       TT_GetChannel(ttInst, m_last_channel.nParentID, 
-                     &tmpchan)>0)
+    if (m_last_channel.nChannelID && //join using last channel
+        (ui.channelsWidget->getChannel(m_last_channel.nChannelID, tmpchan) ||
+         ui.channelsWidget->getChannel(m_last_channel.nParentID, tmpchan)))
     {
+        COPY_TTSTR(m_last_channel.szPassword, m_channel_passwd[m_last_channel.nChannelID]);
         int cmdid = TT_DoJoinChannel(ttInst, &m_last_channel);
         if(cmdid>0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
@@ -2486,7 +2491,18 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
 
 void MainWindow::processMyselfJoined(int channelid)
 {
-    TT_GetChannel(ttInst, channelid, &m_mychannel);
+    ui.channelsWidget->getChannel(channelid, m_mychannel);
+
+    // store channel for rejoin
+    m_last_channel = m_mychannel;
+
+    // store password of newly created channel
+    if (m_channel_passwd.contains(CHANNELID_TEMPPASSWORD))
+    {
+        m_channel_passwd[m_mychannel.nChannelID] = m_channel_passwd[CHANNELID_TEMPPASSWORD];
+        m_channel_passwd.remove(CHANNELID_TEMPPASSWORD);
+    }
+
     //Enable AGC, denoise etc.
     updateAudioConfig();
 
@@ -2562,6 +2578,7 @@ void MainWindow::processMyselfLeft(int /*channelid*/)
     addTextToSpeechMessage(TTS_USER_LEFT, statusleft);
 
     m_mychannel = {};
+    m_last_channel = {};
 
     m_talking.clear();
     ui.videogridWidget->ResetGrid();
@@ -4271,7 +4288,11 @@ void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
     {
         int cmdid = TT_DoJoinChannel(ttInst, &chan);
         if(cmdid>0)
+        {
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
+            m_last_channel = chan;
+            m_channel_passwd[CHANNELID_TEMPPASSWORD] = _Q(chan.szPassword);
+        }
         else
             QMessageBox::critical(this, MENUTEXT(ui.actionCreateChannel->text()), 
                                   tr("Failed to issue command to create channel"));
@@ -4325,14 +4346,11 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
     if(chan.nChannelID == m_mychannel.nChannelID)
     {
         int cmdid = TT_DoLeaveChannel(ttInst);
-        m_host.channel.clear();
-        m_host.chanpasswd.clear();
         m_commands.insert(cmdid, CMD_COMPLETE_LEAVECHANNEL);
         return;
     }
 
     QString password = m_channel_passwd[chan.nChannelID];
-    TTCHAR chanpath[TT_STRLEN] = {};
     if(chan.bPassword)
     {
         bool ok = false;
@@ -4348,21 +4366,13 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
         password = inputDialog.textValue();
         if(!ok)
             return;
-        TT_GetChannelPath(ttInst, chan.nChannelID, chanpath);
-        m_host.channel = _Q(chanpath);
-        m_host.chanpasswd = password;
     }
     m_channel_passwd[chan.nChannelID] = password;
-    TT_GetChannelPath(ttInst, chan.nChannelID, chanpath);
-    m_host.channel = _Q(chanpath);
-    m_host.chanpasswd.clear();
 
     int cmdid = TT_DoJoinChannelByID(ttInst, chan.nChannelID, _W(password));
     if(cmdid>0)
     {
         m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
-        m_last_channel = chan;
-        COPY_TTSTR(m_last_channel.szPassword, password);
     }
     else
         QMessageBox::critical(this, MENUTEXT(ui.actionJoinChannel->text()),
