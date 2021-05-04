@@ -555,7 +555,7 @@
 "Speex Variable Bitrate Codec" = "Codec Speex avec débit variable";
 
 /* Text message view */
-"Status Event" = "Status Event";
+"Status Event" = "Évènement de statut";
 
 /* codec detail
    create channel */
