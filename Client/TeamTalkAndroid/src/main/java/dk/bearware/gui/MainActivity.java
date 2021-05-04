@@ -1165,7 +1165,7 @@ implements TeamTalkConnectionListener,
                     }
                 }
                 status.setContentDescription(away?getString(R.string.user_state_away, name):null);
-                }
+
                 usericon.setImageResource(icon_resource);
                 usericon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
                 
