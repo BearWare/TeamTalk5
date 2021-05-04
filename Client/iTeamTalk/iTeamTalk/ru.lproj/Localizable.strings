@@ -548,6 +548,9 @@
 /* codec detail */
 "Speex Variable Bitrate Codec" = "Кодек Speex С Переменным Битрейтом";
 
+/* Text message view */
+"Status Event" = "Status Event";
+
 /* codec detail
    create channel */
 "Stereo" = "Стерео";

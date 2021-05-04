@@ -554,6 +554,9 @@
 /* codec detail */
 "Speex Variable Bitrate Codec" = "Codec Speex com bitrate variada";
 
+/* Text message view */
+"Status Event" = "Status Event";
+
 /* codec detail
    create channel */
 "Stereo" = "Estéreo";

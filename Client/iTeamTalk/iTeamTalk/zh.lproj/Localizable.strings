@@ -554,6 +554,9 @@
 /* codec detail */
 "Speex Variable Bitrate Codec" = "Speex 可变比特率编解码器";
 
+/* Text message view */
+"Status Event" = "Status Event";
+
 /* codec detail
    create channel */
 "Stereo" = "立体声";

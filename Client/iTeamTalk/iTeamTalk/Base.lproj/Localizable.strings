@@ -725,3 +725,6 @@
 
 /* preferences */
 "User Logged Out" = "User Logged Out";
+
+/* Text message view */
+"Status Event" = "Status Event";
