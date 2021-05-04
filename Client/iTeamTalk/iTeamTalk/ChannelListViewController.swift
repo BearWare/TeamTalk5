@@ -157,9 +157,13 @@ class ChannelListViewController :
     
     func getUsersCount(_ chanid: INT32) -> Int {
         
-        let chanusers : [User] = users.values.filter({$0.nChannelID == chanid})
+        var count = users.values.filter({$0.nChannelID == chanid}).count
         
-        return chanusers.count
+        for c in channels.values.filter({$0.nParentID == chanid}) {
+            count += getUsersCount(c.nChannelID)
+        }
+        
+        return count
     }
     
     func updateDisplayItems()  {
