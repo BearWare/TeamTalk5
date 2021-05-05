@@ -7,12 +7,12 @@ Accessible Windows Client
 - Recording to single file now applies user specific volume settings
 - Status event on channel join is no longer displayed twice
 - Added Ukrainian language
-- "On"/"Off" instead of "0"/"1" when subscriptions changes
+- "On"/"Off" instead of "0"/"1" when subscription changes
 - Alert when intercepted from another channel
 - Fixed tt:// URL decoding for percent (%) characters
 - Change default sound events playback mode to "one by one"
 - Decrease server lost sound volume
-- Don't join previous joined channel if connection is droped when not in a channel
+- Don't join previous joined channel if connection is dropped when not in a channel
 Default QT Client
 - Text-to-Speech events now configurable in preferences (macOS, Linux and Windows)
 - Fixed echo canceller being less effective over long duration
@@ -20,7 +20,7 @@ Default QT Client
 - Status event when leaving channel
 - Status event on channel join is no longer displayed twice
 - Improve status event on channel joined
-- "Import .tt file" button on servers list
+- "Import .tt file" button in servers list
 - Corrected labels in Media Streaming dialog (CTRL+S dialog)
 - Better accessibility in several dialogs
 - Confirmation before removing an user account
@@ -32,13 +32,14 @@ Android Client
 - Fixed missing "encrypted", "channel" and "chanpasswd" in tt:// URLs
 - Accessibility hint for away status
 - Decrease server lost sound volume
-- Option to play user logged in/off sound
+- Sound event for playing user logged in/off sound
 iOS Client
 - Fixed tt:// URL decoding for percent (%) characters
 - Decrease server lost sound volume
 - Sound events for logged in/out
 - Name of sender shown in text messages
 - Number of users in channel is now sum of subchannel users as well
+- Sound event for playing user logged in/off sound
 Server
 - Using BearWare.dk WebLogin requires initial authentication in Pro-edition
 - New sub-channels can be joined initially with user-right "Create/modify all channels"
