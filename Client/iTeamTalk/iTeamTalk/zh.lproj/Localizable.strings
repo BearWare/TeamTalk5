@@ -555,7 +555,7 @@
 "Speex Variable Bitrate Codec" = "Speex 可变比特率编解码器";
 
 /* Text message view */
-"Status Event" = "Status Event";
+"Status Event" = "状态事件";
 
 /* codec detail
    create channel */
