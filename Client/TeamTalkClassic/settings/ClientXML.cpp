@@ -1358,6 +1358,16 @@ namespace teamtalk {
         return 0;
     }
 
+    void ClientXML::SetAudioLogStreamTypes(StreamTypes uStreamTypes)
+    {
+        SetValue("clientsetup/audio-stream-types", uStreamTypes);
+    }
+
+    StreamTypes ClientXML::GetAudioLogStreamTypes(StreamTypes uDefaultStreamTypes)
+    {
+        return GetValue(true, "clientsetup/audio-stream-types", uDefaultStreamTypes);
+    }
+
     bool ClientXML::SetAudioLogStorageFormat(int aff)
     {
         TiXmlElement* pParent = GetClientElement();
