@@ -566,9 +566,16 @@ BOOL GetSoundDevice(int nSoundDeviceID, const CString& szDeviceID, SoundDevice& 
 
 int GetSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev)
 {
+    if ((indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE) == SOUNDDEVICEFEATURE_NONE)
+        return 0;
+
     auto isend = indev.inputSampleRates + sizeof(indev.inputSampleRates);
     auto isr = std::find_if(indev.inputSampleRates, isend,
-        [outdev](int sr) { return sr == outdev.nDefaultSampleRate; });
+        [outdev](int sr)
+        {
+            return sr == outdev.nDefaultSampleRate && 
+                   (outdev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE) == SOUNDDEVICEFEATURE_DUPLEXMODE;
+        });
 
     return isr != isend ? outdev.nDefaultSampleRate : 0;
 }
