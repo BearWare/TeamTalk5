@@ -553,10 +553,10 @@ int MFStreamer::QueueVideoSample(CComPtr<IMFSample>& pSample, int64_t sampletime
     {
         CComPtr<IMFMediaBuffer> pMediaBuffer;
         hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
+        assert(SUCCEEDED(hr));
         LONGLONG llSampleTimeStamp = sampletime;
         hr = pSample->GetSampleTime(&llSampleTimeStamp);
 
-        assert(SUCCEEDED(hr));
         BYTE* pBuffer = NULL;
         DWORD dwCurLen, dwMaxSize;
         hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
