@@ -115,16 +115,11 @@ class TextMessageViewController :
         
         tableView.reloadData()
         
-        if tableView.numberOfRows(inSection: 0) > 0 {
-//            let ip = NSIndexPath(forRow: tableView.numberOfRowsInSection(0)-1, inSection: 0)
-//            tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Top, animated: true)
-//            let frame = tableView.frame
-//            let content = tableView.contentSize
-//            tableView.setContentOffset(CGPointMake(0, rect.height - frame.height), animated: true)
-//            if content.height > frame.height {
-                let ip = IndexPath(row: tableView.numberOfRows(inSection: 0)-1, section: 0)
-                tableView.scrollToRow(at: ip, at: .bottom, animated: true)
-//            }
+        let n_messages = messages.values.count
+        if n_messages > 0 {
+            let lastsection = messages.keys.count - 1
+            let ip = IndexPath(row: tableView.numberOfRows(inSection: lastsection) - 1, section: lastsection)
+            tableView.scrollToRow(at: ip, at: .bottom, animated: true)
         }
     }
     
