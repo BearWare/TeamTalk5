@@ -1,7 +1,19 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.7.1, unreleased
+Version 5.8, unreleased
+Accessible Windows Client
+-
+Default QT Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.7.1, 2021/05/09
 Accessible Windows Client
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
