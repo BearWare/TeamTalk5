@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -13,33 +11,33 @@
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:12pt; font-weight:600;&quot;&gt;Credits&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Contributors&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Bjørn Damstedt Rasmussen, developer&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Oreonan, developer&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Translators&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Oreonan, French&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Steffen Schultz, German&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Michał Ciołek, Polish&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;Ozancan Karataş, Turkish&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-weight:600;&quot;&gt;Libraries&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;;&quot;&gt;TeamTalk uses the following libraries:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:600;&quot;&gt;Credits&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;Contributors&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Bjørn Damstedt Rasmussen, developer&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Oreonan, developer&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;Translators&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Oreonan, French&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Steffen Schultz, German&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Michał Ciołek, Polish&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Ozancan Karataş, Turkish&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600;&quot;&gt;Libraries&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;TeamTalk uses the following libraries:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -224,17 +222,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="63"/>
         <source>Banned users</source>
-        <translation type="unfinished"></translation>
+        <translation>Yasaklanan kullanıcılar</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="72"/>
         <source>Ban type</source>
-        <translation type="unfinished">Yasaklama türü</translation>
+        <translation>Yasaklama türü</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="79"/>
         <source>Enter an IP or an username to ban</source>
-        <translation type="unfinished"></translation>
+        <translation>Yasaklanacak bir IP ya da bir kullanıcı adı girin</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="86"/>
@@ -264,7 +262,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="180"/>
         <source>Unbanned users</source>
-        <translation type="unfinished"></translation>
+        <translation>Yasaklanmayan kullanıcılar</translation>
     </message>
 </context>
 <context>
@@ -328,7 +326,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="113"/>
         <source>Nickname: %1, Username: %2, Ban type: %3, Ban time: %4, Channel path: %5, IP address: %6</source>
-        <translation type="unfinished"></translation>
+        <translation>Rumuz: %1, Kullanıcı adı: %2, Yasaklama türü: %3, Yasaklama zamanı: %4, Kanal yolu: %5, IP adresi: %6</translation>
     </message>
 </context>
 <context>
@@ -1045,7 +1043,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="150"/>
         <source>Unable to open &quot;%1&quot;. File does not have a default file association</source>
-        <translation>&quot;%1&quot; açılamadı. Dosya bir varsayılan dosya ilişkilendirmesine sahip değil</translation>
+        <translation>&quot;%1&quot; açılamıyor. Dosya bir varsayılan dosya ilişkilendirmesine sahip değil</translation>
     </message>
 </context>
 <context>
@@ -1068,7 +1066,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filesmodel.cpp" line="105"/>
         <source>Name: %1, Size: %2, Owner: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Ad: %1, Boyut: %2, Sahip: %3</translation>
     </message>
 </context>
 <context>
@@ -1217,7 +1215,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfiledlg.cpp" line="191"/>
         <source>Unable to save file</source>
-        <translation>Dosya kaydedilemedi</translation>
+        <translation>Dosya kaydedilemiyor</translation>
     </message>
 </context>
 <context>
@@ -2193,14 +2191,6 @@ p, li { white-space: pre-wrap; }
         <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 bağlantısı kaybedildi</translation>
     </message>
     <message>
-        <source>Logged in</source>
-        <translation type="vanished">Oturum açıldı</translation>
-    </message>
-    <message>
-        <source>Logged out</source>
-        <translation type="vanished">Oturum kapatıldı</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="972"/>
         <location filename="../mainwindow.cpp" line="974"/>
         <source>%1 has logged in</source>
@@ -2372,7 +2362,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <source>Logged out from %1, TCP port %2, UDP port %3</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, TCP bağlantı noktası %2, UDP bağlantı noktası %3 oturumu kapatıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1802"/>
@@ -2558,101 +2548,101 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2413"/>
         <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kullanıcısından kanal iletisi: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2418"/>
         <source>Channel message sent: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gönderilen kanal iletisi: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2430"/>
         <source>Broadcast message from %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kullanıcısından yayınlanan ileti: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2449"/>
         <source>Private message from %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kullanıcısından özel ileti: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2513"/>
         <location filename="../mainwindow.cpp" line="2523"/>
         <source>Joined classroom channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sınıf kanalına katılındı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2558"/>
         <location filename="../mainwindow.cpp" line="2570"/>
         <source>Left classroom channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sınıf kanalından ayrılındı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2562"/>
         <location filename="../mainwindow.cpp" line="2574"/>
         <source>Left channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kanalından ayrılındı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3939"/>
         <source>Voice for %1 disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 için ses etkisizleştirildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3941"/>
         <source>Voice for %1 enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 için ses etkinleştirildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3958"/>
         <source>Media files for %1 disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 için ortam dosyaları etkisizleştirildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3960"/>
         <source>Media files for %1 enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 için ortam dosyaları etkinleştirildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3976"/>
         <source>Master volume disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ana düzey etkisizleştirildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3981"/>
         <source>Master volume enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ana düzey etkinleştirildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4110"/>
         <source>Voice volume for %1 increased to %2%</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 için ses düzeyi %2% değerine artırıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4123"/>
         <source>Voice volume for %1 decreased to %2%</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 için ses düzeyi %2% değerine azaltıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4136"/>
         <source>Media files volume for %1 increased to %2%</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 için ortam dosyaları düzeyi %2% değerine artırıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4149"/>
         <source>Media files volume for %1 decreased to %2%</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 için ortam dosyaları düzeyi %2% değerine azaltıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4166"/>
         <source>%1 selected for move</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 taşıma için seçildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4184"/>
         <location filename="../mainwindow.cpp" line="4188"/>
         <source>Selected users has been moved to channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçilen kullanıcılar %1 kanalına taşındı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4478"/>
@@ -2662,7 +2652,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4596"/>
         <source>Broadcast message sent: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gönderilen yayınlanan ileti: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4608"/>
@@ -2712,7 +2702,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="6106"/>
         <source>No available voices found for Text-To-Speech</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin okuma için kullanılabilir sesler bulunamadı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2219"/>
@@ -3186,7 +3176,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../settings.h" line="34"/>
         <source>NoName</source>
-        <translation type="unfinished"></translation>
+        <translation>Ad Yok</translation>
     </message>
 </context>
 <context>
@@ -3344,7 +3334,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../onlineusersmodel.cpp" line="170"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
-        <translation type="unfinished"></translation>
+        <translation>Kimlik: %1, Rumuz: %2, Durum iletisi: %3, Kullanıcı adı: %4, Kanal: %5, IP adresi: %6, Sürüm: %7</translation>
     </message>
 </context>
 <context>
@@ -3556,8 +3546,9 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>Video penceresinin köşesinde kaynağı göster</translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
+        <location filename="../preferences.ui" line="541"/>
+        <source>Video window settings</source>
+        <translation>Video penceresi ayarları</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="568"/>
@@ -3645,7 +3636,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="756"/>
         <source>Configure trusted list</source>
-        <translation type="unfinished"></translation>
+        <translation>Güvenilen listeyi yapılandır</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="768"/>
@@ -3787,7 +3778,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../preferences.ui" line="1689"/>
         <location filename="../preferences.ui" line="1712"/>
         <source>Browse</source>
-        <translation type="unfinished">Gözat</translation>
+        <translation>Gözat</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1304"/>
@@ -3808,11 +3799,6 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../preferences.ui" line="1206"/>
         <source>New user</source>
         <translation>Yeni kullanıcı</translation>
-    </message>
-    <message>
-        <location filename="../preferences.ui" line="541"/>
-        <source>Video window settings</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1235"/>
@@ -3897,62 +3883,62 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1676"/>
         <source>Mute master volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Ana düzeyi sessize al</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1699"/>
         <source>Unmute master volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Ana düzeyin sesini aç</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1741"/>
         <source>Text To Speech</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin Okuma</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1747"/>
         <source>Enable/disable Text to Speech Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin okuma olaylarını etkinleştir/etkisizleştir</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1777"/>
         <source>Enable &amp;all</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tümünü etkinleştir</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1797"/>
         <source>C&amp;lear all</source>
-        <translation type="unfinished"></translation>
+        <translation>Tümünü t&amp;emizle</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1817"/>
         <source>&amp;Revert</source>
-        <translation type="unfinished"></translation>
+        <translation>Geri a&amp;l</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1829"/>
         <source>Text to Speech Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin Okuma Tercihleri</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1835"/>
         <source>Text to Speech Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin Okuma Motoru</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1861"/>
         <source>Voice rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses hızı</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1887"/>
         <source>Voice volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses düzeyi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1913"/>
         <source>Display duration of notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildirimlerin görüntülenme süresi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1940"/>
@@ -4022,7 +4008,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="2205"/>
         <source>Customize video format</source>
-        <translation type="unfinished"></translation>
+        <translation>Video biçimini özelleştir</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2219"/>
@@ -4137,22 +4123,22 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="575"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiçbiri</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="577"/>
         <source>Default</source>
-        <translation type="unfinished">Varsayılan</translation>
+        <translation>Varsayılan</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="580"/>
         <source>Tolk</source>
-        <translation type="unfinished"></translation>
+        <translation>Tolk</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="583"/>
         <source>Libnotify</source>
-        <translation type="unfinished"></translation>
+        <translation>Libnotify</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1018"/>
@@ -4210,7 +4196,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1728"/>
         <source>Unable to find preferred video capture settings</source>
-        <translation>Tercih edilen video yakalama ayarları bulunamadı</translation>
+        <translation>Tercih edilen video yakalama ayarları bulunamıyor</translation>
     </message>
 </context>
 <context>
@@ -4239,7 +4225,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../common.cpp" line="472"/>
         <source>Unable to get default sound devices</source>
-        <translation>Varsayılan ses aygıtları alınamadı</translation>
+        <translation>Varsayılan ses aygıtları alınamıyor</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="498"/>
@@ -4360,10 +4346,6 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>&amp;Bağlan</translation>
     </message>
     <message>
-        <source>Save Server Information</source>
-        <translation type="vanished">Sunucu Bilgilerini Kaydet</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="306"/>
         <source>Entry name</source>
         <translation>Giriş adı</translation>
@@ -4382,7 +4364,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="323"/>
         <source>&amp;Import .tt File</source>
-        <translation type="unfinished"></translation>
+        <translation>.tt Dosyasını İ&amp;çe Aktar</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="378"/>
@@ -4402,7 +4384,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="338"/>
         <source>Open File</source>
-        <translation type="unfinished">Dosya Aç</translation>
+        <translation>Dosya Aç</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="345"/>
@@ -4410,23 +4392,23 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../serverlistdlg.cpp" line="364"/>
         <location filename="../serverlistdlg.cpp" line="375"/>
         <source>Load File</source>
-        <translation type="unfinished">Dosya Yükle</translation>
+        <translation>Dosya Yükle</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="346"/>
         <location filename="../serverlistdlg.cpp" line="355"/>
         <source>Failed to load file %1</source>
-        <translation type="unfinished">%1 dosyasını yükleme başarısız</translation>
+        <translation>%1 dosyasının yüklenmesi başarısız</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="365"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
-        <translation type="unfinished">&quot;%1&quot; dosyası %2 ile uyumsuz</translation>
+        <translation>&quot;%1&quot; dosyası %2 ile uyumsuz</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="376"/>
         <source>Failed to extract host-information from %1</source>
-        <translation type="unfinished">Ana bilgisayar bilgilerini %1 üzerinden çıkartma başarısız</translation>
+        <translation>Ana bilgisayar bilgileri %1 üzerinden çıkartılamadı</translation>
     </message>
 </context>
 <context>
@@ -4705,13 +4687,19 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>Gözat</translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
+        <location filename="../streammediafile.ui" line="48"/>
+        <source>&amp;B</source>
+        <translation>&amp;B</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="59"/>
         <source>Refresh</source>
         <translation>Yenile</translation>
+    </message>
+    <message>
+        <location filename="../streammediafile.ui" line="62"/>
+        <source>&amp;R</source>
+        <translation>&amp;R</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="77"/>
@@ -4729,10 +4717,6 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>Süre:</translation>
     </message>
     <message>
-        <source>Continuously play media file</source>
-        <translation type="vanished">Ortam dosyasını sürekli oynat</translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="139"/>
         <source>Playback Settings</source>
         <translation>Kayıttan Oynatma Ayarları</translation>
@@ -4743,33 +4727,29 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>Ses önişleyicisi</translation>
     </message>
     <message>
-        <source>Setup</source>
-        <translation type="vanished">Ayarlama</translation>
+        <location filename="../streammediafile.ui" line="225"/>
+        <source>S&amp;top</source>
+        <translation>&amp;Durdur</translation>
     </message>
     <message>
-        <location filename="../streammediafile.ui" line="48"/>
-        <source>&amp;B</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../streammediafile.ui" line="62"/>
-        <source>&amp;R</source>
-        <translation type="unfinished"></translation>
+        <location filename="../streammediafile.ui" line="236"/>
+        <source>&amp;Play</source>
+        <translation>&amp;Oynat</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="129"/>
         <source>&amp;Continuously play media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ortam dosyasını &amp;sürekli oynat</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="160"/>
         <source>&amp;Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ayarla</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="187"/>
         <source>&amp;Start position</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Başlangıç konumu</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="194"/>
@@ -4780,20 +4760,6 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../streammediafile.ui" line="218"/>
         <source>Test playback</source>
         <translation>Kayıttan oynatmayı sına</translation>
-    </message>
-    <message>
-        <location filename="../streammediafile.ui" line="225"/>
-        <source>S&amp;top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../streammediafile.ui" line="236"/>
-        <source>&amp;Play</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stop</source>
-        <translation type="vanished">Durdur</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="248"/>
@@ -4924,190 +4890,190 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="86"/>
         <source>Event</source>
-        <translation type="unfinished"></translation>
+        <translation>Olay</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="87"/>
         <location filename="../ttseventsmodel.cpp" line="108"/>
         <location filename="../ttseventsmodel.cpp" line="184"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkinleştirildi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="108"/>
         <location filename="../ttseventsmodel.cpp" line="184"/>
         <source>Disabled</source>
-        <translation type="unfinished">Etkisizleştirildi</translation>
+        <translation>Etkisizleştirildi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="113"/>
         <source>User logged in</source>
-        <translation type="unfinished">Kullanıcı oturum açtı</translation>
+        <translation>Kullanıcının oturum açması</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="115"/>
         <source>User logged out</source>
-        <translation type="unfinished">Kullanıcı oturumu kapattı</translation>
+        <translation>Kullanıcının oturumu kapatması</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="117"/>
         <source>User joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcının kanala katılması</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="119"/>
         <source>User left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcının kanaldan ayrılması</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="121"/>
         <source>User join current channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcının şu anki kanala katılması</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="123"/>
         <source>User left current channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcının şu anki kanaldan ayrılması</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="125"/>
         <source>Received private message</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel ileti alınması</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="127"/>
         <source>Sent private message</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel ileti gönderilmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="129"/>
         <source>Received channel message</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal iletisi alınması</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="131"/>
         <source>Sent channel message</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal iletisi gönderilmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="133"/>
         <source>Received broadcast message</source>
-        <translation type="unfinished"></translation>
+        <translation>Yayınlanan ileti alınması</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="135"/>
         <source>Sent broadcast message</source>
-        <translation type="unfinished"></translation>
+        <translation>Yayınlanan ileti gönderilmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="137"/>
         <source>Subscription private text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel metin iletisi aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>Subscription channel text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal metin iletisi aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
         <source>Subscription broadcast text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Yayınlanan metin iletisi aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="143"/>
         <source>Subscription voice stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses akışı aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="145"/>
         <source>Subscription webcam stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Web kamerası akışı aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="147"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Paylaşılan masaüstü akışı aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="149"/>
         <source>Subscription desktop access changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstü erişimi aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="151"/>
         <source>Subscription media file stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ortam dosyası akışı aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="153"/>
         <source>Subscription intercept private text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel metin iletisini izleme aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="155"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal metin iletisini izleme aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="157"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses akışını izleme aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="159"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Web kamerası akışını izleme aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="161"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstü akışını izleme aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="163"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ortam dosyası akışını izleme aboneliğinin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="165"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sınıf kanal iletisi iletimine izin vermenin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="167"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sınıf ses iletimine izin vermenin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="169"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sınıf web kamerası iletimine izin vermenin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="171"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sınıf masaüstü iletimine izin vermenin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="173"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sınıf ortam dosyası iletimine izin vermenin değişmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>File added</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya eklenmesi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="177"/>
         <source>File removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya kaldırılması</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="179"/>
         <source>Menu actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Menü eylemleri</translation>
     </message>
 </context>
 <context>
@@ -5144,7 +5110,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../textmessagedlg.cpp" line="157"/>
         <source>Private message sent: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gönderilen özel ileti: %1</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="197"/>
@@ -5253,7 +5219,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="283"/>
         <source>Set selected user auto operator for selected channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçilen kullanıcıyı seçilen kanallar için otomatik işletmeci ayarla</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="290"/>
@@ -5263,7 +5229,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="293"/>
         <source>No longer set selected user auto operator for selected channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçilen kullanıcıyı seçilen kanallar için artık otomatik işletmeci ayarlama</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="319"/>
@@ -5425,7 +5391,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="625"/>
         <source>Remove selected user</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçilen kullanıcıyı kaldır</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="645"/>
@@ -5440,7 +5406,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="668"/>
         <source>Add or update user with specified informations</source>
-        <translation type="unfinished"></translation>
+        <translation>Belirtilen bilgilerle kullanıcı ekle ya da güncelleştir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="688"/>
@@ -5497,12 +5463,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="625"/>
         <source>Are you sure you want to delete user &quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; kullanıcısını silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="630"/>
         <source>Delete user</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcıyı sil</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="729"/>
@@ -5590,7 +5556,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="111"/>
         <source>Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı adı: %1, Parola: %2, Tür: %3, Not: %4, İlk kanal: %5</translation>
     </message>
 </context>
 <context>
