@@ -30,6 +30,7 @@
 #include <QDialog>
 #include <QStack>
 #include <QProcess>
+#include <QCoreApplication>
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QTextToSpeech>
 #include <QSound>
@@ -1810,7 +1811,7 @@ QString getDisplayName(const User& user)
 
     QString nickname = _Q(user.szNickname);
     if (nickname.isEmpty())
-        nickname = QString("%1 - #%2").arg(SETTINGS_GENERAL_NICKNAME_DEFAULT).arg(user.nUserID);
+        nickname = QString("%1 - #%2").arg(QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).arg(user.nUserID);
     return limitText(nickname);
 }
 
