@@ -179,9 +179,9 @@ void GenerateTTFileDlg::slotSaveTTFile()
     QByteArray xml = generateTTFile(m_hostentry);
 
     QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY, QDir::homePath()).toString();
-
+    QString defaultfilename = QString("%1%2%3@%4_%5.tt").arg(start_dir).arg(QDir::separator()).arg(m_hostentry.username).arg(m_hostentry.ipaddr).arg(m_hostentry.tcpport);
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
-        start_dir+"/"+m_hostentry.ipaddr+"_"+m_hostentry.username+".tt", tr("%1 File (*%1)").arg(TTFILE_EXT));
+        defaultfilename, tr("%1 File (*%1)").arg(TTFILE_EXT));
     if(filename.size())
     {
         ttSettings->setValue(SETTINGS_LAST_DIRECTORY, QFileInfo(filename).absolutePath());
