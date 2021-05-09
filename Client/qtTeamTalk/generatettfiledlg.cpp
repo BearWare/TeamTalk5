@@ -181,7 +181,7 @@ void GenerateTTFileDlg::slotSaveTTFile()
     QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY, QDir::homePath()).toString();
 
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
-        start_dir, tr("%1 File (*%1)").arg(TTFILE_EXT));
+        start_dir+"/"+m_hostentry.ipaddr+"_"+m_hostentry.username+".tt", tr("%1 File (*%1)").arg(TTFILE_EXT));
     if(filename.size())
     {
         ttSettings->setValue(SETTINGS_LAST_DIRECTORY, QFileInfo(filename).absolutePath());
