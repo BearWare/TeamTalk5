@@ -42,7 +42,7 @@
 "Actions" = "Eylemler";
 
 /* channel list */
-"Active" = "Active";
+"Active" = "Etkin";
 
 /* serverlist */
 "Add new server entry" = "Yeni sunucu girişi ekle";
@@ -248,7 +248,7 @@
 "Host address" = "Ana bilgisayar adresi";
 
 /* channel list */
-"Inactive" = "Inactive";
+"Inactive" = "Etkisiz";
 
 /* Dialog message */
 "Join" = "Katıl";
@@ -358,7 +358,7 @@
 "No Voice Activation" = "Ses Etkinleştirme Yok";
 
 /* default nickname */
-"Noname" = "Adsız";
+"Noname" = "Ad Yok";
 
 /* Dialog
    Dialog message
@@ -410,10 +410,10 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "\"Söz Kesintisi Yok\" kanalı iletime hazır olduğunda ses oynat";
 
 /* preferences */
-"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+"Play sound when user logs off to the server" = "Kullanıcı sunucu oturumunu kapattığında ses oynat";
 
 /* preferences */
-"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+"Play sound when user logs on to the server" = "Kullanıcı sunucuda oturum açtığında ses oynat";
 
 /* preferences */
 "Play sound when voice activation is triggered" = "Ses etkinleştirme tetiklendiğinde ses oynat";
@@ -555,7 +555,7 @@
 "Speex Variable Bitrate Codec" = "Speex Değişken Bit Hızı Kodlayıcı/Çözücüsü";
 
 /* Text message view */
-"Status Event" = "Status Event";
+"Status Event" = "Durum Olayı";
 
 /* codec detail
    create channel */
@@ -641,13 +641,13 @@
 "User logged in" = "Kullanıcının oturum açması";
 
 /* preferences */
-"User Logged In" = "User Logged In";
+"User Logged In" = "Kullanıcının Oturum Açması";
 
 /* preferences */
 "User logged out" = "Kullanıcının oturumu kapatması";
 
 /* preferences */
-"User Logged Out" = "User Logged Out";
+"User Logged Out" = "Kullanıcının Oturumu Kapatması";
 
 /* preferences
    user detail */
@@ -718,13 +718,13 @@
 "You have been kicked from channel" = "Kanaldan uzaklaştırıldınız";
 
 /* Dialog */
-"You have been kicked from channel by %@" = "You have been kicked from channel by %@";
+"You have been kicked from channel by %@" = "%@ tarafından kanaldan uzaklaştırıldınız";
 
 /* Dialog */
 "You have been kicked from server" = "Sunucudan uzaklaştırıldınız";
 
 /* Dialog */
-"You have been kicked from server by %@" = "You have been kicked from server by %@";
+"You have been kicked from server by %@" = "%@ tarafından sunucudan uzaklaştırıldınız";
 
 /* speech */
 "You have selected %@" = "Seçtiğiniz: %@";

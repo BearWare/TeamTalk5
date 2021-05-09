@@ -36,7 +36,7 @@
   <string name="pref_cat_soundtest">Ses Sınaması</string>
   <string name="pref_header_general">Genel</string>
   <string name="pref_title_nickname">Rumuz</string>
-  <string name="pref_default_nickname">Adsız</string>
+  <string name="pref_default_nickname">Ad Yok</string>
   <string name="pref_title_proximity_sensor">Yakınlık algılayıcısı</string>
   <string name="pref_title_keep_screen_on">Bağlandığında ekranı açık tut</string>
   <string name="pref_title_vibrate">Bas konuşta titret</string>
@@ -58,9 +58,9 @@
   <string name="pref_summary_files_update_audio_icon">Dosyalar eklendiğinde ya da kaldırıldığında ses oynat</string>
   <string name="pref_title_transmitready_icon">Özel kip değişikliği</string>
   <string name="pref_summary_transmitready_icon">\"Söz Kesintisi Yok\" kanalı iletime hazır olduğunda ses oynat</string>
-  <string name="pref_title_userjoin_icon">Kullanıcı kanala katıldı</string>
+  <string name="pref_title_userjoin_icon">Kullanıcının kanala katılması</string>
   <string name="pref_summary_userjoin_icon">Kullanıcı şu anki kanala katıldığında ses oynat</string>
-  <string name="pref_title_userleft_icon">Kullanıcı kanaldan ayrıldı</string>
+  <string name="pref_title_userleft_icon">Kullanıcının kanaldan ayrılması</string>
   <string name="pref_summary_userleft_icon">Kullanıcı şu anki kanaldan ayrıldığında ses oynat</string>
   <string name="pref_header_connection">Bağlantı</string>
   <string name="pref_title_sub_txtmsg">Metin İletileri</string>
@@ -334,4 +334,9 @@
   <string name="channel_prop_title_hiddenchannel">Gizli</string>
   <string name="pref_title_gender">Cinsiyet</string>
   <string name="pref_summary_gender">Kadın simgesi için denetim</string>
+  <string name="user_state_away">Uzakta</string>
+  <string name="pref_title_userloggedin_icon">Kullanıcının oturum açması</string>
+  <string name="pref_summary_userloggedin_icon">Bir kullanıcı oturum açtığında ses oynat</string>
+  <string name="pref_title_userloggedoff_icon">Kullanıcının oturumu kapatması</string>
+  <string name="pref_summary_userloggedoff_icon">Bir kullanıcı oturumu kapattığında ses oynat</string>
 </resources>

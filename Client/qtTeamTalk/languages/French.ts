@@ -1212,7 +1212,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfiledlg.cpp" line="184"/>
         <source>%1 File (*%1)</source>
-        <translation>%1 fichier (*%1)</translation>
+        <translation>Fichier %1 (*%1)</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="191"/>

@@ -410,10 +410,10 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "Riproduci il suono quando la trasmissione è pronta nel canale \"Nessuna interruzione\"";
 
 /* preferences */
-"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+"Play sound when user logs off to the server" = "Riproduci un suono quando l'utente si disconnette dal server";
 
 /* preferences */
-"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+"Play sound when user logs on to the server" = "Riproduci suono quando l'utente accede al server";
 
 /* preferences */
 "Play sound when voice activation is triggered" = "Riproduci un suono quando viene attivata l'attivazione vocale";
@@ -555,7 +555,7 @@
 "Speex Variable Bitrate Codec" = "Speex VBR Codec";
 
 /* Text message view */
-"Status Event" = "Status Event";
+"Status Event" = "Evento di stato";
 
 /* codec detail
    create channel */
@@ -641,13 +641,13 @@
 "User logged in" = "L'utente ha effettuato l'accesso";
 
 /* preferences */
-"User Logged In" = "User Logged In";
+"User Logged In" = "Utente connesso";
 
 /* preferences */
 "User logged out" = "Utente disconnesso";
 
 /* preferences */
-"User Logged Out" = "User Logged Out";
+"User Logged Out" = "Utente disconnesso";
 
 /* preferences
    user detail */
