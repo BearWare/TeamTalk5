@@ -1,7 +1,19 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.7.1, unreleased
+Version 5.8, unreleased
+Accessible Windows Client
+-
+Default QT Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.7.1, 2021/05/09
 Accessible Windows Client
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
@@ -27,6 +39,7 @@ Default QT Client
 - Fixed tt:// URL decoding for percent (%) characters
 - Alert when intercepted from another channel
 - Decrease server lost sound volume
+- Default file name when generating a .tt file
 Android Client
 - Fixed tt:// URLs not loading in running TeamTalk instance
 - Fixed missing "encrypted", "channel" and "chanpasswd" in tt:// URLs
@@ -36,7 +49,6 @@ Android Client
 iOS Client
 - Fixed tt:// URL decoding for percent (%) characters
 - Decrease server lost sound volume
-- Sound events for logged in/out
 - Name of sender shown in text messages
 - Number of users in channel is now sum of subchannel users as well
 - Sound event for playing user logged in/off sound
