@@ -3,9 +3,9 @@
 ----------------------------------------------
 Version 5.8, unreleased
 Accessible Windows Client
--
+- Single file audio recording can now include media file streams
 Default QT Client
--
+- Single file audio recording can now include media file streams
 Android Client
 -
 iOS Client
