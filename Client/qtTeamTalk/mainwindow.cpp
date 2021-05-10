@@ -334,7 +334,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.actionViewUserInformation, &QAction::triggered,
             this, &MainWindow::slotUsersViewUserInformationGrid);
     connect(ui.actionMessages, &QAction::triggered,
-            this, &MainWindow::slotUsersMessages);
+            this, &MainWindow::slotUsersMessagesGrid);
     connect(ui.actionMuteVoice, &QAction::triggered,
             this, &MainWindow::slotUsersMuteVoiceGrid);
     connect(ui.actionMuteMediaFile, &QAction::triggered,
