@@ -26,8 +26,6 @@
 
 #include <cstring>
 
-#define AUDIOBLOCK_QUEUE_MSEC 1000
-
 #define DEBUG_AUDIOMUXER 0
 
 using namespace teamtalk;

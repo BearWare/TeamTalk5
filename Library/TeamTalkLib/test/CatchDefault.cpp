@@ -935,6 +935,98 @@ TEST_CASE( "RawAudioMuxerDifferentStreamTypeDifferentAudioFormat" )
     REQUIRE(mixed_frames.message_count() == 0);
 }
 
+TEST_CASE( "RawAudioMuxerOverflow" )
+{
+    teamtalk::AudioCodec ac;
+    ac.codec = teamtalk::CODEC_OPUS;
+    ac.opus.application = OPUS_APPLICATION_AUDIO;
+    ac.opus.bitrate = 48000;
+    ac.opus.complexity = 4;
+    ac.opus.dtx = ac.opus.fec = ac.opus.vbr = ac.opus.vbr_constraint = true;
+    ac.opus.channels = 2;
+    ac.opus.samplerate = 48000;
+    ac.opus.frame_size = int(ac.opus.samplerate * .01);
+    ac.opus.frames_per_packet = 1;
+    const int TOTALSAMPLES = teamtalk::GetAudioCodecCbTotalSamples(ac);
+    const int FRAMESIZE = teamtalk::GetAudioCodecCbSamples(ac);
+    const auto FMT = teamtalk::GetAudioCodecAudioFormat(ac);
+
+    msg_queue_t mixed_frames, mixed_ticker;
+    auto QSIZE = 1024*1024*10;
+    mixed_frames.high_water_mark(QSIZE);
+    mixed_frames.low_water_mark(QSIZE);
+    mixed_ticker.high_water_mark(QSIZE);
+    mixed_ticker.low_water_mark(QSIZE);
+    AudioMuxer muxer(teamtalk::STREAMTYPE_VOICE);
+    auto mixedfunc = [&] (teamtalk::StreamTypes sts, const media::AudioFrame& frm)
+    {
+        auto mb = AudioFrameToMsgBlock(frm);
+        REQUIRE(mixed_frames.enqueue(mb) >= 0);
+    };
+    auto tickfunc = [&] (teamtalk::StreamTypes sts, uint32_t sample_no)
+    {
+        media::AudioFrame tickfrm;
+        tickfrm.sample_no = sample_no;
+        REQUIRE(mixed_ticker.enqueue(AudioFrameToMsgBlock(tickfrm)) >= 0);
+    };
+
+    muxer.RegisterMuxTick(tickfunc);
+    REQUIRE(muxer.RegisterMuxCallback(ac, mixedfunc));
+
+    std::vector<short> buffer(TOTALSAMPLES, short(1));
+    media::AudioFrame frm(FMT, &buffer[0], FRAMESIZE);
+
+    ACE_Message_Block* mb = nullptr;
+    {
+        REQUIRE(mixed_frames.dequeue(mb) >= 0);
+        MBGuard g(mb);
+    }
+
+    // overflow AudioMuxer's queue
+    short v = 2;
+    while (frm.sample_no < FRAMESIZE * 4)
+    {
+        REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
+        frm.sample_no += FRAMESIZE;
+        for (size_t i=0;i<buffer.size();++i)
+            buffer[i] = v;
+        ++v;
+    }
+
+    REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, media::AudioFrame()));
+
+    // verify AudioMuxer survives by ensuring AudioMuxer starts generating silence again.
+    auto c = mixed_ticker.message_count();
+    while (mixed_frames.dequeue(mb) >= 0)
+    {
+        MBGuard g(mb);
+        if (media::AudioFrame(mb).input_buffer[0] == 0 && c != mixed_ticker.message_count())
+            break;
+    }
+
+    // AudioContainer has a 3 second buffer @ 48KHz, so lets overflow that
+    auto offset = frm.sample_no;
+    while (frm.sample_no - offset < 48000 * 10)
+    {
+        REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
+        frm.sample_no += FRAMESIZE;
+        for (size_t i=0;i<buffer.size();++i)
+            buffer[i] = v;
+        ++v;
+    }
+
+    REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, media::AudioFrame()));
+
+    // verify AudioMuxer survives by ensuring AudioMuxer starts generating silence again.
+    c = mixed_ticker.message_count();
+    while (mixed_frames.dequeue(mb) >= 0)
+    {
+        MBGuard g(mb);
+        if (media::AudioFrame(mb).input_buffer[0] == 0 && c != mixed_ticker.message_count())
+            break;
+    }
+}
+
 TEST_CASE( "MuxedStreamTypesInAudioBlock" )
 {
     auto txclient = InitTeamTalk();
