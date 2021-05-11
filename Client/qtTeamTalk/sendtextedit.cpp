@@ -33,10 +33,13 @@ SendTextEdit::SendTextEdit(QWidget * parent/* = 0*/)
 void SendTextEdit::keyPressEvent(QKeyEvent* e)
 {
     QString msg = toPlainText();
-    QPlainTextEdit::keyPressEvent(e);
-    if((e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) &&
-       (e->modifiers() & Qt::ShiftModifier) == 0)
+    if ((e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) &&
+        (e->modifiers() & Qt::ShiftModifier) == 0)
+    {
         emit(sendTextMessage(msg));
+    }
+    else
+        QPlainTextEdit::keyPressEvent(e);
 }
 
 void SendTextEdit::keyReleaseEvent(QKeyEvent* e)
