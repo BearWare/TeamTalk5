@@ -331,6 +331,14 @@ TEST_CASE( "MuxedAudioBlock" )
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
+
+    REQUIRE(WaitForCmdComplete(rxclient, TT_DoLeaveChannel(rxclient)));
+
+    REQUIRE(!WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, 100));
+
+    REQUIRE(JoinRoot(rxclient));
+
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
 }
 
 TEST_CASE( "MuxedAudioBlockNoInputDevice" )
