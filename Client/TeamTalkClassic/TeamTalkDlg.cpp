@@ -5422,8 +5422,8 @@ void CTeamTalkDlg::UpdateAudioStorage(BOOL bEnable)
         Channel chan;
         if(TT_GetChannel(ttInst, TT_GetMyChannelID(ttInst), &chan))
         {
-            if(!TT_StartRecordingMuxedAudioFile(ttInst, &chan.audiocodec, 
-                szAudioFile, aff))
+            StreamTypes uStreamTypes = m_xmlSettings.GetAudioLogStreamTypes(DEFAULT_MEDIASTORAGE_STREAMTYPES);
+            if(!TT_StartRecordingMuxedStreams(ttInst, uStreamTypes, &chan.audiocodec, szAudioFile, aff))
             {
                 MessageBox(LoadText(IDS_RECSTARTFAILED, _T("Failed to start recording")), LoadText(IDS_ERR, _T("Error")));
                 return;
@@ -6067,10 +6067,13 @@ void CTeamTalkDlg::OnUpdateUsersStoreconversationstodisk(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnUsersStoreconversationstodisk()
 {
     UINT uStorageMode = m_xmlSettings.GetAudioLogStorageMode();
+    StreamTypes uStreamTypes = m_xmlSettings.GetAudioLogStreamTypes(STREAMTYPE_VOICE);
 
     CMediaStorageDlg dlg;
     dlg.m_szAudioDir = STR_UTF8(m_xmlSettings.GetAudioLogStorage());
     dlg.m_uAFF = m_xmlSettings.GetAudioLogStorageFormat();
+    dlg.m_bVoice = (uStreamTypes & STREAMTYPE_VOICE) ? TRUE : FALSE;
+    dlg.m_bMediaFile= (uStreamTypes & STREAMTYPE_MEDIAFILE_AUDIO) ? TRUE : FALSE;
     dlg.m_bSingleFile = (uStorageMode & AUDIOSTORAGE_SINGLEFILE)?TRUE:FALSE;
     dlg.m_bSeparateFiles = (uStorageMode & AUDIOSTORAGE_SEPARATEFILES)?TRUE:FALSE;
 
@@ -6087,7 +6090,13 @@ void CTeamTalkDlg::OnUsersStoreconversationstodisk()
             uStorageMode |= AUDIOSTORAGE_SINGLEFILE;
         if(dlg.m_bSeparateFiles)
             uStorageMode |= AUDIOSTORAGE_SEPARATEFILES;
+        uStreamTypes = STREAMTYPE_NONE;
         m_xmlSettings.SetAudioLogStorageMode(uStorageMode);
+        if (dlg.m_bVoice)
+            uStreamTypes |= STREAMTYPE_VOICE;
+        if (dlg.m_bMediaFile)
+            uStreamTypes |= STREAMTYPE_MEDIAFILE_AUDIO;
+        m_xmlSettings.SetAudioLogStreamTypes(uStreamTypes);
         m_xmlSettings.SetChanTextLogStorage(STR_UTF8(dlg.m_szChanLogDir));
         m_xmlSettings.SetUserTextLogStorage(STR_UTF8(dlg.m_szUserTxtDir));
 

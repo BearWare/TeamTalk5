@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.7.1.5036"
+#define TEAMTALK_VERSION "5.8.0.5037"
 
 
 #if defined(WIN32)
@@ -4560,7 +4560,7 @@ extern "C" {
      *   audio stream from local playback.
      * - Pass #TT_LOCAL_USERID to receive audio stream from all local
      *   playbacks.
-     * @param nStreamType Either #STREAMTYPE_VOICE,
+     * @param uStreamTypes Either #STREAMTYPE_VOICE,
      * #STREAMTYPE_MEDIAFILE_AUDIO or #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
      * @param bEnable Whether to enable the #CLIENTEVENT_USER_AUDIOBLOCK event.
      * @see TT_AcquireUserAudioBlock()
@@ -4568,7 +4568,7 @@ extern "C" {
      * @see CLIENTEVENT_USER_AUDIOBLOCK */
     TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEvent(IN TTInstance* lpTTInstance,
                                                     IN INT32 nUserID,
-                                                    IN StreamType nStreamType,
+                                                    IN StreamTypes uStreamTypes,
                                                     IN TTBOOL bEnable);
 
     /**
@@ -4578,7 +4578,7 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @param nUserID See description in TT_EnableAudioBlockEvent()
-     * @param nStreamType See description in TT_EnableAudioBlockEvent()
+     * @param uStreamTypes See description in TT_EnableAudioBlockEvent()
      * @param lpAudioFormat Resample audio format from user to this #AudioFormat.
      * Currently only AFF_WAVE_FORMAT is supported.
      * Specify NULL to get original audio format.
@@ -4588,7 +4588,7 @@ extern "C" {
      * @see CLIENTEVENT_USER_AUDIOBLOCK */
     TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEventEx(IN TTInstance* lpTTInstance,
                                                       IN INT32 nUserID,
-                                                      IN StreamType nStreamType,
+                                                      IN StreamTypes uStreamTypes,
                                                       IN const AudioFormat* lpAudioFormat,
                                                       IN TTBOOL bEnable);
     
@@ -4813,7 +4813,13 @@ extern "C" {
                                                              IN INT32 nChannelID,
                                                              IN const TTCHAR* szAudioFileName,
                                                              IN AudioFileFormat uAFF);
-    
+
+    TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedStreams(IN TTInstance* lpTTInstance,
+                                                         IN StreamTypes uStreamTypes,
+                                                         IN const AudioCodec* lpAudioCodec,
+                                                         IN const TTCHAR* szAudioFileName,
+                                                         IN AudioFileFormat uAFF);
+
     /**
      * @brief Stop an active muxed audio recording.
      *
@@ -7200,15 +7206,15 @@ extern "C" {
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @param nStreamType The stream type to extract, either ::STREAMTYPE_VOICE
-     * ::STREAMTYPE_MEDIAFILE_AUDIO.
+     * @param uStreamTypes The stream type to extract, either #STREAMTYPE_VOICE
+     * #STREAMTYPE_MEDIAFILE_AUDIO, #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
      * @param nUserID The ID of the user to retrieve the #AudioBlock from.
      * Basically #TTMessage's @c nSource from #CLIENTEVENT_USER_AUDIOBLOCK.
      * @see TT_ReleaseUserAudioBlock()
      * @see TT_EnableAudioBlockEvent()
      * @see CLIENTEVENT_USER_AUDIOBLOCK */
     TEAMTALKDLL_API AudioBlock* TT_AcquireUserAudioBlock(IN TTInstance* lpTTInstance,
-                                                         IN StreamType nStreamType,
+                                                         IN StreamTypes uStreamTypes,
                                                          IN INT32 nUserID);
 
     /** 

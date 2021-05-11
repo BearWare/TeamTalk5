@@ -194,6 +194,8 @@
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"
 #define SETTINGS_MEDIASTORAGE_FILEFORMAT            "media-storage/audio-storage-format"
+#define SETTINGS_MEDIASTORAGE_STREAMTYPES           "media-storage/audio-storage-streamtypes"
+#define SETTINGS_MEDIASTORAGE_STREAMTYPES_DEFAULT   STREAMTYPE_VOICE
 #define SETTINGS_MEDIASTORAGE_CHANLOGFOLDER         "media-storage/channellog-folder"
 #define SETTINGS_MEDIASTORAGE_USERLOGFOLDER         "media-storage/userlog-folder"
 

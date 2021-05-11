@@ -109,6 +109,7 @@ ClientNode::~ClientNode()
 
         Disconnect();
         StopStreamingMediaFile();
+        StopRecordingMuxedAudioFile();
         CloseVideoCapture();
         m_mediaplayback_streams.clear(); //clear all players before removing sound group
         CloseSoundInputDevice();
@@ -1008,7 +1009,10 @@ void ClientNode::CloseAudioCapture()
 
     // submit ending of recording
     frm.sample_no = m_soundprop.samples_recorded;
-    AudioUserCallback(LOCAL_USERID, STREAMTYPE_VOICE, frm);
+    if (m_audiocontainer.AddAudio(LOCAL_USERID, STREAMTYPE_VOICE, frm))
+    {
+        m_listener->OnUserAudioBlock(LOCAL_USERID, STREAMTYPE_VOICE);
+    }
     
     m_soundprop.samples_transmitted = 0;
     m_soundprop.samples_recorded = 0;
@@ -1449,12 +1453,12 @@ bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
     TTASSERT(audio_frame.inputfmt.samplerate);
     TTASSERT(audio_frame.input_samples);
 
-    if (m_audiocontainer.AddAudio(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, audio_frame))
-        m_listener->OnUserAudioBlock(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO);
-
     audio_frame.force_enc = true;
     audio_frame.userdata = STREAMTYPE_MEDIAFILE_AUDIO;
     audio_frame.streamid = m_mediafile_stream_id;
+
+    AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, audio_frame);
+
     m_audiofile_thread.QueueAudio(mb_audio);
     // don't touch 'mb_audio' after this
 
@@ -1478,9 +1482,11 @@ void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
         break;
     case MEDIASTREAM_ERROR :
         mfs = MFS_ERROR;
+        AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, media::AudioFrame());
         break;
     case MEDIASTREAM_FINISHED :
         mfs = MFS_FINISHED;
+        AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, media::AudioFrame());
         break;
     case MEDIASTREAM_PAUSED :
         mfs = MFS_PAUSED;
@@ -1515,33 +1521,23 @@ void ClientNode::AudioInputStatusCallback(const AudioInputStatus& ais)
     m_listener->OnAudioInputStatus(m_voice_stream_id, ais);
 }
 
-void ClientNode::AudioMuxCallback(const media::AudioFrame& audio_frame)
+void ClientNode::AudioMuxCallback(teamtalk::StreamTypes sts, const media::AudioFrame& audio_frame)
 {
-    if (m_audiocontainer.AddAudio(MUX_USERID, STREAMTYPE_VOICE, audio_frame))
+    if (m_audiocontainer.AddAudio(MUX_USERID, sts, audio_frame))
     {
-        m_listener->OnUserAudioBlock(MUX_USERID, STREAMTYPE_VOICE);
+        m_listener->OnUserAudioBlock(MUX_USERID, sts);
     }
 }
 
 void ClientNode::AudioUserCallback(int userid, StreamType st,
                                    const media::AudioFrame& audio_frame)
 {
-    switch (st)
-    {
-    case STREAMTYPE_VOICE :
-    {
-        m_channelrecord.QueueUserAudio(userid, audio_frame);
-        
-        // make copy since we're in a separate thread
-        auto streammuxer = m_audiomuxer_stream;
-        if (streammuxer)
-            streammuxer->QueueUserAudio(userid, audio_frame);
+    m_channelrecord.QueueUserAudio(userid, st, audio_frame);
 
-    }
-    break;
-    default :
-        break;
-    }
+    // make copy since we're in a separate thread
+    auto streammuxer = m_audiomuxer_stream;
+    if (streammuxer)
+        streammuxer->QueueUserAudio(userid, st, audio_frame);
 
     // ignore "terminate" audio frames (i.e. null buffers) and "not
     // talking" audio frames (i.e. streamid=0)
@@ -2976,7 +2972,7 @@ bool ClientNode::AutoPositionUsers()
     return m_soundsystem->AutoPositionPlayers(m_soundprop.soundgroupid, true);
 }
 
-bool ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
+bool ClientNode::EnableAudioBlockCallback(int userid, StreamTypes sts,
                                           const media::AudioFormat& outfmt,
                                           bool enable)
 {
@@ -2984,26 +2980,26 @@ bool ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
 
     if (enable)
     {
-        if (userid == LOCAL_USERID && stream_type == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO)
+        if (userid == LOCAL_USERID && (sts == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO))
         {
             for (int i=1;i<=LOCAL_MEDIAPLAYBACK_SESSIONID_MAX;++i)
-                m_audiocontainer.AddAudioSource(i, stream_type, outfmt);
+                m_audiocontainer.AddAudioSource(i, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, outfmt);
         }
         else
         {
-            m_audiocontainer.AddAudioSource(userid, stream_type, outfmt);
+            m_audiocontainer.AddAudioSource(userid, sts, outfmt);
         }
     }
     else
     {
-        if (userid == LOCAL_USERID && stream_type == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO)
+        if (userid == LOCAL_USERID && (sts == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO))
         {
             for (int i=1;i<=LOCAL_MEDIAPLAYBACK_SESSIONID_MAX;++i)
-                m_audiocontainer.RemoveAudioSource(i, stream_type);
+                m_audiocontainer.RemoveAudioSource(i, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO);
         }
         else
         {
-            m_audiocontainer.RemoveAudioSource(userid, stream_type);
+            m_audiocontainer.RemoveAudioSource(userid, sts);
         }
     }
 
@@ -3011,12 +3007,12 @@ bool ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
     {
         if (enable)
         {
-            m_audiomuxer_stream.reset(new AudioMuxer());
+            m_audiomuxer_stream.reset(new AudioMuxer(sts));
             // start muxer if already in channel
             if (m_mychannel)
             {
                 auto codec = m_mychannel->GetAudioCodec();
-                bool startmux = m_audiomuxer_stream->RegisterMuxCallback(codec, std::bind(&ClientNode::AudioMuxCallback, this, _1));
+                bool startmux = m_audiomuxer_stream->RegisterMuxCallback(codec, std::bind(&ClientNode::AudioMuxCallback, this, _1, _2));
                 MYTRACE_COND(!startmux, ACE_TEXT("Failed to start audio muxer\n"));
             }
         }
@@ -3141,13 +3137,14 @@ void ClientNode::SetSoundInputTone(StreamTypes streams, int frequency)
 }
 
 bool ClientNode::StartRecordingMuxedAudioFile(const AudioCodec& codec, 
+                                              StreamTypes sts,
                                               const ACE_TString& filename,
                                               AudioFileFormat aff)
 {
     ASSERT_REACTOR_LOCKED(this);
 
     if (m_channelrecord.SaveFile(FIXED_AUDIOCODEC_CHANNELID,
-                                 codec, filename, aff))
+                                 codec, sts, filename, aff))
     {
         m_flags |= CLIENT_MUX_AUDIOFILE;
         return true;
@@ -3156,6 +3153,7 @@ bool ClientNode::StartRecordingMuxedAudioFile(const AudioCodec& codec,
 }
 
 bool ClientNode::StartRecordingMuxedAudioFile(int channelid,
+                                              StreamTypes sts,
                                               const ACE_TString& filename,
                                               AudioFileFormat aff)
 {
@@ -3166,7 +3164,7 @@ bool ClientNode::StartRecordingMuxedAudioFile(int channelid,
         return false;
 
     return m_channelrecord.SaveFile(channelid, chan->GetAudioCodec(),
-                                    filename, aff);
+                                    sts, filename, aff);
 }
 
 void ClientNode::StopRecordingMuxedAudioFile()
@@ -3336,6 +3334,9 @@ void ClientNode::StopStreamingMediaFile()
     {
         clear_video = m_mediafile_streamer->GetMediaOutput().HasVideo();
         clear_audio = m_mediafile_streamer->GetMediaOutput().HasAudio();
+
+        AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, media::AudioFrame());
+
         m_mediafile_streamer.reset();
     }
 
@@ -3476,6 +3477,8 @@ bool ClientNode::StopMediaPlayback(int id)
     if(iplayback == m_mediaplayback_streams.end())
         return false;
 
+    AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, media::AudioFrame());
+
     m_mediaplayback_streams.erase(iplayback);
     return true;
 }
@@ -3492,13 +3495,20 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_PLAYING);
         break;
     case MEDIASTREAM_ERROR :
+        AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, media::AudioFrame());
+
         // TIMER_REMOVE_LOCALPLAYBACK will destroy media playback
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_ERROR);
         break;
     case MEDIASTREAM_PAUSED :
+        // appear as stream finished, otherwise AudioMuxer will be delayed
+        AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, media::AudioFrame());
+
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_PAUSED);
         break;
     case MEDIASTREAM_FINISHED :
+        AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, media::AudioFrame());
+
         // TIMER_REMOVE_LOCALPLAYBACK will destroy media playback
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_FINISHED);
         break;
@@ -3510,10 +3520,8 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
 
 void ClientNode::MediaPlaybackAudio(int id, const media::AudioFrame& frm)
 {
-    if (m_audiocontainer.AddAudio(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, frm))
-    {
-        m_listener->OnUserAudioBlock(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO);
-    }
+    assert(frm.streamid);
+    AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, frm);
 }
 
 bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
@@ -4181,12 +4189,12 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
     }
         
     // add "self" from muxed recording
-    m_channelrecord.AddUser(LOCAL_TX_USERID, chan->GetChannelID());
+    m_channelrecord.AddUser(LOCAL_TX_USERID, STREAMTYPE_VOICE, chan->GetChannelID());
 
     // enable audio muxer callback
     if (m_audiomuxer_stream)
     {
-        bool startmux = m_audiomuxer_stream->RegisterMuxCallback(codec, std::bind(&ClientNode::AudioMuxCallback, this, _1));
+        bool startmux = m_audiomuxer_stream->RegisterMuxCallback(codec, std::bind(&ClientNode::AudioMuxCallback, this, _1, _2));
         MYTRACE_COND(!startmux, ACE_TEXT("Failed to start audio muxer\n"));
     }
 
@@ -4236,7 +4244,7 @@ void ClientNode::LeftChannel(ClientChannel& chan)
         m_audiomuxer_stream->UnregisterMuxCallback();
 
     // remove "self" from muxed recording
-    m_channelrecord.RemoveUser(LOCAL_TX_USERID);
+    m_channelrecord.RemoveUser(LOCAL_TX_USERID, STREAMTYPE_VOICE);
 
     CloseDesktopSession(true);
 
@@ -4264,7 +4272,7 @@ void ClientNode::LoggedOut()
         {
             user->ResetAllStreams();
             // remove all users from muxed recording
-            m_channelrecord.RemoveUser(*ite);
+            m_channelrecord.RemoveUser(*ite, STREAMTYPE_VOICE);
         }
         ite++;
     }
@@ -5397,7 +5405,7 @@ void ClientNode::HandleAddUser(const mstrings_t& properties)
     chan->AddUser(user->GetUserID(), user);
 
     // notify audio file muxer that user is in channel
-    m_channelrecord.AddUser(userid, chanid);
+    m_channelrecord.AddUser(userid, STREAMTYPE_VOICE, chanid);
 
     //special case for 'local user'
     if(userid == m_myuserid)
@@ -5472,7 +5480,7 @@ void ClientNode::HandleRemoveUser(const mstrings_t& properties)
         return;
 
     // notify audio file muxer that user left channel
-    m_channelrecord.RemoveUser(userid);
+    m_channelrecord.RemoveUser(userid, STREAMTYPE_VOICE);
 
     if(m_mychannel == chan && user->GetUserID() == m_myuserid)
         LeftChannel(*GetMyChannel());

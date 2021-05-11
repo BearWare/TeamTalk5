@@ -24,15 +24,34 @@
 #include "AudioMuxer.h"
 #include <teamtalk/ttassert.h>
 
+#include <cstring>
+
 #define AUDIOBLOCK_QUEUE_MSEC 1000
 
 #define DEBUG_AUDIOMUXER 0
 
 using namespace teamtalk;
 
-AudioMuxer::AudioMuxer()
+uint32_t GenKey(int userid, teamtalk::StreamType streamtype)
 {
-    m_mux_interval = ToTimeValue(AUDIOBLOCK_QUEUE_MSEC / 3);
+    assert(userid < 0x10000);
+    assert((streamtype & 0xffff0000) == 0);
+    return (userid << 16) | streamtype;
+}
+
+int GetUserID(uint32_t key)
+{
+    return key >> 16;
+}
+
+teamtalk::StreamType GetStreamType(uint32_t key)
+{
+    return teamtalk::StreamType(key & 0xffff);
+}
+
+AudioMuxer::AudioMuxer(teamtalk::StreamTypes sts)
+    : m_streamtypes(sts)
+{
 }
 
 AudioMuxer::~AudioMuxer()
@@ -63,10 +82,12 @@ bool AudioMuxer::StartThread(const teamtalk::AudioCodec& codec)
     if(samples <= 0)
         return false;
 
+    SetMuxInterval(GetAudioCodecCbMillis(codec));
+
     MYTRACE(ACE_TEXT("Starting AudioMuxer with sample rate %d and callback %d\n"),
             GetAudioCodecSampleRate(codec), GetAudioCodecCbSamples(codec));
 
-    m_muxed_audio.resize(samples);
+    m_muxed_buffer.assign(samples, short(0));
 
     m_codec = codec;
 
@@ -92,8 +113,14 @@ void AudioMuxer::StopThread()
     }
 
     m_codec = AudioCodec();
-    m_audio_queue.clear();
-    m_user_queue.clear();
+    m_usermux_queue.clear();
+    m_usermux_progress.clear();
+    m_preprocess_queue.Reset();
+    while (m_preprocess_block.size())
+    {
+        m_preprocess_block.begin()->second->release();
+        m_preprocess_block.erase(m_preprocess_block.begin());
+    }
 }
 
 bool AudioMuxer::RegisterMuxCallback(const teamtalk::AudioCodec& codec,
@@ -118,6 +145,12 @@ void AudioMuxer::UnregisterMuxCallback()
 
     if (!FileActive())
         StopThread();
+}
+
+void AudioMuxer::RegisterMuxTick(audiomuxer_tick_t cb)
+{
+    assert(m_codec.codec == CODEC_NO_CODEC);
+    m_tickcallback = cb;
 }
 
 bool AudioMuxer::FileActive()
@@ -262,79 +295,203 @@ void AudioMuxer::CloseFile()
 #endif
 }
 
-bool AudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
+bool AudioMuxer::QueueUserAudio(int userid, teamtalk::StreamType st,
+                                const media::AudioFrame& frm)
 {
+    TTASSERT((frm.input_buffer == nullptr && frm.input_samples == 0) || (frm.input_buffer && frm.input_samples));
+
     //if thread isn't running just ignore
     if (!m_thread)
         return false;
 
-    //audio must be same format as 'm_codec' but allow 'n_samples' and
-    //'n_channels' to be 0 to terminate a stream
-    if (GetAudioCodecCbSamples(m_codec) != frm.input_samples && frm.input_samples != 0)
-    {
+    // check that this stream type has been selected for muxing
+    if ((m_streamtypes & st) == teamtalk::STREAMTYPE_NONE)
         return false;
-    }
-    if (GetAudioCodecChannels(m_codec) != frm.inputfmt.channels && frm.inputfmt.channels != 0)
+
+    int key = GenKey(userid, st);
+
+    std::unique_lock<std::recursive_mutex> g(m_preprocess_mutex);
+    
+    if (!m_preprocess_queue.Exists(userid, st))
     {
-        return false;
+        MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Adding audio source #%d, streamtype: 0x%x\n"),
+            GetUserID(key), GetStreamType(key));
+        m_preprocess_queue.AddAudioSource(userid, st, GetAudioCodecAudioFormat(m_codec));
+
+        // allocate queue so muxer will wait for audio source to provide enough samples
+        std::unique_lock<std::recursive_mutex> g(m_mux_mutex);
+        GetMuxQueue(key);
     }
 
-    assert(GetAudioCodecCbTotalSamples(m_codec) == (frm.input_samples * frm.inputfmt.channels) || frm.input_samples == 0);
+    MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Queueing #%d streamtype: 0x%x sample index %u\n"),
+                 GetUserID(key), GetStreamType(key), frm.sample_no);
+    if (!m_preprocess_queue.AddAudio(userid, st, frm))
+    {
+        MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("AudioMuxer failed to queue resample audio from #%d streamtype %d. Resetting.\n"),
+            userid, st);
+        m_preprocess_queue.RemoveAudioSource(userid, st);
 
-    std::unique_lock<std::recursive_mutex> g(m_mutex);
+        // clear as mux source
+        std::unique_lock<std::recursive_mutex> g(m_mux_mutex);
+        SubmitMuxAudioFrame(key, media::AudioFrame());
+    }
 
-    // MYTRACE(ACE_TEXT("Add audio from #%d to audiomuxer %p. Offset %u. Samples %d\n"),
-    //         userid, this, sample_no, n_samples);
+    return true;
+}
 
-    ACE_Message_Queue<ACE_MT_SYNCH>* q = nullptr;
-    user_audio_queue_t::iterator ii = m_audio_queue.find(userid);
-    if(ii == m_audio_queue.end())
+AudioMuxer::message_queue_t AudioMuxer::GetMuxQueue(int key)
+{
+    user_audio_queue_t::iterator ii = m_usermux_queue.find(key);
+    if (ii == m_usermux_queue.end())
     {
         // setup audio buffer queue for user prior to mixing streams
-        
+
         int bytes = GetAudioCodecCbBytes(m_codec);
         int msec = GetAudioCodecCbMillis(m_codec);
-        int chans = GetAudioCodecChannels(m_codec);
-        int sr = GetAudioCodecSampleRate(m_codec);
-        if (!msec)
-            return false;
+        assert(msec > 0);
 
         // bytes between each mux interval
         int buffersize = bytes * ((m_mux_interval.msec() / msec) + 1);
         // allow double of mux interval
         buffersize *= 2;
-        MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Buffer duration for user #%d, %d msec\n"),
-                     userid, PCM16_BYTES_DURATION(buffersize, chans, sr));
         // add header size
         buffersize += (buffersize / bytes) * sizeof(media::AudioFrame);
-        
-        m_audio_queue[userid].reset(new ACE_Message_Queue<ACE_MT_SYNCH>());
-        q = m_audio_queue[userid].get();
+
+        m_usermux_queue[key].reset(new ACE_Message_Queue<ACE_MT_SYNCH>());
+        auto q = m_usermux_queue[key];
         q->high_water_mark(buffersize);
+        q->low_water_mark(buffersize);
     }
-    else
-        q = ii->second.get();
+
+    return m_usermux_queue[key];
+}
+
+void AudioMuxer::SubmitMuxAudioFrame(int key, const media::AudioFrame& frm)
+{
+    assert(GetAudioCodecCbTotalSamples(m_codec) == (frm.input_samples * frm.inputfmt.channels) || frm.input_samples == 0);
+
+    // MYTRACE(ACE_TEXT("Add audio from #%d to audiomuxer %p. Offset %u. Samples %d\n"),
+    //         userid, this, sample_no, n_samples);
+
+    message_queue_t q = GetMuxQueue(key);
+
+    MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Buffer size for user #%d, streamtype %d, %d/%d bytes\n"),
+                 GetUserID(key), GetStreamType(key), int(q->message_length()), int(q->high_water_mark()));
 
     ACE_Message_Block* mb = AudioFrameToMsgBlock(frm);
 
     ACE_Time_Value tm;
     if (q->enqueue(mb, &tm) < 0)
     {
-        MYTRACE(ACE_TEXT("Buffer depleted for user #%d AudioMuxBlock %u, is last: %s. Dropping queue containing %d msec, %u/%u bytes\n"),
-                userid, frm.sample_no, (frm.input_buffer == nullptr ? ACE_TEXT("true"):ACE_TEXT("false")),
+        MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Buffer full for user #%d streamtype %d, sampleindex %u, is last: %s. Dropping queue containing %d msec, %u/%u bytes\n"),
+                GetUserID(key), GetStreamType(key), frm.sample_no, (frm.input_samples == 0 ? ACE_TEXT("true"):ACE_TEXT("false")),
                 q->message_count() * GetAudioCodecCbMillis(m_codec), unsigned(q->message_bytes()), unsigned(q->high_water_mark()));
         q->flush();
+        TTASSERT(q->message_count() == 0);
         //insert after flush, so it will appear as a new stream
-        if(q->enqueue(mb, &tm)<0)
+        tm = ACE_Time_Value::zero;
+        if (q->enqueue(mb, &tm) < 0)
         {
             mb->release();
-            m_audio_queue.erase(userid);
+            m_usermux_queue.erase(key);
         }
         //clear sample no tracker
-        m_user_queue.erase(userid);
+        m_usermux_progress.erase(key);
     }
-    
-    return true;
+    else
+    {
+        MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Submitted #%d streamtype: 0x%x from sample index %u, samples %d\n"),
+                     GetUserID(key), GetStreamType(key), frm.sample_no, frm.input_samples);
+    }
+}
+
+void AudioMuxer::SubmitPreprocessQueue()
+{
+    std::vector<int> keys;
+    // store keys since we erase 'm_usermux_queue' elements during processing
+    auto ii = m_usermux_queue.begin();
+    for (;ii != m_usermux_queue.end();++ii)
+        keys.push_back(ii->first);
+
+    for (auto key : keys)
+    {
+        int userid = GetUserID(key);
+        teamtalk::StreamType st = GetStreamType(key);
+
+        // extract all AudioFrames from user w. StreamType starting with
+        // the one in 'm_userresample_block'
+        std::vector<ACE_Message_Block*> mbs;
+        if (m_preprocess_block.find(key) != m_preprocess_block.end())
+        {
+            MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Resuming #%d streamtype: 0x%x from sample index %u\n"),
+                         userid, st, media::AudioFrame(m_preprocess_block[key]).sample_no);
+            mbs.push_back(m_preprocess_block[key]);
+        }
+        m_preprocess_block.erase(key);
+
+        ACE_Message_Block* mb;
+        while ((mb = m_preprocess_queue.AcquireAudioFrame(userid, st)))
+        {
+            mbs.push_back(mb);
+            MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Dequeued #%d streamtype: 0x%x sample index %u\n"),
+                GetUserID(key), GetStreamType(key), media::AudioFrame(mb).sample_no);
+        }
+
+        // Submit as many "mux-ready" frames as possible
+        while ((mb = BuildMuxAudioFrame(mbs)))
+        {
+            MBGuard g(mb);
+            media::AudioFrame frm(mb);
+            MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Submitting #%d streamtype: 0x%x from sample index %u\n"),
+                         userid, st, frm.sample_no);
+            SubmitMuxAudioFrame(key, frm);
+        }
+
+        // If any AudioBlocks remain then store one AudioFrame in 'm_userresample_block'
+        if (mbs.size() == 1)
+        {
+            m_preprocess_block[key] = mbs[0];
+            mbs.clear();
+            MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Store #%d streamtype: 0x%x from sample index %u\n"),
+                         userid, st, media::AudioFrame(m_preprocess_block[key]).sample_no);
+        }
+        else if (mbs.size() > 1)
+        {
+            mb = AudioFramesMerge(mbs);
+            for (auto m : mbs)
+                m->release();
+            mbs.clear();
+            m_preprocess_block[key] = mb;
+            MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Store jumbo #%d streamtype: 0x%x from sample index %u\n"),
+                         userid, st, media::AudioFrame(m_preprocess_block[key]).sample_no);
+        }
+    }
+}
+
+ACE_Message_Block* AudioMuxer::BuildMuxAudioFrame(std::vector<ACE_Message_Block*>& mbs)
+{
+    if (mbs.empty())
+        return nullptr;
+
+    // check if it's a terminator frame
+    media::AudioFrame frm(mbs[0]);
+    if (frm.input_samples == 0)
+    {
+        ACE_Message_Block* mb = mbs[0];
+        mbs.erase(mbs.begin());
+        return mb;
+    }
+
+    // check if it's already the correct format
+    if (frm.inputfmt == teamtalk::GetAudioCodecAudioFormat(m_codec) &&
+        frm.input_samples == teamtalk::GetAudioCodecCbSamples(m_codec))
+    {
+        ACE_Message_Block* mb = mbs[0];
+        mbs.erase(mbs.begin());
+        return mb;
+    }
+
+    return AudioFrameFromList(GetAudioCodecCbSamples(m_codec), mbs);
 }
 
 void AudioMuxer::SetMuxInterval(int msec)
@@ -353,6 +510,8 @@ void AudioMuxer::Run()
 
     MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("AudioMuxer interval: %d msec\n"), m_mux_interval.msec());
     
+    assert(m_mux_interval != ACE_Time_Value());
+
     TimerHandler th(*this, 577);
     int timerid = m_reactor.schedule_timer(&th, 0, m_mux_interval, m_mux_interval);
     TTASSERT(timerid >= 0);
@@ -376,13 +535,20 @@ int AudioMuxer::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
 
 void AudioMuxer::ProcessAudioQueues(bool flush)
 {
-    //Make map of userid -> sample no.
-    //Check if all expected audio is there (from every user)
-    //If there -> mux
-    //Else wait until next round (what if dead??)
-
     ACE_UINT32 now = GETTIMESTAMP();
     ACE_UINT32 diff = now - m_last_flush_time;
+
+    // store the list of active sources prior to mux
+    std::vector<int> oldkeys;
+    {
+        std::unique_lock<std::recursive_mutex> g(m_mux_mutex);
+        auto ii = m_usermux_queue.begin();
+        for (; ii != m_usermux_queue.end(); ++ii)
+            oldkeys.push_back(ii->first);
+
+        // empty preprocess queue
+        SubmitPreprocessQueue();
+    }
 
     int cb_msec = GetAudioCodecCbMillis(m_codec);
     int cb_samples = GetAudioCodecCbSamples(m_codec);
@@ -395,22 +561,25 @@ void AudioMuxer::ProcessAudioQueues(bool flush)
     int remain_msec = (int)diff % cb_msec;
     while(cb_count)
     {
-        if(CanMuxUserAudio())
-            MuxUserAudio(); //write muxed audio
-        else
         {
-            std::unique_lock<std::recursive_mutex> g(m_mutex);
-            if(m_audio_queue.empty())
+            std::unique_lock<std::recursive_mutex> g(m_mux_mutex);
+
+            if(CanMuxUserAudio())
+                MuxUserAudio(); //write muxed audio
+            else
             {
-                //write silence
-                short zero = 0;
-                m_muxed_audio.assign(m_muxed_audio.size(), zero);
-                //MYTRACE(ACE_TEXT("No audio to mux at %u. Writing %d msec silence\n"),
-                //        now, cb_msec);
+                if (m_usermux_queue.empty())
+                {
+                    //write silence
+                    short zero = 0;
+                    m_muxed_buffer.assign(m_muxed_buffer.size(), zero);
+                    //MYTRACE(ACE_TEXT("No audio to mux at %u. Writing %d msec silence\n"),
+                    //        now, cb_msec);
+                }
+                else //no data has arrived in time
+                    break;
             }
-            else //no data has arrived in time
-                break;
-        }
+        } // scope so we don't hold lock during callback
 
         WriteAudio(cb_samples);
         cb_count--;
@@ -418,128 +587,148 @@ void AudioMuxer::ProcessAudioQueues(bool flush)
 
     if (flush)
     {
-        RemoveEmptyMuxUsers();
-
-        while (CanMuxUserAudio())
+        while (true)
         {
-            MuxUserAudio();
+            {
+                std::unique_lock<std::recursive_mutex> g(m_mux_mutex);
+                RemoveEmptyMuxUsers();
+
+                if (CanMuxUserAudio())
+                    MuxUserAudio();
+                else
+                    break;
+            }
             WriteAudio(cb_samples);
-            RemoveEmptyMuxUsers();
         }
     }
 
     // MYTRACE(ACE_TEXT("Queued %d msec at %u\n"), (cb_count * cb_msec) - remain_msec, now);
     m_last_flush_time = now - ((cb_count * cb_msec) + remain_msec);
+
+    // still active audio sources
+    std::set<int> newkeys;
+    {
+        std::unique_lock<std::recursive_mutex> g(m_mux_mutex);
+        auto ii = m_usermux_queue.begin();
+        for (; ii != m_usermux_queue.end(); ++ii)
+            newkeys.insert(ii->first);
+    }
+    
+    // clear dead audio sources
+    {
+        std::unique_lock<std::recursive_mutex> g(m_preprocess_mutex);
+        for (auto key : oldkeys)
+        {
+            if (newkeys.find(key) == newkeys.end() && m_preprocess_queue.IsEmpty(GetUserID(key), GetStreamType(key)))
+            {
+                m_preprocess_queue.RemoveAudioSource(GetUserID(key), GetStreamType(key));
+                MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Removed audio source #%d, streamtype: 0x%x\n"),
+                    GetUserID(key), GetStreamType(key));
+            }
+        }
+    }
+
+    if (m_tickcallback)
+        m_tickcallback(m_streamtypes, m_sample_no);
 }
 
 bool AudioMuxer::CanMuxUserAudio()
 {
-    std::unique_lock<std::recursive_mutex> g(m_mutex);
-
-    user_audio_queue_t::iterator ii = m_audio_queue.begin();
-    while(ii != m_audio_queue.end())
+    user_audio_queue_t::iterator ii = m_usermux_queue.begin();
+    while(ii != m_usermux_queue.end())
     {
         if(ii->second->is_empty())
         {
-            MYTRACE_COND(DEBUG_AUDIOMUXER && m_user_queue.find(ii->first) != m_user_queue.end(),
-                         ACE_TEXT("User #%d has submitted no audio to AudioMuxer. Delaying muxer at sample no %u\n"),
-                         ii->first, m_user_queue[ii->first]);
-            MYTRACE_COND(DEBUG_AUDIOMUXER && m_user_queue.find(ii->first) == m_user_queue.end(),
-                         ACE_TEXT("User #%d has submitted no audio to AudioMuxer. No sample no available\n"), ii->first);
+            MYTRACE_COND(DEBUG_AUDIOMUXER && m_usermux_progress.find(ii->first) != m_usermux_progress.end(),
+                         ACE_TEXT("User #%d has submitted no audio to AudioMuxer. Delaying muxer...\n"),
+                         GetUserID(ii->first));
+            MYTRACE_COND(DEBUG_AUDIOMUXER && m_usermux_progress.find(ii->first) == m_usermux_progress.end(),
+                         ACE_TEXT("User #%d has submitted no audio to AudioMuxer. No sample no available\n"), GetUserID(ii->first));
             return false;
         }
         ii++;
     }
-    return m_audio_queue.size();
+    return m_usermux_queue.size();
 }
 
 void AudioMuxer::RemoveEmptyMuxUsers()
 {
-    std::unique_lock<std::recursive_mutex> g(m_mutex);
-
     // get rid of users who haven't supplied data in time for
     // flush
-    for (auto i = m_audio_queue.begin();i != m_audio_queue.end();)
+    for (auto i = m_usermux_queue.begin();i != m_usermux_queue.end();++i)
     {
         if (i->second->is_empty())
         {
-            MYTRACE(ACE_TEXT("AudioMuxer removed empty audio queue for #%d\n"), i->first);
-            i = m_audio_queue.erase(i);
+            MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("AudioMuxer removed empty audio queue for #%d\n"), GetUserID(i->first));
+            SubmitMuxAudioFrame(i->first, media::AudioFrame());
         }
         else
         {
-            MYTRACE(ACE_TEXT("AudioMuxer still has audio queue for #%d. Items: %d\n"),
-                    i->first, int(i->second->message_count()));
-            ++i;
+            MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("AudioMuxer still has audio queue for #%d. Items: %d\n"),
+                    GetUserID(i->first), int(i->second->message_count()));
         }
     }
 }
 
 bool AudioMuxer::MuxUserAudio()
 {
-    std::unique_lock<std::recursive_mutex> g(m_mutex);
-
-    TTASSERT(m_audio_queue.size());
-    TTASSERT(m_muxed_audio.size());
+    TTASSERT(m_usermux_queue.size());
+    TTASSERT(m_muxed_buffer.size());
 
     const int SAMPLES = GetAudioCodecCbSamples(m_codec);
     std::vector<ACE_Message_Block*> audio_blocks;
-    user_audio_queue_t::iterator ii = m_audio_queue.begin();
-    while(ii != m_audio_queue.end())
+    user_audio_queue_t::iterator ii = m_usermux_queue.begin();
+    while(ii != m_usermux_queue.end())
     {
         ACE_Message_Block* mb;
         ACE_Time_Value tm;
-        if(ii->second->peek_dequeue_head(mb, &tm) >= 0)
+        if (ii->second->dequeue(mb, &tm) >= 0)
         {
             media::AudioFrame frm(mb);
 
             //ensure it's the AudioMuxBlock we're expecting
-            user_queued_audio_t::iterator ui = m_user_queue.find(ii->first);
-            if(ui != m_user_queue.end())
+            user_muxprogress_t::iterator ui = m_usermux_progress.find(ii->first);
+            if(ui != m_usermux_progress.end() && frm.input_samples > 0)
             {
-                TTASSERT(W32_GEQ(frm.sample_no, ui->second));
-                if (W32_GT(frm.sample_no, ui->second + SAMPLES))
+                MYTRACE_COND(frm.sample_no != ui->second + SAMPLES,
+                             ACE_TEXT("Unexpected sample no for #%d streamtype %u. Found sample index %u. Should be %u\n"),
+                             GetUserID(ii->first), GetStreamType(ii->first), frm.sample_no, ui->second + SAMPLES);
+                TTASSERT(frm.sample_no == ui->second + SAMPLES);
+
+                if (frm.sample_no != ui->second + SAMPLES)
                 {
-                    MYTRACE(ACE_TEXT("Missing audio block from #%d. Got %u, expected %u\n"),
-                            ii->first, frm.sample_no, ui->second + SAMPLES);
-                    m_user_queue[ii->first] = ui->second + SAMPLES;
-                    ii++;
-                    continue; //skip it
-                }
-                else if (W32_LT(frm.sample_no, ui->second + SAMPLES))
-                {
-                    MYTRACE(ACE_TEXT("Got delayed audio block from #%d. Contains %u, expected %u. Dropping user.\n"),
-                            ii->first, frm.sample_no, ui->second + SAMPLES);
                     //this should never happen - clear user
-                    m_user_queue.erase(ii->first);
-                    m_audio_queue.erase(ii++);
+                    m_usermux_progress.erase(ui);
+                    m_usermux_queue.erase(ii++);
                     continue;
                 }
             }
-            //got the right audio block
-            tm = ACE_Time_Value::zero;
-            if (ii->second->dequeue(mb, &tm) < 0)
-            {
-                TTASSERT(0);//this should never happen, since we already peeked.
-                ii++;
-                continue;
-            }
-            m_user_queue[ii->first] = frm.sample_no;
-            if (frm.input_buffer == nullptr)
-            {
-                // remove expected sample-offset for next run
-                m_user_queue.erase(ii->first);
 
-                //stream ended from userid
-                if (m_audio_queue[ii->first]->is_empty())
-                    m_audio_queue.erase(ii++);
+            MYTRACE_COND(DEBUG_AUDIOMUXER && ui != m_usermux_progress.end(),
+                         ACE_TEXT("Processing/muxing #%d streamtype %d sampleindex: %u\n"),
+                         GetUserID(ii->first), GetStreamType(ii->first), frm.sample_no);
+
+            if (frm.input_samples == 0)
+            {
+                MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Clearing #%d streamtype %d, sampleindex %u\n"),
+                             GetUserID(ii->first), GetStreamType(ii->first), frm.sample_no);
+
+                // remove expected sample-offset for next run
+                m_usermux_progress.erase(ii->first);
+
+                //stream ended from user
+                if (m_usermux_queue[ii->first]->is_empty())
+                    m_usermux_queue.erase(ii++);
 
                 mb->release();
             }
             else
             {
+                MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Adding #%d streamtype %d, sampleindex %u\n"),
+                             GetUserID(ii->first), GetStreamType(ii->first), frm.sample_no);
+                m_usermux_progress[ii->first] = frm.sample_no;
                 audio_blocks.push_back(mb);
-                ii++;
+                ++ii;
             }
         }
         else
@@ -547,47 +736,50 @@ bool AudioMuxer::MuxUserAudio()
             //Something is wrong. There should be data for all users otherwise
             //CanMuxUserAudio() should have returned false.
             TTASSERT(0);
-            m_audio_queue.clear();
+            m_usermux_queue.clear();
+            m_usermux_progress.clear();
             for(size_t i=0;i<audio_blocks.size();i++)
                 audio_blocks[i]->release();
             return false;
         }
     }
 
-    g.unlock(); //don't touch 'm_audio_queue' after this!
+    TTASSERT(int(m_muxed_buffer.size()) == GetAudioCodecCbTotalSamples(m_codec));
 
     if(audio_blocks.empty())
     {
         short zero = 0;
-        m_muxed_audio.assign(m_muxed_audio.size(), zero);
+        m_muxed_buffer.assign(m_muxed_buffer.size(), zero);
     }
     else
     {
         media::AudioFrame frm(audio_blocks[0]);
         frm.ApplyGain();
-        TTASSERT((int)m_muxed_audio.size() == GetAudioCodecCbSamples(m_codec) * GetAudioCodecChannels(m_codec));
         TTASSERT(frm.input_samples);
-        m_muxed_audio.assign(frm.input_buffer, frm.input_buffer + m_muxed_audio.size());
+        TTASSERT(frm.input_samples == GetAudioCodecCbSamples(m_codec));
+        TTASSERT(frm.inputfmt == GetAudioCodecAudioFormat(m_codec));
+        TTASSERT(int(m_muxed_buffer.size()) == GetAudioCodecCbTotalSamples(m_codec));
+        m_muxed_buffer.assign(frm.input_buffer, frm.input_buffer + m_muxed_buffer.size());
 
         //this is where we mux if there's more than one user
         if(audio_blocks.size()>1)
         {
-            for(size_t i=0;i<m_muxed_audio.size();i++)
+            for(size_t a=1;a<audio_blocks.size();a++)
             {
-                int val = m_muxed_audio[i];
-                for(size_t a=1;a<audio_blocks.size();a++)
+                media::AudioFrame mfrm(audio_blocks[a]);
+                mfrm.ApplyGain();
+                TTASSERT(mfrm.input_buffer);
+                TTASSERT(mfrm.input_samples == GetAudioCodecCbSamples(m_codec));
+                for(size_t i=0;i<m_muxed_buffer.size();i++)
                 {
-                    media::AudioFrame mfrm(audio_blocks[a]);
-                    mfrm.ApplyGain();
-                    TTASSERT(mfrm.input_buffer);
-                    val += mfrm.input_buffer[i];
+                    int val = int(m_muxed_buffer[i]) + mfrm.input_buffer[i];
+                    if(val > 32767)
+                        m_muxed_buffer[i] = 32767;
+                    else if(val < -32768)
+                        m_muxed_buffer[i] = -32768;
+                    else
+                        m_muxed_buffer[i] = val;
                 }
-                if(val > 32767)
-                    m_muxed_audio[i] = 32767;
-                else if(val < -32768)
-                    m_muxed_audio[i] = -32768;
-                else
-                    m_muxed_audio[i] = val;
             }
         }
 
@@ -609,11 +801,11 @@ void AudioMuxer::WriteAudio(int cb_samples)
     TTASSERT(cb_samples == GetAudioCodecFramesPerPacket(m_codec)*framesize);
 
     media::AudioFrame frame(media::AudioFormat(samplerate, channels),
-                            &m_muxed_audio[0], cb_samples, m_sample_no);
+                            &m_muxed_buffer[0], cb_samples, m_sample_no);
 
     if (m_muxcallback)
     {
-        m_muxcallback(frame);
+        m_muxcallback(m_streamtypes, frame);
     }
 
 #if ENABLE_SPEEXFILE
@@ -622,7 +814,7 @@ void AudioMuxer::WriteAudio(int cb_samples)
         int ret = 0;
         for(int i=0;i<cb_samples/framesize && ret >= 0;i++)
         {
-            ret = m_speexfile->Encode(&m_muxed_audio[i*framesize*channels]);
+            ret = m_speexfile->Encode(&m_muxed_buffer[i*framesize*channels]);
         }
     }
 #endif
@@ -632,7 +824,7 @@ void AudioMuxer::WriteAudio(int cb_samples)
     {
         int ret = 0;
         for(int i=0;i<cb_samples/framesize && ret >= 0;i++)
-            ret = m_opusfile->Encode(&m_muxed_audio[i*framesize*channels], framesize, false);
+            ret = m_opusfile->Encode(&m_muxed_buffer[i*framesize*channels], framesize, false);
     }
 #endif
 
@@ -644,7 +836,7 @@ void AudioMuxer::WriteAudio(int cb_samples)
 #endif
 
     if(m_wavefile)
-        m_wavefile->AppendSamples(&m_muxed_audio[0], cb_samples);
+        m_wavefile->AppendSamples(&m_muxed_buffer[0], cb_samples);
 
     m_sample_no += cb_samples;
 }
@@ -659,6 +851,7 @@ ChannelAudioMuxer::~ChannelAudioMuxer()
 }
 
 bool ChannelAudioMuxer::SaveFile(int channelid, const teamtalk::AudioCodec& codec,
+                                 teamtalk::StreamTypes sts,
                                  const ACE_TString& filename,
                                  teamtalk::AudioFileFormat aff)
 {
@@ -667,7 +860,7 @@ bool ChannelAudioMuxer::SaveFile(int channelid, const teamtalk::AudioCodec& code
     if (m_muxers.find(channelid) != m_muxers.end())
         return false;
 
-    audiomuxer_t muxer(new AudioMuxer());
+    audiomuxer_t muxer(new AudioMuxer(sts));
     bool ret = muxer->SaveFile(codec, filename, aff);
     if (!ret)
         return false;
@@ -691,33 +884,39 @@ bool ChannelAudioMuxer::CloseFile(int channelid)
     return muxer.get();
 }
 
-bool ChannelAudioMuxer::AddUser(int userid, int channelid)
+bool ChannelAudioMuxer::AddUser(int userid, teamtalk::StreamType st, int channelid)
 {
     std::unique_lock<std::recursive_mutex> g(m_mutex);
-    assert(m_userchan.find(userid) == m_userchan.end());
+    int key = GenKey(userid, st);
 
-    if (m_userchan.find(userid) == m_userchan.end())
+    assert(m_userchan.find(key) == m_userchan.end());
+
+    if (m_userchan.find(key) == m_userchan.end())
     {
-        m_userchan[userid] = channelid;
+        m_userchan[key] = channelid;
         return true;
     }
     return false;
 }
 
-bool ChannelAudioMuxer::RemoveUser(int userid)
+bool ChannelAudioMuxer::RemoveUser(int userid, teamtalk::StreamType st)
 {
     std::unique_lock<std::recursive_mutex> g(m_mutex);
-    return m_userchan.erase(userid);
+    int key = GenKey(userid, st);
+    return m_userchan.erase(key);
 }
 
-void ChannelAudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
+void ChannelAudioMuxer::QueueUserAudio(int userid, teamtalk::StreamType st,
+                                       const media::AudioFrame& frm)
 {
     audiomuxer_t chanmuxer, fixedmuxer;
     {
+        int key = GenKey(userid, st);
+
         std::unique_lock<std::recursive_mutex> g(m_mutex);
-        if (m_userchan.find(userid) != m_userchan.end())
+        if (m_userchan.find(key) != m_userchan.end())
         {
-            int chanid = m_userchan[userid];
+            int chanid = m_userchan[key];
             
             // check for active channel recording
             auto im = m_muxers.find(chanid);
@@ -732,8 +931,8 @@ void ChannelAudioMuxer::QueueUserAudio(int userid, const media::AudioFrame& frm)
     }
 
     if (chanmuxer)
-        chanmuxer->QueueUserAudio(userid, frm);
+        chanmuxer->QueueUserAudio(userid, st, frm);
 
     if (fixedmuxer)
-        fixedmuxer->QueueUserAudio(userid, frm);
+        fixedmuxer->QueueUserAudio(userid, st, frm);
 }

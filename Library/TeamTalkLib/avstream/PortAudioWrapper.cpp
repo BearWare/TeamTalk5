@@ -26,6 +26,7 @@
 #include <iostream>
 #include <math.h>
 #include <assert.h>
+#include <cstring>
 
 #if defined(ACE_WIN32)
 

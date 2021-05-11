@@ -161,13 +161,13 @@ TEST_CASE("AudioMuxerJitter")
     REQUIRE(directrecorder.SaveFile(codec, ACE_TEXT("netem_muxer_direct.wav"), teamtalk::AFF_WAVE_FORMAT));
 #endif
 
-    AudioMuxer playbackrecorder;
+    AudioMuxer playbackrecorder(teamtalk::STREAMTYPE_VOICE);
     // playbackrecorder.SetMuxInterval(2000);
     REQUIRE(playbackrecorder.SaveFile(codec, ACE_TEXT("netem_muxer_playback.wav"), teamtalk::AFF_WAVE_FORMAT));
 
     teamtalk::useraudio_callback_t audiocb = [&](int userid, teamtalk::StreamType stream_type, const media::AudioFrame& frm)
     {
-        REQUIRE(playbackrecorder.QueueUserAudio(userid, frm));
+        REQUIRE(playbackrecorder.QueueUserAudio(userid, stream_type, frm));
     };
 
     std::shared_ptr<teamtalk::OpusPlayer> player;
@@ -223,7 +223,7 @@ TEST_CASE("AudioMuxerJitter")
 #if DIRECTRECORDER
             media::AudioFrame frm(media::AudioFormat(SAMPLERATE, CHANNELS),
                                   &frame[0], PLAYBACKFRAMESIZE, sampleno);
-            REQUIRE(directrecorder.QueueUserAudio(p.GetSrcUserID(), frm));
+            REQUIRE(directrecorder.QueueUserAudio(p.GetSrcUserID(), teamtalk::STREAMTYPE_VOICE, frm));
 #endif
             sampleno += PLAYBACKFRAMESIZE;
         }

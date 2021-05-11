@@ -39,7 +39,9 @@ private:
     void slotSetMediaFolder();
     void slotSetChanLogFolder();
     void slotSetUserLogFolder();
-private:
+    void slotStop();
+    void slotUpdateUI();
+
     QString getFolder();
     Ui::MediaStorageDlg ui;
 };

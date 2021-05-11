@@ -724,31 +724,34 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,362,165,10
 END
 
-IDD_DIALOG_STORECONVERSATIONS DIALOGEX 0, 0, 283, 174
+IDD_DIALOG_STORECONVERSATIONS DIALOGEX 0, 0, 283, 199
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Record Conversations to Disk"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Store audio conversations",IDC_STATIC_AUDSTORAGE,6,7,271,84
+    GROUPBOX        "Store audio conversations",IDC_STATIC_AUDSTORAGE,6,7,271,111
     LTEXT           "Storage mode",IDC_STATIC_STORMODE,12,24,117,8
     CONTROL         "Single audio file for all users",IDC_CHECK_SINGLEFILE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,130,23,142,10
     CONTROL         "Separate audio file for each user",IDC_CHECK_SEPARATEFILES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,130,37,142,10
-    LTEXT           "Audio file format",IDC_STATIC_AFF,12,53,117,8
-    COMBOBOX        IDC_COMBO_AFF,130,51,142,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Folder for audio files",IDC_STATIC_AUDFOLDER,12,71,117,8
-    EDITTEXT        IDC_EDIT_AUDIOFOLDER,130,68,120,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Browse",IDC_BUTTON_AUDIOBROWSE,253,68,19,14
-    GROUPBOX        "Store text message conversations",IDC_STATIC_TXTMSGGRP,6,94,271,53
-    LTEXT           "Folder for channel log files",IDC_STATIC_CHANLOGFOLDER,12,109,117,8
-    EDITTEXT        IDC_EDIT_CHANLOGFOLDER,130,106,120,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_CHANLOGBROWSE,253,106,19,14
-    LTEXT           "Folder for user-to-user log files",IDC_STATIC_USER2USERLOGFOLDER,12,128,117,8
-    EDITTEXT        IDC_EDIT_TEXTLOGFOLDER,130,125,120,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_USER2USERBROWSE,253,125,19,14
-    DEFPUSHBUTTON   "&Start",IDOK,222,151,50,16
-    PUSHBUTTON      "S&top",IDCLOSE,12,151,50,16
+    LTEXT           "Stream types",IDC_STATIC,12,52,113,8
+    CONTROL         "&Voice",IDC_CHECK_VOICERECORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,130,51,142,10
+    CONTROL         "&Media files",IDC_CHECK_MEDIAFILERECORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,130,65,142,10
+    LTEXT           "Audio file format",IDC_STATIC_AFF,12,80,117,8
+    COMBOBOX        IDC_COMBO_AFF,130,78,142,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Folder for audio files",IDC_STATIC_AUDFOLDER,12,98,117,8
+    EDITTEXT        IDC_EDIT_AUDIOFOLDER,130,95,110,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BUTTON_AUDIOBROWSE,243,95,29,14
+    GROUPBOX        "Store text message conversations",IDC_STATIC_TXTMSGGRP,6,122,271,53
+    LTEXT           "Folder for channel log files",IDC_STATIC_CHANLOGFOLDER,12,137,117,8
+    EDITTEXT        IDC_EDIT_CHANLOGFOLDER,130,134,120,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BUTTON_CHANLOGBROWSE,253,134,19,14
+    LTEXT           "Folder for user-to-user log files",IDC_STATIC_USER2USERLOGFOLDER,12,156,117,8
+    EDITTEXT        IDC_EDIT_TEXTLOGFOLDER,130,153,120,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BUTTON_USER2USERBROWSE,253,153,19,14
+    DEFPUSHBUTTON   "&Start",IDOK,222,176,50,16
+    PUSHBUTTON      "S&top",IDCLOSE,12,176,50,16
 END
 
 IDD_PROPPAGE_VIDEOCAPTURE DIALOGEX 0, 0, 260, 240
@@ -1271,7 +1274,7 @@ BEGIN
         VERTGUIDE, 12
         VERTGUIDE, 272
         TOPMARGIN, 7
-        BOTTOMMARGIN, 167
+        BOTTOMMARGIN, 192
     END
 
     IDD_PROPPAGE_VIDEOCAPTURE, DIALOG
@@ -1537,8 +1540,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,7,1,5036
- PRODUCTVERSION 5,7,1,5036
+ FILEVERSION 5,8,0,5037
+ PRODUCTVERSION 5,8,0,5037
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1555,12 +1558,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 7, 1, 5036"
+            VALUE "FileVersion", "5, 8, 0, 5037"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2005-2020, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 7, 1, 5036"
+            VALUE "ProductVersion", "5, 8, 0, 5037"
         END
     END
     BLOCK "VarFileInfo"

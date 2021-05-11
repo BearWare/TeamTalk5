@@ -42,6 +42,9 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
+
+    void UpdateUI();
+
 public:
     CComboBox m_wndAFF;
     CEdit m_wndAudioDir;
@@ -59,4 +62,15 @@ public:
     CEdit m_wndUserTxtDir;
     CString m_szUserTxtDir;
     afx_msg void OnBnClickedClose();
+    CButton m_wndVoice;
+    CButton m_wndMediaFile;
+    BOOL m_bVoice;
+    BOOL m_bMediaFile;
+    afx_msg void OnBnClickedCheckSinglefile();
+    afx_msg void OnBnClickedCheckSeparatefiles();
+    CButton m_wndSingleFile;
+    CButton m_wndSeparateFiles;
+    CButton m_wndStart;
+    afx_msg void OnBnClickedCheckVoicerecord();
+    afx_msg void OnBnClickedCheckMediafilerecord();
 };

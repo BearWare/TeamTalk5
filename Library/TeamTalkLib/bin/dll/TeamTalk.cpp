@@ -901,15 +901,15 @@ TEAMTALKDLL_API TTBOOL TT_AutoPositionUsers(IN TTInstance* lpTTInstance)
 
 TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEvent(IN TTInstance* lpTTInstance,
                                                 IN INT32 nUserID,
-                                                IN StreamType nStreamType,
+                                                IN StreamTypes uStreamTypes,
                                                 IN TTBOOL bEnable)
 {
-    return TT_EnableAudioBlockEventEx(lpTTInstance, nUserID, nStreamType, nullptr, bEnable);
+    return TT_EnableAudioBlockEventEx(lpTTInstance, nUserID, uStreamTypes, nullptr, bEnable);
 }
 
 TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEventEx(IN TTInstance* lpTTInstance,
                                                   IN INT32 nUserID,
-                                                  IN StreamType nStreamType,
+                                                  IN StreamTypes uStreamTypes,
                                                   IN const AudioFormat* lpAudioFormat,
                                                   IN TTBOOL bEnable)
 {
@@ -922,7 +922,7 @@ TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEventEx(IN TTInstance* lpTTInstance,
     
     
     
-    return clientnode->EnableAudioBlockCallback(nUserID, (teamtalk::StreamType)nStreamType,
+    return clientnode->EnableAudioBlockCallback(nUserID, (teamtalk::StreamTypes)uStreamTypes,
                                                 fmt, bEnable);
 }
 
@@ -950,14 +950,23 @@ TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstan
                                                        IN const TTCHAR* szAudioFileName,
                                                        IN AudioFileFormat uAFF)
 {
+    return TT_StartRecordingMuxedStreams(lpTTInstance, STREAMTYPE_VOICE, lpAudioCodec, szAudioFileName, uAFF);
+}
+
+TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedStreams(IN TTInstance* lpTTInstance,
+                                                     IN StreamTypes uStreamTypes,
+                                                     IN const AudioCodec* lpAudioCodec,
+                                                     IN const TTCHAR* szAudioFileName,
+                                                     IN AudioFileFormat uAFF)
+{
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
-    
+
     teamtalk::AudioCodec codec;
     if(!lpAudioCodec || !Convert(*lpAudioCodec, codec))
         return FALSE;
 
-    return clientnode->StartRecordingMuxedAudioFile(codec, szAudioFileName, 
+    return clientnode->StartRecordingMuxedAudioFile(codec, uStreamTypes, szAudioFileName,
                                                     teamtalk::AudioFileFormat(uAFF));
 }
 
@@ -969,7 +978,7 @@ TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFileEx(IN TTInstance* lpTTInst
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
     
-    return clientnode->StartRecordingMuxedAudioFile(nChannelID, szAudioFileName, 
+    return clientnode->StartRecordingMuxedAudioFile(nChannelID, STREAMTYPE_VOICE, szAudioFileName,
                                                     teamtalk::AudioFileFormat(uAFF));
 }
 
@@ -1758,7 +1767,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserAudioStreamBufferSize(IN TTInstance* lpTTInstan
 }
 
 TEAMTALKDLL_API AudioBlock* TT_AcquireUserAudioBlock(IN TTInstance* lpTTInstance,
-                                                     IN StreamType nStreamType,
+                                                     IN StreamTypes uStreamTypes,
                                                      IN INT32 nUserID)
 {
     clientnode_t clientnode;
@@ -1768,7 +1777,7 @@ TEAMTALKDLL_API AudioBlock* TT_AcquireUserAudioBlock(IN TTInstance* lpTTInstance
     if (!inst)
         return nullptr;
 
-    ACE_Message_Block* mb = clientnode->audiocontainer().AcquireAudioFrame(nUserID, nStreamType);
+    ACE_Message_Block* mb = clientnode->audiocontainer().AcquireAudioFrame(nUserID, uStreamTypes);
     if (!mb)
         return nullptr;
 

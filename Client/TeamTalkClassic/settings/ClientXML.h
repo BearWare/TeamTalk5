@@ -42,6 +42,7 @@
 #define DEFAULT_MEDIA_VS_VOICE                      100
 #define DEFAULT_CLIENT_SOUNDS_VS_VOICE              50
 #define DEFAULT_SOUNDEVENT_PLAYBACKMODE             PLAYBACKMODE_SYNC
+#define DEFAULT_MEDIASTORAGE_STREAMTYPES            STREAMTYPE_VOICE
 
 #define DEFAULT_SOUNDEVENT_USERJOINED               "Sounds\\newuser.wav"
 #define DEFAULT_SOUNDEVENT_USERLEFT                 "Sounds\\removeuser.wav"
@@ -264,6 +265,9 @@ namespace teamtalk {
 
         bool SetAudioLogStorageMode(int mode);
         int GetAudioLogStorageMode();
+
+        void SetAudioLogStreamTypes(StreamTypes uStreamTypes);
+        StreamTypes GetAudioLogStreamTypes(StreamTypes uDefaultStreamTypes);
 
         bool SetAudioLogStorage(const std::string& audiofolder);
         std::string GetAudioLogStorage();

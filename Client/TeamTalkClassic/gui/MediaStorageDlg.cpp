@@ -42,6 +42,8 @@ CMediaStorageDlg::CMediaStorageDlg(CWnd* pParent /*=NULL*/)
     , m_uAFF(AFF_NONE)
     , m_szChanLogDir(_T(""))
     , m_szUserTxtDir(_T(""))
+    , m_bVoice(FALSE)
+    , m_bMediaFile(FALSE)
 {
 
 }
@@ -62,6 +64,13 @@ void CMediaStorageDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT_CHANLOGFOLDER, m_szChanLogDir);
     DDX_Control(pDX, IDC_EDIT_TEXTLOGFOLDER, m_wndUserTxtDir);
     DDX_Text(pDX, IDC_EDIT_TEXTLOGFOLDER, m_szUserTxtDir);
+    DDX_Control(pDX, IDC_CHECK_VOICERECORD, m_wndVoice);
+    DDX_Control(pDX, IDC_CHECK_MEDIAFILERECORD, m_wndMediaFile);
+    DDX_Check(pDX, IDC_CHECK_VOICERECORD, m_bVoice);
+    DDX_Check(pDX, IDC_CHECK_MEDIAFILERECORD, m_bMediaFile);
+    DDX_Control(pDX, IDC_CHECK_SINGLEFILE, m_wndSingleFile);
+    DDX_Control(pDX, IDC_CHECK_SEPARATEFILES, m_wndSeparateFiles);
+    DDX_Control(pDX, IDOK, m_wndStart);
 }
 
 
@@ -71,6 +80,10 @@ BEGIN_MESSAGE_MAP(CMediaStorageDlg, CDialog)
     ON_BN_CLICKED(IDC_BUTTON_CHANLOGBROWSE, &CMediaStorageDlg::OnBnClickedButtonChanlogbrowse)
     ON_BN_CLICKED(IDC_BUTTON_USER2USERBROWSE, &CMediaStorageDlg::OnBnClickedButtonUser2userbrowse)
     ON_BN_CLICKED(IDCLOSE, &CMediaStorageDlg::OnBnClickedClose)
+    ON_BN_CLICKED(IDC_CHECK_SINGLEFILE, &CMediaStorageDlg::OnBnClickedCheckSinglefile)
+    ON_BN_CLICKED(IDC_CHECK_SEPARATEFILES, &CMediaStorageDlg::OnBnClickedCheckSeparatefiles)
+    ON_BN_CLICKED(IDC_CHECK_VOICERECORD, &CMediaStorageDlg::OnBnClickedCheckVoicerecord)
+    ON_BN_CLICKED(IDC_CHECK_MEDIAFILERECORD, &CMediaStorageDlg::OnBnClickedCheckMediafilerecord)
 END_MESSAGE_MAP()
 
 
@@ -98,6 +111,8 @@ BOOL CMediaStorageDlg::OnInitDialog()
     m_wndAFF.SetItemData(i, AFF_MP3_256KBIT_FORMAT);
     m_wndAFF.SetCurSel(0);
 
+    UpdateUI();
+
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -122,7 +137,6 @@ void CMediaStorageDlg::OnBnClickedButtonChanlogbrowse()
         m_wndChanLogDir.SetWindowText(szSaveDir);
 }
 
-
 void CMediaStorageDlg::OnBnClickedButtonUser2userbrowse()
 {
     TCHAR szSaveDir[MAX_PATH];
@@ -130,8 +144,37 @@ void CMediaStorageDlg::OnBnClickedButtonUser2userbrowse()
         m_wndUserTxtDir.SetWindowText(szSaveDir);
 }
 
-
 void CMediaStorageDlg::OnBnClickedClose()
 {
     EndDialog(IDCLOSE);
+}
+
+void CMediaStorageDlg::OnBnClickedCheckSinglefile()
+{
+    UpdateUI();
+}
+
+void CMediaStorageDlg::OnBnClickedCheckSeparatefiles()
+{
+    UpdateUI();
+}
+
+void CMediaStorageDlg::OnBnClickedCheckVoicerecord()
+{
+    UpdateUI();
+}
+
+void CMediaStorageDlg::OnBnClickedCheckMediafilerecord()
+{
+    UpdateUI();
+}
+
+void CMediaStorageDlg::UpdateUI()
+{
+    BOOL bModeSelect = m_wndSingleFile.GetCheck() == BST_CHECKED || m_wndSeparateFiles.GetCheck() == BST_CHECKED;
+    m_wndVoice.EnableWindow(bModeSelect);
+    m_wndMediaFile.EnableWindow(bModeSelect);
+
+    BOOL bStreamTypes = m_wndVoice.GetCheck() == BST_CHECKED || m_wndMediaFile.GetCheck() == BST_CHECKED;
+    m_wndStart.EnableWindow(bStreamTypes);
 }

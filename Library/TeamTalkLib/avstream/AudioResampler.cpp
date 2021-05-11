@@ -35,6 +35,7 @@
 
 #include <myace/MyACE.h>
 #include <assert.h>
+#include <cstring>
 
 #define ZERO_IT 0
 
@@ -113,6 +114,12 @@ short* AudioResampler::Resample(const short* input_samples, int* output_samples_
 int AudioResampler::Resample(const short* input_samples, short* output_samples)
 {
     int outsamples = Resample(input_samples, m_input_samples_size, output_samples, m_output_samples_size);
+    if (outsamples < m_output_samples_size)
+    {
+        // zero remaining on fixed size output
+        std::memset(&output_samples[outsamples * GetOutputFormat().channels], 0,
+                    PCM16_BYTES(m_output_samples_size - outsamples, GetOutputFormat().channels));
+    }
     return outsamples;
 }
 

@@ -483,7 +483,7 @@
 #define IDS_PROPPAGE_CLASSROOM_CHANMSG  577
 #define IDS_HIDDEN                      578
 #define IDS_KICKEDFROMSERVERBYUNK       579
-#define IDS_KICKEDFROMSERVER           580
+#define IDS_KICKEDFROMSERVER            580
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
@@ -547,9 +547,9 @@
 #define IDS_SIMULTANEOUSLY              1066
 #define IDC_STATIC_MAXLOGINSIP          1067
 #define IDC_RADIO_DIRECTSOUND           1068
-#define IDS_FULLY            1069
+#define IDS_FULLY                       1069
 #define IDC_COMBO_INPUTDRIVER           1070
-#define IDS_STOPPREVIOUS           1071
+#define IDS_STOPPREVIOUS                1071
 #define IDC_COMBO_OUTPUTDRIVER          1072
 #define IDC_STATIC_PASSWORD             1073
 #define IDC_COMBO_SRATE                 1074
@@ -994,12 +994,13 @@
 #define IDC_CHECK_JOINCHANNEL           1601
 #define IDC_CHECK_HIDDENCHANNEL         1602
 #define IDC_STATIC_GRPCHANTYPE          1603
-#define IDC_CHECK1                      1604
 #define IDC_CHECK_HIDDENCHAN            1604
+#define IDC_CHECK_VOICERECORD           1605
 #define IDC_STATIC_PLAYBACK_MODE        1606
 #define IDC_COMBO_PLAYBACK_MODE         1607
 #define IDS_ENABLEMUTEALL               1608
 #define IDS_DISABLEMUTEALL              1609
+#define IDC_CHECK_MEDIAFILERECORD       1610
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -1118,7 +1119,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        581
 #define _APS_NEXT_COMMAND_VALUE         32959
-#define _APS_NEXT_CONTROL_VALUE         1610
+#define _APS_NEXT_CONTROL_VALUE         1611
 #define _APS_NEXT_SYMED_VALUE           413
 #endif
 #endif

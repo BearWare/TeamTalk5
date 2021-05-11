@@ -39,7 +39,7 @@ void tt_assert(const char* assertion, const char* file, int line);
 #endif
 
 
-#ifdef _DEBUG
+#if defined(_DEBUG)
 
 //ensure that it's the thread owner of the reactor which is executing
 #define ASSERT_REACTOR_THREAD(reactor)                                  \

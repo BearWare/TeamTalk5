@@ -68,7 +68,7 @@ jobs:
 
     - name: Catch unit-test
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
-      run: catchtt.app/Contents/MacOS/catchtt
+      run: catchtt.app/Contents/MacOS/catchtt --durations yes
 
     - name: Stop TeamTalk Pro Server
       run: killall tt5prosrv

@@ -24,6 +24,8 @@
 #ifndef AUDIOMUXER_H
 #define AUDIOMUXER_H
 
+#include "AudioContainer.h"
+
 #include <myace/MyACE.h>
 #include <myace/TimerHandler.h>
 #include <codec/WaveFile.h>
@@ -49,24 +51,29 @@
 #define ENABLE_SPEEXFILE 1
 #endif
 
-typedef std::function< void (const media::AudioFrame& frm) > audiomuxer_callback_t;
+typedef std::function< void (teamtalk::StreamTypes sts, const media::AudioFrame& frm) > audiomuxer_callback_t;
+
+typedef std::function< void (teamtalk::StreamTypes sts, uint32_t sample_no) > audiomuxer_tick_t;
 
 class AudioMuxer : private TimerListener
 {
 public:
-    AudioMuxer();
+    AudioMuxer(teamtalk::StreamTypes sts);
     virtual ~AudioMuxer();
 
     bool RegisterMuxCallback(const teamtalk::AudioCodec& codec,
                              audiomuxer_callback_t cb);
     void UnregisterMuxCallback();
 
+    // For debugging when ProcessAudioQueues() has been running
+    void RegisterMuxTick(audiomuxer_tick_t cb);
+
     bool SaveFile(const teamtalk::AudioCodec& codec,
                   const ACE_TString& filename,
                   teamtalk::AudioFileFormat aff);
     void CloseFile();
 
-    bool QueueUserAudio(int userid, const media::AudioFrame& frm);
+    bool QueueUserAudio(int userid, teamtalk::StreamType st, const media::AudioFrame& frm);
 
     void SetMuxInterval(int msec);
     
@@ -85,23 +92,35 @@ private:
     bool FileActive();
 
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;
+    message_queue_t GetMuxQueue(int key);
+    void SubmitMuxAudioFrame(int key, const media::AudioFrame& frm);
+    // drain everything in 'm_preprocess_queue'
+    void SubmitPreprocessQueue();
+    ACE_Message_Block* BuildMuxAudioFrame(std::vector<ACE_Message_Block*>& mbs);
+
+    // preprocess queue (audio that cannot yet to into 'm_usermux_queue')
+    AudioContainer m_preprocess_queue;
+    std::recursive_mutex m_preprocess_mutex;
+    // key -> media::AudioFrame. Audio block storing the remainder of 'm_preprocess_queue'
+    std::map<int, ACE_Message_Block*> m_preprocess_block;
 
     // raw audio data from a user ID
     typedef std::map<int, message_queue_t> user_audio_queue_t;
-    user_audio_queue_t m_audio_queue;
-    // next sample number to expect from a user ID
-    typedef std::map<int, uint32_t> user_queued_audio_t;
-    user_queued_audio_t m_user_queue;
-    std::vector<short> m_muxed_audio;
+    user_audio_queue_t m_usermux_queue;
+    // next sample number to expect for muxing from a user ID
+    typedef std::map<int, uint32_t> user_muxprogress_t;
+    user_muxprogress_t m_usermux_progress;
+    std::vector<short> m_muxed_buffer;
 
     ACE_Reactor m_reactor;
     ACE_Time_Value m_mux_interval;
-    std::recursive_mutex m_mutex;
+    std::recursive_mutex m_mux_mutex;
     std::shared_ptr< std::thread > m_thread;
 
-    ACE_UINT32 m_sample_no = 0;
-    ACE_UINT32 m_last_flush_time = 0;
+    uint32_t m_sample_no = 0;
+    uint32_t m_last_flush_time = 0;
     teamtalk::AudioCodec m_codec;
+    teamtalk::StreamTypes m_streamtypes = teamtalk::STREAMTYPE_NONE;
 
     wavepcmfile_t m_wavefile;
 #if defined(ENABLE_MEDIAFOUNDATION)
@@ -117,6 +136,7 @@ private:
 #endif
 
     audiomuxer_callback_t m_muxcallback = {};
+    audiomuxer_tick_t m_tickcallback = {};
 };
 
 typedef std::shared_ptr< AudioMuxer > audiomuxer_t;
@@ -137,13 +157,14 @@ public:
     ~ChannelAudioMuxer();
 
     bool SaveFile(int channelid, const teamtalk::AudioCodec& codec,
+                  teamtalk::StreamTypes sts,
                   const ACE_TString& filename,
                   teamtalk::AudioFileFormat aff);
     bool CloseFile(int channelid);
 
-    bool AddUser(int userid, int channelid);
-    bool RemoveUser(int userid);
+    bool AddUser(int userid, teamtalk::StreamType st, int channelid);
+    bool RemoveUser(int userid, teamtalk::StreamType st);
 
-    void QueueUserAudio(int userid, const media::AudioFrame& frm);
+    void QueueUserAudio(int userid, teamtalk::StreamType st, const media::AudioFrame& frm);
 };
 #endif

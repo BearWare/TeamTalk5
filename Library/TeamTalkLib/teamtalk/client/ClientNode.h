@@ -224,7 +224,7 @@ namespace teamtalk {
         bool EnableAutoPositioning(bool enable);
         bool AutoPositionUsers();    //position users in 3D
 
-        bool EnableAudioBlockCallback(int userid, StreamType stream_type,
+        bool EnableAudioBlockCallback(int userid, StreamTypes sts,
                                       const media::AudioFormat& outfmt,
                                       bool enable);
         // user provided audio stream that replaces voice input stream
@@ -238,10 +238,12 @@ namespace teamtalk {
         bool SetSoundPreprocess(const AudioPreprocessor& preprocessor);
         void SetSoundInputTone(StreamTypes streams, int frequency);
 
-        bool StartRecordingMuxedAudioFile(const AudioCodec& codec, 
+        bool StartRecordingMuxedAudioFile(const AudioCodec& codec,
+                                          StreamTypes sts,
                                           const ACE_TString& filename,
                                           AudioFileFormat aff);
         bool StartRecordingMuxedAudioFile(int channelid,
+                                          StreamTypes sts,
                                           const ACE_TString& filename,
                                           AudioFileFormat aff);
         void StopRecordingMuxedAudioFile();
@@ -374,7 +376,7 @@ namespace teamtalk {
         void AudioInputStatusCallback(const AudioInputStatus& ais);
 
         // AudioMuxer callback - separate thread
-        void AudioMuxCallback(const media::AudioFrame& audio_frame);
+        void AudioMuxCallback(teamtalk::StreamTypes sts, const media::AudioFrame& audio_frame);
         // AudioPlayer listener - separate thread
         void AudioUserCallback(int userid, StreamType st,
                                const media::AudioFrame& audio_frame) override;

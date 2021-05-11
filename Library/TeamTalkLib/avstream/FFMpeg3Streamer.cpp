@@ -60,7 +60,7 @@ void InitAVConv()
 
         if (!ready)
         {
-#if defined(_DEBUG)
+#if defined(_DEBUG) && DEBUG_FFMPEG
             av_log_set_level(AV_LOG_MAX_OFFSET);
 #else
             av_log_set_level(AV_LOG_QUIET);

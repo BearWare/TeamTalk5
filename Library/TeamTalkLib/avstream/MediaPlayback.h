@@ -92,17 +92,43 @@ public:
                         short* buffer, int samples);
 
 private:
+    soundsystem::soundsystem_t m_sndsys;
     mediafile_streamer_t m_streamer;
     mediaplayback_status_t m_statusfunc;
     mediaplayback_audio_t m_audiofunc;
     int m_userdata = 0;
+
     MediaStreamStatus m_status = MEDIASTREAM_NONE;
+    struct MediaFileProgress
+    {
+        MediaStreamStatus status = MEDIASTREAM_NONE;
+        MediaFileProp mfp;
+        MediaFileProgress() {}
+        MediaFileProgress(MediaStreamStatus s,
+                          const MediaFileProp& m) : status(s), mfp(m) {}
+    };
+
+    /*
+     * Publish status to m_statusfunc():
+     * MEDIASTREAM_PLAYING
+     * MEDIASTREAM_STARTED
+     * */
+    void SubmitPreProgress();
+    /*
+     * Publish status to m_statusfunc():
+     * MEDIASTREAM_FINISHED
+     * MEDIASTREAM_ERROR
+     * MEDIASTREAM_PAUSED
+     * */
+    void SubmitPostProgress();
+
+    std::queue<MediaFileProgress> m_progress;
+    std::queue<ACE_Message_Block*> m_audio_buffer;
     uint32_t m_completiontime;
+    uint32_t m_sampleindex = 0;
 
     int m_gainlevel = GAIN_NORMAL;
-    soundsystem::soundsystem_t m_sndsys;
     audio_resampler_t m_resampler;
-    std::queue<ACE_Message_Block*> m_audio_buffer;
     std::mutex m_mutex;
     StereoMask m_stereo = STEREO_BOTH;
 #if defined(ENABLE_SPEEXDSP)

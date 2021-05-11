@@ -226,7 +226,6 @@ bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame& audio_frame,
                                              ACE_Message_Block* mb_audio)
 {
     std::lock_guard<std::mutex> g(m_mutex);
-    assert(m_status != MEDIASTREAM_FINISHED);
     if (m_audio_buffer.size() > 10)
     {
         MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("Media Playback buffer full. Discarding audio frame.\n"));
@@ -247,32 +246,21 @@ void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,
         {
             if (!m_sndsys->StartStream(this))
             {
-                status = MEDIASTREAM_ERROR;
+                std::lock_guard<std::mutex> g(m_mutex);
+                m_status = MEDIASTREAM_ERROR;
                 m_drained.set(true); // ensure we don't wait for 'finished'
             }
         }
-        break;
-    case MEDIASTREAM_ERROR :
-        break;
-    case MEDIASTREAM_PAUSED :
-        break;
-    case MEDIASTREAM_FINISHED:
-    {
-        m_completiontime = GETTIMESTAMP();
-        break;
-    }
     case MEDIASTREAM_NONE :
     case MEDIASTREAM_PLAYING :
+    case MEDIASTREAM_ERROR :
+    case MEDIASTREAM_FINISHED:
+    case MEDIASTREAM_PAUSED :
         break;
     }
 
-    {
-        std::lock_guard<std::mutex> g(m_mutex);
-        m_status = status;
-    }
-
-    if(m_statusfunc)
-        m_statusfunc(m_userdata, mfp, status);
+    std::lock_guard<std::mutex> g(m_mutex);
+    m_progress.push(MediaFileProgress(status, mfp));
 }
 
 MediaStreamStatus MediaPlayback::GetStatus() const
@@ -290,9 +278,12 @@ bool MediaPlayback::Flushed()
 bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                                    short* buffer, int samples)
 {
+    SubmitPreProgress();
+
     ACE_Message_Block* mb = nullptr;
     {
         std::lock_guard<std::mutex> g(m_mutex);
+
         if (m_audio_buffer.size())
         {
             mb = m_audio_buffer.front();
@@ -362,14 +353,135 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         if (m_audiofunc)
         {
             assert(samples == streamer.framesize);
-            m_audiofunc(m_userdata, media::AudioFrame(media::AudioFormat(streamer.samplerate, streamer.channels),
-                                                      buffer, streamer.framesize));
+            media::AudioFrame cbfrm(media::AudioFormat(streamer.samplerate, streamer.channels),
+                                    buffer, streamer.framesize, m_sampleindex);
+            cbfrm.streamid = m_userdata;
+            m_audiofunc(m_userdata, cbfrm);
         }
+
+        m_sampleindex += samples;
     }
     else
     {
         std::memset(buffer, 0, PCM16_BYTES(streamer.channels, streamer.framesize));
     }
 
+    // Call m_statusfunc() with MEDIASTREAM_ERROR, MEDIASTREAM_PAUSED, MEDIASTREAM_FINISHED
+    SubmitPostProgress();
+
     return true;
+}
+
+void MediaPlayback::SubmitPreProgress()
+{
+    // Call m_statusfunc() with MEDIASTREAM_STARTED, MEDIASTREAM_PLAYING
+    MediaFileProgress progress;
+    do
+    {
+        progress = MediaFileProgress();
+        {
+            std::lock_guard<std::mutex> g(m_mutex);
+            if (m_progress.size())
+            {
+
+                MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("MediaPlayback - %p. ID: %d. %s. Status: %d\n"),
+                             this, m_userdata, m_progress.front().mfp.filename.c_str(), m_progress.front().status);
+
+                switch (m_progress.front().status)
+                {
+                case MEDIASTREAM_NONE :
+                    assert(m_progress.front().status != MEDIASTREAM_NONE);
+                    break;
+                case MEDIASTREAM_PLAYING :
+                case MEDIASTREAM_STARTED :
+                    progress = m_progress.front();
+                    m_progress.pop();
+                    break;
+                case MEDIASTREAM_FINISHED :
+                case MEDIASTREAM_ERROR :
+                case MEDIASTREAM_PAUSED :
+                    return;
+                }
+            }
+        }
+
+        switch (progress.status)
+        {
+        case MEDIASTREAM_NONE :
+            break;
+        case MEDIASTREAM_PLAYING :
+        case MEDIASTREAM_STARTED :
+            m_status = progress.status;
+            if (m_statusfunc)
+                m_statusfunc(m_userdata, progress.mfp, progress.status);
+            break;
+        case MEDIASTREAM_FINISHED :
+        case MEDIASTREAM_ERROR :
+        case MEDIASTREAM_PAUSED :
+            assert(0);
+            break;
+        }
+
+    }
+    while (progress.status != MEDIASTREAM_NONE);
+}
+
+void MediaPlayback::SubmitPostProgress()
+{
+    // m_statusfunc() must not be called with MEDIASTREAM_ERROR,
+    // MEDIASTREAM_PAUSED or MEDIASTREAM_FINISHED
+    // until m_audiofunc() has completed pumping out audio frames.
+    MediaFileProgress progress;
+    do
+    {
+        progress = MediaFileProgress();
+        {
+            std::lock_guard<std::mutex> g(m_mutex);
+            if (m_progress.size())
+            {
+                switch (m_progress.front().status)
+                {
+                case MEDIASTREAM_NONE :
+                    assert(m_progress.front().status != MEDIASTREAM_NONE);
+                    break;
+                case MEDIASTREAM_PLAYING :
+                case MEDIASTREAM_STARTED :
+                    return;
+                case MEDIASTREAM_FINISHED :
+                case MEDIASTREAM_ERROR :
+                    assert(m_progress.size() == 1);
+                case MEDIASTREAM_PAUSED :
+                    if (m_audio_buffer.empty())
+                    {
+                        progress = m_progress.front();
+                        m_progress.pop();
+                    }
+                    break;
+                }
+            }
+        }
+
+        MYTRACE_COND(DEBUG_MEDIAPLAYBACK && progress.status != MEDIASTREAM_NONE,
+                     ACE_TEXT("MediaPlayback - %p. ID: %d. %s. Status: %d\n"),
+                     this, m_userdata, progress.mfp.filename.c_str(), progress.status);
+
+        switch (progress.status)
+        {
+        case MEDIASTREAM_NONE :
+            break;
+        case MEDIASTREAM_PLAYING :
+        case MEDIASTREAM_STARTED :
+            assert(0);
+            break;
+        case MEDIASTREAM_FINISHED :
+        case MEDIASTREAM_ERROR :
+            m_completiontime = GETTIMESTAMP();
+        case MEDIASTREAM_PAUSED :
+            m_status = progress.status;
+            if (m_statusfunc)
+                m_statusfunc(m_userdata, progress.mfp, progress.status);
+            break;
+        }
+    }
+    while (progress.status != MEDIASTREAM_NONE);
 }
