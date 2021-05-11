@@ -60,6 +60,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     setWindowIcon(QIcon(APPICON));
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
+    ui.tabWidget->setFocus();
 
     initDefaultVideoFormat(m_vidfmt);
 
