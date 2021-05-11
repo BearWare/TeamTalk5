@@ -297,6 +297,22 @@ TEST_CASE( "MuxedAudioToFile" )
     REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
 }
 
+int GetAudioBlockSamplesSum(TTInstance* ttinst, int userid, StreamTypes sts)
+{
+    TTMessage msg;
+    REQUIRE(WaitForEvent(ttinst, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+    auto ab = TT_AcquireUserAudioBlock(ttinst, sts, userid);
+    REQUIRE(ab);
+    short* audiobuf = reinterpret_cast<short*>(ab->lpRawAudio);
+    uint32_t sum_samples = 0;
+    for (int i=0;i<ab->nSamples * ab->nChannels;i++)
+        sum_samples += std::abs(audiobuf[i]);
+    sum_samples = sum_samples / ab->nChannels;
+    REQUIRE(TT_ReleaseUserAudioBlock(ttinst, ab));
+
+    return sum_samples;
+};
+
 TEST_CASE( "MuxedAudioBlock" )
 {
     auto txclient = InitTeamTalk();
@@ -315,6 +331,39 @@ TEST_CASE( "MuxedAudioBlock" )
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
+}
+
+TEST_CASE( "MuxedAudioBlockNoInputDevice" )
+{
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(txclient));
+
+    REQUIRE(InitSound(rxclient, DEFAULT, SOUNDDEVICEID_IGNORE));
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
+
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
+    auto ab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_VOICE, TT_MUXED_USERID);
+    REQUIRE(ab != nullptr);
+    REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
+
+    int sum = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
+    REQUIRE(sum == 0);
+
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, TRUE));
+
+    int retries = 10;
+    while (retries-- && GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE) == 0);
+    REQUIRE(retries > 0);
 }
 
 TEST_CASE( "MuxedAudioBlockUserEvent" )
