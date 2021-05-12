@@ -56,9 +56,9 @@ MediaPlayback::~MediaPlayback()
         m_drained.get(wait);
     }
 
-    m_sndsys->CloseOutputStream(this);
-
     m_streamer.reset();
+
+    m_sndsys->CloseOutputStream(this);
 
     std::lock_guard<std::mutex> g(m_mutex);
     while (m_audio_buffer.size())
