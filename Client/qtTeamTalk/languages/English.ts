@@ -1322,6 +1322,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="559"/>
+        <location filename="../mainwindow.ui" line="562"/>
         <source>Start/Stop Webcam</source>
         <translation type="unfinished"></translation>
     </message>

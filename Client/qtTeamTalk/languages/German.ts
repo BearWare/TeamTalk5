@@ -2689,6 +2689,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="559"/>
+        <location filename="../mainwindow.ui" line="562"/>
         <source>Start/Stop Webcam</source>
         <translation>Webcam starten/stoppen</translation>
     </message>
