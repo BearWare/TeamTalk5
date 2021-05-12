@@ -644,6 +644,9 @@
                <layout class="QHBoxLayout" name="horizontalLayout_6">
                 <item>
                  <widget class="ChatLineEdit" name="videomsgEdit">
+                  <property name="visible">
+                   <bool>false</bool>
+                  </property>
                   <property name="accessibleName">
                    <string>Message</string>
                   </property>
@@ -651,6 +654,9 @@
                 </item>
                 <item>
                  <widget class="QToolButton" name="videosendButton">
+                  <property name="visible">
+                   <bool>false</bool>
+                  </property>
                   <property name="text">
                    <string>Sen&amp;d</string>
                   </property>
@@ -912,6 +918,9 @@
                <layout class="QHBoxLayout" name="horizontalLayout_5">
                 <item>
                  <widget class="ChatLineEdit" name="desktopmsgEdit">
+                  <property name="visible">
+                   <bool>false</bool>
+                  </property>
                   <property name="accessibleName">
                    <string>Message</string>
                   </property>
@@ -919,6 +928,9 @@
                 </item>
                 <item>
                  <widget class="QToolButton" name="desktopsendButton">
+                  <property name="visible">
+                   <bool>false</bool>
+                  </property>
                   <property name="text">
                    <string>Sen&amp;d</string>
                   </property>
