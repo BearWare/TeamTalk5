@@ -3011,8 +3011,83 @@ TEST_CASE("FirstVoiceStreamPacket")
     //Wait for first packet notification
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, firstvoicepacket));
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestart));
+}
+
+#if 0 // too many open files
+TEST_CASE("MaxUsersAndMaxChannels")
+{
+    std::vector<ttinst> clients;
+    for (int i=1;i<1000;++i)
+    {
+        auto txclient = InitTeamTalk();
+
+        REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+        ACE_TString name = ACE_TEXT("Client - #") + i2string(TT_GetMyUserID(txclient));
+        REQUIRE(Login(txclient, name.c_str(), ACE_TEXT("guest"), ACE_TEXT("guest")));
+        int n_users;
+        REQUIRE(TT_GetServerUsers(txclient, nullptr, &n_users));
+        REQUIRE(n_users == i); // no other users should be on server.
+
+        AudioCodec codec;
+        codec.nCodec = NO_CODEC;
+        int n_channels;
+        REQUIRE(TT_GetServerChannels(txclient, nullptr, &n_channels));
+        if (n_channels < 0xFFE) // compensate for existing channels
+        {
+            Channel chan = MakeChannel(txclient, name.c_str(), TT_GetRootChannelID(txclient), codec);
+            REQUIRE(WaitForCmdComplete(txclient, TT_DoJoinChannel(txclient, &chan)));
+        }
+        else
+            JoinRoot(txclient);
+
+        clients.push_back(txclient);
+    }
+
+//    auto txclient = InitTeamTalk();
+
+//    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+//    ACE_TString name = ACE_TEXT("Client - #") + i2string(TT_GetMyUserID(txclient));
+//    REQUIRE(Login(txclient, name.c_str(), ACE_TEXT("guest"), ACE_TEXT("guest")));
 
 }
+#endif
+
+TEST_CASE("MaxChannels")
+{
+    auto txclient = InitTeamTalk();
+
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+
+    REQUIRE(Login(txclient, ACE_TEXT("admin"), ACE_TEXT("admin"), ACE_TEXT("admin")));
+
+    int n_channels;
+    REQUIRE(TT_GetServerChannels(txclient, nullptr, &n_channels));
+
+    //int n_create = 0xffe - n_channels; //takes too long
+    int n_create = 1000;
+
+    for (int i=0;i<n_create;++i)
+    {
+        AudioCodec codec;
+        codec.nCodec = NO_CODEC;
+        ACE_TString name = ACE_TEXT("TestChannel - #") + i2string(i);
+        Channel chan = MakeChannel(txclient, name.c_str(), TT_GetRootChannelID(txclient), codec);
+        REQUIRE(WaitForCmdSuccess(txclient, TT_DoMakeChannel(txclient, &chan)));
+    }
+
+    auto rxclient = InitTeamTalk();
+    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(rxclient));
+
+    for (int i=0;i<n_create;++i)
+    {
+        ACE_TString name = ACE_TEXT("TestChannel - #") + i2string(i);
+        int chanid = TT_GetChannelIDFromPath(txclient, name.c_str());
+        REQUIRE(WaitForCmdSuccess(txclient, TT_DoRemoveChannel(txclient, chanid)));
+    }
+}
+
 
 #if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
 

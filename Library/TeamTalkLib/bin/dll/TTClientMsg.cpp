@@ -119,10 +119,14 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
         std::unique_lock<std::mutex> g(m_mutex);
 
         size_t old_size = m_event_queue.message_bytes();
-        if (old_size < INTMSG_SUSPEND_SIZE &&
+        if (old_size <= INTMSG_SUSPEND_SIZE &&
             m_event_queue.message_bytes() + mb->size() > INTMSG_SUSPEND_SIZE)
         {
-            mb->release();
+            // submit message along with overflow message
+
+            ACE_Time_Value tv;
+            int ret = m_event_queue.enqueue(mb, &tv);
+            assert(ret >= 0);
 
             IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_INTERNAL_ERROR,
                                              0, __CLIENTERRORMSG);
@@ -131,8 +135,9 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
             ACE_OS::strsncpy(msg->clienterrmsg->szErrorMsg,
                              ACE_TEXT("The internal message queue has overflowed"),
                              TT_STRLEN);
-            ACE_Time_Value tv;
-            int ret = m_event_queue.enqueue(mb, &tv);
+
+            tv = ACE_Time_Value::zero;
+            ret = m_event_queue.enqueue(mb, &tv);
             assert(ret >= 0);
             assert(!m_suspended);
             if (m_suspender)
@@ -140,7 +145,7 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
             else
                 m_suspended = suspend = true;
 
-            MYTRACE(ACE_TEXT("TTMsgQueue message queue has overflowed\n"));
+            MYTRACE(ACE_TEXT("TTMsgQueue message queue has overflowed. Suspend: %d\n"), int(suspend));
         }
         else if (m_event_queue.message_bytes() + mb->size() <= INTMSG_SUSPEND_SIZE)
         {
@@ -151,11 +156,12 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
         else
         {
             mb->release();
-            MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("TTMsgQueue message queue is overflowed\n"));
             if (!m_suspended && m_suspender && m_suspender->CanSuspend())
                 m_suspended = suspend = true;
+
+            MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("TTMsgQueue message queue is overflowed. Suspend: %d\n"), int(suspend));
         }
-        MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Enqueue: Old size: %u, Cur size: %u\n"), old_size, m_event_queue.message_bytes());
+        MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Enqueue %p: Old size: %u, Cur size: %u\n"), this, old_size, m_event_queue.message_bytes());
     }
 
     if (suspend && m_suspender)
@@ -174,9 +180,15 @@ TTBOOL TTMsgQueue::GetMessage(TTMessage& msg, ACE_Time_Value* tv)
     bool resume = false;
     ACE_Message_Block* mb = nullptr;
     {
-        if (m_event_queue.dequeue(mb, tv) >= 0)
+        if (m_event_queue.peek_dequeue_head(mb, tv) >= 0)
         {
             std::unique_lock<std::mutex> g(m_mutex);
+
+            ACE_Time_Value tvzero;
+            int ret = m_event_queue.dequeue(mb, &tvzero);
+            assert(ret >= 0);
+            if (ret < 0)
+                return FALSE;
 
             IntTTMessage* intmsg = reinterpret_cast<IntTTMessage*>(mb->rd_ptr());
             msg.nClientEvent = intmsg->event;
@@ -188,13 +200,15 @@ TTBOOL TTMsgQueue::GetMessage(TTMessage& msg, ACE_Time_Value* tv)
                 ACE_OS::memcpy(msg.data, intmsg->any, size);
             mb->release();
 
-            MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Dequeue: Cur size: %u\n"),
-                         m_event_queue.message_bytes());
+            MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Dequeue %p: Cur size: %u\n"),
+                         this, m_event_queue.message_bytes());
 
             if (m_suspended && m_event_queue.message_bytes() <= INTMSG_SUSPEND_SIZE)
             {
                 resume = true;
                 m_suspended = false;
+
+                MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("TTMsgQueue message queue is resuming.\n"));
             }
         }
     }
