@@ -6,6 +6,10 @@ Accessible Windows Client
 - Single file audio recording can now include media file streams
 Default QT Client
 - Single file audio recording can now include media file streams
+- Fix private message dialog not opening using CTRL+E or "Message" context menu in channels tree
+- Fix new line added at end of new private message
+- Fix send empties private message
+- Message area hidden at startup in "Video" and "Desktop" tabs
 Android Client
 -
 iOS Client
