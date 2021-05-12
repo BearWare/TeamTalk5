@@ -559,7 +559,7 @@
                   <string>Start/Stop Webcam</string>
                  </property>
                  <property name="text">
-                  <string notr="true">Start/Stop Webcam</string>
+                  <string>Start/Stop Webcam</string>
                  </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
