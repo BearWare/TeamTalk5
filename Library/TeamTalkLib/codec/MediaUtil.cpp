@@ -297,10 +297,8 @@ ACE_Message_Block* AudioFrameFromList(int samples_out, std::vector<ACE_Message_B
     return AudioFrameToMsgBlock(muxfrm);
 }
 
-int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq)
+int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq, double volume /*= 8000*/)
 {
-    double volume = 8000;
-
     for(int i = 0; i<audblock.input_samples; i++)
     {
         double t = (double)sample_index++ / audblock.inputfmt.samplerate;

@@ -310,6 +310,8 @@ int GetAudioBlockSamplesSum(TTInstance* ttinst, int userid, StreamTypes sts)
     sum_samples = sum_samples / ab->nChannels;
     REQUIRE(TT_ReleaseUserAudioBlock(ttinst, ab));
 
+    // std::cout << "Sum samples: " << sum_samples << std::endl;
+
     return sum_samples;
 };
 
@@ -2419,6 +2421,55 @@ TEST_CASE("InjectAudio")
         } while (msg.audioinputprogress.uQueueMSec > 0);
 
     } while ((samples -= SAMPLERATE) > 0);
+}
+
+TEST_CASE("InjectAudioInputGain")
+{
+    ttinst ttclient = InitTeamTalk();
+    REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    Channel chan = {};
+    REQUIRE(TT_GetChannel(ttclient, TT_GetMyChannelID(ttclient), &chan));
+    REQUIRE(chan.audiocodec.nCodec == OPUS_CODEC);
+    auto const N_FRAMES = 5;
+    int samples = PCM16_DURATION_SAMPLES(chan.audiocodec.opus.nTxIntervalMSec, chan.audiocodec.opus.nSampleRate) * N_FRAMES;
+    std::vector<short> buffer(samples * chan.audiocodec.opus.nChannels);
+    media::AudioFrame frm(media::AudioFormat(chan.audiocodec.opus.nSampleRate, chan.audiocodec.opus.nChannels), &buffer[0], samples);
+    int sampleindex = GenerateTone(frm, 0, 500);
+
+    AudioBlock ab = {};
+    ab.lpRawAudio = frm.input_buffer;
+    ab.nChannels = frm.inputfmt.channels;
+    ab.nSampleRate = frm.inputfmt.samplerate;
+    ab.uSampleIndex = frm.sample_no;
+    ab.nSamples = frm.input_samples;
+
+    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
+    REQUIRE(TT_InsertAudioBlock(ttclient, &ab));
+
+    // wait for 'ab' to appear
+    int sumsamples_pregain;
+    while ((sumsamples_pregain = GetAudioBlockSamplesSum(ttclient, TT_MUXED_USERID, STREAMTYPE_VOICE)) == 0);
+    int recv_frames = 1;
+    for (;recv_frames < N_FRAMES;++recv_frames)
+        sumsamples_pregain += GetAudioBlockSamplesSum(ttclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
+
+    // AudioMuxer underflow
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, chan.audiocodec.opus.nTxIntervalMSec * 2) == FALSE);
+
+    // double gain
+    REQUIRE(TT_SetSoundInputGainLevel(ttclient, TT_GetSoundInputGainLevel(ttclient) * 2));
+    ab.uSampleIndex = ab.nSamples;
+    REQUIRE(TT_InsertAudioBlock(ttclient, &ab));
+
+    int sumsamples_postgain = 0;
+    for (recv_frames=0;recv_frames < N_FRAMES;++recv_frames)
+        sumsamples_postgain += GetAudioBlockSamplesSum(ttclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
+
+    REQUIRE(sumsamples_pregain * 1.9 < sumsamples_postgain);
 }
 
 TEST_CASE("FixedJitterBuffer")
