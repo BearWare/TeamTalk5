@@ -271,6 +271,9 @@
                 <property name="text">
                  <string>Sample rate</string>
                 </property>
+                <property name="buddy">
+                 <cstring>spx_srateBox</cstring>
+                </property>
                </widget>
               </item>
               <item row="0" column="1">
@@ -409,6 +412,9 @@
                 <property name="text">
                  <string>Sample rate</string>
                 </property>
+                <property name="buddy">
+                 <cstring>spxvbr_srateBox</cstring>
+                </property>
                </widget>
               </item>
               <item row="0" column="1">
@@ -444,7 +450,7 @@
                  <string>Quality</string>
                 </property>
                 <property name="buddy">
-                 <cstring>spx_qualitySlider</cstring>
+                 <cstring>spxvbr_qualitySlider</cstring>
                 </property>
                </widget>
               </item>
@@ -528,7 +534,7 @@
                  <string>Transmit interval</string>
                 </property>
                 <property name="buddy">
-                 <cstring>spx_txdelaySpinBox</cstring>
+                 <cstring>spxvbr_txdelaySpinBox</cstring>
                 </property>
                </widget>
               </item>
@@ -568,6 +574,9 @@
                 <property name="text">
                  <string>Application</string>
                 </property>
+                <property name="buddy">
+                 <cstring>opus_appBox</cstring>
+                </property>
                </widget>
               </item>
               <item row="0" column="1">
@@ -594,6 +603,9 @@
                <widget class="QLabel" name="label_43">
                 <property name="text">
                  <string>Sample rate</string>
+                </property>
+                <property name="buddy">
+                 <cstring>opus_srateBox</cstring>
                 </property>
                </widget>
               </item>
@@ -628,6 +640,9 @@
                <widget class="QLabel" name="label_46">
                 <property name="text">
                  <string>Audio channels</string>
+                </property>
+                <property name="buddy">
+                 <cstring>opus_channelsBox</cstring>
                 </property>
                </widget>
               </item>
