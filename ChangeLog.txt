@@ -13,6 +13,7 @@ Default QT Client
 - Message area hidden at startup in "Video" and "Desktop" tabs
 - Focus moves to new message's edit field when opening private messages dialog
 - Fix labels in channel creation and TT audio preprocessor dialogs
+- Send button hidden when message area is empty
 Android Client
 -
 iOS Client

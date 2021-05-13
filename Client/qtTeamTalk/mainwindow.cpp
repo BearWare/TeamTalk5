@@ -205,6 +205,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     ui.statusbar->addPermanentWidget(m_pinglabel);
     ui.statusbar->addPermanentWidget(m_pttlabel);
 
+    connect(ui.msgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
     connect(ui.sendButton, &QAbstractButton::clicked,
             this, &MainWindow::slotSendChannelMessage);
     connect(ui.msgEdit, &QLineEdit::returnPressed,
@@ -215,6 +216,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotSendChannelMessage);
     connect(ui.videomsgEdit, &QLineEdit::returnPressed,
             this, &MainWindow::slotSendChannelMessage);
+    connect(ui.videomsgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
+    connect(ui.desktopmsgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
     connect(ui.desktopmsgEdit, &QLineEdit::returnPressed,
             this, &MainWindow::slotSendChannelMessage);
     connect(ui.micSlider, &QAbstractSlider::valueChanged,
@@ -2538,11 +2541,8 @@ void MainWindow::processMyselfJoined(int channelid)
     }
 
     ui.msgEdit->setVisible(true);
-    ui.sendButton->setVisible(true);
     ui.videomsgEdit->setVisible(true);
-    ui.videosendButton->setVisible(true);
     ui.desktopmsgEdit->setVisible(true);
-    ui.desktopsendButton->setVisible(true);
     updateWindowTitle();
 }
 
@@ -6125,4 +6125,11 @@ void MainWindow::startTTS()
     break;
 #endif
     }
+}
+
+void MainWindow::slotTextChanged()
+{
+    ui.sendButton->setVisible(ui.msgEdit->text().size()>0);
+    ui.videosendButton->setVisible(ui.videomsgEdit->text().size()>0);
+    ui.desktopsendButton->setVisible(ui.desktopmsgEdit->text().size()>0);
 }
