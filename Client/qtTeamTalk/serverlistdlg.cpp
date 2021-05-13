@@ -194,6 +194,7 @@ void ServerListDlg::slotAddUpdServer()
         addServerEntry(entry);
         showServers();
         ui.listWidget->setCurrentRow(index);
+        ui.listWidget->setFocus();
     }
 }
 
