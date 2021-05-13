@@ -791,9 +791,11 @@
     <item id="1602">Canale nascosto (invisibile e conosciuto solo per nome)</item>
     <item id="1603">Tipo di canale</item>
     <item id="1604">L&apos;utente può vedere i canali nascosti</item>
+    <item id="1605">&amp;Voce</item>
     <item id="1606">Modalità di riproduzione</item>
     <item id="1608">Disattiva il volume principale</item>
     <item id="1609">Riattiva il volume principale</item>
+    <item id="1610">File &amp;multimediali</item>
     <item id="32791">qual&apos;è il mio &amp;indirizzo IP?</item>
     <item id="32798">&amp;Op\tCtrl+O operatore</item>
     <item id="32801">&amp;Guarda i messaggi di questo canale\tF10</item>
