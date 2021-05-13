@@ -1503,8 +1503,6 @@ void MainWindow::commandProcessing(int cmdid, bool complete)
             cmdLoggedIn(TT_GetMyUserID(ttInst));
             break;
         case CMD_COMPLETE_JOINCHANNEL :
-            //unsubscribe
-            cmdJoinedChannel(TT_GetMyChannelID(ttInst));
             break;
         case CMD_COMPLETE_LIST_CHANNELBANS :
         case CMD_COMPLETE_LIST_SERVERBANS :
@@ -1666,14 +1664,6 @@ void MainWindow::cmdLoggedIn(int myuserid)
         if(cmdid>0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
     }
-}
-
-void MainWindow::cmdJoinedChannel(int channelid)
-{
-    //update list of files in current channel
-    updateChannelFiles(TT_GetMyChannelID(ttInst));
-    //show channel information in chat window
-    ui.chatEdit->joinedChannel(channelid);
 }
 
 void MainWindow::addStatusMsg(const QString& msg)
@@ -2527,6 +2517,10 @@ void MainWindow::processMyselfJoined(int channelid)
             statusjoin = tr("Joined channel %1").arg(root);
         }
     }
+
+    //update list of files in current channel
+    updateChannelFiles(channelid);
+
     addTextToSpeechMessage(TTS_USER_JOINED, statusjoin);
 
     //store new muxed audio file if we're changing channel
@@ -2536,6 +2530,9 @@ void MainWindow::processMyselfJoined(int channelid)
         updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
         updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
     }
+
+    //show channel information in chat window
+    ui.chatEdit->joinedChannel(channelid);
 
     ui.msgEdit->setVisible(true);
     ui.sendButton->setVisible(true);

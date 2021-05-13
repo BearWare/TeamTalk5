@@ -227,7 +227,6 @@ private:
     void commandProcessing(int cmdid, bool complete);
     //command replies
     void cmdLoggedIn(int myuserid);
-    void cmdJoinedChannel(int channelid);
 
     void updateWindowTitle();
 #if defined(Q_OS_WIN32)
