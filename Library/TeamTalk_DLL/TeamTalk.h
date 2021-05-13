@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.8.0.5037"
+#define TEAMTALK_VERSION "5.8.0.5038"
 
 
 #if defined(WIN32)
