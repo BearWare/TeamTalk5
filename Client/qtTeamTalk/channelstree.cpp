@@ -880,6 +880,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             if (!item->data(COLUMN_MEDIAFILE, Qt::CheckStateRole).isNull())
                 item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
         }
+        item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, QString("%1: %2").arg(channame).arg((item->isExpanded()? tr("Expanded"):tr("Collapsed"))));
     }
     else if(item->type() & USER_TYPE)
     {
