@@ -208,6 +208,7 @@ void ServerListDlg::slotDeleteServer()
         showServers();
         ui.delButton->setEnabled(false);
         ui.listWidget->setCurrentRow(index);
+        ui.listWidget->setFocus();
     }
 }
 
