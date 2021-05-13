@@ -59,6 +59,7 @@ void TextMessageDlg::init(const User& user)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    ui.newmsgTextEdit->setFocus();
 
     connect(ui.cancelButton, &QAbstractButton::clicked, this, &TextMessageDlg::slotCancel);
     connect(ui.sendButton, &QAbstractButton::clicked, this, &TextMessageDlg::slotSendMsg);

@@ -10,6 +10,7 @@ Default QT Client
 - Fix new line added at end of new private message
 - Fix send empties private message
 - Message area hidden at startup in "Video" and "Desktop" tabs
+- Focus moves to new message's edit field when opening private messages dialog
 Android Client
 -
 iOS Client
