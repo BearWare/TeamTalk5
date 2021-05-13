@@ -1797,5 +1797,5 @@ void PreferencesDlg::slotTTSRevert(bool /*checked*/)
 
 void PreferencesDlg::slotUpdateASBAccessibleName()
 {
-    ui.awaySpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_2->text()).arg
+    ui.awaySpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_2->text()).arg(ui.awaySpinBox->value()).arg(ui.label_3->text()));
 }
