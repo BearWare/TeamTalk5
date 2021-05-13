@@ -181,15 +181,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>voicevolSlider</tabstop>
-  <tabstop>voiceleftChkBox</tabstop>
-  <tabstop>voicerightChkBox</tabstop>
-  <tabstop>mfvolSlider</tabstop>
-  <tabstop>mfleftChkBox</tabstop>
-  <tabstop>mfrightChkBox</tabstop>
-  <tabstop>buttonBox</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>

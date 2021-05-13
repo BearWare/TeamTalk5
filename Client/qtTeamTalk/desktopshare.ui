@@ -191,16 +191,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>desktopRadioBtn</tabstop>
-  <tabstop>actwndRadioButton</tabstop>
-  <tabstop>specificwndRadioButton</tabstop>
-  <tabstop>windowComboBox</tabstop>
-  <tabstop>rgbComboBox</tabstop>
-  <tabstop>updintervakChkBox</tabstop>
-  <tabstop>intervalSpinBox</tabstop>
-  <tabstop>buttonBox</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>

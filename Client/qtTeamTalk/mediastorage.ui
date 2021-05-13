@@ -218,22 +218,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>singleCheckBox</tabstop>
-  <tabstop>multipleCheckBox</tabstop>
-  <tabstop>voicestreamCheckBox</tabstop>
-  <tabstop>mediafileCheckBox</tabstop>
-  <tabstop>affComboBox</tabstop>
-  <tabstop>audiopathEdit</tabstop>
-  <tabstop>audioToolButton</tabstop>
-  <tabstop>chanlogEdit</tabstop>
-  <tabstop>chanlogToolButton</tabstop>
-  <tabstop>usertextEdit</tabstop>
-  <tabstop>usertextToolButton</tabstop>
-  <tabstop>startButton</tabstop>
-  <tabstop>stopButton</tabstop>
-  <tabstop>cancelButton</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

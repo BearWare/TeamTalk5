@@ -514,25 +514,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>servernameEdit</tabstop>
-  <tabstop>maxusersSpinBox</tabstop>
-  <tabstop>motdTextEdit</tabstop>
-  <tabstop>motdChkBox</tabstop>
-  <tabstop>tcpportSpinBox</tabstop>
-  <tabstop>udpportSpinBox</tabstop>
-  <tabstop>autosaveBox</tabstop>
-  <tabstop>usertimeoutSpinBox</tabstop>
-  <tabstop>audtxSpinBox</tabstop>
-  <tabstop>videotxSpinBox</tabstop>
-  <tabstop>mediafiletxSpinBox</tabstop>
-  <tabstop>desktoptxSpinBox</tabstop>
-  <tabstop>totaltxSpinBox</tabstop>
-  <tabstop>maxloginattemptsSpinBox</tabstop>
-  <tabstop>maxiploginsSpinBox</tabstop>
-  <tabstop>logindelaySpinBox</tabstop>
-  <tabstop>serverversionEdit</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>

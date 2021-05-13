@@ -279,20 +279,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>agcCheckBox</tabstop>
-  <tabstop>spxDefaultButton</tabstop>
-  <tabstop>gainlevelSpinBox</tabstop>
-  <tabstop>maxgainSpinBox</tabstop>
-  <tabstop>maxincSpinBox</tabstop>
-  <tabstop>maxdecSpinBox</tabstop>
-  <tabstop>denoiseCheckBox</tabstop>
-  <tabstop>maxdenoiseSpinBox</tabstop>
-  <tabstop>gainlevelSlider</tabstop>
-  <tabstop>ttdefaultButton</tabstop>
-  <tabstop>muteleftCheckBox</tabstop>
-  <tabstop>muteRightCheckBox</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -87,13 +87,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>availBtn</tabstop>
-  <tabstop>awayBtn</tabstop>
-  <tabstop>questionBtn</tabstop>
-  <tabstop>msgEdit</tabstop>
-  <tabstop>buttonBox</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>
