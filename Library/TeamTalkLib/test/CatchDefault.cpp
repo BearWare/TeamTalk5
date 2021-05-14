@@ -1578,7 +1578,7 @@ TEST_CASE("Last voice packet - wav files")
 
         if (index == 0)
         {
-            ACE_OS::strcpy(fileToDelete, curdir);
+            ACE_OS::strncpy(fileToDelete, curdir, 1024);
             ACE_OS::strncat(fileToDelete, &delim, 1);
             ACE_OS::strncat(fileToDelete, dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
             ACE_OS::unlink(fileToDelete);
@@ -1608,9 +1608,10 @@ TEST_CASE("Last voice packet - wav files")
         }
     } a(indev);
 
-    //run multiple times to get the wav output files with different number of frames.
-    //running 10 times, gives me 1-4 files with a missing frame, sometimes I get no file with a missing frame, but then you can run this test again or increase the number
-    //of runs from 10 to e.g. 20.
+    // run multiple times to get the wav output files with different number of frames.
+    // running 10 times, gives me 1-4 files with a missing frame, sometimes I get no
+    // file with a missing frame, but then you can run this test again or increase the
+    // number of runs from 10 to e.g. 20.
     for (int i = 0; i < 10; i++)
     {
         auto txclient = InitTeamTalk();
@@ -1705,7 +1706,7 @@ TEST_CASE("Last voice packet - wav files")
         ACE_TCHAR fileToCheck[1024]{};
         if (index == 0)
         {
-            ACE_OS::strcpy(fileToCheck, curdir);
+            ACE_OS::strncpy(fileToCheck, curdir, 1024);
             ACE_OS::strncat(fileToCheck, &delim, 1);
             ACE_OS::strncat(fileToCheck, dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
 
