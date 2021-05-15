@@ -105,6 +105,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.ListFragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import android.text.InputType;
 import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.util.SparseArray;
@@ -120,6 +121,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -732,17 +734,28 @@ implements TeamTalkConnectionListener,
             alert.setTitle(R.string.pref_title_join_channel);
             alert.setMessage(R.string.channel_password_prompt);
             final EditText input = new EditText(this);
-            input.setTransformationMethod(SingleLineTransformationMethod.getInstance());
+            input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD|InputType.TYPE_CLASS_TEXT);
             input.setText(channel.szPassword);
+            input.requestFocus();
             alert.setView(input);
             alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
+                InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(input.getWindowToken(), 0);
                         joinChannel(channel, input.getText().toString());
                     }
                 });
-            alert.setNegativeButton(android.R.string.cancel, null);
-            alert.show();
+            alert.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(input.getWindowToken(), 0);
+            }
+        });
+			final AlertDialog dialog = alert.create();
+            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            dialog.show();
         }
         else {
             joinChannel(channel, "");
