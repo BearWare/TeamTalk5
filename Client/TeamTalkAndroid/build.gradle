@@ -8,13 +8,14 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:4.2.0'
     }
 }
 
 apply plugin: 'com.android.application'
 
 android {
+    buildToolsVersion '30.0.3'
     compileSdkVersion 29
 
     defaultConfig {
