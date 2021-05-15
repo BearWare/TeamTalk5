@@ -21,6 +21,7 @@
     <!-- BLUETOOTH is needed to use bluetooth headset microphone -->
     <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"></uses-permission>
+<uses-permission android:name="android.hardware.sensor.proximity"></uses-permission>
 
     <application
         android:allowBackup="true"
