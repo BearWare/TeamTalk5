@@ -204,32 +204,6 @@ MainWindow::MainWindow(const QString& cfgfile)
     ui.statusbar->addPermanentWidget(m_dtxprogress);
     ui.statusbar->addPermanentWidget(m_pinglabel);
     ui.statusbar->addPermanentWidget(m_pttlabel);
-#if defined(Q_OS_WINDOWS)
-    bool SRActive = false;
-    Tolk_Load();
-    if(Tolk_DetectScreenReader() == NULL)
-        SRActive = true;
-    Tolk_Unload();
-    if(ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toString() == "1")
-    {
-        QMessageBox answer;
-        answer.setText(tr("%1 has detected usage of screenreader on your computer. Do you whish to enable accessibility options offered by %1 with recommanded parameters?").arg(APPTITLE));
-        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
-        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
-        Q_UNUSED(NoButton);
-        answer.setIcon(QMessageBox::Question);
-        answer.setWindowTitle(APPTITLE);
-        answer.exec();
-
-        if(answer.clickedButton() == YesButton)
-        {
-            ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, TTSEvents(TTS_USER_LOGGEDIN | TTS_USER_LOGGEDOUT | TTS_USER_JOINED_SAME | TTS_USER_LEFT_SAME | TTS_USER_TEXTMSG_PRIVATE | TTS_USER_TEXTMSG_CHANNEL | TTS_USER_TEXTMSG_BROADCAST | TTS_FILE_ADD | TTS_FILE_REMOVE | TTS_MENU_ACTIONS));
-            ttSettings->setValue(SETTINGS_TTS_ENGINE, 2);
-            ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, 0);
-        }
-    }
-#endif
-
 
     connect(ui.msgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
     connect(ui.sendButton, &QAbstractButton::clicked,
@@ -708,6 +682,31 @@ void MainWindow::loadSettings()
 
     if(connect_ok)
         QTimer::singleShot(0, this, &MainWindow::slotConnectToLatest);
+#if defined(Q_OS_WINDOWS)
+    bool SRActive = false;
+    Tolk_Load();
+    if(Tolk_DetectScreenReader() == NULL)
+        SRActive = true;
+    Tolk_Unload();
+    if(ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toString() == "1")
+    {
+        QMessageBox answer;
+        answer.setText(tr("%1 has detected usage of screenreader on your computer. Do you whish to enable accessibility options offered by %1 with recommanded parameters?").arg(APPNAME_SHORT));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(APPNAME_SHORT);
+        answer.exec();
+
+        if(answer.clickedButton() == YesButton)
+        {
+            ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, TTSEvents(TTS_USER_LOGGEDIN | TTS_USER_LOGGEDOUT | TTS_USER_JOINED_SAME | TTS_USER_LEFT_SAME | TTS_USER_TEXTMSG_PRIVATE | TTS_USER_TEXTMSG_CHANNEL | TTS_USER_TEXTMSG_BROADCAST | TTS_FILE_ADD | TTS_FILE_REMOVE | TTS_MENU_ACTIONS));
+            ttSettings->setValue(SETTINGS_TTS_ENGINE, 2);
+            ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, 0);
+        }
+    }
+#endif
 }
 
 bool MainWindow::parseArgs(const QStringList& args)
