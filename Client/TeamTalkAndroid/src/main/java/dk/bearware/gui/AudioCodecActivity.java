@@ -366,6 +366,7 @@ public class AudioCodecActivity extends AppCompatActivity implements
                 sr.setSelection(srMap.getIndex(opuscodec.nSampleRate, 0));
                 
                 dtx.setChecked(opuscodec.bDTX);
+                vbr.setChecked(opuscodec.bVBR);
                 
                 audchan.setAdapter(audMap);
                 audchan.setSelection(audMap.getIndex(opuscodec.nChannels, 0));
