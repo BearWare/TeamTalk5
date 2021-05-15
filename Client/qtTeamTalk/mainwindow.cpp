@@ -685,7 +685,7 @@ void MainWindow::loadSettings()
 #if defined(Q_OS_WINDOWS)
     bool SRActive = false;
     Tolk_Load();
-    if(Tolk_DetectScreenReader() == NULL)
+    if(Tolk_DetectScreenReader() != NULL)
         SRActive = true;
     Tolk_Unload();
     if(ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toString() == "1")
