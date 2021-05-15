@@ -701,7 +701,6 @@ void MainWindow::loadSettings()
 
         if(answer.clickedButton() == YesButton)
         {
-            ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, TTSEvents(TTS_USER_LOGGEDIN | TTS_USER_LOGGEDOUT | TTS_USER_JOINED_SAME | TTS_USER_LEFT_SAME | TTS_USER_TEXTMSG_PRIVATE | TTS_USER_TEXTMSG_CHANNEL | TTS_USER_TEXTMSG_BROADCAST | TTS_FILE_ADD | TTS_FILE_REMOVE | TTS_MENU_ACTIONS));
             ttSettings->setValue(SETTINGS_TTS_ENGINE, 2);
             ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, 0);
         }
