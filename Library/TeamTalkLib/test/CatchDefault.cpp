@@ -1537,6 +1537,7 @@ TEST_CASE("testSSLSetup")
 }
 #endif
 
+#if 0 // this unit-test is too unstable under Valgrind
 TEST_CASE("Last voice packet - wav files")
 {
     TTCHAR curdir[1024] = {};
@@ -1724,6 +1725,7 @@ TEST_CASE("Last voice packet - wav files")
 
     ACE_OS::closedir(dir);
 }
+#endif
 
 TEST_CASE("NewVoiceStreamMatch")
 {
