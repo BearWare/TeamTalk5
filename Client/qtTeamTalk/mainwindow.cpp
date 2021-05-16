@@ -682,6 +682,35 @@ void MainWindow::loadSettings()
 
     if(connect_ok)
         QTimer::singleShot(0, this, &MainWindow::slotConnectToLatest);
+
+#if defined(Q_OS_WINDOWS)
+    bool tolkLoaded = Tolk_IsLoaded();
+    if (!tolkLoaded)
+        Tolk_Load();
+
+    bool SRActive = Tolk_DetectScreenReader() != nullptr;
+
+    if (!tolkLoaded)
+        Tolk_Unload();
+
+    if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool() && SRActive)
+    {
+        QMessageBox answer;
+        answer.setText(tr("%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?").arg(APPNAME_SHORT));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(APPNAME_SHORT);
+        answer.exec();
+
+        if(answer.clickedButton() == YesButton)
+        {
+            ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
+            ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
+        }
+    }
+#endif
 }
 
 bool MainWindow::parseArgs(const QStringList& args)
