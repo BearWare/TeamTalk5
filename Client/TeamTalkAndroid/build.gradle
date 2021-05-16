@@ -3,7 +3,7 @@ buildscript {
         maven {
             url 'https://dl.google.com/dl/android/maven2'
         }
-        jcenter()
+        mavenCentral()
         google()
     }
 
@@ -16,12 +16,12 @@ apply plugin: 'com.android.application'
 
 android {
     buildToolsVersion '30.0.3'
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "dk.bearware.gui"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -39,7 +39,7 @@ android {
     }
 
     repositories {
-        jcenter()
+        mavenCentral()
         maven { url 'https://maven.google.com/' }
         maven { url 'https://jitpack.io' }
     }

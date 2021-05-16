@@ -257,7 +257,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
                     String xml = "";
                     try {
                         String line;
-                        BufferedReader source = new BufferedReader(new FileReader(data.getStringExtra(FilePickerActivity.SELECTED_FILE)));
+                        BufferedReader source = new BufferedReader(new FileReader(AbsolutePathHelper.getRealPath(this.getBaseContext(), data.getData())));
                         while ((line = source.readLine()) != null) {
                             xml += line;
                         }
@@ -301,8 +301,11 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
             break;
             case R.id.action_import_serverlist :
                 if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
-                    Intent filepicker = new Intent(this, FilePickerActivity.class);
-                    startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".tt"), REQUEST_IMPORT_SERVERLIST);
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("*/*");
+                    Intent i = Intent.createChooser(intent, "File");
+                    startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
                 }
             break;
             case R.id.action_export_serverlist :
@@ -625,8 +628,11 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
             case Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS :
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE :
-                Intent filepicker = new Intent(this, FilePickerActivity.class);
-                startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".tt"), REQUEST_IMPORT_SERVERLIST);
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("*/*");
+                    Intent i = Intent.createChooser(intent, "File");
+                    startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
                 exportServers();

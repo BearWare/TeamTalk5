@@ -120,8 +120,11 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
                 switch(v.getId()) {
                     case R.id.media_file_select_btn :
                         if (Permissions.setupPermission(getBaseContext(), StreamMediaActivity.this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
-                            Intent filepicker = new Intent(StreamMediaActivity.this, FilePickerActivity.class);
-                            startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".mp3"), REQUEST_STREAM_MEDIA);
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("*/*");
+                    Intent i = Intent.createChooser(intent, "File");
+                    startActivityForResult(i, REQUEST_STREAM_MEDIA);
                         }
                         break;
                     case R.id.media_file_stream_btn :
@@ -155,7 +158,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((requestCode == REQUEST_STREAM_MEDIA) && (resultCode == RESULT_OK)) {
-            file_path.setText(data.getStringExtra(FilePickerActivity.SELECTED_FILE));
+            file_path.setText(AbsolutePathHelper.getRealPath(this.getBaseContext(), data.getData()));
         }
         else {
             super.onActivityResult(requestCode, resultCode, data);

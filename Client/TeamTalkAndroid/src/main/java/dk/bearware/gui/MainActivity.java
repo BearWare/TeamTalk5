@@ -311,7 +311,11 @@ implements TeamTalkConnectionListener,
             break;
             case R.id.action_upload : {
                 if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
-                    startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("*/*");
+                    Intent i = Intent.createChooser(intent, "File");
+                    startActivityForResult(i, REQUEST_SELECT_FILE);
                 }
             }
             break;
@@ -566,7 +570,7 @@ implements TeamTalkConnectionListener,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((requestCode == REQUEST_SELECT_FILE) && (resultCode == RESULT_OK)) {
-            String path = data.getStringExtra(FilePickerActivity.SELECTED_FILE);
+            String path = AbsolutePathHelper.getRealPath(this.getBaseContext(), data.getData());
             String remoteName = filesAdapter.getRemoteName(path);
             if (remoteName != null) {
                 Toast.makeText(this, getString(R.string.remote_file_exists, remoteName), Toast.LENGTH_LONG).show();
@@ -1893,7 +1897,11 @@ private EditText newmsg;
             case Permissions.MY_PERMISSIONS_REQUEST_VIBRATE :
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE :
-                startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("*/*");
+                    Intent i = Intent.createChooser(intent, "File");
+                    startActivityForResult(i, REQUEST_SELECT_FILE);
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
                 break;

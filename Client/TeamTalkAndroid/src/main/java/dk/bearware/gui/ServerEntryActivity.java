@@ -43,9 +43,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.InputType;
+import android.widget.EditText;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.EditTextPreference;
+import androidx.preference.EditTextPreference.OnBindEditTextListener;
 import androidx.preference.Preference;
 import androidx.preference.Preference.OnPreferenceChangeListener;
 import androidx.preference.PreferenceCategory;
@@ -392,9 +396,20 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
 
     public static class ServerPreferencesFragment extends PreferenceFragmentCompat {
 
+        private androidx.preference.EditTextPreference.OnBindEditTextListener onBindEditTextListener = new androidx.preference.EditTextPreference.OnBindEditTextListener() {
+            @Override
+            public void onBindEditText(@NonNull EditText editText) {
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            }
+        };
+
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.pref_serverentry, rootKey);
+            androidx.preference.EditTextPreference tcpPortPreference = getPreferenceManager().findPreference("tcpport");
+            tcpPortPreference.setOnBindEditTextListener(onBindEditTextListener);
+            androidx.preference.EditTextPreference udpPortPreference = getPreferenceManager().findPreference("udpport");
+            udpPortPreference.setOnBindEditTextListener(onBindEditTextListener);
         }
 
     }
