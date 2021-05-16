@@ -692,12 +692,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="883"/>
         <source>Expanded</source>
-        <translation type="unfinished"></translation>
+        <translation>已展开</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="883"/>
         <source>Collapsed</source>
-        <translation type="unfinished"></translation>
+        <translation>已折叠</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="993"/>
