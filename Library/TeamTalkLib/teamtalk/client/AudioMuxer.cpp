@@ -691,14 +691,12 @@ bool AudioMuxer::MuxUserAudio()
                 MYTRACE_COND(frm.sample_no != ui->second + SAMPLES,
                              ACE_TEXT("Unexpected sample no for #%d streamtype %u. Found sample index %u. Should be %u\n"),
                              GetUserID(ii->first), GetStreamType(ii->first), frm.sample_no, ui->second + SAMPLES);
-                TTASSERT(frm.sample_no == ui->second + SAMPLES);
 
                 if (frm.sample_no != ui->second + SAMPLES)
                 {
-                    //this should never happen - clear user
-                    m_usermux_progress.erase(ui);
-                    m_usermux_queue.erase(ii++);
-                    continue;
+                    // Sample index is out of sync. Mark stream as ended so
+                    // muxer can start over.
+                    frm = media::AudioFrame();
                 }
             }
 

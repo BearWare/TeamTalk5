@@ -1086,6 +1086,69 @@ TEST_CASE( "RawAudioMuxerOverflow" )
     }
 }
 
+TEST_CASE( "RawAudioMuxerSampleIndex" )
+{
+    teamtalk::AudioCodec ac;
+    ac.codec = teamtalk::CODEC_OPUS;
+    ac.opus.application = OPUS_APPLICATION_AUDIO;
+    ac.opus.bitrate = 48000;
+    ac.opus.complexity = 4;
+    ac.opus.dtx = ac.opus.fec = ac.opus.vbr = ac.opus.vbr_constraint = true;
+    ac.opus.channels = 2;
+    ac.opus.samplerate = 48000;
+    ac.opus.frame_size = int(ac.opus.samplerate * .01);
+    ac.opus.frames_per_packet = 1;
+    const int TOTALSAMPLES = teamtalk::GetAudioCodecCbTotalSamples(ac);
+    const int FRAMESIZE = teamtalk::GetAudioCodecCbSamples(ac);
+    const auto FMT = teamtalk::GetAudioCodecAudioFormat(ac);
+
+    msg_queue_t mixed_frames;
+    AudioMuxer muxer(teamtalk::STREAMTYPE_VOICE);
+    auto mixedfunc = [&] (teamtalk::StreamTypes sts, const media::AudioFrame& frm)
+    {
+        auto mb = AudioFrameToMsgBlock(frm);
+        REQUIRE(mixed_frames.enqueue(mb) >= 0);
+    };
+
+    REQUIRE(muxer.RegisterMuxCallback(ac, mixedfunc));
+
+    std::vector<short> buffer(TOTALSAMPLES, short(1));
+    media::AudioFrame frm(FMT, &buffer[0], FRAMESIZE);
+
+    REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
+
+    ACE_Message_Block* mb = nullptr;
+    while (mixed_frames.dequeue(mb) >= 0)
+    {
+        MBGuard g(mb);
+        if (media::AudioFrame(mb).input_buffer[0] == 1)
+            break;
+    }
+
+    buffer.assign(buffer.size(), short(2));
+    frm.sample_no += FRAMESIZE * 2; // sample index mismatch
+
+    REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
+    while (mixed_frames.dequeue(mb) >= 0)
+    {
+        MBGuard g(mb);
+        // audio frame (2) is lost
+        if (media::AudioFrame(mb).input_buffer[0] == 0)
+            break;
+    }
+
+    buffer.assign(buffer.size(), short(3));
+    frm.sample_no += FRAMESIZE * 3;
+
+    REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
+    while (mixed_frames.dequeue(mb) >= 0)
+    {
+        MBGuard g(mb);
+        if (media::AudioFrame(mb).input_buffer[0] == 3)
+            break;
+    }
+}
+
 TEST_CASE( "MuxedStreamTypesInAudioBlock" )
 {
     auto txclient = InitTeamTalk();
