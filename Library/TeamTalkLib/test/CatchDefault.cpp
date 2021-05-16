@@ -1478,33 +1478,36 @@ TEST_CASE("testMuxedAudioBlockSoundInputDisabled")
     } while (n_blocks--);
 }
 
-#if defined(ENABLE_FFMPEG3) && 0
+#if defined(ENABLE_FFMPEG3)
 TEST_CASE("testThumbnail")
 {
     // ffmpeg -i in.mp3 -i teamtalk.png -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" out.mp3
-    FFMpegStreamer ffmpeg;
-    MediaStreamOutput prop(media::AudioFormat(16000, 2), 1600, media::FOURCC_RGB32);
-    auto filename = "out.mp3";
 
-    REQUIRE(ffmpeg.OpenFile(filename, prop));
+    auto filename = "testdata/mp3/thumbnail.mp3";
+    MediaFileProp mfp;
+    REQUIRE(GetMediaFileProp(filename, mfp));
+    REQUIRE(!mfp.video.IsValid());
+
+    MediaStreamOutput prop(media::AudioFormat(16000, 2), 1600, media::FOURCC_NONE);
+    FFMpegStreamer ffmpeg(filename, prop);
+
+    REQUIRE(ffmpeg.Open());
 
     std::promise<bool> done;
     auto sig_done = done.get_future();
 
     auto status = [&] (const MediaFileProp& mfp, MediaStreamStatus status) {
-                      std::cout << mfp.filename.c_str() << " status: " << (int)status << std::endl;
                       if (status == MEDIASTREAM_FINISHED)
                           done.set_value(true);
                   };
 
-    auto audio = [] (media::AudioFrame& audio_frame, ACE_Message_Block* mb_audio) {
+    auto audio = [] (media::AudioFrame& /*audio_frame*/, ACE_Message_Block* /*mb_audio*/) {
                      return false;
                  };
 
-    auto video = [] (media::VideoFrame& video_frame, ACE_Message_Block* mb_video) {
+    auto video = [] (media::VideoFrame& /*video_frame*/, ACE_Message_Block* /*mb_video*/) {
                     return false;
                 };
-
 
     ffmpeg.RegisterStatusCallback(status, true);
     ffmpeg.RegisterAudioCallback(audio, true);
