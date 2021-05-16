@@ -252,21 +252,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>listView</tabstop>
-  <tabstop>delBtn</tabstop>
-  <tabstop>hostaddrEdit</tabstop>
-  <tabstop>tcpportSpinBox</tabstop>
-  <tabstop>channelsComboBox</tabstop>
-  <tabstop>addchanBtn</tabstop>
-  <tabstop>delchanBtn</tabstop>
-  <tabstop>usernamesComboBox</tabstop>
-  <tabstop>adduserBtn</tabstop>
-  <tabstop>deluserBtn</tabstop>
-  <tabstop>addBtn</tabstop>
-  <tabstop>clearBtn</tabstop>
-  <tabstop>buttonBox</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>

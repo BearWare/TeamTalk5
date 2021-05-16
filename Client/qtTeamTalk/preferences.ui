@@ -23,46 +23,6 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_6">
-   <item row="1" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <spacer name="horizontalSpacer_7">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_8">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
@@ -988,6 +948,23 @@
             <item row="0" column="1">
              <widget class="QComboBox" name="inputdevBox"/>
             </item>
+            <item row="0" column="2">
+             <widget class="QToolButton" name="refreshinputButton">
+              <property name="text">
+               <string>Refresh devices</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/images/refresh.png</normaloff>:/images/images/refresh.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </widget>
+            </item>
             <item row="1" column="1">
              <widget class="QLabel" name="inputinfoLabel">
               <property name="text">
@@ -1014,16 +991,6 @@
             <item row="2" column="1">
              <widget class="QComboBox" name="outputdevBox"/>
             </item>
-            <item row="3" column="1">
-             <widget class="QLabel" name="outputinfoLabel">
-              <property name="text">
-               <string notr="true">TextLabel</string>
-              </property>
-              <property name="wordWrap">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
             <item row="2" column="2">
              <widget class="QToolButton" name="refreshoutputButton">
               <property name="text">
@@ -1041,20 +1008,13 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="2">
-             <widget class="QToolButton" name="refreshinputButton">
+            <item row="3" column="1">
+             <widget class="QLabel" name="outputinfoLabel">
               <property name="text">
-               <string>Refresh devices</string>
+               <string notr="true">TextLabel</string>
               </property>
-              <property name="icon">
-               <iconset resource="resources.qrc">
-                <normaloff>:/images/images/refresh.png</normaloff>:/images/images/refresh.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>20</width>
-                <height>20</height>
-               </size>
+              <property name="wordWrap">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -2471,6 +2431,46 @@
      </widget>
     </widget>
    </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <spacer name="horizontalSpacer_7">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_8">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -2480,149 +2480,6 @@
    <header>ttseventsmodel.h</header>
   </customwidget>
  </customwidgets>
- <tabstops>
-  <tabstop>tabWidget</tabstop>
-  <tabstop>nicknameEdit</tabstop>
-  <tabstop>maleRadioButton</tabstop>
-  <tabstop>femaleRadioButton</tabstop>
-  <tabstop>neutralRadioButton</tabstop>
-  <tabstop>awaySpinBox</tabstop>
-  <tabstop>bearwareidEdit</tabstop>
-  <tabstop>setupBearWareLoginButton</tabstop>
-  <tabstop>syncWebUserCheckBox</tabstop>
-  <tabstop>pttChkBox</tabstop>
-  <tabstop>setupkeysButton</tabstop>
-  <tabstop>voiceactChkBox</tabstop>
-  <tabstop>keycompEdit</tabstop>
-  <tabstop>languageBox</tabstop>
-  <tabstop>startminimizedChkBox</tabstop>
-  <tabstop>trayChkBox</tabstop>
-  <tabstop>alwaysontopChkBox</tabstop>
-  <tabstop>vumeterChkBox</tabstop>
-  <tabstop>usercountChkBox</tabstop>
-  <tabstop>showusernameChkBox</tabstop>
-  <tabstop>lasttalkChkBox</tabstop>
-  <tabstop>emojiChkBox</tabstop>
-  <tabstop>ServnameChkBox</tabstop>
-  <tabstop>msgpopupChkBox</tabstop>
-  <tabstop>videodlgChkBox</tabstop>
-  <tabstop>returnvidChkBox</tabstop>
-  <tabstop>desktopdlgChkBox</tabstop>
-  <tabstop>msgtimestampChkBox</tabstop>
-  <tabstop>logstatusbarChkBox</tabstop>
-  <tabstop>loggedinoutChkBox</tabstop>
-  <tabstop>updatesChkBox</tabstop>
-  <tabstop>vidtextChkBox</tabstop>
-  <tabstop>vidtextsrcToolBtn</tabstop>
-  <tabstop>maxtextSpinBox</tabstop>
-  <tabstop>autoconnectChkBox</tabstop>
-  <tabstop>reconnectChkBox</tabstop>
-  <tabstop>autojoinChkBox</tabstop>
-  <tabstop>maxpayloadChkBox</tabstop>
-  <tabstop>winfwChkBox</tabstop>
-  <tabstop>subusermsgChkBox</tabstop>
-  <tabstop>subchanmsgChkBox</tabstop>
-  <tabstop>subbcastmsgChkBox</tabstop>
-  <tabstop>submediafileChkBox</tabstop>
-  <tabstop>subvoiceChkBox</tabstop>
-  <tabstop>subvidcapChkBox</tabstop>
-  <tabstop>subdesktopChkBox</tabstop>
-  <tabstop>subdeskinputBtn</tabstop>
-  <tabstop>tcpportSpinBox</tabstop>
-  <tabstop>udpportSpinBox</tabstop>
-  <tabstop>wasapiButton</tabstop>
-  <tabstop>dsoundButton</tabstop>
-  <tabstop>winmmButton</tabstop>
-  <tabstop>alsaButton</tabstop>
-  <tabstop>coreaudioButton</tabstop>
-  <tabstop>inputdevBox</tabstop>
-  <tabstop>refreshinputButton</tabstop>
-  <tabstop>outputdevBox</tabstop>
-  <tabstop>refreshoutputButton</tabstop>
-  <tabstop>sndtestButton</tabstop>
-  <tabstop>echocancelBox</tabstop>
-  <tabstop>agcBox</tabstop>
-  <tabstop>denoisingBox</tabstop>
-  <tabstop>mediavsvoiceSlider</tabstop>
-  <tabstop>snddefaultButton</tabstop>
-  <tabstop>newuserEdit</tabstop>
-  <tabstop>newuserButton</tabstop>
-  <tabstop>rmuserEdit</tabstop>
-  <tabstop>rmuserButton</tabstop>
-  <tabstop>srvlostEdit</tabstop>
-  <tabstop>srvlostButton</tabstop>
-  <tabstop>usermsgEdit</tabstop>
-  <tabstop>usermsgButton</tabstop>
-  <tabstop>sentmsgEdit</tabstop>
-  <tabstop>sentmsgButton</tabstop>
-  <tabstop>chanmsgEdit</tabstop>
-  <tabstop>chanmsgButton</tabstop>
-  <tabstop>sentchannelmsgEdit</tabstop>
-  <tabstop>sentchannelmsgButton</tabstop>
-  <tabstop>bcastmsgEdit</tabstop>
-  <tabstop>bcastmsgButton</tabstop>
-  <tabstop>hotkeyEdit</tabstop>
-  <tabstop>hotkeyButton</tabstop>
-  <tabstop>chansilentEdit</tabstop>
-  <tabstop>chansilentButton</tabstop>
-  <tabstop>fileupdEdit</tabstop>
-  <tabstop>fileupdButton</tabstop>
-  <tabstop>transferdoneEdit</tabstop>
-  <tabstop>transferdoneButton</tabstop>
-  <tabstop>videosessionEdit</tabstop>
-  <tabstop>videosessionButton</tabstop>
-  <tabstop>desktopsessionEdit</tabstop>
-  <tabstop>desktopsessionButton</tabstop>
-  <tabstop>questionmodeEdit</tabstop>
-  <tabstop>questionmodeBtn</tabstop>
-  <tabstop>desktopaccessEdit</tabstop>
-  <tabstop>desktopaccessBtn</tabstop>
-  <tabstop>userloggedinEdit</tabstop>
-  <tabstop>userloggedinButton</tabstop>
-  <tabstop>userloggedoutEdit</tabstop>
-  <tabstop>userloggedoutButton</tabstop>
-  <tabstop>voiceactonEdit</tabstop>
-  <tabstop>voiceactonButton</tabstop>
-  <tabstop>voiceactoffEdit</tabstop>
-  <tabstop>voiceactoffButton</tabstop>
-  <tabstop>muteallonEdit</tabstop>
-  <tabstop>muteallonButton</tabstop>
-  <tabstop>mutealloffEdit</tabstop>
-  <tabstop>mutealloffButton</tabstop>
-  <tabstop>ttsTreeView</tabstop>
-  <tabstop>ttsEnableallButton</tabstop>
-  <tabstop>ttsClearallButton</tabstop>
-  <tabstop>ttsRevertButton</tabstop>
-  <tabstop>ttsengineComboBox</tabstop>
-  <tabstop>ttsVoiceComboBox</tabstop>
-  <tabstop>voiceRateSpinBox</tabstop>
-  <tabstop>voiceVolumeSpinBox</tabstop>
-  <tabstop>notifTimestampSpinBox</tabstop>
-  <tabstop>voiceactEdit</tabstop>
-  <tabstop>voiceactButton</tabstop>
-  <tabstop>volumeincEdit</tabstop>
-  <tabstop>volumeincButton</tabstop>
-  <tabstop>volumedecEdit</tabstop>
-  <tabstop>volumedecButton</tabstop>
-  <tabstop>muteallEdit</tabstop>
-  <tabstop>muteallButton</tabstop>
-  <tabstop>voicegainincEdit</tabstop>
-  <tabstop>voicegainincButton</tabstop>
-  <tabstop>voicegaindecEdit</tabstop>
-  <tabstop>voicegaindecButton</tabstop>
-  <tabstop>videotxEdit</tabstop>
-  <tabstop>videotxButton</tabstop>
-  <tabstop>vidcapdevicesBox</tabstop>
-  <tabstop>captureformatsBox</tabstop>
-  <tabstop>vidfmtToolButton</tabstop>
-  <tabstop>vidrgb32RadioButton</tabstop>
-  <tabstop>vidi420RadioButton</tabstop>
-  <tabstop>vidyuy2RadioButton</tabstop>
-  <tabstop>vidtestButton</tabstop>
-  <tabstop>vidcodecBox</tabstop>
-  <tabstop>vp8bitrateSpinBox</tabstop>
-  <tabstop>viddefaultButton</tabstop>
- </tabstops>
  <resources>
   <include location="resources.qrc"/>
   <include location="resources.qrc"/>

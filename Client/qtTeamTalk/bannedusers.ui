@@ -198,15 +198,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>bannedTreeView</tabstop>
-  <tabstop>bantypeBox</tabstop>
-  <tabstop>banEdit</tabstop>
-  <tabstop>newbanBtn</tabstop>
-  <tabstop>rightButton</tabstop>
-  <tabstop>leftButton</tabstop>
-  <tabstop>unbannedTreeView</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>

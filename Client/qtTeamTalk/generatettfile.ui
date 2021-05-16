@@ -440,23 +440,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>usernameEdit</tabstop>
-  <tabstop>passwordEdit</tabstop>
-  <tabstop>overrideChkBox</tabstop>
-  <tabstop>nicknameEdit</tabstop>
-  <tabstop>maleRadioButton</tabstop>
-  <tabstop>femaleRadioButton</tabstop>
-  <tabstop>neutralRadioButton</tabstop>
-  <tabstop>pttChkBox</tabstop>
-  <tabstop>setupkeysButton</tabstop>
-  <tabstop>keycompEdit</tabstop>
-  <tabstop>voiceactChkBox</tabstop>
-  <tabstop>vidcodecBox</tabstop>
-  <tabstop>vidbitrateSpinBox</tabstop>
-  <tabstop>saveBtn</tabstop>
-  <tabstop>closeBtn</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

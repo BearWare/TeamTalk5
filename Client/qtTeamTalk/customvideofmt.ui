@@ -107,11 +107,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>widthEdit</tabstop>
-  <tabstop>heightEdit</tabstop>
-  <tabstop>fpsEdit</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>

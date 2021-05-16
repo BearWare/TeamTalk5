@@ -193,7 +193,7 @@
         <item>
          <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>&amp;Start position</string>
+           <string>Start position</string>
           </property>
          </widget>
         </item>
@@ -448,21 +448,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>mediafileComboBox</tabstop>
-  <tabstop>toolButton</tabstop>
-  <tabstop>refreshBtn</tabstop>
-  <tabstop>loopChkBox</tabstop>
-  <tabstop>preprocessorComboBox</tabstop>
-  <tabstop>preprocessButton</tabstop>
-  <tabstop>playbackOffsetSlider</tabstop>
-  <tabstop>stopToolButton</tabstop>
-  <tabstop>startToolButton</tabstop>
-  <tabstop>vidcodecBox</tabstop>
-  <tabstop>vp8bitrateSpinBox</tabstop>
-  <tabstop>okBtn</tabstop>
-  <tabstop>cancelBtn</tabstop>
- </tabstops>
  <resources>
   <include location="resources.qrc"/>
   <include location="resources.qrc"/>

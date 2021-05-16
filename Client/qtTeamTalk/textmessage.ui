@@ -120,12 +120,6 @@
    <header>sendtextedit.h</header>
   </customwidget>
  </customwidgets>
- <tabstops>
-  <tabstop>newmsgTextEdit</tabstop>
-  <tabstop>sendButton</tabstop>
-  <tabstop>cancelButton</tabstop>
-  <tabstop>historyTextEdit</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

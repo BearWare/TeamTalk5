@@ -233,20 +233,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>nicknameRadioButton</tabstop>
-  <tabstop>usernameRadioButton</tabstop>
-  <tabstop>statusRadioButton</tabstop>
-  <tabstop>pos_tlBtn</tabstop>
-  <tabstop>pos_trBtn</tabstop>
-  <tabstop>pos_blBtn</tabstop>
-  <tabstop>pos_brBtn</tabstop>
-  <tabstop>fontBtn</tabstop>
-  <tabstop>bgBtn</tabstop>
-  <tabstop>widthSpinBox</tabstop>
-  <tabstop>heightSpinBox</tabstop>
-  <tabstop>buttonBox</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>

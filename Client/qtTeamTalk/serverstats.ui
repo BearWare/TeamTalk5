@@ -360,21 +360,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>totalEdit</tabstop>
-  <tabstop>voiceEdit</tabstop>
-  <tabstop>videoEdit</tabstop>
-  <tabstop>mediafileEdit</tabstop>
-  <tabstop>desktopEdit</tabstop>
-  <tabstop>kbpsEdit</tabstop>
-  <tabstop>filesEdit</tabstop>
-  <tabstop>usersservedEdit</tabstop>
-  <tabstop>userspeakEdit</tabstop>
-  <tabstop>uptimeEdit</tabstop>
-  <tabstop>updateChkBox</tabstop>
-  <tabstop>msecSpinBox</tabstop>
-  <tabstop>closeBtn</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

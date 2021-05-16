@@ -893,41 +893,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>nameEdit</tabstop>
-  <tabstop>topicTextEdit</tabstop>
-  <tabstop>chanpasswdEdit</tabstop>
-  <tabstop>oppasswdEdit</tabstop>
-  <tabstop>maxusersSpinBox</tabstop>
-  <tabstop>diskquotaSpinBox</tabstop>
-  <tabstop>staticchanBox</tabstop>
-  <tabstop>singletxchanBox</tabstop>
-  <tabstop>classroomchanBox</tabstop>
-  <tabstop>oprecvonlychanBox</tabstop>
-  <tabstop>novoiceactBox</tabstop>
-  <tabstop>norecordBox</tabstop>
-  <tabstop>hiddenchannelBox</tabstop>
-  <tabstop>audiocodecBox</tabstop>
-  <tabstop>spx_srateBox</tabstop>
-  <tabstop>spx_qualitySlider</tabstop>
-  <tabstop>spx_txdelaySpinBox</tabstop>
-  <tabstop>spxvbr_srateBox</tabstop>
-  <tabstop>spxvbr_qualitySlider</tabstop>
-  <tabstop>spxvbr_maxbpsSpinBox</tabstop>
-  <tabstop>spxvbr_dtxBox</tabstop>
-  <tabstop>spxvbr_txdelaySpinBox</tabstop>
-  <tabstop>opus_appBox</tabstop>
-  <tabstop>opus_srateBox</tabstop>
-  <tabstop>opus_channelsBox</tabstop>
-  <tabstop>opus_bpsSpinBox</tabstop>
-  <tabstop>opus_vbrCheckBox</tabstop>
-  <tabstop>opus_dtxBox</tabstop>
-  <tabstop>opus_txdelaySpinBox</tabstop>
-  <tabstop>opus_framesizeComboBox</tabstop>
-  <tabstop>agcBox</tabstop>
-  <tabstop>gainlevelSlider</tabstop>
-  <tabstop>joinchanBox</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>
