@@ -14,6 +14,9 @@ Default QT Client
 - Focus moves to new message's edit field when opening private messages dialog
 - Fix labels in channel creation and TT audio preprocessor dialogs
 - Send button hidden when message area is empty
+- Fix navigation using shift+tab
+- Fix some labels
+- Other several accessibility improvements including some fixes for JAWS screen reader
 Android Client
 -
 iOS Client
