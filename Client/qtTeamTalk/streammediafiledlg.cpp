@@ -251,6 +251,7 @@ void StreamMediaFileDlg::slotPlayMediaFile()
             QMessageBox::critical(this, tr("Play"), tr("Failed to play media file"));
             slotStopMediaFile();
         }
+    ui.startToolButton->setText(tr("&Play"));
     }
     else // play
     {
@@ -264,6 +265,7 @@ void StreamMediaFileDlg::slotPlayMediaFile()
             QMessageBox::critical(this, tr("Play"), tr("Failed to play media file"));
             slotStopMediaFile();
         }
+    ui.startToolButton->setText(tr("&Pause"));
     }
 
     ui.preprocessorComboBox->setEnabled(m_playbackid <= 0);
