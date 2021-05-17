@@ -12,10 +12,10 @@ Default QT Client
 - Fix send empties private message
 - Message area hidden at startup in "Video" and "Desktop" tabs
 - Focus moves to new message's edit field when opening private messages dialog
-- Fix labels in channel creation and TT audio preprocessor dialogs
+- Fix labels in several dialogs
 - Send button hidden when message area is empty
 - Fix navigation using shift+tab
-- Fix some labels
+- On Windows, propose to enable recommended TTS settings at first startup if screen reader is running
 - Other several accessibility improvements including some fixes for JAWS screen reader
 Android Client
 -
