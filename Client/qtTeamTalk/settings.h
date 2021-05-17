@@ -28,7 +28,7 @@
 
 #define SETTINGS_VERSION                            "5.2"
 #define SETTINGS_GENERAL_VERSION                    "version"
-#define SETTINGS_GENERAL_VERSION_DEFAULT            "5.0"
+#define SETTINGS_GENERAL_VERSION_DEFAULT            SETTINGS_VERSION
 #define SETTINGS_GENERAL_FIRSTSTART                 "general_/first-start"
 #define SETTINGS_GENERAL_FIRSTSTART_DEFAULT         true
 
