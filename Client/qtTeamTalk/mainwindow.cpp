@@ -6057,8 +6057,13 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
         if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, true).toBool())
         {
             QString version = newVersionAvailable(doc);
-            if(version.size())
+            if (version.size())
+            {
                 addStatusMsg(tr("New version available: %1").arg(version));
+
+                QString downloadurl = downloadUpdateURL(doc);
+                qDebug() << downloadurl;
+            }
         }
         
         BearWareLoginDlg::registerUrl = getBearWareRegistrationUrl(doc);

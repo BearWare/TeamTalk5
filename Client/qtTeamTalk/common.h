@@ -523,6 +523,7 @@ void deleteDesktopAccessEntries();
 
 QString parseXML(const QDomDocument& doc, QString elements);
 QString newVersionAvailable(const QDomDocument& updateDoc);
+QString downloadUpdateURL(const QDomDocument& updateDoc);
 QString getBearWareRegistrationUrl(const QDomDocument& doc);
 QString userCacheID(const User& user);
 

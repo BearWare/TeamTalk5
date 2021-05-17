@@ -1470,17 +1470,11 @@ QString parseXML(const QDomDocument& doc, QString elements)
 QString newVersionAvailable(const QDomDocument& updateDoc)
 {
     return parseXML(updateDoc, "teamtalk/update/name");
-    //if (element.nodeName() == "teamtalk")
-    //{
-    //    element = element.firstChildElement("update");
-    //    if(!element.isNull())
-    //    {
-    //        element = element.firstChildElement("name");
-    //        if (!element.isNull())
-    //            return element.text();
-    //    }
-    //}
-    //return QString();
+}
+
+QString downloadUpdateURL(const QDomDocument& updateDoc)
+{
+    return parseXML(updateDoc, "teamtalk/update/download-url");
 }
 
 QString getBearWareRegistrationUrl(const QDomDocument& doc)
