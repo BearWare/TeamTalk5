@@ -192,11 +192,11 @@ void StreamMediaFileDlg::showMediaFormatInfo()
     }
 
     ui.audioLabel->setText(audio);
-    ui.audioLabel->setAccessibleName(QString("%1: %2").arg(ui.label_2->text()).arg(audio));
+    ui.audioLabel->setAccessibleName(QString("%1 %2").arg(ui.label_2->text()).arg(audio));
     ui.videoLabel->setText(video);
-    ui.videoLabel->setAccessibleName(QString("%1: %2").arg(ui.label_3->text()).arg(video));
+    ui.videoLabel->setAccessibleName(QString("%1 %2").arg(ui.label_3->text()).arg(video));
     ui.durationLabel->setText(duration);
-    ui.durationLabel->setAccessibleName(QString("%1: %2").arg(ui.label_4->text()).arg(duration));
+    ui.durationLabel->setAccessibleName(QString("%1 %2").arg(ui.label_4->text()).arg(duration));
 
     if (m_mediaFile.videoFmt.picFourCC == FOURCC_NONE)
     {
