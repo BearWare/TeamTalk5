@@ -732,7 +732,10 @@
                   <string>Detach selected window</string>
                  </property>
                  <property name="text">
-                  <string>...</string>
+                  <string notr="true">...</string>
+                 </property>
+                 <property name="AccessibleName">
+                  <string>Detach selected window</string>
                  </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
@@ -798,7 +801,10 @@
                   <string>Remove selected window</string>
                  </property>
                  <property name="text">
-                  <string>...</string>
+                  <string notr="true">...</string>
+                 </property>
+                 <property name="AccessibleName">
+                  <string>Remove selected window</string>
                  </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
@@ -834,7 +840,10 @@
                   <string>Request desktop access</string>
                  </property>
                  <property name="text">
-                  <string>...</string>
+                  <string notr="true">...</string>
+                 </property>
+                 <property name="AccessibleName">
+                  <string>Request desktop access</string>
                  </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
