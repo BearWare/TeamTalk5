@@ -709,6 +709,8 @@ void MainWindow::loadSettings()
             ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
             ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
         }
+        else
+            ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
     }
 #endif
 }
