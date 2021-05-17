@@ -91,8 +91,9 @@ public class AbsolutePathHelper {
                 if ("primary".equalsIgnoreCase(type)) {
                     return Environment.getExternalStorageDirectory() + "/" + split[1];
                 }
-
-                // TODO handle non-primary volumes
+else {
+return "storage/" + docId.replace(":", "/");
+}
             }
             else if (isDownloadsDocument(uri)) {
                 final String id = DocumentsContract.getDocumentId(uri);
