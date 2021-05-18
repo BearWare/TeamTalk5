@@ -82,6 +82,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.vidtextsrcToolBtn, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotSelectVideoText);
     connect(ui.logstatusbarChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateLIOChkBox);
+    connect(ui.updatesChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUpdDlgChkBox);
     
     //connection tab
     connect(ui.subdeskinputBtn, &QAbstractButton::clicked,
@@ -493,6 +494,9 @@ void PreferencesDlg::slotTabChange(int index)
         ui.msgtimestampChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool());
         ui.logstatusbarChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, true).toBool());
         ui.updatesChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, true).toBool());
+        ui.updatesDlgChkBox->setEnabled(ui.updatesChkBox->isChecked());
+        ui.updatesDlgChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_DLG,
+                                                     SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT).toBool());
         ui.maxtextSpinBox->setValue(ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
                                                       SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt());
         ui.showusernameChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_SHOWUSERNAME,
@@ -744,6 +748,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_MSGTIMESTAMP, ui.msgtimestampChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_LOGSTATUSBAR, ui.logstatusbarChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_APPUPDATE, ui.updatesChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_APPUPDATE_DLG, ui.updatesDlgChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_MAX_STRING, ui.maxtextSpinBox->value());
         ttSettings->setValue(SETTINGS_DISPLAY_SHOWUSERNAME, ui.showusernameChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_EMOJI, ui.emojiChkBox->isChecked());
@@ -1095,6 +1100,11 @@ void PreferencesDlg::slotSelectVideoText()
 void PreferencesDlg::slotUpdateLIOChkBox(bool checked)
 {
     ui.loggedinoutChkBox->setEnabled(checked);
+}
+
+void PreferencesDlg::slotUpdateUpdDlgChkBox(bool checked)
+{
+    ui.updatesDlgChkBox->setEnabled(checked);
 }
 
 void PreferencesDlg::slotDesktopAccess()

@@ -484,6 +484,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="updatesDlgChkBox">
+              <property name="text">
+               <string>Show new version availability in a dialog instead in chat history</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <layout class="QHBoxLayout" name="horizontalLayout_15">
               <property name="spacing">
                <number>6</number>
