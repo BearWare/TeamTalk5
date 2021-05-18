@@ -3209,7 +3209,8 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     if ((m_flags & CLIENT_STREAM_VIDEOFILE) || (m_flags & CLIENT_STREAM_AUDIOFILE))
         return false;
 
-    MediaStreamOutput media_out;
+    MediaStreamOutput media_out(GetAudioCodecAudioFormat(m_mychannel->GetAudioCodec()),
+                                GetAudioCodecCbSamples(m_mychannel->GetAudioCodec()));
     bool videooutput = vid_codec.codec != CODEC_NO_CODEC;
     if (videooutput)
     {
@@ -3217,9 +3218,6 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
         // notice we don't set video output format (width/height)
         // since it's determined by the video decoder's format information
     }
-    media_out.audio.channels = GetAudioCodecChannels(m_mychannel->GetAudioCodec());
-    media_out.audio.samplerate = GetAudioCodecSampleRate(m_mychannel->GetAudioCodec());
-    media_out.audio_samples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());
 
     m_mediafile_streamer = MakeMediaFileStreamer(filename, media_out);
     if (!m_mediafile_streamer)

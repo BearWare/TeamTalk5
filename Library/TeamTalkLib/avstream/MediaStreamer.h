@@ -59,19 +59,31 @@ struct MediaFileProp : public MediaStream
 
 struct MediaStreamOutput : public MediaStream
 {
+    // 'audio_samples' and 'audio_duration_ms' are mutually exclusive
+    // and therefore set as const
     int audio_samples = 0;
+    uint32_t audio_duration_ms = 0;
     MediaStreamOutput() {}
 
-    MediaStreamOutput(const media::AudioFormat& afmt, int asamples) : audio_samples(asamples) { audio = afmt;}
+    MediaStreamOutput(const media::AudioFormat& afmt, int audio_samples) : audio_samples(audio_samples) { audio = afmt; }
     MediaStreamOutput(const media::VideoFormat& vfmt) { video = vfmt; }
-    MediaStreamOutput(const media::AudioFormat& afmt, int asamples, const media::VideoFormat& vfmt)
-    : audio_samples(asamples) { audio = afmt; video = vfmt; }
-    MediaStreamOutput(const media::AudioFormat& afmt, int asamples, media::FourCC fourcc)
-        : audio_samples(asamples)
+    MediaStreamOutput(const media::AudioFormat& afmt, int audio_samples, const media::VideoFormat& vfmt)
+    : audio_samples(audio_samples) { audio = afmt; video = vfmt; }
+    MediaStreamOutput(const media::AudioFormat& afmt, int audio_samples, media::FourCC fourcc)
+    : audio_samples(audio_samples)
     {
         audio = afmt;
         // scaling is currently not supported so just set FourCC
         video.fourcc = fourcc;
+    }
+    MediaStreamOutput(int audio_msec, media::FourCC fourcc) : audio_duration_ms(audio_msec)
+    {
+        // scaling is currently not supported so just set FourCC
+        video.fourcc = fourcc;
+    }
+    MediaStreamOutput(int audio_msec, const media::VideoFormat& vfmt) : audio_duration_ms(audio_msec)
+    {
+        video = vfmt;
     }
 };
 

@@ -74,12 +74,7 @@ bool MediaPlayback::OpenFile(const ACE_TString& filename)
     if (m_streamer && m_streamer->GetMediaFile().IsValid())
         return false;
 
-    MediaFileProp inprop;
-    if (!GetMediaFileProp(filename, inprop))
-        return false;
-
-    int callbacksamples = int(PCM16_DURATION_SAMPLES(PB_FRAMEDURATION_MSEC, inprop.audio.samplerate));
-    MediaStreamOutput outprop(inprop.audio, callbacksamples, inprop.video);
+    MediaStreamOutput outprop(PB_FRAMEDURATION_MSEC, media::FOURCC_NONE);
 
     m_streamer = MakeMediaFileStreamer(filename, outprop);
     if (m_streamer && m_streamer->Open())

@@ -268,6 +268,13 @@ void FFMpegStreamer::Run()
 
     FillMediaFileProp(fmt_ctx, aud_dec_ctx, vid_dec_ctx, m_media_in);
 
+    if (m_media_in.HasAudio() && !m_media_out.HasAudio() && m_media_out.audio_duration_ms)
+    {
+        int audio_samples = PCM16_DURATION_SAMPLES(m_media_out.audio_duration_ms, m_media_in.audio.samplerate);
+        MediaStreamOutput newoutput(m_media_in.audio, audio_samples, m_media_out.video);
+        m_media_out = newoutput;
+    }
+
     if(m_media_out.HasAudio() && audio_stream_index >= 0)
     {
         audio_filter_graph = createAudioFilterGraph(fmt_ctx, aud_dec_ctx,
