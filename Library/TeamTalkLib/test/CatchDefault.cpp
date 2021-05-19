@@ -444,19 +444,6 @@ TEST_CASE( "MuxedAudioBlockVolume" )
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
 
     TTMessage msg;
-    auto gainfunc = [&] (int userid)
-    {
-        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
-        auto ab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_VOICE, userid);
-        REQUIRE(ab);
-        REQUIRE(ab->nChannels == 1);
-        short* audiobuf = reinterpret_cast<short*>(ab->lpRawAudio);
-        uint32_t sum_gain = 0;
-        for (int i=0;i<ab->nSamples;i++)
-            sum_gain += std::abs(audiobuf[i]);
-        REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
-        return sum_gain;
-    };
 
     // calc default volume level of muxed audio block
     REQUIRE((WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, msg) && (msg.user.uUserState & USERSTATE_VOICE) == USERSTATE_VOICE));
@@ -464,7 +451,7 @@ TEST_CASE( "MuxedAudioBlockVolume" )
 
     uint32_t sum_nogain;
     for (int i=0;i<2;++i)
-        sum_nogain = gainfunc(TT_MUXED_USERID);
+        sum_nogain = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, FALSE));
     WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
@@ -480,7 +467,7 @@ TEST_CASE( "MuxedAudioBlockVolume" )
     uint32_t sum_gain;
     do
     {
-        sum_gain = gainfunc(TT_MUXED_USERID);
+        sum_gain = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
     }
     while (sum_gain <= sum_nogain * 1.9 && retries);
 
@@ -500,7 +487,7 @@ TEST_CASE( "MuxedAudioBlockVolume" )
     retries = 5;
     do
     {
-        sum_gain = gainfunc(TT_MUXED_USERID);
+        sum_gain = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
     }
     while (sum_gain <= sum_nogain * 1.9 && retries--);
 
@@ -516,7 +503,7 @@ TEST_CASE( "MuxedAudioBlockVolume" )
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
 
     for (int i=0;i<2;++i)
-        sum_nogain = gainfunc(txuserid);
+        sum_nogain = GetAudioBlockSamplesSum(rxclient, txuserid, STREAMTYPE_VOICE);
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, FALSE));
     WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
@@ -529,7 +516,7 @@ TEST_CASE( "MuxedAudioBlockVolume" )
     retries = 5;
     do
     {
-        sum_gain = gainfunc(txuserid);
+        sum_gain = GetAudioBlockSamplesSum(rxclient, txuserid, STREAMTYPE_VOICE);
     }
     while (sum_gain <= sum_nogain * 1.9 && retries--);
 
@@ -549,7 +536,7 @@ TEST_CASE( "MuxedAudioBlockVolume" )
     retries = 5;
     do
     {
-        sum_gain = gainfunc(txuserid);
+        sum_gain = GetAudioBlockSamplesSum(rxclient, txuserid, STREAMTYPE_VOICE);
     }
     while (sum_gain != 0 && retries--);
 
@@ -568,7 +555,7 @@ TEST_CASE( "MuxedAudioBlockVolume" )
     retries = 5;
     do
     {
-        sum_gain = gainfunc(txuserid);
+        sum_gain = GetAudioBlockSamplesSum(rxclient, txuserid, STREAMTYPE_VOICE);
     }
     while (sum_gain != 0 && retries--);
 
@@ -1187,27 +1174,13 @@ TEST_CASE( "MuxedStreamTypesInAudioBlock" )
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, sts, TRUE));
 
     TTMessage msg;
-    auto gainfunc = [&] (int userid)
-    {
-        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
-        REQUIRE(msg.nStreamType == sts);
-        auto ab = TT_AcquireUserAudioBlock(rxclient, sts, userid);
-        REQUIRE(ab);
-        REQUIRE(ab->nChannels == 1);
-        short* audiobuf = reinterpret_cast<short*>(ab->lpRawAudio);
-        uint32_t sum_gain = 0;
-        for (int i=0;i<ab->nSamples;i++)
-            sum_gain += std::abs(audiobuf[i]);
-        REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
-        return sum_gain;
-    };
 
     std::vector<int> premux, aftermux;
     uint32_t sum_nomux = 0, sum_mux = 0;
     int n_frames = 10;
     while (n_frames--)
     {
-        sum_nomux = gainfunc(TT_MUXED_USERID);
+        sum_nomux = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, sts);
         //std::cout << "No mux " << sum_nomux << std::endl;
     }
 
@@ -1223,7 +1196,7 @@ TEST_CASE( "MuxedStreamTypesInAudioBlock" )
     n_frames = 10;
     while (n_frames--)
     {
-        sum_mux = gainfunc(TT_MUXED_USERID);
+        sum_mux = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, sts);
         //std::cout << "Level mux " << sum_mux << std::endl;
     }
     REQUIRE(sum_mux > sum_nomux * 1.2);
