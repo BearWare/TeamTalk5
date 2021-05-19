@@ -229,17 +229,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="stopToolButton">
-          <property name="text">
-           <string>S&amp;top</string>
-          </property>
-          <property name="icon">
-           <iconset resource="resources.qrc">
-            <normaloff>:/images/images/stop.png</normaloff>:/images/images/stop.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QToolButton" name="startToolButton">
           <property name="text">
            <string>&amp;Play</string>
@@ -250,6 +239,17 @@
           </property>
           <property name="checkable">
            <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="stopToolButton">
+          <property name="text">
+           <string>S&amp;top</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/images/images/stop.png</normaloff>:/images/images/stop.png</iconset>
           </property>
          </widget>
         </item>
