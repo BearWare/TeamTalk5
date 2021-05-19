@@ -557,7 +557,7 @@ void MainWindow::loadSettings()
         ttTranslator = new QTranslator(this);
         if(!ttTranslator->load(lang, TRANSLATE_FOLDER))
         {
-            QMessageBox::information(this, "Translate", 
+            QMessageBox::information(this, tr("Translate"),
                 QString("Failed to load language file %1").arg(lang));
             delete ttTranslator;
             ttTranslator = nullptr;
@@ -6059,10 +6059,23 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
             QString version = newVersionAvailable(doc);
             if (version.size())
             {
-                addStatusMsg(tr("New version available: %1").arg(version));
-
                 QString downloadurl = downloadUpdateURL(doc);
-                qDebug() << downloadurl;
+                if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_DLG, SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT).toBool())
+                {
+                    QMessageBox answer;
+                    answer.setText(tr("A new version of %1 is available: %2. Do you wish to open the download page now?").arg(APPNAME_SHORT).arg(version));
+                    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+                    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+                    Q_UNUSED(NoButton);
+                    answer.setIcon(QMessageBox::Question);
+                    answer.setWindowTitle(tr("New version available"));
+                    answer.exec();
+
+                    if(answer.clickedButton() == YesButton)
+                        QDesktopServices::openUrl(downloadurl);
+                }
+                else
+                    addStatusMsg(tr("New version available: %1\r\nYou can download it on the page below:\r\n%2").arg(version).arg(downloadurl));
             }
         }
         

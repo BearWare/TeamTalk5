@@ -92,6 +92,7 @@ private:
     void slotLanguageChange(int index);
     void slotSelectVideoText();
     void slotUpdateLIOChkBox(bool checked);
+    void slotUpdateUpdDlgChkBox(bool checked);
     //connection tab
     void slotDesktopAccess();
     //sound tab
