@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>807</width>
+    <width>821</width>
     <height>640</height>
    </rect>
   </property>
@@ -486,7 +486,7 @@
             <item>
              <widget class="QCheckBox" name="updatesDlgChkBox">
               <property name="text">
-               <string>Show new version availability in a dialog instead in chat history</string>
+               <string>Show new version available in dialog box</string>
               </property>
              </widget>
             </item>
@@ -2488,6 +2488,7 @@
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>

@@ -1105,6 +1105,8 @@ void PreferencesDlg::slotUpdateLIOChkBox(bool checked)
 void PreferencesDlg::slotUpdateUpdDlgChkBox(bool checked)
 {
     ui.updatesDlgChkBox->setEnabled(checked);
+    if (!checked)
+        ui.updatesDlgChkBox->setChecked(false);
 }
 
 void PreferencesDlg::slotDesktopAccess()
