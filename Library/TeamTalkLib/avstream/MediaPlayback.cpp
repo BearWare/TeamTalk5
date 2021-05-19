@@ -267,7 +267,7 @@ bool MediaPlayback::Flushed()
 {
     // Give audio player time to submit and play the audio.
     // Stopping at MEDIASTREAM_FINISHED may not have played everything.
-    return GetStatus() == MEDIASTREAM_FINISHED && W32_GEQ(GETTIMESTAMP(), m_completiontime + 1000);
+    return GetStatus() == MEDIASTREAM_FINISHED;
 }
 
 bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
@@ -406,9 +406,9 @@ void MediaPlayback::SubmitPreProgress()
             break;
         case MEDIASTREAM_PLAYING :
         case MEDIASTREAM_STARTED :
-            m_status = progress.status;
             if (m_statusfunc)
                 m_statusfunc(m_userdata, progress.mfp, progress.status);
+            m_status = progress.status;
             break;
         case MEDIASTREAM_FINISHED :
         case MEDIASTREAM_ERROR :
@@ -470,7 +470,6 @@ void MediaPlayback::SubmitPostProgress()
             break;
         case MEDIASTREAM_FINISHED :
         case MEDIASTREAM_ERROR :
-            m_completiontime = GETTIMESTAMP();
         case MEDIASTREAM_PAUSED :
             m_status = progress.status;
             if (m_statusfunc)

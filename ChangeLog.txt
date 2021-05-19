@@ -4,7 +4,8 @@
 Version 5.8, unreleased
 Accessible Windows Client
 - Single file audio recording can now include media file streams
-- Fix possible crash when saving preferences when "all at once" playback mode is selected
+- Fixed possible crash when saving preferences and playback mode for Sound Events has "All at once" selected
+- Improved performance of playback mode "All at once" for Sound Events
 Default QT Client
 - Single file audio recording can now include media file streams
 - Fix private message dialog not opening using CTRL+E or "Message" context menu in channels tree

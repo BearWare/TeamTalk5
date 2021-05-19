@@ -124,7 +124,6 @@ private:
 
     std::queue<MediaFileProgress> m_progress;
     std::queue<ACE_Message_Block*> m_audio_buffer;
-    uint32_t m_completiontime;
     uint32_t m_sampleindex = 0;
 
     int m_gainlevel = GAIN_NORMAL;
