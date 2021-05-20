@@ -101,7 +101,7 @@ jobs:
 
     - name: Catch unit-test
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
-      run: valgrind --tool=memcheck --leak-check=full ./catchtt --durations yes
+      run: valgrind --tool=memcheck --leak-check=full --error-exitcode=1 ./catchtt --durations yes
 
     - name: Stop TeamTalk Pro Server
       run: killall tt5prosrv
