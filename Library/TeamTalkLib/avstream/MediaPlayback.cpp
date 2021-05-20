@@ -74,12 +74,7 @@ bool MediaPlayback::OpenFile(const ACE_TString& filename)
     if (m_streamer && m_streamer->GetMediaFile().IsValid())
         return false;
 
-    MediaFileProp inprop;
-    if (!GetMediaFileProp(filename, inprop))
-        return false;
-
-    int callbacksamples = int(PCM16_DURATION_SAMPLES(PB_FRAMEDURATION_MSEC, inprop.audio.samplerate));
-    MediaStreamOutput outprop(inprop.audio, callbacksamples, inprop.video);
+    MediaStreamOutput outprop(PB_FRAMEDURATION_MSEC, media::FOURCC_NONE);
 
     m_streamer = MakeMediaFileStreamer(filename, outprop);
     if (m_streamer && m_streamer->Open())
@@ -272,7 +267,7 @@ bool MediaPlayback::Flushed()
 {
     // Give audio player time to submit and play the audio.
     // Stopping at MEDIASTREAM_FINISHED may not have played everything.
-    return GetStatus() == MEDIASTREAM_FINISHED && W32_GEQ(GETTIMESTAMP(), m_completiontime + 1000);
+    return GetStatus() == MEDIASTREAM_FINISHED;
 }
 
 bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
@@ -411,9 +406,9 @@ void MediaPlayback::SubmitPreProgress()
             break;
         case MEDIASTREAM_PLAYING :
         case MEDIASTREAM_STARTED :
-            m_status = progress.status;
             if (m_statusfunc)
                 m_statusfunc(m_userdata, progress.mfp, progress.status);
+            m_status = progress.status;
             break;
         case MEDIASTREAM_FINISHED :
         case MEDIASTREAM_ERROR :
@@ -475,7 +470,6 @@ void MediaPlayback::SubmitPostProgress()
             break;
         case MEDIASTREAM_FINISHED :
         case MEDIASTREAM_ERROR :
-            m_completiontime = GETTIMESTAMP();
         case MEDIASTREAM_PAUSED :
             m_status = progress.status;
             if (m_statusfunc)

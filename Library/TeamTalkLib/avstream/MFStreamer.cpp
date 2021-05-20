@@ -151,6 +151,13 @@ void MFStreamer::Run()
         m_media_out.audio = media::AudioFormat();
     }
 
+    if (m_media_in.HasAudio() && !m_media_out.HasAudio() && m_media_out.audio_duration_ms)
+    {
+        int audio_samples = PCM16_DURATION_SAMPLES(m_media_out.audio_duration_ms, m_media_in.audio.samplerate);
+        MediaStreamOutput newoutput(m_media_in.audio, audio_samples, m_media_out.video);
+        m_media_out = newoutput;
+    }
+
     if (m_media_in.HasAudio() && m_media_out.HasAudio())
     {
         CComPtr<IMFMediaType> pAudioOutputType;
@@ -198,8 +205,9 @@ void MFStreamer::Run()
         // As a result, most of the WAV playout/streaming didn't work on Windows 7 because the output format was explicitly set.
         // This is fixed by setting the output to the same format as the input on Windows versions below Win8.
         // Do not use a compiler directive to check the version because the TeamTalk code is compiled with WINVER=0601 (e.g. Windows 7)
-        if (IsWindows8OrGreater())
+        if (m_media_in.audio != m_media_out.audio && IsWindows8OrGreater())
         {
+            // setup resampler (this is very slow ~250 msec)
             hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pAudioOutputType);
         }
         else

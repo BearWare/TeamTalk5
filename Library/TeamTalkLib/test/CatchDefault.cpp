@@ -2760,7 +2760,7 @@ TEST_CASE("LocalPlaybackEventOrder")
     mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
     mfp.bPaused = FALSE;
     mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
-    ttinst ttclient(TT_InitTeamTalkPoll());
+    auto ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
 
     for (auto mfi : mfis)
@@ -2798,6 +2798,98 @@ TEST_CASE("LocalPlaybackEventOrder")
         REQUIRE(done);
         REQUIRE(started == 1);
     }
+}
+
+TEST_CASE("LocalPlaybackPerformance")
+{
+    const auto IN_SAMPLERATE = 48000;
+    const auto IN_CHANNELS = 2;
+    const auto IN_FRAMESIZE = int(IN_SAMPLERATE * .01);
+
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = IN_CHANNELS;
+    mfi.audioFmt.nSampleRate = IN_SAMPLERATE;
+    mfi.uDurationMSec = 100;
+    ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("TTPlayOpusOgg.wav"), TT_STRLEN);
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    ttinst ttclient = InitTeamTalk();
+    REQUIRE(InitSound(ttclient));
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+    mfp.bPaused = FALSE;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+
+    bool stop = false, started = false, paused = false;
+    TTMessage msg;
+    INT32 session;
+    uint32_t durationMSec = GETTIMESTAMP(), startupMSec = GETTIMESTAMP();
+
+    // test duration of OpusFileStreamer playback
+    session = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
+    REQUIRE(session > 0);
+
+    while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
+    {
+        switch (msg.mediafileinfo.nStatus)
+        {
+        case MFS_STARTED:
+            REQUIRE(msg.mediafileinfo.uElapsedMSec == 0);
+            REQUIRE(!started);
+            started = true;
+            std::cout << "Startup time: " << GETTIMESTAMP() - startupMSec << std::endl;
+            break;
+        case MFS_PLAYING:
+            break;
+        case MFS_FINISHED:
+            REQUIRE(!stop);
+            stop = true;
+            break;
+        default:
+            break;
+        }
+    }
+    REQUIRE(started);
+    REQUIRE(stop);
+    std::cout << "Duration time: " << GETTIMESTAMP() - durationMSec << std::endl;
+
+    started = stop = false;
+    mfp.bPaused = TRUE;
+    session = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
+    REQUIRE(session > 0);
+    durationMSec = startupMSec = GETTIMESTAMP();
+    mfp.bPaused = FALSE;
+    REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+
+    while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
+    {
+        switch (msg.mediafileinfo.nStatus)
+        {
+        case MFS_PAUSED :
+            break;
+        case MFS_STARTED:
+            REQUIRE(msg.mediafileinfo.uElapsedMSec == 0);
+            REQUIRE(!started);
+            started = true;
+            std::cout << "Startup time: " << GETTIMESTAMP() - startupMSec << std::endl;
+            break;
+        case MFS_PLAYING:
+            break;
+        case MFS_FINISHED:
+            REQUIRE(!stop);
+            stop = true;
+            break;
+        default:
+            break;
+        }
+    }
+
+    REQUIRE(started);
+    REQUIRE(stop);
+    std::cout << "Duration time: " << GETTIMESTAMP() - durationMSec << std::endl;
+
 }
 
 #if TEAMTALK_KNOWN_BUGS
