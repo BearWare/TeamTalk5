@@ -3494,7 +3494,7 @@ TEST_CASE("OPUSStreamer")
     auto audiofunc = [&](media::AudioFrame& audio_frame, ACE_Message_Block* /*mb_audio*/)
     {
         wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
-        return true;
+        return false;
     };
 
     std::unique_lock<std::mutex> lck(mtx);
