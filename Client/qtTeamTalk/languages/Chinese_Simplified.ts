@@ -2202,7 +2202,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="560"/>
         <source>Translate</source>
-        <translation type="unfinished"></translation>
+        <translation>翻译</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="699"/>
@@ -2730,19 +2730,21 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="6068"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 的新版本已发布： %2。您是否希望现在打开下载页面？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6073"/>
         <source>New version available</source>
-        <translation type="unfinished"></translation>
+        <translation>新版本可用</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6080"/>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>新版本可用： %1<byte value="xd"/>
+您可在以下页面下载：<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6156"/>
@@ -3621,7 +3623,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="489"/>
         <source>Show new version available in dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>在对话框中显示可用的新版本</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="501"/>
@@ -4949,7 +4951,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="268"/>
         <source>&amp;Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>暂停(&amp;P)</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="311"/>
