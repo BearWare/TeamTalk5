@@ -450,11 +450,11 @@ TEST_CASE( "MuxedAudioBlockVolume" )
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
     uint32_t sum_nogain;
-    for (int i=0;i<2;++i)
-        sum_nogain = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
+    sum_nogain = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, FALSE));
     WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
+    REQUIRE(TT_AcquireUserAudioBlock(rxclient,STREAMTYPE_VOICE, TT_MUXED_USERID) == nullptr);
 
     // double volume level of user
     User user;
@@ -1170,20 +1170,24 @@ TEST_CASE( "MuxedStreamTypesInAudioBlock" )
 
     REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 800));
 
+    TTMessage msg;
+
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+    REQUIRE(msg.mediafileinfo.nStatus == MFS_STARTED);
+
     StreamTypes sts = STREAMTYPE_VOICE | STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO;
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, sts, TRUE));
 
-    TTMessage msg;
-
     std::vector<int> premux, aftermux;
-    uint32_t sum_nomux = 0, sum_mux = 0;
-    int n_frames = 10;
-    while (n_frames--)
-    {
-        sum_nomux = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, sts);
-        //std::cout << "No mux " << sum_nomux << std::endl;
-    }
+    uint32_t sum_mux_mf = 0, sum_mux_mf_voice = 0;
+    sum_mux_mf = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, sts);
 
+    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+
+    REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, msg));
+    REQUIRE((msg.user.uUserState & USERSTATE_VOICE) == USERSTATE_VOICE);
+
+    // drain
     while (WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK, msg, 0))
     {
         auto ab = TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID);
@@ -1191,15 +1195,14 @@ TEST_CASE( "MuxedStreamTypesInAudioBlock" )
         REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
     }
 
-    REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-
-    n_frames = 10;
-    while (n_frames--)
+    int n_frames = 10;
+    do
     {
-        sum_mux = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, sts);
-        //std::cout << "Level mux " << sum_mux << std::endl;
+        sum_mux_mf_voice = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, sts);
     }
-    REQUIRE(sum_mux > sum_nomux * 1.2);
+    while (sum_mux_mf_voice <= sum_mux_mf * 1.2 && --n_frames);
+
+    REQUIRE(sum_mux_mf_voice > sum_mux_mf * 1.2);
 }
 
 TEST_CASE( "MuxedStreamTypeRecording" )
