@@ -1683,6 +1683,52 @@
               </property>
              </widget>
             </item>
+            <item row="11" column="0">
+             <widget class="QLabel" name="label_66">
+              <property name="text">
+               <string>Transmit ready in "No interruption" channel</string>
+              </property>
+              <property name="buddy">
+               <cstring>transmitqueueheadEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="1">
+             <widget class="QLineEdit" name="transmitqueueheadEdit"/>
+            </item>
+            <item row="11" column="2">
+             <widget class="QToolButton" name="transmitqueueheadButton">
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="12" column="0">
+             <widget class="QLabel" name="label_67">
+              <property name="text">
+               <string>Transmit stopped in "No interruption" channel</string>
+              </property>
+              <property name="buddy">
+               <cstring>transmitqueuestopEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="12" column="1">
+             <widget class="QLineEdit" name="transmitqueuestopEdit"/>
+            </item>
+            <item row="12" column="2">
+             <widget class="QToolButton" name="transmitqueuestopButton">
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>

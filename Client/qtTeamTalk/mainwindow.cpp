@@ -5204,7 +5204,16 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
     Channel oldchan;
     if(!ui.channelsWidget->getChannel(chan.nChannelID, oldchan))
         return;
-    
+
+    // Solo transmission
+    if(chan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst) &&
+        oldchan.transmitUsersQueue[0] != TT_GetMyUserID(ttInst))
+        playSoundEvent(SOUNDEVENT_TRANSMITQUEUE_HEAD);
+
+    if(chan.transmitUsersQueue[0] != TT_GetMyUserID(ttInst) &&
+        oldchan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst))
+        playSoundEvent(SOUNDEVENT_TRANSMITQUEUE_STOP);
+
     //specific to classroom channel
     QString msg;
     bool before = false, after = false;

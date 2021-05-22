@@ -160,6 +160,8 @@
 #define SETTINGS_SOUNDEVENT_VOICEACTOFF           "soundevents/voice-act-off"
 #define SETTINGS_SOUNDEVENT_MUTEALLON           "soundevents/mute-all"
 #define SETTINGS_SOUNDEVENT_MUTEALLOFF           "soundevents/unmute-all"
+#define SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD           "soundevents/transmit-queue-head"
+#define SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP           "soundevents/transmit-queue-stop"
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"

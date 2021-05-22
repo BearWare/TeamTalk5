@@ -178,6 +178,10 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotEventMuteAllOn);
     connect(ui.mutealloffButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventMuteAllOff);
+    connect(ui.transmitqueueheadButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventTransmitQueueHead);
+    connect(ui.transmitqueuestopButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventTransmitQueueStop);
 
     //text to speech
     m_ttsmodel = new TTSEventsModel(this);
@@ -574,6 +578,8 @@ void PreferencesDlg::slotTabChange(int index)
         ui.voiceactoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF).toString());
         ui.muteallonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON).toString());
         ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF).toString());
+        ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD).toString());
+        ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP).toString());
         break;
     case TTSEVENTS_TAB :
     {
@@ -942,6 +948,8 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTOFF, ui.voiceactoffEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLON, ui.muteallonEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLOFF, ui.mutealloffEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD, ui.transmitqueueheadEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP, ui.transmitqueuestopEdit->text());
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {
@@ -1428,6 +1436,20 @@ void PreferencesDlg::slotEventMuteAllOff()
     QString filename;
     if(getSoundFile(filename))
         ui.mutealloffEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventTransmitQueueHead()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.transmitqueueheadEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventTransmitQueueStop()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.transmitqueuestopEdit->setText(filename);
 }
 
 void PreferencesDlg::slotUpdateTTSTab()
