@@ -130,6 +130,8 @@ private:
     void slotEventTransmitQueueStop();
     void slotEventVoiceActTrig();
     void slotEventVoiceActStop();
+    void slotEventVoiceActMeOn();
+    void slotEventVoiceActMeOff();
     //TTS
     void slotUpdateTTSTab();
     //keyboard shortcuts

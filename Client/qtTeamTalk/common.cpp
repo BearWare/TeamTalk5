@@ -1015,6 +1015,12 @@ void playSoundEvent(SoundEvent event)
     case SOUNDEVENT_VOICEACTSTOP:
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTSTOP).toString();
         break;
+    case SOUNDEVENT_VOICEACTMEON:
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEON).toString();
+        break;
+    case SOUNDEVENT_VOICEACTMEOFF:
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEOFF).toString();
+        break;
     }
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)

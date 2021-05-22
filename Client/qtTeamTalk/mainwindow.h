@@ -288,7 +288,7 @@ private:
     void slotMeChangeNickname(bool checked=false);
     void slotMeChangeStatus(bool checked=false);
     void slotMeEnablePushToTalk(bool checked=false);
-    void slotMeEnableVoiceActivation(bool checked=false);
+    void slotMeEnableVoiceActivation(bool checked=false, SoundEvent on = SOUNDEVENT_VOICEACTON, SoundEvent off = SOUNDEVENT_VOICEACTOFF);
     void slotMeEnableVideoTransmission(bool checked=false);
     void slotMeEnableDesktopSharing(bool checked=false);
 
@@ -418,6 +418,7 @@ private:
     void slotClosedBannedUsersDlg(int);
     void startTTS();
     void slotTextChanged();
+    void slotEnableVoiceActivation(bool checked=false);
 
 signals:
     /* Begin - CLIENTEVENT_* based events */

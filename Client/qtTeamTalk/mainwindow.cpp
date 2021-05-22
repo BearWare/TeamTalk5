@@ -326,7 +326,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.actionEnablePushToTalk, &QAction::triggered,
             this, &MainWindow::slotMeEnablePushToTalk);
     connect(ui.actionEnableVoiceActivation, &QAction::triggered,
-            this, &MainWindow::slotMeEnableVoiceActivation);
+            this, &MainWindow::slotEnableVoiceActivation);
     connect(ui.actionEnableVideoTransmission, &QAction::triggered,
             this, &MainWindow::slotMeEnableVideoTransmission);
     connect(ui.actionEnableDesktopSharing, &QAction::triggered,
@@ -3810,7 +3810,7 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
     slotUpdateUI();
 }
 
-void MainWindow::slotMeEnableVoiceActivation(bool checked)
+void MainWindow::slotMeEnableVoiceActivation(bool checked, SoundEvent on, SoundEvent off)
 {
     TT_EnableVoiceActivation(ttInst, checked);
     ui.voiceactSlider->setVisible(checked);
@@ -3818,10 +3818,7 @@ void MainWindow::slotMeEnableVoiceActivation(bool checked)
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
         emit(updateMyself());
     slotUpdateUI();
-    if(checked == true)
-        playSoundEvent(SOUNDEVENT_VOICEACTON);
-    else
-        playSoundEvent(SOUNDEVENT_VOICEACTOFF);
+    playSoundEvent(checked == true?on:off);
 }
 
 void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
@@ -6188,4 +6185,9 @@ void MainWindow::slotTextChanged()
     ui.sendButton->setVisible(ui.msgEdit->text().size()>0);
     ui.videosendButton->setVisible(ui.videomsgEdit->text().size()>0);
     ui.desktopsendButton->setVisible(ui.desktopmsgEdit->text().size()>0);
+}
+
+void MainWindow::slotEnableVoiceActivation(bool checked)
+{
+    slotMeEnableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
 }
