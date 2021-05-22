@@ -1477,6 +1477,15 @@ class TeamTalk(object):
     def doLeaveChannel(self):
         return _DoLeaveChannel(self._tt)
 
+    def doSendFile(self, nChannelID, szLocalFilePath):
+        return _DoSendFile(self._tt, nChannelID, szLocalFilePath)
+
+    def doRecvFile(self, nChannelID, nFileID, szLocalFilePath):
+        return _DoRecvFile(self._tt, nChannelID, nFileID, szLocalFilePath)
+
+    def doDeleteFile(self, nChannelID, nFileID):
+        return _DoDeleteFile(self._tt, nChannelID, nFileID)
+
     def doChangeNickname(self, szNewNick):
         return _DoChangeNickname(self._tt, szNewNick)
 
