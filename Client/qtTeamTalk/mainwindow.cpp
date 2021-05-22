@@ -1286,6 +1286,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     break;
     case CLIENTEVENT_VOICE_ACTIVATION :
         Q_ASSERT(msg.ttType == __TTBOOL);
+        playSoundEvent(msg.bActive? SOUNDEVENT_VOICEACTTRIG :  SOUNDEVENT_VOICEACTSTOP);
         emit(updateMyself());
         break;
     case CLIENTEVENT_STREAM_MEDIAFILE :
