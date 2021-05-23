@@ -19,6 +19,7 @@ Default QT Client
 - On Windows, propose to enable recommended TTS settings at first startup if screen reader is running
 - Other several accessibility improvements including some fixes for JAWS screen reader
 - Option to display update availability in a dialog box instead of chat history
+- More TTS events
 Android Client
 -
 iOS Client

@@ -72,6 +72,8 @@ TTSEventsModel::TTSEventsModel(QObject* parent)
     m_ttsevents.push_back(TTS_FILE_REMOVE);
 
     m_ttsevents.push_back(TTS_MENU_ACTIONS);
+
+    m_ttsevents.push_back(TTS_SERVER_CONNECTIVITY);
 }
 
 QVariant TTSEventsModel::headerData ( int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/ ) const
@@ -177,6 +179,8 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
             return tr("File removed");
         case TTS_MENU_ACTIONS :
             return tr("Menu actions");
+        case TTS_SERVER_CONNECTIVITY :
+            return tr("Server connectivity");
         case TTS_NONE :
             break;
         }

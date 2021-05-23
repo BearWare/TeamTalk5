@@ -304,6 +304,8 @@ enum TextToSpeechEvent : qulonglong
     TTS_FILE_REMOVE                                 = 0x0000000100000000,
 
     TTS_MENU_ACTIONS                                = 0x0000000200000000,
+
+    TTS_SERVER_CONNECTIVITY                         = 0x0000000400000000,
 };
 
 typedef qulonglong TTSEvents;
