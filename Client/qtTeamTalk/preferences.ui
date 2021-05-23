@@ -1426,11 +1426,7 @@
               </property>
              </widget>
             </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QGridLayout" name="gridLayout_7">
-            <item row="0" column="0">
+            <item row="11" column="0">
              <widget class="QLabel" name="label_24">
               <property name="text">
                <string>File transfer complete</string>
@@ -1440,10 +1436,10 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
+            <item row="11" column="1">
              <widget class="QLineEdit" name="transferdoneEdit"/>
             </item>
-            <item row="0" column="2">
+            <item row="11" column="2">
              <widget class="QToolButton" name="transferdoneButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1453,7 +1449,7 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
+            <item row="12" column="0">
              <widget class="QLabel" name="label_32">
               <property name="text">
                <string>New video session</string>
@@ -1463,10 +1459,10 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
+            <item row="12" column="1">
              <widget class="QLineEdit" name="videosessionEdit"/>
             </item>
-            <item row="1" column="2">
+            <item row="12" column="2">
              <widget class="QToolButton" name="videosessionButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1476,7 +1472,7 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
+            <item row="13" column="0">
              <widget class="QLabel" name="label_37">
               <property name="text">
                <string>New desktop session</string>
@@ -1486,10 +1482,10 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
+            <item row="13" column="1">
              <widget class="QLineEdit" name="desktopsessionEdit"/>
             </item>
-            <item row="2" column="2">
+            <item row="13" column="2">
              <widget class="QToolButton" name="desktopsessionButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1499,7 +1495,11 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="0">
+           </layout>
+          </item>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_7">
+            <item row="0" column="0">
              <widget class="QLabel" name="label_38">
               <property name="text">
                <string>User entered question-mode</string>
@@ -1509,10 +1509,10 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="1">
+            <item row="0" column="1">
              <widget class="QLineEdit" name="questionmodeEdit"/>
             </item>
-            <item row="3" column="2">
+            <item row="0" column="2">
              <widget class="QToolButton" name="questionmodeBtn">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1522,7 +1522,7 @@
               </property>
              </widget>
             </item>
-            <item row="4" column="0">
+            <item row="1" column="0">
              <widget class="QLabel" name="label_40">
               <property name="text">
                <string>Desktop access request</string>
@@ -1532,10 +1532,10 @@
               </property>
              </widget>
             </item>
-            <item row="4" column="1">
+            <item row="1" column="1">
              <widget class="QLineEdit" name="desktopaccessEdit"/>
             </item>
-            <item row="4" column="2">
+            <item row="1" column="2">
              <widget class="QToolButton" name="desktopaccessBtn">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1545,7 +1545,7 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="0">
+            <item row="2" column="0">
              <widget class="QLabel" name="label_60">
               <property name="text">
                <string>User logged in</string>
@@ -1555,10 +1555,10 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="1">
+            <item row="2" column="1">
              <widget class="QLineEdit" name="userloggedinEdit"/>
             </item>
-            <item row="5" column="2">
+            <item row="2" column="2">
              <widget class="QToolButton" name="userloggedinButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1568,7 +1568,7 @@
               </property>
              </widget>
             </item>
-            <item row="6" column="0">
+            <item row="3" column="0">
              <widget class="QLabel" name="label_61">
               <property name="text">
                <string>User logged out</string>
@@ -1578,10 +1578,10 @@
               </property>
              </widget>
             </item>
-            <item row="6" column="1">
+            <item row="3" column="1">
              <widget class="QLineEdit" name="userloggedoutEdit"/>
             </item>
-            <item row="6" column="2">
+            <item row="3" column="2">
              <widget class="QToolButton" name="userloggedoutButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1591,7 +1591,7 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="0">
+            <item row="4" column="0">
              <widget class="QLabel" name="label_62">
               <property name="text">
                <string>Voice activation enabled</string>
@@ -1601,10 +1601,10 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="1">
+            <item row="4" column="1">
              <widget class="QLineEdit" name="voiceactonEdit"/>
             </item>
-            <item row="7" column="2">
+            <item row="4" column="2">
              <widget class="QToolButton" name="voiceactonButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1614,7 +1614,7 @@
               </property>
              </widget>
             </item>
-            <item row="8" column="0">
+            <item row="5" column="0">
              <widget class="QLabel" name="label_63">
               <property name="text">
                <string>Voice activation disabled</string>
@@ -1624,10 +1624,10 @@
               </property>
              </widget>
             </item>
-            <item row="8" column="1">
+            <item row="5" column="1">
              <widget class="QLineEdit" name="voiceactoffEdit"/>
             </item>
-            <item row="8" column="2">
+            <item row="5" column="2">
              <widget class="QToolButton" name="voiceactoffButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1637,7 +1637,7 @@
               </property>
              </widget>
             </item>
-            <item row="9" column="0">
+            <item row="6" column="0">
              <widget class="QLabel" name="label_64">
               <property name="text">
                <string>Mute master volume</string>
@@ -1647,10 +1647,10 @@
               </property>
              </widget>
             </item>
-            <item row="9" column="1">
+            <item row="6" column="1">
              <widget class="QLineEdit" name="muteallonEdit"/>
             </item>
-            <item row="9" column="2">
+            <item row="6" column="2">
              <widget class="QToolButton" name="muteallonButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1660,7 +1660,7 @@
               </property>
              </widget>
             </item>
-            <item row="10" column="0">
+            <item row="7" column="0">
              <widget class="QLabel" name="label_65">
               <property name="text">
                <string>Unmute master volume</string>
@@ -1670,10 +1670,10 @@
               </property>
              </widget>
             </item>
-            <item row="10" column="1">
+            <item row="7" column="1">
              <widget class="QLineEdit" name="mutealloffEdit"/>
             </item>
-            <item row="10" column="2">
+            <item row="7" column="2">
              <widget class="QToolButton" name="mutealloffButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1683,7 +1683,7 @@
               </property>
              </widget>
             </item>
-            <item row="11" column="0">
+            <item row="8" column="0">
              <widget class="QLabel" name="label_66">
               <property name="text">
                <string>Transmit ready in "No interruption" channel</string>
@@ -1693,10 +1693,10 @@
               </property>
              </widget>
             </item>
-            <item row="11" column="1">
+            <item row="8" column="1">
              <widget class="QLineEdit" name="transmitqueueheadEdit"/>
             </item>
-            <item row="11" column="2">
+            <item row="8" column="2">
              <widget class="QToolButton" name="transmitqueueheadButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1706,7 +1706,7 @@
               </property>
              </widget>
             </item>
-            <item row="12" column="0">
+            <item row="9" column="0">
              <widget class="QLabel" name="label_67">
               <property name="text">
                <string>Transmit stopped in "No interruption" channel</string>
@@ -1716,10 +1716,10 @@
               </property>
              </widget>
             </item>
-            <item row="12" column="1">
+            <item row="9" column="1">
              <widget class="QLineEdit" name="transmitqueuestopEdit"/>
             </item>
-            <item row="12" column="2">
+            <item row="9" column="2">
              <widget class="QToolButton" name="transmitqueuestopButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1729,7 +1729,7 @@
               </property>
              </widget>
             </item>
-            <item row="13" column="0">
+            <item row="10" column="0">
              <widget class="QLabel" name="label_68">
               <property name="text">
                <string>Voice activation triggered</string>
@@ -1739,10 +1739,10 @@
               </property>
              </widget>
             </item>
-            <item row="13" column="1">
+            <item row="10" column="1">
              <widget class="QLineEdit" name="voiceacttrigEdit"/>
             </item>
-            <item row="13" column="2">
+            <item row="10" column="2">
              <widget class="QToolButton" name="voiceacttrigButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1752,7 +1752,7 @@
               </property>
              </widget>
             </item>
-            <item row="14" column="0">
+            <item row="11" column="0">
              <widget class="QLabel" name="label_69">
               <property name="text">
                <string>Voice activation stopped</string>
@@ -1762,10 +1762,10 @@
               </property>
              </widget>
             </item>
-            <item row="14" column="1">
+            <item row="11" column="1">
              <widget class="QLineEdit" name="voiceactstopEdit"/>
             </item>
-            <item row="14" column="2">
+            <item row="11" column="2">
              <widget class="QToolButton" name="voiceactstopButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1775,7 +1775,7 @@
               </property>
              </widget>
             </item>
-            <item row="15" column="0">
+            <item row="12" column="0">
              <widget class="QLabel" name="label_70">
               <property name="text">
                <string>Voice activation enabled via "Me" menu</string>
@@ -1785,10 +1785,10 @@
               </property>
              </widget>
             </item>
-            <item row="15" column="1">
+            <item row="12" column="1">
              <widget class="QLineEdit" name="voiceactmeonEdit"/>
             </item>
-            <item row="15" column="2">
+            <item row="12" column="2">
              <widget class="QToolButton" name="voiceactmeonButton">
               <property name="accessibleName">
                <string>Browse</string>
@@ -1798,7 +1798,7 @@
               </property>
              </widget>
             </item>
-            <item row="16" column="0">
+            <item row="13" column="0">
              <widget class="QLabel" name="label_71">
               <property name="text">
                <string>Voice activation disabled via "Me" menu</string>
@@ -1808,10 +1808,10 @@
               </property>
              </widget>
             </item>
-            <item row="16" column="1">
+            <item row="13" column="1">
              <widget class="QLineEdit" name="voiceactmeoffEdit"/>
             </item>
-            <item row="16" column="2">
+            <item row="13" column="2">
              <widget class="QToolButton" name="voiceactmeoffButton">
               <property name="accessibleName">
                <string>Browse</string>
