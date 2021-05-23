@@ -290,7 +290,7 @@ void ChatTextEdit::limitText()
 void ChatTextEdit::mouseMoveEvent(QMouseEvent *e)
 {
     QPlainTextEdit::mouseMoveEvent(e);
-    if(currentUrl(e).size())
+    if (currentUrl(cursorForPosition(e->pos())).size())
         viewport()->setCursor(QCursor(Qt::PointingHandCursor));
     else
         viewport()->setCursor(QCursor(Qt::IBeamCursor));
@@ -303,16 +303,27 @@ void ChatTextEdit::mouseReleaseEvent(QMouseEvent *e)
     if(e->button() == Qt::RightButton)
         return;
 
-    QString url = currentUrl(e);
+    QString url = currentUrl(cursorForPosition(e->pos()));
     if(url.size())
        QDesktopServices::openUrl(QUrl(url));
 }
 
-QString ChatTextEdit::currentUrl(QMouseEvent* e) const
+void ChatTextEdit::keyPressEvent(QKeyEvent* e)
+{
+    QPlainTextEdit::keyPressEvent(e);
+
+    if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+    {
+        QString url = currentUrl(textCursor());
+        if (url.size())
+           QDesktopServices::openUrl(QUrl(url));
+    }
+}
+
+QString ChatTextEdit::currentUrl(const QTextCursor& cursor) const
 {
     QTextDocument* doc = document();
-
-    int cursor_pos = cursorForPosition(e->pos()).position();
+    int cursor_pos = cursor.position();
     QTextBlock block = doc->findBlock(cursor_pos);
     int block_pos = block.position();
 

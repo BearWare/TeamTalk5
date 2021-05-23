@@ -43,13 +43,14 @@ public:
     void addLogMessage(const QString& msg);
 
 protected:
-	void mouseMoveEvent(QMouseEvent *e);
-	void mouseReleaseEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
+    void keyPressEvent(QKeyEvent* e) override;
 
 private:
     static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
     void limitText();
-    QString currentUrl(QMouseEvent* e) const;
+    QString currentUrl(const QTextCursor& cursor) const;
 };
 
 #endif
