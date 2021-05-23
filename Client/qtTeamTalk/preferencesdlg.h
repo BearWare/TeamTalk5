@@ -126,6 +126,12 @@ private:
     void slotEventVoiceActOff();
     void slotEventMuteAllOn();
     void slotEventMuteAllOff();
+    void slotEventTransmitQueueHead();
+    void slotEventTransmitQueueStop();
+    void slotEventVoiceActTrig();
+    void slotEventVoiceActStop();
+    void slotEventVoiceActMeOn();
+    void slotEventVoiceActMeOff();
     //TTS
     void slotUpdateTTSTab();
     //keyboard shortcuts

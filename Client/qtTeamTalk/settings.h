@@ -160,6 +160,12 @@
 #define SETTINGS_SOUNDEVENT_VOICEACTOFF           "soundevents/voice-act-off"
 #define SETTINGS_SOUNDEVENT_MUTEALLON           "soundevents/mute-all"
 #define SETTINGS_SOUNDEVENT_MUTEALLOFF           "soundevents/unmute-all"
+#define SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD           "soundevents/transmit-queue-head"
+#define SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP           "soundevents/transmit-queue-stop"
+#define SETTINGS_SOUNDEVENT_VOICEACTTRIG           "soundevents/voice-activation-triggered"
+#define SETTINGS_SOUNDEVENT_VOICEACTSTOP           "soundevents/voice-activation-stop"
+#define SETTINGS_SOUNDEVENT_VOICEACTMEON           "soundevents/voice-act-me-on"
+#define SETTINGS_SOUNDEVENT_VOICEACTMEOFF           "soundevents/voice-act-me-off"
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"

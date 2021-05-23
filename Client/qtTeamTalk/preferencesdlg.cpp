@@ -178,6 +178,18 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotEventMuteAllOn);
     connect(ui.mutealloffButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventMuteAllOff);
+    connect(ui.transmitqueueheadButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventTransmitQueueHead);
+    connect(ui.transmitqueuestopButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventTransmitQueueStop);
+    connect(ui.voiceacttrigButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventVoiceActTrig);
+    connect(ui.voiceactstopButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventVoiceActStop);
+    connect(ui.voiceactmeonButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventVoiceActMeOn);
+    connect(ui.voiceactmeoffButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventVoiceActMeOff);
 
     //text to speech
     m_ttsmodel = new TTSEventsModel(this);
@@ -574,6 +586,12 @@ void PreferencesDlg::slotTabChange(int index)
         ui.voiceactoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF).toString());
         ui.muteallonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON).toString());
         ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF).toString());
+        ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD).toString());
+        ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP).toString());
+        ui.voiceacttrigEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTTRIG).toString());
+        ui.voiceactstopEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTSTOP).toString());
+        ui.voiceactmeonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEON).toString());
+        ui.voiceactmeoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEOFF).toString());
         break;
     case TTSEVENTS_TAB :
     {
@@ -942,6 +960,12 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTOFF, ui.voiceactoffEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLON, ui.muteallonEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLOFF, ui.mutealloffEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD, ui.transmitqueueheadEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP, ui.transmitqueuestopEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTTRIG, ui.voiceacttrigEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTSTOP, ui.voiceactstopEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTMEON, ui.voiceactmeonEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTMEOFF, ui.voiceactmeoffEdit->text());
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {
@@ -1428,6 +1452,48 @@ void PreferencesDlg::slotEventMuteAllOff()
     QString filename;
     if(getSoundFile(filename))
         ui.mutealloffEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventTransmitQueueHead()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.transmitqueueheadEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventTransmitQueueStop()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.transmitqueuestopEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventVoiceActTrig()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.voiceacttrigEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventVoiceActStop()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.voiceactstopEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventVoiceActMeOn()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.voiceactmeonEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventVoiceActMeOff()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.voiceactmeoffEdit->setText(filename);
 }
 
 void PreferencesDlg::slotUpdateTTSTab()

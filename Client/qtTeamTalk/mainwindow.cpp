@@ -326,7 +326,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.actionEnablePushToTalk, &QAction::triggered,
             this, &MainWindow::slotMeEnablePushToTalk);
     connect(ui.actionEnableVoiceActivation, &QAction::triggered,
-            this, &MainWindow::slotMeEnableVoiceActivation);
+            this, &MainWindow::slotEnableVoiceActivation);
     connect(ui.actionEnableVideoTransmission, &QAction::triggered,
             this, &MainWindow::slotMeEnableVideoTransmission);
     connect(ui.actionEnableDesktopSharing, &QAction::triggered,
@@ -1287,6 +1287,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     break;
     case CLIENTEVENT_VOICE_ACTIVATION :
         Q_ASSERT(msg.ttType == __TTBOOL);
+        playSoundEvent(msg.bActive? SOUNDEVENT_VOICEACTTRIG :  SOUNDEVENT_VOICEACTSTOP);
         emit(updateMyself());
         break;
     case CLIENTEVENT_STREAM_MEDIAFILE :
@@ -3814,7 +3815,7 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
     slotUpdateUI();
 }
 
-void MainWindow::slotMeEnableVoiceActivation(bool checked)
+void MainWindow::slotMeEnableVoiceActivation(bool checked, SoundEvent on, SoundEvent off)
 {
     TT_EnableVoiceActivation(ttInst, checked);
     ui.voiceactSlider->setVisible(checked);
@@ -3822,10 +3823,7 @@ void MainWindow::slotMeEnableVoiceActivation(bool checked)
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
         emit(updateMyself());
     slotUpdateUI();
-    if(checked == true)
-        playSoundEvent(SOUNDEVENT_VOICEACTON);
-    else
-        playSoundEvent(SOUNDEVENT_VOICEACTOFF);
+    playSoundEvent(checked == true?on:off);
 }
 
 void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
@@ -5210,7 +5208,16 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
     Channel oldchan;
     if(!ui.channelsWidget->getChannel(chan.nChannelID, oldchan))
         return;
-    
+
+    // Solo transmission
+    if(chan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst) &&
+        oldchan.transmitUsersQueue[0] != TT_GetMyUserID(ttInst))
+        playSoundEvent(SOUNDEVENT_TRANSMITQUEUE_HEAD);
+
+    if(chan.transmitUsersQueue[0] != TT_GetMyUserID(ttInst) &&
+        oldchan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst))
+        playSoundEvent(SOUNDEVENT_TRANSMITQUEUE_STOP);
+
     //specific to classroom channel
     QString msg;
     bool before = false, after = false;
@@ -6184,4 +6191,9 @@ void MainWindow::slotTextChanged()
     ui.sendButton->setVisible(ui.msgEdit->text().size()>0);
     ui.videosendButton->setVisible(ui.videomsgEdit->text().size()>0);
     ui.desktopsendButton->setVisible(ui.desktopmsgEdit->text().size()>0);
+}
+
+void MainWindow::slotEnableVoiceActivation(bool checked)
+{
+    slotMeEnableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
 }
