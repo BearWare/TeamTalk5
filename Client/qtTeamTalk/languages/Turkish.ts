@@ -4005,12 +4005,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1781"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation>Ses etkinleştirmenin &quot;Ben&quot; menüsü aracılığıyla etkinleştirilmesi</translation>
+        <translation>Ses etkinleştirmenin &quot;Ben&quot; menüsü üzerinden etkinleştirilmesi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1804"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation>Ses etkinleştirmenin &quot;Ben&quot; menüsü aracılığıyla etkisizleştirilmesi</translation>
+        <translation>Ses etkinleştirmenin &quot;Ben&quot; menüsü üzerinden etkisizleştirilmesi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1846"/>
