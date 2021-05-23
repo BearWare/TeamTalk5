@@ -88,10 +88,10 @@
     <item id="187">Berlangganan, mengikuti desktop akses</item>
     <item id="188">Berlangganan, mengikuti pemutaran file media</item>
     <item id="189">Perubahan classroom(keseluruhan)</item>
-    <item id="190">Transmisi suara diperbolehkan</item>
-    <item id="191">Transmisi vidio diperbolehkan</item>
-    <item id="192">Transmisi desktop diperbolehkan</item>
-    <item id="193">Transmisi file media diperbolehkan</item>
+    <item id="190">Mengirim suara diizinkan</item>
+    <item id="191">Mengirim vidio diizinkan</item>
+    <item id="192">Mengirim desktop diizinkan</item>
+    <item id="193">Streaming file media Diizinkan</item>
     <item id="194">%s merubah berlangganan &quot;Pesan Pengguna&quot; ke: %s</item>
     <item id="195">%s merubah berlangganan &quot;Pesan Saluran&quot; ke: %s</item>
     <item id="196">%s merubah berlangganan &quot;Pesan Siaran&quot; ke: %s</item>
@@ -129,7 +129,7 @@
     <item id="260">%s tidak lagi memiliki akses desktop</item>
     <item id="261">Pengguna bergabung dengan saluran saat ini</item>
     <item id="262">Pengguna meninggalkan saluran saat ini</item>
-    <item id="263">Maksimal jumlah pengguna yang dapat mentransmisi dalam sebuah saluran adalah %d</item>
+    <item id="263">Maksimal jumlah pengguna yang dapat melakukan transmit dalam sebuah saluran adalah %d</item>
     <item id="264">%s bergabung ke saluran %s</item>
     <item id="265">%s meninggalkan saluran %s</item>
     <item id="266">utama</item>
@@ -203,14 +203,14 @@
     <item id="334">Berhasil keluar</item>
     <item id="335">Anda telah dikeluarkan dari saluran.</item>
     <item id="336">Terjadi kesalahan yang tidak diketahui. Periksa apakah tindakan Anda&#x0D;&#x0A;didukung oleh server. Kesalahan ini paling banyak&#x0D;&#x0A;kemungkinan disebabkan oleh masalah ketidakcocokan antara server&#x0D;&#x0A;dan klien Anda.</item>
-    <item id="337">%s tidak dapat mentransmisikan suara!</item>
-    <item id="338">%s sekarang dapat mentransmisikan suara!</item>
-    <item id="339">%s tidak dapat mentransmisikan input video!</item>
-    <item id="340">%s sekarang dapat mentransmisikan input video!</item>
-    <item id="341">%s tidak dapat mentransmisikan berbagi desktop!</item>
-    <item id="342">%s sekarang dapat mentransmisikan berbagi desktop!</item>
-    <item id="343">%s tidak dapat mentransmisikan file media!</item>
-    <item id="344">% s sekarang dapat mentransmisikan file media!</item>
+    <item id="337">%s tidak dapat Mengirim suara!</item>
+    <item id="338">%s sekarang dapat mengirm suara!</item>
+    <item id="339">%s tidak dapat mengirim input video!</item>
+    <item id="340">%s sekarang dapat mengirim input video!</item>
+    <item id="341">%s tidak dapat melakukan berbagi desktop!</item>
+    <item id="342">%s sekarang dapat melakukan berbagi desktop!</item>
+    <item id="343">%s tidak dapat melakukan streaming file media!</item>
+    <item id="344">% s sekarang dapat melakukan streaming file media!</item>
     <item id="345">menu tindakan</item>
     <item id="346">Gagal menulis file audio untuk %s</item>
     <item id="347">Gagal memulai transfer file.&#x0D;&#x0A;Nama file: %s</item>
@@ -435,19 +435,27 @@
     <item id="570">Saluran</item>
     <item id="571">Pengguna online</item>
     <item id="572">Pengguna offline</item>
+    <item id="573">Pesan dikirim</item>
+    <item id="574">Pesan dikirim</item>
+    <item id="575">%s tidak dapat mengirim pesan ke saluran</item>
+    <item id="576">%s dapat mengirim pesan ke saluran</item>
+    <item id="577">Mengerim pesan ke saluran diizinkan</item>
+    <item id="578">Tersembunyi</item>
+    <item id="579">Anda telah dikeluarkan dari server oleh pengguna yang tidak dikenal</item>
+    <item id="580">Anda telah dikeluarkan dari server oleh %s</item>
     <item id="1006">Daftar file</item>
     <item id="1009">Otomatis bergabung dengan saluran utama setelah terhubung</item>
     <item id="1012">Server TCP port</item>
     <item id="1016">Server UDP port</item>
     <item id="1017">Volume</item>
     <item id="1018">Volume suara untuk %s ditingkatkan ke %d%%</item>
-    <item id="1019">Volume suara untuk %s ditingkatkan ke %d%%</item>
+    <item id="1019">Volume suara untuk %s diturunkan ke %d%%</item>
     <item id="1020">Tampilkan jumlah pengguna di saluran</item>
     <item id="1021">Otomatis memposisikan pengguna menggunakan suara 3D</item>
     <item id="1022">Nonaktifkan aktivasi suara saat tidak aktif</item>
     <item id="1023">Volume file media untuk %s ditingkatkan ke %d%%</item>
     <item id="1024">Buka Panduan Cepat untuk mempelajari bagaimana membuat satu server dan menghubungkannya</item>
-    <item id="1025">Volume file media untuk %s ditingkatkan ke %d%%</item>
+    <item id="1025">Volume file media untuk %s diturunkan ke %d%%</item>
     <item id="1026">Jauh dari perangkat</item>
     <item id="1028">Volume</item>
     <item id="1030">&amp;Hubungkan</item>
@@ -457,6 +465,7 @@
     <item id="1037">0 = dinonaktifkan</item>
     <item id="1038">Sedang bertanya</item>
     <item id="1039">Sedang memutar file media</item>
+    <item id="1040">Tampilkan nama server dan saluran dalam judul jendela</item>
     <item id="1042">Wizard ini akan memandu anda melewati langkah-langkah yang dibutuhkan untuk mengatur aplekasi TeamTalk konferensi. Tekan tombol &quot;Lanjutkan&quot; untuk memulai melewati langkah-langkah ini guna menyelesaikan pengaturan. Jika anda memilih &quot;Batal&quot; anda akan mengatur TeamTalk secara manual.</item>
     <item id="1044">Cek ke www.bearware.dk website untuk melihat daftar server TeamTalk</item>
     <item id="1045">Packetloss</item>
@@ -472,7 +481,10 @@
     <item id="1060">Minimalkan ke tray</item>
     <item id="1061">Topik</item>
     <item id="1063">Kata sandi</item>
+    <item id="1066">bunyikan secara bersamaan</item>
     <item id="1067">Maksimal masuk per alamat-IP</item>
+    <item id="1069">bunyikan secara satu persatu</item>
+    <item id="1071">Hentikan bunyi sebelumnya</item>
     <item id="1073">Kata sandi</item>
     <item id="1075">Alamat Server</item>
     <item id="1077">Saluran suara</item>
@@ -488,7 +500,7 @@
     <item id="1095">Standar: 0 (UDP)</item>
     <item id="1098">Standar: 10333</item>
     <item id="1101">Standar: 10333</item>
-    <item id="1102">Otomatis terhubung ke host terakhir saat TeamTalk dimulai</item>
+    <item id="1102">Otomatis terhubung ke server terakhir saat TeamTalk dimulai</item>
     <item id="1104">Atur Tombol Khusus</item>
     <item id="1106">Tekan dan tahan tombol yang akan di gunakan untuk tombol khusus, Tombol seperti Shift, Control dan alt dapat dikombinasikan dengan tombol yang lain.</item>
     <item id="1108">Tombol kombinasi saat ini</item>
@@ -511,7 +523,7 @@
     <item id="1155">Standar: 0 (TCP)</item>
     <item id="1157">Pengaturan pengguna</item>
     <item id="1158">Mode transmisi ucapan</item>
-    <item id="1160">sec. of inactivity (0= dinonaktifkan)</item>
+    <item id="1160">detik. tidak aktif (0= dinonaktifkan)</item>
     <item id="1162">Atur status jauh dari perangkat setelah</item>
     <item id="1163">Nama server</item>
     <item id="1164">&amp;Hapus</item>
@@ -541,6 +553,7 @@
     <item id="1211">Pengaturan sound system</item>
     <item id="1212">Tidak ada huruf yang dipilih</item>
     <item id="1213">Disini anda memilih perangkat suara yang akan digunakan TeamTalk untuk memutar dan merekam audio. Memilih DirectSound sangat disarankan karena menyediakan Latency lebih rendah dari Windows&apos; default sound system.</item>
+    <item id="1214">mode suara notifikasi</item>
     <item id="1215">Dengan menekan &quot;Uji perangkat Yang Dipilih&quot; anda dapat menguji perangkat yang terpilih saat ini dan coba dengarkan apakah anda mampu mendengar suara yang terekam lewat perangkat input terpilih.</item>
     <item id="1217">Pengguna dapat membuat saluran sementara</item>
     <item id="1218">Pengguna dapat membuat/memodifikasi semua saluran</item>
@@ -586,8 +599,8 @@
     <item id="1309">Simpan perubahan server secara otomatis</item>
     <item id="1311">Pengguna dapat melihat pengguna lain di semua saluran</item>
     <item id="1312">Pengguna dapat mengirim pesan siaran</item>
-    <item id="1315">Pengguna dapat mentransmisikan data suara (mik)</item>
-    <item id="1317">Pengguna dapat mentransmisikan file video (file avi, mp4)</item>
+    <item id="1315">Pengguna dapat mengirim data suara (mik)</item>
+    <item id="1317">Pengguna dapat mengirim file video (file avi, mp4)</item>
     <item id="1323">Administrator</item>
     <item id="1324">&amp;Tambah</item>
     <item id="1325">&amp;Hapus</item>
@@ -598,7 +611,7 @@
     <item id="1334">Sertakan server publik</item>
     <item id="1335">Pengguna dapat masuk secara bersamaan</item>
     <item id="1339">Mode classroom (operator mengatur transmisi)</item>
-    <item id="1341">Aktifkan volume audio tetap untuk semua pengguna</item>
+    <item id="1341">Seimbangkan volume audio untuk semua pengguna</item>
     <item id="1344">Tingkatkan level</item>
     <item id="1345">Maksimal kekuatan dB</item>
     <item id="1346">Peningkatan kekuatan maksimum per detik (dB)</item>
@@ -610,7 +623,7 @@
     <item id="1352">bps (0 = abaikan)</item>
     <item id="1359">&amp;Jelajahi</item>
     <item id="1362">Interval transmisi</item>
-    <item id="1363">msec</item>
+    <item id="1363">mili detik</item>
     <item id="1364">File audio tunggal untuk semua pengguna</item>
     <item id="1365">File audio terpisah untuk setiap pengguna</item>
     <item id="1369">Perangkat Penangkap Vidio</item>
@@ -657,7 +670,7 @@
     <item id="1425">kbps (0 = VBR)</item>
     <item id="1426">Jendela untuk Dibagikan</item>
     <item id="1427">Mode warna</item>
-    <item id="1428">msec</item>
+    <item id="1428">mili detik</item>
     <item id="1429">Total RX/TX</item>
     <item id="1430">Suara RX/TX</item>
     <item id="1431">Vidio RX/TX</item>
@@ -668,7 +681,7 @@
     <item id="1436">KBytes</item>
     <item id="1437">Hapus</item>
     <item id="1438">Desktop TX max</item>
-    <item id="1440">Pengguna dapat mentransmisi sesi desktop (berbagi desktop)</item>
+    <item id="1440">Pengguna dapat mengirim sesi desktop (berbagi desktop)</item>
     <item id="1441">Tampilkan variabel MOTD</item>
     <item id="1443">Catatan</item>
     <item id="1445">Inisial-saluran</item>
@@ -676,6 +689,7 @@
     <item id="1452">Saluran Tersedia</item>
     <item id="1453">Saluran Operator-Otomatis</item>
     <item id="1454">Tampilkan emoji dan teks untuk pengguna dan saluran</item>
+    <item id="1455">Tampilkan pengguna online/offline dalam riwayat obrolan</item>
     <item id="1456">Aktifkan echo cancellation (membantu mengurangi gema dari speaker</item>
     <item id="1460">Hanya operator yang menerima (hanya operator yang melihat dan mendengar)</item>
     <item id="1463">Tingkat sampel output</item>
@@ -701,8 +715,8 @@
     <item id="1487">Pengguna dapat mengunggah file</item>
     <item id="1488">Pengguna dapat mengunduh file</item>
     <item id="1489">Pengguna dapat memperbaharui properti server</item>
-    <item id="1490">Pengguna dapat mentransmisikan file audio (wav, mp3 file)</item>
-    <item id="1491">Pengguna dapat mentransmisikan data vidio (webcam)</item>
+    <item id="1490">Pengguna dapat mengirim file audio (wav, mp3 file)</item>
+    <item id="1491">Pengguna dapat mengirim data vidio (webcam)</item>
     <item id="1492">Pengaturan Volume Suara</item>
     <item id="1493">Bisukan sisi kiri</item>
     <item id="1494">Bisukan sisi kanan</item>
@@ -714,7 +728,7 @@
     <item id="1504">Files RX/TX</item>
     <item id="1506">File Media TX maksimal</item>
     <item id="1507">Penyalahgunaan Server</item>
-    <item id="1510">Users peak</item>
+    <item id="1510">Total pengguna</item>
     <item id="1511">KBytes</item>
     <item id="1512">Pengguna yang telah hadir</item>
     <item id="1513">Putar file media</item>
@@ -743,6 +757,8 @@
     <item id="1547">Proteksi banjir</item>
     <item id="1548">Mencegah pengguna untuk spam pesan text dengan cara membatasi berapa banyak perintah yang dapat dikirim dalam jangka waktu tertentu.</item>
     <item id="1550">Batasi perintah yang dikirim</item>
+    <item id="1552">Netral</item>
+    <item id="1553">Suara notifikasi vs. volume suara</item>
     <item id="1554">Pengguna dapat mengubah nama panggilan</item>
     <item id="1558">Pengguna dapat merekam suara di semua saluran</item>
     <item id="1561">&amp;Aktifkan</item>
@@ -766,12 +782,16 @@
     <item id="1594">P&amp;osisi awal</item>
     <item id="1595">Audio preprocessor</item>
     <item id="1596">Uji pemutaran</item>
-    <item id="1598">Kembalikan tingkat volume dan langganan saat login untuk pengguna Web Login</item>
+    <item id="1598">Kembalikan tingkat volume dan langganan saat masuk ke server untuk pengguna Web Login</item>
     <item id="1599">BearWare.dk Web Login ID</item>
     <item id="1600">Dinonaktifkan (tidak aktif)</item>
     <item id="1601">Bergabung dengan saluran saat keluar</item>
     <item id="1602">Saluran tersembunyi (tidak terlihat dan hanya dikenal dengan nama)</item>
     <item id="1603">Jenis saluran</item>
+    <item id="1604">Pengguna dapat melihat saluran tersembunyi</item>
+    <item id="1606">Mode pemutaran</item>
+    <item id="1608">Bisukan volume utama</item>
+    <item id="1609">Kembalikan volume utama</item>
     <item id="32791">Apa alamat &amp;IP saya?</item>
     <item id="32798">&amp;Operator\tCtrl+O</item>
     <item id="32801">Liha&amp;t dan sembunyikan Pesan Saluran\tF10</item>
@@ -837,8 +857,8 @@
     <item id="32898">Ikuti Pesa&amp;n Pengguna\tCtrl+Shift+1</item>
     <item id="32899">Ikuti Pesan &amp;Saluran\tCtrl+Shift+2</item>
     <item id="32900">Ikuti &amp;Vidio\tCtrl+Shift+5</item>
-    <item id="32901">Izinkan Pengguna menTransmisikan &amp;Suara\tCtrl+Alt+Q</item>
-    <item id="32902">Izinkan Pengguna Mentransmisikan &amp;Vidio\tCtrl+Alt+W</item>
+    <item id="32901">Izinkan Pengguna Mengirim &amp;Suara\tCtrl+Alt+Q</item>
+    <item id="32902">Izinkan Pengguna Mengirim &amp;Vidio\tCtrl+Alt+W</item>
     <item id="32903">Statisti&amp;k Server\tShift+F9</item>
     <item id="32904">&amp;Pengguna Online\tCtrl+Shift+U</item>
     <item id="32905">&amp;Keluarkan\tCtrl+K</item>
@@ -862,8 +882,8 @@
     <item id="32933">&amp;Kurangi Pengeras Suara\tCtrl+H</item>
     <item id="32934">Tingkatkan Pengeras Suara file &amp;Media\tCtrl+Shift+Y</item>
     <item id="32935">Kurangi Pengeras Suara file &amp;Media\tCtrl+Shift+H</item>
-    <item id="32936">Izinkan Pengguna Mentransmisikan &amp;Desktop\tCtrl+Alt+E</item>
-    <item id="32937">Izinkan Pengguna Mentransmisikan &amp;File Media\tCtrl+Alt+R</item>
+    <item id="32936">Izinkan Pengguna Melakukan Berbagi &amp;Desktop\tCtrl+Alt+E</item>
+    <item id="32937">Izinkan Pengguna Melakukan Streaming &amp;File Media\tCtrl+Alt+R</item>
     <item id="32938">Pemutaran &amp;file Media\tCtrl+8</item>
     <item id="32939">Ikuti pemutaran &amp;file Media\tCtrl+Shift+8</item>
     <item id="32940">&amp;Info Pengguna</item>
@@ -871,10 +891,10 @@
     <item id="32942">&amp;Info Saluran</item>
     <item id="32943">&amp;Umumkan Info Saluran\tCtrl+G</item>
     <item id="32944">K&amp;embali Kepengaturan Awal</item>
-    <item id="32945">Izinkan Semua Pengguna Mentransmisikan &amp;Suara\tCtrl+Alt+Shift+Q</item>
-    <item id="32946">Izinkan Semua Pengguna Mentransmisikan &amp;Vidio\tCtrl+Alt+Shift+W</item>
-    <item id="32947">Izinkan Semua Pengguna Mentransmisikan &amp;Dekstop\tCtrl+Alt+Shift+E</item>
-    <item id="32948">Izinkan Semua Pengguna Men&amp;trasmisikan &amp;file Media\tCtrl+Alt+Shift+R</item>
+    <item id="32945">Izinkan Semua Pengguna Mengirim &amp;Suara\tCtrl+Alt+Shift+Q</item>
+    <item id="32946">Izinkan Semua Pengguna Mengirim &amp;Vidio\tCtrl+Alt+Shift+W</item>
+    <item id="32947">Izinkan Semua Pengguna Melakukan Berbagi &amp;Dekstop\tCtrl+Alt+Shift+E</item>
+    <item id="32948">Izinkan Semua Pengguna Melakukan Streaming &amp;file Media\tCtrl+Alt+Shift+R</item>
     <item id="32949">&amp;Umumkan Keadaan Saluran\tCtrl+Shift+G</item>
     <item id="32950">Kirim &amp;Pesan pribadi\tCtrl+E</item>
     <item id="32951">Keluarkan Dan Larang Dari &amp;Saluran\tCtrl+B</item>

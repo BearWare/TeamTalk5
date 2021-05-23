@@ -21,6 +21,8 @@ Default QT Client
 - Option to display update availability in a dialog box instead of chat history
 - New sound events
 - Uniformize defaults sound files with classic client
+- More TTS events
+- URLs in chat history can be activated using Enter key
 Android Client
 -
 iOS Client

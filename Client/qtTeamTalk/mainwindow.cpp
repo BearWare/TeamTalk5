@@ -894,6 +894,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
         playSoundEvent(SOUNDEVENT_SERVERLOST);
+        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connection to server lost"));
     }
     break;
     case CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED :
@@ -1803,6 +1804,7 @@ void MainWindow::Disconnect()
 
     addStatusMsg(tr("Logged out from %1, TCP port %2, UDP port %3").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     updateWindowTitle();
+    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from server"));
 }
 
 void MainWindow::login()
@@ -1816,6 +1818,9 @@ void MainWindow::login()
 
     addStatusMsg(tr("Connected to %1 TCP port %2 UDP port %3")
         .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
+    ServerProperties prop = {};
+    TT_GetServerProperties(ttInst, &prop);
+    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connected to %1").arg(limitText(_Q(prop.szServerName))));
 
     //query server's max payload
     if(ttSettings->value(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, false).toBool())
@@ -4636,6 +4641,7 @@ void MainWindow::slotServerSaveConfiguration(bool /*checked =false */)
 {
     TT_DoSaveConfig(ttInst);
     addStatusMsg(tr("Server configuration saved"));
+    addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Server configuration saved"));
 }
 
 void MainWindow::slotServerServerStatistics(bool /*checked=false*/)

@@ -79,8 +79,6 @@
 		2516CB6B1BA8818B00EF9A17 /* UtilUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilUI.swift; sourceTree = "<group>"; };
 		2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDetailViewController.swift; sourceTree = "<group>"; };
 		2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
-		251997F01EB911FA003C94B1 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
-		251997F21EB911FB003C94B1 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		251997F31EBA5FD3003C94B1 /* txqueue_start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = txqueue_start.mp3; sourceTree = "<group>"; };
 		251997F51EBA5FDE003C94B1 /* txqueue_stop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = txqueue_stop.mp3; sourceTree = "<group>"; };
 		251997F71EBA5FE7003C94B1 /* voiceact_off.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voiceact_off.mp3; sourceTree = "<group>"; };
@@ -130,8 +128,6 @@
 		254C084A1C345E3700C98566 /* removeuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = removeuser.mp3; sourceTree = "<group>"; };
 		256328171C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		256328191C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		25953639260F01A70097FE3C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		2595363A260F01A80097FE3C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		259B12F81C4182E7008A355E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		259B12FA1C4182FE008A355E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelTableCell.swift; sourceTree = "<group>"; };
@@ -154,6 +150,12 @@
 		25E4DC2F1BF7360D00EC5A8C /* channel_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = channel_message.mp3; sourceTree = "<group>"; };
 		25E4DC301BF7360D00EC5A8C /* serverlost.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = serverlost.mp3; sourceTree = "<group>"; };
 		25E4DC311BF7360D00EC5A8C /* user_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = user_message.mp3; sourceTree = "<group>"; };
+		25ED9FDD265AD28500127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		25ED9FDE265AD28700127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
+		25ED9FDF265AD28900127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		25ED9FE4265AD5A400127B0E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		25ED9FE5265AD5A500127B0E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
+		25ED9FE6265AD5A700127B0E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25FFC2DA25ABA07E000334DC /* UtilTT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilTT.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -378,11 +380,11 @@
 				hu,
 				da,
 				nl,
-				ar,
 				zh,
 				"pt-BR",
-				ko,
 				it,
+				ko,
+				ar,
 			);
 			mainGroup = 254B7A3E1B98BAA300BE0DEF;
 			productRefGroup = 254B7A481B98BAA300BE0DEF /* Products */;
@@ -496,11 +498,11 @@
 				251B42681C5D4723009650EA /* hu */,
 				251B426A1C5D4A31009650EA /* da */,
 				252BDD5F1C85F90600102B5E /* nl */,
-				251997F01EB911FA003C94B1 /* ar */,
 				252EB82C21921FE60026A2D0 /* zh */,
 				254BE12224DED8F200244D0C /* pt-BR */,
-				2595363A260F01A80097FE3C /* ko */,
 				25D7B2F126373334009D684D /* it */,
+				25ED9FDE265AD28700127B0E /* ko */,
+				25ED9FE5265AD5A500127B0E /* ar */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -510,8 +512,9 @@
 			children = (
 				254B7A561B98BAA300BE0DEF /* Base */,
 				254BE12324DED8F300244D0C /* pt-BR */,
-				25953639260F01A70097FE3C /* ko */,
 				25D7B2F026373333009D684D /* it */,
+				25ED9FDD265AD28500127B0E /* ko */,
+				25ED9FE4265AD5A400127B0E /* ar */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -530,10 +533,11 @@
 				251B42691C5D4723009650EA /* hu */,
 				251B426B1C5D4A31009650EA /* da */,
 				252BDD611C85F90600102B5E /* nl */,
-				251997F21EB911FB003C94B1 /* ar */,
 				252EB82E21921FE70026A2D0 /* zh */,
 				254BE12424DED8F500244D0C /* pt-BR */,
 				25D7B2F226373336009D684D /* it */,
+				25ED9FDF265AD28900127B0E /* ko */,
+				25ED9FE6265AD5A700127B0E /* ar */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
