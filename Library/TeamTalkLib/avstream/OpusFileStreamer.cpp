@@ -56,6 +56,14 @@ void OpusFileStreamer::Run()
     }
 
     media::AudioFormat infmt = media::AudioFormat(m_decoder.GetSampleRate(), m_decoder.GetChannels());
+
+    if (infmt.IsValid() && !m_media_out.HasAudio() && m_media_out.audio_duration_ms)
+    {
+        int audio_samples = PCM16_DURATION_SAMPLES(m_media_out.audio_duration_ms, infmt.samplerate);
+        MediaStreamOutput newoutput(infmt, audio_samples, m_media_out.video);
+        m_media_out = newoutput;
+    }
+
     // max opus frame size is 120 msec
     std::vector<short> framebuf(m_decoder.GetSampleRate() * m_decoder.GetChannels());
     std::vector<short> resample_framebuf;
