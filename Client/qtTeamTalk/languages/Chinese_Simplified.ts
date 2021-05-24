@@ -2217,7 +2217,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Connection to server lost</source>
-        <translation type="unfinished"></translation>
+        <translation>与服务器的连接丢失</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1007"/>
@@ -2396,12 +2396,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1807"/>
         <source>Disconnected from server</source>
-        <translation type="unfinished"></translation>
+        <translation>与服务器断开连接</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1823"/>
         <source>Connected to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>已连接至 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1832"/>
@@ -4000,32 +4000,32 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1689"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation type="unfinished"></translation>
+        <translation>在“无中断”频道中传输就绪</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1712"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
-        <translation type="unfinished"></translation>
+        <translation>在“无中断”频道中停止传输</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1735"/>
         <source>Voice activation triggered</source>
-        <translation type="unfinished"></translation>
+        <translation>语音激活已触发</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1758"/>
         <source>Voice activation stopped</source>
-        <translation type="unfinished"></translation>
+        <translation>语音激活已停止</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1781"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation type="unfinished"></translation>
+        <translation>从“个人”菜单启用语音激活</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1804"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation type="unfinished"></translation>
+        <translation>从“个人”菜单禁用语音激活</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1846"/>
@@ -5221,7 +5221,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="183"/>
         <source>Server connectivity</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器连接</translation>
     </message>
 </context>
 <context>
