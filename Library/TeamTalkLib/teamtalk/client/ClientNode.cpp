@@ -1005,6 +1005,7 @@ void ClientNode::CloseAudioCapture()
     media::AudioFrame frm;
     frm.sample_no = m_soundprop.samples_transmitted;
     frm.streamid = m_voice_stream_id;
+    frm.userdata = STREAMTYPE_VOICE;
     AudioUserCallback(LOCAL_TX_USERID, STREAMTYPE_VOICE, frm);
 
     // submit ending of recording
@@ -1163,6 +1164,7 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
         media::AudioFrame frm;
         frm.sample_no = m_soundprop.samples_transmitted;
         frm.streamid = m_voice_stream_id;
+        frm.userdata = STREAMTYPE_VOICE;
         AudioUserCallback(LOCAL_TX_USERID, STREAMTYPE_VOICE, frm);
         
         return;
@@ -1182,6 +1184,7 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
     media::AudioFrame cpyframe = org_frame;
     cpyframe.streamid = m_voice_stream_id;
     cpyframe.sample_no = m_soundprop.samples_transmitted;
+    cpyframe.userdata = STREAMTYPE_VOICE;
     AudioUserCallback(LOCAL_TX_USERID, STREAMTYPE_VOICE, cpyframe);
     
     m_soundprop.samples_transmitted += org_frame.input_samples;
@@ -3475,9 +3478,10 @@ bool ClientNode::StopMediaPlayback(int id)
     if(iplayback == m_mediaplayback_streams.end())
         return false;
 
+    m_mediaplayback_streams.erase(iplayback);
+
     AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, media::AudioFrame());
 
-    m_mediaplayback_streams.erase(iplayback);
     return true;
 }
 
@@ -3519,7 +3523,9 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
 void ClientNode::MediaPlaybackAudio(int id, const media::AudioFrame& frm)
 {
     assert(frm.streamid);
-    AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, frm);
+    auto cpyframe = frm;
+    cpyframe.userdata = STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO;
+    AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, cpyframe);
 }
 
 bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
@@ -3865,7 +3871,8 @@ void ClientNode::ResetAudioPlayers()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    m_mediaplayback_streams.clear();
+    while(m_mediaplayback_streams.size())
+        StopMediaPlayback(m_mediaplayback_streams.begin()->first);
 
     if (m_rootchannel)
     {

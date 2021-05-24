@@ -87,8 +87,8 @@ private:
     void ProcessAudioQueues(bool flush);
     bool CanMuxUserAudio();
     void RemoveEmptyMuxUsers(); // should only be used during flush
-    bool MuxUserAudio();
-    void WriteAudio(int cb_samples);
+    teamtalk::StreamTypes MuxUserAudio();
+    void WriteAudio(int cb_samples, teamtalk::StreamTypes sts);
     bool FileActive();
 
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;
