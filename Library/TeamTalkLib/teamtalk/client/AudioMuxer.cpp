@@ -651,7 +651,7 @@ bool AudioMuxer::CanMuxUserAudio()
         }
         ii++;
     }
-    MYTRACE(ACE_TEXT("Mux count: %u\n"), m_usermux_queue.size());
+
     return m_usermux_queue.size();
 }
 
