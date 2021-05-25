@@ -311,7 +311,7 @@ bool AudioMuxer::QueueUserAudio(int userid, teamtalk::StreamType st,
 
     int key = GenKey(userid, st);
 
-    std::unique_lock<std::recursive_mutex> g(m_preprocess_mutex);
+    std::unique_lock<std::recursive_mutex> g(m_mutex1_preprocess);
     
     if (!m_preprocess_queue.Exists(userid, st))
     {
@@ -320,7 +320,7 @@ bool AudioMuxer::QueueUserAudio(int userid, teamtalk::StreamType st,
         m_preprocess_queue.AddAudioSource(userid, st, GetAudioCodecAudioFormat(m_codec));
 
         // allocate queue so muxer will wait for audio source to provide enough samples
-        std::unique_lock<std::recursive_mutex> g(m_mux_mutex);
+        std::unique_lock<std::recursive_mutex> g(m_mutex2_mux);
         GetMuxQueue(key);
     }
 
@@ -333,7 +333,7 @@ bool AudioMuxer::QueueUserAudio(int userid, teamtalk::StreamType st,
         m_preprocess_queue.RemoveAudioSource(userid, st);
 
         // clear as mux source
-        std::unique_lock<std::recursive_mutex> g(m_mux_mutex);
+        std::unique_lock<std::recursive_mutex> g(m_mutex2_mux);
         SubmitMuxAudioFrame(key, media::AudioFrame());
     }
 
@@ -542,7 +542,9 @@ void AudioMuxer::ProcessAudioQueues(bool flush)
     // store the list of active sources prior to mux
     std::vector<int> oldkeys;
     {
-        std::unique_lock<std::recursive_mutex> g(m_mux_mutex);
+        // 'm_mutex1_preprocess' protects 'm_mutex2_mux'
+        std::unique_lock<std::recursive_mutex> g(m_mutex1_preprocess);
+
         auto ii = m_usermux_queue.begin();
         for (; ii != m_usermux_queue.end(); ++ii)
             oldkeys.push_back(ii->first);
@@ -564,7 +566,7 @@ void AudioMuxer::ProcessAudioQueues(bool flush)
     {
         StreamTypes sts = STREAMTYPE_NONE;
         {
-            std::unique_lock<std::recursive_mutex> g(m_mux_mutex);
+            std::unique_lock<std::recursive_mutex> g(m_mutex2_mux);
 
             if(CanMuxUserAudio())
                 sts = MuxUserAudio(); //write muxed audio
@@ -593,7 +595,7 @@ void AudioMuxer::ProcessAudioQueues(bool flush)
         {
             StreamTypes sts = STREAMTYPE_NONE;
             {
-                std::unique_lock<std::recursive_mutex> g(m_mux_mutex);
+                std::unique_lock<std::recursive_mutex> g(m_mutex2_mux);
                 RemoveEmptyMuxUsers();
 
                 if (CanMuxUserAudio())
@@ -608,25 +610,31 @@ void AudioMuxer::ProcessAudioQueues(bool flush)
     // MYTRACE(ACE_TEXT("Queued %d msec at %u\n"), (cb_count * cb_msec) - remain_msec, now);
     m_last_flush_time = now - ((cb_count * cb_msec) + remain_msec);
 
+    // 'm_mutex1_preprocess' protects 'm_mutex2_mux'
+    std::unique_lock<std::recursive_mutex> g(m_mutex1_preprocess);
+
     // still active audio sources
     std::set<int> newkeys;
-    {
-        std::unique_lock<std::recursive_mutex> g(m_mux_mutex);
-        auto ii = m_usermux_queue.begin();
-        for (; ii != m_usermux_queue.end(); ++ii)
-            newkeys.insert(ii->first);
-    }
+    auto ii = m_usermux_queue.begin();
+    for (; ii != m_usermux_queue.end(); ++ii)
+        newkeys.insert(ii->first);
     
     // clear dead audio sources
+    for (auto key : oldkeys)
     {
-        std::unique_lock<std::recursive_mutex> g(m_preprocess_mutex);
-        for (auto key : oldkeys)
+        if (newkeys.find(key) == newkeys.end())
         {
-            if (newkeys.find(key) == newkeys.end() && m_preprocess_queue.IsEmpty(GetUserID(key), GetStreamType(key)))
+            if (m_preprocess_queue.IsEmpty(GetUserID(key), GetStreamType(key)))
             {
                 m_preprocess_queue.RemoveAudioSource(GetUserID(key), GetStreamType(key));
                 MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Removed audio source #%d, streamtype: 0x%x\n"),
-                    GetUserID(key), GetStreamType(key));
+                             GetUserID(key), GetStreamType(key));
+            }
+            else
+            {
+                // More audio maybe have been submitted to 'm_preprocess_queue'
+                // so we must ensure that 'key' still exists in 'm_usermux_queue'.
+                GetMuxQueue(key);
             }
         }
     }
