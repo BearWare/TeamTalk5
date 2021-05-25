@@ -3276,6 +3276,39 @@ TEST_CASE("LocalPlaybackToAudioBlock")
     REQUIRE(TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp) > 0);
 }
 
+TEST_CASE("LocalPlaybackDisconnect")
+{
+    auto txclient = InitTeamTalk();
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(txclient));
+
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nSampleRate = 48000;
+    mfi.uDurationMSec = 1000;
+    ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("playbackfile.wav"), TT_STRLEN);
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    MediaFilePlayback mfp = {};
+    mfp.bPaused = FALSE;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    auto sessionid = TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp);
+    REQUIRE(sessionid > 0);
+
+    TTMessage msg;
+    REQUIRE(WaitForEvent(txclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+    REQUIRE(msg.mediafileinfo.nStatus == MFS_STARTED);
+    REQUIRE(WaitForEvent(txclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+    REQUIRE(msg.mediafileinfo.nStatus == MFS_PLAYING);
+    REQUIRE(TT_Disconnect(txclient));
+
+    while (WaitForEvent(txclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg) && msg.mediafileinfo.nStatus == MFS_PLAYING);
+    REQUIRE(msg.mediafileinfo.nStatus == MFS_FINISHED);
+}
+
 TEST_CASE("FirstVoiceStreamPacket")
 {
     auto txclient = InitTeamTalk();
