@@ -239,7 +239,7 @@ TEST_CASE( "Last voice packet" )
 }
 #endif
 
-TEST_CASE( "MuxedAudioToFile" )
+TEST_CASE( "AudioMuxerToFile" )
 {
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
@@ -315,7 +315,7 @@ int GetAudioBlockSamplesSum(TTInstance* ttinst, int userid, StreamTypes sts)
     return sum_samples;
 };
 
-TEST_CASE( "MuxedAudioBlock" )
+TEST_CASE( "AudioMuxerSimple" )
 {
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
@@ -343,7 +343,7 @@ TEST_CASE( "MuxedAudioBlock" )
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
 }
 
-TEST_CASE( "MuxedAudioBlockNoInputDevice" )
+TEST_CASE( "AudioMuxerNoInputDevice" )
 {
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
@@ -376,7 +376,7 @@ TEST_CASE( "MuxedAudioBlockNoInputDevice" )
     REQUIRE(retries > 0);
 }
 
-TEST_CASE( "MuxedAudioBlockUserEvent" )
+TEST_CASE( "AudioMuxerUserEvent" )
 {
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
@@ -424,7 +424,7 @@ TEST_CASE( "MuxedAudioBlockUserEvent" )
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
 }
 
-TEST_CASE( "MuxedAudioBlockVolume" )
+TEST_CASE( "AudioMuxerVolumeControl" )
 {
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
@@ -563,7 +563,7 @@ TEST_CASE( "MuxedAudioBlockVolume" )
     REQUIRE(sum_gain == 0);
 }
 
-TEST_CASE( "RawAudioMuxerSameStreamTypeSameAudioFormat" )
+TEST_CASE( "AudioMuxerRawSameStreamTypeSameAudioFormat" )
 {
     teamtalk::AudioCodec ac;
     ac.codec = teamtalk::CODEC_OPUS;
@@ -874,7 +874,7 @@ TEST_CASE("BuildAudioFrame")
     REQUIRE(remainsamples == 77000 % 1554);
 }
 
-TEST_CASE( "RawAudioMuxerDifferentStreamTypeDifferentAudioFormat" )
+TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
 {
     teamtalk::AudioCodec ac;
     ac.codec = teamtalk::CODEC_OPUS;
@@ -981,7 +981,7 @@ TEST_CASE( "RawAudioMuxerDifferentStreamTypeDifferentAudioFormat" )
     REQUIRE(mixed_frames.message_count() == 0);
 }
 
-TEST_CASE( "RawAudioMuxerOverflow" )
+TEST_CASE( "AudioMuxerRawOverflow" )
 {
     teamtalk::AudioCodec ac;
     ac.codec = teamtalk::CODEC_OPUS;
@@ -1073,7 +1073,7 @@ TEST_CASE( "RawAudioMuxerOverflow" )
     }
 }
 
-TEST_CASE( "RawAudioMuxerSampleIndex" )
+TEST_CASE( "AudioMuxerRawSampleIndex" )
 {
     teamtalk::AudioCodec ac;
     ac.codec = teamtalk::CODEC_OPUS;
@@ -1136,7 +1136,7 @@ TEST_CASE( "RawAudioMuxerSampleIndex" )
     }
 }
 
-TEST_CASE( "MuxedStreamTypesInAudioBlock" )
+TEST_CASE( "AudioMuxerStreamTypesIntoAudioBlock" )
 {
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
@@ -1205,7 +1205,7 @@ TEST_CASE( "MuxedStreamTypesInAudioBlock" )
     REQUIRE(sum_mux_mf_voice > sum_mux_mf * 1.2);
 }
 
-TEST_CASE( "MuxedStreamTypeRecording" )
+TEST_CASE( "AudioMuxerStreamTypeRecording" )
 {
     auto rxclient = InitTeamTalk();
 
@@ -1328,7 +1328,7 @@ TEST_CASE( "MuxedStreamTypeRecording" )
     REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
 }
 
-TEST_CASE( "StreamTypesInAudioBlock")
+TEST_CASE( "AudioMuxerAllStreamTypesIntoAudioBlock")
 {
     AudioBlock* ab;
     StreamTypes sts;
@@ -1666,7 +1666,7 @@ TEST_CASE("TT_AEC")
 }
 #endif
 
-TEST_CASE("testMuxedAudioBlockSoundInputDisabled")
+TEST_CASE("AudioMuxerSoundInputDisabled")
 {
     auto ttclient = InitTeamTalk();
 
