@@ -213,6 +213,67 @@ extern "C" {
 
 #endif /* TEAMTALK_TYPES */
 
+    /** @addtogroup transmission
+     * @{ */
+
+    /** @brief The types of streams which are available for
+     * transmission. */
+    typedef enum StreamType
+    {
+        /** @brief No stream. */
+        STREAMTYPE_NONE                     = 0x00000000,
+        /** @brief Voice stream type which is audio recorded from a
+         * sound input device. @see TT_InitSoundInputDevice() */
+        STREAMTYPE_VOICE                    = 0x00000001,
+        /** @brief Video capture stream type which is video recorded
+         * from a webcam. @see TT_InitVideoCaptureDevice() */
+        STREAMTYPE_VIDEOCAPTURE             = 0x00000002,
+        /** @brief Audio stream type from a media file which is being
+         * streamed. @see TT_StartStreamingMediaFileToChannel() */
+        STREAMTYPE_MEDIAFILE_AUDIO          = 0x00000004,
+        /** @brief Video stream type from a media file which is being
+         * streamed. @see TT_StartStreamingMediaFileToChannel() */
+        STREAMTYPE_MEDIAFILE_VIDEO          = 0x00000008,
+        /** @brief Desktop window stream type which is a window (or
+         * bitmap) being transmitted. @see TT_SendDesktopWindow() */
+        STREAMTYPE_DESKTOP                  = 0x00000010,
+        /** @brief Desktop input stream type which is keyboard or
+         * mouse input being transmitted. @see
+         * TT_SendDesktopInput() */
+        STREAMTYPE_DESKTOPINPUT             = 0x00000020,
+        /** @brief Shortcut to allow both audio and video media files. */
+        STREAMTYPE_MEDIAFILE                = STREAMTYPE_MEDIAFILE_AUDIO |
+                                              STREAMTYPE_MEDIAFILE_VIDEO,
+        /** @brief Channel text messages as stream type.
+         *
+         * A channel text message is not a stream but is only included
+         * as a stream type in order to be able to block messages
+         * using @c transmitUsers in #Channel struct.
+         *
+         * @see TT_DoUpdateChannel()
+         * @see CHANNEL_CLASSROOM. */
+        STREAMTYPE_CHANNELMSG               = 0x00000040,
+        /** @brief Stream type for audio of local playback.
+         *
+         *  TT_EnableAudioBlockEvent() can be used to intercept audio
+         *  from a local media playback.
+         *  @see TT_InitLocalPlayback() */
+        STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO = 0x00000080,
+
+        /** @brief Shortcut to allow voice, media files, desktop,
+         * webcamera and channel messages. */
+        STREAMTYPE_CLASSROOM_ALL            = STREAMTYPE_VOICE |
+                                              STREAMTYPE_VIDEOCAPTURE |
+                                              STREAMTYPE_DESKTOP |
+                                              STREAMTYPE_MEDIAFILE |
+                                              STREAMTYPE_CHANNELMSG,
+    } StreamType;
+
+    /** @brief Mask of #StreamType. */
+    typedef UINT32 StreamTypes;
+
+    /** @} */
+
     /** @addtogroup sounddevices
      * @{ */
 
@@ -617,6 +678,19 @@ extern "C" {
          * nSampleIndex will be greater than 0. When the user stops
          * talking @c nSampleIndex will be reset to 0 again. */
         UINT32 uSampleIndex;
+        /** @brief The stream types used to generate the AudioBlock's
+         * raw audio.
+         *
+         * When retrieving audio that has been mixed together from
+         * multiple sources it can be useful to know what stream types
+         * were mixed together to generate the AudioBlock.
+         *
+         * If 'uStreamTypes' is STREAMTYPE_NONE it means that silence
+         * was inserted. Silence is inserted if no audio was available
+         * for mixing or the duration from last audio packet was
+         * received and until @c nStoppedDelayVoice of #User has
+         * expired.  @see TT_MUXED_USERID */
+        StreamTypes uStreamTypes;
     } AudioBlock;
 
 /**
@@ -1532,67 +1606,6 @@ extern "C" {
          * transmitted. */
         UINT32 uElapsedMSec;
     } AudioInputProgress;
-
-    /** @} */
-    
-    /** @addtogroup transmission
-     * @{ */
-
-    /** @brief The types of streams which are available for
-     * transmission. */
-    typedef enum StreamType
-    {
-        /** @brief No stream. */
-        STREAMTYPE_NONE                     = 0x00000000,
-        /** @brief Voice stream type which is audio recorded from a
-         * sound input device. @see TT_InitSoundInputDevice() */
-        STREAMTYPE_VOICE                    = 0x00000001,
-        /** @brief Video capture stream type which is video recorded
-         * from a webcam. @see TT_InitVideoCaptureDevice() */
-        STREAMTYPE_VIDEOCAPTURE             = 0x00000002,
-        /** @brief Audio stream type from a media file which is being
-         * streamed. @see TT_StartStreamingMediaFileToChannel() */
-        STREAMTYPE_MEDIAFILE_AUDIO          = 0x00000004,
-        /** @brief Video stream type from a media file which is being
-         * streamed. @see TT_StartStreamingMediaFileToChannel() */
-        STREAMTYPE_MEDIAFILE_VIDEO          = 0x00000008,
-        /** @brief Desktop window stream type which is a window (or
-         * bitmap) being transmitted. @see TT_SendDesktopWindow() */
-        STREAMTYPE_DESKTOP                  = 0x00000010,
-        /** @brief Desktop input stream type which is keyboard or
-         * mouse input being transmitted. @see
-         * TT_SendDesktopInput() */
-        STREAMTYPE_DESKTOPINPUT             = 0x00000020,
-        /** @brief Shortcut to allow both audio and video media files. */
-        STREAMTYPE_MEDIAFILE                = STREAMTYPE_MEDIAFILE_AUDIO |
-                                              STREAMTYPE_MEDIAFILE_VIDEO,
-        /** @brief Channel text messages as stream type.
-         *
-         * A channel text message is not a stream but is only included
-         * as a stream type in order to be able to block messages
-         * using @c transmitUsers in #Channel struct.
-         *
-         * @see TT_DoUpdateChannel()  
-         * @see CHANNEL_CLASSROOM. */
-        STREAMTYPE_CHANNELMSG               = 0x00000040,
-        /** @brief Stream type for audio of local playback.
-         *
-         *  TT_EnableAudioBlockEvent() can be used to intercept audio
-         *  from a local media playback.
-         *  @see TT_InitLocalPlayback() */
-        STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO = 0x00000080,
-
-        /** @brief Shortcut to allow voice, media files, desktop,
-         * webcamera and channel messages. */
-        STREAMTYPE_CLASSROOM_ALL            = STREAMTYPE_VOICE |
-                                              STREAMTYPE_VIDEOCAPTURE |
-                                              STREAMTYPE_DESKTOP |
-                                              STREAMTYPE_MEDIAFILE |
-                                              STREAMTYPE_CHANNELMSG,
-    } StreamType;
-
-    /** @brief Mask of #StreamType. */
-    typedef UINT32 StreamTypes;
 
     /** @} */
 
