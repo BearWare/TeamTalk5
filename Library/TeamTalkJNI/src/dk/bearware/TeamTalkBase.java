@@ -244,7 +244,7 @@ public abstract class TeamTalkBase
     private native boolean setVoiceActivationStopDelay(long lpTTInstance,
                                                        int nDelayMSec);
     public boolean setVoiceActivationStopDelay(int nDelayMSec)
-        { return setVoiceActivationStopDelay(nDelayMSec); }
+        { return setVoiceActivationStopDelay(ttInst, nDelayMSec); }
 
     private native int getVoiceActivationStopDelay(long lpTTInstance);
     public int getVoiceActivationStopDelay()
