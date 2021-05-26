@@ -23,9 +23,10 @@
 
 package dk.bearware;
 
+import java.util.Arrays;
 import java.util.Vector;
 
-public abstract class TeamTalkBase
+public abstract class TeamTalkBase implements AutoCloseable
 {
     private long ttInst = 0;
 
@@ -40,6 +41,7 @@ public abstract class TeamTalkBase
     
     protected void finalize( ) throws Throwable {
         closeTeamTalk(ttInst);
+        ttInst = 0;
     }
 
     private native boolean closeTeamTalk(long lpTTInstance);
@@ -82,8 +84,7 @@ public abstract class TeamTalkBase
         SoundDevice[] devs = new SoundDevice[lpnHowMany.value];
         if(getSoundDevices(devs, lpnHowMany))
         {
-            for(int i=0;i<lpnHowMany.value;i++)
-                lpSoundDevices.add(devs[i]);
+            lpSoundDevices.addAll(Arrays.asList(devs).subList(0, lpnHowMany.value));
         }
         return true;
     }
@@ -300,8 +301,7 @@ public abstract class TeamTalkBase
         VideoCaptureDevice[] devs = new VideoCaptureDevice[lpnHowMany.value];
         if(getVideoCaptureDevices(devs, lpnHowMany))
         {
-            for(int i=0;i<lpnHowMany.value;i++)
-                lpVideoDevices.add(devs[i]);
+            lpVideoDevices.addAll(Arrays.asList(devs).subList(0, lpnHowMany.value));
         }
         return true;
     }
@@ -465,10 +465,8 @@ public abstract class TeamTalkBase
                            int nLocalTcpPort, 
                            int nLocalUdpPort,
                            boolean bEncrypted) {
-        return (szHostAddress != null) ?
-            connect(ttInst, szHostAddress, nTcpPort, nUdpPort, 
-                    nLocalTcpPort, nLocalUdpPort, bEncrypted) :
-            false;
+        return szHostAddress != null && connect(ttInst, szHostAddress, nTcpPort, nUdpPort,
+                nLocalTcpPort, nLocalUdpPort, bEncrypted);
     }
 
     private native boolean connectSysID(long lpTTInstance,
@@ -486,10 +484,8 @@ public abstract class TeamTalkBase
                                 int nLocalUdpPort,
                                 boolean bEncrypted,
                                 String szSystemID) {
-        return (szHostAddress != null && szSystemID != null) ?
-            connectSysID(ttInst, szHostAddress, nTcpPort, nUdpPort, 
-                         nLocalTcpPort, nLocalUdpPort, bEncrypted, szSystemID) :
-            false;
+        return szHostAddress != null && szSystemID != null && connectSysID(ttInst, szHostAddress, nTcpPort, nUdpPort,
+                nLocalTcpPort, nLocalUdpPort, bEncrypted, szSystemID);
     }
     
     private native boolean connectEx(long lpTTInstance,
@@ -897,4 +893,10 @@ public abstract class TeamTalkBase
     }
     public static native boolean DBG_WriteAudioFileTone(MediaFileInfo lpMediaFileInfo,
                                                         int nFrequency);
+
+    @Override
+    public void close() throws Exception {
+        closeTeamTalk(ttInst);
+        ttInst = 0;
+    }
 }
