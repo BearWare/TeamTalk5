@@ -3981,7 +3981,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1666"/>
         <source>Unmute master volume</source>
-        <translation>Activer le volume principal</translation>
+        <translation>Activer le volume général</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1689"/>
