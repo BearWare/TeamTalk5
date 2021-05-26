@@ -153,6 +153,7 @@ if (Java_FOUND)
     src/dk/bearware/IntPtr.java
     src/dk/bearware/MediaFileInfo.java
     src/dk/bearware/MediaFilePlayback.java
+    src/dk/bearware/MediaFilePlaybackConstants.java
     src/dk/bearware/MediaFileStatus.java
     src/dk/bearware/OpusCodec.java
     src/dk/bearware/OpusConstants.java
