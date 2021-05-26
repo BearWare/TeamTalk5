@@ -23,22 +23,24 @@
 
 package dk.bearware;
 
-import org.junit.Test;
 import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertEquals;
 
-import java.util.Vector;
-import java.util.List;
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
-import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
@@ -3382,6 +3384,55 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
 
         assertEquals("streaming finished", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
+    }
+
+    @Test
+    public void testLocalPlaybackManySmall() {
+
+        Map< TeamTalkBase, Vector<Integer> > clientsessions = new HashMap<TeamTalkBase, Vector<Integer>>();
+        for (int i=0;i<3;++i) {
+            TeamTalkBase ttclient = newClientInstance();
+            initSound(ttclient);
+            clientsessions.put(ttclient, new Vector<Integer>());
+        }
+
+        Vector<MediaFileInfo> files = new Vector<MediaFileInfo>();
+        int[] durations = { 950, 150, 300, 50, 100, 130, 500};
+
+        for (int duration : durations) {
+            MediaFileInfo mfi = new MediaFileInfo();
+            mfi.szFileName = STORAGEFOLDER + File.separator + String.format("hest_%d.wav", duration);
+            mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
+            mfi.uDurationMSec = duration;
+            assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
+            files.add(mfi);
+        }
+
+        for (TeamTalkBase ttclient : clientsessions.keySet()) {
+            MediaFilePlayback mfp = new MediaFilePlayback();
+            mfp.uOffsetMSec = MediaFilePlaybackConstants.TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+            Vector<Integer> sessions = clientsessions.get(ttclient);
+            for (MediaFileInfo mfi : files) {
+                // play
+                int sessionid = ttclient.initLocalPlayback(mfi.szFileName, mfp);
+                assertTrue("init playback", sessionid > 0);
+                sessions.add(sessionid);
+            }
+        }
+
+        while (clientsessions.size() > 0) {
+            TeamTalkBase ttclient = clientsessions.keySet().iterator().next();
+            Vector<Integer> sessions = clientsessions.get(ttclient);
+            TTMessage msg = new TTMessage();
+            assertTrue("get media event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+            switch (msg.mediafileinfo.nStatus) {
+                case MediaFileStatus.MFS_FINISHED :
+                    sessions.removeElement(msg.nSource);
+                    break;
+            }
+            if (sessions.size() == 0)
+                clientsessions.remove(ttclient);
+        }
     }
 
     @Test
