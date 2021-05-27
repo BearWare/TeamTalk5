@@ -1455,7 +1455,7 @@ TEST_CASE( "AudioMuxerAllStreamTypesIntoAudioBlock")
         REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
     }
     REQUIRE(TT_EnableVoiceTransmission(txclient, TRUE));
-    int n_frames = 50;
+    int n_frames = 1000;
     while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
     {
         ab = TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID);
@@ -1469,7 +1469,7 @@ TEST_CASE( "AudioMuxerAllStreamTypesIntoAudioBlock")
     REQUIRE(ab->uStreamTypes == STREAMTYPE_VOICE);
     REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
     REQUIRE(TT_StartStreamingMediaFileToChannel(txclient, mfi.szFileName, nullptr));
-    n_frames = 50;
+    n_frames = 1000;
     while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
     {
         ab = TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID);
@@ -1484,7 +1484,7 @@ TEST_CASE( "AudioMuxerAllStreamTypesIntoAudioBlock")
     REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
     session = TT_InitLocalPlayback(rxclient, mfi.szFileName, &mfp);
     REQUIRE(session > 0);
-    n_frames = 50;
+    n_frames = 1000;
     while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
     {
         ab = TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID);
@@ -1500,7 +1500,7 @@ TEST_CASE( "AudioMuxerAllStreamTypesIntoAudioBlock")
     REQUIRE(TT_EnableVoiceTransmission(txclient, FALSE));
     REQUIRE(TT_StopStreamingMediaFileToChannel(txclient));
     REQUIRE(TT_StopLocalPlayback(rxclient, session));
-    n_frames = 500;
+    n_frames = 1000;
     while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
     {
         ab = TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID);
