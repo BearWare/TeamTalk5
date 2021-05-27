@@ -1533,6 +1533,7 @@ TEST_CASE("AudioMuxerStreamRestart")
 
     AudioBlock* ab;
     int n_frames;
+    const int RETRIES = 1000;
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
@@ -1540,7 +1541,7 @@ TEST_CASE("AudioMuxerStreamRestart")
     {
         REQUIRE(TT_EnableVoiceTransmission(txclient, TRUE));
 
-        n_frames = 50;
+        n_frames = RETRIES;
         while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
         {
             ab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_VOICE, TT_MUXED_USERID);
@@ -1556,7 +1557,7 @@ TEST_CASE("AudioMuxerStreamRestart")
 
         REQUIRE(TT_EnableVoiceTransmission(txclient, FALSE));
 
-        n_frames = 50;
+        n_frames = RETRIES;
         while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
         {
             ab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_VOICE, TT_MUXED_USERID);
@@ -1591,7 +1592,7 @@ TEST_CASE("AudioMuxerStreamRestart")
     {
         REQUIRE(TT_StartStreamingMediaFileToChannel(txclient, mfi.szFileName, nullptr));
 
-        n_frames = 50;
+        n_frames = RETRIES;
         while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
         {
             ab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_MEDIAFILE_AUDIO, TT_MUXED_USERID);
@@ -1607,7 +1608,7 @@ TEST_CASE("AudioMuxerStreamRestart")
 
         REQUIRE(TT_StopStreamingMediaFileToChannel(txclient));
 
-        n_frames = 50;
+        n_frames = RETRIES;
         while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
         {
             ab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_MEDIAFILE_AUDIO, TT_MUXED_USERID);
