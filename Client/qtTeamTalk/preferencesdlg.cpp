@@ -454,7 +454,7 @@ void PreferencesDlg::slotTabChange(int index)
     {
     case GENERAL_TAB : //general
     {
-        ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString());
+        ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString());
         switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
         {
         case GENDER_MALE :
@@ -476,7 +476,7 @@ void PreferencesDlg::slotTabChange(int index)
         ui.syncWebUserCheckBox->setChecked(ttSettings->value(SETTINGS_GENERAL_RESTOREUSERSETTINGS,
                                                              SETTINGS_GENERAL_RESTOREUSERSETTINGS_DEFAULT).toBool());
 
-        ui.awaySpinBox->setValue(ttSettings->value(SETTINGS_GENERAL_AUTOAWAY).toInt());
+        ui.awaySpinBox->setValue(ttSettings->value(SETTINGS_GENERAL_AUTOAWAY, SETTINGS_GENERAL_AUTOAWAY_DEFAULT).toInt());
         slotUpdateASBAccessibleName();
         ui.pttChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
         slotEnablePushToTalk(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
