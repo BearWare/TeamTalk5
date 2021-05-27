@@ -59,10 +59,12 @@ Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Server\tt5svc.exe"; DestDir: "{app}"
 Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Server\tt5srv.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: Is64BitInstallMode;
 
 ;cfg files
+Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Windows\TeamTalk5.ini"; DestDir: "{app}"; DestName: "TeamTalk5.ini.default"; Components: client; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Windows\TeamTalk5Classic.xml"; DestDir: "{app}"; DestName: "TeamTalk5Classic.xml.default"; Components: classic; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Server\Windows\tt5svc_install.bat"; DestDir: "{app}"; Components: server; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Server\Windows\tt5svc_uninstall.bat"; DestDir: "{app}"; Components: server; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Server\Windows\tt5srv_console.bat"; DestDir: "{app}"; Components: server; Flags: ignoreversion;
+Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Windows\TeamTalk5.ini"; DestDir: "{userappdata}\BearWare.dk"; Components: client; Flags: ignoreversion onlyifdoesntexist;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Windows\TeamTalk5Classic.xml"; DestDir: "{userappdata}\BearWare.dk"; Components: classic; Flags: ignoreversion onlyifdoesntexist;
 Source: "License.txt"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Documentation\TeamTalk\output\TeamTalk5.chm"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion;
