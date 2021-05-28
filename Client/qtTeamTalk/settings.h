@@ -48,6 +48,7 @@
 #define SETTINGS_GENERAL_RESTOREUSERSETTINGS        "general_/restore-user-settings"
 #define SETTINGS_GENERAL_RESTOREUSERSETTINGS_DEFAULT true
 #define SETTINGS_GENERAL_AUTOAWAY                   "general_/auto-away"
+#define SETTINGS_GENERAL_AUTOAWAY_DEFAULT                   180
 #define SETTINGS_GENERAL_PUSHTOTALK                 "general_/push-to-talk"
 #define SETTINGS_GENERAL_PUSHTOTALK_KEY             "general_/ptt-key"
 #define SETTINGS_GENERAL_VOICEACTIVATED             "general_/voice-activated"
