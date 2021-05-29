@@ -77,16 +77,24 @@ void FileTransferDlg::updateFileTransfer(const FileTransfer& transfer)
 
     setWindowTitle(_Q(transfer.szRemoteFileName));
     ui.filenameLabel->setText(_Q(transfer.szRemoteFileName));
+    ui.filenameLabel->setAccessibleName(QString("%1 %2").arg(ui.label->text().arg(_Q(transfer.szRemoteFileName))));
     if(transfer.nFileSize>=1024)
+    {
         ui.filesizeLabel->setText(QString("%1 KBytes")
                                     .arg(transfer.nFileSize/1024));
+        ui.filesizeLabel->setAccessibleName(QString("%1 %2 KBytes").arg(ui.label_2->text()).arg(transfer.nFileSize/1024));
+    }
     else
+    {
         ui.filesizeLabel->setText(QString("%1 Bytes").arg(transfer.nFileSize));
+        ui.filesizeLabel->setAccessibleName(QString("%1 %2 Bytes").arg(ui.label_2->text()).arg(transfer.nFileSize));
+    }
     double percent = 100.0;
     if(transfer.nFileSize)
         percent = transfer.nTransferred * 100 / transfer.nFileSize;
     ui.transferredLabel->setText(QString("%1/%2 - %3 %")
         .arg(transfer.nTransferred).arg(transfer.nFileSize).arg(percent));
+    ui.transferredLabel->setAccessibleName(QString("%1/%2 - %3 %").arg(transfer.nTransferred).arg(transfer.nFileSize).arg(percent));
 
     ui.progressBar->setValue((int)percent);
 
@@ -102,14 +110,19 @@ void FileTransferDlg::updateFileTransfer(const FileTransfer& transfer)
     }
     ui.throughputLabel->setText(tr("%1 KBytes/second, last second %2 bytes")
                                 .arg(throughput).arg(diff));
+    ui.throughputLabel->setAccessibleName(QString("%1").arg(ui.label_3->text() + tr("%1 KBytes/second, last second %2 bytes").arg(throughput).arg(diff)));
 
     if(transfer.bInbound)
+    {
         ui.destinationLabel->setText(_Q(transfer.szLocalFilePath));
+        ui.destinationLabel->setAccessibleName(QString("%1 %2").arg(ui.label_4->text()).arg(_Q(transfer.szLocalFilePath)));
+    }
     else
     {
         TTCHAR chanpath[TT_STRLEN] = {};
         TT_GetChannelPath(ttInst, transfer.nChannelID, chanpath);
         ui.destinationLabel->setText(_Q(chanpath));
+        ui.destinationLabel->setAccessibleName(QString("%1 %2").arg(ui.label_4->text()).arg(_Q(chanpath)));
     }
 }
 
