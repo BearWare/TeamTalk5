@@ -38,6 +38,8 @@ AboutDlg::AboutDlg(QWidget* parent)
     else
         compile += QString(tr("TeamTalk 32-bit DLL version %1.")).arg(_Q(TT_GetVersion()));
     ui.compileLabel->setText(compile);
+    ui.compileLabel->setAccessibleName(compile);
     ui.versionLabel->setText(APPVERSION);
+    ui.versionLabel->setAccessibleName(APPVERSION);
     ui.iconLabel->setPixmap(QPixmap(APPICON));
 }
