@@ -189,11 +189,11 @@ void ServerListDlg::slotAddUpdServer()
     HostEntry entry;
     if(getHostEntry(entry))
     {
-        int index = ui.listWidget->currentRow();
+        int j = ui.listWidget->currentRow();
         deleteServerEntry(entry.name);
         addServerEntry(entry);
         showServers();
-        ui.listWidget->setCurrentRow(index);
+        ui.listWidget->setCurrentRow(j);
         ui.listWidget->setFocus();
     }
 }
@@ -203,12 +203,12 @@ void ServerListDlg::slotDeleteServer()
     QListWidgetItem* item = ui.listWidget->currentItem();
     if(item)
     {
-        int index = ui.listWidget->currentRow();
+        int j = ui.listWidget->currentRow();
         deleteServerEntry(item->text());
         clearServer();
         showServers();
         ui.delButton->setEnabled(false);
-        ui.listWidget->setCurrentRow(index);
+        ui.listWidget->setCurrentRow(j-1);
         ui.listWidget->setFocus();
     }
 }
