@@ -18,6 +18,11 @@ if (CATCH_UNITTEST)
     list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchWebRTC.cpp)
   endif()
 
+  option (CATCH_UNITTEST_PERF "Include performance dependent Catch Unit Tests" ON)
+  if (CATCH_UNITTEST_PERF)
+    list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchPerf.cpp)
+  endif()
+
   # macOS finds 'libpcap.tbd' and assumes it's libpcap.so
   if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
