@@ -3576,6 +3576,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
         {
             m_host = HostEntry();
             getLatestHost(0, m_host);
+            m_channel_passwd[CHANNELID_TEMPPASSWORD] = m_host.chanpasswd;
             Connect();
         }
     }
