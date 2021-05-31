@@ -61,7 +61,7 @@ public:
     AudioMuxer(teamtalk::StreamTypes sts);
     virtual ~AudioMuxer();
 
-    bool RegisterMuxCallback(const teamtalk::AudioCodec& codec,
+    bool RegisterMuxCallback(const media::AudioInputFormat& fmt,
                              audiomuxer_callback_t cb);
     void UnregisterMuxCallback();
 
@@ -78,8 +78,8 @@ public:
     void SetMuxInterval(int msec);
     
 private:
-    bool Init(const teamtalk::AudioCodec& codec);
-    bool StartThread(const teamtalk::AudioCodec& codec);
+    bool Init(const media::AudioInputFormat& fmt);
+    bool StartThread(const media::AudioInputFormat& fmt);
     void StopThread();
     void Run();
     int TimerEvent(ACE_UINT32 timer_event_id, long userdata);
@@ -119,7 +119,7 @@ private:
 
     uint32_t m_sample_no = 0;
     uint32_t m_last_flush_time = 0;
-    teamtalk::AudioCodec m_codec;
+    media::AudioInputFormat m_inputformat;
     teamtalk::StreamTypes m_streamtypes = teamtalk::STREAMTYPE_NONE;
 
     wavepcmfile_t m_wavefile;

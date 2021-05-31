@@ -590,27 +590,18 @@ TEST_CASE( "AudioMuxerVolumeControl" )
 
 TEST_CASE( "AudioMuxerRawSameStreamTypeSameAudioFormat" )
 {
-    teamtalk::AudioCodec ac;
-    ac.codec = teamtalk::CODEC_OPUS;
-    ac.opus.application = OPUS_APPLICATION_AUDIO;
-    ac.opus.bitrate = 48000;
-    ac.opus.complexity = 4;
-    ac.opus.dtx = ac.opus.fec = ac.opus.vbr = ac.opus.vbr_constraint = true;
-    ac.opus.channels = 1;
-    ac.opus.samplerate = 12000;
-    ac.opus.frame_size = int(ac.opus.samplerate * .01);
-    ac.opus.frames_per_packet = 1;
-    const int TOTALSAMPLES = teamtalk::GetAudioCodecCbTotalSamples(ac);
-    const int FRAMESIZE = teamtalk::GetAudioCodecCbSamples(ac);
-    const auto FMT = teamtalk::GetAudioCodecAudioFormat(ac);
-    const int FRAMEBYTES = teamtalk::GetAudioCodecCbBytes(ac);
+    media::AudioInputFormat inputfmt(media::AudioFormat(12000, 1), int(12000 * .01));
+    const int TOTALSAMPLES = inputfmt.GetTotalSamples();
+    const int FRAMESIZE = inputfmt.samples;
+    const auto FMT = inputfmt.fmt;
+    const int FRAMEBYTES = inputfmt.GetBytes();
 
     msg_queue_t mixed_frames;
     mixed_frames.high_water_mark(1024 * 1024);
     mixed_frames.low_water_mark(1024 * 1024);
 
     AudioMuxer muxer(teamtalk::STREAMTYPE_VOICE);
-    int muxinterval_msec = teamtalk::GetAudioCodecCbMillis(ac) * 5;
+    int muxinterval_msec = inputfmt.GetDurationMSec() * 5;
     muxer.SetMuxInterval(muxinterval_msec);
     auto mixedfunc = [&] (teamtalk::StreamTypes sts, const media::AudioFrame& frm)
     {
@@ -618,7 +609,7 @@ TEST_CASE( "AudioMuxerRawSameStreamTypeSameAudioFormat" )
         REQUIRE(mixed_frames.enqueue(mb) >= 0);
     };
 
-    REQUIRE(muxer.RegisterMuxCallback(ac, mixedfunc));
+    REQUIRE(muxer.RegisterMuxCallback(inputfmt, mixedfunc));
 
     std::vector<int> userids;
     userids.push_back(10);
@@ -627,10 +618,10 @@ TEST_CASE( "AudioMuxerRawSameStreamTypeSameAudioFormat" )
     std::vector< std::vector<short> > user_bufs;
     std::vector<media::AudioFrame> user_frames;
     for (auto u : userids)
-        user_bufs.push_back(std::vector<short>(ac.opus.frame_size * ac.opus.channels, u));
+        user_bufs.push_back(std::vector<short>(inputfmt.GetTotalSamples(), u));
     for (size_t i=0;i<userids.size();++i)
     {
-        media::AudioFrame frm(FMT, &user_bufs[i][0], ac.opus.frame_size, userids[i] * 1000);
+        media::AudioFrame frm(FMT, &user_bufs[i][0], inputfmt.samples, userids[i] * 1000);
         frm.streamid = userids[i];
         user_frames.push_back(frm);
     }
@@ -713,7 +704,7 @@ TEST_CASE( "AudioMuxerRawSameStreamTypeSameAudioFormat" )
     }
 
     // overflow the buffer
-    int n_flood = 10 * muxinterval_msec / teamtalk::GetAudioCodecCbMillis(ac);
+    int n_flood = 10 * muxinterval_msec / inputfmt.GetDurationMSec();
     for (int sr=0;sr<n_flood;++sr)
     {
         for (size_t i=0;i<userids.size();++i)
@@ -749,7 +740,7 @@ TEST_CASE( "AudioMuxerRawSameStreamTypeSameAudioFormat" )
     REQUIRE(gotmux);
 
     // ensure stream can be restarted
-    for (int m=0;m<muxinterval_msec / teamtalk::GetAudioCodecCbMillis(ac);++m)
+    for (int m=0;m<muxinterval_msec / inputfmt.GetDurationMSec();++m)
     {
         for (size_t i=0;i<userids.size();++i)
         {
@@ -901,24 +892,15 @@ TEST_CASE("BuildAudioFrame")
 
 TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
 {
-    teamtalk::AudioCodec ac;
-    ac.codec = teamtalk::CODEC_OPUS;
-    ac.opus.application = OPUS_APPLICATION_AUDIO;
-    ac.opus.bitrate = 48000;
-    ac.opus.complexity = 4;
-    ac.opus.dtx = ac.opus.fec = ac.opus.vbr = ac.opus.vbr_constraint = true;
-    ac.opus.channels = 1;
-    ac.opus.samplerate = 12000;
-    ac.opus.frame_size = int(ac.opus.samplerate * .01);
-    ac.opus.frames_per_packet = 1;
-    const int TOTALSAMPLES = teamtalk::GetAudioCodecCbTotalSamples(ac);
-    const int FRAMESIZE = teamtalk::GetAudioCodecCbSamples(ac);
-    const auto FMT = teamtalk::GetAudioCodecAudioFormat(ac);
-    const int FRAMEBYTES = teamtalk::GetAudioCodecCbBytes(ac);
+    media::AudioInputFormat inputfmt(media::AudioFormat(12000, 1), int(12000 * .01));
+    const int TOTALSAMPLES = inputfmt.GetTotalSamples();
+    const int FRAMESIZE = inputfmt.samples;
+    const auto FMT = inputfmt.fmt;
+    const int FRAMEBYTES = inputfmt.GetBytes();
 
     msg_queue_t mixed_frames, mixed_ticker;
     AudioMuxer muxer(teamtalk::STREAMTYPE_VOICE | teamtalk::STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO | teamtalk::STREAMTYPE_MEDIAFILE_AUDIO);
-    int muxinterval_msec = teamtalk::GetAudioCodecCbMillis(ac) * 5;
+    int muxinterval_msec = inputfmt.GetDurationMSec() * 5;
     muxer.SetMuxInterval(muxinterval_msec);
     auto mixedfunc = [&] (teamtalk::StreamTypes sts, const media::AudioFrame& frm)
     {
@@ -933,7 +915,7 @@ TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
         REQUIRE(mixed_ticker.enqueue(AudioFrameToMsgBlock(tickfrm)) >= 0);
     };
     muxer.RegisterMuxTick(tickfunc);
-    REQUIRE(muxer.RegisterMuxCallback(ac, mixedfunc));
+    REQUIRE(muxer.RegisterMuxCallback(inputfmt, mixedfunc));
 
     std::vector<int> userids;
     userids.push_back(1);
@@ -947,7 +929,7 @@ TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
     user_fmts.push_back(FMT);
     std::vector< std::vector<short> > user_bufs;
     std::vector<media::AudioFrame> user_frames;
-    user_bufs.push_back(std::vector<short>(ac.opus.frame_size * ac.opus.channels, userids[0]));
+    user_bufs.push_back(std::vector<short>(inputfmt.GetTotalSamples(), userids[0]));
     user_bufs.push_back(std::vector<short>((user_fmts[1].channels * user_fmts[1].samplerate) * .01, userids[1]));
     user_bufs.push_back(std::vector<short>((user_fmts[2].channels * user_fmts[2].samplerate) * .015, userids[2]));
     user_bufs.push_back(std::vector<short>((user_fmts[3].channels * user_fmts[3].samplerate) * .005, userids[3]));
@@ -1008,19 +990,10 @@ TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
 
 TEST_CASE( "AudioMuxerRawOverflow" )
 {
-    teamtalk::AudioCodec ac;
-    ac.codec = teamtalk::CODEC_OPUS;
-    ac.opus.application = OPUS_APPLICATION_AUDIO;
-    ac.opus.bitrate = 48000;
-    ac.opus.complexity = 4;
-    ac.opus.dtx = ac.opus.fec = ac.opus.vbr = ac.opus.vbr_constraint = true;
-    ac.opus.channels = 2;
-    ac.opus.samplerate = 48000;
-    ac.opus.frame_size = int(ac.opus.samplerate * .01);
-    ac.opus.frames_per_packet = 1;
-    const int TOTALSAMPLES = teamtalk::GetAudioCodecCbTotalSamples(ac);
-    const int FRAMESIZE = teamtalk::GetAudioCodecCbSamples(ac);
-    const auto FMT = teamtalk::GetAudioCodecAudioFormat(ac);
+    media::AudioInputFormat inputfmt(media::AudioFormat(48000, 2), int(48000 * .01));
+    const int TOTALSAMPLES = inputfmt.GetTotalSamples();
+    const int FRAMESIZE = inputfmt.samples;
+    const auto FMT = inputfmt.fmt;
 
     msg_queue_t mixed_frames, mixed_ticker;
     auto QSIZE = 1024*1024*10;
@@ -1042,7 +1015,7 @@ TEST_CASE( "AudioMuxerRawOverflow" )
     };
 
     muxer.RegisterMuxTick(tickfunc);
-    REQUIRE(muxer.RegisterMuxCallback(ac, mixedfunc));
+    REQUIRE(muxer.RegisterMuxCallback(inputfmt, mixedfunc));
 
     std::vector<short> buffer(TOTALSAMPLES, short(1));
     media::AudioFrame frm(FMT, &buffer[0], FRAMESIZE);
@@ -1100,19 +1073,10 @@ TEST_CASE( "AudioMuxerRawOverflow" )
 
 TEST_CASE( "AudioMuxerRawSampleIndex" )
 {
-    teamtalk::AudioCodec ac;
-    ac.codec = teamtalk::CODEC_OPUS;
-    ac.opus.application = OPUS_APPLICATION_AUDIO;
-    ac.opus.bitrate = 48000;
-    ac.opus.complexity = 4;
-    ac.opus.dtx = ac.opus.fec = ac.opus.vbr = ac.opus.vbr_constraint = true;
-    ac.opus.channels = 2;
-    ac.opus.samplerate = 48000;
-    ac.opus.frame_size = int(ac.opus.samplerate * .01);
-    ac.opus.frames_per_packet = 1;
-    const int TOTALSAMPLES = teamtalk::GetAudioCodecCbTotalSamples(ac);
-    const int FRAMESIZE = teamtalk::GetAudioCodecCbSamples(ac);
-    const auto FMT = teamtalk::GetAudioCodecAudioFormat(ac);
+    media::AudioInputFormat inputfmt(media::AudioFormat(48000, 2), int(48000 * .01));
+    const int TOTALSAMPLES = inputfmt.GetTotalSamples();
+    const int FRAMESIZE = inputfmt.samples;
+    const auto FMT = inputfmt.fmt;
 
     ACE_Time_Value zero;
     msg_queue_t mixed_frames, mixed_ticker;
@@ -1135,7 +1099,7 @@ TEST_CASE( "AudioMuxerRawSampleIndex" )
     };
 
     muxer.RegisterMuxTick(tickfunc);
-    REQUIRE(muxer.RegisterMuxCallback(ac, mixedfunc));
+    REQUIRE(muxer.RegisterMuxCallback(inputfmt, mixedfunc));
 
     std::vector<short> buffer(TOTALSAMPLES, short(1));
     media::AudioFrame frm(FMT, &buffer[0], FRAMESIZE);

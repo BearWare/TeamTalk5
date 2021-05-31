@@ -3015,7 +3015,8 @@ bool ClientNode::EnableAudioBlockCallback(int userid, StreamTypes sts,
             if (m_mychannel)
             {
                 auto codec = m_mychannel->GetAudioCodec();
-                bool startmux = m_audiomuxer_stream->RegisterMuxCallback(codec, std::bind(&ClientNode::AudioMuxCallback, this, _1, _2));
+                bool startmux = m_audiomuxer_stream->RegisterMuxCallback(GetAudioCodecAudioInputFormat(codec),
+                                                                         std::bind(&ClientNode::AudioMuxCallback, this, _1, _2));
                 MYTRACE_COND(!startmux, ACE_TEXT("Failed to start audio muxer\n"));
             }
         }
@@ -4199,7 +4200,8 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
     // enable audio muxer callback
     if (m_audiomuxer_stream)
     {
-        bool startmux = m_audiomuxer_stream->RegisterMuxCallback(codec, std::bind(&ClientNode::AudioMuxCallback, this, _1, _2));
+        bool startmux = m_audiomuxer_stream->RegisterMuxCallback(GetAudioCodecAudioInputFormat(codec),
+                                                                 std::bind(&ClientNode::AudioMuxCallback, this, _1, _2));
         MYTRACE_COND(!startmux, ACE_TEXT("Failed to start audio muxer\n"));
     }
 

@@ -31,6 +31,23 @@
 
 namespace media {
 
+    int AudioInputFormat::GetDurationMSec() const
+    {
+        assert(samples > 0);
+        assert(fmt.samplerate > 0);
+        return PCM16_SAMPLES_DURATION(samples, fmt.samplerate);
+    }
+
+    int AudioInputFormat::GetTotalSamples() const
+    {
+        return samples * fmt.channels;
+    }
+
+    int AudioInputFormat::GetBytes() const
+    {
+        return PCM16_BYTES(samples, fmt.channels);
+    }
+
     void AudioFrame::ApplyGain()
     {
         assert(input_buffer || input_samples == 0);
@@ -38,8 +55,7 @@ namespace media {
         SOFTGAIN(input_buffer, input_samples, inputfmt.channels,
                  gain.numerator, gain.denominator);
         gain = Rational(1, 1);
-    }
-
+    }    
 }
 
 void SplitStereo(const short* input_buffer, int input_samples,
