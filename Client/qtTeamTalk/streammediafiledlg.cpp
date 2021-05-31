@@ -145,6 +145,7 @@ void StreamMediaFileDlg::slotSelectFile()
 void StreamMediaFileDlg::slotSelectionFile(const QString&)
 {
     showMediaFormatInfo();
+    ui.mediafileComboBox->lineEdit()->setSelection(0, ui.mediafileComboBox->lineEdit()->text().size());
 }
 
 void StreamMediaFileDlg::showMediaFormatInfo()
