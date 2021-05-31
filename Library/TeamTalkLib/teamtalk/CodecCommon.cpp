@@ -125,11 +125,11 @@ namespace teamtalk
     int GetAudioCodecCbMillis(const AudioCodec& codec)
     {
         int samplerate = GetAudioCodecSampleRate(codec);
-        int cb_samples = GetAudioCodecCbSamples(codec) * 1000;
         if(samplerate == 0)
             return 0;
 
-        return cb_samples == 0? 0 : cb_samples / samplerate;
+        int cb_samples = GetAudioCodecCbSamples(codec);
+        return cb_samples == 0? 0 : PCM16_SAMPLES_DURATION(cb_samples, samplerate);
     }
 
     int GetAudioCodecCbTotalSamples(const AudioCodec& codec)
