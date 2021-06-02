@@ -427,7 +427,7 @@ void StreamMediaFileDlg::slotMediaPlaybackProgress(int sessionid, const MediaFil
 
 bool StreamMediaFileDlg::eventFilter(QObject *object, QEvent *event)
 {
-    if (object == ui.mediafileComboBox/*->lineEdit()*/ && event->type() == QEvent::KeyPress)
+    if (object == ui.mediafileComboBox && event->type() == QEvent::KeyPress)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         if (keyEvent->matches(QKeySequence::Paste) && ui.mediafileComboBox->currentIndex() == 0 && ui.mediafileComboBox->lineEdit()->cursorPosition() == 0)
