@@ -30,6 +30,7 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QComboBox>
+#include <QKeyEvent>
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
@@ -94,6 +95,8 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
     ui.mediafileComboBox->setCurrentIndex(0); // generates showMediaFormatInfo()
 
     updateControls();
+    ui.mediafileComboBox->installEventFilter(this);
+    ui.mediafileComboBox->lineEdit()->setCursorPosition(0);
 }
 
 StreamMediaFileDlg::~StreamMediaFileDlg()
@@ -145,7 +148,6 @@ void StreamMediaFileDlg::slotSelectFile()
 void StreamMediaFileDlg::slotSelectionFile(const QString&)
 {
     showMediaFormatInfo();
-    ui.mediafileComboBox->lineEdit()->setSelection(0, ui.mediafileComboBox->lineEdit()->text().size());
 }
 
 void StreamMediaFileDlg::showMediaFormatInfo()
@@ -421,4 +423,21 @@ void StreamMediaFileDlg::slotMediaPlaybackProgress(int sessionid, const MediaFil
     }
 
     m_progressupdate = false;
+}
+
+bool StreamMediaFileDlg::eventFilter(QObject *object, QEvent *event)
+{
+    if (object == ui.mediafileComboBox/*->lineEdit()*/ && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->matches(QKeySequence::Paste) && ui.mediafileComboBox->currentIndex() == 0 && ui.mediafileComboBox->lineEdit()->cursorPosition() == 0)
+        {
+            ui.mediafileComboBox->lineEdit()->clear();
+            ui.mediafileComboBox->lineEdit()->paste();
+            return true;
+        }
+        else
+            return false;
+    }
+    return false;
 }
