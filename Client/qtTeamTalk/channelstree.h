@@ -79,6 +79,7 @@ public:
     void setShowUsername();
     void setShowLastToTalk(bool show);
     void updateItemTextLength(int new_length);
+    void filterExpand(QTreeWidgetItem* item);
 
 signals:
     void userDoubleClicked(int);

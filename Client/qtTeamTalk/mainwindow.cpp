@@ -521,6 +521,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     //pull using a timer
     m_timers.insert(startTimer(20), TIMER_PROCESS_TTEVENT);
 #endif
+    ui.channelsWidget->installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
@@ -3132,6 +3133,7 @@ void MainWindow::processDesktopInput(int userid, const DesktopInput& input)
 void MainWindow::startStreamMediaFile()
 {
     QString fileName = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(0)).toString();
+    fileName=fileName.remove('"');
 
     VideoCodec vidcodec;
     vidcodec.nCodec = (Codec)ttSettings->value(SETTINGS_STREAMMEDIA_CODEC).toInt();
@@ -6197,4 +6199,22 @@ void MainWindow::slotTextChanged()
 void MainWindow::slotEnableVoiceActivation(bool checked)
 {
     slotMeEnableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
+}
+
+bool MainWindow::eventFilter(QObject *object, QEvent *event)
+{
+    if (object == ui.channelsWidget && event->type() == QEvent::KeyPress)
+    {
+        QTreeWidgetItem* item = ui.channelsWidget->currentItem();
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Right)
+        {
+//            emit(filterExpand());
+            ui.channelsWidget->filterExpand(item);
+            return true;
+        }
+        else
+            return false;
+    }
+    return false;
 }

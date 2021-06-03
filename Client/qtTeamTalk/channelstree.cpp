@@ -1474,3 +1474,9 @@ void ChannelsTree::slotUserVideoFrame(int userid, int stream_id)
     Q_UNUSED(userid);
     Q_UNUSED(stream_id);
 }
+
+void ChannelsTree::filterExpand(QTreeWidgetItem* item)
+{
+    if((item->type() & CHANNEL_TYPE) && !item->isExpanded())
+        item->setExpanded(true);
+}
