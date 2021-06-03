@@ -3133,7 +3133,6 @@ void MainWindow::processDesktopInput(int userid, const DesktopInput& input)
 void MainWindow::startStreamMediaFile()
 {
     QString fileName = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(0)).toString();
-    fileName=fileName.remove('"');
 
     VideoCodec vidcodec;
     vidcodec.nCodec = (Codec)ttSettings->value(SETTINGS_STREAMMEDIA_CODEC).toInt();
@@ -6209,7 +6208,6 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         if (keyEvent->key() == Qt::Key_Right)
         {
-//            emit(filterExpand());
             ui.channelsWidget->filterExpand(item);
             return true;
         }
