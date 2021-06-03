@@ -42,6 +42,7 @@ public:
     afx_msg void OnDropFiles(HDROP hDropInfo);
     afx_msg void OnHdnDividerdblclick(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnLvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
 };
 
 

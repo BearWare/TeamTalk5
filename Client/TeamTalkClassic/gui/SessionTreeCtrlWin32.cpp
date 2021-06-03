@@ -95,9 +95,9 @@ void CSessionTreeCtrlWin32::OnContextMenu(CWnd* pWnd, CPoint point)
 
     CMenu * pop;
   if( GetSelectedUser()>0 )
-    pop = menu->GetSubMenu(2);//USER MENU
+    pop = menu->GetSubMenu(TEAMTALK_MENU_USERS);
   else
-    pop = menu->GetSubMenu(3);//CHANNELS MENU
+    pop = menu->GetSubMenu(TEAMTALK_MENU_CHANNELS);
     
     /* If activated by the keyboard, get
      * the position of the selected item

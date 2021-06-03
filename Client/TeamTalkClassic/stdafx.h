@@ -79,3 +79,13 @@
 #include "AppInfo.h"
 #include "Helper.h"
 #include "Languages.h"
+
+enum TeamTalkMenuIndex : uint32_t
+{
+    TEAMTALK_MENU_CLIENT = 0,
+    TEAMTALK_MENU_ME,
+    TEAMTALK_MENU_USERS,
+    TEAMTALK_MENU_CHANNELS,
+    TEAMTALK_MENU_SERVER,
+    TEAMTALK_MENU_HELP,
+};
