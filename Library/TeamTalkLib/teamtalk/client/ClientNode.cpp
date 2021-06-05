@@ -3010,14 +3010,30 @@ bool ClientNode::EnableAudioBlockCallback(int userid, StreamTypes sts,
     {
         if (enable)
         {
-            m_audiomuxer_stream.reset(new AudioMuxer(sts));
-            // start muxer if already in channel
-            if (m_mychannel)
+            audiomuxer_t newmuxer(new AudioMuxer(sts));
+            media::AudioInputFormat infmt;
+
+            if (outfmt.IsValid())
+                infmt = media::AudioInputFormat(outfmt, PCM16_DURATION_SAMPLES(20, outfmt.samplerate));
+            else if (m_mychannel)
             {
                 auto codec = m_mychannel->GetAudioCodec();
-                bool startmux = m_audiomuxer_stream->RegisterMuxCallback(codec, std::bind(&ClientNode::AudioMuxCallback, this, _1, _2));
-                MYTRACE_COND(!startmux, ACE_TEXT("Failed to start audio muxer\n"));
+                infmt = GetAudioCodecAudioInputFormat(codec);
             }
+
+            if (infmt.IsValid())
+            {
+                bool startmux = newmuxer->RegisterMuxCallback(infmt,std::bind(&ClientNode::AudioMuxCallback, this, _1, _2));
+                MYTRACE_COND(!startmux, ACE_TEXT("Failed to start audio muxer\n"));
+                if (!startmux)
+                    return false;
+            }
+            else
+            {
+                return false;
+            }
+
+            m_audiomuxer_stream = newmuxer;
         }
         else
         {
@@ -4196,13 +4212,6 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
     // add "self" from muxed recording
     m_channelrecord.AddUser(LOCAL_TX_USERID, STREAMTYPE_VOICE, chan->GetChannelID());
 
-    // enable audio muxer callback
-    if (m_audiomuxer_stream)
-    {
-        bool startmux = m_audiomuxer_stream->RegisterMuxCallback(codec, std::bind(&ClientNode::AudioMuxCallback, this, _1, _2));
-        MYTRACE_COND(!startmux, ACE_TEXT("Failed to start audio muxer\n"));
-    }
-
     //start recorder for voice stream
     OpenAudioCapture(codec);
 }
@@ -4243,10 +4252,6 @@ void ClientNode::LeftChannel(ClientChannel& chan)
         CloseAudioCapture();
 
     m_voice_thread.StopEncoder();
-
-    // leaving channel so put AudioMuxer into clean state
-    if (m_audiomuxer_stream)
-        m_audiomuxer_stream->UnregisterMuxCallback();
 
     // remove "self" from muxed recording
     m_channelrecord.RemoveUser(LOCAL_TX_USERID, STREAMTYPE_VOICE);

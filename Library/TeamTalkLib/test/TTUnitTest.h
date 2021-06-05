@@ -75,4 +75,19 @@ public:
 
 ttinst InitTeamTalk();
 
+class abptr
+{
+private:
+    TTInstance* m_inst = nullptr;
+    AudioBlock* m_ab = nullptr;
+    abptr(const abptr&) = delete;
+    void operator=(const abptr&) = delete;
+public:
+    abptr(TTInstance* inst, AudioBlock* ab) : m_inst(inst), m_ab(ab) {}
+    ~abptr() { if (m_inst && m_ab) TT_ReleaseUserAudioBlock(m_inst, m_ab); }
+    operator AudioBlock*() { return m_ab; }
+    AudioBlock* operator->() const { return m_ab; }
+    operator bool() const { return m_ab != nullptr; }
+};
+
 #endif

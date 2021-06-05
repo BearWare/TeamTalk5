@@ -58,39 +58,37 @@ AudioMuxer::~AudioMuxer()
     MYTRACE(ACE_TEXT("~AudioMuxer()\n"));
 }
 
-bool AudioMuxer::Init(const teamtalk::AudioCodec& codec)
+bool AudioMuxer::Init(const media::AudioInputFormat& fmt)
 {
-    if (m_codec == codec)
+    if (m_inputformat == fmt)
         return true;
 
-    return StartThread(codec);
+    return StartThread(fmt);
 }
 
-bool AudioMuxer::StartThread(const teamtalk::AudioCodec& codec)
+bool AudioMuxer::StartThread(const media::AudioInputFormat& fmt)
 {
-    TTASSERT(m_codec == AudioCodec());
+    TTASSERT(m_inputformat == media::AudioInputFormat());
 
     TTASSERT(!m_thread);
     if (m_thread)
         return false;
 
     //mux interval
-    int samples = GetAudioCodecCbTotalSamples(codec);
-    TTASSERT(samples>0);
-    if(samples <= 0)
+    if (!fmt.IsValid())
         return false;
 
-    SetMuxInterval(GetAudioCodecCbMillis(codec));
+    m_muxed_buffer.assign(fmt.GetTotalSamples(), short(0));
 
-    MYTRACE(ACE_TEXT("Starting AudioMuxer with sample rate %d and callback %d\n"),
-            GetAudioCodecSampleRate(codec), GetAudioCodecCbSamples(codec));
+    m_inputformat = fmt;
 
-    m_muxed_buffer.assign(samples, short(0));
-
-    m_codec = codec;
+    SetMuxInterval(fmt.GetDurationMSec());
 
     m_sample_no = 0;
     m_last_flush_time = GETTIMESTAMP();
+
+    MYTRACE(ACE_TEXT("Starting AudioMuxer with sample rate %d and callback %d\n"),
+            fmt.fmt.samplerate, fmt.samples);
 
     m_thread.reset(new std::thread(&AudioMuxer::Run, this));
     return true;
@@ -110,7 +108,7 @@ void AudioMuxer::StopThread()
         m_reactor.reset_reactor_event_loop();
     }
 
-    m_codec = AudioCodec();
+    m_inputformat = media::AudioInputFormat();
     m_usermux_queue.clear();
     m_usermux_progress.clear();
     m_preprocess_queue.Reset();
@@ -121,7 +119,7 @@ void AudioMuxer::StopThread()
     }
 }
 
-bool AudioMuxer::RegisterMuxCallback(const teamtalk::AudioCodec& codec,
+bool AudioMuxer::RegisterMuxCallback(const media::AudioInputFormat& fmt,
                                      audiomuxer_callback_t cb)
 {
     if (m_muxcallback)
@@ -129,7 +127,7 @@ bool AudioMuxer::RegisterMuxCallback(const teamtalk::AudioCodec& codec,
 
     m_muxcallback = cb;
 
-    if (!Init(codec))
+    if (!Init(fmt))
     {
         m_muxcallback = {};
         return false;
@@ -147,7 +145,7 @@ void AudioMuxer::UnregisterMuxCallback()
 
 void AudioMuxer::RegisterMuxTick(audiomuxer_tick_t cb)
 {
-    assert(m_codec.codec == CODEC_NO_CODEC);
+    assert(!m_inputformat.IsValid());
     m_tickcallback = cb;
 }
 
@@ -176,12 +174,12 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
                           const ACE_TString& filename,
                           teamtalk::AudioFileFormat aff)
 {
-    if (FileActive() || !Init(codec))
+    if (FileActive() || !Init(GetAudioCodecAudioInputFormat(codec)))
         return false;
 
-    int samplerate = GetAudioCodecSampleRate(m_codec);
-    int channels = GetAudioCodecChannels(m_codec);
-    if (GetAudioCodecSimulateStereo(m_codec))
+    int samplerate = GetAudioCodecSampleRate(codec);
+    int channels = GetAudioCodecChannels(codec);
+    if (GetAudioCodecSimulateStereo(codec))
         channels = 2;
 
     bool success = false;
@@ -211,19 +209,19 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
     {
         int bitrate = 0, maxbitrate = 0;
         bool dtx = false;
-        switch(m_codec.codec)
+        switch(codec.codec)
         {
         case CODEC_SPEEX_VBR :
-            bitrate = m_codec.speex_vbr.bitrate;
-            maxbitrate = m_codec.speex_vbr.max_bitrate;
-            dtx = m_codec.speex_vbr.dtx;
+            bitrate = codec.speex_vbr.bitrate;
+            maxbitrate = codec.speex_vbr.max_bitrate;
+            dtx = codec.speex_vbr.dtx;
         case CODEC_SPEEX :
 #if ENABLE_SPEEXFILE
             m_speexfile.reset(new SpeexEncFile());
             success = m_speexfile->Open(filename,
-                                        GetSpeexBandMode(m_codec),
+                                        GetSpeexBandMode(codec),
                                         DEFAULT_SPEEX_COMPLEXITY,
-                                        (float)GetSpeexQuality(m_codec),
+                                        (float)GetSpeexQuality(codec),
                                         bitrate, maxbitrate, dtx);
             if (!success)
                 m_speexfile.reset();
@@ -233,8 +231,8 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
 #if defined(ENABLE_OPUSFILE)
             m_opusfile.reset(new OpusEncFile());
             success = m_opusfile->Open(filename, channels, samplerate,
-                                       GetAudioCodecFrameSize(m_codec),
-                                       m_codec.opus.application);
+                                       GetAudioCodecFrameSize(codec),
+                                       codec.opus.application);
             if (!success)
                 m_opusfile.reset();
 #endif
@@ -258,8 +256,8 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
 void AudioMuxer::CloseFile()
 {
     // write a silence block as the ending.
-    std::vector<short> ending(GetAudioCodecCbTotalSamples(m_codec));
-    int samples = GetAudioCodecCbSamples(m_codec);
+    std::vector<short> ending(m_inputformat.GetTotalSamples());
+    int samples = m_inputformat.samples;
 
     if (!m_muxcallback)
         StopThread();
@@ -317,7 +315,7 @@ bool AudioMuxer::QueueUserAudio(int userid, teamtalk::StreamType st,
     {
         MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Adding audio source #%d, streamtype: 0x%x\n"),
             GetUserID(key), GetStreamType(key));
-        m_preprocess_queue.AddAudioSource(userid, st, GetAudioCodecAudioFormat(m_codec));
+        m_preprocess_queue.AddAudioSource(userid, st, m_inputformat.fmt);
 
         // allocate queue so muxer will wait for audio source to provide enough samples
         std::unique_lock<std::recursive_mutex> g(m_mutex2_mux);
@@ -347,8 +345,8 @@ AudioMuxer::message_queue_t AudioMuxer::GetMuxQueue(int key)
     {
         // setup audio buffer queue for user prior to mixing streams
 
-        int bytes = GetAudioCodecCbBytes(m_codec);
-        int msec = GetAudioCodecCbMillis(m_codec);
+        int bytes = m_inputformat.GetBytes();
+        int msec = m_inputformat.GetDurationMSec();
         assert(msec > 0);
 
         // bytes between each mux interval
@@ -369,7 +367,7 @@ AudioMuxer::message_queue_t AudioMuxer::GetMuxQueue(int key)
 
 void AudioMuxer::SubmitMuxAudioFrame(int key, const media::AudioFrame& frm)
 {
-    assert(GetAudioCodecCbTotalSamples(m_codec) == (frm.input_samples * frm.inputfmt.channels) || frm.input_samples == 0);
+    assert((m_inputformat.fmt == frm.inputfmt && m_inputformat.samples == frm.input_samples) || frm.input_samples == 0);
 
     // MYTRACE(ACE_TEXT("Add audio from #%d to audiomuxer %p. Offset %u. Samples %d\n"),
     //         userid, this, sample_no, n_samples);
@@ -386,7 +384,7 @@ void AudioMuxer::SubmitMuxAudioFrame(int key, const media::AudioFrame& frm)
     {
         MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Buffer full for user #%d streamtype 0x%x, sampleindex %u, is last: %s. Dropping queue containing %d msec, %u/%u bytes\n"),
                 GetUserID(key), GetStreamType(key), frm.sample_no, (frm.input_samples == 0 ? ACE_TEXT("true"):ACE_TEXT("false")),
-                q->message_count() * GetAudioCodecCbMillis(m_codec), unsigned(q->message_bytes()), unsigned(q->high_water_mark()));
+                q->message_count() * m_inputformat.GetDurationMSec(), unsigned(q->message_bytes()), unsigned(q->high_water_mark()));
         q->flush();
         TTASSERT(q->message_count() == 0);
         //insert after flush, so it will appear as a new stream
@@ -484,15 +482,14 @@ ACE_Message_Block* AudioMuxer::BuildMuxAudioFrame(std::vector<ACE_Message_Block*
     }
 
     // check if it's already the correct format
-    if (frm.inputfmt == teamtalk::GetAudioCodecAudioFormat(m_codec) &&
-        frm.input_samples == teamtalk::GetAudioCodecCbSamples(m_codec))
+    if (frm.inputfmt == m_inputformat.fmt && frm.input_samples == m_inputformat.samples)
     {
         ACE_Message_Block* mb = mbs[0];
         mbs.erase(mbs.begin());
         return mb;
     }
 
-    return AudioFrameFromList(GetAudioCodecCbSamples(m_codec), mbs);
+    return AudioFrameFromList(m_inputformat.samples, mbs);
 }
 
 void AudioMuxer::SetMuxInterval(int msec)
@@ -500,8 +497,9 @@ void AudioMuxer::SetMuxInterval(int msec)
     // must be set prior to thread start
     assert(!m_thread);
 
-    int cbmsec = GetAudioCodecCbMillis(m_codec);
+    int cbmsec = m_inputformat.IsValid() ? m_inputformat.GetDurationMSec() : 0;
     cbmsec = std::max(msec, cbmsec);
+    assert(cbmsec > 0);
     m_mux_interval = ToTimeValue(cbmsec);
 }
 
@@ -553,8 +551,8 @@ void AudioMuxer::ProcessAudioQueues(bool flush)
         SubmitPreprocessQueue();
     }
 
-    int cb_msec = GetAudioCodecCbMillis(m_codec);
-    int cb_samples = GetAudioCodecCbSamples(m_codec);
+    int cb_msec = m_inputformat.GetDurationMSec();
+    int cb_samples = m_inputformat.samples;
     TTASSERT(cb_msec>0);
     TTASSERT(cb_samples>0);
     if(!cb_msec || !cb_samples)
@@ -687,7 +685,7 @@ teamtalk::StreamTypes AudioMuxer::MuxUserAudio()
     TTASSERT(m_usermux_queue.size());
     TTASSERT(m_muxed_buffer.size());
 
-    const int SAMPLES = GetAudioCodecCbSamples(m_codec);
+    const int SAMPLES = m_inputformat.samples;
     StreamTypes sts = STREAMTYPE_NONE;
     std::vector<ACE_Message_Block*> audio_blocks;
     user_audio_queue_t::iterator ii = m_usermux_queue.begin();
@@ -758,7 +756,7 @@ teamtalk::StreamTypes AudioMuxer::MuxUserAudio()
         }
     }
 
-    TTASSERT(int(m_muxed_buffer.size()) == GetAudioCodecCbTotalSamples(m_codec));
+    TTASSERT(int(m_muxed_buffer.size()) == m_inputformat.GetTotalSamples());
 
     if(audio_blocks.empty())
     {
@@ -770,9 +768,9 @@ teamtalk::StreamTypes AudioMuxer::MuxUserAudio()
         media::AudioFrame frm(audio_blocks[0]);
         frm.ApplyGain();
         TTASSERT(frm.input_samples);
-        TTASSERT(frm.input_samples == GetAudioCodecCbSamples(m_codec));
-        TTASSERT(frm.inputfmt == GetAudioCodecAudioFormat(m_codec));
-        TTASSERT(int(m_muxed_buffer.size()) == GetAudioCodecCbTotalSamples(m_codec));
+        TTASSERT(frm.input_samples == m_inputformat.samples);
+        TTASSERT(frm.inputfmt == m_inputformat.fmt);
+        TTASSERT(int(m_muxed_buffer.size()) == m_inputformat.GetTotalSamples());
         m_muxed_buffer.assign(frm.input_buffer, frm.input_buffer + m_muxed_buffer.size());
 
         //this is where we mux if there's more than one user
@@ -783,7 +781,7 @@ teamtalk::StreamTypes AudioMuxer::MuxUserAudio()
                 media::AudioFrame mfrm(audio_blocks[a]);
                 mfrm.ApplyGain();
                 TTASSERT(mfrm.input_buffer);
-                TTASSERT(mfrm.input_samples == GetAudioCodecCbSamples(m_codec));
+                TTASSERT(mfrm.input_samples == m_inputformat.samples);
                 for(size_t i=0;i<m_muxed_buffer.size();i++)
                 {
                     int val = int(m_muxed_buffer[i]) + mfrm.input_buffer[i];
@@ -806,15 +804,7 @@ teamtalk::StreamTypes AudioMuxer::MuxUserAudio()
 
 void AudioMuxer::WriteAudio(int cb_samples, teamtalk::StreamTypes sts)
 {
-    int channels = GetAudioCodecChannels(m_codec);
-    if(GetAudioCodecSimulateStereo(m_codec))
-        channels = 2;
-    int framesize = GetAudioCodecFrameSize(m_codec);
-    int samplerate = GetAudioCodecSampleRate(m_codec);
-    TTASSERT(cb_samples == GetAudioCodecFramesPerPacket(m_codec)*framesize);
-
-    media::AudioFrame frame(media::AudioFormat(samplerate, channels),
-                            &m_muxed_buffer[0], cb_samples, m_sample_no);
+    media::AudioFrame frame(m_inputformat.fmt, &m_muxed_buffer[0], cb_samples, m_sample_no);
     frame.userdata = sts;
     if (m_muxcallback)
     {
@@ -822,22 +812,22 @@ void AudioMuxer::WriteAudio(int cb_samples, teamtalk::StreamTypes sts)
     }
 
 #if ENABLE_SPEEXFILE
-    if(m_speexfile && framesize)
+    if(m_speexfile && m_inputformat.samples)
     {
         int ret = 0;
-        for(int i=0;i<cb_samples/framesize && ret >= 0;i++)
+        for(int i=0;i<cb_samples / m_inputformat.samples && ret >= 0;i++)
         {
-            ret = m_speexfile->Encode(&m_muxed_buffer[i*framesize*channels]);
+            ret = m_speexfile->Encode(&m_muxed_buffer[i * m_inputformat.GetTotalSamples()]);
         }
     }
 #endif
 
 #if defined(ENABLE_OPUSFILE)
-    if(m_opusfile && framesize)
+    if(m_opusfile && m_inputformat.samples)
     {
         int ret = 0;
-        for(int i=0;i<cb_samples/framesize && ret >= 0;i++)
-            ret = m_opusfile->Encode(&m_muxed_buffer[i*framesize*channels], framesize, false);
+        for(int i=0;i<cb_samples/m_inputformat.samples && ret >= 0;i++)
+            ret = m_opusfile->Encode(&m_muxed_buffer[ i * m_inputformat.GetTotalSamples()], m_inputformat.samples, false);
     }
 #endif
 

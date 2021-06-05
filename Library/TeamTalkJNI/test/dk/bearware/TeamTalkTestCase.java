@@ -1455,6 +1455,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
                 assertTrue("block valid", block != null);
                 assertTrue("aud block has samples", block.nSamples > 0);
+                assertEquals("channel samplerate", chan.audiocodec.opus.nSampleRate, block.nSampleRate);
                 receiveSamples -= block.nSamples;
                 fs.write(block.lpRawAudio);
             } while (receiveSamples > 0);
@@ -1467,6 +1468,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 assertEquals("muxed userid", Constants.TT_MUXED_USERID, msg.nSource);
                 AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
                 assertTrue("block valid", block != null);
+                assertEquals("channel samplerate", chan.audiocodec.opus.nSampleRate, block.nSampleRate);
                 receiveSamples -= block.nSamples;
                 fs.write(block.lpRawAudio);
             } while (receiveSamples > 0);
@@ -1482,6 +1484,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                     assertEquals("muxed userid", Constants.TT_MUXED_USERID, msg.nSource);
                     AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
                     assertTrue("block valid", block != null);
+                    assertEquals("channel samplerate", chan.audiocodec.opus.nSampleRate, block.nSampleRate);
                     receiveSamples -= block.nSamples;
                     fs.write(block.lpRawAudio);
                 } while (receiveSamples > 0);
@@ -1499,6 +1502,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 assertEquals("muxed userid", Constants.TT_MUXED_USERID, msg.nSource);
                 AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
                 assertTrue("block valid", block != null);
+                assertEquals("channel samplerate", chan.audiocodec.opus.nSampleRate, block.nSampleRate);
                 receiveSamples -= block.nSamples;
                 fs.write(block.lpRawAudio);
             } while (receiveSamples > 0);
@@ -1510,13 +1514,13 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
             assertTrue("cleared audio blocks", rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_MUXED_USERID) == null);
 
-            assertTrue("enable aud cb again", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, true));
-
-            assertFalse("no audio mux when out of channel", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 500));
+            assertFalse("no audio mux after disable", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 500));
 
             chan = buildDefaultChannel(rxclient, "Speex VBR", Codec.SPEEX_VBR_CODEC);
 
             assertTrue("join", waitCmdSuccess(rxclient, rxclient.doJoinChannel(chan), DEF_WAIT));
+
+            assertTrue("enable aud cb again", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, true));
 
             assertTrue("get new chan", rxclient.getChannel(rxclient.getMyChannelID(), chan));
         }
@@ -1566,6 +1570,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
             assertTrue("leave spx", waitCmdSuccess(rxclient, rxclient.doLeaveChannel(), DEF_WAIT));
 
+            assertTrue("disable aud cb again", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, false));
+
             assertFalse("no audio mux when out of channel", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 500));
 
             // drain any remaining audio blocks
@@ -1573,11 +1579,14 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
             // ensure 'muxfileoutput.wav' will continue writing again
             chan = buildDefaultChannel(rxclient, "Opus - Muxed secondary", Codec.OPUS_CODEC);
+            chan.audiocodec.opus.nSampleRate = 12000;
             chan.audiocodec.opus.nChannels = 2;
             chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_AUDIO;
             chan.audiocodec.opus.bDTX = false;
 
             assertTrue("join", waitCmdSuccess(rxclient, rxclient.doJoinChannel(chan), DEF_WAIT));
+
+            assertTrue("enable aud cb again", rxclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, true));
 
             assertTrue("get new chan", rxclient.getChannel(rxclient.getMyChannelID(), chan));
             receiveSamples = chan.audiocodec.opus.nSampleRate;
@@ -1587,6 +1596,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
                 assertTrue("block valid", block != null);
                 assertTrue("aud block has samples", block.nSamples > 0);
+                assertEquals("12khz", chan.audiocodec.opus.nSampleRate, block.nSampleRate);
                 receiveSamples -= block.nSamples;
             } while (receiveSamples > 0);
         }
@@ -1684,7 +1694,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("vox", ttclient.enableVoiceTransmission(true));
 
         AudioFormat fmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 8000, 2);
-        int framesize = (int)((chan.audiocodec.opus.nTxIntervalMSec / 1000.) * fmt.nSampleRate);
+        int chan_framesize = (int)((chan.audiocodec.opus.nTxIntervalMSec / 1000.) * fmt.nSampleRate);
+        int mux_framesize = (int)((20 / 1000.) * fmt.nSampleRate);
 
         // test for TT_LOCAL_USERID
         assertTrue("enable aud cb", ttclient.enableAudioBlockEvent(Constants.TT_LOCAL_USERID, StreamType.STREAMTYPE_VOICE, fmt, true));
@@ -1698,7 +1709,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("stereo", fmt.nChannels, ab.nChannels);
         assertEquals("sample rate", fmt.nSampleRate, ab.nSampleRate);
-        assertEquals("frame size matches", framesize, ab.nSamples);
+        assertEquals("frame size matches", chan_framesize, ab.nSamples);
 
         assertTrue("gimme next voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
 
@@ -1706,7 +1717,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("retrieve next audioblock", ab2 != null);
 
         assertEquals("same sample rate", fmt.nSampleRate, ab2.nSampleRate);
-        assertEquals("sample counter matches", ab.uSampleIndex + framesize, ab2.uSampleIndex);
+        assertEquals("sample counter matches", ab.uSampleIndex + chan_framesize, ab2.uSampleIndex);
 
         assertTrue("disable local userid", ttclient.enableAudioBlockEvent(Constants.TT_LOCAL_USERID, StreamType.STREAMTYPE_VOICE, null, false));
         while (ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, Constants.TT_LOCAL_USERID) != null);
@@ -1721,14 +1732,14 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("stereo in muxed", fmt.nChannels, ab.nChannels);
         assertEquals("sample rate in muxed", fmt.nSampleRate, ab.nSampleRate);
-        assertEquals("frame size matches in muxed", framesize, ab.nSamples);
+        assertEquals("frame size matches in muxed", mux_framesize, ab.nSamples);
 
         assertTrue("gimme next voice audioblock from muxed", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
         ab2 = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
         assertTrue("retrieve next audioblock from muxed", ab2 != null);
 
         assertEquals("same sample rate for muxed", fmt.nSampleRate, ab2.nSampleRate);
-        assertEquals("sample counter matches for muxed", ab.uSampleIndex + framesize, ab2.uSampleIndex);
+        assertEquals("sample counter matches for muxed", ab.uSampleIndex + mux_framesize, ab2.uSampleIndex);
     }
 
     @Test
@@ -4065,7 +4076,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("disconnect", ttclient.disconnect());
 
         // try joining new sub channel in existing channel (requires USERRIGHT_MODIFY_CHANNELS)
-        
+
         USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
 
