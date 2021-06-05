@@ -4615,7 +4615,7 @@ extern "C" {
      *
      * When using #TT_MUXED_USERID as user ID the #TTInstance must be
      * in a channel with a configured #AudioCodec. Alternatively use
-     * @lpAudioFormat to specify the audio properties.
+     * @c lpAudioFormat to specify the audio properties.
      *
      * @param uStreamTypes Either #STREAMTYPE_VOICE,
      * #STREAMTYPE_MEDIAFILE_AUDIO or #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
