@@ -832,7 +832,7 @@ void AudioMuxer::WriteAudio(int cb_samples, teamtalk::StreamTypes sts)
 #endif
 
 #if defined(ENABLE_MEDIAFOUNDATION)
-    if(m_mp3encoder && framesize)
+    if(m_mp3encoder && m_inputformat.samples)
     {
         m_mp3encoder->ProcessAudioEncoder(frame, true);
     }
