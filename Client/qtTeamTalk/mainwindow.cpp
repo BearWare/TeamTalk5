@@ -521,7 +521,6 @@ MainWindow::MainWindow(const QString& cfgfile)
     //pull using a timer
     m_timers.insert(startTimer(20), TIMER_PROCESS_TTEVENT);
 #endif
-    ui.channelsWidget->installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
@@ -6198,21 +6197,4 @@ void MainWindow::slotTextChanged()
 void MainWindow::slotEnableVoiceActivation(bool checked)
 {
     slotMeEnableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
-}
-
-bool MainWindow::eventFilter(QObject *object, QEvent *event)
-{
-    if (object == ui.channelsWidget && event->type() == QEvent::KeyPress)
-    {
-        QTreeWidgetItem* item = ui.channelsWidget->currentItem();
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key_Right)
-        {
-            ui.channelsWidget->filterExpand(item);
-            return true;
-        }
-        else
-            return false;
-    }
-    return false;
 }

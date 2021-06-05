@@ -79,7 +79,6 @@ public:
     void setShowUsername();
     void setShowLastToTalk(bool show);
     void updateItemTextLength(int new_length);
-    void filterExpand(QTreeWidgetItem* item);
 
 signals:
     void userDoubleClicked(int);
@@ -96,6 +95,7 @@ protected:
     void dropEvent(QDropEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent * event);
+    bool eventFilter(QObject *object, QEvent *event);
 
 private:
     typedef QMap<int, UserStatistics> statistics_t;
