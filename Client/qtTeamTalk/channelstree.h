@@ -95,6 +95,7 @@ protected:
     void dropEvent(QDropEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent * event);
+    bool eventFilter(QObject *object, QEvent *event);
 
 private:
     typedef QMap<int, UserStatistics> statistics_t;

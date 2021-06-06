@@ -23,6 +23,7 @@ Default QT Client
 - Uniformize defaults sound files with classic client
 - More TTS events
 - URLs in chat history can be activated using Enter key
+- Pressing right key in channels tree no longer move to empties columns
 Android Client
 -
 iOS Client
