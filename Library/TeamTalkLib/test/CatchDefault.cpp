@@ -1439,7 +1439,7 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
     AudioCodec ac = MakeDefaultAudioCodec(OPUS_CODEC);
     ac.opus.nSampleRate = 48000;
     ac.opus.nChannels = 2;
-    ac.opus.nTxIntervalMSec = 120;
+    ac.opus.nTxIntervalMSec = 240;
 #if defined(OPUS_FRAMESIZE_120_MS)
     ac.opus.nFrameSizeMSec = 120;
 #else
