@@ -201,6 +201,10 @@ bool WavePCMFile::NewFile(const ACE_TString& filename, int samplerate, int chann
     }
 }
 
+bool WavePCMFile::NewFile(const ACE_TString& filename, const media::AudioFormat& fmt)
+{
+    return NewFile(filename, fmt.samplerate, fmt.channels);
+}
 
 void WavePCMFile::Close()
 {

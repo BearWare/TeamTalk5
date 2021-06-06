@@ -162,6 +162,46 @@ bool JoinRoot(TTInstance* ttClient)
     return WaitForCmdSuccess(ttClient, TT_DoJoinChannelByID(ttClient, chanid, ACE_TEXT("")));
 }
 
+AudioCodec MakeDefaultAudioCodec(Codec codec)
+{
+    AudioCodec result = {};
+    result.nCodec = codec;
+    switch (codec)
+    {
+    case SPEEX_CODEC:
+        result.speex.nQuality = 4;
+        result.speex.nBandmode = 1;
+        result.speex.nTxIntervalMSec = 40;
+        result.speex.bStereoPlayback = FALSE;
+        break;
+    case SPEEX_VBR_CODEC:
+        result.speex_vbr.nQuality = 4;
+        result.speex_vbr.nBandmode = 1;
+        result.speex_vbr.nTxIntervalMSec = 40;
+        result.speex_vbr.bStereoPlayback = FALSE;
+        result.speex_vbr.nBitRate = 0;
+        result.speex_vbr.nMaxBitRate = 0;
+        result.speex_vbr.bDTX = TRUE;
+        break;
+    case OPUS_CODEC:
+        result.opus.nApplication = OPUS_APPLICATION_VOIP;
+        result.opus.nSampleRate = 48000;
+        result.opus.nChannels = 1;
+        result.opus.nTxIntervalMSec = 40;
+        result.opus.nComplexity = 10;
+        result.opus.bVBR = TRUE;
+        result.opus.bVBRConstraint = FALSE;
+        result.opus.bDTX = FALSE;
+        result.opus.bFEC = TRUE;
+        result.opus.nBitRate = 32000;
+        break;
+    case NO_CODEC :
+    case WEBM_VP8_CODEC :
+        break;
+    }
+    return result;
+}
+
 Channel MakeChannel(TTInstance* ttClient, const TTCHAR* name, int parentid, const AudioCodec& codec)
 {
     Channel chan = {};

@@ -47,6 +47,7 @@ BEGIN_MESSAGE_MAP(CFilesListCtrl, CListCtrl)
     ON_NOTIFY(HDN_DIVIDERDBLCLICKA, 0, OnHdnDividerdblclick)
     ON_NOTIFY(HDN_DIVIDERDBLCLICKW, 0, OnHdnDividerdblclick)
     ON_NOTIFY_REFLECT(LVN_BEGINDRAG, OnLvnBegindrag)
+    ON_WM_CONTEXTMENU()
 END_MESSAGE_MAP()
 
 
@@ -110,4 +111,41 @@ void CFilesListCtrl::OnLvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
     //::GlobalUnlock (hData);
 
     *pResult = 0;
+}
+
+
+void CFilesListCtrl::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
+{
+    CMenu* menu = AfxGetMainWnd()->GetMenu();
+
+    CMenu* pop;
+    pop = menu->GetSubMenu(TEAMTALK_MENU_CHANNELS);
+
+    /* If activated by the keyboard, get
+        * the position of the selected item
+        */
+    if (point.x == -1)
+    {
+        RECT rect;
+        GetWindowRect(&rect);
+        /* Offset the popup menu origin so
+         * we can read some of the text
+         */
+        point.x = rect.left + 15;
+        point.y = rect.top + 8;
+    }
+
+    /* To ensure that commands and menu update handling is done
+     * properly, make the parent of the menu the main frame window
+     */
+    CWnd* pMenuParent = AfxGetMainWnd();
+    UINT uCmd = pop->TrackPopupMenu(TPM_RETURNCMD | TPM_LEFTALIGN |
+        TPM_RIGHTBUTTON, point.x, point.y,
+        pMenuParent, NULL);
+    /* Menu item chosen ? */
+    if (uCmd != 0)
+    {
+        /* Execute the selected menu command */
+        pMenuParent->SendMessage(WM_COMMAND, uCmd, 0);
+    }
 }

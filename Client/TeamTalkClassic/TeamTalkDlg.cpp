@@ -5212,8 +5212,8 @@ void CTeamTalkDlg::Translate()
     menu.ModifyMenu(4, MF_BYPOSITION | MF_STRING, 0, szServer);
     menu.ModifyMenu(5, MF_BYPOSITION | MF_STRING, 0, szHelp);
 
-    ASSERT(menu.GetSubMenu(2));
-    CMenu* sub = menu.GetSubMenu(2);
+    ASSERT(menu.GetSubMenu(TEAMTALK_MENU_USERS));
+    CMenu* sub = menu.GetSubMenu(TEAMTALK_MENU_USERS);
 
     sub->ModifyMenu(0, MF_BYPOSITION | MF_STRING, 0, szUserInfo);
     sub->ModifyMenu(5, MF_BYPOSITION | MF_STRING, 0, szMute);
@@ -5221,7 +5221,7 @@ void CTeamTalkDlg::Translate()
     sub->ModifyMenu(7, MF_BYPOSITION | MF_STRING, 0, szSubscriptions);
     sub->ModifyMenu(8, MF_BYPOSITION | MF_STRING, 0, szAdvanced);
 
-    sub = menu.GetSubMenu(3);
+    sub = menu.GetSubMenu(TEAMTALK_MENU_CHANNELS);
     sub->ModifyMenu(0, MF_BYPOSITION | MF_STRING, 0, szChanInfo);
 
     //redraw

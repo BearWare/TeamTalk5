@@ -44,6 +44,7 @@ namespace teamtalk
     int GetAudioCodecBitRate(const AudioCodec& codec);
     int GetAudioCodecMaxPacketBitrate(const AudioCodec& codec);
     media::AudioFormat GetAudioCodecAudioFormat(const AudioCodec& codec);
+    media::AudioInputFormat GetAudioCodecAudioInputFormat(const AudioCodec& codec);
 
     int GetSpeexBandMode(const AudioCodec& codec);
     int GetSpeexQuality(const AudioCodec& codec);

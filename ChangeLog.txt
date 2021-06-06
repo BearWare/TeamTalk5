@@ -24,6 +24,7 @@ Default QT Client
 - More TTS events
 - URLs in chat history can be activated using Enter key
 - Paste a text at the start of the first line of the filename in the CTRL + S dialog now replaces the text of that line
+- Pressing right key in channels tree no longer move to empties columns
 Android Client
 -
 iOS Client

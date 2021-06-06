@@ -102,6 +102,26 @@ namespace media
         }
     };
 
+    struct AudioInputFormat
+    {
+        AudioFormat fmt;
+        int samples = 0;
+        AudioInputFormat(const AudioFormat& f, int s) : fmt(f), samples(s) {}
+        AudioInputFormat() {}
+        bool IsValid() const { return fmt.IsValid() && samples > 0; }
+        int GetDurationMSec() const;
+        int GetTotalSamples() const;
+        int GetBytes() const;
+        bool operator==(const AudioInputFormat& f) const
+        {
+            return fmt == f.fmt && samples == f.samples;
+        }
+        bool operator!=(const AudioInputFormat& f) const
+        {
+            return fmt != f.fmt || samples != f.samples;
+        }
+    };
+
 // Returns number of bytes from number of 'samples' with 'channels'
 #define PCM16_BYTES(samples, channels) ((samples) * (channels) * sizeof(short))
 // Returns number of msec from number of 'bytes' with 'channels' at given 'samplerate'
