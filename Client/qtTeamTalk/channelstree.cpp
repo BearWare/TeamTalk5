@@ -1480,17 +1480,17 @@ bool ChannelsTree::eventFilter(QObject *object, QEvent *event)
 {
     if (object == this && event->type() == QEvent::KeyPress)
     {
-        if(QTreeWidgetItem* item = currentItem())
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Right)
         {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-            if (keyEvent->key() == Qt::Key_Right)
+            if (QTreeWidgetItem* item = currentItem())
             {
-                if((item->type() & CHANNEL_TYPE) && !item->isExpanded())
+                if ((item->type() & CHANNEL_TYPE) && !item->isExpanded())
+                {
                     item->setExpanded(true);
-                return true;
+                    return true;
+                }
             }
-            else
-                return false;
         }
     }
     return false;
