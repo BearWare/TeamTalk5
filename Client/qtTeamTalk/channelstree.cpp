@@ -1191,6 +1191,11 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if(!talking && m_showlasttalk && userid == m_last_talker_id)
             bgColor = QBrush(COLOR_LASTTALK);
         item->setBackground(COLUMN_ITEM, bgColor);
+        item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Allow channel messages transmission")));
+        item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Allow voice transmission")));
+        item->setData(COLUMN_VIDEO, Qt::AccessibleTextRole, QString(tr("Allow video transmission")));
+        item->setData(COLUMN_DESKTOP, Qt::AccessibleTextRole, QString(tr("Allow desktop transmission")));
+        item->setData(COLUMN_MEDIAFILE, Qt::AccessibleTextRole, QString(tr("Allow media files transmission")));
     }
 
     m_ignore_item_changes = false;
@@ -1489,8 +1494,12 @@ bool ChannelsTree::eventFilter(QObject *object, QEvent *event)
                 {
                     item->setExpanded(true);
                 }
-                return true;
+                else if ((item->type() & USER_TYPE))
+                {
+                    QTreeWidget::keyPressEvent(keyEvent);
+                }
             }
+            return true;
         }
     }
     return false;
