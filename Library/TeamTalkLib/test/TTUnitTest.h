@@ -48,6 +48,7 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev 
 bool Connect(TTInstance* ttClient, const TTCHAR* hostname = ACE_TEXT("127.0.0.1"), INT32 tcpport = 10333, INT32 udpport = 10333, TTBOOL encrypted = FALSE);
 bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR* username = ACE_TEXT("guest"), const TTCHAR* passwd = ACE_TEXT("guest"));
 bool JoinRoot(TTInstance* ttClient);
+AudioCodec MakeDefaultAudioCodec(Codec codec);
 Channel MakeChannel(TTInstance* ttClient, const TTCHAR* name, int parentid, const AudioCodec& codec);
 bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage* outmsg = nullptr, int timeout = DEFWAIT);
 bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg, int timeout = DEFWAIT);
