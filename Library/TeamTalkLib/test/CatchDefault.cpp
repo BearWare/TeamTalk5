@@ -1431,6 +1431,88 @@ TEST_CASE( "AudioMuxerStreamTypeRecording" )
     REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
 }
 
+TEST_CASE("AudioMuxerMixedAudioblockStream")
+{
+    // This test case reproduces a problem in which the Audioblock output stops
+    // after playing a file.
+    
+    AudioCodec ac = MakeDefaultAudioCodec(OPUS_CODEC);
+    ac.opus.nSampleRate = 48000;
+    ac.opus.nChannels = 2;
+    ac.opus.nTxIntervalMSec = 120;
+#if defined(OPUS_FRAMESIZE_120_MS)
+    ac.opus.nFrameSizeMSec = 120;
+#else
+    ac.opus.nFrameSizeMSec = 40;
+#endif
+
+    TTCHAR filename[TT_STRLEN] = ACE_TEXT("testdata/Opus/on.ogg");
+
+    auto ttclient = InitTeamTalk();
+    REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+
+    auto chan = MakeChannel(ttclient, ACE_TEXT("Channel5"), TT_GetRootChannelID(ttclient), ac);
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoJoinChannel(ttclient, &chan)));
+
+    AudioFormat af;
+    af.nAudioFmt = AFF_WAVE_FORMAT;
+    af.nChannels = 1;
+    af.nSampleRate = 8000;
+    REQUIRE(TT_EnableAudioBlockEventEx(ttclient, TT_MUXED_USERID, STREAMTYPE_VOICE | STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, &af, TRUE));
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.NewFile(ACE_TEXT("channel5mix.wav"), af.nSampleRate, af.nChannels));
+
+    uint32_t starttime = GETTIMESTAMP();
+    uint32_t durationMSec = 0;
+
+    int silenceBlockCount = 0;
+    bool playoutstarted = false;
+    TTMessage msg;
+
+    while (durationMSec < 3000)
+    {
+        REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+        std::cout << "Audioblock received" << std::endl;
+        StreamType streamtype = static_cast<StreamType>(msg.nStreamType);
+        AudioBlock* ttAudioblock = TT_AcquireUserAudioBlock(ttclient, streamtype, msg.nSource);
+        REQUIRE(ttAudioblock);
+        REQUIRE(ttAudioblock->nSamples == int(ttAudioblock->nSampleRate * .02));
+        REQUIRE(ttAudioblock->nSampleRate == af.nSampleRate);
+        REQUIRE(ttAudioblock->nChannels == af.nChannels);
+        wavfile.AppendSamples(reinterpret_cast<const short*>(ttAudioblock->lpRawAudio), ttAudioblock->nSamples);
+
+        std::cout << "....Audioblock has audio: " << (ttAudioblock->uStreamTypes != STREAMTYPE_NONE) << ", type: " << ttAudioblock->uStreamTypes << std::endl;
+
+        if (ttAudioblock->uStreamTypes == STREAMTYPE_NONE)
+        {
+            silenceBlockCount++;
+        }
+
+        // Start playout after receving a few block without audio. 
+        // Not required to reproduce the problem, but the mechanism might be useful
+        // for debugging purpose
+        if (!playoutstarted && (silenceBlockCount > 1))
+        {
+            MediaFilePlayback mfp = {};
+            mfp.bPaused = FALSE;
+            mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+
+            INT32 session = TT_InitLocalPlayback(ttclient, filename, &mfp);
+            REQUIRE(session > 0);
+            std::cout << "Playout started" << std::endl;
+            playoutstarted = true;
+        }
+        REQUIRE(TT_ReleaseUserAudioBlock(ttclient, ttAudioblock));
+
+        durationMSec = GETTIMESTAMP() - starttime;
+    }
+}
+
+
+
 #if defined(ENABLE_OGG)
 TEST_CASE( "Opus Read File" )
 {
