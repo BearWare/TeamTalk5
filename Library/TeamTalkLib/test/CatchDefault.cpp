@@ -1451,9 +1451,10 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
     auto ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
-    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("admin"), ACE_TEXT("admin")));
 
     auto chan = MakeChannel(ttclient, ACE_TEXT("Channel5"), TT_GetRootChannelID(ttclient), ac);
+    chan.uChannelType = CHANNEL_PERMANENT | CHANNEL_HIDDEN;
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoJoinChannel(ttclient, &chan)));
 
     AudioFormat af;
@@ -1509,6 +1510,8 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
 
         durationMSec = GETTIMESTAMP() - starttime;
     }
+
+    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoRemoveChannel(ttclient, TT_GetMyChannelID(ttclient))));
 }
 
 
