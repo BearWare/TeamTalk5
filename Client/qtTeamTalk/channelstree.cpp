@@ -1488,8 +1488,8 @@ bool ChannelsTree::eventFilter(QObject *object, QEvent *event)
                 if ((item->type() & CHANNEL_TYPE) && !item->isExpanded())
                 {
                     item->setExpanded(true);
-                    return true;
                 }
+                return true;
             }
         }
     }
