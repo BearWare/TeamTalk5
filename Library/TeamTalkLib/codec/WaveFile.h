@@ -75,6 +75,7 @@ public:
     ~WavePCMFile();
 
     bool NewFile(const ACE_TString& filename, int samplerate, int channels);
+    bool NewFile(const ACE_TString& filename, const media::AudioFormat& fmt);
     bool OpenFile(const ACE_TString& filename, bool readonly);
     void Close();
     bool AppendSamples(const short* buffer, int samples_len);
