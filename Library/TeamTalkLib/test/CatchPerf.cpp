@@ -28,6 +28,7 @@
 
 #include <ace/OS.h>
 #include "TTUnitTest.h"
+#include <codec/WaveFile.h>
 
 #include <myace/MyACE.h>
 
@@ -315,6 +316,79 @@ TEST_CASE("AudioMuxerAllStreamTypesIntoAudioBlock")
     REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
 }
 
+TEST_CASE( "AudioMuxerPauseLocalPlayback" )
+{
+    // pause local playback and ensure we continue to receive AudioBlocks with uStreamTypes == STREAMTYPE_NONE
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = 2;
+    mfi.audioFmt.nSampleRate = 48000;
+    mfi.uDurationMSec = 10 * 1000;
+    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("tone500hz.wav"));
+
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    auto ttclient = InitTeamTalk();
+
+    REQUIRE(InitSound(ttclient));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Login(ttclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(JoinRoot(ttclient));
+
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    mfp.bPaused = FALSE;
+
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.NewFile(ACE_TEXT("tone500hz_mix.wav"), mfi.audioFmt.nSampleRate, mfi.audioFmt.nChannels));
+
+    auto session = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
+    REQUIRE(session > 0);
+
+    auto sts = STREAMTYPE_VOICE | STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO;
+    REQUIRE(TT_EnableAudioBlockEventEx(ttclient, TT_MUXED_USERID, sts, &mfi.audioFmt, TRUE));
+
+    TTMessage msg;
+    int oneSecPlayback = mfi.audioFmt.nSampleRate;
+    while (oneSecPlayback > 0 && WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg))
+    {
+        abptr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
+        wavfile.AppendSamples(reinterpret_cast<const short*>(ab->lpRawAudio), ab->nSamples);
+        if (ab->uStreamTypes == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO)
+            oneSecPlayback -= ab->nSamples;
+    }
+
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
+    abptr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
+    wavfile.AppendSamples(reinterpret_cast<const short*>(ab->lpRawAudio), ab->nSamples);
+    REQUIRE(ab->uStreamTypes == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO);
+
+    mfp.bPaused = TRUE;
+    REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+
+    int oneSecSilence = mfi.audioFmt.nSampleRate;
+    while (oneSecSilence > 0 && WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg))
+    {
+        abptr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
+        wavfile.AppendSamples(reinterpret_cast<const short*>(ab->lpRawAudio), ab->nSamples);
+        if (ab->uStreamTypes == STREAMTYPE_NONE)
+            oneSecSilence -= ab->nSamples;
+    }
+
+    mfp.bPaused = FALSE;
+    REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
+
+    oneSecPlayback = mfi.audioFmt.nSampleRate;
+    while (oneSecPlayback > 0 && WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg))
+    {
+        abptr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
+        wavfile.AppendSamples(reinterpret_cast<const short*>(ab->lpRawAudio), ab->nSamples);
+        if (ab->uStreamTypes == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO)
+            oneSecPlayback -= ab->nSamples;
+    }
+
+}
 
 #if 0 // too many open files
 TEST_CASE("MaxUsersAndMaxChannels")
