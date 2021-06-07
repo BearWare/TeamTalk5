@@ -1191,11 +1191,11 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if(!talking && m_showlasttalk && userid == m_last_talker_id)
             bgColor = QBrush(COLOR_LASTTALK);
         item->setBackground(COLUMN_ITEM, bgColor);
-        item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Allow channel messages transmission")));
-        item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Allow voice transmission")));
-        item->setData(COLUMN_VIDEO, Qt::AccessibleTextRole, QString(tr("Allow video transmission")));
-        item->setData(COLUMN_DESKTOP, Qt::AccessibleTextRole, QString(tr("Allow desktop transmission")));
-        item->setData(COLUMN_MEDIAFILE, Qt::AccessibleTextRole, QString(tr("Allow media files transmission")));
+        item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Allow channel messages transmission: %1").arg(userCanChanMessage(userid, chan)?tr("Enabled"):tr("Disabled"))));
+        item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Allow voice transmission: %1").arg(userCanVoiceTx(userid, chan)?tr("Enabled"):tr("Disabled"))));
+        item->setData(COLUMN_VIDEO, Qt::AccessibleTextRole, QString(tr("Allow video transmission: %1").arg(userCanVideoTx(userid, chan)?tr("Enabled"):tr("Disabled"))));
+        item->setData(COLUMN_DESKTOP, Qt::AccessibleTextRole, QString(tr("Allow desktop transmission: %1").arg(userCanDesktopTx(userid, chan)?tr("Enabled"):tr("Disabled"))));
+        item->setData(COLUMN_MEDIAFILE, Qt::AccessibleTextRole, QString(tr("Allow media files transmission: %1").arg(userCanMediaFileTx(userid, chan)?tr("Enabled"):tr("Disabled"))));
     }
 
     m_ignore_item_changes = false;
