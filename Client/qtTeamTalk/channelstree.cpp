@@ -1490,11 +1490,12 @@ bool ChannelsTree::eventFilter(QObject *object, QEvent *event)
         {
             if (QTreeWidgetItem* item = currentItem())
             {
+                QTreeWidgetItem* parent = item->parent();
                 if ((item->type() & CHANNEL_TYPE) && !item->isExpanded())
                 {
                     item->setExpanded(true);
                 }
-                else if ((item->type() & USER_TYPE))
+                else if ((item->type() & USER_TYPE) && ((TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), (parent->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK))) || ((TT_GetMyUserType(ttInst) & USERTYPE_ADMIN))))
                 {
                     QTreeWidget::keyPressEvent(keyEvent);
                 }
