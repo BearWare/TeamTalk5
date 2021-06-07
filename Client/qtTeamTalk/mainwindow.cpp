@@ -1809,7 +1809,7 @@ void MainWindow::Disconnect()
 
 void MainWindow::login()
 {
-    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
 
     int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
                              _W(m_host.password), _W(QString(APPNAME_SHORT)));
@@ -1867,7 +1867,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
                 return;
             
             addLatestHost(m_host);
-            QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+            QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
             int cmdid = TT_DoLoginEx(ttInst, _W(nickname), 
                                      _W(m_host.username), _W(m_host.password), 
                                      _W(QString(APPNAME_SHORT)));
@@ -2118,7 +2118,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
         if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
         {
             //change to away status if idle-time has been exceeded
-            int idle_time = ttSettings->value(SETTINGS_GENERAL_AUTOAWAY).toInt();
+            int idle_time = ttSettings->value(SETTINGS_GENERAL_AUTOAWAY, SETTINGS_GENERAL_AUTOAWAY_DEFAULT).toInt();
             if(idle_time != 0)
             {
                 QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
@@ -3132,6 +3132,9 @@ void MainWindow::processDesktopInput(int userid, const DesktopInput& input)
 void MainWindow::startStreamMediaFile()
 {
     QString fileName = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(0)).toString();
+#if defined(Q_OS_WINDOWS)
+    fileName=fileName.remove('"');
+#endif
 
     VideoCodec vidcodec;
     vidcodec.nCodec = (Codec)ttSettings->value(SETTINGS_STREAMMEDIA_CODEC).toInt();
@@ -3576,6 +3579,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
         {
             m_host = HostEntry();
             getLatestHost(0, m_host);
+            m_channel_passwd[CHANNELID_TEMPPASSWORD] = m_host.chanpasswd;
             Connect();
         }
     }
@@ -3643,7 +3647,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     if((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) &&
         TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &myself))
     {
-        QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+        QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
         if(_Q(myself.szNickname) != nickname)
             TT_DoChangeNickname(ttInst, _W(nickname));
 
@@ -3769,7 +3773,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
     inputDialog.setOkButtonText(tr("&Ok"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
-    inputDialog.setTextValue(ttSettings->value(SETTINGS_GENERAL_NICKNAME, tr(SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString());
+    inputDialog.setTextValue(ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString());
     inputDialog.setWindowTitle(MENUTEXT(ui.actionChangeNickname->text()));
     inputDialog.setLabelText(tr("Specify new nickname"));
     ok = inputDialog.exec();

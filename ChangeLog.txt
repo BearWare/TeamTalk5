@@ -8,21 +8,22 @@ Accessible Windows Client
 - Improved performance of playback mode "All at once" for Sound Events
 Default QT Client
 - Single file audio recording can now include media file streams
-- Fix private message dialog not opening using CTRL+E or "Message" context menu in channels tree
-- Fix new line added at end of new private message
-- Fix send empties private message
-- Message area hidden at startup in "Video" and "Desktop" tabs
-- Focus moves to new message's edit field when opening private messages dialog
-- Fix labels in several dialogs
-- Send button hidden when message area is empty
-- Fix navigation using shift+tab
-- On Windows, propose to enable recommended TTS settings at first startup if screen reader is running
-- Other several accessibility improvements including some fixes for JAWS screen reader
-- Option to display update availability in a dialog box instead of chat history
+- Fixed private message dialog not opening using CTRL+E or "Message" context menu in channels tree
 - New sound events
-- Uniformize defaults sound files with classic client
-- More TTS events
+- Aligned defaults sound files with Accessible Windows Client
+- Windows client asks to enable text-to-speech at first startup if screen reader is running
+- Option to display software update in a dialog box instead of chat history
+- Send button hidden when new text message area is empty
+- Send text message area hidden at startup in "Video" and "Desktop" tabs
+- Several accessibility improvements including some fixes for JAWS screen reader
+- Additional TTS events in Preferences
 - URLs in chat history can be activated using Enter key
+- Paste a text at the start of the first line of the filename in the CTRL + S dialog now replaces the text of that line
+- Pressing right key in channels tree no longer move to empties columns
+- Removed new line added at end of new private message
+- Removed ability to send empty private text messages
+- Focus moves to private text message's edit field when opening private messages dialog
+- Fixed navigation using Shift+Tab
 Android Client
 -
 iOS Client

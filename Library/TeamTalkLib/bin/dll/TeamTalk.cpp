@@ -1790,6 +1790,7 @@ TEAMTALKDLL_API AudioBlock* TT_AcquireUserAudioBlock(IN TTInstance* lpTTInstance
     lpAudioBlock->lpRawAudio = frm.input_buffer;
     lpAudioBlock->nSamples = frm.input_samples;
     lpAudioBlock->uSampleIndex = frm.sample_no;
+    lpAudioBlock->uStreamTypes = frm.userdata;
 
     return lpAudioBlock;
 }

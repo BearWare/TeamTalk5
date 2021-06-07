@@ -54,6 +54,9 @@ private:
     void slotChangePreprocessor(int);
     void slotSetupPreprocessor(bool);
 
+protected:
+    bool eventFilter(QObject *object, QEvent *event);
+
 private:
     Ui::StreamMediaFileDlg ui;
     MediaFileInfo m_mediaFile = {};

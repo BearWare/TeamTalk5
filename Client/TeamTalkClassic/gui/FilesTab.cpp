@@ -199,7 +199,7 @@ void CFilesTab::OnNMRclickListFiles(NMHDR *pNMHDR, LRESULT *pResult)
     *pResult = 0;
     CMenu* menu = AfxGetMainWnd()->GetMenu();
     ASSERT(menu);
-    CMenu * pop = menu->GetSubMenu(3);
+    CMenu * pop = menu->GetSubMenu(TEAMTALK_MENU_CHANNELS);
     ASSERT(pop);
 
     CWnd * pMenuParent = AfxGetMainWnd();

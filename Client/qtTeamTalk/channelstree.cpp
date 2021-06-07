@@ -187,6 +187,7 @@ ChannelsTree::ChannelsTree(QWidget* parent)
 
     m_statTimerId = startTimer(500);
     m_questionTimerId = startTimer(1000);
+    this->installEventFilter(this);
 }
 
 int ChannelsTree::selectedChannel(bool include_user/* = false*/) const
@@ -1473,4 +1474,24 @@ void ChannelsTree::slotUserVideoFrame(int userid, int stream_id)
 {
     Q_UNUSED(userid);
     Q_UNUSED(stream_id);
+}
+
+bool ChannelsTree::eventFilter(QObject *object, QEvent *event)
+{
+    if (object == this && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Right)
+        {
+            if (QTreeWidgetItem* item = currentItem())
+            {
+                if ((item->type() & CHANNEL_TYPE) && !item->isExpanded())
+                {
+                    item->setExpanded(true);
+                }
+                return true;
+            }
+        }
+    }
+    return false;
 }

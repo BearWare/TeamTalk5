@@ -48,6 +48,7 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev 
 bool Connect(TTInstance* ttClient, const TTCHAR* hostname = ACE_TEXT("127.0.0.1"), INT32 tcpport = 10333, INT32 udpport = 10333, TTBOOL encrypted = FALSE);
 bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR* username = ACE_TEXT("guest"), const TTCHAR* passwd = ACE_TEXT("guest"));
 bool JoinRoot(TTInstance* ttClient);
+AudioCodec MakeDefaultAudioCodec(Codec codec);
 Channel MakeChannel(TTInstance* ttClient, const TTCHAR* name, int parentid, const AudioCodec& codec);
 bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage* outmsg = nullptr, int timeout = DEFWAIT);
 bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg, int timeout = DEFWAIT);
@@ -74,5 +75,20 @@ public:
 };
 
 ttinst InitTeamTalk();
+
+class abptr
+{
+private:
+    TTInstance* m_inst = nullptr;
+    AudioBlock* m_ab = nullptr;
+    abptr(const abptr&) = delete;
+    void operator=(const abptr&) = delete;
+public:
+    abptr(TTInstance* inst, AudioBlock* ab) : m_inst(inst), m_ab(ab) {}
+    ~abptr() { if (m_inst && m_ab) TT_ReleaseUserAudioBlock(m_inst, m_ab); }
+    operator AudioBlock*() { return m_ab; }
+    AudioBlock* operator->() const { return m_ab; }
+    operator bool() const { return m_ab != nullptr; }
+};
 
 #endif

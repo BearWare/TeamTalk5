@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.8.0.5038"
+#define TEAMTALK_VERSION "5.8.0.5041"
 
 
 #if defined(WIN32)
@@ -212,6 +212,67 @@ extern "C" {
 #define TT_MEDIAPLAYBACK_OFFSET_IGNORE 0xFFFFFFFF
 
 #endif /* TEAMTALK_TYPES */
+
+    /** @addtogroup transmission
+     * @{ */
+
+    /** @brief The types of streams which are available for
+     * transmission. */
+    typedef enum StreamType
+    {
+        /** @brief No stream. */
+        STREAMTYPE_NONE                     = 0x00000000,
+        /** @brief Voice stream type which is audio recorded from a
+         * sound input device. @see TT_InitSoundInputDevice() */
+        STREAMTYPE_VOICE                    = 0x00000001,
+        /** @brief Video capture stream type which is video recorded
+         * from a webcam. @see TT_InitVideoCaptureDevice() */
+        STREAMTYPE_VIDEOCAPTURE             = 0x00000002,
+        /** @brief Audio stream type from a media file which is being
+         * streamed. @see TT_StartStreamingMediaFileToChannel() */
+        STREAMTYPE_MEDIAFILE_AUDIO          = 0x00000004,
+        /** @brief Video stream type from a media file which is being
+         * streamed. @see TT_StartStreamingMediaFileToChannel() */
+        STREAMTYPE_MEDIAFILE_VIDEO          = 0x00000008,
+        /** @brief Desktop window stream type which is a window (or
+         * bitmap) being transmitted. @see TT_SendDesktopWindow() */
+        STREAMTYPE_DESKTOP                  = 0x00000010,
+        /** @brief Desktop input stream type which is keyboard or
+         * mouse input being transmitted. @see
+         * TT_SendDesktopInput() */
+        STREAMTYPE_DESKTOPINPUT             = 0x00000020,
+        /** @brief Shortcut to allow both audio and video media files. */
+        STREAMTYPE_MEDIAFILE                = STREAMTYPE_MEDIAFILE_AUDIO |
+                                              STREAMTYPE_MEDIAFILE_VIDEO,
+        /** @brief Channel text messages as stream type.
+         *
+         * A channel text message is not a stream but is only included
+         * as a stream type in order to be able to block messages
+         * using @c transmitUsers in #Channel struct.
+         *
+         * @see TT_DoUpdateChannel()
+         * @see CHANNEL_CLASSROOM. */
+        STREAMTYPE_CHANNELMSG               = 0x00000040,
+        /** @brief Stream type for audio of local playback.
+         *
+         *  TT_EnableAudioBlockEvent() can be used to intercept audio
+         *  from a local media playback.
+         *  @see TT_InitLocalPlayback() */
+        STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO = 0x00000080,
+
+        /** @brief Shortcut to allow voice, media files, desktop,
+         * webcamera and channel messages. */
+        STREAMTYPE_CLASSROOM_ALL            = STREAMTYPE_VOICE |
+                                              STREAMTYPE_VIDEOCAPTURE |
+                                              STREAMTYPE_DESKTOP |
+                                              STREAMTYPE_MEDIAFILE |
+                                              STREAMTYPE_CHANNELMSG,
+    } StreamType;
+
+    /** @brief Mask of #StreamType. */
+    typedef UINT32 StreamTypes;
+
+    /** @} */
 
     /** @addtogroup sounddevices
      * @{ */
@@ -617,6 +678,19 @@ extern "C" {
          * nSampleIndex will be greater than 0. When the user stops
          * talking @c nSampleIndex will be reset to 0 again. */
         UINT32 uSampleIndex;
+        /** @brief The stream types used to generate the AudioBlock's
+         * raw audio.
+         *
+         * When retrieving audio that has been mixed together from
+         * multiple sources it can be useful to know what stream types
+         * were mixed together to generate the AudioBlock.
+         *
+         * If 'uStreamTypes' is STREAMTYPE_NONE it means that silence
+         * was inserted. Silence is inserted if no audio was available
+         * for mixing or the duration from last audio packet was
+         * received and until @c nStoppedDelayVoice of #User has
+         * expired.  @see TT_MUXED_USERID */
+        StreamTypes uStreamTypes;
     } AudioBlock;
 
 /**
@@ -648,8 +722,7 @@ extern "C" {
  * into a single stream.
  *
  * This user ID is passed to TT_EnableAudioBlockEvent() in order to
- * receive #AudioBlock of audio that is played in the #TTInstance's
- * channel. */
+ * receive #AudioBlock of audio that is played by the #TTInstance. */
 #define TT_MUXED_USERID 0x1001 /* TT_USERID_MAX + 2 */
 
     /** @} */
@@ -1532,67 +1605,6 @@ extern "C" {
          * transmitted. */
         UINT32 uElapsedMSec;
     } AudioInputProgress;
-
-    /** @} */
-    
-    /** @addtogroup transmission
-     * @{ */
-
-    /** @brief The types of streams which are available for
-     * transmission. */
-    typedef enum StreamType
-    {
-        /** @brief No stream. */
-        STREAMTYPE_NONE                     = 0x00000000,
-        /** @brief Voice stream type which is audio recorded from a
-         * sound input device. @see TT_InitSoundInputDevice() */
-        STREAMTYPE_VOICE                    = 0x00000001,
-        /** @brief Video capture stream type which is video recorded
-         * from a webcam. @see TT_InitVideoCaptureDevice() */
-        STREAMTYPE_VIDEOCAPTURE             = 0x00000002,
-        /** @brief Audio stream type from a media file which is being
-         * streamed. @see TT_StartStreamingMediaFileToChannel() */
-        STREAMTYPE_MEDIAFILE_AUDIO          = 0x00000004,
-        /** @brief Video stream type from a media file which is being
-         * streamed. @see TT_StartStreamingMediaFileToChannel() */
-        STREAMTYPE_MEDIAFILE_VIDEO          = 0x00000008,
-        /** @brief Desktop window stream type which is a window (or
-         * bitmap) being transmitted. @see TT_SendDesktopWindow() */
-        STREAMTYPE_DESKTOP                  = 0x00000010,
-        /** @brief Desktop input stream type which is keyboard or
-         * mouse input being transmitted. @see
-         * TT_SendDesktopInput() */
-        STREAMTYPE_DESKTOPINPUT             = 0x00000020,
-        /** @brief Shortcut to allow both audio and video media files. */
-        STREAMTYPE_MEDIAFILE                = STREAMTYPE_MEDIAFILE_AUDIO |
-                                              STREAMTYPE_MEDIAFILE_VIDEO,
-        /** @brief Channel text messages as stream type.
-         *
-         * A channel text message is not a stream but is only included
-         * as a stream type in order to be able to block messages
-         * using @c transmitUsers in #Channel struct.
-         *
-         * @see TT_DoUpdateChannel()  
-         * @see CHANNEL_CLASSROOM. */
-        STREAMTYPE_CHANNELMSG               = 0x00000040,
-        /** @brief Stream type for audio of local playback.
-         *
-         *  TT_EnableAudioBlockEvent() can be used to intercept audio
-         *  from a local media playback.
-         *  @see TT_InitLocalPlayback() */
-        STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO = 0x00000080,
-
-        /** @brief Shortcut to allow voice, media files, desktop,
-         * webcamera and channel messages. */
-        STREAMTYPE_CLASSROOM_ALL            = STREAMTYPE_VOICE |
-                                              STREAMTYPE_VIDEOCAPTURE |
-                                              STREAMTYPE_DESKTOP |
-                                              STREAMTYPE_MEDIAFILE |
-                                              STREAMTYPE_CHANNELMSG,
-    } StreamType;
-
-    /** @brief Mask of #StreamType. */
-    typedef UINT32 StreamTypes;
 
     /** @} */
 
@@ -4534,35 +4546,15 @@ extern "C" {
 
     /**
      * @brief Enable/disable access to raw audio from individual
-     * users, local microphone input or muxed stream of all users.
+     * users, local microphone input or mixed stream of all users.
      *
-     * With audio block event enabled all audio which has been played
-     * will be accessible by calling TT_AcquireUserAudioBlock(). Every
-     * time a new #AudioBlock is available the event
-     * #CLIENTEVENT_USER_AUDIOBLOCK is generated.
+     * @deprecated Use TT_EnableAudioBlockEventEx().
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @param nUserID User ID has different meanings depending on
-     *  the #StreamType being passed.
-     *
-     * For #STREAMTYPE_VOICE:
-     * - Pass user ID to monitor for audio callback from voice stream.
-     * - Pass special user ID #TT_LOCAL_USERID to monitor
-     *   local recorded audio prior to encoding/processing.
-     * - Pass special user ID #TT_MUXED_USERID to get a single audio
-     *   stream of all audio that is being played from users.
-     * For #STREAMTYPE_MEDIAFILE_AUDIO:
-     * - Pass #TT_LOCAL_USERID to receive audio from media file being
-     *   streamed. @see TT_StartStreamingMediaFileToChannel().
-     * For #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO:
-     * - Pass session ID returned by TT_InitLocalPlayback() to receive
-     *   audio stream from local playback.
-     * - Pass #TT_LOCAL_USERID to receive audio stream from all local
-     *   playbacks.
-     * @param uStreamTypes Either #STREAMTYPE_VOICE,
-     * #STREAMTYPE_MEDIAFILE_AUDIO or #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
-     * @param bEnable Whether to enable the #CLIENTEVENT_USER_AUDIOBLOCK event.
+     * @param nUserID See description in TT_EnableAudioBlockEventEx()
+     * @param uStreamTypes See description in TT_EnableAudioBlockEventEx()
+     * @param bEnable See description in TT_EnableAudioBlockEventEx()
      * @see TT_AcquireUserAudioBlock()
      * @see TT_ReleaseUserAudioBlock()
      * @see CLIENTEVENT_USER_AUDIOBLOCK */
@@ -4572,17 +4564,78 @@ extern "C" {
                                                     IN TTBOOL bEnable);
 
     /**
-     * @brief Same as TT_EnableAudioBlockEvent() but option to specify
-     * audio output format.
+     * @brief Enable/disable access to raw audio from individual
+     * users, local microphone input or mixed stream of all users.
+     *
+     * With audio block event enabled all audio which has been played
+     * will be accessible by calling TT_AcquireUserAudioBlock(). Every
+     * time a new #AudioBlock is available the event
+     * #CLIENTEVENT_USER_AUDIOBLOCK is generated.
+     *
+     * Special user IDs can be used to retrieve certain types of audio
+     * from the client instance:
+     *
+     * - #TT_LOCAL_USERID
+     *   - Unprocessed audio from microphone when using #STREAMTYPE_VOICE.
+     *   - Decoded PCM16 when using #STREAMTYPE_MEDIAFILE_AUDIO.
+     *   - Decoded PCM16 when using #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
+     *     from all active local playbacks @see TT_InitLocalPlayback().
+     * - #TT_LOCAL_TX_USERID
+     *   - Processed audio from microphone that is transmitted to channel
+     *     when using #STREAMTYPE_VOICE.
+     *   - Not applicable for all other stream types except #STREAMTYPE_VOICE
+     * - #TT_MUXED_USERID
+     *   - Decoded PCM16 from all specified audio streams (#StreamTypes)
+     *     mixed into a single stream.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @param nUserID See description in TT_EnableAudioBlockEvent()
-     * @param uStreamTypes See description in TT_EnableAudioBlockEvent()
-     * @param lpAudioFormat Resample audio format from user to this #AudioFormat.
-     * Currently only AFF_WAVE_FORMAT is supported.
+     * @param nUserID User ID has different meanings depending on
+     *  the #StreamType being passed.
+     *
+     * For #STREAMTYPE_VOICE:
+     * - Pass user ID to receive audio from voice stream.
+     * - Pass special user ID #TT_LOCAL_USERID for audio callback from
+     *   local recorded audio prior to encoding/processing.
+     * - Pass special user ID #TT_MUXED_USERID to receive audio where
+     *   voice stream has been mixed into the single stream.
+     * For #STREAMTYPE_MEDIAFILE_AUDIO:
+     * - Pass user ID to receive audio from media stream.
+     * - Pass #TT_LOCAL_USERID to receive audio from media file being
+     *   streamed (transmitted). @see TT_StartStreamingMediaFileToChannel().
+     * - Pass special user ID #TT_MUXED_USERID to receive audio where
+     *   media stream has been mixed into the single stream.
+     * For #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO:
+     * - Pass session ID returned by TT_InitLocalPlayback() to receive
+     *   audio stream from local playback.
+     * - Pass #TT_LOCAL_USERID to receive audio stream from all local
+     *   playbacks.
+     * - Pass special user ID #TT_MUXED_USERID to receive audio where
+     *   local playback stream has been mixed into the single stream.
+     *
+     * When using #TT_MUXED_USERID as user ID the #TTInstance must be
+     * in a channel with a configured #AudioCodec. Alternatively use
+     * @c lpAudioFormat to specify the audio properties.
+     *
+     * @param uStreamTypes Either #STREAMTYPE_VOICE,
+     * #STREAMTYPE_MEDIAFILE_AUDIO or #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
+     * For #TT_MUXED_USERID it's possible to mix #StreamTypes so e.g.
+     * #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO **or'ed** with
+     * #STREAMTYPE_VOICE) will return an #AudioBlock where these two
+     * stream types have been mixed together.
+     *
+     * @param lpAudioFormat Resample audio format from user to this
+     * #AudioFormat. Currently only #AFF_WAVE_FORMAT is supported.
      * Specify NULL to get original audio format.
+     *
+     * When using #TT_MUXED_USERID as user ID in combination with @c
+     * lpAudioFormat will cause #AudioBlock to contain 20 msec of
+     * audio. If @c lpAudioFormat is NULL then the #TTInstance will
+     * use the audio format that is configured in the channel's
+     * #AudioCodec.
+     *
      * @param bEnable Whether to enable the #CLIENTEVENT_USER_AUDIOBLOCK event.
+     *
      * @see TT_AcquireUserAudioBlock()
      * @see TT_ReleaseUserAudioBlock()
      * @see CLIENTEVENT_USER_AUDIOBLOCK */

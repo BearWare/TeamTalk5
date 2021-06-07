@@ -219,6 +219,8 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         int mastervolume = m_sndsys->GetMasterVolume(streamer.sndgrpid);
         bool mastermute = m_sndsys->IsAllMute(streamer.sndgrpid);
         frm.gain = streamer.GetMasterVolumeGain(mastermute, mastervolume);
+        if (played)
+            frm.userdata = m_streamtype;
 
         m_audio_callback(m_userid, m_streamtype, frm);
     }

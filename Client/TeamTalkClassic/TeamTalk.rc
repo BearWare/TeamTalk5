@@ -518,10 +518,10 @@ BEGIN
     LTEXT           "Static",IDC_STATIC_APPTITLE,7,7,143,47
     DEFPUSHBUTTON   "OK",IDOK,154,7,36,16
     LTEXT           "Static",IDC_STATIC_VERSION,105,34,92,14
-    CONTROL         "",IDC_RICHEDIT2_CREDITS,"RichEdit20W",WS_BORDER | WS_VSCROLL | WS_TABSTOP | 0x1844,7,66,190,124
+    CONTROL         "",IDC_RICHEDIT2_CREDITS,"RichEdit20W",ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | ES_WANTRETURN | WS_BORDER | WS_VSCROLL | WS_TABSTOP,7,66,190,124
     LTEXT           "Compiled on ",IDC_STATIC_COMPILED,7,193,189,25
-    LTEXT           "Copyright (c) 2005-2020, BearWare.dk",IDC_STATIC_COPYRIGHT,7,222,183,8
-    ICON            IDR_MAINFRAME,IDC_STATIC_IMAGE,176,201,21,20
+    LTEXT           "Copyright (c) 2005-2021, BearWare.dk",IDC_STATIC_COPYRIGHT,7,222,183,8
+    ICON            IDR_MAINFRAME,IDC_STATIC_IMAGE,176,201,20,20
 END
 
 IDD_DIALOG_HOSTMANAGER DIALOGEX 0, 0, 420, 275
@@ -1540,8 +1540,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,8,0,5038
- PRODUCTVERSION 5,8,0,5038
+ FILEVERSION 5,8,0,5041
+ PRODUCTVERSION 5,8,0,5041
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1558,12 +1558,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 8, 0, 5038"
+            VALUE "FileVersion", "5, 8, 0, 5041"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2005-2020, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 8, 0, 5038"
+            VALUE "ProductVersion", "5, 8, 0, 5041"
         END
     END
     BLOCK "VarFileInfo"

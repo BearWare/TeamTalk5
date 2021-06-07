@@ -61,7 +61,7 @@ public:
     AudioMuxer(teamtalk::StreamTypes sts);
     virtual ~AudioMuxer();
 
-    bool RegisterMuxCallback(const teamtalk::AudioCodec& codec,
+    bool RegisterMuxCallback(const media::AudioInputFormat& fmt,
                              audiomuxer_callback_t cb);
     void UnregisterMuxCallback();
 
@@ -78,8 +78,8 @@ public:
     void SetMuxInterval(int msec);
     
 private:
-    bool Init(const teamtalk::AudioCodec& codec);
-    bool StartThread(const teamtalk::AudioCodec& codec);
+    bool Init(const media::AudioInputFormat& fmt);
+    bool StartThread(const media::AudioInputFormat& fmt);
     void StopThread();
     void Run();
     int TimerEvent(ACE_UINT32 timer_event_id, long userdata);
@@ -87,8 +87,8 @@ private:
     void ProcessAudioQueues(bool flush);
     bool CanMuxUserAudio();
     void RemoveEmptyMuxUsers(); // should only be used during flush
-    bool MuxUserAudio();
-    void WriteAudio(int cb_samples);
+    teamtalk::StreamTypes MuxUserAudio();
+    void WriteAudio(int cb_samples, teamtalk::StreamTypes sts);
     bool FileActive();
 
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;
@@ -100,7 +100,7 @@ private:
 
     // preprocess queue (audio that cannot yet to into 'm_usermux_queue')
     AudioContainer m_preprocess_queue;
-    std::recursive_mutex m_preprocess_mutex;
+    std::recursive_mutex m_mutex1_preprocess;
     // key -> media::AudioFrame. Audio block storing the remainder of 'm_preprocess_queue'
     std::map<int, ACE_Message_Block*> m_preprocess_block;
 
@@ -114,12 +114,12 @@ private:
 
     ACE_Reactor m_reactor;
     ACE_Time_Value m_mux_interval;
-    std::recursive_mutex m_mux_mutex;
+    std::recursive_mutex m_mutex2_mux;
     std::shared_ptr< std::thread > m_thread;
 
     uint32_t m_sample_no = 0;
     uint32_t m_last_flush_time = 0;
-    teamtalk::AudioCodec m_codec;
+    media::AudioInputFormat m_inputformat;
     teamtalk::StreamTypes m_streamtypes = teamtalk::STREAMTYPE_NONE;
 
     wavepcmfile_t m_wavefile;

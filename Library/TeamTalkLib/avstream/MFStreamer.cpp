@@ -137,6 +137,7 @@ void MFStreamer::Run()
         goto fail_open;
 
     // Get native media type of device
+    BOOL bWavePCM16 = FALSE;
     if(SUCCEEDED(pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM,
                                                    dwAudioTypeIndex, &pInputAudioType)))
     {
@@ -145,6 +146,17 @@ void MFStreamer::Run()
             m_media_in.audio.channels = c;
         if((c = MFGetAttributeUINT32(pInputAudioType, MF_MT_AUDIO_SAMPLES_PER_SECOND, -1)) >= 0)
             m_media_in.audio.samplerate = c;
+        
+        GUID mtInputSubType;
+        hr = pInputAudioType->GetGUID(MF_MT_SUBTYPE, &mtInputSubType);
+        if (SUCCEEDED(hr) && mtInputSubType == MFAudioFormat_PCM)
+        {
+            UINT32 uPCM16;
+            hr = pInputAudioType->GetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, &uPCM16);
+            bWavePCM16 = SUCCEEDED(hr) && uPCM16 == 16;
+            hr = pInputAudioType->GetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT, &uPCM16);
+            bWavePCM16 &= SUCCEEDED(hr) && uPCM16;
+        }
     }
     else
     {
@@ -202,17 +214,16 @@ void MFStreamer::Run()
             goto fail_open;
 
         // Resampling is not supported prior to Windows 8.
-        // As a result, most of the WAV playout/streaming didn't work on Windows 7 because the output format was explicitly set.
-        // This is fixed by setting the output to the same format as the input on Windows versions below Win8.
-        // Do not use a compiler directive to check the version because the TeamTalk code is compiled with WINVER=0601 (e.g. Windows 7)
-        if (m_media_in.audio != m_media_out.audio && IsWindows8OrGreater())
+        // In order to at least support PCM16 wave-files on Windows 7 we select 'pAudioInputType'
+        // as the destination format.
+        if (m_media_in.audio == m_media_out.audio && bWavePCM16)
         {
-            // setup resampler (this is very slow ~250 msec)
-            hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pAudioOutputType);
+            hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pInputAudioType);
         }
         else
         {
-            hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pInputAudioType);
+            // setup resampler (this is very slow ~250 msec)
+            hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pAudioOutputType);
         }
 
         if(FAILED(hr))

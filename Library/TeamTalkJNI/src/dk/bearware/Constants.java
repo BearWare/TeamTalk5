@@ -23,8 +23,7 @@
 
 package dk.bearware;
 
-public interface Constants
-{
+public interface Constants {
     public static final int TT_STRLEN = 512;
     public static final int TT_USERID_MAX = 0xFFF;
     public static final int TT_CHANNELID_MAX = 0xFFF;

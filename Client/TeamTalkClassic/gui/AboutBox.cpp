@@ -147,6 +147,7 @@ BOOL CAboutBox::OnInitDialog()
     AddLine(_T("SpeexDSP") + EOL, cfDefault);
     AddLine(_T("TinyXML") + EOL, cfDefault);
     AddLine(_T("WebM") + EOL, cfDefault);
+    AddLine(_T("WebRTC") + EOL, cfDefault);
     AddLine(_T("Zlib") + EOL, cfDefault);
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE

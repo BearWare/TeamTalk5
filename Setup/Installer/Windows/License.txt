@@ -1,0 +1,35 @@
+BEARWARE.DK FREEWARE LICENSE AGREEMENT
+--------------------------------------
+Except otherwise noted, all of the documentation and software included
+in the TeamTalk distribution is copyrighted by BearWare.dk. Should you
+have any questions regarding this license or the software included,
+please email contact@bearware.dk.
+
+
+Important - Read Carefully
+--------------------------
+This license agreement is a legal agreement between you (either an
+individual or a single entity) and BearWare.dk regarding the use of
+the TeamTalk distribution. By installing, copying, or otherwise using
+the software, you agree to be bound by the terms of this agreement. If
+you do not agree to the terms of this agreement, do not install or use
+the software.
+
+
+FREEWARE LICENSE
+----------------
+This software is being distributed as Freeware. It may be freely used,
+copied and distributed as long as it is not sold, and all original
+files are included in their original form, including this license. You
+are NOT allowed to make a charge for distributing this software
+(either for profit or merely to recover your media and distribution
+costs) whether as a stand-alone product, or as part of a compilation
+or anthology, without explicit prior written permission. By using this
+software, you agree to these terms and the terms of the Disclaimer
+below:
+
+Disclaimer of Warranty
+---------------------------------------------------------------- 
+THIS SOFTWARE IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND
+EXPRESSED, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY
+WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.

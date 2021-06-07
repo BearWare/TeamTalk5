@@ -26,6 +26,13 @@
 
 #include <QSettings>
 
+#if defined(Q_OS_WIN32)
+#define SOUNDSPATH                                  "Sounds"
+#elif defined(Q_OS_LINUX)
+#define SOUNDSPATH                                  "sounds"
+#elif defined(Q_OS_DARWIN)
+#define SOUNDSPATH                                  "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
+#endif
 #define SETTINGS_VERSION                            "5.2"
 #define SETTINGS_GENERAL_VERSION                    "version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            SETTINGS_VERSION
@@ -41,6 +48,7 @@
 #define SETTINGS_GENERAL_RESTOREUSERSETTINGS        "general_/restore-user-settings"
 #define SETTINGS_GENERAL_RESTOREUSERSETTINGS_DEFAULT true
 #define SETTINGS_GENERAL_AUTOAWAY                   "general_/auto-away"
+#define SETTINGS_GENERAL_AUTOAWAY_DEFAULT                   180
 #define SETTINGS_GENERAL_PUSHTOTALK                 "general_/push-to-talk"
 #define SETTINGS_GENERAL_PUSHTOTALK_KEY             "general_/ptt-key"
 #define SETTINGS_GENERAL_VOICEACTIVATED             "general_/voice-activated"
@@ -139,33 +147,58 @@
 #define SETTINGS_SOUND_SOUNDOUT_MUTE_RIGHT_DEFAULT  false
 
 #define SETTINGS_SOUNDEVENT_NEWUSER                 "soundevents/newuser"
+#define SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT                 (SOUNDSPATH"/newuser.wav")
 #define SETTINGS_SOUNDEVENT_REMOVEUSER              "soundevents/removeuser"
+#define SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT              (SOUNDSPATH"/removeuser.wav")
 #define SETTINGS_SOUNDEVENT_SERVERLOST              "soundevents/server-lost"
+#define SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT              (SOUNDSPATH"/serverlost.wav")
 #define SETTINGS_SOUNDEVENT_USERMSG                 "soundevents/user-msg"
+#define SETTINGS_SOUNDEVENT_USERMSG_DEFAULT                 (SOUNDSPATH"/user_msg.wav")
 #define SETTINGS_SOUNDEVENT_SENTSOUND             "soundevents/sound-send"
 #define SETTINGS_SOUNDEVENT_CHANNELMSG              "soundevents/channel-msg"
+#define SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT              (SOUNDSPATH"/channel_msg.wav")
 #define SETTINGS_SOUNDEVENT_SENTCHANNELSOUND             "soundevents/sound-channel-send"
 #define SETTINGS_SOUNDEVENT_BROADCASTMSG            "soundevents/broadcast-msg"
+#define SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT            (SOUNDSPATH"/broadcast_msg.wav")
 #define SETTINGS_SOUNDEVENT_HOTKEY                  "soundevents/hotkey-pressed"
+#define SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT                  (SOUNDSPATH"/hotkey.wav")
 #define SETTINGS_SOUNDEVENT_SILENCE                 "soundevents/channel-silent"
 #define SETTINGS_SOUNDEVENT_NEWVIDEO                "soundevents/new-video-session"
+#define SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT                (SOUNDSPATH"/videosession.wav")
 #define SETTINGS_SOUNDEVENT_NEWDESKTOP              "soundevents/new-desktop-session"
+#define SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT              (SOUNDSPATH"/desktopsession.wav")
 #define SETTINGS_SOUNDEVENT_FILESUPD                "soundevents/files-updated"
+#define SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT                (SOUNDSPATH"/fileupdate.wav")
 #define SETTINGS_SOUNDEVENT_FILETXDONE              "soundevents/file-tx-done"
+#define SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT              (SOUNDSPATH"/filetx_complete.wav")
 #define SETTINGS_SOUNDEVENT_QUESTIONMODE            "soundevents/question-mode"
+#define SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT            (SOUNDSPATH"/questionmode.wav")
 #define SETTINGS_SOUNDEVENT_DESKTOPACCESS           "soundevents/desktop-access-request"
+#define SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT           (SOUNDSPATH"/desktopaccessreq.wav")
 #define SETTINGS_SOUNDEVENT_USERLOGGEDIN           "soundevents/user-logged-in"
+#define SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT           (SOUNDSPATH"/logged_on.wav")
 #define SETTINGS_SOUNDEVENT_USERLOGGEDOUT           "soundevents/user-logged-out"
+#define SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT           (SOUNDSPATH"/logged_off.wav")
 #define SETTINGS_SOUNDEVENT_VOICEACTON           "soundevents/voice-act-on"
+#define SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT           (SOUNDSPATH"/vox_enable.wav")
 #define SETTINGS_SOUNDEVENT_VOICEACTOFF           "soundevents/voice-act-off"
+#define SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT           (SOUNDSPATH"/vox_disable.wav")
 #define SETTINGS_SOUNDEVENT_MUTEALLON           "soundevents/mute-all"
+#define SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT           (SOUNDSPATH"/mute_all.wav")
 #define SETTINGS_SOUNDEVENT_MUTEALLOFF           "soundevents/unmute-all"
+#define SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT           (SOUNDSPATH"/unmute_all.wav")
 #define SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD           "soundevents/transmit-queue-head"
+#define SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT           (SOUNDSPATH"/txqueue_start.wav")
 #define SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP           "soundevents/transmit-queue-stop"
+#define SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT           (SOUNDSPATH"/txqueue_stop.wav")
 #define SETTINGS_SOUNDEVENT_VOICEACTTRIG           "soundevents/voice-activation-triggered"
+#define SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT           (SOUNDSPATH"/voiceact_on.wav")
 #define SETTINGS_SOUNDEVENT_VOICEACTSTOP           "soundevents/voice-activation-stop"
+#define SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT           (SOUNDSPATH"/voiceact_off.wav")
 #define SETTINGS_SOUNDEVENT_VOICEACTMEON           "soundevents/voice-act-me-on"
+#define SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT           (SOUNDSPATH"/vox_me_enable.wav")
 #define SETTINGS_SOUNDEVENT_VOICEACTMEOFF           "soundevents/voice-act-me-off"
+#define SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT           (SOUNDSPATH"/vox_me_disable.wav")
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"
