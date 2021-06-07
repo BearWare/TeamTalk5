@@ -1191,7 +1191,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if(!talking && m_showlasttalk && userid == m_last_talker_id)
             bgColor = QBrush(COLOR_LASTTALK);
         item->setBackground(COLUMN_ITEM, bgColor);
-        item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Allow channel messages transmission: %1").arg(userCanChanMessage(userid, chan)?tr("Enabled"):tr("Disabled"))));
+        item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Allow text message transmission: %1").arg(userCanChanMessage(userid, chan)?tr("Enabled"):tr("Disabled"))));
         item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Allow voice transmission: %1").arg(userCanVoiceTx(userid, chan)?tr("Enabled"):tr("Disabled"))));
         item->setData(COLUMN_VIDEO, Qt::AccessibleTextRole, QString(tr("Allow video transmission: %1").arg(userCanVideoTx(userid, chan)?tr("Enabled"):tr("Disabled"))));
         item->setData(COLUMN_DESKTOP, Qt::AccessibleTextRole, QString(tr("Allow desktop transmission: %1").arg(userCanDesktopTx(userid, chan)?tr("Enabled"):tr("Disabled"))));
@@ -1490,14 +1490,20 @@ bool ChannelsTree::eventFilter(QObject *object, QEvent *event)
         {
             if (QTreeWidgetItem* item = currentItem())
             {
-                QTreeWidgetItem* parent = item->parent();
                 if ((item->type() & CHANNEL_TYPE) && !item->isExpanded())
                 {
                     item->setExpanded(true);
                 }
-                else if ((item->type() & USER_TYPE) && ((TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), (parent->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK))) || ((TT_GetMyUserType(ttInst) & USERTYPE_ADMIN))))
+                else if ((item->type() & USER_TYPE))
                 {
-                    QTreeWidget::keyPressEvent(keyEvent);
+                    QTreeWidgetItem* parent = item->parent();
+                    int parentid = (parent->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
+                    UserRights rights = TT_GetMyUserRights(ttInst);
+                    if (TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), parentid) ||
+                        (rights & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE)
+                    {
+                        QTreeWidget::keyPressEvent(keyEvent);
+                    }
                 }
             }
             return true;
