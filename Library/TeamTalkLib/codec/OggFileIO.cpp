@@ -190,8 +190,6 @@ int OggFile::WriteOggPage(const ogg_page& og)
         auto ret = m_file.send(og.body, og.body_len);
         if (ret > 0)
             bytes_out += ret;
-        else
-            bytes_out = -1;
     }
 
     return int(bytes_out);
