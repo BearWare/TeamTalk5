@@ -19,7 +19,8 @@ Default QT Client
 - Additional TTS events in Preferences
 - URLs in chat history can be activated using Enter key
 - Paste a text at the start of the first line of the filename in the CTRL + S dialog now replaces the text of that line
-- Pressing right key in channels tree no longer move to empties columns
+- Classrooms toggles in channels tree are now accessible
+- Fix streaming of files path containing quote on Windows
 - Removed new line added at end of new private message
 - Removed ability to send empty private text messages
 - Focus moves to private text message's edit field when opening private messages dialog
