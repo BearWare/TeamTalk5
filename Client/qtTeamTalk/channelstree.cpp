@@ -187,7 +187,6 @@ ChannelsTree::ChannelsTree(QWidget* parent)
 
     m_statTimerId = startTimer(500);
     m_questionTimerId = startTimer(1000);
-    this->installEventFilter(this);
 }
 
 int ChannelsTree::selectedChannel(bool include_user/* = false*/) const
@@ -750,8 +749,9 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         int channelid = (item->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
         channels_t::const_iterator ite = m_channels.find(channelid);
         Q_ASSERT(ite != m_channels.end());
-        if(ite == m_channels.end())
+        if (ite == m_channels.end())
             return;
+        const Channel& chan = *ite;
 
         const char* img_name = "";
         QString channame;
@@ -768,7 +768,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         }
         else
         {
-            channame = _Q(ite->szName);
+            channame = _Q(chan.szName);
             item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
             if(item->isExpanded())
                 img_name = ":/images/images/channel_open.png";
@@ -793,14 +793,14 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             }
             channame = QString("%1 (%2)").arg(channame).arg(count);
         }
-        if (emoji && (ite->uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
+        if (emoji && (chan.uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
             channame += " - 👻";
-        if (emoji && ite->bPassword)
+        if (emoji && chan.bPassword)
             channame += " - 🔒";
         item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
         QPixmap img(QString::fromUtf8(img_name));
         //img.setMask(img.createHeuristicMask());
-        if(ite->bPassword)
+        if (chan.bPassword)
         {
             QPixmap lock(QString::fromUtf8(":/images/images/lock.png"));
             //lock.setMask(lock.createMaskFromColor(QColor(255,255,255)));
@@ -815,7 +815,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         item->setData(COLUMN_ITEM, Qt::DecorationRole, img);
 
         //set speaker or webcam icon
-        if(ite->nChannelID == mychanid)
+        if (chan.nChannelID == mychanid)
         {
             item->setIcon(COLUMN_CHANMSG, QIcon(QString::fromUtf8(":/images/images/message_blue.png")));
             item->setIcon(COLUMN_VOICE, QIcon(QString::fromUtf8(":/images/images/speaker.png")));
@@ -828,22 +828,22 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
                                                 channelid);
             opadmin |= (bool)(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
 
-            if(opadmin && (ite->uChannelType & CHANNEL_CLASSROOM)) // free for all in non-classroom
+            if (opadmin && (chan.uChannelType & CHANNEL_CLASSROOM)) // free for all in non-classroom
             {
                 item->setCheckState(COLUMN_CHANMSG,
-                                    isFreeForAll(STREAMTYPE_CHANNELMSG, ite->transmitUsers)?
+                                    isFreeForAll(STREAMTYPE_CHANNELMSG, chan.transmitUsers)?
                                     Qt::Checked : Qt::Unchecked);
                 item->setCheckState(COLUMN_VOICE, 
-                                    isFreeForAll(STREAMTYPE_VOICE, ite->transmitUsers)?
+                                    isFreeForAll(STREAMTYPE_VOICE, chan.transmitUsers)?
                                     Qt::Checked : Qt::Unchecked);
                 item->setCheckState(COLUMN_VIDEO, 
-                                    isFreeForAll(STREAMTYPE_VIDEOCAPTURE, ite->transmitUsers)?
+                                    isFreeForAll(STREAMTYPE_VIDEOCAPTURE, chan.transmitUsers)?
                                     Qt::Checked : Qt::Unchecked);
                 item->setCheckState(COLUMN_DESKTOP, 
-                                    isFreeForAll(STREAMTYPE_DESKTOP, ite->transmitUsers)?
+                                    isFreeForAll(STREAMTYPE_DESKTOP, chan.transmitUsers)?
                                     Qt::Checked : Qt::Unchecked);
                 item->setCheckState(COLUMN_MEDIAFILE, 
-                                    isFreeForAll(STREAMTYPE_MEDIAFILE, ite->transmitUsers)?
+                                    isFreeForAll(STREAMTYPE_MEDIAFILE, chan.transmitUsers)?
                                     Qt::Checked : Qt::Unchecked);
             }
             else
@@ -882,6 +882,22 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
                 item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
         }
         item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, QString("%1: %2").arg(channame).arg((item->isExpanded()? tr("Expanded"):tr("Collapsed"))));
+        if (chan.uChannelType & CHANNEL_CLASSROOM)
+        {
+            item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Text message transmission allowed for everyone: %1").arg(userCanChanMessage(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
+            item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Voice transmission allowed for everyone: %1").arg(userCanVoiceTx(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
+            item->setData(COLUMN_VIDEO, Qt::AccessibleTextRole, QString(tr("Video transmission allowed for everyone: %1").arg(userCanVideoTx(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
+            item->setData(COLUMN_DESKTOP, Qt::AccessibleTextRole, QString(tr("Desktop transmission allowed for everyone: %1").arg(userCanDesktopTx(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
+            item->setData(COLUMN_MEDIAFILE, Qt::AccessibleTextRole, QString(tr("Media files transmission allowed for everyone: %1").arg(userCanMediaFileTx(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
+        }
+        else
+        {
+            item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Text message transmission")));
+            item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Voice transmission")));
+            item->setData(COLUMN_VIDEO, Qt::AccessibleTextRole, QString(tr("Video transmission")));
+            item->setData(COLUMN_DESKTOP, Qt::AccessibleTextRole, QString(tr("Desktop transmission")));
+            item->setData(COLUMN_MEDIAFILE, Qt::AccessibleTextRole, QString(tr("Media files transmission")));
+        }
     }
     else if(item->type() & USER_TYPE)
     {
@@ -1479,28 +1495,4 @@ void ChannelsTree::slotUserVideoFrame(int userid, int stream_id)
 {
     Q_UNUSED(userid);
     Q_UNUSED(stream_id);
-}
-
-bool ChannelsTree::eventFilter(QObject *object, QEvent *event)
-{
-    if (object == this && event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key_Right)
-        {
-            if (QTreeWidgetItem* item = currentItem())
-            {
-                if ((item->type() & CHANNEL_TYPE) && !item->isExpanded())
-                {
-                    item->setExpanded(true);
-                }
-                else if ((item->type() & USER_TYPE))
-                {
-                    QTreeWidget::keyPressEvent(keyEvent);
-                }
-            }
-            return true;
-        }
-    }
-    return false;
 }
