@@ -87,6 +87,21 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     ui.delButton->setEnabled(false);
     showServers();
+    HostEntry lasthost;
+    if(getLatestHost(0, lasthost))
+    {
+        ui.hostaddrBox->setFocus();
+        HostEntry entry;
+        int index = 0;
+        while(getServerEntry(index++, entry))
+        {
+            if(entry.ipaddr == lasthost.ipaddr && entry.tcpport == lasthost.tcpport && entry.udpport == lasthost.udpport && entry.encrypted == lasthost.encrypted && entry.username == lasthost.username && entry.password == lasthost.password && entry.channel == lasthost.channel && entry.chanpasswd == lasthost.chanpasswd)
+            {
+                ui.listWidget->setCurrentRow(index-1);
+                ui.listWidget->setFocus();
+            }
+        }
+    }
 }
 
 void ServerListDlg::showLatestHosts()
