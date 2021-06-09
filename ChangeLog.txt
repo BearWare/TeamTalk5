@@ -27,11 +27,11 @@ Default QT Client
 - Fixed navigation using Shift+Tab
 - Croatian language supported
 Android Client
--
+- Permission issue fixed when exporting server list
 iOS Client
--
+- Fixed missing Korean translation
 Server
--
+- User-right "User can create/modify all channels" now allows user to create subchannels although not in parent channel
 
 Version 5.7.1, 2021/05/09
 Accessible Windows Client
