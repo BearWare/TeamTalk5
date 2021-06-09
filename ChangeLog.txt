@@ -25,6 +25,7 @@ Default QT Client
 - Removed ability to send empty private text messages
 - Focus moves to private text message's edit field when opening private messages dialog
 - Fixed navigation using Shift+Tab
+- Croatian language supported
 Android Client
 -
 iOS Client
