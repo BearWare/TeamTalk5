@@ -704,7 +704,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="887"/>
         <source>Text message transmission allowed for everyone: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>允许所有人发送消息： %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="887"/>
@@ -718,7 +718,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1213"/>
         <location filename="../channelstree.cpp" line="1214"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>是</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="887"/>
@@ -732,52 +732,52 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1213"/>
         <location filename="../channelstree.cpp" line="1214"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>否</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="888"/>
         <source>Voice transmission allowed for everyone: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>允许所有人传输语音： %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="889"/>
         <source>Video transmission allowed for everyone: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>允许所有人传输视频： %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="890"/>
         <source>Desktop transmission allowed for everyone: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>允许所有人传输桌面： %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="891"/>
         <source>Media files transmission allowed for everyone: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>允许所有人传输媒体文件： %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="895"/>
         <source>Text message transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>消息传输</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="896"/>
         <source>Voice transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>语音传输</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="897"/>
         <source>Video transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>视频传输</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="898"/>
         <source>Desktop transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>桌面传输</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="899"/>
         <source>Media files transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>媒体文件传输</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1010"/>
@@ -812,27 +812,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="1210"/>
         <source>Text message transmission allowed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>允许消息传输： %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1211"/>
         <source>Voice transmission allowed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>允许语音传输： %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1212"/>
         <source>Video transmission allowed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>允许视频传输： %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1213"/>
         <source>Desktop transmission allowed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>允许桌面传输： %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1214"/>
         <source>Media files transmission allowed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>允许媒体文件传输： %1</translation>
     </message>
 </context>
 <context>
