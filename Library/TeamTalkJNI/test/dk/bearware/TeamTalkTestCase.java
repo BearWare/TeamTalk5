@@ -4052,8 +4052,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         joinRoot(client2);
     }
 
-   @Test
-   public void testJoinChannel() {
+    @Test
+    public void testJoinChannel() {
         String USERNAME = "tt_test1", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_MODIFY_CHANNELS;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
@@ -4089,7 +4089,62 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         chan.nParentID = subchanid;
 
         assertTrue("join new sub with USERRIGHT_CREATE_TEMPORARY_CHANNEL", waitCmdError(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
-   }
+    }
+
+    @Test
+    public void testLocalPlaybackAndroidCrash() {
+
+        TeamTalkBase ttclient = newClientInstance();
+        initSound(ttclient);
+
+        MediaFileInfo mfi = new MediaFileInfo();
+        mfi.szFileName = STORAGEFOLDER + File.separator + "hest.wav";
+        mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
+        mfi.uDurationMSec = 1000;
+        assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
+
+        // Call TT_InitLocalPlayback for file 1, PAUSE=FALSE
+        MediaFilePlayback mfp = new MediaFilePlayback();
+        mfp.bPaused = false;
+        mfp.uOffsetMSec = MediaFilePlaybackConstants.TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+
+        int sessionid = ttclient.initLocalPlayback(mfi.szFileName, mfp);
+        assertTrue("init playback", sessionid > 0);
+
+        TTMessage msg = new TTMessage();
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg) &&
+               msg.mediafileinfo.nStatus != MediaFileStatus.MFS_FINISHED);
+
+        // Call TT_InitLocalPlayback for file 1, PAUSE=TRUE (session = X)
+        mfp.bPaused = true;
+        sessionid = ttclient.initLocalPlayback(mfi.szFileName, mfp);
+
+        // Call TT_InitLocalPlayback for file 2, PAUSE=FALSE
+        mfp.bPaused = false;
+        int sessionid2 = ttclient.initLocalPlayback(mfi.szFileName, mfp);
+        assertTrue("init playback", sessionid2 > 0);
+        assertTrue("media started", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("session 2 started", sessionid2, msg.nSource);
+        assertEquals("media started event", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+        assertTrue("media playing", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("media playing event", MediaFileStatus.MFS_PLAYING, msg.mediafileinfo.nStatus);
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg) &&
+               msg.mediafileinfo.nStatus != MediaFileStatus.MFS_FINISHED) {
+            assertEquals("session 2 playing", sessionid2, msg.nSource);
+        }
+
+        // Call TT_InitLocalPlayback for file 2, PAUSE=TRUE
+        mfp.bPaused = true;
+        sessionid2 = ttclient.initLocalPlayback(mfi.szFileName, mfp);
+
+        // Call TT_UpdateLocalPlayback for session X => Crash
+        mfp.bPaused = false;
+        assertTrue("Pause", ttclient.updateLocalPlayback(sessionid, mfp));
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg)) {
+            if (msg.nSource == sessionid && msg.mediafileinfo.nStatus == MediaFileStatus.MFS_FINISHED)
+                break;
+        }
+    }
 
 
     /* cannot test output levels since a user is muted by sound system after decoding and callback.
