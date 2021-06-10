@@ -3298,6 +3298,63 @@ TEST_CASE("LocalPlaybackDisconnect")
     REQUIRE(msg.mediafileinfo.nStatus == MFS_FINISHED);
 }
 
+TEST_CASE("LocalPlaybackSharedDevice")
+{
+    auto ttclient = InitTeamTalk();
+    InitSound(ttclient, SHARED_INPUT_OUTPUT);
+
+    MediaFileInfo mfi = {};;
+    ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("hest.wav"), TT_STRLEN);;
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nSampleRate = 48000;
+    mfi.audioFmt.nChannels = 2;
+    mfi.uDurationMSec = 1000;
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 600));
+
+    // Call TT_InitLocalPlayback for file 1, PAUSE=FALSE
+    MediaFilePlayback mfp = {};
+    mfp.bPaused = false;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+
+    int sessionid = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
+    REQUIRE(sessionid > 0);
+
+    TTMessage msg;
+    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT) &&
+           msg.mediafileinfo.nStatus != MFS_FINISHED);
+
+    // Call TT_InitLocalPlayback for file 1, PAUSE=TRUE (session = X)
+    mfp.bPaused = true;
+    sessionid = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
+
+    // Call TT_InitLocalPlayback for file 2, PAUSE=FALSE
+    mfp.bPaused = false;
+    int sessionid2 = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
+    REQUIRE(sessionid2 > 0);
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT));
+    REQUIRE(sessionid2 == msg.nSource);
+    REQUIRE(MFS_STARTED == msg.mediafileinfo.nStatus);
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT));
+    REQUIRE(MFS_PLAYING == msg.mediafileinfo.nStatus);
+    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT) &&
+           msg.mediafileinfo.nStatus != MFS_FINISHED) {
+        REQUIRE(sessionid2 == msg.nSource);
+    }
+
+    // Call TT_InitLocalPlayback for file 2, PAUSE=TRUE
+    mfp.bPaused = true;
+    sessionid2 = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
+
+    // Call TT_UpdateLocalPlayback for session X => Crash
+    mfp.bPaused = false;
+    REQUIRE(TT_UpdateLocalPlayback(ttclient, sessionid, &mfp));
+    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT)) {
+        if (msg.nSource == sessionid && msg.mediafileinfo.nStatus == MFS_FINISHED)
+            break;
+    }
+}
+
+
 TEST_CASE("FirstVoiceStreamPacket")
 {
     auto txclient = InitTeamTalk();
@@ -3935,3 +3992,4 @@ TEST_CASE("SeekPrecision")
     REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= 360);
     // std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
 }
+
