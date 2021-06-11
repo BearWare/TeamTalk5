@@ -1,9 +1,14 @@
-#include <catch2/catch.hpp>
+#include <catch.hpp>
 #include <QDebug>
 
 TEST_CASE("FirstTest")
 {
     INFO("Hello from Catch");
-    qInfo() << "Hello from QT debug";
+    REQUIRE(0 == 0);
+}
+
+TEST_CASE("SecondTest")
+{
+    INFO("Hello from Catch");
     REQUIRE(0 == 1);
 }
