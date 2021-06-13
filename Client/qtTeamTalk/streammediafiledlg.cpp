@@ -45,6 +45,8 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
 
     connect(this, &QDialog::accepted, this, &StreamMediaFileDlg::slotAccepted);
     connect(ui.toolButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotSelectFile);
+    connect(ui.deleteButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotDeleteFromHistory);
+    connect(ui.clearButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotClearHistory);
     connect(ui.refreshBtn, &QAbstractButton::clicked, this, &StreamMediaFileDlg::showMediaFormatInfo);
     //connect(ui.vidcodecBox, &QComboBox::currentIndexChanged, ui.vidcodecStackedWidget, &QStackedWidget::setCurrentIndex);
     connect(ui.stopToolButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotStopMediaFile);
@@ -143,6 +145,49 @@ void StreamMediaFileDlg::slotSelectFile()
         ui.mediafileComboBox->insertItem(0, fileName);
         ui.mediafileComboBox->setCurrentIndex(0); // generates showMediaFormatInfo()
     }
+}
+
+void StreamMediaFileDlg::slotDeleteFromHistory()
+{
+    int j = ui.mediafileComboBox->currentIndex();
+    QVector<QString> files;
+    for (int i=0;i<ui.mediafileComboBox->count();i++)
+    {
+        files.push_back(ui.mediafileComboBox->itemText(i));
+    }
+    ttSettings->remove(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(j));
+    QString filename = ui.mediafileComboBox->lineEdit()->text();
+    files.removeAll(filename);
+    files.push_front(filename);
+    if (files.size() > MAX_MEDIAFILES)
+        files.resize(MAX_MEDIAFILES);
+
+    for (int i = 0; i < files.size(); i++)
+    {
+        ttSettings->setValue(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i-1), files[i]);
+    }
+    ui.mediafileComboBox->clear();
+    int i = 0;
+    QString item;
+    while ((item = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i++)).toString()).size())
+    {
+        ui.mediafileComboBox->addItem(item);
+    }
+    ui.mediafileComboBox->setCurrentIndex(j);
+}
+
+void StreamMediaFileDlg::slotClearHistory()
+{
+    QVector<QString> files;
+    for (int i=0;i<ui.mediafileComboBox->count();i++)
+    {
+        files.push_back(ui.mediafileComboBox->itemText(i));
+    }
+    for (int i = 0; i < files.size(); i++)
+    {
+        ttSettings->remove(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i));
+    }
+    ui.mediafileComboBox->clear();
 }
 
 void StreamMediaFileDlg::slotSelectionFile(const QString&)

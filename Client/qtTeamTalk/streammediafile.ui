@@ -67,6 +67,20 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QToolButton" name="deleteButton">
+          <property name="text">
+           <string>&amp;Delete from history</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="clearButton">
+          <property name="text">
+           <string>&amp;Clear history</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
