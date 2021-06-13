@@ -336,6 +336,8 @@ MainWindow::MainWindow(const QString& cfgfile)
     /* Begin - Users menu */
     connect(ui.actionViewUserInformation, &QAction::triggered,
             this, &MainWindow::slotUsersViewUserInformationGrid);
+    connect(ui.actionSpeakUserInformation, &QAction::triggered,
+            this, &MainWindow::slotUsersSpeakUserInformationGrid);
     connect(ui.actionMessages, &QAction::triggered,
             this, &MainWindow::slotUsersMessagesGrid);
     connect(ui.actionMuteVoice, &QAction::triggered,
@@ -427,6 +429,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotChannelsJoinChannel);
     connect(ui.actionViewChannelInfo, &QAction::triggered,
             this, &MainWindow::slotChannelsViewChannelInfo);
+    connect(ui.actionSpeakChannelInfo, &QAction::triggered,
+            this, &MainWindow::slotChannelsSpeakChannelInformationGrid);
     connect(ui.actionBannedUsersInChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsListBans);
 
@@ -3954,6 +3958,11 @@ void MainWindow::slotUsersViewUserInformationGrid(bool /*checked =false */)
     slotUsersViewUserInformation(ui.channelsWidget->selectedUser());
 }
 
+void MainWindow::slotUsersSpeakUserInformationGrid(bool /*checked =false */)
+{
+    slotUsersSpeakUserInformation(ui.channelsWidget->selectedUser());
+}
+
 void MainWindow::slotUsersMessagesGrid(bool /*checked =false */)
 {
     int userid = ui.channelsWidget->selectedUser();
@@ -4428,6 +4437,15 @@ void MainWindow::slotChannelsViewChannelInfo(bool /*checked=false*/)
     }
 }
 
+void MainWindow::slotChannelsSpeakChannelInformationGrid(bool /*checked =false */)
+{
+    User user;
+    if(ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
+        slotUsersSpeakUserInformation(user.nChannelID);
+    else
+        slotUsersSpeakUserInformation(ui.channelsWidget->selectedUser());
+}
+
 void MainWindow::slotChannelsListBans(bool /*checked=false*/)
 {
     //don't display dialog box until we get the result
@@ -4741,6 +4759,99 @@ void MainWindow::slotUsersViewUserInformation(int userid)
 {
     UserInfoDlg dlg(userid, this);
     dlg.exec();
+}
+
+void MainWindow::slotUsersSpeakUserInformation(int userid)
+{
+    QString SpeakList;
+
+    if(userid>0)
+    {
+        User user;
+        if(!ui.channelsWidget->getUser(userid, user))
+            return;
+
+        QString User, Voice = tr("Talking"), Mute = tr("Mute"), MediaFile = tr("Streaming"), MuteMediaFile = tr("Mute media file"), VideoCapture = tr("Webcam"), Desktop = tr("Desktop"), ChanOp = tr("Channel Operator"), MoveSelected = tr("Selected for move");
+        SpeakList += QString("%1: ").arg(getDisplayName(user));
+        if (user.uUserType & USERTYPE_ADMIN)
+        {
+            User = tr("Administrator");
+        }
+        else
+        {
+            User = tr("User");
+        }
+        SpeakList += User;
+
+        QString Status;
+
+/*        if(m_moveusers.find(user.nUserID) != m_moveusers.end())
+           SpeakList += ", " + MoveSelected;*/
+
+        if(TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
+            SpeakList += ", " + ChanOp;
+
+        if((user.uUserState & USERSTATE_VOICE) || (user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == TRUE))
+            SpeakList += ", " + Voice;
+
+        switch(user.nStatusMode)
+        {
+        case STATUSMODE_AVAILABLE :
+            Status = tr("Online");
+            break;
+        case STATUSMODE_AWAY :
+            Status = tr("Away");
+            break;
+        case STATUSMODE_QUESTION :
+            Status = tr("Question");
+            break;
+        }
+        if(Status.size())
+            SpeakList += ", " + Status;
+        if(user.uUserState & USERSTATE_MUTE_VOICE)
+            SpeakList += ", " + Mute;
+        if((user.uUserState & USERSTATE_MEDIAFILE) ||
+           (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE))
+            SpeakList += ", " + MediaFile;
+        if(user.uUserState & USERSTATE_MUTE_MEDIAFILE)
+            SpeakList += ", " + MuteMediaFile;
+        if((user.uUserState & USERSTATE_VIDEOCAPTURE) ||
+           (user.nStatusMode & STATUSMODE_VIDEOTX))
+            SpeakList += ", " + VideoCapture;
+        if((user.uUserState & USERSTATE_DESKTOP) ||
+           (user.nStatusMode & STATUSMODE_DESKTOP))
+            SpeakList += ", " + Desktop;
+    }
+    else if((userid = ui.channelsWidget->selectedChannel(true)))
+    {
+        Channel chan;
+        if(!ui.channelsWidget->getChannel(userid, chan))
+            return;
+
+        QString Channel = tr("Channel"), Passwd = tr("Password protected"), Classroom = tr("Classroom"), Topic, RootChan = tr("root"), Hidden = tr("Hidden");
+        if(chan.nChannelID == TT_GetRootChannelID(ttInst))
+        {
+            ServerProperties prop = {};
+            TT_GetServerProperties(ttInst, &prop);
+            SpeakList += QString("%1: ").arg(_Q(prop.szServerName));
+        }
+        else
+            SpeakList += QString("%1: ").arg(_Q(chan.szName));
+        if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) == chan.nChannelID)
+            Channel += " " + RootChan;
+        Topic = _Q(chan.szTopic);
+
+        SpeakList += Channel;
+        if(chan.uChannelType & CHANNEL_CLASSROOM)
+            SpeakList += ", " + Classroom;
+        if(chan.uChannelType & CHANNEL_HIDDEN)
+            SpeakList += ", " + Hidden;
+        if(chan.bPassword)
+            SpeakList += ", " + Passwd;
+        if (Topic.size())
+            SpeakList += ", " + QString("Topic: %1").arg(Topic);
+    }
+    addTextToSpeechMessage(TTS_MENU_ACTIONS, SpeakList);
 }
 
 void MainWindow::slotUsersMessages(int userid)

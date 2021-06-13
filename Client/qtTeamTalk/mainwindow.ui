@@ -1189,7 +1189,14 @@
      <addaction name="actionKickFromServer"/>
      <addaction name="actionKickBan"/>
     </widget>
-    <addaction name="actionViewUserInformation"/>
+    <widget class="QMenu" name="menu_Info">
+     <property name="title">
+      <string>&amp;User informations</string>
+     </property>
+     <addaction name="actionViewUserInformation"/>
+     <addaction name="actionSpeakUserInformation"/>
+    </widget>
+    <addaction name="menu_Info"/>
     <addaction name="actionMessages"/>
     <addaction name="actionDesktopAccessAllow"/>
     <addaction name="actionOp"/>
@@ -1205,8 +1212,15 @@
     <property name="title">
      <string>&amp;Channels</string>
     </property>
-    <addaction name="actionJoinChannel"/>
+    <widget class="QMenu" name="menu_InfoChannel">
+     <property name="title">
+      <string>&amp;Channel informations</string>
+     </property>
     <addaction name="actionViewChannelInfo"/>
+    <addaction name="actionSpeakChannelInfo"/>
+    </widget>
+    <addaction name="actionJoinChannel"/>
+    <addaction name="menu_InfoChannel"/>
     <addaction name="separator"/>
     <addaction name="actionCreateChannel"/>
     <addaction name="actionUpdateChannel"/>
@@ -1447,6 +1461,14 @@
     <string>Ctrl+I</string>
    </property>
   </action>
+  <action name="actionSpeakUserInformation">
+   <property name="text">
+    <string>&amp;Speak User Information</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+G</string>
+   </property>
+  </action>
   <action name="actionMuteAll">
    <property name="checkable">
     <bool>true</bool>
@@ -1516,6 +1538,14 @@
    </property>
    <property name="shortcut">
     <string>F3</string>
+   </property>
+  </action>
+  <action name="actionSpeakChannelInfo">
+   <property name="text">
+    <string>&amp;Speak Channel Info</string>
+   </property>
+   <property name="shortcut">
+    <string>CTRL+Alt+G</string>
    </property>
   </action>
   <action name="actionMessages">
