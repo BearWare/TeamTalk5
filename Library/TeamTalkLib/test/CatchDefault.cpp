@@ -31,7 +31,6 @@
 #include <myace/MyACE.h>
 #include <teamtalk/server/ServerNode.h>
 #include <teamtalk/client/ClientNodeBase.h>
-#include <bin/ttsrv/ServerGuard.h>
 #include <avstream/VideoCapture.h>
 #include <teamtalk/client/AudioMuxer.h>
 
