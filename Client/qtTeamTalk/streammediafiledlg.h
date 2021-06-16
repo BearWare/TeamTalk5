@@ -43,7 +43,6 @@ public:
 private:
     void slotAccepted();
     void slotSelectFile();
-    void slotDeleteFromHistory();
     void slotClearHistory();
     void slotSelectionFile(const QString&);
     void showMediaFormatInfo();
