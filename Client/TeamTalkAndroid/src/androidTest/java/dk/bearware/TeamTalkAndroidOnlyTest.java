@@ -40,7 +40,7 @@ import java.util.Vector;
 /**
  * Created by bdr on 3-06-16.
  */
-public class MyTest extends TeamTalkTestCase {
+public class TeamTalkAndroidOnlyTest extends TeamTalkTestCaseBase {
 
     public TeamTalkBase newClientInstance() {
         TeamTalkBase ttclient = new TeamTalk5();
@@ -62,7 +62,7 @@ public class MyTest extends TeamTalkTestCase {
         this.ADMIN_USERNAME = "admin";
         this.ADMIN_PASSWORD = "admin";
 
-        this.IPADDR = "192.168.0.50";
+        this.IPADDR = "192.168.0.51";
         this.TCPPORT = 10333;
         this.UDPPORT = 10333;
 
@@ -182,7 +182,8 @@ public class MyTest extends TeamTalkTestCase {
     @Test
     public void testMultiClientOnSharedAudioDevice() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
-        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_VOICE |
+                UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_MULTI_LOGIN;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
 
         Vector<TeamTalkBase> clients = new Vector<>();
