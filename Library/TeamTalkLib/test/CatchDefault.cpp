@@ -91,6 +91,8 @@ public:
 
 /* Known bugs */
 #define TEAMTALK_KNOWN_BUGS 0
+/* Location of testdata-submodule (file for playback) */
+#define TESTDATA_FOLDER ""
 
 TEST_CASE( "Init TT", "" ) {
     TTInstance* ttinst;
@@ -1445,7 +1447,7 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
     ac.opus.nFrameSizeMSec = 40;
 #endif
 
-    TTCHAR filename[TT_STRLEN] = ACE_TEXT("testdata/Opus/on.ogg");
+    TTCHAR filename[TT_STRLEN] = ACE_TEXT(TESTDATA_FOLDER "testdata/Opus/on.ogg");
 
     auto ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
@@ -1679,7 +1681,7 @@ TEST_CASE("testThumbnail")
 {
     // ffmpeg -i in.mp3 -i teamtalk.png -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" out.mp3
 
-    auto filename = "testdata/mp3/thumbnail.mp3";
+    auto filename = ACE_TEXT(TESTDATA_FOLDER "testdata/mp3/thumbnail.mp3");
     MediaFileProp mfp;
     REQUIRE(GetMediaFileProp(filename, mfp));
     REQUIRE(!mfp.video.IsValid());
@@ -2176,7 +2178,7 @@ TEST_CASE("WebRTC_gaincontroller2")
     mfp.audioPreprocessor.webrtc.noisesuppression.bEnable = FALSE;
     mfp.audioPreprocessor.webrtc.noisesuppression.nLevel = 3;
 
-    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/AGC/input_16k_mono_low.wav"), &mfp);
+    auto session = TT_InitLocalPlayback(ttclient, ACE_TEXT(TESTDATA_FOLDER "testdata/AGC/input_16k_mono_low.wav"), &mfp);
     REQUIRE(session > 0);
 
     bool success = false, toggled = false, stop = false;
@@ -2821,7 +2823,7 @@ TEST_CASE("StreamVideoFile")
     vid.nCodec = WEBM_VP8_CODEC;
     vid.webm_vp8.nRcTargetBitrate = 128;
     vid.webm_vp8.nEncodeDeadline = WEBM_VPX_DL_REALTIME;
-    REQUIRE(TT_StartStreamingMediaFileToChannel(txclient, ACE_TEXT("testdata/Video/MOV03830.MPG"), &vid));
+    REQUIRE(TT_StartStreamingMediaFileToChannel(txclient, ACE_TEXT(TESTDATA_FOLDER "testdata/Video/MOV03830.MPG"), &vid));
 
     TTMessage msg;
     bool stop = false;
@@ -3469,7 +3471,7 @@ TEST_CASE("SeeFilesAfterMove")
 
     int chanid = TT_GetChannelIDFromPath(admin, ACE_TEXT("SeeFilesAfterMove"));
     REQUIRE(chanid > 0);
-    REQUIRE(WaitForCmdSuccess(admin, TT_DoSendFile(admin, chanid, ACE_TEXT("testdata/Opus/giana.ogg"))));
+    REQUIRE(WaitForCmdSuccess(admin, TT_DoSendFile(admin, chanid, ACE_TEXT(TESTDATA_FOLDER "testdata/Opus/giana.ogg"))));
 
     REQUIRE(WaitForEvent(admin, CLIENTEVENT_CMD_FILE_NEW));
 
@@ -3908,7 +3910,7 @@ TEST_CASE("TTPlayOpusOgg")
 
 TEST_CASE("TTPlayFFmpegOpus")
 {
-    TTCHAR filename[TT_STRLEN] = ACE_TEXT("testdata/Opus/giana.ogg");
+    TTCHAR filename[TT_STRLEN] = ACE_TEXT(TESTDATA_FOLDER "testdata/Opus/giana.ogg");
     OpusDecFile odf;
     REQUIRE(odf.Open(filename));
 
@@ -3934,7 +3936,7 @@ TEST_CASE("TTPlayFFmpegOpus")
 
 TEST_CASE("SeekPrecision")
 {
-    TTCHAR filename[TT_STRLEN] = ACE_TEXT("testdata/Opus/giana.ogg");
+    TTCHAR filename[TT_STRLEN] = ACE_TEXT(TESTDATA_FOLDER "testdata/Opus/giana.ogg");
 
     auto ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
