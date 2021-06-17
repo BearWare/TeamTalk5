@@ -85,6 +85,10 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
         break;
     }
     case DEFAULT :
+#if defined(__ANDROID__)
+        selindev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        seloutdev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
+#endif
         break;
     }
 
