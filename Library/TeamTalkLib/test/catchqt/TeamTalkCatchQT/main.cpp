@@ -5,8 +5,10 @@
 
 #include <QtDebug>
 
-
 #if defined(__ANDROID__)
+
+#include <QtAndroid>
+
 /*  The struct below is registered as a listener for Catch2 events on Android
  *  This is needed because Catch logs to stdout/stderr and on Android that output is redirected to /dev/null
  *  As a result, you don't see the typically output of failed assertions, etc you'd get on Linux or Windows
@@ -129,6 +131,27 @@ int main(int argc, char** argv)
     // on Linux because that instruments Catch to output XML (-r xml) which QT interprets.
     // Logging from QT before the XML makes the interpretation fail
 //    qInfo() << "Catch2 Application wrapper started ";
+
+#if defined(__ANDROID__)
+    QStringList permissions({"android.permission.RECORD_AUDIO",
+                             "android.permission.MODIFY_AUDIO_SETTINGS",
+                             "android.permission.INTERNET",
+                             "android.permission.VIBRATE",
+                             "android.permission.READ_EXTERNAL_STORAGE",
+                             "android.permission.WRITE_EXTERNAL_STORAGE",
+                             "android.permission.WAKE_LOCK",
+                             "android.permission.READ_PHONE_STATE",
+                             "android.permission.BLUETOOTH",
+                             "android.permission.FOREGROUND_SERVICE",
+                             "android.hardware.sensor.proximity"
+                            });
+
+    QtAndroid::PermissionResultMap resultHash = QtAndroid::requestPermissionsSync(permissions);
+    for (auto permission : permissions)
+    {
+        qDebug() << "Permission: " << permission << " " << ((resultHash[permission] == QtAndroid::PermissionResult::Granted) ? "Granted" : "Denied");
+    }
+#endif
 
     Catch::Session session; // There must be exactly one instance
 
