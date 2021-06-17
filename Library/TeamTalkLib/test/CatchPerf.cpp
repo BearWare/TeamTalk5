@@ -38,14 +38,14 @@ TEST_CASE("AudioMuxerStreamRestart")
     auto rxclient = InitTeamTalk();
     REQUIRE(InitSound(rxclient));
     REQUIRE(Connect(rxclient));
-    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
     REQUIRE(JoinRoot(rxclient));
     auto rxuserid = TT_GetMyUserID(rxclient);
 
     auto txclient = InitTeamTalk();
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient));
-    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
     REQUIRE(JoinRoot(txclient));
     auto txuserid = TT_GetMyUserID(txclient);
 
@@ -165,14 +165,14 @@ TEST_CASE("AudioMuxerAllStreamTypesIntoAudioBlock")
     auto rxclient = InitTeamTalk();
     REQUIRE(InitSound(rxclient));
     REQUIRE(Connect(rxclient));
-    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
     REQUIRE(JoinRoot(rxclient));
     auto rxuserid = TT_GetMyUserID(rxclient);
 
     auto txclient = InitTeamTalk();
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient));
-    REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
     REQUIRE(JoinRoot(txclient));
     auto txuserid = TT_GetMyUserID(txclient);
 
@@ -333,7 +333,7 @@ TEST_CASE( "AudioMuxerPauseLocalPlayback" )
 
     REQUIRE(InitSound(ttclient));
     REQUIRE(Connect(ttclient));
-    REQUIRE(Login(ttclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(Login(ttclient, ACE_TEXT("RxClient")));
     REQUIRE(JoinRoot(ttclient));
 
     MediaFilePlayback mfp = {};
@@ -507,7 +507,7 @@ TEST_CASE("MaxUsersAndMaxChannels")
 
         REQUIRE(Connect(txclient));
         ACE_TString name = ACE_TEXT("Client - #") + i2string(TT_GetMyUserID(txclient));
-        REQUIRE(Login(txclient, name.c_str(), ACE_TEXT("guest"), ACE_TEXT("guest")));
+        REQUIRE(Login(txclient, name.c_str()));
         int n_users;
         REQUIRE(TT_GetServerUsers(txclient, nullptr, &n_users));
         REQUIRE(n_users == i); // no other users should be on server.
@@ -531,7 +531,7 @@ TEST_CASE("MaxUsersAndMaxChannels")
 
     //    REQUIRE(Connect(txclient));
     //    ACE_TString name = ACE_TEXT("Client - #") + i2string(TT_GetMyUserID(txclient));
-    //    REQUIRE(Login(txclient, name.c_str(), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    //    REQUIRE(Login(txclient, name.c_str()));
 
 }
 #endif
@@ -561,7 +561,7 @@ TEST_CASE("MaxChannels")
 
     auto rxclient = InitTeamTalk();
     REQUIRE(Connect(rxclient));
-    REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
+    REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
     REQUIRE(JoinRoot(rxclient));
 
     for (int i = 0; i < n_create; ++i)
