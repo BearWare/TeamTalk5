@@ -45,6 +45,7 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
 
     connect(this, &QDialog::accepted, this, &StreamMediaFileDlg::slotAccepted);
     connect(ui.toolButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotSelectFile);
+    connect(ui.deleteButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotDeleteFromHistory);
     connect(ui.clearButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotClearHistory);
     connect(ui.refreshBtn, &QAbstractButton::clicked, this, &StreamMediaFileDlg::showMediaFormatInfo);
     //connect(ui.vidcodecBox, &QComboBox::currentIndexChanged, ui.vidcodecStackedWidget, &QStackedWidget::setCurrentIndex);
@@ -146,18 +147,51 @@ void StreamMediaFileDlg::slotSelectFile()
     }
 }
 
-void StreamMediaFileDlg::slotClearHistory()
+void StreamMediaFileDlg::slotDeleteFromHistory()
 {
-    QVector<QString> files;
-    for (int i=0;i<ui.mediafileComboBox->count();i++)
-    {
-        files.push_back(ui.mediafileComboBox->itemText(i));
-    }
-    for (int i = 0; i < files.size(); i++)
+    ui.mediafileComboBox->removeItem(ui.mediafileComboBox->currentIndex());
+    for (int i = 0; i<ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i)).toString().size(); i++)
     {
         ttSettings->remove(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i));
     }
-    ui.mediafileComboBox->clear();
+    for (int i = 0; i<ui.mediafileComboBox->count(); i++)
+    {
+        ttSettings->remove(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i));
+    }
+    QVector<QString> files;
+    for (int j = 0; j<ui.mediafileComboBox->count(); j++)
+    {
+        files.push_back(ui.mediafileComboBox->itemText(j));
+    }
+    QString filename = ui.mediafileComboBox->lineEdit()->text();
+    files.removeAll(filename);
+    files.push_front(filename);
+    if (files.size() > MAX_MEDIAFILES)
+        files.resize(MAX_MEDIAFILES);
+    for (int k = 0; k < files.size(); k++)
+    {
+        ttSettings->setValue(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(k), files[k]);
+    }
+}
+
+void StreamMediaFileDlg::slotClearHistory()
+{
+    QMessageBox answer;
+    answer.setText(tr("Are you sure you want to clear stream history?"));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(NoButton);
+    answer.setIcon(QMessageBox::Question);
+    answer.setWindowTitle(tr("Clear history"));
+    answer.exec();
+    if(answer.clickedButton() == YesButton)
+    {
+        for (int i = 0; i<ui.mediafileComboBox->count(); i++)
+        {
+            ttSettings->remove(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i));
+        }
+        ui.mediafileComboBox->clear();
+    }
 }
 
 void StreamMediaFileDlg::slotSelectionFile(const QString&)
