@@ -157,8 +157,11 @@ namespace soundsystem {
             {
                 media::AudioFormat infmt(m_originalstream->samplerate, m_originalstream->channels),
                     outfmt(streamer->samplerate, streamer->channels);
-                m_resamplers[key] = MakeAudioResampler(infmt, outfmt);
+                auto resampler = MakeAudioResampler(infmt, outfmt);
+                if (!resampler)
+                    return false;
 
+                m_resamplers[key] = resampler;
                 int resampleoutput = CalcSamples(m_originalstream->samplerate,
                                                  m_originalstream->framesize, streamer->samplerate);
 
@@ -290,6 +293,7 @@ namespace soundsystem {
                     short* rsbufptr = &rsbuf->second[0];
                     assert(cbch);
                     int rsframesize = int(rsbuf->second.size()) / cbch;
+                    assert(i.second);
                     int samples = i.second->Resample(reinterpret_cast<const short*>(mb->rd_ptr()),
                                                      m_originalstream->framesize,
                                                      rsbufptr, rsframesize);
@@ -444,6 +448,7 @@ namespace soundsystem {
                 else
                 {
                     auto streamer_resam = i.second;
+                    assert(m_resamplers.find(i.first) != m_resamplers.end());
                     auto msgq = m_resambuffers[i.first];
                     auto resampler = m_resamplers[i.first];
                     short* input = &m_callbackbuffers[i.first][0];
