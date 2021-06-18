@@ -380,6 +380,7 @@ namespace soundsystem {
     };
 
 #define DEBUG_SHAREDPLAYER 0
+#define DEBUG_SHAREDPLAYER_RESAMPLER 0
 
     template < typename OUTPUTSTREAMER >
     class SharedStreamPlayer : public StreamPlayer
@@ -396,11 +397,13 @@ namespace soundsystem {
         SharedStreamPlayer(SoundSystem* sndsys)
         : m_sndsys(sndsys)
         {
+            MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("SharedStreamPlayer() - %p\n"), this);
         }
 
         ~SharedStreamPlayer()
         {
-            MYTRACE(ACE_TEXT("~SharedStreamPlayer() - %p\n"), this);
+            MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("~SharedStreamPlayer() - %p\n"), this);
+            assert(m_outputs.empty());
         }
 
         bool StreamPlayerCb(const OutputStreamer& streamer,
@@ -413,13 +416,16 @@ namespace soundsystem {
 
             std::lock_guard<std::recursive_mutex> g(m_mutex);
 
-            MYTRACE_COND(DEBUG_SHAREDPLAYER,
+            MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER,
                          ACE_TEXT("--------------------- Mixer inputs %d -----------------------------\n"),
-                         int(m_outputs.size()));
+                         int(m_active_outputs.size()));
 
             for (auto i : m_outputs)
             {
-                MYTRACE_COND(DEBUG_SHAREDPLAYER,
+                if (m_active_outputs.find(i.first) == m_active_outputs.end())
+                    continue;
+
+                MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER,
                              ACE_TEXT("Resample source: %d samples %d channels @ %d Hz duration %d msec. Destination %p: %d samples %d channels @ %d Hz duration %d msec\n"),
                              m_orgstream->framesize, m_orgstream->channels, m_orgstream->samplerate,
                              int(PCM16_SAMPLES_DURATION(m_orgstream->framesize, m_orgstream->samplerate)),
@@ -433,7 +439,7 @@ namespace soundsystem {
                     int mastervol = m_sndsys->GetMasterVolume(i.second->sndgrpid);
                     bool mastermute = m_sndsys->IsAllMute(i.second->sndgrpid);
                     SoftVolume(*i.second, &m_tmpbuffer[0], samples, mastervol, mastermute);
-                    MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Same stream properties. Destination: %p\n"), i.first);
+                    MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, ACE_TEXT("Same stream properties. Destination: %p\n"), i.first);
                 }
                 else
                 {
@@ -444,7 +450,7 @@ namespace soundsystem {
                     int outputsamples = CalcSamples(streamer_resam->samplerate, streamer_resam->framesize, m_orgstream->samplerate);
                     const size_t outputbytes = PCM16_BYTES(outputsamples, m_orgstream->channels);
 
-                    MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Duration of queue before: %d msec\n"),
+                    MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, ACE_TEXT("Duration of queue before: %d msec\n"),
                                  int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
                                                           streamer.samplerate)));
 
@@ -474,7 +480,7 @@ namespace soundsystem {
                         }
                     }
 
-                    MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Duration of queue after refill: %d msec. Bytes: %u\n"),
+                    MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, ACE_TEXT("Duration of queue after refill: %d msec. Bytes: %u\n"),
                                  int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
                                                           streamer.samplerate)), unsigned(msgq->message_length()));
 
@@ -520,7 +526,7 @@ namespace soundsystem {
                     }
                     assert(copied == reqbytes);
 
-                    MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Duration of queue after dequeue: %d msec\n"),
+                    MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, ACE_TEXT("Duration of queue after dequeue: %d msec\n"),
                                  int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
                                                           streamer.samplerate)));
 
@@ -563,9 +569,11 @@ namespace soundsystem {
 
             assert(m_outputs.find(player) == m_outputs.end());
 
+            MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Added player %p to SharedStreamPlayer %p\n"), player, this);
+
             m_outputs[player] = streamer;
 
-            MYTRACE(ACE_TEXT("Number of active output streams from sound device #%d: %d\n"),
+            MYTRACE(ACE_TEXT("Number of output streams from sound device #%d: %d\n"),
                     streamer->outputdeviceid & SOUND_DEVICEID_MASK, int(m_outputs.size()));
 
             if (SameStreamProperties(*m_orgstream, *streamer))
@@ -592,8 +600,29 @@ namespace soundsystem {
         {
             std::lock_guard<std::recursive_mutex> g(m_mutex);
 
+            MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Removed player %p from SharedStreamPlayer %p\n"), player, this);
+
+            m_active_outputs.erase(player);
             m_outputs.erase(player);
             m_resamplers.erase(player);
+            m_callbackbuffers.erase(player);
+            m_resambuffers.erase(player);
+        }
+
+        void ActivatePlayer(StreamPlayer* player, bool active)
+        {
+            std::lock_guard<std::recursive_mutex> g(m_mutex);
+            assert(m_outputs.find(player) != m_outputs.end());
+            if (active)
+            {
+                assert(m_active_outputs.find(player) == m_active_outputs.end());
+                m_active_outputs.insert(player);
+            }
+            else
+            {
+                assert(m_active_outputs.find(player) != m_active_outputs.end());
+                m_active_outputs.erase(player);
+            }
         }
 
         bool Empty()
@@ -602,10 +631,10 @@ namespace soundsystem {
             return m_outputs.empty();
         }
 
-        bool Exists(StreamPlayer* player)
+        bool IsActive(StreamPlayer* player)
         {
             std::lock_guard<std::recursive_mutex> g(m_mutex);
-            return m_outputs.find(player) != m_outputs.end();
+            return m_active_outputs.find(player) != m_active_outputs.end();
         }
 
     private:
@@ -615,6 +644,7 @@ namespace soundsystem {
         outputstreamer_t m_orgstream;
         std::vector<short> m_tmpbuffer;
         std::map<StreamPlayer*, outputstreamer_t> m_outputs;
+        std::set<StreamPlayer*> m_active_outputs;
         std::map<StreamPlayer*, audio_resampler_t> m_resamplers;
         std::map<StreamPlayer*, std::vector<short>> m_callbackbuffers;
         std::map<StreamPlayer*, msg_queue_t> m_resambuffers;

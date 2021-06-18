@@ -279,7 +279,7 @@ void StreamMediaFileDlg::slotStopMediaFile()
     if (m_playbackid > 0)
         TT_StopLocalPlayback(ttInst, m_playbackid);
     m_playbackid = 0;
-
+    ui.startToolButton->setText(tr("&Play"));
     updateControls();
     ui.playbackOffsetSlider->setValue(0);
     updateProgress(0, true);
@@ -376,10 +376,12 @@ void StreamMediaFileDlg::slotMediaStreamProgress(const MediaFileInfo& mfi)
     case MFS_CLOSED :
         break;
     case MFS_STARTED :
+        ui.startToolButton->setText(tr("&Pause"));
         break;
     case MFS_PLAYING :
         break;
     case MFS_PAUSED :
+        ui.startToolButton->setText(tr("&Play"));
         break;
     case MFS_ABORTED :
         break;
@@ -407,10 +409,12 @@ void StreamMediaFileDlg::slotMediaPlaybackProgress(int sessionid, const MediaFil
     case MFS_CLOSED :
         break;
     case MFS_STARTED :
+        ui.startToolButton->setText(tr("&Pause"));
         break;
     case MFS_PLAYING :
         break;
     case MFS_PAUSED :
+        ui.startToolButton->setText(tr("&Play"));
         break;
     case MFS_ABORTED :
         break;

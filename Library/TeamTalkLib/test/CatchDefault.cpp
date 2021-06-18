@@ -31,11 +31,9 @@
 #include <myace/MyACE.h>
 #include <teamtalk/server/ServerNode.h>
 #include <teamtalk/client/ClientNodeBase.h>
-#include <bin/ttsrv/ServerGuard.h>
 #include <avstream/VideoCapture.h>
 #include <teamtalk/client/AudioMuxer.h>
 
-#include <map>
 #include <map>
 #include <iostream>
 #include <future>
@@ -113,7 +111,7 @@ TEST_CASE( "Record mux") {
     {
         REQUIRE((clients[i] = InitTeamTalk()));
         REQUIRE(InitSound(clients[i], SHARED_INPUT));
-        REQUIRE(Connect(clients[i], ACE_TEXT("127.0.0.1"), 10333, 10333));
+        REQUIRE(Connect(clients[i]));
         REQUIRE(Login(clients[i], ACE_TEXT("MyNickname"), ACE_TEXT("guest"), ACE_TEXT("guest")));
 
         if (i == 0)
@@ -177,11 +175,11 @@ TEST_CASE( "Last voice packet" )
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient, SHARED_INPUT));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
 
     REQUIRE(InitSound(rxclient, SHARED_INPUT));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
 
     AudioCodec audiocodec = {};
@@ -245,12 +243,12 @@ TEST_CASE( "AudioMuxerToFile" )
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
 
     REQUIRE(InitSound(rxclient));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
@@ -321,12 +319,12 @@ TEST_CASE( "AudioMuxerSimple" )
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
 
     REQUIRE(InitSound(rxclient));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
@@ -347,12 +345,12 @@ TEST_CASE( "AudioMuxerNoInputDevice" )
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
 
     REQUIRE(InitSound(rxclient, DEFAULT, SOUNDDEVICEID_IGNORE));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
@@ -378,7 +376,7 @@ TEST_CASE("AudioMuxerSoundInputDisabled")
 {
     auto ttclient = InitTeamTalk();
 
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(InitSound(ttclient));
     REQUIRE(JoinRoot(ttclient));
@@ -403,7 +401,7 @@ TEST_CASE("AudioMuxerInOutOfChannel")
 {
     auto ttclient = InitTeamTalk();
 
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(InitSound(ttclient));
 
@@ -508,12 +506,12 @@ TEST_CASE( "AudioMuxerUserEvent" )
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
 
     REQUIRE(InitSound(rxclient, DEFAULT, SOUNDDEVICEID_IGNORE, SOUNDDEVICEID_DEFAULT));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
@@ -556,14 +554,14 @@ TEST_CASE( "AudioMuxerVolumeControl" )
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
     REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
     int txuserid = TT_GetMyUserID(txclient);
 
     REQUIRE(InitSound(rxclient));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
@@ -1245,12 +1243,12 @@ TEST_CASE( "AudioMuxerStreamTypesIntoAudioBlock" )
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
 
     REQUIRE(InitSound(rxclient));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
@@ -1313,7 +1311,7 @@ TEST_CASE( "AudioMuxerStreamTypeRecording" )
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(rxclient));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
@@ -1450,7 +1448,7 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
 
     auto ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("admin"), ACE_TEXT("admin")));
 
     auto chan = MakeChannel(ttclient, ACE_TEXT("Channel5"), TT_GetRootChannelID(ttclient), ac);
@@ -1522,7 +1520,7 @@ TEST_CASE( "Opus Read File" )
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(rxclient));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
     AudioCodec codec;
@@ -1594,7 +1592,7 @@ TEST_CASE("TT_AEC")
 {
     auto ttclient = InitTeamTalk();
 
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
 
     // Only WASAPI supported by CWMAudioAEC
@@ -1824,11 +1822,11 @@ TEST_CASE("Last voice packet - wav files")
         auto rxclient = InitTeamTalk();
 
         REQUIRE(InitSound(txclient, SHARED_INPUT, indev.nDeviceID, outdev.nDeviceID));
-        REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+        REQUIRE(Connect(txclient));
         REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
 
         REQUIRE(InitSound(rxclient, SHARED_INPUT, indev.nDeviceID, outdev.nDeviceID));
-        REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+        REQUIRE(Connect(rxclient));
         REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
 
         AudioCodec audiocodec = {};
@@ -2090,7 +2088,7 @@ TEST_CASE("WebRTCPreprocessor")
 {
     ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(ttclient));
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoSubscribe(ttclient, TT_GetMyUserID(ttclient), SUBSCRIBE_VOICE)));
@@ -2225,7 +2223,7 @@ TEST_CASE("WebRTC_echocancel")
     effects.bEnableEchoCancellation = FALSE;
     REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
     REQUIRE(InitSound(ttclient, DUPLEX));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     // REQUIRE(JoinRoot(ttclient));
 
@@ -2293,7 +2291,7 @@ TEST_CASE("WebRTC_Preamplifier")
 {
     ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(ttclient));
 
@@ -2344,7 +2342,7 @@ TEST_CASE("WebRTC_LevelEstimation")
 {
     ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(ttclient));
 
@@ -2371,7 +2369,7 @@ TEST_CASE("WebRTC_VAD")
 {
     ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(ttclient));
 
@@ -2400,7 +2398,7 @@ TEST_CASE("WebRTC-reinit")
     effects.bEnableEchoCancellation = FALSE;
     REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
     REQUIRE(InitSound(ttclient, DUPLEX));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     // REQUIRE(JoinRoot(ttclient));
 
@@ -2456,7 +2454,7 @@ TEST_CASE("TeamTalk_VAD")
 {
     ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(ttclient));
 
@@ -2600,7 +2598,7 @@ TEST_CASE("InjectAudio")
 {
     ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(ttclient));
 
@@ -2635,7 +2633,7 @@ TEST_CASE("InjectAudioInputGain")
 {
     ttinst ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(ttclient));
 
@@ -2686,12 +2684,12 @@ TEST_CASE("FixedJitterBuffer")
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
 
     REQUIRE(InitSound(rxclient));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
@@ -2736,12 +2734,12 @@ TEST_CASE("SetGetJitterBufferControl")
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
 
     REQUIRE(InitSound(rxclient));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
@@ -2876,7 +2874,7 @@ TEST_CASE("ReactorDeadlock_BUG")
 
     ttinst ttclient(TT_InitTeamTalkPoll());
     REQUIRE(InitSound(ttclient));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(ttclient));
     playid = TT_InitLocalPlayback(ttclient, ACE_TEXT("temp.wav"), &mfp);
@@ -3269,7 +3267,7 @@ TEST_CASE("LocalPlaybackDisconnect")
 {
     auto txclient = InitTeamTalk();
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
 
@@ -3298,18 +3296,75 @@ TEST_CASE("LocalPlaybackDisconnect")
     REQUIRE(msg.mediafileinfo.nStatus == MFS_FINISHED);
 }
 
+TEST_CASE("LocalPlaybackSharedDevice")
+{
+    auto ttclient = InitTeamTalk();
+    InitSound(ttclient, SHARED_INPUT_OUTPUT);
+
+    MediaFileInfo mfi = {};;
+    ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("hest.wav"), TT_STRLEN);;
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nSampleRate = 48000;
+    mfi.audioFmt.nChannels = 2;
+    mfi.uDurationMSec = 1000;
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 600));
+
+    // Call TT_InitLocalPlayback for file 1, PAUSE=FALSE
+    MediaFilePlayback mfp = {};
+    mfp.bPaused = false;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+
+    int sessionid = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
+    REQUIRE(sessionid > 0);
+
+    TTMessage msg;
+    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT) &&
+           msg.mediafileinfo.nStatus != MFS_FINISHED);
+
+    // Call TT_InitLocalPlayback for file 1, PAUSE=TRUE (session = X)
+    mfp.bPaused = true;
+    sessionid = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
+
+    // Call TT_InitLocalPlayback for file 2, PAUSE=FALSE
+    mfp.bPaused = false;
+    int sessionid2 = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
+    REQUIRE(sessionid2 > 0);
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT));
+    REQUIRE(sessionid2 == msg.nSource);
+    REQUIRE(MFS_STARTED == msg.mediafileinfo.nStatus);
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT));
+    REQUIRE(MFS_PLAYING == msg.mediafileinfo.nStatus);
+    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT) &&
+           msg.mediafileinfo.nStatus != MFS_FINISHED) {
+        REQUIRE(sessionid2 == msg.nSource);
+    }
+
+    // Call TT_InitLocalPlayback for file 2, PAUSE=TRUE
+    mfp.bPaused = true;
+    sessionid2 = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
+
+    // Call TT_UpdateLocalPlayback for session X => Crash
+    mfp.bPaused = false;
+    REQUIRE(TT_UpdateLocalPlayback(ttclient, sessionid, &mfp));
+    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT)) {
+        if (msg.nSource == sessionid && msg.mediafileinfo.nStatus == MFS_FINISHED)
+            break;
+    }
+}
+
+
 TEST_CASE("FirstVoiceStreamPacket")
 {
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
 
     REQUIRE(InitSound(rxclient));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
@@ -3400,12 +3455,12 @@ TEST_CASE("FirstVoiceStreamPacket")
 TEST_CASE("SeeFilesAfterMove")
 {
     auto admin = InitTeamTalk();
-    REQUIRE(Connect(admin, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(admin));
     REQUIRE(Login(admin, ACE_TEXT("admin"), ACE_TEXT("admin"), ACE_TEXT("admin")));
     REQUIRE(JoinRoot(admin));
 
     auto ttclient = InitTeamTalk();
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("guest"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(ttclient));
 
@@ -3935,3 +3990,4 @@ TEST_CASE("SeekPrecision")
     REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= 360);
     // std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
 }
+

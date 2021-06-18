@@ -36,14 +36,14 @@ TEST_CASE("AudioMuxerStreamRestart")
 {
     auto rxclient = InitTeamTalk();
     REQUIRE(InitSound(rxclient));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
     auto rxuserid = TT_GetMyUserID(rxclient);
 
     auto txclient = InitTeamTalk();
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
     auto txuserid = TT_GetMyUserID(txclient);
@@ -163,14 +163,14 @@ TEST_CASE("AudioMuxerAllStreamTypesIntoAudioBlock")
 
     auto rxclient = InitTeamTalk();
     REQUIRE(InitSound(rxclient));
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
     auto rxuserid = TT_GetMyUserID(rxclient);
 
     auto txclient = InitTeamTalk();
     REQUIRE(InitSound(txclient));
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(txclient));
     auto txuserid = TT_GetMyUserID(txclient);
@@ -331,7 +331,7 @@ TEST_CASE( "AudioMuxerPauseLocalPlayback" )
     auto ttclient = InitTeamTalk();
 
     REQUIRE(InitSound(ttclient));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(ttclient));
     REQUIRE(Login(ttclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(ttclient));
 
@@ -398,7 +398,7 @@ TEST_CASE("MaxUsersAndMaxChannels")
     {
         auto txclient = InitTeamTalk();
 
-        REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+        REQUIRE(Connect(txclient));
         ACE_TString name = ACE_TEXT("Client - #") + i2string(TT_GetMyUserID(txclient));
         REQUIRE(Login(txclient, name.c_str(), ACE_TEXT("guest"), ACE_TEXT("guest")));
         int n_users;
@@ -422,7 +422,7 @@ TEST_CASE("MaxUsersAndMaxChannels")
 
     //    auto txclient = InitTeamTalk();
 
-    //    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    //    REQUIRE(Connect(txclient));
     //    ACE_TString name = ACE_TEXT("Client - #") + i2string(TT_GetMyUserID(txclient));
     //    REQUIRE(Login(txclient, name.c_str(), ACE_TEXT("guest"), ACE_TEXT("guest")));
 
@@ -433,7 +433,7 @@ TEST_CASE("MaxChannels")
 {
     auto txclient = InitTeamTalk();
 
-    REQUIRE(Connect(txclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(txclient));
 
     REQUIRE(Login(txclient, ACE_TEXT("admin"), ACE_TEXT("admin"), ACE_TEXT("admin")));
 
@@ -453,7 +453,7 @@ TEST_CASE("MaxChannels")
     }
 
     auto rxclient = InitTeamTalk();
-    REQUIRE(Connect(rxclient, ACE_TEXT("127.0.0.1"), 10333, 10333));
+    REQUIRE(Connect(rxclient));
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("guest"), ACE_TEXT("guest")));
     REQUIRE(JoinRoot(rxclient));
 
