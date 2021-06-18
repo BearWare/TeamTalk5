@@ -26,6 +26,8 @@
 
 #include <TeamTalk.h>
 
+#include <string>
+
 #include <ace/SString.h> // get ACE_TEXT
 
 #include <functional>

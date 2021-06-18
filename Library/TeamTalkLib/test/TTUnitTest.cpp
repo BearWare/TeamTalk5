@@ -174,7 +174,12 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/
 
 bool Connect(TTInstance* ttClient, INT32 tcpport, INT32 udpport, TTBOOL encrypted)
 {
-    const TTCHAR* hostname = ACE_TEXT(g_server_ipaddr.c_str());
+#if defined(WIN32)
+    std::wstring wserver_ip = std::wstring(g_server_ipaddr.begin(), g_server_ipaddr.end());
+    const TTCHAR* hostname = reinterpret_cast<const TTCHAR*>(wserver_ip.c_str());
+#else
+    const TTCHAR* hostname = reinterpret_cast<const TTCHAR*>(g_server_ipaddr.c_str());
+#endif
     return Connect(ttClient, hostname, udpport, tcpport, encrypted);
 }
 
