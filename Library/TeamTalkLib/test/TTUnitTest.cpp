@@ -27,6 +27,11 @@
 
 #include <myace/MyACE.h>
 
+
+std::string g_server_ipaddr = "127.0.0.1";
+std::string g_testdata_folder = "";
+
+
 ttinst InitTeamTalk()
 {
     ttinst inst(TT_InitTeamTalkPoll());
@@ -165,6 +170,12 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/
         outsnddev = *dev;
     }
     return true;
+}
+
+bool Connect(TTInstance* ttClient, INT32 tcpport, INT32 udpport, TTBOOL encrypted)
+{
+    const TTCHAR* hostname = ACE_TEXT(g_server_ipaddr.c_str());
+    return Connect(ttClient, hostname, udpport, tcpport, encrypted);
 }
 
 bool Connect(TTInstance* ttClient, const TTCHAR* hostname, INT32 tcpport, INT32 udpport, TTBOOL encrypted)

@@ -36,7 +36,9 @@
 #define SOUNDDEVICEID_DEFAULT -1
 #define SOUNDDEVICEID_IGNORE  -2
 
-#define SERVER_IPADDR ACE_TEXT("127.0.0.1")
+extern std::string g_server_ipaddr;
+extern std::string g_testdata_folder;
+
 
 enum SoundMode
 {
@@ -49,7 +51,8 @@ enum SoundMode
 
 bool InitSound(TTInstance* ttClient, SoundMode mode = DEFAULT, INT32 indev = SOUNDDEVICEID_DEFAULT, INT32 outdev = SOUNDDEVICEID_DEFAULT);
 bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev = SOUNDDEVICEID_DEFAULT, INT32 outdev = SOUNDDEVICEID_DEFAULT);
-bool Connect(TTInstance* ttClient, const TTCHAR* hostname = SERVER_IPADDR, INT32 tcpport = 10333, INT32 udpport = 10333, TTBOOL encrypted = FALSE);
+bool Connect(TTInstance* ttClient, INT32 tcpport = 10333, INT32 udpport = 10333, TTBOOL encrypted = FALSE);
+bool Connect(TTInstance* ttClient, const TTCHAR* hostname, INT32 tcpport = 10333, INT32 udpport = 10333, TTBOOL encrypted = FALSE);
 bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR* username = ACE_TEXT("guest"), const TTCHAR* passwd = ACE_TEXT("guest"));
 bool JoinRoot(TTInstance* ttClient);
 AudioCodec MakeDefaultAudioCodec(Codec codec);
