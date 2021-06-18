@@ -244,8 +244,9 @@ int main(int argc, char** argv)
         qDebug() << "Permission: " << permission << " " << ((resultHash[permission] == QtAndroid::PermissionResult::Granted) ? "Granted" : "Denied");
     }
 
-    // Set the testdata root folder in the global var
-    g_testdata_folder = copyTestDataFilesFromAPK().toStdString();
+    // Copy the file to 'testdata' dir below local files. This is the current path, so no special path needs to be set
+    // files can be accessed as "testdata/file.ext"
+    copyTestDataFilesFromAPK();
 #endif
 
     // Find the SERVERIP= option on the commandline.

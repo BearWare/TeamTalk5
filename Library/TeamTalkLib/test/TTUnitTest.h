@@ -39,8 +39,6 @@
 #define SOUNDDEVICEID_IGNORE  -2
 
 extern std::string g_server_ipaddr;
-extern std::string g_testdata_folder;
-
 
 enum SoundMode
 {

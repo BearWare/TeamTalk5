@@ -29,7 +29,6 @@
 
 
 std::string g_server_ipaddr = "127.0.0.1";
-std::string g_testdata_folder = "";
 
 
 ttinst InitTeamTalk()
