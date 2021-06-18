@@ -77,7 +77,7 @@
         <item>
          <widget class="QToolButton" name="clearButton">
           <property name="text">
-           <string>&amp;Clear history</string>
+           <string>C&amp;lear history</string>
           </property>
          </widget>
         </item>
@@ -149,7 +149,7 @@
       <item>
        <widget class="QCheckBox" name="loopChkBox">
         <property name="text">
-         <string>&amp;Continuously play media file</string>
+         <string>Co&amp;ntinuously play media file</string>
         </property>
        </widget>
       </item>
