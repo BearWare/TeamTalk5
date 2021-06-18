@@ -430,7 +430,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.actionViewChannelInfo, &QAction::triggered,
             this, &MainWindow::slotChannelsViewChannelInfo);
     connect(ui.actionSpeakChannelInfo, &QAction::triggered,
-            this, &MainWindow::slotUsersSpeakUserInformationGrid);
+            this, &MainWindow::slotChannelsSpeakChannelInformationGrid);
     connect(ui.actionBannedUsersInChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsListBans);
 
@@ -3960,7 +3960,11 @@ void MainWindow::slotUsersViewUserInformationGrid(bool /*checked =false */)
 
 void MainWindow::slotUsersSpeakUserInformationGrid(bool /*checked =false */)
 {
-    slotUsersSpeakUserInformation(ui.channelsWidget->selectedUser());
+    User user;
+    if(ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
+        slotUsersSpeakUserInformation(ui.channelsWidget->selectedUser());
+    else
+        slotUsersSpeakUserInformation(ui.channelsWidget->selectedChannel(true));
 }
 
 void MainWindow::slotUsersMessagesGrid(bool /*checked =false */)
@@ -4437,6 +4441,11 @@ void MainWindow::slotChannelsViewChannelInfo(bool /*checked=false*/)
     }
 }
 
+void MainWindow::slotChannelsSpeakChannelInformationGrid(bool /*checked =false */)
+{
+    slotUsersSpeakUserInformation(TT_GetMyChannelID(ttInst));
+}
+
 void MainWindow::slotChannelsListBans(bool /*checked=false*/)
 {
     //don't display dialog box until we get the result
@@ -4756,7 +4765,7 @@ void MainWindow::slotUsersSpeakUserInformation(int userid)
 {
     QString speakList;
 
-    if(userid>0)
+    if(userid>0 && userid == ui.channelsWidget->selectedUser())
     {
         User user;
         if(!ui.channelsWidget->getUser(userid, user))
@@ -4776,8 +4785,8 @@ void MainWindow::slotUsersSpeakUserInformation(int userid)
 
         QString status;
 
-/*        if(m_moveusers.find(user.nUserID) != m_moveusers.end())
-           SpeakList += ", " + MoveSelected;*/
+        if(m_moveusers.indexOf(user.nUserID) >= 0)
+           speakList += ", " + moveSelected;
 
         if(TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
             speakList += ", " + chanOp;
@@ -4813,7 +4822,7 @@ void MainWindow::slotUsersSpeakUserInformation(int userid)
            (user.nStatusMode & STATUSMODE_DESKTOP))
             speakList += ", " + desktop;
     }
-    else if((userid = ui.channelsWidget->selectedChannel(true)))
+    else if(userid>0 && (userid == ui.channelsWidget->selectedChannel(true) || userid == TT_GetMyChannelID(ttInst)))
     {
         Channel chan;
         if(!ui.channelsWidget->getChannel(userid, chan))
