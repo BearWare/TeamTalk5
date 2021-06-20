@@ -93,7 +93,8 @@ private:
 
     typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;
     message_queue_t GetMuxQueue(int key);
-    void SubmitMuxAudioFrame(int key, const media::AudioFrame& frm);
+    // return number of media::AudioFrame in queue
+    int SubmitMuxAudioFrame(int key, const media::AudioFrame& frm);
     // drain everything in 'm_preprocess_queue'
     void SubmitPreprocessQueue();
     ACE_Message_Block* BuildMuxAudioFrame(std::vector<ACE_Message_Block*>& mbs);

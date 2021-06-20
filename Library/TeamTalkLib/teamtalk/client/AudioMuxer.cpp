@@ -87,8 +87,8 @@ bool AudioMuxer::StartThread(const media::AudioInputFormat& fmt)
     m_sample_no = 0;
     m_last_flush_time = GETTIMESTAMP();
 
-    MYTRACE(ACE_TEXT("Starting AudioMuxer with sample rate %d and callback %d\n"),
-            fmt.fmt.samplerate, fmt.samples);
+    MYTRACE(ACE_TEXT("Starting AudioMuxer with sample rate %d, channels %d and callback %d\n"),
+            fmt.fmt.samplerate, fmt.fmt.channels, fmt.samples);
 
     m_thread.reset(new std::thread(&AudioMuxer::Run, this));
     return true;
@@ -344,28 +344,30 @@ AudioMuxer::message_queue_t AudioMuxer::GetMuxQueue(int key)
     if (ii == m_usermux_queue.end())
     {
         // setup audio buffer queue for user prior to mixing streams
-
-        int bytes = m_inputformat.GetBytes();
         int msec = m_inputformat.GetDurationMSec();
         assert(msec > 0);
 
-        // bytes between each mux interval
-        int buffersize = bytes * ((m_mux_interval.msec() / msec) + 1);
-        // allow double of mux interval
-        buffersize *= 2;
-        // add header size
-        buffersize += (buffersize / bytes) * sizeof(media::AudioFrame);
+        // Set mux buffer to 1 second as maximum.
+        //
+        // If 'm_preprocess_queue' contains more than 1 second of audio
+        // then it will cause the AudioMuxer to overflow its buffer.
+        // Therefore the transmit-interval must never exceed 1 second.
+        int MUXBUFFER_MAX = media::AudioInputFormat(m_inputformat.fmt,
+                                                    m_inputformat.fmt.samplerate).GetBytes();
+        int n_frames = (m_mux_interval.msec() / msec) + 1;
+        MUXBUFFER_MAX += sizeof(media::AudioFrame) * n_frames;
 
         m_usermux_queue[key].reset(new ACE_Message_Queue<ACE_MT_SYNCH>());
         auto q = m_usermux_queue[key];
-        q->high_water_mark(buffersize);
-        q->low_water_mark(buffersize);
+
+        q->high_water_mark(MUXBUFFER_MAX);
+        q->low_water_mark(MUXBUFFER_MAX);
     }
 
     return m_usermux_queue[key];
 }
 
-void AudioMuxer::SubmitMuxAudioFrame(int key, const media::AudioFrame& frm)
+int AudioMuxer::SubmitMuxAudioFrame(int key, const media::AudioFrame& frm)
 {
     assert((m_inputformat.fmt == frm.inputfmt && m_inputformat.samples == frm.input_samples) || frm.input_samples == 0);
 
@@ -402,6 +404,7 @@ void AudioMuxer::SubmitMuxAudioFrame(int key, const media::AudioFrame& frm)
         MYTRACE_COND(DEBUG_AUDIOMUXER, ACE_TEXT("Submitted #%d streamtype: 0x%x from sample index %u, samples %d\n"),
                      GetUserID(key), GetStreamType(key), frm.sample_no, frm.input_samples);
     }
+    return int(q->message_count());
 }
 
 void AudioMuxer::SubmitPreprocessQueue()
