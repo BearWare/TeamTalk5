@@ -95,7 +95,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
         int index = 0;
         while(getServerEntry(index++, entry))
         {
-            if(entry.ipaddr == lasthost.ipaddr && entry.tcpport == lasthost.tcpport && entry.udpport == lasthost.udpport && entry.encrypted == lasthost.encrypted && entry.username == lasthost.username && entry.password == lasthost.password && entry.channel == lasthost.channel && entry.chanpasswd == lasthost.chanpasswd)
+            if(entry.ipaddr == lasthost.ipaddr && entry.tcpport == lasthost.tcpport && entry.udpport == lasthost.udpport && entry.encrypted == lasthost.encrypted && entry.username == lasthost.username && entry.password == lasthost.password && entry.nickname == lasthost.nickname && entry.channel == lasthost.channel && entry.chanpasswd == lasthost.chanpasswd)
             {
                 ui.listWidget->setCurrentRow(index-1);
                 ui.listWidget->setFocus();
