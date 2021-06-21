@@ -1288,9 +1288,6 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
     QDomElement client = hostElement.firstChildElement(CLIENTSETUP_TAG);
     if(!client.isNull())
     {
-        tmp = client.firstChildElement("nickname");
-        if(!tmp.isNull())
-            entry.nickname = tmp.text();
         tmp = client.firstChildElement("gender");
         if(!tmp.isNull())
         {

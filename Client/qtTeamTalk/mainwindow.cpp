@@ -1811,8 +1811,8 @@ void MainWindow::Disconnect()
 void MainWindow::login()
 {
     QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
-    if(!m_host.nickname.isEmpty())
-        QString nick = m_host.nickname;
+    if(m_host.nickname.size())
+        nick = m_host.nickname;
 
     int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
                              _W(m_host.password), _W(QString(APPNAME_SHORT)));
@@ -1871,8 +1871,8 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
             
             addLatestHost(m_host);
             QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
-            if(!m_host.nickname.isEmpty())
-                QString nickname = m_host.nickname;
+            if(m_host.nickname.size())
+                nickname = m_host.nickname;
             int cmdid = TT_DoLoginEx(ttInst, _W(nickname), 
                                      _W(m_host.username), _W(m_host.password), 
                                      _W(QString(APPNAME_SHORT)));

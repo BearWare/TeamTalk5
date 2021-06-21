@@ -282,6 +282,7 @@
 #define SETTINGS_LATESTHOST_ENCRYPTED               "latesthosts/%1_encrypted"
 #define SETTINGS_LATESTHOST_USERNAME                "latesthosts/%1_username"
 #define SETTINGS_LATESTHOST_PASSWORD                "latesthosts/%1_password"
+#define SETTINGS_LATESTHOST_NICKNAME                "latesthosts/%1_nickname"
 #define SETTINGS_LATESTHOST_CHANNEL                 "latesthosts/%1_channel"
 #define SETTINGS_LATESTHOST_CHANNELPASSWD           "latesthosts/%1_chanpassword"
 
@@ -292,6 +293,7 @@
 #define SETTINGS_SERVERENTRIES_ENCRYPTED            "serverentries/%1_encrypted"
 #define SETTINGS_SERVERENTRIES_USERNAME             "serverentries/%1_username"
 #define SETTINGS_SERVERENTRIES_PASSWORD             "serverentries/%1_password"
+#define SETTINGS_SERVERENTRIES_NICKNAME             "serverentries/%1_nickname"
 #define SETTINGS_SERVERENTRIES_CHANNEL              "serverentries/%1_channel"
 #define SETTINGS_SERVERENTRIES_CHANNELPASSWD        "serverentries/%1_chanpassword"
 
