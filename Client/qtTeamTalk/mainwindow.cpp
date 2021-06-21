@@ -3773,20 +3773,28 @@ void MainWindow::slotClientExit(bool /*checked =false */)
 
 void MainWindow::slotMeChangeNickname(bool /*checked =false */)
 {
+    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED && m_host.nickname.size())
+        nick = m_host.nickname;
     bool ok = false;
     QInputDialog inputDialog;
     inputDialog.setOkButtonText(tr("&Ok"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
-    inputDialog.setTextValue(ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString());
+    inputDialog.setTextValue(_W(nick));
     inputDialog.setWindowTitle(MENUTEXT(ui.actionChangeNickname->text()));
     inputDialog.setLabelText(tr("Specify new nickname"));
     ok = inputDialog.exec();
     QString s = inputDialog.textValue();
     if(ok)
     {
-        ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, s);
-        TT_DoChangeNickname(ttInst, _W(s));
+        if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+        {
+            m_host.nickname = s;
+            TT_DoChangeNickname(ttInst, _W(s));
+        }
+        else
+            ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, s);
     }
 }
 
@@ -4872,7 +4880,6 @@ void MainWindow::slotUpdateUI()
     bool me_op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user_chanid);
 
     ui.actionConnect->setChecked( (statemask & CLIENT_CONNECTING) || (statemask & CLIENT_CONNECTED));
-    ui.actionChangeNickname->setEnabled(auth);
     ui.actionChangeStatus->setEnabled(auth);
 #ifdef Q_OS_WIN32
     ui.actionEnablePushToTalk->setChecked(TT_HotKey_IsActive(ttInst, HOTKEY_PUSHTOTALK) >= 0);
