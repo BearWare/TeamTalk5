@@ -33,6 +33,7 @@
 #include <QComboBox>
 #include <QFile>
 #include <QDateTime>
+#include <QCoreApplication>
 #include "stdint.h"
 
 #if defined(_MSC_VER)
@@ -386,10 +387,10 @@ struct HostEntry
     bool encrypted;
     QString username;
     QString password;
+    QString nickname;
     QString channel;
     QString chanpasswd;
     //tt-file specific
-    QString nickname;
     Gender gender;
     hotkey_t hotkey;
     int voiceact;

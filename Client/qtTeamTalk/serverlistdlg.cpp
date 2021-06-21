@@ -130,6 +130,7 @@ void ServerListDlg::clearServer()
     ui.cryptChkBox->setChecked(false);
     ui.usernameBox->lineEdit()->setText("");
     ui.passwordEdit->setText("");
+    ui.nicknameEdit->setText("");
     ui.channelEdit->setText("");
     ui.chanpasswdEdit->setText("");
 
@@ -160,6 +161,7 @@ void ServerListDlg::showHost(const HostEntry& entry)
         ui.passwordEdit->setText(entry.password);
     ui.passwordEdit->setDisabled(entry.username == WEBLOGIN_BEARWARE_USERNAME ||
                                  entry.username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX));
+    ui.nicknameEdit->setText(entry.nickname);
     ui.channelEdit->setText(entry.channel);
     ui.chanpasswdEdit->setText(entry.chanpasswd);
 
@@ -246,6 +248,7 @@ bool ServerListDlg::getHostEntry(HostEntry& entry)
     entry.encrypted = ui.cryptChkBox->isChecked();
     entry.username = ui.usernameBox->lineEdit()->text().trimmed();
     entry.password = ui.passwordEdit->text();
+    entry.nickname = ui.nicknameEdit->text();
     entry.channel = ui.channelEdit->text().trimmed();
     entry.chanpasswd = ui.chanpasswdEdit->text();
 

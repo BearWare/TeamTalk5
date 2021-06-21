@@ -184,6 +184,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 
     ui.volumeSlider->setRange(0, 100);
     ui.micSlider->setRange(0, 100);
+
     ui.voiceactBar->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
     ui.voiceactSlider->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
 
@@ -1810,6 +1811,8 @@ void MainWindow::Disconnect()
 void MainWindow::login()
 {
     QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+    if(!m_host.nickname.isEmpty())
+        QString nick = m_host.nickname;
 
     int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
                              _W(m_host.password), _W(QString(APPNAME_SHORT)));
@@ -1868,6 +1871,8 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
             
             addLatestHost(m_host);
             QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+            if(!m_host.nickname.isEmpty())
+                QString nickname = m_host.nickname;
             int cmdid = TT_DoLoginEx(ttInst, _W(nickname), 
                                      _W(m_host.username), _W(m_host.password), 
                                      _W(QString(APPNAME_SHORT)));
