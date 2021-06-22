@@ -4819,7 +4819,11 @@ extern "C" {
      * time.
      *
      * Only #STREAMTYPE_VOICE is stored into the audio file, not
-     * #STREAMTYPE_MEDIAFILE_AUDIO.
+     * #STREAMTYPE_MEDIAFILE_AUDIO. To record other stream types use
+     * TT_StartRecordingMuxedStreams().
+     *
+     * TT_StartRecordingMuxedAudioFile() is mutually exclusive with
+     * TT_StartRecordingMuxedStreams().
      *
      * Use TT_SetUserMediaStorageDir() to store users' audio streams
      * in separate files.
@@ -4837,6 +4841,7 @@ extern "C" {
      *
      * @see TT_SetUserMediaStorageDir()
      * @see TT_StartRecordingMuxedAudioFileEx()
+     * @see TT_StartRecordingMuxedStreams()
      * @see TT_StopRecordingMuxedAudioFile() */
     TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,
                                                            IN const AudioCodec* lpAudioCodec,
@@ -4861,12 +4866,56 @@ extern "C" {
      * Only #STREAMTYPE_VOICE is stored into the audio file, not
      * #STREAMTYPE_MEDIAFILE_AUDIO.
      *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     * @param nChannelID The recording will contain the conversations
+     * from this channel ID.
+     * @param szAudioFileName The file to store audio to, e.g. 
+     * C:\\MyFiles\\Conf.mp3.
+     * @param uAFF The audio format which should be used in the recorded
+     * file. The muxer will convert to this format.
+     *
+     * @see TT_StartRecordingMuxedAudioFile()
+     * @see TT_StartRecordingMuxedStreams()
      * @see TT_StopRecordingMuxedAudioFileEx() */
     TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFileEx(IN TTInstance* lpTTInstance,
                                                              IN INT32 nChannelID,
                                                              IN const TTCHAR* szAudioFileName,
                                                              IN AudioFileFormat uAFF);
 
+    /**
+     * @brief Mix multiple #StreamTypes into a single audio file.
+     *
+     * Both voice, media streams, etc. can be mixed together into a
+     * single file using this feature.
+     *
+     * Streams that can be mixed into a single file are:
+     * - #STREAMTYPE_VOICE
+     * - #STREAMTYPE_MEDIAFILE_AUDIO
+     * - #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
+     *
+     * TT_StartRecordingMuxedAudioFile() is mutually exclusive with
+     * TT_StartRecordingMuxedStreams().
+     *
+     * Use TT_StopRecordingMuxedAudioFile() to stop the recording.
+     *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     * @param uStreamTypes The #StreamTypes to mix together.
+     * Streams that can be mixed into a single file are:
+     * - #STREAMTYPE_VOICE
+     * - #STREAMTYPE_MEDIAFILE_AUDIO
+     * - #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
+     * @param lpAudioCodec The reference codec for the recording. The recording
+     * will use the sample rate and number of channels specified by the #AudioCodec.
+     * @param szAudioFileName The file to store audio to, e.g.
+     * C:\\MyFiles\\Conf.mp3.
+     * @param uAFF The audio format which should be used in the recorded
+     * file. The muxer will convert to this format.
+     *
+     * @see TT_StartRecordingMuxedAudioFile()
+     * @see TT_StartRecordingMuxedAudioFileEx()
+     * @see TT_StopRecordingMuxedAudioFileE() */
     TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedStreams(IN TTInstance* lpTTInstance,
                                                          IN StreamTypes uStreamTypes,
                                                          IN const AudioCodec* lpAudioCodec,
