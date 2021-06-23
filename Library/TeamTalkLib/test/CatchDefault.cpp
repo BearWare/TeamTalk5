@@ -3354,6 +3354,28 @@ TEST_CASE("LocalPlaybackSharedDevice")
     }
 }
 
+TEST_CASE("LocalPlaybackOnOffSound")
+{
+    auto ttclient = InitTeamTalk();
+    InitSound(ttclient);
+
+    // Call TT_InitLocalPlayback for file 1, PAUSE=FALSE
+    MediaFilePlayback mfp = {};
+    mfp.bPaused = false;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+
+    int i = 1;
+    while (i--)
+    {
+        int onid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/on.ogg"), &mfp);
+        REQUIRE(onid > 0);
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, 1000);
+        int offid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/off.ogg"), &mfp);
+        REQUIRE(offid > 0);
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, 1000);
+    }
+
+}
 
 TEST_CASE("FirstVoiceStreamPacket")
 {
