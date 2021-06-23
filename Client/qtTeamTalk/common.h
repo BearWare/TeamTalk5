@@ -316,9 +316,6 @@ enum TextToSpeechEvent : qulonglong
 
 typedef qulonglong TTSEvents;
 
-//TTS event using for send an event not configurable
-TextToSpeechEvent event_s;
-
 enum TextToSpeechEngine
 {
     TTSENGINE_NONE          = 0,
