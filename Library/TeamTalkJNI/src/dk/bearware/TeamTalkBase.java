@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -38,7 +38,7 @@ public abstract class TeamTalkBase implements AutoCloseable
         if(create_instance)
             ttInst = initTeamTalkPoll();
     }
-    
+
     protected void finalize( ) throws Throwable {
         closeTeamTalk(ttInst);
         ttInst = 0;
@@ -73,7 +73,7 @@ public abstract class TeamTalkBase implements AutoCloseable
 
     public static native boolean getDefaultSoundDevices(IntPtr lpnInputDeviceID,
                                                         IntPtr lpnOutputDeviceID);
-    
+
     private static native boolean getSoundDevices(SoundDevice[] lpSoundDevices,
                                                   IntPtr lpnHowMany);
     public static boolean getSoundDevices(Vector<SoundDevice> lpSoundDevices) {
@@ -92,7 +92,7 @@ public abstract class TeamTalkBase implements AutoCloseable
 
     public static native boolean restartSoundSystem();
 
-    public static native long startSoundLoopbackTest(int nInputDeviceID, 
+    public static native long startSoundLoopbackTest(int nInputDeviceID,
                                                      int nOutputDeviceID,
                                                      int nSampleRate,
                                                      int nChannels,
@@ -118,7 +118,7 @@ public abstract class TeamTalkBase implements AutoCloseable
                                         nChannels, bDuplexMode, lpAudioPreprocessor,
                                         lpSoundDeviceEffects);
     }
-    
+
 
     public static native boolean closeSoundLoopbackTest(long lpTTSoundLoop);
 
@@ -185,7 +185,7 @@ public abstract class TeamTalkBase implements AutoCloseable
     public boolean getSoundInputPreprocess(AudioPreprocessor lpAudioPreprocessor) {
         return getSoundInputPreprocessEx(ttInst, lpAudioPreprocessor);
     }
-    
+
     private native boolean setSoundOutputVolume(long lpTTInstance, int nVolume);
     public boolean setSoundOutputVolume(int nVolume)
         { return setSoundOutputVolume(ttInst, nVolume); }
@@ -203,26 +203,26 @@ public abstract class TeamTalkBase implements AutoCloseable
     public boolean enable3DSoundPositioning(boolean bEnable) {
         return enable3DSoundPositioning(ttInst, bEnable);
     }
-    
+
     private native boolean autoPositionUsers(long lpTTInstance);
     public boolean autoPositionUsers() { return autoPositionUsers(ttInst); }
 
     private native boolean enableAudioBlockEvent(long lpTTInstance, int nUserID,
-                                                 int nStreamType, boolean bEnable);
-    public boolean enableAudioBlockEvent(int nUserID, int nStreamType, boolean bEnable)
-        { return enableAudioBlockEvent(ttInst, nUserID, nStreamType, bEnable); }
+                                                 int uStreamTypes, boolean bEnable);
+    public boolean enableAudioBlockEvent(int nUserID, int uStreamTypes, boolean bEnable)
+        { return enableAudioBlockEvent(ttInst, nUserID, uStreamTypes, bEnable); }
 
     private native boolean enableAudioBlockEventEx(long lpTTInstance, int nUserID,
-                                                   int nStreamType, AudioFormat lpAudioFormat, boolean bEnable);
-    public boolean enableAudioBlockEvent(int nUserID, int nStreamType, AudioFormat lpAudioFormat, boolean bEnable)
-        { return enableAudioBlockEventEx(ttInst, nUserID, nStreamType, lpAudioFormat, bEnable); }
-    
+                                                   int uStreamTypes, AudioFormat lpAudioFormat, boolean bEnable);
+    public boolean enableAudioBlockEvent(int nUserID, int uStreamTypes, AudioFormat lpAudioFormat, boolean bEnable)
+        { return enableAudioBlockEventEx(ttInst, nUserID, uStreamTypes, lpAudioFormat, bEnable); }
+
     private native boolean insertAudioBlock(long lpTTInstance, AudioBlock lpAudioBlock);
     public boolean insertAudioBlock(AudioBlock lpAudioBlock) {
         return insertAudioBlock(ttInst, lpAudioBlock);
     }
-    
-    private native boolean enableVoiceTransmission(long lpTTInstance, 
+
+    private native boolean enableVoiceTransmission(long lpTTInstance,
                                                    boolean bEnable);
     public boolean enableVoiceTransmission(boolean bEnable) {
         return enableVoiceTransmission(ttInst, bEnable);
@@ -232,7 +232,7 @@ public abstract class TeamTalkBase implements AutoCloseable
                                                  boolean bEnable);
     public boolean enableVoiceActivation(boolean bEnable)
         { return enableVoiceActivation(ttInst, bEnable); }
-    
+
     private native boolean setVoiceActivationLevel(long lpTTInstance,
                                                    int nLevel);
     public boolean setVoiceActivationLevel(int nLevel)
@@ -270,6 +270,18 @@ public abstract class TeamTalkBase implements AutoCloseable
         return startRecordingMuxedAudioFileEx(ttInst, nChannelID, szAudioFileName, uAFF);
     }
 
+    private native boolean startRecordingMuxedStreams(long lpTTInstance,
+                                                      int uStreamTypes,
+                                                      AudioCodec lpAudioCodec,
+                                                      String szAudioFileName,
+                                                      int uAFF);
+    public boolean startRecordingMuxedStreams(int uStreamTypes,
+                                              AudioCodec lpAudioCodec,
+                                              String szAudioFileName,
+                                              int uAFF) {
+        return startRecordingMuxedStreams(ttInst, uStreamTypes, lpAudioCodec, szAudioFileName, uAFF);
+    }
+
     private native boolean stopRecordingMuxedAudioFile(long lpTTInstance);
     public boolean stopRecordingMuxedAudioFile() {
         return stopRecordingMuxedAudioFile(ttInst);
@@ -279,7 +291,7 @@ public abstract class TeamTalkBase implements AutoCloseable
     public boolean stopRecordingMuxedAudioFile(int nChannelID) {
         return stopRecordingMuxedAudioFileEx(ttInst, nChannelID);
     }
-    
+
     private native boolean startVideoCaptureTransmission(long lpTTInstance,
                                                          VideoCodec lpVideoCodec);
     public boolean startVideoCaptureTransmission(VideoCodec lpVideoCodec) {
@@ -361,7 +373,7 @@ public abstract class TeamTalkBase implements AutoCloseable
                                                      VideoCodec lpVideoCodec) {
         return updateStreamingMediaFileToChannel(ttInst, lpMediaFilePlayback, lpVideoCodec);
     }
-    
+
     private native boolean stopStreamingMediaFileToChannel(long lpTTInstance);
     public boolean stopStreamingMediaFileToChannel() {
         return stopStreamingMediaFileToChannel(ttInst);
@@ -454,15 +466,15 @@ public abstract class TeamTalkBase implements AutoCloseable
 
     private native boolean connect(long lpTTInstance,
                                    String szHostAddress,
-                                   int nTcpPort, 
-                                   int nUdpPort, 
-                                   int nLocalTcpPort, 
+                                   int nTcpPort,
+                                   int nUdpPort,
+                                   int nLocalTcpPort,
                                    int nLocalUdpPort,
                                    boolean bEncrypted);
     public boolean connect(String szHostAddress,
-                           int nTcpPort, 
-                           int nUdpPort, 
-                           int nLocalTcpPort, 
+                           int nTcpPort,
+                           int nUdpPort,
+                           int nLocalTcpPort,
                            int nLocalUdpPort,
                            boolean bEncrypted) {
         return szHostAddress != null && connect(ttInst, szHostAddress, nTcpPort, nUdpPort,
@@ -471,39 +483,39 @@ public abstract class TeamTalkBase implements AutoCloseable
 
     private native boolean connectSysID(long lpTTInstance,
                                    String szHostAddress,
-                                   int nTcpPort, 
-                                   int nUdpPort, 
-                                   int nLocalTcpPort, 
+                                   int nTcpPort,
+                                   int nUdpPort,
+                                   int nLocalTcpPort,
                                    int nLocalUdpPort,
                                    boolean bEncrypted,
                                    String szSystemID);
     public boolean connectSysID(String szHostAddress,
-                                int nTcpPort, 
-                                int nUdpPort, 
-                                int nLocalTcpPort, 
+                                int nTcpPort,
+                                int nUdpPort,
+                                int nLocalTcpPort,
                                 int nLocalUdpPort,
                                 boolean bEncrypted,
                                 String szSystemID) {
         return szHostAddress != null && szSystemID != null && connectSysID(ttInst, szHostAddress, nTcpPort, nUdpPort,
                 nLocalTcpPort, nLocalUdpPort, bEncrypted, szSystemID);
     }
-    
+
     private native boolean connectEx(long lpTTInstance,
                                      String szHostAddress,
-                                     int nTcpPort, 
-                                     int nUdpPort, 
+                                     int nTcpPort,
+                                     int nUdpPort,
                                      String szBindIPAddr,
-                                     int nLocalTcpPort, 
+                                     int nLocalTcpPort,
                                      int nLocalUdpPort,
                                      boolean bEncrypted);
     public boolean connectEx(String szHostAddress,
-                             int nTcpPort, 
-                             int nUdpPort, 
+                             int nTcpPort,
+                             int nUdpPort,
                              String szBindIPAddr,
-                             int nLocalTcpPort, 
+                             int nLocalTcpPort,
                              int nLocalUdpPort,
                              boolean bEncrypted) {
-        return connectEx(ttInst, szHostAddress, nTcpPort, nUdpPort, 
+        return connectEx(ttInst, szHostAddress, nTcpPort, nUdpPort,
                          szBindIPAddr, nLocalTcpPort, nLocalUdpPort,
                          bEncrypted);
     }
@@ -537,10 +549,10 @@ public abstract class TeamTalkBase implements AutoCloseable
     }
 
     private native int doLogin(long lpTTInstance,
-                              String szNickname, 
+                              String szNickname,
                               String szUsername,
                               String szPassword);
-    public int doLogin(String szNickname, 
+    public int doLogin(String szNickname,
                        String szUsername,
                        String szPassword) {
         return (szNickname != null && szUsername != null && szPassword != null) ?
@@ -550,11 +562,11 @@ public abstract class TeamTalkBase implements AutoCloseable
     }
 
     private native int doLoginEx(long lpTTInstance,
-                                 String szNickname, 
+                                 String szNickname,
                                  String szUsername,
                                  String szPassword,
                                  String szClientName);
-    public int doLoginEx(String szNickname, 
+    public int doLoginEx(String szNickname,
                          String szUsername,
                          String szPassword,
                          String szClientName) {
@@ -571,19 +583,19 @@ public abstract class TeamTalkBase implements AutoCloseable
         return doJoinChannel(ttInst, lpChannel);
     }
     private native int doJoinChannelByID(long lpTTInstance,
-                                         int nChannelID, 
+                                         int nChannelID,
                                          String szPassword);
-    public int doJoinChannelByID(int nChannelID, 
+    public int doJoinChannelByID(int nChannelID,
                                  String szPassword) {
         return doJoinChannelByID(ttInst, nChannelID, szPassword);
     }
     private native int doLeaveChannel(long lpTTInstance);
-    public int doLeaveChannel() { 
+    public int doLeaveChannel() {
         return doLeaveChannel(ttInst);
     }
     private native int doChangeNickname(long lpTTInstance,
                                         String szNewNick);
-    public int doChangeNickname(String szNewNick) { 
+    public int doChangeNickname(String szNewNick) {
         return doChangeNickname(ttInst, szNewNick);
     }
     private native int doChangeStatus(long lpTTInstance, int nStatusMode, String szStatusMessage);
@@ -598,9 +610,9 @@ public abstract class TeamTalkBase implements AutoCloseable
     public int doChannelOp(int nUserID, int nChannelID, boolean bMakeOperator) {
         return doChannelOp(ttInst, nUserID, nChannelID, bMakeOperator);
     }
-    private native int doChannelOpEx(long lpTTInstance, int nUserID, int nChannelID, 
+    private native int doChannelOpEx(long lpTTInstance, int nUserID, int nChannelID,
                                      String szOpPassword,boolean bMakeOperator);
-    public int doChannelOpEx(int nUserID, int nChannelID, 
+    public int doChannelOpEx(int nUserID, int nChannelID,
                              String szOpPassword, boolean bMakeOperator) {
         return doChannelOpEx(ttInst, nUserID, nChannelID, szOpPassword, bMakeOperator);
     }
@@ -758,10 +770,10 @@ public abstract class TeamTalkBase implements AutoCloseable
 
     private native boolean getChannelFile(long lpTTInstance,
                                           int nChannelID,
-                                          int nFileID, 
+                                          int nFileID,
                                           RemoteFile lpRemoteFile);
     public boolean getChannelFile(int nChannelID,
-                                  int nFileID, 
+                                  int nFileID,
                                   RemoteFile lpRemoteFile) {
         return getChannelFile(ttInst, nChannelID, nFileID, lpRemoteFile);
     }
@@ -869,9 +881,9 @@ public abstract class TeamTalkBase implements AutoCloseable
         return setUserAudioStreamBufferSize(ttInst, nUserID, uStreamType, nMSec);
     }
     private native AudioBlock acquireUserAudioBlock(long lpTTInstance,
-                                                    int nStreamType, int nUserID);
-    public AudioBlock acquireUserAudioBlock(int nStreamType, int nUserID) {
-        return acquireUserAudioBlock(ttInst, nStreamType, nUserID);
+                                                    int uStreamTypes, int nUserID);
+    public AudioBlock acquireUserAudioBlock(int uStreamTypes, int nUserID) {
+        return acquireUserAudioBlock(ttInst, uStreamTypes, nUserID);
     }
     private native boolean getFileTransferInfo(long lpTTInstance,
                                                int nTransferID, FileTransfer lpFileTransfer);

@@ -30,6 +30,7 @@ public class AudioBlock {
     public byte[] lpRawAudio;
     public int nSamples;
     public int uSampleIndex;
+    public int uStreamTypes;
     
     public AudioBlock() {}
 }
