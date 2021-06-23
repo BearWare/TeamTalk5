@@ -3791,13 +3791,13 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
         if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
         {
             m_host.nickname = s;
-            TT_DoChangeNickname(ttInst, _W(s));
+            TT_DoChangeNickname(ttInst, (s.isEmpty() && !ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString().isEmpty())?_W(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString()):_W(s));
             HostEntry tmp = HostEntry();
-            int index = 0;
+            int serv, lasthost, index = 0;
             while(getServerEntry(index, tmp))
             {
                 if(m_host.ipaddr == tmp.ipaddr && m_host.tcpport == tmp.tcpport && m_host.udpport == tmp.udpport && m_host.encrypted == tmp.encrypted && m_host.username == tmp.username && m_host.channel == tmp.channel)
-                    ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(index), s);
+                    serv = index;
                 index++;
                 tmp = HostEntry();
             }
@@ -3806,8 +3806,18 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
             while(getLatestHost(index, tmp))
             {
                 if(m_host.name == tmp.name && m_host.ipaddr == tmp.ipaddr && m_host.tcpport == tmp.tcpport && m_host.udpport == tmp.udpport && m_host.encrypted == tmp.encrypted && m_host.username == tmp.username && m_host.channel == tmp.channel)
-                    ttSettings->setValue(QString(SETTINGS_LATESTHOST_NICKNAME).arg(index), s);
+                    lasthost = index;
                 index++;
+            }
+            if(s != ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString())
+            {
+                ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(serv), s);
+                ttSettings->setValue(QString(SETTINGS_LATESTHOST_NICKNAME).arg(lasthost), s);
+            }
+            else if(s == ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString() || s.isEmpty())
+            {
+                ttSettings->remove(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(serv));
+                ttSettings->remove(QString(SETTINGS_LATESTHOST_NICKNAME).arg(lasthost));
             }
         }
         else
