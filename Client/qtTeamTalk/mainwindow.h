@@ -102,7 +102,7 @@ public:
 
     void processTTMessage(const TTMessage& msg);
 
-    void addStatusMsg(const QString& msg);
+    void addStatusMsg(StatusBarEvent event, const QString& msg);
 
     void Connect();
     void Disconnect();
@@ -277,6 +277,8 @@ private:
     reghotkeys_t m_hotkeys;
     INT64 m_nCGShareWnd;
 #endif
+// Event to use for status messages should always appears
+    StatusBarEvent event_d;
 
 private:
     /* menu items begin */

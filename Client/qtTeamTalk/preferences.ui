@@ -470,9 +470,12 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="loggedinoutChkBox">
+             <widget class="QToolButton" name="statusbarToolButton">
+              <property name="accessibleName">
+               <string>Configure events</string>
+              </property>
               <property name="text">
-               <string>Show user logs in/out in chat history</string>
+               <string notr="true">...</string>
               </property>
              </widget>
             </item>
