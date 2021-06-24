@@ -1465,21 +1465,21 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         switch(msg.mediafileinfo.nStatus)
         {
         case MFS_STARTED :
-            addStatusMsg(STATUSBAR_START_RECORD, tr("Writing audio file %1 for %2")
+            addStatusMsg(event_d, tr("Writing audio file %1 for %2")
                          .arg(_Q(msg.mediafileinfo.szFileName))
                          .arg(getDisplayName(user)));
             break;
         case MFS_ERROR :
-            addStatusMsg(STATUSBAR_START_RECORD, tr("Failed to write audio file %1 for %2")
+            addStatusMsg(event_d, tr("Failed to write audio file %1 for %2")
                          .arg(_Q(msg.mediafileinfo.szFileName))
                          .arg(getDisplayName(user)));
             break;
         case MFS_FINISHED :
-            addStatusMsg(STATUSBAR_START_RECORD, tr("Finished audio file %1")
+            addStatusMsg(event_d, tr("Finished audio file %1")
                          .arg(_Q(msg.mediafileinfo.szFileName)));
             break;
         case MFS_ABORTED :
-            addStatusMsg(STATUSBAR_START_RECORD, tr("Aborted audio file %1")
+            addStatusMsg(event_d, tr("Aborted audio file %1")
                          .arg(_Q(msg.mediafileinfo.szFileName)));
             break;
         case MFS_CLOSED :
@@ -2731,7 +2731,7 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
                 return;
             }
             else
-                addStatusMsg(event_d, tr("Recording to file: %1").arg(filepath));
+                addStatusMsg(STATUSBAR_START_RECORD, tr("Recording to file: %1").arg(filepath));
         }
         else
         {
