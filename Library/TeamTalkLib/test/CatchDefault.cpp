@@ -1475,7 +1475,6 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
     while (durationMSec < 3000)
     {
         REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
-        std::cout << "Audioblock received" << std::endl;
         StreamType streamtype = static_cast<StreamType>(msg.nStreamType);
         AudioBlock* ttAudioblock = TT_AcquireUserAudioBlock(ttclient, streamtype, msg.nSource);
         REQUIRE(ttAudioblock);
@@ -1483,8 +1482,6 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
         REQUIRE(ttAudioblock->nSampleRate == af.nSampleRate);
         REQUIRE(ttAudioblock->nChannels == af.nChannels);
         wavfile.AppendSamples(reinterpret_cast<const short*>(ttAudioblock->lpRawAudio), ttAudioblock->nSamples);
-
-        std::cout << "....Audioblock has audio: " << (ttAudioblock->uStreamTypes != STREAMTYPE_NONE) << ", type: " << ttAudioblock->uStreamTypes << std::endl;
 
         if (ttAudioblock->uStreamTypes == STREAMTYPE_NONE)
         {
@@ -1614,8 +1611,8 @@ TEST_CASE("AudioMuxerMixedVoiceAndLocalPlayback")
 
         // local playback uses a 40 msec
         int localplayback_interval = txinterval * (PB_FRAMEDURATION_MSEC / txinterval);
-        REQUIRE(mfi2.uDurationMSec >= mfi1.uDurationMSec - (txinterval + localplayback_interval));
-        REQUIRE(mfi3.uDurationMSec >= mfi1.uDurationMSec - (txinterval + localplayback_interval));
+        REQUIRE(mfi2.uDurationMSec >= mfi1.uDurationMSec - (2 * txinterval + localplayback_interval));
+        REQUIRE(mfi3.uDurationMSec >= mfi1.uDurationMSec - (2 * txinterval + localplayback_interval));
     }
 }
 
