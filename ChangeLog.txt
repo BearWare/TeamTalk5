@@ -5,7 +5,7 @@ Version 5.8.1
 Accessible Windows Client
 -
 Default QT Client
--
+-Ability to specify nickname by server
 Android Client
 -
 iOS Client
