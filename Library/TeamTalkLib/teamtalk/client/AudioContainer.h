@@ -36,6 +36,8 @@
 #include <memory>
 #include <mutex>
 
+#define AUDIOCONTAINER_MAXSIZE (PCM16_BYTES(48000, 2) * 3) // 3 seconds at 48KHz stereo
+
 struct AudioEntry
 {
     msg_queue_t mq;
@@ -45,9 +47,8 @@ struct AudioEntry
 
     AudioEntry(const media::AudioFormat& resamplefmt) : outfmt(resamplefmt)
     {
-        size_t bufmax = PCM16_BYTES(48000, 2) * 3; // 3 seconds at 48KHz stereo
-        mq.high_water_mark(bufmax);
-        mq.low_water_mark(bufmax);
+        mq.high_water_mark(AUDIOCONTAINER_MAXSIZE);
+        mq.low_water_mark(AUDIOCONTAINER_MAXSIZE);
     }
 };
 

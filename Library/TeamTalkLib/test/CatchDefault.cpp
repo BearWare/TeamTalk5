@@ -32,6 +32,7 @@
 #include <teamtalk/server/ServerNode.h>
 #include <teamtalk/client/ClientNodeBase.h>
 #include <avstream/VideoCapture.h>
+#include <avstream/MediaPlayback.h>
 #include <teamtalk/client/AudioMuxer.h>
 
 #include <map>
@@ -1127,7 +1128,7 @@ TEST_CASE( "AudioMuxerRawOverflow" )
 
     // overflow AudioMuxer's queue
     short v = 2;
-    while (frm.sample_no < FRAMESIZE * 4)
+    while (frm.sample_no < frm.inputfmt.samplerate * 2)
     {
         REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
         frm.sample_no += FRAMESIZE;
@@ -1512,6 +1513,111 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoRemoveChannel(ttclient, TT_GetMyChannelID(ttclient))));
 }
 
+TEST_CASE("AudioMuxerMixedVoiceAndLocalPlayback")
+{
+    // Write output-wavefile containing a mix of voice-stream from remote user and local-playback
+
+    for (int txinterval : {10, 20, 240})
+    {
+        AudioCodec ac = MakeDefaultAudioCodec(OPUS_CODEC);
+        ac.opus.nSampleRate = 48000;
+        ac.opus.nChannels = 2;
+        ac.opus.nTxIntervalMSec = txinterval;
+        ac.opus.nFrameSizeMSec = 10;
+
+        MediaFileInfo mfi = {};
+        mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+        mfi.audioFmt.nChannels = 2;
+        mfi.audioFmt.nSampleRate = 48000;
+        mfi.uDurationMSec = 1000;
+        ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("tone_1000.wav"));
+        REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 1000));
+
+#if 0
+        // mix music with tone
+        ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("testdata/Opus/giana.ogg"));
+#endif
+
+        auto rxclient = InitTeamTalk();
+        REQUIRE(InitSound(rxclient));
+        REQUIRE(Connect(rxclient));
+        REQUIRE(Login(rxclient, ACE_TEXT("RxClient"), ACE_TEXT("admin"), ACE_TEXT("admin")));
+
+        auto chan = MakeChannel(rxclient, ACE_TEXT("Channel6"), TT_GetRootChannelID(rxclient), ac);
+        chan.uChannelType = CHANNEL_HIDDEN;
+        REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannel(rxclient, &chan)));
+
+        auto txclient = InitTeamTalk();
+        REQUIRE(InitSound(txclient));
+        REQUIRE(Connect(txclient));
+        REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
+        REQUIRE(WaitForCmdSuccess(txclient, TT_DoJoinChannel(txclient, &chan)));
+        REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
+        REQUIRE(TT_EnableVoiceTransmission(txclient, true));
+
+        StreamTypes sts = STREAMTYPE_VOICE | STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO;
+        AudioFormat af;
+        af.nAudioFmt = AFF_WAVE_FORMAT;
+        af.nChannels = 1;
+        af.nSampleRate = 8000;
+        REQUIRE(TT_EnableAudioBlockEventEx(rxclient, TT_MUXED_USERID, sts, &af, TRUE));
+
+        WavePCMFile wavfile;
+        TTCHAR wavfilename[TT_STRLEN];
+        ACE_OS::snprintf(wavfilename, TT_STRLEN, ACE_TEXT("mixedvoicelocalplayback_%d.wav"), ac.opus.nTxIntervalMSec);
+        REQUIRE(wavfile.NewFile(wavfilename, af.nSampleRate, af.nChannels));
+
+        TTCHAR recordfilename[TT_STRLEN];
+        ACE_OS::snprintf(recordfilename, TT_STRLEN, ACE_TEXT("recordvoicelocalplayback_%d.wav"), ac.opus.nTxIntervalMSec);
+        REQUIRE(TT_StartRecordingMuxedStreams(rxclient, sts, &ac, recordfilename, AFF_WAVE_FORMAT));
+
+        MediaFilePlayback mfp = {};
+        mfp.bPaused = FALSE;
+        mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+
+        INT32 session = TT_InitLocalPlayback(rxclient, mfi.szFileName, &mfp);
+        REQUIRE(session > 0);
+
+        bool stop = false;
+        TTMessage msg;
+        auto waittime = DEFWAIT;
+        while (TT_GetMessage(rxclient, &msg, &waittime) && !stop)
+        {
+            switch (msg.nClientEvent)
+            {
+            case CLIENTEVENT_USER_AUDIOBLOCK :
+            {
+                abptr ab(rxclient, TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID));
+                REQUIRE(ab->nSamples == int(ab->nSampleRate * .02));
+                REQUIRE(ab->nChannels == af.nChannels);
+                REQUIRE(ab->nSampleRate == af.nSampleRate);
+                wavfile.AppendSamples(reinterpret_cast<const short*>(ab->lpRawAudio), ab->nSamples);
+                break;
+            }
+            case CLIENTEVENT_LOCAL_MEDIAFILE :
+                stop = msg.mediafileinfo.nStatus == MFS_FINISHED;
+                break;
+            default :
+                break;
+            }
+        }
+
+        REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
+        REQUIRE(WaitForCmdSuccess(rxclient, TT_DoRemoveChannel(rxclient, TT_GetMyChannelID(rxclient))));
+
+        wavfile.Close();
+
+        MediaFileInfo mfi1, mfi2, mfi3;
+        REQUIRE(TT_GetMediaFileInfo(mfi.szFileName, &mfi1));
+        REQUIRE(TT_GetMediaFileInfo(wavfilename, &mfi2));
+        REQUIRE(TT_GetMediaFileInfo(recordfilename, &mfi3));
+
+        // local playback uses a 40 msec
+        int localplayback_interval = txinterval * (PB_FRAMEDURATION_MSEC / txinterval);
+        REQUIRE(mfi2.uDurationMSec >= mfi1.uDurationMSec - (txinterval + localplayback_interval));
+        REQUIRE(mfi3.uDurationMSec >= mfi1.uDurationMSec - (txinterval + localplayback_interval));
+    }
+}
 
 
 #if defined(ENABLE_OGG)
