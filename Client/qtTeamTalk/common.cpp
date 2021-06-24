@@ -1031,7 +1031,8 @@ void playSoundEvent(SoundEvent event)
 
 void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
 {
-    if (ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() & event)
+    TextToSpeechEvent event_s = TextToSpeechEvent(~TTS_NONE);
+    if ((ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() & event) || event == event_s)
     {
         switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
         {
