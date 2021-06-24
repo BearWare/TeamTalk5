@@ -65,6 +65,25 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
         selindev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
         break;
     }
+    case SHARED_OUTPUT :
+    {
+        if (seloutdev == SOUNDDEVICEID_IGNORE)
+            return false;
+
+        seloutdev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        break;
+    }
+    case SHARED_INPUT_OUTPUT :
+    {
+        if (selindev == SOUNDDEVICEID_IGNORE)
+            return false;
+        if (seloutdev == SOUNDDEVICEID_IGNORE)
+            return false;
+
+        selindev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        seloutdev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        break;
+    }
     case DEFAULT :
         break;
     }

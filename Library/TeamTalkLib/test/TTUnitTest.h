@@ -36,16 +36,20 @@
 #define SOUNDDEVICEID_DEFAULT -1
 #define SOUNDDEVICEID_IGNORE  -2
 
+#define SERVER_IPADDR ACE_TEXT("127.0.0.1")
+
 enum SoundMode
 {
-    DEFAULT         = 0x0,
-    DUPLEX          = 0x1,
-    SHARED_INPUT    = 0x2,
+    DEFAULT                 = 0x0,
+    DUPLEX                  = 0x1,
+    SHARED_INPUT            = 0x2,
+    SHARED_OUTPUT           = 0x4,
+    SHARED_INPUT_OUTPUT     = 0x8,
 };
 
 bool InitSound(TTInstance* ttClient, SoundMode mode = DEFAULT, INT32 indev = SOUNDDEVICEID_DEFAULT, INT32 outdev = SOUNDDEVICEID_DEFAULT);
 bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev = SOUNDDEVICEID_DEFAULT, INT32 outdev = SOUNDDEVICEID_DEFAULT);
-bool Connect(TTInstance* ttClient, const TTCHAR* hostname = ACE_TEXT("127.0.0.1"), INT32 tcpport = 10333, INT32 udpport = 10333, TTBOOL encrypted = FALSE);
+bool Connect(TTInstance* ttClient, const TTCHAR* hostname = SERVER_IPADDR, INT32 tcpport = 10333, INT32 udpport = 10333, TTBOOL encrypted = FALSE);
 bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR* username = ACE_TEXT("guest"), const TTCHAR* passwd = ACE_TEXT("guest"));
 bool JoinRoot(TTInstance* ttClient);
 AudioCodec MakeDefaultAudioCodec(Codec codec);

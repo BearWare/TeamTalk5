@@ -35,6 +35,63 @@ using c_tt;
 
 namespace BearWare
 {
+    /** @addtogroup transmission
+     * @{ */
+
+    /** @brief The types of streams which are available for
+     * transmission. */
+    [Flags]
+    public enum StreamType : uint
+    {
+        /** @brief No stream. */
+        STREAMTYPE_NONE                             = 0x00000000,
+        /** @brief Voice stream type which is audio recorded from a
+         * sound input device. @see TeamTalkBase.InitSoundInputDevice() */
+        STREAMTYPE_VOICE                            = 0x00000001,
+        /** @brief Video capture stream type which is video recorded
+         * from a webcam. @see TeamTalkBase.InitVideoCaptureDevice() */
+        STREAMTYPE_VIDEOCAPTURE                     = 0x00000002,
+        /** @brief Audio stream type from a media file which is being
+         * streamed. @see TeamTalkBase.StartStreamingMediaFileToChannel() */
+        STREAMTYPE_MEDIAFILE_AUDIO                  = 0x00000004,
+        /** @brief Video stream type from a media file which is being
+         * streamed. @see TeamTalkBase.StartStreamingMediaFileToChannel() */
+        STREAMTYPE_MEDIAFILE_VIDEO                  = 0x00000008,
+        /** @brief Desktop window stream type which is a window (or
+         * bitmap) being transmitted. @see TeamTalkBase.SendDesktopWindow() */
+        STREAMTYPE_DESKTOP                          = 0x00000010,
+        /** @brief Desktop input stream type which is keyboard or
+         * mouse input being transmitted. @see
+         * TeamTalkBase.SendDesktopInput() */
+        STREAMTYPE_DESKTOPINPUT                     = 0x00000020,
+        /** @brief Shortcut to allow both audio and video media files. */
+        STREAMTYPE_MEDIAFILE                        = STREAMTYPE_MEDIAFILE_AUDIO |
+                                                      STREAMTYPE_MEDIAFILE_VIDEO,
+        /** @brief Channel text messages as stream type.
+         *
+         * A channel text message is not a stream but is only included
+         * as a stream type in order to be able to block messages
+         * using @c transmitUsers in #BearWare.Channel struct.
+         *
+         * @see TeamTalkBase.DoUpdateChannel()  
+         * @see ChannelType.CHANNEL_CLASSROOM. */
+        STREAMTYPE_CHANNELMSG                       = 0x00000040,
+        /** @brief Stream type for audio of local playback.
+         *
+         *  TeamTalkBase.EnableAudioBlockEvent() can be used to intercept audio
+         *  from a local media playback.
+         *  @see TeamTalkBase.InitLocalPlayback() */
+        STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO = 0x00000080,
+
+        /** @brief Shortcut to allow voice, media files, desktop,
+         * webcamera and channel messages. */
+        STREAMTYPE_CLASSROOM_ALL = STREAMTYPE_VOICE |
+                                                      STREAMTYPE_VIDEOCAPTURE |
+                                                      STREAMTYPE_DESKTOP |
+                                                      STREAMTYPE_MEDIAFILE |
+                                                      STREAMTYPE_CHANNELMSG,
+    }
+    /** @} */
 
     /** @addtogroup sounddevices
      * @{ */
@@ -435,6 +492,19 @@ namespace BearWare
          * nSampleIndex will be greater than 0. When the user stops
          * talking @c nSampleIndex will be reset to 0 again. */
         public uint uSampleIndex;
+        /** @brief The stream types used to generate the AudioBlock's
+         * raw audio.
+         *
+         * When retrieving audio that has been mixed together from
+         * multiple sources it can be useful to know what stream types
+         * were mixed together to generate the AudioBlock.
+         *
+         * If 'uStreamTypes' is #StreamType.STREAMTYPE_NONE it means that silence
+         * was inserted. Silence is inserted if no audio was available
+         * for mixing or the duration from last audio packet was
+         * received and until @c nStoppedDelayVoice of #BearWare.User has
+         * expired.  @see #BearWare.TeamTalkBase.TT_MUXED_USERID */
+        StreamType uStreamTypes;
     }
 
     /** @} */
@@ -1631,58 +1701,6 @@ namespace BearWare
         public uint uElapsedMSec;
     }
 
-    /** @} */
-
-
-    /** @addtogroup transmission
-     * @{ */
-
-    /** @brief The types of streams which are available for
-     * transmission. */
-    [Flags]
-    public enum StreamType : uint
-    {
-        /** @brief No stream. */
-        STREAMTYPE_NONE                     = 0x00000000,
-        /** @brief Voice stream type which is audio recorded from a
-         * sound input device. @see TeamTalkBase.InitSoundInputDevice() */
-        STREAMTYPE_VOICE                    = 0x00000001,
-        /** @brief Video capture stream type which is video recorded
-         * from a webcam. @see TeamTalkBase.InitVideoCaptureDevice() */
-        STREAMTYPE_VIDEOCAPTURE             = 0x00000002,
-        /** @brief Audio stream type from a media file which is being
-         * streamed. @see TeamTalkBase.StartStreamingMediaFileToChannel() */
-        STREAMTYPE_MEDIAFILE_AUDIO          = 0x00000004,
-        /** @brief Video stream type from a media file which is being
-         * streamed. @see TeamTalkBase.StartStreamingMediaFileToChannel() */
-        STREAMTYPE_MEDIAFILE_VIDEO          = 0x00000008,
-        /** @brief Desktop window stream type which is a window (or
-         * bitmap) being transmitted. @see TeamTalkBase.SendDesktopWindow() */
-        STREAMTYPE_DESKTOP                  = 0x00000010,
-        /** @brief Desktop input stream type which is keyboard or
-         * mouse input being transmitted. @see
-         * TeamTalkBase.SendDesktopInput() */
-        STREAMTYPE_DESKTOPINPUT             = 0x00000020,
-        /** @brief Shortcut to allow both audio and video media files. */
-        STREAMTYPE_MEDIAFILE                = STREAMTYPE_MEDIAFILE_AUDIO |
-                                              STREAMTYPE_MEDIAFILE_VIDEO,
-        /** @brief Channel text messages as stream type.
-         *
-         * A channel text message is not a stream but is only included
-         * as a stream type in order to be able to block messages
-         * using @c transmitUsers in #BearWare.Channel struct.
-         *
-         * @see TeamTalkBase.DoUpdateChannel()  
-         * @see ChannelType.CHANNEL_CLASSROOM. */
-        STREAMTYPE_CHANNELMSG               = 0x00000040,
-        /** @brief Shortcut to allow voice, media files, desktop,
-         * webcamera and channel messages. */
-        STREAMTYPE_CLASSROOM_ALL            = STREAMTYPE_VOICE |
-                                              STREAMTYPE_VIDEOCAPTURE |
-                                              STREAMTYPE_DESKTOP |
-                                              STREAMTYPE_MEDIAFILE |
-                                              STREAMTYPE_CHANNELMSG,
-    }
     /** @} */
 
 
@@ -4147,8 +4165,8 @@ namespace BearWare
          * into a single stream.
          *
          * This user ID is passed to TeamTalkBase.EnableAudioBlockEvent() in order to
-         * receive #BearWare.AudioBlock of audio that is played in the TeamTalk instance's
-         * channel. */
+         * receive #BearWare.AudioBlock of audio that is played in the TeamTalk instance.
+         */
         public const int TT_MUXED_USERID = 0x1001; /* TT_USERID_MAX + 2 */
     
         /** @ingroup users
@@ -5149,34 +5167,86 @@ namespace BearWare
          * time a new #BearWare.AudioBlock is available the event
          * OnUserAudioBlock() is generated.
          * 
-         * @param nUserID The user ID to monitor for audio callback. Pass
-         * special user ID #TT_LOCAL_USERID to monitor local recorded
-         * audio prior to encoding/processing. Pass special user ID
-         * #TT_MUXED_USERID to get a single audio stream of all audio that
-         * is being played from users.
-         * @param nStreamType Either #StreamType.STREAMTYPE_VOICE or 
-         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         * Special user IDs can be used to retrieve certain types of audio
+         * from the client instance:
+         *
+         * - #TT_LOCAL_USERID
+         *   - Unprocessed audio from microphone when using #StreamType.STREAMTYPE_VOICE.
+         *   - Decoded PCM16 when using #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         *   - Decoded PCM16 when using #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
+         *     from all active local playbacks @see TeamTalkBase.InitLocalPlayback().
+         * - #TT_LOCAL_TX_USERID
+         *   - Processed audio from microphone that is transmitted to channel
+         *     when using #StreamType.STREAMTYPE_VOICE.
+         *   - Not applicable for all other stream types except #StreamType.STREAMTYPE_VOICE
+         * - #TT_MUXED_USERID
+         *   - Decoded PCM16 from all specified audio streams (#BearWare.StreamType)
+         *     mixed into a single stream.
+         * 
+         * @param nUserID User ID has different meanings depending on
+         *  the #StreamType being passed.
+         *
+         * For #StreamType.STREAMTYPE_VOICE:
+         * - Pass user ID to receive audio from voice stream.
+         * - Pass special user ID #TT_LOCAL_USERID for audio callback from
+         *   local recorded audio prior to encoding/processing.
+         * - Pass special user ID #TT_MUXED_USERID to receive audio where
+         *   voice stream has been mixed into the single stream.
+         * For #StreamType.STREAMTYPE_MEDIAFILE_AUDIO:
+         * - Pass user ID to receive audio from media stream.
+         * - Pass #TT_LOCAL_USERID to receive audio from media file being
+         *   streamed (transmitted). @see StartStreamingMediaFileToChannel().
+         * - Pass special user ID #TT_MUXED_USERID to receive audio where
+         *   media stream has been mixed into the single stream.
+         * For #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO:
+         * - Pass session ID returned by InitLocalPlayback() to receive
+         *   audio stream from local playback.
+         * - Pass #TT_LOCAL_USERID to receive audio stream from all local
+         *   playbacks.
+         * - Pass special user ID #TT_MUXED_USERID to receive audio where
+         *   local playback stream has been mixed into the single stream.
+         *
+         * When using #TT_MUXED_USERID as user ID the instance must be
+         * in a channel with a configured #BearWare.AudioCodec. Alternatively use
+         * @c lpAudioFormat to specify the audio properties.
+         *
+         * @param uStreamTypes Either #StreamType.STREAMTYPE_VOICE,
+         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO or #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
+         * For #TT_MUXED_USERID it's possible to mix #BearWare.StreamType so e.g.
+         * #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO **or'ed** with
+         * #StreamType.STREAMTYPE_VOICE) will return an #BearWare.AudioBlock where these two
+         * stream types have been mixed together.
          * @param bEnable Whether to enable the OnUserAudioBlock() event.
          * 
          * @see TeamTalkBase.AcquireUserAudioBlock()
          * @see TeamTalkBase.ReleaseUserAudioBlock()
          * @see OnUserAudioBlock() */
-        public bool EnableAudioBlockEvent(int nUserID, StreamType nStreamType,
+        public bool EnableAudioBlockEvent(int nUserID, StreamType uStreamTypes,
                                           bool bEnable)
         {
-            return TTDLL.TT_EnableAudioBlockEvent(m_ttInst, nUserID, nStreamType, bEnable);
+            return TTDLL.TT_EnableAudioBlockEvent(m_ttInst, nUserID, uStreamTypes, bEnable);
         }
         /**
          * @brief Same as TeamTalkBase.EnableAudioBlockEvent() but option to specify
          * audio output format.
+         * 
+         * When using #TT_MUXED_USERID as user ID in combination with @c
+         * lpAudioFormat will cause #BearWare.AudioBlock to contain 20 msec of
+         * audio. If @c lpAudioFormat is NULL then the instance will
+         * use the audio format that is configured in the channel's
+         * #BearWare.AudioCodec.
          *
+         * @param uStreamTypes Either #StreamType.STREAMTYPE_VOICE,
+         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO or #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
+         * For #TT_MUXED_USERID it's possible to mix #BearWare.StreamType so e.g.
+         * #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO **or'ed** with
+         * #StreamType.STREAMTYPE_VOICE) will return an #BearWare.AudioBlock where these two
+         * stream types have been mixed together.
          * @param nUserID The user ID to monitor for audio callback. Pass
          * special user ID #TT_LOCAL_USERID to monitor local recorded
          * audio prior to encoding/processing. Pass special user ID
          * #TT_MUXED_USERID to get a single audio stream of all audio that
          * is being played from users.
-         * @param nStreamType Either #StreamType.STREAMTYPE_VOICE or 
-         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
          * @param lpAudioFormat Resample audio format from user to this #BearWare.AudioFormat.
          * Currently only #AudioFileFormat.AFF_WAVE_FORMAT is supported.
          * Specify NULL to get original audio format.
@@ -5184,10 +5254,10 @@ namespace BearWare
          * @see TeamTalkBase.AcquireUserAudioBlock()
          * @see TeamTalkBase.ReleaseUserAudioBlock()
          * @see ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK */
-        public bool EnableAudioBlockEvent(int nUserID, StreamType nStreamType,
+        public bool EnableAudioBlockEvent(int nUserID, StreamType uStreamTypes,
                                           AudioFormat lpAudioFormat, bool bEnable)
         {
-            return TTDLL.TT_EnableAudioBlockEventEx(m_ttInst, nUserID, nStreamType, ref lpAudioFormat, bEnable);
+            return TTDLL.TT_EnableAudioBlockEventEx(m_ttInst, nUserID, uStreamTypes, ref lpAudioFormat, bEnable);
         }
         /** @} */
 
@@ -5417,6 +5487,46 @@ namespace BearWare
                                                            nChannelID,
                                                            szAudioFileName,
                                                            uAFF);
+        }
+
+
+        /**
+         * @brief Mix multiple #BearWare.StreamType into a single audio file.
+         *
+         * Both voice, media streams, etc. can be mixed together into a
+         * single file using this feature.
+         *
+         * Streams that can be mixed into a single file are:
+         * - #StreamType.STREAMTYPE_VOICE
+         * - #StreamType.STREAMTYPE_MEDIAFILE_AUDIO
+         * - #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
+         *
+         * StartRecordingMuxedAudioFile() is mutually exclusive with
+         * StartRecordingMuxedStreams().
+         *
+         * Use StopRecordingMuxedAudioFile() to stop the recording.
+         *
+         * @param uStreamTypes The #BearWare.StreamType to mix together.
+         * Streams that can be mixed into a single file are:
+         * - #StreamType.STREAMTYPE_VOICE
+         * - #StreamType.STREAMTYPE_MEDIAFILE_AUDIO
+         * - #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
+         * @param lpAudioCodec The reference codec for the recording. The recording
+         * will use the sample rate and number of channels specified by the #BearWare.AudioCodec.
+         * @param szAudioFileName The file to store audio to, e.g.
+         * C:\\MyFiles\\Conf.mp3.
+         * @param uAFF The audio format which should be used in the recorded
+         * file. The muxer will convert to this format.
+         *
+         * @see StartRecordingMuxedAudioFile()
+         * @see StartRecordingMuxedAudioFileEx()
+         * @see StopRecordingMuxedAudioFileE() */
+        public bool StartRecordingMuxedStreams(StreamType uStreamTypes,
+                                               AudioCodec lpAudioCodec,
+                                               string szAudioFileName,
+                                               AudioFileFormat uAFF)
+        {
+            return TTDLL.TT_StartRecordingMuxedStreams(m_ttInst, uStreamTypes, ref lpAudioCodec, szAudioFileName, uAFF);
         }
 
         /**
@@ -7821,17 +7931,17 @@ namespace BearWare
          * instance therefore always remember to call
          * TeamTalkBase.ReleaseUserAudioBlock() to release the shared memory.
          *
+         * @param uStreamTypes The stream type to extract, either #StreamType.STREAMTYPE_VOICE
+         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO, #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
          * @param nUserID The user ID to monitor for audio callback. Pass 0
          * to monitor local audio.
-         * @param nStreamType Either #StreamType.STREAMTYPE_VOICE or 
-         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
          * 
          * @see TeamTalkBase.ReleaseUserAudioBlock()
          * @see TeamTalkBase.EnableAudioBlockEvent()
          * @see TeamTalkBase.OnUserAudioBlock() */
-        public AudioBlock AcquireUserAudioBlock(StreamType nStreamType, int nUserID)
+        public AudioBlock AcquireUserAudioBlock(StreamType uStreamTypes, int nUserID)
         {
-            IntPtr ptr = TTDLL.TT_AcquireUserAudioBlock(m_ttInst, nStreamType, nUserID);
+            IntPtr ptr = TTDLL.TT_AcquireUserAudioBlock(m_ttInst, uStreamTypes, nUserID);
             if (ptr == IntPtr.Zero)
                 return new AudioBlock();
             AudioBlock lpAudioBlock = (AudioBlock)Marshal.PtrToStructure(ptr, typeof(AudioBlock));

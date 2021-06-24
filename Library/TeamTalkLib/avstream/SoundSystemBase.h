@@ -386,6 +386,7 @@ namespace soundsystem {
 
             if (m_shared_streamplayers.find(outputdeviceid) != m_shared_streamplayers.end())
             {
+                m_shared_streamplayers[outputdeviceid]->AddOutputStreamer(streamer, player);
                 return streamer;
             }
 
@@ -427,6 +428,8 @@ namespace soundsystem {
             }
 
             sharedstream->SetOrigin(orgstream);
+
+            sharedstream->AddOutputStreamer(streamer, player);
 
             // a hack to get new player into container, otherwise we
             // cannot start it
@@ -663,6 +666,8 @@ namespace soundsystem {
 
         bool CloseOutputStream(StreamPlayer* player)
         {
+            MYTRACE(ACE_TEXT("Closing StreamPlayer %p\n"), player);
+
             outputstreamer_t streamer = GetStream(player);
             if (!streamer)
                 return false;
@@ -728,8 +733,8 @@ namespace soundsystem {
 
                 assert(m_shared_streamplayers.find(streamer->outputdeviceid) != m_shared_streamplayers.end());
                 auto sharedstream = m_shared_streamplayers[streamer->outputdeviceid];
-                g.unlock();
-                return sharedstream->AddOutputStreamer(streamer, player);
+                sharedstream->ActivatePlayer(player, true);
+                return true;
             }
 
             return StartStream(streamer);
@@ -752,8 +757,7 @@ namespace soundsystem {
 
                 assert(m_shared_streamplayers.find(streamer->outputdeviceid) != m_shared_streamplayers.end());
                 auto sharedstream = m_shared_streamplayers[streamer->outputdeviceid];
-                g.unlock();
-                sharedstream->RemoveOutputStreamer(player);
+                sharedstream->ActivatePlayer(player, false);
                 return true;
             }
 
@@ -777,7 +781,7 @@ namespace soundsystem {
                 assert(m_shared_streamplayers.find(streamer->outputdeviceid) != m_shared_streamplayers.end());
                 auto sharedstream = m_shared_streamplayers[streamer->outputdeviceid];
                 g.unlock();
-                return !sharedstream->Exists(player);
+                return !sharedstream->IsActive(player);
             }
 
             return IsStreamStopped(streamer);
