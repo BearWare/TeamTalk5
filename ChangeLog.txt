@@ -1,7 +1,19 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.8, unreleased
+Version 5.8.1
+Accessible Windows Client
+-
+Default QT Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.8, 2021/06/24
 Accessible Windows Client
 - Single file audio recording can now include media file streams
 - Fixed possible crash when saving preferences and playback mode for Sound Events has "All at once" selected

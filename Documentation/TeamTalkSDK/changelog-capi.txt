@@ -4,6 +4,10 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v58arelease
+ * - @ref v58afeatures
+ * - @ref v58aapi
+ *
  * @ref v57arelease
  * - @ref v57afeatures
  *   - @ref v57awebrtc
@@ -210,6 +214,37 @@
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v58arelease TeamTalk 5 SDK v. 5.8a release, June 24th 2021
+ *
+ * @subsection v58afeatures New features in v5.8a
+ *
+ * @subsubsection v58amixed Store audio from multiple stream types
+ *
+ * Previously it was only possible to store audio from
+ * #STREAMTYPE_VOICE to either a file or #AudioBlock. In TeamTalk
+ * v5.8a it's now possible to have the TeamTalk instance mix several
+ * stream types into a single audio stream.
+ *
+ * To record multiple audio streams, i.e. #STREAMTYPE_VOICE,
+ * #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO and
+ * #STREAMTYPE_MEDIAFILE_AUDIO, use
+ * TT_StartRecordingMuxedStreams(). The #StreamTypes can be OR'ed to
+ * mix the wanted combination.
+ * 
+ * To retrieve #AudioBlock with mixed audio use
+ * TT_EnableAudioBlockEvent() or TT_EnableAudioBlockEventEx().
+ *
+ * @subsection v58aapi API change in v5.8a
+ *
+ * - New enum value #STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO for
+ *   TT_InitLocalPlayback() playback.
+ * - New field @c uStreamTypes on #AudioBlock denoting which 
+ *   streams were mixed into the #AudioBlock.
+ * - New function TT_StartRecordingMuxedStreams() to record 
+ *   multiple #StreamTypes to a single file.
  *
  * <hr>
  *

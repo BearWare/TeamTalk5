@@ -401,6 +401,27 @@ namespace TeamTalkTest.NET
         }
 
         [TestMethod]
+        public void TestRecordingMuxedStreams()
+        {
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
+            const UserRight USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE;
+            MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
+            TeamTalkBase ttclient = NewClientInstance();
+
+            InitSound(ttclient);
+            Connect(ttclient);
+            Login(ttclient, NICKNAME, USERNAME, PASSWORD);
+            JoinRoot(ttclient);
+
+            TTMessage msg = new TTMessage();
+
+            Channel chan = new Channel();
+            Assert.IsTrue(ttclient.GetChannel(ttclient.GetMyChannelID(), ref chan), "get channel");
+            Assert.IsTrue(ttclient.StartRecordingMuxedStreams(StreamType.STREAMTYPE_VOICE, chan.audiocodec, MUXRECORDFILENAME, AudioFileFormat.AFF_WAVE_FORMAT),
+                          "Record to file");
+        }
+
+        [TestMethod]
         public void TestVideoCapture()
         {
             const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();

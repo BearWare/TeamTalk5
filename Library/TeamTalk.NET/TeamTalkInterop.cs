@@ -205,12 +205,18 @@ namespace c_tt
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_StartRecordingMuxedAudioFile(IntPtr lpTTInstance,
                                                        ref BearWare.AudioCodec lpAudioCodec,
-                    [MarshalAs(UnmanagedType.LPWStr)] string szAudioFileName,
+                                                       [MarshalAs(UnmanagedType.LPWStr)] string szAudioFileName,
                                                        BearWare.AudioFileFormat aff);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_StartRecordingMuxedAudioFileEx(IntPtr lpTTInstance,
                                                        int nChannelID,
-                    [MarshalAs(UnmanagedType.LPWStr)] string szAudioFileName,
+                                                       [MarshalAs(UnmanagedType.LPWStr)] string szAudioFileName,
+                                                       BearWare.AudioFileFormat aff);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_StartRecordingMuxedStreams(IntPtr lpTTInstance,
+                                                       BearWare.StreamType uStreamTypes,
+                                                       ref BearWare.AudioCodec lpAudioCodec,
+                                                       [MarshalAs(UnmanagedType.LPWStr)] string szAudioFileName,
                                                        BearWare.AudioFileFormat aff);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_StopRecordingMuxedAudioFile(IntPtr lpTTInstance);
