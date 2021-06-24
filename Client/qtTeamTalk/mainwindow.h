@@ -277,8 +277,8 @@ private:
     reghotkeys_t m_hotkeys;
     INT64 m_nCGShareWnd;
 #endif
-// Event to use for status messages should always appears
-    StatusBarEvent event_d;
+// Use event_d to display a message ignoring configuration
+    StatusBarEvent event_d = StatusBarEvent(~STATUSBAR_NONE);
 
 private:
     /* menu items begin */
