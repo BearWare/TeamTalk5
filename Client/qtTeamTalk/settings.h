@@ -28,10 +28,13 @@
 
 #if defined(Q_OS_WIN32)
 #define SOUNDSPATH                                  "Sounds"
+#define SOUNDSPATHOLD                                  "Sounds/Old"
 #elif defined(Q_OS_LINUX)
 #define SOUNDSPATH                                  "sounds"
+#define SOUNDSPATHOLD                                  "sounds/Old"
 #elif defined(Q_OS_DARWIN)
 #define SOUNDSPATH                                  "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
+#define SOUNDSPATHOLD                                  "/Applications/TeamTalk5.app/Contents/Resources/Sounds/Old"
 #endif
 #define SETTINGS_VERSION                            "5.2"
 #define SETTINGS_GENERAL_VERSION                    "version"
@@ -148,15 +151,20 @@
 
 #define SETTINGS_SOUNDEVENT_NEWUSER                 "soundevents/newuser"
 #define SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT                 (SOUNDSPATH"/newuser.wav")
+#define SETTINGS_SOUNDEVENT_NEWUSER_OLD                 (SOUNDSPATHOLD"/newuser.wav")
 #define SETTINGS_SOUNDEVENT_REMOVEUSER              "soundevents/removeuser"
 #define SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT              (SOUNDSPATH"/removeuser.wav")
+#define SETTINGS_SOUNDEVENT_REMOVEUSER_OLD              (SOUNDSPATHOLD"/removeuser.wav")
 #define SETTINGS_SOUNDEVENT_SERVERLOST              "soundevents/server-lost"
 #define SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT              (SOUNDSPATH"/serverlost.wav")
+#define SETTINGS_SOUNDEVENT_SERVERLOST_OLD              (SOUNDSPATHOLD"/serverlost.wav")
 #define SETTINGS_SOUNDEVENT_USERMSG                 "soundevents/user-msg"
 #define SETTINGS_SOUNDEVENT_USERMSG_DEFAULT                 (SOUNDSPATH"/user_msg.wav")
+#define SETTINGS_SOUNDEVENT_USERMSG_OLD                 (SOUNDSPATHOLD"/user_msg.wav")
 #define SETTINGS_SOUNDEVENT_SENTSOUND             "soundevents/sound-send"
 #define SETTINGS_SOUNDEVENT_CHANNELMSG              "soundevents/channel-msg"
 #define SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT              (SOUNDSPATH"/channel_msg.wav")
+#define SETTINGS_SOUNDEVENT_CHANNELMSG_OLD              (SOUNDSPATHOLD"/channel_msg.wav")
 #define SETTINGS_SOUNDEVENT_SENTCHANNELSOUND             "soundevents/sound-channel-send"
 #define SETTINGS_SOUNDEVENT_BROADCASTMSG            "soundevents/broadcast-msg"
 #define SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT            (SOUNDSPATH"/broadcast_msg.wav")
@@ -171,14 +179,17 @@
 #define SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT                (SOUNDSPATH"/fileupdate.wav")
 #define SETTINGS_SOUNDEVENT_FILETXDONE              "soundevents/file-tx-done"
 #define SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT              (SOUNDSPATH"/filetx_complete.wav")
+#define SETTINGS_SOUNDEVENT_FILETXDONE_OLD              (SOUNDSPATHOLD"/filetx_complete.wav")
 #define SETTINGS_SOUNDEVENT_QUESTIONMODE            "soundevents/question-mode"
 #define SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT            (SOUNDSPATH"/questionmode.wav")
 #define SETTINGS_SOUNDEVENT_DESKTOPACCESS           "soundevents/desktop-access-request"
 #define SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT           (SOUNDSPATH"/desktopaccessreq.wav")
 #define SETTINGS_SOUNDEVENT_USERLOGGEDIN           "soundevents/user-logged-in"
 #define SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT           (SOUNDSPATH"/logged_on.wav")
+#define SETTINGS_SOUNDEVENT_USERLOGGEDIN_OLD           (SOUNDSPATHOLD"/logged_on.wav")
 #define SETTINGS_SOUNDEVENT_USERLOGGEDOUT           "soundevents/user-logged-out"
 #define SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT           (SOUNDSPATH"/logged_off.wav")
+#define SETTINGS_SOUNDEVENT_USERLOGGEDOUT_OLD           (SOUNDSPATHOLD"/logged_off.wav")
 #define SETTINGS_SOUNDEVENT_VOICEACTON           "soundevents/voice-act-on"
 #define SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT           (SOUNDSPATH"/vox_enable.wav")
 #define SETTINGS_SOUNDEVENT_VOICEACTOFF           "soundevents/voice-act-off"
@@ -199,6 +210,8 @@
 #define SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT           (SOUNDSPATH"/vox_me_enable.wav")
 #define SETTINGS_SOUNDEVENT_VOICEACTMEOFF           "soundevents/voice-act-me-off"
 #define SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT           (SOUNDSPATH"/vox_me_disable.wav")
+#define SETTINGS_SOUNDS_PACK           "soundevents/sounds-pack"
+#define SETTINGS_SOUNDS_PACK_DEFAULT           SOUNDPACK_DEFAULT
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"
