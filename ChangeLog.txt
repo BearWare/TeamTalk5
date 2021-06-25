@@ -5,7 +5,7 @@ Version 5.8.1
 Accessible Windows Client
 -
 Default QT Client
--
+-Fix default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
 Android Client
 -
 iOS Client
