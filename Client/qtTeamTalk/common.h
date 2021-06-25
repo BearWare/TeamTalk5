@@ -326,13 +326,6 @@ enum TextToSpeechEngine
 
 #define TTSENGINE_NOTIFY_PATH "/usr/bin/notify-send"
 
-enum SoundsPack
-{
-    SOUNDPACK_DEFAULT          = 0,
-    SOUNDPACK_OLD              = 1,
-    SOUNDPACK_MG               = 2,
-};
-
 enum HotKeyID
 {
     HOTKEY_PUSHTOTALK,

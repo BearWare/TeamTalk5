@@ -566,11 +566,19 @@ void PreferencesDlg::slotTabChange(int index)
         break;
     case SOUNDEVENTS_TAB :  //sound events
     {
-        ui.spackBox->addItem(tr("Default"), SOUNDPACK_DEFAULT);
-        ui.spackBox->addItem(tr("Old"), SOUNDPACK_OLD);
-        ui.spackBox->addItem(tr("Majorly-G"), SOUNDPACK_MG);
-        SoundsPack currentSPack = SoundsPack(ttSettings->value(SETTINGS_SOUNDS_PACK, SETTINGS_SOUNDS_PACK_DEFAULT).toInt());
-        setCurrentItemData(ui.spackBox, currentSPack);
+        ui.spackBox->clear();
+        ui.spackBox->addItem("Default");
+        QDir dir( SOUNDSPATH, "", QDir::Name, QDir::AllDirs|QDir::NoSymLinks|QDir::NoDotAndDotDot);
+        QStringList aspack = dir.entryList();
+        for(int i=0;i<aspack.size();i++)
+        {
+            QString packname = aspack[i].left(aspack[i].size());
+            ui.spackBox->addItem(packname, packname);
+        }
+        QString pack = ttSettings->value(SETTINGS_SOUNDS_PACK, SETTINGS_SOUNDS_PACK_DEFAULT).toString();
+        int index = ui.spackBox->findData(pack);
+        if(index>=0)
+            ui.spackBox->setCurrentIndex(index);
         ui.newuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWUSER, SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT).toString());
         ui.rmuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER, SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT).toString());
         ui.srvlostEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST, SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT).toString());
@@ -946,7 +954,7 @@ void PreferencesDlg::slotSaveChanges()
     }
     if(m_modtab.find(SOUNDEVENTS_TAB) != m_modtab.end())
     {
-        ttSettings->setValue(SETTINGS_SOUNDS_PACK, getCurrentItemData(ui.spackBox, SOUNDPACK_DEFAULT));
+        ttSettings->setValue(SETTINGS_SOUNDS_PACK, ui.spackBox->currentText());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWUSER, ui.newuserEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_REMOVEUSER, ui.rmuserEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_SERVERLOST, ui.srvlostEdit->text());
@@ -1889,88 +1897,86 @@ void PreferencesDlg::slotUpdateASBAccessibleName()
 
 void PreferencesDlg::slotSPackChange()
 {
-    if(ui.spackBox->currentIndex() == 0)
+    ui.newuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT, SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT).toString());
+    ui.rmuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT, SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT).toString());
+    ui.srvlostEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT, SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT).toString());
+    ui.usermsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG_DEFAULT, SETTINGS_SOUNDEVENT_USERMSG_DEFAULT).toString());
+    ui.chanmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT, SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT).toString());
+    ui.bcastmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT, SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT).toString());
+    ui.hotkeyEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT, SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT).toString());
+    ui.videosessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT).toString());
+    ui.desktopsessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT).toString());
+    ui.fileupdEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT, SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT).toString());
+    ui.transferdoneEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT, SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT).toString());
+    ui.questionmodeEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT, SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT).toString());
+    ui.desktopaccessEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT, SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT).toString());
+    ui.userloggedinEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT, SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT).toString());
+    ui.userloggedoutEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT, SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT).toString());
+    ui.voiceactonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT).toString());
+    ui.voiceactoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT).toString());
+    ui.muteallonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT, SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT).toString());
+    ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT, SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT).toString());
+    ui.transmitqueueheadEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT).toString());
+    ui.transmitqueuestopEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT).toString());
+    ui.voiceacttrigEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT).toString());
+    ui.voiceactstopEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT).toString());
+    ui.voiceactmeonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT).toString());
+    ui.voiceactmeoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT).toString());
+    QString dirtoscan = QString("%1/%2").arg(SOUNDSPATH).arg(ui.spackBox->currentText());
+    QDir soundsdir( dirtoscan, "*.wav", QDir::Name, QDir::Files|QDir::NoSymLinks);
+    QStringList packfile = soundsdir.entryList();
+    for(int i=0;i<packfile.size();i++)
     {
-        ui.newuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT, SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT).toString());
-        ui.rmuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT, SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT).toString());
-        ui.srvlostEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT, SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT).toString());
-        ui.usermsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG_DEFAULT, SETTINGS_SOUNDEVENT_USERMSG_DEFAULT).toString());
-        ui.chanmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT, SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT).toString());
-        ui.bcastmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT, SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT).toString());
-        ui.hotkeyEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT, SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT).toString());
-        ui.videosessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT).toString());
-        ui.desktopsessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT).toString());
-        ui.fileupdEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT, SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT).toString());
-        ui.transferdoneEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT, SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT).toString());
-        ui.questionmodeEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT, SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT).toString());
-        ui.desktopaccessEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT, SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT).toString());
-        ui.userloggedinEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT, SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT).toString());
-        ui.userloggedoutEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT, SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT).toString());
-        ui.voiceactonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT).toString());
-        ui.voiceactoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT).toString());
-        ui.muteallonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT, SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT).toString());
-        ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT, SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT).toString());
-        ui.transmitqueueheadEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT).toString());
-        ui.transmitqueuestopEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT).toString());
-        ui.voiceacttrigEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT).toString());
-        ui.voiceactstopEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT).toString());
-        ui.voiceactmeonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT).toString());
-        ui.voiceactmeoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT).toString());
-    }
-    else if(ui.spackBox->currentIndex() == 1)
-    {
-        ui.newuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWUSER_OLD, SETTINGS_SOUNDEVENT_NEWUSER_OLD).toString());
-        ui.rmuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER_OLD, SETTINGS_SOUNDEVENT_REMOVEUSER_OLD).toString());
-        ui.srvlostEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST_OLD, SETTINGS_SOUNDEVENT_SERVERLOST_OLD).toString());
-        ui.usermsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG_OLD, SETTINGS_SOUNDEVENT_USERMSG_OLD).toString());
-        ui.chanmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG_OLD, SETTINGS_SOUNDEVENT_CHANNELMSG_OLD).toString());
-        ui.bcastmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT, SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT).toString());
-        ui.hotkeyEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT, SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT).toString());
-        ui.videosessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT).toString());
-        ui.desktopsessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT).toString());
-        ui.fileupdEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT, SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT).toString());
-        ui.transferdoneEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILETXDONE_OLD, SETTINGS_SOUNDEVENT_FILETXDONE_OLD).toString());
-        ui.questionmodeEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT, SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT).toString());
-        ui.desktopaccessEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT, SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT).toString());
-        ui.userloggedinEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDIN_OLD, SETTINGS_SOUNDEVENT_USERLOGGEDIN_OLD).toString());
-        ui.userloggedoutEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT_OLD, SETTINGS_SOUNDEVENT_USERLOGGEDOUT_OLD).toString());
-        ui.voiceactonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT).toString());
-        ui.voiceactoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT).toString());
-        ui.muteallonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT, SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT).toString());
-        ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT, SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT).toString());
-        ui.transmitqueueheadEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT).toString());
-        ui.transmitqueuestopEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT).toString());
-        ui.voiceacttrigEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT).toString());
-        ui.voiceactstopEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT).toString());
-        ui.voiceactmeonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT).toString());
-        ui.voiceactmeoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT).toString());
-    }
-    else if(ui.spackBox->currentIndex() == 2)
-    {
-        ui.newuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWUSER_MG, SETTINGS_SOUNDEVENT_NEWUSER_MG).toString());
-        ui.rmuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER_MG, SETTINGS_SOUNDEVENT_REMOVEUSER_MG).toString());
-        ui.srvlostEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST_MG, SETTINGS_SOUNDEVENT_SERVERLOST_MG).toString());
-        ui.usermsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG_MG, SETTINGS_SOUNDEVENT_USERMSG_MG).toString());
-        ui.chanmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG_MG, SETTINGS_SOUNDEVENT_CHANNELMSG_MG).toString());
-        ui.bcastmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG_MG, SETTINGS_SOUNDEVENT_BROADCASTMSG_MG).toString());
-        ui.hotkeyEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY_MG, SETTINGS_SOUNDEVENT_HOTKEY_MG).toString());
-        ui.videosessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT).toString());
-        ui.desktopsessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT).toString());
-        ui.fileupdEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILESUPD_MG, SETTINGS_SOUNDEVENT_FILESUPD_MG).toString());
-        ui.transferdoneEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILETXDONE_MG, SETTINGS_SOUNDEVENT_FILETXDONE_MG).toString());
-        ui.questionmodeEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE_MG, SETTINGS_SOUNDEVENT_QUESTIONMODE_MG).toString());
-        ui.desktopaccessEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT, SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT).toString());
-        ui.userloggedinEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT, SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT).toString());
-        ui.userloggedoutEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT, SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT).toString());
-        ui.voiceactonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON_MG, SETTINGS_SOUNDEVENT_VOICEACTON_MG).toString());
-        ui.voiceactoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF_MG, SETTINGS_SOUNDEVENT_VOICEACTOFF_MG).toString());
-        ui.muteallonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT, SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT).toString());
-        ui.mutealloffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT, SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT).toString());
-        ui.transmitqueueheadEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT).toString());
-        ui.transmitqueuestopEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT).toString());
-        ui.voiceacttrigEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTTRIG_MG, SETTINGS_SOUNDEVENT_VOICEACTTRIG_MG).toString());
-        ui.voiceactstopEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTSTOP_MG, SETTINGS_SOUNDEVENT_VOICEACTSTOP_MG).toString());
-        ui.voiceactmeonEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEON_MG, SETTINGS_SOUNDEVENT_VOICEACTMEON_MG).toString());
-        ui.voiceactmeoffEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEOFF_MG, SETTINGS_SOUNDEVENT_VOICEACTMEOFF_MG).toString());
+        QString filename = packfile[i].left(packfile[i].size()-4);
+        if(filename == "newuser")
+           ui.newuserEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "removeuser")
+           ui.rmuserEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "serverlost")
+           ui.srvlostEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "user_msg")
+           ui.usermsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "channel_msg")
+           ui.chanmsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "broadcast_msg")
+           ui.bcastmsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "hotkey")
+           ui.hotkeyEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "videosession")
+           ui.videosessionEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "desktopsession")
+           ui.desktopsessionEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "fileupdate")
+           ui.fileupdEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "filetx_complete")
+           ui.transferdoneEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "questionmode")
+           ui.questionmodeEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "desktopaccessreq")
+           ui.desktopaccessEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "logged_on")
+           ui.userloggedinEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "logged_off")
+           ui.userloggedoutEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "vox_enable")
+           ui.voiceactonEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "vox_disable")
+           ui.voiceactoffEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "mute_all")
+           ui.muteallonEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "unmute_all")
+           ui.mutealloffEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "txqueue_start")
+           ui.transmitqueueheadEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "txqueue_stop")
+           ui.transmitqueuestopEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "voiceact_on")
+           ui.voiceacttrigEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "voiceact_off")
+           ui.voiceactstopEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "vox_me_enable")
+           ui.voiceactmeonEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "vox_me_disable")
+           ui.voiceactmeoffEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
     }
 }
