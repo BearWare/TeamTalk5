@@ -1772,6 +1772,7 @@ jbyteArray setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock
     jfieldID fid_audbuf = env->GetFieldID(cls, "lpRawAudio", "[B");
     jfieldID fid_sn = env->GetFieldID(cls, "nSamples", "I");
     jfieldID fid_si = env->GetFieldID(cls, "uSampleIndex", "I");
+    jfieldID fid_st = env->GetFieldID(cls, "uStreamTypes", "I");
 
     assert(fid_sid);
     assert(fid_sr);
@@ -1779,6 +1780,7 @@ jbyteArray setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock
     assert(fid_audbuf);
     assert(fid_sn);
     assert(fid_si);
+    assert(fid_st);
 
     if (conv == N2J)
     {
@@ -1799,6 +1801,7 @@ jbyteArray setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock
         env->SetObjectField(lpAudioBlock, fid_audbuf, buf);
         env->SetIntField(lpAudioBlock, fid_sn, audblock.nSamples);
         env->SetIntField(lpAudioBlock, fid_si, audblock.uSampleIndex);
+        env->SetIntField(lpAudioBlock, fid_st, audblock.uStreamTypes);
     }
     else
     {
@@ -1807,6 +1810,7 @@ jbyteArray setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock
         audblock.nChannels = env->GetIntField(lpAudioBlock, fid_ch);
         audblock.nSamples = env->GetIntField(lpAudioBlock, fid_sn);
         audblock.uSampleIndex = env->GetIntField(lpAudioBlock, fid_si);
+        audblock.uStreamTypes = env->GetIntField(lpAudioBlock, fid_st);
         jbyteArray byteArr = jbyteArray(env->GetObjectField(lpAudioBlock, fid_audbuf));
         if (byteArr)
             audblock.lpRawAudio = env->GetByteArrayElements(byteArr, nullptr);
