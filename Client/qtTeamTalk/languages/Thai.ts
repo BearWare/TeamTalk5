@@ -2223,7 +2223,7 @@ p, li { white-space: pre-wrap; }
         <translation>ปิด</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1334"/>
+        <location filename="../mainwindow.ui" line="1337"/>
         <location filename="../mainwindow.cpp" line="2251"/>
         <source>&amp;Exit</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
@@ -2953,14 +2953,14 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="386"/>
         <location filename="../mainwindow.ui" line="661"/>
-        <location filename="../mainwindow.ui" line="944"/>
+        <location filename="../mainwindow.ui" line="947"/>
         <source>Sen&amp;d</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ส่งข้อความ</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="402"/>
-        <location filename="../mainwindow.ui" line="1607"/>
+        <location filename="../mainwindow.ui" line="1610"/>
         <location filename="../mainwindow.cpp" line="5892"/>
         <source>&amp;Video</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
@@ -3019,14 +3019,14 @@ Should these settings be applied?</source>
         <translation>นำหน้าต่างที่ได้เอาออกไปกลับที่เดิม</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="801"/>
-        <location filename="../mainwindow.ui" line="807"/>
+        <location filename="../mainwindow.ui" line="804"/>
+        <location filename="../mainwindow.ui" line="810"/>
         <source>Remove selected window</source>
         <translation>เอาหน้าต่างที่เลือกไว้ออก</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="840"/>
-        <location filename="../mainwindow.ui" line="846"/>
+        <location filename="../mainwindow.ui" line="843"/>
+        <location filename="../mainwindow.ui" line="849"/>
         <source>Request desktop access</source>
         <translation>ร้องขอการเข้าดูหน้าจอ</translation>
     </message>
@@ -3036,435 +3036,435 @@ Should these settings be applied?</source>
         <translation type="vanished">ไฟล์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1027"/>
         <location filename="../mainwindow.ui" line="1030"/>
+        <location filename="../mainwindow.ui" line="1033"/>
         <source>Upload</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ส่งไฟล์ไป</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1050"/>
         <location filename="../mainwindow.ui" line="1053"/>
+        <location filename="../mainwindow.ui" line="1056"/>
         <source>Download</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>รับไฟล์มา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1073"/>
         <location filename="../mainwindow.ui" line="1076"/>
+        <location filename="../mainwindow.ui" line="1079"/>
         <source>Delete</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ลบ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1110"/>
+        <location filename="../mainwindow.ui" line="1113"/>
         <source>C&amp;lient</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;การเชื่อมต่อเซิฟเวอร์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1123"/>
+        <location filename="../mainwindow.ui" line="1126"/>
         <source>&amp;Me</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ตัวฉันเอง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1135"/>
+        <location filename="../mainwindow.ui" line="1138"/>
         <source>&amp;Users</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ผู้ใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1139"/>
+        <location filename="../mainwindow.ui" line="1142"/>
         <source>&amp;Subscriptions</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;เลือกใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1159"/>
+        <location filename="../mainwindow.ui" line="1162"/>
         <source>&amp;Advanced</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ขั้นสูง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1206"/>
+        <location filename="../mainwindow.ui" line="1209"/>
         <source>&amp;Channels</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1225"/>
+        <location filename="../mainwindow.ui" line="1228"/>
         <source>&amp;Server</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;เซิฟเวอร์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1240"/>
+        <location filename="../mainwindow.ui" line="1243"/>
         <source>&amp;Help</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ช่วยเหลือ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1303"/>
+        <location filename="../mainwindow.ui" line="1306"/>
         <source>&amp;Server List</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;รายชื่อเซิฟเวอร์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1306"/>
-        <location filename="../mainwindow.ui" line="1518"/>
+        <location filename="../mainwindow.ui" line="1309"/>
+        <location filename="../mainwindow.ui" line="1521"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1318"/>
+        <location filename="../mainwindow.ui" line="1321"/>
         <source>&amp;Connect</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เชื่อ&amp;มต่อ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1321"/>
+        <location filename="../mainwindow.ui" line="1324"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1326"/>
+        <location filename="../mainwindow.ui" line="1329"/>
         <source>&amp;Preferences</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ก&amp;ารกำหนดค่า</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1329"/>
+        <location filename="../mainwindow.ui" line="1332"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1337"/>
+        <location filename="../mainwindow.ui" line="1340"/>
         <source>Alt+F4</source>
         <translation>Alt+F4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1349"/>
+        <location filename="../mainwindow.ui" line="1352"/>
         <source>Enable &amp;Push To Talk</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เลือกใช้วิธี ก&amp;ดพูด</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1352"/>
+        <location filename="../mainwindow.ui" line="1355"/>
         <source>Ctrl+Shift+T</source>
         <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1357"/>
+        <location filename="../mainwindow.ui" line="1360"/>
         <source>&amp;About</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกี่ยวกับ&amp;โปรแกรมทีมท๊อค</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1365"/>
+        <location filename="../mainwindow.ui" line="1368"/>
         <source>&amp;Manual</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;คู่มือใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1368"/>
+        <location filename="../mainwindow.ui" line="1371"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1373"/>
+        <location filename="../mainwindow.ui" line="1376"/>
         <source>Server &amp;Properties</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>คุณ&amp;สมบัติของเซิฟเวอร์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1376"/>
+        <location filename="../mainwindow.ui" line="1379"/>
         <source>F9</source>
         <translation>F9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1381"/>
+        <location filename="../mainwindow.ui" line="1384"/>
         <source>&amp;Create Channel</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ส&amp;ร้างห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1384"/>
+        <location filename="../mainwindow.ui" line="1387"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1389"/>
+        <location filename="../mainwindow.ui" line="1392"/>
         <source>&amp;Update Channel</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ปรั&amp;บปรุงห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1392"/>
+        <location filename="../mainwindow.ui" line="1395"/>
         <source>Shift+F7</source>
         <translation>Shift+F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1397"/>
+        <location filename="../mainwindow.ui" line="1400"/>
         <source>&amp;Delete Channel</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ลบห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1400"/>
+        <location filename="../mainwindow.ui" line="1403"/>
         <source>F8</source>
         <translation>F8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1405"/>
+        <location filename="../mainwindow.ui" line="1408"/>
         <location filename="../mainwindow.cpp" line="4959"/>
         <source>&amp;Join Channel</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เ&amp;ข้าร่วมห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1408"/>
+        <location filename="../mainwindow.ui" line="1411"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1420"/>
+        <location filename="../mainwindow.ui" line="1423"/>
         <source>Enable Voice &amp;Activation</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เลือกใช้&amp;งานการเปิดไมค์ด้วยเสียง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1423"/>
+        <location filename="../mainwindow.ui" line="1426"/>
         <source>Ctrl+Shift+A</source>
         <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1428"/>
+        <location filename="../mainwindow.ui" line="1431"/>
         <source>Change &amp;Nickname</source>
         <translation>เปลี่ยน&amp;ชื่อเล่น</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1431"/>
+        <location filename="../mainwindow.ui" line="1434"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1436"/>
+        <location filename="../mainwindow.ui" line="1439"/>
         <source>Change &amp;Status</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เปลี่ยน&amp;สถานะภาพ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1439"/>
+        <location filename="../mainwindow.ui" line="1442"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1444"/>
+        <location filename="../mainwindow.ui" line="1447"/>
         <source>&amp;View User Information</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ดูข้อมูลผู้ใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1447"/>
+        <location filename="../mainwindow.ui" line="1450"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1459"/>
+        <location filename="../mainwindow.ui" line="1462"/>
         <source>Mute &amp;All</source>
         <translation>ปิ&amp;ดเสียงทั้งหมด</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1462"/>
+        <location filename="../mainwindow.ui" line="1465"/>
         <source>Ctrl+M</source>
         <translation>Ctrl+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1467"/>
+        <location filename="../mainwindow.ui" line="1470"/>
         <source>Up&amp;load File</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ส่&amp;งไฟล์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1470"/>
+        <location filename="../mainwindow.ui" line="1473"/>
         <source>Shift+F5</source>
         <translation>Shift+F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1475"/>
+        <location filename="../mainwindow.ui" line="1478"/>
         <source>D&amp;ownload File</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;รับไฟล์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1478"/>
+        <location filename="../mainwindow.ui" line="1481"/>
         <source>Shift+F6</source>
         <translation>Shift+F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1483"/>
+        <location filename="../mainwindow.ui" line="1486"/>
         <source>Dele&amp;te File</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ลบไฟล์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1486"/>
+        <location filename="../mainwindow.ui" line="1489"/>
         <source>Shift+Del</source>
         <translation>Shift+Del</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1491"/>
+        <location filename="../mainwindow.ui" line="1494"/>
         <source>&amp;Banned Users</source>
         <translation>ผู้ถูก&amp;ห้ามใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1499"/>
+        <location filename="../mainwindow.ui" line="1502"/>
         <source>&amp;User Accounts</source>
         <translation>บัญชีผู้&amp;ใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1531"/>
+        <location filename="../mainwindow.ui" line="1534"/>
         <source>Kick and &amp;Ban From Server</source>
         <translation>เตะออก และ &amp;ห้ามเข้าใช้งาน จากเซิฟเวอร์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1566"/>
+        <location filename="../mainwindow.ui" line="1569"/>
         <source>V&amp;oice</source>
         <translation>เ&amp;สียง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1569"/>
+        <location filename="../mainwindow.ui" line="1572"/>
         <source>Ctrl+4</source>
         <translation>Ctrl+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1584"/>
+        <location filename="../mainwindow.ui" line="1587"/>
         <source>Ctrl+1</source>
         <translation>Ctrl+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1595"/>
+        <location filename="../mainwindow.ui" line="1598"/>
         <source>Ctrl+2</source>
         <translation>Ctrl+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1610"/>
+        <location filename="../mainwindow.ui" line="1613"/>
         <source>Ctrl+5</source>
         <translation>Ctrl+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1621"/>
+        <location filename="../mainwindow.ui" line="1624"/>
         <source>Ctrl+3</source>
         <translation>Ctrl+3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1667"/>
+        <location filename="../mainwindow.ui" line="1670"/>
         <source>Record Conversations to &amp;Disk</source>
         <translation>บันทึกการสนทนาไปยัง &amp;ดิส</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1688"/>
+        <location filename="../mainwindow.ui" line="1691"/>
         <source>Ctrl+Shift+1</source>
         <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1699"/>
+        <location filename="../mainwindow.ui" line="1702"/>
         <source>Ctrl+Shift+2</source>
         <translation>Ctrl+Shift+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1714"/>
+        <location filename="../mainwindow.ui" line="1717"/>
         <source>Ctrl+Shift+4</source>
         <translation>Ctrl+Shift+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1729"/>
+        <location filename="../mainwindow.ui" line="1732"/>
         <source>Ctrl+Shift+5</source>
         <translation>Ctrl+Shift+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1778"/>
+        <location filename="../mainwindow.ui" line="1781"/>
         <source>&amp;BearWare.dk Website</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2008"/>
+        <location filename="../mainwindow.ui" line="2011"/>
         <source>Ctrl+Alt+Shift+M</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2029"/>
+        <location filename="../mainwindow.ui" line="2032"/>
         <source>Increase Media File Volume</source>
         <translation>เพิ่มเสียงไฟล์มีเดีย</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2037"/>
+        <location filename="../mainwindow.ui" line="2040"/>
         <source>Lower Media File Volume</source>
         <translation>ลดเสียงไฟล์มีเดีย</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2045"/>
+        <location filename="../mainwindow.ui" line="2048"/>
         <source>R&amp;eset Preferences to Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2050"/>
+        <location filename="../mainwindow.ui" line="2053"/>
         <source>Kick and Ban From &amp;Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2053"/>
+        <location filename="../mainwindow.ui" line="2056"/>
         <source>Ctrl+B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2058"/>
+        <location filename="../mainwindow.ui" line="2061"/>
         <source>Banned Users From Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2061"/>
+        <location filename="../mainwindow.ui" line="2064"/>
         <source>Ctrl+Alt+Shift+B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2069"/>
+        <location filename="../mainwindow.ui" line="2072"/>
         <source>Allow Channel Text Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2072"/>
+        <location filename="../mainwindow.ui" line="2075"/>
         <source>Ctrl+Alt+T</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1813"/>
+        <location filename="../mainwindow.ui" line="1816"/>
         <source>&amp;New Client Instance</source>
         <translation>หน้า&amp;จอผู้ใช้งานใหม่</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1816"/>
+        <location filename="../mainwindow.ui" line="1819"/>
         <source>Ctrl+N</source>
         <translation>กด Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1824"/>
+        <location filename="../mainwindow.ui" line="1827"/>
         <source>&amp;Online Users</source>
         <translation>ผู้ใช้งาน&amp;ออนไลน์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1827"/>
+        <location filename="../mainwindow.ui" line="1830"/>
         <source>Ctrl+Shift+U</source>
         <translation>กด Ctrl+Shift+U</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2021"/>
+        <location filename="../mainwindow.ui" line="2024"/>
         <source>Kick From Server</source>
         <translation>เตะออกจากเซิฟเวอร์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2024"/>
+        <location filename="../mainwindow.ui" line="2027"/>
         <source>Ctrl+Alt+K</source>
         <translation>กดปุ่ม Ctrl+Alt+K พร้อมกัน</translation>
     </message>
@@ -3485,82 +3485,82 @@ Should these settings be applied?</source>
         <translation type="obsolete">เริ่ม/หยุดการบันทึกเสียงลงไฟล์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1839"/>
+        <location filename="../mainwindow.ui" line="1842"/>
         <source>Enable Question Mode</source>
         <translation>ยอมให้ใช้รูปแบบ คำถาม ได้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1842"/>
+        <location filename="../mainwindow.ui" line="1845"/>
         <source>Show blinking icon</source>
         <translation>แสดงไอคอนกระพริบ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1854"/>
+        <location filename="../mainwindow.ui" line="1857"/>
         <source>Enable Desktop Sharing</source>
         <translation>เริ่มการแสดงหน้าจอ desktop ร่วมกัน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1857"/>
+        <location filename="../mainwindow.ui" line="1860"/>
         <source>Ctrl+Shift+D</source>
         <translation>Ctrl+Shift+D</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1865"/>
+        <location filename="../mainwindow.ui" line="1868"/>
         <source>Allow Desktop Transmission</source>
         <translation>ยินยอมให้มีการแสดงหน้าจอ desktop ร่วมกัน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1868"/>
+        <location filename="../mainwindow.ui" line="1871"/>
         <source>Ctrl+Alt+E</source>
         <translation>Ctrl+Alt+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1880"/>
+        <location filename="../mainwindow.ui" line="1883"/>
         <source>&amp;Desktop</source>
         <translation>&amp;หน้าจอ desktop</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1883"/>
+        <location filename="../mainwindow.ui" line="1886"/>
         <source>Ctrl+6</source>
         <translation>Ctrl+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1895"/>
+        <location filename="../mainwindow.ui" line="1898"/>
         <source>Intercept Desktop</source>
         <translation>แอบดูหน้าจอ desktop ของผู้ใช้นี้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1898"/>
+        <location filename="../mainwindow.ui" line="1901"/>
         <source>Ctrl+Shift+6</source>
         <translation>Ctrl+Shift+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1910"/>
+        <location filename="../mainwindow.ui" line="1913"/>
         <source>Stream &amp;Media File to Channel</source>
         <translation>&amp;ถ่ายทอดไฟล์ไปยังห้อง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1913"/>
+        <location filename="../mainwindow.ui" line="1916"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1925"/>
+        <location filename="../mainwindow.ui" line="1928"/>
         <source>Desktop Acce&amp;ss</source>
         <translation>การเข้า&amp;ดูหน้าจอ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1937"/>
+        <location filename="../mainwindow.ui" line="1940"/>
         <source>Allow Desktop Access</source>
         <translation>อนุญาตให้เข้าดูหน้าจอ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1940"/>
+        <location filename="../mainwindow.ui" line="1943"/>
         <source>Ctrl+7</source>
         <translation>Ctrl+7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1948"/>
+        <location filename="../mainwindow.ui" line="1951"/>
         <source>&amp;Deny</source>
         <translation>ปฏิเ&amp;สธ</translation>
     </message>
@@ -3570,7 +3570,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">ดู&amp;รายชื่อผู้ถูกห้ามใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1494"/>
+        <location filename="../mainwindow.ui" line="1497"/>
         <source>Ctrl+Shift+B</source>
         <translation>Ctrl+Shift+B</translation>
     </message>
@@ -3580,23 +3580,23 @@ Should these settings be applied?</source>
         <translation type="obsolete">ดูรายชื่อ&amp;บัญชีผู้ใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1502"/>
+        <location filename="../mainwindow.ui" line="1505"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1507"/>
+        <location filename="../mainwindow.ui" line="1510"/>
         <source>&amp;Save Configuration</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>บัน&amp;ทึกค่าที่กำหนดไว้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1510"/>
+        <location filename="../mainwindow.ui" line="1513"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1515"/>
+        <location filename="../mainwindow.ui" line="1518"/>
         <source>&amp;View Channel Info</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ดูข้อ&amp;มูลห้องสนทนา</translation>
@@ -3606,18 +3606,18 @@ Should these settings be applied?</source>
         <translation type="obsolete">Shift+F3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1523"/>
+        <location filename="../mainwindow.ui" line="1526"/>
         <source>M&amp;essages</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ข้อ&amp;ความ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1526"/>
+        <location filename="../mainwindow.ui" line="1529"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1177"/>
+        <location filename="../mainwindow.ui" line="1180"/>
         <source>&amp;Mute</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ปิ&amp;ดเสียง</translation>
@@ -3630,14 +3630,14 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="343"/>
         <location filename="../mainwindow.ui" line="627"/>
-        <location filename="../mainwindow.ui" line="910"/>
+        <location filename="../mainwindow.ui" line="913"/>
         <source>History</source>
         <translation type="unfinished">ประวัติข้อความเดิม</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="367"/>
         <location filename="../mainwindow.ui" line="651"/>
-        <location filename="../mainwindow.ui" line="934"/>
+        <location filename="../mainwindow.ui" line="937"/>
         <source>Message</source>
         <translation type="unfinished">ข้อความที่ต้องการแสดง</translation>
     </message>
@@ -3648,74 +3648,79 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="960"/>
+        <location filename="../mainwindow.ui" line="774"/>
+        <source>Add window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="963"/>
         <location filename="../mainwindow.cpp" line="2673"/>
         <source>&amp;Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="985"/>
+        <location filename="../mainwindow.ui" line="988"/>
         <source>Files list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1742"/>
+        <location filename="../mainwindow.ui" line="1745"/>
         <source>&amp;Increase Voice Volume</source>
         <translation>&amp;เพิ่มความดังเสียง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1750"/>
+        <location filename="../mainwindow.ui" line="1753"/>
         <source>&amp;Lower Voice Volume</source>
         <translation>&amp;ลดความดังเสียง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1960"/>
+        <location filename="../mainwindow.ui" line="1963"/>
         <source>Media File Stream</source>
         <translation>ส่งข้อมูลไฟล์มีเดีย</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1963"/>
+        <location filename="../mainwindow.ui" line="1966"/>
         <source>Ctrl+8</source>
         <translation>กดปุ่ม Ctrl+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1975"/>
+        <location filename="../mainwindow.ui" line="1978"/>
         <source>Intercept Media File Stream</source>
         <translation>ขัดขวางการส่งข้อมูลไฟล์มีเดีย</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1978"/>
+        <location filename="../mainwindow.ui" line="1981"/>
         <source>Ctrl+Shift+8</source>
         <translation>กดปุ่ม Ctrl+Shift+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1983"/>
+        <location filename="../mainwindow.ui" line="1986"/>
         <source>Allow Media File Transmission</source>
         <translation>อนุญาตให้มีการส่งไฟล์มีเดีย</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1986"/>
+        <location filename="../mainwindow.ui" line="1989"/>
         <source>Ctrl+Alt+R</source>
         <translation>กดปุ่ม Ctrl+Alt+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1994"/>
+        <location filename="../mainwindow.ui" line="1997"/>
         <source>Mu&amp;te Voice</source>
         <translation>&amp;ปิดเสียง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1997"/>
+        <location filename="../mainwindow.ui" line="2000"/>
         <source>Ctrl+Shift+M</source>
         <translation>Ctrl+Shift+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1184"/>
+        <location filename="../mainwindow.ui" line="1187"/>
         <source>&amp;Kick</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เชิญ&amp;ผู้ใช้งานออก</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2005"/>
+        <location filename="../mainwindow.ui" line="2008"/>
         <source>Mute Media File</source>
         <translation>ปิดเสียงไฟล์มีเดีย</translation>
     </message>
@@ -3724,12 +3729,12 @@ Should these settings be applied?</source>
         <translation type="vanished">กดปุ่ม Ctrl+Alt+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2013"/>
+        <location filename="../mainwindow.ui" line="2016"/>
         <source>Kick From Channel</source>
         <translation>เตะออกจากห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2016"/>
+        <location filename="../mainwindow.ui" line="2019"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
     </message>
@@ -3743,24 +3748,24 @@ Should these settings be applied?</source>
         <translation type="vanished">Ctrl+Shift+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1543"/>
+        <location filename="../mainwindow.ui" line="1546"/>
         <source>&amp;Op</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ผู้&amp;ควบคุม</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1546"/>
+        <location filename="../mainwindow.ui" line="1549"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1551"/>
+        <location filename="../mainwindow.ui" line="1554"/>
         <source>&amp;Volume</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ระ&amp;ดับความดังของเสียง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1554"/>
+        <location filename="../mainwindow.ui" line="1557"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
@@ -3770,53 +3775,53 @@ Should these settings be applied?</source>
         <translation type="obsolete">ระดับความแ&amp;รงของเสียง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1581"/>
+        <location filename="../mainwindow.ui" line="1584"/>
         <source>&amp;User Messages</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ข้อความ&amp;ถึงผู้ใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1592"/>
+        <location filename="../mainwindow.ui" line="1595"/>
         <source>&amp;Channel Messages</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ข้อความ&amp;ประจำห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1618"/>
+        <location filename="../mainwindow.ui" line="1621"/>
         <source>&amp;Broadcast Messages</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ข้อค&amp;วามประชาสัมพันธ์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1633"/>
+        <location filename="../mainwindow.ui" line="1636"/>
         <source>Enable &amp;Video Transmission</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เปิดใช้&amp;งานการส่งภาพวีดีทัศน์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1636"/>
+        <location filename="../mainwindow.ui" line="1639"/>
         <source>Ctrl+Shift+V</source>
         <translation>Ctrl+Shift+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1644"/>
+        <location filename="../mainwindow.ui" line="1647"/>
         <source>&amp;Stream Audio File to Channel</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ส่งไฟล์เ&amp;สียงไปที่ห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1647"/>
+        <location filename="../mainwindow.ui" line="1650"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1652"/>
+        <location filename="../mainwindow.ui" line="1655"/>
         <source>Stream Audio &amp;File to User</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ส่งไฟล์เสียงไป&amp;ยังผู้ใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1655"/>
+        <location filename="../mainwindow.ui" line="1658"/>
         <source>Ctrl+Shift+W</source>
         <translation>Ctrl+Shift+W</translation>
     </message>
@@ -3826,42 +3831,42 @@ Should these settings be applied?</source>
         <translation type="obsolete">บัน&amp;ทึกเสียงลง hard disk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1670"/>
+        <location filename="../mainwindow.ui" line="1673"/>
         <source>Specify a folder where audio from users will be stored</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>กำหนดโฟลเดอร์ที่ใช้เก็บไฟล์เสียง</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1673"/>
+        <location filename="../mainwindow.ui" line="1676"/>
         <source>Ctrl+Alt+A</source>
         <translation>Ctrl+Alt+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1685"/>
+        <location filename="../mainwindow.ui" line="1688"/>
         <source>Intercept User Messages</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>แอบอ่านการส่งข้อความของผู้ใช้งานนี้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1696"/>
+        <location filename="../mainwindow.ui" line="1699"/>
         <source>Intercept Channel Messages</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>แอบอ่านข้อความของห้องสนทนา</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1711"/>
+        <location filename="../mainwindow.ui" line="1714"/>
         <source>Intercept Audio</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>แอบฟังผูัใช้งานนี้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1726"/>
+        <location filename="../mainwindow.ui" line="1729"/>
         <source>Intercept Video</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>แอบดูวีดีทัศน์ผู้ใช้งานนี้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1734"/>
+        <location filename="../mainwindow.ui" line="1737"/>
         <source>&amp;Broadcast Message</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ข้อความ&amp;ประชาสัมพันธ์</translation>
@@ -3887,38 +3892,38 @@ Should these settings be applied?</source>
         <translation type="vanished">Ctrl+Left</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1758"/>
+        <location filename="../mainwindow.ui" line="1761"/>
         <source>&amp;Store User(s) for Move</source>
         <translatorcomment>store user for move</translatorcomment>
         <translation>จัด&amp;เก็บ ผู้ใช้งาน เพื่อการย้ายที่</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1786"/>
+        <location filename="../mainwindow.ui" line="1789"/>
         <source>Allow V&amp;oice Transmission</source>
         <translation>&amp;อนุญาตให้มีการส่งเสียงได้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1789"/>
+        <location filename="../mainwindow.ui" line="1792"/>
         <source>Ctrl+Alt+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1797"/>
+        <location filename="../mainwindow.ui" line="1800"/>
         <source>Allow Video Transmission</source>
         <translation>อนุญาตให้มีการส่งภาพวีดีทัศน์ได้</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1800"/>
+        <location filename="../mainwindow.ui" line="1803"/>
         <source>Ctrl+Alt+W</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1805"/>
+        <location filename="../mainwindow.ui" line="1808"/>
         <source>Server S&amp;tatistics</source>
         <translation>ส&amp;ถิติการใช้งานเซิฟเวอร์</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1808"/>
+        <location filename="../mainwindow.ui" line="1811"/>
         <source>Shift+F9</source>
         <translation></translation>
     </message>
@@ -3927,18 +3932,18 @@ Should these settings be applied?</source>
         <translation type="obsolete">&amp;จัดเก็บเพื่อการขนย้าย</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1761"/>
+        <location filename="../mainwindow.ui" line="1764"/>
         <source>Ctrl+Alt+X</source>
         <translation>Ctrl+Alt+X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1766"/>
+        <location filename="../mainwindow.ui" line="1769"/>
         <source>&amp;Move User(s)</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ย้าย&amp;ผู้ใช้งาน</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1769"/>
+        <location filename="../mainwindow.ui" line="1772"/>
         <source>Ctrl+Alt+V</source>
         <translation>Ctrl+Alt+V</translation>
     </message>
@@ -5871,6 +5876,9 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafile.ui" line="234"/>
         <location filename="../streammediafiledlg.cpp" line="257"/>
+        <location filename="../streammediafiledlg.cpp" line="282"/>
+        <location filename="../streammediafiledlg.cpp" line="384"/>
+        <location filename="../streammediafiledlg.cpp" line="417"/>
         <source>&amp;Play</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6011,6 +6019,8 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="271"/>
+        <location filename="../streammediafiledlg.cpp" line="379"/>
+        <location filename="../streammediafiledlg.cpp" line="412"/>
         <source>&amp;Pause</source>
         <translation type="unfinished"></translation>
     </message>
