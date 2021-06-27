@@ -4146,6 +4146,42 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
     }
 
+    @Test
+    public void testRecordingMuxedStreams() {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TTMessage msg = new TTMessage();
+
+        int freq = 300;
+        TeamTalkBase ttclient;
+
+        ttclient = newClientInstance();
+        initSound(ttclient);
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, freq);
+
+        Channel chan = new Channel();
+        ttclient.getChannel(ttclient.getMyChannelID(), chan);
+        String recfile = String.format("%s.wav", getTestMethodName());
+        assertTrue("Record muxed audio file", ttclient.startRecordingMuxedStreams(StreamType.STREAMTYPE_VOICE,
+                                                                                  chan.audiocodec,
+                                                                                  recfile,
+                                                                                  AudioFileFormat.AFF_WAVE_FORMAT));
+        assertTrue("enable voice tx", ttclient.enableVoiceTransmission(true));
+
+
+        assertTrue("Stop recording muxed audio file", ttclient.stopRecordingMuxedAudioFile());
+
+        ttclient.enableVoiceTransmission(false);
+    }
+
 
     /* cannot test output levels since a user is muted by sound system after decoding and callback.
 
