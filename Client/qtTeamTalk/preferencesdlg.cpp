@@ -31,6 +31,7 @@
 #include "bearwarelogindlg.h"
 #include "settings.h"
 #include "ttseventsmodel.h"
+#include "statusbardlg.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -81,7 +82,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotLanguageChange);
     connect(ui.vidtextsrcToolBtn, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotSelectVideoText);
-    connect(ui.logstatusbarChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateLIOChkBox);
+    connect(ui.statusbarToolButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotConfigureStatusBar);
     connect(ui.updatesChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUpdDlgChkBox);
     
     //connection tab
@@ -518,9 +519,6 @@ void PreferencesDlg::slotTabChange(int index)
                                                      SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool());
         ui.ServnameChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_SERVNAME,
                                                      SETTINGS_DISPLAY_SERVNAME_DEFAULT).toBool());
-        ui.loggedinoutChkBox->setEnabled(ui.logstatusbarChkBox->isChecked());
-        ui.loggedinoutChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT,
-                                                     SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT).toBool());
 
         ui.languageBox->clear();
         ui.languageBox->addItem("");
@@ -787,7 +785,6 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_SHOWUSERNAME, ui.showusernameChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_EMOJI, ui.emojiChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_SERVNAME, ui.ServnameChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_LOGGEDINOUT, ui.loggedinoutChkBox->isChecked());
 
         int index = ui.languageBox->currentIndex();
         if(index >= 0)
@@ -1136,11 +1133,6 @@ void PreferencesDlg::slotSelectVideoText()
 {
     VideoTextDlg dlg(this);
     dlg.exec();
-}
-
-void PreferencesDlg::slotUpdateLIOChkBox(bool checked)
-{
-    ui.loggedinoutChkBox->setEnabled(checked);
 }
 
 void PreferencesDlg::slotUpdateUpdDlgChkBox(bool checked)
@@ -1979,4 +1971,10 @@ void PreferencesDlg::slotSPackChange()
         if(filename == "vox_me_disable")
            ui.voiceactmeoffEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
     }
+}
+
+void PreferencesDlg::slotConfigureStatusBar()
+{
+    StatusBarDlg dlg(this, ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong());
+    dlg.exec();
 }

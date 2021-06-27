@@ -30,7 +30,6 @@
 #include <QDialog>
 #include <QStack>
 #include <QProcess>
-#include <QCoreApplication>
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QTextToSpeech>
 #include <QSound>
@@ -1094,6 +1093,24 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
     }
 }
 
+bool HostEntry::sameHost(const HostEntry& host) const
+{
+    return ipaddr == host.ipaddr &&
+           tcpport == host.tcpport &&
+           udpport == host.udpport &&
+           /* srvpasswd == host.srvpasswd && */ //don't include passwords
+           username == host.username &&
+           /* password == host.password && */
+           nickname == host.nickname &&
+           channel == host.channel/* &&
+        hosts[i].chanpasswd == host.chanpasswd*/;
+}
+
+bool HostEntry::sameHostEntry(const HostEntry& host) const
+{
+    return sameHost(host) && host.name == name;
+}
+
 void addLatestHost(const HostEntry& host)
 {
     QList<HostEntry> hosts;
@@ -1107,14 +1124,7 @@ void addLatestHost(const HostEntry& host)
     }
     for(int i=0;i<hosts.size();)
     {
-        if(hosts[i].ipaddr == host.ipaddr &&
-            hosts[i].tcpport == host.tcpport && 
-            hosts[i].udpport == host.udpport &&
-            /*hosts[i].srvpasswd == host.srvpasswd &&*/ //don't include passwords
-            hosts[i].username == host.username &&
-            /*hosts[i].password == host.password &&*/
-            hosts[i].channel == host.channel/* &&
-            hosts[i].chanpasswd == host.chanpasswd*/)
+        if (hosts[i].sameHostEntry(host))
         {
             hosts.erase(hosts.begin()+i);
         }
@@ -1131,6 +1141,7 @@ void addLatestHost(const HostEntry& host)
         ttSettings->setValue(QString(SETTINGS_LATESTHOST_ENCRYPTED).arg(i), hosts[i].encrypted);
         ttSettings->setValue(QString(SETTINGS_LATESTHOST_USERNAME).arg(i), hosts[i].username); 
         ttSettings->setValue(QString(SETTINGS_LATESTHOST_PASSWORD).arg(i), hosts[i].password); 
+        ttSettings->setValue(QString(SETTINGS_LATESTHOST_NICKNAME).arg(i), hosts[i].nickname); 
         ttSettings->setValue(QString(SETTINGS_LATESTHOST_CHANNEL).arg(i), hosts[i].channel); 
         ttSettings->setValue(QString(SETTINGS_LATESTHOST_CHANNELPASSWD).arg(i), hosts[i].chanpasswd); 
     }
@@ -1156,6 +1167,7 @@ void deleteLatestHost(int index)
         ttSettings->remove(QString(SETTINGS_LATESTHOST_ENCRYPTED).arg(i));
         ttSettings->remove(QString(SETTINGS_LATESTHOST_USERNAME).arg(i));
         ttSettings->remove(QString(SETTINGS_LATESTHOST_PASSWORD).arg(i));
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_NICKNAME).arg(i));
         ttSettings->remove(QString(SETTINGS_LATESTHOST_CHANNEL).arg(i));
         ttSettings->remove(QString(SETTINGS_LATESTHOST_CHANNELPASSWD).arg(i));
     }
@@ -1179,6 +1191,7 @@ bool getLatestHost(int index, HostEntry& host)
     host.encrypted = ttSettings->value(QString(SETTINGS_LATESTHOST_ENCRYPTED).arg(index), false).toBool();
     host.username = ttSettings->value(QString(SETTINGS_LATESTHOST_USERNAME).arg(index)).toString();
     host.password = ttSettings->value(QString(SETTINGS_LATESTHOST_PASSWORD).arg(index)).toString();
+    host.nickname = ttSettings->value(QString(SETTINGS_LATESTHOST_NICKNAME).arg(index)).toString();
     host.channel = ttSettings->value(QString(SETTINGS_LATESTHOST_CHANNEL).arg(index)).toString();
     host.chanpasswd = ttSettings->value(QString(SETTINGS_LATESTHOST_CHANNELPASSWD).arg(index)).toString();
     return host.ipaddr.size();
@@ -1210,6 +1223,7 @@ void setServerEntry(int index, const HostEntry& host)
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_ENCRYPTED).arg(index), host.encrypted);
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_USERNAME).arg(index), host.username); 
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_PASSWORD).arg(index), host.password); 
+    ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(index), host.nickname); 
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_CHANNEL).arg(index), host.channel); 
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_CHANNELPASSWD).arg(index), host.chanpasswd); 
 }
@@ -1223,6 +1237,7 @@ bool getServerEntry(int index, HostEntry& host)
     host.encrypted = ttSettings->value(QString(SETTINGS_SERVERENTRIES_ENCRYPTED).arg(index), false).toBool();
     host.username = ttSettings->value(QString(SETTINGS_SERVERENTRIES_USERNAME).arg(index)).toString();
     host.password = ttSettings->value(QString(SETTINGS_SERVERENTRIES_PASSWORD).arg(index)).toString();
+    host.nickname = ttSettings->value(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(index)).toString();
     host.channel = ttSettings->value(QString(SETTINGS_SERVERENTRIES_CHANNEL).arg(index)).toString();
     host.chanpasswd = ttSettings->value(QString(SETTINGS_SERVERENTRIES_CHANNELPASSWD).arg(index)).toString();
     return host.name.size();
@@ -1244,6 +1259,7 @@ void deleteServerEntry(const QString& name)
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_ENCRYPTED).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_USERNAME).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_PASSWORD).arg(index));
+        ttSettings->remove(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_CHANNEL).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_CHANNELPASSWD).arg(index));
         index++;
@@ -1292,6 +1308,10 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
         tmp = auth.firstChildElement("password");
         if(!tmp.isNull())
             entry.password = tmp.text();
+
+        tmp = auth.firstChildElement("nickname");
+        if(!tmp.isNull())
+            entry.nickname = tmp.text();
     }
 
     QDomElement join = hostElement.firstChildElement("join");
@@ -1308,9 +1328,6 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
     QDomElement client = hostElement.firstChildElement(CLIENTSETUP_TAG);
     if(!client.isNull())
     {
-        tmp = client.firstChildElement("nickname");
-        if(!tmp.isNull())
-            entry.nickname = tmp.text();
         tmp = client.firstChildElement("gender");
         if(!tmp.isNull())
         {
@@ -1624,8 +1641,12 @@ QByteArray generateTTFile(const HostEntry& entry)
         QDomElement password = doc.createElement("password");
         password.appendChild(doc.createTextNode(entry.password));
 
+        QDomElement nickname = doc.createElement("nickname");
+        nickname.appendChild(doc.createTextNode(entry.nickname));
+
         auth.appendChild(username);
         auth.appendChild(password);
+        auth.appendChild(nickname);
 
         host.appendChild(auth);
     }
