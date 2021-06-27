@@ -5,7 +5,10 @@ Version 5.8.1
 Accessible Windows Client
 -
 Default QT Client
--Ability to delete items from CTRL+S history
+- Ability to delete items from CTRL+S history
+- Fix default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
+- Fix potentials shift+tab navigation issues in main window
+- Add missing labels in main window
 Android Client
 -
 iOS Client
