@@ -210,7 +210,7 @@
            <item row="2" column="0">
             <widget class="QLabel" name="label_nick">
              <property name="text">
-              <string>Nickname</string>
+              <string>Nickname (optional)</string>
              </property>
              <property name="buddy">
               <cstring>nicknameEdit</cstring>
