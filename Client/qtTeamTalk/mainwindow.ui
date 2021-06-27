@@ -770,6 +770,9 @@
                  <property name="text">
                   <string/>
                  </property>
+                 <property name="AccessibleName">
+                  <string>Add window</string>
+                 </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
                    <normaloff>:/images/images/plus.png</normaloff>:/images/images/plus.png</iconset>
