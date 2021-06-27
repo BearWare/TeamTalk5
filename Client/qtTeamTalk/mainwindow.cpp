@@ -184,6 +184,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 
     ui.volumeSlider->setRange(0, 100);
     ui.micSlider->setRange(0, 100);
+
     ui.voiceactBar->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
     ui.voiceactSlider->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
 
@@ -880,7 +881,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             m_timers[startTimer(5000)] = TIMER_RECONNECT;
         }
 
-        addStatusMsg(tr("Failed to connect to %1 TCP port %2 UDP port %3")
+        addStatusMsg(event_d, tr("Failed to connect to %1 TCP port %2 UDP port %3")
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     }
     break;
@@ -890,7 +891,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, true).toBool())
             m_timers[startTimer(5000)] = TIMER_RECONNECT;
 
-        addStatusMsg(tr("Connection lost to %1 TCP port %2 UDP port %3")
+        addStatusMsg(event_d, tr("Connection lost to %1 TCP port %2 UDP port %3")
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
         playSoundEvent(SOUNDEVENT_SERVERLOST);
@@ -936,18 +937,18 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             playSoundEvent(SOUNDEVENT_SERVERLOST);
             if (msg.ttType == __USER)
-                addStatusMsg(tr("Kicked from server by %1")
+                addStatusMsg(event_d, tr("Kicked from server by %1")
                     .arg(getDisplayName(msg.user)));
             else
-                addStatusMsg(tr("Kicked from server by unknown user"));
+                addStatusMsg(event_d, tr("Kicked from server by unknown user"));
         }
         else
         {
             if (msg.ttType == __USER)
-                addStatusMsg(tr("Kicked from channel by %1")
+                addStatusMsg(event_d, tr("Kicked from channel by %1")
                     .arg(getDisplayName(msg.user)));
             else
-                addStatusMsg(tr("Kicked from channel by unknown user"));
+                addStatusMsg(event_d, tr("Kicked from channel by unknown user"));
         }
     }
     break;
@@ -1003,8 +1004,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         updateUserSubscription(msg.user.nUserID);
         if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN)
         {
-            if (ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT, SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT).toBool())
-                addStatusMsg(tr("%1 has logged in") .arg(getDisplayName(msg.user)));
+            addStatusMsg(STATUSBAR_USER_LOGGEDIN, tr("%1 has logged in") .arg(getDisplayName(msg.user)));
             playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
             addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(tr("%1 has logged in") .arg(getDisplayName(msg.user))));
         }
@@ -1023,8 +1023,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         m_usermessages.remove(msg.user.nUserID);
         if(msg.user.nUserID != TT_GetMyUserID(ttInst))
         {
-            if (ttSettings->value(SETTINGS_DISPLAY_LOGGEDINOUT, SETTINGS_DISPLAY_LOGGEDINOUT_DEFAULT).toBool())
-                addStatusMsg(tr("%1 has logged out") .arg(getDisplayName(msg.user)));
+            addStatusMsg(STATUSBAR_USER_LOGGEDOUT, tr("%1 has logged out") .arg(getDisplayName(msg.user)));
             playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
             addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(tr("%1 has logged out") .arg(getDisplayName(msg.user))));
         }
@@ -1048,17 +1047,20 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
                 QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(msg.user));
                 TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
+                StatusBarEvent statusType = STATUSBAR_USER_JOINED_SAME;
                 if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst))
                 {
                     userjoinchan = userjoinchan + " " + tr("root");
                     ttsType = TTS_USER_JOINED;
+                    statusType = STATUSBAR_USER_JOINED;
                 }
                 else if (msg.user.nChannelID != TT_GetMyChannelID(ttInst))
                 {
                     userjoinchan = userjoinchan + " " + _Q(chan.szName);
                     ttsType = TTS_USER_JOINED;
+                    statusType = STATUSBAR_USER_JOINED;
                 }
-                addStatusMsg(userjoinchan);
+                addStatusMsg(statusType, userjoinchan);
                 addTextToSpeechMessage(ttsType, userjoinchan);
             }
         }
@@ -1083,14 +1085,16 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 ui.channelsWidget->getChannel(msg.nSource, chan);
                 QString userleftchan = tr("%1 left channel").arg(getDisplayName(msg.user));
                 TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
+                StatusBarEvent statusType = STATUSBAR_USER_LEFT_SAME;
                 if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
                     userleftchan = userleftchan + " " + tr("root");
                     ttsType = TTS_USER_LEFT;
+                    statusType = STATUSBAR_USER_LEFT;
                 } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
                     userleftchan = userleftchan + " " + _Q(chan.szName);
-                    ttsType = TTS_USER_LEFT;
+                    statusType = STATUSBAR_USER_LEFT;
                 }
-                addStatusMsg(userleftchan);
+                addStatusMsg(statusType, userleftchan);
                 addTextToSpeechMessage(ttsType, userleftchan);
             }
         }
@@ -1151,7 +1155,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             {
                 fileadd = tr("File %1 added by %2").arg(file.szFileName).arg(getDisplayName(user));
             }
-            addStatusMsg(fileadd);
+            addStatusMsg(STATUSBAR_FILE_ADD, fileadd);
             addTextToSpeechMessage(TTS_FILE_ADD, fileadd);
         }
     }
@@ -1176,7 +1180,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             {
                 filerem = tr("File %1 removed by %2").arg(file.szFileName).arg(getDisplayName(user));
             }
-            addStatusMsg(filerem);
+            addStatusMsg(STATUSBAR_FILE_REMOVE, filerem);
             addTextToSpeechMessage(TTS_FILE_REMOVE, filerem);
         }
 
@@ -1243,7 +1247,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         }
         if(critical)
             QMessageBox::critical(this, tr("Internal Error"), textmsg);
-        addStatusMsg(textmsg);
+        addStatusMsg(event_d, textmsg);
     }
     break;
     case CLIENTEVENT_USER_STATECHANGE :
@@ -1272,12 +1276,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             User nameuser;
             TT_GetUser(ttInst, user.nUserID, &nameuser);
-            addStatusMsg(tr("Streaming from %1 started") .arg(getDisplayName(nameuser)));
+            addStatusMsg(event_d, tr("Streaming from %1 started") .arg(getDisplayName(nameuser)));
         } /*else {
             if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN || m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
                 User nameuser;
                 TT_GetUser(ttInst, user.nUserID, &nameuser);
-                addStatusMsg(tr("Streaming from %1 finished") .arg(getDisplayName(nameuser)));
+                addStatusMsg(event_d, tr("Streaming from %1 finished") .arg(getDisplayName(nameuser)));
             }
         }*/
         
@@ -1296,18 +1300,18 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         switch(msg.mediafileinfo.nStatus)
         {
         case MFS_ERROR :
-            addStatusMsg(tr("Error streaming media file to channel"));
+            addStatusMsg(event_d, tr("Error streaming media file to channel"));
             stopStreamMediaFile();
             break;
         case MFS_STARTED :
-            addStatusMsg(tr("Started streaming media file to channel"));
+            addStatusMsg(event_d, tr("Started streaming media file to channel"));
             break;
         case MFS_FINISHED :
-            addStatusMsg(tr("Finished streaming media file to channel"));
+            addStatusMsg(event_d, tr("Finished streaming media file to channel"));
             stopStreamMediaFile();
             break;
         case MFS_ABORTED :
-            addStatusMsg(tr("Aborted streaming media file to channel"));
+            addStatusMsg(event_d, tr("Aborted streaming media file to channel"));
             stopStreamMediaFile();
             break;
         case MFS_CLOSED :
@@ -1362,7 +1366,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
             User user;
             if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
-                addStatusMsg(tr("New video session from %1")
+                addStatusMsg(event_d, tr("New video session from %1")
                              .arg(getDisplayName(user)));
         }
         emit(newVideoCaptureFrame(userid, msg.nStreamID));
@@ -1392,7 +1396,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
             User user;
             if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
-                addStatusMsg(tr("New video session from %1")
+                addStatusMsg(event_d, tr("New video session from %1")
                 .arg(getDisplayName(user)));
         }
         emit(newMediaVideoFrame(userid, msg.nStreamID));
@@ -1417,7 +1421,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
                 User user;
                 if(ui.channelsWidget->getUser(msg.nSource, user))
-                    addStatusMsg(tr("New desktop session from %1")
+                    addStatusMsg(event_d, tr("New desktop session from %1")
                     .arg(getDisplayName(user)));
             }
         }
@@ -1443,7 +1447,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         }
 
         if(msg.nSource == 0)
-            addStatusMsg(tr("Your desktop session was cancelled"));
+            addStatusMsg(event_d, tr("Your desktop session was cancelled"));
         break;
     case CLIENTEVENT_USER_DESKTOPCURSOR :
         Q_ASSERT(msg.ttType == __DESKTOPINPUT);
@@ -1462,21 +1466,21 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         switch(msg.mediafileinfo.nStatus)
         {
         case MFS_STARTED :
-            addStatusMsg(tr("Writing audio file %1 for %2")
+            addStatusMsg(event_d, tr("Writing audio file %1 for %2")
                          .arg(_Q(msg.mediafileinfo.szFileName))
                          .arg(getDisplayName(user)));
             break;
         case MFS_ERROR :
-            addStatusMsg(tr("Failed to write audio file %1 for %2")
+            addStatusMsg(event_d, tr("Failed to write audio file %1 for %2")
                          .arg(_Q(msg.mediafileinfo.szFileName))
                          .arg(getDisplayName(user)));
             break;
         case MFS_FINISHED :
-            addStatusMsg(tr("Finished audio file %1")
+            addStatusMsg(event_d, tr("Finished audio file %1")
                          .arg(_Q(msg.mediafileinfo.szFileName)));
             break;
         case MFS_ABORTED :
-            addStatusMsg(tr("Aborted audio file %1")
+            addStatusMsg(event_d, tr("Aborted audio file %1")
                          .arg(_Q(msg.mediafileinfo.szFileName)));
             break;
         case MFS_CLOSED :
@@ -1691,7 +1695,7 @@ void MainWindow::cmdLoggedIn(int myuserid)
     else if(ttSettings->value(SETTINGS_CONNECTION_AUTOJOIN, true).toBool()) //just join root
     {
         if(m_host.channel.size())
-            addStatusMsg(tr("Cannot join channel %1").arg(m_host.channel));
+            addStatusMsg(event_d, tr("Cannot join channel %1").arg(m_host.channel));
 
         //auto join root channel
         int cmdid = TT_DoJoinChannelByID(ttInst, 
@@ -1702,9 +1706,9 @@ void MainWindow::cmdLoggedIn(int myuserid)
     }
 }
 
-void MainWindow::addStatusMsg(const QString& msg)
+void MainWindow::addStatusMsg(StatusBarEvent event, const QString& msg)
 {
-    if(ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, true).toBool())
+    if((ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, true).toBool()) && ((ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong() & event) || event == event_d))
     {
         ui.chatEdit->addLogMessage(msg);
         ui.videochatEdit->addLogMessage(msg);
@@ -1724,17 +1728,17 @@ void MainWindow::initSound()
 {
     QStringList errors = initSelectedSoundDevices(m_devin, m_devout);
     for (auto s : errors)
-        addStatusMsg(s);
+        addStatusMsg(event_d, s);
 
     //choose default sound devices if configuration failed
     if (errors.size())
     {
         errors = initDefaultSoundDevices(m_devin, m_devout);
         for (auto s : errors)
-            addStatusMsg(s);
+            addStatusMsg(event_d, s);
     }
     QString soundev = tr("Using sound input: %1").arg(_Q(m_devin.szDeviceName)) + "\r\n" + tr("Using sound output: %2").arg(_Q(m_devout.szDeviceName));
-    addStatusMsg(soundev);
+    addStatusMsg(event_d, soundev);
 }
 
 void MainWindow::Connect()
@@ -1746,7 +1750,7 @@ void MainWindow::Connect()
     int localtcpport = ttSettings->value(SETTINGS_CONNECTION_TCPPORT, 0).toInt();
     int localudpport = ttSettings->value(SETTINGS_CONNECTION_UDPPORT, 0).toInt();
 
-    addStatusMsg(tr("Connecting to %1 TCP port %2 UDP port %3")
+    addStatusMsg(event_d, tr("Connecting to %1 TCP port %2 UDP port %3")
                  .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
     m_desktopaccess_entries.clear();
@@ -1754,7 +1758,7 @@ void MainWindow::Connect()
 
     if(!TT_Connect(ttInst, _W(m_host.ipaddr), m_host.tcpport,
                    m_host.udpport, localtcpport, localudpport, m_host.encrypted))
-        addStatusMsg(tr("Failed to connect to %1 TCP port %2 UDP port %3")
+        addStatusMsg(event_d, tr("Failed to connect to %1 TCP port %2 UDP port %3")
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 }
 
@@ -1802,7 +1806,7 @@ void MainWindow::Disconnect()
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
 
-    addStatusMsg(tr("Logged out from %1, TCP port %2, UDP port %3").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
+    addStatusMsg(event_d, tr("Logged out from %1, TCP port %2, UDP port %3").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     updateWindowTitle();
     addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from server"));
 }
@@ -1810,13 +1814,15 @@ void MainWindow::Disconnect()
 void MainWindow::login()
 {
     QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+    if(m_host.nickname.size())
+        nick = m_host.nickname;
 
     int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
                              _W(m_host.password), _W(QString(APPNAME_SHORT)));
     if (cmdid>0)
         m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
 
-    addStatusMsg(tr("Connected to %1 TCP port %2 UDP port %3")
+    addStatusMsg(event_d, tr("Connected to %1 TCP port %2 UDP port %3")
         .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     ServerProperties prop = {};
     TT_GetServerProperties(ttInst, &prop);
@@ -1868,6 +1874,8 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
             
             addLatestHost(m_host);
             QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+            if(m_host.nickname.size())
+                nickname = m_host.nickname;
             int cmdid = TT_DoLoginEx(ttInst, _W(nickname), 
                                      _W(m_host.username), _W(m_host.password), 
                                      _W(QString(APPNAME_SHORT)));
@@ -2497,19 +2505,19 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
             ui.channelsWidget->setUserDesktopAccess(textmsg.nFromUserID, cmd[1] == "1");
             if(cmd[1] == "1")
             {
-                addStatusMsg(QString(tr("%1 is requesting desktop access")
+                addStatusMsg(event_d, QString(tr("%1 is requesting desktop access")
                              .arg(getDisplayName(user))));
                 playSoundEvent(SOUNDEVENT_DESKTOPACCESS);
                 if(hasDesktopAccess(m_desktopaccess_entries, user))
                 {
                     subscribeCommon(true, SUBSCRIBE_DESKTOPINPUT, user.nUserID);
-                    addStatusMsg(QString(tr("%1 granted desktop access")
+                    addStatusMsg(event_d, QString(tr("%1 granted desktop access")
                                  .arg(getDisplayName(user))));
                 }
             }
             else
             {
-                addStatusMsg(QString(tr("%1 retracted desktop access")
+                addStatusMsg(event_d, QString(tr("%1 retracted desktop access")
                              .arg(getDisplayName(user))));
                 subscribeCommon(false, SUBSCRIBE_DESKTOPINPUT, user.nUserID);
             }
@@ -2608,7 +2616,7 @@ void MainWindow::processMyselfLeft(int /*channelid*/)
             statusleft = tr("Left channel %1").arg(root);
         }
     }
-    addStatusMsg(statusleft);
+    addStatusMsg(STATUSBAR_USER_LEFT, statusleft);
     addTextToSpeechMessage(TTS_USER_LEFT, statusleft);
 
     m_mychannel = {};
@@ -2728,7 +2736,7 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
                 return;
             }
             else
-                addStatusMsg(tr("Recording to file: %1").arg(filepath));
+                addStatusMsg(STATUSBAR_START_RECORD, tr("Recording to file: %1").arg(filepath));
         }
         else
         {
@@ -3768,20 +3776,55 @@ void MainWindow::slotClientExit(bool /*checked =false */)
 
 void MainWindow::slotMeChangeNickname(bool /*checked =false */)
 {
+    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED && m_host.nickname.size())
+        nick = m_host.nickname;
     bool ok = false;
     QInputDialog inputDialog;
     inputDialog.setOkButtonText(tr("&Ok"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
-    inputDialog.setTextValue(ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString());
+    inputDialog.setTextValue(nick);
     inputDialog.setWindowTitle(MENUTEXT(ui.actionChangeNickname->text()));
     inputDialog.setLabelText(tr("Specify new nickname"));
     ok = inputDialog.exec();
     QString s = inputDialog.textValue();
     if(ok)
     {
-        ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, s);
-        TT_DoChangeNickname(ttInst, _W(s));
+        if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+        {
+            m_host.nickname = s;
+            TT_DoChangeNickname(ttInst, (s.isEmpty() && !ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString().isEmpty())?_W(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString()):_W(s));
+            HostEntry tmp = HostEntry();
+            int serv, lasthost, index = 0;
+            while(getServerEntry(index, tmp))
+            {
+                if (m_host.sameHost(tmp))
+                    serv = index;
+                index++;
+                tmp = HostEntry();
+            }
+            tmp = HostEntry();
+            index = 0;
+            while(getLatestHost(index, tmp))
+            {
+                if (m_host.sameHostEntry(tmp))
+                    lasthost = index;
+                index++;
+            }
+            if(s != ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString())
+            {
+                ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(serv), s);
+                ttSettings->setValue(QString(SETTINGS_LATESTHOST_NICKNAME).arg(lasthost), s);
+            }
+            else if(s == ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString() || s.isEmpty())
+            {
+                ttSettings->remove(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(serv));
+                ttSettings->remove(QString(SETTINGS_LATESTHOST_NICKNAME).arg(lasthost));
+            }
+        }
+        else
+            ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, s);
     }
 }
 
@@ -4090,7 +4133,7 @@ void MainWindow::slotUsersSubscriptionsDesktopInput(bool checked /*=false */)
 {
     subscribeCommon(checked, SUBSCRIBE_DESKTOPINPUT);
     foreach(User user, ui.channelsWidget->getSelectedUsers())
-        addStatusMsg(QString(tr("%1 granted desktop access")
+        addStatusMsg(event_d, QString(tr("%1 granted desktop access")
                         .arg(getDisplayName(user))));
 }
 
@@ -4644,7 +4687,7 @@ void MainWindow::slotServerServerProperties(bool /*checked =false */)
 void MainWindow::slotServerSaveConfiguration(bool /*checked =false */)
 {
     TT_DoSaveConfig(ttInst);
-    addStatusMsg(tr("Server configuration saved"));
+    addStatusMsg(STATUSBAR_SAVE_SERVER_CONFIG, tr("Server configuration saved"));
     addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Server configuration saved"));
 }
 
@@ -4867,7 +4910,6 @@ void MainWindow::slotUpdateUI()
     bool me_op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user_chanid);
 
     ui.actionConnect->setChecked( (statemask & CLIENT_CONNECTING) || (statemask & CLIENT_CONNECTED));
-    ui.actionChangeNickname->setEnabled(auth);
     ui.actionChangeStatus->setEnabled(auth);
 #ifdef Q_OS_WIN32
     ui.actionEnablePushToTalk->setChecked(TT_HotKey_IsActive(ttInst, HOTKEY_PUSHTOTALK) >= 0);
@@ -5233,7 +5275,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
             msg = tr("You can now transmit channel messages!");
         else
             msg = tr("You can no longer transmit channel messages!");
-        addStatusMsg(msg);
+        addStatusMsg(STATUSBAR_CLASSROOM_CHANMSG_TX, msg);
         addTextToSpeechMessage(TTS_CLASSROOM_CHANMSG_TX, msg);
     }
     before = userCanVoiceTx(TT_GetMyUserID(ttInst), oldchan);
@@ -5244,7 +5286,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
             msg = tr("You can now transmit audio!");
         else
             msg = tr("You can no longer transmit audio!");
-        addStatusMsg(msg);
+        addStatusMsg(STATUSBAR_CLASSROOM_VOICE_TX, msg);
         addTextToSpeechMessage(TTS_CLASSROOM_VOICE_TX, msg);
     }
     before = userCanVideoTx(TT_GetMyUserID(ttInst), oldchan);
@@ -5255,7 +5297,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
             msg = tr("You can now transmit video!");
         else
             msg = tr("You can no longer transmit video!");
-        addStatusMsg(msg);
+        addStatusMsg(STATUSBAR_CLASSROOM_VIDEO_TX, msg);
         addTextToSpeechMessage(TTS_CLASSROOM_VIDEO_TX, msg);
     }
     before = userCanDesktopTx(TT_GetMyUserID(ttInst), oldchan);
@@ -5266,7 +5308,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
             msg = tr("You can now transmit desktop windows!");
         else
             msg = tr("You can no longer transmit desktop windows!");
-        addStatusMsg(msg);
+        addStatusMsg(STATUSBAR_CLASSROOM_DESKTOP_TX, msg);
         addTextToSpeechMessage(TTS_CLASSROOM_DESKTOP_TX, msg);
     }
     before = userCanMediaFileTx(TT_GetMyUserID(ttInst), oldchan);
@@ -5277,7 +5319,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
             msg = tr("You can now transmit mediafiles!");
         else
             msg = tr("You can no longer transmit mediafiles!");
-        addStatusMsg(msg);
+        addStatusMsg(STATUSBAR_CLASSROOM_MEDIAFILE_TX, msg);
         addTextToSpeechMessage(TTS_CLASSROOM_MEDIAFILE_TX, msg);
     }
 }
@@ -5731,7 +5773,7 @@ void MainWindow::slotUserUpdate(const User& user)
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG))
         {
-            addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+            addStatusMsg(STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3")
                 .arg(nickname)
                 .arg(MENUTEXT(ui.actionInterceptUserMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?
@@ -5741,7 +5783,7 @@ void MainWindow::slotUserUpdate(const User& user)
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG))
         {
-            addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+            addStatusMsg(STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3")
                 .arg(nickname)
                 .arg(MENUTEXT(ui.actionInterceptChannelMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?
@@ -5751,7 +5793,7 @@ void MainWindow::slotUserUpdate(const User& user)
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE))
         {
-            addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+            addStatusMsg(STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE, tr("%1 changed subscription \"%2\" to: %3")
                 .arg(nickname)
                 .arg(MENUTEXT(ui.actionInterceptVoice->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?
@@ -5761,7 +5803,7 @@ void MainWindow::slotUserUpdate(const User& user)
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE))
         {
-            addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+            addStatusMsg(STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO, tr("%1 changed subscription \"%2\" to: %3")
                 .arg(nickname)
                 .arg(MENUTEXT(ui.actionInterceptVideo->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?
@@ -5771,7 +5813,7 @@ void MainWindow::slotUserUpdate(const User& user)
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP))
         {
-            addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+            addStatusMsg(STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP, tr("%1 changed subscription \"%2\" to: %3")
                 .arg(nickname)
                 .arg(MENUTEXT(ui.actionInterceptDesktop->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?
@@ -5781,7 +5823,7 @@ void MainWindow::slotUserUpdate(const User& user)
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE))
         {
-            addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+            addStatusMsg(STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3")
                 .arg(nickname)
                 .arg(MENUTEXT(ui.actionInterceptMediaFile->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?
@@ -5793,7 +5835,7 @@ void MainWindow::slotUserUpdate(const User& user)
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_USER_MSG) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_USER_MSG))
             {
-                addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                addStatusMsg(STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
                     .arg(MENUTEXT(ui.actionUserMessages->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG?
@@ -5803,7 +5845,7 @@ void MainWindow::slotUserUpdate(const User& user)
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG))
             {
-                addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                addStatusMsg(STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
                     .arg(MENUTEXT(ui.actionChannelMessages->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG?
@@ -5813,7 +5855,7 @@ void MainWindow::slotUserUpdate(const User& user)
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG))
             {
-                addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                addStatusMsg(STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
                     .arg(MENUTEXT(ui.actionBroadcastMessages->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG?
@@ -5823,7 +5865,7 @@ void MainWindow::slotUserUpdate(const User& user)
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_VOICE) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_VOICE))
             {
-                addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                addStatusMsg(STATUSBAR_SUBSCRIPTIONS_VOICE, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
                     .arg(MENUTEXT(ui.actionVoice->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_VOICE?
@@ -5833,7 +5875,7 @@ void MainWindow::slotUserUpdate(const User& user)
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE))
             {
-                addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                addStatusMsg(STATUSBAR_SUBSCRIPTIONS_VIDEO, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
                     .arg(MENUTEXT(ui.actionVideo->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE?
@@ -5843,7 +5885,7 @@ void MainWindow::slotUserUpdate(const User& user)
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_DESKTOP) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_DESKTOP))
             {
-                addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                addStatusMsg(STATUSBAR_SUBSCRIPTIONS_DESKTOP, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
                     .arg(MENUTEXT(ui.actionDesktop->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP?
@@ -5853,7 +5895,7 @@ void MainWindow::slotUserUpdate(const User& user)
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT))
             {
-                addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                addStatusMsg(STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
                     .arg(MENUTEXT(ui.actionDesktopInput->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT?
@@ -5863,7 +5905,7 @@ void MainWindow::slotUserUpdate(const User& user)
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE))
             {
-                addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
+                addStatusMsg(STATUSBAR_SUBSCRIPTIONS_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
                     .arg(MENUTEXT(ui.actionMediaFile->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE?
@@ -6094,7 +6136,7 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
                         QDesktopServices::openUrl(downloadurl);
                 }
                 else
-                    addStatusMsg(tr("New version available: %1\r\nYou can download it on the page below:\r\n%2").arg(version).arg(downloadurl));
+                    addStatusMsg(event_d, tr("New version available: %1\r\nYou can download it on the page below:\r\n%2").arg(version).arg(downloadurl));
             }
         }
         
@@ -6170,7 +6212,7 @@ void MainWindow::startTTS()
         }
         else
         {
-            addStatusMsg(tr("No available voices found for Text-To-Speech"));
+            addStatusMsg(event_d, tr("No available voices found for Text-To-Speech"));
         }
     }
     break;
