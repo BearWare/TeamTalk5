@@ -91,6 +91,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia texttospeech
 TRANSLATIONS = languages/Bulgarian.ts \
                languages/Chinese_Simplified.ts \
                languages/Chinese_Traditional.ts \
+               languages/Croatian.ts \
                languages/Czech.ts \
                languages/Danish.ts \
                languages/Dutch.ts \
