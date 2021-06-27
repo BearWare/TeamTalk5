@@ -136,10 +136,12 @@ int main(int argc, TTCHAR* argv[])
     assert(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
 
     //now just process events forever
-    while(TT_GetMessage(ttInst, &msg, NULL))
+    while (TT_GetMessage(ttInst, &msg, NULL))
+    {
         processTTMessage(msg);
+    }
 
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 error_connect:
     cout << "Failed to connect to server." << endl;
     return EXIT_FAILURE;
@@ -267,6 +269,8 @@ void processTTMessage(const TTMessage& msg)
             cout << user.szNickname << " to entire server ";
             cout << "content: " << textmsg.szMessage << endl;
             break;
+        default :
+            break;
         }
     }
     break;
@@ -298,6 +302,8 @@ void processTTMessage(const TTMessage& msg)
             case MFS_ABORTED :
                 cout << "Aborted storing audio from #" << user.nUserID << " ";
                 cout << user.szNickname << " to file." << endl;
+                break;
+            default :
                 break;
             }
         }
