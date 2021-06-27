@@ -248,7 +248,7 @@ extern "C" {
     {
         return TT_InitSoundInputSharedDevice(nSampleRate, nChannels, nFrameSize);
     }
-    
+
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_initSoundOutputDevice(JNIEnv* env,
                                                                                    jobject thiz,
                                                                                    jlong lpTTInstance,
@@ -265,7 +265,7 @@ extern "C" {
     {
         return TT_InitSoundOutputSharedDevice(nSampleRate, nChannels, nFrameSize);
     }
-    
+
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_initSoundDuplexDevices(JNIEnv* env,
                                                                                     jobject thiz,
@@ -545,8 +545,7 @@ extern "C" {
         THROW_NULLEX(env, lpAudioCodec, false);
         THROW_NULLEX(env, szAudioFileName, false);
 
-        AudioCodec audcodec;
-        ZERO_STRUCT(audcodec);
+        AudioCodec audcodec = {};
         setAudioCodec(env, audcodec, lpAudioCodec, J2N);
 
         return TT_StartRecordingMuxedAudioFile(reinterpret_cast<TTInstance*>(lpTTInstance),
@@ -565,6 +564,26 @@ extern "C" {
         return TT_StartRecordingMuxedAudioFileEx(reinterpret_cast<TTInstance*>(lpTTInstance),
                                                  nChannelID, ttstr(env, szAudioFileName), (AudioFileFormat)uAFF);
     }
+
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_startRecordingMuxedStreams(JNIEnv* env,
+                                                                                        jobject thiz,
+                                                                                        jlong lpTTInstance,
+                                                                                        jint uStreamTypes,
+                                                                                        jobject lpAudioCodec,
+                                                                                        jstring szAudioFileName,
+                                                                                        jint uAFF)
+    {
+        THROW_NULLEX(env, lpAudioCodec, false);
+        THROW_NULLEX(env, szAudioFileName, false);
+
+        AudioCodec audcodec = {};
+        setAudioCodec(env, audcodec, lpAudioCodec, J2N);
+        
+        return TT_StartRecordingMuxedStreams(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                             uStreamTypes, &audcodec,
+                                             ttstr(env, szAudioFileName), (AudioFileFormat)uAFF);
+    }
+
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_stopRecordingMuxedAudioFile(JNIEnv* env,
                                                                                          jobject thiz,
@@ -929,7 +948,7 @@ extern "C" {
         return TT_SetEncryptionContext(reinterpret_cast<TTInstance*>(lpTTInstance),
                                        &context);
     }
-    
+
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_connect(JNIEnv* env,
                                                                      jobject thiz,
                                                                      jlong lpTTInstance,
