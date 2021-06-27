@@ -35,9 +35,13 @@ StatusBarDlg::StatusBarDlg(QWidget* parent, StatusBarEvents events)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
+    restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_STATUSBARDLG_SIZE).toByteArray());
+
     m_statusbarmodel = new StatusBarEventsModel(this);
     ui.statusBarTreeView->setModel(m_statusbarmodel);
     m_statusbarmodel->setStatusBarEvents(m_events);
+
+    ui.statusBarTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_STATUSBAR_EVENTS_HEADER).toByteArray());
 
     connect(ui.statusBarTreeView, &QAbstractItemView::doubleClicked, this, &StatusBarDlg::slotStatusBarEventToggled);
     connect(ui.statusBarEnableallButton, &QAbstractButton::clicked, this, &StatusBarDlg::slotStatusBarEnableAll);
@@ -75,4 +79,6 @@ void StatusBarDlg::slotStatusBarRevert(bool /*checked*/)
 void StatusBarDlg::slotAccept()
 {
     ttSettings->setValue(SETTINGS_STATUSBAR_ACTIVEEVENTS, m_statusbarmodel->getStatusBarEvents());
+    ttSettings->setValue(SETTINGS_DISPLAY_STATUSBAR_EVENTS_HEADER, ui.statusBarTreeView->header()->saveState());
+    ttSettings->setValue(SETTINGS_DISPLAY_STATUSBARDLG_SIZE, saveGeometry());
 }
