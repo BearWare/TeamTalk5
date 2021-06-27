@@ -27,8 +27,6 @@
 #include <QTreeView>
 #include <QList>
 
-
-
 class FilesView : public QTreeView
 {
     Q_OBJECT
