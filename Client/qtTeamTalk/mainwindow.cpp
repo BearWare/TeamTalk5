@@ -184,6 +184,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 
     ui.volumeSlider->setRange(0, 100);
     ui.micSlider->setRange(0, 100);
+
     ui.voiceactBar->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
     ui.voiceactSlider->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
 
@@ -1813,6 +1814,8 @@ void MainWindow::Disconnect()
 void MainWindow::login()
 {
     QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+    if(m_host.nickname.size())
+        nick = m_host.nickname;
 
     int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
                              _W(m_host.password), _W(QString(APPNAME_SHORT)));
@@ -1871,6 +1874,8 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
             
             addLatestHost(m_host);
             QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+            if(m_host.nickname.size())
+                nickname = m_host.nickname;
             int cmdid = TT_DoLoginEx(ttInst, _W(nickname), 
                                      _W(m_host.username), _W(m_host.password), 
                                      _W(QString(APPNAME_SHORT)));
@@ -3771,20 +3776,55 @@ void MainWindow::slotClientExit(bool /*checked =false */)
 
 void MainWindow::slotMeChangeNickname(bool /*checked =false */)
 {
+    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED && m_host.nickname.size())
+        nick = m_host.nickname;
     bool ok = false;
     QInputDialog inputDialog;
     inputDialog.setOkButtonText(tr("&Ok"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
-    inputDialog.setTextValue(ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString());
+    inputDialog.setTextValue(nick);
     inputDialog.setWindowTitle(MENUTEXT(ui.actionChangeNickname->text()));
     inputDialog.setLabelText(tr("Specify new nickname"));
     ok = inputDialog.exec();
     QString s = inputDialog.textValue();
     if(ok)
     {
-        ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, s);
-        TT_DoChangeNickname(ttInst, _W(s));
+        if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+        {
+            m_host.nickname = s;
+            TT_DoChangeNickname(ttInst, (s.isEmpty() && !ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString().isEmpty())?_W(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString()):_W(s));
+            HostEntry tmp = HostEntry();
+            int serv, lasthost, index = 0;
+            while(getServerEntry(index, tmp))
+            {
+                if (m_host.sameHost(tmp))
+                    serv = index;
+                index++;
+                tmp = HostEntry();
+            }
+            tmp = HostEntry();
+            index = 0;
+            while(getLatestHost(index, tmp))
+            {
+                if (m_host.sameHostEntry(tmp))
+                    lasthost = index;
+                index++;
+            }
+            if(s != ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString())
+            {
+                ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(serv), s);
+                ttSettings->setValue(QString(SETTINGS_LATESTHOST_NICKNAME).arg(lasthost), s);
+            }
+            else if(s == ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString() || s.isEmpty())
+            {
+                ttSettings->remove(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(serv));
+                ttSettings->remove(QString(SETTINGS_LATESTHOST_NICKNAME).arg(lasthost));
+            }
+        }
+        else
+            ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, s);
     }
 }
 
@@ -4870,7 +4910,6 @@ void MainWindow::slotUpdateUI()
     bool me_op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user_chanid);
 
     ui.actionConnect->setChecked( (statemask & CLIENT_CONNECTING) || (statemask & CLIENT_CONNECTED));
-    ui.actionChangeNickname->setEnabled(auth);
     ui.actionChangeStatus->setEnabled(auth);
 #ifdef Q_OS_WIN32
     ui.actionEnablePushToTalk->setChecked(TT_HotKey_IsActive(ttInst, HOTKEY_PUSHTOTALK) >= 0);
