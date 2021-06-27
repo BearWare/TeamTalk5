@@ -400,6 +400,11 @@ struct HostEntry
     HostEntry()
     : tcpport(0), udpport(0), encrypted(false), gender(GENDER_NONE)
     , voiceact(-1), capformat(), vidcodec() {}
+
+    // doesn't include 'name'
+    bool sameHost(const HostEntry& host) const;
+    // same as sameHost() but also host.name == name
+    bool sameHostEntry(const HostEntry& host) const;
 };
 
 struct DesktopAccessEntry

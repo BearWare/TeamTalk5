@@ -1063,6 +1063,24 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
     }
 }
 
+bool HostEntry::sameHost(const HostEntry& host) const
+{
+    return ipaddr == host.ipaddr &&
+           tcpport == host.tcpport &&
+           udpport == host.udpport &&
+           /* srvpasswd == host.srvpasswd && */ //don't include passwords
+           username == host.username &&
+           /* password == host.password && */
+           nickname == host.nickname &&
+           channel == host.channel/* &&
+        hosts[i].chanpasswd == host.chanpasswd*/;
+}
+
+bool HostEntry::sameHostEntry(const HostEntry& host) const
+{
+    return sameHost(host) && host.name == name;
+}
+
 void addLatestHost(const HostEntry& host)
 {
     QList<HostEntry> hosts;
@@ -1076,15 +1094,7 @@ void addLatestHost(const HostEntry& host)
     }
     for(int i=0;i<hosts.size();)
     {
-        if(hosts[i].ipaddr == host.ipaddr &&
-            hosts[i].tcpport == host.tcpport && 
-            hosts[i].udpport == host.udpport &&
-            /*hosts[i].srvpasswd == host.srvpasswd &&*/ //don't include passwords
-            hosts[i].username == host.username &&
-            /*hosts[i].password == host.password &&*/
-            hosts[i].nickname == host.nickname &&
-            hosts[i].channel == host.channel/* &&
-            hosts[i].chanpasswd == host.chanpasswd*/)
+        if (hosts[i].sameHostEntry(host))
         {
             hosts.erase(hosts.begin()+i);
         }

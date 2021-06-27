@@ -3796,7 +3796,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
             int serv, lasthost, index = 0;
             while(getServerEntry(index, tmp))
             {
-                if(m_host.ipaddr == tmp.ipaddr && m_host.tcpport == tmp.tcpport && m_host.udpport == tmp.udpport && m_host.encrypted == tmp.encrypted && m_host.username == tmp.username && m_host.channel == tmp.channel)
+                if (m_host.sameHost(tmp))
                     serv = index;
                 index++;
                 tmp = HostEntry();
@@ -3805,7 +3805,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
             index = 0;
             while(getLatestHost(index, tmp))
             {
-                if(m_host.name == tmp.name && m_host.ipaddr == tmp.ipaddr && m_host.tcpport == tmp.tcpport && m_host.udpport == tmp.udpport && m_host.encrypted == tmp.encrypted && m_host.username == tmp.username && m_host.channel == tmp.channel)
+                if (m_host.sameHostEntry(tmp))
                     lasthost = index;
                 index++;
             }
