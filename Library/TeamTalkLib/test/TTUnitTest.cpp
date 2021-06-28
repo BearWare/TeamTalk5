@@ -27,6 +27,10 @@
 
 #include <myace/MyACE.h>
 
+
+std::string g_server_ipaddr = "127.0.0.1";
+
+
 ttinst InitTeamTalk()
 {
     ttinst inst(TT_InitTeamTalkPoll());
@@ -85,6 +89,10 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
         break;
     }
     case DEFAULT :
+#if defined(__ANDROID__)
+        selindev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        seloutdev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
+#endif
         break;
     }
 
@@ -161,6 +169,17 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/
         outsnddev = *dev;
     }
     return true;
+}
+
+bool Connect(TTInstance* ttClient, INT32 tcpport, INT32 udpport, TTBOOL encrypted)
+{
+#if defined(WIN32)
+    std::wstring wserver_ip = std::wstring(g_server_ipaddr.begin(), g_server_ipaddr.end());
+    const TTCHAR* hostname = reinterpret_cast<const TTCHAR*>(wserver_ip.c_str());
+#else
+    const TTCHAR* hostname = reinterpret_cast<const TTCHAR*>(g_server_ipaddr.c_str());
+#endif
+    return Connect(ttClient, hostname, udpport, tcpport, encrypted);
 }
 
 bool Connect(TTInstance* ttClient, const TTCHAR* hostname, INT32 tcpport, INT32 udpport, TTBOOL encrypted)

@@ -1,8 +1,8 @@
 TEMPLATE = app
 QT += gui   # needed to compile for Android
 CONFIG += c++14
-
-DEFINES += CATCH_MAIN_ALREADY_PROVIDED
+android: QT+= androidextras
+DEFINES += CATCH_MAIN_ALREADY_PROVIDED DEBUG _DEBUG
 
 # Paths - $$PWD is path to QT .pro file
 TEAMTALKLIB_ROOT = $$PWD/../../../../TeamTalkLib
@@ -28,7 +28,6 @@ INCLUDEPATH += $$TTLIBS_ROOT/ogg/include
 INCLUDEPATH += $$TTLIBS_ROOT/opus/include
 INCLUDEPATH += $$TTLIBS_ROOT/libvpx/include
 INCLUDEPATH += $$TTLIBS_ROOT/zlib/include
-INCLUDEPATH += $$TTLIBS_ROOT/tinyxml
 
 # Includes for TeamTalk project headers
 INCLUDEPATH += $$TEAMTALKLIB_ROOT
@@ -63,9 +62,6 @@ LIBS += $$TTLIBS_ROOT/ogg/lib/libogg.a
 LIBS += $$TTLIBS_ROOT/opus/lib/libopus.a
 # vpx
 LIBS += $$TTLIBS_ROOT/libvpx/lib/libvpx.a
-# tinyxml, lib in defferent location because toolchain points to source dir
-!android: LIBS += $$TTLIBS_ROOT/tinyxml/libTinyXML.a
-android:  LIBS += $$TTLIBS_ROOT/tinyxml/obj/local/armeabi-v7a/libTinyXML.a
 # zlib, use system lib on Android
 !android: LIBS += $$TTLIBS_ROOT/zlib/lib/libz.a
 android:  LIBS += -lz
@@ -86,7 +82,10 @@ android: LIBS += -lOpenSLES -llog
 #QMAKE_CXXFLAGS += -Wall
 QMAKE_CXXFLAGS += -DENABLE_ENCRYPTION -D__ACE_INLINE__  # ace
 QMAKE_CXXFLAGS += -D__STDC_CONSTANT_MACROS # ffmpeg
-QMAKE_CXXFLAGS += -DENABLE_OPUS -DENABLE_OGG -DENABLE_OPUSTOOLS -DENABLE_SPEEX  #various teamtalk switches
+QMAKE_CXXFLAGS += -DENABLE_OPUS -DENABLE_OGG -DENABLE_OPUSTOOLS -DENABLE_SPEEX \
+                  -DENABLE_FFMPEG3 -DENABLE_VPX -DENABLE_WEBRTC
+
+android: DEFINES += ENABLE_OPENSLES
 
 ###################################################
 #   Sources
@@ -152,7 +151,7 @@ SOURCES +=  main.cpp \
             $$TEAMTALKLIB_ROOT/bin/dll/TTClientMsg.cpp \
             $$TEAMTALKLIB_ROOT/bin/dll/TeamTalk.cpp \
 
-ANDROID: SOURCES +=  $$TEAMTALKLIB_ROOT/avstream/OpenSLESWrapper.cpp \
+android: SOURCES +=  $$TEAMTALKLIB_ROOT/avstream/OpenSLESWrapper.cpp
 
 ###################################################
 #   Deployment of test data. Can be accessed from Android as "assets:/File"
