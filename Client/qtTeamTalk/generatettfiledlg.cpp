@@ -44,6 +44,7 @@ GenerateTTFileDlg::GenerateTTFileDlg(const HostEntry& entry, QWidget * parent/* 
 
     ui.usernameEdit->setText(m_hostentry.username);
     ui.passwordEdit->setText(m_hostentry.password);
+    ui.nicknameEdit->setText(m_hostentry.nickname);
 
     connect(ui.saveBtn, &QAbstractButton::clicked, this, &GenerateTTFileDlg::slotSaveTTFile);
     connect(ui.closeBtn, &QAbstractButton::clicked, this, &QDialog::accept);

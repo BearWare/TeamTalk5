@@ -1850,7 +1850,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="774"/>
         <source>Add window</source>
-        <translation type="unfinished"></translation>
+        <translation>添加窗口</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1549"/>

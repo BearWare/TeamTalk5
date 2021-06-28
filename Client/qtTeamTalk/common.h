@@ -33,6 +33,7 @@
 #include <QComboBox>
 #include <QFile>
 #include <QDateTime>
+#include <QCoreApplication>
 #include "stdint.h"
 
 #if defined(_MSC_VER)
@@ -326,6 +327,48 @@ enum TextToSpeechEngine
 
 #define TTSENGINE_NOTIFY_PATH "/usr/bin/notify-send"
 
+enum StatusBarEvent : qulonglong
+{
+    STATUSBAR_NONE                                        = 0x0000000000000000,
+    STATUSBAR_USER_LOGGEDIN                               = 0x0000000000000001,
+    STATUSBAR_USER_LOGGEDOUT                              = 0x0000000000000002,
+    STATUSBAR_USER_JOINED                                 = 0x0000000000000004,
+    STATUSBAR_USER_LEFT                                   = 0x0000000000000008,
+    STATUSBAR_USER_JOINED_SAME                            = 0x0000000000000010,
+    STATUSBAR_USER_LEFT_SAME                              = 0x0000000000000020,
+
+    STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE               = 0x0000000000000040,
+    STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL               = 0x0000000000000080,
+    STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST             = 0x0000000000000100,
+    STATUSBAR_SUBSCRIPTIONS_VOICE                         = 0x0000000000000200,
+    STATUSBAR_SUBSCRIPTIONS_VIDEO                         = 0x0000000000000400,
+    STATUSBAR_SUBSCRIPTIONS_DESKTOP                       = 0x0000000000000800,
+    STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT                  = 0x0000000000001000,
+    STATUSBAR_SUBSCRIPTIONS_MEDIAFILE                     = 0x0000000000002000,
+
+    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE     = 0x0000000000004000,
+    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL     = 0x0000000000008000,
+    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE               = 0x0000000000010000,
+    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO               = 0x0000000000020000,
+    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP             = 0x0000000000040000,
+    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE           = 0x0000000000080000,
+
+    STATUSBAR_CLASSROOM_CHANMSG_TX                        = 0x0000000000100000,
+    STATUSBAR_CLASSROOM_VOICE_TX                          = 0x0000000000200000,
+    STATUSBAR_CLASSROOM_VIDEO_TX                          = 0x0000000000400000,
+    STATUSBAR_CLASSROOM_DESKTOP_TX                        = 0x0000000000800000,
+    STATUSBAR_CLASSROOM_MEDIAFILE_TX                      = 0x0000000001000000,
+
+    STATUSBAR_FILE_ADD                                    = 0x0000000002000000,
+    STATUSBAR_FILE_REMOVE                                 = 0x0000000004000000,
+
+    STATUSBAR_SAVE_SERVER_CONFIG                          = 0x0000000008000000,
+
+    STATUSBAR_START_RECORD                                = 0x0000000010000000,
+};
+
+typedef qulonglong StatusBarEvents;
+
 enum HotKeyID
 {
     HOTKEY_PUSHTOTALK,
@@ -386,10 +429,10 @@ struct HostEntry
     bool encrypted;
     QString username;
     QString password;
+    QString nickname;
     QString channel;
     QString chanpasswd;
     //tt-file specific
-    QString nickname;
     Gender gender;
     hotkey_t hotkey;
     int voiceact;
@@ -399,6 +442,11 @@ struct HostEntry
     HostEntry()
     : tcpport(0), udpport(0), encrypted(false), gender(GENDER_NONE)
     , voiceact(-1), capformat(), vidcodec() {}
+
+    // doesn't include 'name'
+    bool sameHost(const HostEntry& host) const;
+    // same as sameHost() but also host.name == name
+    bool sameHostEntry(const HostEntry& host) const;
 };
 
 struct DesktopAccessEntry

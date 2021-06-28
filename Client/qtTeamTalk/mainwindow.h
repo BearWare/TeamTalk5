@@ -102,7 +102,7 @@ public:
 
     void processTTMessage(const TTMessage& msg);
 
-    void addStatusMsg(const QString& msg);
+    void addStatusMsg(StatusBarEvent event, const QString& msg);
 
     void Connect();
     void Disconnect();
@@ -277,6 +277,8 @@ private:
     reghotkeys_t m_hotkeys;
     INT64 m_nCGShareWnd;
 #endif
+// Use event_d to display a message ignoring configuration
+    StatusBarEvent event_d = StatusBarEvent(~STATUSBAR_NONE);
 
 private:
     /* menu items begin */
