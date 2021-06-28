@@ -21,7 +21,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0,0">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0,0,0,0">
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
@@ -41,6 +41,9 @@
         </item>
         <item>
          <widget class="QToolButton" name="toolButton">
+          <property name="toolTip">
+           <string>Browse</string>
+          </property>
           <property name="accessibleName">
            <string>Browse</string>
           </property>
@@ -55,6 +58,9 @@
         </item>
         <item>
          <widget class="QToolButton" name="refreshBtn">
+          <property name="toolTip">
+           <string>Refresh</string>
+          </property>
           <property name="accessibleName">
            <string>Refresh</string>
           </property>
@@ -69,15 +75,35 @@
         </item>
         <item>
          <widget class="QToolButton" name="deleteButton">
+          <property name="toolTip">
+           <string>Delete from history</string>
+          </property>
+          <property name="accessibleName">
+           <string>Delete from history</string>
+          </property>
           <property name="text">
-           <string>&amp;Delete from history</string>
+           <string>&amp;D</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/images/images/delete.png</normaloff>:/images/images/delete.png</iconset>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QToolButton" name="clearButton">
+          <property name="toolTip">
+           <string>Clear history</string>
+          </property>
+          <property name="accessibleName">
+           <string>Clear history</string>
+          </property>
           <property name="text">
-           <string>C&amp;lear history</string>
+           <string>&amp;L</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/images/images/chalkstickbg.png</normaloff>:/images/images/chalkstickbg.png</iconset>
           </property>
          </widget>
         </item>
@@ -98,7 +124,7 @@
            <string/>
           </property>
           <property name="textInteractionFlags">
-            <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+           <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
           </property>
          </widget>
         </item>
@@ -119,7 +145,7 @@
            <string/>
           </property>
           <property name="textInteractionFlags">
-            <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+           <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
           </property>
          </widget>
         </item>
@@ -140,7 +166,7 @@
            <string/>
           </property>
           <property name="textInteractionFlags">
-            <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+           <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
           </property>
          </widget>
         </item>
@@ -463,6 +489,7 @@
   </layout>
  </widget>
  <resources>
+  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
