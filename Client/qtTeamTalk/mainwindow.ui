@@ -744,7 +744,7 @@
                    <height>20</height>
                   </size>
                  </property>
-                 <property name="AccessibleName" stdset="0">
+                 <property name="accessibleName" stdset="0">
                   <string>Detach selected window</string>
                  </property>
                 </widget>
@@ -780,7 +780,7 @@
                    <height>20</height>
                   </size>
                  </property>
-                 <property name="AccessibleName" stdset="0">
+                 <property name="accessibleName" stdset="0">
                   <string>Add window</string>
                  </property>
                 </widget>
@@ -816,7 +816,7 @@
                    <height>20</height>
                   </size>
                  </property>
-                 <property name="AccessibleName" stdset="0">
+                 <property name="accessibleName" stdset="0">
                   <string>Remove selected window</string>
                  </property>
                 </widget>
@@ -858,7 +858,7 @@
                  <property name="checkable">
                   <bool>true</bool>
                  </property>
-                 <property name="AccessibleName" stdset="0">
+                 <property name="accessibleName" stdset="0">
                   <string>Request desktop access</string>
                  </property>
                 </widget>
