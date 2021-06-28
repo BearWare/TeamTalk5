@@ -4851,7 +4851,7 @@ void MainWindow::slotUsersSpeakUserInformation(int userid)
         if (topic.size())
             speakList += ", " + QString("Topic: %1").arg(topic);
     }
-    addTextToSpeechMessage(TextToSpeechEvent(~TTS_NONE), speakList);
+    addTextToSpeechMessage(speakList);
 }
 
 void MainWindow::slotUsersMessages(int userid)

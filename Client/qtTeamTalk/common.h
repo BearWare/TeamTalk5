@@ -505,6 +505,7 @@ bool loadVideoFormat(VideoFormat& vidfmt);
 
 void playSoundEvent(SoundEvent event);
 void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg);
+void addTextToSpeechMessage(const QString& msg);
 
 void addLatestHost(const HostEntry& host);
 void deleteLatestHost(int index);

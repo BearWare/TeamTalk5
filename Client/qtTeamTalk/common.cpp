@@ -1029,39 +1029,43 @@ void playSoundEvent(SoundEvent event)
 #endif
 }
 
-void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
+void addTextToSpeechMessage(const QString& msg)
 {
-    TextToSpeechEvent event_s = TextToSpeechEvent(~TTS_NONE);
-    if ((ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() & event) || event == event_s)
+    switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
     {
-        switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
-        {
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-        case TTSENGINE_QT:
-            Q_ASSERT(ttSpeech);
-            ttSpeech->say(msg);
-            break;
+    case TTSENGINE_QT:
+        Q_ASSERT(ttSpeech);
+        ttSpeech->say(msg);
+        break;
 #endif
 #if defined(ENABLE_TOLK)
-        case TTSENGINE_TOLK :
-            Tolk_Output(_W(msg));
-            break;
+    case TTSENGINE_TOLK :
+        Tolk_Output(_W(msg));
+        break;
 #endif
-        case TTSENGINE_NOTIFY :
-        {
-            int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
-            QString noquote = msg;
-            noquote.replace('"', ' ');
-            QProcess ps;
-            ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
-                             .arg(TTSENGINE_NOTIFY_PATH)
-                             .arg(timestamp)
-                             .arg(APPNAME_SHORT)
-                             .arg(APPNAME_SHORT)
-                             .arg(noquote));
-            break;
-        }
-        }
+    case TTSENGINE_NOTIFY :
+    {
+        int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
+        QString noquote = msg;
+        noquote.replace('"', ' ');
+        QProcess ps;
+        ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
+                         .arg(TTSENGINE_NOTIFY_PATH)
+                         .arg(timestamp)
+                         .arg(APPNAME_SHORT)
+                         .arg(APPNAME_SHORT)
+                         .arg(noquote));
+        break;
+    }
+    }
+}
+
+void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
+{
+    if ((ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() & event))
+    {
+        addTextToSpeechMessage(msg);
     }
 }
 
