@@ -3363,7 +3363,6 @@ TEST_CASE("LocalPlaybackOnOffSound")
     MediaFilePlayback mfp = {};
     mfp.bPaused = false;
     mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
-
     int i = 1;
     while (i--)
     {
@@ -3374,8 +3373,51 @@ TEST_CASE("LocalPlaybackOnOffSound")
         REQUIRE(offid > 0);
         WaitForEvent(ttclient, CLIENTEVENT_NONE, 1000);
     }
-
 }
+
+TEST_CASE("LocalPlaybackOnOffPause")
+{
+    auto ttclient = InitTeamTalk();
+    InitSound(ttclient);
+
+    REQUIRE(Connect(ttclient));
+    REQUIRE(Login(ttclient, ACE_TEXT("TTClient")));
+    REQUIRE(JoinRoot(ttclient));
+
+    Channel chan;
+    REQUIRE(TT_GetChannel(ttclient, TT_GetRootChannelID(ttclient), &chan));
+
+    REQUIRE(TT_StartRecordingMuxedStreams(ttclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO,
+                                          &chan.audiocodec, ACE_TEXT("onoffmixed.wav"), AFF_WAVE_FORMAT));
+
+    TTMessage msg;
+    // Call TT_InitLocalPlayback for file 1, PAUSE=FALSE
+    MediaFilePlayback mfp = {};
+    mfp.bPaused = false;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    int i = 10;
+    while (i--)
+    {
+        int onid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/on.ogg"), &mfp);
+        REQUIRE(onid > 0);
+
+        while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg) && msg.mediafileinfo.nStatus != MFS_FINISHED);
+        REQUIRE(msg.nSource == onid);
+
+        mfp.bPaused = true;
+        int offid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/off.ogg"), &mfp);
+        REQUIRE(offid > 0);
+
+        mfp.bPaused = false;
+        REQUIRE(TT_UpdateLocalPlayback(ttclient, offid, &mfp));
+
+        while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg) && msg.mediafileinfo.nStatus != MFS_FINISHED);
+        REQUIRE(msg.nSource == offid);
+    }
+
+    REQUIRE(TT_StopRecordingMuxedAudioFile(ttclient));
+}
+
 
 TEST_CASE("FirstVoiceStreamPacket")
 {
