@@ -718,7 +718,7 @@ void MainWindow::loadSettings()
     QString packset = ttSettings->value(SETTINGS_SOUNDS_PACK).toString();
     QString packname = QString("%1/%2").arg(SOUNDSPATH).arg(packset);
     QDir packdir(packname);
-    if((!packdir.exists()) && packset != "Default")
+    if((!packdir.exists()) && packset != tr("Default"))
     {
         QMessageBox answer;
         answer.setText(tr("Your sounds pack %1 don't exist, would you like to use default sounds pack?").arg(packset));

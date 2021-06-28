@@ -565,7 +565,7 @@ void PreferencesDlg::slotTabChange(int index)
     case SOUNDEVENTS_TAB :  //sound events
     {
         ui.spackBox->clear();
-        ui.spackBox->addItem("Default");
+        ui.spackBox->addItem(tr("Default"));
         QDir dir( SOUNDSPATH, "", QDir::Name, QDir::AllDirs|QDir::NoSymLinks|QDir::NoDotAndDotDot);
         QStringList aspack = dir.entryList();
         for(int i=0;i<aspack.size();i++)
