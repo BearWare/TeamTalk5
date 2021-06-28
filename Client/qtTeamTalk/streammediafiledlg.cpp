@@ -398,6 +398,9 @@ void StreamMediaFileDlg::slotSetupPreprocessor(bool)
              ttSettings->setValue(SETTINGS_STREAMMEDIA_TTAP_MUTERIGHT, m_mfp.audioPreprocessor.ttpreprocessor.bMuteRightSpeaker);
              ttSettings->setValue(SETTINGS_STREAMMEDIA_TTAP_GAINLEVEL, m_mfp.audioPreprocessor.ttpreprocessor.nGainLevel);
             break;
+        case WEBRTC_AUDIOPREPROCESSOR :
+            // TODO: no dialog for WebRTC so far.
+            break;
         }
         
         m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
