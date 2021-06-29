@@ -40,6 +40,7 @@ ttinst InitTeamTalk()
 bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, INT32 outdev)
 {
     int selindev = indev, seloutdev = outdev;
+    int orgindev = indev, orgoutdev = outdev;
     if (indev == SOUNDDEVICEID_DEFAULT || outdev == SOUNDDEVICEID_DEFAULT)
     {
         SoundDevice sndindev, sndoutdev;
@@ -50,9 +51,17 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
     }
 
     if (selindev == SOUNDDEVICEID_DEFAULT)
+    {
+        if (indev == SOUNDDEVICEID_IGNORE)
+            return false;
         selindev = indev;
+    }
     if (seloutdev == SOUNDDEVICEID_DEFAULT)
+    {
+        if (outdev == SOUNDDEVICEID_IGNORE)
+            return false;
         seloutdev = outdev;
+    }
 
     switch (mode)
     {
@@ -90,8 +99,13 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
     }
     case DEFAULT :
 #if defined(__ANDROID__)
-        selindev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
-        seloutdev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        // Android only supports a single recorder and a limited
+        // number of players, so we by default switch to shared
+        // mode on Android.
+        if (orgindev == SOUNDDEVICEID_DEFAULT)
+            selindev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        if (orgoutdev == SOUNDDEVICEID_DEFAULT)
+            seloutdev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
 #endif
         break;
     }
@@ -147,6 +161,7 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/
     if (outdev == SOUNDDEVICEID_DEFAULT)
         outdev = defaultout;
 
+    insnddev.nDeviceID = SOUNDDEVICEID_IGNORE;
     if (indev != SOUNDDEVICEID_IGNORE)
     {
         auto dev = std::find_if(devs.begin(), devs.end(), [indev](const SoundDevice& d)
@@ -158,6 +173,7 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/
         insnddev = *dev;
     }
 
+    outsnddev.nDeviceID = SOUNDDEVICEID_IGNORE;
     if (outdev != SOUNDDEVICEID_IGNORE)
     {
         auto dev = std::find_if(devs.begin(), devs.end(), [outdev] (const SoundDevice& d)
