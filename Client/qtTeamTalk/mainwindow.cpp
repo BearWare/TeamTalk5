@@ -4004,11 +4004,13 @@ void MainWindow::slotMeEnableTTS(bool checked/*=false*/)
     {
         ttSettings->setValue(SETTINGS_TTS_ENABLE, true);
         ui.actionEnableTTS->setChecked(true);
+        addTextToSpeechMessage(tr("Text-To-Speech enabled"));
     }
     else
     {
         ttSettings->setValue(SETTINGS_TTS_ENABLE, false);
         ui.actionEnableTTS->setChecked(false);
+        addTextToSpeechMessage(tr("Text-To-Speech disabled"));
     }
     slotUpdateUI();
 }
