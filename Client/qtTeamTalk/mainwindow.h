@@ -293,6 +293,7 @@ private:
     void slotMeEnableVoiceActivation(bool checked=false, SoundEvent on = SOUNDEVENT_VOICEACTON, SoundEvent off = SOUNDEVENT_VOICEACTOFF);
     void slotMeEnableVideoTransmission(bool checked=false);
     void slotMeEnableDesktopSharing(bool checked=false);
+    void slotMeEnableTTS(bool checked=false);
 
     void slotUsersViewUserInformationGrid(bool checked=false);
     void slotUsersSpeakUserInformationGrid(bool checked=false);

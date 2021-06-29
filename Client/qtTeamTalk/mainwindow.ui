@@ -1132,6 +1132,7 @@
     <addaction name="actionEnableVoiceActivation"/>
     <addaction name="actionEnableVideoTransmission"/>
     <addaction name="actionEnableDesktopSharing"/>
+    <addaction name="actionEnableTTS"/>
    </widget>
    <widget class="QMenu" name="menuUsers">
     <property name="title">
@@ -1888,6 +1889,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+D</string>
+   </property>
+  </action>
+  <action name="actionEnableTTS">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable Text-To-Speech Events</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+S</string>
    </property>
   </action>
   <action name="actionAllowDesktopTransmission">
