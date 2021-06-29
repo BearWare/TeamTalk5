@@ -3384,38 +3384,49 @@ TEST_CASE("LocalPlaybackOnOffPause")
     REQUIRE(Login(ttclient, ACE_TEXT("TTClient")));
     REQUIRE(JoinRoot(ttclient));
 
-    Channel chan;
-    REQUIRE(TT_GetChannel(ttclient, TT_GetRootChannelID(ttclient), &chan));
-
-    REQUIRE(TT_StartRecordingMuxedStreams(ttclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO,
-                                          &chan.audiocodec, ACE_TEXT("onoffmixed.wav"), AFF_WAVE_FORMAT));
-
     TTMessage msg;
-    // Call TT_InitLocalPlayback for file 1, PAUSE=FALSE
     MediaFilePlayback mfp = {};
-    mfp.bPaused = false;
     mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
-    int i = 10;
+    
+    // cache both sounds for initial playback
+    mfp.bPaused = true;
+    int onid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/on.ogg"), &mfp);
+    REQUIRE(onid > 0);
+
+    int offid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/off.ogg"), &mfp);
+    REQUIRE(offid > 0);
+
+    int i = 20;
     while (i--)
     {
-        int onid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/on.ogg"), &mfp);
-        REQUIRE(onid > 0);
+        // Play cached on.ogg
+        mfp.bPaused = false;
+        REQUIRE(TT_UpdateLocalPlayback(ttclient, onid, &mfp));
 
         while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg) && msg.mediafileinfo.nStatus != MFS_FINISHED);
         REQUIRE(msg.nSource == onid);
 
+        // cache on.ogg for next playback
         mfp.bPaused = true;
-        int offid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/off.ogg"), &mfp);
-        REQUIRE(offid > 0);
+        onid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/on.ogg"), &mfp);
+        REQUIRE(onid > 0);
 
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, 1000);
+
+        // Play cached off.ogg
         mfp.bPaused = false;
         REQUIRE(TT_UpdateLocalPlayback(ttclient, offid, &mfp));
 
         while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg) && msg.mediafileinfo.nStatus != MFS_FINISHED);
         REQUIRE(msg.nSource == offid);
-    }
 
-    REQUIRE(TT_StopRecordingMuxedAudioFile(ttclient));
+        // cache off.ogg for next playback
+        mfp.bPaused = true;
+        offid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/off.ogg"), &mfp);
+        REQUIRE(offid > 0);
+
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, 1000);
+    }
 }
 
 
