@@ -77,7 +77,7 @@
 "EHj-xt-HhD.text" = "Blank";
 
 /* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
-"eJb-Cn-ciJ.text" = "재생할 사운드 이벤트 선택";
+"eJb-Cn-ciJ.text" = "읽어줄 이벤트 선택";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "Blank";
@@ -134,7 +134,7 @@
 "o7z-cC-U4w.title" = "BearWare.dk 웹 로그인";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "연결 버튼";
+"PaV-2Q-pt4.accessibilityLabel" = "연결";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "연결";
@@ -161,7 +161,7 @@
 "Uc0-gP-wr1.text" = "Blank";
 
 /* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.normalTitle" = "TX";
+"V6G-Gm-l2U.normalTitle" = "말하기";
 
 /* Class = "UIButton"; normalTitle = "Delete Channel"; ObjectID = "vC1-lW-BtX"; */
 "vC1-lW-BtX.normalTitle" = "채널 삭제";
