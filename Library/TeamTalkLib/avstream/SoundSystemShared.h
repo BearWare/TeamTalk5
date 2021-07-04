@@ -280,7 +280,7 @@ namespace soundsystem {
                 std::lock_guard<std::recursive_mutex> g(m_mutex);
 
                 assert(mb->length() == PCM16_BYTES(m_originalstream->framesize, m_originalstream->channels));
-                for (auto i : m_resamplers)
+                for (const auto& i : m_resamplers)
                 {
                     auto key = i.first;
                     int cbsr = GetSampleRateFromKey(key);

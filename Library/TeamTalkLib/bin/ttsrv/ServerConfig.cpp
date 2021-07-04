@@ -213,7 +213,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
             if (bindips.size())
             {
                 cout << "Currently binding to IP-addresses:" << endl;
-                for (auto ip : bindips)
+                for (const auto& ip : bindips)
                 {
                     cout << "\t- " << (ip.empty()? "0.0.0.0" : ip) << endl;
                 }
@@ -570,7 +570,7 @@ useraccountcfg:
     cout << "Server will bind to TCP port " << tcpport << endl;
     cout << "Server will bind to UDP port " << udpport << endl;
     cout << "Server will bind to IP-address: " << endl;
-    for (auto ip : bindips)
+    for (const auto& ip : bindips)
         cout << "\t- " << ip << endl;
 
     cout << endl;

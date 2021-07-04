@@ -173,7 +173,7 @@ void ServerUser::ForwardUsers(const serverchannel_t& channel, bool recursive)
             continue;
         
         ServerChannel::users_t users = ch->GetUsers();
-        for (auto u : users)
+        for (const auto& u : users)
         {
             DoAddUser(*u, *ch.get());
         }
