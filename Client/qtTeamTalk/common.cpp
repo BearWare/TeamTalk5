@@ -1067,7 +1067,7 @@ void addTextToSpeechMessage(const QString& msg)
 
 void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
 {
-    if ((ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() & event))
+    if ((ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() & event) && ttSettings->value(SETTINGS_TTS_ENABLE, SETTINGS_TTS_ENABLE_DEFAULT).toBool() == true)
     {
         addTextToSpeechMessage(msg);
     }

@@ -332,6 +332,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotMeEnableVideoTransmission);
     connect(ui.actionEnableDesktopSharing, &QAction::triggered,
             this, &MainWindow::slotMeEnableDesktopSharing);
+    connect(ui.actionEnableTTS, &QAction::triggered,
+            this, &MainWindow::slotMeEnableTTS);
     /* End - Me menu */
 
     /* Begin - Users menu */
@@ -3996,6 +3998,23 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
     }
 }
 
+void MainWindow::slotMeEnableTTS(bool checked/*=false*/)
+{
+    if(checked)
+    {
+        ttSettings->setValue(SETTINGS_TTS_ENABLE, true);
+        ui.actionEnableTTS->setChecked(true);
+        addTextToSpeechMessage(tr("Text-To-Speech enabled"));
+    }
+    else
+    {
+        ttSettings->setValue(SETTINGS_TTS_ENABLE, false);
+        ui.actionEnableTTS->setChecked(false);
+        addTextToSpeechMessage(tr("Text-To-Speech disabled"));
+    }
+    slotUpdateUI();
+}
+
 void MainWindow::slotUsersViewUserInformationGrid(bool /*checked =false */)
 {
     slotUsersViewUserInformation(ui.channelsWidget->selectedUser());
@@ -5033,6 +5052,7 @@ void MainWindow::slotUpdateUI()
                                                  (CLIENT_TX_VIDEOCAPTURE & statemask));
     ui.actionEnableDesktopSharing->setEnabled(mychannel>0);
     ui.actionEnableDesktopSharing->setChecked(statemask & CLIENT_DESKTOP_ACTIVE);
+    ui.actionEnableTTS->setChecked(ttSettings->value(SETTINGS_TTS_ENABLE, SETTINGS_TTS_ENABLE_DEFAULT).toBool());
 
     User user  = {};
     if (TT_GetUser(ttInst, userid, &user))

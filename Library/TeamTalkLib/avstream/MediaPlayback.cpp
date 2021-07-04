@@ -298,6 +298,9 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         if (m_resampler)
         {
             int n_resampled = m_resampler->Resample(frm.input_buffer, buffer);
+            MYTRACE_COND(n_resampled != samples,
+                         ACE_TEXT("Media playback. Unexpected number of samples returned from resampler. %d != %d\n"),
+                         n_resampled, samples);
             assert(n_resampled <= samples);
         }
         else
@@ -378,10 +381,6 @@ void MediaPlayback::SubmitPreProgress()
             std::lock_guard<std::mutex> g(m_mutex);
             if (m_progress.size())
             {
-
-                MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("MediaPlayback - %p. ID: %d. %s. Status: %d\n"),
-                             this, m_userdata, m_progress.front().mfp.filename.c_str(), m_progress.front().status);
-
                 switch (m_progress.front().status)
                 {
                 case MEDIASTREAM_NONE :
@@ -406,6 +405,8 @@ void MediaPlayback::SubmitPreProgress()
             break;
         case MEDIASTREAM_PLAYING :
         case MEDIASTREAM_STARTED :
+            MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("MediaPlayback - %p. ID: %d. %s. Status: %d\n"),
+                         this, m_userdata, progress.mfp.filename.c_str(), progress.status);
             if (m_statusfunc)
                 m_statusfunc(m_userdata, progress.mfp, progress.status);
             m_status = progress.status;
@@ -456,10 +457,6 @@ void MediaPlayback::SubmitPostProgress()
             }
         }
 
-        MYTRACE_COND(DEBUG_MEDIAPLAYBACK && progress.status != MEDIASTREAM_NONE,
-                     ACE_TEXT("MediaPlayback - %p. ID: %d. %s. Status: %d\n"),
-                     this, m_userdata, progress.mfp.filename.c_str(), progress.status);
-
         switch (progress.status)
         {
         case MEDIASTREAM_NONE :
@@ -472,6 +469,8 @@ void MediaPlayback::SubmitPostProgress()
         case MEDIASTREAM_ERROR :
         case MEDIASTREAM_PAUSED :
             m_status = progress.status;
+            MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("MediaPlayback - %p. ID: %d. %s. Status: %d\n"),
+                         this, m_userdata, progress.mfp.filename.c_str(), progress.status);
             if (m_statusfunc)
                 m_statusfunc(m_userdata, progress.mfp, progress.status);
             break;
