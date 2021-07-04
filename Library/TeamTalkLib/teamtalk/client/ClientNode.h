@@ -259,7 +259,7 @@ namespace teamtalk {
         bool UpdateStreamingMediaFile(uint32_t offset, bool paused,
                                       const AudioPreprocessor& preprocessor,
                                       const VideoCodec& vid_codec);
-        void StopStreamingMediaFile();
+        void StopStreamingMediaFile(bool killtimer = true);
 
         // playback local media file
         int InitMediaPlayback(const ACE_TString& filename, uint32_t offset,

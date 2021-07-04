@@ -521,6 +521,9 @@ void FFMpegStreamer::Run()
 
     while(!m_stop && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, true));
 
+    // thread can now be joined
+    m_completed = true;
+
     //don't do callback if thread is asked to quit
     if (m_statuscallback && !m_stop)
         m_statuscallback(m_media_in, MEDIASTREAM_FINISHED);
@@ -529,6 +532,10 @@ void FFMpegStreamer::Run()
     goto end;
 
 fail:
+
+    // thread can now be joined
+    m_completed = true;
+
     //don't do callback if thread is asked to quit
     if (m_statuscallback && !m_stop)
         m_statuscallback(m_media_in, MEDIASTREAM_ERROR);
@@ -590,6 +597,7 @@ int64_t FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
     media_frame.timestamp = frame_timestamp;
     media_frame.input_buffer = audio_data;
     media_frame.input_samples = filt_frame->nb_samples;
+    assert(m_media_out.audio.channels == n_channels);
     media_frame.inputfmt = m_media_out.audio;
     QueueAudio(media_frame);
         
