@@ -1177,12 +1177,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            QString fileadd = tr("File %1 added").arg(file.szFileName);
+            QString fileadd = tr("File %1 added").arg(_Q(file.szFileName));
             User user;
             if (m_host.username != _Q(file.szUsername) &&
                 TT_GetUserByUsername(ttInst, file.szUsername, &user))
             {
-                fileadd = tr("File %1 added by %2").arg(file.szFileName).arg(getDisplayName(user));
+                fileadd = tr("File %1 added by %2").arg(_Q(file.szFileName)).arg(getDisplayName(user));
             }
             addStatusMsg(STATUSBAR_FILE_ADD, fileadd);
             addTextToSpeechMessage(TTS_FILE_ADD, fileadd);
@@ -1203,11 +1203,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            QString filerem = tr("File %1 removed").arg(file.szFileName);
+            QString filerem = tr("File %1 removed").arg(_Q(file.szFileName));
             if (m_host.username != _Q(file.szUsername) &&
                 TT_GetUserByUsername(ttInst, file.szUsername, &user))
             {
-                filerem = tr("File %1 removed by %2").arg(file.szFileName).arg(getDisplayName(user));
+                filerem = tr("File %1 removed by %2").arg(_Q(file.szFileName)).arg(getDisplayName(user));
             }
             addStatusMsg(STATUSBAR_FILE_REMOVE, filerem);
             addTextToSpeechMessage(TTS_FILE_REMOVE, filerem);
