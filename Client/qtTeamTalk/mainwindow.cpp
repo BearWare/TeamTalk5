@@ -4934,7 +4934,7 @@ void MainWindow::slotUsersSpeakUserInformation(int userid)
         if(chan.bPassword)
             speakList += ", " + passwd;
         if (topic.size())
-            speakList += ", " + QString("Topic: %1").arg(topic);
+            speakList += ", " + QString(tr("Topic: %1").arg(topic));
     }
     addTextToSpeechMessage(speakList);
 }

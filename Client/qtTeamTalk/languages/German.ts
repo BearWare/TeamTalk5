@@ -2649,6 +2649,11 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="4937"/>
+        <source>Topic: %1</source>
+        <translation type="unfinished">Thema: %1</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="5005"/>
         <source>IP-address</source>
         <translation>IP-Adresse</translation>

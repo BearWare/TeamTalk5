@@ -2530,6 +2530,11 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="4937"/>
+        <source>Topic: %1</source>
+        <translation type="unfinished">%1 :נושא</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="5005"/>
         <source>IP-address</source>
         <translation type="unfinished"></translation>
