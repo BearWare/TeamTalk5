@@ -990,6 +990,35 @@ TEST_CASE("BuildAudioFrame")
     REQUIRE(remainsamples == 77000 % 1554);
 }
 
+TEST_CASE("GenerateToneStereoWaveFile")
+{
+    media::AudioFormat fmt(32000, 2);
+    std::vector<short> buf(fmt.samplerate * fmt.channels);
+    media::AudioFrame frm(fmt, &buf[0], 32000);
+    WavePCMFile wavfile;
+    REQUIRE(wavfile.NewFile(ACE_TEXT("stereo.wav"), fmt));
+    for (int i=0;i<5;++i)
+    {
+        frm.sample_no = GenerateTone(frm, frm.sample_no, 500, 8000, false, true);
+        REQUIRE(wavfile.AppendSamples(frm.input_buffer, frm.input_samples));
+        frm.sample_no = GenerateTone(frm, frm.sample_no, 500, 8000, true, false);
+        REQUIRE(wavfile.AppendSamples(frm.input_buffer, frm.input_samples));
+    }
+    wavfile.Close();
+    REQUIRE(wavfile.OpenFile(ACE_TEXT("stereo.wav"), true));
+    for (int i=0;i<5;++i)
+    {
+        REQUIRE(wavfile.ReadSamples(frm.input_buffer, frm.input_samples) == frm.input_samples);
+        for (int j=0;j<frm.input_samples;j+=2)
+        {
+            if (i % 2 == 0)
+                REQUIRE(frm.input_buffer[j+1] == 0);
+            else
+                REQUIRE(frm.input_buffer[j] == 0);
+        }
+    }
+}
+
 TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
 {
     media::AudioInputFormat inputfmt(media::AudioFormat(12000, 1), int(12000 * .01));

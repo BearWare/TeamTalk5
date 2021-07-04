@@ -270,7 +270,8 @@ StereoMask ToStereoMask(bool muteleft, bool muteright);
 void SelectStereo(StereoMask stereo, short* buffer, int samples);
 
 // returns new sample_index
-int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq, double volume = 8000);
+int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq,
+                 double volume = 8000, bool mute_left = false, bool mute_right = false);
 
 #define GAIN_MAX 32000
 #define GAIN_NORMAL 1000
