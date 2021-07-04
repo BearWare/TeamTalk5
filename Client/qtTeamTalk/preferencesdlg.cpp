@@ -1071,7 +1071,11 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_VOICE, ui.ttsVoiceComboBox->currentIndex());
         ttSettings->setValue(SETTINGS_TTS_RATE, ui.voiceRateSpinBox->value());
         ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.voiceVolumeSpinBox->value());
+#if defined(Q_OS_LINUX)
         ttSettings->setValue(SETTINGS_TTS_TIMESTAMP, ui.notifTimestampSpinBox->value());
+#elif defined(Q_OS_WIN)
+        ttSettings->setValue(SETTINGS_TTS_SAPI, ui.forceSapiChkBox->isChecked());
+#endif
     }
 }
 
@@ -1524,6 +1528,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         }
         ui.ttsVoiceComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_VOICE).toInt());
         ui.notifTimestampSpinBox->setEnabled(false);
+        ui.forceSapiChkBox->setEnabled(false);
     }
 #if defined(Q_OS_LINUX)
     else if(ui.ttsengineComboBox->currentIndex() == 2)
@@ -1534,6 +1539,20 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.notifTimestampSpinBox->setEnabled(true);
         ui.notifTimestampSpinBox->setValue(ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt());
     }
+#elif defined(Q_OS_WINDOWS)
+    else if(ui.ttsengineComboBox->currentIndex() == 2)
+    {
+        ui.forceSapiChkBox->setEnabled(true);
+        bool tolkLoaded = Tolk_IsLoaded();
+        if (!tolkLoaded)
+            Tolk_Load();
+        QString currentSR = QString(tr("%1").arg(Tolk_DetectScreenReader()));
+        if (!tolkLoaded)
+            Tolk_Unload();
+        if(currentSR.size())
+            ui.label_forceSapi->setText(tr("Use SAPI instead of %1 screenreader").arg(currentSR));
+        ui.forceSapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
+    }
 #endif
     else
     {
@@ -1541,6 +1560,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.voiceRateSpinBox->setEnabled(false);
         ui.voiceVolumeSpinBox->setEnabled(false);
         ui.notifTimestampSpinBox->setEnabled(false);
+        ui.forceSapiChkBox->setEnabled(false);
     }
 }
 

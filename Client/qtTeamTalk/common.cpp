@@ -1047,7 +1047,7 @@ void resetDefaultSoundsPack()
     ttSettings->setValue(SETTINGS_SOUNDEVENT_USERLOGGEDOUT, SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT);
     ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTON, SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT);
     ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTOFF, SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT);
-    ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON, SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT);
+    ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLON, SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT);
     ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLOFF, SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT);
     ttSettings->setValue(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT);
     ttSettings->setValue(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT);
@@ -1058,38 +1058,48 @@ void resetDefaultSoundsPack()
     ttSettings->setValue(SETTINGS_SOUNDS_PACK, SETTINGS_SOUNDS_PACK_DEFAULT);
 }
 
-void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
+void addTextToSpeechMessage(const QString& msg)
 {
-    if (ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() & event)
+    switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
     {
-        switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
-        {
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-        case TTSENGINE_QT:
-            Q_ASSERT(ttSpeech);
-            ttSpeech->say(msg);
-            break;
+    case TTSENGINE_QT:
+        Q_ASSERT(ttSpeech);
+        ttSpeech->say(msg);
+        break;
 #endif
 #if defined(ENABLE_TOLK)
-        case TTSENGINE_TOLK :
-            Tolk_Output(_W(msg));
-            break;
+    case TTSENGINE_TOLK :
+    {
+        Tolk_PreferSAPI(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
+        Tolk_Output(_W(msg));
+        break;
+    }
 #endif
-        case TTSENGINE_NOTIFY :
-        {
-            int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
-            QString noquote = msg;
-            noquote.replace('"', ' ');
-            QProcess ps;
-            ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
-                             .arg(TTSENGINE_NOTIFY_PATH)
-                             .arg(timestamp)
-                             .arg(APPNAME_SHORT)
-                             .arg(APPNAME_SHORT)
-                             .arg(noquote));
-            break;
-        }
-        }
+#if defined(Q_OS_LINUX)
+    case TTSENGINE_NOTIFY :
+    {
+        int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
+        QString noquote = msg;
+        noquote.replace('"', ' ');
+        QProcess ps;
+        ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
+                         .arg(TTSENGINE_NOTIFY_PATH)
+                         .arg(timestamp)
+                         .arg(APPNAME_SHORT)
+                         .arg(APPNAME_SHORT)
+                         .arg(noquote));
+        break;
+    }
+#endif
+    }
+}
+
+void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
+{
+    if ((ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() & event) && ttSettings->value(SETTINGS_TTS_ENABLE, SETTINGS_TTS_ENABLE_DEFAULT).toBool() == true)
+    {
+        addTextToSpeechMessage(msg);
     }
 }
 

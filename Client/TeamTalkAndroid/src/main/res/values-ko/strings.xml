@@ -357,4 +357,9 @@
     <string name="channel_prop_title_hiddenchannel">숨김</string>
     <string name="pref_title_gender">성별</string>
     <string name="pref_summary_gender">여성 아이콘을 확인하십시오.</string>
+    <string name="user_state_away">자리비움</string>
+    <string name="pref_title_userloggedin_icon">서버 로그인</string>
+    <string name="pref_summary_userloggedin_icon">사용자가 서버에 로그인했을 때 효과음을 재생합니다.</string>
+    <string name="pref_title_userloggedoff_icon">서버 로그아웃</string>
+    <string name="pref_summary_userloggedoff_icon">사용자가 서버로부터 로그아웃했을 때 효과음을 재생합니다.</string>
 </resources>

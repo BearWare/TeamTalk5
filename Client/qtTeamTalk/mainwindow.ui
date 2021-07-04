@@ -734,9 +734,6 @@
                  <property name="text">
                   <string notr="true">...</string>
                  </property>
-                 <property name="AccessibleName">
-                  <string>Detach selected window</string>
-                 </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
                    <normaloff>:/images/images/detach.png</normaloff>:/images/images/detach.png</iconset>
@@ -746,6 +743,9 @@
                    <width>20</width>
                    <height>20</height>
                   </size>
+                 </property>
+                 <property name="accessibleName" stdset="0">
+                  <string>Detach selected window</string>
                  </property>
                 </widget>
                </item>
@@ -770,9 +770,6 @@
                  <property name="text">
                   <string/>
                  </property>
-                 <property name="AccessibleName">
-                  <string>Add window</string>
-                 </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
                    <normaloff>:/images/images/plus.png</normaloff>:/images/images/plus.png</iconset>
@@ -782,6 +779,9 @@
                    <width>20</width>
                    <height>20</height>
                   </size>
+                 </property>
+                 <property name="accessibleName" stdset="0">
+                  <string>Add window</string>
                  </property>
                 </widget>
                </item>
@@ -806,9 +806,6 @@
                  <property name="text">
                   <string notr="true">...</string>
                  </property>
-                 <property name="AccessibleName">
-                  <string>Remove selected window</string>
-                 </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
                    <normaloff>:/images/images/minus.png</normaloff>:/images/images/minus.png</iconset>
@@ -818,6 +815,9 @@
                    <width>20</width>
                    <height>20</height>
                   </size>
+                 </property>
+                 <property name="accessibleName" stdset="0">
+                  <string>Remove selected window</string>
                  </property>
                 </widget>
                </item>
@@ -845,9 +845,6 @@
                  <property name="text">
                   <string notr="true">...</string>
                  </property>
-                 <property name="AccessibleName">
-                  <string>Request desktop access</string>
-                 </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
                    <normaloff>:/images/images/chalkstick.png</normaloff>:/images/images/chalkstick.png</iconset>
@@ -860,6 +857,9 @@
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
+                 </property>
+                 <property name="accessibleName" stdset="0">
+                  <string>Request desktop access</string>
                  </property>
                 </widget>
                </item>
@@ -1132,6 +1132,7 @@
     <addaction name="actionEnableVoiceActivation"/>
     <addaction name="actionEnableVideoTransmission"/>
     <addaction name="actionEnableDesktopSharing"/>
+    <addaction name="actionEnableTTS"/>
    </widget>
    <widget class="QMenu" name="menuUsers">
     <property name="title">
@@ -1192,7 +1193,14 @@
      <addaction name="actionKickFromServer"/>
      <addaction name="actionKickBan"/>
     </widget>
-    <addaction name="actionViewUserInformation"/>
+    <widget class="QMenu" name="menu_Info">
+     <property name="title">
+      <string>&amp;User information</string>
+     </property>
+     <addaction name="actionViewUserInformation"/>
+     <addaction name="actionSpeakUserInformation"/>
+    </widget>
+    <addaction name="menu_Info"/>
     <addaction name="actionMessages"/>
     <addaction name="actionDesktopAccessAllow"/>
     <addaction name="actionOp"/>
@@ -1208,8 +1216,15 @@
     <property name="title">
      <string>&amp;Channels</string>
     </property>
+    <widget class="QMenu" name="menu_InfoChannel">
+     <property name="title">
+      <string>&amp;Channel informations</string>
+     </property>
+     <addaction name="actionViewChannelInfo"/>
+     <addaction name="actionSpeakChannelInfo"/>
+    </widget>
     <addaction name="actionJoinChannel"/>
-    <addaction name="actionViewChannelInfo"/>
+    <addaction name="menu_InfoChannel"/>
     <addaction name="separator"/>
     <addaction name="actionCreateChannel"/>
     <addaction name="actionUpdateChannel"/>
@@ -1450,6 +1465,14 @@
     <string>Ctrl+I</string>
    </property>
   </action>
+  <action name="actionSpeakUserInformation">
+   <property name="text">
+    <string>&amp;Speak User Information</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+G</string>
+   </property>
+  </action>
   <action name="actionMuteAll">
    <property name="checkable">
     <bool>true</bool>
@@ -1519,6 +1542,14 @@
    </property>
    <property name="shortcut">
     <string>F3</string>
+   </property>
+  </action>
+  <action name="actionSpeakChannelInfo">
+   <property name="text">
+    <string>&amp;Speak Channel Info</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+G</string>
    </property>
   </action>
   <action name="actionMessages">
@@ -1860,6 +1891,17 @@
     <string>Ctrl+Shift+D</string>
    </property>
   </action>
+  <action name="actionEnableTTS">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable Text-To-Speech Events</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+S</string>
+   </property>
+  </action>
   <action name="actionAllowDesktopTransmission">
    <property name="checkable">
     <bool>true</bool>
@@ -2111,6 +2153,7 @@
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>

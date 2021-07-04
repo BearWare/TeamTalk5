@@ -1,12 +1,19 @@
 #define CATCH_CONFIG_RUNNER //E.g. own main is supplied. In contrasts to CATCH_CONFIG_MAIN
 #include <catch.hpp>
 
-//#include <QtGui/QGuiApplication> //If we ever want to include a GUI
+#include "test/TTUnitTest.h"
 
+//#include <QtGui/QGuiApplication> //If we ever want to include a GUI
 #include <QtDebug>
 
-
 #if defined(__ANDROID__)
+
+#include <QtAndroid>
+#include <QDir> // for file copy from APK
+#include <QDirIterator> // for file copy from APK
+#include <QStandardPaths> // for file copy from APK
+
+
 /*  The struct below is registered as a listener for Catch2 events on Android
  *  This is needed because Catch logs to stdout/stderr and on Android that output is redirected to /dev/null
  *  As a result, you don't see the typically output of failed assertions, etc you'd get on Linux or Windows
@@ -117,6 +124,93 @@ struct MyListener : Catch::TestEventListenerBase {
 
 };
 CATCH_REGISTER_LISTENER( MyListener )
+
+
+QString copyTestDataFilesFromAPK()
+{
+    // get default destination location from QT
+    QString destdirstring;
+    QStringList locations = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
+    if (locations.count()  > 0)
+    {
+        destdirstring = locations[0];
+    }
+
+    // Ensure path ends with "/"
+    destdirstring = QDir::cleanPath(destdirstring);
+    if (!destdirstring.endsWith('/'))
+    {
+        destdirstring = destdirstring.append('/');
+    }
+
+    QDir destdir;
+    if (!destdir.exists(destdirstring))
+    {
+        qDebug() << "Destination path for testdata doesn't exist, creating.";
+        if (!destdir.mkpath(destdirstring))
+        {
+            qCritical() << "Cannot create the destination path for testdata: " << destdirstring;
+            return "";
+        }
+    }
+
+    QDir assets("assets:/testdata");
+    if (!assets.exists())
+    {
+        qCritical() << "Testdata not found in APK assets directory. Cannot copy testdata";
+    }
+
+
+    QDirIterator it(assets, QDirIterator::Subdirectories);
+    while (it.hasNext())
+    {
+        it.next();
+
+        // Chop of "assets:/" to get the relative path to append to the destination
+        QString destpath = it.filePath().right(it.filePath().length() - 8); // 8= length of "assets:/
+        destpath.prepend(destdirstring);
+
+        const QFileInfo fileInfo = it.fileInfo();
+        if(!fileInfo.isHidden())
+        {
+            if(fileInfo.isDir())
+            {
+                //Create destination folder path
+                destdir.mkpath(destpath);
+            }
+            else if(fileInfo.isFile())
+            {
+                //Copy/Replace file in target directory
+                if (QFile::exists(destpath))
+                {
+                    if (!QFile::remove(destpath))
+                    {
+                        qCritical() << "Cannot remove existing copy of file " << destpath;
+                    }
+                }
+
+                if (!QFile::copy(fileInfo.absoluteFilePath(), destpath))
+                {
+                    qCritical() << "Cannot copy file " << destpath;
+                }
+
+                if (!QFile(destpath).setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ReadGroup | QFile::WriteGroup | QFile::ReadOther | QFile::WriteOther))
+                {
+                    // This will result in problems in the next iteration of this method because the files cannot be replaced then.
+                    // Solution is to uninstall the app
+                    qWarning() << "Cannot set permissions on file copied from APK: " << destpath;
+                }
+            }
+        }
+    }
+
+
+    qInfo() << "Copied testdata directory to file system. Root path: " << destdirstring;
+
+    return destdirstring;
+}
+
+
 #endif
 
 
@@ -130,8 +224,47 @@ int main(int argc, char** argv)
     // Logging from QT before the XML makes the interpretation fail
 //    qInfo() << "Catch2 Application wrapper started ";
 
-    Catch::Session session; // There must be exactly one instance
+#if defined(__ANDROID__)
+    QStringList permissions({"android.permission.RECORD_AUDIO",
+                             "android.permission.MODIFY_AUDIO_SETTINGS",
+                             "android.permission.INTERNET",
+                             "android.permission.VIBRATE",
+                             "android.permission.READ_EXTERNAL_STORAGE",
+                             "android.permission.WRITE_EXTERNAL_STORAGE",
+                             "android.permission.WAKE_LOCK",
+                             "android.permission.READ_PHONE_STATE",
+                             "android.permission.BLUETOOTH",
+                             "android.permission.FOREGROUND_SERVICE",
+                             "android.hardware.sensor.proximity"
+                            });
 
+    QtAndroid::PermissionResultMap resultHash = QtAndroid::requestPermissionsSync(permissions);
+    for (auto permission : permissions)
+    {
+        qDebug() << "Permission: " << permission << " " << ((resultHash[permission] == QtAndroid::PermissionResult::Granted) ? "Granted" : "Denied");
+    }
+
+    // Copy the file to 'testdata' dir below local files. This is the current path, so no special path needs to be set
+    // files can be accessed as "testdata/file.ext"
+    copyTestDataFilesFromAPK();
+#endif
+
+    // Find the SERVERIP= option on the commandline.
+    // MUST BE THE LAST COMMANDLINE OPTIONS and make sure to comma-separate the IP address from the catch args
+    // Valid example: "SeekPrecision, SERVERIP=10.10.10.10"
+    // Invalid example: "SeekPrecision SERVERIP=10.10.10.10"
+    for (int i = 0;i < argc; i++)
+    {
+        QString argument(argv[i]);
+        if (argument.contains("SERVERIP="))
+        {
+            int start = argument.indexOf("SERVERIP=") + 9; //8 = length of "SERVERIP="
+            QString IP = argument.right(argument.length() - start);
+            g_server_ipaddr = IP.toStdString();
+        }
+    }
+
+    Catch::Session session; // There must be exactly one instance
     // writing to session.configData() here sets defaults
     // this is the preferred way to set them
 

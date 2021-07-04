@@ -44,7 +44,7 @@ private:
     void slotStatusBarEnableAll(bool checked);
     void slotStatusBarClearAll(bool checked);
     void slotStatusBarRevert(bool checked);
-    StatusBarEvents& m_events;
+    StatusBarEvents m_events;
 };
 
 #endif

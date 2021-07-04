@@ -43,8 +43,8 @@ public:
     void addLogMessage(const QString& msg);
 
 protected:
-    void mouseMoveEvent(QMouseEvent *e);
-    void mouseReleaseEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
     void keyPressEvent(QKeyEvent* e) override;
 
 private:

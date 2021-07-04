@@ -72,8 +72,7 @@ void StatusBarDlg::slotStatusBarClearAll(bool /*checked*/)
 
 void StatusBarDlg::slotStatusBarRevert(bool /*checked*/)
 {
-    StatusBarEvents events = m_events;
-    m_statusbarmodel->setStatusBarEvents(events);
+    m_statusbarmodel->setStatusBarEvents(m_events);
 }
 
 void StatusBarDlg::slotAccept()

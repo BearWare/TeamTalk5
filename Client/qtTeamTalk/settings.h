@@ -226,6 +226,8 @@
 #define SETTINGS_VIDCAP_ENABLE                      "videocapture/enable"
 #define SETTINGS_VIDCAP_ENABLE_DEFAULT              false
 
+#define SETTINGS_TTS_ENABLE                   "texttospeech/tts-enable"
+#define SETTINGS_TTS_ENABLE_DEFAULT           true
 #define SETTINGS_TTS_ACTIVEEVENTS                   "texttospeech/active-events"
 #define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTSEvents(TTS_USER_LOGGEDIN | TTS_USER_LOGGEDOUT | TTS_USER_JOINED_SAME | TTS_USER_LEFT_SAME | TTS_USER_TEXTMSG_PRIVATE | TTS_USER_TEXTMSG_CHANNEL | TTS_USER_TEXTMSG_BROADCAST | TTS_FILE_ADD | TTS_FILE_REMOVE | TTS_MENU_ACTIONS)
 #define SETTINGS_TTS_ENGINE                         "texttospeech/tts-engine"
@@ -235,8 +237,13 @@
 #define SETTINGS_TTS_RATE_DEFAULT                 0.0
 #define SETTINGS_TTS_VOLUME                         "texttospeech/tts-volume"
 #define SETTINGS_TTS_VOLUME_DEFAULT                 0.5
+#if defined(Q_OS_LINUX)
 #define SETTINGS_TTS_TIMESTAMP                         "texttospeech/tts-timestamp"
 #define SETTINGS_TTS_TIMESTAMP_DEFAULT                 1000
+#elif defined(Q_OS_WIN)
+#define SETTINGS_TTS_SAPI                         "texttospeech/force-sapi"
+#define SETTINGS_TTS_SAPI_DEFAULT                 false
+#endif
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

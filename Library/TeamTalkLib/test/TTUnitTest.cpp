@@ -27,6 +27,10 @@
 
 #include <myace/MyACE.h>
 
+
+std::string g_server_ipaddr = "127.0.0.1";
+
+
 ttinst InitTeamTalk()
 {
     ttinst inst(TT_InitTeamTalkPoll());
@@ -36,6 +40,7 @@ ttinst InitTeamTalk()
 bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, INT32 outdev)
 {
     int selindev = indev, seloutdev = outdev;
+    int orgindev = indev, orgoutdev = outdev;
     if (indev == SOUNDDEVICEID_DEFAULT || outdev == SOUNDDEVICEID_DEFAULT)
     {
         SoundDevice sndindev, sndoutdev;
@@ -46,9 +51,17 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
     }
 
     if (selindev == SOUNDDEVICEID_DEFAULT)
+    {
+        if (indev == SOUNDDEVICEID_IGNORE)
+            return false;
         selindev = indev;
+    }
     if (seloutdev == SOUNDDEVICEID_DEFAULT)
+    {
+        if (outdev == SOUNDDEVICEID_IGNORE)
+            return false;
         seloutdev = outdev;
+    }
 
     switch (mode)
     {
@@ -85,6 +98,15 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
         break;
     }
     case DEFAULT :
+#if defined(__ANDROID__)
+        // Android only supports a single recorder and a limited
+        // number of players, so we by default switch to shared
+        // mode on Android.
+        if (orgindev == SOUNDDEVICEID_DEFAULT)
+            selindev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        if (orgoutdev == SOUNDDEVICEID_DEFAULT)
+            seloutdev |= TT_SOUNDDEVICE_ID_SHARED_FLAG;
+#endif
         break;
     }
 
@@ -139,6 +161,7 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/
     if (outdev == SOUNDDEVICEID_DEFAULT)
         outdev = defaultout;
 
+    insnddev.nDeviceID = SOUNDDEVICEID_IGNORE;
     if (indev != SOUNDDEVICEID_IGNORE)
     {
         auto dev = std::find_if(devs.begin(), devs.end(), [indev](const SoundDevice& d)
@@ -150,6 +173,7 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/
         insnddev = *dev;
     }
 
+    outsnddev.nDeviceID = SOUNDDEVICEID_IGNORE;
     if (outdev != SOUNDDEVICEID_IGNORE)
     {
         auto dev = std::find_if(devs.begin(), devs.end(), [outdev] (const SoundDevice& d)
@@ -161,6 +185,17 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/
         outsnddev = *dev;
     }
     return true;
+}
+
+bool Connect(TTInstance* ttClient, INT32 tcpport, INT32 udpport, TTBOOL encrypted)
+{
+#if defined(WIN32)
+    std::wstring wserver_ip = std::wstring(g_server_ipaddr.begin(), g_server_ipaddr.end());
+    const TTCHAR* hostname = reinterpret_cast<const TTCHAR*>(wserver_ip.c_str());
+#else
+    const TTCHAR* hostname = reinterpret_cast<const TTCHAR*>(g_server_ipaddr.c_str());
+#endif
+    return Connect(ttClient, hostname, udpport, tcpport, encrypted);
 }
 
 bool Connect(TTInstance* ttClient, const TTCHAR* hostname, INT32 tcpport, INT32 udpport, TTBOOL encrypted)

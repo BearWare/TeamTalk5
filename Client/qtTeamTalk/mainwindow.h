@@ -293,8 +293,10 @@ private:
     void slotMeEnableVoiceActivation(bool checked=false, SoundEvent on = SOUNDEVENT_VOICEACTON, SoundEvent off = SOUNDEVENT_VOICEACTOFF);
     void slotMeEnableVideoTransmission(bool checked=false);
     void slotMeEnableDesktopSharing(bool checked=false);
+    void slotMeEnableTTS(bool checked=false);
 
     void slotUsersViewUserInformationGrid(bool checked=false);
+    void slotUsersSpeakUserInformationGrid(bool checked=false);
     void slotUsersMessagesGrid(bool checked=false);
     void slotUsersMuteVoiceGrid(bool checked=false);
     void slotUsersMuteMediaFileGrid(bool checked=false);
@@ -337,6 +339,7 @@ private:
     void slotChannelsDeleteChannel(bool checked=false);
     void slotChannelsJoinChannel(bool checked=false);
     void slotChannelsViewChannelInfo(bool checked=false);
+    void slotChannelsSpeakChannelInformationGrid(bool checked=false);
     void slotChannelsListBans(bool checked=false);
     void slotChannelsStreamMediaFile(bool checked=false);
     void slotChannelsUploadFile(bool checked=false);
@@ -359,6 +362,7 @@ private:
 
     void slotConnectToLatest();
     void slotUsersViewUserInformation(int userid);
+    void slotUsersSpeakUserInformation(int userid);
     void slotUsersMessages(int userid);
     void slotUsersMuteVoice(int userid, bool mute);
     void slotUsersMuteMediaFile(int userid, bool mute);
