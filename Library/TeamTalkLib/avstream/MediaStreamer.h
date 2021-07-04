@@ -111,7 +111,7 @@ typedef std::function< void (const MediaFileProp& mfp,
                              MediaStreamStatus status) > mediastream_statuscallback_t;
 
 
-#define MEDIASTREAMER_OFFSET_IGNORE (0xFFFFFFFF)
+static const uint32_t MEDIASTREAMER_OFFSET_IGNORE = 0xFFFFFFFF;
 
 class MediaStreamer
 {
