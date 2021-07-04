@@ -1546,7 +1546,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         bool tolkLoaded = Tolk_IsLoaded();
         if (!tolkLoaded)
             Tolk_Load();
-        QString currentSR = QString(tr("%1").arg(Tolk_DetectScreenReader()));
+        QString currentSR = QString("%1").arg(Tolk_DetectScreenReader());
         if (!tolkLoaded)
             Tolk_Unload();
         if(currentSR.size())
