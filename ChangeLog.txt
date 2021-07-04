@@ -9,6 +9,7 @@ Default QT Client
 - CTRL+G now speak informations on selected user/channel (press CTRL+Alt+G to hear informations on current channel)
 - Ability to specify nickname by server
 - New option to configure what events to display in chat history
+- CTRL+Alt+S to quickly enable/disable TTS
 - Fix default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
 - Fix potentials shift+tab navigation issues in main window
 - Add missing labels in main window

@@ -224,6 +224,8 @@
 #define SETTINGS_VIDCAP_ENABLE                      "videocapture/enable"
 #define SETTINGS_VIDCAP_ENABLE_DEFAULT              false
 
+#define SETTINGS_TTS_ENABLE                   "texttospeech/tts-enable"
+#define SETTINGS_TTS_ENABLE_DEFAULT           true
 #define SETTINGS_TTS_ACTIVEEVENTS                   "texttospeech/active-events"
 #define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTSEvents(TTS_USER_LOGGEDIN | TTS_USER_LOGGEDOUT | TTS_USER_JOINED_SAME | TTS_USER_LEFT_SAME | TTS_USER_TEXTMSG_PRIVATE | TTS_USER_TEXTMSG_CHANNEL | TTS_USER_TEXTMSG_BROADCAST | TTS_FILE_ADD | TTS_FILE_REMOVE | TTS_MENU_ACTIONS)
 #define SETTINGS_TTS_ENGINE                         "texttospeech/tts-engine"
