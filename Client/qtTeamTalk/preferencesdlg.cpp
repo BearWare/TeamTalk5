@@ -573,7 +573,7 @@ void PreferencesDlg::slotTabChange(int index)
             QString packname = aspack[i].left(aspack[i].size());
             ui.spackBox->addItem(packname, packname);
         }
-        QString pack = ttSettings->value(SETTINGS_SOUNDS_PACK, SETTINGS_SOUNDS_PACK_DEFAULT).toString();
+        QString pack = ttSettings->value(SETTINGS_SOUNDS_PACK, QCoreApplication::translate("MainWindow", SETTINGS_SOUNDS_PACK_DEFAULT)).toString();
         int index = ui.spackBox->findData(pack);
         if(index>=0)
             ui.spackBox->setCurrentIndex(index);

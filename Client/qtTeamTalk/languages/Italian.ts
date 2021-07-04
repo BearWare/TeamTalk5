@@ -2180,6 +2180,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="727"/>
+        <location filename="../settings.h" line="205"/>
         <source>Default</source>
         <translation type="unfinished">Default</translation>
     </message>

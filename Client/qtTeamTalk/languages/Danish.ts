@@ -2683,6 +2683,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="727"/>
+        <location filename="../settings.h" line="205"/>
         <source>Default</source>
         <translation type="unfinished">Standard</translation>
     </message>

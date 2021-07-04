@@ -2356,6 +2356,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="727"/>
+        <location filename="../settings.h" line="205"/>
         <source>Default</source>
         <translation>Par défaut</translation>
     </message>
@@ -4149,7 +4150,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="493"/>
         <source>Configure events</source>
-       <translation>Configurer les évènements</translation>
+        <translation>Configurer les évènements</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1197"/>
