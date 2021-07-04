@@ -155,6 +155,7 @@ private:
     void slotTTSClearAll(bool checked);
     void slotTTSRevert(bool checked);
     void slotUpdateASBAccessibleName();
+    void slotSPackChange();
 
 public:
     void slotNewVideoFrame(int userid, int stream_id);

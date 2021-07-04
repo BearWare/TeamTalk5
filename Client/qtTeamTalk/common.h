@@ -552,6 +552,7 @@ void saveVideoFormat(const VideoFormat& vidfmt);
 bool loadVideoFormat(VideoFormat& vidfmt);
 
 void playSoundEvent(SoundEvent event);
+void resetDefaultSoundsPack();
 void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg);
 void addTextToSpeechMessage(const QString& msg);
 

@@ -720,6 +720,29 @@ void MainWindow::loadSettings()
             ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
     }
 #endif
+// Sounds pack checks
+    QString packset = ttSettings->value(SETTINGS_SOUNDS_PACK).toString();
+    QString packname = QString("%1/%2").arg(SOUNDSPATH).arg(packset);
+    QDir packdir(packname);
+    if((!packdir.exists()) && packset != tr("Default"))
+    {
+        QMessageBox answer;
+        answer.setText(tr("Your sounds pack %1 don't exist, would you like to use default sounds pack?").arg(packset));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(APPNAME_SHORT);
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+        {
+            resetDefaultSoundsPack();
+        }
+    }
+    else if(packset.isEmpty())
+    {
+        resetDefaultSoundsPack();
+    }
 }
 
 bool MainWindow::parseArgs(const QStringList& args)

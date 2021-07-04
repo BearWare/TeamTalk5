@@ -5,15 +5,17 @@ Version 5.8.1
 Accessible Windows Client
 -
 Default QT Client
-- Ability to delete items from CTRL+S history
-- CTRL+G now speak informations on selected user/channel (press CTRL+Alt+G to hear informations on current channel)
-- Ability to specify nickname by server
-- New option to configure what events to display in chat history
-- CTRL+Alt+S to quickly enable/disable TTS
-- Ability to force SAPI usage for TTS events on Windows
-- Fix default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
-- Fix potentials shift+tab navigation issues in main window
-- Add missing labels in main window
+- Create a folder in Sounds-folder to create your own Sound Pack
+- Ability to delete items from Stream Media File dialog
+- Ctrl+Alt+S to quickly enable/disable Text-To-Speech
+- Ctrl+G now outputs Text-To-Speech information for selected user/channel
+- Ctrl+Alt+G to hear informations on current channel
+- Ability to specify nickname for each server
+- New option to configure which events should be displayed in chat history
+- Ability to force SAPI usage for Text-To-Speech events on Windows
+- Fixed default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
+- Fixed Shift+Tab navigation issues in main window
+- Fixed missing accessible labels in main window
 Android Client
 -
 iOS Client

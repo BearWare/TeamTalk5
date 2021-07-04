@@ -27,11 +27,11 @@
 #include <QSettings>
 
 #if defined(Q_OS_WIN32)
-#define SOUNDSPATH                                  "Sounds"
+#define SOUNDSPATH                                     "Sounds"
 #elif defined(Q_OS_LINUX)
-#define SOUNDSPATH                                  "sounds"
+#define SOUNDSPATH                                     "sounds"
 #elif defined(Q_OS_DARWIN)
-#define SOUNDSPATH                                  "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
+#define SOUNDSPATH                                     "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
 #endif
 #define SETTINGS_VERSION                            "5.2"
 #define SETTINGS_GENERAL_VERSION                    "version"
@@ -201,6 +201,8 @@
 #define SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT           (SOUNDSPATH"/vox_me_enable.wav")
 #define SETTINGS_SOUNDEVENT_VOICEACTMEOFF           "soundevents/voice-act-me-off"
 #define SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT           (SOUNDSPATH"/vox_me_disable.wav")
+#define SETTINGS_SOUNDS_PACK           "soundevents/sounds-pack"
+#define SETTINGS_SOUNDS_PACK_DEFAULT           "Default"
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"
