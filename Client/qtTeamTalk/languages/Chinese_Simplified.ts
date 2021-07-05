@@ -1855,32 +1855,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1198"/>
         <source>&amp;User information</source>
-        <translation type="unfinished"></translation>
+        <translation>用户信息(&amp;U)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1221"/>
         <source>&amp;Channel informations</source>
-        <translation type="unfinished"></translation>
+        <translation>频道信息(&amp;C)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1470"/>
         <source>&amp;Speak User Information</source>
-        <translation type="unfinished"></translation>
+        <translation>朗读用户信息(&amp;S)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1473"/>
         <source>Ctrl+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+G</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1549"/>
         <source>&amp;Speak Channel Info</source>
-        <translation type="unfinished"></translation>
+        <translation>朗读频道信息(&amp;S)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1552"/>
         <source>Ctrl+Alt+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+G</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1580"/>
@@ -2140,12 +2140,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1899"/>
         <source>Enable Text-To-Speech Events</source>
-        <translation type="unfinished"></translation>
+        <translation>启用文字转语音事件</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1902"/>
         <source>Ctrl+Alt+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+S</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1910"/>
@@ -2363,12 +2363,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="727"/>
         <location filename="../settings.h" line="205"/>
         <source>Default</source>
-        <translation type="unfinished">默认</translation>
+        <translation>默认</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
-        <translation type="unfinished"></translation>
+        <translation>您的声音包 %1 不存在，您要使用默认声音包吗？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="923"/>
@@ -3103,12 +3103,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4030"/>
         <source>Text-To-Speech enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>已启用文字转语音</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4036"/>
         <source>Text-To-Speech disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>已禁用文字转语音</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4422"/>
@@ -3190,92 +3190,92 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4859"/>
         <source>Talking</source>
-        <translation type="unfinished"></translation>
+        <translation>正在说话</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4859"/>
         <source>Mute</source>
-        <translation type="unfinished"></translation>
+        <translation>静音</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4859"/>
         <source>Streaming</source>
-        <translation type="unfinished"></translation>
+        <translation>流媒体</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4859"/>
         <source>Mute media file</source>
-        <translation type="unfinished"></translation>
+        <translation>静音媒体文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4859"/>
         <source>Webcam</source>
-        <translation type="unfinished"></translation>
+        <translation>视频</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4859"/>
         <source>Desktop</source>
-        <translation type="unfinished">桌面</translation>
+        <translation>桌面</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4859"/>
         <source>Channel Operator</source>
-        <translation type="unfinished">频道管理员</translation>
+        <translation>频道管理员</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4859"/>
         <source>Selected for move</source>
-        <translation type="unfinished"></translation>
+        <translation>已选择移动</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4863"/>
         <source>Administrator</source>
-        <translation type="unfinished">管理员</translation>
+        <translation>管理员</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4867"/>
         <source>User</source>
-        <translation type="unfinished">用户</translation>
+        <translation>用户</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4885"/>
         <source>Online</source>
-        <translation type="unfinished"></translation>
+        <translation>在线</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4888"/>
         <source>Away</source>
-        <translation type="unfinished">离开</translation>
+        <translation>离开</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4891"/>
         <source>Question</source>
-        <translation type="unfinished">问题</translation>
+        <translation>问题</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4916"/>
         <source>Channel</source>
-        <translation type="unfinished">频道</translation>
+        <translation>频道</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4916"/>
         <source>Password protected</source>
-        <translation type="unfinished"></translation>
+        <translation>密码保护</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4916"/>
         <source>Classroom</source>
-        <translation type="unfinished"></translation>
+        <translation>教室</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4916"/>
         <source>Hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>隐藏</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4937"/>
         <source>Topic: %1</source>
-        <translation type="unfinished">主题： %1</translation>
+        <translation>主题： %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5005"/>
@@ -4173,12 +4173,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="493"/>
         <source>Configure events</source>
-        <translation type="unfinished"></translation>
+        <translation>配置事件</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1197"/>
         <source>Sounds pack</source>
-        <translation type="unfinished"></translation>
+        <translation>声音包</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1258"/>
@@ -4353,7 +4353,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2099"/>
         <source>Use SAPI instead of current screenreader</source>
-        <translation type="unfinished"></translation>
+        <translation>使用 SAPI 代替当前屏幕阅读器</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2116"/>
@@ -4602,7 +4602,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1553"/>
         <source>Use SAPI instead of %1 screenreader</source>
-        <translation type="unfinished"></translation>
+        <translation>使用 SAPI 代替 %1 屏幕阅读器</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1744"/>
@@ -4748,7 +4748,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="213"/>
         <source>Nickname (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>昵称（可选）</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="229"/>
@@ -5095,27 +5095,27 @@ Should these settings be applied?</source>
     <message>
         <location filename="../statusbardlg.ui" line="14"/>
         <source>Configure status bar</source>
-        <translation type="unfinished"></translation>
+        <translation>配置状态栏</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="20"/>
         <source>Enable/disable status bar events</source>
-        <translation type="unfinished"></translation>
+        <translation>启用/禁用状态栏事件</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="50"/>
         <source>Enable &amp;all</source>
-        <translation type="unfinished">全部启用(&amp;A)</translation>
+        <translation>全部启用(&amp;A)</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="70"/>
         <source>C&amp;lear all</source>
-        <translation type="unfinished">全部禁用(&amp;C)</translation>
+        <translation>全部禁用(&amp;C)</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="90"/>
         <source>&amp;Revert</source>
-        <translation type="unfinished">恢复(&amp;R)</translation>
+        <translation>恢复(&amp;R)</translation>
     </message>
 </context>
 <context>
@@ -5123,165 +5123,165 @@ Should these settings be applied?</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="82"/>
         <source>Event</source>
-        <translation type="unfinished">事件</translation>
+        <translation>事件</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="83"/>
         <location filename="../statusbareventsmodel.cpp" line="104"/>
         <location filename="../statusbareventsmodel.cpp" line="170"/>
         <source>Enabled</source>
-        <translation type="unfinished">已启用</translation>
+        <translation>已启用</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="104"/>
         <location filename="../statusbareventsmodel.cpp" line="170"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>已禁用</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="109"/>
         <source>User logged in</source>
-        <translation type="unfinished">用户登录</translation>
+        <translation>用户登录</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="111"/>
         <source>User logged out</source>
-        <translation type="unfinished">用户登出</translation>
+        <translation>用户登出</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="113"/>
         <source>User joined channel</source>
-        <translation type="unfinished">用户加入频道</translation>
+        <translation>用户加入频道</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="115"/>
         <source>User left channel</source>
-        <translation type="unfinished">用户离开频道</translation>
+        <translation>用户离开频道</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="117"/>
         <source>User join current channel</source>
-        <translation type="unfinished">用户加入当前频道</translation>
+        <translation>用户加入当前频道</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="119"/>
         <source>User left current channel</source>
-        <translation type="unfinished">用户离开当前频道</translation>
+        <translation>用户离开当前频道</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="121"/>
         <source>Subscription private text message changed</source>
-        <translation type="unfinished">更改私人消息订阅</translation>
+        <translation>更改私人消息订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="123"/>
         <source>Subscription channel text message changed</source>
-        <translation type="unfinished">更改频道消息订阅</translation>
+        <translation>更改频道消息订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="125"/>
         <source>Subscription broadcast text message changed</source>
-        <translation type="unfinished">更改广播消息订阅</translation>
+        <translation>更改广播消息订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="127"/>
         <source>Subscription voice stream changed</source>
-        <translation type="unfinished">更改语音订阅</translation>
+        <translation>更改语音订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="129"/>
         <source>Subscription webcam stream changed</source>
-        <translation type="unfinished">更改视频订阅</translation>
+        <translation>更改视频订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation type="unfinished">更改桌面共享订阅</translation>
+        <translation>更改桌面共享订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="133"/>
         <source>Subscription desktop access changed</source>
-        <translation type="unfinished">更改桌面访问订阅</translation>
+        <translation>更改桌面访问订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
         <source>Subscription media file stream changed</source>
-        <translation type="unfinished">更改媒体文件流订阅</translation>
+        <translation>更改媒体文件流订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
         <source>Subscription intercept private text message changed</source>
-        <translation type="unfinished">更改拦截私人消息订阅</translation>
+        <translation>更改拦截私人消息订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="139"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation type="unfinished">更改拦截频道消息订阅</translation>
+        <translation>更改拦截频道消息订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="141"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation type="unfinished">更改拦截语音订阅</translation>
+        <translation>更改拦截语音订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="143"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation type="unfinished">更改拦截视频订阅</translation>
+        <translation>更改拦截视频订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="145"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation type="unfinished">更改拦截桌面共享订阅</translation>
+        <translation>更改拦截桌面共享订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation type="unfinished">更改拦截媒体文件流订阅</translation>
+        <translation>更改拦截媒体文件流订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="149"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation type="unfinished">教室更改允许发送频道消息</translation>
+        <translation>教室更改允许发送频道消息</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="151"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation type="unfinished">教室更改允许语音传输</translation>
+        <translation>教室更改允许语音传输</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="153"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation type="unfinished">教室更改允许视频传输</translation>
+        <translation>教室更改允许视频传输</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="155"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation type="unfinished">教室更改允许桌面传输</translation>
+        <translation>教室更改允许桌面传输</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="157"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation type="unfinished">教室更改允许媒体文件传输</translation>
+        <translation>教室更改允许媒体文件传输</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="159"/>
         <source>File added</source>
-        <translation type="unfinished">添加文件</translation>
+        <translation>添加文件</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="161"/>
         <source>File removed</source>
-        <translation type="unfinished">删除文件</translation>
+        <translation>删除文件</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="163"/>
         <source>Save server configuration</source>
-        <translation type="unfinished"></translation>
+        <translation保存服务器配置></translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="165"/>
         <source>Start a recording</source>
-        <translation type="unfinished"></translation>
+        <translation>开始录音</translation>
     </message>
 </context>
 <context>
@@ -5327,24 +5327,24 @@ Should these settings be applied?</source>
         <location filename="../streammediafile.ui" line="79"/>
         <location filename="../streammediafile.ui" line="82"/>
         <source>Delete from history</source>
-        <translation type="unfinished"></translation>
+        <translation>从历史记录中删除</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="85"/>
         <source>&amp;D</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;D</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="96"/>
         <location filename="../streammediafile.ui" line="99"/>
         <location filename="../streammediafiledlg.cpp" line="185"/>
         <source>Clear history</source>
-        <translation type="unfinished"></translation>
+        <translation>清除历史记录</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="102"/>
         <source>&amp;L</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;L</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="117"/>
@@ -5364,7 +5364,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
-        <translation type="unfinished"></translation>
+        <translation>连续播放媒体文件(&amp;N)</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="188"/>
@@ -5480,17 +5480,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="180"/>
         <source>Are you sure you want to clear stream history?</source>
-        <translation type="unfinished"></translation>
+        <translation>您确定要清除流历史记录吗？</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="181"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">是(&amp;Y)</translation>
+        <translation>是(&amp;Y)</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="182"/>
         <source>&amp;No</source>
-        <translation type="unfinished">否(&amp;N)</translation>
+        <translation>否(&amp;N)</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="217"/>
