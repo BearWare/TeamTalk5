@@ -4182,6 +4182,54 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ttclient.enableVoiceTransmission(false);
     }
 
+    @Test
+    public void testMediaStreamRestart() {
+        TeamTalkBase ttclient = newClientInstance();
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TTMessage msg = new TTMessage();
+
+        initSound(ttclient);
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        MediaFileInfo mfi = new MediaFileInfo();
+        String filename = STORAGEFOLDER + File.separator + "hest.wav";
+        mfi.szFileName = filename;
+        mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
+        mfi.uDurationMSec = 1000;
+        assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
+        assertTrue("Get media file info", ttclient.getMediaFileInfo(filename, mfi));
+
+        // without bRestartable the stream cannot use
+        // updateStreamingMediaFileToChannel() after MFS_FINISHED
+        MediaFilePlayback mfp = new MediaFilePlayback();
+        mfp.uOffsetMSec = (int)(mfi.uDurationMSec * 0.9);
+        mfp.bPaused = false;
+
+        assertTrue("Start media stream", ttclient.startStreamingMediaFileToChannel(filename, null));
+
+        assertTrue("Wait stream event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("Begin stream", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_STARTED);
+
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg) &&
+               msg.mediafileinfo.nStatus != MediaFileStatus.MFS_FINISHED);
+        assertFalse("Stream dead", ttclient.updateStreamingMediaFileToChannel(mfp, null));
+
+        assertTrue("Start immediately after", ttclient.startStreamingMediaFileToChannel(filename, null));
+
+        assertTrue("Wait stream event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("Begin stream", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_STARTED);
+
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg) &&
+               msg.mediafileinfo.nStatus != MediaFileStatus.MFS_FINISHED);
+    }
 
     /* cannot test output levels since a user is muted by sound system after decoding and callback.
 

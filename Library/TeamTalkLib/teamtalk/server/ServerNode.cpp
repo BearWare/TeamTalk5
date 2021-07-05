@@ -119,7 +119,7 @@ ACE_TString ServerNode::GetMessageOfTheDay(int ignore_userid/* = 0*/)
 
     ACE_TString lastuser;
     ACE_Time_Value duration = ACE_Time_Value::max_time;
-    for (auto u : GetAuthorizedUsers(false))
+    for (const auto& u : GetAuthorizedUsers(false))
     {
         if (u->GetDuration() < duration &&
             u->GetUserID() != ignore_userid)
@@ -182,7 +182,7 @@ ServerChannel::users_t ServerNode::GetAdministrators(const ServerChannel& exclud
     ASSERT_REACTOR_LOCKED(this);
 
     ServerChannel::users_t users;
-    for (auto au : GetAdministrators())
+    for (const auto& au : GetAdministrators())
     {
         if (au->GetChannel().get() != &excludeChannel)
             users.push_back(au);
@@ -216,7 +216,7 @@ ServerChannel::users_t ServerNode::GetNotificationUsers(UserRights urights, cons
         notifyusers = chan->GetUsers();
 
     ServerChannel::users_t users = GetAuthorizedUsers(false);
-    for (auto u : users)
+    for (const auto& u : users)
     {
         if ((u->GetUserRights() & urights) == urights && (!chan || chan != u->GetChannel()))
             notifyusers.push_back(u);
@@ -907,7 +907,7 @@ bool ServerNode::StartServer(bool encrypted, const ACE_TString& sysid)
         return false;
 
     bool tcpport = m_properties.tcpaddrs.size() > 0, udpport = m_properties.udpaddrs.size() > 0;
-    for (auto a : m_properties.tcpaddrs)
+    for (const auto& a : m_properties.tcpaddrs)
     {
 #if defined(ENABLE_ENCRYPTION)
         if (encrypted)
@@ -925,7 +925,7 @@ bool ServerNode::StartServer(bool encrypted, const ACE_TString& sysid)
         }
     }
 
-    for (auto a : m_properties.udpaddrs)
+    for (const auto& a : m_properties.udpaddrs)
     {
         packethandler_t ph(new PacketHandler(m_udp_reactor));
         udpport &= ph->open(a, UDP_SOCKET_RECV_BUF_SIZE, UDP_SOCKET_SEND_BUF_SIZE);
@@ -1764,7 +1764,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
         }
 
         //admins can also subscribe outside their channels
-        for (auto au : GetAdministrators())
+        for (const auto& au : GetAdministrators())
         {
             if ((au->GetSubscriptions(user) & intercept_check) &&
                 !channel.UserExists(au->GetUserID()) &&
@@ -1782,7 +1782,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
         {
             //only operators and admins will receive from default users
             //in channel type CHANNEL_OPERATOR_RECVONLY
-            for (auto u : channel.GetUsers())
+            for (const auto& u : channel.GetUsers())
             {
                 if ((channel.IsOperator(u->GetUserID()) ||
                      u->GetUserType() & USERTYPE_ADMIN) &&
