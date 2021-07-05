@@ -510,6 +510,9 @@ void MFStreamer::Run()
 
     assert(m_stop || GetQueuedAudioDataSize() == 0);
 
+    // thread can now be joined
+    m_completed = true;
+
     if (m_statuscallback && !m_stop)
         m_statuscallback(m_media_in, error? MEDIASTREAM_ERROR : MEDIASTREAM_FINISHED);
 
