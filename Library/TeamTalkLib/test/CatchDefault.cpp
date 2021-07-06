@@ -3460,6 +3460,37 @@ TEST_CASE("LocalPlaybackOnOffPause")
     }
 }
 
+TEST_CASE("LocalPlaybackLatency")
+{
+    MYTRACE(ACE_TEXT("InitTeamTalk begin\n"));
+    auto ttclient = InitTeamTalk();
+    // try shared audio device mode on Android
+    REQUIRE(InitSound(ttclient));
+    // force non shared device mode on Android
+    // REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT, TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT));
+    MYTRACE(ACE_TEXT("InitTeamTalk done\n"));
+
+    // Call TT_InitLocalPlayback for file 1, PAUSE=FALSE
+    MediaFilePlayback mfp = {};
+    mfp.bPaused = false;
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+
+    MediaFileInfo mfi;
+    REQUIRE(TT_GetMediaFileInfo(ACE_TEXT("testdata/Opus/broadcast_msg.ogg"), &mfi));
+
+    int i=10;
+    while (i--)
+    {
+        MYTRACE(ACE_TEXT("Waiting to start\n"));
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, 100);
+    }
+    MYTRACE(ACE_TEXT("Starting playback of %d msec\n"), mfi.uDurationMSec);
+    int onid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/broadcast_msg.ogg"), &mfp);
+    REQUIRE(onid > 0);
+    TTMessage msg;
+    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg) && msg.mediafileinfo.nStatus != MFS_FINISHED);
+    MYTRACE(ACE_TEXT("Finished playback\n"));
+}
 
 TEST_CASE("FirstVoiceStreamPacket")
 {

@@ -666,6 +666,7 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
     for(int sample_index=0; more && sample_index<n_samples;
         sample_index += (streamer->framesize * streamer->channels))
     {
+        MYTRACE(ACE_TEXT("OpenSL ES Streamer callback to %p\n"), streamer);
         more = streamer->player->StreamPlayerCb(*streamer,
                                                 &streamer->buffers[buf_index][sample_index],
                                                 streamer->framesize);
