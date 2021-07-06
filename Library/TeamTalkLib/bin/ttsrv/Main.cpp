@@ -173,6 +173,12 @@ public:
                 ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to reload settings file %s."), settingsfile.c_str());
                 TT_SYSLOG(error_msg);
             }
+            else
+            {
+                ACE_TCHAR msg[1024];
+                ACE_OS::snprintf(msg, 1024, ACE_TEXT("Reloaded settings file %s."), settingsfile.c_str());
+                TT_LOG(msg);
+            }
         }
         return 0;
     }
