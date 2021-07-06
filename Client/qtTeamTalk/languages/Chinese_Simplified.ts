@@ -5276,7 +5276,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="163"/>
         <source>Save server configuration</source>
-        <translation保存服务器配置></translation>
+        <translation>保存服务器配置</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="165"/>
