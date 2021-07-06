@@ -13,7 +13,7 @@ Default QT Client
 - Ability to specify nickname for each server
 - New option to configure which events should be displayed in chat history
 - Ability to force SAPI usage for Text-To-Speech events on Windows
-- Option to auto expand channels
+- Option to automatically expand all channels in channels tree
 - Fixed default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
 - Fixed Shift+Tab navigation issues in main window
 - Fixed missing accessible labels in main window
