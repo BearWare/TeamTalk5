@@ -74,24 +74,6 @@ BOOL WINAPI ControlHandler(DWORD dwControlType)
     }
     return FALSE;
 }
-#endif
-
-class StopReactorEventHandler : public ACE_Event_Handler
-{
-public:
-    StopReactorEventHandler(ACE_Reactor* r)
-        : ACE_Event_Handler(r)
-    {
-    }
-
-    int handle_signal(int signum, siginfo_t*,ucontext_t*)
-    {
-        reactor()->end_reactor_event_loop();
-        return 0;
-    }
-};
-
-#if defined(BUILD_NT_SERVICE)
 
 ACE_TString GetWinError(DWORD err)
 {
@@ -167,6 +149,34 @@ ServerXML xmlSettings(TEAMTALK_XML_ROOTNAME);
 bool _daemon = false;
 bool nondaemon = false;
 int rxloss = 0, txloss = 0;
+
+class SignalEventHandler : public ACE_Event_Handler
+{
+public:
+    SignalEventHandler(ACE_Reactor* r)
+        : ACE_Event_Handler(r)
+    {
+    }
+
+    int handle_signal(int signum, siginfo_t*,ucontext_t*)
+    {
+        switch (signum)
+        {
+        case SIGINT :
+        case SIGTERM :
+            reactor()->end_reactor_event_loop();
+            break;
+        case SIGHUP :
+            if(!LoadConfig(xmlSettings, settingsfile))
+            {
+                ACE_TCHAR error_msg[1024];
+                ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to reload settings file %s."), settingsfile.c_str());
+                TT_SYSLOG(error_msg);
+            }
+        }
+        return 0;
+    }
+};
 
 int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
 {
@@ -253,9 +263,10 @@ int RunServer(
 #if defined(BUILD_NT_SERVICE)
     service->reactor(ACE_Reactor::instance());
 #endif
-    StopReactorEventHandler signalHandler(ACE_Reactor::instance());
+    SignalEventHandler signalHandler(ACE_Reactor::instance());
     ACE_Reactor::instance()->register_handler(SIGTERM, &signalHandler);
     ACE_Reactor::instance()->register_handler(SIGINT, &signalHandler);
+    ACE_Reactor::instance()->register_handler(SIGHUP, &signalHandler);
 #if defined(WIN32)
     ACE_Reactor::instance()->register_handler(SIGBREAK, &signalHandler);
 #endif

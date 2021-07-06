@@ -22,7 +22,7 @@ Android Client
 iOS Client
 -
 Server
--
+- Support for SIGHUP to reload server configuration
 
 Version 5.8, 2021/06/24
 Accessible Windows Client
