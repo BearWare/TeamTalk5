@@ -23,6 +23,7 @@
 
 #include "customvideofmtdlg.h"
 #include "appinfo.h"
+#include <QPushButton>
 
 CustomVideoFmtDlg::CustomVideoFmtDlg(QWidget* parent, VideoFormat& vidfmt)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
@@ -30,6 +31,8 @@ CustomVideoFmtDlg::CustomVideoFmtDlg(QWidget* parent, VideoFormat& vidfmt)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     if(vidfmt.nFPS_Denominator>0)
         ui.fpsEdit->setText(QString::number(vidfmt.nFPS_Numerator/vidfmt.nFPS_Denominator));

@@ -1060,6 +1060,16 @@ p, li { white-space: pre-wrap; }
         <source>10</source>
         <translation>10</translation>
     </message>
+    <message>
+        <location filename="../customvideofmtdlg.cpp" line="34"/>
+        <source>&amp;Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../customvideofmtdlg.cpp" line="35"/>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Abbrechen</translation>
+    </message>
 </context>
 <context>
     <name>DesktopAccessDlg</name>
@@ -5661,6 +5671,16 @@ Should these settings be applied?</source>
         <location filename="../statusbardlg.ui" line="90"/>
         <source>&amp;Revert</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../statusbardlg.cpp" line="37"/>
+        <source>&amp;Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../statusbardlg.cpp" line="38"/>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
 </context>
 <context>
