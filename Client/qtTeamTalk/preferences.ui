@@ -465,6 +465,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="chanexpChkBox">
+                <property name="text">
+                 <string>Auto expand channels</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QCheckBox" name="updatesChkBox">
                 <property name="text">
                  <string>Check for program updates at startup</string>

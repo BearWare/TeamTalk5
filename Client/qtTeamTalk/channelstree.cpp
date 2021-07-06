@@ -1289,6 +1289,7 @@ void ChannelsTree::slotAddChannel(const Channel& chan)
     {
         parent = new QTreeWidgetItem(this, CHANNEL_TYPE);
         parent->setData(COLUMN_ITEM, Qt::UserRole, chan.nChannelID);
+        parent->setExpanded(ttSettings->value(SETTINGS_DISPLAY_CHANEXP, SETTINGS_DISPLAY_CHANEXP_DEFAULT).toBool());
         slotUpdateTreeWidgetItem(parent);
     }
     else
@@ -1310,6 +1311,7 @@ void ChannelsTree::slotAddChannel(const Channel& chan)
         else
             item = new QTreeWidgetItem(parent, parent->child(i-1), CHANNEL_TYPE);
         item->setData(COLUMN_ITEM, Qt::UserRole, chan.nChannelID);
+        item->setExpanded(ttSettings->value(SETTINGS_DISPLAY_CHANEXP, SETTINGS_DISPLAY_CHANEXP_DEFAULT).toBool());
         slotUpdateTreeWidgetItem(item);
     }
 }
