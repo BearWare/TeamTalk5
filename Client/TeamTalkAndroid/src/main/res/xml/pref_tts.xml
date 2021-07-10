@@ -48,6 +48,12 @@
     
     <CheckBoxPreference
         android:defaultValue="false"
+        android:key="channel_message_sent_checkbox"
+        android:summary="@string/pref_summary_channel_message_sent"
+        android:title="@string/pref_title_channel_message_sent" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
         android:key="broadcast_message_checkbox"
         android:summary="@string/pref_summary_broadcast_message"
         android:title="@string/pref_title_broadcast_message" />
