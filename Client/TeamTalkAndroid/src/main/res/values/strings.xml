@@ -362,6 +362,8 @@
     <string name="pref_summary_userloggedin_icon">Play sound when an user logs in</string>
     <string name="pref_title_userloggedoff_icon">User logged off</string>
     <string name="pref_summary_userloggedoff_icon">Play sound when an user logs off</string>
+    <string name="pref_title_channel_message_sent_audio_icon">Sent channel message</string>
+    <string name="pref_summary_channel_message_sent_audio_icon">Play sound when channel message is sent</string>
 
 
 </resources>

@@ -362,6 +362,8 @@
     <string name="pref_summary_userloggedin_icon">Jouer un son lorsqu\'un utilisateur se connecte</string>
     <string name="pref_title_userloggedoff_icon">Utilisateur déconnecté</string>
     <string name="pref_summary_userloggedoff_icon">Jouer un son lorsqu\'un utilisateur se déconnecte</string>
+    <string name="pref_title_channel_message_sent_audio_icon">Message de canal envoyé</string>
+    <string name="pref_summary_channel_message_sent_audio_icon">Jouer un son à l\'envoi d\'un message de canal</string>
 
 
 </resources>
