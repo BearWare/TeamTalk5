@@ -366,6 +366,7 @@
     <string name="pref_summary_channel_message_sent_audio_icon">Play sound when channel message is sent</string>
     <string name="pref_title_channel_message_sent">Sent channel messages</string>
     <string name="pref_summary_channel_message_sent">Announce channel messages sent</string>
+    <string name="text_tts_channel_message_sent">Channel message sent: %1$s</string>
 
 
 </resources>
