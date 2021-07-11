@@ -1512,6 +1512,7 @@ void Convert(const teamtalk::RemoteFile& remotefile, RemoteFile& result)
     result.nFileID = remotefile.fileid;
     result.nFileSize = remotefile.filesize;
     result.nChannelID = remotefile.channelid;
+    ACE_OS::strsncpy(result.szUploadTime, teamtalk::DateToString(remotefile.uploadtime).c_str(), TT_STRLEN);
 }
 
 void Convert(const RemoteFile& remotefile, const TTCHAR* szPath, teamtalk::RemoteFile& result)
@@ -1522,6 +1523,7 @@ void Convert(const RemoteFile& remotefile, const TTCHAR* szPath, teamtalk::Remot
     result.filesize = remotefile.nFileSize;
     result.internalname = szPath;
     result.username = remotefile.szUsername;
+    // TODO: result.uploadtime = teamtalk::StringToDate(remotefile.szUploadTime);
 }
 
 void Convert(const teamtalk::ServerStats& stats, ServerStatistics& result)

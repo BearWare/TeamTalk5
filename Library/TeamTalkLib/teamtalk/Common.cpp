@@ -40,6 +40,11 @@ namespace teamtalk
         voicetxlimit = videotxlimit = mediafiletxlimit = desktoptxlimit = totaltxlimit = 0;
     }
 
+    RemoteFile::RemoteFile()
+    {
+        uploadtime = ACE_OS::gettimeofday();
+    }
+
     ACE_Date_Time StringToDate(const ACE_TString& str_date)
     {
         long year = 0, month = 0, day = 0, hour = 0, minutes = 0;

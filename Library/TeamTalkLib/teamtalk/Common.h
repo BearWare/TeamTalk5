@@ -523,13 +523,14 @@ namespace teamtalk {
 
     struct RemoteFile
     {
-        int channelid;
-        int fileid;
+        int channelid = 0;
+        int fileid = 0;
         ACE_TString filename;
         ACE_TString internalname;
         ACE_INT64 filesize;
         ACE_TString username;
-        RemoteFile() : channelid(0), fileid(0) { }
+        ACE_Time_Value uploadtime;
+        RemoteFile();
     };
 
     typedef std::vector< RemoteFile > files_t;

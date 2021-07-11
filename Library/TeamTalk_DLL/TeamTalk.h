@@ -2538,6 +2538,8 @@ extern "C" {
         INT64 nFileSize;
         /** @brief Username of the person who uploaded the file. */
         TTCHAR szUsername[TT_STRLEN];
+        /** @brief Time when file was uploaded. */
+        TTCHAR szUploadTime[TT_STRLEN];
     } RemoteFile;
     /** @} */
 

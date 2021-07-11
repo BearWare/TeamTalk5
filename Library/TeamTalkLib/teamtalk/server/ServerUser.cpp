@@ -1796,6 +1796,7 @@ void ServerUser::DoAddFile(const RemoteFile& file)
     AppendProperty(TT_FILEID, file.fileid, command);
     AppendProperty(TT_FILEOWNER, file.username, command);
     AppendProperty(TT_CHANNELID, file.channelid, command);
+    AppendProperty(TT_UPLOADTIME, int64_t(file.uploadtime.sec()), command);
     command += EOL;
 
     TransmitCommand(command);

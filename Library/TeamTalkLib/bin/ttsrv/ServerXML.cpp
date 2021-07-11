@@ -852,6 +852,7 @@ namespace teamtalk{
                         PutString(fileElement, "internalname", UnicodeToUtf8(chan.files[i].internalname).c_str());
                         PutInteger(fileElement, "filesize", (int64_t)chan.files[i].filesize);
                         PutString(fileElement, "username", UnicodeToUtf8(chan.files[i].username).c_str());
+                        PutString(fileElement, "uploadtime", UnicodeToUtf8(DateToString(chan.files[i].uploadtime.sec())).c_str());
                         ReplaceElement(filesElement, fileElement);
                     }
                 }
@@ -1029,6 +1030,9 @@ namespace teamtalk{
                         GetInteger(*nextfile, "filesize", (int64_t&)entry.filesize);
                         if(GetString(*nextfile, "username", tmp))
                             entry.username = Utf8ToUnicode(tmp.c_str());
+                        tmp.clear();
+                        if (GetString(*nextfile, "uploadtime", tmp))
+                            entry.uploadtime = StringToDate(tmp);
                         newchan.files.push_back(entry);
                     }
                 }
