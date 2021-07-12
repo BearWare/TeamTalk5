@@ -18,7 +18,7 @@ Default QT Client
 - Fixed Shift+Tab navigation issues in main window
 - Fixed missing accessible labels in main window
 Android Client
--
+- Files update sound played only in appropriate channel
 iOS Client
 -
 Server
