@@ -5953,12 +5953,15 @@ void ClientNode::HandleAddFile(const mstrings_t& properties)
 {
     ASSERT_REACTOR_LOCKED(this);
 
+    ACE_INT64 uploadtime = 0;
     RemoteFile remotefile;
     GetProperty(properties, TT_FILEID, remotefile.fileid);
     GetProperty(properties, TT_FILEOWNER, remotefile.username);
     GetProperty(properties, TT_CHANNELID, remotefile.channelid);
     GetProperty(properties, TT_FILENAME, remotefile.filename);
     GetProperty(properties, TT_FILESIZE, remotefile.filesize);
+    GetProperty(properties, TT_UPLOADTIME, uploadtime);
+    remotefile.uploadtime = ACE_Time_Value(time_t(uploadtime));
 
     clientchannel_t chan = GetChannel(remotefile.channelid);
     TTASSERT(chan);
