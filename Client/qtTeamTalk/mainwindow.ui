@@ -1022,29 +1022,6 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
-            <widget class="QToolButton" name="uploadButton">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="toolTip">
-              <string>Upload</string>
-             </property>
-             <property name="text">
-              <string>Upload</string>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/images/images/upload.png</normaloff>:/images/images/upload.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QToolButton" name="downloadButton">
              <property name="enabled">
               <bool>false</bool>
@@ -1081,6 +1058,29 @@
              <property name="icon">
               <iconset resource="resources.qrc">
                <normaloff>:/images/images/delete.png</normaloff>:/images/images/delete.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="uploadButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Upload</string>
+             </property>
+             <property name="text">
+              <string>Upload</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/images/images/upload.png</normaloff>:/images/images/upload.png</iconset>
              </property>
              <property name="iconSize">
               <size>
