@@ -353,7 +353,7 @@
            <string>Media File TX max</string>
           </property>
           <property name="buddy">
-           <cstring>videotxSpinBox</cstring>
+           <cstring>mediafiletxSpinBox</cstring>
           </property>
          </widget>
         </item>
