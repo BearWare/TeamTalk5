@@ -291,9 +291,7 @@ namespace teamtalk {
 
     typedef std::vector<BannedUser> bannedusers_t;
 
-    ACE_Time_Value StringToDate(const ACE_TString& str_date);
     ACE_TString DateToString(const ACE_Time_Value& tv);
-
 
     enum StreamType //ensure DLL compliance
     {

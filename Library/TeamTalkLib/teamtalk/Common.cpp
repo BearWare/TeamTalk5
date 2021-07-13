@@ -47,67 +47,6 @@ namespace teamtalk
         uploadtime = ACE_OS::gettimeofday();
     }
 
-    ACE_Time_Value StringToDate(const ACE_TString& str_date)
-    {
-        long year = 0, month = 0, day = 0, hour = 0, minutes = 0;
-        size_t i=0;
-        while(i<str_date.length())
-        {
-            if(str_date[i] == '/')
-            {
-                year = long(string2i(str_date.substr(0, i)));
-                break;
-            }
-            else i++;
-        }
-        size_t begin = ++i;
-        while(i<str_date.length())
-        {
-            if(str_date[i] == '/')
-            {
-                month = long(string2i(str_date.substr(begin, i)));
-                break;
-            }
-            else i++;
-        }
-        begin = ++i;
-        while(i<str_date.length())
-        {
-            if(str_date[i] == ' ')
-            {
-                day = long(string2i(str_date.substr(begin, i)));
-                break;
-            }
-            else i++;
-        }
-
-        begin = ++i;
-        while(i<str_date.length())
-        {
-            if(str_date[i] == ':')
-            {
-                hour = long(string2i(str_date.substr(begin, i)));
-                break;
-            }
-            else i++;
-        }
-
-        begin = ++i;
-
-        if(str_date.length() - begin > 0)
-            minutes = long(string2i(str_date.substr(begin, str_date.length())));
-
-        struct tm timeinfo = {};
-        timeinfo.tm_isdst = 0;
-        timeinfo.tm_year = year - 1900;
-        timeinfo.tm_mon = month - 1;
-        timeinfo.tm_mday = day;
-        timeinfo.tm_hour = hour;
-        timeinfo.tm_min = minutes;
-
-        return ACE_Time_Value(timegm(&timeinfo));
-    }
-
     ACE_TString DateToString(const ACE_Time_Value& tv)
     {
         ACE_Date_Time date(tv);
