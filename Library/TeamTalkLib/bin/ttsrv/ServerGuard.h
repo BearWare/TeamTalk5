@@ -71,7 +71,7 @@ namespace teamtalk {
         void OnFileDeleted(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file);
 
         void OnServerUpdated(const ServerUser& user, const ServerSettings& srvprop);
-        void OnSaveConfiguration(ServerNode& servernode, const ServerUser* user);
+        void OnSaveConfiguration(const ServerUser* user);
 
         void OnShutdown(const ServerStats& stats);
         /* end logging functions */
@@ -91,6 +91,8 @@ namespace teamtalk {
 
         ErrorMsg ChangeNickname(const ServerUser& user, const ACE_TString& newnick);
         ErrorMsg ChangeStatus(const ServerUser& user, int mode, const ACE_TString& status);
+
+        ErrorMsg SaveConfiguration(const ServerUser& user, ServerNode& servernode);
 
     private:
 #if defined(ENABLE_TEAMTALKPRO)

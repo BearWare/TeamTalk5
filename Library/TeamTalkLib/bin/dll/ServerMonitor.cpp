@@ -351,8 +351,7 @@ void ServerMonitor::OnServerUpdated(const teamtalk::ServerUser& user,
         i->second(m_ttInst, i->first, &sprop, &suser);
 }
 
-void ServerMonitor::OnSaveConfiguration(teamtalk::ServerNode& servernode,
-                                        const teamtalk::ServerUser* user /*= NULL*/)
+void ServerMonitor::OnSaveConfiguration(const teamtalk::ServerUser* user /*= NULL*/)
 {
     User suser;
     if(user)
@@ -531,5 +530,14 @@ teamtalk::ErrorMsg ServerMonitor::ChangeStatus(const teamtalk::ServerUser& user,
         i->second(m_ttInst, i->first, &err, &changer, mode, status.c_str());
 
     ErrorMsg ret;
+    return Convert(err, ret);
+}
+
+teamtalk::ErrorMsg ServerMonitor::SaveConfiguration(const teamtalk::ServerUser& /*user*/,
+                                                    teamtalk::ServerNode& /*servernode*/)
+{
+    ClientErrorMsg err = {};
+
+    ErrorMsg ret(teamtalk::TT_CMDERR_SUCCESS);
     return Convert(err, ret);
 }
