@@ -1494,12 +1494,14 @@ void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JCon
     jfieldID fid_name = env->GetFieldID(cls_finfo, "szFileName", "Ljava/lang/String;");
     jfieldID fid_size = env->GetFieldID(cls_finfo, "nFileSize", "J");
     jfieldID fid_user = env->GetFieldID(cls_finfo, "szUsername", "Ljava/lang/String;");
+    jfieldID fid_mod = env->GetFieldID(cls_finfo, "szUploadTime", "Ljava/lang/String;");
 
     assert(fid_id);
     assert(fid_cid);
     assert(fid_name);
     assert(fid_size);
     assert(fid_user);
+    assert(fid_mod);
 
     if(conv == N2J) {
         env->SetIntField(lpRemoteFile, fid_id, fileinfo.nFileID);
@@ -1507,6 +1509,7 @@ void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JCon
         env->SetObjectField(lpRemoteFile, fid_name, NEW_JSTRING(env, fileinfo.szFileName));
         env->SetLongField(lpRemoteFile, fid_size, fileinfo.nFileSize);
         env->SetObjectField(lpRemoteFile, fid_user, NEW_JSTRING(env, fileinfo.szUsername));
+        env->SetObjectField(lpRemoteFile, fid_mod, NEW_JSTRING(env, fileinfo.szUploadTime));
     }
     else {
         ZERO_STRUCT(fileinfo);
@@ -1515,6 +1518,7 @@ void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JCon
         TT_STRCPY(fileinfo.szFileName, ttstr(env, (jstring)env->GetObjectField(lpRemoteFile, fid_name)));
         fileinfo.nFileSize = env->GetLongField(lpRemoteFile, fid_size);
         TT_STRCPY(fileinfo.szUsername, ttstr(env, (jstring)env->GetObjectField(lpRemoteFile, fid_user)));
+        TT_STRCPY(fileinfo.szUploadTime, ttstr(env, (jstring)env->GetObjectField(lpRemoteFile, fid_mod)));
     }
 }
 
