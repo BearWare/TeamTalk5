@@ -1975,6 +1975,8 @@ extern "C" {
          * 
          * Requires TeamTalk version 5.2.3.4896. */
         AbusePrevention abusePrevent;
+        /** @brief Timestamp in UTC of last modification of user account. */
+        TTCHAR szLastModified[TT_STRLEN];
     } UserAccount;
     /** @} */
 

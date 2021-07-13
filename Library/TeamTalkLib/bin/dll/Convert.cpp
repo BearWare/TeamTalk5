@@ -1345,6 +1345,7 @@ void Convert(const teamtalk::UserAccount& useraccount, UserAccount& result)
     result.nAudioCodecBpsLimit = useraccount.audiobpslimit;
     result.abusePrevent.nCommandsLimit = useraccount.abuse.n_cmds;
     result.abusePrevent.nCommandsIntervalMSec = useraccount.abuse.cmd_msec;
+    ACE_OS::strsncpy(result.szLastModified, teamtalk::DateToString(useraccount.lastupdated).c_str(), TT_STRLEN);
 }
 
 void Convert(const UserAccount& useraccount, teamtalk::UserAccount& result)

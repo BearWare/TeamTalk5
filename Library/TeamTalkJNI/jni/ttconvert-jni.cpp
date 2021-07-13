@@ -1369,6 +1369,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
     jfieldID fid_op = env->GetFieldID(cls_account, "autoOperatorChannels", "[I");
     jfieldID fid_audbps = env->GetFieldID(cls_account, "nAudioCodecBpsLimit", "I");
     jfieldID fid_abuse = env->GetFieldID(cls_account, "abusePrevent", "Ldk/bearware/AbusePrevention;");
+    jfieldID fid_mod = env->GetFieldID(cls_account, "szLastModified", "Ljava/lang/String;");
 
     assert(fid_user);
     assert(fid_passwd);
@@ -1380,6 +1381,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
     assert(fid_ur);
     assert(fid_audbps);
     assert(fid_abuse);
+    assert(fid_mod);
 
     if(conv == N2J)
     {
@@ -1395,6 +1397,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         env->SetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, TO_JINT_ARRAY(account.autoOperatorChannels, tmp, TT_CHANNELS_OPERATOR_MAX));
         env->SetObjectField(lpAccount, fid_op, intArr);
         env->SetIntField(lpAccount, fid_audbps, account.nAudioCodecBpsLimit);
+        env->SetObjectField(lpAccount, fid_mod, NEW_JSTRING(env, account.szLastModified));
 
         jobject ap_obj = newAbusePrevention(env, &account.abusePrevent);
         assert(ap_obj);
@@ -1416,6 +1419,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         env->GetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, tmp);
         TO_INT32_ARRAY(tmp, account.autoOperatorChannels, TT_CHANNELS_OPERATOR_MAX);
         account.nAudioCodecBpsLimit = env->GetIntField(lpAccount, fid_audbps);
+        TT_STRCPY(account.szLastModified, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_mod)));
         jobject ap_obj = env->GetObjectField(lpAccount, fid_abuse);
         assert(ap_obj);
         setAbusePrevention(env, account.abusePrevent, ap_obj, conv);
