@@ -112,7 +112,7 @@ QVariant UserAccountsModel::data ( const QModelIndex & index, int role /*= Qt::D
             result = tr("Disabled");
         else
             result = tr("Unknown");
-        return QString(tr("Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5").arg(_Q(m_users[index.row()].szUsername)).arg(_Q(m_users[index.row()].szPassword)).arg(result).arg(_Q(m_users[index.row()].szNote)).arg(_Q(m_users[index.row()].szInitChannel)));
+        return QString(tr("Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5, Modified: %6").arg(_Q(m_users[index.row()].szUsername)).arg(_Q(m_users[index.row()].szPassword)).arg(result).arg(_Q(m_users[index.row()].szNote)).arg(_Q(m_users[index.row()].szInitChannel)).arg(_Q(m_users[index.row()].szLastModified)));
     }
     break;
     }

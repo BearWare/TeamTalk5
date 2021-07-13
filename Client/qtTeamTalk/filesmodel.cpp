@@ -105,7 +105,7 @@ QVariant FilesModel::data ( const QModelIndex & index, int role /*= Qt::DisplayR
             result = QString("%1 K").arg(m_files[index.row()].nFileSize/1024);
         else
             result = QString("%1").arg(m_files[index.row()].nFileSize);
-        return QString(tr("Name: %1, Size: %2, Owner: %3").arg(_Q(m_files[index.row()].szFileName)).arg(result).arg(_Q(m_files[index.row()].szUsername)));
+        return QString(tr("Name: %1, Size: %2, Owner: %3, Date: %4").arg(_Q(m_files[index.row()].szFileName)).arg(result).arg(_Q(m_files[index.row()].szUsername)).arg(_Q(m_files[index.row()].szUploadTime)));
     }
     break;
     }
