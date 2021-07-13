@@ -154,3 +154,15 @@ jobs:
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: make dox
+
+    - name: Make Ubuntu Archive
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: |
+        source env.sh
+        cd Setup/Portable
+        make deb64
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ubuntu18-binaries
+        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalk-*
