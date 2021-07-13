@@ -4935,6 +4935,9 @@ void MainWindow::slotUsersSpeakUserInformation(int userid)
             speakList += ", " + passwd;
         if (topic.size())
             speakList += ", " + QString(tr("Topic: %1").arg(topic));
+
+        if(m_filesmodel->rowCount() > 0)
+            speakList += ", " + QString(tr("%1 files").arg(m_filesmodel->rowCount()));
     }
     addTextToSpeechMessage(speakList);
 }
