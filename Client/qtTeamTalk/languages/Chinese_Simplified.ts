@@ -3290,7 +3290,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4940"/>
         <source>%1 files</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 个文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5008"/>
