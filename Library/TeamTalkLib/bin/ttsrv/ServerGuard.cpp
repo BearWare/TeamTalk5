@@ -477,45 +477,13 @@ void ServerGuard::OnServerUpdated(const ServerUser& user, const ServerSettings& 
     TT_LOG(oss.str().c_str());
 }
 
-void ServerGuard::OnSaveConfiguration(ServerNode& servernode, const ServerUser* user = NULL)
+void ServerGuard::OnSaveConfiguration(const ServerUser* user/* = NULL*/)
 {
-    ServerSettings properties = servernode.GetServerProperties();
-
-    m_settings.SetServerName(UnicodeToUtf8(properties.servername).c_str());
-    m_settings.SetMessageOfTheDay(UnicodeToUtf8(properties.motd).c_str());
-    m_settings.SetAutoSave(properties.autosave);
-    m_settings.SetMaxUsers(properties.maxusers);
-    m_settings.SetMaxLoginAttempts(properties.maxloginattempts);
-    m_settings.SetMaxLoginsPerIP(properties.max_logins_per_ipaddr);
-    m_settings.SetLoginDelay(properties.logindelay);
-    m_settings.SetUserTimeout(properties.usertimeout);
-    m_settings.SetVoiceTxLimit(properties.voicetxlimit);
-    m_settings.SetVideoCaptureTxLimit(properties.videotxlimit);
-    m_settings.SetMediaFileTxLimit(properties.mediafiletxlimit);
-    m_settings.SetDesktopTxLimit(properties.desktoptxlimit);
-    m_settings.SetTotalTxLimit(properties.totaltxlimit);
-    TTASSERT(properties.tcpaddrs.size());
-    if (properties.tcpaddrs.size())
-        m_settings.SetHostTcpPort(properties.tcpaddrs[0].get_port_number());
-    TTASSERT(properties.udpaddrs.size());
-    if (properties.udpaddrs.size())
-        m_settings.SetHostUdpPort(properties.udpaddrs[0].get_port_number());
-
-    m_settings.SetMaxDiskUsage(properties.maxdiskusage);
-    m_settings.SetDefaultDiskQuota(properties.diskquota);
-    m_settings.SetFilesRoot(UnicodeToUtf8(properties.filesroot).c_str());
-
-    teamtalk::statchannels_t channels;
-    ConvertChannels(servernode.GetRootChannel(), channels, true);
-    m_settings.SetStaticChannels(channels);
-
-    m_settings.SaveFile();
-
     tostringstream oss;
     oss << ACE_TEXT("Server configuration saved");
     if(user)
     {
-        oss << ACE_TEXT(" due to user #") << user->GetUserID() << ACE_TEXT(" ");
+        oss << ACE_TEXT(" by user #") << user->GetUserID() << ACE_TEXT(" ");
         oss << ACE_TEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("\" ");
         if(user->GetUsername().length())
             oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\"");
@@ -870,4 +838,39 @@ ErrorMsg ServerGuard::ChangeStatus(const ServerUser& user, int mode, const ACE_T
     if((user.GetUserRights() & USERRIGHT_LOCKED_STATUS) == USERRIGHT_NONE)
         return ErrorMsg(TT_CMDERR_SUCCESS);
     return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+}
+
+ErrorMsg ServerGuard::SaveConfiguration(const ServerUser& /*user*/, teamtalk::ServerNode& servernode)
+{
+    ServerSettings properties = servernode.GetServerProperties();
+
+    m_settings.SetServerName(UnicodeToUtf8(properties.servername).c_str());
+    m_settings.SetMessageOfTheDay(UnicodeToUtf8(properties.motd).c_str());
+    m_settings.SetAutoSave(properties.autosave);
+    m_settings.SetMaxUsers(properties.maxusers);
+    m_settings.SetMaxLoginAttempts(properties.maxloginattempts);
+    m_settings.SetMaxLoginsPerIP(properties.max_logins_per_ipaddr);
+    m_settings.SetLoginDelay(properties.logindelay);
+    m_settings.SetUserTimeout(properties.usertimeout);
+    m_settings.SetVoiceTxLimit(properties.voicetxlimit);
+    m_settings.SetVideoCaptureTxLimit(properties.videotxlimit);
+    m_settings.SetMediaFileTxLimit(properties.mediafiletxlimit);
+    m_settings.SetDesktopTxLimit(properties.desktoptxlimit);
+    m_settings.SetTotalTxLimit(properties.totaltxlimit);
+    TTASSERT(properties.tcpaddrs.size());
+    if (properties.tcpaddrs.size())
+        m_settings.SetHostTcpPort(properties.tcpaddrs[0].get_port_number());
+    TTASSERT(properties.udpaddrs.size());
+    if (properties.udpaddrs.size())
+        m_settings.SetHostUdpPort(properties.udpaddrs[0].get_port_number());
+
+    m_settings.SetMaxDiskUsage(properties.maxdiskusage);
+    m_settings.SetDefaultDiskQuota(properties.diskquota);
+    m_settings.SetFilesRoot(UnicodeToUtf8(properties.filesroot).c_str());
+
+    teamtalk::statchannels_t channels;
+    ConvertChannels(servernode.GetRootChannel(), channels, true);
+    m_settings.SetStaticChannels(channels);
+
+    return m_settings.SaveFile() ? ErrorMsg(TT_CMDERR_SUCCESS) : ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 }

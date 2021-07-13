@@ -90,8 +90,7 @@ public:
 
     void OnServerUpdated(const teamtalk::ServerUser& user,
                          const teamtalk::ServerSettings& srvprop);
-    void OnSaveConfiguration(teamtalk::ServerNode& servernode,
-                             const teamtalk::ServerUser* user = NULL);
+    void OnSaveConfiguration(const teamtalk::ServerUser* user = nullptr);
 
     void OnShutdown(const teamtalk::ServerStats& stats);
 
@@ -178,6 +177,8 @@ public:
 
     teamtalk::ErrorMsg ChangeNickname(const teamtalk::ServerUser& user, const ACE_TString& newnick);
     teamtalk::ErrorMsg ChangeStatus(const teamtalk::ServerUser& user, int mode, const ACE_TString& status);
+
+    teamtalk::ErrorMsg SaveConfiguration(const teamtalk::ServerUser& user, teamtalk::ServerNode& servernode);
 
     TTSInstance* m_ttInst;
 
