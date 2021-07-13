@@ -37,6 +37,7 @@ enum
     COLUMN_INDEX_USERTYPE,
     COLUMN_INDEX_NOTE,
     COLUMN_INDEX_CHANNEL,
+    COLUMN_INDEX_MODIFIED,
     COLUMN_COUNT_USERACCOUNTS,
 };
 UserAccountsModel::UserAccountsModel(QObject* parent)
@@ -57,6 +58,7 @@ QVariant UserAccountsModel::headerData ( int section, Qt::Orientation orientatio
             case COLUMN_INDEX_USERTYPE: return tr("User Type");
             case COLUMN_INDEX_NOTE: return tr("Note");
             case COLUMN_INDEX_CHANNEL: return tr("Channel");
+            case COLUMN_INDEX_MODIFIED : return tr("Modified");
         }
     }
     return QVariant();
@@ -95,22 +97,24 @@ QVariant UserAccountsModel::data ( const QModelIndex & index, int role /*= Qt::D
             return _Q(m_users[index.row()].szNote);
         case COLUMN_INDEX_CHANNEL :
             return _Q(m_users[index.row()].szInitChannel);
+        case COLUMN_INDEX_MODIFIED :
+            return _Q(m_users[index.row()].szLastModified);
         }
         break;
-        case Qt::AccessibleTextRole :
-        {
-            QString result;
-            if(m_users[index.row()].uUserType & USERTYPE_ADMIN)
-                result = tr("Administrator");
-            else if(m_users[index.row()].uUserType & USERTYPE_DEFAULT)
-                result = tr("Default User");
-            else if(m_users[index.row()].uUserType == USERTYPE_NONE)
-                result = tr("Disabled");
-            else
-                result = tr("Unknown");
-            return QString(tr("Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5").arg(_Q(m_users[index.row()].szUsername)).arg(_Q(m_users[index.row()].szPassword)).arg(result).arg(_Q(m_users[index.row()].szNote)).arg(_Q(m_users[index.row()].szInitChannel)));
-        }
-        break;
+    case Qt::AccessibleTextRole :
+    {
+        QString result;
+        if(m_users[index.row()].uUserType & USERTYPE_ADMIN)
+            result = tr("Administrator");
+        else if(m_users[index.row()].uUserType & USERTYPE_DEFAULT)
+            result = tr("Default User");
+        else if(m_users[index.row()].uUserType == USERTYPE_NONE)
+            result = tr("Disabled");
+        else
+            result = tr("Unknown");
+        return QString(tr("Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5").arg(_Q(m_users[index.row()].szUsername)).arg(_Q(m_users[index.row()].szPassword)).arg(result).arg(_Q(m_users[index.row()].szNote)).arg(_Q(m_users[index.row()].szInitChannel)));
+    }
+    break;
     }
     return QVariant();
 }

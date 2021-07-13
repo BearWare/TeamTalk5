@@ -43,6 +43,7 @@ QVariant FilesModel::headerData ( int section, Qt::Orientation orientation, int 
             case COLUMN_INDEX_NAME: return tr("Name");
             case COLUMN_INDEX_SIZE: return tr("Size");
             case COLUMN_INDEX_OWNER: return tr("Owner");
+            case COLUMN_INDEX_UPLOADED : return tr("Date");
             }
         }
         break;
@@ -91,20 +92,22 @@ QVariant FilesModel::data ( const QModelIndex & index, int role /*= Qt::DisplayR
             }
         case COLUMN_INDEX_OWNER :
             return _Q(m_files[index.row()].szUsername);
+        case COLUMN_INDEX_UPLOADED :
+            return _Q(m_files[index.row()].szUploadTime);
         }
         break;
-        case Qt::AccessibleTextRole :
-        {
-            QString result;
-            if(m_files[index.row()].nFileSize>=1024*1024)
-                result = QString("%1 M").arg(m_files[index.row()].nFileSize/(1024*1024));
-            else if(m_files[index.row()].nFileSize>=1024)
-                result = QString("%1 K").arg(m_files[index.row()].nFileSize/1024);
-            else
-                result = QString("%1").arg(m_files[index.row()].nFileSize);
-            return QString(tr("Name: %1, Size: %2, Owner: %3").arg(_Q(m_files[index.row()].szFileName)).arg(result).arg(_Q(m_files[index.row()].szUsername)));
-        }
-        break;
+    case Qt::AccessibleTextRole :
+    {
+        QString result;
+        if(m_files[index.row()].nFileSize>=1024*1024)
+            result = QString("%1 M").arg(m_files[index.row()].nFileSize/(1024*1024));
+        else if(m_files[index.row()].nFileSize>=1024)
+            result = QString("%1 K").arg(m_files[index.row()].nFileSize/1024);
+        else
+            result = QString("%1").arg(m_files[index.row()].nFileSize);
+        return QString(tr("Name: %1, Size: %2, Owner: %3").arg(_Q(m_files[index.row()].szFileName)).arg(result).arg(_Q(m_files[index.row()].szUsername)));
+    }
+    break;
     }
     return QVariant();
 }
