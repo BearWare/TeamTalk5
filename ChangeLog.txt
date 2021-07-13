@@ -23,6 +23,7 @@ iOS Client
 -
 Server
 - Support for SIGHUP to reload server configuration
+- Error reported if unable to save configuration file (tt5srv.xml)
 
 Version 5.8, 2021/06/24
 Accessible Windows Client
