@@ -1103,20 +1103,36 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
     }
 }
 
-bool HostEntry::sameHost(const HostEntry& host) const
+bool HostEntry::sameHost(const HostEntry& host, bool nickcheck) const
 {
-    return ipaddr == host.ipaddr &&
-           tcpport == host.tcpport &&
-           udpport == host.udpport &&
-           /* srvpasswd == host.srvpasswd && */ //don't include passwords
-           username == host.username &&
-           /* password == host.password && */
-           nickname == host.nickname &&
-           channel == host.channel/* &&
-        hosts[i].chanpasswd == host.chanpasswd*/;
+    if(nickcheck == true)
+    {
+        return ipaddr == host.ipaddr &&
+               tcpport == host.tcpport &&
+               udpport == host.udpport &&
+               encrypted == host.encrypted &&
+               /* srvpasswd == host.srvpasswd && */ //don't include passwords
+               username == host.username &&
+               /* password == host.password && */
+               nickname == host.nickname &&
+               channel == host.channel/* &&
+            hosts[i].chanpasswd == host.chanpasswd*/;
+    }
+    else
+    {
+        return ipaddr == host.ipaddr &&
+               tcpport == host.tcpport &&
+               udpport == host.udpport &&
+               encrypted == host.encrypted &&
+               /* srvpasswd == host.srvpasswd && */ //don't include passwords
+               username == host.username &&
+               /* password == host.password && */
+               channel == host.channel/* &&
+            hosts[i].chanpasswd == host.chanpasswd*/;
+    }
 }
 
-bool HostEntry::sameHostEntry(const HostEntry& host) const
+bool HostEntry::sameHostEntry(const HostEntry& host, bool nickcheck) const
 {
     return sameHost(host) && host.name == name;
 }

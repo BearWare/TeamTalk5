@@ -3828,7 +3828,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
             int serv, lasthost, index = 0;
             while(getServerEntry(index, tmp))
             {
-                if (m_host.sameHost(tmp))
+                if (m_host.sameHost(tmp, false))
                     serv = index;
                 index++;
                 tmp = HostEntry();
@@ -3837,7 +3837,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
             index = 0;
             while(getLatestHost(index, tmp))
             {
-                if (m_host.sameHostEntry(tmp))
+                if (m_host.sameHostEntry(tmp, false))
                     lasthost = index;
                 index++;
             }
