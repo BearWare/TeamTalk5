@@ -26,7 +26,6 @@
 
 #include <myace/MyACE.h>
 #include <ace/INET_Addr.h>
-#include <ace/Date_Time.h>
 #include <ace/Time_Value.h>
 
 #include <regex>
@@ -292,7 +291,7 @@ namespace teamtalk {
 
     typedef std::vector<BannedUser> bannedusers_t;
 
-    ACE_Date_Time StringToDate(const ACE_TString& str_date);
+    ACE_Time_Value StringToDate(const ACE_TString& str_date);
     ACE_TString DateToString(const ACE_Time_Value& tv);
 
 

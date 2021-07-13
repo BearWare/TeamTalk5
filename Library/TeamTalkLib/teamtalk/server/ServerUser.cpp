@@ -1706,7 +1706,7 @@ void ServerUser::DoShowBan(const BannedUser& ban)
     AppendProperty(TT_CHANNEL, ban.chanpath, command);
     AppendProperty(TT_NICKNAME, ban.nickname, command);
     AppendProperty(TT_USERNAME, ban.username, command);
-    AppendProperty(TT_BANTIME, (ACE_INT64)ban.bantime.sec(), command);
+    AppendProperty(TT_BANTIME, ban.bantime, command);
     command += ACE_TString(EOL);
 
     TransmitCommand(command);
@@ -1796,7 +1796,7 @@ void ServerUser::DoAddFile(const RemoteFile& file)
     AppendProperty(TT_FILEID, file.fileid, command);
     AppendProperty(TT_FILEOWNER, file.username, command);
     AppendProperty(TT_CHANNELID, file.channelid, command);
-    AppendProperty(TT_UPLOADTIME, int64_t(file.uploadtime.sec()), command);
+    AppendProperty(TT_UPLOADTIME, file.uploadtime, command);
     command += EOL;
 
     TransmitCommand(command);

@@ -5814,15 +5814,13 @@ void ClientNode::HandleBannedUser(const mstrings_t& properties)
     ASSERT_REACTOR_LOCKED(this);
 
     BannedUser ban;
-    ACE_INT64 bantime;
 
     GetProperty(properties, TT_BANTYPE, ban.bantype);
     GetProperty(properties, TT_IPADDR, ban.ipaddr);
     GetProperty(properties, TT_CHANNEL, ban.chanpath);
     GetProperty(properties, TT_NICKNAME, ban.nickname);
     GetProperty(properties, TT_USERNAME, ban.username);
-    GetProperty(properties, TT_BANTIME, bantime);
-    ban.bantime = ACE_Time_Value((time_t)bantime);
+    GetProperty(properties, TT_BANTIME, ban.bantime);
 
     m_listener->OnBannedUser(ban);
 }
@@ -5953,15 +5951,13 @@ void ClientNode::HandleAddFile(const mstrings_t& properties)
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    ACE_INT64 uploadtime = 0;
     RemoteFile remotefile;
     GetProperty(properties, TT_FILEID, remotefile.fileid);
     GetProperty(properties, TT_FILEOWNER, remotefile.username);
     GetProperty(properties, TT_CHANNELID, remotefile.channelid);
     GetProperty(properties, TT_FILENAME, remotefile.filename);
     GetProperty(properties, TT_FILESIZE, remotefile.filesize);
-    GetProperty(properties, TT_UPLOADTIME, uploadtime);
-    remotefile.uploadtime = ACE_Time_Value(time_t(uploadtime));
+    GetProperty(properties, TT_UPLOADTIME, remotefile.uploadtime);
 
     clientchannel_t chan = GetChannel(remotefile.channelid);
     TTASSERT(chan);

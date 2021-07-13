@@ -22,8 +22,10 @@
  */
 
 #include "Common.h"
-#include <time.h>
 #include "Commands.h"
+#include <time.h>
+#include <ace/Date_Time.h>
+
 
 namespace teamtalk
 {
@@ -45,7 +47,7 @@ namespace teamtalk
         uploadtime = ACE_OS::gettimeofday();
     }
 
-    ACE_Date_Time StringToDate(const ACE_TString& str_date)
+    ACE_Time_Value StringToDate(const ACE_TString& str_date)
     {
         long year = 0, month = 0, day = 0, hour = 0, minutes = 0;
         size_t i=0;
@@ -94,7 +96,16 @@ namespace teamtalk
 
         if(str_date.length() - begin > 0)
             minutes = long(string2i(str_date.substr(begin, str_date.length())));
-        return ACE_Date_Time(day, month, year, hour, minutes);
+
+        struct tm timeinfo = {};
+        timeinfo.tm_isdst = 0;
+        timeinfo.tm_year = year - 1900;
+        timeinfo.tm_mon = month - 1;
+        timeinfo.tm_mday = day;
+        timeinfo.tm_hour = hour;
+        timeinfo.tm_min = minutes;
+
+        return ACE_Time_Value(timegm(&timeinfo));
     }
 
     ACE_TString DateToString(const ACE_Time_Value& tv)

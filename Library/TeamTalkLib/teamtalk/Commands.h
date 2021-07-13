@@ -327,6 +327,9 @@ namespace teamtalk {
     bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
                      ACE_INET_Addr& addr);
 
+    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop,
+                     ACE_Time_Value& tv);
+
     ACE_TString PrepareIntegerArray(const std::vector<int>& array);
 
     ACE_TString PrepareIntegerSet(const std::set<int>& myset);
@@ -355,6 +358,8 @@ namespace teamtalk {
                         ACE_TString& dest_str);
     void AppendProperty(const ACE_TString& prop, 
                         const ACE_INET_Addr& addr, ACE_TString& dest_str);
+    void AppendProperty(const ACE_TString& prop,
+                        const ACE_Time_Value& tv, ACE_TString& dest_str);
 
     bool GetCmdLine(const ACE_CString& input, 
                     ACE_CString& cmd, ACE_CString& remain_input);
