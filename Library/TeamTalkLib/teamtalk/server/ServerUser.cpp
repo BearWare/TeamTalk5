@@ -1291,6 +1291,7 @@ void ServerUser::DoAccepted(const UserAccount& useraccount)
         AppendProperty(TT_AUTOOPCHANNELS, useraccount.auto_op_channels, command);
     AppendProperty(TT_AUDIOBPSLIMIT, useraccount.audiobpslimit, command);
     AppendProperty(TT_CMDFLOOD, useraccount.abuse.toParam(), command);
+    AppendProperty(TT_MODIFIEDTIME, useraccount.lastupdated, command);
 
     command += ACE_TString(EOL);
 
@@ -1729,6 +1730,7 @@ void ServerUser::DoShowUserAccount(const UserAccount& user)
     AppendProperty(TT_AUTOOPCHANNELS, user.auto_op_channels, command);
     AppendProperty(TT_AUDIOBPSLIMIT, user.audiobpslimit, command);
     AppendProperty(TT_CMDFLOOD, user.abuse.toParam(), command);
+    AppendProperty(TT_MODIFIEDTIME, user.lastupdated, command);
 
     command += ACE_TString(EOL);
 

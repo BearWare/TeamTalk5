@@ -5220,6 +5220,7 @@ void ClientNode::HandleAccepted(const mstrings_t& properties)
         GetProperty(properties, TT_INITCHANNEL, m_myuseraccount.init_channel);
         GetProperty(properties, TT_AUTOOPCHANNELS, m_myuseraccount.auto_op_channels);
         GetProperty(properties, TT_AUDIOBPSLIMIT, m_myuseraccount.audiobpslimit);
+        GetProperty(properties, TT_MODIFIEDTIME, m_myuseraccount.lastupdated);
         vector<int> flood;
         if(GetProperty(properties, TT_CMDFLOOD, flood))
             m_myuseraccount.abuse.fromParam(flood);
@@ -5839,6 +5840,8 @@ void ClientNode::HandleUserAccount(const mstrings_t& properties)
     GetProperty(properties, TT_INITCHANNEL, user.init_channel);
     GetProperty(properties, TT_AUTOOPCHANNELS, user.auto_op_channels);
     GetProperty(properties, TT_AUDIOBPSLIMIT, user.audiobpslimit);
+    GetProperty(properties, TT_MODIFIEDTIME, user.lastupdated);
+
     vector<int> flood;
     if(GetProperty(properties, TT_CMDFLOOD, flood))
         user.abuse.fromParam(flood);

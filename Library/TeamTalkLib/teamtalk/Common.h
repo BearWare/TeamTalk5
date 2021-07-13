@@ -215,22 +215,17 @@ namespace teamtalk {
         ACE_TString username;
         ACE_TString passwd;
         ACE_TString note;
-        UserTypes usertype;
-        UserRights userrights; /* Mask of UserRight */
-        int userdata;
+        UserTypes usertype = USERTYPE_NONE;
+        UserRights userrights = USERRIGHT_NONE; /* Mask of UserRight */
+        int userdata = 0;
         ACE_TString init_channel;
         intset_t auto_op_channels;
-        int audiobpslimit;
+        int audiobpslimit = 0;
         Abuse abuse;
         ACE_TString nickname; /* TODO: add to TT API */
+        ACE_Time_Value lastupdated;
         
-        UserAccount()
-        {
-            userrights = USERRIGHT_NONE;
-            usertype = USERTYPE_NONE;
-            userdata = 0;
-            audiobpslimit = 0;
-        }
+        UserAccount();
     };
     typedef std::vector<UserAccount> useraccounts_t;
 

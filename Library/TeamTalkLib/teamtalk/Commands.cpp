@@ -22,9 +22,10 @@
  */
 
 #include "Commands.h"
-#include <myace/MyACE.h>
 #include "ttassert.h"
+#include <myace/MyACE.h>
 
+#include <ctime>
 #include <ace/OS_NS_ctype.h> //isdigit
 
 using namespace std;

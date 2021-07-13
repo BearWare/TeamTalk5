@@ -133,6 +133,7 @@
 #define TT_ACCESSTOKEN ACE_TEXT("accesstoken") // v5.6
 #define TT_CHANMSGUSERS ACE_TEXT("chanmsgusers") // v5.8
 #define TT_UPLOADTIME ACE_TEXT("uploadtime") // v5.9
+#define TT_MODIFIEDTIME ACE_TEXT("modifiedtime") // v5.9
 
 //    Client ---> Server
 //    -------------------------

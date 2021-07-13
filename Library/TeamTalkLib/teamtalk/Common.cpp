@@ -47,6 +47,11 @@ namespace teamtalk
         uploadtime = ACE_OS::gettimeofday();
     }
 
+    UserAccount::UserAccount()
+    {
+        lastupdated = ACE_OS::gettimeofday();
+    }
+
     ACE_TString DateToString(const ACE_Time_Value& tv)
     {
         ACE_Date_Time date(tv);
