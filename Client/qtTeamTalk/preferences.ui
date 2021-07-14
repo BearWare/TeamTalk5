@@ -292,13 +292,6 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QCheckBox" name="voiceactChkBox">
-            <property name="text">
-             <string>Voice activated</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
            <widget class="QCheckBox" name="pttlockChkBox">
             <property name="toolTip">
@@ -306,6 +299,13 @@
             </property>
             <property name="text">
              <string>Push To Talk Lock</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="voiceactChkBox">
+            <property name="text">
+             <string>Voice activated</string>
             </property>
            </widget>
           </item>
