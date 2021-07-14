@@ -1291,6 +1291,7 @@ void ServerUser::DoAccepted(const UserAccount& useraccount)
         AppendProperty(TT_AUTOOPCHANNELS, useraccount.auto_op_channels, command);
     AppendProperty(TT_AUDIOBPSLIMIT, useraccount.audiobpslimit, command);
     AppendProperty(TT_CMDFLOOD, useraccount.abuse.toParam(), command);
+    AppendProperty(TT_MODIFIEDTIME, useraccount.lastupdated, command);
 
     command += ACE_TString(EOL);
 
@@ -1706,7 +1707,7 @@ void ServerUser::DoShowBan(const BannedUser& ban)
     AppendProperty(TT_CHANNEL, ban.chanpath, command);
     AppendProperty(TT_NICKNAME, ban.nickname, command);
     AppendProperty(TT_USERNAME, ban.username, command);
-    AppendProperty(TT_BANTIME, (ACE_INT64)ban.bantime.sec(), command);
+    AppendProperty(TT_BANTIME, ban.bantime, command);
     command += ACE_TString(EOL);
 
     TransmitCommand(command);
@@ -1729,6 +1730,7 @@ void ServerUser::DoShowUserAccount(const UserAccount& user)
     AppendProperty(TT_AUTOOPCHANNELS, user.auto_op_channels, command);
     AppendProperty(TT_AUDIOBPSLIMIT, user.audiobpslimit, command);
     AppendProperty(TT_CMDFLOOD, user.abuse.toParam(), command);
+    AppendProperty(TT_MODIFIEDTIME, user.lastupdated, command);
 
     command += ACE_TString(EOL);
 
@@ -1796,6 +1798,7 @@ void ServerUser::DoAddFile(const RemoteFile& file)
     AppendProperty(TT_FILEID, file.fileid, command);
     AppendProperty(TT_FILEOWNER, file.username, command);
     AppendProperty(TT_CHANNELID, file.channelid, command);
+    AppendProperty(TT_UPLOADTIME, file.uploadtime, command);
     command += EOL;
 
     TransmitCommand(command);

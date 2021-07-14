@@ -32,7 +32,7 @@
 #include <ace/SString.h>
 #include "Common.h"
 
-#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.8")
+#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.9")
 
 /* parameter names */
 #define TT_USERID ACE_TEXT("userid")
@@ -132,6 +132,8 @@
 #define TT_LOGINDELAY ACE_TEXT("logindelay") // v5.5
 #define TT_ACCESSTOKEN ACE_TEXT("accesstoken") // v5.6
 #define TT_CHANMSGUSERS ACE_TEXT("chanmsgusers") // v5.8
+#define TT_UPLOADTIME ACE_TEXT("uploadtime") // v5.9
+#define TT_MODIFIEDTIME ACE_TEXT("modifiedtime") // v5.9
 
 //    Client ---> Server
 //    -------------------------
@@ -326,6 +328,9 @@ namespace teamtalk {
     bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
                      ACE_INET_Addr& addr);
 
+    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop,
+                     ACE_Time_Value& tv);
+
     ACE_TString PrepareIntegerArray(const std::vector<int>& array);
 
     ACE_TString PrepareIntegerSet(const std::set<int>& myset);
@@ -354,6 +359,8 @@ namespace teamtalk {
                         ACE_TString& dest_str);
     void AppendProperty(const ACE_TString& prop, 
                         const ACE_INET_Addr& addr, ACE_TString& dest_str);
+    void AppendProperty(const ACE_TString& prop,
+                        const ACE_Time_Value& tv, ACE_TString& dest_str);
 
     bool GetCmdLine(const ACE_CString& input, 
                     ACE_CString& cmd, ACE_CString& remain_input);
