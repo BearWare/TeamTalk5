@@ -51,6 +51,8 @@
 #define SETTINGS_GENERAL_AUTOAWAY_DEFAULT                   180
 #define SETTINGS_GENERAL_PUSHTOTALK                 "general_/push-to-talk"
 #define SETTINGS_GENERAL_PUSHTOTALK_KEY             "general_/ptt-key"
+#define SETTINGS_GENERAL_PUSHTOTALKLOCK             "general_/ptt-key-lock"
+#define SETTINGS_GENERAL_PUSHTOTALKLOCK_DEFAULT     false
 #define SETTINGS_GENERAL_VOICEACTIVATED             "general_/voice-activated"
 #define SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT     false
 #define SETTINGS_GENERAL_STATUSMESSAGE              "general_/statusmsg"
