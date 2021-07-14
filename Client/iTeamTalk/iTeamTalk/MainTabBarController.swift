@@ -531,8 +531,13 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
     func login() {
         
         let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
-        
-        let nickname = UserDefaults.standard.string(forKey: PREF_GENERAL_NICKNAME) ?? DEFAULT_NICKNAME
+
+        if server.nickname.isEmpty == false {
+            let nickname = server.nickname
+        }
+        else {
+            let nickname = UserDefaults.standard.string(forKey: PREF_GENERAL_NICKNAME) ?? DEFAULT_NICKNAME
+        }
         
         cmdid = TT_DoLoginEx(ttInst, nickname, server.username, server.password, AppInfo.getAppName())
         channelsTab.activeCommands[cmdid] = .loginCmd
