@@ -101,7 +101,7 @@ rasp:
 linux:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	$(eval SRVNAME=$(TEAMTALK_ROOT)/Server/tt5srv)
-	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/qtTeamTalk/teamtalk5)
+	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/qtTeamTalk/teamtalk)
 	$(eval CLIENTDLL=$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5.so)
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
