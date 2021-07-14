@@ -1878,7 +1878,8 @@ extern "C" {
         TTCHAR szIPAddress[TT_STRLEN]; 
         /** @brief Channel where user was located when banned. */
         TTCHAR szChannelPath[TT_STRLEN]; 
-        /** @brief Date and time when user was banned. Read-only property. */
+        /** @brief Date and time when user was banned. Read-only property.
+         * Date/time is converted local time. */
         TTCHAR szBanTime[TT_STRLEN];
         /** @brief Nickname of banned user. Read-only property.  */
         TTCHAR szNickname[TT_STRLEN];
@@ -1975,7 +1976,8 @@ extern "C" {
          * 
          * Requires TeamTalk version 5.2.3.4896. */
         AbusePrevention abusePrevent;
-        /** @brief Timestamp in UTC of last modification of user account. */
+        /** @brief Timestamp of last modification of user account.
+         * Date/time is converted local time. */
         TTCHAR szLastModified[TT_STRLEN];
     } UserAccount;
     /** @} */
@@ -2540,7 +2542,8 @@ extern "C" {
         INT64 nFileSize;
         /** @brief Username of the person who uploaded the file. */
         TTCHAR szUsername[TT_STRLEN];
-        /** @brief Time when file was uploaded. */
+        /** @brief Time when file was uploaded. Date/time is converted
+         * local time. */
         TTCHAR szUploadTime[TT_STRLEN];
     } RemoteFile;
     /** @} */
