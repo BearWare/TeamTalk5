@@ -98,6 +98,7 @@ Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\vox_me_enable.wa
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Bulgarian.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Chinese_Simplified.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Chinese_Traditional.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Croatian.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Czech.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Danish.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Dutch.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
