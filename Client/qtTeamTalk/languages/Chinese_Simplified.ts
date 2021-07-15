@@ -331,7 +331,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="113"/>
         <source>Nickname: %1, Username: %2, Ban type: %3, Ban time: %4, Channel path: %5, IP address: %6</source>
-        <translation>昵称:%1，用户名:%2，禁止类型:%3，禁止时间:%4，频道:%5,IP地址:%6</translation>
+        <translation>昵称： %1， 用户名： %2， 禁止类型： %3， 禁止时间： %4， 频道： %5， IP地址： %6</translation>
     </message>
 </context>
 <context>
@@ -1194,16 +1194,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filesmodel.cpp" line="46"/>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>日期</translation>
     </message>
     <message>
         <location filename="../filesmodel.cpp" line="108"/>
         <source>Name: %1, Size: %2, Owner: %3, Date: %4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name: %1, Size: %2, Owner: %3</source>
-        <translation type="vanished">名称： %1， 大小： %2， 所有者： %3</translation>
+        <translation>名称： %1， 大小： %2， 所有者： %3， 日期： %4</translation>
     </message>
 </context>
 <context>
@@ -1496,10 +1492,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="748"/>
         <source>Detach selected window</source>
         <translation>分离选定的窗口</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">浏览...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="768"/>
@@ -3520,10 +3512,6 @@ Should these settings be applied?</source>
 是否应用这些设置？</translation>
     </message>
     <message>
-        <source>New version available: %1</source>
-        <translation type="vanished">有可用的新版本： %1</translation>
-    </message>
-    <message>
         <location filename="../settings.h" line="43"/>
         <source>NoName</source>
         <translation>无名</translation>
@@ -3581,10 +3569,6 @@ Should these settings be applied?</source>
         <location filename="../mediastoragedlg.cpp" line="109"/>
         <source>Folder for audio files</source>
         <translation>音频文件文件夹</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">浏览...</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="119"/>
@@ -3718,7 +3702,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersmodel.cpp" line="170"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
-        <translation>ID： %1，昵称： %2，状态消息： %3，用户名： %4，频道： %5，IP地址： %6，版本： %7</translation>
+        <translation>ID： %1， 昵称： %2， 状态消息： %3， 用户名： %4， 频道： %5， IP地址： %6， 版本： %7</translation>
     </message>
 </context>
 <context>
@@ -3956,10 +3940,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="503"/>
         <source>Show statusbar events in chat-window</source>
         <translation>在聊天窗口中显示状态栏事件</translation>
-    </message>
-    <message>
-        <source>Show user logs in/out in chat history</source>
-        <translation type="vanished">在聊天记录中显示用户登录/登出</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="470"/>
@@ -4832,12 +4812,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="298"/>
         <source>Press to transmit.  Press to stop transmit</source>
-        <translation type="unfinished"></translation>
+        <translation>按下开始传输，再次按下停止传输</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="301"/>
         <source>Push To Talk Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>锁定按键说话</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="480"/>
@@ -5626,17 +5606,9 @@ Should these settings be applied?</source>
         <translation>播放(&amp;P)</translation>
     </message>
     <message>
-        <source>&amp;Continuously play media file</source>
-        <translation type="vanished">重复播放(&amp;C)</translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="209"/>
         <source>&amp;Setup</source>
         <translation>设置(amp;S)</translation>
-    </message>
-    <message>
-        <source>&amp;Start position</source>
-        <translation type="vanished">起始位置(&amp;S)</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="236"/>
@@ -6447,7 +6419,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="61"/>
         <source>Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>修改时间</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="89"/>
@@ -6476,11 +6448,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="115"/>
         <source>Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5, Modified: %6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5</source>
-        <translation type="vanished">用户名: %1, 密码: %2, 类型: %3, 注释: %4, 初始频道: %5</translation>
+        <translation>用户名： %1， 密码： %2， 类型： %3， 注释： %4， 初始频道： %5， 修改时间： %6</translation>
     </message>
 </context>
 <context>
