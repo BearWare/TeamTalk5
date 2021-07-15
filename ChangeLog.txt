@@ -19,6 +19,7 @@ Default QT Client
 - Fixed default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
 - Fixed Shift+Tab navigation issues in main window
 - Fixed missing accessible labels in main window
+- Fixed Croatian file missing for installed version
 Android Client
 -
 iOS Client
