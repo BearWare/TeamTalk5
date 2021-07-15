@@ -132,9 +132,16 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         passwdfield!.spellCheckingType = .no
         passwdfield!.autocapitalizationType = .none
         passwdfield!.isSecureTextEntry = true
+        
         if weblogin == false {
             authItems.append(passwdcell)
         }
+
+        let weblogincell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        webloginfield = newTableCellSwitch(weblogincell, label: NSLocalizedString("BearWare.dk Web Login", comment: "server entry"), initial: weblogin)
+        weblogincell.detailTextLabel?.text = NSLocalizedString("Check only if this server has enabled BearWare.dk Web Login", comment: "server entry")
+        webloginfield?.addTarget(self, action: #selector(bearwareWebLogin(_:)), for: .valueChanged)
+        authItems.append(weblogincell)
 
         let nicknamecell = UITableViewCell(style: .default, reuseIdentifier: nil)
         nicknamefield = newTableCellTextField(nicknamecell, label: NSLocalizedString("Nickname (optional)", comment: "server entry"), initial: server.nickname)
@@ -142,12 +149,7 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         nicknamefield!.autocorrectionType = .no
         nicknamefield!.spellCheckingType = .no
         nicknamefield!.autocapitalizationType = .none
-        
-        let weblogincell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        webloginfield = newTableCellSwitch(weblogincell, label: NSLocalizedString("BearWare.dk Web Login", comment: "server entry"), initial: weblogin)
-        weblogincell.detailTextLabel?.text = NSLocalizedString("Check only if this server has enabled BearWare.dk Web Login", comment: "server entry")
-        webloginfield?.addTarget(self, action: #selector(bearwareWebLogin(_:)), for: .valueChanged)
-        authItems.append(weblogincell)
+        authItems.append(nicknamecell)
     }
     
     func saveServerDetail() {
