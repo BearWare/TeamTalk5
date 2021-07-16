@@ -23,7 +23,7 @@ Default QT Client
 Android Client
 -
 iOS Client
--
+- Ability to specify nickname for each server
 Server
 - Support for SIGHUP to reload server configuration
 - Error reported if unable to save configuration file (tt5srv.xml)

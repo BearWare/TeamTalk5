@@ -40,6 +40,7 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
     var encryptedfield : UISwitch?
     var usernamefield : UITextField?
     var passwdfield : UITextField?
+    var nicknamefield : UITextField?
     var webloginfield : UISwitch?
     var chanfield : UITextField?
     var chpasswdfield : UITextField?
@@ -131,15 +132,24 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         passwdfield!.spellCheckingType = .no
         passwdfield!.autocapitalizationType = .none
         passwdfield!.isSecureTextEntry = true
+        
         if weblogin == false {
             authItems.append(passwdcell)
         }
-        
+
         let weblogincell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         webloginfield = newTableCellSwitch(weblogincell, label: NSLocalizedString("BearWare.dk Web Login", comment: "server entry"), initial: weblogin)
         weblogincell.detailTextLabel?.text = NSLocalizedString("Check only if this server has enabled BearWare.dk Web Login", comment: "server entry")
         webloginfield?.addTarget(self, action: #selector(bearwareWebLogin(_:)), for: .valueChanged)
         authItems.append(weblogincell)
+
+        let nicknamecell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        nicknamefield = newTableCellTextField(nicknamecell, label: NSLocalizedString("Nickname (optional)", comment: "server entry"), initial: server.nickname)
+        nicknamefield!.delegate = self
+        nicknamefield!.autocorrectionType = .no
+        nicknamefield!.spellCheckingType = .no
+        nicknamefield!.autocapitalizationType = .none
+        authItems.append(nicknamecell)
     }
     
     func saveServerDetail() {
@@ -155,6 +165,7 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         let username = usernamefield!.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         server.username = username
         server.password = passwdfield!.text!
+        server.nickname = nicknamefield!.text!
         server.publicserver = false
         let channame = chanfield!.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         server.channel = channame
