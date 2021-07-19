@@ -3688,7 +3688,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &myself))
     {
         QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
-        if(_Q(myself.szNickname) != nickname)
+        if((_Q(myself.szNickname) != nickname) && m_host.nickname.isEmpty())
             TT_DoChangeNickname(ttInst, _W(nickname));
 
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
