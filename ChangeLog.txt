@@ -21,8 +21,7 @@ Default QT Client
 - Fixed missing accessible labels in main window
 - Fixed Croatian file missing for installed version
 Android Client
-- Option to disable sound when sending a channel message
-- Option to disable TTS when sending a channel message
+- Option to disable sound and TTS event when sending a channel message
 iOS Client
 - Ability to specify nickname for each server
 Server
