@@ -14,16 +14,20 @@ Default QT Client
 - New option to configure which events should be displayed in chat history
 - Ability to force SAPI usage for Text-To-Speech events on Windows
 - Option to automatically expand all channels in channels tree
+- Last modification date shown on user accounts
+- Upload time shown on files
 - Fixed default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
 - Fixed Shift+Tab navigation issues in main window
 - Fixed missing accessible labels in main window
+- Fixed Croatian file missing for installed version
 Android Client
 - Option to disable sound when sending a channel message
 - Option to disable TTS when sending a channel message
 iOS Client
--
+- Ability to specify nickname for each server
 Server
 - Support for SIGHUP to reload server configuration
+- Error reported if unable to save configuration file (tt5srv.xml)
 
 Version 5.8, 2021/06/24
 Accessible Windows Client

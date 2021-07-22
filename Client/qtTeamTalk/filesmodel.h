@@ -24,16 +24,18 @@
 #ifndef FILESMODEL_H
 #define FILESMODEL_H
 
+#include "common.h"
+
 #include <QAbstractItemModel>
 #include <QVector>
 
-#include "common.h"
 
 enum
 {
     COLUMN_INDEX_NAME,
     COLUMN_INDEX_SIZE,
     COLUMN_INDEX_OWNER,
+    COLUMN_INDEX_UPLOADED,
     COLUMN_COUNT_FILESMODEL
 };
 

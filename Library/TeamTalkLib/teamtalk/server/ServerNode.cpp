@@ -427,7 +427,7 @@ ErrorMsg ServerNode::UserEndFileTransfer(int transferid)
     remotefile.channelid = chan->GetChannelID();
 
     ErrorMsg err = AddFileToChannel(remotefile);
-    if(err.errorno != TT_CMDERR_SUCCESS)
+    if (!err.success())
         return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
     if(transfer.inbound)
@@ -435,7 +435,11 @@ ErrorMsg ServerNode::UserEndFileTransfer(int transferid)
         m_stats.files_bytesreceived += remotefile.filesize;
         m_srvguard->OnFileUploaded(*user, *chan, remotefile);
         if(IsAutoSaving() && (chan->GetChannelType() & CHANNEL_PERMANENT))
-            m_srvguard->OnSaveConfiguration(*this, user.get());
+        {
+            err = m_srvguard->SaveConfiguration(*user, *this);
+            if (err.success())
+                m_srvguard->OnSaveConfiguration(user.get());
+        }
     }
     else
     {
@@ -443,7 +447,7 @@ ErrorMsg ServerNode::UserEndFileTransfer(int transferid)
         m_srvguard->OnFileDownloaded(*user, *chan, remotefile);
     }
 
-    return ErrorMsg(TT_CMDERR_SUCCESS);
+    return err;
 }
 
 ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid, 
@@ -476,8 +480,12 @@ ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid,
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
     m_srvguard->OnFileDeleted(*user, *chan, remotefile);
-    if(IsAutoSaving() && chan->GetChannelType() & CHANNEL_PERMANENT)
-        m_srvguard->OnSaveConfiguration(*this);
+    if (IsAutoSaving() && chan->GetChannelType() & CHANNEL_PERMANENT)
+    {
+        auto err = m_srvguard->SaveConfiguration(*user, *this);
+        if (err.success())
+            m_srvguard->OnSaveConfiguration(user.get());
+    }
 
     ACE_TString filepath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + remotefile.internalname;
     g.release();
@@ -1227,8 +1235,12 @@ void ServerNode::IncLoginAttempt(const ServerUser& user)
         ban.bantype = BANTYPE_DEFAULT;
         ban.ipaddr = user.GetIpAddress();
         m_srvguard->AddUserBan(user, ban);
-        if(IsAutoSaving())
-            m_srvguard->OnSaveConfiguration(*this, &user);
+        if (IsAutoSaving())
+        {
+            auto err = m_srvguard->SaveConfiguration(user, *this);
+            if (err.success())
+                m_srvguard->OnSaveConfiguration(&user);
+        }
     }
 }
 
@@ -3214,9 +3226,12 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
             m_srvguard->OnUserBanned(*banner, ban);
     }
 
-    if(err.success() && IsAutoSaving())
-        m_srvguard->OnSaveConfiguration(*this);
-
+    if (err.success() && IsAutoSaving())
+    {
+        err = m_srvguard->SaveConfiguration(*banner, *this);
+        if (err.success())
+            m_srvguard->OnSaveConfiguration(banner.get());
+    }
     return err;
 }
 
@@ -3256,7 +3271,11 @@ ErrorMsg ServerNode::UserUnBan(int userid, const BannedUser& ban)
     {
         m_srvguard->OnUserUnbanned(*user, ban);
         if(IsAutoSaving())
-            m_srvguard->OnSaveConfiguration(*this);
+        {
+            err = m_srvguard->SaveConfiguration(*user, *this);
+            if (err.success())
+                m_srvguard->OnSaveConfiguration(user.get());
+        }
     }
     return err;
 }
@@ -3336,10 +3355,14 @@ ErrorMsg ServerNode::UserNewUserAccount(int userid, const UserAccount& regusr)
     }
     
     ErrorMsg err = m_srvguard->AddRegUser(*user, regusr);
-    if(err.errorno == TT_CMDERR_SUCCESS)
+    if (err.success())
     {
-        if(IsAutoSaving())
-            m_srvguard->OnSaveConfiguration(*this, user.get());
+        if (IsAutoSaving())
+        {
+            err = m_srvguard->SaveConfiguration(*user, *this);
+            if (err.success())
+                m_srvguard->OnSaveConfiguration(user.get());
+        }
     }
     return err;
 }
@@ -3353,10 +3376,14 @@ ErrorMsg ServerNode::UserDeleteUserAccount(int userid, const ACE_TString& userna
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     ErrorMsg err = m_srvguard->DeleteRegUser(*user, username);
-    if(err.errorno == TT_CMDERR_SUCCESS)
+    if (err.success())
     {    
-        if(IsAutoSaving())
-            m_srvguard->OnSaveConfiguration(*this, user.get());
+        if (IsAutoSaving())
+        {
+            err = m_srvguard->SaveConfiguration(*user, *this);
+            if (err.success())
+                m_srvguard->OnSaveConfiguration(user.get());
+        }
     }
     return err;
 }
@@ -3417,8 +3444,8 @@ ErrorMsg ServerNode::UserUpdateServer(int userid, const ServerSettings& properti
     if((user->GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) == 0)
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
-    ErrorMsg err = UpdateServer(properties);
-    if(err.errorno == TT_CMDERR_SUCCESS)
+    ErrorMsg err = UpdateServer(properties, user.get());
+    if (err.success())
         m_srvguard->OnServerUpdated(*user, properties);
     
     return err;
@@ -3432,22 +3459,29 @@ ErrorMsg ServerNode::UserSaveServerConfig(int userid)
     if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
-    m_srvguard->OnSaveConfiguration(*this, user.get());
-
-    return ErrorMsg(TT_CMDERR_SUCCESS);
+    auto errmsg = m_srvguard->SaveConfiguration(*user, *this);
+    if (errmsg.success())
+        m_srvguard->OnSaveConfiguration(user.get());
+    return errmsg;
 }
 
-ErrorMsg ServerNode::UpdateServer(const ServerSettings& properties)
+ErrorMsg ServerNode::UpdateServer(const ServerSettings& properties,
+                                  const ServerUser* user /*= nullptr*/)
 {
     SetServerProperties(properties);
 
     for (auto u : GetAuthorizedUsers())
         u->DoServerUpdate(m_properties);
 
-    if(IsAutoSaving())
-        m_srvguard->OnSaveConfiguration(*this);
+    ErrorMsg err(TT_CMDERR_SUCCESS);
+    if (IsAutoSaving() && user)
+    {
+        err = m_srvguard->SaveConfiguration(*user, *this);
+        if (err.success())
+            m_srvguard->OnSaveConfiguration(user);
+    }
 
-    return ErrorMsg(TT_CMDERR_SUCCESS);
+    return err;
 }
 
 ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop, 
@@ -3546,10 +3580,15 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     //notify listener if any
     m_srvguard->OnChannelCreated(*chan, user);
 
-    if(IsAutoSaving() && (chanprop.chantype & CHANNEL_PERMANENT))
-        m_srvguard->OnSaveConfiguration(*this, user);
+    ErrorMsg err(TT_CMDERR_SUCCESS);
+    if (IsAutoSaving() && (chanprop.chantype & CHANNEL_PERMANENT) && user)
+    {
+        err = m_srvguard->SaveConfiguration(*user, *this);
+        if (err.success())
+            m_srvguard->OnSaveConfiguration(user);
+    }
 
-    return ErrorMsg(TT_CMDERR_SUCCESS);
+    return err;
 }
 
 ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop, 
@@ -3619,8 +3658,12 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
     //notify listener if any
     m_srvguard->OnChannelUpdated(*chan, user);
 
-    if(IsAutoSaving() && (chan->GetChannelType() & CHANNEL_PERMANENT))
-        m_srvguard->OnSaveConfiguration(*this, user);
+    if (IsAutoSaving() && (chan->GetChannelType() & CHANNEL_PERMANENT) && user)
+    {
+        auto err = m_srvguard->SaveConfiguration(*user, *this);
+        if (err.success())
+            m_srvguard->OnSaveConfiguration(user);
+    }
 
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
@@ -3740,10 +3783,15 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
         }
     }
 
-    if(IsAutoSaving() && bStatic)
-        m_srvguard->OnSaveConfiguration(*this, user);
+    ErrorMsg err(TT_CMDERR_SUCCESS);
+    if (IsAutoSaving() && bStatic && user)
+    {
+        err = m_srvguard->SaveConfiguration(*user, *this);
+        if (err.success())
+            m_srvguard->OnSaveConfiguration(user);
+    }
 
-    return ErrorMsg(TT_CMDERR_SUCCESS);
+    return err;
 }
 
 void ServerNode::UpdateChannel(const serverchannel_t& chan)

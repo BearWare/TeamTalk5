@@ -25,6 +25,7 @@
 
 #include <ace/ACE.h>
 #include <ace/OS.h>
+#include <ace/Date_Time.h>
 
 #include "TTUnitTest.h"
 
@@ -39,6 +40,7 @@
 #include <iostream>
 #include <future>
 #include <thread>
+#include <ctime>
 
 #if defined(ENABLE_OGG)
 #include <codec/OggFileIO.h>
@@ -4100,3 +4102,15 @@ TEST_CASE("SeekPrecision")
     // std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
 }
 
+TEST_CASE("TimeConvert")
+{
+    auto tv = ACE_OS::gettimeofday();
+    ACE_TString line = ACE_TEXT("foo ");
+    teamtalk::AppendProperty(ACE_TEXT("tm"), tv, line);
+    line += EOL;
+    teamtalk::mstrings_t props;
+    teamtalk::ExtractProperties(line, props);
+    ACE_Time_Value tv2;
+    REQUIRE(teamtalk::GetProperty(props, ACE_TEXT("tm"), tv2) == 1);
+    REQUIRE(tv.sec() == tv2.sec());
+}

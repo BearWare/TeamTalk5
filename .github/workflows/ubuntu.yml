@@ -20,11 +20,13 @@ jobs:
       run: sudo apt update
 
     - name: Update packages
+      working-directory: ${{runner.workspace}}/TeamTalk5
       # Ensure FFmpeg doesn't detect additional dependencies
       run: |
         sudo apt remove libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev
         sudo apt autoremove
         sudo apt install valgrind
+        sudo make -C Build depend-ubuntu18
         dpkg -l
 
     - name: Init Toolchain submodule
@@ -154,3 +156,15 @@ jobs:
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: make dox
+
+    - name: Make Ubuntu Archive
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: |
+        source env.sh
+        cd Setup/Portable
+        make deb64
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ubuntu18-binaries
+        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalk-*

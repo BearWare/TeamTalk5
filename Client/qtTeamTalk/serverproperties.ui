@@ -111,6 +111,9 @@
           <property name="buddy">
            <cstring>motdTextEdit</cstring>
           </property>
+          <property name="textInteractionFlags">
+            <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+          </property>
          </widget>
         </item>
         <item row="4" column="0">
@@ -350,7 +353,7 @@
            <string>Media File TX max</string>
           </property>
           <property name="buddy">
-           <cstring>videotxSpinBox</cstring>
+           <cstring>mediafiletxSpinBox</cstring>
           </property>
          </widget>
         </item>

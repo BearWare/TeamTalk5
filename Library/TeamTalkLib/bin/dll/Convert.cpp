@@ -1345,6 +1345,7 @@ void Convert(const teamtalk::UserAccount& useraccount, UserAccount& result)
     result.nAudioCodecBpsLimit = useraccount.audiobpslimit;
     result.abusePrevent.nCommandsLimit = useraccount.abuse.n_cmds;
     result.abusePrevent.nCommandsIntervalMSec = useraccount.abuse.cmd_msec;
+    ACE_OS::strsncpy(result.szLastModified, teamtalk::DateToString(useraccount.lastupdated).c_str(), TT_STRLEN);
 }
 
 void Convert(const UserAccount& useraccount, teamtalk::UserAccount& result)
@@ -1512,6 +1513,7 @@ void Convert(const teamtalk::RemoteFile& remotefile, RemoteFile& result)
     result.nFileID = remotefile.fileid;
     result.nFileSize = remotefile.filesize;
     result.nChannelID = remotefile.channelid;
+    ACE_OS::strsncpy(result.szUploadTime, teamtalk::DateToString(remotefile.uploadtime).c_str(), TT_STRLEN);
 }
 
 void Convert(const RemoteFile& remotefile, const TTCHAR* szPath, teamtalk::RemoteFile& result)
@@ -1522,6 +1524,7 @@ void Convert(const RemoteFile& remotefile, const TTCHAR* szPath, teamtalk::Remot
     result.filesize = remotefile.nFileSize;
     result.internalname = szPath;
     result.username = remotefile.szUsername;
+    // TODO: result.uploadtime = teamtalk::StringToDate(remotefile.szUploadTime);
 }
 
 void Convert(const teamtalk::ServerStats& stats, ServerStatistics& result)

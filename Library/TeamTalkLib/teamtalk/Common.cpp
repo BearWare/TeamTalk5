@@ -22,8 +22,10 @@
  */
 
 #include "Common.h"
-#include <time.h>
 #include "Commands.h"
+#include <time.h>
+#include <ace/Date_Time.h>
+
 
 namespace teamtalk
 {
@@ -40,56 +42,14 @@ namespace teamtalk
         voicetxlimit = videotxlimit = mediafiletxlimit = desktoptxlimit = totaltxlimit = 0;
     }
 
-    ACE_Date_Time StringToDate(const ACE_TString& str_date)
+    RemoteFile::RemoteFile()
     {
-        long year = 0, month = 0, day = 0, hour = 0, minutes = 0;
-        size_t i=0;
-        while(i<str_date.length())
-        {
-            if(str_date[i] == '/')
-            {
-                year = long(string2i(str_date.substr(0, i)));
-                break;
-            }
-            else i++;
-        }
-        size_t begin = ++i;
-        while(i<str_date.length())
-        {
-            if(str_date[i] == '/')
-            {
-                month = long(string2i(str_date.substr(begin, i)));
-                break;
-            }
-            else i++;
-        }
-        begin = ++i;
-        while(i<str_date.length())
-        {
-            if(str_date[i] == ' ')
-            {
-                day = long(string2i(str_date.substr(begin, i)));
-                break;
-            }
-            else i++;
-        }
+        uploadtime = ACE_OS::gettimeofday();
+    }
 
-        begin = ++i;
-        while(i<str_date.length())
-        {
-            if(str_date[i] == ':')
-            {
-                hour = long(string2i(str_date.substr(begin, i)));
-                break;
-            }
-            else i++;
-        }
-
-        begin = ++i;
-
-        if(str_date.length() - begin > 0)
-            minutes = long(string2i(str_date.substr(begin, str_date.length())));
-        return ACE_Date_Time(day, month, year, hour, minutes);
+    UserAccount::UserAccount()
+    {
+        lastupdated = ACE_OS::gettimeofday();
     }
 
     ACE_TString DateToString(const ACE_Time_Value& tv)

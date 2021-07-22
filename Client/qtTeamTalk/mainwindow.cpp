@@ -2027,20 +2027,23 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
     switch(id)
     {
     case HOTKEY_PUSHTOTALK :
-#if defined(Q_OS_LINUX) && QT_VERSION >= 0x050000
-        if(active)
+        if (ttSettings->value(SETTINGS_GENERAL_PUSHTOTALKLOCK,
+                              SETTINGS_GENERAL_PUSHTOTALKLOCK_DEFAULT).toBool())
         {
-            qDebug() << "Hotkeys are using PTT lock in Qt5 for now";
-            bool tx = (TT_GetFlags(ttInst) & CLIENT_TX_VOICE) != CLIENT_CLOSED;
-            TT_EnableVoiceTransmission(ttInst, !tx);
+            if (active)
+            {
+                bool tx = (TT_GetFlags(ttInst) & CLIENT_TX_VOICE) != CLIENT_CLOSED;
+                TT_EnableVoiceTransmission(ttInst, !tx);
+                emit(updateMyself());
+                playSoundEvent(SOUNDEVENT_HOTKEY);
+            }
+        }
+        else
+        {
+            TT_EnableVoiceTransmission(ttInst, active);
             emit(updateMyself());
             playSoundEvent(SOUNDEVENT_HOTKEY);
         }
-#else
-        TT_EnableVoiceTransmission(ttInst, active);
-        emit(updateMyself());
-        playSoundEvent(SOUNDEVENT_HOTKEY);
-#endif
         break;
     case HOTKEY_VOICEACTIVATION :
         if(active)
@@ -3685,7 +3688,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &myself))
     {
         QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
-        if(_Q(myself.szNickname) != nickname)
+        if((_Q(myself.szNickname) != nickname) && m_host.nickname.isEmpty())
             TT_DoChangeNickname(ttInst, _W(nickname));
 
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
@@ -4935,6 +4938,9 @@ void MainWindow::slotUsersSpeakUserInformation(int userid)
             speakList += ", " + passwd;
         if (topic.size())
             speakList += ", " + QString(tr("Topic: %1").arg(topic));
+
+        if(m_filesmodel->rowCount() > 0)
+            speakList += ", " + QString(tr("%1 files").arg(m_filesmodel->rowCount()));
     }
     addTextToSpeechMessage(speakList);
 }

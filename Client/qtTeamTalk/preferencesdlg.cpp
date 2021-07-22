@@ -481,6 +481,8 @@ void PreferencesDlg::slotTabChange(int index)
         ui.awaySpinBox->setValue(ttSettings->value(SETTINGS_GENERAL_AUTOAWAY, SETTINGS_GENERAL_AUTOAWAY_DEFAULT).toInt());
         slotUpdateASBAccessibleName();
         ui.pttChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
+        ui.pttlockChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALKLOCK,
+                                                       SETTINGS_GENERAL_PUSHTOTALKLOCK_DEFAULT).toBool());
         slotEnablePushToTalk(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
         ui.voiceactChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED,
                                                         SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool());
@@ -762,6 +764,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
         saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
         ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.pttChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALKLOCK, ui.pttlockChkBox->isChecked());
         ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, ui.voiceactChkBox->isChecked());
         ttSettings->setValue(SETTINGS_GENERAL_RESTOREUSERSETTINGS, ui.syncWebUserCheckBox->isChecked());
     }
@@ -1118,6 +1121,12 @@ void PreferencesDlg::slotEnablePushToTalk(bool checked)
 {
     ui.setupkeysButton->setEnabled(checked);
     ui.keycompEdit->setEnabled(checked);
+    ui.pttlockChkBox->setEnabled(checked);
+#if defined(Q_OS_LINUX) && QT_VERSION >= 0x050000
+    // push/release only supported on X11
+    ui.pttlockChkBox->setEnabled(false);
+    ui.pttlockChkBox->setChecked(checked);
+#endif
 }
 
 void PreferencesDlg::slotSetupHotkey()

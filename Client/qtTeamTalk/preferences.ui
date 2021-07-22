@@ -293,6 +293,16 @@
            </widget>
           </item>
           <item row="2" column="0">
+           <widget class="QCheckBox" name="pttlockChkBox">
+            <property name="toolTip">
+             <string>Press to transmit.  Press to stop transmit</string>
+            </property>
+            <property name="text">
+             <string>Push To Talk Lock</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
            <widget class="QCheckBox" name="voiceactChkBox">
             <property name="text">
              <string>Voice activated</string>
@@ -1749,7 +1759,7 @@
               <item row="8" column="0">
                <widget class="QLabel" name="label_66">
                 <property name="text">
-               <string>Transmit ready in &quot;No interruption&quot; channel</string>
+                 <string>Transmit ready in &quot;No interruption&quot; channel</string>
                 </property>
                 <property name="buddy">
                  <cstring>transmitqueueheadEdit</cstring>
@@ -1772,7 +1782,7 @@
               <item row="9" column="0">
                <widget class="QLabel" name="label_67">
                 <property name="text">
-               <string>Transmit stopped in &quot;No interruption&quot; channel</string>
+                 <string>Transmit stopped in &quot;No interruption&quot; channel</string>
                 </property>
                 <property name="buddy">
                  <cstring>transmitqueuestopEdit</cstring>
@@ -1841,7 +1851,7 @@
               <item row="12" column="0">
                <widget class="QLabel" name="label_70">
                 <property name="text">
-               <string>Voice activation enabled via &quot;Me&quot; menu</string>
+                 <string>Voice activation enabled via &quot;Me&quot; menu</string>
                 </property>
                 <property name="buddy">
                  <cstring>voiceactmeonEdit</cstring>
@@ -1864,7 +1874,7 @@
               <item row="13" column="0">
                <widget class="QLabel" name="label_71">
                 <property name="text">
-               <string>Voice activation disabled via &quot;Me&quot; menu</string>
+                 <string>Voice activation disabled via &quot;Me&quot; menu</string>
                 </property>
                 <property name="buddy">
                  <cstring>voiceactmeoffEdit</cstring>
