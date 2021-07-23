@@ -142,10 +142,10 @@
 "Channel. %d users" = "채널, %d명의 사용자";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "해당 서버는 BearWare.dk 웹 로그인을 지원하지 않습니다.";
+"Check only if this server has enabled BearWare.dk Web Login" = "BearWare.dk 웹 로그인 인증이 가능한 서버에서만 사용 가능한 옵션입니다.";
 
 /* server entry */
-"Check only if this server has enabled Facebook login" = "해당 서버는 페이스북 로그인을 지원하지 않습니다.";
+"Check only if this server has enabled Facebook login" = "페이스북 로그인 인증이 가능한 서버에서만 사용 가능한 옵션입니다.";
 
 /* create channel */
 "Commands" = "명령";
@@ -410,10 +410,10 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "\"끊김 없는 말하기 채널\"에서 말하기 전송이 준비되면 소리로 알림";
 
 /* preferences */
-"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+"Play sound when user logs off to the server" = "사용자가 서버에서 로그아웃하면 소리로 알림";
 
 /* preferences */
-"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+"Play sound when user logs on to the server" = "사용자가 서버에 로그인하면 소리로 알림";
 
 /* preferences */
 "Play sound when voice activation is triggered" = "말하기가 감지되면 소리로 알림";
@@ -555,7 +555,7 @@
 "Speex Variable Bitrate Codec" = "Speex 가변 비트레이트 코덱";
 
 /* Text message view */
-"Status Event" = "Status Event";
+"Status Event" = "상태 이벤트";
 
 /* codec detail
    create channel */
@@ -641,13 +641,13 @@
 "User logged in" = "사용자가 로그인함";
 
 /* preferences */
-"User Logged In" = "User Logged In";
+"User Logged In" = "사용자가 로그인함";
 
 /* preferences */
 "User logged out" = "사용자가 로그아웃함";
 
 /* preferences */
-"User Logged Out" = "User Logged Out";
+"User Logged Out" = "사용자가 로그아웃함";
 
 /* preferences
    user detail */

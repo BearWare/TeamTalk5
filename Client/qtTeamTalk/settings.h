@@ -27,11 +27,11 @@
 #include <QSettings>
 
 #if defined(Q_OS_WIN32)
-#define SOUNDSPATH                                  "Sounds"
+#define SOUNDSPATH                                     "Sounds"
 #elif defined(Q_OS_LINUX)
-#define SOUNDSPATH                                  "sounds"
+#define SOUNDSPATH                                     "sounds"
 #elif defined(Q_OS_DARWIN)
-#define SOUNDSPATH                                  "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
+#define SOUNDSPATH                                     "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
 #endif
 #define SETTINGS_VERSION                            "5.2"
 #define SETTINGS_GENERAL_VERSION                    "version"
@@ -51,6 +51,8 @@
 #define SETTINGS_GENERAL_AUTOAWAY_DEFAULT                   180
 #define SETTINGS_GENERAL_PUSHTOTALK                 "general_/push-to-talk"
 #define SETTINGS_GENERAL_PUSHTOTALK_KEY             "general_/ptt-key"
+#define SETTINGS_GENERAL_PUSHTOTALKLOCK             "general_/ptt-key-lock"
+#define SETTINGS_GENERAL_PUSHTOTALKLOCK_DEFAULT     false
 #define SETTINGS_GENERAL_VOICEACTIVATED             "general_/voice-activated"
 #define SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT     false
 #define SETTINGS_GENERAL_STATUSMESSAGE              "general_/statusmsg"
@@ -105,6 +107,8 @@
 #define SETTINGS_DISPLAY_STATUSBARDLG_SIZE          "display/status-bar-dialog-size"
 #define SETTINGS_STATUSBAR_ACTIVEEVENTS                   "display/status-bar-active-events"
 #define SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT           StatusBarEvents(STATUSBAR_USER_LOGGEDIN | STATUSBAR_USER_LOGGEDOUT | STATUSBAR_USER_JOINED | STATUSBAR_USER_LEFT | STATUSBAR_USER_JOINED_SAME | STATUSBAR_USER_LEFT_SAME | STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE | STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL | STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST | STATUSBAR_SUBSCRIPTIONS_VOICE | STATUSBAR_SUBSCRIPTIONS_VIDEO | STATUSBAR_SUBSCRIPTIONS_DESKTOP | STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT | STATUSBAR_SUBSCRIPTIONS_MEDIAFILE | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE | STATUSBAR_CLASSROOM_CHANMSG_TX | STATUSBAR_CLASSROOM_VOICE_TX | STATUSBAR_CLASSROOM_VIDEO_TX | STATUSBAR_CLASSROOM_DESKTOP_TX | STATUSBAR_CLASSROOM_MEDIAFILE_TX | STATUSBAR_FILE_ADD | STATUSBAR_FILE_REMOVE | STATUSBAR_SAVE_SERVER_CONFIG | STATUSBAR_START_RECORD)
+#define SETTINGS_DISPLAY_CHANEXP                 "display/expand-channels"
+#define SETTINGS_DISPLAY_CHANEXP_DEFAULT         false
 
 #define SETTINGS_CONNECTION_AUTOCONNECT             "connection/autoconnect"
 #define SETTINGS_CONNECTION_RECONNECT               "connection/reconnect"
@@ -201,6 +205,8 @@
 #define SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT           (SOUNDSPATH"/vox_me_enable.wav")
 #define SETTINGS_SOUNDEVENT_VOICEACTMEOFF           "soundevents/voice-act-me-off"
 #define SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT           (SOUNDSPATH"/vox_me_disable.wav")
+#define SETTINGS_SOUNDS_PACK           "soundevents/sounds-pack"
+#define SETTINGS_SOUNDS_PACK_DEFAULT           QT_TRANSLATE_NOOP("MainWindow", "Default")
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"
@@ -224,6 +230,8 @@
 #define SETTINGS_VIDCAP_ENABLE                      "videocapture/enable"
 #define SETTINGS_VIDCAP_ENABLE_DEFAULT              false
 
+#define SETTINGS_TTS_ENABLE                   "texttospeech/tts-enable"
+#define SETTINGS_TTS_ENABLE_DEFAULT           true
 #define SETTINGS_TTS_ACTIVEEVENTS                   "texttospeech/active-events"
 #define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTSEvents(TTS_USER_LOGGEDIN | TTS_USER_LOGGEDOUT | TTS_USER_JOINED_SAME | TTS_USER_LEFT_SAME | TTS_USER_TEXTMSG_PRIVATE | TTS_USER_TEXTMSG_CHANNEL | TTS_USER_TEXTMSG_BROADCAST | TTS_FILE_ADD | TTS_FILE_REMOVE | TTS_MENU_ACTIONS)
 #define SETTINGS_TTS_ENGINE                         "texttospeech/tts-engine"
@@ -233,8 +241,13 @@
 #define SETTINGS_TTS_RATE_DEFAULT                 0.0
 #define SETTINGS_TTS_VOLUME                         "texttospeech/tts-volume"
 #define SETTINGS_TTS_VOLUME_DEFAULT                 0.5
+#if defined(Q_OS_LINUX)
 #define SETTINGS_TTS_TIMESTAMP                         "texttospeech/tts-timestamp"
 #define SETTINGS_TTS_TIMESTAMP_DEFAULT                 1000
+#elif defined(Q_OS_WIN)
+#define SETTINGS_TTS_SAPI                         "texttospeech/force-sapi"
+#define SETTINGS_TTS_SAPI_DEFAULT                 false
+#endif
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

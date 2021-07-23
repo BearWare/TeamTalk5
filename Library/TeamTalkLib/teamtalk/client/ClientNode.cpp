@@ -466,7 +466,7 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
             ret = -1;
         else if (m_mediafile_streamer->Completed())
         {
-            StopStreamingMediaFile();
+            StopStreamingMediaFile(false);
             ret = -1;
         }
         else
@@ -3222,9 +3222,15 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
 {
     ASSERT_REACTOR_LOCKED(this);
 
+    // Media streaming is stopped by a timer to avoid deadlock.
+    // First stop media stream if it is completed.
+    if (m_mediafile_streamer && m_mediafile_streamer->Completed())
+        StopStreamingMediaFile();
+
     //don't allow video streaming if not in channel or already streaming
     if (!m_mychannel)
         return false;
+
     if ((m_flags & CLIENT_STREAM_VIDEOFILE) || (m_flags & CLIENT_STREAM_AUDIOFILE))
         return false;
 
@@ -3314,7 +3320,7 @@ bool ClientNode::UpdateStreamingMediaFile(uint32_t offset, bool paused,
                                           const AudioPreprocessor& preprocessor,
                                           const VideoCodec& vid_codec)
 {
-    if (!m_mediafile_streamer)
+    if (!m_mediafile_streamer || m_mediafile_streamer->Completed())
         return false;
 
     if (m_videofile_thread)
@@ -3341,7 +3347,7 @@ bool ClientNode::UpdateStreamingMediaFile(uint32_t offset, bool paused,
     }
 }
 
-void ClientNode::StopStreamingMediaFile()
+void ClientNode::StopStreamingMediaFile(bool killtimer/* = true*/)
 {
     ASSERT_REACTOR_LOCKED(this);
 
@@ -3355,6 +3361,9 @@ void ClientNode::StopStreamingMediaFile()
         AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, media::AudioFrame());
 
         m_mediafile_streamer.reset();
+
+        if (killtimer && TimerExists(TIMER_STOP_STREAM_MEDIAFILE_ID))
+            StopTimer(TIMER_STOP_STREAM_MEDIAFILE_ID);
     }
 
     if(clear_video)
@@ -5211,6 +5220,7 @@ void ClientNode::HandleAccepted(const mstrings_t& properties)
         GetProperty(properties, TT_INITCHANNEL, m_myuseraccount.init_channel);
         GetProperty(properties, TT_AUTOOPCHANNELS, m_myuseraccount.auto_op_channels);
         GetProperty(properties, TT_AUDIOBPSLIMIT, m_myuseraccount.audiobpslimit);
+        GetProperty(properties, TT_MODIFIEDTIME, m_myuseraccount.lastupdated);
         vector<int> flood;
         if(GetProperty(properties, TT_CMDFLOOD, flood))
             m_myuseraccount.abuse.fromParam(flood);
@@ -5805,15 +5815,13 @@ void ClientNode::HandleBannedUser(const mstrings_t& properties)
     ASSERT_REACTOR_LOCKED(this);
 
     BannedUser ban;
-    ACE_INT64 bantime;
 
     GetProperty(properties, TT_BANTYPE, ban.bantype);
     GetProperty(properties, TT_IPADDR, ban.ipaddr);
     GetProperty(properties, TT_CHANNEL, ban.chanpath);
     GetProperty(properties, TT_NICKNAME, ban.nickname);
     GetProperty(properties, TT_USERNAME, ban.username);
-    GetProperty(properties, TT_BANTIME, bantime);
-    ban.bantime = ACE_Time_Value((time_t)bantime);
+    GetProperty(properties, TT_BANTIME, ban.bantime);
 
     m_listener->OnBannedUser(ban);
 }
@@ -5832,6 +5840,8 @@ void ClientNode::HandleUserAccount(const mstrings_t& properties)
     GetProperty(properties, TT_INITCHANNEL, user.init_channel);
     GetProperty(properties, TT_AUTOOPCHANNELS, user.auto_op_channels);
     GetProperty(properties, TT_AUDIOBPSLIMIT, user.audiobpslimit);
+    GetProperty(properties, TT_MODIFIEDTIME, user.lastupdated);
+
     vector<int> flood;
     if(GetProperty(properties, TT_CMDFLOOD, flood))
         user.abuse.fromParam(flood);
@@ -5950,6 +5960,7 @@ void ClientNode::HandleAddFile(const mstrings_t& properties)
     GetProperty(properties, TT_CHANNELID, remotefile.channelid);
     GetProperty(properties, TT_FILENAME, remotefile.filename);
     GetProperty(properties, TT_FILESIZE, remotefile.filesize);
+    GetProperty(properties, TT_UPLOADTIME, remotefile.uploadtime);
 
     clientchannel_t chan = GetChannel(remotefile.channelid);
     TTASSERT(chan);

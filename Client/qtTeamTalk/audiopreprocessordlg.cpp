@@ -73,6 +73,8 @@ void AudioPreprocessorDlg::showSettings()
         ui.muteRightCheckBox->setChecked(m_preprocess.ttpreprocessor.bMuteRightSpeaker);
         setWindowTitle(tr("TeamTalk Audio Preprocessor"));
         break;
+    case WEBRTC_AUDIOPREPROCESSOR :
+        break;
     }
 }
 
@@ -107,6 +109,8 @@ void AudioPreprocessorDlg::slotAccepted()
         m_preprocess.ttpreprocessor.nGainLevel = ui.gainlevelSlider->value();
         m_preprocess.ttpreprocessor.bMuteLeftSpeaker = ui.muteleftCheckBox->isChecked();
         m_preprocess.ttpreprocessor.bMuteRightSpeaker = ui.muteRightCheckBox->isChecked();
+        break;
+    case WEBRTC_AUDIOPREPROCESSOR :
         break;
     }
 }

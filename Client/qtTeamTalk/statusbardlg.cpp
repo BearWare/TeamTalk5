@@ -34,6 +34,8 @@ StatusBarDlg::StatusBarDlg(QWidget* parent, StatusBarEvents events)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_STATUSBARDLG_SIZE).toByteArray());
 
@@ -72,8 +74,7 @@ void StatusBarDlg::slotStatusBarClearAll(bool /*checked*/)
 
 void StatusBarDlg::slotStatusBarRevert(bool /*checked*/)
 {
-    StatusBarEvents events = m_events;
-    m_statusbarmodel->setStatusBarEvents(events);
+    m_statusbarmodel->setStatusBarEvents(m_events);
 }
 
 void StatusBarDlg::slotAccept()

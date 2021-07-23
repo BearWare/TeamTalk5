@@ -23,8 +23,8 @@
 
 package dk.bearware;
 
-public class UserAccount
-{
+public class UserAccount {
+
     public String szUsername = "";
     public String szPassword = "";
     public int uUserType = UserType.USERTYPE_NONE;
@@ -35,6 +35,7 @@ public class UserAccount
     public int[] autoOperatorChannels = new int[Constants.TT_CHANNELS_OPERATOR_MAX];
     public int nAudioCodecBpsLimit;
     public AbusePrevention abusePrevent = new AbusePrevention();
+    public String szLastModified = "";
 
     public void copy(UserAccount u)
     {

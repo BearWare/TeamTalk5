@@ -22,9 +22,10 @@
  */
 
 #include "Commands.h"
-#include <myace/MyACE.h>
 #include "ttassert.h"
+#include <myace/MyACE.h>
 
+#include <ctime>
 #include <ace/OS_NS_ctype.h> //isdigit
 
 using namespace std;
@@ -352,6 +353,22 @@ namespace teamtalk {
         return false;
     }
 
+    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop,
+                     ACE_Time_Value& tv)
+    {
+        ACE_INT64 gmttime = 0;
+        if (GetProperty(properties, prop, gmttime))
+        {
+            time_t gmt_tm = time_t(gmttime);
+            struct tm* local = std::localtime(&gmt_tm);
+            time_t local_tm = std::mktime(local);
+            local_tm -= ACE_OS::timezone();
+            tv = ACE_Time_Value(local_tm);
+            return true;
+        }
+        return false;
+    }
+
     ACE_TString PrepareString(const ACE_TString& str)
     {
         ACE_TString newstr;
@@ -672,6 +689,16 @@ namespace teamtalk {
     {
         AppendProperty(prop, InetAddrToString(addr), dest_str);
     }
+
+    void AppendProperty(const ACE_TString& prop,
+                        const ACE_Time_Value& tv, ACE_TString& dest_str)
+    {
+        time_t local_tm = tv.sec();
+        struct tm* gmt = std::gmtime(&local_tm);
+        ACE_INT64 utc_tm = std::mktime(gmt);
+        AppendProperty(prop, utc_tm, dest_str);
+    }
+
 
     bool GetCmdLine(const ACE_CString& input, ACE_CString& cmd, ACE_CString& remain_input)
     {

@@ -26,7 +26,6 @@
 
 #include <myace/MyACE.h>
 #include <ace/INET_Addr.h>
-#include <ace/Date_Time.h>
 #include <ace/Time_Value.h>
 
 #include <regex>
@@ -216,22 +215,17 @@ namespace teamtalk {
         ACE_TString username;
         ACE_TString passwd;
         ACE_TString note;
-        UserTypes usertype;
-        UserRights userrights; /* Mask of UserRight */
-        int userdata;
+        UserTypes usertype = USERTYPE_NONE;
+        UserRights userrights = USERRIGHT_NONE; /* Mask of UserRight */
+        int userdata = 0;
         ACE_TString init_channel;
         intset_t auto_op_channels;
-        int audiobpslimit;
+        int audiobpslimit = 0;
         Abuse abuse;
         ACE_TString nickname; /* TODO: add to TT API */
+        ACE_Time_Value lastupdated;
         
-        UserAccount()
-        {
-            userrights = USERRIGHT_NONE;
-            usertype = USERTYPE_NONE;
-            userdata = 0;
-            audiobpslimit = 0;
-        }
+        UserAccount();
     };
     typedef std::vector<UserAccount> useraccounts_t;
 
@@ -292,9 +286,7 @@ namespace teamtalk {
 
     typedef std::vector<BannedUser> bannedusers_t;
 
-    ACE_Date_Time StringToDate(const ACE_TString& str_date);
     ACE_TString DateToString(const ACE_Time_Value& tv);
-
 
     enum StreamType //ensure DLL compliance
     {
@@ -523,13 +515,14 @@ namespace teamtalk {
 
     struct RemoteFile
     {
-        int channelid;
-        int fileid;
+        int channelid = 0;
+        int fileid = 0;
         ACE_TString filename;
         ACE_TString internalname;
         ACE_INT64 filesize;
         ACE_TString username;
-        RemoteFile() : channelid(0), fileid(0) { }
+        ACE_Time_Value uploadtime;
+        RemoteFile();
     };
 
     typedef std::vector< RemoteFile > files_t;

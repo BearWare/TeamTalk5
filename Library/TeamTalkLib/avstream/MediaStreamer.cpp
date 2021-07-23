@@ -112,6 +112,8 @@ void MediaStreamer::RegisterAudioCallback(mediastream_audiocallback_t cb, bool e
 
 bool MediaStreamer::Open()
 {
+    assert(!m_thread);
+    MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("MediaStreamer %p opening\n"), this);
     m_thread.reset(new std::thread(&MediaStreamer::Run, this));
 
     bool ret = false;
@@ -125,7 +127,7 @@ bool MediaStreamer::Open()
 
 void MediaStreamer::Close()
 {
-    if (m_thread.get())
+    if (m_thread)
     {
         m_stop = true;
         m_run.set(false);
@@ -140,6 +142,7 @@ void MediaStreamer::Close()
 
 bool MediaStreamer::StartStream()
 {
+    MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("MediaStreamer %p starting\n"), this);
     m_pause = false;
 
     // avoid doing a double start
@@ -151,7 +154,7 @@ bool MediaStreamer::StartStream()
 
 bool MediaStreamer::Pause()
 {
-    MYTRACE(ACE_TEXT("MediaStreamer pausing\n"));
+    MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("MediaStreamer %p pausing\n"), this);
 
     m_pause = true;
 
@@ -162,11 +165,6 @@ bool MediaStreamer::Pause()
         return m_run.cancel() >= 0;
 
     return true;
-}
-
-bool MediaStreamer::Completed() const
-{
-    return !m_thread || m_thread->get_id() == std::thread::id();
 }
 
 bool MediaStreamer::QueueAudio(const media::AudioFrame& frame)
@@ -541,6 +539,13 @@ void MediaFileStreamer::RegisterStatusCallback(mediastream_statuscallback_t cb, 
         m_statuscallback = cb;
     else
         m_statuscallback = {};
+}
+
+bool MediaFileStreamer::Completed() const
+{
+    MYTRACE_COND(DEBUG_MEDIASTREAMER && !m_thread, ACE_TEXT("Completed %s - thread closed\n"), GetMediaFile().filename.c_str());
+    MYTRACE_COND(DEBUG_MEDIASTREAMER && m_completed, ACE_TEXT("Completed %s - Player reported complete\n"), GetMediaFile().filename.c_str());
+    return !m_thread || m_completed;
 }
 
 ACE_UINT32 MediaFileStreamer::SetOffset(ACE_UINT32 offset)

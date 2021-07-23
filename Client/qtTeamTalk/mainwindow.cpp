@@ -332,11 +332,15 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotMeEnableVideoTransmission);
     connect(ui.actionEnableDesktopSharing, &QAction::triggered,
             this, &MainWindow::slotMeEnableDesktopSharing);
+    connect(ui.actionEnableTTS, &QAction::triggered,
+            this, &MainWindow::slotMeEnableTTS);
     /* End - Me menu */
 
     /* Begin - Users menu */
     connect(ui.actionViewUserInformation, &QAction::triggered,
             this, &MainWindow::slotUsersViewUserInformationGrid);
+    connect(ui.actionSpeakUserInformation, &QAction::triggered,
+            this, &MainWindow::slotUsersSpeakUserInformationGrid);
     connect(ui.actionMessages, &QAction::triggered,
             this, &MainWindow::slotUsersMessagesGrid);
     connect(ui.actionMuteVoice, &QAction::triggered,
@@ -428,6 +432,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotChannelsJoinChannel);
     connect(ui.actionViewChannelInfo, &QAction::triggered,
             this, &MainWindow::slotChannelsViewChannelInfo);
+    connect(ui.actionSpeakChannelInfo, &QAction::triggered,
+            this, &MainWindow::slotChannelsSpeakChannelInformationGrid);
     connect(ui.actionBannedUsersInChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsListBans);
 
@@ -714,6 +720,29 @@ void MainWindow::loadSettings()
             ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
     }
 #endif
+// Sounds pack checks
+    QString packset = ttSettings->value(SETTINGS_SOUNDS_PACK).toString();
+    QString packname = QString("%1/%2").arg(SOUNDSPATH).arg(packset);
+    QDir packdir(packname);
+    if((!packdir.exists()) && packset != tr("Default"))
+    {
+        QMessageBox answer;
+        answer.setText(tr("Your sounds pack %1 don't exist, would you like to use default sounds pack?").arg(packset));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(APPNAME_SHORT);
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+        {
+            resetDefaultSoundsPack();
+        }
+    }
+    else if(packset.isEmpty())
+    {
+        resetDefaultSoundsPack();
+    }
 }
 
 bool MainWindow::parseArgs(const QStringList& args)
@@ -1148,12 +1177,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            QString fileadd = tr("File %1 added").arg(file.szFileName);
+            QString fileadd = tr("File %1 added").arg(_Q(file.szFileName));
             User user;
             if (m_host.username != _Q(file.szUsername) &&
                 TT_GetUserByUsername(ttInst, file.szUsername, &user))
             {
-                fileadd = tr("File %1 added by %2").arg(file.szFileName).arg(getDisplayName(user));
+                fileadd = tr("File %1 added by %2").arg(_Q(file.szFileName)).arg(getDisplayName(user));
             }
             addStatusMsg(STATUSBAR_FILE_ADD, fileadd);
             addTextToSpeechMessage(TTS_FILE_ADD, fileadd);
@@ -1174,11 +1203,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             updateChannelFiles(file.nChannelID);
             playSoundEvent(SOUNDEVENT_FILESUPD);
-            QString filerem = tr("File %1 removed").arg(file.szFileName);
+            QString filerem = tr("File %1 removed").arg(_Q(file.szFileName));
             if (m_host.username != _Q(file.szUsername) &&
                 TT_GetUserByUsername(ttInst, file.szUsername, &user))
             {
-                filerem = tr("File %1 removed by %2").arg(file.szFileName).arg(getDisplayName(user));
+                filerem = tr("File %1 removed by %2").arg(_Q(file.szFileName)).arg(getDisplayName(user));
             }
             addStatusMsg(STATUSBAR_FILE_REMOVE, filerem);
             addTextToSpeechMessage(TTS_FILE_REMOVE, filerem);
@@ -1998,20 +2027,23 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
     switch(id)
     {
     case HOTKEY_PUSHTOTALK :
-#if defined(Q_OS_LINUX) && QT_VERSION >= 0x050000
-        if(active)
+        if (ttSettings->value(SETTINGS_GENERAL_PUSHTOTALKLOCK,
+                              SETTINGS_GENERAL_PUSHTOTALKLOCK_DEFAULT).toBool())
         {
-            qDebug() << "Hotkeys are using PTT lock in Qt5 for now";
-            bool tx = (TT_GetFlags(ttInst) & CLIENT_TX_VOICE) != CLIENT_CLOSED;
-            TT_EnableVoiceTransmission(ttInst, !tx);
+            if (active)
+            {
+                bool tx = (TT_GetFlags(ttInst) & CLIENT_TX_VOICE) != CLIENT_CLOSED;
+                TT_EnableVoiceTransmission(ttInst, !tx);
+                emit(updateMyself());
+                playSoundEvent(SOUNDEVENT_HOTKEY);
+            }
+        }
+        else
+        {
+            TT_EnableVoiceTransmission(ttInst, active);
             emit(updateMyself());
             playSoundEvent(SOUNDEVENT_HOTKEY);
         }
-#else
-        TT_EnableVoiceTransmission(ttInst, active);
-        emit(updateMyself());
-        playSoundEvent(SOUNDEVENT_HOTKEY);
-#endif
         break;
     case HOTKEY_VOICEACTIVATION :
         if(active)
@@ -3656,7 +3688,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &myself))
     {
         QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
-        if(_Q(myself.szNickname) != nickname)
+        if((_Q(myself.szNickname) != nickname) && m_host.nickname.isEmpty())
             TT_DoChangeNickname(ttInst, _W(nickname));
 
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
@@ -3992,9 +4024,35 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
     }
 }
 
+void MainWindow::slotMeEnableTTS(bool checked/*=false*/)
+{
+    if(checked)
+    {
+        ttSettings->setValue(SETTINGS_TTS_ENABLE, true);
+        ui.actionEnableTTS->setChecked(true);
+        addTextToSpeechMessage(tr("Text-To-Speech enabled"));
+    }
+    else
+    {
+        ttSettings->setValue(SETTINGS_TTS_ENABLE, false);
+        ui.actionEnableTTS->setChecked(false);
+        addTextToSpeechMessage(tr("Text-To-Speech disabled"));
+    }
+    slotUpdateUI();
+}
+
 void MainWindow::slotUsersViewUserInformationGrid(bool /*checked =false */)
 {
     slotUsersViewUserInformation(ui.channelsWidget->selectedUser());
+}
+
+void MainWindow::slotUsersSpeakUserInformationGrid(bool /*checked =false */)
+{
+    User user;
+    if(ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
+        slotUsersSpeakUserInformation(ui.channelsWidget->selectedUser());
+    else
+        slotUsersSpeakUserInformation(ui.channelsWidget->selectedChannel(true));
 }
 
 void MainWindow::slotUsersMessagesGrid(bool /*checked =false */)
@@ -4471,6 +4529,11 @@ void MainWindow::slotChannelsViewChannelInfo(bool /*checked=false*/)
     }
 }
 
+void MainWindow::slotChannelsSpeakChannelInformationGrid(bool /*checked =false */)
+{
+    slotUsersSpeakUserInformation(TT_GetMyChannelID(ttInst));
+}
+
 void MainWindow::slotChannelsListBans(bool /*checked=false*/)
 {
     //don't display dialog box until we get the result
@@ -4786,6 +4849,102 @@ void MainWindow::slotUsersViewUserInformation(int userid)
     dlg.exec();
 }
 
+void MainWindow::slotUsersSpeakUserInformation(int userid)
+{
+    QString speakList;
+
+    if(userid>0 && userid == ui.channelsWidget->selectedUser())
+    {
+        User user;
+        if(!ui.channelsWidget->getUser(userid, user))
+            return;
+
+        QString userString, voice = tr("Talking"), mute = tr("Mute"), mediaFile = tr("Streaming"), muteMediaFile = tr("Mute media file"), videoCapture = tr("Webcam"), desktop = tr("Desktop"), chanOp = tr("Channel Operator"), moveSelected = tr("Selected for move");
+        speakList += QString("%1: ").arg(getDisplayName(user));
+        if (user.uUserType & USERTYPE_ADMIN)
+        {
+            userString = tr("Administrator");
+        }
+        else
+        {
+            userString = tr("User");
+        }
+        speakList += userString;
+
+        QString status;
+
+        if(m_moveusers.indexOf(user.nUserID) >= 0)
+           speakList += ", " + moveSelected;
+
+        if(TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
+            speakList += ", " + chanOp;
+
+        if((user.uUserState & USERSTATE_VOICE) || (user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == TRUE))
+            speakList += ", " + voice;
+
+        switch(user.nStatusMode & STATUSMODE_MODE)
+        {
+        case STATUSMODE_AVAILABLE :
+            status = tr("Online");
+            break;
+        case STATUSMODE_AWAY :
+            status = tr("Away");
+            break;
+        case STATUSMODE_QUESTION :
+            status = tr("Question");
+            break;
+        }
+        if(status.size())
+            speakList += ", " + status;
+        if(user.uUserState & USERSTATE_MUTE_VOICE)
+            speakList += ", " + mute;
+        if((user.uUserState & USERSTATE_MEDIAFILE) ||
+           (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE))
+            speakList += ", " + mediaFile;
+        if(user.uUserState & USERSTATE_MUTE_MEDIAFILE)
+            speakList += ", " + muteMediaFile;
+        if((user.uUserState & USERSTATE_VIDEOCAPTURE) ||
+           (user.nStatusMode & STATUSMODE_VIDEOTX))
+            speakList += ", " + videoCapture;
+        if((user.uUserState & USERSTATE_DESKTOP) ||
+           (user.nStatusMode & STATUSMODE_DESKTOP))
+            speakList += ", " + desktop;
+    }
+    else if(userid>0 && (userid == ui.channelsWidget->selectedChannel(true) || userid == TT_GetMyChannelID(ttInst)))
+    {
+        Channel chan;
+        if(!ui.channelsWidget->getChannel(userid, chan))
+            return;
+
+        QString channel = tr("Channel"), passwd = tr("Password protected"), classroom = tr("Classroom"), topic, rootChan = tr("root"), hidden = tr("Hidden");
+        if(chan.nChannelID == TT_GetRootChannelID(ttInst))
+        {
+            ServerProperties prop = {};
+            TT_GetServerProperties(ttInst, &prop);
+            speakList += QString("%1: ").arg(_Q(prop.szServerName));
+        }
+        else
+            speakList += QString("%1: ").arg(_Q(chan.szName));
+        if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) == chan.nChannelID)
+            channel += " " + rootChan;
+        topic = _Q(chan.szTopic);
+
+        speakList += channel;
+        if(chan.uChannelType & CHANNEL_CLASSROOM)
+            speakList += ", " + classroom;
+        if(chan.uChannelType & CHANNEL_HIDDEN)
+            speakList += ", " + hidden;
+        if(chan.bPassword)
+            speakList += ", " + passwd;
+        if (topic.size())
+            speakList += ", " + QString(tr("Topic: %1").arg(topic));
+
+        if(m_filesmodel->rowCount() > 0)
+            speakList += ", " + QString(tr("%1 files").arg(m_filesmodel->rowCount()));
+    }
+    addTextToSpeechMessage(speakList);
+}
+
 void MainWindow::slotUsersMessages(int userid)
 {
     TextMessageDlg* dlg = getTextMessageDlg(userid);
@@ -4922,6 +5081,7 @@ void MainWindow::slotUpdateUI()
                                                  (CLIENT_TX_VIDEOCAPTURE & statemask));
     ui.actionEnableDesktopSharing->setEnabled(mychannel>0);
     ui.actionEnableDesktopSharing->setChecked(statemask & CLIENT_DESKTOP_ACTIVE);
+    ui.actionEnableTTS->setChecked(ttSettings->value(SETTINGS_TTS_ENABLE, SETTINGS_TTS_ENABLE_DEFAULT).toBool());
 
     User user  = {};
     if (TT_GetUser(ttInst, userid, &user))

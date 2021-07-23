@@ -111,7 +111,7 @@ typedef std::function< void (const MediaFileProp& mfp,
                              MediaStreamStatus status) > mediastream_statuscallback_t;
 
 
-#define MEDIASTREAMER_OFFSET_IGNORE (0xFFFFFFFF)
+static const uint32_t MEDIASTREAMER_OFFSET_IGNORE = 0xFFFFFFFF;
 
 class MediaStreamer
 {
@@ -129,8 +129,6 @@ public:
     bool Pause();
 
     const MediaStreamOutput& GetMediaOutput() const { return m_media_out; }
-
-    bool Completed() const;
 
 protected:
     const int BUF_SECS = 3;
@@ -154,6 +152,7 @@ protected:
     std::shared_ptr< std::thread > m_thread;
     ACE_Future<bool> m_open, m_run;
     bool m_pause = false;
+    // stop thread
     bool m_stop = false;
     
     //return 'true' if it should be called again
@@ -182,7 +181,9 @@ public:
     ACE_UINT32 SetOffset(ACE_UINT32 offset);
 
     const MediaFileProp& GetMediaFile() const { return m_media_in; }
-    
+
+    bool Completed() const;
+
 protected:
     MediaFileProp m_media_in;
     
@@ -190,7 +191,8 @@ protected:
 
     std::mutex m_mutex;
     ACE_UINT32 m_offset = MEDIASTREAMER_OFFSET_IGNORE;
-    
+    // 'm_completed=true' means thread is ready to be joined
+    bool m_completed = false;
 };
 
 typedef std::shared_ptr< MediaFileStreamer > mediafile_streamer_t;

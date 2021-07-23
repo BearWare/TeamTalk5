@@ -6,6 +6,19 @@ endif()
 
 project (QtTeamTalk5 VERSION 1.0.0 LANGUAGES CXX)
 
+function(set_output_dir target dir)
+  set_target_properties (${target} PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY ${dir}
+    LIBRARY_OUTPUT_DIRECTORY_DEBUG ${dir}
+    LIBRARY_OUTPUT_DIRECTORY_RELEASE ${dir}
+    RUNTIME_OUTPUT_DIRECTORY ${dir}
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG ${dir}
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE ${dir}
+    ARCHIVE_OUTPUT_DIRECTORY ${dir}
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${dir}
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${dir})
+endfunction()
+
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   find_package (Qt5 COMPONENTS Widgets Xml Network Multimedia TextToSpeech X11Extras)
 else()
@@ -139,6 +152,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       set_target_properties(${TEAMTALK_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
     endif()
+    set_output_dir(${TEAMTALK_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
   endif()
 
   if (BUILD_TEAMTALKPRO_CLIENT_QT_EXAMPLE)
@@ -162,6 +176,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       set_target_properties(${TEAMTALKPRO_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
     endif()
+    set_output_dir(${TEAMTALKPRO_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
   endif()
 
 endif()
