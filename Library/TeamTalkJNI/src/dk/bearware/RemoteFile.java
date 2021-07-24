@@ -30,4 +30,5 @@ public class RemoteFile
     public String szFileName;
     public long nFileSize;
     public String szUsername;
+    public String szUploadTime;
 }

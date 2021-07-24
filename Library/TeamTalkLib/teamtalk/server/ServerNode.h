@@ -300,7 +300,7 @@ namespace teamtalk {
         ErrorMsg UserUpdateServer(int userid, const ServerSettings& properties);
         ErrorMsg UserSaveServerConfig(int userid);
 
-        ErrorMsg UpdateServer(const ServerSettings& properties);
+        ErrorMsg UpdateServer(const ServerSettings& properties, const ServerUser* user = nullptr);
 
         ErrorMsg MakeChannel(const ChannelProp& chanprop, const ServerUser* user = NULL);
         ErrorMsg UpdateChannel(const ChannelProp& chanprop, const ServerUser* user = NULL);
@@ -447,7 +447,7 @@ namespace teamtalk {
         virtual void OnFileDeleted(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) = 0;
 
         virtual void OnServerUpdated(const ServerUser& user, const ServerSettings& srvprop) = 0;
-        virtual void OnSaveConfiguration(ServerNode& servernode, const ServerUser* user = NULL) = 0;
+        virtual void OnSaveConfiguration(const ServerUser* user = nullptr) = 0;
 
         virtual void OnShutdown(const ServerStats& stats) = 0;
         /* end logging functions */
@@ -468,6 +468,8 @@ namespace teamtalk {
 
         virtual ErrorMsg ChangeNickname(const ServerUser& user, const ACE_TString& newnick) = 0;
         virtual ErrorMsg ChangeStatus(const ServerUser& user, int mode, const ACE_TString& status) = 0;
+
+        virtual ErrorMsg SaveConfiguration(const ServerUser& user, ServerNode& servernode) = 0;
     };
 }
 #endif

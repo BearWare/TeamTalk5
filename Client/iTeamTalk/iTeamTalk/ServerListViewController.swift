@@ -29,6 +29,7 @@ class Server : NSObject {
     var ipaddr = ""
     var tcpport = AppInfo.DEFAULT_TCPPORT
     var udpport = AppInfo.DEFAULT_UDPPORT
+    var nickname = ""
     var username = ""
     var password = ""
     var channel = ""

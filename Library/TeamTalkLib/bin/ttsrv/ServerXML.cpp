@@ -852,6 +852,7 @@ namespace teamtalk{
                         PutString(fileElement, "internalname", UnicodeToUtf8(chan.files[i].internalname).c_str());
                         PutInteger(fileElement, "filesize", (int64_t)chan.files[i].filesize);
                         PutString(fileElement, "username", UnicodeToUtf8(chan.files[i].username).c_str());
+                        PutString(fileElement, "uploadtime", UnicodeToUtf8(DateToString(chan.files[i].uploadtime.sec())).c_str());
                         ReplaceElement(filesElement, fileElement);
                     }
                 }
@@ -1029,6 +1030,9 @@ namespace teamtalk{
                         GetInteger(*nextfile, "filesize", (int64_t&)entry.filesize);
                         if(GetString(*nextfile, "username", tmp))
                             entry.username = Utf8ToUnicode(tmp.c_str());
+                        tmp.clear();
+                        if (GetString(*nextfile, "uploadtime", tmp))
+                            entry.uploadtime = StringToDate(tmp);
                         newchan.files.push_back(entry);
                     }
                 }
@@ -1258,6 +1262,7 @@ namespace teamtalk{
         PutString(userElement, "note", UnicodeToUtf8(user.note).c_str());
         PutInteger(userElement, "userdata", user.userdata);
         PutString(userElement, "init-channel", UnicodeToUtf8(user.init_channel).c_str());
+        PutString(userElement, "modified-time", DateToString(user.lastupdated.sec()).c_str());
         TiXmlElement opchanElement("channel-operator");
         for(intset_t::const_iterator i=user.auto_op_channels.begin();
             i!=user.auto_op_channels.end();i++)
@@ -1314,7 +1319,7 @@ namespace teamtalk{
     bool ServerXML::GetUser(const TiXmlElement& userElement, UserAccount& user) const
     {
         bool b = true;
-        string s1,s2, s3, s4;
+        string s1,s2, s3, s4, tmp;
         int user_type = 0, userdata = 0, userrights = 0, bpslimit = 0;
         b &= GetString(userElement, "username", s1);
         b &= GetString(userElement, "password", s2);
@@ -1324,6 +1329,8 @@ namespace teamtalk{
         GetInteger(userElement, "userdata", userdata);
         GetString(userElement, "init-channel", s4);
         GetInteger(userElement, "audiocodec-bps-limit", bpslimit);
+        GetString(userElement, "modified-time", tmp);
+        user.lastupdated = StringToDate(tmp);
 
         if(b)
         {

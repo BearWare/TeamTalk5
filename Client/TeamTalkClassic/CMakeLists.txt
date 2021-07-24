@@ -1,6 +1,19 @@
 cmake_minimum_required(VERSION 3.1)
 project (TeamTalk5Classic)
 
+function(set_output_dir target dir)
+  set_target_properties (${target} PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY ${dir}
+    LIBRARY_OUTPUT_DIRECTORY_DEBUG ${dir}
+    LIBRARY_OUTPUT_DIRECTORY_RELEASE ${dir}
+    RUNTIME_OUTPUT_DIRECTORY ${dir}
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG ${dir}
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE ${dir}
+    ARCHIVE_OUTPUT_DIRECTORY ${dir}
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${dir}
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${dir})
+endfunction()
+
 include (ttclassic.cmake)
 
 if (MSVC)
@@ -85,6 +98,7 @@ if (MSVC)
       target_compile_options (TeamTalk5Classic PUBLIC -DENABLE_TOLK ${TTCLASSIC_COMPILE_FLAGS})
       target_link_libraries (TeamTalk5Classic TeamTalk5 ${TOLK_LIBRARY})
     endif()
+    set_output_dir(TeamTalk5Classic "${CMAKE_CURRENT_SOURCE_DIR}/")
   endif()
 
   if (BUILD_TEAMTALKPRO_CLIENT_MFC_EXAMPLE)
@@ -99,5 +113,6 @@ if (MSVC)
       target_compile_options (TeamTalk5ClassicPro PUBLIC -DENABLE_TEAMTALKPRO -DENABLE_TOLK ${TTCLASSIC_COMPILE_FLAGS})
       target_link_libraries (TeamTalk5ClassicPro TeamTalk5Pro ${TOLK_LIBRARY})
     endif()
+    set_output_dir(TeamTalk5ClassicPro "${CMAKE_CURRENT_SOURCE_DIR}/")
   endif()
 endif()

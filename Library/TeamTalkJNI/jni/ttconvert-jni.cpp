@@ -1369,6 +1369,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
     jfieldID fid_op = env->GetFieldID(cls_account, "autoOperatorChannels", "[I");
     jfieldID fid_audbps = env->GetFieldID(cls_account, "nAudioCodecBpsLimit", "I");
     jfieldID fid_abuse = env->GetFieldID(cls_account, "abusePrevent", "Ldk/bearware/AbusePrevention;");
+    jfieldID fid_mod = env->GetFieldID(cls_account, "szLastModified", "Ljava/lang/String;");
 
     assert(fid_user);
     assert(fid_passwd);
@@ -1380,6 +1381,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
     assert(fid_ur);
     assert(fid_audbps);
     assert(fid_abuse);
+    assert(fid_mod);
 
     if(conv == N2J)
     {
@@ -1395,6 +1397,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         env->SetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, TO_JINT_ARRAY(account.autoOperatorChannels, tmp, TT_CHANNELS_OPERATOR_MAX));
         env->SetObjectField(lpAccount, fid_op, intArr);
         env->SetIntField(lpAccount, fid_audbps, account.nAudioCodecBpsLimit);
+        env->SetObjectField(lpAccount, fid_mod, NEW_JSTRING(env, account.szLastModified));
 
         jobject ap_obj = newAbusePrevention(env, &account.abusePrevent);
         assert(ap_obj);
@@ -1416,6 +1419,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         env->GetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, tmp);
         TO_INT32_ARRAY(tmp, account.autoOperatorChannels, TT_CHANNELS_OPERATOR_MAX);
         account.nAudioCodecBpsLimit = env->GetIntField(lpAccount, fid_audbps);
+        TT_STRCPY(account.szLastModified, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_mod)));
         jobject ap_obj = env->GetObjectField(lpAccount, fid_abuse);
         assert(ap_obj);
         setAbusePrevention(env, account.abusePrevent, ap_obj, conv);
@@ -1490,12 +1494,14 @@ void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JCon
     jfieldID fid_name = env->GetFieldID(cls_finfo, "szFileName", "Ljava/lang/String;");
     jfieldID fid_size = env->GetFieldID(cls_finfo, "nFileSize", "J");
     jfieldID fid_user = env->GetFieldID(cls_finfo, "szUsername", "Ljava/lang/String;");
+    jfieldID fid_mod = env->GetFieldID(cls_finfo, "szUploadTime", "Ljava/lang/String;");
 
     assert(fid_id);
     assert(fid_cid);
     assert(fid_name);
     assert(fid_size);
     assert(fid_user);
+    assert(fid_mod);
 
     if(conv == N2J) {
         env->SetIntField(lpRemoteFile, fid_id, fileinfo.nFileID);
@@ -1503,6 +1509,7 @@ void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JCon
         env->SetObjectField(lpRemoteFile, fid_name, NEW_JSTRING(env, fileinfo.szFileName));
         env->SetLongField(lpRemoteFile, fid_size, fileinfo.nFileSize);
         env->SetObjectField(lpRemoteFile, fid_user, NEW_JSTRING(env, fileinfo.szUsername));
+        env->SetObjectField(lpRemoteFile, fid_mod, NEW_JSTRING(env, fileinfo.szUploadTime));
     }
     else {
         ZERO_STRUCT(fileinfo);
@@ -1511,6 +1518,7 @@ void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JCon
         TT_STRCPY(fileinfo.szFileName, ttstr(env, (jstring)env->GetObjectField(lpRemoteFile, fid_name)));
         fileinfo.nFileSize = env->GetLongField(lpRemoteFile, fid_size);
         TT_STRCPY(fileinfo.szUsername, ttstr(env, (jstring)env->GetObjectField(lpRemoteFile, fid_user)));
+        TT_STRCPY(fileinfo.szUploadTime, ttstr(env, (jstring)env->GetObjectField(lpRemoteFile, fid_mod)));
     }
 }
 
