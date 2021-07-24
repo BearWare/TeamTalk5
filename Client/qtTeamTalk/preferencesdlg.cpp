@@ -36,6 +36,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QDir>
 #include <QTranslator>
 #include <QVariant>
@@ -437,9 +438,10 @@ void PreferencesDlg::slotUpdateSoundCheckBoxes()
 
 bool PreferencesDlg::getSoundFile(QString& filename)
 {
-    QString tmp = QFileDialog::getOpenFileName(this, tr("Open Wave File"),
-                                               "",
-                                               tr("Wave files (*.wav)"));
+    QString basename = QFileInfo(filename).fileName();
+    QString dir = QFileInfo(filename).absolutePath();
+    QString tmp = QFileDialog::getOpenFileName(this, tr("Open Wave File"), dir,
+                                               tr("Wave files (*.wav)"), &basename);
     tmp = QDir::toNativeSeparators(tmp);
     if(tmp.size())
         filename = tmp;
@@ -1326,196 +1328,196 @@ void PreferencesDlg::slotSoundDefaults()
 
 void PreferencesDlg::slotEventNewUser()
 {
-    QString filename;
-    if(getSoundFile(filename))
+    QString filename = ui.newuserEdit->text();
+    if (getSoundFile(filename))
         ui.newuserEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventRemoveUser()
 {
-    QString filename;
-    if(getSoundFile(filename))
+    QString filename = ui.rmuserEdit->text();
+    if (getSoundFile(filename))
         ui.rmuserEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventServerLost()
 {
-    QString filename;
+    QString filename = ui.srvlostEdit->text();
     if(getSoundFile(filename))
         ui.srvlostEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventUserTextMsg()
 {
-    QString filename;
+    QString filename = ui.usermsgEdit->text();
     if(getSoundFile(filename))
         ui.usermsgEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventSentTextMsg()
 {
-    QString filename;
+    QString filename = ui.sentmsgEdit->text();
     if (getSoundFile(filename))
         ui.sentmsgEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventChannelTextMsg()
 {
-    QString filename;
+    QString filename = ui.chanmsgEdit->text();
     if(getSoundFile(filename))
         ui.chanmsgEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventSentChannelMsg()
 {
-    QString filename;
+    QString filename = ui.sentchannelmsgEdit->text();
     if (getSoundFile(filename))
         ui.sentchannelmsgEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventBroadcastTextMsg()
 {
-    QString filename;
+    QString filename = ui.bcastmsgEdit->text();
     if(getSoundFile(filename))
         ui.bcastmsgEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventHotKey()
 {
-    QString filename;
+    QString filename = ui.hotkeyEdit->text();
     if(getSoundFile(filename))
         ui.hotkeyEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventSilence()
 {
-    QString filename;
+    QString filename = ui.chansilentEdit->text();
     if(getSoundFile(filename))
         ui.chansilentEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventNewVideo()
 {
-    QString filename;
+    QString filename = ui.videosessionEdit->text();
     if(getSoundFile(filename))
         ui.videosessionEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventNewDesktop()
 {
-    QString filename;
+    QString filename = ui.desktopsessionEdit->text();
     if(getSoundFile(filename))
         ui.desktopsessionEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventFilesUpdated()
 {
-    QString filename;
+    QString filename = ui.fileupdEdit->text();
     if(getSoundFile(filename))
         ui.fileupdEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventFileTxDone()
 {
-    QString filename;
+    QString filename = ui.transferdoneEdit->text();
     if(getSoundFile(filename))
         ui.transferdoneEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventQuestionMode()
 {
-    QString filename;
+    QString filename = ui.questionmodeEdit->text();
     if(getSoundFile(filename))
         ui.questionmodeEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventDesktopAccess()
 {
-    QString filename;
+    QString filename = ui.desktopaccessEdit->text();
     if(getSoundFile(filename))
         ui.desktopaccessEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventUserLoggedIn()
 {
-    QString filename;
+    QString filename = ui.userloggedinEdit->text();
     if(getSoundFile(filename))
         ui.userloggedinEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventUserLoggedOut()
 {
-    QString filename;
+    QString filename = ui.userloggedoutEdit->text();
     if(getSoundFile(filename))
         ui.userloggedoutEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventVoiceActOn()
 {
-    QString filename;
+    QString filename = ui.voiceactonEdit->text();
     if(getSoundFile(filename))
         ui.voiceactonEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventVoiceActOff()
 {
-    QString filename;
+    QString filename = ui.voiceactoffEdit->text();
     if(getSoundFile(filename))
         ui.voiceactoffEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventMuteAllOn()
 {
-    QString filename;
+    QString filename = ui.muteallonEdit->text();
     if(getSoundFile(filename))
         ui.muteallonEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventMuteAllOff()
 {
-    QString filename;
+    QString filename = ui.mutealloffEdit->text();
     if(getSoundFile(filename))
         ui.mutealloffEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventTransmitQueueHead()
 {
-    QString filename;
+    QString filename = ui.transmitqueueheadEdit->text();
     if(getSoundFile(filename))
         ui.transmitqueueheadEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventTransmitQueueStop()
 {
-    QString filename;
+    QString filename = ui.transmitqueuestopEdit->text();
     if(getSoundFile(filename))
         ui.transmitqueuestopEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventVoiceActTrig()
 {
-    QString filename;
+    QString filename = ui.voiceacttrigEdit->text();
     if(getSoundFile(filename))
         ui.voiceacttrigEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventVoiceActStop()
 {
-    QString filename;
+    QString filename = ui.voiceactstopEdit->text();
     if(getSoundFile(filename))
         ui.voiceactstopEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventVoiceActMeOn()
 {
-    QString filename;
+    QString filename = ui.voiceactmeonEdit->text();
     if(getSoundFile(filename))
         ui.voiceactmeonEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventVoiceActMeOff()
 {
-    QString filename;
+    QString filename = ui.voiceactmeoffEdit->text();
     if(getSoundFile(filename))
         ui.voiceactmeoffEdit->setText(filename);
 }
