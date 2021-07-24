@@ -3,6 +3,11 @@
     package="dk.bearware.gui"
     android:versionCode="104"
     android:versionName="5.8">
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
     <!-- RECORD_AUDIO is needed to create an audio recorder -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
     <!-- MODIFY_AUDIO_SETTINGS is needed to use audio effects such as environmental reverb -->
