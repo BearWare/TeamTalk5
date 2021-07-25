@@ -49,7 +49,7 @@
     <string name="pref_summary_vox_triggered_icon">Jouer un son quand l\'activation vocale est déclenchée</string>
     <string name="pref_title_private_message_audio_icon">Messages privés</string>
     <string name="pref_summary_private_message_audio_icon">Jouer un son à la réception d\'un message privé</string>
-    <string name="pref_title_channel_message_audio_icon">Messages de canal</string>
+    <string name="pref_title_channel_message_audio_icon">Messages de canal reçu</string>
     <string name="pref_summary_channel_message_audio_icon">Jouer un son à la réception d\'un message de canal</string>
     <string name="pref_title_broadcast_message_audio_icon">Messages généraux</string>
     <string name="pref_summary_broadcast_message_audio_icon">Jouer un son à la réception d\'un message général</string>
