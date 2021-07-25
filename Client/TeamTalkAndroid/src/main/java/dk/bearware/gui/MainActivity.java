@@ -2216,7 +2216,7 @@ private EditText newmsg;
     public void onCmdFileNew(RemoteFile remotefile) {
         filesAdapter.update();
         
-        if(activecmds.size() == 0) {
+        if(activecmds.size() == 0 && ttclient.getMyChannelID() == remotefile.nChannelID) {
             if(sounds.get(SOUND_FILESUPDATE) != 0) {
                 audioIcons.play(sounds.get(SOUND_FILESUPDATE), 1.0f, 1.0f, 0, 0, 1.0f);
             }
@@ -2227,7 +2227,7 @@ private EditText newmsg;
     public void onCmdFileRemove(RemoteFile remotefile) {
         filesAdapter.update();
         
-        if(activecmds.size() == 0) {
+        if(activecmds.size() == 0 && ttclient.getMyChannelID() == remotefile.nChannelID) {
             if(sounds.get(SOUND_FILESUPDATE) != 0) {
                 audioIcons.play(sounds.get(SOUND_FILESUPDATE), 1.0f, 1.0f, 0, 0, 1.0f);
             }
