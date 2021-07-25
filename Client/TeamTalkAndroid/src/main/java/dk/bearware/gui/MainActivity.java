@@ -210,7 +210,8 @@ implements TeamTalkConnectionListener,
               SOUND_USERJOIN = 12,
               SOUND_USERLEFT = 13,
               SOUND_USERLOGGEDIN = 14,
-              SOUND_USERLOGGEDOFF = 15;
+              SOUND_USERLOGGEDOFF = 15,
+              SOUND_CHANMSGSENT = 16;
     
     SparseIntArray sounds = new SparseIntArray();
 
