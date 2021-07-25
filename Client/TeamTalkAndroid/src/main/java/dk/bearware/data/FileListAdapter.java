@@ -55,6 +55,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Environment;
+import android.text.format.Formatter;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -321,11 +322,8 @@ implements ClientListener, Comparator<RemoteFile> {
         case REMOTE_FILE_VIEW_TYPE: {
             if((convertView == null) || (convertView.findViewById(R.id.fileinfo) == null))
                 convertView = inflater.inflate(R.layout.item_remote_file, parent, false);
-            String fileinfo = String.format("%d (%s)", remoteFile.nFileSize, remoteFile.szUsername);
-            if (remoteFile.nFileSize >= 1024 * 1024)
-                fileinfo = String.format("%d MB (%s)", remoteFile.nFileSize / (1024 * 1024), remoteFile.szUsername);
-            else if (remoteFile.nFileSize >= 1024)
-                fileinfo = String.format("%d KB (%s)", remoteFile.nFileSize / 1024, remoteFile.szUsername);
+            String fileSize = Formatter.formatFileSize(context, remoteFile.nFileSize);
+            String fileinfo = String.format("%s (%s)", fileSize, remoteFile.szUsername);
             ((TextView)convertView.findViewById(R.id.fileinfo)).setText(fileinfo);
             Button downloadButton = (Button)convertView.findViewById(R.id.download_btn);
             Button removeButton = (Button)convertView.findViewById(R.id.remove_btn);
