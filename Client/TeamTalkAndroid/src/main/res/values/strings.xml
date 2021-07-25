@@ -49,7 +49,7 @@
     <string name="pref_summary_vox_triggered_icon">Play sound when voice activation is triggered</string>
     <string name="pref_title_private_message_audio_icon">Private message</string>
     <string name="pref_summary_private_message_audio_icon">Play sound when private message is received</string>
-    <string name="pref_title_channel_message_audio_icon">Channel message</string>
+    <string name="pref_title_channel_message_audio_icon">Channel message received</string>
     <string name="pref_summary_channel_message_audio_icon">Play sound when channel message is received</string>
     <string name="pref_title_broadcast_message_audio_icon">Broadcast message</string>
     <string name="pref_summary_broadcast_message_audio_icon">Play sound when broadcast message is received</string>
@@ -362,7 +362,7 @@
     <string name="pref_summary_userloggedin_icon">Play sound when an user logs in</string>
     <string name="pref_title_userloggedoff_icon">User logged off</string>
     <string name="pref_summary_userloggedoff_icon">Play sound when an user logs off</string>
-    <string name="pref_title_channel_message_sent_audio_icon">Sent channel message</string>
+    <string name="pref_title_channel_message_sent_audio_icon">Channel message sent</string>
     <string name="pref_summary_channel_message_sent_audio_icon">Play sound when channel message is sent</string>
     <string name="pref_title_channel_message_sent">Sent channel messages</string>
     <string name="pref_summary_channel_message_sent">Announce channel messages sent</string>
