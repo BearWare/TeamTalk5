@@ -21,6 +21,7 @@ Default QT Client
 - Fixed missing accessible labels in main window
 - Fixed Croatian file missing for installed version
 Android Client
+- Files update sound played only in appropriate channel
 - Fixed a case when not all tts engines were available in tts selection screen.
 iOS Client
 - Ability to specify nickname for each server
