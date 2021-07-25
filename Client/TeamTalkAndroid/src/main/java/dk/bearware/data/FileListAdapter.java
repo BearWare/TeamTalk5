@@ -321,7 +321,12 @@ implements ClientListener, Comparator<RemoteFile> {
         case REMOTE_FILE_VIEW_TYPE: {
             if((convertView == null) || (convertView.findViewById(R.id.fileinfo) == null))
                 convertView = inflater.inflate(R.layout.item_remote_file, parent, false);
-            ((TextView)convertView.findViewById(R.id.fileinfo)).setText(String.format("%d (%s)", remoteFile.nFileSize, remoteFile.szUsername));
+            String fileinfo = String.format("%d (%s)", remoteFile.nFileSize, remoteFile.szUsername);
+            if (remoteFile.nFileSize >= 1024 * 1024)
+                fileinfo = String.format("%d MB (%s)", remoteFile.nFileSize / (1024 * 1024), remoteFile.szUsername);
+            else if (remoteFile.nFileSize >= 1024)
+                fileinfo = String.format("%d KB (%s)", remoteFile.nFileSize / 1024, remoteFile.szUsername);
+            ((TextView)convertView.findViewById(R.id.fileinfo)).setText(fileinfo);
             Button downloadButton = (Button)convertView.findViewById(R.id.download_btn);
             Button removeButton = (Button)convertView.findViewById(R.id.remove_btn);
             downloadButton.setOnClickListener(buttonClickListener);
