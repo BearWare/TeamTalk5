@@ -160,10 +160,11 @@
 #define SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT              (SOUNDSPATH"/serverlost.wav")
 #define SETTINGS_SOUNDEVENT_USERMSG                 "soundevents/user-msg"
 #define SETTINGS_SOUNDEVENT_USERMSG_DEFAULT                 (SOUNDSPATH"/user_msg.wav")
-#define SETTINGS_SOUNDEVENT_SENTSOUND             "soundevents/sound-send"
+#define SETTINGS_SOUNDEVENT_USERMSGSENT             "soundevents/sound-send"
 #define SETTINGS_SOUNDEVENT_CHANNELMSG              "soundevents/channel-msg"
 #define SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT              (SOUNDSPATH"/channel_msg.wav")
-#define SETTINGS_SOUNDEVENT_SENTCHANNELSOUND             "soundevents/sound-channel-send"
+#define SETTINGS_SOUNDEVENT_CHANNELMSGSENT             "soundevents/sound-channel-send"
+#define SETTINGS_SOUNDEVENT_CHANNELMSGSENT_DEFAULT              (SOUNDSPATH"/channel_msg_sent.wav")
 #define SETTINGS_SOUNDEVENT_BROADCASTMSG            "soundevents/broadcast-msg"
 #define SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT            (SOUNDSPATH"/broadcast_msg.wav")
 #define SETTINGS_SOUNDEVENT_HOTKEY                  "soundevents/hotkey-pressed"

@@ -954,8 +954,8 @@ void playSoundEvent(SoundEvent event)
     case SOUNDEVENT_CHANNELMSG:
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG, SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT).toString();
         break;
-    case SOUNDEVENT_SENTCHANNELMSG :
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_SENTCHANNELSOUND).toString();
+    case SOUNDEVENT_CHANNELMSGSENT :
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSGSENT, SETTINGS_SOUNDEVENT_CHANNELMSGSENT_DEFAULT).toString();
         break;
     case SOUNDEVENT_BROADCASTMSG :
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG, SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT).toString();
