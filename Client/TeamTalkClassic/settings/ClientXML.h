@@ -53,7 +53,7 @@
 #define DEFAULT_SOUNDEVENT_SERVERLOST               "Sounds\\serverlost.wav"
 #define DEFAULT_SOUNDEVENT_PTTHOTKEY                "Sounds\\hotkey.wav"
 #define DEFAULT_SOUNDEVENT_CHANTEXTMSG              "Sounds\\channel_msg.wav"
-#define DEFAULT_SOUNDEVENT_CHANTEXTMSGSENT                ""
+#define DEFAULT_SOUNDEVENT_CHANTEXTMSGSENT          "Sounds\\channel_msg_sent.wav"
 #define DEFAULT_SOUNDEVENT_BCASTTEXTMSG              "Sounds\\broadcast_msg.wav"
 #define DEFAULT_SOUNDEVENT_FILESUPDATE              "Sounds\\fileupdate.wav"
 #define DEFAULT_SOUNDEVENT_FILETXCOMPLETE           "Sounds\\filetx_complete.wav"
