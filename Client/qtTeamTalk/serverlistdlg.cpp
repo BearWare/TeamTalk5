@@ -95,7 +95,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
         int index = 0;
         while(getServerEntry(index++, entry))
         {
-            if (entry.sameHost(lasthost))
+            if (entry.sameHost(lasthost, false))
             {
                 ui.listWidget->setCurrentRow(index-1);
                 ui.listWidget->setFocus();
