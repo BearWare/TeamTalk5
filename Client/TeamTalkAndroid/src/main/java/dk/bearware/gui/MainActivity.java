@@ -469,7 +469,7 @@ implements TeamTalkConnectionListener,
             sounds.put(SOUND_CHANMSG, audioIcons.load(getApplicationContext(), R.raw.channel_message, 1));
         }
         if (prefs.getBoolean("channel_message_sent_audio_icon", true)) {
-            sounds.put(SOUND_CHANMSGSENT, audioIcons.load(getApplicationContext(), R.raw.channel_message, 1));
+            sounds.put(SOUND_CHANMSGSENT, audioIcons.load(getApplicationContext(), R.raw.channel_message_sent, 1));
         }
         if (prefs.getBoolean("broadcast_message_audio_icon", true)) {
             sounds.put(SOUND_BCASTMSG, audioIcons.load(getApplicationContext(), R.raw.broadcast_message, 1));
