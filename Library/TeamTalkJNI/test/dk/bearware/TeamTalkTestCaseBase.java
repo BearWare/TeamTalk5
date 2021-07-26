@@ -44,6 +44,7 @@ public abstract class TeamTalkTestCaseBase {
     public static boolean ENCRYPTED = false;
     public static boolean DEBUG_OUTPUT = false;
     public static final int DEF_WAIT = 15000;
+    public static boolean GITHUBSKIP = false;
 
     public static String ADMIN_USERNAME = "admin", ADMIN_PASSWORD = "admin", ADMIN_NICKNAME = "Admin";
     public static String IPADDR = "127.0.0.1";
@@ -137,6 +138,10 @@ public abstract class TeamTalkTestCaseBase {
         prop = System.getProperty("dk.bearware.webrtc");
         if (prop != null && !prop.isEmpty())
             this.WEBRTC_AVAILABLE = "1".equals(prop);
+
+        prop = System.getProperty("dk.bearware.githubskip");
+        if (prop != null && !prop.isEmpty())
+            this.GITHUBSKIP = Integer.parseInt(prop) != 0;
 
         if (TCPPORT == 0 && UDPPORT == 0) {
             if (this.ENCRYPTED) {
