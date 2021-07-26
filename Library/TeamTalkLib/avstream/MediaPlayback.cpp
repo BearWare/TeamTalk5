@@ -285,7 +285,15 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
             m_audio_buffer.pop();
         }
         else if (m_status == MEDIASTREAM_FINISHED)
-            m_drained.set(true);
+        {
+            /* Perform an extra callback to ensure 'm_sndsys->CloseOutputStream(this)'
+             * is not called immediately after submitting the last audio frame. This
+             * should already be the case since 'm_status' is now MEDIASTREAM_FINISHED
+             * but on Android the last submitted frame is somehow lost. */
+            if (m_last_callback)
+                m_drained.set(true);
+            m_last_callback = true;
+        }
     }
 
     MYTRACE_COND(DEBUG_MEDIAPLAYBACK && !mb, ACE_TEXT("Media playback underflow\n"));

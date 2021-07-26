@@ -3468,8 +3468,12 @@ TEST_CASE("LocalPlaybackLatency")
     mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
 
     MediaFileInfo mfi;
-    REQUIRE(TT_GetMediaFileInfo(ACE_TEXT("testdata/Opus/broadcast_msg.ogg"), &mfi));
-    //
+    REQUIRE(TT_GetMediaFileInfo(ACE_TEXT("testdata/Opus/off.ogg"), &mfi));
+
+    std::vector< std::vector<short> > buffers;
+    std::vector< std::vector<AudioBlock> > abs_shared;
+
+    for (int i=0;i<3;++i)
     {
         auto ttclient = InitTeamTalk();
         REQUIRE(InitSound(ttclient, SHARED_INPUT_OUTPUT));
@@ -3482,8 +3486,41 @@ TEST_CASE("LocalPlaybackLatency")
         TTMessage msg;
         REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
 
-        std::cout << "Latency for SHARED_INPUT_OUTPUT: " << GETTIMESTAMP() - starttime << std::endl;
+        MYTRACE(ACE_TEXT("Latency for SHARED_INPUT_OUTPUT: %u"), GETTIMESTAMP() - starttime);
+
+        while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg) && msg.mediafileinfo.nStatus != MFS_FINISHED);
+
+        abs_shared.resize(abs_shared.size()+1);
+        while(true)
+        {
+            abptr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, onid));
+            if (!ab)
+                break;
+
+            buffers.resize(buffers.size() + 1);
+            int index = buffers.size() - 1;
+            buffers[index].resize(ab->nSamples * ab->nChannels);
+            std::memcpy(&buffers[index][0], ab->lpRawAudio, ab->nSamples * ab->nChannels * sizeof(short));
+            AudioBlock store = *ab;
+            store.lpRawAudio = &buffers[index][0];
+            abs_shared[i].push_back(store);
+        }
+
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, 500);
     }
+
+    // ensure all playbacks outputs the same audio
+    for (size_t i=0;i<abs_shared.size();++i)
+    {
+        REQUIRE(abs_shared[0].size() == abs_shared[i].size());
+        for (size_t a=0;a<abs_shared[0].size();++a)
+        {
+            REQUIRE(abs_shared[0][a].nSamples == abs_shared[i][a].nSamples);
+            REQUIRE(std::memcmp(abs_shared[0][a].lpRawAudio, abs_shared[i][a].lpRawAudio, abs_shared[0][a].nSamples * abs_shared[0][a].nChannels * sizeof(short)) == 0);
+        }
+    }
+
+    for (int i=0;i<3;++i)
     {
         auto ttclient = InitTeamTalk();
         // force non shared device mode on Android
@@ -3502,7 +3539,26 @@ TEST_CASE("LocalPlaybackLatency")
         TTMessage msg;
         REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
 
-        std::cout << "Latency for DEFAULT: " << GETTIMESTAMP() - starttime << std::endl;
+        MYTRACE(ACE_TEXT("Latency for DEFAULT: %u\n"), GETTIMESTAMP() - starttime);
+
+        while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg) && msg.mediafileinfo.nStatus != MFS_FINISHED);
+
+        // Ensure DEFAULT mode outputs the same audio as SHARED mode
+        size_t index = 0;
+        while(true)
+        {
+            abptr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, onid));
+            if (!ab)
+                break;
+
+            REQUIRE(index < abs_shared.size());
+            REQUIRE(abs_shared[0][index].nSamples == ab->nSamples);
+            REQUIRE(std::memcmp(abs_shared[0][index].lpRawAudio, ab->lpRawAudio, ab->nSamples * ab->nChannels * sizeof(short)) == 0);
+            index++;
+        }
+        REQUIRE(index == abs_shared[0].size());
+
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, 500);
     }
 }
 
