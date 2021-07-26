@@ -210,7 +210,8 @@ implements TeamTalkConnectionListener,
               SOUND_USERJOIN = 12,
               SOUND_USERLEFT = 13,
               SOUND_USERLOGGEDIN = 14,
-              SOUND_USERLOGGEDOFF = 15;
+              SOUND_USERLOGGEDOFF = 15,
+              SOUND_CHANMSGSENT = 16;
     
     SparseIntArray sounds = new SparseIntArray();
 
@@ -466,6 +467,9 @@ implements TeamTalkConnectionListener,
         }
         if (prefs.getBoolean("channel_message_audio_icon", true)) {
             sounds.put(SOUND_CHANMSG, audioIcons.load(getApplicationContext(), R.raw.channel_message, 1));
+        }
+        if (prefs.getBoolean("channel_message_sent_audio_icon", true)) {
+            sounds.put(SOUND_CHANMSGSENT, audioIcons.load(getApplicationContext(), R.raw.channel_message_sent, 1));
         }
         if (prefs.getBoolean("broadcast_message_audio_icon", true)) {
             sounds.put(SOUND_BCASTMSG, audioIcons.load(getApplicationContext(), R.raw.broadcast_message, 1));
@@ -2088,16 +2092,26 @@ private EditText newmsg;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         switch (textmessage.nMsgType) {
         case TextMsgType.MSGTYPE_CHANNEL :
+
             accessibilityAssistant.lockEvents();
             textmsgAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
-            
-            if (sounds.get(SOUND_CHANMSG) != 0)
-                audioIcons.play(sounds.get(SOUND_CHANMSG), 1.0f, 1.0f, 0, 0, 1.0f);
-            if (ttsWrapper != null && prefs.getBoolean("channel_message_checkbox", false)) {
-                User sender = ttservice.getUsers().get(textmessage.nFromUserID);
-                String name = Utils.getDisplayName(getBaseContext(), sender);
-                ttsWrapper.speak(getString(R.string.text_tts_channel_message, (sender != null) ? name : "", textmessage.szMessage));
+
+            if (textmessage.nFromUserID != ttservice.getTTInstance().getMyUserID()) {
+                if (sounds.get(SOUND_CHANMSG) != 0)
+                    audioIcons.play(sounds.get(SOUND_CHANMSG), 1.0f, 1.0f, 0, 0, 1.0f);
+                if (ttsWrapper != null && prefs.getBoolean("channel_message_checkbox", false)) {
+                    User sender = ttservice.getUsers().get(textmessage.nFromUserID);
+                    String name = Utils.getDisplayName(getBaseContext(), sender);
+                    ttsWrapper.speak(getString(R.string.text_tts_channel_message, (sender != null) ? name : "", textmessage.szMessage));
+                }
+            }
+            else if (textmessage.nFromUserID == ttservice.getTTInstance().getMyUserID()) {
+                if (sounds.get(SOUND_CHANMSGSENT) != 0)
+                    audioIcons.play(sounds.get(SOUND_CHANMSGSENT), 1.0f, 1.0f, 0, 0, 1.0f);
+                if (ttsWrapper != null && prefs.getBoolean("channel_message_sent_checkbox", false)) {
+                    ttsWrapper.speak(getString(R.string.text_tts_channel_message_sent, textmessage.szMessage));
+                }
             }
             Log.d(TAG, "Channel message in " + this.hashCode());
             break;
