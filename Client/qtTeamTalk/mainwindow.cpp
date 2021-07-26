@@ -1821,6 +1821,7 @@ void MainWindow::Disconnect()
     ui.videosendButton->setVisible(false);
     ui.desktopmsgEdit->setVisible(false);
     ui.desktopsendButton->setVisible(false);
+    ui.actionChangeNickname->setText(tr("Change Nickname"));
 
     m_vid_exclude.clear();
 
@@ -3818,6 +3819,9 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setTextValue(nick);
     inputDialog.setWindowTitle(MENUTEXT(ui.actionChangeNickname->text()));
+    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+    inputDialog.setLabelText(tr("Specify new nickname for current server"));
+    else
     inputDialog.setLabelText(tr("Specify new nickname"));
     ok = inputDialog.exec();
     QString s = inputDialog.textValue();
@@ -5068,6 +5072,8 @@ void MainWindow::slotUpdateUI()
     bool me_admin = (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
     bool me_op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user_chanid);
 
+    if(auth)
+        ui.actionChangeNickname->setText(tr("Change Nickname for current server"));
     ui.actionConnect->setChecked( (statemask & CLIENT_CONNECTING) || (statemask & CLIENT_CONNECTED));
     ui.actionChangeStatus->setEnabled(auth);
 #ifdef Q_OS_WIN32
