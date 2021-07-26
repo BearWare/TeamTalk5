@@ -49,7 +49,7 @@
 #define DEFAULT_SOUNDEVENT_USERLOGGEDIN               "Sounds\\logged_on.wav"
 #define DEFAULT_SOUNDEVENT_USERLOGGEDOUT               "Sounds\\logged_off.wav"
 #define DEFAULT_SOUNDEVENT_PRIVTEXTMSG              "Sounds\\user_msg.wav"
-#define DEFAULT_SOUNDEVENT_PRIVTEXTMSGSENT              ""
+#define DEFAULT_SOUNDEVENT_PRIVTEXTMSGSENT              "Sounds\\user_msg_sent.wav"
 #define DEFAULT_SOUNDEVENT_SERVERLOST               "Sounds\\serverlost.wav"
 #define DEFAULT_SOUNDEVENT_PTTHOTKEY                "Sounds\\hotkey.wav"
 #define DEFAULT_SOUNDEVENT_CHANTEXTMSG              "Sounds\\channel_msg.wav"

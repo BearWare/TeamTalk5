@@ -949,7 +949,7 @@ void playSoundEvent(SoundEvent event)
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG, SETTINGS_SOUNDEVENT_USERMSG_DEFAULT).toString();
         break;
     case SOUNDEVENT_USERMSGSENT :
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERMSGSENT).toString();
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERMSGSENT, SETTINGS_SOUNDEVENT_USERMSGSENT_DEFAULT).toString();
         break;
     case SOUNDEVENT_CHANNELMSG:
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG, SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT).toString();

@@ -161,6 +161,7 @@
 #define SETTINGS_SOUNDEVENT_USERMSG                 "soundevents/user-msg"
 #define SETTINGS_SOUNDEVENT_USERMSG_DEFAULT                 (SOUNDSPATH"/user_msg.wav")
 #define SETTINGS_SOUNDEVENT_USERMSGSENT             "soundevents/sound-send"
+#define SETTINGS_SOUNDEVENT_USERMSGSENT_DEFAULT                 (SOUNDSPATH"/user_msg_sent.wav")
 #define SETTINGS_SOUNDEVENT_CHANNELMSG              "soundevents/channel-msg"
 #define SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT              (SOUNDSPATH"/channel_msg.wav")
 #define SETTINGS_SOUNDEVENT_CHANNELMSGSENT             "soundevents/sound-channel-send"
