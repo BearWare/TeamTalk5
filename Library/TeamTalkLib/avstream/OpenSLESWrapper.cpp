@@ -807,7 +807,7 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
 
     for (size_t i=1;i<ANDROID_OUTPUT_BUFFERS;i++)
     {
-        streamer->buffers[i].resize(frames_per_callback*framesize*channels);
+        streamer->buffers[i].resize(frames_per_callback * framesize * channels, 0);
         // here we only enqueue one buffer because it is a long clip,
         // but for streaming playback we would typically enqueue at least 2 buffers to start
         result = (*playerBufferQueue)->Enqueue(playerBufferQueue,
@@ -1200,7 +1200,7 @@ int detectMinumumBuffer(SLAndroidSimpleBufferQueueItf bq,
     while(frames_per_callback * framesize <= 3 * samplerate)
     {
         int n_samples = frames_per_callback * framesize;
-        buffer.resize(n_samples * channels);
+        buffer.resize(n_samples * channels, 0);
         result = (*bq)->Enqueue(bq, &buffer[0], buffer.size()*sizeof(short));
         if(result == SL_RESULT_SUCCESS)
             return frames_per_callback;
