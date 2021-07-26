@@ -27,9 +27,9 @@ win: win32 win64 classic
 win32:
 	$(eval TT5DIST=teamtalk-$(VERSION)-win32)
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
-	$(eval SRVNAME=$(TEAMTALK_ROOT)/Server/Win32/Release/tt5srv.exe)
-	$(eval SVCNAME=$(TEAMTALK_ROOT)/Server/Win32/Release/tt5svc.exe)
-	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/qtTeamTalk/release/TeamTalk.exe)
+	$(eval SRVNAME=$(TEAMTALK_ROOT)/Server/tt5srv.exe)
+	$(eval SVCNAME=$(TEAMTALK_ROOT)/Server/tt5svc.exe)
+	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/qtTeamTalk/TeamTalk.exe)
 	$(eval CLIENTDLL=$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/TeamTalk5.dll)
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
@@ -42,9 +42,9 @@ win32:
 win64:
 	$(eval TT5DIST=teamtalk-$(VERSION)-win64)
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
-	$(eval SRVNAME=$(TEAMTALK_ROOT)/Server/x64/Release/tt5srv.exe)
-	$(eval SVCNAME=$(TEAMTALK_ROOT)/Server/x64/Release/tt5svc.exe)
-	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/qtTeamTalk/release/TeamTalk.exe)
+	$(eval SRVNAME=$(TEAMTALK_ROOT)/Server/tt5srv.exe)
+	$(eval SVCNAME=$(TEAMTALK_ROOT)/Server/tt5svc.exe)
+	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/qtTeamTalk/TeamTalk.exe)
 	$(eval CLIENTDLL=$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/TeamTalk5.dll)
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
@@ -57,7 +57,7 @@ win64:
 portable:
 	$(eval TT5DIST=TeamTalk_$(VERSION)_Portable)
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
-	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Build/build-win32/TeamTalk5/Client/TeamTalkClassic/Release/TeamTalk5Classic.exe)
+	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/TeamTalkClassic/TeamTalk5Classic.exe)
 	$(eval CLIENTDLL=$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/TeamTalk5.dll)
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
@@ -71,7 +71,7 @@ portable:
 	cp -r $(OUTPUT_DEST)/accessibility/screenreader/* $(OUTDIR)/
 	cp -r $(OUTPUT_DEST)/accessibility/tolk/x86/* $(OUTDIR)/
 	# Copy Qt client
-	cp $(TEAMTALK_ROOT)/Client/qtTeamTalk/release/TeamTalk5.exe $(OUTDIR)/
+	cp $(TEAMTALK_ROOT)/Client/qtTeamTalk/TeamTalk.exe $(OUTDIR)/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/TeamTalk5.ini.default
 	mkdir -p $(OUTDIR)/languages
 	cp $(TEAMTALK_ROOT)/Client/qtTeamTalk/languages/*.qm $(OUTDIR)/languages/
