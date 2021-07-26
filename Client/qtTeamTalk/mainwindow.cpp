@@ -3837,7 +3837,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
             index = 0;
             while(getLatestHost(index, tmp))
             {
-                if (m_host.sameHostEntry(tmp, false))
+                if (m_host.sameHostEntry(tmp))
                     lasthost = index;
                 index++;
             }

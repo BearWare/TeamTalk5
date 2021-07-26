@@ -446,7 +446,7 @@ struct HostEntry
     // doesn't include 'name'
     bool sameHost(const HostEntry& host, bool nickcheck = true) const;
     // same as sameHost() but also host.name == name
-    bool sameHostEntry(const HostEntry& host, bool nickcheck = true) const;
+    bool sameHostEntry(const HostEntry& host) const;
 };
 
 struct DesktopAccessEntry
