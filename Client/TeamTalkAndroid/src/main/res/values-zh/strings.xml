@@ -49,7 +49,7 @@
     <string name="pref_summary_vox_triggered_icon">触发语音激活时播放声音</string>
     <string name="pref_title_private_message_audio_icon">私人消息</string>
     <string name="pref_summary_private_message_audio_icon">收到私人消息时播放声音</string>
-    <string name="pref_title_channel_message_audio_icon">频道消息</string>
+    <string name="pref_title_channel_message_audio_icon">收到频道消息</string>
     <string name="pref_summary_channel_message_audio_icon">收到频道消息时播放声音</string>
     <string name="pref_title_broadcast_message_audio_icon">广播消息</string>
     <string name="pref_summary_broadcast_message_audio_icon">收到广播消息时播放声音</string>
@@ -362,6 +362,11 @@
     <string name="pref_summary_userloggedin_icon">用户登录时播放声音</string>
     <string name="pref_title_userloggedoff_icon">用户登出</string>
     <string name="pref_summary_userloggedoff_icon">用户登出时播放声音</string>
+    <string name="pref_title_channel_message_sent_audio_icon">发送频道消息</string>
+    <string name="pref_summary_channel_message_sent_audio_icon">发送频道消息时播放声音</string>
+    <string name="pref_title_channel_message_sent">发送频道消息</string>
+    <string name="pref_summary_channel_message_sent">播报发送的频道消息</string>
+    <string name="text_tts_channel_message_sent">我： %1$s</string>
 
 
 </resources>
