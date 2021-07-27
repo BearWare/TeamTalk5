@@ -2486,7 +2486,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         else
         {
             addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, QString(tr("Channel message sent: %1").arg(_Q(textmsg.szMessage))));
-            playSoundEvent(SOUNDEVENT_SENTCHANNELMSG);
+            playSoundEvent(SOUNDEVENT_CHANNELMSGSENT);
         }
 
         break;
@@ -3831,7 +3831,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
             int serv, lasthost, index = 0;
             while(getServerEntry(index, tmp))
             {
-                if (m_host.sameHost(tmp))
+                if (m_host.sameHost(tmp, false))
                     serv = index;
                 index++;
                 tmp = HostEntry();

@@ -95,6 +95,7 @@ Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\Old\serverlost.w
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\Old\user_msg.wav"; DestDir: "{app}\Sounds\Old"; Components: client; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\broadcast_msg.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\channel_msg.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;
+Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\channel_msg_sent.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\desktopaccessreq.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\desktopsession.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\filetx_complete.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;
@@ -111,6 +112,7 @@ Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\txqueue_start.wa
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\txqueue_stop.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\unmute_all.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\user_msg.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;
+Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\user_msg_sent.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\videosession.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\voiceact_off.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Sounds\voiceact_on.wav"; DestDir: "{app}\Sounds"; Components: client classic; Flags: ignoreversion;

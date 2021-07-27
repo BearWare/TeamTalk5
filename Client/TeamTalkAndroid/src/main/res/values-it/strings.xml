@@ -49,7 +49,7 @@
     <string name="pref_summary_vox_triggered_icon">Riproduci un suono quando viene attivata l\'attivazione vocale</string>
     <string name="pref_title_private_message_audio_icon">Messaggi privati</string>
     <string name="pref_summary_private_message_audio_icon">Riproduci un suono quando ricevi un messaggio privato</string>
-    <string name="pref_title_channel_message_audio_icon">Messaggi di canale</string>
+    <string name="pref_title_channel_message_audio_icon">Messaggio del canale ricevuto</string>
     <string name="pref_summary_channel_message_audio_icon">Riproduce il suono quando si riceve un messaggio sul canale</string>
     <string name="pref_title_broadcast_message_audio_icon">Messaggi generali</string>
     <string name="pref_summary_broadcast_message_audio_icon">Riproduci un suono quando ricevi un messaggio generale</string>
@@ -100,6 +100,7 @@
     <string name="pref_title_show_usernames">Mostra nomi utente</string>
     <string name="pref_summary_show_usernames">Mostra nomi utente invece di pseudonimi</string>
     <string name="pref_title_bearwareid">BearWare.dk Web Connection</string>
+
     <string name="pref_summary_bearwareid">Configura la connessione web BearWare.dk</string>
     <string name="pref_title_mediafile_volume">Volume del file multimediale</string>
     <string name="pref_summary_mediafile_volume">Volume dei file multimediali rispetto al volume della voce</string>
@@ -111,6 +112,7 @@
     <string name="pref_summary_voice_processing_checkbox">Usa la cancellazione dell\'eco e il controllo automatico del volume</string>
     <string name="pref_title_public_servers">Mostra server pubblici</string>
     <string name="pref_summary_public_servers">Includere i server pubblici nell\'elenco dei server</string>
+
     <string name="text_tts_loggedin">ha connesso</string>
     <string name="text_tts_loggedout">ha disconnesso</string>
     <string name="text_tts_joined_chan">si è unito al canale</string>
@@ -126,6 +128,7 @@
     <string name="title_section_speexvbr">Speex VBR</string>
     <string name="title_section_noaudio">Nessun audio</string>
     <string name="opus_application">Applicazione</string>
+
     <string name="button_tx">Trasmissione</string>
     <string name="button_remove">Rimuovere</string>
     <string name="button_edit">Modificare</string>
@@ -143,18 +146,22 @@
     <string name="button_stream_media_file">Trasmissione</string>
     <string name="button_msg">Messaggio</string>
     <string name="button_send">Mandare</string>
+
     <string name="channel_prop_title_name">Nome</string>
     <string name="channel_prop_title_topic">Soggetto</string>
     <string name="channel_prop_title_password">Password</string>
     <string name="channel_prop_title_op_password">Password operatore</string>
     <string name="channel_prop_title_maxusers">Numero massimo di utenti</string>
     <string name="channel_prop_title_diskquota">Quota disco (KB)</string>
+
     <string name="channel_prop_title_permanent">Canale permanente</string>
     <string name="channel_prop_title_nointerrupt">Senza interruzione</string>
     <string name="channel_prop_title_classroom">Aula</string>
     <string name="channel_prop_title_oprecvonly">Solo l\'operatore riceve</string>
     <string name="channel_prop_title_novoiceact">Senza attivazione vocale</string>
     <string name="channel_prop_title_noaudiorecord">Senza registrazione audio</string>
+
+
     <string name="user_prop_title_username">Nome utente</string>
     <string name="user_prop_title_clientname">Nome del cliente</string>
     <string name="user_prop_title_voice_volume">Volume della voce</string>
@@ -168,6 +175,7 @@
     <string name="user_prop_title_subscribe_vid">Iscriviti ai video</string>
     <string name="user_prop_title_subscribe_desk">Iscriviti agli uffici</string>
     <string name="user_prop_title_subscribe_media">Iscriviti a file multimediali</string>
+
     <string name="label_connection">Accesso:</string>
     <string name="stat_online">In linea</string>
     <string name="stat_offline">Disconnesso</string>
@@ -179,23 +187,27 @@
     <string name="label_total">Totale:</string>
     <string name="label_mediafile">File multimediali:</string>
     <string name="default_">Difetto</string>
+
     <string name="server_list_empty">L\'elenco dei server TeamTalk 5 è vuoto</string>
     <string name="no_nickname">Nessuno pseudonimo</string>
     <string name="message_text">Messaggio di testo</string>
     <string name="time_date">Ora e data</string>
     <string name="name">Nome</string>
+
     <string name="err_init_sound_input">Impossibile inizializzare l\'ingresso audio</string>
     <string name="err_init_sound_output">Impossibile inizializzare l\'uscita audio</string>
     <string name="err_retrieve_public_server_list">Impossibile recuperare l\'elenco dei server pubblici</string>
     <string name="err_send_text_message">Impossibile inviare il messaggio di testo</string>
     <string name="err_connection">La connessione non è riuscita</string>
     <string name="err_stream_media">Impossibile eseguire lo streaming del file multimediale</string>
+
     <string name="action_new_channel">Nuovo canale</string>
     <string name="action_save">Registrare</string>
     <string name="action_connect">Accesso</string>
     <string name="action_new_server">Nuovo server</string>
     <string name="action_refresh">Ricaricare</string>
     <string name="action_import_serverlist">Importa da file .tt</string>
+
     <string name="pref_title_server_props">Proprietà del server TeamTalk 5</string>
     <string name="pref_title_server_info">Informazioni sul server</string>
     <string name="pref_title_server_name">Nome del server</string>
@@ -210,8 +222,10 @@
     <string name="pref_title_channel">Canale</string>
     <string name="pref_title_channel_password">Password del canale</string>
     <string name="pref_title_last_channel">Ultimo canale unito</string>
+
     <string name="pref_summary_server_name">Questo server apparirà con questo nome nell\'elenco dei server</string>
     <string name="pref_summary_server_address">Il nome di dominio o l\'indirizzo IP del server</string>
+
     <string name="channel_password_prompt">Immettere la password del canale</string>
     <string name="button_download">Scarica</string>
     <string name="download_succeeded">Il file %1$s è stato scaricato e salvato con successo in %2$s</string>
@@ -243,15 +257,19 @@
     <string name="mic_unmute">Riattiva il microfono</string>
     <string name="decgain">Abbassa il volume del microfono</string>
     <string name="incgain">Alza il volume del microfono</string>
+
     <string name="speaker_volume_description">Volume altoparlante: %1$s</string>
     <string name="mic_gain_description">Volume microfono: %1$s</string>
+
     <string name="voice_activation_on">Attiva l\'attivazione vocale</string>
     <string name="voice_activation_off">Disabilita l\'attivazione vocale</string>
     <string name="decvoxlevel">Abbassa il livello di attivazione vocale</string>
     <string name="incvoxlevel">Alza il livello di attivazione vocale</string>
     <string name="vox_level_description">Livello di attivazione vocale: %1$s</string>
+
     <string name="tx_on">Trasmissione…</string>
     <string name="tx_off">Trasmissione inattiva</string>
+
     <string name="text_samplerate">Frequenza di campionamento</string>
     <string name="text_ignore_silence">Ignora il silenzio</string>
     <string name="text_audchan">Canale audio</string>
@@ -268,6 +286,7 @@
     <string name="desktop_image">Immagine del desktop</string>
     <string name="channel_change_alert">Tutti i trasferimenti verranno interrotti quando si cambia canale</string>
     <string name="disconnect_alert">Tutti i trasferimenti in corso verranno interrotti quando il server viene disconnesso</string>
+
     <string name="err_invalid_username">Nome utente non valido</string>
     <string name="err_incorrect_server_password">Password del server errata</string>
     <string name="err_incorrect_channel_password">Password del canale errata</string>
@@ -285,6 +304,7 @@
     <string name="err_openfile_failed">Il server non è riuscito ad aprire il file</string>
     <string name="err_filesharing_disabled">Il server non consente il trasferimento di file</string>
     <string name="err_channel_has_users">Il canale non è vuoto</string>
+
     <string name="private_message_notification">Nuovo messaggio dell\'utente %1$s</string>
     <string name="private_message_notification_hint">Fare clic per leggere e rispondere</string>
     <string name="user_state_now_speaking">%1$s sta attualmente parlando</string>
@@ -292,6 +312,7 @@
     <string name="text_desktop_session">Sessione di desktop</string>
     <string name="text_webcam_session">Sessione webcam</string>
     <string name="text_mediafile_session">Sessione di file multimediali</string>
+
     <string name="permission_audioinput">Registrazione audio non disponibile</string>
     <string name="permission_audiomodify">La registrazione audio non è disponibile</string>
     <string name="permission_filerx">Il download dei file non sarà disponibile</string>
@@ -301,6 +322,7 @@
     <string name="permission_wake_lock">La connessione potrebbe essere persa quando lo schermo è disabilitato</string>
     <string name="permission_read_phone_state">Il rilevamento delle chiamate in arrivo sarà impossibile</string>
     <string name="permission_bluetooth">L\'utilizzo dell\'auricolare Bluetooth sarà impossibile</string>
+
     <string name="title_activity_web_login">Attività di accesso al Web</string>
     <string name="weblogin_prop_title_bearwareid">Nome utente</string>
     <string name="weblogin_prop_title_bearwarepasswd">Password</string>
@@ -340,5 +362,11 @@
     <string name="pref_summary_userloggedin_icon">Riproduci suono quando l\'utente accede al server</string>
     <string name="pref_title_userloggedoff_icon">Utente disconnesso</string>
     <string name="pref_summary_userloggedoff_icon">Riproduci un suono quando l\'utente si disconnette dal server</string>
+    <string name="pref_title_channel_message_sent_audio_icon">Messaggio del canale inviato</string>
+    <string name="pref_summary_channel_message_sent_audio_icon">Riproduci un suono quando invii un messaggio di canale</string>
+    <string name="pref_title_channel_message_sent">Messaggi di canale inviati</string>
+    <string name="pref_summary_channel_message_sent">Annuncia i messaggi del canale inviati</string>
+    <string name="text_tts_channel_message_sent">Messaggio del canale inviato: %1$s</string>
+
 
 </resources>

@@ -8,6 +8,7 @@ env:
   OUTPUTDEVICEID: 1978
   VIDEODEVICEID: None
   VERBOSE: 0
+  GITHUBSKIP: 1
 
 jobs:
   build:

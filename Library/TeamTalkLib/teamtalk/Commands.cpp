@@ -26,7 +26,7 @@
 #include <myace/MyACE.h>
 
 #include <ctime>
-#include <ace/OS_NS_ctype.h> //isdigit
+#include <ace/OS.h>
 
 using namespace std;
 

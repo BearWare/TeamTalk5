@@ -9,6 +9,7 @@ env:
   VIDEODEVICEID: None
   OPUSTOOLS: 0
   VERBOSE: 0
+  GITHUBSKIP: 1
 
 jobs:
   build:

@@ -38,6 +38,7 @@ JAVAPROP+=-Ddk.bearware.opustools=$(OPUSTOOLS)
 JAVAPROP+=-Ddk.bearware.verbose=$(VERBOSE)
 JAVAPROP+=-Ddk.bearware.speexdsp=$(SPEEXDSP)
 JAVAPROP+=-Ddk.bearware.webrtc=$(WEBRTC)
+JAVAPROP+=-Ddk.bearware.githubskip=$(GITHUBSKIP)
 
 help:
 	@echo "Targets:"

@@ -243,9 +243,9 @@ enum SoundEvent
     SOUNDEVENT_REMOVEUSER,
     SOUNDEVENT_SERVERLOST,
     SOUNDEVENT_USERMSG,
-    SOUNDEVENT_SENTMSG,
+    SOUNDEVENT_USERMSGSENT,
     SOUNDEVENT_CHANNELMSG,
-    SOUNDEVENT_SENTCHANNELMSG,
+    SOUNDEVENT_CHANNELMSGSENT,
     SOUNDEVENT_BROADCASTMSG,
     SOUNDEVENT_HOTKEY,
     SOUNDEVENT_SILENCE,   
@@ -444,7 +444,7 @@ struct HostEntry
     , voiceact(-1), capformat(), vidcodec() {}
 
     // doesn't include 'name'
-    bool sameHost(const HostEntry& host) const;
+    bool sameHost(const HostEntry& host, bool nickcheck = true) const;
     // same as sameHost() but also host.name == name
     bool sameHostEntry(const HostEntry& host) const;
 };

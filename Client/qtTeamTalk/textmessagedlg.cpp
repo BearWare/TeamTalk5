@@ -154,7 +154,7 @@ void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
         ui.newmsgTextEdit->setPlainText("");
         newMsg(msg, true);
         emit(newMyselfTextMessage(msg));
-        playSoundEvent(SOUNDEVENT_SENTMSG);
+        playSoundEvent(SOUNDEVENT_USERMSGSENT);
         addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, tr("Private message sent: %1").arg(msg.szMessage));
         m_textchanged = false;
     }

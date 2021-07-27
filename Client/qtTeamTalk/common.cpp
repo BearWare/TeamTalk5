@@ -948,14 +948,14 @@ void playSoundEvent(SoundEvent event)
     case SOUNDEVENT_USERMSG:
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG, SETTINGS_SOUNDEVENT_USERMSG_DEFAULT).toString();
         break;
-    case SOUNDEVENT_SENTMSG :
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_SENTSOUND).toString();
+    case SOUNDEVENT_USERMSGSENT :
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERMSGSENT, SETTINGS_SOUNDEVENT_USERMSGSENT_DEFAULT).toString();
         break;
     case SOUNDEVENT_CHANNELMSG:
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG, SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT).toString();
         break;
-    case SOUNDEVENT_SENTCHANNELMSG :
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_SENTCHANNELSOUND).toString();
+    case SOUNDEVENT_CHANNELMSGSENT :
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSGSENT, SETTINGS_SOUNDEVENT_CHANNELMSGSENT_DEFAULT).toString();
         break;
     case SOUNDEVENT_BROADCASTMSG :
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG, SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT).toString();
@@ -1103,22 +1103,23 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
     }
 }
 
-bool HostEntry::sameHost(const HostEntry& host) const
+bool HostEntry::sameHost(const HostEntry& host, bool nickcheck) const
 {
     return ipaddr == host.ipaddr &&
            tcpport == host.tcpport &&
            udpport == host.udpport &&
+           encrypted == host.encrypted &&
            /* srvpasswd == host.srvpasswd && */ //don't include passwords
            username == host.username &&
            /* password == host.password && */
-           nickname == host.nickname &&
-           channel == host.channel/* &&
-        hosts[i].chanpasswd == host.chanpasswd*/;
+           (!nickcheck || nickname == host.nickname) &&
+           channel == host.channel
+           /* && hosts[i].chanpasswd == host.chanpasswd*/;
 }
 
 bool HostEntry::sameHostEntry(const HostEntry& host) const
 {
-    return sameHost(host) && host.name == name;
+    return sameHost(host, false) && host.name == name;
 }
 
 void addLatestHost(const HostEntry& host)
