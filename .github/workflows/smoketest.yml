@@ -1,6 +1,9 @@
 name: Ubuntu 18 SmokeTest
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - workflow_windows
 
 env:
   # TeamTalkJNI JUnit environment variables

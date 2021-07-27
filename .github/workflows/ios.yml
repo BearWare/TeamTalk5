@@ -1,6 +1,9 @@
 name: iOS
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - workflow_windows
 
 jobs:
   build:

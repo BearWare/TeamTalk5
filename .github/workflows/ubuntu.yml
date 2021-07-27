@@ -1,6 +1,9 @@
 name: Ubuntu 18
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - workflow_windows
 
 env:
   # TeamTalk unit test environment variables
