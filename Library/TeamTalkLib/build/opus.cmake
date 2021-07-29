@@ -1,9 +1,6 @@
 
 if (MSVC)
-  set (OPUS_INCLUDE_DIR ${TTLIBS_ROOT}/opus/include)
-
-  set (OPUS_LINK_FLAGS optimized ${TTLIBS_ROOT}/opus/lib/$(PlatformName)/opus.lib
-    debug ${TTLIBS_ROOT}/opus/lib/$(PlatformName)/opusd.lib)
+  set (OPUS_LINK_FLAGS opus)
 else()
 
   option (OPUS_STATIC "Build using static OPUS libraries" ON)
