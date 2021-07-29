@@ -4,6 +4,8 @@ project(Toolchain)
 
 include(ExternalProject)
 
+set (PLATFORMTOOLSET "/property:PlatformToolset=v142")
+
 ##################################################
 # OpenSSL
 ##################################################
@@ -66,14 +68,14 @@ if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
     BUILD_COMMAND     cd ACE
     COMMAND           set SSL_ROOT=${OPENSSL_DIR}
     COMMAND           build.bat
-    COMMAND           msbuild -maxCpuCount /p:Platform=x64 ace\\ace.sln -target:ACE /property:Configuration=Debug
-    COMMAND           msbuild -maxCpuCount /p:Platform=x64 ace\\ace.sln -target:ACE /property:Configuration=Release
-    COMMAND           msbuild -maxCpuCount /p:Platform=x64 ace\\ace.sln -target:SSL /property:Configuration=Debug
-    COMMAND           msbuild -maxCpuCount /p:Platform=x64 ace\\ace.sln -target:SSL /property:Configuration=Release
-    COMMAND           msbuild -maxCpuCount /p:Platform=x64 protocols\\protocols.sln -target:INet /property:Configuration=Debug
-    COMMAND           msbuild -maxCpuCount /p:Platform=x64 protocols\\protocols.sln -target:INet /property:Configuration=Release
-    COMMAND           msbuild -maxCpuCount /p:Platform=x64 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Debug
-    COMMAND           msbuild -maxCpuCount /p:Platform=x64 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Release
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:ACE /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:ACE /property:Configuration=Release
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:SSL /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:SSL /property:Configuration=Release
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 protocols\\protocols.sln -target:INet /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 protocols\\protocols.sln -target:INet /property:Configuration=Release
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Release
     INSTALL_COMMAND   ""
     DEPENDS           openssl-win64
     )
@@ -92,14 +94,14 @@ else()
     BUILD_COMMAND     cd ACE
     COMMAND           set SSL_ROOT=${OPENSSL_DIR}
     COMMAND           build.bat
-    COMMAND           msbuild -maxCpuCount /p:Platform=win32 ace\\ace.sln -target:ACE /property:Configuration=Debug
-    COMMAND           msbuild -maxCpuCount /p:Platform=win32 ace\\ace.sln -target:ACE /property:Configuration=Release
-    COMMAND           msbuild -maxCpuCount /p:Platform=win32 ace\\ace.sln -target:SSL /property:Configuration=Debug
-    COMMAND           msbuild -maxCpuCount /p:Platform=win32 ace\\ace.sln -target:SSL /property:Configuration=Release
-    COMMAND           msbuild -maxCpuCount /p:Platform=win32 protocols\\protocols.sln -target:INet /property:Configuration=Debug
-    COMMAND           msbuild -maxCpuCount /p:Platform=win32 protocols\\protocols.sln -target:INet /property:Configuration=Release
-    COMMAND           msbuild -maxCpuCount /p:Platform=win32 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Debug
-    COMMAND           msbuild -maxCpuCount /p:Platform=win32 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Release
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:ACE /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:ACE /property:Configuration=Release
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:SSL /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:SSL /property:Configuration=Release
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 protocols\\protocols.sln -target:INet /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 protocols\\protocols.sln -target:INet /property:Configuration=Release
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Release
     INSTALL_COMMAND   ""
     DEPENDS           openssl-win32
     )
@@ -151,8 +153,8 @@ if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
     UPDATE_COMMAND    ""
     CONFIGURE_COMMAND ""
     BUILD_IN_SOURCE   TRUE
-    BUILD_COMMAND     msbuild -maxCpuCount /p:Platform=x64 tinyxml.sln -target:tinyxml /property:Configuration=Debug
-    COMMAND           msbuild -maxCpuCount /p:Platform=x64 tinyxml.sln -target:tinyxml /property:Configuration=Release
+    BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 tinyxml.sln -target:tinyxml /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 tinyxml.sln -target:tinyxml /property:Configuration=Release
     INSTALL_COMMAND   ""
     )
   ExternalProject_Get_Property(tinyxml-win32 SOURCE_DIR)
@@ -165,8 +167,8 @@ else()
     UPDATE_COMMAND    ""
     CONFIGURE_COMMAND ""
     BUILD_IN_SOURCE   TRUE
-    BUILD_COMMAND     msbuild -maxCpuCount /p:Platform=win32 tinyxml.sln -target:tinyxml /property:Configuration=Debug
-    COMMAND           msbuild -maxCpuCount /p:Platform=win32 tinyxml.sln -target:tinyxml /property:Configuration=Release
+    BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 tinyxml.sln -target:tinyxml /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 tinyxml.sln -target:tinyxml /property:Configuration=Release
     INSTALL_COMMAND   ""
     )
   ExternalProject_Get_Property(tinyxml-win32 SOURCE_DIR)
@@ -191,8 +193,8 @@ if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
     UPDATE_COMMAND    ""
     CONFIGURE_COMMAND ""
     BUILD_IN_SOURCE   TRUE
-    BUILD_COMMAND     msbuild -maxCpuCount /p:Platform=x64 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Debug
-    COMMAND           msbuild -maxCpuCount /p:Platform=x64 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Release
+    BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Release
     INSTALL_COMMAND   ""
     )
   ExternalProject_Get_Property(zlib-win32 SOURCE_DIR)
@@ -205,8 +207,8 @@ else()
     UPDATE_COMMAND    ""
     CONFIGURE_COMMAND ""
     BUILD_IN_SOURCE   TRUE
-    BUILD_COMMAND     msbuild -maxCpuCount /p:Platform=win32 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Debug
-    COMMAND           msbuild -maxCpuCount /p:Platform=win32 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=ReleaseWithoutASM
+    BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=ReleaseWithoutASM
     INSTALL_COMMAND   ""
     )
   ExternalProject_Get_Property(zlib-win32 SOURCE_DIR)
