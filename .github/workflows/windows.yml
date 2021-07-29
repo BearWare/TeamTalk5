@@ -1,0 +1,32 @@
+name: Windows-test
+
+on: [push]
+
+jobs:
+  msvc:
+    strategy:
+      matrix:
+        include:
+          - name: VS2019Release32
+            vmimage: windows-2019
+            cmakeplatform: Win32
+          - name: VS2019Release64
+            vmimage: windows-2019
+            cmakeplatform: x64
+    runs-on: ${{ matrix.vmimage }}
+    name: ${{ matrix.name }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Init TeamTalk Client submodules
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: |
+        git submodule update --init --recursive Client
+    - name: Generate CMake Projects
+      working-directory: ${{runner.workspace}}
+      run: >-
+        cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }} -DBUILD_TEAMTALK_CORE=ON -DWEBRTC=OFF -DCATCH_UNITTEST=ON -DOPUSTOOLS=OFF
+    - name: Build CMake Projects
+      working-directory: ${{runner.workspace}}
+      run: >-
+        cmake --build output --target tt5srv
+        
