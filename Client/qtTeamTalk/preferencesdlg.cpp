@@ -586,9 +586,9 @@ void PreferencesDlg::slotTabChange(int index)
         ui.rmuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER, SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT).toString());
         ui.srvlostEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST, SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT).toString());
         ui.usermsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG, SETTINGS_SOUNDEVENT_USERMSG_DEFAULT).toString());
-        ui.sentmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERMSGSENT).toString());
+        ui.sentmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERMSGSENT, SETTINGS_SOUNDEVENT_USERMSGSENT_DEFAULT).toString());
         ui.chanmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG, SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT).toString());
-        ui.sentchannelmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSGSENT).toString());
+        ui.sentchannelmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSGSENT, SETTINGS_SOUNDEVENT_CHANNELMSGSENT_DEFAULT).toString());
         ui.bcastmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG, SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT).toString());
         ui.hotkeyEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY, SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT).toString());
         ui.chansilentEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SILENCE).toString());

@@ -44,7 +44,7 @@
         android:summary="@string/pref_summary_channel_message_audio_icon"
 		/>
     <CheckBoxPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="channel_message_sent_audio_icon"
         android:title="@string/pref_title_channel_message_sent_audio_icon"
         android:summary="@string/pref_summary_channel_message_sent_audio_icon"

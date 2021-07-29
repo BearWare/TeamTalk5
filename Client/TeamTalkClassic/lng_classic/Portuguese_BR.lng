@@ -306,7 +306,7 @@
     <item id="438">VoIP</item>
     <item id="439">Música</item>
     <item id="440">Mensagem global: %s\r\n</item>
-    <item id="441">Mensagem global: %s</item>
+    <item id="441">&#x0D;&#x0A;Mensagem global: %s</item>
     <item id="442">Nome do servidor: %s&#x0D;&#x0A;Mensagem: %s&#x0D;&#x0A;</item>
     <item id="443">&#x0D;&#x0A;Nome do servidor: %s&#x0D;&#x0A;Mensagem: %s</item>
     <item id="444">&#x0D;&#x0A;Entrou em um novo canal.</item>
@@ -364,8 +364,6 @@
     <item id="496">Vídeo</item>
     <item id="497">Volume de</item>
     <item id="498">Erro ao iniciar dispositivo selecionado para teste</item>
-    <item id="499">Desconectar do Facebook</item>
-    <item id="500">Entrar no Facebook</item>
     <item id="501">Ativada a voz de %s</item>
     <item id="502">Webcam</item>
     <item id="503">Administrador</item>
@@ -442,6 +440,9 @@
     <item id="575">%s não pode enviar mensagens para o canal</item>
     <item id="576">%s agora pode enviar mensagens para o canal</item>
     <item id="577">Mensagens para o canal ativadas</item>
+    <item id="578">Oculto</item>
+    <item id="579">Um usuário desconhecido te expulsou do servidor</item>
+    <item id="580">O usuário %s te expulsou do servidor</item>
     <item id="1006">Lista de arquivos</item>
     <item id="1009">Ir para o canal inicial ao conectar</item>
     <item id="1012">Porta TCP do servidor</item>
@@ -464,6 +465,7 @@
     <item id="1037">0=desativado</item>
     <item id="1038">Enquete</item>
     <item id="1039">Reproduzindo mídia</item>
+    <item id="1040">Mostrar o nome do servidor e do canal no título da janela</item>
     <item id="1042">Complete esse assistente. Se ESC for pressionado, você terá de configurar o TeamTalk manualmente.</item>
     <item id="1044">Confira o site www.bearware.dk para procurar por servidores de TeamTalk.</item>
     <item id="1045">Pacote perdido</item>
@@ -479,7 +481,10 @@
     <item id="1060">minimizar para a bandeja do sistema&#x0D;&#x0A;</item>
     <item id="1061">Tópico</item>
     <item id="1063">Senha</item>
+    <item id="1066">Todos de uma vez</item>
     <item id="1067">Número máximo de contas conectadas por endereço IP</item>
+    <item id="1069">Um por um</item>
+    <item id="1071">Interromper anterior</item>
     <item id="1073">Senha</item>
     <item id="1075">Endereço do servidor</item>
     <item id="1077">Canais de áudio</item>
@@ -696,6 +701,7 @@
     <item id="1452">Canais disponíveis</item>
     <item id="1453">Canais automáticos para operadores</item>
     <item id="1454">Mostrar emogis e textos para usuários e status de canais</item>
+    <item id="1455">Mostrar conexões de usuários no histórico</item>
     <item id="1456">Ativar cancelamento de eco (remover eco dos alto-falantes)</item>
     <item id="1460">Apenas Operador recebe (somente operadores vêem e ouvem)</item>
     <item id="1463">taxas de amostragem de saída</item>
@@ -763,6 +769,7 @@
     <item id="1547">Proteção contra spam</item>
     <item id="1548">Impedir o usuário de, por exemplo, enviar mensagens de texto, limitando o número de comandos que podem ser emitidos dentro de um determinado período de tempo.&#x0D;&#x0A;</item>
     <item id="1550">Limite de comandos emitidos</item>
+    <item id="1552">Neutro</item>
     <item id="1553">Perfil</item>
     <item id="1554">O usuário pode mudar o apelido</item>
     <item id="1558">O usuário pode gravar voz em todos os canais</item>
@@ -794,6 +801,11 @@
     <item id="1602">Canal oculto (invisível e conhecido apenas pelo nome)</item>
     <item id="1603">Tipo do canal</item>
     <item id="1604">O usuário pode ver canais ocultos</item>
+    <item id="1605">&amp;Voz</item>
+    <item id="1606">Modo de reprodução</item>
+    <item id="1608">Silenciar o volume principal</item>
+    <item id="1609">Ativar o volume principal</item>
+    <item id="1610">&amp;Arquivos de mídia</item>
     <item id="32791">Qual é o meu endereço de IP?</item>
     <item id="32798">&amp;Tornar operador\tCtrl+O</item>
     <item id="32801">Ver mensagens do canal\tF10</item>

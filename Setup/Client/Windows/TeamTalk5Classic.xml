@@ -16,6 +16,7 @@
     <events>
         <broadcastmessage>Sounds\broadcast_msg.wav</broadcastmessage>
         <channelmessage>Sounds\channel_msg.wav</channelmessage>
+        <channelmessagesent>Sounds\channel_msg_sent.wav</channelmessagesent>
         <desktop-access-req>Sounds\desktopaccessreq.wav</desktop-access-req>
         <new-desktop-session>Sounds\desktopsession.wav</new-desktop-session>
         <transferend>Sounds\filetx_complete.wav</transferend>
@@ -32,6 +33,7 @@
         <transmit-queue-stop>Sounds\txqueue_stop.wav</transmit-queue-stop>
         <disable-mute-all>Sounds\unmute_all.wav</disable-mute-all>
         <newmessage>Sounds\user_msg.wav</newmessage>
+        <newmessagesent>Sounds\user_msg_sent.wav</newmessagesent>
         <new-video-session>Sounds\videosession.wav</new-video-session>
         <voice-deactivated>Sounds\voiceact_off.wav</voice-deactivated>
         <voice-activated>Sounds\voiceact_on.wav</voice-activated>        
