@@ -6,26 +6,10 @@ set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_LIST_DIR})
 option (BUILD_TEAMTALK_STATIC "Build TeamTalk libraries and executables from toolchain" ON)
 
 if (BUILD_TEAMTALK_STATIC)
+  add_subdirectory (build/toolchain)
 
-  add_subdirectory (toolchain)
-
-  # if ($ENV{TTLIBS_ROOT})
-  #   message("Overriding TTLIBS_ROOT with environment variable TTLIBS_ROOT=$ENV{TTLIBS_ROOT}")
-  #   set (TTLIBS_ROOT $ENV{TTLIBS_ROOT})
-  #   file (TO_CMAKE_PATH ${TTLIBS_ROOT} TTLIBS_ROOT)
-  # endif()
-  
 else()
   message("Building TeamTalk from shared libraries")
-endif()
-
-if (${CMAKE_VERSION} VERSION_GREATER "3.1")
-  # WebRTC makes use of std::make_reverse_iterator which is C++14
-  set (CMAKE_CXX_STANDARD 14)
-else()
-  if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    list (APPEND COMPILE_FLAGS -std=c++14)
-  endif()
 endif()
 
 list (APPEND CMAKE_MODULE_PATH "${TEAMTALKLIB_ROOT}/build")
@@ -44,6 +28,17 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 endif()
 
+if (${CMAKE_VERSION} VERSION_GREATER "3.1")
+  # WebRTC makes use of std::make_reverse_iterator which is C++14
+  set (CMAKE_CXX_STANDARD 14)
+else()
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    list (APPEND COMPILE_FLAGS -std=c++14)
+  endif()
+endif()
+
+# Build Multi-threaded instead of Multi-Treaded DLL to avoid MSVC
+# dependency hell
 if (MSVC)
   list (APPEND COMPILE_FLAGS -DUNICODE -D_UNICODE
     -D_CRT_NONSTDC_NO_WARNINGS
@@ -100,7 +95,7 @@ if (BUILD_TEAMTALK5DLL)
   target_compile_options (TeamTalk5DLL PUBLIC ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
   target_link_libraries (TeamTalk5DLL ${TTCLIENTDLL_LINK_FLAGS} ${LINK_LIBS})
   set_target_properties (TeamTalk5DLL PROPERTIES OUTPUT_NAME TeamTalk5)
-  
+
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set_output_dir(TeamTalk5DLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
@@ -134,7 +129,7 @@ if (BUILD_TEAMTALK5LIB)
   target_compile_options (TeamTalk5Lib PUBLIC ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
   target_link_libraries (TeamTalk5Lib ${TTCLIENTDLL_LINK_FLAGS} ${LINK_LIBS})
   set_target_properties (TeamTalk5Lib PROPERTIES OUTPUT_NAME TeamTalk5)
-  
+
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set_output_dir(TeamTalk5Lib ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
@@ -181,7 +176,7 @@ if (BUILD_TEAMTALK5PRODLL)
   endif()
 
   set_target_properties (TeamTalk5ProDLL PROPERTIES OUTPUT_NAME TeamTalk5Pro)
-  
+
   if (MSVS_UNITTEST)
     set_target_properties (TeamTalk5ProDLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
     set_target_properties (TeamTalk5ProDLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
@@ -223,7 +218,7 @@ if (BUILD_TEAMTALK5PROLIB)
   endif()
 
   set_target_properties (TeamTalk5ProLib PROPERTIES OUTPUT_NAME TeamTalk5Pro)
-  
+
 endif()
 
 
@@ -280,7 +275,7 @@ if (BUILD_TT5PROSRV)
   if (MSVC)
     set_property(TARGET tt5prosrv PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
   endif()
-  
+
 endif()
 
 if (MSVC)
@@ -313,7 +308,7 @@ if (MSVC)
       WORKING_DIRECTORY ${TEAMTALKLIB_ROOT}/build)
 
     set_output_dir(tt5svc ${TEAMTALK_ROOT}/Server)
-    
+
     if (MSVC)
       set_property(TARGET tt5svc PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
     endif()
@@ -350,7 +345,7 @@ if (MSVC)
     if (MSVC)
       set_property(TARGET tt5prosvc PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
     endif()
-    
+
   endif()
 endif()
 
@@ -373,7 +368,7 @@ if (CATCH_UNITTEST)
   else()
     # Assuming 'catch' package is installed
   endif()
-  
+
   target_include_directories (catchtt PUBLIC
     ${TTCLIENTPRODLL_INCLUDE_DIR} ${TINYXML_INCLUDE_DIR})
 
@@ -384,7 +379,7 @@ if (CATCH_UNITTEST)
     ${LINK_LIBS} ${CATCH_LINK_FLAGS} ${TINYXML_LINK_FLAGS})
 
   set_output_dir(catchtt ${TEAMTALK_ROOT}/Library/TeamTalkLib/test)
-  
+
   set_property(TARGET catchtt PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/test")
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

@@ -1,5 +1,7 @@
 option (BUILD_TEAMTALK_ACE "Build customized ACE INet SSL library with SNI-enabled" ON)
 
+include (openssl)
+
 if (BUILD_TEAMTALK_ACE)
   set (ACE_COMPILE_FLAGS -DENABLE_TEAMTALKACE)
 
@@ -10,15 +12,8 @@ if (BUILD_TEAMTALK_ACE)
 endif()
 
 if (MSVC)
-  set (ACE_ROOT ${TTLIBS_ROOT}/ACE/ACE )
-  set (ACE_INCLUDE_DIR ${ACE_ROOT} )
-  list (APPEND ACE_INCLUDE_DIR ${ACE_ROOT}/protocols)
 
-  set (ACE_STATIC_LIB optimized ${ACE_ROOT}/lib/$(PlatformName)/ACEs.lib debug ${ACE_ROOT}/lib/$(PlatformName)/ACEsd.lib)
-  set (ACESSL_STATIC_LIB optimized ${ACE_ROOT}/lib/$(PlatformName)/ACE_SSLs.lib debug ${ACE_ROOT}/lib/$(PlatformName)/ACE_SSLsd.lib)
-  set (ACEINET_STATIC_LIB optimized ${ACE_ROOT}/lib/$(PlatformName)/ACE_INets.lib debug ${ACE_ROOT}/lib/$(PlatformName)/ACE_INetsd.lib)
-  set (ACEINETSSL_STATIC_LIB optimized ${ACE_ROOT}/lib/$(PlatformName)/ACE_INet_SSLs.lib debug ${ACE_ROOT}/lib/$(PlatformName)/ACE_INet_SSLsd.lib)
-  set (ACE_LINK_FLAGS ${ACEINETSSL_STATIC_LIB} ${ACESSL_STATIC_LIB} ${ACEINET_STATIC_LIB} ${ACE_STATIC_LIB})
+  set (ACE_LINK_FLAGS ace_inet_ssl ace_ssl ace_inet ace)
 
 else() # Mac & Linux
 

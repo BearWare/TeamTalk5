@@ -5,9 +5,9 @@
 # linking libssl-dev package
 
 if (MSVC)
-    set (OPENSSL_INCLUDE_DIR ${TTLIBS_ROOT}/openssl/include)
-    set (OPENSSL_STATIC_LIB ${TTLIBS_ROOT}/openssl/libssl.lib ${TTLIBS_ROOT}/openssl/libcrypto.lib crypt32.lib)
-    set (OPENSSL_LINK_FLAGS ${OPENSSL_STATIC_LIB})
+  
+  set (OPENSSL_LINK_FLAGS openssl-ssl openssl-crypto)
+  
 else()
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
