@@ -1,8 +1,6 @@
 
 if (MSVC)
-  set (ZLIB_INCLUDE_DIR ${TTLIBS_ROOT}/zlib)
-  set (ZLIB_STATIC_LIB optimized ${TTLIBS_ROOT}/zlib/lib/$(PlatformName)/zlib.lib debug ${TTLIBS_ROOT}/zlib/lib/$(PlatformName)/zlibd.lib)
-  set (ZLIB_LINK_FLAGS ${ZLIB_STATIC_LIB})
+  set (ZLIB_LINK_FLAGS zlib)
 else()
   option (ZLIB_STATIC "Build using zlib static libraries" ON)
 

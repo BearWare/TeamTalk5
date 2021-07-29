@@ -4,6 +4,9 @@ project(Toolchain)
 
 include(ExternalProject)
 
+##################################################
+# OpenSSL
+##################################################
 if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
   ExternalProject_Add(openssl-win64
     GIT_REPOSITORY    https://github.com/bear101/openssl
@@ -48,6 +51,9 @@ target_link_libraries(openssl-ssl INTERFACE crypt32.lib)
 set_property(TARGET openssl-ssl PROPERTY IMPORTED_LOCATION ${OPENSSL_DIR}/lib/$(PlatformName)/lib/libssl.lib)
 add_dependencies(openssl-ssl ${OPENSSL_DEPEND})
 
+##################################################
+# ACE
+##################################################
 if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
   ExternalProject_Add(ACE-win64
     GIT_REPOSITORY    https://github.com/bear101/ACE
@@ -135,6 +141,9 @@ set_target_properties(ace_inet_ssl PROPERTIES
                       IMPORTED_LOCATION_DEBUG ${ACE_DIR}/lib/$(PlatformName)/ACE_INet_SSLsd.lib
                       IMPORTED_LOCATION ${ACE_DIR}/lib/$(PlatformName)/ACE_INet_SSLs.lib)
 
+##################################################
+# TinyXML
+##################################################
 if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
   ExternalProject_Add(tinyxml-win64
     GIT_REPOSITORY    https://github.com/bear101/tinyxml
@@ -165,10 +174,54 @@ else()
   set (TINYXML_DEPEND tinyxml-win32)
 endif()
 
-
 add_library(tinyxml STATIC IMPORTED GLOBAL)
 target_include_directories (tinyxml INTERFACE ${TINYXML_DIR})
 set_target_properties(tinyxml PROPERTIES
                       IMPORTED_LOCATION_DEBUG ${TINYXML_DIR}/lib/$(PlatformName)/tinyxmld.lib
                       IMPORTED_LOCATION ${TINYXML_DIR}/lib/$(PlatformName)/tinyxml.lib)
 add_dependencies(tinyxml ${TINYXML_DEPEND})
+
+##################################################
+# ZLib
+##################################################
+if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
+  ExternalProject_Add(zlib-win64
+    GIT_REPOSITORY    https://github.com/bear101/zlib
+    GIT_TAG           56c3219
+    UPDATE_COMMAND    ""
+    CONFIGURE_COMMAND ""
+    BUILD_IN_SOURCE   TRUE
+    BUILD_COMMAND     msbuild -maxCpuCount /p:Platform=x64 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount /p:Platform=x64 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Release
+    INSTALL_COMMAND   ""
+    )
+  ExternalProject_Get_Property(zlib-win32 SOURCE_DIR)
+  set (ZLIB_DIR ${SOURCE_DIR})
+  set (ZLIB_DEPEND zlib-win64)
+else()
+  ExternalProject_Add(zlib-win32
+    GIT_REPOSITORY    https://github.com/bear101/zlib
+    GIT_TAG           56c3219
+    UPDATE_COMMAND    ""
+    CONFIGURE_COMMAND ""
+    BUILD_IN_SOURCE   TRUE
+    BUILD_COMMAND     msbuild -maxCpuCount /p:Platform=win32 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Debug
+    COMMAND           msbuild -maxCpuCount /p:Platform=win32 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=ReleaseWithoutASM
+    INSTALL_COMMAND   ""
+    )
+  ExternalProject_Get_Property(zlib-win32 SOURCE_DIR)
+  set (ZLIB_DIR ${SOURCE_DIR})
+  set (ZLIB_DEPEND zlib-win32)
+endif()
+
+add_library(zlib STATIC IMPORTED GLOBAL)
+target_include_directories (zlib INTERFACE ${ZLIB_DIR})
+set_target_properties(zlib PROPERTIES
+                      IMPORTED_LOCATION_DEBUG ${ZLIB_DIR}/lib/$(PlatformName)/zlibd.lib
+                      IMPORTED_LOCATION ${ZLIB_DIR}/lib/$(PlatformName)/zlib.lib)
+add_dependencies(zlib ${ZLIB_DEPEND})
+
+
+##################################################
+# OPUS
+##################################################

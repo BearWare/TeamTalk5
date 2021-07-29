@@ -6,7 +6,6 @@ include (codec)
 include (avstream)
 
 set (TTCLIENT_INCLUDE_DIR
-  ${ZLIB_INCLUDE_DIR}
   ${CODEC_INCLUDE_DIR}
   ${AVSTREAM_INCLUDE_DIR}
   ${SOUNDSYS_INCLUDE_DIR}
