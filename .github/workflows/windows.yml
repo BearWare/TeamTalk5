@@ -24,9 +24,19 @@ jobs:
     - name: Generate CMake Projects
       working-directory: ${{runner.workspace}}
       run: >-
-        cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }} -DBUILD_TEAMTALK_CORE=ON -DWEBRTC=OFF -DCATCH_UNITTEST=ON -DOPUSTOOLS=OFF
+        cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
+        -DBUILD_TEAMTALK_CORE=ON
+        -DCATCH_UNITTEST=OFF
+        -DLIBVPX=OFF
+        -DOPUSTOOLS=OFF
+        -DOPUS=OFF
+        -DSPEEX=OFF
+        -DSPEEXDSP=OFF
+        -DOGG=OFF
+        -DPORTAUDIO=OFF
+        -DWEBRTC=OFF
     - name: Build CMake Projects
       working-directory: ${{runner.workspace}}
-      run: >-
-        cmake --build output --target tt5srv
+      run: |
+        cmake --build output
         
