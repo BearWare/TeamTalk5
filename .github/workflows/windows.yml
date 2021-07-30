@@ -29,7 +29,7 @@ jobs:
         -DCATCH_UNITTEST=OFF
         -DLIBVPX=OFF
         -DOPUSTOOLS=OFF
-        -DOPUS=OFF
+        -DOPUS=ON
         -DSPEEX=OFF
         -DSPEEXDSP=OFF
         -DOGG=OFF
