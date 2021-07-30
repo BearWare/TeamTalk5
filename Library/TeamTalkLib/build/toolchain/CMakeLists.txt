@@ -9,7 +9,7 @@ set (PLATFORMTOOLSET "/property:PlatformToolset=v142")
 ##################################################
 # OpenSSL
 ##################################################
-if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
+if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
   ExternalProject_Add(openssl-win64
     GIT_REPOSITORY    https://github.com/bear101/openssl
     GIT_TAG           2c3f861718
@@ -56,7 +56,7 @@ add_dependencies(openssl-ssl ${OPENSSL_DEPEND})
 ##################################################
 # ACE
 ##################################################
-if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
+if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
   ExternalProject_Add(ACE-win64
     GIT_REPOSITORY    https://github.com/bear101/ACE
     GIT_TAG           4933f7d4b92
@@ -146,7 +146,7 @@ set_target_properties(ace_inet_ssl PROPERTIES
 ##################################################
 # TinyXML
 ##################################################
-if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
+if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
   ExternalProject_Add(tinyxml-win64
     GIT_REPOSITORY    https://github.com/bear101/tinyxml
     GIT_TAG           224ab4ea35ded8ee95f13c84c30592abf5292af8
@@ -157,7 +157,7 @@ if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
     COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 tinyxml.sln -target:tinyxml /property:Configuration=Release
     INSTALL_COMMAND   ""
     )
-  ExternalProject_Get_Property(tinyxml-win32 SOURCE_DIR)
+  ExternalProject_Get_Property(tinyxml-win64 SOURCE_DIR)
   set (TINYXML_DIR ${SOURCE_DIR})
   set (TINYXML_DEPEND tinyxml-win64)
 else()
@@ -186,7 +186,7 @@ add_dependencies(tinyxml ${TINYXML_DEPEND})
 ##################################################
 # ZLib
 ##################################################
-if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
+if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
   ExternalProject_Add(zlib-win64
     GIT_REPOSITORY    https://github.com/bear101/zlib
     GIT_TAG           56c3219
@@ -197,7 +197,7 @@ if ({CMAKE_SIZEOF_VOID_P} EQUAL 8)
     COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=ReleaseWithoutASM
     INSTALL_COMMAND   ""
     )
-  ExternalProject_Get_Property(zlib-win32 SOURCE_DIR)
+  ExternalProject_Get_Property(zlib-win64 SOURCE_DIR)
   set (ZLIB_DIR ${SOURCE_DIR})
   set (ZLIB_DEPEND zlib-win64)
 else()
