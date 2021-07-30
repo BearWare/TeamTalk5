@@ -1,10 +1,7 @@
 include (ttlib)
 
 if (MSVC)
-  set (PORTAUDIO_INCLUDE_DIR ${TTLIBS_ROOT}/portaudio/include)
-
-  set (PORTAUDIO_LINK_FLAGS optimized ${TTLIBS_ROOT}/portaudio/lib/$(PlatformName)/pastatic.lib
-    debug ${TTLIBS_ROOT}/portaudio/lib/$(PlatformName)/pastaticd.lib)
+  set (PORTAUDIO_LINK_FLAGS portaudio)
 
 else()
 

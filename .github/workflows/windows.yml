@@ -33,7 +33,7 @@ jobs:
         -DSPEEX=OFF
         -DSPEEXDSP=OFF
         -DOGG=OFF
-        -DPORTAUDIO=OFF
+        -DPORTAUDIO=ON
         -DWEBRTC=OFF
     - name: Build CMake Projects
       working-directory: ${{runner.workspace}}
