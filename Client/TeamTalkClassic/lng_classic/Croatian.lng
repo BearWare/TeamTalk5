@@ -790,9 +790,11 @@
     <item id="1602">Skriveni kanal nevidljiv i poznat samo po imenu)</item>
     <item id="1603">Tip kanala</item>
     <item id="1604">Korisnik može vidjeti skrivene kanale</item>
+    <item id="1605">&amp;Goas</item>
     <item id="1606">Način reprodukcije</item>
     <item id="1608">Utišaj glavnu glasnoću</item>
     <item id="1609">Odtišaj glavnu glasnoću</item>
+    <item id="1610">&amp;Multimedijske datoteke</item>
     <item id="32791">Koja je moja &amp;IP adresa_</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">&amp;Pregledaj poruke kanala\tF10</item>
