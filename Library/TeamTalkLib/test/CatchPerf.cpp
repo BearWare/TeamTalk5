@@ -32,6 +32,7 @@
 #include <avstream/MediaPlayback.h>
 
 #include <myace/MyACE.h>
+#include <cstring>
 
 TEST_CASE("AudioMuxerStreamRestart")
 {
