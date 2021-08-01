@@ -1,8 +1,5 @@
 if (MSVC)
-  set (OGG_INCLUDE_DIR ${TTLIBS_ROOT}/ogg/include)
-  set (OGG_STATIC_LIB optimized ${TTLIBS_ROOT}/ogg/lib/$(PlatformName)/ogg.lib
-    debug ${TTLIBS_ROOT}/ogg/lib/$(PlatformName)/oggd.lib)
-  set (OGG_LINK_FLAGS ${OGG_STATIC_LIB})
+  set (OGG_LINK_FLAGS ogg)
 else()
 
   option (OGG_STATIC "Build ogg using static libraries" ON)

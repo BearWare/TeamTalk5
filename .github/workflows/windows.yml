@@ -32,7 +32,7 @@ jobs:
         -DOPUS=ON
         -DSPEEX=OFF
         -DSPEEXDSP=OFF
-        -DOGG=OFF
+        -DOGG=ON
         -DPORTAUDIO=ON
         -DWEBRTC=OFF
     - name: Build CMake Projects
