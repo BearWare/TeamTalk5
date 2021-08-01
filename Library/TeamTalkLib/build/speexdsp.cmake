@@ -1,10 +1,5 @@
-
 if (MSVC)
-  set (SPEEXDSP_INCLUDE_DIR ${TTLIBS_ROOT}/speexdsp/include)
-
-  set (SPEEXDSP_LINK_FLAGS optimized ${TTLIBS_ROOT}/speexdsp/lib/$(PlatformName)/libspeexdsp_sse.lib
-    debug ${TTLIBS_ROOT}/speexdsp/lib/$(PlatformName)/libspeexdspd.lib)
-
+  set (SPEEXDSP_LINK_FLAGS speexdsp)
 else()
 
   option (SPEEXDSP_STATIC "Build using static SpeexDSP libraries" ON)

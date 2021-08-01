@@ -30,8 +30,8 @@ jobs:
         -DLIBVPX=OFF
         -DOPUSTOOLS=OFF
         -DOPUS=ON
-        -DSPEEX=OFF
-        -DSPEEXDSP=OFF
+        -DSPEEX=ON
+        -DSPEEXDSP=ON
         -DOGG=ON
         -DPORTAUDIO=ON
         -DWEBRTC=OFF
