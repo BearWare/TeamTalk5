@@ -1,10 +1,6 @@
 
 if (MSVC)
-  set (SPEEX_INCLUDE_DIR ${TTLIBS_ROOT}/speex/include)
-
-  set (SPEEX_LINK_FLAGS optimized ${TTLIBS_ROOT}/speex/lib/$(PlatformName)/libspeex_sse2.lib
-    debug ${TTLIBS_ROOT}/speex/lib/$(PlatformName)/libspeexd.lib)
-
+  set (SPEEX_LINK_FLAGS speex)
 else()
 
   option (SPEEX_STATIC "Build using static Speex libraries" ON)
