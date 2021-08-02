@@ -38,5 +38,5 @@ jobs:
     - name: Build CMake Projects
       working-directory: ${{runner.workspace}}
       run: |
-        cmake --build output
+        cmake --build output --parallel 8
         
