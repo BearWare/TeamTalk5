@@ -39,4 +39,17 @@ jobs:
       working-directory: ${{runner.workspace}}
       run: |
         cmake --build output --parallel 8
-        
+    - name: Copy Server Configuration
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: |
+        copy Library\TeamTalkLib\test\tt5srv.xml_template Server\tt5srv.xml
+        copy Library\TeamTalkLib\test\tt5prosrv.xml_template Server\tt5prosrv.xml
+        copy Library\TeamTalkLib\test\ttserverkey.pem Server\
+        copy Library\TeamTalkLib\test\ttservercert.pem Server\
+    - name: Start TeamTalk Service
+      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      shell: cmd
+      run: |
+        dir
+        tt5svc.exe -i
+        tt5svc.exe -s
