@@ -50,7 +50,7 @@
     <string name="pref_summary_vox_triggered_icon">Звуковое оповещение о включении / выключении передачи при голосовой активации</string>
     <string name="pref_title_private_message_audio_icon">Личное сообщение</string>
     <string name="pref_summary_private_message_audio_icon">Звуковое оповещение о приходе личного сообщения</string>
-    <string name="pref_title_channel_message_audio_icon">Сообщение в канале</string>
+    <string name="pref_title_channel_message_audio_icon">Получение сообщения в канале</string>
     <string name="pref_summary_channel_message_audio_icon">Звуковое оповещение о приходе сообщения для всех в текущем канале</string>
     <string name="pref_title_broadcast_message_audio_icon">Широковещательное сообщение</string>
     <string name="pref_summary_broadcast_message_audio_icon">Звуковое оповещение о приходе широковещательного сообщения</string>
@@ -355,5 +355,10 @@
     <string name="pref_summary_userloggedin_icon">Звуковое оповещение о входе пользователя</string>
     <string name="pref_title_userloggedoff_icon">Выход пользователя</string>
     <string name="pref_summary_userloggedoff_icon">Звуковое оповещение о выходе пользователя</string>
+    <string name="pref_title_channel_message_sent_audio_icon">Отправка сообщения в канале</string>
+    <string name="pref_summary_channel_message_sent_audio_icon">Звуковое оповещение об отправке сообщения для всех в текущем канале</string>
+    <string name="pref_title_channel_message_sent">Отправка сообщений в канале</string>
+    <string name="pref_summary_channel_message_sent">Объявление об отправке сообщений для всех в текущем канале</string>
+    <string name="text_tts_channel_message_sent">Отправлено сообщение в канале: %1$s</string>
 
 </resources>
