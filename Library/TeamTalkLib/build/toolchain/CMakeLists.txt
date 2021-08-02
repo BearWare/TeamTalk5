@@ -401,3 +401,17 @@ set_property(TARGET opustools PROPERTY OUTPUT_NAME_DEBUG opustoolsd)
 add_dependencies(opustools opustools-src)
 target_link_libraries(opustools ogg)
 target_include_directories (opustools INTERFACE ${SOURCE_DIR}/src)
+
+##################################################
+# Catch2
+##################################################
+ExternalProject_Add(catch2
+  GIT_REPOSITORY    https://github.com/catchorg/Catch2
+  GIT_TAG           v1.12.2
+  UPDATE_COMMAND    ""
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND     ""
+  INSTALL_COMMAND   ""
+  )
+ExternalProject_Get_Property(catch2 SOURCE_DIR)
+set (CATCH2_INCLUDE_DIR ${SOURCE_DIR}/include PARENT_SCOPE)

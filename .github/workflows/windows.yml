@@ -26,7 +26,7 @@ jobs:
       run: >-
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
         -DBUILD_TEAMTALK_CORE=ON
-        -DCATCH_UNITTEST=OFF
+        -DCATCH_UNITTEST=ON
         -DLIBVPX=OFF
         -DOPUSTOOLS=ON
         -DOPUS=ON

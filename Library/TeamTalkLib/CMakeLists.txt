@@ -360,7 +360,8 @@ if (CATCH_UNITTEST)
       ${TEAMTALKLIB_ROOT}/settings/Settings.h)
 
   if (BUILD_TEAMTALK_STATIC)
-    list (APPEND TTCLIENTPRODLL_INCLUDE_DIR ${TTLIBS_ROOT}/Catch2/include)
+    add_dependencies(catchtt catch2)
+    list (APPEND TTCLIENTPRODLL_INCLUDE_DIR ${CATCH2_INCLUDE_DIR})
   else()
     # Assuming 'catch' package is installed
   endif()
