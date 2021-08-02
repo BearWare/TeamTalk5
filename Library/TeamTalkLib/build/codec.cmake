@@ -51,10 +51,8 @@ endif()
 
 option (OPUSTOOLS "Build Opus-tools" ON)
 if (OPUSTOOLS)
-  list (APPEND CODEC_SOURCES ${TTLIBS_ROOT}/opus-tools/src/opus_header.c)
-  list (APPEND CODEC_HEADERS ${TTLIBS_ROOT}/opus-tools/src/opus_header.h)
   list (APPEND CODEC_COMPILE_FLAGS -DENABLE_OPUSTOOLS)
-  list (APPEND CODEC_INCLUDE_DIR ${OPUSTOOLS_INCLUDE_DIR})
+  list (APPEND CODEC_LINK_FLAGS ${OPUSTOOLS_LINK_FLAGS})
 endif()
 
 if (LIBVPX)

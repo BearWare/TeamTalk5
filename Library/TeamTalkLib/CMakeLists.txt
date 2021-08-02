@@ -3,21 +3,6 @@ project (TeamTalk5Lib)
 
 set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
-option (BUILD_TEAMTALK_STATIC "Build TeamTalk libraries and executables from toolchain" ON)
-
-if (BUILD_TEAMTALK_STATIC)
-  add_subdirectory (build/toolchain)
-
-else()
-  message("Building TeamTalk from shared libraries")
-endif()
-
-list (APPEND CMAKE_MODULE_PATH "${TEAMTALKLIB_ROOT}/build")
-
-include (ttsrv)
-include (ttdll)
-include (unittest)
-
 set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
 set (CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
 
@@ -34,7 +19,7 @@ set (CMAKE_CXX_STANDARD 14)
 # Build Multi-threaded instead of Multi-Treaded DLL to avoid MSVC
 # dependency hell
 if (MSVC)
-  list (APPEND COMPILE_FLAGS -DUNICODE -D_UNICODE
+  set (COMPILE_FLAGS -DUNICODE -D_UNICODE
     -D_CRT_NONSTDC_NO_WARNINGS
     -D_CRT_SECURE_NO_WARNINGS
     -D_CRT_SECURE_NO_DEPRECATE
@@ -51,7 +36,7 @@ if (MSVC)
     endif()
   endforeach(flag_var)
 else()
-  list (APPEND COMPILE_FLAGS -Wno-deprecated-declarations)
+  set (COMPILE_FLAGS -Wno-deprecated-declarations)
 endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
@@ -70,6 +55,23 @@ function(set_output_dir target dir)
     ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${dir}
     ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${dir})
 endfunction()
+
+
+option (BUILD_TEAMTALK_STATIC "Build TeamTalk libraries and executables from toolchain" ON)
+
+if (BUILD_TEAMTALK_STATIC)
+  add_subdirectory (build/toolchain)
+
+else()
+  message("Building TeamTalk from shared libraries")
+endif()
+
+list (APPEND CMAKE_MODULE_PATH "${TEAMTALKLIB_ROOT}/build")
+
+include (ttsrv)
+include (ttdll)
+include (unittest)
+
 
 ######################
 # libTeamTalk5.so #

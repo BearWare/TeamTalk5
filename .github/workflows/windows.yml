@@ -28,7 +28,7 @@ jobs:
         -DBUILD_TEAMTALK_CORE=ON
         -DCATCH_UNITTEST=OFF
         -DLIBVPX=OFF
-        -DOPUSTOOLS=OFF
+        -DOPUSTOOLS=ON
         -DOPUS=ON
         -DSPEEX=ON
         -DSPEEXDSP=ON
