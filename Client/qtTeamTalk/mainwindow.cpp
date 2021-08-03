@@ -1821,7 +1821,6 @@ void MainWindow::Disconnect()
     ui.videosendButton->setVisible(false);
     ui.desktopmsgEdit->setVisible(false);
     ui.desktopsendButton->setVisible(false);
-    ui.actionChangeNickname->setText(tr("Change Nickname"));
 
     m_vid_exclude.clear();
 
@@ -3810,7 +3809,7 @@ void MainWindow::slotClientExit(bool /*checked =false */)
 void MainWindow::slotMeChangeNickname(bool /*checked =false */)
 {
     QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
-    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED && m_host.nickname.size())
+    if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.nickname.size())
         nick = m_host.nickname;
     bool ok = false;
     QInputDialog inputDialog;
@@ -3819,15 +3818,15 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setTextValue(nick);
     inputDialog.setWindowTitle(MENUTEXT(ui.actionChangeNickname->text()));
-    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
-    inputDialog.setLabelText(tr("Specify new nickname for current server"));
+    if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
+        inputDialog.setLabelText(tr("Specify new nickname for current server"));
     else
-    inputDialog.setLabelText(tr("Specify new nickname"));
+        inputDialog.setLabelText(tr("Specify new nickname"));
     ok = inputDialog.exec();
     QString s = inputDialog.textValue();
     if(ok)
     {
-        if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+        if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
         {
             m_host.nickname = s;
             TT_DoChangeNickname(ttInst, (s.isEmpty() && !ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString().isEmpty())?_W(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString()):_W(s));
@@ -5072,8 +5071,6 @@ void MainWindow::slotUpdateUI()
     bool me_admin = (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
     bool me_op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user_chanid);
 
-    if(auth)
-        ui.actionChangeNickname->setText(tr("Change Nickname for current server"));
     ui.actionConnect->setChecked( (statemask & CLIENT_CONNECTING) || (statemask & CLIENT_CONNECTED));
     ui.actionChangeStatus->setEnabled(auth);
 #ifdef Q_OS_WIN32
