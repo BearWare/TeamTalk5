@@ -3088,7 +3088,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="3822"/>
         <source>Specify new nickname for current server</source>
-        <translation type="unfinished"></translation>
+        <translation>为当前服务器指定新昵称</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3824"/>
