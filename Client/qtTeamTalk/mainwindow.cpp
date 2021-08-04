@@ -3809,7 +3809,7 @@ void MainWindow::slotClientExit(bool /*checked =false */)
 void MainWindow::slotMeChangeNickname(bool /*checked =false */)
 {
     QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
-    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED && m_host.nickname.size())
+    if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.nickname.size())
         nick = m_host.nickname;
     bool ok = false;
     QInputDialog inputDialog;
@@ -3818,12 +3818,15 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setTextValue(nick);
     inputDialog.setWindowTitle(MENUTEXT(ui.actionChangeNickname->text()));
-    inputDialog.setLabelText(tr("Specify new nickname"));
+    if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
+        inputDialog.setLabelText(tr("Specify new nickname for current server"));
+    else
+        inputDialog.setLabelText(tr("Specify new nickname"));
     ok = inputDialog.exec();
     QString s = inputDialog.textValue();
     if(ok)
     {
-        if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+        if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
         {
             m_host.nickname = s;
             TT_DoChangeNickname(ttInst, (s.isEmpty() && !ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString().isEmpty())?_W(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString()):_W(s));

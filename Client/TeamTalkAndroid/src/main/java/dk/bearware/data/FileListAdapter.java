@@ -323,7 +323,7 @@ implements ClientListener, Comparator<RemoteFile> {
             if((convertView == null) || (convertView.findViewById(R.id.fileinfo) == null))
                 convertView = inflater.inflate(R.layout.item_remote_file, parent, false);
             String fileSize = Formatter.formatFileSize(context, remoteFile.nFileSize);
-            String fileinfo = String.format("%s (%s)", fileSize, remoteFile.szUsername);
+            String fileinfo = String.format("%s (%s): %s", fileSize, remoteFile.szUsername, remoteFile.szUploadTime);
             ((TextView)convertView.findViewById(R.id.fileinfo)).setText(fileinfo);
             Button downloadButton = (Button)convertView.findViewById(R.id.download_btn);
             Button removeButton = (Button)convertView.findViewById(R.id.remove_btn);
