@@ -25,9 +25,10 @@
 #define SETTINGS_H
 
 #include <QSettings>
+#include <QApplication>
 
 #if defined(Q_OS_WIN32)
-#define SOUNDSPATH                                     "Sounds"
+#define SOUNDSPATH                                     QApplication::applicationDirPath()+"/Sounds"
 #elif defined(Q_OS_LINUX)
 #define SOUNDSPATH                                     "sounds"
 #elif defined(Q_OS_DARWIN)
