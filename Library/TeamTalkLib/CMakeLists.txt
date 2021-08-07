@@ -60,8 +60,7 @@ endfunction()
 option (BUILD_TEAMTALK_STATIC "Build TeamTalk libraries and executables from toolchain" ON)
 
 if (BUILD_TEAMTALK_STATIC)
-  add_subdirectory (build/toolchain)
-
+  add_subdirectory (build)
 else()
   message("Building TeamTalk from shared libraries")
 endif()
@@ -361,7 +360,7 @@ if (CATCH_UNITTEST)
 
   if (BUILD_TEAMTALK_STATIC)
     add_dependencies(catchtt catch2)
-    list (APPEND TTCLIENTPRODLL_INCLUDE_DIR ${CATCH2_INCLUDE_DIR})
+    list (APPEND TTCLIENTPRODLL_INCLUDE_DIR ${CATCH_INCLUDE_DIR})
   else()
     # Assuming 'catch' package is installed
   endif()
