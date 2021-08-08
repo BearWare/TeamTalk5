@@ -361,10 +361,13 @@ namespace teamtalk {
         {
             time_t gmt_tm = time_t(gmttime);
             struct tm* local = std::localtime(&gmt_tm);
-            time_t local_tm = std::mktime(local);
-            local_tm -= ACE_OS::timezone();
-            tv = ACE_Time_Value(local_tm);
-            return true;
+            if (local)
+            {
+                time_t local_tm = std::mktime(local);
+                local_tm -= ACE_OS::timezone();
+                tv = ACE_Time_Value(local_tm);
+                return true;
+            }
         }
         return false;
     }
