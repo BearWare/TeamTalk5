@@ -949,8 +949,16 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     }
     break;
     case CLIENTEVENT_CMD_SUCCESS :
-        emit(cmdSuccess(msg.nSource));
-        break;
+    {
+        if(msg.nSource == CMD_COMPLETE_SAVECONFIG)
+        {
+           addStatusMsg(STATUSBAR_SAVE_SERVER_CONFIG, tr("Server configuration saved"));
+           addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Server configuration saved"));
+        }
+        else
+            emit(cmdSuccess(msg.nSource));
+    }
+    break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
         //ui.chatEdit->updateServer();
         //store user account settings
@@ -4752,9 +4760,8 @@ void MainWindow::slotServerServerProperties(bool /*checked =false */)
 
 void MainWindow::slotServerSaveConfiguration(bool /*checked =false */)
 {
-    TT_DoSaveConfig(ttInst);
-    addStatusMsg(STATUSBAR_SAVE_SERVER_CONFIG, tr("Server configuration saved"));
-    addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Server configuration saved"));
+    int cmdid = TT_DoSaveConfig(ttInst);
+    m_commands.insert(cmdid, CMD_COMPLETE_SAVECONFIG);
 }
 
 void MainWindow::slotServerServerStatistics(bool /*checked=false*/)
