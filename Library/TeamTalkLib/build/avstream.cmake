@@ -77,8 +77,6 @@ if (FFMPEG)
   endif()
 endif()
 
-option (WEBRTC "Build using WebRTC libraries" ON)
-
 if (WEBRTC)
   list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/WebRTCPreprocess.cpp)
   list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/WebRTCPreprocess.h)
