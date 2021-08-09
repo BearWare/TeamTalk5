@@ -339,5 +339,10 @@
 		<string name="pref_summary_userloggedin_icon">Відтворювати звук, коли користувач увійшов</string>
 		<string name="pref_title_userloggedoff_icon">Користувач вийшов</string>
 		<string name="pref_summary_userloggedoff_icon">Відтворювати звук, коли користувач вийшов</string>
+		<string name="pref_title_channel_message_sent_audio_icon">Повідомлення каналу надіслано</string>
+		<string name="pref_summary_channel_message_sent_audio_icon">Відтворювати звук, коли надіслано повідомлення каналу</string>
+		<string name="pref_title_channel_message_sent">Повідомлення каналу надіслано</string>
+		<string name="pref_summary_channel_message_sent">Повідомляти про надсилання повідомлень каналу</string>
+		<string name="text_tts_channel_message_sent">Надіслано повідомлення каналу: %1$s</string>
 
 	</resources>
