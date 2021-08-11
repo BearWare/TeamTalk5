@@ -81,11 +81,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   add_library(openssl-crypto STATIC IMPORTED GLOBAL)
   add_dependencies(openssl-crypto openssl-src)
   target_include_directories (openssl-crypto INTERFACE ${INSTALL_DIR}/include)
-  set_property(TARGET openssl-crypto PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libcrypto.lib)
+  set_property(TARGET openssl-crypto PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libcrypto.a)
 
   add_library(openssl-ssl STATIC IMPORTED GLOBAL)
   add_dependencies(openssl-ssl openssl-src)
   target_include_directories (openssl-ssl INTERFACE ${INSTALL_DIR}/include)
-  set_property(TARGET openssl-ssl PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.lib)
+  set_property(TARGET openssl-ssl PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.a)
   
 endif()

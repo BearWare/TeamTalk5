@@ -2,16 +2,7 @@
 option (FFMPEG_STATIC "Build using static FFmpeg libraries" ON)
 
 if (FFMPEG_STATIC)
-  set (FFMPEG_INCLUDE_DIR ${TTLIBS_ROOT}/ffmpeg/include)
-
-  set (FFMPEG_LINK_FLAGS
-    ${TTLIBS_ROOT}/ffmpeg/lib/libavdevice.a
-    ${TTLIBS_ROOT}/ffmpeg/lib/libavfilter.a
-    ${TTLIBS_ROOT}/ffmpeg/lib/libavformat.a
-    ${TTLIBS_ROOT}/ffmpeg/lib/libavcodec.a
-    ${TTLIBS_ROOT}/ffmpeg/lib/libswresample.a
-    ${TTLIBS_ROOT}/ffmpeg/lib/libswscale.a
-    ${TTLIBS_ROOT}/ffmpeg/lib/libavutil.a)
+  set (FFMPEG_LINK_FLAGS ffmpeg-avdevice ffmpeg-avfilter ffmpeg-avformat ffmpeg-avcodec ffmpeg-swresample ffmpeg-swscale ffmpeg-avutil)
 
   if ( ${CMAKE_SYSTEM_NAME} MATCHES "Linux" )
     # Ubuntu: libasound2-dev

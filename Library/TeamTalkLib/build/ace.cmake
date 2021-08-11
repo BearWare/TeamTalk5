@@ -20,13 +20,7 @@ else() # Mac & Linux
   option (ACE_STATIC "Build using static ACE libraries" ON)
 
   if (ACE_STATIC)
-    set ( ACE_INCLUDE_DIR ${TTLIBS_ROOT}/ACE/include )
-    
-    set (ACE_STATIC_LIB ${TTLIBS_ROOT}/ACE/lib/libACE.a)
-    set (ACESSL_STATIC_LIB ${TTLIBS_ROOT}/ACE/lib/libACE_SSL.a)
-    set (ACEINET_STATIC_LIB ${TTLIBS_ROOT}/ACE/lib/libACE_INet.a)
-    set (ACEINETSSL_STATIC_LIB ${TTLIBS_ROOT}/ACE/lib/libACE_INet_SSL.a)
-    set (ACE_LINK_FLAGS ${ACEINETSSL_STATIC_LIB} ${ACESSL_STATIC_LIB} ${ACEINET_STATIC_LIB} ${ACE_STATIC_LIB})
+    set (ACE_LINK_FLAGS ace_inet_ssl ace_ssl ace_inet ace)
   else()
     find_library(ACE_LIBRARY ACE)
     set (ACE_LINK_FLAGS ${ACE_LIBRARY})
