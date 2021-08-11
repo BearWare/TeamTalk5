@@ -519,6 +519,7 @@ MainWindow::MainWindow(const QString& cfgfile)
             &ChannelsTree::slotUserVideoFrame);
     connect(this, &MainWindow::newTextMessage,
             this, &MainWindow::slotNewTextMessage);
+    connect(this, &MainWindow::cmdSuccess, this, &MainWindow::slotCmdSuccess);
     /* End - CLIENTEVENT_* messages */
 
     m_timers.insert(startTimer(1000), TIMER_ONE_SECOND);
@@ -950,13 +951,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     break;
     case CLIENTEVENT_CMD_SUCCESS :
     {
-        if(msg.nSource == CMD_COMPLETE_SAVECONFIG)
-        {
-           addStatusMsg(STATUSBAR_SAVE_SERVER_CONFIG, tr("Server configuration saved"));
-           addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Server configuration saved"));
-        }
-        else
-            emit(cmdSuccess(msg.nSource));
+        emit(cmdSuccess(msg.nSource));
     }
     break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
@@ -1868,6 +1863,15 @@ void MainWindow::login()
     //query server's max payload
     if(ttSettings->value(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, false).toBool())
         TT_QueryMaxPayload(ttInst, 0);
+}
+
+void MainWindow::slotCmdSuccess(int cmdid)
+{
+    if (m_commands[cmdid] == CMD_COMPLETE_SAVECONFIG)
+    {
+        addStatusMsg(STATUSBAR_SAVE_SERVER_CONFIG, tr("Server configuration saved"));
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Server configuration saved"));
+    }
 }
 
 void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete cmd_type)
@@ -4761,7 +4765,7 @@ void MainWindow::slotServerServerProperties(bool /*checked =false */)
 void MainWindow::slotServerSaveConfiguration(bool /*checked =false */)
 {
     int cmdid = TT_DoSaveConfig(ttInst);
-    m_commands.insert(cmdid, CMD_COMPLETE_SAVECONFIG);
+    m_commands[cmdid] =  CMD_COMPLETE_SAVECONFIG;
 }
 
 void MainWindow::slotServerServerStatistics(bool /*checked=false*/)
