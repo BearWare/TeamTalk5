@@ -5,8 +5,7 @@ else()
   option (OGG_STATIC "Build ogg using static libraries" ON)
 
   if (OGG_STATIC)
-    set ( OGG_INCLUDE_DIR ${TTLIBS_ROOT}/ogg/include)
-    set ( OGG_LINK_FLAGS ${TTLIBS_ROOT}/ogg/lib/libogg.a)
+    set (OGG_LINK_FLAGS ogg)
   else()
     # Ubuntu: libogg-dev
     find_library(LIBOGG_LIBRARY ogg)

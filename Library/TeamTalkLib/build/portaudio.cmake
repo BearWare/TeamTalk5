@@ -8,8 +8,7 @@ else()
   option (PORTAUDIO_STATIC "Build portaudio using static libraries" ON)
 
   if (PORTAUDIO_STATIC)
-    set (PORTAUDIO_INCLUDE_DIR ${TTLIBS_ROOT}/portaudio/include)
-    set (PORTAUDIO_LINK_FLAGS ${TTLIBS_ROOT}/portaudio/lib/libportaudio.a)
+    set (PORTAUDIO_LINK_FLAGS portaudio)
   else()
     # Ubuntu: portaudio19-dev
     find_library(PORTAUDIO_LIBRARY portaudio)
