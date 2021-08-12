@@ -63,7 +63,9 @@ enum CommandComplete
     CMD_COMPLETE_LIST_CHANNELBANS,
     CMD_COMPLETE_LISTACCOUNTS,
     CMD_COMPLETE_SUBSCRIBE,
-    CMD_COMPLETE_UNSUBSCRIBE
+    CMD_COMPLETE_UNSUBSCRIBE,
+
+    CMD_COMPLETE_SAVECONFIG
 };
 
 enum TimerEvent
@@ -407,7 +409,6 @@ private:
     void slotUpdateVideoCount(int count);
     void slotUpdateDesktopCount(int count);
 
-
     void slotMasterVolumeChanged(int value);
     void slotMicrophoneGainChanged(int value);
     void slotVoiceActivationLevelChanged(int value);
@@ -418,6 +419,7 @@ private:
 
     void slotSoftwareUpdateReply(QNetworkReply* reply);
     void slotBearWareAuthReply(QNetworkReply* reply);
+    void slotCmdSuccess(int cmdid);
     void slotClosedOnlineUsersDlg(int);
     void slotClosedServerStatsDlg(int);
     void slotClosedUserAccountsDlg(int);
@@ -449,7 +451,7 @@ signals:
     void mediaStreamUpdate(const MediaFileInfo& mfi);
     void mediaPlaybackUpdate(int sessionID, const MediaFileInfo& mfi);
     void cmdSuccess(int cmdid);
-    void cmdError(int error, int cmdid);
+    void cmdError(int errorno, int cmdid);
     /* End - CLIENTEVENT_* based events */
 
     void preferencesModified();
