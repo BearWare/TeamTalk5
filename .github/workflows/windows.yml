@@ -52,4 +52,4 @@ jobs:
       run: |
         dir
         tt5svc.exe -i
-        tt5svc.exe -s
+#        tt5svc.exe -s
