@@ -33,7 +33,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   ExternalProject_Add(portaudio-src
     GIT_REPOSITORY    https://github.com/bear101/portaudio
     GIT_TAG           521209c
-#    GIT_SHALLOW       TRUE
+    GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=10.10 -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
