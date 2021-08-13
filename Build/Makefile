@@ -156,6 +156,9 @@ depend-debian9:
                     doxygen g++ openjdk-8-jdk \
                     qttools5-dev-tools ninja-build libpcap-dev junit4 cmake
 
+depend-mac:
+	brew install autoconf automake libtool pkg-config yasm
+
 dox: teamtalk-env
 	cd $(TEAMTALK_ROOT)/Documentation/TeamTalk && doxygen TeamTalk5.dox
 	cd $(TEAMTALK_ROOT)/Documentation/TeamTalkSDK && doxygen TeamTalk.dox

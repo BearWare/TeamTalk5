@@ -14,28 +14,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Init Toolchain submodule
-      working-directory: ${{runner.workspace}}/TeamTalk5
-      run: git submodule update --init Library/TeamTalkLib/toolchain
-
-    - name: Init Toolchain's submodules
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
-      run: |
-        make prepare-github
-
     - name: Install Toolchain Dependencies
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: |
         brew update
         make depend-mac
-
-    - name: Build Toolchain for MacOS
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain
-      shell: bash
-      run: |
-        source toolchain.sh mac
-        cd build
-        make mac
 
     - name: Init TeamTalk Library submodules
       working-directory: ${{runner.workspace}}/TeamTalk5
