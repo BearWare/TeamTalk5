@@ -78,7 +78,7 @@ if (WEBRTC)
 endif()
 
 if (MSVC)
-  
+
   option (MSDMO "Build Microsoft DirectX Media Objects (DMO) Resampler classes" ON)
 
   if (MSDMO)
@@ -111,7 +111,7 @@ if (MSVC)
     list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/LibVidCap.cpp)
     list (APPEND AVSTREAM_COMPILE_FLAGS -DENABLE_LIBVIDCAP )
   endif()
-  
+
   option (MEDIAFOUNDATION "Build Media Foundation Streaming classes" ON)
 
   if (MEDIAFOUNDATION)

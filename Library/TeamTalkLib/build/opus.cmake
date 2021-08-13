@@ -12,5 +12,5 @@ else()
     find_library(OPUS_LIBRARY opus)
     set (OPUS_LINK_FLAGS ${OPUS_LIBRARY})
   endif()
-    
+
 endif()

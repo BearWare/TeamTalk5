@@ -59,9 +59,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     )
   ExternalProject_Get_Property(zlib-src INSTALL_DIR)
 
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
   add_library(zlib STATIC IMPORTED GLOBAL)
   add_dependencies(zlib zlib-src)
   target_include_directories (zlib INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET zlib PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libz.a)
-  
+
 endif()

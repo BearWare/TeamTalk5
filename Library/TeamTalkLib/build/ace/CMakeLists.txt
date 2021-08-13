@@ -147,6 +147,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     )
   ExternalProject_Get_Property(ACE-src INSTALL_DIR)
 
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
   add_library(ace STATIC IMPORTED GLOBAL)
   add_dependencies(ace ACE-src)
   target_include_directories (ace INTERFACE ${INSTALL_DIR}/include)

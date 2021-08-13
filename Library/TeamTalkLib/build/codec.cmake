@@ -62,5 +62,5 @@ if (MSVC)
     list (APPEND CODEC_HEADERS ${TEAMTALKLIB_ROOT}/codec/LameMP3.h)
     list (APPEND CODEC_SOURCES ${TEAMTALKLIB_ROOT}/codec/LameMP3.cpp)
   endif()
-  
+
 endif()

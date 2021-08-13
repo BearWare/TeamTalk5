@@ -8,7 +8,7 @@ if (BUILD_TEAMTALK_ACE)
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     list (APPEND ACE_COMPILE_FLAGS -DACE_HAS_CUSTOM_EXPORT_MACROS=0 -D__ACE_INLINE__)
   endif()
-        
+
 endif()
 
 if (MSVC)
@@ -31,7 +31,7 @@ else() # Mac & Linux
     find_library(ACEINETSSL_LIBRARY ACE_INet_SSL)
     list (APPEND ACE_LINK_FLAGS ${ACEINETSSL_LIBRARY})
   endif()
-  
+
 endif()
 
 

@@ -46,9 +46,9 @@ if (MSVC)
     else()
       message("Found YASM for libvpx here: ${YASM_WIN32}")
     endif()
-    
+
     set (CMAKE_MSVCIDE_RUN_PATH C:/tt5dist/yasm/win32)
-    
+
     ExternalProject_Add(libvpx-win32
       GIT_REPOSITORY    https://github.com/bear101/libvpx
       GIT_TAG           v1.9.0
@@ -88,10 +88,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     )
   ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
 
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
   add_library(libvpx STATIC IMPORTED GLOBAL)
   add_dependencies(libvpx libvpx-src)
   target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(libvpx PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
-  
+
 endif()

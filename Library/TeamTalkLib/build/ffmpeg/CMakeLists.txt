@@ -30,6 +30,8 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     )
   ExternalProject_Get_Property(ffmpeg-src INSTALL_DIR)
 
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
   add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
   add_dependencies(ffmpeg-avdevice ffmpeg-src)
   target_include_directories (ffmpeg-avdevice INTERFACE ${INSTALL_DIR}/include)
@@ -65,11 +67,11 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   target_include_directories (ffmpeg-swscale INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-swscale PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libswscale.a)
-  
+
   add_library(ffmpeg-avutil STATIC IMPORTED GLOBAL)
   add_dependencies(ffmpeg-avutil ffmpeg-src)
   target_include_directories (ffmpeg-avutil INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avutil PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libavutil.a)
-  
+
 endif()
