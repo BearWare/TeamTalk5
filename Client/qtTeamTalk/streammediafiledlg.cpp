@@ -496,7 +496,6 @@ bool StreamMediaFileDlg::eventFilter(QObject *object, QEvent *event)
         {
             ui.mediafileComboBox->lineEdit()->setCursorPosition(0);
             slotAccepted();
-            return true;
         }
         else
             return false;
