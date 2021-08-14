@@ -6420,6 +6420,7 @@ void MainWindow::slotEnableVoiceActivation(bool checked)
     slotMeEnableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
 }
 
+#ifndef Q_OS_LINUX
 bool MainWindow::eventFilter(QObject *object, QEvent *event)
 {
     if (object == ui.tabWidget && event->type() == QEvent::KeyPress)
@@ -6440,3 +6441,4 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
     }
     return false;
 }
+#endif
