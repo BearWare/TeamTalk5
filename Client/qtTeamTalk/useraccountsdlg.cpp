@@ -27,6 +27,7 @@
 
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QKeyEvent>
 
 extern TTInstance* ttInst;
 
@@ -272,6 +273,7 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     }
     else
         slotClearUser();
+    ui.tabWidget->installEventFilter(this);
 }
 
 void UserAccountsDlg::slotCmdSuccess(int cmdid)
@@ -757,4 +759,25 @@ void UserAccountsDlg::slotCustomCmdLimit(int index)
 
 void UserAccountsDlg::slotUsernameChanged(const QString& /*text*/)
 {
+}
+
+bool UserAccountsDlg::eventFilter(QObject *object, QEvent *event)
+{
+    if (object == ui.tabWidget && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
+        {
+            ui.tabWidget->setCurrentIndex(0);
+            return true;
+        }
+        else if (keyEvent->key() == Qt::Key_End && ui.tabWidget->currentIndex() != 3)
+        {
+            ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
+            return true;
+        }
+        else
+            return false;
+    }
+    return false;
 }
