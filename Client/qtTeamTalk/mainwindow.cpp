@@ -65,6 +65,7 @@
 #include <QNetworkReply>
 #include <QScreen>
 #include <QGuiApplication>
+#include <QKeyEvent>
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
@@ -529,6 +530,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     //pull using a timer
     m_timers.insert(startTimer(20), TIMER_PROCESS_TTEVENT);
 #endif
+    ui.tabWidget->installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
@@ -6416,4 +6418,25 @@ void MainWindow::slotTextChanged()
 void MainWindow::slotEnableVoiceActivation(bool checked)
 {
     slotMeEnableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
+}
+
+bool MainWindow::eventFilter(QObject *object, QEvent *event)
+{
+    if (object == ui.tabWidget && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
+        {
+            ui.tabWidget->setCurrentIndex(0);
+            return true;
+        }
+        else if (keyEvent->key() == Qt::Key_End && ui.tabWidget->currentIndex() != 3)
+        {
+            ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
+            return true;
+        }
+        else
+            return false;
+    }
+    return false;
 }

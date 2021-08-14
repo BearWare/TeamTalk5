@@ -54,6 +54,9 @@ public:
         VIDCAP_TAB
     };
 
+protected:
+    bool eventFilter(QObject *object, QEvent *event);
+
 private:
     Ui::PreferencesDlg ui;
     SoundDevice& m_devin, &m_devout;

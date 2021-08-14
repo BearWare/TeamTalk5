@@ -125,6 +125,7 @@ protected:
     void timerEvent(QTimerEvent *event);
     void closeEvent(QCloseEvent *event);
     void changeEvent(QEvent* event);
+    bool eventFilter(QObject *object, QEvent *event);
 
 #if defined(Q_OS_WIN32) && QT_VERSION >= 0x050000
     bool nativeEvent(const QByteArray& eventType, void* message,
