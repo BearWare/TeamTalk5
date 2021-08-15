@@ -26,6 +26,8 @@
 
 #include <QHeaderView>
 #include <QMenu>
+#include <QClipboard>
+#include <QKeyEvent>
 
 extern TTInstance* ttInst;
 
@@ -50,6 +52,7 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
 
     m_model->resetUsers();
     updateTitle();
+    ui.treeView->installEventFilter(this);
 }
 
 void OnlineUsersDlg::updateTitle()
@@ -143,4 +146,45 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
         else if(action == ban)
             emit(kickbanUser(userids[i], chanids[i]));
     }
+}
+
+bool OnlineUsersDlg::eventFilter(QObject *object, QEvent *event)
+{
+    if (object == ui.treeView && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->matches(QKeySequence::Copy))
+        {
+            QItemSelectionModel* selModel = ui.treeView->selectionModel();
+            QModelIndexList indexes = selModel->selectedRows();
+            QVector<int> userids, chanids;
+            for(int i=0;i<indexes.size();i++)
+            {
+                QModelIndex index = m_proxyModel->mapToSource(indexes[i]);
+                if(!index.isValid())
+                    return false;
+                int userid = index.internalId();
+                User user;
+                if(!TT_GetUser(ttInst, userid, &user))
+                    continue;
+                userids.push_back(user.nUserID);
+                chanids.push_back(user.nChannelID);
+            }
+            for(int i=0;i<userids.size();i++)
+            {
+                User user;
+                if(TT_GetUser(ttInst, userids[i], &user))
+                {
+                    TTCHAR channel[TT_STRLEN] = {};
+                    TT_GetChannelPath(ttInst, user.nChannelID, channel);
+                    QClipboard* clipboard = QApplication::clipboard();
+                    clipboard->setText(QString(tr("ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7").arg(user.nUserID).arg(_Q(user.szNickname)).arg(_Q(user.szStatusMsg)).arg(_Q(user.szUsername)).arg(_Q(channel)).arg(_Q(user.szIPAddress)).arg(getVersion(user))));
+                }
+            }
+            return true;
+        }
+        else
+            return false;
+    }
+    return false;
 }

@@ -16,6 +16,7 @@ Default QT Client
 - Option to automatically expand all channels in channels tree
 - Last modification date shown on user accounts
 - Upload time shown on files
+- Press CTRL+C in online users dialog now copy user informations to clipboard
 - Fixed default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
 - Fixed Shift+Tab navigation issues in main window
 - Fixed missing accessible labels in main window
