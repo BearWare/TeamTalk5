@@ -532,6 +532,9 @@ MainWindow::MainWindow(const QString& cfgfile)
 #endif
 #ifndef Q_OS_LINUX
     ui.tabWidget->installEventFilter(this);
+#if defined(Q_OS_DARWIN)
+    ui.channelsWidget->installEventFilter(this);
+#endif
 #endif
 }
 
@@ -6441,6 +6444,22 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
         else
             return false;
     }
+#if defined(Q_OS_DARWIN)
+    else if (object == ui.channelsWidget && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return)
+        {
+            User user;
+            if(ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
+                slotUserDoubleClicked(ui.channelsWidget->selectedUser());
+            else
+                slotChannelDoubleClicked(ui.channelsWidget->selectedChannel(true));
+        }
+        else
+            return false;
+    }
+#endif
     return false;
 }
 #endif
