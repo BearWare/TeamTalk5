@@ -4585,6 +4585,12 @@ void MainWindow::slotChannelsSpeakChannelStatistics()
         }
         speakList += voice;
     }
+    if (isMyselfTalking() == TRUE)
+    {
+        User myself = {};
+        TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &myself);
+        voice += getDisplayName(myself) + ", ";
+    }
     if(mediafile1.count() > 0)
     {
         mediafile += tr("Streaming") + ": ";
