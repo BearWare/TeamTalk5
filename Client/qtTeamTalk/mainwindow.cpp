@@ -4719,7 +4719,7 @@ void MainWindow::slotServerOnlineUsers(bool /*checked=false*/)
             &OnlineUsersDlg::slotUserLeft);
 
     connect(m_onlineusersdlg, &OnlineUsersDlg::viewUserInformation,
-            this, &MainWindow::slotUsersViewUserInformationGrid);
+            this, &MainWindow::slotUsersViewUserInformation);
     connect(m_onlineusersdlg, &OnlineUsersDlg::sendUserMessage,
             this, &MainWindow::slotUsersMessages);
     connect(m_onlineusersdlg, &OnlineUsersDlg::muteUser,
