@@ -85,6 +85,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
             --disable-examples --disable-docs --disable-unit-tests
     BUILD_COMMAND     make -j4
     INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
     )
   ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
 

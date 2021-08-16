@@ -70,6 +70,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-x86_64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
     BUILD_COMMAND     make
     INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
     )
   ExternalProject_Get_Property(openssl-src INSTALL_DIR)
   set (OPENSSL_DIR ${INSTALL_DIR})

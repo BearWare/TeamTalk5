@@ -60,6 +60,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     COMMAND           cp <SOURCE_DIR>/tinyxml.h <INSTALL_DIR>/include/
     COMMAND           cp <SOURCE_DIR>/tinystr.h <INSTALL_DIR>/include/
     COMMAND           cp <SOURCE_DIR>/libTinyXML.a <INSTALL_DIR>/lib/
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libTinyXML.a
     )
   ExternalProject_Get_Property(tinyxml-src INSTALL_DIR)
 

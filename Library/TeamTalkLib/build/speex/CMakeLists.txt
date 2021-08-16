@@ -58,6 +58,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     COMMAND           <SOURCE_DIR>/configure CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} --prefix=<INSTALL_DIR>
     BUILD_COMMAND     make -j4
     INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
     )
   ExternalProject_Get_Property(speex-src INSTALL_DIR)
 

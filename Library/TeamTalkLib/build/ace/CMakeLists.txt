@@ -144,6 +144,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     INSTALL_COMMAND   export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make install
     COMMAND           export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make install
     DEPENDS           MPC openssl-src
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libACE.a
+        <INSTALL_DIR>/lib/libACE_SSL.a
+        <INSTALL_DIR>/lib/libACE_INet.a
+        <INSTALL_DIR>/lib/libACE_INet_SSL.a
     )
   ExternalProject_Get_Property(ACE-src INSTALL_DIR)
 
@@ -156,10 +160,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE.a)
 
   add_library(ace_ssl STATIC IMPORTED GLOBAL)
+  add_dependencies(ace_ssl ace openssl-crypto openssl-ssl)
   target_include_directories (ace_ssl INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(ace_ssl PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE_SSL.a)
-  add_dependencies(ace_ssl ace openssl-crypto openssl-ssl)
+  target_link_libraries(ace_ssl INTERFACE openssl-ssl openssl-crypto)
 
   add_library(ace_inet STATIC IMPORTED GLOBAL)
   add_dependencies(ace_inet ace)

@@ -1,7 +1,5 @@
 option (BUILD_TEAMTALK_ACE "Build customized ACE INet SSL library with SNI-enabled" ON)
 
-include (openssl)
-
 if (BUILD_TEAMTALK_ACE)
   set (ACE_COMPILE_FLAGS -DENABLE_TEAMTALKACE)
 

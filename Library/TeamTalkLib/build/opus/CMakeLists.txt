@@ -39,6 +39,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=10.10 -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
     BUILD_COMMAND     cmake --build . --target opus
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
     )
   ExternalProject_Get_Property(opus-src INSTALL_DIR)
 

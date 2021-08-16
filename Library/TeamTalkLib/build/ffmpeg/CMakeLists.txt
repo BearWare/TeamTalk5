@@ -27,6 +27,14 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	--enable-debug=3 --disable-optimizations --disable-stripping --enable-openssl
     BUILD_COMMAND     make -j4
     INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
+        <INSTALL_DIR>/lib/libavfilter.a
+        <INSTALL_DIR>/lib/libavformat.a
+        <INSTALL_DIR>/lib/libavcodec.a
+        <INSTALL_DIR>/lib/libswresample.a
+        <INSTALL_DIR>/lib/libswscale.a
+        <INSTALL_DIR>/lib/libavutil.a
+    DEPENDS openssl-src
     )
   ExternalProject_Get_Property(ffmpeg-src INSTALL_DIR)
 

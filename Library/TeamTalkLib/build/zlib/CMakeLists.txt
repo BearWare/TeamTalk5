@@ -56,6 +56,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     CONFIGURE_COMMAND CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --static
     BUILD_COMMAND     make
     INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libz.a
     )
   ExternalProject_Get_Property(zlib-src INSTALL_DIR)
 

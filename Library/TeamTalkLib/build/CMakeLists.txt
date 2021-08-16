@@ -6,6 +6,11 @@ include(ExternalProject)
 
 set (PLATFORMTOOLSET "/property:PlatformToolset=v142")
 
+if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
+  set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
+  message(WARNING "No deployment target specified. Defaulting to ${CMAKE_OSX_DEPLOYMENT_TARGET}")
+endif()
+
 add_subdirectory(openssl)
 add_subdirectory(ace)
 add_subdirectory(tinyxml)
