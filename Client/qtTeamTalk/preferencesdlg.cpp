@@ -2022,5 +2022,5 @@ void PreferencesDlg::keyPressEvent(QKeyEvent* e)
         else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
             ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
     }
-    QWidget::keyPressEvent(e);
+    QDialog::keyPressEvent(e);
 }
