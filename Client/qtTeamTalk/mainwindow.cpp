@@ -434,6 +434,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotChannelsViewChannelInfo);
     connect(ui.actionSpeakChannelInfo, &QAction::triggered,
             this, &MainWindow::slotChannelsSpeakChannelInformationGrid);
+    connect(ui.actionSpeakChannelStat, &QAction::triggered,
+            this, &MainWindow::slotChannelsSpeakChannelStatisticsGrid);
     connect(ui.actionBannedUsersInChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsListBans);
 
@@ -4547,6 +4549,80 @@ void MainWindow::slotChannelsViewChannelInfo(bool /*checked=false*/)
 void MainWindow::slotChannelsSpeakChannelInformationGrid(bool /*checked =false */)
 {
     slotUsersSpeakUserInformation(TT_GetMyChannelID(ttInst));
+}
+
+void MainWindow::slotChannelsSpeakChannelStatisticsGrid(bool /*checked =false */)
+{
+    slotChannelsSpeakChannelStatistics();
+}
+
+void MainWindow::slotChannelsSpeakChannelStatistics()
+{
+    QString speakList, voice, mediafile, video, desktop;
+    QVector<int> users = ui.channelsWidget->getUsersInChannel(TT_GetMyChannelID(ttInst));
+    QVector<QString> voice1, mediafile1, video1, desktop1;
+    for (int i=0;i<users.size();i++)
+    {
+        User user = {};
+        TT_GetUser(ttInst, users[i], &user);
+        if(user.uUserState & USERSTATE_VOICE)
+            voice1.push_back(getDisplayName(user));
+        if(user.uUserState & USERSTATE_MEDIAFILE)
+            mediafile1.push_back(getDisplayName(user));
+        if(user.uUserState & USERSTATE_VIDEOCAPTURE)
+            video1.push_back(getDisplayName(user));
+        if(user.uUserState & USERSTATE_DESKTOP)
+            desktop1.push_back(getDisplayName(user));
+    }
+    if(voice1.count() > 0)
+    {
+        voice += tr("Talking") + ": ";
+        int vo = 0;
+        while(vo<voice1.count())
+        {
+            voice += voice1[vo] + ", ";
+            vo++;
+        }
+        speakList += voice;
+    }
+    if(mediafile1.count() > 0)
+    {
+        mediafile += tr("Streaming") + ": ";
+        int mf = 0;
+        while(mf<mediafile1.count())
+        {
+            mediafile += mediafile1[mf] + ", ";
+            mf++;
+        }
+        speakList += mediafile;
+    }
+    if(video1.count() > 0)
+    {
+        video += tr("Webcam") + ": ";
+        int vi = 0;
+        while(vi<video1.count())
+        {
+            video += video1[vi] + ", ";
+            vi++;
+        }
+        speakList += video;
+    }
+    if(desktop1.count() > 0)
+    {
+        desktop += tr("Desktop") + ": ";
+        int de = 0;
+        while(de<desktop1.count())
+        {
+            desktop += desktop1[de] + ", ";
+            de++;
+        }
+        speakList += desktop;
+    }
+    if(speakList.isEmpty())
+        speakList = tr("Nobody is active in this channel");
+    else
+        speakList.chop(2);
+    addTextToSpeechMessage(speakList);
 }
 
 void MainWindow::slotChannelsListBans(bool /*checked=false*/)

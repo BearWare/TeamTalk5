@@ -1222,6 +1222,7 @@
      </property>
      <addaction name="actionViewChannelInfo"/>
      <addaction name="actionSpeakChannelInfo"/>
+     <addaction name="actionSpeakChannelStat"/>
     </widget>
     <addaction name="actionJoinChannel"/>
     <addaction name="menu_InfoChannel"/>
@@ -1550,6 +1551,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+G</string>
+   </property>
+  </action>
+  <action name="actionSpeakChannelStat">
+   <property name="text">
+    <string>S&amp;peak Channel State</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+G</string>
    </property>
   </action>
   <action name="actionMessages">

@@ -342,6 +342,8 @@ private:
     void slotChannelsJoinChannel(bool checked=false);
     void slotChannelsViewChannelInfo(bool checked=false);
     void slotChannelsSpeakChannelInformationGrid(bool checked=false);
+    void slotChannelsSpeakChannelStatisticsGrid(bool checked=false);
+    void slotChannelsSpeakChannelStatistics();
     void slotChannelsListBans(bool checked=false);
     void slotChannelsStreamMediaFile(bool checked=false);
     void slotChannelsUploadFile(bool checked=false);
