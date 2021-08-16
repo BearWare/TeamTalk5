@@ -22,6 +22,7 @@ Default QT Client
 - Fixed Croatian file missing for installed version
 - Fixed "View user informations" from online users dialog
 - Fixed CTRL+Alt+R to restore streaming permission when disabled
+- Fixed navigation using left key on columns of channels tree
 Android Client
 - Option to disable sound and TTS event when sending a channel message
 - Upload time shown on files
