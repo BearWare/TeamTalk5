@@ -2024,6 +2024,9 @@
    </property>
   </action>
   <action name="actionAllowMediaFileTransmission">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Allow Media File Transmission</string>
    </property>
