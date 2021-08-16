@@ -530,12 +530,6 @@ MainWindow::MainWindow(const QString& cfgfile)
     //pull using a timer
     m_timers.insert(startTimer(20), TIMER_PROCESS_TTEVENT);
 #endif
-#ifndef Q_OS_LINUX
-    ui.tabWidget->installEventFilter(this);
-#if defined(Q_OS_DARWIN)
-    ui.channelsWidget->installEventFilter(this);
-#endif
-#endif
 }
 
 MainWindow::~MainWindow()
@@ -6425,30 +6419,19 @@ void MainWindow::slotEnableVoiceActivation(bool checked)
     slotMeEnableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
 }
 
-#ifndef Q_OS_LINUX
-bool MainWindow::eventFilter(QObject *object, QEvent *event)
+void MainWindow::keyPressEvent(QKeyEvent* e)
 {
-    if (object == ui.tabWidget && event->type() == QEvent::KeyPress)
+    if (ui.tabWidget->hasFocus())
     {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
-        {
+        if (e->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
             ui.tabWidget->setCurrentIndex(0);
-            return true;
-        }
-        else if (keyEvent->key() == Qt::Key_End && ui.tabWidget->currentIndex() != 3)
-        {
+        else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
             ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
-            return true;
-        }
-        else
-            return false;
     }
 #if defined(Q_OS_DARWIN)
-    else if (object == ui.channelsWidget && event->type() == QEvent::KeyPress)
+    else if (ui.channelsWidget->hasFocus())
     {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return)
+        if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
         {
             User user;
             if(ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
@@ -6456,10 +6439,8 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
             else
                 slotChannelDoubleClicked(ui.channelsWidget->selectedChannel(true));
         }
-        else
-            return false;
     }
+    QWidget::keyPressEvent(e);
 #endif
-    return false;
+    QWidget::keyPressEvent(e);
 }
-#endif

@@ -273,7 +273,6 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     }
     else
         slotClearUser();
-    ui.tabWidget->installEventFilter(this);
 }
 
 void UserAccountsDlg::slotCmdSuccess(int cmdid)
@@ -761,23 +760,14 @@ void UserAccountsDlg::slotUsernameChanged(const QString& /*text*/)
 {
 }
 
-bool UserAccountsDlg::eventFilter(QObject *object, QEvent *event)
+void UserAccountsDlg::keyPressEvent(QKeyEvent* e)
 {
-    if (object == ui.tabWidget && event->type() == QEvent::KeyPress)
+    if (ui.tabWidget->hasFocus())
     {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
-        {
+        if (e->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
             ui.tabWidget->setCurrentIndex(0);
-            return true;
-        }
-        else if (keyEvent->key() == Qt::Key_End && ui.tabWidget->currentIndex() != 3)
-        {
+        else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
             ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
-            return true;
-        }
-        else
-            return false;
     }
-    return false;
+    QWidget::keyPressEvent(e);
 }

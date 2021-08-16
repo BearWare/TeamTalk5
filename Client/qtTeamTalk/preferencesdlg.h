@@ -55,7 +55,7 @@ public:
     };
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event);
+    void keyPressEvent(QKeyEvent* e) override;
 
 private:
     Ui::PreferencesDlg ui;

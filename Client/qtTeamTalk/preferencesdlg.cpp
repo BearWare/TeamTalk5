@@ -241,7 +241,6 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     m_video_ready = (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY);
 
     slotTabChange(GENERAL_TAB);
-    ui.tabWidget->installEventFilter(this);
 }
 
 PreferencesDlg::~PreferencesDlg()
@@ -2014,23 +2013,14 @@ void PreferencesDlg::slotConfigureStatusBar()
     dlg.exec();
 }
 
-bool PreferencesDlg::eventFilter(QObject *object, QEvent *event)
+void PreferencesDlg::keyPressEvent(QKeyEvent* e)
 {
-    if (object == ui.tabWidget && event->type() == QEvent::KeyPress)
+    if (ui.tabWidget->hasFocus())
     {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
-        {
+        if (e->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
             ui.tabWidget->setCurrentIndex(0);
-            return true;
-        }
-        else if (keyEvent->key() == Qt::Key_End && ui.tabWidget->currentIndex() != 3)
-        {
+        else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
             ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
-            return true;
-        }
-        else
-            return false;
     }
-    return false;
+    QWidget::keyPressEvent(e);
 }

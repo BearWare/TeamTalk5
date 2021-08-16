@@ -74,7 +74,7 @@ public:
     void slotCmdError(int error, int cmdid);
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event);
+    void keyPressEvent(QKeyEvent* e) override;
 
 private:
     Ui::UserAccountsDlg ui;
