@@ -76,25 +76,24 @@ if (MSVC)
     IMPORTED_LOCATION ${ACE_DIR}/lib/$(PlatformName)/ACEs.lib)
 
   add_library(ace_ssl STATIC IMPORTED GLOBAL)
-  target_include_directories (ace_ssl INTERFACE ${ACE_DIR})
   set_target_properties(ace_ssl PROPERTIES
     IMPORTED_LOCATION_DEBUG ${ACE_DIR}/lib/$(PlatformName)/ACE_SSLsd.lib
     IMPORTED_LOCATION ${ACE_DIR}/lib/$(PlatformName)/ACE_SSLs.lib)
-  add_dependencies(ace_ssl ace openssl-crypto openssl-ssl)
+  target_link_libraries(ace_ssl INTERFACE ace openssl-crypto openssl-ssl)
 
   add_library(ace_inet STATIC IMPORTED GLOBAL)
-  add_dependencies(ace_inet ace)
   target_include_directories (ace_inet INTERFACE ${ACE_DIR}/protocols)
   set_target_properties(ace_inet PROPERTIES
     IMPORTED_LOCATION_DEBUG ${ACE_DIR}/lib/$(PlatformName)/ACE_INetsd.lib
     IMPORTED_LOCATION ${ACE_DIR}/lib/$(PlatformName)/ACE_INets.lib)
+  target_link_libraries(ace_inet INTERFACE ace)
 
   add_library(ace_inet_ssl STATIC IMPORTED GLOBAL)
-  add_dependencies(ace_inet_ssl ace_inet ace_ssl)
-  target_include_directories (ace_inet_ssl INTERFACE ${ACE_DIR}/protocols)
   set_target_properties(ace_inet_ssl PROPERTIES
     IMPORTED_LOCATION_DEBUG ${ACE_DIR}/lib/$(PlatformName)/ACE_INet_SSLsd.lib
     IMPORTED_LOCATION ${ACE_DIR}/lib/$(PlatformName)/ACE_INet_SSLs.lib)
+  target_link_libraries(ace_inet_ssl INTERFACE ace_inet ace_ssl)
+
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   ExternalProject_Add(MPC
