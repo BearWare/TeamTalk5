@@ -52,7 +52,6 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
 
     m_model->resetUsers();
     updateTitle();
-    ui.treeView->installEventFilter(this);
 }
 
 void OnlineUsersDlg::updateTitle()
@@ -148,12 +147,11 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
     }
 }
 
-bool OnlineUsersDlg::eventFilter(QObject *object, QEvent *event)
+void OnlineUsersDlg::keyPressEvent(QKeyEvent* e)
 {
-    if (object == ui.treeView && event->type() == QEvent::KeyPress)
+    if (ui.treeView->hasFocus())
     {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->matches(QKeySequence::Copy))
+        if (e->matches(QKeySequence::Copy))
         {
             QItemSelectionModel* selModel = ui.treeView->selectionModel();
             QModelIndexList indexes = selModel->selectedRows();
@@ -162,7 +160,7 @@ bool OnlineUsersDlg::eventFilter(QObject *object, QEvent *event)
             {
                 QModelIndex index = m_proxyModel->mapToSource(indexes[i]);
                 if(!index.isValid())
-                    return false;
+                    return;
                 int userid = index.internalId();
                 User user;
                 if(!TT_GetUser(ttInst, userid, &user))
@@ -181,10 +179,7 @@ bool OnlineUsersDlg::eventFilter(QObject *object, QEvent *event)
                     clipboard->setText(QString(tr("ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7").arg(user.nUserID).arg(_Q(user.szNickname)).arg(_Q(user.szStatusMsg)).arg(_Q(user.szUsername)).arg(_Q(channel)).arg(_Q(user.szIPAddress)).arg(getVersion(user))));
                 }
             }
-            return true;
         }
-        else
-            return false;
     }
-    return false;
+    QDialog::keyPressEvent(e);
 }

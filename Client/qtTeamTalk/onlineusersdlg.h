@@ -55,7 +55,7 @@ signals:
     void streamfileToUser(int userid);
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event);
+    void keyPressEvent(QKeyEvent* e) override;
 
 private:
     void slotTreeContextMenu(const QPoint&);
