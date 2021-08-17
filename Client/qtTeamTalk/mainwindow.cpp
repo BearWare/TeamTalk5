@@ -4564,7 +4564,7 @@ void MainWindow::slotChannelsSpeakChannelStatistics()
     for (int i=0;i<users.size();i++)
     {
         User user = {};
-        TT_GetUser(ttInst, users[i], &user);
+        ui.channelsWidget->getUser(users[i], user);
         if(user.uUserState & USERSTATE_VOICE)
             voice1.push_back(getDisplayName(user));
         if(user.uUserState & USERSTATE_MEDIAFILE)
@@ -4584,12 +4584,6 @@ void MainWindow::slotChannelsSpeakChannelStatistics()
             vo++;
         }
         speakList += voice;
-    }
-    if (isMyselfTalking() == TRUE)
-    {
-        User myself = {};
-        TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &myself);
-        voice += getDisplayName(myself) + ", ";
     }
     if(mediafile1.count() > 0)
     {
