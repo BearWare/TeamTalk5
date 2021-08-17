@@ -57,6 +57,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   target_include_directories (ffmpeg-avformat INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avformat PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libavformat.a)
+  target_link_libraries(ffmpeg-avformat INTERFACE openssl-crypto openssl-ssl)
 
   add_library(ffmpeg-avcodec STATIC IMPORTED GLOBAL)
   add_dependencies(ffmpeg-avcodec ffmpeg-src)
