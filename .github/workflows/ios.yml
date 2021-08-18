@@ -1,9 +1,6 @@
 name: iOS
 
-on:
-  push:
-    branches-ignore:
-      - workflow_windows
+on: [push]
 
 jobs:
   build:
@@ -12,28 +9,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Init Toolchain submodule
-      working-directory: ${{runner.workspace}}/TeamTalk5
-      run: git submodule update --init Library/TeamTalkLib/toolchain
-
-    - name: Init Toolchain's submodules
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
-      run: |
-        make prepare-github
-
     - name: Install Toolchain Dependencies
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: |
         brew update
         make depend-mac
-
-    - name: Build Toolchain for iOS ARMv7
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain
-      shell: bash
-      run: |
-        source toolchain.sh ios armv7
-        cd build
-        make ios-armv7
 
     - name: Install TeamTalk Library Dependencies
       run: brew install doxygen
