@@ -69,5 +69,40 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set_target_properties(speex PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeex.a)
   add_dependencies(speex speex-src)
-    
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+
+  if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}" OR "arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    set (SPEEX_GEN_FLAGS --host=arm-apple-darwin)
+    set (SPEEX_CFG_FLAGS --host=arm-apple-darwin --enable-shared=no --enable-static=yes --disable-binaries --enable-fixed-point)
+
+    set (SPEEX_CFLAGS " -arch ${CMAKE_OSX_ARCHITECTURES} -isysroot ${CMAKE_OSX_SYSROOT} -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} -fembed-bitcode")
+  elseif ("i386" STREQUAL "${CMAKE_OSX_ARCHITECTURES}" OR "x86_64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    set (SPEEX_GEN_FLAGS --host=${CMAKE_OSX_ARCHITECTURES})
+    set (SPEEX_CFG_FLAGS --host=${CMAKE_OSX_ARCHITECTURES} --enable-shared=no --enable-static=yes --disable-binaries)
+  else()
+    message(FATAL_ERROR "What iOS architecture is this?")
+  endif()
+  
+  ExternalProject_Add(speex-src
+    GIT_REPOSITORY    https://github.com/bear101/speex
+    GIT_TAG           Speex-1.2.0
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND export CFLAGS=${SPEEX_CFLAGS} CPPFLAGS=${SPEEX_CFLAGS} LDFLAGS=${SPEEX_CFLAGS} && <SOURCE_DIR>/autogen.sh ${SPEEX_GEN_FLAGS}
+    COMMAND           export CFLAGS=${SPEEX_CFLAGS} CPPFLAGS=${SPEEX_CFLAGS} LDFLAGS=${SPEEX_CFLAGS} && <SOURCE_DIR>/configure ${SPEEX_CFG_FLAGS} --prefix=<INSTALL_DIR>
+    BUILD_COMMAND     make -j4
+    INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
+    )
+  ExternalProject_Get_Property(speex-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(speex STATIC IMPORTED GLOBAL)
+  target_include_directories (speex INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(speex PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeex.a)
+  add_dependencies(speex speex-src)
+  
 endif()

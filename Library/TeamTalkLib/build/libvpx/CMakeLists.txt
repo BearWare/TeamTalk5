@@ -97,4 +97,43 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set_target_properties(libvpx PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
 
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+
+  if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    set (LIBVPX_CPPFLAGS -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
+    set (LIBVPX_TARGET armv7-darwin-gcc)
+  elseif ("arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    set (LIBVPX_CPPFLAGS -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
+    set (LIBVPX_TARGET arm64-darwin-gcc)
+  elseif ("i386" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    set (LIBVPX_CPPFLAGS -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
+    set (LIBVPX_TARGET x86-iphonesimulator-gcc)
+  elseif ("x86_64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    set (LIBVPX_CPPFLAGS -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
+    set (LIBVPX_TARGET x86_64-iphonesimulator-gcc)
+  endif()
+
+  ExternalProject_Add(libvpx-src
+    GIT_REPOSITORY    https://github.com/bear101/libvpx
+    GIT_TAG           v1.9.0
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=${LIBVPX_CPPFLAGS}
+            --prefix=<INSTALL_DIR> --target=${LIBVPX_TARGET}
+            --disable-examples --disable-docs --disable-unit-tests
+    BUILD_COMMAND     make -j4
+    INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
+    )
+  ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(libvpx STATIC IMPORTED GLOBAL)
+  add_dependencies(libvpx libvpx-src)
+  target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(libvpx PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
+
 endif()

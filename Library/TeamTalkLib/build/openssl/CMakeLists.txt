@@ -88,5 +88,45 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   add_dependencies(openssl-ssl openssl-src)
   target_include_directories (openssl-ssl INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET openssl-ssl PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.a)
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+
+  if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}" OR "arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    set (OPENSSL_CFG_PREFIX export CROSS_TOP=${CMAKE_OSX_SYSROOT}/../.. && export CROSS_SDK=iPhoneOS.sdk)
+    set (OPENSSL_CFG_TARGET iphoneos-cross)
+    set (OPENSSL_CFG_POSTFIX -fembed-bitcode -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
+  else()
+    set (OPENSSL_CFG_PREFIX export CROSS_TOP=${CMAKE_OSX_SYSROOT}/../.. && export CROSS_SDK=iPhoneSimulator.sdk)
+    set (OPENSSL_CFG_TARGET iossimulator-xcrun)
+    set (OPENSSL_CFG_POSTFIX -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
+  endif()
   
+  ExternalProject_Add(openssl-src
+    GIT_REPOSITORY    https://github.com/bear101/openssl
+    GIT_TAG           OpenSSL_1_1_1k
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND ${OPENSSL_CFG_PREFIX} && export CFLAGS=-arch\ ${CMAKE_OSX_ARCHITECTURES} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> ${OPENSSL_CFG_TARGET} no-shared no-async no-tests ${OPENSSL_CFG_POSTFIX}
+    BUILD_COMMAND     ${OPENSSL_CFG_PREFIX} && make
+    INSTALL_COMMAND   ${OPENSSL_CFG_PREFIX} && make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
+    )
+  ExternalProject_Get_Property(openssl-src INSTALL_DIR)
+  set (OPENSSL_DIR ${INSTALL_DIR})
+  set (OPENSSL_DIR ${INSTALL_DIR} PARENT_SCOPE)
+  
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
+
+  add_library(openssl-crypto STATIC IMPORTED GLOBAL)
+  add_dependencies(openssl-crypto openssl-src)
+  target_include_directories (openssl-crypto INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET openssl-crypto PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libcrypto.a)
+
+  add_library(openssl-ssl STATIC IMPORTED GLOBAL)
+  add_dependencies(openssl-ssl openssl-src)
+  target_include_directories (openssl-ssl INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET openssl-ssl PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.a)
+
 endif()

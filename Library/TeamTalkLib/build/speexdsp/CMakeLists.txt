@@ -69,5 +69,42 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set_target_properties(speexdsp PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeexdsp.a)
   add_dependencies(speexdsp speexdsp-src)
-  
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+
+  if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    set (SPEEXDSP_GEN_FLAGS --host=arm-apple-darwin)
+    set (SPEEXDSP_CFG_FLAGS --host=arm-apple-darwin --enable-shared=no --enable-static=yes --enable-fixed-point --enable-neon --disable-examples)
+    set (SPEEXDSP_CFLAGS "-arch ${CMAKE_OSX_ARCHITECTURES} -isysroot ${CMAKE_OSX_SYSROOT} -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} -fembed-bitcode")
+  elseif ("arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    set (SPEEXDSP_GEN_FLAGS --host=arm-apple-darwin)
+    set (SPEEXDSP_CFG_FLAGS --host=arm-apple-darwin --enable-shared=no --enable-static=yes --disable-neon --disable-examples)
+    set (SPEEXDSP_CFLAGS "-arch ${CMAKE_OSX_ARCHITECTURES} -isysroot ${CMAKE_OSX_SYSROOT} -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} -fembed-bitcode")
+  elseif ("i386" STREQUAL "${CMAKE_OSX_ARCHITECTURES}" OR "x86_64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    set (SPEEXDSP_GEN_FLAGS --host=${CMAKE_OSX_ARCHITECTURES})
+    set (SPEEXDSP_CFG_FLAGS --host=${CMAKE_OSX_ARCHITECTURES} --enable-shared=no --enable-static=yes)
+    set (SPEEXDSP_CFLAGS "-arch ${CMAKE_OSX_ARCHITECTURES} -isysroot ${CMAKE_OSX_SYSROOT} -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
+  endif()
+
+  ExternalProject_Add(speexdsp-src
+    GIT_REPOSITORY    https://github.com/bear101/speexdsp
+    GIT_TAG           SpeexDSP-1.2.0
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND export CFLAGS=${SPEEXDSP_CFLAGS} LDFLAGS=${SPEEXDSP_CFLAGS} && <SOURCE_DIR>/autogen.sh ${SPEEXDSP_GEN_FLAGS}
+    COMMAND           export CFLAGS=${SPEEXDSP_CFLAGS} LDFLAGS=${SPEEXDSP_CFLAGS} && <SOURCE_DIR>/configure ${SPEEXDSP_CFG_FLAGS} --prefix=<INSTALL_DIR>
+    BUILD_COMMAND     make -j4
+    INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
+    )
+  ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(speexdsp STATIC IMPORTED GLOBAL)
+  target_include_directories (speexdsp INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(speexdsp PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeexdsp.a)
+  add_dependencies(speexdsp speexdsp-src)
+
 endif()

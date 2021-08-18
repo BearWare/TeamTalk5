@@ -83,4 +83,114 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set_property(TARGET ffmpeg-avutil PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libavutil.a)
 
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+
+  ExternalProject_Add(gas-preprocessor
+    GIT_REPOSITORY    https://github.com/FFmpeg/gas-preprocessor
+    GIT_TAG           cbe8847
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       ""
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND     ""
+    INSTALL_COMMAND   ""
+    )
+  ExternalProject_Get_Property(gas-preprocessor SOURCE_DIR)
+  set (GAS_DIR ${SOURCE_DIR})
+
+  set (FFMPEG_CFG_FLAGS --target-os=darwin --sysroot=${CMAKE_OSX_SYSROOT} --enable-pic --disable-doc --disable-programs --enable-cross-compile)
+
+  if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    list (APPEND FFMPEG_CFG_FLAGS --arch=arm --cpu=cortex-a8)
+    
+    set (CCARGS "clang -arch armv7 -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
+    set (FFMPEG_CFG_CCFLAGS --cc=${CCARGS})
+    set (ASARGS "${GAS_DIR}/gas-preprocessor.pl -arch arm -as-type apple-clang -- clang -arch armv7 -v")
+    set (FFMPEG_CFG_ASFLAGS --as=${ASARGS})
+
+    list (APPEND FFMPEG_CFG_FLAGS ${FFMPEG_CFG_CCFLAGS} ${FFMPEG_CFG_ASFLAGS})
+
+  elseif ("arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    list (APPEND FFMPEG_CFG_FLAGS --arch=${CMAKE_OSX_ARCHITECTURES})
+    
+    set (CCARGS "clang -arch ${CMAKE_OSX_ARCHITECTURES} -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
+    set (FFMPEG_CFG_CCFLAGS --cc=${CCARGS})
+    set (ASARGS "${GAS_DIR}/gas-preprocessor.pl -arch ${CMAKE_OSX_ARCHITECTURES} -as-type apple-clang -- clang -arch ${CMAKE_OSX_ARCHITECTURES} -v")
+    set (FFMPEG_CFG_ASFLAGS --as=${ASARGS})
+
+    list (APPEND FFMPEG_CFG_FLAGS ${FFMPEG_CFG_CCFLAGS} ${FFMPEG_CFG_ASFLAGS})
+
+  elseif ("i386" STREQUAL "${CMAKE_OSX_ARCHITECTURES}" OR "x86_64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    list (APPEND FFMPEG_CFG_FLAGS --arch=${CMAKE_OSX_ARCHITECTURES})
+    
+    set (CCARGS "clang -arch ${CMAKE_OSX_ARCHITECTURES} -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
+    set (FFMPEG_CFG_CCFLAGS --cc=${CCARGS})
+
+    list (APPEND FFMPEG_CFG_FLAGS ${FFMPEG_CFG_CCFLAGS} ${FFMPEG_CFG_ASFLAGS})
+  endif()
+
+  ExternalProject_Add(ffmpeg-src
+    GIT_REPOSITORY    https://github.com/bear101/FFmpeg
+    GIT_TAG           n3.4.7
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND  <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${FFMPEG_CFG_FLAGS}
+    BUILD_COMMAND     make -j4
+    INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
+        <INSTALL_DIR>/lib/libavfilter.a
+        <INSTALL_DIR>/lib/libavformat.a
+        <INSTALL_DIR>/lib/libavcodec.a
+        <INSTALL_DIR>/lib/libswresample.a
+        <INSTALL_DIR>/lib/libswscale.a
+        <INSTALL_DIR>/lib/libavutil.a
+    DEPENDS openssl-src gas-preprocessor
+    )
+  ExternalProject_Get_Property(ffmpeg-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-avdevice ffmpeg-src)
+  target_include_directories (ffmpeg-avdevice INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-avdevice PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libavdevice.a)
+
+  add_library(ffmpeg-avfilter STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-avfilter ffmpeg-src)
+  target_include_directories (ffmpeg-avfilter INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-avfilter PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libavfilter.a)
+
+  add_library(ffmpeg-avformat STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-avformat ffmpeg-src)
+  target_include_directories (ffmpeg-avformat INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-avformat PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libavformat.a)
+  target_link_libraries(ffmpeg-avformat INTERFACE openssl-crypto openssl-ssl)
+
+  add_library(ffmpeg-avcodec STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-avcodec ffmpeg-src)
+  target_include_directories (ffmpeg-avcodec INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-avcodec PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libavcodec.a)
+
+  add_library(ffmpeg-swresample STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-swresample ffmpeg-src)
+  target_include_directories (ffmpeg-swresample INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-swresample PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libswresample.a)
+
+  add_library(ffmpeg-swscale STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-swscale ffmpeg-src)
+  target_include_directories (ffmpeg-swscale INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-swscale PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libswscale.a)
+
+  add_library(ffmpeg-avutil STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-avutil ffmpeg-src)
+  target_include_directories (ffmpeg-avutil INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-avutil PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libavutil.a)
+
 endif()

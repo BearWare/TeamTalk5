@@ -76,12 +76,14 @@ if (MSVC)
     IMPORTED_LOCATION ${ACE_DIR}/lib/$(PlatformName)/ACEs.lib)
 
   add_library(ace_ssl STATIC IMPORTED GLOBAL)
+
   set_target_properties(ace_ssl PROPERTIES
     IMPORTED_LOCATION_DEBUG ${ACE_DIR}/lib/$(PlatformName)/ACE_SSLsd.lib
     IMPORTED_LOCATION ${ACE_DIR}/lib/$(PlatformName)/ACE_SSLs.lib)
   target_link_libraries(ace_ssl INTERFACE ace openssl-crypto openssl-ssl)
 
   add_library(ace_inet STATIC IMPORTED GLOBAL)
+
   target_include_directories (ace_inet INTERFACE ${ACE_DIR}/protocols)
   set_target_properties(ace_inet PROPERTIES
     IMPORTED_LOCATION_DEBUG ${ACE_DIR}/lib/$(PlatformName)/ACE_INetsd.lib
@@ -89,6 +91,7 @@ if (MSVC)
   target_link_libraries(ace_inet INTERFACE ace)
 
   add_library(ace_inet_ssl STATIC IMPORTED GLOBAL)
+
   set_target_properties(ace_inet_ssl PROPERTIES
     IMPORTED_LOCATION_DEBUG ${ACE_DIR}/lib/$(PlatformName)/ACE_INet_SSLsd.lib
     IMPORTED_LOCATION ${ACE_DIR}/lib/$(PlatformName)/ACE_INet_SSLs.lib)
@@ -177,4 +180,99 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set_target_properties(ace_inet_ssl PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE_INet_SSL.a)
 
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+
+  if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}" OR "arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+    set (ACE_CPPFLAGS -fembed-bitcode -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
+    set (ACE_TARGET HARDWARE)
+    set (ACE_EXPORT export ACE_ROOT=<SOURCE_DIR>/ACE)
+  else()
+    set (ACE_CPPFLAGS -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
+    set (ACE_TARGET SIMULATOR)
+    set (ACE_EXPORT export ACE_ROOT=<SOURCE_DIR>/ACE)
+  endif()
+  
+  ExternalProject_Add(MPC
+    GIT_REPOSITORY    https://github.com/bear101/MPC
+    GIT_TAG           ACE+TAO-6_5_12
+    GIT_SUBMODULES_RECURSE TRUE
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND     ""
+    INSTALL_COMMAND   ""
+    )
+  ExternalProject_Get_Property(MPC SOURCE_DIR)
+  set (MPC_DIR ${SOURCE_DIR})
+
+  ExternalProject_Add(ACE-src
+    GIT_REPOSITORY    https://github.com/bear101/ACE
+    GIT_TAG           f1f6fade7da
+    GIT_SUBMODULES_RECURSE TRUE
+    GIT_SHALLOW       TRUE
+    INSTALL_DIR       install
+    UPDATE_COMMAND    ""
+    # Create 'platform_macros.GNU'
+    CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+    COMMAND           echo "static_libs_only=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+    COMMAND           echo "ssl=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+    COMMAND           echo "ipv6=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+    COMMAND           echo "c++11=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+    COMMAND           echo "IPHONE_TARGET=${ACE_TARGET}" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+    COMMAND           echo "include <SOURCE_DIR>/ACE/include/makeinclude/platform_macosx_iOS.GNU" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+    COMMAND           echo "IPHONE_HARDWARE_ARCHITECTURE=${CMAKE_OSX_ARCHITECTURES}" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+    COMMAND           echo "CPPFLAGS+=${ACE_CPPFLAGS}" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+    COMMAND           echo "LDFLAGS+=${ACE_CPPFLAGS}" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+    COMMAND           echo "SSL_ROOT=${OPENSSL_DIR}" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+    COMMAND           echo "INSTALL_PREFIX=<INSTALL_DIR>" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+    # Create 'config.h'
+    COMMAND           echo "#define ACE_HAS_IPV6 1" > <SOURCE_DIR>/ACE/ace/config.h
+    COMMAND           echo "#define ACE_HAS_CPP11" >> <SOURCE_DIR>/ACE/ace/config.h
+    COMMAND           echo "#include \"config-macosx-iOS.h\"" >> <SOURCE_DIR>/ACE/ace/config.h
+    # Setup MPC
+    COMMAND           ln -sf ${MPC_DIR} <SOURCE_DIR>/ACE/MPC
+    # Generate build configuration for ACE
+    COMMAND           ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/ace && <SOURCE_DIR>/ACE/bin/mwc.pl -type gnuace -recurse
+    # Generate build configuration for protocols (INet)
+    COMMAND           ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/protocols/ace/INet && <SOURCE_DIR>/ACE/bin/mwc.pl -type gnuace -recurse
+    BUILD_IN_SOURCE   TRUE
+    BUILD_COMMAND     ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/ace && make -j4
+    COMMAND           ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make -j4
+    INSTALL_COMMAND   ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/ace && make install
+    COMMAND           ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make install
+    DEPENDS           MPC openssl-src
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libACE.a
+        <INSTALL_DIR>/lib/libACE_SSL.a
+        <INSTALL_DIR>/lib/libACE_INet.a
+        <INSTALL_DIR>/lib/libACE_INet_SSL.a
+    )
+  ExternalProject_Get_Property(ACE-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(ace STATIC IMPORTED GLOBAL)
+  add_dependencies(ace ACE-src)
+  target_include_directories (ace INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(ace PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE.a)
+
+  add_library(ace_ssl STATIC IMPORTED GLOBAL)
+  add_dependencies(ace_ssl ace openssl-crypto openssl-ssl)
+  target_include_directories (ace_ssl INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(ace_ssl PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE_SSL.a)
+  target_link_libraries(ace_ssl INTERFACE openssl-ssl openssl-crypto)
+
+  add_library(ace_inet STATIC IMPORTED GLOBAL)
+  add_dependencies(ace_inet ace)
+  target_include_directories (ace_inet INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(ace_inet PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE_INet.a)
+
+  add_library(ace_inet_ssl STATIC IMPORTED GLOBAL)
+  add_dependencies(ace_inet_ssl ace_inet ace_ssl)
+  target_include_directories (ace_inet_ssl INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(ace_inet_ssl PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE_INet_SSL.a)
+  
 endif()

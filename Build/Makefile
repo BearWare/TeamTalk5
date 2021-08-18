@@ -71,53 +71,54 @@ mac:
 	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_DEPLOYMENT_TARGET=10.10" BUILDDIR=build-$@ generic
 
 ios-build:
-	$(MAKE) CMAKE_EXTRA+="-DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=7.0 -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK5LIB=ON -DBUILD_TEAMTALK5PROLIB=ON -DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DOGG=OFF -DFFMPEG=OFF -DOPUSTOOLS=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF -DZLIB_STATIC=OFF" buildlib
+	$(MAKE) CMAKE_EXTRA+="-DCMAKE_SYSTEM_NAME=iOS -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK5LIB=ON -DBUILD_TEAMTALK5PROLIB=ON -DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DOGG=OFF -DFFMPEG=OFF -DOPUSTOOLS=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF -DZLIB_STATIC=OFF" buildlib
 
-ios-armv7: toolchain-env
+ios-armv7:
 	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=armv7 -DCMAKE_OSX_SYSROOT=iphoneos" BUILDDIR=build-$@ ios-build
-	. $(TOOLCHAIN_ROOT)/toolchain.sh ios armv7 && $(MAKE) lipo-arch
+	$(MAKE) lipo-arch
 
-ios-arm64: toolchain-env
+ios-arm64:
 	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_SYSROOT=iphoneos" BUILDDIR=build-$@ ios-build
-	. $(TOOLCHAIN_ROOT)/toolchain.sh ios arm64 && $(MAKE) lipo-arch
+	$(MAKE) lipo-arch
 
-ios-i386: toolchain-env
+ios-i386:
 	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=i386 -DCMAKE_OSX_SYSROOT=iphonesimulator" BUILDDIR=build-$@ ios-build
-	. $(TOOLCHAIN_ROOT)/toolchain.sh ios i386 && $(MAKE) lipo-arch
+	$(MAKE) lipo-arch
 
-ios-x64: toolchain-env
+ios-x64:
 	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_SYSROOT=iphonesimulator" BUILDDIR=build-$@ ios-build
-	. $(TOOLCHAIN_ROOT)/toolchain.sh ios x86_64 && $(MAKE) lipo-arch
+	$(MAKE) lipo-arch
 
 ios-all: ios-armv7 ios-arm64 ios-i386 ios-x64 lipo
 
-lipo-arch: toolchain-env teamtalk-env
+lipo-arch: teamtalk-env
+	test -d "$(BUILDDIR)"
 	libtool -static -o $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-$(ARCH).a \
-	$(TTLIBS_ROOT)/speex/lib/libspeex.a \
-	$(TTLIBS_ROOT)/speex/lib/libspeexdsp.a \
-	$(TTLIBS_ROOT)/opus/lib/libopus.a \
-	$(TTLIBS_ROOT)/libvpx/lib/libvpx.a \
-	$(TTLIBS_ROOT)/ACE/lib/libACE.a \
-	$(TTLIBS_ROOT)/ACE/lib/libACE_SSL.a \
-	$(TTLIBS_ROOT)/ACE/lib/libACE_INet.a \
-	$(TTLIBS_ROOT)/ACE/lib/libACE_INet_SSL.a \
-	$(TTLIBS_ROOT)/openssl/lib/libcrypto.a \
-	$(TTLIBS_ROOT)/openssl/lib/libssl.a \
-	${TTLIBS_ROOT}/webrtc/obj/modules/audio_processing/libteamtalk.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/speex/lib/libspeex.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/speexdsp/lib/libspeexdsp.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/opus/lib/libopus.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/libvpx/lib/libvpx.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/ACE/lib/libACE.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/ACE/lib/libACE_SSL.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/ACE/lib/libACE_INet.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/ACE/lib/libACE_INet_SSL.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/openssl/lib/libcrypto.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/openssl/lib/libssl.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/webrtc/obj/modules/audio_processing/libteamtalk.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/$(ARCH)/libTeamTalk5.a
 
 	libtool -static -o $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-$(ARCH).a \
-	$(TTLIBS_ROOT)/speex/lib/libspeex.a \
-	$(TTLIBS_ROOT)/speex/lib/libspeexdsp.a \
-	$(TTLIBS_ROOT)/opus/lib/libopus.a \
-	$(TTLIBS_ROOT)/libvpx/lib/libvpx.a \
-	$(TTLIBS_ROOT)/ACE/lib/libACE.a \
-	$(TTLIBS_ROOT)/ACE/lib/libACE_SSL.a \
-	$(TTLIBS_ROOT)/ACE/lib/libACE_INet.a \
-	$(TTLIBS_ROOT)/ACE/lib/libACE_INet_SSL.a \
-	$(TTLIBS_ROOT)/openssl/lib/libcrypto.a \
-	$(TTLIBS_ROOT)/openssl/lib/libssl.a \
-	${TTLIBS_ROOT}/webrtc/obj/modules/audio_processing/libteamtalk.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/speex/lib/libspeex.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/speexdsp/lib/libspeexdsp.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/opus/lib/libopus.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/libvpx/lib/libvpx.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/ACE/lib/libACE.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/ACE/lib/libACE_SSL.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/ACE/lib/libACE_INet.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/ACE/lib/libACE_INet_SSL.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/openssl/lib/libcrypto.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/openssl/lib/libssl.a \
+	$(BUILDDIR)/Library/TeamTalkLib/build/install/webrtc/obj/modules/audio_processing/libteamtalk.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/$(ARCH)/libTeamTalk5Pro.a
 
 lipo: teamtalk-env

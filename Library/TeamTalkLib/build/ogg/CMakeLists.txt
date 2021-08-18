@@ -48,4 +48,30 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libogg.a)
   add_dependencies(ogg ogg-src)
 
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+
+  set (OGG_CFG_FLAGS -DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}
+                      -DCMAKE_OSX_SYSROOT=${CMAKE_OSX_SYSROOT}
+                      -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
+                      -DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES})
+  
+  ExternalProject_Add(ogg-src
+    GIT_REPOSITORY    https://github.com/bear101/ogg
+    GIT_TAG           v1.3.3
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OGG_CFG_FLAGS}
+    BUILD_COMMAND     cmake --build . --target ogg
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
+    )
+  ExternalProject_Get_Property(ogg-src INSTALL_DIR)
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(ogg STATIC IMPORTED GLOBAL)
+  target_include_directories (ogg INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(ogg PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libogg.a)
+  add_dependencies(ogg ogg-src)
+
 endif()

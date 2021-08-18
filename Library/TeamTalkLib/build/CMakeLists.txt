@@ -4,12 +4,25 @@ project(Toolchain)
 
 include(ExternalProject)
 
-set (PLATFORMTOOLSET "/property:PlatformToolset=v142")
+if (MSVC)
 
-if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
-  set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
-  message(WARNING "No deployment target specified. Defaulting to ${CMAKE_OSX_DEPLOYMENT_TARGET}")
+  set (PLATFORMTOOLSET "/property:PlatformToolset=v142")
+  
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  
+  if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
+    set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
+    message(WARNING "No deployment target specified. Defaulting to ${CMAKE_OSX_DEPLOYMENT_TARGET}")
+  endif()
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+  if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
+    set (CMAKE_OSX_DEPLOYMENT_TARGET 7.0)
+    message(WARNING "No deployment target specified. Defaulting to ${CMAKE_OSX_DEPLOYMENT_TARGET}")
+  endif()
+
 endif()
+
 
 add_subdirectory(openssl)
 add_subdirectory(ace)
