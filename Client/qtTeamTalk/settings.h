@@ -110,6 +110,11 @@
 #define SETTINGS_DISPLAY_CHANEXP                 "display/expand-channels"
 #define SETTINGS_DISPLAY_CHANEXP_DEFAULT         false
 
+#define SETTINGS_BEHAVIOR_ENTERLEAVE             "behavior/enter-leaves-channel"
+#define SETTINGS_BEHAVIOR_ENTERLEAVE_DEFAULT             true
+#define SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG             "behavior/close-file-dlg"
+#define SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG_DEFAULT             false
+
 #define SETTINGS_CONNECTION_AUTOCONNECT             "connection/autoconnect"
 #define SETTINGS_CONNECTION_RECONNECT               "connection/reconnect"
 #define SETTINGS_CONNECTION_AUTOJOIN                "connection/autojoin"

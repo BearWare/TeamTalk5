@@ -4498,40 +4498,43 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
     if(!ui.channelsWidget->getSelectedChannel(chan))
         return;
 
-    if(chan.nChannelID == m_mychannel.nChannelID)
+    if(chan.nChannelID == m_mychannel.nChannelID && ttSettings->value(SETTINGS_BEHAVIOR_ENTERLEAVE, SETTINGS_BEHAVIOR_ENTERLEAVE_DEFAULT).toBool() == true)
     {
         int cmdid = TT_DoLeaveChannel(ttInst);
         m_commands.insert(cmdid, CMD_COMPLETE_LEAVECHANNEL);
         return;
     }
 
-    QString password = m_channel_passwd[chan.nChannelID];
-    if(chan.bPassword)
+    if (chan.nChannelID != TT_GetMyChannelID(ttInst))
     {
-        bool ok = false;
-        QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&Ok"));
-        inputDialog.setCancelButtonText(tr("&Cancel"));
-        inputDialog.setInputMode(QInputDialog::TextInput);
-        inputDialog.setTextEchoMode(QLineEdit::Password);
-        inputDialog.setTextValue(password);
-        inputDialog.setWindowTitle(MENUTEXT(ui.actionJoinChannel->text()));
-        inputDialog.setLabelText(tr("Specify password"));
-        ok = inputDialog.exec();
-        password = inputDialog.textValue();
-        if(!ok)
-            return;
-    }
-    m_channel_passwd[chan.nChannelID] = password;
+        QString password = m_channel_passwd[chan.nChannelID];
+        if(chan.bPassword)
+        {
+            bool ok = false;
+            QInputDialog inputDialog;
+            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setCancelButtonText(tr("&Cancel"));
+            inputDialog.setInputMode(QInputDialog::TextInput);
+            inputDialog.setTextEchoMode(QLineEdit::Password);
+            inputDialog.setTextValue(password);
+            inputDialog.setWindowTitle(MENUTEXT(ui.actionJoinChannel->text()));
+            inputDialog.setLabelText(tr("Specify password"));
+            ok = inputDialog.exec();
+            password = inputDialog.textValue();
+            if(!ok)
+                return;
+        }
+        m_channel_passwd[chan.nChannelID] = password;
 
-    int cmdid = TT_DoJoinChannelByID(ttInst, chan.nChannelID, _W(password));
-    if(cmdid>0)
-    {
-        m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
+        int cmdid = TT_DoJoinChannelByID(ttInst, chan.nChannelID, _W(password));
+        if(cmdid>0)
+        {
+            m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
+        }
+        else
+            QMessageBox::critical(this, MENUTEXT(ui.actionJoinChannel->text()),
+                                  tr("Failed to issue command to join channel"));
     }
-    else
-        QMessageBox::critical(this, MENUTEXT(ui.actionJoinChannel->text()),
-                              tr("Failed to issue command to join channel"));
 }
 
 void MainWindow::slotChannelsViewChannelInfo(bool /*checked=false*/)

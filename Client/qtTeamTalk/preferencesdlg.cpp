@@ -540,6 +540,12 @@ void PreferencesDlg::slotTabChange(int index)
             ui.languageBox->setCurrentIndex(index);
     }
     break;
+    case BEHAVIOR_TAB :  //behavior
+    {
+        ui.enterLeaveChkBox->setChecked(ttSettings->value(SETTINGS_BEHAVIOR_ENTERLEAVE, SETTINGS_BEHAVIOR_ENTERLEAVE_DEFAULT).toBool());
+        ui.closeFileDlgChkBox->setChecked(ttSettings->value(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG_DEFAULT).toBool());
+    }
+    break;
     case CONNECTION_TAB :  //connection
     {
         ui.autoconnectChkBox->setChecked(ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, false).toBool());
@@ -817,6 +823,11 @@ void PreferencesDlg::slotSaveChanges()
             ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE,
                         ui.languageBox->itemData(index).toString());
         }
+    }
+    if(m_modtab.find(BEHAVIOR_TAB) != m_modtab.end())
+    {
+        ttSettings->setValue(SETTINGS_BEHAVIOR_ENTERLEAVE, ui.enterLeaveChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, ui.closeFileDlgChkBox->isChecked());
     }
     if(m_modtab.find(CONNECTION_TAB) != m_modtab.end())
     {

@@ -644,6 +644,36 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="behaviorTab">
+      <attribute name="title">
+       <string>Behavior</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_13">
+       <item>
+        <widget class="QGroupBox" name="groupBox_behav">
+         <property name="title">
+          <string>Default Client Behavior</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_behav">
+          <item>
+           <widget class="QCheckBox" name="enterLeaveChkBox">
+            <property name="text">
+             <string>Enter leaves the channel</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="closeFileDlgChkBox">
+            <property name="text">
+             <string>Close dialog box when a file transfer is finished</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="connectionTab">
       <attribute name="title">
        <string>Connection</string>

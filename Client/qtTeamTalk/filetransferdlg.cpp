@@ -23,6 +23,7 @@
 
 #include "filetransferdlg.h"
 #include "appinfo.h"
+#include "settings.h"
 
 #include <QDir>
 #include <QUrl>
@@ -30,6 +31,7 @@
 #include <QDesktopServices>
 
 extern TTInstance* ttInst;
+extern QSettings* ttSettings;
 
 FileTransferDlg::FileTransferDlg(const FileTransfer& transfer, QWidget* parent)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
@@ -43,6 +45,8 @@ FileTransferDlg::FileTransferDlg(const FileTransfer& transfer, QWidget* parent)
             this, &FileTransferDlg::slotCancelTransfer);
     connect(ui.openButton, &QAbstractButton::clicked,
         this, &FileTransferDlg::slotOpenFile);
+    connect(ui.closeChkBox, &QAbstractButton::clicked,
+            this, &FileTransferDlg::slotUpdateSettings);
 
     m_start = QTime::currentTime();
 
@@ -142,7 +146,7 @@ void FileTransferDlg::slotTransferUpdate(const FileTransfer& transfer)
             killTimer(m_timerid);
             m_timerid = -1;
 
-            if(ui.closeChkBox->isChecked())
+            if(ttSettings->value(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG_DEFAULT).toBool() == true)
                 this->close();
             break;
         case FILETRANSFER_ERROR :
@@ -170,3 +174,7 @@ void FileTransferDlg::slotCancelTransfer()
     close();
 }
 
+void FileTransferDlg::slotUpdateSettings()
+{
+    ttSettings->setValue(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, ui.closeChkBox->isChecked());
+}
