@@ -4565,7 +4565,7 @@ void MainWindow::slotChannelsSpeakChannelStatistics()
     {
         User user = {};
         ui.channelsWidget->getUser(users[i], user);
-        if(user.uUserState & USERSTATE_VOICE)
+        if(user.uUserState & USERSTATE_VOICE || user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == true)
             voice1.push_back(getDisplayName(user));
         if(user.uUserState & USERSTATE_MEDIAFILE)
             mediafile1.push_back(getDisplayName(user));
