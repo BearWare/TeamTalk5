@@ -6429,7 +6429,7 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
             ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
     }
 #if defined(Q_OS_DARWIN)
-    else if (ui.channelsWidget->hasFocus())
+    if (ui.channelsWidget->hasFocus())
     {
         if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
         {
@@ -6440,7 +6440,6 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
                 slotChannelDoubleClicked(ui.channelsWidget->selectedChannel(true));
         }
     }
-    QWidget::keyPressEvent(e);
 #endif
     QWidget::keyPressEvent(e);
 }
