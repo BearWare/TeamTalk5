@@ -38,7 +38,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=10.10 -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-    BUILD_COMMAND     cmake --build . --target portaudio
+    BUILD_COMMAND     cmake --build . --target portaudio_static
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
     )
   ExternalProject_Get_Property(portaudio-src INSTALL_DIR)
@@ -62,7 +62,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_USE_ALSA=ON -DPA_USE_JACK=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON
     BUILD_COMMAND     cmake --build . --target portaudio_static
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
-    BUILD_ALWAYS      TRUE
     )
   ExternalProject_Get_Property(portaudio-src INSTALL_DIR)
 
