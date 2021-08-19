@@ -1,9 +1,6 @@
 name: Ubuntu 18
 
-on:
-  push:
-    branches-ignore:
-      - workflow_windows
+on: [push]
 
 env:
   # TeamTalk unit test environment variables
@@ -32,28 +29,6 @@ jobs:
         sudo apt install valgrind
         sudo make -C Build depend-ubuntu18
         dpkg -l
-
-    - name: Init Toolchain submodule
-      working-directory: ${{runner.workspace}}/TeamTalk5
-      run: git submodule update --init Library/TeamTalkLib/toolchain
-
-    - name: Init Toolchain's submodules
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
-      run: |
-        make prepare-github
-
-    - name: Install Toolchain Dependencies
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
-      run: |
-        sudo make depend-ubuntu18
-
-    - name: Build Toolchain for Ubuntu 18
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain
-      shell: bash
-      run: |
-        source toolchain.sh linux
-        cd build
-        make deb64
 
     - name: Init TeamTalk Library submodules
       working-directory: ${{runner.workspace}}/TeamTalk5
