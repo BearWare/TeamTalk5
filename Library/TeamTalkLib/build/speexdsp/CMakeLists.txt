@@ -107,4 +107,33 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeexdsp.a)
   add_dependencies(speexdsp speexdsp-src)
 
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+  ExternalProject_Add(speexdsp-src
+    GIT_REPOSITORY    https://github.com/bear101/speexdsp
+    GIT_TAG           SpeexDSP-1.2.0
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
+    COMMAND           <SOURCE_DIR>/configure --with-pic --prefix=<INSTALL_DIR>
+    BUILD_COMMAND     make -j4
+    INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
+    )
+  ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(speexdsp STATIC IMPORTED GLOBAL)
+  add_dependencies(speexdsp speexdsp-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(speexdsp PROPERTIES
+      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeexdsp.a)
+  else()
+    target_include_directories (speexdsp INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(speexdsp PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeexdsp.a)
+  endif()
+
 endif()

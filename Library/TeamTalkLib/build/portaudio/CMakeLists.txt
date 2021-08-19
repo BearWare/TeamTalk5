@@ -30,6 +30,7 @@ if (MSVC)
   add_dependencies(portaudio portaudio-win)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
   ExternalProject_Add(portaudio-src
     GIT_REPOSITORY    https://github.com/bear101/portaudio
     GIT_TAG           521209c
@@ -49,5 +50,34 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set_target_properties(portaudio PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libportaudio.a)
   add_dependencies(portaudio portaudio-src)
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+  ExternalProject_Add(portaudio-src
+    GIT_REPOSITORY    https://github.com/bear101/portaudio
+    GIT_TAG           1bdcb9e
+#    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_USE_ALSA=ON -DPA_USE_JACK=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+    BUILD_COMMAND     cmake --build . --target portaudio_static
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
+    BUILD_ALWAYS      TRUE
+    )
+  ExternalProject_Get_Property(portaudio-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(portaudio STATIC IMPORTED GLOBAL)
+  add_dependencies(portaudio portaudio-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(portaudio PROPERTIES
+      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libportaudio.a)
+  else()
+    target_include_directories (portaudio INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(portaudio PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libportaudio.a)
+  endif()
 
 endif()

@@ -129,4 +129,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   target_include_directories (openssl-ssl INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET openssl-ssl PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.a)
 
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  
 endif()

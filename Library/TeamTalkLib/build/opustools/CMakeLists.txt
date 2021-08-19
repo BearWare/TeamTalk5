@@ -14,15 +14,21 @@ ExternalProject_Add(opustools-src
   CONFIGURE_COMMAND ""
   BUILD_COMMAND     ""
   INSTALL_COMMAND   ""
+  DEPENDS           ogg
   )
 ExternalProject_Get_Property(opustools-src SOURCE_DIR)
 file(MAKE_DIRECTORY ${SOURCE_DIR}/src)
-file(TOUCH ${SOURCE_DIR}/src/opus_header.c)
-file(TOUCH ${SOURCE_DIR}/src/opus_header.h)
+
+if (${CMAKE_VERSION} VERSION_LESS "3.12.0")
+  file(WRITE ${SOURCE_DIR}/src/opus_header.c "")
+  file(WRITE ${SOURCE_DIR}/src/opus_header.h "")
+else()
+  file(TOUCH ${SOURCE_DIR}/src/opus_header.c)
+  file(TOUCH ${SOURCE_DIR}/src/opus_header.h)
+endif()
 
 add_library(opustools STATIC ${SOURCE_DIR}/src/opus_header.h ${SOURCE_DIR}/src/opus_header.c)
 set_property(TARGET opustools PROPERTY OUTPUT_NAME_DEBUG opustoolsd)
 add_dependencies(opustools opustools-src)
 target_link_libraries(opustools ogg)
 target_include_directories (opustools INTERFACE ${SOURCE_DIR}/src)
-

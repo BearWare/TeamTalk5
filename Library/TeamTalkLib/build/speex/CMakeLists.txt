@@ -83,7 +83,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   else()
     message(FATAL_ERROR "What iOS architecture is this?")
   endif()
-  
+
   ExternalProject_Add(speex-src
     GIT_REPOSITORY    https://github.com/bear101/speex
     GIT_TAG           Speex-1.2.0
@@ -104,5 +104,34 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   set_target_properties(speex PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeex.a)
   add_dependencies(speex speex-src)
-  
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+  ExternalProject_Add(speex-src
+    GIT_REPOSITORY    https://github.com/bear101/speex
+    GIT_TAG           Speex-1.2.0
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
+    COMMAND           <SOURCE_DIR>/configure --with-pic --prefix=<INSTALL_DIR>
+    BUILD_COMMAND     make -j4
+    INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
+    )
+  ExternalProject_Get_Property(speex-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(speex STATIC IMPORTED GLOBAL)
+  add_dependencies(speex speex-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(speex PROPERTIES
+      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeex.a)
+  else()
+    target_include_directories (speex INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(speex PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeex.a)
+  endif()
+
 endif()

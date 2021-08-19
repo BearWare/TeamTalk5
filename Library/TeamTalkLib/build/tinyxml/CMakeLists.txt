@@ -40,14 +40,14 @@ if (MSVC)
   endif()
 
   add_library(tinyxml STATIC IMPORTED GLOBAL)
+  add_dependencies(tinyxml ${TINYXML_DEPEND})
   target_include_directories (tinyxml INTERFACE ${TINYXML_DIR})
   set_target_properties(tinyxml PROPERTIES
     IMPORTED_LOCATION_DEBUG ${TINYXML_DIR}/lib/$(PlatformName)/tinyxmld.lib
     IMPORTED_LOCATION ${TINYXML_DIR}/lib/$(PlatformName)/tinyxml.lib)
-  add_dependencies(tinyxml ${TINYXML_DEPEND})
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  
+
   ExternalProject_Add(tinyxml-src
     GIT_REPOSITORY    https://github.com/bear101/tinyxml
     GIT_TAG           bdr/mac
@@ -66,11 +66,44 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
-  
+
   add_library(tinyxml STATIC IMPORTED GLOBAL)
+  add_dependencies(tinyxml tinyxml-src)
   target_include_directories (tinyxml INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(tinyxml PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libTinyXML.a)
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+  ExternalProject_Add(tinyxml-src
+    GIT_REPOSITORY    https://github.com/bear101/tinyxml
+    GIT_TAG           bdr/deb64
+    UPDATE_COMMAND    ""
+    CONFIGURE_COMMAND ""
+    INSTALL_DIR       install
+    BUILD_IN_SOURCE   TRUE
+    BUILD_COMMAND     make -j4
+    INSTALL_COMMAND   mkdir -p <INSTALL_DIR>/include && mkdir -p <INSTALL_DIR>/lib
+    COMMAND           cp <SOURCE_DIR>/tinyxml.h <INSTALL_DIR>/include/
+    COMMAND           cp <SOURCE_DIR>/tinystr.h <INSTALL_DIR>/include/
+    COMMAND           cp <SOURCE_DIR>/libTinyXML.a <INSTALL_DIR>/lib/
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libTinyXML.a
+    )
+  ExternalProject_Get_Property(tinyxml-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
+
+  add_library(tinyxml STATIC IMPORTED GLOBAL)
   add_dependencies(tinyxml tinyxml-src)
-  
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(tinyxml PROPERTIES
+      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libTinyXML.a)
+  else()
+    target_include_directories (tinyxml INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(tinyxml PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libTinyXML.a)
+  endif()
+
 endif()

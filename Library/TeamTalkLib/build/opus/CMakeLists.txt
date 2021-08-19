@@ -44,7 +44,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   ExternalProject_Get_Property(opus-src INSTALL_DIR)
 
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
-  
+
   add_library(opus STATIC IMPORTED GLOBAL)
   add_dependencies(opus opus-src)
   target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
@@ -75,11 +75,38 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   ExternalProject_Get_Property(opus-src INSTALL_DIR)
 
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
-  
+
   add_library(opus STATIC IMPORTED GLOBAL)
   add_dependencies(opus opus-src)
   target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(opus PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
-  
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+  ExternalProject_Add(opus-src
+    GIT_REPOSITORY    https://github.com/bear101/opus
+    GIT_TAG           v1.3.1
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+    BUILD_COMMAND     cmake --build . --target opus
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
+    )
+  ExternalProject_Get_Property(opus-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(opus STATIC IMPORTED GLOBAL)
+  add_dependencies(opus opus-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(opus PROPERTIES
+      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
+  else()
+    target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(opus PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
+  endif()
 endif()

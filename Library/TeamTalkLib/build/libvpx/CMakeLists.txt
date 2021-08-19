@@ -136,4 +136,35 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   set_target_properties(libvpx PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
 
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+  ExternalProject_Add(libvpx-src
+    GIT_REPOSITORY    https://github.com/bear101/libvpx
+    GIT_TAG           v1.9.0
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND <SOURCE_DIR>/configure
+            --prefix=<INSTALL_DIR> --target=x86_64-linux-gcc
+            --disable-examples --disable-docs --disable-unit-tests
+    BUILD_COMMAND     make -j4
+    INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
+    )
+  ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(libvpx STATIC IMPORTED GLOBAL)
+  add_dependencies(libvpx libvpx-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(libvpx PROPERTIES
+      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
+  else()
+    target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(libvpx PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
+  endif()
+
 endif()
