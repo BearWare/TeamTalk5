@@ -28,6 +28,7 @@ jobs:
         -DBUILD_TEAMTALK_CORE=ON
         -DCATCH_UNITTEST=ON
         -DLIBVPX=OFF
+        -DTOOLCHAIN_LIBVPX=OFF
         -DWEBRTC=OFF
     - name: Build CMake Projects
       working-directory: ${{runner.workspace}}
