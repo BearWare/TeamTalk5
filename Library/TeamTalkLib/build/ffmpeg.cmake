@@ -1,7 +1,5 @@
 
-option (FFMPEG_STATIC "Build using static FFmpeg libraries" ON)
-
-if (FFMPEG_STATIC)
+if (TOOLCHAIN_FFMPEG)
   set (FFMPEG_LINK_FLAGS ffmpeg-avdevice ffmpeg-avfilter ffmpeg-avformat ffmpeg-avcodec ffmpeg-swresample ffmpeg-swscale ffmpeg-avutil)
 
   if ( ${CMAKE_SYSTEM_NAME} MATCHES "Linux" )

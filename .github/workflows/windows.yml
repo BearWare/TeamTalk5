@@ -28,12 +28,6 @@ jobs:
         -DBUILD_TEAMTALK_CORE=ON
         -DCATCH_UNITTEST=ON
         -DLIBVPX=OFF
-        -DOPUSTOOLS=ON
-        -DOPUS=ON
-        -DSPEEX=ON
-        -DSPEEXDSP=ON
-        -DOGG=ON
-        -DPORTAUDIO=ON
         -DWEBRTC=OFF
     - name: Build CMake Projects
       working-directory: ${{runner.workspace}}

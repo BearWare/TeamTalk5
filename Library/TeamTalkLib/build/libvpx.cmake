@@ -1,14 +1,11 @@
-if (MSVC)
+if (TOOLCHAIN_LIBVPX)
+
   set (LIBVPX_LINK_FLAGS libvpx)
+
 else()
 
-  option (LIBVPX_STATIC "Build libvpx using static libraries" ON)
+  # Ubuntu: libvpx-dev
+  find_library(LIBVPX_LIBRARY vpx)
+  set (LIBVPX_LINK_FLAGS ${LIBVPX_LIBRARY})
 
-  if (LIBVPX_STATIC)
-    set (LIBVPX_LINK_FLAGS libvpx)
-  else()
-    # Ubuntu: libvpx-dev
-    find_library(LIBVPX_LIBRARY vpx)
-    set (LIBVPX_LINK_FLAGS ${LIBVPX_LIBRARY})
-  endif()
 endif()

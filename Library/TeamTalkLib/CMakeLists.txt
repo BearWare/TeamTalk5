@@ -56,14 +56,7 @@ function(set_output_dir target dir)
     ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${dir})
 endfunction()
 
-
-option (BUILD_TEAMTALK_STATIC "Build TeamTalk libraries and executables from toolchain" ON)
-
-if (BUILD_TEAMTALK_STATIC)
-  add_subdirectory (build)
-else()
-  message("Building TeamTalk from shared libraries")
-endif()
+add_subdirectory (build)
 
 list (APPEND CMAKE_MODULE_PATH "${TEAMTALKLIB_ROOT}/build")
 
@@ -358,7 +351,7 @@ if (CATCH_UNITTEST)
       ${TEAMTALKLIB_ROOT}/bin/ttsrv/AppInfo.h ${TEAMTALKLIB_ROOT}/settings/Settings.cpp
       ${TEAMTALKLIB_ROOT}/settings/Settings.h)
 
-  if (BUILD_TEAMTALK_STATIC)
+  if (TOOLCHAIN_CATCH2)
     add_dependencies(catchtt catch2)
     list (APPEND TTCLIENTPRODLL_INCLUDE_DIR ${CATCH_INCLUDE_DIR})
   else()

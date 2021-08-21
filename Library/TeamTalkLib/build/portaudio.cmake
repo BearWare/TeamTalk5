@@ -1,19 +1,13 @@
-include (ttlib)
 
-if (MSVC)
+if (TOOLCHAIN_PORTAUDIO)
   set (PORTAUDIO_LINK_FLAGS portaudio)
 
 else()
 
-  option (PORTAUDIO_STATIC "Build portaudio using static libraries" ON)
+  # Ubuntu: portaudio19-dev
+  find_library(PORTAUDIO_LIBRARY portaudio)
+  set (PORTAUDIO_LINK_FLAGS ${PORTAUDIO_LIBRARY})
 
-  if (PORTAUDIO_STATIC)
-    set (PORTAUDIO_LINK_FLAGS portaudio)
-  else()
-    # Ubuntu: portaudio19-dev
-    find_library(PORTAUDIO_LIBRARY portaudio)
-    set (PORTAUDIO_LINK_FLAGS ${PORTAUDIO_LIBRARY})
-  endif()
 endif()
 
 if ( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )

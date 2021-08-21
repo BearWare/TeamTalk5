@@ -21,6 +21,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR
     ${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR
     ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
+  option (PORTAUDIO "Build PortAudio classes" ON)
   if (PORTAUDIO)
     
     include (portaudio)

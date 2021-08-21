@@ -4,8 +4,9 @@
 # On Linux distributions we build ACE using OpenSSL shared library by
 # linking libssl-dev package
 
-if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-
+if (TOOLCHAIN_OPENSSL)
+  set (OPENSSL_LINK_FLAGS openssl-ssl openssl-crypto)
+else()
   find_library(OPENSSL_SSL_LIBRARY ssl)
   if (NOT OPENSSL_SSL_LIBRARY)
     message (FATAL_ERROR "OpenSSL SSL library not found")
@@ -17,9 +18,5 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     message (FATAL_ERROR "OpenSSL Crypto library not found")
   endif()
   list (APPEND OPENSSL_LINK_FLAGS ${OPENSSL_CRYPTO_LIBRARY})
-
-else()
-
-  set (OPENSSL_LINK_FLAGS openssl-ssl openssl-crypto)
-
 endif()
+

@@ -86,29 +86,22 @@ jobs:
       run: >-
            cmake $GITHUB_WORKSPACE -G Ninja
            -DBUILD_TEAMTALK_CORE=ON
-           -DBUILD_TEAMTALK_STATIC=OFF
-           -DBUILD_TEAMTALK_ACE=OFF
-           -DSPEEXDSP_STATIC=OFF
-           -DFFMPEG_STATIC=OFF
-           -DAVF=OFF
-           -DMSDMO=OFF
-           -DDSHOW=OFF
-           -DVIDCAP=OFF
-           -DMEDIAFOUNDATION=OFF
-           -DOPUS_STATIC=OFF
-           -DLIBVPX_STATIC=OFF
-           -DSPEEX_STATIC=OFF
-           -DOGG_STATIC=OFF
-           -DOPUSTOOLS=OFF
-           -DLAMEMP3=OFF
-           -DMSVS_UNITTEST=OFF
-           -DACE_STATIC=OFF
-           -DTINYXML_STATIC=OFF
-           -DPORTAUDIO=OFF
-           -DZLIB_STATIC=OFF
-           -DWEBRTC=OFF
-           -DV4L2=OFF
            -DCATCH_UNITTEST=ON
+           -DOPUSTOOLS=OFF
+           -DPORTAUDIO=OFF
+           -DTOOLCHAIN_ACE=OFF
+           -DTOOLCHAIN_CATCH2=OFF
+           -DTOOLCHAIN_FFMPEG=OFF
+           -DTOOLCHAIN_LIBVPX=OFF
+           -DTOOLCHAIN_OGG=OFF
+           -DTOOLCHAIN_OPENSSL=OFF
+           -DTOOLCHAIN_OPUS=OFF
+           -DTOOLCHAIN_SPEEX=OFF
+           -DTOOLCHAIN_SPEEXDSP=OFF
+           -DTOOLCHAIN_TINYXML=OFF
+           -DTOOLCHAIN_ZLIB=OFF
+           -DV4L2=OFF
+           -DWEBRTC=OFF
 
     - name: Build
       working-directory: ${{runner.workspace}}/build

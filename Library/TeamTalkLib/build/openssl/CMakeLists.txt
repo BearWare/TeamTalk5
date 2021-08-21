@@ -130,5 +130,51 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   set_property(TARGET openssl-ssl PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.a)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+  ExternalProject_Add(openssl-src
+    GIT_REPOSITORY    https://github.com/bear101/openssl
+    GIT_TAG           OpenSSL_1_1_1k
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC linux-x86_64
+    BUILD_COMMAND     make
+    INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
+    )
+  ExternalProject_Get_Property(openssl-src INSTALL_DIR)
+  set (OPENSSL_DIR ${INSTALL_DIR})
+  set (OPENSSL_DIR ${INSTALL_DIR} PARENT_SCOPE)
+  
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
+
+  add_library(openssl-crypto STATIC IMPORTED GLOBAL)
+  add_dependencies(openssl-crypto openssl-src)
+  target_compile_options (openssl-crypto INTERFACE -pthread)
+  target_link_options(openssl-crypto INTERFACE -pthread)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(openssl-crypto PROPERTIES
+      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libcrypto.a)
+  else()
+    target_include_directories (openssl-crypto INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(openssl-crypto PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libcrypto.a)
+  endif()
+
+  add_library(openssl-ssl STATIC IMPORTED GLOBAL)
+  add_dependencies(openssl-ssl openssl-src)
+  target_compile_options (openssl-ssl INTERFACE -pthread)
+  target_link_options(openssl-ssl INTERFACE -pthread)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(openssl-ssl PROPERTIES
+      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.a)
+  else()
+    target_include_directories (openssl-ssl INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(openssl-ssl PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.a)
+  endif()
   
 endif()
