@@ -204,6 +204,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INSTALL_DIR       install
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
                       --enable-pic --enable-openssl --disable-jack
+                      --disable-libxcb
     BUILD_COMMAND     make -j4
     INSTALL_COMMAND   make install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
