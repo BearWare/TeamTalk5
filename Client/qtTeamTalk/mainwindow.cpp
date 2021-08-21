@@ -6428,10 +6428,10 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
         else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
             ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
     }
-#if defined(Q_OS_DARWIN)
-    if (ui.channelsWidget->hasFocus())
+    if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
     {
-        if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+#if defined(Q_OS_DARWIN)
+        if (ui.channelsWidget->hasFocus())
         {
             User user;
             if(ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
@@ -6439,7 +6439,11 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
             else
                 slotChannelDoubleClicked(ui.channelsWidget->selectedChannel(true));
         }
-    }
 #endif
+        if (ui.filesView->hasFocus())
+        {
+            slotChannelsDownloadFile();
+        }
+    }
     QWidget::keyPressEvent(e);
 }
