@@ -2,6 +2,7 @@
 if (MSVC)
   set (ZLIB_LINK_FLAGS zlib)
 else()
+
   option (ZLIB_STATIC "Build using zlib static libraries" ON)
 
   if (ZLIB_STATIC)

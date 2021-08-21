@@ -67,4 +67,33 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   target_include_directories (zlib INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET zlib PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libz.a)
 
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+  ExternalProject_Add(zlib-src
+    GIT_REPOSITORY    https://github.com/bear101/zlib
+    GIT_TAG           v1.2.9
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND CFLAGS=-fPIC <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --static
+    BUILD_COMMAND     make
+    INSTALL_COMMAND   make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libz.a
+    )
+  ExternalProject_Get_Property(zlib-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(zlib STATIC IMPORTED GLOBAL)
+  add_dependencies(zlib zlib-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+      set_target_properties(zlib PROPERTIES
+        INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+        IMPORTED_LOCATION ${INSTALL_DIR}/lib/libz.a)
+  else()
+    target_include_directories (zlib INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(zlib PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libz.a)
+  endif()
+
 endif()
