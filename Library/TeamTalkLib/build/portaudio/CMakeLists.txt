@@ -55,12 +55,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   ExternalProject_Add(portaudio-src
     GIT_REPOSITORY    https://github.com/bear101/portaudio
-    GIT_TAG           1bdcb9e
+    GIT_TAG           521209c
 #    GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_USE_ALSA=ON -DPA_USE_JACK=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-    BUILD_COMMAND     cmake --build . --target portaudio_static
+    BUILD_COMMAND     cmake --build .
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
     )
   ExternalProject_Get_Property(portaudio-src INSTALL_DIR)
