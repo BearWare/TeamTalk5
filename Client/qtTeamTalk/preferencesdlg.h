@@ -54,6 +54,9 @@ public:
         VIDCAP_TAB
     };
 
+protected:
+    void keyPressEvent(QKeyEvent* e) override;
+
 private:
     Ui::PreferencesDlg ui;
     SoundDevice& m_devin, &m_devout;
