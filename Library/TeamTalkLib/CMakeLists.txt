@@ -56,6 +56,42 @@ function(set_output_dir target dir)
     ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${dir})
 endfunction()
 
+option (FEATURE_LIBVPX "Build TeamTalk DLL with libVPX support" ON)
+option (FEATURE_OGG "Build TeamTalk DLL with libOgg support" ON)
+option (FEATURE_OPUS "Build TeamTalk DLL with OPUS codec support" ON)
+option (FEATURE_OPUSTOOLS "Build TeamTalk DLL with Opus-tools support" ON)
+option (FEATURE_SPEEX "Build TeamTalk DLL with Speex codec support" ON)
+option (FEATURE_SPEEXDSP "Build TeamTalk DLL with SpeexDSP audio processing support" ON)
+option (FEATURE_WEBRTC "Build TeamTalk DLL with WebRTC audio processing support" ON)
+
+if (MSVC)
+  option (FEATURE_DSHOW "Build TeamTalk DLL with Microsoft DirectShow Streaming support (obsolete)" OFF)
+  option (FEATURE_MEDIAFOUNDATION "Build TeamTalk DLL with Media Foundation Streaming support" ON)
+  option (FEATURE_MSDMO "Build TeamTalk DLL with Microsoft DirectX Media Objects (DMO) Resampler support" ON)
+  option (FEATURE_VIDCAP "Build TeamTalk DLL with DirectShow Video Capture support (obsolete)" OFF)
+  option (FEATURE_LAMEMP3 "Build TeamTalk DLL with MP3 Lame support (obsolete)" OFF)
+else()
+  option (FEATURE_FFMPEG "Build TeamTalk DLL with FFmpeg support" ON)
+endif()
+if (FEATURE_FFMPEG)
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    option(FEATURE_V4L2 "Build TeamTalk DLL with Video for Linux 2 (V4L2) support (video capture)" ON)
+  elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    option(FEATURE_AVF "Build TeamTalk DLL with AVFoundation support (video capture)" ON)
+  endif()
+endif()
+
+# Sound system options
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR 
+    ${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR
+    ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+  option (FEATURE_PORTAUDIO "Build using PortAudio as sound system" ON)
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+  option (FEATURE_OPENSLES "Build using OpenSL ES as sound system" ON)
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+    option (FEATURE_AUDIOUNIT "Build using AudioUnit as sound system" ON)
+endif()
+
 add_subdirectory (build)
 
 list (APPEND CMAKE_MODULE_PATH "${TEAMTALKLIB_ROOT}/build")

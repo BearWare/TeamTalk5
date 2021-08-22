@@ -7,15 +7,27 @@ include(ExternalProject)
 ##################################################
 # OPUS Tools
 ##################################################
-ExternalProject_Add(opustools-src
-  GIT_REPOSITORY    https://github.com/bear101/opus-tools
-  GIT_TAG           5aecfed
-  UPDATE_COMMAND    ""
-  CONFIGURE_COMMAND ""
-  BUILD_COMMAND     ""
-  INSTALL_COMMAND   ""
-  DEPENDS           ogg
-  )
+if (TOOLCHAIN_OGG)
+  ExternalProject_Add(opustools-src
+    GIT_REPOSITORY    https://github.com/bear101/opus-tools
+    GIT_TAG           5aecfed
+    UPDATE_COMMAND    ""
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND     ""
+    INSTALL_COMMAND   ""
+    DEPENDS           ogg
+    )
+else()
+  ExternalProject_Add(opustools-src
+    GIT_REPOSITORY    https://github.com/bear101/opus-tools
+    GIT_TAG           5aecfed
+    UPDATE_COMMAND    ""
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND     ""
+    INSTALL_COMMAND   ""
+    )
+endif()
+
 ExternalProject_Get_Property(opustools-src SOURCE_DIR)
 file(MAKE_DIRECTORY ${SOURCE_DIR}/src)
 

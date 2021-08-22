@@ -17,51 +17,45 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   set (SOUNDSYS_LINK_FLAGS wmcodecdspuuid dmoguids)
 endif()
 
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR 
-    ${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR
-    ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+# Windows, Linux and macOS sound system
+if (FEATURE_PORTAUDIO)
 
-  option (PORTAUDIO "Build PortAudio classes" ON)
-  if (PORTAUDIO)
-    
-    include (portaudio)
-
-    list (APPEND SOUNDSYS_HEADERS ${SOUNDSYS_HEADERS}
-      ${TEAMTALKLIB_ROOT}/avstream/PortAudioWrapper.h)
-
-    list (APPEND SOUNDSYS_SOURCES ${SOUNDSYS_SOURCES} 
-      ${TEAMTALKLIB_ROOT}/avstream/PortAudioWrapper.cpp)
-
-    list (APPEND SOUNDSYS_INCLUDE_DIR ${PORTAUDIO_INCLUDE_DIR})
-    list (APPEND SOUNDSYS_LINK_FLAGS ${PORTAUDIO_LINK_FLAGS})
-    set (SOUNDSYS_COMPILE_FLAGS -DENABLE_PORTAUDIO)
-    
-  endif()
-  
-elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
-
-  option (OPENSLES "Build using OpenSL ES" ON)
+  include (portaudio)
+  list (APPEND SOUNDSYS_INCLUDE_DIR ${PORTAUDIO_INCLUDE_DIR})
+  list (APPEND SOUNDSYS_LINK_FLAGS ${PORTAUDIO_LINK_FLAGS})
+  set (SOUNDSYS_COMPILE_FLAGS -DENABLE_PORTAUDIO)
 
   list (APPEND SOUNDSYS_HEADERS ${SOUNDSYS_HEADERS}
-        ${TEAMTALKLIB_ROOT}/avstream/OpenSLESWrapper.h)
+    ${TEAMTALKLIB_ROOT}/avstream/PortAudioWrapper.h)
 
-  list (APPEND SOUNDSYS_SOURCES ${SOUNDSYS_SOURCES} 
-        ${TEAMTALKLIB_ROOT}/avstream/OpenSLESWrapper.cpp)
+  list (APPEND SOUNDSYS_SOURCES ${SOUNDSYS_SOURCES}
+    ${TEAMTALKLIB_ROOT}/avstream/PortAudioWrapper.cpp)
+
+endif()
+
+# Android sound system
+if (FEATURE_OPENSLES)
+
+  list (APPEND SOUNDSYS_HEADERS ${SOUNDSYS_HEADERS}
+    ${TEAMTALKLIB_ROOT}/avstream/OpenSLESWrapper.h)
+
+  list (APPEND SOUNDSYS_SOURCES ${SOUNDSYS_SOURCES}
+    ${TEAMTALKLIB_ROOT}/avstream/OpenSLESWrapper.cpp)
 
   set (SOUNDSYS_COMPILE_FLAGS -DENABLE_OPENSLES)
 
   find_library (OPENSLES_LIBRARY OpenSLES)
   list (APPEND SOUNDSYS_LINK_FLAGS ${OPENSLES_LIBRARY})
-  
-elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+endif()
 
-  option (AUDIOUNIT "Build using AudioUnit" ON)
+# iOS sound system
+if (FEATURE_AUDIOUNIT)
 
   list (APPEND SOUNDSYS_HEADERS ${SOUNDSYS_HEADERS}
-        ${TEAMTALKLIB_ROOT}/avstream/AudioUnit.h)
+    ${TEAMTALKLIB_ROOT}/avstream/AudioUnit.h)
 
-  list (APPEND SOUNDSYS_SOURCES ${SOUNDSYS_SOURCES} 
-        ${TEAMTALKLIB_ROOT}/avstream/AudioUnit.mm)
+  list (APPEND SOUNDSYS_SOURCES ${SOUNDSYS_SOURCES}
+    ${TEAMTALKLIB_ROOT}/avstream/AudioUnit.mm)
 
   set (SOUNDSYS_COMPILE_FLAGS -DENABLE_AUDIOUNIT)
 

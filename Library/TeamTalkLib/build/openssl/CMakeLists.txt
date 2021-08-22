@@ -151,11 +151,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   add_library(openssl-crypto STATIC IMPORTED GLOBAL)
   add_dependencies(openssl-crypto openssl-src)
-  target_compile_options (openssl-crypto INTERFACE -pthread)
-  target_link_options(openssl-crypto INTERFACE -pthread)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(openssl-crypto PROPERTIES
       INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_COMPILE_OPTIONS -pthread
+      INTERFACE_LINK_OPTIONS -pthread
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libcrypto.a)
   else()
     target_include_directories (openssl-crypto INTERFACE ${INSTALL_DIR}/include)
@@ -165,16 +165,18 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   add_library(openssl-ssl STATIC IMPORTED GLOBAL)
   add_dependencies(openssl-ssl openssl-src)
-  target_compile_options (openssl-ssl INTERFACE -pthread)
-  target_link_options(openssl-ssl INTERFACE -pthread)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(openssl-ssl PROPERTIES
       INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_COMPILE_OPTIONS -pthread
+      INTERFACE_LINK_OPTIONS -pthread
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.a)
   else()
     target_include_directories (openssl-ssl INTERFACE ${INSTALL_DIR}/include)
     set_target_properties(openssl-ssl PROPERTIES
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.a)
+    target_compile_options (openssl-ssl INTERFACE -pthread)
+    target_link_options(openssl-ssl INTERFACE -pthread)
   endif()
   
 endif()

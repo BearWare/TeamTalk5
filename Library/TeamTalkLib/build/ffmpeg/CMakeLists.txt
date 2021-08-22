@@ -224,11 +224,15 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avdevice PROPERTIES
       INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_LINK_OPTIONS "-Wl,-Bsymbolic"
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
   else()
     target_include_directories (ffmpeg-avdevice INTERFACE ${INSTALL_DIR}/include)
     set_target_properties(ffmpeg-avdevice PROPERTIES
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND ${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+      target_link_options(ffmpeg-avdevice INTERFACE "-Wl,-Bsymbolic")
+    endif()
   endif()
 
   add_library(ffmpeg-avfilter STATIC IMPORTED GLOBAL)
