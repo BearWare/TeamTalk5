@@ -731,6 +731,9 @@
                  <property name="toolTip">
                   <string>Detach selected window</string>
                  </property>
+                 <property name="accessibleName">
+                  <string>Detach selected window</string>
+                 </property>
                  <property name="text">
                   <string notr="true">...</string>
                  </property>
@@ -743,9 +746,6 @@
                    <width>20</width>
                    <height>20</height>
                   </size>
-                 </property>
-                 <property name="accessibleName" stdset="0">
-                  <string>Detach selected window</string>
                  </property>
                 </widget>
                </item>
@@ -767,6 +767,9 @@
                  <property name="toolTip">
                   <string>Put back removed window</string>
                  </property>
+                 <property name="accessibleName">
+                  <string>Add window</string>
+                 </property>
                  <property name="text">
                   <string/>
                  </property>
@@ -779,9 +782,6 @@
                    <width>20</width>
                    <height>20</height>
                   </size>
-                 </property>
-                 <property name="accessibleName" stdset="0">
-                  <string>Add window</string>
                  </property>
                 </widget>
                </item>
@@ -803,6 +803,9 @@
                  <property name="toolTip">
                   <string>Remove selected window</string>
                  </property>
+                 <property name="accessibleName">
+                  <string>Remove selected window</string>
+                 </property>
                  <property name="text">
                   <string notr="true">...</string>
                  </property>
@@ -815,9 +818,6 @@
                    <width>20</width>
                    <height>20</height>
                   </size>
-                 </property>
-                 <property name="accessibleName" stdset="0">
-                  <string>Remove selected window</string>
                  </property>
                 </widget>
                </item>
@@ -842,6 +842,9 @@
                  <property name="toolTip">
                   <string>Request desktop access</string>
                  </property>
+                 <property name="accessibleName">
+                  <string>Request desktop access</string>
+                 </property>
                  <property name="text">
                   <string notr="true">...</string>
                  </property>
@@ -857,9 +860,6 @@
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
-                 </property>
-                 <property name="accessibleName" stdset="0">
-                  <string>Request desktop access</string>
                  </property>
                 </widget>
                </item>
@@ -1105,7 +1105,7 @@
      <x>0</x>
      <y>0</y>
      <width>637</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuClient">
@@ -1218,7 +1218,7 @@
     </property>
     <widget class="QMenu" name="menu_InfoChannel">
      <property name="title">
-      <string>&amp;Channel informations</string>
+      <string>&amp;Channel information</string>
      </property>
      <addaction name="actionViewChannelInfo"/>
      <addaction name="actionSpeakChannelInfo"/>
@@ -2165,7 +2165,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
