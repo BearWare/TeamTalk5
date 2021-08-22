@@ -30,6 +30,7 @@ jobs:
         -DFEATURE_LIBVPX=OFF
         -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_LIBVPX=OFF
+        -DBUILD_TEAMTALK_CLIENT_DOTNET_EXAMPLE=OFF
     - name: Build CMake Projects
       working-directory: ${{runner.workspace}}
       run: |
