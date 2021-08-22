@@ -375,6 +375,7 @@ private:
 
     void slotTreeSelectionChanged();
     void slotTreeContextMenu(const QPoint& pos);
+    void slotFilesContextMenu(const QPoint& pos);
     void slotUpdateUI();
     void slotUpdateVideoTabUI();
     void slotUpdateDesktopTabUI();

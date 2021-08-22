@@ -984,6 +984,9 @@
          </item>
          <item>
           <widget class="FilesView" name="filesView">
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
            <property name="accessibleName">
             <string>Files list</string>
            </property>
