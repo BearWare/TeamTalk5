@@ -65,6 +65,7 @@
 #include <QNetworkReply>
 #include <QScreen>
 #include <QGuiApplication>
+#include <QKeyEvent>
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
@@ -6509,3 +6510,31 @@ void MainWindow::slotEnableVoiceActivation(bool checked)
     slotMeEnableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
 }
 
+void MainWindow::keyPressEvent(QKeyEvent* e)
+{
+    if (ui.tabWidget->hasFocus())
+    {
+        if (e->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
+            ui.tabWidget->setCurrentIndex(0);
+        else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
+            ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
+    }
+    if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+    {
+#if defined(Q_OS_DARWIN)
+        if (ui.channelsWidget->hasFocus())
+        {
+            User user;
+            if(ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
+                slotUserDoubleClicked(ui.channelsWidget->selectedUser());
+            else
+                slotChannelDoubleClicked(ui.channelsWidget->selectedChannel(true));
+        }
+#endif
+        if (ui.filesView->hasFocus())
+        {
+            slotChannelsDownloadFile();
+        }
+    }
+    QWidget::keyPressEvent(e);
+}

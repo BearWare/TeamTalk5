@@ -16,11 +16,13 @@ Default QT Client
 - Option to automatically expand all channels in channels tree
 - Last modification date shown on user accounts
 - Upload time shown on files
+- In files list, press enter on a file to download it
 - Fixed default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
 - Fixed Shift+Tab navigation issues in main window
 - Fixed missing accessible labels in main window
 - Fixed Croatian file missing for installed version
 - Fixed "View user informations" from online users dialog
+- Fixed Home and End keys behavior on tab bars
 - Fixed CTRL+Alt+R to restore streaming permission when disabled
 Android Client
 - Option to disable sound and TTS event when sending a channel message
