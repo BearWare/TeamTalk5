@@ -654,7 +654,6 @@ void MainWindow::loadSettings()
                                                            SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool());
     ui.channelsWidget->updateItemTextLength(ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
                                             SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt());
-    slotUpdateUI();
 
     //move window to last position
     QVariantList windowpos = ttSettings->value(SETTINGS_DISPLAY_WINDOWPOS).toList();
@@ -720,6 +719,7 @@ void MainWindow::loadSettings()
         if(answer.clickedButton() == YesButton)
         {
             ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
+            ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
             ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
         }
         else
@@ -749,6 +749,7 @@ void MainWindow::loadSettings()
     {
         resetDefaultSoundsPack();
     }
+    slotUpdateUI();
 }
 
 bool MainWindow::parseArgs(const QStringList& args)
