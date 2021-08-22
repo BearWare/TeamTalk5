@@ -125,6 +125,7 @@ protected:
     void timerEvent(QTimerEvent *event);
     void closeEvent(QCloseEvent *event);
     void changeEvent(QEvent* event);
+    void keyPressEvent(QKeyEvent* e) override;
 
 #if defined(Q_OS_WIN32) && QT_VERSION >= 0x050000
     bool nativeEvent(const QByteArray& eventType, void* message,
@@ -342,6 +343,8 @@ private:
     void slotChannelsJoinChannel(bool checked=false);
     void slotChannelsViewChannelInfo(bool checked=false);
     void slotChannelsSpeakChannelInformationGrid(bool checked=false);
+    void slotChannelsSpeakChannelStatusGrid(bool checked=false);
+    void slotChannelsSpeakChannelStatus();
     void slotChannelsListBans(bool checked=false);
     void slotChannelsStreamMediaFile(bool checked=false);
     void slotChannelsUploadFile(bool checked=false);
@@ -375,6 +378,7 @@ private:
 
     void slotTreeSelectionChanged();
     void slotTreeContextMenu(const QPoint& pos);
+    void slotFilesContextMenu(const QPoint& pos);
     void slotUpdateUI();
     void slotUpdateVideoTabUI();
     void slotUpdateDesktopTabUI();

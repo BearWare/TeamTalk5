@@ -27,6 +27,7 @@
 
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QKeyEvent>
 
 extern TTInstance* ttInst;
 
@@ -757,4 +758,16 @@ void UserAccountsDlg::slotCustomCmdLimit(int index)
 
 void UserAccountsDlg::slotUsernameChanged(const QString& /*text*/)
 {
+}
+
+void UserAccountsDlg::keyPressEvent(QKeyEvent* e)
+{
+    if (ui.tabWidget->hasFocus())
+    {
+        if (e->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
+            ui.tabWidget->setCurrentIndex(0);
+        else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
+            ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
+    }
+    QDialog::keyPressEvent(e);
 }

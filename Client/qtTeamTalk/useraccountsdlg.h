@@ -73,6 +73,9 @@ public:
     void slotCmdSuccess(int cmdid);
     void slotCmdError(int error, int cmdid);
 
+protected:
+    void keyPressEvent(QKeyEvent* e) override;
+
 private:
     Ui::UserAccountsDlg ui;
     UserAccountsModel* m_model;
