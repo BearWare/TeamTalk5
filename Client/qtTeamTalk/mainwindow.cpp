@@ -6514,8 +6514,8 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
 {
     if (ui.tabWidget->hasFocus())
     {
-        if (e->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != TAB_CHAT)
-            ui.tabWidget->setCurrentIndex(TAB_CHAT);
+        if (e->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
+            ui.tabWidget->setCurrentIndex(0);
         else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
             ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
     }
