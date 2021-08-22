@@ -4559,7 +4559,8 @@ void MainWindow::slotChannelsSpeakChannelStatisticsGrid(bool /*checked =false */
 void MainWindow::slotChannelsSpeakChannelStatistics()
 {
     QString speakList, voice, mediafile, video, desktop;
-    QVector<int> users = ui.channelsWidget->getUsersInChannel(TT_GetMyChannelID(ttInst));
+
+    QVector<int> users = ui.channelsWidget->getUsersInChannel(m_mychannel.nChannelID);
     QVector<QString> voice1, mediafile1, video1, desktop1;
     for (int i=0;i<users.size();i++)
     {
