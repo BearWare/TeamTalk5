@@ -44,7 +44,7 @@ jobs:
       shell: bash
       run: |
         source env.sh
-        make CMAKE_EXTRA="-DWEBRTC=OFF -DCATCH_UNITTEST=ON -DCATCH_UNITTEST_PERF=OFF" -C Build ubuntu64
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCATCH_UNITTEST=ON -DCATCH_UNITTEST_PERF=OFF" -C Build ubuntu64
 
     - name: Java Server API Test (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI

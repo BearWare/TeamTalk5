@@ -27,9 +27,9 @@ jobs:
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
         -DBUILD_TEAMTALK_CORE=ON
         -DCATCH_UNITTEST=ON
-        -DLIBVPX=OFF
+        -DFEATURE_LIBVPX=OFF
+        -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_LIBVPX=OFF
-        -DWEBRTC=OFF
     - name: Build CMake Projects
       working-directory: ${{runner.workspace}}
       run: |

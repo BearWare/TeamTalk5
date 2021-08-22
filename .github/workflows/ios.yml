@@ -20,7 +20,7 @@ jobs:
 
     - name: Build TeamTalk Library and Apps
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: make CMAKE_EXTRA="-DWEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=armv7 -DCMAKE_OSX_SYSROOT=iphoneos" CMAKE_GENERATOR="Unix Makefiles" BUILDDIR=build-ios-armv7 ios-build
+      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=armv7 -DCMAKE_OSX_SYSROOT=iphoneos" CMAKE_GENERATOR="Unix Makefiles"  BUILDDIR=build-ios-armv7 ios-build
 
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build

@@ -7,7 +7,6 @@ env:
   INPUTDEVICEID: 1978
   OUTPUTDEVICEID: 1978
   VIDEODEVICEID: None
-  OPUSTOOLS: 0
   VERBOSE: 0
   GITHUBSKIP: 1
 
@@ -87,8 +86,9 @@ jobs:
            cmake $GITHUB_WORKSPACE -G Ninja
            -DBUILD_TEAMTALK_CORE=ON
            -DCATCH_UNITTEST=ON
-           -DOPUSTOOLS=OFF
-           -DPORTAUDIO=OFF
+           -DFEATURE_PORTAUDIO=OFF
+           -DFEATURE_V4L2=OFF
+           -DFEATURE_WEBRTC=OFF
            -DTOOLCHAIN_ACE=OFF
            -DTOOLCHAIN_CATCH2=OFF
            -DTOOLCHAIN_FFMPEG=OFF
@@ -100,8 +100,6 @@ jobs:
            -DTOOLCHAIN_SPEEXDSP=OFF
            -DTOOLCHAIN_TINYXML=OFF
            -DTOOLCHAIN_ZLIB=OFF
-           -DV4L2=OFF
-           -DWEBRTC=OFF
 
     - name: Build
       working-directory: ${{runner.workspace}}/build

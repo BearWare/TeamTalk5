@@ -43,7 +43,7 @@ jobs:
 
     - name: Build TeamTalk Library and Apps
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: make CMAKE_EXTRA="-DWEBRTC=OFF" android-armeabi-v7a
+      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF" android-armeabi-v7a
 
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
