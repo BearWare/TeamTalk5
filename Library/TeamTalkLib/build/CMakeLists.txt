@@ -4,25 +4,6 @@ project(Toolchain)
 
 include(ExternalProject)
 
-if (MSVC)
-
-  set (PLATFORMTOOLSET "/property:PlatformToolset=v142")
-
-elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-
-  if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
-    set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
-    message(WARNING "No deployment target specified. Defaulting to ${CMAKE_OSX_DEPLOYMENT_TARGET}")
-  endif()
-
-elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
-  if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
-    set (CMAKE_OSX_DEPLOYMENT_TARGET 7.0)
-    message(WARNING "No deployment target specified. Defaulting to ${CMAKE_OSX_DEPLOYMENT_TARGET}")
-  endif()
-
-endif()
-
 option (TOOLCHAIN_OPENSSL "Build and link OpenSSL from TeamTalk toolchain" ON)
 if (TOOLCHAIN_OPENSSL)
   add_subdirectory(openssl)

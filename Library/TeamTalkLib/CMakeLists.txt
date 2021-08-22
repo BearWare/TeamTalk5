@@ -6,15 +6,15 @@ set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_LIST_DIR})
 set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
 set (CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
 
+# WebRTC makes use of std::make_reverse_iterator which is C++14
+set (CMAKE_CXX_STANDARD 14)
+
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   option (STATICCPP "Link static C and C++ libraries" ON)
   if (STATICCPP)
     set (LINK_LIBS -static-libgcc -static-libstdc++)
   endif()
 endif()
-
-# WebRTC makes use of std::make_reverse_iterator which is C++14
-set (CMAKE_CXX_STANDARD 14)
 
 # Build Multi-threaded instead of Multi-Treaded DLL to avoid MSVC
 # dependency hell
@@ -35,8 +35,27 @@ if (MSVC)
       STRING(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
     endif()
   endforeach(flag_var)
+
+  # Use for building TeamTalk toolchain
+  set (PLATFORMTOOLSET "/property:PlatformToolset=v142")
+
 else()
   set (COMPILE_FLAGS -Wno-deprecated-declarations)
+endif()
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
+  if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
+    set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
+    message(WARNING "No deployment target specified. Defaulting to ${CMAKE_OSX_DEPLOYMENT_TARGET}")
+  endif()
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+  if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
+    set (CMAKE_OSX_DEPLOYMENT_TARGET 7.0)
+    message(WARNING "No deployment target specified. Defaulting to ${CMAKE_OSX_DEPLOYMENT_TARGET}")
+  endif()
+
 endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
