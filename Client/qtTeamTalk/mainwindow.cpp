@@ -6538,4 +6538,3 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
     }
     QWidget::keyPressEvent(e);
 }
-
