@@ -4663,6 +4663,9 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
 
 void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)   
 {
+    if (!ui.filesView->currentIndex().isValid())
+        return;
+
     QMenu menu(this);
     QAction* download = menu.addAction(ui.actionDownloadFile->text());
     QAction* del = menu.addAction(ui.actionDeleteFile->text());
