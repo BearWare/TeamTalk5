@@ -435,7 +435,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.actionSpeakChannelInfo, &QAction::triggered,
             this, &MainWindow::slotChannelsSpeakChannelInformationGrid);
     connect(ui.actionSpeakChannelStat, &QAction::triggered,
-            this, &MainWindow::slotChannelsSpeakChannelStatisticsGrid);
+            this, &MainWindow::slotChannelsSpeakChannelStatusGrid);
     connect(ui.actionBannedUsersInChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsListBans);
 
@@ -1082,13 +1082,13 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(msg.user));
                 TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
                 StatusBarEvent statusType = STATUSBAR_USER_JOINED_SAME;
-                if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst))
+                if(chan.nParentID == 0 && msg.user.nChannelID != m_mychannel.nChannelID)
                 {
                     userjoinchan = userjoinchan + " " + tr("root");
                     ttsType = TTS_USER_JOINED;
                     statusType = STATUSBAR_USER_JOINED;
                 }
-                else if (msg.user.nChannelID != TT_GetMyChannelID(ttInst))
+                else if (msg.user.nChannelID != m_mychannel.nChannelID)
                 {
                     userjoinchan = userjoinchan + " " + _Q(chan.szName);
                     ttsType = TTS_USER_JOINED;
@@ -1120,11 +1120,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 QString userleftchan = tr("%1 left channel").arg(getDisplayName(msg.user));
                 TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
                 StatusBarEvent statusType = STATUSBAR_USER_LEFT_SAME;
-                if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
+                if(chan.nParentID == 0 && msg.nSource != m_mychannel.nChannelID) {
                     userleftchan = userleftchan + " " + tr("root");
                     ttsType = TTS_USER_LEFT;
                     statusType = STATUSBAR_USER_LEFT;
-                } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
+                } else if(msg.nSource != m_mychannel.nChannelID) {
                     userleftchan = userleftchan + " " + _Q(chan.szName);
                     statusType = STATUSBAR_USER_LEFT;
                 }
@@ -4424,7 +4424,7 @@ void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
         chan.nParentID = ui.channelsWidget->selectedChannel();
     else
     {
-        chan.nParentID = TT_GetMyChannelID(ttInst);
+        chan.nParentID = m_mychannel.nChannelID;
         if(!chan.nParentID)
             chan.nParentID = TT_GetRootChannelID(ttInst);
     }
@@ -4548,15 +4548,15 @@ void MainWindow::slotChannelsViewChannelInfo(bool /*checked=false*/)
 
 void MainWindow::slotChannelsSpeakChannelInformationGrid(bool /*checked =false */)
 {
-    slotUsersSpeakUserInformation(TT_GetMyChannelID(ttInst));
+    slotUsersSpeakUserInformation(m_mychannel.nChannelID);
 }
 
-void MainWindow::slotChannelsSpeakChannelStatisticsGrid(bool /*checked =false */)
+void MainWindow::slotChannelsSpeakChannelStatusGrid(bool /*checked =false */)
 {
-    slotChannelsSpeakChannelStatistics();
+    slotChannelsSpeakChannelStatus();
 }
 
-void MainWindow::slotChannelsSpeakChannelStatistics()
+void MainWindow::slotChannelsSpeakChannelStatus()
 {
     QString speakList, voice, mediafile, video, desktop;
 
@@ -4940,14 +4940,14 @@ void MainWindow::slotUsersViewUserInformation(int userid)
     dlg.exec();
 }
 
-void MainWindow::slotUsersSpeakUserInformation(int userid)
+void MainWindow::slotUsersSpeakUserInformation(int id)
 {
     QString speakList;
 
-    if(userid>0 && userid == ui.channelsWidget->selectedUser())
+    if (id > 0 && id == ui.channelsWidget->selectedUser())
     {
         User user;
-        if(!ui.channelsWidget->getUser(userid, user))
+        if(!ui.channelsWidget->getUser(id, user))
             return;
 
         QString userString, voice = tr("Talking"), mute = tr("Mute"), mediaFile = tr("Streaming"), muteMediaFile = tr("Mute media file"), videoCapture = tr("Webcam"), desktop = tr("Desktop"), chanOp = tr("Channel Operator"), moveSelected = tr("Selected for move");
@@ -5001,10 +5001,10 @@ void MainWindow::slotUsersSpeakUserInformation(int userid)
            (user.nStatusMode & STATUSMODE_DESKTOP))
             speakList += ", " + desktop;
     }
-    else if(userid>0 && (userid == ui.channelsWidget->selectedChannel(true) || userid == TT_GetMyChannelID(ttInst)))
+    else if (id > 0 && (id == ui.channelsWidget->selectedChannel(true) || id == m_mychannel.nChannelID))
     {
         Channel chan;
-        if(!ui.channelsWidget->getChannel(userid, chan))
+        if(!ui.channelsWidget->getChannel(id, chan))
             return;
 
         QString channel = tr("Channel"), passwd = tr("Password protected"), classroom = tr("Classroom"), topic, rootChan = tr("root"), hidden = tr("Hidden");
@@ -5151,7 +5151,7 @@ void MainWindow::slotUpdateUI()
     int user_chanid = chanid;
     if(!chanid)
         user_chanid = ui.channelsWidget->selectedChannel(true);
-    int mychannel = TT_GetMyChannelID(ttInst);
+    int mychannel = m_mychannel.nChannelID;
     int filescount = ui.filesView->selectedFiles().size();
     ClientFlags statemask = TT_GetFlags(ttInst);
     UserRights userrights = TT_GetMyUserRights(ttInst);
@@ -5327,8 +5327,7 @@ void MainWindow::slotUploadFiles(const QStringList& files)
 
 void MainWindow::slotSendChannelMessage()
 {
-    int mychanid = TT_GetMyChannelID(ttInst);
-    if(mychanid<=0)
+    if (m_mychannel.nChannelID <= 0)
         return;
 
     QString txtmsg;
@@ -5355,7 +5354,7 @@ void MainWindow::slotSendChannelMessage()
 
     TextMessage msg;
     msg.nFromUserID = TT_GetMyUserID(ttInst);
-    msg.nChannelID = mychanid;
+    msg.nChannelID = m_mychannel.nChannelID;
     msg.nMsgType = MSGTYPE_CHANNEL;
     COPY_TTSTR(msg.szMessage, txtmsg);
     TT_DoTextMessage(ttInst, &msg);
@@ -5594,8 +5593,7 @@ void MainWindow::slotInitVideo()
 //TODO: remove this
 void MainWindow::slotAddUserVideo()
 {
-    int chanid = TT_GetMyChannelID(ttInst);
-    QVector<int> users = ui.channelsWidget->getUsersInChannel(chanid);
+    QVector<int> users = ui.channelsWidget->getUsersInChannel(m_mychannel.nChannelID);
     QMenu menu(this);
 
     //local video frames have userid 0
@@ -5815,8 +5813,7 @@ void MainWindow::slotUserVideoDlgClosing(int userid)
 
 void MainWindow::slotAddUserDesktopGrid()
 {
-    int chanid = TT_GetMyChannelID(ttInst);
-    QVector<int> users = ui.channelsWidget->getUsersInChannel(chanid);
+    QVector<int> users = ui.channelsWidget->getUsersInChannel(m_mychannel.nChannelID);
     QMenu menu(this);
 
     //we don't want "myself" in the list
