@@ -284,6 +284,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             &QWidget::setEnabled);
     connect(ui.filesView, &FilesView::uploadFiles,
             this, &MainWindow::slotUploadFiles);
+    connect(ui.filesView, &QWidget::customContextMenuRequested,
+            this, &MainWindow::slotFilesContextMenu);
     /* Video-tab buttons */
     connect(ui.initVideoButton, &QAbstractButton::clicked,
             ui.actionEnableVideoTransmission, &QAction::triggered);
@@ -4658,7 +4660,19 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
     for(int i=0;i<files.size() && delete_ok;i++)
         TT_DoDeleteFile(ttInst, channelid, files[i]);
 }
-   
+
+void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)   
+{
+    QMenu menu(this);
+    QAction* download = menu.addAction(ui.actionDownloadFile->text());
+    QAction* del = menu.addAction(ui.actionDeleteFile->text());
+    QAction* action = menu.exec(QCursor::pos());
+    if(action == download)
+        slotChannelsDownloadFile();
+    else if(action == del)
+        slotChannelsDeleteFile();
+}
+
 void MainWindow::slotServerUserAccounts(bool /*checked =false */)
 {
     if(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN)
@@ -6417,3 +6431,4 @@ void MainWindow::slotEnableVoiceActivation(bool checked)
 {
     slotMeEnableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
 }
+
