@@ -26,6 +26,7 @@ Default QT Client
 - Fixed Shift+Tab navigation issues in main window
 - Fixed missing accessible labels in main window
 - Fixed Croatian file missing for installed version
+- Fixed a case where enter should pressed twice in file combobox to play a file in stream media dialog
 - Fixed "View user information" from online users dialog
 - Fixed Home and End keys behavior on tab bars
 - Fixed CTRL+Alt+R to restore streaming permission when disabled
