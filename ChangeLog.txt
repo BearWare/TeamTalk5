@@ -34,6 +34,7 @@ Android Client
 - Upload time shown on files
 - Files update sound played only in appropriate channel
 - Fixed a case when not all tts engines were available in Text-To-Speech selection screen
+- Support for Persian language
 iOS Client
 - Ability to specify nickname for each server
 Server
