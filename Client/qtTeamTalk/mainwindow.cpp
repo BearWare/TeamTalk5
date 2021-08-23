@@ -65,6 +65,7 @@
 #include <QNetworkReply>
 #include <QScreen>
 #include <QGuiApplication>
+#include <QKeyEvent>
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
@@ -284,6 +285,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             &QWidget::setEnabled);
     connect(ui.filesView, &FilesView::uploadFiles,
             this, &MainWindow::slotUploadFiles);
+    connect(ui.filesView, &QWidget::customContextMenuRequested,
+            this, &MainWindow::slotFilesContextMenu);
     /* Video-tab buttons */
     connect(ui.initVideoButton, &QAbstractButton::clicked,
             ui.actionEnableVideoTransmission, &QAction::triggered);
@@ -434,6 +437,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotChannelsViewChannelInfo);
     connect(ui.actionSpeakChannelInfo, &QAction::triggered,
             this, &MainWindow::slotChannelsSpeakChannelInformationGrid);
+    connect(ui.actionSpeakChannelStat, &QAction::triggered,
+            this, &MainWindow::slotChannelsSpeakChannelStatusGrid);
     connect(ui.actionBannedUsersInChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsListBans);
 
@@ -649,7 +654,6 @@ void MainWindow::loadSettings()
                                                            SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool());
     ui.channelsWidget->updateItemTextLength(ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
                                             SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt());
-    slotUpdateUI();
 
     //move window to last position
     QVariantList windowpos = ttSettings->value(SETTINGS_DISPLAY_WINDOWPOS).toList();
@@ -715,6 +719,7 @@ void MainWindow::loadSettings()
         if(answer.clickedButton() == YesButton)
         {
             ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
+            ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
             ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
         }
         else
@@ -744,6 +749,7 @@ void MainWindow::loadSettings()
     {
         resetDefaultSoundsPack();
     }
+    slotUpdateUI();
 }
 
 bool MainWindow::parseArgs(const QStringList& args)
@@ -1080,13 +1086,13 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(msg.user));
                 TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
                 StatusBarEvent statusType = STATUSBAR_USER_JOINED_SAME;
-                if(chan.nParentID == 0 && msg.user.nChannelID != TT_GetMyChannelID(ttInst))
+                if(chan.nParentID == 0 && msg.user.nChannelID != m_mychannel.nChannelID)
                 {
                     userjoinchan = userjoinchan + " " + tr("root");
                     ttsType = TTS_USER_JOINED;
                     statusType = STATUSBAR_USER_JOINED;
                 }
-                else if (msg.user.nChannelID != TT_GetMyChannelID(ttInst))
+                else if (msg.user.nChannelID != m_mychannel.nChannelID)
                 {
                     userjoinchan = userjoinchan + " " + _Q(chan.szName);
                     ttsType = TTS_USER_JOINED;
@@ -1118,11 +1124,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 QString userleftchan = tr("%1 left channel").arg(getDisplayName(msg.user));
                 TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
                 StatusBarEvent statusType = STATUSBAR_USER_LEFT_SAME;
-                if(chan.nParentID == 0 && msg.nSource != TT_GetMyChannelID(ttInst)) {
+                if(chan.nParentID == 0 && msg.nSource != m_mychannel.nChannelID) {
                     userleftchan = userleftchan + " " + tr("root");
                     ttsType = TTS_USER_LEFT;
                     statusType = STATUSBAR_USER_LEFT;
-                } else if(msg.nSource != TT_GetMyChannelID(ttInst)) {
+                } else if(msg.nSource != m_mychannel.nChannelID) {
                     userleftchan = userleftchan + " " + _Q(chan.szName);
                     statusType = STATUSBAR_USER_LEFT;
                 }
@@ -4422,7 +4428,7 @@ void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
         chan.nParentID = ui.channelsWidget->selectedChannel();
     else
     {
-        chan.nParentID = TT_GetMyChannelID(ttInst);
+        chan.nParentID = m_mychannel.nChannelID;
         if(!chan.nParentID)
             chan.nParentID = TT_GetRootChannelID(ttInst);
     }
@@ -4546,7 +4552,82 @@ void MainWindow::slotChannelsViewChannelInfo(bool /*checked=false*/)
 
 void MainWindow::slotChannelsSpeakChannelInformationGrid(bool /*checked =false */)
 {
-    slotUsersSpeakUserInformation(TT_GetMyChannelID(ttInst));
+    slotUsersSpeakUserInformation(m_mychannel.nChannelID);
+}
+
+void MainWindow::slotChannelsSpeakChannelStatusGrid(bool /*checked =false */)
+{
+    slotChannelsSpeakChannelStatus();
+}
+
+void MainWindow::slotChannelsSpeakChannelStatus()
+{
+    QString speakList, voice, mediafile, video, desktop;
+
+    QVector<int> users = ui.channelsWidget->getUsersInChannel(m_mychannel.nChannelID);
+    QVector<QString> voice1, mediafile1, video1, desktop1;
+    for (int i=0;i<users.size();i++)
+    {
+        User user = {};
+        ui.channelsWidget->getUser(users[i], user);
+        if(user.uUserState & USERSTATE_VOICE || user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == true)
+            voice1.push_back(getDisplayName(user));
+        if(user.uUserState & USERSTATE_MEDIAFILE)
+            mediafile1.push_back(getDisplayName(user));
+        if(user.uUserState & USERSTATE_VIDEOCAPTURE)
+            video1.push_back(getDisplayName(user));
+        if(user.uUserState & USERSTATE_DESKTOP)
+            desktop1.push_back(getDisplayName(user));
+    }
+    if(voice1.count() > 0)
+    {
+        voice += tr("Talking") + ": ";
+        int vo = 0;
+        while(vo<voice1.count())
+        {
+            voice += voice1[vo] + ", ";
+            vo++;
+        }
+        speakList += voice;
+    }
+    if(mediafile1.count() > 0)
+    {
+        mediafile += tr("Streaming") + ": ";
+        int mf = 0;
+        while(mf<mediafile1.count())
+        {
+            mediafile += mediafile1[mf] + ", ";
+            mf++;
+        }
+        speakList += mediafile;
+    }
+    if(video1.count() > 0)
+    {
+        video += tr("Webcam") + ": ";
+        int vi = 0;
+        while(vi<video1.count())
+        {
+            video += video1[vi] + ", ";
+            vi++;
+        }
+        speakList += video;
+    }
+    if(desktop1.count() > 0)
+    {
+        desktop += tr("Desktop") + ": ";
+        int de = 0;
+        while(de<desktop1.count())
+        {
+            desktop += desktop1[de] + ", ";
+            de++;
+        }
+        speakList += desktop;
+    }
+    if(speakList.isEmpty())
+        speakList = tr("Nobody is active in this channel");
+    else
+        speakList.chop(2);
+    addTextToSpeechMessage(speakList);
 }
 
 void MainWindow::slotChannelsListBans(bool /*checked=false*/)
@@ -4658,7 +4739,22 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
     for(int i=0;i<files.size() && delete_ok;i++)
         TT_DoDeleteFile(ttInst, channelid, files[i]);
 }
-   
+
+void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)   
+{
+    if (!ui.filesView->currentIndex().isValid())
+        return;
+
+    QMenu menu(this);
+    QAction* download = menu.addAction(ui.actionDownloadFile->text());
+    QAction* del = menu.addAction(ui.actionDeleteFile->text());
+    QAction* action = menu.exec(QCursor::pos());
+    if(action == download)
+        slotChannelsDownloadFile();
+    else if(action == del)
+        slotChannelsDeleteFile();
+}
+
 void MainWindow::slotServerUserAccounts(bool /*checked =false */)
 {
     if(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN)
@@ -4863,14 +4959,14 @@ void MainWindow::slotUsersViewUserInformation(int userid)
     dlg.exec();
 }
 
-void MainWindow::slotUsersSpeakUserInformation(int userid)
+void MainWindow::slotUsersSpeakUserInformation(int id)
 {
     QString speakList;
 
-    if(userid>0 && userid == ui.channelsWidget->selectedUser())
+    if (id > 0 && id == ui.channelsWidget->selectedUser())
     {
         User user;
-        if(!ui.channelsWidget->getUser(userid, user))
+        if(!ui.channelsWidget->getUser(id, user))
             return;
 
         QString userString, voice = tr("Talking"), mute = tr("Mute"), mediaFile = tr("Streaming"), muteMediaFile = tr("Mute media file"), videoCapture = tr("Webcam"), desktop = tr("Desktop"), chanOp = tr("Channel Operator"), moveSelected = tr("Selected for move");
@@ -4924,10 +5020,10 @@ void MainWindow::slotUsersSpeakUserInformation(int userid)
            (user.nStatusMode & STATUSMODE_DESKTOP))
             speakList += ", " + desktop;
     }
-    else if(userid>0 && (userid == ui.channelsWidget->selectedChannel(true) || userid == TT_GetMyChannelID(ttInst)))
+    else if (id > 0 && (id == ui.channelsWidget->selectedChannel(true) || id == m_mychannel.nChannelID))
     {
         Channel chan;
-        if(!ui.channelsWidget->getChannel(userid, chan))
+        if(!ui.channelsWidget->getChannel(id, chan))
             return;
 
         QString channel = tr("Channel"), passwd = tr("Password protected"), classroom = tr("Classroom"), topic, rootChan = tr("root"), hidden = tr("Hidden");
@@ -5074,7 +5170,7 @@ void MainWindow::slotUpdateUI()
     int user_chanid = chanid;
     if(!chanid)
         user_chanid = ui.channelsWidget->selectedChannel(true);
-    int mychannel = TT_GetMyChannelID(ttInst);
+    int mychannel = m_mychannel.nChannelID;
     int filescount = ui.filesView->selectedFiles().size();
     ClientFlags statemask = TT_GetFlags(ttInst);
     UserRights userrights = TT_GetMyUserRights(ttInst);
@@ -5250,8 +5346,7 @@ void MainWindow::slotUploadFiles(const QStringList& files)
 
 void MainWindow::slotSendChannelMessage()
 {
-    int mychanid = TT_GetMyChannelID(ttInst);
-    if(mychanid<=0)
+    if (m_mychannel.nChannelID <= 0)
         return;
 
     QString txtmsg;
@@ -5278,7 +5373,7 @@ void MainWindow::slotSendChannelMessage()
 
     TextMessage msg;
     msg.nFromUserID = TT_GetMyUserID(ttInst);
-    msg.nChannelID = mychanid;
+    msg.nChannelID = m_mychannel.nChannelID;
     msg.nMsgType = MSGTYPE_CHANNEL;
     COPY_TTSTR(msg.szMessage, txtmsg);
     TT_DoTextMessage(ttInst, &msg);
@@ -5517,8 +5612,7 @@ void MainWindow::slotInitVideo()
 //TODO: remove this
 void MainWindow::slotAddUserVideo()
 {
-    int chanid = TT_GetMyChannelID(ttInst);
-    QVector<int> users = ui.channelsWidget->getUsersInChannel(chanid);
+    QVector<int> users = ui.channelsWidget->getUsersInChannel(m_mychannel.nChannelID);
     QMenu menu(this);
 
     //local video frames have userid 0
@@ -5738,8 +5832,7 @@ void MainWindow::slotUserVideoDlgClosing(int userid)
 
 void MainWindow::slotAddUserDesktopGrid()
 {
-    int chanid = TT_GetMyChannelID(ttInst);
-    QVector<int> users = ui.channelsWidget->getUsersInChannel(chanid);
+    QVector<int> users = ui.channelsWidget->getUsersInChannel(m_mychannel.nChannelID);
     QMenu menu(this);
 
     //we don't want "myself" in the list
@@ -6416,4 +6509,33 @@ void MainWindow::slotTextChanged()
 void MainWindow::slotEnableVoiceActivation(bool checked)
 {
     slotMeEnableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent* e)
+{
+    if (ui.tabWidget->hasFocus())
+    {
+        if (e->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
+            ui.tabWidget->setCurrentIndex(0);
+        else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
+            ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
+    }
+    if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+    {
+#if defined(Q_OS_DARWIN)
+        if (ui.channelsWidget->hasFocus())
+        {
+            User user;
+            if(ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
+                slotUserDoubleClicked(ui.channelsWidget->selectedUser());
+            else
+                slotChannelDoubleClicked(ui.channelsWidget->selectedChannel(true));
+        }
+#endif
+        if (ui.filesView->hasFocus())
+        {
+            slotChannelsDownloadFile();
+        }
+    }
+    QWidget::keyPressEvent(e);
 }
