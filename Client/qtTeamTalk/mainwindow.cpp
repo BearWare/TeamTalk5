@@ -4498,7 +4498,7 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
     if(!ui.channelsWidget->getSelectedChannel(chan))
         return;
 
-    if(chan.nChannelID == m_mychannel.nChannelID && ttSettings->value(SETTINGS_BEHAVIOR_ENTERLEAVE, SETTINGS_BEHAVIOR_ENTERLEAVE_DEFAULT).toBool() == true)
+    if(chan.nChannelID == m_mychannel.nChannelID && (ttSettings->value(SETTINGS_BEHAVIOR_ENTERLEAVE, SETTINGS_BEHAVIOR_ENTERLEAVE_DEFAULT).toBool() == true) || ttSettings->value(SETTINGS_BEHAVIOR_ENTERLEAVE, SETTINGS_BEHAVIOR_ENTERLEAVE_DEFAULT).toBool() == false && QObject::sender() == ui.actionJoinChannel)
     {
         int cmdid = TT_DoLeaveChannel(ttInst);
         m_commands.insert(cmdid, CMD_COMPLETE_LEAVECHANNEL);
