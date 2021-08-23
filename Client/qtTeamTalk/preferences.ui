@@ -658,7 +658,7 @@
           <item>
            <widget class="QCheckBox" name="enterLeaveChkBox">
             <property name="text">
-             <string>Enter leaves the channel</string>
+             <string>Double click on a channel leaves it</string>
             </property>
            </widget>
           </item>
