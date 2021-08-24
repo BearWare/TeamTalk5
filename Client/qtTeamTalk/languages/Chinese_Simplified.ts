@@ -1896,7 +1896,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1561"/>
         <source>S&amp;peak Channel State</source>
-        <translation>频道正说话用户</translation>
+        <translation>正说话用户</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1564"/>
