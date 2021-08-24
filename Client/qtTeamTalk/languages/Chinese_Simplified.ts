@@ -1593,7 +1593,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1224"/>
         <source>&amp;Channel information</source>
-        <translation type="unfinished"></translation>
+        <translation>频道信息(&amp;C)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1247"/>
@@ -1874,10 +1874,6 @@ p, li { white-space: pre-wrap; }
         <translation>用户信息(&amp;U)</translation>
     </message>
     <message>
-        <source>&amp;Channel informations</source>
-        <translation type="vanished">频道信息(&amp;C)</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1474"/>
         <source>&amp;Speak User Information</source>
         <translation>朗读用户信息(&amp;S)</translation>
@@ -1900,12 +1896,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1561"/>
         <source>S&amp;peak Channel State</source>
-        <translation type="unfinished"></translation>
+        <translation>频道正说话用户</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1564"/>
         <source>Ctrl+Shift+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+G</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1592"/>
@@ -3175,7 +3171,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4627"/>
         <source>Nobody is active in this channel</source>
-        <translation type="unfinished"></translation>
+        <translation>此频道无人活跃</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4673"/>
@@ -3570,7 +3566,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="42"/>
         <source>Separate audio file for each user</source>
-        <translation>个用户保存独立音频文件</translation>
+        <translation>各用户保存独立音频文件</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="53"/>
@@ -3692,7 +3688,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersdlg.cpp" line="179"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
-        <translation type="unfinished">ID： %1， 昵称： %2， 状态消息： %3， 用户名： %4， 频道： %5， IP地址： %6， 版本： %7</translation>
+        <translation>ID： %1， 昵称： %2， 状态消息： %3， 用户名： %4， 频道： %5， IP地址： %6， 版本： %7</translation>
     </message>
 </context>
 <context>
