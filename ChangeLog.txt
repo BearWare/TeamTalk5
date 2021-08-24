@@ -9,7 +9,8 @@ Default QT Client
 - Ability to delete items from Stream Media File dialog
 - Ctrl+Alt+S to quickly enable/disable Text-To-Speech
 - Ctrl+G now outputs Text-To-Speech information for selected user/channel
-- Ctrl+Alt+G to hear informations on current channel
+- Ctrl+Alt+G to hear information on current channel
+- Ctrl+Shift+G to hear channel status
 - Ability to specify nickname for each server
 - New option to configure which events should be displayed in chat history
 - Ability to force SAPI usage for Text-To-Speech events on Windows
@@ -17,20 +18,25 @@ Default QT Client
 - Last modification date shown on user accounts
 - Upload time shown on files
 - Reply "Yes" when ask for apply default accessibility settings now disable VU-Meter updates
-- Press CTRL+C in online users dialog now copy user informations to clipboard
+- Press CTRL+C in online users dialog now copy user information to clipboard
 - In files list, press enter on a file to download it
+- Files list now has a context menu to download or delete a file
+- On MacOS, press enter on a item of channels tree to activate it
 - Fixed default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
 - Fixed Shift+Tab navigation issues in main window
 - Fixed missing accessible labels in main window
 - Fixed Croatian file missing for installed version
-- Fixed "View user informations" from online users dialog
+- Fixed a case where enter should pressed twice in file combobox to play a file in stream media dialog
+- Fixed "View user information" from online users dialog
 - Fixed Home and End keys behavior on tab bars
 - Fixed CTRL+Alt+R to restore streaming permission when disabled
+- Fixed navigation using left key on columns of channels tree
 Android Client
 - Option to disable sound and TTS event when sending a channel message
 - Upload time shown on files
 - Files update sound played only in appropriate channel
 - Fixed a case when not all tts engines were available in Text-To-Speech selection screen
+- Support for Persian language
 iOS Client
 - Ability to specify nickname for each server
 Server
