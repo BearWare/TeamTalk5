@@ -94,7 +94,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(ogg ogg-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ogg PROPERTIES
-      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libogg.a)
   else()
     target_include_directories (ogg INTERFACE ${INSTALL_DIR}/include)

@@ -223,7 +223,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(ffmpeg-avdevice ffmpeg-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avdevice PROPERTIES
-      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       INTERFACE_LINK_OPTIONS "-Wl,-Bsymbolic"
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
   else()
@@ -239,7 +239,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(ffmpeg-avfilter ffmpeg-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avfilter PROPERTIES
-      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavfilter.a)
   else()
     target_include_directories (ffmpeg-avfilter INTERFACE ${INSTALL_DIR}/include)
@@ -251,7 +251,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(ffmpeg-avformat ffmpeg-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avformat PROPERTIES
-      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavformat.a)
   else()
     target_include_directories (ffmpeg-avformat INTERFACE ${INSTALL_DIR}/include)
@@ -264,7 +264,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(ffmpeg-avcodec ffmpeg-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avcodec PROPERTIES
-      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavcodec.a)
   else()
     target_include_directories (ffmpeg-avcodec INTERFACE ${INSTALL_DIR}/include)
@@ -276,7 +276,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(ffmpeg-swresample ffmpeg-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-swresample PROPERTIES
-      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libswresample.a)
   else()
     target_include_directories (ffmpeg-swresample INTERFACE ${INSTALL_DIR}/include)
@@ -288,7 +288,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(ffmpeg-swscale ffmpeg-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-swscale PROPERTIES
-      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libswscale.a)
   else()
     target_include_directories (ffmpeg-swscale INTERFACE ${INSTALL_DIR}/include)
@@ -300,7 +300,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(ffmpeg-avutil ffmpeg-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avutil PROPERTIES
-      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavutil.a)
   else()
     target_include_directories (ffmpeg-avutil INTERFACE ${INSTALL_DIR}/include)

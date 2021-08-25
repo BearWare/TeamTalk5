@@ -153,7 +153,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(openssl-crypto openssl-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(openssl-crypto PROPERTIES
-      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       INTERFACE_COMPILE_OPTIONS -pthread
       INTERFACE_LINK_OPTIONS -pthread
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libcrypto.a)
@@ -167,7 +167,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(openssl-ssl openssl-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(openssl-ssl PROPERTIES
-      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       INTERFACE_COMPILE_OPTIONS -pthread
       INTERFACE_LINK_OPTIONS -pthread
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.a)

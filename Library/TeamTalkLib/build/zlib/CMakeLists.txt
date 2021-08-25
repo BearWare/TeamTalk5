@@ -88,7 +88,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(zlib zlib-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
       set_target_properties(zlib PROPERTIES
-        INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+        INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
         IMPORTED_LOCATION ${INSTALL_DIR}/lib/libz.a)
   else()
     target_include_directories (zlib INTERFACE ${INSTALL_DIR}/include)

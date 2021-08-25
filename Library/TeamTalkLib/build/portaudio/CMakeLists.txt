@@ -71,7 +71,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(portaudio portaudio-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(portaudio PROPERTIES
-      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libportaudio.a)
   else()
     target_include_directories (portaudio INTERFACE ${INSTALL_DIR}/include)

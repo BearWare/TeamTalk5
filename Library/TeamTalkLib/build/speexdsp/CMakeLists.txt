@@ -128,7 +128,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_dependencies(speexdsp speexdsp-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(speexdsp PROPERTIES
-      INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeexdsp.a)
   else()
     target_include_directories (speexdsp INTERFACE ${INSTALL_DIR}/include)
