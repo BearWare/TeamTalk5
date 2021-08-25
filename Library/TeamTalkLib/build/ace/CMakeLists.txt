@@ -278,8 +278,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   ExternalProject_Add(MPC
     GIT_REPOSITORY    https://github.com/bear101/MPC
     GIT_TAG           ACE+TAO-6_5_12
-    GIT_SUBMODULES_RECURSE TRUE
-    GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
     CONFIGURE_COMMAND ""
     BUILD_COMMAND     ""
@@ -291,8 +289,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   ExternalProject_Add(ACE-src
     GIT_REPOSITORY    https://github.com/bear101/ACE
     GIT_TAG           f1f6fade7da
-    GIT_SUBMODULES_RECURSE TRUE
-    GIT_SHALLOW       TRUE
     INSTALL_DIR       install
     UPDATE_COMMAND    ""
     # Create 'platform_macros.GNU'
