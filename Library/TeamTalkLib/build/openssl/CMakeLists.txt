@@ -178,5 +178,70 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_compile_options (openssl-ssl INTERFACE -pthread)
     target_link_options(openssl-ssl INTERFACE -pthread)
   endif()
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+
+  if ("armeabi-v7a" STREQUAL "${ANDROID_ABI}")
+    set (OPENSSL_CFG_TARGET android-arm)
+  elseif ("arm64-v8a" STREQUAL "${ANDROID_ABI}")
+    set (OPENSSL_CFG_TARGET android-arm64)
+  elseif ("x86" STREQUAL "${ANDROID_ABI}")
+    set (OPENSSL_CFG_TARGET android-x86)
+  elseif ("x86_64" STREQUAL "${ANDROID_ABI}")
+    set (OPENSSL_CFG_TARGET android-x86_64)
+  else()
+    message(WARNING "Unknown Android architecture")
+  endif()
+
+  set (OPENSSL_EXPORT export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:$ENV{PATH} && export ANDROID_NDK_HOME=${CMAKE_ANDROID_NDK})
+    
+  ExternalProject_Add(openssl-src
+    GIT_REPOSITORY    https://github.com/bear101/openssl
+    GIT_TAG           OpenSSL_1_1_1k
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND ${OPENSSL_EXPORT} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC no-shared
+                      ${OPENSSL_CFG_TARGET} -D__ANDROID_API__=${ANDROID_PLATFORM_LEVEL}
+    BUILD_COMMAND     ${OPENSSL_EXPORT} && make
+    INSTALL_COMMAND   ${OPENSSL_EXPORT} && make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
+    )
+  ExternalProject_Get_Property(openssl-src INSTALL_DIR)
+  set (OPENSSL_DIR ${INSTALL_DIR})
+  set (OPENSSL_DIR ${INSTALL_DIR} PARENT_SCOPE)
+  
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
+
+  add_library(openssl-crypto STATIC IMPORTED GLOBAL)
+  add_dependencies(openssl-crypto openssl-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(openssl-crypto PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_COMPILE_OPTIONS -pthread
+      INTERFACE_LINK_OPTIONS -pthread
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libcrypto.a)
+  else()
+    target_include_directories (openssl-crypto INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(openssl-crypto PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libcrypto.a)
+  endif()
+
+  add_library(openssl-ssl STATIC IMPORTED GLOBAL)
+  add_dependencies(openssl-ssl openssl-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(openssl-ssl PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_COMPILE_OPTIONS -pthread
+      INTERFACE_LINK_OPTIONS -pthread
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.a)
+  else()
+    target_include_directories (openssl-ssl INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(openssl-ssl PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.a)
+    target_compile_options (openssl-ssl INTERFACE -pthread)
+    target_link_options(openssl-ssl INTERFACE -pthread)
+  endif()
   
 endif()

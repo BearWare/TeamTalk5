@@ -171,4 +171,65 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     endif()
   endif()
 
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+
+  set (LIBVPX_EXPORT export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:$ENV{PATH})
+  
+  if ("armeabi-v7a" STREQUAL "${ANDROID_ABI}")
+    list (APPEND LIBVPX_EXPORT && export CROSS=arm-linux-androideabi-)
+    list (APPEND LIBVPX_EXPORT && export CC=clang\ --target=armv7a-linux-android${ANDROID_PLATFORM_LEVEL})
+    list (APPEND LIBVPX_EXPORT && export CXX=clang++\ --target=armv7a-linux-android${ANDROID_PLATFORM_LEVEL})
+    set (LIBVPX_CFG --target=armv7-android-gcc)
+  elseif ("arm64-v8a" STREQUAL "${ANDROID_ABI}")
+    list (APPEND LIBVPX_EXPORT && export CROSS=aarch64-linux-android-)
+    list (APPEND LIBVPX_EXPORT && export CC=clang\ --target=aarch64-linux-android${ANDROID_PLATFORM_LEVEL})
+    list (APPEND LIBVPX_EXPORT && export CXX=clang++\ --target=aarch64-linux-android${ANDROID_PLATFORM_LEVEL})
+    set (LIBVPX_CFG --target=arm64-android-gcc)
+  elseif ("x86" STREQUAL "${ANDROID_ABI}")
+    list (APPEND LIBVPX_EXPORT && export CROSS=i686-linux-android-)
+    list (APPEND LIBVPX_EXPORT && export CC=clang\ --target=i686-linux-android${ANDROID_PLATFORM_LEVEL})
+    list (APPEND LIBVPX_EXPORT && export CXX=clang++\ --target=i686-linux-android${ANDROID_PLATFORM_LEVEL})
+    set (LIBVPX_CFG --target=x86-android-gcc)
+  elseif ("x86_64" STREQUAL "${ANDROID_ABI}")
+    list (APPEND LIBVPX_EXPORT && export CROSS=x86_64-linux-android-)
+    list (APPEND LIBVPX_EXPORT && export CC=clang\ --target=x86_64-linux-android${ANDROID_PLATFORM_LEVEL})
+    list (APPEND LIBVPX_EXPORT && export CXX=clang++\ --target=x86_64-linux-android${ANDROID_PLATFORM_LEVEL})
+    set (LIBVPX_CFG --target=x86_64-android-gcc)
+  else()
+    message(WARNING "Unknown Android architecture")
+  endif()
+  
+  ExternalProject_Add(libvpx-src
+    GIT_REPOSITORY    https://github.com/bear101/libvpx
+    GIT_TAG           v1.9.0
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND ${LIBVPX_EXPORT} && <SOURCE_DIR>/configure
+            --prefix=<INSTALL_DIR> ${LIBVPX_CFG}
+            --disable-examples --disable-docs --disable-unit-tests --enable-pic
+    BUILD_COMMAND     ${LIBVPX_EXPORT} && make -j4
+    INSTALL_COMMAND   ${LIBVPX_EXPORT} && make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
+    )
+  ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(libvpx STATIC IMPORTED GLOBAL)
+  add_dependencies(libvpx libvpx-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(libvpx PROPERTIES
+      INTERFACE_LINK_OPTIONS "-Wl,-Bsymbolic"
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
+  else()
+    target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(libvpx PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND ${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+      target_link_options(libvpx INTERFACE "-Wl,-Bsymbolic")
+    endif()
+  endif()
+  
 endif()

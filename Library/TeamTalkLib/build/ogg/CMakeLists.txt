@@ -102,4 +102,36 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libogg.a)
   endif()
 
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+
+  set (OGG_CFG_FLAGS -DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    -DANDROID_ABI=${ANDROID_ABI} -DANDROID_PLATFORM=${ANDROID_PLATFORM})
+
+  ExternalProject_Add(ogg-src
+    GIT_REPOSITORY    https://github.com/bear101/ogg
+    GIT_TAG           v1.3.3
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OGG_CFG_FLAGS}
+    BUILD_COMMAND     cmake --build . --target ogg
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
+    )
+  ExternalProject_Get_Property(ogg-src INSTALL_DIR)
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(ogg STATIC IMPORTED GLOBAL)
+  add_dependencies(ogg ogg-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(ogg PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libogg.a)
+  else()
+    target_include_directories (ogg INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(ogg PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libogg.a)
+  endif()
+
+  
 endif()

@@ -308,4 +308,129 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavutil.a)
   endif()
 
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+
+  set (FFMPEG_EXPORT export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:$ENV{PATH} && export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig)
+  
+  if ("armeabi-v7a" STREQUAL "${ANDROID_ABI}")
+    set (FFMPEG_CFG --cross-prefix=arm-linux-androideabi- --cc=clang\ --target=armv7a-linux-android${ANDROID_PLATFORM_LEVEL} --arch=arm --disable-neon)
+  elseif ("arm64-v8a" STREQUAL "${ANDROID_ABI}")
+    set (FFMPEG_CFG --cross-prefix=aarch64-linux-android- --cc=clang\ --target=aarch64-linux-android${ANDROID_PLATFORM_LEVEL} --arch=aarch64)
+  elseif ("x86" STREQUAL "${ANDROID_ABI}")
+    set (FFMPEG_CFG --cross-prefix=i686-linux-android- --cc=clang\ --target=i686-linux-android${ANDROID_PLATFORM_LEVEL} --arch=x86 --disable-asm)
+  elseif ("x86_64" STREQUAL "${ANDROID_ABI}")
+    set (FFMPEG_CFG --cross-prefix=x86_64-linux-android- --cc=clang\ --target=x86_64-linux-android${ANDROID_PLATFORM_LEVEL} --arch=x86_64 --disable-asm)
+  else()
+    message(WARNING "Unknown Android architecture")
+  endif()
+  
+  ExternalProject_Add(ffmpeg-src
+    GIT_REPOSITORY    https://github.com/bear101/FFmpeg
+    GIT_TAG           n3.4.7
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CONFIGURE_COMMAND ${FFMPEG_EXPORT} && <SOURCE_DIR>/configure ${FFMPEG_CFG} --prefix=<INSTALL_DIR>
+                      --enable-cross-compile --sysroot=${CMAKE_SYSROOT} --target-os=android
+                      --enable-pic --disable-doc --disable-programs --disable-indev=v4l2
+    BUILD_COMMAND     ${FFMPEG_EXPORT} && make -j4
+    INSTALL_COMMAND   ${FFMPEG_EXPORT} && make install
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
+        <INSTALL_DIR>/lib/libavfilter.a
+        <INSTALL_DIR>/lib/libavformat.a
+        <INSTALL_DIR>/lib/libavcodec.a
+        <INSTALL_DIR>/lib/libswresample.a
+        <INSTALL_DIR>/lib/libswscale.a
+        <INSTALL_DIR>/lib/libavutil.a
+    DEPENDS openssl-src
+    )
+  ExternalProject_Get_Property(ffmpeg-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-avdevice ffmpeg-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(ffmpeg-avdevice PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
+  else()
+    target_include_directories (ffmpeg-avdevice INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(ffmpeg-avdevice PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
+  endif()
+
+  add_library(ffmpeg-avfilter STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-avfilter ffmpeg-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(ffmpeg-avfilter PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavfilter.a)
+  else()
+    target_include_directories (ffmpeg-avfilter INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(ffmpeg-avfilter PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavfilter.a)
+  endif()
+
+  add_library(ffmpeg-avformat STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-avformat ffmpeg-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(ffmpeg-avformat PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavformat.a)
+  else()
+    target_include_directories (ffmpeg-avformat INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(ffmpeg-avformat PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavformat.a)
+  endif()
+  target_link_libraries(ffmpeg-avformat INTERFACE openssl-crypto openssl-ssl)
+
+  add_library(ffmpeg-avcodec STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-avcodec ffmpeg-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(ffmpeg-avcodec PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavcodec.a)
+  else()
+    target_include_directories (ffmpeg-avcodec INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(ffmpeg-avcodec PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavcodec.a)
+  endif()
+
+  add_library(ffmpeg-swresample STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-swresample ffmpeg-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(ffmpeg-swresample PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libswresample.a)
+  else()
+    target_include_directories (ffmpeg-swresample INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(ffmpeg-swresample PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libswresample.a)
+  endif()
+
+  add_library(ffmpeg-swscale STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-swscale ffmpeg-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(ffmpeg-swscale PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libswscale.a)
+  else()
+    target_include_directories (ffmpeg-swscale INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(ffmpeg-swscale PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libswscale.a)
+  endif()
+
+  add_library(ffmpeg-avutil STATIC IMPORTED GLOBAL)
+  add_dependencies(ffmpeg-avutil ffmpeg-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(ffmpeg-avutil PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavutil.a)
+  else()
+    target_include_directories (ffmpeg-avutil INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(ffmpeg-avutil PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavutil.a)
+  endif()
+  
 endif()

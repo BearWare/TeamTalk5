@@ -1,4 +1,3 @@
-TOOLCHAIN_ROOT?=$(PWD)/../Library/TeamTalkLib/toolchain
 TEAMTALK_ROOT?=$(PWD)/..
 CONFIGTYPE?=release
 CMAKE_GENERATOR?=Ninja
@@ -14,10 +13,6 @@ teamtalk-env:
 	@echo "Source env.sh in repository root to set up environment"
 	test -d "$(TEAMTALK_ROOT)"
 
-toolchain-env:
-	@echo "Testing that TOOLCHAIN_ROOT is valid, i.e. source Library/TeamTalkLib/toolchain/toolchain.sh"
-	test -d "$(TOOLCHAIN_ROOT)"
-
 genlib:
 	mkdir -p $(BUILDDIR)
 	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) -G "$(CMAKE_GENERATOR)" ../../
@@ -26,22 +21,22 @@ buildlib: genlib
 	cmake --build $(BUILDDIR) $(CMAKE_BUILD_EXTRA)
 
 android-build:
-	@echo "Testing if NDK environment variable is set: $(NDK)"
-	test -n "$(NDK)"
+	@echo "Testing if ANDROID_NDK_HOME environment variable is set: $(ANDROID_NDK_HOME)"
+	test -n "$(ANDROID_NDK_HOME)"
 	$(MAKE) CONFIGTYPE=$(CONFIGTYPE) \
-	CMAKE_EXTRA+="-DCMAKE_TOOLCHAIN_FILE=$(NDK)/build/cmake/android.toolchain.cmake -DANDROID_NATIVE_API_LEVEL=$(ANDROID_APP_PLATFORM) -DANDROID_ABI=$(ANDROID_APP_ABI) -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK5LIB=ON -DBUILD_TEAMTALK5PROLIB=ON -DBUILD_TEAMTALK_LIBRARIES=ON -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF -DTOOLCHAIN_ZLIB=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON" buildlib
+	CMAKE_EXTRA+="-DCMAKE_TOOLCHAIN_FILE=$(ANDROID_NDK_HOME)/build/cmake/android.toolchain.cmake -DANDROID_ABI=$(ANDROID_ABI) -DANDROID_PLATFORM=android-21 -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK5LIB=ON -DBUILD_TEAMTALK5PROLIB=ON -DBUILD_TEAMTALK_LIBRARIES=ON -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF -DTOOLCHAIN_ZLIB=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON" buildlib
 
-android-armeabi-v7a: teamtalk-env toolchain-env
-	. $(TOOLCHAIN_ROOT)/toolchain.sh android armeabi-v7a && $(MAKE) TEAMTALK_ROOT=$(TEAMTALK_ROOT) BUILDDIR=build-$@ android-build
+android-armeabi-v7a: teamtalk-env
+	$(MAKE) ANDROID_ABI=armeabi-v7a BUILDDIR=build-$@ android-build
 
-android-arm64-v8a: teamtalk-env toolchain-env
-	. $(TOOLCHAIN_ROOT)/toolchain.sh android arm64-v8a && $(MAKE) TEAMTALK_ROOT=$(TEAMTALK_ROOT) BUILDDIR=build-$@ android-build
+android-arm64-v8a: teamtalk-env
+	$(MAKE) ANDROID_ABI=arm64-v8a BUILDDIR=build-$@ android-build
 
-android-x86: teamtalk-env toolchain-env
-	. $(TOOLCHAIN_ROOT)/toolchain.sh android x86 && $(MAKE) TEAMTALK_ROOT=$(TEAMTALK_ROOT) BUILDDIR=build-$@ android-build
+android-x86: teamtalk-env
+	$(MAKE) ANDROID_ABI=x86 BUILDDIR=build-$@ android-build
 
-android-x64: teamtalk-env toolchain-env
-	. $(TOOLCHAIN_ROOT)/toolchain.sh android x86_64 && $(MAKE) TEAMTALK_ROOT=$(TEAMTALK_ROOT) BUILDDIR=build-$@ android-build
+android-x64: teamtalk-env
+	$(MAKE) ANDROID_ABI=x86_64 BUILDDIR=build-$@ android-build
 
 generic:
 	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_CORE=ON" buildlib
@@ -137,10 +132,6 @@ lipo: teamtalk-env
 xcodeswap-apps:
 	@echo "Changing to /Applications/Xcode.app/Contents/Developer"
 	sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-
-xcodeswap-toolchain: toolchain-env
-	@echo "Changing to $(TOOLCHAIN_ROOT)/Xcode.app/Contents/Developer"
-	sudo xcode-select -s $(TOOLCHAIN_ROOT)/Xcode.app/Contents/Developer
 
 teamtalk-jar:
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_LIBRARY_JNI=OFF -DBUILD_TEAMTALKPRO_LIBRARY_JNI=OFF -DBUILD_TEAMTALK_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALKPRO_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALK_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALKPRO_LIBRARY_DOTNET=OFF" buildlib

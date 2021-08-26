@@ -109,4 +109,42 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set_target_properties(opus PROPERTIES
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
   endif()
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+
+  set (OPUS_CFG_FLAGS -DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    -DANDROID_ABI=${ANDROID_ABI} -DANDROID_PLATFORM=${ANDROID_PLATFORM})
+
+  if ("armeabi-v7a" STREQUAL "${ANDROID_ABI}")
+    list (APPEND OPUS_CFG_FLAGS -DOPUS_FIXED_POINT=ON)
+  elseif ("arm64-v8a" STREQUAL "${ANDROID_ABI}")
+    list (APPEND OPUS_CFG_FLAGS -DOPUS_FIXED_POINT=ON)
+  endif()
+
+  ExternalProject_Add(opus-src
+    GIT_REPOSITORY    https://github.com/bear101/opus
+    GIT_TAG           v1.3.1
+    GIT_SHALLOW       TRUE
+    UPDATE_COMMAND    ""
+    INSTALL_DIR       install
+    CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON ${OPUS_CFG_FLAGS}
+    BUILD_COMMAND     cmake --build . --target opus
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
+    )
+  ExternalProject_Get_Property(opus-src INSTALL_DIR)
+
+  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+
+  add_library(opus STATIC IMPORTED GLOBAL)
+  add_dependencies(opus opus-src)
+  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
+    set_target_properties(opus PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
+  else()
+    target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(opus PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
+  endif()
 endif()

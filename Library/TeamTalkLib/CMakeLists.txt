@@ -51,15 +51,20 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+
   if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
     set (CMAKE_OSX_DEPLOYMENT_TARGET 7.0)
     message(WARNING "No deployment target specified. Defaulting to ${CMAKE_OSX_DEPLOYMENT_TARGET}")
   endif()
-
-endif()
-
-if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   list (APPEND COMPILE_FLAGS -fembed-bitcode)
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+
+  if (NOT ANDROID_PLATFORM)
+    set (ANDROID_PLATFORM android-21)
+    message(WARNING "No Android API level specified. Defaulting to ${ANDROID_NATIVE_API_LEVEL}")
+  endif()
+
 endif()
 
 function(set_output_dir target dir)
