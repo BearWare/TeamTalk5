@@ -4,6 +4,22 @@ on: [push]
 
 jobs:
   build:
+    strategy:
+      matrix:
+        include:
+          - name: iOS armv7
+            cmakearch: armv7
+            cmakesysroot: iphoneos
+          - name: iOS arm64
+            cmakearch: arm64
+            cmakesysroot: iphoneos
+          - name: iOS i386
+            cmakearch: i386
+            cmakesysroot: iphonesimulator
+          - name: iOS x86_64
+            cmakearch: x86_64
+            cmakesysroot: iphonesimulator
+
     runs-on: macos-latest
 
     steps:
@@ -18,9 +34,9 @@ jobs:
     - name: Install TeamTalk Library Dependencies
       run: brew install doxygen
 
-    - name: Build TeamTalk Library and Apps
+    - name: Build TeamTalk Library
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=armv7 -DCMAKE_OSX_SYSROOT=iphoneos" CMAKE_GENERATOR="Unix Makefiles"  BUILDDIR=build-ios-armv7 ios-build
+      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }}" CMAKE_GENERATOR="Unix Makefiles" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
 
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
