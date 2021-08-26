@@ -1,49 +1,36 @@
 name: Android
 
-on:
-  push:
-    branches-ignore:
-      - workflow_windows
+on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        include:
+          - name: Android armeabi-v7a
+            maketarget: android-armeabi-v7a
+          - name: Android arm64-v8a
+            maketarget: android-arm64-v8a
+          - name: Android x86
+            maketarget: android-x86
+          - name: Android x86_64
+            maketarget: android-x64
 
+    runs-on: ubuntu-18.04
+    name: ${{ matrix.name }}
     steps:
     - uses: actions/checkout@v2
 
     - name: Refresh Ubuntu-repo
       run: sudo apt update
 
-    - name: Init Toolchain submodule
-      working-directory: ${{runner.workspace}}/TeamTalk5
-      run: git submodule update --init Library/TeamTalkLib/toolchain
-
-    - name: Init Toolchain's submodules
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
-      run: |
-        make prepare-github
-
-    - name: Install Toolchain Dependencies
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
-      run: |
-        sudo make depend-ubuntu18
-
-    - name: Build Toolchain for Android 32-bit ARM
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain
-      shell: bash
-      run: |
-        source toolchain.sh android armeabi-v7a
-        cd build
-        make android-armeabi-v7a
-
     - name: Install TeamTalk Library Dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: sudo make -C Build depend-ubuntu18
 
-    - name: Build TeamTalk Library and Apps
+    - name: Build TeamTalk Library
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF" android-armeabi-v7a
+      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF" ${{ matrix.maketarget }}
 
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
