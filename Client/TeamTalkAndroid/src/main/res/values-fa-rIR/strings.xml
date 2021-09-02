@@ -11,14 +11,14 @@
     <string name="title_section_chat">چت</string>
     <string name="title_section_media">رسانه</string>
     <string name="title_section_files">فایل</string>
-    <string name="title_activity_channel_prop">گزینه های کانال</string>
-    <string name="title_activity_user_prop">گزینه های کاربر</string>
+    <string name="title_activity_channel_prop">خصوصیات کانال</string>
+    <string name="title_activity_user_prop">خصوصیات کاربر</string>
     <string name="title_activity_text_message">پیام</string>
-    <string name="title_activity_preferences">گزینه ها</string>
-    <string name="title_activity_stream_media">پخش آنلاین فایل رسانه ای در کانال</string>
+    <string name="title_activity_preferences">تنظیمات</string>
+    <string name="title_activity_stream_media">پخش فایل رسانه ای در کانال</string>
     <string name="action_createchannel">ایجاد</string>
     <string name="action_updatechannel">به‌روز‌رسانی</string>
-    <string name="text_con_failed">خطای اتصال به سِروِر. در حال تلاش برای اتصال مجدد…</string>
+    <string name="text_con_failed">خطای اتصال به سِروِر. در حال تلاش برای اتصال مجدد...</string>
     <string name="text_con_lost">اتصال قطع شد</string>
     <string name="text_con_success">به سِروِر متصل شُدید</string>
     <string name="text_con_cmderr">خطای اجرای فرمان</string>
@@ -55,8 +55,8 @@
     <string name="pref_summary_broadcast_message_audio_icon">پخش صدا هنگام دریافت پیام همه‌گانی</string>
     <string name="pref_title_server_lost_audio_icon">قطع شدن اتصال سِروِر</string>
     <string name="pref_summary_server_lost_audio_icon">پخش صدا هنگام قطع شدن اتصال شما به سِروِر</string>
-    <string name="pref_title_files_update_audio_icon">بار‌گزاری فایل</string>
-    <string name="pref_summary_files_update_audio_icon">پخش صدا هنگام بار‌گزاری یا حذف فایلها</string>
+    <string name="pref_title_files_update_audio_icon">بار‌گذاری فایل</string>
+    <string name="pref_summary_files_update_audio_icon">پخش صدا هنگام بار‌گذاری یا حذف فایلها</string>
     <string name="pref_title_transmitready_icon">حالت انحصاری</string>
     <string name="pref_summary_transmitready_icon">پخش صدا هنگامی که انتقال در کانال "بدون وقفه" آماده است</string>
     <string name="pref_title_userjoin_icon">پیوستن کاربر به کانال</string>
@@ -140,7 +140,7 @@
     <string name="action_kicksrv">اخراج از سِروِر</string>
     <string name="action_move">انتقال به اینجا</string>
     <string name="action_select">انتخاب برای انتقال</string>
-    <string name="action_upload">بارگزاری فایل</string>
+    <string name="action_upload">بارگذاری فایل</string>
     <string name="action_stream">پخش آنلاین فایل رسانه ای</string>
     <string name="button_select_media_file">جستجو</string>
     <string name="button_stream_media_file">پخش</string>
@@ -196,7 +196,7 @@
 
     <string name="err_init_sound_input">خطای راه‌اندازی دستگاه ورودی صدا</string>
     <string name="err_init_sound_output">خطای راه‌اندازی دستگاه خروجی صدا</string>
-    <string name="err_retrieve_public_server_list">خطای بار‌گزاری سِروِر‌های عمومی</string>
+    <string name="err_retrieve_public_server_list">خطای بار‌گذاری سِروِر‌های عمومی</string>
     <string name="err_send_text_message">خطای ارسال پیام</string>
     <string name="err_connection">خطای اتصال</string>
     <string name="err_stream_media">خطای پخش آنلاین فایل رسانه‌ای</string>
@@ -229,21 +229,21 @@
     <string name="pref_summary_server_name">این سِروِر با این نام در لیست سِروِر‌ها نمایان خواهد شد</string>
     <string name="pref_summary_server_address">نام دامنه یا آدرس IP سِروِر</string>
 
-    <string name="channel_password_prompt">رمز کانال</string>
+    <string name="channel_password_prompt">گذرواژۀ کانال</string>
     <string name="button_download">دانلود</string>
     <string name="download_succeeded">فایل %1$s با موفقیت دانلود و در %2$s ذخیره شد</string>
     <string name="download_failed">خطای دانلود فایل %1$s</string>
-    <string name="upload_succeeded">فایل %1$s با موفقیت بار‌گزاری شد</string>
-    <string name="upload_failed">خطای بار‌گزاری فایل %1$s</string>
+    <string name="upload_succeeded">فایل %1$s با موفقیت بار‌گذاری شد</string>
+    <string name="upload_failed">خطای بار‌گذاری فایل %1$s</string>
     <string name="alert_file_override">فایل %1$s موجود است, لغو شود؟</string>
     <string name="err_file_delete">حذف فایل %1$s امکان‌پذیر نیست</string>
     <string name="err_file_write">نوشتن فایل %1$s امکان‌پذیر نیست</string>
     <string name="err_channel_remove">حذف کانال %1$s امکان‌پذیر نیست</string>
     <string name="err_download_path">مسیر دانلود %1$s غیر‌قابل‌دسترس است</string>
     <string name="download_progress">%1$d%% دانلود‌شده</string>
-    <string name="upload_progress_title">در حال بار‌گزاری %1$s</string>
+    <string name="upload_progress_title">در حال بار‌گذاری %1$s</string>
     <string name="upload_progress">%1$d%%, برای لغو ضربه بزنید</string>
-    <string name="upload_started">بار‌گزاری آغاز شد</string>
+    <string name="upload_started">بار‌گذاری آغاز شد</string>
     <string name="transfer_stopped">انتقال متوقف شد</string>
     <string name="complete">کامل</string>
     <string name="remote_file_exists">فایل %1$s در کانال این سِروِر وجود دارد</string>
@@ -283,8 +283,8 @@
     <string name="text_framesize">مقدار فریم</string>
     <string name="text_vbr">نرخ ارسال داده متغیر</string>
     <string name="text_quality">کیفیت</string>
-    <string name="text_publicserver">سِروِرِ عمومی</string>
-    <string name="text_localserver">سِروِرِ محلی</string>
+    <string name="text_publicserver">عمومی</string>
+    <string name="text_localserver">محلی</string>
     <string name="text_passwdprot">رمزدار</string>
     <string name="text_translator">این نسخه توسط ابوالفضل سعیدیفر به فارسی ترجمه شده است</string>
     <string name="desktop_image">تصویر دسکتاپ</string>
@@ -300,7 +300,7 @@
     <string name="err_server_banned">آدرس IP شما محروم شده</string>
     <string name="err_not_authorized">مجاز نیست</string>
     <string name="err_max_diskusage_exceeded">فضای کانال پر است</string>
-    <string name="err_incorrect_op_password">گذرواژه اپراتور نادرست است</string>
+    <string name="err_incorrect_op_password">گذرواژۀ اپراتور نادرست است</string>
     <string name="err_max_logins_per_ipaddress_exceeded">تعداد زیادی اتصال از یک آدرس IP وجود دارد</string>
     <string name="err_max_channels_exceeded">تعداد کانالها زیاد است</string>
     <string name="err_channel_already_exists">این کانال وجود دارد</string>
@@ -320,7 +320,7 @@
     <string name="permission_audioinput">ضبط و پخش صدا در دسترس نخواهد بود</string>
     <string name="permission_audiomodify">ضبط و پخش صدا در دسترس نخواهد بود</string>
     <string name="permission_filerx">بار‌گیری فایل‌ها در دسترس نخواهد بود</string>
-    <string name="permission_filetx">بار‌گزاری و وارد کردن فایل‌ها در دسترس نخواهد بود</string>
+    <string name="permission_filetx">بار‌گذاری و وارد کردن فایل‌ها در دسترس نخواهد بود</string>
     <string name="permission_internet">برنامه نمیتواند به سِروِر‌ها متصل شود</string>
     <string name="permission_vibrate">امکان لرزش هنگام فشردن دکمۀ میکروفون در دسترس نخواهد بود</string>
     <string name="permission_wake_lock">هنگامی که صفحه نمایش کمنور میشود اتصال سِروِر ممکن است قطع شود</string>

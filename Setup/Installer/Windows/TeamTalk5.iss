@@ -162,6 +162,7 @@ Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\TeamTalkClassic\lng_classic\I
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\TeamTalkClassic\lng_classic\Italian.lng"; DestDir: "{app}\lng_classic"; Components: classic; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\TeamTalkClassic\lng_classic\Korean.lng"; DestDir: "{app}\lng_classic"; Components: classic; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\TeamTalkClassic\lng_classic\Latvian.lng"; DestDir: "{app}\lng_classic"; Components: classic; Flags: ignoreversion;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\TeamTalkClassic\lng_classic\Persian.lng"; DestDir: "{app}\lng_classic"; Components: classic; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\TeamTalkClassic\lng_classic\Polish.lng"; DestDir: "{app}\lng_classic"; Components: classic; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\TeamTalkClassic\lng_classic\Portuguese_BR.lng"; DestDir: "{app}\lng_classic"; Components: classic; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\TeamTalkClassic\lng_classic\Portuguese_PT.lng"; DestDir: "{app}\lng_classic"; Components: classic; Flags: ignoreversion;
