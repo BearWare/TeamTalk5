@@ -38,6 +38,8 @@ android-x86: teamtalk-env
 android-x64: teamtalk-env
 	$(MAKE) ANDROID_ABI=x86_64 BUILDDIR=build-$@ android-build
 
+android-all: android-armeabi-v7a android-arm64-v8a android-x86 android-x64
+
 generic:
 	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_CORE=ON" buildlib
 
@@ -49,7 +51,7 @@ deb64:
 
 ubuntu64:
 	# May need to specify JAVA_HOME to help CMake find Java SDK
-	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON" generic
+	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DTOOLCHAIN_OPENSSL=OFF" generic
 
 centos7:
 	# TeamTalk depends on CMake 3.1 or later.
