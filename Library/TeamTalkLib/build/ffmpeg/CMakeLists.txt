@@ -41,11 +41,32 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
+  find_library(COCOA_LIBRARY Cocoa)
+  find_library(AVFOUNDATION_LIBRARY AVFoundation)
+  find_library(COREMEDIA_LIBRARY CoreMedia)
+  find_library(OPENGL_LIBRARY OpenGL)
+  find_library(COREFOUNDATION_LIBRARY CoreFoundation)
+  find_library(VIDEODECODEACCELERATION_LIBRARY VideoDecodeAcceleration)
+  find_library(QUARTZCORE_LIBRARY QuartzCore)
+  find_library(BZ2_LIBRARY bz2)
+  find_library (AUDIOTOOLBOX_LIBRARY AudioToolBox)
+
+  set (FFMPEG_LINK ${COCOA_LIBRARY} ${AVFOUNDATION_LIBRARY}
+    ${COREMEDIA_LIBRARY}
+    ${OPENGL_LIBRARY}
+    ${COREFOUNDATION_LIBRARY}
+    ${VIDEODECODEACCELERATION_LIBRARY}
+    ${QUARTZCORE_LIBRARY}
+    ${BZ2_LIBRARY}
+    ${AUDIOTOOLBOX_LIBRARY})
+
   add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
   add_dependencies(ffmpeg-avdevice ffmpeg-src)
   target_include_directories (ffmpeg-avdevice INTERFACE ${INSTALL_DIR}/include)
-  set_property(TARGET ffmpeg-avdevice PROPERTY IMPORTED_LOCATION
-    ${INSTALL_DIR}/lib/libavdevice.a)
+  set_target_properties(ffmpeg-avdevice PROPERTIES
+    INTERFACE_COMPILE_OPTIONS -D__STDC_CONSTANT_MACROS
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
+  target_link_libraries(ffmpeg-avdevice INTERFACE ${FFMPEG_LINK})
 
   add_library(ffmpeg-avfilter STATIC IMPORTED GLOBAL)
   add_dependencies(ffmpeg-avfilter ffmpeg-src)
@@ -154,8 +175,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
   add_dependencies(ffmpeg-avdevice ffmpeg-src)
   target_include_directories (ffmpeg-avdevice INTERFACE ${INSTALL_DIR}/include)
-  set_property(TARGET ffmpeg-avdevice PROPERTY IMPORTED_LOCATION
-    ${INSTALL_DIR}/lib/libavdevice.a)
+  set_target_properties(ffmpeg-avdevice PROPERTIES
+    INTERFACE_COMPILE_OPTIONS -D__STDC_CONSTANT_MACROS
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
 
   add_library(ffmpeg-avfilter STATIC IMPORTED GLOBAL)
   add_dependencies(ffmpeg-avfilter ffmpeg-src)
@@ -219,20 +241,25 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
+  # Ubuntu: $ apt install libasound2-dev
+  find_library(ASOUND_LIBRARY asound)
+
+  set (FFMPEG_LINK -Wl,-Bsymbolic ${ASOUND_LIBRARY})
+
   add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
   add_dependencies(ffmpeg-avdevice ffmpeg-src)
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avdevice PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-      INTERFACE_LINK_OPTIONS "-Wl,-Bsymbolic"
+      INTERFACE_COMPILE_OPTIONS -D__STDC_CONSTANT_MACROS
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
+    target_link_libraries(ffmpeg-avdevice INTERFACE "${FFMPEG_LINK}")
   else()
     target_include_directories (ffmpeg-avdevice INTERFACE ${INSTALL_DIR}/include)
     set_target_properties(ffmpeg-avdevice PROPERTIES
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND ${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-      target_link_options(ffmpeg-avdevice INTERFACE "-Wl,-Bsymbolic")
-    endif()
+    target_compile_options(ffmpeg-avdevice INTERFACE -D__STDC_CONSTANT_MACROS)
+    target_link_libraries(ffmpeg-avdevice INTERFACE "${FFMPEG_LINK}")
   endif()
 
   add_library(ffmpeg-avfilter STATIC IMPORTED GLOBAL)
@@ -311,7 +338,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
   set (FFMPEG_EXPORT export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:$ENV{PATH} && export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig)
-  
+
   if ("armeabi-v7a" STREQUAL "${ANDROID_ABI}")
     set (FFMPEG_CFG --cross-prefix=arm-linux-androideabi- --cc=clang\ --target=armv7a-linux-android${ANDROID_PLATFORM_LEVEL} --arch=arm --disable-neon)
   elseif ("arm64-v8a" STREQUAL "${ANDROID_ABI}")
@@ -323,7 +350,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   else()
     message(WARNING "Unknown Android architecture")
   endif()
-  
+
   ExternalProject_Add(ffmpeg-src
     GIT_REPOSITORY    https://github.com/bear101/FFmpeg
     GIT_TAG           n3.4.7
@@ -353,10 +380,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avdevice PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+      INTERFACE_COMPILE_OPTIONS -D__STDC_CONSTANT_MACROS
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
   else()
     target_include_directories (ffmpeg-avdevice INTERFACE ${INSTALL_DIR}/include)
     set_target_properties(ffmpeg-avdevice PROPERTIES
+      INTERFACE_COMPILE_OPTIONS -D__STDC_CONSTANT_MACROS
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
   endif()
 
@@ -432,5 +461,5 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set_target_properties(ffmpeg-avutil PROPERTIES
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavutil.a)
   endif()
-  
+
 endif()
