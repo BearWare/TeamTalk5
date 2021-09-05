@@ -12,10 +12,9 @@ if (MSVC)
     GIT_REPOSITORY    https://github.com/bear101/opus
     GIT_TAG           6c18dfab
     UPDATE_COMMAND    ""
-    BUILD_IN_SOURCE   TRUE
-    CMAKE_ARGS        -DCMAKE_SYSTEM_VERSION=10.0 -DAVX_SUPPORTED=OFF
-    BUILD_COMMAND     cmake --build . --target opus --config Debug
-    COMMAND           cmake --build . --target opus --config Release
+    CMAKE_ARGS        -DAVX_SUPPORTED=OFF
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus --config Debug
+    COMMAND           ${CMAKE_COMMAND} --build . --target opus --config Release
     INSTALL_COMMAND   ""
     )
   ExternalProject_Get_Property(opus-win SOURCE_DIR)
@@ -38,7 +37,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=10.10 -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-    BUILD_COMMAND     cmake --build . --target opus
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
     )
   ExternalProject_Get_Property(opus-src INSTALL_DIR)
@@ -69,7 +68,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OPUS_CFG_FLAGS}
-    BUILD_COMMAND     cmake --build . --target opus
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
     )
   ExternalProject_Get_Property(opus-src INSTALL_DIR)
@@ -91,7 +90,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-    BUILD_COMMAND     cmake --build . --target opus
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
     )
   ExternalProject_Get_Property(opus-src INSTALL_DIR)
@@ -129,7 +128,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON ${OPUS_CFG_FLAGS}
-    BUILD_COMMAND     cmake --build . --target opus
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
     )
   ExternalProject_Get_Property(opus-src INSTALL_DIR)

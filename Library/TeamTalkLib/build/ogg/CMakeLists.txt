@@ -12,10 +12,8 @@ if (MSVC)
     GIT_REPOSITORY    https://github.com/bear101/ogg
     GIT_TAG           49d8bab
     UPDATE_COMMAND    ""
-    BUILD_IN_SOURCE   TRUE
-    CMAKE_ARGS        -DCMAKE_SYSTEM_VERSION=10.0
-    BUILD_COMMAND     cmake --build . --target ogg --config Debug
-    COMMAND           cmake --build . --target ogg --config Release
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg --config Debug
+    COMMAND           ${CMAKE_COMMAND} --build . --target ogg --config Release
     INSTALL_COMMAND   ""
     )
   ExternalProject_Get_Property(ogg-win SOURCE_DIR)
@@ -37,7 +35,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=10.10 -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-    BUILD_COMMAND     cmake --build . --target ogg
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
     )
   ExternalProject_Get_Property(ogg-src INSTALL_DIR)
@@ -63,7 +61,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OGG_CFG_FLAGS}
-    BUILD_COMMAND     cmake --build . --target ogg
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
     )
   ExternalProject_Get_Property(ogg-src INSTALL_DIR)
@@ -84,7 +82,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-    BUILD_COMMAND     cmake --build . --target ogg
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
     )
   ExternalProject_Get_Property(ogg-src INSTALL_DIR)
@@ -115,7 +113,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OGG_CFG_FLAGS}
-    BUILD_COMMAND     cmake --build . --target ogg
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
     )
   ExternalProject_Get_Property(ogg-src INSTALL_DIR)

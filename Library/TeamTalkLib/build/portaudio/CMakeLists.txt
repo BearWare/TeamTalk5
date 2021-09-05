@@ -13,9 +13,8 @@ if (MSVC)
     GIT_TAG           5af7fcb
     UPDATE_COMMAND    ""
     BUILD_IN_SOURCE   TRUE
-    CMAKE_ARGS        -DCMAKE_SYSTEM_VERSION=10.0
-    BUILD_COMMAND     cmake --build . --target portaudio_static --config Debug
-    COMMAND           cmake --build . --target portaudio_static --config Release
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target portaudio_static --config Debug
+    COMMAND           ${CMAKE_COMMAND} --build . --target portaudio_static --config Release
     INSTALL_COMMAND   ""
     )
   ExternalProject_Get_Property(portaudio-win SOURCE_DIR)
@@ -38,7 +37,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=10.10 -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-    BUILD_COMMAND     cmake --build . --target portaudio_static
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target portaudio_static
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
     )
   ExternalProject_Get_Property(portaudio-src INSTALL_DIR)
@@ -60,7 +59,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     UPDATE_COMMAND    ""
     INSTALL_DIR       install
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_USE_ALSA=ON -DPA_USE_JACK=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-    BUILD_COMMAND     cmake --build .
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build .
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
     )
   ExternalProject_Get_Property(portaudio-src INSTALL_DIR)
