@@ -14,8 +14,10 @@ if (MSVC)
   set (WEBRTC_SOURCE_ROOT ${WEBRTC_FETCH_PATH}/src)
   if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     set (WEBRTC_INSTALL_ROOT ${CMAKE_CURRENT_BINARY_DIR}/install/x64)
+    set (WEBRTC_ARCH x64)
   else()
     set (WEBRTC_INSTALL_ROOT ${CMAKE_CURRENT_BINARY_DIR}/install/x86)
+    set (WEBRTC_ARCH x86)
   endif()
 
   file(MAKE_DIRECTORY ${WEBRTC_FETCH_PATH})
@@ -31,7 +33,9 @@ if (MSVC)
     INSTALL_DIR       ""
     CONFIGURE_COMMAND ""
     BUILD_COMMAND     ""
-    INSTALL_COMMAND   ""
+    # Run fetch.bat in order to download python.bat
+    INSTALL_COMMAND   SET DEPOT_TOOLS_WIN_TOOLCHAIN=0
+    COMMAND           <SOURCE_DIR>\\fetch.bat --help
     )
   ExternalProject_Get_Property(depot-tools SOURCE_DIR)
   set (DEPOTTOOLS_DIR ${SOURCE_DIR})
@@ -78,7 +82,7 @@ if (MSVC)
     COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\debug
     COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\release
     BUILD_COMMAND     SET DEPOT_TOOLS_WIN_TOOLCHAIN=0
-    COMAND            CALL ninja -v -C <INSTALL_DIR>\\lib\\debug teamtalk
+    COMMAND           CALL ninja -v -C <INSTALL_DIR>\\lib\\debug teamtalk
     COMMAND           CALL ninja -v -C <INSTALL_DIR>\\lib\\release teamtalk
     INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT}
     COMMAND           DEL /S /Q ${WEBRTC_INSTALL_ROOT_NATIVE}\\include
