@@ -68,8 +68,8 @@ if (MSVC)
   add_library(libvpx STATIC IMPORTED GLOBAL)
   target_include_directories (libvpx INTERFACE ${LIBVPX_DIR})
   set_target_properties(libvpx PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${LIBVPX_DIR}/build-$(PlatformName)/Debug/vpxmtd.lib
-    IMPORTED_LOCATION ${LIBVPX_DIR}/build-$(PlatformName)/Release/vpxmt.lib)
+    IMPORTED_LOCATION_DEBUG ${LIBVPX_DIR}/build-$(PlatformName)/$(PlatformName)/Debug/vpxmtd.lib
+    IMPORTED_LOCATION ${LIBVPX_DIR}/build-$(PlatformName)/$(PlatformName)/Release/vpxmt.lib)
   add_dependencies(libvpx ${LIBVPX_DEPEND})
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
