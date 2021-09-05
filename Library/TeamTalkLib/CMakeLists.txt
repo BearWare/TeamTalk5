@@ -139,9 +139,9 @@ if (BUILD_TEAMTALK5DLL)
 
   add_library (TeamTalk5DLL SHARED ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
 
-  target_include_directories (TeamTalk5DLL PUBLIC ${TTCLIENTDLL_INCLUDE_DIR})
-  target_compile_options (TeamTalk5DLL PUBLIC ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
-  target_link_libraries (TeamTalk5DLL ${TTCLIENTDLL_LINK_FLAGS} ${LINK_LIBS})
+  target_include_directories (TeamTalk5DLL PRIVATE ${TTCLIENTDLL_INCLUDE_DIR} INTERFACE ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
+  target_compile_options (TeamTalk5DLL PRIVATE ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
+  target_link_libraries (TeamTalk5DLL PRIVATE ${TTCLIENTDLL_LINK_FLAGS} ${LINK_LIBS})
   set_target_properties (TeamTalk5DLL PROPERTIES OUTPUT_NAME TeamTalk5)
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
@@ -173,9 +173,9 @@ if (BUILD_TEAMTALK5LIB)
 
   add_library (TeamTalk5Lib STATIC ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
 
-  target_include_directories (TeamTalk5Lib PUBLIC ${TTCLIENTDLL_INCLUDE_DIR})
-  target_compile_options (TeamTalk5Lib PUBLIC ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
-  target_link_libraries (TeamTalk5Lib ${TTCLIENTDLL_LINK_FLAGS} ${LINK_LIBS})
+  target_include_directories (TeamTalk5Lib PRIVATE ${TTCLIENTDLL_INCLUDE_DIR} INTERFACE ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
+  target_compile_options (TeamTalk5Lib PRIVATE ${TTCLIENTDLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
+  target_link_libraries (TeamTalk5Lib PRIVATE ${TTCLIENTDLL_LINK_FLAGS} ${LINK_LIBS})
   set_target_properties (TeamTalk5Lib PROPERTIES OUTPUT_NAME TeamTalk5)
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
@@ -205,15 +205,13 @@ if (BUILD_TEAMTALK5PRODLL)
   add_library (TeamTalk5ProDLL SHARED
     ${TTCLIENTPRODLL_SOURCES} ${TTCLIENTPRODLL_HEADERS})
 
-  target_include_directories (TeamTalk5ProDLL PUBLIC
-    ${TTCLIENTPRODLL_INCLUDE_DIR})
+  target_include_directories (TeamTalk5ProDLL PRIVATE
+    ${TTCLIENTPRODLL_INCLUDE_DIR} INTERFACE ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
 
-  target_compile_options (TeamTalk5ProDLL PUBLIC
+  target_compile_options (TeamTalk5ProDLL PRIVATE
     ${TTCLIENTPRODLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
 
-  target_link_libraries (TeamTalk5ProDLL
-    ${TTCLIENTPRODLL_LINK_FLAGS}
-    ${LINK_LIBS})
+  target_link_libraries (TeamTalk5ProDLL PRIVATE ${TTCLIENTPRODLL_LINK_FLAGS} ${LINK_LIBS})
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set_output_dir(TeamTalk5ProDLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
@@ -247,15 +245,14 @@ if (BUILD_TEAMTALK5PROLIB)
   add_library (TeamTalk5ProLib STATIC
     ${TTCLIENTPRODLL_SOURCES} ${TTCLIENTPRODLL_HEADERS})
 
-  target_include_directories (TeamTalk5ProLib PUBLIC
-    ${TTCLIENTPRODLL_INCLUDE_DIR})
+  target_include_directories (TeamTalk5ProLib PRIVATE
+    ${TTCLIENTPRODLL_INCLUDE_DIR} INTERFACE ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
 
-  target_compile_options (TeamTalk5ProLib PUBLIC
+  target_compile_options (TeamTalk5ProLib PRIVATE
     ${TTCLIENTPRODLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
 
-  target_link_libraries (TeamTalk5ProLib
-    ${TTCLIENTPRODLL_LINK_FLAGS}
-    ${LINK_LIBS})
+  target_link_libraries (TeamTalk5ProLib PRIVATE
+    ${TTCLIENTPRODLL_LINK_FLAGS} ${LINK_LIBS})
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set_output_dir(TeamTalk5ProLib ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
@@ -280,15 +277,11 @@ if (BUILD_TT5SRV)
   add_executable (tt5srv
     ${TTSRV_SOURCES} ${TTSRV_HEADERS})
 
-  target_include_directories (tt5srv PUBLIC
-    ${TTSRV_INCLUDE_DIR})
+  target_include_directories (tt5srv PRIVATE ${TTSRV_INCLUDE_DIR})
 
-  target_compile_options (tt5srv PUBLIC
-    ${TTSRV_COMPILE_FLAGS} ${COMPILE_FLAGS})
+  target_compile_options (tt5srv PRIVATE ${TTSRV_COMPILE_FLAGS} ${COMPILE_FLAGS})
 
-  target_link_libraries (tt5srv
-    ${TTSRV_LINK_FLAGS}
-    ${LINK_LIBS})
+  target_link_libraries (tt5srv PRIVATE ${TTSRV_LINK_FLAGS} ${LINK_LIBS})
 
   set_output_dir(tt5srv ${TEAMTALK_ROOT}/Server)
 
@@ -305,18 +298,13 @@ option (BUILD_TT5PROSRV "Build TeamTalk server" ON)
 
 if (BUILD_TT5PROSRV)
 
-  add_executable (tt5prosrv
-    ${TTSRV_SOURCES} ${TTSRV_HEADERS})
+  add_executable (tt5prosrv ${TTSRV_SOURCES} ${TTSRV_HEADERS})
 
-  target_include_directories (tt5prosrv PUBLIC
-    ${TTSRVPRO_INCLUDE_DIR})
+  target_include_directories (tt5prosrv PRIVATE ${TTSRVPRO_INCLUDE_DIR})
 
-  target_compile_options (tt5prosrv PUBLIC
-    ${TTSRVPRO_COMPILE_FLAGS} ${COMPILE_FLAGS})
+  target_compile_options (tt5prosrv PRIVATE ${TTSRVPRO_COMPILE_FLAGS} ${COMPILE_FLAGS})
 
-  target_link_libraries (tt5prosrv
-    ${TTSRVPRO_LINK_FLAGS}
-    ${LINK_LIBS})
+  target_link_libraries (tt5prosrv PRIVATE ${TTSRVPRO_LINK_FLAGS} ${LINK_LIBS})
 
   set_output_dir(tt5prosrv ${TEAMTALK_ROOT}/Server)
 
@@ -334,19 +322,14 @@ if (MSVC)
   option (BUILD_TT5SVC "Build TeamTalk service" ON)
 
   if (BUILD_TT5SVC)
-    add_executable (tt5svc
-      ${TTSRV_SOURCES} ${TTSRV_HEADERS})
+    add_executable (tt5svc ${TTSRV_SOURCES} ${TTSRV_HEADERS})
 
-    target_include_directories (tt5svc PUBLIC
-      ${TTSRV_INCLUDE_DIR})
+    target_include_directories (tt5svc PRIVATE ${TTSRV_INCLUDE_DIR})
 
-    target_compile_options (tt5svc PUBLIC
-      ${TTSRV_COMPILE_FLAGS} ${COMPILE_FLAGS}
+    target_compile_options (tt5svc PRIVATE ${TTSRV_COMPILE_FLAGS} ${COMPILE_FLAGS}
       -DBUILD_NT_SERVICE)
 
-    target_link_libraries (tt5svc
-      ${TTSRV_LINK_FLAGS}
-      ${LINK_LIBS})
+    target_link_libraries (tt5svc PRIVATE ${TTSRV_LINK_FLAGS} ${LINK_LIBS})
 
     add_custom_command (
       TARGET tt5svc
@@ -368,19 +351,14 @@ if (MSVC)
   option (BUILD_TT5PROSVC "Build TeamTalk Professional service" ON)
 
   if (BUILD_TT5PROSVC)
-    add_executable (tt5prosvc
-      ${TTSRV_SOURCES} ${TTSRV_HEADERS})
+    add_executable (tt5prosvc ${TTSRV_SOURCES} ${TTSRV_HEADERS})
 
-    target_include_directories (tt5prosvc PUBLIC
-      ${TTSRVPRO_INCLUDE_DIR})
+    target_include_directories (tt5prosvc PRIVATE ${TTSRVPRO_INCLUDE_DIR})
 
-    target_compile_options (tt5prosvc PUBLIC
-      ${TTSRVPRO_COMPILE_FLAGS} ${COMPILE_FLAGS}
+    target_compile_options (tt5prosvc PRIVATE ${TTSRVPRO_COMPILE_FLAGS} ${COMPILE_FLAGS}
       -DBUILD_NT_SERVICE)
 
-    target_link_libraries (tt5prosvc
-      ${TTSRVPRO_LINK_FLAGS}
-      ${LINK_LIBS})
+    target_link_libraries (tt5prosvc PRIVATE ${TTSRVPRO_LINK_FLAGS} ${LINK_LIBS})
 
     add_custom_command (TARGET tt5prosvc
       POST_BUILD
@@ -418,10 +396,10 @@ if (CATCH_UNITTEST)
     # Assuming 'catch' package is installed
   endif()
 
-  target_include_directories (catchtt PUBLIC
+  target_include_directories (catchtt PRIVATE
     ${TTCLIENTPRODLL_INCLUDE_DIR} ${TINYXML_INCLUDE_DIR})
 
-  target_compile_options (catchtt PUBLIC
+  target_compile_options (catchtt PRIVATE
     ${TTCLIENTPRODLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
 
   target_link_libraries (catchtt ${TTCLIENTPRODLL_LINK_FLAGS}
