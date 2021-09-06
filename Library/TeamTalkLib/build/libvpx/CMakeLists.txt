@@ -79,7 +79,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_TAG           v1.9.0
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
             --prefix=<INSTALL_DIR> --target=x86_64-darwin13-gcc
             --disable-examples --disable-docs --disable-unit-tests
@@ -118,7 +118,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     GIT_TAG           v1.9.0
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=${LIBVPX_CPPFLAGS}
             --prefix=<INSTALL_DIR> --target=${LIBVPX_TARGET}
             --disable-examples --disable-docs --disable-unit-tests
@@ -143,7 +143,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_TAG           v1.9.0
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
     CONFIGURE_COMMAND <SOURCE_DIR>/configure
             --prefix=<INSTALL_DIR> --target=x86_64-linux-gcc
             --disable-examples --disable-docs --disable-unit-tests
@@ -204,7 +204,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     GIT_TAG           v1.9.0
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
     CONFIGURE_COMMAND ${LIBVPX_EXPORT} && <SOURCE_DIR>/configure
             --prefix=<INSTALL_DIR> ${LIBVPX_CFG}
             --disable-examples --disable-docs --disable-unit-tests --enable-pic

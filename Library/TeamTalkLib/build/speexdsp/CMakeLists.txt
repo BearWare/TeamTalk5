@@ -53,7 +53,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_REPOSITORY    https://github.com/bear101/speexdsp
     GIT_TAG           SpeexDSP-1.2.0
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp
     CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
     COMMAND           <SOURCE_DIR>/configure CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} --prefix=<INSTALL_DIR>
     BUILD_COMMAND     make -j4
@@ -90,7 +90,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     GIT_REPOSITORY    https://github.com/bear101/speexdsp
     GIT_TAG           SpeexDSP-1.2.0
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp
     CONFIGURE_COMMAND export CFLAGS=${SPEEXDSP_CFLAGS} LDFLAGS=${SPEEXDSP_CFLAGS} && <SOURCE_DIR>/autogen.sh ${SPEEXDSP_GEN_FLAGS}
     COMMAND           export CFLAGS=${SPEEXDSP_CFLAGS} LDFLAGS=${SPEEXDSP_CFLAGS} && <SOURCE_DIR>/configure ${SPEEXDSP_CFG_FLAGS} --prefix=<INSTALL_DIR>
     BUILD_COMMAND     make -j4
@@ -113,7 +113,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_REPOSITORY    https://github.com/bear101/speexdsp
     GIT_TAG           SpeexDSP-1.2.0
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp
     CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
     COMMAND           <SOURCE_DIR>/configure --with-pic --prefix=<INSTALL_DIR>
     BUILD_COMMAND     make -j4
@@ -168,7 +168,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     GIT_REPOSITORY    https://github.com/bear101/speexdsp
     GIT_TAG           SpeexDSP-1.2.0
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp
     CONFIGURE_COMMAND ${SPEEXDSP_EXPORT} && <SOURCE_DIR>/autogen.sh ${SPEEXDSP_GEN_FLAGS}
     COMMAND           ${SPEEXDSP_EXPORT} && <SOURCE_DIR>/configure ${SPEEXDSP_CFG_FLAGS}
                       --with-pic --prefix=<INSTALL_DIR> --disable-examples

@@ -53,7 +53,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_REPOSITORY    https://github.com/bear101/speex
     GIT_TAG           Speex-1.2.0
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speex
     CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
     COMMAND           <SOURCE_DIR>/configure CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} --prefix=<INSTALL_DIR>
     BUILD_COMMAND     make -j4
@@ -89,7 +89,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     GIT_REPOSITORY    https://github.com/bear101/speex
     GIT_TAG           Speex-1.2.0
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speex
     CONFIGURE_COMMAND export CFLAGS=${SPEEX_CFLAGS} CPPFLAGS=${SPEEX_CFLAGS} LDFLAGS=${SPEEX_CFLAGS} && <SOURCE_DIR>/autogen.sh ${SPEEX_GEN_FLAGS}
     COMMAND           export CFLAGS=${SPEEX_CFLAGS} CPPFLAGS=${SPEEX_CFLAGS} LDFLAGS=${SPEEX_CFLAGS} && <SOURCE_DIR>/configure ${SPEEX_CFG_FLAGS} --prefix=<INSTALL_DIR>
     BUILD_COMMAND     make -j4
@@ -112,7 +112,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_REPOSITORY    https://github.com/bear101/speex
     GIT_TAG           Speex-1.2.0
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speex
     CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
     COMMAND           <SOURCE_DIR>/configure --with-pic --prefix=<INSTALL_DIR>
     BUILD_COMMAND     make -j4
@@ -159,7 +159,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     GIT_REPOSITORY    https://github.com/bear101/speex
     GIT_TAG           Speex-1.2.0
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speex
     CONFIGURE_COMMAND ${SPEEX_EXPORT} && <SOURCE_DIR>/autogen.sh ${SPEEX_GEN_FLAGS}
     COMMAND           ${SPEEX_EXPORT} && <SOURCE_DIR>/configure ${SPEEX_CFG_FLAGS}
                       --prefix=<INSTALL_DIR> --disable-binaries --with-pic

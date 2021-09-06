@@ -117,7 +117,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_TAG           4b99a3e24c9
     GIT_SUBMODULES_RECURSE TRUE
     GIT_SHALLOW       TRUE
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ace
     UPDATE_COMMAND    ""
     # Create 'platform_macros.GNU'
     CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -209,7 +209,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     GIT_TAG           f1f6fade7da
     GIT_SUBMODULES_RECURSE TRUE
     GIT_SHALLOW       TRUE
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ace
     UPDATE_COMMAND    ""
     # Create 'platform_macros.GNU'
     CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -289,7 +289,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   ExternalProject_Add(ACE-src
     GIT_REPOSITORY    https://github.com/bear101/ACE
     GIT_TAG           f1f6fade7da
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ace
     UPDATE_COMMAND    ""
     # Create 'platform_macros.GNU'
     CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -384,7 +384,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   ExternalProject_Add(ACE-src
     GIT_REPOSITORY    https://github.com/bear101/ACE
     GIT_TAG           0ee1bc40c77
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ace
     UPDATE_COMMAND    ""
     # Create 'platform_macros.GNU'
     CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU

@@ -14,7 +14,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_TAG           n3.4.7
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ffmpeg
     CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig &&
         <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --disable-iconv
 	--disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes
@@ -155,7 +155,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     GIT_TAG           n3.4.7
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ffmpeg
     CONFIGURE_COMMAND  <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${FFMPEG_CFG_FLAGS}
     BUILD_COMMAND     make -j4
     INSTALL_COMMAND   make install
@@ -223,7 +223,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_TAG           n3.4.7
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ffmpeg
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
                       --enable-pic --enable-openssl --disable-jack
                       --disable-libxcb
@@ -356,7 +356,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     GIT_TAG           n3.4.7
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ffmpeg
     CONFIGURE_COMMAND ${FFMPEG_EXPORT} && <SOURCE_DIR>/configure ${FFMPEG_CFG} --prefix=<INSTALL_DIR>
                       --enable-cross-compile --sysroot=${CMAKE_SYSROOT} --target-os=android
                       --enable-pic --disable-doc --disable-programs --disable-indev=v4l2

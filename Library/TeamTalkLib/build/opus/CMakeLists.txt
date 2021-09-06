@@ -35,7 +35,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_TAG           v1.3.1
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/opus
     CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=10.10 -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
@@ -66,7 +66,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     GIT_TAG           v1.3.1
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/opus
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OPUS_CFG_FLAGS}
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
@@ -88,7 +88,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_TAG           v1.3.1
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/opus
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
@@ -126,7 +126,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     GIT_TAG           v1.3.1
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/opus
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON ${OPUS_CFG_FLAGS}
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a

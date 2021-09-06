@@ -53,7 +53,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_TAG           bdr/mac
     UPDATE_COMMAND    ""
     CONFIGURE_COMMAND ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/tinyxml
     BUILD_IN_SOURCE   TRUE
     BUILD_COMMAND     make CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
     INSTALL_COMMAND   mkdir -p <INSTALL_DIR>/include && mkdir -p <INSTALL_DIR>/lib
@@ -80,7 +80,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_TAG           bdr/deb64
     UPDATE_COMMAND    ""
     CONFIGURE_COMMAND ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/tinyxml
     BUILD_IN_SOURCE   TRUE
     BUILD_COMMAND     make -j4
     INSTALL_COMMAND   mkdir -p <INSTALL_DIR>/include && mkdir -p <INSTALL_DIR>/lib

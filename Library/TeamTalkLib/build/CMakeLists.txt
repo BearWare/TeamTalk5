@@ -4,6 +4,8 @@ project(Toolchain)
 
 include(ExternalProject)
 
+set (TOOLCHAIN_INSTALL_PREFIX install CACHE STRING "Install path for TeamTalk toolchain. Default: CMAKE_CURRENT_BINARY_DIR/install")
+
 option (TOOLCHAIN_OPENSSL "Build and link OpenSSL from TeamTalk toolchain" ON)
 if (TOOLCHAIN_OPENSSL)
   add_subdirectory(openssl)

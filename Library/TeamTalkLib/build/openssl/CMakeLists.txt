@@ -66,7 +66,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_TAG           OpenSSL_1_1_1k
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/openssl
     CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-x86_64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
     BUILD_COMMAND     make
     INSTALL_COMMAND   make install
@@ -106,7 +106,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     GIT_TAG           OpenSSL_1_1_1k
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/openssl
     CONFIGURE_COMMAND ${OPENSSL_CFG_PREFIX} && export CFLAGS=-arch\ ${CMAKE_OSX_ARCHITECTURES} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> ${OPENSSL_CFG_TARGET} no-shared no-async no-tests ${OPENSSL_CFG_POSTFIX}
     BUILD_COMMAND     ${OPENSSL_CFG_PREFIX} && make
     INSTALL_COMMAND   ${OPENSSL_CFG_PREFIX} && make install
@@ -136,7 +136,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_TAG           OpenSSL_1_1_1k
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/openssl
     CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC linux-x86_64
     BUILD_COMMAND     make
     INSTALL_COMMAND   make install
@@ -200,7 +200,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     GIT_TAG           OpenSSL_1_1_1k
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
-    INSTALL_DIR       install
+    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/openssl
     CONFIGURE_COMMAND ${OPENSSL_EXPORT} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC no-shared
                       ${OPENSSL_CFG_TARGET} -D__ANDROID_API__=${ANDROID_PLATFORM_LEVEL}
     BUILD_COMMAND     ${OPENSSL_EXPORT} && make
