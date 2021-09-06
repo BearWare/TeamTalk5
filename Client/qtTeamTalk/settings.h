@@ -30,7 +30,7 @@
 #if defined(Q_OS_WIN32)
 #define SOUNDSPATH                                     QApplication::applicationDirPath()+"/Sounds"
 #elif defined(Q_OS_LINUX)
-#define SOUNDSPATH                                     "sounds"
+#define SOUNDSPATH                                     QApplication::applicationDirPath()+"/sounds"
 #elif defined(Q_OS_DARWIN)
 #define SOUNDSPATH                                     "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
 #endif
