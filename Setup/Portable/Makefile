@@ -1,4 +1,4 @@
-VERSION="v5.8.1.5047"
+VERSION="v5.8.1"
 
 OUTPUT_DEST=./
 
