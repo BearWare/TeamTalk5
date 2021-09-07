@@ -6,8 +6,15 @@ namespace BearWare
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v58brelease
+ * - @ref v58bfeatures
+ *   - @ref v58buseraccount
+ *   - @ref v58bremotefile
+ * - @ref v58bapi
+ *
  * @ref v58arelease
  * - @ref v58afeatures
+ *   - @ref v58amixed
  * - @ref v58aapi
  *
  * @ref v57arelease
@@ -216,6 +223,25 @@ namespace BearWare
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v58brelease TeamTalk 5 SDK v. 5.8b release, September 7th 2021
+ *
+ * @subsection v58bfeatures New features in v5.8b
+ *
+ * @subsubsection v58buseraccount Timestamp on UserAccount-struct
+ *
+ * #BearWare.UserAccount now includes a property that shows when it was last modified.
+ *
+ * @subsubsection v58bremotefile Timestamp on RemoteFile-struct
+ *
+ * #BearWare.RemoteFile now includes a property that shows when it was uploaded.
+ *
+ * @subsection v58bapi API change in v5.8b
+ *
+ * - New field @c szLastModified on #BearWare.UserAccount-struct.
+ * - New field @c szUploadTime on #BearWare.RemoteFile-struct
  *
  * <hr>
  *
