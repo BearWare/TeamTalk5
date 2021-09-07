@@ -88,10 +88,6 @@ sc.exe delete "TeamTalk Server 2"
 On Linux the TeamTalk server binary is called **tt5srv** and is 
 located in the **server**-subfolder after untar'ing the archive.
 
-The TeamTalk server for Linux can run both in daemon mode and as a
-regular console application. A daemon script is also included which
-can be put in /etc/init.d.
-
 For instructions on how to configure and run the TeamTalk server
 (tt5srv) simply type:\verbatim
 ./tt5srv
@@ -105,15 +101,41 @@ When running the setup-wizard then make sure the executable is run at
 a writable location so it's possible for the setup-wizard to save its
 changes to disk.
 
+The TeamTalk server for Linux can run both in daemon mode and as a
+regular console application. A daemon script for *System V Init* is
+located in the **server/init.d** folder which can be put in
+/etc/init.d. A **systemd** daemon script is also included and can be
+found in the **server/systemd** folder.
+
+To run the TeamTalk server as daemon type:\verbatim
+./tt5srv -d
+\endverbatim
+
+To run the TeamTalk server as a regular program type:\verbatim
+./tt5srv -nd
+\endverbatim
+
+To make the TeamTalk reload its configuration from **tt5srv.xml** file
+first locate the PID (process ID) of the **tt5srv**. This can be done
+by typing:\verbatim
+pidof tt5srv
+\endverbatim
+Afterwards run the following command:\verbatim
+kill -SIGHUP PID
+\endverbatim
+where *PID* is the process ID of tt5srv.
+
+Note that when reloading the TeamTalk server configuration the
+following sections are not reloaded:
+- \<general\>
+- \<file-storage\>
+- \<permanent-channels\>
 
 # TeamTalk Server for Mac OS X {#tt5srvmac}
 
 On Mac OS X the server binary is also called **tt5srv** and is located
 in **Applications/TeamTalk5.app/Contents/Server** subfolder after
 installing the TeamTalk .dmg file.
-
-The TeamTalk server for Mac OS X can run both in daemon mode and as a regular
-console application.
 
 For instructions on how to configure and run the TeamTalk server
 (tt5srv) simply type:\verbatim
@@ -127,3 +149,32 @@ To start the TeamTalk server setup-wizard type:\verbatim
 When running the setup-wizard then make sure the executable is run at
 a writable location so it's possible for the setup-wizard to save its
 changes to disk.
+
+The TeamTalk server for Mac OS X can run both in daemon mode and as a regular
+console application.
+
+To run the TeamTalk server as daemon type:\verbatim
+./tt5srv -d
+\endverbatim
+
+To run the TeamTalk server as a regular program type:\verbatim
+./tt5srv -nd
+\endverbatim
+
+To make the TeamTalk reload its configuration from **tt5srv.xml** file
+first locate the PID (process ID) of the **tt5srv**. This can be done
+by typing:\verbatim
+ps aux | grep tt5srv
+\endverbatim
+where the second column is the PID.
+
+Afterwards run the following command:\verbatim
+kill -SIGHUP PID
+\endverbatim
+where *PID* is the process ID of tt5srv.
+
+Note that when reloading the TeamTalk server configuration the
+following sections are not reloaded:
+- \<general\>
+- \<file-storage\>
+- \<permanent-channels\>
