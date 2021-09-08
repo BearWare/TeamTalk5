@@ -7,6 +7,9 @@ include(ExternalProject)
 ##################################################
 # FFmpeg
 ##################################################
+
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG "Build FFmpeg from source" ON)
+
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   ExternalProject_Add(ffmpeg-src
@@ -14,6 +17,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_TAG           n3.4.7
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ffmpeg
     CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig &&
         <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --disable-iconv
@@ -61,7 +65,9 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     ${AUDIOTOOLBOX_LIBRARY})
 
   add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avdevice ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avdevice ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-avdevice INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(ffmpeg-avdevice PROPERTIES
     INTERFACE_COMPILE_OPTIONS -D__STDC_CONSTANT_MACROS
@@ -69,38 +75,50 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   target_link_libraries(ffmpeg-avdevice INTERFACE ${FFMPEG_LINK})
 
   add_library(ffmpeg-avfilter STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avfilter ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avfilter ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-avfilter INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avfilter PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libavfilter.a)
 
   add_library(ffmpeg-avformat STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avformat ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avformat ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-avformat INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avformat PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libavformat.a)
   target_link_libraries(ffmpeg-avformat INTERFACE openssl-crypto openssl-ssl)
 
   add_library(ffmpeg-avcodec STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avcodec ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avcodec ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-avcodec INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avcodec PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libavcodec.a)
 
   add_library(ffmpeg-swresample STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-swresample ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-swresample ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-swresample INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-swresample PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libswresample.a)
 
   add_library(ffmpeg-swscale STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-swscale ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-swscale ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-swscale INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-swscale PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libswscale.a)
 
   add_library(ffmpeg-avutil STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avutil ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avutil ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-avutil INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avutil PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libavutil.a)
@@ -111,6 +129,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     GIT_REPOSITORY    https://github.com/FFmpeg/gas-preprocessor
     GIT_TAG           cbe8847
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/gas-preprocessor
     INSTALL_DIR       ""
     CONFIGURE_COMMAND ""
     BUILD_COMMAND     ""
@@ -155,6 +174,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     GIT_TAG           n3.4.7
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ffmpeg
     CONFIGURE_COMMAND  <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${FFMPEG_CFG_FLAGS}
     BUILD_COMMAND     make -j4
@@ -173,45 +193,59 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avdevice ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avdevice ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-avdevice INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(ffmpeg-avdevice PROPERTIES
     INTERFACE_COMPILE_OPTIONS -D__STDC_CONSTANT_MACROS
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
 
   add_library(ffmpeg-avfilter STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avfilter ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avfilter ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-avfilter INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avfilter PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libavfilter.a)
 
   add_library(ffmpeg-avformat STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avformat ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avformat ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-avformat INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avformat PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libavformat.a)
   target_link_libraries(ffmpeg-avformat INTERFACE openssl-crypto openssl-ssl)
 
   add_library(ffmpeg-avcodec STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avcodec ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avcodec ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-avcodec INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avcodec PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libavcodec.a)
 
   add_library(ffmpeg-swresample STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-swresample ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-swresample ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-swresample INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-swresample PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libswresample.a)
 
   add_library(ffmpeg-swscale STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-swscale ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-swscale ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-swscale INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-swscale PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libswscale.a)
 
   add_library(ffmpeg-avutil STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avutil ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avutil ffmpeg-src)
+  endif()
   target_include_directories (ffmpeg-avutil INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avutil PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libavutil.a)
@@ -223,6 +257,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_TAG           n3.4.7
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ffmpeg
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
                       --enable-pic --enable-openssl --disable-jack
@@ -247,7 +282,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set (FFMPEG_LINK -Wl,-Bsymbolic ${ASOUND_LIBRARY})
 
   add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avdevice ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avdevice ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avdevice PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -263,7 +300,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 
   add_library(ffmpeg-avfilter STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avfilter ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avfilter ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avfilter PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -275,7 +314,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 
   add_library(ffmpeg-avformat STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avformat ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avformat ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avformat PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -288,7 +329,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   target_link_libraries(ffmpeg-avformat INTERFACE ssl crypto)
 
   add_library(ffmpeg-avcodec STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avcodec ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avcodec ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avcodec PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -300,7 +343,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 
   add_library(ffmpeg-swresample STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-swresample ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-swresample ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-swresample PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -312,7 +357,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 
   add_library(ffmpeg-swscale STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-swscale ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-swscale ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-swscale PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -324,7 +371,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 
   add_library(ffmpeg-avutil STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avutil ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avutil ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avutil PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -356,6 +405,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     GIT_TAG           n3.4.7
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ffmpeg
     CONFIGURE_COMMAND ${FFMPEG_EXPORT} && <SOURCE_DIR>/configure ${FFMPEG_CFG} --prefix=<INSTALL_DIR>
                       --enable-cross-compile --sysroot=${CMAKE_SYSROOT} --target-os=android
@@ -376,7 +426,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avdevice ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avdevice ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avdevice PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -390,7 +442,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   endif()
 
   add_library(ffmpeg-avfilter STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avfilter ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avfilter ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avfilter PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -402,7 +456,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   endif()
 
   add_library(ffmpeg-avformat STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avformat ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avformat ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avformat PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -415,7 +471,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   target_link_libraries(ffmpeg-avformat INTERFACE openssl-crypto openssl-ssl)
 
   add_library(ffmpeg-avcodec STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avcodec ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avcodec ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avcodec PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -427,7 +485,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   endif()
 
   add_library(ffmpeg-swresample STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-swresample ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-swresample ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-swresample PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -439,7 +499,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   endif()
 
   add_library(ffmpeg-swscale STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-swscale ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-swscale ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-swscale PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -451,7 +513,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   endif()
 
   add_library(ffmpeg-avutil STATIC IMPORTED GLOBAL)
-  add_dependencies(ffmpeg-avutil ffmpeg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG)
+    add_dependencies(ffmpeg-avutil ffmpeg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ffmpeg-avutil PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include

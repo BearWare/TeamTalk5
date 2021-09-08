@@ -7,26 +7,32 @@ include(ExternalProject)
 ##################################################
 # OPUS
 ##################################################
+
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS "Build OPUS from source" ON)
+
 if (MSVC)
-  ExternalProject_Add(opus-win
+  ExternalProject_Add(opus-src
     GIT_REPOSITORY    https://github.com/bear101/opus
     GIT_TAG           6c18dfab
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
     CMAKE_ARGS        -DAVX_SUPPORTED=OFF
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus --config Debug
     COMMAND           ${CMAKE_COMMAND} --build . --target opus --config Release
     INSTALL_COMMAND   ""
     )
-  ExternalProject_Get_Property(opus-win SOURCE_DIR)
+  ExternalProject_Get_Property(opus-src SOURCE_DIR)
   set (OPUS_DIR ${SOURCE_DIR})
   file(MAKE_DIRECTORY ${OPUS_DIR}/include)
 
   add_library(opus STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+    add_dependencies(opus opus-src)
+  endif()
   target_include_directories (opus INTERFACE ${OPUS_DIR}/include)
   set_target_properties(opus PROPERTIES
     IMPORTED_LOCATION_DEBUG ${OPUS_DIR}/lib/$(PlatformName)/opusd.lib
     IMPORTED_LOCATION ${OPUS_DIR}/lib/$(PlatformName)/opus.lib)
-  add_dependencies(opus opus-win)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
@@ -35,6 +41,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_TAG           v1.3.1
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/opus
     CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=10.10 -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
@@ -45,7 +52,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(opus STATIC IMPORTED GLOBAL)
-  add_dependencies(opus opus-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+    add_dependencies(opus opus-src)
+  endif()
   target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(opus PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
@@ -66,6 +75,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     GIT_TAG           v1.3.1
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/opus
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OPUS_CFG_FLAGS}
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
@@ -76,7 +86,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(opus STATIC IMPORTED GLOBAL)
-  add_dependencies(opus opus-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+    add_dependencies(opus opus-src)
+  endif()
   target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(opus PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
@@ -88,6 +100,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_TAG           v1.3.1
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/opus
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
@@ -98,7 +111,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(opus STATIC IMPORTED GLOBAL)
-  add_dependencies(opus opus-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+    add_dependencies(opus opus-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(opus PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -126,6 +141,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     GIT_TAG           v1.3.1
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/opus
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON ${OPUS_CFG_FLAGS}
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
@@ -136,7 +152,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(opus STATIC IMPORTED GLOBAL)
-  add_dependencies(opus opus-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+    add_dependencies(opus opus-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(opus PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include

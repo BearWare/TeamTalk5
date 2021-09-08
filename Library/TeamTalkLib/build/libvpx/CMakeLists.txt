@@ -7,6 +7,9 @@ include(ExternalProject)
 ##################################################
 # LibVPX
 ##################################################
+
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX "Build libvpx from source" ON)
+
 if (MSVC)
   find_program(CYGWIN_BASH_EXE_PATH bash.exe PATHS C:/cygwin64/bin)
   if (CYGWIN_BASH_EXE_PATH-NOTFOUND)
@@ -25,10 +28,11 @@ if (MSVC)
 
     set (CMAKE_MSVCIDE_RUN_PATH C:/tt5dist/yasm/x64)
 
-    ExternalProject_Add(libvpx-win64
+    ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
       GIT_TAG           v1.9.0
       UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
       CONFIGURE_COMMAND ""
       BUILD_COMMAND     if exist build-x64 rmdir /Q /S build-x64
       COMMAND           mkdir build-x64
@@ -36,9 +40,9 @@ if (MSVC)
       INSTALL_COMMAND   ""
       BUILD_IN_SOURCE   TRUE
       )
-    ExternalProject_Get_Property(libvpx-win64 SOURCE_DIR)
+    ExternalProject_Get_Property(libvpx-src SOURCE_DIR)
     set (LIBVPX_DIR ${SOURCE_DIR})
-    set (LIBVPX_DEPEND libvpx-win64)
+    set (LIBVPX_DEPEND libvpx-src)
   else()
     find_program(YASM_EXE_WIN32_PATH yasm.exe PATHS C:/tt5dist/yasm/win32)
     if (YASM_EXE_WIN32_PATH-NOTFOUND)
@@ -49,10 +53,11 @@ if (MSVC)
 
     set (CMAKE_MSVCIDE_RUN_PATH C:/tt5dist/yasm/win32)
 
-    ExternalProject_Add(libvpx-win32
+    ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
       GIT_TAG           v1.9.0
       UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
       CONFIGURE_COMMAND ""
       BUILD_COMMAND     if exist build-win32 rmdir /Q /S build-win32
       COMMAND           mkdir build-win32
@@ -60,9 +65,9 @@ if (MSVC)
       INSTALL_COMMAND   ""
       BUILD_IN_SOURCE   TRUE
       )
-    ExternalProject_Get_Property(libvpx-win32 SOURCE_DIR)
+    ExternalProject_Get_Property(libvpx-src SOURCE_DIR)
     set (LIBVPX_DIR ${SOURCE_DIR})
-    set (LIBVPX_DEPEND libvpx-win32)
+    set (LIBVPX_DEPEND libvpx-src)
   endif()
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
@@ -70,7 +75,9 @@ if (MSVC)
   set_target_properties(libvpx PROPERTIES
     IMPORTED_LOCATION_DEBUG ${LIBVPX_DIR}/build-$(PlatformName)/$(PlatformName)/Debug/vpxmtd.lib
     IMPORTED_LOCATION ${LIBVPX_DIR}/build-$(PlatformName)/$(PlatformName)/Release/vpxmt.lib)
-  add_dependencies(libvpx ${LIBVPX_DEPEND})
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+    add_dependencies(libvpx ${LIBVPX_DEPEND})
+  endif()
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
@@ -79,6 +86,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_TAG           v1.9.0
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
             --prefix=<INSTALL_DIR> --target=x86_64-darwin13-gcc
@@ -92,7 +100,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
-  add_dependencies(libvpx libvpx-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+    add_dependencies(libvpx libvpx-src)
+  endif()
   target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(libvpx PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
@@ -118,6 +128,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     GIT_TAG           v1.9.0
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=${LIBVPX_CPPFLAGS}
             --prefix=<INSTALL_DIR> --target=${LIBVPX_TARGET}
@@ -131,7 +142,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
-  add_dependencies(libvpx libvpx-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+    add_dependencies(libvpx libvpx-src)
+  endif()
   target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(libvpx PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
@@ -143,6 +156,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_TAG           v1.9.0
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
     CONFIGURE_COMMAND <SOURCE_DIR>/configure
             --prefix=<INSTALL_DIR> --target=x86_64-linux-gcc
@@ -156,7 +170,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
-  add_dependencies(libvpx libvpx-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+    add_dependencies(libvpx libvpx-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(libvpx PROPERTIES
       INTERFACE_LINK_OPTIONS "-Wl,-Bsymbolic"
@@ -204,6 +220,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     GIT_TAG           v1.9.0
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
     CONFIGURE_COMMAND ${LIBVPX_EXPORT} && <SOURCE_DIR>/configure
             --prefix=<INSTALL_DIR> ${LIBVPX_CFG}
@@ -217,7 +234,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
-  add_dependencies(libvpx libvpx-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+    add_dependencies(libvpx libvpx-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(libvpx PROPERTIES
       INTERFACE_LINK_OPTIONS "-Wl,-Bsymbolic"

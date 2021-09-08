@@ -7,6 +7,9 @@ include(ExternalProject)
 ##################################################
 # TinyXML
 ##################################################
+
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML "Build TinyXML from source" ON)
+
 if (MSVC)
 
   if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
@@ -14,6 +17,7 @@ if (MSVC)
       GIT_REPOSITORY    https://github.com/bear101/tinyxml
       GIT_TAG           224ab4ea35ded8ee95f13c84c30592abf5292af8
       UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml
       CONFIGURE_COMMAND ""
       BUILD_IN_SOURCE   TRUE
       BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 tinyxml.sln -target:tinyxml /property:Configuration=Debug
@@ -28,6 +32,7 @@ if (MSVC)
       GIT_REPOSITORY    https://github.com/bear101/tinyxml
       GIT_TAG           224ab4ea35ded8ee95f13c84c30592abf5292af8
       UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml
       CONFIGURE_COMMAND ""
       BUILD_IN_SOURCE   TRUE
       BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 tinyxml.sln -target:tinyxml /property:Configuration=Debug
@@ -40,7 +45,9 @@ if (MSVC)
   endif()
 
   add_library(tinyxml STATIC IMPORTED GLOBAL)
-  add_dependencies(tinyxml ${TINYXML_DEPEND})
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML)
+    add_dependencies(tinyxml ${TINYXML_DEPEND})
+  endif()
   target_include_directories (tinyxml INTERFACE ${TINYXML_DIR})
   set_target_properties(tinyxml PROPERTIES
     IMPORTED_LOCATION_DEBUG ${TINYXML_DIR}/lib/$(PlatformName)/tinyxmld.lib
@@ -52,6 +59,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_REPOSITORY    https://github.com/bear101/tinyxml
     GIT_TAG           bdr/mac
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml
     CONFIGURE_COMMAND ""
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/tinyxml
     BUILD_IN_SOURCE   TRUE
@@ -68,7 +76,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
 
   add_library(tinyxml STATIC IMPORTED GLOBAL)
-  add_dependencies(tinyxml tinyxml-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML)
+    add_dependencies(tinyxml tinyxml-src)
+  endif()
   target_include_directories (tinyxml INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(tinyxml PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libTinyXML.a)
@@ -79,6 +89,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_REPOSITORY    https://github.com/bear101/tinyxml
     GIT_TAG           bdr/deb64
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml
     CONFIGURE_COMMAND ""
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/tinyxml
     BUILD_IN_SOURCE   TRUE
@@ -95,7 +106,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
 
   add_library(tinyxml STATIC IMPORTED GLOBAL)
-  add_dependencies(tinyxml tinyxml-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML)
+    add_dependencies(tinyxml tinyxml-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(tinyxml PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include

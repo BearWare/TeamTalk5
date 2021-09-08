@@ -7,25 +7,31 @@ include(ExternalProject)
 ##################################################
 # Ogg
 ##################################################
+
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG "Build Ogg from source" ON)
+
 if (MSVC)
-  ExternalProject_Add(ogg-win
+  ExternalProject_Add(ogg-src
     GIT_REPOSITORY    https://github.com/bear101/ogg
     GIT_TAG           49d8bab
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg --config Debug
     COMMAND           ${CMAKE_COMMAND} --build . --target ogg --config Release
     INSTALL_COMMAND   ""
     )
-  ExternalProject_Get_Property(ogg-win SOURCE_DIR)
+  ExternalProject_Get_Property(ogg-src SOURCE_DIR)
   set (OGG_DIR ${SOURCE_DIR})
   file(MAKE_DIRECTORY ${OGG_DIR}/include)
 
   add_library(ogg STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+    add_dependencies(ogg ogg-src)
+  endif()
   target_include_directories (ogg INTERFACE ${OGG_DIR}/include)
   set_target_properties(ogg PROPERTIES
     IMPORTED_LOCATION_DEBUG ${OGG_DIR}/lib/$(PlatformName)/oggd.lib
     IMPORTED_LOCATION ${OGG_DIR}/lib/$(PlatformName)/ogg.lib)
-  add_dependencies(ogg ogg-win)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   ExternalProject_Add(ogg-src
@@ -33,6 +39,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_TAG           v1.3.3
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ogg
     CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=10.10 -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
@@ -42,10 +49,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(ogg STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+    add_dependencies(ogg ogg-src)
+  endif()
   target_include_directories (ogg INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(ogg PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libogg.a)
-  add_dependencies(ogg ogg-src)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
@@ -59,6 +68,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     GIT_TAG           v1.3.3
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ogg
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OGG_CFG_FLAGS}
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
@@ -68,10 +78,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(ogg STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+    add_dependencies(ogg ogg-src)
+  endif()
   target_include_directories (ogg INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(ogg PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libogg.a)
-  add_dependencies(ogg ogg-src)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
@@ -80,6 +92,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_TAG           v1.3.3
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ogg
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
@@ -89,7 +102,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(ogg STATIC IMPORTED GLOBAL)
-  add_dependencies(ogg ogg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+    add_dependencies(ogg ogg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ogg PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
@@ -111,6 +126,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     GIT_TAG           v1.3.3
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ogg
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OGG_CFG_FLAGS}
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
@@ -120,7 +136,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(ogg STATIC IMPORTED GLOBAL)
-  add_dependencies(ogg ogg-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+    add_dependencies(ogg ogg-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(ogg PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include

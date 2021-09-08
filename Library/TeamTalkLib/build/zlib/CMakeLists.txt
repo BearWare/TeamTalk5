@@ -7,12 +7,16 @@ include(ExternalProject)
 ##################################################
 # ZLib
 ##################################################
+
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB "Build ZLib from source" ON)
+
 if (MSVC)
   if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     ExternalProject_Add(zlib-win64
       GIT_REPOSITORY    https://github.com/bear101/zlib
       GIT_TAG           56c3219
       UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
       CONFIGURE_COMMAND ""
       BUILD_IN_SOURCE   TRUE
       BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Debug
@@ -27,6 +31,7 @@ if (MSVC)
       GIT_REPOSITORY    https://github.com/bear101/zlib
       GIT_TAG           56c3219
       UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
       CONFIGURE_COMMAND ""
       BUILD_IN_SOURCE   TRUE
       BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Debug
@@ -43,7 +48,10 @@ if (MSVC)
   set_target_properties(zlib PROPERTIES
     IMPORTED_LOCATION_DEBUG ${ZLIB_DIR}/lib/$(PlatformName)/zlibd.lib
     IMPORTED_LOCATION ${ZLIB_DIR}/lib/$(PlatformName)/zlib.lib)
-  add_dependencies(zlib ${ZLIB_DEPEND})
+
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB)
+    add_dependencies(zlib ${ZLIB_DEPEND})
+  endif()
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
@@ -52,6 +60,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     GIT_TAG           v1.2.9
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/zlib
     CONFIGURE_COMMAND CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --static
     BUILD_COMMAND     make
@@ -63,7 +72,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(zlib STATIC IMPORTED GLOBAL)
-  add_dependencies(zlib zlib-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB)
+    add_dependencies(zlib zlib-src)
+  endif()
   target_include_directories (zlib INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET zlib PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libz.a)
 
@@ -74,6 +85,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     GIT_TAG           v1.2.9
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
+    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/zlib
     CONFIGURE_COMMAND CFLAGS=-fPIC <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --static
     BUILD_COMMAND     make
@@ -85,7 +97,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
 
   add_library(zlib STATIC IMPORTED GLOBAL)
-  add_dependencies(zlib zlib-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB)
+    add_dependencies(zlib zlib-src)
+  endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
       set_target_properties(zlib PROPERTIES
         INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
