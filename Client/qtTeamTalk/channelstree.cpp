@@ -1498,3 +1498,17 @@ void ChannelsTree::slotUserVideoFrame(int userid, int stream_id)
     Q_UNUSED(userid);
     Q_UNUSED(stream_id);
 }
+
+void ChannelsTree::keyPressEvent(QKeyEvent* e)
+{
+    if (e->key() == Qt::Key_Left && this->currentColumn() > 0)
+    {
+        QTreeWidgetItem* item = currentItem();
+        if (item)
+            this->setCurrentItem(item, this->currentColumn()-1);
+        else
+            QTreeWidget::keyPressEvent(e);
+    }
+    else
+        QTreeWidget::keyPressEvent(e);
+}

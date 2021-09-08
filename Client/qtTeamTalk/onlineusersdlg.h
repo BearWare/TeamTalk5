@@ -54,6 +54,9 @@ signals:
     void kickbanUser(int userid, int chanid);
     void streamfileToUser(int userid);
 
+protected:
+    void keyPressEvent(QKeyEvent* e) override;
+
 private:
     void slotTreeContextMenu(const QPoint&);
 

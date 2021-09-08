@@ -63,7 +63,9 @@ enum CommandComplete
     CMD_COMPLETE_LIST_CHANNELBANS,
     CMD_COMPLETE_LISTACCOUNTS,
     CMD_COMPLETE_SUBSCRIBE,
-    CMD_COMPLETE_UNSUBSCRIBE
+    CMD_COMPLETE_UNSUBSCRIBE,
+
+    CMD_COMPLETE_SAVECONFIG
 };
 
 enum TimerEvent
@@ -123,6 +125,7 @@ protected:
     void timerEvent(QTimerEvent *event);
     void closeEvent(QCloseEvent *event);
     void changeEvent(QEvent* event);
+    void keyPressEvent(QKeyEvent* e) override;
 
 #if defined(Q_OS_WIN32) && QT_VERSION >= 0x050000
     bool nativeEvent(const QByteArray& eventType, void* message,
@@ -340,6 +343,8 @@ private:
     void slotChannelsJoinChannel(bool checked=false);
     void slotChannelsViewChannelInfo(bool checked=false);
     void slotChannelsSpeakChannelInformationGrid(bool checked=false);
+    void slotChannelsSpeakChannelStatusGrid(bool checked=false);
+    void slotChannelsSpeakChannelStatus();
     void slotChannelsListBans(bool checked=false);
     void slotChannelsStreamMediaFile(bool checked=false);
     void slotChannelsUploadFile(bool checked=false);
@@ -373,6 +378,7 @@ private:
 
     void slotTreeSelectionChanged();
     void slotTreeContextMenu(const QPoint& pos);
+    void slotFilesContextMenu(const QPoint& pos);
     void slotUpdateUI();
     void slotUpdateVideoTabUI();
     void slotUpdateDesktopTabUI();
@@ -407,7 +413,6 @@ private:
     void slotUpdateVideoCount(int count);
     void slotUpdateDesktopCount(int count);
 
-
     void slotMasterVolumeChanged(int value);
     void slotMicrophoneGainChanged(int value);
     void slotVoiceActivationLevelChanged(int value);
@@ -418,6 +423,7 @@ private:
 
     void slotSoftwareUpdateReply(QNetworkReply* reply);
     void slotBearWareAuthReply(QNetworkReply* reply);
+    void slotCmdSuccess(int cmdid);
     void slotClosedOnlineUsersDlg(int);
     void slotClosedServerStatsDlg(int);
     void slotClosedUserAccountsDlg(int);
@@ -449,7 +455,7 @@ signals:
     void mediaStreamUpdate(const MediaFileInfo& mfi);
     void mediaPlaybackUpdate(int sessionID, const MediaFileInfo& mfi);
     void cmdSuccess(int cmdid);
-    void cmdError(int error, int cmdid);
+    void cmdError(int errorno, int cmdid);
     /* End - CLIENTEVENT_* based events */
 
     void preferencesModified();

@@ -1,4 +1,4 @@
-VERSION="v5.8.1.5045"
+VERSION="v5.8.2.5049"
 
 OUTPUT_DEST=./
 
@@ -68,7 +68,6 @@ portable:
 	cp -r $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5Classic.xml $(OUTDIR)/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5Classic.xml $(OUTDIR)/TeamTalk5Classic.xml.default
 	cp -r $(TEAMTALK_ROOT)/Client/TeamTalkClassic/lng_classic $(OUTDIR)/lng_classic
-	cp -r $(OUTPUT_DEST)/accessibility/screenreader/* $(OUTDIR)/
 	cp -r $(OUTPUT_DEST)/accessibility/tolk/x86/* $(OUTDIR)/
 	# Copy Qt client
 	cp $(TEAMTALK_ROOT)/Client/qtTeamTalk/TeamTalk.exe $(OUTDIR)/

@@ -2080,6 +2080,10 @@ namespace BearWare
          * 
          * Requires TeamTalk version 5.2.3.4896. */
         public AbusePrevention abusePrevent;
+        /** @brief Timestamp of last modification of user account.
+         * Date/time is converted local time. */
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
+        public string szLastModified;
     }
     /** @} */
 
@@ -2727,6 +2731,10 @@ namespace BearWare
         /** @brief Username of the person who uploaded the files. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szUsername;
+        /** @brief Time when file was uploaded. Date/time is converted
+         * local time. */
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
+        public string szUploadTime;
     }
     /** @} */
 

@@ -1,30 +1,50 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.8.1
-Accessible Windows Client
+Version 5.8.2
+Default QT Client
 -
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.8.1, 2021/09/07
 Default QT Client
 - Create a folder in Sounds-folder to create your own Sound Pack
 - Ability to delete items from Stream Media File dialog
+- Ability to specify nickname for each server
+- Ability to force SAPI usage for Text-To-Speech events on Windows
+- New option in Display-tab to configure which events should be displayed in chat history
+- New option in Display-tab to automatically expand all channels in channels tree
 - Ctrl+Alt+S to quickly enable/disable Text-To-Speech
 - Ctrl+G now outputs Text-To-Speech information for selected user/channel
-- Ctrl+Alt+G to hear informations on current channel
-- Ability to specify nickname for each server
-- New option to configure which events should be displayed in chat history
-- Ability to force SAPI usage for Text-To-Speech events on Windows
-- Option to automatically expand all channels in channels tree
+- Ctrl+Alt+G to hear information on current channel
+- Ctrl+Shift+G to hear channel status
+- Reply "Yes" when ask for apply default accessibility settings now disable VU-Meter updates
+- Press Ctrl+C in online users dialog now copy user information to clipboard
+- Files-tab now has a context menu to download or delete selected file
+- In Files-tab, press enter on a file to download it
+- On MacOS, press enter on a channel in channels tree to join or leave the channel
 - Last modification date shown on user accounts
 - Upload time shown on files
 - Fixed default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
 - Fixed Shift+Tab navigation issues in main window
 - Fixed missing accessible labels in main window
 - Fixed Croatian file missing for installed version
+- Fixed a case where enter should pressed twice in file combobox to play a file in stream media dialog
+- Fixed "View user information" from online users dialog
+- Fixed Home and End keys behavior on tab bars
+- Fixed CTRL+Alt+R to restore streaming permission when disabled
+- Fixed navigation using left key on columns of channels tree
 Android Client
 - Option to disable sound and TTS event when sending a channel message
 - Upload time shown on files
-- Files update sound played only in appropriate channel
-- Fixed a case when not all tts engines were available in Text-To-Speech selection screen
+- Files updated sound played only in current channel
+- Fixed a case when not all TTS engines were available in Text-To-Speech selection screen
+- Support for Persian language
 iOS Client
 - Ability to specify nickname for each server
 Server
