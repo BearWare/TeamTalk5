@@ -1,9 +1,17 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.8.1
-Accessible Windows Client
+Version 5.8.2
+Default QT Client
+- Fixed a case where, depending on start path, sounds with default values was not played
+Android Client
 -
+iOS Client
+-
+Server
+-
+
+Version 5.8.1, 2021/09/07
 Default QT Client
 - Create a folder in Sounds-folder to create your own Sound Pack
 - Ability to delete items from Stream Media File dialog
