@@ -8,7 +8,7 @@ include(ExternalProject)
 # OPUS
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS "Build OPUS from source" ON)
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS "Build OPUS from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 
 if (MSVC)
   ExternalProject_Add(opus-src

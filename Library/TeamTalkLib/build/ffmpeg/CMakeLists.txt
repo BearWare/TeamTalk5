@@ -8,7 +8,7 @@ include(ExternalProject)
 # FFmpeg
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG "Build FFmpeg from source" ON)
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_FFMPEG "Build FFmpeg from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
@@ -30,8 +30,8 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	--extra-ldexeflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
 	--disable-videotoolbox --disable-sdl2 --pkg-config-flags=--static
 	--enable-debug=3 --disable-optimizations --disable-stripping --enable-openssl
-    BUILD_COMMAND     make -j4
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
         <INSTALL_DIR>/lib/libavfilter.a
         <INSTALL_DIR>/lib/libavformat.a
@@ -177,8 +177,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/ffmpeg
     CONFIGURE_COMMAND  <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${FFMPEG_CFG_FLAGS}
-    BUILD_COMMAND     make -j4
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
         <INSTALL_DIR>/lib/libavfilter.a
         <INSTALL_DIR>/lib/libavformat.a
@@ -262,8 +262,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
                       --enable-pic --enable-openssl --disable-jack
                       --disable-libxcb
-    BUILD_COMMAND     make -j4
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
         <INSTALL_DIR>/lib/libavfilter.a
         <INSTALL_DIR>/lib/libavformat.a
@@ -410,8 +410,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     CONFIGURE_COMMAND ${FFMPEG_EXPORT} && <SOURCE_DIR>/configure ${FFMPEG_CFG} --prefix=<INSTALL_DIR>
                       --enable-cross-compile --sysroot=${CMAKE_SYSROOT} --target-os=android
                       --enable-pic --disable-doc --disable-programs --disable-indev=v4l2
-    BUILD_COMMAND     ${FFMPEG_EXPORT} && make -j4
-    INSTALL_COMMAND   ${FFMPEG_EXPORT} && make install
+    BUILD_COMMAND     ${FFMPEG_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   ${FFMPEG_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
         <INSTALL_DIR>/lib/libavfilter.a
         <INSTALL_DIR>/lib/libavformat.a

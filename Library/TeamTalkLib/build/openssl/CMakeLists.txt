@@ -8,7 +8,7 @@ include(ExternalProject)
 # OpenSSL
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL "Build OpenSSL from source" ON)
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL "Build OpenSSL from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 
 if (MSVC)
 
@@ -78,8 +78,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/openssl
     CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-x86_64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
-    BUILD_COMMAND     make
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
     )
   ExternalProject_Get_Property(openssl-src INSTALL_DIR)
@@ -123,8 +123,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/openssl
     CONFIGURE_COMMAND ${OPENSSL_CFG_PREFIX} && export CFLAGS=-arch\ ${CMAKE_OSX_ARCHITECTURES} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> ${OPENSSL_CFG_TARGET} no-shared no-async no-tests ${OPENSSL_CFG_POSTFIX}
-    BUILD_COMMAND     ${OPENSSL_CFG_PREFIX} && make
-    INSTALL_COMMAND   ${OPENSSL_CFG_PREFIX} && make install
+    BUILD_COMMAND     ${OPENSSL_CFG_PREFIX} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   ${OPENSSL_CFG_PREFIX} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
     )
   ExternalProject_Get_Property(openssl-src INSTALL_DIR)
@@ -158,8 +158,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/openssl
     CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC linux-x86_64
-    BUILD_COMMAND     make
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
     )
   ExternalProject_Get_Property(openssl-src INSTALL_DIR)
@@ -228,8 +228,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/openssl
     CONFIGURE_COMMAND ${OPENSSL_EXPORT} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC no-shared
                       ${OPENSSL_CFG_TARGET} -D__ANDROID_API__=${ANDROID_PLATFORM_LEVEL}
-    BUILD_COMMAND     ${OPENSSL_EXPORT} && make
-    INSTALL_COMMAND   ${OPENSSL_EXPORT} && make install
+    BUILD_COMMAND     ${OPENSSL_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   ${OPENSSL_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
     )
   ExternalProject_Get_Property(openssl-src INSTALL_DIR)

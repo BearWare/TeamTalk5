@@ -8,7 +8,7 @@ include(ExternalProject)
 # LibVPX
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX "Build libvpx from source" ON)
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX "Build libvpx from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 
 if (MSVC)
   find_program(CYGWIN_BASH_EXE_PATH bash.exe PATHS C:/cygwin64/bin)
@@ -91,8 +91,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
             --prefix=<INSTALL_DIR> --target=x86_64-darwin13-gcc
             --disable-examples --disable-docs --disable-unit-tests
-    BUILD_COMMAND     make -j4
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
     )
   ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
@@ -133,8 +133,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=${LIBVPX_CPPFLAGS}
             --prefix=<INSTALL_DIR> --target=${LIBVPX_TARGET}
             --disable-examples --disable-docs --disable-unit-tests
-    BUILD_COMMAND     make -j4
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
     )
   ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
@@ -161,8 +161,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     CONFIGURE_COMMAND <SOURCE_DIR>/configure
             --prefix=<INSTALL_DIR> --target=x86_64-linux-gcc
             --disable-examples --disable-docs --disable-unit-tests
-    BUILD_COMMAND     make -j4
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
     )
   ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
@@ -225,8 +225,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     CONFIGURE_COMMAND ${LIBVPX_EXPORT} && <SOURCE_DIR>/configure
             --prefix=<INSTALL_DIR> ${LIBVPX_CFG}
             --disable-examples --disable-docs --disable-unit-tests --enable-pic
-    BUILD_COMMAND     ${LIBVPX_EXPORT} && make -j4
-    INSTALL_COMMAND   ${LIBVPX_EXPORT} && make install
+    BUILD_COMMAND     ${LIBVPX_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   ${LIBVPX_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
     )
   ExternalProject_Get_Property(libvpx-src INSTALL_DIR)

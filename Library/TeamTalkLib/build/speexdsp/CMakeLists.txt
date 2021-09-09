@@ -8,7 +8,7 @@ include(ExternalProject)
 # SpeexDSP
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP "Build SpeexDSP from source" ON)
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP "Build SpeexDSP from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 
 if (MSVC)
   if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
@@ -64,8 +64,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp
     CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
     COMMAND           <SOURCE_DIR>/configure CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} --prefix=<INSTALL_DIR>
-    BUILD_COMMAND     make -j4
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
     )
   ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
@@ -104,8 +104,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp
     CONFIGURE_COMMAND export CFLAGS=${SPEEXDSP_CFLAGS} LDFLAGS=${SPEEXDSP_CFLAGS} && <SOURCE_DIR>/autogen.sh ${SPEEXDSP_GEN_FLAGS}
     COMMAND           export CFLAGS=${SPEEXDSP_CFLAGS} LDFLAGS=${SPEEXDSP_CFLAGS} && <SOURCE_DIR>/configure ${SPEEXDSP_CFG_FLAGS} --prefix=<INSTALL_DIR>
-    BUILD_COMMAND     make -j4
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
     )
   ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
@@ -130,8 +130,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp
     CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
     COMMAND           <SOURCE_DIR>/configure --with-pic --prefix=<INSTALL_DIR>
-    BUILD_COMMAND     make -j4
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
     )
   ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
@@ -190,8 +190,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     COMMAND           ${SPEEXDSP_EXPORT} && <SOURCE_DIR>/configure ${SPEEXDSP_CFG_FLAGS}
                       --with-pic --prefix=<INSTALL_DIR> --disable-examples
                       --enable-shared=no --enable-static=yes
-    BUILD_COMMAND     ${SPEEXDSP_EXPORT} && make -j4
-    INSTALL_COMMAND   ${SPEEXDSP_EXPORT} && make install
+    BUILD_COMMAND     ${SPEEXDSP_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   ${SPEEXDSP_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
     )
   ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)

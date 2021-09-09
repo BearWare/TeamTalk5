@@ -8,7 +8,7 @@ include(ExternalProject)
 # TinyXML
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML "Build TinyXML from source" ON)
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML "Build TinyXML from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 
 if (MSVC)
 
@@ -63,7 +63,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     CONFIGURE_COMMAND ""
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/tinyxml
     BUILD_IN_SOURCE   TRUE
-    BUILD_COMMAND     make CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
     INSTALL_COMMAND   mkdir -p <INSTALL_DIR>/include && mkdir -p <INSTALL_DIR>/lib
     COMMAND           cp <SOURCE_DIR>/tinyxml.h <INSTALL_DIR>/include/
     COMMAND           cp <SOURCE_DIR>/tinystr.h <INSTALL_DIR>/include/
@@ -93,7 +93,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     CONFIGURE_COMMAND ""
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/tinyxml
     BUILD_IN_SOURCE   TRUE
-    BUILD_COMMAND     make -j4
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
     INSTALL_COMMAND   mkdir -p <INSTALL_DIR>/include && mkdir -p <INSTALL_DIR>/lib
     COMMAND           cp <SOURCE_DIR>/tinyxml.h <INSTALL_DIR>/include/
     COMMAND           cp <SOURCE_DIR>/tinystr.h <INSTALL_DIR>/include/

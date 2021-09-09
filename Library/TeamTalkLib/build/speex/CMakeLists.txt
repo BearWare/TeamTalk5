@@ -8,7 +8,7 @@ include(ExternalProject)
 # Speex
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX "Build Speex from source" ON)
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX "Build Speex from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 
 if (MSVC)
   if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
@@ -64,8 +64,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speex
     CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
     COMMAND           <SOURCE_DIR>/configure CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} --prefix=<INSTALL_DIR>
-    BUILD_COMMAND     make -j4
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
     )
   ExternalProject_Get_Property(speex-src INSTALL_DIR)
@@ -103,8 +103,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speex
     CONFIGURE_COMMAND export CFLAGS=${SPEEX_CFLAGS} CPPFLAGS=${SPEEX_CFLAGS} LDFLAGS=${SPEEX_CFLAGS} && <SOURCE_DIR>/autogen.sh ${SPEEX_GEN_FLAGS}
     COMMAND           export CFLAGS=${SPEEX_CFLAGS} CPPFLAGS=${SPEEX_CFLAGS} LDFLAGS=${SPEEX_CFLAGS} && <SOURCE_DIR>/configure ${SPEEX_CFG_FLAGS} --prefix=<INSTALL_DIR>
-    BUILD_COMMAND     make -j4
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
     )
   ExternalProject_Get_Property(speex-src INSTALL_DIR)
@@ -129,8 +129,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speex
     CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
     COMMAND           <SOURCE_DIR>/configure --with-pic --prefix=<INSTALL_DIR>
-    BUILD_COMMAND     make -j4
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
     )
   ExternalProject_Get_Property(speex-src INSTALL_DIR)
@@ -181,8 +181,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     COMMAND           ${SPEEX_EXPORT} && <SOURCE_DIR>/configure ${SPEEX_CFG_FLAGS}
                       --prefix=<INSTALL_DIR> --disable-binaries --with-pic
                       --enable-shared=no --enable-static=yes
-    BUILD_COMMAND     ${SPEEX_EXPORT} && make -j4
-    INSTALL_COMMAND   ${SPEEX_EXPORT} && make install
+    BUILD_COMMAND     ${SPEEX_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   ${SPEEX_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
     )
   ExternalProject_Get_Property(speex-src INSTALL_DIR)

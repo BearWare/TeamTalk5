@@ -8,7 +8,7 @@ include(ExternalProject)
 # ACE
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_ACE "Build ACE framework from source" ON)
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_ACE "Build ACE framework from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 
 if (MSVC)
 
@@ -151,10 +151,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     # Generate build configuration for protocols (INet)
     COMMAND           export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && <SOURCE_DIR>/ACE/bin/mwc.pl -type gnuace -recurse
     BUILD_IN_SOURCE   TRUE
-    BUILD_COMMAND     export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make -j4
-    COMMAND           export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make -j4
-    INSTALL_COMMAND   export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make install
-    COMMAND           export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make install
+    BUILD_COMMAND     export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    COMMAND           export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+    COMMAND           export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     DEPENDS           MPC openssl-src
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libACE.a
         <INSTALL_DIR>/lib/libACE_SSL.a
@@ -249,10 +249,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     # Generate build configuration for protocols (INet)
     COMMAND           ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/protocols/ace/INet && <SOURCE_DIR>/ACE/bin/mwc.pl -type gnuace -recurse
     BUILD_IN_SOURCE   TRUE
-    BUILD_COMMAND     ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/ace && make -j4
-    COMMAND           ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make -j4
-    INSTALL_COMMAND   ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/ace && make install
-    COMMAND           ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make install
+    BUILD_COMMAND     ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/ace && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    COMMAND           ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/ace && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+    COMMAND           ${ACE_EXPORT} && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     DEPENDS           MPC openssl-src
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libACE.a
         <INSTALL_DIR>/lib/libACE_SSL.a
@@ -331,10 +331,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     # Generate build configuration for protocols (INet)
     COMMAND           export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && <SOURCE_DIR>/ACE/bin/mwc.pl -type gnuace -recurse
     BUILD_IN_SOURCE   TRUE
-    BUILD_COMMAND     export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make -j4
-    COMMAND           export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make -j4
-    INSTALL_COMMAND   export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make install
-    COMMAND           export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make install
+    BUILD_COMMAND     export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    COMMAND           export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+    COMMAND           export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     DEPENDS           MPC
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libACE.a
         <INSTALL_DIR>/lib/libACE_SSL.a
@@ -435,10 +435,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     # Generate build configuration for protocols (INet)
     COMMAND           ${ACE_EXPORT} && export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && <SOURCE_DIR>/ACE/bin/mwc.pl -type gnuace -recurse
     BUILD_IN_SOURCE   TRUE
-    BUILD_COMMAND     ${ACE_EXPORT} && export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make -j4
-    COMMAND           ${ACE_EXPORT} && export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make -j4
-    INSTALL_COMMAND   ${ACE_EXPORT} && export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make install
-    COMMAND           ${ACE_EXPORT} && export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make install
+    BUILD_COMMAND     ${ACE_EXPORT} && export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    COMMAND           ${ACE_EXPORT} && export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   ${ACE_EXPORT} && export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/ace && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+    COMMAND           ${ACE_EXPORT} && export ACE_ROOT=<SOURCE_DIR>/ACE && cd <SOURCE_DIR>/ACE/protocols/ace/INet && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     DEPENDS           MPC openssl-src
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libACE.a
         <INSTALL_DIR>/lib/libACE_SSL.a

@@ -8,7 +8,7 @@ include(ExternalProject)
 # ZLib
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB "Build ZLib from source" ON)
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB "Build ZLib from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 
 if (MSVC)
   if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
@@ -63,8 +63,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/zlib
     CONFIGURE_COMMAND CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --static
-    BUILD_COMMAND     make
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libz.a
     )
   ExternalProject_Get_Property(zlib-src INSTALL_DIR)
@@ -88,8 +88,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
     INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/zlib
     CONFIGURE_COMMAND CFLAGS=-fPIC <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --static
-    BUILD_COMMAND     make
-    INSTALL_COMMAND   make install
+    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
     BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libz.a
     )
   ExternalProject_Get_Property(zlib-src INSTALL_DIR)

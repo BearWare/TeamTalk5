@@ -8,7 +8,7 @@ include(ExternalProject)
 # Ogg
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG "Build Ogg from source" ON)
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG "Build Ogg from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 
 if (MSVC)
   ExternalProject_Add(ogg-src

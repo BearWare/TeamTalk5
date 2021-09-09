@@ -8,7 +8,7 @@ include(ExternalProject)
 # PortAudio
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_PORTAUDIO "Build PortAudio from source" ON)
+option (TOOLCHAIN_BUILD_EXTERNALPROJECT_PORTAUDIO "Build PortAudio from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 
 if (MSVC)
   ExternalProject_Add(portaudio-src
