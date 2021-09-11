@@ -21,6 +21,7 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
         git submodule update --init --recursive Client
+
     - name: Generate CMake Projects
       working-directory: ${{runner.workspace}}
       run: >-
@@ -35,6 +36,26 @@ jobs:
       working-directory: ${{runner.workspace}}
       run: |
         cmake --build output --parallel 8
+
+    - name: Generate Qt Framework Build
+      working-directory: ${{runner.workspace}}
+      run: >-
+        cmake -S TeamTalk5 -B qtbuild -A ${{ matrix.cmakeplatform }}
+        -DQT_BUILD_QTFRAMEWORK=ON
+        -DQT_INSTALL_PREFIX=${{runner.workspace}}/install
+    - name: Build Qt Framework using CMake
+      working-directory: ${{runner.workspace}}
+      run: |
+        cmake --build qtbuild --target Qt-src --parallel 8
+    - name: Build TeamTalk Qt Client using QMake
+      working-directory: ${{runner.workspace}}
+      run: |
+        set PATH=${{runner.workspace}}\install\bin;%PATH%
+        cd TeamTalk5\Client\qtTeamTalk
+        qmake CONFIG+=release teamtalk5.pro
+        set CL=/MP
+        nmake
+
     - name: Copy Server Configuration
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
