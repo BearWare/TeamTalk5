@@ -695,7 +695,7 @@ void MainWindow::loadSettings()
     if(connect_ok)
         QTimer::singleShot(0, this, &MainWindow::slotConnectToLatest);
 
-#if defined(Q_OS_WINDOWS)
+#if defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)
     bool tolkLoaded = Tolk_IsLoaded();
     if (!tolkLoaded)
         Tolk_Load();
@@ -4378,8 +4378,6 @@ void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
 void MainWindow::slotUsersStoreAudioToDisk(bool/* checked*/)
 {
     quint32 old_mode = m_audiostorage_mode;
-    quint32 old_sts = ttSettings->value(SETTINGS_MEDIASTORAGE_STREAMTYPES,
-                                        SETTINGS_MEDIASTORAGE_STREAMTYPES_DEFAULT).toUInt();
 
     if(MediaStorageDlg(this).exec())
     {
@@ -4388,8 +4386,6 @@ void MainWindow::slotUsersStoreAudioToDisk(bool/* checked*/)
 
         quint32 new_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE, 
                                              AUDIOSTORAGE_NONE).toUInt();
-        quint32 new_sts = ttSettings->value(SETTINGS_MEDIASTORAGE_STREAMTYPES,
-                                            SETTINGS_MEDIASTORAGE_STREAMTYPES_DEFAULT).toUInt();
 
         if ((old_mode & AUDIOSTORAGE_SINGLEFILE))
         {
@@ -4570,7 +4566,7 @@ void MainWindow::slotChannelsSpeakChannelStatus()
     {
         User user = {};
         ui.channelsWidget->getUser(users[i], user);
-        if(user.uUserState & USERSTATE_VOICE || user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == true)
+        if ((user.uUserState & USERSTATE_VOICE) != USERSTATE_NONE || (user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking()) == true)
             voice1.push_back(getDisplayName(user));
         if(user.uUserState & USERSTATE_MEDIAFILE)
             mediafile1.push_back(getDisplayName(user));
