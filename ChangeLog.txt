@@ -3,6 +3,7 @@
 ----------------------------------------------
 Version 5.8.2
 Default Qt Client
+- Option to select an user for move from context menu of online users dialog
 - Fixed a case where, depending on start path, sounds with default values was not played
 Android Client
 -

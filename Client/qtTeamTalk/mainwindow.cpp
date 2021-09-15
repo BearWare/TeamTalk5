@@ -1,4 +1,5 @@
 /*
+/*
  * Copyright (c) 2005-2018, BearWare.dk
  * 
  * Contact Information:
@@ -4310,10 +4311,15 @@ void MainWindow::slotUsersAdvancedDecVolumeMediaFile()
     slotUpdateUI();
 }
 
-void MainWindow::slotUsersAdvancedStoreForMove()
+void MainWindow::slotUsersAdvancedStoreForMove(int userid /*= 0*/)
 {
-    m_moveusers.clear();
-    m_moveusers = ui.channelsWidget->selectedUsers();
+    if(userid == 0)
+    {
+        m_moveusers.clear();
+        m_moveusers = ui.channelsWidget->selectedUsers();
+    }
+    else
+        m_moveusers.append(userid);
     QString listuser;
     for(int i=0; i<m_moveusers.size(); i++)
     {
@@ -4824,6 +4830,8 @@ void MainWindow::slotServerOnlineUsers(bool /*checked=false*/)
             this, &MainWindow::slotUsersKick);
     connect(m_onlineusersdlg, &OnlineUsersDlg::kickbanUser,
             this, &MainWindow::slotUsersKickBan);
+    connect(m_onlineusersdlg, &OnlineUsersDlg::moveUser,
+            this, &MainWindow::slotUsersAdvancedStoreForMove);
     m_onlineusersdlg->show();
 }
 
