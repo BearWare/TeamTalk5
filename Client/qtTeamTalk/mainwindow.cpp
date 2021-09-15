@@ -4314,10 +4314,7 @@ void MainWindow::slotUsersAdvancedDecVolumeMediaFile()
 void MainWindow::slotUsersAdvancedStoreForMove(int userid /*= 0*/)
 {
     if(userid == 0)
-    {
-        m_moveusers.clear();
         m_moveusers = ui.channelsWidget->selectedUsers();
-    }
     else
         m_moveusers.append(userid);
     QString listuser;
@@ -4354,6 +4351,7 @@ void MainWindow::slotUsersAdvancedMoveUsers()
     }
     addTextToSpeechMessage(TTS_MENU_ACTIONS, usersmoved);
     slotUpdateUI();
+    m_moveusers.clear();
 }
 
 void MainWindow::slotUsersAdvancedChanMsgAllowed(bool checked/*=false*/)
