@@ -4,6 +4,7 @@ is_clang = false
 is_component_build = false
 is_debug = false
 libcxx_is_shared = true
+mac_deployment_target="@CMAKE_OSX_DEPLOYMENT_TARGET@"
 rtc_build_examples = false
 rtc_build_libvpx = false
 rtc_build_opus = false
