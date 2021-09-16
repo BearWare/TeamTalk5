@@ -210,17 +210,17 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.msgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
     connect(ui.sendButton, &QAbstractButton::clicked,
             this, &MainWindow::slotSendChannelMessage);
-    connect(ui.msgEdit, &QLineEdit::returnPressed,
+    connect(ui.msgEdit, &ChatLineEdit::sendTextMessage,
             this, &MainWindow::slotSendChannelMessage);
     connect(ui.videosendButton, &QAbstractButton::clicked,
             this, &MainWindow::slotSendChannelMessage);
     connect(ui.desktopsendButton, &QAbstractButton::clicked,
             this, &MainWindow::slotSendChannelMessage);
-    connect(ui.videomsgEdit, &QLineEdit::returnPressed,
+    connect(ui.videomsgEdit, &ChatLineEdit::sendTextMessage,
             this, &MainWindow::slotSendChannelMessage);
     connect(ui.videomsgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
     connect(ui.desktopmsgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
-    connect(ui.desktopmsgEdit, &QLineEdit::returnPressed,
+    connect(ui.desktopmsgEdit, &ChatLineEdit::sendTextMessage,
             this, &MainWindow::slotSendChannelMessage);
     connect(ui.micSlider, &QAbstractSlider::valueChanged,
             this, &MainWindow::slotMicrophoneGainChanged);

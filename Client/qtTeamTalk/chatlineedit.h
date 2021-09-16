@@ -29,8 +29,13 @@
 
 class ChatLineEdit : public QLineEdit
 {
+    Q_OBJECT
+
 public:
     ChatLineEdit(QWidget * parent = 0);
+
+signals:
+    void sendTextMessage();
 
 protected:
     void keyPressEvent ( QKeyEvent * event );
