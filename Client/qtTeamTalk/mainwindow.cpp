@@ -695,7 +695,7 @@ void MainWindow::loadSettings()
     if(connect_ok)
         QTimer::singleShot(0, this, &MainWindow::slotConnectToLatest);
 
-#if defined(Q_OS_WINDOWS)
+#if defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)
     bool tolkLoaded = Tolk_IsLoaded();
     if (!tolkLoaded)
         Tolk_Load();
@@ -1088,13 +1088,13 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 StatusBarEvent statusType = STATUSBAR_USER_JOINED_SAME;
                 if(chan.nParentID == 0 && msg.user.nChannelID != m_mychannel.nChannelID)
                 {
-                    userjoinchan = userjoinchan + " " + tr("root");
+                    userjoinchan = QString(tr("%1 joined root channel").arg(getDisplayName(msg.user)));
                     ttsType = TTS_USER_JOINED;
                     statusType = STATUSBAR_USER_JOINED;
                 }
                 else if (msg.user.nChannelID != m_mychannel.nChannelID)
                 {
-                    userjoinchan = userjoinchan + " " + _Q(chan.szName);
+                    userjoinchan = QString(tr("%1 joined channel %2").arg(getDisplayName(msg.user)).arg(_Q(chan.szName)));
                     ttsType = TTS_USER_JOINED;
                     statusType = STATUSBAR_USER_JOINED;
                 }
@@ -1125,11 +1125,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
                 StatusBarEvent statusType = STATUSBAR_USER_LEFT_SAME;
                 if(chan.nParentID == 0 && msg.nSource != m_mychannel.nChannelID) {
-                    userleftchan = userleftchan + " " + tr("root");
+                    userleftchan = QString(tr("%1 left root channel").arg(getDisplayName(msg.user)));
                     ttsType = TTS_USER_LEFT;
                     statusType = STATUSBAR_USER_LEFT;
                 } else if(msg.nSource != m_mychannel.nChannelID) {
-                    userleftchan = userleftchan + " " + _Q(chan.szName);
+                    userleftchan = QString(tr("%1 left channel %2").arg(getDisplayName(msg.user)).arg(_Q(chan.szName)));
                     statusType = STATUSBAR_USER_LEFT;
                 }
                 addStatusMsg(statusType, userleftchan);
@@ -4378,8 +4378,6 @@ void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
 void MainWindow::slotUsersStoreAudioToDisk(bool/* checked*/)
 {
     quint32 old_mode = m_audiostorage_mode;
-    quint32 old_sts = ttSettings->value(SETTINGS_MEDIASTORAGE_STREAMTYPES,
-                                        SETTINGS_MEDIASTORAGE_STREAMTYPES_DEFAULT).toUInt();
 
     if(MediaStorageDlg(this).exec())
     {
@@ -4388,8 +4386,6 @@ void MainWindow::slotUsersStoreAudioToDisk(bool/* checked*/)
 
         quint32 new_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE, 
                                              AUDIOSTORAGE_NONE).toUInt();
-        quint32 new_sts = ttSettings->value(SETTINGS_MEDIASTORAGE_STREAMTYPES,
-                                            SETTINGS_MEDIASTORAGE_STREAMTYPES_DEFAULT).toUInt();
 
         if ((old_mode & AUDIOSTORAGE_SINGLEFILE))
         {
@@ -4570,7 +4566,7 @@ void MainWindow::slotChannelsSpeakChannelStatus()
     {
         User user = {};
         ui.channelsWidget->getUser(users[i], user);
-        if(user.uUserState & USERSTATE_VOICE || user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == true)
+        if ((user.uUserState & USERSTATE_VOICE) != USERSTATE_NONE || (user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking()) == true)
             voice1.push_back(getDisplayName(user));
         if(user.uUserState & USERSTATE_MEDIAFILE)
             mediafile1.push_back(getDisplayName(user));

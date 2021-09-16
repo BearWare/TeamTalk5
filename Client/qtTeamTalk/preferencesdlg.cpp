@@ -1553,7 +1553,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.notifTimestampSpinBox->setEnabled(true);
         ui.notifTimestampSpinBox->setValue(ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt());
     }
-#elif defined(Q_OS_WINDOWS)
+#elif defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)
     else if(ui.ttsengineComboBox->currentIndex() == 2)
     {
         ui.forceSapiChkBox->setEnabled(true);

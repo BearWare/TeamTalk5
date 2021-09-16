@@ -492,11 +492,6 @@ bool StreamMediaFileDlg::eventFilter(QObject *object, QEvent *event)
             ui.mediafileComboBox->lineEdit()->paste();
             return true;
         }
-        else if (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return)
-        {
-            ui.mediafileComboBox->lineEdit()->setCursorPosition(0);
-            slotAccepted();
-        }
         else
             return false;
     }
