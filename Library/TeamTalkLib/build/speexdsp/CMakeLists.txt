@@ -9,68 +9,79 @@ include(ExternalProject)
 ##################################################
 
 option (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP "Build SpeexDSP from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
+set (TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp)
 
 if (MSVC)
-  if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-    ExternalProject_Add(speexdsp-src
-      GIT_REPOSITORY    https://github.com/bear101/speexdsp
-      GIT_TAG           2907b00
-      UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
-      CONFIGURE_COMMAND ""
-      BUILD_IN_SOURCE   TRUE
-      BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2015\\libspeexdsp.sln -target:libspeexdsp /property:Configuration=Debug
-      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2015\\libspeexdsp.sln -target:libspeexdsp /property:Configuration=Release_SSE
-      INSTALL_COMMAND   ""
-      )
-    ExternalProject_Get_Property(speexdsp-src SOURCE_DIR)
-    set (SPEEXDSP_DIR ${SOURCE_DIR})
-    set (SPEEXDSP_DEPEND speexdsp-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+    if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+      ExternalProject_Add(speexdsp-src
+        GIT_REPOSITORY    https://github.com/bear101/speexdsp
+        GIT_TAG           2907b00
+        UPDATE_COMMAND    ""
+        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
+        CONFIGURE_COMMAND ""
+        BUILD_IN_SOURCE   TRUE
+        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2015\\libspeexdsp.sln -target:libspeexdsp /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2015\\libspeexdsp.sln -target:libspeexdsp /property:Configuration=Release_SSE
+        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
+        INSTALL_COMMAND   cd <SOURCE_DIR>/include
+        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
+        COMMAND           cd <SOURCE_DIR>
+        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        )
+      ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
+    else()
+      ExternalProject_Add(speexdsp-src
+        GIT_REPOSITORY    https://github.com/bear101/speexdsp
+        GIT_TAG           2907b00
+        UPDATE_COMMAND    ""
+        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
+        CONFIGURE_COMMAND ""
+        BUILD_IN_SOURCE   TRUE
+        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2015\\libspeexdsp.sln -target:libspeexdsp /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2015\\libspeexdsp.sln -target:libspeexdsp /property:Configuration=Release_SSE
+        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
+        INSTALL_COMMAND   cd <SOURCE_DIR>/include
+        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
+        COMMAND           cd <SOURCE_DIR>
+        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        )
+      ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
+    endif()
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()
-    ExternalProject_Add(speexdsp-src
-      GIT_REPOSITORY    https://github.com/bear101/speexdsp
-      GIT_TAG           2907b00
-      UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
-      CONFIGURE_COMMAND ""
-      BUILD_IN_SOURCE   TRUE
-      BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2015\\libspeexdsp.sln -target:libspeexdsp /property:Configuration=Debug
-      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2015\\libspeexdsp.sln -target:libspeexdsp /property:Configuration=Release_SSE
-      INSTALL_COMMAND   ""
-      )
-    ExternalProject_Get_Property(speexdsp-src SOURCE_DIR)
-    set (SPEEXDSP_DIR ${SOURCE_DIR})
-    set (SPEEXDSP_DEPEND speexdsp-src)
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP})
   endif()
-
-  file(MAKE_DIRECTORY ${SPEEXDSP_DIR}/include)
 
   add_library(speexdsp STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
-    add_dependencies(speexdsp ${SPEEXDSP_DEPEND})
+    add_dependencies(speexdsp speexdsp-src)
   endif()
-  target_include_directories (speexdsp INTERFACE ${SPEEXDSP_DIR}/include)
+  target_include_directories (speexdsp INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(speexdsp PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${SPEEXDSP_DIR}/lib/$(PlatformName)/libspeexdspd.lib
-    IMPORTED_LOCATION ${SPEEXDSP_DIR}/lib/$(PlatformName)/libspeexdsp_sse.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/$(PlatformName)/libspeexdspd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/$(PlatformName)/libspeexdsp_sse.lib)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  ExternalProject_Add(speexdsp-src
-    GIT_REPOSITORY    https://github.com/bear101/speexdsp
-    GIT_TAG           SpeexDSP-1.2.0
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp
-    CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
-    COMMAND           <SOURCE_DIR>/configure CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} --prefix=<INSTALL_DIR>
-    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
-    )
-  ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+    ExternalProject_Add(speexdsp-src
+      GIT_REPOSITORY    https://github.com/bear101/speexdsp
+      GIT_TAG           SpeexDSP-1.2.0
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
+      CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
+      COMMAND           <SOURCE_DIR>/configure CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} --prefix=<INSTALL_DIR>
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
+      )
+    ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP})
+  endif()
 
   add_library(speexdsp STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
@@ -96,21 +107,24 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     set (SPEEXDSP_CFLAGS "-arch ${CMAKE_OSX_ARCHITECTURES} -isysroot ${CMAKE_OSX_SYSROOT} -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
   endif()
 
-  ExternalProject_Add(speexdsp-src
-    GIT_REPOSITORY    https://github.com/bear101/speexdsp
-    GIT_TAG           SpeexDSP-1.2.0
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp
-    CONFIGURE_COMMAND export CFLAGS=${SPEEXDSP_CFLAGS} LDFLAGS=${SPEEXDSP_CFLAGS} && <SOURCE_DIR>/autogen.sh ${SPEEXDSP_GEN_FLAGS}
-    COMMAND           export CFLAGS=${SPEEXDSP_CFLAGS} LDFLAGS=${SPEEXDSP_CFLAGS} && <SOURCE_DIR>/configure ${SPEEXDSP_CFG_FLAGS} --prefix=<INSTALL_DIR>
-    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
-    )
-  ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+    ExternalProject_Add(speexdsp-src
+      GIT_REPOSITORY    https://github.com/bear101/speexdsp
+      GIT_TAG           SpeexDSP-1.2.0
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
+      CONFIGURE_COMMAND export CFLAGS=${SPEEXDSP_CFLAGS} LDFLAGS=${SPEEXDSP_CFLAGS} && <SOURCE_DIR>/autogen.sh ${SPEEXDSP_GEN_FLAGS}
+      COMMAND           export CFLAGS=${SPEEXDSP_CFLAGS} LDFLAGS=${SPEEXDSP_CFLAGS} && <SOURCE_DIR>/configure ${SPEEXDSP_CFG_FLAGS} --prefix=<INSTALL_DIR>
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
+      )
+    ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP})
+  endif()
 
   add_library(speexdsp STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
@@ -122,21 +136,24 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  ExternalProject_Add(speexdsp-src
-    GIT_REPOSITORY    https://github.com/bear101/speexdsp
-    GIT_TAG           SpeexDSP-1.2.0
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp
-    CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
-    COMMAND           <SOURCE_DIR>/configure --with-pic --prefix=<INSTALL_DIR>
-    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
-    )
-  ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+    ExternalProject_Add(speexdsp-src
+      GIT_REPOSITORY    https://github.com/bear101/speexdsp
+      GIT_TAG           SpeexDSP-1.2.0
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
+      CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
+      COMMAND           <SOURCE_DIR>/configure --with-pic --prefix=<INSTALL_DIR>
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
+      )
+    ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP})
+  endif()
 
   add_library(speexdsp STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)  
@@ -180,23 +197,26 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     message(FATAL_ERROR "What Android architecture is this?")
   endif()
 
-  ExternalProject_Add(speexdsp-src
-    GIT_REPOSITORY    https://github.com/bear101/speexdsp
-    GIT_TAG           SpeexDSP-1.2.0
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp
-    CONFIGURE_COMMAND ${SPEEXDSP_EXPORT} && <SOURCE_DIR>/autogen.sh ${SPEEXDSP_GEN_FLAGS}
-    COMMAND           ${SPEEXDSP_EXPORT} && <SOURCE_DIR>/configure ${SPEEXDSP_CFG_FLAGS}
-                      --with-pic --prefix=<INSTALL_DIR> --disable-examples
-                      --enable-shared=no --enable-static=yes
-    BUILD_COMMAND     ${SPEEXDSP_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   ${SPEEXDSP_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
-    )
-  ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+    ExternalProject_Add(speexdsp-src
+      GIT_REPOSITORY    https://github.com/bear101/speexdsp
+      GIT_TAG           SpeexDSP-1.2.0
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
+      CONFIGURE_COMMAND ${SPEEXDSP_EXPORT} && <SOURCE_DIR>/autogen.sh ${SPEEXDSP_GEN_FLAGS}
+      COMMAND           ${SPEEXDSP_EXPORT} && <SOURCE_DIR>/configure ${SPEEXDSP_CFG_FLAGS}
+      --with-pic --prefix=<INSTALL_DIR> --disable-examples
+      --enable-shared=no --enable-static=yes
+      BUILD_COMMAND     ${SPEEXDSP_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   ${SPEEXDSP_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeexdsp.a
+      )
+    ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP})
+  endif()
 
   add_library(speexdsp STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)  

@@ -9,95 +9,108 @@ include(ExternalProject)
 ##################################################
 
 option (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX "Build libvpx from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
+set (TOOLCHAIN_INSTALL_PREFIX_LIBVPX ${TOOLCHAIN_INSTALL_PREFIX}/libvpx)
 
 if (MSVC)
-  find_program(CYGWIN_BASH_EXE_PATH bash.exe PATHS C:/cygwin64/bin)
-  if (CYGWIN_BASH_EXE_PATH-NOTFOUND)
-    message(WARNING "CYGWIN bash.exe is required to build libvpx")
-  else()
-    message("Found CYGWIN for libvpx here: ${CYGWIN_BASH_EXE_PATH}")
-  endif()
 
-  if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-    find_program(YASM_EXE_WIN64_PATH yasm.exe PATHS C:/tt5dist/yasm/x64)
-    if (YASM_EXE_WIN64_PATH-NOTFOUND)
-      message(WARNING "yasm.exe is required to build libvpx. See https://yasm.tortall.net")
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+    find_program(CYGWIN_BASH_EXE_PATH bash.exe PATHS C:/cygwin64/bin)
+    if (CYGWIN_BASH_EXE_PATH-NOTFOUND)
+      message(WARNING "CYGWIN bash.exe is required to build libvpx")
     else()
-      message("Found YASM for libvpx here: ${YASM_EXE_WIN64_PATH}")
+      message("Found CYGWIN for libvpx here: ${CYGWIN_BASH_EXE_PATH}")
     endif()
 
-    set (CMAKE_MSVCIDE_RUN_PATH C:/tt5dist/yasm/x64)
+    if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+      find_program(YASM_EXE_WIN64_PATH yasm.exe PATHS C:/tt5dist/yasm/x64)
+      if (YASM_EXE_WIN64_PATH-NOTFOUND)
+        message(WARNING "yasm.exe is required to build libvpx. See https://yasm.tortall.net")
+      else()
+        message("Found YASM for libvpx here: ${YASM_EXE_WIN64_PATH}")
+      endif()
 
-    ExternalProject_Add(libvpx-src
-      GIT_REPOSITORY    https://github.com/bear101/libvpx
-      GIT_TAG           v1.9.0
-      UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
-      CONFIGURE_COMMAND ""
-      BUILD_COMMAND     if exist build-x64 rmdir /Q /S build-x64
-      COMMAND           mkdir build-x64
-      COMMAND           C:\\cygwin64\\bin\\bash.exe --login -c "cd $OLDPWD/build-x64 && ../configure --target=x86_64-win64-vs16 --disable-examples --disable-docs --enable-static-msvcrt --disable-unit-tests && make"
-      INSTALL_COMMAND   ""
-      BUILD_IN_SOURCE   TRUE
-      )
-    ExternalProject_Get_Property(libvpx-src SOURCE_DIR)
-    set (LIBVPX_DIR ${SOURCE_DIR})
-    set (LIBVPX_DEPEND libvpx-src)
-  else()
-    find_program(YASM_EXE_WIN32_PATH yasm.exe PATHS C:/tt5dist/yasm/win32)
-    if (YASM_EXE_WIN32_PATH-NOTFOUND)
-      message(WARNING "yasm.exe is required to build libvpx. See https://yasm.tortall.net")
+      set (CMAKE_MSVCIDE_RUN_PATH C:/tt5dist/yasm/x64)
+
+      ExternalProject_Add(libvpx-src
+        GIT_REPOSITORY    https://github.com/bear101/libvpx
+        GIT_TAG           v1.9.0
+        UPDATE_COMMAND    ""
+        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND     IF EXIST build-x64 rmdir /Q /S build-x64
+        COMMAND           mkdir build-x64
+        COMMAND           C:\\cygwin64\\bin\\bash.exe --login -c "cd $OLDPWD/build-x64 && ../configure --target=x86_64-win64-vs16 --disable-examples --disable-docs --enable-static-msvcrt --disable-unit-tests && make"
+        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}
+        INSTALL_COMMAND   cd <SOURCE_DIR>
+        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
+        COMMAND           cd <SOURCE_DIR>/build-x64
+        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat x64 <INSTALL_DIR>
+        BUILD_IN_SOURCE   TRUE
+        )
     else()
-      message("Found YASM for libvpx here: ${YASM_EXE_WIN32_PATH}")
+      find_program(YASM_EXE_WIN32_PATH yasm.exe PATHS C:/tt5dist/yasm/win32)
+      if (YASM_EXE_WIN32_PATH-NOTFOUND)
+        message(WARNING "yasm.exe is required to build libvpx. See https://yasm.tortall.net")
+      else()
+        message("Found YASM for libvpx here: ${YASM_EXE_WIN32_PATH}")
+      endif()
+
+      set (CMAKE_MSVCIDE_RUN_PATH C:/tt5dist/yasm/win32)
+
+      ExternalProject_Add(libvpx-src
+        GIT_REPOSITORY    https://github.com/bear101/libvpx
+        GIT_TAG           v1.9.0
+        UPDATE_COMMAND    ""
+        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND     IF EXIST build-win32 rmdir /Q /S build-win32
+        COMMAND           mkdir build-win32
+        COMMAND           C:\\cygwin64\\bin\\bash.exe --login -c "cd $OLDPWD/build-win32 && ../configure --target=x86-win32-vs16 --disable-examples --disable-docs --enable-static-msvcrt --disable-unit-tests && make"
+        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}
+        INSTALL_COMMAND   cd <SOURCE_DIR>
+        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
+        COMMAND           cd <SOURCE_DIR>/build-win32
+        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat win32 <INSTALL_DIR>
+        BUILD_IN_SOURCE   TRUE
+        )
     endif()
-
-    set (CMAKE_MSVCIDE_RUN_PATH C:/tt5dist/yasm/win32)
-
-    ExternalProject_Add(libvpx-src
-      GIT_REPOSITORY    https://github.com/bear101/libvpx
-      GIT_TAG           v1.9.0
-      UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
-      CONFIGURE_COMMAND ""
-      BUILD_COMMAND     if exist build-win32 rmdir /Q /S build-win32
-      COMMAND           mkdir build-win32
-      COMMAND           C:\\cygwin64\\bin\\bash.exe --login -c "cd $OLDPWD/build-win32 && ../configure --target=x86-win32-vs16 --disable-examples --disable-docs --enable-static-msvcrt --disable-unit-tests && make"
-      INSTALL_COMMAND   ""
-      BUILD_IN_SOURCE   TRUE
-      )
-    ExternalProject_Get_Property(libvpx-src SOURCE_DIR)
-    set (LIBVPX_DIR ${SOURCE_DIR})
-    set (LIBVPX_DEPEND libvpx-src)
-  endif()
+    ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
-  target_include_directories (libvpx INTERFACE ${LIBVPX_DIR})
+  target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(libvpx PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${LIBVPX_DIR}/build-$(PlatformName)/$(PlatformName)/Debug/vpxmtd.lib
-    IMPORTED_LOCATION ${LIBVPX_DIR}/build-$(PlatformName)/$(PlatformName)/Release/vpxmt.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/$(PlatformName)/Debug/vpxmtd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/$(PlatformName)/Release/vpxmt.lib)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
-    add_dependencies(libvpx ${LIBVPX_DEPEND})
+    add_dependencies(libvpx libvpx-src)
   endif()
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  ExternalProject_Add(libvpx-src
-    GIT_REPOSITORY    https://github.com/bear101/libvpx
-    GIT_TAG           v1.9.0
-    GIT_SHALLOW       TRUE
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
-    CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
-            --prefix=<INSTALL_DIR> --target=x86_64-darwin13-gcc
-            --disable-examples --disable-docs --disable-unit-tests
-    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
-    )
-  ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+    ExternalProject_Add(libvpx-src
+      GIT_REPOSITORY    https://github.com/bear101/libvpx
+      GIT_TAG           v1.9.0
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
+      CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
+      --prefix=<INSTALL_DIR> --target=x86_64-darwin13-gcc
+      --disable-examples --disable-docs --disable-unit-tests
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
+      )
+    ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
@@ -123,23 +136,26 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     set (LIBVPX_TARGET x86_64-iphonesimulator-gcc)
   endif()
 
-  ExternalProject_Add(libvpx-src
-    GIT_REPOSITORY    https://github.com/bear101/libvpx
-    GIT_TAG           v1.9.0
-    GIT_SHALLOW       TRUE
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
-    CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=${LIBVPX_CPPFLAGS}
-            --prefix=<INSTALL_DIR> --target=${LIBVPX_TARGET}
-            --disable-examples --disable-docs --disable-unit-tests
-    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
-    )
-  ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+    ExternalProject_Add(libvpx-src
+      GIT_REPOSITORY    https://github.com/bear101/libvpx
+      GIT_TAG           v1.9.0
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
+      CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=${LIBVPX_CPPFLAGS}
+      --prefix=<INSTALL_DIR> --target=${LIBVPX_TARGET}
+      --disable-examples --disable-docs --disable-unit-tests
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
+      )
+    ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
@@ -151,23 +167,26 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  ExternalProject_Add(libvpx-src
-    GIT_REPOSITORY    https://github.com/bear101/libvpx
-    GIT_TAG           v1.9.0
-    GIT_SHALLOW       TRUE
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
-    CONFIGURE_COMMAND <SOURCE_DIR>/configure
-            --prefix=<INSTALL_DIR> --target=x86_64-linux-gcc
-            --disable-examples --disable-docs --disable-unit-tests
-    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
-    )
-  ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+    ExternalProject_Add(libvpx-src
+      GIT_REPOSITORY    https://github.com/bear101/libvpx
+      GIT_TAG           v1.9.0
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
+      CONFIGURE_COMMAND <SOURCE_DIR>/configure
+      --prefix=<INSTALL_DIR> --target=x86_64-linux-gcc
+      --disable-examples --disable-docs --disable-unit-tests
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
+      )
+    ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
@@ -215,23 +234,26 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     message(FATAL_ERROR "Unknown Android architecture")
   endif()
   
-  ExternalProject_Add(libvpx-src
-    GIT_REPOSITORY    https://github.com/bear101/libvpx
-    GIT_TAG           v1.9.0
-    GIT_SHALLOW       TRUE
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
-    CONFIGURE_COMMAND ${LIBVPX_EXPORT} && <SOURCE_DIR>/configure
-            --prefix=<INSTALL_DIR> ${LIBVPX_CFG}
-            --disable-examples --disable-docs --disable-unit-tests --enable-pic
-    BUILD_COMMAND     ${LIBVPX_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   ${LIBVPX_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
-    )
-  ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+    ExternalProject_Add(libvpx-src
+      GIT_REPOSITORY    https://github.com/bear101/libvpx
+      GIT_TAG           v1.9.0
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
+      CONFIGURE_COMMAND ${LIBVPX_EXPORT} && <SOURCE_DIR>/configure
+      --prefix=<INSTALL_DIR> ${LIBVPX_CFG}
+      --disable-examples --disable-docs --disable-unit-tests --enable-pic
+      BUILD_COMMAND     ${LIBVPX_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   ${LIBVPX_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
+      )
+    ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)

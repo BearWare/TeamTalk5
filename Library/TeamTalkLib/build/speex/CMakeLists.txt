@@ -9,68 +9,79 @@ include(ExternalProject)
 ##################################################
 
 option (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX "Build Speex from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
+set (TOOLCHAIN_INSTALL_PREFIX_SPEEX ${TOOLCHAIN_INSTALL_PREFIX}/speex)
 
 if (MSVC)
-  if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-    ExternalProject_Add(speex-src
-      GIT_REPOSITORY    https://github.com/bear101/speex
-      GIT_TAG           62ad6a6
-      UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
-      CONFIGURE_COMMAND ""
-      BUILD_IN_SOURCE   TRUE
-      BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2015\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Debug
-      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2015\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Release_SSE2
-      INSTALL_COMMAND   ""
-      )
-    ExternalProject_Get_Property(speex-src SOURCE_DIR)
-    set (SPEEX_DIR ${SOURCE_DIR})
-    set (SPEEX_DEPEND speex-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+    if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+      ExternalProject_Add(speex-src
+        GIT_REPOSITORY    https://github.com/bear101/speex
+        GIT_TAG           62ad6a6
+        UPDATE_COMMAND    ""
+        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
+        CONFIGURE_COMMAND ""
+        BUILD_IN_SOURCE   TRUE
+        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2015\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2015\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Release_SSE2
+        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
+        INSTALL_COMMAND   cd <SOURCE_DIR>/include
+        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
+        COMMAND           cd <SOURCE_DIR>
+        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        )
+      ExternalProject_Get_Property(speex-src INSTALL_DIR)
+    else()
+      ExternalProject_Add(speex-src
+        GIT_REPOSITORY    https://github.com/bear101/speex
+        GIT_TAG           62ad6a6
+        UPDATE_COMMAND    ""
+        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
+        CONFIGURE_COMMAND ""
+        BUILD_IN_SOURCE   TRUE
+        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2015\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2015\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Release_SSE2
+        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
+        INSTALL_COMMAND   cd <SOURCE_DIR>/include
+        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
+        COMMAND           cd <SOURCE_DIR>
+        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        )
+      ExternalProject_Get_Property(speex-src INSTALL_DIR)
+    endif()
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()
-    ExternalProject_Add(speex-src
-      GIT_REPOSITORY    https://github.com/bear101/speex
-      GIT_TAG           62ad6a6
-      UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
-      CONFIGURE_COMMAND ""
-      BUILD_IN_SOURCE   TRUE
-      BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2015\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Debug
-      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2015\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Release_SSE2
-      INSTALL_COMMAND   ""
-      )
-    ExternalProject_Get_Property(speex-src SOURCE_DIR)
-    set (SPEEX_DIR ${SOURCE_DIR})
-    set (SPEEX_DEPEND speex-src)
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_SPEEX})
   endif()
-
-  file(MAKE_DIRECTORY ${SPEEX_DIR}/include)
 
   add_library(speex STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
-    add_dependencies(speex ${SPEEX_DEPEND})
+    add_dependencies(speex speex-src)
   endif()
-  target_include_directories (speex INTERFACE ${SPEEX_DIR}/include)
+  target_include_directories (speex INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(speex PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${SPEEX_DIR}/lib/$(PlatformName)/libspeexd.lib
-    IMPORTED_LOCATION ${SPEEX_DIR}/lib/$(PlatformName)/libspeex_sse2.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/$(PlatformName)/libspeexd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/$(PlatformName)/libspeex_sse2.lib)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  ExternalProject_Add(speex-src
-    GIT_REPOSITORY    https://github.com/bear101/speex
-    GIT_TAG           Speex-1.2.0
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speex
-    CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
-    COMMAND           <SOURCE_DIR>/configure CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} --prefix=<INSTALL_DIR>
-    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
-    )
-  ExternalProject_Get_Property(speex-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+    ExternalProject_Add(speex-src
+      GIT_REPOSITORY    https://github.com/bear101/speex
+      GIT_TAG           Speex-1.2.0
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
+      CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
+      COMMAND           <SOURCE_DIR>/configure CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} --prefix=<INSTALL_DIR>
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
+      )
+    ExternalProject_Get_Property(speex-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_SPEEX})
+  endif()
 
   add_library(speex STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
@@ -95,21 +106,24 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     message(FATAL_ERROR "What iOS architecture is this?")
   endif()
 
-  ExternalProject_Add(speex-src
-    GIT_REPOSITORY    https://github.com/bear101/speex
-    GIT_TAG           Speex-1.2.0
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speex
-    CONFIGURE_COMMAND export CFLAGS=${SPEEX_CFLAGS} CPPFLAGS=${SPEEX_CFLAGS} LDFLAGS=${SPEEX_CFLAGS} && <SOURCE_DIR>/autogen.sh ${SPEEX_GEN_FLAGS}
-    COMMAND           export CFLAGS=${SPEEX_CFLAGS} CPPFLAGS=${SPEEX_CFLAGS} LDFLAGS=${SPEEX_CFLAGS} && <SOURCE_DIR>/configure ${SPEEX_CFG_FLAGS} --prefix=<INSTALL_DIR>
-    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
-    )
-  ExternalProject_Get_Property(speex-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+    ExternalProject_Add(speex-src
+      GIT_REPOSITORY    https://github.com/bear101/speex
+      GIT_TAG           Speex-1.2.0
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
+      CONFIGURE_COMMAND export CFLAGS=${SPEEX_CFLAGS} CPPFLAGS=${SPEEX_CFLAGS} LDFLAGS=${SPEEX_CFLAGS} && <SOURCE_DIR>/autogen.sh ${SPEEX_GEN_FLAGS}
+      COMMAND           export CFLAGS=${SPEEX_CFLAGS} CPPFLAGS=${SPEEX_CFLAGS} LDFLAGS=${SPEEX_CFLAGS} && <SOURCE_DIR>/configure ${SPEEX_CFG_FLAGS} --prefix=<INSTALL_DIR>
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
+      )
+    ExternalProject_Get_Property(speex-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_SPEEX})
+  endif()
 
   add_library(speex STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
@@ -121,21 +135,24 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  ExternalProject_Add(speex-src
-    GIT_REPOSITORY    https://github.com/bear101/speex
-    GIT_TAG           Speex-1.2.0
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speex
-    CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
-    COMMAND           <SOURCE_DIR>/configure --with-pic --prefix=<INSTALL_DIR>
-    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
-    )
-  ExternalProject_Get_Property(speex-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+    ExternalProject_Add(speex-src
+      GIT_REPOSITORY    https://github.com/bear101/speex
+      GIT_TAG           Speex-1.2.0
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
+      CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
+      COMMAND           <SOURCE_DIR>/configure --with-pic --prefix=<INSTALL_DIR>
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
+      )
+    ExternalProject_Get_Property(speex-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_SPEEX})
+  endif()
 
   add_library(speex STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
@@ -171,23 +188,26 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     message(FATAL_ERROR "What iOS architecture is this?")
   endif()
 
-  ExternalProject_Add(speex-src
-    GIT_REPOSITORY    https://github.com/bear101/speex
-    GIT_TAG           Speex-1.2.0
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/speex
-    CONFIGURE_COMMAND ${SPEEX_EXPORT} && <SOURCE_DIR>/autogen.sh ${SPEEX_GEN_FLAGS}
-    COMMAND           ${SPEEX_EXPORT} && <SOURCE_DIR>/configure ${SPEEX_CFG_FLAGS}
-                      --prefix=<INSTALL_DIR> --disable-binaries --with-pic
-                      --enable-shared=no --enable-static=yes
-    BUILD_COMMAND     ${SPEEX_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   ${SPEEX_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
-    )
-  ExternalProject_Get_Property(speex-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+    ExternalProject_Add(speex-src
+      GIT_REPOSITORY    https://github.com/bear101/speex
+      GIT_TAG           Speex-1.2.0
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
+      CONFIGURE_COMMAND ${SPEEX_EXPORT} && <SOURCE_DIR>/autogen.sh ${SPEEX_GEN_FLAGS}
+      COMMAND           ${SPEEX_EXPORT} && <SOURCE_DIR>/configure ${SPEEX_CFG_FLAGS}
+      --prefix=<INSTALL_DIR> --disable-binaries --with-pic
+      --enable-shared=no --enable-static=yes
+      BUILD_COMMAND     ${SPEEX_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   ${SPEEX_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a
+      )
+    ExternalProject_Get_Property(speex-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_SPEEX})
+  endif()
 
   add_library(speex STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)

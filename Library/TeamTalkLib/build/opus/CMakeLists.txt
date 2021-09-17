@@ -9,47 +9,56 @@ include(ExternalProject)
 ##################################################
 
 option (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS "Build OPUS from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
+set (TOOLCHAIN_INSTALL_PREFIX_OPUS ${TOOLCHAIN_INSTALL_PREFIX}/opus)
 
 if (MSVC)
-  ExternalProject_Add(opus-src
-    GIT_REPOSITORY    https://github.com/bear101/opus
-    GIT_TAG           6c18dfab
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
-    CMAKE_ARGS        -DAVX_SUPPORTED=OFF
-    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus --config Debug
-    COMMAND           ${CMAKE_COMMAND} --build . --target opus --config Release
-    INSTALL_COMMAND   ""
-    )
-  ExternalProject_Get_Property(opus-src SOURCE_DIR)
-  set (OPUS_DIR ${SOURCE_DIR})
-  file(MAKE_DIRECTORY ${OPUS_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+    ExternalProject_Add(opus-src
+      GIT_REPOSITORY    https://github.com/bear101/opus
+      GIT_TAG           5e292322
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
+      CMAKE_ARGS        -DAVX_SUPPORTED=OFF -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+      BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus --config Debug
+      COMMAND           ${CMAKE_COMMAND} --build . --target opus --config Release
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPUS}
+      INSTALL_COMMAND   ${CMAKE_COMMAND} --build . --target install --config Debug
+      COMMAND           ${CMAKE_COMMAND} --build . --target install --config Release
+      )
+    ExternalProject_Get_Property(opus-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPUS})
+  endif()
 
   add_library(opus STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
     add_dependencies(opus opus-src)
   endif()
-  target_include_directories (opus INTERFACE ${OPUS_DIR}/include)
+  target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(opus PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${OPUS_DIR}/lib/$(PlatformName)/opusd.lib
-    IMPORTED_LOCATION ${OPUS_DIR}/lib/$(PlatformName)/opus.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/opusd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/opus.lib)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  ExternalProject_Add(opus-src
-    GIT_REPOSITORY    https://github.com/bear101/opus
-    GIT_TAG           v1.3.1
-    GIT_SHALLOW       TRUE
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/opus
-    CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
-    )
-  ExternalProject_Get_Property(opus-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+    ExternalProject_Add(opus-src
+      GIT_REPOSITORY    https://github.com/bear101/opus
+      GIT_TAG           v1.3.1
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPUS}
+      CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+      BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
+      )
+    ExternalProject_Get_Property(opus-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPUS})
+  endif()
 
   add_library(opus STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
@@ -70,20 +79,23 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     list (APPEND OPUS_CFG_FLAGS -DOPUS_FIXED_POINT=ON)
   endif()
 
-  ExternalProject_Add(opus-src
-    GIT_REPOSITORY    https://github.com/bear101/opus
-    GIT_TAG           v1.3.1
-    GIT_SHALLOW       TRUE
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/opus
-    CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OPUS_CFG_FLAGS}
-    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
-    )
-  ExternalProject_Get_Property(opus-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+    ExternalProject_Add(opus-src
+      GIT_REPOSITORY    https://github.com/bear101/opus
+      GIT_TAG           v1.3.1
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPUS}
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OPUS_CFG_FLAGS}
+      BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
+      )
+    ExternalProject_Get_Property(opus-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPUS})
+  endif()
 
   add_library(opus STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
@@ -95,20 +107,23 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  ExternalProject_Add(opus-src
-    GIT_REPOSITORY    https://github.com/bear101/opus
-    GIT_TAG           v1.3.1
-    GIT_SHALLOW       TRUE
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/opus
-    CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
-    )
-  ExternalProject_Get_Property(opus-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+    ExternalProject_Add(opus-src
+      GIT_REPOSITORY    https://github.com/bear101/opus
+      GIT_TAG           v1.3.1
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPUS}
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+      BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
+      )
+    ExternalProject_Get_Property(opus-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPUS})
+  endif()
 
   add_library(opus STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
@@ -136,20 +151,23 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     list (APPEND OPUS_CFG_FLAGS -DOPUS_FIXED_POINT=ON)
   endif()
 
-  ExternalProject_Add(opus-src
-    GIT_REPOSITORY    https://github.com/bear101/opus
-    GIT_TAG           v1.3.1
-    GIT_SHALLOW       TRUE
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/opus
-    CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON ${OPUS_CFG_FLAGS}
-    BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
-    )
-  ExternalProject_Get_Property(opus-src INSTALL_DIR)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+    ExternalProject_Add(opus-src
+      GIT_REPOSITORY    https://github.com/bear101/opus
+      GIT_TAG           v1.3.1
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPUS}
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON ${OPUS_CFG_FLAGS}
+      BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
+      )
+    ExternalProject_Get_Property(opus-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPUS})
+  endif()
 
   add_library(opus STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)

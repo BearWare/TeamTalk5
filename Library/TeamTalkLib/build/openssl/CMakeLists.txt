@@ -9,60 +9,62 @@ include(ExternalProject)
 ##################################################
 
 option (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL "Build OpenSSL from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
+set (TOOLCHAIN_INSTALL_PREFIX_OPENSSL ${TOOLCHAIN_INSTALL_PREFIX}/openssl)
 
 if (MSVC)
 
-  if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-    ExternalProject_Add(openssl-src
-      GIT_REPOSITORY    https://github.com/bear101/openssl
-      GIT_TAG           2c3f861718
-      GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
-      CONFIGURE_COMMAND ""
-      BUILD_IN_SOURCE   TRUE
-      BUILD_COMMAND     build_win64.bat
-      INSTALL_COMMAND   ""
-      )
-    ExternalProject_Get_Property(openssl-src SOURCE_DIR)
-    set (OPENSSL_DIR ${SOURCE_DIR})
-    set (OPENSSL_DIR ${SOURCE_DIR} PARENT_SCOPE)
-    set (OPENSSL_DEPEND openssl-src)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
+    if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+      ExternalProject_Add(openssl-src
+        GIT_REPOSITORY    https://github.com/bear101/openssl
+        GIT_TAG           2c3f861718
+        GIT_SHALLOW       TRUE
+        UPDATE_COMMAND    ""
+        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
+        CONFIGURE_COMMAND ""
+        CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN64A
+        BUILD_COMMAND     set CL=/MP
+        COMMAND           nmake
+        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
+        INSTALL_COMMAND   nmake install
+        )
+    else()
+      ExternalProject_Add(openssl-src
+        GIT_REPOSITORY    https://github.com/bear101/openssl
+        GIT_TAG           2c3f861718
+        GIT_SHALLOW       TRUE
+        UPDATE_COMMAND    ""
+        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
+        CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN32
+        BUILD_COMMAND     set CL=/MP
+        COMMAND           nmake
+        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
+        INSTALL_COMMAND   nmake install
+        )
+    endif()
+    ExternalProject_Get_Property(openssl-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()
-    ExternalProject_Add(openssl-src
-      GIT_REPOSITORY    https://github.com/bear101/openssl
-      GIT_TAG           2c3f861718
-      GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
-      CONFIGURE_COMMAND ""
-      BUILD_IN_SOURCE   TRUE
-      BUILD_COMMAND     build_win32.bat
-      INSTALL_COMMAND   ""
-      )
-    ExternalProject_Get_Property(openssl-src SOURCE_DIR)
-    set (OPENSSL_DIR ${SOURCE_DIR})
-    set (OPENSSL_DIR ${SOURCE_DIR} PARENT_SCOPE)
-    set (OPENSSL_DEPEND openssl-src)
-  endif()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL})
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
 
-  file(MAKE_DIRECTORY ${OPENSSL_DIR}/include)
+  set (OPENSSL_DIR ${INSTALL_DIR} PARENT_SCOPE)
 
   add_library(openssl-crypto STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
-    add_dependencies(openssl-crypto ${OPENSSL_DEPEND})
+    add_dependencies(openssl-crypto openssl-src)
   endif()
-  target_include_directories (openssl-crypto INTERFACE ${OPENSSL_DIR}/include)
+  target_include_directories (openssl-crypto INTERFACE ${INSTALL_DIR}/include)
   target_link_libraries(openssl-crypto INTERFACE crypt32.lib)
-  set_property(TARGET openssl-crypto PROPERTY IMPORTED_LOCATION ${OPENSSL_DIR}/lib/$(PlatformName)/lib/libcrypto.lib)
+  set_property(TARGET openssl-crypto PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libcrypto.lib)
 
   add_library(openssl-ssl STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
-    add_dependencies(openssl-ssl ${OPENSSL_DEPEND})
+    add_dependencies(openssl-ssl openssl-src)
   endif()
-  target_include_directories (openssl-ssl INTERFACE ${OPENSSL_DIR}/include)
+  target_include_directories (openssl-ssl INTERFACE ${INSTALL_DIR}/include)
   target_link_libraries(openssl-ssl INTERFACE crypt32.lib)
-  set_property(TARGET openssl-ssl PROPERTY IMPORTED_LOCATION ${OPENSSL_DIR}/lib/$(PlatformName)/lib/libssl.lib)
+  set_property(TARGET openssl-ssl PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libssl.lib)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
@@ -70,24 +72,27 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     message(FATAL_ERROR "No deployment target specified")
   endif()
 
-  ExternalProject_Add(openssl-src
-    GIT_REPOSITORY    https://github.com/bear101/openssl
-    GIT_TAG           OpenSSL_1_1_1k
-    GIT_SHALLOW       TRUE
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/openssl
-    CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-x86_64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
-    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
-    )
-  ExternalProject_Get_Property(openssl-src INSTALL_DIR)
-  set (OPENSSL_DIR ${INSTALL_DIR})
-  set (OPENSSL_DIR ${INSTALL_DIR} PARENT_SCOPE)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
+    ExternalProject_Add(openssl-src
+      GIT_REPOSITORY    https://github.com/bear101/openssl
+      GIT_TAG           OpenSSL_1_1_1k
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
+      CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-x86_64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
+      )
+    ExternalProject_Get_Property(openssl-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL})
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
 
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
+  set (OPENSSL_DIR ${INSTALL_DIR} PARENT_SCOPE)
 
   add_library(openssl-crypto STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
@@ -115,25 +120,28 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     set (OPENSSL_CFG_POSTFIX -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
   endif()
 
-  ExternalProject_Add(openssl-src
-    GIT_REPOSITORY    https://github.com/bear101/openssl
-    GIT_TAG           OpenSSL_1_1_1k
-    GIT_SHALLOW       TRUE
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/openssl
-    CONFIGURE_COMMAND ${OPENSSL_CFG_PREFIX} && export CFLAGS=-arch\ ${CMAKE_OSX_ARCHITECTURES} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> ${OPENSSL_CFG_TARGET} no-shared no-async no-tests ${OPENSSL_CFG_POSTFIX}
-    BUILD_COMMAND     ${OPENSSL_CFG_PREFIX} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   ${OPENSSL_CFG_PREFIX} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
-    )
-  ExternalProject_Get_Property(openssl-src INSTALL_DIR)
-  set (OPENSSL_DIR ${INSTALL_DIR})
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
+    ExternalProject_Add(openssl-src
+      GIT_REPOSITORY    https://github.com/bear101/openssl
+      GIT_TAG           OpenSSL_1_1_1k
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
+      CONFIGURE_COMMAND ${OPENSSL_CFG_PREFIX} && export CFLAGS=-arch\ ${CMAKE_OSX_ARCHITECTURES} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> ${OPENSSL_CFG_TARGET} no-shared no-async no-tests ${OPENSSL_CFG_POSTFIX}
+      BUILD_COMMAND     ${OPENSSL_CFG_PREFIX} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   ${OPENSSL_CFG_PREFIX} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
+      )
+    ExternalProject_Get_Property(openssl-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL})
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
+
   set (OPENSSL_DIR ${INSTALL_DIR} PARENT_SCOPE)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
-
+  
   add_library(openssl-crypto STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
     add_dependencies(openssl-crypto openssl-src)
@@ -150,24 +158,27 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  ExternalProject_Add(openssl-src
-    GIT_REPOSITORY    https://github.com/bear101/openssl
-    GIT_TAG           OpenSSL_1_1_1k
-    GIT_SHALLOW       TRUE
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/openssl
-    CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC linux-x86_64
-    BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
-    )
-  ExternalProject_Get_Property(openssl-src INSTALL_DIR)
-  set (OPENSSL_DIR ${INSTALL_DIR})
-  set (OPENSSL_DIR ${INSTALL_DIR} PARENT_SCOPE)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
+    ExternalProject_Add(openssl-src
+      GIT_REPOSITORY    https://github.com/bear101/openssl
+      GIT_TAG           OpenSSL_1_1_1k
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
+      CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC linux-x86_64
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
+      )
+    ExternalProject_Get_Property(openssl-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL})
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
 
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
+  set (OPENSSL_DIR ${INSTALL_DIR} PARENT_SCOPE)
 
   add_library(openssl-crypto STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
@@ -219,26 +230,29 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
   set (OPENSSL_EXPORT export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:$ENV{PATH} && export ANDROID_NDK_HOME=${CMAKE_ANDROID_NDK})
 
-  ExternalProject_Add(openssl-src
-    GIT_REPOSITORY    https://github.com/bear101/openssl
-    GIT_TAG           OpenSSL_1_1_1k
-    GIT_SHALLOW       TRUE
-    UPDATE_COMMAND    ""
-    PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
-    INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/openssl
-    CONFIGURE_COMMAND ${OPENSSL_EXPORT} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC no-shared
-                      ${OPENSSL_CFG_TARGET} -D__ANDROID_API__=${ANDROID_PLATFORM_LEVEL}
-    BUILD_COMMAND     ${OPENSSL_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
-    INSTALL_COMMAND   ${OPENSSL_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
-    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
-    )
-  ExternalProject_Get_Property(openssl-src INSTALL_DIR)
-  set (OPENSSL_DIR ${INSTALL_DIR})
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
+    ExternalProject_Add(openssl-src
+      GIT_REPOSITORY    https://github.com/bear101/openssl
+      GIT_TAG           OpenSSL_1_1_1k
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
+      CONFIGURE_COMMAND ${OPENSSL_EXPORT} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC no-shared
+      ${OPENSSL_CFG_TARGET} -D__ANDROID_API__=${ANDROID_PLATFORM_LEVEL}
+      BUILD_COMMAND     ${OPENSSL_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   ${OPENSSL_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
+      )
+    ExternalProject_Get_Property(openssl-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL})
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
+
   set (OPENSSL_DIR ${INSTALL_DIR} PARENT_SCOPE)
-
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
-  file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
-
+  
   add_library(openssl-crypto STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPENSSL)
     add_dependencies(openssl-crypto openssl-src)
