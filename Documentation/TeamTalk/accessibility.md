@@ -1,11 +1,18 @@
 # TeamTalk 5 Classic for Accessibility {#classic}
 
-The default TeamTalk 5 client application uses a framework called
-[Qt](http://qt-project.org) for designing the user interface and
-unfortunately this doesn't work well with screen-readers. For this
-reason a simplified version of the TeamTalk 5 application has been
-included with the TeamTalk 5 Windows installer called **TeamTalk 5
-Classic** which works well with screen-readers.
+Historically TeamTalk 5 Classic for Windows has been the preferred
+client for users using screen-readers. However, in TeamTalk v5.8 and
+onwards the default TeamTalk client (often referred to as Qt client)
+has received many accessibility improvements. Therefore users are
+encouraged to switch to the default TeamTalk client in order to try
+out the latest features.
+
+As of TeamTalk v5.8 the TeamTalk 5 Classic client only receives
+bugfixes and no new features are implemented in the client.
+
+The TeamTalk 5 Classic client is still included in the Windows
+installer, so users can continue using it. But please give the default
+TeamTalk client a try.
 
 # Install TeamTalk 5 Classic {#installclassic}
 

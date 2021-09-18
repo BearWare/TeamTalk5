@@ -1,32 +1,50 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.8.1
-Accessible Windows Client
+Version 5.8.2
+Default Qt Client
+- Fixed a case where, depending on start path, sounds with default values was not played
+Android Client
 -
-Default QT Client
+iOS Client
+-
+Server
+-
+
+Version 5.8.1, 2021/09/07
+Default Qt Client
 - Create a folder in Sounds-folder to create your own Sound Pack
 - Ability to delete items from Stream Media File dialog
+- Ability to specify nickname for each server
+- Ability to force SAPI usage for Text-To-Speech events on Windows
+- New option in Display-tab to configure which events should be displayed in chat history
+- New option in Display-tab to automatically expand all channels in channels tree
 - Ctrl+Alt+S to quickly enable/disable Text-To-Speech
 - Ctrl+G now outputs Text-To-Speech information for selected user/channel
-- Ctrl+Alt+G to hear informations on current channel
-- Ability to specify nickname for each server
-- New option to configure which events should be displayed in chat history
-- Ability to force SAPI usage for Text-To-Speech events on Windows
-- Option to automatically expand all channels in channels tree
+- Ctrl+Alt+G to hear information on current channel
+- Ctrl+Shift+G to hear channel status
+- Reply "Yes" when ask for apply default accessibility settings now disable VU-Meter updates
+- Press Ctrl+C in online users dialog now copy user information to clipboard
+- Files-tab now has a context menu to download or delete selected file
+- In Files-tab, press enter on a file to download it
+- On MacOS, press enter on a channel in channels tree to join or leave the channel
 - Last modification date shown on user accounts
 - Upload time shown on files
 - Fixed default values for "Transmit ready in "No interruption" channel" and "Transmit stopped in "No interruption" channel" sound events
 - Fixed Shift+Tab navigation issues in main window
 - Fixed missing accessible labels in main window
 - Fixed Croatian file missing for installed version
-- Fixed "View user informations" from online users dialog
+- Fixed a case where enter should pressed twice in file combobox to play a file in stream media dialog
+- Fixed "View user information" from online users dialog
+- Fixed Home and End keys behavior on tab bars
 - Fixed CTRL+Alt+R to restore streaming permission when disabled
+- Fixed navigation using left key on columns of channels tree
 Android Client
 - Option to disable sound and TTS event when sending a channel message
 - Upload time shown on files
-- Files update sound played only in appropriate channel
-- Fixed a case when not all tts engines were available in Text-To-Speech selection screen
+- Files updated sound played only in current channel
+- Fixed a case when not all TTS engines were available in Text-To-Speech selection screen
+- Support for Persian language
 iOS Client
 - Ability to specify nickname for each server
 Server
@@ -38,7 +56,7 @@ Accessible Windows Client
 - Single file audio recording can now include media file streams
 - Fixed possible crash when saving preferences and playback mode for Sound Events has "All at once" selected
 - Improved performance of playback mode "All at once" for Sound Events
-Default QT Client
+Default Qt Client
 - Single file audio recording can now include media file streams
 - Fixed private message dialog not opening using CTRL+E or "Message" context menu in channels tree
 - New sound events
@@ -77,7 +95,7 @@ Accessible Windows Client
 - Change default sound events playback mode to "one by one"
 - Decrease server lost sound volume
 - Don't join previous joined channel if connection is dropped when not in a channel
-Default QT Client
+Default Qt Client
 - Text-to-Speech events now configurable in preferences (macOS, Linux and Windows)
 - Fixed echo canceller being less effective over long duration
 - Recording to single file now applies user specific volume settings
@@ -145,7 +163,7 @@ Accessible Windows Client
 - Specific message when kicked from server
 - Ability to play OPUS .ogg files
 - Option to display both server and channel name on window title
-Default QT Client
+Default Qt Client
 - SpeexDSP echo canceller replaced by WebRTC
 - SpeexDSP automatic gain control (AGC) replaced by WebRTC
 - SpeexDSP noise suppression replaced by WebRTC
@@ -198,11 +216,11 @@ Version 5.6.3, 2020/09/20
 Accessible Windows Client
 - Fixed crash issue due to changes in translations
 - Gender emoji only shown for female
-Default QT Client
+Default Qt Client
 - Gender emoji only shown for female
 
 Version 5.6.2, 2020/09/13
-Default QT Client
+Default Qt Client
 - Fixed broken accessibility on macOS due to Qt 5.14 (now Qt 5.15.0)
 
 Version 5.6.1, 2020/09/12
@@ -213,7 +231,7 @@ Accessible Windows Client
 - Status mode is now displayed for Away, Question, Streaming media file and Webcam
 - Away is displayed when switching automatically to Away-mode due to inactivity, and also when manually switching to this mode
 - Status mode is now displayed as text in tree control
-- Status message is now displayed after a hyphen (same behavior with QT Client)
+- Status message is now displayed after a hyphen (same behavior with Qt Client)
 - Fixed accessible hints on channel list and files-tab
 - Ctrl+G now return "Administrator" when it's the case
 - Ctrl+H/Y and Ctrl+Shift+H/Y to increase/decrease voice and media files volume of an user
@@ -226,7 +244,7 @@ Accessible Windows Client
 - Fixed TTS message when join/left root channel
 - Contributors area on about dialog
 - User volume levels and subscriptions are restored on login when using BearWare.dk Web Login
-Default QT Client
+Default Qt Client
 - Update window title at login with server name
 - Status mode for Away, Question, Streaming media file and Webcam is now displayed as text 
 - Away is displayed when switching automatically to Away-mode due to inactivity, and also when manually switching to this mode

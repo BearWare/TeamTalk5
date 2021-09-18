@@ -1,6 +1,7 @@
 TOOLCHAIN_ROOT?=$(PWD)/../Library/TeamTalkLib/toolchain
 TEAMTALK_ROOT?=$(PWD)/..
 CONFIGTYPE?=release
+CMAKE_GENERATOR?=Ninja
 
 SHELL := /bin/bash
 
@@ -19,7 +20,7 @@ toolchain-env:
 
 genlib:
 	mkdir -p $(BUILDDIR)
-	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) -G Ninja ../../
+	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) -G "$(CMAKE_GENERATOR)" ../../
 
 buildlib: genlib
 	cmake --build $(BUILDDIR) $(CMAKE_BUILD_EXTRA)

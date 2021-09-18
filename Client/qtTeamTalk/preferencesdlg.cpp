@@ -40,6 +40,7 @@
 #include <QDir>
 #include <QTranslator>
 #include <QVariant>
+#include <QKeyEvent>
 #include "stdint.h"
 
 extern TTInstance* ttInst;
@@ -1563,7 +1564,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.notifTimestampSpinBox->setEnabled(true);
         ui.notifTimestampSpinBox->setValue(ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt());
     }
-#elif defined(Q_OS_WINDOWS)
+#elif defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)
     else if(ui.ttsengineComboBox->currentIndex() == 2)
     {
         ui.forceSapiChkBox->setEnabled(true);
@@ -2021,4 +2022,16 @@ void PreferencesDlg::slotConfigureStatusBar()
 {
     StatusBarDlg dlg(this, ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong());
     dlg.exec();
+}
+
+void PreferencesDlg::keyPressEvent(QKeyEvent* e)
+{
+    if (ui.tabWidget->hasFocus())
+    {
+        if (e->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
+            ui.tabWidget->setCurrentIndex(0);
+        else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
+            ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
+    }
+    QDialog::keyPressEvent(e);
 }
