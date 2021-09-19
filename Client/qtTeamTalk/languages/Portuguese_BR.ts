@@ -131,7 +131,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="94"/>
         <source>Max Gain dB</source>
-        <translation>Ganho Max dB</translation>
+        <translation>Ganho Max. dB</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="111"/>
@@ -146,12 +146,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="146"/>
         <source>Denoising</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover Ruído</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="154"/>
         <source>Enable Denoising</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar Remover Ruído</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="178"/>
@@ -385,7 +385,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="14"/>
         <source>Activate BearWare.dk Web Login</source>
-        <translation>Ativar Login Web Bearware.dk</translation>
+        <translation>Ativar Login Web do Bearware.dk</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="20"/>
@@ -496,7 +496,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="50"/>
         <source>Channel name</source>
-        <translation>Nome do Canal</translation>
+        <translation>Nome do canal</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="63"/>
@@ -516,12 +516,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="120"/>
         <source>Max users</source>
-        <translation># Max Usuários</translation>
+        <translation>Max. de usuários</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="146"/>
         <source>Disk quota (KBytes)</source>
-        <translation>Quota de Disco (Kbytes)</translation>
+        <translation>Quota de disco (Kbytes)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="172"/>
@@ -559,11 +559,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Echo channel (hear yourself)</source>
-        <translation type="obsolete">Canal de Echo (ouça você mesmo)</translation>
+        <translation type="obsolete">Canal de echo (ouça você mesmo)</translation>
     </message>
     <message>
         <source>No simultaneous audio transmission</source>
-        <translation type="obsolete">Sem transmissão de áudio simultanea</translation>
+        <translation type="obsolete">Sem transmissão de áudio simultânea</translation>
     </message>
     <message>
         <source>No interruptions (no simultaneous audio transmission)</source>
@@ -580,7 +580,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Echo desktop (see your shared desktop)</source>
-        <translation type="obsolete">Retorno de Area de Trabalho (ver sua propria area de trabalho)</translation>
+        <translation type="obsolete">Retorno de Areá de Trabalho (ver sua própria área de trabalho)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="199"/>
@@ -590,7 +590,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="206"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation>Sem ativação por voz (apenas Apertar-Para-Falar permitido)</translation>
+        <translation>Sem ativação por voz (apenas Pressione para Falar permitido)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="213"/>
@@ -684,7 +684,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="808"/>
         <source>Volume level</source>
-        <translation>Nível de Volume</translation>
+        <translation>Nível do volume</translation>
     </message>
     <message>
         <source>Enable denoising</source>
@@ -707,7 +707,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="242"/>
         <source>Codec type</source>
-        <translation>Tipo do Codec</translation>
+        <translation>Tipo de codec</translation>
     </message>
     <message>
         <source>8 KHz</source>
@@ -734,7 +734,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="642"/>
         <source>Audio channels</source>
-        <translation>Canais de Áudio</translation>
+        <translation>Canais de áudio</translation>
     </message>
     <message>
         <source>Bytes per second</source>
@@ -788,7 +788,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="176"/>
         <source>View Channel Information</source>
-        <translation>Ver Informações do Canal</translation>
+        <translation>Exibir Informações do Canal</translation>
     </message>
     <message>
         <source>%1 KBytes/sec</source>
@@ -1043,7 +1043,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Username and password is only needed if the server requires user accounts</source>
-        <translation type="obsolete">Usuário e Senha são necessarios apenas se o servidor requerer contas de usuário</translation>
+        <translation type="obsolete">Usuário e Senha são necessários apenas se o servidor requerer contas de usuário</translation>
     </message>
     <message>
         <source>Join specific channel after authentication (optional)</source>
@@ -1074,27 +1074,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../customvideofmt.ui" line="48"/>
         <source>640</source>
-        <translation type="unfinished">640</translation>
+        <translation>640</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="62"/>
         <source>480</source>
-        <translation type="unfinished">480</translation>
+        <translation>480</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="69"/>
         <source>FPS</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="76"/>
         <source>10</source>
-        <translation type="unfinished">10</translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../customvideofmtdlg.cpp" line="34"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../customvideofmtdlg.cpp" line="35"/>
@@ -1127,7 +1127,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
         <source>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</source>
-        <translation>Aqui é possivel fornecer automaticamente o acesso remoto a área de trabalho a um grupo selecionado de usuários em um servidor. Desta Forma, não é necessario clicar &quot;Permitir Acesso Remoto&quot; toda vez que um usuário fizer o login.</translation>
+        <translation>Aqui é possível fornecer automaticamente o acesso remoto a área de trabalho a um grupo selecionado de usuários em um servidor. Desta Forma, não é necessario clicar &quot;Permitir Acesso Remoto&quot; toda vez que um usuário fizer o login.</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
@@ -1182,7 +1182,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccessdlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="38"/>
@@ -1197,7 +1197,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccessdlg.cpp" line="123"/>
         <source>Please fill the field &apos;Host IP-address&apos;</source>
-        <translation>Por Favor preenche o campo Endereco IP</translation>
+        <translation>Por Favor preencha o campo &apos;Endereço IP&apos;</translation>
     </message>
 </context>
 <context>
@@ -1205,7 +1205,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopgridwidget.cpp" line="34"/>
         <source>No active desktop sessions</source>
-        <translation>Sem sessões de área de trabalho ativas</translation>
+        <translation>Sem sessões de áreas de trabalho ativas</translation>
     </message>
 </context>
 <context>
@@ -1213,7 +1213,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="14"/>
         <source>Desktop Sharing</source>
-        <translation>Compartilhamento de área de trabalho</translation>
+        <translation>Compartilhamento da Área de Trabalho</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="20"/>
@@ -1263,7 +1263,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopsharedlg.cpp" line="54"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="55"/>
@@ -1374,7 +1374,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filesmodel.cpp" line="45"/>
         <source>Owner</source>
-        <translation>Dono</translation>
+        <translation>Proprietário</translation>
     </message>
     <message>
         <location filename="../filesmodel.cpp" line="46"/>
@@ -1403,7 +1403,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="31"/>
         <source>Username</source>
-        <translation>Nome de usuário</translation>
+        <translation>Nome do usuário</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="44"/>
@@ -1423,7 +1423,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="94"/>
         <source>User Settings</source>
-        <translation>Configurações de Usuário</translation>
+        <translation>Configurações do Usuário</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="102"/>
@@ -1458,7 +1458,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="224"/>
         <source>Push To Talk</source>
-        <translation>Apertar para falar</translation>
+        <translation>Pressionar para Falar</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="234"/>
@@ -1473,12 +1473,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="264"/>
         <source>Voice activated</source>
-        <translation>Ativar Voz</translation>
+        <translation>Ativar voz</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="284"/>
         <source>Video Codec Settings</source>
-        <translation>Configurações de Codec de Video</translation>
+        <translation>Configurações de Codec de Vídeo</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="287"/>
@@ -1488,7 +1488,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="296"/>
         <source>Video Resolution</source>
-        <translation>Resolução do Video</translation>
+        <translation>Resolução do Vídeo</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="313"/>
@@ -1547,12 +1547,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycomp.ui" line="32"/>
         <source>Setup Hotkey</source>
-        <translation>Tecla de Atalho de Configuração</translation>
+        <translation>Configurar Tecla de Atalho</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="38"/>
         <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
-        <translation>Pressione as teclas que devem ser utilizadas como atalho. Teclas como Shift, Ctrl e Alt podem ser utilizadas combinadas com outras teclas</translation>
+        <translation>Pressione as teclas que devem ser usadas como atalho. Teclas como Shift, Ctrl e Alt podem ser usadas combinadas com outras teclas</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="50"/>
@@ -1567,7 +1567,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycompdlg.cpp" line="54"/>
         <source>Modifiers (Option, Control, Command and Shift) must be used in combination with other keys.</source>
-        <translation>Modificadores (Opções, Controle, Comando e Shift) devem ser usadas em combinação com outras teclas.</translation>
+        <translation>Modificadores (Option, Control, Command e Shift) devem ser usadas em combinação com outras teclas.</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="221"/>
@@ -1616,7 +1616,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 will be unavailable for video transmission</source>
-        <translation type="obsolete">%1 estará indisponível para transmissão de video</translation>
+        <translation type="obsolete">%1 estará indisponível para transmissão de vídeo</translation>
     </message>
     <message>
         <source>Logged in</source>
@@ -1654,7 +1654,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Peer to peer networking for video disabled!</source>
-        <translation type="obsolete">Rede ponto a ponto para video desabilitada!</translation>
+        <translation type="obsolete">Rede ponto a ponto para vídeo desabilitada!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1086"/>
@@ -1703,7 +1703,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Finished streaming audio file to %1</source>
-        <translation type="obsolete">Finalizada transmissao de arquivo de áudio para %1</translation>
+        <translation type="obsolete">Finalizada transmissão de arquivo de áudio para %1</translation>
     </message>
     <message>
         <source>Aborted streaming audio file to %1</source>
@@ -1803,7 +1803,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1909"/>
         <source>Invalid user account. Type username:</source>
-        <translation>Conta de usuário inválida. Digite nome de usuário:</translation>
+        <translation>Conta do usuário inválida. Digite o nome do usuário:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1917"/>
@@ -1916,7 +1916,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2000"/>
         <source>File sharing is disabled</source>
-        <translation>Compartilhamento de arquivos desabilitado</translation>
+        <translation>Compartilhamento de arquivos desativado</translation>
     </message>
     <message>
         <source>Server has active users</source>
@@ -2027,7 +2027,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5097"/>
         <location filename="../mainwindow.cpp" line="5120"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1905"/>
@@ -2158,7 +2158,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3354"/>
         <source>Enable HotKey</source>
-        <translation>Ativar atalho</translation>
+        <translation>Ativar Atalho</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3355"/>
@@ -2174,7 +2174,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="3941"/>
         <location filename="../mainwindow.cpp" line="5598"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
-        <translation>Dispositivo de video não configurado adequadamento. Verifique configurações nas &apos;Preferencias&apos;</translation>
+        <translation>Dispositivo de vídeo não configurado adequadamente. Verifique as configurações nas &apos;Preferências&apos;</translation>
     </message>
     <message>
         <source>Open Wave File</source>
@@ -2197,7 +2197,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2401"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
-        <translation>Você deseja adicionar %1 para a lista de exceções do Firewall do Windows?</translation>
+        <translation>Deseja adicionar %1 para a lista de exceções do Firewall do Windows?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="836"/>
@@ -2281,7 +2281,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1064"/>
         <location filename="../mainwindow.cpp" line="1066"/>
         <source>%1 has logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 saiu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2608"/>
@@ -2289,7 +2289,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4342"/>
         <location filename="../mainwindow.cpp" line="5025"/>
         <source>root</source>
-        <translation>raiz</translation>
+        <translation>raíz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1189"/>
@@ -2418,7 +2418,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3360"/>
         <source>Push To Talk: </source>
-        <translation>Apertar Para Falar:</translation>
+        <translation>Pressione para Falar:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3553"/>
@@ -2541,7 +2541,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4469"/>
         <source>Failed to issue command to update channel</source>
-        <translation>Falha ao enviar comando de atualizacão do canal</translation>
+        <translation>Falha ao enviar comando de atualização do canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4482"/>
@@ -2635,7 +2635,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4591"/>
         <location filename="../mainwindow.cpp" line="4968"/>
         <source>Streaming</source>
-        <translation type="unfinished"></translation>
+        <translation>Transmissão</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4968"/>
@@ -2652,7 +2652,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4613"/>
         <location filename="../mainwindow.cpp" line="4968"/>
         <source>Desktop</source>
-        <translation type="unfinished">Área de Trabalho</translation>
+        <translation>Área de Trabalho</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4968"/>
@@ -2682,7 +2682,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5000"/>
         <source>Question</source>
-        <translation type="unfinished">Pergunta</translation>
+        <translation>Perguntar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5025"/>
@@ -2722,7 +2722,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5117"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuário</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5125"/>
@@ -2761,22 +2761,22 @@ Você pode baixá-lo na página abaixo:
     <message>
         <location filename="../mainwindow.cpp" line="1091"/>
         <source>%1 joined root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 entrou na raíz do canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1097"/>
         <source>%1 joined channel %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 entrou no canal %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1128"/>
         <source>%1 left root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 deixar raíz do canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1132"/>
         <source>%1 left channel %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 deixou canal %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2501"/>
@@ -2786,35 +2786,35 @@ Você pode baixá-lo na página abaixo:
     <message>
         <location filename="../mainwindow.cpp" line="2506"/>
         <source>Channel message sent: %1</source>
-        <translation type="unfinished">Mensagem do canal enviada: %1</translation>
+        <translation>Mensagem do canal enviada: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2518"/>
         <source>Broadcast message from %1: %2</source>
-        <translation type="unfinished">Mensagem de transmissão de %1: %2</translation>
+        <translation>Mensagem de transmissão de %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2537"/>
         <source>Private message from %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagem privada de %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2601"/>
         <location filename="../mainwindow.cpp" line="2611"/>
         <source>Joined classroom channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrou no canal sala de aula %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2650"/>
         <location filename="../mainwindow.cpp" line="2662"/>
         <source>Left classroom channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Deixou o canal sala de aula %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
         <location filename="../mainwindow.cpp" line="2666"/>
         <source>Left channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Deixou o canal %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5262"/>
@@ -2824,12 +2824,12 @@ Você pode baixá-lo na página abaixo:
     <message>
         <location filename="../mainwindow.cpp" line="5263"/>
         <source>CTRL+L</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+L</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5268"/>
         <source>CTRL+J</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+J</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5493"/>
@@ -2859,12 +2859,12 @@ Você pode baixá-lo na página abaixo:
     <message>
         <location filename="../mainwindow.cpp" line="5562"/>
         <source>You can now transmit video!</source>
-        <translation>Você pode agora transmitir video!</translation>
+        <translation>Agora você pode transmitir vídeo!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5564"/>
         <source>You can no longer transmit video!</source>
-        <translation>Você não pode mais transmitir video!</translation>
+        <translation>Você não pode mais transmitir vídeo!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5573"/>
@@ -2962,13 +2962,13 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../mainwindow.ui" line="161"/>
         <location filename="../mainwindow.ui" line="164"/>
         <source>Master volume</source>
-        <translation>Volume Mestre</translation>
+        <translation>Volume principal</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="177"/>
         <location filename="../mainwindow.ui" line="199"/>
         <source>Voice level</source>
-        <translation>Nível de Voz</translation>
+        <translation>Nível de voz</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="218"/>
@@ -2983,7 +2983,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../mainwindow.ui" line="284"/>
         <location filename="../mainwindow.ui" line="287"/>
         <source>Voice activation level</source>
-        <translation>Nível de Ativação de Voz</translation>
+        <translation>Nível de ativação de voz</translation>
     </message>
     <message>
         <source>Chat</source>
@@ -3006,25 +3006,25 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../mainwindow.ui" line="1653"/>
         <location filename="../mainwindow.cpp" line="6197"/>
         <source>&amp;Video</source>
-        <translation>&amp;Video</translation>
+        <translation>&amp;Vídeo</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="490"/>
         <location filename="../mainwindow.ui" line="493"/>
         <source>Add User to Video Grid</source>
-        <translation>Adicionar usuário ao quadro de Video</translation>
+        <translation>Adicionar Usuário à Grade de Vídeo</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="526"/>
         <location filename="../mainwindow.ui" line="529"/>
         <source>Remove User From Video Grid</source>
-        <translation>Remover usuário do quadro de Video</translation>
+        <translation>Remover Usuário do Quadro de Vídeo</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="457"/>
         <location filename="../mainwindow.ui" line="460"/>
         <source>Detach User Video</source>
-        <translation>Desconectar usuário de video</translation>
+        <translation>Desconectar Vídeo do Usuário</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="52"/>
@@ -3076,7 +3076,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../mainwindow.ui" line="1079"/>
         <location filename="../mainwindow.ui" line="1082"/>
         <source>Upload</source>
-        <translation>Envio</translation>
+        <translation>Enviar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1033"/>
@@ -3093,7 +3093,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1116"/>
         <source>C&amp;lient</source>
-        <translation>&amp;Cliente</translation>
+        <translation>C&amp;liente</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1129"/>
@@ -3159,7 +3159,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1348"/>
         <source>&amp;Preferences</source>
-        <translation>&amp;Preferencias</translation>
+        <translation>&amp;Preferências</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1351"/>
@@ -3250,7 +3250,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1442"/>
         <source>Enable Voice &amp;Activation</source>
-        <translation>Ativar vo&amp;z</translation>
+        <translation>Ativar Vo&amp;z</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1445"/>
@@ -3280,7 +3280,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1466"/>
         <source>&amp;View User Information</source>
-        <translation>&amp;Visualizar Informacões do Usuário</translation>
+        <translation>&amp;Exibir Informações do Usuário</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1469"/>
@@ -3295,12 +3295,12 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1477"/>
         <source>Ctrl+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+G</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1489"/>
         <source>Mute &amp;All</source>
-        <translation>Mu&amp;do</translation>
+        <translation>Mu&amp;do para Todos</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1492"/>
@@ -3355,7 +3355,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1556"/>
         <source>Ctrl+Alt+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+G</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1561"/>
@@ -3365,12 +3365,12 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1564"/>
         <source>Ctrl+Shift+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+G</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1577"/>
         <source>Kick and &amp;Ban From Server</source>
-        <translation>Chutar e &amp;Banir do Servidor</translation>
+        <translation>Expulsar e &amp;Banir do Servidor</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1612"/>
@@ -3440,22 +3440,22 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1914"/>
         <source>Ctrl+Alt+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+S</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2068"/>
         <source>Ctrl+Alt+Shift+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+M</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2089"/>
         <source>Increase Media File Volume</source>
-        <translation>Aumentar Volume do Arquivo de Media</translation>
+        <translation>Aumentar Volume do Arquivo de Mídia</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2097"/>
         <source>Lower Media File Volume</source>
-        <translation>Reduzir Volume do Arquivo de Media</translation>
+        <translation>Diminuir Volume do Arquivo de Mídia</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2105"/>
@@ -3470,7 +3470,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2113"/>
         <source>Ctrl+B</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+B</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2118"/>
@@ -3480,7 +3480,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2121"/>
         <source>Ctrl+Alt+Shift+B</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+B</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2129"/>
@@ -3490,7 +3490,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2132"/>
         <source>Ctrl+Alt+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+T</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1859"/>
@@ -3505,7 +3505,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1870"/>
         <source>&amp;Online Users</source>
-        <translation>Usuários &amp;online</translation>
+        <translation>Usuários &amp;Online</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1873"/>
@@ -3515,7 +3515,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2081"/>
         <source>Kick From Server</source>
-        <translation>Chutar do Servidor</translation>
+        <translation>Expulsar do Servidor</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2084"/>
@@ -3541,7 +3541,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1885"/>
         <source>Enable Question Mode</source>
-        <translation>Ativar Modo de Questão</translation>
+        <translation>Ativar Modo de Pergunta</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1888"/>
@@ -3551,7 +3551,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1900"/>
         <source>Enable Desktop Sharing</source>
-        <translation>Ativar compartilhamento de área de trabalho</translation>
+        <translation>Ativar &amp;Compartilhamento de Área de Trabalho</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1903"/>
@@ -3639,7 +3639,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1537"/>
         <source>&amp;Save Configuration</source>
-        <translation>Sal&amp;var configuração</translation>
+        <translation>Sal&amp;var Configuração</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1540"/>
@@ -3649,7 +3649,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1545"/>
         <source>&amp;View Channel Info</source>
-        <translation>Visualizar Infor&amp;mações de Canal</translation>
+        <translation>Exibir Infor&amp;mações do Canal</translation>
     </message>
     <message>
         <source>Shift+F3</source>
@@ -3724,12 +3724,12 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1796"/>
         <source>&amp;Lower Voice Volume</source>
-        <translation>Reduzir Vo&amp;lume de Voz</translation>
+        <translation>Diminuir Vo&amp;lume de Voz</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2017"/>
         <source>Media File Stream</source>
-        <translation>Transmissão de Arquivo de Media</translation>
+        <translation>Transmissão de Arquivo de Mídia</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2020"/>
@@ -3739,7 +3739,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2032"/>
         <source>Intercept Media File Stream</source>
-        <translation>Interceptar Transmissão de Arquivo de Media</translation>
+        <translation>Interceptar Transmissão de Arquivo de Mídia</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2035"/>
@@ -3749,7 +3749,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2043"/>
         <source>Allow Media File Transmission</source>
-        <translation>Permitir Transmissão de Arquivo de Media</translation>
+        <translation>Permitir Transmissão de Arquivo de Mídia</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2046"/>
@@ -3769,12 +3769,12 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1191"/>
         <source>&amp;Kick</source>
-        <translation>&amp;Expulsar</translation>
+        <translation>E&amp;xpulsar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2065"/>
         <source>Mute Media File</source>
-        <translation>Deixar Arquivo de Media Mudo</translation>
+        <translation>Deixar Arquivo de Mídia Mudo</translation>
     </message>
     <message>
         <source>Ctrl+Alt+Μ</source>
@@ -3783,7 +3783,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2073"/>
         <source>Kick From Channel</source>
-        <translation>Chutar do Canal</translation>
+        <translation>Expulsar do Canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2076"/>
@@ -3840,7 +3840,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1679"/>
         <source>Enable &amp;Video Transmission</source>
-        <translation>Ativar &amp;Video</translation>
+        <translation>Ativar &amp;Vídeo</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1682"/>
@@ -3850,7 +3850,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1690"/>
         <source>&amp;Stream Audio File to Channel</source>
-        <translation>Enviar Arquivo de &amp;Audio para canal</translation>
+        <translation>Enviar Arquivo de &amp;Áudio para Canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1693"/>
@@ -3860,7 +3860,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1698"/>
         <source>Stream Audio &amp;File to User</source>
-        <translation>Enviar Arquivo de Audio para &amp;Usuário</translation>
+        <translation>Enviar Arquivo de Áudio para &amp;Usuário</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1701"/>
@@ -3869,7 +3869,7 @@ Essas configurações devem ser aplicadas?</translation>
     </message>
     <message>
         <source>Store &amp;Audio to Disk</source>
-        <translation type="obsolete">Arquivar Audio para o &amp;Disco</translation>
+        <translation type="obsolete">Arquivar Áudio para o &amp;Disco</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1716"/>
@@ -3889,17 +3889,17 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1742"/>
         <source>Intercept Channel Messages</source>
-        <translation>Interceptar Mensagens de Canal</translation>
+        <translation>Interceptar Mensagens do Canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1757"/>
         <source>Intercept Audio</source>
-        <translation>Interceptar Audio</translation>
+        <translation>Interceptar Áudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1772"/>
         <source>Intercept Video</source>
-        <translation>Interceptar Video</translation>
+        <translation>Interceptar Vídeo</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1780"/>
@@ -3929,7 +3929,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1804"/>
         <source>&amp;Store User(s) for Move</source>
-        <translation>&amp;Gravar Usuário(s) para mover</translation>
+        <translation>Armazenar &amp;Usuário(s) para Mover</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1832"/>
@@ -3944,7 +3944,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1843"/>
         <source>Allow Video Transmission</source>
-        <translation>Permitir Transmissão de Video</translation>
+        <translation>Permitir Transmissão de Vídeo</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1846"/>
@@ -4031,7 +4031,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mediastorage.ui" line="78"/>
         <source>Audio file format</source>
-        <translation>Formato do arquivo de áudio</translation>
+        <translation>Formato de arquivo de áudio</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="91"/>
@@ -4056,7 +4056,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mediastorage.ui" line="148"/>
         <source>Folder for user-to-user log files</source>
-        <translation>Pasta para arquivos de log de usuário para usuário</translation>
+        <translation>Pasta para arquivos de log do usuário para usuário</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="196"/>
@@ -4117,7 +4117,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../onlineusersdlg.cpp" line="104"/>
         <source>M&amp;essages</source>
-        <translation>Mensag&amp;ens</translation>
+        <translation>&amp;Mensagens</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="107"/>
@@ -4164,7 +4164,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../onlineusersmodel.cpp" line="119"/>
         <source>Username</source>
-        <translation>Nome de Usuário</translation>
+        <translation>Usuário</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="121"/>
@@ -4193,7 +4193,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="14"/>
         <location filename="../preferences.ui" line="14"/>
         <source>Preferences</source>
-        <translation>Preferencias</translation>
+        <translation>Preferências</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="36"/>
@@ -4205,7 +4205,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="42"/>
         <location filename="../preferences.ui" line="42"/>
         <source>User Settings</source>
-        <translation>Configurações de Usuário</translation>
+        <translation>Configurações do Usuário</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="50"/>
@@ -4217,7 +4217,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="83"/>
         <location filename="../preferences.ui" line="83"/>
         <source>Gender</source>
-        <translation>Genero</translation>
+        <translation>Gênero</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="115"/>
@@ -4247,7 +4247,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="156"/>
         <location filename="../preferences.ui" line="156"/>
         <source>Set away status after</source>
-        <translation>Ficar ausente após</translation>
+        <translation>Definir status ausente após</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="132"/>
@@ -4265,7 +4265,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="198"/>
         <location filename="../preferences.ui" line="198"/>
         <source>BearWare.dk Web Login</source>
-        <translation>Login Web BearWare.dk</translation>
+        <translation>Login Web do BearWare.dk</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="245"/>
@@ -4283,7 +4283,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="267"/>
         <location filename="../preferences.ui" line="267"/>
         <source>Push To Talk</source>
-        <translation>Apertar para falar</translation>
+        <translation>Pressionar para Falar</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="274"/>
@@ -4301,7 +4301,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../preferences.ui" line="2272"/>
         <location filename="../preferences.ui" line="2299"/>
         <source>&amp;Setup Keys</source>
-        <translation>Teclas de &amp;Configuração</translation>
+        <translation>Configurar &amp;Teclas</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="281"/>
@@ -4313,7 +4313,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="298"/>
         <location filename="../preferences.ui" line="308"/>
         <source>Voice activated</source>
-        <translation>Ativar Voz</translation>
+        <translation>Voz ativada</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="322"/>
@@ -4325,7 +4325,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="328"/>
         <location filename="../preferences.ui" line="338"/>
         <source>User Interface Settings</source>
-        <translation>Coniguração da Interface de Usuário</translation>
+        <translation>Configuração da Interface do Usuário</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="340"/>
@@ -4343,7 +4343,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="362"/>
         <location filename="../preferences.ui" line="372"/>
         <source>Minimize to tray icon</source>
-        <translation>Minimizar para o ícone de barra de tarefas</translation>
+        <translation>Minimizar para o ícone da barra de tarefas</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="369"/>
@@ -4403,7 +4403,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="486"/>
         <location filename="../preferences.ui" line="503"/>
         <source>Show statusbar events in chat-window</source>
-        <translation>Mostrar eventos da barra de status na tela de chat</translation>
+        <translation>Mostrar eventos da barra de status na tela do chat</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="470"/>
@@ -4655,7 +4655,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="2076"/>
         <location filename="../preferences.ui" line="2093"/>
         <source>Display duration of notifications</source>
-        <translation>Duração da exibição das notificações</translation>
+        <translation>Duração de exibição das notificações</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2099"/>
@@ -4679,13 +4679,13 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="425"/>
         <location filename="../preferences.ui" line="435"/>
         <source>Start video in popup dialog</source>
-        <translation>Iniciar video na tela de popup</translation>
+        <translation>Iniciar vídeo na caixa de diálogo</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="456"/>
         <location filename="../preferences.ui" line="466"/>
         <source>Start desktops in popup dialog</source>
-        <translation>Iniciar áreas de trabalho na tela de popup</translation>
+        <translation>Iniciar áreas de trabalho na caixa de diálogo</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="432"/>
@@ -4721,7 +4721,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="644"/>
         <location filename="../preferences.ui" line="661"/>
         <source>Connect to latest host on startup</source>
-        <translation>Conexão ao último servidor na inicialização</translation>
+        <translation>Conectar-se ao último servidor na inicialização</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="651"/>
@@ -4733,7 +4733,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="658"/>
         <location filename="../preferences.ui" line="675"/>
         <source>Join root channel upon connection</source>
-        <translation>Entrar no canal raiz após conectar</translation>
+        <translation>Entrar na raíz do canal após conexão</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="665"/>
@@ -4745,7 +4745,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="672"/>
         <location filename="../preferences.ui" line="689"/>
         <source>Add application to Windows Firewall exceptions list</source>
-        <translation>Adicionar apliação à lista de exceções do Firewall do Windows</translation>
+        <translation>Adicionar aplicação à lista de exceções do Firewall do Windows</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="679"/>
@@ -4771,7 +4771,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="704"/>
         <location filename="../preferences.ui" line="721"/>
         <source>Broadcast Messages</source>
-        <translation>Mensagens de Difusão (Broadcast)</translation>
+        <translation>Mensagens de Transmissão</translation>
     </message>
     <message>
         <source>Audio</source>
@@ -4811,7 +4811,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../preferences.ui" line="801"/>
         <location filename="../preferences.ui" line="804"/>
         <source>Local Socket Settings</source>
-        <translation>Configurações locais de Socket</translation>
+        <translation>Configurações de Soquete Local</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="793"/>
@@ -4900,7 +4900,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="1072"/>
         <location filename="../preferences.ui" line="1089"/>
         <source>&amp;Test Selected</source>
-        <translation>&amp;Testar selecionados</translation>
+        <translation>&amp;Testar Selecionado</translation>
     </message>
     <message>
         <source>Enable duplex mode (required for echo cancellation)</source>
@@ -4940,31 +4940,31 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="1229"/>
         <location filename="../preferences.ui" line="1246"/>
         <source>New user</source>
-        <translation>Novo Usuário</translation>
+        <translation>Novo usuário</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="1258"/>
         <location filename="../preferences.ui" line="1275"/>
         <source>User removed</source>
-        <translation>Usuário Removido</translation>
+        <translation>Usuário removido</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="1281"/>
         <location filename="../preferences.ui" line="1298"/>
         <source>Server lost</source>
-        <translation>Conexão Perdida (SRV)</translation>
+        <translation>Conexão perdida (SRV)</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="1304"/>
         <location filename="../preferences.ui" line="1321"/>
         <source>New user message</source>
-        <translation>Nova Mensagem Usuário</translation>
+        <translation>Nova mensagem do usuário</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="1350"/>
         <location filename="../preferences.ui" line="1367"/>
         <source>New channel message</source>
-        <translation>Nova Mensagem Canal</translation>
+        <translation>Nova mensagem do canal</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="1419"/>
@@ -4988,19 +4988,19 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="1488"/>
         <location filename="../preferences.ui" line="1505"/>
         <source>File transfer complete</source>
-        <translation>Transferencia de Arquivo Completa</translation>
+        <translation>Transferência de arquivo completa</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="1511"/>
         <location filename="../preferences.ui" line="1528"/>
         <source>New video session</source>
-        <translation>Nova sessão de Vídeo</translation>
+        <translation>Nova sessão de vídeo</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="1534"/>
         <location filename="../preferences.ui" line="1551"/>
         <source>New desktop session</source>
-        <translation>Nova sessão de Área de Trabalho</translation>
+        <translation>Nova sessão de área de trabalho</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="1561"/>
@@ -5024,7 +5024,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="759"/>
         <location filename="../preferences.ui" line="776"/>
         <source>Media Files</source>
-        <translation>Arquivos de Media</translation>
+        <translation>Arquivos de Mídia</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="1104"/>
@@ -5042,7 +5042,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="1584"/>
         <location filename="../preferences.ui" line="1601"/>
         <source>Desktop access request</source>
-        <translation>Requisição de acesso a Área de Trabalho</translation>
+        <translation>Requisição de acesso a área de trabalho</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2116"/>
@@ -5060,7 +5060,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="2130"/>
         <location filename="../preferences.ui" line="2147"/>
         <source>Enable/disable voice activation</source>
-        <translation>Habilitar/desabilitar Voz</translation>
+        <translation>Ativar/desativar voz</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2157"/>
@@ -5072,37 +5072,37 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="2184"/>
         <location filename="../preferences.ui" line="2201"/>
         <source>Lower volume</source>
-        <translation>Reduzir Volume</translation>
+        <translation>Diminuir volume</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2211"/>
         <location filename="../preferences.ui" line="2228"/>
         <source>Enable/disable mute all</source>
-        <translation>Habilitar/desabilitar Mudo Total</translation>
+        <translation>Ativar/desativar mudo para todos</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2238"/>
         <location filename="../preferences.ui" line="2255"/>
         <source>Increase microphone gain</source>
-        <translation>Aumentar ganho do Microfone</translation>
+        <translation>Aumentar ganho do microfone</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2265"/>
         <location filename="../preferences.ui" line="2282"/>
         <source>Lower microphone gain</source>
-        <translation>Reduzir ganho do Microfone</translation>
+        <translation>Diminuir ganho do microfone</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2292"/>
         <location filename="../preferences.ui" line="2309"/>
         <source>Enable/disable video transmission</source>
-        <translation>Habilitar/desabilitar video</translation>
+        <translation>Ativar/desativar vídeo</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2305"/>
         <location filename="../preferences.ui" line="2322"/>
         <source>Setup Keys</source>
-        <translation>Teclas de Configuração</translation>
+        <translation>Configurar Teclas</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="718"/>
@@ -5110,7 +5110,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../preferences.ui" line="735"/>
         <location filename="../preferences.ui" line="2351"/>
         <source>Video Capture</source>
-        <translation>Captura de Video</translation>
+        <translation>Captura de Vídeo</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2340"/>
@@ -5122,13 +5122,13 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../OldPref/preferences.ui" line="2346"/>
         <location filename="../preferences.ui" line="2363"/>
         <source>Video Capture Device</source>
-        <translation>Dispositivo de Captura de Video</translation>
+        <translation>Dispositivo de Captura de Vídeo</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2366"/>
         <location filename="../preferences.ui" line="2383"/>
         <source>Video Resolution</source>
-        <translation>Resolução do Video</translation>
+        <translation>Resolução do Vídeo</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2395"/>
@@ -5159,7 +5159,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../preferences.ui" line="2460"/>
         <location filename="../preferencesdlg.cpp" line="1281"/>
         <source>Test Selected</source>
-        <translation>Testar Selecionados</translation>
+        <translation>Testar Selecionado</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2471"/>
@@ -5167,7 +5167,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../preferences.ui" line="2488"/>
         <location filename="../preferences.ui" line="2491"/>
         <source>Video Codec Settings</source>
-        <translation>Configurações de Codec de Video</translation>
+        <translation>Configurações de Codec de Vídeo</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2482"/>
@@ -5202,7 +5202,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="64"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="65"/>
@@ -5243,7 +5243,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="628"/>
         <source>Libnotify</source>
-        <translation type="unfinished"></translation>
+        <translation>Libnotify</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="837"/>
@@ -5281,7 +5281,7 @@ Essas configurações devem ser aplicadas?</translation>
     </message>
     <message>
         <source>Failed to initialize new sound output device</source>
-        <translation type="vanished">Falha ao inicializar novo dispositivo de saida de som</translation>
+        <translation type="vanished">Falha ao inicializar novo dispositivo de saída de som</translation>
     </message>
     <message>
         <source>Failed to enable echo cancellation</source>
@@ -5291,14 +5291,14 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../preferencesdlg.cpp" line="1071"/>
         <location filename="../preferencesdlg.cpp" line="1096"/>
         <source>Video Device</source>
-        <translation>Dispositivo de Video</translation>
+        <translation>Dispositivo de Vídeo</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1072"/>
         <location filename="../preferencesdlg.cpp" line="1097"/>
         <location filename="../preferencesdlg.cpp" line="1799"/>
         <source>Failed to initialize video device</source>
-        <translation>Falha ao inicializar novo dispositivo de video</translation>
+        <translation>Falha ao inicializar novo dispositivo de vídeo</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1187"/>
@@ -5314,7 +5314,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1210"/>
         <source>Max Output Channels %1</source>
-        <translation>Número máximo de canais de Saida %1</translation>
+        <translation>Número Máximo de Canais de Saída %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1240"/>
@@ -5348,12 +5348,12 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1851"/>
         <source>Default Video Capture</source>
-        <translation>Captura padrão de Video</translation>
+        <translation>Captura padrão de Vídeo</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1852"/>
         <source>Unable to find preferred video capture settings</source>
-        <translation>Impossivel encontrat configurações preferenciais de captura de video</translation>
+        <translation>Impossivel encontrat configurações preferenciais de captura de vídeo</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="298"/>
@@ -5514,7 +5514,7 @@ Essas configurações devem ser aplicadas?</translation>
     </message>
     <message>
         <source>Login using user account</source>
-        <translation type="obsolete">Login usando conta de usuário</translation>
+        <translation type="obsolete">Login usando conta do usuário</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="179"/>
@@ -5565,7 +5565,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../serverlist.ui" line="359"/>
         <location filename="../serverlist.ui" line="362"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
-        <translation>Arquivos .tt podem ser clicados duas vezes e o cliente iniciara automaticamento e conectar ao servidor especificado</translation>
+        <translation>Arquivos .tt podem ser clicados duas vezes e o cliente iniciara automaticamente e conectar ao servidor especificado</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="365"/>
@@ -5613,7 +5613,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="240"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
-        <translation>Por Favor complete os campos &apos;Endereco IP&apos;, &apos;Porta TCP&apos; e &apos;Porta UDP&apos;</translation>
+        <translation>Por Favor complete os campos &apos;Endereço IP&apos;, &apos;Porta TCP&apos; e &apos;Porta UDP&apos;</translation>
     </message>
     <message>
         <source>Save File</source>
@@ -5648,7 +5648,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../serverproperties.ui" line="47"/>
         <source>Max users</source>
-        <translation># Max Usuários</translation>
+        <translation>Max. de usuários</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="73"/>
@@ -5674,7 +5674,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../serverproperties.ui" line="180"/>
         <source>User timeout</source>
-        <translation>Timeout Usuário</translation>
+        <translation>Tempo limite do usuário</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="212"/>
@@ -5704,7 +5704,7 @@ Essas configurações devem ser aplicadas?</translation>
     </message>
     <message>
         <source>Multiple users can use the same user account</source>
-        <translation type="obsolete">Usuários múltiplos podem utilizar a mesma conta</translation>
+        <translation type="obsolete">Usuários múltiplos podem usar a mesma conta</translation>
     </message>
     <message>
         <source>Users can see users in all channels</source>
@@ -5778,7 +5778,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../serverproperties.ui" line="423"/>
         <source>Max logins per IP-address</source>
-        <translation>Max de logins por endereço IP</translation>
+        <translation>Max. de logins por endereço IP</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="265"/>
@@ -5797,7 +5797,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../serverproperties.ui" line="289"/>
         <source>Voice TX max</source>
-        <translation>Máximo Envio (TX) de Voz </translation>
+        <translation>Máximo (TX) de Voz</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="316"/>
@@ -5812,7 +5812,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../serverproperties.ui" line="353"/>
         <source>Media File TX max</source>
-        <translation>Máximo Envio (TX) Arquivo de Media</translation>
+        <translation>Máximo Envio (TX) Arquivo de Mídia</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="437"/>
@@ -5837,7 +5837,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="38"/>
@@ -5890,7 +5890,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../serverstats.ui" line="32"/>
         <source>Media File RX/TX</source>
-        <translation>RX/TX de Arquivos de Media</translation>
+        <translation>RX/TX de Arquivos de Mídia</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="143"/>
@@ -6045,97 +6045,97 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="121"/>
         <source>Subscription private text message changed</source>
-        <translation>Mensagem de texto privada de assinatura alterada</translation>
+        <translation>Inscrição em mensagem de texto privada alterada</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="123"/>
         <source>Subscription channel text message changed</source>
-        <translation>Mensagem de texto do canal por assinatura alterada</translation>
+        <translation>Inscrição em mensagem de texto do canal alterada</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="125"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>Mensagem de texto de transmissão por assinatura alterada</translation>
+        <translation>Inscrição em mensagem de texto de transmissão alterada</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="127"/>
         <source>Subscription voice stream changed</source>
-        <translation>Fluxo de voz por assinatura alterada</translation>
+        <translation>Inscrição em fluxo de voz alterado</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="129"/>
         <source>Subscription webcam stream changed</source>
-        <translation>Fluxo da webcam de assinatura alterada</translation>
+        <translation>Inscrição em fluxo da webcam alterada</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>Fluxo de área de trabalho compartilhado por assinatura alterada</translation>
+        <translation>Inscrição em fluxo de área de trabalho compartilhada alterado</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="133"/>
         <source>Subscription desktop access changed</source>
-        <translation>Acesso à área de trabalho por assinatura alterado</translation>
+        <translation>Inscrição em acesso à área de trabalho alterado</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
         <source>Subscription media file stream changed</source>
-        <translation>Fluxo de arquivos de mídia por assinatura alterado</translation>
+        <translation>Inscrição em fluxo de arquivo de mídia alterado</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
         <source>Subscription intercept private text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em interceptar mensagem de texto privada alterada</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="139"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em interceptar mensagem de texto do canal alterada</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="141"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em interceptar fluxo de voz alterado</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="143"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em interceptar fluxo da webcam alterada</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="145"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em interceptar fluxo da área de trabalho alterado</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em interceptar fluxo de arquivo de mídia alterado</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="149"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sala de aula permite alterar mensagens de transmissão do canal</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="151"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>Sala de aula permite que a transmissão de voz mude</translation>
+        <translation>Sala de aula permite alterar a transmissão de voz</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="153"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sala de aula permite alterar a transmissão da webcam</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="155"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sala de aula permite alterar a transmissão da área de trabalho</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="157"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation type="unfinished">Sala de aula permite que a transmissão de arquivos de mídia seja alterado</translation>
+        <translation>Sala de aula permite alterar a transmissão de arquivos de mídia</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="159"/>
@@ -6204,7 +6204,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../streammediafile.ui" line="28"/>
         <source>Media file</source>
-        <translation>Arquivo de Mídia</translation>
+        <translation>Arquivo de mídia</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="45"/>
@@ -6248,7 +6248,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../streammediafile.ui" line="117"/>
         <source>Audio format:</source>
-        <translation>Formato de Áudio:</translation>
+        <translation>Formato de áudio:</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
@@ -6263,7 +6263,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../streammediafile.ui" line="196"/>
         <source>Audio preprocessor</source>
-        <translation>Pré-processador de Áudio</translation>
+        <translation>Pré-processador de áudio</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="51"/>
@@ -6303,14 +6303,14 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../streammediafiledlg.cpp" line="436"/>
         <location filename="../streammediafiledlg.cpp" line="469"/>
         <source>&amp;Play</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Play</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="303"/>
         <location filename="../streammediafiledlg.cpp" line="317"/>
         <location filename="../streammediafiledlg.cpp" line="355"/>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Play</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="390"/>
@@ -6324,7 +6324,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../streammediafile.ui" line="138"/>
         <source>Video format:</source>
-        <translation>Formato do Vídeo:</translation>
+        <translation>Formato de vídeo:</translation>
     </message>
     <message>
         <source>Stream video</source>
@@ -6343,7 +6343,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../streammediafile.ui" line="323"/>
         <location filename="../streammediafile.ui" line="326"/>
         <source>Video Codec Settings</source>
-        <translation>Configurações de Codec de Video</translation>
+        <translation>Configurações do Codec de Vídeo</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="334"/>
@@ -6375,7 +6375,7 @@ Essas configurações devem ser aplicadas?</translation>
     </message>
     <message>
         <source>Media files (*.*)</source>
-        <translation type="obsolete">Arquivos de Midia (*.*)</translation>
+        <translation type="obsolete">Arquivos de Mídia (*.*)</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="66"/>
@@ -6400,7 +6400,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../streammediafiledlg.cpp" line="141"/>
         <source>Media files %1</source>
-        <translation>Arquivos de Media %1</translation>
+        <translation>Arquivos de Mídia %1</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="180"/>
@@ -6543,7 +6543,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="129"/>
         <source>Sent private message</source>
-        <translation>Enviar mensagem privada</translation>
+        <translation>Mensagem privada enviada</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="131"/>
@@ -6568,97 +6568,97 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>Subscription private text message changed</source>
-        <translation>Mensagem de texto privada de assinatura alterada</translation>
+        <translation>Inscrição em mensagem de texto privada alterada</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
         <source>Subscription channel text message changed</source>
-        <translation>Mensagem de texto do canal por assinatura alterada</translation>
+        <translation>Inscrição em mensagem de texto do canal alterada</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="143"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>Mensagem de texto de transmissão por assinatura alterada</translation>
+        <translation>Inscrição em mensagem de texto de transmissão alterada</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="145"/>
         <source>Subscription voice stream changed</source>
-        <translation>Fluxo de voz por assinatura alterada</translation>
+        <translation>Inscrição em fluxo de voz alterado</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="147"/>
         <source>Subscription webcam stream changed</source>
-        <translation>Fluxo da webcam de assinatura alterada</translation>
+        <translation>Inscrição em fluxo da webcam alterado</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="149"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>Fluxo de área de trabalho compartilhado por assinatura alterada</translation>
+        <translation>Inscrição em fluxo da área de trabalho compartilhada alterado</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="151"/>
         <source>Subscription desktop access changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em acesso a área de trabalho alterado</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="153"/>
         <source>Subscription media file stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em fluxo de arquivo de mídia alterado</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="155"/>
         <source>Subscription intercept private text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em interceptar mensagem de texto privada alterada</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="157"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em interceptar mensagem de texto do canal alterada</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="159"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em interceptar fluxo de voz alterado</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="161"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em interceptar fluxo da webcam alterada</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="163"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em interceptar fluxo da área de trabalho alterado</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="165"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inscrição em interceptar fluxo de arquivo de mídia alterado</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="167"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sala de aula permite alterar mensagens de transmissão do canal</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="169"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sala de aula permite alterar a transmissão de voz</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="171"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sala de aula permite alterar a transmissão da webcam</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="173"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sala de aula permite alterar a transmissão da área de trabalho</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sala de aula permite alterar a transmissão de arquivos de mídia</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="177"/>
@@ -6728,7 +6728,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../useraccounts.ui" line="14"/>
         <source>User Accounts</source>
-        <translation>Contas de Usuário</translation>
+        <translation>Contas do Usuário</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="23"/>
@@ -6738,7 +6738,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../useraccounts.ui" line="74"/>
         <source>Modify User Account</source>
-        <translation>Modificar Conta de Usuário</translation>
+        <translation>Modificar Conta do Usuário</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="126"/>
@@ -6773,7 +6773,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../useraccounts.ui" line="193"/>
         <source>User should automatically join this channel after login</source>
-        <translation>Usuário deve automaticamente entrar neste canal após o login</translation>
+        <translation>Usuário deve entrar automaticamente neste canal após o login</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="100"/>
@@ -6844,7 +6844,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../useraccounts.ui" line="331"/>
         <source>Max bitrate for audio codecs</source>
-        <translation>Bitrate máximo para codecs de áudio</translation>
+        <translation>Taxa de bits máxima para codecs de áudio</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="354"/>
@@ -6859,7 +6859,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../useraccounts.ui" line="384"/>
         <source>Flood Protection</source>
-        <translation type="unfinished"></translation>
+        <translation>Proteção contra inundações</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="390"/>
@@ -6876,22 +6876,22 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../useraccounts.ui" line="439"/>
         <source>User Rights</source>
-        <translation>Diretos do Usuário</translation>
+        <translation>Direitos do Usuário</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="445"/>
         <source>User can log in multiple times</source>
-        <translation>Usuário pode efetuar login múltiplas sessões</translation>
+        <translation>O usuário pode efetuar login várias vezes</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="452"/>
         <source>User can upload files</source>
-        <translation>Usuário pode enviar arquivos</translation>
+        <translation>O usuário pode enviar arquivos</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="479"/>
         <source>User can see users in all channels</source>
-        <translation>Usuário pode ver usuários em todos os canais</translation>
+        <translation>O usuário pode ver usuários em todos os canais</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="459"/>
@@ -6901,82 +6901,82 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../useraccounts.ui" line="466"/>
         <source>User can download files</source>
-        <translation>Usuário pode baixar arquivos</translation>
+        <translation>O usuário pode baixar arquivos</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="507"/>
         <source>User can create/modify all channels</source>
-        <translation>Usuário pode criar/modificar todos os canais</translation>
+        <translation>O usuário pode criar/modificar todos os canais</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="500"/>
         <source>User can update server properties</source>
-        <translation>Usuário pode atualizar propriedades do servidor</translation>
+        <translation>O usuário pode atualizar propriedades do servidor</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="527"/>
         <source>User can create temporary channels</source>
-        <translation>Usuário pode criar canais temporários</translation>
+        <translation>O usuário pode criar canais temporários</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="514"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation>Usuário pode transmitir voz (microfone)</translation>
+        <translation>O usuário pode transmitir voz (microfone)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="547"/>
         <source>User can broadcast text messages</source>
-        <translation>Usuário pode enviar mensagens de texto em broadcast</translation>
+        <translation>O usuário pode enviar mensagens de texto em broadcast</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="534"/>
         <source>User can transmit video data (webcam)</source>
-        <translation>Usuário pode transmitir vídeo (webcam)</translation>
+        <translation>O usuário pode transmitir vídeo (webcam)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="561"/>
         <source>User can kick users off the server</source>
-        <translation>Usuário pode chutar usuários do servidor</translation>
+        <translation>O usuário pode chutar usuários do servidor</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="554"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation>Usuário pode transmitir arquivos de áudio (wav, mp3)</translation>
+        <translation>O usuário pode transmitir arquivos de áudio (wav, mp3)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="575"/>
         <source>User can ban users from server</source>
-        <translation>Usuário pode banir usuários do servidor</translation>
+        <translation>O usuário pode banir usuários do servidor</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="568"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation>Usuário pode transmitir arquivos de vídeo (avi, mp4)</translation>
+        <translation>O usuário pode transmitir arquivos de vídeo (avi, mp4)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="589"/>
         <source>User can move users between channels</source>
-        <translation>Usuário pode mover usuários entre canais</translation>
+        <translation>O usuário pode mover usuários entre canais</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="582"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation>Usuário pode transmitir sessões de área de trabalho (compartilhar área de trabalho)</translation>
+        <translation>O usuário pode transmitir sessões de área de trabalho (compartilhar área de trabalho)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="603"/>
         <source>User can make other users channel operator</source>
-        <translation>Usuário pode  transformar outros usuários em operadores de canais</translation>
+        <translation>O usuário pode  transformar outros usuários em operadores de canais</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="596"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation>Usuário pode obter acesso remoto às sessões de área de trabalho</translation>
+        <translation>O usuário pode obter acesso remoto às sessões de área de trabalho</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="486"/>
         <source>User can record voice in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>O usuário pode gravar voz em todos os canais</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="493"/>
@@ -7082,7 +7082,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="734"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="735"/>
@@ -7116,7 +7116,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="57"/>
         <source>Username</source>
-        <translation type="unfinished">Usuário</translation>
+        <translation>Nome do usuário</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="58"/>
@@ -7126,7 +7126,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="59"/>
         <source>User Type</source>
-        <translation>Tipo</translation>
+        <translation>Tipo de Usuário</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="60"/>
@@ -7241,7 +7241,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../userimagewidget.cpp" line="201"/>
         <source>&amp;Flip image</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Virar imagem</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="207"/>
@@ -7294,7 +7294,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../userinfo.ui" line="143"/>
         <source>User type</source>
-        <translation>Tipo Usuário</translation>
+        <translation>Tipo de usuário</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="163"/>
@@ -7337,7 +7337,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../userinfo.ui" line="223"/>
         <source>Video frame loss</source>
-        <translation>Perda de Pacote de Video</translation>
+        <translation>Perda de quadro de vídeo</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="65"/>
@@ -7352,7 +7352,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Question</source>
-        <translation>Pergunta</translation>
+        <translation>Perguntar</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="88"/>
@@ -7386,7 +7386,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../uservideodlg.cpp" line="94"/>
         <location filename="../uservideodlg.cpp" line="96"/>
         <source>Video</source>
-        <translation>Video</translation>
+        <translation>Vídeo</translation>
     </message>
     <message>
         <location filename="../uservideodlg.cpp" line="94"/>
@@ -7399,17 +7399,17 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../uservideowidget.cpp" line="55"/>
         <source>Waiting for video from %1</source>
-        <translation>Aguardando video de %1</translation>
+        <translation>Aguardando o vídeo de %1</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="59"/>
         <source>Waiting for media file from %1</source>
-        <translation>Aguardando arquivo de media de %1</translation>
+        <translation>Aguardando arquivo de mídia de %1</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="53"/>
         <source>Waiting for local video</source>
-        <translation>Aguardando video local</translation>
+        <translation>Aguardando vídeo local</translation>
     </message>
 </context>
 <context>
@@ -7448,7 +7448,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../uservolume.ui" line="79"/>
         <source>Media File Volume Settings</source>
-        <translation>Configurações de Volume de Arquivo de Media</translation>
+        <translation>Configurações de Volume de Arquivo de Mídia</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="150"/>
@@ -7559,7 +7559,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../videotextdlg.cpp" line="41"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="42"/>
