@@ -543,7 +543,12 @@ void PreferencesDlg::slotTabChange(int index)
     break;
     case BEHAVIOR_TAB :  //behavior
     {
-        ui.enterLeaveChkBox->setChecked(ttSettings->value(SETTINGS_BEHAVIOR_ENTERLEAVE, SETTINGS_BEHAVIOR_ENTERLEAVE_DEFAULT).toBool());
+        ui.chanDbClickBox->addItem(tr("Do nothing"), ACTION_NOTHING);
+        ui.chanDbClickBox->addItem(tr("Join only"), ACTION_JOIN);
+        ui.chanDbClickBox->addItem(tr("Leave only"), ACTION_LEAVE);
+        ui.chanDbClickBox->addItem(tr("Join or leave"), ACTION_JOINLEAVE);
+        DoubleClickChannelAction chanDbClickAction = DoubleClickChannelAction(ttSettings->value(SETTINGS_BEHAVIOR_CHANDBCLICK, SETTINGS_BEHAVIOR_CHANDBCLICK_DEFAULT).toUInt());
+        setCurrentItemData(ui.chanDbClickBox, chanDbClickAction);
         ui.closeFileDlgChkBox->setChecked(ttSettings->value(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG_DEFAULT).toBool());
     }
     break;
@@ -827,7 +832,7 @@ void PreferencesDlg::slotSaveChanges()
     }
     if(m_modtab.find(BEHAVIOR_TAB) != m_modtab.end())
     {
-        ttSettings->setValue(SETTINGS_BEHAVIOR_ENTERLEAVE, ui.enterLeaveChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_BEHAVIOR_CHANDBCLICK, getCurrentItemData(ui.chanDbClickBox, ACTION_JOINLEAVE));
         ttSettings->setValue(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, ui.closeFileDlgChkBox->isChecked());
     }
     if(m_modtab.find(CONNECTION_TAB) != m_modtab.end())

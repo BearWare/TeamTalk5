@@ -656,11 +656,17 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_behav">
           <item>
-           <widget class="QCheckBox" name="enterLeaveChkBox">
+           <widget class="QLabel" name="label_dbclickchan">
             <property name="text">
-             <string>Double click on a channel leaves it</string>
+             <string>Double click on a channel</string>
+            </property>
+            <property name="buddy">
+             <cstring>chanDbClickBox</cstring>
             </property>
            </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="chanDbClickBox"/>
           </item>
           <item>
            <widget class="QCheckBox" name="closeFileDlgChkBox">
