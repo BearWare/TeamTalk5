@@ -675,6 +675,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="dlgExcludeChkBox">
+            <property name="text">
+             <string>Alert in a dialog box when excluded from channel or server</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

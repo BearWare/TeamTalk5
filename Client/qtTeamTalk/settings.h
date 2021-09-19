@@ -115,6 +115,8 @@
 #define SETTINGS_BEHAVIOR_CHANDBCLICK_DEFAULT             ACTION_JOINLEAVE
 #define SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG             "behavior/close-file-dlg"
 #define SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG_DEFAULT             false
+#define SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG             "behavior/dlg-alert-exclude"
+#define SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG_DEFAULT             false
 
 #define SETTINGS_CONNECTION_AUTOCONNECT             "connection/autoconnect"
 #define SETTINGS_CONNECTION_RECONNECT               "connection/reconnect"

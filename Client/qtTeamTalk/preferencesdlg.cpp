@@ -550,6 +550,7 @@ void PreferencesDlg::slotTabChange(int index)
         DoubleClickChannelAction chanDbClickAction = DoubleClickChannelAction(ttSettings->value(SETTINGS_BEHAVIOR_CHANDBCLICK, SETTINGS_BEHAVIOR_CHANDBCLICK_DEFAULT).toUInt());
         setCurrentItemData(ui.chanDbClickBox, chanDbClickAction);
         ui.closeFileDlgChkBox->setChecked(ttSettings->value(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG_DEFAULT).toBool());
+        ui.dlgExcludeChkBox->setChecked(ttSettings->value(SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG, SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG_DEFAULT).toBool());
     }
     break;
     case CONNECTION_TAB :  //connection
@@ -834,6 +835,7 @@ void PreferencesDlg::slotSaveChanges()
     {
         ttSettings->setValue(SETTINGS_BEHAVIOR_CHANDBCLICK, getCurrentItemData(ui.chanDbClickBox, ACTION_JOINLEAVE));
         ttSettings->setValue(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, ui.closeFileDlgChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG, ui.dlgExcludeChkBox->isChecked());
     }
     if(m_modtab.find(CONNECTION_TAB) != m_modtab.end())
     {

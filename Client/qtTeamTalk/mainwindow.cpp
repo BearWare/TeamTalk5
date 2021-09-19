@@ -974,19 +974,42 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if (msg.nSource == 0)
         {
             playSoundEvent(SOUNDEVENT_SERVERLOST);
-            if (msg.ttType == __USER)
-                addStatusMsg(event_d, tr("Kicked from server by %1")
-                    .arg(getDisplayName(msg.user)));
+            if(ttSettings->value(SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG, SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
+            {
+                if (msg.ttType == __USER)
+                    addStatusMsg(event_d, tr("Kicked from server by %1")
+                        .arg(getDisplayName(msg.user)));
+                else
+                    addStatusMsg(event_d, tr("Kicked from server by unknown user"));
+            }
             else
-                addStatusMsg(event_d, tr("Kicked from server by unknown user"));
+            {
+                if (msg.ttType == __USER)
+                    QMessageBox::information(this, tr("Kicked from server"),
+                        QString(tr("You have been kicked from server by %1").arg(getDisplayName(msg.user))));
+                else
+                    QMessageBox::information(this, tr("Kicked from server"),
+                        tr("You have been kicked from server by unknown user"));
+            }
         }
         else
         {
-            if (msg.ttType == __USER)
-                addStatusMsg(event_d, tr("Kicked from channel by %1")
-                    .arg(getDisplayName(msg.user)));
+            if(ttSettings->value(SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG, SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
+            {
+                if (msg.ttType == __USER)
+                    addStatusMsg(event_d, tr("Kicked from channel by %1")
+                        .arg(getDisplayName(msg.user)));
+                else
+                    addStatusMsg(event_d, tr("Kicked from channel by unknown user"));
             else
-                addStatusMsg(event_d, tr("Kicked from channel by unknown user"));
+            {
+                if (msg.ttType == __USER)
+                    QMessageBox::information(this, tr("Kicked from channel"),
+                        QString(tr("You have been kicked from channel by %1").arg(getDisplayName(msg.user))));
+                else
+                    QMessageBox::information(this, tr("Kicked from channel"),
+                        tr("You have been kicked from channel by unknown user"));
+            }
         }
     }
     break;
