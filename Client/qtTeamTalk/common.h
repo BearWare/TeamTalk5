@@ -66,7 +66,7 @@
 #endif
 
 #if defined(Q_OS_WINCE)
-#define _W(qstr) qstr.utf16()
+#define _W(qstr) qstr.utf8()
 #define _Q(wstr) QString::fromWCharArray(wstr)
 #define COPY_TTSTR(wstr, qstr)                                      \
     do {                                                            \
@@ -235,6 +235,14 @@ enum Gender
     GENDER_MALE               = 1,
     GENDER_FEMALE             = 2,
     GENDER_NEUTRAL            = 3
+};
+
+enum DoubleClickChannelAction
+{
+    ACTION_NOTHING          = 0,
+    ACTION_JOIN             = 1,
+    ACTION_LEAVE            = 2,
+    ACTION_JOINLEAVE        = 3,
 };
 
 enum SoundEvent
