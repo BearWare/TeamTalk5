@@ -8,11 +8,10 @@ include(ExternalProject)
 # PortAudio
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_PORTAUDIO "Build PortAudio from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 set (TOOLCHAIN_INSTALL_PREFIX_PORTAUDIO ${TOOLCHAIN_INSTALL_PREFIX}/portaudio)
 
 if (MSVC)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_PORTAUDIO)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/bear101/portaudio
       GIT_TAG           11cbdc1
@@ -32,7 +31,7 @@ if (MSVC)
   endif()
 
   add_library(portaudio STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_PORTAUDIO)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(portaudio portaudio-src)
   endif()
   target_include_directories (portaudio INTERFACE ${INSTALL_DIR}/include)
@@ -42,7 +41,7 @@ if (MSVC)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_PORTAUDIO)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/bear101/portaudio
       GIT_TAG           521209c
@@ -61,7 +60,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
 
   add_library(portaudio STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_PORTAUDIO)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(portaudio portaudio-src)
   endif()
   target_include_directories (portaudio INTERFACE ${INSTALL_DIR}/include)
@@ -70,7 +69,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_PORTAUDIO)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/bear101/portaudio
       GIT_TAG           521209c
@@ -89,7 +88,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 
   add_library(portaudio STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_PORTAUDIO)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(portaudio portaudio-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")

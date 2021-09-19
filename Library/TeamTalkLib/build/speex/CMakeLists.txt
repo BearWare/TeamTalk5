@@ -8,11 +8,10 @@ include(ExternalProject)
 # Speex
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX "Build Speex from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 set (TOOLCHAIN_INSTALL_PREFIX_SPEEX ${TOOLCHAIN_INSTALL_PREFIX}/speex)
 
 if (MSVC)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
       ExternalProject_Add(speex-src
         GIT_REPOSITORY    https://github.com/bear101/speex
@@ -54,7 +53,7 @@ if (MSVC)
   endif()
 
   add_library(speex STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speex speex-src)
   endif()
   target_include_directories (speex INTERFACE ${INSTALL_DIR}/include)
@@ -64,7 +63,7 @@ if (MSVC)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speex-src
       GIT_REPOSITORY    https://github.com/bear101/speex
       GIT_TAG           Speex-1.2.0
@@ -84,7 +83,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
 
   add_library(speex STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speex speex-src)
   endif()
   target_include_directories (speex INTERFACE ${INSTALL_DIR}/include)
@@ -106,7 +105,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     message(FATAL_ERROR "What iOS architecture is this?")
   endif()
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speex-src
       GIT_REPOSITORY    https://github.com/bear101/speex
       GIT_TAG           Speex-1.2.0
@@ -126,7 +125,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   endif()
 
   add_library(speex STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speex speex-src)
   endif()
   target_include_directories (speex INTERFACE ${INSTALL_DIR}/include)
@@ -135,7 +134,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speex-src
       GIT_REPOSITORY    https://github.com/bear101/speex
       GIT_TAG           Speex-1.2.0
@@ -155,7 +154,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 
   add_library(speex STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speex speex-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
@@ -188,7 +187,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     message(FATAL_ERROR "What iOS architecture is this?")
   endif()
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speex-src
       GIT_REPOSITORY    https://github.com/bear101/speex
       GIT_TAG           Speex-1.2.0
@@ -210,7 +209,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   endif()
 
   add_library(speex STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speex speex-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")

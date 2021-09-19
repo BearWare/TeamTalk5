@@ -8,11 +8,10 @@ include(ExternalProject)
 # ZLib
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB "Build ZLib from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 set (TOOLCHAIN_INSTALL_PREFIX_ZLIB ${TOOLCHAIN_INSTALL_PREFIX}/zlib)
 
 if (MSVC)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/bear101/zlib
@@ -53,7 +52,7 @@ if (MSVC)
   endif()
 
   add_library(zlib STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(zlib zlib-src)
   endif()
   target_include_directories (zlib INTERFACE ${INSTALL_DIR}/include)
@@ -63,7 +62,7 @@ if (MSVC)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(zlib-src
       GIT_REPOSITORY    https://github.com/bear101/zlib
       GIT_TAG           v1.2.9
@@ -83,7 +82,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
 
   add_library(zlib STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(zlib zlib-src)
   endif()
   target_include_directories (zlib INTERFACE ${INSTALL_DIR}/include)
@@ -91,7 +90,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(zlib-src
       GIT_REPOSITORY    https://github.com/bear101/zlib
       GIT_TAG           v1.2.9
@@ -111,7 +110,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 
   add_library(zlib STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_ZLIB)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(zlib zlib-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")

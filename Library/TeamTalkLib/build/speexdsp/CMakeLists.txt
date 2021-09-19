@@ -8,11 +8,10 @@ include(ExternalProject)
 # SpeexDSP
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP "Build SpeexDSP from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 set (TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp)
 
 if (MSVC)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
       ExternalProject_Add(speexdsp-src
         GIT_REPOSITORY    https://github.com/bear101/speexdsp
@@ -54,7 +53,7 @@ if (MSVC)
   endif()
 
   add_library(speexdsp STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speexdsp speexdsp-src)
   endif()
   target_include_directories (speexdsp INTERFACE ${INSTALL_DIR}/include)
@@ -64,7 +63,7 @@ if (MSVC)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speexdsp-src
       GIT_REPOSITORY    https://github.com/bear101/speexdsp
       GIT_TAG           SpeexDSP-1.2.0
@@ -84,7 +83,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
 
   add_library(speexdsp STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speexdsp speexdsp-src)
   endif()
   target_include_directories (speexdsp INTERFACE ${INSTALL_DIR}/include)
@@ -107,7 +106,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     set (SPEEXDSP_CFLAGS "-arch ${CMAKE_OSX_ARCHITECTURES} -isysroot ${CMAKE_OSX_SYSROOT} -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
   endif()
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speexdsp-src
       GIT_REPOSITORY    https://github.com/bear101/speexdsp
       GIT_TAG           SpeexDSP-1.2.0
@@ -127,7 +126,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   endif()
 
   add_library(speexdsp STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speexdsp speexdsp-src)
   endif()
   target_include_directories (speexdsp INTERFACE ${INSTALL_DIR}/include)
@@ -136,7 +135,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speexdsp-src
       GIT_REPOSITORY    https://github.com/bear101/speexdsp
       GIT_TAG           SpeexDSP-1.2.0
@@ -156,7 +155,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 
   add_library(speexdsp STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)  
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speexdsp speexdsp-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
@@ -197,7 +196,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     message(FATAL_ERROR "What Android architecture is this?")
   endif()
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speexdsp-src
       GIT_REPOSITORY    https://github.com/bear101/speexdsp
       GIT_TAG           SpeexDSP-1.2.0
@@ -219,7 +218,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   endif()
 
   add_library(speexdsp STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_SPEEXDSP)  
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speexdsp speexdsp-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")

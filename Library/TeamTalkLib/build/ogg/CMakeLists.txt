@@ -8,11 +8,10 @@ include(ExternalProject)
 # Ogg
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG "Build Ogg from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 set (TOOLCHAIN_INSTALL_PREFIX_OGG ${TOOLCHAIN_INSTALL_PREFIX}/ogg)
 
 if (MSVC)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
       GIT_REPOSITORY    https://github.com/bear101/ogg
       GIT_TAG           49d8bab
@@ -32,7 +31,7 @@ if (MSVC)
   endif()
 
   add_library(ogg STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(ogg ogg-src)
   endif()
   target_include_directories (ogg INTERFACE ${INSTALL_DIR}/include)
@@ -41,7 +40,7 @@ if (MSVC)
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/ogg.lib)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
       GIT_REPOSITORY    https://github.com/bear101/ogg
       GIT_TAG           v1.3.3
@@ -60,7 +59,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
 
   add_library(ogg STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(ogg ogg-src)
   endif()
   target_include_directories (ogg INTERFACE ${INSTALL_DIR}/include)
@@ -74,7 +73,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
                       -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
                       -DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES})
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
       GIT_REPOSITORY    https://github.com/bear101/ogg
       GIT_TAG           v1.3.3
@@ -93,7 +92,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   endif()
 
   add_library(ogg STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(ogg ogg-src)
   endif()
   target_include_directories (ogg INTERFACE ${INSTALL_DIR}/include)
@@ -102,7 +101,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
       GIT_REPOSITORY    https://github.com/bear101/ogg
       GIT_TAG           v1.3.3
@@ -121,7 +120,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 
   add_library(ogg STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(ogg ogg-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
@@ -140,7 +139,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     -DANDROID_ABI=${ANDROID_ABI} -DANDROID_PLATFORM=${ANDROID_PLATFORM})
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
       GIT_REPOSITORY    https://github.com/bear101/ogg
       GIT_TAG           v1.3.3
@@ -159,7 +158,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   endif()
 
   add_library(ogg STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OGG)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(ogg ogg-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")

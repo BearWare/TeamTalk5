@@ -8,12 +8,11 @@ include(ExternalProject)
 # TinyXML
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML "Build TinyXML from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 set (TOOLCHAIN_INSTALL_PREFIX_TINYXML ${TOOLCHAIN_INSTALL_PREFIX}/tinyxml)
 
 if (MSVC)
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
       ExternalProject_Add(tinyxml-src
         GIT_REPOSITORY    https://github.com/bear101/tinyxml
@@ -51,10 +50,10 @@ if (MSVC)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_TINYXML})
-  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML)
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
 
   add_library(tinyxml STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(tinyxml tinyxml-src)
   endif()
   target_include_directories (tinyxml INTERFACE ${INSTALL_DIR}/include)
@@ -64,7 +63,7 @@ if (MSVC)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(tinyxml-src
       GIT_REPOSITORY    https://github.com/bear101/tinyxml
       GIT_TAG           bdr/mac
@@ -85,10 +84,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_TINYXML})
-  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML)
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
 
   add_library(tinyxml STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(tinyxml tinyxml-src)
   endif()
   target_include_directories (tinyxml INTERFACE ${INSTALL_DIR}/include)
@@ -97,7 +96,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(tinyxml-src
       GIT_REPOSITORY    https://github.com/bear101/tinyxml
       GIT_TAG           bdr/deb64
@@ -118,10 +117,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_TINYXML})
-  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML)
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
 
   add_library(tinyxml STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_TINYXML)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(tinyxml tinyxml-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")

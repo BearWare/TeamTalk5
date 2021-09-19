@@ -8,12 +8,11 @@ include(ExternalProject)
 # LibVPX
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX "Build libvpx from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 set (TOOLCHAIN_INSTALL_PREFIX_LIBVPX ${TOOLCHAIN_INSTALL_PREFIX}/libvpx)
 
 if (MSVC)
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     find_program(CYGWIN_BASH_EXE_PATH bash.exe PATHS C:/cygwin64/bin)
     if (CYGWIN_BASH_EXE_PATH-NOTFOUND)
       message(WARNING "CYGWIN bash.exe is required to build libvpx")
@@ -78,20 +77,20 @@ if (MSVC)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
-  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
   target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(libvpx PROPERTIES
     IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/$(PlatformName)/Debug/vpxmtd.lib
     IMPORTED_LOCATION ${INSTALL_DIR}/$(PlatformName)/Release/vpxmt.lib)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(libvpx libvpx-src)
   endif()
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
       GIT_TAG           v1.9.0
@@ -110,10 +109,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
-  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(libvpx libvpx-src)
   endif()
   target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
@@ -136,7 +135,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     set (LIBVPX_TARGET x86_64-iphonesimulator-gcc)
   endif()
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
       GIT_TAG           v1.9.0
@@ -155,10 +154,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
-  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(libvpx libvpx-src)
   endif()
   target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
@@ -167,7 +166,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
       GIT_TAG           v1.9.0
@@ -186,10 +185,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
-  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(libvpx libvpx-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
@@ -234,7 +233,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     message(FATAL_ERROR "Unknown Android architecture")
   endif()
   
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
       GIT_TAG           v1.9.0
@@ -253,10 +252,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
-  endif(TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
 
   add_library(libvpx STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_LIBVPX)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(libvpx libvpx-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")

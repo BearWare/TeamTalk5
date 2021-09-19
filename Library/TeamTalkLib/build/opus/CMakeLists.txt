@@ -8,11 +8,10 @@ include(ExternalProject)
 # OPUS
 ##################################################
 
-option (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS "Build OPUS from source" ${TOOLCHAIN_BUILD_EXTERNALPROJECTS})
 set (TOOLCHAIN_INSTALL_PREFIX_OPUS ${TOOLCHAIN_INSTALL_PREFIX}/opus)
 
 if (MSVC)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/bear101/opus
       GIT_TAG           5e292322
@@ -32,7 +31,7 @@ if (MSVC)
   endif()
 
   add_library(opus STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(opus opus-src)
   endif()
   target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
@@ -42,7 +41,7 @@ if (MSVC)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/bear101/opus
       GIT_TAG           v1.3.1
@@ -61,7 +60,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
 
   add_library(opus STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(opus opus-src)
   endif()
   target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
@@ -79,7 +78,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     list (APPEND OPUS_CFG_FLAGS -DOPUS_FIXED_POINT=ON)
   endif()
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/bear101/opus
       GIT_TAG           v1.3.1
@@ -98,7 +97,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   endif()
 
   add_library(opus STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(opus opus-src)
   endif()
   target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
@@ -107,7 +106,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/bear101/opus
       GIT_TAG           v1.3.1
@@ -126,7 +125,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 
   add_library(opus STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(opus opus-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
@@ -151,7 +150,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     list (APPEND OPUS_CFG_FLAGS -DOPUS_FIXED_POINT=ON)
   endif()
 
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/bear101/opus
       GIT_TAG           v1.3.1
@@ -170,7 +169,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   endif()
 
   add_library(opus STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECT_OPUS)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(opus opus-src)
   endif()
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
