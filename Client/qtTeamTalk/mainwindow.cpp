@@ -1001,6 +1001,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                         .arg(getDisplayName(msg.user)));
                 else
                     addStatusMsg(event_d, tr("Kicked from channel by unknown user"));
+            }
             else
             {
                 if (msg.ttType == __USER)
