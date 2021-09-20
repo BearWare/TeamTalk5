@@ -974,7 +974,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if (msg.nSource == 0)
         {
             playSoundEvent(SOUNDEVENT_SERVERLOST);
-            if(ttSettings->value(SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG, SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
+            if(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
             {
                 if (msg.ttType == __USER)
                     addStatusMsg(event_d, tr("Kicked from server by %1")
@@ -994,7 +994,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         }
         else
         {
-            if(ttSettings->value(SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG, SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
+            if(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
             {
                 if (msg.ttType == __USER)
                     addStatusMsg(event_d, tr("Kicked from channel by %1")
@@ -4521,7 +4521,7 @@ void MainWindow::slotChannelsDeleteChannel(bool /*checked =false */)
 void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
 {
     Channel chan;
-    DoubleClickChannelAction dbClickAct = DoubleClickChannelAction(ttSettings->value(SETTINGS_BEHAVIOR_CHANDBCLICK, SETTINGS_BEHAVIOR_CHANDBCLICK_DEFAULT).toUInt());
+    DoubleClickChannelAction dbClickAct = DoubleClickChannelAction(ttSettings->value(SETTINGS_DISPLAY_CHANDBCLICK, SETTINGS_DISPLAY_CHANDBCLICK_DEFAULT).toUInt());
     if(!ui.channelsWidget->getSelectedChannel(chan))
         return;
 

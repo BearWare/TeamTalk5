@@ -539,10 +539,6 @@ void PreferencesDlg::slotTabChange(int index)
         int index = ui.languageBox->findData(lang);;
         if(index>=0)
             ui.languageBox->setCurrentIndex(index);
-    }
-    break;
-    case BEHAVIOR_TAB :  //behavior
-    {
         ui.chanDbClickBox->addItem(tr("Do nothing"), ACTION_NOTHING);
         ui.chanDbClickBox->addItem(tr("Join only"), ACTION_JOIN);
         ui.chanDbClickBox->addItem(tr("Leave only"), ACTION_LEAVE);
@@ -830,9 +826,6 @@ void PreferencesDlg::slotSaveChanges()
             ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE,
                         ui.languageBox->itemData(index).toString());
         }
-    }
-    if(m_modtab.find(BEHAVIOR_TAB) != m_modtab.end())
-    {
         ttSettings->setValue(SETTINGS_BEHAVIOR_CHANDBCLICK, getCurrentItemData(ui.chanDbClickBox, ACTION_JOINLEAVE));
         ttSettings->setValue(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, ui.closeFileDlgChkBox->isChecked());
         ttSettings->setValue(SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG, ui.dlgExcludeChkBox->isChecked());

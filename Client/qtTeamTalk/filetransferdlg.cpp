@@ -146,7 +146,7 @@ void FileTransferDlg::slotTransferUpdate(const FileTransfer& transfer)
             killTimer(m_timerid);
             m_timerid = -1;
 
-            if(ttSettings->value(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG_DEFAULT).toBool() == true)
+            if(ttSettings->value(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, SETTINGS_DISPLAY_CLOSE_FILEDIALOG_DEFAULT).toBool() == true)
                 this->close();
             break;
         case FILETRANSFER_ERROR :
@@ -176,5 +176,5 @@ void FileTransferDlg::slotCancelTransfer()
 
 void FileTransferDlg::slotUpdateSettings()
 {
-    ttSettings->setValue(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, ui.closeChkBox->isChecked());
+    ttSettings->setValue(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, ui.closeChkBox->isChecked());
 }

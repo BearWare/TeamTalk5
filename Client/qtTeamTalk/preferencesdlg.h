@@ -46,7 +46,6 @@ public:
     {
         GENERAL_TAB,
         DISPLAY_TAB,
-        BEHAVIOR_TAB,
         CONNECTION_TAB,
         SOUND_TAB,
         SOUNDEVENTS_TAB,
