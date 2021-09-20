@@ -543,10 +543,10 @@ void PreferencesDlg::slotTabChange(int index)
         ui.chanDbClickBox->addItem(tr("Join only"), ACTION_JOIN);
         ui.chanDbClickBox->addItem(tr("Leave only"), ACTION_LEAVE);
         ui.chanDbClickBox->addItem(tr("Join or leave"), ACTION_JOINLEAVE);
-        DoubleClickChannelAction chanDbClickAction = DoubleClickChannelAction(ttSettings->value(SETTINGS_BEHAVIOR_CHANDBCLICK, SETTINGS_BEHAVIOR_CHANDBCLICK_DEFAULT).toUInt());
+        DoubleClickChannelAction chanDbClickAction = DoubleClickChannelAction(ttSettings->value(SETTINGS_DISPLAY_CHANDBCLICK, SETTINGS_DISPLAY_CHANDBCLICK_DEFAULT).toUInt());
         setCurrentItemData(ui.chanDbClickBox, chanDbClickAction);
-        ui.closeFileDlgChkBox->setChecked(ttSettings->value(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG_DEFAULT).toBool());
-        ui.dlgExcludeChkBox->setChecked(ttSettings->value(SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG, SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG_DEFAULT).toBool());
+        ui.closeFileDlgChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, SETTINGS_DISPLAY_CLOSE_FILEDIALOG_DEFAULT).toBool());
+        ui.dlgExcludeChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool());
     }
     break;
     case CONNECTION_TAB :  //connection
@@ -826,9 +826,9 @@ void PreferencesDlg::slotSaveChanges()
             ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE,
                         ui.languageBox->itemData(index).toString());
         }
-        ttSettings->setValue(SETTINGS_BEHAVIOR_CHANDBCLICK, getCurrentItemData(ui.chanDbClickBox, ACTION_JOINLEAVE));
-        ttSettings->setValue(SETTINGS_BEHAVIOR_CLOSE_FILEDIALOG, ui.closeFileDlgChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_BEHAVIOR_CHANEXCLUDE_DLG, ui.dlgExcludeChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_CHANDBCLICK, getCurrentItemData(ui.chanDbClickBox, ACTION_JOINLEAVE));
+        ttSettings->setValue(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, ui.closeFileDlgChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, ui.dlgExcludeChkBox->isChecked());
     }
     if(m_modtab.find(CONNECTION_TAB) != m_modtab.end())
     {
