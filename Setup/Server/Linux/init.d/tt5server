@@ -39,6 +39,11 @@ case "$1" in
 	$0 stop || exit 1
 	$0 start || exit 1
 	;;
+    reload|force-reload)
+        log_daemon_msg "Reloading TeamTalk 5 Server"
+	test -f $PIDFILE && kill -HUP `cat $PIDFILE`
+	log_end_msg $?
+	;;
     *)
 	echo "Usage: /etc/init.d/tt5server {start|stop|restart}"
 	exit 1
