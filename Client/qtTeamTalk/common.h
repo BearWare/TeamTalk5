@@ -239,10 +239,10 @@ enum Gender
 
 enum DoubleClickChannelAction
 {
-    ACTION_NOTHING          = 0,
-    ACTION_JOIN             = 1,
-    ACTION_LEAVE            = 2,
-    ACTION_JOINLEAVE        = 3,
+    ACTION_NOTHING          = 0x0,
+    ACTION_JOIN             = 0x1,
+    ACTION_LEAVE            = 0x2,
+    ACTION_JOINLEAVE        = (ACTION_JOIN | ACTION_LEAVE),
 };
 
 enum SoundEvent

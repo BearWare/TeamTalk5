@@ -4522,17 +4522,17 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
 {
     Channel chan;
     DoubleClickChannelAction dbClickAct = DoubleClickChannelAction(ttSettings->value(SETTINGS_DISPLAY_CHANDBCLICK, SETTINGS_DISPLAY_CHANDBCLICK_DEFAULT).toUInt());
-    if(!ui.channelsWidget->getSelectedChannel(chan))
+    if (!ui.channelsWidget->getSelectedChannel(chan))
         return;
 
-    if(chan.nChannelID == m_mychannel.nChannelID && ((dbClickAct == ACTION_LEAVE || dbClickAct == ACTION_JOINLEAVE) || QObject::sender() == ui.actionJoinChannel))
+    if (chan.nChannelID == m_mychannel.nChannelID && ((dbClickAct & ACTION_LEAVE) == ACTION_LEAVE || QObject::sender() == ui.actionJoinChannel))
     {
         int cmdid = TT_DoLeaveChannel(ttInst);
         m_commands.insert(cmdid, CMD_COMPLETE_LEAVECHANNEL);
         return;
     }
 
-    if (chan.nChannelID != TT_GetMyChannelID(ttInst) && ((dbClickAct == ACTION_JOIN || dbClickAct == ACTION_JOINLEAVE) || QObject::sender() == ui.actionJoinChannel))
+    if (chan.nChannelID != TT_GetMyChannelID(ttInst) && ((dbClickAct & ACTION_JOIN) == ACTION_JOIN || QObject::sender() == ui.actionJoinChannel))
     {
         QString password = m_channel_passwd[chan.nChannelID];
         if(chan.bPassword)
