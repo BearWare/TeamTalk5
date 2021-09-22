@@ -974,19 +974,43 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if (msg.nSource == 0)
         {
             playSoundEvent(SOUNDEVENT_SERVERLOST);
-            if (msg.ttType == __USER)
-                addStatusMsg(event_d, tr("Kicked from server by %1")
-                    .arg(getDisplayName(msg.user)));
+            if(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
+            {
+                if (msg.ttType == __USER)
+                    addStatusMsg(event_d, tr("Kicked from server by %1")
+                        .arg(getDisplayName(msg.user)));
+                else
+                    addStatusMsg(event_d, tr("Kicked from server by unknown user"));
+            }
             else
-                addStatusMsg(event_d, tr("Kicked from server by unknown user"));
+            {
+                if (msg.ttType == __USER)
+                    QMessageBox::information(this, tr("Kicked from server"),
+                        QString(tr("You have been kicked from server by %1").arg(getDisplayName(msg.user))));
+                else
+                    QMessageBox::information(this, tr("Kicked from server"),
+                        tr("You have been kicked from server by unknown user"));
+            }
         }
         else
         {
-            if (msg.ttType == __USER)
-                addStatusMsg(event_d, tr("Kicked from channel by %1")
-                    .arg(getDisplayName(msg.user)));
+            if(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
+            {
+                if (msg.ttType == __USER)
+                    addStatusMsg(event_d, tr("Kicked from channel by %1")
+                        .arg(getDisplayName(msg.user)));
+                else
+                    addStatusMsg(event_d, tr("Kicked from channel by unknown user"));
+            }
             else
-                addStatusMsg(event_d, tr("Kicked from channel by unknown user"));
+            {
+                if (msg.ttType == __USER)
+                    QMessageBox::information(this, tr("Kicked from channel"),
+                        QString(tr("You have been kicked from channel by %1").arg(getDisplayName(msg.user))));
+                else
+                    QMessageBox::information(this, tr("Kicked from channel"),
+                        tr("You have been kicked from channel by unknown user"));
+            }
         }
     }
     break;
@@ -4497,43 +4521,47 @@ void MainWindow::slotChannelsDeleteChannel(bool /*checked =false */)
 void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
 {
     Channel chan;
-    if(!ui.channelsWidget->getSelectedChannel(chan))
+    DoubleClickChannelAction dbClickAct = DoubleClickChannelAction(ttSettings->value(SETTINGS_DISPLAY_CHANDBCLICK, SETTINGS_DISPLAY_CHANDBCLICK_DEFAULT).toUInt());
+    if (!ui.channelsWidget->getSelectedChannel(chan))
         return;
 
-    if(chan.nChannelID == m_mychannel.nChannelID)
+    if (chan.nChannelID == m_mychannel.nChannelID && ((dbClickAct & ACTION_LEAVE) == ACTION_LEAVE || QObject::sender() == ui.actionJoinChannel))
     {
         int cmdid = TT_DoLeaveChannel(ttInst);
         m_commands.insert(cmdid, CMD_COMPLETE_LEAVECHANNEL);
         return;
     }
 
-    QString password = m_channel_passwd[chan.nChannelID];
-    if(chan.bPassword)
+    if (chan.nChannelID != TT_GetMyChannelID(ttInst) && ((dbClickAct & ACTION_JOIN) == ACTION_JOIN || QObject::sender() == ui.actionJoinChannel))
     {
-        bool ok = false;
-        QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&Ok"));
-        inputDialog.setCancelButtonText(tr("&Cancel"));
-        inputDialog.setInputMode(QInputDialog::TextInput);
-        inputDialog.setTextEchoMode(QLineEdit::Password);
-        inputDialog.setTextValue(password);
-        inputDialog.setWindowTitle(MENUTEXT(ui.actionJoinChannel->text()));
-        inputDialog.setLabelText(tr("Specify password"));
-        ok = inputDialog.exec();
-        password = inputDialog.textValue();
-        if(!ok)
-            return;
-    }
-    m_channel_passwd[chan.nChannelID] = password;
+        QString password = m_channel_passwd[chan.nChannelID];
+        if(chan.bPassword)
+        {
+            bool ok = false;
+            QInputDialog inputDialog;
+            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setCancelButtonText(tr("&Cancel"));
+            inputDialog.setInputMode(QInputDialog::TextInput);
+            inputDialog.setTextEchoMode(QLineEdit::Password);
+            inputDialog.setTextValue(password);
+            inputDialog.setWindowTitle(MENUTEXT(ui.actionJoinChannel->text()));
+            inputDialog.setLabelText(tr("Specify password"));
+            ok = inputDialog.exec();
+            password = inputDialog.textValue();
+            if(!ok)
+                return;
+        }
+        m_channel_passwd[chan.nChannelID] = password;
 
-    int cmdid = TT_DoJoinChannelByID(ttInst, chan.nChannelID, _W(password));
-    if(cmdid>0)
-    {
-        m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
+        int cmdid = TT_DoJoinChannelByID(ttInst, chan.nChannelID, _W(password));
+        if(cmdid>0)
+        {
+            m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
+        }
+        else
+            QMessageBox::critical(this, MENUTEXT(ui.actionJoinChannel->text()),
+                                  tr("Failed to issue command to join channel"));
     }
-    else
-        QMessageBox::critical(this, MENUTEXT(ui.actionJoinChannel->text()),
-                              tr("Failed to issue command to join channel"));
 }
 
 void MainWindow::slotChannelsViewChannelInfo(bool /*checked=false*/)
