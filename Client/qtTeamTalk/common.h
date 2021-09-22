@@ -66,7 +66,7 @@
 #endif
 
 #if defined(Q_OS_WINCE)
-#define _W(qstr) qstr.utf8()
+#define _W(qstr) qstr.utf16()
 #define _Q(wstr) QString::fromWCharArray(wstr)
 #define COPY_TTSTR(wstr, qstr)                                      \
     do {                                                            \
