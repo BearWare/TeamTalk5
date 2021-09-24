@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>821</width>
+    <width>861</width>
     <height>640</height>
    </rect>
   </property>
@@ -482,16 +482,33 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="updatesChkBox">
+               <layout class="QHBoxLayout" name="horizontalLayout_26">
+                <item>
+                 <widget class="QLabel" name="label_dbclickchan">
+                  <property name="text">
+                   <string>Double click on a channel</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>chanDbClickBox</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="chanDbClickBox"/>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="closeFileDlgChkBox">
                 <property name="text">
-                 <string>Check for program updates at startup</string>
+                 <string>Close dialog box when a file transfer is finished</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="updatesDlgChkBox">
+               <widget class="QCheckBox" name="dlgExcludeChkBox">
                 <property name="text">
-                 <string>Show new version available in dialog box</string>
+                 <string>Show a dialog box when excluded from channel or server</string>
                 </property>
                </widget>
               </item>
@@ -608,6 +625,20 @@
                  </spacer>
                 </item>
                </layout>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="updatesChkBox">
+                <property name="text">
+                 <string>Check for program updates at startup</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="updatesDlgChkBox">
+                <property name="text">
+                 <string>Show new version available in dialog box</string>
+                </property>
+               </widget>
               </item>
               <item>
                <spacer name="verticalSpacer_8">
@@ -2714,7 +2745,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>

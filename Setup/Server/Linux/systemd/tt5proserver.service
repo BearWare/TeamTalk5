@@ -14,6 +14,7 @@ After=network.target
 
 [Service]
 ExecStart=/usr/bin/tt5prosrv -nd -c /etc/teamtalk/tt5prosrv.xml -l /var/log/teamtalk/tt5prosrv.log
+ExecReload=kill -HUP $MAINPID
 Type=simple
 User=teamtalk
 Group=teamtalk
