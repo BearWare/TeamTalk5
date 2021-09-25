@@ -317,13 +317,21 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.desktopgridWidget, &DesktopGridWidget::userDesktopSelected,
             ui.desktopaccessButton, &QWidget::setEnabled);
 
-    /* Begin - File menu */
+    /* Begin - Client menu */
     connect(ui.actionNewClient, &QAction::triggered,
             this, &MainWindow::slotClientNewInstance);
     connect(ui.actionConnect, &QAction::triggered,
             this, &MainWindow::slotClientConnect);
     connect(ui.actionPreferences, &QAction::triggered,
             this, &MainWindow::slotClientPreferences);
+    connect(ui.menuSoundConfiguration, &QMenu::aboutToShow,
+            this, &MainWindow::slotClientSoundDevices);
+    connect(ui.actionEnableEchoCancel, &QAction::triggered,
+            this, &MainWindow::slotClientAudioEffect);
+    connect(ui.actionEnableAGC, &QAction::triggered,
+            this, &MainWindow::slotClientAudioEffect);
+    connect(ui.actionEnableDenoising, &QAction::triggered,
+            this, &MainWindow::slotClientAudioEffect);
     connect(ui.actionExit, &QAction::triggered,
             this, &MainWindow::slotClientExit);
     /* End - File menu */
@@ -3889,6 +3897,82 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     startTTS();
 }
 
+void MainWindow::slotClientSoundDevices()
+{
+    ui.menuInputDev->clear();
+    ui.menuOutputDev->clear();
+    
+    QMap<SoundSystem, QString> sndsys;
+    sndsys[SOUNDSYSTEM_DSOUND] = "DirectSound";
+    sndsys[SOUNDSYSTEM_ALSA] = "ALSA";
+    sndsys[SOUNDSYSTEM_COREAUDIO] = "CoreAudio";
+    sndsys[SOUNDSYSTEM_AUDIOUNIT] = "AudioUnit";
+    sndsys[SOUNDSYSTEM_WINMM] = "WinMM";
+    sndsys[SOUNDSYSTEM_WASAPI] = "WASAPI";
+    sndsys[SOUNDSYSTEM_NONE] = "None";
+
+    auto devs = getSoundDevices();
+
+    // Current sound system is set in Preferences Dialog
+    SoundSystem selectedSoundSystem = SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_NONE).toUInt());
+
+    // If no sound system is selected then find the default sound system for the platform
+    if (selectedSoundSystem == SOUNDSYSTEM_NONE)
+    {
+        int nInDev, nOutDev;
+        SoundDevice dev;
+        if (TT_GetDefaultSoundDevices(&nInDev, &nOutDev) && getSoundDevice(nOutDev, devs, dev))
+            selectedSoundSystem = dev.nSoundSystem;
+    }
+
+    auto reinitfunc = std::bind(&MainWindow::initSound, this);
+    for (auto& dev : devs)
+    {
+        if (dev.nSoundSystem != SOUNDSYSTEM_NONE && dev.nSoundSystem != selectedSoundSystem)
+            continue;
+
+        if (dev.nSoundSystem == SOUNDSYSTEM_NONE)
+            COPY_TTSTR(dev.szDeviceName, tr("No Sound Device")); // Same translatable string as in preferencesdlg.cpp
+
+        if (dev.nMaxInputChannels > 0)
+        {
+            auto newaction = ui.menuInputDev->addAction(_Q(dev.szDeviceName) + " [" + sndsys[dev.nSoundSystem] + "]");
+            newaction->setCheckable(true);
+            newaction->setChecked(dev.nDeviceID == ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt());
+            connect(newaction, &QAction::triggered, [dev, reinitfunc] {
+                ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE, dev.nDeviceID);
+                ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE_UID, _Q(dev.szDeviceID));
+                reinitfunc();
+                });
+        }
+        if (dev.nMaxOutputChannels > 0)
+        {
+            auto newaction = ui.menuOutputDev->addAction(_Q(dev.szDeviceName) + " [" + sndsys[dev.nSoundSystem] + "]");
+            newaction->setCheckable(true);
+            newaction->setChecked(dev.nDeviceID == ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt());
+            connect(newaction, &QAction::triggered, [dev, reinitfunc] {
+                ttSettings->setValue(SETTINGS_SOUND_OUTPUTDEVICE, dev.nDeviceID);
+                ttSettings->setValue(SETTINGS_SOUND_OUTPUTDEVICE_UID, _Q(dev.szDeviceID));
+                reinitfunc();
+                });
+        }
+    }
+    ui.menuInputDev->addSeparator();
+    connect(ui.menuInputDev->addAction(tr("&Refresh Sound Devices")), &QAction::triggered, this, &MainWindow::initSound);
+}
+
+void MainWindow::slotClientAudioEffect()
+{
+    if (QObject::sender() == ui.actionEnableEchoCancel)
+        ttSettings->setValue(SETTINGS_SOUND_ECHOCANCEL, ui.actionEnableEchoCancel->isChecked());
+    else if (QObject::sender() == ui.actionEnableAGC)
+        ttSettings->setValue(SETTINGS_SOUND_AGC, ui.actionEnableAGC->isChecked());
+    else if (QObject::sender() == ui.actionEnableDenoising)
+        ttSettings->setValue(SETTINGS_SOUND_DENOISING, ui.actionEnableDenoising->isChecked());
+    slotUpdateUI();
+    updateAudioConfig();
+}
+
 void MainWindow::slotClientExit(bool /*checked =false */)
 {
     //close using timer, otherwise gets a Qt assertion from the 
@@ -5332,6 +5416,9 @@ void MainWindow::slotUpdateUI()
     bool me_op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user_chanid);
 
     ui.actionConnect->setChecked( (statemask & CLIENT_CONNECTING) || (statemask & CLIENT_CONNECTED));
+    ui.actionEnableEchoCancel->setChecked(ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool());
+    ui.actionEnableAGC->setChecked(ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool());
+    ui.actionEnableDenoising->setChecked(ttSettings->value(SETTINGS_SOUND_DENOISING, SETTINGS_SOUND_DENOISING_DEFAULT).toBool());
     ui.actionChangeStatus->setEnabled(auth);
 #ifdef Q_OS_WIN32
     ui.actionEnablePushToTalk->setChecked(TT_HotKey_IsActive(ttInst, HOTKEY_PUSHTOTALK) >= 0);

@@ -374,6 +374,7 @@ int getSelectedSndInputDevice()
 {
     int inputid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE,
                                     SOUNDDEVICEID_DEFAULT).toInt();
+    qDebug() << "Input device in settings #" << inputid;
     if(inputid == SOUNDDEVICEID_DEFAULT)
         inputid = getDefaultSndInputDevice();
     else
@@ -383,6 +384,7 @@ int getSelectedSndInputDevice()
         if(uid.size())
             inputid = getSoundInputFromUID(inputid, uid);
     }
+    qDebug() << "Returning input device #" << inputid;
     return inputid;
 }
 
@@ -390,6 +392,7 @@ int getSelectedSndOutputDevice()
 {
     int outputid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE,
                                      SOUNDDEVICEID_DEFAULT).toInt();
+    qDebug() << "Output device in settings #" << outputid;
     if(outputid == SOUNDDEVICEID_DEFAULT)
         outputid = getDefaultSndOutputDevice();
     else
@@ -399,6 +402,7 @@ int getSelectedSndOutputDevice()
         if(uid.size())
             outputid = getSoundOutputFromUID(outputid, uid);
     }
+    qDebug() << "Returning output device #" << outputid;
     return outputid;
 }
 
