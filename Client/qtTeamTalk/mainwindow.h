@@ -327,7 +327,7 @@ private:
     void slotUsersAdvancedDecVolumeVoice();
     void slotUsersAdvancedIncVolumeMediaFile();
     void slotUsersAdvancedDecVolumeMediaFile();
-    void slotUsersAdvancedStoreForMove();
+    void slotUsersAdvancedStoreForMove(int userid = 0);
     void slotUsersAdvancedMoveUsers();
     void slotUsersAdvancedChanMsgAllowed(bool checked=false);
     void slotUsersAdvancedVoiceAllowed(bool checked=false);

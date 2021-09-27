@@ -53,6 +53,7 @@ signals:
     void kickUser(int userid, int chanid);
     void kickbanUser(int userid, int chanid);
     void streamfileToUser(int userid);
+    void moveUser(int userid);
 
 protected:
     void keyPressEvent(QKeyEvent* e) override;

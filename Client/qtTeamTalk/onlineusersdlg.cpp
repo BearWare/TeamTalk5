@@ -107,6 +107,7 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
     QAction* op = menu.addAction(tr("&Op"));
     QAction* kick = menu.addAction(tr("&Kick"));
     QAction* ban = menu.addAction(tr("Kick and &Ban"));    
+    QAction* move = menu.addAction(tr("Select for move"));    
     QAction* action = menu.exec(QCursor::pos());
 
     QItemSelectionModel* selModel = ui.treeView->selectionModel();
@@ -144,6 +145,8 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
             emit(kickUser(userids[i], chanids[i]));
         else if(action == ban)
             emit(kickbanUser(userids[i], chanids[i]));
+        else if(action == move)
+            emit(moveUser(userids[i]));
     }
 }
 
