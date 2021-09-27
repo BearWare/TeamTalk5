@@ -4,40 +4,39 @@ on: [push]
 
 jobs:
   build:
+    strategy:
+      matrix:
+        include:
+          - name: iOS armv7
+            cmakearch: armv7
+            cmakesysroot: iphoneos
+          - name: iOS arm64
+            cmakearch: arm64
+            cmakesysroot: iphoneos
+          - name: iOS i386
+            cmakearch: i386
+            cmakesysroot: iphonesimulator
+          - name: iOS x86_64
+            cmakearch: x86_64
+            cmakesysroot: iphonesimulator
+
     runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Init Toolchain submodule
-      working-directory: ${{runner.workspace}}/TeamTalk5
-      run: git submodule update --init Library/TeamTalkLib/toolchain
-
-    - name: Init Toolchain's submodules
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
-      run: |
-        make prepare-github
-
     - name: Install Toolchain Dependencies
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain/build
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: |
         brew update
         make depend-mac
 
-    - name: Build Toolchain for iOS ARMv7
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/toolchain
-      shell: bash
-      run: |
-        source toolchain.sh ios armv7
-        cd build
-        make ios-armv7
-
     - name: Install TeamTalk Library Dependencies
       run: brew install doxygen
 
-    - name: Build TeamTalk Library and Apps
+    - name: Build TeamTalk Library
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: make CMAKE_EXTRA="-DWEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=armv7 -DCMAKE_OSX_SYSROOT=iphoneos" CMAKE_GENERATOR="Unix Makefiles" BUILDDIR=build-ios-armv7 ios-build
+      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }}" CMAKE_GENERATOR="Unix Makefiles" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
 
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build

@@ -1,0 +1,18 @@
+diff --git a/modules/audio_processing/BUILD.gn b/modules/audio_processing/BUILD.gn
+index e790bbb38f..6bc6b15560 100644
+--- a/modules/audio_processing/BUILD.gn
++++ b/modules/audio_processing/BUILD.gn
+@@ -200,6 +200,13 @@ rtc_library("audio_processing") {
+   ]
+ }
+ 
++static_library("teamtalk") {
++  complete_static_lib = true
++  deps = [
++    ":audio_processing",
++  ]
++}
++
+ rtc_library("voice_detection") {
+   sources = [
+     "voice_detection.cc",

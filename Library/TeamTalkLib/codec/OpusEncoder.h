@@ -24,12 +24,7 @@
 #ifndef OPUSENCODER_H
 #define OPUSENCODER_H
 
-#if defined(WIN32)
-#include <opus.h>
-#else
 #include <opus/opus.h>
-#endif
-
 #include <mystd/MyStd.h>
 
 int OPUS_GetCbSize(int samplerate, int msec);

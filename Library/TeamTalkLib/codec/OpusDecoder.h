@@ -24,14 +24,7 @@
 #ifndef OPUSDECODER_H
 #define OPUSDECODER_H
 
-#if defined(WIN32)
-#include <opus.h>
-#else
 #include <opus/opus.h>
-#endif
-
-#include <vector>
-
 #include <mystd/MyStd.h>
 
 class OpusDecode : private NonCopyable
