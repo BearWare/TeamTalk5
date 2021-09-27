@@ -2429,22 +2429,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1091"/>
         <source>%1 joined root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 加入根频道</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1097"/>
         <source>%1 joined channel %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 加入频道 %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1128"/>
         <source>%1 left root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 离开根频道</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1132"/>
         <source>%1 left channel %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 离开频道 %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1194"/>

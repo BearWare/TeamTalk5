@@ -1,18 +1,11 @@
-if (MSVC)
-  set (OGG_INCLUDE_DIR ${TTLIBS_ROOT}/ogg/include)
-  set (OGG_STATIC_LIB optimized ${TTLIBS_ROOT}/ogg/lib/$(PlatformName)/ogg.lib
-    debug ${TTLIBS_ROOT}/ogg/lib/$(PlatformName)/oggd.lib)
-  set (OGG_LINK_FLAGS ${OGG_STATIC_LIB})
+if (TOOLCHAIN_OGG)
+
+  set (OGG_LINK_FLAGS ogg)
+
 else()
 
-  option (OGG_STATIC "Build ogg using static libraries" ON)
+  # Ubuntu: libogg-dev
+  find_library(LIBOGG_LIBRARY ogg)
+  set (OGG_LINK_FLAGS ${LIBOGG_LIBRARY})
 
-  if (OGG_STATIC)
-    set ( OGG_INCLUDE_DIR ${TTLIBS_ROOT}/ogg/include)
-    set ( OGG_LINK_FLAGS ${TTLIBS_ROOT}/ogg/lib/libogg.a)
-  else()
-    # Ubuntu: libogg-dev
-    find_library(LIBOGG_LIBRARY ogg)
-    set (OGG_LINK_FLAGS ${LIBOGG_LIBRARY})
-  endif()
 endif()

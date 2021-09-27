@@ -55,6 +55,7 @@ public:
 private:
     void slotOpenFile();
     void slotCancelTransfer();
+    void slotUpdateSettings();
 };
 
 #endif

@@ -3,7 +3,11 @@
 ----------------------------------------------
 Version 5.8.2
 Default Qt Client
+- Press Shift+Enter now insert a new line in public chat
 - Option to select an user for move from context menu of online users dialog
+- Option to choose the behavior of double click on a channel
+- Option to open a dialog box when excluded from channel or server
+- Option to close file transfer dialog when a transfer is completed now permanent
 - Fixed a case where, depending on start path, sounds with default values was not played
 Android Client
 -

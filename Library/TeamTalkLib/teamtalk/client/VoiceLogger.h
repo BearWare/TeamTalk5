@@ -127,7 +127,7 @@ namespace teamtalk {
 #if defined(ENABLE_MEDIAFOUNDATION)
         mftransform_t m_mp3transform;
 #endif
-#if defined(ENABLE_OGG)
+#if defined(ENABLE_OGG) && defined(ENABLE_SPEEX)
         speexfile_t m_speexfile;
 #endif
 #if defined(ENABLE_OPUSTOOLS)

@@ -52,4 +52,3 @@ if (MSVC)
     list (APPEND TTCLIENTDLL_COMPILE_FLAGS -D_WIN64)
   endif()
 endif()
-

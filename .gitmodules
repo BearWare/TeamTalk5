@@ -4,9 +4,6 @@
 [submodule "TeamTalkClassic/tinyxml"]
 	path = Client/TeamTalkClassic/tinyxml
 	url = https://github.com/bear101/tinyxml
-[submodule "Library/TeamTalkLib/toolchain"]
-	path = Library/TeamTalkLib/toolchain
-	url = https://github.com/BearWare/toolchain
 [submodule "Library/TeamTalkLib/test/testdata"]
 	path = Library/TeamTalkLib/test/testdata
 	url = https://github.com/BearWare/testdata

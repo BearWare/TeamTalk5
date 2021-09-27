@@ -237,6 +237,14 @@ enum Gender
     GENDER_NEUTRAL            = 3
 };
 
+enum DoubleClickChannelAction
+{
+    ACTION_NOTHING          = 0x0,
+    ACTION_JOIN             = 0x1,
+    ACTION_LEAVE            = 0x2,
+    ACTION_JOINLEAVE        = (ACTION_JOIN | ACTION_LEAVE),
+};
+
 enum SoundEvent
 {
     SOUNDEVENT_NEWUSER,

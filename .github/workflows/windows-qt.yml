@@ -1,0 +1,43 @@
+name: Windows with Qt
+
+on: [push]
+
+jobs:
+  msvc:
+    strategy:
+      matrix:
+        include:
+          - name: VS2019Release32
+            vmimage: windows-2019
+            cmakeplatform: Win32
+          - name: VS2019Release64
+            vmimage: windows-2019
+            cmakeplatform: x64
+    runs-on: ${{ matrix.vmimage }}
+    name: ${{ matrix.name }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Init TeamTalk Client submodules
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: |
+        git submodule update --init --recursive Client
+
+    - name: Generate Qt Framework Build
+      working-directory: ${{runner.workspace}}
+      run: >-
+        cmake -S TeamTalk5 -B qtbuild -A ${{ matrix.cmakeplatform }}
+        -DQT_BUILD_QTFRAMEWORK=ON
+        -DQT_INSTALL_PREFIX=${{runner.workspace}}/install
+    - name: Build Qt Framework using CMake
+      working-directory: ${{runner.workspace}}
+      run: |
+        cmake --build qtbuild --target Qt-src --parallel 8
+    - name: Build TeamTalk Qt Client using QMake
+      shell: cmd
+      working-directory: ${{runner.workspace}}
+      run: |
+        set PATH=${{runner.workspace}}\install\bin;%PATH%
+        cd TeamTalk5\Client\qtTeamTalk
+        qmake CONFIG+=release teamtalk5.pro
+        set CL=/MP
+        nmake
