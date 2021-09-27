@@ -133,13 +133,23 @@ channels_t getParentChannels(int channelid, const channels_t& channels)
     return parents;
 }
 
-users_t getChannelUsers(int channelid, const users_t& users)
+users_t getChannelUsers(int channelid, const users_t& users, const channels_t& channels, bool recursive /* = false */)
 {
     users_t result;
     for(auto ite=users.begin();ite!=users.end();ite++)
     {
         if(ite.value().nChannelID == channelid)
             result.insert(ite.key(), ite.value());
+    }
+
+    if (recursive)
+    {
+        channels_t subs = getSubChannels(channelid, channels, true);
+        for(auto i=subs.begin();i!=subs.end();++i)
+        {
+            for (auto& u : getChannelUsers(i.key(), users, channels))
+                result.insert(u.nUserID, u);
+        }
     }
     return result;
 }
@@ -714,7 +724,7 @@ QTreeWidgetItem* ChannelsTree::getUserItem(int userid)
     return nullptr;
 }
 
-int ChannelsTree::getUserIndex(const QTreeWidgetItem* parent, const QString& nick)
+int ChannelsTree::getUserIndex(const QTreeWidgetItem* parent, const QString& name)
 {
     Q_ASSERT(parent);
     int count = parent->childCount();
@@ -724,17 +734,88 @@ int ChannelsTree::getUserIndex(const QTreeWidgetItem* parent, const QString& nic
         QTreeWidgetItem* child = parent->child(i);
         QString childName = child->data(COLUMN_ITEM, Qt::DisplayRole).toString();
         if((child->type() & CHANNEL_TYPE) || ((child->type() & USER_TYPE) &&
-            nick.compare(childName, Qt::CaseInsensitive) < 0))
+            name.compare(childName, Qt::CaseInsensitive) < 0))
             break;
     }
     return i;
 }
 
+int ChannelsTree::getChannelIndex(const QTreeWidgetItem* item)
+{
+    Q_ASSERT(item->type() & CHANNEL_TYPE);
+
+    auto parent = item->parent();
+    if (!parent)
+        return 0; //root item
+
+    std::map<int, QTreeWidgetItem*> subs;
+    int i, oldindex = -1;
+    for (i=0;i<parent->childCount();++i)
+    {
+        if (parent->child(i)->type() & CHANNEL_TYPE)
+        {
+            auto child = parent->child(i);
+            if (child == item)
+                oldindex = i;
+            else
+                subs[i] = child;
+        }
+    }
+    Q_ASSERT(oldindex >= 0);
+
+    QString chanName = item->data(COLUMN_ITEM, Qt::DisplayRole).toString();
+    ChannelSort sortMethod = ChannelSort(ttSettings->value(SETTINGS_DISPLAY_CHANNELSORT, SETTINGS_DISPLAY_CHANNELSORT_DEFAULT).toUInt());
+    switch (sortMethod)
+    {
+    case CHANNELSORT_ASCENDING :
+        for (auto u : subs)
+        {
+            if (chanName.compare(u.second->data(COLUMN_ITEM, Qt::DisplayRole).toString(), Qt::CaseInsensitive) < 0)
+            {
+                return oldindex < u.first ? u.first - 1 : u.first;
+            }
+        }
+        if (subs.size())
+            return oldindex < subs.rbegin()->first ? subs.rbegin()->first : subs.rbegin()->first + 1;
+        break;
+    case CHANNELSORT_POPULARITY :
+    {
+        int count = getChannelUsers(item->data(COLUMN_ITEM, Qt::UserRole).toUInt() & ID_MASK, m_users, m_channels, true).size();
+        for (auto u : subs)
+        {
+            int subcount = getChannelUsers(u.second->data(COLUMN_ITEM, Qt::UserRole).toUInt() & ID_MASK, m_users, m_channels, true).size();
+            if (count > subcount || (count == subcount &&
+                chanName.compare(u.second->data(COLUMN_ITEM, Qt::DisplayRole).toString(), Qt::CaseInsensitive) < 0))
+            {
+                return oldindex < u.first ? u.first - 1 : u.first;
+            }
+        }
+        if (subs.size())
+            return oldindex < subs.rbegin()->first ? subs.rbegin()->first : subs.rbegin()->first + 1;
+        break;
+    }
+    }
+    return oldindex;
+}
+
 void ChannelsTree::updateChannelItem(int channelid)
 {
     QTreeWidgetItem* item = getChannelItem(channelid);
-    if(item)
+    if (item)
+    {
         slotUpdateTreeWidgetItem(item);
+        auto parent = item->parent();
+        if (!parent)
+            return;
+
+        int curindex = parent->indexOfChild(item);
+        int newindex = getChannelIndex(item);
+        if (curindex != newindex)
+        {
+            auto child = parent->takeChild(curindex);
+            parent->insertChild(newindex, child);
+        }
+    }
 }
 
 void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
@@ -784,13 +865,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         if(m_showusercount)
         {
-            int count = getChannelUsers(channelid, m_users).size();
-            if(!item->isExpanded())
-            {
-                channels_t subs = getSubChannels(channelid, m_channels, true);
-                for(auto i=subs.begin();i!=subs.end();++i)
-                    count += getChannelUsers(i.key(), m_users).size();
-            }
+            int count = getChannelUsers(channelid, m_users, m_channels, !item->isExpanded()).size();
             channame = QString("%1 (%2)").arg(channame).arg(count);
         }
         if (emoji && (chan.uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
@@ -1296,23 +1371,11 @@ void ChannelsTree::slotAddChannel(const Channel& chan)
     {
         int count = parent->childCount();
         QTreeWidgetItem* item;
-        QString name = _Q(chan.szName);
-        int i;
-        for(i=0;i<count;i++)
-        {
-            item = parent->child(i);
-            QString itemName = item->data(COLUMN_ITEM, Qt::DisplayRole).toString();
-            if( (item->type() & CHANNEL_TYPE) &&
-                name.compare(itemName, Qt::CaseInsensitive) < 0)
-                break;
-        }
-        if(i==0)
-            item = new QTreeWidgetItem(parent, parent, CHANNEL_TYPE);
-        else
-            item = new QTreeWidgetItem(parent, parent->child(i-1), CHANNEL_TYPE);
+        item = new QTreeWidgetItem(parent, count == 0 ? parent : parent->child(count - 1), CHANNEL_TYPE);
         item->setData(COLUMN_ITEM, Qt::UserRole, chan.nChannelID);
         item->setExpanded(ttSettings->value(SETTINGS_DISPLAY_CHANEXP, SETTINGS_DISPLAY_CHANEXP_DEFAULT).toBool());
         slotUpdateTreeWidgetItem(item);
+        updateChannelItem(chan.nChannelID);
     }
 }
 

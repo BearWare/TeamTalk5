@@ -428,6 +428,12 @@ enum VideoText
     VIDTEXT_SHOW_STATUSTEXT          = 0x0040,
 };
 
+enum ChannelSort
+{
+    CHANNELSORT_ASCENDING  = 0x1,
+    CHANNELSORT_POPULARITY = 0x2
+};
+
 struct HostEntry
 {
     QString name;

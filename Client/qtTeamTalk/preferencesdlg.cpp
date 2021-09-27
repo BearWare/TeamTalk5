@@ -545,6 +545,11 @@ void PreferencesDlg::slotTabChange(int index)
         ui.chanDbClickBox->addItem(tr("Join or leave"), ACTION_JOINLEAVE);
         DoubleClickChannelAction chanDbClickAction = DoubleClickChannelAction(ttSettings->value(SETTINGS_DISPLAY_CHANDBCLICK, SETTINGS_DISPLAY_CHANDBCLICK_DEFAULT).toUInt());
         setCurrentItemData(ui.chanDbClickBox, chanDbClickAction);
+
+        ui.channelsortComboBox->addItem(tr("Ascending"), CHANNELSORT_ASCENDING);
+        ui.channelsortComboBox->addItem(tr("Popularity"), CHANNELSORT_POPULARITY);
+        setCurrentItemData(ui.channelsortComboBox, ttSettings->value(SETTINGS_DISPLAY_CHANNELSORT, SETTINGS_DISPLAY_CHANNELSORT_DEFAULT).toInt());
+
         ui.closeFileDlgChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, SETTINGS_DISPLAY_CLOSE_FILEDIALOG_DEFAULT).toBool());
         ui.dlgExcludeChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool());
     }
@@ -827,6 +832,7 @@ void PreferencesDlg::slotSaveChanges()
                         ui.languageBox->itemData(index).toString());
         }
         ttSettings->setValue(SETTINGS_DISPLAY_CHANDBCLICK, getCurrentItemData(ui.chanDbClickBox, ACTION_JOINLEAVE));
+        ttSettings->setValue(SETTINGS_DISPLAY_CHANNELSORT, getCurrentItemData(ui.channelsortComboBox, CHANNELSORT_ASCENDING));
         ttSettings->setValue(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, ui.closeFileDlgChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, ui.dlgExcludeChkBox->isChecked());
     }

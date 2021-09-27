@@ -499,6 +499,20 @@
                </layout>
               </item>
               <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_27">
+                <item>
+                 <widget class="QLabel" name="label_45">
+                  <property name="text">
+                   <string>Sort channels by</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="channelsortComboBox"/>
+                </item>
+               </layout>
+              </item>
+              <item>
                <widget class="QCheckBox" name="closeFileDlgChkBox">
                 <property name="text">
                  <string>Close dialog box when a file transfer is finished</string>
