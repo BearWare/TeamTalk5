@@ -3,6 +3,7 @@
 ----------------------------------------------
 Version 5.8.2
 Default Qt Client
+- Press Shift+Enter now insert a new line in public chat
 - Option to choose the behavior of double click on a channel
 - Option to open a dialog box when excluded from channel or server
 - Option to close file transfer dialog when a transfer is completed now permanent

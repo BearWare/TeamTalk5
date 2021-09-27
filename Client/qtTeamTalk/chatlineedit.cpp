@@ -35,16 +35,6 @@ void ChatLineEdit::keyPressEvent ( QKeyEvent * event )
 {
     switch(event->key())
     {
-    case Qt::Key_Enter :
-    case Qt::Key_Return :
-        if(text().size() == 0)
-            break;
-
-        m_history.push_back(text());
-        while(m_history.size() > 50)
-            m_history.erase(m_history.begin());
-        m_history_pos = m_history.end();
-        break;
     case Qt::Key_Up :
         if(text().size() && 
            m_history_pos == m_history.end())
@@ -68,6 +58,20 @@ void ChatLineEdit::keyPressEvent ( QKeyEvent * event )
                 clear();
         }
         break;
+    }
+    if ((event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) &&
+        (event->modifiers() & Qt::ShiftModifier) != 0)
+    {
+        insert("\n");
+    }
+    else if ((event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) &&
+        (event->modifiers() & Qt::ShiftModifier) == 0 && text().size() != 0)
+    {
+        m_history.push_back(text());
+        while(m_history.size() > 50)
+            m_history.erase(m_history.begin());
+        m_history_pos = m_history.end();
+        emit(sendTextMessage());
     }
     QLineEdit::keyPressEvent( event );
 }
