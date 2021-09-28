@@ -56,6 +56,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Oreonan, Francês&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, Alemão&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, Polonês&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos e JNylson, Português do Brasil&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, Turco&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Bibliotecas&lt;/span&gt;&lt;/p&gt;
@@ -77,7 +78,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Translated by Bjoern D. Rasmussen</source>
-        <translation type="vanished">Traduzido por João Carlos Ramos</translation>
+        <translation type="vanished">Traduzido por João Carlos Ramos e JNylson</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="34"/>
@@ -2762,33 +2763,33 @@ Você pode baixá-lo na página abaixo:
         <location filename="../mainwindow.cpp" line="989"/>
         <location filename="../mainwindow.cpp" line="992"/>
         <source>Kicked from server</source>
-        <translation type="unfinished"></translation>
+        <translation>Expulsar do servidor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="990"/>
         <source>You have been kicked from server by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Você foi expulso do servidor por %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="993"/>
         <source>You have been kicked from server by unknown user</source>
-        <translation type="unfinished"></translation>
+        <translation>Você foi expulso do servidor por usuário desconhecido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1009"/>
         <location filename="../mainwindow.cpp" line="1012"/>
         <source>Kicked from channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Expulso do canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1010"/>
         <source>You have been kicked from channel by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Você foi expulso do canal por %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1013"/>
         <source>You have been kicked from channel by unknown user</source>
-        <translation type="unfinished"></translation>
+        <translation>Você foi expulso do canal pelo usuário desconhecido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1116"/>
@@ -4169,7 +4170,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../onlineusersdlg.cpp" line="110"/>
         <source>Select User(s) for Move</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecione Usuário(s) para Mover</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="182"/>
@@ -5275,22 +5276,22 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="542"/>
         <source>Do nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Não fazer nada</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="543"/>
         <source>Join only</source>
-        <translation type="unfinished"></translation>
+        <translation>Juntar apenas</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="544"/>
         <source>Leave only</source>
-        <translation type="unfinished"></translation>
+        <translation>Deixar apenas</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="545"/>
         <source>Join or leave</source>
-        <translation type="unfinished"></translation>
+        <translation>Juntar ou deixar</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="633"/>
@@ -5430,17 +5431,17 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../preferences.ui" line="489"/>
         <source>Double click on a channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Clique duas vezes em um canal</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="504"/>
         <source>Close dialog box when a file transfer is finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Fechar caixa de diálogo quando uma transferência de arquivo estiver concluída</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="511"/>
         <source>Show a dialog box when excluded from channel or server</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar caixa de diálogo quando excluir do canal ou servidor</translation>
     </message>
 </context>
 <context>
