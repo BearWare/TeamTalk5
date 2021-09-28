@@ -24,7 +24,6 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Oreonan, French&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, German&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, Polish&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos and JNylson, Portuguese from Brazil&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, Turkish&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Libraries&lt;/span&gt;&lt;/p&gt;
@@ -3677,37 +3676,37 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="103"/>
+        <location filename="../onlineusersdlg.cpp" line="109"/>
         <source>&amp;View User Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="104"/>
+        <location filename="../onlineusersdlg.cpp" line="110"/>
         <source>M&amp;essages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="107"/>
+        <location filename="../onlineusersdlg.cpp" line="113"/>
         <source>&amp;Op</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="108"/>
+        <location filename="../onlineusersdlg.cpp" line="114"/>
         <source>&amp;Kick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="109"/>
+        <location filename="../onlineusersdlg.cpp" line="115"/>
         <source>Kick and &amp;Ban</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="110"/>
+        <location filename="../onlineusersdlg.cpp" line="116"/>
         <source>Select User(s) for Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="182"/>
+        <location filename="../onlineusersdlg.cpp" line="188"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
         <translation type="unfinished"></translation>
     </message>

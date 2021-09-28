@@ -3802,37 +3802,37 @@ Should these settings be applied?</source>
         <translation>Usuarios actualmente en el servidor</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="103"/>
+        <location filename="../onlineusersdlg.cpp" line="109"/>
         <source>&amp;View User Information</source>
         <translation>Ver Información de Usuario</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="104"/>
+        <location filename="../onlineusersdlg.cpp" line="110"/>
         <source>M&amp;essages</source>
         <translation>Mensajes</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="107"/>
+        <location filename="../onlineusersdlg.cpp" line="113"/>
         <source>&amp;Op</source>
         <translation>Operador</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="108"/>
+        <location filename="../onlineusersdlg.cpp" line="114"/>
         <source>&amp;Kick</source>
         <translation>Expulsar</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="109"/>
+        <location filename="../onlineusersdlg.cpp" line="115"/>
         <source>Kick and &amp;Ban</source>
         <translation>Expulsar y Bloquear</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="110"/>
+        <location filename="../onlineusersdlg.cpp" line="116"/>
         <source>Select User(s) for Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="182"/>
+        <location filename="../onlineusersdlg.cpp" line="188"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
         <translation type="unfinished"></translation>
     </message>
