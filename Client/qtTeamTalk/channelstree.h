@@ -75,10 +75,7 @@ public:
     void setChannelMessaged(int channelid, bool messaged);
     void setUserMessaged(int userid, bool messaged);
     void setUserDesktopAccess(int userid, bool enable);
-    void setShowUserCount(bool show);
-    void setShowUsername();
-    void setShowLastToTalk(bool show);
-    void updateItemTextLength(int new_length);
+    void updateAllItems();
 
 signals:
     void userDoubleClicked(int);
@@ -102,10 +99,7 @@ private:
     typedef QSet<int> uservideo_t;
     channels_t m_channels;
     users_t m_users; //contains all users (also those not in channels)
-    bool m_showusercount;
-    bool m_showlasttalk;
     int m_last_talker_id;
-    int m_strlen;
     statistics_t m_stats;
     uservideo_t m_videousers;
     QSet<int> m_desktopaccess_users;

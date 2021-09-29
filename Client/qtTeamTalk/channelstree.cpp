@@ -170,10 +170,7 @@ bool isFreeForAll(StreamTypes stream_type, const int transmitUsers[][2],
 
 ChannelsTree::ChannelsTree(QWidget* parent)
 : QTreeWidget(parent)
-, m_showusercount(SETTINGS_DISPLAY_USERSCOUNT_DEFAULT)
-, m_showlasttalk(SETTINGS_DISPLAY_LASTTALK_DEFAULT)
 , m_last_talker_id(0)
-, m_strlen(SETTINGS_DISPLAY_MAX_STRING_DEFAULT)
 , m_desktopaccesTimerId(0)
 , m_ignore_item_changes(false)
 {
@@ -421,19 +418,14 @@ void ChannelsTree::setUserDesktopAccess(int userid, bool enable)
     }
 }
 
-void ChannelsTree::setShowUserCount(bool show)
+void ChannelsTree::updateAllItems()
 {
-    m_showusercount = show;
     channels_t::const_iterator ite = m_channels.begin();
     while(ite != m_channels.end())
     {
         updateChannelItem(ite.key());
         ite++;
     }
-}
-
-void ChannelsTree::setShowUsername()
-{
     users_t::const_iterator i = m_users.begin();
     while(i != m_users.end())
     {
@@ -441,39 +433,6 @@ void ChannelsTree::setShowUsername()
         if(item)
             slotUpdateTreeWidgetItem(item);
         ++i;
-    }
-}
-
-void ChannelsTree::setShowLastToTalk(bool show)
-{
-    m_showlasttalk = show;
-    QTreeWidgetItem* user_item = getUserItem(m_last_talker_id);
-    if(user_item)
-        slotUpdateTreeWidgetItem(user_item);
-}
-
-void ChannelsTree::updateItemTextLength(int new_length)
-{
-    if(m_strlen == new_length)
-        return;
-    m_strlen = new_length;
-
-    QTreeWidgetItem* item;
-    channels_t::const_iterator ic = m_channels.begin();
-    while(ic != m_channels.end())
-    {
-        item = getChannelItem(ic.key());
-        if(item)
-            slotUpdateTreeWidgetItem(item);
-        ic++;
-    }
-    users_t::iterator iu = m_users.begin();
-    while(iu != m_users.end())
-    {
-        item = getUserItem(iu.key());
-        if(item)
-            slotUpdateTreeWidgetItem(item);
-        iu++;
     }
 }
 
@@ -824,6 +783,8 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
     int mychanid = TT_GetMyChannelID(ttInst);
     bool emoji = ttSettings->value(SETTINGS_DISPLAY_EMOJI, SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool();
+    int maxstrlen = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
+                                      SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt();
 
     if(item->type() & CHANNEL_TYPE)
     {
@@ -857,13 +818,13 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
                 img_name = ":/images/images/channel.png";
         }
 
-        if(channame.size()>m_strlen)
+        if (channame.size() > maxstrlen)
         {
-            channame.resize(m_strlen);
+            channame.resize(maxstrlen);
             channame += "...";
         }
 
-        if(m_showusercount)
+        if (ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT, SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool())
         {
             int count = getChannelUsers(channelid, m_users, m_channels, !item->isExpanded()).size();
             channame = QString("%1 (%2)").arg(channame).arg(count);
@@ -1112,9 +1073,9 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
                 itemtext += tr(" (Channel operator)");
         }
 
-        if (itemtext.size() > m_strlen)
+        if (itemtext.size() > maxstrlen)
         {
-            itemtext.resize(m_strlen);
+            itemtext.resize(maxstrlen);
             itemtext += "...";
         }
         item->setData(COLUMN_ITEM, Qt::DisplayRole, itemtext);
@@ -1279,8 +1240,11 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         }
 
         QBrush bgColor = talking ? QBrush(COLOR_TALK) : QPalette().brush(QPalette::Base);
-        if(!talking && m_showlasttalk && userid == m_last_talker_id)
+        if (!talking && userid == m_last_talker_id &&
+            ttSettings->value(SETTINGS_DISPLAY_LASTTALK, SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool())
+        {
             bgColor = QBrush(COLOR_LASTTALK);
+        }
         item->setBackground(COLUMN_ITEM, bgColor);
         item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Text message transmission allowed: %1").arg(userCanChanMessage(userid, chan)?tr("Yes"):tr("No"))));
         item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Voice transmission allowed: %1").arg(userCanVoiceTx(userid, chan)?tr("Yes"):tr("No"))));
