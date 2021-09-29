@@ -122,9 +122,9 @@ public:
     void hotkeyToggle(HotKeyID id, bool active);
 
 protected:
-    void timerEvent(QTimerEvent *event);
-    void closeEvent(QCloseEvent *event);
-    void changeEvent(QEvent* event);
+    void timerEvent(QTimerEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
+    void changeEvent(QEvent* event) override;
     void keyPressEvent(QKeyEvent* e) override;
 
 #if defined(Q_OS_WIN32) && QT_VERSION >= 0x050000
