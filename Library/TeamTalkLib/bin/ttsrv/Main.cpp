@@ -138,17 +138,20 @@ ACE_NT_SERVICE_DEFINE (TeamTalk,
 
 #endif
 
+// overwritable options
 ACE_TString bindip, settingsfile, logfile = ACE_TEXT(TEAMTALK_LOGFILE), pidfile;
 int tcpport = 0;
 int udpport = 0;
 bool verbose = false;
 bool daemon_pid = false;
-//setting files
-ServerXML xmlSettings(TEAMTALK_XML_ROOTNAME);
-
 bool _daemon = false;
 bool nondaemon = false;
 int rxloss = 0, txloss = 0;
+
+//setting files
+ServerXML xmlSettings(TEAMTALK_XML_ROOTNAME);
+//log file
+std::ofstream logstream;
 
 class SignalEventHandler : public ACE_Event_Handler
 {
@@ -167,7 +170,7 @@ public:
             reactor()->end_reactor_event_loop();
             break;
         case SIGHUP :
-            if(!LoadConfig(xmlSettings, settingsfile))
+            if (!LoadConfig(xmlSettings, settingsfile))
             {
                 ACE_TCHAR error_msg[1024];
                 ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to reload settings file %s."), settingsfile.c_str());
@@ -175,6 +178,13 @@ public:
             }
             else
             {
+                logstream.close();
+
+                if (xmlSettings.GetServerLogMaxSize() != 0)
+                {
+                    logstream.open(logfile.c_str(), ios::app);
+                }
+
                 ACE_TCHAR msg[1024];
                 ACE_OS::snprintf(msg, 1024, ACE_TEXT("Reloaded settings file %s."), settingsfile.c_str());
                 TT_LOG(msg);
@@ -226,8 +236,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
 }
 
 void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor, 
-                  const ACE_TString& workdir, std::ofstream& logstream, 
-                  ACE_INT64 log_maxsize)
+                  const ACE_TString& workdir)
 {
     int ret = ACE_Thread_Manager::instance ()->spawn(event_loop, udpReactor);
     if(ret < 0)
@@ -237,10 +246,13 @@ void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor,
 
     int log_check = 0;
     ACE_Time_Value tm(10,0);
-    while(tcpReactor->handle_events(tm) >= 0) {
-        if(++log_check % 10 == 0 && log_maxsize>0 &&
-           logstream.tellp() >= log_maxsize)
+    while(tcpReactor->handle_events(tm) >= 0)
+    {
+        if (++log_check % 10 == 0 && xmlSettings.GetServerLogMaxSize() > 0 &&
+            logstream.tellp() >= xmlSettings.GetServerLogMaxSize())
+        {
             RotateLogfile(workdir, logfile.c_str(), logstream);
+        }
         tm.set(10, 0);
     }
 
@@ -287,16 +299,12 @@ int RunServer(
     ACE_TCHAR workdir[512] = {};
     ACE_OS::getcwd(workdir, 512);
 
-    //log file
-    std::ofstream logstream;
-    int64_t log_maxsize = xmlSettings.GetServerLogMaxSize();
-
     //enable logging
-    if(log_maxsize != 0)
+    if (xmlSettings.GetServerLogMaxSize() != 0)
     {
         logstream.open(logfile.c_str(), ios::app);
         ACE_OSTREAM_TYPE * output = &logstream;
-        ACE_LOG_MSG->msg_ostream(output, 0);
+        ACE_LOG_MSG->msg_ostream(output, false);
         ACE_LOG_MSG->set_flags(ACE_Log_Msg::OSTREAM);
         u_long flag = LM_ERROR | LM_INFO | LM_DEBUG;
         ACE_LOG_MSG->priority_mask(flag, ACE_Log_Msg::PROCESS);
@@ -398,7 +406,7 @@ int RunServer(
 #if defined(BUILD_NT_SERVICE)
     SetConsoleCtrlHandler(ControlHandler, TRUE);
     service->report_status_foo(SERVICE_RUNNING);
-    RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir, logstream, log_maxsize);
+    RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir);
 #else
     if(_daemon)
     {
@@ -450,14 +458,14 @@ int RunServer(
             exit(EXIT_FAILURE);
         }
 
-        RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir, logstream, log_maxsize);
+        RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir);
 
 #endif /* WIN32 */
     }
     else if(nondaemon)
     {
         //TCP commands thread
-        RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir, logstream, log_maxsize);
+        RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir);
     }
 #endif /* BUILD_NT_SERVICE */
 
