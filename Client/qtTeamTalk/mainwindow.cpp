@@ -1836,9 +1836,9 @@ void MainWindow::Disconnect()
             m_usercache[userCacheID(u)] = UserCached(u);
     }
 
-    ui.channelsWidget->reset();
-    ui.videogridWidget->ResetGrid();
-    ui.desktopgridWidget->ResetGrid();
+    ui.channelsWidget->resetChannels();
+    ui.videogridWidget->resetGrid();
+    ui.desktopgridWidget->resetGrid();
     ui.msgEdit->setVisible(false);
     ui.sendButton->setVisible(false);
     ui.videomsgEdit->setVisible(false);
@@ -2688,8 +2688,8 @@ void MainWindow::processMyselfLeft(int /*channelid*/)
     m_last_channel = {};
 
     m_talking.clear();
-    ui.videogridWidget->ResetGrid();
-    ui.desktopgridWidget->ResetGrid();
+    ui.videogridWidget->resetGrid();
+    ui.desktopgridWidget->resetGrid();
 
     if(m_logChan.isOpen())
     {

@@ -363,7 +363,7 @@ void ChannelsTree::getTransmitUsers(int channelid,
     }
 }
 
-void ChannelsTree::reset()
+void ChannelsTree::resetChannels()
 {
     delete topLevelItem(0);
     m_channels.clear();

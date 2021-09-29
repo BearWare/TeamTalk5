@@ -70,7 +70,7 @@ public:
 
     void getTransmitUsers(int channelid, QMap<int, StreamTypes>& transmitUsers);
 
-    void reset();
+    void resetChannels();
 
     void setChannelMessaged(int channelid, bool messaged);
     void setUserMessaged(int userid, bool messaged);
