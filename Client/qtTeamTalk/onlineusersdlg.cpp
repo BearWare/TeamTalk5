@@ -23,6 +23,7 @@
 
 #include "onlineusersdlg.h"
 #include "appinfo.h"
+#include "settings.h"
 
 #include <QHeaderView>
 #include <QMenu>
@@ -30,6 +31,7 @@
 #include <QKeyEvent>
 
 extern TTInstance* ttInst;
+extern QSettings* ttSettings;
 
 OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
@@ -40,6 +42,8 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
     ui.treeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.treeView, &QWidget::customContextMenuRequested,
             this, &OnlineUsersDlg::slotTreeContextMenu);
+    ui.keepDisconnectedUsersCheckBox->setChecked(ttSettings->value(SETTINGS_KEEP_DISCONNECTED_USERS, SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT).toBool());
+    connect(ui.keepDisconnectedUsersCheckBox, &QAbstractButton::clicked, this, &OnlineUsersDlg::slotUpdateSettings);
 
     m_model = new OnlineUsersModel(this);
     m_proxyModel = new QSortFilterProxyModel(this);
@@ -69,7 +73,15 @@ void OnlineUsersDlg::slotUserLoggedIn(const User& user)
 
 void OnlineUsersDlg::slotUserLoggedOut(const User& user)
 {
-    m_model->removeUser(user.nUserID);
+    if (ttSettings->value(SETTINGS_KEEP_DISCONNECTED_USERS, SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT).toBool() == true)
+    {
+        QModelIndex index = m_model->userRow(user.nUserID);
+        m_model->removeUser(user.nUserID, true);
+        if(index.isValid())
+            ui.treeView->update(index);
+    }
+    else
+        m_model->removeUser(user.nUserID, false);
     updateTitle();
 }
 
@@ -185,4 +197,9 @@ void OnlineUsersDlg::keyPressEvent(QKeyEvent* e)
         }
     }
     QDialog::keyPressEvent(e);
+}
+
+void OnlineUsersDlg::slotUpdateSettings()
+{
+    ttSettings->setValue(SETTINGS_KEEP_DISCONNECTED_USERS, ui.keepDisconnectedUsersCheckBox->isChecked());
 }

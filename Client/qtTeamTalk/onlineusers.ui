@@ -48,6 +48,13 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QCheckBox" name="keepDisconnectedUsersCheckBox">
+        <property name="text">
+         <string>Keep disconnected users</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

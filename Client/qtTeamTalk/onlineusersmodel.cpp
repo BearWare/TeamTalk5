@@ -72,13 +72,18 @@ void OnlineUsersModel::updateUser(int userid)
         m_users.insert(user.nUserID, user);
 }
 
-void OnlineUsersModel::removeUser(int userid)
+void OnlineUsersModel::removeUser(int userid, bool keep)
 {
-    this->beginResetModel();
+    if (keep == false)
+    {
+        this->beginResetModel();
 
-    m_users.remove(userid);
+        m_users.remove(userid);
 
-    this->endResetModel();
+        this->endResetModel();
+    }
+    else
+        m_users[userid].nUserID = 0;
 }
 
 QModelIndex OnlineUsersModel::userRow(int userid)
