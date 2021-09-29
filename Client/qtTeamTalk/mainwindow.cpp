@@ -646,15 +646,6 @@ void MainWindow::loadSettings()
     if(ttSettings->value(SETTINGS_VIDCAP_ENABLE, SETTINGS_VIDCAP_ENABLE_DEFAULT).toBool())
         slotMeEnableVideoTransmission();
 
-    //show number of users
-    ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT,
-                                                          SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool());
-    ui.channelsWidget->setShowUsername();
-    ui.channelsWidget->setShowLastToTalk(ttSettings->value(SETTINGS_DISPLAY_LASTTALK,
-                                                           SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool());
-    ui.channelsWidget->updateItemTextLength(ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
-                                            SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt());
-
     //move window to last position
     QVariantList windowpos = ttSettings->value(SETTINGS_DISPLAY_WINDOWPOS).toList();
     if(windowpos.size() == 4)
@@ -1845,9 +1836,9 @@ void MainWindow::Disconnect()
             m_usercache[userCacheID(u)] = UserCached(u);
     }
 
-    ui.channelsWidget->reset();
-    ui.videogridWidget->ResetGrid();
-    ui.desktopgridWidget->ResetGrid();
+    ui.channelsWidget->resetChannels();
+    ui.videogridWidget->resetGrid();
+    ui.desktopgridWidget->resetGrid();
     ui.msgEdit->setVisible(false);
     ui.sendButton->setVisible(false);
     ui.videomsgEdit->setVisible(false);
@@ -2697,8 +2688,8 @@ void MainWindow::processMyselfLeft(int /*channelid*/)
     m_last_channel = {};
 
     m_talking.clear();
-    ui.videogridWidget->ResetGrid();
-    ui.desktopgridWidget->ResetGrid();
+    ui.videogridWidget->resetGrid();
+    ui.desktopgridWidget->resetGrid();
 
     if(m_logChan.isOpen())
     {
@@ -3793,16 +3784,9 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         ui.voiceactBar->setVisible(false);
     }
 
-    //show user count property
-    ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT,
-                                                          SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool());
-    ui.channelsWidget->setShowUsername();
-    ui.channelsWidget->setShowLastToTalk(ttSettings->value(SETTINGS_DISPLAY_LASTTALK,
-                                                           SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool());
-    ui.channelsWidget->updateItemTextLength(ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
-                                            SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt());
+    ui.channelsWidget->updateAllItems();
 
-    if(lang != ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString())
+    if (lang != ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString())
         ui.retranslateUi(this);
 
     double d = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,

@@ -43,7 +43,7 @@ bool userCanMediaFileTx(int userid, const Channel& chan);
 
 channels_t getSubChannels(int channelid, const channels_t& channels, bool recursive = false);
 channels_t getParentChannels(int channelid, const channels_t& channels);
-users_t getChannelUsers(int channelid, const users_t& users);
+users_t getChannelUsers(int channelid, const users_t& users, const channels_t& channels, bool recursive = false);
 
 class ChannelsTree : public QTreeWidget
 {
@@ -70,15 +70,12 @@ public:
 
     void getTransmitUsers(int channelid, QMap<int, StreamTypes>& transmitUsers);
 
-    void reset();
+    void resetChannels();
 
     void setChannelMessaged(int channelid, bool messaged);
     void setUserMessaged(int userid, bool messaged);
     void setUserDesktopAccess(int userid, bool enable);
-    void setShowUserCount(bool show);
-    void setShowUsername();
-    void setShowLastToTalk(bool show);
-    void updateItemTextLength(int new_length);
+    void updateAllItems();
 
 signals:
     void userDoubleClicked(int);
@@ -89,12 +86,12 @@ signals:
     void transmitusersChanged(int, const QMap<int, StreamTypes>&);
 
 protected:
-    void timerEvent(QTimerEvent* event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void dropEvent(QDropEvent *event);
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dragMoveEvent(QDragMoveEvent * event);
+    void timerEvent(QTimerEvent* event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragMoveEvent(QDragMoveEvent * event) override;
     void keyPressEvent(QKeyEvent* e) override;
 
 private:
@@ -102,10 +99,7 @@ private:
     typedef QSet<int> uservideo_t;
     channels_t m_channels;
     users_t m_users; //contains all users (also those not in channels)
-    bool m_showusercount;
-    bool m_showlasttalk;
     int m_last_talker_id;
-    int m_strlen;
     statistics_t m_stats;
     uservideo_t m_videousers;
     QSet<int> m_desktopaccess_users;
@@ -118,7 +112,10 @@ private:
 
     QTreeWidgetItem* getChannelItem(int channelid);
     QTreeWidgetItem* getUserItem(int userid);
-    int getUserIndex(const QTreeWidgetItem* parent, const QString& nick);
+    /* return the "should be" index. Not the current index */
+    int getUserIndex(const QTreeWidgetItem* parent, const QString& name);
+    /* return the "should be" index. Not the current index */
+    int getChannelIndex(const QTreeWidgetItem* item);
     void updateChannelItem(int channelid);
 
     bool m_ignore_item_changes;

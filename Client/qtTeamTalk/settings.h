@@ -116,6 +116,8 @@
 #define SETTINGS_DISPLAY_CLOSE_FILEDIALOG_DEFAULT             false
 #define SETTINGS_DISPLAY_CHANEXCLUDE_DLG             "display/dlg-alert-exclude"
 #define SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT             false
+#define SETTINGS_DISPLAY_CHANNELSORT                 "display/sort-channels"
+#define SETTINGS_DISPLAY_CHANNELSORT_DEFAULT         CHANNELSORT_ASCENDING
 
 #define SETTINGS_CONNECTION_AUTOCONNECT             "connection/autoconnect"
 #define SETTINGS_CONNECTION_RECONNECT               "connection/reconnect"

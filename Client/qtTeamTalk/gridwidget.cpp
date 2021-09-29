@@ -109,7 +109,7 @@ int GridWidget::getActiveUsersCount() const
     return m_activewidgets.size();
 }
 
-void GridWidget::ResetGrid()
+void GridWidget::resetGrid()
 {
     QVector<int> userids = activeUsers();
     for(int i=0;i<userids.size();i++)
