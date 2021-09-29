@@ -59,7 +59,25 @@ centos7:
 	# $ yum --enablerepo=extras install epel-release
 	# Setup CMake 3 as default cmake:
 	# $ ln -s /bin/cmake3 /bin/cmake
-	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DSTATICCPP=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_CORE=ON -DFEATURE_WEBRTC=OFF" BUILDDIR=build-$@ buildlib
+	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK5DLL=OFF \
+                              -DBUILD_TEAMTALK5PRODLL=OFF \
+                              -DBUILD_TEAMTALK_LIBRARIES=OFF \
+                              -DBUILD_TEAMTALKPRO_SERVERS=OFF \
+                              -DBUILD_TEAMTALK_CLIENTS=OFF \
+                              -DBUILD_TEAMTALK_CORE=ON \
+                              -DSTATICCPP=OFF \
+                              -DTOOLCHAIN_OPENSSL=OFF \
+                              -DTOOLCHAIN_ZLIB=OFF \
+                              -DTOOLCHAIN_CATCH2=OFF \
+                              -DTOOLCHAIN_LIBVPX=OFF \
+                              -DTOOLCHAIN_FFMPEG=OFF \
+                              -DTOOLCHAIN_OGG=OFF \
+                              -DTOOLCHAIN_OPUS=OFF \
+                              -DTOOLCHAIN_PORTAUDIO=OFF \
+                              -DTOOLCHAIN_SPEEX=OFF \
+                              -DTOOLCHAIN_SPEEXDSP=OFF \
+                              -DFEATURE_OPUSTOOLS=OFF \
+                              -DFEATURE_WEBRTC=OFF" BUILDDIR=build-$@ buildlib
 
 rasp:
 	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF" BUILDDIR=build-$@ generic
