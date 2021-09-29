@@ -505,6 +505,9 @@
                   <property name="text">
                    <string>Sort channels by</string>
                   </property>
+                  <property name="buddy">
+                   <cstring>channelsortComboBox</cstring>
+                  </property>
                  </widget>
                 </item>
                 <item>
