@@ -2,6 +2,14 @@ name: Windows
 
 on: [push]
 
+env:
+  # TeamTalk unit test environment variables
+  INPUTDEVICEID: 1978
+  OUTPUTDEVICEID: 1978
+  VIDEODEVICEID: None
+  VERBOSE: 0
+  GITHUBSKIP: 1
+
 jobs:
   msvc:
     strategy:
@@ -32,10 +40,11 @@ jobs:
         -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_LIBVPX=OFF
         -DBUILD_TEAMTALK_CLIENT_DOTNET_EXAMPLE=OFF
+
     - name: Build CMake Projects
       working-directory: ${{runner.workspace}}
       run: |
-        cmake --build output --parallel 8
+        cmake --build output --parallel 8 --config Release
 
     - name: Copy Server Configuration
       working-directory: ${{runner.workspace}}/TeamTalk5
@@ -58,3 +67,8 @@ jobs:
       run: |
         tt5prosvc.exe -i
         tt5prosvc.exe -s
+
+    - name: Catch unit-test
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
+      shell: cmd
+      run: catchtt.exe --durations yes
