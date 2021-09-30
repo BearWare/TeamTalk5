@@ -8,6 +8,7 @@ Default Qt Client
 - Option to choose the behavior of double click on a channel
 - Option to open a dialog box when excluded from channel or server
 - Option to close file transfer dialog when a transfer is completed now permanent
+- Option to sort channels by popularity
 - Fixed a case where, depending on start path, sounds with default values was not played
 Android Client
 -
