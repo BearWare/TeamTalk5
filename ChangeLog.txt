@@ -14,7 +14,7 @@ Android Client
 iOS Client
 -
 Server
--
+- Reopen log file on SIGHUP (server reload)
 
 Version 5.8.1, 2021/09/07
 Default Qt Client
