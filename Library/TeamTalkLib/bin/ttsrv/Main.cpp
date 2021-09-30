@@ -204,14 +204,16 @@ int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
     service.reactor(ACE_Reactor::instance());
     service.name(ACE_TEXT(TEAMTALK_NAME), ACE_TEXT(TEAMTALK_NAME));
     int parse_result = ParseArguments(argc, argv, &service);
-    if(parse_result > 0)
+    if (parse_result > 0)
     {
-        ACE_NT_SERVICE_RUN (TeamTalk,
-                            &service,
-                            rett);
-        exitcode = rett<0?EXIT_FAILURE:EXIT_SUCCESS;
-
+        ACE_NT_SERVICE_RUN(TeamTalk,
+            &service,
+            rett);
+        // 'rett' gets result of StartServiceCtrlDispatcherW()
+        exitcode = rett ? EXIT_SUCCESS : EXIT_FAILURE;
     }
+    else if (parse_result == 0)
+        exitcode = EXIT_SUCCESS;
 #else
     if(argc <= 1)
     {
@@ -627,12 +629,13 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 
     if( (ite = args.find(ACE_TEXT("-i"))) != args.end())
     {
-        if(service->insert(SERVICE_AUTO_START)<0)
+        if (service->insert(SERVICE_AUTO_START) < 0)
         {
             ACE_TCHAR error_msg[1024];
             ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to install ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("\nError: %s"),
                          GetWinError(ACE_OS::last_error()).c_str());
             TT_SYSLOG(error_msg);
+            return -1;
         }
         else
         {
@@ -642,12 +645,13 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     }
     if( (ite = args.find(ACE_TEXT("-u"))) != args.end())
     {
-        if(service->remove()<0)
+        if (service->remove() < 0)
         {
             ACE_TCHAR error_msg[1024];
             ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to remove ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("\nError: %s"),
                          GetWinError(ACE_OS::last_error()).c_str());
             TT_SYSLOG(error_msg);
+            return -1;
         }
         else
         {
@@ -657,12 +661,13 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     }
     if( (ite = args.find(ACE_TEXT("-s"))) != args.end())
     {
-        if(service->start_svc()<0)
+        if (service->start_svc() < 0)
         {
             ACE_TCHAR error_msg[1024];
             ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to start ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("\nError: %s"),
                          GetWinError(ACE_OS::last_error()).c_str());
             TT_SYSLOG(error_msg);
+            return -1;
         }
         else
         {
@@ -672,12 +677,13 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     }
     if( (ite = args.find(ACE_TEXT("-e"))) != args.end())
     {
-        if(service->stop_svc()<0)
+        if (service->stop_svc() < 0)
         {
             ACE_TCHAR error_msg[1024];
             ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to stop ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("\nError: %s"),
                          GetWinError(ACE_OS::last_error()).c_str());
             TT_SYSLOG(error_msg);
+            return -1;
         }
         else
         {
