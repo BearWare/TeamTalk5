@@ -141,7 +141,7 @@ jobs:
       run: |
         source env.sh
         cd Setup/Portable
-        make deb64
+        make ubuntu18
 
     - uses: actions/upload-artifact@v2
       with:
