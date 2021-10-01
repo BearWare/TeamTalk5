@@ -42,7 +42,7 @@ public:
     QVector<int> activeUsers() const;
     int getActiveUsersCount() const;
 
-    void ResetGrid();
+    void resetGrid();
 
     QSize getUserImageSize(int userid) const;
 

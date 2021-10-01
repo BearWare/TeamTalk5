@@ -1,0 +1,29 @@
+From 584ac6c2fd469ef934ff685569ed5d2af37a3656 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
+Date: Fri, 10 Sep 2021 20:54:56 +0200
+Subject: [PATCH] Use /MT and /MTd for Windows builds
+
+---
+ mkspecs/common/msvc-desktop.conf | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/mkspecs/common/msvc-desktop.conf b/mkspecs/common/msvc-desktop.conf
+index f5d12f445b..ad8a2c0ed0 100644
+--- a/mkspecs/common/msvc-desktop.conf
++++ b/mkspecs/common/msvc-desktop.conf
+@@ -38,9 +38,9 @@ QMAKE_YACCFLAGS         = -d
+ QMAKE_CFLAGS            = -nologo -Zc:wchar_t
+ QMAKE_CFLAGS_WARN_ON    = -W3
+ QMAKE_CFLAGS_WARN_OFF   = -W0
+-QMAKE_CFLAGS_RELEASE    = $$QMAKE_CFLAGS_OPTIMIZE -MD
+-QMAKE_CFLAGS_RELEASE_WITH_DEBUGINFO += $$QMAKE_CFLAGS_OPTIMIZE -Zi -MD
+-QMAKE_CFLAGS_DEBUG      = -Zi -MDd
++QMAKE_CFLAGS_RELEASE    = $$QMAKE_CFLAGS_OPTIMIZE -MT
++QMAKE_CFLAGS_RELEASE_WITH_DEBUGINFO += $$QMAKE_CFLAGS_OPTIMIZE -Zi -MT
++QMAKE_CFLAGS_DEBUG      = -Zi -MTd
+ QMAKE_CFLAGS_YACC       =
+ QMAKE_CFLAGS_LTCG       = -GL
+ 
+-- 
+2.32.0
+

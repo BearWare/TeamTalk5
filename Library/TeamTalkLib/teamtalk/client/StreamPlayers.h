@@ -36,7 +36,6 @@
 #if defined(ENABLE_SPEEX)
 #include <codec/SpeexDecoder.h>
 #include <codec/SpeexEncoder.h>
-#include <codec/SpeexJitterBuf.h>
 #endif
 #if defined(ENABLE_OPUS)
 #include <codec/OpusDecoder.h>

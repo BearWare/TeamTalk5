@@ -3618,7 +3618,11 @@ TEST_CASE("OPUSFileEncDec")
 {
     for (auto SAMPLERATE : {8000, 12000, 24000, 48000})
     {
+#if defined(OPUS_FRAMESIZE_120_MS)
         for (auto FRAMESIZE_SEC : {.0025, .005, .01, .02, .04, .06, .08, .1, .12})
+#else
+        for (auto FRAMESIZE_SEC : {.0025, .005, .01, .02, .04, .06})
+#endif
         {
             MediaFileInfo mfi = {};
             mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;

@@ -19,6 +19,14 @@ function(set_output_dir target dir)
     ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${dir})
 endfunction()
 
+if (MSVC)
+  option (QT_BUILD_QTFRAMEWORK "Build Qt Framework for Windows" OFF)
+
+  if (QT_BUILD_QTFRAMEWORK)
+    add_subdirectory(qt)
+  endif()
+endif()
+
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   find_package (Qt5 COMPONENTS Widgets Xml Network Multimedia TextToSpeech X11Extras)
 else()
