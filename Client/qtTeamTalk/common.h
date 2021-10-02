@@ -389,7 +389,7 @@ enum HotKeyID
     HOTKEY_VIDEOTX
 };
 
-typedef QList<INT32> hotkey_t;
+typedef std::vector<INT32> hotkey_t;
 
 #if defined(Q_OS_DARWIN)
 #define MAC_HOTKEY_SIZE 2

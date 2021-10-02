@@ -10,6 +10,7 @@ Default Qt Client
 - Option to close file transfer dialog when a transfer is completed now permanent
 - Option to sort channels by popularity
 - Fixed a case where, depending on start path, sounds with default values was not played
+- Fixed modifier keys not working as hotkeys
 Android Client
 -
 iOS Client
