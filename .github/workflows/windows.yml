@@ -20,7 +20,7 @@ jobs:
     - name: Init TeamTalk Client submodules
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
-        git submodule update --init --recursive Client
+        git submodule update --init --recursive
 
     - name: Generate CMake Projects
       working-directory: ${{runner.workspace}}
