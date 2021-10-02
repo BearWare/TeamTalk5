@@ -35,6 +35,7 @@
 #include <avstream/VideoCapture.h>
 #include <avstream/MediaPlayback.h>
 #include <teamtalk/client/AudioMuxer.h>
+#include <bin/ttsrv/ServerUtil.h>
 
 #include <map>
 #include <iostream>
@@ -94,21 +95,29 @@ public:
 /* Known bugs */
 #define TEAMTALK_KNOWN_BUGS 0
 
-TEST_CASE( "Init TT", "" ) {
+TEST_CASE( "Init TT", "" )
+{
     TTInstance* ttinst;
     REQUIRE( (ttinst = TT_InitTeamTalkPoll()) );
     REQUIRE( TT_CloseTeamTalk(ttinst) );
 }
 
 #if defined(ENABLE_OGG) && defined(ENABLE_SPEEX)
-TEST_CASE( "Ogg Write", "" ) {
+TEST_CASE( "Ogg Write", "" )
+{
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"Ogg Write\"... Weird file permission on Windows GitHub" << std::endl;
+        return;
+    }
     SpeexEncFile spxfile;
     REQUIRE( spxfile.Open(ACE_TEXT("/foo.spx"), 1, DEFAULT_SPEEX_COMPLEXITY, 7, 32000, 48000, false) == false);
 }
 #endif
 
 #if defined(ENABLE_OPUS)
-TEST_CASE( "Record mux") {
+TEST_CASE( "Record mux")
+{
     std::vector<ttinst> clients(2);
     for (size_t i=0;i<clients.size();++i)
     {
@@ -1592,13 +1601,14 @@ TEST_CASE( "Opus Read File" )
 }
 #endif
 
-#if defined(ENABLE_ENCRYPTION) && 0 /* doesn't work on GitHub */
+#if defined(ENABLE_ENCRYPTION)
 TEST_CASE("TestHTTPS")
 {
-    //ACE::HTTPS::Context::set_default_ssl_mode(ACE_SSL_Context::SSLv23);
-    //ACE::HTTPS::Context::set_default_verify_mode(true);
-    //ACE::HTTPS::Context::instance().use_default_ca();
-    //ACE::INet::SSL_CallbackManager::instance()->set_certificate_callback(new ACE::INet::SSL_CertificateAcceptor);
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"TestHTTPS\"... No Internet" << std::endl;
+        return;
+    }
 
     std::string response1, response2, response3;
     REQUIRE(1 == HttpRequest("http://www.bearware.dk/teamtalk/weblogin.php?ping=1", response1));
@@ -1609,7 +1619,14 @@ TEST_CASE("TestHTTPS")
 
 TEST_CASE("TestWebLogin")
 {
-    REQUIRE(teamtalk::LoginBearWareAccount("", "") > 0);
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"TestHTTPS\"... No Internet" << std::endl;
+        return;
+    }
+
+    ACE_TString token;
+    REQUIRE(LoginBearWareAccount(ACE_TEXT("foo"), ACE_TEXT("bar"), token) == 0);
 }
 #endif
 
@@ -1617,6 +1634,12 @@ TEST_CASE("TestWebLogin")
 
 TEST_CASE("TT_AEC")
 {
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"TT_AEC\"... No WASAPI" << std::endl;
+        return;
+    }
+
     auto ttclient = InitTeamTalk();
 
     REQUIRE(Connect(ttclient));
@@ -2522,6 +2545,12 @@ int Foo_StreamCallback(const void* inputBuffer, void* outputBuffer,
 
 TEST_CASE("PortAudioRaw_SamplesPerSec")
 {
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"PortAudioRaw_SamplesPerSec\"... No WASAPI" << std::endl;
+        return;
+    }
+
     PaError err = Pa_Initialize();
 
     PaDeviceIndex inputdeviceid = -1, outputdeviceid = -1;
@@ -2569,6 +2598,12 @@ TEST_CASE("PortAudioRaw_SamplesPerSec")
 
 TEST_CASE("PortAudio_SamplesPerSec")
 {
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"PortAudio_SamplesPerSec\"... No WASAPI" << std::endl;
+        return;
+    }
+
     auto snd = soundsystem::GetInstance();
     auto grp = snd->OpenSoundGroup();
 
