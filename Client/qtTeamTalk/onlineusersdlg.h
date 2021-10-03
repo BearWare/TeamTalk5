@@ -60,6 +60,7 @@ protected:
 
 private:
     void slotTreeContextMenu(const QPoint&);
+    void slotUpdateSettings();
 
 private:
     Ui::OnlineUsersDlg ui;

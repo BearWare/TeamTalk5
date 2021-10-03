@@ -25,6 +25,8 @@
 
 extern TTInstance* ttInst;
 
+#define DISCONNECTED_USERID -1
+
 OnlineUsersModel::OnlineUsersModel(QObject* parent)
 : QAbstractItemModel(parent)
 {
@@ -72,12 +74,26 @@ void OnlineUsersModel::updateUser(int userid)
         m_users.insert(user.nUserID, user);
 }
 
-void OnlineUsersModel::removeUser(int userid)
+void OnlineUsersModel::removeUser(int userid, bool keep)
 {
     this->beginResetModel();
+    if (keep)
+        m_users[userid].nUserID = DISCONNECTED_USERID;
+    else
+        m_users.remove(userid);
 
-    m_users.remove(userid);
+    this->endResetModel();
+}
 
+void OnlineUsersModel::removeDisconnected()
+{
+    this->beginResetModel();
+    for (auto ii = m_users.begin(); ii != m_users.end();)
+    {
+        if (ii->nUserID == DISCONNECTED_USERID)
+            ii = m_users.erase(ii);
+        else ++ii;
+    }
     this->endResetModel();
 }
 
@@ -182,6 +198,6 @@ QModelIndex OnlineUsersModel::index(int row, int column, const QModelIndex&/*par
     auto i = m_users.begin();
     int x = row;
     while (x--) i++;
-    return createIndex(row, column, i->nUserID);
+    return createIndex(row, column, i.key());
 }
 
