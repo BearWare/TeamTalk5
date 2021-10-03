@@ -52,6 +52,7 @@ public:
     void addUser(int userid);
     void updateUser(int userid);
     void removeUser(int userid, bool keep);
+    void removeDisconnected();
 
     QModelIndex userRow(int userid);
 

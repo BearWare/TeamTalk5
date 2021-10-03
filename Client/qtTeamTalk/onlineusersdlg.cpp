@@ -73,15 +73,7 @@ void OnlineUsersDlg::slotUserLoggedIn(const User& user)
 
 void OnlineUsersDlg::slotUserLoggedOut(const User& user)
 {
-    if (ttSettings->value(SETTINGS_KEEP_DISCONNECTED_USERS, SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT).toBool() == true)
-    {
-        QModelIndex index = m_model->userRow(user.nUserID);
-        m_model->removeUser(user.nUserID, true);
-        if(index.isValid())
-            ui.treeView->update(index);
-    }
-    else
-        m_model->removeUser(user.nUserID, false);
+    m_model->removeUser(user.nUserID, ttSettings->value(SETTINGS_KEEP_DISCONNECTED_USERS, SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT).toBool());
     updateTitle();
 }
 
@@ -202,4 +194,6 @@ void OnlineUsersDlg::keyPressEvent(QKeyEvent* e)
 void OnlineUsersDlg::slotUpdateSettings()
 {
     ttSettings->setValue(SETTINGS_KEEP_DISCONNECTED_USERS, ui.keepDisconnectedUsersCheckBox->isChecked());
+    if (!ui.keepDisconnectedUsersCheckBox->isChecked())
+        m_model->removeDisconnected();
 }
