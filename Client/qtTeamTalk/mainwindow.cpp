@@ -3828,8 +3828,7 @@ void MainWindow::slotClientExit(bool /*checked =false */)
     if(Tolk_IsLoaded())
         Tolk_Unload();
 #endif
-    QApplication::setQuitOnLastWindowClosed(true);
-    QTimer::singleShot(0, this, &MainWindow::close);
+    QApplication::quit();
 }
 
 void MainWindow::slotMeChangeNickname(bool /*checked =false */)
