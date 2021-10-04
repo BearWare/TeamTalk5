@@ -3709,42 +3709,47 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../onlineusers.ui" line="20"/>
-        <location filename="../onlineusersdlg.cpp" line="59"/>
+        <location filename="../onlineusersdlg.cpp" line="63"/>
         <source>Users Currently on Server</source>
         <translation>服务器当前在线用户</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="103"/>
+        <location filename="../onlineusers.ui" line="54"/>
+        <source>Keep disconnected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../onlineusersdlg.cpp" line="107"/>
         <source>&amp;View User Information</source>
         <translation>查看用户信息(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="104"/>
+        <location filename="../onlineusersdlg.cpp" line="108"/>
         <source>M&amp;essages</source>
         <translation>消息(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="107"/>
+        <location filename="../onlineusersdlg.cpp" line="111"/>
         <source>&amp;Op</source>
         <translation>设为频道管理员(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="108"/>
+        <location filename="../onlineusersdlg.cpp" line="112"/>
         <source>&amp;Kick</source>
         <translation>踢出(&amp;K)</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="109"/>
+        <location filename="../onlineusersdlg.cpp" line="113"/>
         <source>Kick and &amp;Ban</source>
         <translation>踢出并禁止(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="110"/>
+        <location filename="../onlineusersdlg.cpp" line="114"/>
         <source>Select User(s) for Move</source>
         <translation>选择要移动的用户</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="182"/>
+        <location filename="../onlineusersdlg.cpp" line="186"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
         <translation>ID： %1， 昵称： %2， 状态消息： %3， 用户名： %4， 频道： %5， IP地址： %6， 版本： %7</translation>
     </message>
@@ -3752,42 +3757,42 @@ Should these settings be applied?</source>
 <context>
     <name>OnlineUsersModel</name>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="113"/>
+        <location filename="../onlineusersmodel.cpp" line="129"/>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="115"/>
+        <location filename="../onlineusersmodel.cpp" line="131"/>
         <source>Nickname</source>
         <translation>昵称</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="117"/>
+        <location filename="../onlineusersmodel.cpp" line="133"/>
         <source>Status message</source>
         <translation>状态消息</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="119"/>
+        <location filename="../onlineusersmodel.cpp" line="135"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="121"/>
+        <location filename="../onlineusersmodel.cpp" line="137"/>
         <source>Channel</source>
         <translation>频道</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="123"/>
+        <location filename="../onlineusersmodel.cpp" line="139"/>
         <source>IP-address</source>
         <translation>IP地址</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="125"/>
+        <location filename="../onlineusersmodel.cpp" line="141"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="170"/>
+        <location filename="../onlineusersmodel.cpp" line="186"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
         <translation>ID： %1， 昵称： %2， 状态消息： %3， 用户名： %4， 频道： %5， IP地址： %6， 版本： %7</translation>
     </message>

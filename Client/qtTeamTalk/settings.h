@@ -331,4 +331,7 @@
 #define SETTINGS_LAST_DIRECTORY                     "history/last-directory"
 #define SETTINGS_FIREWALL_ADD                       "history/firewall-add"
 
+#define SETTINGS_KEEP_DISCONNECTED_USERS                            "online-users/keep-disconnected-users"
+#define SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT                            false
+
 #endif

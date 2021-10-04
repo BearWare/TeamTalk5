@@ -4176,42 +4176,47 @@ Essas configurações devem ser aplicadas?</translation>
     </message>
     <message>
         <location filename="../onlineusers.ui" line="20"/>
-        <location filename="../onlineusersdlg.cpp" line="59"/>
+        <location filename="../onlineusersdlg.cpp" line="63"/>
         <source>Users Currently on Server</source>
         <translation>Usuários atualmente no servidor</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="103"/>
+        <location filename="../onlineusers.ui" line="54"/>
+        <source>Keep disconnected users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../onlineusersdlg.cpp" line="107"/>
         <source>&amp;View User Information</source>
         <translation>&amp;Visualizar Informacões do Usuário</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="104"/>
+        <location filename="../onlineusersdlg.cpp" line="108"/>
         <source>M&amp;essages</source>
         <translation>&amp;Mensagens</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="107"/>
+        <location filename="../onlineusersdlg.cpp" line="111"/>
         <source>&amp;Op</source>
         <translation>&amp;Op</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="108"/>
+        <location filename="../onlineusersdlg.cpp" line="112"/>
         <source>&amp;Kick</source>
         <translation>&amp;Expulsar</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="109"/>
+        <location filename="../onlineusersdlg.cpp" line="113"/>
         <source>Kick and &amp;Ban</source>
         <translation>Expulsar e &amp;Banir</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="110"/>
+        <location filename="../onlineusersdlg.cpp" line="114"/>
         <source>Select User(s) for Move</source>
         <translation>Selecione Usuário(s) para Mover</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="182"/>
+        <location filename="../onlineusersdlg.cpp" line="186"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
         <translation>ID: %1, Apelido: %2, Mensagem de status: %3, Usuário: %4, Canal: %5, Endereço de IP: %6, Versão: %7</translation>
     </message>
@@ -4223,42 +4228,42 @@ Essas configurações devem ser aplicadas?</translation>
 <context>
     <name>OnlineUsersModel</name>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="113"/>
+        <location filename="../onlineusersmodel.cpp" line="129"/>
         <source>ID</source>
         <translation>Identificação</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="115"/>
+        <location filename="../onlineusersmodel.cpp" line="131"/>
         <source>Nickname</source>
         <translation>Apelido</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="117"/>
+        <location filename="../onlineusersmodel.cpp" line="133"/>
         <source>Status message</source>
         <translation>Mensagem de Status</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="119"/>
+        <location filename="../onlineusersmodel.cpp" line="135"/>
         <source>Username</source>
         <translation>Usuário</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="121"/>
+        <location filename="../onlineusersmodel.cpp" line="137"/>
         <source>Channel</source>
         <translation>Canal</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="123"/>
+        <location filename="../onlineusersmodel.cpp" line="139"/>
         <source>IP-address</source>
         <translation>Endereço IP</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="125"/>
+        <location filename="../onlineusersmodel.cpp" line="141"/>
         <source>Version</source>
         <translation>Versão</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="170"/>
+        <location filename="../onlineusersmodel.cpp" line="186"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
         <translation>ID: %1, Apelido: %2, Mensagem de status: %3, Usuário: %4, Canal: %5, Endereço de IP: %6, Versão: %7</translation>
     </message>
