@@ -3716,7 +3716,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusers.ui" line="54"/>
         <source>Keep disconnected users</source>
-        <translation type="unfinished"></translation>
+        <translation>保留已断开连接用户</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="107"/>
