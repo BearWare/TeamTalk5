@@ -4160,3 +4160,141 @@ TEST_CASE("TimeConvert")
     REQUIRE(teamtalk::GetProperty(props, ACE_TEXT("tm"), tv2) == 1);
     REQUIRE(tv.sec() == tv2.sec());
 }
+
+
+TEST_CASE("FileIO")
+{
+    {
+        MyFile f;
+        REQUIRE(f.NewFile(ACE_TEXT("file.foo")));
+
+        for (char c = 'A'; c <= 'z'; ++c)
+            REQUIRE(f.Write(&c, 1) == 1);
+    }
+    {
+        MyFile f;
+        REQUIRE(f.Open(ACE_TEXT("file.foo")));
+
+        for (char c = 'A'; c <= 'z'; ++c)
+        {
+            char t;
+            REQUIRE(f.Read(&t, 1));
+            REQUIRE(t == c);
+        }
+    }
+
+    char buf_myfile[256], buf_ace[256];
+    int i = 0;
+    for (char c = 'A'; c <= 'z'; ++c, i++)
+    {
+        buf_myfile[i] = c;
+        buf_ace[i] = c;
+    }
+    const auto ORG_BUF = buf_myfile;
+
+    {
+        MyFile f;
+        ACE_FILE_IO file_ace;
+        ACE_FILE_Connector con;
+        REQUIRE(f.NewFile(ACE_TEXT("file.foo")));
+        REQUIRE(f.Write(ORG_BUF, i));
+        // do same with ACE_FILE_IO
+        REQUIRE(con.connect(file_ace, ACE_FILE_Addr(ACE_TEXT("file.ace")), 0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_TRUNC | O_BINARY) >= 0);
+        REQUIRE(file_ace.send(ORG_BUF, i));
+
+        char buf2[10];
+        REQUIRE(f.Seek(10, std::ios_base::beg));  // now index 10
+        REQUIRE(f.Tell() == 10);
+        REQUIRE(f.Read(buf2, 10) == 10); // now index 20
+        REQUIRE(memcmp(&ORG_BUF[10], &buf2[0], 10) == 0);
+        REQUIRE(f.Tell() == 20);
+        memset(buf2, 0, 10);
+        // do same with ACE_FILE_IO
+        REQUIRE(file_ace.seek(10, SEEK_SET) >= 0);
+        REQUIRE(file_ace.recv(buf2, 10) == 10);
+        REQUIRE(memcmp(&ORG_BUF[10], &buf2[0], 10) == 0);
+        REQUIRE(file_ace.tell() == 20);
+        memset(buf2, 0, 10);
+
+        for (int i = 0; i < 10; ++i)
+            buf2[i] = '%';
+
+        REQUIRE(f.Seek(10, std::ios_base::cur)); // now index 30
+        REQUIRE(f.Tell() == 30);
+        REQUIRE(f.Write(buf2, 10) == 10); // now index 40
+        REQUIRE(f.Tell() == 40);
+        // do same with ACE_FILE_IO
+        REQUIRE(file_ace.seek(10, SEEK_CUR) >= 0);
+        REQUIRE(file_ace.tell() == 30);
+        REQUIRE(file_ace.send(buf2, 10) == 10);
+        REQUIRE(file_ace.tell() == 40);
+
+        REQUIRE(f.Seek(0, std::ios_base::beg));
+        memset(buf_myfile, 0, sizeof(buf_myfile));
+        REQUIRE(f.Read(buf_myfile, 256) == i);
+        REQUIRE(memcmp(&buf_myfile[0], &ORG_BUF[0], 20) == 0);
+        REQUIRE(memcmp(&buf_myfile[30], &buf2[0], 10) == 0);
+        // do same with ACE_FILE_IO
+        REQUIRE(file_ace.seek(0, SEEK_SET) >= 0);
+        memset(buf_ace, 0, sizeof(buf_ace));
+        REQUIRE(file_ace.recv(buf_ace, 256) == i);
+        REQUIRE(memcmp(&buf_ace[0], &ORG_BUF[0], 20) == 0);
+        REQUIRE(memcmp(&buf_ace[30], &buf2[0], 10) == 0);
+
+        for (int i = 0; i < 10; ++i)
+            buf2[i] = '@';
+        REQUIRE(f.Seek(10, std::ios_base::end));
+        REQUIRE(f.Write(buf2, 10) == 10);
+        REQUIRE(f.Read(buf_myfile, 10) == 0);
+        // do same with ACE_FILE_IO
+        REQUIRE(file_ace.seek(10, SEEK_END) >= 0);
+        REQUIRE(file_ace.send(buf2, 10) == 10);
+        REQUIRE(file_ace.recv(buf_ace, 10) == 0);
+    }
+
+    {
+        MyFile f;
+        ACE_FILE_IO file_ace;
+        ACE_FILE_Connector con;
+
+        memset(buf_myfile, 0, sizeof(buf_myfile));
+        memset(buf_ace, 0, sizeof(buf_ace));
+
+        REQUIRE(f.Open(ACE_TEXT("file.foo"), true));
+        REQUIRE(con.connect(file_ace, ACE_FILE_Addr(ACE_TEXT("file.ace")), 0, ACE_Addr::sap_any, 0, O_RDONLY | O_BINARY) >= 0);
+
+        REQUIRE(f.Read(buf_myfile, sizeof(buf_myfile)) > 0);
+        REQUIRE(file_ace.recv(buf_ace, sizeof(buf_ace)) > 0);
+        REQUIRE(f.Tell() == file_ace.tell());
+        for (int i=0;i<sizeof(buf_ace);i++)
+            REQUIRE(buf_myfile[i] == buf_ace[i]);
+
+        REQUIRE(f.Seek(-5, std::ios_base::end));
+        REQUIRE(file_ace.seek(-5, SEEK_END) >= 0);
+        REQUIRE(f.Tell() == file_ace.tell());
+
+        REQUIRE(f.Read(buf_myfile, sizeof(buf_myfile)) > 0);
+        REQUIRE(file_ace.recv(buf_ace, sizeof(buf_ace)) > 0);
+        REQUIRE(f.Tell() == file_ace.tell());
+    }
+
+    {
+        MyFile f;
+        ACE_FILE_IO file_ace;
+        ACE_FILE_Connector con;
+
+        REQUIRE(f.Open(ACE_TEXT("file.foo"), false));
+        REQUIRE(f.Seek(10, std::ios_base::cur));
+        REQUIRE(f.Tell() == 10);
+        // do same with ACE_FILE_IO
+        REQUIRE(con.connect(file_ace, ACE_FILE_Addr(ACE_TEXT("file.ace")), 0, ACE_Addr::sap_any, 0, O_RDWR | O_BINARY) >= 0);
+        REQUIRE(file_ace.seek(10, SEEK_CUR));
+        REQUIRE(file_ace.tell() == 10);
+
+        REQUIRE(f.Write(ORG_BUF, i) == i);
+        REQUIRE(f.Read(buf_myfile, 1) == 1);
+        // do same with ACE_FILE_IO
+        REQUIRE(file_ace.send(ORG_BUF, i) == i);
+        REQUIRE(file_ace.recv(buf_ace, 1) == 1);
+    }
+}

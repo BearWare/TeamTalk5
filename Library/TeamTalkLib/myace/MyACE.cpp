@@ -67,6 +67,111 @@ void SyncReactor(ACE_Reactor& reactor)
     }
 }
 
+bool MyFile::Open(const ACE_TString& filename, bool readonly /*= true*/)
+{
+    if (m_file.is_open())
+        return false;
+
+    std::ios_base::openmode mode = std::ios::in | std::ios::binary;
+    if (!readonly)
+        mode |= std::ios::out;
+
+    m_file.open(filename.c_str(), mode);
+    m_readonly = m_file.good() && readonly;
+    return m_file.good();
+}
+
+bool MyFile::NewFile(const ACE_TString& filename)
+{
+    m_file.open(filename.c_str(), std::ios::in | std::ios::out | std::ios::trunc | std::ios::binary);
+    m_readonly = !m_file.good();
+    return m_file.good();
+}
+
+void MyFile::Close()
+{
+    m_file.close();
+}
+
+std::streamsize MyFile::Read(char* buf, std::streamsize size)
+{
+    assert(m_file.is_open());
+    if (m_file.eof())
+        return 0;
+
+    MYTRACE_COND(m_file.bad(), ACE_TEXT("File read while bad()\n"));
+    MYTRACE_COND(m_file.fail(), ACE_TEXT("File read while fail()\n"));
+    MYTRACE_COND(!m_file.good(), ACE_TEXT("File read while !good()\n"));
+
+    auto pos = m_file.tellg();
+
+    if (m_file.read(buf, size).bad())
+        return -1;
+
+    if (m_file.fail()) // happens if extracted bytes < 'size'
+        m_file.clear();
+
+    auto newpos = m_file.tellg();
+
+    // advance write pointer
+    if (!m_readonly)
+    {
+        if (!m_file.seekp(newpos))
+        {
+            assert(0 /* unable to advance write buffer */);
+            return -1;
+        }
+    }
+    assert(m_readonly || m_file.tellg() == m_file.tellp());
+    return newpos - pos;
+}
+
+std::streamsize MyFile::Write(const char* buf, std::streamsize size)
+{
+    assert(m_file.is_open());
+
+    MYTRACE_COND(m_file.bad(), ACE_TEXT("File write while bad()\n"));
+    MYTRACE_COND(m_file.fail(), ACE_TEXT("File write while fail()\n"));
+    MYTRACE_COND(!m_file.good(), ACE_TEXT("File write while !good()\n"));
+
+    auto pos = m_file.tellp();
+    if (!m_file.write(buf, size))
+        return -1;
+
+    // advance read pointer
+    auto newpos = m_file.tellp();
+    if (!m_file.seekg(newpos))
+        return -1;
+
+    assert(m_file.tellg() == m_file.tellp());
+
+    return newpos - pos;
+}
+
+bool MyFile::Seek(std::streamsize size, std::ios_base::seekdir way)
+{
+    MYTRACE_COND(m_file.bad(), ACE_TEXT("File seek while bad()\n"));
+    MYTRACE_COND(m_file.fail(), ACE_TEXT("File seek while fail()\n"));
+    MYTRACE_COND(!m_file.good(), ACE_TEXT("File seek while !good()\n"));
+
+    if (!m_file.seekg(size, way))
+        return false;
+
+    // seekg and seekp are interchangeable for file streams. Weird!
+
+    return !m_file == false;
+}
+
+std::streamsize MyFile::Tell()
+{
+    MYTRACE_COND(m_file.bad(), ACE_TEXT("File tell while bad()\n"));
+    MYTRACE_COND(m_file.fail(), ACE_TEXT("File tell while fail()\n"));
+    MYTRACE_COND(!m_file.good(), ACE_TEXT("File tell while !good()\n"));
+
+    assert(m_readonly || m_file.tellg() == m_file.tellp());
+    return m_file.tellg();
+}
+
 bool ExtractFileName(const ACE_TString& filepath, ACE_TString& filename)
 {
     bool bResult = false;
@@ -89,7 +194,6 @@ bool ExtractFileName(const ACE_TString& filepath, ACE_TString& filename)
     }
     return bResult;
 }
-
 
 ACE_TString FixFilePath(const ACE_TString& filepath)
 {
