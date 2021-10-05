@@ -328,6 +328,12 @@ int Foo_StreamDuplexCallback(const void* inputBuffer, void* outputBuffer,
 
 TEST_CASE("PortAudio_ExclusiveMode")
 {
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"PortAudio_ExclusiveMode\"... No WASAPI" << std::endl;
+        return;
+    }
+
     PaError err = Pa_Initialize();
 
     PaDeviceIndex inputdeviceid = -1, outputdeviceid = -1;

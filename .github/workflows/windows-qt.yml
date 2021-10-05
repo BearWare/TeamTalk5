@@ -31,10 +31,14 @@ jobs:
         cmake -S TeamTalk5 -B qtbuild -A ${{ matrix.cmakeplatform }}
         -DQT_BUILD_QTFRAMEWORK=ON
         -DQT_INSTALL_PREFIX=${{runner.workspace}}/install
+
     - name: Build Qt Framework using CMake
+      shell: cmd
       working-directory: ${{runner.workspace}}
       run: |
         cmake --build qtbuild --target Qt-src --parallel 8
+        rmdir /S /Q qtbuild
+
     - name: Build TeamTalk Qt Client using QMake
       shell: cmd
       working-directory: ${{runner.workspace}}
@@ -44,3 +48,39 @@ jobs:
         qmake CONFIG+=release teamtalk5.pro
         set CL=/MP
         nmake
+
+    - name: Generate CMake Projects
+      working-directory: ${{runner.workspace}}
+      run: >-
+        cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
+        -DBUILD_TEAMTALK_CORE=ON
+        -DFEATURE_LIBVPX=OFF
+        -DFEATURE_WEBRTC=OFF
+        -DTOOLCHAIN_LIBVPX=OFF
+        -DBUILD_TEAMTALK_CLIENT_DOTNET_EXAMPLE=OFF
+        -DBUILD_TEAMTALK_CLIENT_QT_EXAMPLE=OFF
+        -DBUILD_TEAMTALKPRO_CLIENT_QT_EXAMPLE=OFF
+
+    - name: Build CMake Projects
+      working-directory: ${{runner.workspace}}
+      run: |
+        cmake --build output --parallel 8 --config Release
+
+    - name: Create artifacts
+      shell: cmd
+      working-directory: ${{runner.workspace}}
+      run: |
+        mkdir TeamTalkWindows\Client
+        mkdir TeamTalkWindows\Server
+        xcopy ${{runner.workspace}}\TeamTalk5\Server\tt5srv.exe TeamTalkWindows\Server
+        xcopy ${{runner.workspace}}\TeamTalk5\Server\tt5prosrv.exe TeamTalkWindows\Server
+        xcopy ${{runner.workspace}}\TeamTalk5\Server\tt5svc.exe TeamTalkWindows\Server
+        xcopy ${{runner.workspace}}\TeamTalk5\Server\tt5prosvc.exe TeamTalkWindows\Server
+        xcopy ${{runner.workspace}}\TeamTalk5\Client\TeamTalkClassic\TeamTalk5Classic.exe TeamTalkWindows\Client
+        xcopy ${{runner.workspace}}\TeamTalk5\Client\qtTeamTalk\release\TeamTalk5.exe TeamTalkWindows\Client
+        xcopy ${{runner.workspace}}\TeamTalk5\Library\TeamTalk_DLL\TeamTalk5.dll TeamTalkWindows\Client
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: windows-binaries
+        path: ${{runner.workspace}}/TeamTalkWindows

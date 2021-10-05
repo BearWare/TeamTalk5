@@ -6,6 +6,7 @@ env:
   # TeamTalk unit test environment variables
   VIDEODEVICEID: None
   VERBOSE: 0
+  GITHUBSKIP: 1
 
 jobs:
   build:
