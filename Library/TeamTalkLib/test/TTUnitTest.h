@@ -39,6 +39,7 @@
 #define SOUNDDEVICEID_IGNORE  -2
 
 extern std::string g_server_ipaddr;
+extern const bool GITHUBSKIP;
 
 enum SoundMode
 {

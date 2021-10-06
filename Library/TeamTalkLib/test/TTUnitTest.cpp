@@ -29,7 +29,7 @@
 
 
 std::string g_server_ipaddr = "127.0.0.1";
-
+const bool GITHUBSKIP = ACE_OS::getenv(ACE_TEXT("GITHUBSKIP")) ? ACE_OS::atoi(ACE_OS::getenv(ACE_TEXT("GITHUBSKIP"))) == 1 : false;
 
 ttinst InitTeamTalk()
 {
