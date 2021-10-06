@@ -1072,9 +1072,9 @@ TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
     std::vector< std::vector<short> > user_bufs;
     std::vector<media::AudioFrame> user_frames;
     user_bufs.push_back(std::vector<short>(inputfmt.GetTotalSamples(), userids[0]));
-    user_bufs.push_back(std::vector<short>((user_fmts[1].channels * user_fmts[1].samplerate) * .01, userids[1]));
-    user_bufs.push_back(std::vector<short>((user_fmts[2].channels * user_fmts[2].samplerate) * .015, userids[2]));
-    user_bufs.push_back(std::vector<short>((user_fmts[3].channels * user_fmts[3].samplerate) * .005, userids[3]));
+    user_bufs.push_back(std::vector<short>(int64_t((user_fmts[1].channels * user_fmts[1].samplerate) * .01), userids[1]));
+    user_bufs.push_back(std::vector<short>(int64_t((user_fmts[2].channels * user_fmts[2].samplerate) * .015), userids[2]));
+    user_bufs.push_back(std::vector<short>(int64_t((user_fmts[3].channels * user_fmts[3].samplerate) * .005), userids[3]));
     std::vector<teamtalk::StreamType> user_sts;
     user_sts.push_back(teamtalk::STREAMTYPE_VOICE);
     user_sts.push_back(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO);
@@ -1083,7 +1083,7 @@ TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
 
     for (size_t i=0;i<userids.size();++i)
     {
-        media::AudioFrame frm(user_fmts[i], &user_bufs[i][0], user_bufs[i].size() / user_fmts[i].channels, user_bufs[i].size() * 1000);
+        media::AudioFrame frm(user_fmts[i], &user_bufs[i][0], int(user_bufs[i].size() / user_fmts[i].channels), uint32_t(user_bufs[i].size() * 1000));
         frm.streamid = userids[i];
         user_frames.push_back(frm);
     }
@@ -1115,7 +1115,7 @@ TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
     }
 
     // test overflow of resampler buffer
-    int n_overflow = 3 * ((muxinterval_msec / 1000.) / .015);
+    int n_overflow = int(3 * ((muxinterval_msec / 1000.) / .015));
     while (n_overflow--)
     {
         user_frames[2].sample_no += user_frames[2].input_samples;
@@ -1170,7 +1170,7 @@ TEST_CASE( "AudioMuxerRawOverflow" )
 
     // overflow AudioMuxer's queue
     short v = 2;
-    while (frm.sample_no < frm.inputfmt.samplerate * 2)
+    while (frm.sample_no < uint32_t(frm.inputfmt.samplerate * 2))
     {
         REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
         frm.sample_no += FRAMESIZE;
@@ -2731,7 +2731,7 @@ TEST_CASE("InjectAudioInputGain")
         sumsamples_pregain += GetAudioBlockSamplesSum(ttclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
 
     // AudioMuxer underflow
-    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, chan.audiocodec.opus.nTxIntervalMSec * 2) == FALSE);
+    REQUIRE(!WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, chan.audiocodec.opus.nTxIntervalMSec * 2));
 
     // double gain
     REQUIRE(TT_SetSoundInputGainLevel(ttclient, TT_GetSoundInputGainLevel(ttclient) * 2));
@@ -4159,7 +4159,7 @@ TEST_CASE("TimeConvert")
     teamtalk::mstrings_t props;
     teamtalk::ExtractProperties(line, props);
     ACE_Time_Value tv2;
-    REQUIRE(teamtalk::GetProperty(props, ACE_TEXT("tm"), tv2) == 1);
+    REQUIRE(teamtalk::GetProperty(props, ACE_TEXT("tm"), tv2));
     REQUIRE(tv.sec() == tv2.sec());
 }
 
