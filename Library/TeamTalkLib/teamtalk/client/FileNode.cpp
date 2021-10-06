@@ -97,35 +97,20 @@ void FileNode::CancelTransfer()
         m_reactor.cancel_timer(m_timerid, 0, 0);
     m_timerid = -1;
 
-    if(m_file.get_handle() != ACE_INVALID_HANDLE)
-    {
-        m_file.close();
-    }
+    m_file.Close();
 }
 
 void FileNode::InitTransfer()
 {
-    int ret;
-    TTASSERT(m_file.get_handle() == ACE_INVALID_HANDLE);
-
-    ACE_FILE_Connector con;
-    if(m_transfer.inbound)
+    if (m_transfer.inbound)
     {
-#ifdef WIN32
-        ret = con.connect(m_file, ACE_FILE_Addr(m_transfer.localfile.c_str()),
-                          0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_TRUNC, 
-                          FILE_SHARE_READ | FILE_SHARE_WRITE);
-#else
-        ret = con.connect(m_file, ACE_FILE_Addr(m_transfer.localfile.c_str()),
-                          0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_TRUNC);
-#endif
-        if(ret<0)
+        if (!m_file.NewFile(m_transfer.localfile))
         {
             if(m_listener)
             {
                 m_transfer.status = FILETRANSFER_ERROR;
                 m_listener->OnFileTransferStatus(m_transfer);
-                m_listener = NULL;
+                m_listener = nullptr;
             }
         }
         else
@@ -135,20 +120,13 @@ void FileNode::InitTransfer()
     }
     else
     {
-#ifdef WIN32
-        ret = con.connect(m_file, ACE_FILE_Addr(m_transfer.localfile.c_str()), 
-            0, ACE_Addr::sap_any, 0, O_RDONLY, FILE_SHARE_READ);
-#else
-        ret = con.connect(m_file, ACE_FILE_Addr(m_transfer.localfile.c_str()), 
-            0, ACE_Addr::sap_any, 0, O_RDONLY);
-#endif
-        if(ret<0)
+        if (!m_file.Open(m_transfer.localfile, true))
         {
-            if(m_listener)
+            if (m_listener)
             {
                 m_transfer.status = FILETRANSFER_ERROR;
                 m_listener->OnFileTransferStatus(m_transfer);
-                m_listener = NULL;
+                m_listener = nullptr;
             }
         }
         else
@@ -163,7 +141,7 @@ void FileNode::UpdateBytesTransferred()
     if(m_binarymode)
     {
         if(m_transfer.inbound)
-            m_transfer.transferred = m_file.tell();
+            m_transfer.transferred = m_file.Tell();
         else
         {
 #if defined(ENABLE_ENCRYPTION)
@@ -347,18 +325,17 @@ void FileNode::OnClosed(DefaultStreamHandler::StreamHandler_t& handler)
 
 bool FileNode::OnReceive(const char* buff, int len)
 {
-    if(m_binarymode)
+    if (m_binarymode)
     {
         TTASSERT(m_transfer.inbound);
-        TTASSERT(m_file.get_handle() != ACE_INVALID_HANDLE);
         ACE_INT64 writebytes = len;
-        if(m_file.tell() + len > m_transfer.filesize)
-            writebytes = m_transfer.filesize - m_file.tell();
-        ssize_t ret = m_file.send_n(buff, (size_t)writebytes);
+        if (m_file.Tell() + len > m_transfer.filesize)
+            writebytes = m_transfer.filesize - m_file.Tell();
+        ssize_t ret = m_file.Write(buff, writebytes);
 
         UpdateBytesTransferred();
 
-        if(m_file.tell() == m_transfer.filesize)
+        if (m_file.Tell() == m_transfer.filesize)
         {
             CloseTransfer();
             if(m_listener)
@@ -366,7 +343,7 @@ bool FileNode::OnReceive(const char* buff, int len)
                 m_transfer.status = FILETRANSFER_FINISHED;
                 m_listener->OnFileTransferStatus(m_transfer);
                 m_completed = true;
-                m_listener = NULL;
+                m_listener = nullptr;
             }
         }
     }
@@ -400,7 +377,7 @@ bool FileNode::OnSend(ACE_Message_Queue_Base& msg_queue)
 {
     if(m_binarymode && m_transfer.inbound == false)
     {
-        if(m_file.tell() < m_transfer.filesize)
+        if (m_file.Tell() < m_transfer.filesize)
         {
             SendFile(msg_queue);
             return true;
@@ -556,7 +533,6 @@ void FileNode::HandleFileDeliver(const mstrings_t& properties)
 
 void FileNode::HandleFileReady(const mstrings_t& properties) //response when file is ready to be received
 {
-    m_file.truncate(0); //delete the contents of the file if any
     int transferid = 0;
     GetProperty(properties, TT_TRANSFERID, transferid);
     TTASSERT(m_transfer.transferid == transferid);
@@ -587,25 +563,24 @@ void FileNode::HandleFileCompleted(const mstrings_t& properties)
 void FileNode::SendFile(ACE_Message_Queue_Base& msg_queue)
 {
     ssize_t ret = 0;
-    ssize_t bytes = 0;
-    TTASSERT(m_file.get_handle() != ACE_INVALID_HANDLE);
+    std::streamsize bytes = 0;
     TTASSERT(m_binarymode);
 
     while(true/*streamhandler_.msg_queue()->message_count()<10*/)
     {
-        bytes = m_file.recv(&m_filebuffer[0], m_filebuffer.size());
+        bytes = m_file.Read(&m_filebuffer[0], m_filebuffer.size());
         TTASSERT(ret>=0);
 
         if(bytes>0)
         {
             ACE_Time_Value tm = ACE_Time_Value::zero;
-            ret = QueueStreamData(msg_queue, &m_filebuffer[0], (int)bytes, &tm);
+            ret = QueueStreamData(msg_queue, &m_filebuffer[0], int(bytes), &tm);
             if(ret<0)
             {
-                m_file.seek(m_file.tell()-bytes, SEEK_SET);    //rewind since we didn't send
+                m_file.Seek(m_file.Tell() - bytes, std::ios_base::beg);    //rewind since we didn't send
                 break;
             }
-            else if(m_file.tell() >= m_transfer.filesize)
+            else if (m_file.Tell() >= m_transfer.filesize)
             {
                 //we have sent everything now wait for HandleFileCompleted()
                 m_pending_complete = true;
@@ -624,6 +599,5 @@ void FileNode::CloseTransfer()
     UpdateBytesTransferred();
 
     m_binarymode = false;
-    if(m_file.get_handle() != ACE_INVALID_HANDLE)
-        m_file.close();
+    m_file.Close();
 }
