@@ -246,7 +246,7 @@ bool WavePCMFile::Valid()
     m_wavfile.Read(reinterpret_cast<char*>(&bitdepth), 2);
     valid &= (bitdepth == 16);
     
-    m_wavfile.Seek(oldPos, SEEK_SET);
+    m_wavfile.Seek(oldPos, std::ios_base::beg);
 
     return valid;
 }
