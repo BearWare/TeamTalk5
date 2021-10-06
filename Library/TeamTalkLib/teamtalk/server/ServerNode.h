@@ -288,7 +288,7 @@ namespace teamtalk {
         //transfer id will be set if successful
         ErrorMsg UserRegFileTransfer(FileTransfer& transfer);
         ErrorMsg UserBeginFileTransfer(int transferid, FileTransfer& transfer, 
-                                       ACE_FILE_IO& file);
+                                       MyFile& file);
         ErrorMsg UserEndFileTransfer(int transferid);
         ErrorMsg UserDeleteFile(int userid, int channelid, const ACE_TString& filename);
 

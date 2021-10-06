@@ -330,7 +330,7 @@ serverchannel_t ServerNode::GetChannel(int channelid) const
 
 ErrorMsg ServerNode::UserBeginFileTransfer(int transferid, 
                                            FileTransfer& transfer, 
-                                           ACE_FILE_IO& file)
+                                           MyFile& file)
 {
     GUARD_OBJ(this, lock());
 
@@ -355,17 +355,17 @@ ErrorMsg ServerNode::UserBeginFileTransfer(int transferid,
     // don't hold lock while creating file. It could be slow operation
     g.release();
 
-    int openFlag = 0;
-    if(transfer.inbound)
-        openFlag = O_CREAT | O_RDWR | O_TRUNC;
-    else
-        openFlag = O_RDONLY;
-
-    ACE_FILE_Connector con;
-    if(con.connect(file, ACE_FILE_Addr(transfer.localfile.c_str()), 0, ACE_Addr::sap_any, 0, openFlag) < 0)
+    if (transfer.inbound)
+    {
+        if (!file.NewFile(transfer.localfile))
+            return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
+    }
+    else if (!file.Open(transfer.localfile))
+    {
         return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
-    else
-        return ErrorMsg(TT_CMDERR_SUCCESS);
+    }
+
+    return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
 ErrorMsg ServerNode::UserEndFileTransfer(int transferid)

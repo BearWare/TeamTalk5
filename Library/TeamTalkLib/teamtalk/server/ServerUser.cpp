@@ -29,6 +29,7 @@
 #include <teamtalk/Commands.h>
 #include <queue>
 #include <type_traits>
+#include <cstdio>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/rand.h>
@@ -97,7 +98,7 @@ bool ServerUser::SendData(ACE_Message_Queue_Base& msg_queue)
     //fill with more commands?
     if(m_filetransfer.get() && m_filetransfer->active && m_filetransfer->inbound == false)
     {
-        if(m_filetransfer->file.tell() < m_filetransfer->filesize)
+        if (m_filetransfer->file.Tell() < m_filetransfer->filesize)
         {
             SendFile(msg_queue);
             return true;
@@ -983,9 +984,10 @@ ErrorMsg ServerUser::HandleSendFile(const mstrings_t& properties)
     }
     else
     {
-        m_filetransfer->filesize = ACE_OFF_T(transfer.filesize);
+        m_filetransfer->filesize = transfer.filesize;
         m_filetransfer->inbound = true;
         m_filetransfer->transferid = transfer.transferid;
+        m_filetransfer->filename = transfer.localfile;
 
         int size = FILEBUFFERSIZE, optlen = sizeof(size);
         DoFileDeliver(transfer);
@@ -1010,8 +1012,9 @@ ErrorMsg ServerUser::HandleRecvFile(const mstrings_t& properties)
     }
     else
     {
-        m_filetransfer->filesize = ACE_OFF_T(transfer.filesize);
+        m_filetransfer->filesize = transfer.filesize;
         m_filetransfer->transferid = transfer.transferid;
+        m_filetransfer->filename = transfer.localfile;
         m_filetransfer->inbound = false;
         DoFileReady();
     }
@@ -1168,21 +1171,24 @@ void ServerUser::HandleBinaryFileWrite(const char* buff, int len, bool& bContinu
     if(!m_filetransfer.get())
         return;
 
-    m_filetransfer->file.send_n(buff, len);
+    m_filetransfer->file.Write(buff, len);
 
-    if(m_filetransfer->file.tell() == m_filetransfer->filesize)
+    if (m_filetransfer->file.Tell() == m_filetransfer->filesize)
     {
         m_filetransfer->active = false;
 
         DoFileCompleted();
 
         TTASSERT(m_filetransfer->transferid);
-        ErrorMsg err = m_servernode.UserEndFileTransfer(m_filetransfer->transferid);
-        MYTRACE_COND(err.errorno != TT_CMDERR_SUCCESS, 
-                     ACE_TEXT("File transfer %d failed\n"), m_filetransfer->transferid);
+        int transferid = m_filetransfer->transferid;
+        // close file handle so file can be renamed
         CloseTransfer();
+
+        ErrorMsg err = m_servernode.UserEndFileTransfer(transferid);
+        MYTRACE_COND(err.errorno != TT_CMDERR_SUCCESS, 
+                     ACE_TEXT("File transfer %d failed\n"), transferid);
     }
-    else if(m_filetransfer->file.tell() > m_filetransfer->filesize)
+    else if (m_filetransfer->file.Tell() > m_filetransfer->filesize)
     {
         bContinue = false;
     }
@@ -2090,34 +2096,31 @@ bool ServerUser::ClosePendingDesktopTerminate(int src_userid)
 void ServerUser::SendFile(ACE_Message_Queue_Base& msg_queue)
 {
     ssize_t ret = 0;
-    ACE_OFF_T bytes = 0;
+    std::streamsize bytes = 0;
 
     TTASSERT(m_filetransfer.get());
     if(!m_filetransfer.get())
         return;
 
-    TTASSERT(m_filetransfer->file.get_handle() != ACE_INVALID_HANDLE);
     TTASSERT(m_filetransfer->readbuffer.size());
     TTASSERT(m_filetransfer->inbound == false);
     while(true)
     {
-        bytes = m_filetransfer->file.recv(&m_filetransfer->readbuffer[0], 
+        bytes = m_filetransfer->file.Read(&m_filetransfer->readbuffer[0], 
                                           m_filetransfer->readbuffer.size());
         TTASSERT(ret>=0);
 
-        if(bytes>0)
+        if (bytes > 0)
         {
             ACE_Time_Value tm = ACE_Time_Value::zero;
-            ret = QueueStreamData(msg_queue, &m_filetransfer->readbuffer[0], (int)bytes, &tm);
+            ret = QueueStreamData(msg_queue, &m_filetransfer->readbuffer[0], int(bytes), &tm);
             if(ret<0)
             {
-#if !defined(WIN32) && !defined(__ANDROID_API__)
-                static_assert(sizeof(ACE_OFF_T) > sizeof(uint32_t), "Unexpected size");
-#endif
-                m_filetransfer->file.seek(m_filetransfer->file.tell() - bytes, SEEK_SET);    //rewind since we didn't send
+                static_assert(sizeof(std::streamsize) > sizeof(uint32_t), "Unexpected size");
+                m_filetransfer->file.Seek(m_filetransfer->file.Tell() - bytes, std::ios_base::beg);    //rewind since we didn't send
                 break;
             }
-            else if(m_filetransfer->file.tell() >= m_filetransfer->filesize)
+            else if (m_filetransfer->file.Tell() >= m_filetransfer->filesize)
                 break;
         }
         else
@@ -2130,10 +2133,11 @@ void ServerUser::CloseTransfer()
     if(!m_filetransfer.get())
         return;
 
-    if(m_filetransfer->file.get_handle() != ACE_INVALID_HANDLE)
+    if (m_filetransfer->inbound && m_filetransfer->file.Tell() < m_filetransfer->filesize)
     {
-        if(m_filetransfer->inbound && m_filetransfer->file.tell() < m_filetransfer->filesize)
-            m_filetransfer->file.remove();
+        m_filetransfer->file.Close();
+        ACE_OS::unlink(m_filetransfer->filename.c_str());
     }
+
     m_filetransfer.reset();
 }
