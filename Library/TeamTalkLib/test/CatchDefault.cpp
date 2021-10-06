@@ -26,6 +26,8 @@
 #include <ace/ACE.h>
 #include <ace/OS.h>
 #include <ace/Date_Time.h>
+#include <ace/FILE_IO.h>
+#include <ace/FILE_Connector.h>
 
 #include "TTUnitTest.h"
 
@@ -4274,8 +4276,19 @@ TEST_CASE("FileIO")
         REQUIRE(f.Tell() == file_ace.tell());
 
         REQUIRE(f.Read(buf_myfile, sizeof(buf_myfile)) > 0);
-        REQUIRE(file_ace.recv(buf_ace, sizeof(buf_ace)) > 0);
-        REQUIRE(f.Tell() == file_ace.tell());
+#if defined(WIN32)
+        if (sizeof(void*) == 4)
+        {
+            // Bug in ACE_FILE_IO
+            REQUIRE(file_ace.recv(buf_ace, sizeof(buf_ace)) == 0);
+            REQUIRE(f.Tell() != file_ace.tell());
+        }
+        else
+#endif
+        {
+            REQUIRE(file_ace.recv(buf_ace, sizeof(buf_ace)) > 0);
+            REQUIRE(f.Tell() == file_ace.tell());
+        }
     }
 
     {
