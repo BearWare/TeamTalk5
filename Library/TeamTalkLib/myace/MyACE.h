@@ -65,10 +65,10 @@ public:
     bool NewFile(const ACE_TString& filename);
     void Close();
 
-    std::streamsize Read(char* buf, std::streamsize size);
-    std::streamsize Write(const char* buf, std::streamsize size);
-    bool Seek(std::streamsize size, std::ios_base::seekdir way);
-    std::streamsize Tell();
+    int64_t Read(char* buf, std::streamsize size);
+    int64_t Write(const char* buf, std::streamsize size);
+    bool Seek(int64_t size, std::ios_base::seekdir way);
+    int64_t Tell();
 
 private:
     std::fstream m_file;

@@ -2096,7 +2096,7 @@ bool ServerUser::ClosePendingDesktopTerminate(int src_userid)
 void ServerUser::SendFile(ACE_Message_Queue_Base& msg_queue)
 {
     ssize_t ret = 0;
-    std::streamsize bytes = 0;
+    int64_t bytes = 0;
 
     TTASSERT(m_filetransfer.get());
     if(!m_filetransfer.get())
@@ -2116,7 +2116,6 @@ void ServerUser::SendFile(ACE_Message_Queue_Base& msg_queue)
             ret = QueueStreamData(msg_queue, &m_filetransfer->readbuffer[0], int(bytes), &tm);
             if(ret<0)
             {
-                static_assert(sizeof(std::streamsize) > sizeof(uint32_t), "Unexpected size");
                 m_filetransfer->file.Seek(m_filetransfer->file.Tell() - bytes, std::ios_base::beg);    //rewind since we didn't send
                 break;
             }

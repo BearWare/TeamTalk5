@@ -563,7 +563,7 @@ void FileNode::HandleFileCompleted(const mstrings_t& properties)
 void FileNode::SendFile(ACE_Message_Queue_Base& msg_queue)
 {
     ssize_t ret = 0;
-    std::streamsize bytes = 0;
+    int64_t bytes = 0;
     TTASSERT(m_binarymode);
 
     while(true/*streamhandler_.msg_queue()->message_count()<10*/)
@@ -571,7 +571,7 @@ void FileNode::SendFile(ACE_Message_Queue_Base& msg_queue)
         bytes = m_file.Read(&m_filebuffer[0], m_filebuffer.size());
         TTASSERT(ret>=0);
 
-        if(bytes>0)
+        if (bytes > 0)
         {
             ACE_Time_Value tm = ACE_Time_Value::zero;
             ret = QueueStreamData(msg_queue, &m_filebuffer[0], int(bytes), &tm);

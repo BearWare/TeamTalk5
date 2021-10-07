@@ -229,7 +229,7 @@ bool OggFile::SeekLog2(ogg_int64_t granulepos, ogg_page& og)
     const auto FILESIZE = m_file.Tell();
     auto half = FILESIZE / 2;
     auto nextpos = half;
-    std::streamsize closestpos = 0;
+    auto closestpos = FILESIZE * 0;
 
     ogg_int64_t gp;
     do
@@ -304,7 +304,7 @@ bool OggFile::SyncPage()
 
     // first seek forwards
     long skip = 0;
-    std::streamsize n_read;
+    int64_t n_read;
     do
     {
         ogg_sync_reset(&m_state);
@@ -335,7 +335,7 @@ bool OggFile::SyncPage()
                 return false; // already at begining last time
 
             ogg_sync_reset(&m_state);
-            backwards = std::max(backwards - SIZE, std::streamsize(0));;
+            backwards = std::max(backwards - SIZE, int64_t(0));
             if (!m_file.Seek(backwards, std::ios_base::beg))
                 return false;
 

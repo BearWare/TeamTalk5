@@ -93,7 +93,7 @@ void MyFile::Close()
     m_file.close();
 }
 
-std::streamsize MyFile::Read(char* buf, std::streamsize size)
+int64_t MyFile::Read(char* buf, std::streamsize size)
 {
     assert(m_file.is_open());
     if (m_file.eof())
@@ -126,7 +126,7 @@ std::streamsize MyFile::Read(char* buf, std::streamsize size)
     return newpos - pos;
 }
 
-std::streamsize MyFile::Write(const char* buf, std::streamsize size)
+int64_t MyFile::Write(const char* buf, std::streamsize size)
 {
     assert(m_file.is_open());
 
@@ -148,7 +148,7 @@ std::streamsize MyFile::Write(const char* buf, std::streamsize size)
     return newpos - pos;
 }
 
-bool MyFile::Seek(std::streamsize size, std::ios_base::seekdir way)
+bool MyFile::Seek(int64_t size, std::ios_base::seekdir way)
 {
     MYTRACE_COND(m_file.bad(), ACE_TEXT("File seek while bad()\n"));
     MYTRACE_COND(m_file.fail(), ACE_TEXT("File seek while fail()\n"));
@@ -162,7 +162,7 @@ bool MyFile::Seek(std::streamsize size, std::ios_base::seekdir way)
     return !m_file == false;
 }
 
-std::streamsize MyFile::Tell()
+int64_t MyFile::Tell()
 {
     MYTRACE_COND(m_file.bad(), ACE_TEXT("File tell while bad()\n"));
     MYTRACE_COND(m_file.fail(), ACE_TEXT("File tell while fail()\n"));

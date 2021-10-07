@@ -67,7 +67,7 @@ namespace teamtalk {
             int transferid;
             ACE_TString filename;
             MyFile file;
-            std::streamsize filesize;
+            int64_t filesize;
             bool active;
             std::vector<char> readbuffer;
             LocalFileTransfer() : inbound(0), transferid(0), filesize(0), active(false)
