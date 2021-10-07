@@ -44,10 +44,10 @@ generic:
 	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_CORE=ON" buildlib
 
 deb32:
-	$(MAKE) BUILDDIR=build-$@ generic
+	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DTOOLCHAIN_OPENSSL=OFF" generic
 
 deb64:
-	$(MAKE) BUILDDIR=build-$@ generic
+	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DTOOLCHAIN_OPENSSL=OFF" generic
 
 ubuntu64:
 	# May need to specify JAVA_HOME to help CMake find Java SDK
@@ -80,7 +80,7 @@ centos7:
                               -DFEATURE_WEBRTC=OFF" BUILDDIR=build-$@ buildlib
 
 rasp:
-	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF" BUILDDIR=build-$@ generic
+	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF -DTOOLCHAIN_OPENSSL=OFF" BUILDDIR=build-$@ generic
 
 mac:
 	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_DEPLOYMENT_TARGET=10.10" BUILDDIR=build-$@ generic
