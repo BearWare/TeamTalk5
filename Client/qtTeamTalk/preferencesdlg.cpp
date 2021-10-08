@@ -1100,6 +1100,8 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_TIMESTAMP, ui.notifTimestampSpinBox->value());
 #elif defined(Q_OS_WIN)
         ttSettings->setValue(SETTINGS_TTS_SAPI, ui.forceSapiChkBox->isChecked());
+#elif defined(Q_OS_DARWIN)
+        ttSettings->setValue(SETTINGS_TTS_SPEAKLISTS, ui.speakListsChkBox->isChecked());
 #endif
     }
 }
@@ -1560,6 +1562,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.ttsVoiceComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_VOICE).toInt());
         ui.notifTimestampSpinBox->setEnabled(false);
         ui.forceSapiChkBox->setEnabled(false);
+        ui.forceSapiChkBox->hide();
     }
 #if defined(Q_OS_LINUX)
     else if(ui.ttsengineComboBox->currentIndex() == 2)
@@ -1592,7 +1595,18 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.voiceVolumeSpinBox->setEnabled(false);
         ui.notifTimestampSpinBox->setEnabled(false);
         ui.forceSapiChkBox->setEnabled(false);
+        ui.ttsVoiceComboBox->hide();
+        ui.voiceRateSpinBox->hide();
+        ui.voiceVolumeSpinBox->hide();
+        ui.notifTimestampSpinBox->hide();
+        ui.forceSapiChkBox->hide();
     }
+#if defined(Q_OS_DARWIN)
+    ui.speakListsChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool());
+#else
+    ui.speakListsChkBox->setEnabled(false);
+    ui.speakListsChkBox->hide();
+#endif
 }
 
 void PreferencesDlg::slotShortcutVoiceActivation(bool checked)

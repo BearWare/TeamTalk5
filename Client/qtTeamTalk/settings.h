@@ -259,6 +259,8 @@
 #define SETTINGS_TTS_SAPI                         "texttospeech/force-sapi"
 #define SETTINGS_TTS_SAPI_DEFAULT                 false
 #endif
+#define SETTINGS_TTS_SPEAKLISTS                         "texttospeech/speak-lists"
+#define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 true
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"
