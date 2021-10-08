@@ -166,7 +166,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-  if (NOT ${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "armv7l")
+  if (${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "armv7l")
+    set (LIBVPX_TARGET --enable-pic)
+  else()
     set (LIBVPX_TARGET --target=x86_64-linux-gcc)
   endif()
   
