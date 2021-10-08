@@ -1577,6 +1577,7 @@ void PreferencesDlg::slotUpdateTTSTab()
     else if(ui.ttsengineComboBox->currentIndex() == 2)
     {
         ui.forceSapiChkBox->setEnabled(true);
+        ui.forceSapiChkBox->show();
         bool tolkLoaded = Tolk_IsLoaded();
         if (!tolkLoaded)
             Tolk_Load();
