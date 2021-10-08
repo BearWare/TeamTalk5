@@ -1551,6 +1551,9 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.ttsVoiceComboBox->setEnabled(true);
         ui.voiceRateSpinBox->setEnabled(true);
         ui.voiceVolumeSpinBox->setEnabled(true);
+        ui.ttsVoiceComboBox->show();
+        ui.voiceRateSpinBox->show();
+        ui.voiceVolumeSpinBox->show();
         ui.voiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
         ui.voiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
         ui.ttsVoiceComboBox->clear();
@@ -1561,6 +1564,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         }
         ui.ttsVoiceComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_VOICE).toInt());
         ui.notifTimestampSpinBox->setEnabled(false);
+        ui.notifTimestampSpinBox->hide();
         ui.forceSapiChkBox->setEnabled(false);
         ui.forceSapiChkBox->hide();
     }
@@ -1571,6 +1575,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.voiceRateSpinBox->setEnabled(false);
         ui.voiceVolumeSpinBox->setEnabled(false);
         ui.notifTimestampSpinBox->setEnabled(true);
+        ui.notifTimestampSpinBox->show();
         ui.notifTimestampSpinBox->setValue(ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt());
     }
 #elif defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)
