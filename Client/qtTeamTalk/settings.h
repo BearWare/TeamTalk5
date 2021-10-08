@@ -258,9 +258,10 @@
 #elif defined(Q_OS_WIN)
 #define SETTINGS_TTS_SAPI                         "texttospeech/force-sapi"
 #define SETTINGS_TTS_SAPI_DEFAULT                 false
-#endif
+#elif defined(Q_OS_DARWIN)
 #define SETTINGS_TTS_SPEAKLISTS                         "texttospeech/speak-lists"
 #define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 true
+#endif
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"
