@@ -145,7 +145,7 @@ void KeyCompDlg::keyPressEvent(QKeyEvent* event)
              << "modifiers: " << QString("%1").arg(event->modifiers(), 0, 16)
              << "key: " << QString("%1").arg(event->key(), 0, 16);
 
-    if(m_hotkey.isEmpty())
+    if (m_hotkey.empty())
     {
         for(int i=0;i<MAC_HOTKEY_SIZE;i++)
             m_hotkey.push_back(MAC_NO_KEY);
