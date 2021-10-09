@@ -23,7 +23,6 @@
 
 #include "OggFileIO.h"
 #include <assert.h>
-#include <myace/MyACE.h>
 
 OggOutput::OggOutput()
     : m_os()
@@ -118,29 +117,20 @@ OggFile::~OggFile()
 
 bool OggFile::NewFile(const ACE_TString& filename)
 {
-    ACE_FILE_Connector con;
-    if (con.connect(m_file, ACE_FILE_Addr(filename.c_str()),
-        0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_TRUNC) < 0)
-        return false;
-
-    return true;
+    return m_file.NewFile(filename);
 }
 
 bool OggFile::Open(const ACE_TString& filename)
 {
-    ACE_FILE_Connector con;
-    if (con.connect(m_file, ACE_FILE_Addr(filename.c_str()),
-        0, ACE_Addr::sap_any, 0, O_RDONLY) < 0)
-    {
+    if (!m_file.Open(filename))
         return false;
-    }
     
     return ogg_sync_init(&m_state) == 0;
 }
 
 void OggFile::Close()
 {
-    m_file.close();
+    m_file.Close();
 
     if (ogg_sync_check(&m_state) == 0)
     {
@@ -151,7 +141,6 @@ void OggFile::Close()
 
 int OggFile::ReadOggPage(ogg_page& og)
 {
-    assert(m_file.get_handle() != ACE_INVALID_HANDLE);
     assert(ogg_sync_check(&m_state) == 0);
     
     int pages;
@@ -159,10 +148,10 @@ int OggFile::ReadOggPage(ogg_page& og)
     {
         auto SIZE = 0x1000;
         auto buffer = ogg_sync_buffer(&m_state, SIZE);
-        auto ret = m_file.recv(buffer, SIZE);
+        auto ret = m_file.Read(buffer, SIZE);
         if (ret > 0)
         {
-            ret = ogg_sync_wrote(&m_state, ret);
+            ret = ogg_sync_wrote(&m_state, long(ret));
             assert(ret == 0);
         }
         else break;
@@ -181,13 +170,11 @@ int OggFile::ReadOggPage(ogg_page& og)
 
 int OggFile::WriteOggPage(const ogg_page& og)
 {
-    assert(m_file.get_handle() != ACE_INVALID_HANDLE);
-
-    auto bytes_out = m_file.send(og.header, og.header_len);
+    auto bytes_out = m_file.Write(reinterpret_cast<const char*>(og.header), og.header_len);
     if (bytes_out > 0)
     {
         m_last_gp = ogg_page_granulepos(&og);
-        auto ret = m_file.send(og.body, og.body_len);
+        auto ret = m_file.Write(reinterpret_cast<const char*>(og.body), og.body_len);
         if (ret > 0)
             bytes_out += ret;
     }
@@ -197,7 +184,7 @@ int OggFile::WriteOggPage(const ogg_page& og)
 
 bool OggFile::Seek(ogg_int64_t granulepos, ogg_page& og)
 {
-    if (m_file.seek(0, SEEK_SET) < 0)
+    if (!m_file.Seek(0, std::ios_base::beg))
         return false;
 
     ogg_sync_reset(&m_state);
@@ -234,16 +221,15 @@ ogg_int64_t OggFile::CurrentGranulePos() const
 
 bool OggFile::SeekLog2(ogg_int64_t granulepos, ogg_page& og)
 {
-    assert(m_file.get_handle() != ACE_INVALID_HANDLE);
     assert(ogg_sync_check(&m_state) == 0);
 
-    if (m_file.seek(0, SEEK_END) < 0)
+    if (!m_file.Seek(0, std::ios_base::end))
         return false;
 
-    const auto FILESIZE = m_file.tell();
+    const auto FILESIZE = m_file.Tell();
     auto half = FILESIZE / 2;
     auto nextpos = half;
-    ACE_OFF_T closestpos = 0;
+    auto closestpos = FILESIZE * 0;
 
     ogg_int64_t gp;
     do
@@ -251,7 +237,7 @@ bool OggFile::SeekLog2(ogg_int64_t granulepos, ogg_page& og)
         if (half == 0)
             break;
 
-        if (m_file.seek(nextpos, SEEK_SET) < 0)
+        if (!m_file.Seek(nextpos, std::ios_base::beg))
             return false;
 
         if (!SyncPage())
@@ -278,37 +264,18 @@ bool OggFile::SeekLog2(ogg_int64_t granulepos, ogg_page& og)
     if (closestpos <= 0)
         return false;
 
-    m_file.seek(closestpos, SEEK_SET);
+    m_file.Seek(closestpos, std::ios_base::beg);
 
     return SyncPage() && ReadOggPage(og) > 0;
-
-    //int ret;
-    //char buff[256] = "";
-//    m_file.seek(0, SEEK_SET);
-//    ret = SyncPage(og);
-
-//    m_file.seek(FILESIZE / 2, SEEK_SET);
-//    ret = SyncPage(og);
-//    assert(ret == 0);
-//    m_file.recv(buff, 256);
-//    ret = ret;
-
-//    m_file.seek(0, SEEK_END);
-//    ret = SyncPage(og);
-//    assert(ret == 0);
-//    m_file.recv(buff, 256);
-//    ret = ret;
-    return false;
 }
 
 ogg_int64_t OggFile::LastGranulePosLog2()
 {
-    assert(m_file.get_handle() != ACE_INVALID_HANDLE);
     assert(ogg_sync_check(&m_state) == 0);
 
-    const auto ORIGIN = m_file.tell();
+    const auto ORIGIN = m_file.Tell();
 
-    if (m_file.seek(0, SEEK_END) < 0)
+    if (!m_file.Seek(0, std::ios_base::end))
         return -1;
 
     ogg_int64_t gp = -1;
@@ -323,29 +290,29 @@ ogg_int64_t OggFile::LastGranulePosLog2()
     }
 
     // rewind to origin
-    m_file.seek(ORIGIN, SEEK_SET);
+    m_file.Seek(ORIGIN, std::ios_base::beg);
     return gp;
 }
 
 
 bool OggFile::SyncPage()
 {
-    assert(m_file.get_handle() != ACE_INVALID_HANDLE);
     assert(ogg_sync_check(&m_state) == 0);
 
     const auto SIZE = 0x1000;
-    const auto ORIGIN = m_file.tell();
+    const auto ORIGIN = m_file.Tell();
 
     // first seek forwards
-    long skip = 0, n_read;
+    long skip = 0;
+    int64_t n_read;
     do
     {
         ogg_sync_reset(&m_state);
         auto buffer = ogg_sync_buffer(&m_state, SIZE);
-        n_read = m_file.recv(buffer, SIZE);
+        n_read = m_file.Read(buffer, long(SIZE));
         if (n_read > 0)
         {
-            int ret = ogg_sync_wrote(&m_state, n_read);
+            int ret = ogg_sync_wrote(&m_state, long(n_read));
             assert(ret == 0);
         }
         else break;
@@ -357,7 +324,7 @@ bool OggFile::SyncPage()
     // now try backwards if failed
     if (skip == 0)
     {
-        if (m_file.seek(ORIGIN, SEEK_SET) < 0)
+        if (!m_file.Seek(ORIGIN, std::ios_base::beg))
             return false;
 
         auto backwards = ORIGIN;
@@ -368,15 +335,15 @@ bool OggFile::SyncPage()
                 return false; // already at begining last time
 
             ogg_sync_reset(&m_state);
-            backwards = std::max(backwards - SIZE, ACE_OFF_T(0));;
-            if (m_file.seek(backwards, SEEK_SET) < 0)
+            backwards = std::max(backwards - SIZE, int64_t(0));
+            if (!m_file.Seek(backwards, std::ios_base::beg))
                 return false;
 
             auto buffer = ogg_sync_buffer(&m_state, SIZE);
-            n_read = m_file.recv(buffer, SIZE);
+            n_read = m_file.Read(buffer, SIZE);
             if (n_read > 0)
             {
-                int ret = ogg_sync_wrote(&m_state, n_read);
+                int ret = ogg_sync_wrote(&m_state, long(n_read));
                 assert(ret == 0);
             }
             else break;
@@ -386,11 +353,11 @@ bool OggFile::SyncPage()
         } while (skip == 0);
     }
 
-    long offset = -n_read;
+    auto offset = -n_read;
     if (skip < 0)
         offset += skip;
 
-    if (m_file.seek(offset, SEEK_CUR) < 0)
+    if (!m_file.Seek(offset, std::ios_base::cur))
         return false;
 
     ogg_sync_reset(&m_state);

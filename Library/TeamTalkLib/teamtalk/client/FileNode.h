@@ -25,13 +25,12 @@
 #define FILENODE_H
 
 #include "Client.h"
-
-#include <ace/FILE_IO.h>
-#include <ace/SString.h>
+#include <mystd/MyStd.h>
 
 #include <teamtalk/Commands.h>
 #include <myace/TimerHandler.h>
 
+#include <ace/SString.h>
 
 namespace teamtalk {
 
@@ -47,11 +46,8 @@ namespace teamtalk {
 #if defined(ENABLE_ENCRYPTION)
         , public StreamListener<CryptStreamHandler::StreamHandler_t>
 #endif
+        , NonCopyable
     {
-    private:
-        FileNode(const FileNode&);
-        const FileNode& operator = (const FileNode&); //prevent copying
-
     public:
         FileNode(ACE_Reactor& reactor, bool encrypted,
                  const ACE_INET_Addr& addr, const ServerProperties& srvprop,
@@ -130,8 +126,7 @@ namespace teamtalk {
         connector_t m_connector;
         DefaultStreamHandler::StreamHandler_t* m_def_stream;
         teamtalk::FileTransfer m_transfer;
-        ACE_FILE_IO m_file;
-
+        MyFile m_file;
     };
 }
 
