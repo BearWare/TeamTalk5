@@ -73,6 +73,7 @@ namespace c_tt
         public const string mgtdllname = "TeamTalk5.NET.dll";
 
 #endif
+        public const int SIZEOF_TTMESSAGE_DATA = 6248;
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern IntPtr TT_GetVersion();
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
