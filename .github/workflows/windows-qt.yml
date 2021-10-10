@@ -59,7 +59,7 @@ jobs:
         -DTOOLCHAIN_LIBVPX=OFF
         -DBUILD_TEAMTALK_CLIENT_DOTNET_EXAMPLE=OFF
         -DBUILD_TEAMTALK_CLIENT_QT_EXAMPLE=OFF
-        -DBUILD_TEAMTALKPRO_CLIENT_QT_EXAMPLE=OFF
+        -DBUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE=OFF
 
     - name: Build CMake Projects
       working-directory: ${{runner.workspace}}

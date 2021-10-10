@@ -25,10 +25,11 @@ so if your platform is not listed then try a previously released beta.
 
 ## TeamTalk 5 Libraries
 Projects wrapping the client DLL file in the TeamTalk SDK.
-* **TeamTalkLib**  (dependency: [TeamTalk toolchain](https://github.com/bear101/toolchain))
+* **TeamTalkLib**
   * Source code for building TeamTalk 5 DLL and server executables
   * Read License.txt for terms of use
   * Build using [CMake](http://www.cmake.org)
+    * To build *TeamTalkLib* run ```cmake -DBUILD_TEAMTALK_CORE``` -S TeamTalk5 -B builddir
 * **TeamTalk_DLL** (dependency: **TeamTalkLib**)
   * TeamTalk 5 C-API DLL
   * C-API header files for TeamTalk 5 DLL
