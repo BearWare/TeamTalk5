@@ -260,6 +260,7 @@ private:
     void disableHotKey(HotKeyID id);
     void checkAppUpdate();
     void toggleAllowStreamType(bool checked, StreamType st);
+    void toggleAllowStreamTypeForAll(bool checked, StreamType st);
 #if defined(Q_OS_LINUX)
     void executeDesktopInput(const DesktopInput& input);
 #endif

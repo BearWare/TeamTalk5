@@ -422,6 +422,16 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotUsersAdvancedDesktopAllowed);
     connect(ui.actionAllowMediaFileTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedMediaFileAllowed);
+    connect(ui.actionAllowAllChannelTextMessages, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedChanMsgAllowed);
+    connect(ui.actionAllowAllVoiceTransmission, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedVoiceAllowed);
+    connect(ui.actionAllowAllVideoTransmission, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedVideoAllowed);
+    connect(ui.actionAllowAllDesktopTransmission, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedDesktopAllowed);
+    connect(ui.actionAllowAllMediaFileTransmission, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedMediaFileAllowed);
     /* End - Users menu */
 
     /* Begin - Channels menu */
@@ -3535,6 +3545,25 @@ void MainWindow::toggleAllowStreamType(bool checked, StreamType st)
     }
 }
 
+void MainWindow::toggleAllowStreamTypeForAll(bool checked, StreamType st)
+{
+    int channelid = ui.channelsWidget->selectedChannel(true);
+    QVector<int> users = ui.channelsWidget->getUsersInChannel(channelid);
+    if (channelid > 0)
+    {
+        QMap<int,StreamTypes> transmitUsers;
+        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
+        for (int i=0;i<users.size();i++)
+        {
+            if (checked)
+                transmitUsers[users[i]] |= st;
+            else
+                transmitUsers[users[i]] &= ~st;
+        }
+        slotTransmitUsersChanged(channelid, transmitUsers);
+    }
+}
+
 void MainWindow::slotClientNewInstance(bool /*checked=false*/)
 {
     QString inipath = ttSettings->fileName();
@@ -4362,27 +4391,42 @@ void MainWindow::slotUsersAdvancedMoveUsers()
 
 void MainWindow::slotUsersAdvancedChanMsgAllowed(bool checked/*=false*/)
 {
-    toggleAllowStreamType(checked, STREAMTYPE_CHANNELMSG);
+    if (QObject::sender() == ui.actionAllowChannelTextMessages)
+        toggleAllowStreamType(checked, STREAMTYPE_CHANNELMSG);
+    else
+        toggleAllowStreamTypeForAll(checked, STREAMTYPE_CHANNELMSG);
 }
 
 void MainWindow::slotUsersAdvancedVoiceAllowed(bool checked/*=false*/)
 {
-    toggleAllowStreamType(checked, STREAMTYPE_VOICE);
+    if (QObject::sender() == ui.actionAllowVoiceTransmission)
+        toggleAllowStreamType(checked, STREAMTYPE_VOICE);
+    else
+        toggleAllowStreamTypeForAll(checked, STREAMTYPE_VOICE);
 }
 
 void MainWindow::slotUsersAdvancedVideoAllowed(bool checked/*=false*/)
 {
-    toggleAllowStreamType(checked, STREAMTYPE_VIDEOCAPTURE);
+    if (QObject::sender() == ui.actionAllowVideoTransmission)
+        toggleAllowStreamType(checked, STREAMTYPE_VIDEOCAPTURE);
+    else
+        toggleAllowStreamTypeForAll(checked, STREAMTYPE_VIDEOCAPTURE);
 }
 
 void MainWindow::slotUsersAdvancedDesktopAllowed(bool checked/*=false*/)
 {
-    toggleAllowStreamType(checked, STREAMTYPE_DESKTOP);
+    if (QObject::sender() == ui.actionAllowDesktopTransmission)
+        toggleAllowStreamType(checked, STREAMTYPE_DESKTOP);
+    else
+        toggleAllowStreamTypeForAll(checked, STREAMTYPE_DESKTOP);
 }
 
 void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
 {
-    toggleAllowStreamType(checked, STREAMTYPE_MEDIAFILE);
+    if (QObject::sender() == ui.actionAllowMediaFileTransmission)
+        toggleAllowStreamType(checked, STREAMTYPE_MEDIAFILE);
+    else
+        toggleAllowStreamTypeForAll(checked, STREAMTYPE_MEDIAFILE);
 }
 
 void MainWindow::slotUsersStoreAudioToDisk(bool/* checked*/)
