@@ -75,10 +75,8 @@ TEST_CASE("TestAudioEncoderTransform")
     WavePCMFile inwavefile;
     REQUIRE(inwavefile.NewFile(ACE_TEXT("hest_in.wav"), input.samplerate, input.channels));
 
-    ACE_FILE_Connector con;
-    ACE_FILE_IO outwavefile;
-    REQUIRE(con.connect(outwavefile, ACE_FILE_Addr(L"hest_out.wav"),
-                               0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_BINARY, FILE_SHARE_READ | FILE_SHARE_WRITE) >= 0);
+    MyFile outwavefile;
+    REQUIRE(outwavefile.NewFile(ACE_TEXT("hest_out.wav")));
             
     auto transform = MFTransform::CreateMP3(input, 64000);
     REQUIRE(transform.get() != nullptr);
@@ -103,7 +101,7 @@ TEST_CASE("TestAudioEncoderTransform")
         auto mbs = transform->ProcessAudioEncoder(frame, false);
         for(auto& mb : mbs)
         {
-            outwavefile.send_n(mb->rd_ptr(), mb->length());
+            outwavefile.Write(mb->rd_ptr(), mb->length());
             mb->release();
         }
     }
@@ -112,7 +110,7 @@ TEST_CASE("TestAudioEncoderTransform")
     auto mbs = transform->RetrieveAudioFrames();
     for(auto& mb : mbs)
     {
-        outwavefile.send_n(mb->rd_ptr(), mb->length());
+        outwavefile.Write(mb->rd_ptr(), mb->length());
         mb->release();
     }
 
@@ -312,7 +310,8 @@ TEST_CASE("TestAudioTransformMP3")
 }
 #endif
 
-#if defined (ENABLE_PORTAUDIO)
+
+#if defined (ENABLE_PORTAUDIO) && 0
 
 int duplexSamples = 0;
 int Foo_StreamDuplexCallback(const void* inputBuffer, void* outputBuffer,
@@ -326,6 +325,7 @@ int Foo_StreamDuplexCallback(const void* inputBuffer, void* outputBuffer,
     return paContinue;
 }
 
+// This unit-test calls Pa_Terminate() which will break PortAudioWrapper-class (singleton)
 TEST_CASE("PortAudio_ExclusiveMode")
 {
     if (GITHUBSKIP)
@@ -376,7 +376,6 @@ TEST_CASE("PortAudio_ExclusiveMode")
 
     std::cout << "Input sample rate: " << ininfo->defaultSampleRate << std::endl;
     std::cout << "Output sample rate: " << outinfo->defaultSampleRate << std::endl;
-
 
     PaStream* stream;
     err = Pa_OpenStream(&stream, &inputParameters, &outputParameters,

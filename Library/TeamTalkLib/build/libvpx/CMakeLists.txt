@@ -166,6 +166,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
+  if (${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "armv7l")
+    set (LIBVPX_TARGET --enable-pic)
+  else()
+    set (LIBVPX_TARGET --target=x86_64-linux-gcc)
+  endif()
+  
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
@@ -175,7 +181,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
       CONFIGURE_COMMAND <SOURCE_DIR>/configure
-      --prefix=<INSTALL_DIR> --target=x86_64-linux-gcc
+      --prefix=<INSTALL_DIR> ${LIBVPX_TARGET}
       --disable-examples --disable-docs --disable-unit-tests
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install

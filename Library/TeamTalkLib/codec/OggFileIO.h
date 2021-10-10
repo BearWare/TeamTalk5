@@ -24,12 +24,11 @@
 #ifndef OGGOUTPUT_H
 #define OGGOUTPUT_H
 
+#include <myace/MyACE.h>
 #include <mystd/MyStd.h>
 
 #include <ogg/ogg.h>
 
-#include <ace/FILE_Connector.h>
-#include <ace/FILE_IO.h>
 #include <ace/SString.h>
 
 #include <memory>
@@ -94,7 +93,7 @@ public:
 
 private:
     bool SyncPage();
-    ACE_FILE_IO m_file;
+    MyFile m_file;
     ogg_sync_state m_state = {};
     ogg_int64_t m_last_gp = -1;
 };

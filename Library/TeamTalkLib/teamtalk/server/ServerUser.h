@@ -26,13 +26,11 @@
 
 #include "Server.h"
 
-#include <ace/Recursive_Thread_Mutex.h>
-#include <ace/FILE_IO.h>
-
 #include <teamtalk/User.h>
 #include <teamtalk/StreamHandler.h>
 #include "ServerChannel.h"
 #include "DesktopCache.h"
+#include <ace/Recursive_Thread_Mutex.h>
 
 namespace teamtalk { 
 
@@ -67,8 +65,9 @@ namespace teamtalk {
         {
             bool inbound;
             int transferid;
-            ACE_FILE_IO file;
-            ACE_OFF_T filesize;
+            ACE_TString filename;
+            MyFile file;
+            int64_t filesize;
             bool active;
             std::vector<char> readbuffer;
             LocalFileTransfer() : inbound(0), transferid(0), filesize(0), active(false)
@@ -78,8 +77,6 @@ namespace teamtalk {
 
             ~LocalFileTransfer()
             {
-                if (file.get_handle() != ACE_INVALID_HANDLE)
-                    file.close();
             }
         };
 

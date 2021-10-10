@@ -566,7 +566,7 @@ namespace BearWare
     }
 
     /**
-     * @brief Struct describing the audio format used by a
+     * @brief Struct describing the audio format used by a
      * media file.
      *
      * @see TeamTalkBase.GetMediaFileInfo()
@@ -3886,7 +3886,7 @@ namespace BearWare
         public TTType ttType;
         /** @brief Reserved. To preserve alignment. */
         public uint uReserved;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6248)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = TTDLL.SIZEOF_TTMESSAGE_DATA)]
         public byte[] data;
         //UnionData data;
         

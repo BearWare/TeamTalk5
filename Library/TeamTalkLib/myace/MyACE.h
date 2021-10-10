@@ -24,6 +24,8 @@
 #if !defined(MYACE_H)
 #define MYACE_H
 
+#include <mystd/MyStd.h>
+
 #include <ace/Reactor.h>
 #include <ace/Recursive_Thread_Mutex.h>
 #include <ace/Lock.h>
@@ -34,7 +36,7 @@
 #include <ace/INET_Addr.h>
 #include <vector>
 #include <set>
-#include <mystd/MyStd.h>
+#include <fstream>
 
 //reactor event task
 ACE_THR_FUNC_RETURN event_loop (void *arg);
@@ -54,6 +56,23 @@ class MBGuard : NonCopyable
 public:
     explicit MBGuard(ACE_Message_Block* mb) : m_mb(mb) { }
     ~MBGuard() { m_mb->release(); }
+};
+
+class MyFile : private NonCopyable
+{
+public:
+    bool Open(const ACE_TString& filename, bool readonly = true);
+    bool NewFile(const ACE_TString& filename);
+    void Close();
+
+    int64_t Read(char* buf, std::streamsize size);
+    int64_t Write(const char* buf, std::streamsize size);
+    bool Seek(int64_t size, std::ios_base::seekdir way);
+    int64_t Tell();
+
+private:
+    std::fstream m_file;
+    bool m_readonly = true;
 };
 
 typedef std::vector< ACE_TString > strings_t;
