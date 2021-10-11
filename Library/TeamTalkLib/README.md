@@ -1,8 +1,11 @@
 # TeamTalkLib
 
-Building TeamTalkLib is enabled by toggling the CMake option
-*BUILD_TEAMTALK_CORE=ON*. This will cause CMake to process the
-TeamTalkLib folder and expose the build options for TeamTalkLib.
+Building TeamTalkLib is enabled by toggling the
+[CMake](http://www.cmake.org) option *BUILD_TEAMTALK_CORE=ON*. This
+will cause CMake to process the TeamTalkLib folder and expose the
+build options for TeamTalkLib, e.g.
+
+`# cmake -DBUILD_TEAMTALK_CORE=ON -S TeamTalk5 -B builddir`
 
 ## TeamTalk Binaries
 
@@ -101,25 +104,25 @@ The following feature toggles are available:
 CMake is able to build all TeamTalk's dependencies using the CMake
 options prefixed *TOOLCHAIN_*.
 
-On Ubuntu, Raspbian, etc. it may be desirable to use ```apt install```
+On Ubuntu, Raspbian, etc. it may be desirable to use `apt install`
 to install TeamTalk dependencies instead of manually building
 them. E.g. to build TeamTalk binaries using an installed version of
-OpenSSL pass ```-DTOOLCHAIN_OPENSSL=OFF```. This will make CMake
+OpenSSL pass `-DTOOLCHAIN_OPENSSL=OFF`. This will make CMake
 compile using the the OpenSSL version installed in
-```/usr/include/openssl``` instead of building OpenSSL manually.
+`/usr/include/openssl` instead of building OpenSSL manually.
 
 Being able to build TeamTalk's toolchain requires several dependencies
 to be installed on the build machine. Go to TEAMTALK_ROOT/Build and
 install the dependencies:
 
 * For macOS run
-* ```make depend-mac```
+* `make depend-mac`
 * For iOS on macOS run
-* ```make depend-mac```
+* `make depend-mac`
 * For Ubuntu 18 run:
-* ```make depend-ubuntu18```
+* `make depend-ubuntu18`
 * For Android on Ubuntu 18 run:
-* ```make depend-ubuntu18```
+* `make depend-ubuntu18`
 
 The following toolchain toggles are available:
 
@@ -144,7 +147,7 @@ The following toolchain toggles are available:
   * When *OFF* uses ACE Framework installed on host.
   * *OFF* is only supported on Linux distributions
   * Build ACE on Windows requires *ActivePerl* or *Strawberry Perl*
-    * Place ```perl.exe``` in %PATH%.
+    * Place `perl.exe` in %PATH%.
 * TOOLCHAIN_TINYXML
   * When *ON* builds TinyXML
   * When *OFF* uses TinyXML installed on host.
@@ -160,10 +163,10 @@ The following toolchain toggles are available:
   * When *ON* enables LibVPX
   * When *OFF* uses TinyXML installed on host.
   * Building LibVPX on Windows requires Cygwin, https://www.cygwin.com/
-    * Install Cygwin in ```C:/cygwin64```
+    * Install Cygwin in `C:/cygwin64`
   * Building LibVPX on Windows requires yasm, http://yasm.tortall.net/
-    * Place ```yasm.exe``` for x64 in ```C:/tt5dist/yasm/x64```
-    * Place ```yasm.exe``` for Win32 in ```C:/tt5dist/yasm/win32```
+    * Place `yasm.exe` for x64 in `C:/tt5dist/yasm/x64`
+    * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
 * TOOLCHAIN_FFMPEG
   * When *ON* builds FFmpeg
   * When *OFF* uses FFmpeg installed on host.

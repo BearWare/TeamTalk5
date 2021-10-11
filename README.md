@@ -26,10 +26,14 @@ so if your platform is not listed then try a previously released beta.
 ## TeamTalk 5 Libraries
 Projects wrapping the client and server binaries in the TeamTalk SDK.
 * [**TeamTalkLib**](Library/TeamTalkLib)
-  * Source code for building TeamTalk 5 DLL and server executables
+  * Source code for building TeamTalk 5 DLL and server binaries
   * Read License.txt for terms of use
   * Build using [CMake](http://www.cmake.org)
-    * Follow build instructions in [Library/TeamTalkLib](https://github.com/BearWare/TeamTalk5)
+    * Follow build instructions in [Library/TeamTalkLib](Library/TeamTalkLib)
+  * A [Makefile](Build/Makefile) is available in [Build](Build) for
+      quickly building for macOS, Ubuntu, CentOS 7, Android, iOS and Raspberry Pi e.g.:
+      * `make -C Build depend-ubuntu18 ubuntu64`
+      * `make -C Build depend-mac mac`
 * [**TeamTalk_DLL**](Library/TeamTalk_DLL) (dependency: **TeamTalkLib**)
   * TeamTalk 5 C-API DLL
   * C-API header files for TeamTalk 5 DLL
@@ -54,9 +58,9 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
   * TeamTalk 5 accessible client application written in C++ and based on MFC
     * Works well with screen-readers
   * Requires [Tolk](https://github.com/dkager/tolk) project as dependency. Remove macro *ENABLE_TOLK* to disable Tolk.
-    * Run ```git submodule init``` followed by ```git submodule update```
+    * Run `git submodule init` followed by `git submodule update`
   * Requires [tinyxml](https://github.com/bear101/tinyxml) project as dependency.
-    * Run ```git submodule init``` followed by ```git submodule update```
+    * Run `git submodule init` followed by `git submodule update`
   * Requires **TeamTalk_DLL** project for DLL dependency
 * [**TeamTalkApp.NET**](Client/TeamTalkApp.NET) (dependency: **TeamTalk.NET**)
   * TeamTalk 5 .NET client application written in C#
@@ -70,19 +74,19 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
   * Open project in [Android Studio](https://developer.android.com/studio/intro/index.html)
   * Copy the TeamTalk 5 Java library to *TeamTalkAndroid/libs* directory:
     * TeamTalk5.jar
-      * Located in ```Library/TeamTalkJNI/libs``` (Standard Edition)
+      * Located in `Library/TeamTalkJNI/libs` (Standard Edition)
     * TeamTalk5Pro.jar
-      * Located in ```Library/TeamTalkJNI/libs``` (Professional Edition)
+      * Located in `Library/TeamTalkJNI/libs` (Professional Edition)
   * Copy the TeamTalk 5 JNI shared library to *TeamTalkAndroid/src/main/jniLibs/[armeabi-v7a|arm64-v8a|x86|x86_64]*
     * libTeamTalk5-jni.so
-        * Located in ```Library/TeamTalkJNI/libs/[armeabi-v7a|arm64-v8a|x86|x86_64]``` (Standard Edition)
+        * Located in `Library/TeamTalkJNI/libs/[armeabi-v7a|arm64-v8a|x86|x86_64]` (Standard Edition)
     * libTeamTalk5Pro-jni.so
-        * Located in ```Library/TeamTalkJNI/libs/[armeabi-v7a|arm64-v8a|x86|x86_64]``` (Professional Edition)
+        * Located in `Library/TeamTalkJNI/libs/[armeabi-v7a|arm64-v8a|x86|x86_64]` (Professional Edition)
 * [**ttserverlogpy**](Client/ttserverlogpy) (dependency: **TeamTalkPy**
   * Python example client
 * [**ttphpadmin**](Client/ttphpadmin)
   * Console PHP-script for administrating a TeamTalk 5 server.
-  * Run ```php ttphpadmin.php```
+  * Run `php ttphpadmin.php`
 
 ## TeamTalk 5 Servers
 Sample applications for writing a TeamTalk 5 server are located in the Examples folder. Building a TeamTalk 5 server requires TeamTalk 5 Professional Edition.

@@ -50,15 +50,15 @@ deb64:
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DTOOLCHAIN_OPENSSL=OFF" generic
 
 ubuntu64:
-	# May need to specify JAVA_HOME to help CMake find Java SDK
+	@echo May need to specify JAVA_HOME to help CMake find Java SDK
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DTOOLCHAIN_OPENSSL=OFF" generic
 
 centos7:
-	# TeamTalk depends on CMake 3.1 or later.
-	# To install CMake 3:
-	# $ yum --enablerepo=extras install epel-release
-	# Setup CMake 3 as default cmake:
-	# $ ln -s /bin/cmake3 /bin/cmake
+	@echo TeamTalk depends on CMake 3.1 or later.
+	@echo To install CMake 3:
+	@echo $ yum --enablerepo=extras install epel-release
+	@echo Setup CMake 3 as default cmake:
+	@echo $ ln -s /bin/cmake3 /bin/cmake
 	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_DLL=OFF \
                               -DBUILD_TEAMTALK_PRODLL=OFF \
                               -DBUILD_TEAMTALK_LIBRARIES=OFF \

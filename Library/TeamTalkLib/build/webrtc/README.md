@@ -11,6 +11,6 @@ Command Prompt for VS 2019" or "x64 Native Tools Command Prompt for VS
 2019" depending on the architecture to build for.
 
 In the command prompt first specify the location of the OpenSSL build
-in an ```OPENSSL_DIR``` environment variable.
+in an `OPENSSL_DIR` environment variable.
 
-Run ```build_win.bat``` and follow the instructions.
+Run `build_win.bat` and follow the instructions.
