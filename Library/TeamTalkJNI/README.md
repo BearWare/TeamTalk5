@@ -1,18 +1,22 @@
 # Java Native Interface for TeamTalk DLL
 
-C++ source code for JNI calls in jni sub-directory. Java wrapper
-classes in src sub-directory.
+C++ source code for JNI calls in *jni* sub-directory. Java wrapper
+classes in *src* sub-directory.
 
-## Makefile build procedure ##
+Use CMake to generate project files and/or build the TeamTalk JNI DLL
+(shared library) and TeamTalk JAR files.
 
-Type ```make``` and you'll see the different build options.
+CMake build option for TeamTalk JNI DLL:
 
-## Visual Studio build procedure
+* `BUILD_TEAMTALK_JNI`
+  * JNI library for TeamTalk Standard Edition
+* `BUILD_TEAMTALK_PROJNI`
+  * JNI library for TeamTalk Professional Edition
+* `BUILD_TEAMTALK_JAR`
+  * TeamTalk5.jar Java classes for libTeamTalk5-jni.so/TeamTalk5-jni.dll  
+* `BUILD_TEAMTALK_PROJAR`
+  * TeamTalk5Pro.jar Java classes for libTeamTalk5Pro-jni.so/TeamTalk5Pro-jni.dll  
 
-Edit TeamTalk5JNI.vcxproj or TeamTalk5ProJNI.vcxproj in a text editor
-and replace ```$(JDK_ROOT)``` with the installation folder of the Java
-SDK (JDK). For instance: ```c:\Program Files (x86)\Java\jdk1.8.0_45```.
+## Makefile for running JUnit tests
 
-The Visual Studio project files (vcxproj extension) contain both
-win32 and x64 configuration. Remember to have the TeamTalk 5 import
-library in ../TeamTalk_DLL
+Type `make` and you'll see the different test options.

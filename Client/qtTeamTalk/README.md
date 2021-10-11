@@ -1,58 +1,38 @@
 # TeamTalk 5 client application based on [Qt Framework](http://www.qt.io)
 
+Here are the instructions on how to build the TeamTalk 5 Qt client.
+
 To try a compiled version of the this application go [here](http://bearware.dk/?page_id=327).
 
-## Build dependencies on Debian 9
+## Build Qt-based TeamTalk 5 on Ubuntu 18
 
-The following dependencies must be installed in order to
-build the TeamTalk Qt Client application:
+In order to build the Qt-based TeamTalk client its build-dependencies
+must first be installed. Goto TEAMTALK_ROOT/Build and type:
 
-* qt5-default
-* qtbase5-dev
-* libqt5x11extras5-dev
-* qtmultimedia5-dev
-* g++
+`# make depend-ubuntu64`
 
 Afterwards run the following command:
 
-```# qmake teamtalk5.pro```
+`# qmake teamtalk5.pro`
 
 Followed by:
 
-```# make```
+`# make`
 
-## Build dependencies on Ubuntu 16 xenial
+## Build Qt-based TeamTalk 5 on Windows
 
-The following dependencies must be installed in order to
-build the TeamTalk Qt Client application:
+First use CMake to build Qt Framework:
 
-* qt5-default
-* libqt5x11extras5-dev
-* qtmultimedia5-dev
-* g++
+`# cmake -S C:/TeamTalk5 -B qtbuild -A Win32 -DQT_BUILD_QTFRAMEWORK=ON -DQT_INSTALL_PREFIX=C:/Qt5`
+`# cmake --build qtbuild`
 
-Afterwards run the following command:
+Setup Qt Framework in PATH so we can use *qmake.exe* to generate
+project files:
 
-```# qmake teamtalk5.pro```
+`# set PATH=C:\Qt5\bin;%PATH%`
 
-Followed by:
+Generate project files for TeamTalk Qt-based client:
 
-```# make```
+`# qmake -tp vc CONFIG+=release teamtalk5.pro`
 
-## Build dependencies on Ubuntu 18 cosmic
-
-The following dependencies must be installed in order to
-build the TeamTalk Qt Client application:
-
-* qt5-default
-* libqt5x11extras5-dev
-* qtmultimedia5-dev
-* g++
-
-Afterwards run the following command:
-
-```# qmake teamtalk5.pro```
-
-Followed by:
-
-```# make```
+Now open *TeamTalk5.vcxproj* in Visual Studio 2019 and build.
