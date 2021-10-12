@@ -5332,27 +5332,29 @@ void MainWindow::slotUpdateUI()
     ui.actionDeleteFile->setEnabled(filescount>0);
 
     //Users-menu items dependent on Channel
+    bool modchan = (userrights & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_MODIFY_CHANNELS;
     ui.actionAllowChannelTextMessages->setChecked(userCanChanMessage(userid, chan));
-    ui.actionAllowChannelTextMessages->setEnabled(userid > 0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
+    ui.actionAllowChannelTextMessages->setEnabled(userid > 0 && (me_op || modchan));
     ui.actionAllowVoiceTransmission->setChecked(userCanVoiceTx(userid, chan));
-    ui.actionAllowVoiceTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
+    ui.actionAllowVoiceTransmission->setEnabled(userid>0 && (me_op || modchan));
     ui.actionAllowVideoTransmission->setChecked(userCanVideoTx(userid, chan));
-    ui.actionAllowVideoTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
+    ui.actionAllowVideoTransmission->setEnabled(userid>0 && (me_op || modchan));
     ui.actionAllowDesktopTransmission->setChecked(userCanDesktopTx(userid, chan));
-    ui.actionAllowDesktopTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
+    ui.actionAllowDesktopTransmission->setEnabled(userid>0 && (me_op || modchan));
     ui.actionAllowMediaFileTransmission->setChecked(userCanMediaFileTx(userid, chan));
-    ui.actionAllowMediaFileTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
+    ui.actionAllowMediaFileTransmission->setEnabled(userid>0 && (me_op || modchan));
 
+    bool classroom = (chan.uChannelType & CHANNEL_CLASSROOM) == CHANNEL_CLASSROOM;
     ui.actionAllowAllChannelTextMessages->setChecked(userCanChanMessage(TT_TRANSMITUSERS_FREEFORALL, chan));
-    ui.actionAllowAllChannelTextMessages->setEnabled(me_op || (userrights & USERRIGHT_MODIFY_CHANNELS));
+    ui.actionAllowAllChannelTextMessages->setEnabled(classroom && (me_op || modchan));
     ui.actionAllowAllVoiceTransmission->setChecked(userCanVoiceTx(TT_TRANSMITUSERS_FREEFORALL, chan));
-    ui.actionAllowAllVoiceTransmission->setEnabled(me_op || (userrights & USERRIGHT_MODIFY_CHANNELS));
+    ui.actionAllowAllVoiceTransmission->setEnabled(classroom && (me_op || modchan));
     ui.actionAllowAllVideoTransmission->setChecked(userCanVideoTx(TT_TRANSMITUSERS_FREEFORALL, chan));
-    ui.actionAllowAllVideoTransmission->setEnabled(me_op || (userrights & USERRIGHT_MODIFY_CHANNELS));
+    ui.actionAllowAllVideoTransmission->setEnabled(classroom && (me_op || modchan));
     ui.actionAllowAllDesktopTransmission->setChecked(userCanDesktopTx(TT_TRANSMITUSERS_FREEFORALL, chan));
-    ui.actionAllowAllDesktopTransmission->setEnabled(me_op || (userrights & USERRIGHT_MODIFY_CHANNELS));
+    ui.actionAllowAllDesktopTransmission->setEnabled(classroom && (me_op || modchan));
     ui.actionAllowAllMediaFileTransmission->setChecked(userCanMediaFileTx(TT_TRANSMITUSERS_FREEFORALL, chan));
-    ui.actionAllowAllMediaFileTransmission->setEnabled(me_op || (userrights & USERRIGHT_MODIFY_CHANNELS));
+    ui.actionAllowAllMediaFileTransmission->setEnabled(classroom && (me_op || modchan));
 
     //Server-menu items
     ui.actionUserAccounts->setEnabled(auth);
