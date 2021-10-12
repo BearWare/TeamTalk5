@@ -3529,39 +3529,30 @@ void MainWindow::checkAppUpdate()
     networkMgr->get(request);
 }
 
+void MainWindow::toggleAllowStreamType(bool checked, int userid, int channelid, StreamType st)
+{
+    QMap<int,StreamTypes> transmitUsers;
+    ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
+    if (checked)
+        transmitUsers[userid] |= st;
+    else
+        transmitUsers[userid] &= ~st;
+    slotTransmitUsersChanged(channelid, transmitUsers);
+}
+
 void MainWindow::toggleAllowStreamType(bool checked, StreamType st)
 {
     int userid = ui.channelsWidget->selectedUser();
     int channelid = ui.channelsWidget->selectedChannel(true);
     if (userid > 0 && channelid > 0)
-    {
-        QMap<int,StreamTypes> transmitUsers;
-        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
-        if (checked)
-            transmitUsers[userid] |= st;
-        else
-            transmitUsers[userid] &= ~st;
-        slotTransmitUsersChanged(channelid, transmitUsers);
-    }
+        toggleAllowStreamType(checked, userid, channelid, st);
 }
 
 void MainWindow::toggleAllowStreamTypeForAll(bool checked, StreamType st)
 {
     int channelid = ui.channelsWidget->selectedChannel(true);
-    QVector<int> users = ui.channelsWidget->getUsersInChannel(channelid);
     if (channelid > 0)
-    {
-        QMap<int,StreamTypes> transmitUsers;
-        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
-        for (int i=0;i<users.size();i++)
-        {
-            if (checked)
-                transmitUsers[users[i]] |= st;
-            else
-                transmitUsers[users[i]] &= ~st;
-        }
-        slotTransmitUsersChanged(channelid, transmitUsers);
-    }
+        toggleAllowStreamType(checked, TT_TRANSMITUSERS_FREEFORALL, channelid, st);
 }
 
 void MainWindow::slotClientNewInstance(bool /*checked=false*/)
@@ -5351,6 +5342,17 @@ void MainWindow::slotUpdateUI()
     ui.actionAllowDesktopTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
     ui.actionAllowMediaFileTransmission->setChecked(userCanMediaFileTx(userid, chan));
     ui.actionAllowMediaFileTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
+
+    ui.actionAllowAllChannelTextMessages->setChecked(userCanChanMessage(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui.actionAllowAllChannelTextMessages->setEnabled(me_op || (userrights & USERRIGHT_MODIFY_CHANNELS));
+    ui.actionAllowAllVoiceTransmission->setChecked(userCanVoiceTx(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui.actionAllowAllVoiceTransmission->setEnabled(me_op || (userrights & USERRIGHT_MODIFY_CHANNELS));
+    ui.actionAllowAllVideoTransmission->setChecked(userCanVideoTx(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui.actionAllowAllVideoTransmission->setEnabled(me_op || (userrights & USERRIGHT_MODIFY_CHANNELS));
+    ui.actionAllowAllDesktopTransmission->setChecked(userCanDesktopTx(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui.actionAllowAllDesktopTransmission->setEnabled(me_op || (userrights & USERRIGHT_MODIFY_CHANNELS));
+    ui.actionAllowAllMediaFileTransmission->setChecked(userCanMediaFileTx(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui.actionAllowAllMediaFileTransmission->setEnabled(me_op || (userrights & USERRIGHT_MODIFY_CHANNELS));
 
     //Server-menu items
     ui.actionUserAccounts->setEnabled(auth);

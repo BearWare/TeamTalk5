@@ -1108,7 +1108,7 @@
      <x>0</x>
      <y>0</y>
      <width>637</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuClient">
@@ -1857,7 +1857,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Allow all V&amp;oice Transmission</string>
+    <string>Allow All V&amp;oice Transmission</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+Shift+Q</string>
@@ -1868,7 +1868,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Allow all Video Transmission</string>
+    <string>Allow All Video Transmission</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+Shift+W</string>
@@ -1958,7 +1958,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Allow all Desktop Transmission</string>
+    <string>Allow All Desktop Transmission</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+Shift+E</string>
@@ -2090,7 +2090,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Allow all Media File Transmission</string>
+    <string>Allow All Media File Transmission</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+Shift+R</string>
@@ -2187,7 +2187,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Allow all Channel Text Messages</string>
+    <string>Allow All Channel Text Messages</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+Shift+T</string>
