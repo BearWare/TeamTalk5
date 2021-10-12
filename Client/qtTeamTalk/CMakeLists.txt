@@ -123,7 +123,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
   endif()
 
   option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE "Build Qt Client for TeamTalk 5 Standard Edition" ON)
-  option (BUILD_TEAMTALKPRO_CLIENT_QT_EXAMPLE "Build Qt Client for TeamTalk 5 Professional Edition" ON)
+  option (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE "Build Qt Client for TeamTalk 5 Professional Edition" ON)
 
   # Try locating Tolk screen-reader abstraction layer
   if (${CMAKE_GENERATOR_PLATFORM} MATCHES "x64")
@@ -145,7 +145,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     add_executable (${TEAMTALK_TARGET} ${QTTEAMTALK_SOURCES})
 
-    if (BUILD_TEAMTALK5DLL)
+    if (BUILD_TEAMTALK_DLL)
       target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5DLL)
     else()
       find_library(TEAMTALK5_LIBRARY TeamTalk5 PATHS ../../Library/TeamTalk_DLL)
@@ -165,11 +165,11 @@ if (Qt5_FOUND OR Qt6_FOUND)
     set_output_dir(${TEAMTALK_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
   endif()
 
-  if (BUILD_TEAMTALKPRO_CLIENT_QT_EXAMPLE)
+  if (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE)
 
     add_executable (${TEAMTALKPRO_TARGET} ${QTTEAMTALK_SOURCES})
 
-    if (BUILD_TEAMTALK5PRODLL)
+    if (BUILD_TEAMTALK_PRODLL)
       target_link_libraries (${TEAMTALKPRO_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5ProDLL)
     else()
       find_library(TEAMTALK5PRO_LIBRARY TeamTalk5Pro PATHS ../../Library/TeamTalk_DLL)
