@@ -1434,14 +1434,17 @@ void ChannelsTree::slotUserJoin(int channelid, const User& user)
     }
     slotUpdateTreeWidgetItem(item);
 
-    if(user.nUserID == TT_GetMyUserID(ttInst))
-        scrollToItem(item);
-
     // update user count on parent channels
     updateChannelItem(user.nChannelID);
     channels_t parents = getParentChannels(channelid, m_channels);
     for(auto i=parents.begin();i!=parents.end();++i)
         updateChannelItem(i.key());
+
+    // expand channel item we joined
+    if (user.nUserID == TT_GetMyUserID(ttInst))
+    {
+        scrollToItem(item);
+    }
 }
 
 void ChannelsTree::slotUserLeft(int channelid, const User& user)
@@ -1459,6 +1462,18 @@ void ChannelsTree::slotUserLeft(int channelid, const User& user)
     channels_t parents = getParentChannels(channelid, m_channels);
     for(auto i=parents.begin();i!=parents.end();++i)
         updateChannelItem(i.key());
+
+    // collapse channel item we left
+    if (user.nUserID == TT_GetMyUserID(ttInst))
+    {
+        QTreeWidgetItem* parent = getChannelItem(channelid);
+        Q_ASSERT(parent);
+        if (parent)
+        {
+            parent->setExpanded(false);
+            slotUpdateTreeWidgetItem(parent);
+        }
+    }
 }
 
 void ChannelsTree::slotUserStateChange(const User& user)
