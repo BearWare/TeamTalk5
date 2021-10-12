@@ -1173,17 +1173,6 @@
      <addaction name="actionStoreForMove"/>
      <addaction name="actionMoveUser"/>
      <addaction name="separator"/>
-     <addaction name="actionAllowChannelTextMessages"/>
-     <addaction name="actionAllowVoiceTransmission"/>
-     <addaction name="actionAllowVideoTransmission"/>
-     <addaction name="actionAllowDesktopTransmission"/>
-     <addaction name="actionAllowMediaFileTransmission"/>
-     <addaction name="separator"/>
-     <addaction name="actionAllowAllChannelTextMessages"/>
-     <addaction name="actionAllowAllVoiceTransmission"/>
-     <addaction name="actionAllowAllVideoTransmission"/>
-     <addaction name="actionAllowAllDesktopTransmission"/>
-     <addaction name="actionAllowAllMediaFileTransmission"/>
     </widget>
     <widget class="QMenu" name="menuMute">
      <property name="title">
@@ -1209,6 +1198,27 @@
      <addaction name="actionViewUserInformation"/>
      <addaction name="actionSpeakUserInformation"/>
     </widget>
+    <widget class="QMenu" name="menu_Transmit_Control">
+     <property name="title">
+      <string>&amp;Transmit Control</string>
+     </property>
+     <addaction name="actionAllowChannelTextMessages"/>
+     <addaction name="actionAllowVoiceTransmission"/>
+     <addaction name="actionAllowVideoTransmission"/>
+     <addaction name="actionAllowDesktopTransmission"/>
+     <addaction name="actionAllowMediaFileTransmission"/>
+     <addaction name="separator"/>
+     <addaction name="actionAllowAllChannelTextMessages"/>
+     <addaction name="actionAllowAllVoiceTransmission"/>
+     <addaction name="actionAllowAllVideoTransmission"/>
+     <addaction name="actionAllowAllDesktopTransmission"/>
+     <addaction name="actionAllowAllMediaFileTransmission"/>
+    </widget>
+    <widget class="QMenu" name="menuType_Here">
+     <property name="title">
+      <string>Type Here</string>
+     </property>
+    </widget>
     <addaction name="menu_Info"/>
     <addaction name="actionMessages"/>
     <addaction name="actionDesktopAccessAllow"/>
@@ -1217,9 +1227,11 @@
     <addaction name="menuMute"/>
     <addaction name="menu_Kick"/>
     <addaction name="menuSubscriptions"/>
+    <addaction name="menu_Transmit_Control"/>
     <addaction name="menu_Advanced"/>
     <addaction name="separator"/>
     <addaction name="actionMuteAll"/>
+    <addaction name="menuType_Here"/>
    </widget>
    <widget class="QMenu" name="menuChannels">
     <property name="title">
