@@ -1094,14 +1094,14 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, m_ttsmodel->getTTSEvents());
         ttSettings->setValue(SETTINGS_TTS_ENGINE, getCurrentItemData(ui.ttsengineComboBox, TTSENGINE_NONE));
         ttSettings->setValue(SETTINGS_TTS_VOICE, ui.ttsVoiceComboBox->currentIndex());
-        ttSettings->setValue(SETTINGS_TTS_RATE, ui.voiceRateSpinBox->value());
-        ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.voiceVolumeSpinBox->value());
+        ttSettings->setValue(SETTINGS_TTS_RATE, ui.ttsVoiceRateSpinBox->value());
+        ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.ttsVoiceVolumeSpinBox->value());
 #if defined(Q_OS_LINUX)
-        ttSettings->setValue(SETTINGS_TTS_TIMESTAMP, ui.notifTimestampSpinBox->value());
+        ttSettings->setValue(SETTINGS_TTS_TIMESTAMP, ui.ttsNotifTimestampSpinBox->value());
 #elif defined(Q_OS_WIN)
-        ttSettings->setValue(SETTINGS_TTS_SAPI, ui.forceSapiChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked());
 #elif defined(Q_OS_DARWIN)
-        ttSettings->setValue(SETTINGS_TTS_SPEAKLISTS, ui.speakListsChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_TTS_SPEAKLISTS, ui.ttsSpeakListsChkBox->isChecked());
 #endif
     }
 }
@@ -1544,20 +1544,39 @@ void PreferencesDlg::slotEventVoiceActMeOff()
 
 void PreferencesDlg::slotUpdateTTSTab()
 {
+    ui.label_ttsvoice->hide();
+    ui.ttsVoiceComboBox->hide();
+
+    ui.label_ttsvoicerate->hide();
+    ui.ttsVoiceRateSpinBox->hide();
+
+    ui.label_ttsvoicevolume->hide();
+    ui.ttsVoiceVolumeSpinBox->hide();
+
+    ui.label_ttsnotifTimestamp->hide();
+    ui.ttsNotifTimestampSpinBox->hide();
+
+    ui.ttsForceSapiChkBox->hide();
+    ui.ttsSpeakListsChkBox->hide();
+
     switch (getCurrentItemData(ui.ttsengineComboBox).toUInt())
     {
     case TTSENGINE_QT :
     {
+        ui.label_ttsvoice->show();
+        ui.ttsVoiceComboBox->show();
+        ui.label_ttsvoicerate->show();
+        ui.ttsVoiceRateSpinBox->show();
+        ui.label_ttsvoicevolume->show();
+        ui.ttsVoiceVolumeSpinBox->show();
+#if defined(Q_OS_DARWIN)
+        ui.ttsSpeakListsChkBox->show();
+#endif
         delete ttSpeech;
         ttSpeech = new QTextToSpeech(this);
-        ui.ttsVoiceComboBox->setEnabled(true);
-        ui.voiceRateSpinBox->setEnabled(true);
-        ui.voiceVolumeSpinBox->setEnabled(true);
-        ui.ttsVoiceComboBox->show();
-        ui.voiceRateSpinBox->show();
-        ui.voiceVolumeSpinBox->show();
-        ui.voiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
-        ui.voiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
+
+        ui.ttsVoiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
+        ui.ttsVoiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
         ui.ttsVoiceComboBox->clear();
         QVector<QVoice> Voices = ttSpeech->availableVoices();
         foreach (const QVoice &voice, Voices)
@@ -1565,29 +1584,26 @@ void PreferencesDlg::slotUpdateTTSTab()
             ui.ttsVoiceComboBox->addItem(voice.name());
         }
         ui.ttsVoiceComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_VOICE).toInt());
-        ui.notifTimestampSpinBox->setEnabled(false);
-        ui.notifTimestampSpinBox->hide();
-        ui.forceSapiChkBox->setEnabled(false);
-        ui.forceSapiChkBox->hide();
+#if defined(Q_OS_DARWIN)
+        ui.ttsSpeakListsChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool());
+#endif
     }
     break;
     case TTSENGINE_NOTIFY :
 #if defined(Q_OS_LINUX)
     {
-        ui.ttsVoiceComboBox->setEnabled(false);
-        ui.voiceRateSpinBox->setEnabled(false);
-        ui.voiceVolumeSpinBox->setEnabled(false);
-        ui.notifTimestampSpinBox->setEnabled(true);
-        ui.notifTimestampSpinBox->show();
-        ui.notifTimestampSpinBox->setValue(ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt());
+        ui.label_ttsnotifTimestamp->show();
+        ui.ttsNotifTimestampSpinBox->show();
+
+        ui.ttsNotifTimestampSpinBox->setValue(ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt());
     }
 #endif
     break;
     case TTSENGINE_TOLK :
 #if defined(ENABLE_TOLK)
     {
-        ui.forceSapiChkBox->setEnabled(true);
-        ui.forceSapiChkBox->show();
+        ui.ttsForceSapiChkBox->show();
+
         bool tolkLoaded = Tolk_IsLoaded();
         if (!tolkLoaded)
             Tolk_Load();
@@ -1595,34 +1611,14 @@ void PreferencesDlg::slotUpdateTTSTab()
         if (!tolkLoaded)
             Tolk_Unload();
         if(currentSR.size())
-            ui.forceSapiChkBox->setText(tr("Use SAPI instead of %1 screenreader").arg(currentSR));
-        ui.forceSapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
+            ui.ttsForceSapiChkBox->setText(tr("Use SAPI instead of %1 screenreader").arg(currentSR));
+        ui.ttsForceSapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
     }
 #endif
     break;
     case TTSENGINE_NONE :
-    default :
-    {
-        ui.ttsVoiceComboBox->setEnabled(false);
-        ui.voiceRateSpinBox->setEnabled(false);
-        ui.voiceVolumeSpinBox->setEnabled(false);
-        ui.notifTimestampSpinBox->setEnabled(false);
-        ui.forceSapiChkBox->setEnabled(false);
-        ui.ttsVoiceComboBox->hide();
-        ui.voiceRateSpinBox->hide();
-        ui.voiceVolumeSpinBox->hide();
-        ui.notifTimestampSpinBox->hide();
-        ui.forceSapiChkBox->hide();
-    }
     break;
     }
-
-#if defined(Q_OS_DARWIN)
-    ui.speakListsChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool());
-#else
-    ui.speakListsChkBox->setEnabled(false);
-    ui.speakListsChkBox->hide();
-#endif
 }
 
 void PreferencesDlg::slotShortcutVoiceActivation(bool checked)
