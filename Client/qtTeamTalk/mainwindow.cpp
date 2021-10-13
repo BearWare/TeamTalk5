@@ -5199,6 +5199,35 @@ void MainWindow::slotTreeSelectionChanged()
         //if not admin then keep joined channel as file view.
         updateChannelFiles(channelid);
     }
+#if defined(Q_OS_DARWIN)
+    if (ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool() == true)
+    {
+        User user;
+        Channel channel;
+        QString result;
+        if (ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
+        {
+            result = getDisplayName(user);
+        }
+        else if (ui.channelsWidget->getChannel(ui.channelsWidget->selectedChannel(true), channel))
+        {
+            result = _Q(channel.szName);
+            if(channel.nChannelID == TT_GetRootChannelID(ttInst))
+            {
+                ServerProperties prop = {};
+                TT_GetServerProperties(ttInst, &prop);
+                result = _Q(prop.szServerName);
+            }
+            if (ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT, SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool())
+            {
+                int count = 0;
+                TT_GetChannelUsers(ttInst, channel.nChannelID, nullptr, &count);
+                result = QString("%1 (%2)").arg(result).arg(count);
+            }
+        }
+        addTextToSpeechMessage(result);
+    }
+#endif
 }
 
 void MainWindow::slotTreeContextMenu(const QPoint &/* pos*/)
