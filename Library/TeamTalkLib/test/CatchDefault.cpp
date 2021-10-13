@@ -21,7 +21,7 @@
  *
  */
 
-#include "catch.hpp"
+#include "catch2/catch.hpp"
 
 #include <ace/ACE.h>
 #include <ace/OS.h>

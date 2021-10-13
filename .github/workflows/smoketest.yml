@@ -55,7 +55,6 @@ jobs:
            cmake
            python3-minimal
            junit4
-           catch
            ninja-build
            doxygen
            valgrind
@@ -90,7 +89,7 @@ jobs:
            -DFEATURE_V4L2=OFF
            -DFEATURE_WEBRTC=OFF
            -DTOOLCHAIN_ACE=OFF
-           -DTOOLCHAIN_CATCH2=OFF
+           -DTOOLCHAIN_CATCH2=ON
            -DTOOLCHAIN_FFMPEG=OFF
            -DTOOLCHAIN_LIBVPX=OFF
            -DTOOLCHAIN_OGG=OFF

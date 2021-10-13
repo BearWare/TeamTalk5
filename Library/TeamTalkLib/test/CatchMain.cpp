@@ -24,5 +24,5 @@
 #ifndef CATCH_MAIN_ALREADY_PROVIDED //Don't include main if running from QT app which already has its own main
 #define CATCH_CONFIG_MAIN
 #endif
-#include "catch.hpp"
+#include "catch2/catch.hpp"
 
