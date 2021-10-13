@@ -98,7 +98,7 @@ namespace TeamTalkTest.NET
 
             string encrypted = Environment.GetEnvironmentVariable("ENCRYPTED");
             if (encrypted != null)
-                ENCRYPTED = encrypted == "1";
+                ENCRYPTED = encrypted == "1" || encrypted.ToLower() == "true";
             if (ENCRYPTED)
                 TCPPORT = UDPPORT = 10443;
             
