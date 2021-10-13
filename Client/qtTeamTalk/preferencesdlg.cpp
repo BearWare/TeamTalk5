@@ -1590,7 +1590,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         if (!tolkLoaded)
             Tolk_Unload();
         if(currentSR.size())
-            ui.label_forceSapi->setText(tr("Use SAPI instead of %1 screenreader").arg(currentSR));
+            ui.forceSapiChkBox->setText(tr("Use SAPI instead of %1 screenreader").arg(currentSR));
         ui.forceSapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
     }
 #endif
