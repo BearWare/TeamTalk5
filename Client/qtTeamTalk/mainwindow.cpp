@@ -2092,8 +2092,7 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         break;
     case HOTKEY_MUTEALL :
         if(active)
-            TT_SetSoundOutputMute(ttInst, 
-                                  !(TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_MUTE));
+            slotUsersMuteVoiceAll(!(TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_MUTE));
         break;
     case HOTKEY_MICROPHONEGAIN_INC :
         if(active)
