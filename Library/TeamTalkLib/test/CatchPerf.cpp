@@ -24,7 +24,7 @@
  /* Catch unit-tests that are performance dependent. Typically unit-tests
   * that cannot run under Valgrind */
 
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 
 #include <ace/OS.h>
 #include "TTUnitTest.h"
