@@ -93,12 +93,22 @@ jobs:
         xcopy /S /Y /E ${{runner.workspace}}\TeamTalk5\Library\TeamTalkLib\test\testdata testdata\
         VSTest.Console.exe /Platform:${{ matrix.dotnetarch }} TeamTalk5Test.NET.dll
 
+    - name: Stop TeamTalk Standard Service
+      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      shell: cmd
+      run: |
+        tt5svc.exe -e
+
+    - name: Uninstall TeamTalk Standard Service
+      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      shell: cmd
+      run: |
+        tt5svc.exe -u
+
     - name: Enable encryption
       shell: cmd
       run: |
-        echo ENCRYPTED=1>> $GITHUB_ENV
-
-        echo "ENCRYPTED=1" >> $GITHUB_ENV
+        echo ENCRYPTED=1>> %GITHUB_ENV%
 
     - name: Start TeamTalk Professional Service
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
@@ -115,18 +125,14 @@ jobs:
         xcopy /S /Y /E ${{runner.workspace}}\TeamTalk5\Library\TeamTalkLib\test\testdata testdata\
         VSTest.Console.exe /Platform:${{ matrix.dotnetarch }} TeamTalk5ProTest.NET.dll
 
-    - name: Restart TeamTalk Professional Service
+    - name: Stop TeamTalk Professional Service
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
       run: |
         tt5prosvc.exe -e
-        tt5prosvc.exe -s
 
     - name: Uninstall TeamTalk Services
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
       run: |
-        tt5svc.exe -e
-        tt5svc.exe -u
-        tt5prosvc.exe -e
         tt5prosvc.exe -u
