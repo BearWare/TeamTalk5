@@ -108,7 +108,7 @@ jobs:
     - name: Enable encryption
       shell: cmd
       run: |
-        echo ENCRYPTED=1>> %GITHUB_ENV%
+        echo ENCRYPTED=1 >> %GITHUB_ENV%
 
     - name: Start TeamTalk Professional Service
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
