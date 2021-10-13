@@ -69,6 +69,9 @@
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
+#endif
+
+#if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
 #endif
 
@@ -90,7 +93,7 @@ extern TTInstance* ttInst;
 QSettings* ttSettings = nullptr;
 QTranslator* ttTranslator = nullptr;
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if defined(QT_TEXTTOSPEECH_LIB)
 QTextToSpeech* ttSpeech = nullptr;
 #endif
 
@@ -2355,7 +2358,7 @@ void MainWindow::changeEvent(QEvent* event )
     QMainWindow::changeEvent(event);
 }
 
-#if defined(Q_OS_WIN32) && QT_VERSION >= 0x050000
+#if defined(Q_OS_WIN32) && QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 
 bool MainWindow::nativeEvent(const QByteArray& eventType, void* message,
                              long* result)
@@ -3705,7 +3708,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
     if(!b)return;
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if defined(QT_TEXTTOSPEECH_LIB)
     if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_QT && ttSpeech == nullptr)
         ttSpeech = new QTextToSpeech(this);
     else
@@ -6472,7 +6475,7 @@ void MainWindow::startTTS()
 {
     switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
     {
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if defined(QT_TEXTTOSPEECH_LIB)
     case TTSENGINE_QT :
     {
         delete ttSpeech;

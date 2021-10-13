@@ -174,7 +174,7 @@ ChannelsTree::ChannelsTree(QWidget* parent)
 , m_desktopaccesTimerId(0)
 , m_ignore_item_changes(false)
 {
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 #else
     header()->setResizeMode(QHeaderView::ResizeToContents);

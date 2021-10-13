@@ -27,7 +27,7 @@
 #include <QFileOpenEvent>
 #include <QUrl>
 
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QAbstractNativeEventFilter>
 #endif
 
@@ -46,7 +46,7 @@ public:
     {
     }
 
-#if QT_VERSION < 0x050000
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
     //TeamTalk event handling for Win32
     bool winEventFilter ( MSG * msg, long * result )
     {
@@ -69,7 +69,7 @@ public:
 #include <QX11Info>
 #include <X11/Xlib.h>
 
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <xcb/xcb.h> // used by Qt5
 #endif
 
@@ -115,12 +115,12 @@ static Bool qt_keypress_scanner(Display *, XEvent *event, XPointer arg)
 }
 
 class MyQApplication : public QApplication
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                      , public QAbstractNativeEventFilter
 #endif
 {
 public:
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     bool nativeEventFilter(const QByteArray &eventType, void *message, long *result)
     {
         Q_UNUSED(result);
@@ -159,7 +159,7 @@ public:
     MyQApplication(int& argc, char **argv)
         : QApplication(argc, argv), m_mainwindow(nullptr)
     {
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
         installNativeEventFilter(this);
 #endif
     }
@@ -207,7 +207,7 @@ public:
                 m_mainwindow->keysActive(key->keycode, key->state, event->type == KeyPress);
         }
         
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
         return true; //x11EventFilter is not supported in Qt5, so just return true
 #else
         return QApplication::x11EventFilter(event);
@@ -235,7 +235,7 @@ public:
         OSStatus oss = InstallApplicationEventHandler(&mac_callback, 2, hkEvents, nullptr, nullptr);
         Q_ASSERT(oss == 0);
 
-#if QT_VERSION >= 0x050400
+#if QT_VERSION >= QT_VERSION_CHECK(5,4,0)
         QApplication::setQuitOnLastWindowClosed(false);
 #endif
     }
@@ -260,7 +260,7 @@ public:
             }
         }
 
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
         return true; //Just return what ever...
 #else
         return QApplication::macEventFilter(caller, event);
@@ -281,7 +281,7 @@ protected:
             if(m_mainwindow && tturi.size())
                 m_mainwindow->parseArgs(QStringList() << "abc" << tturi);
         }
-#if QT_VERSION >= 0x050400
+#if QT_VERSION >= QT_VERSION_CHECK(5,4,0)
         // This handles press in Dock on macOS
         if (e->type() == QEvent::ApplicationActivated)
         {
@@ -295,7 +295,7 @@ protected:
 
 OSStatus mac_callback(EventHandlerCallRef nextHandler, EventRef event, void*)
 {
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     MyQApplication* myApp = dynamic_cast<MyQApplication*>(qApp);
     Q_ASSERT(myApp);
     myApp->macEventFilter(nextHandler, event);
