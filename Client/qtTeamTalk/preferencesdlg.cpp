@@ -1592,6 +1592,7 @@ void PreferencesDlg::slotUpdateTTSTab()
 #if defined(Q_OS_DARWIN)
         ui.ttsSpeakListsChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool());
 #endif
+#endif /* QT_TEXTTOSPEECH_LIB */
     }
     break;
     case TTSENGINE_NOTIFY :
