@@ -41,7 +41,7 @@ public:
     hotkey_t m_hotkey;
 
 protected:
-#if defined(Q_OS_WIN32) && QT_VERSION >= 0x050000
+#if defined(Q_OS_WIN32) && QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     bool nativeEvent(const QByteArray& eventType, void* message,
                      long* result);
 #elif defined(Q_OS_WIN32)

@@ -41,12 +41,15 @@
 #include <QTranslator>
 #include <QVariant>
 #include <QKeyEvent>
+#if defined(QT_TEXTTOSPEECH_LIB)
+#include <QTextToSpeech>
+#endif
 #include "stdint.h"
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 extern QTranslator* ttTranslator;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if defined(QT_TEXTTOSPEECH_LIB)
 extern QTextToSpeech* ttSpeech;
 #endif
 
@@ -631,7 +634,7 @@ void PreferencesDlg::slotTabChange(int index)
         TTSEvents events = ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong();
         m_ttsmodel->setTTSEvents(events);
         ui.ttsengineComboBox->addItem(tr("None"), TTSENGINE_NONE);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if defined(QT_TEXTTOSPEECH_LIB)
         ui.ttsengineComboBox->addItem(tr("Default"), TTSENGINE_QT);
 #endif
 #if defined(Q_OS_WIN)
@@ -1144,7 +1147,7 @@ void PreferencesDlg::slotEnablePushToTalk(bool checked)
     ui.setupkeysButton->setEnabled(checked);
     ui.keycompEdit->setEnabled(checked);
     ui.pttlockChkBox->setEnabled(checked);
-#if defined(Q_OS_LINUX) && QT_VERSION >= 0x050000
+#if defined(Q_OS_LINUX) && QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     // push/release only supported on X11
     ui.pttlockChkBox->setEnabled(false);
     ui.pttlockChkBox->setChecked(checked);
@@ -1563,6 +1566,7 @@ void PreferencesDlg::slotUpdateTTSTab()
     {
     case TTSENGINE_QT :
     {
+#if defined(QT_TEXTTOSPEECH_LIB)
         ui.label_ttsvoice->show();
         ui.ttsVoiceComboBox->show();
         ui.label_ttsvoicerate->show();
@@ -1584,6 +1588,7 @@ void PreferencesDlg::slotUpdateTTSTab()
             ui.ttsVoiceComboBox->addItem(voice.name());
         }
         ui.ttsVoiceComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_VOICE).toInt());
+
 #if defined(Q_OS_DARWIN)
         ui.ttsSpeakListsChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool());
 #endif
