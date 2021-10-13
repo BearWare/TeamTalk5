@@ -425,6 +425,16 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotUsersAdvancedDesktopAllowed);
     connect(ui.actionAllowMediaFileTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedMediaFileAllowed);
+    connect(ui.actionAllowAllChannelTextMessages, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedChanMsgAllowed);
+    connect(ui.actionAllowAllVoiceTransmission, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedVoiceAllowed);
+    connect(ui.actionAllowAllVideoTransmission, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedVideoAllowed);
+    connect(ui.actionAllowAllDesktopTransmission, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedDesktopAllowed);
+    connect(ui.actionAllowAllMediaFileTransmission, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedMediaFileAllowed);
     /* End - Users menu */
 
     /* Begin - Channels menu */
@@ -3521,20 +3531,30 @@ void MainWindow::checkAppUpdate()
     networkMgr->get(request);
 }
 
+void MainWindow::toggleAllowStreamType(bool checked, int userid, int channelid, StreamType st)
+{
+    QMap<int,StreamTypes> transmitUsers;
+    ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
+    if (checked)
+        transmitUsers[userid] |= st;
+    else
+        transmitUsers[userid] &= ~st;
+    slotTransmitUsersChanged(channelid, transmitUsers);
+}
+
 void MainWindow::toggleAllowStreamType(bool checked, StreamType st)
 {
     int userid = ui.channelsWidget->selectedUser();
     int channelid = ui.channelsWidget->selectedChannel(true);
     if (userid > 0 && channelid > 0)
-    {
-        QMap<int,StreamTypes> transmitUsers;
-        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
-        if (checked)
-            transmitUsers[userid] |= st;
-        else
-            transmitUsers[userid] &= ~st;
-        slotTransmitUsersChanged(channelid, transmitUsers);
-    }
+        toggleAllowStreamType(checked, userid, channelid, st);
+}
+
+void MainWindow::toggleAllowStreamTypeForAll(bool checked, StreamType st)
+{
+    int channelid = ui.channelsWidget->selectedChannel(true);
+    if (channelid > 0)
+        toggleAllowStreamType(checked, TT_TRANSMITUSERS_FREEFORALL, channelid, st);
 }
 
 void MainWindow::slotClientNewInstance(bool /*checked=false*/)
@@ -4364,27 +4384,42 @@ void MainWindow::slotUsersAdvancedMoveUsers()
 
 void MainWindow::slotUsersAdvancedChanMsgAllowed(bool checked/*=false*/)
 {
-    toggleAllowStreamType(checked, STREAMTYPE_CHANNELMSG);
+    if (QObject::sender() == ui.actionAllowChannelTextMessages)
+        toggleAllowStreamType(checked, STREAMTYPE_CHANNELMSG);
+    else
+        toggleAllowStreamTypeForAll(checked, STREAMTYPE_CHANNELMSG);
 }
 
 void MainWindow::slotUsersAdvancedVoiceAllowed(bool checked/*=false*/)
 {
-    toggleAllowStreamType(checked, STREAMTYPE_VOICE);
+    if (QObject::sender() == ui.actionAllowVoiceTransmission)
+        toggleAllowStreamType(checked, STREAMTYPE_VOICE);
+    else
+        toggleAllowStreamTypeForAll(checked, STREAMTYPE_VOICE);
 }
 
 void MainWindow::slotUsersAdvancedVideoAllowed(bool checked/*=false*/)
 {
-    toggleAllowStreamType(checked, STREAMTYPE_VIDEOCAPTURE);
+    if (QObject::sender() == ui.actionAllowVideoTransmission)
+        toggleAllowStreamType(checked, STREAMTYPE_VIDEOCAPTURE);
+    else
+        toggleAllowStreamTypeForAll(checked, STREAMTYPE_VIDEOCAPTURE);
 }
 
 void MainWindow::slotUsersAdvancedDesktopAllowed(bool checked/*=false*/)
 {
-    toggleAllowStreamType(checked, STREAMTYPE_DESKTOP);
+    if (QObject::sender() == ui.actionAllowDesktopTransmission)
+        toggleAllowStreamType(checked, STREAMTYPE_DESKTOP);
+    else
+        toggleAllowStreamTypeForAll(checked, STREAMTYPE_DESKTOP);
 }
 
 void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
 {
-    toggleAllowStreamType(checked, STREAMTYPE_MEDIAFILE);
+    if (QObject::sender() == ui.actionAllowMediaFileTransmission)
+        toggleAllowStreamType(checked, STREAMTYPE_MEDIAFILE);
+    else
+        toggleAllowStreamTypeForAll(checked, STREAMTYPE_MEDIAFILE);
 }
 
 void MainWindow::slotUsersStoreAudioToDisk(bool/* checked*/)
@@ -5299,16 +5334,29 @@ void MainWindow::slotUpdateUI()
     ui.actionDeleteFile->setEnabled(filescount>0);
 
     //Users-menu items dependent on Channel
+    bool modchan = (userrights & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_MODIFY_CHANNELS;
     ui.actionAllowChannelTextMessages->setChecked(userCanChanMessage(userid, chan));
-    ui.actionAllowChannelTextMessages->setEnabled(userid > 0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
+    ui.actionAllowChannelTextMessages->setEnabled(userid > 0 && (me_op || modchan));
     ui.actionAllowVoiceTransmission->setChecked(userCanVoiceTx(userid, chan));
-    ui.actionAllowVoiceTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
+    ui.actionAllowVoiceTransmission->setEnabled(userid>0 && (me_op || modchan));
     ui.actionAllowVideoTransmission->setChecked(userCanVideoTx(userid, chan));
-    ui.actionAllowVideoTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
+    ui.actionAllowVideoTransmission->setEnabled(userid>0 && (me_op || modchan));
     ui.actionAllowDesktopTransmission->setChecked(userCanDesktopTx(userid, chan));
-    ui.actionAllowDesktopTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
+    ui.actionAllowDesktopTransmission->setEnabled(userid>0 && (me_op || modchan));
     ui.actionAllowMediaFileTransmission->setChecked(userCanMediaFileTx(userid, chan));
-    ui.actionAllowMediaFileTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
+    ui.actionAllowMediaFileTransmission->setEnabled(userid>0 && (me_op || modchan));
+
+    bool classroom = (chan.uChannelType & CHANNEL_CLASSROOM) == CHANNEL_CLASSROOM;
+    ui.actionAllowAllChannelTextMessages->setChecked(userCanChanMessage(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui.actionAllowAllChannelTextMessages->setEnabled(classroom && (me_op || modchan));
+    ui.actionAllowAllVoiceTransmission->setChecked(userCanVoiceTx(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui.actionAllowAllVoiceTransmission->setEnabled(classroom && (me_op || modchan));
+    ui.actionAllowAllVideoTransmission->setChecked(userCanVideoTx(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui.actionAllowAllVideoTransmission->setEnabled(classroom && (me_op || modchan));
+    ui.actionAllowAllDesktopTransmission->setChecked(userCanDesktopTx(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui.actionAllowAllDesktopTransmission->setEnabled(classroom && (me_op || modchan));
+    ui.actionAllowAllMediaFileTransmission->setChecked(userCanMediaFileTx(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui.actionAllowAllMediaFileTransmission->setEnabled(classroom && (me_op || modchan));
 
     //Server-menu items
     ui.actionUserAccounts->setEnabled(auth);
