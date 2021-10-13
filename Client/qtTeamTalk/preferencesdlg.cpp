@@ -1544,7 +1544,9 @@ void PreferencesDlg::slotEventVoiceActMeOff()
 
 void PreferencesDlg::slotUpdateTTSTab()
 {
-    if(ui.ttsengineComboBox->currentIndex() == 1)
+    switch (getCurrentItemData(ui.ttsengineComboBox).toUInt())
+    {
+    case TTSENGINE_QT :
     {
         delete ttSpeech;
         ttSpeech = new QTextToSpeech(this);
@@ -1568,8 +1570,9 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.forceSapiChkBox->setEnabled(false);
         ui.forceSapiChkBox->hide();
     }
+    break;
+    case TTSENGINE_NOTIFY :
 #if defined(Q_OS_LINUX)
-    else if(ui.ttsengineComboBox->currentIndex() == 2)
     {
         ui.ttsVoiceComboBox->setEnabled(false);
         ui.voiceRateSpinBox->setEnabled(false);
@@ -1578,8 +1581,10 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.notifTimestampSpinBox->show();
         ui.notifTimestampSpinBox->setValue(ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt());
     }
-#elif defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)
-    else if(ui.ttsengineComboBox->currentIndex() == 2)
+#endif
+    break;
+    case TTSENGINE_TOLK :
+#if defined(ENABLE_TOLK)
     {
         ui.forceSapiChkBox->setEnabled(true);
         ui.forceSapiChkBox->show();
@@ -1594,7 +1599,9 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.forceSapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
     }
 #endif
-    else
+    break;
+    case TTSENGINE_NONE :
+    default :
     {
         ui.ttsVoiceComboBox->setEnabled(false);
         ui.voiceRateSpinBox->setEnabled(false);
@@ -1607,6 +1614,9 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.notifTimestampSpinBox->hide();
         ui.forceSapiChkBox->hide();
     }
+    break;
+    }
+
 #if defined(Q_OS_DARWIN)
     ui.speakListsChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool());
 #else
