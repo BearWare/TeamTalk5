@@ -1879,12 +1879,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1203"/>
         <source>&amp;Transmit Control</source>
-        <translation type="unfinished"></translation>
+        <translation>传输控制(&amp;T)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1219"/>
         <source>Type Here</source>
-        <translation type="unfinished"></translation>
+        <translation>在此输入</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1492"/>
@@ -2124,22 +2124,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1872"/>
         <source>Allow All V&amp;oice Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>允许所有人传输语音(&amp;O)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1875"/>
         <source>Ctrl+Alt+Shift+Q</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+Q</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1883"/>
         <source>Allow All Video Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>允许所有人传输视频</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1886"/>
         <source>Ctrl+Alt+Shift+W</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+W</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1891"/>
@@ -2214,12 +2214,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1973"/>
         <source>Allow All Desktop Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>允许所有人传输桌面</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1976"/>
         <source>Ctrl+Alt+Shift+E</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+E</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1988"/>
@@ -2304,12 +2304,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2105"/>
         <source>Allow All Media File Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>允许所有人传输媒体文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2108"/>
         <source>Ctrl+Alt+Shift+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+R</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2116"/>
@@ -2394,12 +2394,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2202"/>
         <source>Allow All Channel Text Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>允许所有人发送频道消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2205"/>
         <source>Ctrl+Alt+Shift+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+T</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="840"/>
@@ -5029,7 +5029,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2164"/>
         <source>Speak selected item in lists</source>
-        <translation type="unfinished"></translation>
+        <translation>朗读列表中所选项目</translation>
     </message>
 </context>
 <context>
