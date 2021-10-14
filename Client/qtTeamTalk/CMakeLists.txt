@@ -25,6 +25,20 @@ if (MSVC)
   if (QT_BUILD_QTFRAMEWORK)
     add_subdirectory(qt)
   endif()
+
+  option (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED "Build TeamTalk Qt-based clients as Multi-Threaded (/MT) instead of Multi-Threaded DLL (/MD)" ON)
+  if (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED)
+    foreach (flag_var
+        CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
+        CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
+        CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+        CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+      if (${flag_var} MATCHES "/MD")
+        STRING(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+      endif()
+    endforeach(flag_var)
+  endif()
+
 endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -64,7 +78,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     customvideofmtdlg.h license.h bearwarelogindlg.h
     audiopreprocessordlg.h ttseventsmodel.h
     statusbardlg.h statusbareventsmodel.h mycombobox.h
-    
+
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
     channelstree.cpp channeldlg.cpp userinfodlg.cpp
     bannedusersdlg.cpp useraccountsdlg.cpp videogridwidget.cpp
@@ -80,7 +94,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     generatettfiledlg.cpp customvideofmtdlg.cpp
     bearwarelogindlg.cpp audiopreprocessordlg.cpp ttseventsmodel.cpp
     statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp
-    
+
     mainwindow.ui channel.ui preferences.ui
     serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui
     serverproperties.ui uservideo.ui keycomp.ui textmessage.ui
@@ -125,20 +139,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
   option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE "Build Qt Client for TeamTalk 5 Standard Edition" ON)
   option (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE "Build Qt Client for TeamTalk 5 Professional Edition" ON)
 
-  # Try locating Tolk screen-reader abstraction layer
-  if (${CMAKE_GENERATOR_PLATFORM} MATCHES "x64")
-    find_library (TOLK_LIBRARY NAMES Tolk PATHS tolk/bin/x64)
-    message ("Looking for Tolk in tolk/bin/x64")
-  else()
-    find_library (TOLK_LIBRARY NAMES Tolk PATHS tolk/bin/win32)
-    message ("Looking for Tolk in tolk/bin/win32")
-  endif()
-
-  if (NOT TOLK_LIBRARY)
-    message ("Cannot find Tolk shared library in tolk/bin/$(PlatformName). Building without Tolk.")
-  else()
-    message("Tolk lib: ${TOLK_LIBRARY}")
-    list (APPEND TEAMTALK_LINK_FLAGS ${TOLK_LIBRARY})
+  if (BUILD_TEAMTALK_CLIENT_TOLK)
+    list (APPEND TEAMTALK_LINK_FLAGS Tolk)
   endif()
 
   if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE)
