@@ -30,14 +30,16 @@
 #include <QDialog>
 #include <QStack>
 #include <QProcess>
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QTextToSpeech>
+#if defined(QT_MULTIMEDIA_LIB)
 #include <QSound>
+#endif
+#if defined(QT_TEXTTOSPEECH_LIB)
+#include <QTextToSpeech>
 #endif
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if defined(QT_TEXTTOSPEECH_LIB)
 extern QTextToSpeech* ttSpeech;
 #endif
 
@@ -1022,7 +1024,7 @@ void playSoundEvent(SoundEvent event)
         break;
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if defined(QT_MULTIMEDIA_LIB)
     if(filename.size())
         QSound::play(filename);
 #endif
@@ -1062,23 +1064,21 @@ void addTextToSpeechMessage(const QString& msg)
 {
     switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
     {
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     case TTSENGINE_QT:
+#if QT_TEXTTOSPEECH_LIB
         Q_ASSERT(ttSpeech);
         ttSpeech->say(msg);
-        break;
 #endif
-#if defined(ENABLE_TOLK)
+        break;
     case TTSENGINE_TOLK :
-    {
+#if defined(ENABLE_TOLK)
         Tolk_PreferSAPI(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
         Tolk_Output(_W(msg));
-        break;
-    }
 #endif
-#if defined(Q_OS_LINUX)
+        break;
     case TTSENGINE_NOTIFY :
     {
+#if defined(Q_OS_LINUX)
         int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
         QString noquote = msg;
         noquote.replace('"', ' ');
@@ -1089,9 +1089,9 @@ void addTextToSpeechMessage(const QString& msg)
                          .arg(APPNAME_SHORT)
                          .arg(APPNAME_SHORT)
                          .arg(noquote));
+#endif
         break;
     }
-#endif
     }
 }
 

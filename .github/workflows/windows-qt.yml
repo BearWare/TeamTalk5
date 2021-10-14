@@ -13,20 +13,30 @@ jobs:
           - name: VS2019Release32
             vmimage: windows-2019
             cmakeplatform: Win32
+            arch: win32
           - name: VS2019Release64
             vmimage: windows-2019
             cmakeplatform: x64
+            arch: x64
     runs-on: ${{ matrix.vmimage }}
     name: ${{ matrix.name }}
     steps:
     - uses: actions/checkout@v2
+
+    # This makes 'nmake' available
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: ${{ matrix.arch }}
+
     - name: Init TeamTalk Client submodules
       working-directory: ${{runner.workspace}}/TeamTalk5
+      shell: cmd
       run: |
-        git submodule update --init --recursive Client
+        git submodule update --init --recursive
 
     - name: Generate Qt Framework Build
       working-directory: ${{runner.workspace}}
+      shell: cmd
       run: >-
         cmake -S TeamTalk5 -B qtbuild -A ${{ matrix.cmakeplatform }}
         -DQT_BUILD_QTFRAMEWORK=ON
@@ -37,20 +47,12 @@ jobs:
       working-directory: ${{runner.workspace}}
       run: |
         cmake --build qtbuild --target Qt-src --parallel 8
+        echo ${{runner.workspace}}\install\bin>> %GITHUB_PATH%
         rmdir /S /Q qtbuild
-
-    - name: Build TeamTalk Qt Client using QMake
-      shell: cmd
-      working-directory: ${{runner.workspace}}
-      run: |
-        set PATH=${{runner.workspace}}\install\bin;%PATH%
-        cd TeamTalk5\Client\qtTeamTalk
-        qmake CONFIG+=release teamtalk5.pro
-        set CL=/MP
-        nmake
 
     - name: Generate CMake Projects
       working-directory: ${{runner.workspace}}
+      shell: cmd
       run: >-
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
         -DBUILD_TEAMTALK_CORE=ON
@@ -63,8 +65,18 @@ jobs:
 
     - name: Build CMake Projects
       working-directory: ${{runner.workspace}}
+      shell: cmd
       run: |
         cmake --build output --parallel 8 --config Release
+
+    - name: Build TeamTalk Qt Client using QMake
+      shell: cmd
+      working-directory: ${{runner.workspace}}
+      run: |
+        cd TeamTalk5\Client\qtTeamTalk
+        qmake CONFIG+=release teamtalk5.pro
+        set CL=/MP
+        nmake
 
     - name: Create artifacts
       shell: cmd
@@ -82,5 +94,5 @@ jobs:
 
     - uses: actions/upload-artifact@v2
       with:
-        name: windows-binaries
+        name: windows-binaries-${{ matrix.arch }}
         path: ${{runner.workspace}}/TeamTalkWindows

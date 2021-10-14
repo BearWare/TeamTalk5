@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include "catch2/catch.hpp"
 
 #include <ace/OS.h>
 
@@ -18,6 +18,7 @@
 #include <codec/WaveFile.h>
 #include <ace/FILE_Connector.h>
 #include <iostream>
+#include <sstream>
 
 #if defined(ENABLE_MEDIAFOUNDATION)
 

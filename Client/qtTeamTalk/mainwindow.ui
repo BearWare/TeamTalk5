@@ -1108,7 +1108,7 @@
      <x>0</x>
      <y>0</y>
      <width>637</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuClient">
@@ -1173,11 +1173,6 @@
      <addaction name="actionStoreForMove"/>
      <addaction name="actionMoveUser"/>
      <addaction name="separator"/>
-     <addaction name="actionAllowChannelTextMessages"/>
-     <addaction name="actionAllowVoiceTransmission"/>
-     <addaction name="actionAllowVideoTransmission"/>
-     <addaction name="actionAllowDesktopTransmission"/>
-     <addaction name="actionAllowMediaFileTransmission"/>
     </widget>
     <widget class="QMenu" name="menuMute">
      <property name="title">
@@ -1203,6 +1198,27 @@
      <addaction name="actionViewUserInformation"/>
      <addaction name="actionSpeakUserInformation"/>
     </widget>
+    <widget class="QMenu" name="menu_Transmit_Control">
+     <property name="title">
+      <string>&amp;Transmit Control</string>
+     </property>
+     <addaction name="actionAllowChannelTextMessages"/>
+     <addaction name="actionAllowVoiceTransmission"/>
+     <addaction name="actionAllowVideoTransmission"/>
+     <addaction name="actionAllowDesktopTransmission"/>
+     <addaction name="actionAllowMediaFileTransmission"/>
+     <addaction name="separator"/>
+     <addaction name="actionAllowAllChannelTextMessages"/>
+     <addaction name="actionAllowAllVoiceTransmission"/>
+     <addaction name="actionAllowAllVideoTransmission"/>
+     <addaction name="actionAllowAllDesktopTransmission"/>
+     <addaction name="actionAllowAllMediaFileTransmission"/>
+    </widget>
+    <widget class="QMenu" name="menuType_Here">
+     <property name="title">
+      <string>Type Here</string>
+     </property>
+    </widget>
     <addaction name="menu_Info"/>
     <addaction name="actionMessages"/>
     <addaction name="actionDesktopAccessAllow"/>
@@ -1211,9 +1227,11 @@
     <addaction name="menuMute"/>
     <addaction name="menu_Kick"/>
     <addaction name="menuSubscriptions"/>
+    <addaction name="menu_Transmit_Control"/>
     <addaction name="menu_Advanced"/>
     <addaction name="separator"/>
     <addaction name="actionMuteAll"/>
+    <addaction name="menuType_Here"/>
    </widget>
    <widget class="QMenu" name="menuChannels">
     <property name="title">
@@ -1846,6 +1864,28 @@
     <string>Ctrl+Alt+W</string>
    </property>
   </action>
+  <action name="actionAllowAllVoiceTransmission">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Allow All V&amp;oice Transmission</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+Shift+Q</string>
+   </property>
+  </action>
+  <action name="actionAllowAllVideoTransmission">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Allow All Video Transmission</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+Shift+W</string>
+   </property>
+  </action>
   <action name="actionServerStatistics">
    <property name="text">
     <string>Server S&amp;tatistics</string>
@@ -1923,6 +1963,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+E</string>
+   </property>
+  </action>
+  <action name="actionAllowAllDesktopTransmission">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Allow All Desktop Transmission</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+Shift+E</string>
    </property>
   </action>
   <action name="actionDesktop">
@@ -2046,6 +2097,17 @@
     <string>Ctrl+Alt+R</string>
    </property>
   </action>
+  <action name="actionAllowAllMediaFileTransmission">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Allow All Media File Transmission</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+Shift+R</string>
+   </property>
+  </action>
   <action name="actionMuteVoice">
    <property name="checkable">
     <bool>true</bool>
@@ -2130,6 +2192,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+T</string>
+   </property>
+  </action>
+  <action name="actionAllowAllChannelTextMessages">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Allow All Channel Text Messages</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+Shift+T</string>
    </property>
   </action>
  </widget>

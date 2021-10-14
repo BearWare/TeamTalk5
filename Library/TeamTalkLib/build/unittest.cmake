@@ -14,7 +14,7 @@ if (CATCH_UNITTEST)
     list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchWin.cpp)
   endif()
   
-  if (WEBRTC)
+  if (FEATURE_WEBRTC)
     list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchWebRTC.cpp)
   endif()
 

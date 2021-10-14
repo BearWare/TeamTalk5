@@ -21,7 +21,7 @@
  *
  */
 
-#include "catch.hpp"
+#include "catch2/catch.hpp"
 
 #include <ace/ACE.h>
 #include <ace/OS.h>
@@ -3722,14 +3722,6 @@ TEST_CASE("OPUSFileEncDec")
 
 TEST_CASE("OPUSFileSeek")
 {
-#if defined(WIN32)
-    if (GITHUBSKIP && sizeof(void*) == 4)
-    {
-        std::cout << "Skipping \"OPUSFileSeek\"... Does not work on 32-bit Windows" << std::endl;
-        return;
-    }
-#endif
-
     const auto SAMPLERATE = 12000;
     const auto FRAMESIZE_SEC = .04;
     const auto CHANNELS = 2;
