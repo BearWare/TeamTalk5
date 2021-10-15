@@ -39,6 +39,27 @@ if (MSVC)
     endforeach(flag_var)
   endif()
 
+  # QMake must have generated .vcxproj file prior
+  option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_WITH_QMAKE "Build TeamTalk Qt client example using QMake" OFF)
+
+  if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_WITH_QMAKE)
+    include_external_msproject (QtTeamTalk5 ${CMAKE_CURRENT_LIST_DIR}/TeamTalk5.vcxproj)
+
+    if (BUILD_TEAMTALK_DLL)
+      add_dependencies (QtTeamTalk5 TeamTalk5DLL)
+    endif()
+  endif()
+
+  option (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE_WITH_QMAKE "Build TeamTalk Qt client example using QMake" OFF)
+
+  if (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE_WITH_QMAKE)
+    include_external_msproject (QtTeamTalk5Pro ${CMAKE_CURRENT_LIST_DIR}/TeamTalk5Pro.vcxproj)
+
+    if (BUILD_TEAMTALK_PRODLL)
+      add_dependencies (QtTeamTalk5Pro TeamTalk5ProDLL)
+    endif()
+  endif()
+
 endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
