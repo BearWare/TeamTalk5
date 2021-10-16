@@ -186,6 +186,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
       set_target_properties(${TEAMTALK_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
     endif()
     set_output_dir(${TEAMTALK_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
+    
+    install (TARGETS ${TEAMTALK_TARGET} DESTINATION Client/qtTeamTalk)
   endif()
 
   if (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE)
@@ -210,6 +212,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
       set_target_properties(${TEAMTALKPRO_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
     endif()
     set_output_dir(${TEAMTALKPRO_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
+
+    install (TARGETS ${TEAMTALKPRO_TARGET} DESTINATION Client/qtTeamTalk)
   endif()
 
 endif()
