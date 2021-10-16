@@ -44,7 +44,7 @@ jobs:
       shell: bash
       run: |
         source env.sh
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCATCH_UNITTEST=ON -DCATCH_UNITTEST_PERF=OFF" -C Build ubuntu64
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCATCH_UNITTEST=ON -DCATCH_UNITTEST_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu64
 
     - name: Java Server API Test (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
@@ -136,6 +136,16 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: make dox
 
+    - name: Run CMake Install Target
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-ubuntu64
+      run: cmake --build . --target install
+
+    - name: Upload TeamTalk Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: teamtalksdk-ubuntu18
+        path: ${{runner.workspace}}/install
+        
     - name: Make Ubuntu Archive
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
@@ -143,7 +153,8 @@ jobs:
         cd Setup/Portable
         make ubuntu18
 
-    - uses: actions/upload-artifact@v2
+    - name: Upload TeamTalk Portable artifact
+      uses: actions/upload-artifact@v2
       with:
-        name: ubuntu18-binaries
+        name: teamtalk-ubuntu18
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalk-*
