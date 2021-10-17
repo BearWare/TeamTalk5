@@ -186,8 +186,19 @@ if (Qt5_FOUND OR Qt6_FOUND)
       set_target_properties(${TEAMTALK_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
     endif()
     set_output_dir(${TEAMTALK_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
-    
+
     install (TARGETS ${TEAMTALK_TARGET} DESTINATION Client/qtTeamTalk)
+
+    find_package(Qt5LinguistTools)
+    if (Qt5LinguistTools_FOUND)
+      file (GLOB TS_FILES ${CMAKE_CURRENT_LIST_DIR}/languages/*.ts)
+      set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_LIST_DIR}/languages)
+      qt5_add_translation (QM_FILES ${TS_FILES})
+      add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
+      install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
+      add_dependencies(${TEAMTALK_TARGET} QtTeamTalk5-Translations)
+    endif()
+    
   endif()
 
   if (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE)
