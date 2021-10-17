@@ -27,6 +27,12 @@ if (MSVC)
     IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/Tolk.lib
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/Tolk.lib)
 
+  if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+    set (TOLK_DLL_FILES ${INSTALL_DIR}/lib/nvdaControllerClient64.dll ${INSTALL_DIR}/lib/SAAPI64.dll ${INSTALL_DIR}/lib/Tolk.dll)
+  else()
+    set (TOLK_DLL_FILES ${INSTALL_DIR}/lib/dolapi32.dll ${INSTALL_DIR}/lib/nvdaControllerClient32.dll ${INSTALL_DIR}/lib/SAAPI32.dll ${INSTALL_DIR}/lib/Tolk.dll)
+  endif()
+  
   add_subdirectory (TeamTalkClassic)
   add_subdirectory (TeamTalkApp.NET)
   add_subdirectory (ttserverlog.NET)

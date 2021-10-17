@@ -71,6 +71,7 @@ if (MSVC)
 
     if (BUILD_TEAMTALK_CLIENT_TOLK)
       target_compile_options (TeamTalk5Classic PUBLIC -DENABLE_TOLK ${TTCLASSIC_COMPILE_FLAGS})
+      install (FILES ${TOLK_DLL_FILES} DESTINATION Client/TeamTalkClassic)
       if (BUILD_TEAMTALK_DLL)
         target_include_directories (TeamTalk5Classic PUBLIC ./ tinyxml)
         target_link_libraries (TeamTalk5Classic TeamTalk5DLL Tolk)

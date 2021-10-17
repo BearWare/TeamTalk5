@@ -162,6 +162,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
   if (BUILD_TEAMTALK_CLIENT_TOLK)
     list (APPEND TEAMTALK_LINK_FLAGS Tolk)
+    install (FILES ${TOLK_DLL_FILES} DESTINATION Client/qtTeamTalk)
   endif()
 
   if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE)
@@ -182,6 +183,12 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     target_include_directories (${TEAMTALK_TARGET} PUBLIC ../../Library/TeamTalk_DLL ./)
 
+    if (BUILD_TEAMTALK_CLIENT_TOLK)
+      target_compile_options(${TEAMTALK_TARGET} PUBLIC -DENABLE_TOLK -D_CRT_SECURE_NO_WARNINGS)
+    elseif (MSVC)
+      target_compile_options(${TEAMTALK_TARGET} PUBLIC -D_CRT_SECURE_NO_WARNINGS)
+    endif()
+
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       set_target_properties(${TEAMTALK_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
     endif()
@@ -198,7 +205,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
       install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
       add_dependencies(${TEAMTALK_TARGET} QtTeamTalk5-Translations)
     endif()
-    
+
   endif()
 
   if (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE)
@@ -218,6 +225,12 @@ if (Qt5_FOUND OR Qt6_FOUND)
     endif()
 
     target_include_directories (${TEAMTALKPRO_TARGET} PUBLIC ../../Library/TeamTalk_DLL ./)
+
+    if (BUILD_TEAMTALK_CLIENT_TOLK)
+      target_compile_options(${TEAMTALKPRO_TARGET} PUBLIC -DENABLE_TOLK -D_CRT_SECURE_NO_WARNINGS)
+    elseif (MSVC)
+      target_compile_options(${TEAMTALKPRO_TARGET} PUBLIC -D_CRT_SECURE_NO_WARNINGS)
+    endif()
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       set_target_properties(${TEAMTALKPRO_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
