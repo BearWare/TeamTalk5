@@ -39,22 +39,22 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 ;x86
-Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\release\TeamTalk5.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\TeamTalk5.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: not Is64BitInstallMode;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\TeamTalkClassic\TeamTalk5Classic.exe"; DestDir: "{app}"; Components: classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Library\TeamTalk_DLL\TeamTalk5.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
-Source: "z:\distributions\tt5dist\accessibility\tolk\x86\dolapi32.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
-Source: "z:\distributions\tt5dist\accessibility\tolk\x86\nvdaControllerClient32.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
-Source: "z:\distributions\tt5dist\accessibility\tolk\x86\SAAPI32.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
-Source: "z:\distributions\tt5dist\accessibility\tolk\x86\Tolk.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Library\TeamTalk_DLL\dolapi32.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Library\TeamTalk_DLL\nvdaControllerClient32.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Library\TeamTalk_DLL\SAAPI32.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Library\TeamTalk_DLL\Tolk.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Server\tt5svc.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: not Is64BitInstallMode;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Server\tt5srv.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: not Is64BitInstallMode;
 ;x64
-Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Client\qtTeamTalk\release\TeamTalk5.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: Is64BitInstallMode;
+Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Client\qtTeamTalk\TeamTalk5.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: Is64BitInstallMode;
 Source: "c:\tt5dist\TeamTalk5_x64\TeamTalk5\Client\TeamTalkClassic\TeamTalk5Classic.exe"; DestDir: "{app}"; Components: classic; Flags: ignoreversion; Check: Is64BitInstallMode;
 Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Library\TeamTalk_DLL\TeamTalk5.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "z:\distributions\tt5dist\accessibility\tolk\x64\nvdaControllerClient64.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "z:\distributions\tt5dist\accessibility\tolk\x64\SAAPI64.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "z:\distributions\tt5dist\accessibility\tolk\x64\Tolk.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
+Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Library\TeamTalk_DLL\nvdaControllerClient64.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
+Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Library\TeamTalk_DLL\SAAPI64.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
+Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Library\TeamTalk_DLL\Tolk.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
 Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Server\tt5svc.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: Is64BitInstallMode;
 Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Server\tt5srv.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: Is64BitInstallMode;
 
