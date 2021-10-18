@@ -71,6 +71,8 @@ if (JNI_FOUND OR ${CMAKE_SYSTEM_NAME} MATCHES "Android")
         set_output_dir(TeamTalk5-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs")
       endif()
 
+      install (TARGETS TeamTalk5-jni DESTINATION Library/TeamTalkJNI)
+      
     endif()
 
     if (BUILD_TEAMTALK_PROJNI)
@@ -98,6 +100,7 @@ if (JNI_FOUND OR ${CMAKE_SYSTEM_NAME} MATCHES "Android")
         set_output_dir(TeamTalk5Pro-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs")
       endif()
 
+      install (TARGETS TeamTalk5Pro-jni DESTINATION Library/TeamTalkJNI)
     endif()
 
 else()
@@ -206,6 +209,7 @@ if (Java_FOUND)
       SOURCES ${JAVA_SOURCES} src/dk/bearware/TeamTalk5.java
       OUTPUT_NAME TeamTalk5
       OUTPUT_DIR libs)
+    install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5.jar DESTINATION Library/TeamTalkJNI/libs)
   endif()
 
   if (BUILD_TEAMTALK_PROJAR)
@@ -213,6 +217,7 @@ if (Java_FOUND)
       SOURCES ${JAVA_SOURCES} src/dk/bearware/TeamTalk5Pro.java src/dk/bearware/TeamTalk5Srv.java src/dk/bearware/TeamTalkSrv.java
       OUTPUT_NAME TeamTalk5Pro
       OUTPUT_DIR libs)
+    install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5Pro.jar DESTINATION Library/TeamTalkJNI/libs)
   endif()
 
   # JUnit tests

@@ -48,6 +48,7 @@ jobs:
         -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_LIBVPX=OFF
         -DBUILD_TEAMTALK_CLIENT_DOTNET_EXAMPLE=OFF
+        -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.dotnetarch }}
 
     - name: Build CMake Projects
       working-directory: ${{runner.workspace}}
@@ -136,3 +137,15 @@ jobs:
       shell: cmd
       run: |
         tt5prosvc.exe -u
+
+    - name: Install CMake Projects
+      working-directory: ${{runner.workspace}}
+      shell: cmd
+      run: |
+        cmake --build output --parallel 8 --target install
+
+    - name: Upload Binary Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: teamtalksdk-windows-${{ matrix.dotnetarch }}
+        path: ${{runner.workspace}}/install-${{ matrix.dotnetarch }}

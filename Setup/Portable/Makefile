@@ -29,7 +29,7 @@ win32:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	$(eval SRVNAME=$(TEAMTALK_ROOT)/Server/tt5srv.exe)
 	$(eval SVCNAME=$(TEAMTALK_ROOT)/Server/tt5svc.exe)
-	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/qtTeamTalk/TeamTalk.exe)
+	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/qtTeamTalk/TeamTalk5.exe)
 	$(eval CLIENTDLL=$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/TeamTalk5.dll)
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
@@ -44,7 +44,7 @@ win64:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	$(eval SRVNAME=$(TEAMTALK_ROOT)/Server/tt5srv.exe)
 	$(eval SVCNAME=$(TEAMTALK_ROOT)/Server/tt5svc.exe)
-	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/qtTeamTalk/TeamTalk.exe)
+	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/qtTeamTalk/TeamTalk5.exe)
 	$(eval CLIENTDLL=$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/TeamTalk5.dll)
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
@@ -70,7 +70,7 @@ portable:
 	cp -r $(TEAMTALK_ROOT)/Client/TeamTalkClassic/lng_classic $(OUTDIR)/lng_classic
 	cp -r $(OUTPUT_DEST)/accessibility/tolk/x86/* $(OUTDIR)/
 	# Copy Qt client
-	cp $(TEAMTALK_ROOT)/Client/qtTeamTalk/TeamTalk.exe $(OUTDIR)/
+	cp $(TEAMTALK_ROOT)/Client/qtTeamTalk/TeamTalk5.exe $(OUTDIR)/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/TeamTalk5.ini.default
 	mkdir -p $(OUTDIR)/languages
 	cp $(TEAMTALK_ROOT)/Client/qtTeamTalk/languages/*.qm $(OUTDIR)/languages/
@@ -100,7 +100,7 @@ rasp:
 linux:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	$(eval SRVNAME=$(TEAMTALK_ROOT)/Server/tt5srv)
-	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/qtTeamTalk/teamtalk)
+	$(eval CLIENTEXE=$(TEAMTALK_ROOT)/Client/qtTeamTalk/teamtalk5)
 	$(eval CLIENTDLL=$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5.so)
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
@@ -235,7 +235,6 @@ debclient:
 	chmod +x $(OUTDIR)/client/run.sh
 
 deblang:
-	lrelease $(SRCDIR)/Client/qtTeamTalk/teamtalk5.pro
 	mkdir -p $(OUTDIR)/client/languages
 	cp $(SRCDIR)/Client/qtTeamTalk/languages/*.qm $(OUTDIR)/client/languages
 

@@ -36,8 +36,19 @@ jobs:
 
     - name: Build TeamTalk Library
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }}" CMAKE_GENERATOR="Unix Makefiles" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
+      run: |
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" CMAKE_GENERATOR="Unix Makefiles" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
 
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: make dox
+
+    - name: Run CMake Install Target
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-${{ matrix.cmakearch }}
+      run: cmake --build . --target install
+
+    - name: Upload TeamTalk Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: teamtalksdk-ios-${{ matrix.cmakearch }}
+        path: ${{runner.workspace}}/install-${{ matrix.cmakearch }}

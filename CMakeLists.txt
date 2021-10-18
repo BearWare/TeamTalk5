@@ -46,4 +46,3 @@ if (BUILD_TEAMTALK_SERVERS)
     add_subdirectory (Server/TeamTalkServer.NET)
   endif()
 endif()
-
