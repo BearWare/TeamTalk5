@@ -161,7 +161,7 @@ teamtalk-jar:
 depend-ubuntu18:
 	# TeamTalk 5 dependencies
 	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
-                    libqt5texttospeech5-dev qttools5-dev-tools doxygen \
+                    libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
                     libasound2-dev wget python
