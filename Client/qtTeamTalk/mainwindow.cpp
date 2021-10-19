@@ -6497,7 +6497,32 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
                     addStatusMsg(event_d, tr("New version available: %1\r\nYou can download it on the page below:\r\n%2").arg(version).arg(downloadurl));
             }
         }
-        
+
+        if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_BETA, true).toBool())
+        {
+            QString version = newBetaVersionAvailable(doc);
+            if (version.size())
+            {
+                QString downloadurl = downloadBetaUpdateURL(doc);
+                if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_DLG, SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT).toBool())
+                {
+                    QMessageBox answer;
+                    answer.setText(tr("A new beta version of %1 is available: %2. Do you wish to open the download page now?").arg(APPNAME_SHORT).arg(version));
+                    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+                    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+                    Q_UNUSED(NoButton);
+                    answer.setIcon(QMessageBox::Question);
+                    answer.setWindowTitle(tr("New beta version available"));
+                    answer.exec();
+
+                    if(answer.clickedButton() == YesButton)
+                        QDesktopServices::openUrl(downloadurl);
+                }
+                else
+                    addStatusMsg(event_d, tr("New beta version available: %1\r\nYou can download it on the page below:\r\n%2").arg(version).arg(downloadurl));
+            }
+        }
+
         BearWareLoginDlg::registerUrl = getBearWareRegistrationUrl(doc);
     }
 

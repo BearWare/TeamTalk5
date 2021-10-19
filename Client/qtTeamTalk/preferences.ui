@@ -651,6 +651,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="betaUpdatesChkBox">
+                <property name="text">
+                 <string>Also check for beta versions</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QCheckBox" name="updatesDlgChkBox">
                 <property name="text">
                  <string>Show new version available in dialog box</string>
