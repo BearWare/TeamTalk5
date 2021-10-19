@@ -198,16 +198,6 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     install (TARGETS ${TEAMTALK_TARGET} DESTINATION Client/qtTeamTalk)
 
-    find_package(Qt5LinguistTools)
-    if (Qt5LinguistTools_FOUND)
-      file (GLOB TS_FILES ${CMAKE_CURRENT_LIST_DIR}/languages/*.ts)
-      set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_LIST_DIR}/languages)
-      qt5_add_translation (QM_FILES ${TS_FILES})
-      add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
-      install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
-      add_dependencies(${TEAMTALK_TARGET} QtTeamTalk5-Translations)
-    endif()
-
   endif()
 
   if (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE)
@@ -243,5 +233,21 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     install (TARGETS ${TEAMTALKPRO_TARGET} DESTINATION Client/qtTeamTalk)
   endif()
+
+  find_package(Qt5LinguistTools)
+  if (Qt5LinguistTools_FOUND)
+    file (GLOB TS_FILES ${CMAKE_CURRENT_LIST_DIR}/languages/*.ts)
+    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_LIST_DIR}/languages)
+    qt5_add_translation (QM_FILES ${TS_FILES})
+    add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
+    install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
+    if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE)
+      add_dependencies(${TEAMTALK_TARGET} QtTeamTalk5-Translations)
+    endif()
+    if (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE)
+      add_dependencies(${TEAMTALKPRO_TARGET} QtTeamTalk5-Translations)
+    endif()
+  endif()
+
 
 endif()
