@@ -26,7 +26,8 @@
 
 #define COMPANYNAME         "BearWare.dk"
 #define APPVERSION_SHORT    "5.8.2"
-#define APPVERSION          TEAMTALK_VERSION " - Unreleased"
+#define APPVERSION_POSTFIX  " - Unreleased"
+#define APPVERSION          TEAMTALK_VERSION APPVERSION_POSTFIX
 
 #define APPICON             QString::fromUtf8(":/images/images/teamtalk.png")
 #define APPTRAYICON         QString::fromUtf8(":/images/images/teamtalky.png")
@@ -70,7 +71,7 @@
 #endif
 
 #define URL_FREESERVER      ("http://www.bearware.dk/teamtalk/tt5servers.php?client=" APPNAME_SHORT "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE)
-#define URL_APPUPDATE       ("http://www.bearware.dk/teamtalk/tt5update.php?client=" APPNAME_SHORT "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE)
+#define URL_APPUPDATE       QString("http://www.bearware.dk/teamtalk/tt5update.php?client=" APPNAME_SHORT "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE "&beta=%1").arg(QString(APPVERSION_POSTFIX).isEmpty() ? "0" : "1")
 
 #define TTFILE_EXT          ".tt"
 #define TTFILE_ROOT         "teamtalk"
