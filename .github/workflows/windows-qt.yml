@@ -40,14 +40,15 @@ jobs:
       run: >-
         cmake -S TeamTalk5 -B qtbuild -A ${{ matrix.cmakeplatform }}
         -DQT_BUILD_QTFRAMEWORK=ON
-        -DQT_INSTALL_PREFIX=${{runner.workspace}}/install
+        -DQT_INSTALL_PREFIX=${{runner.workspace}}/install/Qt
 
     - name: Build Qt Framework using CMake
       shell: cmd
       working-directory: ${{runner.workspace}}
       run: |
         cmake --build qtbuild --target Qt-src --parallel 8
-        echo ${{runner.workspace}}\install\bin>> %GITHUB_PATH%
+        echo ${{runner.workspace}}\install\Qt\bin>> %GITHUB_PATH%
+        echo QTDIR=${{runner.workspace}}\install\Qt>> %GITHUB_ENV%
         rmdir /S /Q qtbuild
 
     - name: Generate CMake Projects
@@ -60,8 +61,9 @@ jobs:
         -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_LIBVPX=OFF
         -DBUILD_TEAMTALK_CLIENT_DOTNET_EXAMPLE=OFF
-        -DBUILD_TEAMTALK_CLIENT_QT_EXAMPLE=OFF
+        -DBUILD_TEAMTALK_CLIENT_QT_EXAMPLE=ON
         -DBUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE=OFF
+        -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
 
     - name: Build CMake Projects
       working-directory: ${{runner.workspace}}
@@ -69,30 +71,13 @@ jobs:
       run: |
         cmake --build output --parallel 8 --config Release
 
-    - name: Build TeamTalk Qt Client using QMake
-      shell: cmd
+    - name: Install CMake Projects
       working-directory: ${{runner.workspace}}
-      run: |
-        cd TeamTalk5\Client\qtTeamTalk
-        qmake CONFIG+=release teamtalk5.pro
-        set CL=/MP
-        nmake
-
-    - name: Create artifacts
       shell: cmd
-      working-directory: ${{runner.workspace}}
       run: |
-        mkdir TeamTalkWindows\Client
-        mkdir TeamTalkWindows\Server
-        xcopy ${{runner.workspace}}\TeamTalk5\Server\tt5srv.exe TeamTalkWindows\Server
-        xcopy ${{runner.workspace}}\TeamTalk5\Server\tt5prosrv.exe TeamTalkWindows\Server
-        xcopy ${{runner.workspace}}\TeamTalk5\Server\tt5svc.exe TeamTalkWindows\Server
-        xcopy ${{runner.workspace}}\TeamTalk5\Server\tt5prosvc.exe TeamTalkWindows\Server
-        xcopy ${{runner.workspace}}\TeamTalk5\Client\TeamTalkClassic\TeamTalk5Classic.exe TeamTalkWindows\Client
-        xcopy ${{runner.workspace}}\TeamTalk5\Client\qtTeamTalk\release\TeamTalk5.exe TeamTalkWindows\Client
-        xcopy ${{runner.workspace}}\TeamTalk5\Library\TeamTalk_DLL\TeamTalk5.dll TeamTalkWindows\Client
+        cmake --build output --parallel 8 --target install
 
     - uses: actions/upload-artifact@v2
       with:
-        name: windows-binaries-${{ matrix.arch }}
-        path: ${{runner.workspace}}/TeamTalkWindows
+        name: teamtalk-windows-${{ matrix.arch }}
+        path: ${{runner.workspace}}/install-teamtalk

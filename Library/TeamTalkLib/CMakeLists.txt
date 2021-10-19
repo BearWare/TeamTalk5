@@ -113,7 +113,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   option (FEATURE_OPENSLES "Build using OpenSL ES as sound system" ON)
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
-    option (FEATURE_AUDIOUNIT "Build using AudioUnit as sound system" ON)
+  option (FEATURE_AUDIOUNIT "Build using AudioUnit as sound system" ON)
 endif()
 
 add_subdirectory (build)
@@ -152,6 +152,9 @@ if (BUILD_TEAMTALK_DLL)
     set_output_dir(TeamTalk5DLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
   endif()
 
+  install (FILES ${CMAKE_CURRENT_LIST_DIR}/../TeamTalk_DLL/TeamTalk.h DESTINATION Library/TeamTalk_DLL)
+  install (TARGETS TeamTalk5DLL DESTINATION Library/TeamTalk_DLL)
+
   if (MSVS_UNITTEST)
     set_target_properties (TeamTalk5DLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
     set_target_properties (TeamTalk5DLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
@@ -185,6 +188,8 @@ if (BUILD_TEAMTALK_LIB)
   else()
     set_output_dir(TeamTalk5Lib ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
   endif()
+
+  install (TARGETS TeamTalk5Lib DESTINATION Library/TeamTalk_DLL)
 
 endif()
 
@@ -221,6 +226,9 @@ if (BUILD_TEAMTALK_PRODLL)
     set_output_dir(TeamTalk5ProDLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
   endif()
 
+  install (FILES ${CMAKE_CURRENT_LIST_DIR}/../TeamTalk_DLL/TeamTalk.h ${CMAKE_CURRENT_LIST_DIR}/../TeamTalk_DLL/TeamTalkSrv.h DESTINATION Library/TeamTalk_DLL)
+  install (TARGETS TeamTalk5ProDLL DESTINATION Library/TeamTalk_DLL)
+  
   set_target_properties (TeamTalk5ProDLL PROPERTIES OUTPUT_NAME TeamTalk5Pro)
 
   if (MSVS_UNITTEST)
@@ -262,6 +270,8 @@ if (BUILD_TEAMTALK_PROLIB)
     set_output_dir(TeamTalk5ProLib ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
   endif()
 
+  install (TARGETS TeamTalk5ProLib DESTINATION Library/TeamTalk_DLL)
+
   set_target_properties (TeamTalk5ProLib PROPERTIES OUTPUT_NAME TeamTalk5Pro)
 
 endif()
@@ -285,6 +295,8 @@ if (BUILD_TEAMTALK_SRVEXE)
 
   set_output_dir(tt5srv ${TEAMTALK_ROOT}/Server)
 
+  install (TARGETS tt5srv DESTINATION Server)
+
   if (MSVC)
     set_property(TARGET tt5srv PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
   endif()
@@ -307,6 +319,8 @@ if (BUILD_TEAMTALK_PROSRVEXE)
   target_link_libraries (tt5prosrv PRIVATE ${TTSRVPRO_LINK_FLAGS} ${LINK_LIBS})
 
   set_output_dir(tt5prosrv ${TEAMTALK_ROOT}/Server)
+
+  install (TARGETS tt5prosrv DESTINATION Server)
 
   if (MSVC)
     set_property(TARGET tt5prosrv PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
@@ -340,9 +354,9 @@ if (MSVC)
 
     set_output_dir(tt5svc ${TEAMTALK_ROOT}/Server)
 
-    if (MSVC)
-      set_property(TARGET tt5svc PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
-    endif()
+    install (TARGETS tt5svc DESTINATION Server)
+
+    set_property(TARGET tt5svc PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
   endif()
 
   #################
@@ -368,9 +382,9 @@ if (MSVC)
 
     set_output_dir (tt5prosvc ${TEAMTALK_ROOT}/Server)
 
-    if (MSVC)
-      set_property(TARGET tt5prosvc PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
-    endif()
+    install (TARGETS tt5prosvc DESTINATION Server)
+
+    set_property(TARGET tt5prosvc PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
 
   endif()
 endif()

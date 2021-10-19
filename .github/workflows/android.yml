@@ -30,8 +30,19 @@ jobs:
 
     - name: Build TeamTalk Library
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF" ${{ matrix.maketarget }}
+      run: |
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
 
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: make dox
+
+    - name: Run CMake Install Target
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-${{ matrix.maketarget }}
+      run: cmake --build . --target install
+
+    - name: Upload TeamTalk Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: teamtalksdk-${{ matrix.maketarget }}
+        path: ${{runner.workspace}}/install-${{ matrix.maketarget }}
