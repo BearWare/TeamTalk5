@@ -158,19 +158,27 @@ xcodeswap-apps:
 teamtalk-jar:
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_SERVERS=OFF -DBUILD_TEAMTALK_JNI=OFF -DBUILD_TEAMTALK_PROJNI=OFF -DBUILD_TEAMTALK_DOTNETDLL=OFF -DBUILD_TEAMTALK_PRODOTNETDLL=OFF -DBUILD_TEAMTALK_DOTNETDLL=OFF -DBUILD_TEAMTALK_PRODOTNETDLL=OFF" buildlib
 
+# TeamTalk 5 dependencies for Ubuntu 18 when using CMake option -DBUILD_TEAMTALK_CORE=ON
 depend-ubuntu18:
-	# TeamTalk 5 dependencies
 	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
                     libasound2-dev wget python
 
+# TeamTalk 5 dependencies Debian 9 when using CMake option -DBUILD_TEAMTALK_CORE=ON
 depend-debian9:
-	# TeamTalk 5 dependencies
 	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
                     doxygen g++ openjdk-8-jdk \
                     qttools5-dev-tools ninja-build libpcap-dev junit4 cmake
+
+# TeamTalk 5 dependencies for Raspbian 10 when using CMake option -DBUILD_TEAMTALK_CORE=ON
+depend-rasp:
+	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
+                    libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
+                    openjdk-8-jdk ninja-build libpcap-dev junit4 cmake \
+                    libssl-dev autoconf libtool pkg-config \
+                    libasound2-dev wget python
 
 depend-mac:
 	brew install autoconf automake libtool pkg-config yasm
