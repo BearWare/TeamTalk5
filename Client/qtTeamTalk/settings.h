@@ -100,6 +100,7 @@
 #define SETTINGS_DISPLAY_FREESERVERS                "display/showfreeservers"
 #define SETTINGS_DISPLAY_LANGUAGE                   "display/language"
 #define SETTINGS_DISPLAY_APPUPDATE                  "display/check-appupdate"
+#define SETTINGS_DISPLAY_APPUPDATE_BETA                  "display/check-beta-versions"
 #define SETTINGS_DISPLAY_APPUPDATE_DLG                  "display/show-dlg-appupdate"
 #define SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT                  true
 #define SETTINGS_DISPLAY_MAX_STRING                 "display/channel-max-string"
