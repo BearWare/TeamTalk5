@@ -6473,7 +6473,7 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
     QDomDocument doc("foo");
     if(doc.setContent(data))
     {
-        if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, true).toBool())
+        if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, SETTINGS_DISPLAY_APPUPDATE_DEFAULT).toBool())
         {
             QString version = newVersionAvailable(doc);
             if (version.size())
@@ -6498,7 +6498,7 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
             }
         }
 
-        if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_BETA, true).toBool())
+        if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_BETA, SETTINGS_DISPLAY_APPUPDATE_BETA_DEFAULT).toBool())
         {
             QString version = newBetaVersionAvailable(doc);
             if (version.size())
