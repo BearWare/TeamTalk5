@@ -1557,6 +1557,16 @@ QString downloadUpdateURL(const QDomDocument& updateDoc)
     return parseXML(updateDoc, "teamtalk/update/download-url");
 }
 
+QString newBetaVersionAvailable(const QDomDocument& updateDoc)
+{
+    return parseXML(updateDoc, "teamtalk/beta/name");
+}
+
+QString downloadBetaUpdateURL(const QDomDocument& updateDoc)
+{
+    return parseXML(updateDoc, "teamtalk/beta/download-url");
+}
+
 QString getBearWareRegistrationUrl(const QDomDocument& doc)
 {
     return parseXML(doc, "teamtalk/bearware/register-url");

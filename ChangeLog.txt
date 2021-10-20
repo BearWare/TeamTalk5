@@ -12,6 +12,7 @@ Default Qt Client
 - Option to keep disconnected users in online users dialog
 - Option to speak selected item in lists on Mac OS
 - Ability to control transmission for everyone in channels
+- Option to check updates for beta versions
 - Using global shortcut to enable/disable master volume now emit sound and TTS message
 - Fixed a case where, depending on start path, sounds with default values were not played
 - Fixed modifier keys not working as hotkeys

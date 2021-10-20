@@ -646,7 +646,14 @@
               <item>
                <widget class="QCheckBox" name="updatesChkBox">
                 <property name="text">
-                 <string>Check for program updates at startup</string>
+                 <string>Check for software updates on startup</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="betaUpdatesChkBox">
+                <property name="text">
+                 <string>Check for beta software updates on startup</string>
                 </property>
                </widget>
               </item>
