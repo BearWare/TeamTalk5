@@ -4,18 +4,19 @@
 Version 5.8.2
 Default Qt Client
 - Press Shift+Enter now insert a new line in public chat
-- Option to select an user for move from context menu of online users dialog
-- Option to choose the behavior of double click on a channel
-- Option to open a dialog box when excluded from channel or server
-- Option to close file transfer dialog when a transfer is completed now permanent
-- Option to sort channels by popularity
-- Option to keep disconnected users in online users dialog
-- Option to speak selected item in lists on Mac OS
-- Ability to control transmission for everyone in channels
-- Option to check updates for beta versions
-- Using global shortcut to enable/disable master volume now emit sound and TTS message
+- Option to select users for move in Online Users dialog using its context menu
+- Option to keep disconnected users in Online Users dialog
+- Option in Display-tab to choose the behavior of double-click/activate on a channel
+- Option in Display-tab to open a dialog box when being excluded from channel or server
+- Option to close file transfer dialog when a transfer completes is now saved
+- Option in Display-tab to sort channels ascending or by popularity
+- Option in Text-to-Speech-tab to speak selected item in lists on macOS
+- Who can transmit in a channel has been moved from Users->Advanced to Users->Transmit Control
+- Ability to control transmission for everyone in a channel
+- Option to check updates for new beta versions
+- Using global shortcut to enable/disable master volume now emit sound and Text-To-Speech message
 - Fixed a case where, depending on start path, sounds with default values were not played
-- Fixed modifier keys not working as hotkeys
+- Fixed modifier keys not working as hotkeys in 64-bit Windows
 Android Client
 -
 iOS Client
