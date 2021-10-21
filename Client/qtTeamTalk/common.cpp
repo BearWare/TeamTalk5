@@ -31,7 +31,7 @@
 #include <QStack>
 #include <QProcess>
 #if defined(QT_MULTIMEDIA_LIB)
-#include <QSound>
+#include <QSoundEffect>
 #endif
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
@@ -1025,8 +1025,12 @@ void playSoundEvent(SoundEvent event)
     }
 
 #if defined(QT_MULTIMEDIA_LIB)
-    if(filename.size())
-        QSound::play(filename);
+    if (filename.size())
+    {
+        static QSoundEffect* effect = new QSoundEffect(ttSettings);
+        effect->setSource(QUrl::fromLocalFile(filename));
+        effect->play();
+    }
 #endif
 }
 
@@ -1551,6 +1555,16 @@ QString newVersionAvailable(const QDomDocument& updateDoc)
 QString downloadUpdateURL(const QDomDocument& updateDoc)
 {
     return parseXML(updateDoc, "teamtalk/update/download-url");
+}
+
+QString newBetaVersionAvailable(const QDomDocument& updateDoc)
+{
+    return parseXML(updateDoc, "teamtalk/beta/name");
+}
+
+QString downloadBetaUpdateURL(const QDomDocument& updateDoc)
+{
+    return parseXML(updateDoc, "teamtalk/beta/download-url");
 }
 
 QString getBearWareRegistrationUrl(const QDomDocument& doc)

@@ -1,4 +1,4 @@
-VERSION="v5.8.2.5051"
+VERSION="v5.8.2.5053"
 
 OUTPUT_DEST=./
 
@@ -68,7 +68,10 @@ portable:
 	cp -r $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5Classic.xml $(OUTDIR)/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5Classic.xml $(OUTDIR)/TeamTalk5Classic.xml.default
 	cp -r $(TEAMTALK_ROOT)/Client/TeamTalkClassic/lng_classic $(OUTDIR)/lng_classic
-	cp -r $(OUTPUT_DEST)/accessibility/tolk/x86/* $(OUTDIR)/
+	cp $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/dolapi32.dll $(OUTDIR)/
+	cp $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/nvdaControllerClient32.dll $(OUTDIR)/
+	cp $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/SAAPI32.dll $(OUTDIR)/
+	cp $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/Tolk.dll $(OUTDIR)/
 	# Copy Qt client
 	cp $(TEAMTALK_ROOT)/Client/qtTeamTalk/TeamTalk5.exe $(OUTDIR)/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/TeamTalk5.ini.default

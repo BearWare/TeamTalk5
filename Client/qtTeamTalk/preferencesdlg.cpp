@@ -89,6 +89,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotSelectVideoText);
     connect(ui.statusbarToolButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotConfigureStatusBar);
     connect(ui.updatesChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUpdDlgChkBox);
+    connect(ui.betaUpdatesChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUpdDlgChkBox);
     
     //connection tab
     connect(ui.subdeskinputBtn, &QAbstractButton::clicked,
@@ -516,8 +517,9 @@ void PreferencesDlg::slotTabChange(int index)
         ui.msgtimestampChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool());
         ui.chanexpChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CHANEXP, SETTINGS_DISPLAY_CHANEXP_DEFAULT).toBool());
         ui.logstatusbarChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, true).toBool());
-        ui.updatesChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, true).toBool());
-        ui.updatesDlgChkBox->setEnabled(ui.updatesChkBox->isChecked());
+        ui.updatesChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, SETTINGS_DISPLAY_APPUPDATE_DEFAULT).toBool());
+        ui.betaUpdatesChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_BETA, SETTINGS_DISPLAY_APPUPDATE_BETA_DEFAULT).toBool());
+        slotUpdateUpdDlgChkBox();
         ui.updatesDlgChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_DLG,
                                                      SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT).toBool());
         ui.maxtextSpinBox->setValue(ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
@@ -804,6 +806,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_CHANEXP, ui.chanexpChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_LOGSTATUSBAR, ui.logstatusbarChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_APPUPDATE, ui.updatesChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_APPUPDATE_BETA, ui.betaUpdatesChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_APPUPDATE_DLG, ui.updatesDlgChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_MAX_STRING, ui.maxtextSpinBox->value());
         ttSettings->setValue(SETTINGS_DISPLAY_SHOWUSERNAME, ui.showusernameChkBox->isChecked());
@@ -1175,11 +1178,12 @@ void PreferencesDlg::slotSelectVideoText()
     dlg.exec();
 }
 
-void PreferencesDlg::slotUpdateUpdDlgChkBox(bool checked)
+void PreferencesDlg::slotUpdateUpdDlgChkBox()
 {
-    ui.updatesDlgChkBox->setEnabled(checked);
-    if (!checked)
-        ui.updatesDlgChkBox->setChecked(false);
+    if (ui.updatesChkBox->isChecked() || ui.betaUpdatesChkBox->isChecked())
+        ui.updatesDlgChkBox->setEnabled(true);
+    else
+        ui.updatesDlgChkBox->setEnabled(false);
 }
 
 void PreferencesDlg::slotDesktopAccess()

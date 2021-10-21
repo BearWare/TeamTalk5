@@ -19,6 +19,9 @@ function(set_output_dir target dir)
     ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${dir})
 endfunction()
 
+# Option to build Qt Framework on Windows. For CMake to find Qt set up
+# environment variable QTDIR to point to QT_INSTALL_PREFIX defined in
+# qt/CMakeLists.txt
 if (MSVC)
   option (QT_BUILD_QTFRAMEWORK "Build Qt Framework for Windows" OFF)
 
@@ -62,6 +65,7 @@ if (MSVC)
 
 endif()
 
+# Locate Qt Framework
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   find_package (Qt5 COMPONENTS Widgets Xml Network Multimedia TextToSpeech X11Extras)
 else()
@@ -141,7 +145,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
   endif()
 
   if (Qt6_FOUND)
-    set (TEAMTALK_LINK_FLAGS Qt6::Widgets Qt6::Xml Qt6::Network)
+    set (TEAMTALK_LINK_FLAGS Qt6::Widgets Qt6::Xml Qt6::Network Qt6::Multimedia)
   else()
     if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       set (TEAMTALK_LINK_FLAGS Qt5::Widgets Qt5::Xml Qt5::Network Qt5::Multimedia Qt5::TextToSpeech Qt5::X11Extras -lX11)
@@ -155,8 +159,10 @@ if (Qt5_FOUND OR Qt6_FOUND)
     find_library (IOKIT_LIBRARY IOKit)
     list (APPEND TEAMTALK_LINK_FLAGS ${CARBON_LIBRARY} ${IOKIT_LIBRARY})
 
-    set (MACOSX_BUNDLE TRUE)
-    set_source_files_properties(images/teamtalk.icns PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    set (MACOSX_BUNDLE_ICON_FILE teamtalk.icns)
+    set (TEAMTALK_ICON_FILE ${CMAKE_CURRENT_SOURCE_DIR}/images/teamtalk.icns)
+    list (APPEND QTTEAMTALK_SOURCES ${TEAMTALK_ICON_FILE} ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
+    set_source_files_properties (${TEAMTALK_ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
   endif()
 
   option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE "Build Qt Client for TeamTalk 5 Standard Edition" ON)
@@ -169,11 +175,19 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
   if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE)
 
-    add_executable (${TEAMTALK_TARGET} ${QTTEAMTALK_SOURCES})
+    if (MSVC)
+      add_executable (${TEAMTALK_TARGET} WIN32 ${QTTEAMTALK_SOURCES})
+    elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+      add_executable (${TEAMTALK_TARGET} MACOSX_BUNDLE ${QTTEAMTALK_SOURCES})
+    else()
+      add_executable (${TEAMTALK_TARGET} ${QTTEAMTALK_SOURCES})
+    endif()
 
     if (BUILD_TEAMTALK_DLL)
+      target_include_directories (${TEAMTALK_TARGET} PUBLIC ./)
       target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5DLL)
     else()
+      target_include_directories (${TEAMTALK_TARGET} PUBLIC ../../Library/TeamTalk_DLL ./)
       find_library(TEAMTALK5_LIBRARY TeamTalk5 PATHS ../../Library/TeamTalk_DLL)
       if (NOT TEAMTALK5_LIBRARY)
           message("Cannot find TeamTalk5 shared library in ../../Library/TeamTalk_DLL")
@@ -183,40 +197,35 @@ if (Qt5_FOUND OR Qt6_FOUND)
       endif()
     endif()
 
-    target_include_directories (${TEAMTALK_TARGET} PUBLIC ../../Library/TeamTalk_DLL ./)
-
     if (BUILD_TEAMTALK_CLIENT_TOLK)
-      target_compile_options(${TEAMTALK_TARGET} PUBLIC -DENABLE_TOLK -D_CRT_SECURE_NO_WARNINGS)
+      target_compile_options(${TEAMTALK_TARGET} PUBLIC -DUNICODE -D_UNICODE -DENABLE_TOLK -D_CRT_SECURE_NO_WARNINGS)
     elseif (MSVC)
-      target_compile_options(${TEAMTALK_TARGET} PUBLIC -D_CRT_SECURE_NO_WARNINGS)
+      target_compile_options(${TEAMTALK_TARGET} PUBLIC -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS)
     endif()
+    
+    set_property(TARGET ${TEAMTALK_TARGET} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL)
 
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-      set_target_properties(${TEAMTALK_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
-    endif()
     set_output_dir(${TEAMTALK_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
 
     install (TARGETS ${TEAMTALK_TARGET} DESTINATION Client/qtTeamTalk)
-
-    find_package(Qt5LinguistTools)
-    if (Qt5LinguistTools_FOUND)
-      file (GLOB TS_FILES ${CMAKE_CURRENT_LIST_DIR}/languages/*.ts)
-      set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_LIST_DIR}/languages)
-      qt5_add_translation (QM_FILES ${TS_FILES})
-      add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
-      install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
-      add_dependencies(${TEAMTALK_TARGET} QtTeamTalk5-Translations)
-    endif()
 
   endif()
 
   if (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE)
 
-    add_executable (${TEAMTALKPRO_TARGET} ${QTTEAMTALK_SOURCES})
+    if (MSVC)
+      add_executable (${TEAMTALKPRO_TARGET} WIN32 ${QTTEAMTALK_SOURCES})
+    elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+      add_executable (${TEAMTALKPRO_TARGET} MACOSX_BUNDLE ${QTTEAMTALK_SOURCES})
+    else()
+      add_executable (${TEAMTALKPRO_TARGET} ${QTTEAMTALK_SOURCES})
+    endif()
 
     if (BUILD_TEAMTALK_PRODLL)
+      target_include_directories (${TEAMTALKPRO_TARGET} PUBLIC ./)
       target_link_libraries (${TEAMTALKPRO_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5ProDLL)
     else()
+      target_include_directories (${TEAMTALKPRO_TARGET} PUBLIC ../../Library/TeamTalk_DLL ./)
       find_library(TEAMTALK5PRO_LIBRARY TeamTalk5Pro PATHS ../../Library/TeamTalk_DLL)
       if (NOT TEAMTALK5PRO_LIBRARY)
           message("Cannot find TeamTalk5Pro shared library in ../../Library/TeamTalk_DLL")
@@ -226,22 +235,34 @@ if (Qt5_FOUND OR Qt6_FOUND)
       endif()
     endif()
 
-    target_include_directories (${TEAMTALKPRO_TARGET} PUBLIC ../../Library/TeamTalk_DLL ./)
-
     if (BUILD_TEAMTALK_CLIENT_TOLK)
-      target_compile_options(${TEAMTALKPRO_TARGET} PUBLIC -DENABLE_TOLK -D_CRT_SECURE_NO_WARNINGS -DENABLE_TEAMTALKPRO)
+      target_compile_options(${TEAMTALKPRO_TARGET} PUBLIC -DUNICODE -D_UNICODE -DENABLE_TOLK -D_CRT_SECURE_NO_WARNINGS -DENABLE_TEAMTALKPRO)
     elseif (MSVC)
-      target_compile_options(${TEAMTALKPRO_TARGET} PUBLIC -D_CRT_SECURE_NO_WARNINGS -DENABLE_TEAMTALKPRO)
+      target_compile_options(${TEAMTALKPRO_TARGET} PUBLIC -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DENABLE_TEAMTALKPRO)
     else()
       target_compile_options(${TEAMTALKPRO_TARGET} PUBLIC -DENABLE_TEAMTALKPRO)
     endif()
+    
+    set_property(TARGET ${TEAMTALKPRO_TARGET} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL)
 
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-      set_target_properties(${TEAMTALKPRO_TARGET} PROPERTIES MACOSX_BUNDLE_INFO_PLIST Info.plist)
-    endif()
     set_output_dir(${TEAMTALKPRO_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
 
     install (TARGETS ${TEAMTALKPRO_TARGET} DESTINATION Client/qtTeamTalk)
+  endif()
+
+  find_package(Qt5LinguistTools)
+  if (Qt5LinguistTools_FOUND)
+    file (GLOB TS_FILES ${CMAKE_CURRENT_LIST_DIR}/languages/*.ts)
+    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_LIST_DIR}/languages)
+    qt5_add_translation (QM_FILES ${TS_FILES})
+    add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
+    install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
+    if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE)
+      add_dependencies(${TEAMTALK_TARGET} QtTeamTalk5-Translations)
+    endif()
+    if (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE)
+      add_dependencies(${TEAMTALKPRO_TARGET} QtTeamTalk5-Translations)
+    endif()
   endif()
 
 endif()
