@@ -1882,10 +1882,6 @@ p, li { white-space: pre-wrap; }
         <translation>传输控制(&amp;T)</translation>
     </message>
     <message>
-        <source>Type Here</source>
-        <translation type="vanished">在此输入</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1486"/>
         <source>&amp;Speak User Information</source>
         <translation>朗读用户信息(&amp;S)</translation>
@@ -3064,19 +3060,21 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="6510"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation type="unfinished"></translation>
+        <translation>有新的 %1 测试版可用： %2。你想现在打开下载页面吗？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6515"/>
         <source>New beta version available</source>
-        <translation type="unfinished"></translation>
+        <translation>新测试版可升级</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6522"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>新测试版可用： %1<byte value="xd"/>
+你可从以下页面下载：<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6598"/>
@@ -5046,12 +5044,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="649"/>
         <source>Check for software updates on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>启动时检查软件更新</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="656"/>
         <source>Check for beta software updates on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>启动时检查测试版软件更新</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2171"/>
