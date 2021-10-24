@@ -14,10 +14,13 @@ jobs:
             vmimage: windows-2019
             cmakeplatform: Win32
             arch: win32
+            msystem: MINGW32
           - name: VS2019Release64
             vmimage: windows-2019
             cmakeplatform: x64
             arch: x64
+            msystem: MINGW64
+
     runs-on: ${{ matrix.vmimage }}
     name: ${{ matrix.name }}
     steps:
@@ -77,7 +80,45 @@ jobs:
       run: |
         cmake --build output --parallel 8 --target install
 
+    # Doxygen doesn't exist as GitHub action, so use pacman from MSYS64
+    - uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{ matrix.msystem }}
+        path-type: inherit
+        install: make
+
+    - name: Install Doxygen in MSYS64
+      run: pacman --noconfirm -S doxygen
+      shell: msys2 {0}
+
+    - name: Generate Doxygen Document
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+      run: make dox
+      shell: msys2 {0}
+      
+    - name: Compile TeamTalk5.chm
+      working-directory: ${{runner.workspace}}/TeamTalk5/Documentation/TeamTalk
+      shell: cmd
+      run: |
+        "C:\Program Files (x86)\HTML Help Workshop\hhc.exe" output\index.hhp
+        EXIT /B 0 
+
+    - name: Make Portable Setup Targets
+      working-directory: ${{runner.workspace}}/Setup/Portable
+      run: make portable win32pro
+      shell: msys2 {0}
+
     - uses: actions/upload-artifact@v2
       with:
         name: teamtalk-windows-${{ matrix.arch }}
         path: ${{runner.workspace}}/install-teamtalk
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: teamtalk-portable-${{ matrix.arch }}
+        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/TeamTalk_*_Portable
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: teamtalkpro-${{ matrix.arch }}
+        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*-win32
