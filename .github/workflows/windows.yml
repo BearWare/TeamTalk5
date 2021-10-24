@@ -24,6 +24,7 @@ jobs:
             qtversion: '5.15.*'
             msystem: MINGW32
             portablearch: win32
+            vcpkgarch: x86
           - name: VS2022Release64
             vmimage: windows-2022
             cmakeplatform: x64
@@ -33,6 +34,7 @@ jobs:
             qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
             msystem: MINGW64
             portablearch: win64
+            vcpkgarch: x64
         exlude:
           - name: VS2019Release32
 
@@ -74,6 +76,22 @@ jobs:
       shell: cmd
       run: set
 
+    - name: Setup msbuild in PATH
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Install MSYS2
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{ matrix.msystem }}
+        path-type: inherit
+        install: make
+
+    - name: Install YASM for libvpx compilation
+      shell: cmd
+      run: |
+        vcpkg install --recurse yasm --triplet ${{ matrix.vcpkgarch }} --clean-after-build
+        echo %VCPKG_INSTALLATION_ROOT%\installed\${{ matrix.vcpkgarch }}\tools\yasm>> %GITHUB_PATH%
+
     - name: Generate CMake Projects
       working-directory: ${{runner.workspace}}
       shell: cmd
@@ -81,9 +99,7 @@ jobs:
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
-        -DFEATURE_LIBVPX=OFF
         -DFEATURE_WEBRTC=OFF
-        -DTOOLCHAIN_LIBVPX=OFF
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
 
