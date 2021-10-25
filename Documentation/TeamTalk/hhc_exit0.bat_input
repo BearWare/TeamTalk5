@@ -1,0 +1,2 @@
+"@HHC_EXE_PATH_NATIVE@" %1
+EXIT /B 0

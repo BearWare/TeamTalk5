@@ -46,3 +46,6 @@ if (BUILD_TEAMTALK_SERVERS)
     add_subdirectory (Server/TeamTalkServer.NET)
   endif()
 endif()
+
+add_subdirectory (Documentation/TeamTalk)
+add_subdirectory (Documentation/TeamTalkSDK)
