@@ -72,21 +72,58 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    ExternalProject_Add(openssl-src
+    ExternalProject_Add(openssl-intel-src
       GIT_REPOSITORY    https://github.com/bear101/openssl
       GIT_TAG           OpenSSL_1_1_1k
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
-      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl-intel
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-intel
       CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-x86_64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
-      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install_sw install_ssldirs
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
       )
-    ExternalProject_Get_Property(openssl-src INSTALL_DIR)
+    ExternalProject_Get_Property(openssl-intel-src INSTALL_DIR)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
+
+    ExternalProject_Add(openssl-arm64-src
+      GIT_REPOSITORY    https://github.com/bear101/openssl
+      GIT_TAG           OpenSSL_1_1_1k
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl-arm64
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-arm64
+      CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-arm64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install_sw install_ssldirs
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
+      )
+    ExternalProject_Get_Property(openssl-arm64-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
+
+    # Use 'lipo' to create universal binary
+    file(MAKE_DIRECTORY ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/lib)
+    file(MAKE_DIRECTORY ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/include)
+    add_custom_command (OUTPUT ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/lib/libcrypto.a
+                               ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/lib/libssl.a
+                               ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/include/openssl/opensslconf.h
+      COMMAND lipo -create ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-arm64/lib/libcrypto.a ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-intel/lib/libcrypto.a -output ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/lib/libcrypto.a
+      COMMAND lipo -create ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-arm64/lib/libssl.a ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-intel/lib/libssl.a -output ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/lib/libssl.a
+      COMMAND ${CMAKE_COMMAND} -E copy_directory ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-intel/include ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/include
+      COMMAND ${CMAKE_COMMAND} -E copy_directory ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-intel/ssl ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/ssl
+      COMMAND ${CMAKE_COMMAND} -E copy_directory ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-intel/lib/pkgconfig ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/lib/pkgconfig
+      COMMAND sed -i "" -e "s/openssl-intel/openssl/" ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/lib/pkgconfig/libcrypto.pc
+      COMMAND sed -i "" -e "s/openssl-intel/openssl/" ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/lib/pkgconfig/libssl.pc
+      COMMAND sed -i "" -e "s/openssl-intel/openssl/" ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/lib/pkgconfig/openssl.pc
+      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      COMMENT "Generating universal libcrypto.a" VERBATIM
+      DEPENDS openssl-intel-src openssl-arm64-src)
+
+    add_custom_target (openssl-src DEPENDS ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/lib/libcrypto.a ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/lib/libssl.a ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}/include/openssl/opensslconf.h)
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL})
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL})
   endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -140,7 +177,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
 
   set (OPENSSL_DIR ${INSTALL_DIR} PARENT_SCOPE)
-  
+
   add_library(openssl-crypto STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(openssl-crypto openssl-src)
@@ -251,7 +288,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
 
   set (OPENSSL_DIR ${INSTALL_DIR} PARENT_SCOPE)
-  
+
   add_library(openssl-crypto STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(openssl-crypto openssl-src)
