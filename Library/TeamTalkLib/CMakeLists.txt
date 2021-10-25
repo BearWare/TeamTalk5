@@ -50,6 +50,11 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     message(WARNING "No deployment target specified. Defaulting to ${CMAKE_OSX_DEPLOYMENT_TARGET}")
   endif()
 
+  if (NOT CMAKE_OSX_ARCHITECTURES)
+    set (CMAKE_OSX_ARCHITECTURES arm64;x86_64)
+    message(WARNING "No architecture specified. Defaulting to ${CMAKE_OSX_ARCHITECTURES}")
+  endif()
+  
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
   if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
