@@ -30,12 +30,18 @@
 #include <QDialog>
 #include <QStack>
 #include <QProcess>
-#if defined(QT_MULTIMEDIA_LIB)
-#include <QSoundEffect>
-#endif
+
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
 #endif
+
+#if defined(QT_MULTIMEDIA_LIB)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#include <QSound>
+#else
+#include <QSoundEffect>
+#endif /* QT_VERSION_CHECK */
+#endif /* QT_MULTIMEDIA_LIB */
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
@@ -1027,9 +1033,13 @@ void playSoundEvent(SoundEvent event)
 #if defined(QT_MULTIMEDIA_LIB)
     if (filename.size())
     {
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        QSound::play(filename);
+#else
         static QSoundEffect* effect = new QSoundEffect(ttSettings);
         effect->setSource(QUrl::fromLocalFile(filename));
         effect->play();
+#endif
     }
 #endif
 }
