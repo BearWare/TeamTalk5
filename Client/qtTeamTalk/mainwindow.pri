@@ -8,7 +8,7 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              textmessagedlg.h chattextedit.h filesmodel.h filetransferdlg.h \
              filesview.h uservolumedlg.h changestatusdlg.h aboutdlg.h \
              chatlineedit.h serverstatsdlg.h onlineusersdlg.h \
-             onlineusersmodel.h chatlineedit.h mediastoragedlg.h \
+             onlineusersmodel.h mediastoragedlg.h \
              desktopgridwidget.h userdesktopwidget.h gridwidget.h \
              userimagewidget.h userdesktopdlg.h desktopsharedlg.h \
              sendtextedit.h streammediafiledlg.h videotextdlg.h \

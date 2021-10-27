@@ -11,8 +11,8 @@
     <string name="title_section_chat">چت</string>
     <string name="title_section_media">رسانه</string>
     <string name="title_section_files">فایل</string>
-    <string name="title_activity_channel_prop">خصوصیات کانال</string>
-    <string name="title_activity_user_prop">خصوصیات کاربر</string>
+    <string name="title_activity_channel_prop">ویژگی‌های کانال</string>
+    <string name="title_activity_user_prop">ویژگی‌های کاربر</string>
     <string name="title_activity_text_message">پیام</string>
     <string name="title_activity_preferences">تنظیمات</string>
     <string name="title_activity_stream_media">پخش فایل رسانه ای در کانال</string>
@@ -24,12 +24,12 @@
     <string name="text_con_cmderr">خطای اجرای فرمان</string>
     <string name="text_cmderr_login">خطای اجرای فرمان ورود</string>
     <string name="text_cmd_loggedin">وارد سِروِر شُدید</string>
-    <string name="text_cmd_joinchan">وارد کانال شُدید:</string>
-    <string name="text_cmd_leftchan">از کانال رفتید:</string>
+    <string name="text_cmd_joinchan">به کانال پیوستید:</string>
+    <string name="text_cmd_leftchan">کانال را ترک کردید:</string>
     <string name="text_cmd_joinroot">وارد لابی شُدید</string>
     <string name="text_cmd_leftroot">از لابی رفتید</string>
-    <string name="text_cmd_userjoinchan">وارد کانال شد</string>
-    <string name="text_cmd_userleftchan">از کانال رفت</string>
+    <string name="text_cmd_userjoinchan">به کانال پیوست</string>
+    <string name="text_cmd_userleftchan">کانال را ترک کرد</string>
     <string name="text_cmd_servername">نام سِروِر: </string>
     <string name="text_cmd_servermotd">پیام روز: </string>
     <string name="pref_cat_subscriptions">اشتراک‌ها</string>
@@ -47,22 +47,22 @@
     <string name="pref_summary_rx_tx_audio_icon">پخش صدا هنگام فشردن دکمۀ میکروفون</string>
     <string name="pref_title_vox_triggered_icon">انتقال خودکار صدا</string>
     <string name="pref_summary_vox_triggered_icon">پخش صدا هنگام استفاده از حالت انتقال خودکار صدا</string>
-    <string name="pref_title_private_message_audio_icon">پیامهای خصوصی</string>
-    <string name="pref_summary_private_message_audio_icon">پخش صدا هنگام دریافت پیام خصوصی</string>
+    <string name="pref_title_private_message_audio_icon">پیامهای شخصی</string>
+    <string name="pref_summary_private_message_audio_icon">پخش صدا هنگام دریافت پیام شخصی</string>
     <string name="pref_title_channel_message_audio_icon">پیامهای کانال</string>
     <string name="pref_summary_channel_message_audio_icon">پخش صدا هنگام دریافت پیام کانال</string>
     <string name="pref_title_broadcast_message_audio_icon">پیامهای همه‌گانی</string>
     <string name="pref_summary_broadcast_message_audio_icon">پخش صدا هنگام دریافت پیام همه‌گانی</string>
     <string name="pref_title_server_lost_audio_icon">قطع شدن اتصال سِروِر</string>
-    <string name="pref_summary_server_lost_audio_icon">پخش صدا هنگام قطع شدن اتصال شما به سِروِر</string>
+    <string name="pref_summary_server_lost_audio_icon">پخش صدا هنگام قطع اتصال به سِروِر</string>
     <string name="pref_title_files_update_audio_icon">بار‌گذاری فایل</string>
     <string name="pref_summary_files_update_audio_icon">پخش صدا هنگام بار‌گذاری یا حذف فایلها</string>
     <string name="pref_title_transmitready_icon">حالت انحصاری</string>
     <string name="pref_summary_transmitready_icon">پخش صدا هنگامی که انتقال در کانال "بدون وقفه" آماده است</string>
     <string name="pref_title_userjoin_icon">پیوستن کاربر به کانال</string>
-    <string name="pref_summary_userjoin_icon">پخش صدا هنگامی که کاربر وارد کانال میشود</string>
+    <string name="pref_summary_userjoin_icon">پخش صدا هنگام پیوستن کاربران به کانال</string>
     <string name="pref_title_userleft_icon">خروج کاربر از کانال</string>
-    <string name="pref_summary_userleft_icon">پخش صدا هنگامی که کاربر کانال را ترک میکند</string>
+    <string name="pref_summary_userleft_icon">پخش صدا هنگام خروج کاربران از کانال</string>
     <string name="pref_header_connection">اتصال</string>
     <string name="pref_title_sub_txtmsg">پیام‌های متنی</string>
     <string name="pref_summary_sub_txtmsg">اشتراک در پیامهای متنی کاربران</string>
@@ -86,11 +86,11 @@
     <string name="pref_title_server_logout">خروج کاربر از سِروِر</string>
     <string name="pref_summary_server_logout">اعلام نام کاربری که خارج میشود</string>
     <string name="pref_title_channel_join">ورود کاربر به کانال</string>
-    <string name="pref_summary_channel_join">اعلام نام کاربری که وارد کانال میشود</string>
+    <string name="pref_summary_channel_join">اعلام نام کاربری که به کانال میپیوندد</string>
     <string name="pref_title_channel_leave">خروج کاربر از کانال</string>
     <string name="pref_summary_channel_leave">اعلام نام کاربری که کانال را ترک میکند</string>
-    <string name="pref_title_private_message">پیام خصوصی</string>
-    <string name="pref_summary_private_message">اعلام پیام‌های خصوصی</string>
+    <string name="pref_title_private_message">پیام شخصی</string>
+    <string name="pref_summary_private_message">اعلام پیام‌های شخصی</string>
     <string name="pref_title_channel_message">پیام کانال</string>
     <string name="pref_summary_channel_message">اعلام پیام‌های کانال</string>
     <string name="pref_title_broadcast_message">پیام همه‌گانی</string>
@@ -135,7 +135,7 @@
     <string name="action_banchan">محروم کردن از کانال</string>
     <string name="action_bansrv">محروم کردن از سِروِر</string>
     <string name="action_edit">ویرایش</string>
-    <string name="action_join">ورود</string>
+    <string name="action_join">پیوستن</string>
     <string name="action_kickchan">اخراج از کانال</string>
     <string name="action_kicksrv">اخراج از سِروِر</string>
     <string name="action_move">انتقال به اینجا</string>
@@ -163,12 +163,12 @@
 
 
     <string name="user_prop_title_username">نام کاربری</string>
-    <string name="user_prop_title_clientname">نام اپلیکیشن</string>
+    <string name="user_prop_title_clientname">نام برنامه</string>
     <string name="user_prop_title_voice_volume">میزان صدا</string>
     <string name="user_prop_title_mute_voice">قطع صدای کاربر</string>
     <string name="user_prop_title_media_volume">میزان صدای فایل رسانه‌ای</string>
     <string name="user_prop_title_mute_media">قطع صدای رسانه</string>
-    <string name="user_prop_title_subscribe_txtmsg">دریافت پیامهای خصوصی</string>
+    <string name="user_prop_title_subscribe_txtmsg">دریافت پیامهای شخصی</string>
     <string name="user_prop_title_subscribe_chanmsg">دریافت پیامهای کانال</string>
     <string name="user_prop_title_subscribe_bcastmsg">دریافت پیامهای همه‌گانی</string>
     <string name="user_prop_title_subscribe_voice">دریافت صدا</string>
@@ -182,7 +182,7 @@
     <string name="stat_connecting">در حال اتصال</string>
     <string name="label_voice">صدا:</string>
     <string name="label_desktop">دسکتاپ:</string>
-    <string name="label_ping">پینگ:</string>
+    <string name="label_ping">سرعت اتصال:</string>
     <string name="label_rxtx">دریافت و ارسال بر ثانیه:</string>
     <string name="label_total">مجموع:</string>
     <string name="label_mediafile">فایل رسانه ای:</string>
@@ -211,7 +211,7 @@
     <string name="serverlist_export_confirmation">لیست سِروِرها در %1$s صادر شد</string>
 
     <string name="pref_title_server_props">تنظیمات سِروِر</string>
-    <string name="pref_title_server_info">مشخصات سِروِر</string>
+    <string name="pref_title_server_info">اطلاعات سِروِر</string>
     <string name="pref_title_server_name">نام سِروِر</string>
     <string name="pref_title_server_address">نام دامنه یا آدرس IP</string>
     <string name="pref_title_tcp_port">پورت TCP</string>
@@ -221,9 +221,9 @@
     <string name="pref_title_username">نام کاربری</string>
     <string name="pref_title_password">گذرواژه</string>
     <string name="pref_title_bearware">ورود با حساب تحت وب bearware.dk</string>
-    <string name="pref_title_join_channel">ورود به کانال</string>
+    <string name="pref_title_join_channel">پیوستن به کانال</string>
     <string name="pref_title_channel">نام کانال</string>
-    <string name="pref_title_channel_password">گذرواژه</string>
+    <string name="pref_title_channel_password">گذرواژۀ کانال</string>
     <string name="pref_title_last_channel">آخرین کانالی که به آن پیوستید</string>
 
     <string name="pref_summary_server_name">این سِروِر با این نام در لیست سِروِر‌ها نمایان خواهد شد</string>
@@ -255,30 +255,30 @@
     <string name="version_update">نسخۀ جدیدی از تیمتاک موجود است: %1$s?</string>
     <string name="decvolume">کاهش صدا</string>
     <string name="incvolume">افزایش صدا</string>
-    <string name="speaker_mute">قطع اسپیکر</string>
-    <string name="speaker_unmute">وصل اسپیکر</string>
-    <string name="mic_mute">قطع میکروفون</string>
-    <string name="mic_unmute">وصل میکروفون</string>
+    <string name="speaker_mute">قطع کردن اسپیکر</string>
+    <string name="speaker_unmute">وصل مجدد اسپیکر</string>
+    <string name="mic_mute">قطع کردن میکروفون</string>
+    <string name="mic_unmute">وصل مجدد میکروفون</string>
     <string name="decgain">کاهش بلندی میکروفون</string>
     <string name="incgain">افزایش بلندی میکروفون</string>
 
     <string name="speaker_volume_description">صدای اسپیکر, %1$s</string>
     <string name="mic_gain_description">بلندی میکروفون, %1$s</string>
 
-    <string name="voice_activation_on">فعال‌سازی انتقال خودکار صدا</string>
-    <string name="voice_activation_off">غیر‌فعال‌سازی انتقال خودکار صدا</string>
-    <string name="decvoxlevel">کاهش حساسیت انتقال خودکار صدا</string>
-    <string name="incvoxlevel">افزایش حساسیت انتقال خودکار صدا</string>
-    <string name="vox_level_description">میزان حساسیت انتقال خودکار صدا, %1$s</string>
+    <string name="voice_activation_on">حساسیت به صدا - خاموش</string>
+    <string name="voice_activation_off">حساسیت به صدا - روشن</string>
+    <string name="decvoxlevel">کاهش حساسیت به صدا</string>
+    <string name="incvoxlevel">افزایش حساسیت به صدا</string>
+    <string name="vox_level_description">میزان حساسیت به صدا, %1$s</string>
 
     <string name="tx_on">میکروفون روشن</string>
     <string name="tx_off">میکروفون خاموش</string>
 
-    <string name="text_samplerate">نرخ نمونه‌برداری صوتی(سمپل)</string>
+    <string name="text_samplerate">نرخ سمپل</string>
     <string name="text_ignore_silence">نادیده‌گرفتن سکوت</string>
     <string name="text_audchan">کانال‌های صوتی</string>
-    <string name="text_bitrate">نرخ ارسال داده(کیفیت)</string>
-    <string name="text_maxbitrate">حداکثر نرخ ارسال داده(کیفیت)</string>
+    <string name="text_bitrate">نرخ ارسال داده</string>
+    <string name="text_maxbitrate">حداکثر نرخ ارسال داده</string>
     <string name="text_txinterval">فاصله زمانی انتقال</string>
     <string name="text_framesize">مقدار فریم</string>
     <string name="text_vbr">نرخ ارسال داده متغیر</string>
@@ -286,7 +286,7 @@
     <string name="text_publicserver">عمومی</string>
     <string name="text_localserver">محلی</string>
     <string name="text_passwdprot">رمزدار</string>
-    <string name="text_translator">این نسخه توسط ابوالفضل سعیدیفر به فارسی ترجمه شده است</string>
+    <string name="text_translator">مترجم: ابوالفضل سعیدیفر</string>
     <string name="desktop_image">تصویر دسکتاپ</string>
     <string name="channel_change_alert">در صورت تعویض کانال تمامی انتقال‌های فعال متوقف خواهند شد</string>
     <string name="disconnect_alert">در صورت خروج از سِروِر تمامی انتقال‌های فعال متوقف خواهند شد</string>
@@ -309,8 +309,8 @@
     <string name="err_filesharing_disabled">امکان انتقال فایل در سِروِر وجود ندارد</string>
     <string name="err_channel_has_users">کانال خالی نیست</string>
 
-    <string name="private_message_notification">پیام خصوصی از %1$s</string>
-    <string name="private_message_notification_hint">برای مطالعه و پاسخ کلیک کنید</string>
+    <string name="private_message_notification">پیام شخصی از %1$s</string>
+    <string name="private_message_notification_hint">برای مشاهده و پاسخ کلیک کنید</string>
     <string name="user_state_now_speaking">%1$s در حال صحبت</string>
     <string name="text_waitstream">در انتظار برای پخش آنلاین ویدیو</string>
     <string name="text_desktop_session">نشست دسکتاپی</string>
@@ -357,7 +357,7 @@
     <string name="channel_prop_title_hiddenchannel">مخفی</string>
     <string name="pref_title_gender">جنسیت</string>
     <string name="pref_summary_gender">در صورتی که خانم هستید, علامت بزنید</string>
-    <string name="user_state_away">اِوِی</string>
+    <string name="user_state_away">دور</string>
     <string name="pref_title_userloggedin_icon">ورود کاربر به سِروِر</string>
     <string name="pref_summary_userloggedin_icon">پخش صدا هنگام ورود کاربران به سِروِر</string>
     <string name="pref_title_userloggedoff_icon">خروج کاربر از سِروِر</string>
