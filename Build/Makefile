@@ -5,8 +5,8 @@ CMAKE_GENERATOR?=Ninja
 SHELL := /bin/bash
 
 help:
-	echo "To make debug configuration specify CONFIGTYPE=debug:"
-	echo "    make CONFIGTYPE=debug android-armeabi-v7a"
+	@echo "To make debug configuration specify CONFIGTYPE=debug:"
+	@echo "    make CONFIGTYPE=debug android-armeabi-v7a"
 
 teamtalk-env:
 	@echo "Testing that TEAMTALK_ROOT is valid."
