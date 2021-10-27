@@ -104,7 +104,7 @@ jobs:
         EXIT /B 0 
 
     - name: Make Portable Setup Targets
-      working-directory: ${{runner.workspace}}/Setup/Portable
+      working-directory: ${{runner.workspace}}/TeamTalk5/Setup/Portable
       run: make portable win32pro
       shell: msys2 {0}
 
