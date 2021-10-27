@@ -173,6 +173,10 @@ if (Qt5_FOUND OR Qt6_FOUND)
     install (FILES ${TOLK_DLL_FILES} DESTINATION Client/qtTeamTalk)
   endif()
 
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    find_program(MACDEPLOYQT_EXE_PATH macdeployqt)
+  endif()
+
   if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE)
 
     if (MSVC)
@@ -202,10 +206,20 @@ if (Qt5_FOUND OR Qt6_FOUND)
     elseif (MSVC)
       target_compile_options(${TEAMTALK_TARGET} PUBLIC -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS)
     endif()
-    
+
     set_property(TARGET ${TEAMTALK_TARGET} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL)
 
     set_output_dir(${TEAMTALK_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
+
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND ${CMAKE_BUILD_TYPE} MATCHES "release")
+      if (MACDEPLOYQT_EXECUTABLE-NOTFOUND)
+        message("Cannot run macdeployqt on ${TEAMTALK_TARGET}.app")
+      else()
+        add_custom_command(TARGET ${TEAMTALK_TARGET} POST_BUILD
+          COMMAND ${MACDEPLOYQT_EXE_PATH} $<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/../.. -always-overwrite
+          COMMENT "Running macdeployqt on ${TEAMTALK_TARGET}.app")
+      endif()
+    endif()
 
     install (TARGETS ${TEAMTALK_TARGET} DESTINATION Client/qtTeamTalk)
 
@@ -242,10 +256,20 @@ if (Qt5_FOUND OR Qt6_FOUND)
     else()
       target_compile_options(${TEAMTALKPRO_TARGET} PUBLIC -DENABLE_TEAMTALKPRO)
     endif()
-    
+
     set_property(TARGET ${TEAMTALKPRO_TARGET} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL)
 
     set_output_dir(${TEAMTALKPRO_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
+
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND ${CMAKE_BUILD_TYPE} MATCHES "release")
+      if (MACDEPLOYQT_EXECUTABLE-NOTFOUND)
+        message("Cannot run macdeployqt on ${TEAMTALKPRO_TARGET}.app")
+      else()
+        add_custom_command(TARGET ${TEAMTALKPRO_TARGET} POST_BUILD
+          COMMAND ${MACDEPLOYQT_EXE_PATH} $<TARGET_FILE_DIR:${TEAMTALKPRO_TARGET}>/../.. -always-overwrite
+          COMMENT "Running macdeployqt on ${TEAMTALKPRO_TARGET}.app")
+      endif()
+    endif()
 
     install (TARGETS ${TEAMTALKPRO_TARGET} DESTINATION Client/qtTeamTalk)
   endif()
