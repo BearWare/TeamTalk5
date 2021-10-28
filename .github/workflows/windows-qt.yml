@@ -104,8 +104,11 @@ jobs:
         EXIT /B 0 
 
     - name: Make Portable Setup Targets
-      working-directory: ${{runner.workspace}}/Setup/Portable
-      run: make portable win32pro
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: |
+        source env.sh
+        cd Setup/Portable
+        make portable win32pro
       shell: msys2 {0}
 
     - uses: actions/upload-artifact@v2
