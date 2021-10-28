@@ -131,6 +131,15 @@ if (Qt5_FOUND OR Qt6_FOUND)
     resources.qrc mainwindow.rc
     )
 
+  find_package(Qt5LinguistTools)
+  if (Qt5LinguistTools_FOUND)
+    file (GLOB TS_FILES ${CMAKE_CURRENT_LIST_DIR}/languages/*.ts)
+    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_LIST_DIR}/languages)
+    qt5_add_translation (QM_FILES ${TS_FILES})
+    add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
+    install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
+  endif()
+
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     # Don't set to to "TeamTalk5" on macOS since we still build with
     # QMake
@@ -161,7 +170,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     set (MACOSX_BUNDLE_ICON_FILE teamtalk.icns)
     set (TEAMTALK_ICON_FILE ${CMAKE_CURRENT_SOURCE_DIR}/images/teamtalk.icns)
-    list (APPEND QTTEAMTALK_SOURCES ${TEAMTALK_ICON_FILE} ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
+    list (APPEND QTTEAMTALK_SOURCES ${TEAMTALK_ICON_FILE} ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist ${CMAKE_CURRENT_SOURCE_DIR}/Entitlements.plist)
     set_source_files_properties (${TEAMTALK_ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
   endif()
 
@@ -206,6 +215,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
     elseif (MSVC)
       target_compile_options(${TEAMTALK_TARGET} PUBLIC -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS)
     endif()
+
+    add_dependencies(${TEAMTALK_TARGET} QtTeamTalk5-Translations)
 
     set_property(TARGET ${TEAMTALK_TARGET} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL)
 
@@ -257,6 +268,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
       target_compile_options(${TEAMTALKPRO_TARGET} PUBLIC -DENABLE_TEAMTALKPRO)
     endif()
 
+    add_dependencies(${TEAMTALKPRO_TARGET} QtTeamTalk5-Translations)
+
     set_property(TARGET ${TEAMTALKPRO_TARGET} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL)
 
     set_output_dir(${TEAMTALKPRO_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
@@ -272,21 +285,6 @@ if (Qt5_FOUND OR Qt6_FOUND)
     endif()
 
     install (TARGETS ${TEAMTALKPRO_TARGET} DESTINATION Client/qtTeamTalk)
-  endif()
-
-  find_package(Qt5LinguistTools)
-  if (Qt5LinguistTools_FOUND)
-    file (GLOB TS_FILES ${CMAKE_CURRENT_LIST_DIR}/languages/*.ts)
-    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_LIST_DIR}/languages)
-    qt5_add_translation (QM_FILES ${TS_FILES})
-    add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
-    install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
-    if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE)
-      add_dependencies(${TEAMTALK_TARGET} QtTeamTalk5-Translations)
-    endif()
-    if (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE)
-      add_dependencies(${TEAMTALKPRO_TARGET} QtTeamTalk5-Translations)
-    endif()
   endif()
 
 endif()
