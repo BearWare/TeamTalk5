@@ -123,7 +123,6 @@ public:
 
 protected:
     void timerEvent(QTimerEvent *event) override;
-    void closeEvent(QCloseEvent *event) override;
     void changeEvent(QEvent* event) override;
     void keyPressEvent(QKeyEvent* e) override;
 

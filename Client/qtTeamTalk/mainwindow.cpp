@@ -555,6 +555,30 @@ MainWindow::~MainWindow()
     if(m_display)
         XCloseDisplay(m_display);
 #endif
+    ttSettings->setValue(SETTINGS_SOUND_MASTERVOLUME, ui.volumeSlider->value());
+    ttSettings->setValue(SETTINGS_SOUND_MICROPHONEGAIN, ui.micSlider->value());
+    ttSettings->setValue(SETTINGS_SOUND_VOICEACTIVATIONLEVEL, ui.voiceactSlider->value());
+
+    ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.actionEnablePushToTalk->isChecked());
+    ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, ui.actionEnableVoiceActivation->isChecked());
+
+    if(windowState() == Qt::WindowNoState)
+    {
+        QRect r = geometry();
+        QVariantList windowpos;
+        windowpos.push_back(r.x());
+        windowpos.push_back(r.y());
+        windowpos.push_back(r.width());
+        windowpos.push_back(r.height());
+        ttSettings->setValue(SETTINGS_DISPLAY_WINDOWPOS, windowpos);
+        ttSettings->setValue(SETTINGS_DISPLAY_SPLITTER, ui.splitter->saveState());
+        ttSettings->setValue(SETTINGS_DISPLAY_VIDEOSPLITTER, ui.videosplitter->saveState());
+        ttSettings->setValue(SETTINGS_DISPLAY_DESKTOPSPLITTER, ui.desktopsplitter->saveState());
+    }
+
+    ttSettings->setValue(SETTINGS_DISPLAY_FILESHEADER, ui.filesView->header()->saveState());
+
+    delete ttSettings;
 }
 
 void MainWindow::loadSettings()
@@ -2287,34 +2311,6 @@ void MainWindow::timerEvent(QTimerEvent *event)
         Q_ASSERT(0);
         break;
     }
-}
-
-void MainWindow::closeEvent(QCloseEvent *event)
-{
-    ttSettings->setValue(SETTINGS_SOUND_MASTERVOLUME, ui.volumeSlider->value());
-    ttSettings->setValue(SETTINGS_SOUND_MICROPHONEGAIN, ui.micSlider->value());
-    ttSettings->setValue(SETTINGS_SOUND_VOICEACTIVATIONLEVEL, ui.voiceactSlider->value());
-
-    ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.actionEnablePushToTalk->isChecked());
-    ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, ui.actionEnableVoiceActivation->isChecked());
-
-    if(windowState() == Qt::WindowNoState)
-    {
-        QRect r = geometry();
-        QVariantList windowpos;
-        windowpos.push_back(r.x());
-        windowpos.push_back(r.y());
-        windowpos.push_back(r.width());
-        windowpos.push_back(r.height());
-        ttSettings->setValue(SETTINGS_DISPLAY_WINDOWPOS, windowpos);
-        ttSettings->setValue(SETTINGS_DISPLAY_SPLITTER, ui.splitter->saveState());
-        ttSettings->setValue(SETTINGS_DISPLAY_VIDEOSPLITTER, ui.videosplitter->saveState());
-        ttSettings->setValue(SETTINGS_DISPLAY_DESKTOPSPLITTER, ui.desktopsplitter->saveState());
-    }
-
-    ttSettings->setValue(SETTINGS_DISPLAY_FILESHEADER, ui.filesView->header()->saveState());
-
-    return QMainWindow::closeEvent(event);
 }
 
 void MainWindow::changeEvent(QEvent* event )
