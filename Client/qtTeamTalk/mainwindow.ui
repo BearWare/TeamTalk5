@@ -1367,9 +1367,6 @@
    <property name="text">
     <string>&amp;Exit</string>
    </property>
-   <property name="shortcut">
-    <string>Alt+F4</string>
-   </property>
   </action>
   <action name="actionEnablePushToTalk">
    <property name="checkable">
