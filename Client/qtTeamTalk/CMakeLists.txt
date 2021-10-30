@@ -234,11 +234,14 @@ if (Qt5_FOUND OR Qt6_FOUND)
         if (MACDEPLOYQT_EXECUTABLE-NOTFOUND)
           message(WARNING "Cannot Build Qt TeamTalk 5 Installer due to missing macdeployqt")
         else()
+
+          # Applies 'macdeployqt' for installing Qt frameworks, i.e. folder: TeamTalk5.app/Contents/Frameworks
           add_custom_command(TARGET ${TEAMTALK_TARGET} POST_BUILD
             COMMAND ${MACDEPLOYQT_EXE_PATH} $<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/../.. -always-overwrite
             COMMENT "Running macdeployqt on ${TEAMTALK_TARGET}.app")
 
-          add_custom_target(QtTeamTalk5Product ALL
+          # Prepare deployed TeamTalk5.app folder with client resources, i.e. language files, sounds, etc.
+          add_custom_target(QtTeamTalk5ClientProduct
             # Copy language files
             COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Languages
             COMMAND ${CMAKE_COMMAND} -E copy ${QM_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Languages
@@ -251,16 +254,38 @@ if (Qt5_FOUND OR Qt6_FOUND)
             # Copy config file
             COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Config
             COMMAND ${CMAKE_COMMAND} -E copy ${TEAMTALK_ROOT}/Setup/Client/Mac/TeamTalk5.ini ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Config/TeamTalk5.ini
+            COMMENT "Applying TeamTalk client to TeamTalk 5 Installer for macOS"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            DEPENDS QtTeamTalk5-Translations ${TEAMTALK_TARGET} TeamTalk-dox)
+
+          # Copies TeamTalk server to TeamTalk5.app folder, i.e. TeamTalk5.app/Contents/Server
+          add_custom_target(QtTeamTalk5ServerProduct
             # Copy server
             COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Server
             COMMAND ${CMAKE_COMMAND} -E copy ${TEAMTALK_ROOT}/Server/tt5srv ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Server
+            COMMENT "Applying TeamTalk server to TeamTalk 5 Installer for macOS"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            DEPENDS tt5srv QtTeamTalk5ClientProduct)
+
+          # Build TeamTalk 5 installer for Apple AppStore, i.e. without server application
+          add_custom_target(QtTeamTalk5Product ALL
+            # Run code sign
+            COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" --entitlements ${CMAKE_CURRENT_SOURCE_DIR}/Entitlements.plist ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
+            # Run productbuild
+            COMMAND productbuild --component ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app /Applications --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_AppStore_Setup.pkg
+            COMMENT "Building TeamTalk 5 Installer for AppStore"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            DEPENDS QtTeamTalk5ClientProduct)
+
+          # Build TeamTalk 5 install for macOS with server application
+          add_custom_target(QtTeamTalk5WithServerProduct ALL
             # Run code sign
             COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" --entitlements ${CMAKE_CURRENT_SOURCE_DIR}/Entitlements.plist ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
             # Run productbuild
             COMMAND productbuild --component ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app /Applications --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_Setup.pkg
-            COMMENT "Building TeamTalk 5 Installer for macOS"
+            COMMENT "Building TeamTalk 5 Installer for macOS with server"
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-            DEPENDS QtTeamTalk5-Translations ${TEAMTALK_TARGET} TeamTalk-dox tt5srv)
+            DEPENDS QtTeamTalk5Product QtTeamTalk5ServerProduct)
 
         endif()
 
