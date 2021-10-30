@@ -578,6 +578,8 @@ MainWindow::~MainWindow()
 
     ttSettings->setValue(SETTINGS_DISPLAY_FILESHEADER, ui.filesView->header()->saveState());
 
+    ttSettings->setValue(SETTINGS_DISPLAY_WINDOW_MAXIMIZE, QWidget::isMaximized());
+
     delete ttSettings;
 }
 
@@ -709,7 +711,9 @@ void MainWindow::loadSettings()
     }
     //set files header to last position
     ui.filesView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_FILESHEADER).toByteArray());
-
+    // Maximize window if necessary
+    if (ttSettings->value(SETTINGS_DISPLAY_WINDOW_MAXIMIZE).toBool() == true)
+        QWidget::showMaximized();
     // http query for app updates
     checkAppUpdate();
     m_timers.insert(startTimer(24 * 60 * 60 * 1000), TIMER_APP_UPDATE);

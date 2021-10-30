@@ -15,6 +15,7 @@ Default Qt Client
 - Ability to control transmission for everyone in a channel
 - Option to check updates for new beta versions
 - Using global shortcut to enable/disable master volume now emit sound and Text-To-Speech message
+- Window size is now saved and restored at startup
 - Fixed a case where, depending on start path, sounds with default values were not played
 - Fixed modifier keys not working as hotkeys in 64-bit Windows
 Android Client

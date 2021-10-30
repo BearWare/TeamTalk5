@@ -121,6 +121,7 @@
 #define SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT             false
 #define SETTINGS_DISPLAY_CHANNELSORT                 "display/sort-channels"
 #define SETTINGS_DISPLAY_CHANNELSORT_DEFAULT         CHANNELSORT_ASCENDING
+#define SETTINGS_DISPLAY_WINDOW_MAXIMIZE                          "display/window-maximized"
 
 #define SETTINGS_CONNECTION_AUTOCONNECT             "connection/autoconnect"
 #define SETTINGS_CONNECTION_RECONNECT               "connection/reconnect"
