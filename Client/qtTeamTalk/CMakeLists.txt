@@ -221,7 +221,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     set_output_dir(${TEAMTALK_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
 
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND ${CMAKE_BUILD_TYPE} MATCHES "release")
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       if (MACDEPLOYQT_EXECUTABLE-NOTFOUND)
         message("Cannot run macdeployqt on ${TEAMTALK_TARGET}.app")
       else()
@@ -272,7 +272,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     set_output_dir(${TEAMTALKPRO_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
 
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND ${CMAKE_BUILD_TYPE} MATCHES "release")
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       if (MACDEPLOYQT_EXECUTABLE-NOTFOUND)
         message("Cannot run macdeployqt on ${TEAMTALKPRO_TARGET}.app")
       else()
