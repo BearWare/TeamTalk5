@@ -15,11 +15,13 @@ jobs:
             cmakeplatform: Win32
             arch: win32
             msystem: MINGW32
+            portablearch: win32
           - name: VS2019Release64
             vmimage: windows-2019
             cmakeplatform: x64
             arch: x64
             msystem: MINGW64
+            portablearch: win64
 
     runs-on: ${{ matrix.vmimage }}
     name: ${{ matrix.name }}
@@ -87,11 +89,11 @@ jobs:
         path-type: inherit
         install: make
 
-    - name: Install Doxygen in MSYS64
+    - name: Install Doxygen in MSYS2 using pacman
       run: pacman --noconfirm -S doxygen
       shell: msys2 {0}
 
-    - name: Generate Doxygen Document
+    - name: Generate Doxygen documention from MSYS2
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: make dox
       shell: msys2 {0}
@@ -104,24 +106,27 @@ jobs:
         EXIT /B 0 
 
     - name: Make Portable Setup Targets
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{runner.workspace}}
       run: |
+        cd install-teamtalk
+        export TEAMTALK_INSTALLDIR=$PWD
+        cd ../TeamTalk5
         source env.sh
         cd Setup/Portable
-        make portable win32pro
+        make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro
       shell: msys2 {0}
 
     - uses: actions/upload-artifact@v2
       with:
-        name: teamtalk-windows-${{ matrix.arch }}
+        name: teamtalk-windows-${{ matrix.portablearch }}
         path: ${{runner.workspace}}/install-teamtalk
 
     - uses: actions/upload-artifact@v2
       with:
-        name: teamtalk-portable-${{ matrix.arch }}
+        name: teamtalk-portable-${{ matrix.portablearch }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/TeamTalk_*_Portable
 
     - uses: actions/upload-artifact@v2
       with:
-        name: teamtalkpro-${{ matrix.arch }}
-        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*-win32
+        name: teamtalkpro-${{ matrix.portablearch }}
+        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*-${{ matrix.portablearch }}
