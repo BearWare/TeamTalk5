@@ -22,13 +22,13 @@ endfunction()
 # Option to build Qt Framework on Windows. For CMake to find Qt set up
 # environment variable QTDIR to point to QT_INSTALL_PREFIX defined in
 # qt/CMakeLists.txt
+option (QT_BUILD_QTFRAMEWORK "Build Qt Framework" OFF)
+if (QT_BUILD_QTFRAMEWORK)
+  add_subdirectory(qt)
+endif()
+
+# Handle QMake support for Visual Studio
 if (MSVC)
-  option (QT_BUILD_QTFRAMEWORK "Build Qt Framework for Windows" OFF)
-
-  if (QT_BUILD_QTFRAMEWORK)
-    add_subdirectory(qt)
-  endif()
-
   option (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED "Build TeamTalk Qt-based clients as Multi-Threaded (/MT) instead of Multi-Threaded DLL (/MD)" ON)
   if (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED)
     foreach (flag_var
@@ -221,7 +221,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     set_output_dir(${TEAMTALK_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
 
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND ${CMAKE_BUILD_TYPE} MATCHES "release")
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       if (MACDEPLOYQT_EXECUTABLE-NOTFOUND)
         message("Cannot run macdeployqt on ${TEAMTALK_TARGET}.app")
       else()
@@ -272,7 +272,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     set_output_dir(${TEAMTALKPRO_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
 
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND ${CMAKE_BUILD_TYPE} MATCHES "release")
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       if (MACDEPLOYQT_EXECUTABLE-NOTFOUND)
         message("Cannot run macdeployqt on ${TEAMTALKPRO_TARGET}.app")
       else()

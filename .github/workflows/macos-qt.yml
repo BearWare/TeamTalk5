@@ -1,0 +1,60 @@
+name: macOS with Qt
+
+on:
+  push:
+    paths:
+      - 'Library/TeamTalkLib/TeamTalkDefs.h'
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Init TeamTalk Library submodules
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: |
+        git submodule update --init --recursive
+
+    - name: Install TeamTalk Library Dependencies
+      run: brew install doxygen
+
+    - name: Install Toolchain Dependencies
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+      run: |
+        brew update
+        make depend-mac
+
+    - name: Generate Qt Framework Build
+      working-directory: ${{runner.workspace}}
+      run: >-
+        cmake -S TeamTalk5 -B qtbuild
+        -DQT_BUILD_QTFRAMEWORK=ON
+        -DQT_INSTALL_PREFIX=${{runner.workspace}}/install/Qt
+        
+    - name: Build Qt Framework using CMake
+      working-directory: ${{runner.workspace}}
+      run: |
+        cmake --build qtbuild --target Qt-src --parallel 8
+        echo ${{runner.workspace}}/install/Qt/bin>> $GITHUB_PATH
+        echo QTDIR=${{runner.workspace}}/install/Qt>> $GITHUB_ENV
+        
+    - name: Build TeamTalk Library and Apps
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: |
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" CMAKE_GENERATOR="Unix Makefiles" -C Build mac
+
+    - name: Doxygen Documentation
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+      run: make dox
+
+    - name: Run CMake Install Target
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-mac
+      run: cmake --build . --target install
+
+    - name: Upload TeamTalk Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: teamtalksdk-macos
+        path: ${{runner.workspace}}/install
