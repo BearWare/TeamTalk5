@@ -19,7 +19,7 @@ Default Qt Client
 - Fixed a bug where sounds with default values were not played due to file path
 - Fixed modifier keys not working as hotkeys in 64-bit Windows
 Android Client
--
+- Join user account's initial channel
 iOS Client
 -
 Server

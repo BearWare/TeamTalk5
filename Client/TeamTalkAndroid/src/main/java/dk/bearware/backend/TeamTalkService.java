@@ -762,13 +762,21 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
         if (joinchannel == null) {
             joinchannel = new Channel();
-            int rootchanid = ttclient.getRootChannelID();
-            int chanid = ((ttserver.channel == null) || ttserver.channel.isEmpty()) ? rootchanid : ttclient.getChannelIDFromPath(ttserver.channel);
-            if (ttclient.getChannel(chanid, joinchannel)) {
-                joinchannel.szPassword = ttserver.chanpasswd;
+            UserAccount myuseraccount = new UserAccount();
+            ttclient.getMyUserAccount(myuseraccount);
+            if (!myuseraccount.szInitChannel.isEmpty()) {
+                int chanid = ttclient.getChannelIDFromPath(myuseraccount.szInitChannel);
+                ttclient.getChannel(chanid, joinchannel);
             }
-            else if ((chanid == rootchanid) || !ttclient.getChannel(rootchanid, joinchannel)) {
-                joinchannel = null;
+            else {
+                int rootchanid = ttclient.getRootChannelID();
+                int chanid = ((ttserver.channel == null) || ttserver.channel.isEmpty()) ? rootchanid : ttclient.getChannelIDFromPath(ttserver.channel);
+                if (ttclient.getChannel(chanid, joinchannel)) {
+                    joinchannel.szPassword = ttserver.chanpasswd;
+                }
+                else if ((chanid == rootchanid) || !ttclient.getChannel(rootchanid, joinchannel)) {
+                    joinchannel = null;
+                }
             }
         }
 
