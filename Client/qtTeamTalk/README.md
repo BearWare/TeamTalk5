@@ -9,7 +9,7 @@ To try a compiled version of the this application go [here](http://bearware.dk/?
 In order to build the Qt-based TeamTalk client its build-dependencies
 must first be installed. Goto TEAMTALK_ROOT/Build and type:
 
-`# make depend-ubuntu64`
+`# make depend-ubuntu18`
 
 Afterwards run the following command:
 
