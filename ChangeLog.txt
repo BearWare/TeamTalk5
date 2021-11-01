@@ -1,22 +1,22 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.8.2
+Version 5.8.2, unreleased
 Default Qt Client
-- Press Shift+Enter now insert a new line in public chat
-- Option to select users for move in Online Users dialog using its context menu
+- Press Shift+Enter now inserts a new line in channel chat
+- Option to select users for move operation in Online Users dialog using its context menu
 - Option to keep disconnected users in Online Users dialog
 - Option in Display-tab to choose the behavior of double-click/activate on a channel
 - Option in Display-tab to open a dialog box when being excluded from channel or server
 - Option to close file transfer dialog when a transfer completes is now saved
 - Option in Display-tab to sort channels ascending or by popularity
 - Option in Text-to-Speech-tab to speak selected item in lists on macOS
-- Who can transmit in a channel has been moved from Users->Advanced to Users->Transmit Control
-- Ability to control transmission for everyone in a channel
-- Option to check updates for new beta versions
-- Using global shortcut to enable/disable master volume now emit sound and Text-To-Speech message
+- Modify who can transmit in a channel has been moved from Users->Advanced to Users->Transmit Control
+- Menu item to control transmission for everyone in a channel
+- Option in Display-tab to check updates for new beta versions
+- Global keyboard shortcut to enable/disable master volume now emits sound and Text-To-Speech message
 - Window size is now saved and restored at startup
-- Fixed a case where, depending on start path, sounds with default values were not played
+- Fixed a bug where sounds with default values were not played due to file path
 - Fixed modifier keys not working as hotkeys in 64-bit Windows
 Android Client
 -
