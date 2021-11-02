@@ -45,6 +45,7 @@ jobs:
       run: |
         source env.sh
         make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCATCH_UNITTEST=ON -DCATCH_UNITTEST_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu64
+        echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
     - name: Java Server API Test (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI

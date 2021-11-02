@@ -44,6 +44,7 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
         make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" CMAKE_GENERATOR="Unix Makefiles" -C Build mac
+        echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
