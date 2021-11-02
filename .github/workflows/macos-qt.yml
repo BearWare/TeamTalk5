@@ -31,14 +31,14 @@ jobs:
       run: >-
         cmake -S TeamTalk5 -B qtbuild
         -DQT_BUILD_QTFRAMEWORK=ON
-        -DQT_INSTALL_PREFIX=${{runner.workspace}}/install/Qt
+        -DQT_INSTALL_PREFIX=${{runner.workspace}}/install-qt
         
     - name: Build Qt Framework using CMake
       working-directory: ${{runner.workspace}}
       run: |
         cmake --build qtbuild --target Qt-src --parallel 8
-        echo ${{runner.workspace}}/install/Qt/bin>> $GITHUB_PATH
-        echo QTDIR=${{runner.workspace}}/install/Qt>> $GITHUB_ENV
+        echo ${{runner.workspace}}/install-qt/bin>> $GITHUB_PATH
+        echo QTDIR=${{runner.workspace}}/install-qt>> $GITHUB_ENV
         
     - name: Build TeamTalk Library and Apps
       working-directory: ${{runner.workspace}}/TeamTalk5
