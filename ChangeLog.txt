@@ -1,7 +1,20 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.8.2, unreleased
+
+Version 5.8.3, unreleased
+Accessible Windows Client
+-
+Default Qt Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.8.2, 2021/11/02
 Default Qt Client
 - Press Shift+Enter now inserts a new line in channel chat
 - Option to select users for move operation in Online Users dialog using its context menu
@@ -20,8 +33,6 @@ Default Qt Client
 - Fixed modifier keys not working as hotkeys in 64-bit Windows
 Android Client
 - Join user account's initial channel
-iOS Client
--
 Server
 - Reopen log file on SIGHUP (server reload)
 
