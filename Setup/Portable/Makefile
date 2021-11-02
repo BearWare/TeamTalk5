@@ -29,7 +29,7 @@ win32:
 	cp $(INSTALLDIR)/Client/qtTeamTalk/nvdaControllerClient32.dll $(OUTDIR)/Client/
 	cp $(INSTALLDIR)/Client/qtTeamTalk/SAAPI32.dll $(OUTDIR)/Client/
 	cp $(INSTALLDIR)/Client/qtTeamTalk/Tolk.dll $(OUTDIR)/Client/
-	make arczip
+	make TT5DIST=$(TT5DIST) arczip
 
 win64:
 	$(eval TT5DIST=TeamTalk_$(VERSION)_Portable)
@@ -40,7 +40,7 @@ win64:
 	cp $(INSTALLDIR)/Client/qtTeamTalk/nvdaControllerClient64.dll $(OUTDIR)/Client/
 	cp $(INSTALLDIR)/Client/qtTeamTalk/SAAPI64.dll $(OUTDIR)/Client/
 	cp $(INSTALLDIR)/Client/qtTeamTalk/Tolk.dll $(OUTDIR)/Client/
-	make arczip
+	make TT5DIST=$(TT5DIST) arczip
 
 win32pro:
 	$(eval TT5DIST=teamtalkpro-$(VERSION)-win32)
