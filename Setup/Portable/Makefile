@@ -131,7 +131,7 @@ serverpro:
 	mkdir -p $(OUTDIR)/server
 	cp $(INSTALLDIR)/Server/tt5prosrv $(OUTDIR)/server/
 	mkdir -p $(OUTDIR)/server/init.d
-	cp $(INSTALLDIR)/Setup/Server/Linux/init.d/tt5proserver $(OUTDIR)/server/init.d/
+	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/init.d/tt5proserver $(OUTDIR)/server/init.d/
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/init.d/README_pro.md $(OUTDIR)/server/init.d/README.md
 	mkdir -p $(OUTDIR)/server/systemd
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/systemd/tt5proserver.service $(OUTDIR)/server/systemd/
