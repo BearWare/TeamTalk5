@@ -1,4 +1,4 @@
-VERSION="v5.8.2.5057"
+VERSION="v5.8.3.5059"
 
 OUTPUT_DEST=./
 INSTALLDIR?=$(TEAMTALK_INSTALLDIR)
@@ -29,7 +29,7 @@ win32:
 	cp $(INSTALLDIR)/Client/qtTeamTalk/nvdaControllerClient32.dll $(OUTDIR)/Client/
 	cp $(INSTALLDIR)/Client/qtTeamTalk/SAAPI32.dll $(OUTDIR)/Client/
 	cp $(INSTALLDIR)/Client/qtTeamTalk/Tolk.dll $(OUTDIR)/Client/
-	make arczip
+	make TT5DIST=$(TT5DIST) arczip
 
 win64:
 	$(eval TT5DIST=TeamTalk_$(VERSION)_Portable)
@@ -40,7 +40,7 @@ win64:
 	cp $(INSTALLDIR)/Client/qtTeamTalk/nvdaControllerClient64.dll $(OUTDIR)/Client/
 	cp $(INSTALLDIR)/Client/qtTeamTalk/SAAPI64.dll $(OUTDIR)/Client/
 	cp $(INSTALLDIR)/Client/qtTeamTalk/Tolk.dll $(OUTDIR)/Client/
-	make arczip
+	make TT5DIST=$(TT5DIST) arczip
 
 win32pro:
 	$(eval TT5DIST=teamtalkpro-$(VERSION)-win32)
@@ -119,6 +119,7 @@ server:
 	@echo "########## Copying server ##########"
 	mkdir -p $(OUTDIR)/server
 	cp $(INSTALLDIR)/Server/tt5srv $(OUTDIR)/server/
+	strip $(OUTDIR)/server/tt5srv
 	mkdir -p $(OUTDIR)/server/init.d
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/init.d/tt5server $(OUTDIR)/server/init.d/
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/init.d/README.md $(OUTDIR)/server/init.d/
@@ -130,8 +131,9 @@ serverpro:
 	@echo "########## Copying serverpro ##########"
 	mkdir -p $(OUTDIR)/server
 	cp $(INSTALLDIR)/Server/tt5prosrv $(OUTDIR)/server/
+	strip $(OUTDIR)/server/tt5prosrv
 	mkdir -p $(OUTDIR)/server/init.d
-	cp $(INSTALLDIR)/Setup/Server/Linux/init.d/tt5proserver $(OUTDIR)/server/init.d/
+	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/init.d/tt5proserver $(OUTDIR)/server/init.d/
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/init.d/README_pro.md $(OUTDIR)/server/init.d/README.md
 	mkdir -p $(OUTDIR)/server/systemd
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/systemd/tt5proserver.service $(OUTDIR)/server/systemd/
@@ -177,9 +179,11 @@ winclient:
 debclient:
 	mkdir -p $(OUTDIR)/client
 	cp $(INSTALLDIR)/Client/qtTeamTalk/teamtalk5 $(OUTDIR)/client
+	strip $(OUTDIR)/client/teamtalk5
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/client/TeamTalk5.ini.default
 	cp $(INSTALLDIR)/Library/TeamTalk_DLL/libTeamTalk5.so $(OUTDIR)/client
+	strip $(OUTDIR)/client/libTeamTalk5.so
 	mkdir -p $(OUTDIR)/client/languages
 	cp -r $(INSTALLDIR)/Client/qtTeamTalk/languages $(OUTDIR)/client/languages
 	cp -r $(TEAMTALK_ROOT)/Setup/Client/Sounds $(OUTDIR)/client/sounds
