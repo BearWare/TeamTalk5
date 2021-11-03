@@ -133,24 +133,11 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
   find_package(Qt5LinguistTools)
   if (Qt5LinguistTools_FOUND)
-    file (GLOB TS_FILES ${CMAKE_CURRENT_LIST_DIR}/languages/*.ts)
-    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_LIST_DIR}/languages)
+    file (GLOB TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/languages/*.ts)
+    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/languages)
     qt5_add_translation (QM_FILES ${TS_FILES})
     add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
     install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
-  endif()
-
-  if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    # Don't set to to "TeamTalk5" on macOS since we still build with
-    # QMake
-    set (TEAMTALK_TARGET TeamTalk)
-    set (TEAMTALKPRO_TARGET TeamTalkPro)
-  elseif (MSVC)
-    set (TEAMTALK_TARGET TeamTalk5)
-    set (TEAMTALKPRO_TARGET TeamTalk5Pro)
-  else()
-    set (TEAMTALK_TARGET teamtalk5)
-    set (TEAMTALKPRO_TARGET teamtalk5pro)
   endif()
 
   if (Qt6_FOUND)
@@ -161,6 +148,19 @@ if (Qt5_FOUND OR Qt6_FOUND)
     else()
       set (TEAMTALK_LINK_FLAGS Qt5::Widgets Qt5::Xml Qt5::Network Qt5::Multimedia Qt5::TextToSpeech)
     endif()
+  endif()
+
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    # Don't set to to "TeamTalk5" on macOS since we still build with
+    # QMake
+    set (TEAMTALK_TARGET TeamTalk5)
+    set (TEAMTALKPRO_TARGET TeamTalk5Pro)
+  elseif (MSVC)
+    set (TEAMTALK_TARGET TeamTalk5)
+    set (TEAMTALKPRO_TARGET TeamTalk5Pro)
+  else()
+    set (TEAMTALK_TARGET teamtalk5)
+    set (TEAMTALKPRO_TARGET teamtalk5pro)
   endif()
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -191,7 +191,11 @@ if (Qt5_FOUND OR Qt6_FOUND)
     if (MSVC)
       add_executable (${TEAMTALK_TARGET} WIN32 ${QTTEAMTALK_SOURCES})
     elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-      add_executable (${TEAMTALK_TARGET} MACOSX_BUNDLE ${QTTEAMTALK_SOURCES})
+      add_executable (${TEAMTALK_TARGET} ${QTTEAMTALK_SOURCES})
+      set_target_properties(${TEAMTALK_TARGET} PROPERTIES
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
+      target_link_options(${TEAMTALK_TARGET} PRIVATE -sectcreate __TEXT __info_plist ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
     else()
       add_executable (${TEAMTALK_TARGET} ${QTTEAMTALK_SOURCES})
     endif()
@@ -222,12 +226,69 @@ if (Qt5_FOUND OR Qt6_FOUND)
     set_output_dir(${TEAMTALK_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-      if (MACDEPLOYQT_EXECUTABLE-NOTFOUND)
-        message("Cannot run macdeployqt on ${TEAMTALK_TARGET}.app")
-      else()
-        add_custom_command(TARGET ${TEAMTALK_TARGET} POST_BUILD
-          COMMAND ${MACDEPLOYQT_EXE_PATH} $<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/../.. -always-overwrite
-          COMMENT "Running macdeployqt on ${TEAMTALK_TARGET}.app")
+
+      option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT "Build Qt TeamTalk 5 Installer" ON)
+
+      if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT)
+
+        if (MACDEPLOYQT_EXECUTABLE-NOTFOUND)
+          message(WARNING "Cannot Build Qt TeamTalk 5 Installer due to missing macdeployqt")
+        else()
+
+          # Applies 'macdeployqt' for installing Qt frameworks, i.e. folder: TeamTalk5.app/Contents/Frameworks
+          add_custom_command(TARGET ${TEAMTALK_TARGET} POST_BUILD
+            COMMAND ${MACDEPLOYQT_EXE_PATH} $<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/../.. -always-overwrite
+            COMMENT "Running macdeployqt on ${TEAMTALK_TARGET}.app")
+
+          # Prepare deployed TeamTalk5.app folder with client resources, i.e. language files, sounds, etc.
+          add_custom_target(QtTeamTalk5ClientProduct
+            # Copy language files
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Languages
+            COMMAND ${CMAKE_COMMAND} -E copy ${QM_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Languages
+            # Copy sounds
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Sounds
+            COMMAND ${CMAKE_COMMAND} -E copy_directory ${TEAMTALK_ROOT}/Setup/Client/Sounds ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Sounds
+            # Copy help
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Help
+            COMMAND ${CMAKE_COMMAND} -E copy ${TEAMTALK_ROOT}/Documentation/TeamTalk/output/* ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Help
+            # Copy config file
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Config
+            COMMAND ${CMAKE_COMMAND} -E copy ${TEAMTALK_ROOT}/Setup/Client/Mac/TeamTalk5.ini ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Config/TeamTalk5.ini
+            COMMENT "Applying TeamTalk client to TeamTalk 5 Installer for macOS"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            DEPENDS QtTeamTalk5-Translations ${TEAMTALK_TARGET} TeamTalk-dox)
+
+          # Copies TeamTalk server to TeamTalk5.app folder, i.e. TeamTalk5.app/Contents/Server
+          add_custom_target(QtTeamTalk5ServerProduct
+            # Copy server
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Server
+            COMMAND ${CMAKE_COMMAND} -E copy ${TEAMTALK_ROOT}/Server/tt5srv ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Server
+            COMMENT "Applying TeamTalk server to TeamTalk 5 Installer for macOS"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            DEPENDS tt5srv QtTeamTalk5ClientProduct)
+
+          # Build TeamTalk 5 installer for Apple AppStore, i.e. without server application
+          add_custom_target(QtTeamTalk5Product ALL
+            # Run code sign
+            COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" --entitlements ${CMAKE_CURRENT_SOURCE_DIR}/Entitlements.plist ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
+            # Run productbuild
+            COMMAND productbuild --component ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app /Applications --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_AppStore_Setup.pkg
+            COMMENT "Building TeamTalk 5 Installer for AppStore"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            DEPENDS QtTeamTalk5ClientProduct)
+
+          # Build TeamTalk 5 install for macOS with server application
+          add_custom_target(QtTeamTalk5WithServerProduct ALL
+            # Run code sign
+            COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" --entitlements ${CMAKE_CURRENT_SOURCE_DIR}/Entitlements.plist ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
+            # Run productbuild
+            COMMAND productbuild --component ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app /Applications --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_Setup.pkg
+            COMMENT "Building TeamTalk 5 Installer for macOS with server"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            DEPENDS QtTeamTalk5Product QtTeamTalk5ServerProduct)
+
+        endif()
+
       endif()
     endif()
 
@@ -271,16 +332,6 @@ if (Qt5_FOUND OR Qt6_FOUND)
     set_property(TARGET ${TEAMTALKPRO_TARGET} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL)
 
     set_output_dir(${TEAMTALKPRO_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
-
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-      if (MACDEPLOYQT_EXECUTABLE-NOTFOUND)
-        message("Cannot run macdeployqt on ${TEAMTALKPRO_TARGET}.app")
-      else()
-        add_custom_command(TARGET ${TEAMTALKPRO_TARGET} POST_BUILD
-          COMMAND ${MACDEPLOYQT_EXE_PATH} $<TARGET_FILE_DIR:${TEAMTALKPRO_TARGET}>/../.. -always-overwrite
-          COMMENT "Running macdeployqt on ${TEAMTALKPRO_TARGET}.app")
-      endif()
-    endif()
 
     install (TARGETS ${TEAMTALKPRO_TARGET} DESTINATION Client/qtTeamTalk)
   endif()
