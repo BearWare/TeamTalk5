@@ -148,26 +148,9 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         setWindowTitle(tr("Update Channel"));
         int count = 0;
         TT_GetChannelUsers(ttInst, chan.nChannelID, nullptr, &count);
-        if(count>0)
-        {
-            ui.audiocodecBox->setEnabled(false);
-            ui.spx_srateBox->setEnabled(false);
-            ui.spx_qualitySlider->setEnabled(false);
-            ui.spx_txdelaySpinBox->setEnabled(false);
+        if (count > 0)
+            setAudioCodecReadonly();
 
-            ui.spxvbr_srateBox->setEnabled(false);
-            ui.spxvbr_qualitySlider->setEnabled(false);
-            ui.spxvbr_maxbpsSpinBox->setEnabled(false);
-            ui.spxvbr_dtxBox->setEnabled(false);
-            ui.spxvbr_txdelaySpinBox->setEnabled(false);
-
-            ui.opus_srateBox->setEnabled(false);
-            ui.opus_channelsBox->setEnabled(false);
-            ui.opus_appBox->setEnabled(false);
-            ui.opus_bpsSpinBox->setEnabled(false);
-            ui.opus_dtxBox->setEnabled(false);
-            ui.opus_txdelaySpinBox->setEnabled(false);
-        }
         // cannot modify hidden property
         ui.hiddenchannelBox->setEnabled(false);
     }
@@ -188,24 +171,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         ui.norecordBox->setEnabled(false);
         ui.hiddenchannelBox->setEnabled(false);
 
-        ui.audiocodecBox->setEnabled(false);
-
-        ui.spx_srateBox->setEnabled(false);
-        ui.spx_qualitySlider->setEnabled(false);
-        ui.spx_txdelaySpinBox->setEnabled(false);
-
-        ui.spxvbr_srateBox->setEnabled(false);
-        ui.spxvbr_qualitySlider->setEnabled(false);
-        ui.spxvbr_maxbpsSpinBox->setEnabled(false);
-        ui.spxvbr_dtxBox->setEnabled(false);
-        ui.spxvbr_txdelaySpinBox->setEnabled(false);
-
-        ui.opus_srateBox->setEnabled(false);
-        ui.opus_channelsBox->setEnabled(false);
-        ui.opus_appBox->setEnabled(false);
-        ui.opus_bpsSpinBox->setEnabled(false);
-        ui.opus_dtxBox->setEnabled(false);
-        ui.opus_txdelaySpinBox->setEnabled(false);
+        setAudioCodecReadonly();
 
         ui.agcBox->setEnabled(false);
         ui.gainlevelSlider->setEnabled(false);
@@ -359,6 +325,30 @@ Channel ChannelDlg::GetChannel() const
 bool ChannelDlg::joinChannel() const
 {
     return ui.joinchanBox->isChecked();
+}
+
+void ChannelDlg::setAudioCodecReadonly()
+{
+    ui.audiocodecBox->setEnabled(false);
+
+    ui.spx_srateBox->setEnabled(false);
+    ui.spx_qualitySlider->setEnabled(false);
+    ui.spx_txdelaySpinBox->setEnabled(false);
+
+    ui.spxvbr_srateBox->setEnabled(false);
+    ui.spxvbr_qualitySlider->setEnabled(false);
+    ui.spxvbr_maxbpsSpinBox->setEnabled(false);
+    ui.spxvbr_dtxBox->setEnabled(false);
+    ui.spxvbr_txdelaySpinBox->setEnabled(false);
+
+    ui.opus_channelsBox->setEnabled(false);
+    ui.opus_appBox->setEnabled(false);
+    ui.opus_bpsSpinBox->setEnabled(false);
+    ui.opus_srateBox->setEnabled(false);
+    ui.opus_txdelaySpinBox->setEnabled(false);
+    ui.opus_framesizeComboBox->setEnabled(false);
+    ui.opus_vbrCheckBox->setEnabled(false);
+    ui.opus_dtxBox->setEnabled(false);
 }
 
 void ChannelDlg::slotAudioCodecChanged(int index)
