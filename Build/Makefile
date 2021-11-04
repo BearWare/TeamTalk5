@@ -170,6 +170,8 @@ depend-ubuntu18:
                     libasound2-dev wget python g++
 depend-ubuntu19: depend-ubuntu18
 depend-ubuntu20: depend-ubuntu18
+depend-ubuntu18-android:
+	apt install doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python
 
 # TeamTalk 5 dependencies Debian 9 when using CMake option -DBUILD_TEAMTALK_CORE=ON
 depend-debian9:
