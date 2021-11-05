@@ -331,7 +331,8 @@ bool FileNode::OnReceive(const char* buff, int len)
         ACE_INT64 writebytes = len;
         if (m_file.Tell() + len > m_transfer.filesize)
             writebytes = m_transfer.filesize - m_file.Tell();
-        ssize_t ret = m_file.Write(buff, writebytes);
+        auto ret = m_file.Write(buff, writebytes);
+        MYTRACE_COND(ret != writebytes, ACE_TEXT("Write failed to %s\n"), m_transfer.localfile.c_str());
 
         UpdateBytesTransferred();
 
