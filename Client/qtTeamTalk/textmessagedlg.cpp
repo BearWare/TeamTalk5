@@ -196,6 +196,7 @@ void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
             if(cmd_msg[1] == "1")
             {
                 ui.newmsgLabel->setText(tr("New message - remote user typing."));
+                addTextToSpeechMessage(tr("Remote user typing"));
                 if(m_remote_typing_id)
                     killTimer(m_remote_typing_id);
                 m_remote_typing_id = startTimer(REMOTE_TYPING_DELAY);
