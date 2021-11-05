@@ -84,10 +84,6 @@
 #include <algorithm>
 using namespace std::placeholders;
 
-#ifdef _MSC_VER
-#pragma warning(disable:4800)
-#endif
-
 extern TTInstance* ttInst;
 
 QSettings* ttSettings = nullptr;

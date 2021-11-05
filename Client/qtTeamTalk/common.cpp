@@ -758,7 +758,7 @@ QString getHotKeyText(const hotkey_t& hotkey)
 {
 #ifdef Q_OS_WIN32
     QString key;
-    for(int i=0;i<hotkey.size();i++)
+    for(std::size_t i=0;i<hotkey.size();i++)
     {
         TTCHAR buff[TT_STRLEN] = {};
         TT_HotKey_GetKeyString(ttInst, hotkey[i], buff);
@@ -768,7 +768,7 @@ QString getHotKeyText(const hotkey_t& hotkey)
 #elif defined(Q_OS_LINUX)
     Q_UNUSED(ttInst);
     int keys[4] = {0, 0, 0, 0};
-    for(int i=0;i<hotkey.size();i++)
+    for(std::size_t i=0;i<hotkey.size();i++)
         keys[i] = hotkey[i];
         
     QKeySequence keyseq(keys[0], keys[1], keys[2], keys[3]);
@@ -892,7 +892,7 @@ QString getHotKeyString(HotKeyID keyid)
 void saveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey)
 {
     QStringList hklst;
-    for(int i=0;i<hotkey.size();i++)
+    for(std::size_t i=0;i<hotkey.size();i++)
         hklst.push_back(QString::number(hotkey[i]));
     ttSettings->setValue(getHotKeyString(hotkeyid), hklst);
 }
