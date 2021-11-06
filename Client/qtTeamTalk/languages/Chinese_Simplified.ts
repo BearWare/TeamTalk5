@@ -1646,10 +1646,6 @@ p, li { white-space: pre-wrap; }
         <translation>退出(&amp;E)</translation>
     </message>
     <message>
-        <source>Alt+F4</source>
-        <translation type="vanished">Alt+F4</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1380"/>
         <source>Enable &amp;Push To Talk</source>
         <translation>启用案件说话(&amp;P)</translation>
@@ -4064,10 +4060,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="537"/>
         <source>Show statusbar events in chat-window</source>
         <translation>在聊天窗口中显示状态栏事件</translation>
-    </message>
-    <message>
-        <source>Check for program updates at startup</source>
-        <translation type="vanished">检查程序更新</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="663"/>
