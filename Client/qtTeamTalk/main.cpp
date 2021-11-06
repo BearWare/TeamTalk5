@@ -41,6 +41,9 @@
 TTInstance* ttInst = nullptr;
 
 #if defined(Q_OS_WIN32)
+
+Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
+
 class MyQApplication
     : public QApplication
 {
@@ -342,7 +345,17 @@ OSStatus mac_callback(EventHandlerCallRef nextHandler, EventRef event, void*)
 
 int main(int argc, char *argv[])
 {
-#if defined(Q_OS_WIN32) || defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
+#if defined(Q_OS_WIN32)
+    // Use QWindowsIntegration plugin to distinguish Alt+Gr from Ctrl+Alt on Windows
+    // https://qthub.com/static/doc/qt5/qtdoc/qpa.html
+    std::vector< char* > argv_;
+    for (int i = 0; i < argc; ++i)
+        argv_.push_back(argv[i]);
+    argv_.push_back("-platform");
+    argv_.push_back("windows:altgr");
+    argc = int(argv_.size());
+    MyQApplication app(argc, &argv_[0]);
+#elif defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
     MyQApplication app(argc, argv);
 #else
     QApplication app(argc, argv);
