@@ -74,14 +74,14 @@ linux:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
-	make OUTDIR=$(OUTDIR) license server debclient
+	make OUTDIR=$(OUTDIR) license linuxserver linuxclient
 	make arctar
 
 linuxpro:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
-	make OUTDIR=$(OUTDIR) serverpro
+	make OUTDIR=$(OUTDIR) linuxserverpro
 	make arctar
 
 deb32pro:
@@ -104,7 +104,7 @@ centos5:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
-	make OUTDIR=$(OUTDIR) license server
+	make OUTDIR=$(OUTDIR) license linuxserver
 	make arctar
 
 centos7:
@@ -112,10 +112,10 @@ centos7:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
-	$(MAKE) OUTDIR=$(OUTDIR) license server
+	$(MAKE) OUTDIR=$(OUTDIR) license linuxserver
 	$(MAKE) TT5DIST=$(TT5DIST) arctar
 
-server:
+linuxserver:
 	@echo "########## Copying server ##########"
 	mkdir -p $(OUTDIR)/server
 	cp $(INSTALLDIR)/Server/tt5srv $(OUTDIR)/server/
@@ -127,7 +127,7 @@ server:
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/systemd/tt5server.service $(OUTDIR)/server/systemd/
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/systemd/README.md $(OUTDIR)/server/systemd/
 
-serverpro:
+linuxserverpro:
 	@echo "########## Copying serverpro ##########"
 	mkdir -p $(OUTDIR)/server
 	cp $(INSTALLDIR)/Server/tt5prosrv $(OUTDIR)/server/
@@ -176,7 +176,7 @@ winclient:
 	cp -r $(TEAMTALK_ROOT)/Setup/Client/Sounds $(OUTDIR)/Client/Sounds
 	cp $(TEAMTALK_ROOT)/Documentation/TeamTalk/output/TeamTalk5.chm $(OUTDIR)/Client/
 
-debclient:
+linuxclient:
 	mkdir -p $(OUTDIR)/client
 	cp $(INSTALLDIR)/Client/qtTeamTalk/teamtalk5 $(OUTDIR)/client
 	strip $(OUTDIR)/client/teamtalk5
