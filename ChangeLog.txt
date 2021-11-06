@@ -7,6 +7,7 @@ Accessible Windows Client
 -
 Default Qt Client
 - Dark mode enabled on Windows if selected Personalisation Colour is Dark
+- Fixed AltGr being treated as Ctrl+Alt on Windows
 Android Client
 -
 iOS Client
