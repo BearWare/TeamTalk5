@@ -45,6 +45,7 @@ public:
     bool joinChannel() const;
 
 private:
+    void setAudioCodecReadonly();
     void slotAudioCodecChanged(int index);
     void slotUpdateSliderLabels();
     void slotUpdateChannelPath(const QString &);

@@ -84,10 +84,6 @@
 #include <algorithm>
 using namespace std::placeholders;
 
-#ifdef _MSC_VER
-#pragma warning(disable:4800)
-#endif
-
 extern TTInstance* ttInst;
 
 QSettings* ttSettings = nullptr;
@@ -209,6 +205,13 @@ MainWindow::MainWindow(const QString& cfgfile)
     ui.statusbar->addPermanentWidget(m_dtxprogress);
     ui.statusbar->addPermanentWidget(m_pinglabel);
     ui.statusbar->addPermanentWidget(m_pttlabel);
+
+
+#if defined(Q_OS_WIN32)
+    ui.actionExit->setShortcut(QKeySequence(Qt::ALT + Qt::Key_F4));
+#else
+    ui.actionExit->setShortcut(QKeySequence::Quit);
+#endif
 
     connect(ui.msgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
     connect(ui.sendButton, &QAbstractButton::clicked,

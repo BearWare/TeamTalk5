@@ -16,7 +16,6 @@ project (TeamTalk5SDK)
 # Afterwards build configured projects:
 # $ cmake --build teamtalk-win32
 
-
 option (BUILD_TEAMTALK_CORE "Build TeamTalk core library" OFF)
 option (BUILD_TEAMTALK_LIBRARIES "Build TeamTalk libraries" ON)
 option (BUILD_TEAMTALK_CLIENTS "Build TeamTalk client examples" ON)
@@ -28,11 +27,18 @@ if (BUILD_TEAMTALK_CORE)
   add_subdirectory (Library/TeamTalkLib)
 endif()
 
+if (MSVC)
+  include(CheckLanguage)
+  check_language(CSharp)
+endif()
+
 if (BUILD_TEAMTALK_LIBRARIES)
   add_subdirectory (Library/TeamTalkJNI)
 
-  if (MSVC)
+  if (CMAKE_CSharp_COMPILER)
     add_subdirectory (Library/TeamTalk.NET)
+  else()
+    message(WARNING "No C# compiler detected. Skipping .NET libraries")
   endif()
 endif()
 
@@ -42,8 +48,10 @@ endif()
 
 if (BUILD_TEAMTALK_SERVERS)
   add_subdirectory (Server/TeamTalkServer)
-  if (MSVC)
+  if (CMAKE_CSharp_COMPILER)
     add_subdirectory (Server/TeamTalkServer.NET)
+  else()
+    message(WARNING "No C# compiler detected. Skipping .NET Servers")
   endif()
 endif()
 

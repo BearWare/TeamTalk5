@@ -36,11 +36,6 @@
 #include <QCoreApplication>
 #include "stdint.h"
 
-#if defined(_MSC_VER)
-#define _CRT_SECURE_NO_WARNINGS 1
-#pragma warning(disable:4800)
-#endif
-
 #if defined(Q_OS_WIN32)
 #define NOMINMAX //prevent std::...::min() collision
 #include <windows.h>

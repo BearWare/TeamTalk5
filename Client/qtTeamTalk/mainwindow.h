@@ -24,16 +24,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#ifdef _MSC_VER
-#pragma warning( push )
-#pragma warning(disable:4100)
-#endif
-
 #include "ui_mainwindow.h"
-
-#ifdef _MSC_VER 
-#pragma warning( pop )
-#endif
 
 #include <QMap>
 #include <QSet>

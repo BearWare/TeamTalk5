@@ -227,7 +227,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-      option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT "Build Qt TeamTalk 5 Installer" ON)
+      option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT "Build Qt TeamTalk 5 Installer" OFF)
 
       if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT)
 

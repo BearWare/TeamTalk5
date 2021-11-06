@@ -103,7 +103,7 @@ void ClientNodeBase::ResumeEventHandling()
     assert(ret >= 0);
 
     ret = m_reactor_wait.acquire();
-    assert(ret >= 0);
+    MYTRACE_COND(ret < 0, ACE_TEXT("Failed to wait for thread start in ClientNodeBase\n"));
 
     MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread activated.\n")) );
 }

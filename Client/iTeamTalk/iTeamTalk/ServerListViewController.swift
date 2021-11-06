@@ -48,6 +48,7 @@ class Server : NSObject {
         udpport = dec.decodeInteger(forKey: "udpport")
         username = dec.decodeObject(forKey: "username") as! String
         password = dec.decodeObject(forKey: "password") as! String
+        nickname = dec.decodeObject(forKey: "nickname") as? String ?? ""
         channel = dec.decodeObject(forKey: "channel") as! String
         chanpasswd = dec.decodeObject(forKey: "chanpasswd") as! String
         encrypted = dec.decodeBool(forKey: "encrypted")
@@ -60,6 +61,7 @@ class Server : NSObject {
         enc.encode(udpport, forKey: "udpport")
         enc.encode(username, forKey: "username")
         enc.encode(password, forKey: "password")
+        enc.encode(nickname, forKey: "nickname")
         enc.encode(channel, forKey: "channel")
         enc.encode(chanpasswd, forKey: "chanpasswd")
         enc.encode(encrypted, forKey: "encrypted")
@@ -363,7 +365,16 @@ class ServerListViewController : UITableViewController,
                     let urlpasswd = ns_str.substring(with: m.range(at: 1))
                     currentServer.password = urlpasswd.removingPercentEncoding!
                 }
-                
+
+                // nickname
+                let nickname = "[&|\\?]nickname=([^&]*)"
+                let nickname_regex = try NSRegularExpression(pattern: nickname, options: .caseInsensitive)
+                let nickname_matches = nickname_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
+                if let m = nickname_matches.first {
+                    let urlnickname = ns_str.substring(with: m.range(at: 1))
+                    currentServer.nickname = urlnickname.removingPercentEncoding!
+                }
+
                 // channel
                 let channel = "[&|\\?]channel=([^&]*)"
                 let channel_regex = try NSRegularExpression(pattern: channel, options: .caseInsensitive)
@@ -473,6 +484,8 @@ class ServerParser : NSObject, XMLParserDelegate {
             else if elementStack.firstIndex(of: "join") != nil {
                 currentServer.chanpasswd = string
             }
+        case "nickname" :
+            currentServer.nickname = string
         case "channel" :
             currentServer.channel = string
         default :
