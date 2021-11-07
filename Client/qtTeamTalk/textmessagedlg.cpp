@@ -196,17 +196,11 @@ void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
             if(cmd_msg[1] == "1")
             {
                 ui.newmsgLabel->setText(tr("New message - remote user typing."));
-                if (ttSettings->value(SETTINGS_TTS_SPEAK_USER_TYPING, SETTINGS_TTS_SPEAK_USER_TYPING_DEFAULT).toBool() == true && ttSettings->value(SETTINGS_TTS_SPEAK_USER_TYPING_EVERYWHERE, SETTINGS_TTS_SPEAK_USER_TYPING_EVERYWHERE_DEFAULT).toBool() == true)
+                User remoteuser;
+                if (TT_GetUser(ttInst, m_userid, &remoteuser))
                 {
-                    User remoteuser;
-                    if (TT_GetUser(ttInst, m_userid, &remoteuser))
-                        addTextToSpeechMessage(tr("%1 is typing").arg(getDisplayName(remoteuser)));
-                }
-                else if (ttSettings->value(SETTINGS_TTS_SPEAK_USER_TYPING, SETTINGS_TTS_SPEAK_USER_TYPING_DEFAULT).toBool() == true && ttSettings->value(SETTINGS_TTS_SPEAK_USER_TYPING_EVERYWHERE, SETTINGS_TTS_SPEAK_USER_TYPING_EVERYWHERE_DEFAULT).toBool() == false && this->isActiveWindow())
-                {
-                    User remoteuser;
-                    if (TT_GetUser(ttInst, m_userid, &remoteuser))
-                        addTextToSpeechMessage(tr("%1 is typing").arg(getDisplayName(remoteuser)));
+                    addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING, tr("%1 is typing").arg(getDisplayName(remoteuser)));
+                    addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL, tr("%1 is typing").arg(getDisplayName(remoteuser)));
                 }
                 if(m_remote_typing_id)
                     killTimer(m_remote_typing_id);

@@ -316,6 +316,9 @@ enum TextToSpeechEvent : qulonglong
     TTS_MENU_ACTIONS                                = 0x0000000200000000,
 
     TTS_SERVER_CONNECTIVITY                         = 0x0000000400000000,
+
+    TTS_USER_TEXTMSG_PRIVATE_TYPING                 = 0x0000000800000000,
+    TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL          = 0x0000001000000000,
 };
 
 typedef qulonglong TTSEvents;

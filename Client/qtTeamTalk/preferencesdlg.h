@@ -134,7 +134,6 @@ private:
     void slotEventVoiceActMeOff();
     //TTS
     void slotUpdateTTSTab();
-    void slotUpdateUserTypingEverywhereChkBox();
     //keyboard shortcuts
     void slotShortcutVoiceActivation(bool checked);
     void slotShortcutIncVolume(bool checked);

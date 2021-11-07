@@ -266,10 +266,6 @@
 #define SETTINGS_TTS_SPEAKLISTS                         "texttospeech/speak-lists"
 #define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 true
 #endif
-#define SETTINGS_TTS_SPEAK_USER_TYPING                         "texttospeech/speak-user-typing"
-#define SETTINGS_TTS_SPEAK_USER_TYPING_DEFAULT                 true
-#define SETTINGS_TTS_SPEAK_USER_TYPING_EVERYWHERE                         "texttospeech/speak-user-typing-everywhere"
-#define SETTINGS_TTS_SPEAK_USER_TYPING_EVERYWHERE_DEFAULT                 false
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

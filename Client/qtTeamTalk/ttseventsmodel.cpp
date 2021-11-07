@@ -41,6 +41,9 @@ TTSEventsModel::TTSEventsModel(QObject* parent)
     m_ttsevents.push_back(TTS_USER_LEFT_SAME);
     m_ttsevents.push_back(TTS_USER_TEXTMSG_PRIVATE);
     m_ttsevents.push_back(TTS_USER_TEXTMSG_PRIVATE_SEND);
+    m_ttsevents.push_back(TTS_USER_TEXTMSG_PRIVATE_TYPING);
+    m_ttsevents.push_back(TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL);
+
     m_ttsevents.push_back(TTS_USER_TEXTMSG_CHANNEL);
     m_ttsevents.push_back(TTS_USER_TEXTMSG_CHANNEL_SEND);
     m_ttsevents.push_back(TTS_USER_TEXTMSG_BROADCAST);
@@ -127,6 +130,10 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
             return tr("Received private message");
         case TTS_USER_TEXTMSG_PRIVATE_SEND :
             return tr("Sent private message");
+         case TTS_USER_TEXTMSG_PRIVATE_TYPING :
+            return tr("Announce when user is typing in private chat");
+        case TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL :
+           return tr("Announce when user is typing in private chat even if private chat window don't have focus");
         case TTS_USER_TEXTMSG_CHANNEL :
             return tr("Received channel message");
         case TTS_USER_TEXTMSG_CHANNEL_SEND :

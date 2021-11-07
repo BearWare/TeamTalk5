@@ -207,7 +207,6 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.ttsEnableallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSEnableAll);
     connect(ui.ttsClearallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSClearAll);
     connect(ui.ttsRevertButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSRevert);
-    connect(ui.ttsUserTypingChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUserTypingEverywhereChkBox);
 
     //keyboard shortcuts
     connect(ui.voiceactButton, &QAbstractButton::clicked,
@@ -1110,8 +1109,6 @@ void PreferencesDlg::slotSaveChanges()
 #elif defined(Q_OS_DARWIN)
         ttSettings->setValue(SETTINGS_TTS_SPEAKLISTS, ui.ttsSpeakListsChkBox->isChecked());
 #endif
-        ttSettings->setValue(SETTINGS_TTS_SPEAK_USER_TYPING, ui.ttsUserTypingChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_TTS_SPEAK_USER_TYPING_EVERYWHERE, ui.ttsUserTypingPMNotFocusChkBox->isChecked());
     }
 }
 
@@ -1569,9 +1566,6 @@ void PreferencesDlg::slotUpdateTTSTab()
     ui.ttsForceSapiChkBox->hide();
     ui.ttsSpeakListsChkBox->hide();
 
-    ui.ttsUserTypingChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SPEAK_USER_TYPING, SETTINGS_TTS_SPEAK_USER_TYPING_DEFAULT).toBool());
-    ui.ttsUserTypingPMNotFocusChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SPEAK_USER_TYPING_EVERYWHERE, SETTINGS_TTS_SPEAK_USER_TYPING_EVERYWHERE_DEFAULT).toBool());
-
     switch (getCurrentItemData(ui.ttsengineComboBox).toUInt())
     {
     case TTSENGINE_QT :
@@ -1635,7 +1629,6 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_NONE :
     break;
     }
-    slotUpdateUserTypingEverywhereChkBox();
 }
 
 void PreferencesDlg::slotShortcutVoiceActivation(bool checked)
@@ -2085,10 +2078,3 @@ void PreferencesDlg::keyPressEvent(QKeyEvent* e)
     QDialog::keyPressEvent(e);
 }
 
-void PreferencesDlg::slotUpdateUserTypingEverywhereChkBox()
-{
-    if (ui.ttsUserTypingChkBox->isChecked())
-        ui.ttsUserTypingPMNotFocusChkBox->setEnabled(true);
-    else
-        ui.ttsUserTypingPMNotFocusChkBox->setEnabled(false);
-}
