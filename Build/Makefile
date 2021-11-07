@@ -163,13 +163,21 @@ teamtalk-jar:
 
 # TeamTalk 5 dependencies for Ubuntu 18 when using CMake option -DBUILD_TEAMTALK_CORE=ON
 depend-ubuntu18:
+# Duplicate install in Docker/Dockerfile_ubuntu18
 	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
                     libasound2-dev wget python g++
-depend-ubuntu19: depend-ubuntu18
-depend-ubuntu20: depend-ubuntu18
+
+depend-ubuntu20:
+# Duplicate install in Docker/Dockerfile_ubuntu20
+	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
+                    libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
+                    openjdk-17-jdk ninja-build libpcap-dev junit4 cmake \
+                    libssl-dev yasm autoconf libtool pkg-config \
+                    libasound2-dev wget python g++
+
 depend-ubuntu18-android:
 	apt install doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python
 
