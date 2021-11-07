@@ -49,9 +49,12 @@ deb32:
 deb64:
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DTOOLCHAIN_OPENSSL=OFF" generic
 
-ubuntu64:
+ubuntu18:
 	@echo May need to specify JAVA_HOME to help CMake find Java SDK
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DTOOLCHAIN_OPENSSL=OFF" generic
+
+ubuntu19: ubuntu18
+ubuntu20: ubuntu18
 
 centos7:
 	@echo TeamTalk depends on CMake 3.1 or later.
@@ -164,7 +167,11 @@ depend-ubuntu18:
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
-                    libasound2-dev wget python
+                    libasound2-dev wget python g++
+depend-ubuntu19: depend-ubuntu18
+depend-ubuntu20: depend-ubuntu18
+depend-ubuntu18-android:
+	apt install doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python
 
 # TeamTalk 5 dependencies Debian 9 when using CMake option -DBUILD_TEAMTALK_CORE=ON
 depend-debian9:

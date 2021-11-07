@@ -32,7 +32,7 @@ Projects wrapping the client and server binaries in the TeamTalk SDK.
     * Follow build instructions in [Library/TeamTalkLib](Library/TeamTalkLib)
   * A [Makefile](Build/Makefile) is available in [Build](Build) for
       quickly building for macOS, Ubuntu, CentOS 7, Android, iOS and Raspberry Pi e.g.:
-      * `make -C Build depend-ubuntu18 ubuntu64`
+      * `make -C Build depend-ubuntu18 ubuntu18`
       * `make -C Build depend-mac mac`
 * [**TeamTalk_DLL**](Library/TeamTalk_DLL) (dependency: **TeamTalkLib**)
   * TeamTalk 5 C-API DLL

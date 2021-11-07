@@ -44,7 +44,7 @@ jobs:
       shell: bash
       run: |
         source env.sh
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCATCH_UNITTEST=ON -DCATCH_UNITTEST_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu64
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCATCH_UNITTEST=ON -DCATCH_UNITTEST_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu18
         echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
     - name: Java Server API Test (non-encrypted)
@@ -138,7 +138,7 @@ jobs:
       run: make dox
 
     - name: Run CMake Install Target
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-ubuntu64
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-ubuntu18
       run: cmake --build . --target install
 
     - name: Upload TeamTalk Artifacts
