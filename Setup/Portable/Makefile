@@ -74,14 +74,14 @@ linux:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
-	make OUTDIR=$(OUTDIR) license server debclient
+	make OUTDIR=$(OUTDIR) license linuxserver linuxclient
 	make arctar
 
 linuxpro:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
-	make OUTDIR=$(OUTDIR) serverpro
+	make OUTDIR=$(OUTDIR) linuxserverpro
 	make arctar
 
 deb32pro:
@@ -104,7 +104,7 @@ centos5:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
-	make OUTDIR=$(OUTDIR) license server
+	make OUTDIR=$(OUTDIR) license linuxserver
 	make arctar
 
 centos7:
@@ -112,10 +112,10 @@ centos7:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
-	$(MAKE) OUTDIR=$(OUTDIR) license server
+	$(MAKE) OUTDIR=$(OUTDIR) license linuxserver
 	$(MAKE) TT5DIST=$(TT5DIST) arctar
 
-server:
+linuxserver:
 	@echo "########## Copying server ##########"
 	mkdir -p $(OUTDIR)/server
 	cp $(INSTALLDIR)/Server/tt5srv $(OUTDIR)/server/
@@ -127,7 +127,7 @@ server:
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/systemd/tt5server.service $(OUTDIR)/server/systemd/
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/systemd/README.md $(OUTDIR)/server/systemd/
 
-serverpro:
+linuxserverpro:
 	@echo "########## Copying serverpro ##########"
 	mkdir -p $(OUTDIR)/server
 	cp $(INSTALLDIR)/Server/tt5prosrv $(OUTDIR)/server/
@@ -163,29 +163,29 @@ winclient:
 	mkdir -p $(OUTDIR)/Client
 # Qt client
 	cp $(INSTALLDIR)/Client/qtTeamTalk/TeamTalk5.exe $(OUTDIR)/Client/
-	cp -r $(INSTALLDIR)/Client/qtTeamTalk/languages $(OUTDIR)/Client/languages
+	cp -r $(INSTALLDIR)/Client/qtTeamTalk/languages $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/Client/TeamTalk5.ini.default
 # Classic client
 	cp $(INSTALLDIR)/Client/TeamTalkClassic/TeamTalk5Classic.exe $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5Classic.xml $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5Classic.xml $(OUTDIR)/Client/TeamTalk5Classic.xml.default
-	cp -r $(INSTALLDIR)/Client/TeamTalkClassic/lng_classic $(OUTDIR)/Client/lng_classic
+	cp -r $(INSTALLDIR)/Client/TeamTalkClassic/lng_classic $(OUTDIR)/Client/
 # Shared files
 	cp $(INSTALLDIR)/Library/TeamTalk_DLL/TeamTalk5.dll $(OUTDIR)/Client/
 	cp -r $(TEAMTALK_ROOT)/Setup/Client/Sounds $(OUTDIR)/Client/Sounds
 	cp $(TEAMTALK_ROOT)/Documentation/TeamTalk/output/TeamTalk5.chm $(OUTDIR)/Client/
 
-debclient:
+linuxclient:
 	mkdir -p $(OUTDIR)/client
 	cp $(INSTALLDIR)/Client/qtTeamTalk/teamtalk5 $(OUTDIR)/client
 	strip $(OUTDIR)/client/teamtalk5
-	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/client/
-	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/client/TeamTalk5.ini.default
+	cp $(TEAMTALK_ROOT)/Setup/Client/Linux/TeamTalk5.ini $(OUTDIR)/client/
+	cp $(TEAMTALK_ROOT)/Setup/Client/Linux/TeamTalk5.ini $(OUTDIR)/client/TeamTalk5.ini.default
 	cp $(INSTALLDIR)/Library/TeamTalk_DLL/libTeamTalk5.so $(OUTDIR)/client
 	strip $(OUTDIR)/client/libTeamTalk5.so
 	mkdir -p $(OUTDIR)/client/languages
-	cp -r $(INSTALLDIR)/Client/qtTeamTalk/languages $(OUTDIR)/client/languages
+	cp -r $(INSTALLDIR)/Client/qtTeamTalk/languages $(OUTDIR)/client/
 	cp -r $(TEAMTALK_ROOT)/Setup/Client/Sounds $(OUTDIR)/client/sounds
 	cp $(TEAMTALK_ROOT)/Setup/Client/Linux/README_debian $(OUTDIR)/client/README
 	cp $(TEAMTALK_ROOT)/Setup/Client/Linux/run.sh $(OUTDIR)/client/run.sh
