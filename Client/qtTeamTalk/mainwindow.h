@@ -289,6 +289,7 @@ private:
     void slotMeEnableVideoTransmission(bool checked=false);
     void slotMeEnableDesktopSharing(bool checked=false);
     void slotMeEnableTTS(bool checked=false);
+    void slotMeEnableSounds(bool checked=false);
 
     void slotUsersViewUserInformationGrid(bool checked=false);
     void slotUsersSpeakUserInformationGrid(bool checked=false);

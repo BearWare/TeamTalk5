@@ -343,6 +343,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotMeEnableDesktopSharing);
     connect(ui.actionEnableTTS, &QAction::triggered,
             this, &MainWindow::slotMeEnableTTS);
+    connect(ui.actionEnableSounds, &QAction::triggered,
+            this, &MainWindow::slotMeEnableSounds);
     /* End - Me menu */
 
     /* Begin - Users menu */
@@ -4082,14 +4084,25 @@ void MainWindow::slotMeEnableTTS(bool checked/*=false*/)
     if(checked)
     {
         ttSettings->setValue(SETTINGS_TTS_ENABLE, true);
-        ui.actionEnableTTS->setChecked(true);
         addTextToSpeechMessage(tr("Text-To-Speech enabled"));
     }
     else
     {
         ttSettings->setValue(SETTINGS_TTS_ENABLE, false);
-        ui.actionEnableTTS->setChecked(false);
         addTextToSpeechMessage(tr("Text-To-Speech disabled"));
+    }
+    slotUpdateUI();
+}
+
+void MainWindow::slotMeEnableSounds(bool checked/*=false*/)
+{
+    if(checked)
+    {
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_ENABLE, true);
+    }
+    else
+    {
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_ENABLE, false);
     }
     slotUpdateUI();
 }
@@ -5273,6 +5286,7 @@ void MainWindow::slotUpdateUI()
     ui.actionEnableDesktopSharing->setEnabled(mychannel>0);
     ui.actionEnableDesktopSharing->setChecked(statemask & CLIENT_DESKTOP_ACTIVE);
     ui.actionEnableTTS->setChecked(ttSettings->value(SETTINGS_TTS_ENABLE, SETTINGS_TTS_ENABLE_DEFAULT).toBool());
+    ui.actionEnableSounds->setChecked(ttSettings->value(SETTINGS_SOUNDEVENT_ENABLE, SETTINGS_SOUNDEVENT_ENABLE_DEFAULT).toBool());
 
     User user  = {};
     if (TT_GetUser(ttInst, userid, &user))
