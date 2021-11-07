@@ -6257,7 +6257,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="547"/>
         <source>User can broadcast text messages</source>
-        <translation>L&apos;utilisateur peut diffuser des messages textes</translation>
+        <translation>L&apos;utilisateur peut envoyer des messages généraux</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="534"/>
