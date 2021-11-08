@@ -199,8 +199,10 @@ void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
                 User remoteuser;
                 if (TT_GetUser(ttInst, m_userid, &remoteuser))
                 {
-                    addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING, tr("%1 is typing").arg(getDisplayName(remoteuser)));
-                    addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL, tr("%1 is typing").arg(getDisplayName(remoteuser)));
+                    if (!this->isActiveWindow())
+                        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL, tr("%1 is typing").arg(getDisplayName(remoteuser)));
+                    else
+                        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING, tr("%1 is typing").arg(getDisplayName(remoteuser)));
                 }
                 if(m_remote_typing_id)
                     killTimer(m_remote_typing_id);
