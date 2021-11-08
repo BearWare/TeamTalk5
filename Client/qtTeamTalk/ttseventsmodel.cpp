@@ -131,9 +131,9 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
         case TTS_USER_TEXTMSG_PRIVATE_SEND :
             return tr("Sent private message");
          case TTS_USER_TEXTMSG_PRIVATE_TYPING :
-            return tr("Announce when user is typing in private chat");
+            return tr("User is typing a private text message in focused window");
         case TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL :
-           return tr("Announce when user is typing in private chat even if private chat window don't have focus");
+           return tr("User is typing a private text message");
         case TTS_USER_TEXTMSG_CHANNEL :
             return tr("Received channel message");
         case TTS_USER_TEXTMSG_CHANNEL_SEND :
