@@ -60,17 +60,7 @@
 #include <Carbon/Carbon.h>
 #endif
 
-#if defined(Q_OS_WINCE)
-#define _W(qstr) qstr.utf16()
-#define _Q(wstr) QString::fromWCharArray(wstr)
-#define COPY_TTSTR(wstr, qstr)                                      \
-    do {                                                            \
-        wcsncpy(wstr, _W(qstr), TT_STRLEN);                         \
-        if(qstr.size() >= TT_STRLEN)                                \
-            wstr[TT_STRLEN-1] = '\0';                               \
-    } while(0)
-
-#elif defined(Q_OS_WIN32)
+#if defined(Q_OS_WIN32)
 //Conversion from/to TTCHAR
 #define _W(qstr) qstr.toStdWString().c_str()
 #define _Q(wstr) QString::fromWCharArray(wstr)

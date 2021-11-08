@@ -793,7 +793,7 @@ QString getHotKeyText(const hotkey_t& hotkey)
 }
 
 
-#if defined(Q_OS_WIN32) && !defined(Q_OS_WINCE)
+#if defined(Q_OS_WIN32)
 bool isComputerIdle(int idle_secs)
 {
     LASTINPUTINFO info;
