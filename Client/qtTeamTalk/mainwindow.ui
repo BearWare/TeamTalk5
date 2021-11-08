@@ -1128,6 +1128,13 @@
     <property name="title">
      <string>&amp;Me</string>
     </property>
+    <widget class="QMenu" name="menuNotifications">
+     <property name="title">
+      <string>&amp;Notifications</string>
+     </property>
+     <addaction name="actionEnableTTS"/>
+     <addaction name="actionEnableSounds"/>
+    </widget>
     <addaction name="actionChangeNickname"/>
     <addaction name="actionChangeStatus"/>
     <addaction name="separator"/>
@@ -1135,7 +1142,7 @@
     <addaction name="actionEnableVoiceActivation"/>
     <addaction name="actionEnableVideoTransmission"/>
     <addaction name="actionEnableDesktopSharing"/>
-    <addaction name="actionEnableTTS"/>
+    <addaction name="menuNotifications"/>
    </widget>
    <widget class="QMenu" name="menuUsers">
     <property name="title">
@@ -1943,6 +1950,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+S</string>
+   </property>
+  </action>
+  <action name="actionEnableSounds">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable Sound Events</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+Z</string>
    </property>
   </action>
   <action name="actionAllowDesktopTransmission">

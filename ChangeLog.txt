@@ -7,6 +7,8 @@ Accessible Windows Client
 -
 Default Qt Client
 - Dark mode enabled on Windows if selected Personalisation Colour is Dark
+- Menu item to enable/disable all sound events
+- "Enable Text-To-Speech events" has moved to a new submenu named "Notifications" in "Me" menu
 - Fixed AltGr being treated as Ctrl+Alt on Windows
 Android Client
 -
