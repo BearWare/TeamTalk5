@@ -196,6 +196,14 @@ void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
             if(cmd_msg[1] == "1")
             {
                 ui.newmsgLabel->setText(tr("New message - remote user typing."));
+                User remoteuser;
+                if (TT_GetUser(ttInst, m_userid, &remoteuser))
+                {
+                    if (!this->isActiveWindow())
+                        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL, tr("%1 is typing").arg(getDisplayName(remoteuser)));
+                    else
+                        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING, tr("%1 is typing").arg(getDisplayName(remoteuser)));
+                }
                 if(m_remote_typing_id)
                     killTimer(m_remote_typing_id);
                 m_remote_typing_id = startTimer(REMOTE_TYPING_DELAY);

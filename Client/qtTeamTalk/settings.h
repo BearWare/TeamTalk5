@@ -96,6 +96,7 @@
 #define SETTINGS_DISPLAY_VIDEOSPLITTER              "display/video-splitter"
 #define SETTINGS_DISPLAY_DESKTOPSPLITTER            "display/desktop-splitter"
 #define SETTINGS_DISPLAY_FILESHEADER                "display/filesheader"
+#define SETTINGS_DISPLAY_TTSHEADER                  "display/ttsheader"
 #define SETTINGS_DISPLAY_LOGSTATUSBAR               "display/log-statusbar"
 #define SETTINGS_DISPLAY_FREESERVERS                "display/showfreeservers"
 #define SETTINGS_DISPLAY_LANGUAGE                   "display/language"
