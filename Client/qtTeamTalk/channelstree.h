@@ -35,11 +35,11 @@ typedef QVector<int> userids_t;
 typedef QMap<int, Channel> channels_t;
 typedef QMap<int, User> users_t;
 
-bool userCanChanMessage(int userid, const Channel& chan);
-bool userCanVoiceTx(int userid, const Channel& chan);
-bool userCanVideoTx(int userid, const Channel& chan);
-bool userCanDesktopTx(int userid, const Channel& chan);
-bool userCanMediaFileTx(int userid, const Channel& chan);
+bool userCanChanMessage(int userid, const Channel& chan, bool includeFreeForAll = false);
+bool userCanVoiceTx(int userid, const Channel& chan, bool includeFreeForAll = false);
+bool userCanVideoTx(int userid, const Channel& chan, bool includeFreeForAll = false);
+bool userCanDesktopTx(int userid, const Channel& chan, bool includeFreeForAll = false);
+bool userCanMediaFileTx(int userid, const Channel& chan, bool includeFreeForAll = false);
 
 channels_t getSubChannels(int channelid, const channels_t& channels, bool recursive = false);
 channels_t getParentChannels(int channelid, const channels_t& channels);

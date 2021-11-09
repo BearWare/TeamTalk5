@@ -78,29 +78,29 @@ bool userCanTx(int userid, StreamTypes stream_type, const Channel& chan)
     return (chan.uChannelType & CHANNEL_CLASSROOM) == CHANNEL_DEFAULT;
 }
 
-bool userCanChanMessage(int userid, const Channel& chan)
+bool userCanChanMessage(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
 {
-    return userCanTx(userid, STREAMTYPE_CHANNELMSG, chan);
+    return userCanTx(userid, STREAMTYPE_CHANNELMSG, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_CHANNELMSG, chan));
 }
 
-bool userCanVoiceTx(int userid, const Channel& chan)
+bool userCanVoiceTx(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
 {
-    return userCanTx(userid, STREAMTYPE_VOICE, chan);
+    return userCanTx(userid, STREAMTYPE_VOICE, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_VOICE, chan));
 }
 
-bool userCanVideoTx(int userid, const Channel& chan)
+bool userCanVideoTx(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
 {
-    return userCanTx(userid, STREAMTYPE_VIDEOCAPTURE, chan);
+    return userCanTx(userid, STREAMTYPE_VIDEOCAPTURE, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_VIDEOCAPTURE, chan));
 }
 
-bool userCanDesktopTx(int userid, const Channel& chan)
+bool userCanDesktopTx(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
 {
-    return userCanTx(userid, STREAMTYPE_DESKTOP, chan);
+    return userCanTx(userid, STREAMTYPE_DESKTOP, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_DESKTOP, chan));
 }
 
-bool userCanMediaFileTx(int userid, const Channel& chan)
+bool userCanMediaFileTx(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
 {
-    return userCanTx(userid, STREAMTYPE_MEDIAFILE, chan);
+    return userCanTx(userid, STREAMTYPE_MEDIAFILE, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_MEDIAFILE, chan));
 }
 
 channels_t getSubChannels(int channelid, const channels_t& channels, bool recursive /*= false*/)

@@ -1392,6 +1392,10 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __TTBOOL);
         playSoundEvent(msg.bActive? SOUNDEVENT_VOICEACTTRIG :  SOUNDEVENT_VOICEACTSTOP);
         emit(updateMyself());
+        if (msg.bActive)
+        {
+            transmitOn(STREAMTYPE_VOICE);
+        }
         break;
     case CLIENTEVENT_STREAM_MEDIAFILE :
     {
@@ -1807,7 +1811,8 @@ void MainWindow::cmdLoggedIn(int myuserid)
 
 void MainWindow::addStatusMsg(StatusBarEvent event, const QString& msg)
 {
-    if((ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, true).toBool()) && ((ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong() & event) || event == event_d))
+    if (ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, true).toBool() &&
+        ((ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong() & event) || event == event_d))
     {
         ui.chatEdit->addLogMessage(msg);
         ui.videochatEdit->addLogMessage(msg);
@@ -2115,6 +2120,8 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
                 TT_EnableVoiceTransmission(ttInst, !tx);
                 emit(updateMyself());
                 playSoundEvent(SOUNDEVENT_HOTKEY);
+                if (!tx)
+                    transmitOn(STREAMTYPE_VOICE);
             }
         }
         else
@@ -2122,6 +2129,8 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
             TT_EnableVoiceTransmission(ttInst, active);
             emit(updateMyself());
             playSoundEvent(SOUNDEVENT_HOTKEY);
+            if (active)
+                transmitOn(STREAMTYPE_VOICE);
         }
         break;
     case HOTKEY_VOICEACTIVATION :
@@ -3261,6 +3270,7 @@ void MainWindow::startStreamMediaFile()
 
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
         TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+        transmitOn(STREAMTYPE_MEDIAFILE);
     }
 }
 
@@ -3553,6 +3563,35 @@ void MainWindow::toggleAllowStreamType(bool checked, StreamType st)
     int channelid = ui.channelsWidget->selectedChannel(true);
     if (userid > 0 && channelid > 0)
         toggleAllowStreamType(checked, userid, channelid, st);
+}
+
+void MainWindow::transmitOn(StreamType st)
+{
+    switch (st)
+    {
+    case STREAMTYPE_CHANNELMSG :
+        if (!userCanChanMessage(TT_GetMyUserID(ttInst), m_mychannel, true))
+            addStatusMsg(STATUSBAR_TRANSMISSION_BLOCKED, tr("Text messages blocked by channel operator"));
+        break;
+    case STREAMTYPE_VOICE :
+        if (!userCanVoiceTx(TT_GetMyUserID(ttInst), m_mychannel, true))
+            addStatusMsg(STATUSBAR_TRANSMISSION_BLOCKED, tr("Voice transmission blocked by channel operator"));
+        break;
+    case STREAMTYPE_MEDIAFILE :
+        if (!userCanMediaFileTx(TT_GetMyUserID(ttInst), m_mychannel, true))
+            addStatusMsg(STATUSBAR_TRANSMISSION_BLOCKED, tr("Media file transmission blocked by channel operator"));
+        break;
+    case STREAMTYPE_VIDEOCAPTURE :
+        if (!userCanVideoTx(TT_GetMyUserID(ttInst), m_mychannel, true))
+            addStatusMsg(STATUSBAR_TRANSMISSION_BLOCKED, tr("Video transmission blocked by channel operator"));
+        break;
+    case STREAMTYPE_DESKTOP :
+        if (!userCanDesktopTx(TT_GetMyUserID(ttInst), m_mychannel, true))
+            addStatusMsg(STATUSBAR_TRANSMISSION_BLOCKED, tr("Desktop transmission blocked by channel operator"));
+        break;
+    default :
+        break;
+    }
 }
 
 void MainWindow::toggleAllowStreamTypeForAll(bool checked, StreamType st)
@@ -3972,7 +4011,7 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
             ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
             QMessageBox::warning(this,
             MENUTEXT(ui.actionEnableVideoTransmission->text()), 
-            tr("Video device hasn't been configured property. Check settings in 'Preferences'"));
+            tr("Video device hasn't been configured properly. Check settings in 'Preferences'"));
         }
         else 
         {
@@ -3994,6 +4033,7 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
                 _W(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()));
             }
             ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, true);
+            transmitOn(STREAMTYPE_VIDEOCAPTURE);
         }
     }
     else
@@ -4057,6 +4097,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
             QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
             if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
                 TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+            transmitOn(STREAMTYPE_DESKTOP);
         }
         else
             ui.actionEnableDesktopSharing->setChecked(false);
@@ -5485,6 +5526,8 @@ void MainWindow::slotSendChannelMessage()
     msg.nMsgType = MSGTYPE_CHANNEL;
     COPY_TTSTR(msg.szMessage, txtmsg);
     TT_DoTextMessage(ttInst, &msg);
+
+    transmitOn(STREAMTYPE_CHANNELMSG);
 }
 
 void MainWindow::slotUserDoubleClicked(int id)
@@ -6322,8 +6365,6 @@ void MainWindow::slotUpdateDesktopCount(int count)
 void MainWindow::slotMasterVolumeChanged(int value)
 {
     int vol = refVolume(value);
-//    qDebug() << "Volume is " << vol << " and percent is " << value;
-//    qDebug() << "Percent is " << refVolumeToPercent(vol) << endl;
     TT_SetSoundOutputVolume(ttInst, vol);
 }
 
