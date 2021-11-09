@@ -1646,10 +1646,6 @@ p, li { white-space: pre-wrap; }
         <translation>退出(&amp;E)</translation>
     </message>
     <message>
-        <source>Alt+F4</source>
-        <translation type="vanished">Alt+F4</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1387"/>
         <source>Enable &amp;Push To Talk</source>
         <translation>启用案件说话(&amp;P)</translation>
@@ -1873,7 +1869,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1133"/>
         <source>&amp;Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>通知(&amp;N)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1203"/>
@@ -2203,12 +2199,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1960"/>
         <source>Enable Sound Events</source>
-        <translation type="unfinished"></translation>
+        <translation>启用声音事件</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1963"/>
         <source>Ctrl+Alt+Z</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Z</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1971"/>
@@ -6076,12 +6072,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="134"/>
         <source>User is typing a private text message in focused window</source>
-        <translation type="unfinished"></translation>
+        <translation>用户正在聚焦窗口输入私人消息</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="136"/>
         <source>User is typing a private text message</source>
-        <translation type="unfinished"></translation>
+        <translation>用户正在输入私人消息</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="138"/>
@@ -6264,7 +6260,7 @@ Should these settings be applied?</source>
         <location filename="../textmessagedlg.cpp" line="203"/>
         <location filename="../textmessagedlg.cpp" line="205"/>
         <source>%1 is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 正在输入</translation>
     </message>
 </context>
 <context>
