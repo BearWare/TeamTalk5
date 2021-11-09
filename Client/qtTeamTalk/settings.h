@@ -98,6 +98,7 @@
 #define SETTINGS_DISPLAY_FILESHEADER                "display/filesheader"
 #define SETTINGS_DISPLAY_TTSHEADER                  "display/ttsheader"
 #define SETTINGS_DISPLAY_LOGSTATUSBAR               "display/log-statusbar"
+#define SETTINGS_DISPLAY_LOGSTATUSBAR_DEFAULT       true
 #define SETTINGS_DISPLAY_FREESERVERS                "display/showfreeservers"
 #define SETTINGS_DISPLAY_LANGUAGE                   "display/language"
 #define SETTINGS_DISPLAY_APPUPDATE                  "display/check-appupdate"

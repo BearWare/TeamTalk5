@@ -368,6 +368,8 @@ enum StatusBarEvent : qulonglong
     STATUSBAR_TRANSMISSION_BLOCKED                        = qulonglong(1) << 29,
 
     STATUSBAR_NEXT_UNUSED                                 = qulonglong(1) << 30,
+
+    STATUSBAR_BYPASS                                      = qulonglong(~0),
 };
 
 typedef qulonglong StatusBarEvents;

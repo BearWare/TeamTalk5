@@ -954,7 +954,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             m_timers[startTimer(5000)] = TIMER_RECONNECT;
         }
 
-        addStatusMsg(event_d, tr("Failed to connect to %1 TCP port %2 UDP port %3")
+        addStatusMsg(STATUSBAR_BYPASS, tr("Failed to connect to %1 TCP port %2 UDP port %3")
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     }
     break;
@@ -964,7 +964,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, true).toBool())
             m_timers[startTimer(5000)] = TIMER_RECONNECT;
 
-        addStatusMsg(event_d, tr("Connection lost to %1 TCP port %2 UDP port %3")
+        addStatusMsg(STATUSBAR_BYPASS, tr("Connection lost to %1 TCP port %2 UDP port %3")
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
         playSoundEvent(SOUNDEVENT_SERVERLOST);
@@ -1014,10 +1014,10 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             if(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
             {
                 if (msg.ttType == __USER)
-                    addStatusMsg(event_d, tr("Kicked from server by %1")
+                    addStatusMsg(STATUSBAR_BYPASS, tr("Kicked from server by %1")
                         .arg(getDisplayName(msg.user)));
                 else
-                    addStatusMsg(event_d, tr("Kicked from server by unknown user"));
+                    addStatusMsg(STATUSBAR_BYPASS, tr("Kicked from server by unknown user"));
             }
             else
             {
@@ -1034,10 +1034,10 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             if(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
             {
                 if (msg.ttType == __USER)
-                    addStatusMsg(event_d, tr("Kicked from channel by %1")
+                    addStatusMsg(STATUSBAR_BYPASS, tr("Kicked from channel by %1")
                         .arg(getDisplayName(msg.user)));
                 else
-                    addStatusMsg(event_d, tr("Kicked from channel by unknown user"));
+                    addStatusMsg(STATUSBAR_BYPASS, tr("Kicked from channel by unknown user"));
             }
             else
             {
@@ -1346,7 +1346,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         }
         if(critical)
             QMessageBox::critical(this, tr("Internal Error"), textmsg);
-        addStatusMsg(event_d, textmsg);
+        addStatusMsg(STATUSBAR_BYPASS, textmsg);
     }
     break;
     case CLIENTEVENT_USER_STATECHANGE :
@@ -1375,7 +1375,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             User nameuser;
             TT_GetUser(ttInst, user.nUserID, &nameuser);
-            addStatusMsg(event_d, tr("Streaming from %1 started") .arg(getDisplayName(nameuser)));
+            addStatusMsg(STATUSBAR_BYPASS, tr("Streaming from %1 started") .arg(getDisplayName(nameuser)));
         } /*else {
             if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN || m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
                 User nameuser;
@@ -1403,18 +1403,18 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         switch(msg.mediafileinfo.nStatus)
         {
         case MFS_ERROR :
-            addStatusMsg(event_d, tr("Error streaming media file to channel"));
+            addStatusMsg(STATUSBAR_BYPASS, tr("Error streaming media file to channel"));
             stopStreamMediaFile();
             break;
         case MFS_STARTED :
-            addStatusMsg(event_d, tr("Started streaming media file to channel"));
+            addStatusMsg(STATUSBAR_BYPASS, tr("Started streaming media file to channel"));
             break;
         case MFS_FINISHED :
-            addStatusMsg(event_d, tr("Finished streaming media file to channel"));
+            addStatusMsg(STATUSBAR_BYPASS, tr("Finished streaming media file to channel"));
             stopStreamMediaFile();
             break;
         case MFS_ABORTED :
-            addStatusMsg(event_d, tr("Aborted streaming media file to channel"));
+            addStatusMsg(STATUSBAR_BYPASS, tr("Aborted streaming media file to channel"));
             stopStreamMediaFile();
             break;
         case MFS_CLOSED :
@@ -1469,7 +1469,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
             User user;
             if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
-                addStatusMsg(event_d, tr("New video session from %1")
+                addStatusMsg(STATUSBAR_BYPASS, tr("New video session from %1")
                              .arg(getDisplayName(user)));
         }
         emit(newVideoCaptureFrame(userid, msg.nStreamID));
@@ -1499,7 +1499,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
             User user;
             if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
-                addStatusMsg(event_d, tr("New video session from %1")
+                addStatusMsg(STATUSBAR_BYPASS, tr("New video session from %1")
                 .arg(getDisplayName(user)));
         }
         emit(newMediaVideoFrame(userid, msg.nStreamID));
@@ -1524,7 +1524,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
                 User user;
                 if(ui.channelsWidget->getUser(msg.nSource, user))
-                    addStatusMsg(event_d, tr("New desktop session from %1")
+                    addStatusMsg(STATUSBAR_BYPASS, tr("New desktop session from %1")
                     .arg(getDisplayName(user)));
             }
         }
@@ -1550,7 +1550,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         }
 
         if(msg.nSource == 0)
-            addStatusMsg(event_d, tr("Your desktop session was cancelled"));
+            addStatusMsg(STATUSBAR_BYPASS, tr("Your desktop session was cancelled"));
         break;
     case CLIENTEVENT_USER_DESKTOPCURSOR :
         Q_ASSERT(msg.ttType == __DESKTOPINPUT);
@@ -1569,21 +1569,21 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         switch(msg.mediafileinfo.nStatus)
         {
         case MFS_STARTED :
-            addStatusMsg(event_d, tr("Writing audio file %1 for %2")
+            addStatusMsg(STATUSBAR_BYPASS, tr("Writing audio file %1 for %2")
                          .arg(_Q(msg.mediafileinfo.szFileName))
                          .arg(getDisplayName(user)));
             break;
         case MFS_ERROR :
-            addStatusMsg(event_d, tr("Failed to write audio file %1 for %2")
+            addStatusMsg(STATUSBAR_BYPASS, tr("Failed to write audio file %1 for %2")
                          .arg(_Q(msg.mediafileinfo.szFileName))
                          .arg(getDisplayName(user)));
             break;
         case MFS_FINISHED :
-            addStatusMsg(event_d, tr("Finished audio file %1")
+            addStatusMsg(STATUSBAR_BYPASS, tr("Finished audio file %1")
                          .arg(_Q(msg.mediafileinfo.szFileName)));
             break;
         case MFS_ABORTED :
-            addStatusMsg(event_d, tr("Aborted audio file %1")
+            addStatusMsg(STATUSBAR_BYPASS, tr("Aborted audio file %1")
                          .arg(_Q(msg.mediafileinfo.szFileName)));
             break;
         case MFS_CLOSED :
@@ -1798,7 +1798,7 @@ void MainWindow::cmdLoggedIn(int myuserid)
     else if(ttSettings->value(SETTINGS_CONNECTION_AUTOJOIN, true).toBool()) //just join root
     {
         if(m_host.channel.size())
-            addStatusMsg(event_d, tr("Cannot join channel %1").arg(m_host.channel));
+            addStatusMsg(STATUSBAR_BYPASS, tr("Cannot join channel %1").arg(m_host.channel));
 
         //auto join root channel
         int cmdid = TT_DoJoinChannelByID(ttInst, 
@@ -1811,8 +1811,8 @@ void MainWindow::cmdLoggedIn(int myuserid)
 
 void MainWindow::addStatusMsg(StatusBarEvent event, const QString& msg)
 {
-    if (ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, true).toBool() &&
-        ((ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong() & event) || event == event_d))
+    if (ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, SETTINGS_DISPLAY_LOGSTATUSBAR_DEFAULT).toBool() &&
+        ((ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong() & event) || event == STATUSBAR_BYPASS))
     {
         ui.chatEdit->addLogMessage(msg);
         ui.videochatEdit->addLogMessage(msg);
@@ -1832,17 +1832,17 @@ void MainWindow::initSound()
 {
     QStringList errors = initSelectedSoundDevices(m_devin, m_devout);
     for (auto s : errors)
-        addStatusMsg(event_d, s);
+        addStatusMsg(STATUSBAR_BYPASS, s);
 
     //choose default sound devices if configuration failed
     if (errors.size())
     {
         errors = initDefaultSoundDevices(m_devin, m_devout);
         for (auto s : errors)
-            addStatusMsg(event_d, s);
+            addStatusMsg(STATUSBAR_BYPASS, s);
     }
     QString soundev = tr("Using sound input: %1").arg(_Q(m_devin.szDeviceName)) + "\r\n" + tr("Using sound output: %2").arg(_Q(m_devout.szDeviceName));
-    addStatusMsg(event_d, soundev);
+    addStatusMsg(STATUSBAR_BYPASS, soundev);
 }
 
 void MainWindow::Connect()
@@ -1854,7 +1854,7 @@ void MainWindow::Connect()
     int localtcpport = ttSettings->value(SETTINGS_CONNECTION_TCPPORT, 0).toInt();
     int localudpport = ttSettings->value(SETTINGS_CONNECTION_UDPPORT, 0).toInt();
 
-    addStatusMsg(event_d, tr("Connecting to %1 TCP port %2 UDP port %3")
+    addStatusMsg(STATUSBAR_BYPASS, tr("Connecting to %1 TCP port %2 UDP port %3")
                  .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
     m_desktopaccess_entries.clear();
@@ -1862,7 +1862,7 @@ void MainWindow::Connect()
 
     if(!TT_Connect(ttInst, _W(m_host.ipaddr), m_host.tcpport,
                    m_host.udpport, localtcpport, localudpport, m_host.encrypted))
-        addStatusMsg(event_d, tr("Failed to connect to %1 TCP port %2 UDP port %3")
+        addStatusMsg(STATUSBAR_BYPASS, tr("Failed to connect to %1 TCP port %2 UDP port %3")
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 }
 
@@ -1910,7 +1910,7 @@ void MainWindow::Disconnect()
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
 
-    addStatusMsg(event_d, tr("Logged out from %1, TCP port %2, UDP port %3").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
+    addStatusMsg(STATUSBAR_BYPASS, tr("Logged out from %1, TCP port %2, UDP port %3").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     updateWindowTitle();
     addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from server"));
 }
@@ -1926,7 +1926,7 @@ void MainWindow::login()
     if (cmdid>0)
         m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
 
-    addStatusMsg(event_d, tr("Connected to %1 TCP port %2 UDP port %3")
+    addStatusMsg(STATUSBAR_BYPASS, tr("Connected to %1 TCP port %2 UDP port %3")
         .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     ServerProperties prop = {};
     TT_GetServerProperties(ttInst, &prop);
@@ -2596,19 +2596,19 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
             ui.channelsWidget->setUserDesktopAccess(textmsg.nFromUserID, cmd[1] == "1");
             if(cmd[1] == "1")
             {
-                addStatusMsg(event_d, QString(tr("%1 is requesting desktop access")
+                addStatusMsg(STATUSBAR_BYPASS, QString(tr("%1 is requesting desktop access")
                              .arg(getDisplayName(user))));
                 playSoundEvent(SOUNDEVENT_DESKTOPACCESS);
                 if(hasDesktopAccess(m_desktopaccess_entries, user))
                 {
                     subscribeCommon(true, SUBSCRIBE_DESKTOPINPUT, user.nUserID);
-                    addStatusMsg(event_d, QString(tr("%1 granted desktop access")
+                    addStatusMsg(STATUSBAR_BYPASS, QString(tr("%1 granted desktop access")
                                  .arg(getDisplayName(user))));
                 }
             }
             else
             {
-                addStatusMsg(event_d, QString(tr("%1 retracted desktop access")
+                addStatusMsg(STATUSBAR_BYPASS, QString(tr("%1 retracted desktop access")
                              .arg(getDisplayName(user))));
                 subscribeCommon(false, SUBSCRIBE_DESKTOPINPUT, user.nUserID);
             }
@@ -4298,7 +4298,7 @@ void MainWindow::slotUsersSubscriptionsDesktopInput(bool checked /*=false */)
 {
     subscribeCommon(checked, SUBSCRIBE_DESKTOPINPUT);
     foreach(User user, ui.channelsWidget->getSelectedUsers())
-        addStatusMsg(event_d, QString(tr("%1 granted desktop access")
+        addStatusMsg(STATUSBAR_BYPASS, QString(tr("%1 granted desktop access")
                         .arg(getDisplayName(user))));
 }
 
@@ -6552,7 +6552,7 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
                         QDesktopServices::openUrl(downloadurl);
                 }
                 else
-                    addStatusMsg(event_d, tr("New version available: %1\r\nYou can download it on the page below:\r\n%2").arg(version).arg(downloadurl));
+                    addStatusMsg(STATUSBAR_BYPASS, tr("New version available: %1\r\nYou can download it on the page below:\r\n%2").arg(version).arg(downloadurl));
             }
         }
 
@@ -6577,7 +6577,7 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
                         QDesktopServices::openUrl(downloadurl);
                 }
                 else
-                    addStatusMsg(event_d, tr("New beta version available: %1\r\nYou can download it on the page below:\r\n%2").arg(version).arg(downloadurl));
+                    addStatusMsg(STATUSBAR_BYPASS, tr("New beta version available: %1\r\nYou can download it on the page below:\r\n%2").arg(version).arg(downloadurl));
             }
         }
 
@@ -6653,7 +6653,7 @@ void MainWindow::startTTS()
         }
         else
         {
-            addStatusMsg(event_d, tr("No available voices found for Text-To-Speech"));
+            addStatusMsg(STATUSBAR_BYPASS, tr("No available voices found for Text-To-Speech"));
         }
     }
     break;

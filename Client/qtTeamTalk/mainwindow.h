@@ -273,8 +273,6 @@ private:
     reghotkeys_t m_hotkeys;
     INT64 m_nCGShareWnd;
 #endif
-// Use event_d to display a message ignoring configuration
-    StatusBarEvent event_d = StatusBarEvent(~STATUSBAR_NONE);
 
 private:
     /* menu items begin */
