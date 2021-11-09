@@ -207,6 +207,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.ttsEnableallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSEnableAll);
     connect(ui.ttsClearallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSClearAll);
     connect(ui.ttsRevertButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSRevert);
+    ui.ttsTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_TTSHEADER).toByteArray());
 
     //keyboard shortcuts
     connect(ui.voiceactButton, &QAbstractButton::clicked,
@@ -1109,6 +1110,7 @@ void PreferencesDlg::slotSaveChanges()
 #elif defined(Q_OS_DARWIN)
         ttSettings->setValue(SETTINGS_TTS_SPEAKLISTS, ui.ttsSpeakListsChkBox->isChecked());
 #endif
+        ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTreeView->header()->saveState());
     }
 }
 
@@ -2077,3 +2079,4 @@ void PreferencesDlg::keyPressEvent(QKeyEvent* e)
     }
     QDialog::keyPressEvent(e);
 }
+

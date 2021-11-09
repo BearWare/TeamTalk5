@@ -1,3 +1,7 @@
+# Official TeamTalk releases are based on CMake. For now this file is
+# only used for updating translations, so don't make any changes that
+# affect features or compilation.
+
 TEAMTALK_LIB = ../../Library/TeamTalk_DLL
 TEAMTALK_INCLUDE = $${TEAMTALK_LIB}
 

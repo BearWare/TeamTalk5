@@ -793,7 +793,7 @@ QString getHotKeyText(const hotkey_t& hotkey)
 }
 
 
-#if defined(Q_OS_WIN32) && !defined(Q_OS_WINCE)
+#if defined(Q_OS_WIN32)
 bool isComputerIdle(int idle_secs)
 {
     LASTINPUTINFO info;
@@ -941,107 +941,110 @@ bool loadVideoFormat(VideoFormat& vidfmt)
 
 void playSoundEvent(SoundEvent event)
 {
-    QString filename;
-    switch(event)
+    if (ttSettings->value(SETTINGS_SOUNDEVENT_ENABLE, SETTINGS_SOUNDEVENT_ENABLE_DEFAULT).toBool() == true)
     {
-    case SOUNDEVENT_NEWUSER:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_NEWUSER, SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_REMOVEUSER:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER, SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_SERVERLOST:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST, SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_USERMSG:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG, SETTINGS_SOUNDEVENT_USERMSG_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_USERMSGSENT :
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERMSGSENT, SETTINGS_SOUNDEVENT_USERMSGSENT_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_CHANNELMSG:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG, SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_CHANNELMSGSENT :
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSGSENT, SETTINGS_SOUNDEVENT_CHANNELMSGSENT_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_BROADCASTMSG :
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG, SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_HOTKEY:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY, SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_SILENCE:   
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_SILENCE).toString();
-        break;
-    case SOUNDEVENT_NEWVIDEO:   
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_NEWDESKTOP:   
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_NEWDESKTOP, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_FILESUPD:  
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_FILESUPD, SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_FILETXDONE:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_FILETXDONE, SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_QUESTIONMODE:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE, SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_DESKTOPACCESS:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS, SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_USERLOGGEDIN:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDIN, SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_USERLOGGEDOUT:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT, SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_VOICEACTON:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON, SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_VOICEACTOFF:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF, SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_MUTEALLON:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON, SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_MUTEALLOFF:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF, SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_TRANSMITQUEUE_HEAD:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_TRANSMITQUEUE_STOP:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_VOICEACTTRIG:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTTRIG, SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_VOICEACTSTOP:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTSTOP, SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_VOICEACTMEON:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEON, SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT).toString();
-        break;
-    case SOUNDEVENT_VOICEACTMEOFF:
-        filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEOFF, SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT).toString();
-        break;
-    }
+        QString filename;
+        switch(event)
+        {
+        case SOUNDEVENT_NEWUSER:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_NEWUSER, SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_REMOVEUSER:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER, SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_SERVERLOST:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST, SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_USERMSG:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG, SETTINGS_SOUNDEVENT_USERMSG_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_USERMSGSENT :
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERMSGSENT, SETTINGS_SOUNDEVENT_USERMSGSENT_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_CHANNELMSG:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG, SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_CHANNELMSGSENT :
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSGSENT, SETTINGS_SOUNDEVENT_CHANNELMSGSENT_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_BROADCASTMSG :
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG, SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_HOTKEY:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY, SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_SILENCE:   
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_SILENCE).toString();
+            break;
+        case SOUNDEVENT_NEWVIDEO:   
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_NEWDESKTOP:   
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_NEWDESKTOP, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_FILESUPD:  
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_FILESUPD, SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_FILETXDONE:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_FILETXDONE, SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_QUESTIONMODE:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE, SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_DESKTOPACCESS:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS, SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_USERLOGGEDIN:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDIN, SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_USERLOGGEDOUT:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT, SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_VOICEACTON:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON, SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_VOICEACTOFF:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF, SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_MUTEALLON:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON, SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_MUTEALLOFF:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF, SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_TRANSMITQUEUE_HEAD:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_TRANSMITQUEUE_STOP:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_VOICEACTTRIG:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTTRIG, SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_VOICEACTSTOP:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTSTOP, SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_VOICEACTMEON:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEON, SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_VOICEACTMEOFF:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEOFF, SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT).toString();
+            break;
+        }
 
 #if defined(QT_MULTIMEDIA_LIB)
-    if (filename.size())
-    {
+        if (filename.size())
+        {
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-        QSound::play(filename);
+            QSound::play(filename);
 #else
-        static QSoundEffect* effect = new QSoundEffect(ttSettings);
-        effect->setSource(QUrl::fromLocalFile(filename));
-        effect->play();
+            static QSoundEffect* effect = new QSoundEffect(ttSettings);
+            effect->setSource(QUrl::fromLocalFile(filename));
+            effect->play();
+#endif
+        }
 #endif
     }
-#endif
 }
 
 void resetDefaultSoundsPack()

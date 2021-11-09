@@ -60,17 +60,7 @@
 #include <Carbon/Carbon.h>
 #endif
 
-#if defined(Q_OS_WINCE)
-#define _W(qstr) qstr.utf16()
-#define _Q(wstr) QString::fromWCharArray(wstr)
-#define COPY_TTSTR(wstr, qstr)                                      \
-    do {                                                            \
-        wcsncpy(wstr, _W(qstr), TT_STRLEN);                         \
-        if(qstr.size() >= TT_STRLEN)                                \
-            wstr[TT_STRLEN-1] = '\0';                               \
-    } while(0)
-
-#elif defined(Q_OS_WIN32)
+#if defined(Q_OS_WIN32)
 //Conversion from/to TTCHAR
 #define _W(qstr) qstr.toStdWString().c_str()
 #define _Q(wstr) QString::fromWCharArray(wstr)
@@ -274,48 +264,54 @@ enum SoundEvent
 
 enum TextToSpeechEvent : qulonglong
 {
-    TTS_NONE                                        = 0x0000000000000000,
-    TTS_USER_LOGGEDIN                               = 0x0000000000000001,
-    TTS_USER_LOGGEDOUT                              = 0x0000000000000002,
-    TTS_USER_JOINED                                 = 0x0000000000000004,
-    TTS_USER_LEFT                                   = 0x0000000000000008,
-    TTS_USER_JOINED_SAME                            = 0x0000000000000010,
-    TTS_USER_LEFT_SAME                              = 0x0000000000000020,
-    TTS_USER_TEXTMSG_PRIVATE                        = 0x0000000000000040,
-    TTS_USER_TEXTMSG_PRIVATE_SEND                   = 0x0000000000000080,
-    TTS_USER_TEXTMSG_CHANNEL                        = 0x0000000000000100,
-    TTS_USER_TEXTMSG_CHANNEL_SEND                   = 0x0000000000000200,
-    TTS_USER_TEXTMSG_BROADCAST                      = 0x0000000000000400,
-    TTS_USER_TEXTMSG_BROADCAST_SEND                 = 0x0000000000000800,
+    TTS_NONE                                        = 0x0,
+    TTS_USER_LOGGEDIN                               = qulonglong(1) << 0,
+    TTS_USER_LOGGEDOUT                              = qulonglong(1) << 1,
+    TTS_USER_JOINED                                 = qulonglong(1) << 2,
+    TTS_USER_LEFT                                   = qulonglong(1) << 3,
+    TTS_USER_JOINED_SAME                            = qulonglong(1) << 4,
+    TTS_USER_LEFT_SAME                              = qulonglong(1) << 5,
+    TTS_USER_TEXTMSG_PRIVATE                        = qulonglong(1) << 6,
+    TTS_USER_TEXTMSG_PRIVATE_SEND                   = qulonglong(1) << 7,
+    TTS_USER_TEXTMSG_PRIVATE_TYPING                 = qulonglong(1) << 35,
+    TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL          = qulonglong(1) << 36,
 
-    TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE               = 0x0000000000001000,
-    TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL               = 0x0000000000002000,
-    TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST             = 0x0000000000004000,
-    TTS_SUBSCRIPTIONS_VOICE                         = 0x0000000000008000,
-    TTS_SUBSCRIPTIONS_VIDEO                         = 0x0000000000010000,
-    TTS_SUBSCRIPTIONS_DESKTOP                       = 0x0000000000020000,
-    TTS_SUBSCRIPTIONS_DESKTOPINPUT                  = 0x0000000000040000,
-    TTS_SUBSCRIPTIONS_MEDIAFILE                     = 0x0000000000080000,
+    TTS_USER_TEXTMSG_CHANNEL                        = qulonglong(1) << 8,
+    TTS_USER_TEXTMSG_CHANNEL_SEND                   = qulonglong(1) << 9,
+    TTS_USER_TEXTMSG_BROADCAST                      = qulonglong(1) << 10,
+    TTS_USER_TEXTMSG_BROADCAST_SEND                 = qulonglong(1) << 11,
 
-    TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE     = 0x0000000000100000,
-    TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL     = 0x0000000000200000,
-    TTS_SUBSCRIPTIONS_INTERCEPT_VOICE               = 0x0000000000400000,
-    TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO               = 0x0000000000800000,
-    TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP             = 0x0000000001000000,
-    TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE           = 0x0000000002000000,
+    TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE               = qulonglong(1) << 12,
+    TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL               = qulonglong(1) << 13,
+    TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST             = qulonglong(1) << 14,
+    TTS_SUBSCRIPTIONS_VOICE                         = qulonglong(1) << 15,
+    TTS_SUBSCRIPTIONS_VIDEO                         = qulonglong(1) << 16,
+    TTS_SUBSCRIPTIONS_DESKTOP                       = qulonglong(1) << 17,
+    TTS_SUBSCRIPTIONS_DESKTOPINPUT                  = qulonglong(1) << 18,
+    TTS_SUBSCRIPTIONS_MEDIAFILE                     = qulonglong(1) << 19,
 
-    TTS_CLASSROOM_CHANMSG_TX                        = 0x0000000004000000,
-    TTS_CLASSROOM_VOICE_TX                          = 0x0000000008000000,
-    TTS_CLASSROOM_VIDEO_TX                          = 0x0000000010000000,
-    TTS_CLASSROOM_DESKTOP_TX                        = 0x0000000020000000,
-    TTS_CLASSROOM_MEDIAFILE_TX                      = 0x0000000040000000,
+    TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE     = qulonglong(1) << 20,
+    TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL     = qulonglong(1) << 21,
+    TTS_SUBSCRIPTIONS_INTERCEPT_VOICE               = qulonglong(1) << 22,
+    TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO               = qulonglong(1) << 23,
+    TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP             = qulonglong(1) << 24,
+    TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE           = qulonglong(1) << 25,
 
-    TTS_FILE_ADD                                    = 0x0000000080000000,
-    TTS_FILE_REMOVE                                 = 0x0000000100000000,
+    TTS_CLASSROOM_CHANMSG_TX                        = qulonglong(1) << 26,
+    TTS_CLASSROOM_VOICE_TX                          = qulonglong(1) << 27,
+    TTS_CLASSROOM_VIDEO_TX                          = qulonglong(1) << 28,
+    TTS_CLASSROOM_DESKTOP_TX                        = qulonglong(1) << 29,
+    TTS_CLASSROOM_MEDIAFILE_TX                      = qulonglong(1) << 30,
 
-    TTS_MENU_ACTIONS                                = 0x0000000200000000,
+    TTS_FILE_ADD                                    = qulonglong(1) << 31,
+    TTS_FILE_REMOVE                                 = qulonglong(1) << 32,
 
-    TTS_SERVER_CONNECTIVITY                         = 0x0000000400000000,
+    TTS_MENU_ACTIONS                                = qulonglong(1) << 33,
+
+    TTS_SERVER_CONNECTIVITY                         = qulonglong(1) << 34,
+
+    // next free value
+    TTS_NEXT_UNUSED                                 = qulonglong(1) << 37,
 };
 
 typedef qulonglong TTSEvents;
@@ -332,42 +328,44 @@ enum TextToSpeechEngine
 
 enum StatusBarEvent : qulonglong
 {
-    STATUSBAR_NONE                                        = 0x0000000000000000,
-    STATUSBAR_USER_LOGGEDIN                               = 0x0000000000000001,
-    STATUSBAR_USER_LOGGEDOUT                              = 0x0000000000000002,
-    STATUSBAR_USER_JOINED                                 = 0x0000000000000004,
-    STATUSBAR_USER_LEFT                                   = 0x0000000000000008,
-    STATUSBAR_USER_JOINED_SAME                            = 0x0000000000000010,
-    STATUSBAR_USER_LEFT_SAME                              = 0x0000000000000020,
+    STATUSBAR_NONE                                        = 0x0,
+    STATUSBAR_USER_LOGGEDIN                               = qulonglong(1) << 0,
+    STATUSBAR_USER_LOGGEDOUT                              = qulonglong(1) << 1,
+    STATUSBAR_USER_JOINED                                 = qulonglong(1) << 2,
+    STATUSBAR_USER_LEFT                                   = qulonglong(1) << 3,
+    STATUSBAR_USER_JOINED_SAME                            = qulonglong(1) << 4,
+    STATUSBAR_USER_LEFT_SAME                              = qulonglong(1) << 5,
 
-    STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE               = 0x0000000000000040,
-    STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL               = 0x0000000000000080,
-    STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST             = 0x0000000000000100,
-    STATUSBAR_SUBSCRIPTIONS_VOICE                         = 0x0000000000000200,
-    STATUSBAR_SUBSCRIPTIONS_VIDEO                         = 0x0000000000000400,
-    STATUSBAR_SUBSCRIPTIONS_DESKTOP                       = 0x0000000000000800,
-    STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT                  = 0x0000000000001000,
-    STATUSBAR_SUBSCRIPTIONS_MEDIAFILE                     = 0x0000000000002000,
+    STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE               = qulonglong(1) << 6,
+    STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL               = qulonglong(1) << 7,
+    STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST             = qulonglong(1) << 8,
+    STATUSBAR_SUBSCRIPTIONS_VOICE                         = qulonglong(1) << 9,
+    STATUSBAR_SUBSCRIPTIONS_VIDEO                         = qulonglong(1) << 10,
+    STATUSBAR_SUBSCRIPTIONS_DESKTOP                       = qulonglong(1) << 11,
+    STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT                  = qulonglong(1) << 12,
+    STATUSBAR_SUBSCRIPTIONS_MEDIAFILE                     = qulonglong(1) << 13,
 
-    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE     = 0x0000000000004000,
-    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL     = 0x0000000000008000,
-    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE               = 0x0000000000010000,
-    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO               = 0x0000000000020000,
-    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP             = 0x0000000000040000,
-    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE           = 0x0000000000080000,
+    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE     = qulonglong(1) << 14,
+    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL     = qulonglong(1) << 15,
+    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE               = qulonglong(1) << 16,
+    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO               = qulonglong(1) << 17,
+    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP             = qulonglong(1) << 18,
+    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE           = qulonglong(1) << 19,
 
-    STATUSBAR_CLASSROOM_CHANMSG_TX                        = 0x0000000000100000,
-    STATUSBAR_CLASSROOM_VOICE_TX                          = 0x0000000000200000,
-    STATUSBAR_CLASSROOM_VIDEO_TX                          = 0x0000000000400000,
-    STATUSBAR_CLASSROOM_DESKTOP_TX                        = 0x0000000000800000,
-    STATUSBAR_CLASSROOM_MEDIAFILE_TX                      = 0x0000000001000000,
+    STATUSBAR_CLASSROOM_CHANMSG_TX                        = qulonglong(1) << 20,
+    STATUSBAR_CLASSROOM_VOICE_TX                          = qulonglong(1) << 21,
+    STATUSBAR_CLASSROOM_VIDEO_TX                          = qulonglong(1) << 22,
+    STATUSBAR_CLASSROOM_DESKTOP_TX                        = qulonglong(1) << 23,
+    STATUSBAR_CLASSROOM_MEDIAFILE_TX                      = qulonglong(1) << 24,
 
-    STATUSBAR_FILE_ADD                                    = 0x0000000002000000,
-    STATUSBAR_FILE_REMOVE                                 = 0x0000000004000000,
+    STATUSBAR_FILE_ADD                                    = qulonglong(1) << 25,
+    STATUSBAR_FILE_REMOVE                                 = qulonglong(1) << 26,
 
-    STATUSBAR_SAVE_SERVER_CONFIG                          = 0x0000000008000000,
+    STATUSBAR_SAVE_SERVER_CONFIG                          = qulonglong(1) << 27,
 
-    STATUSBAR_START_RECORD                                = 0x0000000010000000,
+    STATUSBAR_START_RECORD                                = qulonglong(1) << 28,
+
+    STATUSBAR_NEXT_UNUSED                                 = qulonglong(1) << 29,
 };
 
 typedef qulonglong StatusBarEvents;
