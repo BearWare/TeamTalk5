@@ -252,6 +252,7 @@ private:
     void toggleAllowStreamType(bool checked, int userid, int channelid, StreamType st);
     void toggleAllowStreamTypeForAll(bool checked, StreamType st);
     void toggleAllowStreamType(bool checked, StreamType st);
+    void transmitOn(StreamType st);
 #if defined(Q_OS_LINUX)
     void executeDesktopInput(const DesktopInput& input);
 #endif
@@ -272,8 +273,6 @@ private:
     reghotkeys_t m_hotkeys;
     INT64 m_nCGShareWnd;
 #endif
-// Use event_d to display a message ignoring configuration
-    StatusBarEvent event_d = StatusBarEvent(~STATUSBAR_NONE);
 
 private:
     /* menu items begin */

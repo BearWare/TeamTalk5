@@ -12,6 +12,7 @@ Default Qt Client
 - Fixed AltGr being treated as Ctrl+Alt on Windows
 - Fixed Cmd+Q not working in non-English translations on macOS
 - Text-to-speech event when a remote user is typing in private chat
+- Status message is triggered if unable to transmit
 Android Client
 -
 iOS Client

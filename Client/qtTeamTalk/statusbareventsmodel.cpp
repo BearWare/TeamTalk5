@@ -68,6 +68,8 @@ StatusBarEventsModel::StatusBarEventsModel(QObject* parent)
     m_statusbarevents.push_back(STATUSBAR_SAVE_SERVER_CONFIG);
 
     m_statusbarevents.push_back(STATUSBAR_START_RECORD);
+
+    m_statusbarevents.push_back(STATUSBAR_TRANSMISSION_BLOCKED);
 }
 
 QVariant StatusBarEventsModel::headerData ( int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/ ) const
@@ -163,7 +165,10 @@ QVariant StatusBarEventsModel::data ( const QModelIndex & index, int role /*= Qt
             return tr("Save server configuration");
         case STATUSBAR_START_RECORD :
             return tr("Start a recording");
+        case STATUSBAR_TRANSMISSION_BLOCKED :
+            return tr("Transmission blocked by channel operator");
         case STATUSBAR_NONE :
+        case STATUSBAR_NEXT_UNUSED :
             break;
         }
     case Qt::AccessibleTextRole :

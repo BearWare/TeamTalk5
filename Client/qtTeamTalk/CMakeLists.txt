@@ -29,7 +29,7 @@ endif()
 
 # Handle QMake support for Visual Studio
 if (MSVC)
-  option (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED "Build TeamTalk Qt-based clients as Multi-Threaded (/MT) instead of Multi-Threaded DLL (/MD)" ON)
+  option (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED "Build TeamTalk Qt-based clients as Multi-Threaded (/MT) instead of Multi-Threaded DLL (/MD)" OFF)
   if (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED)
     foreach (flag_var
         CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
