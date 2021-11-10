@@ -42,8 +42,6 @@ TTInstance* ttInst = nullptr;
 
 #if defined(Q_OS_WIN32)
 
-Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
-
 class MyQApplication
     : public QApplication
 {
