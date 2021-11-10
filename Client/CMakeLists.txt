@@ -16,6 +16,7 @@ if (MSVC)
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Release
     INSTALL_DIR       ${CMAKE_CURRENT_BINARY_DIR}/Tolk
     INSTALL_COMMAND   ${CMAKE_COMMAND} --build . --target install --config Release
+    BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/Tolk.lib
     )
   ExternalProject_Get_Property(tolk-src INSTALL_DIR)
   file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
