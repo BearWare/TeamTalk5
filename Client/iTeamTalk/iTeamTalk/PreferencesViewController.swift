@@ -499,7 +499,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_SPEAKER_OUTPUT)
         
-        enableSpeakerOutput(sender.isOn)
+        setupSoundDevices()
     }
 
     @objc func headsetTxToggleChanged(_ sender: UISwitch) {
@@ -520,8 +520,6 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_VOICEPROCESSINGIO)
         
-        TT_CloseSoundInputDevice(ttInst)
-        TT_CloseSoundOutputDevice(ttInst)
         setupSoundDevices()
     }
 

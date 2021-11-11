@@ -209,7 +209,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                 break
             case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
 //                print("ChangeReason Unknown")
-                setupSpeakerOutput()
+                setupSoundDevices()
             case AVAudioSession.RouteChangeReason.categoryChange.rawValue:
 //                let session = AVAudioSession.sharedInstance()
 //                print("ChangeReason CategoryChange, new category: " + session.category)
@@ -231,6 +231,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
 //                print("ChangeReason Default")
                 break
             }
+            // print ("AudioRouteChange: \(reason)")
         }
     }
 

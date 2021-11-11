@@ -253,49 +253,47 @@ func getSoundFile(_ s: Sounds) -> String? {
 
 func setupSoundDevices() {
     
-    let defaults = UserDefaults.standard
-    let on = defaults.object(forKey: PREF_VOICEPROCESSINGIO) != nil && defaults.bool(forKey: PREF_VOICEPROCESSINGIO)
-     
-    let flags = TT_GetFlags(ttInst)
-    if flags & CLIENT_SNDINPUT_READY.rawValue == 0 {
-        TT_InitSoundInputDevice(ttInst, on ? TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO : TT_SOUNDDEVICE_ID_REMOTEIO)
-    }
-    if flags & CLIENT_SNDOUTPUT_READY.rawValue == 0 {
-        TT_InitSoundOutputDevice(ttInst, on ? TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO : TT_SOUNDDEVICE_ID_REMOTEIO)
-    }
-    
-    setupSpeakerOutput()
-}
-
-func setupSpeakerOutput() {
-    
-    let defaults = UserDefaults.standard
-    let on = defaults.object(forKey: PREF_SPEAKER_OUTPUT) != nil && defaults.bool(forKey: PREF_SPEAKER_OUTPUT)
-
-    if on {
-        enableSpeakerOutput(on)
-    }
-}
-
-func enableSpeakerOutput(_ on: Bool) {
-    
-    let session = AVAudioSession.sharedInstance()
-    
     do {
+        let session = AVAudioSession.sharedInstance()
+
         print("preset: " + session.mode.rawValue)
-        if on {
-            try session.setMode(AVAudioSession.Mode.videoChat)
+        
+        let defaults = UserDefaults.standard
+        let preprocess = defaults.object(forKey: PREF_VOICEPROCESSINGIO) != nil && defaults.bool(forKey: PREF_VOICEPROCESSINGIO)
+        let speaker = defaults.object(forKey: PREF_SPEAKER_OUTPUT) != nil && defaults.bool(forKey: PREF_SPEAKER_OUTPUT)
+        
+        TT_CloseSoundInputDevice(ttInst)
+        TT_CloseSoundOutputDevice(ttInst)
+        
+        // Something weird is going on here. If TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO is
+        // initialized (along with preprocess and speaker-enabled) and afterwards replaced by
+        // TT_SOUNDDEVICE_ID_REMOTEIO without preprocess and speaker-enabled then the voice
+        // volume is gained at lot compared to initially with TT_SOUNDDEVICE_ID_REMOTEIO.
+        
+        let mode = preprocess ? AVAudioSession.Mode.voiceChat : AVAudioSession.Mode.default
+        let catoptions = speaker ? AVAudioSession.CategoryOptions.defaultToSpeaker : AVAudioSession.CategoryOptions.allowBluetooth
+        
+        try session.setMode(mode)
+        try session.setCategory(AVAudioSession.Category.playAndRecord, options: catoptions)
+        
+        let sndid = speaker && preprocess ? TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO : TT_SOUNDDEVICE_ID_REMOTEIO
+        if TT_InitSoundInputDevice(ttInst, sndid) == FALSE {
+            print("Failed to initialize sound input device: \(sndid)")
         }
         else {
-            try session.setMode(AVAudioSession.Mode.default)
-            try session.setCategory(AVAudioSession.Category.playAndRecord, options: AVAudioSession.CategoryOptions.allowBluetooth)
+            print("Using sound input device: \(sndid)")
         }
-        print("post set: "  + session.mode.rawValue)
+        if TT_InitSoundOutputDevice(ttInst, sndid) == FALSE {
+            print("Failed to initialize sound output device: \(sndid)")
+        }
+        else {
+            print("Using sound output device: \(sndid)")
+        }
+        print("postset. Mode \(session.mode.rawValue), category \(session.category.rawValue), options \(session.categoryOptions.rawValue)")
     }
     catch {
         print("Failed to set mode")
     }
-    
 }
 
 func playSound(_ s: Sounds) {
