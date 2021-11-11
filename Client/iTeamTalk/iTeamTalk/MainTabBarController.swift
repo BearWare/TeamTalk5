@@ -231,7 +231,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
 //                print("ChangeReason Default")
                 break
             }
-            // print ("AudioRouteChange: \(reason)")
+            print ("AudioRouteChange: \(reason)")
         }
     }
 

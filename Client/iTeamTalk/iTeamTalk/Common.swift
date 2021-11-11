@@ -265,16 +265,21 @@ func setupSoundDevices() {
         TT_CloseSoundInputDevice(ttInst)
         TT_CloseSoundOutputDevice(ttInst)
         
-        // Something weird is going on here. If TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO is
-        // initialized (along with preprocess and speaker-enabled) and afterwards replaced by
-        // TT_SOUNDDEVICE_ID_REMOTEIO without preprocess and speaker-enabled then the voice
-        // volume is gained at lot compared to initially with TT_SOUNDDEVICE_ID_REMOTEIO.
-        
         let mode = preprocess ? AVAudioSession.Mode.voiceChat : AVAudioSession.Mode.default
-        let catoptions = speaker ? AVAudioSession.CategoryOptions.defaultToSpeaker : AVAudioSession.CategoryOptions.allowBluetooth
         
-        try session.setMode(mode)
-        try session.setCategory(AVAudioSession.Category.playAndRecord, options: catoptions)
+        if #available(iOS 10.0, *) {
+            if speaker {
+                try session.setCategory(.playAndRecord, mode: mode, options: [.mixWithOthers, .defaultToSpeaker])
+            }
+            else {
+                try session.setCategory(.playAndRecord, mode: mode, options: [.mixWithOthers, .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+            }
+        }
+        else {
+            let catoptions = speaker ? AVAudioSession.CategoryOptions.defaultToSpeaker : AVAudioSession.CategoryOptions.allowBluetooth
+            try session.setMode(mode)
+            try session.setCategory(AVAudioSession.Category.playAndRecord, options: catoptions)
+        }
         
         let sndid = speaker && preprocess ? TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO : TT_SOUNDDEVICE_ID_REMOTEIO
         if TT_InitSoundInputDevice(ttInst, sndid) == FALSE {
